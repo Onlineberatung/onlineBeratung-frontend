@@ -1,0 +1,139 @@
+$buttonMinWidth: 200px;
+$buttonMaxWidth: 400px;
+$buttonHeight: 50px;
+
+.button {
+	&__item {
+		font-family: $font-family-bold;
+		font-weight: $font-weight-bold;
+		appearance: none;
+		border: none;
+		text-decoration: none;
+		text-transform: uppercase;
+		cursor: pointer;
+		min-width: $buttonMinWidth;
+		max-width: $buttonMaxWidth;
+		height: $buttonHeight;
+		padding: 0 $grid-base-three;
+		border-radius: $grid-base-three;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	&__primary {
+		color: $white;
+		background: $primary;
+		box-shadow: 0 6px 0 0 rgba(0, 0, 0, 0.1);
+		transition: all 0.6s ease;
+
+		&:hover {
+			background-color: $hover-primary;
+			transition: all 0.3s ease;
+		}
+	}
+
+	&__tertiary {
+		border: 2px solid $tertiary;
+		color: $tertiary;
+		padding: 0 $grid-base;
+		line-height: 32px;
+		text-transform: none;
+		display: inline-block;
+		width: auto;
+		min-width: 0;
+		height: 36px;
+		&:hover {
+			background-color: $hover-primary;
+			color: white;
+			border-color: $hover-primary;
+		}
+	}
+
+	&__ghost {
+		color: $primary;
+		background-color: transparent;
+		border: 3px solid $primary;
+		transition: all 0.6s ease;
+
+		&:hover {
+			color: $white;
+			border-color: $hover-primary;
+			background-color: $hover-primary;
+			transition: all 0.3s ease;
+		}
+	}
+
+	&__autoClose {
+		color: $white;
+		border: 2px solid $primary;
+		box-shadow: 0 6px 0 0 rgba(0, 0, 0, 0.1);
+		background: linear-gradient(to right, $light-red 50%, $primary 50%);
+		background-size: 200% 100%;
+
+		animation: loadAnimation 10s linear;
+		@keyframes loadAnimation {
+			from {
+				background-position: right bottom;
+			}
+			to {
+				background-position: left bottom;
+			}
+		}
+
+		&:hover {
+			border: 2px solid $hover-primary;
+			background: linear-gradient(
+				to right,
+				$light-red 50%,
+				$hover-primary 50%
+			);
+			background-size: 200% 100%;
+
+			animation: loadAnimation 10s linear;
+			@keyframes loadAnimation {
+				from {
+					background-position: right bottom;
+				}
+				to {
+					background-position: left bottom;
+				}
+			}
+		}
+	}
+
+	&__link {
+		color: $primary;
+		background: none;
+		height: 21px;
+
+		svg {
+			margin-right: $grid-base;
+		}
+
+		&:hover {
+			color: $hover-primary;
+
+			svg * {
+				fill: $hover-primary;
+			}
+		}
+
+		.button__wrapper {
+			margin-top: $grid-base;
+		}
+	}
+
+	&__item--disabled {
+		box-shadow: none;
+		background-color: $form-input-border;
+		color: $tertiary;
+		cursor: unset;
+
+		&:hover {
+			background-color: $form-input-border;
+			color: $tertiary;
+		}
+	}
+}

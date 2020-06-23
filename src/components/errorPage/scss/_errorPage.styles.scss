@@ -1,0 +1,180 @@
+$contentWidth: calc((100vw - #{$grid-base-twelve * 3} - #{$grid-base-six}) / 2);
+$contentWidthMedium: calc(
+	(100vw - #{$grid-base-twelve * 2} - #{$grid-base-six}) / 2
+);
+$contentWidthSmall: calc((100vw) / 2);
+$headerHeight: 102px;
+$mainHeight: calc(100vh - #{$headerHeight});
+$illustrationSize: 280px;
+$iconSize: 170px;
+$maxHeight: 100vh;
+
+.errorPage {
+	color: $white;
+
+	p {
+		color: $white;
+	}
+
+	&__nav {
+		background-color: $primary;
+		float: left;
+		display: flex;
+		flex-direction: column;
+		width: $grid-base-twelve;
+		height: $maxHeight;
+		display: none;
+
+		@include breakpoint($fromLarge) {
+			display: flex;
+		}
+	}
+
+	&__header {
+		background-color: $background-grey;
+		display: flex;
+		flex-direction: row;
+		justify-content: stretch;
+		padding: 0 $grid-base-three;
+		@include breakpoint($fromLarge) {
+			padding: $grid-base-four $grid-base-three;
+		}
+	}
+
+	&__headerMobile {
+		display: flex;
+		width: 100%;
+
+		@include breakpoint($fromLarge) {
+			width: auto;
+		}
+	}
+
+	h2 {
+		font-size: $font-size-h3;
+		font-weight: $font-weight-medium;
+		margin: auto;
+		display: block;
+
+		@include breakpoint($fromLarge) {
+			font-size: $font-size-h2;
+		}
+	}
+
+	&__claim {
+		margin: auto 0 auto auto;
+		display: none;
+
+		@include breakpoint($fromLarge) {
+			display: block;
+		}
+	}
+
+	&__main {
+		background-color: $background-grey;
+		padding: 0 $grid-base-three;
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+
+		@include breakpoint($fromLarge) {
+			flex-direction: row;
+			height: $mainHeight;
+			padding: $grid-base-four $grid-base-three;
+		}
+	}
+
+	&__illustrationWrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		position: relative;
+
+		animation: fadeIn linear 0.5s;
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+	}
+
+	&__illustration {
+		margin: auto;
+		width: calc(#{$contentWidthSmall}/ 2.25);
+		min-width: $iconSize;
+		min-height: $iconSize;
+		pointer-events: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		margin: 0;
+
+		animation: fadeIn linear 0.8s;
+		@keyframes fadeIn {
+			0% {
+				opacity: 0;
+			}
+			50% {
+				opacity: 0;
+			}
+			100% {
+				opacity: 1;
+			}
+		}
+
+		&__background {
+			width: $contentWidthSmall;
+			height: $contentWidthSmall;
+			min-width: $illustrationSize;
+			min-height: $illustrationSize;
+			color: $light-neutral;
+			margin: 0 $grid-base-three;
+			align-self: center;
+			@include breakpoint($fromLarge) {
+				margin: 0 $grid-base-twelve/2;
+				width: $contentWidthMedium;
+				height: $contentWidthMedium;
+			}
+			@include breakpoint($fromXLarge) {
+				margin: 0 $grid-base-twelve;
+				width: $contentWidth;
+				height: $contentWidth;
+			}
+		}
+	}
+
+	&__content {
+		width: 100%;
+		text-align: center;
+		align-self: center;
+		margin-top: 0;
+		p {
+			margin: 0;
+		}
+
+		@include breakpoint($fromLarge) {
+			width: $contentWidth;
+			text-align: left;
+			margin-top: 0;
+		}
+	}
+
+	&__headline {
+		font-size: $font-size-super-mobile;
+		font-weight: $font-weight-medium;
+		margin-bottom: 20px;
+
+		@include breakpoint($fromLarge) {
+			margin-bottom: 40px;
+			font-size: $font-size-super-large;
+		}
+	}
+
+	&__button {
+		margin-top: $grid-base-six;
+	}
+}

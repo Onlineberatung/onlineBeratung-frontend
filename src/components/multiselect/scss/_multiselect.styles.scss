@@ -1,0 +1,12 @@
+.multiselect {
+	margin: $grid-base-three auto 0;
+	text-align: center;
+
+	&__headline {
+		margin-bottom: 10px;
+	}
+
+	.multiselectItem:not(:last-child) {
+		margin: 0 $grid-base $grid-base 0;
+	}
+}

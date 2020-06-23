@@ -1,0 +1,37 @@
+[
+	{
+		"title": "Beratung & Hilfe",
+		"slogan": "Online. Anonym. Sicher.",
+		"hasAnimation": true,
+		"headline": "Login",
+		"loginUser": [
+			{
+				"inputValue": "username",
+				"inputType": "text",
+				"inputId": "username",
+				"inputLabel": "Benutzername/E-Mail",
+				"inputRequired": true,
+				"inputSVG": "xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"72\" height=\"72\" viewbox=\"0 0 72 72\"><defs><path id=\"person-a\" d=\"M35.9230769,28 C33,28 30.3846154,26.9305556 28.2307692,24.7916667 C26.0769231,22.6527778 25,20.0555556 25,17 C25,13.9444444 26.0769231,11.5 28.0769231,9.20833333 C30.2307692,7.06944444 32.8461538,6 35.9230769,6 C39,6 41.6153846,7.06944444 43.7692308,9.20833333 C45.9230769,11.3472222 47,13.9444444 47,17 C47,20.0555556 45.9230769,22.6527778 43.7692308,24.7916667 C41.6153846,26.9305556 39,28 35.9230769,28 Z M27.5290807,32.8491306 C29.7354597,35.1432731 32.4146341,36.2903443 35.4090056,36.2903443 C38.5609756,36.2903443 41.2401501,35.1432731 43.4465291,32.8491306 C43.711905,32.5731988 43.9613216,32.2901553 44.194779,32 L46.7560976,32 C52.4136487,32 57,36.8021314 57,42.7258607 L57,58.8146517 C50.747518,63.6048839 43.373759,66 36,66 C28.626241,66 21.252482,63.6048839 15,58.8146517 L15,42.7258607 C15,36.8021314 19.5863513,32 25.2439024,32 L26.7808308,32 C27.0142881,32.2901553 27.2637048,32.5731988 27.5290807,32.8491306 Z\"/></defs><use xlink:href=\"#person-a\"/>"
+			}
+		],
+		"loginPassword": [
+			{
+				"inputValue": "passwordInput",
+				"inputClass": "passwordFields__fieldGroup__input",
+				"svgClass": "passwordFields__fieldGroup__icon",
+				"inputId": "passwordInput",
+				"inputType": "password",
+				"inputLabel": "Passwort",
+				"inputRequired": true,
+				"inputSVG": "xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"72\" height=\"72\" viewbox=\"0 0 72 72\"><defs><path id=\"lock-c\" d=\"M48,27.9898836 L48,24.9695747 C48,17.8182095 42.6167461,12 36,12 C29.3832539,12.0088288 24,17.8270383 24,24.9784036 L24,27.9979767 L18,28 L18,23.8453049 C18,14.0121777 26.0748809,6.01213966 36,6 C45.9251191,6 54,14.0000381 54,23.8331653 L54,27.9878603 L48,27.9898836 Z M10,28 L62,28 C63.1045695,28 64,28.8954305 64,30 L64,65 C64,66.1045695 63.1045695,67 62,67 L10,67 C8.8954305,67 8,66.1045695 8,65 L8,30 C8,28.8954305 8.8954305,28 10,28 Z M35,39 C33.8954305,39 33,39.8954305 33,41 L33,55 C33,56.1045695 33.8954305,57 35,57 L37,57 C38.1045695,57 39,56.1045695 39,55 L39,41 C39,39.8954305 38.1045695,39 37,39 L35,39 Z\"/></defs><use xlink:href=\"#lock-c\"/>",
+				"isPasswordInput": true
+			}
+		],
+		"resetPasswordLink": "/auth/realms/Caritas-Online-Beratung/login-actions/reset-credentials?client_id=account",
+		"resetPasswordLabel": "Passwort vergessen?",
+		"loginButtonText": "Anmelden",
+		"registerInfoText": "Noch nicht registriert?<br>Wir beraten Sie gerne zu folgenden Themen:",
+		"registerLink": "https://www.caritas.de/onlineberatung",
+		"registerLinkLabel": "Zur Übersicht"
+	}
+]

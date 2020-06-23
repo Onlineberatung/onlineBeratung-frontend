@@ -1,0 +1,77 @@
+$iconSize: 24px;
+
+.formWrapper__inputWrapper {
+	position: relative;
+
+	&__label {
+		position: absolute;
+		top: 15px;
+		left: 20px;
+		transition: font-size 0.5s, top 0.5s;
+		color: $tertiary;
+	}
+}
+
+.inputField {
+	&__wrapper {
+		.formWrapper__inputRow {
+			&--disabled {
+				.inputField__icon * {
+					fill: $form-disabled;
+				}
+			}
+		}
+	}
+
+	&__input {
+		padding-top: 12px !important;
+
+		&:-ms-input-placeholder {
+			color: transparent;
+		}
+
+		&::-webkit-input-placeholder {
+			color: transparent;
+		}
+
+		&::-moz-placeholder {
+			color: transparent;
+		}
+
+		&:focus + label,
+		&:not(:placeholder-shown) + label {
+			font-size: 12px;
+			top: 3px;
+			transition: font-size 0.5s, top 0.5s;
+		}
+
+		&[readonly] {
+			border: 1px solid $form-disabled;
+			color: $form-disabled;
+
+			& + label {
+				color: $form-disabled;
+			}
+
+			&:hover,
+			&:focus {
+				cursor: not-allowed;
+				border: 1px solid $form-disabled !important;
+			}
+		}
+	}
+
+	&__icon {
+		width: $iconSize;
+		height: $iconSize;
+		display: inline-block;
+	}
+}
+
+.formWrapper {
+	.inputField__input--error {
+		border-color: $form-error !important;
+		color: $form-error;
+		border-width: 2px;
+	}
+}

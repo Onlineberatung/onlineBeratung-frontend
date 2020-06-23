@@ -1,0 +1,63 @@
+.ieBanner {
+	.ie & {
+		display: block;
+	}
+	display: none;
+	background: $tertiary;
+	color: $white;
+	text-align: left;
+	font-size: $font-size-secondary;
+	line-height: $line-height-secondary;
+	padding: $grid-base-two 56px $grid-base-two 48px;
+	@include breakpoint($fromLarge) {
+		padding: $grid-base-two 96px $grid-base-two 56px;
+	}
+	margin: 0;
+	position: relative;
+	z-index: 500;
+	a {
+		text-decoration: underline;
+		color: $white;
+		&:hover {
+			color: $hover-select;
+		}
+	}
+
+	> svg {
+		width: $grid-base-three;
+		height: $grid-base-three;
+		left: $grid-base-two;
+		position: absolute;
+		@include breakpoint($fromLarge) {
+			left: $grid-base-three;
+			top: 50%;
+			transform: translate(0, -50%);
+		}
+	}
+
+	a.close {
+		svg {
+			width: $grid-base-two;
+			height: $grid-base-two;
+			position: absolute;
+			top: $grid-base-two;
+			@include breakpoint($fromLarge) {
+				top: 50%;
+				transform: translate(0, -50%);
+				right: $grid-base-three;
+			}
+			right: $grid-base-two;
+			path {
+				transition: fill 500ms ease;
+				fill: $form-disabled;
+			}
+		}
+		&:hover {
+			svg {
+				path {
+					fill: $white;
+				}
+			}
+		}
+	}
+}

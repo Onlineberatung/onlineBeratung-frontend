@@ -1,0 +1,8 @@
+[
+	{
+		"buttonStyle": "button__primary",
+		"buttonId": "submitRegistration",
+		"buttonValue": "registration",
+		"buttonLabel": "Registrieren"
+	}
+]

@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"jsx": "React",
+		"module": "CommonJS",
+		"moduleResolution": "Node",
+		"noImplicitAny": false,
+		"sourceMap": true,
+		"suppressImplicitAnyIndexErrors": true,
+		"allowSyntheticDefaultImports": true,
+		"target": "ES5",
+		"lib": ["dom", "es2015", "dom.iterable"],
+		"downlevelIteration": true,
+		"typeRoots": ["node_modules/@types"]
+	},
+	"exclude": [
+		"node_modules",
+		"patterns",
+		"test",
+		"dist",
+		".tmp",
+		"**/*.spec.ts"
+	]
+}

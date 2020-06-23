@@ -1,0 +1,52 @@
+{{> 'components/stage/stage'}}
+
+<form id="registrationForm"
+	class="registration__form registration__form--u25 registration__form--deactivatePostcodeInput"
+	data-consultingtype="{{consultingType}}"
+	data-resources="[{paths: ['components/registrationFormular/ts/registration.js?{{bioTrueEnv 'RELEASE_VERSION'}}']}]">
+	<h3>{{overline}}</h3>
+	<h1>{{headline}}</h1>
+
+	<div class="generalInformation">
+		{{> 'components/inputField/inputField' plz.[0]}}
+		{{> 'components/inputField/inputField' username.[0]}}
+		{{> 'components/passwordField/passwordField' passwordFields.[0]}}
+
+		<div class="voluntaryInformation__content__row">
+			{{> 'components/select/select' ageSelect.[0]}}
+			{{> 'components/select/select' stateSelect.[0]}}
+		</div>
+	</div>
+
+	<div class="voluntaryInformation">
+		<div>
+			<h2>{{voluntaryInformationHeadline}}</h2>
+			<p>{{voluntaryInformationSubeadline}}</p>
+		</div>
+
+		<div class="voluntaryInformation__content">
+			<div class="voluntaryInformation__content__row">
+				<h3>{{voluntaryGender}}</h3>
+				{{> 'components/radioButtonCollection/radioButtonCollection' genderRadioButtonCollection.[0]}}
+			</div>
+		</div>
+	</div>
+
+	<div class="registrationFooter">
+		<div class="registrationFooter__requiredInfo">
+			<p class="formWrapper__infoText">{{requiredInfoText}}</p>
+		</div>
+		{{> 'components/checkbox/checkbox' termsCheckbox.[0]}}
+		{{> 'components/button/button' sendButton.[0]}}
+	</div>
+</form>
+
+<div class="loginChange">
+	<p class="loginChange__infoText">{{loginHelper}}</p>
+	<div class="button__wrapper">
+		<a class="button__item button__tertiary" title="{{loginHelper}} {{loginLabel}}" href="/login.html"
+			target="_self">{{loginLabel}}</a>
+	</div>
+</div>
+
+{{> 'components/overlay/registrationOverlay' overlay.[0] }}

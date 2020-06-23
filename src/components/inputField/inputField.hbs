@@ -1,0 +1,23 @@
+<div class="inputField__wrapper formWrapper {{inputValue}}">
+	<div class="formWrapper__inputRow">
+		<span>
+			<svg class="inputField__icon {{svgClass}}" {{{inputSVG}}}></svg>
+		</span>
+		<span class="formWrapper__inputWrapper">
+			<input {{#if inputId}}id="{{inputId}}"{{/if}} type="{{inputType}}" class="inputField__input {{inputClass}}" name="{{inputValue}}" placeholder="{{inputLabel}}" {{#if disableAutocomplete}} autocomplete="nope" {{/if}} {{#if inputRequired}} required {{/if}} {{#if inputMaxLength}} onkeypress="if(this.value.length=={{inputMaxLength}}) return false;" {{/if}}>
+			<label {{#if inputId}}id="{{inputId}}Label"{{/if}} class="formWrapper__inputWrapper__label" for="{{inputValue}}">{{inputLabel}}</label>
+			{{#if isPasswordInput}}
+				<span class="passwordFields__fieldGroup__passVisibility">
+					<span class="passwordFields__fieldGroup__togglePass passwordFields__fieldGroup__togglePass--close"></span>
+				</span>
+				{{> 'components/passwordField/passwordWarnLabels' this}}
+			{{/if}}
+			{{#if infoText}}
+				<p class="formWrapper__infoText">{{{ infoText }}}</p>
+			{{/if}}
+		</span>
+	</div>
+	{{#if suggestionLayer}}
+		<div id="suggestionLayer"></div>
+	{{/if}}
+</div>

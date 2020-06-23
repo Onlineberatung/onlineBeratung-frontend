@@ -1,0 +1,262 @@
+.registration {
+	text-align: center;
+	margin: 88px 0;
+
+	h3 {
+		color: $secondary;
+		text-align: center;
+		font-weight: normal;
+		margin: 0;
+		font-size: $font-size-primary;
+	}
+
+	.loginLogoWrapper {
+		width: 40vw;
+		display: none;
+
+		@include breakpoint($fromLarge) {
+			display: flex;
+		}
+
+		&__headline {
+			h1 {
+				margin-bottom: 200px;
+			}
+		}
+	}
+
+	&__form {
+		padding: 0 $grid-base-two;
+		width: unset;
+		left: unset;
+
+		@include breakpoint($fromMedium) {
+			padding: 0 $grid-base-five;
+		}
+
+		@include breakpoint($fromLarge) {
+			width: 60vw;
+			left: 40vw;
+		}
+	}
+
+	.formWrapper__infoText {
+		&__text {
+			&--tertiary {
+				color: $tertiary;
+
+				.suggestionWrapper__item__content__teamAgency__icon svg {
+					margin-top: 0 !important;
+
+					&* {
+						fill: $tertiary;
+					}
+				}
+			}
+		}
+	}
+
+	.generalInformation {
+		position: relative;
+		margin-bottom: $grid-base-four;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+
+		.inputField__wrapper {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			width: 100%;
+
+			.formWrapper__inputRow {
+				display: flex;
+				justify-content: center;
+				align-items: baseline;
+				width: 100%;
+
+				&--error {
+					svg * {
+						fill: $form-error;
+						fill-opacity: 1;
+					}
+
+					label {
+						color: $form-error;
+					}
+				}
+			}
+
+			&--hide {
+				display: none;
+			}
+		}
+
+		.formWrapper__inputRow.passwordFields__fieldGroup--red,
+		.formWrapper__inputRow.passwordFields__fieldGroup--green {
+			label {
+				color: transparent;
+			}
+		}
+
+		.username {
+			margin-top: 10px;
+		}
+
+		.passwordFields,
+		.email {
+			margin-top: $grid-base;
+		}
+	}
+
+	.inputField__wrapper.formWrapper.postcode {
+		position: relative;
+	}
+
+	.voluntaryInformation {
+		width: 100%;
+
+		&__content {
+			&__row:not(:last-child) {
+				margin-bottom: $grid-base-five;
+			}
+		}
+
+		.multiselect {
+			max-width: 690px;
+		}
+	}
+
+	.registrationFooter {
+		div {
+			margin-top: $grid-base-five;
+		}
+
+		&__requiredInfo {
+			.formWrapper__infoText {
+				margin: 0;
+				max-width: none;
+				text-align: unset;
+			}
+		}
+
+		.checkbox__wrapper {
+			text-align: left;
+		}
+
+		.button__wrapper {
+			button {
+				text-transform: uppercase;
+			}
+		}
+	}
+
+	.loginChange {
+		position: absolute;
+		top: 22px;
+		right: 16px;
+		margin-top: 0;
+
+		@include breakpoint($fromMedium) {
+			right: 25px;
+		}
+
+		&__infoText {
+			font-size: $font-size-secondary;
+			color: $tertiary;
+			display: none;
+			@media screen and (min-width: 768px) and (max-width: 900px) {
+				display: inline-block;
+			}
+			@media screen and (min-width: 1200px) {
+				display: inline-block;
+			}
+		}
+
+		.button__wrapper {
+			display: inline-block;
+			margin-top: 0;
+			margin-left: $grid-base/2;
+		}
+	}
+
+	.registration__form--u25 {
+		.select__wrapper {
+			min-width: 290px;
+			margin: 12px 0 $grid-base-three 26px;
+		}
+
+		#ageSelect__wrapper {
+			.custom-select-panel {
+				z-index: 10;
+			}
+		}
+
+		#stateSelect__wrapper {
+			.custom-select-container {
+				&:before {
+					z-index: 2;
+				}
+
+				&:after {
+					z-index: 1;
+				}
+			}
+		}
+	}
+
+	.registration__form--generic {
+		.registrationFooter__requiredInfo {
+			margin-top: 0;
+		}
+	}
+
+	.registration__form--deactivatePostcodeInput {
+		.postcode {
+			.inputField {
+				&__icon,
+				&__input {
+					display: none;
+				}
+			}
+
+			.formWrapper {
+				&__inputWrapper__label {
+					display: none;
+				}
+
+				&__infoText {
+					margin-top: -20px;
+					margin-left: 44px;
+				}
+			}
+		}
+	}
+}
+
+#registrationForm {
+	position: relative;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	.formWrapper__inputRow {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+
+		svg {
+			margin-top: 14px;
+		}
+	}
+
+	.checkbox {
+		&__wrapper {
+			p.formWrapper__infoText.warning {
+				margin-left: 0;
+			}
+		}
+	}
+}

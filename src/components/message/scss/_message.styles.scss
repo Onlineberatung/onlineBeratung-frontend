@@ -1,0 +1,371 @@
+$icon-size: 24px;
+
+.messageItem {
+	margin-bottom: $grid-base-two;
+	opacity: 0;
+	animation: appearMessageItem 500ms ease forwards;
+	@for $i from 1 through 50 {
+		&:nth-last-child(#{$i}) {
+			animation-delay: $i * 50ms;
+		}
+	}
+
+	@keyframes appearMessageItem {
+		0% {
+			opacity: 0;
+			transform: translate(0, 0) scale(0.98);
+		}
+		100% {
+			opacity: 1;
+			transform: translate(0, 0) scale(1);
+		}
+	}
+
+	&--right {
+		.messageItem__message {
+			margin: 4px 0;
+			border-radius: 12px 12px 0;
+		}
+	}
+
+	&__username,
+	&__date,
+	&__infotext,
+	&__consultant {
+		color: $light-grey;
+		font-size: $font-size-secondary;
+		line-height: 13px;
+		text-align: center;
+	}
+	&__username {
+		text-align: left;
+
+		&--self {
+			color: $message-name-self;
+		}
+
+		&--system {
+			color: $message-name-system;
+		}
+
+		&--user {
+			color: $message-name-user;
+		}
+
+		&--consultant {
+			color: $message-name-consultant;
+		}
+
+		&--forwarded {
+			font-size: $font-size-secondary;
+			line-height: $line-height-secondary;
+			color: $message-name-forwarded;
+			svg {
+				width: 16px;
+				height: 16px;
+				display: inline-block;
+				margin-right: 8px;
+				padding-bottom: 4px;
+				path {
+					fill: $yellow-6;
+				}
+			}
+		}
+	}
+
+	&__messageWrap {
+		display: inline-flex;
+		flex-direction: column;
+		max-width: 71%;
+
+		&--right {
+			text-align: right;
+		}
+	}
+
+	&__date {
+		font-family: 'RobotoSlab';
+		font-size: $font-size-secondary;
+		line-height: $line-height-secondary;
+		text-align: center;
+		margin: 0 0 $grid-base-four;
+
+		&::before,
+		&::after {
+			content: '';
+			display: inline-block;
+			border-top: 1px solid $form-disabled;
+			width: $grid-base-three;
+			vertical-align: middle;
+			margin: 0 $grid-base;
+		}
+	}
+
+	&__message {
+		color: $secondary;
+		line-height: 21px;
+		background-color: $white;
+		border-radius: 0 12px 12px;
+		margin: 4px 0;
+		padding: $grid-base-two;
+		text-align: left;
+		white-space: pre-wrap;
+		position: relative;
+
+		&__attachment {
+			display: flex;
+			align-items: center;
+			background-color: $dark-grey;
+			border-radius: $icon-size;
+			color: $secondary;
+			padding: 6px $grid-base-three 5px 12px;
+			max-width: 350px;
+
+			&__download {
+				display: flex;
+				cursor: pointer;
+				flex-direction: row;
+				margin-top: $grid-base;
+
+				p {
+					margin: 0;
+					color: $secondary;
+					line-height: $icon-size;
+				}
+			}
+
+			p {
+				margin: 0;
+			}
+
+			&__icon,
+			&__download {
+				svg {
+					width: $icon-size;
+					height: $icon-size;
+					margin-right: $grid-base;
+					* {
+						fill: $secondary;
+					}
+				}
+			}
+
+			&__download {
+				&:hover {
+					p {
+						color: $primary;
+					}
+					svg {
+						* {
+							fill: $primary;
+						}
+					}
+				}
+			}
+
+			&__meta {
+				font-size: $font-size-secondary;
+				line-height: $line-height-secondary;
+				color: $tertiary;
+			}
+		}
+
+		&--myMessage {
+			color: $white;
+			background-color: $message-bg-red;
+
+			.messageItem__message__attachment {
+				background-color: $white;
+
+				&__download {
+					svg * {
+						fill: $white;
+					}
+
+					svg {
+						&:hover {
+							* {
+								fill: $white;
+							}
+						}
+					}
+
+					p {
+						color: $white;
+						&:hover {
+							color: $white;
+						}
+					}
+				}
+			}
+		}
+
+		&--forwarded {
+			background-color: $yellow-4;
+		}
+	}
+
+	&__action {
+		position: absolute;
+		left: 100%;
+		bottom: 0;
+		margin-left: 8px;
+		svg {
+			width: $icon-size;
+			height: $icon-size;
+			fill: $secondary;
+
+			path: {
+				fill: $secondary;
+			}
+
+			&.forward {
+				&--active {
+					animation: successReverse 2.5s ease forwards;
+				}
+			}
+
+			&.copy {
+				&--active {
+					animation: successCopyReverse 2.5s ease forwards;
+				}
+			}
+
+			&:hover path {
+				fill: $primary;
+			}
+
+			&.success {
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				fill: $form-success;
+				width: 18px;
+				transform: translate(-50%, 0) scale(0);
+				opacity: 0;
+
+				&--active {
+					animation: success 2.5s ease forwards;
+				}
+
+				path,
+				&:hover path {
+					fill: $form-success;
+				}
+			}
+		}
+
+		&--right {
+			left: auto;
+			margin-left: 0;
+			margin-right: 8px;
+			right: 100%;
+		}
+	}
+
+	&__metaData {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&__time {
+		font-size: $font-size-secondary;
+		line-height: $font-size-tertiary;
+		color: $tertiary;
+	}
+
+	&__icon {
+		left: -6px;
+		bottom: 0;
+		position: absolute;
+	}
+
+	&__readStatus {
+		line-height: 14px;
+		font-size: 0; //get rid of spacing between svgs
+
+		svg {
+			width: 12px;
+			height: 12px;
+		}
+
+		svg * {
+			fill: $form-success;
+		}
+
+		&--grey {
+			svg {
+				* {
+					fill: $form-primary;
+				}
+			}
+		}
+	}
+
+	&__button {
+		display: block;
+		text-align: center;
+		padding: 30px 0;
+	}
+
+	&__footer {
+		border-top: 1px solid $line-ochre;
+		background-color: $white;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+
+		.button {
+			&__wrapper {
+				text-align: center;
+			}
+
+			&__item {
+				margin: 12px 0;
+				height: 35px;
+				width: unset;
+				font-size: $font-size-primary;
+				font-weight: 400;
+			}
+		}
+	}
+}
+
+@keyframes success {
+	100%,
+	0% {
+		transform: translate(-50%, 0) scale(0);
+		opacity: 0;
+	}
+	33%,
+	66% {
+		transform: translate(-50%, 0) scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes successReverse {
+	100%,
+	0% {
+		transform: scale(1);
+		opacity: 1;
+	}
+	15%,
+	80% {
+		transform: scale(0) rotate(45deg);
+		opacity: 0;
+	}
+}
+
+@keyframes successCopyReverse {
+	100%,
+	0% {
+		transform: scale(1);
+		opacity: 1;
+	}
+	15%,
+	80% {
+		transform: scale(0);
+		opacity: 0;
+	}
+}

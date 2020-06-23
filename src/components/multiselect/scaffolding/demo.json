@@ -1,0 +1,61 @@
+[
+	{
+		"headline": "Suchtmittel",
+		"multiselectItems": [
+			{
+				"label": "Alkohol",
+				"value": "0",
+				"id": "alcohol",
+				"name": "addictiveDrug"
+			},
+			{
+				"label": "Drogen",
+				"value": "1",
+				"id": "drugs",
+				"name": "addictiveDrug"
+			},
+			{
+				"label": "Legal Highs",
+				"value": "2",
+				"id": "legalHighs",
+				"name": "addictiveDrug"
+			},
+			{
+				"label": "Tabak",
+				"value": "3",
+				"id": "tabacco",
+				"name": "addictiveDrug"
+			},
+			{
+				"label": "Medikamente",
+				"value": "4",
+				"id": "medication",
+				"name": "addictiveDrug"
+			},
+			{
+				"label": "Glücksspiel",
+				"value": "5",
+				"id": "gambling",
+				"name": "addictiveDrug"
+			},
+			{
+				"label": "Internet/Computer",
+				"value": "6",
+				"id": "internetUse",
+				"name": "addictiveDrug"
+			},
+			{
+				"label": "Essstörungen",
+				"value": "7",
+				"id": "eatingDisorder",
+				"name": "addictiveDrug"
+			},
+			{
+				"label": "Andere",
+				"value": "8",
+				"id": "otherDrug",
+				"name": "addictiveDrug"
+			}
+		]
+	}
+]

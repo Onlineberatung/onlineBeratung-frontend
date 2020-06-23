@@ -1,0 +1,13 @@
+[
+	{
+		"demoCheckbox": [
+			{
+				"checkboxName": "demoCheckboxName",
+				"checkboxInputId": "demoCheckboxId",
+				"checkboxValue": true,
+				"checkboxLabelId": "demoCheckboxLabel",
+				"checkboxLabel": "Lorem ipsum ipsum lorem"
+			}
+		]
+	}
+]

@@ -1,0 +1,144 @@
+$imageSize: 335px;
+$iconSize: 170px;
+
+.overlay {
+	display: none;
+	position: fixed;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 20;
+
+	&--flex {
+		display: flex;
+	}
+
+	&__background {
+		position: fixed;
+		background: rgba(101, 95, 101, 0.85);
+		z-index: -1;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+
+		animation: fadeIn linear 0.5s;
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		width: 100vw;
+		height: 100vh;
+		max-width: none;
+		background-color: $white;
+		border-radius: 4px;
+		justify-content: normal;
+		text-align: center;
+		margin: auto;
+		padding: $grid-base-six $grid-base-three;
+		overflow-y: scroll;
+		overflow-x: hidden;
+
+		@include breakpoint($fromLarge) {
+			width: 100%;
+			height: auto;
+			max-width: 720px;
+			padding: $grid-base-six;
+			justify-content: center;
+		}
+
+		@media (min-height: $fromMedium) {
+			justify-content: center;
+		}
+
+		animation: fadeIn linear 0.8s;
+		@keyframes fadeIn {
+			0% {
+				opacity: 0;
+			}
+			50% {
+				opacity: 0;
+			}
+			100% {
+				opacity: 1;
+			}
+		}
+
+		h1 {
+			margin-bottom: $grid-base-two;
+		}
+	}
+
+	&__iconWrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		position: relative;
+	}
+
+	&__icon {
+		width: $iconSize;
+		height: $iconSize;
+		width: calc(#{$imageSize}/ 2.5);
+		pointer-events: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		margin: 0;
+
+		&__background {
+			width: $imageSize;
+			height: $imageSize;
+			min-width: $imageSize;
+			min-height: $imageSize;
+			border-radius: $imageSize / 2;
+			color: $light-success;
+			margin: 0 $grid-base-three;
+			align-self: center;
+		}
+	}
+
+	&__copy {
+		margin-top: 15px;
+		margin-bottom: 0;
+		text-transform: none;
+	}
+
+	.button {
+		&__wrapper {
+			margin-top: $grid-base-three;
+
+			&:last-child {
+				padding-bottom: $grid-base-three;
+
+				@include breakpoint($fromLarge) {
+					padding-bottom: 0;
+				}
+			}
+
+			&:first-of-type {
+				margin-top: $grid-base-four;
+			}
+		}
+	}
+}
+
+.overlay__registration {
+	z-index: 100;
+}
+
+.registration__blur {
+	filter: blur(5px);
+}

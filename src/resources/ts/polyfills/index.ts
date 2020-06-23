@@ -1,0 +1,12 @@
+import 'promise-polyfill/src/polyfill';
+import 'fetch-polyfill/fetch';
+import './Array.includes';
+import './Array.find';
+import './Array.forEach';
+import './Array.from';
+import './NodeList.forEach';
+import './Element.closest';
+import './Element.classList';
+import 'element-scroll-polyfill';
+import './ChildNode.remove';
+import './String.includes';

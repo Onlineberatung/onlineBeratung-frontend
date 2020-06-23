@@ -1,0 +1,292 @@
+import * as React from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import {
+	getSessionsListItemIcon,
+	getSessionsListItemDate,
+	LIST_ICONS
+} from './sessionsListItemHelpers';
+import {
+	typeIsTeamSession,
+	getTypeOfLocation,
+	getSessionListPathForLocation,
+	getChatTypeForListItem,
+	typeIsEnquiry,
+	typeIsUser,
+	getChatItemForSession,
+	isGroupChatForSessionItem
+} from '../../session/ts/sessionHelpers';
+import {
+	translate,
+	getResortTranslation
+} from '../../../resources/ts/i18n/translate';
+import {
+	ActiveSessionGroupIdContext,
+	SessionsDataContext,
+	getActiveSession,
+	UserDataContext,
+	getSessionsDataKeyForSessionType,
+	hasUserAuthority,
+	AUTHORITIES
+} from '../../../globalState';
+import { history } from '../../app/ts/app';
+import { renderEmoji } from '../../initEmoji/ts/initEmoji';
+import { getIconForAttachmentType } from '../../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
+import { getGroupChatDate } from '../../session/ts/sessionDateHelpers';
+
+interface SessionListItemProps {
+	type: string;
+	id: number;
+}
+
+export const SessionListItemComponent = (props: SessionListItemProps) => {
+	const { sessionsData } = useContext(SessionsDataContext);
+	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const [isRead, setIsRead] = useState(false);
+
+	if (!sessionsData) {
+		return null;
+	}
+	const { userData } = useContext(UserDataContext);
+	const type = getTypeOfLocation();
+
+	const currentSessionData = sessionsData[
+		getSessionsDataKeyForSessionType(type)
+	].filter((session) => props.id == getChatItemForSession(session).id)[0];
+	if (!currentSessionData) {
+		return null;
+	}
+	const listItem =
+		currentSessionData[getChatTypeForListItem(currentSessionData)];
+	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
+
+	useEffect(() => {
+		if (!isGroupChat) {
+			setIsRead(
+				(activeSession && activeSession.session.id === listItem.id) ||
+					listItem.messagesRead
+			);
+		}
+	}, [activeSessionGroupId, sessionsData]);
+
+	const handleOnClick = () => {
+		if (listItem.groupId) {
+			history.push(
+				`${getSessionListPathForLocation()}/${listItem.groupId}/${
+					listItem.id
+				}`
+			);
+		}
+	};
+
+	const handleLabelClick = (e) => {
+		e.stopPropagation();
+	};
+
+	const iconVariant = isGroupChat
+		? LIST_ICONS.IS_GROUP_CHAT
+		: isRead
+		? LIST_ICONS.IS_READ
+		: LIST_ICONS.IS_UNREAD;
+	if (isGroupChat) {
+		const isMyChat = () =>
+			currentSessionData.consultant &&
+			userData.userId === currentSessionData.consultant.id;
+		const defaultSubjectText = isMyChat()
+			? translate('groupChat.listItem.subjectEmpty.self')
+			: translate('groupChat.listItem.subjectEmpty.other');
+		return (
+			<div
+				onClick={handleOnClick}
+				className={
+					activeSession && activeSession.chat.id === listItem.id
+						? `sessionsListItem sessionsListItem--active`
+						: `sessionsListItem`
+				}
+				data-group-id={listItem.groupId ? listItem.groupId : ''}
+			>
+				<div
+					className={
+						activeSession && activeSession.chat.id === listItem.id
+							? `sessionsListItem__content sessionsListItem__content--active`
+							: `sessionsListItem__content`
+					}
+				>
+					<div className="sessionsListItem__row">
+						<div className="sessionsListItem__consultingType">
+							{getResortTranslation(listItem.consultingType)}
+						</div>
+						<div className="sessionsListItem__date">
+							{getGroupChatDate(listItem)}
+						</div>
+					</div>
+					<div className="sessionsListItem__row">
+						<div
+							className="sessionsListItem__icon"
+							dangerouslySetInnerHTML={{
+								__html: renderEmoji(
+									getSessionsListItemIcon(iconVariant)
+								)
+							}}
+						/>
+						<div className="sessionsListItem__username">
+							{listItem.topic}
+						</div>
+						{listItem.active ? (
+							<div className="sessionsListItem__activeLabel">
+								{translate('groupChat.listItem.activeLabel')}
+							</div>
+						) : null}
+					</div>
+					<div className="sessionsListItem__row">
+						<div
+							className="sessionsListItem__subject"
+							dangerouslySetInnerHTML={{
+								__html: listItem.lastMessage
+									? renderEmoji(listItem.lastMessage)
+									: defaultSubjectText
+							}}
+						></div>
+						{listItem.attachment ? (
+							<div className="sessionsListItem__subject">
+								<span className="sessionsListItem__subject__attachment">
+									{getIconForAttachmentType(
+										listItem.attachment.fileType
+									)}
+								</span>
+								<span>
+									{listItem.attachment.fileReceived
+										? translate(
+												'attachments.list.label.received'
+										  )
+										: translate(
+												'attachments.list.label.sent'
+										  )}
+								</span>
+							</div>
+						) : null}
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	const feedbackPath = `${getSessionListPathForLocation()}/${
+		listItem.feedbackGroupId
+	}/${listItem.id}`;
+	return (
+		<div
+			onClick={handleOnClick}
+			className={
+				activeSession && activeSession.session.id === listItem.id
+					? `sessionsListItem sessionsListItem--active`
+					: `sessionsListItem`
+			}
+			data-group-id={listItem.groupId}
+		>
+			<div
+				className={
+					activeSession && activeSession.session.id === listItem.id
+						? `sessionsListItem__content sessionsListItem__content--active`
+						: `sessionsListItem__content`
+				}
+			>
+				<div className="sessionsListItem__row">
+					{typeIsTeamSession(type) &&
+					hasUserAuthority(
+						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
+						userData
+					) &&
+					currentSessionData.consultant ? (
+						<div className="sessionsListItem__consultingType">
+							{translate('sessionList.user.peer')}:{' '}
+							{currentSessionData.consultant.firstName}{' '}
+							{currentSessionData.consultant.lastName}
+						</div>
+					) : (
+						<div className="sessionsListItem__consultingType">
+							{getResortTranslation(listItem.consultingType)}{' '}
+							{listItem.consultingType != 1 && !typeIsUser(type)
+								? '/ ' + listItem.postcode
+								: null}
+						</div>
+					)}
+
+					{!typeIsUser(type) &&
+					!typeIsEnquiry(type) &&
+					!listItem.feedbackRead &&
+					!(
+						activeSession &&
+						activeSession.isFeedbackSession &&
+						activeSession.session.feedbackGroupId ===
+							listItem.feedbackGroupId
+					) ? (
+						<Link
+							onClick={(e) => handleLabelClick(e)}
+							to={feedbackPath}
+							className="sessionsListItem__feedbackLabel"
+							role="button"
+						>
+							{translate('chatFlyout.feedback')}
+						</Link>
+					) : null}
+				</div>
+				<div className="sessionsListItem__row">
+					<div
+						className="sessionsListItem__icon"
+						dangerouslySetInnerHTML={{
+							__html: renderEmoji(
+								getSessionsListItemIcon(iconVariant)
+							)
+						}}
+					/>
+					<div
+						className={
+							isRead
+								? `sessionsListItem__username sessionsListItem__username--readLabel`
+								: `sessionsListItem__username`
+						}
+					>
+						{typeIsUser(type)
+							? currentSessionData.consultant
+								? currentSessionData.consultant.username
+								: translate(
+										'sessionList.user.consultantUnknown'
+								  )
+							: currentSessionData.user.username}
+					</div>
+				</div>
+				<div className="sessionsListItem__row">
+					{listItem.lastMessage ? (
+						<div
+							className="sessionsListItem__subject"
+							dangerouslySetInnerHTML={{
+								__html: renderEmoji(listItem.lastMessage)
+							}}
+						></div>
+					) : null}
+					{listItem.attachment ? (
+						<div className="sessionsListItem__subject">
+							<span className="sessionsListItem__subject__attachment">
+								{getIconForAttachmentType(
+									listItem.attachment.fileType
+								)}
+							</span>
+							<span>
+								{listItem.attachment.fileReceived
+									? translate(
+											'attachments.list.label.received'
+									  )
+									: translate('attachments.list.label.sent')}
+							</span>
+						</div>
+					) : null}
+					<div className="sessionsListItem__date">
+						{getSessionsListItemDate(listItem.messageDate)}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};

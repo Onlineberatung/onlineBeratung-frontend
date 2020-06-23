@@ -1,0 +1,154 @@
+body {
+    height: 100vh;
+}
+
+.login-pf, .login-pf-page {
+    background-color: #7c767c;
+    height: 100vh;
+}
+
+.login-pf-page {
+    display: flex;
+}
+
+.login-pf-page-header {
+    display: none !important;
+}
+
+.card-pf {
+    margin: auto !important;
+    max-width: 720px;
+    color: #3F373F;
+    font-size: 16px;
+    line-height: 21px;
+    padding: 40px !important;
+}
+
+.login-pf-header {
+    margin-bottom: 24px;
+}
+
+#kc-page-title {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 50px;
+    margin: 0;
+}
+
+.form-group {
+    margin: 0 !important;
+}
+
+.form-control {
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-appearance: textfield;
+    border: 1px solid #8C878C;
+    border-radius: 25px;
+    width: 100%;
+    max-width: 320px;
+    height: 50px;
+    outline: 0;
+    padding: 0 19px;
+    padding-top: 0px;
+    color: #3F373F;
+    box-shadow: inset 0 2px 0 0 rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    height: 50px !important;
+    background-color: #FFFFFF;
+    margin: 38px auto 0;
+    font-size: 16px;
+    font-style: normal;
+}
+
+.form-control:hover, .form-control:focus {
+    border: 1px solid #C4BFC4 !important;
+    box-shadow: inset 0 2px 0 0 rgba(0, 0, 0, 0.1) !important;
+    border: 2px solid #3F373F !important;
+}
+
+.kc-form-info {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.kc-update-info {
+    margin: 28px auto 0;
+}
+
+.kc-form-optionsClass {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.textlink {
+    color: #CC1E1C;
+    text-decoration: none;
+    transition: all 0.6s ease;
+}
+
+.textlink:hover {
+    color: #A31816;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.button__item {
+    font-weight: 700;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    min-width: 200px;
+    max-width: 400px;
+    height: 50px;
+    padding: 0 24px;
+    border-radius: 24px;
+    margin: 32px auto 0;
+    display: block;
+}
+
+.button__item:focus {
+    outline: 0
+}
+
+.button__primary {
+    color: #fff;
+    background: #cc1e1c;
+    box-shadow: 0 6px 0 0 rgba(0, 0, 0, .1);
+    transition: all .6s ease
+}
+
+.button__primary:hover {
+    background-color: #a31816;
+    transition: all .3s ease
+}
+
+.login-pf-signup {
+    margin: 0 !important;
+}
+
+.alert-warning {
+    margin-bottom: 0;
+}
+
+.pw-new {
+    margin-top: 24px;
+}
+
+.pw-confirm {
+    margin-top: 22px;
+}
+
+.pw-new .form-control,
+.pw-confirm .form-control {
+    margin-top: 0;
+}
+
+.centerText {
+    text-align: center;
+}

@@ -1,0 +1,36 @@
+<div class="errorPage">
+    <nav class="errorPage__nav">
+    </nav>
+    <header class="errorPage__header">
+        <div class="errorPage__headerMobile">
+            <h2>Beratung & Hilfe</h2>
+        </div>
+        <p class="errorPage__claim">Online. Anonym. Sicher.</p>
+    </header>
+    <div class="errorPage__main">
+        <div class="errorPage__illustrationWrapper">
+            <svg class="errorPage__illustration__background" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 72 72">
+                <defs>
+                    <circle id="dot-a" cx="36" cy="36" r="30" />
+                </defs>
+                <use xlink:href="#dot-a" />
+            </svg>
+            <img class="errorPage__illustration" src="{{imgSrc}}" />
+        </div>
+        <div class="errorPage__content">
+            <h1 class="errorPage__headline">
+                {{headline}}
+            </h1>
+            <p class="errorPage__infoText">
+                {{{infoText}}}
+            </p>
+            {{#if hasCaritasButton}}
+            <a href="https://www.caritas.de/onlineberatung"><button
+                    class="errorPage__button button__item button__primary">Zur Caritas Website</button></a>
+            {{else}}
+            <a href="/login.html"><button class="errorPage__button button__item button__primary">Zum Login</button></a>
+            {{/if}}
+        </div>
+    </div>
+</div>

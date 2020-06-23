@@ -1,0 +1,35 @@
+export default {
+	'noContent': 'Keine Angabe',
+	'header.title': 'Profil',
+	'functions.title': 'Funktionen',
+	'functions.absenceTitle': 'Abwesenheit',
+	'functions.absenceLabel': 'Hinterlegen Sie eine Abwesenheitsnachricht',
+	'functions.absenceButtonSave': 'Speichern',
+	'functions.absenceButtonChange': 'Ändern',
+	'functions.securityTitle': 'Sicherheit',
+	'functions.securityButton': 'Passwort ändern',
+	'functions.passwordResetTitle': 'Passwort ändern',
+	'functions.passwordResetSubtitle':
+		'Nach erfolgreicher Änderung des Passwortes werden Sie automatisch ausgeloggt und zum Login weitergeleitet.',
+	'functions.passwordResetOldLabel': 'Altes Passwort',
+	'functions.passwordResetNewLabel': 'Neues Passwort',
+	'functions.passwordResetConfirmLabel': 'Neues Passwort bestätigen',
+	'functions.passwordResetSecure': 'Ihr Passwort ist sicher.',
+	'functions.passwordResetInsecure': 'Ihr Passwort ist nicht sicher.',
+	'functions.passwordResetSame': 'Ihr Passwort ist identisch.',
+	'functions.passwordResetNotSame': 'Ihr Passwort ist nicht identisch.',
+	'functions.passwordResetOldIncorrect': 'Ihr Passwort ist nicht korrekt.',
+	'functions.passwordResetInstructions':
+		'Wählen Sie bitte ein sicheres Passwort (min. 10 Zeichen, eine Zahl, ein Sonderzeichen, Groß-/Kleinschreibung).',
+	'functions.passwordReset.overlay.headline':
+		'Sie haben Ihr Passwort erfolgreich geändert. Sie werden nun zum Login weitergeleitet.',
+	'functions.passwordReset.overlay.buttonLabel': 'Zum Login',
+	'data.title': 'Über mich',
+	'data.userName': 'Benutzername',
+	'data.firstName': 'Vorname',
+	'data.lastName': 'Nachname',
+	'data.email': 'E-Mail-Adresse',
+	'data.agency': 'Beratungsstelle',
+	'footer.imprint': 'Impressum',
+	'footer.dataprotection': 'Datenschutz'
+};

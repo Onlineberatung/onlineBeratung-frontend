@@ -1,0 +1,163 @@
+$loginOverlayDelayDesktop: 1s;
+$loginOverlayDelayMobile: 2.5s;
+$iconSize: 60px;
+$gridSpacing: 56px;
+
+.stage {
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 100;
+	width: 40vw;
+	height: 100vh;
+	background-color: $primary;
+	color: $white;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	display: none;
+
+	@include breakpoint($fromLarge) {
+		display: flex;
+	}
+
+	&__headline {
+		display: flex;
+		flex: 1 1 0;
+		flex-direction: column;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		margin-bottom: 140px;
+
+		h1 {
+			margin-bottom: $grid-base;
+		}
+
+		h4 {
+			margin: 0;
+			text-align: center;
+			font-size: $font-size-primary;
+			font-family: $font-family-regular;
+			font-weight: $font-weight-regular;
+		}
+	}
+
+	&__logos {
+		display: flex;
+		flex-wrap: wrap;
+		flex: 1 1 0;
+		align-items: flex-end;
+		align-content: flex-end;
+		width: 302px;
+		margin-bottom: 80px;
+
+		svg {
+			width: $iconSize;
+			height: $iconSize;
+			margin-right: $gridSpacing;
+			margin-top: $gridSpacing;
+
+			&.raphaelswerk {
+				padding-top: 8px;
+				width: 70px;
+				height: 70px;
+			}
+
+			&:nth-child(-n + 3) {
+				margin-top: 0;
+			}
+
+			&:nth-child(3n) {
+				margin-right: 0;
+			}
+		}
+	}
+
+	&--animated {
+		display: flex;
+		width: 100vw;
+		animation: overlayAnimation 1.4s ease forwards;
+		animation-delay: $loginOverlayDelayMobile;
+
+		.stage__headline {
+			margin-bottom: 80px;
+		}
+
+		@keyframes overlayAnimation {
+			from {
+				left: 0;
+			}
+			to {
+				left: -100vw;
+			}
+		}
+
+		@include breakpoint($fromLarge) {
+			animation: overlayAnimation 1s ease forwards;
+			animation-delay: $loginOverlayDelayDesktop;
+
+			@keyframes overlayAnimation {
+				from {
+					width: 100vw;
+				}
+				to {
+					width: 40vw;
+				}
+			}
+		}
+	}
+
+	&__spinner {
+		width: 60px;
+		height: 60px;
+		z-index: 300;
+		position: relative;
+		opacity: 1;
+		animation-delay: 2s;
+		animation: hideSpinner 4s ease forwards;
+
+		@include breakpoint($fromLarge) {
+			animation-duration: 2s;
+		}
+
+		.double-bounce1,
+		.double-bounce2 {
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			background-color: $white;
+			opacity: 0.6;
+			position: absolute;
+			top: 0;
+			left: 0;
+
+			animation: sk-bounce 2s infinite ease-in-out;
+		}
+
+		.double-bounce2 {
+			-webkit-animation-delay: -1s;
+			animation-delay: -1s;
+		}
+
+		@keyframes sk-bounce {
+			0%,
+			100% {
+				transform: scale(0);
+				-webkit-transform: scale(0);
+			}
+			50% {
+				transform: scale(1);
+				-webkit-transform: scale(1);
+			}
+		}
+
+		@keyframes hideSpinner {
+			from {
+				opacity: 1;
+			}
+			to {
+				opacity: 0;
+			}
+		}
+	}
+}

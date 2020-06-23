@@ -1,0 +1,4 @@
+trailingComma: 'none'
+singleQuote: true
+tabWidth: 4
+quoteProps: 'consistent'

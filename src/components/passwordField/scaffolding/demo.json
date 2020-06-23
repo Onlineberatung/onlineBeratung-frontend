@@ -1,0 +1,35 @@
+[
+	{
+		"passwordInput": [
+			{
+				"inputValue": "passwordInput",
+				"inputClass": "passwordFields__fieldGroup__input",
+				"svgClass": "passwordFields__fieldGroup__icon",
+				"inputId": "passwordInput",
+				"inputType": "password",
+				"inputLabel": "Passwort",
+				"inputRequired": true,
+				"inputSVG": "xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 30 30\">,<path d=\"M27.57,10.85a1.43,1.43,0,0,0-1-.43H23V8A8,8,0,0,0,7,8v2.41H3.42a1.43,1.43,0,0,0-1,.43,1.39,1.39,0,0,0-.43,1V28.55a1.36,1.36,0,0,0,.43,1,1.39,1.39,0,0,0,1,.43H26.55A1.47,1.47,0,0,0,28,28.55V11.87A1.43,1.43,0,0,0,27.57,10.85ZM11.19,8a3.8,3.8,0,0,1,7.59,0v2.41H11.19Zm5.59,14.32v4.54H13.19V22.33a4.58,4.58,0,1,1,3.59,0Z\"/>",
+				"isPasswordInput": true,
+				"passwordCorrect": "Ihr Passwort ist sicher",
+				"passwordIncorrect": "Ihr Passwort ist nicht sicher"
+			}
+		],
+		"passwordConfirmation": [
+			{
+				"inputValue": "passwordConfirmation",
+				"inputClass": "passwordFields__fieldGroup__input",
+				"svgClass": "passwordFields__fieldGroup__icon",
+				"inputId": "passwordConfirmation",
+				"inputType": "password",
+				"inputLabel": "Passwort wiederholen*",
+				"inputRequired": true,
+				"inputSVG": "xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 30 30\">,<path d=\"M27.57,10.85a1.43,1.43,0,0,0-1-.43H23V8A8,8,0,0,0,7,8v2.41H3.42a1.43,1.43,0,0,0-1,.43,1.39,1.39,0,0,0-.43,1V28.55a1.36,1.36,0,0,0,.43,1,1.39,1.39,0,0,0,1,.43H26.55A1.47,1.47,0,0,0,28,28.55V11.87A1.43,1.43,0,0,0,27.57,10.85ZM11.19,8a3.8,3.8,0,0,1,7.59,0v2.41H11.19Zm5.59,14.32v4.54H13.19V22.33a4.58,4.58,0,1,1,3.59,0Z\"/>",
+				"infoText": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor",
+				"isPasswordInput": true,
+				"passwordCorrect": "Ihr Passwort ist identisch",
+				"passwordIncorrect": "Ihr Passwort ist nicht identisch"
+			}
+		]
+	}
+]
