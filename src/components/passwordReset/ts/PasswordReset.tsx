@@ -15,6 +15,7 @@ import {
 } from '../../overlay/ts/Overlay';
 import { BUTTON_TYPES } from '../../button/ts/Button';
 import { config } from '../../../resources/ts/config';
+import { logout } from '../../logout/ts/logout';
 
 export const PasswordReset = () => {
 	const [oldPassword, setOldPassword] = useState('');
@@ -186,6 +187,7 @@ export const PasswordReset = () => {
 				.then(() => {
 					setOverlayActive(true);
 					setIsRequestInProgress(false);
+					logout(false, config.endpoints.logoutRedirect);
 				})
 				.catch(() => {
 					setOldPasswordErrorMessage(
