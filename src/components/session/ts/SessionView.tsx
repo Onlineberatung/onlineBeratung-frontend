@@ -84,7 +84,6 @@ export const SessionView = (props) => {
 	const { userData } = useContext(UserDataContext);
 	const [typingUsers, setTypingUsers] = useState([]);
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
-	//SET FALSE
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
 
 	const setSessionToRead = () => {
@@ -290,17 +289,11 @@ export const SessionView = (props) => {
 	return (
 		<div className="session__wrapper">
 			{messagesItem ? (
-				isGroupChat ? (
-					<SessionItemComponent
-						messages={prepareMessages(messagesItem.messages)}
-						isTyping={handleTyping}
-						typingUsers={typingUsers}
-					/>
-				) : (
-					<SessionItemComponent
-						messages={prepareMessages(messagesItem.messages)}
-					/>
-				)
+				<SessionItemComponent
+					messages={prepareMessages(messagesItem.messages)}
+					isTyping={handleTyping}
+					typingUsers={typingUsers}
+				/>
 			) : null}
 			{isOverlayActive ? (
 				<OverlayWrapper>

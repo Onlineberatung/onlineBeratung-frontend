@@ -224,29 +224,17 @@ export const SessionItemComponent = (props) => {
 					AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 					userData
 				)) ? (
-				isGroupChat ? (
-					<MessageSubmitInterfaceComponent
-						handleSendButton={() => {}}
-						showMonitoringButton={() => {
-							setMonitoringButtonVisible(true);
-							scrollToEnd(0, true);
-						}}
-						type={getTypeOfLocation()}
-						{...sessionTextarea}
-						isTyping={() => props.isTyping()}
-						typingUsers={props.typingUsers}
-					/>
-				) : (
-					<MessageSubmitInterfaceComponent
-						handleSendButton={() => {}}
-						showMonitoringButton={() => {
-							setMonitoringButtonVisible(true);
-							scrollToEnd(0, true);
-						}}
-						type={getTypeOfLocation()}
-						{...sessionTextarea}
-					/>
-				)
+				<MessageSubmitInterfaceComponent
+					handleSendButton={() => {}}
+					showMonitoringButton={() => {
+						setMonitoringButtonVisible(true);
+						scrollToEnd(0, true);
+					}}
+					type={getTypeOfLocation()}
+					{...sessionTextarea}
+					isTyping={() => props.isTyping()}
+					typingUsers={props.typingUsers}
+				/>
 			) : null}
 
 			{overlayActive ? (
