@@ -3,8 +3,8 @@ import { getRocketchatAccessToken } from '../../sessionCookie/ts/getRocketchatAc
 import { setTokenInCookie } from '../../sessionCookie/ts/accessSessionCookie';
 import { handleLoginError } from '../../loginFormular/ts/handleLogin';
 import { config } from '../../../resources/ts/config';
-import { encode } from 'hi-base32';
 import { generateCsrfToken } from '../../../resources/ts/helpers/generateCsrfToken';
+import { encodeUsername } from '../../../resources/ts/helpers/encryptionHelpers';
 
 export const autoLogin = (
 	username: string,
@@ -12,9 +12,7 @@ export const autoLogin = (
 	redirect: boolean,
 	useOldUser: boolean = false
 ) => {
-	const userHash = useOldUser
-		? username
-		: 'enc.' + encode(username).replace(/=/g, '.');
+	const userHash = useOldUser ? username : encodeUsername(username);
 	getKeycloakAccessToken(
 		useOldUser ? encodeURIComponent(userHash) : userHash,
 		encodeURIComponent(password)

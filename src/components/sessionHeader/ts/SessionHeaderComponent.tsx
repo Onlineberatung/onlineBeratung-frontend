@@ -31,7 +31,7 @@ import {
 import { isGenericConsultingType } from '../../../resources/ts/helpers/resorts';
 import { getGroupChatDate } from '../../session/ts/sessionDateHelpers';
 import { getGroupMembers } from '../../apiWrapper/ts';
-import { decodeSubscriber } from '../../groupChat/ts/groupChatHelpers';
+import { decodeUsername } from '../../../resources/ts/helpers/encryptionHelpers';
 
 export interface SessionHeader {
 	username: string;
@@ -186,9 +186,7 @@ export const SessionHeaderComponent = (props) => {
 										{subscriberList.map(
 											(subscriber, index) => (
 												<li key={index}>
-													{decodeSubscriber(
-														subscriber
-													)}
+													{decodeUsername(subscriber)}
 												</li>
 											)
 										)}

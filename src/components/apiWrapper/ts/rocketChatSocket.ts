@@ -7,6 +7,12 @@ const SOCKET_STATUS = {
 	CLOSED: 3
 };
 
+export const SOCKET_COLLECTION = {
+	NOTIFY_USER: 'stream-notify-user',
+	ROOM_MESSAGES: 'stream-room-messages',
+	NOTIFY_ROOM: 'stream-notify-room'
+};
+
 export class rocketChatSocket {
 	private rcUid = null;
 	private rcWebsocket = null;
@@ -67,7 +73,7 @@ export class rocketChatSocket {
 				if (response.msg == 'result' && response.id === this.rcUid) {
 					// subscribe
 					this.subscriptions.forEach((sub) => {
-						if (sub.name === 'stream-notify-user') {
+						if (sub.name === SOCKET_COLLECTION.NOTIFY_USER) {
 							this.subscribe(
 								sub.name,
 								sub.params,
@@ -75,12 +81,21 @@ export class rocketChatSocket {
 								sub.callback
 							);
 						}
-						if (sub.name === 'stream-room-messages') {
+						if (sub.name === SOCKET_COLLECTION.ROOM_MESSAGES) {
 							this.subscribe(
 								sub.name,
 								sub.params,
 								sub.callback,
 								null
+							);
+						}
+						if (sub.name === SOCKET_COLLECTION.NOTIFY_ROOM) {
+							this.subscribe(
+								sub.name,
+								sub.params,
+								null,
+								null,
+								sub.callback
 							);
 						}
 					});
@@ -130,42 +145,58 @@ export class rocketChatSocket {
 		name: string,
 		params: any = [],
 		callbackRoom: Function = null,
-		callbackUser: Function = null
+		callbackUser: Function = null,
+		callbackTyping: Function = null
 	) {
 		this.rcWebsocket.send(
 			JSON.stringify({
 				msg: 'sub',
-				id: this.rcUid + name,
+				id: this.rcUid + '/' + name,
 				name: name,
 				params: params
 			})
 		);
 
 		this.addMessageListeners((response) => {
-			if (
+			const changeResponseOnSubscribedEvent =
 				response.msg == 'changed' &&
-				response.collection == 'stream-room-messages' &&
 				response.fields &&
 				response.fields.eventName &&
-				response.fields.eventName == params[0]
-			) {
-				if (callbackRoom) {
+				response.fields.eventName == params[0];
+			if (changeResponseOnSubscribedEvent) {
+				const newMessage =
+					response.collection === SOCKET_COLLECTION.ROOM_MESSAGES;
+				const roomClosed =
+					response.collection === SOCKET_COLLECTION.NOTIFY_USER &&
+					response.fields.args &&
+					response.fields.args[0] === 'removed' &&
+					response.fields.args[1].u._id === this.rcUid;
+				const userTyping =
+					response.collection === SOCKET_COLLECTION.NOTIFY_ROOM;
+				if (newMessage && callbackRoom) {
 					callbackRoom();
-				}
-			} else if (
-				response.msg === 'changed' &&
-				response.collection === 'stream-notify-user' &&
-				response.fields &&
-				response.fields.eventName &&
-				response.fields.eventName == params[0] &&
-				response.fields.args &&
-				response.fields.args[0] === 'removed' &&
-				response.fields.args[1].u._id === this.rcUid
-			) {
-				if (callbackUser) {
-					callbackUser(response);
+				} else if (roomClosed && callbackUser) {
+					callbackUser();
+				} else if (userTyping && callbackTyping) {
+					callbackTyping(response.fields.args);
 				}
 			}
 		});
+	}
+
+	public sendTypingState(methodName: string, params: any = []) {
+		if (
+			this.rcWebsocket &&
+			this.rcWebsocket.readyState === SOCKET_STATUS.OPEN
+		) {
+			this.rcWebsocket.send(
+				JSON.stringify({
+					msg: 'method',
+					method: methodName,
+					params: params,
+					id: this.rcUid + '/' + methodName
+				})
+			);
+		}
 	}
 }
