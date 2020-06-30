@@ -38,6 +38,30 @@ import {
 	isXLSXAttachment
 } from './attachmentHelpers';
 import { TypingIndicator } from '../../typingIndicator/ts/typingIndicator';
+import PluginsEditor from 'draft-js-plugins-editor';
+import { EditorState, RichUtils } from 'draft-js';
+import createLinkifyPlugin from 'draft-js-linkify-plugin';
+import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
+import {
+	ItalicButton,
+	BoldButton,
+	UnderlineButton,
+	UnorderedListButton
+} from 'draft-js-buttons';
+
+const linkifyPlugin = createLinkifyPlugin();
+const staticToolbarPlugin = createToolbarPlugin({
+	theme: {
+		toolbarStyles: {
+			toolbar: 'textarea__toolbar'
+		},
+		buttonStyles: {
+			button: 'textarea__toolbar__button',
+			active: 'textarea__toolbar__button--active'
+		}
+	}
+});
+const { Toolbar } = staticToolbarPlugin;
 
 const checkboxItem: CheckboxItem = {
 	inputId: 'requestFeedback',
@@ -139,7 +163,7 @@ export interface MessageSubmitInterfaceComponentProps
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
-	let textareaRef: React.RefObject<HTMLTextAreaElement> = React.createRef();
+	let textareaRef: React.RefObject<HTMLDivElement> = React.createRef();
 	let emojiRef: React.RefObject<HTMLSpanElement> = React.createRef();
 	let attachmentInputRef: React.RefObject<HTMLInputElement> = React.createRef();
 	const { userData } = useContext(UserDataContext);
@@ -155,9 +179,10 @@ export const MessageSubmitInterfaceComponent = (
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [removeText, setRemoveText] = useState(false);
 	const [attachmentUpload, setAttachmentUpload] = useState(null);
+	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
 	useEffect(() => {
-		initEmoji('emoji', props.textareaId);
+		// initEmoji('emoji', props.textareaId);
 		hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 		activeSession &&
 		activeSession.consultant &&
@@ -225,6 +250,19 @@ export const MessageSubmitInterfaceComponent = (
 			};
 		}
 	}, [attachmentUpload]);
+
+	const handleEditorChange = (editorState) => {
+		setEditorState(editorState);
+	};
+
+	const handleEditorKeyCommand = (command) => {
+		const newState = RichUtils.handleKeyCommand(editorState, command);
+		if (newState) {
+			handleEditorChange(newState);
+			return 'handled';
+		}
+		return 'not-handled';
+	};
 
 	const resizeTextarea = () => {
 		const textarea: any = textareaRef.current;
@@ -314,6 +352,10 @@ export const MessageSubmitInterfaceComponent = (
 		if (infoWrapper) {
 			infoWrapper.classList.toggle('messageSubmitInfoWrapper--hidden');
 		}
+	};
+
+	const handleTextareaClick = () => {
+		this.editor.focus();
 	};
 
 	const handleButtonClick = (event) => {
@@ -573,7 +615,7 @@ export const MessageSubmitInterfaceComponent = (
 							</svg>
 						</span>
 						<span className="textarea__inputWrapper">
-							<textarea
+							{/* <textarea
 								ref={textareaRef}
 								onFocus={toggleAbsentMessage}
 								onBlur={toggleAbsentMessage}
@@ -588,7 +630,46 @@ export const MessageSubmitInterfaceComponent = (
 								}
 								placeholder={placeholder}
 								maxLength={7500}
-							></textarea>
+							></textarea> */}
+							<div
+								className={
+									props.textareaClass + ` textarea__input`
+								}
+								ref={textareaRef}
+								onKeyUp={resizeTextarea}
+								onFocus={toggleAbsentMessage}
+								onBlur={toggleAbsentMessage}
+								onClick={handleTextareaClick}
+								id={props.textareaId}
+							>
+								<PluginsEditor
+									editorState={editorState}
+									onChange={handleEditorChange}
+									handleKeyCommand={handleEditorKeyCommand}
+									placeholder={placeholder}
+									ref={(element) => {
+										this.editor = element;
+									}}
+									plugins={[
+										linkifyPlugin,
+										staticToolbarPlugin
+									]}
+								/>
+								<Toolbar>
+									{(externalProps) => (
+										<div className="textarea__toolbar__buttonWrapper">
+											<BoldButton {...externalProps} />
+											<ItalicButton {...externalProps} />
+											<UnderlineButton
+												{...externalProps}
+											/>
+											<UnorderedListButton
+												{...externalProps}
+											/>
+										</div>
+									)}
+								</Toolbar>
+							</div>
 							{hasUploadFunctionality ? (
 								!attachmentSelected ? (
 									<span className="textarea__attachmentSelect">

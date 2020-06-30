@@ -201,6 +201,29 @@ $iconSize: 20px;
 			fill: $white;
 		}
 
+		&__toolbar {
+			position: absolute;
+			top: -50px;
+			left: 0;
+
+			&__buttonWrapper {
+				display: flex;
+			}
+
+			&__button {
+				background-color: tomato;
+
+				&--active {
+					background-color: green;
+				}
+			}
+		}
+
+		.public-DraftEditorPlaceholder-root {
+			position: absolute;
+			color: grey;
+		}
+
 		&__attachmentSelect {
 			display: flex;
 			height: 100%;
