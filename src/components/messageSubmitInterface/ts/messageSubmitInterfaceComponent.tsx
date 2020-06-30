@@ -39,7 +39,7 @@ import {
 } from './attachmentHelpers';
 import { TypingIndicator } from '../../typingIndicator/ts/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
-import { EditorState, RichUtils } from 'draft-js';
+import { EditorState, RichUtils, DraftHandleValue } from 'draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
 import {
@@ -48,6 +48,8 @@ import {
 	UnderlineButton,
 	UnorderedListButton
 } from 'draft-js-buttons';
+
+const INPUT_MAX_LENGTH = 10;
 
 const linkifyPlugin = createLinkifyPlugin();
 const staticToolbarPlugin = createToolbarPlugin({
@@ -262,6 +264,26 @@ export const MessageSubmitInterfaceComponent = (
 			return 'handled';
 		}
 		return 'not-handled';
+	};
+
+	const handleEditorBeforeInput = (): DraftHandleValue => {
+		const currentContent = editorState.getCurrentContent();
+		const currentContentLength = currentContent.getPlainText('').length;
+
+		if (currentContentLength > INPUT_MAX_LENGTH - 1) {
+			console.log('you can type max ten characters');
+			return 'handled';
+		}
+	};
+
+	const handleEditorPastedText = (pastedText): DraftHandleValue => {
+		const currentContent = editorState.getCurrentContent();
+		const currentContentLength = currentContent.getPlainText('').length;
+
+		if (currentContentLength + pastedText.length > INPUT_MAX_LENGTH) {
+			console.log('you can paste max ten characters');
+			return 'handled';
+		}
 	};
 
 	const resizeTextarea = () => {
@@ -647,6 +669,8 @@ export const MessageSubmitInterfaceComponent = (
 									onChange={handleEditorChange}
 									handleKeyCommand={handleEditorKeyCommand}
 									placeholder={placeholder}
+									handleBeforeInput={handleEditorBeforeInput}
+									handlePastedText={handleEditorPastedText}
 									ref={(element) => {
 										this.editor = element;
 									}}
