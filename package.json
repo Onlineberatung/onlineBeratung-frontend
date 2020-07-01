@@ -63,7 +63,7 @@
         "whatwg-fetch": "^3.0.0"
     },
     "devDependencies": {
-        "@biotope/build": "^6.2.1",
+        "@biotope/build": "^7.1.1",
         "@commitlint/cli": "^8.3.5",
         "@commitlint/config-conventional": "^8.3.4",
         "awesome-typescript-loader": "^5.2.1",
