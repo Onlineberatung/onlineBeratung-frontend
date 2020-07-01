@@ -232,6 +232,8 @@ export const SessionItemComponent = (props) => {
 					}}
 					type={getTypeOfLocation()}
 					{...sessionTextarea}
+					isTyping={() => props.isTyping()}
+					typingUsers={props.typingUsers}
 				/>
 			) : null}
 

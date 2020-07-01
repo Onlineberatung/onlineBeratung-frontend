@@ -24,7 +24,7 @@ import {
 	ajaxCallPutGroupChat,
 	GROUP_CHAT_API
 } from '../../apiWrapper/ts';
-import { decodeSubscriber, isGroupChatOwner } from './groupChatHelpers';
+import { isGroupChatOwner } from './groupChatHelpers';
 import { getGroupChatDate } from '../../session/ts/sessionDateHelpers';
 import { durationSelectOptionsSet } from './createChatHelpers';
 import {
@@ -37,6 +37,7 @@ import {
 	mobileListView,
 	mobileDetailView
 } from '../../app/ts/navigationHandler';
+import { decodeUsername } from '../../../resources/ts/helpers/encryptionHelpers';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
@@ -211,7 +212,7 @@ export const GroupChatInfo = () => {
 									key={index}
 								>
 									<p className="profile__data__content">
-										{decodeSubscriber(subscriber)}
+										{decodeUsername(subscriber)}
 									</p>
 								</div>
 							))

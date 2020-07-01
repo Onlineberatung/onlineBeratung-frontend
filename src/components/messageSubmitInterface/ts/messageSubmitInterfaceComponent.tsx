@@ -35,8 +35,10 @@ import {
 	isPDFAttachment,
 	isDOCXAttachment,
 	getAttachmentSizeMBForKB,
-	isXLSXAttachment
+	isXLSXAttachment,
+	ATTACHMENT_MAX_SIZE_IN_MB
 } from './attachmentHelpers';
+import { TypingIndicator } from '../../typingIndicator/ts/typingIndicator';
 
 const checkboxItem: CheckboxItem = {
 	inputId: 'requestFeedback',
@@ -131,9 +133,13 @@ export interface MessageSubmitInterfaceComponentProps
 	type: string;
 	handleSendButton: Function;
 	showMonitoringButton?: Function;
+	isTyping?: Function;
+	typingUsers?: [];
 }
 
-export const MessageSubmitInterfaceComponent = (props) => {
+export const MessageSubmitInterfaceComponent = (
+	props: MessageSubmitInterfaceComponentProps
+) => {
 	let textareaRef: React.RefObject<HTMLTextAreaElement> = React.createRef();
 	let emojiRef: React.RefObject<HTMLSpanElement> = React.createRef();
 	let attachmentInputRef: React.RefObject<HTMLInputElement> = React.createRef();
@@ -143,6 +149,7 @@ export const MessageSubmitInterfaceComponent = (props) => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState(null);
 	const [uploadProgress, setUploadProgress] = useState(null);
@@ -350,8 +357,8 @@ export const MessageSubmitInterfaceComponent = (props) => {
 			const attachmentInput: any = attachmentInputRef.current;
 			const attachment = attachmentInput.files[0];
 
-			const getSendMailNotificationStatus = () =>
-				isGroupChatForSessionItem(activeSession) ? false : true;
+			const getSendMailNotificationStatus = () => !isGroupChat;
+
 			ajaxSendMessage(
 				getTypedMessage(),
 				sendToRoomWithId,
@@ -431,7 +438,7 @@ export const MessageSubmitInterfaceComponent = (props) => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const attachment = attachmentInput.files[0];
 		const attachmentSizeMB = getAttachmentSizeMBForKB(attachment.size);
-		attachmentSizeMB > 5
+		attachmentSizeMB > ATTACHMENT_MAX_SIZE_IN_MB
 			? handleLargeAttachments()
 			: displayAttachmentToUpload(attachment);
 	};
@@ -505,7 +512,21 @@ export const MessageSubmitInterfaceComponent = (props) => {
 		activeSession.session.feedbackGroupId &&
 		!activeSession.isFeedbackSession;
 	return (
-		<div className="messageSubmit__wrapper">
+		<div
+			className={
+				isGroupChat
+					? 'messageSubmit__wrapper messageSubmit__wrapper--withTyping'
+					: 'messageSubmit__wrapper'
+			}
+		>
+			{isGroupChat ? (
+				<TypingIndicator
+					disabled={
+						!(props.typingUsers && props.typingUsers.length > 0)
+					}
+					typingUsers={props.typingUsers}
+				/>
+			) : null}
 			{activeInfo ? (
 				<MessageSubmitInfo {...getMessageSubmitInfo()} />
 			) : null}
@@ -558,6 +579,9 @@ export const MessageSubmitInterfaceComponent = (props) => {
 								onFocus={toggleAbsentMessage}
 								onBlur={toggleAbsentMessage}
 								onKeyUp={resizeTextarea}
+								onChange={
+									isGroupChat ? () => props.isTyping() : null
+								}
 								id={props.textareaId}
 								name={props.textareaName}
 								className={

@@ -22,6 +22,10 @@ $sessionHeaderHeight: 85px;
 		width: 100%;
 	}
 
+	.messageSubmit__wrapper--withTyping {
+		position: relative;
+	}
+
 	.monitoringButton {
 		display: flex;
 		transform: translate(0, 100px);
@@ -69,11 +73,13 @@ $sessionHeaderHeight: 85px;
 		height: 100%;
 		overflow-x: hidden;
 		overflow-y: auto;
-		padding: $grid-base-three $grid-base-two;
+		padding: $grid-base-three $grid-base-two 0;
+		margin-bottom: $grid-base-three;
 		background-color: $background-ochre;
 
 		@include breakpoint($fromMedium) {
-			padding: $grid-base-three $grid-base-three;
+			padding: $grid-base-three $grid-base-three 0 $grid-base-three;
+			margin-bottom: $grid-base-four;
 		}
 
 		@include breakpoint($fromLarge) {

@@ -23,6 +23,7 @@ import sessionList from './de/sessionList';
 import sessionListInformal from './de/sessionListInformal';
 import statusOverlay from './de/statusOverlay';
 import statusOverlayInformal from './de/statusOverlayInformal';
+import typingIndicator from './de/typingIndicator';
 import user from './de/user';
 import userProfile from './de/userProfile';
 import warningLabels from './de/warningLabels';
@@ -47,6 +48,7 @@ const defaultLocale: any = {
 	session,
 	sessionList,
 	statusOverlay,
+	typingIndicator,
 	user,
 	userProfile,
 	warningLabels
