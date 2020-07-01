@@ -4,7 +4,7 @@ import { rocketchatLogout } from '../../apiWrapper/ts/';
 import { keycloakLogout } from '../../apiWrapper/ts/';
 
 let isRequestInProgress = false;
-export const logout = (redirectUrl?: string) => {
+export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
 	if (isRequestInProgress) {
 		return null;
 	}
@@ -13,20 +13,25 @@ export const logout = (redirectUrl?: string) => {
 		.then((response) => {
 			keycloakLogout()
 				.then((response) => {
-					invalidateCookies(redirectUrl);
+					invalidateCookies(withRedirect, redirectUrl);
 				})
 				.catch((error) => {
-					invalidateCookies(redirectUrl);
+					invalidateCookies(withRedirect, redirectUrl);
 				});
 		})
 		.catch((error) => {
-			invalidateCookies(redirectUrl);
+			invalidateCookies(withRedirect, redirectUrl);
 		});
 };
 
-const invalidateCookies = (redirectUrl?: string) => {
+const invalidateCookies = (
+	withRedirect: boolean = true,
+	redirectUrl?: string
+) => {
 	removeAllCookies();
-	redirectAfterLogout(redirectUrl);
+	if (withRedirect) {
+		redirectAfterLogout(redirectUrl);
+	}
 };
 
 const redirectAfterLogout = (altRedirectUrl?: string) => {
