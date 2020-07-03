@@ -233,11 +233,10 @@ export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
 	let textareaRef: React.RefObject<HTMLDivElement> = React.useRef();
-	let emojiRef: React.RefObject<HTMLSpanElement> = React.useRef();
+	let featureWrapperRef: React.RefObject<HTMLSpanElement> = React.useRef();
 	let attachmentInputRef: React.RefObject<HTMLInputElement> = React.useRef();
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
-	const [emojiActive, setEmojiActive] = useState(false);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
@@ -320,6 +319,7 @@ export const MessageSubmitInterfaceComponent = (
 	}, [attachmentUpload]);
 
 	const handleEditorChange = (editorState) => {
+		isGroupChat ? props.isTyping() : null;
 		setEditorState(editorState);
 	};
 
@@ -354,7 +354,7 @@ export const MessageSubmitInterfaceComponent = (
 
 	const resizeTextarea = () => {
 		const textarea: any = textareaRef.current;
-		const emojiWrapper: any = emojiRef.current;
+		const featureWrapper: any = featureWrapperRef.current;
 
 		resetTextareaSize(textarea);
 
@@ -390,7 +390,7 @@ export const MessageSubmitInterfaceComponent = (
 							'px;' +
 							' overflow-y: hidden;'
 				  );
-			emojiWrapper.setAttribute(
+			featureWrapper.setAttribute(
 				'style',
 				'min-height: ' + textHeight + 'px;'
 			);
@@ -415,7 +415,7 @@ export const MessageSubmitInterfaceComponent = (
 							'px;' +
 							' overflow-y: scroll;'
 				  );
-			emojiWrapper.setAttribute(
+			featureWrapper.setAttribute(
 				'style',
 				'min-height: ' + maxHeight + 'px;'
 			);
@@ -423,14 +423,14 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const resetTextareaSize = (textarea) => {
-		const emojiWrapper: any = emojiRef.current;
+		const featureWrapper: any = featureWrapperRef.current;
 
 		if (window.innerWidth <= 900) {
 			textarea.setAttribute('style', 'min-height: 87px;');
-			emojiWrapper.setAttribute('style', 'min-height: 87px;');
+			featureWrapper.setAttribute('style', 'min-height: 87px;');
 		} else {
 			textarea.setAttribute('style', 'min-height: 106px;');
-			emojiWrapper.setAttribute('style', 'min-height: 106px;');
+			featureWrapper.setAttribute('style', 'min-height: 106px;');
 		}
 	};
 
@@ -682,13 +682,8 @@ export const MessageSubmitInterfaceComponent = (
 					) : null}
 					<div className={props.wrapperClass + ` textarea__wrapper`}>
 						<span
-							ref={emojiRef}
-							className={`textarea__emojiWrapper ${
-								emojiActive
-									? 'textarea__emojiWrapper--active'
-									: ''
-							}`}
-							onClick={() => setEmojiActive(true)}
+							ref={featureWrapperRef}
+							className="textarea__featureWrapper"
 						>
 							<EmojiSelect />
 						</span>

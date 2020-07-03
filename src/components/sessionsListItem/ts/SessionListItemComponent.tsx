@@ -32,6 +32,8 @@ import {
 import { history } from '../../app/ts/app';
 import { getIconForAttachmentType } from '../../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
 import { getGroupChatDate } from '../../session/ts/sessionDateHelpers';
+import { markdownToDraft } from 'markdown-draft-js';
+import { convertFromRaw } from 'draft-js';
 
 interface SessionListItemProps {
 	type: string;
@@ -59,6 +61,13 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const listItem =
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
+	let plainTextLastMessage = '';
+
+	if (listItem.lastMessage) {
+		const rawMessageObject = markdownToDraft(listItem.lastMessage);
+		const contentStateMessage = convertFromRaw(rawMessageObject);
+		plainTextLastMessage = contentStateMessage.getPlainText();
+	}
 
 	useEffect(() => {
 		if (!isGroupChat) {
@@ -121,9 +130,12 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						</div>
 					</div>
 					<div className="sessionsListItem__row">
-						<div className="sessionsListItem__icon">
-							{getSessionsListItemIcon(iconVariant)}
-						</div>
+						<div
+							className="sessionsListItem__icon"
+							dangerouslySetInnerHTML={{
+								__html: getSessionsListItemIcon(iconVariant)
+							}}
+						></div>
 						<div className="sessionsListItem__username">
 							{listItem.topic}
 						</div>
@@ -135,9 +147,11 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					</div>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__subject">
-							{listItem.lastMessage
-								? listItem.lastMessage
-								: defaultSubjectText}
+							{
+								listItem.lastMessage
+									? plainTextLastMessage
+									: defaultSubjectText /*HTML RENDER*/
+							}
 						</div>
 						{listItem.attachment ? (
 							<div className="sessionsListItem__subject">
@@ -224,9 +238,12 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					) : null}
 				</div>
 				<div className="sessionsListItem__row">
-					<div className="sessionsListItem__icon">
-						{getSessionsListItemIcon(iconVariant)}
-					</div>
+					<div
+						className="sessionsListItem__icon"
+						dangerouslySetInnerHTML={{
+							__html: getSessionsListItemIcon(iconVariant)
+						}}
+					></div>
 					<div
 						className={
 							isRead
@@ -246,7 +263,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 				<div className="sessionsListItem__row">
 					{listItem.lastMessage ? (
 						<div className="sessionsListItem__subject">
-							{listItem.lastMessage}
+							{plainTextLastMessage}
 						</div>
 					) : null}
 					{listItem.attachment ? (
