@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useState, useEffect, useContext } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
-	getTypedMessage,
 	typeIsEnquiry,
 	isGroupChatForSessionItem
 } from '../../session/ts/sessionHelpers';
@@ -38,13 +37,18 @@ import {
 } from './attachmentHelpers';
 import { TypingIndicator } from '../../typingIndicator/ts/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
-import { EditorState, RichUtils, DraftHandleValue } from 'draft-js';
+import {
+	EditorState,
+	RichUtils,
+	DraftHandleValue,
+	convertToRaw
+} from 'draft-js';
+import { draftToMarkdown } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
 import {
 	ItalicButton,
 	BoldButton,
-	UnderlineButton,
 	UnorderedListButton
 } from 'draft-js-buttons';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
@@ -228,9 +232,9 @@ export interface MessageSubmitInterfaceComponentProps
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
-	let textareaRef: React.RefObject<HTMLDivElement> = React.createRef();
-	let emojiRef: React.RefObject<HTMLSpanElement> = React.createRef();
-	let attachmentInputRef: React.RefObject<HTMLInputElement> = React.createRef();
+	let textareaRef: React.RefObject<HTMLDivElement> = React.useRef();
+	let emojiRef: React.RefObject<HTMLSpanElement> = React.useRef();
+	let attachmentInputRef: React.RefObject<HTMLInputElement> = React.useRef();
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const [emojiActive, setEmojiActive] = useState(false);
@@ -447,7 +451,7 @@ export const MessageSubmitInterfaceComponent = (
 			return null;
 		}
 
-		if (getTypedMessage()) {
+		if (getTypedMarkdownMessage()) {
 			setIsRequestInProgress(true);
 		}
 
@@ -455,7 +459,7 @@ export const MessageSubmitInterfaceComponent = (
 			typeIsEnquiry(props.type) &&
 			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
 		) {
-			ajaxSendEnquiry(getTypedMessage())
+			ajaxSendEnquiry(getTypedMarkdownMessage())
 				.then((response) => {
 					if (response === 'emptyMessage') {
 						return null;
@@ -485,7 +489,7 @@ export const MessageSubmitInterfaceComponent = (
 			const getSendMailNotificationStatus = () => !isGroupChat;
 
 			ajaxSendMessage(
-				getTypedMessage(),
+				getTypedMarkdownMessage(),
 				sendToRoomWithId,
 				sendToFeedbackEndpoint,
 				getSendMailNotificationStatus()
@@ -500,7 +504,7 @@ export const MessageSubmitInterfaceComponent = (
 							)
 						);
 					}
-					if (getTypedMessage()) {
+					if (getTypedMarkdownMessage()) {
 						handleMessageSendSuccess(
 							response,
 							requestFeedbackChecked
@@ -511,6 +515,13 @@ export const MessageSubmitInterfaceComponent = (
 					console.log(error);
 				});
 		}
+	};
+
+	const getTypedMarkdownMessage = () => {
+		const contentState = editorState.getCurrentContent();
+		const rawObject = convertToRaw(contentState);
+		const markdownString = draftToMarkdown(rawObject);
+		return markdownString.trim();
 	};
 
 	const handleMessageSendSuccess = (
@@ -622,9 +633,7 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const emptyTextarea = () => {
-		const textarea: any = textareaRef.current;
-		textarea.value = '';
-		resetTextareaSize(textarea);
+		setEditorState(EditorState.createEmpty());
 	};
 
 	const hasUploadFunctionality =
@@ -732,9 +741,6 @@ export const MessageSubmitInterfaceComponent = (
 										<div className="textarea__toolbar__buttonWrapper">
 											<BoldButton {...externalProps} />
 											<ItalicButton {...externalProps} />
-											<UnderlineButton
-												{...externalProps}
-											/>
 											<UnorderedListButton
 												{...externalProps}
 											/>

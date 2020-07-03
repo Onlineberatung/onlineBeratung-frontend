@@ -43,7 +43,7 @@ $iconSize: 20px;
 		}
 
 		&__inputWrapper {
-			flex-grow: 1;
+			flex: 1;
 			position: relative;
 			display: flex;
 		}
@@ -169,7 +169,7 @@ $iconSize: 20px;
 			box-shadow: inset 0 2px 0 0 rgba(0, 0, 0, 0.1);
 			display: flex;
 			justify-content: center;
-			align-items: end;
+			align-items: flex-end;
 			padding-left: 7px;
 		}
 
