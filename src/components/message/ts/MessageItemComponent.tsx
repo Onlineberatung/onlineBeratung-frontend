@@ -167,7 +167,14 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 					></span>
 					{props.attachments
 						? props.attachments.map((attachment, key) => (
-								<div key={key}>
+								<div
+									key={key}
+									className={
+										renderedMessage?.length > 0
+											? 'messageItem__message--withAttachment'
+											: ''
+									}
+								>
 									<div className="messageItem__message__attachment">
 										<span className="messageItem__message__attachment__icon">
 											{getIconForAttachmentType(

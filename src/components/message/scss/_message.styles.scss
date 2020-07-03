@@ -112,6 +112,10 @@ $icon-size: 24px;
 		white-space: pre-wrap;
 		position: relative;
 
+		&--withAttachment {
+			margin-top: $grid-base;
+		}
+
 		&__attachment {
 			display: flex;
 			align-items: center;
