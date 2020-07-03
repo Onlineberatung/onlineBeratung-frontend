@@ -23,7 +23,7 @@ import {
 import {
 	ajaxSendEnquiry,
 	ajaxSendMessage,
-	ajaxCallSendAttachment
+	ajaxCallUploadAttachment
 } from '../../apiWrapper/ts';
 import {
 	MessageSubmitInfo,
@@ -157,6 +157,10 @@ export const MessageSubmitInterfaceComponent = (
 	const [removeText, setRemoveText] = useState(false);
 	const [attachmentUpload, setAttachmentUpload] = useState(null);
 
+	const requestFeedbackCheckbox = document.getElementById(
+		'requestFeedback'
+	) as HTMLInputElement;
+
 	useEffect(() => {
 		initEmoji('emoji', props.textareaId);
 		hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
@@ -205,20 +209,10 @@ export const MessageSubmitInterfaceComponent = (
 
 	useEffect(() => {
 		if (attachmentUpload) {
-			const requestFeedbackCheckbox = document.getElementById(
-				'requestFeedback'
-			) as HTMLInputElement;
-			const requestFeedbackChecked =
-				requestFeedbackCheckbox && requestFeedbackCheckbox.checked;
-
 			attachmentUpload.onload = () => {
 				setAttachmentSelected(null);
 				setUploadProgress(null);
-				handleMessageSendSuccess(
-					attachmentUpload.response,
-					requestFeedbackChecked,
-					false
-				);
+				handleMessageSendSuccess();
 			};
 			attachmentUpload.onerror = () => {
 				setAttachmentSelected(null);
@@ -322,8 +316,12 @@ export const MessageSubmitInterfaceComponent = (
 			return null;
 		}
 
-		if (getTypedMessage()) {
+		const attachmentInput: any = attachmentInputRef.current;
+		const attachment = attachmentInput.files[0];
+		if (getTypedMessage() || attachment) {
 			setIsRequestInProgress(true);
+		} else {
+			return null;
 		}
 
 		if (
@@ -332,9 +330,6 @@ export const MessageSubmitInterfaceComponent = (
 		) {
 			ajaxSendEnquiry(getTypedMessage())
 				.then((response) => {
-					if (response === 'emptyMessage') {
-						return null;
-					}
 					setRemoveText(true);
 					props.handleSendButton();
 				})
@@ -342,79 +337,61 @@ export const MessageSubmitInterfaceComponent = (
 					console.log(error);
 				});
 		} else {
-			const requestFeedbackCheckbox = document.getElementById(
-				'requestFeedback'
-			) as HTMLInputElement;
-			const requestFeedbackChecked =
-				requestFeedbackCheckbox && requestFeedbackCheckbox.checked;
-
 			const sendToFeedbackEndpoint =
-				activeSession.isFeedbackSession || requestFeedbackChecked;
-			const sendToRoomWithId = requestFeedbackChecked
+				activeSession.isFeedbackSession ||
+				requestFeedbackCheckbox?.checked;
+			const sendToRoomWithId = requestFeedbackCheckbox?.checked
 				? activeSession.session.feedbackGroupId
 				: props.sessionRoomId;
 
-			const attachmentInput: any = attachmentInputRef.current;
-			const attachment = attachmentInput.files[0];
-
 			const getSendMailNotificationStatus = () => !isGroupChat;
 
-			ajaxSendMessage(
-				getTypedMessage(),
-				sendToRoomWithId,
-				sendToFeedbackEndpoint,
-				getSendMailNotificationStatus()
-			)
-				.then((response) => {
-					if (attachment) {
-						setAttachmentUpload(
-							ajaxCallSendAttachment(
-								attachment,
-								sendToRoomWithId,
-								setUploadProgress
-							)
-						);
-					}
-					if (getTypedMessage()) {
-						handleMessageSendSuccess(
-							response,
-							requestFeedbackChecked
-						);
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+			if (attachment) {
+				setAttachmentUpload(
+					ajaxCallUploadAttachment(
+						getTypedMessage(),
+						attachment,
+						sendToRoomWithId,
+						sendToFeedbackEndpoint,
+						getSendMailNotificationStatus(),
+						setUploadProgress
+					)
+				);
+			} else {
+				if (getTypedMessage()) {
+					ajaxSendMessage(
+						getTypedMessage(),
+						sendToRoomWithId,
+						sendToFeedbackEndpoint,
+						getSendMailNotificationStatus()
+					)
+						.then(() => {
+							handleMessageSendSuccess();
+						})
+						.catch((error) => {
+							console.log(error);
+						});
+				}
+			}
 		}
 	};
 
-	const handleMessageSendSuccess = (
-		response: any,
-		requestFeedbackChecked: boolean,
-		deleteText: boolean = true
-	) => {
-		if (response === 'emptyMessage') {
-			return null;
-		} else {
-			props.showMonitoringButton();
-			if (requestFeedbackChecked) {
-				const feedbackButton = document.querySelector(
-					'.sessionInfo__feedbackButton'
-				);
-				feedbackButton.classList.add(
+	const handleMessageSendSuccess = () => {
+		props.showMonitoringButton();
+		if (requestFeedbackCheckbox?.checked) {
+			const feedbackButton = document.querySelector(
+				'.sessionInfo__feedbackButton'
+			);
+			feedbackButton.classList.add('sessionInfo__feedbackButton--active');
+			setTimeout(() => {
+				feedbackButton.classList.remove(
 					'sessionInfo__feedbackButton--active'
 				);
-				setTimeout(() => {
-					feedbackButton.classList.remove(
-						'sessionInfo__feedbackButton--active'
-					);
-				}, 700);
-			}
+			}, 700);
 		}
+		setRemoveText(true);
+		activeInfo != INFO_TYPES.ABSENT ? setActiveInfo(null) : null;
 		setTimeout(() => setIsRequestInProgress(false), 1200);
-		if (deleteText) {
-			setRemoveText(true);
-		}
 	};
 
 	const handleCheckboxClick = () => {
