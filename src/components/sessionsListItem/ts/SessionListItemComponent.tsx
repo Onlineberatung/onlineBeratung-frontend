@@ -30,7 +30,6 @@ import {
 	AUTHORITIES
 } from '../../../globalState';
 import { history } from '../../app/ts/app';
-import { renderEmoji } from '../../initEmoji/ts/initEmoji';
 import { getIconForAttachmentType } from '../../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
 import { getGroupChatDate } from '../../session/ts/sessionDateHelpers';
 
@@ -122,14 +121,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						</div>
 					</div>
 					<div className="sessionsListItem__row">
-						<div
-							className="sessionsListItem__icon"
-							dangerouslySetInnerHTML={{
-								__html: renderEmoji(
-									getSessionsListItemIcon(iconVariant)
-								)
-							}}
-						/>
+						<div className="sessionsListItem__icon">
+							{getSessionsListItemIcon(iconVariant)}
+						</div>
 						<div className="sessionsListItem__username">
 							{listItem.topic}
 						</div>
@@ -140,14 +134,11 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						) : null}
 					</div>
 					<div className="sessionsListItem__row">
-						<div
-							className="sessionsListItem__subject"
-							dangerouslySetInnerHTML={{
-								__html: listItem.lastMessage
-									? renderEmoji(listItem.lastMessage)
-									: defaultSubjectText
-							}}
-						></div>
+						<div className="sessionsListItem__subject">
+							{listItem.lastMessage
+								? listItem.lastMessage
+								: defaultSubjectText}
+						</div>
 						{listItem.attachment ? (
 							<div className="sessionsListItem__subject">
 								<span className="sessionsListItem__subject__attachment">
@@ -233,14 +224,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					) : null}
 				</div>
 				<div className="sessionsListItem__row">
-					<div
-						className="sessionsListItem__icon"
-						dangerouslySetInnerHTML={{
-							__html: renderEmoji(
-								getSessionsListItemIcon(iconVariant)
-							)
-						}}
-					/>
+					<div className="sessionsListItem__icon">
+						{getSessionsListItemIcon(iconVariant)}
+					</div>
 					<div
 						className={
 							isRead
@@ -259,12 +245,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 				</div>
 				<div className="sessionsListItem__row">
 					{listItem.lastMessage ? (
-						<div
-							className="sessionsListItem__subject"
-							dangerouslySetInnerHTML={{
-								__html: renderEmoji(listItem.lastMessage)
-							}}
-						></div>
+						<div className="sessionsListItem__subject">
+							{listItem.lastMessage}
+						</div>
 					) : null}
 					{listItem.attachment ? (
 						<div className="sessionsListItem__subject">
