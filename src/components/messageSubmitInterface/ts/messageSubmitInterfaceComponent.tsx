@@ -248,6 +248,7 @@ export const MessageSubmitInterfaceComponent = (
 	const [removeText, setRemoveText] = useState(false);
 	const [attachmentUpload, setAttachmentUpload] = useState(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
+	const [isRichtextActive, setIsRichtextActive] = useState(false);
 
 	useEffect(() => {
 		hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
@@ -267,6 +268,26 @@ export const MessageSubmitInterfaceComponent = (
 			? setActiveInfo(INFO_TYPES.ABSENT)
 			: null;
 	}, [activeInfo]);
+
+	useEffect(() => {
+		resizeTextarea();
+		const toolbar: HTMLDivElement = document.querySelector(
+			'.textarea__toolbar'
+		);
+		const richtextToggle: HTMLSpanElement = document.querySelector(
+			'.textarea__richtextToggle'
+		);
+		const textarea: any = textareaRef.current;
+		if (isRichtextActive) {
+			toolbar.classList.add('textarea__toolbar--active');
+			richtextToggle.classList.add('textarea__richtextToggle--active');
+			textarea.classList.add('textarea__input--activeRichtext');
+		} else {
+			toolbar.classList.remove('textarea__toolbar--active');
+			richtextToggle.classList.remove('textarea__richtextToggle--active');
+			textarea.classList.remove('textarea__input--activeRichtext');
+		}
+	}, [isRichtextActive]);
 
 	useEffect(() => {
 		resizeTextarea();
@@ -355,6 +376,9 @@ export const MessageSubmitInterfaceComponent = (
 	const resizeTextarea = () => {
 		const textarea: any = textareaRef.current;
 		const featureWrapper: any = featureWrapperRef.current;
+		const richtextEditor: HTMLDivElement = document.querySelector(
+			'.DraftEditor-root'
+		);
 
 		resetTextareaSize(textarea);
 
@@ -366,9 +390,14 @@ export const MessageSubmitInterfaceComponent = (
 		}
 
 		const fileHeight = 44;
-		const textHeight = attachmentSelected
-			? textarea.scrollHeight + fileHeight
-			: textarea.scrollHeight;
+		const richtextHeight = 37;
+
+		let textHeight = textarea.scrollHeight;
+		textHeight = attachmentSelected ? textHeight + fileHeight : textHeight;
+		textHeight = isRichtextActive
+			? textHeight + richtextHeight
+			: textHeight;
+
 		if (textHeight <= maxHeight) {
 			textarea.setAttribute(
 				'style',
@@ -420,6 +449,9 @@ export const MessageSubmitInterfaceComponent = (
 				'min-height: ' + maxHeight + 'px;'
 			);
 		}
+		attachmentSelected
+			? (richtextEditor.style.paddingBottom = fileHeight + 'px')
+			: (richtextEditor.style.paddingBottom = '14px');
 	};
 
 	const resetTextareaSize = (textarea) => {
@@ -685,25 +717,32 @@ export const MessageSubmitInterfaceComponent = (
 							ref={featureWrapperRef}
 							className="textarea__featureWrapper"
 						>
+							<span
+								className="textarea__richtextToggle"
+								onClick={() =>
+									setIsRichtextActive(!isRichtextActive)
+								}
+							>
+								<svg
+									width="20"
+									height="20"
+									viewBox="0 0 40 40"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M0 4.10527V2C0 0.895431 0.895432 0 2 0H25.3684C26.473 0 27.3684 0.895428 27.3684 2V4.10526C27.3684 5.20983 26.473 6.10526 25.3684 6.10526H16.8421V21.0596C16.8421 21.4002 16.7551 21.7351 16.5895 22.0327L12.007 30.2617C11.916 30.4251 11.7438 30.5263 11.5568 30.5263C10.9877 30.5263 10.5263 30.0649 10.5263 29.4958V6.10526H2C0.895431 6.10526 0 5.20984 0 4.10527Z"
+										fill="black"
+									/>
+									<path
+										d="M27.4711 27.5444C27.1679 27.8731 26.677 27.9334 26.2889 27.7112L21.2284 24.8139C20.8359 24.5892 20.6399 24.1282 20.7778 23.6976C21.2865 22.1088 22.1072 20.4495 23.2396 18.7229C24.9256 16.1469 27.9416 11.7481 32.2858 5.52718C33.254 4.1402 35.1717 3.79366 36.5691 4.75314C37.8073 5.60327 38.2429 7.21781 37.5986 8.5689C34.3339 15.4219 32.0021 20.2109 30.5993 22.9352C29.6538 24.7722 28.611 26.3086 27.4711 27.5444ZM18.9262 27.4276L25.152 30.9907L23.734 34.7247L15.7895 40L16.3738 30.5107L18.9262 27.4276Z"
+										fill="black"
+									/>
+								</svg>
+							</span>
 							<EmojiSelect />
 						</span>
 						<span className="textarea__inputWrapper">
-							{/* <textarea
-								ref={textareaRef}
-								onFocus={toggleAbsentMessage}
-								onBlur={toggleAbsentMessage}
-								onKeyUp={resizeTextarea}
-								onChange={
-                                    isGroupChat ? () => props.isTyping() : null
-								}
-								id={props.textareaId}
-								name={props.textareaName}
-								className={
-									props.textareaClass + ` textarea__input`
-								}
-								placeholder={placeholder}
-								maxLength={7500}
-							></textarea> */}
 							<div
 								className={
 									props.textareaClass + ` textarea__input`
