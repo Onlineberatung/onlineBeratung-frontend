@@ -1,3 +1,5 @@
+$emoji-popover-height: 433px;
+
 .textarea__outerWrapper {
 	.emoji__select {
 		display: inline-block;
@@ -42,7 +44,7 @@
 		margin-top: 10px;
 		padding: 0 0.3em;
 		position: absolute;
-		bottom: 115px; // needs to be adjusted on textarea resize
+		top: -$emoji-popover-height;
 		left: 0;
 		z-index: 1000;
 		box-sizing: content-box;
