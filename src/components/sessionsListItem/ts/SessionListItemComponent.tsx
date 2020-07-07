@@ -147,11 +147,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					</div>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__subject">
-							{
-								listItem.lastMessage
-									? plainTextLastMessage
-									: defaultSubjectText /*HTML RENDER*/
-							}
+							{listItem.lastMessage
+								? plainTextLastMessage
+								: defaultSubjectText}
 						</div>
 						{listItem.attachment ? (
 							<div className="sessionsListItem__subject">

@@ -1,3 +1,5 @@
+import { DraftHandleValue } from 'draft-js';
+
 export const emojiPickerCustomClasses = {
 	emojiSelect: 'emoji__select',
 	emojiSelectButton: 'emoji__selectButton',
@@ -37,5 +39,28 @@ export const toolbarCustomClasses = {
 	buttonStyles: {
 		button: 'textarea__toolbar__button',
 		active: 'textarea__toolbar__button--active'
+	}
+};
+
+export const INPUT_MAX_LENGTH = 10;
+
+export const handleEditorBeforeInput = (editorState): DraftHandleValue => {
+	const currentContent = editorState.getCurrentContent();
+	const currentContentLength = currentContent.getPlainText('').length;
+
+	if (currentContentLength > INPUT_MAX_LENGTH - 1) {
+		return 'handled';
+	}
+};
+
+export const handleEditorPastedText = (
+	editorState,
+	pastedText
+): DraftHandleValue => {
+	const currentContent = editorState.getCurrentContent();
+	const currentContentLength = currentContent.getPlainText('').length;
+
+	if (currentContentLength + pastedText.length > INPUT_MAX_LENGTH) {
+		return 'handled';
 	}
 };

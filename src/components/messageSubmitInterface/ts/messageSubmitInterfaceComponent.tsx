@@ -55,10 +55,10 @@ import {
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import {
 	emojiPickerCustomClasses,
-	toolbarCustomClasses
+	toolbarCustomClasses,
+	handleEditorBeforeInput,
+	handleEditorPastedText
 } from './richtextHelpers';
-
-const INPUT_MAX_LENGTH = 7500;
 
 //Linkify Plugin
 const linkifyPlugin = createLinkifyPlugin();
@@ -208,7 +208,6 @@ export const MessageSubmitInterfaceComponent = (
 	const [attachmentSelected, setAttachmentSelected] = useState(null);
 	const [uploadProgress, setUploadProgress] = useState(null);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [removeText, setRemoveText] = useState(false);
 	const [attachmentUpload, setAttachmentUpload] = useState(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
@@ -240,15 +239,12 @@ export const MessageSubmitInterfaceComponent = (
 		const richtextToggle: HTMLSpanElement = document.querySelector(
 			'.textarea__richtextToggle'
 		);
-		const textarea: any = textareaRef.current;
 		if (isRichtextActive) {
 			toolbar.classList.add('textarea__toolbar--active');
 			richtextToggle.classList.add('textarea__richtextToggle--active');
-			textarea.classList.add('textarea__input--activeRichtext');
 		} else {
 			toolbar.classList.remove('textarea__toolbar--active');
 			richtextToggle.classList.remove('textarea__richtextToggle--active');
-			textarea.classList.remove('textarea__input--activeRichtext');
 		}
 	}, [isRichtextActive]);
 
@@ -270,13 +266,6 @@ export const MessageSubmitInterfaceComponent = (
 			);
 		}
 	}, [uploadProgress]);
-
-	useEffect(() => {
-		if (removeText) {
-			emptyTextarea();
-			setRemoveText(false);
-		}
-	}, [removeText]);
 
 	useEffect(() => {
 		if (attachmentUpload) {
@@ -316,23 +305,23 @@ export const MessageSubmitInterfaceComponent = (
 		return 'not-handled';
 	};
 
-	const handleEditorBeforeInput = (): DraftHandleValue => {
-		const currentContent = editorState.getCurrentContent();
-		const currentContentLength = currentContent.getPlainText('').length;
+	// const handleEditorBeforeInput = (): DraftHandleValue => {
+	// 	const currentContent = editorState.getCurrentContent();
+	// 	const currentContentLength = currentContent.getPlainText('').length;
 
-		if (currentContentLength > INPUT_MAX_LENGTH - 1) {
-			return 'handled';
-		}
-	};
+	// 	if (currentContentLength > INPUT_MAX_LENGTH - 1) {
+	// 		return 'handled';
+	// 	}
+	// };
 
-	const handleEditorPastedText = (pastedText): DraftHandleValue => {
-		const currentContent = editorState.getCurrentContent();
-		const currentContentLength = currentContent.getPlainText('').length;
+	// const handleEditorPastedText = (pastedText): DraftHandleValue => {
+	// 	const currentContent = editorState.getCurrentContent();
+	// 	const currentContentLength = currentContent.getPlainText('').length;
 
-		if (currentContentLength + pastedText.length > INPUT_MAX_LENGTH) {
-			return 'handled';
-		}
-	};
+	// 	if (currentContentLength + pastedText.length > INPUT_MAX_LENGTH) {
+	// 		return 'handled';
+	// 	}
+	// };
 
 	const resizeTextarea = () => {
 		const textarea: any = textareaRef.current;
@@ -457,7 +446,7 @@ export const MessageSubmitInterfaceComponent = (
 					if (response === 'emptyMessage') {
 						return null;
 					}
-					setRemoveText(true);
+					setEditorState(EditorState.createEmpty());
 					props.handleSendButton();
 				})
 				.catch((error) => {
@@ -542,7 +531,7 @@ export const MessageSubmitInterfaceComponent = (
 		}
 		setTimeout(() => setIsRequestInProgress(false), 1200);
 		if (deleteText) {
-			setRemoveText(true);
+			setEditorState(EditorState.createEmpty());
 		}
 	};
 
@@ -625,10 +614,6 @@ export const MessageSubmitInterfaceComponent = (
 		return infoData;
 	};
 
-	const emptyTextarea = () => {
-		setEditorState(EditorState.createEmpty());
-	};
-
 	const hasUploadFunctionality =
 		!typeIsEnquiry(props.type) ||
 		(typeIsEnquiry(props.type) &&
@@ -705,9 +690,13 @@ export const MessageSubmitInterfaceComponent = (
 						</span>
 						<span className="textarea__inputWrapper">
 							<div
-								className={
-									props.textareaClass + ` textarea__input`
-								}
+								className={`textarea__input ${
+									props.textareaClass
+								} ${
+									isRichtextActive
+										? 'textarea__input--activeRichtext'
+										: ''
+								}`}
 								ref={textareaRef}
 								onKeyUp={resizeTextarea}
 								onFocus={toggleAbsentMessage}
@@ -720,8 +709,15 @@ export const MessageSubmitInterfaceComponent = (
 									onChange={handleEditorChange}
 									handleKeyCommand={handleEditorKeyCommand}
 									placeholder={placeholder}
-									handleBeforeInput={handleEditorBeforeInput}
-									handlePastedText={handleEditorPastedText}
+									handleBeforeInput={() =>
+										handleEditorBeforeInput(editorState)
+									}
+									handlePastedText={(pastedText) =>
+										handleEditorPastedText(
+											editorState,
+											pastedText
+										)
+									}
 									ref={(element) => {
 										this.editor = element;
 									}}
