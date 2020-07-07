@@ -185,7 +185,11 @@ $inputShadowColor: rgba(0, 0, 0, 0.1);
 			justify-content: center;
 			width: $grid-base-three;
 			height: $grid-base-three;
-			margin-bottom: 12px;
+			margin-bottom: $grid-base;
+
+			@include breakpoint($fromLarge) {
+				margin-bottom: 12px;
+			}
 
 			svg {
 				cursor: pointer;
