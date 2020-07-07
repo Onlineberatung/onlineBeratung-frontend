@@ -42,7 +42,7 @@ export const toolbarCustomClasses = {
 	}
 };
 
-export const INPUT_MAX_LENGTH = 10;
+export const INPUT_MAX_LENGTH = 7500;
 
 export const handleEditorBeforeInput = (editorState): DraftHandleValue => {
 	const currentContent = editorState.getCurrentContent();

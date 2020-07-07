@@ -305,24 +305,6 @@ export const MessageSubmitInterfaceComponent = (
 		return 'not-handled';
 	};
 
-	// const handleEditorBeforeInput = (): DraftHandleValue => {
-	// 	const currentContent = editorState.getCurrentContent();
-	// 	const currentContentLength = currentContent.getPlainText('').length;
-
-	// 	if (currentContentLength > INPUT_MAX_LENGTH - 1) {
-	// 		return 'handled';
-	// 	}
-	// };
-
-	// const handleEditorPastedText = (pastedText): DraftHandleValue => {
-	// 	const currentContent = editorState.getCurrentContent();
-	// 	const currentContentLength = currentContent.getPlainText('').length;
-
-	// 	if (currentContentLength + pastedText.length > INPUT_MAX_LENGTH) {
-	// 		return 'handled';
-	// 	}
-	// };
-
 	const resizeTextarea = () => {
 		const textarea: any = textareaRef.current;
 		const featureWrapper: any = featureWrapperRef.current;
