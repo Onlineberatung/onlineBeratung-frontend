@@ -30,5 +30,5 @@ export const redirectToErrorPage = (error: number) => {
 			redirect = config.endpoints.error404;
 			break;
 	}
-	logout(redirect);
+	logout(true, redirect);
 };

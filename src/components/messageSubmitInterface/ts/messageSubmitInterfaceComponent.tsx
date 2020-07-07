@@ -33,7 +33,8 @@ import {
 	isPDFAttachment,
 	isDOCXAttachment,
 	getAttachmentSizeMBForKB,
-	isXLSXAttachment
+	isXLSXAttachment,
+	ATTACHMENT_MAX_SIZE_IN_MB
 } from './attachmentHelpers';
 import { TypingIndicator } from '../../typingIndicator/ts/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
@@ -566,7 +567,7 @@ export const MessageSubmitInterfaceComponent = (
 		const attachmentInput: any = attachmentInputRef.current;
 		const attachment = attachmentInput.files[0];
 		const attachmentSizeMB = getAttachmentSizeMBForKB(attachment.size);
-		attachmentSizeMB > 5
+		attachmentSizeMB > ATTACHMENT_MAX_SIZE_IN_MB
 			? handleLargeAttachments()
 			: displayAttachmentToUpload(attachment);
 	};

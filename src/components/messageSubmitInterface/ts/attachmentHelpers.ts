@@ -32,6 +32,8 @@ export const isDOCXAttachment = (type: string) =>
 export const isXLSXAttachment = (type: string) =>
 	type === ATTACHMENT_TYPE_FOR_KEY.XLSX;
 
+export const ATTACHMENT_MAX_SIZE_IN_MB = 5;
+
 export const getAttachmentSizeMBForKB = (attachmentSizeKB: number) => {
-	return parseInt((attachmentSizeKB / Math.pow(1000, 2)).toFixed(2));
+	return parseInt(Math.ceil(attachmentSizeKB / Math.pow(1000, 2)).toFixed(2));
 };
