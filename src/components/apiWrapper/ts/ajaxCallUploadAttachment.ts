@@ -3,14 +3,15 @@ import { FETCH_METHODS } from './fetchData';
 import { getTokenFromCookie } from '../../sessionCookie/ts/accessSessionCookie';
 import { generateCsrfToken } from '../../../resources/ts/helpers/generateCsrfToken';
 
-export const ajaxCallUploadAttachment = async (
+export const ajaxCallUploadAttachment = (
 	messageData: string,
 	attachment: File,
 	rcGroupId: string,
 	isFeedback: boolean,
 	sendMailNotification: boolean,
-	uploadProgress: Function
-): Promise<any> => {
+	uploadProgress: Function,
+	onLoadHandling: Function
+) => {
 	const accessToken = getTokenFromCookie('keycloak');
 	const rcAuthToken = getTokenFromCookie('rc_token');
 	const rcUid = getTokenFromCookie('rc_uid');
@@ -31,6 +32,10 @@ export const ajaxCallUploadAttachment = async (
 	xhr.upload.onprogress = (e) => {
 		let percentUpload = Math.ceil((100 * e.loaded) / e.total);
 		uploadProgress(percentUpload);
+	};
+
+	xhr.onload = (e) => {
+		onLoadHandling(e.target);
 	};
 
 	xhr.open(FETCH_METHODS.POST, url, true);
