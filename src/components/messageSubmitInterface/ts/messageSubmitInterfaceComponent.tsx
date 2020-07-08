@@ -2,11 +2,9 @@ import * as React from 'react';
 import { useState, useEffect, useContext } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
-	getTypedMessage,
 	typeIsEnquiry,
 	isGroupChatForSessionItem
 } from '../../session/ts/sessionHelpers';
-import { initEmoji } from '../../initEmoji/ts/initEmoji';
 import { Checkbox, CheckboxItem } from '../../checkbox/ts/Checkbox';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { UserDataContext } from '../../../globalState/provider/UserDataProvider';
@@ -39,6 +37,63 @@ import {
 	ATTACHMENT_MAX_SIZE_IN_MB
 } from './attachmentHelpers';
 import { TypingIndicator } from '../../typingIndicator/ts/typingIndicator';
+import PluginsEditor from 'draft-js-plugins-editor';
+import {
+	EditorState,
+	RichUtils,
+	DraftHandleValue,
+	convertToRaw
+} from 'draft-js';
+import { draftToMarkdown } from 'markdown-draft-js';
+import createLinkifyPlugin from 'draft-js-linkify-plugin';
+import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
+import {
+	ItalicButton,
+	BoldButton,
+	UnorderedListButton
+} from 'draft-js-buttons';
+import createEmojiPlugin from 'draft-js-emoji-plugin';
+import {
+	emojiPickerCustomClasses,
+	toolbarCustomClasses,
+	handleEditorBeforeInput,
+	handleEditorPastedText
+} from './richtextHelpers';
+
+//Linkify Plugin
+const linkifyPlugin = createLinkifyPlugin();
+
+//Static Toolbar Plugin
+const staticToolbarPlugin = createToolbarPlugin({
+	theme: toolbarCustomClasses
+});
+const { Toolbar } = staticToolbarPlugin;
+
+//Emoji Picker Plugin
+const emojiSelectButtonIcon = (
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		xmlnsXlink="http://www.w3.org/1999/xlink"
+		width="20"
+		height="20"
+		viewBox="0 0 72 72"
+	>
+		<defs>
+			<path
+				id="smiley-positive-a"
+				d="M61.9805542,20.9445849 C64.6640739,25.5411239 66,30.5576512 66,36 C66,41.448182 64.6640739,46.4588761 61.9805542,51.0612483 C59.3028683,55.6519541 55.6567817,59.291853 51.0656296,61.9751118 C46.4686437,64.6525374 41.4457948,66 36.0029169,66 C30.5600389,66 25.5430238,64.6525374 20.9460379,61.9751118 C16.349052,59.291853 12.7087992,55.6519541 10.0252795,51.0612483 C7.34759358,46.4588761 6,41.448182 6,36 C6,30.5576512 7.34759358,25.5411239 10.0252795,20.9445849 C12.7087992,16.3480459 16.349052,12.708147 20.9460379,10.0248882 C25.5430238,7.3416294 30.5600389,6 36.0029169,6 C41.4457948,6 46.4686437,7.3416294 51.0656296,10.0248882 C55.6567817,12.708147 59.3028683,16.3480459 61.9805542,20.9445849 Z M49.5371901,22.4670426 C48.5629558,21.492903 47.3845406,21.0029166 46.0077783,21.0029166 C44.6251823,21.0029166 43.4409334,21.492903 42.4666991,22.4670426 C41.4924648,23.4411822 41.0024307,24.625316 41.0024307,26.0019444 C41.0024307,27.384406 41.4924648,28.5568734 42.4666991,29.5368462 C43.4409334,30.5109858 44.6251823,31.0009722 46.0077783,31.0009722 C47.3845406,31.0009722 48.5629558,30.5109858 49.5371901,29.5368462 C50.5172581,28.5568734 51.0072922,27.384406 51.0072922,26.0019444 C51.0072922,24.625316 50.5172581,23.4411822 49.5371901,22.4670426 Z M46.5010664,51.8039389 C49.6021218,49.5350946 51.7199157,46.5443453 52.8544481,42.8385663 C53.0951065,42.061659 53.0400989,41.3191282 52.6687974,40.5972232 C52.3043718,39.8821934 51.7336676,39.4009234 50.9635607,39.1465379 C50.1934538,38.8990276 49.4439748,38.9677804 48.7082477,39.3321706 C47.9725206,39.6965607 47.4843279,40.28096 47.2367935,41.0853684 C46.4666867,43.5329702 45.0502401,45.5199277 42.9737019,47.0462412 C40.9040397,48.5656793 38.5799672,49.3219608 36.0014844,49.3219608 C33.4230015,49.3219608 31.098929,48.5656793 29.0292668,47.0462412 C26.9527286,45.5199277 25.5362821,43.5329702 24.7661752,41.0853684 C24.5186408,40.28096 24.0304481,39.6965607 23.3153489,39.3321706 C22.5933737,38.9677804 21.8507706,38.8990276 21.0806637,39.1465379 C20.289929,39.4009234 19.7054729,39.8821934 19.3341714,40.5972232 C18.9628698,41.3191282 18.9009863,42.061659 19.1485206,42.8385663 C20.289929,46.5443453 22.4008469,49.5350946 25.5019023,51.8039389 C28.6029576,54.0796585 32.1028183,55.2140806 36.0014844,55.2140806 C39.9001504,55.2140806 43.4000111,54.0796585 46.5010664,51.8039389 Z M30.9975693,26.0019444 C30.9975693,24.625316 30.513369,23.4411822 29.5391347,22.4670426 C28.5590666,21.492903 27.3806514,21.0029166 26.0038892,21.0029166 C24.6212931,21.0029166 23.442878,21.492903 22.4628099,22.4670426 C21.4885756,23.4411822 20.9985416,24.625316 20.9985416,26.0019444 C20.9985416,27.384406 21.4885756,28.5568734 22.4628099,29.5368462 C23.442878,30.5109858 24.6212931,31.0009722 26.0038892,31.0009722 C27.3806514,31.0009722 28.5590666,30.5109858 29.5391347,29.5368462 C30.513369,28.5568734 30.9975693,27.384406 30.9975693,26.0019444 Z"
+			/>
+		</defs>
+		<use xlinkHref="#smiley-positive-a" />
+	</svg>
+);
+
+const emojiPlugin = createEmojiPlugin({
+	theme: emojiPickerCustomClasses,
+	useNativeArt: true,
+	selectButtonContent: emojiSelectButtonIcon
+});
+const { EmojiSelect } = emojiPlugin;
 
 const checkboxItem: CheckboxItem = {
 	inputId: 'requestFeedback',
@@ -141,12 +196,11 @@ export interface MessageSubmitInterfaceComponentProps
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
-	let textareaRef: React.RefObject<HTMLTextAreaElement> = React.createRef();
-	let emojiRef: React.RefObject<HTMLSpanElement> = React.createRef();
-	let attachmentInputRef: React.RefObject<HTMLInputElement> = React.createRef();
+	let textareaRef: React.RefObject<HTMLDivElement> = React.useRef();
+	let featureWrapperRef: React.RefObject<HTMLSpanElement> = React.useRef();
+	let attachmentInputRef: React.RefObject<HTMLInputElement> = React.useRef();
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
-	const [emojiActive, setEmojiActive] = useState(false);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
@@ -156,8 +210,9 @@ export const MessageSubmitInterfaceComponent = (
 	const [uploadProgress, setUploadProgress] = useState(null);
 	const [uploadOnLoadHandling, setUploadOnLoadHandling] = useState(null);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [removeText, setRemoveText] = useState(false);
 	const [attachmentUpload, setAttachmentUpload] = useState(null);
+	const [editorState, setEditorState] = useState(EditorState.createEmpty());
+	const [isRichtextActive, setIsRichtextActive] = useState(false);
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -168,7 +223,6 @@ export const MessageSubmitInterfaceComponent = (
 		activeSession?.consultant?.absent;
 
 	useEffect(() => {
-		initEmoji('emoji', props.textareaId);
 		isConsultantAbsent ? setActiveInfo(INFO_TYPES.ABSENT) : null;
 	}, []);
 
@@ -177,6 +231,23 @@ export const MessageSubmitInterfaceComponent = (
 			? setActiveInfo(INFO_TYPES.ABSENT)
 			: null;
 	}, [activeInfo]);
+
+	useEffect(() => {
+		resizeTextarea();
+		const toolbar: HTMLDivElement = document.querySelector(
+			'.textarea__toolbar'
+		);
+		const richtextToggle: HTMLSpanElement = document.querySelector(
+			'.textarea__richtextToggle'
+		);
+		if (isRichtextActive) {
+			toolbar.classList.add('textarea__toolbar--active');
+			richtextToggle.classList.add('textarea__richtextToggle--active');
+		} else {
+			toolbar.classList.remove('textarea__toolbar--active');
+			richtextToggle.classList.remove('textarea__richtextToggle--active');
+		}
+	}, [isRichtextActive]);
 
 	useEffect(() => {
 		resizeTextarea();
@@ -196,13 +267,6 @@ export const MessageSubmitInterfaceComponent = (
 			);
 		}
 	}, [uploadProgress]);
-
-	useEffect(() => {
-		if (removeText) {
-			emptyTextarea();
-			setRemoveText(false);
-		}
-	}, [removeText]);
 
 	useEffect(() => {
 		if (uploadOnLoadHandling) {
@@ -226,9 +290,26 @@ export const MessageSubmitInterfaceComponent = (
 		setTimeout(() => setIsRequestInProgress(false), 1200);
 	};
 
+	const handleEditorChange = (editorState) => {
+		isGroupChat ? props.isTyping() : null;
+		setEditorState(editorState);
+	};
+
+	const handleEditorKeyCommand = (command) => {
+		const newState = RichUtils.handleKeyCommand(editorState, command);
+		if (newState) {
+			handleEditorChange(newState);
+			return 'handled';
+		}
+		return 'not-handled';
+	};
+
 	const resizeTextarea = () => {
 		const textarea: any = textareaRef.current;
-		const emojiWrapper: any = emojiRef.current;
+		const featureWrapper: any = featureWrapperRef.current;
+		const richtextEditor: HTMLDivElement = document.querySelector(
+			'.DraftEditor-root'
+		);
 
 		resetTextareaSize(textarea);
 
@@ -240,9 +321,14 @@ export const MessageSubmitInterfaceComponent = (
 		}
 
 		const fileHeight = 44;
-		const textHeight = attachmentSelected
-			? textarea.scrollHeight + fileHeight
-			: textarea.scrollHeight;
+		const richtextHeight = 37;
+
+		let textHeight = textarea.scrollHeight;
+		textHeight = attachmentSelected ? textHeight + fileHeight : textHeight;
+		textHeight = isRichtextActive
+			? textHeight + richtextHeight
+			: textHeight;
+
 		if (textHeight <= maxHeight) {
 			textarea.setAttribute(
 				'style',
@@ -264,7 +350,7 @@ export const MessageSubmitInterfaceComponent = (
 							'px;' +
 							' overflow-y: hidden;'
 				  );
-			emojiWrapper.setAttribute(
+			featureWrapper.setAttribute(
 				'style',
 				'min-height: ' + textHeight + 'px;'
 			);
@@ -289,22 +375,25 @@ export const MessageSubmitInterfaceComponent = (
 							'px;' +
 							' overflow-y: scroll;'
 				  );
-			emojiWrapper.setAttribute(
+			featureWrapper.setAttribute(
 				'style',
 				'min-height: ' + maxHeight + 'px;'
 			);
 		}
+		attachmentSelected
+			? (richtextEditor.style.paddingBottom = fileHeight + 'px')
+			: (richtextEditor.style.paddingBottom = '14px');
 	};
 
 	const resetTextareaSize = (textarea) => {
-		const emojiWrapper: any = emojiRef.current;
+		const featureWrapper: any = featureWrapperRef.current;
 
 		if (window.innerWidth <= 900) {
 			textarea.setAttribute('style', 'min-height: 87px;');
-			emojiWrapper.setAttribute('style', 'min-height: 87px;');
+			featureWrapper.setAttribute('style', 'min-height: 87px;');
 		} else {
 			textarea.setAttribute('style', 'min-height: 106px;');
-			emojiWrapper.setAttribute('style', 'min-height: 106px;');
+			featureWrapper.setAttribute('style', 'min-height: 106px;');
 		}
 	};
 
@@ -316,6 +405,17 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
+	const handleTextareaClick = () => {
+		this.editor.focus();
+	};
+
+	const getTypedMarkdownMessage = () => {
+		const contentState = editorState.getCurrentContent();
+		const rawObject = convertToRaw(contentState);
+		const markdownString = draftToMarkdown(rawObject);
+		return markdownString.trim();
+	};
+
 	const handleButtonClick = (event) => {
 		if (uploadProgress || isRequestInProgress) {
 			return null;
@@ -323,7 +423,7 @@ export const MessageSubmitInterfaceComponent = (
 
 		const attachmentInput: any = attachmentInputRef.current;
 		const attachment = attachmentInput.files[0];
-		if (getTypedMessage() || attachment) {
+		if (getTypedMarkdownMessage() || attachment) {
 			setIsRequestInProgress(true);
 		} else {
 			return null;
@@ -333,9 +433,9 @@ export const MessageSubmitInterfaceComponent = (
 			typeIsEnquiry(props.type) &&
 			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
 		) {
-			ajaxSendEnquiry(getTypedMessage())
+			ajaxSendEnquiry(getTypedMarkdownMessage())
 				.then((response) => {
-					setRemoveText(true);
+					setEditorState(EditorState.createEmpty());
 					props.handleSendButton();
 				})
 				.catch((error) => {
@@ -354,7 +454,7 @@ export const MessageSubmitInterfaceComponent = (
 			if (attachment) {
 				setAttachmentUpload(
 					ajaxCallUploadAttachment(
-						getTypedMessage(),
+						getTypedMarkdownMessage(),
 						attachment,
 						sendToRoomWithId,
 						sendToFeedbackEndpoint,
@@ -364,9 +464,9 @@ export const MessageSubmitInterfaceComponent = (
 					)
 				);
 			} else {
-				if (getTypedMessage()) {
+				if (getTypedMarkdownMessage()) {
 					ajaxSendMessage(
-						getTypedMessage(),
+						getTypedMarkdownMessage(),
 						sendToRoomWithId,
 						sendToFeedbackEndpoint,
 						getSendMailNotificationStatus()
@@ -395,7 +495,7 @@ export const MessageSubmitInterfaceComponent = (
 				);
 			}, 700);
 		}
-		setRemoveText(true);
+		setEditorState(EditorState.createEmpty());
 		setActiveInfo(null);
 		setTimeout(() => setIsRequestInProgress(false), 1200);
 	};
@@ -491,12 +591,6 @@ export const MessageSubmitInterfaceComponent = (
 		return infoData;
 	};
 
-	const emptyTextarea = () => {
-		const textarea: any = textareaRef.current;
-		textarea.value = '';
-		resetTextareaSize(textarea);
-	};
-
 	const hasUploadFunctionality =
 		!typeIsEnquiry(props.type) ||
 		(typeIsEnquiry(props.type) &&
@@ -543,48 +637,85 @@ export const MessageSubmitInterfaceComponent = (
 					) : null}
 					<div className={props.wrapperClass + ` textarea__wrapper`}>
 						<span
-							ref={emojiRef}
-							id="emoji"
-							className={`textarea__emojiWrapper ${
-								emojiActive
-									? 'textarea__emojiWrapper--active'
-									: ''
-							}`}
-							onClick={() => setEmojiActive(true)}
+							ref={featureWrapperRef}
+							className="textarea__featureWrapper"
 						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								xmlnsXlink="http://www.w3.org/1999/xlink"
-								width="20"
-								height="20"
-								viewBox="0 0 72 72"
+							<span
+								className="textarea__richtextToggle"
+								onClick={() =>
+									setIsRichtextActive(!isRichtextActive)
+								}
 							>
-								<defs>
+								<svg
+									width="20"
+									height="20"
+									viewBox="0 0 40 40"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
 									<path
-										id="smiley-positive-a"
-										d="M61.9805542,20.9445849 C64.6640739,25.5411239 66,30.5576512 66,36 C66,41.448182 64.6640739,46.4588761 61.9805542,51.0612483 C59.3028683,55.6519541 55.6567817,59.291853 51.0656296,61.9751118 C46.4686437,64.6525374 41.4457948,66 36.0029169,66 C30.5600389,66 25.5430238,64.6525374 20.9460379,61.9751118 C16.349052,59.291853 12.7087992,55.6519541 10.0252795,51.0612483 C7.34759358,46.4588761 6,41.448182 6,36 C6,30.5576512 7.34759358,25.5411239 10.0252795,20.9445849 C12.7087992,16.3480459 16.349052,12.708147 20.9460379,10.0248882 C25.5430238,7.3416294 30.5600389,6 36.0029169,6 C41.4457948,6 46.4686437,7.3416294 51.0656296,10.0248882 C55.6567817,12.708147 59.3028683,16.3480459 61.9805542,20.9445849 Z M49.5371901,22.4670426 C48.5629558,21.492903 47.3845406,21.0029166 46.0077783,21.0029166 C44.6251823,21.0029166 43.4409334,21.492903 42.4666991,22.4670426 C41.4924648,23.4411822 41.0024307,24.625316 41.0024307,26.0019444 C41.0024307,27.384406 41.4924648,28.5568734 42.4666991,29.5368462 C43.4409334,30.5109858 44.6251823,31.0009722 46.0077783,31.0009722 C47.3845406,31.0009722 48.5629558,30.5109858 49.5371901,29.5368462 C50.5172581,28.5568734 51.0072922,27.384406 51.0072922,26.0019444 C51.0072922,24.625316 50.5172581,23.4411822 49.5371901,22.4670426 Z M46.5010664,51.8039389 C49.6021218,49.5350946 51.7199157,46.5443453 52.8544481,42.8385663 C53.0951065,42.061659 53.0400989,41.3191282 52.6687974,40.5972232 C52.3043718,39.8821934 51.7336676,39.4009234 50.9635607,39.1465379 C50.1934538,38.8990276 49.4439748,38.9677804 48.7082477,39.3321706 C47.9725206,39.6965607 47.4843279,40.28096 47.2367935,41.0853684 C46.4666867,43.5329702 45.0502401,45.5199277 42.9737019,47.0462412 C40.9040397,48.5656793 38.5799672,49.3219608 36.0014844,49.3219608 C33.4230015,49.3219608 31.098929,48.5656793 29.0292668,47.0462412 C26.9527286,45.5199277 25.5362821,43.5329702 24.7661752,41.0853684 C24.5186408,40.28096 24.0304481,39.6965607 23.3153489,39.3321706 C22.5933737,38.9677804 21.8507706,38.8990276 21.0806637,39.1465379 C20.289929,39.4009234 19.7054729,39.8821934 19.3341714,40.5972232 C18.9628698,41.3191282 18.9009863,42.061659 19.1485206,42.8385663 C20.289929,46.5443453 22.4008469,49.5350946 25.5019023,51.8039389 C28.6029576,54.0796585 32.1028183,55.2140806 36.0014844,55.2140806 C39.9001504,55.2140806 43.4000111,54.0796585 46.5010664,51.8039389 Z M30.9975693,26.0019444 C30.9975693,24.625316 30.513369,23.4411822 29.5391347,22.4670426 C28.5590666,21.492903 27.3806514,21.0029166 26.0038892,21.0029166 C24.6212931,21.0029166 23.442878,21.492903 22.4628099,22.4670426 C21.4885756,23.4411822 20.9985416,24.625316 20.9985416,26.0019444 C20.9985416,27.384406 21.4885756,28.5568734 22.4628099,29.5368462 C23.442878,30.5109858 24.6212931,31.0009722 26.0038892,31.0009722 C27.3806514,31.0009722 28.5590666,30.5109858 29.5391347,29.5368462 C30.513369,28.5568734 30.9975693,27.384406 30.9975693,26.0019444 Z"
+										d="M0 4.10527V2C0 0.895431 0.895432 0 2 0H25.3684C26.473 0 27.3684 0.895428 27.3684 2V4.10526C27.3684 5.20983 26.473 6.10526 25.3684 6.10526H16.8421V21.0596C16.8421 21.4002 16.7551 21.7351 16.5895 22.0327L12.007 30.2617C11.916 30.4251 11.7438 30.5263 11.5568 30.5263C10.9877 30.5263 10.5263 30.0649 10.5263 29.4958V6.10526H2C0.895431 6.10526 0 5.20984 0 4.10527Z"
+										fill="black"
 									/>
-								</defs>
-								<use xlinkHref="#smiley-positive-a" />
-							</svg>
+									<path
+										d="M27.4711 27.5444C27.1679 27.8731 26.677 27.9334 26.2889 27.7112L21.2284 24.8139C20.8359 24.5892 20.6399 24.1282 20.7778 23.6976C21.2865 22.1088 22.1072 20.4495 23.2396 18.7229C24.9256 16.1469 27.9416 11.7481 32.2858 5.52718C33.254 4.1402 35.1717 3.79366 36.5691 4.75314C37.8073 5.60327 38.2429 7.21781 37.5986 8.5689C34.3339 15.4219 32.0021 20.2109 30.5993 22.9352C29.6538 24.7722 28.611 26.3086 27.4711 27.5444ZM18.9262 27.4276L25.152 30.9907L23.734 34.7247L15.7895 40L16.3738 30.5107L18.9262 27.4276Z"
+										fill="black"
+									/>
+								</svg>
+							</span>
+							<EmojiSelect />
 						</span>
 						<span className="textarea__inputWrapper">
-							<textarea
+							<div
+								className={`textarea__input ${
+									props.textareaClass
+								} ${
+									isRichtextActive
+										? 'textarea__input--activeRichtext'
+										: ''
+								}`}
 								ref={textareaRef}
+								onKeyUp={resizeTextarea}
 								onFocus={toggleAbsentMessage}
 								onBlur={toggleAbsentMessage}
-								onKeyUp={resizeTextarea}
-								onChange={
-									isGroupChat ? () => props.isTyping() : null
-								}
+								onClick={handleTextareaClick}
 								id={props.textareaId}
-								name={props.textareaName}
-								className={
-									props.textareaClass + ` textarea__input`
-								}
-								placeholder={placeholder}
-								maxLength={7500}
-							></textarea>
+							>
+								<PluginsEditor
+									editorState={editorState}
+									onChange={handleEditorChange}
+									handleKeyCommand={handleEditorKeyCommand}
+									placeholder={placeholder}
+									handleBeforeInput={() =>
+										handleEditorBeforeInput(editorState)
+									}
+									handlePastedText={(pastedText) =>
+										handleEditorPastedText(
+											editorState,
+											pastedText
+										)
+									}
+									ref={(element) => {
+										this.editor = element;
+									}}
+									plugins={[
+										linkifyPlugin,
+										staticToolbarPlugin,
+										emojiPlugin
+									]}
+								/>
+								<Toolbar>
+									{(externalProps) => (
+										<div className="textarea__toolbar__buttonWrapper">
+											<BoldButton {...externalProps} />
+											<ItalicButton {...externalProps} />
+											<UnorderedListButton
+												{...externalProps}
+											/>
+										</div>
+									)}
+								</Toolbar>
+							</div>
 							{hasUploadFunctionality ? (
 								!attachmentSelected ? (
 									<span className="textarea__attachmentSelect">

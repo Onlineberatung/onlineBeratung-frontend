@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { getSessionsListItemDate } from '../../sessionsListItem/ts/sessionsListItemHelpers';
-import { renderEmoji } from '../../initEmoji/ts/initEmoji';
 import {
 	UserDataContext,
 	ActiveSessionGroupIdContext,
@@ -12,8 +11,7 @@ import {
 } from '../../../globalState';
 import {
 	SESSION_TYPES,
-	getChatItemForSession,
-	isGroupChatForSessionItem
+	getChatItemForSession
 } from '../../session/ts/sessionHelpers';
 import { ForwardIcon } from './actions/ForwardIcon';
 import { MessageMetaData } from './MessageMetaData';
@@ -26,6 +24,9 @@ import {
 	getAttachmentSizeMBForKB
 } from '../../messageSubmitInterface/ts/attachmentHelpers';
 import { tld } from '../../../resources/ts/config';
+import { markdownToDraft } from 'markdown-draft-js';
+import { stateToHTML } from 'draft-js-export-html';
+import { convertFromRaw } from 'draft-js';
 
 export interface MessageItem {
 	id?: number;
@@ -58,9 +59,10 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const renderedMessage = renderEmoji(props.message);
+	const rawMessageObject = markdownToDraft(props.message);
+	const contentStateMessage = convertFromRaw(rawMessageObject);
+	const renderedMessage = stateToHTML(contentStateMessage);
 	const chatItem = getChatItemForSession(activeSession);
-	const isGroupChat = isGroupChatForSessionItem(activeSession);
 
 	const getMessageDate = () => {
 		if (props.messageDate) {
