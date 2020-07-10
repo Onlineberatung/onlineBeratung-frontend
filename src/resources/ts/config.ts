@@ -6,7 +6,7 @@ export const tld = ENDPOINT_URL as string;
 export const config = {
 	endpoints: {
 		enquiries: tld + '/service/users/sessions/consultants?status=1',
-		enquiry: tld + '/service/users/sessions/askers/new',
+		enquiryBase: tld + '/service/users/sessions/',
 		enquiryAcceptance: tld + '/service/users/sessions/new',
 		enquiryAcceptanceRedirect: tld + '/02components.06sessionsList.html',
 		enquirySendConfirmationRedirect:
