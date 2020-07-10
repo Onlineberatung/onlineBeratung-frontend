@@ -8,183 +8,18 @@ import {
 } from '../../../resources/ts/i18n/translate';
 import { UserDataContext } from '../../../globalState';
 import {
-	convertUserDataObjectToArray,
 	getAddictiveDrugsTranslatable,
 	getUserDataTranslateBase
 } from './profileHelpers';
 
 export const ProfileDataViewAsker = () => {
 	const { userData } = useContext(UserDataContext);
-	const userSessionsData = userData.sessionData;
-	// const preparedUserSessionsData = convertUserDataObjectToArray(
-	// 	userSessionsData
-	// );
 
-	const userConsultingTypesData = JSON.parse(
-		`{
-   "userId": "1de5282d-0a06-4152-aed8-1bcec95a3d0d",
-   "userName": "u25asker17",
-   "firstName": null,
-   "lastName": null,
-   "email": null,
-   "absenceMessage": null,
-   "agencies": null,
-   "userRoles": [
-      "offline_access",
-      "uma_authorization",
-      "user"
-   ],
-   "grantedAuthorities": [
-      "AUTHORIZATION_USER_DEFAULT"
-   ],
-   "consultingTypes": {
-      "0": {
-         "isRegistered": true,
-         "sessionData": {
-            "addictiveDrugs": null,
-            "age": null,
-            "gender": null,
-            "relation": null
-         },
-         "agency": {
-            "id": 110,
-            "name": "Sucht Freiburg",
-            "postcode": "79102",
-            "description": null,
-            "teamAgency": true,
-            "offline": false,
-            "consultingType": 0
-         }
-      },
-      "1": {
-         "isRegistered": true,
-         "sessionData": {
-            "age": "3",
-            "gender": "0",
-            "state": "3"
-         },
-         "agency": {
-            "id": 110,
-            "name": "[U25] Freiburg",
-            "postcode": "79102",
-            "description": null,
-            "teamAgency": true,
-            "offline": false,
-            "consultingType": 1
-         }
-      },
-      "2": {
-         "isRegistered": true,
-         "sessionData": null,
-         "agency": null
-      },
-      "3": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "4": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "5": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "6": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "7": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "8": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "9": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "10": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "11": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "12": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "13": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "14": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "15": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "16": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "17": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "18": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      },
-      "19": {
-         "isRegistered": false,
-         "sessionData": null,
-         "agency": null
-      }
-	},
-	"inTeamAgency": false,
-	"absent": false,
-	"formalLanguage": false
-}`
+	const preparedUserData = Object.keys(userData.consultingTypes).map(
+		(key) => {
+			return userData.consultingTypes[key];
+		}
 	);
-
-	// console.log('old data userSessData', userSessionsData);
-	// console.log(
-	// 	'old data preparedUserSessDat',
-	// 	preparedUserSessionsData
-	// );
-
-	console.log('new data mock', userConsultingTypesData);
-
-	const newDataArray = Object.keys(
-		userConsultingTypesData.consultingTypes
-	).map((key) => {
-		return userConsultingTypesData.consultingTypes[key];
-	});
-
-	console.log('new data array', newDataArray);
 
 	return (
 		<div className="profile__content__item profile__data">
@@ -214,7 +49,7 @@ export const ProfileDataViewAsker = () => {
 				</p>
 			</div>
 
-			{newDataArray.map((resort, index) =>
+			{preparedUserData.map((resort, index) =>
 				resort.isRegistered && resort.agency ? (
 					<div className="profile__data__itemWrapper" key={index}>
 						<p className="profile__content__title">
@@ -276,6 +111,7 @@ export const ProfileDataViewAsker = () => {
 							<p className="profile__data__content">
 								{resort.agency.name} <br />
 								{resort.agency.postcode}
+								{' ' + resort.agency.city}
 							</p>
 						</div>
 					</div>
