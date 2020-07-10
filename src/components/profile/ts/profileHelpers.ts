@@ -1,5 +1,4 @@
 export const convertUserDataObjectToArray = (object) => {
-	console.log('convert', object);
 	const array = [];
 	Object.keys(object).map(function (key) {
 		let test = {

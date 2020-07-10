@@ -16,9 +16,9 @@ import {
 export const ProfileDataViewAsker = () => {
 	const { userData } = useContext(UserDataContext);
 	const userSessionsData = userData.sessionData;
-	const preparedUserSessionsData = convertUserDataObjectToArray(
-		userSessionsData
-	);
+	// const preparedUserSessionsData = convertUserDataObjectToArray(
+	// 	userSessionsData
+	// );
 
 	const userConsultingTypesData = JSON.parse(
 		`{
@@ -48,12 +48,12 @@ export const ProfileDataViewAsker = () => {
          },
          "agency": {
             "id": 110,
-            "name": "[U25] Freiburg",
+            "name": "Sucht Freiburg",
             "postcode": "79102",
             "description": null,
             "teamAgency": true,
             "offline": false,
-            "consultingType": 1
+            "consultingType": 0
          }
       },
       "1": {
@@ -170,27 +170,21 @@ export const ProfileDataViewAsker = () => {
 }`
 	);
 
-	console.log('ProfileDataViewAsker userSessData', userSessionsData);
-	console.log(
-		'ProfileDataViewAsker preparedUserSessDat',
-		preparedUserSessionsData
-	);
+	// console.log('old data userSessData', userSessionsData);
+	// console.log(
+	// 	'old data preparedUserSessDat',
+	// 	preparedUserSessionsData
+	// );
 
-	const newData = Object.keys(userConsultingTypesData.consultingTypes).map(
-		function (key, value) {
-			return userConsultingTypesData.consultingTypes[key].sessionData;
-			// console.log(
-			// 	'iterate',
-			// 	key,
-			// 	userConsultingTypesData.consultingTypes[key].sessionData
-			// );
-		}
-	);
-	console.log(
-		'ProfileDataViewAsker new types',
-		userConsultingTypesData,
-		newData
-	);
+	console.log('new data mock', userConsultingTypesData);
+
+	const newDataArray = Object.keys(
+		userConsultingTypesData.consultingTypes
+	).map((key) => {
+		return userConsultingTypesData.consultingTypes[key];
+	});
+
+	console.log('new data array', newDataArray);
 
 	return (
 		<div className="profile__content__item profile__data">
@@ -220,42 +214,70 @@ export const ProfileDataViewAsker = () => {
 				</p>
 			</div>
 
-			{preparedUserSessionsData.map((resort, index) =>
-				resort.value && Object.keys(resort.value).length > 0 ? (
+			{newDataArray.map((resort, index) =>
+				resort.isRegistered && resort.agency ? (
 					<div className="profile__data__itemWrapper" key={index}>
 						<p className="profile__content__title">
-							{getResortTranslation(parseInt(resort.type))}
+							{getResortTranslation(index)}
 						</p>
-						{resort.value.map((item, index) => (
-							<div className="profile__data__item" key={index}>
-								<p className="profile__data__label">
-									{translate('userProfile.data.' + item.type)}
-								</p>
-								<p
-									className={
-										item.value
-											? `profile__data__content`
-											: `profile__data__content profile__data__content--empty`
-									}
-								>
-									{item.value
-										? item.type === 'addictiveDrugs'
-											? getAddictiveDrugsString(
-													getAddictiveDrugsTranslatable(
-														item.value
-													)
-											  )
-											: handleNumericTranslation(
-													getUserDataTranslateBase(
-														parseInt(resort.type)
-													),
-													item.type,
-													item.value
-											  )
-										: translate('profile.noContent')}
-								</p>
-							</div>
-						))}
+						{resort.sessionData
+							? Object.keys(resort.sessionData).map(
+									(item, itemIndex) => (
+										<div
+											className="profile__data__item"
+											key={itemIndex}
+										>
+											<p className="profile__data__label">
+												{translate(
+													'userProfile.data.' + item
+												)}
+											</p>
+											<p
+												className={
+													resort.sessionData[item]
+														? `profile__data__content`
+														: `profile__data__content profile__data__content--empty`
+												}
+											>
+												{resort.sessionData[item]
+													? item === 'addictiveDrugs'
+														? getAddictiveDrugsString(
+																getAddictiveDrugsTranslatable(
+																	resort
+																		.sessionData[
+																		item
+																	]
+																)
+														  )
+														: handleNumericTranslation(
+																getUserDataTranslateBase(
+																	parseInt(
+																		resort.type
+																	)
+																),
+																item,
+																resort
+																	.sessionData[
+																	item
+																]
+														  )
+													: translate(
+															'profile.noContent'
+													  )}
+											</p>
+										</div>
+									)
+							  )
+							: null}
+						<div className="profile__data__item">
+							<p className="profile__data__label">
+								{translate('profile.data.agency')}
+							</p>
+							<p className="profile__data__content">
+								{resort.agency.name} <br />
+								{resort.agency.postcode}
+							</p>
+						</div>
 					</div>
 				) : null
 			)}
