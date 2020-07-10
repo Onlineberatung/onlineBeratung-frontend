@@ -43,7 +43,7 @@ export const prefillPostcode = () => {
 		})
 			.then((response) => {
 				const fallbackAid = response[0].id;
-				if (!agencyId || agencyId != fallbackAid) {
+				if (!agencyId || parseInt(agencyId) != fallbackAid) {
 					window.location.href =
 						AGENCY_FALLBACK_LINK[
 							getConsultingTypeFromRegistration()
@@ -59,8 +59,9 @@ export const prefillPostcode = () => {
 const getAgencyData = (agencyId: any) => {
 	getAgencyById(agencyId)
 		.then((response) => {
-			response.consultingType === getConsultingTypeFromRegistration()
-				? setAgencyData(response, agencyId)
+			const agencyData = response[0];
+			agencyData.consultingType === getConsultingTypeFromRegistration()
+				? setAgencyData(agencyData, agencyId)
 				: redirectToRegistrationWithoutAid();
 		})
 		.catch((error) => {

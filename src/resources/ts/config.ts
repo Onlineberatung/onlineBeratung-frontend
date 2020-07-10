@@ -32,7 +32,7 @@ export const config = {
 		userWriteEnquiry: tld + '/02components.06writeEnquiry.html',
 		setAbsence: tld + '/service/users/consultants/absences',
 		postcode: tld + '/service/agencies',
-		agencyById: tld + '/service/agencies/data/',
+		agencyById: tld + '/service/agencies/',
 		keycloak: tld + '/auth',
 		userData: tld + '/service/users/data',
 		headerData: tld + '/service/users/sessions/askers',
