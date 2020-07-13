@@ -93,6 +93,7 @@ $icon-size-small: 16px;
 		}
 		&:last-child {
 			justify-content: space-between;
+			min-height: 19px;
 		}
 		&:not(:last-child) {
 			margin-bottom: $grid-base;
