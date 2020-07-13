@@ -16,7 +16,7 @@ import {
 	convertUserDataObjectToArray,
 	getAddictiveDrugsTranslatable,
 	getUserDataTranslateBase
-} from '../../profile/ts/profiles';
+} from './profileHelpers';
 
 export const UserDataView = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
