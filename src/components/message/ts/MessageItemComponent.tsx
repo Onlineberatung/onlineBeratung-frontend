@@ -174,7 +174,8 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 								<div
 									key={key}
 									className={
-										renderedMessage?.length > 0
+										renderedMessage &&
+										renderedMessage.length > 0
 											? 'messageItem__message--withAttachment'
 											: ''
 									}

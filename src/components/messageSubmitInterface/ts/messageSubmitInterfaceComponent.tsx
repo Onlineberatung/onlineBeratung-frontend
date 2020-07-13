@@ -220,7 +220,9 @@ export const MessageSubmitInterfaceComponent = (
 
 	const isConsultantAbsent =
 		hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
-		activeSession?.consultant?.absent;
+		activeSession &&
+		activeSession.consultant &&
+		activeSession.consultant.absent;
 
 	useEffect(() => {
 		isConsultantAbsent ? setActiveInfo(INFO_TYPES.ABSENT) : null;
@@ -444,10 +446,11 @@ export const MessageSubmitInterfaceComponent = (
 		} else {
 			const sendToFeedbackEndpoint =
 				activeSession.isFeedbackSession ||
-				requestFeedbackCheckbox?.checked;
-			const sendToRoomWithId = requestFeedbackCheckbox?.checked
-				? activeSession.session.feedbackGroupId
-				: props.sessionRoomId;
+				(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
+			const sendToRoomWithId =
+				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
+					? activeSession.session.feedbackGroupId
+					: props.sessionRoomId;
 
 			const getSendMailNotificationStatus = () => !isGroupChat;
 
@@ -484,7 +487,7 @@ export const MessageSubmitInterfaceComponent = (
 
 	const handleMessageSendSuccess = () => {
 		props.showMonitoringButton();
-		if (requestFeedbackCheckbox?.checked) {
+		if (requestFeedbackCheckbox && requestFeedbackCheckbox.checked) {
 			const feedbackButton = document.querySelector(
 				'.sessionInfo__feedbackButton'
 			);
