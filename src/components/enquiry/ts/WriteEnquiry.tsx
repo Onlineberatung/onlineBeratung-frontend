@@ -16,6 +16,7 @@ import { BUTTON_TYPES } from '../../button/ts/Button';
 import { logout } from '../../logout/ts/logout';
 import { config } from '../../../resources/ts/config';
 import { ActiveSessionGroupIdContext } from '../../../globalState';
+import { mobileDetailView } from '../../app/ts/navigationHandler';
 
 export const WriteEnquiry = (props) => {
 	const overlayItem: OverlayItem = {
@@ -42,6 +43,8 @@ export const WriteEnquiry = (props) => {
 	useEffect(() => {
 		if (!activeSessionGroupId) {
 			deactivateListView();
+		} else {
+			mobileDetailView();
 		}
 	}, []);
 
