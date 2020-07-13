@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { UserDataContext } from '../../../globalState';
 
-export const ProfileDataView = () => {
+export const ProfileDataViewConsultant = () => {
 	const { userData } = useContext(UserDataContext);
 
 	return (

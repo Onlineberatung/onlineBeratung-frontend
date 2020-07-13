@@ -27,7 +27,7 @@ import { SessionMenu } from '../../sessionMenu/ts/SessionMenu';
 import {
 	convertUserDataObjectToArray,
 	getAddictiveDrugsTranslatable
-} from '../../profile/ts/profiles';
+} from '../../profile/ts/profileHelpers';
 import { isGenericConsultingType } from '../../../resources/ts/helpers/resorts';
 import { getGroupChatDate } from '../../session/ts/sessionDateHelpers';
 import { getGroupMembers } from '../../apiWrapper/ts';
