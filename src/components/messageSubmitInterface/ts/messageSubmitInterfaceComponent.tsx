@@ -691,6 +691,7 @@ export const MessageSubmitInterfaceComponent = (
 									onChange={handleEditorChange}
 									handleKeyCommand={handleEditorKeyCommand}
 									placeholder={placeholder}
+									stripPastedStyles={true}
 									handleBeforeInput={() =>
 										handleEditorBeforeInput(editorState)
 									}
