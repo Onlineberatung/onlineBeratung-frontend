@@ -1,10 +1,13 @@
 export interface UserDataInterface {
-	formalLanguage: boolean;
 	absenceMessage?: string;
 	absent: boolean;
 	agencies: [AgencyDataInterface];
+	consultingTypes?: [
+		{ [consultingType: number]: ConsultingTypeDataInterface }
+	];
 	email?: string;
 	firstName?: string;
+	formalLanguage: boolean;
 	grantedAuthorities: [string];
 	inTeamAgency: boolean;
 	lastName?: string;
@@ -19,4 +22,10 @@ export interface AgencyDataInterface {
 	name: string;
 	postcode: string;
 	teamAgency: boolean;
+}
+
+export interface ConsultingTypeDataInterface {
+	agency: AgencyDataInterface;
+	isRegistered: boolean;
+	sessionData: Object;
 }
