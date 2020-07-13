@@ -5,7 +5,7 @@ import { AgencyDataInterface } from '../../../globalState';
 export const getAgencyById = async (
 	agencyId: any
 ): Promise<[AgencyDataInterface]> => {
-	const url = config.endpoints.agencyById + agencyId;
+	const url = config.endpoints.agencyServiceBase + '/' + agencyId;
 
 	return fetchData({
 		url: url,

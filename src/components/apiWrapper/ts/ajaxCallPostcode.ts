@@ -10,7 +10,7 @@ export const ajaxCallPostcodeSuggestion = async (params: {
 	let queryStr = Object.keys(params)
 		.map((key) => key + '=' + params[key])
 		.join('&');
-	const url = config.endpoints.postcode + '?' + queryStr;
+	const url = config.endpoints.agencyServiceBase + '?' + queryStr;
 
 	if (params.postcode.length >= VALID_POSTCODE_LENGTH.SHORT) {
 		return fetchData({
