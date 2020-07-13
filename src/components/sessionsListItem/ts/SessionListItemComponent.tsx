@@ -205,15 +205,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 			}
 			data-group-id={listItem.groupId}
 		>
-			<div
-				className={
-					(activeSession &&
-						activeSession.session.id === listItem.id) ||
-					activeSessionGroupId === listItem.id
-						? `sessionsListItem__content sessionsListItem__content--active`
-						: `sessionsListItem__content`
-				}
-			>
+			<div className="sessionsListItem__content">
 				<div className="sessionsListItem__row">
 					{typeIsTeamSession(type) &&
 					hasUserAuthority(

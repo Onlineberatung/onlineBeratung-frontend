@@ -48,6 +48,11 @@ $icon-size-small: 16px;
 				opacity: 1;
 			}
 		}
+
+		.sessionsListItem__content {
+			background-color: $background-ochre;
+			transition: all 0.3s ease;
+		}
 	}
 
 	&:hover {
@@ -67,11 +72,6 @@ $icon-size-small: 16px;
 
 		@include breakpoint($fromMedium) {
 			margin: 0 $grid-base-three;
-		}
-
-		&--active {
-			background-color: $background-ochre;
-			transition: all 0.3s ease;
 		}
 
 		&:hover,
