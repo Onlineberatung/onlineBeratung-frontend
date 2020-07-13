@@ -549,6 +549,7 @@ export const MessageSubmitInterfaceComponent = (
 	const handleAttachmentRemoval = () => {
 		if (uploadProgress && attachmentUpload) {
 			attachmentUpload.abort();
+			setTimeout(() => setIsRequestInProgress(false), 1200);
 		}
 		setActiveInfo(null);
 		cleanupAttachment();
