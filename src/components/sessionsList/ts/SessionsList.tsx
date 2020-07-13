@@ -327,7 +327,7 @@ export const SessionsList = () => {
 					response.sessions.length === 1 &&
 					response.sessions[0].session.status === 0
 				) {
-					history.push(`/sessions/user/write`);
+					history.push(`/sessions/user/view/write`);
 				} else {
 					setLoading(false);
 				}

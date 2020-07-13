@@ -423,7 +423,9 @@ export const MessageSubmitInterfaceComponent = (
 			typeIsEnquiry(props.type) &&
 			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
 		) {
-			const enquirySessionId = sessionsData.mySessions[0].session.id;
+			const enquirySessionId = activeSessionGroupId
+				? activeSessionGroupId
+				: sessionsData.mySessions[0].session.id;
 			ajaxSendEnquiry(enquirySessionId, getTypedMarkdownMessage())
 				.then((response) => {
 					if (response === 'emptyMessage') {

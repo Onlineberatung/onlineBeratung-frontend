@@ -46,7 +46,7 @@ export const RouterConfigUser = (): any => {
 				component: SessionViewEmpty
 			},
 			{
-				path: '/sessions/user/write',
+				path: '/sessions/user/view/write',
 				component: WriteEnquiry
 			}
 		],
