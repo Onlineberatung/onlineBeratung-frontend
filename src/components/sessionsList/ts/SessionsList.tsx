@@ -323,14 +323,17 @@ export const SessionsList = () => {
 				setSessionsData({
 					mySessions: response.sessions
 				});
-				setLoading(false);
+				if (
+					response.sessions.length === 1 &&
+					response.sessions[0].session.status === 0
+				) {
+					history.push(`/sessions/user/view/write`);
+				} else {
+					setLoading(false);
+				}
 			})
 			.catch((error) => {
-				if (error.message === FETCH_ERRORS.EMPTY) {
-					history.push(`/sessions/user/write`);
-				} else {
-					console.log(error);
-				}
+				console.log(error);
 			});
 	};
 
