@@ -111,7 +111,9 @@ export const ProfileDataViewAsker = () => {
 							<p className="profile__data__content">
 								{resort.agency.name} <br />
 								{resort.agency.postcode}
-								{' ' + resort.agency.city}
+								{resort.agency.city
+									? ' ' + resort.agency.city
+									: ''}
 							</p>
 						</div>
 					</div>
