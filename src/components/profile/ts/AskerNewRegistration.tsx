@@ -12,28 +12,72 @@ import {
 	consultingTypeSelectOptionsSet,
 	buttonSetRegistration
 } from './profileHelpers';
-import { VALID_POSTCODE_LENGTH } from '../../postcodeSuggestion/ts/postcodeSuggestion';
+import {
+	VALID_POSTCODE_LENGTH,
+	validPostcodeLengthForConsultingType
+} from '../../postcodeSuggestion/ts/postcodeSuggestion';
+import { ajaxCallPostcodeSuggestion } from '../../apiWrapper/ts/ajaxCallPostcode';
+import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
+import {
+	hasConsultingTypeLongPostcodeValidation,
+	POSTCODE_FALLBACK_LINK
+} from '../../../resources/ts/helpers/resorts';
 
 export const AskerNewRegistration = () => {
 	const { userData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingType, setSelectedConsultingType] = useState(null);
-	const [selectedPostcode, setSelectedPostcode] = useState('');
+	const [selectedPostcode, setSelectedPostcode] = useState(null);
+	const [suggestedAgencies, setSuggestedAgencies] = useState(null);
 	const [selectedAgencyId, setSelectedAgencyId] = useState(null);
+	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState(null);
 
 	useEffect(() => {
-		setSelectedPostcode('');
+		setSelectedPostcode(null);
 		setSelectedAgencyId(null);
 	}, [selectedConsultingType]);
 
 	useEffect(() => {
-		console.log('POSTCODE CHANGED', selectedPostcode);
 		setSelectedAgencyId(null);
-		//TODO: POSTCODE LOGIC from registration!
+		if (
+			selectedPostcode &&
+			validPostcodeLengthForConsultingType(
+				selectedPostcode.length,
+				selectedConsultingType
+			)
+		) {
+			ajaxCallPostcodeSuggestion({
+				postcode: selectedPostcode,
+				consultingType: selectedConsultingType
+			})
+				.then((response) => {
+					if (
+						hasConsultingTypeLongPostcodeValidation(
+							selectedConsultingType
+						)
+					) {
+						setSelectedAgencyId(response[0].id);
+					} else {
+						console.log('Suggested Agencies');
+						setSuggestedAgencies(response);
+						//TODO: cases to unset suggestedAgencies?
+					}
+				})
+				.catch((error) => {
+					if (error.message === FETCH_ERRORS.EMPTY) {
+						setPostcodeFallbackLink(
+							POSTCODE_FALLBACK_LINK[selectedConsultingType]
+						);
+						//TODO: cases to unset postcodeFallbackLink?
+					}
+					return null;
+				});
+		}
 	}, [selectedPostcode]);
 
 	const isAllRequiredDataSet = () =>
 		selectedConsultingType &&
+		selectedPostcode &&
 		selectedPostcode.length === VALID_POSTCODE_LENGTH.MAX &&
 		selectedAgencyId;
 
@@ -95,7 +139,18 @@ export const AskerNewRegistration = () => {
 				item={postcodeInputItem}
 				inputHandle={(e) => setSelectedPostcode(e.target.value)}
 			></InputField>
-
+			{postcodeFallbackLink ? (
+				<p>
+					{translate('warningLabels.postcode.unavailable')}{' '}
+					<a
+						className="warning__link"
+						href={postcodeFallbackLink}
+						target="_blank"
+					>
+						{translate('warningLabels.postcode.search')}
+					</a>
+				</p>
+			) : null}
 			<Button
 				item={buttonSetRegistration}
 				buttonHandle={handleRegistration}
