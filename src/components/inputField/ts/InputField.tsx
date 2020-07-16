@@ -10,6 +10,9 @@ export interface InputFieldItemTSX {
 	labelTranslatable: string;
 	infoText?: string;
 	content: string;
+	maxLength?: number;
+	pattern?: string;
+	disabled?: boolean;
 }
 
 export interface InputFieldProps {
@@ -20,18 +23,34 @@ export interface InputFieldProps {
 export const InputField = (props: InputFieldProps) => {
 	const inputItem = props.item;
 	const [showPassword, setShowPassword] = useState(false);
+
+	const handleInputValidation = (e) => {
+		const postcode = e.target.value;
+		let postcodeValid = true;
+		if (inputItem.maxLength) {
+			postcodeValid = postcode.length <= inputItem.maxLength;
+		}
+		if (postcodeValid && postcode.length > 0 && inputItem.pattern) {
+			postcodeValid = RegExp(inputItem.pattern).test(postcode);
+		}
+		if (postcodeValid) {
+			props.inputHandle(e);
+		}
+	};
+
 	return (
 		<div className="inputField__wrapper formWrapper">
 			<div className="formWrapper__inputRow">
 				<div className="formWrapper__inputWrapper">
 					<input
-						onChange={(e) => props.inputHandle(e)}
+						onChange={handleInputValidation}
 						id={inputItem.id}
 						type={showPassword ? 'text' : inputItem.type}
 						className={`inputField__input ${inputItem.class}`}
 						value={inputItem.content ? inputItem.content : ``}
 						name={inputItem.name}
 						placeholder={translate(inputItem.labelTranslatable)}
+						disabled={inputItem.disabled}
 					/>
 					<label
 						className="formWrapper__inputWrapper__label"
