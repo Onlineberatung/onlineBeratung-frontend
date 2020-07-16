@@ -9,8 +9,10 @@ import {
 import { UserDataContext } from '../../../globalState';
 import {
 	getAddictiveDrugsTranslatable,
-	getUserDataTranslateBase
+	getUserDataTranslateBase,
+	consultingTypeSelectOptionsSet
 } from './profileHelpers';
+import { AskerNewRegistration } from './AskerNewRegistration';
 
 export const ProfileDataViewAsker = () => {
 	const { userData } = useContext(UserDataContext);
@@ -118,6 +120,10 @@ export const ProfileDataViewAsker = () => {
 						</div>
 					</div>
 				) : null
+			)}
+			{userData.consultingTypes[15].isRegistered ||
+			consultingTypeSelectOptionsSet(userData).length === 0 ? null : (
+				<AskerNewRegistration></AskerNewRegistration>
 			)}
 		</div>
 	);
