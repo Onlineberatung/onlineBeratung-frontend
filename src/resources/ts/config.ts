@@ -27,7 +27,7 @@ export const config = {
 		rocketchatAccessToken: tld + '/api/v1/login',
 		rocketchatLogout: tld + '/api/v1/logout',
 		sessions: tld + '/service/users/sessions/consultants?status=2',
-		userservice: tld + '/service/users/askers',
+		registerAsker: tld + '/service/users/askers/new',
 		userSessions: tld + '/service/users/sessions/askers',
 		userWriteEnquiry: tld + '/02components.06writeEnquiry.html',
 		setAbsence: tld + '/service/users/consultants/absences',

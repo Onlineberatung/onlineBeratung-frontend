@@ -13,7 +13,7 @@ import { removeAllCookies } from '../../sessionCookie/ts/accessSessionCookie';
 
 export const initRegistrationCall = (e: Event) => {
 	const registrationData = getRegistrationDataObject();
-	postRegistration(e, config.endpoints.userservice, registrationData);
+	postRegistration(e, config.endpoints.registerAsker, registrationData);
 };
 
 const getRegistrationDataObject = () => {
