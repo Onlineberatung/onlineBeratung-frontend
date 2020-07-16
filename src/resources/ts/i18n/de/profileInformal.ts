@@ -10,5 +10,9 @@ export default {
 	'functions.passwordResetInstructions':
 		'Wähle bitte ein sicheres Passwort (min. 10 Zeichen, eine Zahl, ein Sonderzeichen, Groß-/Kleinschreibung).',
 	'functions.passwordReset.overlay.headline':
-		'Du hast Dein Passwort erfolgreich geändert. Du wirst nun zum Login weitergeleitet.'
+		'Du hast Dein Passwort erfolgreich geändert. Du wirst nun zum Login weitergeleitet.',
+	'data.register.headline':
+		'Benötigst Du auch zu anderen Themen Rat oder Hilfe? Wir unterstützen Dich gerne.',
+	'data.register.postcodeInput.infoText':
+		'Mit der Postleitzahl können wir eine_n Berater_in in Deiner Nähe finden.'
 };

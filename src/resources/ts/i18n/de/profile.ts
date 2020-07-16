@@ -30,6 +30,13 @@ export default {
 	'data.lastName': 'Nachname',
 	'data.email': 'E-Mail-Adresse',
 	'data.agency': 'Beratungsstelle',
+	'data.register.headline':
+		'Benötigen Sie auch zu anderen Themen Rat oder Hilfe? Wir unterstützen Sie gerne.',
+	'data.register.consultingTypeSelect.label': 'Themenfelder',
+	'data.register.postcodeInput.label': 'PLZ*',
+	'data.register.postcodeInput.infoText':
+		'Mit der Postleitzahl können wir eine_n Berater_in in Ihrer Nähe finden.',
+	'data.register.buttonLabel': 'Registrieren',
 	'footer.imprint': 'Impressum',
 	'footer.dataprotection': 'Datenschutz'
 };
