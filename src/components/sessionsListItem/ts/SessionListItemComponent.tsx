@@ -71,7 +71,8 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		plainTextLastMessage = contentStateMessage.getPlainText();
 	}
 
-	const isCurrentSessionNewEnquiry = currentSessionData.session.status === 0;
+	const isCurrentSessionNewEnquiry =
+		currentSessionData.session && currentSessionData.session.status === 0;
 
 	useEffect(() => {
 		if (!isGroupChat) {
