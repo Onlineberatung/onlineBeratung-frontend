@@ -35,6 +35,7 @@ export const AskerNewRegistration = () => {
 	useEffect(() => {
 		setSelectedPostcode(null);
 		setSelectedAgencyId(null);
+		setSuggestedAgencies(null);
 	}, [selectedConsultingType]);
 
 	useEffect(() => {
@@ -132,13 +133,51 @@ export const AskerNewRegistration = () => {
 	};
 
 	return (
-		<div className="profile__data__itemWrapper asker__registration">
-			<p>{translate('profile.data.register.headline')}</p>
+		<div className="profile__data__itemWrapper askerRegistration">
+			<p className="askerRegistration__headline">
+				{translate('profile.data.register.headline')}
+			</p>
 			<SelectDropdown {...consultingTypesDropdown} />
-			<InputField
-				item={postcodeInputItem}
-				inputHandle={(e) => setSelectedPostcode(e.target.value)}
-			></InputField>
+
+			<div className="askerRegistration__postcode">
+				<InputField
+					item={postcodeInputItem}
+					inputHandle={(e) => setSelectedPostcode(e.target.value)}
+				></InputField>
+
+				{suggestedAgencies ? (
+					<div className="askerRegistration__postcodeFlyout">
+						{suggestedAgencies.map((agency, index) => (
+							<div
+								className="askerRegistration__postcodeFlyout__content"
+								key={index}
+							>
+								{agency.teamAgency ? (
+									<div className="askerRegistration__postcodeFlyout__teamagency">
+										{agency.teamAgency}
+									</div>
+								) : null}
+								{agency.postcode ? (
+									<div className="askerRegistration__postcodeFlyout__postcode">
+										{agency.postcode}
+									</div>
+								) : null}
+								{agency.name ? (
+									<div className="askerRegistration__postcodeFlyout__name">
+										{agency.name}
+									</div>
+								) : null}
+								{agency.description ? (
+									<div className="askerRegistration__postcodeFlyout__description">
+										{agency.description}
+									</div>
+								) : null}
+							</div>
+						))}
+					</div>
+				) : null}
+			</div>
+
 			{postcodeFallbackLink ? (
 				<p>
 					{translate('warningLabels.postcode.unavailable')}{' '}
