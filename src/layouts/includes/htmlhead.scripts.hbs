@@ -3,8 +3,10 @@
 <!-- build:js(.tmp) {{bioEnv 'RESOURCE_URL'}}resources/js/scripts.head.all.min.js  -->
 <script src="/resources/js/vendor/modernizr.js"></script>
 <script src="/resources/js/head.configuration.js"></script>
-<script src="/resources/ts/polyfills/index.js"></script>
+{{!-- <script src="/resources/ts/polyfills/index.js"></script> --}}
 <!-- endbuild -->
+
+<script src="https://unpkg.com/core-js-bundle@3.6.5/minified.js"></script>
 
 <!-- Site-specific configurations like CDN resource folder or current page ID -->
 <script type="text/javascript">
