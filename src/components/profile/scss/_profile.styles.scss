@@ -404,3 +404,95 @@ $backBtnSize: 24px;
 		}
 	}
 }
+
+.askerRegistration {
+	&__headline {
+		max-width: 400px;
+		text-align: center;
+		margin: $grid-base-six auto $grid-base-three;
+	}
+
+	&__postcode {
+		position: relative;
+
+		.formWrapper {
+			margin: 0 auto $grid-base-four;
+
+			&__inputWrapper {
+				margin-left: 0;
+			}
+		}
+	}
+
+	&__postcodeFlyout {
+		position: absolute;
+		top: 66px;
+		right: 0;
+		left: 0;
+		max-width: 320px;
+		margin: 0 auto;
+
+		&:after,
+		&:before {
+			content: '';
+			position: absolute;
+			top: -13px;
+			left: 0;
+			right: 0;
+			width: 20px;
+			margin: 0 auto;
+			border-left: 10px solid transparent;
+			border-right: 10px solid transparent;
+			transform: rotate(180deg);
+		}
+
+		&:before {
+			border-top: 10px solid $white;
+			margin-top: 5px;
+			z-index: 2;
+		}
+
+		&:after {
+			border-top: 10px solid $form-disabled;
+			margin-top: 3px;
+			z-index: 1;
+		}
+
+		&__content {
+			box-sizing: border-box;
+			background: $white;
+			padding: $grid-base-two 20px;
+			width: 100%;
+			border: 1px solid $form-disabled;
+			@include rounded-drop-shadow;
+			cursor: pointer;
+
+			&:hover {
+				color: $primary;
+				background-color: $hover-select;
+			}
+		}
+
+		&__name,
+		&__postcode {
+			font-weight: $font-weight-bold;
+		}
+
+		&__description {
+			font-size: $font-size-secondary;
+			line-height: $line-height-secondary;
+			margin: $grid-base 0 0;
+			color: $tertiary;
+		}
+	}
+
+	.select__wrapper {
+		padding: 0;
+		margin: 0 auto $grid-base-three;
+	}
+
+	.button__wrapper button {
+		display: block;
+		margin: 0 auto;
+	}
+}
