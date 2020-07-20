@@ -15,4 +15,6 @@ import 'element-scroll-polyfill';
 // import './String.includes';
 // import './String.repeat';
 // import './String.startsWith';
-import 'core-js';
+// import 'core-js';
+import 'es6-shim';
+import 'es6-symbol/implement';
