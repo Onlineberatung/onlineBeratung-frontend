@@ -10,6 +10,7 @@ import {
 import { getConsultingTypeFromRegistration } from '../../../resources/ts/helpers/resorts';
 import { hasPostcodeToBeExtended } from '../../postcodeSuggestion/ts/postcodeSuggestion';
 import { removeAllCookies } from '../../sessionCookie/ts/accessSessionCookie';
+import { extendPostcodeToBeValid } from '../../registrationFormular/ts/handleRegistration';
 
 export const initRegistrationCall = (e: Event) => {
 	const registrationData = getRegistrationDataObject();
@@ -55,7 +56,7 @@ const getValidPostcode = () => {
 	if (!parseInt(postcode)) {
 		let inputVal = document.getElementById('postcode').dataset.inputVal;
 		if (hasPostcodeToBeExtended(inputVal.length)) {
-			inputVal = String(inputVal + '00').slice(0, 5);
+			inputVal = extendPostcodeToBeValid(inputVal);
 		}
 		validPostcode = inputVal;
 	} else {
