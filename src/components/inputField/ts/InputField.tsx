@@ -13,6 +13,7 @@ export interface InputFieldItemTSX {
 	maxLength?: number;
 	pattern?: string;
 	disabled?: boolean;
+	postcodeFallbackLink?: string;
 }
 
 export interface InputFieldProps {
@@ -71,6 +72,18 @@ export const InputField = (props: InputFieldProps) => {
 								].join(' ')}
 							></span>
 						</span>
+					) : null}
+					{inputItem.postcodeFallbackLink ? (
+						<p className="formWrapper__infoText warning">
+							{translate('warningLabels.postcode.unavailable')}{' '}
+							<a
+								className="warning__link"
+								href={inputItem.postcodeFallbackLink}
+								target="_blank"
+							>
+								{translate('warningLabels.postcode.search')}
+							</a>
+						</p>
 					) : null}
 					<p
 						className="formWrapper__infoText"
