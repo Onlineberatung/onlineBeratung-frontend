@@ -34,7 +34,7 @@ export const buttonSetRegistration: ButtonItem = {
 	type: BUTTON_TYPES.PRIMARY
 };
 
-const forAskerRegistrationExcludedConsultingTypes = [1, 15];
+const forAskerRegistrationExcludedConsultingTypes = [1, 15, 19];
 export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
 	const unregisteredConsultingTypesData = Object.keys(
 		userData.consultingTypes
