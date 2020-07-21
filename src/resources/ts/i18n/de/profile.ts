@@ -38,7 +38,7 @@ export default {
 		'Mit der Postleitzahl können wir eine_n Berater_in in Ihrer Nähe finden.',
 	'data.register.buttonLabel': 'Registrieren',
 	'data.registerError.overlay.headline':
-		'Es ist ein Fehler aufgetreten.Bitte versuchen Sie es erneut.',
+		'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.',
 	'data.registerError.overlay.buttonLabel': 'Schliessen',
 	'footer.imprint': 'Impressum',
 	'footer.dataprotection': 'Datenschutz'

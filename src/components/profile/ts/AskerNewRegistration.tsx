@@ -55,6 +55,12 @@ export const AskerNewRegistration = () => {
 	const [overlayItem, setOverlayItem] = useState(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
+	const isAllRequiredDataSet = () =>
+		selectedConsultingType &&
+		selectedPostcode &&
+		selectedPostcode.length === VALID_POSTCODE_LENGTH.MAX &&
+		selectedAgencyId;
+
 	useEffect(() => {
 		setSelectedPostcode(null);
 		setPostcodeFallbackLink(null);
@@ -101,12 +107,6 @@ export const AskerNewRegistration = () => {
 			setPostcodeExtended(false);
 		}
 	}, [selectedPostcode]);
-
-	const isAllRequiredDataSet = () =>
-		selectedConsultingType &&
-		selectedPostcode &&
-		selectedPostcode.length === VALID_POSTCODE_LENGTH.MAX &&
-		selectedAgencyId;
 
 	useEffect(() => {
 		if (isAllRequiredDataSet()) {

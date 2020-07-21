@@ -16,5 +16,5 @@ export default {
 	'data.register.postcodeInput.infoText':
 		'Mit der Postleitzahl können wir eine_n Berater_in in Deiner Nähe finden.',
 	'data.registerError.overlay.headline':
-		'Es ist ein Fehler aufgetreten.Bitte versuche es erneut.'
+		'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.'
 };
