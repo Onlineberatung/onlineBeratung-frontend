@@ -21,7 +21,7 @@ import {
 import {
 	ajaxSendEnquiry,
 	ajaxSendMessage,
-	ajaxCallSendAttachment
+	ajaxCallUploadAttachment
 } from '../../apiWrapper/ts';
 import {
 	MessageSubmitInfo,
@@ -105,8 +105,9 @@ const checkboxItem: CheckboxItem = {
 
 const INFO_TYPES = {
 	ABSENT: 'ABSENT',
-	ATTACHMENT_SIZE: 'ATTACHMENT_SIZE',
-	ATTACHMENT_SEND: 'ATTACHMENT_SEND'
+	ATTACHMENT_SIZE_ERROR: 'ATTACHMENT_SIZE_ERROR',
+	ATTACHMENT_FORMAT_ERROR: 'ATTACHMENT_FORMAT_ERROR',
+	ATTACHMENT_OTHER_ERROR: 'ATTACHMENT_OTHER_ERROR'
 };
 
 export const getIconForAttachmentType = (attachmentType: string) => {
@@ -207,26 +208,28 @@ export const MessageSubmitInterfaceComponent = (
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState(null);
 	const [uploadProgress, setUploadProgress] = useState(null);
+	const [uploadOnLoadHandling, setUploadOnLoadHandling] = useState(null);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [attachmentUpload, setAttachmentUpload] = useState(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
 
-	useEffect(() => {
+	const requestFeedbackCheckbox = document.getElementById(
+		'requestFeedback'
+	) as HTMLInputElement;
+
+	const isConsultantAbsent =
 		hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 		activeSession &&
 		activeSession.consultant &&
-		activeSession.consultant.absent
-			? setActiveInfo(INFO_TYPES.ABSENT)
-			: null;
+		activeSession.consultant.absent;
+
+	useEffect(() => {
+		isConsultantAbsent ? setActiveInfo(INFO_TYPES.ABSENT) : null;
 	}, []);
 
 	useEffect(() => {
-		!activeInfo &&
-		hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
-		activeSession &&
-		activeSession.consultant &&
-		activeSession.consultant.absent
+		!activeInfo && isConsultantAbsent
 			? setActiveInfo(INFO_TYPES.ABSENT)
 			: null;
 	}, [activeInfo]);
@@ -268,28 +271,26 @@ export const MessageSubmitInterfaceComponent = (
 	}, [uploadProgress]);
 
 	useEffect(() => {
-		if (attachmentUpload) {
-			const requestFeedbackCheckbox = document.getElementById(
-				'requestFeedback'
-			) as HTMLInputElement;
-			const requestFeedbackChecked =
-				requestFeedbackCheckbox && requestFeedbackCheckbox.checked;
-
-			attachmentUpload.onload = () => {
-				setAttachmentSelected(null);
-				setUploadProgress(null);
-				handleMessageSendSuccess(
-					attachmentUpload.response,
-					requestFeedbackChecked,
-					false
-				);
-			};
-			attachmentUpload.onerror = () => {
-				setAttachmentSelected(null);
-				setActiveInfo(INFO_TYPES.ATTACHMENT_SEND);
-			};
+		if (uploadOnLoadHandling) {
+			removeSelectedAttachment();
+			if (uploadOnLoadHandling.status === 201) {
+				handleMessageSendSuccess();
+				cleanupAttachment();
+			} else if (uploadOnLoadHandling.status === 413) {
+				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_SIZE_ERROR);
+			} else if (uploadOnLoadHandling.status === 415) {
+				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_FORMAT_ERROR);
+			} else {
+				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_OTHER_ERROR);
+			}
 		}
-	}, [attachmentUpload]);
+	}, [uploadOnLoadHandling]);
+
+	const handleAttachmentUploadError = (infoType: string) => {
+		setActiveInfo(infoType);
+		cleanupAttachment();
+		setTimeout(() => setIsRequestInProgress(false), 1200);
+	};
 
 	const handleEditorChange = (editorState) => {
 		isGroupChat ? props.isTyping() : null;
@@ -410,13 +411,24 @@ export const MessageSubmitInterfaceComponent = (
 		this.editor.focus();
 	};
 
+	const getTypedMarkdownMessage = () => {
+		const contentState = editorState.getCurrentContent();
+		const rawObject = convertToRaw(contentState);
+		const markdownString = draftToMarkdown(rawObject);
+		return markdownString.trim();
+	};
+
 	const handleButtonClick = (event) => {
 		if (uploadProgress || isRequestInProgress) {
 			return null;
 		}
 
-		if (getTypedMarkdownMessage()) {
+		const attachmentInput: any = attachmentInputRef.current;
+		const attachment = attachmentInput.files[0];
+		if (getTypedMarkdownMessage() || attachment) {
 			setIsRequestInProgress(true);
+		} else {
+			return null;
 		}
 
 		if (
@@ -428,9 +440,6 @@ export const MessageSubmitInterfaceComponent = (
 				: sessionsData.mySessions[0].session.id;
 			ajaxSendEnquiry(enquirySessionId, getTypedMarkdownMessage())
 				.then((response) => {
-					if (response === 'emptyMessage') {
-						return null;
-					}
 					setEditorState(EditorState.createEmpty());
 					props.handleSendButton();
 				})
@@ -438,86 +447,63 @@ export const MessageSubmitInterfaceComponent = (
 					console.log(error);
 				});
 		} else {
-			const requestFeedbackCheckbox = document.getElementById(
-				'requestFeedback'
-			) as HTMLInputElement;
-			const requestFeedbackChecked =
-				requestFeedbackCheckbox && requestFeedbackCheckbox.checked;
-
 			const sendToFeedbackEndpoint =
-				activeSession.isFeedbackSession || requestFeedbackChecked;
-			const sendToRoomWithId = requestFeedbackChecked
-				? activeSession.session.feedbackGroupId
-				: props.sessionRoomId;
-
-			const attachmentInput: any = attachmentInputRef.current;
-			const attachment = attachmentInput.files[0];
+				activeSession.isFeedbackSession ||
+				(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
+			const sendToRoomWithId =
+				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
+					? activeSession.session.feedbackGroupId
+					: props.sessionRoomId;
 
 			const getSendMailNotificationStatus = () => !isGroupChat;
 
-			ajaxSendMessage(
-				getTypedMarkdownMessage(),
-				sendToRoomWithId,
-				sendToFeedbackEndpoint,
-				getSendMailNotificationStatus()
-			)
-				.then((response) => {
-					if (attachment) {
-						setAttachmentUpload(
-							ajaxCallSendAttachment(
-								attachment,
-								sendToRoomWithId,
-								setUploadProgress
-							)
-						);
-					}
-					if (getTypedMarkdownMessage()) {
-						handleMessageSendSuccess(
-							response,
-							requestFeedbackChecked
-						);
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}
-	};
-
-	const getTypedMarkdownMessage = () => {
-		const contentState = editorState.getCurrentContent();
-		const rawObject = convertToRaw(contentState);
-		const markdownString = draftToMarkdown(rawObject);
-		return markdownString.trim();
-	};
-
-	const handleMessageSendSuccess = (
-		response: any,
-		requestFeedbackChecked: boolean,
-		deleteText: boolean = true
-	) => {
-		if (response === 'emptyMessage') {
-			return null;
-		} else {
-			props.showMonitoringButton();
-			if (requestFeedbackChecked) {
-				const feedbackButton = document.querySelector(
-					'.sessionInfo__feedbackButton'
+			if (attachment) {
+				setAttachmentUpload(
+					ajaxCallUploadAttachment(
+						getTypedMarkdownMessage(),
+						attachment,
+						sendToRoomWithId,
+						sendToFeedbackEndpoint,
+						getSendMailNotificationStatus(),
+						setUploadProgress,
+						setUploadOnLoadHandling
+					)
 				);
-				feedbackButton.classList.add(
-					'sessionInfo__feedbackButton--active'
-				);
-				setTimeout(() => {
-					feedbackButton.classList.remove(
-						'sessionInfo__feedbackButton--active'
-					);
-				}, 700);
+			} else {
+				if (getTypedMarkdownMessage()) {
+					ajaxSendMessage(
+						getTypedMarkdownMessage(),
+						sendToRoomWithId,
+						sendToFeedbackEndpoint,
+						getSendMailNotificationStatus()
+					)
+						.then(() => {
+							handleMessageSendSuccess();
+						})
+						.catch((error) => {
+							console.log(error);
+						});
+				}
 			}
 		}
-		setTimeout(() => setIsRequestInProgress(false), 1200);
-		if (deleteText) {
-			setEditorState(EditorState.createEmpty());
+	};
+
+	const handleMessageSendSuccess = () => {
+		props.showMonitoringButton();
+		if (requestFeedbackCheckbox && requestFeedbackCheckbox.checked) {
+			const feedbackButton = document.querySelector(
+				'.sessionInfo__feedbackButton'
+			);
+			feedbackButton.classList.add('sessionInfo__feedbackButton--active');
+			setTimeout(() => {
+				feedbackButton.classList.remove(
+					'sessionInfo__feedbackButton--active'
+				);
+			}, 700);
 		}
+		setEditorState(EditorState.createEmpty());
+		setActiveInfo(null);
+		setTimeout(() => setIsRequestInProgress(false), 1200);
 	};
 
 	const handleCheckboxClick = () => {
@@ -546,19 +532,14 @@ export const MessageSubmitInterfaceComponent = (
 			: displayAttachmentToUpload(attachment);
 	};
 
-	const handleAttachmentRemove = () => {
-		if (uploadProgress && attachmentUpload) {
-			setUploadProgress(0);
-			attachmentUpload.abort();
-		}
+	const displayAttachmentToUpload = (attachment: File) => {
+		setAttachmentSelected(attachment);
 		setActiveInfo(null);
-		setAttachmentSelected(null);
-		setAttachmentUpload(null);
 	};
 
 	const handleLargeAttachments = () => {
 		removeSelectedAttachment();
-		setActiveInfo(INFO_TYPES.ATTACHMENT_SIZE);
+		setActiveInfo(INFO_TYPES.ATTACHMENT_SIZE_ERROR);
 	};
 
 	const removeSelectedAttachment = () => {
@@ -568,9 +549,21 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
-	const displayAttachmentToUpload = (attachment: File) => {
-		setAttachmentSelected(attachment);
+	const handleAttachmentRemoval = () => {
+		if (uploadProgress && attachmentUpload) {
+			attachmentUpload.abort();
+			setTimeout(() => setIsRequestInProgress(false), 1200);
+		}
 		setActiveInfo(null);
+		cleanupAttachment();
+	};
+
+	const cleanupAttachment = () => {
+		setUploadProgress(null);
+		setAttachmentSelected(null);
+		setAttachmentUpload(null);
+		setUploadOnLoadHandling(false);
+		removeSelectedAttachment();
 	};
 
 	const getMessageSubmitInfo = (): MessageSubmitInfoInterface => {
@@ -583,17 +576,23 @@ export const MessageSubmitInterfaceComponent = (
 					getContact(activeSession).username,
 				infoMessage: activeSession.consultant.absenceMessage
 			};
-		} else if (activeInfo === INFO_TYPES.ATTACHMENT_SIZE) {
+		} else if (activeInfo === INFO_TYPES.ATTACHMENT_SIZE_ERROR) {
 			infoData = {
 				isInfo: false,
 				infoHeadline: translate('attachments.error.size.headline'),
 				infoMessage: translate('attachments.error.size.message')
 			};
-		} else if (activeInfo === INFO_TYPES.ATTACHMENT_SEND) {
+		} else if (activeInfo === INFO_TYPES.ATTACHMENT_FORMAT_ERROR) {
 			infoData = {
 				isInfo: false,
-				infoHeadline: translate('attachments.error.send.headline'),
-				infoMessage: translate('attachments.error.send.message')
+				infoHeadline: translate('attachments.error.format.headline'),
+				infoMessage: translate('attachments.error.format.message')
+			};
+		} else if (activeInfo === INFO_TYPES.ATTACHMENT_OTHER_ERROR) {
+			infoData = {
+				isInfo: false,
+				infoHeadline: translate('attachments.error.other.headline'),
+				infoMessage: translate('attachments.error.other.message')
 			};
 		}
 		return infoData;
@@ -751,7 +750,7 @@ export const MessageSubmitInterfaceComponent = (
 											<span className="textarea__attachmentSelected__remove">
 												<svg
 													onClick={
-														handleAttachmentRemove
+														handleAttachmentRemoval
 													}
 													xmlns="http://www.w3.org/2000/svg"
 													xmlnsXlink="http://www.w3.org/1999/xlink"

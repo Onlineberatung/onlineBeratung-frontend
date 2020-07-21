@@ -5,9 +5,6 @@ export const ajaxSendEnquiry = async (
 	sessionId: number,
 	messageData: string
 ): Promise<any> => {
-	if (!messageData.trim()) {
-		return 'emptyMessage';
-	}
 	const url = config.endpoints.enquiryBase + sessionId + '/enquiry/new';
 	const message = JSON.stringify({
 		message: messageData,

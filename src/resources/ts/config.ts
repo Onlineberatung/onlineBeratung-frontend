@@ -11,6 +11,8 @@ export const config = {
 		enquiryAcceptanceRedirect: tld + '/02components.06sessionsList.html',
 		enquirySendConfirmationRedirect:
 			tld + '/02components.06userSession.html',
+		attachmentUpload: tld + '/service/uploads/new/',
+		attachmentUploadFeedbackRoom: tld + '/service/uploads/feedback/new/',
 		keycloakAccessToken:
 			tld +
 			'/auth/realms/caritas-online-beratung/protocol/openid-connect/token',
@@ -58,7 +60,6 @@ export const config = {
 			'/registration.kb-sucht-selbsthilfe.html?aid=',
 		registrationDisabilityPostcodeFallback:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/behinderung-und-psychische-erkrankung/adressen',
-		rocketchatUploadAttachment: tld + '/api/v1/rooms.upload/',
 		groupChatBase: tld + '/service/users/chat/',
 		registrationMigrationPostcodeFallback:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/migration/adressen',

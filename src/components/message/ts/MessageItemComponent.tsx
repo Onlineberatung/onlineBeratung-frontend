@@ -53,7 +53,6 @@ interface MessageItemComponentProps extends MessageItem {
 	clientName: string;
 }
 
-// TODO: Split this component into parts for every type of message.
 export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
@@ -61,7 +60,10 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const rawMessageObject = markdownToDraft(props.message);
 	const contentStateMessage = convertFromRaw(rawMessageObject);
-	const renderedMessage = stateToHTML(contentStateMessage);
+	const renderedMessage =
+		rawMessageObject.blocks[0].text.length > 0
+			? stateToHTML(contentStateMessage)
+			: '';
 	const chatItem = getChatItemForSession(activeSession);
 
 	const getMessageDate = () => {
@@ -169,7 +171,15 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 					></span>
 					{props.attachments
 						? props.attachments.map((attachment, key) => (
-								<div key={key}>
+								<div
+									key={key}
+									className={
+										renderedMessage &&
+										renderedMessage.length > 0
+											? 'messageItem__message--withAttachment'
+											: ''
+									}
+								>
 									<div className="messageItem__message__attachment">
 										<span className="messageItem__message__attachment__icon">
 											{getIconForAttachmentType(
