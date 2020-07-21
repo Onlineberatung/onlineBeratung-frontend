@@ -435,7 +435,10 @@ export const MessageSubmitInterfaceComponent = (
 			typeIsEnquiry(props.type) &&
 			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
 		) {
-			ajaxSendEnquiry(getTypedMarkdownMessage())
+			const enquirySessionId = activeSessionGroupId
+				? activeSessionGroupId
+				: sessionsData.mySessions[0].session.id;
+			ajaxSendEnquiry(enquirySessionId, getTypedMarkdownMessage())
 				.then((response) => {
 					setEditorState(EditorState.createEmpty());
 					props.handleSendButton();

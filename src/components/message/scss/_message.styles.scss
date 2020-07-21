@@ -135,6 +135,19 @@ $message-lineheight: 21px;
 			}
 		}
 
+		span {
+			display: flex;
+			flex-direction: column;
+
+			& > * {
+				margin-top: $grid-base;
+			}
+
+			& > *:first-child {
+				margin-top: 0;
+			}
+		}
+
 		&__attachment {
 			display: flex;
 			align-items: center;

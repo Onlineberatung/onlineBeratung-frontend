@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
 	MessageSubmitItem,
 	MessageSubmitInterfaceComponent
@@ -15,6 +15,8 @@ import {
 import { BUTTON_TYPES } from '../../button/ts/Button';
 import { logout } from '../../logout/ts/logout';
 import { config } from '../../../resources/ts/config';
+import { ActiveSessionGroupIdContext } from '../../../globalState';
+import { mobileDetailView } from '../../app/ts/navigationHandler';
 
 export const WriteEnquiry = (props) => {
 	const overlayItem: OverlayItem = {
@@ -36,14 +38,15 @@ export const WriteEnquiry = (props) => {
 	};
 
 	let [overlayActive, setOverlayActive] = useState(false);
-	let [init, setInit] = useState(true);
+	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 
 	useEffect(() => {
-		if (init) {
+		if (!activeSessionGroupId) {
 			deactivateListView();
-			setInit(false);
+		} else {
+			mobileDetailView();
 		}
-	});
+	}, []);
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {

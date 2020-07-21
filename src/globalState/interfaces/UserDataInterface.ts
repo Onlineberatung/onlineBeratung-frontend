@@ -17,9 +17,12 @@ export interface UserDataInterface {
 }
 
 export interface AgencyDataInterface {
-	description?: string;
-	id: string;
+	city: string;
+	consultingType: number;
+	description: string;
+	id: number;
 	name: string;
+	offline: boolean;
 	postcode: string;
 	teamAgency: boolean;
 }

@@ -8,11 +8,12 @@ module.exports = {
 			'jquery-migrate': 'dist/jquery-migrate.js',
 			'enquire.js': 'dist/enquire.js',
 			'sanitize.css': 'sanitize.css',
-			'handlebars': 'dist/handlebars.runtime.js'
+			'handlebars': 'dist/handlebars.runtime.js',
+			'core-js-bundle': 'minified.js'
 		}
 	},
 	connect: {
-		historyFallbackIndex: '/beratung-hilfe.html',
+		historyFallbackIndex: '/beratung-hilfe.html'
 	},
 	webpack: {
 		tsWatchPatterns: [

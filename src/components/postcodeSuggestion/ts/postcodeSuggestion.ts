@@ -12,6 +12,7 @@ import {
 	handleWarningLabelOnInput
 } from '../../registrationFormular/ts/warningLabels';
 import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
+import { AgencyDataInterface } from '../../../globalState';
 
 const MAX_AGENCY_SUGGESTION = 3;
 
@@ -65,7 +66,10 @@ export const addPostcodeListener = (target: string) => {
 	});
 };
 
-export const initPostcodeSuggestion = (data: Array<any>, inputVal: string) => {
+export const initPostcodeSuggestion = (
+	data: Array<AgencyDataInterface>,
+	inputVal: string
+) => {
 	let agencyCount = 0;
 	const suggestionLayer = document.getElementById('suggestionLayer');
 	emptyAgencyResults(suggestionLayer);
@@ -78,23 +82,12 @@ export const initPostcodeSuggestion = (data: Array<any>, inputVal: string) => {
 	for (let i = 0; i < data.length; i++) {
 		const agencyData = data[i];
 		++agencyCount;
-		const agencyDescr = agencyData.description;
-		const agencyID = agencyData.id;
-		const agencyPostcode = agencyData.postcode;
-		const agencyName = agencyData.name;
-		const isTeamAgency = agencyData.teamAgency;
 
 		if (
 			agencyCount <= MAX_AGENCY_SUGGESTION ||
 			inputVal.length === VALID_POSTCODE_LENGTH.MAX
 		) {
-			renderAgency(
-				agencyDescr,
-				agencyID,
-				agencyPostcode,
-				agencyName,
-				isTeamAgency
-			);
+			renderAgency(agencyData);
 		} else {
 			emptyAgencyResults(suggestionLayer);
 		}

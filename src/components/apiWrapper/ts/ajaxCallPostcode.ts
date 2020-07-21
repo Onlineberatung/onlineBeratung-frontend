@@ -1,15 +1,16 @@
 import { config } from '../../../resources/ts/config';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { VALID_POSTCODE_LENGTH } from '../../postcodeSuggestion/ts/postcodeSuggestion';
+import { AgencyDataInterface } from '../../../globalState';
 
 export const ajaxCallPostcodeSuggestion = async (params: {
 	postcode: string;
 	consultingType: Number;
-}): Promise<any> => {
+}): Promise<[AgencyDataInterface]> => {
 	let queryStr = Object.keys(params)
 		.map((key) => key + '=' + params[key])
 		.join('&');
-	const url = config.endpoints.postcode + '?' + queryStr;
+	const url = config.endpoints.agencyServiceBase + '?' + queryStr;
 
 	if (params.postcode.length >= VALID_POSTCODE_LENGTH.SHORT) {
 		return fetchData({
