@@ -14,5 +14,7 @@ export default {
 	'data.register.headline':
 		'Benötigst Du auch zu anderen Themen Rat oder Hilfe? Wir unterstützen Dich gerne.',
 	'data.register.postcodeInput.infoText':
-		'Mit der Postleitzahl können wir eine_n Berater_in in Deiner Nähe finden.'
+		'Mit der Postleitzahl können wir eine_n Berater_in in Deiner Nähe finden.',
+	'data.registerError.overlay.headline':
+		'Es ist ein Fehler aufgetreten.Bitte versuche es erneut.'
 };

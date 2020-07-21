@@ -28,6 +28,8 @@ export const config = {
 		rocketchatLogout: tld + '/api/v1/logout',
 		sessions: tld + '/service/users/sessions/consultants?status=2',
 		registerAsker: tld + '/service/users/askers/new',
+		registerAskerNewConsultingType:
+			tld + '/service/users/askers/consultingType/new',
 		userSessions: tld + '/service/users/sessions/askers',
 		userWriteEnquiry: tld + '/02components.06writeEnquiry.html',
 		setAbsence: tld + '/service/users/consultants/absences',

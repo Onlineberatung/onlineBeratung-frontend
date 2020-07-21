@@ -4,6 +4,7 @@ import {
 	getResortTranslation
 } from '../../../resources/ts/i18n/translate';
 import { UserDataInterface } from '../../../globalState';
+import { OverlayItem, OVERLAY_FUNCTIONS } from '../../overlay/ts/Overlay';
 
 export const convertUserDataObjectToArray = (object) => {
 	const array = [];
@@ -56,4 +57,34 @@ export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
 			label: getResortTranslation(parseInt(value.consultingType))
 		};
 	});
+};
+
+export const overlayItemNewRegistrationSuccess: OverlayItem = {
+	imgSrc: '/../resources/img/illustrations/envelope-check.svg',
+	headline: translate('enquiry.write.overlayHeadline'),
+	copy: translate('enquiry.write.overlayCopy'),
+	buttonSet: [
+		{
+			label: translate('enquiry.write.overlayButton1.label'),
+			function: OVERLAY_FUNCTIONS.REDIRECT,
+			type: BUTTON_TYPES.PRIMARY
+		},
+		{
+			label: translate('enquiry.write.overlayButton2.label'),
+			function: OVERLAY_FUNCTIONS.LOGOUT,
+			type: BUTTON_TYPES.LINK
+		}
+	]
+};
+
+export const overlayItemNewRegistrationError: OverlayItem = {
+	imgSrc: '/../resources/img/illustrations/x.svg',
+	headline: translate('profile.data.registerError.overlay.headline'),
+	buttonSet: [
+		{
+			label: translate('profile.data.registerError.overlay.buttonLabel'),
+			function: OVERLAY_FUNCTIONS.CLOSE,
+			type: BUTTON_TYPES.PRIMARY
+		}
+	]
 };
