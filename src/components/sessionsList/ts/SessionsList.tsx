@@ -91,7 +91,7 @@ export const SessionsList = () => {
 		}
 		if (typeIsUser(type)) {
 			resetActiveSession();
-			fetchUserData();
+			fetchUserData(acceptedGroupId);
 		}
 	}, []);
 
@@ -317,7 +317,7 @@ export const SessionsList = () => {
 		});
 	};
 
-	const fetchUserData = () => {
+	const fetchUserData = (newRegisteredSessionId: number = null) => {
 		ajaxCallGetUserSessions()
 			.then((response) => {
 				setSessionsData({
@@ -330,6 +330,10 @@ export const SessionsList = () => {
 					history.push(`/sessions/user/view/write`);
 				} else {
 					setLoading(false);
+					if (newRegisteredSessionId) {
+						setActiveSessionGroupId(newRegisteredSessionId);
+						history.push(`/sessions/user/view/write`);
+					}
 				}
 			})
 			.catch((error) => {

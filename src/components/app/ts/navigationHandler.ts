@@ -45,7 +45,7 @@ export const mobileDetailView = () => {
 	}
 };
 
-const setProfileWrapperInactive = () => {
+export const setProfileWrapperInactive = () => {
 	document
 		.querySelector('.contentWrapper__list')
 		.setAttribute('style', 'display: block');

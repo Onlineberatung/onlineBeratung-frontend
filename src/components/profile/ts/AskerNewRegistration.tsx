@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
-import { UserDataContext, AgencyDataInterface } from '../../../globalState';
+import {
+	UserDataContext,
+	AgencyDataInterface,
+	AcceptedGroupIdContext
+} from '../../../globalState';
+import { history } from '../../app/ts/app';
 import { Button } from '../../button/ts/Button';
 import {
 	SelectDropdown,
@@ -10,7 +15,9 @@ import {
 import { InputField, InputFieldItemTSX } from '../../inputField/ts/InputField';
 import {
 	consultingTypeSelectOptionsSet,
-	buttonSetRegistration
+	buttonSetRegistration,
+	overlayItemNewRegistrationSuccess,
+	overlayItemNewRegistrationError
 } from './profileHelpers';
 import {
 	VALID_POSTCODE_LENGTH,
@@ -23,6 +30,17 @@ import {
 	POSTCODE_FALLBACK_LINK
 } from '../../../resources/ts/helpers/resorts';
 import { extendPostcodeToBeValid } from '../../registrationFormular/ts/handleRegistration';
+import { ajaxCallRegistrationNewConsultingTypes } from '../../apiWrapper/ts/ajaxCallRegistrationNewConsultingType';
+import {
+	OverlayWrapper,
+	Overlay,
+	OVERLAY_FUNCTIONS
+} from '../../overlay/ts/Overlay';
+import { logout } from '../../logout/ts/logout';
+import {
+	setProfileWrapperInactive,
+	mobileListView
+} from '../../app/ts/navigationHandler';
 
 export const AskerNewRegistration = () => {
 	const { userData } = useContext(UserDataContext);
@@ -33,6 +51,9 @@ export const AskerNewRegistration = () => {
 	const [selectedAgencyId, setSelectedAgencyId] = useState(null);
 	const [postcodeExtended, setPostcodeExtended] = useState(false);
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState(null);
+	const [overlayActive, setOverlayActive] = useState(false);
+	const [overlayItem, setOverlayItem] = useState(null);
+	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
 	useEffect(() => {
 		setSelectedPostcode(null);
@@ -141,7 +162,36 @@ export const AskerNewRegistration = () => {
 
 	const handleRegistration = () => {
 		if (isAllRequiredDataSet()) {
-			console.log('TODO: send registration');
+			ajaxCallRegistrationNewConsultingTypes(
+				selectedConsultingType,
+				selectedAgencyId,
+				selectedPostcode
+			)
+				.then((response) => {
+					setOverlayItem(overlayItemNewRegistrationSuccess);
+					setOverlayActive(true);
+					setAcceptedGroupId(response.sessionId);
+				})
+				.catch((error) => {
+					setOverlayItem(overlayItemNewRegistrationError);
+					setOverlayActive(true);
+				});
+		}
+	};
+
+	const handleOverlayAction = (buttonFunction: string) => {
+		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
+			setProfileWrapperInactive();
+			mobileListView();
+			history.push({
+				pathname: `/sessions/user/view`
+			});
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
+			setOverlayItem(null);
+			setOverlayActive(false);
+			setSelectedConsultingType(null);
+		} else {
+			logout();
 		}
 	};
 
@@ -171,7 +221,20 @@ export const AskerNewRegistration = () => {
 								>
 									{agency.teamAgency ? (
 										<div className="askerRegistration__postcodeFlyout__teamagency">
-											{agency.teamAgency}
+											<span className="suggestionWrapper__item__content__teamAgency__icon">
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													width="72"
+													height="72"
+													viewBox="0 0 72 72"
+												>
+													<path d="M36,6 C52.5333333,6 66,19.4666667 66,36 C66,52.5333333 52.5333333,66 36,66 C19.4666667,66 6,52.5333333 6,36 C6,19.4666667 19.4666667,6 36,6 Z M29.3515625,50.4609375 L29.3515625,54.5625 L42.78125,54.5625 L42.78125,50.4609375 L39.5,49.7578125 L39.5,29.203125 L29,29.203125 L29,33.328125 L32.65625,34.03125 L32.65625,49.7578125 L29.3515625,50.4609375 Z M39.5,23.1328125 L39.5,18 L32.65625,18 L32.65625,23.1328125 L39.5,23.1328125 Z" />
+												</svg>
+											</span>
+
+											{translate(
+												'registration.agency.isteam'
+											)}
 										</div>
 									) : null}
 									{agency.postcode ? (
@@ -203,6 +266,14 @@ export const AskerNewRegistration = () => {
 				buttonHandle={handleRegistration}
 				disabled={isButtonDisabled}
 			/>
+			{overlayActive ? (
+				<OverlayWrapper>
+					<Overlay
+						item={overlayItem}
+						handleOverlay={handleOverlayAction}
+					/>
+				</OverlayWrapper>
+			) : null}
 		</div>
 	);
 };
