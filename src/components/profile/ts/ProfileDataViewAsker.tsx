@@ -89,7 +89,9 @@ export const ProfileDataViewAsker = () => {
 														: handleNumericTranslation(
 																getUserDataTranslateBase(
 																	parseInt(
-																		resort.type
+																		resort
+																			.agency
+																			.consultingType
 																	)
 																),
 																item,
