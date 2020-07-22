@@ -52,6 +52,7 @@ export const InputField = (props: InputFieldProps) => {
 						name={inputItem.name}
 						placeholder={translate(inputItem.labelTranslatable)}
 						disabled={inputItem.disabled}
+						autoComplete="off"
 					/>
 					<label
 						className="formWrapper__inputWrapper__label"

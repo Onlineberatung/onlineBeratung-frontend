@@ -45,7 +45,7 @@ export const config = {
 		updateMonitoring: tld + '/service/users/sessions/monitoring',
 		keycloakUsers: '/admin/realms/caritas-online-beratung/users/',
 		keycloakResetPasswordMail: '/execute-actions-email',
-		dashboard: tld + ENDPOINT_PORT + '/sessions/user/view',
+		userSessionsListView: '/sessions/user/view',
 		error500: tld + ENDPOINT_PORT + '/02components.07errorPage500.html',
 		error401: tld + ENDPOINT_PORT + '/02components.07errorPage401.html',
 		error404: tld + ENDPOINT_PORT + '/02components.07errorPage404.html',

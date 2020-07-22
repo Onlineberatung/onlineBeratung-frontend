@@ -87,13 +87,21 @@ export const SessionsList = () => {
 	let type = getTypeOfLocation();
 
 	useEffect(() => {
+		if (typeIsUser(type) && acceptedGroupId) {
+			fetchUserData(acceptedGroupId);
+			setAcceptedGroupId(null);
+			setActiveSessionGroupId(null);
+		}
+	});
+
+	useEffect(() => {
 		setAcceptedGroupId(null);
 		if (!showFilter) {
 			setFilterStatus(INITIAL_FILTER);
 		}
 		if (typeIsUser(type)) {
 			resetActiveSession();
-			fetchUserData(acceptedGroupId);
+			fetchUserData(acceptedGroupId, true);
 		}
 	}, []);
 
@@ -319,7 +327,10 @@ export const SessionsList = () => {
 		});
 	};
 
-	const fetchUserData = (newRegisteredSessionId: number = null) => {
+	const fetchUserData = (
+		newRegisteredSessionId: number = null,
+		redirectToEnquiry: boolean = false
+	) => {
 		ajaxCallGetUserSessions()
 			.then((response) => {
 				setSessionsData({
@@ -332,7 +343,7 @@ export const SessionsList = () => {
 					history.push(`/sessions/user/view/write`);
 				} else {
 					setLoading(false);
-					if (newRegisteredSessionId) {
+					if (newRegisteredSessionId && redirectToEnquiry) {
 						setActiveSessionGroupId(newRegisteredSessionId);
 						history.push(`/sessions/user/view/write`);
 						getUserData()

@@ -93,8 +93,8 @@ export const AskerNewRegistration = () => {
 								selectedConsultingType
 							)
 						) {
-							setSelectedAgencyId(response[0].id);
 							setTypedPostcode(selectedPostcode);
+							setSelectedAgencyId(response[0].id);
 						} else {
 							setSuggestedAgencies(response);
 						}
