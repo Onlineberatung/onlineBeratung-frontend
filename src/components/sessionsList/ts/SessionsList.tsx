@@ -27,7 +27,8 @@ import {
 	AUTHORITIES,
 	ACTIVE_SESSION,
 	hasUserAuthority,
-	StoppedGroupChatContext
+	StoppedGroupChatContext,
+	UserDataInterface
 } from '../../../globalState';
 import {
 	SelectDropdownItem,
@@ -39,7 +40,8 @@ import { SessionsListSkeleton } from '../../sessionsListItem/ts/SessionsListItem
 import {
 	INITIAL_FILTER,
 	SESSION_COUNT,
-	ajaxCallGetUserSessions
+	ajaxCallGetUserSessions,
+	getUserData
 } from '../../apiWrapper/ts';
 import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
 import { getSessions } from './SessionsListData';
@@ -59,7 +61,7 @@ export const SessionsList = () => {
 	const [showNewMessageForUser, setShowNewMessageForUser] = useState(false);
 	const [hasNoSessions, setHasNoSessions] = useState(false);
 	const [loading, setLoading] = useState(true);
-	const { userData } = useContext(UserDataContext);
+	const { userData, setUserData } = useContext(UserDataContext);
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [totalItems, setTotalItems] = useState(0);
 	const { acceptedGroupId, setAcceptedGroupId } = useContext(
@@ -333,6 +335,13 @@ export const SessionsList = () => {
 					if (newRegisteredSessionId) {
 						setActiveSessionGroupId(newRegisteredSessionId);
 						history.push(`/sessions/user/view/write`);
+						getUserData()
+							.then((userProfileData: UserDataInterface) => {
+								setUserData(userProfileData);
+							})
+							.catch((error) => {
+								console.log(error);
+							});
 					}
 				}
 			})

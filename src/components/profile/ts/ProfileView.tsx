@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { ProfileDataViewConsultant } from './ProfileDataViewConsultant';
 import { ProfileFunctions } from './ProfileFunctions';
@@ -8,28 +8,15 @@ import { config } from '../../../resources/ts/config';
 import {
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES,
-	UserDataInterface
+	AUTHORITIES
 } from '../../../globalState';
 import { ProfileDataViewAsker } from './ProfileDataViewAsker';
-import { getUserData } from '../../apiWrapper/ts';
 
 export const ProfileView = () => {
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData } = useContext(UserDataContext);
 
 	useEffect(() => {
 		setProfileWrapperActive();
-		return () => {
-			if (hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)) {
-				getUserData()
-					.then((userProfileData: UserDataInterface) => {
-						setUserData(userProfileData);
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-			}
-		};
 	}, []);
 
 	const handleLogout = () => {
