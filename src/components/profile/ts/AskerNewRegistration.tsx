@@ -43,6 +43,7 @@ import {
 } from '../../app/ts/navigationHandler';
 
 export const AskerNewRegistration = () => {
+	let postcodeFlyoutRef: React.RefObject<HTMLDivElement> = React.useRef();
 	const { userData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingType, setSelectedConsultingType] = useState(null);
@@ -102,11 +103,28 @@ export const AskerNewRegistration = () => {
 						}
 						return null;
 					});
+			} else if (suggestedAgencies) {
+				setSuggestedAgencies(false);
 			}
 		} else {
 			setPostcodeExtended(false);
 		}
 	}, [selectedPostcode]);
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (
+				postcodeFlyoutRef.current &&
+				!postcodeFlyoutRef.current.contains(event.target)
+			) {
+				setSuggestedAgencies(null);
+			}
+		};
+		document.addEventListener('click', handleClickOutside);
+		return () => {
+			document.removeEventListener('click', handleClickOutside);
+		};
+	}, [postcodeFlyoutRef]);
 
 	useEffect(() => {
 		if (isAllRequiredDataSet()) {
@@ -209,7 +227,10 @@ export const AskerNewRegistration = () => {
 				></InputField>
 
 				{suggestedAgencies ? (
-					<div className="askerRegistration__postcodeFlyout">
+					<div
+						ref={postcodeFlyoutRef}
+						className="askerRegistration__postcodeFlyout"
+					>
 						{suggestedAgencies.map(
 							(agency: AgencyDataInterface, index) => (
 								<div
