@@ -48,6 +48,7 @@ export const AskerNewRegistration = () => {
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingType, setSelectedConsultingType] = useState(null);
 	const [selectedPostcode, setSelectedPostcode] = useState(null);
+	const [typedPostcode, setTypedPostcode] = useState(null);
 	const [suggestedAgencies, setSuggestedAgencies] = useState(null);
 	const [selectedAgencyId, setSelectedAgencyId] = useState(null);
 	const [postcodeExtended, setPostcodeExtended] = useState(false);
@@ -60,7 +61,8 @@ export const AskerNewRegistration = () => {
 		selectedConsultingType &&
 		selectedPostcode &&
 		selectedPostcode.length === VALID_POSTCODE_LENGTH.MAX &&
-		selectedAgencyId;
+		selectedAgencyId &&
+		typedPostcode;
 
 	useEffect(() => {
 		setSelectedPostcode(null);
@@ -72,6 +74,7 @@ export const AskerNewRegistration = () => {
 	useEffect(() => {
 		if (!postcodeExtended) {
 			setSelectedAgencyId(null);
+			setTypedPostcode(null);
 			setPostcodeFallbackLink(null);
 			if (
 				selectedPostcode &&
@@ -91,6 +94,7 @@ export const AskerNewRegistration = () => {
 							)
 						) {
 							setSelectedAgencyId(response[0].id);
+							setTypedPostcode(selectedPostcode);
 						} else {
 							setSuggestedAgencies(response);
 						}
@@ -171,11 +175,15 @@ export const AskerNewRegistration = () => {
 		postcodeFallbackLink: postcodeFallbackLink
 	};
 
-	const handleAgencySelection = (agencyId: number) => {
+	const handleAgencySelection = (agency: AgencyDataInterface) => {
 		setSuggestedAgencies(null);
-		setSelectedPostcode(extendPostcodeToBeValid(selectedPostcode));
+		const fulllengthPostcode = extendPostcodeToBeValid(selectedPostcode);
+		setTypedPostcode(fulllengthPostcode);
+		agency.postcode
+			? setSelectedPostcode(agency.postcode)
+			: setSelectedPostcode(fulllengthPostcode);
 		setPostcodeExtended(true);
-		setSelectedAgencyId(agencyId);
+		setSelectedAgencyId(agency.id);
 	};
 
 	const handleRegistration = () => {
@@ -183,7 +191,7 @@ export const AskerNewRegistration = () => {
 			ajaxCallRegistrationNewConsultingTypes(
 				selectedConsultingType,
 				selectedAgencyId,
-				selectedPostcode
+				typedPostcode
 			)
 				.then((response) => {
 					setOverlayItem(overlayItemNewRegistrationSuccess);
@@ -237,7 +245,7 @@ export const AskerNewRegistration = () => {
 									className="askerRegistration__postcodeFlyout__content"
 									key={index}
 									onClick={() =>
-										handleAgencySelection(agency.id)
+										handleAgencySelection(agency)
 									}
 								>
 									{agency.teamAgency ? (
