@@ -8,16 +8,29 @@ import { config } from '../../../resources/ts/config';
 import {
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	UserDataInterface
 } from '../../../globalState';
 import { ProfileDataViewAsker } from './ProfileDataViewAsker';
+import { getUserData } from '../../apiWrapper/ts';
 
 export const ProfileView = () => {
-	const { userData } = useContext(UserDataContext);
+	const { userData, setUserData } = useContext(UserDataContext);
 
 	useEffect(() => {
 		setProfileWrapperActive();
-	});
+		return () => {
+			if (hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)) {
+				getUserData()
+					.then((userProfileData: UserDataInterface) => {
+						setUserData(userProfileData);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			}
+		};
+	}, []);
 
 	const handleLogout = () => {
 		logout();
