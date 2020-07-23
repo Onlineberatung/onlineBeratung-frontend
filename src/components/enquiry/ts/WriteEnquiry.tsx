@@ -22,7 +22,10 @@ import {
 	AcceptedGroupIdContext,
 	SessionsDataContext
 } from '../../../globalState';
-import { mobileDetailView } from '../../app/ts/navigationHandler';
+import {
+	mobileDetailView,
+	mobileListView
+} from '../../app/ts/navigationHandler';
 
 const overlayItem: OverlayItem = {
 	imgSrc: '/../resources/img/illustrations/envelope-check.svg',
@@ -53,6 +56,9 @@ export const WriteEnquiry = (props) => {
 			deactivateListView();
 		} else {
 			mobileDetailView();
+			return () => {
+				mobileListView();
+			};
 		}
 	}, []);
 

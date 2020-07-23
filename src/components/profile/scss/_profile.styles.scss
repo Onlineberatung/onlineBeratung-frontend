@@ -277,8 +277,11 @@ $backBtnSize: 24px;
 		padding: 0 $grid-base-two;
 		background-color: $dark-grey;
 		min-height: $imprintHeight;
-		position: relative;
-		bottom: unset;
+		position: absolute;
+		bottom: 0;
+		margin-bottom: $grid-base-nine;
+		width: 100%;
+		z-index: 100;
 
 		@include breakpoint($fromMedium) {
 			padding: 0 $grid-base-three;
@@ -286,9 +289,8 @@ $backBtnSize: 24px;
 
 		@include breakpoint($fromLarge) {
 			justify-content: flex-start;
-			position: absolute;
-			bottom: 0;
 			width: 100%;
+			margin-bottom: unset;
 			background-color: $background-ochre;
 		}
 
@@ -431,6 +433,7 @@ $backBtnSize: 24px;
 		left: 0;
 		max-width: 320px;
 		margin: 0 auto;
+		padding-bottom: $grid-base-six;
 
 		&:after,
 		&:before {
