@@ -52,13 +52,13 @@ export const WriteEnquiry = (props) => {
 	let [overlayActive, setOverlayActive] = useState(false);
 
 	useEffect(() => {
-		if (!activeSessionGroupId) {
-			deactivateListView();
-		} else {
+		if (activeSessionGroupId) {
 			mobileDetailView();
 			return () => {
 				mobileListView();
 			};
+		} else {
+			deactivateListView();
 		}
 	}, []);
 
@@ -66,8 +66,8 @@ export const WriteEnquiry = (props) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			activateListView();
 			!activeSessionGroupId
-				? setAcceptedGroupId(sessionsData.mySessions[0].session.id)
-				: setAcceptedGroupId(activeSessionGroupId);
+				? setAcceptedGroupId(activeSessionGroupId)
+				: setAcceptedGroupId(sessionsData.mySessions[0].session.id);
 			history.push({
 				pathname: config.endpoints.userSessionsListView
 			});

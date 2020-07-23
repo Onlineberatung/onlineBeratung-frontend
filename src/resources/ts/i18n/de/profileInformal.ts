@@ -15,6 +15,8 @@ export default {
 		'Benötigst Du auch zu anderen Themen Rat oder Hilfe? Wir unterstützen Dich gerne.',
 	'data.register.postcodeInput.infoText':
 		'Mit der Postleitzahl können wir eine_n Berater_in in Deiner Nähe finden.',
+	'data.registerSuccess.overlay.headline':
+		'Du hast dich erfolgreich für ein neues Themenfeld registriert.',
 	'data.registerError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.'
 };

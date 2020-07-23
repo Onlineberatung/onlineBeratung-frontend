@@ -60,17 +60,20 @@ export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
 };
 
 export const overlayItemNewRegistrationSuccess: OverlayItem = {
-	imgSrc: '/../resources/img/illustrations/envelope-check.svg',
-	headline: translate('enquiry.write.overlayHeadline'),
-	copy: translate('enquiry.write.overlayCopy'),
+	imgSrc: '/../resources/img/illustrations/check.svg',
+	headline: translate('profile.data.registerSuccess.overlay.headline'),
 	buttonSet: [
 		{
-			label: translate('enquiry.write.overlayButton1.label'),
+			label: translate(
+				'profile.data.registerSuccess.overlay.button1Label'
+			),
 			function: OVERLAY_FUNCTIONS.REDIRECT,
 			type: BUTTON_TYPES.PRIMARY
 		},
 		{
-			label: translate('enquiry.write.overlayButton2.label'),
+			label: translate(
+				'profile.data.registerSuccess.overlay.button2Label'
+			),
 			function: OVERLAY_FUNCTIONS.LOGOUT,
 			type: BUTTON_TYPES.LINK
 		}
