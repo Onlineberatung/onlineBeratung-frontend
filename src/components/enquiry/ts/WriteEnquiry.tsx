@@ -65,7 +65,7 @@ export const WriteEnquiry = (props) => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			activateListView();
-			!activeSessionGroupId
+			activeSessionGroupId
 				? setAcceptedGroupId(activeSessionGroupId)
 				: setAcceptedGroupId(sessionsData.mySessions[0].session.id);
 			history.push({
