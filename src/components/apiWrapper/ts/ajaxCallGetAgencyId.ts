@@ -1,8 +1,11 @@
 import { config } from '../../../resources/ts/config';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
+import { AgencyDataInterface } from '../../../globalState';
 
-export const getAgencyById = async (agencyId: any): Promise<any> => {
-	const url = config.endpoints.agencyById + agencyId;
+export const getAgencyById = async (
+	agencyId: any
+): Promise<[AgencyDataInterface]> => {
+	const url = config.endpoints.agencyServiceBase + '/' + agencyId;
 
 	return fetchData({
 		url: url,

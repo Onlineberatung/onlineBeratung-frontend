@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+
+import { history } from '../../app/ts/app';
 import {
 	MessageSubmitItem,
 	MessageSubmitInterfaceComponent
@@ -15,39 +17,60 @@ import {
 import { BUTTON_TYPES } from '../../button/ts/Button';
 import { logout } from '../../logout/ts/logout';
 import { config } from '../../../resources/ts/config';
+import {
+	ActiveSessionGroupIdContext,
+	AcceptedGroupIdContext,
+	SessionsDataContext
+} from '../../../globalState';
+import {
+	mobileDetailView,
+	mobileListView
+} from '../../app/ts/navigationHandler';
+
+const overlayItem: OverlayItem = {
+	imgSrc: '/../resources/img/illustrations/envelope-check.svg',
+	headline: translate('enquiry.write.overlayHeadline'),
+	copy: translate('enquiry.write.overlayCopy'),
+	buttonSet: [
+		{
+			label: translate('enquiry.write.overlayButton1.label'),
+			function: OVERLAY_FUNCTIONS.REDIRECT,
+			type: BUTTON_TYPES.PRIMARY
+		},
+		{
+			label: translate('enquiry.write.overlayButton2.label'),
+			function: OVERLAY_FUNCTIONS.LOGOUT,
+			type: BUTTON_TYPES.LINK
+		}
+	]
+};
 
 export const WriteEnquiry = (props) => {
-	const overlayItem: OverlayItem = {
-		imgSrc: '/../resources/img/illustrations/envelope-check.svg',
-		headline: translate('enquiry.write.overlayHeadline'),
-		copy: translate('enquiry.write.overlayCopy'),
-		buttonSet: [
-			{
-				label: translate('enquiry.write.overlayButton1.label'),
-				function: OVERLAY_FUNCTIONS.REDIRECT,
-				type: BUTTON_TYPES.PRIMARY
-			},
-			{
-				label: translate('enquiry.write.overlayButton2.label'),
-				function: OVERLAY_FUNCTIONS.LOGOUT,
-				type: BUTTON_TYPES.LINK
-			}
-		]
-	};
-
+	const { sessionsData } = useContext(SessionsDataContext);
+	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
+	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	let [overlayActive, setOverlayActive] = useState(false);
-	let [init, setInit] = useState(true);
 
 	useEffect(() => {
-		if (init) {
+		if (activeSessionGroupId) {
+			mobileDetailView();
+			return () => {
+				mobileListView();
+			};
+		} else {
 			deactivateListView();
-			setInit(false);
 		}
-	});
+	}, []);
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
-			window.location.href = config.endpoints.dashboard;
+			activateListView();
+			activeSessionGroupId
+				? setAcceptedGroupId(activeSessionGroupId)
+				: setAcceptedGroupId(sessionsData.mySessions[0].session.id);
+			history.push({
+				pathname: config.endpoints.userSessionsListView
+			});
 		} else {
 			logout();
 		}

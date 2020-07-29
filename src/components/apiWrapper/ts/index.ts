@@ -16,7 +16,7 @@ export * from './ajaxCallUpdateMonitoring';
 export * from './ajaxCallGetUserData';
 export * from './ajaxCallGetAgencyConsultantList';
 export * from './ajaxCallSessionAssign';
-export * from './ajaxCallSendAttachment';
+export * from './ajaxCallUploadAttachment';
 export * from './rocketChatSocket';
 export * from './ajaxCallGroupChatSettings';
 export * from './ajaxCallPutGroupChat';

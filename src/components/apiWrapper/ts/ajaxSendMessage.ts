@@ -7,10 +7,6 @@ export const ajaxSendMessage = async (
 	isFeedback: boolean,
 	sendMailNotification: boolean
 ): Promise<any> => {
-	if (!messageData.trim()) {
-		return 'emptyMessage';
-	}
-
 	const url = isFeedback
 		? config.endpoints.sendMessageToFeedback
 		: config.endpoints.sendMessage;

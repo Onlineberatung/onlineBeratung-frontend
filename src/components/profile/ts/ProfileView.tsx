@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
-import { ProfileDataView } from './ProfileDataView';
+import { ProfileDataViewConsultant } from './ProfileDataViewConsultant';
 import { ProfileFunctions } from './ProfileFunctions';
 import { logout } from '../../logout/ts/logout';
 import { config } from '../../../resources/ts/config';
@@ -10,14 +10,14 @@ import {
 	hasUserAuthority,
 	AUTHORITIES
 } from '../../../globalState';
-import { ProfileDataViewUser } from './ProfileDataViewUser';
+import { ProfileDataViewAsker } from './ProfileDataViewAsker';
 
 export const ProfileView = () => {
 	const { userData } = useContext(UserDataContext);
 
 	useEffect(() => {
 		setProfileWrapperActive();
-	});
+	}, []);
 
 	const handleLogout = () => {
 		logout();
@@ -78,9 +78,9 @@ export const ProfileView = () => {
 						AUTHORITIES.CONSULTANT_DEFAULT,
 						userData
 					) ? (
-						<ProfileDataView />
+						<ProfileDataViewConsultant />
 					) : (
-						<ProfileDataViewUser />
+						<ProfileDataViewAsker />
 					)}
 				</div>
 				<div className="profile__footer">

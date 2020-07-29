@@ -30,9 +30,10 @@ import {
 	AUTHORITIES
 } from '../../../globalState';
 import { history } from '../../app/ts/app';
-import { renderEmoji } from '../../initEmoji/ts/initEmoji';
 import { getIconForAttachmentType } from '../../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
 import { getGroupChatDate } from '../../session/ts/sessionDateHelpers';
+import { markdownToDraft } from 'markdown-draft-js';
+import { convertFromRaw } from 'draft-js';
 
 interface SessionListItemProps {
 	type: string;
@@ -41,7 +42,9 @@ interface SessionListItemProps {
 
 export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
+		ActiveSessionGroupIdContext
+	);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const [isRead, setIsRead] = useState(false);
 
@@ -60,6 +63,16 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const listItem =
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
+	let plainTextLastMessage = '';
+
+	if (listItem.lastMessage) {
+		const rawMessageObject = markdownToDraft(listItem.lastMessage);
+		const contentStateMessage = convertFromRaw(rawMessageObject);
+		plainTextLastMessage = contentStateMessage.getPlainText();
+	}
+
+	const isCurrentSessionNewEnquiry =
+		currentSessionData.session && currentSessionData.session.status === 0;
 
 	useEffect(() => {
 		if (!isGroupChat) {
@@ -77,6 +90,12 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					listItem.id
 				}`
 			);
+		} else if (
+			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
+			isCurrentSessionNewEnquiry
+		) {
+			setActiveSessionGroupId(listItem.id);
+			history.push(`/sessions/user/view/write`);
 		}
 	};
 
@@ -84,11 +103,17 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		e.stopPropagation();
 	};
 
-	const iconVariant = isGroupChat
-		? LIST_ICONS.IS_GROUP_CHAT
-		: isRead
-		? LIST_ICONS.IS_READ
-		: LIST_ICONS.IS_UNREAD;
+	const iconVariant = () => {
+		if (isGroupChat) {
+			return LIST_ICONS.IS_GROUP_CHAT;
+		} else if (isCurrentSessionNewEnquiry) {
+			return LIST_ICONS.IS_NEW_ENQUIRY;
+		} else if (isRead) {
+			return LIST_ICONS.IS_READ;
+		} else {
+			return LIST_ICONS.IS_UNREAD;
+		}
+	};
 	if (isGroupChat) {
 		const isMyChat = () =>
 			currentSessionData.consultant &&
@@ -125,11 +150,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						<div
 							className="sessionsListItem__icon"
 							dangerouslySetInnerHTML={{
-								__html: renderEmoji(
-									getSessionsListItemIcon(iconVariant)
-								)
+								__html: getSessionsListItemIcon(iconVariant())
 							}}
-						/>
+						></div>
 						<div className="sessionsListItem__username">
 							{listItem.topic}
 						</div>
@@ -140,14 +163,11 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						) : null}
 					</div>
 					<div className="sessionsListItem__row">
-						<div
-							className="sessionsListItem__subject"
-							dangerouslySetInnerHTML={{
-								__html: listItem.lastMessage
-									? renderEmoji(listItem.lastMessage)
-									: defaultSubjectText
-							}}
-						></div>
+						<div className="sessionsListItem__subject">
+							{listItem.lastMessage
+								? plainTextLastMessage
+								: defaultSubjectText}
+						</div>
 						{listItem.attachment ? (
 							<div className="sessionsListItem__subject">
 								<span className="sessionsListItem__subject__attachment">
@@ -179,19 +199,14 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		<div
 			onClick={handleOnClick}
 			className={
-				activeSession && activeSession.session.id === listItem.id
+				(activeSession && activeSession.session.id === listItem.id) ||
+				activeSessionGroupId === listItem.id
 					? `sessionsListItem sessionsListItem--active`
 					: `sessionsListItem`
 			}
 			data-group-id={listItem.groupId}
 		>
-			<div
-				className={
-					activeSession && activeSession.session.id === listItem.id
-						? `sessionsListItem__content sessionsListItem__content--active`
-						: `sessionsListItem__content`
-				}
-			>
+			<div className="sessionsListItem__content">
 				<div className="sessionsListItem__row">
 					{typeIsTeamSession(type) &&
 					hasUserAuthority(
@@ -236,11 +251,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					<div
 						className="sessionsListItem__icon"
 						dangerouslySetInnerHTML={{
-							__html: renderEmoji(
-								getSessionsListItemIcon(iconVariant)
-							)
+							__html: getSessionsListItemIcon(iconVariant())
 						}}
-					/>
+					></div>
 					<div
 						className={
 							isRead
@@ -251,6 +264,8 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						{typeIsUser(type)
 							? currentSessionData.consultant
 								? currentSessionData.consultant.username
+								: isCurrentSessionNewEnquiry
+								? translate('sessionList.user.writeEnquiry')
 								: translate(
 										'sessionList.user.consultantUnknown'
 								  )
@@ -259,12 +274,11 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 				</div>
 				<div className="sessionsListItem__row">
 					{listItem.lastMessage ? (
-						<div
-							className="sessionsListItem__subject"
-							dangerouslySetInnerHTML={{
-								__html: renderEmoji(listItem.lastMessage)
-							}}
-						></div>
+						<div className="sessionsListItem__subject">
+							{plainTextLastMessage}
+						</div>
+					) : isCurrentSessionNewEnquiry ? (
+						<span></span>
 					) : null}
 					{listItem.attachment ? (
 						<div className="sessionsListItem__subject">
@@ -283,7 +297,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						</div>
 					) : null}
 					<div className="sessionsListItem__date">
-						{getSessionsListItemDate(listItem.messageDate)}
+						{listItem.messageDate
+							? getSessionsListItemDate(listItem.messageDate)
+							: ''}
 					</div>
 				</div>
 			</div>

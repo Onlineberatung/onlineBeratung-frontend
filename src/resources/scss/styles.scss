@@ -58,8 +58,8 @@
 @import '../../components/session/scss/session.yellowTheme.styles';
 @import '../../components/sessionsList/scss/sessionsList.styles';
 @import '../../components/sessionsListItem/scss/sessionsListItem.styles';
+@import '../../components/typingIndicator/scss/typingIndicator.styles';
 @import '../../components/postcodeSuggestion/scss/postcodeSuggestion.styles';
-@import '../../components/initEmoji/scss/initEmoji.styles';
 @import '../../components/loginFormular/scss/loginFormular.styles';
 @import '../../components/sessionHeader/scss/sessionHeader.styles';
 @import '../../components/sessionHeader/scss/sessionHeader.yellowTheme.styles';
@@ -67,4 +67,5 @@
 @import '../../components/messageSubmitInterface/scss/messageSubmitInfo.styles';
 @import '../../components/messageSubmitInterface/scss/messageSubmitInterface.styles';
 @import '../../components/messageSubmitInterface/scss/messageSubmitInterface.yellowTheme.styles';
+@import '../../components/messageSubmitInterface/scss/emojiPicker.styles';
 @import '../../components/passwordReset/scss/passwordReset.styles';

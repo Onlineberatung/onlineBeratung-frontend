@@ -41,10 +41,11 @@ export const isGenericConsultingType = (currentType: number) => {
 	return genericTypes.includes(currentType);
 };
 
-export const hasConsultingTypeLongPostcodeValidation = () => {
-	const currentType = getConsultingTypeFromRegistration();
-	const typesUsingLongPostcodeValidation = [12, 17];
-	return typesUsingLongPostcodeValidation.includes(currentType);
+export const hasConsultingTypeLongPostcodeValidation = (
+	consultingType: number = getConsultingTypeFromRegistration()
+) => {
+	const typesUsingLongPostcodeValidation = ['12', '17'];
+	return typesUsingLongPostcodeValidation.includes(consultingType.toString());
 };
 
 export const getResortKeyForConsultingType = (currentType: number) => {

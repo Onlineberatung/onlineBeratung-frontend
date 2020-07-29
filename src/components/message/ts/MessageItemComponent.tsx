@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { getSessionsListItemDate } from '../../sessionsListItem/ts/sessionsListItemHelpers';
-import { renderEmoji } from '../../initEmoji/ts/initEmoji';
 import {
 	UserDataContext,
 	ActiveSessionGroupIdContext,
@@ -12,8 +11,7 @@ import {
 } from '../../../globalState';
 import {
 	SESSION_TYPES,
-	getChatItemForSession,
-	isGroupChatForSessionItem
+	getChatItemForSession
 } from '../../session/ts/sessionHelpers';
 import { ForwardIcon } from './actions/ForwardIcon';
 import { MessageMetaData } from './MessageMetaData';
@@ -26,6 +24,9 @@ import {
 	getAttachmentSizeMBForKB
 } from '../../messageSubmitInterface/ts/attachmentHelpers';
 import { tld } from '../../../resources/ts/config';
+import { markdownToDraft } from 'markdown-draft-js';
+import { stateToHTML } from 'draft-js-export-html';
+import { convertFromRaw } from 'draft-js';
 
 export interface MessageItem {
 	id?: number;
@@ -52,15 +53,18 @@ interface MessageItemComponentProps extends MessageItem {
 	clientName: string;
 }
 
-// TODO: Split this component into parts for every type of message.
 export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const renderedMessage = renderEmoji(props.message);
+	const rawMessageObject = markdownToDraft(props.message);
+	const contentStateMessage = convertFromRaw(rawMessageObject);
+	const renderedMessage =
+		rawMessageObject.blocks[0].text.length > 0
+			? stateToHTML(contentStateMessage)
+			: '';
 	const chatItem = getChatItemForSession(activeSession);
-	const isGroupChat = isGroupChatForSessionItem(activeSession);
 
 	const getMessageDate = () => {
 		if (props.messageDate) {
@@ -167,7 +171,15 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 					></span>
 					{props.attachments
 						? props.attachments.map((attachment, key) => (
-								<div key={key}>
+								<div
+									key={key}
+									className={
+										renderedMessage &&
+										renderedMessage.length > 0
+											? 'messageItem__message--withAttachment'
+											: ''
+									}
+								>
 									<div className="messageItem__message__attachment">
 										<span className="messageItem__message__attachment__icon">
 											{getIconForAttachmentType(

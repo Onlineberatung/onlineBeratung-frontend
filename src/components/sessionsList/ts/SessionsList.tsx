@@ -27,7 +27,8 @@ import {
 	AUTHORITIES,
 	ACTIVE_SESSION,
 	hasUserAuthority,
-	StoppedGroupChatContext
+	StoppedGroupChatContext,
+	UserDataInterface
 } from '../../../globalState';
 import {
 	SelectDropdownItem,
@@ -39,7 +40,8 @@ import { SessionsListSkeleton } from '../../sessionsListItem/ts/SessionsListItem
 import {
 	INITIAL_FILTER,
 	SESSION_COUNT,
-	ajaxCallGetUserSessions
+	ajaxCallGetUserSessions,
+	getUserData
 } from '../../apiWrapper/ts';
 import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
 import { getSessions } from './SessionsListData';
@@ -59,7 +61,7 @@ export const SessionsList = () => {
 	const [showNewMessageForUser, setShowNewMessageForUser] = useState(false);
 	const [hasNoSessions, setHasNoSessions] = useState(false);
 	const [loading, setLoading] = useState(true);
-	const { userData } = useContext(UserDataContext);
+	const { userData, setUserData } = useContext(UserDataContext);
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [totalItems, setTotalItems] = useState(0);
 	const { acceptedGroupId, setAcceptedGroupId } = useContext(
@@ -85,13 +87,21 @@ export const SessionsList = () => {
 	let type = getTypeOfLocation();
 
 	useEffect(() => {
+		if (typeIsUser(type) && acceptedGroupId) {
+			fetchUserData(acceptedGroupId);
+			setAcceptedGroupId(null);
+			setActiveSessionGroupId(null);
+		}
+	});
+
+	useEffect(() => {
 		setAcceptedGroupId(null);
 		if (!showFilter) {
 			setFilterStatus(INITIAL_FILTER);
 		}
 		if (typeIsUser(type)) {
 			resetActiveSession();
-			fetchUserData();
+			fetchUserData(acceptedGroupId, true);
 		}
 	}, []);
 
@@ -317,20 +327,37 @@ export const SessionsList = () => {
 		});
 	};
 
-	const fetchUserData = () => {
+	const fetchUserData = (
+		newRegisteredSessionId: number = null,
+		redirectToEnquiry: boolean = false
+	) => {
 		ajaxCallGetUserSessions()
 			.then((response) => {
 				setSessionsData({
 					mySessions: response.sessions
 				});
-				setLoading(false);
+				if (
+					response.sessions.length === 1 &&
+					response.sessions[0].session.status === 0
+				) {
+					history.push(`/sessions/user/view/write`);
+				} else {
+					setLoading(false);
+					if (newRegisteredSessionId && redirectToEnquiry) {
+						setActiveSessionGroupId(newRegisteredSessionId);
+						history.push(`/sessions/user/view/write`);
+						getUserData()
+							.then((userProfileData: UserDataInterface) => {
+								setUserData(userProfileData);
+							})
+							.catch((error) => {
+								console.log(error);
+							});
+					}
+				}
 			})
 			.catch((error) => {
-				if (error.message === FETCH_ERRORS.EMPTY) {
-					history.push(`/sessions/user/write`);
-				} else {
-					console.log(error);
-				}
+				console.log(error);
 			});
 	};
 

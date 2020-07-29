@@ -53,12 +53,6 @@ export const initialScrollDown = () => {
 	session.scrollTop = session.scrollHeight;
 };
 
-export const getTypedMessage = () => {
-	return (document.getElementById(
-		'sendMessageInput'
-	) as HTMLInputElement).value.trim();
-};
-
 export const getTypeOfLocation = () => {
 	const type = ((path) => {
 		if (path.indexOf('sessionPreview') !== -1) {

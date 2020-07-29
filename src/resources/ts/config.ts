@@ -6,11 +6,13 @@ export const tld = ENDPOINT_URL as string;
 export const config = {
 	endpoints: {
 		enquiries: tld + '/service/users/sessions/consultants?status=1',
-		enquiry: tld + '/service/users/sessions/askers/new',
+		enquiryBase: tld + '/service/users/sessions/',
 		enquiryAcceptance: tld + '/service/users/sessions/new',
 		enquiryAcceptanceRedirect: tld + '/02components.06sessionsList.html',
 		enquirySendConfirmationRedirect:
 			tld + '/02components.06userSession.html',
+		attachmentUpload: tld + '/service/uploads/new/',
+		attachmentUploadFeedbackRoom: tld + '/service/uploads/feedback/new/',
 		keycloakAccessToken:
 			tld +
 			'/auth/realms/caritas-online-beratung/protocol/openid-connect/token',
@@ -27,12 +29,13 @@ export const config = {
 		rocketchatAccessToken: tld + '/api/v1/login',
 		rocketchatLogout: tld + '/api/v1/logout',
 		sessions: tld + '/service/users/sessions/consultants?status=2',
-		userservice: tld + '/service/users/askers',
+		registerAsker: tld + '/service/users/askers/new',
+		registerAskerNewConsultingType:
+			tld + '/service/users/askers/consultingType/new',
 		userSessions: tld + '/service/users/sessions/askers',
 		userWriteEnquiry: tld + '/02components.06writeEnquiry.html',
 		setAbsence: tld + '/service/users/consultants/absences',
-		postcode: tld + '/service/agencies',
-		agencyById: tld + '/service/agencies/data/',
+		agencyServiceBase: tld + '/service/agencies',
 		keycloak: tld + '/auth',
 		userData: tld + '/service/users/data',
 		headerData: tld + '/service/users/sessions/askers',
@@ -42,7 +45,7 @@ export const config = {
 		updateMonitoring: tld + '/service/users/sessions/monitoring',
 		keycloakUsers: '/admin/realms/caritas-online-beratung/users/',
 		keycloakResetPasswordMail: '/execute-actions-email',
-		dashboard: tld + ENDPOINT_PORT + '/sessions/user/view',
+		userSessionsListView: '/sessions/user/view',
 		error500: tld + ENDPOINT_PORT + '/02components.07errorPage500.html',
 		error401: tld + ENDPOINT_PORT + '/02components.07errorPage401.html',
 		error404: tld + ENDPOINT_PORT + '/02components.07errorPage404.html',
@@ -59,7 +62,6 @@ export const config = {
 			'/registration.kb-sucht-selbsthilfe.html?aid=',
 		registrationDisabilityPostcodeFallback:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/behinderung-und-psychische-erkrankung/adressen',
-		rocketchatUploadAttachment: tld + '/api/v1/rooms.upload/',
 		groupChatBase: tld + '/service/users/chat/',
 		registrationMigrationPostcodeFallback:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/migration/adressen',

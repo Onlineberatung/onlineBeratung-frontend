@@ -30,6 +30,20 @@ export default {
 	'data.lastName': 'Nachname',
 	'data.email': 'E-Mail-Adresse',
 	'data.agency': 'Beratungsstelle',
+	'data.register.headline':
+		'Benötigen Sie auch zu anderen Themen Rat oder Hilfe? Wir unterstützen Sie gerne.',
+	'data.register.consultingTypeSelect.label': 'Themenfelder',
+	'data.register.postcodeInput.label': 'PLZ*',
+	'data.register.postcodeInput.infoText':
+		'Mit der Postleitzahl können wir eine_n Berater_in in Ihrer Nähe finden.',
+	'data.register.buttonLabel': 'Registrieren',
+	'data.registerSuccess.overlay.headline':
+		'Sie haben sich erfolgreich für ein neues Themenfeld registriert.',
+	'data.registerSuccess.overlay.button1Label': 'Nachricht verfassen',
+	'data.registerSuccess.overlay.button2Label': 'Abmelden',
+	'data.registerError.overlay.headline':
+		'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.',
+	'data.registerError.overlay.buttonLabel': 'Schliessen',
 	'footer.imprint': 'Impressum',
 	'footer.dataprotection': 'Datenschutz'
 };

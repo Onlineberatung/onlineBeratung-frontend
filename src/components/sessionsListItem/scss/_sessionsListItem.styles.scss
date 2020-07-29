@@ -48,6 +48,11 @@ $icon-size-small: 16px;
 				opacity: 1;
 			}
 		}
+
+		.sessionsListItem__content {
+			background-color: $background-ochre;
+			transition: all 0.3s ease;
+		}
 	}
 
 	&:hover {
@@ -69,11 +74,6 @@ $icon-size-small: 16px;
 			margin: 0 $grid-base-three;
 		}
 
-		&--active {
-			background-color: $background-ochre;
-			transition: all 0.3s ease;
-		}
-
 		&:hover,
 		&:focus,
 		&:active {
@@ -93,6 +93,7 @@ $icon-size-small: 16px;
 		}
 		&:last-child {
 			justify-content: space-between;
+			min-height: 19px;
 		}
 		&:not(:last-child) {
 			margin-bottom: $grid-base;

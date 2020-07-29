@@ -7,12 +7,15 @@ pipeline {
     stage('Build') {
         agent {
             docker {
-                image 'node:8.13.0-jessie'
+                image 'node:10-alpine'
             }
         }
         steps {
             echo 'Build with...'
+            sh 'npm rebuild node-sass --force'
+            sh 'rm -rf node_modules/sharp'
             sh 'npm --version'
+            sh 'node --version'
             echo 'Start build...'
             sh 'npm install'
             sh 'npm run-script build'

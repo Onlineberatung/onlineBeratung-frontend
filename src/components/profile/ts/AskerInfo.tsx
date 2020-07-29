@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 import { Loading } from '../../app/ts/Loading';
 import { UserDataView } from './UserDataView';
 
-const UserProfile = () => {
+const AskerInfo = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
@@ -80,4 +80,4 @@ const UserProfile = () => {
 	);
 };
 
-export default withRouter(UserProfile);
+export default withRouter(AskerInfo);

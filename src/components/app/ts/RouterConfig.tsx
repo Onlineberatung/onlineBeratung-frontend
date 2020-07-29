@@ -2,7 +2,7 @@ import { SessionsListWrapper } from '../../sessionsList/ts/SessionsListWrapper';
 import { SESSION_TYPES } from '../../session/ts/sessionHelpers';
 import { SessionView } from '../../session/ts/SessionView';
 import { WriteEnquiry } from '../../enquiry/ts/WriteEnquiry';
-import UserProfile from '../../profile/ts/UserProfile';
+import AskerInfo from '../../profile/ts/AskerInfo';
 import { Monitoring } from '../../monitoring/ts/Monitoring';
 import { ProfileView } from '../../profile/ts/ProfileView';
 import { SessionViewEmpty } from '../../session/ts/SessionViewEmpty';
@@ -46,7 +46,7 @@ export const RouterConfigUser = (): any => {
 				component: SessionViewEmpty
 			},
 			{
-				path: '/sessions/user/write',
+				path: '/sessions/user/view/write',
 				component: WriteEnquiry
 			}
 		],
@@ -136,12 +136,12 @@ export const RouterConfigConsultant = (): any => {
 			{
 				path:
 					'/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/userProfile',
-				component: UserProfile
+				component: AskerInfo
 			},
 			{
 				path:
 					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile',
-				component: UserProfile
+				component: AskerInfo
 			},
 			{
 				path:
@@ -264,12 +264,12 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				path:
 					'/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/userProfile',
-				component: UserProfile
+				component: AskerInfo
 			},
 			{
 				path:
 					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile',
-				component: UserProfile
+				component: AskerInfo
 			},
 			{
 				path:
@@ -284,7 +284,7 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				path:
 					'/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile',
-				component: UserProfile
+				component: AskerInfo
 			},
 			{
 				path:
