@@ -4,7 +4,6 @@ $inputShadowColor: rgba(0, 0, 0, 0.1);
 .session,
 .enquiry__wrapper {
 	.textarea {
-		position: relative;
 		z-index: 100;
 		background-color: $dark-grey;
 		padding: 12px $grid-base-two;

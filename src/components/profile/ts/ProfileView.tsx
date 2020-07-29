@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { ProfileDataViewConsultant } from './ProfileDataViewConsultant';
 import { ProfileFunctions } from './ProfileFunctions';
@@ -17,7 +17,7 @@ export const ProfileView = () => {
 
 	useEffect(() => {
 		setProfileWrapperActive();
-	});
+	}, []);
 
 	const handleLogout = () => {
 		logout();

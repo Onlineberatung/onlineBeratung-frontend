@@ -23,9 +23,10 @@ export const VALID_POSTCODE_LENGTH = {
 };
 
 export const validPostcodeLengthForConsultingType = (
-	postcodeLength: number
+	postcodeLength: number,
+	consultingType: number = getConsultingTypeFromRegistration()
 ) => {
-	if (hasConsultingTypeLongPostcodeValidation()) {
+	if (hasConsultingTypeLongPostcodeValidation(consultingType)) {
 		return postcodeLength == VALID_POSTCODE_LENGTH.LONG;
 	} else {
 		return postcodeLength >= VALID_POSTCODE_LENGTH.SHORT;

@@ -424,7 +424,7 @@ export const MessageSubmitInterfaceComponent = (
 		}
 
 		const attachmentInput: any = attachmentInputRef.current;
-		const attachment = attachmentInput.files[0];
+		const attachment = attachmentInput && attachmentInput.files[0];
 		if (getTypedMarkdownMessage() || attachment) {
 			setIsRequestInProgress(true);
 		} else {
