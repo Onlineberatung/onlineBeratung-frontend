@@ -9,8 +9,10 @@ import {
 import { UserDataContext } from '../../../globalState';
 import {
 	getAddictiveDrugsTranslatable,
-	getUserDataTranslateBase
+	getUserDataTranslateBase,
+	consultingTypeSelectOptionsSet
 } from './profileHelpers';
+import { AskerNewRegistration } from './AskerNewRegistration';
 
 export const ProfileDataViewAsker = () => {
 	const { userData } = useContext(UserDataContext);
@@ -87,7 +89,9 @@ export const ProfileDataViewAsker = () => {
 														: handleNumericTranslation(
 																getUserDataTranslateBase(
 																	parseInt(
-																		resort.type
+																		resort
+																			.agency
+																			.consultingType
 																	)
 																),
 																item,
@@ -111,11 +115,17 @@ export const ProfileDataViewAsker = () => {
 							<p className="profile__data__content">
 								{resort.agency.name} <br />
 								{resort.agency.postcode}
-								{' ' + resort.agency.city}
+								{resort.agency.city
+									? ' ' + resort.agency.city
+									: ''}
 							</p>
 						</div>
 					</div>
 				) : null
+			)}
+			{userData.consultingTypes[15].isRegistered ||
+			consultingTypeSelectOptionsSet(userData).length === 0 ? null : (
+				<AskerNewRegistration></AskerNewRegistration>
 			)}
 		</div>
 	);

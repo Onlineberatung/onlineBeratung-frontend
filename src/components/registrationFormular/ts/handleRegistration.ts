@@ -59,6 +59,9 @@ const handleUsernameOnSubmit = () => {
 	}
 };
 
+export const extendPostcodeToBeValid = (postcode: string) =>
+	String(postcode + '00').slice(0, 5);
+
 const handlePostcodeOnSubmit = () => {
 	const postcodeInput = document.getElementById(
 		'postcode'
@@ -94,7 +97,7 @@ const handlePostcodeOnSubmit = () => {
 		hasPostcodeToBeExtended(postcodeLength) &&
 		parseInt(postcodeValue)
 	) {
-		postcodeInput.value = String(postcodeInt + '00').slice(0, 5);
+		postcodeInput.value = extendPostcodeToBeValid(postcodeInt);
 	}
 
 	if (!agencyId) {
