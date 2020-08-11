@@ -38,12 +38,7 @@ import {
 } from './attachmentHelpers';
 import { TypingIndicator } from '../../typingIndicator/ts/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
-import {
-	EditorState,
-	RichUtils,
-	DraftHandleValue,
-	convertToRaw
-} from 'draft-js';
+import { EditorState, RichUtils, convertToRaw } from 'draft-js';
 import { draftToMarkdown } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
@@ -61,7 +56,16 @@ import {
 } from './richtextHelpers';
 
 //Linkify Plugin
-const linkifyPlugin = createLinkifyPlugin();
+const linkifyPlugin = createLinkifyPlugin({
+	component: (props) => (
+		// eslint-disable-next-line no-alert, jsx-a11y/anchor-has-content
+		<a
+			{...props}
+			href={props.href}
+			onClick={() => window.open(props.href, '_blank')}
+		/>
+	)
+});
 
 //Static Toolbar Plugin
 const staticToolbarPlugin = createToolbarPlugin({
