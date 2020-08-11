@@ -58,7 +58,6 @@ import {
 //Linkify Plugin
 const linkifyPlugin = createLinkifyPlugin({
 	component: (props) => (
-		// eslint-disable-next-line no-alert, jsx-a11y/anchor-has-content
 		<a
 			{...props}
 			href={props.href}
