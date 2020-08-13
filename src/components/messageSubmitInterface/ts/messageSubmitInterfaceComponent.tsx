@@ -172,24 +172,12 @@ export const getIconForAttachmentType = (attachmentType: string) => {
 	}
 };
 
-export interface MessageSubmitItem {
-	formId: string;
-	wrapperClass: string;
-	textareaId: string;
-	textareaName: string;
-	textareaClass: string;
-	svgId: string;
-	svgClass: string;
-	placeholder: string;
-	sessionRoomId: string;
-}
-
-export interface MessageSubmitInterfaceComponentProps
-	extends MessageSubmitItem {
-	type: string;
+export interface MessageSubmitInterfaceComponentProps {
 	handleSendButton: Function;
-	showMonitoringButton?: Function;
 	isTyping?: Function;
+	placeholder: string;
+	showMonitoringButton?: Function;
+	type: string;
 	typingUsers?: [];
 }
 
@@ -450,11 +438,9 @@ export const MessageSubmitInterfaceComponent = (
 			const sendToFeedbackEndpoint =
 				activeSession.isFeedbackSession ||
 				(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
-			const sendToRoomWithId =
-				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
-					? activeSession.session.feedbackGroupId
-					: props.sessionRoomId;
-
+			const sendToRoomWithId = sendToFeedbackEndpoint
+				? activeSession.session.feedbackGroupId
+				: activeSessionGroupId;
 			const getSendMailNotificationStatus = () => !isGroupChat;
 
 			if (attachment) {
@@ -627,7 +613,6 @@ export const MessageSubmitInterfaceComponent = (
 				<MessageSubmitInfo {...getMessageSubmitInfo()} />
 			) : null}
 			<form
-				id={props.formId}
 				className={
 					hasRequestFeedbackCheckbox
 						? 'textarea textarea--large'
@@ -642,7 +627,7 @@ export const MessageSubmitInterfaceComponent = (
 							checkboxHandle={handleCheckboxClick}
 						/>
 					) : null}
-					<div className={props.wrapperClass + ` textarea__wrapper`}>
+					<div className="textarea__wrapper">
 						<span
 							ref={featureWrapperRef}
 							className="textarea__featureWrapper"
@@ -675,8 +660,6 @@ export const MessageSubmitInterfaceComponent = (
 						<span className="textarea__inputWrapper">
 							<div
 								className={`textarea__input ${
-									props.textareaClass
-								} ${
 									isRichtextActive
 										? 'textarea__input--activeRichtext'
 										: ''
@@ -686,7 +669,6 @@ export const MessageSubmitInterfaceComponent = (
 								onFocus={toggleAbsentMessage}
 								onBlur={toggleAbsentMessage}
 								onClick={handleTextareaClick}
-								id={props.textareaId}
 							>
 								<PluginsEditor
 									editorState={editorState}
@@ -776,10 +758,6 @@ export const MessageSubmitInterfaceComponent = (
 							handleSendButton={(event) =>
 								handleButtonClick(event)
 							}
-							type={props.type}
-							sessionRoomId={props.sessionRoomId}
-							svgClass={props.svgClass}
-							svgId={props.svgId}
 							clicked={isRequestInProgress}
 							deactivated={uploadProgress}
 						/>
