@@ -280,9 +280,15 @@ export const MessageSubmitInterfaceComponent = (
 		setTimeout(() => setIsRequestInProgress(false), 1200);
 	};
 
-	const handleEditorChange = (editorState) => {
-		isGroupChat ? props.isTyping() : null;
-		setEditorState(editorState);
+	const handleEditorChange = (currentEditorState) => {
+		if (
+			isGroupChat &&
+			currentEditorState.getCurrentContent() !==
+				editorState.getCurrentContent()
+		) {
+			props.isTyping();
+		}
+		setEditorState(currentEditorState);
 	};
 
 	const handleEditorKeyCommand = (command) => {
