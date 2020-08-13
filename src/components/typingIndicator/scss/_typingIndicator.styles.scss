@@ -8,6 +8,7 @@ $indicator-height: 37px;
 	padding: $grid-base $grid-base-three;
 	background-color: $background-ochre;
 	align-items: center;
+	visibility: visible;
 
 	&__text {
 		color: $primary;
@@ -36,7 +37,7 @@ $indicator-height: 37px;
 	}
 
 	&--disabled {
-		margin-top: $indicator-height;
+		visibility: hidden;
 	}
 }
 
