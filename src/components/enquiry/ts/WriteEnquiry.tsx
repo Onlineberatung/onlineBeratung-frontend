@@ -2,10 +2,7 @@ import * as React from 'react';
 import { useState, useEffect, useContext } from 'react';
 
 import { history } from '../../app/ts/app';
-import {
-	MessageSubmitItem,
-	MessageSubmitInterfaceComponent
-} from '../../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
+import { MessageSubmitInterfaceComponent } from '../../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { SESSION_TYPES } from '../../session/ts/sessionHelpers';
 import {
@@ -117,21 +114,6 @@ export const WriteEnquiry = (props) => {
 		}
 	};
 
-	const prepareTextarea = (): MessageSubmitItem => {
-		return {
-			formId: 'messageForm',
-			wrapperClass: 'textarea__session',
-			textareaId: 'sendMessageInput',
-			textareaName: 'messageTextarea',
-			textareaClass: 'textarea__sessionInput',
-			svgId: 'sendMessage',
-			svgClass: 'textarea__icon',
-			placeholder: translate('enquiry.write.input.placeholder'),
-			sessionRoomId: ''
-		};
-	};
-
-	const enquiryTextarea = prepareTextarea();
 	return (
 		<div className="enquiry__wrapper">
 			<div className="enquiry__infoWrapper">
@@ -166,7 +148,7 @@ export const WriteEnquiry = (props) => {
 			</div>
 			<MessageSubmitInterfaceComponent
 				handleSendButton={() => setOverlayActive(true)}
-				{...enquiryTextarea}
+				placeholder={translate('enquiry.write.input.placeholder')}
 				type={SESSION_TYPES.ENQUIRY}
 			/>
 			{overlayActive ? (

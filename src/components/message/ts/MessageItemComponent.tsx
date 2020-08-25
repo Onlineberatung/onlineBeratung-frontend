@@ -26,7 +26,8 @@ import {
 import { tld } from '../../../resources/ts/config';
 import { markdownToDraft } from 'markdown-draft-js';
 import { stateToHTML } from 'draft-js-export-html';
-import { convertFromRaw } from 'draft-js';
+import { convertFromRaw, ContentState } from 'draft-js';
+import { urlifyLinksInText } from '../../messageSubmitInterface/ts/richtextHelpers';
 
 export interface MessageItem {
 	id?: number;
@@ -59,11 +60,10 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const rawMessageObject = markdownToDraft(props.message);
-	const contentStateMessage = convertFromRaw(rawMessageObject);
-	const renderedMessage =
-		rawMessageObject.blocks[0].text.length > 0
-			? stateToHTML(contentStateMessage)
-			: '';
+	const contentStateMessage: ContentState = convertFromRaw(rawMessageObject);
+	const renderedMessage = contentStateMessage.hasText()
+		? urlifyLinksInText(stateToHTML(contentStateMessage))
+		: '';
 	const chatItem = getChatItemForSession(activeSession);
 
 	const getMessageDate = () => {

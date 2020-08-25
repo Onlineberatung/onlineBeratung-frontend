@@ -22,6 +22,19 @@ $message-lineheight: 21px;
 		}
 	}
 
+	a {
+		text-decoration: underline;
+
+		&:hover {
+			color: $primary;
+			transition: unset;
+		}
+
+		&.messageItem__message__attachment__download {
+			text-decoration: none;
+		}
+	}
+
 	&--right {
 		.messageItem__message {
 			margin: 4px 0;
@@ -233,6 +246,11 @@ $message-lineheight: 21px;
 						}
 					}
 				}
+			}
+
+			a,
+			a:hover {
+				color: $white;
 			}
 		}
 
