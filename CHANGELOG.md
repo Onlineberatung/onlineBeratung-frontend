@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.2.0...v1.2.1) (2020-08-25)
+
+## [1.2.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.1.0...v1.2.0) (2020-08-25)
+
+
+### Features
+
+* 🎸 added clickable links to messages & styling ([916beb9](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/916beb92fd88ea7e27996399f54ef4e034a4acc7))
+
+
+### Bug Fixes
+
+* 🐛 fixed sendToFeedbackChat condition, refactor deprecated ([07e39ce](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/07e39ce9d4ba63d159570710cf405ea0215256b1))
+
 ## 1.1.0 (2020-07-29)
 
 

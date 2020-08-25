@@ -38,12 +38,7 @@ import {
 } from './attachmentHelpers';
 import { TypingIndicator } from '../../typingIndicator/ts/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
-import {
-	EditorState,
-	RichUtils,
-	DraftHandleValue,
-	convertToRaw
-} from 'draft-js';
+import { EditorState, RichUtils, convertToRaw } from 'draft-js';
 import { draftToMarkdown } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
@@ -61,7 +56,15 @@ import {
 } from './richtextHelpers';
 
 //Linkify Plugin
-const linkifyPlugin = createLinkifyPlugin();
+const linkifyPlugin = createLinkifyPlugin({
+	component: (props) => (
+		<a
+			{...props}
+			href={props.href}
+			onClick={() => window.open(props.href, '_blank')}
+		/>
+	)
+});
 
 //Static Toolbar Plugin
 const staticToolbarPlugin = createToolbarPlugin({
@@ -172,24 +175,12 @@ export const getIconForAttachmentType = (attachmentType: string) => {
 	}
 };
 
-export interface MessageSubmitItem {
-	formId: string;
-	wrapperClass: string;
-	textareaId: string;
-	textareaName: string;
-	textareaClass: string;
-	svgId: string;
-	svgClass: string;
-	placeholder: string;
-	sessionRoomId: string;
-}
-
-export interface MessageSubmitInterfaceComponentProps
-	extends MessageSubmitItem {
-	type: string;
+export interface MessageSubmitInterfaceComponentProps {
 	handleSendButton: Function;
-	showMonitoringButton?: Function;
 	isTyping?: Function;
+	placeholder: string;
+	showMonitoringButton?: Function;
+	type: string;
 	typingUsers?: [];
 }
 
@@ -292,9 +283,15 @@ export const MessageSubmitInterfaceComponent = (
 		setTimeout(() => setIsRequestInProgress(false), 1200);
 	};
 
-	const handleEditorChange = (editorState) => {
-		isGroupChat ? props.isTyping() : null;
-		setEditorState(editorState);
+	const handleEditorChange = (currentEditorState) => {
+		if (
+			isGroupChat &&
+			currentEditorState.getCurrentContent() !==
+				editorState.getCurrentContent()
+		) {
+			props.isTyping();
+		}
+		setEditorState(currentEditorState);
 	};
 
 	const handleEditorKeyCommand = (command) => {
@@ -450,11 +447,9 @@ export const MessageSubmitInterfaceComponent = (
 			const sendToFeedbackEndpoint =
 				activeSession.isFeedbackSession ||
 				(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
-			const sendToRoomWithId =
-				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
-					? activeSession.session.feedbackGroupId
-					: props.sessionRoomId;
-
+			const sendToRoomWithId = sendToFeedbackEndpoint
+				? activeSession.session.feedbackGroupId
+				: activeSessionGroupId;
 			const getSendMailNotificationStatus = () => !isGroupChat;
 
 			if (attachment) {
@@ -627,7 +622,6 @@ export const MessageSubmitInterfaceComponent = (
 				<MessageSubmitInfo {...getMessageSubmitInfo()} />
 			) : null}
 			<form
-				id={props.formId}
 				className={
 					hasRequestFeedbackCheckbox
 						? 'textarea textarea--large'
@@ -642,7 +636,7 @@ export const MessageSubmitInterfaceComponent = (
 							checkboxHandle={handleCheckboxClick}
 						/>
 					) : null}
-					<div className={props.wrapperClass + ` textarea__wrapper`}>
+					<div className="textarea__wrapper">
 						<span
 							ref={featureWrapperRef}
 							className="textarea__featureWrapper"
@@ -675,8 +669,6 @@ export const MessageSubmitInterfaceComponent = (
 						<span className="textarea__inputWrapper">
 							<div
 								className={`textarea__input ${
-									props.textareaClass
-								} ${
 									isRichtextActive
 										? 'textarea__input--activeRichtext'
 										: ''
@@ -686,7 +678,6 @@ export const MessageSubmitInterfaceComponent = (
 								onFocus={toggleAbsentMessage}
 								onBlur={toggleAbsentMessage}
 								onClick={handleTextareaClick}
-								id={props.textareaId}
 							>
 								<PluginsEditor
 									editorState={editorState}
@@ -776,10 +767,6 @@ export const MessageSubmitInterfaceComponent = (
 							handleSendButton={(event) =>
 								handleButtonClick(event)
 							}
-							type={props.type}
-							sessionRoomId={props.sessionRoomId}
-							svgClass={props.svgClass}
-							svgId={props.svgId}
 							clicked={isRequestInProgress}
 							deactivated={uploadProgress}
 						/>
