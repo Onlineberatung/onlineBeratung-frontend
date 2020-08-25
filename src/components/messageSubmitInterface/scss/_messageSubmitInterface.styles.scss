@@ -1,4 +1,5 @@
-$iconSize: 20px;
+$attachmentIconSize: 20px;
+$sendIconSize: 24px;
 $inputShadowColor: rgba(0, 0, 0, 0.1);
 
 .session,
@@ -78,7 +79,7 @@ $inputShadowColor: rgba(0, 0, 0, 0.1);
 			}
 		}
 
-		.inputIcon__wrapper {
+		&__iconWrapper {
 			width: $grid-base-six;
 			height: $grid-base-six;
 			border-radius: $grid-base-three;
@@ -147,8 +148,8 @@ $inputShadowColor: rgba(0, 0, 0, 0.1);
 		}
 
 		&__icon {
-			width: $grid-base-three;
-			height: $grid-base-three;
+			width: $sendIconSize;
+			height: $sendIconSize;
 			margin: 12px 0 0 14px;
 
 			rect {
@@ -214,10 +215,6 @@ $inputShadowColor: rgba(0, 0, 0, 0.1);
 			}
 		}
 
-		.inputField__icon path {
-			fill: $white;
-		}
-
 		&__toolbar {
 			width: calc(100% - 40px);
 			background-color: white;
@@ -281,8 +278,8 @@ $inputShadowColor: rgba(0, 0, 0, 0.1);
 			right: $grid-base-two;
 
 			svg {
-				width: $iconSize;
-				height: $iconSize;
+				width: $attachmentIconSize;
+				height: $attachmentIconSize;
 				cursor: pointer;
 				align-self: flex-end;
 				margin-bottom: $grid-base-two;
@@ -315,8 +312,8 @@ $inputShadowColor: rgba(0, 0, 0, 0.1);
 			overflow: hidden;
 
 			svg {
-				width: $iconSize;
-				height: $iconSize;
+				width: $attachmentIconSize;
+				height: $attachmentIconSize;
 
 				* {
 					fill: $secondary;
