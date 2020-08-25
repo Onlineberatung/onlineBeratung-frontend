@@ -12,10 +12,7 @@ import {
 	isMyMessage
 } from './sessionHelpers';
 import { MessageItem } from '../../message/ts/MessageItemComponent';
-import {
-	MessageSubmitItem,
-	MessageSubmitInterfaceComponent
-} from '../../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
+import { MessageSubmitInterfaceComponent } from '../../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { MessageItemComponent } from '../../message/ts/MessageItemComponent';
 import { SessionHeaderComponent } from '../../sessionHeader/ts/SessionHeaderComponent';
@@ -82,20 +79,6 @@ export const SessionItemComponent = (props) => {
 		return translate('enquiry.write.input.placeholder');
 	};
 
-	const prepareTextarea = (sessionRoomId): MessageSubmitItem => {
-		return {
-			formId: 'messageForm',
-			wrapperClass: 'textarea__session',
-			textareaId: 'sendMessageInput',
-			textareaName: 'messageTextarea',
-			textareaClass: 'textarea__sessionInput',
-			svgId: 'sendMessage',
-			svgClass: 'textarea__icon',
-			placeholder: getPlaceholder(),
-			sessionRoomId
-		};
-	};
-
 	const handleButtonClick = (sessionId: any, sessionGroupId: string) => {
 		if (isRequestInProgress) {
 			return null;
@@ -120,7 +103,6 @@ export const SessionItemComponent = (props) => {
 	};
 
 	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
-	const sessionTextarea = prepareTextarea(activeSessionGroupId);
 
 	const buttonItem: ButtonItem = {
 		label: translate('enquiry.acceptButton'),
@@ -226,13 +208,13 @@ export const SessionItemComponent = (props) => {
 				)) ? (
 				<MessageSubmitInterfaceComponent
 					handleSendButton={() => {}}
+					isTyping={() => props.isTyping()}
+					placeholder={getPlaceholder()}
 					showMonitoringButton={() => {
 						setMonitoringButtonVisible(true);
 						scrollToEnd(0, true);
 					}}
 					type={getTypeOfLocation()}
-					{...sessionTextarea}
-					isTyping={() => props.isTyping()}
 					typingUsers={props.typingUsers}
 				/>
 			) : null}

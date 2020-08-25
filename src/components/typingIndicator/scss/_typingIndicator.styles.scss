@@ -36,7 +36,7 @@ $indicator-height: 37px;
 	}
 
 	&--disabled {
-		margin-top: $indicator-height;
+		display: none;
 	}
 }
 
