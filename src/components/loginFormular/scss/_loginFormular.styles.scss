@@ -1,3 +1,5 @@
+$spacingWithIcon: 52px;
+
 #loginFormWrapper {
 	overflow-x: hidden;
 
@@ -45,6 +47,10 @@
 					top: -$grid-base;
 				}
 			}
+		}
+		.warning {
+			margin-top: 0;
+			margin-left: $spacingWithIcon;
 		}
 	}
 

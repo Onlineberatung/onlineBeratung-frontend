@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
 	IconEnvelope,
 	IconLock,
@@ -10,7 +11,6 @@ import {
 	IconSKF,
 	IconSKM
 } from './index';
-import React from 'react';
 
 export const ICON_KEYS = {
 	ENVELOPE: 'ENVELOPE',

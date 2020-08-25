@@ -5,15 +5,6 @@ import {
 	removeInputErrorClass
 } from '../../registrationFormular/ts/warningLabels';
 
-export interface LoginData {
-	data: {
-		authToken?: string;
-		userId?: string;
-	};
-	access_token?: string;
-	refresh_token?: string;
-}
-
 export const getFormData = (e: Event) => {
 	e.preventDefault();
 	removeWarningLabels();

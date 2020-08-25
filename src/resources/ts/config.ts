@@ -19,6 +19,10 @@ export const config = {
 		keycloakLogout:
 			tld +
 			'/auth/realms/caritas-online-beratung/protocol/openid-connect/logout',
+		loginRedirectToRegistrationOverview:
+			'https://www.caritas.de/onlineberatung',
+		loginResetPasswordLink:
+			'/auth/realms/Caritas-Online-Beratung/login-actions/reset-credentials?client_id=account',
 		logoutRedirect: tld + ENDPOINT_PORT + '/login.html',
 		messages: tld + '/service/messages',
 		sendMessage: tld + '/service/messages/new',

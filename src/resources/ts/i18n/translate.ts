@@ -9,6 +9,7 @@ import enquiry from './de/enquiry';
 import enquiryInformal from './de/enquiryInformal';
 import groupChat from './de/groupChat';
 import groupChatInformal from './de/groupChatInformal';
+import login from './de/login';
 import message from './de/message';
 import monitoring from './de/monitoring';
 import navigation from './de/navigation';
@@ -39,6 +40,7 @@ const defaultLocale: any = {
 	consultant,
 	enquiry,
 	groupChat,
+	login,
 	message,
 	monitoring,
 	navigation,
