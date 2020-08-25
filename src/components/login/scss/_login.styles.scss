@@ -1,9 +1,9 @@
 $spacingWithIcon: 52px;
 
-#loginFormWrapper {
+.loginWrapper {
 	overflow-x: hidden;
 
-	#loginForm {
+	.loginForm {
 		position: relative;
 		min-height: 100vh;
 		width: unset;
@@ -13,6 +13,7 @@ $spacingWithIcon: 52px;
 		align-items: center;
 		flex-direction: column;
 		padding: 0 $grid-base-two;
+		text-align: center;
 
 		@include breakpoint($fromLarge) {
 			width: 60vw;
@@ -48,14 +49,11 @@ $spacingWithIcon: 52px;
 				}
 			}
 		}
+
 		.warning {
 			margin-top: 0;
 			margin-left: $spacingWithIcon;
 		}
-	}
-
-	.loginFormular {
-		text-align: center;
 
 		.button__item {
 			margin-top: $grid-base-five;

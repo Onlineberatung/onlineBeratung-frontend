@@ -74,10 +74,10 @@ const Login = () => {
 	};
 
 	return (
-		<div id="loginFormWrapper">
+		<div className="loginWrapper">
 			<Stage hasAnimation={true}></Stage>
-			<div id="loginForm" className="loginFormular">
-				<div className="loginFormular__headline">
+			<div className="loginForm loginForm">
+				<div className="loginForm__headline">
 					<h1>{translate('login.headline')}</h1>
 				</div>
 				<InputField
@@ -100,7 +100,7 @@ const Login = () => {
 				<a
 					href={config.endpoints.loginResetPasswordLink}
 					target="_blank"
-					className="loginFormular__passwordReset"
+					className="loginForm__passwordReset"
 				>
 					{translate('login.resetPasswort.label')}
 				</a>
@@ -109,14 +109,14 @@ const Login = () => {
 					buttonHandle={handleLogin}
 					disabled={isButtonDisabled}
 				/>
-				<div className="loginFormular__register">
-					<p className="loginFormular__register__infoText">
+				<div className="loginForm__register">
+					<p className="loginForm__register__infoText">
 						{translate('login.register.infoText.title')}
 						<br />
 						{translate('login.register.infoText.copy')}
 					</p>
 					<a
-						className="loginFormular__register__link"
+						className="loginForm__register__link"
 						href={
 							config.endpoints.loginRedirectToRegistrationOverview
 						}
