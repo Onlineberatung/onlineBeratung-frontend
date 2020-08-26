@@ -29,8 +29,6 @@ export const InputField = (props: InputFieldProps) => {
 	const inputItem = props.item;
 	const [showPassword, setShowPassword] = useState(false);
 
-	//rename not only postcode!
-	//generalize warninglabel
 	const handleInputValidation = (e) => {
 		const postcode = e.target.value;
 		let postcodeValid = true;
