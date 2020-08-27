@@ -47,6 +47,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const [isRead, setIsRead] = useState(false);
+	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
 	if (!sessionsData) {
 		return null;
@@ -81,9 +82,18 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					listItem.messagesRead
 			);
 		}
+
+		if (activeSessionGroupId && isRequestInProgress) {
+			setIsRequestInProgress(false);
+		}
 	}, [activeSessionGroupId, sessionsData]);
 
 	const handleOnClick = () => {
+		if (isRequestInProgress || listItem.groupId === activeSessionGroupId) {
+			return null;
+		}
+		setIsRequestInProgress(true);
+
 		if (listItem.groupId) {
 			history.push(
 				`${getSessionListPathForLocation()}/${listItem.groupId}/${

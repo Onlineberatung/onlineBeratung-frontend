@@ -14,6 +14,7 @@ export interface LoginData {
 	refresh_token?: string;
 }
 
+let isRequestInProgress = false;
 export const getFormData = (e: Event) => {
 	e.preventDefault();
 	removeWarningLabels();
@@ -23,6 +24,10 @@ export const getFormData = (e: Event) => {
 	const password = handlePasswordOnSubmit();
 
 	if (username && password) {
+		if (isRequestInProgress) {
+			return null;
+		}
+		isRequestInProgress = true;
 		autoLogin(username, password, true);
 	}
 };
@@ -65,6 +70,7 @@ export const handleLoginError = () => {
 		'passwordInput'
 	);
 	removeLoginPasswordWarningClasses();
+	isRequestInProgress = false;
 };
 
 export const removeLoginPasswordWarningClasses = () => {
