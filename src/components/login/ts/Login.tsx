@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Stage } from '../../stage/ts/Stage';
+import { Stage } from '../../stage/ts/stage';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { InputField, InputFieldItemTSX } from '../../inputField/ts/InputField';
 import { useState, useEffect } from 'react';
