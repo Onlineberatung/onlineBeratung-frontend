@@ -1,5 +1,6 @@
 $loginOverlayDelayDesktop: 1s;
 $loginOverlayDelayMobile: 2.5s;
+$iconSize: 60px;
 $gridSpacing: 56px;
 
 .stage {
@@ -51,8 +52,16 @@ $gridSpacing: 56px;
 		margin-bottom: 80px;
 
 		svg {
+			width: $iconSize;
+			height: $iconSize;
 			margin-right: $gridSpacing;
 			margin-top: $gridSpacing;
+
+			&.raphaelswerk {
+				padding-top: 8px;
+				width: 70px;
+				height: 70px;
+			}
 
 			&:nth-child(-n + 3) {
 				margin-top: 0;
