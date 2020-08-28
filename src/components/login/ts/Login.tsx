@@ -1,13 +1,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Stage } from '../../stage/ts/stage';
+import { Stage } from '../../stage/ts/Stage';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { InputField, InputFieldItemTSX } from '../../inputField/ts/InputField';
 import { useState, useEffect } from 'react';
 import { config } from '../../../resources/ts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../../button/ts/Button';
 import { autoLogin } from '../../registrationFormular/ts/autoLogin';
-import { ICON_KEYS, Icon } from '../../iconSet/ts/Icon';
+import { SVG } from '../../svgSet/ts/SVG';
+import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 
 export const initLogin = () => {
 	ReactDOM.render(<Login />, document.getElementById('loginRoot'));
@@ -40,7 +41,7 @@ const Login = () => {
 		type: 'text',
 		labelTranslatable: 'login.user.label',
 		content: username,
-		icon: <Icon name={ICON_KEYS.PERSON} className={'inputField__icon'} />
+		icon: <SVG name={ICON_KEYS.PERSON} />
 	};
 
 	const inputItemPassword: InputFieldItemTSX = {
@@ -50,7 +51,7 @@ const Login = () => {
 		type: 'password',
 		labelTranslatable: 'login.password.label',
 		content: password,
-		icon: <Icon name={ICON_KEYS.LOCK} className={'inputField__icon'} />
+		icon: <SVG name={ICON_KEYS.LOCK} />
 	};
 
 	const handleUsernameChange = (event) => {

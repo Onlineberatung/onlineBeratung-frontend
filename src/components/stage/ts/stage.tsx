@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
-import { Icon, LOGO_KEYS } from '../../iconSet/ts/Icon';
+import { SVG } from '../../svgSet/ts/SVG';
+import { LOGO_KEYS } from '../../svgSet/ts/SVGHelpers';
 
 export interface StageProps {
 	hasAnimation?: boolean;
@@ -25,12 +26,12 @@ export const Stage = (props: StageProps) => {
 			) : null}
 
 			<div className="stage__logos">
-				<Icon name={LOGO_KEYS.SKF} />
-				<Icon name={LOGO_KEYS.CARITAS_WHITE} />
-				<Icon name={LOGO_KEYS.SKM} />
-				<Icon name={LOGO_KEYS.IN_VIA} />
-				<Icon name={LOGO_KEYS.KREUZBUND} />
-				<Icon name={LOGO_KEYS.RAPHAELSWERK} className="raphaelswerk" />
+				<SVG name={LOGO_KEYS.SKF} />
+				<SVG name={LOGO_KEYS.CARITAS_WHITE} />
+				<SVG name={LOGO_KEYS.SKM} />
+				<SVG name={LOGO_KEYS.IN_VIA} />
+				<SVG name={LOGO_KEYS.KREUZBUND} />
+				<SVG name={LOGO_KEYS.RAPHAELSWERK} />
 			</div>
 		</div>
 	);
