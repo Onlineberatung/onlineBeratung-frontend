@@ -22,7 +22,9 @@ const loginButton: ButtonItem = {
 const Login = () => {
 	const [username, setUsername] = useState(null);
 	const [password, setPassword] = useState(null);
-	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+	const [isButtonDisabled, setIsButtonDisabled] = useState(
+		username && password
+	);
 	const [showLoginError, setShowLoginError] = useState(false);
 
 	useEffect(() => {

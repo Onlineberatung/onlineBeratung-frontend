@@ -105,7 +105,7 @@ export const postRegistration = (e: Event, url: string, data: {}) => {
 			initRegistrationOverlay();
 		} else if (xhr.readyState > 3 && xhr.status == 409) {
 			handleConfirmationError(xhr.response);
-			isRequestInProgress = true;
+			isRequestInProgress = false;
 		} else if (
 			xhr.readyState > 3 &&
 			xhr.status != 201 &&
