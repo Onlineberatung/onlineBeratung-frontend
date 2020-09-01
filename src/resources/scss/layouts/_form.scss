@@ -1,4 +1,5 @@
 $inputHeight: 50px;
+$spacingWithIcon: 52px;
 
 .formWrapper {
 	font-size: $font-size-primary;
@@ -65,5 +66,33 @@ $inputHeight: 50px;
 
 	.resetLabel {
 		color: $secondary;
+	}
+}
+
+.formWrapper__inputWrapper--withIcon {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: 0;
+	flex-wrap: wrap;
+
+	.inputField__icon {
+		margin-right: $grid-base;
+	}
+
+	input {
+		width: auto;
+		flex: 1;
+	}
+
+	.formWrapper__inputWrapper {
+		&__label {
+			left: $spacingWithIcon;
+		}
+	}
+
+	.formWrapper__infoText {
+		flex: 0 0 100%;
+		margin-left: $spacingWithIcon;
 	}
 }
