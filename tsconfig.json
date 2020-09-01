@@ -13,12 +13,5 @@
 		"downlevelIteration": true,
 		"typeRoots": ["node_modules/@types"]
 	},
-	"exclude": [
-		"node_modules",
-		"patterns",
-		"test",
-		"dist",
-		".tmp",
-		"**/*.spec.ts"
-	]
+	"exclude": ["node_modules", "patterns", "dist", ".tmp", "**/*.spec.ts"]
 }
