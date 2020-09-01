@@ -56,14 +56,17 @@ import {
 } from './richtextHelpers';
 
 //Linkify Plugin
+const omitKey = (key, { [key]: _, ...obj }) => obj;
 const linkifyPlugin = createLinkifyPlugin({
-	component: (props) => (
-		<a
-			{...props}
-			href={props.href}
-			onClick={() => window.open(props.href, '_blank')}
-		/>
-	)
+	component: (props) => {
+		return (
+			<a
+				{...omitKey('blockKey', props)}
+				href={props.href}
+				onClick={() => window.open(props.href, '_blank')}
+			/>
+		);
+	}
 });
 
 //Static Toolbar Plugin
@@ -685,6 +688,7 @@ export const MessageSubmitInterfaceComponent = (
 									handleKeyCommand={handleEditorKeyCommand}
 									placeholder={placeholder}
 									stripPastedStyles={true}
+									spellCheck={true}
 									handleBeforeInput={() =>
 										handleEditorBeforeInput(editorState)
 									}
