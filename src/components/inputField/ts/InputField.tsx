@@ -8,17 +8,21 @@ export interface InputFieldItemTSX {
 	class: string;
 	name: string;
 	labelTranslatable: string;
+	icon?: JSX.Element;
 	infoText?: string;
 	content: string;
 	maxLength?: number;
 	pattern?: string;
 	disabled?: boolean;
 	postcodeFallbackLink?: string;
+	warningLabel?: string;
+	warningActive?: boolean;
 }
 
 export interface InputFieldProps {
 	item: InputFieldItemTSX;
 	inputHandle: Function;
+	keyUpHandle?: Function;
 }
 
 export const InputField = (props: InputFieldProps) => {
@@ -39,10 +43,32 @@ export const InputField = (props: InputFieldProps) => {
 		}
 	};
 
+	const handleKeyUp = (e) => {
+		if (props.keyUpHandle) {
+			props.keyUpHandle(e);
+		}
+	};
+
 	return (
 		<div className="inputField__wrapper formWrapper">
 			<div className="formWrapper__inputRow">
-				<div className="formWrapper__inputWrapper">
+				<div
+					className={`formWrapper__inputWrapper ${
+						inputItem.icon
+							? `formWrapper__inputWrapper--withIcon`
+							: ``
+					} ${
+						inputItem.warningActive
+							? `formWrapper__inputWrapper--error`
+							: ''
+					}
+						`}
+				>
+					{inputItem.icon ? (
+						<span className="inputField__icon">
+							{inputItem.icon}
+						</span>
+					) : null}
 					<input
 						onChange={handleInputValidation}
 						id={inputItem.id}
@@ -53,6 +79,7 @@ export const InputField = (props: InputFieldProps) => {
 						placeholder={translate(inputItem.labelTranslatable)}
 						disabled={inputItem.disabled}
 						autoComplete="off"
+						onKeyUp={handleKeyUp}
 					/>
 					<label
 						className="formWrapper__inputWrapper__label"
@@ -86,10 +113,22 @@ export const InputField = (props: InputFieldProps) => {
 							</a>
 						</p>
 					) : null}
-					<p
-						className="formWrapper__infoText"
-						dangerouslySetInnerHTML={{ __html: inputItem.infoText }}
-					></p>
+					{inputItem.warningActive && inputItem.warningLabel ? (
+						<p
+							className="formWrapper__infoText warning"
+							dangerouslySetInnerHTML={{
+								__html: inputItem.warningLabel
+							}}
+						></p>
+					) : null}
+					{inputItem.infoText ? (
+						<p
+							className="formWrapper__infoText"
+							dangerouslySetInnerHTML={{
+								__html: inputItem.infoText
+							}}
+						></p>
+					) : null}
 				</div>
 			</div>
 		</div>

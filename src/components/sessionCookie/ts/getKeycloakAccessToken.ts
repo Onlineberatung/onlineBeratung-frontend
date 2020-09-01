@@ -1,5 +1,5 @@
 import { config } from '../../../resources/ts/config';
-import { LoginData } from '../../loginFormular/ts/handleLogin';
+import { LoginData } from '../../registrationFormular/ts/autoLogin';
 
 export const getKeycloakAccessToken = (
 	username: string,
