@@ -75,8 +75,6 @@ $message-lineheight: 21px;
 			line-height: $line-height-secondary;
 			color: $message-name-forwarded;
 			svg {
-				width: 16px;
-				height: 16px;
 				display: inline-block;
 				margin-right: 8px;
 				padding-bottom: 4px;
@@ -264,9 +262,9 @@ $message-lineheight: 21px;
 		left: 100%;
 		bottom: 0;
 		margin-left: 8px;
+		cursor: pointer;
+
 		svg {
-			width: $icon-size;
-			height: $icon-size;
 			fill: $secondary;
 
 			path: {

@@ -11,6 +11,7 @@ export interface SVGProps {
 	className?: string;
 	fill?: string;
 	height?: string;
+	onClick?: Function;
 	viewBox?: string;
 	width?: string;
 }
@@ -37,8 +38,9 @@ export const SVG = (props: SVGProps) => {
 			className={props.className ? props.className : null}
 			fill={props.fill ? props.fill : currentDefaultFill}
 			height={props.height ? props.height : currentDefaultSize}
+			onClick={props.onClick ? () => props.onClick() : null}
 			width={props.width ? props.width : currentDefaultSize}
-			viewBox={getSVGViewBox(props.name)}
+			viewBox={props.viewBox ? props.viewBox : getSVGViewBox(props.name)}
 			xmlns="http://www.w3.org/2000/svg"
 			xmlnsXlink="http://www.w3.org/1999/xlink"
 		>
