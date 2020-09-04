@@ -14,7 +14,8 @@ import {
 	getActiveSession,
 	getContact,
 	AUTHORITIES,
-	hasUserAuthority
+	hasUserAuthority,
+	ActiveSessionGroupId
 } from '../../../globalState';
 import { Link } from 'react-router-dom';
 import {
@@ -54,7 +55,9 @@ export interface SessionHeader {
 export const SessionHeaderComponent = (props) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
+		ActiveSessionGroupIdContext
+	);
 	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
 
@@ -92,6 +95,7 @@ export const SessionHeaderComponent = (props) => {
 	const userProfileLink = `/sessions/consultant/${sessionView}/${chatItem.groupId}/${chatItem.id}/userProfile`;
 
 	const handleBackButton = () => {
+		setActiveSessionGroupId(null);
 		mobileListView();
 	};
 
