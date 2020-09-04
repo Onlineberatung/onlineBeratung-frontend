@@ -10,10 +10,6 @@
         "start": "cross-env NODE_ENV=development RELEASE_VERSION=$npm_package_version gulp serve",
         "build": "cross-env NODE_ENV=production RELEASE_VERSION=$npm_package_version gulp build && gulp add-versioning",
         "release": "standard-version",
-        "test:travis": "mocha test/travis/build.js",
-        "test:ci": "echo \"Not implemented yet\"",
-        "test:e2e": "echo \"Not implemented yet\"",
-        "lint": "echo \"Not implemented yet\"",
         "mk": "node masterkey.js",
         "version": "echo $npm_package_version"
     },
