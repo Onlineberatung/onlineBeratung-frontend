@@ -186,15 +186,13 @@ $inputShadowColor: rgba(0, 0, 0, 0.1);
 			width: $grid-base-three;
 			height: $grid-base-three;
 			margin-bottom: $grid-base;
+			cursor: pointer;
 
 			@include breakpoint($fromLarge) {
 				margin-bottom: 12px;
 			}
 
 			svg {
-				cursor: pointer;
-				width: 20px;
-				height: 20px;
 				align-self: flex-end;
 
 				* {
