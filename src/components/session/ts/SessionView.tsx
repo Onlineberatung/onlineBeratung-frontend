@@ -78,9 +78,7 @@ export const SessionView = (props) => {
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [currentMessagesOffset, setCurrentMessagesOffset] = useState(null);
-	const [loadNextMessages, setLoadNextMessages] = useState(null);
 	const [loadedMessages, setLoadedMessages] = useState(null);
-	const [preventMessageReload, setPreventMessageReload] = useState(null);
 	const { userData } = useContext(UserDataContext);
 	const [typingUsers, setTypingUsers] = useState([]);
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
@@ -135,13 +133,6 @@ export const SessionView = (props) => {
 	useEffect(() => {
 		typingStatusSent ? setTypingTimeout() : null;
 	}, [typingStatusSent]);
-
-	useEffect(() => {
-		if (!preventMessageReload && loadNextMessages) {
-			fetchData(true, currentMessagesOffset);
-			setLoadNextMessages(false);
-		}
-	}, [loadNextMessages]);
 
 	useEffect(() => {
 		if (loadedMessages) {
@@ -210,7 +201,6 @@ export const SessionView = (props) => {
 	};
 
 	const handleGroupChatStopped = () => {
-		setPreventMessageReload(true);
 		setOverlayItem(groupChatStoppedOverlay);
 		setIsOverlayActive(true);
 	};

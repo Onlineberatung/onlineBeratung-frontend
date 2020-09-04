@@ -87,14 +87,6 @@ export const SessionsList = () => {
 	let type = getTypeOfLocation();
 
 	useEffect(() => {
-		if (typeIsUser(type) && acceptedGroupId) {
-			fetchUserData(acceptedGroupId);
-			setAcceptedGroupId(null);
-			setActiveSessionGroupId(null);
-		}
-	});
-
-	useEffect(() => {
 		setAcceptedGroupId(null);
 		if (!showFilter) {
 			setFilterStatus(INITIAL_FILTER);
@@ -108,6 +100,12 @@ export const SessionsList = () => {
 	const activeCreateChat =
 		activeSessionGroupId === ACTIVE_SESSION.CREATE_CHAT;
 	useEffect(() => {
+		if (typeIsUser(type) && acceptedGroupId) {
+			fetchUserData(acceptedGroupId);
+			setAcceptedGroupId(null);
+			setActiveSessionGroupId(null);
+		}
+
 		if (
 			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			sessionsData &&

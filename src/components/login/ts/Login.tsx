@@ -26,6 +26,7 @@ const Login = () => {
 		username && password
 	);
 	const [showLoginError, setShowLoginError] = useState(false);
+	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
 	useEffect(() => {
 		setShowLoginError(false);
@@ -64,9 +65,18 @@ const Login = () => {
 		setPassword(event.target.value);
 	};
 
+	const handleLoginError = () => {
+		setShowLoginError(true);
+		setIsRequestInProgress(false);
+	};
+
 	const handleLogin = () => {
+		if (isRequestInProgress) {
+			return null;
+		}
+		setIsRequestInProgress(true);
 		if (username && password) {
-			autoLogin(username, password, true, () => setShowLoginError(true));
+			autoLogin(username, password, true, handleLoginError);
 		}
 	};
 
