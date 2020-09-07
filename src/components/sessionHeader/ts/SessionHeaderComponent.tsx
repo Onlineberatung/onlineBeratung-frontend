@@ -14,15 +14,15 @@ import {
 	getActiveSession,
 	getContact,
 	AUTHORITIES,
-	hasUserAuthority,
-	ActiveSessionGroupId
+	hasUserAuthority
 } from '../../../globalState';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
 	getViewPathForType,
 	getChatItemForSession,
 	isGroupChatForSessionItem,
-	getTypeOfLocation
+	getTypeOfLocation,
+	getSessionListPathForLocation
 } from '../../session/ts/sessionHelpers';
 import { SessionMenu } from '../../sessionMenu/ts/SessionMenu';
 import {
@@ -53,6 +53,7 @@ export interface SessionHeader {
 }
 
 export const SessionHeaderComponent = (props) => {
+	const history = useHistory();
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
@@ -95,8 +96,9 @@ export const SessionHeaderComponent = (props) => {
 	const userProfileLink = `/sessions/consultant/${sessionView}/${chatItem.groupId}/${chatItem.id}/userProfile`;
 
 	const handleBackButton = () => {
-		setActiveSessionGroupId(null);
 		mobileListView();
+		setActiveSessionGroupId(null);
+		history.push(getSessionListPathForLocation());
 	};
 
 	const handleFlyout = (e) => {
