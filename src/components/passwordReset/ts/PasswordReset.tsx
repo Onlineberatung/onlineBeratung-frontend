@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
-import { InputField, InputFieldItemTSX } from '../../inputField/ts/InputField';
+import { InputField, InputFieldItem } from '../../inputField/ts/InputField';
 import {
 	strengthIndicator,
 	inputValuesFit
@@ -67,7 +67,7 @@ export const PasswordReset = () => {
 		return classNames.join(' ');
 	};
 
-	const inputOldPassword: InputFieldItemTSX = {
+	const inputOldPassword: InputFieldItem = {
 		name: 'passwordResetOld',
 		class: getClassNames(
 			!!oldPasswordErrorMessage,
@@ -83,7 +83,7 @@ export const PasswordReset = () => {
 		content: oldPassword
 	};
 
-	const inputNewPassword: InputFieldItemTSX = {
+	const inputNewPassword: InputFieldItem = {
 		name: 'passwordResetNew',
 		class: getClassNames(
 			!!newPasswordErrorMessage,
@@ -100,7 +100,7 @@ export const PasswordReset = () => {
 		content: newPassword
 	};
 
-	const inputConfirmPassword: InputFieldItemTSX = {
+	const inputConfirmPassword: InputFieldItem = {
 		name: 'passwordResetConfirm',
 		class: getClassNames(
 			!!confirmPasswordErrorMessage,

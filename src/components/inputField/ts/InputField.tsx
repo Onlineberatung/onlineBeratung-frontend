@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 
-export interface InputFieldItemTSX {
+export interface InputFieldItem {
 	id: string;
 	type: string;
 	class: string;
@@ -20,7 +20,7 @@ export interface InputFieldItemTSX {
 }
 
 export interface InputFieldProps {
-	item: InputFieldItemTSX;
+	item: InputFieldItem;
 	inputHandle: Function;
 	keyUpHandle?: Function;
 }

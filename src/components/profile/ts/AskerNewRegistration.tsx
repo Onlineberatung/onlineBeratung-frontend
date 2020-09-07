@@ -12,7 +12,7 @@ import {
 	SelectDropdown,
 	SelectDropdownItem
 } from '../../select/ts/SelectDropdown';
-import { InputField, InputFieldItemTSX } from '../../inputField/ts/InputField';
+import { InputField, InputFieldItem } from '../../inputField/ts/InputField';
 import {
 	consultingTypeSelectOptionsSet,
 	buttonSetRegistration,
@@ -161,7 +161,7 @@ export const AskerNewRegistration = () => {
 		defaultValue: getOptionOfSelectedConsultingType()
 	};
 
-	const postcodeInputItem: InputFieldItemTSX = {
+	const postcodeInputItem: InputFieldItem = {
 		name: 'postcode',
 		class: 'asker__registration__postcodeInput',
 		id: 'postcode',
