@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { history } from '../../app/ts/app';
 import {
 	translate,
 	handleNumericTranslation,
@@ -16,7 +17,7 @@ import {
 	AUTHORITIES,
 	hasUserAuthority
 } from '../../../globalState';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
 	getViewPathForType,
 	getChatItemForSession,
@@ -53,7 +54,6 @@ export interface SessionHeader {
 }
 
 export const SessionHeaderComponent = (props) => {
-	const history = useHistory();
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(

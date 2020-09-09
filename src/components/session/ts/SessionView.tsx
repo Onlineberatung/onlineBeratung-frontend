@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { history } from '../../app/ts/app';
 import { Loading } from '../../app/ts/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
@@ -29,7 +30,6 @@ import {
 	prepareMessages,
 	scrollToEnd
 } from './sessionHelpers';
-import { history } from '../../app/ts/app';
 import { rocketChatSocket } from '../../apiWrapper/ts';
 import { JoinGroupChatView } from '../../groupChat/ts/JoinGroupChatView';
 import { getTokenFromCookie } from '../../sessionCookie/ts/accessSessionCookie';
@@ -41,7 +41,6 @@ import {
 } from '../../overlay/ts/Overlay';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { BUTTON_TYPES } from '../../button/ts/Button';
-import { Redirect } from 'react-router';
 import { logout } from '../../logout/ts/logout';
 import {
 	encodeUsername,
@@ -50,6 +49,7 @@ import {
 
 let typingTimeout;
 const TYPING_TIMEOUT_MS = 4000;
+const INITIAL_MESSAGES_OFFSET = 0;
 
 export const SessionView = (props) => {
 	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
@@ -118,7 +118,7 @@ export const SessionView = (props) => {
 			setIsLoading(false);
 		} else {
 			window['socket'] = new rocketChatSocket();
-			fetchData();
+			fetchSessionMessages();
 			return () => {
 				window['socket'].close();
 				setStoppedGroupChat(false);
@@ -141,9 +141,9 @@ export const SessionView = (props) => {
 		}
 	}, [loadedMessages]);
 
-	const fetchData = (
+	const fetchSessionMessages = (
 		isSocketConnected: boolean = false,
-		offset: number = 0
+		offset: number = INITIAL_MESSAGES_OFFSET
 	) => {
 		const rcGroupId = props.match.params.rcGroupId;
 		getSessionData(rcGroupId, offset)
@@ -172,7 +172,7 @@ export const SessionView = (props) => {
 					].addSubscription(
 						SOCKET_COLLECTION.ROOM_MESSAGES,
 						[groupId, false],
-						() => fetchData(true)
+						() => fetchSessionMessages(true)
 					);
 					if (isGroupChat) {
 						window['socket'].addSubscription(
@@ -273,7 +273,7 @@ export const SessionView = (props) => {
 	if (redirectToSessionsList) {
 		mobileListView();
 		setActiveSessionGroupId(null);
-		return <Redirect to={getSessionListPathForLocation()} />;
+		history.push(getSessionListPathForLocation());
 	}
 
 	return (
