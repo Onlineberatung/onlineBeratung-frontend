@@ -13,7 +13,7 @@ import {
 	SessionsDataContext,
 	getSessionsDataWithChangedValue
 } from '../../../globalState';
-import { InputField, InputFieldItemTSX } from '../../inputField/ts/InputField';
+import { InputField, InputFieldItem } from '../../inputField/ts/InputField';
 import { Checkbox, CheckboxItem } from '../../checkbox/ts/Checkbox';
 import {
 	SelectDropdown,
@@ -155,7 +155,7 @@ export const CreateGroupChatView = (props) => {
 		);
 	};
 
-	const chatTopicInputItem: InputFieldItemTSX = {
+	const chatTopicInputItem: InputFieldItem = {
 		name: 'chatTopic',
 		class: 'creatChat__name__input',
 		id: 'chatTopic',

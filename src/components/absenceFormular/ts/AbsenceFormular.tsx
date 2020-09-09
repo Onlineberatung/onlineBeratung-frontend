@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { CheckboxItem, Checkbox } from '../../checkbox/ts/Checkbox';
-import { InputFieldItemTSX, InputField } from '../../inputField/ts/InputField';
+import { InputFieldItem, InputField } from '../../inputField/ts/InputField';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { ajaxCallSetAbsence } from '../../apiWrapper/ts/';
 import { BUTTON_TYPES } from '../../button/ts/Button';
@@ -119,7 +119,7 @@ export const AbsenceFormular = (props) => {
 		checked: userData.absent
 	};
 
-	const inputItem: InputFieldItemTSX = {
+	const inputItem: InputFieldItem = {
 		name: 'absence',
 		class: 'absence__fieldGroup__input',
 		id: 'absence',

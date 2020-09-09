@@ -39,9 +39,9 @@ export const DEFAULT_SVG_VALUES = {
 export const getSVGViewBox = (SVGName: string) => {
 	switch (SVGName) {
 		case ICON_KEYS.ARROW_FORWARD:
-			return 'none';
+			return '0 0 24 24';
 		case ICON_KEYS.COPY:
-			return 'none';
+			return '0 0 24 24';
 		case ICON_KEYS.RICHTEXT_TOGGLE:
 			return '0 0 40 40';
 		case LOGO_KEYS.SKF:

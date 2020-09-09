@@ -316,9 +316,6 @@ export const MessageSubmitInterfaceComponent = (
 				'min-height: ' + maxHeight + 'px;'
 			);
 		}
-		attachmentSelected
-			? (richtextEditor.style.paddingBottom = fileHeight + 'px')
-			: (richtextEditor.style.paddingBottom = '14px');
 	};
 
 	const resetTextareaSize = (textarea) => {
@@ -435,6 +432,7 @@ export const MessageSubmitInterfaceComponent = (
 		}
 		setEditorState(EditorState.createEmpty());
 		setActiveInfo(null);
+		resizeTextarea();
 		setTimeout(() => setIsRequestInProgress(false), 1200);
 	};
 

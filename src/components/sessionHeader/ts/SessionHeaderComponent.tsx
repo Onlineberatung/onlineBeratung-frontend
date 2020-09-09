@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { history } from '../../app/ts/app';
 import {
 	translate,
 	handleNumericTranslation,
@@ -14,15 +15,15 @@ import {
 	getActiveSession,
 	getContact,
 	AUTHORITIES,
-	hasUserAuthority,
-	ActiveSessionGroupId
+	hasUserAuthority
 } from '../../../globalState';
 import { Link } from 'react-router-dom';
 import {
 	getViewPathForType,
 	getChatItemForSession,
 	isGroupChatForSessionItem,
-	getTypeOfLocation
+	getTypeOfLocation,
+	getSessionListPathForLocation
 } from '../../session/ts/sessionHelpers';
 import { SessionMenu } from '../../sessionMenu/ts/SessionMenu';
 import {
@@ -95,8 +96,9 @@ export const SessionHeaderComponent = (props) => {
 	const userProfileLink = `/sessions/consultant/${sessionView}/${chatItem.groupId}/${chatItem.id}/userProfile`;
 
 	const handleBackButton = () => {
-		setActiveSessionGroupId(null);
 		mobileListView();
+		setActiveSessionGroupId(null);
+		history.push(getSessionListPathForLocation());
 	};
 
 	const handleFlyout = (e) => {

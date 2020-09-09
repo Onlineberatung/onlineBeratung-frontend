@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Stage } from '../../stage/ts/stage';
 import { translate } from '../../../resources/ts/i18n/translate';
-import { InputField, InputFieldItemTSX } from '../../inputField/ts/InputField';
+import { InputField, InputFieldItem } from '../../inputField/ts/InputField';
 import { useState, useEffect } from 'react';
 import { config } from '../../../resources/ts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../../button/ts/Button';
@@ -37,7 +37,7 @@ const Login = () => {
 		}
 	}, [username, password]);
 
-	const inputItemUsername: InputFieldItemTSX = {
+	const inputItemUsername: InputFieldItem = {
 		name: 'username',
 		class: 'login',
 		id: 'username',
@@ -47,7 +47,7 @@ const Login = () => {
 		icon: <SVG name={ICON_KEYS.PERSON} />
 	};
 
-	const inputItemPassword: InputFieldItemTSX = {
+	const inputItemPassword: InputFieldItem = {
 		name: 'password',
 		class: 'passwordFields__fieldGroup__input',
 		id: 'passwordInput',
