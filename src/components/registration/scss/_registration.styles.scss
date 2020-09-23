@@ -1,0 +1,30 @@
+.registration {
+	&__toLogin {
+		position: absolute;
+		top: 22px;
+		right: 16px;
+		margin-top: 0;
+
+		@include breakpoint($fromMedium) {
+			right: 25px;
+		}
+
+		&__text {
+			font-size: $font-size-secondary;
+			color: $tertiary;
+			display: none;
+			@media screen and (min-width: 768px) and (max-width: 900px) {
+				display: inline-block;
+			}
+			@media screen and (min-width: 1200px) {
+				display: inline-block;
+			}
+		}
+
+		&__button {
+			display: inline-block;
+			margin-top: 0;
+			margin-left: $grid-base/2;
+		}
+	}
+}

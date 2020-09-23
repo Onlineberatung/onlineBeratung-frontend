@@ -5,12 +5,12 @@ import { translate } from '../../../resources/ts/i18n/translate';
 export interface InputFieldItem {
 	id: string;
 	type: string;
-	class: string;
 	name: string;
 	labelTranslatable: string;
+	content: string;
+	class?: string;
 	icon?: JSX.Element;
 	infoText?: string;
-	content: string;
 	maxLength?: number;
 	pattern?: string;
 	disabled?: boolean;
@@ -73,7 +73,9 @@ export const InputField = (props: InputFieldProps) => {
 						onChange={handleInputValidation}
 						id={inputItem.id}
 						type={showPassword ? 'text' : inputItem.type}
-						className={`inputField__input ${inputItem.class}`}
+						className={`inputField__input${
+							inputItem.class ? ' ' + inputItem.class : ''
+						}`}
 						value={inputItem.content ? inputItem.content : ``}
 						name={inputItem.name}
 						placeholder={translate(inputItem.labelTranslatable)}
