@@ -18,7 +18,9 @@ export const initRegistration = () => {
 
 const Registration = () => {
 	const [username, setUsername] = useState(null);
-	const [postcode, setpostcode] = useState(null);
+	const [postcode, setPostcode] = useState(null);
+	const [passwordInput, setPasswordInput] = useState(null);
+	const [passwordConfirmation, setPasswordConfirmation] = useState(null);
 
 	const inputItemUsername: InputFieldItem = {
 		content: username,
@@ -41,12 +43,39 @@ const Registration = () => {
 		type: 'number'
 	};
 
+	const inputItemPasswordInput: InputFieldItem = {
+		content: passwordInput,
+		icon: <SVG name={ICON_KEYS.LOCK} />,
+		id: 'passwordInput',
+		labelTranslatable: 'registration.password.input.label',
+		name: 'passwordInput',
+		type: 'text'
+	};
+
+	const inputItemPasswordConfirmation: InputFieldItem = {
+		content: passwordConfirmation,
+		icon: <SVG name={ICON_KEYS.LOCK} />,
+		id: 'passwordInput',
+		infoText: translate('registration.postcode.infoText'),
+		labelTranslatable: 'registration.postcode.label',
+		name: 'passwordInput',
+		type: 'text'
+	};
+
 	const handleUsernameChange = (event) => {
 		setUsername(event.target.value);
 	};
 
 	const handlePostcodeChange = (event) => {
-		setpostcode(event.target.value);
+		setPostcode(event.target.value);
+	};
+
+	const handlePasswordInputChange = (event) => {
+		setPasswordInput(event.target.value);
+	};
+
+	const handlePasswordConfirmationChange = (event) => {
+		setPasswordConfirmation(event.target.value);
 	};
 
 	return (
@@ -68,12 +97,20 @@ const Registration = () => {
 						item={inputItemUsername}
 						inputHandle={handleUsernameChange}
 					/>
+					{/*POST CODE NOT FOR EVERY CONSULTANT TYPE*/}
 					<InputField
 						item={inputItemPostcode}
 						inputHandle={handlePostcodeChange}
 					/>
+					<InputField
+						item={inputItemPasswordInput}
+						inputHandle={handlePasswordInputChange}
+					/>
+					<InputField
+						item={inputItemPasswordConfirmation}
+						inputHandle={handlePasswordConfirmationChange}
+					/>
 					{/*
-					{{> 'components/passwordField/passwordField' passwordFields.[0]}}
 					{{> 'components/inputField/inputField' email.[0]}} */}
 				</div>
 			</form>
