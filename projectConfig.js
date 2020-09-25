@@ -20,6 +20,9 @@ module.exports = {
 			'resources/ts/**/*.tsx',
 			'components/**/*.tsx',
 			'globalState/**/*.tsx'
+		],
+		tsEntryPoints: [
+			'./src/components/registrationFormular/ts/initRegistration'
 		]
 	}
 };
