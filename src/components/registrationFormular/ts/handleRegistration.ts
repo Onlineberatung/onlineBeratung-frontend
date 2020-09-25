@@ -12,7 +12,7 @@ import {
 	setFirstAgencyId,
 	validPostcodeLengthForConsultingType,
 	hasPostcodeToBeExtended
-} from '../../postcodeSuggestion/ts/postcodeSuggestion';
+} from '../../postcodeSuggestion/ts/postcodeSuggestionHelper';
 import {
 	isU25Registration,
 	isGenericConsultingType,

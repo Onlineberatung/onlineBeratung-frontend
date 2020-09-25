@@ -8,7 +8,7 @@ import {
 	redirectToErrorPage
 } from '../../errorPage/ts/errorHandling';
 import { getConsultingTypeFromRegistration } from '../../../resources/ts/helpers/resorts';
-import { hasPostcodeToBeExtended } from '../../postcodeSuggestion/ts/postcodeSuggestion';
+import { hasPostcodeToBeExtended } from '../../postcodeSuggestion/ts/postcodeSuggestionHelper';
 import { removeAllCookies } from '../../sessionCookie/ts/accessSessionCookie';
 import { extendPostcodeToBeValid } from '../../registrationFormular/ts/handleRegistration';
 

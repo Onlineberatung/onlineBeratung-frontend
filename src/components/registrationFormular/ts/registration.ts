@@ -5,7 +5,7 @@ import {
 	initInputWarningLabelHandler,
 	handleWarningLabelOnCheckbox
 } from './warningLabels';
-import { addPostcodeListener } from '../../postcodeSuggestion/ts/postcodeSuggestion';
+import { addPostcodeListener } from '../../postcodeSuggestion/ts/postcodeSuggestionHelper';
 
 {
 	addPostcodeListener('postcode');
