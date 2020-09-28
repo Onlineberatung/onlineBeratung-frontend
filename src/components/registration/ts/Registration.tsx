@@ -7,7 +7,7 @@ import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 import { useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { Button } from '../../button/ts/Button';
-import { Link } from 'react-router-dom';
+import * as allRegistrationData from '../registrationData.json';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -16,11 +16,27 @@ export const initRegistration = () => {
 	);
 };
 
+const getConsultingTypeFromRegistration = () =>
+	parseInt(
+		document.getElementById('registrationRoot').dataset.consultingtype
+	);
+
 const Registration = () => {
 	const [username, setUsername] = useState(null);
 	const [postcode, setPostcode] = useState(null);
 	const [passwordInput, setPasswordInput] = useState(null);
 	const [passwordConfirmation, setPasswordConfirmation] = useState(null);
+	const [consultingType, setConsultingType] = useState(
+		getConsultingTypeFromRegistration()
+	);
+	const registrationDataArray = Object.entries(allRegistrationData).filter(
+		(resort) => resort[1].consultingType == consultingType.toString()
+	);
+	// TODO: u25 vs einsamgemeinsam -> if registrationData.length > 1 -> check key
+	const registrationData = registrationDataArray[0][1];
+
+	// check prefill postcode -> AID in URL? (prefillPostcode.ts)
+	// prefillPostcode();
 
 	const inputItemUsername: InputFieldItem = {
 		content: username,
@@ -93,10 +109,13 @@ const Registration = () => {
 
 				{/* ----------------------------- Required fields ---------------------------- */}
 				<div className="generalInformation">
-					<InputField
-						item={inputItemUsername}
-						inputHandle={handleUsernameChange}
-					/>
+					{/* REMOVE SHOW EMAIL HERE: ONLY EXAMPLE */}
+					{registrationData.showEmail ? (
+						<InputField
+							item={inputItemUsername}
+							inputHandle={handleUsernameChange}
+						/>
+					) : null}
 					{/*POST CODE NOT FOR EVERY CONSULTANT TYPE*/}
 					<InputField
 						item={inputItemPostcode}

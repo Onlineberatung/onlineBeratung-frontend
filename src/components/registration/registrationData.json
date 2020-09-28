@@ -1,0 +1,99 @@
+{
+	"addiction": {
+		"consultingType": "0",
+		"useInformal": true,
+		"overline": "Sucht",
+		"showEmail": false,
+		"hidePostcodeField": true
+	},
+	"u25": {
+		"consultingType": "1",
+		"useInformal": true,
+		"overline": "Beratung für Suizidgefährdete junge Menschen [U25]",
+		"showEmail": true,
+		"hidePostcodeField": true,
+		"requiredComponents": [
+			{
+				"componentType": "dropdown",
+				"headline": "Alter",
+				"selectWrapperId": "ageSelect__wrapper",
+				"selectId": "ageSelect",
+				"selectName": "age",
+				"options": [
+					{
+						"id": "age0",
+						"value": null,
+						"label": "Alter auswählen*"
+					},
+					{
+						"id": "age1",
+						"value": "0",
+						"label": "unter 12"
+					},
+					{
+						"id": "age2",
+						"value": "1",
+						"label": "12"
+					}
+				]
+			},
+			{
+				"componentType": "dropdown",
+				"headline": "Geschlecht",
+				"selectWrapperId": "stateSelect__wrapper",
+				"selectId": "stateSelect",
+				"selectName": "state",
+				"options": [
+					{
+						"id": "stateDefault",
+						"value": null,
+						"label": "Bundesland auswählen*"
+					},
+					{
+						"id": "state1",
+						"value": "1",
+						"label": "Baden-Württemberg"
+					},
+					{
+						"id": "state2",
+						"value": "2",
+						"label": "Bayern"
+					}
+				]
+			}
+		],
+		"additionalComponents": [
+			{
+				"componentType": "radiobuttoncoll",
+				"headline": "Gender",
+				"radioButtons": [
+					{
+						"id": "female",
+						"name": "gender",
+						"value": "0",
+						"label": "Weiblich"
+					},
+					{
+						"id": "male",
+						"name": "gender",
+						"value": "1",
+						"label": "Männlich"
+					},
+					{
+						"id": "diverseGender",
+						"name": "gender",
+						"value": "2",
+						"label": "Divers"
+					}
+				]
+			}
+		]
+	},
+	"pregnancy": {
+		"consultingType": "2",
+		"useInformal": true,
+		"overline": "Schwanger",
+		"showEmail": true,
+		"hidePostcodeField": true
+	}
+}

@@ -11,7 +11,8 @@
 		"target": "ES5",
 		"lib": ["dom", "es2015", "dom.iterable"],
 		"downlevelIteration": true,
-		"typeRoots": ["node_modules/@types"]
+		"typeRoots": ["node_modules/@types"],
+		"resolveJsonModule": true
 	},
 	"exclude": ["node_modules", "patterns", "dist", ".tmp", "**/*.spec.ts"]
 }

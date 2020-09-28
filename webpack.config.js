@@ -8,9 +8,7 @@ module.exports = {
 				consultingType: 0
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.suchtberatung-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -20,9 +18,7 @@ module.exports = {
 				consultingType: 1
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.u25-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -32,9 +28,7 @@ module.exports = {
 				consultingType: 1
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.gemeinsamstatteinsam-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -43,9 +37,7 @@ module.exports = {
 				consultingType: 2
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.schwangerschaftsberatung-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -54,9 +46,7 @@ module.exports = {
 				consultingType: 3
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.eltern-familie-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -65,9 +55,7 @@ module.exports = {
 				consultingType: 4
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.kurberatung-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -76,9 +64,7 @@ module.exports = {
 				consultingType: 5
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.schuldnerberatung-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -87,9 +73,7 @@ module.exports = {
 				consultingType: 6
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.allgemeine-soziale-beratung-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -98,9 +82,7 @@ module.exports = {
 				consultingType: 7
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.leben-im-alter-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -110,9 +92,7 @@ module.exports = {
 				consultingType: 8
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename:
 				'./registration.behinderung-und-psychische-erkrankung-test.html'
 		}),
@@ -123,9 +103,7 @@ module.exports = {
 				consultingType: 9
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.mein-planb-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -134,9 +112,7 @@ module.exports = {
 				consultingType: 10
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.rechtliche-betreuung-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -145,9 +121,7 @@ module.exports = {
 				consultingType: 11
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.straffaelligkeit-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -156,9 +130,7 @@ module.exports = {
 				consultingType: 12
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.hiv-aids-beratung-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -167,9 +139,7 @@ module.exports = {
 				consultingType: 13
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.kinder-reha-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -178,9 +148,7 @@ module.exports = {
 				consultingType: 14
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.kinder-jugendliche-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -189,9 +157,7 @@ module.exports = {
 				consultingType: 15
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.kb-sucht-selbsthilfe-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -200,9 +166,7 @@ module.exports = {
 				consultingType: 16
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.migration-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -211,9 +175,7 @@ module.exports = {
 				consultingType: 17
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.rw-auswanderung-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -222,9 +184,7 @@ module.exports = {
 				consultingType: 18
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.hospiz-palliativ-test.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -233,9 +193,7 @@ module.exports = {
 				consultingType: 19
 			},
 			template: './src/pages/registration.html',
-			chunks: [
-				'resources/components/registrationFormular/ts/initRegistration'
-			],
+			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename: './registration.regionale-angebote-test.html'
 		})
 	]

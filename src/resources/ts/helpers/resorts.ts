@@ -1,6 +1,7 @@
 import { config } from '../config';
 
 export const getConsultingTypeFromRegistration = () =>
+	// TODO: RENAME registrationForm -> registrationRoot
 	document.getElementById('registrationForm')
 		? parseInt(
 				document.getElementById('registrationForm').dataset
