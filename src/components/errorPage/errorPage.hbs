@@ -34,3 +34,207 @@
         </div>
     </div>
 </div>
+
+<style>
+	:root {
+		--white: #fff;
+		--primary: #cc1e1c;
+		--background-grey: #677391;
+		--light-neutral: rgba(53, 58, 74, 0.1);
+		--grid-base: 8px;
+		--grid-base-three: calc(var(--grid-base) * 3);
+		--grid-base-four: calc(var(--grid-base) * 4);
+		--grid-base-six: calc(var(--grid-base) * 6);
+		--grid-base-twelve: calc(var(--grid-base) * 12);
+		--font-size-h2: 30px;
+		--font-size-h3: 24px;
+		--font-size-super-mobile: 40px;
+		--font-size-super-large: 60px;
+		--font-weight-medium: 500;
+  		--content-width: calc((100vw - (var(--grid-base-twelve) * 3) - var(--grid-base-six)) / 2);
+		--content-widthMedium: calc((100vw - (var(--grid-base-twelve) * 2) - var(--grid-base-six)) / 2);
+		--content-widthSmall: calc((100vw) / 2);
+		--header-height: 102px;
+		--main-height: calc(100vh - var(--header-height));
+		--illustration-size: 280px;
+		--icon-size: 170px;
+		--max-height: 100vh;
+	}
+
+	.errorPage {
+		color: var(--white);
+	}
+
+	.errorPage p {
+		color: var(--white);
+	}
+
+	.errorPage__nav {
+		background-color: var(--primary);
+		float: left;
+		flex-direction: column;
+		width: var(--grid-base-twelve);
+		height: var(--max-height);
+		display: none;
+	}
+
+	.errorPage__header {
+		background-color: var(--background-grey);
+		display: flex;
+		flex-direction: row;
+		justify-content: stretch;
+		padding: 0 var(--grid-base-three);
+	}
+
+	.errorPage__headerMobile {
+		display: flex;
+		width: 100%;
+	}
+
+	h2 {
+		font-size: var(--font-size-h3);
+		font-weight: var(--font-weight-medium);
+		margin: auto;
+		display: block;
+	}
+
+	.errorPage__claim {
+		margin: auto 0 auto auto;
+		display: none;
+	}
+
+	.errorPage__main {
+		background-color: var(--background-grey);
+		padding: 0 var(--grid-base-three);
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+	}
+
+	.errorPage__illustrationWrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		position: relative;
+
+		animation: fadeIn linear 0.5s;
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+	}
+
+	.errorPage__illustration {
+		width: calc(var(--content-widthSmall)/ 2.25);
+		min-width: var(--icon-size);
+		min-height: var(--icon-size);
+		pointer-events: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		margin: 0;
+
+		animation: fadeIn linear 0.8s;
+		@keyframes fadeIn {
+			0% {
+				opacity: 0;
+			}
+			50% {
+				opacity: 0;
+			}
+			100% {
+				opacity: 1;
+			}
+		}
+	}
+
+	.errorPage__illustration__background {
+		width: var(--content-widthSmall);
+		height: var(--content-widthSmall);
+		min-width: var(--illustration-size);
+		min-height: var(--illustration-size);
+		color: var(--light-neutral);
+		margin: 0 var(--grid-base-three);
+		align-self: center;
+	}
+
+	.errorPage__content {
+		width: 100%;
+		text-align: center;
+		align-self: center;
+		margin-top: 0;
+	}
+
+	.errorPage__content p {
+		margin: 0;
+	}
+
+	.errorPage__headline {
+		font-size: var(--font-size-super-mobile);
+		font-weight: var(--font-weight-medium);
+		margin-bottom: 20px;
+	}
+
+	.errorPage__button {
+		margin-top: var(--grid-base-six);
+	}
+
+	@media (min-width: 900px) {
+		.errorPage__nav {
+			display: flex;
+		}
+
+		.errorPage__header {
+			padding: var(--grid-base-four) var(--grid-base-three);
+		}
+
+		.errorPage__headerMobile {
+			width: auto;
+		}
+
+		h2 {
+			font-size: var(--font-size-h2);
+		}
+
+		.errorPage__claim {
+			display: block;
+		}
+
+		.errorPage__main {
+			flex-direction: row;
+			height: var(--main-height);
+			padding: $grid-base-four var(--grid-base-three);
+		}
+
+		.errorPage__illustration__background {
+			margin: 0 var(--grid-base-six);
+			width: var(--content-widthMedium);
+			height: var(--content-widthMedium);
+		}
+
+		.errorPage__content {
+			width: var(--content-width);
+			text-align: left;
+			margin-top: 0;
+		}
+
+		.errorPage__headline {
+			margin-bottom: 40px;
+			font-size: var(--font-size-super-large);
+		}
+	}
+
+	@media (min-width: 1200px) {
+		.errorPage__illustration__background {
+			margin: 0 var(--grid-base-twelve);
+			width: var(--content-width);
+			height: var(--content-width);
+		}
+	}
+
+</style>
