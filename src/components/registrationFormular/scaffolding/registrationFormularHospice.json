@@ -85,7 +85,7 @@
 				"checkboxInputId": "termsAccepted",
 				"checkboxValue": true,
 				"checkboxLabelId": "termsAcceptedLabel",
-				"checkboxLabel": "Ich habe die <a href=\"https://www.caritas.de/datenschutz\" target=\"_blank\">Datenschutzerklärung</a> zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden."
+				"checkboxLabel": "Ich habe die <a href=\"https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz\" target=\"_blank\">Datenschutzerklärung</a> zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden."
 			}
 		],
 		"sendButton": [
