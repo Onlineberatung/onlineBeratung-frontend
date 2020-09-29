@@ -1,4 +1,57 @@
 .registration {
+	text-align: center;
+	margin: $grid-base-eleven 0;
+
+	&__overline {
+		color: $secondary;
+		text-align: center;
+		font-weight: normal;
+		margin: 0;
+		font-size: $font-size-primary;
+	}
+
+	&__form {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		min-height: 100vh;
+		width: unset;
+		left: unset;
+		padding: 0 $grid-base-two;
+
+		@include breakpoint($fromMedium) {
+			padding: 0 $grid-base-five;
+		}
+
+		@include breakpoint($fromLarge) {
+			width: 60vw;
+			left: 40vw;
+		}
+	}
+
+	&__generalInformation {
+		margin-bottom: $grid-base-four;
+	}
+
+	&__footer {
+		.button__wrapper,
+		.checkbox__wrapper {
+			margin-top: $grid-base-five;
+		}
+
+		.checkbox__wrapper {
+			text-align: left;
+		}
+	}
+
+	&__requiredInfoText {
+		margin: 0;
+		max-width: none;
+		text-align: unset;
+	}
+
 	&__toLogin {
 		position: absolute;
 		top: 22px;

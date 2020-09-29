@@ -34,6 +34,7 @@ const getPasswordClassNames = (invalid, valid) => {
 	if (valid) {
 		return 'inputField__input--valid';
 	}
+	return '';
 };
 
 const Registration = () => {
@@ -204,16 +205,17 @@ const Registration = () => {
 			<Stage hasAnimation={true}></Stage>
 			<form
 				id="registrationForm"
-				// IF GENERIC: registration__form--generic ???
 				className="registration__form"
 				data-consultingtype="{{consultingType}}"
 				data-resources="[{paths: ['components/registrationFormular/ts/registration.js?{{bioTrueEnv 'RELEASE_VERSION'}}']}]"
 			>
-				<h3>{registrationData.overline}</h3>
-				<h1>Registrierung</h1>
+				<h3 className="registration__overline">
+					{registrationData.overline}
+				</h3>
+				<h1 className="registration__headline">Registrierung</h1>
 
 				{/* ----------------------------- Required Fields ---------------------------- */}
-				<div className="generalInformation">
+				<div className="registration__generalInformation">
 					<InputField
 						item={inputItemUsername}
 						inputHandle={handleUsernameChange}
@@ -245,12 +247,11 @@ const Registration = () => {
 				</div>
 
 				{/* ----------------------------- Submit Section ---------------------------- */}
-				<div className="registrationFooter">
-					<div className="registrationFooter__requiredInfo">
-						<p className="formWrapper__infoText">
-							{translate('registration.required.infoText')}
-						</p>
-					</div>
+				<div className="registration__footer">
+					<p className="registration__requiredInfoText formWrapper__infoText">
+						{translate('registration.required.infoText')}
+					</p>
+
 					<Checkbox
 						item={checkboxItemDataProtection}
 						checkboxHandle={() =>
