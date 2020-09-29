@@ -4,9 +4,9 @@ import { Stage } from '../../stage/ts/stage';
 import { InputField, InputFieldItem } from '../../inputField/ts/InputField';
 import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
-import { Button } from '../../button/ts/Button';
+import { Button, ButtonItem, BUTTON_TYPES } from '../../button/ts/Button';
 import * as allRegistrationData from '../registrationData.json';
 import { PostcodeSuggestion } from '../../postcodeSuggestion/ts/PostcodeSuggestion';
 import {
@@ -53,12 +53,14 @@ const Registration = () => {
 		setPasswordConfirmationErrorMessage
 	] = useState(null);
 	const [email, setEmail] = useState(null);
+	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(false);
 	const [isDataProtectionSelected, setIsDataProtectionSelected] = useState(
 		false
 	);
 	const [consultingType, setConsultingType] = useState(
 		getConsultingTypeFromRegistration()
 	);
+
 	const registrationDataArray = Object.entries(allRegistrationData).filter(
 		(resort) => resort[1].consultingType == consultingType.toString()
 	);
@@ -133,6 +135,11 @@ const Registration = () => {
 		checked: isDataProtectionSelected
 	};
 
+	const buttonItemSubmit: ButtonItem = {
+		label: translate('registration.submitButton.label'),
+		type: BUTTON_TYPES.PRIMARY
+	};
+
 	const handleUsernameChange = (event) => {
 		setUsername(event.target.value);
 	};
@@ -149,6 +156,10 @@ const Registration = () => {
 
 	const handleEmailChange = (event) => {
 		setEmail(event.target.value);
+	};
+
+	const handleSubmitButtonClick = (event) => {
+		console.log('submit');
 	};
 
 	const validatePassword = (password) => {
@@ -248,11 +259,15 @@ const Registration = () => {
 							)
 						}
 					/>
-					{/* {{> 'components/checkbox/checkbox' termsCheckbox.[0]}}
-					{{> 'components/button/button' sendButton.[0]}} */}
+					<Button
+						item={buttonItemSubmit}
+						buttonHandle={handleSubmitButtonClick}
+						disabled={isSubmitButtonDisabled}
+					/>
 				</div>
 			</form>
 
+			{/* ----------------------------- TO LOGIN BUTTON ---------------------------- */}
 			<div className="registration__toLogin">
 				<p className="registration__toLogin__text">
 					{translate('registration.login.helper')}
