@@ -59,6 +59,26 @@ $iconSize: 24px;
 				border: 1px solid $form-disabled !important;
 			}
 		}
+
+		&--invalid {
+			border: 2px solid $form-error !important;
+			color: $form-error !important;
+
+			& + label,
+			& + label + span + p {
+				color: $form-error;
+			}
+		}
+
+		&--valid {
+			border: 2px solid $form-success !important;
+			color: $form-success !important;
+
+			& + label,
+			& + label + span + p {
+				color: $form-success;
+			}
+		}
 	}
 
 	&__icon {

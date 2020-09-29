@@ -17,6 +17,7 @@ import {
 
 export interface PostcodeSuggestionProps {
 	selectedConsultingType: number;
+	icon?: JSX.Element;
 	setAgency: Function;
 }
 
@@ -127,7 +128,8 @@ export const PostcodeSuggestion = (props: PostcodeSuggestionProps) => {
 		maxLength: VALID_POSTCODE_LENGTH.MAX,
 		pattern: '^[0-9]+$',
 		disabled: !props.selectedConsultingType,
-		postcodeFallbackLink: postcodeFallbackLink
+		postcodeFallbackLink: postcodeFallbackLink,
+		icon: props.icon
 	};
 
 	const handlePostcodeInput = (e) => {

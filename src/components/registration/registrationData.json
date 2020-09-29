@@ -2,16 +2,16 @@
 	"addiction": {
 		"consultingType": "0",
 		"useInformal": true,
-		"overline": "Sucht",
+		"overline": "Suchtberatung",
 		"showEmail": false,
-		"hidePostcodeField": true
+		"showPostCode": false
 	},
 	"u25": {
 		"consultingType": "1",
 		"useInformal": true,
 		"overline": "Beratung für Suizidgefährdete junge Menschen [U25]",
 		"showEmail": true,
-		"hidePostcodeField": true,
+		"showPostCode": false,
 		"requiredComponents": [
 			{
 				"componentType": "dropdown",
@@ -91,9 +91,16 @@
 	},
 	"pregnancy": {
 		"consultingType": "2",
+		"useInformal": false,
+		"overline": "Schwangerschaftsberatung",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"parenting": {
+		"consultingType": "2",
 		"useInformal": true,
 		"overline": "Schwanger",
 		"showEmail": true,
-		"hidePostcodeField": true
+		"showPostCode": false
 	}
 }
