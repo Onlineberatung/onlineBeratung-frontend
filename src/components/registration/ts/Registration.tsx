@@ -4,7 +4,7 @@ import { Stage } from '../../stage/ts/stage';
 import { InputField, InputFieldItem } from '../../inputField/ts/InputField';
 import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../../button/ts/Button';
 import * as allRegistrationData from '../registrationData.json';
@@ -14,6 +14,7 @@ import {
 	strengthIndicator
 } from '../../passwordField/ts/validateInputValue';
 import { CheckboxItem, Checkbox } from '../../checkbox/ts/Checkbox';
+import { isStringValidEmail, MIN_USERNAME_LENGTH } from './registrationHelper';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -27,7 +28,7 @@ const getConsultingTypeFromRegistration = () =>
 		document.getElementById('registrationRoot').dataset.consultingtype
 	);
 
-const getPasswordClassNames = (invalid, valid) => {
+const getValidationClassNames = (invalid, valid) => {
 	if (invalid) {
 		return 'inputField__input--invalid';
 	}
@@ -39,11 +40,15 @@ const getPasswordClassNames = (invalid, valid) => {
 
 const Registration = () => {
 	const [username, setUsername] = useState(null);
+	const [isUsernameValid, setIsUsernameValid] = useState(false);
+	const [usernameSuccessMessage, setUsernameSuccessMessage] = useState(null);
+	const [usernameErrorMessage, setUsernameErrorMessage] = useState(null);
 	const [postcode, setPostcode] = useState(null);
 	const [agencyId, setAgencyId] = useState(null);
 	const [password, setpassword] = useState(null);
 	const [passwordSuccessMessage, setPasswordSuccessMessage] = useState(null);
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState(null);
+	const [isPasswordValid, setIsPasswordValid] = useState(false);
 	const [passwordConfirmation, setPasswordConfirmation] = useState(null);
 	const [
 		passwordConfirmationSuccessMessage,
@@ -54,10 +59,13 @@ const Registration = () => {
 		setPasswordConfirmationErrorMessage
 	] = useState(null);
 	const [email, setEmail] = useState(null);
-	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(false);
+	const [isEmailValid, setIsEmailValid] = useState(true);
+	const [emailSuccessMessage, setEmailSuccessMessage] = useState(null);
+	const [emailErrorMessage, setEmailErrorMessage] = useState(null);
 	const [isDataProtectionSelected, setIsDataProtectionSelected] = useState(
 		false
 	);
+	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 	const [consultingType, setConsultingType] = useState(
 		getConsultingTypeFromRegistration()
 	);
@@ -71,11 +79,52 @@ const Registration = () => {
 	// check prefill postcode -> AID in URL? (prefillPostcode.ts)
 	// prefillPostcode();
 
+	const isRegistrationValid = () => {
+		const generalValidation =
+			isUsernameValid &&
+			password &&
+			isPasswordValid &&
+			password === passwordConfirmation &&
+			isDataProtectionSelected;
+
+		if (registrationData.showPostCode && registrationData.showEmail) {
+			return generalValidation && postcode && agencyId && isEmailValid;
+		} else if (registrationData.showPostCode) {
+			return generalValidation && postcode && agencyId;
+		} else if (registrationData.showEmail) {
+			return generalValidation && isEmailValid;
+		} else {
+			return generalValidation;
+		}
+	};
+
+	useEffect(() => {
+		if (isRegistrationValid()) {
+			setIsSubmitButtonDisabled(false);
+		} else {
+			setIsSubmitButtonDisabled(true);
+		}
+	}, [
+		username,
+		postcode,
+		password,
+		passwordConfirmation,
+		email,
+		isDataProtectionSelected
+	]);
+
 	const inputItemUsername: InputFieldItem = {
 		content: username,
+		class: getValidationClassNames(
+			!!usernameErrorMessage,
+			!!usernameSuccessMessage
+		),
 		icon: <SVG name={ICON_KEYS.PERSON} />,
 		id: 'username',
-		labelTranslatable: 'registration.user.label',
+		label:
+			usernameErrorMessage || usernameSuccessMessage
+				? `${usernameErrorMessage} ${usernameSuccessMessage}`
+				: translate('registration.user.label'),
 		infoText: translate('registration.user.infoText'),
 		maxLength: 30,
 		name: 'username',
@@ -84,45 +133,51 @@ const Registration = () => {
 
 	const inputItempassword: InputFieldItem = {
 		content: password,
-		class: getPasswordClassNames(
+		class: getValidationClassNames(
 			!!passwordErrorMessage,
 			!!passwordSuccessMessage
 		),
 		icon: <SVG name={ICON_KEYS.LOCK} />,
 		id: 'passwordInput',
-		labelTranslatable: 'registration.password.input.label',
-		infoText:
-			(passwordErrorMessage || passwordSuccessMessage
-				? `${passwordErrorMessage} ${passwordSuccessMessage}<br>`
-				: '') +
-			translate('registration.password.confirmation.infoText'),
+		label:
+			passwordErrorMessage || passwordSuccessMessage
+				? `${passwordErrorMessage} ${passwordSuccessMessage}`
+				: translate('registration.password.input.label'),
 		name: 'passwordInput',
 		type: 'password'
 	};
 
 	const inputItemPasswordConfirmation: InputFieldItem = {
 		content: passwordConfirmation,
-		class: getPasswordClassNames(
+		class: getValidationClassNames(
 			!!passwordConfirmationErrorMessage,
 			!!passwordConfirmationSuccessMessage
 		),
 		icon: <SVG name={ICON_KEYS.LOCK} />,
 		id: 'passwordConfirmation',
-		labelTranslatable: 'registration.password.confirmation.label',
-		infoText:
+		label:
 			passwordConfirmationErrorMessage ||
 			passwordConfirmationSuccessMessage
 				? `${passwordConfirmationErrorMessage} ${passwordConfirmationSuccessMessage}`
-				: '',
+				: translate('registration.password.confirmation.label'),
+		infoText: translate('registration.password.confirmation.infoText'),
 		name: 'passwordConfirmation',
 		type: 'password'
 	};
 
 	const inputItemEmail: InputFieldItem = {
 		content: email,
+		class: getValidationClassNames(
+			!!emailErrorMessage,
+			!!emailSuccessMessage
+		),
 		icon: <SVG name={ICON_KEYS.ENVELOPE} />,
 		id: 'email',
-		labelTranslatable: 'registration.email.label',
+		label:
+			emailErrorMessage || emailSuccessMessage
+				? `${emailErrorMessage} ${emailSuccessMessage}`
+				: translate('registration.email.label'),
+		// label: translate('registration.email.label'),
 		infoText: translate('registration.email.infoText'),
 		name: 'email',
 		type: 'text'
@@ -142,6 +197,7 @@ const Registration = () => {
 	};
 
 	const handleUsernameChange = (event) => {
+		validateUsername(event.target.value);
 		setUsername(event.target.value);
 	};
 
@@ -156,6 +212,7 @@ const Registration = () => {
 	};
 
 	const handleEmailChange = (event) => {
+		validateEmail(event.target.value);
 		setEmail(event.target.value);
 	};
 
@@ -163,20 +220,38 @@ const Registration = () => {
 		console.log('submit');
 	};
 
+	const validateUsername = (username) => {
+		if (username.length >= MIN_USERNAME_LENGTH) {
+			setIsUsernameValid(true);
+			setUsernameSuccessMessage(translate('registration.user.suitable'));
+			setUsernameErrorMessage('');
+		} else if (username.length > 0) {
+			setIsUsernameValid(false);
+			setUsernameSuccessMessage('');
+			setUsernameErrorMessage(translate('registration.user.unsuitable'));
+		} else {
+			setIsUsernameValid(false);
+			setUsernameSuccessMessage('');
+			setUsernameErrorMessage('');
+		}
+	};
+
 	const validatePassword = (password) => {
 		let passwordStrength = strengthIndicator(password);
-		console.log('password strength', passwordStrength);
 		if (password.length >= 1 && passwordStrength < 4) {
+			setIsPasswordValid(false);
 			setPasswordSuccessMessage('');
 			setPasswordErrorMessage(
 				translate('registration.password.insecure')
 			);
 		} else if (password.length >= 1) {
+			setIsPasswordValid(true);
 			setPasswordSuccessMessage(
 				translate('registration.password.secure')
 			);
 			setPasswordErrorMessage('');
 		} else {
+			setIsPasswordValid(false);
 			setPasswordSuccessMessage('');
 			setPasswordErrorMessage('');
 		}
@@ -197,6 +272,22 @@ const Registration = () => {
 		} else {
 			setPasswordConfirmationSuccessMessage('');
 			setPasswordConfirmationErrorMessage('');
+		}
+	};
+
+	const validateEmail = (email) => {
+		if (email.length > 0 && isStringValidEmail(email)) {
+			setIsEmailValid(true);
+			setEmailSuccessMessage(translate('registration.email.valid'));
+			setEmailErrorMessage('');
+		} else if (email.length > 0) {
+			setIsEmailValid(false);
+			setEmailSuccessMessage('');
+			setEmailErrorMessage(translate('registration.email.invalid'));
+		} else {
+			setIsEmailValid(true);
+			setEmailSuccessMessage('');
+			setEmailErrorMessage('');
 		}
 	};
 
@@ -240,10 +331,12 @@ const Registration = () => {
 						item={inputItemPasswordConfirmation}
 						inputHandle={handlePasswordConfirmationChange}
 					/>
-					<InputField
-						item={inputItemEmail}
-						inputHandle={handleEmailChange}
-					/>
+					{registrationData.showEmail ? (
+						<InputField
+							item={inputItemEmail}
+							inputHandle={handleEmailChange}
+						/>
+					) : null}
 				</div>
 
 				{/* ----------------------------- Submit Section ---------------------------- */}

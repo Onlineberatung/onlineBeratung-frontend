@@ -97,10 +97,10 @@
 		"showPostCode": true
 	},
 	"parenting": {
-		"consultingType": "2",
+		"consultingType": "3",
 		"useInformal": true,
-		"overline": "Schwanger",
-		"showEmail": true,
+		"overline": "parenting test",
+		"showEmail": false,
 		"showPostCode": false
 	}
 }

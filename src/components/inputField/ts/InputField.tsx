@@ -6,7 +6,7 @@ export interface InputFieldItem {
 	id: string;
 	type: string;
 	name: string;
-	labelTranslatable: string;
+	label: string;
 	content: string;
 	class?: string;
 	icon?: JSX.Element;
@@ -78,7 +78,7 @@ export const InputField = (props: InputFieldProps) => {
 						}`}
 						value={inputItem.content ? inputItem.content : ``}
 						name={inputItem.name}
-						placeholder={translate(inputItem.labelTranslatable)}
+						placeholder={inputItem.label}
 						disabled={inputItem.disabled}
 						autoComplete="off"
 						onKeyUp={handleKeyUp}
@@ -87,7 +87,7 @@ export const InputField = (props: InputFieldProps) => {
 						className="formWrapper__inputWrapper__label"
 						htmlFor={inputItem.id}
 					>
-						{translate(inputItem.labelTranslatable)}
+						{inputItem.label}
 					</label>
 					{inputItem.type === 'password' ? (
 						<span

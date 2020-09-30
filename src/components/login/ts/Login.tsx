@@ -42,7 +42,7 @@ const Login = () => {
 		class: 'login',
 		id: 'username',
 		type: 'text',
-		labelTranslatable: 'login.user.label',
+		label: translate('login.user.label'),
 		content: username,
 		icon: <SVG name={ICON_KEYS.PERSON} />
 	};
@@ -52,7 +52,7 @@ const Login = () => {
 		class: 'passwordFields__fieldGroup__input',
 		id: 'passwordInput',
 		type: 'password',
-		labelTranslatable: 'login.password.label',
+		label: translate('login.password.label'),
 		content: password,
 		icon: <SVG name={ICON_KEYS.LOCK} />
 	};

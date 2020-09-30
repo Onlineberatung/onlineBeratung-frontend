@@ -64,8 +64,7 @@ $iconSize: 24px;
 			border: 2px solid $form-error !important;
 			color: $form-error !important;
 
-			& + label,
-			& + label + span + p {
+			& + label {
 				color: $form-error;
 			}
 		}
@@ -74,8 +73,7 @@ $iconSize: 24px;
 			border: 2px solid $form-success !important;
 			color: $form-success !important;
 
-			& + label,
-			& + label + span + p {
+			& + label {
 				color: $form-success;
 			}
 		}

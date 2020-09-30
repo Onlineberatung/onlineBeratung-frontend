@@ -123,7 +123,7 @@ export const PostcodeSuggestion = (props: PostcodeSuggestionProps) => {
 		id: 'postcode',
 		type: 'text',
 		infoText: translate('profile.data.register.postcodeInput.infoText'),
-		labelTranslatable: 'profile.data.register.postcodeInput.label',
+		label: translate('profile.data.register.postcodeInput.label'),
 		content: selectedPostcode,
 		maxLength: VALID_POSTCODE_LENGTH.MAX,
 		pattern: '^[0-9]+$',
