@@ -1,16 +1,16 @@
 {
 	"addiction": {
 		"consultingType": "0",
-		"useInformal": true,
+		"useInformal": false,
 		"overline": "Suchtberatung",
-		"showEmail": false,
-		"showPostCode": false
+		"showEmail": true,
+		"showPostCode": true
 	},
 	"u25": {
 		"consultingType": "1",
 		"useInformal": true,
 		"overline": "Beratung für Suizidgefährdete junge Menschen [U25]",
-		"showEmail": true,
+		"showEmail": false,
 		"showPostCode": false,
 		"requiredComponents": [
 			{
@@ -89,18 +89,137 @@
 			}
 		]
 	},
+	"gemeinsamstatteinsam": {
+		"consultingType": "1",
+		"useInformal": true,
+		"overline": "#gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten",
+		"showEmail": false,
+		"showPostCode": false
+	},
 	"pregnancy": {
 		"consultingType": "2",
-		"useInformal": false,
+		"useInformal": true,
 		"overline": "Schwangerschaftsberatung",
 		"showEmail": true,
 		"showPostCode": true
 	},
 	"parenting": {
 		"consultingType": "3",
+		"useInformal": false,
+		"overline": "Beratung für Eltern und Familien",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"cure": {
+		"consultingType": "4",
+		"useInformal": false,
+		"overline": "Kurberatung für Mütter und Väter",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"debt": {
+		"consultingType": "5",
+		"useInformal": false,
+		"overline": "Beratung zum Thema Schulden",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"social": {
+		"consultingType": "6",
+		"useInformal": false,
+		"overline": "Allgemeine Sozialberatung",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"seniority": {
+		"consultingType": "7",
+		"useInformal": false,
+		"overline": "Leben im Alter",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"disability": {
+		"consultingType": "8",
+		"useInformal": false,
+		"overline": "Leben mit Behinderung und psychischer Erkrankung",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"planB": {
+		"consultingType": "9",
 		"useInformal": true,
-		"overline": "parenting test",
-		"showEmail": false,
+		"overline": "Mein PlanB: Beratung zwischen Schule und Beruf",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"law": {
+		"consultingType": "10",
+		"useInformal": false,
+		"overline": "Rechtliche Betreuung und Vorsorge",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"offender": {
+		"consultingType": "11",
+		"useInformal": false,
+		"overline": "Beratung für Angehörige von Straffälligen",
+		"showEmail": true,
 		"showPostCode": false
+	},
+	"aids": {
+		"consultingType": "12",
+		"useInformal": false,
+		"overline": "HIV/AIDS Beratung",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"rehabilitation": {
+		"consultingType": "13",
+		"useInformal": false,
+		"overline": "Kinder- und Jugend-Rehabilitation",
+		"showEmail": true,
+		"showPostCode": false
+	},
+	"children": {
+		"consultingType": "14",
+		"useInformal": true,
+		"overline": "Beratung für Kinder und Jugendliche",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"kreuzbund": {
+		"consultingType": "15",
+		"useInformal": false,
+		"overline": "Sucht-Selbsthilfe - Kreuzbund-Chat",
+		"showEmail": true,
+		"showPostCode": false
+	},
+	"migration": {
+		"consultingType": "16",
+		"useInformal": false,
+		"overline": "Migrationsberatung",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"emigration": {
+		"consultingType": "17",
+		"useInformal": false,
+		"overline": "Aus-/Rück- & Weiterwanderung",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"hospice": {
+		"consultingType": "18",
+		"useInformal": false,
+		"overline": "Hospiz-, Palliativ- und Trauerberatung",
+		"showEmail": true,
+		"showPostCode": true
+	},
+	"regional": {
+		"consultingType": "19",
+		"useInformal": false,
+		"overline": "Regionale Angebote",
+		"showEmail": true,
+		"showPostCode": true
 	}
 }
