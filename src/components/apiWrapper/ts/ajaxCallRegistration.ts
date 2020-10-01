@@ -14,7 +14,7 @@ import { extendPostcodeToBeValid } from '../../registrationFormular/ts/handleReg
 
 export const initRegistrationCall = (e: Event) => {
 	const registrationData = getRegistrationDataObject();
-	postRegistration(e, config.endpoints.registerAsker, registrationData);
+	postRegistration(config.endpoints.registerAsker, registrationData);
 };
 
 const getRegistrationDataObject = () => {
@@ -86,9 +86,8 @@ const getSelectedRadioButton = (collectionName: string) => {
 };
 
 let isRequestInProgress = false;
-export const postRegistration = (e: Event, url: string, data: {}) => {
+export const postRegistration = (url: string, data: {}) => {
 	removeAllCookies();
-	e.preventDefault();
 	if (isRequestInProgress) {
 		return null;
 	}

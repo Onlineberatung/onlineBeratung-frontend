@@ -7,7 +7,7 @@ import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 import { useEffect, useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../../button/ts/Button';
-import * as allRegistrationData from '../registrationData.json';
+import * as registrationAgenciesData from '../registrationData.json';
 import { PostcodeSuggestion } from '../../postcodeSuggestion/ts/PostcodeSuggestion';
 import {
 	inputValuesFit,
@@ -15,6 +15,8 @@ import {
 } from '../../passwordField/ts/validateInputValue';
 import { CheckboxItem, Checkbox } from '../../checkbox/ts/Checkbox';
 import { isStringValidEmail, MIN_USERNAME_LENGTH } from './registrationHelper';
+import { postRegistration } from '../../apiWrapper/ts/ajaxCallRegistration';
+import { config } from '../../../resources/ts/config';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -70,11 +72,11 @@ const Registration = () => {
 		getConsultingTypeFromRegistration()
 	);
 
-	const registrationDataArray = Object.entries(allRegistrationData).filter(
+	const agencyDataArray = Object.entries(registrationAgenciesData).filter(
 		(resort) => resort[1].consultingType == consultingType.toString()
 	);
 	// TODO: u25 vs einsamgemeinsam -> if registrationData.length > 1 -> check key
-	const registrationData = registrationDataArray[0][1];
+	const agencyData = agencyDataArray[0][1];
 
 	// check prefill postcode -> AID in URL? (prefillPostcode.ts)
 	// prefillPostcode();
@@ -87,11 +89,11 @@ const Registration = () => {
 			password === passwordConfirmation &&
 			isDataProtectionSelected;
 
-		if (registrationData.showPostCode && registrationData.showEmail) {
+		if (agencyData.showPostCode && agencyData.showEmail) {
 			return generalValidation && postcode && agencyId && isEmailValid;
-		} else if (registrationData.showPostCode) {
+		} else if (agencyData.showPostCode) {
 			return generalValidation && postcode && agencyId;
-		} else if (registrationData.showEmail) {
+		} else if (agencyData.showEmail) {
 			return generalValidation && isEmailValid;
 		} else {
 			return generalValidation;
@@ -216,8 +218,18 @@ const Registration = () => {
 		setEmail(event.target.value);
 	};
 
-	const handleSubmitButtonClick = (event) => {
-		console.log('submit');
+	const handleSubmitButtonClick = () => {
+		const registrationData = {
+			username: username,
+			password: encodeURIComponent(password),
+			consultingType: consultingType,
+			termsAccepted: isDataProtectionSelected.toString(),
+			...(email && { email: email }),
+			...(agencyData.showPostCode && { postcode: postcode }),
+			...(agencyData.showPostCode && { agencyId: agencyId })
+		};
+
+		postRegistration(config.endpoints.registerAsker, registrationData);
 	};
 
 	const validateUsername = (username) => {
@@ -301,7 +313,7 @@ const Registration = () => {
 				data-resources="[{paths: ['components/registrationFormular/ts/registration.js?{{bioTrueEnv 'RELEASE_VERSION'}}']}]"
 			>
 				<h3 className="registration__overline">
-					{registrationData.overline}
+					{agencyData.overline}
 				</h3>
 				<h1 className="registration__headline">Registrierung</h1>
 
@@ -311,7 +323,7 @@ const Registration = () => {
 						item={inputItemUsername}
 						inputHandle={handleUsernameChange}
 					/>
-					{registrationData.showPostCode ? (
+					{agencyData.showPostCode ? (
 						<PostcodeSuggestion
 							selectedConsultingType={consultingType}
 							icon={<SVG name={ICON_KEYS.PIN} />}
@@ -331,7 +343,7 @@ const Registration = () => {
 						item={inputItemPasswordConfirmation}
 						inputHandle={handlePasswordConfirmationChange}
 					/>
-					{registrationData.showEmail ? (
+					{agencyData.showEmail ? (
 						<InputField
 							item={inputItemEmail}
 							inputHandle={handleEmailChange}

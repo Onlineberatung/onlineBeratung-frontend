@@ -22,17 +22,17 @@ import {
 
 export const handleRegistrationSubmit = (e: Event) => {
 	e.preventDefault();
-	removeWarningLabels();
-	removeCheckboxWarningLabel();
+	// removeWarningLabels();
+	// removeCheckboxWarningLabel();
 
-	handleUsernameOnSubmit();
-	handlePostcodeOnSubmit();
+	// handleUsernameOnSubmit(); //
+	handlePostcodeOnSubmit(); // -> validation muss noch in react component ergänzt werden
 	if (isU25Registration()) {
 		handleAgeOnSubmit();
 		handleStateOnSubmit();
 	}
-	handleEmailOnSubmit();
-	handleTermsAcceptedOnSubmit();
+	// handleEmailOnSubmit();
+	// handleTermsAcceptedOnSubmit();
 	handlePasswordFieldOnSubmit(e);
 };
 
@@ -72,11 +72,12 @@ const handlePostcodeOnSubmit = () => {
 	const postcodeLength = postcodeValue.length;
 
 	if (postcodeLength == 0) {
-		warningLabelForTranslatableAndParentId(
-			'warningLabels.postcode.missing',
-			'postcode'
-		);
+		// warningLabelForTranslatableAndParentId(
+		// 	'warningLabels.postcode.missing',
+		// 	'postcode'
+		// );
 	} else if (!validPostcodeLengthForConsultingType(postcodeLength)) {
+		// POSTCODE VALIDATION MUSS IN DER REACT COMPONENTE NOCH NACHGEZOGEN WERDEN
 		warningLabelForTranslatableAndParentId(
 			'warningLabels.postcode.invalid',
 			'postcode'
@@ -87,18 +88,24 @@ const handlePostcodeOnSubmit = () => {
 		'data-postcodefallback'
 	);
 	if (postcodeFallbackError) {
+		// POSTCODE VALIDATION MUSS IN DER REACT COMPONENTE NOCH NACHGEZOGEN WERDEN
 		warningLabelForTranslatableAndParentId(
 			'warningLabels.postcode.invalid',
 			'postcode'
 		);
-	} else if (
-		!hasConsultingTypeLongPostcodeValidation() &&
-		!postcodeFallbackError &&
-		hasPostcodeToBeExtended(postcodeLength) &&
-		parseInt(postcodeValue)
-	) {
-		postcodeInput.value = extendPostcodeToBeValid(postcodeInt);
 	}
+
+	// -> DONE IN POSTCODE SUGGESTION
+
+	// else if (
+	// 	!hasConsultingTypeLongPostcodeValidation() &&
+	// 	!postcodeFallbackError &&
+	// 	hasPostcodeToBeExtended(postcodeLength) &&
+	// 	parseInt(postcodeValue)
+	// ) {
+	//
+	// 	// postcodeInput.value = extendPostcodeToBeValid(postcodeInt);
+	// }
 
 	if (!agencyId) {
 		setFirstAgencyId();
