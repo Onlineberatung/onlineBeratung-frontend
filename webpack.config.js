@@ -5,7 +5,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Suchtberatung',
 			templateParameters: {
-				consultingType: 0
+				consultingType: 0,
+				resortName: 'addiction'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -15,7 +16,8 @@ module.exports = {
 			title:
 				'Registrierung Beratung für Suizidgefährdete junge Menschen [U25]',
 			templateParameters: {
-				consultingType: 1
+				consultingType: 1,
+				resortName: 'u25'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -25,7 +27,8 @@ module.exports = {
 			title:
 				'Registrierung gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten',
 			templateParameters: {
-				consultingType: 1
+				consultingType: 1,
+				resortName: 'gemeinsamstatteinsam'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -34,7 +37,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Schwangerschaftsberatung',
 			templateParameters: {
-				consultingType: 2
+				consultingType: 2,
+				resortName: 'pregnancy'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -43,7 +47,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Beratung für Eltern und Familien',
 			templateParameters: {
-				consultingType: 3
+				consultingType: 3,
+				resortName: 'parenting'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -52,7 +57,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Kurberatung für Mütter und Väter',
 			templateParameters: {
-				consultingType: 4
+				consultingType: 4,
+				resortName: 'cure'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -61,7 +67,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Beratung zum Thema Schulden',
 			templateParameters: {
-				consultingType: 5
+				consultingType: 5,
+				resortName: 'debt'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -70,7 +77,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Allgemeine Sozialberatung',
 			templateParameters: {
-				consultingType: 6
+				consultingType: 6,
+				resortName: 'social'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -79,7 +87,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Leben im Alter',
 			templateParameters: {
-				consultingType: 7
+				consultingType: 7,
+				resortName: 'seniority'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -89,7 +98,8 @@ module.exports = {
 			title:
 				'Registrierung Leben mit Behinderung und psychischer Erkrankung',
 			templateParameters: {
-				consultingType: 8
+				consultingType: 8,
+				resortName: 'disability'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -100,7 +110,8 @@ module.exports = {
 			title:
 				'Registrierung Mein PlanB - Beratung zwischen Schule und Beruf',
 			templateParameters: {
-				consultingType: 9
+				consultingType: 9,
+				resortName: 'planB'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -109,7 +120,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Rechtliche Betreuung und Vorsorge',
 			templateParameters: {
-				consultingType: 10
+				consultingType: 10,
+				resortName: 'law'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -118,7 +130,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Beratung für Angehörige von Straffälligen',
 			templateParameters: {
-				consultingType: 11
+				consultingType: 11,
+				resortName: 'offender'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -127,7 +140,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung HIV/AIDS Beratung',
 			templateParameters: {
-				consultingType: 12
+				consultingType: 12,
+				resortName: 'aids'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -136,7 +150,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Kinder- und Jugend-Rehabilitation',
 			templateParameters: {
-				consultingType: 13
+				consultingType: 13,
+				resortName: 'rehabilitation'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -145,7 +160,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Beratung für Kinder und Jugendliche',
 			templateParameters: {
-				consultingType: 14
+				consultingType: 14,
+				resortName: 'children'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -154,7 +170,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Sucht-Selbsthilfe - Kreuzbund-Chat',
 			templateParameters: {
-				consultingType: 15
+				consultingType: 15,
+				resortName: 'kreuzbund'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -163,7 +180,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Migrationsberatung',
 			templateParameters: {
-				consultingType: 16
+				consultingType: 16,
+				resortName: 'migration'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -172,7 +190,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Aus-/Rück- & Weiterwanderung',
 			templateParameters: {
-				consultingType: 17
+				consultingType: 17,
+				resortName: 'emigration'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -181,7 +200,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Hospiz-, Palliativ- und Trauerberatung',
 			templateParameters: {
-				consultingType: 18
+				consultingType: 18,
+				resortName: 'hospice'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
@@ -190,7 +210,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Regionale Angebote',
 			templateParameters: {
-				consultingType: 19
+				consultingType: 19,
+				resortName: 'regional'
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],

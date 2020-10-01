@@ -69,15 +69,22 @@ const Registration = () => {
 		false
 	);
 	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
-	const [consultingType, setConsultingType] = useState(
-		getConsultingTypeFromRegistration()
-	);
+	const [consultingType] = useState(getConsultingTypeFromRegistration());
 
 	const resortDataArray = Object.entries(registrationResortsData).filter(
 		(resort) => resort[1].consultingType == consultingType.toString()
 	);
-	// TODO: u25 vs einsamgemeinsam -> if registrationData.length > 1 -> check key
-	const resortData = resortDataArray[0][1];
+
+	let resortData;
+	if (resortDataArray.length > 1) {
+		const resortName = document.getElementById('registrationRoot').dataset
+			.resortname;
+		resortData = resortDataArray.filter(
+			(resort) => resort[0] === resortName
+		)[0][1];
+	} else {
+		resortData = resortDataArray[0][1];
+	}
 
 	// SET FORMAL/INFORMAL COOKIE
 	setTokenInCookie('useInformal', resortData.useInformal ? '1' : '');
