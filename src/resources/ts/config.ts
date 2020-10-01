@@ -43,7 +43,8 @@ export const config = {
 		headerData: tld + '/service/users/sessions/askers',
 		teamSessions: tld + '/service/users/sessions/teams',
 		caritasImprint: 'https://www.caritas.de/impressum',
-		caritasDataprotection: 'https://www.caritas.de/datenschutz',
+		caritasDataprotection:
+			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		updateMonitoring: tld + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
 		error500: tld + endpointPort + '/02components.07errorPage500.html',
