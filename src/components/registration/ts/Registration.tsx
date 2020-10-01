@@ -7,7 +7,7 @@ import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 import { useEffect, useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../../button/ts/Button';
-import * as registrationAgenciesData from '../registrationData.json';
+import * as registrationResortsData from '../registrationData.json';
 import { PostcodeSuggestion } from '../../postcodeSuggestion/ts/PostcodeSuggestion';
 import {
 	inputValuesFit,
@@ -17,6 +17,7 @@ import { CheckboxItem, Checkbox } from '../../checkbox/ts/Checkbox';
 import { isStringValidEmail, MIN_USERNAME_LENGTH } from './registrationHelper';
 import { postRegistration } from '../../apiWrapper/ts/ajaxCallRegistration';
 import { config } from '../../../resources/ts/config';
+import { setTokenInCookie } from '../../sessionCookie/ts/accessSessionCookie';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -72,11 +73,14 @@ const Registration = () => {
 		getConsultingTypeFromRegistration()
 	);
 
-	const agencyDataArray = Object.entries(registrationAgenciesData).filter(
+	const resortDataArray = Object.entries(registrationResortsData).filter(
 		(resort) => resort[1].consultingType == consultingType.toString()
 	);
 	// TODO: u25 vs einsamgemeinsam -> if registrationData.length > 1 -> check key
-	const agencyData = agencyDataArray[0][1];
+	const resortData = resortDataArray[0][1];
+
+	// SET FORMAL/INFORMAL COOKIE
+	setTokenInCookie('useInformal', resortData.useInformal ? '1' : '');
 
 	// check prefill postcode -> AID in URL? (prefillPostcode.ts)
 	// prefillPostcode();
@@ -89,11 +93,11 @@ const Registration = () => {
 			password === passwordConfirmation &&
 			isDataProtectionSelected;
 
-		if (agencyData.showPostCode && agencyData.showEmail) {
+		if (resortData.showPostCode && resortData.showEmail) {
 			return generalValidation && postcode && agencyId && isEmailValid;
-		} else if (agencyData.showPostCode) {
+		} else if (resortData.showPostCode) {
 			return generalValidation && postcode && agencyId;
-		} else if (agencyData.showEmail) {
+		} else if (resortData.showEmail) {
 			return generalValidation && isEmailValid;
 		} else {
 			return generalValidation;
@@ -179,7 +183,6 @@ const Registration = () => {
 			emailErrorMessage || emailSuccessMessage
 				? `${emailErrorMessage} ${emailSuccessMessage}`
 				: translate('registration.email.label'),
-		// label: translate('registration.email.label'),
 		infoText: translate('registration.email.infoText'),
 		name: 'email',
 		type: 'text'
@@ -225,8 +228,8 @@ const Registration = () => {
 			consultingType: consultingType,
 			termsAccepted: isDataProtectionSelected.toString(),
 			...(email && { email: email }),
-			...(agencyData.showPostCode && { postcode: postcode }),
-			...(agencyData.showPostCode && { agencyId: agencyId })
+			...(resortData.showPostCode && { postcode: postcode }),
+			...(resortData.showPostCode && { agencyId: agencyId })
 		};
 
 		postRegistration(config.endpoints.registerAsker, registrationData);
@@ -313,7 +316,7 @@ const Registration = () => {
 				data-resources="[{paths: ['components/registrationFormular/ts/registration.js?{{bioTrueEnv 'RELEASE_VERSION'}}']}]"
 			>
 				<h3 className="registration__overline">
-					{agencyData.overline}
+					{resortData.overline}
 				</h3>
 				<h1 className="registration__headline">Registrierung</h1>
 
@@ -323,7 +326,7 @@ const Registration = () => {
 						item={inputItemUsername}
 						inputHandle={handleUsernameChange}
 					/>
-					{agencyData.showPostCode ? (
+					{resortData.showPostCode ? (
 						<PostcodeSuggestion
 							selectedConsultingType={consultingType}
 							icon={<SVG name={ICON_KEYS.PIN} />}
@@ -343,7 +346,7 @@ const Registration = () => {
 						item={inputItemPasswordConfirmation}
 						inputHandle={handlePasswordConfirmationChange}
 					/>
-					{agencyData.showEmail ? (
+					{resortData.showEmail ? (
 						<InputField
 							item={inputItemEmail}
 							inputHandle={handleEmailChange}
