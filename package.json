@@ -8,7 +8,7 @@
     },
     "scripts": {
         "start": "cross-env NODE_ENV=development RELEASE_VERSION=$npm_package_version gulp serve",
-        "build": "cross-env NODE_ENV=production RELEASE_VERSION=$npm_package_version gulp build && gulp add-versioning",
+        "build": "cross-env NODE_ENV=production RELEASE_VERSION=$npm_package_version --max_old_space_size=4096 gulp build && gulp add-versioning",
         "release": "standard-version",
         "mk": "node masterkey.js",
         "version": "echo $npm_package_version"
