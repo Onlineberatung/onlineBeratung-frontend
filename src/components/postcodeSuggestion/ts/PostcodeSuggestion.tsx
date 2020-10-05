@@ -127,7 +127,8 @@ export const PostcodeSuggestion = (props: PostcodeSuggestionProps) => {
 		content: selectedPostcode,
 		maxLength: VALID_POSTCODE_LENGTH.MAX,
 		pattern: '^[0-9]+$',
-		disabled: !props.selectedConsultingType,
+		disabled:
+			!props.selectedConsultingType && props.selectedConsultingType != 0,
 		postcodeFallbackLink: postcodeFallbackLink,
 		icon: props.icon
 	};

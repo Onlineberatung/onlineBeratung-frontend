@@ -4,6 +4,10 @@ export default {
 	'agency.isteam': 'Sie werden von einem Team beraten.',
 
 	// NEW
+	'headline': 'Registrierung',
+	'voluntary.headline': 'Freiwillige Angaben',
+	'voluntary.subline':
+		'Für die Beratung würden uns folgende Angaben sehr helfen',
 	'login.helper': 'Bereits registriert?',
 	'login.label': 'Zum Login',
 	'user.label': 'Benutzername*',

@@ -80,4 +80,16 @@
 			margin-left: $grid-base/2;
 		}
 	}
+
+	&__contentRow:not(:last-child) {
+		margin-bottom: $grid-base-five;
+	}
+
+	h3 {
+		color: $secondary;
+		text-align: center;
+		font-size: $font-size-primary;
+		font-weight: $font-weight-regular;
+		margin: 0;
+	}
 }

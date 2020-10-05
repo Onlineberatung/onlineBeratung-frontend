@@ -7,7 +7,7 @@ import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 import { useEffect, useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../../button/ts/Button';
-import * as registrationResortsData from '../registrationData.json';
+import registrationResortsData from '../registrationData';
 import { PostcodeSuggestion } from '../../postcodeSuggestion/ts/PostcodeSuggestion';
 import {
 	inputValuesFit,
@@ -18,6 +18,8 @@ import { isStringValidEmail, MIN_USERNAME_LENGTH } from './registrationHelper';
 import { postRegistration } from '../../apiWrapper/ts/ajaxCallRegistration';
 import { config } from '../../../resources/ts/config';
 import { setTokenInCookie } from '../../sessionCookie/ts/accessSessionCookie';
+import { SelectDropdown } from '../../select/ts/SelectDropdown';
+import user from '../../../resources/ts/i18n/de/user';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -313,6 +315,26 @@ const Registration = () => {
 		}
 	};
 
+	const voluntaryComponents = resortData.voluntaryComponents.map(
+		(component, index) => {
+			if (component.componentType === 'SelectDropdown') {
+				console.log('data', component);
+				return (
+					<div className="registration__contentRow">
+						<h3>{component.headline}</h3>
+						<SelectDropdown
+							key={index}
+							handleDropdownSelect={
+								component.handleDropdownSelect
+							}
+							{...component.item}
+						/>
+					</div>
+				);
+			}
+		}
+	);
+
 	return (
 		<div className="registration">
 			<Stage hasAnimation={true}></Stage>
@@ -325,7 +347,9 @@ const Registration = () => {
 				<h3 className="registration__overline">
 					{resortData.overline}
 				</h3>
-				<h1 className="registration__headline">Registrierung</h1>
+				<h1 className="registration__headline">
+					{translate('registration.headline')}
+				</h1>
 
 				{/* ----------------------------- Required Fields ---------------------------- */}
 				<div className="registration__generalInformation">
@@ -360,6 +384,19 @@ const Registration = () => {
 						/>
 					) : null}
 				</div>
+
+				{/* ----------------------------- Voluntary Fields ---------------------------- */}
+				{resortData.voluntaryComponents ? (
+					<div className="registration__voluntaryInformation">
+						<div>
+							<h2>
+								{translate('registration.voluntary.headline')}
+							</h2>
+							<p>{translate('registration.voluntary.subline')}</p>
+						</div>
+						{voluntaryComponents}
+					</div>
+				) : null}
 
 				{/* ----------------------------- Submit Section ---------------------------- */}
 				<div className="registration__footer">
