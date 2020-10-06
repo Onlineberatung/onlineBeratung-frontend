@@ -19,7 +19,7 @@ import { postRegistration } from '../../apiWrapper/ts/ajaxCallRegistration';
 import { config } from '../../../resources/ts/config';
 import { setTokenInCookie } from '../../sessionCookie/ts/accessSessionCookie';
 import { SelectDropdown } from '../../select/ts/SelectDropdown';
-import user from '../../../resources/ts/i18n/de/user';
+import { RadioButton } from '../../radioButtonNew/ts/RadioButton';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -318,9 +318,8 @@ const Registration = () => {
 	const voluntaryComponents = resortData.voluntaryComponents.map(
 		(component, index) => {
 			if (component.componentType === 'SelectDropdown') {
-				console.log('data', component);
 				return (
-					<div className="registration__contentRow">
+					<div key={index} className="registration__contentRow">
 						<h3>{component.headline}</h3>
 						<SelectDropdown
 							key={index}
@@ -329,6 +328,21 @@ const Registration = () => {
 							}
 							{...component.item}
 						/>
+					</div>
+				);
+			} else if (component.componentType === 'radioButtons') {
+				return (
+					<div key={index} className="registration__contentRow">
+						<h3>{component.headline}</h3>
+						{component.radioButtons.map((radio, index) => {
+							return (
+								<RadioButton
+									key={index}
+									handleRadioButton={radio.handleRadioButton}
+									{...radio.item}
+								/>
+							);
+						})}
 					</div>
 				);
 			}

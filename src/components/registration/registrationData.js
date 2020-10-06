@@ -43,6 +43,39 @@ export default {
 					isSearchable: false,
 					menuPlacement: 'bottom'
 				}
+			},
+			{
+				componentType: 'radioButtons',
+				headline: 'Geschlecht',
+				radioButtons: [
+					{
+						handleRadioButton: (e) => console.log(e),
+						item: {
+							inputId: 'female',
+							name: 'gender',
+							label: 'Weiblich',
+							checked: true
+						}
+					},
+					{
+						handleRadioButton: (e) => console.log(e),
+						item: {
+							inputId: 'male',
+							name: 'gender',
+							label: 'Männlich',
+							checked: false
+						}
+					},
+					{
+						handleRadioButton: (e) => console.log(e),
+						item: {
+							inputId: 'diverseGender',
+							name: 'gender',
+							label: 'Divers',
+							checked: false
+						}
+					}
+				]
 			}
 		]
 	},
