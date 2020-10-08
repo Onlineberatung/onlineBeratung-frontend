@@ -256,6 +256,8 @@ const Registration = () => {
 			...voluntaryFieldsWithOneValue
 		};
 
+		console.log('reg data', registrationData);
+
 		postRegistration(config.endpoints.registerAsker, registrationData);
 	};
 
@@ -357,78 +359,71 @@ const Registration = () => {
 		}
 	};
 
+	const renderSpecificVoluntaryComponent = (component, index) => {
+		if (component.componentType === 'SelectDropdown') {
+			return (
+				<SelectDropdown
+					key={index}
+					handleDropdownSelect={(e) =>
+						handleVoluntaryInputValueChange(e.value, component.name)
+					}
+					defaultValue={
+						voluntaryInputValues
+							? getOptionOfSelectedValue(
+									component.item.selectedOptions,
+									voluntaryInputValues[component.name]
+							  )
+							: null
+					}
+					{...component.item}
+				/>
+			);
+		} else if (component.componentType === 'RadioButton') {
+			return component.radioButtons.map((radio, index) => {
+				return (
+					<RadioButton
+						key={index}
+						name={component.name}
+						value={index}
+						handleRadioButton={(e) =>
+							handleVoluntaryInputValueChange(
+								e.target.value,
+								component.name
+							)
+						}
+						{...radio}
+					/>
+				);
+			});
+		} else if (component.componentType === 'TagSelect') {
+			return component.tagSelects.map((tag, index) => {
+				return (
+					<TagSelect
+						key={index}
+						name={component.name}
+						value={index}
+						handleTagSelectClick={(e) =>
+							handleVoluntaryInputValueChange(
+								e.target.value,
+								component.name,
+								true
+							)
+						}
+						{...tag}
+					/>
+				);
+			});
+		}
+	};
+
 	const voluntaryComponents = resortData.voluntaryComponents.map(
 		(component, index) => {
-			if (component.componentType === 'SelectDropdown') {
-				return (
-					<div key={index} className="registration__contentRow">
-						<h3>{component.headline}</h3>
-						<SelectDropdown
-							key={index}
-							handleDropdownSelect={(e) =>
-								handleVoluntaryInputValueChange(
-									e.value,
-									component.name
-								)
-							}
-							defaultValue={
-								voluntaryInputValues
-									? getOptionOfSelectedValue(
-											component.item.selectedOptions,
-											voluntaryInputValues[component.name]
-									  )
-									: null
-							}
-							{...component.item}
-						/>
-					</div>
-				);
-			} else if (component.componentType === 'RadioButton') {
-				return (
-					<div key={index} className="registration__contentRow">
-						<h3>{component.headline}</h3>
-						{component.radioButtons.map((radio, index) => {
-							return (
-								<RadioButton
-									key={index}
-									name={component.name}
-									value={index}
-									handleRadioButton={(e) =>
-										handleVoluntaryInputValueChange(
-											e.target.value,
-											component.name
-										)
-									}
-									{...radio}
-								/>
-							);
-						})}
-					</div>
-				);
-			} else if (component.componentType === 'TagSelect') {
-				return (
-					<div key={index} className="registration__contentRow">
-						<h3>{component.headline}</h3>
-						{component.tagSelects.map((tag, index) => {
-							return (
-								<TagSelect
-									key={index}
-									name={component.name}
-									value={index}
-									handleTagSelectClick={(e) =>
-										handleVoluntaryInputValueChange(
-											e.target.value,
-											component.name,
-											true
-										)
-									}
-									{...tag}
-								/>
-							);
-						})}
-					</div>
-				);
-			}
+			return (
+				<div key={index} className="registration__contentRow">
+					<h3>{component.headline}</h3>
+					{renderSpecificVoluntaryComponent(component, index)}
+				</div>
+			);
 		}
 	);
 
