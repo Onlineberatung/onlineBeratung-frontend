@@ -14,7 +14,11 @@ import {
 	strengthIndicator
 } from '../../passwordField/ts/validateInputValue';
 import { CheckboxItem, Checkbox } from '../../checkbox/ts/Checkbox';
-import { isStringValidEmail, MIN_USERNAME_LENGTH } from './registrationHelper';
+import {
+	getOptionOfSelectedValue,
+	isStringValidEmail,
+	MIN_USERNAME_LENGTH
+} from './registrationHelper';
 import { postRegistration } from '../../apiWrapper/ts/ajaxCallRegistration';
 import { config } from '../../../resources/ts/config';
 import { setTokenInCookie } from '../../sessionCookie/ts/accessSessionCookie';
@@ -366,6 +370,14 @@ const Registration = () => {
 									e.value,
 									component.name
 								)
+							}
+							defaultValue={
+								voluntaryInputValues
+									? getOptionOfSelectedValue(
+											component.item.selectedOptions,
+											voluntaryInputValues[component.name]
+									  )
+									: null
 							}
 							{...component.item}
 						/>
