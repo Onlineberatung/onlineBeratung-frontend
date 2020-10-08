@@ -7,34 +7,99 @@ export default {
 		showPostCode: true,
 		voluntaryComponents: [
 			{
+				componentType: 'RadioButton',
+				headline: 'Hintergrund',
+				name: 'relation',
+				radioButtons: [
+					{
+						inputId: 'affected',
+						label: 'Betroffen',
+						checked: false
+					},
+					{
+						inputId: 'relative',
+						label: 'Angehörig',
+						checked: false
+					},
+					{
+						inputId: 'otherType',
+						label: 'Anderes',
+						checked: false
+					}
+				]
+			},
+			{
+				componentType: 'TagSelect',
+				headline: 'Suchtmittel',
+				name: 'addictiveDrugs',
+				tagSelects: [
+					{
+						id: 'alcohol',
+						label: 'Alkohol'
+					},
+					{
+						id: 'drugs',
+						label: 'Drogen'
+					},
+					{
+						id: 'legalHighs',
+						label: 'Legal Highs'
+					},
+					{
+						id: 'tabacco',
+						label: 'Tabak'
+					},
+					{
+						id: 'medication',
+						label: 'Medikamente'
+					},
+					{
+						id: 'gambling',
+						label: 'Glücksspiel'
+					},
+					{
+						id: 'internetUse',
+						label: 'Internet/Computer'
+					},
+					{
+						id: 'eatingDisorder',
+						label: 'Essstörung'
+					},
+					{
+						id: 'otherDrug',
+						label: 'Andere'
+					}
+				]
+			},
+			{
 				componentType: 'SelectDropdown',
 				headline: 'Alter',
-				handleDropdownSelect: (e) => console.log(e),
+				name: 'age',
 				item: {
-					id: 'test-id',
+					id: 'ageSelect',
 					selectedOptions: [
 						{
-							value: '0-17',
+							value: '0',
 							label: '0-17'
 						},
 						{
-							value: '18-20',
+							value: '1',
 							label: '18-20'
 						},
 						{
-							value: '21-30',
+							value: '2',
 							label: '21-30'
 						},
 						{
-							value: '31-40',
+							value: '3',
 							label: '31-40'
 						},
 						{
-							value: '41-59',
+							value: '4',
 							label: '41-59'
 						},
 						{
-							value: '60+',
+							value: '5',
 							label: '60+'
 						}
 					],
@@ -45,35 +110,24 @@ export default {
 				}
 			},
 			{
-				componentType: 'radioButtons',
+				componentType: 'RadioButton',
 				headline: 'Geschlecht',
+				name: 'gender',
 				radioButtons: [
 					{
-						handleRadioButton: (e) => console.log(e),
-						item: {
-							inputId: 'female',
-							name: 'gender',
-							label: 'Weiblich',
-							checked: true
-						}
+						inputId: 'female',
+						label: 'Weiblich',
+						checked: false
 					},
 					{
-						handleRadioButton: (e) => console.log(e),
-						item: {
-							inputId: 'male',
-							name: 'gender',
-							label: 'Männlich',
-							checked: false
-						}
+						inputId: 'male',
+						label: 'Männlich',
+						checked: false
 					},
 					{
-						handleRadioButton: (e) => console.log(e),
-						item: {
-							inputId: 'diverseGender',
-							name: 'gender',
-							label: 'Divers',
-							checked: false
-						}
+						inputId: 'diverseGender',
+						label: 'Divers',
+						checked: false
 					}
 				]
 			}

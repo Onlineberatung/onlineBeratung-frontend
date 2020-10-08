@@ -12,11 +12,12 @@ export const RadioButton = (props) => {
 		<div className="radioButton">
 			<div className="radioButton__contentWrapper">
 				<input
-					onClick={(e) => props.handleRadioButton(e)}
+					onClick={props.handleRadioButton}
 					id={props.inputId}
 					className="radioButton__input"
 					type="radio"
 					name={props.name}
+					value={props.value}
 					defaultChecked={props.checked}
 				/>
 				<label className="radioButton__label" htmlFor={props.inputId}>

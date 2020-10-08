@@ -20,6 +20,7 @@ import { config } from '../../../resources/ts/config';
 import { setTokenInCookie } from '../../sessionCookie/ts/accessSessionCookie';
 import { SelectDropdown } from '../../select/ts/SelectDropdown';
 import { RadioButton } from '../../radioButtonNew/ts/RadioButton';
+import { TagSelect } from '../../tagSelect/ts/TagSelect';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -67,6 +68,7 @@ const Registration = () => {
 	const [isEmailValid, setIsEmailValid] = useState(true);
 	const [emailSuccessMessage, setEmailSuccessMessage] = useState(null);
 	const [emailErrorMessage, setEmailErrorMessage] = useState(null);
+	const [voluntaryInputValues, setVoluntaryInputValues] = useState(null);
 	const [isDataProtectionSelected, setIsDataProtectionSelected] = useState(
 		false
 	);
@@ -231,14 +233,23 @@ const Registration = () => {
 	};
 
 	const handleSubmitButtonClick = () => {
+		const {
+			addictiveDrugs,
+			...voluntaryFieldsWithOneValue
+		} = voluntaryInputValues;
+
 		const registrationData = {
 			username: username,
 			password: encodeURIComponent(password),
-			consultingType: consultingType,
+			consultingType: consultingType.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
 			...(email && { email: email }),
 			...(resortData.showPostCode && { postcode: postcode }),
-			...(resortData.showPostCode && { agencyId: agencyId })
+			...(resortData.showPostCode && { agencyId: agencyId.toString() }),
+			...(voluntaryInputValues['addictiveDrugs'] && {
+				addictiveDrugs: voluntaryInputValues['addictiveDrugs'].join(',')
+			}),
+			...voluntaryFieldsWithOneValue
 		};
 
 		postRegistration(config.endpoints.registerAsker, registrationData);
@@ -315,6 +326,33 @@ const Registration = () => {
 		}
 	};
 
+	const handleVoluntaryInputValueChange = (
+		inputValue,
+		inputName,
+		areMultipleValuesAllowed?
+	) => {
+		if (areMultipleValuesAllowed) {
+			const values = voluntaryInputValues[inputName]
+				? voluntaryInputValues[inputName]
+				: [];
+			const index = values.indexOf(inputValue);
+			if (index > -1) {
+				values.splice(index, 1);
+			} else {
+				values.push(inputValue);
+			}
+			setVoluntaryInputValues({
+				...voluntaryInputValues,
+				[inputName]: values
+			});
+		} else {
+			setVoluntaryInputValues({
+				...voluntaryInputValues,
+				[inputName]: inputValue
+			});
+		}
+	};
+
 	const voluntaryComponents = resortData.voluntaryComponents.map(
 		(component, index) => {
 			if (component.componentType === 'SelectDropdown') {
@@ -323,14 +361,17 @@ const Registration = () => {
 						<h3>{component.headline}</h3>
 						<SelectDropdown
 							key={index}
-							handleDropdownSelect={
-								component.handleDropdownSelect
+							handleDropdownSelect={(e) =>
+								handleVoluntaryInputValueChange(
+									e.value,
+									component.name
+								)
 							}
 							{...component.item}
 						/>
 					</div>
 				);
-			} else if (component.componentType === 'radioButtons') {
+			} else if (component.componentType === 'RadioButton') {
 				return (
 					<div key={index} className="registration__contentRow">
 						<h3>{component.headline}</h3>
@@ -338,8 +379,38 @@ const Registration = () => {
 							return (
 								<RadioButton
 									key={index}
-									handleRadioButton={radio.handleRadioButton}
-									{...radio.item}
+									name={component.name}
+									value={index}
+									handleRadioButton={(e) =>
+										handleVoluntaryInputValueChange(
+											e.target.value,
+											component.name
+										)
+									}
+									{...radio}
+								/>
+							);
+						})}
+					</div>
+				);
+			} else if (component.componentType === 'TagSelect') {
+				return (
+					<div key={index} className="registration__contentRow">
+						<h3>{component.headline}</h3>
+						{component.tagSelects.map((tag, index) => {
+							return (
+								<TagSelect
+									key={index}
+									name={component.name}
+									value={index}
+									handleTagSelectClick={(e) =>
+										handleVoluntaryInputValueChange(
+											e.target.value,
+											component.name,
+											true
+										)
+									}
+									{...tag}
 								/>
 							);
 						})}

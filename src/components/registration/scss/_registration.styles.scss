@@ -83,6 +83,7 @@
 
 	&__contentRow {
 		margin-bottom: $grid-base-five;
+		max-width: 690px;
 	}
 
 	h3 {
@@ -90,6 +91,6 @@
 		text-align: center;
 		font-size: $font-size-primary;
 		font-weight: $font-weight-regular;
-		margin: 0;
+		margin: 0 0 $grid-base 0;
 	}
 }
