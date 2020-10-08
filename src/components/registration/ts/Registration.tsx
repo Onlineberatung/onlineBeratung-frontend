@@ -72,7 +72,9 @@ const Registration = () => {
 	const [isEmailValid, setIsEmailValid] = useState(true);
 	const [emailSuccessMessage, setEmailSuccessMessage] = useState(null);
 	const [emailErrorMessage, setEmailErrorMessage] = useState(null);
-	const [voluntaryInputValues, setVoluntaryInputValues] = useState(null);
+	const [generatedInputfieldValues, setGeneratedInputfieldValues] = useState(
+		null
+	);
 	const [isDataProtectionSelected, setIsDataProtectionSelected] = useState(
 		false
 	);
@@ -101,6 +103,7 @@ const Registration = () => {
 	// prefillPostcode();
 
 	const isRegistrationValid = () => {
+		const validation = [];
 		const generalValidation =
 			isUsernameValid &&
 			password &&
@@ -108,15 +111,26 @@ const Registration = () => {
 			password === passwordConfirmation &&
 			isDataProtectionSelected;
 
-		if (resortData.showPostCode && resortData.showEmail) {
-			return generalValidation && postcode && agencyId && isEmailValid;
-		} else if (resortData.showPostCode) {
-			return generalValidation && postcode && agencyId;
-		} else if (resortData.showEmail) {
-			return generalValidation && isEmailValid;
-		} else {
-			return generalValidation;
-		}
+		validation.push(generalValidation ? true : false);
+		resortData.showPostCode
+			? validation.push(postcode && agencyId ? true : false)
+			: null;
+		resortData.showEmail
+			? validation.push(isEmailValid ? true : false)
+			: null;
+
+		// U25 and gemeinsamstatteinsam
+		consultingType === 1
+			? validation.push(
+					generatedInputfieldValues &&
+						generatedInputfieldValues['age'] &&
+						generatedInputfieldValues['state']
+						? true
+						: false
+			  )
+			: null;
+
+		return validation.indexOf(false) === -1;
 	};
 
 	useEffect(() => {
@@ -131,6 +145,7 @@ const Registration = () => {
 		password,
 		passwordConfirmation,
 		email,
+		generatedInputfieldValues,
 		isDataProtectionSelected
 	]);
 
@@ -240,7 +255,7 @@ const Registration = () => {
 		const {
 			addictiveDrugs,
 			...voluntaryFieldsWithOneValue
-		} = voluntaryInputValues;
+		} = generatedInputfieldValues;
 
 		const registrationData = {
 			username: username,
@@ -250,8 +265,10 @@ const Registration = () => {
 			...(email && { email: email }),
 			...(resortData.showPostCode && { postcode: postcode }),
 			...(resortData.showPostCode && { agencyId: agencyId.toString() }),
-			...(voluntaryInputValues['addictiveDrugs'] && {
-				addictiveDrugs: voluntaryInputValues['addictiveDrugs'].join(',')
+			...(generatedInputfieldValues['addictiveDrugs'] && {
+				addictiveDrugs: generatedInputfieldValues[
+					'addictiveDrugs'
+				].join(',')
 			}),
 			...voluntaryFieldsWithOneValue
 		};
@@ -332,46 +349,52 @@ const Registration = () => {
 		}
 	};
 
-	const handleVoluntaryInputValueChange = (
+	const handleGeneratedInputfieldValueChange = (
 		inputValue,
 		inputName,
 		areMultipleValuesAllowed?
 	) => {
 		if (areMultipleValuesAllowed) {
-			const values = voluntaryInputValues[inputName]
-				? voluntaryInputValues[inputName]
-				: [];
+			const values =
+				generatedInputfieldValues &&
+				generatedInputfieldValues[inputName]
+					? generatedInputfieldValues[inputName]
+					: [];
 			const index = values.indexOf(inputValue);
 			if (index > -1) {
 				values.splice(index, 1);
 			} else {
 				values.push(inputValue);
 			}
-			setVoluntaryInputValues({
-				...voluntaryInputValues,
+			setGeneratedInputfieldValues({
+				...generatedInputfieldValues,
 				[inputName]: values
 			});
 		} else {
-			setVoluntaryInputValues({
-				...voluntaryInputValues,
+			setGeneratedInputfieldValues({
+				...generatedInputfieldValues,
 				[inputName]: inputValue
 			});
 		}
 	};
 
-	const renderSpecificVoluntaryComponent = (component, index) => {
+	const renderInputComponent = (component, index) => {
 		if (component.componentType === 'SelectDropdown') {
 			return (
 				<SelectDropdown
+					className="test-class-lol"
 					key={index}
 					handleDropdownSelect={(e) =>
-						handleVoluntaryInputValueChange(e.value, component.name)
+						handleGeneratedInputfieldValueChange(
+							e.value,
+							component.name
+						)
 					}
 					defaultValue={
-						voluntaryInputValues
+						generatedInputfieldValues
 							? getOptionOfSelectedValue(
 									component.item.selectedOptions,
-									voluntaryInputValues[component.name]
+									generatedInputfieldValues[component.name]
 							  )
 							: null
 					}
@@ -386,7 +409,7 @@ const Registration = () => {
 						name={component.name}
 						value={index}
 						handleRadioButton={(e) =>
-							handleVoluntaryInputValueChange(
+							handleGeneratedInputfieldValueChange(
 								e.target.value,
 								component.name
 							)
@@ -403,7 +426,7 @@ const Registration = () => {
 						name={component.name}
 						value={index}
 						handleTagSelectClick={(e) =>
-							handleVoluntaryInputValueChange(
+							handleGeneratedInputfieldValueChange(
 								e.target.value,
 								component.name,
 								true
@@ -416,16 +439,22 @@ const Registration = () => {
 		}
 	};
 
-	const voluntaryComponents = resortData.voluntaryComponents.map(
-		(component, index) => {
-			return (
-				<div key={index} className="registration__contentRow">
-					<h3>{component.headline}</h3>
-					{renderSpecificVoluntaryComponent(component, index)}
-				</div>
-			);
-		}
-	);
+	const voluntaryComponents = resortData.voluntaryComponents
+		? resortData.voluntaryComponents.map((component, index) => {
+				return (
+					<div key={index} className="registration__contentRow">
+						<h3>{component.headline}</h3>
+						{renderInputComponent(component, index)}
+					</div>
+				);
+		  })
+		: null;
+
+	const requiredComponents = resortData.requiredComponents
+		? resortData.requiredComponents.map((component, index) => {
+				return renderInputComponent(component, index);
+		  })
+		: null;
 
 	return (
 		<div className="registration">
@@ -475,6 +504,7 @@ const Registration = () => {
 							inputHandle={handleEmailChange}
 						/>
 					) : null}
+					{resortData.requiredComponents ? requiredComponents : null}
 				</div>
 
 				{/* ----------------------------- Voluntary Fields ---------------------------- */}

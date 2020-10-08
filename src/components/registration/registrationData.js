@@ -141,76 +141,186 @@ export default {
 		showPostCode: false,
 		requiredComponents: [
 			{
-				componentType: 'dropdown',
-				headline: 'Alter',
-				selectWrapperId: 'ageSelect__wrapper',
-				selectId: 'ageSelect',
-				selectName: 'age',
-				options: [
-					{
-						id: 'age0',
-						value: null,
-						label: 'Alter auswählen*'
-					},
-					{
-						id: 'age1',
-						value: '0',
-						label: 'unter 12'
-					},
-					{
-						id: 'age2',
-						value: '1',
-						label: '12'
-					}
-				]
+				componentType: 'SelectDropdown',
+				headline: '',
+				name: 'age',
+				item: {
+					id: 'ageSelect',
+					selectedOptions: [
+						{
+							value: '0',
+							label: 'unter 12'
+						},
+						{
+							value: '1',
+							label: '12'
+						},
+						{
+							value: '2',
+							label: '13'
+						},
+						{
+							value: '3',
+							label: '14'
+						},
+						{
+							value: '4',
+							label: '15'
+						},
+						{
+							value: '5',
+							label: '16'
+						},
+						{
+							value: '6',
+							label: '17'
+						},
+						{
+							value: '7',
+							label: '18'
+						},
+						{
+							value: '8',
+							label: '19'
+						},
+						{
+							value: '9',
+							label: '20'
+						},
+						{
+							value: '10',
+							label: '21'
+						},
+						{
+							value: '11',
+							label: '22'
+						},
+						{
+							value: '12',
+							label: '23'
+						},
+						{
+							value: '13',
+							label: '24'
+						},
+						{
+							value: '14',
+							label: '25'
+						},
+						{
+							value: '15',
+							label: 'über 25'
+						}
+					],
+					selectInputLabel: 'Alter auswählen*',
+					useIconOption: false,
+					isSearchable: false,
+					menuPlacement: 'bottom'
+				}
 			},
 			{
-				componentType: 'dropdown',
-				headline: 'Geschlecht',
-				selectWrapperId: 'stateSelect__wrapper',
-				selectId: 'stateSelect',
-				selectName: 'state',
-				options: [
-					{
-						id: 'stateDefault',
-						value: null,
-						label: 'Bundesland auswählen*'
-					},
-					{
-						id: 'state1',
-						value: '1',
-						label: 'Baden-Württemberg'
-					},
-					{
-						id: 'state2',
-						value: '2',
-						label: 'Bayern'
-					}
-				]
+				componentType: 'SelectDropdown',
+				headline: '',
+				name: 'state',
+				item: {
+					id: 'stateSelect',
+					selectedOptions: [
+						{
+							value: '1',
+							label: 'Baden-Württemberg'
+						},
+						{
+							value: '2',
+							label: 'Bayern'
+						},
+						{
+							value: '3',
+							label: 'Berlin'
+						},
+						{
+							value: '4',
+							label: 'Brandenburg'
+						},
+						{
+							value: '5',
+							label: 'Bremen'
+						},
+						{
+							value: '6',
+							label: 'Hamburg'
+						},
+						{
+							value: '7',
+							label: 'Hessen'
+						},
+						{
+							value: '8',
+							label: 'Mecklenburg-Vorpommern'
+						},
+						{
+							value: '9',
+							label: 'Niedersachsen'
+						},
+						{
+							value: '10',
+							label: 'Nordrhein-Westfalen'
+						},
+						{
+							value: '11',
+							label: 'Rheinland-Pfalz'
+						},
+						{
+							value: '12',
+							label: 'Saarland'
+						},
+						{
+							value: '13',
+							label: 'Sachsen'
+						},
+						{
+							value: '14',
+							label: 'Sachsen-Anhalt'
+						},
+						{
+							value: '15',
+							label: 'Schleswig-Holstein'
+						},
+						{
+							value: '16',
+							label: 'Thüringen'
+						},
+						{
+							value: '0',
+							label: 'außerhalb Deutschlands'
+						}
+					],
+					selectInputLabel: 'Bundesland auswählen*',
+					useIconOption: false,
+					isSearchable: false,
+					menuPlacement: 'bottom'
+				}
 			}
 		],
 		voluntaryComponents: [
 			{
-				componentType: 'radiobuttoncoll',
-				headline: 'Gender',
+				componentType: 'RadioButton',
+				headline: 'Geschlecht',
+				name: 'gender',
 				radioButtons: [
 					{
-						id: 'female',
-						name: 'gender',
-						value: '0',
-						label: 'Weiblich'
+						inputId: 'female',
+						label: 'Weiblich',
+						checked: false
 					},
 					{
-						id: 'male',
-						name: 'gender',
-						value: '1',
-						label: 'Männlich'
+						inputId: 'male',
+						label: 'Männlich',
+						checked: false
 					},
 					{
-						id: 'diverseGender',
-						name: 'gender',
-						value: '2',
-						label: 'Divers'
+						inputId: 'diverseGender',
+						label: 'Divers',
+						checked: false
 					}
 				]
 			}
