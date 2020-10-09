@@ -23,7 +23,7 @@ import { postRegistration } from '../../apiWrapper/ts/ajaxCallRegistration';
 import { config } from '../../../resources/ts/config';
 import { setTokenInCookie } from '../../sessionCookie/ts/accessSessionCookie';
 import { SelectDropdown } from '../../select/ts/SelectDropdown';
-import { RadioButton } from '../../radioButtonNew/ts/RadioButton';
+import { RadioButton } from '../../radioButton/ts/RadioButton';
 import { TagSelect } from '../../tagSelect/ts/TagSelect';
 import {
 	AgencyDataProps,
