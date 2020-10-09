@@ -4,6 +4,8 @@ export default {
 	'agency.isteam': 'Du wirst von einem Team beraten.',
 
 	// NEW
+	'agency.prefilled.prefix': 'Deine vorausgewählte Beratungsstelle: ',
+	'agency.prefilled.isTeam': 'Du wirst von einem Team beraten.',
 	'user.infoText':
 		'Um Deine Anonymität zu schützen, raten wir Dir nicht Deinen tatsächlichen Namen oder Initialien zu verwenden.<br>Wähle bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 	'user.suitable': 'Dein Benutzername ist geeinget.',

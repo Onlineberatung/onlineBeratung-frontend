@@ -31,6 +31,14 @@
 		}
 	}
 
+	&__agencyInfo {
+		margin: -$grid-base-two 0 $grid-base-five $grid-base-seven;
+
+		.formWrapper__infoText {
+			margin-left: 0;
+		}
+	}
+
 	&__generalInformation {
 		margin-bottom: $grid-base-four;
 	}
@@ -92,5 +100,9 @@
 		font-size: $font-size-primary;
 		font-weight: $font-weight-regular;
 		margin: 0 0 $grid-base 0;
+	}
+
+	.select__wrapper {
+		padding: 0 0 0 $grid-base-four;
 	}
 }

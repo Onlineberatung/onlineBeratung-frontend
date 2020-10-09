@@ -1,13 +1,11 @@
 import { config } from '../config';
 
-export const getConsultingTypeFromRegistration = () =>
-	// TODO: RENAME registrationForm -> registrationRoot
-	document.getElementById('registrationForm')
-		? parseInt(
-				document.getElementById('registrationForm').dataset
-					.consultingtype
-		  )
+export const getConsultingTypeFromRegistration = () => {
+	const registrationRoot = document.getElementById('registrationRoot');
+	return registrationRoot
+		? parseInt(registrationRoot.dataset.consultingtype)
 		: null;
+};
 
 export const isU25Registration = () =>
 	getConsultingTypeFromRegistration() === 1;

@@ -25,6 +25,24 @@ import { setTokenInCookie } from '../../sessionCookie/ts/accessSessionCookie';
 import { SelectDropdown } from '../../select/ts/SelectDropdown';
 import { RadioButton } from '../../radioButtonNew/ts/RadioButton';
 import { TagSelect } from '../../tagSelect/ts/TagSelect';
+import {
+	AgencyDataProps,
+	DEFAULT_POSTCODE,
+	redirectToHelpmail,
+	redirectToRegistrationWithoutAid
+} from '../../registration/ts/prefillPostcodeNew';
+import { getUrlParameter } from '../../../resources/ts/helpers/getUrlParameter';
+import {
+	AGENCY_FALLBACK_LINK,
+	getConsultingTypeFromRegistration,
+	isKreuzbundRegistration,
+	isOffenderRegistration,
+	isRehabilitationRegistration,
+	isU25Registration
+} from '../../../resources/ts/helpers/resorts';
+import { getAgencyById } from '../../apiWrapper/ts';
+import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
+import { ajaxCallPostcodeSuggestion } from '../../apiWrapper/ts/ajaxCallPostcode';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -32,11 +50,6 @@ export const initRegistration = () => {
 		document.getElementById('registrationRoot')
 	);
 };
-
-const getConsultingTypeFromRegistration = () =>
-	parseInt(
-		document.getElementById('registrationRoot').dataset.consultingtype
-	);
 
 const getValidationClassNames = (invalid, valid) => {
 	if (invalid) {
@@ -55,6 +68,7 @@ const Registration = () => {
 	const [usernameErrorMessage, setUsernameErrorMessage] = useState(null);
 	const [postcode, setPostcode] = useState(null);
 	const [agencyId, setAgencyId] = useState(null);
+	const [prefilledAgencyData, setPrefilledAgencyData] = useState(null);
 	const [password, setpassword] = useState(null);
 	const [passwordSuccessMessage, setPasswordSuccessMessage] = useState(null);
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState(null);
@@ -99,8 +113,62 @@ const Registration = () => {
 	// SET FORMAL/INFORMAL COOKIE
 	setTokenInCookie('useInformal', resortData.useInformal ? '1' : '');
 
-	// check prefill postcode -> AID in URL? (prefillPostcode.ts)
-	// prefillPostcode();
+	const prefillPostcode = () => {
+		const agencyId = getUrlParameter('aid');
+
+		if (agencyId) {
+			getAgencyData(agencyId);
+		} else if (isU25Registration()) {
+			redirectToHelpmail();
+		}
+
+		if (
+			isOffenderRegistration() ||
+			isRehabilitationRegistration() ||
+			isKreuzbundRegistration()
+		) {
+			ajaxCallPostcodeSuggestion({
+				postcode: DEFAULT_POSTCODE,
+				consultingType: consultingType
+			})
+				.then((response) => {
+					const fallbackAid = response[0].id;
+					if (!agencyId || parseInt(agencyId) != fallbackAid) {
+						window.location.href =
+							AGENCY_FALLBACK_LINK[consultingType] + fallbackAid;
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
+	};
+
+	const getAgencyData = (agencyId) => {
+		getAgencyById(agencyId)
+			.then((response) => {
+				const agencyData = response[0];
+				agencyData.consultingType === consultingType
+					? handlePrefilledAgencyData(agencyData, agencyId)
+					: redirectToRegistrationWithoutAid();
+			})
+			.catch((error) => {
+				if (error.message === FETCH_ERRORS.NO_MATCH) {
+					redirectToRegistrationWithoutAid();
+				}
+			});
+	};
+
+	const handlePrefilledAgencyData = (
+		agencyData: AgencyDataProps,
+		agencyId: string
+	) => {
+		setPostcode(
+			agencyData.postcode ? agencyData.postcode : DEFAULT_POSTCODE
+		);
+		setAgencyId(agencyId);
+		setPrefilledAgencyData(agencyData);
+	};
 
 	const isRegistrationValid = () => {
 		const validation = [];
@@ -132,6 +200,10 @@ const Registration = () => {
 
 		return validation.indexOf(false) === -1;
 	};
+
+	useEffect(() => {
+		prefillPostcode();
+	}, []);
 
 	useEffect(() => {
 		if (isRegistrationValid()) {
@@ -252,25 +324,37 @@ const Registration = () => {
 	};
 
 	const handleSubmitButtonClick = () => {
-		const {
-			addictiveDrugs,
-			...voluntaryFieldsWithOneValue
-		} = generatedInputfieldValues;
-
-		const registrationData = {
+		const generalRegistrationData = {
 			username: username,
 			password: encodeURIComponent(password),
 			consultingType: consultingType.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
 			...(email && { email: email }),
 			...(resortData.showPostCode && { postcode: postcode }),
-			...(resortData.showPostCode && { agencyId: agencyId.toString() }),
-			...(generatedInputfieldValues['addictiveDrugs'] && {
-				addictiveDrugs: generatedInputfieldValues[
-					'addictiveDrugs'
-				].join(',')
-			}),
-			...voluntaryFieldsWithOneValue
+			...(resortData.showPostCode && { agencyId: agencyId.toString() })
+		};
+
+		let generatedRegistrationData = {};
+
+		if (generatedInputfieldValues) {
+			const {
+				addictiveDrugs,
+				...voluntaryFieldsWithOneValue
+			} = generatedInputfieldValues;
+
+			generatedRegistrationData = {
+				...(generatedInputfieldValues['addictiveDrugs'] && {
+					addictiveDrugs: generatedInputfieldValues[
+						'addictiveDrugs'
+					].join(',')
+				}),
+				...voluntaryFieldsWithOneValue
+			};
+		}
+
+		const registrationData = {
+			...generalRegistrationData,
+			...generatedRegistrationData
 		};
 
 		console.log('reg data', registrationData);
@@ -474,6 +558,27 @@ const Registration = () => {
 
 				{/* ----------------------------- Required Fields ---------------------------- */}
 				<div className="registration__generalInformation">
+					{prefilledAgencyData ? (
+						<div className="registration__agencyInfo">
+							<div className="formWrapper__infoText">
+								{translate(
+									'registration.agency.prefilled.prefix'
+								)}
+								<br />
+								<strong>{prefilledAgencyData.name}</strong>
+								{prefilledAgencyData.teamAgency ? (
+									<div className="formWrapper__infoText__text--tertiary">
+										<span className="suggestionWrapper__item__content__teamAgency__icon">
+											<SVG name={ICON_KEYS.INFO} />
+										</span>
+										{translate(
+											'registration.agency.prefilled.isTeam'
+										)}
+									</div>
+								) : null}
+							</div>
+						</div>
+					) : null}
 					<InputField
 						item={inputItemUsername}
 						inputHandle={handleUsernameChange}
