@@ -6,7 +6,7 @@ import { InputField, InputFieldItem } from '../../inputField/ts/InputField';
 import { useState, useEffect } from 'react';
 import { config } from '../../../resources/ts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../../button/ts/Button';
-import { autoLogin } from '../../registrationFormular/ts/autoLogin';
+import { autoLogin } from '../../registration/ts/autoLogin';
 import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 

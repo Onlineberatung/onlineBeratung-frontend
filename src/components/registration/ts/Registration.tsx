@@ -30,7 +30,7 @@ import {
 	DEFAULT_POSTCODE,
 	redirectToHelpmail,
 	redirectToRegistrationWithoutAid
-} from '../../registration/ts/prefillPostcodeNew';
+} from './prefillPostcode';
 import { getUrlParameter } from '../../../resources/ts/helpers/getUrlParameter';
 import {
 	AGENCY_FALLBACK_LINK,
@@ -547,7 +547,6 @@ const Registration = () => {
 				id="registrationForm"
 				className="registration__form"
 				data-consultingtype="{{consultingType}}"
-				data-resources="[{paths: ['components/registrationFormular/ts/registration.js?{{bioTrueEnv 'RELEASE_VERSION'}}']}]"
 			>
 				<h3 className="registration__overline">
 					{resortData.overline}

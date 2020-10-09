@@ -105,4 +105,20 @@
 	.select__wrapper {
 		padding: 0 0 0 $grid-base-four;
 	}
+
+	.formWrapper__infoText {
+		&__text {
+			&--tertiary {
+				color: $tertiary;
+
+				.suggestionWrapper__item__content__teamAgency__icon svg {
+					margin-top: 0 !important;
+
+					&* {
+						fill: $tertiary;
+					}
+				}
+			}
+		}
+	}
 }

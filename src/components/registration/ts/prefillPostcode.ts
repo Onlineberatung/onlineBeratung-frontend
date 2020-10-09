@@ -10,7 +10,6 @@ export interface AgencyDataProps {
 export const DEFAULT_POSTCODE = '00000';
 
 export const redirectToRegistrationWithoutAid = () => {
-	console.log('redirect to reg. without aid');
 	const url = window.location.href;
 	window.location.href = url.split('?')[0];
 };

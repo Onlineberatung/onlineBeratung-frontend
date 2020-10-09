@@ -9,7 +9,7 @@ import { translate } from '../../../resources/ts/i18n/translate';
 import { ajaxCallPostcodeSuggestion } from '../../apiWrapper/ts/ajaxCallPostcode';
 import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
 import { InputField, InputFieldItem } from '../../inputField/ts/InputField';
-import { extendPostcodeToBeValid } from '../../registrationFormular/ts/handleRegistration';
+import { extendPostcodeToBeValid } from '../../registration/ts/registrationHelper';
 import {
 	validPostcodeLengthForConsultingType,
 	VALID_POSTCODE_LENGTH

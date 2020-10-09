@@ -8,3 +8,6 @@ export const isStringValidEmail = (email: string) =>
 export const getOptionOfSelectedValue = (inputOptions, selectedValue) => {
 	return inputOptions.filter((item) => item.value === selectedValue)[0];
 };
+
+export const extendPostcodeToBeValid = (postcode: string) =>
+	String(postcode + '00').slice(0, 5);

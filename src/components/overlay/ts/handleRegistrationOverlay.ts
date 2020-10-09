@@ -1,4 +1,4 @@
-import { redirectToApp } from '../../registrationFormular/ts/autoLogin';
+import { redirectToApp } from '../../registration/ts/autoLogin';
 
 export const initRegistrationOverlay = () => {
 	const confirmationOverlay = document.querySelector(
