@@ -10,7 +10,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.suchtberatung-test.html'
+			filename: './registration.suchtberatung.html'
 		}),
 		new HtmlWebpackPlugin({
 			title:
@@ -21,7 +21,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.u25-test.html'
+			filename: './registration.u25.html'
 		}),
 		new HtmlWebpackPlugin({
 			title:
@@ -32,7 +32,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.gemeinsamstatteinsam-test.html'
+			filename: './registration.gemeinsamstatteinsam.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Schwangerschaftsberatung',
@@ -42,7 +42,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.schwangerschaftsberatung-test.html'
+			filename: './registration.schwangerschaftsberatung.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Beratung für Eltern und Familien',
@@ -52,7 +52,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.eltern-familie-test.html'
+			filename: './registration.eltern-familie.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Kurberatung für Mütter und Väter',
@@ -62,7 +62,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.kurberatung-test.html'
+			filename: './registration.kurberatung.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Beratung zum Thema Schulden',
@@ -72,7 +72,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.schuldnerberatung-test.html'
+			filename: './registration.schuldnerberatung.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Allgemeine Sozialberatung',
@@ -82,7 +82,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.allgemeine-soziale-beratung-test.html'
+			filename: './registration.allgemeine-soziale-beratung.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Leben im Alter',
@@ -92,7 +92,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.leben-im-alter-test.html'
+			filename: './registration.leben-im-alter.html'
 		}),
 		new HtmlWebpackPlugin({
 			title:
@@ -104,7 +104,7 @@ module.exports = {
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
 			filename:
-				'./registration.behinderung-und-psychische-erkrankung-test.html'
+				'./registration.behinderung-und-psychische-erkrankung.html'
 		}),
 		new HtmlWebpackPlugin({
 			title:
@@ -115,7 +115,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.mein-planb-test.html'
+			filename: './registration.mein-planb.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Rechtliche Betreuung und Vorsorge',
@@ -125,7 +125,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.rechtliche-betreuung-test.html'
+			filename: './registration.rechtliche-betreuung.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Beratung für Angehörige von Straffälligen',
@@ -135,7 +135,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.straffaelligkeit-test.html'
+			filename: './registration.straffaelligkeit.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung HIV/AIDS Beratung',
@@ -145,7 +145,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.hiv-aids-beratung-test.html'
+			filename: './registration.hiv-aids-beratung.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Kinder- und Jugend-Rehabilitation',
@@ -155,7 +155,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.kinder-reha-test.html'
+			filename: './registration.kinder-reha.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Beratung für Kinder und Jugendliche',
@@ -165,7 +165,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.kinder-jugendliche-test.html'
+			filename: './registration.kinder-jugendliche.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Sucht-Selbsthilfe - Kreuzbund-Chat',
@@ -175,7 +175,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.kb-sucht-selbsthilfe-test.html'
+			filename: './registration.kb-sucht-selbsthilfe.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Migrationsberatung',
@@ -185,7 +185,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.migration-test.html'
+			filename: './registration.migration.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Aus-/Rück- & Weiterwanderung',
@@ -195,7 +195,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.rw-auswanderung-test.html'
+			filename: './registration.rw-auswanderung.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Hospiz-, Palliativ- und Trauerberatung',
@@ -205,7 +205,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.hospiz-palliativ-test.html'
+			filename: './registration.hospiz-palliativ.html'
 		}),
 		new HtmlWebpackPlugin({
 			title: 'Registrierung Regionale Angebote',
@@ -215,7 +215,7 @@ module.exports = {
 			},
 			template: './src/pages/registration.html',
 			chunks: ['resources/components/registration/ts/initRegistration'],
-			filename: './registration.regionale-angebote-test.html'
+			filename: './registration.regionale-angebote.html'
 		})
 	]
 };
