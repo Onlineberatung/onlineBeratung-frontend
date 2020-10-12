@@ -1,9 +1,4 @@
 export default {
-	// OLD
-	'preset.agency.prefix': 'Deine vorausgewählte Beratungsstelle: ',
-	'agency.isteam': 'Du wirst von einem Team beraten.',
-
-	// NEW
 	'agency.prefilled.prefix': 'Deine vorausgewählte Beratungsstelle: ',
 	'agency.prefilled.isTeam': 'Du wirst von einem Team beraten.',
 	'user.infoText':

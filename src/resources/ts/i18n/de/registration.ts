@@ -1,9 +1,4 @@
 export default {
-	// OLD
-	'preset.agency.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
-	'agency.isteam': 'Sie werden von einem Team beraten.',
-
-	// NEW
 	'headline': 'Registrierung',
 	'voluntary.headline': 'Freiwillige Angaben',
 	'voluntary.subline':
