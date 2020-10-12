@@ -1,5 +1,5 @@
 import customSelect from 'custom-select';
-import { handleSelectWarningLabel } from '../../registrationFormular/ts/warningLabels';
+import { handleSelectWarningLabel } from '../../registration/ts/warningLabels';
 
 customSelect('select');
 

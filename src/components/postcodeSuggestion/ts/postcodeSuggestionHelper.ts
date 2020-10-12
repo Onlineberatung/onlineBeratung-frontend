@@ -10,7 +10,7 @@ import { translate } from '../../../resources/ts/i18n/translate';
 import {
 	warningLabelForTranslatableAndParentId,
 	handleWarningLabelOnInput
-} from '../../registrationFormular/ts/warningLabels';
+} from '../../registration/ts/warningLabels';
 import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
 import { AgencyDataInterface } from '../../../globalState';
 
