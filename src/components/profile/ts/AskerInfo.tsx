@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useContext } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { UserMonitoring } from './UserMonitoring';
-import { withRouter } from 'react-router';
 import {
 	typeIsSession,
 	typeIsTeamSession,
@@ -17,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { Loading } from '../../app/ts/Loading';
 import { UserDataView } from './UserDataView';
 
-const AskerInfo = () => {
+export const AskerInfo = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
@@ -79,5 +78,3 @@ const AskerInfo = () => {
 		</div>
 	);
 };
-
-export default withRouter(AskerInfo);

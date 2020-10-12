@@ -14,6 +14,8 @@ import {
 	ActiveSessionGroupIdContext,
 	getActiveSession
 } from '../../../globalState';
+import { SVG } from '../../svgSet/ts/SVG';
+import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 
 interface MessageUsernameProps {
 	alias?: any;
@@ -75,17 +77,12 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 
 			{props.alias ? (
 				<div className="messageItem__username messageItem__username--forwarded">
-					<svg
+					<SVG
+						name={ICON_KEYS.ARROW_FORWARD}
+						width="16"
+						height="16"
 						viewBox="0 0 24 19"
-						width="24"
-						height="19"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M15.723 14.07C9.099 13.403 2.815 15.552.24 20.667c.787-6.973 6.376-12.64 15.579-13.307l-1.964-1.964a.61.61 0 0 1-.188-.447.61.61 0 0 1 .188-.446l1.638-1.648a.616.616 0 0 1 .451-.188c.176 0 .327.062.452.188l7.355 7.365a.61.61 0 0 1 .188.447.61.61 0 0 1-.188.447l-7.355 7.364a.616.616 0 0 1-.452.189.616.616 0 0 1-.451-.189l-1.638-1.647a.61.61 0 0 1-.188-.447.61.61 0 0 1 .188-.447l1.868-1.867z"
-							id="a"
-						/>
-					</svg>
+					/>
 					{forwardedLabel()}
 				</div>
 			) : (

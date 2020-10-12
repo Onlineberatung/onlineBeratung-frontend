@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { history } from '../../app/ts/app';
 import {
 	translate,
 	handleNumericTranslation,
@@ -21,7 +22,8 @@ import {
 	getViewPathForType,
 	getChatItemForSession,
 	isGroupChatForSessionItem,
-	getTypeOfLocation
+	getTypeOfLocation,
+	getSessionListPathForLocation
 } from '../../session/ts/sessionHelpers';
 import { SessionMenu } from '../../sessionMenu/ts/SessionMenu';
 import {
@@ -54,7 +56,9 @@ export interface SessionHeader {
 export const SessionHeaderComponent = (props) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
+		ActiveSessionGroupIdContext
+	);
 	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
 
@@ -93,6 +97,8 @@ export const SessionHeaderComponent = (props) => {
 
 	const handleBackButton = () => {
 		mobileListView();
+		setActiveSessionGroupId(null);
+		history.push(getSessionListPathForLocation());
 	};
 
 	const handleFlyout = (e) => {

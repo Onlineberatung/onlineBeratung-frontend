@@ -186,15 +186,13 @@ $inputShadowColor: rgba(0, 0, 0, 0.1);
 			width: $grid-base-three;
 			height: $grid-base-three;
 			margin-bottom: $grid-base;
+			cursor: pointer;
 
 			@include breakpoint($fromLarge) {
 				margin-bottom: 12px;
 			}
 
 			svg {
-				cursor: pointer;
-				width: 20px;
-				height: 20px;
 				align-self: flex-end;
 
 				* {
@@ -272,10 +270,9 @@ $inputShadowColor: rgba(0, 0, 0, 0.1);
 
 		&__attachmentSelect {
 			display: flex;
-			height: 100%;
 			position: absolute;
-			line-height: $grid-base-six;
 			right: $grid-base-two;
+			bottom: 0;
 
 			svg {
 				width: $attachmentIconSize;
@@ -356,6 +353,11 @@ $inputShadowColor: rgba(0, 0, 0, 0.1);
 	}
 
 	.DraftEditor-root {
-		padding-bottom: 14px;
+		height: 100%;
+
+		.DraftEditor-editorContainer,
+		.public-DraftEditor-content {
+			height: 100%;
+		}
 	}
 }

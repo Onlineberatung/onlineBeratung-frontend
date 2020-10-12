@@ -19,6 +19,10 @@ export const config = {
 		keycloakLogout:
 			tld +
 			'/auth/realms/caritas-online-beratung/protocol/openid-connect/logout',
+		loginRedirectToRegistrationOverview:
+			'https://www.caritas.de/onlineberatung',
+		loginResetPasswordLink:
+			'/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
 		logoutRedirect: tld + ENDPOINT_PORT + '/login.html',
 		messages: tld + '/service/messages',
 		sendMessage: tld + '/service/messages/new',
@@ -36,15 +40,13 @@ export const config = {
 		userWriteEnquiry: tld + '/02components.06writeEnquiry.html',
 		setAbsence: tld + '/service/users/consultants/absences',
 		agencyServiceBase: tld + '/service/agencies',
-		keycloak: tld + '/auth',
 		userData: tld + '/service/users/data',
 		headerData: tld + '/service/users/sessions/askers',
 		teamSessions: tld + '/service/users/sessions/teams',
 		caritasImprint: 'https://www.caritas.de/impressum',
-		caritasDataprotection: 'https://www.caritas.de/datenschutz',
+		caritasDataprotection:
+			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		updateMonitoring: tld + '/service/users/sessions/monitoring',
-		keycloakUsers: '/admin/realms/caritas-online-beratung/users/',
-		keycloakResetPasswordMail: '/execute-actions-email',
 		userSessionsListView: '/sessions/user/view',
 		error500: tld + ENDPOINT_PORT + '/02components.07errorPage500.html',
 		error401: tld + ENDPOINT_PORT + '/02components.07errorPage401.html',
