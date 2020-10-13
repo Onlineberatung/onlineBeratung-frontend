@@ -3,7 +3,6 @@ gulp.tasks = require('@biotope/build');
 var replace = require('gulp-string-replace');
 var packageJSON = require('./package.json');
 var version = packageJSON.version;
-require('dotenv').config();
 
 gulp.task('add-versioning', function () {
 	return gulp
