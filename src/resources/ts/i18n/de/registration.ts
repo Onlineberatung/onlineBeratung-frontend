@@ -10,7 +10,7 @@ export default {
 	'user.label': 'Benutzername*',
 	'user.infoText':
 		'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialien zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
-	'user.suitable': 'Ihr Benutzername ist geeinget.',
+	'user.suitable': 'Ihr Benutzername ist geeignet.',
 	'user.unsuitable': 'Ihr Benutzername ist zu kurz.',
 	'postcode.label': 'PLZ*',
 	'postcode.infoText':
