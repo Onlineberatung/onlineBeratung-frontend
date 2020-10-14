@@ -68,7 +68,7 @@ const Registration = () => {
 	const [postcode, setPostcode] = useState(null);
 	const [agencyId, setAgencyId] = useState(null);
 	const [prefilledAgencyData, setPrefilledAgencyData] = useState(null);
-	const [password, setpassword] = useState(null);
+	const [password, setPassword] = useState(null);
 	const [passwordSuccessMessage, setPasswordSuccessMessage] = useState(null);
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState(null);
 	const [isPasswordValid, setIsPasswordValid] = useState(false);
@@ -85,7 +85,7 @@ const Registration = () => {
 	const [isEmailValid, setIsEmailValid] = useState(true);
 	const [emailSuccessMessage, setEmailSuccessMessage] = useState(null);
 	const [emailErrorMessage, setEmailErrorMessage] = useState(null);
-	const [generatedInputfieldValues, setGeneratedInputfieldValues] = useState(
+	const [valuesOfGeneratedInputs, setValuesOfGeneratedInputs] = useState(
 		null
 	);
 	const [isDataProtectionSelected, setIsDataProtectionSelected] = useState(
@@ -191,9 +191,9 @@ const Registration = () => {
 		// U25 and gemeinsamstatteinsam
 		consultingType === 1
 			? validation.push(
-					generatedInputfieldValues &&
-						generatedInputfieldValues['age'] &&
-						generatedInputfieldValues['state']
+					valuesOfGeneratedInputs &&
+						valuesOfGeneratedInputs['age'] &&
+						valuesOfGeneratedInputs['state']
 						? true
 						: false
 			  )
@@ -218,7 +218,7 @@ const Registration = () => {
 		password,
 		passwordConfirmation,
 		email,
-		generatedInputfieldValues,
+		valuesOfGeneratedInputs,
 		isDataProtectionSelected
 	]);
 
@@ -306,7 +306,7 @@ const Registration = () => {
 
 	const handlepasswordChange = (event) => {
 		validatePassword(event.target.value);
-		setpassword(event.target.value);
+		setPassword(event.target.value);
 	};
 
 	const handlePasswordConfirmationChange = (event) => {
@@ -338,15 +338,15 @@ const Registration = () => {
 
 		let generatedRegistrationData = {};
 
-		if (generatedInputfieldValues) {
+		if (valuesOfGeneratedInputs) {
 			const {
 				addictiveDrugs,
 				...voluntaryFieldsWithOneValue
-			} = generatedInputfieldValues;
+			} = valuesOfGeneratedInputs;
 
 			generatedRegistrationData = {
-				...(generatedInputfieldValues['addictiveDrugs'] && {
-					addictiveDrugs: generatedInputfieldValues[
+				...(valuesOfGeneratedInputs['addictiveDrugs'] && {
+					addictiveDrugs: valuesOfGeneratedInputs[
 						'addictiveDrugs'
 					].join(',')
 				}),
@@ -444,9 +444,8 @@ const Registration = () => {
 	) => {
 		if (areMultipleValuesAllowed) {
 			const values =
-				generatedInputfieldValues &&
-				generatedInputfieldValues[inputName]
-					? generatedInputfieldValues[inputName]
+				valuesOfGeneratedInputs && valuesOfGeneratedInputs[inputName]
+					? valuesOfGeneratedInputs[inputName]
 					: [];
 			const index = values.indexOf(inputValue);
 			if (index > -1) {
@@ -454,13 +453,13 @@ const Registration = () => {
 			} else {
 				values.push(inputValue);
 			}
-			setGeneratedInputfieldValues({
-				...generatedInputfieldValues,
+			setValuesOfGeneratedInputs({
+				...valuesOfGeneratedInputs,
 				[inputName]: values
 			});
 		} else {
-			setGeneratedInputfieldValues({
-				...generatedInputfieldValues,
+			setValuesOfGeneratedInputs({
+				...valuesOfGeneratedInputs,
 				[inputName]: inputValue
 			});
 		}
@@ -478,10 +477,10 @@ const Registration = () => {
 						)
 					}
 					defaultValue={
-						generatedInputfieldValues
+						valuesOfGeneratedInputs
 							? getOptionOfSelectedValue(
 									component.item.selectedOptions,
-									generatedInputfieldValues[component.name]
+									valuesOfGeneratedInputs[component.name]
 							  )
 							: null
 					}
