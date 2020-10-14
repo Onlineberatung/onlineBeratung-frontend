@@ -94,7 +94,6 @@ const Registration = () => {
 	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 	const [consultingType] = useState(getConsultingTypeFromRegistration());
 	const [overlayActive, setOverlayActive] = useState(false);
-	const [overlayItem, setOverlayItem] = useState(null);
 
 	const resortDataArray = Object.entries(registrationResortsData).filter(
 		(resort) => resort[1].consultingType == consultingType.toString()
@@ -123,11 +122,7 @@ const Registration = () => {
 			redirectToHelpmail();
 		}
 
-		if (
-			isOffenderRegistration() ||
-			isRehabilitationRegistration() ||
-			isKreuzbundRegistration()
-		) {
+		if (isRehabilitationRegistration() || isKreuzbundRegistration()) {
 			ajaxCallPostcodeSuggestion({
 				postcode: DEFAULT_POSTCODE,
 				consultingType: consultingType

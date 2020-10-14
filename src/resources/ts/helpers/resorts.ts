@@ -43,7 +43,7 @@ export const isGenericConsultingType = (currentType: number) => {
 export const hasConsultingTypeLongPostcodeValidation = (
 	consultingType: number = getConsultingTypeFromRegistration()
 ) => {
-	const typesUsingLongPostcodeValidation = ['12', '17'];
+	const typesUsingLongPostcodeValidation = ['11', '12', '17'];
 	return typesUsingLongPostcodeValidation.includes(consultingType.toString());
 };
 

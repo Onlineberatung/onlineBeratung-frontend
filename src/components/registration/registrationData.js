@@ -552,7 +552,7 @@ export default {
 		useInformal: false,
 		overline: 'Beratung für Angehörige von Straffälligen',
 		showEmail: true,
-		showPostCode: false
+		showPostCode: true
 	},
 	aids: {
 		consultingType: '12',
