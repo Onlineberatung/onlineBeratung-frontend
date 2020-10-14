@@ -26,7 +26,7 @@ export interface AgencySelectionProps {
 export const AgencySelection = (props: AgencySelectionProps) => {
 	let postcodeFlyoutRef: React.RefObject<HTMLDivElement> = React.useRef();
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState(null);
-	const [suggestedAgencies, setSuggestedAgencies] = useState(null);
+	const [proposedAgencies, setProposedAgencies] = useState(null);
 	const [postcodeExtended, setPostcodeExtended] = useState(false);
 
 	const [selectedPostcode, setSelectedPostcode] = useState(null);
@@ -43,7 +43,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		setSelectedPostcode(null);
 		setPostcodeFallbackLink(null);
 		setSelectedAgencyId(null);
-		setSuggestedAgencies(null);
+		setProposedAgencies(null);
 	}, [props.selectedConsultingType]);
 
 	useEffect(() => {
@@ -83,7 +83,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							setTypedPostcode(selectedPostcode);
 							setSelectedAgencyId(response[0].id);
 						} else {
-							setSuggestedAgencies(response);
+							setProposedAgencies(response);
 						}
 					})
 					.catch((error) => {
@@ -96,8 +96,8 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						}
 						return null;
 					});
-			} else if (suggestedAgencies) {
-				setSuggestedAgencies(false);
+			} else if (proposedAgencies) {
+				setProposedAgencies(false);
 			}
 		} else {
 			setPostcodeExtended(false);
@@ -110,7 +110,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				postcodeFlyoutRef.current &&
 				!postcodeFlyoutRef.current.contains(event.target)
 			) {
-				setSuggestedAgencies(null);
+				setProposedAgencies(null);
 			}
 		};
 		document.addEventListener('click', handleClickOutside);
@@ -140,7 +140,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	};
 
 	const handleAgencySelection = (agency: AgencyDataInterface) => {
-		setSuggestedAgencies(null);
+		setProposedAgencies(null);
 		const fulllengthPostcode = extendPostcodeToBeValid(selectedPostcode);
 
 		setTypedPostcode(fulllengthPostcode);
@@ -158,12 +158,12 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				inputHandle={(e) => handlePostcodeInput(e)}
 			></InputField>
 
-			{suggestedAgencies ? (
+			{proposedAgencies ? (
 				<div
 					ref={postcodeFlyoutRef}
 					className="askerRegistration__postcodeFlyout"
 				>
-					{suggestedAgencies.map(
+					{proposedAgencies.map(
 						(agency: AgencyDataInterface, index) => (
 							<div
 								className="askerRegistration__postcodeFlyout__content"
