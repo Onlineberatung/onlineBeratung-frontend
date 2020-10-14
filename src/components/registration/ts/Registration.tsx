@@ -17,7 +17,8 @@ import { CheckboxItem, Checkbox } from '../../checkbox/ts/Checkbox';
 import {
 	getOptionOfSelectedValue,
 	isStringValidEmail,
-	MIN_USERNAME_LENGTH
+	MIN_USERNAME_LENGTH,
+	overlayItemRegistrationSuccess
 } from './registrationHelper';
 import { postRegistration } from '../../apiWrapper/ts/ajaxCallRegistration';
 import { config } from '../../../resources/ts/config';
@@ -43,6 +44,12 @@ import {
 import { getAgencyById } from '../../apiWrapper/ts';
 import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
 import { ajaxCallPostcodeSuggestion } from '../../apiWrapper/ts/ajaxCallPostcode';
+import {
+	OverlayWrapper,
+	Overlay,
+	OVERLAY_FUNCTIONS
+} from '../../overlay/ts/Overlay';
+import { redirectToApp } from './autoLogin';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -94,6 +101,8 @@ const Registration = () => {
 	);
 	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 	const [consultingType] = useState(getConsultingTypeFromRegistration());
+	const [overlayActive, setOverlayActive] = useState(false);
+	const [overlayItem, setOverlayItem] = useState(null);
 
 	const resortDataArray = Object.entries(registrationResortsData).filter(
 		(resort) => resort[1].consultingType == consultingType.toString()
@@ -323,6 +332,12 @@ const Registration = () => {
 		setEmail(event.target.value);
 	};
 
+	const handleOverlayAction = (buttonFunction: string) => {
+		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
+			redirectToApp();
+		}
+	};
+
 	const handleSubmitButtonClick = () => {
 		const generalRegistrationData = {
 			username: username,
@@ -359,7 +374,9 @@ const Registration = () => {
 
 		console.log('reg data', registrationData);
 
-		postRegistration(config.endpoints.registerAsker, registrationData);
+		postRegistration(config.endpoints.registerAsker, registrationData, () =>
+			setOverlayActive(true)
+		);
 	};
 
 	const validateUsername = (username) => {
@@ -665,6 +682,14 @@ const Registration = () => {
 					</a>
 				</div>
 			</div>
+			{overlayActive ? (
+				<OverlayWrapper>
+					<Overlay
+						item={overlayItemRegistrationSuccess}
+						handleOverlay={handleOverlayAction}
+					/>
+				</OverlayWrapper>
+			) : null}
 		</div>
 	);
 };

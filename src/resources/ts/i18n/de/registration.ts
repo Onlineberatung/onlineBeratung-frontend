@@ -32,5 +32,9 @@ export default {
 		'* Die markierten Felder müssen ausgefüllt werden, um sich registrieren zu können.',
 	'dataProtection.label':
 		'Ich habe die <a href="https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz" target="_blank">Datenschutzerklärung</a> zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.*',
-	'submitButton.label': 'Registrieren'
+	'submitButton.label': 'Registrieren',
+	'overlay.success.headline':
+		'Herzlich willkommen bei der Beratung & Hilfe der Caritas.',
+	'overlay.success.copy': 'Sie haben sich erfolgreich registriert.',
+	'overlay.success.button': 'Nachricht verfassen'
 };

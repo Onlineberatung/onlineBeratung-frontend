@@ -16,5 +16,6 @@ export default {
 	'email.infoText':
 		'Per E-Mail können wir Dich benachrichtigen, sobald eine Antwort auf Deine Anfrage vorliegt. Zudem kannst Du per E-Mail Dein Passwort zurücksetzen, wenn Du es vergessen hast.',
 	'email.valid': 'Deine E-Mail-Adresse ist gültig',
-	'email.invalid': 'Deine E-Mail-Adresse ist nicht gültig'
+	'email.invalid': 'Deine E-Mail-Adresse ist nicht gültig',
+	'overlay.success.copy': 'Du hast dich erfolgreich registriert.'
 };

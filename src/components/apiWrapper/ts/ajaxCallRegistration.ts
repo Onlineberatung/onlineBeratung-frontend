@@ -1,5 +1,3 @@
-import { config } from '../../../resources/ts/config';
-import { initRegistrationOverlay } from '../../overlay/ts/handleRegistrationOverlay';
 import { warningLabelForTranslatableAndParentId } from '../../registration/ts/warningLabels';
 import { generateCsrfToken } from '../../../resources/ts/helpers/generateCsrfToken';
 import { autoLogin } from '../../registration/ts/autoLogin';
@@ -9,7 +7,11 @@ import {
 } from '../../errorPage/ts/errorHandling';
 import { removeAllCookies } from '../../sessionCookie/ts/accessSessionCookie';
 
-export const postRegistration = (url: string, data: {}) => {
+export const postRegistration = (
+	url: string,
+	data: {},
+	handleSuccessfulRegistration: Function
+) => {
 	let isRequestInProgress = false;
 	removeAllCookies();
 	if (isRequestInProgress) {
@@ -25,7 +27,7 @@ export const postRegistration = (url: string, data: {}) => {
 				decodeURIComponent(data['password']),
 				false
 			);
-			initRegistrationOverlay();
+			handleSuccessfulRegistration();
 		} else if (xhr.readyState > 3 && xhr.status == 409) {
 			handleConfirmationError(xhr.response);
 			isRequestInProgress = false;

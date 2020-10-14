@@ -182,7 +182,7 @@ export const PostcodeSuggestion = (props: PostcodeSuggestionProps) => {
 										</span>
 
 										{translate(
-											'registration.agency.isteam'
+											'registration.agency.prefilled.isTeam'
 										)}
 									</div>
 								) : null}

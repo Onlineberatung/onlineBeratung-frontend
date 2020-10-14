@@ -1,3 +1,7 @@
+import { translate } from '../../../resources/ts/i18n/translate';
+import { BUTTON_TYPES } from '../../button/ts/Button';
+import { OverlayItem, OVERLAY_FUNCTIONS } from '../../overlay/ts/Overlay';
+
 export const MIN_USERNAME_LENGTH = 5;
 
 export const isStringValidEmail = (email: string) =>
@@ -11,3 +15,16 @@ export const getOptionOfSelectedValue = (inputOptions, selectedValue) => {
 
 export const extendPostcodeToBeValid = (postcode: string) =>
 	String(postcode + '00').slice(0, 5);
+
+export const overlayItemRegistrationSuccess: OverlayItem = {
+	imgSrc: '/../resources/img/illustrations/willkommen.svg',
+	headline: translate('registration.overlay.success.headline'),
+	copy: translate('registration.overlay.success.copy'),
+	buttonSet: [
+		{
+			label: translate('registration.overlay.success.button'),
+			function: OVERLAY_FUNCTIONS.REDIRECT,
+			type: BUTTON_TYPES.PRIMARY
+		}
+	]
+};
