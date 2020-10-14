@@ -248,7 +248,7 @@ const Registration = () => {
 		type: 'text'
 	};
 
-	const inputItempassword: InputFieldItem = {
+	const inputItemPassword: InputFieldItem = {
 		content: password,
 		class: getValidationClassNames(
 			!!passwordErrorMessage,
@@ -612,7 +612,7 @@ const Registration = () => {
 						/>
 					) : null}
 					<InputField
-						item={inputItempassword}
+						item={inputItemPassword}
 						inputHandle={handlepasswordChange}
 					/>
 					<InputField

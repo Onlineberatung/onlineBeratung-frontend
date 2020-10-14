@@ -26,8 +26,8 @@ export default {
 	'email.label': 'E-Mail (optional)',
 	'email.infoText':
 		'Per E-Mail können wir Sie benachrichtigen, sobald eine Antwort auf Ihre Anfrage vorliegt. Zudem können Sie per E-Mail Ihr Passwort zurücksetzen, wenn Sie es vergessen haben.',
-	'email.valid': 'Ihre E-Mail-Adresse ist gültig',
-	'email.invalid': 'Ihre E-Mail-Adresse ist nicht gültig',
+	'email.valid': 'Ihre E-Mail-Adresse ist gültig.',
+	'email.invalid': 'Ihre E-Mail-Adresse ist nicht gültig.',
 	'required.infoText':
 		'* Die markierten Felder müssen ausgefüllt werden, um sich registrieren zu können.',
 	'dataProtection.label':
