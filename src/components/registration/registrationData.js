@@ -332,7 +332,157 @@ export default {
 		overline:
 			'#gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten',
 		showEmail: false,
-		showPostCode: false
+		showPostCode: false,
+		requiredComponents: [
+			{
+				componentType: 'SelectDropdown',
+				headline: '',
+				name: 'age',
+				item: {
+					id: 'ageSelect',
+					selectedOptions: [
+						{
+							value: '50',
+							label: '20'
+						},
+						{
+							value: '51',
+							label: '21'
+						},
+						{
+							value: '52',
+							label: '22'
+						},
+						{
+							value: '53',
+							label: '23'
+						},
+						{
+							value: '54',
+							label: '24'
+						},
+						{
+							value: '55',
+							label: '25'
+						},
+						{
+							value: '56',
+							label: '26'
+						}
+					],
+					selectInputLabel: 'Alter auswählen*',
+					useIconOption: false,
+					isSearchable: false,
+					menuPlacement: 'bottom'
+				}
+			},
+			{
+				componentType: 'SelectDropdown',
+				headline: '',
+				name: 'state',
+				item: {
+					id: 'stateSelect',
+					selectedOptions: [
+						{
+							value: '1',
+							label: 'Baden-Württemberg'
+						},
+						{
+							value: '2',
+							label: 'Bayern'
+						},
+						{
+							value: '3',
+							label: 'Berlin'
+						},
+						{
+							value: '4',
+							label: 'Brandenburg'
+						},
+						{
+							value: '5',
+							label: 'Bremen'
+						},
+						{
+							value: '6',
+							label: 'Hamburg'
+						},
+						{
+							value: '7',
+							label: 'Hessen'
+						},
+						{
+							value: '8',
+							label: 'Mecklenburg-Vorpommern'
+						},
+						{
+							value: '9',
+							label: 'Niedersachsen'
+						},
+						{
+							value: '10',
+							label: 'Nordrhein-Westfalen'
+						},
+						{
+							value: '11',
+							label: 'Rheinland-Pfalz'
+						},
+						{
+							value: '12',
+							label: 'Saarland'
+						},
+						{
+							value: '13',
+							label: 'Sachsen'
+						},
+						{
+							value: '14',
+							label: 'Sachsen-Anhalt'
+						},
+						{
+							value: '15',
+							label: 'Schleswig-Holstein'
+						},
+						{
+							value: '16',
+							label: 'Thüringen'
+						},
+						{
+							value: '0',
+							label: 'außerhalb Deutschlands'
+						}
+					],
+					selectInputLabel: 'Bundesland auswählen*',
+					useIconOption: false,
+					isSearchable: false,
+					menuPlacement: 'bottom'
+				}
+			}
+		],
+		voluntaryComponents: [
+			{
+				componentType: 'RadioButton',
+				headline: 'Geschlecht',
+				name: 'gender',
+				radioButtons: [
+					{
+						inputId: 'female',
+						label: 'Weiblich',
+						checked: false
+					},
+					{
+						inputId: 'male',
+						label: 'Männlich',
+						checked: false
+					},
+					{
+						inputId: 'diverseGender',
+						label: 'Divers',
+						checked: false
+					}
+				]
+			}
+		]
 	},
 	pregnancy: {
 		consultingType: '2',
