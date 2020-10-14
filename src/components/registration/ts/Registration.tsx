@@ -6,7 +6,7 @@ import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 import { useEffect, useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
-import { Button, ButtonItem, BUTTON_TYPES } from '../../button/ts/Button';
+import { Button } from '../../button/ts/Button';
 import registrationResortsData from '../registrationData';
 import { PostcodeSuggestion } from '../../postcodeSuggestion/ts/PostcodeSuggestion';
 import {
@@ -470,7 +470,6 @@ const Registration = () => {
 		if (component.componentType === 'SelectDropdown') {
 			return (
 				<SelectDropdown
-					className="test-class-lol"
 					key={index}
 					handleDropdownSelect={(e) =>
 						handleGeneratedInputfieldValueChange(
@@ -660,8 +659,7 @@ const Registration = () => {
 						<Button
 							item={{
 								label: translate('registration.login.label'),
-								type: 'TERTIARY',
-								id: 'editGroupChat'
+								type: 'TERTIARY'
 							}}
 							isLink={true}
 							buttonHandle={() => {}}
