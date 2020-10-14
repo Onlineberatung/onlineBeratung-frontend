@@ -15,7 +15,9 @@ import {
 } from '../../passwordField/ts/validateInputValue';
 import { CheckboxItem, Checkbox } from '../../checkbox/ts/Checkbox';
 import {
+	buttonItemSubmit,
 	getOptionOfSelectedValue,
+	getValidationClassNames,
 	isStringValidEmail,
 	MIN_USERNAME_LENGTH,
 	overlayItemRegistrationSuccess
@@ -56,16 +58,6 @@ export const initRegistration = () => {
 		<Registration />,
 		document.getElementById('registrationRoot')
 	);
-};
-
-const getValidationClassNames = (invalid, valid) => {
-	if (invalid) {
-		return 'inputField__input--invalid';
-	}
-	if (valid) {
-		return 'inputField__input--valid';
-	}
-	return '';
 };
 
 const Registration = () => {
@@ -305,11 +297,6 @@ const Registration = () => {
 		labelId: 'dataProtectionLabel',
 		label: translate('registration.dataProtection.label'),
 		checked: isDataProtectionSelected
-	};
-
-	const buttonItemSubmit: ButtonItem = {
-		label: translate('registration.submitButton.label'),
-		type: BUTTON_TYPES.PRIMARY
 	};
 
 	const handleUsernameChange = (event) => {

@@ -1,5 +1,5 @@
 import { translate } from '../../../resources/ts/i18n/translate';
-import { BUTTON_TYPES } from '../../button/ts/Button';
+import { ButtonItem, BUTTON_TYPES } from '../../button/ts/Button';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../../overlay/ts/Overlay';
 
 export const MIN_USERNAME_LENGTH = 5;
@@ -16,6 +16,16 @@ export const getOptionOfSelectedValue = (inputOptions, selectedValue) => {
 export const extendPostcodeToBeValid = (postcode: string) =>
 	String(postcode + '00').slice(0, 5);
 
+export const getValidationClassNames = (invalid, valid) => {
+	if (invalid) {
+		return 'inputField__input--invalid';
+	}
+	if (valid) {
+		return 'inputField__input--valid';
+	}
+	return '';
+};
+
 export const overlayItemRegistrationSuccess: OverlayItem = {
 	imgSrc: '/../resources/img/illustrations/willkommen.svg',
 	headline: translate('registration.overlay.success.headline'),
@@ -27,4 +37,9 @@ export const overlayItemRegistrationSuccess: OverlayItem = {
 			type: BUTTON_TYPES.PRIMARY
 		}
 	]
+};
+
+export const buttonItemSubmit: ButtonItem = {
+	label: translate('registration.submitButton.label'),
+	type: BUTTON_TYPES.PRIMARY
 };
