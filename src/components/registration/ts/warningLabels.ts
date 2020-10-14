@@ -27,6 +27,15 @@ export const removeWarningLabels = () => {
 	});
 };
 
+export const removeWarningLabelById = (inputFieldId) => {
+	const warningLabel = document
+		.getElementById(inputFieldId)
+		.parentNode.querySelector('.warning');
+	if (warningLabel) {
+		warningLabel.remove();
+	}
+};
+
 export const removeCheckboxWarningLabel = () => {
 	document
 		.getElementById('termsAccepted')
@@ -48,11 +57,10 @@ const setInputErrorClass = (target: HTMLInputElement) => {
 	}
 };
 
-export const removeInputErrorClass = () => {
-	const inputFields = document.querySelectorAll('input');
-	Array.from(inputFields).forEach((inputField) => {
-		inputField.classList.remove('inputField__input--error');
-	});
+export const removeInputErrorClass = (inputFieldId) => {
+	document
+		.getElementById(inputFieldId)
+		.classList.remove('inputField__input--error');
 };
 
 export const removeInputValidClass = (inputFieldId) => {
