@@ -1,4 +1,8 @@
-import { warningLabelForTranslatableAndParentId } from '../../registration/ts/warningLabels';
+import {
+	removeInputValidClass,
+	removeWarningLabels,
+	warningLabelForTranslatableAndParentId
+} from '../../registration/ts/warningLabels';
 import { generateCsrfToken } from '../../../resources/ts/helpers/generateCsrfToken';
 import { autoLogin } from '../../registration/ts/autoLogin';
 import {
@@ -50,14 +54,17 @@ export const postRegistration = (
 };
 
 export const handleConfirmationError = (data: string) => {
+	removeWarningLabels();
 	window.scrollTo(0, 0);
 	if (data.includes('"usernameAvailable":0')) {
+		removeInputValidClass('username');
 		warningLabelForTranslatableAndParentId(
 			'warningLabels.username.unavailable',
 			'username'
 		);
 	}
 	if (data.includes('"emailAvailable":0')) {
+		removeInputValidClass('email');
 		warningLabelForTranslatableAndParentId(
 			'warningLabels.email.unavailable',
 			'email'

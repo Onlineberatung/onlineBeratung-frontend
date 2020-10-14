@@ -52,6 +52,7 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../../overlay/ts/Overlay';
 import { redirectToApp } from './autoLogin';
+import { removeInputErrorClass, removeWarningLabels } from './warningLabels';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -200,6 +201,16 @@ const Registration = () => {
 	useEffect(() => {
 		prefillPostcode();
 	}, []);
+
+	useEffect(() => {
+		const warningLabels = document.querySelectorAll(
+			'.formWrapper__infoText.warning'
+		);
+		if (warningLabels) {
+			removeWarningLabels();
+			removeInputErrorClass();
+		}
+	}, [email, username]);
 
 	useEffect(() => {
 		if (isRegistrationValid()) {
