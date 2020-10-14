@@ -7,12 +7,12 @@ import {
 } from '../../errorPage/ts/errorHandling';
 import { removeAllCookies } from '../../sessionCookie/ts/accessSessionCookie';
 
+let isRequestInProgress = false;
 export const postRegistration = (
 	url: string,
 	data: {},
 	handleSuccessfulRegistration: Function
 ) => {
-	let isRequestInProgress = false;
 	removeAllCookies();
 	if (isRequestInProgress) {
 		return null;

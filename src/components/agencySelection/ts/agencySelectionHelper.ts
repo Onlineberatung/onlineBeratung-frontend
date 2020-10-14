@@ -5,7 +5,7 @@ import {
 	POSTCODE_FALLBACK_LINK,
 	hasConsultingTypeLongPostcodeValidation
 } from '../../../resources/ts/helpers/resorts';
-import { ajaxCallPostcodeSuggestion } from '../../apiWrapper/ts/ajaxCallPostcode';
+import { ajaxCallAgencySelection } from '../../apiWrapper/ts/ajaxCallPostcode';
 import { translate } from '../../../resources/ts/i18n/translate';
 import {
 	warningLabelForTranslatableAndParentId,
@@ -44,7 +44,7 @@ export const addPostcodeListener = (target: string) => {
 		const inputVal = input.value;
 		const whiteSpotWarning = document.querySelector('.warning__link');
 		if (validPostcodeLengthForConsultingType(inputVal.length)) {
-			ajaxCallPostcodeSuggestion({
+			ajaxCallAgencySelection({
 				postcode: inputVal,
 				consultingType: getConsultingTypeFromRegistration()
 			})
@@ -52,7 +52,7 @@ export const addPostcodeListener = (target: string) => {
 					whiteSpotWarning
 						? handleWarningLabelOnInput(e, true)
 						: null;
-					initPostcodeSuggestion(response, inputVal);
+					initAgencySelection(response, inputVal);
 				})
 				.catch((error) => {
 					if (error.message === FETCH_ERRORS.EMPTY) {
@@ -67,7 +67,7 @@ export const addPostcodeListener = (target: string) => {
 	});
 };
 
-export const initPostcodeSuggestion = (
+export const initAgencySelection = (
 	data: Array<AgencyDataInterface>,
 	inputVal: string
 ) => {

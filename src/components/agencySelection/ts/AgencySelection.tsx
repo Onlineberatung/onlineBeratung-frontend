@@ -6,7 +6,7 @@ import {
 	POSTCODE_FALLBACK_LINK
 } from '../../../resources/ts/helpers/resorts';
 import { translate } from '../../../resources/ts/i18n/translate';
-import { ajaxCallPostcodeSuggestion } from '../../apiWrapper/ts/ajaxCallPostcode';
+import { ajaxCallAgencySelection } from '../../apiWrapper/ts/ajaxCallPostcode';
 import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
 import { InputField, InputFieldItem } from '../../inputField/ts/InputField';
 import { extendPostcodeToBeValid } from '../../registration/ts/registrationHelper';
@@ -15,15 +15,15 @@ import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 import {
 	validPostcodeLengthForConsultingType,
 	VALID_POSTCODE_LENGTH
-} from './postcodeSuggestionHelper';
+} from './agencySelectionHelper';
 
-export interface PostcodeSuggestionProps {
+export interface AgencySelectionProps {
 	selectedConsultingType: number;
 	icon?: JSX.Element;
 	setAgency: Function;
 }
 
-export const PostcodeSuggestion = (props: PostcodeSuggestionProps) => {
+export const AgencySelection = (props: AgencySelectionProps) => {
 	let postcodeFlyoutRef: React.RefObject<HTMLDivElement> = React.useRef();
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState(null);
 	const [suggestedAgencies, setSuggestedAgencies] = useState(null);
@@ -70,7 +70,7 @@ export const PostcodeSuggestion = (props: PostcodeSuggestionProps) => {
 					props.selectedConsultingType
 				)
 			) {
-				ajaxCallPostcodeSuggestion({
+				ajaxCallAgencySelection({
 					postcode: selectedPostcode,
 					consultingType: props.selectedConsultingType
 				})

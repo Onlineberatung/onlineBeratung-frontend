@@ -1,9 +1,9 @@
 import { config } from '../../../resources/ts/config';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
-import { VALID_POSTCODE_LENGTH } from '../../postcodeSuggestion/ts/postcodeSuggestionHelper';
+import { VALID_POSTCODE_LENGTH } from '../../agencySelection/ts/agencySelectionHelper';
 import { AgencyDataInterface } from '../../../globalState';
 
-export const ajaxCallPostcodeSuggestion = async (params: {
+export const ajaxCallAgencySelection = async (params: {
 	postcode: string;
 	consultingType: Number;
 }): Promise<[AgencyDataInterface]> => {

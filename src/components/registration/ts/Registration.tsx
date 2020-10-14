@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { Button } from '../../button/ts/Button';
 import registrationResortsData from '../registrationData';
-import { PostcodeSuggestion } from '../../postcodeSuggestion/ts/PostcodeSuggestion';
+import { AgencySelection } from '../../agencySelection/ts/AgencySelection';
 import {
 	inputValuesFit,
 	strengthIndicator
@@ -45,7 +45,7 @@ import {
 } from '../../../resources/ts/helpers/resorts';
 import { getAgencyById } from '../../apiWrapper/ts';
 import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
-import { ajaxCallPostcodeSuggestion } from '../../apiWrapper/ts/ajaxCallPostcode';
+import { ajaxCallAgencySelection } from '../../apiWrapper/ts/ajaxCallPostcode';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -123,7 +123,7 @@ const Registration = () => {
 		}
 
 		if (isRehabilitationRegistration() || isKreuzbundRegistration()) {
-			ajaxCallPostcodeSuggestion({
+			ajaxCallAgencySelection({
 				postcode: DEFAULT_POSTCODE,
 				consultingType: consultingType
 			})
@@ -580,7 +580,7 @@ const Registration = () => {
 						inputHandle={handleUsernameChange}
 					/>
 					{resortData.showPostCode ? (
-						<PostcodeSuggestion
+						<AgencySelection
 							selectedConsultingType={consultingType}
 							icon={<SVG name={ICON_KEYS.PIN} />}
 							setAgency={(agency) => {

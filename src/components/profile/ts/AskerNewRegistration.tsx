@@ -25,7 +25,7 @@ import {
 	setProfileWrapperInactive,
 	mobileListView
 } from '../../app/ts/navigationHandler';
-import { PostcodeSuggestion } from '../../postcodeSuggestion/ts/PostcodeSuggestion';
+import { AgencySelection } from '../../agencySelection/ts/AgencySelection';
 
 export const AskerNewRegistration = () => {
 	const { userData } = useContext(UserDataContext);
@@ -110,7 +110,7 @@ export const AskerNewRegistration = () => {
 				{translate('profile.data.register.headline')}
 			</p>
 			<SelectDropdown {...consultingTypesDropdown} />
-			<PostcodeSuggestion
+			<AgencySelection
 				selectedConsultingType={selectedConsultingType}
 				setAgency={(agency) => setSelectedAgency(agency)}
 			/>
