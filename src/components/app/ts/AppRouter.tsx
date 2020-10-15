@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
 import { Route, Link } from 'react-router-dom';
+const Stomp = require('@stomp/stompjs').Stomp;
+import * as SockJS from 'sockjs-client';
 import { translate } from '../../../resources/ts/i18n/translate';
 import {
 	RouterConfigUser,
@@ -19,12 +21,14 @@ import {
 import { history } from './app';
 import { initNavigationHandler } from './navigationHandler';
 import { SessionsListWrapper } from '../../sessionsList/ts/SessionsListWrapper';
+import { config } from '../../../resources/ts/config';
+import { getTokenFromCookie } from '../../sessionCookie/ts/accessSessionCookie';
 
 export const AppRouter = (props) => {
 	const { userData } = useContext(UserDataContext);
 	const { unreadSessionsStatus } = useContext(UnreadSessionsStatusContext);
-	let routerConfig = RouterConfigUser();
 
+	let routerConfig = RouterConfigUser();
 	if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
 		routerConfig = RouterConfigConsultant();
 	}
@@ -52,7 +56,31 @@ export const AppRouter = (props) => {
 					: 'user/view')
 		);
 		initNavigationHandler();
+
+		initLiveServiceSocket();
 	}, []);
+
+	const initLiveServiceSocket = () => {
+		const socket = new SockJS(config.endpoints.liveservice);
+		const stompClient = Stomp.over(socket);
+		// implement for release to deactivate stomp logging
+		// stompClient.debug = null;
+
+		stompClient.connect(
+			{
+				accessToken: getTokenFromCookie('keycloak')
+			},
+			(frame) => {
+				console.log('Connected: ' + frame);
+				stompClient.subscribe('/events', function (message) {
+					console.log(JSON.parse(message.body));
+				});
+			}
+		);
+		stompClient.onWebSocketClose = (error) => {
+			console.log('Error', error);
+		};
+	};
 
 	return (
 		<div className="app__wrapper">
