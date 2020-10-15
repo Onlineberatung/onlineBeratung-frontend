@@ -52,11 +52,7 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../../overlay/ts/Overlay';
 import { redirectToApp } from './autoLogin';
-import {
-	removeInputErrorClass,
-	removeWarningLabelById,
-	removeWarningLabels
-} from './warningLabels';
+import { removeInputErrorClass, removeWarningLabelById } from './warningLabels';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -207,9 +203,7 @@ const Registration = () => {
 	}, []);
 
 	useEffect(() => {
-		const warningLabels = document.querySelectorAll(
-			'.formWrapper__infoText.warning'
-		);
+		const warningLabels = document.querySelectorAll('.warning');
 		if (warningLabels) {
 			removeWarningLabelById('username');
 			removeInputErrorClass('username');
@@ -217,10 +211,8 @@ const Registration = () => {
 	}, [username]);
 
 	useEffect(() => {
-		const warningLabels = document.querySelectorAll(
-			'.formWrapper__infoText.warning'
-		);
-		if (warningLabels) {
+		const warningLabels = document.querySelectorAll('.warning');
+		if (warningLabels && resortData.showEmail) {
 			removeWarningLabelById('email');
 			removeInputErrorClass('email');
 		}

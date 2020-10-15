@@ -1,4 +1,5 @@
 import { translate } from '../../../resources/ts/i18n/translate';
+import { InputField } from '../../inputField/ts/InputField';
 
 export const warningLabelForTranslatableAndParentId = (
 	warningTranslatable: string,
@@ -28,11 +29,12 @@ export const removeWarningLabels = () => {
 };
 
 export const removeWarningLabelById = (inputFieldId) => {
-	const warningLabel = document
-		.getElementById(inputFieldId)
-		.parentNode.querySelector('.warning');
-	if (warningLabel) {
-		warningLabel.remove();
+	const inputField = document.getElementById(inputFieldId);
+	if (inputField) {
+		const warningLabel = inputField.parentNode.querySelector('.warning');
+		if (warningLabel) {
+			warningLabel.remove();
+		}
 	}
 };
 
@@ -58,9 +60,10 @@ const setInputErrorClass = (target: HTMLInputElement) => {
 };
 
 export const removeInputErrorClass = (inputFieldId) => {
-	document
-		.getElementById(inputFieldId)
-		.classList.remove('inputField__input--error');
+	const inputField = document.getElementById(inputFieldId);
+	if (inputField) {
+		inputField.classList.remove('inputField__input--error');
+	}
 };
 
 export const removeInputValidClass = (inputFieldId) => {
