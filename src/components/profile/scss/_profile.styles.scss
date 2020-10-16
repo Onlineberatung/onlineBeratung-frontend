@@ -483,12 +483,21 @@ $backBtnSize: 24px;
 			font-weight: $font-weight-bold;
 		}
 
+		&__name {
+			margin-bottom: $grid-base;
+		}
+
 		&__teamagency,
 		&__description {
 			font-size: $font-size-secondary;
 			line-height: $line-height-secondary;
-			margin: $grid-base 0 0;
+			margin-bottom: $grid-base;
 			color: $tertiary;
+		}
+
+		&__teamagency {
+			display: flex;
+			align-items: flex-end;
 		}
 	}
 
