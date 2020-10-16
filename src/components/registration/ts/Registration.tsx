@@ -344,8 +344,8 @@ const Registration = () => {
 			consultingType: consultingType.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
 			...(email && { email: email }),
-			...(resortData.showPostCode && { postcode: postcode }),
-			...(resortData.showPostCode && { agencyId: agencyId.toString() })
+			...(postcode && { postcode: postcode }),
+			...(agencyId && { agencyId: agencyId.toString() })
 		};
 
 		let generatedRegistrationData = {};
