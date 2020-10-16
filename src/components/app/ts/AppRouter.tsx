@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
 import { Route, Link } from 'react-router-dom';
-const Stomp = require('@stomp/stompjs').Stomp;
+import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { translate } from '../../../resources/ts/i18n/translate';
 import {
