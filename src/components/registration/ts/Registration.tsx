@@ -39,7 +39,6 @@ import {
 	AGENCY_FALLBACK_LINK,
 	getConsultingTypeFromRegistration,
 	isKreuzbundRegistration,
-	isOffenderRegistration,
 	isRehabilitationRegistration,
 	isU25Registration
 } from '../../../resources/ts/helpers/resorts';

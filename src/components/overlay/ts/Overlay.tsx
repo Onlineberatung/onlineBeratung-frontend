@@ -54,10 +54,12 @@ export class Overlay extends React.Component<{
 	};
 
 	handleButtonClick(buttonFunction: string) {
+		const overlay = document.getElementById('overlay');
 		this.props.handleOverlay(buttonFunction);
 		if (
 			buttonFunction === OVERLAY_FUNCTIONS.CLOSE ||
-			buttonFunction === OVERLAY_FUNCTIONS.REDIRECT
+			(buttonFunction === OVERLAY_FUNCTIONS.REDIRECT &&
+				!overlay.classList.contains('overlay--keepBlur'))
 		) {
 			this.removeOverlayClasses();
 		}

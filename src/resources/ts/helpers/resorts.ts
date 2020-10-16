@@ -9,8 +9,6 @@ export const getConsultingTypeFromRegistration = () => {
 
 export const isU25Registration = () =>
 	getConsultingTypeFromRegistration() === 1;
-export const isOffenderRegistration = () =>
-	getConsultingTypeFromRegistration() === 11;
 export const isRehabilitationRegistration = () =>
 	getConsultingTypeFromRegistration() === 13;
 export const isKreuzbundRegistration = () =>
@@ -81,7 +79,6 @@ export const POSTCODE_FALLBACK_LINK = {
 };
 
 export const AGENCY_FALLBACK_LINK = {
-	11: config.endpoints.registrationOffenderRedirect,
 	13: config.endpoints.registrationRehabilitationRedirect,
 	15: config.endpoints.registrationKreuzbundRedirect
 };
