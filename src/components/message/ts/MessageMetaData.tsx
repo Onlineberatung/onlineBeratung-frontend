@@ -8,7 +8,7 @@ import {
 	hasUserAuthority,
 	AUTHORITIES
 } from '../../../globalState';
-import { getSessionListTime } from '../../sessionsListItem/ts/sessionsListItemHelpers';
+import { formatToHHMM } from '../../../resources/ts/helpers/dateHelpers';
 import {
 	SESSION_TYPES,
 	isGroupChatForSessionItem
@@ -74,7 +74,7 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 						: `messageItem__time`
 				}
 			>
-				{getSessionListTime(props.messageTime)}
+				{formatToHHMM(props.messageTime)}
 			</div>
 		) : (
 			''

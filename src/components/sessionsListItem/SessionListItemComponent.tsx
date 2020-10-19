@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-	getSessionsListItemIcon,
-	getSessionsListItemDate,
-	LIST_ICONS
-} from './sessionsListItemHelpers';
+import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
+import { getPrettyDateFromMessageDate } from '../../resources/ts/helpers/dateHelpers';
 import {
 	typeIsTeamSession,
 	getTypeOfLocation,
@@ -311,7 +308,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					) : null}
 					<div className="sessionsListItem__date">
 						{listItem.messageDate
-							? getSessionsListItemDate(listItem.messageDate)
+							? getPrettyDateFromMessageDate(listItem.messageDate)
 							: ''}
 					</div>
 				</div>
