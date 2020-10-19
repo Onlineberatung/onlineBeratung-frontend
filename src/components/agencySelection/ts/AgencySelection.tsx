@@ -123,7 +123,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		name: 'postcode',
 		class: 'asker__registration__postcodeInput',
 		id: 'postcode',
-		type: 'text',
+		type: 'number',
 		infoText: translate('profile.data.register.postcodeInput.infoText'),
 		label: translate('profile.data.register.postcodeInput.label'),
 		content: selectedPostcode,
