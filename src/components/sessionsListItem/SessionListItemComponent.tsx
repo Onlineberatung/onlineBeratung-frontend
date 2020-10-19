@@ -15,11 +15,11 @@ import {
 	typeIsUser,
 	getChatItemForSession,
 	isGroupChatForSessionItem
-} from '../../session/ts/sessionHelpers';
+} from '../session/ts/sessionHelpers';
 import {
 	translate,
 	getResortTranslation
-} from '../../../resources/ts/i18n/translate';
+} from '../../resources/ts/i18n/translate';
 import {
 	ActiveSessionGroupIdContext,
 	SessionsDataContext,
@@ -28,10 +28,10 @@ import {
 	getSessionsDataKeyForSessionType,
 	hasUserAuthority,
 	AUTHORITIES
-} from '../../../globalState';
-import { history } from '../../app/ts/app';
-import { getIconForAttachmentType } from '../../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
-import { getGroupChatDate } from '../../session/ts/sessionDateHelpers';
+} from '../../globalState';
+import { history } from '../app/ts/app';
+import { getIconForAttachmentType } from '../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
+import { getGroupChatDate } from '../session/ts/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
 

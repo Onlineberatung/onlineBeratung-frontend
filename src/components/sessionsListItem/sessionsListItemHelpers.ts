@@ -1,7 +1,7 @@
 import {
 	formatToHHMM,
 	printPrettyDate
-} from '../../session/ts/sessionDateHelpers';
+} from '../session/ts/sessionDateHelpers';
 
 export const LIST_ICONS = {
 	IS_READ: 'IS_READ',
