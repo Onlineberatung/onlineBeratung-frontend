@@ -89,7 +89,10 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	}, [activeSessionGroupId, sessionsData]);
 
 	const handleOnClick = () => {
-		if (isRequestInProgress || listItem.groupId === activeSessionGroupId) {
+		if (
+			!isCurrentSessionNewEnquiry &&
+			(isRequestInProgress || listItem.groupId === activeSessionGroupId)
+		) {
 			return null;
 		}
 		setIsRequestInProgress(true);
