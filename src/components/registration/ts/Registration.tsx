@@ -52,6 +52,7 @@ import {
 } from '../../overlay/ts/Overlay';
 import { redirectToApp } from './autoLogin';
 import { removeInputErrorClass, removeWarningLabelById } from './warningLabels';
+import { isNumber } from '../../../resources/ts/helpers/isNumber';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -114,7 +115,9 @@ const Registration = () => {
 	setTokenInCookie('useInformal', resortData.useInformal ? '1' : '');
 
 	const prefillPostcode = () => {
-		const agencyId = getUrlParameter('aid');
+		const agencyId = isNumber(getUrlParameter('aid'))
+			? getUrlParameter('aid')
+			: null;
 
 		if (agencyId) {
 			getAgencyData(agencyId);
@@ -208,6 +211,11 @@ const Registration = () => {
 			removeInputErrorClass('username');
 		}
 	}, [username]);
+
+	useEffect(() => {
+		console.log('postcod', postcode);
+		console.log('agency id', agencyId);
+	}, [postcode, agencyId]);
 
 	useEffect(() => {
 		const warningLabels = document.querySelectorAll('.warning');
