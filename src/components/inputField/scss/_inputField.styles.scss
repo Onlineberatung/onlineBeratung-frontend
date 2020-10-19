@@ -77,6 +77,21 @@ $iconSize: 24px;
 				color: $form-success;
 			}
 		}
+
+		&--error {
+			border-color: $form-error !important;
+			color: $form-error;
+			border-width: 2px;
+
+			&.inputField__input--valid {
+				border-color: $form-error !important;
+				color: $form-error !important;
+
+				& + label {
+					color: $form-primary;
+				}
+			}
+		}
 	}
 
 	&__icon {
@@ -86,10 +101,10 @@ $iconSize: 24px;
 	}
 }
 
-.formWrapper {
-	.inputField__input--error {
-		border-color: $form-error !important;
-		color: $form-error;
-		border-width: 2px;
-	}
-}
+// .formWrapper {
+// 	.inputField__input--error {
+// 		border-color: $form-error !important;
+// 		color: $form-error;
+// 		border-width: 2px;
+// 	}
+// }

@@ -66,12 +66,6 @@ export const removeInputErrorClass = (inputFieldId) => {
 	}
 };
 
-export const removeInputValidClass = (inputFieldId) => {
-	document
-		.getElementById(inputFieldId)
-		.classList.remove('inputField__input--valid');
-};
-
 const createWarningLabel = (warningText: string) => {
 	let warningLabel = document.createElement('p');
 	warningLabel.innerHTML = warningText;

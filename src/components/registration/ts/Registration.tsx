@@ -206,7 +206,7 @@ const Registration = () => {
 
 	useEffect(() => {
 		const warningLabels = document.querySelectorAll('.warning');
-		if (warningLabels) {
+		if (warningLabels.length > 0) {
 			removeWarningLabelById('username');
 			removeInputErrorClass('username');
 		}
@@ -214,7 +214,7 @@ const Registration = () => {
 
 	useEffect(() => {
 		const warningLabels = document.querySelectorAll('.warning');
-		if (warningLabels && resortData.showEmail) {
+		if (warningLabels.length > 0 && resortData.showEmail) {
 			removeWarningLabelById('email');
 			removeInputErrorClass('email');
 		}
