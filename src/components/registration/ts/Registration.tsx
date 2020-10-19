@@ -213,11 +213,6 @@ const Registration = () => {
 	}, [username]);
 
 	useEffect(() => {
-		console.log('postcod', postcode);
-		console.log('agency id', agencyId);
-	}, [postcode, agencyId]);
-
-	useEffect(() => {
 		const warningLabels = document.querySelectorAll('.warning');
 		if (warningLabels && resortData.showEmail) {
 			removeWarningLabelById('email');

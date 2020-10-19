@@ -95,7 +95,10 @@ export class Overlay extends React.Component<{
 						OVERLAY_FUNCTIONS.DEACTIVATE_ABSENCE ? (
 						<h1 className="overlay__headline">{item.headline}</h1>
 					) : item.headline ? (
-						<h3 className="overlay__headline">{item.headline}</h3>
+						<h3
+							className="overlay__headline"
+							dangerouslySetInnerHTML={{ __html: item.headline }}
+						></h3>
 					) : (
 						``
 					)}
