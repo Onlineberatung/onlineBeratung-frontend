@@ -5,6 +5,7 @@ import { ButtonItem, Button } from '../../button/ts/Button';
 export const OVERLAY_FUNCTIONS = {
 	CLOSE: 'CLOSE',
 	REDIRECT: 'REDIRECT',
+	REDIRECTWITHBLUR: 'REDIRECTWITHBLUR',
 	LOGOUT: 'LOGOUT',
 	DEACTIVATE_ABSENCE: 'DEACTIVATE_ABSENCE',
 	COPY_LINK: 'COPY_LINK',
@@ -58,8 +59,7 @@ export class Overlay extends React.Component<{
 		this.props.handleOverlay(buttonFunction);
 		if (
 			buttonFunction === OVERLAY_FUNCTIONS.CLOSE ||
-			(buttonFunction === OVERLAY_FUNCTIONS.REDIRECT &&
-				!overlay.classList.contains('overlay--keepBlur'))
+			buttonFunction === OVERLAY_FUNCTIONS.REDIRECT
 		) {
 			this.removeOverlayClasses();
 		}
