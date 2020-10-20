@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-	getSessionsListItemIcon,
-	getSessionsListItemDate,
-	LIST_ICONS
-} from './sessionsListItemHelpers';
+import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
+import { getPrettyDateFromMessageDate } from '../../resources/ts/helpers/dateHelpers';
 import {
 	typeIsTeamSession,
 	getTypeOfLocation,
@@ -15,11 +12,11 @@ import {
 	typeIsUser,
 	getChatItemForSession,
 	isGroupChatForSessionItem
-} from '../../session/ts/sessionHelpers';
+} from '../session/ts/sessionHelpers';
 import {
 	translate,
 	getResortTranslation
-} from '../../../resources/ts/i18n/translate';
+} from '../../resources/ts/i18n/translate';
 import {
 	ActiveSessionGroupIdContext,
 	SessionsDataContext,
@@ -28,10 +25,10 @@ import {
 	getSessionsDataKeyForSessionType,
 	hasUserAuthority,
 	AUTHORITIES
-} from '../../../globalState';
-import { history } from '../../app/ts/app';
-import { getIconForAttachmentType } from '../../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
-import { getGroupChatDate } from '../../session/ts/sessionDateHelpers';
+} from '../../globalState';
+import { history } from '../app/ts/app';
+import { getIconForAttachmentType } from '../messageSubmitInterface/ts/messageSubmitInterfaceComponent';
+import { getGroupChatDate } from '../session/ts/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
 
@@ -89,7 +86,10 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	}, [activeSessionGroupId, sessionsData]);
 
 	const handleOnClick = () => {
-		if (isRequestInProgress || listItem.groupId === activeSessionGroupId) {
+		if (
+			!isCurrentSessionNewEnquiry &&
+			(isRequestInProgress || listItem.groupId === activeSessionGroupId)
+		) {
 			return null;
 		}
 		setIsRequestInProgress(true);
@@ -308,7 +308,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					) : null}
 					<div className="sessionsListItem__date">
 						{listItem.messageDate
-							? getSessionsListItemDate(listItem.messageDate)
+							? getPrettyDateFromMessageDate(listItem.messageDate)
 							: ''}
 					</div>
 				</div>
