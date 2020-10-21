@@ -334,7 +334,7 @@ const Registration = () => {
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
-		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECTWITHBLUR) {
+		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_WITH_BLUR) {
 			redirectToApp();
 		}
 	};
@@ -372,8 +372,6 @@ const Registration = () => {
 			...generalRegistrationData,
 			...generatedRegistrationData
 		};
-
-		console.log('reg data', registrationData);
 
 		postRegistration(config.endpoints.registerAsker, registrationData, () =>
 			setOverlayActive(true)
@@ -564,7 +562,9 @@ const Registration = () => {
 				className="registration__form"
 				data-consultingtype="{{consultingType}}"
 			>
-				<h3 className="registration__layline">{resortData.overline}</h3>
+				<h3 className="registration__overline">
+					{resortData.overline}
+				</h3>
 				<h1 className="registration__headline">
 					{translate('registration.headline')}
 				</h1>

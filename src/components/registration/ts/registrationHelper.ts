@@ -33,7 +33,7 @@ export const overlayItemRegistrationSuccess: OverlayItem = {
 	buttonSet: [
 		{
 			label: translate('registration.overlay.success.button'),
-			function: OVERLAY_FUNCTIONS.REDIRECTWITHBLUR,
+			function: OVERLAY_FUNCTIONS.REDIRECT_WITH_BLUR,
 			type: BUTTON_TYPES.PRIMARY
 		}
 	]
