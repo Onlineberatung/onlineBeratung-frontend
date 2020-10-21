@@ -1,7 +1,9 @@
 import { ListItemInterface } from '../../../globalState';
 import { MessageItem } from '../../message/ts/MessageItemComponent';
-import { formatToDDMMYYYY } from './sessionDateHelpers';
-import { getSessionsListItemDate } from '../../sessionsListItem/ts/sessionsListItemHelpers';
+import {
+	formatToDDMMYYYY,
+	getPrettyDateFromMessageDate
+} from '../../../resources/ts/helpers/dateHelpers';
 import { getTokenFromCookie } from '../../sessionCookie/ts/accessSessionCookie';
 
 export const SESSION_TYPES = {
@@ -128,7 +130,7 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 
 		if (lastDate !== dateFormated) {
 			lastDate = dateFormated;
-			lastDateStr = getSessionsListItemDate(date / 1000);
+			lastDateStr = getPrettyDateFromMessageDate(date / 1000);
 		}
 
 		return {

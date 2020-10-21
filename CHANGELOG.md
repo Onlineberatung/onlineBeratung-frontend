@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.3.0...v1.3.1) (2020-10-12)
+
+## [1.3.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.2.1...v1.3.0) (2020-10-12)
+
+
+### Features
+
+* 🎸 added stage and login component + login logic ([4e8d870](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/4e8d870fcbd3c16b83e0bc89be110f415367b111))
+* 🎸 implemented icon component with variants ([b88c15c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/b88c15cac2f8b7af56fcab8231839da0359b7237))
+
+
+### Bug Fixes
+
+* 🐛 added hotfix for draftjs-linkify plugin ([98441b4](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/98441b47718f46ca55ca9e77437baee9ff215328))
+* 🐛 fixing editor size for copy, back btn history mobile ([7ba41ec](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7ba41ec3ac67e3d10eabccb56da0663af66f3453))
+
 ### [1.2.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.2.0...v1.2.1) (2020-08-25)
 
 ## [1.2.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.1.0...v1.2.0) (2020-08-25)
