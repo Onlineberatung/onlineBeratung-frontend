@@ -10,7 +10,7 @@ module.exports = {
 				resortName: 'addiction'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.suchtberatung.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -21,7 +21,7 @@ module.exports = {
 				resortName: 'u25'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.u25.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -32,7 +32,7 @@ module.exports = {
 				resortName: 'gemeinsamstatteinsam'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.gemeinsamstatteinsam.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -42,7 +42,7 @@ module.exports = {
 				resortName: 'pregnancy'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.schwangerschaftsberatung.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -52,7 +52,7 @@ module.exports = {
 				resortName: 'parenting'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.eltern-familie.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -62,7 +62,7 @@ module.exports = {
 				resortName: 'cure'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.kurberatung.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -72,7 +72,7 @@ module.exports = {
 				resortName: 'debt'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.schuldnerberatung.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -82,7 +82,7 @@ module.exports = {
 				resortName: 'social'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.allgemeine-soziale-beratung.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -92,7 +92,7 @@ module.exports = {
 				resortName: 'seniority'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.leben-im-alter.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -103,7 +103,7 @@ module.exports = {
 				resortName: 'disability'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename:
 				'./registration.behinderung-und-psychische-erkrankung.html'
 		}),
@@ -115,7 +115,7 @@ module.exports = {
 				resortName: 'planB'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.mein-planb.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -125,7 +125,7 @@ module.exports = {
 				resortName: 'law'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.rechtliche-betreuung.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -135,7 +135,7 @@ module.exports = {
 				resortName: 'offender'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.straffaelligkeit.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -145,7 +145,7 @@ module.exports = {
 				resortName: 'aids'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.hiv-aids-beratung.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -155,7 +155,7 @@ module.exports = {
 				resortName: 'rehabilitation'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.kinder-reha.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -165,7 +165,7 @@ module.exports = {
 				resortName: 'children'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.kinder-jugendliche.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -175,7 +175,7 @@ module.exports = {
 				resortName: 'kreuzbund'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.kb-sucht-selbsthilfe.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -185,7 +185,7 @@ module.exports = {
 				resortName: 'migration'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.migration.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -195,7 +195,7 @@ module.exports = {
 				resortName: 'emigration'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.rw-auswanderung.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -205,7 +205,7 @@ module.exports = {
 				resortName: 'hospice'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.hospiz-palliativ.html'
 		}),
 		new HtmlWebpackPlugin({
@@ -215,7 +215,7 @@ module.exports = {
 				resortName: 'regional'
 			},
 			template: './src/pages/registration.html',
-			chunks: ['resources/components/registration/ts/initRegistration'],
+			chunks: ['/resources/components/registration/ts/initRegistration'],
 			filename: './registration.regionale-angebote.html'
 		})
 	]
