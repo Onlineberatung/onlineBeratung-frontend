@@ -38,8 +38,7 @@ import { getUrlParameter } from '../../../resources/ts/helpers/getUrlParameter';
 import {
 	AGENCY_FALLBACK_LINK,
 	getConsultingTypeFromRegistration,
-	isKreuzbundRegistration,
-	isRehabilitationRegistration,
+	hasPreselectedAgencyFallback,
 	isU25Registration
 } from '../../../resources/ts/helpers/resorts';
 import { getAgencyById } from '../../apiWrapper/ts';
@@ -125,7 +124,7 @@ const Registration = () => {
 			redirectToHelpmail();
 		}
 
-		if (isRehabilitationRegistration() || isKreuzbundRegistration()) {
+		if (hasPreselectedAgencyFallback()) {
 			ajaxCallAgencySelection({
 				postcode: DEFAULT_POSTCODE,
 				consultingType: consultingType

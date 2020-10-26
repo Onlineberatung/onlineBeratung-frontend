@@ -45,6 +45,15 @@ export const hasConsultingTypeLongPostcodeValidation = (
 	return typesUsingLongPostcodeValidation.includes(consultingType.toString());
 };
 
+export const hasPreselectedAgencyFallback = (
+	consultingType: number = getConsultingTypeFromRegistration()
+) => {
+	const typesWithPreselectedAgencyFallback = ['13', '15'];
+	return typesWithPreselectedAgencyFallback.includes(
+		consultingType.toString()
+	);
+};
+
 export const getResortKeyForConsultingType = (currentType: number) => {
 	return RESORT_KEYS[currentType] || 'default';
 };
