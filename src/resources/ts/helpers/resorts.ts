@@ -7,14 +7,10 @@ export const getConsultingTypeFromRegistration = () => {
 		: null;
 };
 
-export const isU25Registration = () =>
+export const isU25Registration = (): Boolean =>
 	getConsultingTypeFromRegistration() === 1;
-export const isRehabilitationRegistration = () =>
-	getConsultingTypeFromRegistration() === 13;
-export const isKreuzbundRegistration = () =>
-	getConsultingTypeFromRegistration() === 15;
 
-export const isGenericConsultingType = (currentType: number) => {
+export const isGenericConsultingType = (currentType: number): Boolean => {
 	const genericTypes = [
 		2,
 		3,
@@ -40,14 +36,14 @@ export const isGenericConsultingType = (currentType: number) => {
 
 export const hasConsultingTypeLongPostcodeValidation = (
 	consultingType: number = getConsultingTypeFromRegistration()
-) => {
+): Boolean => {
 	const typesUsingLongPostcodeValidation = ['11', '12', '17'];
 	return typesUsingLongPostcodeValidation.includes(consultingType.toString());
 };
 
 export const hasPreselectedAgencyFallback = (
 	consultingType: number = getConsultingTypeFromRegistration()
-) => {
+): Boolean => {
 	const typesWithPreselectedAgencyFallback = ['13', '15'];
 	return typesWithPreselectedAgencyFallback.includes(
 		consultingType.toString()
