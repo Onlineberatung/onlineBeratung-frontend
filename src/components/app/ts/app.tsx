@@ -3,7 +3,6 @@ import * as ReactDOM from 'react-dom';
 import { useContext, useState } from 'react';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { logout } from '../../logout/ts/logout';
 import { AppRouter } from './AppRouter';
 import { config } from '../../../resources/ts/config';
 import {
@@ -43,17 +42,13 @@ export const App = (props) => {
 	const [appReady, setAppReady] = useState(false);
 	const [userDataRequested, setUserDataRequested] = useState(false);
 
-	const handleLogout = () => {
-		logout();
-	};
-
 	const renderCondition = () => {
 		if (
 			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) ||
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
 		) {
-			return <AppRouter handleLogout={handleLogout} />;
+			return <AppRouter />;
 		}
 		window.location.href = config.endpoints.logoutRedirect;
 		return null;

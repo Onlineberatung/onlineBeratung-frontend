@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Route, Link } from 'react-router-dom';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
@@ -23,10 +23,31 @@ import { initNavigationHandler } from './navigationHandler';
 import { SessionsListWrapper } from '../../sessionsList/ts/SessionsListWrapper';
 import { config } from '../../../resources/ts/config';
 import { getTokenFromCookie } from '../../sessionCookie/ts/accessSessionCookie';
+import { logout } from '../../logout/ts/logout';
 
-export const AppRouter = (props) => {
+const socket = new SockJS(config.endpoints.liveservice);
+const stompClient = Stomp.over(socket);
+// implement for release to deactivate stomp logging
+// stompClient.debug = null;
+
+const STOMP_EVENT_TYPES = {
+	DIRECT_MESSAGE: 'directMessage'
+};
+
+export const AppRouter = () => {
 	const { userData } = useContext(UserDataContext);
 	const { unreadSessionsStatus } = useContext(UnreadSessionsStatusContext);
+	const [newDirectMessage, setNewDirectMessage] = useState(false);
+
+	const handleLogout = () => {
+		if (stompClient) {
+			stompClient.disconnect(() => {
+				logout();
+			});
+		} else {
+			logout();
+		}
+	};
 
 	let routerConfig = RouterConfigUser();
 	if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
@@ -56,28 +77,35 @@ export const AppRouter = (props) => {
 					: 'user/view')
 		);
 		initNavigationHandler();
-
 		initLiveServiceSocket();
 	}, []);
 
-	const initLiveServiceSocket = () => {
-		const socket = new SockJS(config.endpoints.liveservice);
-		const stompClient = Stomp.over(socket);
-		// implement for release to deactivate stomp logging
-		// stompClient.debug = null;
+	useEffect(() => {
+		if (newDirectMessage) {
+			console.log('Hey Client, eine neue DIRECT MESSAGE ist vorhanden!');
+		}
+	}, [newDirectMessage]);
 
+	const initLiveServiceSocket = () => {
 		stompClient.connect(
 			{
 				accessToken: getTokenFromCookie('keycloak')
 			},
 			(frame) => {
 				console.log('Connected: ' + frame);
-				stompClient.subscribe('/events', function (message) {
-					console.log(JSON.parse(message.body));
+				stompClient.subscribe('/user/events', function (message) {
+					const stompMessageBody = JSON.parse(message.body);
+					const stompEventType = stompMessageBody['eventType'];
+					if (stompEventType === STOMP_EVENT_TYPES.DIRECT_MESSAGE) {
+						setNewDirectMessage(true);
+					}
 				});
 			}
 		);
-		stompClient.onWebSocketClose = (error) => {
+		stompClient.onWebSocketClose = (message) => {
+			console.log('Closed', message);
+		};
+		stompClient.onWebSocketError = (error) => {
 			console.log('Error', error);
 		};
 	};
@@ -212,7 +240,7 @@ export const AppRouter = (props) => {
 				))}
 
 				<div
-					onClick={props.handleLogout}
+					onClick={handleLogout}
 					className={
 						!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
 							? 'navigation__item navigation__item__logout navigation__item__logout--consultant'
