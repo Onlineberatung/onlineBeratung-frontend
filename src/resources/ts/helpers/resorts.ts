@@ -1,23 +1,16 @@
 import { config } from '../config';
 
-export const getConsultingTypeFromRegistration = () =>
-	document.getElementById('registrationForm')
-		? parseInt(
-				document.getElementById('registrationForm').dataset
-					.consultingtype
-		  )
+export const getConsultingTypeFromRegistration = () => {
+	const registrationRoot = document.getElementById('registrationRoot');
+	return registrationRoot
+		? parseInt(registrationRoot.dataset.consultingtype)
 		: null;
+};
 
-export const isU25Registration = () =>
+export const isU25Registration = (): Boolean =>
 	getConsultingTypeFromRegistration() === 1;
-export const isOffenderRegistration = () =>
-	getConsultingTypeFromRegistration() === 11;
-export const isRehabilitationRegistration = () =>
-	getConsultingTypeFromRegistration() === 13;
-export const isKreuzbundRegistration = () =>
-	getConsultingTypeFromRegistration() === 15;
 
-export const isGenericConsultingType = (currentType: number) => {
+export const isGenericConsultingType = (currentType: number): Boolean => {
 	const genericTypes = [
 		2,
 		3,
@@ -43,9 +36,18 @@ export const isGenericConsultingType = (currentType: number) => {
 
 export const hasConsultingTypeLongPostcodeValidation = (
 	consultingType: number = getConsultingTypeFromRegistration()
-) => {
-	const typesUsingLongPostcodeValidation = ['12', '17'];
+): Boolean => {
+	const typesUsingLongPostcodeValidation = ['11', '12', '17'];
 	return typesUsingLongPostcodeValidation.includes(consultingType.toString());
+};
+
+export const hasPreselectedAgencyFallback = (
+	consultingType: number = getConsultingTypeFromRegistration()
+): Boolean => {
+	const typesWithPreselectedAgencyFallback = ['13', '15'];
+	return typesWithPreselectedAgencyFallback.includes(
+		consultingType.toString()
+	);
 };
 
 export const getResortKeyForConsultingType = (currentType: number) => {
@@ -82,7 +84,6 @@ export const POSTCODE_FALLBACK_LINK = {
 };
 
 export const AGENCY_FALLBACK_LINK = {
-	11: config.endpoints.registrationOffenderRedirect,
 	13: config.endpoints.registrationRehabilitationRedirect,
 	15: config.endpoints.registrationKreuzbundRedirect
 };

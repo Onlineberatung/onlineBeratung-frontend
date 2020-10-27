@@ -5,6 +5,7 @@ import { ButtonItem, Button } from '../../button/ts/Button';
 export const OVERLAY_FUNCTIONS = {
 	CLOSE: 'CLOSE',
 	REDIRECT: 'REDIRECT',
+	REDIRECT_WITH_BLUR: 'REDIRECT_WITH_BLUR',
 	LOGOUT: 'LOGOUT',
 	DEACTIVATE_ABSENCE: 'DEACTIVATE_ABSENCE',
 	COPY_LINK: 'COPY_LINK',
@@ -54,6 +55,7 @@ export class Overlay extends React.Component<{
 	};
 
 	handleButtonClick(buttonFunction: string) {
+		const overlay = document.getElementById('overlay');
 		this.props.handleOverlay(buttonFunction);
 		if (
 			buttonFunction === OVERLAY_FUNCTIONS.CLOSE ||
@@ -93,7 +95,10 @@ export class Overlay extends React.Component<{
 						OVERLAY_FUNCTIONS.DEACTIVATE_ABSENCE ? (
 						<h1 className="overlay__headline">{item.headline}</h1>
 					) : item.headline ? (
-						<h3 className="overlay__headline">{item.headline}</h3>
+						<h3
+							className="overlay__headline"
+							dangerouslySetInnerHTML={{ __html: item.headline }}
+						></h3>
 					) : (
 						``
 					)}
