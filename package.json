@@ -7,8 +7,9 @@
         "url": "https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend.git"
     },
     "scripts": {
-        "start": "cross-env NODE_ENV=development RELEASE_VERSION=$npm_package_version gulp serve",
-        "build": "cross-env NODE_ENV=production RELEASE_VERSION=$npm_package_version gulp build && gulp add-versioning",
+        "start": "cross-env NODE_ENV=development RELEASE_VERSION=$npm_package_version npm run gulp -- serve",
+        "build": "cross-env NODE_ENV=production RELEASE_VERSION=$npm_package_version npm run gulp -- build && gulp add-versioning",
+        "gulp": "node --max-old-space-size=8192 ./node_modules/.bin/gulp",
         "release": "standard-version",
         "mk": "node masterkey.js",
         "version": "echo $npm_package_version"
@@ -79,6 +80,7 @@
         "eslint-plugin-react": "^7.19.0",
         "gulp": "3.9.1",
         "gulp-string-replace": "^1.1.2",
+        "html-webpack-plugin": "^4.5.0",
         "husky": "^4.2.5",
         "lint-staged": "^10.2.2",
         "mocha": "5.0.1",

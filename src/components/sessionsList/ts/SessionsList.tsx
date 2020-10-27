@@ -35,8 +35,8 @@ import {
 	SelectDropdown
 } from '../../select/ts/SelectDropdown';
 import { FilterStatusContext } from '../../../globalState/provider/FilterStatusProvider';
-import { SessionListItemComponent } from '../../sessionsListItem/ts/SessionListItemComponent';
-import { SessionsListSkeleton } from '../../sessionsListItem/ts/SessionsListItemSkeleton';
+import { SessionListItemComponent } from '../../sessionsListItem/SessionListItemComponent';
+import { SessionsListSkeleton } from '../../sessionsListItem/SessionsListItemSkeleton';
 import {
 	INITIAL_FILTER,
 	SESSION_COUNT,

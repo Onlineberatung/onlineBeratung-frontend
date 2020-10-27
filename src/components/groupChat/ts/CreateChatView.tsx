@@ -160,7 +160,7 @@ export const CreateGroupChatView = (props) => {
 		class: 'creatChat__name__input',
 		id: 'chatTopic',
 		type: 'text',
-		labelTranslatable: chatTopicLabel,
+		label: translate(chatTopicLabel),
 		content: selectedChatTopic
 	};
 

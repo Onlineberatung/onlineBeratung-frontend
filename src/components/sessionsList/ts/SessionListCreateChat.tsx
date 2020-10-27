@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 
-declare var RESOURCE_URL: string;
-
 export const SessionListCreateChat = () => {
 	return (
 		<div className="sessionsListItem sessionsListItem--active createChatItem">
@@ -13,10 +11,7 @@ export const SessionListCreateChat = () => {
 				<div className="sessionsListItem__row">
 					<img
 						className="sessionsListItem__icon"
-						src={
-							RESOURCE_URL +
-							'resources/img/icons/speech-bubble.svg'
-						}
+						src="/resources/img/icons/speech-bubble.svg"
 					/>
 					<div className="sessionsListItem__username">
 						{translate('groupChat.create.listItem.label')}

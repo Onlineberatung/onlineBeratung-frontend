@@ -1,0 +1,124 @@
+.registration {
+	text-align: center;
+	margin: $grid-base-eleven 0;
+
+	&__overline {
+		color: $secondary;
+		text-align: center;
+		font-weight: normal;
+		margin: 0;
+		font-size: $font-size-primary;
+	}
+
+	&__form {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		min-height: 100vh;
+		width: unset;
+		left: unset;
+		padding: 0 $grid-base-two;
+
+		@include breakpoint($fromMedium) {
+			padding: 0 $grid-base-five;
+		}
+
+		@include breakpoint($fromLarge) {
+			width: 60vw;
+			left: 40vw;
+		}
+	}
+
+	&__agencyInfo {
+		margin: -$grid-base-two 0 $grid-base-five $grid-base-seven;
+
+		.formWrapper__infoText {
+			margin-left: 0;
+		}
+	}
+
+	&__generalInformation {
+		margin-bottom: $grid-base-four;
+	}
+
+	&__footer {
+		.button__wrapper,
+		.checkbox__wrapper {
+			margin-top: $grid-base-five;
+		}
+
+		.checkbox__wrapper {
+			text-align: left;
+		}
+	}
+
+	&__requiredInfoText {
+		margin: 0;
+		max-width: none;
+		text-align: unset;
+	}
+
+	&__toLogin {
+		position: absolute;
+		top: 22px;
+		right: 16px;
+		margin-top: 0;
+
+		@include breakpoint($fromMedium) {
+			right: 25px;
+		}
+
+		&__text {
+			font-size: $font-size-secondary;
+			color: $tertiary;
+			display: none;
+			@media screen and (min-width: 768px) and (max-width: 900px) {
+				display: inline-block;
+			}
+			@media screen and (min-width: 1200px) {
+				display: inline-block;
+			}
+		}
+
+		&__button {
+			display: inline-block;
+			margin-top: 0;
+			margin-left: $grid-base/2;
+		}
+	}
+
+	&__contentRow {
+		margin-bottom: $grid-base-five;
+		max-width: 690px;
+	}
+
+	h3 {
+		color: $secondary;
+		text-align: center;
+		font-size: $font-size-primary;
+		font-weight: $font-weight-regular;
+		margin: 0 0 $grid-base 0;
+	}
+
+	.select__wrapper {
+		padding: 0 0 0 $grid-base-four;
+	}
+
+	.formWrapper__infoText {
+		&__text {
+			&--tertiary {
+				color: $tertiary;
+
+				.suggestionWrapper__item__content__teamAgency__icon svg {
+					margin-top: 0 !important;
+
+					&* {
+						fill: $tertiary;
+					}
+				}
+			}
+		}
+	}
+}

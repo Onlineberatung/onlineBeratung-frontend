@@ -59,19 +59,44 @@ $iconSize: 24px;
 				border: 1px solid $form-disabled !important;
 			}
 		}
+
+		&--invalid {
+			border: 2px solid $form-error !important;
+			color: $form-error !important;
+
+			& + label {
+				color: $form-error;
+			}
+		}
+
+		&--valid {
+			border: 2px solid $form-success !important;
+			color: $form-success !important;
+
+			& + label {
+				color: $form-success;
+			}
+		}
+
+		&--error {
+			border-color: $form-error !important;
+			color: $form-error;
+			border-width: 2px;
+
+			&.inputField__input--valid {
+				border-color: $form-error !important;
+				color: $form-error !important;
+
+				& + label {
+					color: $form-primary;
+				}
+			}
+		}
 	}
 
 	&__icon {
 		width: $iconSize;
 		height: $iconSize;
 		display: inline-block;
-	}
-}
-
-.formWrapper {
-	.inputField__input--error {
-		border-color: $form-error !important;
-		color: $form-error;
-		border-width: 2px;
 	}
 }

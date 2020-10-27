@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { getSessionsListItemDate } from '../../sessionsListItem/ts/sessionsListItemHelpers';
+import { getPrettyDateFromMessageDate } from '../../../resources/ts/helpers/dateHelpers';
 import {
 	UserDataContext,
 	ActiveSessionGroupIdContext,
@@ -74,7 +74,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 			return (
 				<div className="messageItem__date">
 					{typeof props.messageDate === 'number'
-						? getSessionsListItemDate(props.messageDate)
+						? getPrettyDateFromMessageDate(props.messageDate)
 						: props.messageDate}
 				</div>
 			);

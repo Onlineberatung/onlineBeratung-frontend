@@ -40,8 +40,7 @@ const colourStyles = {
 				transition: 'font-size .5s, top .5s',
 				color: '#8C878C',
 				position: 'absolute',
-				marginLeft: '3px',
-				zIndex: 10
+				marginLeft: '3px'
 			}
 		};
 	},

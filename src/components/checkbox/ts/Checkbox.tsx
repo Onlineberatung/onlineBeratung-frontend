@@ -24,9 +24,10 @@ export const Checkbox = (props) => {
 				id={checkboxItem.labelId}
 				className="checkbox__label"
 				htmlFor={checkboxItem.inputId}
-			>
-				{checkboxItem.label}
-			</label>
+				dangerouslySetInnerHTML={{
+					__html: checkboxItem.label
+				}}
+			></label>
 		</div>
 	);
 };
