@@ -36,7 +36,7 @@ import {
 } from './prefillPostcode';
 import { getUrlParameter } from '../../../resources/ts/helpers/getUrlParameter';
 import {
-	AGENCY_FALLBACK_LINK,
+	PRESELECTED_AGENCY_FALLBACK_LINKS,
 	getConsultingTypeFromRegistration,
 	hasPreselectedAgencyFallback,
 	isU25Registration
@@ -133,7 +133,8 @@ const Registration = () => {
 					const fallbackAid = response[0].id;
 					if (!agencyId || parseInt(agencyId) != fallbackAid) {
 						window.location.href =
-							AGENCY_FALLBACK_LINK[consultingType] + fallbackAid;
+							PRESELECTED_AGENCY_FALLBACK_LINKS[consultingType] +
+							fallbackAid;
 					}
 				})
 				.catch((error) => {
