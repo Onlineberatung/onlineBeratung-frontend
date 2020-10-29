@@ -27,14 +27,22 @@ export const autoLogin = (
 		encodeURIComponent(password)
 	)
 		.then((response) => {
-			setTokenInCookie('keycloak', response.access_token);
-			setTokenInCookie('refreshToken', response.refresh_token);
+			if (response.access_token) {
+				setTokenInCookie('keycloak', response.access_token);
+			}
+			if (response.refresh_token) {
+				setTokenInCookie('refreshToken', response.refresh_token);
+			}
 
 			getRocketchatAccessToken(userHash, password)
 				.then((response) => {
 					const data = response.data;
-					setTokenInCookie('rc_token', data.authToken);
-					setTokenInCookie('rc_uid', data.userId);
+					if (data.authToken) {
+						setTokenInCookie('rc_token', data.authToken);
+					}
+					if (data.userId) {
+						setTokenInCookie('rc_uid', data.userId);
+					}
 
 					//generate new csrf token for current session
 					generateCsrfToken(true);
@@ -43,20 +51,28 @@ export const autoLogin = (
 					}
 					// redirect ? redirectToApp() : null;
 				})
-				.catch(() => {
-					handleLoginError();
+				.catch((error) => {
+					if (handleLoginError) {
+						handleLoginError();
+					} else {
+						console.error(error);
+					}
 				});
 		})
 		.catch((error) => {
-			useOldUser
-				? handleLoginError()
-				: autoLogin(
-						username,
-						password,
-						redirect,
-						handleLoginError,
-						true
-				  );
+			if (useOldUser) {
+				handleLoginError 
+					? handleLoginError() 
+					: console.error(error);
+			} else {
+				autoLogin(
+					username,
+					password,
+					redirect,
+					handleLoginError,
+					true
+				);
+			}
 		});
 };
 

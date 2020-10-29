@@ -25,10 +25,13 @@ export interface OverlayItem {
 
 export class OverlayWrapper extends React.Component<any> {
 	render() {
-		return ReactDOM.createPortal(
-			this.props.children,
-			document.getElementById('overlay')
-		);
+		const overlay = document.getElementById('overlay');
+		if (overlay) {
+			return ReactDOM.createPortal(
+				this.props.children,
+				overlay
+			);
+		}
 	}
 }
 
@@ -46,16 +49,15 @@ export class Overlay extends React.Component<{
 	}
 
 	addOverlayClasses = () => {
-		document.querySelector('.app').classList.add('app--blur');
-		document.querySelector('.overlay').classList.add('overlay--flex');
+		document.querySelector('.app')?.classList.add('app--blur');
+		document.querySelector('.overlay')?.classList.add('overlay--flex');
 	};
 
 	removeOverlayClasses = () => {
-		document.querySelector('.app').classList.remove('app--blur');
+		document.querySelector('.app')?.classList.remove('app--blur');
 	};
 
 	handleButtonClick(buttonFunction: string) {
-		const overlay = document.getElementById('overlay');
 		this.props.handleOverlay(buttonFunction);
 		if (
 			buttonFunction === OVERLAY_FUNCTIONS.CLOSE ||
@@ -84,7 +86,7 @@ export class Overlay extends React.Component<{
 								</defs>
 								<use xlinkHref="#dot-a" />
 							</svg>
-							<img className="overlay__icon" src={item.imgSrc} />
+							<img className="overlay__icon" src={item.imgSrc} alt="overlay icon" />
 						</div>
 					) : (
 						``

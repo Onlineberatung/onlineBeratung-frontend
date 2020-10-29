@@ -110,6 +110,7 @@ export const InputField = (props: InputFieldProps) => {
 								className="warning__link"
 								href={inputItem.postcodeFallbackLink}
 								target="_blank"
+								rel="noreferrer"
 							>
 								{translate('warningLabels.postcode.search')}
 							</a>

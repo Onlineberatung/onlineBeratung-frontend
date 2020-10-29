@@ -1,5 +1,3 @@
 import { initLogin } from './Login';
 
-{
-	initLogin();
-}
+initLogin();

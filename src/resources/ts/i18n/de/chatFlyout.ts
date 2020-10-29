@@ -1,4 +1,4 @@
-export default {
+const chatFlyout = {
 	askerProfil: 'Ratsuchendenprofil',
 	dataProtection: 'Datenschutz',
 	documentation: 'Dokumentation',
@@ -9,3 +9,5 @@ export default {
 	leaveGroupChat: 'Chat verlassen',
 	stopGroupChat: 'Chat beenden'
 };
+
+export default chatFlyout;

@@ -1,4 +1,4 @@
-export default {
+const groupChat = {
 	'active.sessionInfo.subscriber': 'Teilnehmende',
 	'cancel.button.label': 'Abbrechen',
 	'create.title': 'Neuer Chat',
@@ -86,3 +86,5 @@ export default {
 		'Ihre Änderungen wurden erfolgreich gespeichert.',
 	'updateSuccess.overlay.button1Label': 'Schliessen'
 };
+
+export default groupChat;

@@ -100,7 +100,7 @@ export const handleNumericTranslation = (
 
 export const getAddictiveDrugsString = (addictiveDrugs: string[]) => {
 	let drugString = '';
-	addictiveDrugs.map((drug, i) => {
+	addictiveDrugs.forEach((drug, i) => {
 		if (i > 0) {
 			drugString += ', ';
 		}

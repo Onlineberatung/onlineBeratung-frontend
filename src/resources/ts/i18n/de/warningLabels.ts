@@ -1,4 +1,4 @@
-export default {
+const warningLabels = {
 	'username.unavailable': 'Der Benutzername ist bereits vergeben.',
 	'username.missing': 'Bitte geben Sie einen Benutzernamen an.',
 	'username.invalid':
@@ -23,3 +23,5 @@ export default {
 		'Sie sollten in Kürze eine E-Mail mit weiteren Instruktionen erhalten.',
 	'login.reset.pw': 'Ihr Passwort wurde erfolgreich geändert.'
 };
+
+export default warningLabels;

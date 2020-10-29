@@ -31,7 +31,7 @@ export const Button = (props: ButtonProps) => {
 
 	useEffect(() => {
 		handleButtonTimer();
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleButtonTimer = () => {
 		if (item.type === BUTTON_TYPES.AUTO_CLOSE) {

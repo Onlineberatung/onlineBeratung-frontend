@@ -1,4 +1,4 @@
-export default {
+const profile = {
 	'noContent': 'Keine Angabe',
 	'header.title': 'Profil',
 	'functions.title': 'Funktionen',
@@ -47,3 +47,5 @@ export default {
 	'footer.imprint': 'Impressum',
 	'footer.dataprotection': 'Datenschutz'
 };
+
+export default profile;

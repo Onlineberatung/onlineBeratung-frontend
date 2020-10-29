@@ -1,4 +1,4 @@
-export default {
+const warningLabelsInformal = {
 	'username.unavailable': 'Der Benutzername ist bereits vergeben.',
 	'username.missing': 'Bitte gib einen Benutzernamen an.',
 	'username.invalid':
@@ -23,3 +23,5 @@ export default {
 		'Du sollten in Kürze eine E-Mail mit weiteren Instruktionen erhalten.',
 	'login.reset.pw': 'Dein Passwort wurde erfolgreich geändert.'
 };
+
+export default warningLabelsInformal;

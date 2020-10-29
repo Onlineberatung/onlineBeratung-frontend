@@ -1,4 +1,4 @@
-export default {
+const sessionList = {
 	'teamsession': 'Team Beratung',
 	'empty': 'Momentan sind keine Anfragen vorhanden.',
 	'preview.headline': 'Erstanfragen',
@@ -18,3 +18,5 @@ export default {
 	'createChat.buttonTitle': 'Chat anlegen',
 	'time.label.postfix': 'Uhr'
 };
+
+export default sessionList;

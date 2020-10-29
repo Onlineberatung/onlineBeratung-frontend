@@ -1,4 +1,4 @@
-export default {
+const attachmentsInformal = {
 	'error.format.headline': 'Deine Datei konnte nicht gesendet werden.',
 	'error.format.message':
 		'Deine Datei konnte nicht gesendet werden. Erlaubt sind Bilder (jpg und png), sowie Dokumente (docx und pdf). Bitte versuche es erneut.',
@@ -8,3 +8,5 @@ export default {
 	'list.label.received': 'Du hast eine Datei erhalten.',
 	'list.label.sent': 'Du hast eine Datei gesendet.'
 };
+
+export default attachmentsInformal;

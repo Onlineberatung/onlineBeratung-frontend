@@ -1,4 +1,4 @@
-export default {
+const login = {
 	'headline': 'Login',
 	'user.label': 'Benutzername/E-Mail',
 	'password.label': 'Passwort',
@@ -8,3 +8,5 @@ export default {
 	'register.infoText.copy': 'Wir beraten Sie gerne zu folgenden Themen:',
 	'register.linkLabel': 'Zur Übersicht'
 };
+
+export default login;

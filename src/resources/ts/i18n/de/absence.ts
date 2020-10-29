@@ -1,4 +1,4 @@
-export default {
+const absence = {
 	'overlayHeadline': 'Willkommen zurück!',
 	'overlayCopy1': 'Ihre Abwesenheitsnachricht ist momentan aktiviert.',
 	'overlayCopy2': 'Möchten Sie diese deaktivieren?',
@@ -11,3 +11,5 @@ export default {
 	'input.infoText':
 		'Ratsuchende sehen diese Abwesenheitsnachricht, können Ihnen aber weiterhin schreiben.'
 };
+
+export default absence;

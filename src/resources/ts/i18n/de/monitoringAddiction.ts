@@ -1,4 +1,4 @@
-export default {
+const monitoringAddiction = {
 	'monitoringAddiction.addictiveDrugs': 'Suchtmittel',
 	'monitoringAddiction.alcohol': 'Alkohol',
 	'monitoringAddiction.drugs': 'Drogen',
@@ -39,3 +39,5 @@ export default {
 	'monitoringAddiction.selfHelp': 'Selbsthilfe',
 	'monitoringAddiction.generalConsulting': 'Allgemeine Sozialberatung'
 };
+
+export default monitoringAddiction;

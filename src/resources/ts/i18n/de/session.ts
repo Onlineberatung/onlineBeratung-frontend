@@ -1,4 +1,4 @@
-export default {
+const session = {
 	'acceptance.overlayHeadline':
 		'Sie haben die Erstanfrage erfolgreich angenommen und finden diese nun unter „Meine Nachrichten“.',
 	'acceptance.buttonLabel': 'Antworten',
@@ -20,3 +20,5 @@ export default {
 	'teamConsultant.isAbsent': 'abwesend',
 	'u25.assignment.placeholder': 'Beratung zuweisen'
 };
+
+export default session;

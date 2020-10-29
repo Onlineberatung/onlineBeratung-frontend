@@ -1,4 +1,4 @@
-export default {
+const message = {
 	'today': 'Heute',
 	'isMyMessage.name': 'Ich',
 	'yesterday': 'Gestern',
@@ -9,3 +9,5 @@ export default {
 	'copy.title': 'Nachricht in Zwischenablage kopieren',
 	'write.peer.checkbox.label': 'Feedback anfordern'
 };
+
+export default message;

@@ -1,4 +1,4 @@
-export default {
+const userAddiction = {
 	'userAddiction.relation.0': 'Betroffen',
 	'userAddiction.relation.1': 'Angehörig',
 	'userAddiction.relation.2': 'Anderes',
@@ -21,3 +21,5 @@ export default {
 	'userAddiction.addictiveDrugs.7': 'Essstörungen',
 	'userAddiction.addictiveDrugs.8': 'Andere'
 };
+
+export default userAddiction;

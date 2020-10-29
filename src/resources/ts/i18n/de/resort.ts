@@ -1,4 +1,4 @@
-export default {
+const resort = {
 	'addiction': 'Suchtberatung',
 	'addiction.alt': 'Sucht',
 	'u25': '[U25]',
@@ -41,3 +41,5 @@ export default {
 	'regional.alt': 'Regionale Angebote',
 	'default': 'Beratung & Hilfe'
 };
+
+export default resort;

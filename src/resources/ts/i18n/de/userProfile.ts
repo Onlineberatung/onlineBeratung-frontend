@@ -1,4 +1,4 @@
-export default {
+const userProfile = {
 	'data.title': 'Angaben des Ratsuchenden',
 	'data.resort': 'Fachbereich',
 	'data.postcode': 'Postleitzahl',
@@ -11,3 +11,5 @@ export default {
 	'reassign.title': 'Zuordnung',
 	'monitoring.buttonLabel': 'Jetzt dokumentieren'
 };
+
+export default userProfile;

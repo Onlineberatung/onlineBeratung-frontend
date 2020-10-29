@@ -1,4 +1,4 @@
-export default {
+const navigation = {
 	'asker.sessions': 'Meine Nachrichten',
 	'asker.sessions.small': 'Nachrichten',
 	'consultant.enquiries': 'Erstanfragen',
@@ -10,3 +10,5 @@ export default {
 	'consultant.peersessions.small': 'Peer Ber.',
 	'profile': 'Profil'
 };
+
+export default navigation;

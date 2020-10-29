@@ -20,10 +20,10 @@ const loginButton: ButtonItem = {
 };
 
 const Login = () => {
-	const [username, setUsername] = useState(null);
-	const [password, setPassword] = useState(null);
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState(
-		username && password
+		username.length > 0 && password.length > 0
 	);
 	const [showLoginError, setShowLoginError] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
@@ -113,6 +113,7 @@ const Login = () => {
 				<a
 					href={config.endpoints.loginResetPasswordLink}
 					target="_blank"
+					rel="noreferrer"
 					className="loginForm__passwordReset"
 				>
 					{translate('login.resetPasswort.label')}

@@ -1,4 +1,4 @@
-export default {
+const absenceInformal = {
 	'overlayCopy1': 'Deine Abwesenheitsnachricht ist momentan aktiviert.',
 	'overlayCopy2': 'Möchtest Du diese deaktivieren?',
 	'changeSuccess.overlay.headline':
@@ -6,3 +6,5 @@ export default {
 	'input.infoText':
 		'Ratsuchende sehen diese Abwesenheitsnachricht, können Dir aber weiterhin schreiben.'
 };
+
+export default absenceInformal;

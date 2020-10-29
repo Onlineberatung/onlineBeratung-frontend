@@ -1,4 +1,4 @@
-export default {
+const enquiry = {
 	'acceptButton': 'Anfrage annehmen',
 	'write.input.placeholder': 'Schreiben Sie uns, was Sie bewegt.',
 	'write.input.placeholder.consultant': 'Nachricht an Klient_in schreiben',
@@ -23,3 +23,5 @@ export default {
 	'write.overlayButton1.label': 'Zur Übersicht',
 	'write.overlayButton2.label': 'Abmelden'
 };
+
+export default enquiry;

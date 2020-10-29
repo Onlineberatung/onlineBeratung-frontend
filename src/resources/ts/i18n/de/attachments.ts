@@ -1,4 +1,4 @@
-export default {
+const attachments = {
 	'error.format.headline': 'Ihre Datei konnte nicht gesendet werden.',
 	'error.format.message':
 		'Ihre Datei konnte nicht gesendet werden. Erlaubt sind Bilder (jpg und png), sowie Dokumente (docx und pdf). Bitte versuchen Sie es erneut.',
@@ -16,3 +16,5 @@ export default {
 	'type.label.mb': 'MB',
 	'download.label': 'Herunterladen'
 };
+
+export default attachments;

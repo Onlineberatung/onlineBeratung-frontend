@@ -1,4 +1,4 @@
-export default {
+const groupChatInformal = {
 	'createSuccess.overlayHeadline': 'Du hast erfolgreich einen Chat angelegt.',
 	'createError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.',
@@ -10,3 +10,5 @@ export default {
 	'updateSuccess.overlayHeadline':
 		'Deine Änderungen wurden erfolgreich gespeichert.'
 };
+
+export default groupChatInformal;

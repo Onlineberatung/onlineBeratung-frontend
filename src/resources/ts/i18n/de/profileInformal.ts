@@ -1,4 +1,4 @@
-export default {
+const profileInformal = {
 	'functions.absenceLabel': 'Hinterlege eine Abwesenheitsnachricht',
 	'functions.passwordResetSubtitle':
 		'Nach erfolgreicher Änderung des Passwortes wirst Du automatisch ausgeloggt und zum Login weitergeleitet.',
@@ -20,3 +20,5 @@ export default {
 	'data.registerError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.'
 };
+
+export default profileInformal;

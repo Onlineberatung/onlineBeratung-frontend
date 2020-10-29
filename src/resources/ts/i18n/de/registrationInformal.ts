@@ -1,4 +1,4 @@
-export default {
+const registrationInformal = {
 	'agency.prefilled.prefix': 'Deine vorausgewählte Beratungsstelle: ',
 	'agency.prefilled.isTeam': 'Du wirst von einem Team beraten.',
 	'user.infoText':
@@ -19,3 +19,5 @@ export default {
 	'email.invalid': 'Deine E-Mail-Adresse ist nicht gültig.',
 	'overlay.success.copy': 'Du hast dich erfolgreich registriert.'
 };
+
+export default registrationInformal;

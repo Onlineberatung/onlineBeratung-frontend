@@ -1,4 +1,4 @@
-export default {
+const monitoringU25 = {
 	'monitoringU25.generalData': 'Rahmendaten',
 	'monitoringU25.location': 'Wohnort',
 	'monitoringU25.freiburg': 'Freiburg',
@@ -112,3 +112,5 @@ export default {
 	'monitoringU25.nine': '9',
 	'monitoringU25.ten': '10 – sehr hilfreich'
 };
+
+export default monitoringU25;

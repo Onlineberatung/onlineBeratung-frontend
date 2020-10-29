@@ -1,4 +1,4 @@
-export default {
+const enquiryInformal = {
 	'write.input.placeholder': 'Schreibe uns, was Dich bewegt.',
 	'write.infotext.headline': 'Hier ist Platz für Deine Anliegen.',
 	'write.infotext.copy':
@@ -12,3 +12,5 @@ export default {
 	'write.overlayCopy':
 		'Innerhalb von zwei Werktagen erhältst Du eine Antwort von uns.'
 };
+
+export default enquiryInformal;

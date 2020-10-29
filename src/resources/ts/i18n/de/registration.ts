@@ -1,4 +1,4 @@
-export default {
+const registration = {
 	'headline': 'Registrierung',
 	'voluntary.headline': 'Freiwillige Angaben',
 	'voluntary.subline':
@@ -38,3 +38,5 @@ export default {
 	'overlay.success.copy': 'Sie haben sich erfolgreich registriert.',
 	'overlay.success.button': 'Nachricht verfassen'
 };
+
+export default registration;

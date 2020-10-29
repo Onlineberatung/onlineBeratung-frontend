@@ -1,4 +1,4 @@
-export default {
+const userU25 = {
 	'userU25.age.0': 'unter 12',
 	'userU25.age.1': '12',
 	'userU25.age.2': '13',
@@ -43,3 +43,5 @@ export default {
 	'userU25.gender.1': 'Männlich',
 	'userU25.gender.2': 'Divers'
 };
+
+export default userU25;
