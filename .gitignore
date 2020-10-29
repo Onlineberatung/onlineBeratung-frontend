@@ -1,20 +1,23 @@
-/*.iml
-/.idea
-/.tmp
-/.dev
-/.iconfont
-/__\[gruntbuild\]
-/__\[viftf\]
-/_assets
-app/resources/bower_components
-/bower_components
-/dist
-/nbproject
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
 /node_modules
-/npm-debug.log
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
 .DS_Store
-/typings
-yarn-error.log
-settings.json
-.env
-/.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

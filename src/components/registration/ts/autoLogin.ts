@@ -38,7 +38,10 @@ export const autoLogin = (
 
 					//generate new csrf token for current session
 					generateCsrfToken(true);
-					redirect ? redirectToApp() : null;
+					if (redirect) {
+						redirectToApp();
+					}
+					// redirect ? redirectToApp() : null;
 				})
 				.catch(() => {
 					handleLoginError();
