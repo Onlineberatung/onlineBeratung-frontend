@@ -124,7 +124,7 @@ export const AbsenceFormular = (props) => {
 		class: 'absence__fieldGroup__input',
 		id: 'absence',
 		type: 'text',
-		labelTranslatable: 'profile.functions.absenceLabel',
+		label: translate('profile.functions.absenceLabel'),
 		infoText: translate('absence.input.infoText'),
 		content: currentAbsenceMessage
 	};

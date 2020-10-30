@@ -51,14 +51,13 @@
 @import '../../components/passwordField/scss/passwordFields.styles';
 @import '../../components/profile/scss/profile.styles';
 @import '../../components/radioButton/scss/radioButton.styles';
-@import '../../components/radioButtonCollection/scss/radioButtonCollection.styles';
-@import '../../components/registrationFormular/scss/registrationFormular.styles';
+@import '../../components/registration/scss/registration.styles';
 @import '../../components/session/scss/session.styles';
 @import '../../components/session/scss/session.yellowTheme.styles';
 @import '../../components/sessionsList/scss/sessionsList.styles';
-@import '../../components/sessionsListItem/scss/sessionsListItem.styles';
+@import '../../components/sessionsListItem/sessionsListItem.styles';
 @import '../../components/typingIndicator/scss/typingIndicator.styles';
-@import '../../components/postcodeSuggestion/scss/postcodeSuggestion.styles';
+@import '../../components/agencySelection/scss/agencySelection.styles';
 @import '../../components/login/scss/login.styles';
 @import '../../components/sessionHeader/scss/sessionHeader.styles';
 @import '../../components/sessionHeader/scss/sessionHeader.yellowTheme.styles';
@@ -68,3 +67,4 @@
 @import '../../components/messageSubmitInterface/scss/messageSubmitInterface.yellowTheme.styles';
 @import '../../components/messageSubmitInterface/scss/emojiPicker.styles';
 @import '../../components/passwordReset/scss/passwordReset.styles';
+@import '../../components/tagSelect/scss/tagSelect.styles';

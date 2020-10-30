@@ -6,9 +6,9 @@ import { translate } from '../../../resources/ts/i18n/translate';
 import * as React from 'react';
 import { useContext } from 'react';
 import {
-	getSessionsListItemDate,
-	getSessionListTime
-} from '../../sessionsListItem/ts/sessionsListItemHelpers';
+	getPrettyDateFromMessageDate,
+	formatToHHMM
+} from '../../../resources/ts/helpers/dateHelpers';
 import {
 	SessionsDataContext,
 	ActiveSessionGroupIdContext,
@@ -33,13 +33,13 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 	const chatItem = getChatItemForSession(activeSession);
 
 	const forwardedLabel = () => {
-		const date = getSessionsListItemDate(
+		const date = getPrettyDateFromMessageDate(
 			Math.round(props.alias.timestamp / 1000)
 		);
 		return translate('message.forwardedLabel')(
 			props.alias.username,
 			date,
-			getSessionListTime(props.alias.timestamp)
+			formatToHHMM(props.alias.timestamp)
 		);
 	};
 

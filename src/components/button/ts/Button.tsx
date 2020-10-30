@@ -6,6 +6,7 @@ export const BUTTON_TYPES = {
 	PRIMARY: 'PRIMARY',
 	GHOST: 'GHOST',
 	LINK: 'LINK',
+	TERTIARY: 'TERTIARY',
 	AUTO_CLOSE: 'AUTO_CLOSE'
 };
 
@@ -48,6 +49,9 @@ export const Button = (props: ButtonProps) => {
 				break;
 			case BUTTON_TYPES.GHOST:
 				className = 'button__ghost';
+				break;
+			case BUTTON_TYPES.TERTIARY:
+				className = 'button__tertiary';
 				break;
 			case BUTTON_TYPES.LINK:
 				className = 'button__link';

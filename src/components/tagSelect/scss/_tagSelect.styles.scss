@@ -1,0 +1,52 @@
+.tagSelect {
+	display: inline-flex;
+	align-items: center;
+
+	&:not(:last-child) {
+		margin: 0 $grid-base $grid-base 0;
+	}
+
+	&__input {
+		appearance: none;
+		display: none;
+		transition: all ease 0.5s;
+
+		&:hover + .tagSelect__label {
+			color: $primary;
+			background-color: #f8dedd;
+		}
+		@media (pointer: coarse) {
+			&:hover + .tagSelect__label {
+				color: $secondary;
+				background: $dark-grey;
+			}
+		}
+
+		&:checked + .tagSelect__label {
+			color: $primary;
+			background-color: $hover-select;
+		}
+	}
+
+	&__label {
+		background: $dark-grey;
+		border-radius: $grid-base-four / 2;
+		text-align: center;
+		cursor: pointer;
+		padding: 0 $grid-base-two;
+		color: $secondary;
+		height: $grid-base-four;
+		line-height: $grid-base-four;
+		font-size: $font-size-tertiary;
+		transition: all ease 0.5s;
+
+		&:hover {
+			color: $primary;
+			background-color: $hover-select;
+		}
+
+		@include breakpoint($fromSmall) {
+			font-size: $font-size-primary;
+		}
+	}
+}

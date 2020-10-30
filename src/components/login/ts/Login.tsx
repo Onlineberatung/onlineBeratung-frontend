@@ -6,7 +6,7 @@ import { InputField, InputFieldItem } from '../../inputField/ts/InputField';
 import { useState, useEffect } from 'react';
 import { config } from '../../../resources/ts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../../button/ts/Button';
-import { autoLogin } from '../../registrationFormular/ts/autoLogin';
+import { autoLogin } from '../../registration/ts/autoLogin';
 import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 
@@ -42,7 +42,7 @@ const Login = () => {
 		class: 'login',
 		id: 'username',
 		type: 'text',
-		labelTranslatable: 'login.user.label',
+		label: translate('login.user.label'),
 		content: username,
 		icon: <SVG name={ICON_KEYS.PERSON} />
 	};
@@ -52,7 +52,7 @@ const Login = () => {
 		class: 'passwordFields__fieldGroup__input',
 		id: 'passwordInput',
 		type: 'password',
-		labelTranslatable: 'login.password.label',
+		label: translate('login.password.label'),
 		content: password,
 		icon: <SVG name={ICON_KEYS.LOCK} />
 	};
