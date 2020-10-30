@@ -28,7 +28,7 @@ export const config = {
 		sendMessageToFeedback: tld + '/service/messages/feedback/new',
 		forwardMessage: tld + '/service/messages/forward',
 		messageRead: tld + '/api/v1/subscriptions.read',
-		redirectToApp: tld + endpointPort + `/beratung-hilfe.html`,
+		redirectToApp: tld + endpointPort + `/beratung-hilfe.html?5.9.0`,
 		rocketchatAccessToken: tld + '/api/v1/login',
 		rocketchatLogout: tld + '/api/v1/logout',
 		sessions: tld + '/service/users/sessions/consultants?status=2',
