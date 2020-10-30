@@ -9,6 +9,7 @@ import { ButtonItem, Button, BUTTON_TYPES } from '../../button/ts/Button';
 import { autoLogin } from '../../registration/ts/autoLogin';
 import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
+import '../scss/login.styles';
 
 export const initLogin = () => {
 	ReactDOM.render(<Login />, document.getElementById('loginRoot'));
