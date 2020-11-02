@@ -148,8 +148,8 @@ module.exports = function (webpackEnv) {
           loader: require.resolve(preProcessor),
 		  options: 
 		  {
-			sassOptions: {includePaths: ['./src/resources/styles/vars.scss']},
-			prependData: `@import "${path.resolve(`${__dirname}/../`, 'src/resources/styles/vars.scss')}";`,
+			sassOptions: {includePaths: ['./src/resources/styles/settings.scss']},
+			prependData: `@import "${path.resolve(`${__dirname}/../`, 'src/resources/styles/settings.scss')}";`,
             sourceMap: true,
           },
         }

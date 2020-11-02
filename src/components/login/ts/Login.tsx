@@ -10,6 +10,7 @@ import { autoLogin } from '../../registration/ts/autoLogin';
 import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 import '../scss/login.styles';
+import '../../../resources/styles/styles';
 
 export const initLogin = () => {
 	ReactDOM.render(<Login />, document.getElementById('loginRoot'));
