@@ -22,8 +22,7 @@ import {
 	getSessionsDataKeyForSessionType,
 	getActiveSession,
 	UnreadSessionsStatusContext,
-	getUnreadMessages,
-	getUnreadMessagesStatus,
+	getUnreadMessagesForStatus,
 	AUTHORITIES,
 	ACTIVE_SESSION,
 	hasUserAuthority,
@@ -111,7 +110,10 @@ export const SessionsList = () => {
 			sessionsData &&
 			sessionsData.mySessions
 		) {
-			const unreadSessionsCount = getUnreadMessages(sessionsData, 2);
+			const unreadSessionsCount = getUnreadMessagesForStatus(
+				sessionsData,
+				2
+			);
 			unreadSessionsCount > 0
 				? setShowNewMessageForUser(true)
 				: setShowNewMessageForUser(false);
@@ -208,15 +210,30 @@ export const SessionsList = () => {
 	useEffect(() => {
 		if (sessionsData && sessionsData.mySessions) {
 			const didReadStatusChange =
-				unreadSessionsStatus.sessions !=
-				getUnreadMessages(sessionsData, 2);
+				unreadSessionsStatus.mySessions !=
+				getUnreadMessagesForStatus(sessionsData, 2);
 			if (didReadStatusChange) {
 				setUnreadSessionsStatus({
-					sessions: getUnreadMessagesStatus(sessionsData)
+					mySessions: getUnreadMessagesForStatus(sessionsData, 2)
 				});
 			}
 		}
 	}, [sessionsData]);
+
+	useEffect(() => {
+		if (sessionsData) {
+			const didReadStatusChange = () =>
+				unreadSessionsStatus.mySessions !=
+				getUnreadMessagesForStatus(sessionsData, 2);
+			if (unreadSessionsStatus && didReadStatusChange) {
+				if (typeIsUser(type)) {
+					fetchUserData();
+				} else {
+					getSessionsListData().catch(() => {});
+				}
+			}
+		}
+	}, [unreadSessionsStatus]);
 
 	useEffect(() => {
 		if (stoppedGroupChat) {

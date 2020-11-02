@@ -8,11 +8,11 @@ import {
 	ActiveSessionGroupIdContext,
 	getActiveSession,
 	UnreadSessionsStatusContext,
-	getUnreadMessagesStatus,
 	getSessionsDataWithChangedValue,
 	StoppedGroupChatContext,
 	AcceptedGroupIdContext,
-	UserDataContext
+	UserDataContext,
+	getUnreadMessagesForStatus
 } from '../../../globalState';
 import {
 	mobileDetailView,
@@ -96,7 +96,7 @@ export const SessionView = (props) => {
 					: (chatItem.messagesRead = true);
 
 				setUnreadSessionsStatus({
-					sessions: getUnreadMessagesStatus(sessionsData)
+					mySessions: getUnreadMessagesForStatus(sessionsData, 2)
 				});
 
 				const changedSessionsData = getSessionsDataWithChangedValue(

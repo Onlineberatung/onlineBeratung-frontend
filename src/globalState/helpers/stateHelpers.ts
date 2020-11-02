@@ -106,12 +106,12 @@ export const getSessionsDataKeyForSessionType = (sessionType) => {
 	return null;
 };
 
-export const getUnreadMessages: Function = (
-	sessData,
+export const getUnreadMessagesForStatus: Function = (
+	sessionsData,
 	status: number
-): string => {
-	if (sessData.mySessions) {
-		const unreadCount = sessData.mySessions.filter((session) => {
+): number => {
+	if (sessionsData.mySessions) {
+		const unreadCount = sessionsData.mySessions.filter((session) => {
 			if (session.session) {
 				return (
 					!session.session.messagesRead &&
@@ -119,13 +119,11 @@ export const getUnreadMessages: Function = (
 				);
 			}
 		});
-		return unreadCount.length > 0 ? unreadCount.length.toString() : '0';
+		return unreadCount.length;
 	} else {
-		return '0';
+		return 0;
 	}
 };
-export const getUnreadMessagesStatus = (sessData) =>
-	getUnreadMessages(sessData, 2) > 9 ? '9+' : getUnreadMessages(sessData, 2);
 
 export const hasUserAuthority = (
 	authority: string,

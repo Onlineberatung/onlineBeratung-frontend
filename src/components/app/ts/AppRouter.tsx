@@ -36,17 +36,16 @@ const STOMP_EVENT_TYPES = {
 
 export const AppRouter = () => {
 	const { userData } = useContext(UserDataContext);
-	const { unreadSessionsStatus } = useContext(UnreadSessionsStatusContext);
+	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
+		UnreadSessionsStatusContext
+	);
 	const [newDirectMessage, setNewDirectMessage] = useState(false);
 
 	const handleLogout = () => {
 		if (stompClient) {
-			stompClient.disconnect(() => {
-				logout();
-			});
-		} else {
-			logout();
+			stompClient.disconnect();
 		}
+		logout();
 	};
 
 	let routerConfig = RouterConfigUser();
@@ -81,10 +80,11 @@ export const AppRouter = () => {
 	}, []);
 
 	useEffect(() => {
-		if (newDirectMessage) {
-			console.log('Hey Client, eine neue DIRECT MESSAGE ist vorhanden!');
+		if (unreadSessionsStatus.mySessions) {
+			setNewDirectMessage(true);
+			setTimeout(() => setNewDirectMessage(false), 2000);
 		}
-	}, [newDirectMessage]);
+	}, [unreadSessionsStatus]);
 
 	const initLiveServiceSocket = () => {
 		stompClient.connect(
@@ -97,7 +97,9 @@ export const AppRouter = () => {
 					const stompMessageBody = JSON.parse(message.body);
 					const stompEventType = stompMessageBody['eventType'];
 					if (stompEventType === STOMP_EVENT_TYPES.DIRECT_MESSAGE) {
-						setNewDirectMessage(true);
+						setUnreadSessionsStatus({
+							mySessions: unreadSessionsStatus + 1
+						});
 					}
 				});
 			}
@@ -110,6 +112,17 @@ export const AppRouter = () => {
 		};
 	};
 
+	const pathsToShowUnreadMessageNotification = [
+		'/sessions/consultant/sessionView',
+		'/sessions/user/view'
+	];
+	const showUnreadMessagesStatus = (path: string): boolean => {
+		return (
+			unreadSessionsStatus.mySessions > 0 &&
+			pathsToShowUnreadMessageNotification.includes(path)
+		);
+	};
+
 	return (
 		<div className="app__wrapper">
 			<div className="navigation__wrapper">
@@ -119,7 +132,14 @@ export const AppRouter = () => {
 						className={`navigation__item ${
 							window.location.href.indexOf(item.to) != -1
 								? 'navigation__item--active'
-								: null
+								: ''
+						} ${
+							newDirectMessage &&
+							pathsToShowUnreadMessageNotification.includes(
+								item.to
+							)
+								? 'navigation__item__count--active'
+								: ''
 						}`}
 						to={item.to}
 					>
@@ -226,14 +246,10 @@ export const AppRouter = () => {
 							}
 						})(item.titleKeys)}
 						{((to) => {
-							switch (to) {
-								case '/sessions/consultant/sessionView':
-									return unreadSessionsStatus.sessions !==
-										'0' ? (
-										<span className="navigation__item__count">
-											{unreadSessionsStatus.sessions}
-										</span>
-									) : null;
+							if (showUnreadMessagesStatus(to)) {
+								return (
+									<span className="navigation__item__count"></span>
+								);
 							}
 						})(item.to)}
 					</Link>
