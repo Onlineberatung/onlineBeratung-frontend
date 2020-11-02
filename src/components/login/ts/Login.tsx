@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Stage } from '../../stage/ts/stage';
-import { translate } from '../../../resources/ts/i18n/translate';
+import { translate } from '../../../resources/scripts/i18n/translate';
 import { InputField, InputFieldItem } from '../../inputField/ts/InputField';
 import { useState, useEffect } from 'react';
-import { config } from '../../../resources/ts/config';
+import { config } from '../../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../../button/ts/Button';
 import { autoLogin } from '../../registration/ts/autoLogin';
 import { SVG } from '../../svgSet/ts/SVG';

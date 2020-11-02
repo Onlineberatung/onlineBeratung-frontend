@@ -1,9 +1,9 @@
 import { getKeycloakAccessToken } from '../../sessionCookie/ts/getKeycloakAccessToken';
 import { getRocketchatAccessToken } from '../../sessionCookie/ts/getRocketchatAccessToken';
 import { setTokenInCookie } from '../../sessionCookie/ts/accessSessionCookie';
-import { config } from '../../../resources/ts/config';
-import { generateCsrfToken } from '../../../resources/ts/helpers/generateCsrfToken';
-import { encodeUsername } from '../../../resources/ts/helpers/encryptionHelpers';
+import { config } from '../../../resources/scripts/config';
+import { generateCsrfToken } from '../../../resources/scripts/helpers/generateCsrfToken';
+import { encodeUsername } from '../../../resources/scripts/helpers/encryptionHelpers';
 
 export interface LoginData {
 	data: {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { translate } from '../../../resources/ts/i18n/translate';
+import { translate } from '../../../resources/scripts/i18n/translate';
 
 export interface InputFieldItem {
 	id: string;

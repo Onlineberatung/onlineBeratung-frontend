@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { translate } from '../../../resources/ts/i18n/translate';
+import { translate } from '../../../resources/scripts/i18n/translate';
 import { SVG } from '../../svgSet/ts/SVG';
 import { LOGO_KEYS } from '../../svgSet/ts/SVGHelpers';
 
