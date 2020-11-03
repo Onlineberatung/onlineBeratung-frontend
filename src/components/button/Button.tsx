@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { OVERLAY_RESET_TIME } from '../../overlay/ts/Overlay';
+import { OVERLAY_RESET_TIME } from '../overlay/Overlay';
+import './button.styles';
 
 export const BUTTON_TYPES = {
 	PRIMARY: 'PRIMARY',

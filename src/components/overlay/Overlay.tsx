@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { ButtonItem, Button } from '../../button/ts/Button';
+import { ButtonItem, Button } from '../button/Button';
+import './overlay.styles';
 
 export const OVERLAY_FUNCTIONS = {
 	CLOSE: 'CLOSE',

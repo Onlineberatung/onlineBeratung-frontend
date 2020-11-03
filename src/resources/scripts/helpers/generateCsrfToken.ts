@@ -1,4 +1,4 @@
-import { getTokenFromCookie } from '../../../components/sessionCookie/ts/accessSessionCookie';
+import { getTokenFromCookie } from '../../../components/sessionCookie/accessSessionCookie';
 
 export const generateCsrfToken = (refreshToken: boolean = false) => {
 	const currentToken = getTokenFromCookie('CSRF-TOKEN');

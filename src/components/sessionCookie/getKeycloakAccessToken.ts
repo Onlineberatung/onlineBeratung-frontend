@@ -1,5 +1,5 @@
-import { config } from '../../../resources/scripts/config';
-import { LoginData } from '../../registration/ts/autoLogin';
+import { config } from '../../resources/scripts/config';
+import { LoginData } from '../registration/ts/autoLogin';
 
 export const getKeycloakAccessToken = (
 	username: string,

@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { translate } from '../../../resources/scripts/i18n/translate';
-import { SVG } from '../../svgSet/ts/SVG';
-import { LOGO_KEYS } from '../../svgSet/ts/SVGHelpers';
+import { translate } from '../../resources/scripts/i18n/translate';
+import { SVG } from '../svgSet/SVG';
+import { LOGO_KEYS } from '../svgSet/SVGHelpers';
+import './stage.styles';
 
 export interface StageProps {
 	hasAnimation?: boolean;

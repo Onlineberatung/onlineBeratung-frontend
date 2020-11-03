@@ -30,7 +30,7 @@ import userProfile from './de/userProfile';
 import warningLabels from './de/warningLabels';
 import warningLabelsInformal from './de/warningLabelsInformal';
 import { getResortKeyForConsultingType } from '../helpers/resorts';
-import { getTokenFromCookie } from '../../../components/sessionCookie/ts/accessSessionCookie';
+import { getTokenFromCookie } from '../../../components/sessionCookie/accessSessionCookie';
 
 const defaultLocale: any = {
 	app,

@@ -1,6 +1,6 @@
-import { getKeycloakAccessToken } from '../../sessionCookie/ts/getKeycloakAccessToken';
-import { getRocketchatAccessToken } from '../../sessionCookie/ts/getRocketchatAccessToken';
-import { setTokenInCookie } from '../../sessionCookie/ts/accessSessionCookie';
+import { getKeycloakAccessToken } from '../../sessionCookie/getKeycloakAccessToken';
+import { getRocketchatAccessToken } from '../../sessionCookie/getRocketchatAccessToken';
+import { setTokenInCookie } from '../../sessionCookie/accessSessionCookie';
 import { config } from '../../../resources/scripts/config';
 import { generateCsrfToken } from '../../../resources/scripts/helpers/generateCsrfToken';
 import { encodeUsername } from '../../../resources/scripts/helpers/encryptionHelpers';
