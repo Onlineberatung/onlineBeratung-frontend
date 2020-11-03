@@ -56,7 +56,7 @@ module.exports = {
 	appBuild: resolveApp('build'),
 	appPublic: resolveApp('public'),
 	appEntryPoints: {
-		login: resolveModule(resolveApp, 'src/components/login/ts/initLogin')
+		login: resolveModule(resolveApp, 'src/components/login/initLogin')
 	},
 	appPackageJson: resolveApp('package.json'),
 	appSrc: resolveApp('src'),
