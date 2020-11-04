@@ -1,6 +1,7 @@
 $icon-size: 32px;
 $icon-size-small: 28px;
 $unread-bubble-size: 8px;
+$unread-bubble-animation: count 500ms ease 500ms forwards;
 
 .navigation {
 	&__wrapper {
@@ -79,14 +80,19 @@ $unread-bubble-size: 8px;
 				right: 22px;
 			}
 
+			&--initial {
+				transform: scale(0);
+				animation: $unread-bubble-animation;
+			}
+
+			&--reanimate {
+				transform: scale(1);
+				animation: $unread-bubble-animation;
+			}
+
 			&--active {
-				.navigation__item__count {
-					transform: scale(0);
-					transition: transform 0.6s ease;
-					animation: count 1000ms ease 1000ms forwards;
-				}
 				.navigation__icon {
-					animation: moveDownUp 1000ms linear;
+					animation: moveDownUp 500ms linear;
 					position: relative;
 
 					@keyframes moveDownUp {

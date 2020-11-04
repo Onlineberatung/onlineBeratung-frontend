@@ -16,7 +16,8 @@ import {
 	UserDataContext,
 	UnreadSessionsStatusContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	SessionsDataContext
 } from '../../../globalState';
 import { history } from './app';
 import { initNavigationHandler } from './navigationHandler';
@@ -24,7 +25,6 @@ import { SessionsListWrapper } from '../../sessionsList/ts/SessionsListWrapper';
 import { config } from '../../../resources/ts/config';
 import { getTokenFromCookie } from '../../sessionCookie/ts/accessSessionCookie';
 import { logout } from '../../logout/ts/logout';
-
 const socket = new SockJS(config.endpoints.liveservice);
 const stompClient = Stomp.over(socket);
 // implement for release to deactivate stomp logging
@@ -39,7 +39,8 @@ export const AppRouter = () => {
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
-	const [newDirectMessage, setNewDirectMessage] = useState(false);
+	const [animateNavIcon, setAnimateNavIcon] = useState(false);
+	const [newStompDirectMessage, setNewStompDirectMessage] = useState(false);
 
 	const handleLogout = () => {
 		if (stompClient) {
@@ -80,11 +81,35 @@ export const AppRouter = () => {
 	}, []);
 
 	useEffect(() => {
-		if (unreadSessionsStatus.mySessions) {
-			setNewDirectMessage(true);
-			setTimeout(() => setNewDirectMessage(false), 2000);
+		if (
+			unreadSessionsStatus.newDirectMessage ||
+			(unreadSessionsStatus.mySessions > 0 &&
+				unreadSessionsStatus.resetedAnimations)
+		) {
+			setAnimateNavIcon(true);
+			setTimeout(() => {
+				setAnimateNavIcon(false);
+				if (unreadSessionsStatus.resetedAnimations) {
+					setUnreadSessionsStatus({
+						mySessions: unreadSessionsStatus.mySessions,
+						newDirectMessage: false,
+						resetedAnimations: false
+					});
+				}
+			}, 1000);
 		}
 	}, [unreadSessionsStatus]);
+
+	useEffect(() => {
+		if (newStompDirectMessage) {
+			setUnreadSessionsStatus({
+				mySessions: unreadSessionsStatus.mySessions + 1,
+				newDirectMessage: true,
+				resetedAnimations: unreadSessionsStatus.mySessions === 0
+			});
+			setNewStompDirectMessage(false);
+		}
+	}, [newStompDirectMessage]);
 
 	const initLiveServiceSocket = () => {
 		stompClient.connect(
@@ -97,9 +122,7 @@ export const AppRouter = () => {
 					const stompMessageBody = JSON.parse(message.body);
 					const stompEventType = stompMessageBody['eventType'];
 					if (stompEventType === STOMP_EVENT_TYPES.DIRECT_MESSAGE) {
-						setUnreadSessionsStatus({
-							mySessions: unreadSessionsStatus + 1
-						});
+						setNewStompDirectMessage(true);
 					}
 				});
 			}
@@ -116,12 +139,6 @@ export const AppRouter = () => {
 		'/sessions/consultant/sessionView',
 		'/sessions/user/view'
 	];
-	const showUnreadMessagesStatus = (path: string): boolean => {
-		return (
-			unreadSessionsStatus.mySessions > 0 &&
-			pathsToShowUnreadMessageNotification.includes(path)
-		);
-	};
 
 	return (
 		<div className="app__wrapper">
@@ -134,7 +151,7 @@ export const AppRouter = () => {
 								? 'navigation__item--active'
 								: ''
 						} ${
-							newDirectMessage &&
+							animateNavIcon &&
 							pathsToShowUnreadMessageNotification.includes(
 								item.to
 							)
@@ -246,9 +263,25 @@ export const AppRouter = () => {
 							}
 						})(item.titleKeys)}
 						{((to) => {
-							if (showUnreadMessagesStatus(to)) {
+							if (
+								pathsToShowUnreadMessageNotification.includes(
+									to
+								) &&
+								(unreadSessionsStatus.newDirectMessage ||
+									unreadSessionsStatus.mySessions > 0)
+							) {
 								return (
-									<span className="navigation__item__count"></span>
+									<span
+										className={`navigation__item__count ${
+											unreadSessionsStatus.resetedAnimations
+												? 'navigation__item__count--initial'
+												: `${
+														animateNavIcon
+															? 'navigation__item__count--reanimate'
+															: ''
+												  }`
+										}`}
+									></span>
 								);
 							}
 						})(item.to)}

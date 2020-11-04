@@ -11,8 +11,7 @@ import {
 	getSessionsDataWithChangedValue,
 	StoppedGroupChatContext,
 	AcceptedGroupIdContext,
-	UserDataContext,
-	getUnreadMessagesForStatus
+	UserDataContext
 } from '../../../globalState';
 import {
 	mobileDetailView,
@@ -72,12 +71,14 @@ export const SessionView = (props) => {
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [messagesItem, setMessagesItem] = useState(null);
-	const { setUnreadSessionsStatus } = useContext(UnreadSessionsStatusContext);
+	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
+		UnreadSessionsStatusContext
+	);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
-	const [currentMessagesOffset, setCurrentMessagesOffset] = useState(null);
+	const [setCurrentMessagesOffset] = useState(null);
 	const [loadedMessages, setLoadedMessages] = useState(null);
 	const { userData } = useContext(UserDataContext);
 	const [typingUsers, setTypingUsers] = useState([]);
@@ -90,14 +91,16 @@ export const SessionView = (props) => {
 				? chatItem.feedbackRead
 				: chatItem.messagesRead;
 			if (!isCurrentSessionRead) {
+				setUnreadSessionsStatus({
+					mySessions: unreadSessionsStatus.mySessions - 1,
+					newDirectMessage: false,
+					resetedAnimations: unreadSessionsStatus.mySessions === 1
+				});
+
 				setSessionRead(groupId);
 				activeSession.isFeedbackSession
 					? (chatItem.feedbackRead = true)
 					: (chatItem.messagesRead = true);
-
-				setUnreadSessionsStatus({
-					mySessions: getUnreadMessagesForStatus(sessionsData, 2)
-				});
 
 				const changedSessionsData = getSessionsDataWithChangedValue(
 					sessionsData,

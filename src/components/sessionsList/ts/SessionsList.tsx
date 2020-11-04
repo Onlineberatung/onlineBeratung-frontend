@@ -214,18 +214,29 @@ export const SessionsList = () => {
 				getUnreadMessagesForStatus(sessionsData, 2);
 			if (didReadStatusChange) {
 				setUnreadSessionsStatus({
-					mySessions: getUnreadMessagesForStatus(sessionsData, 2)
+					mySessions: getUnreadMessagesForStatus(sessionsData, 2),
+					newDirectMessage: false,
+					resetedAnimations: unreadSessionsStatus.resetedAnimations
 				});
 			}
 		}
 	}, [sessionsData]);
 
 	useEffect(() => {
-		if (sessionsData) {
+		if (
+			sessionsData &&
+			unreadSessionsStatus &&
+			unreadSessionsStatus.newDirectMessage
+		) {
 			const didReadStatusChange = () =>
 				unreadSessionsStatus.mySessions !=
 				getUnreadMessagesForStatus(sessionsData, 2);
-			if (unreadSessionsStatus && didReadStatusChange) {
+			if (didReadStatusChange) {
+				setUnreadSessionsStatus({
+					mySessions: unreadSessionsStatus.mySessions,
+					newDirectMessage: false,
+					resetedAnimations: unreadSessionsStatus.mySessions === 1
+				});
 				if (typeIsUser(type)) {
 					fetchUserData();
 				} else {
