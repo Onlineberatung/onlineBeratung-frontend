@@ -78,7 +78,7 @@ export const SessionView = (props) => {
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
-	const [setCurrentMessagesOffset] = useState(null);
+	const [currentMessagesOffset, setCurrentMessagesOffset] = useState(null);
 	const [loadedMessages, setLoadedMessages] = useState(null);
 	const { userData } = useContext(UserDataContext);
 	const [typingUsers, setTypingUsers] = useState([]);
