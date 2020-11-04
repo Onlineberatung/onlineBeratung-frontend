@@ -1,4 +1,4 @@
-import { redirectToApp } from '../registration/ts/autoLogin';
+import { redirectToApp } from '../registration/autoLogin';
 
 export const initPasswordResetOverlay = () => {
 	const passwordResetOverlay = document.querySelector(

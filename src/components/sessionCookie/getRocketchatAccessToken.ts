@@ -1,5 +1,5 @@
 import { config } from '../../resources/scripts/config';
-import { LoginData } from '../registration/ts/autoLogin';
+import { LoginData } from '../registration/autoLogin';
 
 export const getRocketchatAccessToken = (
 	username: string,

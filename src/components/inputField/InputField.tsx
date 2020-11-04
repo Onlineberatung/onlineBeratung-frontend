@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import './inputField.styles';
+import './passwordFields.styles';
 
 export interface InputFieldItem {
 	id: string;
@@ -24,6 +25,14 @@ export interface InputFieldProps {
 	item: InputFieldItem;
 	inputHandle: Function;
 	keyUpHandle?: Function;
+}
+
+export interface GeneratedInputs {
+	addictiveDrugs?: string[];
+	relation?: string;
+	age?: string;
+	gender?: string;
+	state?: string;
 }
 
 export const InputField = (props: InputFieldProps) => {
