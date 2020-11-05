@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createContext, useState } from 'react';
 
-export const AuthDataContext = createContext(null);
+export const AuthDataContext = createContext<any>(null);
 
 export function AuthDataProvider(props) {
 	const [authData, setAuthData] = useState(null);

@@ -75,41 +75,31 @@ export const WriteEnquiry = (props) => {
 	};
 
 	const activateListView = () => {
-		document
-			.querySelector('.contentWrapper__list')
-			.setAttribute('style', 'display: block');
-		document
-			.querySelector('.navigation__wrapper')
-			.classList.remove('navigation__wrapper--mobileHidden');
+		document.querySelector('.contentWrapper__list')?.setAttribute('style', 'display: block');
+		document.querySelector('.navigation__wrapper')?.classList.remove('navigation__wrapper--mobileHidden');
 
 		if (window.innerWidth <= 900) {
 			const contentWrapper = document.querySelector(
 				'.contentWrapper__detail'
 			);
-			contentWrapper.classList.add(
+			contentWrapper?.classList.add(
 				'contentWrapper__detail--smallInactive'
 			);
 		}
 	};
 
 	const deactivateListView = () => {
-		document
-			.querySelector('.contentWrapper__list')
-			.setAttribute('style', 'display: none');
-		document
-			.querySelector('.navigation__wrapper')
-			.classList.add('navigation__wrapper--mobileHidden');
-		document
-			.querySelector('.contentWrapper__header')
-			.classList.add('contentWrapper__header--enquiry');
+		document.querySelector('.contentWrapper__list')?.setAttribute('style', 'display: none');
+		document.querySelector('.navigation__wrapper')?.classList.add('navigation__wrapper--mobileHidden');
+		document.querySelector('.contentWrapper__header')?.classList.add('contentWrapper__header--enquiry');
 
 		const contentWrapper = document.querySelector(
 			'.contentWrapper__detail'
 		);
-		contentWrapper.setAttribute('style', 'width: 100%');
+		contentWrapper?.setAttribute('style', 'width: 100%');
 
 		if (window.innerWidth <= 900) {
-			contentWrapper.classList.remove(
+			contentWrapper?.classList.remove(
 				'contentWrapper__detail--smallInactive'
 			);
 		}
@@ -119,7 +109,7 @@ export const WriteEnquiry = (props) => {
 		<div className="enquiry__wrapper">
 			<div className="enquiry__infoWrapper">
 				<div className="enquiry__image">
-					<img src="/resources/img/illustrations/willkommen.svg" />
+					<img src="/resources/img/illustrations/willkommen.svg" alt="willkommen Illstration" />
 				</div>
 				<div className="enquiry__infotext">
 					<h2 className="enquiry__headline">

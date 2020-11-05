@@ -3,7 +3,7 @@ import { createContext, useState } from 'react';
 
 export let UnreadSessionsStatus: string;
 
-export const UnreadSessionsStatusContext = createContext(null);
+export const UnreadSessionsStatusContext = createContext<any>(null);
 
 export function UnreadSessionsStatusProvider(props) {
 	const [unreadSessionsStatus, setUnreadSessionsStatus] = useState({

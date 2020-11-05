@@ -3,7 +3,7 @@ import { createContext, useState } from 'react';
 
 export let AcceptedGroupId: string;
 
-export const AcceptedGroupIdContext = createContext(null);
+export const AcceptedGroupIdContext = createContext<any>(null);
 
 export function AcceptedGroupIdProvider(props) {
 	const [acceptedGroupId, setAcceptedGroupId] = useState(null);

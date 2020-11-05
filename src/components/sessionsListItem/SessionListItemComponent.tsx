@@ -39,7 +39,7 @@ interface SessionListItemProps {
 
 export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
+	const { activeSessionGroupId, setActiveSessionGroupId } = useContext<any>(
 		ActiveSessionGroupIdContext
 	);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
@@ -54,7 +54,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 
 	const currentSessionData = sessionsData[
 		getSessionsDataKeyForSessionType(type)
-	].filter((session) => props.id == getChatItemForSession(session).id)[0];
+	].filter((session) => props.id === getChatItemForSession(session).id)[0];
 	if (!currentSessionData) {
 		return null;
 	}

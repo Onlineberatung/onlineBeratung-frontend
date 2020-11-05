@@ -3,7 +3,7 @@ import { createContext, useState } from 'react';
 
 export let ActiveSessionGroupId: string;
 
-export const ActiveSessionGroupIdContext = createContext(null);
+export const ActiveSessionGroupIdContext = createContext<any>(null);
 
 export function ActiveSessionGroupIdProvider(props) {
 	const [activeSessionGroupId, setActiveSessionGroupId] = useState(null);

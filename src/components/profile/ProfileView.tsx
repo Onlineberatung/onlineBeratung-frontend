@@ -26,13 +26,13 @@ export const ProfileView = () => {
 	const setProfileWrapperActive = () => {
 		document
 			.querySelector('.contentWrapper__list')
-			.setAttribute('style', 'display: none');
+			?.setAttribute('style', 'display: none');
 		document
 			.querySelector('.contentWrapper__detail')
-			.setAttribute('style', 'display: none');
+			?.setAttribute('style', 'display: none');
 		document
 			.querySelector('.contentWrapper__profile')
-			.setAttribute('style', 'display: block');
+			?.setAttribute('style', 'display: block');
 	};
 
 	return (
@@ -87,6 +87,7 @@ export const ProfileView = () => {
 					<a
 						href={config.endpoints.caritasImprint}
 						target="_blank"
+						rel="noreferrer"
 						className="profile__footer__item"
 					>
 						{translate('profile.footer.imprint')}
@@ -94,6 +95,7 @@ export const ProfileView = () => {
 					<a
 						href={config.endpoints.caritasDataprotection}
 						target="_blank"
+						rel="noreferrer"
 						className="profile__footer__item"
 					>
 						{translate('profile.footer.dataprotection')}

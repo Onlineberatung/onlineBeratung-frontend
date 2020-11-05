@@ -3,7 +3,7 @@ import { createContext, useState } from 'react';
 
 export let StoppedGroupChat: boolean;
 
-export const StoppedGroupChatContext = createContext(null);
+export const StoppedGroupChatContext = createContext<any>(null);
 
 export function StoppedGroupChatProvider(props) {
 	const [stoppedGroupChat, setStoppedGroupChat] = useState(false);

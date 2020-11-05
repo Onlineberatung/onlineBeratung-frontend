@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createContext, useState } from 'react';
 
-export const SessionsDataContext = createContext(null);
+export const SessionsDataContext = createContext<any>(null);
 
 export function SessionsDataProvider(props) {
 	const [sessionsData, setSessionsData] = useState(null);

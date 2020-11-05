@@ -3,7 +3,7 @@ import { createContext, useState } from 'react';
 
 export let FilterStatus: string;
 
-export const FilterStatusContext = createContext(null);
+export const FilterStatusContext = createContext<any>(null);
 
 export function FilterStatusProvider(props) {
 	const [filterStatus, setFilterStatus] = useState('all');
