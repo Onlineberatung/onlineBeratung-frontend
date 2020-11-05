@@ -5,5 +5,4 @@ import './NodeList.forEach';
 import './TextEncoder';
 
 import 'element-scroll-polyfill';
-import 'fastestsmallesttextencoderdecoder';
 import 'fetch-polyfill/fetch';
