@@ -45,9 +45,11 @@ import {
 import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
 import { getSessions } from './SessionsListData';
 import { Button } from '../../button/ts/Button';
-import { SessionsListUnreadIllustration } from './SessionsListUnreadIllustration';
+import { WelcomeIllustration } from './SessionsListWelcomeIllustration';
 import { SessionListCreateChat } from './SessionListCreateChat';
 import { mobileListView } from '../../app/ts/navigationHandler';
+
+const MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION = 3;
 
 export const SessionsList = () => {
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -57,7 +59,6 @@ export const SessionsList = () => {
 	const sessionsContext = useContext(SessionsDataContext);
 	const { sessionsData, setSessionsData } = sessionsContext;
 	const { filterStatus, setFilterStatus } = useContext(FilterStatusContext);
-	const [showNewMessageForUser, setShowNewMessageForUser] = useState(false);
 	const [hasNoSessions, setHasNoSessions] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -105,19 +106,6 @@ export const SessionsList = () => {
 			setActiveSessionGroupId(null);
 		}
 
-		if (
-			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
-			sessionsData &&
-			sessionsData.mySessions
-		) {
-			const unreadSessionsCount = getUnreadMessagesForStatus(
-				sessionsData,
-				2
-			);
-			unreadSessionsCount > 0
-				? setShowNewMessageForUser(true)
-				: setShowNewMessageForUser(false);
-		}
 		if (
 			!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData)
@@ -488,8 +476,10 @@ export const SessionsList = () => {
 				onScroll={handleListScroll}
 			>
 				{hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
-				showNewMessageForUser ? (
-					<SessionsListUnreadIllustration />
+				sessionsData &&
+				sessionsData.mySessions.length <=
+					MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION ? (
+					<WelcomeIllustration />
 				) : null}
 				<div
 					className={`sessionsList__itemsWrapper ${
