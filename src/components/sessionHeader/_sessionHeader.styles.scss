@@ -1,0 +1,280 @@
+$backBtnSize: 24px;
+$feedbackBtnSize: 20px;
+
+.sessionInfo {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: $grid-base-two $grid-base-two;
+	background-color: $background-light-ochre;
+
+	@include breakpoint($fromMedium) {
+		padding: $grid-base-three;
+	}
+
+	@include breakpoint($fromLarge) {
+		align-items: flex-start;
+		background-color: $background-ochre;
+	}
+
+	&__feedbackHeaderWrapper,
+	&__headerWrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	&__feedbackHeaderWrapper {
+		justify-content: flex-start;
+
+		.sessionInfo__username {
+			flex: 1;
+			text-align: center;
+			margin-left: -36px;
+			cursor: initial;
+
+			@include breakpoint($fromLarge) {
+				text-align: left;
+				margin-left: 0;
+			}
+		}
+	}
+
+	&__feedbackBackButton,
+	&__backButton {
+		display: block;
+		align-self: center;
+		cursor: pointer;
+		position: relative;
+		z-index: 10;
+
+		@include breakpoint($fromLarge) {
+			display: none;
+		}
+	}
+
+	&__backButton,
+	&__feedbackBackButton {
+		svg {
+			width: $iconSize;
+			height: $iconSize;
+			fill: $secondary;
+
+			svg path {
+				fill: $secondary;
+			}
+
+			&:hover {
+				fill: $primary;
+
+				svg path {
+					fill: $primary;
+				}
+			}
+		}
+	}
+
+	&__feedbackBackButton {
+		padding-right: 10px;
+
+		@include breakpoint($fromLarge) {
+			display: block;
+		}
+	}
+
+	&__username {
+		cursor: pointer;
+		overflow: hidden;
+
+		@include breakpoint($fromLarge) {
+			margin: 0;
+		}
+
+		&--deactivate {
+			cursor: unset;
+		}
+
+		h3 {
+			color: $secondary;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		&--groupChat {
+			a {
+				color: $secondary;
+
+				&:hover {
+					color: $secondary;
+				}
+			}
+		}
+	}
+
+	&__feedbackButton {
+		flex-direction: row;
+		align-items: center;
+		color: $secondary;
+		background-color: $yellow-3;
+		border-radius: 16px;
+		padding: 0 14px;
+		cursor: pointer;
+		transition: background-color transform 0.5s ease-out;
+
+		&:hover {
+			color: $secondary;
+			background-color: $yellow-4;
+		}
+
+		img {
+			width: $feedbackBtnSize;
+			height: $feedbackBtnSize;
+			margin-right: 8px;
+		}
+
+		p {
+			margin: 0;
+		}
+
+		&--active {
+			transform: scale(1.2);
+			animation: yellowThemeHighlight 1.5s forwards;
+
+			@keyframes yellowThemeHighlight {
+				0% {
+					background-color: $yellow-3;
+				}
+				20% {
+					background-color: $yellow-4;
+				}
+				100% {
+					background-color: $yellow-3;
+				}
+			}
+		}
+	}
+	&__feedbackMetaInfo,
+	&__metaInfo {
+		width: 100%;
+		max-width: $xlarge;
+		padding: 0 $grid-base-two;
+		text-align: center;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+
+		@include breakpoint($fromLarge) {
+			padding: 0;
+			text-align: left;
+		}
+
+		&__content {
+			font-size: 12px;
+			color: $tertiary;
+			line-height: 16px;
+			display: inline-block;
+
+			@include breakpoint($fromSmall) {
+				position: relative;
+			}
+
+			&--red {
+				color: $primary !important;
+				text-transform: uppercase;
+			}
+
+			&--clickable {
+				border-bottom: 1px solid $tertiary;
+				cursor: pointer;
+			}
+
+			&:after {
+				content: '|';
+				padding: 0 5px;
+			}
+
+			&:last-child {
+				&:after {
+					content: '';
+					padding: 0;
+				}
+			}
+		}
+
+		&__flyout {
+			display: flex;
+			position: absolute;
+			top: 84px;
+			left: $grid-base-two;
+			width: calc(100vw - #{$grid-base-four});
+			max-height: 40vh;
+			z-index: 1;
+			border: 1px solid $line-grey;
+			@include rounded-drop-shadow;
+			cursor: default;
+
+			@include breakpoint($fromSmall) {
+				top: $line-height-tertiary;
+				left: 50%;
+				transform: translateX(-50%);
+				width: auto;
+				min-width: $grid-base * 24;
+				max-width: $grid-base * 45;
+			}
+
+			ul {
+				width: 100%;
+				padding: 0;
+				margin: 0;
+				list-style: none;
+				background-color: $white;
+				border-radius: 4px;
+				overflow-y: auto;
+			}
+
+			li {
+				padding: 14px $grid-base-two;
+				font-size: $font-size-primary;
+				line-height: $line-height-primary;
+				color: $secondary;
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
+
+			&:before {
+				border-top: 10px solid #fff;
+				margin-top: 5px;
+				z-index: 2;
+			}
+
+			&:after {
+				border-top: 10px solid #c4bfc4;
+				margin-top: 3px;
+				z-index: 1;
+			}
+
+			&:before,
+			&:after {
+				content: '';
+				position: absolute;
+				top: -14px;
+				left: calc(50% + 62px);
+				border-left: 10px solid transparent;
+				border-right: 10px solid transparent;
+				margin-left: -10px;
+				-webkit-transform: rotate(180deg);
+				transform: rotate(180deg);
+
+				@include breakpoint($fromSmall) {
+					left: 50%;
+				}
+			}
+		}
+	}
+	&__feedbackMetaInfo {
+		@include breakpoint($fromLarge) {
+			padding-left: 36px;
+		}
+	}
+}

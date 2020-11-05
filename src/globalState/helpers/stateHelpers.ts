@@ -9,7 +9,7 @@ import {
 	getChatItemForSession,
 	CHAT_TYPES
 } from '../../components/session/ts/sessionHelpers';
-import { translate } from '../../resources/ts/i18n/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 
 export const USER_ROLES = {
 	USER: 'user',

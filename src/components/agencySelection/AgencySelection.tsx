@@ -6,8 +6,8 @@ import {
 	POSTCODE_FALLBACK_LINK
 } from '../../resources/scripts/helpers/resorts';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { ajaxCallAgencySelection } from '../apiWrapper/ts/ajaxCallPostcode';
-import { FETCH_ERRORS } from '../apiWrapper/ts/fetchData';
+import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
+import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { extendPostcodeToBeValid } from '../registration/registrationHelper';
 import { SVG } from '../svgSet/SVG';

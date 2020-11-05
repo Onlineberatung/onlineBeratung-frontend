@@ -1,5 +1,5 @@
 import * as React from 'react';
-import 'tagSelect.styles';
+import './tagSelect.styles';
 
 export interface TagItem {
 	id: string;

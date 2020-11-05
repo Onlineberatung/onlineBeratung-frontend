@@ -1,0 +1,48 @@
+.joinChat {
+	&__content {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		text-align: center;
+		flex-direction: column;
+
+		@include breakpoint($fromLarge) {
+			justify-content: center;
+		}
+
+		h4 {
+			margin-bottom: $grid-base-three;
+		}
+
+		p {
+			margin: 0;
+			max-width: $grid-base * 56;
+
+			&:not(:first-of-type) {
+				margin-top: $grid-base;
+			}
+		}
+	}
+
+	&__warning-message {
+		max-width: $grid-base * 56;
+		color: $light-grey;
+		font-family: $font-family-slab-regular;
+		font-size: $font-size-secondary;
+		line-height: $line-height-secondary;
+		margin: 0 auto $grid-base-three;
+
+		svg {
+			fill: $tertiary;
+			height: $grid-base-two;
+			width: $grid-base-two;
+			margin-right: $grid-base;
+			vertical-align: text-bottom;
+		}
+	}
+
+	&__button-container {
+		text-align: center;
+		padding: $grid-base-six $grid-base-four;
+	}
+}

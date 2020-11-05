@@ -22,7 +22,7 @@ import {
 	MIN_USERNAME_LENGTH,
 	overlayItemRegistrationSuccess
 } from './registrationHelper';
-import { postRegistration } from '../apiWrapper/ts/ajaxCallRegistration';
+import { postRegistration } from '../apiWrapper/ajaxCallRegistration';
 import { config } from '../../resources/scripts/config';
 import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
 import { SelectDropdown } from '../select/SelectDropdown';
@@ -41,9 +41,9 @@ import {
 	hasPreselectedAgencyFallback,
 	isU25Registration
 } from '../../resources/scripts/helpers/resorts';
-import { getAgencyById } from '../apiWrapper/ts';
-import { FETCH_ERRORS } from '../apiWrapper/ts/fetchData';
-import { ajaxCallAgencySelection } from '../apiWrapper/ts/ajaxCallPostcode';
+import { getAgencyById } from '../apiWrapper';
+import { FETCH_ERRORS } from '../apiWrapper/fetchData';
+import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
 import {
 	OverlayWrapper,
 	Overlay,

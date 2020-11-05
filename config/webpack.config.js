@@ -171,7 +171,7 @@ module.exports = function (webpackEnv) {
 		// This means they will be the "root" imports that are included in JS bundle.
 		entry: Object.assign(
 			{},
-			paths.appEntryPoints,
+			paths.appEntryPoints
 			// isEnvDevelopment && !shouldUseReactRefresh ? {
 			// 	devClient: webpackDevClientEntry,
 			// } : {}
@@ -533,16 +533,23 @@ module.exports = function (webpackEnv) {
 		},
 		plugins: [
 			new HtmlWebpackPlugin({
-				title: 'Registrierung Suchtberatung',
-				// templateParameters: {
-				// 	consultingType: 0,
-				// 	resortName: 'addiction',
-				// },
+				title: 'Login',
 				inject: true,
 				template: 'src/pages/login.html',
 				chunks: ['login'],
 				filename: 'login.html',
-			}),			
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Suchtberatung',
+				templateParameters: {
+					consultingType: 0,
+					resortName: 'addiction',
+				},
+				inject: true,
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.suchtberatung.html',
+			}),
 			// Inlines the webpack runtime script. This script is too small to warrant
 			// a network request.
 			// https://github.com/facebook/create-react-app/issues/5358

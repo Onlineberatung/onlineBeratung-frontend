@@ -12,7 +12,7 @@ import {
 	getUserData,
 	getAgencyConsultantList,
 	ajaxCallSessionAssign
-} from '../apiWrapper/ts';
+} from '../apiWrapper';
 import {
 	UserDataInterface,
 	SessionsDataContext,
@@ -25,9 +25,9 @@ import {
 import {
 	SelectDropdownItem,
 	SelectDropdown,
-	Select
+	SelectOption
 } from '../select/SelectDropdown';
-import { FETCH_ERRORS } from '../apiWrapper/ts/fetchData';
+import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 
 export interface Consultant {
 	consultantId: string;
@@ -69,7 +69,7 @@ export const SessionAssign = (props: { value?: string }) => {
 	const prepareConsultantDataForSelect = (consultants: Consultant[]) => {
 		let availableConsultants = [];
 		consultants.map((item, i) => {
-			const consultant: Select = {
+			const consultant: SelectOption = {
 				value: item.consultantId,
 				label: item.firstName + ` ` + item.lastName,
 				iconLabel: item.firstName.charAt(0) + item.lastName.charAt(0)

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import 'radioButton.styles';
+import './radioButton.styles';
 
 export interface RadioButtonItem {
 	inputId: string;

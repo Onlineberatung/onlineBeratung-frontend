@@ -1,0 +1,210 @@
+$time-list-height: 30px;
+$input-icon-size: 20px;
+$input-width: 320px;
+$calendar-width: 244px;
+$label-transition-duration: 0.5s;
+$arrow-icon-size: 14px;
+
+.formWrapper {
+	position: relative;
+}
+
+.react-datepicker {
+	width: 100%;
+	font-family: $font-family-regular;
+	font-size: $font-size-tertiary;
+	border: 1px solid #c4bfc4;
+	@include rounded-drop-shadow;
+
+	&__label {
+		position: absolute;
+		top: 15px;
+		left: 20px;
+		color: $tertiary;
+		z-index: 2;
+		pointer-events: none;
+		transition: font-size $label-transition-duration,
+			top $label-transition-duration;
+
+		&--active {
+			top: 3px;
+			font-size: $font-size-secondary;
+		}
+	}
+
+	&__input-container {
+		position: relative;
+
+		&::after {
+			content: '';
+			display: inline-block;
+			position: absolute;
+			right: 25px;
+			top: 15px;
+			height: $input-icon-size;
+			width: $input-icon-size;
+			background-size: contain;
+			background-position: center;
+			background-repeat: no-repeat;
+			pointer-events: none;
+		}
+
+		input {
+			padding-top: 15px;
+		}
+	}
+
+	&--date &__input-container::after {
+		background-image: url('/resources/img/icons/calendar.svg');
+	}
+
+	&--time &__input-container::after {
+		background-image: url('/resources/img/icons/clock.svg');
+	}
+
+	&__header {
+		background-color: $background-ochre;
+		border: none;
+	}
+
+	&__header--time {
+		display: none;
+	}
+
+	&-popper {
+		z-index: 11;
+		width: 320px;
+	}
+
+	&--date {
+		.react-datepicker-popper {
+			width: $calendar-width;
+			left: $input-width/2 - $calendar-width/2 !important;
+		}
+		.react-datepicker__triangle {
+			left: $calendar-width / 2;
+		}
+	}
+
+	&-wrapper {
+		width: 100%;
+	}
+
+	&__month-container {
+		float: none;
+	}
+
+	&__current-month,
+	&-time__header,
+	&-year-header {
+		font-family: $font-family-medium;
+		font-weight: $font-weight-medium;
+		font-size: $font-size-primary;
+	}
+
+	&__day--today,
+	&__month-text--today,
+	&__quarter-text--today {
+		font-family: $font-family-medium;
+		font-weight: $font-weight-medium;
+		color: $primary;
+
+		&:hover {
+			color: $primary !important;
+		}
+	}
+
+	&--time-only &__time-container {
+		width: 100%;
+	}
+
+	&__time-container .react-datepicker__time .react-datepicker__time-box {
+		width: 100%;
+		text-align: left;
+	}
+
+	&__day:hover,
+	&__month-text:hover,
+	&__quarter-text:hover {
+		color: $primary;
+		background-color: $dropdown-bg-red;
+	}
+
+	&__day--disabled:hover {
+		color: #ccc;
+		background-color: transparent;
+	}
+
+	&__day--selected,
+	&__day--in-selecting-range,
+	&__day--in-range,
+	&__day--keyboard-selected,
+	&__month-text--selected,
+	&__month-text--in-selecting-range,
+	&__month-text--in-range,
+	&__month-text--keyboard-selected,
+	&__quarter-text--selected,
+	&__quarter-text--in-selecting-range,
+	&__quarter-text--keyboard-selected {
+		background-color: $primary;
+		border-radius: 4px;
+		color: $white;
+
+		&:hover {
+			color: $white !important;
+			background-color: $hover-primary;
+			border-radius: 4px;
+		}
+	}
+
+	&__time-container
+		&__time
+		.react-datepicker__time-box
+		ul.react-datepicker__time-list
+		li.react-datepicker__time-list-item {
+		font-size: $font-size-primary;
+		height: $time-list-height;
+		line-height: $time-list-height;
+		border-radius: 0;
+
+		&:hover {
+			color: $primary;
+			background-color: $dropdown-bg-red;
+		}
+	}
+
+	&__time-container
+		&__time
+		.react-datepicker__time-box
+		ul.react-datepicker__time-list
+		li.react-datepicker__time-list-item--selected {
+		color: $black;
+		background-color: $white;
+		font-weight: $font-weight-regular;
+	}
+
+	&--time-only &__triangle,
+	&__triangle {
+		left: 160px;
+	}
+
+	&--time &-popper[data-placement^='bottom'] &__triangle {
+		border-bottom-color: #fff;
+	}
+
+	&__navigation {
+		border: none;
+		background-size: contain;
+		top: 12px;
+		height: $arrow-icon-size;
+		width: $arrow-icon-size;
+
+		&--next {
+			background-image: url('/resources/img/icons/arrow-right.svg');
+		}
+
+		&--previous {
+			background-image: url('/resources/img/icons/arrow-left.svg');
+		}
+	}
+}

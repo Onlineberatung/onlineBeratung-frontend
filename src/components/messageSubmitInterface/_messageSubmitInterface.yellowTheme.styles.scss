@@ -1,0 +1,23 @@
+.session--yellowTheme {
+	.textarea {
+		background-color: $yellow-3;
+	}
+}
+
+.session {
+	.textarea--yellowTheme {
+		animation: yellowThemeHighlight 1.5s forwards;
+	}
+
+	@keyframes yellowThemeHighlight {
+		0% {
+			background: $dark-grey;
+		}
+		20% {
+			background: $yellow-4;
+		}
+		100% {
+			background: $yellow-3;
+		}
+	}
+}

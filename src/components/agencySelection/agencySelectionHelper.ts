@@ -5,13 +5,13 @@ import {
 	POSTCODE_FALLBACK_LINK,
 	hasConsultingTypeLongPostcodeValidation
 } from '../../resources/scripts/helpers/resorts';
-import { ajaxCallAgencySelection } from '../apiWrapper/ts/ajaxCallPostcode';
+import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
 import { translate } from '../../resources/scripts/i18n/translate';
 import {
 	warningLabelForTranslatableAndParentId,
 	handleWarningLabelOnInput
 } from '../registration/warningLabels';
-import { FETCH_ERRORS } from '../apiWrapper/ts/fetchData';
+import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { AgencyDataInterface } from '../../globalState';
 
 const MAX_AGENCY_SUGGESTION = 3;
