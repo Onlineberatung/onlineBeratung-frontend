@@ -86,7 +86,7 @@ export const SessionView = (props) => {
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
 
 	const setSessionToRead = () => {
-		if (activeSession && !isGroupChat) {
+		if (activeSession) {
 			const isCurrentSessionRead = activeSession.isFeedbackSession
 				? chatItem.feedbackRead
 				: chatItem.messagesRead;
