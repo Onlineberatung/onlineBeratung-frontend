@@ -12,6 +12,7 @@ export const SessionListCreateChat = () => {
 					<img
 						className="sessionsListItem__icon"
 						src="/resources/img/icons/speech-bubble.svg"
+						alt="Sprechblasen Icon"
 					/>
 					<div className="sessionsListItem__username">
 						{translate('groupChat.create.listItem.label')}

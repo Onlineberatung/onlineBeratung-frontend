@@ -124,21 +124,21 @@ export interface MessageSubmitInterfaceComponentProps {
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
-	let textareaRef: React.RefObject<HTMLDivElement> = React.useRef();
-	let featureWrapperRef: React.RefObject<HTMLSpanElement> = React.useRef();
-	let attachmentInputRef: React.RefObject<HTMLInputElement> = React.useRef();
+	const textareaRef = React.useRef<HTMLDivElement>(null); //TO-DO: CHECK IF THIS IS STILL WORKING
+	const featureWrapperRef = React.useRef<HTMLDivElement>(null); //TO-DO: CHECK IF THIS IS STILL WORKING
+	const attachmentInputRef = React.useRef<HTMLInputElement>(null); //TO-DO: CHECK IF THIS IS STILL WORKING
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const [activeInfo, setActiveInfo] = useState(null);
-	const [attachmentSelected, setAttachmentSelected] = useState(null);
-	const [uploadProgress, setUploadProgress] = useState(null);
-	const [uploadOnLoadHandling, setUploadOnLoadHandling] = useState(null);
+	const [activeInfo, setActiveInfo] = useState(''); //TO-DO: CHECK IF THIS IS STILL WORKING -> was null before
+	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(null);
+	const [uploadProgress, setUploadProgress] = useState(0); //TO-DO: CHECK IF THIS IS STILL WORKING -> was null before
+	const [uploadOnLoadHandling, setUploadOnLoadHandling] = useState<any>(null); //TO-DO: <any> is just a work around. Logic of Data that can be in this state needs to be refactored
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [attachmentUpload, setAttachmentUpload] = useState(null);
+	const [attachmentUpload, setAttachmentUpload] = useState<XMLHttpRequest | null>(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
 
@@ -153,29 +153,27 @@ export const MessageSubmitInterfaceComponent = (
 		activeSession.consultant.absent;
 
 	useEffect(() => {
-		isConsultantAbsent ? setActiveInfo(INFO_TYPES.ABSENT) : null;
+		if (isConsultantAbsent) {
+			setActiveInfo(INFO_TYPES.ABSENT);
+		}
 	}, []);
 
 	useEffect(() => {
-		!activeInfo && isConsultantAbsent
-			? setActiveInfo(INFO_TYPES.ABSENT)
-			: null;
+		if (!activeInfo && isConsultantAbsent) {
+			setActiveInfo(INFO_TYPES.ABSENT);
+		}
 	}, [activeInfo]);
 
 	useEffect(() => {
 		resizeTextarea();
-		const toolbar: HTMLDivElement = document.querySelector(
-			'.textarea__toolbar'
-		);
-		const richtextToggle: HTMLSpanElement = document.querySelector(
-			'.textarea__richtextToggle'
-		);
+		const toolbar: HTMLDivElement | null = document.querySelector('.textarea__toolbar');
+		const richtextToggle: HTMLSpanElement | null = document.querySelector('.textarea__richtextToggle');
 		if (isRichtextActive) {
-			toolbar.classList.add('textarea__toolbar--active');
-			richtextToggle.classList.add('textarea__richtextToggle--active');
+			toolbar?.classList.add('textarea__toolbar--active');
+			richtextToggle?.classList.add('textarea__richtextToggle--active');
 		} else {
-			toolbar.classList.remove('textarea__toolbar--active');
-			richtextToggle.classList.remove('textarea__richtextToggle--active');
+			toolbar?.classList.remove('textarea__toolbar--active');
+			richtextToggle?.classList.remove('textarea__richtextToggle--active');
 		}
 	}, [isRichtextActive]);
 
@@ -226,7 +224,9 @@ export const MessageSubmitInterfaceComponent = (
 			currentEditorState.getCurrentContent() !==
 				editorState.getCurrentContent()
 		) {
-			props.isTyping();
+			if (props.isTyping) {
+				props.isTyping();
+			}
 		}
 		setEditorState(currentEditorState);
 	};
@@ -243,9 +243,6 @@ export const MessageSubmitInterfaceComponent = (
 	const resizeTextarea = () => {
 		const textarea: any = textareaRef.current;
 		const featureWrapper: any = featureWrapperRef.current;
-		const richtextEditor: HTMLDivElement = document.querySelector(
-			'.DraftEditor-root'
-		);
 
 		resetTextareaSize(textarea);
 
@@ -338,8 +335,8 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
-	const handleTextareaClick = () => {
-		this.editor.focus();
+	const handleTextareaClick = (e) => {
+		e.editor.focus(); //TO-DO: CHECK IF THIS IS STILL WORKING -> was this before
 	};
 
 	const getTypedMarkdownMessage = () => {
@@ -418,27 +415,25 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const handleMessageSendSuccess = () => {
-		props.showMonitoringButton();
+		if (props.showMonitoringButton) {
+			props.showMonitoringButton();
+		}
 		if (requestFeedbackCheckbox && requestFeedbackCheckbox.checked) {
-			const feedbackButton = document.querySelector(
-				'.sessionInfo__feedbackButton'
-			);
-			feedbackButton.classList.add('sessionInfo__feedbackButton--active');
+			const feedbackButton = document.querySelector('.sessionInfo__feedbackButton');
+			feedbackButton?.classList.add('sessionInfo__feedbackButton--active');
 			setTimeout(() => {
-				feedbackButton.classList.remove(
-					'sessionInfo__feedbackButton--active'
-				);
+				feedbackButton?.classList.remove('sessionInfo__feedbackButton--active');
 			}, 700);
 		}
 		setEditorState(EditorState.createEmpty());
-		setActiveInfo(null);
+		setActiveInfo('');
 		resizeTextarea();
 		setTimeout(() => setIsRequestInProgress(false), 1200);
 	};
 
 	const handleCheckboxClick = () => {
 		const textarea = document.querySelector('.textarea');
-		textarea.classList.toggle('textarea--yellowTheme');
+		textarea?.classList.toggle('textarea--yellowTheme');
 		placeholder === translate('enquiry.write.input.placeholder.consultant')
 			? setPlaceholder(
 					translate('enquiry.write.input.placeholder.feedback.peer')
@@ -464,7 +459,7 @@ export const MessageSubmitInterfaceComponent = (
 
 	const displayAttachmentToUpload = (attachment: File) => {
 		setAttachmentSelected(attachment);
-		setActiveInfo(null);
+		setActiveInfo('');
 	};
 
 	const handleLargeAttachments = () => {
@@ -484,12 +479,12 @@ export const MessageSubmitInterfaceComponent = (
 			attachmentUpload.abort();
 			setTimeout(() => setIsRequestInProgress(false), 1200);
 		}
-		setActiveInfo(null);
+		setActiveInfo('');
 		cleanupAttachment();
 	};
 
 	const cleanupAttachment = () => {
-		setUploadProgress(null);
+		setUploadProgress(0);
 		setAttachmentSelected(null);
 		setAttachmentUpload(null);
 		setUploadOnLoadHandling(false);
@@ -617,9 +612,10 @@ export const MessageSubmitInterfaceComponent = (
 											pastedText
 										)
 									}
-									ref={(element) => {
-										this.editor = element;
-									}}
+									//TO-DO: CHECK IF THIS IS STILL WORKING -> fix ref -> what does it do?
+									// ref={(element) => {
+									// 	this.editor = element;
+									// }}
 									plugins={[
 										linkifyPlugin,
 										staticToolbarPlugin,
@@ -686,7 +682,7 @@ export const MessageSubmitInterfaceComponent = (
 								handleButtonClick(event)
 							}
 							clicked={isRequestInProgress}
-							deactivated={uploadProgress}
+							deactivated={uploadProgress ? uploadProgress : undefined}
 						/>
 					</div>
 				</span>

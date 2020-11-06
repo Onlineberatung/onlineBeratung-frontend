@@ -37,14 +37,14 @@ export interface MessageItem {
 	message: string;
 	messageDate: string | number;
 	messageTime: string;
-	username?: string;
+	username: string; //TO-DO: CHECK IF THIS IS STILL WORKING -> was optional before (but required for example in messageUsername)
 	askerRcId?: string;
-	userId?: string;
+	userId: string; //TO-DO: CHECK IF THIS IS STILL WORKING -> was optional before (but required for example in messageUsername)
 	consultant?: {
 		username: string;
 	};
 	groupId?: string;
-	isNotRead?: boolean;
+	isNotRead: boolean; //TO-DO: CHECK IF THIS IS STILL WORKING -> was optional before (but required for example in MessageMetaData)
 	alias?: any;
 	attachments?: any;
 	file?: any;

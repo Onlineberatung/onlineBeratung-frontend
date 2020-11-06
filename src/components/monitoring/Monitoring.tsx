@@ -12,12 +12,13 @@ import { Checkbox } from '../checkbox/Checkbox';
 import { Button } from '../button/Button';
 import { ajaxCallUpdateMonitoring } from '../apiWrapper';
 import { ajaxCallGetMonitoring } from '../apiWrapper/ajaxCallGetMonitoring';
+import './monitoring.styles';
 
 export const Monitoring = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const [accordionOpened, setAccordionOpened] = useState([]);
+	const [accordionOpened, setAccordionOpened] = useState<any[]>([]); //TO-DO: CHECK IF THIS IS STILL WORKING -> change any to specific data type
 	const [monitoringData, setMonitoringData] = useState({});
 
 	const resort =
@@ -117,7 +118,7 @@ export const Monitoring = () => {
 
 	const renderAccordion = (id, data) => {
 		const iterate = () => {
-			let result = [];
+			let result: JSX.Element[] = [];
 			for (let key in data) {
 				let value = data[key];
 				result.push(renderSnippet(key, value, id));
@@ -129,7 +130,7 @@ export const Monitoring = () => {
 			// check which type of data was given
 			const type = !id ? 'first' : typeof value;
 			let active = false;
-			let open = null;
+			let open: string | null = null;
 
 			switch (type) {
 				case 'first':
@@ -142,10 +143,12 @@ export const Monitoring = () => {
 						>
 							<div className="monitoringAccordion__innerWrapper">
 								<h4
-									onClick={() =>
-										this.handleRenderChilds(
-											`${key}.meta.renderChildren`
-										)
+									onClick={() => 
+										//TO-DO: CHECK IF THIS IS STILL WORKING -> repair the commented logic
+										console.log('click')
+										// this.handleRenderChilds(
+										// 	`${key}.meta.renderChildren`
+										// )
 									}
 									className={
 										'monitoringAccordion__sectionTitle ' +
@@ -162,8 +165,7 @@ export const Monitoring = () => {
 					);
 				case 'object':
 					active = isActive(value);
-					open =
-						active || accordionOpened.includes(key) ? 'open' : null;
+					open = active || accordionOpened.includes(key) ? 'open' : null;
 					return (
 						<div
 							id={key}
@@ -272,6 +274,7 @@ export const Monitoring = () => {
 					<a
 						onClick={handleBackButton}
 						className="profile__header__backButton"
+						href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"

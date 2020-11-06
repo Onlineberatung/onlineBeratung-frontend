@@ -50,6 +50,8 @@ export const handleEditorBeforeInput = (editorState): DraftHandleValue => {
 
 	if (currentContentLength > INPUT_MAX_LENGTH - 1) {
 		return 'handled';
+	} else {
+		return 'not-handled'; //TO-DO: CHECK IF THIS IS STILL WORKING -> new else case
 	}
 };
 
@@ -62,6 +64,8 @@ export const handleEditorPastedText = (
 
 	if (currentContentLength + pastedText.length > INPUT_MAX_LENGTH) {
 		return 'handled';
+	} else {
+		return 'not-handled'; //TO-DO: CHECK IF THIS IS STILL WORKING -> new else case
 	}
 };
 

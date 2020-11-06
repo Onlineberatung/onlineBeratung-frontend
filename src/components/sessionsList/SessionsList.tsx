@@ -301,7 +301,9 @@ export const SessionsList = () => {
 		return new Promise((resolve, reject) => {
 			getSessions(sessionsContext, type, useOffset, getFilterToUse())
 				.then(({ sessions, total, count }) => {
-					increaseOffset ? setLoadingWithOffset(false) : null;
+					if (increaseOffset) {
+						setLoadingWithOffset(false);
+					}
 					setTotalItems(total);
 					setCurrentOffset(useOffset);
 					setLoading(false);

@@ -53,17 +53,11 @@ const INITIAL_MESSAGES_OFFSET = 0;
 
 export const SessionView = (props) => {
 	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
-	if (!sessionsData) return null;
-
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { setActiveSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const groupIdFromParam: string = props.match.params.rcGroupId;
 	setActiveSessionGroupId(groupIdFromParam);
 	const activeSession = getActiveSession(groupIdFromParam, sessionsData);
-	if (!activeSession) {
-		history.push(getSessionListPathForLocation());
-		return null;
-	}
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const groupId = activeSession.isFeedbackSession
@@ -131,7 +125,9 @@ export const SessionView = (props) => {
 	}, [currentlyTypingUsers]);
 
 	useEffect(() => {
-		typingStatusSent ? setTypingTimeout() : null;
+		if (typingStatusSent) {
+			setTypingTimeout()
+		}
 	}, [typingStatusSent]);
 
 	useEffect(() => {
@@ -140,6 +136,13 @@ export const SessionView = (props) => {
 			setLoadedMessages(null);
 		}
 	}, [loadedMessages]);
+
+	//TO-DO: CHECK IF THIS IS STILL WORKING -> was at the top of the function before
+	if (!sessionsData) return null;
+	if (!activeSession) {
+		history.push(getSessionListPathForLocation());
+		return null;
+	}
 
 	const fetchSessionMessages = (
 		isSocketConnected: boolean = false,

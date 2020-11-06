@@ -28,7 +28,8 @@ import {
 import {
 	OverlayWrapper,
 	Overlay,
-	OVERLAY_FUNCTIONS
+	OVERLAY_FUNCTIONS,
+	OverlayItem
 } from '../overlay/Overlay';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { history } from '../app/app';
@@ -56,12 +57,12 @@ export const JoinGroupChatView = () => {
 	}
 	const chatItem = getChatItemForSession(activeSession);
 
-	const [overlayItem, setOverlayItem] = useState(null);
+	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 
 	const [buttonItem, setButtonItem] = useState(joinButtonItem);
-	const [isButtonDisabled, setIsButtonDisabled] = useState(null);
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 	const timeout = 5000;
 	let timeoutId;
 
@@ -164,7 +165,7 @@ export const JoinGroupChatView = () => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setOverlayActive(false);
-			setOverlayItem(null);
+			setOverlayItem({});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			setStoppedGroupChat(true);
 			setRedirectToSessionsList(true);

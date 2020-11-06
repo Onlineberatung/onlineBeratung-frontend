@@ -18,7 +18,8 @@ import { ajaxCallRegistrationNewConsultingTypes } from '../apiWrapper/ajaxCallRe
 import {
 	OverlayWrapper,
 	Overlay,
-	OVERLAY_FUNCTIONS
+	OVERLAY_FUNCTIONS,
+	OverlayItem
 } from '../overlay/Overlay';
 import { logout } from '../logout/logout';
 import {
@@ -30,10 +31,10 @@ import { AgencySelection } from '../agencySelection/AgencySelection';
 export const AskerNewRegistration = () => {
 	const { userData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-	const [selectedConsultingType, setSelectedConsultingType] = useState(null);
-	const [selectedAgency, setSelectedAgency] = useState(null);
+	const [selectedConsultingType, setSelectedConsultingType] = useState<number>(null);
+	const [selectedAgency, setSelectedAgency] = useState<any>({});
 	const [overlayActive, setOverlayActive] = useState(false);
-	const [overlayItem, setOverlayItem] = useState(null);
+	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
 	const isAllRequiredDataSet = () => selectedConsultingType && selectedAgency;
@@ -52,7 +53,7 @@ export const AskerNewRegistration = () => {
 
 	const getOptionOfSelectedConsultingType = () => {
 		return consultingTypeSelectOptionsSet(userData).filter(
-			(option) => option.value == (selectedConsultingType as any)
+			(option) => option.value === (selectedConsultingType as any)
 		)[0];
 	};
 
@@ -96,7 +97,7 @@ export const AskerNewRegistration = () => {
 				pathname: `/sessions/user/view`
 			});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setOverlayItem(null);
+			setOverlayItem({});
 			setOverlayActive(false);
 			setSelectedConsultingType(null);
 		} else {

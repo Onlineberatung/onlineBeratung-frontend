@@ -17,7 +17,8 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import {
 	OVERLAY_FUNCTIONS,
 	OverlayWrapper,
-	Overlay
+	Overlay,
+	OverlayItem
 } from '../overlay/Overlay';
 import {
 	getGroupMembers,
@@ -52,9 +53,9 @@ export const GroupChatInfo = () => {
 		ActiveSessionGroupIdContext
 	);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const [subscriberList, setSubscriberList] = useState(null);
+	const [subscriberList, setSubscriberList] = useState([]); //TO-DO: CHECK IF THIS IS STILL WORKING -> was null before
 	const chatItem = getChatItemForSession(activeSession);
-	const [overlayItem, setOverlayItem] = useState(null);
+	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
@@ -79,7 +80,7 @@ export const GroupChatInfo = () => {
 		setIsRequestInProgress(true);
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setOverlayActive(false);
-			setOverlayItem(null);
+			setOverlayItem({});
 			setIsRequestInProgress(false);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.STOP_GROUP_CHAT) {
 			ajaxCallPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)

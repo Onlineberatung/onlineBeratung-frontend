@@ -45,19 +45,12 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const [isRead, setIsRead] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-
-	if (!sessionsData) {
-		return null;
-	}
 	const { userData } = useContext(UserDataContext);
 	const type = getTypeOfLocation();
 
 	const currentSessionData = sessionsData[
 		getSessionsDataKeyForSessionType(type)
 	].filter((session) => props.id === getChatItemForSession(session).id)[0];
-	if (!currentSessionData) {
-		return null;
-	}
 	const listItem =
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
@@ -84,6 +77,14 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 			setIsRequestInProgress(false);
 		}
 	}, [activeSessionGroupId, sessionsData]);
+
+	//TO-DO: CHECK IF THIS IS STILL WORKING -> was at the top of the function before
+	if (!sessionsData) {
+		return null;
+	}
+	if (!currentSessionData) {
+		return null;
+	}
 
 	const handleOnClick = () => {
 		if (

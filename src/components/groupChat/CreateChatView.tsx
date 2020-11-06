@@ -31,7 +31,8 @@ import { ButtonItem, BUTTON_TYPES, Button } from '../button/Button';
 import {
 	OVERLAY_FUNCTIONS,
 	OverlayWrapper,
-	Overlay
+	Overlay,
+	OverlayItem
 } from '../overlay/Overlay';
 import DatePicker, { registerLocale } from 'react-datepicker/dist/es';
 import de from 'date-fns/locale/de';
@@ -59,20 +60,20 @@ export const CreateGroupChatView = (props) => {
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
 	const [selectedChatTopic, setSelectedChatTopic] = useState('');
-	const [selectedDate, setSelectedDate] = useState(null);
-	const [selectedTime, setSelectedTime] = useState(null);
-	const [selectedDuration, setSelectedDuration] = useState(null);
-	const [selectedRepetitive, setSelectedRepetitive] = useState(null);
+	const [selectedDate, setSelectedDate] = useState('');
+	const [selectedTime, setSelectedTime] = useState('');
+	const [selectedDuration, setSelectedDuration] = useState('');
+	const [selectedRepetitive, setSelectedRepetitive] = useState(false); //TO-DO: CHECK IF THIS IS STILL WORKING -> was null before
 	const [isCreateButtonDisabled, setIsCreateButtonDisabled] = useState(true);
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 	const [chatTopicLabel, setChatTopicLabel] = useState(
 		'groupChat.create.topicInput.label'
 	);
-	const [overlayItem, setOverlayItem] = useState(null);
+	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isDateInputFocused, setIsDateInputFocus] = useState(false);
 	const [isTimeInputFocused, setIsTimeInputFocus] = useState(false);
-	const [groupIdToRedirect, setGroupIdToRedirect] = useState(null);
+	const [groupIdToRedirect, setGroupIdToRedirect] = useState(''); //TO-DO: CHECK IF THIS IS STILL WORKING
 	const [isEditGroupChatMode, setIsEditGroupChatMode] = useState(false);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
@@ -145,7 +146,7 @@ export const CreateGroupChatView = (props) => {
 		const prefillDate = new Date(chatItem.startDate);
 		const inputDate = new Date(selectedDate);
 		const prefillTime = getChatDate(chatItem.startDate, chatItem.startTime);
-		const inputTime = selectedTime;
+		const inputTime: Date = new Date(selectedTime); //TO-DO: CHECK IF THIS IS STILL WORKING
 
 		return (
 			chatItem.topic !== selectedChatTopic ||
@@ -342,7 +343,7 @@ export const CreateGroupChatView = (props) => {
 				}
 			} else {
 				setOverlayActive(false);
-				setOverlayItem(null);
+				setOverlayItem({});
 			}
 			setIsRequestInProgress(false);
 		}
@@ -356,6 +357,7 @@ export const CreateGroupChatView = (props) => {
 						<a
 							onClick={handleBackButton}
 							className="createChat__header__backButton"
+							href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -387,6 +389,7 @@ export const CreateGroupChatView = (props) => {
 						<a
 							onClick={handleBackButton}
 							className="createChat__header__backButton"
+							href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"

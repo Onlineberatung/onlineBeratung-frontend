@@ -41,22 +41,22 @@ export const SessionItemComponent = (props) => {
 	let { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	if (!activeSession) return null;
 	const { userData } = useContext(UserDataContext);
-	const [monitoringButtonVisible, setMonitoringButtonVisible] = useState(
-		false
-	);
+	const [monitoringButtonVisible, setMonitoringButtonVisible] = useState(false);
 	const [overlayActive, setOverlayActive] = useState(false);
-	const [currentGroupId, setCurrenGroupId] = useState(null);
+	const [currentGroupId, setCurrenGroupId] = useState(''); //TO-DO: CHECK IF THIS IS STILL WORKING  -> before null
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const messages = useMemo(() => props.messages, [props && props.messages]);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-
+		
+	
 	useEffect(() => {
 		scrollToEnd(0);
 	}, []);
+	
+	if (!activeSession) return null;
 
 	const getPlaceholder = () => {
 		if (isGroupChat) {
@@ -98,7 +98,7 @@ export const SessionItemComponent = (props) => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		setOverlayActive(false);
 		setIsRequestInProgress(false);
-		setCurrenGroupId(null);
+		setCurrenGroupId('');
 		setAcceptedGroupId(currentGroupId);
 	};
 
