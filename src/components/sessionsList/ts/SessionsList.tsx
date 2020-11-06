@@ -22,7 +22,7 @@ import {
 	getSessionsDataKeyForSessionType,
 	getActiveSession,
 	UnreadSessionsStatusContext,
-	getUnreadMessagesForStatus,
+	getUnreadMyMessages,
 	AUTHORITIES,
 	ACTIVE_SESSION,
 	hasUserAuthority,
@@ -199,10 +199,10 @@ export const SessionsList = () => {
 		if (sessionsData && sessionsData.mySessions) {
 			const didReadStatusChange =
 				unreadSessionsStatus.mySessions !=
-				getUnreadMessagesForStatus(sessionsData, 2);
+				getUnreadMyMessages(sessionsData);
 			if (didReadStatusChange) {
 				setUnreadSessionsStatus({
-					mySessions: getUnreadMessagesForStatus(sessionsData, 2),
+					mySessions: getUnreadMyMessages(sessionsData),
 					newDirectMessage: false,
 					resetedAnimations: unreadSessionsStatus.resetedAnimations
 				});
@@ -218,7 +218,7 @@ export const SessionsList = () => {
 		) {
 			const didReadStatusChange = () =>
 				unreadSessionsStatus.mySessions !=
-				getUnreadMessagesForStatus(sessionsData, 2);
+				getUnreadMyMessages(sessionsData);
 			if (didReadStatusChange) {
 				setUnreadSessionsStatus({
 					mySessions: unreadSessionsStatus.mySessions,

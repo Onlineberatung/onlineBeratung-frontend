@@ -106,18 +106,11 @@ export const getSessionsDataKeyForSessionType = (sessionType) => {
 	return null;
 };
 
-export const getUnreadMessagesForStatus: Function = (
-	sessionsData,
-	status: number
-): number => {
+export const getUnreadMyMessages: Function = (sessionsData): number => {
 	if (sessionsData.mySessions) {
 		const unreadCount = sessionsData.mySessions.filter((session) => {
-			if (session.session) {
-				return (
-					!session.session.messagesRead &&
-					session.session.status === status
-				);
-			}
+			const chatType = getChatTypeForListItem(session);
+			return !session[chatType].messagesRead;
 		});
 		return unreadCount.length;
 	} else {
