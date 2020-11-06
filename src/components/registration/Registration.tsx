@@ -52,6 +52,8 @@ import {
 import { redirectToApp } from './autoLogin';
 import { removeInputErrorClass, removeWarningLabelById } from './warningLabels';
 import { isNumber } from '../../resources/scripts/helpers/isNumber';
+import '../../resources/styles/styles';
+import './registration.styles';
 
 export const initRegistration = () => {
 	ReactDOM.render(

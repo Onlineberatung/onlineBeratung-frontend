@@ -8,7 +8,7 @@ import {
 	getChatTypeForListItem,
 	getChatItemForSession,
 	CHAT_TYPES
-} from '../../components/session/ts/sessionHelpers';
+} from '../../components/session/sessionHelpers';
 import { translate } from '../../resources/scripts/i18n/translate';
 
 export const USER_ROLES = {
