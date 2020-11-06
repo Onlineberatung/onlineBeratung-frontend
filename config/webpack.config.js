@@ -550,6 +550,208 @@ module.exports = function (webpackEnv) {
 				chunks: ['registration'],
 				filename: 'registration.suchtberatung.html',
 			}),
+			new HtmlWebpackPlugin({
+				title:
+					'Registrierung Beratung für Suizidgefährdete junge Menschen [U25]',
+				templateParameters: {
+					consultingType: 1,
+					resortName: 'u25',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.u25.html',
+			}),
+			new HtmlWebpackPlugin({
+				title:
+					'Registrierung gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten',
+				templateParameters: {
+					consultingType: 1,
+					resortName: 'gemeinsamstatteinsam',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.gemeinsamstatteinsam.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Schwangerschaftsberatung',
+				templateParameters: {
+					consultingType: 2,
+					resortName: 'pregnancy',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.schwangerschaftsberatung.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Beratung für Eltern und Familien',
+				templateParameters: {
+					consultingType: 3,
+					resortName: 'parenting',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.eltern-familie.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Kurberatung für Mütter und Väter',
+				templateParameters: {
+					consultingType: 4,
+					resortName: 'cure',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.kurberatung.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Beratung zum Thema Schulden',
+				templateParameters: {
+					consultingType: 5,
+					resortName: 'debt',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.schuldnerberatung.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Allgemeine Sozialberatung',
+				templateParameters: {
+					consultingType: 6,
+					resortName: 'social',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.allgemeine-soziale-beratung.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Leben im Alter',
+				templateParameters: {
+					consultingType: 7,
+					resortName: 'seniority',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.leben-im-alter.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Leben mit Behinderung und psychischer Erkrankung',
+				templateParameters: {
+					consultingType: 8,
+					resortName: 'disability',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.behinderung-und-psychische-erkrankung.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Mein PlanB - Beratung zwischen Schule und Beruf',
+				templateParameters: {
+					consultingType: 9,
+					resortName: 'planB',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.mein-planb.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Rechtliche Betreuung und Vorsorge',
+				templateParameters: {
+					consultingType: 10,
+					resortName: 'law',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.rechtliche-betreuung.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Beratung für Angehörige von Straffälligen',
+				templateParameters: {
+					consultingType: 11,
+					resortName: 'offender',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.straffaelligkeit.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung HIV/AIDS Beratung',
+				templateParameters: {
+					consultingType: 12,
+					resortName: 'aids',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.hiv-aids-beratung.html',
+			}),
+			new HtmlWebpackPlugin({
+			title: 'Registrierung Kinder- und Jugend-Rehabilitation',
+			templateParameters: {
+				consultingType: 13,
+				resortName: 'rehabilitation'
+			},
+			template: 'src/pages/registration.html',
+			chunks: ['registration'],
+			filename: 'registration.kinder-reha.html'
+		}),
+		new HtmlWebpackPlugin({
+			title: 'Registrierung Beratung für Kinder und Jugendliche',
+			templateParameters: {
+				consultingType: 14,
+				resortName: 'children'
+			},
+			template: 'src/pages/registration.html',
+			chunks: ['registration'],
+			filename: 'registration.kinder-jugendliche.html'
+		}),
+		new HtmlWebpackPlugin({
+			title: 'Registrierung Sucht-Selbsthilfe - Kreuzbund-Chat',
+			templateParameters: {
+				consultingType: 15,
+				resortName: 'kreuzbund'
+			},
+			template: 'src/pages/registration.html',
+			chunks: ['registration'],
+			filename: 'registration.kb-sucht-selbsthilfe.html'
+		}),
+		new HtmlWebpackPlugin({
+			title: 'Registrierung Migrationsberatung',
+			templateParameters: {
+				consultingType: 16,
+				resortName: 'migration'
+			},
+			template: 'src/pages/registration.html',
+			chunks: ['registration'],
+			filename: 'registration.migration.html'
+		}),
+		new HtmlWebpackPlugin({
+			title: 'Registrierung Aus-/Rück- & Weiterwanderung',
+			templateParameters: {
+				consultingType: 17,
+				resortName: 'emigration'
+			},
+			template: 'src/pages/registration.html',
+			chunks: ['registration'],
+			filename: 'registration.rw-auswanderung.html'
+		}),
+		new HtmlWebpackPlugin({
+			title: 'Registrierung Hospiz-, Palliativ- und Trauerberatung',
+			templateParameters: {
+				consultingType: 18,
+				resortName: 'hospice'
+			},
+			template: 'src/pages/registration.html',
+			chunks: ['registration'],
+			filename: 'registration.hospiz-palliativ.html'
+		}),
+		new HtmlWebpackPlugin({
+			title: 'Registrierung Regionale Angebote',
+			templateParameters: {
+				consultingType: 19,
+				resortName: 'regional'
+			},
+			template: 'src/pages/registration.html',
+			chunks: ['registration'],
+			filename: 'registration.regionale-angebote.html'
+		}),
 			// Inlines the webpack runtime script. This script is too small to warrant
 			// a network request.
 			// https://github.com/facebook/create-react-app/issues/5358
