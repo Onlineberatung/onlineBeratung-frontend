@@ -45,7 +45,7 @@ export const UserMonitoring = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const monitoringDataAvailable = hasMonitoringData(monitoringData);
 	let cleanMonitoringData = unPathifyObject(monitoringData);

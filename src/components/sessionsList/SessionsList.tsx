@@ -95,11 +95,11 @@ export const SessionsList = () => {
 			resetActiveSession();
 			fetchUserData(acceptedGroupId, true);
 		}
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const activeCreateChat =
 		activeSessionGroupId === ACTIVE_SESSION.CREATE_CHAT;
-	useEffect(() => {
+	useEffect(() => { // eslint-disable-line
 		if (typeIsUser(type) && acceptedGroupId) {
 			fetchUserData(acceptedGroupId);
 			setAcceptedGroupId(null);
@@ -133,8 +133,8 @@ export const SessionsList = () => {
 	useEffect(() => {
 		if (acceptedGroupId) {
 			setCurrentOffset(0);
-			if (acceptedGroupId != 'CLOSE' && !stopAutoLoad) {
-				type = SESSION_TYPES.MY_SESSION;
+			if (acceptedGroupId !== 'CLOSE' && !stopAutoLoad) {
+				type = SESSION_TYPES.MY_SESSION; // eslint-disable-line
 				getSessions(
 					sessionsContext,
 					type,
@@ -203,12 +203,12 @@ export const SessionsList = () => {
 			setActiveSessionGroupId(null);
 			getSessionsListData().catch(() => {});
 		}
-	}, [filterStatus]);
+	}, [filterStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (sessionsData && sessionsData.mySessions) {
 			const didReadStatusChange =
-				unreadSessionsStatus.sessions !=
+				unreadSessionsStatus.sessions !==
 				getUnreadMessages(sessionsData, 2);
 			if (didReadStatusChange) {
 				setUnreadSessionsStatus({
@@ -216,7 +216,7 @@ export const SessionsList = () => {
 				});
 			}
 		}
-	}, [sessionsData]);
+	}, [sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (stoppedGroupChat) {
@@ -227,7 +227,7 @@ export const SessionsList = () => {
 			}
 			setStoppedGroupChat(false);
 		}
-	}, [stoppedGroupChat]);
+	}, [stoppedGroupChat]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const setAssignedSessionActive = (assignedSession) => {
 		setStopAutoLoad(true);
@@ -254,8 +254,8 @@ export const SessionsList = () => {
 						.getAttribute('data-group-id')
 				: null;
 			if (
-				acceptedGroupId != firstItemId &&
-				acceptedGroupId != lastItemId
+				acceptedGroupId !== firstItemId &&
+				acceptedGroupId !== lastItemId
 			) {
 				wrapper.scrollTop -= 48;
 			}

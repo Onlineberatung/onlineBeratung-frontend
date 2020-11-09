@@ -71,7 +71,6 @@ export const SessionView = (props) => {
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
-	const [currentMessagesOffset, setCurrentMessagesOffset] = useState(null);
 	const [loadedMessages, setLoadedMessages] = useState(null);
 	const { userData } = useContext(UserDataContext);
 	const [typingUsers, setTypingUsers] = useState([]);
@@ -118,7 +117,7 @@ export const SessionView = (props) => {
 				setStoppedGroupChat(false);
 			};
 		}
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		setTypingUsers(currentlyTypingUsers);
@@ -128,7 +127,7 @@ export const SessionView = (props) => {
 		if (typingStatusSent) {
 			setTypingTimeout()
 		}
-	}, [typingStatusSent]);
+	}, [typingStatusSent]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (loadedMessages) {
@@ -151,7 +150,6 @@ export const SessionView = (props) => {
 		const rcGroupId = props.match.params.rcGroupId;
 		getSessionData(rcGroupId, offset)
 			.then((messagesData) => {
-				setCurrentMessagesOffset(parseInt(messagesData.total));
 				let newMessages: any = messagesItem;
 				if (offset > 0) {
 					newMessages.messages = [

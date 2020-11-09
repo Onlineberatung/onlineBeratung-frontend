@@ -45,8 +45,9 @@ export const ProfileView = () => {
 					<a
 						onClick={handleLogout}
 						className="profile__header__logout"
+						href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 					>
-						<img src="/resources/img/icons/out.svg" />
+						<img src="/resources/img/icons/out.svg" alt="Logout Icon"/>
 					</a>
 				</div>
 				<div className="profile__header__metaInfo">

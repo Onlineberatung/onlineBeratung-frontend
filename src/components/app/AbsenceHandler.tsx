@@ -53,7 +53,7 @@ export const AbsenceHandler = (props) => {
 			handleAbsenceReminder();
 			setInit(false);
 		}
-	}, [init]);
+	}, [init]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleAbsenceReminder = () => {
 		const absence = userData.absent;

@@ -97,7 +97,7 @@ export const CreateGroupChatView = (props) => {
 		} else {
 			setActiveSessionGroupId(ACTIVE_SESSION.CREATE_CHAT);
 		}
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		const isChatTopicValid =
@@ -118,13 +118,7 @@ export const CreateGroupChatView = (props) => {
 			setIsCreateButtonDisabled(true);
 			setIsSaveButtonDisabled(true);
 		}
-	}, [
-		selectedChatTopic,
-		selectedDate,
-		selectedTime,
-		selectedDuration,
-		selectedRepetitive
-	]);
+	}, [selectedChatTopic, selectedDate, selectedTime, selectedDuration, selectedRepetitive]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleBackButton = () => {
 		mobileListView();
@@ -194,7 +188,7 @@ export const CreateGroupChatView = (props) => {
 
 	const getOptionOfSelectedDuration = () => {
 		return durationSelectOptionsSet.filter(
-			(option) => option.value == (selectedDuration as any)
+			(option) => option.value === (selectedDuration as any)
 		)[0];
 	};
 

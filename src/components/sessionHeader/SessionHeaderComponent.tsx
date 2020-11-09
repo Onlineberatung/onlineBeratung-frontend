@@ -82,9 +82,10 @@ export const SessionHeaderComponent = (props) => {
 	const [isSubscriberFlyoutOpen, setIsSubscriberFlyoutOpen] = useState(false);
 	const [subscriberList, setSubscriberList] = useState([]);
 
-	useEffect(() => {
-		activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	});
+	//TO-DO: CHECK IF THIS IS STILL WORKING -> is this userEffect needed?
+	// useEffect(() => {
+	// 	activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	// });
 
 	useEffect(() => {
 		if (isSubscriberFlyoutOpen) {
@@ -128,7 +129,7 @@ export const SessionHeaderComponent = (props) => {
 		if (
 			flyoutElement &&
 			!flyoutElement.contains(event.target) &&
-			event.target.id != 'subscriberButton'
+			event.target.id !== 'subscriberButton'
 		) {
 			setIsSubscriberFlyoutOpen(false);
 		}
@@ -142,6 +143,7 @@ export const SessionHeaderComponent = (props) => {
 					<a
 						onClick={handleBackButton}
 						className="sessionInfo__backButton"
+						href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -255,6 +257,7 @@ export const SessionHeaderComponent = (props) => {
 				<a
 					onClick={handleBackButton}
 					className="sessionInfo__backButton"
+					href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

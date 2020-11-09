@@ -48,7 +48,7 @@ export const SessionItemComponent = (props) => {
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const messages = useMemo(() => props.messages, [props && props.messages]);
+	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 		
 	

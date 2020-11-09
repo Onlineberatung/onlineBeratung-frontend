@@ -64,17 +64,19 @@ export const SessionAssign = (props: { value?: string }) => {
 					console.log(error);
 				});
 		}
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const prepareConsultantDataForSelect = (consultants: Consultant[]) => {
 		let availableConsultants = [];
-		consultants.map((item, i) => {
+		//TO-DO: CHECK IF THIS IS STILL WORKING -> was map before
+		consultants.forEach(item => {
 			const consultant: SelectOption = {
 				value: item.consultantId,
 				label: item.firstName + ` ` + item.lastName,
 				iconLabel: item.firstName.charAt(0) + item.lastName.charAt(0)
 			};
 			availableConsultants.push(consultant);
+			
 		});
 		return availableConsultants;
 	};

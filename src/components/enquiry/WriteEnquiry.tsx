@@ -58,7 +58,7 @@ export const WriteEnquiry = (props) => {
 		} else {
 			deactivateListView();
 		}
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {

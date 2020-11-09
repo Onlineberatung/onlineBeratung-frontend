@@ -159,10 +159,10 @@ export class rocketChatSocket {
 
 		this.addMessageListeners((response) => {
 			const changeResponseOnSubscribedEvent =
-				response.msg == 'changed' &&
+				response.msg === 'changed' &&
 				response.fields &&
 				response.fields.eventName &&
-				response.fields.eventName == params[0];
+				response.fields.eventName === params[0];
 			if (changeResponseOnSubscribedEvent) {
 				const newMessage =
 					response.collection === SOCKET_COLLECTION.ROOM_MESSAGES;

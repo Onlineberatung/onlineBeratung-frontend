@@ -45,7 +45,7 @@ export const AskerNewRegistration = () => {
 		} else {
 			setIsButtonDisabled(true);
 		}
-	}, [selectedAgency]);
+	}, [selectedAgency]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleConsultingTypeSelect = (selectedOption) => {
 		setSelectedConsultingType(selectedOption.value);

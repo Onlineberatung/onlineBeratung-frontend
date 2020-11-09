@@ -91,13 +91,13 @@ export const JoinGroupChatView = () => {
 		return function stopTimeout() {
 			window.clearTimeout(timeoutId);
 		};
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const updateGroupChatInfo = () => {
 		if (chatItem.groupId === activeSessionGroupId) {
 			ajaxCallGetGroupChatInfo(chatItem.id)
 				.then((response: groupChatInfoData) => {
-					if (chatItem.active != response.active) {
+					if (chatItem.active !== response.active) {
 						let changedSessionsData = getSessionsDataWithChangedValue(
 							sessionsData,
 							activeSession,

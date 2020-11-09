@@ -205,7 +205,7 @@ const Registration = () => {
 
 	useEffect(() => {
 		prefillPostcode();
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		const warningLabels = document.querySelectorAll('.warning');
@@ -229,15 +229,7 @@ const Registration = () => {
 		} else {
 			setIsSubmitButtonDisabled(true);
 		}
-	}, [
-		username,
-		postcode,
-		password,
-		passwordConfirmation,
-		email,
-		valuesOfGeneratedInputs,
-		isDataProtectionSelected
-	]);
+	}, [username, postcode, password, passwordConfirmation, email, valuesOfGeneratedInputs, isDataProtectionSelected]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const inputItemUsername: InputFieldItem = {
 		content: username,

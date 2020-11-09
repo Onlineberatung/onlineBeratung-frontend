@@ -34,7 +34,7 @@ export const Monitoring = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleBackButton = () => {
 		const view = getViewPathForType(activeSession.type);
@@ -46,7 +46,7 @@ export const Monitoring = () => {
 	const handleChange = (key, parentKey) => {
 		const checkObj = (obj, k, prevk) => {
 			if (typeof obj === 'boolean') {
-				if (key === k && prevk == parentKey) {
+				if (key === k && prevk === parentKey) {
 					return !obj;
 				}
 				return obj;
@@ -91,19 +91,6 @@ export const Monitoring = () => {
 		} else {
 			setAccordionOpened([...accordionOpened, key]);
 		}
-	};
-
-	const getMonitoringValues = (data, key, inputState, greaterId) => {
-		const parentId = key.split('_')[0];
-		const filteredKey = key.split('_')[1];
-
-		if (data[greaterId][parentId]) {
-			data[greaterId][parentId][filteredKey] = inputState;
-		} else {
-			data[greaterId][filteredKey] = inputState;
-		}
-
-		return data;
 	};
 
 	const handleSubmit = () => {

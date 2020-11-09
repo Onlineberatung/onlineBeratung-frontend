@@ -12,7 +12,7 @@ import {
 
 const isIE11Browser =
 	window.navigator.userAgent.indexOf('MSIE ') > 0 ||
-	!!navigator.userAgent.match(/Trident.*rv\:11\./);
+	!!navigator.userAgent.match(/Trident.*rv:11\./);
 
 export const FETCH_METHODS = {
 	POST: 'POST',

@@ -76,7 +76,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		if (activeSessionGroupId && isRequestInProgress) {
 			setIsRequestInProgress(false);
 		}
-	}, [activeSessionGroupId, sessionsData]);
+	}, [activeSessionGroupId, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	//TO-DO: CHECK IF THIS IS STILL WORKING -> was at the top of the function before
 	if (!sessionsData) {
@@ -233,7 +233,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					) : (
 						<div className="sessionsListItem__consultingType">
 							{getResortTranslation(listItem.consultingType)}{' '}
-							{listItem.consultingType != 1 && !typeIsUser(type)
+							{listItem.consultingType !== 1 && !typeIsUser(type)
 								? '/ ' + listItem.postcode
 								: null}
 						</div>

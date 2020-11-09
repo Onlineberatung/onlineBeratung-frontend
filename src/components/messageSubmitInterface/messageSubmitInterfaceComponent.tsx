@@ -62,11 +62,7 @@ const omitKey = (key, { [key]: _, ...obj }) => obj;
 const linkifyPlugin = createLinkifyPlugin({
 	component: (props) => {
 		return (
-			<a
-				{...omitKey('blockKey', props)}
-				href={props.href}
-				onClick={() => window.open(props.href, '_blank')}
-			/>
+			<a {...omitKey('blockKey', props)} href={props.href} onClick={() => window.open(props.href, '_blank')}></a> // eslint-disable-line
 		);
 	}
 });
@@ -156,13 +152,13 @@ export const MessageSubmitInterfaceComponent = (
 		if (isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
 		}
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (!activeInfo && isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
 		}
-	}, [activeInfo]);
+	}, [activeInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		resizeTextarea();
@@ -175,14 +171,14 @@ export const MessageSubmitInterfaceComponent = (
 			toolbar?.classList.remove('textarea__toolbar--active');
 			richtextToggle?.classList.remove('textarea__richtextToggle--active');
 		}
-	}, [isRichtextActive]);
+	}, [isRichtextActive]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		resizeTextarea();
 		if (!attachmentSelected && uploadProgress) {
 			removeSelectedAttachment();
 		}
-	}, [attachmentSelected]);
+	}, [attachmentSelected]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		const uploadProgressBar = document.querySelector(
@@ -210,7 +206,7 @@ export const MessageSubmitInterfaceComponent = (
 				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_OTHER_ERROR);
 			}
 		}
-	}, [uploadOnLoadHandling]);
+	}, [uploadOnLoadHandling]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleAttachmentUploadError = (infoType: string) => {
 		setActiveInfo(infoType);
@@ -265,7 +261,7 @@ export const MessageSubmitInterfaceComponent = (
 		if (textHeight <= maxHeight) {
 			textarea.setAttribute(
 				'style',
-				'min-height: ' + textHeight + 'px;' + ' overflow-y: hidden;'
+				'min-height: ' + textHeight + 'px;' + ' overflow-y: hidden;' // eslint-disable-line
 			);
 			attachmentSelected
 				? textarea.setAttribute(
@@ -290,7 +286,7 @@ export const MessageSubmitInterfaceComponent = (
 		} else {
 			textarea.setAttribute(
 				'style',
-				'min-height: ' + maxHeight + 'px;' + ' overflow-y: scroll;'
+				'min-height: ' + maxHeight + 'px;' + ' overflow-y: scroll;' // eslint-disable-line
 			);
 			attachmentSelected
 				? textarea.setAttribute(

@@ -52,7 +52,7 @@ export const AppRouter = (props) => {
 					: 'user/view')
 		);
 		initNavigationHandler();
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className="app__wrapper">
@@ -61,7 +61,7 @@ export const AppRouter = (props) => {
 					<Link
 						key={index}
 						className={`navigation__item ${
-							window.location.href.indexOf(item.to) != -1
+							window.location.href.indexOf(item.to) !== -1
 								? 'navigation__item--active'
 								: null
 						}`}

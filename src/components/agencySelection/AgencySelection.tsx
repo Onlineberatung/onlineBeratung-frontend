@@ -57,7 +57,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		} else {
 			props.setAgency(null);
 		}
-	}, [selectedAgencyId]);
+	}, [selectedAgencyId]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (!postcodeExtended) {
@@ -105,7 +105,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		} else {
 			setPostcodeExtended(false);
 		}
-	}, [selectedPostcode]);
+	}, [selectedPostcode]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {

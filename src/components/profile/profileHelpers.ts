@@ -8,7 +8,8 @@ import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 
 export const convertUserDataObjectToArray = (object) => {
 	const array = [];
-	Object.keys(object).map(function (key) {
+	//TO-DO: CHECK IF THIS IS STILL WORKING -> was a map before 
+	Object.keys(object).forEach(key => {
 		let test = {
 			type: key,
 			value:

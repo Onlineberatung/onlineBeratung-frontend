@@ -54,7 +54,7 @@ export const SessionMenu = () => {
 
 	useEffect(() => {
 		document.addEventListener('mousedown', (e) => handleClick(e));
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleFlyout = () => {
 		const dropdown = document.querySelector('.sessionMenu__content');
@@ -173,7 +173,7 @@ export const SessionMenu = () => {
 					className="sessionInfo__feedbackButton sessionMenu__item--desktop"
 					role="button"
 				>
-					<img src="/resources/img/icons/pen-paper.svg" />
+					<img src="/resources/img/icons/pen-paper.svg" alt="Feedback Icon" />
 					<p>{translate('chatFlyout.feedback')}</p>
 				</Link>
 			) : null}
@@ -386,6 +386,7 @@ export const SessionMenu = () => {
 				<a
 					className="sessionMenu__item sessionMenu__item--fixed sessionMenu__item--border"
 					target="_blank"
+					rel="noreferrer"
 					href={config.endpoints.caritasImprint}
 				>
 					{translate('chatFlyout.imprint')}
@@ -393,6 +394,7 @@ export const SessionMenu = () => {
 				<a
 					className="sessionMenu__item sessionMenu__item--fixed"
 					target="_blank"
+					rel="noreferrer"
 					href={config.endpoints.caritasDataprotection}
 				>
 					{translate('chatFlyout.dataProtection')}

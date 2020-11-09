@@ -68,7 +68,7 @@ export const getActiveSession = (
 
 	if (resultSessions.length) {
 		const chatType = getChatTypeForListItem(resultSessions[0]);
-		if (chatType != CHAT_TYPES.GROUP_CHAT) {
+		if (chatType !== CHAT_TYPES.GROUP_CHAT) {
 			resultSessions[0].isFeedbackSession =
 				resultSessions[0].session.feedbackGroupId === sessionGroupId;
 		}
@@ -111,7 +111,7 @@ export const getUnreadMessages: Function = (
 	status: number
 ): string => {
 	if (sessData.mySessions) {
-		const unreadCount = sessData.mySessions.filter((session) => {
+		const unreadCount = sessData.mySessions.filter((session) => { // eslint-disable-line
 			if (session.session) {
 				return (
 					!session.session.messagesRead &&
@@ -155,7 +155,7 @@ export const getSessionsDataWithChangedValue = (
 	const activeChatItem = getChatItemForSession(activeSession);
 	sesData[type] = sessionsData[type].map((session) => {
 		const currentChatItem = getChatItemForSession(session);
-		if (currentChatItem.groupId == activeChatItem.groupId) {
+		if (currentChatItem.groupId === activeChatItem.groupId) {
 			currentChatItem[key] = value;
 		}
 		return session;

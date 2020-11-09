@@ -105,7 +105,7 @@ export const getSessions = (context, type, offset, useFilter): Promise<any> => {
 			.then((sessionList: ListItemsResponseInterface) => {
 				const fetchedSessions: ListItemInterface[] =
 					sessionList.sessions;
-				if (type != SESSION_TYPES.MY_SESSION) {
+				if (type !== SESSION_TYPES.MY_SESSION) {
 					fetchMySessionsDatas(fetchedSessions, isOffsetIncreased)
 						.then(() => {
 							resolve(sessionList);
@@ -125,7 +125,7 @@ export const getSessions = (context, type, offset, useFilter): Promise<any> => {
 			})
 			.catch((error) => {
 				if (
-					type != SESSION_TYPES.MY_SESSION &&
+					type !== SESSION_TYPES.MY_SESSION &&
 					error.message === FETCH_ERRORS.EMPTY
 				) {
 					fetchMySessionsDatas(null, isOffsetIncreased)

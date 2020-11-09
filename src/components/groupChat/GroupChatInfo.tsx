@@ -66,7 +66,7 @@ export const GroupChatInfo = () => {
 		if (chatItem.active) {
 			getSubscriberList();
 		}
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleStopGroupChatButton = () => {
 		setOverlayItem(stopGroupChatSecurityOverlayItem);
@@ -115,7 +115,7 @@ export const GroupChatInfo = () => {
 
 	const getDurationTranslation = () =>
 		durationSelectOptionsSet.filter(
-			(item) => parseInt(item.value) == chatItem.duration
+			(item) => parseInt(item.value) === chatItem.duration
 		)[0].label;
 	const preparedSettings: Array<{ label; value }> = [
 		{
