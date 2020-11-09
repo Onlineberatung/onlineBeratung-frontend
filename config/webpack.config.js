@@ -533,6 +533,13 @@ module.exports = function (webpackEnv) {
 		},
 		plugins: [
 			new HtmlWebpackPlugin({
+				title: 'Beratung & Hilfe',
+				inject: true,
+				template: 'src/pages/app.html',
+				chunks: ['app'],
+				filename: 'beratung-hilfe.html',
+			}),
+			new HtmlWebpackPlugin({
 				title: 'Login',
 				inject: true,
 				template: 'src/pages/login.html',
@@ -683,75 +690,75 @@ module.exports = function (webpackEnv) {
 				filename: 'registration.hiv-aids-beratung.html',
 			}),
 			new HtmlWebpackPlugin({
-			title: 'Registrierung Kinder- und Jugend-Rehabilitation',
-			templateParameters: {
-				consultingType: 13,
-				resortName: 'rehabilitation'
-			},
-			template: 'src/pages/registration.html',
-			chunks: ['registration'],
-			filename: 'registration.kinder-reha.html'
-		}),
-		new HtmlWebpackPlugin({
-			title: 'Registrierung Beratung für Kinder und Jugendliche',
-			templateParameters: {
-				consultingType: 14,
-				resortName: 'children'
-			},
-			template: 'src/pages/registration.html',
-			chunks: ['registration'],
-			filename: 'registration.kinder-jugendliche.html'
-		}),
-		new HtmlWebpackPlugin({
-			title: 'Registrierung Sucht-Selbsthilfe - Kreuzbund-Chat',
-			templateParameters: {
-				consultingType: 15,
-				resortName: 'kreuzbund'
-			},
-			template: 'src/pages/registration.html',
-			chunks: ['registration'],
-			filename: 'registration.kb-sucht-selbsthilfe.html'
-		}),
-		new HtmlWebpackPlugin({
-			title: 'Registrierung Migrationsberatung',
-			templateParameters: {
-				consultingType: 16,
-				resortName: 'migration'
-			},
-			template: 'src/pages/registration.html',
-			chunks: ['registration'],
-			filename: 'registration.migration.html'
-		}),
-		new HtmlWebpackPlugin({
-			title: 'Registrierung Aus-/Rück- & Weiterwanderung',
-			templateParameters: {
-				consultingType: 17,
-				resortName: 'emigration'
-			},
-			template: 'src/pages/registration.html',
-			chunks: ['registration'],
-			filename: 'registration.rw-auswanderung.html'
-		}),
-		new HtmlWebpackPlugin({
-			title: 'Registrierung Hospiz-, Palliativ- und Trauerberatung',
-			templateParameters: {
-				consultingType: 18,
-				resortName: 'hospice'
-			},
-			template: 'src/pages/registration.html',
-			chunks: ['registration'],
-			filename: 'registration.hospiz-palliativ.html'
-		}),
-		new HtmlWebpackPlugin({
-			title: 'Registrierung Regionale Angebote',
-			templateParameters: {
-				consultingType: 19,
-				resortName: 'regional'
-			},
-			template: 'src/pages/registration.html',
-			chunks: ['registration'],
-			filename: 'registration.regionale-angebote.html'
-		}),
+				title: 'Registrierung Kinder- und Jugend-Rehabilitation',
+				templateParameters: {
+					consultingType: 13,
+					resortName: 'rehabilitation',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.kinder-reha.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Beratung für Kinder und Jugendliche',
+				templateParameters: {
+					consultingType: 14,
+					resortName: 'children',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.kinder-jugendliche.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Sucht-Selbsthilfe - Kreuzbund-Chat',
+				templateParameters: {
+					consultingType: 15,
+					resortName: 'kreuzbund',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.kb-sucht-selbsthilfe.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Migrationsberatung',
+				templateParameters: {
+					consultingType: 16,
+					resortName: 'migration',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.migration.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Aus-/Rück- & Weiterwanderung',
+				templateParameters: {
+					consultingType: 17,
+					resortName: 'emigration',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.rw-auswanderung.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Hospiz-, Palliativ- und Trauerberatung',
+				templateParameters: {
+					consultingType: 18,
+					resortName: 'hospice',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.hospiz-palliativ.html',
+			}),
+			new HtmlWebpackPlugin({
+				title: 'Registrierung Regionale Angebote',
+				templateParameters: {
+					consultingType: 19,
+					resortName: 'regional',
+				},
+				template: 'src/pages/registration.html',
+				chunks: ['registration'],
+				filename: 'registration.regionale-angebote.html',
+			}),
 			// Inlines the webpack runtime script. This script is too small to warrant
 			// a network request.
 			// https://github.com/facebook/create-react-app/issues/5358
