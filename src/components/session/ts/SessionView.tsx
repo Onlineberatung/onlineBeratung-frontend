@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useMemo } from 'react';
 import { history } from '../../app/ts/app';
 import { Loading } from '../../app/ts/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
@@ -58,7 +58,11 @@ export const SessionView = (props) => {
 	const { setActiveSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const groupIdFromParam: string = props.match.params.rcGroupId;
 	setActiveSessionGroupId(groupIdFromParam);
-	const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+	const activeSession = useMemo(
+		() => getActiveSession(groupIdFromParam, sessionsData),
+		[groupIdFromParam]
+	);
+
 	if (!activeSession) {
 		history.push(getSessionListPathForLocation());
 		return null;
@@ -114,6 +118,7 @@ export const SessionView = (props) => {
 	};
 
 	useEffect(() => {
+		setIsLoading(true);
 		mobileDetailView();
 		setAcceptedGroupId(null);
 		typingTimeout = null;
@@ -127,7 +132,7 @@ export const SessionView = (props) => {
 				setStoppedGroupChat(false);
 			};
 		}
-	}, []);
+	}, [activeSession]);
 
 	useEffect(() => {
 		setTypingUsers(currentlyTypingUsers);
@@ -286,6 +291,7 @@ export const SessionView = (props) => {
 					messages={prepareMessages(messagesItem.messages)}
 					isTyping={handleTyping}
 					typingUsers={typingUsers}
+					currentGroupId={groupIdFromParam}
 				/>
 			) : null}
 			{isOverlayActive ? (
