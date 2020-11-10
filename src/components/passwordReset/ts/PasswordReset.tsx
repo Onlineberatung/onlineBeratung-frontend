@@ -75,7 +75,7 @@ export const PasswordReset = () => {
 		),
 		id: 'passwordResetOld',
 		type: 'password',
-		labelTranslatable: 'profile.functions.passwordResetOldLabel',
+		label: translate('profile.functions.passwordResetOldLabel'),
 		infoText:
 			oldPasswordErrorMessage || oldPasswordSuccessMessage
 				? `${oldPasswordErrorMessage} ${oldPasswordSuccessMessage}`
@@ -91,7 +91,7 @@ export const PasswordReset = () => {
 		),
 		id: 'passwordResetNew',
 		type: 'password',
-		labelTranslatable: 'profile.functions.passwordResetNewLabel',
+		label: translate('profile.functions.passwordResetNewLabel'),
 		infoText:
 			(newPasswordErrorMessage || newPasswordSuccessMessage
 				? `${newPasswordErrorMessage} ${newPasswordSuccessMessage}<br>`
@@ -108,7 +108,7 @@ export const PasswordReset = () => {
 		),
 		id: 'passwordResetConfirm',
 		type: 'password',
-		labelTranslatable: 'profile.functions.passwordResetConfirmLabel',
+		label: translate('profile.functions.passwordResetConfirmLabel'),
 		infoText:
 			confirmPasswordErrorMessage || confirmPasswordSuccessMessage
 				? `${confirmPasswordErrorMessage} ${confirmPasswordSuccessMessage}`

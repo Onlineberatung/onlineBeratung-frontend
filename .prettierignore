@@ -2,3 +2,4 @@
 Jenkinsfile
 .prettierignore
 Dockerfile
+devvars.env

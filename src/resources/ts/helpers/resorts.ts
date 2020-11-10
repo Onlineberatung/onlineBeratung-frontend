@@ -1,23 +1,16 @@
 import { config } from '../config';
 
-export const getConsultingTypeFromRegistration = () =>
-	document.getElementById('registrationForm')
-		? parseInt(
-				document.getElementById('registrationForm').dataset
-					.consultingtype
-		  )
+export const getConsultingTypeFromRegistration = () => {
+	const registrationRoot = document.getElementById('registrationRoot');
+	return registrationRoot
+		? parseInt(registrationRoot.dataset.consultingtype)
 		: null;
+};
 
-export const isU25Registration = () =>
+export const isU25Registration = (): Boolean =>
 	getConsultingTypeFromRegistration() === 1;
-export const isOffenderRegistration = () =>
-	getConsultingTypeFromRegistration() === 11;
-export const isRehabilitationRegistration = () =>
-	getConsultingTypeFromRegistration() === 13;
-export const isKreuzbundRegistration = () =>
-	getConsultingTypeFromRegistration() === 15;
 
-export const isGenericConsultingType = (currentType: number) => {
+export const isGenericConsultingType = (currentType: number): Boolean => {
 	const genericTypes = [
 		2,
 		3,
@@ -43,9 +36,18 @@ export const isGenericConsultingType = (currentType: number) => {
 
 export const hasConsultingTypeLongPostcodeValidation = (
 	consultingType: number = getConsultingTypeFromRegistration()
-) => {
+): Boolean => {
 	const typesUsingLongPostcodeValidation = ['12', '17'];
 	return typesUsingLongPostcodeValidation.includes(consultingType.toString());
+};
+
+export const hasPreselectedAgencyFallback = (
+	consultingType: number = getConsultingTypeFromRegistration()
+): Boolean => {
+	const typesWithPreselectedAgencyFallback = ['11', '13', '15'];
+	return typesWithPreselectedAgencyFallback.includes(
+		consultingType.toString()
+	);
 };
 
 export const getResortKeyForConsultingType = (currentType: number) => {

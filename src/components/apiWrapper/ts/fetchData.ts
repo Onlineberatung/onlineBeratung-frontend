@@ -4,7 +4,7 @@ import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
 } from '../../errorPage/ts/errorHandling';
-import { redirectToHelpmail } from '../../registrationFormular/ts/prefillPostcode';
+import { redirectToHelpmail } from '../../registration/ts/prefillPostcode';
 import {
 	isU25Registration,
 	getConsultingTypeFromRegistration
