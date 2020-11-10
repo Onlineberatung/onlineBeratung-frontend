@@ -21,6 +21,10 @@ import {
 import { ContextProvider } from '../../globalState/state';
 import { getUserData } from '../apiWrapper';
 import { Loading } from './Loading';
+import '../../resources/styles/styles';
+import './app.styles';
+import './navigation.styles';
+import './loading.styles';
 
 export const history = createBrowserHistory();
 

@@ -27,6 +27,7 @@ import {
 	mobileListView
 } from '../app/navigationHandler';
 import { AgencySelection } from '../agencySelection/AgencySelection';
+import './profile.styles';
 
 export const AskerNewRegistration = () => {
 	const { userData } = useContext(UserDataContext);

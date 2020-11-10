@@ -49,6 +49,7 @@ import { Button } from '../button/Button';
 import { SessionsListUnreadIllustration } from './SessionsListUnreadIllustration';
 import { SessionListCreateChat } from './SessionListCreateChat';
 import { mobileListView } from '../app/navigationHandler';
+import './sessionsList.styles';
 
 export const SessionsList = () => {
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();

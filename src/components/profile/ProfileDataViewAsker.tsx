@@ -13,6 +13,7 @@ import {
 	consultingTypeSelectOptionsSet
 } from './profileHelpers';
 import { AskerNewRegistration } from './AskerNewRegistration';
+import './profile.styles';
 
 export const ProfileDataViewAsker = () => {
 	const { userData } = useContext(UserDataContext);

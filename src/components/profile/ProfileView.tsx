@@ -11,6 +11,7 @@ import {
 	AUTHORITIES
 } from '../../globalState';
 import { ProfileDataViewAsker } from './ProfileDataViewAsker';
+import './profile.styles';
 
 export const ProfileView = () => {
 	const { userData } = useContext(UserDataContext);

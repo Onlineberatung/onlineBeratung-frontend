@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
+import './sessionsList.styles';
 
 export class SessionListEmptyState extends React.Component {
 	render(): JSX.Element {

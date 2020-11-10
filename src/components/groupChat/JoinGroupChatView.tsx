@@ -43,6 +43,7 @@ import { Button } from '../button/Button';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { logout } from '../logout/logout';
 import { Redirect } from 'react-router-dom';
+import './joinChat.styles';
 
 export const JoinGroupChatView = () => {
 	const { userData } = useContext(UserDataContext);

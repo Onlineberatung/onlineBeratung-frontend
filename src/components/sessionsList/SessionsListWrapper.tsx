@@ -14,6 +14,7 @@ import {
 } from '../../globalState';
 import { SessionsList } from './SessionsList';
 import { Link } from 'react-router-dom';
+import './sessionsList.styles';
 
 export const SessionsListWrapper = () => {
 	const type = getTypeOfLocation();

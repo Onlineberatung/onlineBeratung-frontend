@@ -8,6 +8,7 @@ import {
 	hasUserAuthority,
 	AUTHORITIES
 } from '../../globalState';
+import './profile.styles';
 
 export const ProfileFunctions = () => {
 	const { userData } = useContext(UserDataContext);

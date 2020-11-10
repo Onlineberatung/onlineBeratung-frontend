@@ -13,6 +13,7 @@ import { Button } from '../button/Button';
 import { ajaxCallUpdateMonitoring } from '../apiWrapper';
 import { ajaxCallGetMonitoring } from '../apiWrapper/ajaxCallGetMonitoring';
 import './monitoring.styles';
+import '../profile/profile.styles';
 
 export const Monitoring = () => {
 	const { sessionsData } = useContext(SessionsDataContext);

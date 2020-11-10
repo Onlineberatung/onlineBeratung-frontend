@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useContext } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { UserDataContext } from '../../globalState';
+import './profile.styles';
 
 export const ProfileDataViewConsultant = () => {
 	const { userData } = useContext(UserDataContext);

@@ -36,6 +36,8 @@ import {
 	AUTHORITIES
 } from '../../globalState';
 import { Link } from 'react-router-dom';
+import './session.styles';
+import './session.yellowTheme.styles';
 
 export const SessionItemComponent = (props) => {
 	let { sessionsData } = useContext(SessionsDataContext);

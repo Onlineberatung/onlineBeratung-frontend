@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
+import './typingIndicator.styles';
 
 export const TypingIndicator = (props) => {
 	const users = props.typingUsers;

@@ -31,6 +31,7 @@ import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmi
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
+import './sessionsListItem.styles';
 
 interface SessionListItemProps {
 	type: string;

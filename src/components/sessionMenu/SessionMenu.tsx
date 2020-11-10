@@ -36,6 +36,8 @@ import { ajaxCallPutGroupChat, GROUP_CHAT_API } from '../apiWrapper';
 import { logout } from '../logout/logout';
 import { mobileListView } from '../app/navigationHandler';
 import { isGroupChatOwner } from '../groupChat/groupChatHelpers';
+import '../sessionHeader/sessionHeader.styles';
+import './sessionMenu.styles';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);

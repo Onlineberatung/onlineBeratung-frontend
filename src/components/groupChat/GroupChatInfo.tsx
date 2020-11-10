@@ -39,6 +39,7 @@ import {
 	mobileDetailView
 } from '../app/navigationHandler';
 import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
+import '../profile/profile.styles';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),

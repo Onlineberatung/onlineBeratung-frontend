@@ -23,6 +23,7 @@ import {
 import { Link } from 'react-router-dom';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import { ajaxCallGetMonitoring } from '../apiWrapper/ajaxCallGetMonitoring';
+import './profile.styles';
 
 const buttonSet: ButtonItem = {
 	label: translate('userProfile.monitoring.buttonLabel'),

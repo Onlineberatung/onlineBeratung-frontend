@@ -50,6 +50,7 @@ import {
 import { getChatDate } from '../session/sessionDateHelpers';
 import { updateChatSuccessOverlayItem } from './groupChatHelpers';
 import '../datepicker/datepicker.styles';
+import './createChat.styles';
 
 registerLocale('de', de);
 

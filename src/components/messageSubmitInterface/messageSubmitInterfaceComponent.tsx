@@ -56,6 +56,9 @@ import {
 } from './richtextHelpers';
 import { SVG } from '../svgSet/SVG';
 import { ICON_KEYS } from '../svgSet/SVGHelpers';
+import './emojiPicker.styles';
+import './messageSubmitInterface.styles';
+import './messageSubmitInterface.yellowTheme.styles';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;

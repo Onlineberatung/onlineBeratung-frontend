@@ -15,6 +15,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { UserDataView } from './UserDataView';
+import './profile.styles';
 
 export const AskerInfo = () => {
 	const { sessionsData } = useContext(SessionsDataContext);

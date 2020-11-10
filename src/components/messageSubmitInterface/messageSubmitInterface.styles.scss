@@ -1,6 +1,9 @@
 $attachmentIconSize: 20px;
 $sendIconSize: 24px;
 $inputShadowColor: rgba(0, 0, 0, 0.1);
+$navWidth: $grid-base-twelve;
+$contentWidthSmall: 100vw;
+$contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 
 .session,
 .enquiry__wrapper {

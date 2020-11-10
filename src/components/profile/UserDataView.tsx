@@ -17,6 +17,7 @@ import {
 	getAddictiveDrugsTranslatable,
 	getUserDataTranslateBase
 } from './profileHelpers';
+import './profile.styles';
 
 export const UserDataView = () => {
 	const { sessionsData } = useContext(SessionsDataContext);

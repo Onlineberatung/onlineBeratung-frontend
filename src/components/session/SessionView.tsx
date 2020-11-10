@@ -46,6 +46,7 @@ import {
 	encodeUsername,
 	decodeUsername
 } from '../../resources/scripts/helpers/encryptionHelpers';
+import './session.styles';
 
 let typingTimeout;
 const TYPING_TIMEOUT_MS = 4000;
