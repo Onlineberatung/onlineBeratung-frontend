@@ -45,7 +45,6 @@ const resolveModule = (resolveFn, filePath) => {
   if (extension) {
     return resolveFn(`${filePath}.${extension}`);
   }
-
   return resolveFn(`${filePath}.js`);
 };
 
@@ -56,7 +55,7 @@ module.exports = {
 	appBuild: resolveApp('build'),
 	appPublic: resolveApp('public'),
 	appEntryPoints: {
-		app: resolveModule(resolveApp, 'src/components/app/initNavigation'),
+		app: resolveModule(resolveApp, 'src/components/app/initApp'),
 		login: resolveModule(resolveApp, 'src/components/login/initLogin'),
 		registration: resolveModule(resolveApp, 'src/components/registration/initRegistration')
 	},
