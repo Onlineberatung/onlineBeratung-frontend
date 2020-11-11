@@ -8,7 +8,7 @@
 	<meta name="description" content="Beratung & Hilfe – Online. Anonym. Sicher." />
 	<meta name="referrer" content="same-origin">
 	
-	<meta property="og:title" content="Login">
+	<meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>">
 	<meta property="og:description" content="Beratung & Hilfe – Online. Anonym. Sicher.">
 	<meta property="og:type" content="website">
 	
@@ -52,8 +52,19 @@
 		</script>
 	</p>
 
-	<main class="app" id="app">
-	</main>
+	<% if(type === 'registration') { %>
+		<main
+			data-consultingtype="<%= consultingType %>"
+			data-resortName="<%= resortName %>" 
+			class="app" 
+			id="registrationRoot"
+		></main>
+	<% } else { %>
+		<main
+			class="app" 
+			id="<%= type %>Root"
+		></main>
+	<% } %>
 
 	<div id="overlay"></div>
 </body>

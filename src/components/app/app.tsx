@@ -29,7 +29,7 @@ import './loading.styles';
 export const history = createBrowserHistory();
 
 export const initApp = () => {
-	ReactDOM.render(<AppContainer />, document.getElementById('app'));
+	ReactDOM.render(<AppContainer />, document.getElementById('appRoot'));
 };
 
 export const AppContainer = (props) => {
