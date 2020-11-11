@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
 	typeIsEnquiry,
-	isGroupChatForSessionItem
+	isGroupChatForSessionItem,
+	getChatItemForSession
 } from '../../session/ts/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../../checkbox/ts/Checkbox';
 import { translate } from '../../../resources/ts/i18n/translate';
@@ -56,6 +57,8 @@ import {
 } from './richtextHelpers';
 import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
+import { ajaxCallPostDraftMessage } from '../../apiWrapper/ts/ajaxCallPostDraftMessage';
+import useDebounce from '../../../resources/ts/helpers/useDebounce';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -112,6 +115,8 @@ export const getIconForAttachmentType = (attachmentType: string) => {
 	}
 };
 
+const SAVE_DRAFT_TIMEOUT = 10000;
+
 export interface MessageSubmitInterfaceComponentProps {
 	handleSendButton: Function;
 	isTyping?: Function;
@@ -141,6 +146,12 @@ export const MessageSubmitInterfaceComponent = (
 	const [attachmentUpload, setAttachmentUpload] = useState(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
+	const chatItem = getChatItemForSession(activeSession);
+	const currentDraftMessageRef = useRef<string>();
+	const debouncedDraftMessage = useDebounce(
+		currentDraftMessageRef.current,
+		SAVE_DRAFT_TIMEOUT
+	);
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -154,7 +165,22 @@ export const MessageSubmitInterfaceComponent = (
 
 	useEffect(() => {
 		isConsultantAbsent ? setActiveInfo(INFO_TYPES.ABSENT) : null;
+
+		return () => {
+			if (currentDraftMessageRef.current) {
+				ajaxCallPostDraftMessage(
+					chatItem.groupId,
+					currentDraftMessageRef.current
+				);
+			}
+		};
 	}, []);
+
+	useEffect(() => {
+		if (debouncedDraftMessage) {
+			ajaxCallPostDraftMessage(chatItem.groupId, debouncedDraftMessage);
+		}
+	}, [debouncedDraftMessage]);
 
 	useEffect(() => {
 		!activeInfo && isConsultantAbsent
@@ -229,6 +255,7 @@ export const MessageSubmitInterfaceComponent = (
 			props.isTyping();
 		}
 		setEditorState(currentEditorState);
+		currentDraftMessageRef.current = getTypedMarkdownMessage();
 	};
 
 	const handleEditorKeyCommand = (command) => {
