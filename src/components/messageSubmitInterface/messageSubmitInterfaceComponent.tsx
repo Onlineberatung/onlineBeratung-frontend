@@ -123,18 +123,19 @@ export interface MessageSubmitInterfaceComponentProps {
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
-	const textareaRef = React.useRef<HTMLDivElement>(null); //TO-DO: CHECK IF THIS IS STILL WORKING
-	const featureWrapperRef = React.useRef<HTMLDivElement>(null); //TO-DO: CHECK IF THIS IS STILL WORKING
-	const attachmentInputRef = React.useRef<HTMLInputElement>(null); //TO-DO: CHECK IF THIS IS STILL WORKING
+	const textareaRef = React.useRef<HTMLDivElement>(null);
+	const featureWrapperRef = React.useRef<HTMLDivElement>(null);
+	const attachmentInputRef = React.useRef<HTMLInputElement>(null);
+	let editorRef: PluginsEditor;
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const [activeInfo, setActiveInfo] = useState(''); //TO-DO: CHECK IF THIS IS STILL WORKING -> was null before
+	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(null);
-	const [uploadProgress, setUploadProgress] = useState(0); //TO-DO: CHECK IF THIS IS STILL WORKING -> was null before
+	const [uploadProgress, setUploadProgress] = useState(null);
 	const [uploadOnLoadHandling, setUploadOnLoadHandling] = useState<any>(null); //TO-DO: <any> is just a work around. Logic of Data that can be in this state needs to be refactored
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [attachmentUpload, setAttachmentUpload] = useState<XMLHttpRequest | null>(null);
@@ -335,7 +336,9 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const handleTextareaClick = (e) => {
-		e.editor.focus(); //TO-DO: CHECK IF THIS IS STILL WORKING -> was this before
+		console.log('editor ref', editorRef);
+		editorRef.focus();
+		// this.editor.focus(); //TO-DO: CHECK IF THIS IS STILL WORKING -> was this before
 	};
 
 	const getTypedMarkdownMessage = () => {
@@ -611,10 +614,9 @@ export const MessageSubmitInterfaceComponent = (
 											pastedText
 										)
 									}
-									//TO-DO: CHECK IF THIS IS STILL WORKING -> fix ref -> what does it do?
-									// ref={(element) => {
-									// 	this.editor = element;
-									// }}
+									ref={(element) => {
+										editorRef = element;
+									}}
 									plugins={[
 										linkifyPlugin,
 										staticToolbarPlugin,
