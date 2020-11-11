@@ -65,11 +65,13 @@ const omitKey = (key, { [key]: _, ...obj }) => obj;
 const linkifyPlugin = createLinkifyPlugin({
 	component: (props) => {
 		return (
+			/* eslint-disable */
 			<a
 				{...omitKey('blockKey', props)}
 				href={props.href}
 				onClick={() => window.open(props.href, '_blank')}
-			></a> // eslint-disable-line
+			></a>
+			/* eslint-enable */
 		);
 	}
 });

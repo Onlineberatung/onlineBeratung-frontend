@@ -232,21 +232,26 @@ const Registration = () => {
 		}
 	}, [email, resortData.showEmail]);
 
-	useEffect(() => {
-		if (isRegistrationValid()) {
-			setIsSubmitButtonDisabled(false);
-		} else {
-			setIsSubmitButtonDisabled(true);
-		}
-	}, [
-		username,
-		postcode,
-		password,
-		passwordConfirmation,
-		email,
-		valuesOfGeneratedInputs,
-		isDataProtectionSelected
-	]); // eslint-disable-line react-hooks/exhaustive-deps
+	useEffect(
+		() => {
+			if (isRegistrationValid()) {
+				setIsSubmitButtonDisabled(false);
+			} else {
+				setIsSubmitButtonDisabled(true);
+			}
+		},
+		/* eslint-disable */
+		[
+			username,
+			postcode,
+			password,
+			passwordConfirmation,
+			email,
+			valuesOfGeneratedInputs,
+			isDataProtectionSelected
+		]
+	);
+	/* eslint-enable */
 
 	const inputItemUsername: InputFieldItem = {
 		content: username,

@@ -111,8 +111,8 @@ export const getUnreadMessages: Function = (
 	status: number
 ): string => {
 	if (sessData.mySessions) {
+		/* eslint-disable */
 		const unreadCount = sessData.mySessions.filter((session) => {
-			// eslint-disable-line
 			if (session.session) {
 				return (
 					!session.session.messagesRead &&
@@ -120,6 +120,7 @@ export const getUnreadMessages: Function = (
 				);
 			}
 		});
+		/* eslint-enable */
 		return unreadCount.length > 0 ? unreadCount.length.toString() : '0';
 	} else {
 		return '0';

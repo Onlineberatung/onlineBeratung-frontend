@@ -97,8 +97,9 @@ export const SessionsList = () => {
 
 	const activeCreateChat =
 		activeSessionGroupId === ACTIVE_SESSION.CREATE_CHAT;
+
+	/* eslint-disable */
 	useEffect(() => {
-		// eslint-disable-line
 		if (typeIsUser(type) && acceptedGroupId) {
 			fetchUserData(acceptedGroupId);
 			setAcceptedGroupId(null);
@@ -128,6 +129,7 @@ export const SessionsList = () => {
 			}
 		}
 	});
+	/* eslint-enable */
 
 	useEffect(() => {
 		if (acceptedGroupId) {

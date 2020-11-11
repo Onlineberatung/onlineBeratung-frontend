@@ -94,32 +94,37 @@ export const CreateGroupChatView = (props) => {
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	useEffect(() => {
-		const isChatTopicValid =
-			selectedChatTopic &&
-			selectedChatTopic.length >= TOPIC_LENGTHS.MIN &&
-			selectedChatTopic.length < TOPIC_LENGTHS.MAX;
-		if (
-			isChatTopicValid &&
-			selectedDate &&
-			selectedTime &&
-			selectedDuration
-		) {
-			isEditGroupChatMode && arePrefilledValuesChanged()
-				? setIsSaveButtonDisabled(false)
-				: setIsSaveButtonDisabled(true);
-			setIsCreateButtonDisabled(false);
-		} else {
-			setIsCreateButtonDisabled(true);
-			setIsSaveButtonDisabled(true);
-		}
-	}, [
-		selectedChatTopic,
-		selectedDate,
-		selectedTime,
-		selectedDuration,
-		selectedRepetitive
-	]); // eslint-disable-line react-hooks/exhaustive-deps
+	useEffect(
+		() => {
+			const isChatTopicValid =
+				selectedChatTopic &&
+				selectedChatTopic.length >= TOPIC_LENGTHS.MIN &&
+				selectedChatTopic.length < TOPIC_LENGTHS.MAX;
+			if (
+				isChatTopicValid &&
+				selectedDate &&
+				selectedTime &&
+				selectedDuration
+			) {
+				isEditGroupChatMode && arePrefilledValuesChanged()
+					? setIsSaveButtonDisabled(false)
+					: setIsSaveButtonDisabled(true);
+				setIsCreateButtonDisabled(false);
+			} else {
+				setIsCreateButtonDisabled(true);
+				setIsSaveButtonDisabled(true);
+			}
+		},
+		/* eslint-disable */
+		[
+			selectedChatTopic,
+			selectedDate,
+			selectedTime,
+			selectedDuration,
+			selectedRepetitive
+		]
+	);
+	/* eslint-enable */
 
 	const handleBackButton = () => {
 		mobileListView();
