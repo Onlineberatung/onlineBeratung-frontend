@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { useEffect, useContext, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
-import {
-	mobileDetailView,
-	mobileListView
-} from '../app/navigationHandler';
+import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
 	ActiveSessionGroupIdContext,
 	ACTIVE_SESSION,
@@ -15,10 +12,7 @@ import {
 } from '../../globalState';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
-import {
-	SelectDropdown,
-	SelectDropdownItem
-} from '../select/SelectDropdown';
+import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import {
 	TOPIC_LENGTHS,
 	durationSelectOptionsSet,
@@ -119,7 +113,13 @@ export const CreateGroupChatView = (props) => {
 			setIsCreateButtonDisabled(true);
 			setIsSaveButtonDisabled(true);
 		}
-	}, [selectedChatTopic, selectedDate, selectedTime, selectedDuration, selectedRepetitive]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [
+		selectedChatTopic,
+		selectedDate,
+		selectedTime,
+		selectedDuration,
+		selectedRepetitive
+	]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleBackButton = () => {
 		mobileListView();

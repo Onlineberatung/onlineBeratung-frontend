@@ -5,7 +5,9 @@ import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 export const MIN_USERNAME_LENGTH = 5;
 
 export const isStringValidEmail = (email: string) =>
-	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email); // eslint-disable-line
+	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+		email
+	); // eslint-disable-line
 
 export const getOptionOfSelectedValue = (inputOptions, selectedValue) => {
 	return inputOptions.filter((item) => item.value === selectedValue)[0];

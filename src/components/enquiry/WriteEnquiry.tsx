@@ -19,10 +19,7 @@ import {
 	AcceptedGroupIdContext,
 	SessionsDataContext
 } from '../../globalState';
-import {
-	mobileDetailView,
-	mobileListView
-} from '../app/navigationHandler';
+import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import './enquiry.styles';
 
 const overlayItem: OverlayItem = {
@@ -75,8 +72,12 @@ export const WriteEnquiry = (props) => {
 	};
 
 	const activateListView = () => {
-		document.querySelector('.contentWrapper__list')?.setAttribute('style', 'display: block');
-		document.querySelector('.navigation__wrapper')?.classList.remove('navigation__wrapper--mobileHidden');
+		document
+			.querySelector('.contentWrapper__list')
+			?.setAttribute('style', 'display: block');
+		document
+			.querySelector('.navigation__wrapper')
+			?.classList.remove('navigation__wrapper--mobileHidden');
 
 		if (window.innerWidth <= 900) {
 			const contentWrapper = document.querySelector(
@@ -89,9 +90,15 @@ export const WriteEnquiry = (props) => {
 	};
 
 	const deactivateListView = () => {
-		document.querySelector('.contentWrapper__list')?.setAttribute('style', 'display: none');
-		document.querySelector('.navigation__wrapper')?.classList.add('navigation__wrapper--mobileHidden');
-		document.querySelector('.contentWrapper__header')?.classList.add('contentWrapper__header--enquiry');
+		document
+			.querySelector('.contentWrapper__list')
+			?.setAttribute('style', 'display: none');
+		document
+			.querySelector('.navigation__wrapper')
+			?.classList.add('navigation__wrapper--mobileHidden');
+		document
+			.querySelector('.contentWrapper__header')
+			?.classList.add('contentWrapper__header--enquiry');
 
 		const contentWrapper = document.querySelector(
 			'.contentWrapper__detail'
@@ -109,7 +116,10 @@ export const WriteEnquiry = (props) => {
 		<div className="enquiry__wrapper">
 			<div className="enquiry__infoWrapper">
 				<div className="enquiry__image">
-					<img src="/resources/img/illustrations/willkommen.svg" alt="willkommen Illstration" />
+					<img
+						src="/resources/img/illustrations/willkommen.svg"
+						alt="willkommen Illstration"
+					/>
 				</div>
 				<div className="enquiry__infotext">
 					<h2 className="enquiry__headline">

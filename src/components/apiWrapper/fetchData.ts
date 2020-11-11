@@ -122,9 +122,10 @@ export const fetchData = (props: fetchDataProps): Promise<any> =>
 						response.status === 409 &&
 						props.responseHandling.includes(FETCH_ERRORS.CONFLICT)
 					) {
-						reject(getConsultingTypeFromRegistration()
-							? response
-							: new Error(FETCH_ERRORS.CONFLICT)
+						reject(
+							getConsultingTypeFromRegistration()
+								? response
+								: new Error(FETCH_ERRORS.CONFLICT)
 						);
 					}
 				} else {

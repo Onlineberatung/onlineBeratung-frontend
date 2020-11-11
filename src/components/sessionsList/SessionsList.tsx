@@ -30,10 +30,7 @@ import {
 	StoppedGroupChatContext,
 	UserDataInterface
 } from '../../globalState';
-import {
-	SelectDropdownItem,
-	SelectDropdown
-} from '../select/SelectDropdown';
+import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
 import { SessionListItemComponent } from '../sessionsListItem/SessionListItemComponent';
 import { SessionsListSkeleton } from '../sessionsListItem/SessionsListItemSkeleton';
@@ -100,7 +97,8 @@ export const SessionsList = () => {
 
 	const activeCreateChat =
 		activeSessionGroupId === ACTIVE_SESSION.CREATE_CHAT;
-	useEffect(() => { // eslint-disable-line
+	useEffect(() => {
+		// eslint-disable-line
 		if (typeIsUser(type) && acceptedGroupId) {
 			fetchUserData(acceptedGroupId);
 			setAcceptedGroupId(null);

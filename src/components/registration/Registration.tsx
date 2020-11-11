@@ -1,7 +1,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Stage } from '../stage/stage';
-import { GeneratedInputs, InputField, InputFieldItem } from '../inputField/InputField';
+import {
+	GeneratedInputs,
+	InputField,
+	InputFieldItem
+} from '../inputField/InputField';
 import { SVG } from '../svgSet/SVG';
 import { ICON_KEYS } from '../svgSet/SVGHelpers';
 import { useEffect, useState } from 'react';
@@ -44,11 +48,7 @@ import {
 import { getAgencyById } from '../apiWrapper';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
-import {
-	OverlayWrapper,
-	Overlay,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
 import { removeInputErrorClass, removeWarningLabelById } from './warningLabels';
 import { isNumber } from '../../resources/scripts/helpers/isNumber';
@@ -69,7 +69,10 @@ const Registration = () => {
 	const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
 	const [postcode, setPostcode] = useState('');
 	const [agencyId, setAgencyId] = useState('');
-	const [prefilledAgencyData, setPrefilledAgencyData] = useState<AgencyDataProps | null>(null);
+	const [
+		prefilledAgencyData,
+		setPrefilledAgencyData
+	] = useState<AgencyDataProps | null>(null);
 	const [password, setPassword] = useState('');
 	const [passwordSuccessMessage, setPasswordSuccessMessage] = useState('');
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
@@ -87,9 +90,10 @@ const Registration = () => {
 	const [isEmailValid, setIsEmailValid] = useState(true);
 	const [emailSuccessMessage, setEmailSuccessMessage] = useState('');
 	const [emailErrorMessage, setEmailErrorMessage] = useState('');
-	const [valuesOfGeneratedInputs, setValuesOfGeneratedInputs] = useState<GeneratedInputs | null>(
-		null
-	);
+	const [
+		valuesOfGeneratedInputs,
+		setValuesOfGeneratedInputs
+	] = useState<GeneratedInputs | null>(null);
 	const [isDataProtectionSelected, setIsDataProtectionSelected] = useState(
 		false
 	);
@@ -134,8 +138,13 @@ const Registration = () => {
 				.then((response) => {
 					if (response) {
 						const fallbackAid = response[0].id;
-						if ((!agencyId || parseInt(agencyId) !== fallbackAid) && consultingType) {
-							window.location.href = AGENCY_FALLBACK_LINK[consultingType] + fallbackAid;
+						if (
+							(!agencyId || parseInt(agencyId) !== fallbackAid) &&
+							consultingType
+						) {
+							window.location.href =
+								AGENCY_FALLBACK_LINK[consultingType] +
+								fallbackAid;
 						}
 					}
 				})
@@ -181,23 +190,23 @@ const Registration = () => {
 			isDataProtectionSelected;
 
 		validation.push(generalValidation ? true : false);
-		
+
 		if (resortData.showPostCode) {
 			validation.push(postcode && agencyId ? true : false);
 		}
 		if (resortData.showEmail) {
-			validation.push(isEmailValid ? true : false)
+			validation.push(isEmailValid ? true : false);
 		}
 
 		// U25 and gemeinsamstatteinsam
 		if (consultingType === 1) {
 			validation.push(
-					valuesOfGeneratedInputs &&
-						valuesOfGeneratedInputs['age'] &&
-						valuesOfGeneratedInputs['state']
-						? true
-						: false
-			)
+				valuesOfGeneratedInputs &&
+					valuesOfGeneratedInputs['age'] &&
+					valuesOfGeneratedInputs['state']
+					? true
+					: false
+			);
 		}
 
 		return validation.indexOf(false) === -1;
@@ -229,7 +238,15 @@ const Registration = () => {
 		} else {
 			setIsSubmitButtonDisabled(true);
 		}
-	}, [username, postcode, password, passwordConfirmation, email, valuesOfGeneratedInputs, isDataProtectionSelected]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [
+		username,
+		postcode,
+		password,
+		passwordConfirmation,
+		email,
+		valuesOfGeneratedInputs,
+		isDataProtectionSelected
+	]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const inputItemUsername: InputFieldItem = {
 		content: username,

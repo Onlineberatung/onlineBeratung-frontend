@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './checkbox.styles'
+import './checkbox.styles';
 
 export interface CheckboxItem {
 	inputId: string;

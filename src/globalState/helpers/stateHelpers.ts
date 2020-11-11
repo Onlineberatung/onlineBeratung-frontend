@@ -111,7 +111,8 @@ export const getUnreadMessages: Function = (
 	status: number
 ): string => {
 	if (sessData.mySessions) {
-		const unreadCount = sessData.mySessions.filter((session) => { // eslint-disable-line
+		const unreadCount = sessData.mySessions.filter((session) => {
+			// eslint-disable-line
 			if (session.session) {
 				return (
 					!session.session.messagesRead &&

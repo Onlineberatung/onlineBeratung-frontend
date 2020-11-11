@@ -32,7 +32,9 @@ export const mobileListView = () => {
 export const mobileDetailView = () => {
 	if (window.innerWidth <= 900) {
 		const contentDetail = document.querySelector('.contentWrapper__list');
-		contentDetail?.classList.remove('contentWrapper__detail--smallInactive');
+		contentDetail?.classList.remove(
+			'contentWrapper__detail--smallInactive'
+		);
 
 		const contentList = document.querySelector('.contentWrapper__list');
 		contentList?.classList.add('contentWrapper__list--smallInactive');

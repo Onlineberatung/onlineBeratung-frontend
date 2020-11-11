@@ -1,8 +1,5 @@
 import { config } from '../../resources/scripts/config';
-import {
-	typeIsSession,
-	typeIsTeamSession
-} from '../session/sessionHelpers';
+import { typeIsSession, typeIsTeamSession } from '../session/sessionHelpers';
 import { ListItemsResponseInterface } from '../../globalState';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 

@@ -14,10 +14,7 @@ import {
 	AcceptedGroupIdContext,
 	UserDataContext
 } from '../../globalState';
-import {
-	mobileDetailView,
-	mobileListView
-} from '../app/navigationHandler';
+import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
 	getSessionData,
 	setSessionRead,
@@ -126,7 +123,7 @@ export const SessionView = (props) => {
 
 	useEffect(() => {
 		if (typingStatusSent) {
-			setTypingTimeout()
+			setTypingTimeout();
 		}
 	}, [typingStatusSent]); // eslint-disable-line react-hooks/exhaustive-deps
 

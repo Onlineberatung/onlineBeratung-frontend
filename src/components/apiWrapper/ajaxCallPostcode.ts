@@ -6,7 +6,7 @@ import { AgencyDataInterface } from '../../globalState';
 export const ajaxCallAgencySelection = async (params: {
 	postcode: string;
 	consultingType: number | undefined;
-}): Promise<[AgencyDataInterface] | null> => {
+}): Promise<[AgencyDataInterface] | null> => {
 	let queryStr = Object.keys(params)
 		.map((key) => key + '=' + params[key])
 		.join('&');

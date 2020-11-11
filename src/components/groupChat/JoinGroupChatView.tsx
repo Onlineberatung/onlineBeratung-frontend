@@ -10,10 +10,7 @@ import {
 	hasUserAuthority,
 	AUTHORITIES
 } from '../../globalState';
-import {
-	mobileDetailView,
-	mobileListView
-} from '../app/navigationHandler';
+import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import {
 	getChatItemForSession,

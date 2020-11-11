@@ -147,4 +147,5 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 	});
 };
 
-export const isMyMessage = (id: string): boolean => id === getTokenFromCookie('rc_uid');
+export const isMyMessage = (id: string): boolean =>
+	id === getTokenFromCookie('rc_uid');

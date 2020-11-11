@@ -38,7 +38,9 @@ export const removeWarningLabelById = (inputFieldId) => {
 };
 
 export const removeCheckboxWarningLabel = () => {
-	document.getElementById('termsAccepted')?.classList.remove('checkbox__input--error');
+	document
+		.getElementById('termsAccepted')
+		?.classList.remove('checkbox__input--error');
 };
 
 const setInputErrorClass = (target: HTMLInputElement) => {
@@ -50,7 +52,9 @@ const setInputErrorClass = (target: HTMLInputElement) => {
 	}
 
 	if (target.id === 'termsAcceptedLabel') {
-		document.getElementById('termsAccepted')?.classList.add('checkbox__input--error');
+		document
+			.getElementById('termsAccepted')
+			?.classList.add('checkbox__input--error');
 	}
 };
 
@@ -109,7 +113,9 @@ export const handleWarningLabelOnInput = (
 			'formWrapper__inputRow--error'
 		);
 		(e.target as HTMLElement).classList.remove('inputField__input--error');
-		document.getElementById('postcode')?.removeAttribute('data-postcodefallback');
+		document
+			.getElementById('postcode')
+			?.removeAttribute('data-postcodefallback');
 	}
 };
 

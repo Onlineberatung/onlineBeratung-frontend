@@ -131,9 +131,10 @@ export const Monitoring = () => {
 						>
 							<div className="monitoringAccordion__innerWrapper">
 								<h4
-									onClick={() => 
-										//TO-DO: CHECK IF THIS IS STILL WORKING -> repair the commented logic
-										console.log('click')
+									onClick={
+										() =>
+											//TO-DO: CHECK IF THIS IS STILL WORKING -> repair the commented logic
+											console.log('click')
 										// this.handleRenderChilds(
 										// 	`${key}.meta.renderChildren`
 										// )
@@ -153,7 +154,8 @@ export const Monitoring = () => {
 					);
 				case 'object':
 					active = isActive(value);
-					open = active || accordionOpened.includes(key) ? 'open' : null;
+					open =
+						active || accordionOpened.includes(key) ? 'open' : null;
 					return (
 						<div
 							id={key}

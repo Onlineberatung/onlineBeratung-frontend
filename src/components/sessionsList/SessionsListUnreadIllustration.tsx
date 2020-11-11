@@ -6,7 +6,10 @@ export const SessionsListUnreadIllustration = () => {
 	return (
 		<div className="sessionsList__illustration__wrapper">
 			<div className="sessionsList__illustration__image">
-				<img src="/resources/img/illustrations/envelope-new.svg" alt="Umschlag Icon" />
+				<img
+					src="/resources/img/illustrations/envelope-new.svg"
+					alt="Umschlag Icon"
+				/>
 			</div>
 			<p className="sessionsList__illustration__infotext">
 				{translate('sessionList.asker.unread.firstLine')}

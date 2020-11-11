@@ -35,11 +35,11 @@ export const SVG = (props: SVGProps) => {
 	return (
 		<svg
 			name={props.name}
-			className={props.className ? props.className : ""}
+			className={props.className ? props.className : ''}
 			fill={props.fill ? props.fill : currentDefaultFill}
 			height={props.height ? props.height : currentDefaultSize}
 			// onClick={props.onClick ? () => props.onClick() : undefined}
-			onClick={() => props.onClick ? props.onClick() : undefined} //TO-DO: CHECK IF THIS IS STILL WORKING
+			onClick={() => (props.onClick ? props.onClick() : undefined)} //TO-DO: CHECK IF THIS IS STILL WORKING
 			width={props.width ? props.width : currentDefaultSize}
 			viewBox={props.viewBox ? props.viewBox : getSVGViewBox(props.name)}
 			xmlns="http://www.w3.org/2000/svg"

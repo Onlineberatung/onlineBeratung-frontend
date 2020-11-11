@@ -15,7 +15,7 @@ export const SOCKET_COLLECTION = {
 
 export class rocketChatSocket {
 	private rcUid = '';
-	private rcWebsocket: WebSocket | null = null;
+	private rcWebsocket: WebSocket | null = null;
 	private subscriptions: Object[] = [];
 	private messageListeners: Function[] = [];
 
@@ -136,7 +136,7 @@ export class rocketChatSocket {
 	public addSubscription(
 		name: string,
 		params: any = [],
-		callback: Function | null = null
+		callback: Function | null = null
 	) {
 		this.subscriptions.push({ name, params, callback });
 	}
@@ -144,9 +144,9 @@ export class rocketChatSocket {
 	private subscribe(
 		name: string,
 		params: any = [],
-		callbackRoom: Function | null = null,
-		callbackUser: Function | null = null,
-		callbackTyping: Function | null = null
+		callbackRoom: Function | null = null,
+		callbackUser: Function | null = null,
+		callbackTyping: Function | null = null
 	) {
 		this.rcWebsocket?.send(
 			JSON.stringify({

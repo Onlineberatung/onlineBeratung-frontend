@@ -4,10 +4,7 @@ import { translate } from '../../resources/scripts/i18n/translate';
 import { UserDataContext, AcceptedGroupIdContext } from '../../globalState';
 import { history } from '../app/app';
 import { Button } from '../button/Button';
-import {
-	SelectDropdown,
-	SelectDropdownItem
-} from '../select/SelectDropdown';
+import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import {
 	consultingTypeSelectOptionsSet,
 	buttonSetRegistration,
@@ -32,7 +29,9 @@ import './profile.styles';
 export const AskerNewRegistration = () => {
 	const { userData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-	const [selectedConsultingType, setSelectedConsultingType] = useState<number>(null);
+	const [selectedConsultingType, setSelectedConsultingType] = useState<
+		number
+	>(null);
 	const [selectedAgency, setSelectedAgency] = useState<any>({});
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);

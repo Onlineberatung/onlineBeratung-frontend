@@ -5,7 +5,7 @@ export const initPasswordResetOverlay = () => {
 		'.overlay__passwordReset'
 	);
 
-	if (passwordResetOverlay) {
+	if (passwordResetOverlay) {
 		addOverlayClasses(passwordResetOverlay);
 	}
 
@@ -19,5 +19,7 @@ const addOverlayClasses = (overlay: Element) => {
 	const overlaySibling = overlay.previousElementSibling;
 	overlay.classList.add('overlay--flex');
 	overlaySibling?.classList.add('registration__blur');
-	document.getElementById('loginLogoWrapper')?.classList.add('registration__blur');
+	document
+		.getElementById('loginLogoWrapper')
+		?.classList.add('registration__blur');
 };

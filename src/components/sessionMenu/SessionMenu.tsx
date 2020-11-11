@@ -20,11 +20,7 @@ import {
 	getTypeOfLocation
 } from '../session/sessionHelpers';
 import { isGenericConsultingType } from '../../resources/scripts/helpers/resorts';
-import {
-	OverlayWrapper,
-	Overlay,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
 	stopGroupChatSecurityOverlayItem,
 	stopGroupChatSuccessOverlayItem,
@@ -175,7 +171,10 @@ export const SessionMenu = () => {
 					className="sessionInfo__feedbackButton sessionMenu__item--desktop"
 					role="button"
 				>
-					<img src="/resources/img/icons/pen-paper.svg" alt="Feedback Icon" />
+					<img
+						src="/resources/img/icons/pen-paper.svg"
+						alt="Feedback Icon"
+					/>
 					<p>{translate('chatFlyout.feedback')}</p>
 				</Link>
 			) : null}

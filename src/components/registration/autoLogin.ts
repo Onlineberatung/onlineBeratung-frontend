@@ -61,17 +61,9 @@ export const autoLogin = (
 		})
 		.catch((error) => {
 			if (useOldUser) {
-				handleLoginError 
-					? handleLoginError() 
-					: console.error(error);
+				handleLoginError ? handleLoginError() : console.error(error);
 			} else {
-				autoLogin(
-					username,
-					password,
-					redirect,
-					handleLoginError,
-					true
-				);
+				autoLogin(username, password, redirect, handleLoginError, true);
 			}
 		});
 };

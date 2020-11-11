@@ -113,11 +113,13 @@ const emptyAgencyResults = (item: HTMLElement) => {
 };
 
 const initPostcodeFallback = () => {
-	const postcodeInput = document.querySelector('.inputField__wrapper.formWrapper.postcode')?.querySelector('.formWrapper__infoText.warning');
+	const postcodeInput = document
+		.querySelector('.inputField__wrapper.formWrapper.postcode')
+		?.querySelector('.formWrapper__infoText.warning');
 	if (!postcodeInput) {
 		const consultingType = getConsultingTypeFromRegistration();
 		let fallbackLink;
-		
+
 		if (consultingType) {
 			fallbackLink = POSTCODE_FALLBACK_LINK[consultingType] || null;
 		} else {
@@ -129,7 +131,9 @@ const initPostcodeFallback = () => {
 			if (suggestionLayer) {
 				emptyAgencyResults(suggestionLayer);
 			}
-			document.getElementById('postcode')?.setAttribute('data-postcodefallback', 'error');
+			document
+				.getElementById('postcode')
+				?.setAttribute('data-postcodefallback', 'error');
 			const errorText = `${translate(
 				'warningLabels.postcode.unavailable'
 			)} <a class="warning__link" href="${fallbackLink}" target="_blank">${translate(
@@ -157,7 +161,9 @@ const addClickHandlers = (suggestionLayer: HTMLElement, inputVal: string) => {
 			: '';
 
 		if (!itemPostcode) {
-			const contentName = item.querySelector('.suggestionWrapper__item__content__name');
+			const contentName = item.querySelector(
+				'.suggestionWrapper__item__content__name'
+			);
 			itemPostcode = contentName ? contentName.textContent : null;
 		}
 
@@ -188,7 +194,7 @@ export const setFirstAgencyId = () => {
 		'.suggestionWrapper__item'
 	) as HTMLElement;
 	if (firstAgency) {
-		setAgencyId(firstAgency)
+		setAgencyId(firstAgency);
 	}
 };
 
@@ -209,7 +215,7 @@ const setAgencyId = (item: HTMLElement, inputVal?: string) => {
 	const postcodeInput = document.getElementById(
 		'postcode'
 	) as HTMLInputElement;
-	
+
 	if (agencyId) {
 		postcodeInput.setAttribute('data-agency-id', agencyId);
 	}

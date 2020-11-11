@@ -7,7 +7,6 @@ export const getConsultingTypeFromRegistration = () => {
 		: undefined;
 };
 
-
 export const isU25Registration = (): boolean =>
 	getConsultingTypeFromRegistration() === 1;
 
@@ -39,8 +38,8 @@ export const hasConsultingTypeLongPostcodeValidation = (
 	consultingType: number | undefined = getConsultingTypeFromRegistration()
 ): boolean => {
 	const typesUsingLongPostcodeValidation = ['11', '12', '17'];
-	return consultingType 
-		? typesUsingLongPostcodeValidation.includes(consultingType.toString()) 
+	return consultingType
+		? typesUsingLongPostcodeValidation.includes(consultingType.toString())
 		: false;
 };
 

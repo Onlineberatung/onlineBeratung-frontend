@@ -65,7 +65,11 @@ const omitKey = (key, { [key]: _, ...obj }) => obj;
 const linkifyPlugin = createLinkifyPlugin({
 	component: (props) => {
 		return (
-			<a {...omitKey('blockKey', props)} href={props.href} onClick={() => window.open(props.href, '_blank')}></a> // eslint-disable-line
+			<a
+				{...omitKey('blockKey', props)}
+				href={props.href}
+				onClick={() => window.open(props.href, '_blank')}
+			></a> // eslint-disable-line
 		);
 	}
 });
@@ -134,11 +138,16 @@ export const MessageSubmitInterfaceComponent = (
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const [activeInfo, setActiveInfo] = useState(null);
-	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(null);
+	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
+		null
+	);
 	const [uploadProgress, setUploadProgress] = useState(null);
 	const [uploadOnLoadHandling, setUploadOnLoadHandling] = useState<any>(null); //TO-DO: <any> is just a work around. Logic of Data that can be in this state needs to be refactored
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [attachmentUpload, setAttachmentUpload] = useState<XMLHttpRequest | null>(null);
+	const [
+		attachmentUpload,
+		setAttachmentUpload
+	] = useState<XMLHttpRequest | null>(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
 
@@ -166,14 +175,20 @@ export const MessageSubmitInterfaceComponent = (
 
 	useEffect(() => {
 		resizeTextarea();
-		const toolbar: HTMLDivElement | null = document.querySelector('.textarea__toolbar');
-		const richtextToggle: HTMLSpanElement | null = document.querySelector('.textarea__richtextToggle');
+		const toolbar: HTMLDivElement | null = document.querySelector(
+			'.textarea__toolbar'
+		);
+		const richtextToggle: HTMLSpanElement | null = document.querySelector(
+			'.textarea__richtextToggle'
+		);
 		if (isRichtextActive) {
 			toolbar?.classList.add('textarea__toolbar--active');
 			richtextToggle?.classList.add('textarea__richtextToggle--active');
 		} else {
 			toolbar?.classList.remove('textarea__toolbar--active');
-			richtextToggle?.classList.remove('textarea__richtextToggle--active');
+			richtextToggle?.classList.remove(
+				'textarea__richtextToggle--active'
+			);
 		}
 	}, [isRichtextActive]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -419,10 +434,16 @@ export const MessageSubmitInterfaceComponent = (
 			props.showMonitoringButton();
 		}
 		if (requestFeedbackCheckbox && requestFeedbackCheckbox.checked) {
-			const feedbackButton = document.querySelector('.sessionInfo__feedbackButton');
-			feedbackButton?.classList.add('sessionInfo__feedbackButton--active');
+			const feedbackButton = document.querySelector(
+				'.sessionInfo__feedbackButton'
+			);
+			feedbackButton?.classList.add(
+				'sessionInfo__feedbackButton--active'
+			);
 			setTimeout(() => {
-				feedbackButton?.classList.remove('sessionInfo__feedbackButton--active');
+				feedbackButton?.classList.remove(
+					'sessionInfo__feedbackButton--active'
+				);
 			}, 700);
 		}
 		setEditorState(EditorState.createEmpty());
@@ -681,7 +702,9 @@ export const MessageSubmitInterfaceComponent = (
 								handleButtonClick(event)
 							}
 							clicked={isRequestInProgress}
-							deactivated={uploadProgress ? uploadProgress : undefined}
+							deactivated={
+								uploadProgress ? uploadProgress : undefined
+							}
 						/>
 					</div>
 				</span>

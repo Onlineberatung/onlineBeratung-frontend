@@ -21,7 +21,7 @@ interface MessageUsernameProps {
 	alias?: any;
 	isUser: Boolean;
 	isMyMessage: Boolean;
-	type: "forwarded" | "user" | "consultant" | "self" | "system"; //TO-DO: CHECK IF THIS IS STILL WORKING -> was type string before
+	type: 'forwarded' | 'user' | 'consultant' | 'self' | 'system'; //TO-DO: CHECK IF THIS IS STILL WORKING -> was type string before
 	userId: string;
 	username: string;
 }

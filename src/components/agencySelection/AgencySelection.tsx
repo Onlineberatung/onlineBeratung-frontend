@@ -27,12 +27,16 @@ export interface AgencySelectionProps {
 export const AgencySelection = (props: AgencySelectionProps) => {
 	const postcodeFlyoutRef = React.useRef<HTMLDivElement>(null);
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState('');
-	const [proposedAgencies, setProposedAgencies] = useState<[AgencyDataInterface] | null>(null);
+	const [proposedAgencies, setProposedAgencies] = useState<
+		[AgencyDataInterface] | null
+	>(null);
 	const [postcodeExtended, setPostcodeExtended] = useState(false);
 
 	const [selectedPostcode, setSelectedPostcode] = useState('');
 	const [typedPostcode, setTypedPostcode] = useState('');
-	const [selectedAgencyId, setSelectedAgencyId] = useState<number | undefined>(undefined);
+	const [selectedAgencyId, setSelectedAgencyId] = useState<
+		number | undefined
+	>(undefined);
 
 	const isSelectedAgencyValidated = () =>
 		selectedPostcode &&
@@ -90,7 +94,10 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						}
 					})
 					.catch((error) => {
-						if (error.message === FETCH_ERRORS.EMPTY && props.selectedConsultingType) {
+						if (
+							error.message === FETCH_ERRORS.EMPTY &&
+							props.selectedConsultingType
+						) {
 							setPostcodeFallbackLink(
 								POSTCODE_FALLBACK_LINK[
 									props.selectedConsultingType

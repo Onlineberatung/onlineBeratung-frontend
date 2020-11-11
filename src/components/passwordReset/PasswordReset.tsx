@@ -12,7 +12,10 @@ import {
 import { BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
 import { logout } from '../logout/logout';
-import { inputValuesFit, strengthIndicator } from '../../resources/scripts/helpers/validateInputValue';
+import {
+	inputValuesFit,
+	strengthIndicator
+} from '../../resources/scripts/helpers/validateInputValue';
 import './passwordReset.styles';
 
 export const PasswordReset = () => {
@@ -21,9 +24,7 @@ export const PasswordReset = () => {
 	const [confirmPassword, setConfirmPassword] = useState('');
 
 	const [oldPasswordErrorMessage, setOldPasswordErrorMessage] = useState('');
-	const [oldPasswordSuccessMessage] = useState(
-		''
-	);
+	const [oldPasswordSuccessMessage] = useState('');
 	const [newPasswordErrorMessage, setNewPasswordErrorMessage] = useState('');
 	const [newPasswordSuccessMessage, setNewPasswordSuccessMessage] = useState(
 		''

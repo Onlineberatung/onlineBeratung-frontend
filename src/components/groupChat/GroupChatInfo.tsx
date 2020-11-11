@@ -34,10 +34,7 @@ import {
 	stopGroupChatSuccessOverlayItem
 } from '../sessionMenu/sessionMenuHelpers';
 import { logout } from '../logout/logout';
-import {
-	mobileListView,
-	mobileDetailView
-} from '../app/navigationHandler';
+import { mobileListView, mobileDetailView } from '../app/navigationHandler';
 import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
 import '../profile/profile.styles';
 

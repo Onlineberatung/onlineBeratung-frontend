@@ -28,10 +28,7 @@ export class OverlayWrapper extends React.Component<any> {
 	render() {
 		const overlay = document.getElementById('overlay');
 		if (overlay) {
-			return ReactDOM.createPortal(
-				this.props.children,
-				overlay
-			);
+			return ReactDOM.createPortal(this.props.children, overlay);
 		}
 	}
 }
@@ -87,7 +84,11 @@ export class Overlay extends React.Component<{
 								</defs>
 								<use xlinkHref="#dot-a" />
 							</svg>
-							<img className="overlay__icon" src={item.imgSrc} alt="overlay icon" />
+							<img
+								className="overlay__icon"
+								src={item.imgSrc}
+								alt="overlay icon"
+							/>
 						</div>
 					) : (
 						``
