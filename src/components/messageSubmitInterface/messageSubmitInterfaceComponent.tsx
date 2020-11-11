@@ -336,9 +336,7 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const handleTextareaClick = (e) => {
-		console.log('editor ref', editorRef);
 		editorRef.focus();
-		// this.editor.focus(); //TO-DO: CHECK IF THIS IS STILL WORKING -> was this before
 	};
 
 	const getTypedMarkdownMessage = () => {
