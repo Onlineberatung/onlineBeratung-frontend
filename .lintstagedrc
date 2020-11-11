@@ -1,6 +1,3 @@
 {
-  "**/*.+(js|jsx|css|less|scss|ts|tsx|md)": [
-    "prettier --write",
-    "git add"
-  ]
+  "**/*.+(js|jsx|css|less|scss|ts|tsx|md)": ["npx prettier --write ./src"]
 }
