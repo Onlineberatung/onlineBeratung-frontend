@@ -73,6 +73,7 @@ export class Overlay extends React.Component<{
 				<div className="overlay__content">
 					{item.imgSrc ? (
 						<div className="overlay__iconWrapper">
+							{/*TO-DO: replace svg with div element*/}
 							<svg
 								className="overlay__icon__background"
 								xmlns="http://www.w3.org/2000/svg"

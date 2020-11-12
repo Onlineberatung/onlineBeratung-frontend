@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
+import { SVG } from '../svgSet/SVG';
+import { ICON_KEYS } from '../svgSet/SVGHelpers';
 import './sessionsList.styles';
 
 export const SessionListCreateChat = () => {
@@ -10,10 +12,9 @@ export const SessionListCreateChat = () => {
 					<div className="sessionsListItem__consultingType"></div>
 				</div>
 				<div className="sessionsListItem__row">
-					<img
+					<SVG
+						name={ICON_KEYS.SPEECH_BUBBLE}
 						className="sessionsListItem__icon"
-						src="/resources/img/icons/speech-bubble.svg"
-						alt="Sprechblasen Icon"
 					/>
 					<div className="sessionsListItem__username">
 						{translate('groupChat.create.listItem.label')}

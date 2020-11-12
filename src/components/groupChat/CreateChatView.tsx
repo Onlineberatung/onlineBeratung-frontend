@@ -43,6 +43,7 @@ import {
 } from '../session/sessionHelpers';
 import { getChatDate } from '../session/sessionDateHelpers';
 import { updateChatSuccessOverlayItem } from './groupChatHelpers';
+import '../../../node_modules/react-datepicker/src/stylesheets/datepicker.scss';
 import '../datepicker/datepicker.styles';
 import './createChat.styles';
 
