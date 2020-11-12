@@ -43,16 +43,15 @@ export const ProfileView = () => {
 					<h3 className="profile__header__title">
 						{translate('profile.header.title')}
 					</h3>
-					<a
+					<span
 						onClick={handleLogout}
 						className="profile__header__logout"
-						href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 					>
 						<img
 							src="/resources/img/icons/out.svg"
 							alt="Logout Icon"
 						/>
-					</a>
+					</span>
 				</div>
 				<div className="profile__header__metaInfo">
 					<p className="profile__header__username">

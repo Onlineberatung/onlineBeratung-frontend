@@ -261,10 +261,9 @@ export const Monitoring = () => {
 		<div className="profile__wrapper">
 			<div className="profile__header">
 				<div className="profile__header__wrapper">
-					<a
+					<span
 						onClick={handleBackButton}
 						className="profile__header__backButton"
-						href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -281,7 +280,7 @@ export const Monitoring = () => {
 							</defs>
 							<use xlinkHref="#arrow-left-a" />
 						</svg>
-					</a>
+					</span>
 					<h3 className="profile__header__title profile__header__title--withBackButton">
 						{translate('monitoring.title')}
 					</h3>

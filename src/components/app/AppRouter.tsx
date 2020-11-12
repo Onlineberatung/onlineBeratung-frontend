@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, useLocation } from 'react-router-dom';
 import { translate } from '../../resources/scripts/i18n/translate';
 import {
 	RouterConfigUser,
@@ -23,6 +23,7 @@ import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 export const AppRouter = (props) => {
 	const { userData } = useContext(UserDataContext);
 	const { unreadSessionsStatus } = useContext(UnreadSessionsStatusContext);
+	const location = useLocation();
 	let routerConfig = RouterConfigUser();
 
 	if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
@@ -54,6 +55,10 @@ export const AppRouter = (props) => {
 		initNavigationHandler();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+	// React.useEffect(() => {
+	// 	console.log('Location changed', location);
+	// }, [location]);
+
 	return (
 		<div className="app__wrapper">
 			<div className="navigation__wrapper">
@@ -61,9 +66,9 @@ export const AppRouter = (props) => {
 					<Link
 						key={index}
 						className={`navigation__item ${
-							window.location.href.indexOf(item.to) !== -1
+							location.pathname === item.to
 								? 'navigation__item--active'
-								: null
+								: ''
 						}`}
 						to={item.to}
 					>

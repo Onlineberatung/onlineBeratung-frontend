@@ -140,10 +140,9 @@ export const SessionHeaderComponent = (props) => {
 		return (
 			<div className="sessionInfo">
 				<div className="sessionInfo__headerWrapper">
-					<a
+					<span
 						onClick={handleBackButton}
 						className="sessionInfo__backButton"
-						href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -160,7 +159,7 @@ export const SessionHeaderComponent = (props) => {
 							</defs>
 							<use xlinkHref="#arrow-left-a" />
 						</svg>
-					</a>
+					</span>
 					<div className="sessionInfo__username sessionInfo__username--deactivate sessionInfo__username--groupChat">
 						{hasUserAuthority(
 							AUTHORITIES.CONSULTANT_DEFAULT,
@@ -254,10 +253,9 @@ export const SessionHeaderComponent = (props) => {
 	return (
 		<div className="sessionInfo">
 			<div className="sessionInfo__headerWrapper">
-				<a
+				<span
 					onClick={handleBackButton}
 					className="sessionInfo__backButton"
-					href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -274,7 +272,7 @@ export const SessionHeaderComponent = (props) => {
 						</defs>
 						<use xlinkHref="#arrow-left-a" />
 					</svg>
-				</a>
+				</span>
 				<div
 					className={
 						hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) ||

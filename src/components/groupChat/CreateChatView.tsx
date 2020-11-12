@@ -194,8 +194,6 @@ export const CreateGroupChatView = (props) => {
 	};
 
 	const getOptionOfSelectedDuration = () => {
-		console.log('durationSelectOptionsSet', durationSelectOptionsSet);
-		console.log('selectedDuration', selectedDuration);
 		return durationSelectOptionsSet.filter(
 			(option) => option.value === (selectedDuration.toString() as string)
 		)[0];
@@ -357,10 +355,9 @@ export const CreateGroupChatView = (props) => {
 			{isEditGroupChatMode ? (
 				<div className="createChat__header createChat__header--edit">
 					<div className="createChat__header__inner">
-						<a
+						<span
 							onClick={handleBackButton}
 							className="createChat__header__backButton"
-							href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -377,7 +374,7 @@ export const CreateGroupChatView = (props) => {
 								</defs>
 								<use xlinkHref="#arrow-left-a" />
 							</svg>
-						</a>
+						</span>
 						<h3 className="createChat__header__title createChat__header__title--withBackButton">
 							{translate('groupChat.edit.title')}
 						</h3>
@@ -389,10 +386,9 @@ export const CreateGroupChatView = (props) => {
 			) : (
 				<div className="createChat__header">
 					<div className="createChat__header__inner">
-						<a
+						<span
 							onClick={handleBackButton}
 							className="createChat__header__backButton"
-							href="/#" //TO-DO: CHECK IF THIS IS STILL WORKING -> otherwise use other html element
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -409,7 +405,7 @@ export const CreateGroupChatView = (props) => {
 								</defs>
 								<use xlinkHref="#arrow-left-a" />
 							</svg>
-						</a>
+						</span>
 						<h3 className="createChat__header__title">
 							{translate('groupChat.create.title')}
 						</h3>
