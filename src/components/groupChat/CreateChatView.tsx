@@ -59,7 +59,7 @@ export const CreateGroupChatView = (props) => {
 	const [selectedDate, setSelectedDate] = useState('');
 	const [selectedTime, setSelectedTime] = useState('');
 	const [selectedDuration, setSelectedDuration] = useState('');
-	const [selectedRepetitive, setSelectedRepetitive] = useState(false); //TO-DO: CHECK IF THIS IS STILL WORKING -> was null before
+	const [selectedRepetitive, setSelectedRepetitive] = useState(false);
 	const [isCreateButtonDisabled, setIsCreateButtonDisabled] = useState(true);
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 	const [chatTopicLabel, setChatTopicLabel] = useState(
@@ -69,7 +69,7 @@ export const CreateGroupChatView = (props) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isDateInputFocused, setIsDateInputFocus] = useState(false);
 	const [isTimeInputFocused, setIsTimeInputFocus] = useState(false);
-	const [groupIdToRedirect, setGroupIdToRedirect] = useState(''); //TO-DO: CHECK IF THIS IS STILL WORKING
+	const [groupIdToRedirect, setGroupIdToRedirect] = useState(null);
 	const [isEditGroupChatMode, setIsEditGroupChatMode] = useState(false);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
@@ -194,8 +194,10 @@ export const CreateGroupChatView = (props) => {
 	};
 
 	const getOptionOfSelectedDuration = () => {
+		console.log('durationSelectOptionsSet', durationSelectOptionsSet);
+		console.log('selectedDuration', selectedDuration);
 		return durationSelectOptionsSet.filter(
-			(option) => option.value === (selectedDuration as any)
+			(option) => option.value === (selectedDuration.toString() as string)
 		)[0];
 	};
 
