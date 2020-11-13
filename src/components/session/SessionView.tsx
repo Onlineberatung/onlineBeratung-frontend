@@ -58,9 +58,9 @@ export const SessionView = (props) => {
 	const activeSession = getActiveSession(groupIdFromParam, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const groupId = activeSession.isFeedbackSession
-		? chatItem.feedbackGroupId
-		: chatItem.groupId;
+	const groupId = activeSession?.isFeedbackSession
+		? chatItem?.feedbackGroupId
+		: chatItem?.groupId;
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [messagesItem, setMessagesItem] = useState(null);
