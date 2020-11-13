@@ -1,7 +1,9 @@
-.ieBanner[styles] {
-	.ie & {
-		display: block !important;
-	}
+_:-ms-fullscreen,
+:root .ieBanner[styles] {
+	display: block !important;
+}
+
+.ieBanner {
 	display: none;
 	background: $tertiary;
 	color: $white;
