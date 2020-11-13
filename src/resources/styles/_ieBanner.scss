@@ -1,6 +1,6 @@
-.ieBanner {
+.ieBanner[styles] {
 	.ie & {
-		display: block;
+		display: block !important;
 	}
 	display: none;
 	background: $tertiary;
