@@ -144,7 +144,7 @@ export const MessageSubmitInterfaceComponent = (
 		null
 	);
 	const [uploadProgress, setUploadProgress] = useState(null);
-	const [uploadOnLoadHandling, setUploadOnLoadHandling] = useState<any>(null); //TO-DO: <any> is just a work around. Logic of Data that can be in this state needs to be refactored
+	const [uploadOnLoadHandling, setUploadOnLoadHandling] = useState(null);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [
 		attachmentUpload,

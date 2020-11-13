@@ -68,7 +68,6 @@ export const SessionAssign = (props: { value?: string }) => {
 
 	const prepareConsultantDataForSelect = (consultants: Consultant[]) => {
 		let availableConsultants = [];
-		//TO-DO: CHECK IF THIS IS STILL WORKING -> was map before
 		consultants.forEach((item) => {
 			const consultant: SelectOption = {
 				value: item.consultantId,

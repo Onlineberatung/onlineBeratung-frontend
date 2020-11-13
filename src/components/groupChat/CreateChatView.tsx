@@ -147,7 +147,7 @@ export const CreateGroupChatView = (props) => {
 		const prefillDate = new Date(chatItem.startDate);
 		const inputDate = new Date(selectedDate);
 		const prefillTime = getChatDate(chatItem.startDate, chatItem.startTime);
-		const inputTime: Date = new Date(selectedTime); //TO-DO: CHECK IF THIS IS STILL WORKING
+		const inputTime: Date = new Date(selectedTime);
 
 		return (
 			chatItem.topic !== selectedChatTopic ||

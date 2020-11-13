@@ -48,7 +48,7 @@ export const SessionItemComponent = (props) => {
 		false
 	);
 	const [overlayActive, setOverlayActive] = useState(false);
-	const [currentGroupId, setCurrenGroupId] = useState(''); //TO-DO: CHECK IF THIS IS STILL WORKING  -> before null
+	const [currentGroupId, setCurrenGroupId] = useState(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);

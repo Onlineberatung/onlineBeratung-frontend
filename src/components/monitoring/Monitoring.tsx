@@ -19,7 +19,7 @@ export const Monitoring = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const [accordionOpened, setAccordionOpened] = useState<any[]>([]); //TO-DO: CHECK IF THIS IS STILL WORKING -> change any to specific data type
+	const [accordionOpened, setAccordionOpened] = useState<any[]>([]);
 	const [monitoringData, setMonitoringData] = useState({});
 
 	const resort =

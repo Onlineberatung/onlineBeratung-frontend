@@ -51,7 +51,7 @@ export const GroupChatInfo = () => {
 		ActiveSessionGroupIdContext
 	);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const [subscriberList, setSubscriberList] = useState([]); //TO-DO: CHECK IF THIS IS STILL WORKING -> was null before
+	const [subscriberList, setSubscriberList] = useState(null);
 	const chatItem = getChatItemForSession(activeSession);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);

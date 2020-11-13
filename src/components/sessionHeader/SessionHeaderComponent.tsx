@@ -82,10 +82,9 @@ export const SessionHeaderComponent = (props) => {
 	const [isSubscriberFlyoutOpen, setIsSubscriberFlyoutOpen] = useState(false);
 	const [subscriberList, setSubscriberList] = useState([]);
 
-	//TO-DO: CHECK IF THIS IS STILL WORKING -> is this userEffect needed?
-	// useEffect(() => {
-	// 	activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	// });
+	useEffect(() => {
+		activeSession = getActiveSession(activeSessionGroupId, sessionsData); // eslint-disable-line
+	});
 
 	useEffect(() => {
 		if (isSubscriberFlyoutOpen) {
