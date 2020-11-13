@@ -17,6 +17,7 @@ import {
 	VALID_POSTCODE_LENGTH
 } from './agencySelectionHelper';
 import './agencySelection.styles';
+import '../profile/profile.styles';
 
 export interface AgencySelectionProps {
 	selectedConsultingType: number | undefined;
