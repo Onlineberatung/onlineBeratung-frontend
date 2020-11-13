@@ -30,7 +30,7 @@ jobs:
             - uses: actions/upload-artifact@v2
               with:
                   name: buildfiles
-                  path: dist/**/*
+                  path: build/**/*
     push_to_registry:
         needs: [build]
         name: Push Docker image to GitHub Packages
