@@ -11,7 +11,8 @@ import {
 	getSessionsDataWithChangedValue,
 	StoppedGroupChatContext,
 	AcceptedGroupIdContext,
-	UserDataContext
+	UserDataContext,
+	getUnreadMyMessages
 } from '../../../globalState';
 import {
 	mobileDetailView,
@@ -89,18 +90,13 @@ export const SessionView = (props) => {
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
 
-	const setSessionToRead = () => {
+	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
 		if (activeSession) {
 			const isCurrentSessionRead = activeSession.isFeedbackSession
 				? chatItem.feedbackRead
 				: chatItem.messagesRead;
-			if (!isCurrentSessionRead) {
-				setUnreadSessionsStatus({
-					mySessions: unreadSessionsStatus.mySessions - 1,
-					newDirectMessage: false,
-					resetedAnimations: unreadSessionsStatus.mySessions === 1
-				});
 
+			if (!isCurrentSessionRead || newMessageFromSocket) {
 				setSessionRead(groupId);
 				activeSession.isFeedbackSession
 					? (chatItem.feedbackRead = true)
@@ -113,9 +109,30 @@ export const SessionView = (props) => {
 					true
 				);
 				setSessionsData(changedSessionsData);
+				setUnreadSessionsStatus({
+					mySessions: unreadSessionsStatus.mySessions - 1,
+					newDirectMessage: false,
+					resetedAnimations: unreadSessionsStatus.mySessions === 1
+				});
 			}
 		}
 	};
+
+	useEffect(() => {
+		if (sessionsData) {
+			const currentSession = getActiveSession(
+				groupIdFromParam,
+				sessionsData
+			);
+			const currentChatItem = getChatItemForSession(currentSession);
+			const currentSessionRead = currentSession.isFeedbackSession
+				? currentChatItem.feedbackRead
+				: currentChatItem.messagesRead;
+			if (!currentSessionRead) {
+				setSessionToRead(true);
+			}
+		}
+	}, [sessionsData]);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -171,9 +188,9 @@ export const SessionView = (props) => {
 					setIsLoading(false);
 				}
 				scrollToEnd(0, true);
-				setSessionToRead();
 
 				if (!isSocketConnected) {
+					setSessionToRead();
 					window['socket'].connect();
 					window[
 						'socket'

@@ -195,12 +195,11 @@ export const SessionsList = () => {
 		}
 	}, [filterStatus]);
 
+	const didUnreadStatusChange = () =>
+		unreadSessionsStatus.mySessions != getUnreadMyMessages(sessionsData);
 	useEffect(() => {
 		if (sessionsData && sessionsData.mySessions) {
-			const didReadStatusChange =
-				unreadSessionsStatus.mySessions !=
-				getUnreadMyMessages(sessionsData);
-			if (didReadStatusChange) {
+			if (didUnreadStatusChange) {
 				setUnreadSessionsStatus({
 					mySessions: getUnreadMyMessages(sessionsData),
 					newDirectMessage: false,
@@ -216,10 +215,7 @@ export const SessionsList = () => {
 			unreadSessionsStatus &&
 			unreadSessionsStatus.newDirectMessage
 		) {
-			const didReadStatusChange = () =>
-				unreadSessionsStatus.mySessions !=
-				getUnreadMyMessages(sessionsData);
-			if (didReadStatusChange) {
+			if (didUnreadStatusChange) {
 				setUnreadSessionsStatus({
 					mySessions: unreadSessionsStatus.mySessions,
 					newDirectMessage: false,
@@ -476,11 +472,11 @@ export const SessionsList = () => {
 				onScroll={handleListScroll}
 			>
 				{hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
-				sessionsData &&
-				sessionsData.mySessions.length <=
-					MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION ? (
-					<WelcomeIllustration />
-				) : null}
+					sessionsData &&
+					sessionsData.mySessions.length <=
+						MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION && (
+						<WelcomeIllustration />
+					)}
 				<div
 					className={`sessionsList__itemsWrapper ${
 						activeCreateChat ||

@@ -39,7 +39,7 @@ import { Link } from 'react-router-dom';
 interface SessionItemProps {
 	messages: MessageItem[];
 	isTyping: Function;
-	typingUsers: any[];
+	typingUsers: string[];
 	currentGroupId: string;
 }
 
