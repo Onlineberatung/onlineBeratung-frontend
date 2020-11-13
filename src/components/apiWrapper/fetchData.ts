@@ -3,7 +3,7 @@ import { generateCsrfToken } from '../../resources/scripts/helpers/generateCsrfT
 import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
-} from '../errorPage/errorHandling';
+} from '../error/errorHandling';
 import { redirectToHelpmail } from '../registration/prefillPostcode';
 import {
 	isU25Registration,
