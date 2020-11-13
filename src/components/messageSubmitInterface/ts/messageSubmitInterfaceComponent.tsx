@@ -22,7 +22,9 @@ import {
 import {
 	ajaxSendEnquiry,
 	ajaxSendMessage,
-	ajaxCallUploadAttachment
+	ajaxCallUploadAttachment,
+	ajaxCallPostDraftMessage,
+	ajaxCallGetDraftMessage
 } from '../../apiWrapper/ts';
 import {
 	MessageSubmitInfo,
@@ -39,8 +41,8 @@ import {
 } from './attachmentHelpers';
 import { TypingIndicator } from '../../typingIndicator/ts/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
-import { EditorState, RichUtils, convertToRaw } from 'draft-js';
-import { draftToMarkdown } from 'markdown-draft-js';
+import { EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
 import {
@@ -57,8 +59,8 @@ import {
 } from './richtextHelpers';
 import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
-import { ajaxCallPostDraftMessage } from '../../apiWrapper/ts/ajaxCallPostDraftMessage';
 import useDebounce from '../../../resources/ts/helpers/useDebounce';
+import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -165,6 +167,16 @@ export const MessageSubmitInterfaceComponent = (
 
 	useEffect(() => {
 		isConsultantAbsent ? setActiveInfo(INFO_TYPES.ABSENT) : null;
+
+		ajaxCallGetDraftMessage(chatItem.groupId)
+			.then((response) => {
+				setEditorWithMarkdownString(response.message);
+			})
+			.catch((error) => {
+				if (error.message != FETCH_ERRORS.EMPTY) {
+					console.error('Loading Draft Message: ', error);
+				}
+			});
 
 		return () => {
 			if (currentDraftMessageRef.current) {
@@ -376,6 +388,12 @@ export const MessageSubmitInterfaceComponent = (
 		return markdownString.trim();
 	};
 
+	const setEditorWithMarkdownString = (markdownString: string) => {
+		const rawObject = markdownToDraft(markdownString);
+		const draftContent = convertFromRaw(rawObject);
+		setEditorState(EditorState.createWithContent(draftContent));
+	};
+
 	const handleButtonClick = (event) => {
 		if (uploadProgress || isRequestInProgress) {
 			return null;
@@ -458,6 +476,7 @@ export const MessageSubmitInterfaceComponent = (
 			}, 700);
 		}
 		setEditorState(EditorState.createEmpty());
+		currentDraftMessageRef.current = '';
 		setActiveInfo(null);
 		resizeTextarea();
 		setTimeout(() => setIsRequestInProgress(false), 1200);
