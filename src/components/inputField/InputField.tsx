@@ -102,12 +102,12 @@ export const InputField = (props: InputFieldProps) => {
 					{inputItem.type === 'password' ? (
 						<span
 							onClick={() => setShowPassword(!showPassword)}
-							className="passwordReset__passVisibility"
+							className="passwordFields__fieldGroup__passVisibility"
 						>
 							<span
 								className={[
-									'passwordReset__togglePass',
-									'passwordReset__togglePass--' +
+									'passwordFields__fieldGroup__togglePass',
+									'passwordFields__fieldGroup__togglePass--' +
 										(showPassword ? 'open' : 'close')
 								].join(' ')}
 							></span>
