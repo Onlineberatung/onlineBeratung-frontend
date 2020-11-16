@@ -131,14 +131,6 @@ export const Monitoring = () => {
 						>
 							<div className="monitoringAccordion__innerWrapper">
 								<h4
-									onClick={
-										() =>
-											//TO-DO: CHECK IF THIS IS STILL WORKING -> repair the commented logic
-											console.log('click')
-										// this.handleRenderChilds(
-										// 	`${key}.meta.renderChildren`
-										// )
-									}
 									className={
 										'monitoringAccordion__sectionTitle ' +
 										active
