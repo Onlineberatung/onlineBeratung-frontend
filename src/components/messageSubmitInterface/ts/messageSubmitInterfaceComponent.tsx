@@ -197,14 +197,12 @@ export const MessageSubmitInterfaceComponent = (
 	}, []);
 
 	useEffect(() => {
-		if (debouncedDraftMessage) {
-			if (currentDraftMessageRef.current) {
-				const groupId =
-					requestFeedbackCheckbox && requestFeedbackCheckbox.checked
-						? activeSession.session.feedbackGroupId
-						: activeSessionGroupId;
-				ajaxCallPostDraftMessage(groupId, debouncedDraftMessage);
-			}
+		if (debouncedDraftMessage && currentDraftMessageRef.current) {
+			const groupId =
+				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
+					? activeSession.session.feedbackGroupId
+					: activeSessionGroupId;
+			ajaxCallPostDraftMessage(groupId, debouncedDraftMessage);
 		}
 	}, [debouncedDraftMessage]);
 
