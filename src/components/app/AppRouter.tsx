@@ -55,10 +55,6 @@ export const AppRouter = (props) => {
 		initNavigationHandler();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	// React.useEffect(() => {
-	// 	console.log('Location changed', location);
-	// }, [location]);
-
 	return (
 		<div className="app__wrapper">
 			<div className="navigation__wrapper">
@@ -66,7 +62,7 @@ export const AppRouter = (props) => {
 					<Link
 						key={index}
 						className={`navigation__item ${
-							location.pathname === item.to
+							location.pathname.indexOf(item.to) !== -1
 								? 'navigation__item--active'
 								: ''
 						}`}

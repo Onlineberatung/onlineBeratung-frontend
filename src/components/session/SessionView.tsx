@@ -134,7 +134,6 @@ export const SessionView = (props) => {
 		}
 	}, [loadedMessages]);
 
-	//TO-DO: CHECK IF THIS IS STILL WORKING -> was at the top of the function before
 	if (!sessionsData) return null;
 	if (!activeSession) {
 		history.push(getSessionListPathForLocation());

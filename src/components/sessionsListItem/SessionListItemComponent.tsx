@@ -79,7 +79,6 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		}
 	}, [activeSessionGroupId, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	//TO-DO: CHECK IF THIS IS STILL WORKING -> was at the top of the function before
 	if (!sessionsData) {
 		return null;
 	}
