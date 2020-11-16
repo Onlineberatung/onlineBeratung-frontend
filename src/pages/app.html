@@ -92,6 +92,12 @@
 			class="app"
 			id="registrationRoot"
 		></main>
+		<% } else if(type === 'error') { %>
+		<main
+			data-errortype="<%= errorType %>"
+			class="app"
+			id="errorRoot"
+		></main>
 		<% } else { %>
 		<main class="app" id="<%= type %>Root"></main>
 		<% } %>

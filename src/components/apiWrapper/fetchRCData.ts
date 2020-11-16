@@ -2,7 +2,7 @@ import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
-} from '../errorPage/errorHandling';
+} from '../error/errorHandling';
 
 export const fetchRCData = (
 	url: string,

@@ -57,7 +57,8 @@ module.exports = {
 	appEntryPoints: {
 		app: resolveModule(resolveApp, 'src/components/app/initApp'),
 		login: resolveModule(resolveApp, 'src/components/login/initLogin'),
-		registration: resolveModule(resolveApp, 'src/components/registration/initRegistration')
+		registration: resolveModule(resolveApp, 'src/components/registration/initRegistration'),
+		error: resolveModule(resolveApp, 'src/components/error/initError')
 	},
 	appPackageJson: resolveApp('package.json'),
 	appSrc: resolveApp('src'),

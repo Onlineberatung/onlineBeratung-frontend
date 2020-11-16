@@ -7,7 +7,7 @@ import { autoLogin } from '../registration/autoLogin';
 import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
-} from '../errorPage/errorHandling';
+} from '../error/errorHandling';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 
 let isRequestInProgress = false;
