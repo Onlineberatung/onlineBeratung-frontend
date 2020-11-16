@@ -168,7 +168,7 @@ export const MessageSubmitInterfaceComponent = (
 	useEffect(() => {
 		isConsultantAbsent ? setActiveInfo(INFO_TYPES.ABSENT) : null;
 
-		ajaxCallGetDraftMessage(chatItem.groupId)
+		ajaxCallGetDraftMessage(activeSessionGroupId)
 			.then((response) => {
 				setEditorWithMarkdownString(response.message);
 			})
@@ -181,7 +181,7 @@ export const MessageSubmitInterfaceComponent = (
 		return () => {
 			if (currentDraftMessageRef.current) {
 				ajaxCallPostDraftMessage(
-					chatItem.groupId,
+					activeSessionGroupId,
 					currentDraftMessageRef.current
 				);
 			}
@@ -190,7 +190,10 @@ export const MessageSubmitInterfaceComponent = (
 
 	useEffect(() => {
 		if (debouncedDraftMessage) {
-			ajaxCallPostDraftMessage(chatItem.groupId, debouncedDraftMessage);
+			ajaxCallPostDraftMessage(
+				activeSessionGroupId,
+				debouncedDraftMessage
+			);
 		}
 	}, [debouncedDraftMessage]);
 
