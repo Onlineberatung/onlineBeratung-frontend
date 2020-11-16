@@ -4,7 +4,7 @@ import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 export const ajaxCallPostDraftMessage = async (
 	rcGroupId: string,
 	messageData: string
-): Promise<any> => {
+): Promise<void> => {
 	const url = config.endpoints.draftMessages;
 	const message = JSON.stringify({
 		message: messageData
@@ -18,9 +18,13 @@ export const ajaxCallPostDraftMessage = async (
 	});
 };
 
+interface draftMessage {
+	message: string;
+}
+
 export const ajaxCallGetDraftMessage = async (
 	rcGroupId: string
-): Promise<any> => {
+): Promise<draftMessage> => {
 	const url = config.endpoints.draftMessages;
 
 	return fetchData({
