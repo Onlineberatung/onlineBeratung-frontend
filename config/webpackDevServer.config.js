@@ -98,6 +98,10 @@ module.exports = function (proxy, allowedHost) {
       // See https://github.com/facebook/create-react-app/issues/387.
       disableDotRule: true,
       index: paths.publicUrlOrPath,
+      rewrites: [
+        { from: /^\/$/, to: '/login.html' },
+        { from: /^\/.+/, to: '/beratung-hilfe.html' },
+      ]
     },
     public: allowedHost,
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
