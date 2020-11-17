@@ -29,6 +29,7 @@
     "bfj": "^7.0.2",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "core-js": "^3.7.0",
     "css-loader": "4.3.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
@@ -38,6 +39,9 @@
     "draft-js-linkify-plugin": "2.0.2",
     "draft-js-plugins-editor": "3.0.0",
     "draft-js-static-toolbar-plugin": "3.0.1",
+    "element-closest": "^3.0.2",
+    "element-remove": "^1.0.4",
+    "element-scroll-polyfill": "^1.0.1",
     "eslint": "^7.11.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
@@ -48,6 +52,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^3.9.2",
     "eslint-webpack-plugin": "^2.1.0",
+    "fastestsmallesttextencoderdecoder": "^1.0.22",
     "file-loader": "6.1.1",
     "fs-extra": "^9.0.1",
     "hi-base32": "0.5.0",
@@ -88,6 +93,7 @@
     "webpack": "4.44.2",
     "webpack-dev-server": "3.11.0",
     "webpack-manifest-plugin": "2.2.0",
+    "whatwg-fetch": "^3.5.0",
     "workbox-webpack-plugin": "5.1.4"
   },
   "devDependencies": {
@@ -100,12 +106,14 @@
     "node-sass": "4.14.1",
     "prettier": "2.1.2",
     "prettier-eslint-cli": "5.0.0",
+    "serve": "^11.3.2",
     "standard-version": "9.0.0"
   },
   "scripts": {
     "start": "HOST=caritas.local node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "serve": "serve build"
   },
   "eslintConfig": {
     "extends": [
@@ -116,6 +124,7 @@
   "browserslist": {
     "production": [
       ">0.2%",
+      "ie 11",
       "not dead",
       "not op_mini all"
     ],
