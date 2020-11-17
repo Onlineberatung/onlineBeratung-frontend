@@ -201,9 +201,9 @@ export const SessionsList = () => {
 		if (sessionsData && sessionsData.mySessions) {
 			if (didUnreadStatusChange) {
 				setUnreadSessionsStatus({
+					...unreadSessionsStatus,
 					mySessions: getUnreadMyMessages(sessionsData),
-					newDirectMessage: false,
-					resetedAnimations: unreadSessionsStatus.resetedAnimations
+					newDirectMessage: false
 				});
 			}
 		}
@@ -215,17 +215,10 @@ export const SessionsList = () => {
 			unreadSessionsStatus &&
 			unreadSessionsStatus.newDirectMessage
 		) {
-			if (didUnreadStatusChange) {
-				setUnreadSessionsStatus({
-					mySessions: unreadSessionsStatus.mySessions,
-					newDirectMessage: false,
-					resetedAnimations: unreadSessionsStatus.mySessions === 1
-				});
-				if (typeIsUser(type)) {
-					fetchUserData();
-				} else {
-					getSessionsListData().catch(() => {});
-				}
+			if (typeIsUser(type)) {
+				fetchUserData();
+			} else {
+				getSessionsListData().catch(() => {});
 			}
 		}
 	}, [unreadSessionsStatus]);

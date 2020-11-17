@@ -93,6 +93,7 @@ export const App = () => {
 	useEffect(() => {
 		if (newStompDirectMessage) {
 			setUnreadSessionsStatus({
+				...unreadSessionsStatus,
 				mySessions: unreadSessionsStatus.mySessions + 1,
 				newDirectMessage: true,
 				resetedAnimations: unreadSessionsStatus.mySessions === 0

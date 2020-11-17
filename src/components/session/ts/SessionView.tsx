@@ -109,10 +109,11 @@ export const SessionView = (props) => {
 					true
 				);
 				setSessionsData(changedSessionsData);
+				const newMySessionsCount = unreadSessionsStatus.mySessions - 1;
 				setUnreadSessionsStatus({
-					mySessions: unreadSessionsStatus.mySessions - 1,
-					newDirectMessage: false,
-					resetedAnimations: unreadSessionsStatus.mySessions === 1
+					...unreadSessionsStatus,
+					mySessions: newMySessionsCount,
+					resetedAnimations: newMySessionsCount === 0
 				});
 			}
 		}

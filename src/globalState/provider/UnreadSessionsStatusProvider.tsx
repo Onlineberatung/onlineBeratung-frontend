@@ -9,7 +9,8 @@ export function UnreadSessionsStatusProvider(props) {
 	const [unreadSessionsStatus, setUnreadSessionsStatus] = useState({
 		mySessions: 0,
 		newDirectMessage: false,
-		resetedAnimations: true
+		resetedAnimations: true,
+		initialAnimation: true
 	});
 
 	return (

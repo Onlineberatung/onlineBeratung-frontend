@@ -30,18 +30,17 @@ export const NavigationBar = (props: NavigationBarProps) => {
 		if (
 			unreadSessionsStatus.newDirectMessage ||
 			(unreadSessionsStatus.mySessions > 0 &&
-				unreadSessionsStatus.resetedAnimations)
+				unreadSessionsStatus.initialAnimation)
 		) {
+			if (unreadSessionsStatus.initialAnimation) {
+				setUnreadSessionsStatus({
+					...unreadSessionsStatus,
+					initialAnimation: false
+				});
+			}
 			setAnimateNavIcon(true);
 			setTimeout(() => {
 				setAnimateNavIcon(false);
-				if (unreadSessionsStatus.resetedAnimations) {
-					setUnreadSessionsStatus({
-						mySessions: unreadSessionsStatus.mySessions,
-						newDirectMessage: false,
-						resetedAnimations: false
-					});
-				}
 			}, 1000);
 		}
 	}, [unreadSessionsStatus]);
