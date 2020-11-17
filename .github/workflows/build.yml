@@ -8,7 +8,8 @@ jobs:
         if: "!contains(github.event.head_commit.author, 'action@github.com')"
         runs-on: ubuntu-latest
         steps:
-            - run: echo ::set-env name=BRANCH::$(echo -n "${GITHUB_REF#refs/heads/}")
+            - name: set env
+              run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
             - uses: actions/checkout@v1
             - uses: actions/setup-node@v1
               with:
