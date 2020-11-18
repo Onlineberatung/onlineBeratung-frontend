@@ -116,32 +116,29 @@ export const PasswordReset = () => {
 	};
 
 	const handleInputOldChange = (event) => {
-		validateOldPassword(event.target.value);
+		setOldPasswordErrorMessage('');
 		setOldPassword(event.target.value);
 	};
 
 	const handleInputNewChange = (event) => {
 		validateNewPassword(event.target.value);
+		validateConfirmPassword(confirmPassword, event.target.value);
 		setNewPassword(event.target.value);
 	};
 
 	const handleInputConfirmChange = (event) => {
-		validateConfirmPassword(event.target.value);
+		validateConfirmPassword(event.target.value, newPassword);
 		setConfirmPassword(event.target.value);
 	};
 
-	const validateOldPassword = (oldPW) => {
-		setOldPasswordErrorMessage('');
-	};
-
-	const validateNewPassword = (newPw) => {
-		let passwordStrength = strengthIndicator(newPw);
-		if (newPw.length >= 1 && passwordStrength < 4) {
+	const validateNewPassword = (newPassword: string) => {
+		let passwordStrength = strengthIndicator(newPassword);
+		if (newPassword.length >= 1 && passwordStrength < 4) {
 			setNewPasswordSuccessMessage('');
 			setNewPasswordErrorMessage(
 				translate('profile.functions.passwordResetInsecure')
 			);
-		} else if (newPw.length >= 1) {
+		} else if (newPassword.length >= 1) {
 			setNewPasswordSuccessMessage(
 				translate('profile.functions.passwordResetSecure')
 			);
@@ -157,14 +154,17 @@ export const PasswordReset = () => {
 		!!newPasswordSuccessMessage &&
 		!!confirmPasswordSuccessMessage;
 
-	const validateConfirmPassword = (confirmPw) => {
-		let passwordFits = inputValuesFit(confirmPw, newPassword);
-		if (confirmPw.length >= 1 && !passwordFits) {
+	const validateConfirmPassword = (
+		confirmPassword: string,
+		newPassword: string
+	) => {
+		let passwordFits = inputValuesFit(confirmPassword, newPassword);
+		if (confirmPassword.length >= 1 && !passwordFits) {
 			setConfirmPasswordSuccessMessage('');
 			setConfirmPasswordErrorMessage(
 				translate('profile.functions.passwordResetNotSame')
 			);
-		} else if (confirmPw.length >= 1) {
+		} else if (confirmPassword.length >= 1) {
 			setConfirmPasswordSuccessMessage(
 				translate('profile.functions.passwordResetSame')
 			);
