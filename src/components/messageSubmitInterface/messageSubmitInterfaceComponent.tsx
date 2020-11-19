@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
 	typeIsEnquiry,
@@ -21,7 +21,9 @@ import {
 import {
 	ajaxSendEnquiry,
 	ajaxSendMessage,
-	ajaxCallUploadAttachment
+	ajaxCallUploadAttachment,
+	ajaxCallPostDraftMessage,
+	ajaxCallGetDraftMessage
 } from '../apiWrapper';
 import {
 	MessageSubmitInfo,
@@ -38,8 +40,8 @@ import {
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
-import { EditorState, RichUtils, convertToRaw } from 'draft-js';
-import { draftToMarkdown } from 'markdown-draft-js';
+import { EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
 import {
@@ -56,6 +58,8 @@ import {
 } from './richtextHelpers';
 import { SVG } from '../svgSet/SVG';
 import { ICON_KEYS } from '../svgSet/SVGHelpers';
+import useDebounce from '../../resources/scripts/helpers/useDebounce';
+import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';
@@ -117,13 +121,15 @@ export const getIconForAttachmentType = (attachmentType: string) => {
 	}
 };
 
+const SAVE_DRAFT_TIMEOUT = 10000;
+
 export interface MessageSubmitInterfaceComponentProps {
 	handleSendButton: Function;
 	isTyping?: Function;
 	placeholder: string;
 	showMonitoringButton?: Function;
 	type: string;
-	typingUsers?: [];
+	typingUsers?: string[];
 }
 
 export const MessageSubmitInterfaceComponent = (
@@ -152,6 +158,11 @@ export const MessageSubmitInterfaceComponent = (
 	] = useState<XMLHttpRequest | null>(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
+	const currentDraftMessageRef = useRef<string>();
+	const debouncedDraftMessage = useDebounce(
+		currentDraftMessageRef.current,
+		SAVE_DRAFT_TIMEOUT
+	);
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -167,7 +178,44 @@ export const MessageSubmitInterfaceComponent = (
 		if (isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
 		}
+
+		ajaxCallGetDraftMessage(activeSessionGroupId)
+			.then((response) => {
+				setEditorWithMarkdownString(response.message);
+			})
+			.catch((error) => {
+				if (error.message !== FETCH_ERRORS.EMPTY) {
+					console.error('Loading Draft Message: ', error);
+				}
+			});
+
+		return () => {
+			if (currentDraftMessageRef.current) {
+				const requestFeedbackCheckboxCallback = document.getElementById(
+					'requestFeedback'
+				) as HTMLInputElement;
+				const groupId =
+					requestFeedbackCheckboxCallback &&
+					requestFeedbackCheckboxCallback.checked
+						? activeSession.session.feedbackGroupId
+						: activeSessionGroupId;
+				ajaxCallPostDraftMessage(
+					groupId,
+					currentDraftMessageRef.current
+				);
+			}
+		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (debouncedDraftMessage && currentDraftMessageRef.current) {
+			const groupId =
+				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
+					? activeSession.session.feedbackGroupId
+					: activeSessionGroupId;
+			ajaxCallPostDraftMessage(groupId, debouncedDraftMessage);
+		}
+	}, [debouncedDraftMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (!activeInfo && isConsultantAbsent) {
@@ -246,6 +294,7 @@ export const MessageSubmitInterfaceComponent = (
 			}
 		}
 		setEditorState(currentEditorState);
+		currentDraftMessageRef.current = getTypedMarkdownMessage();
 	};
 
 	const handleEditorKeyCommand = (command) => {
@@ -363,6 +412,12 @@ export const MessageSubmitInterfaceComponent = (
 		return markdownString.trim();
 	};
 
+	const setEditorWithMarkdownString = (markdownString: string) => {
+		const rawObject = markdownToDraft(markdownString);
+		const draftContent = convertFromRaw(rawObject);
+		setEditorState(EditorState.createWithContent(draftContent));
+	};
+
 	const handleButtonClick = (event) => {
 		if (uploadProgress || isRequestInProgress) {
 			return null;
@@ -450,6 +505,7 @@ export const MessageSubmitInterfaceComponent = (
 		}
 		setEditorState(EditorState.createEmpty());
 		setActiveInfo('');
+		currentDraftMessageRef.current = '';
 		resizeTextarea();
 		setTimeout(() => setIsRequestInProgress(false), 1200);
 	};
