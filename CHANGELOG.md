@@ -6,49 +6,45 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.4.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.3.1...v1.4.0) (2020-10-30)
 
-
 ### Features
 
-* 🎸 add all components to registration for generic cases ([c5be879](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/c5be879654b091e8384bc03838482a86bdf4992b))
-* 🎸 add offender to longpostcodevalidation ([2816614](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/2816614e6d510ad5389c81ede68efd74b6521218))
-* 🎸 add registration react component ([27bbe25](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/27bbe251897a23f0eb9f4a6b9f849600dbc79d43))
-* 🎸 add submit button to registration ([d9a7328](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/d9a73286e6922e1d14033b52dd20ae224e08417c))
-* 🎸 import consulting type and registration data ([082de4e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/082de4e2da99a75eac9b582095d190c3535aa3a9))
-* 🎸 validate required registration input fields ([fb660b9](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/fb660b91d0dcce4370c0ab6c36731e94758e042e))
-
+-   🎸 add all components to registration for generic cases ([c5be879](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/c5be879654b091e8384bc03838482a86bdf4992b))
+-   🎸 add offender to longpostcodevalidation ([2816614](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/2816614e6d510ad5389c81ede68efd74b6521218))
+-   🎸 add registration react component ([27bbe25](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/27bbe251897a23f0eb9f4a6b9f849600dbc79d43))
+-   🎸 add submit button to registration ([d9a7328](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/d9a73286e6922e1d14033b52dd20ae224e08417c))
+-   🎸 import consulting type and registration data ([082de4e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/082de4e2da99a75eac9b582095d190c3535aa3a9))
+-   🎸 validate required registration input fields ([fb660b9](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/fb660b91d0dcce4370c0ab6c36731e94758e042e))
 
 ### Bug Fixes
 
-* 🐛 add env var to fix heap out of memory bug ([a482e9a](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/a482e9a66062ef9e42ff7894482888fa02bf3ce3))
-* 🐛 add heap fix directly to npm build script ([e266c30](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/e266c30607d9e1598b79dd309026985e695fd9cc))
-* 🐛 add password input fields ([b2a67e3](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/b2a67e3edcca22bb8e8207f69f1298904093f6e5))
-* 🐛 agencySelection is TeamAgency styles ([2081d2e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/2081d2e67b337f0aaa82db4f28ce09e25221a429))
-* 🐛 change email regex to have better email validation ([6c74187](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/6c74187cada82812ceb06120de9351a6c55e39e1))
-* 🐛 fixed condition for new enquiry on listItem click ([d7725ef](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/d7725efbe9c705eb5fdcfa512688181ba792d201))
-* 🐛 postcode and agencyid for prefilled aid resorts ([8d7f48b](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/8d7f48b3391f2b72ea88dea12d018cc03c9822b5))
-* 🐛 postcode suggestion flyout alignment ([4e10cac](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/4e10cacc30dc5359a3bb4759a9c657e483c0a6e3))
-* 🐛 radio button component style import ([fb26aaf](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/fb26aaff868f8ec14a3d25a4a503645887c3290a))
-* 🐛 redirect to u25 mail center if letters in aid ([903d437](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/903d437e7fba1c0713d33d1b235e4f4466771f4f))
-* 🐛 reg. overlay after button click overlapped by stage ([8ce418b](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/8ce418b59453acbf8c0a7cf795f98c4c4b5c44cf))
-* 🐛 remove warning labels only if element not null ([e1be54c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/e1be54ca01fcb780bd0db414e6d1bb957f19e118))
-* 🐛 validation after same user/mail warning ([33a132d](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/33a132d60ba3b78195518b1fcab1bcc8b16a59a1))
-* 🐛 validation for "mail and/or username already in use" ([bd218af](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/bd218af508875f45aa84191ad98b199144c0f2e8))
+-   🐛 add env var to fix heap out of memory bug ([a482e9a](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/a482e9a66062ef9e42ff7894482888fa02bf3ce3))
+-   🐛 add heap fix directly to npm build script ([e266c30](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/e266c30607d9e1598b79dd309026985e695fd9cc))
+-   🐛 add password input fields ([b2a67e3](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/b2a67e3edcca22bb8e8207f69f1298904093f6e5))
+-   🐛 agencySelection is TeamAgency styles ([2081d2e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/2081d2e67b337f0aaa82db4f28ce09e25221a429))
+-   🐛 change email regex to have better email validation ([6c74187](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/6c74187cada82812ceb06120de9351a6c55e39e1))
+-   🐛 fixed condition for new enquiry on listItem click ([d7725ef](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/d7725efbe9c705eb5fdcfa512688181ba792d201))
+-   🐛 postcode and agencyid for prefilled aid resorts ([8d7f48b](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/8d7f48b3391f2b72ea88dea12d018cc03c9822b5))
+-   🐛 postcode suggestion flyout alignment ([4e10cac](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/4e10cacc30dc5359a3bb4759a9c657e483c0a6e3))
+-   🐛 radio button component style import ([fb26aaf](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/fb26aaff868f8ec14a3d25a4a503645887c3290a))
+-   🐛 redirect to u25 mail center if letters in aid ([903d437](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/903d437e7fba1c0713d33d1b235e4f4466771f4f))
+-   🐛 reg. overlay after button click overlapped by stage ([8ce418b](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/8ce418b59453acbf8c0a7cf795f98c4c4b5c44cf))
+-   🐛 remove warning labels only if element not null ([e1be54c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/e1be54ca01fcb780bd0db414e6d1bb957f19e118))
+-   🐛 validation after same user/mail warning ([33a132d](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/33a132d60ba3b78195518b1fcab1bcc8b16a59a1))
+-   🐛 validation for "mail and/or username already in use" ([bd218af](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/bd218af508875f45aa84191ad98b199144c0f2e8))
 
 ### [1.3.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.3.0...v1.3.1) (2020-10-12)
 
 ## [1.3.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.2.1...v1.3.0) (2020-10-12)
 
-
 ### Features
 
-* 🎸 added stage and login component + login logic ([4e8d870](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/4e8d870fcbd3c16b83e0bc89be110f415367b111))
-* 🎸 implemented icon component with variants ([b88c15c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/b88c15cac2f8b7af56fcab8231839da0359b7237))
-
+-   🎸 added stage and login component + login logic ([4e8d870](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/4e8d870fcbd3c16b83e0bc89be110f415367b111))
+-   🎸 implemented icon component with variants ([b88c15c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/b88c15cac2f8b7af56fcab8231839da0359b7237))
 
 ### Bug Fixes
 
-* 🐛 added hotfix for draftjs-linkify plugin ([98441b4](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/98441b47718f46ca55ca9e77437baee9ff215328))
-* 🐛 fixing editor size for copy, back btn history mobile ([7ba41ec](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7ba41ec3ac67e3d10eabccb56da0663af66f3453))
+-   🐛 added hotfix for draftjs-linkify plugin ([98441b4](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/98441b47718f46ca55ca9e77437baee9ff215328))
+-   🐛 fixing editor size for copy, back btn history mobile ([7ba41ec](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7ba41ec3ac67e3d10eabccb56da0663af66f3453))
 
 ### [1.2.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.2.0...v1.2.1) (2020-08-25)
 

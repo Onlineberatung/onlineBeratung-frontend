@@ -26,7 +26,6 @@ jobs:
                   eslint_dir: ./src
                   prettier: true
                   prettier_dir: ./src
-            - run: echo ::set-env name=RELEASE_VERSION::$(npm run version --silent)
             - run: npm run build
             - uses: actions/upload-artifact@v2
               with:

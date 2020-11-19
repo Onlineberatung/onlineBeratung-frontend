@@ -125,7 +125,7 @@ export interface MessageSubmitInterfaceComponentProps {
 	placeholder: string;
 	showMonitoringButton?: Function;
 	type: string;
-	typingUsers?: [];
+	typingUsers?: string[];
 }
 
 export const MessageSubmitInterfaceComponent = (
