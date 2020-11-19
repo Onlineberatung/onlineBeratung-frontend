@@ -22,8 +22,7 @@ import {
 	getSessionsDataKeyForSessionType,
 	getActiveSession,
 	UnreadSessionsStatusContext,
-	getUnreadMessages,
-	getUnreadMessagesStatus,
+	getUnreadMyMessages,
 	AUTHORITIES,
 	ACTIVE_SESSION,
 	hasUserAuthority,
@@ -46,9 +45,11 @@ import {
 import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
 import { getSessions } from './SessionsListData';
 import { Button } from '../../button/ts/Button';
-import { SessionsListUnreadIllustration } from './SessionsListUnreadIllustration';
+import { WelcomeIllustration } from './SessionsListWelcomeIllustration';
 import { SessionListCreateChat } from './SessionListCreateChat';
 import { mobileListView } from '../../app/ts/navigationHandler';
+
+const MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION = 3;
 
 export const SessionsList = () => {
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -58,7 +59,6 @@ export const SessionsList = () => {
 	const sessionsContext = useContext(SessionsDataContext);
 	const { sessionsData, setSessionsData } = sessionsContext;
 	const { filterStatus, setFilterStatus } = useContext(FilterStatusContext);
-	const [showNewMessageForUser, setShowNewMessageForUser] = useState(false);
 	const [hasNoSessions, setHasNoSessions] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -106,16 +106,6 @@ export const SessionsList = () => {
 			setActiveSessionGroupId(null);
 		}
 
-		if (
-			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
-			sessionsData &&
-			sessionsData.mySessions
-		) {
-			const unreadSessionsCount = getUnreadMessages(sessionsData, 2);
-			unreadSessionsCount > 0
-				? setShowNewMessageForUser(true)
-				: setShowNewMessageForUser(false);
-		}
 		if (
 			!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData)
@@ -205,18 +195,33 @@ export const SessionsList = () => {
 		}
 	}, [filterStatus]);
 
+	const didUnreadStatusChange = () =>
+		unreadSessionsStatus.mySessions != getUnreadMyMessages(sessionsData);
 	useEffect(() => {
 		if (sessionsData && sessionsData.mySessions) {
-			const didReadStatusChange =
-				unreadSessionsStatus.sessions !=
-				getUnreadMessages(sessionsData, 2);
-			if (didReadStatusChange) {
+			if (didUnreadStatusChange) {
 				setUnreadSessionsStatus({
-					sessions: getUnreadMessagesStatus(sessionsData)
+					...unreadSessionsStatus,
+					mySessions: getUnreadMyMessages(sessionsData),
+					newDirectMessage: false
 				});
 			}
 		}
 	}, [sessionsData]);
+
+	useEffect(() => {
+		if (
+			sessionsData &&
+			unreadSessionsStatus &&
+			unreadSessionsStatus.newDirectMessage
+		) {
+			if (typeIsUser(type)) {
+				fetchUserData();
+			} else {
+				getSessionsListData().catch(() => {});
+			}
+		}
+	}, [unreadSessionsStatus]);
 
 	useEffect(() => {
 		if (stoppedGroupChat) {
@@ -460,9 +465,11 @@ export const SessionsList = () => {
 				onScroll={handleListScroll}
 			>
 				{hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
-				showNewMessageForUser ? (
-					<SessionsListUnreadIllustration />
-				) : null}
+					sessionsData &&
+					sessionsData.mySessions.length <=
+						MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION && (
+						<WelcomeIllustration />
+					)}
 				<div
 					className={`sessionsList__itemsWrapper ${
 						activeCreateChat ||

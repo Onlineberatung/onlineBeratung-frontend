@@ -7,7 +7,10 @@ export const UnreadSessionsStatusContext = createContext(null);
 
 export function UnreadSessionsStatusProvider(props) {
 	const [unreadSessionsStatus, setUnreadSessionsStatus] = useState({
-		sessions: '0'
+		mySessions: 0,
+		newDirectMessage: false,
+		resetedAnimations: true,
+		initialAnimation: true
 	});
 
 	return (

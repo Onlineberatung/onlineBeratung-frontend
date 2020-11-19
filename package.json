@@ -61,6 +61,7 @@
         "semver": "^5.6.0",
         "sockjs-client": "1.5.0",
         "susy": "2.2.14",
+        "text-encoding": "0.7.0",
         "ts-loader": "^5.3.3",
         "vi-css-helper": "git+https://github.com/virtualidentityag/vi-css-helper.git#1.1.1",
         "webpack-stream": "^5.2.1",
