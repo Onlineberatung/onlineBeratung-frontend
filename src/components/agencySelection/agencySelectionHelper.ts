@@ -2,7 +2,7 @@ import 'js-autocomplete/auto-complete';
 import { renderAgency } from './renderAgency';
 import {
 	getConsultingTypeFromRegistration,
-	POSTCODE_FALLBACK_LINK,
+	POSTCODE_FALLBACK_LINKS,
 	hasConsultingTypeLongPostcodeValidation
 } from '../../resources/scripts/helpers/resorts';
 import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
@@ -121,7 +121,7 @@ const initPostcodeFallback = () => {
 		let fallbackLink;
 
 		if (consultingType) {
-			fallbackLink = POSTCODE_FALLBACK_LINK[consultingType] || null;
+			fallbackLink = POSTCODE_FALLBACK_LINKS[consultingType] || null;
 		} else {
 			fallbackLink = null;
 		}

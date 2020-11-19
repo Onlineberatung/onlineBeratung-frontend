@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { AgencyDataInterface } from '../../globalState';
 import {
 	hasConsultingTypeLongPostcodeValidation,
-	POSTCODE_FALLBACK_LINK
+	POSTCODE_FALLBACK_LINKS
 } from '../../resources/scripts/helpers/resorts';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
@@ -100,7 +100,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							props.selectedConsultingType
 						) {
 							setPostcodeFallbackLink(
-								POSTCODE_FALLBACK_LINK[
+								POSTCODE_FALLBACK_LINKS[
 									props.selectedConsultingType
 								]
 							);
