@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.5.0...v1.5.1) (2020-11-19)
+
+## [1.5.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.4.1...v1.5.0) (2020-11-19)
+
+
+### Features
+
+* 🎸 added saveDraftMessage on typing/unmount ([d16eed7](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/d16eed7cad8e8bf80c325b33d807fa6f4152fb6f))
+* 🎸 added stomp disconnect onLogout, event directMessage ([eea1be0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/eea1be05b3955fa18f75f03bdc7f0d8939c987b9))
+* 🎸 base implementation of stomp & connect to liveservice ([3193d14](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/3193d142932b51233172af807048f02b2e53d5b2))
+* 🎸 changed welcome illustration logic & layout ([923cb5a](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/923cb5a0c2ee35952523ba20e5d714debc54e400))
+* 🎸 load & display draftMessage on session mount ([8e0e4a9](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/8e0e4a9505887cdd3860a7b27ff9d2e2811e7a3a))
+* 🎸 reload list on new directMessage, show animation ([ae2b0e4](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/ae2b0e44647e9455951766a120331f94158baf72))
+
+
+### Bug Fixes
+
+* 🐛 added textEncoder polyfill for ie11 support ([9bfac36](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/9bfac3681468100bbd2f32b84e7cecdd72b1fb9a))
+* 🐛 draft for peer fb checkbox added ([c831b2b](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/c831b2b91eb5e577d98e08b7a67571a085195129))
+* 🐛 fix routing and rerenders, memoize routes and session ([88578d5](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/88578d540798ab95c4439eea8448f055058f5160))
+* 🐛 ie 11 polyfill ([a1a7bc3](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/a1a7bc3d2ac3e31be3a3c85799b90616a701158e))
+* 🐛 unreadMyMessages count for single & group chat ([85ec095](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/85ec09557e18806fcdbf18f58fa93ebcca48b365))
+* 🐛 use activeGroupId for draftMessages for feedbackGroups ([cfe2f85](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/cfe2f8559d894667abaaf60993b4410d2466583e))
+
 ### [1.4.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.4.0...v1.4.1) (2020-10-30)
 
 ## [1.4.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.3.1...v1.4.0) (2020-10-30)
