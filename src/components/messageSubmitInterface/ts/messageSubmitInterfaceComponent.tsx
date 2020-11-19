@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
 	typeIsEnquiry,
-	isGroupChatForSessionItem
+	isGroupChatForSessionItem,
+	getChatItemForSession
 } from '../../session/ts/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../../checkbox/ts/Checkbox';
 import { translate } from '../../../resources/ts/i18n/translate';
@@ -21,7 +22,9 @@ import {
 import {
 	ajaxSendEnquiry,
 	ajaxSendMessage,
-	ajaxCallUploadAttachment
+	ajaxCallUploadAttachment,
+	ajaxCallPostDraftMessage,
+	ajaxCallGetDraftMessage
 } from '../../apiWrapper/ts';
 import {
 	MessageSubmitInfo,
@@ -38,8 +41,8 @@ import {
 } from './attachmentHelpers';
 import { TypingIndicator } from '../../typingIndicator/ts/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
-import { EditorState, RichUtils, convertToRaw } from 'draft-js';
-import { draftToMarkdown } from 'markdown-draft-js';
+import { EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
 import {
@@ -56,6 +59,8 @@ import {
 } from './richtextHelpers';
 import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
+import useDebounce from '../../../resources/ts/helpers/useDebounce';
+import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -112,13 +117,15 @@ export const getIconForAttachmentType = (attachmentType: string) => {
 	}
 };
 
+const SAVE_DRAFT_TIMEOUT = 10000;
+
 export interface MessageSubmitInterfaceComponentProps {
 	handleSendButton: Function;
 	isTyping?: Function;
 	placeholder: string;
 	showMonitoringButton?: Function;
 	type: string;
-	typingUsers?: [];
+	typingUsers?: string[];
 }
 
 export const MessageSubmitInterfaceComponent = (
@@ -141,6 +148,12 @@ export const MessageSubmitInterfaceComponent = (
 	const [attachmentUpload, setAttachmentUpload] = useState(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
+	const chatItem = getChatItemForSession(activeSession);
+	const currentDraftMessageRef = useRef<string>();
+	const debouncedDraftMessage = useDebounce(
+		currentDraftMessageRef.current,
+		SAVE_DRAFT_TIMEOUT
+	);
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -154,7 +167,44 @@ export const MessageSubmitInterfaceComponent = (
 
 	useEffect(() => {
 		isConsultantAbsent ? setActiveInfo(INFO_TYPES.ABSENT) : null;
+
+		ajaxCallGetDraftMessage(activeSessionGroupId)
+			.then((response) => {
+				setEditorWithMarkdownString(response.message);
+			})
+			.catch((error) => {
+				if (error.message != FETCH_ERRORS.EMPTY) {
+					console.error('Loading Draft Message: ', error);
+				}
+			});
+
+		return () => {
+			if (currentDraftMessageRef.current) {
+				const requestFeedbackCheckboxCallback = document.getElementById(
+					'requestFeedback'
+				) as HTMLInputElement;
+				const groupId =
+					requestFeedbackCheckboxCallback &&
+					requestFeedbackCheckboxCallback.checked
+						? activeSession.session.feedbackGroupId
+						: activeSessionGroupId;
+				ajaxCallPostDraftMessage(
+					groupId,
+					currentDraftMessageRef.current
+				);
+			}
+		};
 	}, []);
+
+	useEffect(() => {
+		if (debouncedDraftMessage && currentDraftMessageRef.current) {
+			const groupId =
+				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
+					? activeSession.session.feedbackGroupId
+					: activeSessionGroupId;
+			ajaxCallPostDraftMessage(groupId, debouncedDraftMessage);
+		}
+	}, [debouncedDraftMessage]);
 
 	useEffect(() => {
 		!activeInfo && isConsultantAbsent
@@ -229,6 +279,7 @@ export const MessageSubmitInterfaceComponent = (
 			props.isTyping();
 		}
 		setEditorState(currentEditorState);
+		currentDraftMessageRef.current = getTypedMarkdownMessage();
 	};
 
 	const handleEditorKeyCommand = (command) => {
@@ -349,6 +400,12 @@ export const MessageSubmitInterfaceComponent = (
 		return markdownString.trim();
 	};
 
+	const setEditorWithMarkdownString = (markdownString: string) => {
+		const rawObject = markdownToDraft(markdownString);
+		const draftContent = convertFromRaw(rawObject);
+		setEditorState(EditorState.createWithContent(draftContent));
+	};
+
 	const handleButtonClick = (event) => {
 		if (uploadProgress || isRequestInProgress) {
 			return null;
@@ -431,6 +488,7 @@ export const MessageSubmitInterfaceComponent = (
 			}, 700);
 		}
 		setEditorState(EditorState.createEmpty());
+		currentDraftMessageRef.current = '';
 		setActiveInfo(null);
 		resizeTextarea();
 		setTimeout(() => setIsRequestInProgress(false), 1200);

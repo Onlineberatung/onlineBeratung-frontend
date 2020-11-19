@@ -27,7 +27,6 @@ import {
 import { SessionAssign } from '../../sessionAssign/ts/SessionAssign';
 import {
 	SessionsDataContext,
-	ActiveSessionGroupIdContext,
 	getActiveSession,
 	UserDataContext,
 	getContact,
@@ -37,10 +36,19 @@ import {
 } from '../../../globalState';
 import { Link } from 'react-router-dom';
 
-export const SessionItemComponent = (props) => {
+interface SessionItemProps {
+	messages: MessageItem[];
+	isTyping: Function;
+	typingUsers: string[];
+	currentGroupId: string;
+}
+
+export const SessionItemComponent = (props: SessionItemProps) => {
 	let { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useMemo(
+		() => getActiveSession(props.currentGroupId, sessionsData),
+		[props.currentGroupId]
+	);
 	if (!activeSession) return null;
 	const { userData } = useContext(UserDataContext);
 	const [monitoringButtonVisible, setMonitoringButtonVisible] = useState(
