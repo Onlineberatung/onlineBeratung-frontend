@@ -47,6 +47,12 @@ $spacingWithIcon: 52px;
 		text-align: left;
 		margin-left: 20px;
 		max-width: calc(#{$max-input-width} - #{$inputHeight});
+
+		& .empty-line {
+			display: block;
+			content: '';
+			margin: $grid-base 0;
+		}
 	}
 
 	.warning {

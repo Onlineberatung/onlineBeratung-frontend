@@ -7,7 +7,7 @@ const hasMixedLetters = (value: string) => {
 };
 
 const hasSpecialChar = (value: string) => {
-	return new RegExp(/[!#@$%^&*)(+=._-]/).test(value);
+	return new RegExp(/[^a-zA-Z0-9]/).test(value);
 };
 
 export const strengthColor = (count: number) => {

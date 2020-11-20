@@ -8,7 +8,7 @@ export default {
 	'postcode.infoText':
 		'Mit der Postleitzahl können wir eine_n Berater_in in Deiner Nähe finden.',
 	'password.confirmation.infoText':
-		'Wähle bitte ein sicheres Passwort (min. 10 Zeichen, eine Zahl, ein Sonderzeichen, Groß-/Kleinschreibung).',
+		'Dein Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 10 Zeichen',
 	'password.secure': 'Dein Passwort ist sicher.',
 	'password.insecure': 'Dein Passwort ist nicht sicher.',
 	'password.same': 'Dein Passwort ist identisch.',
