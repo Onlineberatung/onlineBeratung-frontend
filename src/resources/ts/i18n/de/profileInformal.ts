@@ -8,7 +8,7 @@ export default {
 	'functions.passwordResetNotSame': 'Dein Passwort ist nicht identisch.',
 	'functions.passwordResetOldIncorrect': 'Dein Passwort ist nicht korrekt.',
 	'functions.passwordResetInstructions':
-		'Wähle bitte ein sicheres Passwort (min. 10 Zeichen, eine Zahl, ein Sonderzeichen, Groß-/Kleinschreibung).',
+		'Dein Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 10 Zeichen',
 	'functions.passwordReset.overlay.headline':
 		'Du hast Dein Passwort erfolgreich geändert. Du wirst nun zum Login weitergeleitet.',
 	'data.register.headline':

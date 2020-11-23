@@ -84,6 +84,7 @@ export const POSTCODE_FALLBACK_LINKS = {
 };
 
 export const PRESELECTED_AGENCY_FALLBACK_LINKS = {
+	11: config.endpoints.registrationOffenderRedirect,
 	13: config.endpoints.registrationRehabilitationRedirect,
 	15: config.endpoints.registrationKreuzbundRedirect
 };
