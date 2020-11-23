@@ -1,5 +1,7 @@
-$icon-size: 32px;
-$icon-size-small: 28px;
+$iconSize: 32px;
+$iconSizeSmall: 28px;
+$unreadBubbleSize: 8px;
+$unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
 .navigation {
 	&__wrapper {
@@ -61,41 +63,58 @@ $icon-size-small: 28px;
 
 		&__count {
 			color: $primary;
+			background-color: $white;
 			opacity: 0.7;
 			transition: opacity 0.6s ease;
 			border-radius: 50%;
-			width: 18px;
-			height: 18px;
+			width: $unreadBubbleSize;
+			height: $unreadBubbleSize;
 			font-size: 10px;
 			line-height: 18px;
 			position: absolute;
 			top: 0;
-			right: -4px;
+			right: 8px;
 			text-align: center;
-			animation: count 2000ms ease 500ms forwards,
-				bubble ease 1000ms forwards;
+
+			@include breakpoint($fromLarge) {
+				right: 22px;
+			}
+
+			&--initial {
+				transform: scale(0);
+				animation: $unreadBubbleAnimation;
+			}
+
+			&--reanimate {
+				transform: scale(1);
+				animation: $unreadBubbleAnimation;
+			}
+
+			&--active {
+				.navigation__icon {
+					animation: moveDownUp 500ms linear;
+					position: relative;
+
+					@keyframes moveDownUp {
+						0%,
+						100% {
+							top: 0;
+						}
+						50% {
+							top: 4px;
+						}
+					}
+				}
+			}
 
 			@keyframes count {
-				100%,
-				0% {
+				0%,
+				100% {
 					transform: scale(1);
 				}
 				50% {
-					transform: scale(1.1);
+					transform: scale(1.5);
 				}
-			}
-
-			@keyframes bubble {
-				0% {
-					background-color: transparent;
-				}
-				100% {
-					background-color: $white;
-				}
-			}
-
-			@include breakpoint($fromLarge) {
-				right: 12px;
 			}
 		}
 
@@ -113,14 +132,14 @@ $icon-size-small: 28px;
 	}
 
 	&__icon {
-		max-width: $icon-size-small;
-		max-height: $icon-size-small;
+		max-width: $iconSizeSmall;
+		max-height: $iconSizeSmall;
 		margin: auto;
 		text-align: center;
 
 		@include breakpoint($fromLarge) {
-			max-width: $icon-size;
-			max-height: $icon-size;
+			max-width: $iconSize;
+			max-height: $iconSize;
 		}
 	}
 

@@ -4,6 +4,7 @@ const endpointPort = nodeEnv === 'development' ? ':9000' : '';
 
 export const config = {
 	endpoints: {
+		draftMessages: tld + '/service/messages/draft',
 		enquiries: tld + '/service/users/sessions/consultants?status=1',
 		enquiryBase: tld + '/service/users/sessions/',
 		enquiryAcceptance: tld + '/service/users/sessions/new',
@@ -18,6 +19,7 @@ export const config = {
 		keycloakLogout:
 			tld +
 			'/auth/realms/caritas-online-beratung/protocol/openid-connect/logout',
+		liveservice: tld + '/service/live',
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
 		loginResetPasswordLink:

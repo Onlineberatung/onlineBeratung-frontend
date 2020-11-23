@@ -27,7 +27,6 @@ import {
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import {
 	SessionsDataContext,
-	ActiveSessionGroupIdContext,
 	getActiveSession,
 	UserDataContext,
 	getContact,
@@ -39,10 +38,19 @@ import { Link } from 'react-router-dom';
 import './session.styles';
 import './session.yellowTheme.styles';
 
-export const SessionItemComponent = (props) => {
+interface SessionItemProps {
+	messages: MessageItem[];
+	isTyping: Function;
+	typingUsers: string[];
+	currentGroupId: string;
+}
+
+export const SessionItemComponent = (props: SessionItemProps) => {
 	let { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useMemo(
+		() => getActiveSession(props.currentGroupId, sessionsData),
+		[props.currentGroupId] // eslint-disable-line react-hooks/exhaustive-deps
+	);
 	const { userData } = useContext(UserDataContext);
 	const [monitoringButtonVisible, setMonitoringButtonVisible] = useState(
 		false
