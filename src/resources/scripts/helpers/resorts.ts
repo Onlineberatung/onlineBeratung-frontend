@@ -37,7 +37,7 @@ export const isGenericConsultingType = (currentType: number): boolean => {
 export const hasConsultingTypeLongPostcodeValidation = (
 	consultingType: number | undefined = getConsultingTypeFromRegistration()
 ): boolean => {
-	const typesUsingLongPostcodeValidation = ['11', '12', '17'];
+	const typesUsingLongPostcodeValidation = ['12', '17'];
 	return consultingType
 		? typesUsingLongPostcodeValidation.includes(consultingType.toString())
 		: false;
@@ -46,7 +46,7 @@ export const hasConsultingTypeLongPostcodeValidation = (
 export const hasPreselectedAgencyFallback = (
 	consultingType: number | undefined = getConsultingTypeFromRegistration()
 ): boolean => {
-	const typesWithPreselectedAgencyFallback = ['13', '15'];
+	const typesWithPreselectedAgencyFallback = ['11', '13', '15'];
 	return consultingType
 		? typesWithPreselectedAgencyFallback.includes(consultingType.toString())
 		: false;
@@ -86,6 +86,7 @@ export const POSTCODE_FALLBACK_LINKS = {
 };
 
 export const PRESELECTED_AGENCY_FALLBACK_LINKS = {
+	11: config.endpoints.registrationOffenderRedirect,
 	13: config.endpoints.registrationRehabilitationRedirect,
 	15: config.endpoints.registrationKreuzbundRedirect
 };

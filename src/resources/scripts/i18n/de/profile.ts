@@ -20,7 +20,7 @@ const profile = {
 	'functions.passwordResetNotSame': 'Ihr Passwort ist nicht identisch.',
 	'functions.passwordResetOldIncorrect': 'Ihr Passwort ist nicht korrekt.',
 	'functions.passwordResetInstructions':
-		'Wählen Sie bitte ein sicheres Passwort (min. 10 Zeichen, eine Zahl, ein Sonderzeichen, Groß-/Kleinschreibung).',
+		'Ihr Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 10 Zeichen',
 	'functions.passwordReset.overlay.headline':
 		'Sie haben Ihr Passwort erfolgreich geändert. Sie werden nun zum Login weitergeleitet.',
 	'functions.passwordReset.overlay.buttonLabel': 'Zum Login',
