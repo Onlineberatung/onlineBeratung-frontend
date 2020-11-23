@@ -18,7 +18,7 @@ export default {
 	'password.input.label': 'Passwort*',
 	'password.confirmation.label': 'Passwort wiederholen*',
 	'password.confirmation.infoText':
-		'Wählen Sie bitte ein sicheres Passwort (min. 10 Zeichen, eine Zahl, ein Sonderzeichen, Groß-/Kleinschreibung).',
+		'Ihr Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 10 Zeichen',
 	'password.secure': 'Ihr Passwort ist sicher.',
 	'password.insecure': 'Ihr Passwort ist nicht sicher.',
 	'password.same': 'Ihr Passwort ist identisch.',
