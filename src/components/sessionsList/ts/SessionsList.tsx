@@ -48,6 +48,7 @@ import { Button } from '../../button/ts/Button';
 import { WelcomeIllustration } from './SessionsListWelcomeIllustration';
 import { SessionListCreateChat } from './SessionListCreateChat';
 import { mobileListView } from '../../app/ts/navigationHandler';
+import { ACCEPTED_GROUP_CLOSE } from '../../sessionAssign/ts/SessionAssign';
 
 const MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION = 3;
 
@@ -123,7 +124,7 @@ export const SessionsList = () => {
 	useEffect(() => {
 		if (acceptedGroupId) {
 			setCurrentOffset(0);
-			if (acceptedGroupId != 'CLOSE' && !stopAutoLoad) {
+			if (acceptedGroupId != ACCEPTED_GROUP_CLOSE && !stopAutoLoad) {
 				type = SESSION_TYPES.MY_SESSION;
 				getSessions(
 					sessionsContext,
@@ -177,7 +178,7 @@ export const SessionsList = () => {
 						}
 					})
 					.catch(() => {});
-			} else if (acceptedGroupId === 'CLOSE') {
+			} else if (acceptedGroupId === ACCEPTED_GROUP_CLOSE) {
 				getSessionsListData()
 					.then(() => {
 						history.push(getSessionListPathForLocation());

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useMemo } from 'react';
 import { history } from '../../app/ts/app';
 import {
 	translate,
@@ -35,31 +35,20 @@ import { getGroupChatDate } from '../../session/ts/sessionDateHelpers';
 import { getGroupMembers } from '../../apiWrapper/ts';
 import { decodeUsername } from '../../../resources/ts/helpers/encryptionHelpers';
 
-export interface SessionHeader {
-	username: string;
-	postcode: string;
-	gender?: number;
-	age?: number;
-	addictiveDrugs?: number;
-	relation?: number;
-	agency?: {
-		id: number;
-		name: string;
-		postcode: string;
-		description: string;
-		teamAgency: boolean;
-	};
+interface SessionHeader {
 	consultantAbsent?: boolean;
-	inTeamSession: boolean;
+	currentGroupId?: string;
 }
 
-export const SessionHeaderComponent = (props) => {
+export const SessionHeaderComponent = (props: SessionHeader) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
-		ActiveSessionGroupIdContext
+	const { setActiveSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const activeSession = useMemo(
+		() => getActiveSession(props.currentGroupId, sessionsData),
+		[props.currentGroupId]
 	);
-	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	if (!activeSession) return null;
 	const chatItem = getChatItemForSession(activeSession);
 
 	const username = getContact(activeSession).username;
@@ -79,10 +68,6 @@ export const SessionHeaderComponent = (props) => {
 
 	const [isSubscriberFlyoutOpen, setIsSubscriberFlyoutOpen] = useState(false);
 	const [subscriberList, setSubscriberList] = useState([]);
-
-	useEffect(() => {
-		activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	});
 
 	useEffect(() => {
 		if (isSubscriberFlyoutOpen) {
@@ -171,7 +156,7 @@ export const SessionHeaderComponent = (props) => {
 							<h3>{chatItem.topic}</h3>
 						)}
 					</div>
-					<SessionMenu />
+					<SessionMenu currentGroupId={props.currentGroupId} />
 				</div>
 				<div className="sessionInfo__metaInfo">
 					<div className="sessionInfo__metaInfo__content">
@@ -298,7 +283,7 @@ export const SessionHeaderComponent = (props) => {
 						)
 					) : null}
 				</div>
-				<SessionMenu />
+				<SessionMenu currentGroupId={props.currentGroupId} />
 			</div>
 			{!activeSession.teamSession ||
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (

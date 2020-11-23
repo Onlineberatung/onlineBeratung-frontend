@@ -35,6 +35,8 @@ export interface Consultant {
 	lastName: string;
 }
 
+export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
+
 export const SessionAssign = (props: { value?: string }) => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
@@ -147,8 +149,7 @@ export const SessionAssign = (props: { value?: string }) => {
 		setOverlayActive(false);
 
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setActiveSessionGroupId(null);
-			setAcceptedGroupId('CLOSE');
+			setAcceptedGroupId('ACCEPTED_GROUP_CLOSE');
 		} else {
 			setAcceptedGroupId(activeSession.session.groupId);
 		}

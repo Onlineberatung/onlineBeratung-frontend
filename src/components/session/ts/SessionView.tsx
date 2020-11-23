@@ -11,8 +11,7 @@ import {
 	getSessionsDataWithChangedValue,
 	StoppedGroupChatContext,
 	AcceptedGroupIdContext,
-	UserDataContext,
-	getUnreadMyMessages
+	UserDataContext
 } from '../../../globalState';
 import {
 	mobileDetailView,
@@ -125,12 +124,14 @@ export const SessionView = (props) => {
 				groupIdFromParam,
 				sessionsData
 			);
-			const currentChatItem = getChatItemForSession(currentSession);
-			const currentSessionRead = currentSession.isFeedbackSession
-				? currentChatItem.feedbackRead
-				: currentChatItem.messagesRead;
-			if (!currentSessionRead) {
-				setSessionToRead(true);
+			if (currentSession) {
+				const currentChatItem = getChatItemForSession(currentSession);
+				const currentSessionRead = currentSession.isFeedbackSession
+					? currentChatItem.feedbackRead
+					: currentChatItem.messagesRead;
+				if (!currentSessionRead) {
+					setSessionToRead(true);
+				}
 			}
 		}
 	}, [sessionsData]);

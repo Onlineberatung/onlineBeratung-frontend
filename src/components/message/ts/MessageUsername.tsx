@@ -4,21 +4,18 @@ import {
 } from '../../session/ts/sessionHelpers';
 import { translate } from '../../../resources/ts/i18n/translate';
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import {
 	getPrettyDateFromMessageDate,
 	formatToHHMM
 } from '../../../resources/ts/helpers/dateHelpers';
-import {
-	SessionsDataContext,
-	ActiveSessionGroupIdContext,
-	getActiveSession
-} from '../../../globalState';
+import { SessionsDataContext, getActiveSession } from '../../../globalState';
 import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';
 
 interface MessageUsernameProps {
 	alias?: any;
+	currentGroupId: string;
 	isUser: Boolean;
 	isMyMessage: Boolean;
 	type: string; // forwarded, user, consultant
@@ -28,8 +25,11 @@ interface MessageUsernameProps {
 
 export const MessageUsername = (props: MessageUsernameProps) => {
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useMemo(
+		() => getActiveSession(props.currentGroupId, sessionsData),
+		[props.currentGroupId]
+	);
+	if (!activeSession) return null;
 	const chatItem = getChatItemForSession(activeSession);
 
 	const forwardedLabel = () => {
