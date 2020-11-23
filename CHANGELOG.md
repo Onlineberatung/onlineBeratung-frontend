@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.5.1...v1.6.0) (2020-11-23)
+
+
+### Features
+
+* 🎸 add new special character validation and pw infotext ([5e5d5c3](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/5e5d5c31ee5f9f95bc782a8be218e5e0732b06a3))
+
+
+### Bug Fixes
+
+* 🐛 fixed registration for offender case ([1db277e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/1db277e40aafbaa992611c522ba206506ca1d75f))
+
 ### [1.5.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.5.0...v1.5.1) (2020-11-19)
 
 ## [1.5.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.4.1...v1.5.0) (2020-11-19)
