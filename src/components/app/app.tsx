@@ -1,3 +1,4 @@
+import '../../polyfill';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { useContext, useEffect, useState } from 'react';
