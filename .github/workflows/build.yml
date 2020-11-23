@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
     build:
-        name: Build
+        name: Build & Release
         if: "!contains(github.event.head_commit.author, 'action@github.com')"
         runs-on: ubuntu-latest
         steps:
