@@ -79,13 +79,13 @@ export const RESORT_KEYS = {
 	19: 'regional'
 };
 
-export const POSTCODE_FALLBACK_LINK = {
+export const POSTCODE_FALLBACK_LINKS = {
 	8: config.endpoints.registrationDisabilityPostcodeFallback,
 	16: config.endpoints.registrationMigrationPostcodeFallback,
 	18: config.endpoints.registrationHospicePostcodeFallback
 };
 
-export const AGENCY_FALLBACK_LINK = {
+export const PRESELECTED_AGENCY_FALLBACK_LINKS = {
 	11: config.endpoints.registrationOffenderRedirect,
 	13: config.endpoints.registrationRehabilitationRedirect,
 	15: config.endpoints.registrationKreuzbundRedirect
