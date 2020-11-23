@@ -56,8 +56,13 @@ import {
 	handleEditorBeforeInput,
 	handleEditorPastedText
 } from './richtextHelpers';
-import { SVG } from '../svgSet/SVG';
-import { ICON_KEYS } from '../svgSet/SVGHelpers';
+import { ReactComponent as Emoji } from '../../resources/img/icons/smiley-positive.svg';
+import { ReactComponent as FileDoc } from '../../resources/img/icons/file-doc.svg';
+import { ReactComponent as FileImage } from '../../resources/img/icons/file-image.svg';
+import { ReactComponent as FilePdf } from '../../resources/img/icons/file-pdf.svg';
+import { ReactComponent as FileXls } from '../../resources/img/icons/file-xls.svg';
+import { ReactComponent as Clip } from '../../resources/img/icons/clip.svg';
+import { ReactComponent as RichtextToggle } from '../../resources/img/icons/richtext-toggle.svg';
 import useDebounce from '../../resources/scripts/helpers/useDebounce';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import './emojiPicker.styles';
@@ -90,7 +95,7 @@ const { Toolbar } = staticToolbarPlugin;
 const emojiPlugin = createEmojiPlugin({
 	theme: emojiPickerCustomClasses,
 	useNativeArt: true,
-	selectButtonContent: <SVG name={ICON_KEYS.EMOJI} />
+	selectButtonContent: <Emoji />
 });
 const { EmojiSelect } = emojiPlugin;
 
@@ -111,13 +116,13 @@ const INFO_TYPES = {
 
 export const getIconForAttachmentType = (attachmentType: string) => {
 	if (isJPEGAttachment(attachmentType) || isPNGAttachment(attachmentType)) {
-		return <SVG name={ICON_KEYS.FILE_IMAGE} />;
+		return <FileImage />;
 	} else if (isPDFAttachment(attachmentType)) {
-		return <SVG name={ICON_KEYS.FILE_PDF} />;
+		return <FilePdf />;
 	} else if (isDOCXAttachment(attachmentType)) {
-		return <SVG name={ICON_KEYS.FILE_DOC} />;
+		return <FileDoc />;
 	} else if (isXLSXAttachment(attachmentType)) {
-		return <SVG name={ICON_KEYS.FILE_XLS} />;
+		return <FileXls />;
 	}
 };
 
@@ -651,8 +656,7 @@ export const MessageSubmitInterfaceComponent = (
 							className="textarea__featureWrapper"
 						>
 							<span className="textarea__richtextToggle">
-								<SVG
-									name={ICON_KEYS.RICHTEXT_TOGGLE}
+								<RichtextToggle
 									width="20"
 									height="20"
 									onClick={() =>
@@ -715,8 +719,7 @@ export const MessageSubmitInterfaceComponent = (
 							{hasUploadFunctionality ? (
 								!attachmentSelected ? (
 									<span className="textarea__attachmentSelect">
-										<SVG
-											name={ICON_KEYS.CLIP}
+										<Clip
 											onClick={handleAttachmentSelect}
 										/>
 									</span>

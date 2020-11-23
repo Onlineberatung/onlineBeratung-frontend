@@ -28,8 +28,7 @@ import { markdownToDraft } from 'markdown-draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import { convertFromRaw, ContentState } from 'draft-js';
 import { urlifyLinksInText } from '../messageSubmitInterface/richtextHelpers';
-import { SVG } from '../svgSet/SVG';
-import { ICON_KEYS } from '../svgSet/SVGHelpers';
+import { ReactComponent as Download } from '../../resources/img/icons/download.svg';
 import './message.styles';
 
 export interface MessageItem {
@@ -190,7 +189,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 										rel="noopener noreferer"
 										className="messageItem__message__attachment__download"
 									>
-										<SVG name={ICON_KEYS.DOWNLOAD} />
+										<Download />
 										<p>
 											{translate(
 												'attachments.download.label'

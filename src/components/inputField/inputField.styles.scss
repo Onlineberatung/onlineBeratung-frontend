@@ -1,5 +1,3 @@
-$iconSize: 24px;
-
 .formWrapper__inputWrapper {
 	position: relative;
 
@@ -92,11 +90,5 @@ $iconSize: 24px;
 				}
 			}
 		}
-	}
-
-	&__icon {
-		width: $iconSize;
-		height: $iconSize;
-		display: inline-block;
 	}
 }

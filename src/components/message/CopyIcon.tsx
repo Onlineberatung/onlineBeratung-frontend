@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { SVG } from '../svgSet/SVG';
-import { ICON_KEYS } from '../svgSet/SVGHelpers';
+import { ReactComponent as Copy } from '../../resources/img/icons/documents.svg';
+import { ReactComponent as Checkmark } from '../../resources/img/icons/checkmark.svg';
 
 interface CopyIconProps {
 	right: Boolean;
@@ -47,12 +47,8 @@ export const CopyIcon = (props: CopyIconProps) => {
 			aria-label={translate('message.copy.title')}
 			onClick={() => copyText(props.message)}
 		>
-			<SVG
-				name={ICON_KEYS.COPY}
-				className={!messageCopied ? `copy` : `copy copy--active`}
-			/>
-			<SVG
-				name={ICON_KEYS.CHECKMARK}
+			<Copy className={!messageCopied ? `copy` : `copy copy--active`} />
+			<Checkmark
 				className={
 					!messageCopied ? `success` : `success success--active`
 				}
