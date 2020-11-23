@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { history } from '../app/app';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
@@ -8,7 +8,6 @@ import {
 	ActiveSessionGroupIdContext,
 	getActiveSession,
 	UnreadSessionsStatusContext,
-	getUnreadMessagesStatus,
 	getSessionsDataWithChangedValue,
 	StoppedGroupChatContext,
 	AcceptedGroupIdContext,
@@ -55,7 +54,10 @@ export const SessionView = (props) => {
 	const { setActiveSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const groupIdFromParam: string = props.match.params.rcGroupId;
 	setActiveSessionGroupId(groupIdFromParam);
-	const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+	const activeSession = useMemo(
+		() => getActiveSession(groupIdFromParam, sessionsData),
+		[groupIdFromParam] // eslint-disable-line react-hooks/exhaustive-deps
+	);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const groupId = activeSession?.isFeedbackSession
@@ -64,7 +66,9 @@ export const SessionView = (props) => {
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [messagesItem, setMessagesItem] = useState(null);
-	const { setUnreadSessionsStatus } = useContext(UnreadSessionsStatusContext);
+	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
+		UnreadSessionsStatusContext
+	);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
@@ -75,20 +79,16 @@ export const SessionView = (props) => {
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
 
-	const setSessionToRead = () => {
-		if (activeSession && !isGroupChat) {
+	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
+		if (activeSession) {
 			const isCurrentSessionRead = activeSession.isFeedbackSession
 				? chatItem.feedbackRead
 				: chatItem.messagesRead;
-			if (!isCurrentSessionRead) {
+			if (!isCurrentSessionRead || newMessageFromSocket) {
 				setSessionRead(groupId);
 				activeSession.isFeedbackSession
 					? (chatItem.feedbackRead = true)
 					: (chatItem.messagesRead = true);
-
-				setUnreadSessionsStatus({
-					sessions: getUnreadMessagesStatus(sessionsData)
-				});
 
 				const changedSessionsData = getSessionsDataWithChangedValue(
 					sessionsData,
@@ -97,11 +97,19 @@ export const SessionView = (props) => {
 					true
 				);
 				setSessionsData(changedSessionsData);
+
+				const newMySessionsCount = unreadSessionsStatus.mySessions - 1;
+				setUnreadSessionsStatus({
+					...unreadSessionsStatus,
+					mySessions: newMySessionsCount,
+					resetedAnimations: newMySessionsCount === 0
+				});
 			}
 		}
 	};
 
 	useEffect(() => {
+		setIsLoading(true);
 		mobileDetailView();
 		setAcceptedGroupId(null);
 		typingTimeout = null;
@@ -115,7 +123,23 @@ export const SessionView = (props) => {
 				setStoppedGroupChat(false);
 			};
 		}
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (sessionsData) {
+			const currentSession = getActiveSession(
+				groupIdFromParam,
+				sessionsData
+			);
+			const currentChatItem = getChatItemForSession(currentSession);
+			const currentSessionRead = currentSession.isFeedbackSession
+				? currentChatItem.feedbackRead
+				: currentChatItem.messagesRead;
+			if (!currentSessionRead) {
+				setSessionToRead(true);
+			}
+		}
+	}, [sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		setTypingUsers(currentlyTypingUsers);
@@ -161,9 +185,9 @@ export const SessionView = (props) => {
 					setIsLoading(false);
 				}
 				scrollToEnd(0, true);
-				setSessionToRead();
 
 				if (!isSocketConnected) {
+					setSessionToRead();
 					window['socket'].connect();
 					window[
 						'socket'
@@ -281,6 +305,7 @@ export const SessionView = (props) => {
 					messages={prepareMessages(messagesItem.messages)}
 					isTyping={handleTyping}
 					typingUsers={typingUsers}
+					currentGroupId={groupIdFromParam}
 				/>
 			) : null}
 			{isOverlayActive ? (

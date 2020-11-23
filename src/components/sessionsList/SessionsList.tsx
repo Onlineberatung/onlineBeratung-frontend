@@ -22,13 +22,12 @@ import {
 	getSessionsDataKeyForSessionType,
 	getActiveSession,
 	UnreadSessionsStatusContext,
-	getUnreadMessages,
-	getUnreadMessagesStatus,
 	AUTHORITIES,
 	ACTIVE_SESSION,
 	hasUserAuthority,
 	StoppedGroupChatContext,
-	UserDataInterface
+	UserDataInterface,
+	getUnreadMyMessages
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
@@ -43,12 +42,14 @@ import {
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { getSessions } from './SessionsListData';
 import { Button } from '../button/Button';
-import { SessionsListUnreadIllustration } from './SessionsListUnreadIllustration';
+import { WelcomeIllustration } from './SessionsListWelcomeIllustration';
 import { SessionListCreateChat } from './SessionListCreateChat';
 import { mobileListView } from '../app/navigationHandler';
 import './sessionsList.styles';
 
-export const SessionsList = () => {
+const MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION = 3;
+
+export const SessionsList: React.FC = () => {
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
 		ActiveSessionGroupIdContext
@@ -56,7 +57,6 @@ export const SessionsList = () => {
 	const sessionsContext = useContext(SessionsDataContext);
 	const { sessionsData, setSessionsData } = sessionsContext;
 	const { filterStatus, setFilterStatus } = useContext(FilterStatusContext);
-	const [showNewMessageForUser, setShowNewMessageForUser] = useState(false);
 	const [hasNoSessions, setHasNoSessions] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -104,17 +104,6 @@ export const SessionsList = () => {
 			fetchUserData(acceptedGroupId);
 			setAcceptedGroupId(null);
 			setActiveSessionGroupId(null);
-		}
-
-		if (
-			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
-			sessionsData &&
-			sessionsData.mySessions
-		) {
-			const unreadSessionsCount = getUnreadMessages(sessionsData, 2);
-			unreadSessionsCount > 0
-				? setShowNewMessageForUser(true)
-				: setShowNewMessageForUser(false);
 		}
 		if (
 			!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
@@ -206,18 +195,33 @@ export const SessionsList = () => {
 		}
 	}, [filterStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
+	const didUnreadStatusChange = () =>
+		unreadSessionsStatus.mySessions !== getUnreadMyMessages(sessionsData);
 	useEffect(() => {
 		if (sessionsData && sessionsData.mySessions) {
-			const didReadStatusChange =
-				unreadSessionsStatus.sessions !==
-				getUnreadMessages(sessionsData, 2);
-			if (didReadStatusChange) {
+			if (didUnreadStatusChange) {
 				setUnreadSessionsStatus({
-					sessions: getUnreadMessagesStatus(sessionsData)
+					...unreadSessionsStatus,
+					mySessions: getUnreadMyMessages(sessionsData),
+					newDirectMessage: false
 				});
 			}
 		}
 	}, [sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (
+			sessionsData &&
+			unreadSessionsStatus &&
+			unreadSessionsStatus.newDirectMessage
+		) {
+			if (typeIsUser(type)) {
+				fetchUserData();
+			} else {
+				getSessionsListData().catch(() => {});
+			}
+		}
+	}, [unreadSessionsStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (stoppedGroupChat) {
@@ -463,9 +467,11 @@ export const SessionsList = () => {
 				onScroll={handleListScroll}
 			>
 				{hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
-				showNewMessageForUser ? (
-					<SessionsListUnreadIllustration />
-				) : null}
+					sessionsData &&
+					sessionsData.mySessions.length <=
+						MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION && (
+						<WelcomeIllustration />
+					)}
 				<div
 					className={`sessionsList__itemsWrapper ${
 						activeCreateChat ||

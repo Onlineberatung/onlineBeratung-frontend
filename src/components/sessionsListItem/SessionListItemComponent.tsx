@@ -67,12 +67,10 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		currentSessionData.session && currentSessionData.session.status === 0;
 
 	useEffect(() => {
-		if (!isGroupChat) {
-			setIsRead(
-				(activeSession && activeSession.session.id === listItem.id) ||
-					listItem.messagesRead
-			);
-		}
+		const chatItem = activeSession
+			? getChatItemForSession(activeSession)
+			: null;
+		setIsRead(chatItem?.id === listItem.id || listItem.messagesRead);
 
 		if (activeSessionGroupId && isRequestInProgress) {
 			setIsRequestInProgress(false);
@@ -164,7 +162,13 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								__html: getSessionsListItemIcon(iconVariant())
 							}}
 						></div>
-						<div className="sessionsListItem__username">
+						<div
+							className={
+								isRead
+									? `sessionsListItem__username sessionsListItem__username--readLabel`
+									: `sessionsListItem__username`
+							}
+						>
 							{listItem.topic}
 						</div>
 						{listItem.active ? (
