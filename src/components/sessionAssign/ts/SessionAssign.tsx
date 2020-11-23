@@ -149,7 +149,7 @@ export const SessionAssign = (props: { value?: string }) => {
 		setOverlayActive(false);
 
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setAcceptedGroupId('ACCEPTED_GROUP_CLOSE');
+			setAcceptedGroupId(ACCEPTED_GROUP_CLOSE);
 		} else {
 			setAcceptedGroupId(activeSession.session.groupId);
 		}
