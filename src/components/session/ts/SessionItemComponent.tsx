@@ -226,6 +226,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					}}
 					type={getTypeOfLocation()}
 					typingUsers={props.typingUsers}
+					currentGroupId={props.currentGroupId}
 				/>
 			) : null}
 

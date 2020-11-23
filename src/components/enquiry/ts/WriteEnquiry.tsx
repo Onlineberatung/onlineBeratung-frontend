@@ -150,6 +150,7 @@ export const WriteEnquiry = (props) => {
 				handleSendButton={() => setOverlayActive(true)}
 				placeholder={translate('enquiry.write.input.placeholder')}
 				type={SESSION_TYPES.ENQUIRY}
+				currentGroupId={activeSessionGroupId}
 			/>
 			{overlayActive ? (
 				<OverlayWrapper>
