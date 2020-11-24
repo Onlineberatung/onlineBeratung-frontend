@@ -1,0 +1,6 @@
+{
+	"entropy": 123456789,
+	"origins": ["*:*"],
+	"cookie_needed": true,
+	"websocket": true
+}

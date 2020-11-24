@@ -36,4 +36,8 @@ jobs:
                   branch: ${{env.BRANCH}}
                   force: true
                   tags: true
-            - run: npm run build
+            - name: test and build
+              run: |
+                  echo "127.0.0.1 caritas.local" | sudo tee -a /etc/hosts
+                  npm run test
+                  npm run build
