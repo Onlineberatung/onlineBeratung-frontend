@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState, useMemo } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../../resources/ts/i18n/translate';
 import { config } from '../../../resources/ts/config';
 import { Link, Redirect } from 'react-router-dom';
@@ -37,15 +37,13 @@ import { logout } from '../../logout/ts/logout';
 import { mobileListView } from '../../app/ts/navigationHandler';
 import { isGroupChatOwner } from '../../groupChat/ts/groupChatHelpers';
 
-export const SessionMenu = (props) => {
+export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { setActiveSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = useMemo(
-		() => getActiveSession(props.currentGroupId, sessionsData),
-		[props.currentGroupId]
+	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
+		ActiveSessionGroupIdContext
 	);
-	if (!activeSession) return null;
+	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);

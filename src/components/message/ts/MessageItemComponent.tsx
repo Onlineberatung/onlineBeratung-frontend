@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import { getPrettyDateFromMessageDate } from '../../../resources/ts/helpers/dateHelpers';
 import {
 	UserDataContext,
 	SessionsDataContext,
 	getActiveSession,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	ActiveSessionGroupIdContext
 } from '../../../globalState';
 import {
 	SESSION_TYPES,
@@ -53,17 +54,13 @@ interface MessageItemComponentProps extends MessageItem {
 	isMyMessage: boolean;
 	type: string;
 	clientName: string;
-	currentGroupId?: string;
 }
 
 export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const activeSession = useMemo(
-		() => getActiveSession(props.currentGroupId, sessionsData),
-		[props.currentGroupId]
-	);
-	if (!activeSession) return null;
+	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const rawMessageObject = markdownToDraft(props.message);
 	const contentStateMessage: ContentState = convertFromRaw(rawMessageObject);
 	const renderedMessage = contentStateMessage.hasText()
@@ -133,7 +130,6 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 					type={getUsernameType()}
 					userId={props.userId}
 					username={props.username}
-					currentGroupId={props.currentGroupId}
 				></MessageUsername>
 
 				<div
@@ -226,7 +222,6 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 					isNotRead={props.isNotRead}
 					messageTime={props.messageTime}
 					type={getUsernameType()}
-					currentGroupId={props.currentGroupId}
 				></MessageMetaData>
 			</div>
 		</div>

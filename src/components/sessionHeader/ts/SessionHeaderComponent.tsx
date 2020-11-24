@@ -37,18 +37,15 @@ import { decodeUsername } from '../../../resources/ts/helpers/encryptionHelpers'
 
 interface SessionHeader {
 	consultantAbsent?: boolean;
-	currentGroupId?: string;
 }
 
 export const SessionHeaderComponent = (props: SessionHeader) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { setActiveSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = useMemo(
-		() => getActiveSession(props.currentGroupId, sessionsData),
-		[props.currentGroupId]
+	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
+		ActiveSessionGroupIdContext
 	);
-	if (!activeSession) return null;
+	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
 
 	const username = getContact(activeSession).username;
@@ -156,7 +153,7 @@ export const SessionHeaderComponent = (props: SessionHeader) => {
 							<h3>{chatItem.topic}</h3>
 						)}
 					</div>
-					<SessionMenu currentGroupId={props.currentGroupId} />
+					<SessionMenu />
 				</div>
 				<div className="sessionInfo__metaInfo">
 					<div className="sessionInfo__metaInfo__content">
@@ -283,7 +280,7 @@ export const SessionHeaderComponent = (props: SessionHeader) => {
 						)
 					) : null}
 				</div>
-				<SessionMenu currentGroupId={props.currentGroupId} />
+				<SessionMenu />
 			</div>
 			{!activeSession.teamSession ||
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (

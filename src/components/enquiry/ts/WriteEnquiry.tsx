@@ -42,7 +42,7 @@ const overlayItem: OverlayItem = {
 	]
 };
 
-export const WriteEnquiry = (props) => {
+export const WriteEnquiry = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
@@ -150,7 +150,6 @@ export const WriteEnquiry = (props) => {
 				handleSendButton={() => setOverlayActive(true)}
 				placeholder={translate('enquiry.write.input.placeholder')}
 				type={SESSION_TYPES.ENQUIRY}
-				currentGroupId={activeSessionGroupId}
 			/>
 			{overlayActive ? (
 				<OverlayWrapper>

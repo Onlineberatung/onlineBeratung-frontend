@@ -181,7 +181,6 @@ export const SessionsList = () => {
 			} else if (acceptedGroupId === ACCEPTED_GROUP_CLOSE) {
 				getSessionsListData()
 					.then(() => {
-						history.push(getSessionListPathForLocation());
 						setAcceptedGroupId(null);
 					})
 					.catch(() => {});
@@ -191,7 +190,6 @@ export const SessionsList = () => {
 
 	useEffect(() => {
 		if (!typeIsUser(type)) {
-			setActiveSessionGroupId(null);
 			getSessionsListData().catch(() => {});
 		}
 	}, [filterStatus]);
@@ -383,6 +381,7 @@ export const SessionsList = () => {
 	const handleSelect = (selectedOption) => {
 		setHasNoSessions(false);
 		setActiveSessionGroupId(null);
+		history.push(getSessionListPathForLocation());
 		setFilterStatus(selectedOption.value);
 	};
 

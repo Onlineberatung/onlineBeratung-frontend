@@ -8,7 +8,8 @@ import {
 	getSessionsDataWithChangedValue,
 	StoppedGroupChatContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	AcceptedGroupIdContext
 } from '../../../globalState';
 import {
 	mobileDetailView,
@@ -55,7 +56,7 @@ export const JoinGroupChatView = () => {
 		history.push(getSessionListPathForLocation());
 	}
 	const chatItem = getChatItemForSession(activeSession);
-
+	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
@@ -90,7 +91,7 @@ export const JoinGroupChatView = () => {
 		return function stopTimeout() {
 			window.clearTimeout(timeoutId);
 		};
-	}, []);
+	}, [activeSession]);
 
 	const updateGroupChatInfo = () => {
 		if (chatItem.groupId === activeSessionGroupId) {
@@ -149,11 +150,8 @@ export const JoinGroupChatView = () => {
 					true
 				);
 				setSessionsData(changedSessionsData);
-				history.push(
-					`${getSessionListPathForLocation()}/${chatItem.groupId}/${
-						chatItem.id
-					}`
-				);
+				setAcceptedGroupId(chatItem.groupId);
+				history.push(getSessionListPathForLocation());
 			})
 			.catch(() => {
 				setOverlayItem(startJoinGroupChatErrorOverlay);

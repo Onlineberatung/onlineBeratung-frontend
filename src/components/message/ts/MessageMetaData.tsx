@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import {
 	UserDataContext,
 	SessionsDataContext,
 	getActiveSession,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	ActiveSessionGroupIdContext
 } from '../../../globalState';
 import { formatToHHMM } from '../../../resources/ts/helpers/dateHelpers';
 import {
@@ -14,7 +15,6 @@ import {
 } from '../../session/ts/sessionHelpers';
 
 interface MessageMetaDataProps {
-	currentGroupId: string;
 	isMyMessage: Boolean;
 	isNotRead: Boolean;
 	messageTime: string;
@@ -24,11 +24,8 @@ interface MessageMetaDataProps {
 export const MessageMetaData = (props: MessageMetaDataProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const activeSession = useMemo(
-		() => getActiveSession(props.currentGroupId, sessionsData),
-		[props.currentGroupId]
-	);
-	if (!activeSession) return null;
+	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 
 	const isReadStatus = () => {

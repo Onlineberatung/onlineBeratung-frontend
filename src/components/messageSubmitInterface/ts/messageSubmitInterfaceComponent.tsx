@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useContext, useRef, useMemo } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
 	typeIsEnquiry,
@@ -120,7 +120,6 @@ export const getIconForAttachmentType = (attachmentType: string) => {
 const SAVE_DRAFT_TIMEOUT = 10000;
 
 export interface MessageSubmitInterfaceComponentProps {
-	currentGroupId: string;
 	handleSendButton: Function;
 	isTyping?: Function;
 	placeholder: string;
@@ -139,11 +138,7 @@ export const MessageSubmitInterfaceComponent = (
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = useMemo(
-		() => getActiveSession(props.currentGroupId, sessionsData),
-		[props.currentGroupId]
-	);
-	if (!activeSession) return null;
+	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState(null);

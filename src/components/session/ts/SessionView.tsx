@@ -53,7 +53,6 @@ const INITIAL_MESSAGES_OFFSET = 0;
 export const SessionView = (props) => {
 	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
 	if (!sessionsData) return null;
-
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { setActiveSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const groupIdFromParam: string = props.match.params.rcGroupId;
@@ -124,14 +123,12 @@ export const SessionView = (props) => {
 				groupIdFromParam,
 				sessionsData
 			);
-			if (currentSession) {
-				const currentChatItem = getChatItemForSession(currentSession);
-				const currentSessionRead = currentSession.isFeedbackSession
-					? currentChatItem.feedbackRead
-					: currentChatItem.messagesRead;
-				if (!currentSessionRead) {
-					setSessionToRead(true);
-				}
+			const currentChatItem = getChatItemForSession(currentSession);
+			const currentSessionRead = currentSession.isFeedbackSession
+				? currentChatItem.feedbackRead
+				: currentChatItem.messagesRead;
+			if (!currentSessionRead) {
+				setSessionToRead(true);
 			}
 		}
 	}, [sessionsData]);

@@ -8,6 +8,7 @@ import {
 } from '../../overlay/ts/Overlay';
 import { BUTTON_TYPES } from '../../button/ts/Button';
 import { translate } from '../../../resources/ts/i18n/translate';
+import { history } from '../../app/ts/app';
 import {
 	getUserData,
 	getAgencyConsultantList,
@@ -28,6 +29,7 @@ import {
 	Select
 } from '../../select/ts/SelectDropdown';
 import { FETCH_ERRORS } from '../../apiWrapper/ts/fetchData';
+import { getSessionListPathForLocation } from '../../session/ts/sessionHelpers';
 
 export interface Consultant {
 	consultantId: string;
@@ -147,9 +149,10 @@ export const SessionAssign = (props: { value?: string }) => {
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		setOverlayActive(false);
-
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
+			setActiveSessionGroupId(null);
 			setAcceptedGroupId(ACCEPTED_GROUP_CLOSE);
+			history.push(getSessionListPathForLocation());
 		} else {
 			setAcceptedGroupId(activeSession.session.groupId);
 		}

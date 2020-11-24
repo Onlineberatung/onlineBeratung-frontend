@@ -155,7 +155,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						? activeSession.consultant
 						: false
 				}
-				currentGroupId={props.currentGroupId}
 			/>
 
 			<div id="session-scroll-container" className="session__content">
@@ -169,7 +168,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 								isOnlyEnquiry={isOnlyEnquiry}
 								isMyMessage={isMyMessage(message.userId)}
 								{...message}
-								currentGroupId={props.currentGroupId}
 							/>
 					  ))
 					: null}
@@ -226,7 +224,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					}}
 					type={getTypeOfLocation()}
 					typingUsers={props.typingUsers}
-					currentGroupId={props.currentGroupId}
 				/>
 			) : null}
 
