@@ -137,19 +137,23 @@ export const JoinGroupChatView = () => {
 				: GROUP_CHAT_API.JOIN;
 		ajaxCallPutGroupChat(chatItem.id, groupChatApiCall)
 			.then(() => {
-				let changedSessionsData = getSessionsDataWithChangedValue(
-					sessionsData,
-					activeSession,
-					'active',
-					true
-				);
-				changedSessionsData = getSessionsDataWithChangedValue(
-					changedSessionsData,
-					activeSession,
-					'subscribed',
-					true
-				);
-				setSessionsData(changedSessionsData);
+				if (
+					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+				) {
+					let changedSessionsData = getSessionsDataWithChangedValue(
+						sessionsData,
+						activeSession,
+						'active',
+						true
+					);
+					changedSessionsData = getSessionsDataWithChangedValue(
+						changedSessionsData,
+						activeSession,
+						'subscribed',
+						true
+					);
+					setSessionsData(changedSessionsData);
+				}
 				setAcceptedGroupId(chatItem.groupId);
 				history.push(getSessionListPathForLocation());
 			})

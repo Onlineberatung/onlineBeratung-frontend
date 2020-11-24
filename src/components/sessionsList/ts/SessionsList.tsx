@@ -122,7 +122,7 @@ export const SessionsList = () => {
 	});
 
 	useEffect(() => {
-		if (acceptedGroupId) {
+		if (acceptedGroupId && !typeIsUser(type)) {
 			setCurrentOffset(0);
 			if (acceptedGroupId != ACCEPTED_GROUP_CLOSE && !stopAutoLoad) {
 				type = SESSION_TYPES.MY_SESSION;
@@ -330,7 +330,7 @@ export const SessionsList = () => {
 	};
 
 	const fetchUserData = (
-		newRegisteredSessionId: number = null,
+		newRegisteredSessionId: number | string = null,
 		redirectToEnquiry: boolean = false
 	) => {
 		ajaxCallGetUserSessions()
@@ -355,6 +355,15 @@ export const SessionsList = () => {
 							.catch((error) => {
 								console.log(error);
 							});
+					} else if (typeof newRegisteredSessionId === 'string') {
+						const currentSession = getActiveSession(
+							newRegisteredSessionId,
+							{ mySessions: response.sessions }
+						);
+						const chatItem = getChatItemForSession(currentSession);
+						history.push(
+							`/sessions/user/view/${chatItem.groupId}/${chatItem.id}`
+						);
 					}
 				}
 			})
