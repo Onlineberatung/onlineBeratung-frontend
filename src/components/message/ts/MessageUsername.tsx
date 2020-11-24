@@ -11,8 +11,8 @@ import {
 } from '../../../resources/ts/helpers/dateHelpers';
 import {
 	SessionsDataContext,
-	getActiveSession,
-	ActiveSessionGroupIdContext
+	ActiveSessionGroupIdContext,
+	getActiveSession
 } from '../../../globalState';
 import { SVG } from '../../svgSet/ts/SVG';
 import { ICON_KEYS } from '../../svgSet/ts/SVGHelpers';

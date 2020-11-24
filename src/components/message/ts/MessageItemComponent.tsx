@@ -3,11 +3,11 @@ import { useContext } from 'react';
 import { getPrettyDateFromMessageDate } from '../../../resources/ts/helpers/dateHelpers';
 import {
 	UserDataContext,
+	ActiveSessionGroupIdContext,
 	SessionsDataContext,
 	getActiveSession,
 	hasUserAuthority,
-	AUTHORITIES,
-	ActiveSessionGroupIdContext
+	AUTHORITIES
 } from '../../../globalState';
 import {
 	SESSION_TYPES,

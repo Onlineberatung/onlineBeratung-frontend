@@ -3,10 +3,10 @@ import { useContext } from 'react';
 import {
 	UserDataContext,
 	SessionsDataContext,
+	ActiveSessionGroupIdContext,
 	getActiveSession,
 	hasUserAuthority,
-	AUTHORITIES,
-	ActiveSessionGroupIdContext
+	AUTHORITIES
 } from '../../../globalState';
 import { formatToHHMM } from '../../../resources/ts/helpers/dateHelpers';
 import {

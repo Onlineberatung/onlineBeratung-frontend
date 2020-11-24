@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState, useMemo } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { history } from '../../app/ts/app';
 import {
 	translate,
@@ -35,11 +35,11 @@ import { getGroupChatDate } from '../../session/ts/sessionDateHelpers';
 import { getGroupMembers } from '../../apiWrapper/ts';
 import { decodeUsername } from '../../../resources/ts/helpers/encryptionHelpers';
 
-interface SessionHeader {
+interface SessionHeaderProps {
 	consultantAbsent?: boolean;
 }
 
-export const SessionHeaderComponent = (props: SessionHeader) => {
+export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
