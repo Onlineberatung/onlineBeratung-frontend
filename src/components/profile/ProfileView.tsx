@@ -11,6 +11,7 @@ import {
 	AUTHORITIES
 } from '../../globalState';
 import { ProfileDataViewAsker } from './ProfileDataViewAsker';
+import { setProfileWrapperInactive } from '../app/navigationHandler';
 import './profile.styles';
 
 export const ProfileView = () => {
@@ -18,6 +19,9 @@ export const ProfileView = () => {
 
 	useEffect(() => {
 		setProfileWrapperActive();
+		return () => {
+			setProfileWrapperInactive();
+		};
 	}, []);
 
 	const handleLogout = () => {
