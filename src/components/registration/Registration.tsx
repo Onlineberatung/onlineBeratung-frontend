@@ -615,7 +615,7 @@ const Registration = () => {
 						item={inputItemUsername}
 						inputHandle={handleUsernameChange}
 					/>
-					{resortData.showPostCode && !prefilledAgencyData ? (
+					{resortData.showPostCode ? (
 						<AgencySelection
 							selectedConsultingType={consultingType}
 							icon={<SVG name={ICON_KEYS.PIN} />}
