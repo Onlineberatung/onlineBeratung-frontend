@@ -244,9 +244,6 @@ export const MessageSubmitInterfaceComponent = (
 
 	useEffect(() => {
 		resizeTextarea();
-		if (!attachmentSelected && uploadProgress) {
-			removeSelectedAttachment();
-		}
 	}, [attachmentSelected]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
@@ -263,7 +260,6 @@ export const MessageSubmitInterfaceComponent = (
 
 	useEffect(() => {
 		if (uploadOnLoadHandling) {
-			removeSelectedAttachment();
 			if (uploadOnLoadHandling.status === 201) {
 				handleMessageSendSuccess();
 				cleanupAttachment();
@@ -294,7 +290,9 @@ export const MessageSubmitInterfaceComponent = (
 			}
 		}
 		setEditorState(currentEditorState);
-		currentDraftMessageRef.current = getTypedMarkdownMessage();
+		currentDraftMessageRef.current = getTypedMarkdownMessage(
+			currentEditorState
+		);
 	};
 
 	const handleEditorKeyCommand = (command) => {
@@ -405,8 +403,10 @@ export const MessageSubmitInterfaceComponent = (
 		editorRef.focus();
 	};
 
-	const getTypedMarkdownMessage = () => {
-		const contentState = editorState.getCurrentContent();
+	const getTypedMarkdownMessage = (currentEditorState?: EditorState) => {
+		const contentState = currentEditorState
+			? currentEditorState.getCurrentContent()
+			: editorState.getCurrentContent();
 		const rawObject = convertToRaw(contentState);
 		const markdownString = draftToMarkdown(rawObject);
 		return markdownString.trim();
@@ -504,8 +504,8 @@ export const MessageSubmitInterfaceComponent = (
 			}, 700);
 		}
 		setEditorState(EditorState.createEmpty());
-		setActiveInfo('');
 		currentDraftMessageRef.current = '';
+		setActiveInfo('');
 		resizeTextarea();
 		setTimeout(() => setIsRequestInProgress(false), 1200);
 	};
