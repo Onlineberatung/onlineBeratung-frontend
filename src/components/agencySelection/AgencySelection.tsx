@@ -14,7 +14,7 @@ import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import {
 	validPostcodeLengthForConsultingType,
 	VALID_POSTCODE_LENGTH
-} from './agencySelectionHelper';
+} from './agencySelectionHelpers';
 import './agencySelection.styles';
 import '../profile/profile.styles';
 
