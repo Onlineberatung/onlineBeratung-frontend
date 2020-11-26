@@ -9,7 +9,7 @@ import { translate } from '../../resources/scripts/i18n/translate';
 import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import { extendPostcodeToBeValid } from '../registration/registrationHelper';
+import { extendPostcodeToBeValid } from '../registration/registrationHelpers';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import {
 	validPostcodeLengthForConsultingType,

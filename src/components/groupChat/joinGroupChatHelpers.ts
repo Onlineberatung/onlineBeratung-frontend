@@ -1,6 +1,7 @@
 import { BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 
 export const joinButtonItem: ButtonItem = {
 	label: translate('groupChat.join.button.label.join'),
@@ -13,7 +14,7 @@ export const startButtonItem: ButtonItem = {
 };
 
 export const startJoinGroupChatErrorOverlay: OverlayItem = {
-	imgSrc: '/../resources/img/illustrations/x.svg',
+	svg: XIcon,
 	headline: translate('groupChat.joinError.overlay.headline'),
 	buttonSet: [
 		{
@@ -25,7 +26,7 @@ export const startJoinGroupChatErrorOverlay: OverlayItem = {
 };
 
 export const joinGroupChatClosedErrorOverlay: OverlayItem = {
-	imgSrc: '/../resources/img/illustrations/x.svg',
+	svg: XIcon,
 	headline: translate('groupChat.join.chatClosedOverlay.headline'),
 	buttonSet: [
 		{

@@ -12,9 +12,10 @@ import {
 	Overlay
 } from '../overlay/Overlay';
 import { UserDataContext } from '../../globalState';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import './absenceFormular.styles';
 
-export const AbsenceFormular = (props) => {
+export const AbsenceFormular = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [savedAbsence, setSavedAbsence] = useState(true);
 	const [currentAbsentState, setCurrentAbsentState] = useState(
@@ -27,7 +28,7 @@ export const AbsenceFormular = (props) => {
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
 	const absenceOverlayItem: OverlayItem = {
-		imgSrc: '/../resources/img/illustrations/check.svg',
+		svg: CheckIcon,
 		headline: translate('absence.changeSuccess.overlay.headline'),
 		buttonSet: [
 			{

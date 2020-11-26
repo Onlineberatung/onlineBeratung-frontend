@@ -16,6 +16,7 @@ import {
 	inputValuesFit,
 	strengthIndicator
 } from '../../resources/scripts/helpers/validateInputValue';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import './passwordReset.styles';
 
 export const PasswordReset = () => {
@@ -42,7 +43,7 @@ export const PasswordReset = () => {
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
 	const overlayItem: OverlayItem = {
-		imgSrc: '/../resources/img/illustrations/check.svg',
+		svg: CheckIcon,
 		headline: translate('profile.functions.passwordReset.overlay.headline'),
 		buttonSet: [
 			{

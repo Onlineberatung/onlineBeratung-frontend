@@ -29,7 +29,7 @@ import {
 	isStringValidEmail,
 	MIN_USERNAME_LENGTH,
 	overlayItemRegistrationSuccess
-} from './registrationHelper';
+} from './registrationHelpers';
 import { postRegistration } from '../apiWrapper/ajaxCallRegistration';
 import { config } from '../../resources/scripts/config';
 import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';

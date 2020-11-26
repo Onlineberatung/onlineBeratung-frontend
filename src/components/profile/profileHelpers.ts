@@ -5,6 +5,8 @@ import {
 } from '../../resources/scripts/i18n/translate';
 import { UserDataInterface } from '../../globalState';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 
 export const convertUserDataObjectToArray = (object) => {
 	const array = [];
@@ -60,7 +62,7 @@ export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
 };
 
 export const overlayItemNewRegistrationSuccess: OverlayItem = {
-	imgSrc: '/../resources/img/illustrations/check.svg',
+	svg: CheckIcon,
 	headline: translate('profile.data.registerSuccess.overlay.headline'),
 	buttonSet: [
 		{
@@ -81,7 +83,7 @@ export const overlayItemNewRegistrationSuccess: OverlayItem = {
 };
 
 export const overlayItemNewRegistrationError: OverlayItem = {
-	imgSrc: '/../resources/img/illustrations/x.svg',
+	svg: XIcon,
 	headline: translate('profile.data.registerError.overlay.headline'),
 	buttonSet: [
 		{

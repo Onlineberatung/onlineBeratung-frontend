@@ -34,6 +34,7 @@ import {
 	hasUserAuthority,
 	AUTHORITIES
 } from '../../globalState';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { Link } from 'react-router-dom';
 import './session.styles';
 import './session.yellowTheme.styles';
@@ -243,7 +244,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 };
 
 const overlayItem: OverlayItem = {
-	imgSrc: '/../resources/img/illustrations/check.svg',
+	svg: CheckIcon,
 	headline: translate('session.acceptance.overlayHeadline'),
 	buttonSet: [
 		{
