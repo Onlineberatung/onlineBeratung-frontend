@@ -14,7 +14,7 @@ import {
 	ActiveSessionGroupIdContext,
 	getActiveSession
 } from '../../globalState';
-import { ReactComponent as ArrowForward } from '../../resources/img/icons/arrow-forward.svg';
+import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
 
 interface MessageUsernameProps {
 	alias?: any;
@@ -76,7 +76,11 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 
 			{props.alias ? (
 				<div className="messageItem__username messageItem__username--forwarded">
-					<ArrowForward width="16" height="16" viewBox="0 0 24 19" />
+					<ArrowForwardIcon
+						width="16"
+						height="16"
+						viewBox="0 0 24 19"
+					/>
 					{forwardedLabel()}
 				</div>
 			) : (

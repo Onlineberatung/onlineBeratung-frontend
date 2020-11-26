@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useState } from 'react';
 import { ajaxForwardMessage } from '../apiWrapper/ajaxCallMessageForward';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { ReactComponent as ArrowForward } from '../../resources/img/icons/arrow-forward.svg';
-import { ReactComponent as Checkmark } from '../../resources/img/icons/checkmark.svg';
+import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
+import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
 
-interface ForwardIconProps {
+interface ForwardMessageProps {
 	right: Boolean;
 	message: string;
 	messageTime: string;
@@ -14,7 +14,7 @@ interface ForwardIconProps {
 	groupId: string;
 }
 
-export const ForwardIcon = (props: ForwardIconProps) => {
+export const ForwardMessage = (props: ForwardMessageProps) => {
 	const [messageForwarded, setMessageForwarded] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
@@ -51,12 +51,12 @@ export const ForwardIcon = (props: ForwardIconProps) => {
 			aria-label={translate('message.forward.title')}
 			onClick={forwardMessage}
 		>
-			<ArrowForward
+			<ArrowForwardIcon
 				className={
 					!messageForwarded ? `forward` : `forward forward--active`
 				}
 			/>
-			<Checkmark
+			<CheckmarkIcon
 				className={
 					!messageForwarded ? `success` : `success success--active`
 				}

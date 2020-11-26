@@ -8,8 +8,8 @@ import { useState, useEffect } from 'react';
 import { config } from '../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
 import { autoLogin } from '../registration/autoLogin';
-import { ReactComponent as Person } from '../../resources/img/icons/person.svg';
-import { ReactComponent as Lock } from '../../resources/img/icons/lock.svg';
+import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import './login.styles';
 import '../../resources/styles/styles';
 
@@ -47,7 +47,7 @@ const Login = () => {
 		type: 'text',
 		label: translate('login.user.label'),
 		content: username,
-		icon: <Person />
+		icon: <PersonIcon />
 	};
 
 	const inputItemPassword: InputFieldItem = {
@@ -57,7 +57,7 @@ const Login = () => {
 		type: 'password',
 		label: translate('login.password.label'),
 		content: password,
-		icon: <Lock />
+		icon: <LockIcon />
 	};
 
 	const handleUsernameChange = (event) => {

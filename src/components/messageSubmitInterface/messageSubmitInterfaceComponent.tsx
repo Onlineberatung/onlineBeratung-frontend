@@ -56,13 +56,13 @@ import {
 	handleEditorBeforeInput,
 	handleEditorPastedText
 } from './richtextHelpers';
-import { ReactComponent as Emoji } from '../../resources/img/icons/smiley-positive.svg';
-import { ReactComponent as FileDoc } from '../../resources/img/icons/file-doc.svg';
-import { ReactComponent as FileImage } from '../../resources/img/icons/file-image.svg';
-import { ReactComponent as FilePdf } from '../../resources/img/icons/file-pdf.svg';
-import { ReactComponent as FileXls } from '../../resources/img/icons/file-xls.svg';
-import { ReactComponent as Clip } from '../../resources/img/icons/clip.svg';
-import { ReactComponent as RichtextToggle } from '../../resources/img/icons/richtext-toggle.svg';
+import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
+import { ReactComponent as FileDocIcon } from '../../resources/img/icons/file-doc.svg';
+import { ReactComponent as FileImageIcon } from '../../resources/img/icons/file-image.svg';
+import { ReactComponent as FilePdfIcon } from '../../resources/img/icons/file-pdf.svg';
+import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xls.svg';
+import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
+import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
 import useDebounce from '../../resources/scripts/helpers/useDebounce';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import './emojiPicker.styles';
@@ -95,7 +95,7 @@ const { Toolbar } = staticToolbarPlugin;
 const emojiPlugin = createEmojiPlugin({
 	theme: emojiPickerCustomClasses,
 	useNativeArt: true,
-	selectButtonContent: <Emoji />
+	selectButtonContent: <EmojiIcon />
 });
 const { EmojiSelect } = emojiPlugin;
 
@@ -116,13 +116,13 @@ const INFO_TYPES = {
 
 export const getIconForAttachmentType = (attachmentType: string) => {
 	if (isJPEGAttachment(attachmentType) || isPNGAttachment(attachmentType)) {
-		return <FileImage />;
+		return <FileImageIcon />;
 	} else if (isPDFAttachment(attachmentType)) {
-		return <FilePdf />;
+		return <FilePdfIcon />;
 	} else if (isDOCXAttachment(attachmentType)) {
-		return <FileDoc />;
+		return <FileDocIcon />;
 	} else if (isXLSXAttachment(attachmentType)) {
-		return <FileXls />;
+		return <FileXlsIcon />;
 	}
 };
 
@@ -656,7 +656,7 @@ export const MessageSubmitInterfaceComponent = (
 							className="textarea__featureWrapper"
 						>
 							<span className="textarea__richtextToggle">
-								<RichtextToggle
+								<RichtextToggleIcon
 									width="20"
 									height="20"
 									onClick={() =>
@@ -719,7 +719,7 @@ export const MessageSubmitInterfaceComponent = (
 							{hasUploadFunctionality ? (
 								!attachmentSelected ? (
 									<span className="textarea__attachmentSelect">
-										<Clip
+										<ClipIcon
 											onClick={handleAttachmentSelect}
 										/>
 									</span>

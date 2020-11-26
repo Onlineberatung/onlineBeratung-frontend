@@ -10,7 +10,7 @@ import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { extendPostcodeToBeValid } from '../registration/registrationHelper';
-import { ReactComponent as Info } from '../../resources/img/icons/i.svg';
+import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import {
 	validPostcodeLengthForConsultingType,
 	VALID_POSTCODE_LENGTH
@@ -183,7 +183,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 								{agency.teamAgency ? (
 									<div className="askerRegistration__postcodeFlyout__teamagency">
 										<span className="suggestionWrapper__item__content__teamAgency__icon">
-											<Info />
+											<InfoIcon />
 										</span>
 
 										{translate(

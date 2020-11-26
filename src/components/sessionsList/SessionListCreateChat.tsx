@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { ReactComponent as SpeechBubblePlus } from '../../resources/img/icons/speech-bubble-plus.svg';
+import { ReactComponent as SpeechBubblePlusIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
 
 export const SessionListCreateChat = () => {
@@ -11,7 +11,7 @@ export const SessionListCreateChat = () => {
 					<div className="sessionsListItem__consultingType"></div>
 				</div>
 				<div className="sessionsListItem__row">
-					<SpeechBubblePlus className="sessionsListItem__icon" />
+					<SpeechBubblePlusIcon className="sessionsListItem__icon" />
 					<div className="sessionsListItem__username">
 						{translate('groupChat.create.listItem.label')}
 					</div>

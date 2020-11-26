@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { ReactComponent as Copy } from '../../resources/img/icons/documents.svg';
-import { ReactComponent as Checkmark } from '../../resources/img/icons/checkmark.svg';
+import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
+import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
 
-interface CopyIconProps {
+interface CopyMessageProps {
 	right: Boolean;
 	message: string;
 }
 
-export const CopyIcon = (props: CopyIconProps) => {
+export const CopyMessage = (props: CopyMessageProps) => {
 	const [messageCopied, setMessageCopied] = useState(false);
 
 	const copyText = (content) => {
@@ -47,8 +47,10 @@ export const CopyIcon = (props: CopyIconProps) => {
 			aria-label={translate('message.copy.title')}
 			onClick={() => copyText(props.message)}
 		>
-			<Copy className={!messageCopied ? `copy` : `copy copy--active`} />
-			<Checkmark
+			<CopyIcon
+				className={!messageCopied ? `copy` : `copy copy--active`}
+			/>
+			<CheckmarkIcon
 				className={
 					!messageCopied ? `success` : `success success--active`
 				}

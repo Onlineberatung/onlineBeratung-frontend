@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { ReactComponent as Skf } from '../../resources/img/logos/01_skf.svg';
-import { ReactComponent as Caritas } from '../../resources/img/logos/02_caritas.svg';
-import { ReactComponent as Skm } from '../../resources/img/logos/03_skm.svg';
-import { ReactComponent as InVia } from '../../resources/img/logos/04_via.svg';
-import { ReactComponent as Kreuzbund } from '../../resources/img/logos/05_kreuzbund.svg';
-import { ReactComponent as Raphaelswerk } from '../../resources/img/logos/06_raphael.svg';
+import { ReactComponent as SkfIcon } from '../../resources/img/logos/01_skf.svg';
+import { ReactComponent as CaritasIcon } from '../../resources/img/logos/02_caritas.svg';
+import { ReactComponent as SkmIcon } from '../../resources/img/logos/03_skm.svg';
+import { ReactComponent as InViaIcon } from '../../resources/img/logos/04_via.svg';
+import { ReactComponent as KreuzbundIcon } from '../../resources/img/logos/05_kreuzbund.svg';
+import { ReactComponent as RaphaelswerkIcon } from '../../resources/img/logos/06_raphael.svg';
 import './stage.styles';
 
 export interface StageProps {
@@ -31,12 +31,12 @@ export const Stage = (props: StageProps) => {
 			) : null}
 
 			<div className="stage__logos">
-				<Skf />
-				<Caritas />
-				<Skm />
-				<InVia />
-				<Kreuzbund />
-				<Raphaelswerk />
+				<SkfIcon />
+				<CaritasIcon />
+				<SkmIcon />
+				<InViaIcon />
+				<KreuzbundIcon />
+				<RaphaelswerkIcon />
 			</div>
 		</div>
 	);

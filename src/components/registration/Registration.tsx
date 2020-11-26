@@ -7,11 +7,11 @@ import {
 	InputField,
 	InputFieldItem
 } from '../inputField/InputField';
-import { ReactComponent as Person } from '../../resources/img/icons/person.svg';
-import { ReactComponent as Lock } from '../../resources/img/icons/lock.svg';
-import { ReactComponent as Envelope } from '../../resources/img/icons/envelope.svg';
-import { ReactComponent as Info } from '../../resources/img/icons/i.svg';
-import { ReactComponent as Pin } from '../../resources/img/icons/pin.svg';
+import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
+import { ReactComponent as EnvelopeIcon } from '../../resources/img/icons/envelope.svg';
+import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
+import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
 import { useEffect, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button } from '../button/Button';
@@ -264,7 +264,7 @@ const Registration = () => {
 			!!usernameErrorMessage,
 			!!usernameSuccessMessage
 		),
-		icon: <Person />,
+		icon: <PersonIcon />,
 		id: 'username',
 		label:
 			usernameErrorMessage || usernameSuccessMessage
@@ -282,7 +282,7 @@ const Registration = () => {
 			!!passwordErrorMessage,
 			!!passwordSuccessMessage
 		),
-		icon: <Lock />,
+		icon: <LockIcon />,
 		id: 'passwordInput',
 		label:
 			passwordErrorMessage || passwordSuccessMessage
@@ -298,7 +298,7 @@ const Registration = () => {
 			!!passwordConfirmationErrorMessage,
 			!!passwordConfirmationSuccessMessage
 		),
-		icon: <Lock />,
+		icon: <LockIcon />,
 		id: 'passwordConfirmation',
 		label:
 			passwordConfirmationErrorMessage ||
@@ -316,7 +316,7 @@ const Registration = () => {
 			!!emailErrorMessage,
 			!!emailSuccessMessage
 		),
-		icon: <Envelope />,
+		icon: <EnvelopeIcon />,
 		id: 'email',
 		label:
 			emailErrorMessage || emailSuccessMessage
@@ -604,7 +604,7 @@ const Registration = () => {
 								{prefilledAgencyData.teamAgency ? (
 									<div className="formWrapper__infoText__text--tertiary">
 										<span className="suggestionWrapper__item__content__teamAgency__icon">
-											<Info />
+											<InfoIcon />
 										</span>
 										{translate(
 											'registration.agency.prefilled.isTeam'
@@ -621,7 +621,7 @@ const Registration = () => {
 					{resortData.showPostCode ? (
 						<AgencySelection
 							selectedConsultingType={consultingType}
-							icon={<Pin />}
+							icon={<PinIcon />}
 							setAgency={(agency) => {
 								if (agency) {
 									setAgencyId(agency?.id);
