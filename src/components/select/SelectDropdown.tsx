@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Select from 'react-select';
 import { components } from 'react-select';
+import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down-light.svg';
+import { ReactComponent as ArrowUpIcon } from '../../resources/img/icons/arrow-up-light.svg';
 import './select.react.styles';
 import './select.styles';
 
@@ -111,14 +113,13 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 
 	const IconDropdown = (props) => (
 		<components.DropdownIndicator {...props}>
-			<span
-				id="selectIcon"
-				className={
-					props.selectProps.menuIsOpen
-						? `select__input__iconWrapper select__input__iconWrapper--up`
-						: `select__input__iconWrapper select__input__iconWrapper--down`
-				}
-			></span>
+			<span id="selectIcon" className="select__input__iconWrapper">
+				{props.selectProps.menuIsOpen ? (
+					<ArrowUpIcon />
+				) : (
+					<ArrowDownIcon />
+				)}
+			</span>
 		</components.DropdownIndicator>
 	);
 
