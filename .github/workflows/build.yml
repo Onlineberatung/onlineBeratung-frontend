@@ -22,7 +22,6 @@ jobs:
                   eslint: true
                   eslint_dir: ./src
                   prettier: true
-                  prettier_dir: ./src
             - name: Bump version
               if: startsWith(env.BRANCH,'release') == true
               run: |

@@ -50,7 +50,7 @@ export const getSessions = (context, type, offset, useFilter): Promise<any> => {
 	const fetchMySessionsDatas = (
 		fetchedSessions,
 		increaseOffset?: boolean
-	): Promise<any> =>
+	): Promise<void> =>
 		new Promise((resolve, reject) => {
 			const enquiriesList =
 				fetchedSessions && typeIsEnquiry(type)

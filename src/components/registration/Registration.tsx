@@ -343,10 +343,11 @@ const Registration = () => {
 	const handlepasswordChange = (event) => {
 		validatePassword(event.target.value);
 		setPassword(event.target.value);
+		validatePasswordConfirmation(passwordConfirmation, event.target.value);
 	};
 
 	const handlePasswordConfirmationChange = (event) => {
-		validatePasswordConfirmation(event.target.value);
+		validatePasswordConfirmation(event.target.value, password);
 		setPasswordConfirmation(event.target.value);
 	};
 
@@ -416,7 +417,7 @@ const Registration = () => {
 		}
 	};
 
-	const validatePassword = (password) => {
+	const validatePassword = (password: string) => {
 		let passwordStrength = strengthIndicator(password);
 		if (password.length >= 1 && passwordStrength < 4) {
 			setIsPasswordValid(false);
@@ -437,7 +438,10 @@ const Registration = () => {
 		}
 	};
 
-	const validatePasswordConfirmation = (confirmPassword) => {
+	const validatePasswordConfirmation = (
+		confirmPassword: string,
+		password: string
+	) => {
 		let passwordFits = inputValuesFit(confirmPassword, password);
 		if (confirmPassword.length >= 1 && !passwordFits) {
 			setPasswordConfirmationSuccessMessage('');
