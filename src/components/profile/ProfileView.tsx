@@ -11,6 +11,7 @@ import {
 	AUTHORITIES
 } from '../../globalState';
 import { ProfileDataViewAsker } from './ProfileDataViewAsker';
+import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import './profile.styles';
 
 export const ProfileView = () => {
@@ -66,7 +67,9 @@ export const ProfileView = () => {
 			</div>
 			<div className="profile__innerWrapper">
 				<div className="profile__user">
-					<div className="profile__icon profile__icon--user"></div>
+					<div className="profile__icon">
+						<PersonIcon className="profile__icon--user" />
+					</div>
 					<h2>
 						{hasUserAuthority(
 							AUTHORITIES.CONSULTANT_DEFAULT,

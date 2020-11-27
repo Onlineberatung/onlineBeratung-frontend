@@ -1,8 +1,9 @@
-$icon-size: 24px;
 $doubleNavHeight: 192px;
 $doubleNavHeightSmall: 168px;
 $imprintHeight: 40px;
 $backBtnSize: 24px;
+$profileIconSize: 72px;
+$groupChatIconSize: 40px;
 
 .profile {
 	&__wrapper {
@@ -120,10 +121,11 @@ $backBtnSize: 24px;
 	&__icon {
 		background-color: $white;
 		border-radius: 50%;
-		width: 72px;
-		height: 72px;
+		width: $profileIconSize;
+		height: $profileIconSize;
 		margin: 0 auto $grid-base-two;
 		position: relative;
+		display: flex;
 
 		&--active {
 			display: block;
@@ -137,15 +139,17 @@ $backBtnSize: 24px;
 		}
 
 		&--chatInfo {
-			background-image: url('/resources/img/icons/speech-bubble.svg');
-			background-size: 40px;
-			background-position: center center;
+			width: $groupChatIconSize;
+			height: $groupChatIconSize;
+			align-self: center;
+			margin: 0 auto;
 		}
 
 		&--user {
-			background-image: url('/resources/img/icons/person.svg');
-			background-size: contain;
-			background-position: center bottom;
+			width: $profileIconSize;
+			height: $profileIconSize;
+			align-self: flex-end;
+			margin: 0 auto;
 		}
 	}
 

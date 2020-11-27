@@ -37,6 +37,7 @@ import { logout } from '../logout/logout';
 import { mobileListView, mobileDetailView } from '../app/navigationHandler';
 import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
+import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
 import '../profile/profile.styles';
 
 const stopChatButtonSet: ButtonItem = {
@@ -171,7 +172,8 @@ export const GroupChatInfo = () => {
 			</div>
 			<div className="profile__innerWrapper">
 				<div className="profile__user">
-					<div className="profile__icon profile__icon--chatInfo">
+					<div className="profile__icon">
+						<GroupChatIcon className="profile__icon--chatInfo" />
 						{chatItem.active ? (
 							<span className="profile__icon--active"></span>
 						) : null}

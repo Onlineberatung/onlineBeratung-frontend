@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
 import './checkbox.styles';
 
 export interface CheckboxItem {
@@ -21,6 +22,9 @@ export const Checkbox = (props) => {
 				name={checkboxItem.name}
 				defaultChecked={checkboxItem.checked}
 			/>
+			{checkboxItem.checked && (
+				<CheckmarkIcon className="checkbox__icon" />
+			)}
 			<label
 				id={checkboxItem.labelId}
 				className="checkbox__label"

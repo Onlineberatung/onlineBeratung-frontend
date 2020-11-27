@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { UserDataView } from './UserDataView';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
+import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import './profile.styles';
 
 export const AskerInfo = () => {
@@ -51,7 +52,9 @@ export const AskerInfo = () => {
 			</div>
 			<div className="profile__innerWrapper">
 				<div className="profile__user">
-					<div className="profile__icon profile__icon--user"></div>
+					<div className="profile__icon">
+						<PersonIcon className="profile__icon--user" />
+					</div>
 					<h2>{activeSession.user.username}</h2>
 				</div>
 				<div className="profile__content">
