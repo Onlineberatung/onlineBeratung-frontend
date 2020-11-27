@@ -21,6 +21,7 @@ import {
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { ReactComponent as EnvelopeCheckIcon } from '../../resources/img/illustrations/envelope-check.svg';
+import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
 import './enquiry.styles';
 
 const overlayItem: OverlayItem = {
@@ -117,10 +118,7 @@ export const WriteEnquiry = (props) => {
 		<div className="enquiry__wrapper">
 			<div className="enquiry__infoWrapper">
 				<div className="enquiry__image">
-					<img
-						src="/resources/img/illustrations/willkommen.svg"
-						alt="willkommen Illstration"
-					/>
+					<WelcomeIcon />
 				</div>
 				<div className="enquiry__infotext">
 					<h2 className="enquiry__headline">

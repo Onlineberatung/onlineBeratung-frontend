@@ -12,6 +12,7 @@ import {
 } from '../../globalState';
 import { ProfileDataViewAsker } from './ProfileDataViewAsker';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
 import './profile.styles';
 
 export const ProfileView = () => {
@@ -48,10 +49,7 @@ export const ProfileView = () => {
 						onClick={handleLogout}
 						className="profile__header__logout"
 					>
-						<img
-							src="/resources/img/icons/out.svg"
-							alt="Logout Icon"
-						/>
+						<LogoutIcon />
 					</span>
 				</div>
 				<div className="profile__header__metaInfo">

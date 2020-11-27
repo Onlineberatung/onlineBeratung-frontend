@@ -1,7 +1,7 @@
 $doubleNavHeight: 192px;
 $doubleNavHeightSmall: 168px;
 $imprintHeight: 40px;
-$backBtnSize: 24px;
+$iconSize: 24px;
 $profileIconSize: 72px;
 $groupChatIconSize: 40px;
 
@@ -77,9 +77,9 @@ $groupChatIconSize: 40px;
 				display: none;
 			}
 
-			img {
-				width: 24px;
-				height: 24px;
+			svg {
+				width: $iconSize;
+				height: $iconSize;
 			}
 		}
 	}
@@ -354,8 +354,8 @@ $groupChatIconSize: 40px;
 				}
 
 				svg {
-					width: $backBtnSize;
-					height: $backBtnSize;
+					width: $iconSize;
+					height: $iconSize;
 					fill: $secondary;
 					svg path {
 						fill: $secondary;
