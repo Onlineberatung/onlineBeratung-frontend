@@ -22,7 +22,6 @@ jobs:
                   eslint: true
                   eslint_dir: ./src
                   prettier: true
-                  prettier_dir: ./src
             - name: Bump version
               if: startsWith(env.BRANCH,'release') == true
               run: |
@@ -37,4 +36,8 @@ jobs:
                   branch: ${{env.BRANCH}}
                   force: true
                   tags: true
-            - run: npm run build
+            - name: test and build
+              run: |
+                  echo "127.0.0.1 caritas.local" | sudo tee -a /etc/hosts
+                  npm run test
+                  npm run build

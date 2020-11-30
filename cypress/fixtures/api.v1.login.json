@@ -1,0 +1,64 @@
+{
+	"status": "success",
+	"data": {
+		"userId": "userId",
+		"authToken": "authToken",
+		"me": {
+			"_id": "_id",
+			"services": {
+				"password": {
+					"bcrypt": "bcrypt"
+				}
+			},
+			"username": "username",
+			"emails": [
+				{
+					"address": "address",
+					"verified": false
+				}
+			],
+			"status": "offline",
+			"active": true,
+			"_updatedAt": "2020-11-24T14:00:59.026Z",
+			"roles": ["user"],
+			"customFields": {},
+			"statusConnection": "offline",
+			"avatarUrl": "http://caritas/avatarUrl",
+			"settings": {
+				"preferences": {
+					"enableAutoAway": true,
+					"idleTimeLimit": 300,
+					"desktopNotificationRequireInteraction": false,
+					"audioNotifications": "mentions",
+					"desktopNotifications": "all",
+					"mobileNotifications": "all",
+					"unreadAlert": true,
+					"useEmojis": true,
+					"convertAsciiEmoji": true,
+					"autoImageLoad": true,
+					"saveMobileBandwidth": true,
+					"collapseMediaByDefault": false,
+					"hideUsernames": false,
+					"hideRoles": false,
+					"hideFlexTab": false,
+					"hideAvatars": false,
+					"sidebarGroupByType": true,
+					"sidebarViewMode": "medium",
+					"sidebarHideAvatar": false,
+					"sidebarShowUnread": false,
+					"sidebarSortby": "activity",
+					"showMessageInMainThread": false,
+					"sidebarShowFavorites": true,
+					"sendOnEnter": "normal",
+					"messageViewMode": 0,
+					"emailNotificationMode": "mentions",
+					"newRoomNotification": "door",
+					"newMessageNotification": "chime",
+					"muteFocusedConversations": true,
+					"notificationsSoundVolume": 100,
+					"sidebarShowDiscussion": true
+				}
+			}
+		}
+	}
+}
