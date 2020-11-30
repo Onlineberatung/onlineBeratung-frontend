@@ -8,7 +8,8 @@ import {
 	getSessionsDataWithChangedValue,
 	StoppedGroupChatContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	AcceptedGroupIdContext
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
@@ -54,7 +55,7 @@ export const JoinGroupChatView = () => {
 		history.push(getSessionListPathForLocation());
 	}
 	const chatItem = getChatItemForSession(activeSession);
-
+	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
@@ -89,7 +90,7 @@ export const JoinGroupChatView = () => {
 		return function stopTimeout() {
 			window.clearTimeout(timeoutId);
 		};
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const updateGroupChatInfo = () => {
 		if (chatItem.groupId === activeSessionGroupId) {
@@ -135,24 +136,25 @@ export const JoinGroupChatView = () => {
 				: GROUP_CHAT_API.JOIN;
 		ajaxCallPutGroupChat(chatItem.id, groupChatApiCall)
 			.then(() => {
-				let changedSessionsData = getSessionsDataWithChangedValue(
-					sessionsData,
-					activeSession,
-					'active',
-					true
-				);
-				changedSessionsData = getSessionsDataWithChangedValue(
-					changedSessionsData,
-					activeSession,
-					'subscribed',
-					true
-				);
-				setSessionsData(changedSessionsData);
-				history.push(
-					`${getSessionListPathForLocation()}/${chatItem.groupId}/${
-						chatItem.id
-					}`
-				);
+				if (
+					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+				) {
+					let changedSessionsData = getSessionsDataWithChangedValue(
+						sessionsData,
+						activeSession,
+						'active',
+						true
+					);
+					changedSessionsData = getSessionsDataWithChangedValue(
+						changedSessionsData,
+						activeSession,
+						'subscribed',
+						true
+					);
+					setSessionsData(changedSessionsData);
+				}
+				setAcceptedGroupId(chatItem.groupId);
+				history.push(getSessionListPathForLocation());
 			})
 			.catch(() => {
 				setOverlayItem(startJoinGroupChatErrorOverlay);

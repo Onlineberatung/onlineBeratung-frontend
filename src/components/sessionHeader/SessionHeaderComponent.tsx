@@ -37,25 +37,11 @@ import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelper
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
 
-export interface SessionHeader {
-	username: string;
-	postcode: string;
-	gender?: number;
-	age?: number;
-	addictiveDrugs?: number;
-	relation?: number;
-	agency?: {
-		id: number;
-		name: string;
-		postcode: string;
-		description: string;
-		teamAgency: boolean;
-	};
+export interface SessionHeaderProps {
 	consultantAbsent?: boolean;
-	inTeamSession: boolean;
 }
 
-export const SessionHeaderComponent = (props) => {
+export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
@@ -81,10 +67,6 @@ export const SessionHeaderComponent = (props) => {
 
 	const [isSubscriberFlyoutOpen, setIsSubscriberFlyoutOpen] = useState(false);
 	const [subscriberList, setSubscriberList] = useState([]);
-
-	useEffect(() => {
-		activeSession = getActiveSession(activeSessionGroupId, sessionsData); // eslint-disable-line
-	});
 
 	useEffect(() => {
 		if (isSubscriberFlyoutOpen) {
