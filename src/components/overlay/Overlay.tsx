@@ -21,7 +21,9 @@ export interface OverlayItem {
 	copy?: string;
 	copyTwo?: string;
 	headline?: string;
-	svg?: any;
+	svg?: React.FunctionComponent<
+		React.SVGProps<SVGSVGElement> & { title?: string }
+	>;
 }
 
 export class OverlayWrapper extends React.Component<any> {
