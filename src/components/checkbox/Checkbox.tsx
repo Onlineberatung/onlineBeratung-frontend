@@ -23,7 +23,16 @@ export const Checkbox = (props) => {
 				defaultChecked={checkboxItem.checked}
 			/>
 			{checkboxItem.checked && (
-				<CheckmarkIcon className="checkbox__icon" />
+				<CheckmarkIcon
+					className="checkbox__icon"
+					onClick={(e) => {
+						const checkboxElement = document.getElementById(
+							checkboxItem.inputId
+						) as HTMLInputElement;
+						checkboxElement.checked = !checkboxElement.checked;
+						props.checkboxHandle(e);
+					}}
+				/>
 			)}
 			<label
 				id={checkboxItem.labelId}

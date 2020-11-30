@@ -118,7 +118,7 @@ export const AbsenceFormular = () => {
 		name: 'isAbsent',
 		labelId: 'isAbsentLabel',
 		label: translate('absence.checkbox.label'),
-		checked: userData.absent
+		checked: currentAbsentState
 	};
 
 	const inputItem: InputFieldItem = {
