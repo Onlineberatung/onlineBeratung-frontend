@@ -26,7 +26,11 @@ jobs:
                   eslint_dir: ./src
                   prettier: true
                   prettier_dir: ./src
-            - run: npm run build
+            - name: test and build
+              run: |
+                  echo "127.0.0.1 caritas.local" | sudo tee -a /etc/hosts
+                  npm run test
+                  npm run build
             - uses: actions/upload-artifact@v2
               with:
                   name: buildfiles
