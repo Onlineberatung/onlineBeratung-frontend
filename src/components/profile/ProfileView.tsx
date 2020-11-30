@@ -11,6 +11,7 @@ import {
 	AUTHORITIES
 } from '../../globalState';
 import { ProfileDataViewAsker } from './ProfileDataViewAsker';
+import { setProfileWrapperInactive } from '../app/navigationHandler';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
 import './profile.styles';
@@ -20,6 +21,9 @@ export const ProfileView = () => {
 
 	useEffect(() => {
 		setProfileWrapperActive();
+		return () => {
+			setProfileWrapperInactive();
+		};
 	}, []);
 
 	const handleLogout = () => {

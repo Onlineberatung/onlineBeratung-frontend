@@ -42,7 +42,7 @@ const overlayItem: OverlayItem = {
 	]
 };
 
-export const WriteEnquiry = (props) => {
+export const WriteEnquiry = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);

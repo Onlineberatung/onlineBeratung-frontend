@@ -40,6 +40,7 @@
 		"element-scroll-polyfill": "^1.0.1",
 		"eslint": "^7.11.0",
 		"eslint-config-react-app": "^6.0.0",
+		"eslint-plugin-cypress": "^2.11.2",
 		"eslint-plugin-flowtype": "^5.2.0",
 		"eslint-plugin-import": "^2.22.1",
 		"eslint-plugin-jsx-a11y": "^6.3.1",
@@ -92,24 +93,44 @@
 		"@commitlint/cli": "11.0.0",
 		"@commitlint/config-conventional": "11.0.0",
 		"breakpoint-sass": "2.7.1",
+		"concurrently": "^5.3.0",
+		"cross-env": "^7.0.2",
+		"cypress": "^6.0.0",
 		"cz-conventional-changelog": "3.3.0",
 		"husky": "4.3.0",
 		"lint-staged": "^10.5.1",
 		"node-sass": "4.14.1",
+		"npm-run-all": "^4.1.5",
 		"prettier": "2.1.2",
 		"prettier-eslint-cli": "5.0.0",
 		"serve": "^11.3.2",
-		"standard-version": "9.0.0"
+		"standard-version": "9.0.0",
+		"wait-on": "^5.2.0"
 	},
 	"scripts": {
 		"start": "HOST=caritas.local node scripts/start.js",
 		"build": "node scripts/build.js",
-		"test": "node scripts/test.js",
-		"serve": "serve build"
+		"test": "concurrently --kill-others --success first \"cross-env BROWSER=none npm start\" \"wait-on http://caritas.local:9000 && cross-env NODE_ENV=development cypress run\"",
+		"serve": "serve build",
+		"dev": "run-s dev:cy",
+		"dev:cy": "run-p dev:cy:*",
+		"dev:cy:start-cra": "BROWSER=none npm start",
+		"dev:cy:wait-and-open": "run-s dev:cy:wait-and-open:*",
+		"dev:cy:wait-and-open:wait-on-cra": "wait-on http://caritas.local:9000",
+		"dev:cy:wait-and-open:open": "cross-env NODE_ENV=development cypress open"
 	},
 	"eslintConfig": {
 		"extends": [
-			"react-app"
+			"react-app",
+			"plugin:cypress/recommended"
+		],
+		"overrides": [
+			{
+				"files": "*.spec.ts",
+				"rules": {
+					"@typescript-eslint/no-unused-expressions": "off"
+				}
+			}
 		]
 	},
 	"browserslist": {

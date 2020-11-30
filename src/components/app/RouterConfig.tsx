@@ -123,11 +123,6 @@ export const RouterConfigConsultant = (): any => {
 			},
 			{
 				path:
-					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
-				component: GroupChatInfo
-			},
-			{
-				path:
 					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/editGroupChat',
 				component: CreateGroupChatView
 			}
@@ -147,6 +142,11 @@ export const RouterConfigConsultant = (): any => {
 				path:
 					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
 				component: Monitoring
+			},
+			{
+				path:
+					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
+				component: GroupChatInfo
 			}
 		],
 		profileRoutes: [
@@ -231,11 +231,6 @@ export const RouterConfigTeamConsultant = (): any => {
 			},
 			{
 				path:
-					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
-				component: GroupChatInfo
-			},
-			{
-				path:
 					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/editGroupChat',
 				component: CreateGroupChatView
 			},
@@ -248,11 +243,6 @@ export const RouterConfigTeamConsultant = (): any => {
 					'/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/',
 				component: SessionView,
 				type: SESSION_TYPES.TEAMSESSION
-			},
-			{
-				path:
-					'/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/groupChatInfo',
-				component: GroupChatInfo
 			},
 			{
 				path:
@@ -290,6 +280,11 @@ export const RouterConfigTeamConsultant = (): any => {
 				path:
 					'/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile/monitoring',
 				component: Monitoring
+			},
+			{
+				path:
+					'/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/groupChatInfo',
+				component: GroupChatInfo
 			}
 		],
 		profileRoutes: [

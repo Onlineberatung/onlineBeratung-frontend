@@ -36,6 +36,7 @@ export const AskerNewRegistration = () => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
+	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
 	const isAllRequiredDataSet = () => selectedConsultingType && selectedAgency;
 
@@ -71,6 +72,11 @@ export const AskerNewRegistration = () => {
 	};
 
 	const handleRegistration = () => {
+		if (isRequestInProgress) {
+			return null;
+		}
+		setIsRequestInProgress(true);
+
 		if (isAllRequiredDataSet()) {
 			ajaxCallRegistrationNewConsultingTypes(
 				selectedConsultingType,
@@ -81,10 +87,12 @@ export const AskerNewRegistration = () => {
 					setOverlayItem(overlayItemNewRegistrationSuccess);
 					setOverlayActive(true);
 					setAcceptedGroupId(response.sessionId);
+					setIsRequestInProgress(false);
 				})
 				.catch((error) => {
 					setOverlayItem(overlayItemNewRegistrationError);
 					setOverlayActive(true);
+					setIsRequestInProgress(false);
 				});
 		}
 	};
