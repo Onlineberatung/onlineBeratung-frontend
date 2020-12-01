@@ -1,9 +1,10 @@
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { BUTTON_TYPES } from '../button/Button';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 
 export const updateChatSuccessOverlayItem: OverlayItem = {
-	imgSrc: '/../resources/img/illustrations/check.svg',
+	svg: CheckIcon,
 	headline: translate('groupChat.updateSuccess.overlayHeadline'),
 	buttonSet: [
 		{

@@ -9,7 +9,6 @@ export const initNavigationHandler = () => {
 };
 
 const activateNavigationItem = (e: Event, navItems) => {
-	setProfileWrapperInactive();
 	mobileListView();
 };
 

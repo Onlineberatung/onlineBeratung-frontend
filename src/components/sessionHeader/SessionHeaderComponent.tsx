@@ -34,28 +34,15 @@ import { isGenericConsultingType } from '../../resources/scripts/helpers/resorts
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { getGroupMembers } from '../apiWrapper';
 import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
+import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
 
-export interface SessionHeader {
-	username: string;
-	postcode: string;
-	gender?: number;
-	age?: number;
-	addictiveDrugs?: number;
-	relation?: number;
-	agency?: {
-		id: number;
-		name: string;
-		postcode: string;
-		description: string;
-		teamAgency: boolean;
-	};
+export interface SessionHeaderProps {
 	consultantAbsent?: boolean;
-	inTeamSession: boolean;
 }
 
-export const SessionHeaderComponent = (props) => {
+export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
@@ -81,10 +68,6 @@ export const SessionHeaderComponent = (props) => {
 
 	const [isSubscriberFlyoutOpen, setIsSubscriberFlyoutOpen] = useState(false);
 	const [subscriberList, setSubscriberList] = useState([]);
-
-	useEffect(() => {
-		activeSession = getActiveSession(activeSessionGroupId, sessionsData); // eslint-disable-line
-	});
 
 	useEffect(() => {
 		if (isSubscriberFlyoutOpen) {
@@ -143,21 +126,7 @@ export const SessionHeaderComponent = (props) => {
 						onClick={handleBackButton}
 						className="sessionInfo__backButton"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							xmlnsXlink="http://www.w3.org/1999/xlink"
-							width="72"
-							height="72"
-							viewBox="0 0 72 72"
-						>
-							<defs>
-								<path
-									id="arrow-left-a"
-									d="M45.0252206,6.96804002 C45.4962829,6.4969777 46.0611408,6.26144654 46.7197943,6.26144654 C47.3784479,6.26144654 47.9433058,6.4969777 48.4143681,6.96804002 L54.5548531,13.1460432 C55.0259154,13.6171055 55.2614465,14.1757104 55.2614465,14.8218578 C55.2614465,15.4680053 55.0259154,16.0266102 54.5548531,16.4976725 L34.791079,36.2614465 L54.5548531,56.0252206 C55.0259154,56.4962829 55.2614465,57.0548878 55.2614465,57.7010352 C55.2614465,58.3471827 55.0259154,58.9057875 54.5548531,59.3768499 L48.4143681,65.5548531 C47.9433058,66.0259154 47.3784479,66.2614465 46.7197943,66.2614465 C46.0611408,66.2614465 45.4962829,66.0259154 45.0252206,65.5548531 L17.4451469,37.9372612 C16.9740846,37.4661988 16.7385535,36.907594 16.7385535,36.2614465 C16.7385535,35.6152991 16.9740846,35.0566942 17.4451469,34.5856319 L45.0252206,6.96804002 Z"
-								/>
-							</defs>
-							<use xlinkHref="#arrow-left-a" />
-						</svg>
+						<BackIcon />
 					</span>
 					<div className="sessionInfo__username sessionInfo__username--deactivate sessionInfo__username--groupChat">
 						{hasUserAuthority(
@@ -218,21 +187,7 @@ export const SessionHeaderComponent = (props) => {
 						}}
 						className="sessionInfo__feedbackBackButton"
 					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							xmlnsXlink="http://www.w3.org/1999/xlink"
-							width="72"
-							height="72"
-							viewBox="0 0 72 72"
-						>
-							<defs>
-								<path
-									id="arrow-left-a"
-									d="M45.0252206,6.96804002 C45.4962829,6.4969777 46.0611408,6.26144654 46.7197943,6.26144654 C47.3784479,6.26144654 47.9433058,6.4969777 48.4143681,6.96804002 L54.5548531,13.1460432 C55.0259154,13.6171055 55.2614465,14.1757104 55.2614465,14.8218578 C55.2614465,15.4680053 55.0259154,16.0266102 54.5548531,16.4976725 L34.791079,36.2614465 L54.5548531,56.0252206 C55.0259154,56.4962829 55.2614465,57.0548878 55.2614465,57.7010352 C55.2614465,58.3471827 55.0259154,58.9057875 54.5548531,59.3768499 L48.4143681,65.5548531 C47.9433058,66.0259154 47.3784479,66.2614465 46.7197943,66.2614465 C46.0611408,66.2614465 45.4962829,66.0259154 45.0252206,65.5548531 L17.4451469,37.9372612 C16.9740846,37.4661988 16.7385535,36.907594 16.7385535,36.2614465 C16.7385535,35.6152991 16.9740846,35.0566942 17.4451469,34.5856319 L45.0252206,6.96804002 Z"
-								/>
-							</defs>
-							<use xlinkHref="#arrow-left-a" />
-						</svg>
+						<BackIcon />
 					</Link>
 					<div className="sessionInfo__username">
 						<h3>{translate('session.feedback.label')}</h3>
@@ -256,21 +211,7 @@ export const SessionHeaderComponent = (props) => {
 					onClick={handleBackButton}
 					className="sessionInfo__backButton"
 				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						xmlnsXlink="http://www.w3.org/1999/xlink"
-						width="72"
-						height="72"
-						viewBox="0 0 72 72"
-					>
-						<defs>
-							<path
-								id="arrow-left-a"
-								d="M45.0252206,6.96804002 C45.4962829,6.4969777 46.0611408,6.26144654 46.7197943,6.26144654 C47.3784479,6.26144654 47.9433058,6.4969777 48.4143681,6.96804002 L54.5548531,13.1460432 C55.0259154,13.6171055 55.2614465,14.1757104 55.2614465,14.8218578 C55.2614465,15.4680053 55.0259154,16.0266102 54.5548531,16.4976725 L34.791079,36.2614465 L54.5548531,56.0252206 C55.0259154,56.4962829 55.2614465,57.0548878 55.2614465,57.7010352 C55.2614465,58.3471827 55.0259154,58.9057875 54.5548531,59.3768499 L48.4143681,65.5548531 C47.9433058,66.0259154 47.3784479,66.2614465 46.7197943,66.2614465 C46.0611408,66.2614465 45.4962829,66.0259154 45.0252206,65.5548531 L17.4451469,37.9372612 C16.9740846,37.4661988 16.7385535,36.907594 16.7385535,36.2614465 C16.7385535,35.6152991 16.9740846,35.0566942 17.4451469,34.5856319 L45.0252206,6.96804002 Z"
-							/>
-						</defs>
-						<use xlinkHref="#arrow-left-a" />
-					</svg>
+					<BackIcon />
 				</span>
 				<div
 					className={

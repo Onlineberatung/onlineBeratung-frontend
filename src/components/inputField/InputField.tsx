@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { InfoText } from '../infoText/InfoText';
+import { ReactComponent as ShowPasswordIcon } from '../../resources/img/icons/eye.svg';
+import { ReactComponent as HidePasswordIcon } from '../../resources/img/icons/eye-closed.svg';
 import './inputField.styles';
 import './passwordFields.styles';
 
@@ -105,13 +107,13 @@ export const InputField = (props: InputFieldProps) => {
 							onClick={() => setShowPassword(!showPassword)}
 							className="passwordFields__fieldGroup__passVisibility"
 						>
-							<span
-								className={[
-									'passwordFields__fieldGroup__togglePass',
-									'passwordFields__fieldGroup__togglePass--' +
-										(showPassword ? 'open' : 'close')
-								].join(' ')}
-							></span>
+							<span className="passwordFields__fieldGroup__togglePass">
+								{showPassword ? (
+									<HidePasswordIcon />
+								) : (
+									<ShowPasswordIcon />
+								)}
+							</span>
 						</span>
 					) : null}
 					{inputItem.postcodeFallbackLink ? (

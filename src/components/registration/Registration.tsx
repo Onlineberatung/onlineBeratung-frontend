@@ -7,8 +7,11 @@ import {
 	InputField,
 	InputFieldItem
 } from '../inputField/InputField';
-import { SVG } from '../svgSet/SVG';
-import { ICON_KEYS } from '../svgSet/SVGHelpers';
+import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
+import { ReactComponent as EnvelopeIcon } from '../../resources/img/icons/envelope.svg';
+import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
+import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
 import { useEffect, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button } from '../button/Button';
@@ -26,7 +29,7 @@ import {
 	isStringValidEmail,
 	MIN_USERNAME_LENGTH,
 	overlayItemRegistrationSuccess
-} from './registrationHelper';
+} from './registrationHelpers';
 import { postRegistration } from '../apiWrapper/ajaxCallRegistration';
 import { config } from '../../resources/scripts/config';
 import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
@@ -262,7 +265,7 @@ const Registration = () => {
 			!!usernameErrorMessage,
 			!!usernameSuccessMessage
 		),
-		icon: <SVG name={ICON_KEYS.PERSON} />,
+		icon: <PersonIcon />,
 		id: 'username',
 		label:
 			usernameErrorMessage || usernameSuccessMessage
@@ -280,7 +283,7 @@ const Registration = () => {
 			!!passwordErrorMessage,
 			!!passwordSuccessMessage
 		),
-		icon: <SVG name={ICON_KEYS.LOCK} />,
+		icon: <LockIcon />,
 		id: 'passwordInput',
 		label:
 			passwordErrorMessage || passwordSuccessMessage
@@ -296,7 +299,7 @@ const Registration = () => {
 			!!passwordConfirmationErrorMessage,
 			!!passwordConfirmationSuccessMessage
 		),
-		icon: <SVG name={ICON_KEYS.LOCK} />,
+		icon: <LockIcon />,
 		id: 'passwordConfirmation',
 		label:
 			passwordConfirmationErrorMessage ||
@@ -314,7 +317,7 @@ const Registration = () => {
 			!!emailErrorMessage,
 			!!emailSuccessMessage
 		),
-		icon: <SVG name={ICON_KEYS.ENVELOPE} />,
+		icon: <EnvelopeIcon />,
 		id: 'email',
 		label:
 			emailErrorMessage || emailSuccessMessage
@@ -606,7 +609,7 @@ const Registration = () => {
 								{prefilledAgencyData.teamAgency ? (
 									<div className="formWrapper__infoText__text--tertiary">
 										<span className="suggestionWrapper__item__content__teamAgency__icon">
-											<SVG name={ICON_KEYS.INFO} />
+											<InfoIcon />
 										</span>
 										{translate(
 											'registration.agency.prefilled.isTeam'
@@ -623,7 +626,7 @@ const Registration = () => {
 					{resortData.showPostCode ? (
 						<AgencySelection
 							selectedConsultingType={consultingType}
-							icon={<SVG name={ICON_KEYS.PIN} />}
+							icon={<PinIcon />}
 							setAgency={(agency) => {
 								if (agency) {
 									setAgencyId(agency?.id);

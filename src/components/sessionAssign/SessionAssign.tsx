@@ -8,6 +8,7 @@ import {
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { translate } from '../../resources/scripts/i18n/translate';
+import { history } from '../app/app';
 import {
 	getUserData,
 	getAgencyConsultantList,
@@ -28,7 +29,10 @@ import {
 	SelectOption
 } from '../select/SelectDropdown';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
+import { getSessionListPathForLocation } from '../session/sessionHelpers';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 
+export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 export interface Consultant {
 	consultantId: string;
 	firstName: string;
@@ -83,7 +87,7 @@ export const SessionAssign = (props: { value?: string }) => {
 		const currentUserId = profileData.userId;
 
 		const assignOtherOverlay: OverlayItem = {
-			imgSrc: '/../resources/img/illustrations/check.svg',
+			svg: CheckIcon,
 			headline: translate('session.assignOther.overlayHeadline'),
 			buttonSet: [
 				{
@@ -95,7 +99,7 @@ export const SessionAssign = (props: { value?: string }) => {
 		};
 
 		const assignSelfOverlay: OverlayItem = {
-			imgSrc: '/../resources/img/illustrations/check.svg',
+			svg: CheckIcon,
 			headline: translate('session.assignSelf.overlayHeadline'),
 			buttonSet: [
 				{
@@ -145,10 +149,10 @@ export const SessionAssign = (props: { value?: string }) => {
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		setOverlayActive(false);
-
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setActiveSessionGroupId(null);
-			setAcceptedGroupId('CLOSE');
+			setAcceptedGroupId(ACCEPTED_GROUP_CLOSE);
+			history.push(getSessionListPathForLocation());
 		} else {
 			setAcceptedGroupId(activeSession.session.groupId);
 		}

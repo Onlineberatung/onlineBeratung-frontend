@@ -7,7 +7,6 @@ import {
 	typeIsEnquiry,
 	SESSION_TYPES,
 	getTypeOfLocation,
-	getSessionListPathForLocation,
 	typeIsSession,
 	getChatItemForSession
 } from '../session/sessionHelpers';
@@ -46,6 +45,7 @@ import { WelcomeIllustration } from './SessionsListWelcomeIllustration';
 import { SessionListCreateChat } from './SessionListCreateChat';
 import { mobileListView } from '../app/navigationHandler';
 import './sessionsList.styles';
+import { ACCEPTED_GROUP_CLOSE } from '../sessionAssign/SessionAssign';
 
 const MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION = 3;
 
@@ -121,9 +121,9 @@ export const SessionsList: React.FC = () => {
 	/* eslint-enable */
 
 	useEffect(() => {
-		if (acceptedGroupId) {
+		if (acceptedGroupId && !typeIsUser(type)) {
 			setCurrentOffset(0);
-			if (acceptedGroupId !== 'CLOSE' && !stopAutoLoad) {
+			if (acceptedGroupId !== ACCEPTED_GROUP_CLOSE && !stopAutoLoad) {
 				type = SESSION_TYPES.MY_SESSION; // eslint-disable-line
 				getSessions(
 					sessionsContext,
@@ -177,10 +177,9 @@ export const SessionsList: React.FC = () => {
 						}
 					})
 					.catch(() => {});
-			} else if (acceptedGroupId === 'CLOSE') {
+			} else if (acceptedGroupId === ACCEPTED_GROUP_CLOSE) {
 				getSessionsListData()
 					.then(() => {
-						history.push(getSessionListPathForLocation());
 						setAcceptedGroupId(null);
 					})
 					.catch(() => {});
@@ -190,7 +189,6 @@ export const SessionsList: React.FC = () => {
 
 	useEffect(() => {
 		if (!typeIsUser(type)) {
-			setActiveSessionGroupId(null);
 			getSessionsListData().catch(() => {});
 		}
 	}, [filterStatus]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -333,7 +331,7 @@ export const SessionsList: React.FC = () => {
 	};
 
 	const fetchUserData = (
-		newRegisteredSessionId: number = null,
+		newRegisteredSessionId: number | string = null,
 		redirectToEnquiry: boolean = false
 	) => {
 		ajaxCallGetUserSessions()
@@ -358,6 +356,15 @@ export const SessionsList: React.FC = () => {
 							.catch((error) => {
 								console.log(error);
 							});
+					} else if (typeof newRegisteredSessionId === 'string') {
+						const currentSession = getActiveSession(
+							newRegisteredSessionId,
+							{ mySessions: response.sessions }
+						);
+						const chatItem = getChatItemForSession(currentSession);
+						history.push(
+							`/sessions/user/view/${chatItem.groupId}/${chatItem.id}`
+						);
 					}
 				}
 			})

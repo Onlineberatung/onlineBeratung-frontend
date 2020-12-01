@@ -146,7 +146,7 @@ export const Routing = (props: routingProps) => {
 					)}
 				</div>
 			</section>
-			<AbsenceHandler></AbsenceHandler>
+			<AbsenceHandler />
 		</div>
 	);
 };

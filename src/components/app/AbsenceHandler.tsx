@@ -10,8 +10,9 @@ import * as React from 'react';
 import { ajaxCallSetAbsence } from '../apiWrapper';
 import { UserDataContext } from '../../globalState';
 import { useContext, useState, useEffect } from 'react';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 
-export const AbsenceHandler = (props) => {
+export const AbsenceHandler = () => {
 	const absenceReminderOverlayItem: OverlayItem = {
 		headline: translate('absence.overlayHeadline'),
 		copy: translate('absence.overlayCopy1'),
@@ -31,7 +32,7 @@ export const AbsenceHandler = (props) => {
 	};
 
 	const absenceChangedOverlayItem: OverlayItem = {
-		imgSrc: '/../resources/img/illustrations/check.svg',
+		svg: CheckIcon,
 		headline: translate('absence.changeSuccess.overlay.headline'),
 		buttonSet: [
 			{

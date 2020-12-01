@@ -13,9 +13,9 @@ import {
 	SESSION_TYPES,
 	getChatItemForSession
 } from '../session/sessionHelpers';
-import { ForwardIcon } from './ForwardIcon';
+import { ForwardMessage } from './ForwardMessage';
 import { MessageMetaData } from './MessageMetaData';
-import { CopyIcon } from './CopyIcon';
+import { CopyMessage } from './CopyMessage';
 import { MessageUsername } from './MessageUsername';
 import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { translate } from '../../resources/scripts/i18n/translate';
@@ -28,8 +28,7 @@ import { markdownToDraft } from 'markdown-draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import { convertFromRaw, ContentState } from 'draft-js';
 import { urlifyLinksInText } from '../messageSubmitInterface/richtextHelpers';
-import { SVG } from '../svgSet/SVG';
-import { ICON_KEYS } from '../svgSet/SVGHelpers';
+import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 import './message.styles';
 
 export interface MessageItem {
@@ -102,7 +101,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const isUserMessage = () =>
 		props.userId === props.askerRcId ||
 		(chatItem.moderators && !chatItem.moderators.includes(props.userId));
-	const showForwardIcon = () =>
+	const showForwardMessage = () =>
 		hasRenderedMessage &&
 		activeSession.type !== SESSION_TYPES.ENQUIRY &&
 		chatItem.feedbackGroupId &&
@@ -190,7 +189,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 										rel="noopener noreferer"
 										className="messageItem__message__attachment__download"
 									>
-										<SVG name={ICON_KEYS.DOWNLOAD} />
+										<DownloadIcon />
 										<p>
 											{translate(
 												'attachments.download.label'
@@ -201,20 +200,20 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 						  ))
 						: null}
 					{activeSession.isFeedbackSession ? (
-						<CopyIcon
+						<CopyMessage
 							right={props.isMyMessage}
 							message={renderedMessage}
-						></CopyIcon>
+						></CopyMessage>
 					) : null}
-					{showForwardIcon() ? (
-						<ForwardIcon
+					{showForwardMessage() ? (
+						<ForwardMessage
 							right={props.isMyMessage}
 							message={props.message}
 							messageTime={props.messageTime}
 							askerRcId={props.askerRcId}
 							groupId={chatItem.feedbackGroupId}
 							username={props.username}
-						></ForwardIcon>
+						></ForwardMessage>
 					) : null}
 				</div>
 

@@ -11,6 +11,9 @@ import {
 	AUTHORITIES
 } from '../../globalState';
 import { ProfileDataViewAsker } from './ProfileDataViewAsker';
+import { setProfileWrapperInactive } from '../app/navigationHandler';
+import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
 import './profile.styles';
 
 export const ProfileView = () => {
@@ -18,6 +21,9 @@ export const ProfileView = () => {
 
 	useEffect(() => {
 		setProfileWrapperActive();
+		return () => {
+			setProfileWrapperInactive();
+		};
 	}, []);
 
 	const handleLogout = () => {
@@ -47,10 +53,7 @@ export const ProfileView = () => {
 						onClick={handleLogout}
 						className="profile__header__logout"
 					>
-						<img
-							src="/resources/img/icons/out.svg"
-							alt="Logout Icon"
-						/>
+						<LogoutIcon />
 					</span>
 				</div>
 				<div className="profile__header__metaInfo">
@@ -66,7 +69,9 @@ export const ProfileView = () => {
 			</div>
 			<div className="profile__innerWrapper">
 				<div className="profile__user">
-					<div className="profile__icon profile__icon--user"></div>
+					<div className="profile__icon">
+						<PersonIcon className="profile__icon--user" />
+					</div>
 					<h2>
 						{hasUserAuthority(
 							AUTHORITIES.CONSULTANT_DEFAULT,

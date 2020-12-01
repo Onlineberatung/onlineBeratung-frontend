@@ -33,14 +33,6 @@ $inputHeight: 50px;
 		&__iconWrapper {
 			width: $grid-base-three;
 			height: $grid-base-three;
-
-			&--down {
-				content: url('/resources/img/icons/arrow-down-light.svg');
-			}
-
-			&--up {
-				content: url('/resources/img/icons/arrow-up-light.svg');
-			}
 		}
 	}
 
