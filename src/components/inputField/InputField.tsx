@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
+import { InfoText } from '../infoText/InfoText';
 import './inputField.styles';
 import './passwordFields.styles';
 
@@ -134,14 +135,12 @@ export const InputField = (props: InputFieldProps) => {
 							}}
 						></p>
 					) : null}
-					{inputItem.infoText ? (
-						<p
+					{inputItem.infoText && (
+						<InfoText
+							text={inputItem.infoText}
 							className="formWrapper__infoText"
-							dangerouslySetInnerHTML={{
-								__html: inputItem.infoText
-							}}
-						></p>
-					) : null}
+						/>
+					)}
 				</div>
 			</div>
 		</div>

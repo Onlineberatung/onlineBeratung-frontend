@@ -2,9 +2,9 @@ import * as React from 'react';
 import './infoText.styles';
 
 export interface InfoTextProps {
-	text: String;
+	text: string;
 	labelType?: LABEL_TYPES;
-	className?: String;
+	className?: string;
 }
 
 export enum LABEL_TYPES {
@@ -27,7 +27,7 @@ const getLabelContent = (type: string) => {
 
 export const InfoText = (props: InfoTextProps) => {
 	return (
-		<div className={'infoText ' + props.className}>
+		<p className={'infoText ' + props.className}>
 			{props.labelType && (
 				<span
 					className={
@@ -38,7 +38,12 @@ export const InfoText = (props: InfoTextProps) => {
 					{getLabelContent(props.labelType).text}
 				</span>
 			)}
-			{props.text}
-		</div>
+			<span
+				className="infoText__text"
+				dangerouslySetInnerHTML={{
+					__html: props.text
+				}}
+			></span>
+		</p>
 	);
 };
