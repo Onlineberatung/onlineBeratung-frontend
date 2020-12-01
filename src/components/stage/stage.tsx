@@ -6,6 +6,7 @@ import { ReactComponent as SkmLogo } from '../../resources/img/logos/03_skm.svg'
 import { ReactComponent as InViaLogo } from '../../resources/img/logos/04_via.svg';
 import { ReactComponent as KreuzbundLogo } from '../../resources/img/logos/05_kreuzbund.svg';
 import { ReactComponent as RaphaelswerkLogo } from '../../resources/img/logos/06_raphael.svg';
+import { ReactComponent as MalteserLogo } from '../../resources/img/logos/07_malteser.svg';
 import './stage.styles';
 
 export interface StageProps {
@@ -34,9 +35,10 @@ export const Stage = (props: StageProps) => {
 				<SkfLogo />
 				<CaritasLogo />
 				<SkmLogo />
-				<InViaLogo />
+				<MalteserLogo />
 				<KreuzbundLogo />
 				<RaphaelswerkLogo />
+				<InViaLogo />
 			</div>
 		</div>
 	);
