@@ -41,6 +41,11 @@
 
 	&__generalInformation {
 		margin-bottom: $grid-base-four;
+		max-width: 320px;
+	}
+
+	&__passwordNote {
+		margin: -20px $grid-base-five $grid-base-five 52px;
 	}
 
 	&__footer {
