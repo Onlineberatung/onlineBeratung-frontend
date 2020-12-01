@@ -1,7 +1,7 @@
 $loginOverlayDelayDesktop: 1s;
 $loginOverlayDelayMobile: 2.5s;
 $iconSize: 55px;
-$gridSpacing: 32px;
+$gridSpacing: $grid-base-four;
 
 .stage {
 	position: fixed;
