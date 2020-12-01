@@ -9,13 +9,12 @@ import { translate } from '../../resources/scripts/i18n/translate';
 import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import { extendPostcodeToBeValid } from '../registration/registrationHelper';
-import { SVG } from '../svgSet/SVG';
-import { ICON_KEYS } from '../svgSet/SVGHelpers';
+import { extendPostcodeToBeValid } from '../registration/registrationHelpers';
+import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import {
 	validPostcodeLengthForConsultingType,
 	VALID_POSTCODE_LENGTH
-} from './agencySelectionHelper';
+} from './agencySelectionHelpers';
 import './agencySelection.styles';
 import '../profile/profile.styles';
 
@@ -184,7 +183,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 								{agency.teamAgency ? (
 									<div className="askerRegistration__postcodeFlyout__teamagency">
 										<span className="suggestionWrapper__item__content__teamAgency__icon">
-											<SVG name={ICON_KEYS.INFO} />
+											<InfoIcon />
 										</span>
 
 										{translate(

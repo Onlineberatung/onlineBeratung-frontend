@@ -17,11 +17,13 @@ export const OVERLAY_FUNCTIONS = {
 export const OVERLAY_RESET_TIME = 10000;
 
 export interface OverlayItem {
-	imgSrc?: string;
-	headline?: string;
+	buttonSet?: ButtonItem[];
 	copy?: string;
 	copyTwo?: string;
-	buttonSet?: ButtonItem[];
+	headline?: string;
+	svg?: React.FunctionComponent<
+		React.SVGProps<SVGSVGElement> & { title?: string }
+	>;
 }
 
 export class OverlayWrapper extends React.Component<any> {
@@ -67,67 +69,43 @@ export class Overlay extends React.Component<{
 
 	render(): JSX.Element {
 		const item = this.props.item;
+		const Icon = item.svg;
 		return (
 			<div className="overlay">
 				<div className="overlay__background"></div>
 				<div className="overlay__content">
-					{item.imgSrc ? (
-						<div className="overlay__iconWrapper">
-							{/*TO-DO: replace svg with div element*/}
-							<svg
-								className="overlay__icon__background"
-								xmlns="http://www.w3.org/2000/svg"
-								xmlnsXlink="http://www.w3.org/1999/xlink"
-								viewBox="0 0 72 72"
-							>
-								<defs>
-									<circle id="dot-a" cx="36" cy="36" r="30" />
-								</defs>
-								<use xlinkHref="#dot-a" />
-							</svg>
-							<img
-								className="overlay__icon"
-								src={item.imgSrc}
-								alt="overlay icon"
-							/>
-						</div>
-					) : (
-						``
+					{item.svg && (
+						<span className="overlay__iconWrapper">
+							<Icon className="overlay__icon" />
+						</span>
 					)}
 					{item.headline &&
-					item.buttonSet &&
-					item.buttonSet[0].function ===
+					item?.buttonSet[0].function ===
 						OVERLAY_FUNCTIONS.DEACTIVATE_ABSENCE ? (
 						<h1 className="overlay__headline">{item.headline}</h1>
-					) : item.headline ? (
-						<h3
-							className="overlay__headline"
-							dangerouslySetInnerHTML={{ __html: item.headline }}
-						></h3>
 					) : (
-						``
+						item.headline && (
+							<h3
+								className="overlay__headline"
+								dangerouslySetInnerHTML={{
+									__html: item.headline
+								}}
+							></h3>
+						)
 					)}
-					{item.copy ? (
-						<p className="overlay__copy">{item.copy}</p>
-					) : (
-						``
-					)}
-					{item.copyTwo ? (
+					{item.copy && <p className="overlay__copy">{item.copy}</p>}
+					{item.copyTwo && (
 						<p className="overlay__copy">{item.copyTwo}</p>
-					) : (
-						``
 					)}
-					{item.buttonSet
-						? item.buttonSet.map((item, i) => {
-								return (
-									<Button
-										item={item}
-										key={i}
-										buttonHandle={this.handleButtonClick}
-									/>
-								);
-						  })
-						: ``}
+					{item.buttonSet?.map((item, i) => {
+						return (
+							<Button
+								item={item}
+								key={i}
+								buttonHandle={this.handleButtonClick}
+							/>
+						);
+					})}
 				</div>
 			</div>
 		);

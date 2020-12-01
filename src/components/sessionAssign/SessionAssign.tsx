@@ -30,6 +30,7 @@ import {
 } from '../select/SelectDropdown';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { getSessionListPathForLocation } from '../session/sessionHelpers';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 export interface Consultant {
@@ -86,7 +87,7 @@ export const SessionAssign = (props: { value?: string }) => {
 		const currentUserId = profileData.userId;
 
 		const assignOtherOverlay: OverlayItem = {
-			imgSrc: '/../resources/img/illustrations/check.svg',
+			svg: CheckIcon,
 			headline: translate('session.assignOther.overlayHeadline'),
 			buttonSet: [
 				{
@@ -98,7 +99,7 @@ export const SessionAssign = (props: { value?: string }) => {
 		};
 
 		const assignSelfOverlay: OverlayItem = {
-			imgSrc: '/../resources/img/illustrations/check.svg',
+			svg: CheckIcon,
 			headline: translate('session.assignSelf.overlayHeadline'),
 			buttonSet: [
 				{

@@ -1,6 +1,7 @@
 import { translate } from '../../resources/scripts/i18n/translate';
 import { ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
 
 export const MIN_USERNAME_LENGTH = 5;
 
@@ -27,7 +28,7 @@ export const getValidationClassNames = (invalid, valid) => {
 };
 
 export const overlayItemRegistrationSuccess: OverlayItem = {
-	imgSrc: '/../resources/img/illustrations/willkommen.svg',
+	svg: WelcomeIcon,
 	headline: translate('registration.overlay.success.headline'),
 	copy: translate('registration.overlay.success.copy'),
 	buttonSet: [

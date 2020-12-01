@@ -123,6 +123,8 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 			return LIST_ICONS.IS_UNREAD;
 		}
 	};
+	const Icon = getSessionsListItemIcon(iconVariant());
+
 	if (isGroupChat) {
 		const isMyChat = () =>
 			currentSessionData.consultant &&
@@ -156,12 +158,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						</div>
 					</div>
 					<div className="sessionsListItem__row">
-						<div
-							className="sessionsListItem__icon"
-							dangerouslySetInnerHTML={{
-								__html: getSessionsListItemIcon(iconVariant())
-							}}
-						></div>
+						<div className="sessionsListItem__icon">
+							<Icon />
+						</div>
 						<div
 							className={
 								isRead
@@ -263,12 +262,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					) : null}
 				</div>
 				<div className="sessionsListItem__row">
-					<div
-						className="sessionsListItem__icon"
-						dangerouslySetInnerHTML={{
-							__html: getSessionsListItemIcon(iconVariant())
-						}}
-					></div>
+					<div className="sessionsListItem__icon">
+						<Icon />
+					</div>
 					<div
 						className={
 							isRead

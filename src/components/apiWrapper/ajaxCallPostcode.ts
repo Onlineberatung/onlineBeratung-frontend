@@ -1,6 +1,6 @@
 import { config } from '../../resources/scripts/config';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
-import { VALID_POSTCODE_LENGTH } from '../agencySelection/agencySelectionHelper';
+import { VALID_POSTCODE_LENGTH } from '../agencySelection/agencySelectionHelpers';
 import { AgencyDataInterface } from '../../globalState';
 
 export const ajaxCallAgencySelection = async (params: {

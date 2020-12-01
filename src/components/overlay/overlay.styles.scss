@@ -1,4 +1,4 @@
-$imageSize: 335px;
+$imageSize: 280px;
 $iconSize: 170px;
 
 .overlay {
@@ -80,33 +80,20 @@ $iconSize: 170px;
 		}
 	}
 
-	&__iconWrapper {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		position: relative;
-	}
-
 	&__icon {
 		width: $iconSize;
 		height: $iconSize;
-		width: calc(#{$imageSize}/ 2.5);
-		pointer-events: none;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		margin: 0;
+		align-self: center;
 
-		&__background {
-			width: $imageSize;
-			height: $imageSize;
-			min-width: $imageSize;
-			min-height: $imageSize;
-			border-radius: $imageSize / 2;
-			color: $light-success;
-			margin: 0 $grid-base-three;
+		&Wrapper {
+			display: flex;
+			justify-content: center;
 			align-self: center;
+			background-color: $light-success;
+			border-radius: $imageSize / 2;
+			height: $imageSize;
+			width: $imageSize;
+			margin-bottom: $grid-base-four;
 		}
 	}
 

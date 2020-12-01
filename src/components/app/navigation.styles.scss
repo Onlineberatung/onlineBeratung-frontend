@@ -132,14 +132,14 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 	}
 
 	&__icon {
-		max-width: $iconSizeSmall;
-		max-height: $iconSizeSmall;
+		width: $iconSizeSmall;
+		height: $iconSizeSmall;
 		margin: auto;
 		text-align: center;
 
 		@include breakpoint($fromLarge) {
-			max-width: $iconSize;
-			max-height: $iconSize;
+			width: $iconSize;
+			height: $iconSize;
 		}
 	}
 

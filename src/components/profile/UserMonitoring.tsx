@@ -23,6 +23,7 @@ import {
 import { Link } from 'react-router-dom';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import { ajaxCallGetMonitoring } from '../apiWrapper/ajaxCallGetMonitoring';
+import { ReactComponent as EditIcon } from '../../resources/img/icons/pen.svg';
 import './profile.styles';
 
 const buttonSet: ButtonItem = {
@@ -95,23 +96,8 @@ export const UserMonitoring = () => {
 											{translate('monitoring.empty')}
 										</div>
 									)}
-
 									<div className="profile__data__icon">
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											xlinkHref="http://www.w3.org/1999/xlink"
-											width="20"
-											height="20"
-											viewBox="0 0 72 72"
-										>
-											<defs>
-												<path
-													id="pen-a"
-													d="M62.8724673,9.12867597 C67.8981358,14.154808 66.0899973,17.5760943 62.8724673,20.79925 L58.9835515,24.6885246 L47.3114754,13.0179505 L51.2003913,9.12867597 C54.4230778,5.90827069 57.8467989,4.10254395 62.8724673,9.12867597 Z M9.81883843,50.714664 L6,66 L21.2861638,62.178666 L55.1803279,28.2863765 L43.7104689,16.8196721 L9.81883843,50.714664 Z"
-												/>
-											</defs>
-											<use xlinkHref="#pen-a" />
-										</svg>
+										<EditIcon />
 									</div>
 								</div>
 							</div>

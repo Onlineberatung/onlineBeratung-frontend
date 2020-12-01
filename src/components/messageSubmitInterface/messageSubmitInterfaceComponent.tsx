@@ -56,8 +56,14 @@ import {
 	handleEditorBeforeInput,
 	handleEditorPastedText
 } from './richtextHelpers';
-import { SVG } from '../svgSet/SVG';
-import { ICON_KEYS } from '../svgSet/SVGHelpers';
+import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
+import { ReactComponent as FileDocIcon } from '../../resources/img/icons/file-doc.svg';
+import { ReactComponent as FileImageIcon } from '../../resources/img/icons/file-image.svg';
+import { ReactComponent as FilePdfIcon } from '../../resources/img/icons/file-pdf.svg';
+import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xls.svg';
+import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
+import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
+import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
 import useDebounce from '../../resources/scripts/helpers/useDebounce';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import './emojiPicker.styles';
@@ -90,7 +96,7 @@ const { Toolbar } = staticToolbarPlugin;
 const emojiPlugin = createEmojiPlugin({
 	theme: emojiPickerCustomClasses,
 	useNativeArt: true,
-	selectButtonContent: <SVG name={ICON_KEYS.EMOJI} />
+	selectButtonContent: <EmojiIcon />
 });
 const { EmojiSelect } = emojiPlugin;
 
@@ -111,13 +117,13 @@ const INFO_TYPES = {
 
 export const getIconForAttachmentType = (attachmentType: string) => {
 	if (isJPEGAttachment(attachmentType) || isPNGAttachment(attachmentType)) {
-		return <SVG name={ICON_KEYS.FILE_IMAGE} />;
+		return <FileImageIcon />;
 	} else if (isPDFAttachment(attachmentType)) {
-		return <SVG name={ICON_KEYS.FILE_PDF} />;
+		return <FilePdfIcon />;
 	} else if (isDOCXAttachment(attachmentType)) {
-		return <SVG name={ICON_KEYS.FILE_DOC} />;
+		return <FileDocIcon />;
 	} else if (isXLSXAttachment(attachmentType)) {
-		return <SVG name={ICON_KEYS.FILE_XLS} />;
+		return <FileXlsIcon />;
 	}
 };
 
@@ -651,8 +657,7 @@ export const MessageSubmitInterfaceComponent = (
 							className="textarea__featureWrapper"
 						>
 							<span className="textarea__richtextToggle">
-								<SVG
-									name={ICON_KEYS.RICHTEXT_TOGGLE}
+								<RichtextToggleIcon
 									width="20"
 									height="20"
 									onClick={() =>
@@ -715,8 +720,7 @@ export const MessageSubmitInterfaceComponent = (
 							{hasUploadFunctionality ? (
 								!attachmentSelected ? (
 									<span className="textarea__attachmentSelect">
-										<SVG
-											name={ICON_KEYS.CLIP}
+										<ClipIcon
 											onClick={handleAttachmentSelect}
 										/>
 									</span>
@@ -731,24 +735,11 @@ export const MessageSubmitInterfaceComponent = (
 												{attachmentSelected.name}
 											</p>
 											<span className="textarea__attachmentSelected__remove">
-												<svg
+												<RemoveIcon
 													onClick={
 														handleAttachmentRemoval
 													}
-													xmlns="http://www.w3.org/2000/svg"
-													xmlnsXlink="http://www.w3.org/1999/xlink"
-													width="72"
-													height="72"
-													viewBox="0 0 72 72"
-												>
-													<defs>
-														<path
-															id="x-a"
-															d="M45.6482323,36.5771645 L65.5685425,56.4974747 C66.3495911,57.2785233 66.3495911,58.5448532 65.5685425,59.3259018 L59.3259018,65.5685425 C58.5448532,66.3495911 57.2785233,66.3495911 56.4974747,65.5685425 L36.5771645,45.6482323 L16.6568542,65.5685425 C15.8758057,66.3495911 14.6094757,66.3495911 13.8284271,65.5685425 L7.58578644,59.3259018 C6.80473785,58.5448532 6.80473785,57.2785233 7.58578644,56.4974747 L27.5060967,36.5771645 L7.58578644,16.6568542 C6.80473785,15.8758057 6.80473785,14.6094757 7.58578644,13.8284271 L13.8284271,7.58578644 C14.6094757,6.80473785 15.8758057,6.80473785 16.6568542,7.58578644 L36.5771645,27.5060967 L56.4974747,7.58578644 C57.2785233,6.80473785 58.5448532,6.80473785 59.3259018,7.58578644 L65.5685425,13.8284271 C66.3495911,14.6094757 66.3495911,15.8758057 65.5685425,16.6568542 L45.6482323,36.5771645 Z"
-														/>
-													</defs>
-													<use xlinkHref="#x-a" />
-												</svg>
+												/>
 											</span>
 										</span>
 									</span>

@@ -42,6 +42,7 @@ import {
 	encodeUsername,
 	decodeUsername
 } from '../../resources/scripts/helpers/encryptionHelpers';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import './session.styles';
 
 let typingTimeout;
@@ -321,7 +322,7 @@ export const SessionView = (props) => {
 };
 
 const groupChatStoppedOverlay: OverlayItem = {
-	imgSrc: '/../resources/img/illustrations/check.svg',
+	svg: CheckIcon,
 	headline: translate('groupChat.stopped.overlay.headline'),
 	buttonSet: [
 		{

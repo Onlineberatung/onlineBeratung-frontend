@@ -37,12 +37,6 @@ export const removeWarningLabelById = (inputFieldId) => {
 	}
 };
 
-export const removeCheckboxWarningLabel = () => {
-	document
-		.getElementById('termsAccepted')
-		?.classList.remove('checkbox__input--error');
-};
-
 const setInputErrorClass = (target: HTMLInputElement) => {
 	const parent = target.offsetParent?.closest('.formWrapper__inputRow');
 
@@ -89,54 +83,4 @@ const insertAfter = (newNode: HTMLElement, referenceNode: HTMLElement) => {
 
 const scrollToFormTop = () => {
 	window.scrollTo(0, 0);
-};
-
-export const initInputWarningLabelHandler = () => {
-	const inputElements = document.querySelectorAll('input');
-	Array.from(inputElements).forEach((inputElement) => {
-		inputElement.addEventListener('keyup', handleWarningLabelOnInput);
-	});
-};
-
-export const handleWarningLabelOnInput = (
-	e: Event,
-	removeWhiteSpot: boolean = false
-) => {
-	const thisInputWrapper = (e.target as HTMLElement).parentElement;
-	const warningLabel = thisInputWrapper?.querySelector('.warning');
-	const whiteSpotWarning = warningLabel
-		? warningLabel.querySelector('.warning__link')
-		: null;
-	if (warningLabel && (!whiteSpotWarning || removeWhiteSpot)) {
-		warningLabel.remove();
-		thisInputWrapper?.parentElement?.classList.remove(
-			'formWrapper__inputRow--error'
-		);
-		(e.target as HTMLElement).classList.remove('inputField__input--error');
-		document
-			.getElementById('postcode')
-			?.removeAttribute('data-postcodefallback');
-	}
-};
-
-export const handleSelectWarningLabel = (e: Event) => {
-	const warningLabel = (e.target as HTMLElement)
-		.closest('.select__wrapper')
-		?.querySelector('.warning');
-	if (warningLabel) {
-		warningLabel.remove();
-	}
-};
-
-export const handleWarningLabelOnCheckbox = (e: Event) => {
-	if (
-		(e.target as HTMLElement).className ===
-		'checkbox__input checkbox__input--error'
-	) {
-		const warningLabel = (e.target as HTMLElement).parentElement?.querySelector(
-			'.warning'
-		);
-		warningLabel?.remove();
-		removeCheckboxWarningLabel();
-	}
 };

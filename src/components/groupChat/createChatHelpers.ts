@@ -1,6 +1,8 @@
 import { translate } from '../../resources/scripts/i18n/translate';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 
 export const TOPIC_LENGTHS = {
 	MIN: 3,
@@ -36,7 +38,7 @@ export const durationSelectOptionsSet = [
 
 //TODO: reimplement on registration logic with link
 export const createChatSuccessOverlayItem: OverlayItem = {
-	imgSrc: '/../resources/img/illustrations/check.svg',
+	svg: CheckIcon,
 	headline: translate('groupChat.createSuccess.overlayHeadline'),
 	//copy: translate('groupChat.createSuccess.overlayCopy'),
 	//copyTwo: '',
@@ -55,7 +57,7 @@ export const createChatSuccessOverlayItem: OverlayItem = {
 };
 
 export const createChatErrorOverlayItem: OverlayItem = {
-	imgSrc: '/../resources/img/illustrations/x.svg',
+	svg: XIcon,
 	headline: translate('groupChat.createError.overlay.headline'),
 	buttonSet: [
 		{
