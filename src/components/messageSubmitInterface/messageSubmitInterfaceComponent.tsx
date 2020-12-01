@@ -106,6 +106,7 @@ const INFO_TYPES = {
 	ABSENT: 'ABSENT',
 	ATTACHMENT_SIZE_ERROR: 'ATTACHMENT_SIZE_ERROR',
 	ATTACHMENT_FORMAT_ERROR: 'ATTACHMENT_FORMAT_ERROR',
+	ATTACHMENT_QUOTA_REACHED_ERROR: 'ATTACHMENT_QUOTA_REACHED_ERROR',
 	ATTACHMENT_OTHER_ERROR: 'ATTACHMENT_OTHER_ERROR'
 };
 
@@ -267,6 +268,14 @@ export const MessageSubmitInterfaceComponent = (
 				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_SIZE_ERROR);
 			} else if (uploadOnLoadHandling.status === 415) {
 				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_FORMAT_ERROR);
+			} else if (
+				uploadOnLoadHandling.status === 403 &&
+				uploadOnLoadHandling.getResponseHeader('X-Reason') ===
+					'QUOTA_REACHED'
+			) {
+				handleAttachmentUploadError(
+					INFO_TYPES.ATTACHMENT_QUOTA_REACHED_ERROR
+				);
 			} else {
 				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_OTHER_ERROR);
 			}
@@ -592,6 +601,12 @@ export const MessageSubmitInterfaceComponent = (
 				infoHeadline: translate('attachments.error.format.headline'),
 				infoMessage: translate('attachments.error.format.message')
 			};
+		} else if (activeInfo === INFO_TYPES.ATTACHMENT_QUOTA_REACHED_ERROR) {
+			infoData = {
+				isInfo: false,
+				infoHeadline: translate('attachments.error.quota.headline'),
+				infoMessage: translate('attachments.error.quota.message')
+			};
 		} else if (activeInfo === INFO_TYPES.ATTACHMENT_OTHER_ERROR) {
 			infoData = {
 				isInfo: false,
@@ -599,6 +614,7 @@ export const MessageSubmitInterfaceComponent = (
 				infoMessage: translate('attachments.error.other.message')
 			};
 		}
+
 		return infoData;
 	};
 
