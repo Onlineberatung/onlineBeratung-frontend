@@ -1,11 +1,22 @@
 import { WebSocket, Server } from 'mock-socket';
 import { config } from '../../src/resources/scripts/config';
 
+// Based on CyHttpMessages.IncomingResponse
+interface InterceptArgs {
+	body?: any;
+	headers?: { [key: string]: string };
+	method?: string;
+	httpVersion?: string;
+	statusCode?: number;
+	statusMessage?: string;
+}
+
 interface CaritasMockedLoginArgs {
 	auth?: {
 		expires_in?: number;
 		refresh_expires_in?: number;
 	};
+	attachmentUpload?: InterceptArgs;
 }
 
 declare global {
@@ -31,21 +42,22 @@ afterEach(() => {
 Cypress.Commands.add(
 	'caritasMockedLogin',
 	(args: CaritasMockedLoginArgs = {}) => {
-		// stomp mock
-		let mockServer;
+		let mockStompServer;
+		let mockRCServer;
 		cy.on('window:before:load', (win) => {
 			const winWebSocket = win.WebSocket;
 			cy.stub(win, 'WebSocket').callsFake((url) => {
-				// TODO: "/service/live" should be synced with config, but the
+				// TODO: "/service/live" & "/websocket" should be synced with config, but the
 				// config hardcodes the http protocol in development
 				if (new URL(url).pathname.startsWith('/service/live')) {
-					if (mockServer) {
-						mockServer.stop();
+					// stomp mock
+					if (mockStompServer) {
+						mockStompServer.stop();
 					}
 
 					let stompConnected = false;
-					mockServer = new Server(url);
-					mockServer.on('connection', (socket) => {
+					mockStompServer = new Server(url);
+					mockStompServer.on('connection', (socket) => {
 						socket.on('message', () => {
 							if (!stompConnected) {
 								socket.send(
@@ -57,6 +69,14 @@ Cypress.Commands.add(
 
 						socket.send('o');
 					});
+					return new WebSocket(url);
+				} else if (new URL(url).pathname.startsWith('/websocket')) {
+					// rocketchat mock
+					if (mockRCServer) {
+						mockRCServer.stop();
+					}
+					mockRCServer = new Server(url);
+
 					return new WebSocket(url);
 				} else {
 					return new winWebSocket(url);
@@ -92,6 +112,14 @@ Cypress.Commands.add(
 		);
 		cy.intercept('POST', config.endpoints.liveservice, {});
 		cy.intercept('GET', config.endpoints.liveservice, {});
+		cy.intercept('GET', config.endpoints.draftMessages, {});
+		cy.intercept('GET', config.endpoints.messages, {
+			fixture: 'service.messages.json'
+		});
+		cy.intercept('POST', config.endpoints.attachmentUpload, {
+			statusCode: 201,
+			...args.attachmentUpload
+		}).as('attachmentUpload');
 
 		cy.visit('login.html');
 
