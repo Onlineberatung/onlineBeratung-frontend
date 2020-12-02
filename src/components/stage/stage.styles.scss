@@ -48,8 +48,14 @@ $gridSpacing: $grid-base-four;
 		flex: 1 1 0;
 		align-items: flex-end;
 		align-content: flex-end;
-		width: 315px;
-		margin-bottom: 80px;
+		width: 335px;
+		margin-bottom: $grid-base-five;
+		transform: scale(0.9);
+
+		@media (min-width: calc(#{$xsmall} + #{$grid-base-three})) {
+			transform: scale(1);
+			margin-bottom: $grid-base-ten;
+		}
 
 		svg {
 			width: $iconSize;
@@ -66,11 +72,16 @@ $gridSpacing: $grid-base-four;
 			}
 
 			&:first-child {
-				margin-left: $gridSpacing;
+				margin-left: 54px;
 			}
 
 			&:nth-child(-n + 3) {
 				margin-top: 0;
+			}
+
+			&:nth-child(4) {
+				margin-left: $grid-base-two;
+				margin-right: $grid-base-three;
 			}
 
 			&:nth-child(7) {
