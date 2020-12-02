@@ -4,6 +4,7 @@ import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
 import { config } from '../../resources/scripts/config';
 import { generateCsrfToken } from '../../resources/scripts/helpers/generateCsrfToken';
 import { encodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
+import { setTokens } from '../auth/auth';
 
 export interface LoginData {
 	data: {
@@ -11,7 +12,9 @@ export interface LoginData {
 		userId?: string;
 	};
 	access_token?: string;
+	expires_in?: number;
 	refresh_token?: string;
+	refresh_expires_in?: number;
 }
 
 export const autoLogin = (
@@ -27,12 +30,7 @@ export const autoLogin = (
 		encodeURIComponent(password)
 	)
 		.then((response) => {
-			if (response.access_token) {
-				setTokenInCookie('keycloak', response.access_token);
-			}
-			if (response.refresh_token) {
-				setTokenInCookie('refreshToken', response.refresh_token);
-			}
+			setTokens(response);
 
 			getRocketchatAccessToken(userHash, password)
 				.then((response) => {

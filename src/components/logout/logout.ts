@@ -2,6 +2,7 @@ import { config } from '../../resources/scripts/config';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { rocketchatLogout } from '../apiWrapper';
 import { keycloakLogout } from '../apiWrapper';
+import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
 
 let isRequestInProgress = false;
 export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
@@ -29,6 +30,7 @@ const invalidateCookies = (
 	redirectUrl?: string
 ) => {
 	removeAllCookies();
+	removeTokenExpiryFromLocalStorage();
 	if (withRedirect) {
 		redirectAfterLogout(redirectUrl);
 	}
