@@ -24,8 +24,8 @@ afterEach(() => {
 	// - https://github.com/cypress-io/cypress/issues/9170
 	// - https://github.com/cypress-io/cypress/issues/9362
 	// - https://github.com/cypress-io/cypress/issues/8926
-	cy.clearCookies();
 	cy.window().then((win) => (win.location.href = 'about:blank'));
+	cy.clearCookies();
 });
 
 Cypress.Commands.add(
@@ -81,7 +81,7 @@ Cypress.Commands.add(
 		cy.intercept('GET', config.endpoints.userSessions, {
 			fixture: 'service.users.sessions.askers.json'
 		});
-		cy.intercept('GET', config.endpoints.liveservice, {
+		cy.intercept('GET', `${config.endpoints.liveservice}/**/*`, {
 			fixture: 'service.live.info.json'
 		});
 		cy.intercept('POST', config.endpoints.rocketchatAccessToken, {
@@ -102,6 +102,6 @@ Cypress.Commands.add(
 		});
 		cy.get('.button__primary').click();
 		cy.wait('@authToken');
-		cy.get('#appRoot');
+		cy.get('#appRoot').should('exist');
 	}
 );

@@ -22,6 +22,7 @@ import {
 import { ContextProvider } from '../../globalState/state';
 import { getUserData } from '../apiWrapper';
 import { Loading } from './Loading';
+import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
 import '../../resources/styles/styles';
 import './app.styles';
@@ -75,20 +76,22 @@ export const App: React.FC = () => {
 
 	if (!userDataRequested) {
 		setUserDataRequested(true);
-		getUserData()
-			.then((userProfileData: UserDataInterface) => {
-				// set informal / formal cookie depending on the given userdata
-				setTokenInCookie(
-					'useInformal',
-					!userProfileData.formalLanguage ? '1' : ''
-				);
-				setUserData(userProfileData);
-				setAppReady(true);
-			})
-			.catch((error) => {
-				window.location.href = config.endpoints.logoutRedirect;
-				console.log(error);
-			});
+		handleTokenRefresh().then(() => {
+			getUserData()
+				.then((userProfileData: UserDataInterface) => {
+					// set informal / formal cookie depending on the given userdata
+					setTokenInCookie(
+						'useInformal',
+						!userProfileData.formalLanguage ? '1' : ''
+					);
+					setUserData(userProfileData);
+					setAppReady(true);
+				})
+				.catch((error) => {
+					window.location.href = config.endpoints.logoutRedirect;
+					console.log(error);
+				});
+		});
 	}
 
 	useEffect(() => {
