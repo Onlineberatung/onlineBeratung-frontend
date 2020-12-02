@@ -1,10 +1,10 @@
-import { RENEW_BEFORE_EXPIRY_TIME } from '../../src/components/auth/auth';
+import { RENEW_BEFORE_EXPIRY_IN_MS } from '../../src/components/auth/auth';
 import { getTokenExpiryFromLocalStorage } from '../../src/components/sessionCookie/accessSessionLocalStorage';
 
 const waitForTokenProcessing = () => {
 	// TODO: don't arbitrarily wait for token to be processed, find some
 	// way to cleanly determine that the token was processed instead.
-	// possible canidates are spying on `localStorage` or `setTimeout`
+	// possible candidates are spying on `localStorage` or `setTimeout`
 	return cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
 };
 
@@ -24,8 +24,8 @@ describe('Keycloak Tokens', () => {
 			cy.getCookie('refreshToken').should('exist');
 
 			const tokenExpiry = getTokenExpiryFromLocalStorage();
-			expect(tokenExpiry.validUntil).to.exist;
-			expect(tokenExpiry.refreshValidUntil).to.exist;
+			expect(tokenExpiry.accessTokenValidUntilTime).to.exist;
+			expect(tokenExpiry.refreshTokenValidUntilTime).to.exist;
 		});
 	});
 
@@ -36,7 +36,9 @@ describe('Keycloak Tokens', () => {
 		for (let check = 0; check < 3; check++) {
 			waitForTokenProcessing();
 
-			cy.tick(authTokenJson.expires_in * 1000 - RENEW_BEFORE_EXPIRY_TIME);
+			cy.tick(
+				authTokenJson.expires_in * 1000 - RENEW_BEFORE_EXPIRY_IN_MS
+			);
 			cy.wait('@authToken').then((interception) => {
 				expect(interception.request.body).to.include(
 					'grant_type=refresh_token'
@@ -102,6 +104,26 @@ describe('Keycloak Tokens', () => {
 
 		waitForTokenProcessing();
 		cy.tick(600 * 1000);
+		waitForTokenProcessing();
+
+		cy.tick(1000); // logout() call uses setTimeout
+		cy.get('#loginRoot').should('not.exist');
+	});
+
+	it('should not logout if refresh token is expired but access token is still valid when the app loads', () => {
+		const refreshExpiresIn = 600;
+
+		cy.clock();
+		cy.caritasMockedLogin({
+			auth: { expires_in: 1800, refresh_expires_in: refreshExpiresIn }
+		});
+
+		cy.clock().then((clock) => {
+			clock.restore();
+		});
+		cy.clock(refreshExpiresIn * 1000 + 1);
+		cy.reload();
+		cy.get('#appRoot');
 		waitForTokenProcessing();
 
 		cy.tick(1000); // logout() call uses setTimeout
