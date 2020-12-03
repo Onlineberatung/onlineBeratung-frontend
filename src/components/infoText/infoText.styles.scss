@@ -1,0 +1,22 @@
+.infoText {
+	color: $tertiary;
+	font-size: $font-size-secondary;
+	line-height: $line-height-secondary;
+	text-align: left;
+
+	&__label {
+		font-family: $font-family-medium;
+		font-weight: $font-weight-medium;
+		text-transform: uppercase;
+		margin-right: 4px;
+
+		&:after {
+			content: ':';
+			display: inline-block;
+		}
+
+		&--caution {
+			color: $primary;
+		}
+	}
+}

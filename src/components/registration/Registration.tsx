@@ -58,6 +58,7 @@ import { removeInputErrorClass, removeWarningLabelById } from './warningLabels';
 import { isNumber } from '../../resources/scripts/helpers/isNumber';
 import '../../resources/styles/styles';
 import './registration.styles';
+import { InfoText, LABEL_TYPES } from '../infoText/InfoText';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -642,6 +643,13 @@ const Registration = () => {
 						item={inputItemPasswordConfirmation}
 						inputHandle={handlePasswordConfirmationChange}
 					/>
+					{consultingType === 1 && (
+						<InfoText
+							className="registration__passwordNote"
+							labelType={LABEL_TYPES.CAUTION}
+							text={translate('registration.password.note')}
+						/>
+					)}
 					{resortData.showEmail ? (
 						<InputField
 							item={inputItemEmail}
