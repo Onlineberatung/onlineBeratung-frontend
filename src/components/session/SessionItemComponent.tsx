@@ -250,7 +250,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					placeholder={getPlaceholder()}
 					showMonitoringButton={() => {
 						setMonitoringButtonVisible(true);
-						scrollToEnd(0, true);
 					}}
 					type={getTypeOfLocation()}
 					typingUsers={props.typingUsers}

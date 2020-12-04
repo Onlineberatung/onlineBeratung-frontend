@@ -137,7 +137,7 @@ $buttonBoxShadow: 0 6px 0 0 rgba(0, 0, 0, 0.1);
 		min-width: auto;
 		padding: 0;
 		background-color: $light-grey;
-		box-shadow: $buttonBoxShadow;
+		box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.1);
 		transition: all 0.6s ease;
 		opacity: 1;
 

@@ -23,8 +23,7 @@ import {
 	getSessionListPathForLocation,
 	getChatItemForSession,
 	isGroupChatForSessionItem,
-	prepareMessages,
-	scrollToEnd
+	prepareMessages
 } from './sessionHelpers';
 import { rocketChatSocket } from '../apiWrapper';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
@@ -185,7 +184,6 @@ export const SessionView = (props) => {
 					setLoadedMessages(messagesData);
 					setIsLoading(false);
 				}
-				scrollToEnd(0, true);
 
 				if (!isSocketConnected) {
 					setSessionToRead();
