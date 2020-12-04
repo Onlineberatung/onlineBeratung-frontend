@@ -37,8 +37,10 @@ const profile = {
 	'data.register.postcodeInput.label': 'PLZ*',
 	'data.register.postcodeInput.infoText':
 		'Mit der Postleitzahl können wir eine_n Berater_in in Ihrer Nähe finden.',
-	'data.register.consultingModeInfo.groupChats': 'In der Selbsthilfe tauschen sich Betroffene über ein Thema oder ein Anliegen miteinander aus. Die Betroffenen sprechen über ihre Probleme, Gefühle und Hoffnungen und erfahren so, wie andere Probleme bewältigt haben. Die Gruppen werden von Moderator_innen geleitet.',
-	'data.register.consultingModeInfo.singleChats': 'In diesen Themenfeldern erhalten Sie eine persönliche Beratung. Schreiben Sie uns Ihr Anliegen!',
+	'data.register.consultingModeInfo.groupChats':
+		'In der Selbsthilfe tauschen sich Betroffene über ein Thema oder ein Anliegen miteinander aus. Die Betroffenen sprechen über ihre Probleme, Gefühle und Hoffnungen und erfahren so, wie andere Probleme bewältigt haben. Die Gruppen werden von Moderator_innen geleitet.',
+	'data.register.consultingModeInfo.singleChats':
+		'In diesen Themenfeldern erhalten Sie eine persönliche Beratung. Schreiben Sie uns Ihr Anliegen!',
 	'data.register.buttonLabel': 'Registrieren',
 	'data.registerSuccess.overlay.headline':
 		'Sie haben sich erfolgreich für ein neues Themenfeld registriert.',

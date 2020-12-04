@@ -8,4 +8,4 @@ devvars.env
 node_modules
 build
 config
-scripts
+/scripts
