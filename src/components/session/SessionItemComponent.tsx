@@ -71,6 +71,12 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		scrollToEnd(0);
 	}, []);
 
+	useEffect(() => {
+		if (isScrolledToBottom) {
+			scrollToEnd(0);
+		}
+	}, [messages, isScrolledToBottom]);
+
 	if (!activeSession) return null;
 
 	const getPlaceholder = () => {
