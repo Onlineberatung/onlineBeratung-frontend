@@ -89,6 +89,13 @@ $sessionHeaderHeight: 85px;
 			height: calc(100% - #{$sessionHeaderHeight} - #{$textareaHeight});
 		}
 	}
+
+	&__scrollToBottom {
+		position: fixed;
+		right: 24px;
+		bottom: 152px;
+	}
+
 	&--empty {
 		justify-content: center;
 		align-items: center;

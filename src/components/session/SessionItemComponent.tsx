@@ -38,6 +38,7 @@ import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/c
 import { Link } from 'react-router-dom';
 import './session.styles';
 import './session.yellowTheme.styles';
+import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 
 interface SessionItemProps {
 	messages: MessageItem[];
@@ -63,6 +64,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
 
 	useEffect(() => {
 		scrollToEnd(0);
@@ -89,6 +91,13 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			return translate('enquiry.write.input.placeholder.consultant');
 		}
 		return translate('enquiry.write.input.placeholder');
+	};
+
+	const handleScroll = (e) => {
+		const isBottom =
+			e.target.scrollHeight - e.target.scrollTop ===
+			e.target.clientHeight;
+		setIsScrolledToBottom(isBottom);
 	};
 
 	const handleButtonClick = (sessionId: any, sessionGroupId: string) => {
@@ -161,20 +170,32 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				}
 			/>
 
-			<div id="session-scroll-container" className="session__content">
-				{messages
-					? messages.map((message: MessageItem, index) => (
-							<MessageItemComponent
-								key={index}
-								clientName={getContact(activeSession).username}
-								askerRcId={chatItem.askerRcId}
-								type={getTypeOfLocation()}
-								isOnlyEnquiry={isOnlyEnquiry}
-								isMyMessage={isMyMessage(message.userId)}
-								{...message}
-							/>
-					  ))
-					: null}
+			<div
+				id="session-scroll-container"
+				className="session__content"
+				onScroll={handleScroll}
+			>
+				{messages &&
+					messages.map((message: MessageItem, index) => (
+						<MessageItemComponent
+							key={index}
+							clientName={getContact(activeSession).username}
+							askerRcId={chatItem.askerRcId}
+							type={getTypeOfLocation()}
+							isOnlyEnquiry={isOnlyEnquiry}
+							isMyMessage={isMyMessage(message.userId)}
+							{...message}
+						/>
+					))}
+
+				<div className="session__scrollToBottom">
+					<Button
+						item={scrollBottomButtonItem}
+						isLink={false}
+						disabled={isScrolledToBottom}
+						buttonHandle={() => scrollToEnd(0, true)}
+					/>
+				</div>
 			</div>
 
 			{chatItem.monitoring &&
@@ -259,4 +280,9 @@ const monitoringButtonItem: ButtonItem = {
 	label: translate('session.monitoring.buttonLabel'),
 	type: 'PRIMARY',
 	function: ''
+};
+
+const scrollBottomButtonItem: ButtonItem = {
+	icon: <ArrowDoubleDownIcon />,
+	type: 'SMALL_ICON'
 };

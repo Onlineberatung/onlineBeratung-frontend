@@ -9,15 +9,17 @@ export const BUTTON_TYPES = {
 	GHOST: 'GHOST',
 	LINK: 'LINK',
 	TERTIARY: 'TERTIARY',
-	AUTO_CLOSE: 'AUTO_CLOSE'
+	AUTO_CLOSE: 'AUTO_CLOSE',
+	SMALL_ICON: 'SMALL_ICON'
 };
 
 export interface ButtonItem {
-	label: string;
+	label?: string;
 	function?: string;
 	type: string;
 	id?: string;
 	target?: string;
+	icon?: JSX.Element;
 }
 
 export interface ButtonProps {
@@ -61,6 +63,9 @@ export const Button = (props: ButtonProps) => {
 			case BUTTON_TYPES.AUTO_CLOSE:
 				className = 'button__autoClose';
 				break;
+			case BUTTON_TYPES.SMALL_ICON:
+				className = 'button__smallIcon';
+				break;
 			default:
 				className = '';
 		}
@@ -92,7 +97,8 @@ export const Button = (props: ButtonProps) => {
 				{item.id === 'reloadButton' && (
 					<ReloadIcon className="button__icon" />
 				)}
-				{item.label}
+				{item.icon && item.icon}
+				{item.label && item.label}
 			</button>
 		</div>
 	);
