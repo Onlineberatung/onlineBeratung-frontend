@@ -38,6 +38,7 @@ import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/c
 import { Link } from 'react-router-dom';
 import './session.styles';
 import './session.yellowTheme.styles';
+import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 
 interface SessionItemProps {
@@ -93,13 +94,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		return translate('enquiry.write.input.placeholder');
 	};
 
-	const handleScroll = (e) => {
-		const isBottom =
-			e.target.scrollHeight - e.target.scrollTop ===
-			e.target.clientHeight;
-		setIsScrolledToBottom(isBottom);
-	};
-
 	const handleButtonClick = (sessionId: any, sessionGroupId: string) => {
 		if (isRequestInProgress) {
 			return null;
@@ -122,6 +116,19 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		setCurrenGroupId('');
 		setAcceptedGroupId(currentGroupId);
 	};
+
+	const handleScroll = useDebouncedCallback(
+		// eslint-disable-line
+		(e) => {
+			const isBottom =
+				e.target.scrollHeight - e.target.scrollTop ===
+				e.target.clientHeight;
+			if (isBottom !== isScrolledToBottom) {
+				setIsScrolledToBottom(isBottom);
+			}
+		},
+		100
+	);
 
 	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
 
@@ -173,7 +180,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			<div
 				id="session-scroll-container"
 				className="session__content"
-				onScroll={handleScroll}
+				onScroll={(e) => handleScroll.callback(e)}
 			>
 				{messages &&
 					messages.map((message: MessageItem, index) => (
