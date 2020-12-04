@@ -117,18 +117,16 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		setAcceptedGroupId(currentGroupId);
 	};
 
-	const handleScroll = useDebouncedCallback(
-		// eslint-disable-line
-		(e) => {
-			const isBottom =
-				e.target.scrollHeight - e.target.scrollTop ===
-				e.target.clientHeight;
-			if (isBottom !== isScrolledToBottom) {
-				setIsScrolledToBottom(isBottom);
-			}
-		},
-		100
-	);
+	/* eslint-disable */
+	const handleScroll = useDebouncedCallback((e) => {
+		const isBottom =
+			e.target.scrollHeight - e.target.scrollTop ===
+			e.target.clientHeight;
+		if (isBottom !== isScrolledToBottom) {
+			setIsScrolledToBottom(isBottom);
+		}
+	}, 100);
+	/* eslint-enable */
 
 	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
 
