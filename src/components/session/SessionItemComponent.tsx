@@ -66,6 +66,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
+	const [newMessages, setNewMessages] = useState(5);
 
 	useEffect(() => {
 		scrollToEnd(0);
@@ -199,11 +200,21 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						/>
 					))}
 
-				<div className="session__scrollToBottom">
+				<div
+					className={`session__scrollToBottom ${
+						isScrolledToBottom
+							? 'session__scrollToBottom--disabled'
+							: ''
+					}`}
+				>
+					{newMessages >= 0 && (
+						<span className="session__unreadCount">
+							{newMessages}
+						</span>
+					)}
 					<Button
 						item={scrollBottomButtonItem}
 						isLink={false}
-						disabled={isScrolledToBottom}
 						buttonHandle={() => scrollToEnd(0, true)}
 					/>
 				</div>

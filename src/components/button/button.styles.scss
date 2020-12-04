@@ -139,7 +139,6 @@ $buttonBoxShadow: 0 6px 0 0 rgba(0, 0, 0, 0.1);
 		background-color: $light-grey;
 		box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.1);
 		transition: all 0.6s ease;
-		opacity: 1;
 
 		&:hover {
 			background-color: $light-grey-hover;
@@ -150,10 +149,6 @@ $buttonBoxShadow: 0 6px 0 0 rgba(0, 0, 0, 0.1);
 			fill: $white;
 			height: 16px;
 			width: 16px;
-		}
-
-		&.button__item--disabled {
-			opacity: 0;
 		}
 	}
 

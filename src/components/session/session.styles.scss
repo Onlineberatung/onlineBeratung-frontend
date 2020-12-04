@@ -94,6 +94,30 @@ $sessionHeaderHeight: 85px;
 		position: fixed;
 		right: 24px;
 		bottom: 152px;
+		transition: all 0.6s ease;
+
+		&--disabled {
+			opacity: 0;
+		}
+	}
+
+	&__unreadCount {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		top: 0;
+		right: -9px;
+		width: 18px;
+		height: 18px;
+		background-color: $primary;
+		font-family: $font-family-medium;
+		font-weight: $font-weight-medium;
+		font-size: 10px;
+		color: $white;
+		border-radius: 100%;
+		z-index: 1;
+		pointer-events: none;
 	}
 
 	&--empty {
