@@ -122,8 +122,12 @@ $buttonHeight: 50px;
 			}
 		}
 
-		.button__wrapper {
-			margin-top: $grid-base;
+		&.button__item--disabled {
+			background: none;
+
+			&:hover {
+				background: none;
+			}
 		}
 	}
 

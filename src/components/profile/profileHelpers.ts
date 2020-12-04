@@ -33,32 +33,59 @@ export const getUserDataTranslateBase = (consultingType: number) => {
 
 export const buttonSetRegistration: ButtonItem = {
 	label: translate('profile.data.register.buttonLabel'),
-	type: BUTTON_TYPES.PRIMARY
+	type: BUTTON_TYPES.LINK
 };
 
-const forAskerRegistrationExcludedConsultingTypes = [1, 15, 19];
-export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
-	const unregisteredConsultingTypesData = Object.keys(
-		userData.consultingTypes
-	)
+export enum REGISTRATION_STATUS_KEYS {
+	REGISTERED = 'REGISTERED',
+	UNREGISTERED = 'UNREGISTERED'
+}
+const forAskerRegistrationExcludedConsultingTypes = [1, 19];
+export const getConsultingTypesForRegistrationStatus = (
+	userData: UserDataInterface,
+	registrationStatus: REGISTRATION_STATUS_KEYS
+) => {
+	return Object.keys(userData.consultingTypes)
 		.map((key) => {
 			return {
 				consultingType: key,
 				data: userData.consultingTypes[key]
 			};
 		})
-		.filter(
-			(value) =>
-				!forAskerRegistrationExcludedConsultingTypes.includes(
-					parseInt(value.consultingType)
-				) && !value.data.isRegistered
-		);
+		.filter((value) => {
+			const validationForRegistrationStatus =
+				registrationStatus === REGISTRATION_STATUS_KEYS.REGISTERED
+					? value.data.isRegistered
+					: !forAskerRegistrationExcludedConsultingTypes.includes(
+							parseInt(value.consultingType)
+					  ) && !value.data.isRegistered;
+			return validationForRegistrationStatus;
+		});
+};
+
+export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
+	const unregisteredConsultingTypesData = getConsultingTypesForRegistrationStatus(
+		userData,
+		REGISTRATION_STATUS_KEYS.UNREGISTERED
+	);
 	return unregisteredConsultingTypesData.map((value) => {
 		return {
 			value: value.consultingType,
-			label: getResortTranslation(parseInt(value.consultingType))
+			label:
+				value.consultingType === '15'
+					? translate('profile.data.register.kreuzbund')
+					: getResortTranslation(parseInt(value.consultingType))
 		};
 	});
+};
+
+const consultingTypesToAutoselectAgency = ['15'];
+export const autoselectAgencyForConsultingType = (
+	consultingType: number
+): boolean => {
+	return consultingTypesToAutoselectAgency.includes(
+		consultingType?.toString()
+	);
 };
 
 export const overlayItemNewRegistrationSuccess: OverlayItem = {

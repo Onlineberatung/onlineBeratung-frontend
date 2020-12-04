@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { AgencyDataInterface } from '../../globalState';
+import { AgencyDataInterface, UserDataInterface } from '../../globalState';
 import {
 	hasConsultingTypeLongPostcodeValidation,
 	POSTCODE_FALLBACK_LINKS
@@ -17,11 +17,15 @@ import {
 } from './agencySelectionHelpers';
 import './agencySelection.styles';
 import '../profile/profile.styles';
+import { autoselectAgencyForConsultingType } from '../profile/profileHelpers';
+import { DEFAULT_POSTCODE } from '../registration/prefillPostcode';
+import { InfoText, LABEL_TYPES } from '../infoText/InfoText';
 
 export interface AgencySelectionProps {
 	selectedConsultingType: number | undefined;
 	icon?: JSX.Element;
 	setAgency: Function;
+	userData?: UserDataInterface;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
@@ -37,6 +41,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	const [selectedAgencyId, setSelectedAgencyId] = useState<
 		number | undefined
 	>(undefined);
+	const [autoSelectAgency, setAutoSelectAgency] = useState(false);
 
 	const isSelectedAgencyValidated = () =>
 		selectedPostcode &&
@@ -45,10 +50,31 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		typedPostcode;
 
 	useEffect(() => {
+		if (autoSelectAgency) {
+			ajaxCallAgencySelection({
+				postcode: DEFAULT_POSTCODE,
+				consultingType: props.selectedConsultingType
+			})
+				.then((response) => {
+					const defaultAgency = response[0];
+					setSelectedPostcode(defaultAgency.postcode);
+					setTypedPostcode(defaultAgency.postcode);
+					setSelectedAgencyId(defaultAgency.id);
+				})
+				.catch((error) => {
+					return null;
+				});
+		}
+	}, [autoSelectAgency]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
 		setSelectedPostcode('');
 		setPostcodeFallbackLink('');
 		setSelectedAgencyId(undefined);
 		setProposedAgencies(null);
+		setAutoSelectAgency(
+			autoselectAgencyForConsultingType(props.selectedConsultingType)
+		);
 	}, [props.selectedConsultingType]);
 
 	useEffect(() => {
@@ -64,7 +90,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	}, [selectedAgencyId]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (!postcodeExtended) {
+		if (!postcodeExtended && !autoSelectAgency) {
 			setSelectedAgencyId(undefined);
 			setTypedPostcode('');
 			setPostcodeFallbackLink('');
@@ -86,9 +112,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							)
 						) {
 							setTypedPostcode(selectedPostcode);
-							if (response) {
-								setSelectedAgencyId(response[0].id);
-							}
+							setSelectedAgencyId(response[0].id);
 						} else {
 							setProposedAgencies(response);
 						}
@@ -140,7 +164,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		maxLength: VALID_POSTCODE_LENGTH.MAX,
 		pattern: '^[0-9]+$',
 		disabled:
-			!props.selectedConsultingType && props.selectedConsultingType !== 0,
+			autoSelectAgency ||
+			(!props.selectedConsultingType &&
+				props.selectedConsultingType !== 0),
 		postcodeFallbackLink: postcodeFallbackLink,
 		icon: props.icon
 	};
@@ -163,57 +189,70 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 
 	return (
 		<div className="askerRegistration__postcode">
-			<InputField
-				item={postcodeInputItem}
-				inputHandle={(e) => handlePostcodeInput(e)}
-			></InputField>
-
-			{proposedAgencies ? (
-				<div
-					ref={postcodeFlyoutRef}
-					className="askerRegistration__postcodeFlyout"
-				>
-					{proposedAgencies.map(
-						(agency: AgencyDataInterface, index) => (
-							<div
-								className="askerRegistration__postcodeFlyout__content"
-								key={index}
-								onClick={() => handleAgencySelection(agency)}
-							>
-								{agency.teamAgency ? (
-									<div className="askerRegistration__postcodeFlyout__teamagency">
-										<span className="suggestionWrapper__item__content__teamAgency__icon">
-											<InfoIcon />
-										</span>
-
-										{translate(
-											'registration.agency.prefilled.isTeam'
-										)}
-									</div>
-								) : null}
-								{agency.postcode ? (
-									<div className="askerRegistration__postcodeFlyout__postcode">
-										{agency.postcode}
-									</div>
-								) : null}
-								{agency.name ? (
-									<div className="askerRegistration__postcodeFlyout__name">
-										{agency.name}
-									</div>
-								) : null}
-								{agency.description ? (
-									<div
-										className="askerRegistration__postcodeFlyout__description"
-										dangerouslySetInnerHTML={{
-											__html: agency.description
-										}}
-									></div>
-								) : null}
-							</div>
-						)
+			{autoSelectAgency ? (
+				<InfoText
+					className="askerRegistration__consultingModeInfo"
+					labelType={LABEL_TYPES.CAUTION}
+					text={translate(
+						'profile.data.register.consultingModeInfo.groupChats'
 					)}
-				</div>
-			) : null}
+				/>
+			) : (
+				<>
+					<InputField
+						item={postcodeInputItem}
+						inputHandle={(e) => handlePostcodeInput(e)}
+					></InputField>
+					{proposedAgencies && (
+						<div
+							ref={postcodeFlyoutRef}
+							className="askerRegistration__postcodeFlyout"
+						>
+							{proposedAgencies.map(
+								(agency: AgencyDataInterface, index) => (
+									<div
+										className="askerRegistration__postcodeFlyout__content"
+										key={index}
+										onClick={() =>
+											handleAgencySelection(agency)
+										}
+									>
+										{agency.teamAgency ? (
+											<div className="askerRegistration__postcodeFlyout__teamagency">
+												<span className="suggestionWrapper__item__content__teamAgency__icon">
+													<InfoIcon />
+												</span>
+
+												{translate(
+													'registration.agency.prefilled.isTeam'
+												)}
+											</div>
+										) : null}
+										{agency.postcode ? (
+											<div className="askerRegistration__postcodeFlyout__postcode">
+												{agency.postcode}
+											</div>
+										) : null}
+										{agency.name ? (
+											<div className="askerRegistration__postcodeFlyout__name">
+												{agency.name}
+											</div>
+										) : null}
+										{agency.description ? (
+											<div
+												className="askerRegistration__postcodeFlyout__description"
+												dangerouslySetInnerHTML={{
+													__html: agency.description
+												}}
+											></div>
+										) : null}
+									</div>
+								)
+							)}
+						</div>
+					)}
+				</>
+			)}
 		</div>
 	);
 };

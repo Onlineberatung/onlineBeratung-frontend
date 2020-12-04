@@ -413,20 +413,36 @@ $groupChatIconSize: 40px;
 
 .askerRegistration {
 	&__headline {
-		max-width: 400px;
-		text-align: center;
 		margin: $grid-base-six auto $grid-base-three;
 	}
 
 	&__postcode {
 		position: relative;
+		animation: fadeIn linear 0.2s;
 
 		.formWrapper {
-			margin: 0 auto $grid-base-four;
+			margin: 0 0 $grid-base-three;
 
 			&__inputWrapper {
 				margin-left: 0;
 			}
+		}
+
+		.askerRegistration__consultingModeInfo {
+			padding: 0 $grid-base-three 0 20px;
+		}
+	}
+
+	&__consultingModeInfo {
+		animation: fadeIn linear 0.2s;
+		font-size: $font-size-secondary;
+		line-height: 1.3333em;
+		max-width: 320px;
+		margin: 0 0 $grid-base-three;
+		padding: 0 $grid-base-three 0 20px;
+
+		@include breakpoint($fromLarge) {
+			text-align: left;
 		}
 	}
 
@@ -436,7 +452,6 @@ $groupChatIconSize: 40px;
 		right: 0;
 		left: 0;
 		max-width: 320px;
-		margin: 0 auto;
 		padding-bottom: $grid-base-six;
 		text-align: left;
 		z-index: 20;
@@ -507,11 +522,11 @@ $groupChatIconSize: 40px;
 
 	.select__wrapper {
 		padding: 0;
-		margin: 0 auto $grid-base-three;
+		margin: 0 0 $grid-base-three;
 	}
 
-	.button__wrapper button {
-		display: block;
-		margin: 0 auto;
+	.button__item {
+		padding: 0;
+		text-align: left;
 	}
 }

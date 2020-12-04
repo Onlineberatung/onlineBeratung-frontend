@@ -31,7 +31,7 @@ const profile = {
 	'data.email': 'E-Mail-Adresse',
 	'data.agency': 'Beratungsstelle',
 	'data.register.headline':
-		'Benötigen Sie auch zu anderen Themen Rat oder Hilfe? Wir unterstützen Sie gerne.',
+		'Benötigen Sie auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Sie gerne.',
 	'data.register.consultingTypeSelect.label': 'Themenfelder',
 	'data.register.kreuzbund': 'Sucht-Selbsthilfe - Kreuzbund',
 	'data.register.postcodeInput.label': 'PLZ*',
