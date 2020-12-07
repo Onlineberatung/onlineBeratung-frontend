@@ -4,6 +4,7 @@ $imprintHeight: 40px;
 $iconSize: 24px;
 $profileIconSize: 72px;
 $groupChatIconSize: 40px;
+$maxFormElementWidth: 320px;
 
 .profile {
 	&__wrapper {
@@ -416,12 +417,52 @@ $groupChatIconSize: 40px;
 		margin: $grid-base-six auto $grid-base-three;
 	}
 
+	&__consultingTypeWrapper {
+		max-width: $maxFormElementWidth;
+		margin: 0 auto;
+		@include breakpoint($fromLarge) {
+			margin: 0;
+		}
+	}
+
+	.select__wrapper {
+		padding: 0;
+		margin: 0 auto $grid-base-three;
+
+		@include breakpoint($fromLarge) {
+			margin: 0 0 $grid-base-three;
+		}
+	}
+
+	&__consultingModeInfo {
+		animation: fadeIn linear 0.2s;
+		font-size: $font-size-secondary;
+		line-height: 1.3333em;
+		max-width: $maxFormElementWidth;
+		margin: -12px 0 $grid-base-three;
+		padding: 0 $grid-base-three 0 20px;
+
+		@include breakpoint($fromLarge) {
+			margin: -12px 0 $grid-base-three;
+			text-align: left;
+		}
+	}
+
 	&__postcode {
 		position: relative;
 		animation: fadeIn linear 0.2s;
+		max-width: $maxFormElementWidth;
+		margin: 0 auto;
+		@include breakpoint($fromLarge) {
+			margin: 0;
+		}
 
 		.formWrapper {
-			margin: 0 0 $grid-base-three;
+			margin: 0 auto $grid-base-three;
+
+			@include breakpoint($fromLarge) {
+				margin: 0 0 $grid-base-three;
+			}
 
 			&__inputWrapper {
 				margin-left: 0;
@@ -433,25 +474,12 @@ $groupChatIconSize: 40px;
 		}
 	}
 
-	&__consultingModeInfo {
-		animation: fadeIn linear 0.2s;
-		font-size: $font-size-secondary;
-		line-height: 1.3333em;
-		max-width: 320px;
-		margin: 0 0 $grid-base-three;
-		padding: 0 $grid-base-three 0 20px;
-
-		@include breakpoint($fromLarge) {
-			text-align: left;
-		}
-	}
-
 	&__postcodeFlyout {
 		position: absolute;
 		top: 66px;
 		right: 0;
 		left: 0;
-		max-width: 320px;
+		max-width: $maxFormElementWidth;
 		padding-bottom: $grid-base-six;
 		text-align: left;
 		z-index: 20;
@@ -520,13 +548,22 @@ $groupChatIconSize: 40px;
 		}
 	}
 
-	.select__wrapper {
-		padding: 0;
-		margin: 0 0 $grid-base-three;
-	}
+	.button {
+		&__wrapper {
+			width: $maxFormElementWidth;
+			margin: 0 auto $grid-base-four;
+			@include breakpoint($fromLarge) {
+				margin: 0;
+			}
+		}
 
-	.button__item {
-		padding: 0;
-		text-align: left;
+		&__item {
+			padding: 0;
+			text-align: center;
+			width: 100%;
+			@include breakpoint($fromLarge) {
+				text-align: left;
+			}
+		}
 	}
 }

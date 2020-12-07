@@ -158,15 +158,19 @@ export const AskerNewRegistration = () => {
 					__html: translate('profile.data.register.headline')
 				}}
 			></p>
-			<SelectDropdown {...consultingTypesDropdown} />
-			{isOnlyRegisteredForGroupChats && (
-				<InfoText
-					className="askerRegistration__consultingModeInfo"
-					labelType={LABEL_TYPES.CAUTION}
-					text={translate(
-						'profile.data.register.consultingModeInfo.singleChats'
-					)}
-				/>
+			{isOnlyRegisteredForGroupChats ? (
+				<div className="askerRegistration__consultingTypeWrapper">
+					<SelectDropdown {...consultingTypesDropdown} />
+					<InfoText
+						className="askerRegistration__consultingModeInfo"
+						labelType={LABEL_TYPES.CAUTION}
+						text={translate(
+							'profile.data.register.consultingModeInfo.singleChats'
+						)}
+					/>
+				</div>
+			) : (
+				<SelectDropdown {...consultingTypesDropdown} />
 			)}
 			<AgencySelection
 				selectedConsultingType={selectedConsultingType}
