@@ -94,7 +94,7 @@ $sessionHeaderHeight: 85px;
 		position: fixed;
 		right: 24px;
 		bottom: 152px;
-		z-index: 2;
+		z-index: 3;
 		animation: appear-animation 0.3s;
 
 		&--disabled {
@@ -120,7 +120,7 @@ $sessionHeaderHeight: 85px;
 		border-radius: 100%;
 		z-index: 1;
 		pointer-events: none;
-		animation: appear-animation 0.3s;
+		animation: bounce-appear-animation 0.3s;
 	}
 
 	&--empty {
@@ -186,6 +186,22 @@ $sessionHeaderHeight: 85px;
 
 	100% {
 		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes bounce-appear-animation {
+	0% {
+		opacity: 0.4;
+		transform: scale(0.8);
+	}
+
+	80% {
+		opacity: 1;
+		transform: scale(1.2);
+	}
+
+	100% {
 		transform: scale(1);
 	}
 }

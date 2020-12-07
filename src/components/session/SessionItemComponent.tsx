@@ -78,7 +78,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	}, []); // eslint-disable-line
 
 	useEffect(() => {
-		if (isMyMessage(messages[messages.length - 1].userId)) {
+		if (isMyMessage(messages[messages.length - 1]?.userId)) {
 			resetUnreadCount();
 			scrollToEnd(0, true);
 		} else {
