@@ -89,7 +89,9 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					scrollContainer.querySelectorAll('.messageItem')
 				).pop();
 				const lastReadDivider = document.createElement('div');
-				lastReadDivider.innerHTML = 'Zuletzt gelesen';
+				lastReadDivider.innerHTML = translate(
+					'session.divider.lastRead'
+				);
 				lastReadDivider.className =
 					'messageItem__divider messageItem__divider--lastRead';
 				firstUnreadItem.prepend(lastReadDivider);

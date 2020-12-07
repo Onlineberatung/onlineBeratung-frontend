@@ -11,6 +11,7 @@ const session = {
 	'assignSelf.button2.label': 'Schliessen',
 	'consultant.isAbsent': 'abwesend',
 	'consultant.prefix': 'Berater_in - ',
+	'divider.lastRead': 'Zuletzt gelesen',
 	'empty': 'Bitte wählen Sie eine Nachricht aus.',
 	'feedback.label': 'Feedback',
 	'groupChat.consultant.prefix': 'Moderator_in - ',
@@ -18,7 +19,7 @@ const session = {
 	'monitoring.buttonLabel': 'Jetzt dokumentieren',
 	'teamConsultant.isAbsentPrefix': ' ist ',
 	'teamConsultant.isAbsent': 'abwesend',
-	'u25.assignment.placeholder': 'Beratung zuweisen'
+	'u25.assignment.placeholder': 'Beratung zuweisen',
 };
 
 export default session;
