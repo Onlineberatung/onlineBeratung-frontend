@@ -40,6 +40,7 @@ import './session.styles';
 import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
+import smoothScroll from './smoothScrollHelper';
 
 interface SessionItemProps {
 	messages: MessageItem[];
@@ -47,6 +48,8 @@ interface SessionItemProps {
 	typingUsers: string[];
 	currentGroupId: string;
 }
+
+let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
 	let { sessionsData } = useContext(SessionsDataContext);
@@ -65,20 +68,58 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
-	const [newMessages, setNewMessages] = useState(5);
+	const [newMessages, setNewMessages] = useState(0);
 
 	useEffect(() => {
+		resetUnreadCount();
 		scrollToEnd(0);
-	}, []);
+	}, []); // eslint-disable-line
+
+	useEffect(() => {
+		if (isMyMessage(messages[messages.length - 1].userId)) {
+			resetUnreadCount();
+			scrollToEnd(0, true);
+		} else {
+			// if first unread message -> prepend element
+			if (newMessages === 0 && !isScrolledToBottom) {
+				const scrollContainer = scrollContainerRef.current;
+				const firstUnreadItem = Array.from(
+					scrollContainer.querySelectorAll('.messageItem')
+				).pop();
+				const lastReadDivider = document.createElement('div');
+				lastReadDivider.innerHTML = 'Zuletzt gelesen';
+				lastReadDivider.className =
+					'messageItem__divider messageItem__divider--lastRead';
+				firstUnreadItem.prepend(lastReadDivider);
+				console.log(firstUnreadItem);
+			}
+
+			if (isScrolledToBottom) {
+				resetUnreadCount();
+				scrollToEnd(0, true);
+			}
+
+			setNewMessages(messages.length - initMessageCount);
+		}
+	}, [messages.length]); // eslint-disable-line
 
 	useEffect(() => {
 		if (isScrolledToBottom) {
-			scrollToEnd(0);
+			resetUnreadCount();
 		}
-	}, [messages, isScrolledToBottom]);
+	}, [isScrolledToBottom]); // eslint-disable-line
 
 	if (!activeSession) return null;
+
+	const resetUnreadCount = () => {
+		setNewMessages(0);
+		initMessageCount = messages.length;
+		scrollContainerRef.current
+			.querySelectorAll('.messageItem__divider--lastRead')
+			.forEach((e) => e.remove());
+	};
 
 	const getPlaceholder = () => {
 		if (isGroupChat) {
@@ -135,6 +176,35 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	}, 100);
 	/* eslint-enable */
 
+	const handleScrollToBottomButtonClick = () => {
+		if (newMessages > 0) {
+			const scrollContainer = scrollContainerRef.current;
+			const sessionHeader = scrollContainer.parentElement.getElementsByClassName(
+				'sessionInfo'
+			)[0] as HTMLElement;
+			const messageItems = scrollContainer.querySelectorAll(
+				'.messageItem:not(.messageItem--right)'
+			);
+			const firstUnreadItem = messageItems[
+				messageItems.length - newMessages
+			] as HTMLElement;
+			const firstUnreadItemOffet =
+				firstUnreadItem.offsetTop - sessionHeader.offsetHeight;
+
+			if (scrollContainer.scrollTop < firstUnreadItemOffet) {
+				smoothScroll({
+					duration: 1000,
+					element: scrollContainer,
+					to: firstUnreadItemOffet
+				});
+			} else {
+				scrollToEnd(0, true);
+			}
+		} else {
+			scrollToEnd(0, true);
+		}
+	};
+
 	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
 
 	const buttonItem: ButtonItem = {
@@ -185,6 +255,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			<div
 				id="session-scroll-container"
 				className="session__content"
+				ref={scrollContainerRef}
 				onScroll={(e) => handleScroll.callback(e)}
 			>
 				{messages &&
@@ -207,7 +278,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							: ''
 					}`}
 				>
-					{newMessages >= 0 && (
+					{newMessages > 0 && (
 						<span className="session__unreadCount">
 							{newMessages}
 						</span>
@@ -215,7 +286,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					<Button
 						item={scrollBottomButtonItem}
 						isLink={false}
-						buttonHandle={() => scrollToEnd(0, true)}
+						buttonHandle={handleScrollToBottomButtonClick}
 					/>
 				</div>
 			</div>

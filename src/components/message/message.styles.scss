@@ -43,7 +43,7 @@ $message-lineheight: 21px;
 	}
 
 	&__username,
-	&__date,
+	&__divider,
 	&__infotext,
 	&__consultant {
 		color: $light-grey;
@@ -95,12 +95,12 @@ $message-lineheight: 21px;
 		}
 	}
 
-	&__date {
+	&__divider {
 		font-family: 'RobotoSlab';
 		font-size: $font-size-secondary;
 		line-height: $line-height-secondary;
 		text-align: center;
-		margin: 0 0 $grid-base-four;
+		margin: $grid-base-four 0 $grid-base-two;
 
 		&::before,
 		&::after {
@@ -110,6 +110,15 @@ $message-lineheight: 21px;
 			width: $grid-base-three;
 			vertical-align: middle;
 			margin: 0 $grid-base;
+		}
+
+		&--lastRead {
+			color: $primary;
+
+			&::before,
+			&::after {
+				border-top: 1px solid $primary;
+			}
 		}
 	}
 
