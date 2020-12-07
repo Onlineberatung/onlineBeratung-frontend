@@ -1,22 +1,15 @@
+import { CyHttpMessages } from 'cypress/types/net-stubbing';
 import { WebSocket, Server } from 'mock-socket';
+import { UserDataInterface } from '../../src/globalState';
 import { config } from '../../src/resources/scripts/config';
-
-// Based on CyHttpMessages.IncomingResponse
-interface InterceptArgs {
-	body?: any;
-	headers?: { [key: string]: string };
-	method?: string;
-	httpVersion?: string;
-	statusCode?: number;
-	statusMessage?: string;
-}
 
 interface CaritasMockedLoginArgs {
 	auth?: {
 		expires_in?: number;
 		refresh_expires_in?: number;
 	};
-	attachmentUpload?: InterceptArgs;
+	userData?: Partial<UserDataInterface>;
+	attachmentUpload?: Partial<CyHttpMessages.IncomingResponse>;
 }
 
 declare global {
@@ -95,8 +88,11 @@ Cypress.Commands.add(
 		cy.intercept('POST', config.endpoints.keycloakLogout, {}).as(
 			'authLogout'
 		);
-		cy.intercept('GET', config.endpoints.userData, {
-			fixture: 'service.users.data.json'
+		cy.fixture('service.users.data').then((userData) => {
+			cy.intercept('GET', config.endpoints.userData, {
+				...userData,
+				...args.userData
+			});
 		});
 		cy.intercept('GET', config.endpoints.userSessions, {
 			fixture: 'service.users.sessions.askers.json'
