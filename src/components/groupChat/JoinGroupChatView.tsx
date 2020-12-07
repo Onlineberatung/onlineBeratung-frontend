@@ -94,7 +94,10 @@ export const JoinGroupChatView = () => {
 	}, [activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const updateGroupChatInfo = () => {
-		if (chatItem.groupId === activeSessionGroupId) {
+		if (
+			chatItem.groupId === activeSessionGroupId &&
+			chatItem.consultingType === 15
+		) {
 			ajaxCallGetGroupChatInfo(chatItem.id)
 				.then((response: groupChatInfoData) => {
 					if (chatItem.active !== response.active) {
