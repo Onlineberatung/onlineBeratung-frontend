@@ -22,16 +22,6 @@ declare global {
 	}
 }
 
-afterEach(() => {
-	// TODO: remove this temporary workarounds
-	// See:
-	// - https://github.com/cypress-io/cypress/issues/9170
-	// - https://github.com/cypress-io/cypress/issues/9362
-	// - https://github.com/cypress-io/cypress/issues/8926
-	// cy.window().then((win) => (win.location.href = 'about:blank'));
-	// cy.clearCookies();
-});
-
 Cypress.Commands.add(
 	'caritasMockedLogin',
 	(args: CaritasMockedLoginArgs = {}) => {
