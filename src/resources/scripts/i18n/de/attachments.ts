@@ -4,6 +4,8 @@ const attachments = {
 		'Ihre Datei konnte nicht gesendet werden. Erlaubt sind Bilder (jpg und png), sowie Dokumente (docx und pdf). Bitte versuchen Sie es erneut.',
 	'error.size.headline': 'Ihre gewählte Datei ist zu groß.',
 	'error.size.message': 'Sie können max. 5MB hochladen.',
+	'error.quota.headline': 'Sie haben das Limit zum Hochladen erreicht.',
+	'error.quota.message': 'Bitte versuchen Sie es morgen erneut.',
 	'error.other.headline': 'Es gab einen Fehler beim Hochladen der Datei.',
 	'error.other.message': 'Bitte versuchen Sie es erneut.',
 	'list.label.received': 'Sie haben eine Datei erhalten.',
