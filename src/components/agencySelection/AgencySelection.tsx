@@ -217,7 +217,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											handleAgencySelection(agency)
 										}
 									>
-										{agency.teamAgency ? (
+										{agency.teamAgency && (
 											<div className="askerRegistration__postcodeFlyout__teamagency">
 												<span className="suggestionWrapper__item__content__teamAgency__icon">
 													<InfoIcon />
@@ -227,25 +227,25 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 													'registration.agency.prefilled.isTeam'
 												)}
 											</div>
-										) : null}
-										{agency.postcode ? (
+										)}
+										{agency.postcode && (
 											<div className="askerRegistration__postcodeFlyout__postcode">
 												{agency.postcode}
 											</div>
-										) : null}
-										{agency.name ? (
+										)}
+										{agency.name && (
 											<div className="askerRegistration__postcodeFlyout__name">
 												{agency.name}
 											</div>
-										) : null}
-										{agency.description ? (
+										)}
+										{agency.description && (
 											<div
 												className="askerRegistration__postcodeFlyout__description"
 												dangerouslySetInnerHTML={{
 													__html: agency.description
 												}}
 											></div>
-										) : null}
+										)}
 									</div>
 								)
 							)}
