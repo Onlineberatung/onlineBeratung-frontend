@@ -23,7 +23,8 @@ const registration = {
 	'password.insecure': 'Ihr Passwort ist nicht sicher.',
 	'password.same': 'Ihr Passwort ist identisch.',
 	'password.notSame': 'Ihr Passwort ist nicht identisch.',
-	'password.note': 'Bitte notieren Sie Ihre Zugangsdaten – ein Passwort-Reset ist nicht möglich!',
+	'password.note':
+		'Bitte notieren Sie Ihre Zugangsdaten – ein Passwort-Reset ist nicht möglich!',
 	'email.label': 'E-Mail (optional)',
 	'email.infoText':
 		'Per E-Mail können wir Sie benachrichtigen, sobald eine Antwort auf Ihre Anfrage vorliegt. Zudem können Sie per E-Mail Ihr Passwort zurücksetzen, wenn Sie es vergessen haben.',

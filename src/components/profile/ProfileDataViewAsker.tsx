@@ -124,8 +124,7 @@ export const ProfileDataViewAsker = () => {
 					</div>
 				) : null
 			)}
-			{userData.consultingTypes[15].isRegistered ||
-			consultingTypeSelectOptionsSet(userData).length === 0 ? null : (
+			{consultingTypeSelectOptionsSet(userData).length > 0 && (
 				<AskerNewRegistration></AskerNewRegistration>
 			)}
 		</div>

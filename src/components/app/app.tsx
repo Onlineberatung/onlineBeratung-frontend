@@ -46,7 +46,7 @@ export const AppContainer = (props) => {
 const socket = new SockJS(config.endpoints.liveservice);
 const stompClient = Stomp.over(socket);
 // DEV-NOTE: comment next line to activate debug mode (stomp logging) for development
-// stompClient.debug = null;
+stompClient.debug = () => {};
 
 const STOMP_EVENT_TYPES = {
 	DIRECT_MESSAGE: 'directMessage'
