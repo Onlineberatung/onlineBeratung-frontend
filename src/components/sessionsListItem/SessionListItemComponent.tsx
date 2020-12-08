@@ -32,6 +32,7 @@ import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
 import './sessionsListItem.styles';
+import { autoselectAgencyForConsultingType } from '../profile/profileHelpers';
 
 interface SessionListItemProps {
 	type: string;
@@ -125,6 +126,14 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	};
 	const Icon = getSessionsListItemIcon(iconVariant());
 
+	if (
+		autoselectAgencyForConsultingType(
+			currentSessionData.session?.consultingType
+		)
+	) {
+		return null;
+	}
+
 	if (isGroupChat) {
 		const isMyChat = () =>
 			currentSessionData.consultant &&
@@ -136,7 +145,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 			<div
 				onClick={handleOnClick}
 				className={
-					activeSession && activeSession.chat.id === listItem.id
+					activeSession && activeSession.chat?.id === listItem.id
 						? `sessionsListItem sessionsListItem--active`
 						: `sessionsListItem`
 				}
@@ -144,7 +153,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 			>
 				<div
 					className={
-						activeSession && activeSession.chat.id === listItem.id
+						activeSession && activeSession.chat?.id === listItem.id
 							? `sessionsListItem__content sessionsListItem__content--active`
 							: `sessionsListItem__content`
 					}
@@ -213,7 +222,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		<div
 			onClick={handleOnClick}
 			className={
-				(activeSession && activeSession.session.id === listItem.id) ||
+				(activeSession && activeSession.session?.id === listItem?.id) ||
 				activeSessionGroupId === listItem.id
 					? `sessionsListItem sessionsListItem--active`
 					: `sessionsListItem`

@@ -25,6 +25,7 @@ export const ajaxCallRegistrationNewConsultingTypes = async (
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.POST,
+		rcValidation: true,
 		bodyData: data,
 		responseHandling: [FETCH_SUCCESS.CONTENT, FETCH_ERRORS.CATCH_ALL]
 	});

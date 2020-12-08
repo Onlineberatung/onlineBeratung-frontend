@@ -12,9 +12,11 @@ const profileInformal = {
 	'functions.passwordReset.overlay.headline':
 		'Du hast Dein Passwort erfolgreich geändert. Du wirst nun zum Login weitergeleitet.',
 	'data.register.headline':
-		'Benötigst Du auch zu anderen Themen Rat oder Hilfe? Wir unterstützen Dich gerne.',
+		'Benötigst Du auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Dich gerne.',
 	'data.register.postcodeInput.infoText':
 		'Mit der Postleitzahl können wir eine_n Berater_in in Deiner Nähe finden.',
+	'data.register.consultingModeInfo.singleChats':
+		'In diesen Themenfeldern erhältst Du eine persönliche Beratung. Schreibe uns Dein Anliegen!',
 	'data.registerSuccess.overlay.headline':
 		'Du hast dich erfolgreich für ein neues Themenfeld registriert.',
 	'data.registerError.overlay.headline':
