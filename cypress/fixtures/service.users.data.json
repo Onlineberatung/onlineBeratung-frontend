@@ -43,7 +43,7 @@
 		"18": { "sessionData": null, "isRegistered": false, "agency": null },
 		"19": { "sessionData": null, "isRegistered": false, "agency": null }
 	},
-	"formalLanguage": false,
+	"formalLanguage": true,
 	"absent": false,
 	"inTeamAgency": false
 }
