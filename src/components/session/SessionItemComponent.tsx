@@ -95,7 +95,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				lastReadDivider.className =
 					'messageItem__divider messageItem__divider--lastRead';
 				firstUnreadItem.prepend(lastReadDivider);
-				console.log(firstUnreadItem);
 			}
 
 			if (isScrolledToBottom) {

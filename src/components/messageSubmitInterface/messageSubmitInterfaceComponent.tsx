@@ -383,6 +383,13 @@ export const MessageSubmitInterfaceComponent = (
 				'min-height: ' + maxHeight + 'px;'
 			);
 		}
+
+		const textareaContainer = textarea.closest('.textarea');
+		const textareaContainerHeight = textareaContainer.offsetHeight;
+		const scrollButton = textareaContainer
+			.closest('.session')
+			.getElementsByClassName('session__scrollToBottom')[0];
+		scrollButton.style.bottom = textareaContainerHeight + 24 + 'px';
 	};
 
 	const resetTextareaSize = (textarea) => {
