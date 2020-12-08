@@ -13,6 +13,7 @@ const registrationInformal = {
 	'password.insecure': 'Dein Passwort ist nicht sicher.',
 	'password.same': 'Dein Passwort ist identisch.',
 	'password.notSame': 'Dein Passwort ist nicht identisch.',
+	'password.note': 'Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!',
 	'email.infoText':
 		'Per E-Mail können wir Dich benachrichtigen, sobald eine Antwort auf Deine Anfrage vorliegt. Zudem kannst Du per E-Mail Dein Passwort zurücksetzen, wenn Du es vergessen hast.',
 	'email.valid': 'Deine E-Mail-Adresse ist gültig.',

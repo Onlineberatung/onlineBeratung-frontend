@@ -46,7 +46,7 @@ $spacingWithIcon: 52px;
 		line-height: (16/12);
 		text-align: left;
 		margin-left: 20px;
-		max-width: calc(#{$max-input-width} - #{$inputHeight});
+		max-width: calc(#{$max-input-width} - 75px);
 
 		& .empty-line {
 			display: block;
