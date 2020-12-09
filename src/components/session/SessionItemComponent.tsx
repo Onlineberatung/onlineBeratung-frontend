@@ -281,7 +281,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				>
 					{newMessages > 0 && (
 						<span className="session__unreadCount">
-							{newMessages}
+							{newMessages > 99 ? '99+' : newMessages}
 						</span>
 					)}
 					<Button
