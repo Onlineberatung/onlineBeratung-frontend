@@ -198,7 +198,9 @@ const Registration = () => {
 		validation.push(generalValidation ? true : false);
 
 		if (resortData.showPostCode) {
-			validation.push(postcode && agencyId ? true : false);
+			validation.push(
+				postcode && typeof agencyId === 'number' ? true : false
+			);
 		}
 		if (resortData.showEmail) {
 			validation.push(isEmailValid ? true : false);
@@ -631,6 +633,9 @@ const Registration = () => {
 								if (agency) {
 									setAgencyId(agency?.id);
 									setPostcode(agency?.typedPostcode);
+								} else {
+									setAgencyId('');
+									setPostcode('');
 								}
 							}}
 						/>

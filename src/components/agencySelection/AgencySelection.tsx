@@ -46,7 +46,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	const isSelectedAgencyValidated = () =>
 		selectedPostcode &&
 		selectedPostcode.length === VALID_POSTCODE_LENGTH.MAX &&
-		selectedAgencyId &&
+		typeof selectedAgencyId === 'number' &&
 		typedPostcode;
 
 	useEffect(() => {
