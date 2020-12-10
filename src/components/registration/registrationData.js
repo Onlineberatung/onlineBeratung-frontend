@@ -610,7 +610,7 @@ const registrationData = {
 		showEmail: true,
 		showPostCode: true
 	},
-	regional: {
+	men: {
 		consultingType: '20',
 		useInformal: false,
 		overline: 'Jungen- und Männerberatung',

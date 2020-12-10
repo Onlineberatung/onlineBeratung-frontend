@@ -18,6 +18,7 @@ declare global {
 			caritasMockedLogin(
 				args?: CaritasMockedLoginArgs
 			): Chainable<Element>;
+			checkForGenericRegistrationElements();
 		}
 	}
 }
@@ -119,3 +120,17 @@ Cypress.Commands.add(
 		cy.get('#appRoot').should('exist');
 	}
 );
+
+Cypress.Commands.add('checkForGenericRegistrationElements', () => {
+	cy.get('#loginLogoWrapper').should('exist');
+	cy.get('[data-consultingtype]').should('exist');
+	cy.get('.registration__overline').should('exist');
+	cy.get('.registration__headline').should('exist');
+	cy.get('#username').should('exist');
+	cy.get('#passwordInput').should('exist');
+	cy.get('#passwordConfirmation').should('exist');
+	cy.get('.registration__requiredInfoText').should('exist');
+	cy.get('#dataProtectionCheckbox').should('exist');
+	cy.get('.button__primary').should('exist');
+	cy.get('.registration__toLogin').should('exist');
+});
