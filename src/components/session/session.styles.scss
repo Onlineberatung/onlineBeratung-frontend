@@ -97,6 +97,10 @@ $sessionHeaderHeight: 85px;
 		z-index: 3;
 		animation: appear-animation 0.3s;
 
+		@include breakpoint($fromLarge) {
+			right: 33px;
+		}
+
 		&--disabled {
 			animation: disappear-animation 0.3s;
 			animation-fill-mode: forwards;
@@ -108,7 +112,7 @@ $sessionHeaderHeight: 85px;
 		justify-content: center;
 		align-items: center;
 		position: absolute;
-		top: 0;
+		top: -3px;
 		right: -9px;
 		width: 18px;
 		height: 18px;
@@ -180,13 +184,11 @@ $sessionHeaderHeight: 85px;
 
 @keyframes appear-animation {
 	0% {
-		opacity: 0.4;
-		transform: scale(0.8);
+		opacity: 0;
 	}
 
 	100% {
 		opacity: 1;
-		transform: scale(1);
 	}
 }
 
@@ -209,16 +211,9 @@ $sessionHeaderHeight: 85px;
 @keyframes disappear-animation {
 	0% {
 		opacity: 1;
-		transform: scale(1);
-	}
-
-	99% {
-		opacity: 0;
-		transform: scale(0.8);
 	}
 
 	100% {
 		opacity: 0;
-		transform: scale(0);
 	}
 }
