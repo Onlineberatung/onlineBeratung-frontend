@@ -19,7 +19,7 @@ const session = {
 	'monitoring.buttonLabel': 'Jetzt dokumentieren',
 	'teamConsultant.isAbsentPrefix': ' ist ',
 	'teamConsultant.isAbsent': 'abwesend',
-	'u25.assignment.placeholder': 'Beratung zuweisen',
+	'u25.assignment.placeholder': 'Beratung zuweisen'
 };
 
 export default session;
