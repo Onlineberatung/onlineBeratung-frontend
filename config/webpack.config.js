@@ -787,6 +787,17 @@ module.exports = function (webpackEnv) {
 				filename: 'registration.regionale-angebote.html',
 			}),
 			new HtmlWebpackPlugin({
+				title: 'Registrierung Jungen- und Männerberatung',
+				templateParameters: {
+					type: 'registration',
+					consultingType: 20,
+					resortName: 'men',
+				},
+				template: 'src/pages/app.html',
+				chunks: ['registration'],
+				filename: 'registration.jungen-und-maenner.html',
+			}),
+			new HtmlWebpackPlugin({
 				title: 'Error Page 401',
 				templateParameters: {
 					type: 'error',

@@ -609,6 +609,13 @@ const registrationData = {
 		overline: 'Regionale Angebote',
 		showEmail: true,
 		showPostCode: true
+	},
+	regional: {
+		consultingType: '20',
+		useInformal: false,
+		overline: 'Jungen- und Männerberatung',
+		showEmail: true,
+		showPostCode: true
 	}
 };
 
