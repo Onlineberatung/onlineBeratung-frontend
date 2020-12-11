@@ -1,8 +1,4 @@
-import {
-	translate,
-	handleNumericTranslation
-} from '../../resources/scripts/i18n/translate';
-import { getUserDataTranslateBase } from '../profile/profileHelpers';
+import { translate } from '../../resources/scripts/i18n/translate';
 
 const registrationData = {
 	addiction: {
@@ -19,29 +15,17 @@ const registrationData = {
 				radioButtons: [
 					{
 						inputId: 'affected',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'relation',
-							0
-						),
+						label: translate('user.userAddiction.relation.0'),
 						checked: false
 					},
 					{
 						inputId: 'relative',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'relation',
-							1
-						),
+						label: translate('user.userAddiction.relation.1'),
 						checked: false
 					},
 					{
 						inputId: 'otherType',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'relation',
-							2
-						),
+						label: translate('user.userAddiction.relation.2'),
 						checked: false
 					}
 				]
@@ -55,75 +39,39 @@ const registrationData = {
 				tagSelects: [
 					{
 						id: 'alcohol',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'addictiveDrugs',
-							0
-						)
+						label: translate('user.userAddiction.addictiveDrugs.0')
 					},
 					{
 						id: 'drugs',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'addictiveDrugs',
-							1
-						)
+						label: translate('user.userAddiction.addictiveDrugs.1')
 					},
 					{
 						id: 'legalHighs',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'addictiveDrugs',
-							2
-						)
+						label: translate('user.userAddiction.addictiveDrugs.2')
 					},
 					{
 						id: 'tabacco',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'addictiveDrugs',
-							3
-						)
+						label: translate('user.userAddiction.addictiveDrugs.3')
 					},
 					{
 						id: 'medication',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'addictiveDrugs',
-							4
-						)
+						label: translate('user.userAddiction.addictiveDrugs.4')
 					},
 					{
 						id: 'gambling',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'addictiveDrugs',
-							5
-						)
+						label: translate('user.userAddiction.addictiveDrugs.5')
 					},
 					{
 						id: 'internetUse',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'addictiveDrugs',
-							6
-						)
+						label: translate('user.userAddiction.addictiveDrugs.6')
 					},
 					{
 						id: 'eatingDisorder',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'addictiveDrugs',
-							7
-						)
+						label: translate('user.userAddiction.addictiveDrugs.7')
 					},
 					{
 						id: 'otherDrug',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'addictiveDrugs',
-							8
-						)
+						label: translate('user.userAddiction.addictiveDrugs.8')
 					}
 				]
 			},
@@ -136,51 +84,27 @@ const registrationData = {
 					selectedOptions: [
 						{
 							value: '0',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(0),
-								'age',
-								0
-							)
+							label: translate('user.userAddiction.age.0')
 						},
 						{
 							value: '1',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(0),
-								'age',
-								1
-							)
+							label: translate('user.userAddiction.age.1')
 						},
 						{
 							value: '2',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(0),
-								'age',
-								2
-							)
+							label: translate('user.userAddiction.age.2')
 						},
 						{
 							value: '3',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(0),
-								'age',
-								3
-							)
+							label: translate('user.userAddiction.age.3')
 						},
 						{
 							value: '4',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(0),
-								'age',
-								4
-							)
+							label: translate('user.userAddiction.age.4')
 						},
 						{
 							value: '5',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(0),
-								'age',
-								5
-							)
+							label: translate('user.userAddiction.age.5')
 						}
 					],
 					selectInputLabel: translate(
@@ -198,29 +122,17 @@ const registrationData = {
 				radioButtons: [
 					{
 						inputId: 'female',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'gender',
-							0
-						),
+						label: translate('user.userAddiction.gender.0'),
 						checked: false
 					},
 					{
 						inputId: 'male',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'gender',
-							1
-						),
+						label: translate('user.userAddiction.gender.1'),
 						checked: false
 					},
 					{
 						inputId: 'diverseGender',
-						label: handleNumericTranslation(
-							getUserDataTranslateBase(0),
-							'gender',
-							2
-						),
+						label: translate('user.userAddiction.gender.2'),
 						checked: false
 					}
 				]
@@ -243,131 +155,67 @@ const registrationData = {
 					selectedOptions: [
 						{
 							value: '0',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								0
-							)
+							label: translate('user.userU25.age.0')
 						},
 						{
 							value: '1',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								1
-							)
+							label: translate('user.userU25.age.1')
 						},
 						{
 							value: '2',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								2
-							)
+							label: translate('user.userU25.age.2')
 						},
 						{
 							value: '3',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								3
-							)
+							label: translate('user.userU25.age.3')
 						},
 						{
 							value: '4',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								4
-							)
+							label: translate('user.userU25.age.4')
 						},
 						{
 							value: '5',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								5
-							)
+							label: translate('user.userU25.age.5')
 						},
 						{
 							value: '6',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								6
-							)
+							label: translate('user.userU25.age.6')
 						},
 						{
 							value: '7',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								7
-							)
+							label: translate('user.userU25.age.7')
 						},
 						{
 							value: '8',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								8
-							)
+							label: translate('user.userU25.age.8')
 						},
 						{
 							value: '9',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								9
-							)
+							label: translate('user.userU25.age.9')
 						},
 						{
 							value: '10',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								10
-							)
+							label: translate('user.userU25.age.10')
 						},
 						{
 							value: '11',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								11
-							)
+							label: translate('user.userU25.age.11')
 						},
 						{
 							value: '12',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								12
-							)
+							label: translate('user.userU25.age.12')
 						},
 						{
 							value: '13',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								13
-							)
+							label: translate('user.userU25.age.13')
 						},
 						{
 							value: '14',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								14
-							)
+							label: translate('user.userU25.age.14')
 						},
 						{
 							value: '15',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								15
-							)
+							label: translate('user.userU25.age.15')
 						}
 					],
 					selectInputLabel: translate('user.userU25.age.selectLabel'),
@@ -502,59 +350,31 @@ const registrationData = {
 					selectedOptions: [
 						{
 							value: '50',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								50
-							)
+							label: translate('user.userU25.age.50')
 						},
 						{
 							value: '51',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								51
-							)
+							label: translate('user.userU25.age.51')
 						},
 						{
 							value: '52',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								52
-							)
+							label: translate('user.userU25.age.52')
 						},
 						{
 							value: '53',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								53
-							)
+							label: translate('user.userU25.age.53')
 						},
 						{
 							value: '54',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								54
-							)
+							label: translate('user.userU25.age.54')
 						},
 						{
 							value: '55',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								55
-							)
+							label: translate('user.userU25.age.55')
 						},
 						{
 							value: '56',
-							label: handleNumericTranslation(
-								getUserDataTranslateBase(1),
-								'age',
-								56
-							)
+							label: translate('user.userU25.age.56')
 						}
 					],
 					selectInputLabel: translate('user.userU25.age.selectLabel'),
