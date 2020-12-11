@@ -622,7 +622,7 @@ const registrationData = {
 	men: {
 		consultingType: '20',
 		useInformal: false,
-		overline: 'Jungen- und Männerberatung',
+		overline: translate('registration.overline.men'),
 		showEmail: true,
 		showPostCode: true
 	}
