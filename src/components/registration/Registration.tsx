@@ -369,11 +369,11 @@ const Registration = () => {
 		const generalRegistrationData = {
 			username: username,
 			password: encodeURIComponent(password),
+			agencyId: agencyId.toString(),
+			postcode: postcode,
 			consultingType: consultingType?.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
-			...(email && { email: email }),
-			...(postcode && { postcode: postcode }),
-			...(agencyId && { agencyId: agencyId.toString() })
+			...(email && { email: email })
 		};
 
 		let generatedRegistrationData = {};
