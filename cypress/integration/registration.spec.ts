@@ -1,10 +1,24 @@
 import { config } from '../../src/resources/scripts/config';
 
+const checkForGenericRegistrationElements = () => {
+	cy.get('#loginLogoWrapper').should('exist');
+	cy.get('[data-consultingtype]').should('exist');
+	cy.get('.registration__overline').should('exist');
+	cy.get('.registration__headline').should('exist');
+	cy.get('#username').should('exist');
+	cy.get('#passwordInput').should('exist');
+	cy.get('#passwordConfirmation').should('exist');
+	cy.get('.registration__requiredInfoText').should('exist');
+	cy.get('#dataProtectionCheckbox').should('exist');
+	cy.get('.button__primary').should('exist');
+	cy.get('.registration__toLogin').should('exist');
+};
+
 describe('registration', () => {
 	describe('addiction', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.suchtberatung.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -16,7 +30,7 @@ describe('registration', () => {
 	describe('u25', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.u25.html?aid=1');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have a password reset info text', () => {
@@ -37,7 +51,7 @@ describe('registration', () => {
 	describe('pregnancy', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.schwangerschaftsberatung.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -49,7 +63,7 @@ describe('registration', () => {
 	describe('parenting', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.eltern-familie.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -61,7 +75,7 @@ describe('registration', () => {
 	describe('cure', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.kurberatung.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -73,7 +87,7 @@ describe('registration', () => {
 	describe('debt', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.schuldnerberatung.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -85,7 +99,7 @@ describe('registration', () => {
 	describe('social', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.allgemeine-soziale-beratung.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -97,7 +111,7 @@ describe('registration', () => {
 	describe('seniority', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.leben-im-alter.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -111,7 +125,7 @@ describe('registration', () => {
 			cy.visit(
 				'/registration.behinderung-und-psychische-erkrankung.html'
 			);
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -125,7 +139,7 @@ describe('registration', () => {
 	describe('planB', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.mein-planb.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -137,7 +151,7 @@ describe('registration', () => {
 	describe('law', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.rechtliche-betreuung.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -149,7 +163,7 @@ describe('registration', () => {
 	describe('offender', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.straffaelligkeit.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -161,7 +175,7 @@ describe('registration', () => {
 	describe('aids', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.hiv-aids-beratung.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -173,7 +187,7 @@ describe('registration', () => {
 	describe('rehabilitation', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.kinder-reha.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -185,7 +199,7 @@ describe('registration', () => {
 	describe('children', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.kinder-jugendliche.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -197,7 +211,7 @@ describe('registration', () => {
 	describe('kreuzbund', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.kb-sucht-selbsthilfe.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -209,7 +223,7 @@ describe('registration', () => {
 	describe('migration', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.migration.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -221,7 +235,7 @@ describe('registration', () => {
 	describe('emigration', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.rw-auswanderung.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -233,7 +247,7 @@ describe('registration', () => {
 	describe('hospice', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.hospiz-palliativ.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -245,7 +259,7 @@ describe('registration', () => {
 	describe('regional', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.regionale-angebote.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
@@ -257,7 +271,7 @@ describe('registration', () => {
 	describe('men', () => {
 		it('should have all generic registration page elements', () => {
 			cy.visit('/registration.jungen-und-maenner.html');
-			cy.checkForGenericRegistrationElements();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
