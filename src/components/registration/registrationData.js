@@ -1,109 +1,115 @@
+import { translate } from '../../resources/scripts/i18n/translate';
+
 const registrationData = {
 	addiction: {
 		consultingType: '0',
 		useInformal: false,
-		overline: 'Suchtberatung',
+		overline: translate('registration.overline.addiction'),
 		showEmail: true,
 		showPostCode: true,
 		voluntaryComponents: [
 			{
 				componentType: 'RadioButton',
-				headline: 'Hintergrund',
+				headline: translate('user.userAddiction.relation.headline'),
 				name: 'relation',
 				radioButtons: [
 					{
 						inputId: 'affected',
-						label: 'Betroffen',
+						label: translate('user.userAddiction.relation.0'),
 						checked: false
 					},
 					{
 						inputId: 'relative',
-						label: 'Angehörig',
+						label: translate('user.userAddiction.relation.1'),
 						checked: false
 					},
 					{
 						inputId: 'otherType',
-						label: 'Anderes',
+						label: translate('user.userAddiction.relation.2'),
 						checked: false
 					}
 				]
 			},
 			{
 				componentType: 'TagSelect',
-				headline: 'Suchtmittel',
+				headline: translate(
+					'user.userAddiction.addictiveDrugs.headline'
+				),
 				name: 'addictiveDrugs',
 				tagSelects: [
 					{
 						id: 'alcohol',
-						label: 'Alkohol'
+						label: translate('user.userAddiction.addictiveDrugs.0')
 					},
 					{
 						id: 'drugs',
-						label: 'Drogen'
+						label: translate('user.userAddiction.addictiveDrugs.1')
 					},
 					{
 						id: 'legalHighs',
-						label: 'Legal Highs'
+						label: translate('user.userAddiction.addictiveDrugs.2')
 					},
 					{
 						id: 'tabacco',
-						label: 'Tabak'
+						label: translate('user.userAddiction.addictiveDrugs.3')
 					},
 					{
 						id: 'medication',
-						label: 'Medikamente'
+						label: translate('user.userAddiction.addictiveDrugs.4')
 					},
 					{
 						id: 'gambling',
-						label: 'Glücksspiel'
+						label: translate('user.userAddiction.addictiveDrugs.5')
 					},
 					{
 						id: 'internetUse',
-						label: 'Internet/Computer'
+						label: translate('user.userAddiction.addictiveDrugs.6')
 					},
 					{
 						id: 'eatingDisorder',
-						label: 'Essstörung'
+						label: translate('user.userAddiction.addictiveDrugs.7')
 					},
 					{
 						id: 'otherDrug',
-						label: 'Andere'
+						label: translate('user.userAddiction.addictiveDrugs.8')
 					}
 				]
 			},
 			{
 				componentType: 'SelectDropdown',
-				headline: 'Alter',
+				headline: translate('user.userAddiction.age.headline'),
 				name: 'age',
 				item: {
 					id: 'ageSelect',
 					selectedOptions: [
 						{
 							value: '0',
-							label: '0-17'
+							label: translate('user.userAddiction.age.0')
 						},
 						{
 							value: '1',
-							label: '18-20'
+							label: translate('user.userAddiction.age.1')
 						},
 						{
 							value: '2',
-							label: '21-30'
+							label: translate('user.userAddiction.age.2')
 						},
 						{
 							value: '3',
-							label: '31-40'
+							label: translate('user.userAddiction.age.3')
 						},
 						{
 							value: '4',
-							label: '41-59'
+							label: translate('user.userAddiction.age.4')
 						},
 						{
 							value: '5',
-							label: '60+'
+							label: translate('user.userAddiction.age.5')
 						}
 					],
-					selectInputLabel: 'Alter auswählen',
+					selectInputLabel: translate(
+						'user.userAddiction.age.selectLabel'
+					),
 					useIconOption: false,
 					isSearchable: false,
 					menuPlacement: 'bottom'
@@ -111,22 +117,22 @@ const registrationData = {
 			},
 			{
 				componentType: 'RadioButton',
-				headline: 'Geschlecht',
+				headline: translate('user.userAddiction.gender.headline'),
 				name: 'gender',
 				radioButtons: [
 					{
 						inputId: 'female',
-						label: 'Weiblich',
+						label: translate('user.userAddiction.gender.0'),
 						checked: false
 					},
 					{
 						inputId: 'male',
-						label: 'Männlich',
+						label: translate('user.userAddiction.gender.1'),
 						checked: false
 					},
 					{
 						inputId: 'diverseGender',
-						label: 'Divers',
+						label: translate('user.userAddiction.gender.2'),
 						checked: false
 					}
 				]
@@ -136,7 +142,7 @@ const registrationData = {
 	u25: {
 		consultingType: '1',
 		useInformal: true,
-		overline: 'Beratung für Suizidgefährdete junge Menschen [U25]',
+		overline: translate('registration.overline.u25'),
 		showEmail: false,
 		showPostCode: false,
 		requiredComponents: [
@@ -149,70 +155,70 @@ const registrationData = {
 					selectedOptions: [
 						{
 							value: '0',
-							label: 'unter 12'
+							label: translate('user.userU25.age.0')
 						},
 						{
 							value: '1',
-							label: '12'
+							label: translate('user.userU25.age.1')
 						},
 						{
 							value: '2',
-							label: '13'
+							label: translate('user.userU25.age.2')
 						},
 						{
 							value: '3',
-							label: '14'
+							label: translate('user.userU25.age.3')
 						},
 						{
 							value: '4',
-							label: '15'
+							label: translate('user.userU25.age.4')
 						},
 						{
 							value: '5',
-							label: '16'
+							label: translate('user.userU25.age.5')
 						},
 						{
 							value: '6',
-							label: '17'
+							label: translate('user.userU25.age.6')
 						},
 						{
 							value: '7',
-							label: '18'
+							label: translate('user.userU25.age.7')
 						},
 						{
 							value: '8',
-							label: '19'
+							label: translate('user.userU25.age.8')
 						},
 						{
 							value: '9',
-							label: '20'
+							label: translate('user.userU25.age.9')
 						},
 						{
 							value: '10',
-							label: '21'
+							label: translate('user.userU25.age.10')
 						},
 						{
 							value: '11',
-							label: '22'
+							label: translate('user.userU25.age.11')
 						},
 						{
 							value: '12',
-							label: '23'
+							label: translate('user.userU25.age.12')
 						},
 						{
 							value: '13',
-							label: '24'
+							label: translate('user.userU25.age.13')
 						},
 						{
 							value: '14',
-							label: '25'
+							label: translate('user.userU25.age.14')
 						},
 						{
 							value: '15',
-							label: 'über 25'
+							label: translate('user.userU25.age.15')
 						}
 					],
-					selectInputLabel: 'Alter auswählen*',
+					selectInputLabel: translate('user.userU25.age.selectLabel'),
 					useIconOption: false,
 					isSearchable: false,
 					menuPlacement: 'bottom'
@@ -227,74 +233,76 @@ const registrationData = {
 					selectedOptions: [
 						{
 							value: '1',
-							label: 'Baden-Württemberg'
+							label: translate('user.userU25.state.1')
 						},
 						{
 							value: '2',
-							label: 'Bayern'
+							label: translate('user.userU25.state.2')
 						},
 						{
 							value: '3',
-							label: 'Berlin'
+							label: translate('user.userU25.state.3')
 						},
 						{
 							value: '4',
-							label: 'Brandenburg'
+							label: translate('user.userU25.state.4')
 						},
 						{
 							value: '5',
-							label: 'Bremen'
+							label: translate('user.userU25.state.5')
 						},
 						{
 							value: '6',
-							label: 'Hamburg'
+							label: translate('user.userU25.state.6')
 						},
 						{
 							value: '7',
-							label: 'Hessen'
+							label: translate('user.userU25.state.7')
 						},
 						{
 							value: '8',
-							label: 'Mecklenburg-Vorpommern'
+							label: translate('user.userU25.state.8')
 						},
 						{
 							value: '9',
-							label: 'Niedersachsen'
+							label: translate('user.userU25.state.9')
 						},
 						{
 							value: '10',
-							label: 'Nordrhein-Westfalen'
+							label: translate('user.userU25.state.10')
 						},
 						{
 							value: '11',
-							label: 'Rheinland-Pfalz'
+							label: translate('user.userU25.state.11')
 						},
 						{
 							value: '12',
-							label: 'Saarland'
+							label: translate('user.userU25.state.12')
 						},
 						{
 							value: '13',
-							label: 'Sachsen'
+							label: translate('user.userU25.state.13')
 						},
 						{
 							value: '14',
-							label: 'Sachsen-Anhalt'
+							label: translate('user.userU25.state.14')
 						},
 						{
 							value: '15',
-							label: 'Schleswig-Holstein'
+							label: translate('user.userU25.state.15')
 						},
 						{
 							value: '16',
-							label: 'Thüringen'
+							label: translate('user.userU25.state.16')
 						},
 						{
 							value: '0',
-							label: 'außerhalb Deutschlands'
+							label: translate('user.userU25.state.0')
 						}
 					],
-					selectInputLabel: 'Bundesland auswählen*',
+					selectInputLabel: translate(
+						'user.userU25.state.selectLabel'
+					),
 					useIconOption: false,
 					isSearchable: false,
 					menuPlacement: 'bottom'
@@ -304,22 +312,22 @@ const registrationData = {
 		voluntaryComponents: [
 			{
 				componentType: 'RadioButton',
-				headline: 'Geschlecht',
+				headline: translate('user.userU25.gender.headline'),
 				name: 'gender',
 				radioButtons: [
 					{
 						inputId: 'female',
-						label: 'Weiblich',
+						label: translate('user.userU25.gender.0'),
 						checked: false
 					},
 					{
 						inputId: 'male',
-						label: 'Männlich',
+						label: translate('user.userU25.gender.1'),
 						checked: false
 					},
 					{
 						inputId: 'diverseGender',
-						label: 'Divers',
+						label: translate('user.userU25.gender.2'),
 						checked: false
 					}
 				]
@@ -329,8 +337,7 @@ const registrationData = {
 	gemeinsamstatteinsam: {
 		consultingType: '1',
 		useInformal: true,
-		overline:
-			'#gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten',
+		overline: translate('registration.overline.gemeinsamstatteinsam'),
 		showEmail: false,
 		showPostCode: false,
 		requiredComponents: [
@@ -343,34 +350,34 @@ const registrationData = {
 					selectedOptions: [
 						{
 							value: '50',
-							label: '20'
+							label: translate('user.userU25.age.50')
 						},
 						{
 							value: '51',
-							label: '21'
+							label: translate('user.userU25.age.51')
 						},
 						{
 							value: '52',
-							label: '22'
+							label: translate('user.userU25.age.52')
 						},
 						{
 							value: '53',
-							label: '23'
+							label: translate('user.userU25.age.53')
 						},
 						{
 							value: '54',
-							label: '24'
+							label: translate('user.userU25.age.54')
 						},
 						{
 							value: '55',
-							label: '25'
+							label: translate('user.userU25.age.55')
 						},
 						{
 							value: '56',
-							label: '26'
+							label: translate('user.userU25.age.56')
 						}
 					],
-					selectInputLabel: 'Alter auswählen*',
+					selectInputLabel: translate('user.userU25.age.selectLabel'),
 					useIconOption: false,
 					isSearchable: false,
 					menuPlacement: 'bottom'
@@ -385,74 +392,76 @@ const registrationData = {
 					selectedOptions: [
 						{
 							value: '1',
-							label: 'Baden-Württemberg'
+							label: translate('user.userU25.state.1')
 						},
 						{
 							value: '2',
-							label: 'Bayern'
+							label: translate('user.userU25.state.2')
 						},
 						{
 							value: '3',
-							label: 'Berlin'
+							label: translate('user.userU25.state.3')
 						},
 						{
 							value: '4',
-							label: 'Brandenburg'
+							label: translate('user.userU25.state.4')
 						},
 						{
 							value: '5',
-							label: 'Bremen'
+							label: translate('user.userU25.state.5')
 						},
 						{
 							value: '6',
-							label: 'Hamburg'
+							label: translate('user.userU25.state.6')
 						},
 						{
 							value: '7',
-							label: 'Hessen'
+							label: translate('user.userU25.state.7')
 						},
 						{
 							value: '8',
-							label: 'Mecklenburg-Vorpommern'
+							label: translate('user.userU25.state.8')
 						},
 						{
 							value: '9',
-							label: 'Niedersachsen'
+							label: translate('user.userU25.state.9')
 						},
 						{
 							value: '10',
-							label: 'Nordrhein-Westfalen'
+							label: translate('user.userU25.state.10')
 						},
 						{
 							value: '11',
-							label: 'Rheinland-Pfalz'
+							label: translate('user.userU25.state.11')
 						},
 						{
 							value: '12',
-							label: 'Saarland'
+							label: translate('user.userU25.state.12')
 						},
 						{
 							value: '13',
-							label: 'Sachsen'
+							label: translate('user.userU25.state.13')
 						},
 						{
 							value: '14',
-							label: 'Sachsen-Anhalt'
+							label: translate('user.userU25.state.14')
 						},
 						{
 							value: '15',
-							label: 'Schleswig-Holstein'
+							label: translate('user.userU25.state.15')
 						},
 						{
 							value: '16',
-							label: 'Thüringen'
+							label: translate('user.userU25.state.16')
 						},
 						{
 							value: '0',
-							label: 'außerhalb Deutschlands'
+							label: translate('user.userU25.state.0')
 						}
 					],
-					selectInputLabel: 'Bundesland auswählen*',
+					selectInputLabel: translate(
+						'user.userU25.state.selectLabel'
+					),
 					useIconOption: false,
 					isSearchable: false,
 					menuPlacement: 'bottom'
@@ -462,22 +471,22 @@ const registrationData = {
 		voluntaryComponents: [
 			{
 				componentType: 'RadioButton',
-				headline: 'Geschlecht',
+				headline: translate('user.userU25.gender.headline'),
 				name: 'gender',
 				radioButtons: [
 					{
 						inputId: 'female',
-						label: 'Weiblich',
+						label: translate('user.userU25.gender.0'),
 						checked: false
 					},
 					{
 						inputId: 'male',
-						label: 'Männlich',
+						label: translate('user.userU25.gender.1'),
 						checked: false
 					},
 					{
 						inputId: 'diverseGender',
-						label: 'Divers',
+						label: translate('user.userU25.gender.2'),
 						checked: false
 					}
 				]
@@ -487,126 +496,126 @@ const registrationData = {
 	pregnancy: {
 		consultingType: '2',
 		useInformal: true,
-		overline: 'Schwangerschaftsberatung',
+		overline: translate('registration.overline.pregnancy'),
 		showEmail: true,
 		showPostCode: true
 	},
 	parenting: {
 		consultingType: '3',
 		useInformal: false,
-		overline: 'Beratung für Eltern und Familien',
+		overline: translate('registration.overline.parenting'),
 		showEmail: true,
 		showPostCode: true
 	},
 	cure: {
 		consultingType: '4',
 		useInformal: false,
-		overline: 'Kurberatung für Mütter und Väter',
+		overline: translate('registration.overline.cure'),
 		showEmail: true,
 		showPostCode: true
 	},
 	debt: {
 		consultingType: '5',
 		useInformal: false,
-		overline: 'Beratung zum Thema Schulden',
+		overline: translate('registration.overline.debt'),
 		showEmail: true,
 		showPostCode: true
 	},
 	social: {
 		consultingType: '6',
 		useInformal: false,
-		overline: 'Allgemeine Sozialberatung',
+		overline: translate('registration.overline.social'),
 		showEmail: true,
 		showPostCode: true
 	},
 	seniority: {
 		consultingType: '7',
 		useInformal: false,
-		overline: 'Leben im Alter',
+		overline: translate('registration.overline.seniority'),
 		showEmail: true,
 		showPostCode: true
 	},
 	disability: {
 		consultingType: '8',
 		useInformal: false,
-		overline: 'Leben mit Behinderung und psychischer Erkrankung',
+		overline: translate('registration.overline.disability'),
 		showEmail: true,
 		showPostCode: true
 	},
 	planB: {
 		consultingType: '9',
 		useInformal: true,
-		overline: 'Mein PlanB: Beratung zwischen Schule und Beruf',
+		overline: translate('registration.overline.planB'),
 		showEmail: true,
 		showPostCode: true
 	},
 	law: {
 		consultingType: '10',
 		useInformal: false,
-		overline: 'Rechtliche Betreuung und Vorsorge',
+		overline: translate('registration.overline.law'),
 		showEmail: true,
 		showPostCode: true
 	},
 	offender: {
 		consultingType: '11',
 		useInformal: false,
-		overline: 'Beratung für Angehörige von Straffälligen',
+		overline: translate('registration.overline.offender'),
 		showEmail: true,
 		showPostCode: true
 	},
 	aids: {
 		consultingType: '12',
 		useInformal: false,
-		overline: 'HIV/AIDS Beratung',
+		overline: translate('registration.overline.aids'),
 		showEmail: true,
 		showPostCode: true
 	},
 	rehabilitation: {
 		consultingType: '13',
 		useInformal: false,
-		overline: 'Kinder- und Jugend-Rehabilitation',
+		overline: translate('registration.overline.rehabilitation'),
 		showEmail: true,
 		showPostCode: false
 	},
 	children: {
 		consultingType: '14',
 		useInformal: true,
-		overline: 'Beratung für Kinder und Jugendliche',
+		overline: translate('registration.overline.children'),
 		showEmail: true,
 		showPostCode: true
 	},
 	kreuzbund: {
 		consultingType: '15',
 		useInformal: false,
-		overline: 'Sucht-Selbsthilfe - Kreuzbund-Chat',
+		overline: translate('registration.overline.kreuzbund'),
 		showEmail: true,
 		showPostCode: false
 	},
 	migration: {
 		consultingType: '16',
 		useInformal: false,
-		overline: 'Migrationsberatung',
+		overline: translate('registration.overline.migration'),
 		showEmail: true,
 		showPostCode: true
 	},
 	emigration: {
 		consultingType: '17',
 		useInformal: false,
-		overline: 'Aus-/Rück- & Weiterwanderung',
+		overline: translate('registration.overline.emigration'),
 		showEmail: true,
 		showPostCode: true
 	},
 	hospice: {
 		consultingType: '18',
 		useInformal: false,
-		overline: 'Hospiz-, Palliativ- und Trauerberatung',
+		overline: translate('registration.overline.hospice'),
 		showEmail: true,
 		showPostCode: true
 	},
 	regional: {
 		consultingType: '19',
 		useInformal: false,
-		overline: 'Regionale Angebote',
+		overline: translate('registration.overline.regional'),
 		showEmail: true,
 		showPostCode: true
 	}

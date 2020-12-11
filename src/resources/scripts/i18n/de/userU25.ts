@@ -1,4 +1,5 @@
 const userU25 = {
+	'userU25.age.selectLabel': 'Alter auswählen*',
 	'userU25.age.0': 'unter 12',
 	'userU25.age.1': '12',
 	'userU25.age.2': '13',
@@ -22,6 +23,7 @@ const userU25 = {
 	'userU25.age.54': '24',
 	'userU25.age.55': '25',
 	'userU25.age.56': '26',
+	'userU25.state.selectLabel': 'Bundesland auswählen*',
 	'userU25.state.0': 'außerhalb Deutschlands',
 	'userU25.state.1': 'Baden-Württemberg',
 	'userU25.state.2': 'Bayern',
@@ -39,6 +41,7 @@ const userU25 = {
 	'userU25.state.14': 'Sachsen-Anhalt',
 	'userU25.state.15': 'Schleswig-Holstein',
 	'userU25.state.16': 'Thüringen',
+	'userU25.gender.headline': 'Geschlecht',
 	'userU25.gender.0': 'Weiblich',
 	'userU25.gender.1': 'Männlich',
 	'userU25.gender.2': 'Divers'
