@@ -64,7 +64,7 @@ import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xl
 import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
 import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
 import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
-import useDebounce from '../../resources/scripts/helpers/useDebounce';
+import useDebouncedValue from '../../resources/scripts/helpers/useDebouncedValue';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
@@ -166,7 +166,7 @@ export const MessageSubmitInterfaceComponent = (
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
 	const currentDraftMessageRef = useRef<string>();
-	const debouncedDraftMessage = useDebounce(
+	const debouncedDraftMessage = useDebouncedValue(
 		currentDraftMessageRef.current,
 		SAVE_DRAFT_TIMEOUT
 	);
@@ -391,6 +391,15 @@ export const MessageSubmitInterfaceComponent = (
 				'style',
 				'min-height: ' + maxHeight + 'px;'
 			);
+		}
+
+		const textareaContainer = textarea.closest('.textarea');
+		const textareaContainerHeight = textareaContainer.offsetHeight;
+		const scrollButton = textareaContainer
+			.closest('.session')
+			?.getElementsByClassName('session__scrollToBottom')[0];
+		if (scrollButton) {
+			scrollButton.style.bottom = textareaContainerHeight + 24 + 'px';
 		}
 	};
 

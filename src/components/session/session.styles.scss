@@ -50,7 +50,7 @@ $sessionHeaderHeight: 85px;
 
 	.messageItem {
 		.enquiryPreview {
-			&__date {
+			&__divider {
 				padding-top: 5px;
 			}
 			&__message {
@@ -89,6 +89,44 @@ $sessionHeaderHeight: 85px;
 			height: calc(100% - #{$sessionHeaderHeight} - #{$textareaHeight});
 		}
 	}
+
+	&__scrollToBottom {
+		position: fixed;
+		right: 24px;
+		bottom: 152px;
+		z-index: 3;
+		animation: appear-animation 0.3s;
+
+		@include breakpoint($fromLarge) {
+			right: 33px;
+		}
+
+		&--disabled {
+			animation: disappear-animation 0.3s;
+			animation-fill-mode: forwards;
+		}
+	}
+
+	&__unreadCount {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		top: -3px;
+		right: -9px;
+		width: 18px;
+		height: 18px;
+		background-color: $primary;
+		font-family: $font-family-medium;
+		font-weight: $font-weight-medium;
+		font-size: 10px;
+		color: $white;
+		border-radius: 100%;
+		z-index: 1;
+		pointer-events: none;
+		animation: bounce-appear-animation 0.3s;
+	}
+
 	&--empty {
 		justify-content: center;
 		align-items: center;
@@ -141,5 +179,41 @@ $sessionHeaderHeight: 85px;
 		@include breakpoint($fromLarge) {
 			width: unset;
 		}
+	}
+}
+
+@keyframes appear-animation {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes bounce-appear-animation {
+	0% {
+		opacity: 0.4;
+		transform: scale(0.8);
+	}
+
+	80% {
+		opacity: 1;
+		transform: scale(1.2);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes disappear-animation {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
 	}
 }
