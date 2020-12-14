@@ -327,12 +327,12 @@ const groupChatStoppedOverlay: OverlayItem = {
 	buttonSet: [
 		{
 			label: translate('groupChat.stopped.overlay.button1Label'),
-			function: OVERLAY_FUNCTIONS.LOGOUT,
+			function: OVERLAY_FUNCTIONS.REDIRECT,
 			type: BUTTON_TYPES.PRIMARY
 		},
 		{
 			label: translate('groupChat.stopped.overlay.button2Label'),
-			function: OVERLAY_FUNCTIONS.REDIRECT,
+			function: OVERLAY_FUNCTIONS.LOGOUT,
 			type: BUTTON_TYPES.GHOST
 		}
 	]
