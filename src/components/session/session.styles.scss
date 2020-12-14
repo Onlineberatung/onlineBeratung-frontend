@@ -92,8 +92,8 @@ $sessionHeaderHeight: 85px;
 
 	&__scrollToBottom {
 		position: fixed;
-		right: 24px;
-		bottom: 152px;
+		right: $grid-base-three;
+		bottom: calc(#{$grid-base} * 19);
 		z-index: 3;
 		animation: appear-animation 0.3s;
 
