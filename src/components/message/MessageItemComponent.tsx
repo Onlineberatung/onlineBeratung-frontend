@@ -72,7 +72,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const getMessageDate = () => {
 		if (props.messageDate) {
 			return (
-				<div className="messageItem__date">
+				<div className="messageItem__divider">
 					{typeof props.messageDate === 'number'
 						? getPrettyDateFromMessageDate(props.messageDate)
 						: props.messageDate}

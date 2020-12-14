@@ -38,6 +38,9 @@ import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/c
 import { Link } from 'react-router-dom';
 import './session.styles';
 import './session.yellowTheme.styles';
+import { useDebouncedCallback } from 'use-debounce';
+import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
+import smoothScroll from './smoothScrollHelper';
 
 interface SessionItemProps {
 	messages: MessageItem[];
@@ -45,6 +48,8 @@ interface SessionItemProps {
 	typingUsers: string[];
 	currentGroupId: string;
 }
+
+let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
 	let { sessionsData } = useContext(SessionsDataContext);
@@ -63,12 +68,59 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
+	const [newMessages, setNewMessages] = useState(0);
 
 	useEffect(() => {
+		resetUnreadCount();
 		scrollToEnd(0);
-	}, []);
+	}, []); // eslint-disable-line
+
+	useEffect(() => {
+		if (isMyMessage(messages[messages.length - 1]?.userId)) {
+			resetUnreadCount();
+			scrollToEnd(0, true);
+		} else {
+			// if first unread message -> prepend element
+			if (newMessages === 0 && !isScrolledToBottom) {
+				const scrollContainer = scrollContainerRef.current;
+				const firstUnreadItem = Array.from(
+					scrollContainer.querySelectorAll('.messageItem')
+				).pop();
+				const lastReadDivider = document.createElement('div');
+				lastReadDivider.innerHTML = translate(
+					'session.divider.lastRead'
+				);
+				lastReadDivider.className =
+					'messageItem__divider messageItem__divider--lastRead';
+				firstUnreadItem.prepend(lastReadDivider);
+			}
+
+			if (isScrolledToBottom) {
+				resetUnreadCount();
+				scrollToEnd(0, true);
+			}
+
+			setNewMessages(messages.length - initMessageCount);
+		}
+	}, [messages.length]); // eslint-disable-line
+
+	useEffect(() => {
+		if (isScrolledToBottom) {
+			resetUnreadCount();
+		}
+	}, [isScrolledToBottom]); // eslint-disable-line
 
 	if (!activeSession) return null;
+
+	const resetUnreadCount = () => {
+		setNewMessages(0);
+		initMessageCount = messages.length;
+		scrollContainerRef.current
+			.querySelectorAll('.messageItem__divider--lastRead')
+			.forEach((e) => e.remove());
+	};
 
 	const getPlaceholder = () => {
 		if (isGroupChat) {
@@ -112,6 +164,49 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		setIsRequestInProgress(false);
 		setCurrenGroupId('');
 		setAcceptedGroupId(currentGroupId);
+	};
+
+	/* eslint-disable */
+	const handleScroll = useDebouncedCallback((e) => {
+		const scrollPosition = Math.round(
+			e.target.scrollHeight - e.target.scrollTop
+		);
+		const containerHeight = e.target.clientHeight;
+		const isBottom =
+			scrollPosition >= containerHeight - 1 &&
+			scrollPosition <= containerHeight + 1;
+
+		setIsScrolledToBottom(isBottom);
+	}, 100);
+	/* eslint-enable */
+
+	const handleScrollToBottomButtonClick = () => {
+		if (newMessages > 0) {
+			const scrollContainer = scrollContainerRef.current;
+			const sessionHeader = scrollContainer.parentElement.getElementsByClassName(
+				'sessionInfo'
+			)[0] as HTMLElement;
+			const messageItems = scrollContainer.querySelectorAll(
+				'.messageItem:not(.messageItem--right)'
+			);
+			const firstUnreadItem = messageItems[
+				messageItems.length - newMessages
+			] as HTMLElement;
+			const firstUnreadItemOffet =
+				firstUnreadItem.offsetTop - sessionHeader.offsetHeight;
+
+			if (scrollContainer.scrollTop < firstUnreadItemOffet) {
+				smoothScroll({
+					duration: 1000,
+					element: scrollContainer,
+					to: firstUnreadItemOffet
+				});
+			} else {
+				scrollToEnd(0, true);
+			}
+		} else {
+			scrollToEnd(0, true);
+		}
 	};
 
 	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
@@ -161,20 +256,45 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				}
 			/>
 
-			<div id="session-scroll-container" className="session__content">
-				{messages
-					? messages.map((message: MessageItem, index) => (
-							<MessageItemComponent
-								key={index}
-								clientName={getContact(activeSession).username}
-								askerRcId={chatItem.askerRcId}
-								type={getTypeOfLocation()}
-								isOnlyEnquiry={isOnlyEnquiry}
-								isMyMessage={isMyMessage(message.userId)}
-								{...message}
-							/>
-					  ))
-					: null}
+			<div
+				id="session-scroll-container"
+				className="session__content"
+				ref={scrollContainerRef}
+				onScroll={(e) => handleScroll.callback(e)}
+			>
+				{messages &&
+					messages.map((message: MessageItem, index) => (
+						<MessageItemComponent
+							key={index}
+							clientName={getContact(activeSession).username}
+							askerRcId={chatItem.askerRcId}
+							type={getTypeOfLocation()}
+							isOnlyEnquiry={isOnlyEnquiry}
+							isMyMessage={isMyMessage(message.userId)}
+							{...message}
+						/>
+					))}
+
+				<div
+					className={`session__scrollToBottom ${
+						isScrolledToBottom
+							? 'session__scrollToBottom--disabled'
+							: ''
+					}`}
+				>
+					{newMessages > 0 && (
+						<span className="session__unreadCount">
+							{newMessages > 99
+								? translate('session.unreadCount.maxValue')
+								: newMessages}
+						</span>
+					)}
+					<Button
+						item={scrollBottomButtonItem}
+						isLink={false}
+						buttonHandle={handleScrollToBottomButtonClick}
+					/>
+				</div>
 			</div>
 
 			{chatItem.monitoring &&
@@ -224,7 +344,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					placeholder={getPlaceholder()}
 					showMonitoringButton={() => {
 						setMonitoringButtonVisible(true);
-						scrollToEnd(0, true);
 					}}
 					type={getTypeOfLocation()}
 					typingUsers={props.typingUsers}
@@ -259,4 +378,9 @@ const monitoringButtonItem: ButtonItem = {
 	label: translate('session.monitoring.buttonLabel'),
 	type: 'PRIMARY',
 	function: ''
+};
+
+const scrollBottomButtonItem: ButtonItem = {
+	icon: <ArrowDoubleDownIcon />,
+	type: 'SMALL_ICON'
 };

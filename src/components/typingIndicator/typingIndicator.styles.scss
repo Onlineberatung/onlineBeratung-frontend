@@ -8,6 +8,7 @@ $indicator-height: 37px;
 	padding: $grid-base $grid-base-three;
 	background-color: $background-ochre;
 	align-items: center;
+	z-index: 2;
 
 	&__text {
 		color: $primary;
