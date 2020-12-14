@@ -1,5 +1,7 @@
 {
 	"baseUrl": "http://caritas.local:9000",
 	"pluginsFile": false,
-	"chromeWebSecurity": false
+	"chromeWebSecurity": false,
+	"viewportWidth": 1200,
+	"viewportHeight": 800
 }
