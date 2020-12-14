@@ -175,11 +175,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		const isBottom =
 			scrollPosition >= containerHeight - 1 &&
 			scrollPosition <= containerHeight + 1;
-		console.log('e.target', e.target);
-		console.log('container scroll height', e.target.scrollHeight);
-		console.log('container scroll top', e.target.scrollTop);
-		console.log('container client Height', e.target.clientHeight);
-		console.log('is bottom?', isBottom);
+
 		setIsScrolledToBottom(isBottom);
 	}, 100);
 	/* eslint-enable */
