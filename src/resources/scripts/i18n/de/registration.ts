@@ -2,7 +2,8 @@ const registration = {
 	'headline': 'Registrierung',
 	'overline.addiction': 'Suchtberatung',
 	'overline.u25': 'Beratung für Suizidgefährdete junge Menschen [U25]',
-	'overline.gemeinsamstatteinsam': '#gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten',
+	'overline.gemeinsamstatteinsam':
+		'#gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten',
 	'overline.pregnancy': 'Schwangerschaftsberatung',
 	'overline.parenting': 'Beratung für Eltern und Familien',
 	'overline.cure': 'Kurberatung für Mütter und Väter',
