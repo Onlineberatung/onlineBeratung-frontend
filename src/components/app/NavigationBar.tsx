@@ -9,7 +9,7 @@ import {
 	AUTHORITIES
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
-import { ReactComponent as EnvelopeIcon } from '../../resources/img/icons/envelope.svg';
+import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
@@ -75,9 +75,7 @@ export const NavigationBar = (props: NavigationBarProps) => {
 				>
 					{
 						{
-							'envelope': (
-								<EnvelopeIcon className="navigation__icon" />
-							),
+							'inbox': <InboxIcon className="navigation__icon" />,
 							'speech-bubbles': (
 								<SpeechBubbleIcon className="navigation__icon" />
 							),
@@ -93,10 +91,10 @@ export const NavigationBar = (props: NavigationBarProps) => {
 						if (small) {
 							return (
 								<>
-									<span className="navigation__title navigation__title--large">
+									<span className="navigation__title navigation__title--longVersion">
 										{translate(large)}
 									</span>
-									<span className="navigation__title navigation__title--small">
+									<span className="navigation__title navigation__title--shortVersion">
 										{translate(small)}
 									</span>
 								</>
