@@ -69,6 +69,8 @@ export const config = {
 		registrationMigrationPostcodeFallback:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/migration/adressen',
 		registrationHospicePostcodeFallback:
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/hospiz-palliativ/adressen'
+			'https://www.caritas.de/hilfeundberatung/onlineberatung/hospiz-palliativ/adressen',
+		registrationMenPostcodeFallback:
+			'https://www.skmev.de/beratung-hilfe/jungen-und-maennerarbeit/'
 	}
 };

@@ -39,6 +39,8 @@ const resort = {
 	'hospice.alt': 'Hospiz-Palliativ',
 	'regional': 'Regionale Angebote',
 	'regional.alt': 'Regionale Angebote',
+	'men': 'Jungen und Männer',
+	'men.alt': 'Jungen und Männer',
 	'default': 'Beratung & Hilfe'
 };
 
