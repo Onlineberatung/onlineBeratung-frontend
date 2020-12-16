@@ -10,7 +10,29 @@ declare global {
 	}
 }
 
-const mocks: { [key: string]: Server } = {};
+const mocks: { [key: string]: { server: Server; websocket: WebSocket } } = {};
+
+const cleanupMock = (url: string) => {
+	if (mocks[url]) {
+		if (
+			mocks[url].websocket.readyState ===
+				mocks[url].websocket.CONNECTING ||
+			mocks[url].websocket.readyState === mocks[url].websocket.OPEN
+		) {
+			mocks[url].server.stop();
+		}
+		delete mocks[url];
+	}
+};
+
+const createMock = (url: string) => {
+	cleanupMock(url);
+	const server = new Server(url);
+	const websocket = new WebSocket(url);
+	mocks[url] = { server, websocket };
+
+	return mocks[url];
+};
 
 export const mockWebSocket = () => {
 	cy.on('window:before:load', (win) => {
@@ -20,14 +42,9 @@ export const mockWebSocket = () => {
 			// config hardcodes the http protocol in development
 			if (new URL(url).pathname.startsWith('/service/live')) {
 				// stomp mock
-				if (mocks[url]) {
-					mocks[url].stop();
-					delete mocks[url];
-				}
+				const { server, websocket } = createMock(url);
 
-				win.mockStompServer = new Server(url);
-				mocks[url] = win.mockStompServer;
-
+				win.mockStompServer = server;
 				win.mockStompServer.on('connection', (socket) => {
 					win.mockStompSocket = socket;
 
@@ -46,21 +63,17 @@ export const mockWebSocket = () => {
 					socket.send('o');
 				});
 
-				return new WebSocket(url);
+				return websocket;
 			} else if (new URL(url).pathname.startsWith('/websocket')) {
 				// rocketchat mock
-				if (mocks[url]) {
-					mocks[url].stop();
-					delete mocks[url];
-				}
+				const { server, websocket } = createMock(url);
 
-				win.mockRocketChatServer = new Server(url);
-				mocks[url] = win.mockRocketChatServer;
+				win.mockRocketChatServer = server;
 				win.mockRocketChatServer.on('connection', (socket) => {
 					win.mockRocketChatSocket = socket;
 				});
 
-				return new WebSocket(url);
+				return websocket;
 			} else {
 				return new winWebSocket(url);
 			}
