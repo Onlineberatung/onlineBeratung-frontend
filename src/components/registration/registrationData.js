@@ -618,6 +618,13 @@ const registrationData = {
 		overline: translate('registration.overline.regional'),
 		showEmail: true,
 		showPostCode: true
+	},
+	men: {
+		consultingType: '20',
+		useInformal: false,
+		overline: translate('registration.overline.men'),
+		showEmail: true,
+		showPostCode: true
 	}
 };
 

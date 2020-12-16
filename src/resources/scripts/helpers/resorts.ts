@@ -29,7 +29,8 @@ export const isGenericConsultingType = (currentType: number): boolean => {
 		16,
 		17,
 		18,
-		19
+		19,
+		20
 	];
 	return genericTypes.includes(currentType);
 };
@@ -76,13 +77,15 @@ export const RESORT_KEYS = {
 	16: 'migration',
 	17: 'emigration',
 	18: 'hospice',
-	19: 'regional'
+	19: 'regional',
+	20: 'men'
 };
 
 export const POSTCODE_FALLBACK_LINKS = {
 	8: config.endpoints.registrationDisabilityPostcodeFallback,
 	16: config.endpoints.registrationMigrationPostcodeFallback,
-	18: config.endpoints.registrationHospicePostcodeFallback
+	18: config.endpoints.registrationHospicePostcodeFallback,
+	20: config.endpoints.registrationMenPostcodeFallback
 };
 
 export const PRESELECTED_AGENCY_FALLBACK_LINKS = {
