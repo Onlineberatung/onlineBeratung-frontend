@@ -204,6 +204,10 @@ $icon-size-small: 16px;
 			}
 		}
 	}
+
+	.tag {
+		margin-left: $grid-base;
+	}
 }
 
 .createChatItem {
