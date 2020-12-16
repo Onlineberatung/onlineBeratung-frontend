@@ -1,7 +1,7 @@
 {
 	"name": "caritas-online-beratung-frontend",
 	"title": "Caritas Online-Beratung",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend.git"
@@ -115,6 +115,7 @@
 		"start": "HOST=caritas.local node scripts/start.js",
 		"build": "node scripts/build.js",
 		"test": "concurrently --kill-others --success first \"cross-env BROWSER=none npm start\" \"wait-on http://caritas.local:9000 && cross-env NODE_ENV=development cypress run\"",
+		"release": "standard-version",
 		"serve": "serve build",
 		"dev": "run-s dev:cy",
 		"dev:cy": "run-p dev:cy:*",
