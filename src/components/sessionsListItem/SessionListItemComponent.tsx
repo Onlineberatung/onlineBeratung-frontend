@@ -146,6 +146,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						: `sessionsListItem`
 				}
 				data-group-id={listItem.groupId ? listItem.groupId : ''}
+				data-cy="session-list-item"
 			>
 				<div
 					className={
@@ -227,6 +228,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					: `sessionsListItem`
 			}
 			data-group-id={listItem.groupId}
+			data-cy="session-list-item"
 		>
 			<div className="sessionsListItem__content">
 				<div className="sessionsListItem__row">

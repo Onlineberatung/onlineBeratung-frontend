@@ -4,7 +4,10 @@ import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations
 
 export const WelcomeIllustration = () => {
 	return (
-		<div className="sessionsList__illustration__wrapper">
+		<div
+			className="sessionsList__illustration__wrapper"
+			data-cy="session-list-welcome-illustration"
+		>
 			<div className="sessionsList__illustration__image">
 				<WelcomeIcon />
 			</div>
