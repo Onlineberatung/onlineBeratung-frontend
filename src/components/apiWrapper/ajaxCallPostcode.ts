@@ -12,7 +12,7 @@ export const ajaxCallAgencySelection = async (params: {
 		.join('&');
 	const url = config.endpoints.agencyServiceBase + '?' + queryStr;
 
-	if (params.postcode.length >= VALID_POSTCODE_LENGTH.SHORT) {
+	if (params.postcode.length === VALID_POSTCODE_LENGTH) {
 		return fetchData({
 			url: url,
 			method: FETCH_METHODS.GET,

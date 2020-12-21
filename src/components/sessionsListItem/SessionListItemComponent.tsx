@@ -30,10 +30,9 @@ import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmi
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
-import './sessionsListItem.styles';
-import { autoselectAgencyForConsultingType } from '../profile/profileHelpers';
 import { Tag } from '../Tag/Tag';
-
+import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
+import './sessionsListItem.styles';
 interface SessionListItemProps {
 	type: string;
 	id: number;
@@ -122,11 +121,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	};
 	const Icon = getSessionsListItemIcon(iconVariant());
 
-	if (
-		autoselectAgencyForConsultingType(
-			currentSessionData.session?.consultingType
-		)
-	) {
+	if (isGroupChatConsultingType(currentSessionData.session?.consultingType)) {
 		return null;
 	}
 
