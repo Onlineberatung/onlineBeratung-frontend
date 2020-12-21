@@ -19,12 +19,11 @@ describe('session list', () => {
 			);
 		});
 
-		describe('no sessions', () => {
-			describe('the user is an asker', () => {
-				// This case must not exist, as at least one initial message after registration must be contained in the session call.
-				// -> is there a error handling, which can be tested?
-			});
+		// describe(-> feature wie illustration oder nachladen von sessions) anstelle von Anzahl der Sessions
+		// it -> should show with given limit of sessions -> im Test eine config Variable ziehen, die auch die Anzahl der Sessions im production code bestimmt (ähnlich wie bei den Translations)
+		// it -> should not show with given constraints (siehe oben)
 
+		describe('no sessions', () => {
 			describe('the user is an consultant', () => {
 				// info text shown
 			});
