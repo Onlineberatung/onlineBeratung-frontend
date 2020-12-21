@@ -31,11 +31,11 @@
 		}
 	}
 
-	&__agencyInfo {
-		margin: -$grid-base-two 0 $grid-base-five $grid-base-seven;
+	.selectedAgencyInfo {
+		margin: -$grid-base-two 0 $grid-base-five 52px;
 
-		.formWrapper__infoText {
-			margin-left: 0;
+		&--agencySelection {
+			margin: -28px 0 $grid-base-five 52px;
 		}
 	}
 

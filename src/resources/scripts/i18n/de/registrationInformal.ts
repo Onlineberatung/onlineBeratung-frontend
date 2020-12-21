@@ -1,6 +1,7 @@
 const registrationInformal = {
 	'agency.prefilled.prefix': 'Deine vorausgewählte Beratungsstelle: ',
 	'agency.prefilled.isTeam': 'Du wirst von einem Team beraten.',
+	'agency.selected.prefix': 'Deine ausgewählte Beratungsstelle: ',
 	'user.infoText':
 		'Um Deine Anonymität zu schützen, raten wir Dir nicht Deinen tatsächlichen Namen oder Initialien zu verwenden.<br>Wähle bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 	'user.suitable': 'Dein Benutzername ist geeignet.',
