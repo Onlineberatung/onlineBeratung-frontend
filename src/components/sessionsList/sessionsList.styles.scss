@@ -230,12 +230,10 @@ $headerHeight: 80px;
 	font-size: $font-size-h3;
 	font-weight: $font-weight-medium;
 	line-height: $line-height-tertiary;
-	text-align: center;
 	margin-bottom: 0;
 	margin-right: $grid-base-seven;
 
 	@include breakpoint($fromLarge) {
-		text-align: left;
 		margin-left: 0;
 	}
 }
