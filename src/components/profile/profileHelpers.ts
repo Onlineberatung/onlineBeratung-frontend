@@ -40,7 +40,7 @@ export enum REGISTRATION_STATUS_KEYS {
 	REGISTERED = 'REGISTERED',
 	UNREGISTERED = 'UNREGISTERED'
 }
-const forAskerRegistrationExcludedConsultingTypes = [1, 19];
+const forAskerRegistrationExcludedConsultingTypes = [1, 19, 20];
 export const getConsultingTypesForRegistrationStatus = (
 	userData: UserDataInterface,
 	registrationStatus: REGISTRATION_STATUS_KEYS
