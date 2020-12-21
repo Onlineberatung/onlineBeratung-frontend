@@ -1,12 +1,5 @@
 import { config } from '../../resources/scripts/config';
 
-export interface AgencyDataProps {
-	postcode?: string;
-	name?: string;
-	teamAgency?: boolean;
-	description?: string;
-}
-
 export const DEFAULT_POSTCODE = '00000';
 
 export const redirectToRegistrationWithoutAid = () => {

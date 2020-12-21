@@ -36,7 +36,6 @@ import { SelectDropdown } from '../select/SelectDropdown';
 import { RadioButton } from '../radioButton/RadioButton';
 import { TagSelect } from '../tagSelect/TagSelect';
 import {
-	AgencyDataProps,
 	DEFAULT_POSTCODE,
 	redirectToHelpmail,
 	redirectToRegistrationWithoutAid
@@ -61,6 +60,7 @@ import {
 	autoselectPostcodeForConsultingType
 } from '../agencySelection/agencySelectionHelpers';
 import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
+import { AgencyDataInterface } from '../../globalState';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -79,7 +79,7 @@ const Registration = () => {
 	const [
 		prefilledAgencyData,
 		setPrefilledAgencyData
-	] = useState<AgencyDataProps | null>(null);
+	] = useState<AgencyDataInterface | null>(null);
 	const [password, setPassword] = useState('');
 	const [passwordSuccessMessage, setPasswordSuccessMessage] = useState('');
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
@@ -144,10 +144,7 @@ const Registration = () => {
 			})
 				.then((response) => {
 					const agencyData = response[0];
-					handlePrefilledAgencyData(
-						agencyData,
-						agencyData.id.toString()
-					);
+					setPrefilledAgencyData(agencyData);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -160,7 +157,7 @@ const Registration = () => {
 			.then((response) => {
 				const agencyData = response[0];
 				agencyData.consultingType === consultingType
-					? handlePrefilledAgencyData(agencyData, agencyId)
+					? setPrefilledAgencyData(agencyData)
 					: redirectToRegistrationWithoutAid();
 			})
 			.catch((error) => {
@@ -168,17 +165,6 @@ const Registration = () => {
 					redirectToRegistrationWithoutAid();
 				}
 			});
-	};
-
-	const handlePrefilledAgencyData = (
-		agencyData: AgencyDataProps,
-		agencyId: string
-	) => {
-		if (autoselectPostcodeForConsultingType(consultingType)) {
-			setPostcode(agencyData.postcode || DEFAULT_POSTCODE);
-		}
-		setAgencyId(agencyId);
-		setPrefilledAgencyData(agencyData);
 	};
 
 	const isRegistrationValid = () => {
@@ -193,7 +179,7 @@ const Registration = () => {
 		validation.push(generalValidation ? true : false);
 
 		validation.push(
-			postcode && typeof agencyId === 'number' ? true : false
+			postcode && typeof parseInt(agencyId) === 'number' ? true : false
 		);
 		if (resortData.showEmail) {
 			validation.push(isEmailValid ? true : false);
@@ -216,6 +202,15 @@ const Registration = () => {
 	useEffect(() => {
 		prefillPostcode();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (prefilledAgencyData) {
+			if (autoselectPostcodeForConsultingType(consultingType)) {
+				setPostcode(prefilledAgencyData.postcode || DEFAULT_POSTCODE);
+			}
+			setAgencyId(prefilledAgencyData.id.toString());
+		}
+	}, [prefilledAgencyData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		const warningLabels = document.querySelectorAll('.warning');
@@ -582,7 +577,7 @@ const Registration = () => {
 			<form
 				id="registrationForm"
 				className="registration__form"
-				data-consultingtype="{{consultingType}}"
+				data-consultingtype={consultingType}
 			>
 				<h3 className="registration__overline">
 					{resortData.overline}
