@@ -548,6 +548,10 @@ $maxFormElementWidth: 320px;
 		}
 	}
 
+	.selectedAgencyInfo--agencySelection {
+		margin: -$grid-base-two 0 $grid-base-five 20px;
+	}
+
 	.button {
 		&__wrapper {
 			width: $maxFormElementWidth;
