@@ -57,12 +57,6 @@ export const config = {
 		sessionAssign: tld + '/service/users/sessions',
 		passwordReset: tld + '/service/users/password/change',
 		getMonitoring: tld + '/service/users/sessions',
-		registrationOffenderRedirect:
-			'/registration.straffaelligkeit.html?aid=',
-		registrationRehabilitationRedirect:
-			'/registration.kinder-reha.html?aid=',
-		registrationKreuzbundRedirect:
-			'/registration.kb-sucht-selbsthilfe.html?aid=',
 		registrationDisabilityPostcodeFallback:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/behinderung-und-psychische-erkrankung/adressen',
 		groupChatBase: tld + '/service/users/chat/',
