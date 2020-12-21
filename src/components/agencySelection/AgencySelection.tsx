@@ -14,10 +14,7 @@ import {
 } from './agencySelectionHelpers';
 import './agencySelection.styles';
 import '../profile/profile.styles';
-import {
-	AgencyDataProps,
-	DEFAULT_POSTCODE
-} from '../registration/prefillPostcode';
+import { DEFAULT_POSTCODE } from '../registration/prefillPostcode';
 import { InfoText, LABEL_TYPES } from '../infoText/InfoText';
 import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
 
@@ -26,7 +23,7 @@ export interface AgencySelectionProps {
 	icon?: JSX.Element;
 	setAgency: Function;
 	userData?: UserDataInterface;
-	preselectedAgency?: AgencyDataProps;
+	preselectedAgency?: AgencyDataInterface;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
@@ -94,10 +91,20 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				postcode: selectedPostcode
 			};
 			props.setAgency(agency);
+		} else if (props.preselectedAgency && !selectedAgencyId) {
+			setSelectedAgencyId(props.preselectedAgency.id);
+			setSelectedAgencyData(props.preselectedAgency);
+			if (
+				autoselectPostcodeForConsultingType(
+					props.selectedConsultingType
+				)
+			) {
+				setSelectedPostcode(props.preselectedAgency.postcode);
+			}
 		} else {
 			props.setAgency(null);
 		}
-	}, [selectedAgencyId, selectedPostcode]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [selectedAgencyId, selectedPostcode, props.preselectedAgency]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (!autoSelectAgency && !props.preselectedAgency) {

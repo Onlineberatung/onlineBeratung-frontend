@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { AgencyDataProps } from '../registration/prefillPostcode';
 import { autoselectAgencyForConsultingType } from '../agencySelection/agencySelectionHelpers';
 import { InfoText } from '../infoText/InfoText';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import './selectedAgencyInfo.styles';
+import { AgencyDataInterface } from '../../globalState';
 
 export interface SelectedAgencyInfoProps {
 	prefix: string;
-	agencyData: AgencyDataProps;
+	agencyData: AgencyDataInterface;
 	className?: string;
 	consultingType?: number;
 }
