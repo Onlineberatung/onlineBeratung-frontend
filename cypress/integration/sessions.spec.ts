@@ -4,6 +4,7 @@ import {
 	sessionsReply
 } from '../support/sessions';
 import sessionListI18n from '../../src/resources/scripts/i18n/de/sessionList';
+import { MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION } from '../../src/components/sessionsList/sessionsListConfig';
 
 describe('Sessions', () => {
 	describe('Consultant', () => {
@@ -74,7 +75,10 @@ describe('Sessions', () => {
 
 		describe('welcome illustration', () => {
 			it('should show until given session item limit is reached', () => {
-				const sessions = generateMultipleAskerSessions(3);
+				const amountOfSessions = MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION;
+				const sessions = generateMultipleAskerSessions(
+					amountOfSessions
+				);
 				cy.caritasMockedLogin({
 					type: 'asker',
 					sessions
@@ -85,7 +89,11 @@ describe('Sessions', () => {
 			});
 
 			it('should not show when given session item limit is reached', () => {
-				const sessions = generateMultipleAskerSessions(4);
+				const amountOfSessions =
+					MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION + 1;
+				const sessions = generateMultipleAskerSessions(
+					amountOfSessions
+				);
 				cy.caritasMockedLogin({
 					type: 'asker',
 					sessions
