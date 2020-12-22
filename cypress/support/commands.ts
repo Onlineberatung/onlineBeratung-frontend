@@ -2,9 +2,10 @@ import {
 	generateAskerSession,
 	generateMessage,
 	generateMessagesReply,
-	generateConsultantSession
+	generateConsultantSession,
+	sessionsReply
 } from './sessions';
-import { CyHttpMessages } from 'cypress/types/net-stubbing';
+import { CyHttpMessages, RouteHandler } from 'cypress/types/net-stubbing';
 import { config } from '../../src/resources/scripts/config';
 import { mockWebSocket } from './websocket';
 import { UserDataInterface } from '../../src/globalState';
@@ -23,6 +24,7 @@ interface CaritasMockedLoginArgs {
 		| UserService.Schemas.ConsultantSessionResponseDTO[];
 	messages?: MessageService.Schemas.MessagesDTO[];
 	userSessionsTimeout?: number;
+	sessionsCallback?: RouteHandler;
 }
 
 declare global {
@@ -101,25 +103,35 @@ Cypress.Commands.add(
 			});
 		}
 
-		cy.intercept('GET', `${config.endpoints.sessions}*`, (req) => {
-			const url = new URL(req.url);
+		cy.intercept('GET', `${config.endpoints.enquiries}*`, {});
 
-			const offset = parseInt(url.searchParams.get('offset')) || 0;
-			const count = parseInt(url.searchParams.get('count')) || 15;
-			const _sessions = sessions.slice(offset, offset + count);
-
-			return new Promise((resolve) =>
-				setTimeout(() => {
-					req.reply({
-						sessions: _sessions,
-						offset,
-						count,
-						total: sessions.length
-					});
-					resolve();
-				}, args.userSessionsTimeout || 0)
+		if (args.sessionsCallback) {
+			cy.intercept(
+				'GET',
+				`${config.endpoints.sessions}*`,
+				args.sessionsCallback
 			);
-		});
+		} else {
+			cy.intercept('GET', `${config.endpoints.sessions}*`, (req) => {
+				const url = new URL(req.url);
+
+				const offset = parseInt(url.searchParams.get('offset')) || 0;
+				const count = parseInt(url.searchParams.get('count')) || 15;
+
+				return new Promise((resolve) =>
+					setTimeout(() => {
+						req.reply(
+							sessionsReply({
+								sessions,
+								offset,
+								count
+							})
+						);
+						resolve();
+					}, args.userSessionsTimeout || 0)
+				);
+			});
+		}
 
 		const messages = args.messages || [
 			generateMessage({ rcGroupId: sessions[0].session.groupId })

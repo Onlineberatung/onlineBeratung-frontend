@@ -122,6 +122,27 @@ export const generateMultipleAskerSessions = (
 	return sessions;
 };
 
+export const sessionsReply = ({
+	sessions,
+	offset,
+	count,
+	total
+}: {
+	sessions: any;
+	offset?: number;
+	count?: number;
+	total?: number;
+}) => {
+	const _offset = offset || 0;
+	const _count = count || 15;
+	return {
+		sessions: sessions.slice(_offset, _offset + _count),
+		offset: _offset,
+		count: _count,
+		total: total || sessions.length
+	};
+};
+
 export const generateMessage = ({
 	rcGroupId,
 	unread
