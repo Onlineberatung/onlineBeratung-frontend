@@ -58,48 +58,41 @@ export const NavigationBar = (props: NavigationBarProps) => {
 
 	return (
 		<div className="navigation__wrapper">
-			{props.routerConfig.navigation.map((item, index) => (
-				<Link
-					key={index}
-					className={`navigation__item ${
-						location.pathname.indexOf(item.to) !== -1
-							? 'navigation__item--active'
-							: ''
-					} ${
-						animateNavIcon &&
-						pathsToShowUnreadMessageNotification.includes(item.to)
-							? 'navigation__item__count--active'
-							: ''
-					}`}
-					to={item.to}
-				>
-					{
-						{
-							'inbox': <InboxIcon className="navigation__icon" />,
-							'speech-bubbles': (
-								<SpeechBubbleIcon className="navigation__icon" />
-							),
-							'speech-bubbles-team': (
-								<SpeechBubbleTeamIcon className="navigation__icon" />
-							),
-							'person': (
-								<PersonIcon className="navigation__icon" />
+			<div className="navigation__itemContainer">
+				{props.routerConfig.navigation.map((item, index) => (
+					<Link
+						key={index}
+						className={`navigation__item ${
+							location.pathname.indexOf(item.to) !== -1
+								? 'navigation__item--active'
+								: ''
+						} ${
+							animateNavIcon &&
+							pathsToShowUnreadMessageNotification.includes(
+								item.to
 							)
-						}[item.icon]
-					}
-					{(({ large, small }) => {
-						if (small) {
-							return (
-								<>
-									<span className="navigation__title navigation__title--longVersion">
-										{translate(large)}
-									</span>
-									<span className="navigation__title navigation__title--shortVersion">
-										{translate(small)}
-									</span>
-								</>
-							);
-						} else {
+								? 'navigation__item__count--active'
+								: ''
+						}`}
+						to={item.to}
+					>
+						{
+							{
+								'inbox': (
+									<InboxIcon className="navigation__icon" />
+								),
+								'speech-bubbles': (
+									<SpeechBubbleIcon className="navigation__icon" />
+								),
+								'speech-bubbles-team': (
+									<SpeechBubbleTeamIcon className="navigation__icon" />
+								),
+								'person': (
+									<PersonIcon className="navigation__icon" />
+								)
+							}[item.icon]
+						}
+						{(({ large }) => {
 							return (
 								<>
 									<span className="navigation__title">
@@ -107,44 +100,46 @@ export const NavigationBar = (props: NavigationBarProps) => {
 									</span>
 								</>
 							);
-						}
-					})(item.titleKeys)}
-					{((to) => {
-						if (
-							pathsToShowUnreadMessageNotification.includes(to) &&
-							(unreadSessionsStatus.newDirectMessage ||
-								unreadSessionsStatus.mySessions > 0)
-						) {
-							return (
-								<span
-									className={`navigation__item__count ${
-										unreadSessionsStatus.resetedAnimations
-											? 'navigation__item__count--initial'
-											: `${
-													animateNavIcon
-														? 'navigation__item__count--reanimate'
-														: ''
-											  }`
-									}`}
-								></span>
-							);
-						}
-					})(item.to)}
-				</Link>
-			))}
+						})(item.titleKeys)}
+						{((to) => {
+							if (
+								pathsToShowUnreadMessageNotification.includes(
+									to
+								) &&
+								(unreadSessionsStatus.newDirectMessage ||
+									unreadSessionsStatus.mySessions > 0)
+							) {
+								return (
+									<span
+										className={`navigation__item__count ${
+											unreadSessionsStatus.resetedAnimations
+												? 'navigation__item__count--initial'
+												: `${
+														animateNavIcon
+															? 'navigation__item__count--reanimate'
+															: ''
+												  }`
+										}`}
+									></span>
+								);
+							}
+						})(item.to)}
+					</Link>
+				))}
 
-			<div
-				onClick={props.handleLogout}
-				className={
-					!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
-						? 'navigation__item navigation__item__logout navigation__item__logout--consultant'
-						: 'navigation__item navigation__item__logout'
-				}
-			>
-				<LogoutIcon className="navigation__icon" />
-				<span className="navigation__title">
-					{translate('app.logout')}
-				</span>
+				<div
+					onClick={props.handleLogout}
+					className={
+						!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
+							? 'navigation__item navigation__item__logout navigation__item__logout--consultant'
+							: 'navigation__item navigation__item__logout'
+					}
+				>
+					<LogoutIcon className="navigation__icon" />
+					<span className="navigation__title">
+						{translate('app.logout')}
+					</span>
+				</div>
 			</div>
 		</div>
 	);

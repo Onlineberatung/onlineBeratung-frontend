@@ -1,5 +1,4 @@
 $iconSize: 32px;
-$iconSizeSmall: 28px;
 $unreadBubbleSize: 8px;
 $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
@@ -13,6 +12,19 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			@include breakpoint($fromLarge) {
 				display: flex !important;
 			}
+		}
+	}
+
+	&__itemContainer {
+		display: flex;
+		justify-content: space-around;
+		width: 100%;
+		max-width: calc(#{$grid-base} * 62);
+
+		@include breakpoint($fromLarge) {
+			flex-direction: column;
+			height: 100%;
+			max-width: none;
 		}
 	}
 
@@ -33,6 +45,8 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		justify-content: center;
 		flex-wrap: wrap;
 		position: relative;
+		height: $grid-base-five;
+		width: $grid-base-five;
 		margin: 0;
 		color: $white;
 		opacity: 0.7;
@@ -42,6 +56,8 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
 		@include breakpoint($fromLarge) {
 			display: block;
+			width: auto;
+			height: auto;
 			margin: $grid-base-two $grid-base;
 		}
 
@@ -133,15 +149,10 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 	}
 
 	&__icon {
-		width: $iconSizeSmall;
-		height: $iconSizeSmall;
+		width: $iconSize;
+		height: $iconSize;
 		margin: auto;
 		text-align: center;
-
-		@include breakpoint($fromLarge) {
-			width: $iconSize;
-			height: $iconSize;
-		}
 	}
 
 	&__title {
@@ -152,28 +163,8 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		text-align: center;
 		margin: auto;
 
-		@include breakpoint($fromMedium) {
+		@include breakpoint($fromLarge) {
 			display: block;
-		}
-
-		&--shortVersion {
-			display: none;
-
-			@include breakpoint($fromMedium) {
-				display: block;
-			}
-
-			@include breakpoint($fromLarge) {
-				display: none;
-			}
-		}
-
-		&--longVersion {
-			display: none;
-
-			@include breakpoint($fromLarge) {
-				display: block;
-			}
 		}
 	}
 }
