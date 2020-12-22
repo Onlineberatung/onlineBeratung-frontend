@@ -14,13 +14,8 @@ const mocks: { [key: string]: { server: Server; websocket: WebSocket } } = {};
 
 const cleanupMock = (url: string) => {
 	if (mocks[url]) {
-		if (
-			mocks[url].websocket.readyState ===
-				mocks[url].websocket.CONNECTING ||
-			mocks[url].websocket.readyState === mocks[url].websocket.OPEN
-		) {
-			mocks[url].server.stop();
-		}
+		mocks[url].websocket.close();
+		mocks[url].server.stop();
 		delete mocks[url];
 	}
 };
@@ -78,6 +73,12 @@ export const mockWebSocket = () => {
 				return new winWebSocket(url);
 			}
 		});
+	});
+
+	cy.on('window:before:unload', () => {
+		for (const url in mocks) {
+			cleanupMock(url);
+		}
 	});
 };
 
