@@ -9,6 +9,7 @@ import {
 	isU25Registration,
 	getConsultingTypeFromRegistration
 } from '../../resources/scripts/helpers/resorts';
+import { logout } from '../logout/logout';
 
 const isIE11Browser =
 	window.navigator.userAgent.indexOf('MSIE ') > 0 ||
@@ -127,6 +128,8 @@ export const fetchData = (props: fetchDataProps): Promise<any> =>
 								? response
 								: new Error(FETCH_ERRORS.CONFLICT)
 						);
+					} else if (response.status === 401) {
+						logout(true);
 					}
 				} else {
 					const error = getErrorCaseForStatus(response.status);
