@@ -40,7 +40,7 @@ describe('session list', () => {
 		});
 
 		describe('welcome illustration', () => {
-			it('should show with 3 or less sessions', () => {
+			it('should show until given session item limit is reached', () => {
 				const sessions = generateMultipleSessions(3);
 				cy.caritasMockedLogin({ sessions });
 				cy.get('[data-cy=session-list-welcome-illustration]').should(
@@ -48,7 +48,7 @@ describe('session list', () => {
 				);
 			});
 
-			it('should not show with 4 or more sessions', () => {
+			it('should not show when given session item limit is reached', () => {
 				const sessions = generateMultipleSessions(4);
 				cy.caritasMockedLogin({ sessions });
 				cy.get('[data-cy=session-list-welcome-illustration]').should(
