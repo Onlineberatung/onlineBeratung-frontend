@@ -3,6 +3,8 @@ import {
 	generateMultipleConsultantSessions,
 	sessionsReply
 } from '../support/sessions';
+import sessionListI18n from '../../src/resources/scripts/i18n/de/sessionList';
+import { MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION } from '../../src/components/sessionsList/sessionsListConfig';
 
 describe('Sessions', () => {
 	describe('Consultant', () => {
@@ -59,6 +61,47 @@ describe('Sessions', () => {
 			});
 
 			cy.get('.sessionsListItem').should('have.length', amountOfSessions);
+		});
+
+		it('should show a header with headline', () => {
+			cy.caritasMockedLogin({
+				type: 'asker'
+			});
+			cy.get('[data-cy=session-list-header]').should('exist');
+			cy.get('[data-cy=session-list-headline]').contains(
+				sessionListI18n['view.headline']
+			);
+		});
+
+		describe('welcome illustration', () => {
+			it('should show until given session item limit is reached', () => {
+				const amountOfSessions = MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION;
+				const sessions = generateMultipleAskerSessions(
+					amountOfSessions
+				);
+				cy.caritasMockedLogin({
+					type: 'asker',
+					sessions
+				});
+				cy.get('[data-cy=session-list-welcome-illustration]').should(
+					'exist'
+				);
+			});
+
+			it('should not show when given session item limit is reached', () => {
+				const amountOfSessions =
+					MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION + 1;
+				const sessions = generateMultipleAskerSessions(
+					amountOfSessions
+				);
+				cy.caritasMockedLogin({
+					type: 'asker',
+					sessions
+				});
+				cy.get('[data-cy=session-list-welcome-illustration]').should(
+					'not.exist'
+				);
+			});
 		});
 	});
 });

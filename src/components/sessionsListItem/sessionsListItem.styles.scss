@@ -4,7 +4,7 @@ $icon-size-small: 16px;
 .sessionsListItem {
 	display: flex;
 	color: $secondary;
-	margin-bottom: 2px;
+	margin-bottom: 3px;
 	transition: all 0.6s ease;
 	animation: appearSessionListItem 300ms ease forwards;
 	opacity: 0;
@@ -50,8 +50,10 @@ $icon-size-small: 16px;
 		}
 
 		.sessionsListItem__content {
-			background-color: $background-ochre;
-			transition: all 0.3s ease;
+			@include breakpoint($fromLarge) {
+				background-color: $background-ochre;
+				transition: all 0.3s ease;
+			}
 		}
 	}
 
@@ -77,8 +79,10 @@ $icon-size-small: 16px;
 		&:hover,
 		&:focus,
 		&:active {
-			background-color: $background-ochre;
-			transition: all 0.3s ease;
+			@include breakpoint($fromLarge) {
+				background-color: $background-ochre;
+				transition: all 0.3s ease;
+			}
 		}
 	}
 
@@ -200,6 +204,10 @@ $icon-size-small: 16px;
 			}
 		}
 	}
+
+	.tag {
+		margin-left: $grid-base;
+	}
 }
 
 .createChatItem {
@@ -209,10 +217,10 @@ $icon-size-small: 16px;
 }
 
 .skeleton {
-	margin-top: $grid-base-eleven;
+	margin-top: calc(#{$grid-base} * 13);
 
 	@include breakpoint($fromLarge) {
-		margin-top: $grid-base-two;
+		margin-top: 0;
 	}
 
 	&:hover {

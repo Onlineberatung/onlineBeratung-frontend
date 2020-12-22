@@ -24,8 +24,14 @@ export const SessionsListWrapper = () => {
 	if (hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)) {
 		return (
 			<div className="sessionsList__wrapper">
-				<div className="sessionsList__header">
-					<h2 className="sessionsList__headline">
+				<div
+					className="sessionsList__header"
+					data-cy="session-list-header"
+				>
+					<h2
+						className="sessionsList__headline"
+						data-cy="session-list-headline"
+					>
 						{translate('sessionList.user.headline')}
 					</h2>
 				</div>
@@ -36,8 +42,11 @@ export const SessionsListWrapper = () => {
 
 	return (
 		<div className="sessionsList__wrapper">
-			<div className="sessionsList__header">
-				<h2 className="sessionsList__headline">
+			<div className="sessionsList__header" data-cy="session-list-header">
+				<h2
+					className="sessionsList__headline"
+					data-cy="session-list-headline"
+				>
 					{typeIsSession(type)
 						? translate('sessionList.view.headline')
 						: null}

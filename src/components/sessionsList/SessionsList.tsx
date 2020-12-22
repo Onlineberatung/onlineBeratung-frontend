@@ -46,8 +46,7 @@ import { SessionListCreateChat } from './SessionListCreateChat';
 import { mobileListView } from '../app/navigationHandler';
 import './sessionsList.styles';
 import { ACCEPTED_GROUP_CLOSE } from '../sessionAssign/SessionAssign';
-
-const MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION = 3;
+import { MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION } from './sessionsListConfig';
 
 export const SessionsList: React.FC = () => {
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
