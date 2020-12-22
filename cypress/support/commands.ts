@@ -55,7 +55,15 @@ Cypress.Commands.add(
 			'authLogout'
 		);
 
-		let sessions: CaritasMockedLoginArgs['sessions'];
+		let sessions = args.sessions;
+
+		if (args.sessionsCallback) {
+			cy.intercept(
+				'GET',
+				`${config.endpoints.sessions}*`,
+				args.sessionsCallback
+			);
+		}
 
 		if (!args.type || args.type === 'asker') {
 			cy.fixture('service.users.data.askers').then((userData) => {
@@ -65,17 +73,19 @@ Cypress.Commands.add(
 				});
 			});
 
-			sessions = args.sessions || [generateAskerSession()];
-			cy.intercept('GET', config.endpoints.userSessions, (req) => {
-				return new Promise((resolve) =>
-					setTimeout(() => {
-						req.reply({
-							sessions
-						});
-						resolve();
-					}, args.userSessionsTimeout || 0)
-				);
-			});
+			if (!args.sessionsCallback) {
+				sessions = args.sessions || [generateAskerSession()];
+				cy.intercept('GET', config.endpoints.userSessions, (req) => {
+					return new Promise((resolve) =>
+						setTimeout(() => {
+							req.reply({
+								sessions
+							});
+							resolve();
+						}, args.userSessionsTimeout || 0)
+					);
+				}).as('askerSessions');
+			}
 		}
 
 		if (args.type === 'consultant') {
@@ -86,52 +96,37 @@ Cypress.Commands.add(
 				});
 			});
 
-			sessions = args.sessions || [
-				generateConsultantSession(),
-				generateConsultantSession(),
-				generateConsultantSession()
-			];
-			cy.intercept('GET', config.endpoints.userSessions, (req) => {
-				return new Promise((resolve) =>
-					setTimeout(() => {
-						req.reply({
-							sessions
-						});
-						resolve();
-					}, args.userSessionsTimeout || 0)
-				);
-			});
+			if (!args.sessionsCallback) {
+				sessions = args.sessions || [
+					generateConsultantSession(),
+					generateConsultantSession(),
+					generateConsultantSession()
+				];
+
+				cy.intercept('GET', `${config.endpoints.sessions}*`, (req) => {
+					const url = new URL(req.url);
+
+					const offset =
+						parseInt(url.searchParams.get('offset')) || 0;
+					const count = parseInt(url.searchParams.get('count')) || 15;
+
+					return new Promise((resolve) =>
+						setTimeout(() => {
+							req.reply(
+								sessionsReply({
+									sessions,
+									offset,
+									count
+								})
+							);
+							resolve();
+						}, args.userSessionsTimeout || 0)
+					);
+				}).as('consultantSessionsRequest');
+			}
 		}
 
 		cy.intercept('GET', `${config.endpoints.enquiries}*`, {});
-
-		if (args.sessionsCallback) {
-			cy.intercept(
-				'GET',
-				`${config.endpoints.sessions}*`,
-				args.sessionsCallback
-			);
-		} else {
-			cy.intercept('GET', `${config.endpoints.sessions}*`, (req) => {
-				const url = new URL(req.url);
-
-				const offset = parseInt(url.searchParams.get('offset')) || 0;
-				const count = parseInt(url.searchParams.get('count')) || 15;
-
-				return new Promise((resolve) =>
-					setTimeout(() => {
-						req.reply(
-							sessionsReply({
-								sessions,
-								offset,
-								count
-							})
-						);
-						resolve();
-					}, args.userSessionsTimeout || 0)
-				);
-			});
-		}
 
 		const messages = args.messages || [
 			generateMessage({ rcGroupId: sessions[0].session.groupId })
