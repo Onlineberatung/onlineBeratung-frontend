@@ -1,6 +1,5 @@
 import { emitStompDirectMessage } from '../support/websocket';
-import { config } from '../../src/resources/scripts/config';
-import { generateSession, generateMessage } from '../support/sessions';
+import { generateAskerSession, generateMessage } from '../support/sessions';
 import attachmentsI18n from '../../src/resources/scripts/i18n/de/attachments';
 import attachmentsInformalI18n from '../../src/resources/scripts/i18n/de/attachmentsInformal';
 
@@ -81,7 +80,7 @@ describe('Messages', () => {
 			describe('On "My Sessions" but no session open', () => {
 				describe('New message from Live Service', () => {
 					it('should animate the envelope and initial dot', () => {
-						const sessions = [generateSession()];
+						const sessions = [generateAskerSession()];
 						cy.caritasMockedLogin({ sessions }).then(() => {
 							sessions[0].session.messagesRead = false;
 							emitStompDirectMessage();
@@ -118,7 +117,7 @@ describe('Messages', () => {
 			describe('Session open', () => {
 				describe('New message from Live Service in currently active Session', () => {
 					it('should animate envelope and initial dot and remove dot after message was read', () => {
-						const session1 = generateSession();
+						const session1 = generateAskerSession();
 						const messages = [
 							generateMessage({
 								rcGroupId: session1.session.groupId
@@ -161,8 +160,8 @@ describe('Messages', () => {
 				});
 				describe('New message from Live Service in different Session', () => {
 					it('should animate the envelope and initial dot', () => {
-						const session1 = generateSession();
-						const session2 = generateSession();
+						const session1 = generateAskerSession();
+						const session2 = generateAskerSession();
 
 						const messages = [
 							generateMessage({
@@ -199,7 +198,7 @@ describe('Messages', () => {
 							messages.push(message);
 
 							emitStompDirectMessage({
-								messageId: message.id
+								messageId: message._id
 							});
 						});
 
@@ -219,7 +218,7 @@ describe('Messages', () => {
 				it('should animate the envelope and initial dot', () => {
 					cy.clock();
 					const sessions = [
-						generateSession({
+						generateAskerSession({
 							messagesRead: false
 						})
 					];
@@ -234,7 +233,7 @@ describe('Messages', () => {
 				describe('New message from Live Service', () => {
 					it('should animate the envelope and reanimate the dot', () => {
 						const sessions = [
-							generateSession({
+							generateAskerSession({
 								messagesRead: false
 							})
 						];
@@ -256,7 +255,7 @@ describe('Messages', () => {
 				describe('New message from Live Service', () => {
 					it('should animate the envelope and reanimate dot', () => {
 						const sessions = [
-							generateSession({
+							generateAskerSession({
 								messagesRead: false
 							})
 						];
@@ -278,8 +277,8 @@ describe('Messages', () => {
 			describe('Session open', () => {
 				describe('New message from Live Service in currently active Session', () => {
 					it('should animate envelope and reanimate dot', () => {
-						const session1 = generateSession();
-						const session2 = generateSession({
+						const session1 = generateAskerSession();
+						const session2 = generateAskerSession({
 							messagesRead: false
 						});
 
@@ -321,7 +320,7 @@ describe('Messages', () => {
 							messages.push(message);
 
 							emitStompDirectMessage({
-								messageId: message.id
+								messageId: message._id
 							});
 						});
 
@@ -336,8 +335,8 @@ describe('Messages', () => {
 
 				describe('New message from Live Service in different Session', () => {
 					it('should animate the envelope and reanimate the dot', () => {
-						const session1 = generateSession();
-						const session2 = generateSession({
+						const session1 = generateAskerSession();
+						const session2 = generateAskerSession({
 							messagesRead: false
 						});
 
@@ -377,7 +376,7 @@ describe('Messages', () => {
 							messages.push(message);
 
 							emitStompDirectMessage({
-								messageId: message.id
+								messageId: message._id
 							});
 						});
 
