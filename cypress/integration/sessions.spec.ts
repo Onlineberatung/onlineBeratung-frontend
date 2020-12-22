@@ -4,7 +4,10 @@ import {
 	sessionsReply
 } from '../support/sessions';
 import sessionListI18n from '../../src/resources/scripts/i18n/de/sessionList';
-import { MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION } from '../../src/components/sessionsList/sessionsListConfig';
+import {
+	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
+	SCROLL_PAGINATE_THRESHOLD
+} from '../../src/components/sessionsList/sessionsListConfig';
 
 describe('Sessions', () => {
 	describe('Consultant', () => {
@@ -20,6 +23,74 @@ describe('Sessions', () => {
 
 			cy.get('a[href="/sessions/consultant/sessionView"]').click();
 			cy.get('.sessionsListItem').should('have.length', amountOfSessions);
+		});
+
+		it('should fetch next batch of sessions if scroll threshold is reached', () => {
+			const amountOfSessions = 100;
+			const sessions = generateMultipleConsultantSessions(
+				amountOfSessions
+			);
+
+			cy.caritasMockedLogin({
+				type: 'consultant',
+				sessions
+			});
+
+			cy.get('a[href="/sessions/consultant/sessionView"]').click();
+			cy.get('.sessionsListItem').should('exist');
+			cy.wait('@consultantSessionsRequest');
+
+			cy.get('.sessionsList__scrollContainer').then(
+				([scrollContainer]) => {
+					const scrollPosition =
+						Math.ceil(scrollContainer.scrollTop) +
+						scrollContainer.offsetHeight;
+
+					const scrollable =
+						scrollContainer.scrollHeight - scrollPosition;
+
+					cy.get('.sessionsList__scrollContainer').scrollTo(
+						0,
+						scrollable - SCROLL_PAGINATE_THRESHOLD
+					);
+				}
+			);
+
+			cy.wait('@consultantSessionsRequest');
+		});
+
+		it('should not fetch next batch of sessions if scroll threshold is not reached', () => {
+			const amountOfSessions = 100;
+			const sessions = generateMultipleConsultantSessions(
+				amountOfSessions
+			);
+
+			cy.caritasMockedLogin({
+				type: 'consultant',
+				sessions
+			});
+
+			cy.get('a[href="/sessions/consultant/sessionView"]').click();
+			cy.wait('@consultantSessionsRequest');
+			cy.get('.sessionsListItem').should('exist');
+
+			cy.get('.sessionsList__scrollContainer').then(
+				([scrollContainer]) => {
+					const scrollPosition =
+						Math.ceil(scrollContainer.scrollTop) +
+						scrollContainer.offsetHeight;
+
+					const scrollable =
+						scrollContainer.scrollHeight - scrollPosition;
+
+					cy.get('.sessionsList__scrollContainer').scrollTo(
+						0,
+						scrollable - SCROLL_PAGINATE_THRESHOLD - 1
+					);
+				}
+			);
+
+			cy.get('.skeleton__item').should('not.exist');
 		});
 
 		describe('Access Token expires while logged in', () => {

@@ -46,7 +46,10 @@ import { SessionListCreateChat } from './SessionListCreateChat';
 import { mobileListView } from '../app/navigationHandler';
 import './sessionsList.styles';
 import { ACCEPTED_GROUP_CLOSE } from '../sessionAssign/SessionAssign';
-import { MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION } from './sessionsListConfig';
+import {
+	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
+	SCROLL_PAGINATE_THRESHOLD
+} from './sessionsListConfig';
 
 export const SessionsList: React.FC = () => {
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -374,10 +377,8 @@ export const SessionsList: React.FC = () => {
 
 	const handleListScroll = () => {
 		const list: any = listRef.current;
-		if (
-			Math.ceil(list.scrollTop) + list.offsetHeight ===
-			list.scrollHeight
-		) {
+		const scrollPosition = Math.ceil(list.scrollTop) + list.offsetHeight;
+		if (scrollPosition + SCROLL_PAGINATE_THRESHOLD >= list.scrollHeight) {
 			if (
 				totalItems > currentOffset + SESSION_COUNT &&
 				!isReloadButtonVisible
