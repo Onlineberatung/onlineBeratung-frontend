@@ -1,0 +1,26 @@
+{
+	"userId": "consultant1",
+	"userName": "consultant1",
+	"firstName": "firstName",
+	"lastName": "lastName",
+	"email": "con@sulta.nt",
+	"absenceMessage": null,
+	"agencies": [
+		{
+			"id": 1,
+			"name": "name",
+			"postcode": "12345",
+			"city": "city",
+			"description": "description",
+			"teamAgency": true,
+			"offline": false,
+			"consultingType": 0
+		}
+	],
+	"userRoles": ["consultant"],
+	"grantedAuthorities": ["AUTHORIZATION_CONSULTANT_DEFAULT"],
+	"consultingTypes": null,
+	"formalLanguage": true,
+	"absent": false,
+	"inTeamAgency": true
+}
