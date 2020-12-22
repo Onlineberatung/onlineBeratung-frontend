@@ -43,6 +43,7 @@ import { logout } from '../logout/logout';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
+import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
 
 export const JoinGroupChatView = () => {
 	const { userData } = useContext(UserDataContext);
@@ -96,7 +97,7 @@ export const JoinGroupChatView = () => {
 	const updateGroupChatInfo = () => {
 		if (
 			chatItem.groupId === activeSessionGroupId &&
-			chatItem.consultingType === 15
+			isGroupChatConsultingType(chatItem.consultingType)
 		) {
 			ajaxCallGetGroupChatInfo(chatItem.id)
 				.then((response: groupChatInfoData) => {

@@ -14,7 +14,6 @@ import {
 	buttonSetRegistration,
 	overlayItemNewRegistrationSuccess,
 	overlayItemNewRegistrationError,
-	autoselectAgencyForConsultingType,
 	getConsultingTypesForRegistrationStatus,
 	REGISTRATION_STATUS_KEYS
 } from './profileHelpers';
@@ -34,6 +33,7 @@ import { AgencySelection } from '../agencySelection/AgencySelection';
 import './profile.styles';
 import { getUserData } from '../apiWrapper';
 import { InfoText, LABEL_TYPES } from '../infoText/InfoText';
+import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
 
 export const AskerNewRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -46,7 +46,6 @@ export const AskerNewRegistration = () => {
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [autoSelectAgency, setAutoSelectAgency] = useState(false);
 
 	const isAllRequiredDataSet = () => selectedConsultingType && selectedAgency;
 
@@ -56,9 +55,6 @@ export const AskerNewRegistration = () => {
 		} else {
 			setIsButtonDisabled(true);
 		}
-		setAutoSelectAgency(
-			autoselectAgencyForConsultingType(selectedConsultingType)
-		);
 	}, [selectedAgency]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleConsultingTypeSelect = (selectedOption) => {
@@ -98,16 +94,17 @@ export const AskerNewRegistration = () => {
 			)
 				.then((response) => {
 					let overlayItem = overlayItemNewRegistrationSuccess;
-					if (autoSelectAgency) {
+					if (isGroupChatConsultingType(selectedConsultingType)) {
 						overlayItem.buttonSet[0].label = translate(
 							'profile.data.registerSuccess.overlay.button1Label.groupChats'
 						);
+					} else if (
+						!isGroupChatConsultingType(selectedConsultingType)
+					) {
+						setAcceptedGroupId(response.sessionId);
 					}
 					setOverlayItem(overlayItem);
 					setOverlayActive(true);
-					if (!autoSelectAgency) {
-						setAcceptedGroupId(response.sessionId);
-					}
 					setIsRequestInProgress(false);
 				})
 				.catch((error) => {
@@ -149,7 +146,9 @@ export const AskerNewRegistration = () => {
 		: null;
 	const isOnlyRegisteredForGroupChats =
 		registeredConsultingTypes?.length === 1 &&
-		registeredConsultingTypes[0].consultingType === '15';
+		isGroupChatConsultingType(
+			parseInt(registeredConsultingTypes[0].consultingType)
+		);
 	return (
 		<div className="profile__data__itemWrapper askerRegistration">
 			<p
