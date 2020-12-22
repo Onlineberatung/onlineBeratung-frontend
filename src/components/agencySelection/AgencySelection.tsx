@@ -39,10 +39,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	>(undefined);
 	const [autoSelectAgency, setAutoSelectAgency] = useState(false);
 	const [autoSelectPostcode, setAutoSelectPostcode] = useState(false);
-	const [
-		selectedAgencyData,
-		setSelectedAgencyData
-	] = useState<AgencyDataInterface | null>(null);
+	const [selectedAgencyData, setSelectedAgencyData] = useState<
+		AgencyDataInterface
+	>(null);
 
 	const validPostcode = () =>
 		selectedPostcode?.length === VALID_POSTCODE_LENGTH;
@@ -205,7 +204,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 									'registration.agency.selected.prefix'
 								)}
 								agencyData={selectedAgencyData}
-								className="selectedAgencyInfo--agencySelection"
 							/>
 						)}
 					{proposedAgencies && (

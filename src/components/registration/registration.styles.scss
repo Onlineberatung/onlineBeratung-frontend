@@ -31,17 +31,19 @@
 		}
 	}
 
-	.selectedAgencyInfo {
-		margin: -$grid-base-two 0 $grid-base-five 52px;
-
-		&--agencySelection {
-			margin: -28px 0 $grid-base-five 52px;
-		}
-	}
-
 	&__generalInformation {
 		margin-bottom: $grid-base-four;
 		max-width: 320px;
+
+		& > .selectedAgencyInfo {
+			margin: -$grid-base-two 20px $grid-base-five 52px;
+		}
+
+		& > .askerRegistration__postcode {
+			.selectedAgencyInfo {
+				margin: -28px 20px $grid-base-five 52px;
+			}
+		}
 	}
 
 	&__passwordNote {
