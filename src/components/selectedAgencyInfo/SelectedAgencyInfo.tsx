@@ -48,7 +48,7 @@ export const SelectedAgencyInfo = (props: SelectedAgencyInfoProps) => {
 		>
 			<InfoText
 				text={props.prefix}
-				className="selectedAgencyInfo__text"
+				className="selectedAgencyInfo__text selectedAgencyInfo__overline"
 			/>
 			<p className="selectedAgencyInfo__agencyName">
 				{props.agencyData.name}
