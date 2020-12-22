@@ -5,6 +5,10 @@ $iconSize: 16px;
 		margin: 0;
 	}
 
+	&__overline {
+		color: $secondary;
+	}
+
 	&__agencyName {
 		font-size: $font-size-secondary;
 		line-height: $line-height-secondary;
