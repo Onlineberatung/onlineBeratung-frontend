@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './tag.styles';
+import { Link } from 'react-router-dom';
 
 export interface TagProps {
 	text: string;
@@ -15,9 +16,13 @@ export const Tag = (props: TagProps) => {
 		<ConditionalWrapper
 			condition={props.link}
 			wrapper={(children) => (
-				<a href={props.link} role="button">
+				<Link
+					to={props.link}
+					role="button"
+					onClick={(e) => e.stopPropagation()}
+				>
 					{children}
-				</a>
+				</Link>
 			)}
 		>
 			<span
