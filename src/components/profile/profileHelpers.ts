@@ -79,15 +79,6 @@ export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
 	});
 };
 
-const consultingTypesToAutoselectAgency = ['15'];
-export const autoselectAgencyForConsultingType = (
-	consultingType: number
-): boolean => {
-	return consultingTypesToAutoselectAgency.includes(
-		consultingType?.toString()
-	);
-};
-
 export const overlayItemNewRegistrationSuccess: OverlayItem = {
 	svg: CheckIcon,
 	headline: translate('profile.data.registerSuccess.overlay.headline'),

@@ -472,6 +472,10 @@ $maxFormElementWidth: 320px;
 		.askerRegistration__consultingModeInfo {
 			padding: 0 $grid-base-three 0 20px;
 		}
+
+		.selectedAgencyInfo {
+			margin: -$grid-base-two 0 $grid-base-five 20px;
+		}
 	}
 
 	&__postcodeFlyout {

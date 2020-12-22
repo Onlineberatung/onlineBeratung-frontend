@@ -1,0 +1,34 @@
+$iconSize: 16px;
+
+.selectedAgencyInfo {
+	&__text {
+		margin: 0;
+	}
+
+	&__overline {
+		color: $secondary;
+	}
+
+	&__agencyName {
+		font-size: $font-size-secondary;
+		line-height: $line-height-secondary;
+		font-weight: $font-weight-bold;
+		margin: 0;
+		text-align: left;
+	}
+
+	&__teamAgency {
+		display: flex;
+		margin-top: 4px;
+	}
+
+	&__icon {
+		width: $iconSize;
+		height: $iconSize;
+		margin-right: 4px;
+
+		* {
+			fill: $tertiary;
+		}
+	}
+}

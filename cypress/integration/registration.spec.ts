@@ -42,7 +42,7 @@ describe('registration', () => {
 			cy.fixture('service.agencies.json').then((agencies) => {
 				cy.intercept(config.endpoints.agencyServiceBase, agencies);
 				cy.visit('/registration.u25.html?aid=1');
-				cy.get('.registration__agencyInfo').should('exist');
+				cy.get('.selectedAgencyInfo').should('exist');
 				cy.get('.formWrapper__infoText').contains(agencies[0].name);
 			});
 		});

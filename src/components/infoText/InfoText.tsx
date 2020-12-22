@@ -27,7 +27,7 @@ const getLabelContent = (type: string) => {
 
 export const InfoText = (props: InfoTextProps) => {
 	return (
-		<p className={'infoText ' + props.className}>
+		<p className={`infoText ${props.className ? props.className : ''}`}>
 			{props.labelType && (
 				<span
 					className={
