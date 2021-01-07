@@ -90,7 +90,7 @@ export const AskerNewRegistration = () => {
 			ajaxCallRegistrationNewConsultingTypes(
 				selectedConsultingType,
 				selectedAgency.id,
-				selectedAgency.typedPostcode
+				selectedAgency.postcode
 			)
 				.then((response) => {
 					let overlayItem = overlayItemNewRegistrationSuccess;
