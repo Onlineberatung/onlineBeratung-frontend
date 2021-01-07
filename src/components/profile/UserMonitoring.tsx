@@ -29,7 +29,7 @@ import './profile.styles';
 const buttonSet: ButtonItem = {
 	label: translate('userProfile.monitoring.buttonLabel'),
 	function: OVERLAY_FUNCTIONS.REDIRECT,
-	type: BUTTON_TYPES.GHOST
+	type: BUTTON_TYPES.SECONDARY
 };
 
 export const UserMonitoring = () => {

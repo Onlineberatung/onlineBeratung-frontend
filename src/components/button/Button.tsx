@@ -6,7 +6,7 @@ import './button.styles';
 
 export const BUTTON_TYPES = {
 	PRIMARY: 'PRIMARY',
-	GHOST: 'GHOST',
+	SECONDARY: 'SECONDARY',
 	LINK: 'LINK',
 	TERTIARY: 'TERTIARY',
 	AUTO_CLOSE: 'AUTO_CLOSE',
@@ -20,6 +20,7 @@ export interface ButtonItem {
 	id?: string;
 	target?: string;
 	icon?: JSX.Element;
+	color?: 'green' | 'red';
 }
 
 export interface ButtonProps {
@@ -51,8 +52,8 @@ export const Button = (props: ButtonProps) => {
 			case BUTTON_TYPES.PRIMARY:
 				className = 'button__primary';
 				break;
-			case BUTTON_TYPES.GHOST:
-				className = 'button__ghost';
+			case BUTTON_TYPES.SECONDARY:
+				className = 'button__secondary';
 				break;
 			case BUTTON_TYPES.TERTIARY:
 				className = 'button__tertiary';

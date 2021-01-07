@@ -41,6 +41,7 @@ import { ReactComponent as MenuHorizontalIcon } from '../../resources/img/icons/
 import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/stack-vertical.svg';
 import '../sessionHeader/sessionHeader.styles';
 import './sessionMenu.styles';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -168,8 +169,16 @@ export const SessionMenu = () => {
 		return <Redirect to={getSessionListPathForLocation()} />;
 	}
 
+	const buttonSetRegistration: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON
+	};
+
 	return (
 		<div className="sessionMenu__wrapper">
+			<Button
+				buttonHandle={(e) => console.log(e)}
+				item={buttonSetRegistration}
+			/>
 			{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
 			chatItem.feedbackGroupId ? (
