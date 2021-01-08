@@ -42,7 +42,8 @@ import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/st
 import '../sessionHeader/sessionHeader.styles';
 import './sessionMenu.styles';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
+import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
+import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -173,13 +174,13 @@ export const SessionMenu = () => {
 	const buttonStartCall: ButtonItem = {
 		type: BUTTON_TYPES.SMALL_ICON,
 		smallIconBackgroundColor: 'green',
-		icon: <ArrowDoubleDownIcon />
+		icon: <CallOnIcon />
 	};
 
 	const buttonStartVideoCall: ButtonItem = {
 		type: BUTTON_TYPES.SMALL_ICON,
 		smallIconBackgroundColor: 'green',
-		icon: <ArrowDoubleDownIcon />
+		icon: <CameraOnIcon />
 	};
 
 	const buttonFeedback: ButtonItem = {
