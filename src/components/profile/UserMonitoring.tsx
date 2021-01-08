@@ -153,11 +153,7 @@ export const UserMonitoring = () => {
 			</p>
 			{!typeIsEnquiry(activeSession.type) ? (
 				<Link to={monitoringLink}>
-					<Button
-						item={buttonSet}
-						isLink={true}
-						buttonHandle={() => null}
-					/>
+					<Button item={buttonSet} isLink={true} />
 				</Link>
 			) : null}
 			{renderAssign()}

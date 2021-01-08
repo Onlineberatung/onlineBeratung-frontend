@@ -187,8 +187,7 @@ export const SessionMenu = () => {
 		type: BUTTON_TYPES.SMALL_ICON,
 		smallIconBackgroundColor: 'yellow',
 		icon: <FeedbackIcon />,
-		label: translate('chatFlyout.feedback'),
-		target: feedbackPath
+		label: translate('chatFlyout.feedback')
 	};
 
 	return (
@@ -208,11 +207,7 @@ export const SessionMenu = () => {
 					to={feedbackPath}
 					className="sessionInfo__feedbackButton sessionMenu__item--desktop"
 				>
-					<Button
-						item={buttonFeedback}
-						isLink={true}
-						buttonHandle={() => {}}
-					/>
+					<Button item={buttonFeedback} isLink={true} />
 				</Link>
 			) : null}
 

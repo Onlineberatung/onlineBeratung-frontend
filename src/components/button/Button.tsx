@@ -10,7 +10,6 @@ export const BUTTON_TYPES = {
 	TERTIARY: 'TERTIARY',
 	LINK: 'LINK',
 	AUTO_CLOSE: 'AUTO_CLOSE',
-	// LARGE_ICON: 'LARGE_ICON',
 	SMALL_ICON: 'SMALL_ICON'
 };
 
@@ -19,13 +18,12 @@ export interface ButtonItem {
 	function?: string;
 	type: string;
 	id?: string;
-	target?: string;
 	icon?: JSX.Element;
 	smallIconBackgroundColor?: 'green' | 'red' | 'yellow' | 'grey';
 }
 
 export interface ButtonProps {
-	buttonHandle: Function;
+	buttonHandle?: Function;
 	disabled?: boolean;
 	isLink?: boolean;
 	item: ButtonItem;
@@ -42,7 +40,7 @@ export const Button = (props: ButtonProps) => {
 	const handleButtonTimer = () => {
 		if (item.type === BUTTON_TYPES.AUTO_CLOSE) {
 			timeoutID = window.setTimeout(() => {
-				props.buttonHandle(item.function, item.target);
+				props.buttonHandle(item.function);
 			}, OVERLAY_RESET_TIME);
 		}
 	};
@@ -81,7 +79,7 @@ export const Button = (props: ButtonProps) => {
 
 		if (!props.disabled) {
 			window.clearTimeout(timeoutID);
-			props.buttonHandle(item.function, item.target);
+			props.buttonHandle(item.function);
 		}
 	};
 

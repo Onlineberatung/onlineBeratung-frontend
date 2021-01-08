@@ -695,7 +695,6 @@ const Registration = () => {
 								type: 'TERTIARY'
 							}}
 							isLink={true}
-							buttonHandle={() => {}}
 						/>
 					</a>
 				</div>
