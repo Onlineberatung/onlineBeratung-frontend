@@ -39,6 +39,7 @@ import { ReactComponent as StopGroupChatIcon } from '../../resources/img/icons/x
 import { ReactComponent as EditGroupChatIcon } from '../../resources/img/icons/gear.svg';
 import { ReactComponent as MenuHorizontalIcon } from '../../resources/img/icons/stack-horizontal.svg';
 import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/stack-vertical.svg';
+import { v4 as uuid } from 'uuid';
 import '../sessionHeader/sessionHeader.styles';
 import './sessionMenu.styles';
 
@@ -168,8 +169,22 @@ export const SessionMenu = () => {
 		return <Redirect to={getSessionListPathForLocation()} />;
 	}
 
+	//TODO: implement with video call component branch & cleanup, also line 182 -> Test Button
+	const handleStartVideoCall = () => {
+		const newCallId = uuid();
+		const baseUrl = 'https://caritas-video.open4business.de/';
+		const callUrl = baseUrl + newCallId;
+		window.open(callUrl);
+	};
+
 	return (
 		<div className="sessionMenu__wrapper">
+			<div
+				className="sessionMenu__item--desktop sessionInfo__feedbackButton"
+				onClick={handleStartVideoCall}
+			>
+				Video Call
+			</div>
 			{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
 			chatItem.feedbackGroupId ? (
