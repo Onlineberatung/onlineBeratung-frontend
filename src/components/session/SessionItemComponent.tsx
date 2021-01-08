@@ -382,5 +382,6 @@ const monitoringButtonItem: ButtonItem = {
 
 const scrollBottomButtonItem: ButtonItem = {
 	icon: <ArrowDoubleDownIcon />,
-	type: 'SMALL_ICON'
+	type: BUTTON_TYPES.SMALL_ICON,
+	smallIconBackgroundColor: 'grey'
 };

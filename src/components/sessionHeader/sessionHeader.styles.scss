@@ -114,48 +114,23 @@ $iconSize: 24px;
 		}
 	}
 
-	&__feedbackButton {
-		flex-direction: row;
-		align-items: center;
-		color: $secondary;
-		background-color: $yellow-3;
-		border-radius: 16px;
-		padding: 0 14px;
-		cursor: pointer;
-		transition: background-color transform 0.5s ease-out;
+	&__feedbackButton--active .button__item {
+		transform: scale(1.2);
+		animation: yellowThemeHighlight 1.5s forwards;
 
-		&:hover {
-			color: $secondary;
-			background-color: $yellow-4;
-		}
-
-		img {
-			width: $feedbackBtnSize;
-			height: $feedbackBtnSize;
-			margin-right: 8px;
-		}
-
-		p {
-			margin: 0;
-		}
-
-		&--active {
-			transform: scale(1.2);
-			animation: yellowThemeHighlight 1.5s forwards;
-
-			@keyframes yellowThemeHighlight {
-				0% {
-					background-color: $yellow-3;
-				}
-				20% {
-					background-color: $yellow-4;
-				}
-				100% {
-					background-color: $yellow-3;
-				}
+		@keyframes yellowThemeHighlight {
+			0% {
+				background-color: $yellow-3;
+			}
+			20% {
+				background-color: $yellow-4;
+			}
+			100% {
+				background-color: $yellow-3;
 			}
 		}
 	}
+
 	&__feedbackMetaInfo,
 	&__metaInfo {
 		width: 100%;

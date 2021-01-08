@@ -42,6 +42,7 @@ import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/st
 import '../sessionHeader/sessionHeader.styles';
 import './sessionMenu.styles';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -169,15 +170,35 @@ export const SessionMenu = () => {
 		return <Redirect to={getSessionListPathForLocation()} />;
 	}
 
-	const buttonSetRegistration: ButtonItem = {
-		type: BUTTON_TYPES.SMALL_ICON
+	const buttonStartCall: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'green',
+		icon: <ArrowDoubleDownIcon />
+	};
+
+	const buttonStartVideoCall: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'green',
+		icon: <ArrowDoubleDownIcon />
+	};
+
+	const buttonFeedback: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'yellow',
+		icon: <FeedbackIcon />,
+		label: translate('chatFlyout.feedback'),
+		target: feedbackPath
 	};
 
 	return (
 		<div className="sessionMenu__wrapper">
 			<Button
 				buttonHandle={(e) => console.log(e)}
-				item={buttonSetRegistration}
+				item={buttonStartCall}
+			/>
+			<Button
+				buttonHandle={(e) => console.log(e)}
+				item={buttonStartVideoCall}
 			/>
 			{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
@@ -185,10 +206,12 @@ export const SessionMenu = () => {
 				<Link
 					to={feedbackPath}
 					className="sessionInfo__feedbackButton sessionMenu__item--desktop"
-					role="button"
 				>
-					<FeedbackIcon />
-					<p>{translate('chatFlyout.feedback')}</p>
+					<Button
+						item={buttonFeedback}
+						isLink={true}
+						buttonHandle={() => {}}
+					/>
 				</Link>
 			) : null}
 

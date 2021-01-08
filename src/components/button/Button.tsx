@@ -7,9 +7,10 @@ import './button.styles';
 export const BUTTON_TYPES = {
 	PRIMARY: 'PRIMARY',
 	SECONDARY: 'SECONDARY',
-	LINK: 'LINK',
 	TERTIARY: 'TERTIARY',
+	LINK: 'LINK',
 	AUTO_CLOSE: 'AUTO_CLOSE',
+	// LARGE_ICON: 'LARGE_ICON',
 	SMALL_ICON: 'SMALL_ICON'
 };
 
@@ -20,7 +21,7 @@ export interface ButtonItem {
 	id?: string;
 	target?: string;
 	icon?: JSX.Element;
-	color?: 'green' | 'red';
+	smallIconBackgroundColor?: 'green' | 'red' | 'yellow' | 'grey';
 }
 
 export interface ButtonProps {
@@ -89,11 +90,23 @@ export const Button = (props: ButtonProps) => {
 			<button
 				onClick={(event) => handleButtonClick(event)}
 				id={item.id}
-				className={
-					'button__item ' +
-					getButtonClassName(item.type) +
-					(props.disabled ? ' button__item--disabled' : '')
-				}
+				className={`
+					button__item 
+					${getButtonClassName(item.type)} 
+					${
+						item.type === BUTTON_TYPES.SMALL_ICON
+							? getButtonClassName(item.type) +
+							  '--' +
+							  item.smallIconBackgroundColor
+							: ''
+					} 
+					${
+						item.type === BUTTON_TYPES.SMALL_ICON && item.label
+							? getButtonClassName(item.type) + '--withLabel'
+							: ''
+					} 
+					${props.disabled ? ' button__item--disabled' : ''}
+				`}
 			>
 				{item.id === 'reloadButton' && (
 					<ReloadIcon className="button__icon" />
