@@ -192,21 +192,23 @@ export const SessionMenu = () => {
 
 	return (
 		<div className="sessionMenu__wrapper">
-			<Button
-				buttonHandle={(e) => console.log(e)}
-				item={buttonStartCall}
-			/>
-			<Button
-				buttonHandle={(e) => console.log(e)}
-				item={buttonStartVideoCall}
-			/>
+			{!isGroupChat &&
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
+					<div className="sessionMenu__buttonWrapper">
+						<Button
+							buttonHandle={(e) => console.log(e)}
+							item={buttonStartCall}
+						/>
+						<Button
+							buttonHandle={(e) => console.log(e)}
+							item={buttonStartVideoCall}
+						/>
+					</div>
+				)}
 			{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
 			chatItem.feedbackGroupId ? (
-				<Link
-					to={feedbackPath}
-					className="sessionInfo__feedbackButton sessionMenu__item--desktop"
-				>
+				<Link to={feedbackPath} className="sessionInfo__feedbackButton">
 					<Button item={buttonFeedback} isLink={true} />
 				</Link>
 			) : null}

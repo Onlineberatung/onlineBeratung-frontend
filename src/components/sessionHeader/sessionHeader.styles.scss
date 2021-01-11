@@ -114,19 +114,27 @@ $iconSize: 24px;
 		}
 	}
 
-	&__feedbackButton--active .button__item {
-		transform: scale(1.2);
-		animation: yellowThemeHighlight 1.5s forwards;
+	&__feedbackButton {
+		display: none;
 
-		@keyframes yellowThemeHighlight {
-			0% {
-				background-color: $yellow-3;
-			}
-			20% {
-				background-color: $yellow-4;
-			}
-			100% {
-				background-color: $yellow-3;
+		@include breakpoint($fromLarge) {
+			display: inline-block;
+		}
+
+		&--active .button__item {
+			transform: scale(1.2);
+			animation: yellowThemeHighlight 1.5s forwards;
+
+			@keyframes yellowThemeHighlight {
+				0% {
+					background-color: $yellow-3;
+				}
+				20% {
+					background-color: $yellow-4;
+				}
+				100% {
+					background-color: $yellow-3;
+				}
 			}
 		}
 	}
