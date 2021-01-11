@@ -1,5 +1,3 @@
-import { config } from '../config';
-
 export const getConsultingTypeFromRegistration = () => {
 	const registrationRoot = document.getElementById('registrationRoot');
 	return registrationRoot?.dataset?.consultingtype
@@ -29,27 +27,10 @@ export const isGenericConsultingType = (currentType: number): boolean => {
 		16,
 		17,
 		18,
-		19
+		19,
+		20
 	];
 	return genericTypes.includes(currentType);
-};
-
-export const hasConsultingTypeLongPostcodeValidation = (
-	consultingType: number | undefined = getConsultingTypeFromRegistration()
-): boolean => {
-	const typesUsingLongPostcodeValidation = ['12', '17'];
-	return consultingType
-		? typesUsingLongPostcodeValidation.includes(consultingType.toString())
-		: false;
-};
-
-export const hasPreselectedAgencyFallback = (
-	consultingType: number | undefined = getConsultingTypeFromRegistration()
-): boolean => {
-	const typesWithPreselectedAgencyFallback = ['11', '13', '15'];
-	return consultingType
-		? typesWithPreselectedAgencyFallback.includes(consultingType.toString())
-		: false;
 };
 
 export const getResortKeyForConsultingType = (currentType: number) => {
@@ -76,17 +57,11 @@ export const RESORT_KEYS = {
 	16: 'migration',
 	17: 'emigration',
 	18: 'hospice',
-	19: 'regional'
+	19: 'regional',
+	20: 'men'
 };
 
-export const POSTCODE_FALLBACK_LINKS = {
-	8: config.endpoints.registrationDisabilityPostcodeFallback,
-	16: config.endpoints.registrationMigrationPostcodeFallback,
-	18: config.endpoints.registrationHospicePostcodeFallback
-};
-
-export const PRESELECTED_AGENCY_FALLBACK_LINKS = {
-	11: config.endpoints.registrationOffenderRedirect,
-	13: config.endpoints.registrationRehabilitationRedirect,
-	15: config.endpoints.registrationKreuzbundRedirect
+const groupChatConsultingTypes = ['15'];
+export const isGroupChatConsultingType = (consultingType: number): boolean => {
+	return groupChatConsultingTypes.includes(consultingType?.toString());
 };

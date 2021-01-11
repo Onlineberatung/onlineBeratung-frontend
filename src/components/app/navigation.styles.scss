@@ -1,5 +1,4 @@
 $iconSize: 32px;
-$iconSizeSmall: 28px;
 $unreadBubbleSize: 8px;
 $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
@@ -16,6 +15,19 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		}
 	}
 
+	&__itemContainer {
+		display: flex;
+		justify-content: space-around;
+		width: 100%;
+		max-width: calc(#{$grid-base} * 62);
+
+		@include breakpoint($fromLarge) {
+			flex-direction: column;
+			height: 100%;
+			max-width: none;
+		}
+	}
+
 	&__logo {
 		display: none;
 		width: 60px;
@@ -28,20 +40,25 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 	}
 
 	&__item {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		position: relative;
+		height: $grid-base-five;
+		width: $grid-base-five;
 		margin: 0;
 		color: $white;
 		opacity: 0.7;
-		text-decoration: none;
 		fill-opacity: 0.7;
 		text-align: center;
-		position: relative;
-
-		&:not(:first-child) {
-			margin: 0 0 0 $grid-base-two;
-		}
+		text-decoration: none;
 
 		@include breakpoint($fromLarge) {
-			margin: $grid-base-two 0 !important; //important to overwrite first-child specification
+			display: block;
+			width: auto;
+			height: auto;
+			margin: $grid-base-two $grid-base;
 		}
 
 		&__logout {
@@ -72,12 +89,12 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			font-size: 10px;
 			line-height: 18px;
 			position: absolute;
-			top: 0;
-			right: 8px;
+			top: 4px;
+			left: calc(50% + #{$grid-base-two});
 			text-align: center;
 
-			@include breakpoint($fromLarge) {
-				right: 22px;
+			@include breakpoint($fromMedium) {
+				top: 0;
 			}
 
 			&--initial {
@@ -132,42 +149,22 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 	}
 
 	&__icon {
-		width: $iconSizeSmall;
-		height: $iconSizeSmall;
+		width: $iconSize;
+		height: $iconSize;
 		margin: auto;
 		text-align: center;
-
-		@include breakpoint($fromLarge) {
-			width: $iconSize;
-			height: $iconSize;
-		}
 	}
 
 	&__title {
-		display: block;
+		display: none;
+		width: 100%;
 		font-size: $font-size-secondary;
 		line-height: 16px;
 		text-align: center;
 		margin: auto;
 
-		&--large {
-			display: none;
-
-			@include breakpoint($fromSmall) {
-				display: block;
-			}
-
-			@include breakpoint($fromLarge) {
-				max-width: 90px;
-			}
-		}
-
-		&--small {
+		@include breakpoint($fromLarge) {
 			display: block;
-
-			@include breakpoint($fromSmall) {
-				display: none;
-			}
 		}
 	}
 }

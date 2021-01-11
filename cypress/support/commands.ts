@@ -1,15 +1,30 @@
-import { CyHttpMessages } from 'cypress/types/net-stubbing';
-import { WebSocket, Server } from 'mock-socket';
-import { UserDataInterface } from '../../src/globalState';
+import {
+	generateAskerSession,
+	generateMessage,
+	generateMessagesReply,
+	generateConsultantSession,
+	sessionsReply
+} from './sessions';
+import { CyHttpMessages, RouteHandler } from 'cypress/types/net-stubbing';
 import { config } from '../../src/resources/scripts/config';
+import { mockWebSocket } from './websocket';
+import { UserDataInterface } from '../../src/globalState';
 
 interface CaritasMockedLoginArgs {
+	type?: 'asker' | 'consultant';
 	auth?: {
 		expires_in?: number;
 		refresh_expires_in?: number;
 	};
+	// TODO: why is this type not available in userservice's openapi spec?
 	userData?: Partial<UserDataInterface>;
 	attachmentUpload?: Partial<CyHttpMessages.IncomingResponse>;
+	sessions?:
+		| UserService.Schemas.UserSessionResponseDTO[]
+		| UserService.Schemas.ConsultantSessionResponseDTO[];
+	messages?: MessageService.Schemas.MessagesDTO[];
+	userSessionsTimeout?: number;
+	sessionsCallback?: RouteHandler;
 }
 
 declare global {
@@ -25,47 +40,7 @@ declare global {
 Cypress.Commands.add(
 	'caritasMockedLogin',
 	(args: CaritasMockedLoginArgs = {}) => {
-		let mockStompServer;
-		let mockRCServer;
-		cy.on('window:before:load', (win) => {
-			const winWebSocket = win.WebSocket;
-			cy.stub(win, 'WebSocket').callsFake((url) => {
-				// TODO: "/service/live" & "/websocket" should be synced with config, but the
-				// config hardcodes the http protocol in development
-				if (new URL(url).pathname.startsWith('/service/live')) {
-					// stomp mock
-					if (mockStompServer) {
-						mockStompServer.stop();
-					}
-
-					let stompConnected = false;
-					mockStompServer = new Server(url);
-					mockStompServer.on('connection', (socket) => {
-						socket.on('message', () => {
-							if (!stompConnected) {
-								socket.send(
-									'a["CONNECTED\nversion:1.2\nheart-beat:600000,600000\n\n\u0000"]'
-								);
-								stompConnected = true;
-							}
-						});
-
-						socket.send('o');
-					});
-					return new WebSocket(url);
-				} else if (new URL(url).pathname.startsWith('/websocket')) {
-					// rocketchat mock
-					if (mockRCServer) {
-						mockRCServer.stop();
-					}
-					mockRCServer = new Server(url);
-
-					return new WebSocket(url);
-				} else {
-					return new winWebSocket(url);
-				}
-			});
-		});
+		mockWebSocket();
 
 		cy.fixture('auth.token').then((auth) =>
 			cy
@@ -75,33 +50,121 @@ Cypress.Commands.add(
 				})
 				.as('authToken')
 		);
+
 		cy.intercept('POST', config.endpoints.keycloakLogout, {}).as(
 			'authLogout'
 		);
-		cy.fixture('service.users.data').then((userData) => {
-			cy.intercept('GET', config.endpoints.userData, {
-				...userData,
-				...args.userData
+
+		let sessions = args.sessions;
+
+		if (args.sessionsCallback) {
+			cy.intercept(
+				'GET',
+				`${config.endpoints.sessions}*`,
+				args.sessionsCallback
+			);
+		}
+
+		if (!args.type || args.type === 'asker') {
+			cy.fixture('service.users.data.askers').then((userData) => {
+				cy.intercept('GET', config.endpoints.userData, {
+					...userData,
+					...args.userData
+				});
 			});
+
+			if (!args.sessionsCallback) {
+				sessions = args.sessions || [generateAskerSession()];
+				cy.intercept('GET', config.endpoints.userSessions, (req) => {
+					return new Promise((resolve) =>
+						setTimeout(() => {
+							req.reply({
+								sessions
+							});
+							resolve();
+						}, args.userSessionsTimeout || 0)
+					);
+				}).as('askerSessions');
+			}
+		}
+
+		if (args.type === 'consultant') {
+			cy.fixture('service.users.data.consultants').then((userData) => {
+				cy.intercept('GET', config.endpoints.userData, {
+					...userData,
+					...args.userData
+				});
+			});
+
+			if (!args.sessionsCallback) {
+				sessions = args.sessions || [
+					generateConsultantSession(),
+					generateConsultantSession(),
+					generateConsultantSession()
+				];
+
+				cy.intercept('GET', `${config.endpoints.sessions}*`, (req) => {
+					const url = new URL(req.url);
+
+					const offset =
+						parseInt(url.searchParams.get('offset')) || 0;
+					const count = parseInt(url.searchParams.get('count')) || 15;
+
+					return new Promise((resolve) =>
+						setTimeout(() => {
+							req.reply(
+								sessionsReply({
+									sessions,
+									offset,
+									count
+								})
+							);
+							resolve();
+						}, args.userSessionsTimeout || 0)
+					);
+				}).as('consultantSessionsRequest');
+			}
+		}
+
+		cy.intercept('GET', `${config.endpoints.enquiries}*`, {});
+
+		const messages = args.messages || [
+			generateMessage({ rcGroupId: sessions[0].session.groupId })
+		];
+		cy.intercept('GET', config.endpoints.messages, (req) => {
+			const url = new URL(req.url);
+
+			req.reply(
+				generateMessagesReply(
+					messages.filter(
+						(message) =>
+							message.rid === url.searchParams.get('rcGroupId')
+					)
+				)
+			);
 		});
-		cy.intercept('GET', config.endpoints.userSessions, {
-			fixture: 'service.users.sessions.askers.json'
+
+		cy.intercept('POST', config.endpoints.messageRead, (req) => {
+			sessions.forEach((session) => {
+				if (session.session.groupId === req.body.rid) {
+					session.session.messagesRead = true;
+				}
+			});
+			req.reply('{}');
 		});
-		cy.intercept('GET', `${config.endpoints.liveservice}/**/*`, {
-			fixture: 'service.live.info.json'
-		});
+
 		cy.intercept('POST', config.endpoints.rocketchatAccessToken, {
 			fixture: 'api.v1.login.json'
 		});
+
 		cy.intercept('POST', config.endpoints.rocketchatLogout, {}).as(
 			'apiLogout'
 		);
-		cy.intercept('POST', config.endpoints.liveservice, {});
-		cy.intercept('GET', config.endpoints.liveservice, {});
+
+		cy.intercept(config.endpoints.liveservice, {});
+
 		cy.intercept('GET', config.endpoints.draftMessages, {});
-		cy.intercept('GET', config.endpoints.messages, {
-			fixture: 'service.messages.json'
-		});
+
 		cy.intercept('POST', config.endpoints.attachmentUpload, {
 			statusCode: 201,
 			...args.attachmentUpload
@@ -116,6 +179,11 @@ Cypress.Commands.add(
 		});
 		cy.get('.button__primary').click();
 		cy.wait('@authToken');
-		cy.get('#appRoot').should('exist');
+		cy.get('#appRoot').should('be.visible');
+
+		// TODO: give initial app code a chance to run, this should not
+		// arbitrarly wait but instead the DOM should have some indication
+		// somewhere that the app finished doing all initial work
+		return cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
 	}
 );

@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.1.0...v2.2.0) (2021-01-11)
+
+
+### Features
+
+* 🎸 added new ct 20 (men) and registration page ([573e7fc](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/573e7fc701c35e8fe37353bfbde4930a463f49a3))
+* 🎸 added SelectedAgencyInfo component and translations ([f46edbd](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/f46edbde467b4149669830bc91b5dca1672789d4))
+* 🎸 changing styles for selectedAgencyInfo overline ([31b00c9](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/31b00c9d01187e6cc6ac4bccc1d1f5dd43891c81))
+* 🎸 deactivate registration to ct 20 ([3b0d155](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/3b0d155a3ff3aa2df4d83554c2df3415eeceba71))
+* 🎸 new postcode validation & registration logic, cleanup ([9162f3e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/9162f3e752943211a0f8bf7e085a0ad8f4391c14))
+* 🎸 new special char validation for passwords ([505709e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/505709e5ef61f7297ba5b045e8b8c3aa54fd9080))
+* 🎸 refactor agencySelection for new postcode validation ([835ab0d](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/835ab0d72274c0e159f7e763e03d2e3ced6af996))
+* generate types from openapi service yaml urls ([5480c3c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/5480c3c7f43529a6f3de29de0b889880b55e8a49))
+* **session-list:** offset fetch when scroll threshold is reached ([e89ec20](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/e89ec207040c8a25ed9f58755cfe749fbd045d95))
+
+
+### Bug Fixes
+
+* **sessions-list:** logout if trying to paginate with expired access token ([5d43723](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/5d4372348cf6c1451942e9f5b00d87a8d1a7266c))
+* 🐛 checkbox icon fix for peer user ([a3d22f4](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/a3d22f4d2a9f82834f30ee7e4c6afa17ab9ddecd))
+* 🐛 content wrapper header spacing ([212375e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/212375efbcc4be62d0d5b50e548eaf5034f5da39))
+* 🐛 feedback tag link ([4c98a44](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/4c98a448da7f3a23098d6c3c52ca432380b6a56a))
+* 🐛 postcode fix for asker registration ([ad70e8e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/ad70e8e25818d15c2d74cc0f6a1914f542a5c03c))
+* 🐛 session list headline alignement ([39aca57](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/39aca5799b33495e39974299761c92f0e4eb51a7))
+* 🐛 session list spacing on mobile ([7d0fef4](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7d0fef46178785e6c8362fdec333de0a18ac48d7))
+* 🐛 small styling adjustments out of design QS ([21e98b8](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/21e98b8938d702e1373aa52be63c30f3ebdd03b4))
+* 🐛 validation for prefilled agencies, cleanup deprecated ([7215d45](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7215d45eeff22851d78d0b29dcdb85994468080f))
+
 ## [2.1.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v1.3.1...v2.1.0) (2020-12-14)
 
 

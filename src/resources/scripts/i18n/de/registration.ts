@@ -22,6 +22,7 @@ const registration = {
 	'overline.emigration': 'Aus-/Rück- & Weiterwanderung',
 	'overline.hospice': 'Hospiz-, Palliativ- und Trauerberatung',
 	'overline.regional': 'Regionale Angebote',
+	'overline.men': 'Jungen- und Männerberatung',
 	'voluntary.headline': 'Freiwillige Angaben',
 	'voluntary.subline':
 		'Für die Beratung würden uns folgende Angaben sehr helfen',
@@ -29,6 +30,7 @@ const registration = {
 	'login.label': 'Zum Login',
 	'agency.prefilled.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
 	'agency.prefilled.isTeam': 'Sie werden von einem Team beraten.',
+	'agency.selected.prefix': 'Ihre ausgewählte Beratungsstelle: ',
 	'user.label': 'Benutzername*',
 	'user.infoText':
 		'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialien zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',

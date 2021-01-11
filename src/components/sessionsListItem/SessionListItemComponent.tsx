@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import { getPrettyDateFromMessageDate } from '../../resources/scripts/helpers/dateHelpers';
 import {
@@ -32,7 +31,8 @@ import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
 import './sessionsListItem.styles';
-import { autoselectAgencyForConsultingType } from '../profile/profileHelpers';
+import { Tag } from '../Tag/Tag';
+import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
 
 interface SessionListItemProps {
 	type: string;
@@ -109,10 +109,6 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		}
 	};
 
-	const handleLabelClick = (e) => {
-		e.stopPropagation();
-	};
-
 	const iconVariant = () => {
 		if (isGroupChat) {
 			return LIST_ICONS.IS_GROUP_CHAT;
@@ -126,11 +122,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	};
 	const Icon = getSessionsListItemIcon(iconVariant());
 
-	if (
-		autoselectAgencyForConsultingType(
-			currentSessionData.session?.consultingType
-		)
-	) {
+	if (isGroupChatConsultingType(currentSessionData.session?.consultingType)) {
 		return null;
 	}
 
@@ -150,6 +142,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						: `sessionsListItem`
 				}
 				data-group-id={listItem.groupId ? listItem.groupId : ''}
+				data-cy="session-list-item"
 			>
 				<div
 					className={
@@ -179,11 +172,6 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						>
 							{listItem.topic}
 						</div>
-						{listItem.active ? (
-							<div className="sessionsListItem__activeLabel">
-								{translate('groupChat.listItem.activeLabel')}
-							</div>
-						) : null}
 					</div>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__subject">
@@ -209,6 +197,14 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								</span>
 							</div>
 						) : null}
+						{listItem.active && (
+							<Tag
+								text={translate(
+									'groupChat.listItem.activeLabel'
+								)}
+								color="green"
+							/>
+						)}
 					</div>
 				</div>
 			</div>
@@ -228,6 +224,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					: `sessionsListItem`
 			}
 			data-group-id={listItem.groupId}
+			data-cy="session-list-item"
 		>
 			<div className="sessionsListItem__content">
 				<div className="sessionsListItem__row">
@@ -250,25 +247,11 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								: null}
 						</div>
 					)}
-
-					{!typeIsUser(type) &&
-					!typeIsEnquiry(type) &&
-					!listItem.feedbackRead &&
-					!(
-						activeSession &&
-						activeSession.isFeedbackSession &&
-						activeSession.session.feedbackGroupId ===
-							listItem.feedbackGroupId
-					) ? (
-						<Link
-							onClick={(e) => handleLabelClick(e)}
-							to={feedbackPath}
-							className="sessionsListItem__feedbackLabel"
-							role="button"
-						>
-							{translate('chatFlyout.feedback')}
-						</Link>
-					) : null}
+					<div className="sessionsListItem__date">
+						{listItem.messageDate
+							? getPrettyDateFromMessageDate(listItem.messageDate)
+							: ''}
+					</div>
 				</div>
 				<div className="sessionsListItem__row">
 					<div className="sessionsListItem__icon">
@@ -297,10 +280,10 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						<div className="sessionsListItem__subject">
 							{plainTextLastMessage}
 						</div>
-					) : isCurrentSessionNewEnquiry ? (
-						<span></span>
-					) : null}
-					{listItem.attachment ? (
+					) : (
+						isCurrentSessionNewEnquiry && <span></span>
+					)}
+					{listItem.attachment && (
 						<div className="sessionsListItem__subject">
 							<span className="sessionsListItem__subject__attachment">
 								{getIconForAttachmentType(
@@ -315,12 +298,22 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 									: translate('attachments.list.label.sent')}
 							</span>
 						</div>
-					) : null}
-					<div className="sessionsListItem__date">
-						{listItem.messageDate
-							? getPrettyDateFromMessageDate(listItem.messageDate)
-							: ''}
-					</div>
+					)}
+					{!typeIsUser(type) &&
+						!typeIsEnquiry(type) &&
+						!listItem.feedbackRead &&
+						!(
+							activeSession &&
+							activeSession.isFeedbackSession &&
+							activeSession.session.feedbackGroupId ===
+								listItem.feedbackGroupId
+						) && (
+							<Tag
+								color="yellow"
+								text={translate('chatFlyout.feedback')}
+								link={feedbackPath}
+							/>
+						)}
 				</div>
 			</div>
 		</div>

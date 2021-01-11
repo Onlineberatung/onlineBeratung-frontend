@@ -40,7 +40,7 @@ export enum REGISTRATION_STATUS_KEYS {
 	REGISTERED = 'REGISTERED',
 	UNREGISTERED = 'UNREGISTERED'
 }
-const forAskerRegistrationExcludedConsultingTypes = [1, 19];
+const forAskerRegistrationExcludedConsultingTypes = [1, 19, 20];
 export const getConsultingTypesForRegistrationStatus = (
 	userData: UserDataInterface,
 	registrationStatus: REGISTRATION_STATUS_KEYS
@@ -77,15 +77,6 @@ export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
 					: getResortTranslation(parseInt(value.consultingType))
 		};
 	});
-};
-
-const consultingTypesToAutoselectAgency = ['15'];
-export const autoselectAgencyForConsultingType = (
-	consultingType: number
-): boolean => {
-	return consultingTypesToAutoselectAgency.includes(
-		consultingType?.toString()
-	);
 };
 
 export const overlayItemNewRegistrationSuccess: OverlayItem = {

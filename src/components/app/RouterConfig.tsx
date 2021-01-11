@@ -64,7 +64,7 @@ export const RouterConfigConsultant = (): any => {
 		navigation: [
 			{
 				to: '/sessions/consultant/sessionPreview',
-				icon: 'envelope',
+				icon: 'inbox',
 				titleKeys: {
 					large: 'navigation.consultant.enquiries'
 				}
@@ -163,7 +163,7 @@ export const RouterConfigTeamConsultant = (): any => {
 		navigation: [
 			{
 				to: '/sessions/consultant/sessionPreview',
-				icon: 'envelope',
+				icon: 'inbox',
 				titleKeys: {
 					large: 'navigation.consultant.enquiries'
 				}

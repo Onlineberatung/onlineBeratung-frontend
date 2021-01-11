@@ -1,16 +1,16 @@
 {
 	"status": "success",
 	"data": {
-		"userId": "userId",
+		"userId": "askerId1",
 		"authToken": "authToken",
 		"me": {
-			"_id": "_id",
+			"_id": "askerId1",
 			"services": {
 				"password": {
 					"bcrypt": "bcrypt"
 				}
 			},
-			"username": "username",
+			"username": "asker1",
 			"emails": [
 				{
 					"address": "address",

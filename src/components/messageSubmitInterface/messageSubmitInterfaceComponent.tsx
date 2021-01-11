@@ -100,14 +100,6 @@ const emojiPlugin = createEmojiPlugin({
 });
 const { EmojiSelect } = emojiPlugin;
 
-const checkboxItem: CheckboxItem = {
-	inputId: 'requestFeedback',
-	name: 'requestFeedback',
-	labelId: 'requestFeedbackLabel',
-	label: translate('message.write.peer.checkbox.label'),
-	checked: false
-};
-
 const INFO_TYPES = {
 	ABSENT: 'ABSENT',
 	ATTACHMENT_SIZE_ERROR: 'ATTACHMENT_SIZE_ERROR',
@@ -174,6 +166,14 @@ export const MessageSubmitInterfaceComponent = (
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
 	) as HTMLInputElement;
+
+	const checkboxItem: CheckboxItem = {
+		inputId: 'requestFeedback',
+		name: 'requestFeedback',
+		labelId: 'requestFeedbackLabel',
+		label: translate('message.write.peer.checkbox.label'),
+		checked: requestFeedbackCheckbox?.checked || false
+	};
 
 	const isConsultantAbsent =
 		hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&

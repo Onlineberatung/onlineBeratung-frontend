@@ -32,12 +32,17 @@ $headerHeight: 80px;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		padding: $grid-base-three;
+		padding: $grid-base-three $grid-base-two;
 		background-color: $background-light-ochre;
 		z-index: 15;
 
+		@include breakpoint($fromMedium) {
+			padding-left: $grid-base-three;
+		}
+
 		@include breakpoint($fromLarge) {
 			position: static;
+			padding: $grid-base-three;
 		}
 	}
 
@@ -110,17 +115,19 @@ $headerHeight: 80px;
 
 	&__scrollContainer {
 		height: calc(100% - 152px);
-		margin-top: 80px;
+		margin-top: $grid-base-ten;
+		padding-top: $grid-base-three;
 		overflow: auto;
 
 		@include breakpoint($fromLarge) {
 			height: 100%;
 			margin-top: 0;
+			padding-top: 0;
 			position: relative;
 		}
 
 		&--hasFilter {
-			padding-top: 80px;
+			padding-top: 82px;
 		}
 	}
 
@@ -223,12 +230,10 @@ $headerHeight: 80px;
 	font-size: $font-size-h3;
 	font-weight: $font-weight-medium;
 	line-height: $line-height-tertiary;
-	text-align: center;
 	margin-bottom: 0;
 	margin-right: $grid-base-seven;
 
 	@include breakpoint($fromLarge) {
-		text-align: left;
 		margin-left: 0;
 	}
 }

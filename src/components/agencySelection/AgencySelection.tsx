@@ -1,31 +1,29 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { AgencyDataInterface, UserDataInterface } from '../../globalState';
-import {
-	hasConsultingTypeLongPostcodeValidation,
-	POSTCODE_FALLBACK_LINKS
-} from '../../resources/scripts/helpers/resorts';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
 import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import { extendPostcodeToBeValid } from '../registration/registrationHelpers';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import {
-	validPostcodeLengthForConsultingType,
+	autoselectAgencyForConsultingType,
+	autoselectPostcodeForConsultingType,
+	POSTCODE_FALLBACK_LINKS,
 	VALID_POSTCODE_LENGTH
 } from './agencySelectionHelpers';
 import './agencySelection.styles';
 import '../profile/profile.styles';
-import { autoselectAgencyForConsultingType } from '../profile/profileHelpers';
 import { DEFAULT_POSTCODE } from '../registration/prefillPostcode';
 import { InfoText, LABEL_TYPES } from '../infoText/InfoText';
+import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
 
 export interface AgencySelectionProps {
 	selectedConsultingType: number | undefined;
 	icon?: JSX.Element;
 	setAgency: Function;
 	userData?: UserDataInterface;
+	preselectedAgency?: AgencyDataInterface;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
@@ -34,20 +32,36 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	const [proposedAgencies, setProposedAgencies] = useState<
 		[AgencyDataInterface] | null
 	>(null);
-	const [postcodeExtended, setPostcodeExtended] = useState(false);
 
 	const [selectedPostcode, setSelectedPostcode] = useState('');
-	const [typedPostcode, setTypedPostcode] = useState('');
 	const [selectedAgencyId, setSelectedAgencyId] = useState<
 		number | undefined
 	>(undefined);
 	const [autoSelectAgency, setAutoSelectAgency] = useState(false);
+	const [autoSelectPostcode, setAutoSelectPostcode] = useState(false);
+	const [selectedAgencyData, setSelectedAgencyData] = useState<
+		AgencyDataInterface
+	>(null);
+
+	const validPostcode = () =>
+		selectedPostcode?.length === VALID_POSTCODE_LENGTH;
 
 	const isSelectedAgencyValidated = () =>
-		selectedPostcode &&
-		selectedPostcode.length === VALID_POSTCODE_LENGTH.MAX &&
-		typeof selectedAgencyId === 'number' &&
-		typedPostcode;
+		validPostcode() && typeof selectedAgencyId === 'number';
+
+	useEffect(() => {
+		setSelectedPostcode('');
+		setPostcodeFallbackLink('');
+		setSelectedAgencyId(undefined);
+		setProposedAgencies(null);
+		setSelectedAgencyData(null);
+		setAutoSelectAgency(
+			autoselectAgencyForConsultingType(props.selectedConsultingType)
+		);
+		setAutoSelectPostcode(
+			autoselectPostcodeForConsultingType(props.selectedConsultingType)
+		);
+	}, [props.selectedConsultingType]);
 
 	useEffect(() => {
 		if (autoSelectAgency) {
@@ -57,9 +71,11 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			})
 				.then((response) => {
 					const defaultAgency = response[0];
-					setSelectedPostcode(defaultAgency.postcode);
-					setTypedPostcode(defaultAgency.postcode);
+					if (autoSelectPostcode) {
+						setSelectedPostcode(defaultAgency.postcode);
+					}
 					setSelectedAgencyId(defaultAgency.id);
+					setSelectedAgencyData(defaultAgency);
 				})
 				.catch((error) => {
 					return null;
@@ -68,54 +84,39 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	}, [autoSelectAgency]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		setSelectedPostcode('');
-		setPostcodeFallbackLink('');
-		setSelectedAgencyId(undefined);
-		setProposedAgencies(null);
-		setAutoSelectAgency(
-			autoselectAgencyForConsultingType(props.selectedConsultingType)
-		);
-	}, [props.selectedConsultingType]);
-
-	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
 			const agency = {
 				id: selectedAgencyId,
-				typedPostcode: typedPostcode
+				postcode: selectedPostcode
 			};
 			props.setAgency(agency);
-		} else {
-			props.setAgency(null);
-		}
-	}, [selectedAgencyId]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		if (!postcodeExtended && !autoSelectAgency) {
-			setSelectedAgencyId(undefined);
-			setTypedPostcode('');
-			setPostcodeFallbackLink('');
+		} else if (props.preselectedAgency && !selectedAgencyId) {
+			setSelectedAgencyId(props.preselectedAgency.id);
+			setSelectedAgencyData(props.preselectedAgency);
 			if (
-				selectedPostcode &&
-				validPostcodeLengthForConsultingType(
-					selectedPostcode.length,
+				autoselectPostcodeForConsultingType(
 					props.selectedConsultingType
 				)
 			) {
+				setSelectedPostcode(props.preselectedAgency.postcode);
+			}
+		} else {
+			props.setAgency(null);
+		}
+	}, [selectedAgencyId, selectedPostcode, props.preselectedAgency]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (!autoSelectAgency && !props.preselectedAgency) {
+			setSelectedAgencyId(undefined);
+			setSelectedAgencyData(null);
+			setPostcodeFallbackLink('');
+			if (validPostcode()) {
 				ajaxCallAgencySelection({
 					postcode: selectedPostcode,
 					consultingType: props.selectedConsultingType
 				})
 					.then((response) => {
-						if (
-							hasConsultingTypeLongPostcodeValidation(
-								props.selectedConsultingType
-							)
-						) {
-							setTypedPostcode(selectedPostcode);
-							setSelectedAgencyId(response[0].id);
-						} else {
-							setProposedAgencies(response);
-						}
+						setProposedAgencies(response);
 					})
 					.catch((error) => {
 						if (
@@ -133,8 +134,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			} else if (proposedAgencies) {
 				setProposedAgencies(null);
 			}
-		} else {
-			setPostcodeExtended(false);
 		}
 	}, [selectedPostcode]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -161,10 +160,10 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		infoText: translate('profile.data.register.postcodeInput.infoText'),
 		label: translate('profile.data.register.postcodeInput.label'),
 		content: selectedPostcode,
-		maxLength: VALID_POSTCODE_LENGTH.MAX,
+		maxLength: VALID_POSTCODE_LENGTH,
 		pattern: '^[0-9]+$',
 		disabled:
-			autoSelectAgency ||
+			autoSelectPostcode ||
 			(!props.selectedConsultingType &&
 				props.selectedConsultingType !== 0),
 		postcodeFallbackLink: postcodeFallbackLink,
@@ -177,19 +176,13 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 
 	const handleAgencySelection = (agency: AgencyDataInterface) => {
 		setProposedAgencies(null);
-		const fulllengthPostcode = extendPostcodeToBeValid(selectedPostcode);
-
-		setTypedPostcode(fulllengthPostcode);
-		agency.postcode
-			? setSelectedPostcode(agency.postcode)
-			: setSelectedPostcode(fulllengthPostcode);
-		setPostcodeExtended(true);
 		setSelectedAgencyId(agency.id);
+		setSelectedAgencyData(agency);
 	};
 
 	return (
 		<div className="askerRegistration__postcode">
-			{autoSelectAgency ? (
+			{autoSelectPostcode ? (
 				<InfoText
 					className="askerRegistration__consultingModeInfo"
 					labelType={LABEL_TYPES.CAUTION}
@@ -203,6 +196,16 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						item={postcodeInputItem}
 						inputHandle={(e) => handlePostcodeInput(e)}
 					></InputField>
+					{!props.preselectedAgency &&
+						!autoSelectAgency &&
+						selectedAgencyData && (
+							<SelectedAgencyInfo
+								prefix={translate(
+									'registration.agency.selected.prefix'
+								)}
+								agencyData={selectedAgencyData}
+							/>
+						)}
 					{proposedAgencies && (
 						<div
 							ref={postcodeFlyoutRef}
