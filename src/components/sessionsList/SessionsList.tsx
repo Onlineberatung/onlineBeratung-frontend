@@ -8,7 +8,8 @@ import {
 	SESSION_TYPES,
 	getTypeOfLocation,
 	typeIsSession,
-	getChatItemForSession
+	getChatItemForSession,
+	getSessionListPathForLocation
 } from '../session/sessionHelpers';
 import { history } from '../app/app';
 import { translate } from '../../resources/scripts/i18n/translate';
@@ -392,6 +393,7 @@ export const SessionsList: React.FC = () => {
 		setHasNoSessions(false);
 		setActiveSessionGroupId(null);
 		setFilterStatus(selectedOption.value);
+		history.push(getSessionListPathForLocation());
 	};
 
 	const handleReloadButton = () => {
