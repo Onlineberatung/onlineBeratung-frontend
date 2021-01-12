@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.2.0...v2.2.1) (2021-01-12)
+
+
+### Bug Fixes
+
+* 🐛 replace xlsx icon to fix fill problem ([4eb6dff](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/4eb6dff18588a8d30fad76b7fe08b9ea3476a73e))
+* 🐛 route redirect after feedback filter change ([b5a66d4](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/b5a66d494b1a3afd7649a31eebf606d245a73dab))
+
 ## [2.2.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.1.0...v2.2.0) (2021-01-11)
 
 
