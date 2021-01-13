@@ -16,6 +16,12 @@ $userIconSize: 68px;
 		text-align: center;
 	}
 
+	&__username,
+	&__user {
+		font-family: $font-family-medium;
+		font-weight: $font-weight-medium;
+	}
+
 	&__user {
 		display: flex;
 		align-items: center;
