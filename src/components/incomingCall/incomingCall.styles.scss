@@ -4,18 +4,11 @@ $userIconSize: 68px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	z-index: 1;
 	width: 100%;
 	padding: $grid-base-two;
 	border-radius: 4px;
 	background-color: rgba(120, 115, 120, 0.95);
 	backdrop-filter: blur(2px);
-
-	// place where component is used
-	position: fixed;
-	top: 120px;
-	right: 24px;
-	width: 300px;
 
 	&__description {
 		color: $white;
