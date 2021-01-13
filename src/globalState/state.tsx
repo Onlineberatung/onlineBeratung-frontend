@@ -1,14 +1,15 @@
 import * as React from 'react';
 import {
-	UserDataProvider,
-	AuthDataProvider,
-	SessionsDataProvider,
-	ActiveSessionGroupIdProvider,
-	FilterStatusProvider,
-	ConsultantListProvider,
 	AcceptedGroupIdProvider,
+	ActiveSessionGroupIdProvider,
+	AuthDataProvider,
+	ConsultantListProvider,
+	FilterStatusProvider,
+	NotificationsProvider,
+	SessionsDataProvider,
+	StoppedGroupChatProvider,
 	UnreadSessionsStatusProvider,
-	StoppedGroupChatProvider
+	UserDataProvider
 } from '.';
 
 function ProviderComposer({ contexts, children }) {
@@ -25,15 +26,16 @@ function ContextProvider({ children }) {
 	return (
 		<ProviderComposer
 			contexts={[
-				<UserDataProvider />,
-				<AuthDataProvider />,
-				<SessionsDataProvider />,
-				<ActiveSessionGroupIdProvider />,
-				<FilterStatusProvider />,
-				<ConsultantListProvider />,
 				<AcceptedGroupIdProvider />,
+				<ActiveSessionGroupIdProvider />,
+				<AuthDataProvider />,
+				<ConsultantListProvider />,
+				<FilterStatusProvider />,
+				<NotificationsProvider />,
+				<SessionsDataProvider />,
+				<StoppedGroupChatProvider />,
 				<UnreadSessionsStatusProvider />,
-				<StoppedGroupChatProvider />
+				<UserDataProvider />
 			]}
 		>
 			{children}
