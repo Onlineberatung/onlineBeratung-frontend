@@ -8,6 +8,8 @@ import { translate } from '../../resources/scripts/i18n/translate';
 
 export interface IncomingCallProps {
 	username: string;
+	url: string;
+	rcGroupId: string;
 }
 
 const buttonStartCall: ButtonItem = {
