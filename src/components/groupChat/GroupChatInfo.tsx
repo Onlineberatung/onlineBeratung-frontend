@@ -252,7 +252,6 @@ export const GroupChatInfo = () => {
 										id: 'editGroupChat'
 									}}
 									isLink={true}
-									buttonHandle={() => {}}
 								/>
 							</Link>
 						) : null}

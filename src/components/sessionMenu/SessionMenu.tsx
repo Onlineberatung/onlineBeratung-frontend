@@ -42,6 +42,9 @@ import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/st
 import { v4 as uuid } from 'uuid';
 import '../sessionHeader/sessionHeader.styles';
 import './sessionMenu.styles';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
+import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -177,6 +180,25 @@ export const SessionMenu = () => {
 		window.open(callUrl);
 	};
 
+	const buttonStartCall: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'green',
+		icon: <CallOnIcon />
+	};
+
+	const buttonStartVideoCall: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'green',
+		icon: <CameraOnIcon />
+	};
+
+	const buttonFeedback: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'yellow',
+		icon: <FeedbackIcon />,
+		label: translate('chatFlyout.feedback')
+	};
+
 	return (
 		<div className="sessionMenu__wrapper">
 			<div
@@ -185,16 +207,24 @@ export const SessionMenu = () => {
 			>
 				Video Call
 			</div>
+			{!isGroupChat &&
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
+					<div className="sessionMenu__buttonWrapper">
+						<Button
+							buttonHandle={(e) => console.log(e)}
+							item={buttonStartCall}
+						/>
+						<Button
+							buttonHandle={(e) => console.log(e)}
+							item={buttonStartVideoCall}
+						/>
+					</div>
+				)}
 			{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
 			chatItem.feedbackGroupId ? (
-				<Link
-					to={feedbackPath}
-					className="sessionInfo__feedbackButton sessionMenu__item--desktop"
-					role="button"
-				>
-					<FeedbackIcon />
-					<p>{translate('chatFlyout.feedback')}</p>
+				<Link to={feedbackPath} className="sessionInfo__feedbackButton">
+					<Button item={buttonFeedback} isLink={true} />
 				</Link>
 			) : null}
 

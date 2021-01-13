@@ -37,7 +37,7 @@ export const joinGroupChatClosedErrorOverlay: OverlayItem = {
 		{
 			label: translate('groupChat.join.chatClosedOverlay.button2Label'),
 			function: OVERLAY_FUNCTIONS.LOGOUT,
-			type: BUTTON_TYPES.GHOST
+			type: BUTTON_TYPES.SECONDARY
 		}
 	]
 };

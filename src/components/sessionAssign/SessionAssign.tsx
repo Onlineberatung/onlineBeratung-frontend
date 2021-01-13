@@ -110,7 +110,7 @@ export const SessionAssign = (props: { value?: string }) => {
 				{
 					label: translate('session.assignSelf.button2.label'),
 					function: OVERLAY_FUNCTIONS.CLOSE,
-					type: BUTTON_TYPES.GHOST
+					type: BUTTON_TYPES.SECONDARY
 				}
 			]
 		};

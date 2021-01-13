@@ -8,6 +8,10 @@ $iconSize: 20px;
 		a {
 			color: $secondary;
 		}
+
+		.button__wrapper {
+			margin-right: $grid-base-two;
+		}
 	}
 
 	&__icon {
@@ -144,5 +148,9 @@ $iconSize: 20px;
 				fill: $hover-primary;
 			}
 		}
+	}
+
+	&__buttonWrapper {
+		display: flex;
 	}
 }

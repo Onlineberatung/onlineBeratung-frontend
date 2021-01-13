@@ -228,7 +228,7 @@ export const CreateGroupChatView = (props) => {
 	const buttonSetCancel: ButtonItem = {
 		label: translate('groupChat.cancel.button.label'),
 		function: OVERLAY_FUNCTIONS.CLOSE,
-		type: BUTTON_TYPES.GHOST
+		type: BUTTON_TYPES.SECONDARY
 	};
 
 	const buttonSetSave: ButtonItem = {

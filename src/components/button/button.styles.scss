@@ -35,6 +35,20 @@ $buttonBoxShadow: 0 6px 0 0 rgba(0, 0, 0, 0.1);
 		}
 	}
 
+	&__secondary {
+		color: $primary;
+		background-color: transparent;
+		border: 3px solid $primary;
+		transition: all 0.6s ease;
+
+		&:hover {
+			color: $white;
+			border-color: $hover-primary;
+			background-color: $hover-primary;
+			transition: all 0.3s ease;
+		}
+	}
+
 	&__tertiary {
 		display: inline-block;
 		height: 36px;
@@ -51,20 +65,6 @@ $buttonBoxShadow: 0 6px 0 0 rgba(0, 0, 0, 0.1);
 			background-color: $hover-primary;
 			color: white;
 			border-color: $hover-primary;
-		}
-	}
-
-	&__ghost {
-		color: $primary;
-		background-color: transparent;
-		border: 3px solid $primary;
-		transition: all 0.6s ease;
-
-		&:hover {
-			color: $white;
-			border-color: $hover-primary;
-			background-color: $hover-primary;
-			transition: all 0.3s ease;
 		}
 	}
 
@@ -137,22 +137,67 @@ $buttonBoxShadow: 0 6px 0 0 rgba(0, 0, 0, 0.1);
 		align-items: center;
 		justify-content: center;
 		height: $grid-base-four;
-		width: $grid-base-four;
-		min-width: auto;
+		min-width: $grid-base-four;
 		padding: 0;
 		background-color: $light-grey;
-		box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.1);
 		transition: all 0.6s ease;
-
-		&:hover {
-			background-color: $light-grey-hover;
-			transition: all 0.3s ease;
-		}
 
 		svg {
 			fill: $white;
 			height: $grid-base-two;
 			width: $grid-base-two;
+		}
+
+		&--withLabel {
+			font-family: $font-family-regular;
+			font-weight: $font-weight-regular;
+			text-transform: none;
+			color: $white;
+			padding: 0 14px;
+
+			svg {
+				height: $grid-base-three;
+				width: $grid-base-three;
+				margin-right: 6px;
+			}
+		}
+
+		&--grey {
+			background-color: $light-grey;
+			box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.1);
+
+			&:hover {
+				background-color: $light-grey-hover;
+			}
+		}
+
+		&--green {
+			background-color: $form-success;
+
+			&:hover {
+				background-color: darken($form-success, 5%);
+			}
+		}
+
+		&--red {
+			background-color: $form-error;
+
+			&:hover {
+				background-color: darken($form-error, 8%);
+			}
+		}
+
+		&--yellow {
+			color: $secondary;
+			background-color: $yellow-3;
+
+			&:hover {
+				background-color: $yellow-4;
+			}
+
+			svg {
+				fill: $secondary;
+			}
 		}
 	}
 
