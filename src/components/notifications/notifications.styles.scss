@@ -1,0 +1,18 @@
+.notifications {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+	z-index: 500;
+	right: $grid-base-three;
+	top: $grid-base-three;
+
+	@include breakpoint($fromMedium) {
+		right: $grid-base-two;
+		top: $grid-base-two;
+	}
+
+	& > :not(:first-child) {
+		margin-top: 4px;
+	}
+}
