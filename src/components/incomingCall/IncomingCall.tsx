@@ -4,6 +4,7 @@ import './incomingCall.styles';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
+import { translate } from '../../resources/scripts/i18n/translate';
 
 export interface IncomingCallProps {
 	username: string;
@@ -42,7 +43,8 @@ export const IncomingCall = (props: IncomingCallProps) => {
 	return (
 		<div className="incomingCall">
 			<p className="incomingCall__description">
-				{props.username} ruft Sie an...
+				{props.username}{' '}
+				{translate('videoCall.incomingCall.description')}
 			</p>
 			<div className="incomingCall__user">
 				{getInitials(props.username)}
