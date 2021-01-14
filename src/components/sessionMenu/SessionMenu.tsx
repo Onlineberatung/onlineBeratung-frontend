@@ -212,11 +212,11 @@ export const SessionMenu = () => {
 					<div className="sessionMenu__buttonWrapper">
 						<Button
 							buttonHandle={(e) => console.log(e)}
-							item={buttonStartCall}
+							item={buttonStartVideoCall}
 						/>
 						<Button
 							buttonHandle={(e) => console.log(e)}
-							item={buttonStartVideoCall}
+							item={buttonStartCall}
 						/>
 					</div>
 				)}

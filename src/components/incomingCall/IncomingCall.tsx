@@ -54,11 +54,11 @@ export const IncomingCall = (props: IncomingCallProps) => {
 			<div className="incomingCall__buttons">
 				<Button
 					buttonHandle={(e) => console.log(e)}
-					item={buttonStartCall}
+					item={buttonStartVideoCall}
 				/>
 				<Button
 					buttonHandle={(e) => console.log(e)}
-					item={buttonStartVideoCall}
+					item={buttonStartCall}
 				/>
 				<Button
 					buttonHandle={(e) => console.log(e)}
