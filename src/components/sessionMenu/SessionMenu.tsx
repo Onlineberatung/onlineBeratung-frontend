@@ -199,6 +199,21 @@ export const SessionMenu = () => {
 		label: translate('chatFlyout.feedback')
 	};
 
+	const hasVideoCallFeatures = () => {
+		return (
+			!isGroupChat &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+		);
+	};
+
+	const handleStartVideoCallButtonClick = () => {
+		console.log('start video call');
+	};
+
+	const handleStartCallButtonClick = () => {
+		console.log('start call');
+	};
+
 	return (
 		<div className="sessionMenu__wrapper">
 			<div
@@ -207,19 +222,18 @@ export const SessionMenu = () => {
 			>
 				Video Call
 			</div>
-			{!isGroupChat &&
-				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
-					<div className="sessionMenu__buttonWrapper">
-						<Button
-							buttonHandle={(e) => console.log(e)}
-							item={buttonStartVideoCall}
-						/>
-						<Button
-							buttonHandle={(e) => console.log(e)}
-							item={buttonStartCall}
-						/>
-					</div>
-				)}
+			{hasVideoCallFeatures() && (
+				<div className="sessionMenu__videoCallButtons">
+					<Button
+						buttonHandle={handleStartVideoCallButtonClick}
+						item={buttonStartVideoCall}
+					/>
+					<Button
+						buttonHandle={handleStartCallButtonClick}
+						item={buttonStartCall}
+					/>
+				</div>
+			)}
 			{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
 			chatItem.feedbackGroupId ? (
@@ -300,6 +314,22 @@ export const SessionMenu = () => {
 			</span>
 
 			<div id="flyout" className="sessionMenu__content">
+				{hasVideoCallFeatures() && (
+					<div
+						className="sessionMenu__item sessionMenu__item--mobile"
+						onClick={handleStartVideoCallButtonClick}
+					>
+						{translate('chatFlyout.startVideoCall')}
+					</div>
+				)}
+				{hasVideoCallFeatures() && (
+					<div
+						className="sessionMenu__item sessionMenu__item--mobile"
+						onClick={handleStartCallButtonClick}
+					>
+						{translate('chatFlyout.startCall')}
+					</div>
+				)}
 				{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 				chatItem.feedbackGroupId ? (
 					<Link
