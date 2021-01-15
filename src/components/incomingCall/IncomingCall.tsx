@@ -5,6 +5,12 @@ import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { translate } from '../../resources/scripts/i18n/translate';
+import { useContext } from 'react';
+import { NotificationsContext } from '../../globalState';
+import {
+	CallType,
+	getCallUrl
+} from '../../resources/scripts/helpers/callHelpers';
 
 export interface IncomingCallProps {
 	username: string;
@@ -42,6 +48,29 @@ const getInitials = (text: string) => {
 };
 
 export const IncomingCall = (props: IncomingCallProps) => {
+	const { notifications, setNotifications } = useContext(
+		NotificationsContext
+	);
+
+	const handleStartCall = (callType: CallType) => {
+		window.open(getCallUrl(callType, props.url));
+		removeIncomingCallNotification();
+	};
+
+	const handleRejectCall = () => {
+		console.log('reject call');
+		//TODO: reject call BE -> groupId
+
+		removeIncomingCallNotification();
+	};
+
+	const removeIncomingCallNotification = () => {
+		const currentNotifications = notifications.filter((notification) => {
+			return notification.rcGroupId !== props.rcGroupId;
+		});
+		setNotifications(currentNotifications);
+	};
+
 	return (
 		<div className="incomingCall">
 			<p className="incomingCall__description">
@@ -53,15 +82,15 @@ export const IncomingCall = (props: IncomingCallProps) => {
 			</div>
 			<div className="incomingCall__buttons">
 				<Button
-					buttonHandle={(e) => console.log(e)}
+					buttonHandle={() => handleStartCall('video')}
 					item={buttonStartVideoCall}
 				/>
 				<Button
-					buttonHandle={(e) => console.log(e)}
+					buttonHandle={() => handleStartCall('audio')}
 					item={buttonStartCall}
 				/>
 				<Button
-					buttonHandle={(e) => console.log(e)}
+					buttonHandle={() => handleRejectCall()}
 					item={buttonRejectCall}
 				/>
 			</div>

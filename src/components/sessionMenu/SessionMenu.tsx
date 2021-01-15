@@ -39,12 +39,15 @@ import { ReactComponent as StopGroupChatIcon } from '../../resources/img/icons/x
 import { ReactComponent as EditGroupChatIcon } from '../../resources/img/icons/gear.svg';
 import { ReactComponent as MenuHorizontalIcon } from '../../resources/img/icons/stack-horizontal.svg';
 import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/stack-vertical.svg';
-import { v4 as uuid } from 'uuid';
 import '../sessionHeader/sessionHeader.styles';
 import './sessionMenu.styles';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
+import {
+	CallType,
+	getCallUrl
+} from '../../resources/scripts/helpers/callHelpers';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -172,14 +175,6 @@ export const SessionMenu = () => {
 		return <Redirect to={getSessionListPathForLocation()} />;
 	}
 
-	//TODO: implement with video call component branch & cleanup, also line 182 -> Test Button
-	const handleStartVideoCall = () => {
-		const newCallId = uuid();
-		const baseUrl = 'https://caritas-video.open4business.de/';
-		const callUrl = baseUrl + newCallId;
-		window.open(callUrl);
-	};
-
 	const buttonStartCall: ButtonItem = {
 		type: BUTTON_TYPES.SMALL_ICON,
 		smallIconBackgroundColor: 'green',
@@ -199,37 +194,31 @@ export const SessionMenu = () => {
 		label: translate('chatFlyout.feedback')
 	};
 
-	const hasVideoCallFeatures = () => {
-		return (
-			!isGroupChat &&
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+	const hasVideoCallFeatures = () =>
+		!isGroupChat &&
+		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+
+	const handleStartCall = (callType: CallType) => {
+		//TODO: call to BE to start call and receive room id/url
+		console.log(
+			'start call',
+			getCallUrl(callType, 'https://caritas-video.open4business.de/test2')
 		);
-	};
-
-	const handleStartVideoCallButtonClick = () => {
-		console.log('start video call');
-	};
-
-	const handleStartCallButtonClick = () => {
-		console.log('start call');
+		window.open(
+			getCallUrl(callType, 'https://caritas-video.open4business.de/test2')
+		);
 	};
 
 	return (
 		<div className="sessionMenu__wrapper">
-			<div
-				className="sessionMenu__item--desktop sessionInfo__feedbackButton"
-				onClick={handleStartVideoCall}
-			>
-				Video Call
-			</div>
 			{hasVideoCallFeatures() && (
-				<div className="sessionMenu__videoCallButtons">
+				<div className="sessionMenu__callButtons">
 					<Button
-						buttonHandle={handleStartVideoCallButtonClick}
+						buttonHandle={() => handleStartCall('video')}
 						item={buttonStartVideoCall}
 					/>
 					<Button
-						buttonHandle={handleStartCallButtonClick}
+						buttonHandle={() => handleStartCall('audio')}
 						item={buttonStartCall}
 					/>
 				</div>
@@ -317,7 +306,7 @@ export const SessionMenu = () => {
 				{hasVideoCallFeatures() && (
 					<div
 						className="sessionMenu__item sessionMenu__item--mobile"
-						onClick={handleStartVideoCallButtonClick}
+						onClick={() => handleStartCall('video')}
 					>
 						{translate('chatFlyout.startVideoCall')}
 					</div>
@@ -325,7 +314,7 @@ export const SessionMenu = () => {
 				{hasVideoCallFeatures() && (
 					<div
 						className="sessionMenu__item sessionMenu__item--mobile"
-						onClick={handleStartCallButtonClick}
+						onClick={() => handleStartCall('audio')}
 					>
 						{translate('chatFlyout.startCall')}
 					</div>

@@ -9,9 +9,15 @@ interface NotificationsProps {
 export const Notifications = (props: NotificationsProps) => {
 	return (
 		<div className="notifications">
-			{props.notifications.map((notification: IncomingCallProps) => {
-				return notification.url && <IncomingCall {...notification} />;
-			})}
+			{props.notifications.map(
+				(notification: IncomingCallProps, index) => {
+					return (
+						notification.url && (
+							<IncomingCall {...notification} key={index} />
+						)
+					);
+				}
+			)}
 		</div>
 	);
 };

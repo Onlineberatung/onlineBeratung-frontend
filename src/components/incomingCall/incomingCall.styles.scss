@@ -9,7 +9,7 @@ $userIconSize: 62px;
 	border-radius: 4px;
 	background-color: rgba(120, 115, 120, 0.95);
 	backdrop-filter: blur(2px);
-	animation: overlayAnimation 0.3s ease forwards;
+	animation: flyIn 0.3s ease forwards;
 
 	&__description {
 		color: $white;
@@ -47,7 +47,7 @@ $userIconSize: 62px;
 	}
 }
 
-@keyframes overlayAnimation {
+@keyframes flyIn {
 	0% {
 		opacity: 0.8;
 		transform: translateX(32px);
