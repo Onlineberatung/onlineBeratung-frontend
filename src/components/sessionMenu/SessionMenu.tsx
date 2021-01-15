@@ -194,6 +194,10 @@ export const SessionMenu = () => {
 		label: translate('chatFlyout.feedback')
 	};
 
+	const hasVideoCallFeatures = () =>
+		!isGroupChat &&
+		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+
 	const handleStartCall = (callType: CallType) => {
 		//TODO: call to BE to start call and receive room id/url
 		console.log(
@@ -207,19 +211,18 @@ export const SessionMenu = () => {
 
 	return (
 		<div className="sessionMenu__wrapper">
-			{!isGroupChat &&
-				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
-					<div className="sessionMenu__buttonWrapper">
-						<Button
-							buttonHandle={() => handleStartCall('audio')}
-							item={buttonStartCall}
-						/>
-						<Button
-							buttonHandle={() => handleStartCall('video')}
-							item={buttonStartVideoCall}
-						/>
-					</div>
-				)}
+			{hasVideoCallFeatures() && (
+				<div className="sessionMenu__callButtons">
+					<Button
+						buttonHandle={() => handleStartCall('video')}
+						item={buttonStartVideoCall}
+					/>
+					<Button
+						buttonHandle={() => handleStartCall('audio')}
+						item={buttonStartCall}
+					/>
+				</div>
+			)}
 			{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
 			chatItem.feedbackGroupId ? (
@@ -300,6 +303,22 @@ export const SessionMenu = () => {
 			</span>
 
 			<div id="flyout" className="sessionMenu__content">
+				{hasVideoCallFeatures() && (
+					<div
+						className="sessionMenu__item sessionMenu__item--mobile"
+						onClick={() => handleStartCall('video')}
+					>
+						{translate('chatFlyout.startVideoCall')}
+					</div>
+				)}
+				{hasVideoCallFeatures() && (
+					<div
+						className="sessionMenu__item sessionMenu__item--mobile"
+						onClick={() => handleStartCall('audio')}
+					>
+						{translate('chatFlyout.startCall')}
+					</div>
+				)}
 				{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 				chatItem.feedbackGroupId ? (
 					<Link

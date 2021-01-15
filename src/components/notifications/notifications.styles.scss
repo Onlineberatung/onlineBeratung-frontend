@@ -4,12 +4,12 @@
 	flex-direction: column;
 	width: 300px;
 	z-index: 500;
-	right: $grid-base-three;
-	top: $grid-base-three;
+	right: $grid-base-two;
+	top: $grid-base-two;
 
 	@include breakpoint($fromMedium) {
-		right: $grid-base-two;
-		top: $grid-base-two;
+		right: $grid-base-three;
+		top: $grid-base-three;
 	}
 
 	& > :not(:first-child) {

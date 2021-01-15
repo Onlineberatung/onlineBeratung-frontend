@@ -1,5 +1,5 @@
 const videoCall = {
-	'incomingCall.description': 'ruft Sie an...'
+	'incomingCall.description': 'ruft an...'
 };
 
 export default videoCall;

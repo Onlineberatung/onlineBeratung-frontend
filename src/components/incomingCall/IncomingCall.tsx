@@ -74,7 +74,7 @@ export const IncomingCall = (props: IncomingCallProps) => {
 	return (
 		<div className="incomingCall">
 			<p className="incomingCall__description">
-				{props.username}{' '}
+				<span className="incomingCall__username">{props.username}</span>{' '}
 				{translate('videoCall.incomingCall.description')}
 			</p>
 			<div className="incomingCall__user">
@@ -82,12 +82,12 @@ export const IncomingCall = (props: IncomingCallProps) => {
 			</div>
 			<div className="incomingCall__buttons">
 				<Button
-					buttonHandle={() => handleStartCall('audio')}
-					item={buttonStartCall}
-				/>
-				<Button
 					buttonHandle={() => handleStartCall('video')}
 					item={buttonStartVideoCall}
+				/>
+				<Button
+					buttonHandle={() => handleStartCall('audio')}
+					item={buttonStartCall}
 				/>
 				<Button
 					buttonHandle={() => handleRejectCall()}

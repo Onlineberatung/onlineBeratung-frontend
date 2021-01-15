@@ -150,7 +150,11 @@ $iconSize: 20px;
 		}
 	}
 
-	&__buttonWrapper {
-		display: flex;
+	&__callButtons {
+		display: none;
+
+		@include breakpoint($fromLarge) {
+			display: flex;
+		}
 	}
 }
