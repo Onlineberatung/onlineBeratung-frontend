@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { createContext, useState } from 'react';
-import { IncomingCallProps } from '../../components/incomingCall/IncomingCall';
+import { IncomingVideoCallProps } from '../../components/incomingVideoCall/IncomingVideoCall';
 
-export let notifications: IncomingCallProps[];
+export let notifications: IncomingVideoCallProps[];
 
-export const NotificationsContext = createContext<IncomingCallProps[] | any>(
-	null
-);
+export const NotificationsContext = createContext<
+	IncomingVideoCallProps[] | any
+>(null);
 
 export function NotificationsProvider(props) {
 	const [notifications, setNotifications] = useState([]);

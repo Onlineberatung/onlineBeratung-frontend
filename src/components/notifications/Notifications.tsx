@@ -1,19 +1,22 @@
 import * as React from 'react';
-import { IncomingCall, IncomingCallProps } from '../incomingCall/IncomingCall';
+import {
+	IncomingVideoCall,
+	IncomingVideoCallProps
+} from '../incomingVideoCall/IncomingVideoCall';
 import './notifications.styles';
 
 interface NotificationsProps {
-	notifications: IncomingCallProps[];
+	notifications: IncomingVideoCallProps[];
 }
 
 export const Notifications = (props: NotificationsProps) => {
 	return (
 		<div className="notifications">
 			{props.notifications.map(
-				(notification: IncomingCallProps, index) => {
+				(notification: IncomingVideoCallProps, index) => {
 					return (
 						notification.url && (
-							<IncomingCall {...notification} key={index} />
+							<IncomingVideoCall {...notification} key={index} />
 						)
 					);
 				}

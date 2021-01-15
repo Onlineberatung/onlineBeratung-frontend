@@ -1,18 +1,15 @@
 import * as React from 'react';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import './incomingCall.styles';
+import './incomingVideoCall.styles';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { useContext } from 'react';
 import { NotificationsContext } from '../../globalState';
-import {
-	CallType,
-	getCallUrl
-} from '../../resources/scripts/helpers/callHelpers';
+import { getVideoCallUrl } from '../../resources/scripts/helpers/videoCallHelpers';
 
-export interface IncomingCallProps {
+export interface IncomingVideoCallProps {
 	username: string;
 	url: string;
 	rcGroupId: string;
@@ -30,7 +27,7 @@ const buttonStartVideoCall: ButtonItem = {
 	icon: <CameraOnIcon />
 };
 
-const buttonRejectCall: ButtonItem = {
+const buttonRejectVideoCall: ButtonItem = {
 	type: BUTTON_TYPES.SMALL_ICON,
 	smallIconBackgroundColor: 'red',
 	icon: <CallOffIcon />
@@ -47,24 +44,24 @@ const getInitials = (text: string) => {
 	return initials.slice(0, maxInitials).join('');
 };
 
-export const IncomingCall = (props: IncomingCallProps) => {
+export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 	const { notifications, setNotifications } = useContext(
 		NotificationsContext
 	);
 
-	const handleStartCall = (callType: CallType) => {
-		window.open(getCallUrl(callType, props.url));
-		removeIncomingCallNotification();
+	const handleJoinVideoCall = (isVideoActivated: boolean = false) => {
+		window.open(getVideoCallUrl(props.url, isVideoActivated));
+		removeIncomingVideoCallNotification();
 	};
 
-	const handleRejectCall = () => {
+	const handleRejectVideoCall = () => {
 		console.log('reject call');
 		//TODO: reject call BE -> groupId
 
-		removeIncomingCallNotification();
+		removeIncomingVideoCallNotification();
 	};
 
-	const removeIncomingCallNotification = () => {
+	const removeIncomingVideoCallNotification = () => {
 		const currentNotifications = notifications.filter((notification) => {
 			return notification.rcGroupId !== props.rcGroupId;
 		});
@@ -72,26 +69,28 @@ export const IncomingCall = (props: IncomingCallProps) => {
 	};
 
 	return (
-		<div className="incomingCall">
-			<p className="incomingCall__description">
-				<span className="incomingCall__username">{props.username}</span>{' '}
+		<div className="incomingVideoCall">
+			<p className="incomingVideoCall__description">
+				<span className="incomingVideoCall__username">
+					{props.username}
+				</span>{' '}
 				{translate('videoCall.incomingCall.description')}
 			</p>
-			<div className="incomingCall__user">
+			<div className="incomingVideoCall__user">
 				{getInitials(props.username)}
 			</div>
-			<div className="incomingCall__buttons">
+			<div className="incomingVideoCall__buttons">
 				<Button
-					buttonHandle={() => handleStartCall('video')}
+					buttonHandle={() => handleJoinVideoCall(true)}
 					item={buttonStartVideoCall}
 				/>
 				<Button
-					buttonHandle={() => handleStartCall('audio')}
+					buttonHandle={() => handleJoinVideoCall()}
 					item={buttonStartCall}
 				/>
 				<Button
-					buttonHandle={() => handleRejectCall()}
-					item={buttonRejectCall}
+					buttonHandle={() => handleRejectVideoCall()}
+					item={buttonRejectVideoCall}
 				/>
 			</div>
 		</div>
