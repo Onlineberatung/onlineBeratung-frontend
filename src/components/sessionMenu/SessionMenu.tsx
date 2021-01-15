@@ -39,12 +39,15 @@ import { ReactComponent as StopGroupChatIcon } from '../../resources/img/icons/x
 import { ReactComponent as EditGroupChatIcon } from '../../resources/img/icons/gear.svg';
 import { ReactComponent as MenuHorizontalIcon } from '../../resources/img/icons/stack-horizontal.svg';
 import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/stack-vertical.svg';
-import { v4 as uuid } from 'uuid';
 import '../sessionHeader/sessionHeader.styles';
 import './sessionMenu.styles';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
+import {
+	CallType,
+	getCallUrl
+} from '../../resources/scripts/helpers/callHelpers';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -172,14 +175,6 @@ export const SessionMenu = () => {
 		return <Redirect to={getSessionListPathForLocation()} />;
 	}
 
-	//TODO: implement with video call component branch & cleanup, also line 182 -> Test Button
-	const handleStartVideoCall = () => {
-		const newCallId = uuid();
-		const baseUrl = 'https://caritas-video.open4business.de/';
-		const callUrl = baseUrl + newCallId;
-		window.open(callUrl);
-	};
-
 	const buttonStartCall: ButtonItem = {
 		type: BUTTON_TYPES.SMALL_ICON,
 		smallIconBackgroundColor: 'green',
@@ -199,23 +194,28 @@ export const SessionMenu = () => {
 		label: translate('chatFlyout.feedback')
 	};
 
+	const handleStartCall = (callType: CallType) => {
+		//TODO: call to BE to start call and receive room id/url
+		console.log(
+			'start call',
+			getCallUrl(callType, 'https://caritas-video.open4business.de/test2')
+		);
+		window.open(
+			getCallUrl(callType, 'https://caritas-video.open4business.de/test2')
+		);
+	};
+
 	return (
 		<div className="sessionMenu__wrapper">
-			<div
-				className="sessionMenu__item--desktop sessionInfo__feedbackButton"
-				onClick={handleStartVideoCall}
-			>
-				Video Call
-			</div>
 			{!isGroupChat &&
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
 					<div className="sessionMenu__buttonWrapper">
 						<Button
-							buttonHandle={(e) => console.log(e)}
+							buttonHandle={() => handleStartCall('audio')}
 							item={buttonStartCall}
 						/>
 						<Button
-							buttonHandle={(e) => console.log(e)}
+							buttonHandle={() => handleStartCall('video')}
 							item={buttonStartVideoCall}
 						/>
 					</div>

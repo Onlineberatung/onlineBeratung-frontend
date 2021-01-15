@@ -104,8 +104,16 @@ export const App: React.FC = () => {
 		initLiveServiceSocket();
 		//TODO: handle on incoming websocket; remove testObject
 		const testNotifications: IncomingCallProps[] = [
-			{ rcGroupId: 'cu739fh', username: 'Robin', url: 'test.com' },
-			{ rcGroupId: 'cu739fh', username: 'Debbi', url: 'test.com' }
+			{
+				rcGroupId: 'cu739fh',
+				username: 'Robin',
+				url: 'https://caritas-video.open4business.de/test2'
+			},
+			{
+				rcGroupId: 'cu739fh2',
+				username: 'Hr. Spielmann',
+				url: 'https://caritas-video.open4business.de/test1'
+			}
 		];
 		setNotifications(testNotifications);
 	}, [appReady]);
