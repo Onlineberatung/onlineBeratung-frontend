@@ -116,7 +116,7 @@ export const App: React.FC = () => {
 			}
 		];
 		setNotifications(testNotifications);
-	}, [appReady]);
+	}, [appReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (newStompDirectMessage) {
