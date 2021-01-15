@@ -31,8 +31,8 @@ $userIconSize: 62px;
 		height: $userIconSize;
 		margin-top: $grid-base;
 		background-color: #524b52;
-		border: 3px solid rgba(255, 255, 255, 0.5);
-		color: rgba(255, 255, 255, 0.5);
+		border: 3px solid $white-50-opacity;
+		color: $white-50-opacity;
 		border-radius: 100%;
 		animation: calling 1.3s ease-out infinite;
 	}
