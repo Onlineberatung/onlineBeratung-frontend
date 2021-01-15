@@ -9,13 +9,15 @@ import { useContext } from 'react';
 import { NotificationsContext } from '../../globalState';
 import {
 	CallType,
-	getCallUrl
+	getCallUrl,
+	NotificationType
 } from '../../resources/scripts/helpers/callHelpers';
 
 export interface IncomingCallProps {
+	notificationType: NotificationType;
+	rcGroupId: string;
 	username: string;
 	url: string;
-	rcGroupId: string;
 }
 
 const buttonStartCall: ButtonItem = {
@@ -75,7 +77,7 @@ export const IncomingCall = (props: IncomingCallProps) => {
 		<div className="incomingCall">
 			<p className="incomingCall__description">
 				<span className="incomingCall__username">{props.username}</span>{' '}
-				{translate('videoCall.incomingCall.description')}
+				{translate('call.incomingCall.description')}
 			</p>
 			<div className="incomingCall__user">
 				{getInitials(props.username)}
