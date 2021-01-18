@@ -1,12 +1,17 @@
 import * as React from 'react';
 import { IncomingCall, IncomingCallProps } from '../incomingCall/IncomingCall';
 import './notifications.styles';
+import incomingCallRingtone from '../../resources/audio/incomingCall.mp3';
 
 interface NotificationsProps {
 	notifications: IncomingCallProps[];
 }
 
 export const Notifications = (props: NotificationsProps) => {
+	const existingCall: boolean = props.notifications.some(
+		(notification) => notification['notificationType'] === 'call'
+	);
+
 	return (
 		<div className="notifications">
 			{props.notifications.map(
@@ -17,6 +22,11 @@ export const Notifications = (props: NotificationsProps) => {
 						)
 					);
 				}
+			)}
+			{existingCall && (
+				<audio loop autoPlay>
+					<source src={incomingCallRingtone}></source>
+				</audio>
 			)}
 		</div>
 	);

@@ -21,20 +21,23 @@ export interface IncomingCallProps {
 }
 
 const buttonStartCall: ButtonItem = {
-	type: BUTTON_TYPES.SMALL_ICON,
+	icon: <CallOnIcon />,
 	smallIconBackgroundColor: 'green',
-	icon: <CallOnIcon />
+	title: translate('videoCall.button.startCall'),
+	type: BUTTON_TYPES.SMALL_ICON
 };
 
 const buttonStartVideoCall: ButtonItem = {
-	type: BUTTON_TYPES.SMALL_ICON,
+	icon: <CameraOnIcon />,
 	smallIconBackgroundColor: 'green',
-	icon: <CameraOnIcon />
+	title: translate('videoCall.button.startVideoCall'),
+	type: BUTTON_TYPES.SMALL_ICON
 };
 
 const buttonRejectCall: ButtonItem = {
 	type: BUTTON_TYPES.SMALL_ICON,
 	smallIconBackgroundColor: 'red',
+	title: translate('videoCall.button.rejectCall'),
 	icon: <CallOffIcon />
 };
 
@@ -77,7 +80,7 @@ export const IncomingCall = (props: IncomingCallProps) => {
 		<div className="incomingCall">
 			<p className="incomingCall__description">
 				<span className="incomingCall__username">{props.username}</span>{' '}
-				{translate('call.incomingCall.description')}
+				{translate('videoCall.incomingCall.description')}
 			</p>
 			<div className="incomingCall__user">
 				{getInitials(props.username)}
