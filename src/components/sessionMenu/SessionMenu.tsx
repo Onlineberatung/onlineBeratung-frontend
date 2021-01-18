@@ -177,12 +177,14 @@ export const SessionMenu = () => {
 
 	const buttonStartCall: ButtonItem = {
 		type: BUTTON_TYPES.SMALL_ICON,
+		title: translate('videoCall.button.startCall'),
 		smallIconBackgroundColor: 'green',
 		icon: <CallOnIcon />
 	};
 
 	const buttonStartVideoCall: ButtonItem = {
 		type: BUTTON_TYPES.SMALL_ICON,
+		title: translate('videoCall.button.startVideoCall'),
 		smallIconBackgroundColor: 'green',
 		icon: <CameraOnIcon />
 	};
