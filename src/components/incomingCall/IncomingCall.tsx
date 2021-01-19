@@ -9,30 +9,35 @@ import { useContext } from 'react';
 import { NotificationsContext } from '../../globalState';
 import {
 	CallType,
-	getCallUrl
+	getCallUrl,
+	NotificationType
 } from '../../resources/scripts/helpers/callHelpers';
 
 export interface IncomingCallProps {
+	notificationType: NotificationType;
+	rcGroupId: string;
 	username: string;
 	url: string;
-	rcGroupId: string;
 }
 
 const buttonStartCall: ButtonItem = {
-	type: BUTTON_TYPES.SMALL_ICON,
+	icon: <CallOnIcon />,
 	smallIconBackgroundColor: 'green',
-	icon: <CallOnIcon />
+	title: translate('videoCall.button.startCall'),
+	type: BUTTON_TYPES.SMALL_ICON
 };
 
 const buttonStartVideoCall: ButtonItem = {
-	type: BUTTON_TYPES.SMALL_ICON,
+	icon: <CameraOnIcon />,
 	smallIconBackgroundColor: 'green',
-	icon: <CameraOnIcon />
+	title: translate('videoCall.button.startVideoCall'),
+	type: BUTTON_TYPES.SMALL_ICON
 };
 
 const buttonRejectCall: ButtonItem = {
 	type: BUTTON_TYPES.SMALL_ICON,
 	smallIconBackgroundColor: 'red',
+	title: translate('videoCall.button.rejectCall'),
 	icon: <CallOffIcon />
 };
 

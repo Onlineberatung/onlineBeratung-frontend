@@ -7,8 +7,6 @@ const chatFlyout = {
 	imprint: 'Impressum',
 	editGroupChat: 'Chat-Einstellungen',
 	leaveGroupChat: 'Chat verlassen',
-	startCall: 'Anruf starten',
-	startVideoCall: 'Videoanruf starten',
 	stopGroupChat: 'Chat beenden'
 };
 
