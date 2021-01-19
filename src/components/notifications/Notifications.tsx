@@ -8,7 +8,7 @@ interface NotificationsProps {
 }
 
 export const Notifications = (props: NotificationsProps) => {
-	const existingCall: boolean = props.notifications.some(
+	const hasIncomingVideoCall: boolean = props.notifications.some(
 		(notification) => notification['notificationType'] === 'call'
 	);
 
@@ -23,7 +23,7 @@ export const Notifications = (props: NotificationsProps) => {
 					);
 				}
 			)}
-			{existingCall && (
+			{hasIncomingVideoCall && (
 				<audio loop autoPlay>
 					<source src={incomingCallRingtone}></source>
 				</audio>
