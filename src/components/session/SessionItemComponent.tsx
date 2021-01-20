@@ -17,7 +17,7 @@ import { translate } from '../../resources/scripts/i18n/translate';
 import { MessageItemComponent } from '../message/MessageItemComponent';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { ajaxCallEnquiryAcceptance } from '../apiWrapper/';
+import { apiEnquiryAcceptance } from '../../api';
 import {
 	Overlay,
 	OVERLAY_FUNCTIONS,
@@ -149,7 +149,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 		setIsRequestInProgress(true);
 
-		ajaxCallEnquiryAcceptance(sessionId)
+		apiEnquiryAcceptance(sessionId)
 			.then(() => {
 				setOverlayActive(true);
 				setCurrenGroupId(sessionGroupId);

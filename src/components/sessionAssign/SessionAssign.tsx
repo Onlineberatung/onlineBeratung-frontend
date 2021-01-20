@@ -10,10 +10,11 @@ import { BUTTON_TYPES } from '../button/Button';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { history } from '../app/app';
 import {
-	getUserData,
-	getAgencyConsultantList,
-	ajaxCallSessionAssign
-} from '../apiWrapper';
+	apiGetUserData,
+	apiGetAgencyConsultantList,
+	apiSessionAssign,
+	FETCH_ERRORS
+} from '../../api';
 import {
 	UserDataInterface,
 	SessionsDataContext,
@@ -28,7 +29,6 @@ import {
 	SelectDropdown,
 	SelectOption
 } from '../select/SelectDropdown';
-import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { getSessionListPathForLocation } from '../session/sessionHelpers';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 
@@ -57,7 +57,7 @@ export const SessionAssign = (props: { value?: string }) => {
 	useEffect(() => {
 		const agencyId = activeSession.session.agencyId.toString();
 		if (consultantList && consultantList.length <= 0) {
-			getAgencyConsultantList(agencyId)
+			apiGetAgencyConsultantList(agencyId)
 				.then((response) => {
 					const consultants = prepareConsultantDataForSelect(
 						response
@@ -124,7 +124,7 @@ export const SessionAssign = (props: { value?: string }) => {
 	};
 
 	const handleDatalistSelect = (selectedOption) => {
-		ajaxCallSessionAssign(
+		apiSessionAssign(
 			parseInt(activeSession.session.id),
 			selectedOption.value
 		)
@@ -132,7 +132,7 @@ export const SessionAssign = (props: { value?: string }) => {
 				if (userData) {
 					initOverlays(selectedOption, userData);
 				} else {
-					getUserData()
+					apiGetUserData()
 						.then((profileData: UserDataInterface) => {
 							setUserData(profileData);
 							initOverlays(selectedOption, profileData);

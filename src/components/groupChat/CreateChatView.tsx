@@ -33,10 +33,10 @@ import de from 'date-fns/locale/de';
 import { history } from '../app/app';
 import {
 	groupChatSettings,
-	ajaxCallCreateGroupChat,
+	apiCreateGroupChat,
 	chatLinkData,
-	ajaxCallUpdateGroupChat
-} from '../apiWrapper';
+	apiUpdateGroupChat
+} from '../../api';
 import {
 	getSessionListPathForLocation,
 	getChatItemForSession
@@ -262,7 +262,7 @@ export const CreateGroupChatView = (props) => {
 			return null;
 		}
 		setIsRequestInProgress(true);
-		ajaxCallCreateGroupChat(createChatDataItem)
+		apiCreateGroupChat(createChatDataItem)
 			.then((response: chatLinkData) => {
 				//TODO: reimplement on registration logic with link
 				//createChatSuccessOverlayItem.copyTwo = response.chatLink;
@@ -281,7 +281,7 @@ export const CreateGroupChatView = (props) => {
 			return null;
 		}
 		setIsRequestInProgress(true);
-		ajaxCallUpdateGroupChat(chatItem.id, createChatDataItem)
+		apiUpdateGroupChat(chatItem.id, createChatDataItem)
 			.then((response: chatLinkData) => {
 				setOverlayItem(updateChatSuccessOverlayItem);
 				setOverlayActive(true);
