@@ -28,7 +28,7 @@ import {
 	groupChatErrorOverlayItem,
 	leaveGroupChatSuccessOverlayItem
 } from './sessionMenuHelpers';
-import { ajaxCallPutGroupChat, GROUP_CHAT_API } from '../apiWrapper';
+import { apiPutGroupChat, GROUP_CHAT_API } from '../../api';
 import { logout } from '../logout/logout';
 import { mobileListView } from '../app/navigationHandler';
 import { isGroupChatOwner } from '../groupChat/groupChatHelpers';
@@ -110,7 +110,7 @@ export const SessionMenu = () => {
 			setOverlayItem(null);
 			setIsRequestInProgress(false);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.STOP_GROUP_CHAT) {
-			ajaxCallPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)
+			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)
 				.then((response) => {
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
 					setIsRequestInProgress(false);
@@ -120,7 +120,7 @@ export const SessionMenu = () => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LEAVE_GROUP_CHAT) {
-			ajaxCallPutGroupChat(chatItem.id, GROUP_CHAT_API.LEAVE)
+			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.LEAVE)
 				.then((response) => {
 					setOverlayItem(leaveGroupChatSuccessOverlayItem);
 					setIsRequestInProgress(false);

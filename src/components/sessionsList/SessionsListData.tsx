@@ -1,4 +1,4 @@
-import { ajaxCallGetSessionsListData } from '../apiWrapper';
+import { apiGetSessionsListData, FETCH_ERRORS } from '../../api';
 import {
 	SESSION_TYPES,
 	typeIsTeamSession,
@@ -9,7 +9,6 @@ import {
 	ListItemInterface,
 	getSessionsDataKeyForSessionType
 } from '../../globalState';
-import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 
 export const getSessions = (context, type, offset, useFilter): Promise<any> => {
 	const { sessionsData, setSessionsData } = context;
@@ -78,7 +77,7 @@ export const getSessions = (context, type, offset, useFilter): Promise<any> => {
 						  }
 						: { teamSessions: fetchedSessions }
 					: null;
-			ajaxCallGetSessionsListData(SESSION_TYPES.MY_SESSION, 'all', 0)
+			apiGetSessionsListData(SESSION_TYPES.MY_SESSION, 'all', 0)
 				.then((fetchedMySessions: ListItemsResponseInterface) => {
 					setSessionsData({
 						...enquiriesList,
@@ -101,7 +100,7 @@ export const getSessions = (context, type, offset, useFilter): Promise<any> => {
 		});
 
 	return new Promise((resolve, reject) => {
-		ajaxCallGetSessionsListData(type, useFilter, offset)
+		apiGetSessionsListData(type, useFilter, offset)
 			.then((sessionList: ListItemsResponseInterface) => {
 				const fetchedSessions: ListItemInterface[] =
 					sessionList.sessions;
