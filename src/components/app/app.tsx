@@ -17,7 +17,8 @@ import {
 	UserDataInterface,
 	AuthDataContext,
 	AuthDataInterface,
-	UnreadSessionsStatusContext
+	UnreadSessionsStatusContext,
+	NotificationsContext
 } from '../../globalState';
 import { ContextProvider } from '../../globalState/state';
 import { getUserData } from '../apiWrapper';
@@ -28,6 +29,8 @@ import '../../resources/styles/styles';
 import './app.styles';
 import './navigation.styles';
 import './loading.styles';
+import { Notifications } from '../notifications/Notifications';
+import { IncomingCallProps } from '../incomingCall/IncomingCall';
 
 export const history = createBrowserHistory();
 
@@ -62,6 +65,9 @@ export const App: React.FC = () => {
 		UnreadSessionsStatusContext
 	);
 	const [newStompDirectMessage, setNewStompDirectMessage] = useState(false);
+	const { notifications, setNotifications } = useContext(
+		NotificationsContext
+	);
 
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
@@ -96,7 +102,23 @@ export const App: React.FC = () => {
 
 	useEffect(() => {
 		initLiveServiceSocket();
-	}, [appReady]);
+		//TODO: handle on incoming websocket; remove testObject
+		const testNotifications: IncomingCallProps[] = [
+			{
+				notificationType: 'call',
+				rcGroupId: 'cu739fh',
+				username: 'Robin',
+				url: 'https://caritas-video.open4business.de/test2'
+			},
+			{
+				notificationType: 'call',
+				rcGroupId: 'cu739fh2',
+				username: 'Hr. Spielmann',
+				url: 'https://caritas-video.open4business.de/test1'
+			}
+		];
+		setNotifications(testNotifications);
+	}, [appReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (newStompDirectMessage) {
@@ -141,10 +163,14 @@ export const App: React.FC = () => {
 		logout();
 	};
 
+	//TODO: check possible rerenderings of route on live notifications
 	if (appReady) {
 		return (
 			<Router history={history}>
 				<Routing logout={handleLogout} />
+				{notifications && (
+					<Notifications notifications={notifications} />
+				)}
 			</Router>
 		);
 	}

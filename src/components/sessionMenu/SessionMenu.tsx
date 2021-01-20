@@ -39,9 +39,15 @@ import { ReactComponent as StopGroupChatIcon } from '../../resources/img/icons/x
 import { ReactComponent as EditGroupChatIcon } from '../../resources/img/icons/gear.svg';
 import { ReactComponent as MenuHorizontalIcon } from '../../resources/img/icons/stack-horizontal.svg';
 import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/stack-vertical.svg';
-import { v4 as uuid } from 'uuid';
 import '../sessionHeader/sessionHeader.styles';
 import './sessionMenu.styles';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
+import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
+import {
+	CallType,
+	getCallUrl
+} from '../../resources/scripts/helpers/callHelpers';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -169,32 +175,61 @@ export const SessionMenu = () => {
 		return <Redirect to={getSessionListPathForLocation()} />;
 	}
 
-	//TODO: implement with video call component branch & cleanup, also line 182 -> Test Button
-	const handleStartVideoCall = () => {
-		const newCallId = uuid();
-		const baseUrl = 'https://caritas-video.open4business.de/';
-		const callUrl = baseUrl + newCallId;
-		window.open(callUrl);
+	const buttonStartCall: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		title: translate('videoCall.button.startCall'),
+		smallIconBackgroundColor: 'green',
+		icon: <CallOnIcon />
+	};
+
+	const buttonStartVideoCall: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		title: translate('videoCall.button.startVideoCall'),
+		smallIconBackgroundColor: 'green',
+		icon: <CameraOnIcon />
+	};
+
+	const buttonFeedback: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'yellow',
+		icon: <FeedbackIcon />,
+		label: translate('chatFlyout.feedback')
+	};
+
+	const hasVideoCallFeatures = () =>
+		!isGroupChat &&
+		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+
+	const handleStartCall = (callType: CallType) => {
+		//TODO: call to BE to start call and receive room id/url
+		console.log(
+			'start call',
+			getCallUrl(callType, 'https://caritas-video.open4business.de/test2')
+		);
+		window.open(
+			getCallUrl(callType, 'https://caritas-video.open4business.de/test2')
+		);
 	};
 
 	return (
 		<div className="sessionMenu__wrapper">
-			<div
-				className="sessionMenu__item--desktop sessionInfo__feedbackButton"
-				onClick={handleStartVideoCall}
-			>
-				Video Call
-			</div>
+			{hasVideoCallFeatures() && (
+				<div className="sessionMenu__callButtons">
+					<Button
+						buttonHandle={() => handleStartCall('video')}
+						item={buttonStartVideoCall}
+					/>
+					<Button
+						buttonHandle={() => handleStartCall('audio')}
+						item={buttonStartCall}
+					/>
+				</div>
+			)}
 			{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
 			chatItem.feedbackGroupId ? (
-				<Link
-					to={feedbackPath}
-					className="sessionInfo__feedbackButton sessionMenu__item--desktop"
-					role="button"
-				>
-					<FeedbackIcon />
-					<p>{translate('chatFlyout.feedback')}</p>
+				<Link to={feedbackPath} className="sessionInfo__feedbackButton">
+					<Button item={buttonFeedback} isLink={true} />
 				</Link>
 			) : null}
 
@@ -270,6 +305,22 @@ export const SessionMenu = () => {
 			</span>
 
 			<div id="flyout" className="sessionMenu__content">
+				{hasVideoCallFeatures() && (
+					<div
+						className="sessionMenu__item sessionMenu__item--mobile"
+						onClick={() => handleStartCall('video')}
+					>
+						{translate('chatFlyout.startVideoCall')}
+					</div>
+				)}
+				{hasVideoCallFeatures() && (
+					<div
+						className="sessionMenu__item sessionMenu__item--mobile"
+						onClick={() => handleStartCall('audio')}
+					>
+						{translate('chatFlyout.startCall')}
+					</div>
+				)}
 				{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 				chatItem.feedbackGroupId ? (
 					<Link

@@ -27,6 +27,7 @@ import statusOverlayInformal from './de/statusOverlayInformal';
 import typingIndicator from './de/typingIndicator';
 import user from './de/user';
 import userProfile from './de/userProfile';
+import videoCall from './de/videoCall';
 import warningLabels from './de/warningLabels';
 import warningLabelsInformal from './de/warningLabelsInformal';
 import { getResortKeyForConsultingType } from '../helpers/resorts';
@@ -53,6 +54,7 @@ const defaultLocale: any = {
 	typingIndicator,
 	user,
 	userProfile,
+	videoCall,
 	warningLabels
 };
 

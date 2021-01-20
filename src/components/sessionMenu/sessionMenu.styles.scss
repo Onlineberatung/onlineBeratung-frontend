@@ -8,6 +8,10 @@ $iconSize: 20px;
 		a {
 			color: $secondary;
 		}
+
+		.button__wrapper {
+			margin-right: $grid-base-two;
+		}
 	}
 
 	&__icon {
@@ -143,6 +147,14 @@ $iconSize: 20px;
 			svg * {
 				fill: $hover-primary;
 			}
+		}
+	}
+
+	&__callButtons {
+		display: none;
+
+		@include breakpoint($fromLarge) {
+			display: flex;
 		}
 	}
 }

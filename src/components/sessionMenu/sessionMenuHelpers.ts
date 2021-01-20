@@ -17,7 +17,7 @@ export const stopGroupChatSecurityOverlayItem: OverlayItem = {
 		{
 			label: translate('groupChat.stopChat.securityOverlay.button2Label'),
 			function: OVERLAY_FUNCTIONS.CLOSE,
-			type: BUTTON_TYPES.GHOST
+			type: BUTTON_TYPES.SECONDARY
 		}
 	]
 };
@@ -34,7 +34,7 @@ export const stopGroupChatSuccessOverlayItem: OverlayItem = {
 		{
 			label: translate('groupChat.stopChat.successOverlay.button2Label'),
 			function: OVERLAY_FUNCTIONS.LOGOUT,
-			type: BUTTON_TYPES.GHOST
+			type: BUTTON_TYPES.SECONDARY
 		}
 	]
 };
@@ -67,7 +67,7 @@ export const leaveGroupChatSecurityOverlayItem: OverlayItem = {
 				'groupChat.leaveChat.securityOverlay.button2Label'
 			),
 			function: OVERLAY_FUNCTIONS.CLOSE,
-			type: BUTTON_TYPES.GHOST
+			type: BUTTON_TYPES.SECONDARY
 		}
 	]
 };
@@ -84,7 +84,7 @@ export const leaveGroupChatSuccessOverlayItem: OverlayItem = {
 		{
 			label: translate('groupChat.leaveChat.successOverlay.button2Label'),
 			function: OVERLAY_FUNCTIONS.LOGOUT,
-			type: BUTTON_TYPES.GHOST
+			type: BUTTON_TYPES.SECONDARY
 		}
 	]
 };

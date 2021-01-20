@@ -31,7 +31,7 @@ import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
 import './sessionsListItem.styles';
-import { Tag } from '../Tag/Tag';
+import { Tag } from '../tag/Tag';
 import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
 
 interface SessionListItemProps {
