@@ -105,11 +105,13 @@ export const App: React.FC = () => {
 		//TODO: handle on incoming websocket; remove testObject
 		const testNotifications: IncomingVideoCallProps[] = [
 			{
+				notificationType: 'call',
 				rcGroupId: 'cu739fh',
 				username: 'Robin',
 				url: 'https://caritas-video.open4business.de/test2'
 			},
 			{
+				notificationType: 'call',
 				rcGroupId: 'cu739fh2',
 				username: 'Hr. Spielmann',
 				url: 'https://caritas-video.open4business.de/test1'

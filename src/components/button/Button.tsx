@@ -14,12 +14,13 @@ export const BUTTON_TYPES = {
 };
 
 export interface ButtonItem {
-	label?: string;
 	function?: string;
-	type: string;
-	id?: string;
 	icon?: JSX.Element;
+	id?: string;
+	label?: string;
 	smallIconBackgroundColor?: 'green' | 'red' | 'yellow' | 'grey';
+	title?: string;
+	type: string;
 }
 
 export interface ButtonProps {
@@ -88,6 +89,7 @@ export const Button = (props: ButtonProps) => {
 			<button
 				onClick={(event) => handleButtonClick(event)}
 				id={item.id}
+				title={item.title}
 				className={`
 					button__item 
 					${getButtonClassName(item.type)} 

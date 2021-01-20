@@ -1,3 +1,5 @@
+export type NotificationType = 'call';
+
 export const getVideoCallUrl = (
 	url: string,
 	isVideoActivated: boolean = false

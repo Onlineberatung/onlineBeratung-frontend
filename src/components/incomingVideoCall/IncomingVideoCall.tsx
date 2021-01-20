@@ -7,29 +7,36 @@ import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera
 import { translate } from '../../resources/scripts/i18n/translate';
 import { useContext } from 'react';
 import { NotificationsContext } from '../../globalState';
-import { getVideoCallUrl } from '../../resources/scripts/helpers/videoCallHelpers';
+import {
+	getVideoCallUrl,
+	NotificationType
+} from '../../resources/scripts/helpers/videoCallHelpers';
 
 export interface IncomingVideoCallProps {
+	notificationType: NotificationType;
+	rcGroupId: string;
 	username: string;
 	url: string;
-	rcGroupId: string;
 }
 
 const buttonStartCall: ButtonItem = {
-	type: BUTTON_TYPES.SMALL_ICON,
+	icon: <CallOnIcon />,
 	smallIconBackgroundColor: 'green',
-	icon: <CallOnIcon />
+	title: translate('videoCall.button.startCall'),
+	type: BUTTON_TYPES.SMALL_ICON
 };
 
 const buttonStartVideoCall: ButtonItem = {
-	type: BUTTON_TYPES.SMALL_ICON,
+	icon: <CameraOnIcon />,
 	smallIconBackgroundColor: 'green',
-	icon: <CameraOnIcon />
+	title: translate('videoCall.button.startVideoCall'),
+	type: BUTTON_TYPES.SMALL_ICON
 };
 
 const buttonRejectVideoCall: ButtonItem = {
 	type: BUTTON_TYPES.SMALL_ICON,
 	smallIconBackgroundColor: 'red',
+	title: translate('videoCall.button.rejectCall'),
 	icon: <CallOffIcon />
 };
 

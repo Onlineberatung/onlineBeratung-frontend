@@ -4,12 +4,17 @@ import {
 	IncomingVideoCallProps
 } from '../incomingVideoCall/IncomingVideoCall';
 import './notifications.styles';
+import incomingCallRingtone from '../../resources/audio/incomingCall.mp3';
 
 interface NotificationsProps {
 	notifications: IncomingVideoCallProps[];
 }
 
 export const Notifications = (props: NotificationsProps) => {
+	const hasIncomingVideoCall: boolean = props.notifications.some(
+		(notification) => notification['notificationType'] === 'call'
+	);
+
 	return (
 		<div className="notifications">
 			{props.notifications.map(
@@ -20,6 +25,11 @@ export const Notifications = (props: NotificationsProps) => {
 						)
 					);
 				}
+			)}
+			{hasIncomingVideoCall && (
+				<audio loop autoPlay>
+					<source src={incomingCallRingtone}></source>
+				</audio>
 			)}
 		</div>
 	);
