@@ -77,13 +77,11 @@ $unreadButtonSize: 18px;
 		height: 100%;
 		overflow-x: hidden;
 		overflow-y: auto;
-		padding: $grid-base-three $grid-base-two 0;
-		margin-bottom: $grid-base-three;
+		padding: $grid-base-three $grid-base-two $grid-base-two;
 		background-color: $background-ochre;
 
 		@include breakpoint($fromMedium) {
-			padding: $grid-base-three $grid-base-three 0 $grid-base-three;
-			margin-bottom: $grid-base-four;
+			padding: $grid-base-three $grid-base-three $grid-base-two;
 		}
 
 		@include breakpoint($fromLarge) {
