@@ -150,7 +150,7 @@ $iconSize: 20px;
 		}
 	}
 
-	&__callButtons {
+	&__videoCallButtons {
 		display: none;
 
 		@include breakpoint($fromLarge) {

@@ -6,6 +6,7 @@ export * from './ajaxCallGetSessionsListData';
 export * from './ajaxCallGetUserSessions';
 export * from './ajaxCallSendEnquiry';
 export * from './ajaxCallSetSessionRead';
+export * from './ajaxCallStartVideoCall';
 export * from './ajaxSendMessage';
 export * from './ajaxSetCallAbsence';
 export * from './ajaxCallGetAgencyId';

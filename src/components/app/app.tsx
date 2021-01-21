@@ -30,7 +30,7 @@ import './app.styles';
 import './navigation.styles';
 import './loading.styles';
 import { Notifications } from '../notifications/Notifications';
-import { IncomingCallProps } from '../incomingCall/IncomingCall';
+import { IncomingVideoCallProps } from '../incomingVideoCall/IncomingVideoCall';
 
 export const history = createBrowserHistory();
 
@@ -103,7 +103,7 @@ export const App: React.FC = () => {
 	useEffect(() => {
 		initLiveServiceSocket();
 		//TODO: handle on incoming websocket; remove testObject
-		const testNotifications: IncomingCallProps[] = [
+		const testNotifications: IncomingVideoCallProps[] = [
 			{
 				notificationType: 'call',
 				rcGroupId: 'cu739fh',

@@ -28,7 +28,11 @@ import {
 	groupChatErrorOverlayItem,
 	leaveGroupChatSuccessOverlayItem
 } from './sessionMenuHelpers';
-import { ajaxCallPutGroupChat, GROUP_CHAT_API } from '../apiWrapper';
+import {
+	ajaxCallPutGroupChat,
+	ajaxCallStartVideoCall,
+	GROUP_CHAT_API
+} from '../apiWrapper';
 import { logout } from '../logout/logout';
 import { mobileListView } from '../app/navigationHandler';
 import { isGroupChatOwner } from '../groupChat/groupChatHelpers';
@@ -44,10 +48,7 @@ import './sessionMenu.styles';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import {
-	CallType,
-	getCallUrl
-} from '../../resources/scripts/helpers/callHelpers';
+import { getVideoCallUrl } from '../../resources/scripts/helpers/videoCallHelpers';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -200,27 +201,28 @@ export const SessionMenu = () => {
 		!isGroupChat &&
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 
-	const handleStartCall = (callType: CallType) => {
-		//TODO: call to BE to start call and receive room id/url
-		console.log(
-			'start call',
-			getCallUrl(callType, 'https://caritas-video.open4business.de/test2')
-		);
-		window.open(
-			getCallUrl(callType, 'https://caritas-video.open4business.de/test2')
-		);
+	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
+		ajaxCallStartVideoCall(chatItem.id)
+			.then((response) => {
+				window.open(
+					getVideoCallUrl(response.videoCallUrl, isVideoActivated)
+				);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	return (
 		<div className="sessionMenu__wrapper">
 			{hasVideoCallFeatures() && (
-				<div className="sessionMenu__callButtons">
+				<div className="sessionMenu__videoCallButtons">
 					<Button
-						buttonHandle={() => handleStartCall('video')}
+						buttonHandle={() => handleStartVideoCall(true)}
 						item={buttonStartVideoCall}
 					/>
 					<Button
-						buttonHandle={() => handleStartCall('audio')}
+						buttonHandle={() => handleStartVideoCall()}
 						item={buttonStartCall}
 					/>
 				</div>
@@ -308,7 +310,7 @@ export const SessionMenu = () => {
 				{hasVideoCallFeatures() && (
 					<div
 						className="sessionMenu__item sessionMenu__item--mobile"
-						onClick={() => handleStartCall('video')}
+						onClick={() => handleStartVideoCall(true)}
 					>
 						{translate('chatFlyout.startVideoCall')}
 					</div>
@@ -316,7 +318,7 @@ export const SessionMenu = () => {
 				{hasVideoCallFeatures() && (
 					<div
 						className="sessionMenu__item sessionMenu__item--mobile"
-						onClick={() => handleStartCall('audio')}
+						onClick={() => handleStartVideoCall()}
 					>
 						{translate('chatFlyout.startCall')}
 					</div>
