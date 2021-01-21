@@ -28,7 +28,11 @@ import {
 	groupChatErrorOverlayItem,
 	leaveGroupChatSuccessOverlayItem
 } from './sessionMenuHelpers';
-import { ajaxCallPutGroupChat, GROUP_CHAT_API } from '../apiWrapper';
+import {
+	ajaxCallPutGroupChat,
+	ajaxCallStartVideoCall,
+	GROUP_CHAT_API
+} from '../apiWrapper';
 import { logout } from '../logout/logout';
 import { mobileListView } from '../app/navigationHandler';
 import { isGroupChatOwner } from '../groupChat/groupChatHelpers';
@@ -198,21 +202,15 @@ export const SessionMenu = () => {
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
-		//TODO: call to BE to start call and receive room id/url
-		//TODO: test audio call preset!
-		console.log(
-			'start call',
-			getVideoCallUrl(
-				'https://caritas-video.open4business.de/test2',
-				isVideoActivated
-			)
-		);
-		window.open(
-			getVideoCallUrl(
-				'https://caritas-video.open4business.de/test2',
-				isVideoActivated
-			)
-		);
+		ajaxCallStartVideoCall(chatItem.id)
+			.then((response) => {
+				window.open(
+					getVideoCallUrl(response.videoCallUrl, isVideoActivated)
+				);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	return (

@@ -28,6 +28,7 @@ export const config = {
 		messages: tld + '/service/messages',
 		sendMessage: tld + '/service/messages/new',
 		sendMessageToFeedback: tld + '/service/messages/feedback/new',
+		startVideoCall: tld + '/service/videocalls/new',
 		forwardMessage: tld + '/service/messages/forward',
 		messageRead: tld + '/api/v1/subscriptions.read',
 		redirectToApp: tld + endpointPort + `/beratung-hilfe.html`,
