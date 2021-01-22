@@ -19,7 +19,7 @@ const getLabelContent = (type: string) => {
 
 	if (type === LABEL_TYPES.CAUTION) {
 		labelContent.className = 'infoText__label--caution';
-		labelContent.text = 'Achtung';
+		labelContent.text = 'Hinweis';
 	}
 
 	return labelContent;
