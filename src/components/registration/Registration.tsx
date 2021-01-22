@@ -634,7 +634,7 @@ const Registration = () => {
 					{consultingType === 1 && (
 						<InfoText
 							className="registration__passwordNote"
-							labelType={LABEL_TYPES.CAUTION}
+							labelType={LABEL_TYPES.NOTICE}
 							text={translate('registration.password.note')}
 						/>
 					)}
