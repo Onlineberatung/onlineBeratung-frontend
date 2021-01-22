@@ -8,7 +8,7 @@ export interface InfoTextProps {
 }
 
 export enum LABEL_TYPES {
-	CAUTION = 'CAUTION'
+	NOTICE = 'NOTICE'
 }
 
 const getLabelContent = (type: string) => {
@@ -17,8 +17,8 @@ const getLabelContent = (type: string) => {
 		text: ''
 	};
 
-	if (type === LABEL_TYPES.CAUTION) {
-		labelContent.className = 'infoText__label--caution';
+	if (type === LABEL_TYPES.NOTICE) {
+		labelContent.className = 'infoText__label--notice';
 		labelContent.text = 'Hinweis';
 	}
 
