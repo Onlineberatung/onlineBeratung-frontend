@@ -185,7 +185,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			{autoSelectPostcode ? (
 				<InfoText
 					className="askerRegistration__consultingModeInfo"
-					labelType={LABEL_TYPES.CAUTION}
+					labelType={LABEL_TYPES.NOTICE}
 					text={translate(
 						'profile.data.register.consultingModeInfo.groupChats'
 					)}
@@ -196,6 +196,15 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						item={postcodeInputItem}
 						inputHandle={(e) => handlePostcodeInput(e)}
 					></InputField>
+					{!autoSelectAgency && (
+						<InfoText
+							className="askerRegistration__selectAgencyInfo"
+							labelType={LABEL_TYPES.NOTICE}
+							text={translate(
+								'profile.data.register.selectAgencyInfo'
+							)}
+						/>
+					)}
 					{!props.preselectedAgency &&
 						!autoSelectAgency &&
 						selectedAgencyData && (

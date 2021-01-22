@@ -473,7 +473,8 @@ $maxFormElementWidth: 320px;
 			padding: 0 $grid-base-three 0 20px;
 		}
 
-		.selectedAgencyInfo {
+		.selectedAgencyInfo,
+		.askerRegistration__selectAgencyInfo {
 			margin: -$grid-base-two 0 $grid-base-five 20px;
 		}
 	}
