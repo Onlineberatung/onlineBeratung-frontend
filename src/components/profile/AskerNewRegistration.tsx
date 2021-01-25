@@ -162,7 +162,7 @@ export const AskerNewRegistration = () => {
 					<SelectDropdown {...consultingTypesDropdown} />
 					<InfoText
 						className="askerRegistration__consultingModeInfo"
-						labelType={LABEL_TYPES.CAUTION}
+						labelType={LABEL_TYPES.NOTICE}
 						text={translate(
 							'profile.data.register.consultingModeInfo.singleChats'
 						)}
