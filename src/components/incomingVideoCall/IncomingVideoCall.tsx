@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import './incomingVideoCall.styles';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
@@ -11,12 +10,13 @@ import {
 	getVideoCallUrl,
 	NotificationType
 } from '../../resources/scripts/helpers/videoCallHelpers';
+import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
+import { VideoCallRequestProps } from '../app/app';
+import './incomingVideoCall.styles';
 
 export interface IncomingVideoCallProps {
 	notificationType: NotificationType;
-	rcGroupId: string;
-	username: string;
-	url: string;
+	videoCall: VideoCallRequestProps;
 }
 
 const buttonStartCall: ButtonItem = {
@@ -57,7 +57,9 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 	);
 
 	const handleJoinVideoCall = (isVideoActivated: boolean = false) => {
-		window.open(getVideoCallUrl(props.url, isVideoActivated));
+		window.open(
+			getVideoCallUrl(props.videoCall.videoCallUrl, isVideoActivated)
+		);
 		removeIncomingVideoCallNotification();
 	};
 
@@ -70,21 +72,24 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 
 	const removeIncomingVideoCallNotification = () => {
 		const currentNotifications = notifications.filter((notification) => {
-			return notification.rcGroupId !== props.rcGroupId;
+			return (
+				notification.videoCall.rcGroupId !== props.videoCall.rcGroupId
+			);
 		});
 		setNotifications(currentNotifications);
 	};
 
+	const decodedUsername = decodeUsername(props.videoCall.username);
 	return (
 		<div className="incomingVideoCall">
 			<p className="incomingVideoCall__description">
 				<span className="incomingVideoCall__username">
-					{props.username}
+					{decodedUsername}
 				</span>{' '}
 				{translate('videoCall.incomingCall.description')}
 			</p>
 			<div className="incomingVideoCall__user">
-				{getInitials(props.username)}
+				{getInitials(decodedUsername)}
 			</div>
 			<div className="incomingVideoCall__buttons">
 				<Button

@@ -52,19 +52,32 @@ const stompClient = Stomp.over(socket);
 stompClient.debug = () => {};
 
 const STOMP_EVENT_TYPES = {
-	DIRECT_MESSAGE: 'directMessage'
+	DIRECT_MESSAGE: 'directMessage',
+	VIDEO_CALL_REQUEST: 'videoCallRequest'
 };
+
+export interface VideoCallRequestProps {
+	rcGroupId: string;
+	rcUserId: string;
+	username: string;
+	videoCallUrl: string;
+}
 
 export const App: React.FC = () => {
 	const { setAuthData } = useContext(AuthDataContext);
-	const [authDataRequested, setAuthDataRequested] = useState(false);
+	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
 	const { setUserData } = useContext(UserDataContext);
-	const [appReady, setAppReady] = useState(false);
-	const [userDataRequested, setUserDataRequested] = useState(false);
+	const [appReady, setAppReady] = useState<boolean>(false);
+	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
-	const [newStompDirectMessage, setNewStompDirectMessage] = useState(false);
+	const [newStompDirectMessage, setNewStompDirectMessage] = useState<boolean>(
+		false
+	);
+	const [newStompVideoCallRequest, setNewStompVideoCallRequest] = useState<
+		VideoCallRequestProps
+	>();
 	const { notifications, setNotifications } = useContext(
 		NotificationsContext
 	);
@@ -102,23 +115,7 @@ export const App: React.FC = () => {
 
 	useEffect(() => {
 		initLiveServiceSocket();
-		//TODO: handle on incoming websocket; remove testObject
-		const testNotifications: IncomingVideoCallProps[] = [
-			{
-				notificationType: 'call',
-				rcGroupId: 'cu739fh',
-				username: 'Robin',
-				url: 'https://caritas-video.open4business.de/test2'
-			},
-			{
-				notificationType: 'call',
-				rcGroupId: 'cu739fh2',
-				username: 'Hr. Spielmann',
-				url: 'https://caritas-video.open4business.de/test1'
-			}
-		];
-		setNotifications(testNotifications);
-	}, [appReady]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [appReady]);
 
 	useEffect(() => {
 		if (newStompDirectMessage) {
@@ -132,6 +129,16 @@ export const App: React.FC = () => {
 		}
 	}, [newStompDirectMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
+	useEffect(() => {
+		if (newStompVideoCallRequest) {
+			const newNotification: IncomingVideoCallProps = {
+				notificationType: 'call',
+				videoCall: newStompVideoCallRequest
+			};
+			setNotifications([...notifications, newNotification]);
+		}
+	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
+
 	const initLiveServiceSocket = () => {
 		stompClient.connect(
 			{
@@ -144,6 +151,12 @@ export const App: React.FC = () => {
 					const stompEventType = stompMessageBody['eventType'];
 					if (stompEventType === STOMP_EVENT_TYPES.DIRECT_MESSAGE) {
 						setNewStompDirectMessage(true);
+					} else if (
+						stompEventType === STOMP_EVENT_TYPES.VIDEO_CALL_REQUEST
+					) {
+						const stompEventContent: VideoCallRequestProps =
+							stompMessageBody['eventContent'];
+						setNewStompVideoCallRequest(stompEventContent);
 					}
 				});
 			}
@@ -163,7 +176,6 @@ export const App: React.FC = () => {
 		logout();
 	};
 
-	//TODO: check possible rerenderings of route on live notifications
 	if (appReady) {
 		return (
 			<Router history={history}>
