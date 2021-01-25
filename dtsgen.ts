@@ -37,6 +37,12 @@ const services = [
 		path: 'caritas-onlineBeratung-liveService/develop/api/liveservice.yaml',
 		namespace: 'LiveService',
 		out: 'liveservice.d.ts'
+	},
+	{
+		path:
+			'caritas-onlineBeratung-videoService/develop/api/videoservice.yaml',
+		namespace: 'VideoService',
+		out: 'videoservice.d.ts'
 	}
 ];
 

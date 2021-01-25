@@ -20,7 +20,7 @@ export const Notifications = (props: NotificationsProps) => {
 			{props.notifications.map(
 				(notification: IncomingVideoCallProps, index) => {
 					return (
-						notification.url && (
+						notification.notificationType === 'call' && (
 							<IncomingVideoCall {...notification} key={index} />
 						)
 					);
