@@ -36,14 +36,14 @@ describe('Video calls', () => {
 			cy.get('.sessionMenu__videoCallButtons').should('not.exist');
 		});
 
-		it('should show no notifications when no notifications exist', () => {
-			cy.clock();
-			cy.caritasMockedLogin();
-
-			cy.get('.notifications').should('be.empty');
-		});
-
 		describe('Incoming video call notifications', () => {
+			it('should show no notifications when no notifications exist', () => {
+				cy.clock();
+				cy.caritasMockedLogin();
+
+				cy.get('.notifications').should('be.empty');
+			});
+
 			it('should show an incoming video call', () => {
 				const sessions = generateMultipleConsultantSessions(2);
 				cy.caritasMockedLogin({
@@ -59,6 +59,7 @@ describe('Video calls', () => {
 			});
 
 			it('should show all incoming video calls', () => {
+				const amountOfIncomingCalls = 3;
 				const sessions = generateMultipleConsultantSessions(2);
 				cy.caritasMockedLogin({
 					type: 'asker',
@@ -70,9 +71,13 @@ describe('Video calls', () => {
 				cy.get('.notifications').should('exist');
 				cy.get('.incomingVideoCall').should('exist');
 				cy.get('.incomingVideoCall').should('have.length', 1);
-				emitStompVideoCallRequest();
-				emitStompVideoCallRequest();
-				cy.get('.incomingVideoCall').should('have.length', 3);
+				for (let i = 0; i < amountOfIncomingCalls - 1; i++) {
+					emitStompVideoCallRequest();
+				}
+				cy.get('.incomingVideoCall').should(
+					'have.length',
+					amountOfIncomingCalls
+				);
 			});
 
 			it('should remove incoming call when call is answered', () => {
@@ -109,7 +114,7 @@ describe('Video calls', () => {
 			});
 
 			describe('Playing of ringtone', () => {
-				it('should play ringtone on any incoming video call', () => {
+				it('should play on any incoming video call', () => {
 					const sessions = generateMultipleConsultantSessions(2);
 					cy.caritasMockedLogin({
 						type: 'asker',
@@ -123,7 +128,7 @@ describe('Video calls', () => {
 					);
 				});
 
-				it('should stop playing ringtone if last incoming call gets answered/rejected', () => {
+				it('should stop playing if last incoming call gets rejected', () => {
 					const sessions = generateMultipleConsultantSessions(2);
 					cy.caritasMockedLogin({
 						type: 'asker',
@@ -145,7 +150,29 @@ describe('Video calls', () => {
 					);
 				});
 
-				it('should keep playing ringtone if at least one incoming call remains after answering/rejecting a call', () => {
+				it('should stop playing if last incoming call gets answered', () => {
+					const sessions = generateMultipleConsultantSessions(2);
+					cy.caritasMockedLogin({
+						type: 'asker',
+						sessions
+					}).then(() => {
+						emitStompVideoCallRequest();
+					});
+
+					cy.get('.notifications audio[loop][autoplay]').should(
+						'exist'
+					);
+					cy.get(
+						'.incomingVideoCall__buttons .button__smallIcon--green'
+					)
+						.first()
+						.click();
+					cy.get('.notifications audio[loop][autoplay]').should(
+						'not.exist'
+					);
+				});
+
+				it('should keep playing if at least one incoming call remains after rejecting a call', () => {
 					const sessions = generateMultipleConsultantSessions(2);
 					cy.caritasMockedLogin({
 						type: 'asker',
@@ -160,6 +187,30 @@ describe('Video calls', () => {
 					);
 					cy.get(
 						'.incomingVideoCall__buttons .button__smallIcon--red'
+					)
+						.first()
+						.click();
+					cy.get('.incomingVideoCall').should('have.length', 1);
+					cy.get('.notifications audio[loop][autoplay]').should(
+						'exist'
+					);
+				});
+
+				it('should keep playing if at least one incoming call remains after answering a call', () => {
+					const sessions = generateMultipleConsultantSessions(2);
+					cy.caritasMockedLogin({
+						type: 'asker',
+						sessions
+					}).then(() => {
+						emitStompVideoCallRequest();
+						emitStompVideoCallRequest();
+					});
+
+					cy.get('.notifications audio[loop][autoplay]').should(
+						'exist'
+					);
+					cy.get(
+						'.incomingVideoCall__buttons .button__smallIcon--green'
 					)
 						.first()
 						.click();
