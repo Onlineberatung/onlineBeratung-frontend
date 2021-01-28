@@ -27,7 +27,7 @@ export interface SessionConsultantInterface {
 export interface SessionItemInterface {
 	agencyId: number;
 	askerRcId: string;
-	attachment: ListItemAttachmentInterface;
+	attachment: UserService.Schemas.SessionAttachmentDTO;
 	consultingType: number;
 	feedbackGroupId?: string;
 	feedbackRead?: boolean;
@@ -46,7 +46,7 @@ export interface SessionItemInterface {
 
 export interface GroupChatItemInterface {
 	active: boolean;
-	attachment: ListItemAttachmentInterface;
+	attachment: UserService.Schemas.SessionAttachmentDTO;
 	consultingType: number;
 	duration: number;
 	groupId: string;
@@ -73,12 +73,6 @@ export interface SessionUserDataInterface {
 	gender?: number;
 	relation?: number;
 	state?: number;
-}
-
-export interface ListItemAttachmentInterface {
-	fileType: string;
-	imagePreview: string;
-	fileReceived: boolean;
 }
 
 export interface ListItemsResponseInterface {

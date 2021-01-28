@@ -17,21 +17,14 @@ import { ForwardMessage } from './ForwardMessage';
 import { MessageMetaData } from './MessageMetaData';
 import { CopyMessage } from './CopyMessage';
 import { MessageUsername } from './MessageUsername';
-import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import { translate } from '../../resources/scripts/i18n/translate';
-import {
-	ATTACHMENT_TRANSLATE_FOR_TYPE,
-	getAttachmentSizeMBForKB
-} from '../messageSubmitInterface/attachmentHelpers';
-import { tld } from '../../resources/scripts/config';
 import { markdownToDraft } from 'markdown-draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import { convertFromRaw, ContentState } from 'draft-js';
 import { urlifyLinksInText } from '../messageSubmitInterface/richtextHelpers';
-import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
-import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
+import { VideoCallMessage } from './VideoCallMessage';
+import { MessageAttachment } from './MessageAttachment';
 import './message.styles';
-import { currentUserWasVideoCallInitiator } from '../../resources/scripts/helpers/videoCallHelpers';
+
 export interface ForwardMessageDTO {
 	message: string;
 	rcUserId: string;
@@ -61,8 +54,8 @@ export interface MessageItem {
 		forwardMessageDTO?: ForwardMessageDTO;
 		videoCallMessageDTO?: VideoCallMessageDTO;
 	};
-	attachments?: any;
-	file?: any;
+	attachments?: MessageService.Schemas.AttachmentDTO[];
+	file?: MessageService.Schemas.FileDTO;
 }
 
 interface MessageItemComponentProps extends MessageItem {
@@ -144,35 +137,10 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 			>
 				{isVideoCallMessage &&
 				videoCallMessage.eventType === 'IGNORED_CALL' ? (
-					<div className="videoCallMessage__subjectWrapper">
-						<p className="videoCallMessage__subject">
-							{currentUserWasVideoCallInitiator(
-								videoCallMessage?.rcUserId
-							) ? (
-								<>
-									{translate(
-										'videoCall.incomingCall.rejected.prefix'
-									)}{' '}
-									<span className="videoCallMessage__username">
-										{activeSession.user.username}
-									</span>{' '}
-									{translate(
-										'videoCall.incomingCall.rejected.suffix'
-									)}
-								</>
-							) : (
-								<>
-									<span className="videoCallMessage__username">
-										{videoCallMessage.initiatorUserName}
-									</span>{' '}
-									{translate(
-										'videoCall.incomingCall.ignored'
-									)}
-								</>
-							)}
-						</p>
-						<CallOffIcon className="videoCallMessage__icon" />
-					</div>
+					<VideoCallMessage
+						videoCallMessage={videoCallMessage}
+						activeSessionUsername={activeSession.user.username}
+					/>
 				) : (
 					<>
 						<MessageUsername
@@ -200,57 +168,12 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 							></span>
 							{props.attachments &&
 								props.attachments.map((attachment, key) => (
-									<div
+									<MessageAttachment
 										key={key}
-										className={
-											hasRenderedMessage
-												? 'messageItem__message--withAttachment'
-												: ''
-										}
-									>
-										<div className="messageItem__message__attachment">
-											<span className="messageItem__message__attachment__icon">
-												{getIconForAttachmentType(
-													props.file.type
-												)}
-											</span>
-											<span className="messageItem__message__attachment__title">
-												<p>{attachment.title}</p>
-												<p className="messageItem__message__attachment__meta">
-													{
-														ATTACHMENT_TRANSLATE_FOR_TYPE[
-															props.file.type
-														]
-													}{' '}
-													{attachment.image_size
-														? `| ${
-																(
-																	getAttachmentSizeMBForKB(
-																		attachment.image_size *
-																			1000
-																	) / 1000
-																).toFixed(2) +
-																translate(
-																	'attachments.type.label.mb'
-																)
-														  }`
-														: null}
-												</p>
-											</span>
-										</div>
-										<a
-											href={tld + attachment.title_link}
-											rel="noopener noreferer"
-											className="messageItem__message__attachment__download"
-										>
-											<DownloadIcon />
-											<p>
-												{translate(
-													'attachments.download.label'
-												)}
-											</p>
-										</a>
-									</div>
+										attachment={attachment}
+										file={props.file}
+										hasRenderedMessage={hasRenderedMessage}
+									/>
 								))}
 							{activeSession.isFeedbackSession && (
 								<CopyMessage

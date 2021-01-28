@@ -26,15 +26,14 @@ import {
 	AUTHORITIES
 } from '../../globalState';
 import { history } from '../app/app';
-import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
 import './sessionsListItem.styles';
 import { Tag } from '../tag/Tag';
 import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
-import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
-import { currentUserWasVideoCallInitiator } from '../../resources/scripts/helpers/videoCallHelpers';
+import { SessionListItemVideoCall } from './SessionListItemVideoCall';
+import { SessionListItemAttachment } from './SessionListItemAttachment';
 
 interface SessionListItemProps {
 	type: string;
@@ -181,24 +180,11 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								? plainTextLastMessage
 								: defaultSubjectText}
 						</div>
-						{listItem.attachment ? (
-							<div className="sessionsListItem__subject">
-								<span className="sessionsListItem__subject__attachment">
-									{getIconForAttachmentType(
-										listItem.attachment.fileType
-									)}
-								</span>
-								<span>
-									{listItem.attachment.fileReceived
-										? translate(
-												'attachments.list.label.received'
-										  )
-										: translate(
-												'attachments.list.label.sent'
-										  )}
-								</span>
-							</div>
-						) : null}
+						{listItem.attachment && (
+							<SessionListItemAttachment
+								attachment={listItem.attachment}
+							/>
+						)}
 						{listItem.active && (
 							<Tag
 								text={translate(
@@ -286,48 +272,15 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						isCurrentSessionNewEnquiry && <span></span>
 					)}
 					{listItem.attachment && (
-						<div className="sessionsListItem__subject">
-							<span className="sessionsListItem__subject__attachment">
-								{getIconForAttachmentType(
-									listItem.attachment.fileType
-								)}
-							</span>
-							<span>
-								{listItem.attachment.fileReceived
-									? translate(
-											'attachments.list.label.received'
-									  )
-									: translate('attachments.list.label.sent')}
-							</span>
-						</div>
+						<SessionListItemAttachment
+							attachment={listItem.attachment}
+						/>
 					)}
 					{listItem.videoCallMessageDTO && (
-						<div className="sessionsListItem__subject">
-							{currentUserWasVideoCallInitiator(
-								listItem.videoCallMessageDTO.rcUserId
-							) ? (
-								<>
-									{translate(
-										'videoCall.incomingCall.rejected.prefix'
-									)}{' '}
-									{currentSessionData.user.username}{' '}
-									{translate(
-										'videoCall.incomingCall.rejected.suffix'
-									)}
-								</>
-							) : (
-								<>
-									{
-										listItem.videoCallMessageDTO
-											.initiatorUserName
-									}{' '}
-									{translate(
-										'videoCall.incomingCall.ignored'
-									)}
-								</>
-							)}
-							<CallOffIcon className="sessionsListItem__videoCallMessageIcon" />
-						</div>
+						<SessionListItemVideoCall
+							videoCallMessage={listItem.videoCallMessageDTO}
+							listItemUsername={currentSessionData.user.username}
+						/>
 					)}
 					{!typeIsUser(type) &&
 						!typeIsEnquiry(type) &&
