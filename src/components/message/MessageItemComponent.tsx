@@ -31,8 +31,7 @@ import { urlifyLinksInText } from '../messageSubmitInterface/richtextHelpers';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import './message.styles';
-import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
-
+import { currentUserWasVideoCallInitiator } from '../../resources/scripts/helpers/videoCallHelpers';
 export interface ForwardMessageDTO {
 	message: string;
 	rcUserId: string;
@@ -40,7 +39,7 @@ export interface ForwardMessageDTO {
 	username: string;
 }
 
-interface VideoCallMessageDTO {
+export interface VideoCallMessageDTO {
 	eventType: 'IGNORED_CALL';
 	initiatorUserName: string;
 	rcUserId: string;
@@ -128,8 +127,6 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const videoCallMessage: VideoCallMessageDTO =
 		props.alias?.videoCallMessageDTO;
 	const isVideoCallMessage = !!videoCallMessage;
-	const currentUserWasVideoCallInitiator = () =>
-		videoCallMessage?.rcUserId === getTokenFromCookie('rc_uid');
 
 	return (
 		<div
@@ -148,9 +145,10 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 				{isVideoCallMessage &&
 				videoCallMessage.eventType === 'IGNORED_CALL' ? (
 					<div className="videoCallMessage__subjectWrapper">
-						<CallOffIcon className="videoCallMessage__icon" />
 						<p className="videoCallMessage__subject">
-							{currentUserWasVideoCallInitiator() ? (
+							{currentUserWasVideoCallInitiator(
+								videoCallMessage?.rcUserId
+							) ? (
 								<>
 									{translate(
 										'videoCall.incomingCall.rejected.prefix'
@@ -173,6 +171,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 								</>
 							)}
 						</p>
+						<CallOffIcon className="videoCallMessage__icon" />
 					</div>
 				) : (
 					<>

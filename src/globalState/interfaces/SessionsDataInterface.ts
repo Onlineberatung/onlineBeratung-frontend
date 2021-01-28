@@ -1,3 +1,4 @@
+import { VideoCallMessageDTO } from '../../components/message/MessageItemComponent';
 import { AgencyDataInterface } from './UserDataInterface';
 
 export interface SessionsDataInterface {
@@ -40,6 +41,7 @@ export interface SessionItemInterface {
 	postcode: number;
 	status: number;
 	teamSession: boolean;
+	videoCallMessageDTO: VideoCallMessageDTO;
 }
 
 export interface GroupChatItemInterface {

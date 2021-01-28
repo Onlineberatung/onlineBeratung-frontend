@@ -414,7 +414,8 @@ $message-lineheight: 21px;
 	&__icon {
 		width: $icon-size-small;
 		height: $icon-size-small;
-		margin: auto $grid-base auto 0;
+		margin: auto 0 auto $grid-base;
+		padding-bottom: 2px;
 
 		* {
 			fill: $secondary;
@@ -432,7 +433,7 @@ $message-lineheight: 21px;
 	}
 
 	.messageItem__metaData {
-		margin: 4px 0 0 28px;
+		margin: 4px 0 0;
 	}
 }
 

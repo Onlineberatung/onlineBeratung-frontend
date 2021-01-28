@@ -205,6 +205,16 @@ $icon-size-small: 16px;
 		}
 	}
 
+	&__videoCallMessageIcon {
+		margin-left: 4px;
+		width: $icon-size-small;
+		height: $icon-size-small;
+
+		* {
+			fill: $secondary;
+		}
+	}
+
 	.tag {
 		margin-left: $grid-base;
 	}

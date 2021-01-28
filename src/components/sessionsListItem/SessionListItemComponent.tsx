@@ -33,6 +33,8 @@ import { convertFromRaw } from 'draft-js';
 import './sessionsListItem.styles';
 import { Tag } from '../tag/Tag';
 import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
+import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
+import { currentUserWasVideoCallInitiator } from '../../resources/scripts/helpers/videoCallHelpers';
 
 interface SessionListItemProps {
 	type: string;
@@ -297,6 +299,34 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 									  )
 									: translate('attachments.list.label.sent')}
 							</span>
+						</div>
+					)}
+					{listItem.videoCallMessageDTO && (
+						<div className="sessionsListItem__subject">
+							{currentUserWasVideoCallInitiator(
+								listItem.videoCallMessageDTO.rcUserId
+							) ? (
+								<>
+									{translate(
+										'videoCall.incomingCall.rejected.prefix'
+									)}{' '}
+									{currentSessionData.user.username}{' '}
+									{translate(
+										'videoCall.incomingCall.rejected.suffix'
+									)}
+								</>
+							) : (
+								<>
+									{
+										listItem.videoCallMessageDTO
+											.initiatorUserName
+									}{' '}
+									{translate(
+										'videoCall.incomingCall.ignored'
+									)}
+								</>
+							)}
+							<CallOffIcon className="sessionsListItem__videoCallMessageIcon" />
 						</div>
 					)}
 					{!typeIsUser(type) &&
