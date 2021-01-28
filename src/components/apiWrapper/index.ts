@@ -23,3 +23,4 @@ export * from './rocketChatSocket';
 export * from './ajaxCallGroupChatSettings';
 export * from './ajaxCallPutGroupChat';
 export * from './ajaxCallGetGroupChatInfo';
+export * from './apiRejectVideoCall';
