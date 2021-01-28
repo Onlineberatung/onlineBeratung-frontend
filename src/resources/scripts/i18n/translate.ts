@@ -28,6 +28,7 @@ import typingIndicator from './de/typingIndicator';
 import user from './de/user';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
+import videoCallInformal from './de/videoCallInformal';
 import warningLabels from './de/warningLabels';
 import warningLabelsInformal from './de/warningLabelsInformal';
 import { getResortKeyForConsultingType } from '../helpers/resorts';
@@ -69,6 +70,7 @@ const informalLocale: any = {
 	session: { ...session, ...sessionInformal },
 	sessionList: { ...sessionList, ...sessionListInformal },
 	statusOverlay: { ...statusOverlay, ...statusOverlayInformal },
+	videoCall: { ...videoCall, ...videoCallInformal },
 	warningLabels: { ...warningLabels, ...warningLabelsInformal }
 };
 
