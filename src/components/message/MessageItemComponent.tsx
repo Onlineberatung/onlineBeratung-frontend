@@ -29,8 +29,22 @@ import { stateToHTML } from 'draft-js-export-html';
 import { convertFromRaw, ContentState } from 'draft-js';
 import { urlifyLinksInText } from '../messageSubmitInterface/richtextHelpers';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
+import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import './message.styles';
+import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
 
+export interface ForwardMessageDTO {
+	message: string;
+	rcUserId: string;
+	timestamp: any;
+	username: string;
+}
+
+interface VideoCallMessageDTO {
+	eventType: 'IGNORED_CALL';
+	initiatorUserName: string;
+	rcUserId: string;
+}
 export interface MessageItem {
 	id?: number;
 	message: string;
@@ -44,7 +58,10 @@ export interface MessageItem {
 	};
 	groupId?: string;
 	isNotRead: boolean;
-	alias?: any;
+	alias?: {
+		forwardMessageDTO?: ForwardMessageDTO;
+		videoCallMessageDTO?: VideoCallMessageDTO;
+	};
 	attachments?: any;
 	file?: any;
 }
@@ -86,7 +103,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		if (props.isMyMessage) {
 			return 'self';
 		}
-		if (props.alias) {
+		if (props.alias?.forwardMessageDTO) {
 			return 'forwarded';
 		}
 		if (props.username === 'system') {
@@ -107,13 +124,18 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		chatItem.feedbackGroupId &&
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
 		!activeSession.isFeedbackSession;
+
+	const videoCallMessage: VideoCallMessageDTO =
+		props.alias?.videoCallMessageDTO;
+	const isVideoCallMessage = !!videoCallMessage;
+	const currentUserWasVideoCallInitiator = () =>
+		videoCallMessage?.rcUserId === getTokenFromCookie('rc_uid');
+
 	return (
 		<div
-			className={
-				props.isMyMessage
-					? `messageItem messageItem--right`
-					: `messageItem`
-			}
+			className={`messageItem ${
+				props.isMyMessage ? 'messageItem--right' : ''
+			} ${isVideoCallMessage ? 'videoCallMessage' : ''}`}
 		>
 			{getMessageDate()}
 			<div
@@ -123,105 +145,140 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 						: `messageItem__messageWrap`
 				}
 			>
-				<MessageUsername
-					alias={props.alias}
-					isMyMessage={props.isMyMessage}
-					isUser={isUserMessage()}
-					type={getUsernameType()}
-					userId={props.userId}
-					username={props.username}
-				></MessageUsername>
-
-				<div
-					className={
-						props.isMyMessage && !props.alias
-							? `messageItem__message messageItem__message--myMessage`
-							: props.alias
-							? `messageItem__message messageItem__message--forwarded`
-							: `messageItem__message`
-					}
-				>
-					<span
-						dangerouslySetInnerHTML={{ __html: renderedMessage }}
-					></span>
-					{props.attachments
-						? props.attachments.map((attachment, key) => (
-								<div
-									key={key}
-									className={
-										hasRenderedMessage
-											? 'messageItem__message--withAttachment'
-											: ''
-									}
-								>
-									<div className="messageItem__message__attachment">
-										<span className="messageItem__message__attachment__icon">
-											{getIconForAttachmentType(
-												props.file.type
-											)}
-										</span>
-										<span className="messageItem__message__attachment__title">
-											<p>{attachment.title}</p>
-											<p className="messageItem__message__attachment__meta">
-												{
-													ATTACHMENT_TRANSLATE_FOR_TYPE[
-														props.file.type
-													]
-												}{' '}
-												{attachment.image_size
-													? `| ${
-															(
-																getAttachmentSizeMBForKB(
-																	attachment.image_size *
-																		1000
-																) / 1000
-															).toFixed(2) +
-															translate(
-																'attachments.type.label.mb'
-															)
-													  }`
-													: null}
-											</p>
-										</span>
-									</div>
-									<a
-										href={tld + attachment.title_link}
-										rel="noopener noreferer"
-										className="messageItem__message__attachment__download"
-									>
-										<DownloadIcon />
-										<p>
-											{translate(
-												'attachments.download.label'
-											)}
-										</p>
-									</a>
-								</div>
-						  ))
-						: null}
-					{activeSession.isFeedbackSession ? (
-						<CopyMessage
-							right={props.isMyMessage}
-							message={renderedMessage}
-						></CopyMessage>
-					) : null}
-					{showForwardMessage() ? (
-						<ForwardMessage
-							right={props.isMyMessage}
-							message={props.message}
-							messageTime={props.messageTime}
-							askerRcId={props.askerRcId}
-							groupId={chatItem.feedbackGroupId}
+				{isVideoCallMessage &&
+				videoCallMessage.eventType === 'IGNORED_CALL' ? (
+					<div className="videoCallMessage__subjectWrapper">
+						<CallOffIcon className="videoCallMessage__icon" />
+						<p className="videoCallMessage__subject">
+							{currentUserWasVideoCallInitiator() ? (
+								<>
+									{translate(
+										'videoCall.incomingCall.rejected.prefix'
+									)}{' '}
+									<span className="videoCallMessage__username">
+										{activeSession.user.username}
+									</span>{' '}
+									{translate(
+										'videoCall.incomingCall.rejected.suffix'
+									)}
+								</>
+							) : (
+								<>
+									<span className="videoCallMessage__username">
+										{videoCallMessage.initiatorUserName}
+									</span>{' '}
+									{translate(
+										'videoCall.incomingCall.ignored'
+									)}
+								</>
+							)}
+						</p>
+					</div>
+				) : (
+					<>
+						<MessageUsername
+							alias={props.alias?.forwardMessageDTO}
+							isMyMessage={props.isMyMessage}
+							isUser={isUserMessage()}
+							type={getUsernameType()}
+							userId={props.userId}
 							username={props.username}
-						></ForwardMessage>
-					) : null}
-				</div>
+						></MessageUsername>
+
+						<div
+							className={
+								props.isMyMessage && !props.alias
+									? `messageItem__message messageItem__message--myMessage`
+									: props.alias
+									? `messageItem__message messageItem__message--forwarded`
+									: `messageItem__message`
+							}
+						>
+							<span
+								dangerouslySetInnerHTML={{
+									__html: renderedMessage
+								}}
+							></span>
+							{props.attachments &&
+								props.attachments.map((attachment, key) => (
+									<div
+										key={key}
+										className={
+											hasRenderedMessage
+												? 'messageItem__message--withAttachment'
+												: ''
+										}
+									>
+										<div className="messageItem__message__attachment">
+											<span className="messageItem__message__attachment__icon">
+												{getIconForAttachmentType(
+													props.file.type
+												)}
+											</span>
+											<span className="messageItem__message__attachment__title">
+												<p>{attachment.title}</p>
+												<p className="messageItem__message__attachment__meta">
+													{
+														ATTACHMENT_TRANSLATE_FOR_TYPE[
+															props.file.type
+														]
+													}{' '}
+													{attachment.image_size
+														? `| ${
+																(
+																	getAttachmentSizeMBForKB(
+																		attachment.image_size *
+																			1000
+																	) / 1000
+																).toFixed(2) +
+																translate(
+																	'attachments.type.label.mb'
+																)
+														  }`
+														: null}
+												</p>
+											</span>
+										</div>
+										<a
+											href={tld + attachment.title_link}
+											rel="noopener noreferer"
+											className="messageItem__message__attachment__download"
+										>
+											<DownloadIcon />
+											<p>
+												{translate(
+													'attachments.download.label'
+												)}
+											</p>
+										</a>
+									</div>
+								))}
+							{activeSession.isFeedbackSession && (
+								<CopyMessage
+									right={props.isMyMessage}
+									message={renderedMessage}
+								></CopyMessage>
+							)}
+							{showForwardMessage() && (
+								<ForwardMessage
+									right={props.isMyMessage}
+									message={props.message}
+									messageTime={props.messageTime}
+									askerRcId={props.askerRcId}
+									groupId={chatItem.feedbackGroupId}
+									username={props.username}
+								></ForwardMessage>
+							)}
+						</div>
+					</>
+				)}
 
 				<MessageMetaData
 					isMyMessage={props.isMyMessage}
 					isNotRead={props.isNotRead}
 					messageTime={props.messageTime}
 					type={getUsernameType()}
+					isVideoCallMessage={isVideoCallMessage}
 				></MessageMetaData>
 			</div>
 		</div>
