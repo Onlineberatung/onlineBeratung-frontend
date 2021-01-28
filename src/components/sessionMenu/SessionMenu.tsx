@@ -216,7 +216,10 @@ export const SessionMenu = () => {
 	return (
 		<div className="sessionMenu__wrapper">
 			{hasVideoCallFeatures() && (
-				<div className="sessionMenu__videoCallButtons">
+				<div
+					className="sessionMenu__videoCallButtons"
+					data-cy="session-header-video-call-buttons"
+				>
 					<Button
 						buttonHandle={() => handleStartVideoCall(true)}
 						item={buttonStartVideoCall}

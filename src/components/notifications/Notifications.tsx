@@ -16,7 +16,7 @@ export const Notifications = (props: NotificationsProps) => {
 	);
 
 	return (
-		<div className="notifications">
+		<div className="notifications" data-cy="notifications">
 			{props.notifications.map(
 				(notification: IncomingVideoCallProps, index) => {
 					return (
@@ -27,7 +27,7 @@ export const Notifications = (props: NotificationsProps) => {
 				}
 			)}
 			{hasIncomingVideoCall && (
-				<audio loop autoPlay>
+				<audio loop autoPlay data-cy="incoming-video-call-audio">
 					<source src={incomingCallRingtone}></source>
 				</audio>
 			)}

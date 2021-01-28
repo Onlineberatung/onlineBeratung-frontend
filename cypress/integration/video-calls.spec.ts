@@ -15,9 +15,11 @@ describe('Video calls', () => {
 				});
 
 				cy.get('a[href="/sessions/consultant/sessionView"]').click();
-				cy.get('.sessionsList__itemsWrapper ').click();
+				cy.get('[data-cy=sessions-list-items-wrapper]').click();
 
-				cy.get('.sessionMenu__videoCallButtons').should('exist');
+				cy.get('[data-cy=session-header-video-call-buttons]').should(
+					'exist'
+				);
 			});
 		});
 	});
@@ -31,17 +33,18 @@ describe('Video calls', () => {
 			});
 
 			cy.get('a[href="/sessions/user/view"]').click();
-			cy.get('.sessionsList__itemsWrapper ').click();
+			cy.get('[data-cy=sessions-list-items-wrapper]').click();
 
-			cy.get('.sessionMenu__videoCallButtons').should('not.exist');
+			cy.get('[data-cy=session-header-video-call-buttons]').should(
+				'not.exist'
+			);
 		});
 
 		describe('Incoming video call notifications', () => {
 			it('should show no notifications when no notifications exist', () => {
-				cy.clock();
 				cy.caritasMockedLogin();
 
-				cy.get('.notifications').should('be.empty');
+				cy.get('[data-cy=notifications]').should('be.empty');
 			});
 
 			it('should show an incoming video call', () => {
@@ -53,9 +56,12 @@ describe('Video calls', () => {
 					emitStompVideoCallRequest();
 				});
 
-				cy.get('.notifications').should('exist');
-				cy.get('.incomingVideoCall').should('exist');
-				cy.get('.incomingVideoCall').should('have.length', 1);
+				cy.get('[data-cy=notifications]').should('exist');
+				cy.get('[data-cy=incoming-video-call]').should('exist');
+				cy.get('[data-cy=incoming-video-call]').should(
+					'have.length',
+					1
+				);
 			});
 
 			it('should show all incoming video calls', () => {
@@ -68,13 +74,16 @@ describe('Video calls', () => {
 					emitStompVideoCallRequest();
 				});
 
-				cy.get('.notifications').should('exist');
-				cy.get('.incomingVideoCall').should('exist');
-				cy.get('.incomingVideoCall').should('have.length', 1);
+				cy.get('[data-cy=notifications]').should('exist');
+				cy.get('[data-cy=incoming-video-call]').should('exist');
+				cy.get('[data-cy=incoming-video-call]').should(
+					'have.length',
+					1
+				);
 				for (let i = 0; i < amountOfIncomingCalls - 1; i++) {
 					emitStompVideoCallRequest();
 				}
-				cy.get('.incomingVideoCall').should(
+				cy.get('[data-cy=incoming-video-call]').should(
 					'have.length',
 					amountOfIncomingCalls
 				);
@@ -90,11 +99,15 @@ describe('Video calls', () => {
 					emitStompVideoCallRequest();
 				});
 
-				cy.get('.incomingVideoCall').should('have.length', 2);
-				cy.get('.incomingVideoCall__buttons .button__smallIcon--green')
-					.first()
-					.click();
-				cy.get('.incomingVideoCall').should('have.length', 1);
+				cy.get('[data-cy=incoming-video-call]').should(
+					'have.length',
+					2
+				);
+				cy.get('[data-cy=answer-incoming-video-call]').first().click();
+				cy.get('[data-cy=incoming-video-call]').should(
+					'have.length',
+					1
+				);
 			});
 
 			it('should remove incoming call when call is rejected', () => {
@@ -106,11 +119,15 @@ describe('Video calls', () => {
 					emitStompVideoCallRequest();
 				});
 
-				cy.get('.incomingVideoCall').should('have.length', 1);
-				cy.get('.incomingVideoCall__buttons .button__smallIcon--red')
-					.first()
-					.click();
-				cy.get('.incomingVideoCall').should('have.length', 0);
+				cy.get('[data-cy=incoming-video-call]').should(
+					'have.length',
+					1
+				);
+				cy.get('[data-cy=reject-incoming-video-call]').click();
+				cy.get('[data-cy=incoming-video-call]').should(
+					'have.length',
+					0
+				);
 			});
 
 			describe('Playing of ringtone', () => {
@@ -123,7 +140,11 @@ describe('Video calls', () => {
 						emitStompVideoCallRequest();
 					});
 
-					cy.get('.notifications audio[loop][autoplay]').should(
+					cy.get('[data-cy=incoming-video-call]').should(
+						'have.length',
+						1
+					);
+					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
 					);
 				});
@@ -137,15 +158,11 @@ describe('Video calls', () => {
 						emitStompVideoCallRequest();
 					});
 
-					cy.get('.notifications audio[loop][autoplay]').should(
+					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
 					);
-					cy.get(
-						'.incomingVideoCall__buttons .button__smallIcon--red'
-					)
-						.first()
-						.click();
-					cy.get('.notifications audio[loop][autoplay]').should(
+					cy.get('[data-cy=reject-incoming-video-call]').click();
+					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'not.exist'
 					);
 				});
@@ -159,15 +176,11 @@ describe('Video calls', () => {
 						emitStompVideoCallRequest();
 					});
 
-					cy.get('.notifications audio[loop][autoplay]').should(
+					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
 					);
-					cy.get(
-						'.incomingVideoCall__buttons .button__smallIcon--green'
-					)
-						.first()
-						.click();
-					cy.get('.notifications audio[loop][autoplay]').should(
+					cy.get('[data-cy=answer-incoming-video-call]').click();
+					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'not.exist'
 					);
 				});
@@ -182,16 +195,17 @@ describe('Video calls', () => {
 						emitStompVideoCallRequest();
 					});
 
-					cy.get('.notifications audio[loop][autoplay]').should(
+					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
 					);
-					cy.get(
-						'.incomingVideoCall__buttons .button__smallIcon--red'
-					)
+					cy.get('[data-cy=reject-incoming-video-call]')
 						.first()
 						.click();
-					cy.get('.incomingVideoCall').should('have.length', 1);
-					cy.get('.notifications audio[loop][autoplay]').should(
+					cy.get('[data-cy=incoming-video-call]').should(
+						'have.length',
+						1
+					);
+					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
 					);
 				});
@@ -206,16 +220,17 @@ describe('Video calls', () => {
 						emitStompVideoCallRequest();
 					});
 
-					cy.get('.notifications audio[loop][autoplay]').should(
+					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
 					);
-					cy.get(
-						'.incomingVideoCall__buttons .button__smallIcon--green'
-					)
+					cy.get('[data-cy=answer-incoming-video-call]')
 						.first()
 						.click();
-					cy.get('.incomingVideoCall').should('have.length', 1);
-					cy.get('.notifications audio[loop][autoplay]').should(
+					cy.get('[data-cy=incoming-video-call]').should(
+						'have.length',
+						1
+					);
+					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
 					);
 				});
