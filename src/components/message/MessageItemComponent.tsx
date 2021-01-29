@@ -139,7 +139,10 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 				videoCallMessage.eventType === 'IGNORED_CALL' ? (
 					<VideoCallMessage
 						videoCallMessage={videoCallMessage}
-						activeSessionUsername={activeSession.user.username}
+						activeSessionUsername={
+							activeSession.user?.username ||
+							activeSession.consultant?.username
+						}
 					/>
 				) : (
 					<>

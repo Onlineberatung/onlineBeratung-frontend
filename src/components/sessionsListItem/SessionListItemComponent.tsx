@@ -279,7 +279,10 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					{listItem.videoCallMessageDTO && (
 						<SessionListItemVideoCall
 							videoCallMessage={listItem.videoCallMessageDTO}
-							listItemUsername={currentSessionData.user.username}
+							listItemUsername={
+								currentSessionData.user?.username ||
+								currentSessionData.consultant?.username
+							}
 						/>
 					)}
 					{!typeIsUser(type) &&
