@@ -174,6 +174,8 @@ Cypress.Commands.add(
 			fixture: 'service.videocalls.new'
 		});
 
+		cy.intercept('POST', config.endpoints.rejectVideoCall, {});
+
 		cy.visit('login.html');
 
 		cy.get('#loginRoot');
