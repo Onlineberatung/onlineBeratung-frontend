@@ -81,7 +81,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 
 	const decodedUsername = decodeUsername(props.videoCall.username);
 	return (
-		<div className="incomingVideoCall">
+		<div className="incomingVideoCall" data-cy="incoming-video-call">
 			<p className="incomingVideoCall__description">
 				<span className="incomingVideoCall__username">
 					{decodedUsername}
@@ -95,6 +95,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 				<Button
 					buttonHandle={() => handleAnswerVideoCall(true)}
 					item={buttonAnswerVideoCall}
+					testingAttribute="answer-incoming-video-call"
 				/>
 				<Button
 					buttonHandle={() => handleAnswerVideoCall()}
@@ -103,6 +104,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 				<Button
 					buttonHandle={() => handleRejectVideoCall()}
 					item={buttonRejectVideoCall}
+					testingAttribute="reject-incoming-video-call"
 				/>
 			</div>
 		</div>

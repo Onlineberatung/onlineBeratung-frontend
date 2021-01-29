@@ -28,6 +28,7 @@ export interface ButtonProps {
 	disabled?: boolean;
 	isLink?: boolean;
 	item: ButtonItem;
+	testingAttribute?: string;
 }
 
 export const Button = (props: ButtonProps) => {
@@ -107,6 +108,7 @@ export const Button = (props: ButtonProps) => {
 					} 
 					${props.disabled ? ' button__item--disabled' : ''}
 				`}
+				data-cy={props.testingAttribute}
 			>
 				{item.id === 'reloadButton' && (
 					<ReloadIcon className="button__icon" />

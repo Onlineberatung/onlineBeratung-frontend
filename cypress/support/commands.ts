@@ -170,6 +170,10 @@ Cypress.Commands.add(
 			...args.attachmentUpload
 		}).as('attachmentUpload');
 
+		cy.intercept('POST', config.endpoints.startVideoCall, {
+			fixture: 'service.videocalls.new'
+		});
+
 		cy.visit('login.html');
 
 		cy.get('#loginRoot');
