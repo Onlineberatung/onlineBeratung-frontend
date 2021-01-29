@@ -79,7 +79,7 @@ export const Button = (props: ButtonProps) => {
 			event.preventDefault();
 		}
 
-		if (!props.disabled) {
+		if (!props.disabled && props.buttonHandle) {
 			window.clearTimeout(timeoutID);
 			props.buttonHandle(item.function);
 		}

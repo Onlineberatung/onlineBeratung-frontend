@@ -13,6 +13,7 @@ import {
 import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
 import { VideoCallRequestProps } from '../app/app';
 import './incomingVideoCall.styles';
+import { apiRejectVideoCall } from '../apiWrapper';
 
 export interface IncomingVideoCallProps {
 	notificationType: NotificationType;
@@ -56,6 +57,8 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 		NotificationsContext
 	);
 
+	const decodedUsername = decodeUsername(props.videoCall.username);
+
 	const handleAnswerVideoCall = (isVideoActivated: boolean = false) => {
 		window.open(
 			getVideoCallUrl(props.videoCall.videoCallUrl, isVideoActivated)
@@ -64,10 +67,17 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 	};
 
 	const handleRejectVideoCall = () => {
-		console.log('reject call');
-		//TODO: reject call BE -> groupId
-
-		removeIncomingVideoCallNotification();
+		apiRejectVideoCall(
+			decodedUsername,
+			props.videoCall.rcGroupId,
+			props.videoCall.rcUserId
+		)
+			.then(() => {
+				removeIncomingVideoCallNotification();
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	const removeIncomingVideoCallNotification = () => {
@@ -79,7 +89,6 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 		setNotifications(currentNotifications);
 	};
 
-	const decodedUsername = decodeUsername(props.videoCall.username);
 	return (
 		<div className="incomingVideoCall" data-cy="incoming-video-call">
 			<p className="incomingVideoCall__description">
