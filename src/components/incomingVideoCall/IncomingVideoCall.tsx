@@ -20,17 +20,17 @@ export interface IncomingVideoCallProps {
 	videoCall: VideoCallRequestProps;
 }
 
-const buttonStartCall: ButtonItem = {
+const buttonAnswerCall: ButtonItem = {
 	icon: <CallOnIcon />,
 	smallIconBackgroundColor: 'green',
-	title: translate('videoCall.button.startCall'),
+	title: translate('videoCall.button.answerCall'),
 	type: BUTTON_TYPES.SMALL_ICON
 };
 
-const buttonStartVideoCall: ButtonItem = {
+const buttonAnswerVideoCall: ButtonItem = {
 	icon: <CameraOnIcon />,
 	smallIconBackgroundColor: 'green',
-	title: translate('videoCall.button.startVideoCall'),
+	title: translate('videoCall.button.answerVideoCall'),
 	type: BUTTON_TYPES.SMALL_ICON
 };
 
@@ -59,7 +59,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 
 	const decodedUsername = decodeUsername(props.videoCall.username);
 
-	const handleJoinVideoCall = (isVideoActivated: boolean = false) => {
+	const handleAnswerVideoCall = (isVideoActivated: boolean = false) => {
 		window.open(
 			getVideoCallUrl(props.videoCall.videoCallUrl, isVideoActivated)
 		);
@@ -102,12 +102,12 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 			</div>
 			<div className="incomingVideoCall__buttons">
 				<Button
-					buttonHandle={() => handleJoinVideoCall(true)}
-					item={buttonStartVideoCall}
+					buttonHandle={() => handleAnswerVideoCall(true)}
+					item={buttonAnswerVideoCall}
 				/>
 				<Button
-					buttonHandle={() => handleJoinVideoCall()}
-					item={buttonStartCall}
+					buttonHandle={() => handleAnswerVideoCall()}
+					item={buttonAnswerCall}
 				/>
 				<Button
 					buttonHandle={() => handleRejectVideoCall()}

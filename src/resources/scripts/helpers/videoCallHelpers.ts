@@ -6,7 +6,9 @@ export const getVideoCallUrl = (
 	url: string,
 	isVideoActivated: boolean = false
 ) => {
-	return isVideoActivated ? url : `${url}#config.startWithVideoMuted=true`;
+	return isVideoActivated
+		? `${url}#config.startWithVideoMuted=false`
+		: `${url}#config.startWithVideoMuted=true`;
 };
 
 export const currentUserWasVideoCallInitiator = (initiatorRcUserId: string) =>
