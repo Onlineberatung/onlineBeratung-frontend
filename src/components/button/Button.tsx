@@ -84,7 +84,6 @@ export const Button = (props: ButtonProps) => {
 			props.buttonHandle(item.function);
 		}
 	};
-	console.log(props.testingAttribute);
 
 	return (
 		<div className="button__wrapper">
