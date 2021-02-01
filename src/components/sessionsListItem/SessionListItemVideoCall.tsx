@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
-import { currentUserWasVideoCallInitiator } from '../../resources/scripts/helpers/videoCallHelpers';
+import {
+	currentUserIsTeamConsultant,
+	currentUserWasVideoCallInitiator
+} from '../../resources/scripts/helpers/videoCallHelpers';
 import { VideoCallMessageDTO } from '../message/MessageItemComponent';
 
 interface SessionListItemVideoCallProps {
 	videoCallMessage: VideoCallMessageDTO;
 	listItemUsername: string;
+	listItemAskerRcId: string;
 }
 
 export const SessionListItemVideoCall = (
@@ -25,7 +29,22 @@ export const SessionListItemVideoCall = (
 			) : (
 				<>
 					{props.videoCallMessage.initiatorUserName}{' '}
-					{translate('videoCall.incomingCall.ignored')}
+					{currentUserIsTeamConsultant(
+						props.videoCallMessage.rcUserId,
+						props.listItemAskerRcId
+					) ? (
+						<>
+							{translate(
+								'videoCall.incomingCall.rejected.teamconsultant.prefix'
+							)}{' '}
+							{props.listItemUsername}{' '}
+							{translate(
+								'videoCall.incomingCall.rejected.suffix'
+							)}
+						</>
+					) : (
+						translate('videoCall.incomingCall.ignored')
+					)}
 				</>
 			)}
 			<CallOffIcon className="sessionsListItem__videoCallMessageIcon" />

@@ -143,6 +143,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 							activeSession.user?.username ||
 							activeSession.consultant?.username
 						}
+						activeSessionAskerRcId={activeSession.session.askerRcId}
 					/>
 				) : (
 					<>

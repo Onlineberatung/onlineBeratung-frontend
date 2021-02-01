@@ -13,3 +13,13 @@ export const getVideoCallUrl = (
 
 export const currentUserWasVideoCallInitiator = (initiatorRcUserId: string) =>
 	initiatorRcUserId === getTokenFromCookie('rc_uid');
+
+const currentUserIsAsker = (askerRcUserId: string) =>
+	askerRcUserId === getTokenFromCookie('rc_uid');
+
+export const currentUserIsTeamConsultant = (
+	initiatorRcUserId: string,
+	askerRcUserId: string
+) =>
+	!currentUserWasVideoCallInitiator(initiatorRcUserId) &&
+	!currentUserIsAsker(askerRcUserId);
