@@ -414,7 +414,7 @@ $message-lineheight: 21px;
 	&__icon {
 		width: $icon-size-small;
 		height: $icon-size-small;
-		margin: auto 0 auto $grid-base;
+		margin: auto 0 auto 4px;
 		padding-bottom: 2px;
 
 		* {
