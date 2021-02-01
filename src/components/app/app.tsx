@@ -131,11 +131,18 @@ export const App: React.FC = () => {
 
 	useEffect(() => {
 		if (newStompVideoCallRequest) {
-			const newNotification: IncomingVideoCallProps = {
-				notificationType: 'call',
-				videoCall: newStompVideoCallRequest
-			};
-			setNotifications([...notifications, newNotification]);
+			const requestedRoomAlreadyHasActiveVideoCall = notifications.some(
+				(notification) =>
+					notification.videoCall.rcGroupId ===
+					newStompVideoCallRequest.rcGroupId
+			);
+			if (!requestedRoomAlreadyHasActiveVideoCall) {
+				const newNotification: IncomingVideoCallProps = {
+					notificationType: 'call',
+					videoCall: newStompVideoCallRequest
+				};
+				setNotifications([...notifications, newNotification]);
+			}
 		}
 	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
 
