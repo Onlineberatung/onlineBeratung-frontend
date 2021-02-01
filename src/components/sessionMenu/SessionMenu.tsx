@@ -199,6 +199,7 @@ export const SessionMenu = () => {
 
 	const hasVideoCallFeatures = () =>
 		!isGroupChat &&
+		!typeIsEnquiry(getTypeOfLocation()) &&
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
