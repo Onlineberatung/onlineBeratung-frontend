@@ -13,6 +13,7 @@ export const ajaxCallStartVideoCall = async (
 		url: url,
 		method: FETCH_METHODS.POST,
 		bodyData: videoCallData,
-		responseHandling: [FETCH_SUCCESS.CONTENT]
+		responseHandling: [FETCH_SUCCESS.CONTENT],
+		rcValidation: true
 	});
 };

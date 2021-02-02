@@ -34,8 +34,8 @@ export interface ForwardMessageDTO {
 
 export interface VideoCallMessageDTO {
 	eventType: 'IGNORED_CALL';
+	initiatorRcUserId: string;
 	initiatorUserName: string;
-	rcUserId: string;
 }
 export interface MessageItem {
 	id?: number;
@@ -143,6 +143,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 							activeSession.user?.username ||
 							activeSession.consultant?.username
 						}
+						activeSessionAskerRcId={activeSession.session.askerRcId}
 					/>
 				) : (
 					<>

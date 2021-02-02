@@ -4,13 +4,13 @@ import { fetchData, FETCH_METHODS } from './fetchData';
 export const apiRejectVideoCall = async (
 	initiatorUsername: string,
 	rcGroupId: string,
-	rcUserId: string
+	initiatorRcUserId: string
 ): Promise<void> => {
 	const url = config.endpoints.rejectVideoCall;
 	const rejectVideoCallData = JSON.stringify({
+		initiatorRcUserId: initiatorRcUserId,
 		initiatorUsername: initiatorUsername,
-		rcGroupId: rcGroupId,
-		rcUserId: rcUserId
+		rcGroupId: rcGroupId
 	});
 
 	return fetchData({

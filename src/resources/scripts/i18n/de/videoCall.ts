@@ -7,7 +7,8 @@ const videoCall = {
 	'incomingCall.description': 'ruft an...',
 	'incomingCall.ignored': 'hat versucht Sie zu erreichen.',
 	'incomingCall.rejected.prefix': 'Sie haben versucht',
-	'incomingCall.rejected.suffix': 'zu erreichen.'
+	'incomingCall.rejected.suffix': 'zu erreichen.',
+	'incomingCall.rejected.teamconsultant.prefix': 'hat versucht'
 };
 
 export default videoCall;

@@ -283,6 +283,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								currentSessionData.user?.username ||
 								currentSessionData.consultant?.username
 							}
+							listItemAskerRcId={listItem.askerRcId}
 						/>
 					)}
 					{!typeIsUser(type) &&

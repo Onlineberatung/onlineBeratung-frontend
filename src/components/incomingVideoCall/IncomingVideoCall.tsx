@@ -57,7 +57,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 		NotificationsContext
 	);
 
-	const decodedUsername = decodeUsername(props.videoCall.username);
+	const decodedUsername = decodeUsername(props.videoCall.initiatorUsername);
 
 	const handleAnswerVideoCall = (isVideoActivated: boolean = false) => {
 		window.open(
@@ -70,7 +70,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 		apiRejectVideoCall(
 			decodedUsername,
 			props.videoCall.rcGroupId,
-			props.videoCall.rcUserId
+			props.videoCall.initiatorRcUserId
 		)
 			.then(() => {
 				removeIncomingVideoCallNotification();
