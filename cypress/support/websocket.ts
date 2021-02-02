@@ -102,7 +102,7 @@ export const emitStompDirectMessage = ({
 export const emitStompVideoCallRequest = () => {
 	cy.window().then((win) => {
 		win.mockStompSocket.send(
-			`a["MESSAGE\\ndestination:/user/events\\ncontent-type:application/json\\nsubscription:sub-0\\nmessage-id::${uuid()}\\ncontent-length:246\\n\\n{\\"eventType\\":\\"videoCallRequest\\",\\"eventContent\\":{\\"videoCallUrl\\":\\"https://caritas.local:8443/5db43632-8283-445b-9f20-4d69954727bf\\",\\"username\\":\\"enc.ouzdk3lbnfxa....\\",\\"rcUserId\\":\\"WXR5RAwbotmd4NPer\\",\\"rcGroupId\\":\\"${uuid()}\\"}}\\u0000"]`
+			`a["MESSAGE\\ndestination:/user/events\\ncontent-type:application/json\\nsubscription:sub-0\\nmessage-id::${uuid()}\\ncontent-length:264\\n\\n{\\"eventType\\":\\"videoCallRequest\\",\\"eventContent\\":{\\"videoCallUrl\\":\\"https://caritas.local:8443/5db43632-8283-445b-9f20-4d69954727bf\\",\\"initiatorUsername\\":\\"enc.ouzdk3lbnfxa....\\",\\"initiatorRcUserId\\":\\"WXR5RAwbotmd4NPer\\",\\"rcGroupId\\":\\"${uuid()}\\"}}\\u0000"]`
 		);
 	});
 
