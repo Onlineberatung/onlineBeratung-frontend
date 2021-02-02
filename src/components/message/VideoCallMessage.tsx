@@ -18,7 +18,7 @@ export const VideoCallMessage = (props: VideoCallMessageProps) => {
 		<div className="videoCallMessage__subjectWrapper">
 			<p className="videoCallMessage__subject">
 				{currentUserWasVideoCallInitiator(
-					props.videoCallMessage.rcUserId
+					props.videoCallMessage.initiatorRcUserId
 				) ? (
 					<>
 						{translate('videoCall.incomingCall.rejected.prefix')}{' '}
@@ -33,7 +33,7 @@ export const VideoCallMessage = (props: VideoCallMessageProps) => {
 							{props.videoCallMessage.initiatorUserName}
 						</span>{' '}
 						{currentUserIsTeamConsultant(
-							props.videoCallMessage.rcUserId,
+							props.videoCallMessage.initiatorRcUserId,
 							props.activeSessionAskerRcId
 						) ? (
 							<>

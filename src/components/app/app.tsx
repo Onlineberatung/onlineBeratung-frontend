@@ -58,8 +58,8 @@ const STOMP_EVENT_TYPES = {
 
 export interface VideoCallRequestProps {
 	rcGroupId: string;
-	rcUserId: string;
-	username: string;
+	initiatorRcUserId: string;
+	initiatorUsername: string;
 	videoCallUrl: string;
 }
 

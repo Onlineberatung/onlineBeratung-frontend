@@ -19,7 +19,7 @@ export const SessionListItemVideoCall = (
 	return (
 		<div className="sessionsListItem__subject">
 			{currentUserWasVideoCallInitiator(
-				props.videoCallMessage.rcUserId
+				props.videoCallMessage.initiatorRcUserId
 			) ? (
 				<>
 					{translate('videoCall.incomingCall.rejected.prefix')}{' '}
@@ -30,7 +30,7 @@ export const SessionListItemVideoCall = (
 				<>
 					{props.videoCallMessage.initiatorUserName}{' '}
 					{currentUserIsTeamConsultant(
-						props.videoCallMessage.rcUserId,
+						props.videoCallMessage.initiatorRcUserId,
 						props.listItemAskerRcId
 					) ? (
 						<>
