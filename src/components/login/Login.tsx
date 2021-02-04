@@ -77,8 +77,8 @@ const Login = () => {
 		if (isRequestInProgress) {
 			return null;
 		}
-		setIsRequestInProgress(true);
 		if (username && password) {
+			setIsRequestInProgress(true);
 			autoLogin(username, password, true, handleLoginError);
 		}
 	};
