@@ -13,7 +13,7 @@ import {
 import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
 import { VideoCallRequestProps } from '../app/app';
 import './incomingVideoCall.styles';
-import { apiRejectVideoCall } from '../apiWrapper';
+import { apiRejectVideoCall } from '../../api';
 
 export interface IncomingVideoCallProps {
 	notificationType: NotificationType;

@@ -36,10 +36,10 @@ import { SessionsListSkeleton } from '../sessionsListItem/SessionsListItemSkelet
 import {
 	INITIAL_FILTER,
 	SESSION_COUNT,
-	ajaxCallGetUserSessions,
-	getUserData
-} from '../apiWrapper';
-import { FETCH_ERRORS } from '../apiWrapper/fetchData';
+	apiGetUserSessions,
+	apiGetUserData,
+	FETCH_ERRORS
+} from '../../api';
 import { getSessions } from './SessionsListData';
 import { Button } from '../button/Button';
 import { WelcomeIllustration } from './SessionsListWelcomeIllustration';
@@ -337,7 +337,7 @@ export const SessionsList: React.FC = () => {
 		newRegisteredSessionId: number | string = null,
 		redirectToEnquiry: boolean = false
 	) => {
-		ajaxCallGetUserSessions()
+		apiGetUserSessions()
 			.then((response) => {
 				setSessionsData({
 					mySessions: response.sessions
@@ -352,7 +352,7 @@ export const SessionsList: React.FC = () => {
 					if (newRegisteredSessionId && redirectToEnquiry) {
 						setActiveSessionGroupId(newRegisteredSessionId);
 						history.push(`/sessions/user/view/write`);
-						getUserData()
+						apiGetUserData()
 							.then((userProfileData: UserDataInterface) => {
 								setUserData(userProfileData);
 							})

@@ -21,7 +21,7 @@ import {
 	NotificationsContext
 } from '../../globalState';
 import { ContextProvider } from '../../globalState/state';
-import { getUserData } from '../apiWrapper';
+import { apiGetUserData } from '../../api';
 import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
@@ -96,7 +96,7 @@ export const App: React.FC = () => {
 	if (!userDataRequested) {
 		setUserDataRequested(true);
 		handleTokenRefresh().then(() => {
-			getUserData()
+			apiGetUserData()
 				.then((userProfileData: UserDataInterface) => {
 					// set informal / formal cookie depending on the given userdata
 					setTokenInCookie(

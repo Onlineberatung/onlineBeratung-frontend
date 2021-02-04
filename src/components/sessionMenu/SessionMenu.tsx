@@ -28,11 +28,7 @@ import {
 	groupChatErrorOverlayItem,
 	leaveGroupChatSuccessOverlayItem
 } from './sessionMenuHelpers';
-import {
-	ajaxCallPutGroupChat,
-	ajaxCallStartVideoCall,
-	GROUP_CHAT_API
-} from '../apiWrapper';
+import { apiPutGroupChat, apiStartVideoCall, GROUP_CHAT_API } from '../../api';
 import { logout } from '../logout/logout';
 import { mobileListView } from '../app/navigationHandler';
 import { isGroupChatOwner } from '../groupChat/groupChatHelpers';
@@ -118,7 +114,7 @@ export const SessionMenu = () => {
 			setOverlayItem(null);
 			setIsRequestInProgress(false);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.STOP_GROUP_CHAT) {
-			ajaxCallPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)
+			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)
 				.then((response) => {
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
 					setIsRequestInProgress(false);
@@ -128,7 +124,7 @@ export const SessionMenu = () => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LEAVE_GROUP_CHAT) {
-			ajaxCallPutGroupChat(chatItem.id, GROUP_CHAT_API.LEAVE)
+			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.LEAVE)
 				.then((response) => {
 					setOverlayItem(leaveGroupChatSuccessOverlayItem);
 					setIsRequestInProgress(false);
@@ -203,7 +199,7 @@ export const SessionMenu = () => {
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
-		ajaxCallStartVideoCall(chatItem.id)
+		apiStartVideoCall(chatItem.id)
 			.then((response) => {
 				window.open(
 					getVideoCallUrl(response.videoCallUrl, isVideoActivated)

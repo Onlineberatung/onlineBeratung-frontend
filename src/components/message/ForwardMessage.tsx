@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { ajaxForwardMessage } from '../apiWrapper/ajaxCallMessageForward';
+import { apiForwardMessage } from '../../api';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
@@ -24,7 +24,7 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 		}
 		setIsRequestInProgress(true);
 
-		ajaxForwardMessage(
+		apiForwardMessage(
 			props.message,
 			props.messageTime,
 			props.username,

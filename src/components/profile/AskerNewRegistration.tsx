@@ -17,7 +17,7 @@ import {
 	getConsultingTypesForRegistrationStatus,
 	REGISTRATION_STATUS_KEYS
 } from './profileHelpers';
-import { ajaxCallRegistrationNewConsultingTypes } from '../apiWrapper/ajaxCallRegistrationNewConsultingType';
+import { apiRegistrationNewConsultingTypes } from '../../api';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -31,7 +31,7 @@ import {
 } from '../app/navigationHandler';
 import { AgencySelection } from '../agencySelection/AgencySelection';
 import './profile.styles';
-import { getUserData } from '../apiWrapper';
+import { apiGetUserData } from '../../api';
 import { InfoText, LABEL_TYPES } from '../infoText/InfoText';
 import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
 
@@ -87,7 +87,7 @@ export const AskerNewRegistration = () => {
 		setIsRequestInProgress(true);
 
 		if (isAllRequiredDataSet()) {
-			ajaxCallRegistrationNewConsultingTypes(
+			apiRegistrationNewConsultingTypes(
 				selectedConsultingType,
 				selectedAgency.id,
 				selectedAgency.postcode
@@ -116,7 +116,7 @@ export const AskerNewRegistration = () => {
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
-		getUserData()
+		apiGetUserData()
 			.then((userProfileData: UserDataInterface) => {
 				setUserData(userProfileData);
 			})
@@ -162,7 +162,7 @@ export const AskerNewRegistration = () => {
 					<SelectDropdown {...consultingTypesDropdown} />
 					<InfoText
 						className="askerRegistration__consultingModeInfo"
-						labelType={LABEL_TYPES.CAUTION}
+						labelType={LABEL_TYPES.NOTICE}
 						text={translate(
 							'profile.data.register.consultingModeInfo.singleChats'
 						)}

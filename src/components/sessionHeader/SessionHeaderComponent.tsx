@@ -32,7 +32,7 @@ import {
 } from '../profile/profileHelpers';
 import { isGenericConsultingType } from '../../resources/scripts/helpers/resorts';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
-import { getGroupMembers } from '../apiWrapper';
+import { apiGetGroupMembers } from '../../api';
 import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import './sessionHeader.styles';
@@ -88,7 +88,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 
 	const handleFlyout = (e) => {
 		if (!isSubscriberFlyoutOpen) {
-			getGroupMembers(activeSession.chat.id)
+			apiGetGroupMembers(activeSession.chat.id)
 				.then((response) => {
 					const subscribers = response.members.map(
 						(member) => member.username

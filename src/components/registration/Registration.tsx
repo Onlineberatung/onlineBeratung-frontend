@@ -29,7 +29,12 @@ import {
 	MIN_USERNAME_LENGTH,
 	overlayItemRegistrationSuccess
 } from './registrationHelpers';
-import { postRegistration } from '../apiWrapper/ajaxCallRegistration';
+import {
+	apiPostRegistration,
+	FETCH_ERRORS,
+	apiAgencySelection,
+	apiGetAgencyById
+} from '../../api';
 import { config } from '../../resources/scripts/config';
 import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
 import { SelectDropdown } from '../select/SelectDropdown';
@@ -45,9 +50,6 @@ import {
 	getConsultingTypeFromRegistration,
 	isU25Registration
 } from '../../resources/scripts/helpers/resorts';
-import { getAgencyById } from '../apiWrapper';
-import { FETCH_ERRORS } from '../apiWrapper/fetchData';
-import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
 import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
 import { removeInputErrorClass, removeWarningLabelById } from './warningLabels';
@@ -138,7 +140,7 @@ const Registration = () => {
 		}
 
 		if (autoselectAgencyForConsultingType(consultingType)) {
-			ajaxCallAgencySelection({
+			apiAgencySelection({
 				postcode: DEFAULT_POSTCODE,
 				consultingType: consultingType
 			})
@@ -153,7 +155,7 @@ const Registration = () => {
 	};
 
 	const getAgencyDataById = (agencyId) => {
-		getAgencyById(agencyId)
+		apiGetAgencyById(agencyId)
 			.then((response) => {
 				const agencyData = response[0];
 				agencyData.consultingType === consultingType
@@ -387,8 +389,10 @@ const Registration = () => {
 			...generatedRegistrationData
 		};
 
-		postRegistration(config.endpoints.registerAsker, registrationData, () =>
-			setOverlayActive(true)
+		apiPostRegistration(
+			config.endpoints.registerAsker,
+			registrationData,
+			() => setOverlayActive(true)
 		);
 	};
 
@@ -634,7 +638,7 @@ const Registration = () => {
 					{consultingType === 1 && (
 						<InfoText
 							className="registration__passwordNote"
-							labelType={LABEL_TYPES.CAUTION}
+							labelType={LABEL_TYPES.NOTICE}
 							text={translate('registration.password.note')}
 						/>
 					)}

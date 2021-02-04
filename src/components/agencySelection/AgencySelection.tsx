@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { AgencyDataInterface, UserDataInterface } from '../../globalState';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { ajaxCallAgencySelection } from '../apiWrapper/ajaxCallPostcode';
-import { FETCH_ERRORS } from '../apiWrapper/fetchData';
+import { apiAgencySelection, FETCH_ERRORS } from '../../api';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import {
@@ -65,7 +64,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 
 	useEffect(() => {
 		if (autoSelectAgency) {
-			ajaxCallAgencySelection({
+			apiAgencySelection({
 				postcode: DEFAULT_POSTCODE,
 				consultingType: props.selectedConsultingType
 			})
@@ -111,7 +110,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			setSelectedAgencyData(null);
 			setPostcodeFallbackLink('');
 			if (validPostcode()) {
-				ajaxCallAgencySelection({
+				apiAgencySelection({
 					postcode: selectedPostcode,
 					consultingType: props.selectedConsultingType
 				})
@@ -185,7 +184,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			{autoSelectPostcode ? (
 				<InfoText
 					className="askerRegistration__consultingModeInfo"
-					labelType={LABEL_TYPES.CAUTION}
+					labelType={LABEL_TYPES.NOTICE}
 					text={translate(
 						'profile.data.register.consultingModeInfo.groupChats'
 					)}
@@ -196,6 +195,15 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						item={postcodeInputItem}
 						inputHandle={(e) => handlePostcodeInput(e)}
 					></InputField>
+					{!autoSelectAgency && (
+						<InfoText
+							className="askerRegistration__selectAgencyInfo"
+							labelType={LABEL_TYPES.NOTICE}
+							text={translate(
+								'profile.data.register.selectAgencyInfo'
+							)}
+						/>
+					)}
 					{!props.preselectedAgency &&
 						!autoSelectAgency &&
 						selectedAgencyData && (
