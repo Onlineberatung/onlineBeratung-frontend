@@ -1,4 +1,5 @@
 $icon-size: 24px;
+$icon-size-small: 16px;
 $message-lineheight: 21px;
 
 .messageItem {
@@ -401,6 +402,38 @@ $message-lineheight: 21px;
 				font-weight: 400;
 			}
 		}
+	}
+}
+
+.videoCallMessage {
+	&__subjectWrapper {
+		display: flex;
+		flex-direction: row;
+	}
+
+	&__icon {
+		width: $icon-size-small;
+		height: $icon-size-small;
+		margin: auto 0 auto 4px;
+		padding-bottom: 2px;
+
+		* {
+			fill: $secondary;
+		}
+	}
+
+	&__subject {
+		font-size: $font-size-tertiary;
+		line-height: 19px;
+		margin: 0;
+	}
+
+	&__username {
+		font-family: $font-family-bold;
+	}
+
+	.messageItem__metaData {
+		margin: 4px 0 0;
 	}
 }
 

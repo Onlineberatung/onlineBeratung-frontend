@@ -26,7 +26,7 @@ export const AbsenceHandler = () => {
 			{
 				label: translate('absence.overlayButton2.label'),
 				function: OVERLAY_FUNCTIONS.CLOSE,
-				type: BUTTON_TYPES.GHOST
+				type: BUTTON_TYPES.SECONDARY
 			}
 		]
 	};

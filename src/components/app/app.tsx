@@ -17,7 +17,8 @@ import {
 	UserDataInterface,
 	AuthDataContext,
 	AuthDataInterface,
-	UnreadSessionsStatusContext
+	UnreadSessionsStatusContext,
+	NotificationsContext
 } from '../../globalState';
 import { ContextProvider } from '../../globalState/state';
 import { apiGetUserData } from '../../api';
@@ -28,6 +29,8 @@ import '../../resources/styles/styles';
 import './app.styles';
 import './navigation.styles';
 import './loading.styles';
+import { Notifications } from '../notifications/Notifications';
+import { IncomingVideoCallProps } from '../incomingVideoCall/IncomingVideoCall';
 
 export const history = createBrowserHistory();
 
@@ -49,19 +52,35 @@ const stompClient = Stomp.over(socket);
 stompClient.debug = () => {};
 
 const STOMP_EVENT_TYPES = {
-	DIRECT_MESSAGE: 'directMessage'
+	DIRECT_MESSAGE: 'directMessage',
+	VIDEO_CALL_REQUEST: 'videoCallRequest'
 };
+
+export interface VideoCallRequestProps {
+	rcGroupId: string;
+	initiatorRcUserId: string;
+	initiatorUsername: string;
+	videoCallUrl: string;
+}
 
 export const App: React.FC = () => {
 	const { setAuthData } = useContext(AuthDataContext);
-	const [authDataRequested, setAuthDataRequested] = useState(false);
+	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
 	const { setUserData } = useContext(UserDataContext);
-	const [appReady, setAppReady] = useState(false);
-	const [userDataRequested, setUserDataRequested] = useState(false);
+	const [appReady, setAppReady] = useState<boolean>(false);
+	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
-	const [newStompDirectMessage, setNewStompDirectMessage] = useState(false);
+	const [newStompDirectMessage, setNewStompDirectMessage] = useState<boolean>(
+		false
+	);
+	const [newStompVideoCallRequest, setNewStompVideoCallRequest] = useState<
+		VideoCallRequestProps
+	>();
+	const { notifications, setNotifications } = useContext(
+		NotificationsContext
+	);
 
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
@@ -110,6 +129,23 @@ export const App: React.FC = () => {
 		}
 	}, [newStompDirectMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
+	useEffect(() => {
+		if (newStompVideoCallRequest) {
+			const requestedRoomAlreadyHasActiveVideoCall = notifications.some(
+				(notification) =>
+					notification.videoCall.rcGroupId ===
+					newStompVideoCallRequest.rcGroupId
+			);
+			if (!requestedRoomAlreadyHasActiveVideoCall) {
+				const newNotification: IncomingVideoCallProps = {
+					notificationType: 'call',
+					videoCall: newStompVideoCallRequest
+				};
+				setNotifications([...notifications, newNotification]);
+			}
+		}
+	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
+
 	const initLiveServiceSocket = () => {
 		stompClient.connect(
 			{
@@ -122,6 +158,12 @@ export const App: React.FC = () => {
 					const stompEventType = stompMessageBody['eventType'];
 					if (stompEventType === STOMP_EVENT_TYPES.DIRECT_MESSAGE) {
 						setNewStompDirectMessage(true);
+					} else if (
+						stompEventType === STOMP_EVENT_TYPES.VIDEO_CALL_REQUEST
+					) {
+						const stompEventContent: VideoCallRequestProps =
+							stompMessageBody['eventContent'];
+						setNewStompVideoCallRequest(stompEventContent);
 					}
 				});
 			}
@@ -145,6 +187,9 @@ export const App: React.FC = () => {
 		return (
 			<Router history={history}>
 				<Routing logout={handleLogout} />
+				{notifications && (
+					<Notifications notifications={notifications} />
+				)}
 			</Router>
 		);
 	}

@@ -10,7 +10,7 @@ export const updateChatSuccessOverlayItem: OverlayItem = {
 		{
 			label: translate('groupChat.updateSuccess.overlay.button1Label'),
 			function: OVERLAY_FUNCTIONS.CLOSE,
-			type: BUTTON_TYPES.GHOST
+			type: BUTTON_TYPES.SECONDARY
 		}
 	]
 };

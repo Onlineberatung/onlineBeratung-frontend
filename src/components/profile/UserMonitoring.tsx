@@ -29,7 +29,7 @@ import './profile.styles';
 const buttonSet: ButtonItem = {
 	label: translate('userProfile.monitoring.buttonLabel'),
 	function: OVERLAY_FUNCTIONS.REDIRECT,
-	type: BUTTON_TYPES.GHOST
+	type: BUTTON_TYPES.SECONDARY
 };
 
 export const UserMonitoring = () => {
@@ -153,11 +153,7 @@ export const UserMonitoring = () => {
 			</p>
 			{!typeIsEnquiry(activeSession.type) ? (
 				<Link to={monitoringLink}>
-					<Button
-						item={buttonSet}
-						isLink={true}
-						buttonHandle={() => null}
-					/>
+					<Button item={buttonSet} isLink={true} />
 				</Link>
 			) : null}
 			{renderAssign()}

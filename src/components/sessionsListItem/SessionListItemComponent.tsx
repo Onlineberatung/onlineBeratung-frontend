@@ -26,13 +26,14 @@ import {
 	AUTHORITIES
 } from '../../globalState';
 import { history } from '../app/app';
-import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
 import './sessionsListItem.styles';
-import { Tag } from '../Tag/Tag';
+import { Tag } from '../tag/Tag';
 import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
+import { SessionListItemVideoCall } from './SessionListItemVideoCall';
+import { SessionListItemAttachment } from './SessionListItemAttachment';
 
 interface SessionListItemProps {
 	type: string;
@@ -179,24 +180,11 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								? plainTextLastMessage
 								: defaultSubjectText}
 						</div>
-						{listItem.attachment ? (
-							<div className="sessionsListItem__subject">
-								<span className="sessionsListItem__subject__attachment">
-									{getIconForAttachmentType(
-										listItem.attachment.fileType
-									)}
-								</span>
-								<span>
-									{listItem.attachment.fileReceived
-										? translate(
-												'attachments.list.label.received'
-										  )
-										: translate(
-												'attachments.list.label.sent'
-										  )}
-								</span>
-							</div>
-						) : null}
+						{listItem.attachment && (
+							<SessionListItemAttachment
+								attachment={listItem.attachment}
+							/>
+						)}
 						{listItem.active && (
 							<Tag
 								text={translate(
@@ -284,20 +272,19 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						isCurrentSessionNewEnquiry && <span></span>
 					)}
 					{listItem.attachment && (
-						<div className="sessionsListItem__subject">
-							<span className="sessionsListItem__subject__attachment">
-								{getIconForAttachmentType(
-									listItem.attachment.fileType
-								)}
-							</span>
-							<span>
-								{listItem.attachment.fileReceived
-									? translate(
-											'attachments.list.label.received'
-									  )
-									: translate('attachments.list.label.sent')}
-							</span>
-						</div>
+						<SessionListItemAttachment
+							attachment={listItem.attachment}
+						/>
+					)}
+					{listItem.videoCallMessageDTO && (
+						<SessionListItemVideoCall
+							videoCallMessage={listItem.videoCallMessageDTO}
+							listItemUsername={
+								currentSessionData.user?.username ||
+								currentSessionData.consultant?.username
+							}
+							listItemAskerRcId={listItem.askerRcId}
+						/>
 					)}
 					{!typeIsUser(type) &&
 						!typeIsEnquiry(type) &&

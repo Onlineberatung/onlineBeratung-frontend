@@ -51,7 +51,7 @@ export const createChatSuccessOverlayItem: OverlayItem = {
 		{
 			label: translate('groupChat.createSuccess.overlay.button2Label'),
 			function: OVERLAY_FUNCTIONS.CLOSE,
-			type: BUTTON_TYPES.GHOST
+			type: BUTTON_TYPES.SECONDARY
 		}
 	]
 };

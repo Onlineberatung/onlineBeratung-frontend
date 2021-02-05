@@ -98,3 +98,16 @@ export const emitStompDirectMessage = ({
 	// indication from the app instead
 	return cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
 };
+
+export const emitStompVideoCallRequest = () => {
+	cy.window().then((win) => {
+		win.mockStompSocket.send(
+			`a["MESSAGE\\ndestination:/user/events\\ncontent-type:application/json\\nsubscription:sub-0\\nmessage-id::${uuid()}\\ncontent-length:264\\n\\n{\\"eventType\\":\\"videoCallRequest\\",\\"eventContent\\":{\\"videoCallUrl\\":\\"https://caritas.local:8443/5db43632-8283-445b-9f20-4d69954727bf\\",\\"initiatorUsername\\":\\"enc.ouzdk3lbnfxa....\\",\\"initiatorRcUserId\\":\\"WXR5RAwbotmd4NPer\\",\\"rcGroupId\\":\\"${uuid()}\\"}}\\u0000"]`
+		);
+	});
+
+	// TODO: wait for the app to process the messages. this should not
+	// arbitrarily wait for the message to get processed but use some reliable
+	// indication from the app instead
+	return cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
+};

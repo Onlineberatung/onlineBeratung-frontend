@@ -28,7 +28,7 @@ import {
 	groupChatErrorOverlayItem,
 	leaveGroupChatSuccessOverlayItem
 } from './sessionMenuHelpers';
-import { apiPutGroupChat, GROUP_CHAT_API } from '../../api';
+import { apiPutGroupChat, apiStartVideoCall, GROUP_CHAT_API } from '../../api';
 import { logout } from '../logout/logout';
 import { mobileListView } from '../app/navigationHandler';
 import { isGroupChatOwner } from '../groupChat/groupChatHelpers';
@@ -41,6 +41,10 @@ import { ReactComponent as MenuHorizontalIcon } from '../../resources/img/icons/
 import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/stack-vertical.svg';
 import '../sessionHeader/sessionHeader.styles';
 import './sessionMenu.styles';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
+import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
+import { getVideoCallUrl } from '../../resources/scripts/helpers/videoCallHelpers';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -168,18 +172,67 @@ export const SessionMenu = () => {
 		return <Redirect to={getSessionListPathForLocation()} />;
 	}
 
+	const buttonStartCall: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		title: translate('videoCall.button.startCall'),
+		smallIconBackgroundColor: 'green',
+		icon: <CallOnIcon />
+	};
+
+	const buttonStartVideoCall: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		title: translate('videoCall.button.startVideoCall'),
+		smallIconBackgroundColor: 'green',
+		icon: <CameraOnIcon />
+	};
+
+	const buttonFeedback: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'yellow',
+		icon: <FeedbackIcon />,
+		label: translate('chatFlyout.feedback')
+	};
+
+	const hasVideoCallFeatures = () => false;
+	// TODO: reimplement on videocall release
+	// !isGroupChat &&
+	// !typeIsEnquiry(getTypeOfLocation()) &&
+	// hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+
+	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
+		apiStartVideoCall(chatItem.id)
+			.then((response) => {
+				window.open(
+					getVideoCallUrl(response.videoCallUrl, isVideoActivated)
+				);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
 	return (
 		<div className="sessionMenu__wrapper">
+			{hasVideoCallFeatures() && (
+				<div
+					className="sessionMenu__videoCallButtons"
+					data-cy="session-header-video-call-buttons"
+				>
+					<Button
+						buttonHandle={() => handleStartVideoCall(true)}
+						item={buttonStartVideoCall}
+					/>
+					<Button
+						buttonHandle={() => handleStartVideoCall()}
+						item={buttonStartCall}
+					/>
+				</div>
+			)}
 			{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
 			chatItem.feedbackGroupId ? (
-				<Link
-					to={feedbackPath}
-					className="sessionInfo__feedbackButton sessionMenu__item--desktop"
-					role="button"
-				>
-					<FeedbackIcon />
-					<p>{translate('chatFlyout.feedback')}</p>
+				<Link to={feedbackPath} className="sessionInfo__feedbackButton">
+					<Button item={buttonFeedback} isLink={true} />
 				</Link>
 			) : null}
 
@@ -255,6 +308,22 @@ export const SessionMenu = () => {
 			</span>
 
 			<div id="flyout" className="sessionMenu__content">
+				{hasVideoCallFeatures() && (
+					<div
+						className="sessionMenu__item sessionMenu__item--mobile"
+						onClick={() => handleStartVideoCall(true)}
+					>
+						{translate('chatFlyout.startVideoCall')}
+					</div>
+				)}
+				{hasVideoCallFeatures() && (
+					<div
+						className="sessionMenu__item sessionMenu__item--mobile"
+						onClick={() => handleStartVideoCall()}
+					>
+						{translate('chatFlyout.startCall')}
+					</div>
+				)}
 				{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
 				chatItem.feedbackGroupId ? (
 					<Link

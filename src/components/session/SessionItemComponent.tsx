@@ -213,8 +213,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 	const buttonItem: ButtonItem = {
 		label: translate('enquiry.acceptButton'),
-		type: BUTTON_TYPES.PRIMARY,
-		target: chatItem.groupId
+		type: BUTTON_TYPES.PRIMARY
 	};
 
 	const getMonitoringLink = () => {
@@ -305,11 +304,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			getMonitoringLink() ? (
 				<Link to={getMonitoringLink()}>
 					<div className="monitoringButton">
-						<Button
-							item={monitoringButtonItem}
-							isLink={true}
-							buttonHandle={() => null}
-						/>
+						<Button item={monitoringButtonItem} isLink={true} />
 					</div>
 				</Link>
 			) : null}
@@ -382,5 +377,6 @@ const monitoringButtonItem: ButtonItem = {
 
 const scrollBottomButtonItem: ButtonItem = {
 	icon: <ArrowDoubleDownIcon />,
-	type: 'SMALL_ICON'
+	type: BUTTON_TYPES.SMALL_ICON,
+	smallIconBackgroundColor: 'grey'
 };

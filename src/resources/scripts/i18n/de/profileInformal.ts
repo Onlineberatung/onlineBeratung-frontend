@@ -19,7 +19,7 @@ const profileInformal = {
 	'data.register.consultingModeInfo.singleChats':
 		'In diesen Themenfeldern erhältst Du eine persönliche Beratung. Schreibe uns Dein Anliegen!',
 	'data.registerSuccess.overlay.headline':
-		'Du hast dich erfolgreich für ein neues Themenfeld registriert.',
+		'Du hast Dich erfolgreich für ein neues Themenfeld registriert.',
 	'data.registerError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.'
 };

@@ -492,6 +492,7 @@ export const SessionsList: React.FC = () => {
 							? ''
 							: 'sessionsList__itemsWrapper--centered'
 					}`}
+					data-cy="sessions-list-items-wrapper"
 				>
 					{activeCreateChat &&
 					typeIsSession(type) &&
