@@ -131,9 +131,7 @@ const Login = () => {
 					</p>
 					<a
 						className="loginForm__register__link"
-						href={
-							config.endpoints.loginRedirectToRegistrationOverview
-						}
+						href={config.urls.loginRedirectToRegistrationOverview}
 						target="_self"
 					>
 						{translate('login.register.linkLabel')}

@@ -21,13 +21,13 @@ export const redirectToErrorPage = (error: number) => {
 	let redirect;
 	switch (error) {
 		case ERROR_TYPES.UNAUTHORIZED:
-			redirect = config.endpoints.error401;
+			redirect = config.urls.error401;
 			break;
 		case ERROR_TYPES.SERVER:
-			redirect = config.endpoints.error500;
+			redirect = config.urls.error500;
 			break;
 		case ERROR_TYPES.NOT_FOUND:
-			redirect = config.endpoints.error404;
+			redirect = config.urls.error404;
 			break;
 	}
 	logout(true, redirect);
