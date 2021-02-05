@@ -193,10 +193,11 @@ export const SessionMenu = () => {
 		label: translate('chatFlyout.feedback')
 	};
 
-	const hasVideoCallFeatures = () =>
-		!isGroupChat &&
-		!typeIsEnquiry(getTypeOfLocation()) &&
-		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+	const hasVideoCallFeatures = () => false;
+	// TODO: reimplement on videocall release
+	// !isGroupChat &&
+	// !typeIsEnquiry(getTypeOfLocation()) &&
+	// hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
 		apiStartVideoCall(chatItem.id)
