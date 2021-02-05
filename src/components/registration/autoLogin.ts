@@ -67,5 +67,5 @@ export const autoLogin = (
 };
 
 export const redirectToApp = () => {
-	window.location.href = config.endpoints.redirectToApp;
+	window.location.href = config.urls.redirectToApp;
 };
