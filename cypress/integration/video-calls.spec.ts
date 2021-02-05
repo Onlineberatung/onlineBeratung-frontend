@@ -7,7 +7,8 @@ import { emitStompVideoCallRequest } from '../support/websocket';
 describe('Video calls', () => {
 	describe('Consultant', () => {
 		describe('Start a new video call', () => {
-			it('should show video call buttons in session header', () => {
+			//TODO: reimplement on videocall release
+			it.skip('should show video call buttons in session header', () => {
 				const sessions = generateMultipleConsultantSessions(2);
 				cy.caritasMockedLogin({
 					type: 'consultant',
