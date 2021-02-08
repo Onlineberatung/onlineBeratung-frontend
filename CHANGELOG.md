@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.3.2...v2.4.0) (2021-02-08)
+
+
+### Features
+
+* 🎸 add audio to incoming video call ([64547ce](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/64547cea9d768d2458fa2107ad955e6f113db8f0))
+* 🎸 add incoming call animation ([26e73af](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/26e73af49f3a376328afd21cb641ef628bea52a8))
+* 🎸 add mobile call buttons into flyout menu ([a6136b2](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/a6136b27755e98b07d5fb3e6350695bb69dbde18))
+* 🎸 add props and styles ([ec8ca8d](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/ec8ca8d7b0f6bd52fa51df6624e228e81c122eff))
+* 🎸 add video chat icons ([a0a570c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/a0a570ceeff0d594f13e2e742326dd362d445d4c))
+* 🎸 added cypress stomp videoCallRequest mock ([16dbbb2](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/16dbbb2bba31b1ffd449e6fa3b39cac14590d049))
+* 🎸 added Notifications component ([2dfe3b7](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/2dfe3b7a574cf86ba20cb6fa68820c044f30a941))
+* 🎸 added notifications context provider ([a162939](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/a162939c6aba2b030e43d134a14a23513c29be43))
+* 🎸 added rejectVideoCall api call ([9cbd530](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/9cbd530266073cccc1431fcab505929d354237cd))
+* 🎸 added videoCall message for teamconsultants ([cb256ef](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/cb256ef65ea52d7b48200c6e147e803b54ae7f63))
+* 🎸 added videocalls/new fixture ([1781ca4](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/1781ca4d4d01eeea90ac62140066dd0d86fd6998))
+* 🎸 base implementation of video call start ([e900227](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/e9002271ab1d6f2bba6f5b577fb9e15d6b22194e))
+* 🎸 call helpers and handling ([a666fef](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/a666fef86e9ab423b1ba96803de20f28c3d3f858))
+* 🎸 changed icon size for rejected call ([fc19d72](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/fc19d7270c7ce6cf182e3c73dc6d15cc4adbf205))
+* 🎸 changed style for notifications spacing ([0bc1919](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/0bc1919c1183ddb3a0550fd5a8abef621a40021a))
+* 🎸 deactivate videoCalls for enquiries ([fc3951e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/fc3951e1dfce1b28818b1b0841b3f637b96c2d5e))
+* 🎸 display videoCallMessage in list item, style changes ([fd8f280](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/fd8f2805dfba7d0191a86a02aa53ac171daf8fee))
+* 🎸 display videoCallMessage in message stream ([fa2fb7d](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/fa2fb7d78ceeef106a92e534504de60f6e48f60d))
+* 🎸 implemented notifications to app & style changes ([f2e1d4a](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/f2e1d4a5d86d537cba2e892c4c13ccb67b62cd5b))
+* 🎸 implemented start video call for consultant ([bbadc89](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/bbadc89d94fb9d79e766ad34026c32d3d7ec11be))
+* 🎸 incoming call component structure and styles ([504355c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/504355cb0f0c7b7a49399b2ca9d74b8e516b0319))
+* 🎸 new translations for rejected video call ([0ff3af1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/0ff3af19f09b38bd6aa84a9718dae1ca9ddbab13))
+* 🎸 no new notification if already there for the room ([7d08c13](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7d08c13ee003b622c0d08c75917cfe71de5160d1))
+* 🎸 videoCallRequested liveservice event ([43c4766](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/43c4766f399314851fd4ff1c15caa5324fc50752))
+
+
+### Bug Fixes
+
+* 🐛 fixed display of consultant name for askers ([7ed54aa](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7ed54aa90c0471dc519d6ac975e77273c8ae4cb6))
+* 🐛 fixed session header styling for safari ([612201c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/612201c16a56bc01d3a3c30e4bbf14933862cb61))
+* 🐛 login: on enter only start progress with all data ([9ce964f](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/9ce964f77144bf3cdd4d1328bcaf9f5458f95d2e))
+* 🐛 prejoin jitsi with video muted/unmuted ([e949c90](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/e949c9021540f9c2c8a2fe11cab851eb44aa4bcb))
+* 🐛 spacing above message submit component ([3a87031](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/3a87031dc8d25053aa06619fb099fa63ae3461ce))
+
 ### [2.3.2](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.3.1...v2.3.2) (2021-01-22)
 
 ### [2.3.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.3.0...v2.3.1) (2021-01-22)
