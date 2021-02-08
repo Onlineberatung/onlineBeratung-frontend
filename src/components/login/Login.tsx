@@ -74,11 +74,8 @@ const Login = () => {
 	};
 
 	const handleLogin = () => {
-		if (isRequestInProgress) {
-			return null;
-		}
-		setIsRequestInProgress(true);
-		if (username && password) {
+		if (!isRequestInProgress && username && password) {
+			setIsRequestInProgress(true);
 			autoLogin(username, password, true, handleLoginError);
 		}
 	};
@@ -134,9 +131,7 @@ const Login = () => {
 					</p>
 					<a
 						className="loginForm__register__link"
-						href={
-							config.endpoints.loginRedirectToRegistrationOverview
-						}
+						href={config.urls.loginRedirectToRegistrationOverview}
 						target="_self"
 					>
 						{translate('login.register.linkLabel')}

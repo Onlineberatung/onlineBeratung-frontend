@@ -10,8 +10,7 @@ import { getViewPathForType } from '../session/sessionHelpers';
 import { history } from '../app/app';
 import { Checkbox } from '../checkbox/Checkbox';
 import { Button } from '../button/Button';
-import { ajaxCallUpdateMonitoring } from '../apiWrapper';
-import { ajaxCallGetMonitoring } from '../apiWrapper/ajaxCallGetMonitoring';
+import { apiUpdateMonitoring, apiGetMonitoring } from '../../api';
 import { ReactComponent as ArrowRightIcon } from '../../resources/img/icons/arrow-right.svg';
 import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down.svg';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
@@ -33,7 +32,7 @@ export const Monitoring = () => {
 			: 'monitoringU25';
 
 	useEffect(() => {
-		ajaxCallGetMonitoring(activeSession.session.id)
+		apiGetMonitoring(activeSession.session.id)
 			.then((monitoringData) => {
 				setMonitoringData(monitoringData);
 			})
@@ -100,7 +99,7 @@ export const Monitoring = () => {
 	};
 
 	const handleSubmit = () => {
-		ajaxCallUpdateMonitoring(activeSession.session.id, monitoringData)
+		apiUpdateMonitoring(activeSession.session.id, monitoringData)
 			.then((response) => {
 				handleBackButton();
 			})

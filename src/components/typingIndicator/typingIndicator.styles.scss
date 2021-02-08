@@ -1,11 +1,11 @@
-$indicator-height: 37px;
+$indicator-height: 29px;
 
 .typing-indicator {
 	display: flex;
 	position: absolute;
 	top: -$indicator-height;
 	width: 100%;
-	padding: $grid-base $grid-base-three;
+	padding: 4px $grid-base-three;
 	background-color: $background-ochre;
 	align-items: center;
 	z-index: 2;

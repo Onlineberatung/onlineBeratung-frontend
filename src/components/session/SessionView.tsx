@@ -15,17 +15,17 @@ import {
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
-	getSessionData,
-	setSessionRead,
-	SOCKET_COLLECTION
-} from '../apiWrapper';
+	apiGetSessionData,
+	apiSetSessionRead,
+	SOCKET_COLLECTION,
+	rocketChatSocket
+} from '../../api';
 import {
 	getSessionListPathForLocation,
 	getChatItemForSession,
 	isGroupChatForSessionItem,
 	prepareMessages
 } from './sessionHelpers';
-import { rocketChatSocket } from '../apiWrapper';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
 import {
@@ -85,7 +85,7 @@ export const SessionView = (props) => {
 				? chatItem.feedbackRead
 				: chatItem.messagesRead;
 			if (!isCurrentSessionRead || newMessageFromSocket) {
-				setSessionRead(groupId);
+				apiSetSessionRead(groupId);
 				activeSession.isFeedbackSession
 					? (chatItem.feedbackRead = true)
 					: (chatItem.messagesRead = true);
@@ -169,7 +169,7 @@ export const SessionView = (props) => {
 		offset: number = INITIAL_MESSAGES_OFFSET
 	) => {
 		const rcGroupId = props.match.params.rcGroupId;
-		getSessionData(rcGroupId, offset)
+		apiGetSessionData(rcGroupId, offset)
 			.then((messagesData) => {
 				let newMessages: any = messagesItem;
 				if (offset > 0) {
@@ -331,7 +331,7 @@ const groupChatStoppedOverlay: OverlayItem = {
 		{
 			label: translate('groupChat.stopped.overlay.button2Label'),
 			function: OVERLAY_FUNCTIONS.LOGOUT,
-			type: BUTTON_TYPES.GHOST
+			type: BUTTON_TYPES.SECONDARY
 		}
 	]
 };

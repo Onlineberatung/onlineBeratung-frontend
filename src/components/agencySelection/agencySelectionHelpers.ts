@@ -21,8 +21,8 @@ export const autoselectPostcodeForConsultingType = (
 };
 
 export const POSTCODE_FALLBACK_LINKS = {
-	8: config.endpoints.registrationDisabilityPostcodeFallback,
-	16: config.endpoints.registrationMigrationPostcodeFallback,
-	18: config.endpoints.registrationHospicePostcodeFallback,
-	20: config.endpoints.registrationMenPostcodeFallback
+	8: config.urls.registrationDisabilityPostcodeFallback,
+	16: config.urls.registrationMigrationPostcodeFallback,
+	18: config.urls.registrationHospicePostcodeFallback,
+	20: config.urls.registrationMenPostcodeFallback
 };

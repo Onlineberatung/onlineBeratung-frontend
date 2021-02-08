@@ -17,7 +17,7 @@ import { translate } from '../../resources/scripts/i18n/translate';
 import { MessageItemComponent } from '../message/MessageItemComponent';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { ajaxCallEnquiryAcceptance } from '../apiWrapper/';
+import { apiEnquiryAcceptance } from '../../api';
 import {
 	Overlay,
 	OVERLAY_FUNCTIONS,
@@ -149,7 +149,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 		setIsRequestInProgress(true);
 
-		ajaxCallEnquiryAcceptance(sessionId)
+		apiEnquiryAcceptance(sessionId)
 			.then(() => {
 				setOverlayActive(true);
 				setCurrenGroupId(sessionGroupId);
@@ -213,8 +213,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 	const buttonItem: ButtonItem = {
 		label: translate('enquiry.acceptButton'),
-		type: BUTTON_TYPES.PRIMARY,
-		target: chatItem.groupId
+		type: BUTTON_TYPES.PRIMARY
 	};
 
 	const getMonitoringLink = () => {
@@ -305,11 +304,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			getMonitoringLink() ? (
 				<Link to={getMonitoringLink()}>
 					<div className="monitoringButton">
-						<Button
-							item={monitoringButtonItem}
-							isLink={true}
-							buttonHandle={() => null}
-						/>
+						<Button item={monitoringButtonItem} isLink={true} />
 					</div>
 				</Link>
 			) : null}
@@ -382,5 +377,6 @@ const monitoringButtonItem: ButtonItem = {
 
 const scrollBottomButtonItem: ButtonItem = {
 	icon: <ArrowDoubleDownIcon />,
-	type: 'SMALL_ICON'
+	type: BUTTON_TYPES.SMALL_ICON,
+	smallIconBackgroundColor: 'grey'
 };

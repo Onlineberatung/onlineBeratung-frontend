@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import { updatePassword } from '../apiWrapper/ajaxCallPasswordReset';
+import { apiUpdatePassword } from '../../api';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -183,11 +183,11 @@ export const PasswordReset = () => {
 		if (isValid) {
 			setIsRequestInProgress(true);
 			setOldPasswordErrorMessage('');
-			updatePassword(oldPassword, newPassword)
+			apiUpdatePassword(oldPassword, newPassword)
 				.then(() => {
 					setOverlayActive(true);
 					setIsRequestInProgress(false);
-					logout(false, config.endpoints.logoutRedirect);
+					logout(false, config.urls.logoutRedirect);
 				})
 				.catch(() => {
 					setOldPasswordErrorMessage(
@@ -199,7 +199,7 @@ export const PasswordReset = () => {
 	};
 
 	const handleSuccess = () => {
-		window.location.href = config.endpoints.logoutRedirect;
+		window.location.href = config.urls.logoutRedirect;
 	};
 
 	return (

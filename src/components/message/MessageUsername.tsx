@@ -15,9 +15,10 @@ import {
 	getActiveSession
 } from '../../globalState';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
+import { ForwardMessageDTO } from './MessageItemComponent';
 
 interface MessageUsernameProps {
-	alias?: any;
+	alias?: ForwardMessageDTO;
 	isUser: Boolean;
 	isMyMessage: Boolean;
 	type: 'forwarded' | 'user' | 'consultant' | 'self' | 'system';

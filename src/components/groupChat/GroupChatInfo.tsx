@@ -20,11 +20,7 @@ import {
 	Overlay,
 	OverlayItem
 } from '../overlay/Overlay';
-import {
-	getGroupMembers,
-	ajaxCallPutGroupChat,
-	GROUP_CHAT_API
-} from '../apiWrapper';
+import { apiGetGroupMembers, apiPutGroupChat, GROUP_CHAT_API } from '../../api';
 import { isGroupChatOwner } from './groupChatHelpers';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { durationSelectOptionsSet } from './createChatHelpers';
@@ -83,7 +79,7 @@ export const GroupChatInfo = () => {
 			setOverlayItem({});
 			setIsRequestInProgress(false);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.STOP_GROUP_CHAT) {
-			ajaxCallPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)
+			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)
 				.then(() => {
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
 					setIsRequestInProgress(false);
@@ -101,7 +97,7 @@ export const GroupChatInfo = () => {
 	};
 
 	const getSubscriberList = () => {
-		getGroupMembers(chatItem.id)
+		apiGetGroupMembers(chatItem.id)
 			.then((response) => {
 				const subscribers = response.members.map(
 					(member) => member.username
@@ -252,7 +248,6 @@ export const GroupChatInfo = () => {
 										id: 'editGroupChat'
 									}}
 									isLink={true}
-									buttonHandle={() => {}}
 								/>
 							</Link>
 						) : null}

@@ -6,27 +6,29 @@ import './button.styles';
 
 export const BUTTON_TYPES = {
 	PRIMARY: 'PRIMARY',
-	GHOST: 'GHOST',
-	LINK: 'LINK',
+	SECONDARY: 'SECONDARY',
 	TERTIARY: 'TERTIARY',
+	LINK: 'LINK',
 	AUTO_CLOSE: 'AUTO_CLOSE',
 	SMALL_ICON: 'SMALL_ICON'
 };
 
 export interface ButtonItem {
-	label?: string;
 	function?: string;
-	type: string;
-	id?: string;
-	target?: string;
 	icon?: JSX.Element;
+	id?: string;
+	label?: string;
+	smallIconBackgroundColor?: 'green' | 'red' | 'yellow' | 'grey';
+	title?: string;
+	type: string;
 }
 
 export interface ButtonProps {
-	buttonHandle: Function;
+	buttonHandle?: Function;
 	disabled?: boolean;
 	isLink?: boolean;
 	item: ButtonItem;
+	testingAttribute?: string;
 }
 
 export const Button = (props: ButtonProps) => {
@@ -40,7 +42,7 @@ export const Button = (props: ButtonProps) => {
 	const handleButtonTimer = () => {
 		if (item.type === BUTTON_TYPES.AUTO_CLOSE) {
 			timeoutID = window.setTimeout(() => {
-				props.buttonHandle(item.function, item.target);
+				props.buttonHandle(item.function);
 			}, OVERLAY_RESET_TIME);
 		}
 	};
@@ -51,8 +53,8 @@ export const Button = (props: ButtonProps) => {
 			case BUTTON_TYPES.PRIMARY:
 				className = 'button__primary';
 				break;
-			case BUTTON_TYPES.GHOST:
-				className = 'button__ghost';
+			case BUTTON_TYPES.SECONDARY:
+				className = 'button__secondary';
 				break;
 			case BUTTON_TYPES.TERTIARY:
 				className = 'button__tertiary';
@@ -77,9 +79,9 @@ export const Button = (props: ButtonProps) => {
 			event.preventDefault();
 		}
 
-		if (!props.disabled) {
+		if (!props.disabled && props.buttonHandle) {
 			window.clearTimeout(timeoutID);
-			props.buttonHandle(item.function, item.target);
+			props.buttonHandle(item.function);
 		}
 	};
 
@@ -88,11 +90,25 @@ export const Button = (props: ButtonProps) => {
 			<button
 				onClick={(event) => handleButtonClick(event)}
 				id={item.id}
-				className={
-					'button__item ' +
-					getButtonClassName(item.type) +
-					(props.disabled ? ' button__item--disabled' : '')
-				}
+				title={item.title}
+				className={`
+					button__item 
+					${getButtonClassName(item.type)} 
+					${
+						item.type === BUTTON_TYPES.SMALL_ICON
+							? getButtonClassName(item.type) +
+							  '--' +
+							  item.smallIconBackgroundColor
+							: ''
+					} 
+					${
+						item.type === BUTTON_TYPES.SMALL_ICON && item.label
+							? getButtonClassName(item.type) + '--withLabel'
+							: ''
+					} 
+					${props.disabled ? ' button__item--disabled' : ''}
+				`}
+				data-cy={props.testingAttribute}
 			>
 				{item.id === 'reloadButton' && (
 					<ReloadIcon className="button__icon" />

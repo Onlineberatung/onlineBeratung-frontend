@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
 import { InputFieldItem, InputField } from '../inputField/InputField';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { ajaxCallSetAbsence } from '../apiWrapper';
+import { apiSetAbsence } from '../../api';
 import { BUTTON_TYPES } from '../button/Button';
 import {
 	OverlayItem,
@@ -74,7 +74,7 @@ export const AbsenceFormular = () => {
 			? (absenceCheckboxBool = true)
 			: (absenceCheckboxBool = false);
 
-		ajaxCallSetAbsence(absenceCheckboxBool, absenceMessageInputVal)
+		apiSetAbsence(absenceCheckboxBool, absenceMessageInputVal)
 			.then(() => {
 				setOverlayActive(true);
 				setIsRequestInProgress(false);

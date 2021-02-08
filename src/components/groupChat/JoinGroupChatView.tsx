@@ -18,11 +18,12 @@ import {
 	getSessionListPathForLocation
 } from '../session/sessionHelpers';
 import {
-	ajaxCallPutGroupChat,
-	ajaxCallGetGroupChatInfo,
+	apiPutGroupChat,
+	apiGetGroupChatInfo,
 	groupChatInfoData,
-	GROUP_CHAT_API
-} from '../apiWrapper';
+	GROUP_CHAT_API,
+	FETCH_ERRORS
+} from '../../api';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -38,7 +39,6 @@ import {
 	joinGroupChatClosedErrorOverlay
 } from './joinGroupChatHelpers';
 import { Button } from '../button/Button';
-import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import { logout } from '../logout/logout';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
@@ -99,7 +99,7 @@ export const JoinGroupChatView = () => {
 			chatItem.groupId === activeSessionGroupId &&
 			isGroupChatConsultingType(chatItem.consultingType)
 		) {
-			ajaxCallGetGroupChatInfo(chatItem.id)
+			apiGetGroupChatInfo(chatItem.id)
 				.then((response: groupChatInfoData) => {
 					if (chatItem.active !== response.active) {
 						let changedSessionsData = getSessionsDataWithChangedValue(
@@ -139,7 +139,7 @@ export const JoinGroupChatView = () => {
 			!chatItem.active
 				? GROUP_CHAT_API.START
 				: GROUP_CHAT_API.JOIN;
-		ajaxCallPutGroupChat(chatItem.id, groupChatApiCall)
+		apiPutGroupChat(chatItem.id, groupChatApiCall)
 			.then(() => {
 				if (
 					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)

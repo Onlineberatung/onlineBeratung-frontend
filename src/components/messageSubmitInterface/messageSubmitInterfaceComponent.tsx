@@ -19,12 +19,13 @@ import {
 	SessionsDataContext
 } from '../../globalState';
 import {
-	ajaxSendEnquiry,
-	ajaxSendMessage,
-	ajaxCallUploadAttachment,
-	ajaxCallPostDraftMessage,
-	ajaxCallGetDraftMessage
-} from '../apiWrapper';
+	apiSendEnquiry,
+	apiSendMessage,
+	apiUploadAttachment,
+	apiPostDraftMessage,
+	apiGetDraftMessage,
+	FETCH_ERRORS
+} from '../../api';
 import {
 	MessageSubmitInfo,
 	MessageSubmitInfoInterface
@@ -65,7 +66,6 @@ import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
 import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
 import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
 import useDebouncedValue from '../../resources/scripts/helpers/useDebouncedValue';
-import { FETCH_ERRORS } from '../apiWrapper/fetchData';
 import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';
@@ -186,7 +186,7 @@ export const MessageSubmitInterfaceComponent = (
 			setActiveInfo(INFO_TYPES.ABSENT);
 		}
 
-		ajaxCallGetDraftMessage(activeSessionGroupId)
+		apiGetDraftMessage(activeSessionGroupId)
 			.then((response) => {
 				setEditorWithMarkdownString(response.message);
 			})
@@ -206,10 +206,7 @@ export const MessageSubmitInterfaceComponent = (
 					requestFeedbackCheckboxCallback.checked
 						? activeSession.session.feedbackGroupId
 						: activeSessionGroupId;
-				ajaxCallPostDraftMessage(
-					groupId,
-					currentDraftMessageRef.current
-				);
+				apiPostDraftMessage(groupId, currentDraftMessageRef.current);
 			}
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -220,7 +217,7 @@ export const MessageSubmitInterfaceComponent = (
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.session.feedbackGroupId
 					: activeSessionGroupId;
-			ajaxCallPostDraftMessage(groupId, debouncedDraftMessage);
+			apiPostDraftMessage(groupId, debouncedDraftMessage);
 		}
 	}, [debouncedDraftMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -462,7 +459,7 @@ export const MessageSubmitInterfaceComponent = (
 			const enquirySessionId = activeSessionGroupId
 				? activeSessionGroupId
 				: sessionsData.mySessions[0].session.id;
-			ajaxSendEnquiry(enquirySessionId, getTypedMarkdownMessage())
+			apiSendEnquiry(enquirySessionId, getTypedMarkdownMessage())
 				.then((response) => {
 					setEditorState(EditorState.createEmpty());
 					props.handleSendButton();
@@ -481,7 +478,7 @@ export const MessageSubmitInterfaceComponent = (
 
 			if (attachment) {
 				setAttachmentUpload(
-					ajaxCallUploadAttachment(
+					apiUploadAttachment(
 						getTypedMarkdownMessage(),
 						attachment,
 						sendToRoomWithId,
@@ -493,7 +490,7 @@ export const MessageSubmitInterfaceComponent = (
 				);
 			} else {
 				if (getTypedMarkdownMessage()) {
-					ajaxSendMessage(
+					apiSendMessage(
 						getTypedMarkdownMessage(),
 						sendToRoomWithId,
 						sendToFeedbackEndpoint,

@@ -7,7 +7,7 @@ import {
 import { translate } from '../../resources/scripts/i18n/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import * as React from 'react';
-import { ajaxCallSetAbsence } from '../apiWrapper';
+import { apiSetAbsence } from '../../api';
 import { UserDataContext } from '../../globalState';
 import { useContext, useState, useEffect } from 'react';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
@@ -26,7 +26,7 @@ export const AbsenceHandler = () => {
 			{
 				label: translate('absence.overlayButton2.label'),
 				function: OVERLAY_FUNCTIONS.CLOSE,
-				type: BUTTON_TYPES.GHOST
+				type: BUTTON_TYPES.SECONDARY
 			}
 		]
 	};
@@ -74,7 +74,7 @@ export const AbsenceHandler = () => {
 			setOverlayActive(false);
 		}
 		if (buttonFunction === OVERLAY_FUNCTIONS.DEACTIVATE_ABSENCE) {
-			ajaxCallSetAbsence(false, '')
+			apiSetAbsence(false, '')
 				.then(() => {
 					setOverlayItem(absenceChangedOverlayItem);
 					setUserData({

@@ -1,0 +1,80 @@
+$userIconSize: 62px;
+
+.incomingVideoCall {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: $grid-base-two;
+	border-radius: 4px;
+	background-color: rgba(120, 115, 120, 0.95);
+	backdrop-filter: blur(2px);
+	animation: flyIn 0.3s ease forwards;
+
+	&__description {
+		color: $white;
+		margin: 0;
+		text-align: center;
+	}
+
+	&__username,
+	&__user {
+		font-family: $font-family-medium;
+		font-weight: $font-weight-medium;
+	}
+
+	&__user {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: $userIconSize;
+		height: $userIconSize;
+		margin-top: $grid-base;
+		background-color: #524b52;
+		border: 3px solid $white-50-opacity;
+		color: $white-50-opacity;
+		border-radius: 100%;
+		animation: calling 1.3s ease-out infinite;
+	}
+
+	&__buttons {
+		display: flex;
+		margin-top: $grid-base-two;
+
+		.button__wrapper:not(:last-of-type) {
+			margin-right: $grid-base-two;
+		}
+	}
+}
+
+@keyframes flyIn {
+	0% {
+		opacity: 0.8;
+		transform: translateX(32px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes calling {
+	0% {
+		box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.4);
+	}
+	20% {
+		box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.6);
+	}
+	40% {
+		box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 0.3);
+	}
+	60% {
+		box-shadow: 0px 0px 0px 6px rgba(255, 255, 255, 0.2);
+	}
+	80% {
+		box-shadow: 0px 0px 0px 8px rgba(255, 255, 255, 0.1);
+	}
+	100% {
+		box-shadow: 0px 0px 0px 10px rgba(255, 255, 255, 0);
+	}
+}

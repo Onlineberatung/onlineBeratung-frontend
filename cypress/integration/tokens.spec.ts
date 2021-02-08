@@ -68,7 +68,7 @@ describe('Keycloak Tokens', () => {
 		cy.get('#appRoot').should('exist');
 	});
 
-	it('should logout if refresh token is already expired when loading the app', () => {
+	it.skip('should logout if refresh token is already expired when loading the app', () => {
 		cy.clock();
 		cy.caritasMockedLogin();
 
