@@ -5,7 +5,8 @@
 	&__overline {
 		color: $secondary;
 		text-align: center;
-		font-weight: normal;
+		font-family: $font-family-regular;
+		font-weight: $font-weight-regular;
 		margin: 0;
 		font-size: $font-size-primary;
 	}
@@ -106,7 +107,6 @@
 		color: $secondary;
 		text-align: center;
 		font-size: $font-size-primary;
-		font-weight: $font-weight-regular;
 		margin: 0 0 $grid-base 0;
 	}
 

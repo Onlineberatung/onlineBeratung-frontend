@@ -63,6 +63,7 @@ import {
 } from '../agencySelection/agencySelectionHelpers';
 import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
 import { AgencyDataInterface } from '../../globalState';
+import { FormAccordion } from '../formAccordion/FormAccordion';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -583,6 +584,7 @@ const Registration = () => {
 				className="registration__form"
 				data-consultingtype={consultingType}
 			>
+				<FormAccordion></FormAccordion>
 				<h3 className="registration__overline">
 					{resortData.overline}
 				</h3>
