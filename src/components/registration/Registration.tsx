@@ -56,7 +56,7 @@ import { removeInputErrorClass, removeWarningLabelById } from './warningLabels';
 import { isNumber } from '../../resources/scripts/helpers/isNumber';
 import '../../resources/styles/styles';
 import './registration.styles';
-import { InfoText, LABEL_TYPES } from '../infoText/InfoText';
+import { Text, LABEL_TYPES } from '../text/Text';
 import {
 	autoselectAgencyForConsultingType,
 	autoselectPostcodeForConsultingType
@@ -671,7 +671,7 @@ const Registration = () => {
 									}
 								/>
 								{consultingType === 1 && (
-									<InfoText
+									<Text
 										className="registration__passwordNote"
 										labelType={LABEL_TYPES.NOTICE}
 										text={translate(

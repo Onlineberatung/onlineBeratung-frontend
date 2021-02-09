@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { InfoText } from '../infoText/InfoText';
+import { Text } from '../text/Text';
 import { ReactComponent as ShowPasswordIcon } from '../../resources/img/icons/eye.svg';
 import { ReactComponent as HidePasswordIcon } from '../../resources/img/icons/eye-closed.svg';
 import './inputField.styles';
@@ -138,7 +138,7 @@ export const InputField = (props: InputFieldProps) => {
 						></p>
 					) : null}
 					{inputItem.infoText && (
-						<InfoText
+						<Text
 							text={inputItem.infoText}
 							className="formWrapper__infoText"
 						/>

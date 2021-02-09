@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { autoselectAgencyForConsultingType } from '../agencySelection/agencySelectionHelpers';
-import { InfoText } from '../infoText/InfoText';
+import { Text } from '../text/Text';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import './selectedAgencyInfo.styles';
 import { AgencyDataInterface } from '../../globalState';
@@ -31,7 +31,7 @@ export const SelectedAgencyInfo = (props: SelectedAgencyInfoProps) => {
 			>
 				<div className="selectedAgencyInfo__teamAgency">
 					<InfoIcon className="selectedAgencyInfo__icon" />
-					<InfoText
+					<Text
 						text={translate('registration.agency.prefilled.isTeam')}
 						className="selectedAgencyInfo__text"
 					/>
@@ -46,7 +46,7 @@ export const SelectedAgencyInfo = (props: SelectedAgencyInfoProps) => {
 				props.className ? props.className : ''
 			}`}
 		>
-			<InfoText
+			<Text
 				text={props.prefix}
 				className="selectedAgencyInfo__text selectedAgencyInfo__overline"
 			/>
@@ -56,7 +56,7 @@ export const SelectedAgencyInfo = (props: SelectedAgencyInfoProps) => {
 			{props.agencyData.teamAgency && (
 				<div className="selectedAgencyInfo__teamAgency">
 					<InfoIcon className="selectedAgencyInfo__icon" />
-					<InfoText
+					<Text
 						text={translate('registration.agency.prefilled.isTeam')}
 						className="selectedAgencyInfo__text"
 					/>

@@ -1,10 +1,15 @@
 import * as React from 'react';
-import './infoText.styles';
+import './text.styles';
 
-export interface InfoTextProps {
+export interface TextProps {
 	text: string;
 	labelType?: LABEL_TYPES;
 	className?: string;
+	type?:
+		| 'standard'
+		| 'infoLargeStandard'
+		| 'infoLargeAlternative'
+		| 'infoSmall';
 }
 
 export enum LABEL_TYPES {
@@ -18,20 +23,20 @@ const getLabelContent = (type: string) => {
 	};
 
 	if (type === LABEL_TYPES.NOTICE) {
-		labelContent.className = 'infoText__label--notice';
+		labelContent.className = 'text__label--notice';
 		labelContent.text = 'Hinweis';
 	}
 
 	return labelContent;
 };
 
-export const InfoText = (props: InfoTextProps) => {
+export const Text = (props: TextProps) => {
 	return (
-		<p className={`infoText ${props.className ? props.className : ''}`}>
+		<p className={`text ${props.className ? props.className : ''}`}>
 			{props.labelType && (
 				<span
 					className={
-						'infoText__label ' +
+						'text__label ' +
 						getLabelContent(props.labelType).className
 					}
 				>
@@ -39,7 +44,6 @@ export const InfoText = (props: InfoTextProps) => {
 				</span>
 			)}
 			<span
-				className="infoText__text"
 				dangerouslySetInnerHTML={{
 					__html: props.text
 				}}

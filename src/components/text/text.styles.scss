@@ -1,8 +1,9 @@
-.infoText {
+.text {
 	color: $tertiary;
 	font-size: $font-size-secondary;
 	line-height: $line-height-secondary;
 	text-align: left;
+	margin: 0;
 
 	&__label {
 		font-family: $font-family-medium;

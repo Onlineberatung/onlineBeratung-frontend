@@ -32,7 +32,7 @@ import {
 import { AgencySelection } from '../agencySelection/AgencySelection';
 import './profile.styles';
 import { apiGetUserData } from '../../api';
-import { InfoText, LABEL_TYPES } from '../infoText/InfoText';
+import { Text, LABEL_TYPES } from '../text/Text';
 import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
 
 export const AskerNewRegistration = () => {
@@ -160,7 +160,7 @@ export const AskerNewRegistration = () => {
 			{isOnlyRegisteredForGroupChats ? (
 				<div className="askerRegistration__consultingTypeWrapper">
 					<SelectDropdown {...consultingTypesDropdown} />
-					<InfoText
+					<Text
 						className="askerRegistration__consultingModeInfo"
 						labelType={LABEL_TYPES.NOTICE}
 						text={translate(
