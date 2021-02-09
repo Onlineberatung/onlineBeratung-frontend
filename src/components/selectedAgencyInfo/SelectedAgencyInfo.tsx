@@ -32,8 +32,9 @@ export const SelectedAgencyInfo = (props: SelectedAgencyInfoProps) => {
 				<div className="selectedAgencyInfo__teamAgency">
 					<InfoIcon className="selectedAgencyInfo__icon" />
 					<Text
-						text={translate('registration.agency.prefilled.isTeam')}
 						className="selectedAgencyInfo__text"
+						text={translate('registration.agency.prefilled.isTeam')}
+						type="infoSmall"
 					/>
 				</div>
 			</div>
@@ -47,8 +48,9 @@ export const SelectedAgencyInfo = (props: SelectedAgencyInfoProps) => {
 			}`}
 		>
 			<Text
-				text={props.prefix}
 				className="selectedAgencyInfo__text selectedAgencyInfo__overline"
+				text={props.prefix}
+				type="infoSmall"
 			/>
 			<p className="selectedAgencyInfo__agencyName">
 				{props.agencyData.name}
@@ -57,8 +59,9 @@ export const SelectedAgencyInfo = (props: SelectedAgencyInfoProps) => {
 				<div className="selectedAgencyInfo__teamAgency">
 					<InfoIcon className="selectedAgencyInfo__icon" />
 					<Text
-						text={translate('registration.agency.prefilled.isTeam')}
 						className="selectedAgencyInfo__text"
+						text={translate('registration.agency.prefilled.isTeam')}
+						type="infoSmall"
 					/>
 				</div>
 			)}

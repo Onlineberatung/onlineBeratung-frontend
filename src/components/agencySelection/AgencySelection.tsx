@@ -188,6 +188,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					text={translate(
 						'profile.data.register.consultingModeInfo.groupChats'
 					)}
+					type="infoSmall"
 				/>
 			) : (
 				<>
@@ -202,6 +203,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							text={translate(
 								'profile.data.register.selectAgencyInfo'
 							)}
+							type="infoSmall"
 						/>
 					)}
 					{!props.preselectedAgency &&

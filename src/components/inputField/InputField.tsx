@@ -139,8 +139,9 @@ export const InputField = (props: InputFieldProps) => {
 					) : null}
 					{inputItem.infoText && (
 						<Text
-							text={inputItem.infoText}
 							className="formWrapper__infoText"
+							text={inputItem.infoText}
+							type="infoSmall"
 						/>
 					)}
 				</div>

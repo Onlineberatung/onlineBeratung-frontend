@@ -166,6 +166,7 @@ export const AskerNewRegistration = () => {
 						text={translate(
 							'profile.data.register.consultingModeInfo.singleChats'
 						)}
+						type="infoSmall"
 					/>
 				</div>
 			) : (

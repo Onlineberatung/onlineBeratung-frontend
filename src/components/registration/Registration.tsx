@@ -677,6 +677,7 @@ const Registration = () => {
 										text={translate(
 											'registration.password.note'
 										)}
+										type="infoSmall"
 									/>
 								)}
 								{resortData.showEmail && (

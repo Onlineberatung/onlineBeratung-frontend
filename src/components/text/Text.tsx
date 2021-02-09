@@ -5,7 +5,7 @@ export interface TextProps {
 	text: string;
 	labelType?: LABEL_TYPES;
 	className?: string;
-	type?:
+	type:
 		| 'standard'
 		| 'infoLargeStandard'
 		| 'infoLargeAlternative'
@@ -32,7 +32,11 @@ const getLabelContent = (type: string) => {
 
 export const Text = (props: TextProps) => {
 	return (
-		<p className={`text ${props.className ? props.className : ''}`}>
+		<p
+			className={`text text--${props.type} ${
+				props.className ? props.className : ''
+			}`}
+		>
 			{props.labelType && (
 				<span
 					className={
