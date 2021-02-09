@@ -1,0 +1,44 @@
+$iconSize: 28px;
+
+.registrationWelcome {
+	max-width: 500px;
+
+	&__infoWrapper,
+	&__buttonWrapper {
+		margin-top: $grid-base-eight;
+		display: grid;
+		grid-template-columns: auto;
+		column-gap: $grid-base-three;
+		row-gap: $grid-base-four;
+
+		@include breakpoint($fromLarge) {
+			grid-template-columns: auto auto;
+		}
+	}
+
+	&__infoItem {
+		display: flex;
+
+		svg {
+			min-width: $iconSize;
+			height: $iconSize;
+			margin-right: 14px;
+
+			* {
+				fill: $dropdown-bg-red;
+			}
+		}
+	}
+
+	&__infoContent {
+		display: flex;
+		flex-direction: column;
+		text-align: left;
+	}
+
+	&__buttonWrapper {
+		button {
+			min-width: 205px;
+		}
+	}
+}

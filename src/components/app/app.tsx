@@ -107,7 +107,7 @@ export const App: React.FC = () => {
 					setAppReady(true);
 				})
 				.catch((error) => {
-					window.location.href = config.urls.logoutRedirect;
+					window.location.href = config.urls.toLogin;
 					console.log(error);
 				});
 		});

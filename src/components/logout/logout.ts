@@ -36,9 +36,7 @@ const invalidateCookies = (
 };
 
 const redirectAfterLogout = (altRedirectUrl?: string) => {
-	const redirectUrl = altRedirectUrl
-		? altRedirectUrl
-		: config.urls.logoutRedirect;
+	const redirectUrl = altRedirectUrl ? altRedirectUrl : config.urls.toLogin;
 	setTimeout(() => {
 		window.location.href = redirectUrl;
 	}, 1000);

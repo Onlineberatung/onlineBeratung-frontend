@@ -49,7 +49,7 @@ export const config = {
 	urls: {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
-		logoutRedirect: tld + endpointPort + '/login.html',
+		toLogin: tld + endpointPort + '/login.html',
 		redirectToApp: tld + endpointPort + `/beratung-hilfe.html`,
 		caritasImprint: 'https://www.caritas.de/impressum',
 		caritasDataprotection:

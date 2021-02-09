@@ -63,6 +63,7 @@ import {
 } from '../agencySelection/agencySelectionHelpers';
 import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
 import { AgencyDataInterface } from '../../globalState';
+import { WelcomeScreen } from './WelcomeScreen';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -71,22 +72,42 @@ export const initRegistration = () => {
 	);
 };
 
+export interface ResortData {
+	consultingType: string;
+	overline: string;
+	requiredComponents?: any[];
+	showEmail: boolean;
+	useInformal: boolean;
+	voluntaryComponents?: any[];
+}
+
 const Registration = () => {
-	const [username, setUsername] = useState('');
-	const [isUsernameValid, setIsUsernameValid] = useState(false);
-	const [usernameSuccessMessage, setUsernameSuccessMessage] = useState('');
-	const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
-	const [postcode, setPostcode] = useState('');
-	const [agencyId, setAgencyId] = useState('');
+	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(true);
+	const [username, setUsername] = useState<string>('');
+	const [isUsernameValid, setIsUsernameValid] = useState<boolean>(false);
+	const [usernameSuccessMessage, setUsernameSuccessMessage] = useState<
+		string
+	>('');
+	const [usernameErrorMessage, setUsernameErrorMessage] = useState<string>(
+		''
+	);
+	const [postcode, setPostcode] = useState<string>('');
+	const [agencyId, setAgencyId] = useState<string>('');
 	const [
 		prefilledAgencyData,
 		setPrefilledAgencyData
 	] = useState<AgencyDataInterface | null>(null);
-	const [password, setPassword] = useState('');
-	const [passwordSuccessMessage, setPasswordSuccessMessage] = useState('');
-	const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
-	const [isPasswordValid, setIsPasswordValid] = useState(false);
-	const [passwordConfirmation, setPasswordConfirmation] = useState('');
+	const [password, setPassword] = useState<string>('');
+	const [passwordSuccessMessage, setPasswordSuccessMessage] = useState<
+		string
+	>('');
+	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>(
+		''
+	);
+	const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
+	const [passwordConfirmation, setPasswordConfirmation] = useState<string>(
+		''
+	);
 	const [
 		passwordConfirmationSuccessMessage,
 		setPasswordConfirmationSuccessMessage
@@ -114,7 +135,7 @@ const Registration = () => {
 		(resort) => resort[1].consultingType === consultingType?.toString()
 	);
 
-	let resortData;
+	let resortData: ResortData;
 	if (resortDataArray.length > 1) {
 		const resortName = document.getElementById('registrationRoot')?.dataset
 			.resortname;
@@ -578,139 +599,170 @@ const Registration = () => {
 	return (
 		<div className="registration">
 			<Stage hasAnimation={true}></Stage>
-			<form
-				id="registrationForm"
-				className="registration__form"
-				data-consultingtype={consultingType}
-			>
-				<h3 className="registration__overline">
-					{resortData.overline}
-				</h3>
-				<h1 className="registration__headline">
-					{translate('registration.headline')}
-				</h1>
 
-				{/* ----------------------------- Required Fields ---------------------------- */}
-				<div className="registration__generalInformation">
-					{prefilledAgencyData && (
-						<SelectedAgencyInfo
-							prefix={translate(
-								'registration.agency.prefilled.prefix'
-							)}
-							agencyData={prefilledAgencyData}
-							consultingType={
-								autoselectAgencyForConsultingType(
-									consultingType
-								)
-									? consultingType
-									: null
-							}
-						/>
-					)}
-					<InputField
-						item={inputItemUsername}
-						inputHandle={handleUsernameChange}
-					/>
-					{!autoselectPostcodeForConsultingType(consultingType) && (
-						<AgencySelection
-							selectedConsultingType={consultingType}
-							icon={<PinIcon />}
-							setAgency={(agency) => {
-								if (agency) {
-									setAgencyId(agency?.id);
-									setPostcode(agency?.postcode);
-								} else {
-									setAgencyId('');
-									setPostcode('');
-								}
-							}}
-							preselectedAgency={prefilledAgencyData}
-						/>
-					)}
-					<InputField
-						item={inputItemPassword}
-						inputHandle={handlepasswordChange}
-					/>
-					<InputField
-						item={inputItemPasswordConfirmation}
-						inputHandle={handlePasswordConfirmationChange}
-					/>
-					{consultingType === 1 && (
-						<InfoText
-							className="registration__passwordNote"
-							labelType={LABEL_TYPES.NOTICE}
-							text={translate('registration.password.note')}
-						/>
-					)}
-					{resortData.showEmail && (
-						<InputField
-							item={inputItemEmail}
-							inputHandle={handleEmailChange}
-						/>
-					)}
-					{resortData.requiredComponents ? requiredComponents : null}
-				</div>
-
-				{/* ----------------------------- Voluntary Fields ---------------------------- */}
-				{resortData.voluntaryComponents ? (
-					<div className="registration__voluntaryInformation">
-						<div>
-							<h2>
-								{translate('registration.voluntary.headline')}
-							</h2>
-							<p>{translate('registration.voluntary.subline')}</p>
-						</div>
-						{voluntaryComponents}
-					</div>
-				) : null}
-
-				{/* ----------------------------- Submit Section ---------------------------- */}
-				<div className="registration__footer">
-					<p className="registration__requiredInfoText formWrapper__infoText">
-						{translate('registration.required.infoText')}
-					</p>
-
-					<Checkbox
-						item={checkboxItemDataProtection}
-						checkboxHandle={() =>
-							setIsDataProtectionSelected(
-								!isDataProtectionSelected
-							)
+			<div className="registration__content">
+				{showWelcomeScreen ? (
+					<WelcomeScreen
+						resortTitle={resortData.overline}
+						handleForwardToRegistration={() =>
+							setShowWelcomeScreen(false)
 						}
 					/>
-					<Button
-						item={buttonItemSubmit}
-						buttonHandle={handleSubmitButtonClick}
-						disabled={isSubmitButtonDisabled}
-					/>
-				</div>
-			</form>
+				) : (
+					<>
+						<form
+							id="registrationForm"
+							data-consultingtype={consultingType}
+						>
+							<h3 className="registration__overline">
+								{resortData.overline}
+							</h3>
+							<h1 className="registration__headline">
+								{translate('registration.headline')}
+							</h1>
 
-			{/* ----------------------------- TO LOGIN BUTTON ---------------------------- */}
-			<div className="registration__toLogin">
-				<p className="registration__toLogin__text">
-					{translate('registration.login.helper')}
-				</p>
-				<div className="registration__toLogin__button">
-					<a href="/login.html">
-						<Button
-							item={{
-								label: translate('registration.login.label'),
-								type: 'TERTIARY'
-							}}
-							isLink={true}
-						/>
-					</a>
-				</div>
+							{/* ----------------------------- Required Fields ---------------------------- */}
+							<div className="registration__generalInformation">
+								{prefilledAgencyData && (
+									<SelectedAgencyInfo
+										prefix={translate(
+											'registration.agency.prefilled.prefix'
+										)}
+										agencyData={prefilledAgencyData}
+										consultingType={
+											autoselectAgencyForConsultingType(
+												consultingType
+											)
+												? consultingType
+												: null
+										}
+									/>
+								)}
+								<InputField
+									item={inputItemUsername}
+									inputHandle={handleUsernameChange}
+								/>
+								{!autoselectPostcodeForConsultingType(
+									consultingType
+								) && (
+									<AgencySelection
+										selectedConsultingType={consultingType}
+										icon={<PinIcon />}
+										setAgency={(agency) => {
+											if (agency) {
+												setAgencyId(agency?.id);
+												setPostcode(agency?.postcode);
+											} else {
+												setAgencyId('');
+												setPostcode('');
+											}
+										}}
+										preselectedAgency={prefilledAgencyData}
+									/>
+								)}
+								<InputField
+									item={inputItemPassword}
+									inputHandle={handlepasswordChange}
+								/>
+								<InputField
+									item={inputItemPasswordConfirmation}
+									inputHandle={
+										handlePasswordConfirmationChange
+									}
+								/>
+								{consultingType === 1 && (
+									<InfoText
+										className="registration__passwordNote"
+										labelType={LABEL_TYPES.NOTICE}
+										text={translate(
+											'registration.password.note'
+										)}
+									/>
+								)}
+								{resortData.showEmail && (
+									<InputField
+										item={inputItemEmail}
+										inputHandle={handleEmailChange}
+									/>
+								)}
+								{resortData.requiredComponents
+									? requiredComponents
+									: null}
+							</div>
+
+							{/* ----------------------------- Voluntary Fields ---------------------------- */}
+							{resortData.voluntaryComponents && (
+								<div className="registration__voluntaryInformation">
+									<div>
+										<h2>
+											{translate(
+												'registration.voluntary.headline'
+											)}
+										</h2>
+										<p>
+											{translate(
+												'registration.voluntary.subline'
+											)}
+										</p>
+									</div>
+									{voluntaryComponents}
+								</div>
+							)}
+
+							{/* ----------------------------- Submit Section ---------------------------- */}
+							<div className="registration__footer">
+								<p className="registration__requiredInfoText formWrapper__infoText">
+									{translate(
+										'registration.required.infoText'
+									)}
+								</p>
+
+								<Checkbox
+									item={checkboxItemDataProtection}
+									checkboxHandle={() =>
+										setIsDataProtectionSelected(
+											!isDataProtectionSelected
+										)
+									}
+								/>
+								<Button
+									item={buttonItemSubmit}
+									buttonHandle={handleSubmitButtonClick}
+									disabled={isSubmitButtonDisabled}
+								/>
+							</div>
+						</form>
+
+						{/* ----------------------------- TO LOGIN BUTTON ---------------------------- */}
+						<div className="registration__toLogin">
+							<p className="registration__toLogin__text">
+								{translate('registration.login.helper')}
+							</p>
+							<div className="registration__toLogin__button">
+								<a href={config.urls.toLogin}>
+									<Button
+										item={{
+											label: translate(
+												'registration.login.label'
+											),
+											type: 'TERTIARY'
+										}}
+										isLink={true}
+									/>
+								</a>
+							</div>
+						</div>
+						{overlayActive && (
+							<OverlayWrapper>
+								<Overlay
+									item={overlayItemRegistrationSuccess}
+									handleOverlay={handleOverlayAction}
+								/>
+							</OverlayWrapper>
+						)}
+					</>
+				)}
 			</div>
-			{overlayActive ? (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItemRegistrationSuccess}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
-			) : null}
 		</div>
 	);
 };
