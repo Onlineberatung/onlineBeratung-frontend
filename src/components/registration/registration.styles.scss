@@ -24,6 +24,16 @@
 
 	form {
 		margin: $grid-base-eleven 0;
+		animation: fadeIn linear 0.5s;
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
 	}
 
 	&__overline {
@@ -96,7 +106,7 @@
 		&__button {
 			display: inline-block;
 			margin-top: 0;
-			margin-left: $grid-base/2;
+			margin-left: 12px;
 		}
 	}
 
