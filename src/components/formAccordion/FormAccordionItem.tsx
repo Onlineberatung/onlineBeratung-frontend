@@ -3,6 +3,7 @@ import './formAccordionItem.styles';
 import { ReactComponent as ValidIcon } from '../../resources/img/icons/checkmark.svg';
 import { ReactComponent as UnvalidIcon } from '../../resources/img/icons/exclamation-mark.svg';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { translate } from '../../resources/scripts/i18n/translate';
 
 interface FormAccordionItemProps {
 	title: string;
@@ -25,8 +26,8 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 	};
 
 	const buttonAnswerVideoCall: ButtonItem = {
-		title: 'Weiter',
-		label: 'Weiter',
+		title: translate('registration.accordion.item.continueButton.title'),
+		label: translate('registration.accordion.item.continueButton'),
 		type: BUTTON_TYPES.LINK
 	};
 
@@ -59,7 +60,7 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 					buttonHandle={handleStepSubmit}
 					item={buttonAnswerVideoCall}
 					disabled={false}
-					className="formAccordionItem__submit"
+					className="formAccordionItem__continueButton"
 				/>
 			</div>
 		</div>

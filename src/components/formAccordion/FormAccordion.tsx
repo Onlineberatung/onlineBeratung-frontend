@@ -45,7 +45,7 @@ export const FormAccordion = () => {
 						title={accordionItem.title}
 						content={accordionItem.content}
 						key={i}
-						validity="valid"
+						validity="initial"
 					></FormAccordionItem>
 				);
 			})}
