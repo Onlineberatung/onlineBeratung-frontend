@@ -4,18 +4,22 @@ import { ReactComponent as ValidIcon } from '../../resources/img/icons/checkmark
 import { ReactComponent as UnvalidIcon } from '../../resources/img/icons/exclamation-mark.svg';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { translate } from '../../resources/scripts/i18n/translate';
+import { useState } from 'react';
 
 interface FormAccordionItemProps {
 	title: string;
 	content: string;
 	index: number;
 	isActive: boolean;
-	validity: 'initial' | 'valid' | 'unvalid';
 	onStepSubmit: Function;
 	onItemHeaderClick: Function;
 }
 
 export const FormAccordionItem = (props: FormAccordionItemProps) => {
+	const [validity, setValidity] = useState<'initial' | 'valid' | 'unvalid'>(
+		'initial'
+	);
+
 	const handleStepSubmit = () => {
 		props.onStepSubmit(props.index);
 	};
@@ -46,10 +50,10 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 				<span className="formAccordionItem__index">{props.index}</span>
 				{/*TODO: change title from span to h3 element as soon as registration h3 styles are removed*/}
 				<span className="formAccordionItem__title">{props.title}</span>
-				{props.validity === 'valid' && (
+				{validity === 'valid' && (
 					<ValidIcon className="formAccordionItem__validationIcon formAccordionItem__validationIcon--valid" />
 				)}
-				{props.validity === 'unvalid' && (
+				{validity === 'unvalid' && (
 					<UnvalidIcon className="formAccordionItem__validationIcon formAccordionItem__validationIcon--unvalid" />
 				)}
 			</div>
