@@ -16,6 +16,7 @@ interface FormAccordionItemProps {
 }
 
 export const FormAccordionItem = (props: FormAccordionItemProps) => {
+	/* TODO: set validity state based on content component validation */
 	const [validity, setValidity] = useState<'initial' | 'valid' | 'unvalid'>(
 		'initial'
 	);
@@ -63,6 +64,7 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 				<Button
 					buttonHandle={handleStepSubmit}
 					item={buttonAnswerVideoCall}
+					/* TODO: connect disabled state to validation of content component */
 					disabled={false}
 					className="formAccordionItem__continueButton"
 				/>
