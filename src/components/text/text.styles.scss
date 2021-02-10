@@ -1,11 +1,30 @@
 .text {
 	text-align: left;
 	margin: 0;
+	font-family: $font-family-regular;
 
-	&--infoSmall {
+	&__standard {
+		font-size: $font-size-primary;
+		line-height: $line-height-primary;
+		color: $secondary;
+	}
+
+	&__infoLargeStandard {
+		font-size: $font-size-tertiary;
+		line-height: 19px;
+		color: $secondary;
+	}
+
+	&__infoLargeAlternative {
+		font-size: $font-size-tertiary;
+		line-height: 19px;
 		color: $tertiary;
+	}
+
+	&__infoSmall {
 		font-size: $font-size-secondary;
 		line-height: $line-height-secondary;
+		color: $tertiary;
 	}
 
 	&__label {

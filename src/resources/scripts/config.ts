@@ -57,7 +57,7 @@ export const config = {
 		error500: tld + endpointPort + '/error.500.html',
 		error401: tld + endpointPort + '/error.401.html',
 		error404: tld + endpointPort + '/error.404.html',
-		registrationHelpmailRedirect: 'https://www.u25.de/helpmail/',
+		toU25Helpmail: 'https://www.u25.de/helpmail/',
 		registrationDisabilityPostcodeFallback:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/behinderung-und-psychische-erkrankung/adressen',
 		registrationMigrationPostcodeFallback:

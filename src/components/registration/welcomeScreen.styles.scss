@@ -1,18 +1,26 @@
-$iconSize: 28px;
+$iconSize: 32px;
 
 .registrationWelcome {
-	max-width: 500px;
+	max-width: 600px;
+	margin: $grid-base-six auto;
+
+	h2 {
+		margin-bottom: $grid-base;
+	}
 
 	&__infoWrapper,
-	&__buttonWrapper {
-		margin-top: $grid-base-eight;
+	&__buttonsWrapper {
+		margin: $grid-base-five auto 0;
+		max-width: 500px;
 		display: grid;
 		grid-template-columns: auto;
 		column-gap: $grid-base-three;
-		row-gap: $grid-base-four;
+		row-gap: $grid-base-three;
 
 		@include breakpoint($fromLarge) {
+			margin: $grid-base-eight auto 0;
 			grid-template-columns: auto auto;
+			row-gap: $grid-base-four;
 		}
 	}
 
@@ -34,9 +42,18 @@ $iconSize: 28px;
 		display: flex;
 		flex-direction: column;
 		text-align: left;
+
+		.text {
+			margin-top: $grid-base;
+		}
 	}
 
-	&__buttonWrapper {
+	&__buttonsWrapper {
+		.text {
+			text-align: center;
+			margin-bottom: 14px;
+		}
+
 		button {
 			min-width: 205px;
 		}

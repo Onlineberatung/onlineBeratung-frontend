@@ -3,11 +3,11 @@ import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { ReactComponent as EnvelopeIcon } from '../../resources/img/icons/envelope.svg';
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
-import { ResortData } from './Registration';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import './welcomeScreen.styles';
+import { Text } from '../text/Text';
 import { config } from '../../resources/scripts/config';
+import './welcomeScreen.styles';
 
 const welcomeScreenData = [
 	{
@@ -57,30 +57,38 @@ export const WelcomeScreen = (props: WelcomeScreenProps) => {
 			<h4>{translate('registration.welcomeScreen.subline')}</h4>
 
 			<div className="registrationWelcome__infoWrapper">
-				{welcomeScreenData.map((infoItem) => (
-					<div className="registrationWelcome__infoItem">
+				{welcomeScreenData.map((infoItem, key) => (
+					<div className="registrationWelcome__infoItem" key={key}>
 						{infoItem.icon}
 						<div className="registrationWelcome__infoContent">
 							<h5>{infoItem.title}</h5>
-							<p>{infoItem.text}</p>
+							<Text
+								text={infoItem.text}
+								type="infoLargeAlternative"
+							/>
 						</div>
 					</div>
 				))}
 			</div>
-			<div className="registrationWelcome__buttonWrapper">
+			<div className="registrationWelcome__buttonsWrapper">
 				<div>
-					<p>
-						{translate(
+					<Text
+						text={translate(
 							'registration.welcomeScreen.register.helperText'
 						)}
-					</p>
+						type="infoLargeAlternative"
+					/>
 					<Button
 						buttonHandle={props.handleForwardToRegistration}
 						item={registrationButton}
+						testingAttribute="close-welcome-screen"
 					/>
 				</div>
 				<div>
-					<p>{translate('registration.login.helper')}</p>
+					<Text
+						text={translate('registration.login.helper')}
+						type="infoLargeAlternative"
+					/>
 					<a href={config.urls.toLogin}>
 						<Button isLink={true} item={loginButton} />
 					</a>

@@ -33,7 +33,7 @@ const getLabelContent = (type: string) => {
 export const Text = (props: TextProps) => {
 	return (
 		<p
-			className={`text text--${props.type} ${
+			className={`text text__${props.type} ${
 				props.className ? props.className : ''
 			}`}
 		>
