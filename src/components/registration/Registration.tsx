@@ -272,6 +272,11 @@ const Registration = () => {
 	);
 	/* eslint-enable */
 
+	const handleForwardToRegistration = () => {
+		setShowWelcomeScreen(false);
+		window.scrollTo({ top: 0 });
+	};
+
 	const inputItemUsername: InputFieldItem = {
 		content: username,
 		class: getValidationClassNames(
@@ -604,8 +609,8 @@ const Registration = () => {
 				{showWelcomeScreen ? (
 					<WelcomeScreen
 						resortTitle={resortData.overline}
-						handleForwardToRegistration={() =>
-							setShowWelcomeScreen(false)
+						handleForwardToRegistration={
+							handleForwardToRegistration
 						}
 					/>
 				) : (
