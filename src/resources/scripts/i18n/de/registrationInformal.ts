@@ -23,6 +23,8 @@ const registrationInformal = {
 	'overlay.success.copy': 'Du hast Dich erfolgreich registriert.',
 	'welcomeScreen.info2.text':
 		'Schicke Deine Nachricht an eine lokale Beratungsstelle',
+	'welcomeScreen.info3.text':
+		'Innerhalb von zwei Werktagen bekommst Du eine Antwort',
 	'welcomeScreen.info4.text':
 		'Du bleibst anonym und erhältst kostenfreie Beratung und Hilfe'
 };
