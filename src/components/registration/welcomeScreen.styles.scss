@@ -18,7 +18,7 @@ $iconSize: 32px;
 		row-gap: $grid-base-three;
 
 		@include breakpoint($fromLarge) {
-			margin: $grid-base-eight auto 0;
+			margin: $grid-base-six auto 0;
 			grid-template-columns: auto auto;
 			row-gap: $grid-base-four;
 		}

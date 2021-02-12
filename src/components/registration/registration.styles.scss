@@ -72,6 +72,11 @@
 
 		.checkbox__wrapper {
 			text-align: left;
+			justify-content: left;
+
+			.checkbox__label {
+				max-width: unset;
+			}
 		}
 	}
 
