@@ -193,7 +193,7 @@ export const SessionMenu = () => {
 		label: translate('chatFlyout.feedback')
 	};
 
-	const hasVideoCallFeatures = () => false;
+	const hasVideoCallFeatures = () => true;
 	// TODO: reimplement on videocall release
 	// !isGroupChat &&
 	// !typeIsEnquiry(getTypeOfLocation()) &&
@@ -203,7 +203,11 @@ export const SessionMenu = () => {
 		apiStartVideoCall(chatItem.id)
 			.then((response) => {
 				window.open(
-					getVideoCallUrl(response.videoCallUrl, isVideoActivated)
+					getVideoCallUrl(
+						response.videoCallUrl,
+						isVideoActivated,
+						true
+					)
 				);
 			})
 			.catch((error) => {
