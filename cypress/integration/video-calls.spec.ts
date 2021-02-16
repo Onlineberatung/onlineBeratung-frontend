@@ -26,7 +26,7 @@ describe('Video calls', () => {
 	});
 
 	describe('Asker', () => {
-		it.skip('should not show buttons to start a new video call in session header', () => {
+		it('should not show buttons to start a new video call in session header', () => {
 			const sessions = generateMultipleAskerSessions(2);
 			cy.caritasMockedLogin({
 				type: 'asker',

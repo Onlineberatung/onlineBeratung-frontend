@@ -6,8 +6,9 @@ export const getVideoCallUrl = (
 	url: string,
 	isVideoActivated: boolean = false,
 	isInitiator: boolean = false
-) =>
-	`${url}&isInitiator=${isInitiator}#config.startWithVideoMuted=${!isVideoActivated}`;
+) => {
+	return `${url}&isInitiator=${isInitiator}#config.startWithVideoMuted=${!isVideoActivated}`;
+};
 
 export const currentUserWasVideoCallInitiator = (initiatorRcUserId: string) =>
 	initiatorRcUserId === getTokenFromCookie('rc_uid');
