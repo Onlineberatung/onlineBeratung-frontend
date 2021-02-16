@@ -187,7 +187,7 @@ export const PasswordReset = () => {
 				.then(() => {
 					setOverlayActive(true);
 					setIsRequestInProgress(false);
-					logout(false, config.urls.logoutRedirect);
+					logout(false, config.urls.toLogin);
 				})
 				.catch(() => {
 					setOldPasswordErrorMessage(
@@ -199,7 +199,7 @@ export const PasswordReset = () => {
 	};
 
 	const handleSuccess = () => {
-		window.location.href = config.urls.logoutRedirect;
+		window.location.href = config.urls.toLogin;
 	};
 
 	return (
