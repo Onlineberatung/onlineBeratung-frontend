@@ -4,11 +4,10 @@ export type NotificationType = 'call';
 
 export const getVideoCallUrl = (
 	url: string,
-	isVideoActivated: boolean = false
+	isVideoActivated: boolean = false,
+	isInitiator: boolean = false
 ) => {
-	return isVideoActivated
-		? `${url}#config.startWithVideoMuted=false`
-		: `${url}#config.startWithVideoMuted=true`;
+	return `${url}&isInitiator=${isInitiator}#config.startWithVideoMuted=${!isVideoActivated}`;
 };
 
 export const currentUserWasVideoCallInitiator = (initiatorRcUserId: string) =>
