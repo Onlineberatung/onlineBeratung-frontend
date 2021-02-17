@@ -2,12 +2,11 @@ import * as React from 'react';
 import { useState } from 'react';
 import './formAccordion.styles';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
-import { RegistrationUsername } from '../registration/RegistrationUsername';
 
 const accordionItemData = [
 	{
 		title: 'Bitte wählen Sie Ihren Benutzernamen',
-		content: <RegistrationUsername />
+		content: null
 	},
 	{
 		title: 'Bitte wählen Sie Ihr Passwort',
