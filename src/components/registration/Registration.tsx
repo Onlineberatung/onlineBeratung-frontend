@@ -526,13 +526,14 @@ const Registration = () => {
 					<RadioButton
 						key={index}
 						name={component.name}
-						value={index}
 						handleRadioButton={(e) =>
 							handleGeneratedInputfieldValueChange(
 								e.target.value,
 								component.name
 							)
 						}
+						type="box"
+						value={index}
 						{...radio}
 					/>
 				);
