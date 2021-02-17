@@ -15,7 +15,8 @@ import './agencySelection.styles';
 import '../profile/profile.styles';
 import { DEFAULT_POSTCODE } from '../registration/prefillPostcode';
 import { InfoText, LABEL_TYPES } from '../infoText/InfoText';
-import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
+import { RadioButton } from '../radioButton/RadioButton';
+import { Loading } from '../app/Loading';
 
 export interface AgencySelectionProps {
 	selectedConsultingType: number | undefined;
@@ -26,7 +27,7 @@ export interface AgencySelectionProps {
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
-	const postcodeFlyoutRef = React.useRef<HTMLDivElement>(null);
+	const agencyInfoRef = React.useRef<HTMLDivElement>(null);
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState('');
 	const [proposedAgencies, setProposedAgencies] = useState<
 		[AgencyDataInterface] | null
@@ -38,7 +39,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	>(undefined);
 	const [autoSelectAgency, setAutoSelectAgency] = useState(false);
 	const [autoSelectPostcode, setAutoSelectPostcode] = useState(false);
-	const [selectedAgencyData, setSelectedAgencyData] = useState<
+	const [displayAgencyInfo, setDisplayAgencyInfo] = useState<
 		AgencyDataInterface
 	>(null);
 
@@ -53,7 +54,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		setPostcodeFallbackLink('');
 		setSelectedAgencyId(undefined);
 		setProposedAgencies(null);
-		setSelectedAgencyData(null);
 		setAutoSelectAgency(
 			autoselectAgencyForConsultingType(props.selectedConsultingType)
 		);
@@ -74,7 +74,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						setSelectedPostcode(defaultAgency.postcode);
 					}
 					setSelectedAgencyId(defaultAgency.id);
-					setSelectedAgencyData(defaultAgency);
 				})
 				.catch((error) => {
 					return null;
@@ -91,7 +90,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			props.setAgency(agency);
 		} else if (props.preselectedAgency && !selectedAgencyId) {
 			setSelectedAgencyId(props.preselectedAgency.id);
-			setSelectedAgencyData(props.preselectedAgency);
 			if (
 				autoselectPostcodeForConsultingType(
 					props.selectedConsultingType
@@ -107,7 +105,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	useEffect(() => {
 		if (!autoSelectAgency && !props.preselectedAgency) {
 			setSelectedAgencyId(undefined);
-			setSelectedAgencyData(null);
 			setPostcodeFallbackLink('');
 			if (validPostcode()) {
 				apiAgencySelection({
@@ -116,6 +113,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				})
 					.then((response) => {
 						setProposedAgencies(response);
+						setSelectedAgencyId(response[0].id);
 					})
 					.catch((error) => {
 						if (
@@ -139,17 +137,18 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (
-				postcodeFlyoutRef.current &&
-				!postcodeFlyoutRef.current.contains(event.target)
+				!agencyInfoRef.current?.contains(event.target) &&
+				!event.target.getAttribute('data-agency-info-id') &&
+				!event.target.closest('[data-agency-info-id]')
 			) {
-				setProposedAgencies(null);
+				setDisplayAgencyInfo(null);
 			}
 		};
 		document.addEventListener('click', handleClickOutside);
 		return () => {
 			document.removeEventListener('click', handleClickOutside);
 		};
-	}, [postcodeFlyoutRef]);
+	}, [displayAgencyInfo]);
 
 	const postcodeInputItem: InputFieldItem = {
 		name: 'postcode',
@@ -165,7 +164,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			autoSelectPostcode ||
 			(!props.selectedConsultingType &&
 				props.selectedConsultingType !== 0),
-		postcodeFallbackLink: postcodeFallbackLink,
 		icon: props.icon
 	};
 
@@ -173,17 +171,11 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		setSelectedPostcode(e.target.value);
 	};
 
-	const handleAgencySelection = (agency: AgencyDataInterface) => {
-		setProposedAgencies(null);
-		setSelectedAgencyId(agency.id);
-		setSelectedAgencyData(agency);
-	};
-
 	return (
-		<div className="askerRegistration__postcode">
+		<div className="agencySelection">
 			{autoSelectPostcode ? (
 				<InfoText
-					className="askerRegistration__consultingModeInfo"
+					className="agencySelection__consultingModeInfo"
 					labelType={LABEL_TYPES.NOTICE}
 					text={translate(
 						'profile.data.register.consultingModeInfo.groupChats'
@@ -195,69 +187,105 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						item={postcodeInputItem}
 						inputHandle={(e) => handlePostcodeInput(e)}
 					></InputField>
-					{!autoSelectAgency && (
-						<InfoText
-							className="askerRegistration__selectAgencyInfo"
-							labelType={LABEL_TYPES.NOTICE}
-							text={translate(
-								'profile.data.register.selectAgencyInfo'
-							)}
-						/>
-					)}
-					{!props.preselectedAgency &&
-						!autoSelectAgency &&
-						selectedAgencyData && (
-							<SelectedAgencyInfo
-								prefix={translate(
-									'registration.agency.selected.prefix'
+					{validPostcode() && !props.preselectedAgency && (
+						<div className="agencySelection__proposedAgencies">
+							<h3>
+								{translate(
+									'registration.agencySelection.title.start'
+								)}{' '}
+								{selectedPostcode}
+								{translate(
+									'registration.agencySelection.title.end'
 								)}
-								agencyData={selectedAgencyData}
-							/>
-						)}
-					{proposedAgencies && (
-						<div
-							ref={postcodeFlyoutRef}
-							className="askerRegistration__postcodeFlyout"
-						>
-							{proposedAgencies.map(
-								(agency: AgencyDataInterface, index) => (
-									<div
-										className="askerRegistration__postcodeFlyout__content"
-										key={index}
-										onClick={() =>
-											handleAgencySelection(agency)
-										}
-									>
-										{agency.teamAgency && (
-											<div className="askerRegistration__postcodeFlyout__teamagency">
-												<span className="suggestionWrapper__item__content__teamAgency__icon">
-													<InfoIcon />
-												</span>
-
-												{translate(
-													'registration.agency.prefilled.isTeam'
+							</h3>
+							{!proposedAgencies ? (
+								postcodeFallbackLink ? (
+									<p className="formWrapper__infoText warning">
+										{translate(
+											'warningLabels.postcode.unavailable'
+										)}{' '}
+										<a
+											className="warning__link"
+											href={postcodeFallbackLink}
+											target="_blank"
+											rel="noreferrer"
+										>
+											{translate(
+												'warningLabels.postcode.search'
+											)}
+										</a>
+									</p>
+								) : (
+									<Loading />
+								)
+							) : (
+								proposedAgencies?.map(
+									(agency: AgencyDataInterface, index) => (
+										<div
+											key={index}
+											className="agencySelection__proposedAgency"
+										>
+											<RadioButton
+												name="agencySelection"
+												handleRadioButton={() =>
+													setSelectedAgencyId(
+														agency.id
+													)
+												}
+												type="default"
+												value={agency.id.toString()}
+												checked={index === 0}
+												inputId={agency.id.toString()}
+												label={agency.name}
+											/>
+											<InfoIcon
+												data-agency-info-id={agency.id}
+												onClick={() =>
+													displayAgencyInfo?.id ===
+													agency.id
+														? setDisplayAgencyInfo(
+																null
+														  )
+														: setDisplayAgencyInfo(
+																agency
+														  )
+												}
+											/>
+											{displayAgencyInfo &&
+												displayAgencyInfo?.id ===
+													agency.id && (
+													<div
+														className="agencySelection__agencyInfo"
+														ref={agencyInfoRef}
+													>
+														{displayAgencyInfo.teamAgency && (
+															<div className="agencySelection__agencyInfo__teamAgency">
+																<InfoIcon />
+																{translate(
+																	'registration.agency.prefilled.isTeam'
+																)}
+															</div>
+														)}
+														{displayAgencyInfo.name && (
+															<div className="agencySelection__agencyInfo__name">
+																{
+																	displayAgencyInfo.name
+																}
+															</div>
+														)}
+														{displayAgencyInfo.description && (
+															<div
+																className="agencySelection__agencyInfo__description"
+																dangerouslySetInnerHTML={{
+																	__html:
+																		displayAgencyInfo.description
+																}}
+															></div>
+														)}
+													</div>
 												)}
-											</div>
-										)}
-										{agency.postcode && (
-											<div className="askerRegistration__postcodeFlyout__postcode">
-												{agency.postcode}
-											</div>
-										)}
-										{agency.name && (
-											<div className="askerRegistration__postcodeFlyout__name">
-												{agency.name}
-											</div>
-										)}
-										{agency.description && (
-											<div
-												className="askerRegistration__postcodeFlyout__description"
-												dangerouslySetInnerHTML={{
-													__html: agency.description
-												}}
-											></div>
-										)}
-									</div>
+										</div>
+									)
 								)
 							)}
 						</div>

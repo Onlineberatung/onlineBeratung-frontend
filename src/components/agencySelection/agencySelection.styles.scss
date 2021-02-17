@@ -1,78 +1,112 @@
-#suggestionLayer {
-	display: block;
-	position: absolute;
-	width: 90%;
-	right: 0;
-	background: $white;
-	z-index: 20;
-	top: 66px;
-}
+$maxFormElementWidth: 320px;
+$agencyInfoWidth: 266px;
 
-.suggestionWrapper__item {
-	box-sizing: border-box;
-	background: $white;
-	width: 100%;
-	border: 1px solid $form-disabled;
-	@include rounded-drop-shadow;
+.agencySelection {
+	position: relative;
+	animation: fadeIn linear 0.2s;
+	max-width: $maxFormElementWidth;
+	margin: 0 auto $grid-base-four;
 
-	&:after,
-	&:before {
-		content: '';
-		position: absolute;
-		top: -13px;
-		border-left: 10px solid transparent;
-		border-right: 10px solid transparent;
-		margin-left: -10px;
-		transform: rotate(180deg);
+	h3 {
+		text-align: left;
 	}
 
-	&:before {
-		border-top: 10px solid $white;
-		margin-top: 5px;
-		z-index: 2;
-	}
+	&__proposedAgency {
+		display: flex;
+		position: relative;
+		border-bottom: 1px solid $line-grey;
 
-	&:after {
-		border-top: 10px solid $form-disabled;
-		margin-top: 3px;
-		z-index: 1;
-	}
-
-	&:hover {
-		color: $primary;
-		background-color: $hover-select;
-
-		.suggestionWrapper__item__content__teamAgency,
-		.suggestionWrapper__item__content__agencyDescr {
-			color: $primary;
+		svg {
+			margin: auto 0;
 		}
 	}
 
-	&__content {
+	&__agencyInfo {
+		position: absolute;
+		top: 50px;
+		right: calc((calc(#{$agencyInfoWidth} - 23px) / 2) * -1);
+		max-width: $agencyInfoWidth;
+		padding-bottom: $grid-base-six;
 		text-align: left;
-		padding: $grid-base-two 20px;
-		cursor: pointer;
+		z-index: 20;
 
-		&__teamAgency {
+		box-sizing: border-box;
+		background: $white;
+		padding: $grid-base-two 20px;
+		width: 100%;
+		border: 1px solid $form-disabled;
+		@include rounded-drop-shadow;
+
+		&:after,
+		&:before {
+			content: '';
+			position: absolute;
+			top: -13px;
+			left: 0;
+			right: 0;
+			width: 20px;
+			margin: 0 auto;
+			border-left: 10px solid transparent;
+			border-right: 10px solid transparent;
+			transform: rotate(180deg);
+		}
+
+		&:before {
+			border-top: 10px solid $white;
+			margin-top: 5px;
+			z-index: 2;
+		}
+
+		&:after {
+			border-top: 10px solid $form-disabled;
+			margin-top: 3px;
+			z-index: 1;
+		}
+
+		&__name,
+		&__postcode {
+			font-weight: $font-weight-bold;
+		}
+
+		&__name {
+			margin-bottom: $grid-base;
+		}
+
+		&__teamAgency,
+		&__description {
 			font-size: $font-size-secondary;
 			line-height: $line-height-secondary;
-			margin: 0 0 $grid-base;
+			margin-bottom: $grid-base;
 			color: $tertiary;
+		}
 
-			&__icon {
-				svg {
-					margin-right: $grid-base;
-					width: $font-size-primary;
-					height: $font-size-primary;
+		&__teamAgency {
+			display: flex;
+			align-items: flex-end;
+
+			svg {
+				margin-right: $grid-base;
+				width: $font-size-primary;
+				height: $font-size-primary;
+
+				&* {
+					fill: $tertiary;
 				}
 			}
 		}
+	}
 
-		&__agencyDescr {
-			font-size: $font-size-secondary;
-			line-height: $line-height-secondary;
-			margin: $grid-base 0 0;
-			color: $tertiary;
+	&__consultingModeInfo {
+		animation: fadeIn linear 0.2s;
+		font-size: $font-size-secondary;
+		line-height: 1.3333em;
+		max-width: $maxFormElementWidth;
+		margin: -12px 0 $grid-base-three;
+		padding: 0 $grid-base-three 0 20px;
+
+		@include breakpoint($fromLarge) {
+			margin: -12px 0 $grid-base-three;
+			text-align: left;
 		}
 	}
 }

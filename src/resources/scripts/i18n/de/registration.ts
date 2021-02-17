@@ -30,7 +30,6 @@ const registration = {
 	'login.label': 'Zum Login',
 	'agency.prefilled.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
 	'agency.prefilled.isTeam': 'Sie werden von einem Team beraten.',
-	'agency.selected.prefix': 'Ihre ausgewählte Beratungsstelle: ',
 	'user.label': 'Benutzername*',
 	'user.infoText':
 		'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialien zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
@@ -39,6 +38,8 @@ const registration = {
 	'postcode.label': 'PLZ*',
 	'postcode.infoText':
 		'Mit der Postleitzahl können wir eine_n Berater_in in Ihrer Nähe finden.',
+	'agencySelection.title.start': 'Beratungsstellen zur Postleitzahl',
+	'agencySelection.title.end': ':',
 	'password.input.label': 'Passwort*',
 	'password.confirmation.label': 'Passwort wiederholen*',
 	'password.confirmation.infoText':

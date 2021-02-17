@@ -116,19 +116,6 @@ export const InputField = (props: InputFieldProps) => {
 							</span>
 						</span>
 					) : null}
-					{inputItem.postcodeFallbackLink ? (
-						<p className="formWrapper__infoText warning">
-							{translate('warningLabels.postcode.unavailable')}{' '}
-							<a
-								className="warning__link"
-								href={inputItem.postcodeFallbackLink}
-								target="_blank"
-								rel="noreferrer"
-							>
-								{translate('warningLabels.postcode.search')}
-							</a>
-						</p>
-					) : null}
 					{inputItem.warningActive && inputItem.warningLabel ? (
 						<p
 							className="formWrapper__infoText warning"
