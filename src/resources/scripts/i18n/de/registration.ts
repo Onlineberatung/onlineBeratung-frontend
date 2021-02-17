@@ -64,7 +64,23 @@ const registration = {
 	'overlay.success.copy': 'Sie haben sich erfolgreich registriert.',
 	'overlay.success.button': 'Nachricht verfassen',
 	'accordion.item.continueButton': 'Weiter',
-	'accordion.item.continueButton.title': 'Weiter zum nächsten Schritt'
+	'accordion.item.continueButton.title': 'Weiter zum nächsten Schritt',
+	'welcomeScreen.title.start': 'Willkommen bei der',
+	'welcomeScreen.title.end': '!',
+	'welcomeScreen.subline': 'Wie läuft die Beratung & Hilfe der Caritas ab?',
+	'welcomeScreen.info1.title': 'Einfache Registrierung',
+	'welcomeScreen.info1.text': 'Für eine individuelle und geschützte Beratung',
+	'welcomeScreen.info2.title': 'Nachricht verfassen',
+	'welcomeScreen.info2.text':
+		'Sie schicken Ihre Nachricht an eine lokale Beratungsstelle',
+	'welcomeScreen.info3.title': 'Persönliche und professionelle Beratung',
+	'welcomeScreen.info3.text':
+		'Innerhalb von zwei Werktagen bekommen Sie eine Antwort',
+	'welcomeScreen.info4.title': 'Anonym und kostenfrei',
+	'welcomeScreen.info4.text':
+		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
+	'welcomeScreen.register.helperText': 'Noch nicht registriert?',
+	'welcomeScreen.register.buttonLabel': 'Zur Registrierung'
 };
 
 export default registration;

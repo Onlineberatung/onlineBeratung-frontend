@@ -20,7 +20,13 @@ const registrationInformal = {
 		'Per E-Mail können wir Dich benachrichtigen, sobald eine Antwort auf Deine Anfrage vorliegt. Zudem kannst Du per E-Mail Dein Passwort zurücksetzen, wenn Du es vergessen hast.',
 	'email.valid': 'Deine E-Mail-Adresse ist gültig.',
 	'email.invalid': 'Deine E-Mail-Adresse ist nicht gültig.',
-	'overlay.success.copy': 'Du hast Dich erfolgreich registriert.'
+	'overlay.success.copy': 'Du hast Dich erfolgreich registriert.',
+	'welcomeScreen.info2.text':
+		'Schicke Deine Nachricht an eine lokale Beratungsstelle',
+	'welcomeScreen.info3.text':
+		'Innerhalb von zwei Werktagen bekommst Du eine Antwort',
+	'welcomeScreen.info4.text':
+		'Du bleibst anonym und erhältst kostenfreie Beratung und Hilfe'
 };
 
 export default registrationInformal;
