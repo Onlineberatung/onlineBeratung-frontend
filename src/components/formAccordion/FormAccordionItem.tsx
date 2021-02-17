@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 interface FormAccordionItemProps {
 	title: string;
-	content: string;
+	content: React.ReactNode;
 	index: number;
 	isActive: boolean;
 	onStepSubmit: Function;
@@ -17,16 +17,13 @@ interface FormAccordionItemProps {
 
 export const FormAccordionItem = (props: FormAccordionItemProps) => {
 	/* TODO: set validity state based on content component validation */
-	const [validity, setValidity] = useState<'initial' | 'valid' | 'unvalid'>(
-		'initial'
-	);
+	const [validity] = useState<'initial' | 'valid' | 'unvalid'>('initial');
 
 	const handleStepSubmit = () => {
 		props.onStepSubmit(props.index);
 	};
 
 	const handleOnHeaderClick = () => {
-		console.log('handle on header click');
 		props.onItemHeaderClick(props.index);
 	};
 

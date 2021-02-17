@@ -2,22 +2,20 @@ import * as React from 'react';
 import { useState } from 'react';
 import './formAccordion.styles';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
+import { RegistrationUsername } from '../registration/RegistrationUsername';
 
 const accordionItemData = [
 	{
 		title: 'Bitte wählen Sie Ihren Benutzernamen',
-		content:
-			'sunt voluptatem libero ducimus error quam voluptas, ipsum rerum explicabo repellendus inventore doloribus, vitae architecto!'
+		content: <RegistrationUsername />
 	},
 	{
 		title: 'Bitte wählen Sie Ihr Passwort',
-		content:
-			'sunt voluptatem libero ducimus error quam voluptas, ipsum rerum explicabo repellendus inventore doloribus, vitae architecto!'
+		content: null
 	},
 	{
 		title: 'Bitte wählen Sie eine Beratungsstelle in Ihrer Nähe',
-		content:
-			'sunt voluptatem libero ducimus error quam voluptas, ipsum rerum explicabo repellendus inventore doloribus, vitae architecto!'
+		content: null
 	}
 ];
 
@@ -26,7 +24,11 @@ export const FormAccordion = () => {
 
 	const handleStepSubmit = (indexOfItem) => {
 		// TODO: case index + 1 > items.length
-		setActiveItem(indexOfItem + 1);
+		if (indexOfItem + 1 > accordionItemData.length) {
+			setActiveItem(0);
+		} else {
+			setActiveItem(indexOfItem + 1);
+		}
 	};
 
 	const handleItemHeaderClick = (indexOfItem) => {
