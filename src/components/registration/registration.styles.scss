@@ -1,16 +1,7 @@
 .registration {
 	text-align: center;
-	margin: $grid-base-eleven 0;
 
-	&__overline {
-		color: $secondary;
-		text-align: center;
-		font-weight: normal;
-		margin: 0;
-		font-size: $font-size-primary;
-	}
-
-	&__form {
+	&__content {
 		position: relative;
 		display: flex;
 		justify-content: center;
@@ -31,8 +22,31 @@
 		}
 	}
 
+	form {
+		margin: $grid-base-eleven 0;
+		animation: fadeIn linear 0.5s;
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+	}
+
+	&__overline {
+		color: $secondary;
+		text-align: center;
+		font-family: $font-family-regular;
+		font-weight: $font-weight-regular;
+		margin: 0;
+		font-size: $font-size-primary;
+	}
+
 	&__generalInformation {
-		margin-bottom: $grid-base-four;
+		margin: 0 auto $grid-base-four;
 		max-width: 320px;
 
 		& > .selectedAgencyInfo {
@@ -58,6 +72,11 @@
 
 		.checkbox__wrapper {
 			text-align: left;
+			justify-content: left;
+
+			.checkbox__label {
+				max-width: unset;
+			}
 		}
 	}
 
@@ -92,19 +111,18 @@
 		&__button {
 			display: inline-block;
 			margin-top: 0;
-			margin-left: $grid-base/2;
+			margin-left: 12px;
 		}
 	}
 
 	&__contentRow {
-		margin-bottom: $grid-base-five;
+		margin: 0 auto $grid-base-five;
 		max-width: 690px;
 	}
 
 	h3 {
 		color: $secondary;
 		font-size: $font-size-primary;
-		font-weight: $font-weight-regular;
 		margin: 0 0 $grid-base 0;
 	}
 

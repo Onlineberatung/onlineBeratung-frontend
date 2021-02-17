@@ -14,9 +14,9 @@ import {
 import './agencySelection.styles';
 import '../profile/profile.styles';
 import { DEFAULT_POSTCODE } from '../registration/prefillPostcode';
-import { InfoText, LABEL_TYPES } from '../infoText/InfoText';
 import { RadioButton } from '../radioButton/RadioButton';
 import { Loading } from '../app/Loading';
+import { Text, LABEL_TYPES } from '../text/Text';
 
 export interface AgencySelectionProps {
 	selectedConsultingType: number | undefined;
@@ -174,12 +174,13 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	return (
 		<div className="agencySelection">
 			{autoSelectPostcode ? (
-				<InfoText
+				<Text
 					className="agencySelection__consultingModeInfo"
 					labelType={LABEL_TYPES.NOTICE}
 					text={translate(
 						'profile.data.register.consultingModeInfo.groupChats'
 					)}
+					type="infoSmall"
 				/>
 			) : (
 				<>

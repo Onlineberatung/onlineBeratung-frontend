@@ -1,0 +1,45 @@
+.text {
+	text-align: left;
+	margin: 0;
+	font-family: $font-family-regular;
+
+	&__standard {
+		font-size: $font-size-primary;
+		line-height: $line-height-primary;
+		color: $secondary;
+	}
+
+	&__infoLargeStandard {
+		font-size: $font-size-tertiary;
+		line-height: 19px;
+		color: $secondary;
+	}
+
+	&__infoLargeAlternative {
+		font-size: $font-size-tertiary;
+		line-height: 19px;
+		color: $tertiary;
+	}
+
+	&__infoSmall {
+		font-size: $font-size-secondary;
+		line-height: $line-height-secondary;
+		color: $tertiary;
+	}
+
+	&__label {
+		font-family: $font-family-medium;
+		font-weight: $font-weight-medium;
+		text-transform: uppercase;
+		margin-right: 4px;
+
+		&:after {
+			content: ':';
+			display: inline-block;
+		}
+
+		&--notice {
+			color: $primary;
+		}
+	}
+}

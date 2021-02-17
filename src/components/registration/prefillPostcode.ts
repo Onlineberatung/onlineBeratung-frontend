@@ -8,5 +8,5 @@ export const redirectToRegistrationWithoutAid = () => {
 };
 
 export const redirectToHelpmail = () => {
-	window.location.href = config.urls.registrationHelpmailRedirect;
+	window.location.href = config.urls.toU25Helpmail;
 };
