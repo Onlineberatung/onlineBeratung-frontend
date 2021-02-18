@@ -13,6 +13,7 @@ interface FormAccordionItemProps {
 	isActive: boolean;
 	onStepSubmit: Function;
 	onItemHeaderClick: Function;
+	isLastItem: boolean;
 }
 
 export const FormAccordionItem = (props: FormAccordionItemProps) => {
@@ -58,13 +59,15 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 			<div className="formAccordionItem__content">
 				{/* TODO: add specific component as a prop */}
 				{props.content}
-				<Button
-					buttonHandle={handleStepSubmit}
-					item={buttonAnswerVideoCall}
-					/* TODO: connect disabled state to validation of content component */
-					disabled={false}
-					className="formAccordionItem__continueButton"
-				/>
+				{!props.isLastItem && (
+					<Button
+						buttonHandle={handleStepSubmit}
+						item={buttonAnswerVideoCall}
+						/* TODO: connect disabled state to validation of content component */
+						disabled={false}
+						className="formAccordionItem__continueButton"
+					/>
+				)}
 			</div>
 		</div>
 	);

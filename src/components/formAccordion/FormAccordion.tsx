@@ -42,6 +42,7 @@ export const FormAccordion = () => {
 					<FormAccordionItem
 						index={i + 1}
 						isActive={i + 1 === activeItem}
+						isLastItem={i + 1 === accordionItemData.length}
 						onStepSubmit={handleStepSubmit}
 						onItemHeaderClick={handleItemHeaderClick}
 						title={accordionItem.title}
