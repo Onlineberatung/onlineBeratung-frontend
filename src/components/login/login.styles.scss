@@ -21,38 +21,20 @@ $spacingWithIcon: 52px;
 			padding: 0 $grid-base-three;
 		}
 
-		.formWrapper__inputRow {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
+		.inputField {
+			width: 280px;
+			margin-bottom: $grid-base-three;
 
-			&--error {
-				align-items: baseline;
-
-				.inputField__icon {
-					position: relative;
-					top: -$grid-base;
-					fill: $form-error;
-				}
-
-				.formWrapper__inputWrapper__label {
-					color: $form-error;
-				}
-			}
-
-			&--baseline {
-				align-items: baseline;
-
-				.inputField__icon {
-					position: relative;
-					top: -$grid-base;
-				}
+			@include breakpoint($fromLarge) {
+				width: 320px;
 			}
 		}
 
-		.warning {
-			margin-top: 0;
-			margin-left: $spacingWithIcon;
+		.text.text__infoSmall {
+			color: $form-error;
+			max-width: 245px;
+			margin-left: $grid-base-four;
+			margin-bottom: $grid-base-four;
 		}
 
 		.button__item {

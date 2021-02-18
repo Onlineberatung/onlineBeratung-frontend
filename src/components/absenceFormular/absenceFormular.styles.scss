@@ -36,14 +36,8 @@
 	}
 
 	.inputField {
-		&__wrapper {
-			max-width: none;
-			margin: $grid-base-two 0;
-		}
-
-		&__input {
-			max-width: 500px;
-		}
+		max-width: 500px;
+		margin-top: $grid-base-two;
 	}
 
 	.formWrapper {
