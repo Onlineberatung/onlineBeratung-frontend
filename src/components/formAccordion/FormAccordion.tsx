@@ -6,6 +6,8 @@ import { AgencySelection } from '../agencySelection/AgencySelection';
 import { autoselectPostcodeForConsultingType } from '../agencySelection/agencySelectionHelpers';
 import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
 import { translate } from '../../resources/scripts/i18n/translate';
+import { RegistrationUsername } from '../registration/RegistrationUsername';
+import { AccordionItemValidity } from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
 	consultingType: number;
@@ -15,6 +17,9 @@ interface FormAccordionProps {
 
 export const FormAccordion = (props: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
+	const [isUsernameValid, setIsUsernameValid] = useState<
+		AccordionItemValidity
+	>('initial');
 	// const [registrationFormData, setRegistrationFormData] = useState<>{};
 
 	let formData = {
@@ -26,7 +31,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		props.consultingType
 	) && {
 		title: translate('registration.agencySelection.headline'),
-		content: (
+		nestedComponent: (
 			<AgencySelection
 				selectedConsultingType={props.consultingType}
 				icon={<PinIcon />}
@@ -36,23 +41,31 @@ export const FormAccordion = (props: FormAccordionProps) => {
 				}}
 				preselectedAgency={props.prefilledAgencyData}
 			/>
-		)
+		),
+		isValid: 'initial'
 	};
 
 	const accordionItemData = [
 		{
 			title: 'Bitte wählen Sie Ihren Benutzernamen',
-			content: null
+			nestedComponent: (
+				<RegistrationUsername
+					onValidityChange={(validity) =>
+						setIsUsernameValid(validity)
+					}
+				/>
+			),
+			isValid: isUsernameValid
 		},
 		{
 			title: 'Bitte wählen Sie Ihr Passwort',
-			content: null
+			nestedComponent: null,
+			isValid: 'initial'
 		},
 		agencySelection
 	];
 
 	const handleStepSubmit = (indexOfItem) => {
-		// TODO: case index + 1 > items.length
 		if (indexOfItem + 1 > accordionItemData.length) {
 			setActiveItem(0);
 		} else {
@@ -71,11 +84,13 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					<FormAccordionItem
 						index={i + 1}
 						isActive={i + 1 === activeItem}
+						isLastItem={i + 1 === accordionItemData.length}
 						onStepSubmit={handleStepSubmit}
 						onItemHeaderClick={handleItemHeaderClick}
 						title={accordionItem.title}
-						content={accordionItem.content}
+						nestedComponent={accordionItem.nestedComponent}
 						key={i}
+						isValid={accordionItem.isValid as AccordionItemValidity}
 					></FormAccordionItem>
 				);
 			})}

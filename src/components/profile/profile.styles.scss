@@ -197,6 +197,15 @@ $maxFormElementWidth: 320px;
 			&__assign {
 				margin-top: $grid-base-four;
 			}
+
+			.inputField {
+				max-width: 320px;
+				margin: 0 auto $grid-base-three;
+
+				@include breakpoint($fromLarge) {
+					margin: 0 0 $grid-base-three;
+				}
+			}
 		}
 
 		&__title {
