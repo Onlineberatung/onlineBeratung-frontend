@@ -19,7 +19,7 @@ interface RegistrationUsernameProps {
 
 export const RegistrationUsername = (props: RegistrationUsernameProps) => {
 	const [username, setUsername] = useState<string>('');
-	const [isValid, setIsValid] = useState<AccordionItemValidity>('initial'); // itemValid
+	const [isValid, setIsValid] = useState<AccordionItemValidity>('initial');
 	const [labelContent, setLabelContent] = useState<string>(null);
 	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
 
