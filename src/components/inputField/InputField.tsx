@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { translate } from '../../resources/scripts/i18n/translate';
 import { Text } from '../text/Text';
 import { ReactComponent as ShowPasswordIcon } from '../../resources/img/icons/eye.svg';
 import { ReactComponent as HidePasswordIcon } from '../../resources/img/icons/eye-closed.svg';

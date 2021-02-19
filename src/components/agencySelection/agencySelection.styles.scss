@@ -1,10 +1,10 @@
 $maxFormElementWidth: 320px;
 $agencyInfoWidth: 266px;
+$infoIconSize: 16px;
 
 .agencySelection {
 	position: relative;
 	animation: fadeIn linear 0.2s;
-	max-width: $maxFormElementWidth;
 	margin: 0 auto $grid-base-four;
 
 	h3 {
@@ -14,10 +14,32 @@ $agencyInfoWidth: 266px;
 	&__proposedAgency {
 		display: flex;
 		position: relative;
-		border-bottom: 1px solid $line-grey;
+		&:not(:last-of-type) {
+			border-bottom: 1px solid $black-10-opacity;
+		}
 
 		svg {
+			width: $infoIconSize;
+			height: $infoIconSize;
 			margin: auto 0;
+		}
+	}
+
+	&__intro {
+		margin-bottom: $grid-base-three;
+
+		> .text__infoSmall {
+			font-family: $font-family-medium;
+		}
+
+		&__content {
+			margin-top: $grid-base;
+			ul {
+				margin: 0;
+				padding-left: 15px;
+				font-size: 12px;
+				color: $tertiary;
+			}
 		}
 	}
 
@@ -63,26 +85,17 @@ $agencyInfoWidth: 266px;
 			z-index: 1;
 		}
 
-		&__name,
-		&__postcode {
-			font-weight: $font-weight-bold;
-		}
-
-		&__name {
-			margin-bottom: $grid-base;
-		}
-
 		&__teamAgency,
 		&__description {
 			font-size: $font-size-secondary;
 			line-height: $line-height-secondary;
-			margin-bottom: $grid-base;
 			color: $tertiary;
 		}
 
 		&__teamAgency {
 			display: flex;
 			align-items: flex-end;
+			margin-bottom: $grid-base;
 
 			svg {
 				margin-right: $grid-base;
@@ -93,6 +106,14 @@ $agencyInfoWidth: 266px;
 					fill: $tertiary;
 				}
 			}
+		}
+
+		&__name {
+			font-weight: $font-weight-bold;
+		}
+
+		&__description {
+			margin-top: $grid-base;
 		}
 	}
 

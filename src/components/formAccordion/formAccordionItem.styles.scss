@@ -1,6 +1,6 @@
 .formAccordionItem {
 	width: 100%;
-	border-bottom: 1px solid $form-disabled;
+	border-bottom: 1px solid $black-25-opacity;
 
 	&__header {
 		display: flex;
@@ -49,6 +49,11 @@
 	&__content {
 		display: none;
 		margin-bottom: $grid-base-three;
+
+		//TODO: not radio input > refactored inputfield needed
+		input {
+			margin-right: $grid-base-four;
+		}
 	}
 
 	&__continueButton {
