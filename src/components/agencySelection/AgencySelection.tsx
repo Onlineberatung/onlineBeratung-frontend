@@ -24,6 +24,7 @@ export interface AgencySelectionProps {
 	setAgency: Function;
 	userData?: UserDataInterface;
 	preselectedAgency?: AgencyDataInterface;
+	showHeadline?: boolean;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
@@ -155,8 +156,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		class: 'asker__registration__postcodeInput',
 		id: 'postcode',
 		type: 'number',
-		infoText: translate('profile.data.register.postcodeInput.infoText'),
-		label: translate('profile.data.register.postcodeInput.label'),
+		label: translate('registration.agencySelection.postcode.label'),
 		content: selectedPostcode,
 		maxLength: VALID_POSTCODE_LENGTH,
 		pattern: '^[0-9]+$',
@@ -184,6 +184,53 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				/>
 			) : (
 				<>
+					{props.showHeadline && (
+						<h5>
+							{translate('registration.agencySelection.headline')}
+						</h5>
+					)}
+					<div className="agencySelection__intro">
+						<Text
+							text={translate(
+								'registration.agencySelection.intro.overline'
+							)}
+							type="infoSmall"
+						/>
+						<div className="agencySelection__intro__content">
+							<Text
+								text={translate(
+									'registration.agencySelection.intro.subline'
+								)}
+								type="infoSmall"
+							/>
+							<ul>
+								<li>
+									<Text
+										text={translate(
+											'registration.agencySelection.intro.point1'
+										)}
+										type="infoSmall"
+									/>
+								</li>
+								<li>
+									<Text
+										text={translate(
+											'registration.agencySelection.intro.point2'
+										)}
+										type="infoSmall"
+									/>
+								</li>
+								<li>
+									<Text
+										text={translate(
+											'registration.agencySelection.intro.point3'
+										)}
+										type="infoSmall"
+									/>
+								</li>
+							</ul>
+						</div>
+					</div>
 					<InputField
 						item={postcodeInputItem}
 						inputHandle={(e) => handlePostcodeInput(e)}

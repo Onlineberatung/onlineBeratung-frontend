@@ -5,8 +5,9 @@ const registrationInformal = {
 		'Um Deine Anonymität zu schützen, raten wir Dir nicht Deinen tatsächlichen Namen oder Initialien zu verwenden.<br>Wähle bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 	'user.suitable': 'Dein Benutzername ist geeignet.',
 	'user.unsuitable': 'Dein Benutzername ist zu kurz.',
-	'postcode.infoText':
-		'Mit der Postleitzahl können wir eine_n Berater_in in Deiner Nähe finden.',
+	'agencySelection.headline':
+		'Bitte wähle eine Beratungsstelle in Deiner Nähe',
+	'agencySelection.postcode.label': 'Deine Postleitzahl',
 	'password.confirmation.infoText':
 		'Dein Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 10 Zeichen',
 	'password.secure': 'Dein Passwort ist sicher.',

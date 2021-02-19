@@ -35,11 +35,19 @@ const registration = {
 		'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialien zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 	'user.suitable': 'Ihr Benutzername ist geeignet.',
 	'user.unsuitable': 'Ihr Benutzername ist zu kurz.',
-	'postcode.label': 'PLZ*',
-	'postcode.infoText':
-		'Mit der Postleitzahl können wir eine_n Berater_in in Ihrer Nähe finden.',
+	'agencySelection.headline':
+		'Bitte wählen Sie eine Beratungsstelle in Ihrer Nähe',
+	'agencySelection.postcode.label': 'Ihre Postleitzahl',
 	'agencySelection.title.start': 'Beratungsstellen zur Postleitzahl',
 	'agencySelection.title.end': ':',
+	'agencySelection.intro.overline':
+		'Warum hilft Ihnen auch online eine Beratungsstelle in Ihrer Nähe?',
+	'agencySelection.intro.subline': 'Weil dann das Fachpersonal:',
+	'agencySelection.intro.point1': 'die regionalen Hilfestrukturen kennt,',
+	'agencySelection.intro.point2':
+		'mit den rechtlichen Voraussetzungen vertraut ist,',
+	'agencySelection.intro.point3':
+		'Sie gegebenfalls auch vor Ort beraten kann.',
 	'password.input.label': 'Passwort*',
 	'password.confirmation.label': 'Passwort wiederholen*',
 	'password.confirmation.infoText':
