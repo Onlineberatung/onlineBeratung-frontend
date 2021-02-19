@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './formAccordionItem.styles';
 import { ReactComponent as ValidIcon } from '../../resources/img/icons/checkmark.svg';
-import { ReactComponent as UnvalidIcon } from '../../resources/img/icons/exclamation-mark.svg';
+import { ReactComponent as InvalidIcon } from '../../resources/img/icons/exclamation-mark.svg';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { AccordionItemValidity } from '../registration/registrationHelpers';
@@ -50,8 +50,8 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 				{props.isValid === 'valid' && (
 					<ValidIcon className="formAccordionItem__validationIcon formAccordionItem__validationIcon--valid" />
 				)}
-				{props.isValid === 'unvalid' && (
-					<UnvalidIcon className="formAccordionItem__validationIcon formAccordionItem__validationIcon--unvalid" />
+				{props.isValid === 'invalid' && (
+					<InvalidIcon className="formAccordionItem__validationIcon formAccordionItem__validationIcon--invalid" />
 				)}
 			</div>
 			<div className="formAccordionItem__content">

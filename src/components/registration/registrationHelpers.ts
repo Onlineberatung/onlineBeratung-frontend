@@ -3,7 +3,7 @@ import { ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
 
-export type AccordionItemValidity = 'initial' | 'valid' | 'unvalid';
+export type AccordionItemValidity = 'initial' | 'valid' | 'invalid';
 
 export const MIN_USERNAME_LENGTH = 5;
 
