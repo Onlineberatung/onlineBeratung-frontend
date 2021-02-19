@@ -5,6 +5,9 @@ import { ReactComponent as ShowPasswordIcon } from '../../resources/img/icons/ey
 import { ReactComponent as HidePasswordIcon } from '../../resources/img/icons/eye-closed.svg';
 import './inputField.styles';
 
+export type InputFieldLabelState = 'valid' | 'invalid';
+
+// TODO: clean up interface
 export interface InputFieldItem {
 	id: string;
 	type: string;
@@ -20,6 +23,7 @@ export interface InputFieldItem {
 	postcodeFallbackLink?: string;
 	warningLabel?: string;
 	warningActive?: boolean;
+	labelState?: InputFieldLabelState;
 }
 
 export interface InputFieldProps {
@@ -73,9 +77,11 @@ export const InputField = (props: InputFieldProps) => {
 				onChange={handleInputValidation}
 				id={inputItem.id}
 				type={showPassword ? 'text' : inputItem.type}
-				className={`inputField__input${
-					inputItem.class ? ' ' + inputItem.class : ''
-				}`}
+				className={`inputField__input
+					${inputItem.class ? ' ' + inputItem.class : ''}
+					${inputItem.labelState === 'valid' ? ' inputField__input--valid' : ''}
+					${inputItem.labelState === 'invalid' ? ' inputField__input--invalid' : ''}
+				`}
 				value={inputItem.content ? inputItem.content : ``}
 				name={inputItem.name}
 				placeholder={inputItem.label}
@@ -95,7 +101,6 @@ export const InputField = (props: InputFieldProps) => {
 				</span>
 			)}
 			{inputItem.infoText && (
-				// />
 				<Text
 					className="inputField__infoText"
 					text={inputItem.infoText}
