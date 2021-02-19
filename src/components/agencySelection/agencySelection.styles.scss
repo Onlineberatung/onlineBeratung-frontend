@@ -7,13 +7,47 @@ $infoIconSize: 16px;
 	animation: fadeIn linear 0.2s;
 	margin: 0 auto $grid-base-four;
 
-	h3 {
-		text-align: left;
+	&__intro {
+		> .text__infoSmall {
+			font-family: $font-family-medium;
+		}
+
+		&__content {
+			margin-top: $grid-base;
+
+			.text {
+				line-height: 20px;
+			}
+
+			ul {
+				margin: 0;
+				padding-left: 15px;
+				font-size: 12px;
+				color: $tertiary;
+
+				li {
+					text-indent: -4px;
+				}
+			}
+		}
+	}
+
+	.inputField {
+		margin-top: $grid-base-three;
+	}
+
+	&__proposedAgencies {
+		margin-top: 36px;
+
+		h3 {
+			text-align: left;
+		}
 	}
 
 	&__proposedAgency {
 		display: flex;
 		position: relative;
+
 		&:not(:last-of-type) {
 			border-bottom: 1px solid $black-10-opacity;
 		}
@@ -22,24 +56,6 @@ $infoIconSize: 16px;
 			width: $infoIconSize;
 			height: $infoIconSize;
 			margin: auto 0;
-		}
-	}
-
-	&__intro {
-		margin-bottom: $grid-base-three;
-
-		> .text__infoSmall {
-			font-family: $font-family-medium;
-		}
-
-		&__content {
-			margin-top: $grid-base;
-			ul {
-				margin: 0;
-				padding-left: 15px;
-				font-size: 12px;
-				color: $tertiary;
-			}
 		}
 	}
 

@@ -30,6 +30,7 @@
 		font-size: $font-size-h5;
 		font-weight: $font-weight-regular;
 		color: $secondary;
+		text-align: left;
 	}
 
 	&__validationIcon {
@@ -50,8 +51,7 @@
 		display: none;
 		margin-bottom: $grid-base-three;
 
-		//TODO: not radio input > refactored inputfield needed
-		input {
+		.inputField input {
 			margin-right: $grid-base-four;
 		}
 	}

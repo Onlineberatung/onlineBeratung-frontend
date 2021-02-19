@@ -1,5 +1,6 @@
 .formAccordion {
-	max-width: 40px;
-	margin: 0 auto;
+	max-width: 400px;
+	//TODO: margin: 0 auto; after removal of deprecated components
+	margin: 0 auto 100px;
 	border-top: 1px solid $black-25-opacity;
 }
