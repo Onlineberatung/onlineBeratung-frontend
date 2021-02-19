@@ -18,6 +18,12 @@ import { RadioButton } from '../radioButton/RadioButton';
 import { Loading } from '../app/Loading';
 import { Text, LABEL_TYPES } from '../text/Text';
 
+const introItemsTranslations = [
+	'registration.agencySelection.intro.point1',
+	'registration.agencySelection.intro.point2',
+	'registration.agencySelection.intro.point3'
+];
+
 export interface AgencySelectionProps {
 	selectedConsultingType: number | undefined;
 	icon?: JSX.Element;
@@ -204,30 +210,18 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 								type="infoSmall"
 							/>
 							<ul>
-								<li>
-									<Text
-										text={translate(
-											'registration.agencySelection.intro.point1'
-										)}
-										type="infoSmall"
-									/>
-								</li>
-								<li>
-									<Text
-										text={translate(
-											'registration.agencySelection.intro.point2'
-										)}
-										type="infoSmall"
-									/>
-								</li>
-								<li>
-									<Text
-										text={translate(
-											'registration.agencySelection.intro.point3'
-										)}
-										type="infoSmall"
-									/>
-								</li>
+								{introItemsTranslations.map(
+									(introItemTranslation, i) => (
+										<li>
+											<Text
+												text={translate(
+													introItemTranslation
+												)}
+												type="infoSmall"
+											/>
+										</li>
+									)
+								)}
 							</ul>
 						</div>
 					</div>

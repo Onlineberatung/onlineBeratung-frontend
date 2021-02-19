@@ -40,6 +40,8 @@ $infoIconSize: 16px;
 		margin-top: 36px;
 
 		h3 {
+			color: $secondary;
+			font-size: $font-size-primary;
 			text-align: left;
 		}
 	}
@@ -131,6 +133,10 @@ $infoIconSize: 16px;
 		&__description {
 			margin-top: $grid-base;
 		}
+	}
+
+	h5 {
+		margin-bottom: 12px;
 	}
 
 	&__consultingModeInfo {

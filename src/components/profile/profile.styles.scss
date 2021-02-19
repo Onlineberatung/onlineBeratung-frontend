@@ -422,8 +422,9 @@ $maxFormElementWidth: 320px;
 }
 
 .askerRegistration {
+	margin-top: $grid-base-six;
 	&__headline {
-		margin: $grid-base-six auto $grid-base-three;
+		margin: 0 auto;
 	}
 
 	&__consultingTypeWrapper {
@@ -436,10 +437,10 @@ $maxFormElementWidth: 320px;
 
 	.select__wrapper {
 		padding: 0;
-		margin: 0 auto $grid-base-three;
+		margin: $grid-base-three auto;
 
 		@include breakpoint($fromLarge) {
-			margin: 0 0 $grid-base-three;
+			margin: $grid-base-three 0;
 		}
 	}
 
