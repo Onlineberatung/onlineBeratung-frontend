@@ -38,11 +38,26 @@ $infoIconSize: 16px;
 
 	&__proposedAgencies {
 		margin-top: 36px;
+		text-align: left;
 
 		h3 {
 			color: $secondary;
 			font-size: $font-size-primary;
 			text-align: left;
+		}
+
+		&--warning {
+			.text__infoSmall {
+				color: $primary;
+			}
+
+			a {
+				display: block;
+				font-size: $font-size-secondary;
+				line-height: $line-height-secondary;
+				text-decoration: underline;
+				transition: all 0.6s ease;
+			}
 		}
 	}
 
@@ -64,16 +79,14 @@ $infoIconSize: 16px;
 	&__agencyInfo {
 		position: absolute;
 		top: 50px;
-		right: calc((calc(#{$agencyInfoWidth} - 23px) / 2) * -1);
-		max-width: $agencyInfoWidth;
+		right: calc(((#{$agencyInfoWidth} / 2) * -1) + (#{$infoIconSize} / 2));
+		width: $agencyInfoWidth;
 		padding-bottom: $grid-base-six;
 		text-align: left;
 		z-index: 20;
-
 		box-sizing: border-box;
 		background: $white;
 		padding: $grid-base-two 20px;
-		width: 100%;
 		border: 1px solid $form-disabled;
 		@include rounded-drop-shadow;
 

@@ -242,12 +242,14 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							</h3>
 							{!proposedAgencies ? (
 								postcodeFallbackLink ? (
-									<p className="formWrapper__infoText warning">
-										{translate(
-											'warningLabels.postcode.unavailable'
-										)}{' '}
+									<div className="agencySelection__proposedAgencies--warning">
+										<Text
+											text={translate(
+												'warningLabels.postcode.unavailable'
+											)}
+											type="infoSmall"
+										/>{' '}
 										<a
-											className="warning__link"
 											href={postcodeFallbackLink}
 											target="_blank"
 											rel="noreferrer"
@@ -256,7 +258,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												'warningLabels.postcode.search'
 											)}
 										</a>
-									</p>
+									</div>
 								) : (
 									<Loading />
 								)
