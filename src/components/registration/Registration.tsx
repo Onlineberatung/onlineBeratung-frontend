@@ -620,13 +620,14 @@ const Registration = () => {
 							id="registrationForm"
 							data-consultingtype={consultingType}
 						>
-							<FormAccordion></FormAccordion>
 							<h3 className="registration__overline">
 								{resortData.overline}
 							</h3>
 							<h1 className="registration__headline">
 								{translate('registration.headline')}
 							</h1>
+
+							<FormAccordion></FormAccordion>
 
 							{/* ----------------------------- Required Fields ---------------------------- */}
 							<div className="registration__generalInformation">
