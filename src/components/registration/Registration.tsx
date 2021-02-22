@@ -632,6 +632,8 @@ const Registration = () => {
 								prefilledAgencyData={prefilledAgencyData}
 							></FormAccordion>
 
+							<FormAccordion></FormAccordion>
+
 							{/* ----------------------------- Required Fields ---------------------------- */}
 							<div className="registration__generalInformation">
 								{prefilledAgencyData && (

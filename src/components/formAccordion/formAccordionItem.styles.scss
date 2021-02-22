@@ -3,6 +3,7 @@
 	border-bottom: 1px solid $black-25-opacity;
 
 	&__header {
+		position: relative;
 		display: flex;
 		align-items: center;
 		width: 100%;
@@ -25,6 +26,7 @@
 	}
 
 	&__title {
+		width: calc(100% - #{$grid-base-ten});
 		margin: 0;
 		font-family: $font-family-regular;
 		font-size: $font-size-h5;
@@ -34,9 +36,11 @@
 	}
 
 	&__validationIcon {
+		position: absolute;
+		top: 26px;
+		right: 0;
 		height: $grid-base-two;
 		width: $grid-base-two;
-		margin-left: auto;
 
 		&--valid {
 			fill: $form-success;
