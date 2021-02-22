@@ -176,7 +176,7 @@ export const AskerNewRegistration = () => {
 				selectedConsultingType={selectedConsultingType}
 				setAgency={(agency) => setSelectedAgency(agency)}
 				userData={userData}
-				showHeadline={true}
+				isProfileView={true}
 			/>
 			<Button
 				item={buttonSetRegistration}

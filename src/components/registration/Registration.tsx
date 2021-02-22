@@ -627,10 +627,6 @@ const Registration = () => {
 							<h1 className="registration__headline">
 								{translate('registration.headline')}
 							</h1>
-							<FormAccordion
-								consultingType={consultingType}
-								prefilledAgencyData={prefilledAgencyData}
-							></FormAccordion>
 
 							<FormAccordion
 								consultingType={consultingType}

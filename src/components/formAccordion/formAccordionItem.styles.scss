@@ -37,7 +37,7 @@
 
 	&__validationIcon {
 		position: absolute;
-		top: 26px;
+		top: $grid-base-four;
 		right: 0;
 		height: $grid-base-two;
 		width: $grid-base-two;
@@ -55,7 +55,7 @@
 		display: none;
 		margin-bottom: $grid-base-three;
 
-		.inputField input {
+		.inputField {
 			margin-right: $grid-base-four;
 		}
 	}

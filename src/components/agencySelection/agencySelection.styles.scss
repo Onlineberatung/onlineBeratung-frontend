@@ -1,6 +1,7 @@
 $maxFormElementWidth: 320px;
 $agencyInfoWidth: 266px;
 $infoIconSize: 16px;
+$breakpointFlyoutPosition: 1140px;
 
 .agencySelection {
 	position: relative;
@@ -43,6 +44,7 @@ $infoIconSize: 16px;
 		h3 {
 			color: $secondary;
 			font-size: $font-size-primary;
+			line-height: $line-height-primary;
 			text-align: left;
 		}
 
@@ -79,7 +81,7 @@ $infoIconSize: 16px;
 	&__agencyInfo {
 		position: absolute;
 		top: 50px;
-		right: calc(((#{$agencyInfoWidth} / 2) * -1) + (#{$infoIconSize} / 2));
+		right: -12px;
 		width: $agencyInfoWidth;
 		padding-bottom: $grid-base-six;
 		text-align: left;
@@ -90,18 +92,28 @@ $infoIconSize: 16px;
 		border: 1px solid $form-disabled;
 		@include rounded-drop-shadow;
 
+		@include breakpoint($breakpointFlyoutPosition) {
+			right: calc(
+				((#{$agencyInfoWidth} / 2) * -1) + (#{$infoIconSize} / 2)
+			);
+		}
+
 		&:after,
 		&:before {
 			content: '';
 			position: absolute;
 			top: -13px;
-			left: 0;
-			right: 0;
 			width: 20px;
+			right: $grid-base;
 			margin: 0 auto;
 			border-left: 10px solid transparent;
 			border-right: 10px solid transparent;
 			transform: rotate(180deg);
+
+			@include breakpoint($breakpointFlyoutPosition) {
+				left: 0;
+				right: 0;
+			}
 		}
 
 		&:before {
@@ -114,6 +126,28 @@ $infoIconSize: 16px;
 			border-top: 10px solid $form-disabled;
 			margin-top: 3px;
 			z-index: 1;
+		}
+
+		&--above {
+			top: auto;
+			bottom: 50px;
+			right: -12px;
+
+			&::before,
+			&::after {
+				top: auto;
+				left: auto;
+				right: 8px;
+				transform: rotate(0);
+			}
+
+			&::before {
+				bottom: -10px;
+			}
+
+			&::after {
+				bottom: -11px;
+			}
 		}
 
 		&__teamAgency,
