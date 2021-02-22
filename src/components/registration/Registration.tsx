@@ -7,15 +7,12 @@ import {
 	InputField,
 	InputFieldItem
 } from '../inputField/InputField';
-import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { ReactComponent as EnvelopeIcon } from '../../resources/img/icons/envelope.svg';
-import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
 import { useEffect, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button } from '../button/Button';
 import registrationResortsData from './registrationData';
-import { AgencySelection } from '../agencySelection/AgencySelection';
 import {
 	inputValuesFit,
 	strengthIndicator
@@ -26,7 +23,6 @@ import {
 	getOptionOfSelectedValue,
 	getValidationClassNames,
 	isStringValidEmail,
-	MIN_USERNAME_LENGTH,
 	overlayItemRegistrationSuccess
 } from './registrationHelpers';
 import {
@@ -57,10 +53,7 @@ import { isNumber } from '../../resources/scripts/helpers/isNumber';
 import '../../resources/styles/styles';
 import './registration.styles';
 import { Text, LABEL_TYPES } from '../text/Text';
-import {
-	autoselectAgencyForConsultingType,
-	autoselectPostcodeForConsultingType
-} from '../agencySelection/agencySelectionHelpers';
+import { autoselectAgencyForConsultingType } from '../agencySelection/agencySelectionHelpers';
 import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
 import { AgencyDataInterface } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
@@ -82,18 +75,17 @@ export interface ResortData {
 	voluntaryComponents?: any[];
 }
 
+interface FormAccordionData {
+	username: string;
+	agencyId: string;
+	postcode: string;
+}
+
 const Registration = () => {
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(true);
-	const [username, setUsername] = useState<string>('');
-	const [isUsernameValid, setIsUsernameValid] = useState<boolean>(false);
-	const [usernameSuccessMessage, setUsernameSuccessMessage] = useState<
-		string
-	>('');
-	const [usernameErrorMessage, setUsernameErrorMessage] = useState<string>(
-		''
-	);
-	const [postcode, setPostcode] = useState<string>('');
-	const [agencyId, setAgencyId] = useState<string>('');
+	const [formAccordionData, setFormAccordionData] = useState<
+		FormAccordionData
+	>();
 	const [
 		prefilledAgencyData,
 		setPrefilledAgencyData
@@ -194,7 +186,7 @@ const Registration = () => {
 	const isRegistrationValid = () => {
 		const validation: boolean[] = [];
 		const generalValidation =
-			isUsernameValid &&
+			formAccordionData &&
 			password &&
 			isPasswordValid &&
 			password === passwordConfirmation &&
@@ -202,9 +194,6 @@ const Registration = () => {
 
 		validation.push(generalValidation ? true : false);
 
-		validation.push(
-			postcode && typeof parseInt(agencyId) === 'number' ? true : false
-		);
 		if (resortData.showEmail) {
 			validation.push(isEmailValid ? true : false);
 		}
@@ -228,23 +217,6 @@ const Registration = () => {
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (prefilledAgencyData) {
-			if (autoselectPostcodeForConsultingType(consultingType)) {
-				setPostcode(prefilledAgencyData.postcode || DEFAULT_POSTCODE);
-			}
-			setAgencyId(prefilledAgencyData.id.toString());
-		}
-	}, [prefilledAgencyData]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		const warningLabels = document.querySelectorAll('.warning');
-		if (warningLabels.length > 0) {
-			removeWarningLabelById('username');
-			removeInputErrorClass('username');
-		}
-	}, [username]);
-
-	useEffect(() => {
 		const warningLabels = document.querySelectorAll('.warning');
 		if (warningLabels.length > 0 && resortData.showEmail) {
 			removeWarningLabelById('email');
@@ -262,8 +234,7 @@ const Registration = () => {
 		},
 		/* eslint-disable */
 		[
-			username,
-			postcode,
+			formAccordionData,
 			password,
 			passwordConfirmation,
 			email,
@@ -276,24 +247,6 @@ const Registration = () => {
 	const handleForwardToRegistration = () => {
 		setShowWelcomeScreen(false);
 		window.scrollTo({ top: 0 });
-	};
-
-	const inputItemUsername: InputFieldItem = {
-		content: username,
-		class: getValidationClassNames(
-			!!usernameErrorMessage,
-			!!usernameSuccessMessage
-		),
-		icon: <PersonIcon />,
-		id: 'username',
-		label:
-			usernameErrorMessage || usernameSuccessMessage
-				? `${usernameErrorMessage} ${usernameSuccessMessage}`
-				: translate('registration.user.label'),
-		infoText: translate('registration.user.infoText'),
-		maxLength: 30,
-		name: 'username',
-		type: 'text'
 	};
 
 	const inputItemPassword: InputFieldItem = {
@@ -355,11 +308,6 @@ const Registration = () => {
 		checked: isDataProtectionSelected
 	};
 
-	const handleUsernameChange = (event) => {
-		validateUsername(event.target.value);
-		setUsername(event.target.value);
-	};
-
 	const handlepasswordChange = (event) => {
 		validatePassword(event.target.value);
 		setPassword(event.target.value);
@@ -382,12 +330,25 @@ const Registration = () => {
 		}
 	};
 
+	const handleRegistrationError = (response) => {
+		//TODO: implement new error functionality!
+		console.log('ERROR', response);
+	};
+	// TODO: refactor warning for username already in use!
+	// useEffect(() => {
+	// 	const warningLabels = document.querySelectorAll('.warning');
+	// 	if (warningLabels.length > 0) {
+	// 		removeWarningLabelById('username');
+	// 		removeInputErrorClass('username');
+	// 	}
+	// }, [username]);
+
 	const handleSubmitButtonClick = () => {
 		const generalRegistrationData = {
-			username: username,
+			username: formAccordionData.username,
 			password: encodeURIComponent(password),
-			agencyId: agencyId.toString(),
-			postcode: postcode,
+			agencyId: formAccordionData.agencyId,
+			postcode: formAccordionData.postcode,
 			consultingType: consultingType?.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
 			...(email && { email: email })
@@ -419,24 +380,9 @@ const Registration = () => {
 		apiPostRegistration(
 			config.endpoints.registerAsker,
 			registrationData,
-			() => setOverlayActive(true)
+			() => setOverlayActive(true),
+			(response) => handleRegistrationError(response)
 		);
-	};
-
-	const validateUsername = (username) => {
-		if (username.length >= MIN_USERNAME_LENGTH) {
-			setIsUsernameValid(true);
-			setUsernameSuccessMessage(translate('registration.user.suitable'));
-			setUsernameErrorMessage('');
-		} else if (username.length > 0) {
-			setIsUsernameValid(false);
-			setUsernameSuccessMessage('');
-			setUsernameErrorMessage(translate('registration.user.unsuitable'));
-		} else {
-			setIsUsernameValid(false);
-			setUsernameSuccessMessage('');
-			setUsernameErrorMessage('');
-		}
 	};
 
 	const validatePassword = (password: string) => {
@@ -631,6 +577,9 @@ const Registration = () => {
 							<FormAccordion
 								consultingType={consultingType}
 								prefilledAgencyData={prefilledAgencyData}
+								handleFormAccordionData={(formData) =>
+									setFormAccordionData(formData)
+								}
 							></FormAccordion>
 
 							{/* ----------------------------- Required Fields ---------------------------- */}
@@ -650,10 +599,6 @@ const Registration = () => {
 										}
 									/>
 								)}
-								<InputField
-									item={inputItemUsername}
-									inputHandle={handleUsernameChange}
-								/>
 								<InputField
 									item={inputItemPassword}
 									inputHandle={handlepasswordChange}

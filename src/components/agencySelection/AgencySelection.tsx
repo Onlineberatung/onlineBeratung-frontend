@@ -96,7 +96,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				postcode: selectedPostcode
 			};
 			props.onAgencyChange(agency);
-			props.onValidityChange('valid');
+			if (props.onValidityChange) {
+				props.onValidityChange('valid');
+			}
 		} else if (props.preselectedAgency && !selectedAgencyId) {
 			setSelectedAgencyId(props.preselectedAgency.id);
 			if (
@@ -108,7 +110,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		} else {
 			props.onAgencyChange(null);
-			props.onValidityChange('initial');
+			if (props.onValidityChange) {
+				props.onValidityChange('initial');
+			}
 		}
 	}, [selectedAgencyId, selectedPostcode, props.preselectedAgency]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -146,7 +150,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			!validPostcode()
 		) {
 			props.onAgencyChange(null);
-			props.onValidityChange('initial');
+			if (props.onValidityChange) {
+				props.onValidityChange('initial');
+			}
 		}
 	}, [selectedPostcode]); // eslint-disable-line react-hooks/exhaustive-deps
 

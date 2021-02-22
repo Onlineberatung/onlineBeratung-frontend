@@ -12,7 +12,7 @@ import { AccordionItemValidity } from '../registration/registrationHelpers';
 interface FormAccordionProps {
 	consultingType: number;
 	prefilledAgencyData: any;
-	// setFormData: Function;
+	handleFormAccordionData: Function;
 }
 
 export const FormAccordion = (props: FormAccordionProps) => {
@@ -24,19 +24,19 @@ export const FormAccordion = (props: FormAccordionProps) => {
 	const [isSelectedAgencyValid, setIsSelectedAgencyValid] = useState<
 		AccordionItemValidity
 	>('initial');
-	const [agency, setAgency] = useState<string>(undefined);
-
-	// const [registrationFormData, setRegistrationFormData] = useState<>{};
+	const [agency, setAgency] = useState<{ id; postcode }>(undefined);
 
 	useEffect(() => {
-		console.log('ACC username', username, isUsernameValid);
-		console.log('ACC agency', agency, isSelectedAgencyValid);
-	});
-
-	let formData = {
-		agencyId: '',
-		postcode: ''
-	};
+		if (isUsernameValid === 'valid' && isSelectedAgencyValid === 'valid') {
+			props.handleFormAccordionData({
+				username: username,
+				agencyId: agency?.id.toString(),
+				postcode: agency?.postcode
+			});
+		} else {
+			props.handleFormAccordionData(null);
+		}
+	}, [isUsernameValid, isSelectedAgencyValid, username, agency, props]);
 
 	const agencySelection = !autoselectPostcodeForConsultingType(
 		props.consultingType
