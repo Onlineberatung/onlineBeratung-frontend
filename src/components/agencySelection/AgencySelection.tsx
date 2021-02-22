@@ -141,6 +141,12 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			} else if (proposedAgencies) {
 				setProposedAgencies(null);
 			}
+		} else if (
+			(autoSelectAgency || props.preselectedAgency) &&
+			!validPostcode()
+		) {
+			props.onAgencyChange(null);
+			props.onValidityChange('initial');
 		}
 	}, [selectedPostcode]); // eslint-disable-line react-hooks/exhaustive-deps
 
