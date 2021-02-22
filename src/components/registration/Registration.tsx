@@ -632,7 +632,10 @@ const Registration = () => {
 								prefilledAgencyData={prefilledAgencyData}
 							></FormAccordion>
 
-							<FormAccordion></FormAccordion>
+							<FormAccordion
+								consultingType={consultingType}
+								prefilledAgencyData={prefilledAgencyData}
+							></FormAccordion>
 
 							{/* ----------------------------- Required Fields ---------------------------- */}
 							<div className="registration__generalInformation">
