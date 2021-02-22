@@ -14,6 +14,7 @@ import {
 
 interface RegistrationUsernameProps {
 	onValidityChange: Function;
+	onUsernameChange: Function;
 }
 
 export const RegistrationUsername = (props: RegistrationUsernameProps) => {
@@ -25,6 +26,10 @@ export const RegistrationUsername = (props: RegistrationUsernameProps) => {
 	useEffect(() => {
 		props.onValidityChange(isValid);
 	}, [isValid, props]);
+
+	useEffect(() => {
+		props.onUsernameChange(username);
+	}, [username, props]);
 
 	const inputItemUsername: InputFieldItem = {
 		content: username,

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './formAccordion.styles';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { AgencySelection } from '../agencySelection/AgencySelection';
@@ -18,6 +18,10 @@ interface FormAccordionProps {
 export const FormAccordion = (props: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
 	const [isUsernameValid, setIsUsernameValid] = useState<
+		AccordionItemValidity
+	>('initial');
+	const [username, setUsername] = useState<string>(undefined);
+	const [isSelectedAgencyValid, setIsSelectedAgencyValid] = useState<
 		AccordionItemValidity
 	>('initial');
 	// const [registrationFormData, setRegistrationFormData] = useState<>{};
@@ -42,23 +46,24 @@ export const FormAccordion = (props: FormAccordionProps) => {
 				preselectedAgency={props.prefilledAgencyData}
 			/>
 		),
-		isValid: 'initial'
+		isValid: isSelectedAgencyValid
 	};
 
 	const accordionItemData = [
 		{
-			title: 'Bitte wählen Sie Ihren Benutzernamen',
+			title: translate('registration.username.headline'),
 			nestedComponent: (
 				<RegistrationUsername
 					onValidityChange={(validity) =>
 						setIsUsernameValid(validity)
 					}
+					onUsernameChange={(username) => setUsername(username)}
 				/>
 			),
 			isValid: isUsernameValid
 		},
 		{
-			title: 'Bitte wählen Sie Ihr Passwort',
+			title: translate('registration.password.headline'),
 			nestedComponent: null,
 			isValid: 'initial'
 		},
