@@ -24,7 +24,14 @@ export const FormAccordion = (props: FormAccordionProps) => {
 	const [isSelectedAgencyValid, setIsSelectedAgencyValid] = useState<
 		AccordionItemValidity
 	>('initial');
+	const [agency, setAgency] = useState<string>(undefined);
+
 	// const [registrationFormData, setRegistrationFormData] = useState<>{};
+
+	useEffect(() => {
+		console.log('ACC username', username, isUsernameValid);
+		console.log('ACC agency', agency, isSelectedAgencyValid);
+	});
 
 	let formData = {
 		agencyId: '',
@@ -39,11 +46,11 @@ export const FormAccordion = (props: FormAccordionProps) => {
 			<AgencySelection
 				selectedConsultingType={props.consultingType}
 				icon={<PinIcon />}
-				setAgency={(agency) => {
-					formData.agencyId = agency?.id || '';
-					formData.postcode = agency?.postcode || '';
-				}}
 				preselectedAgency={props.prefilledAgencyData}
+				onAgencyChange={(agency) => setAgency(agency)}
+				onValidityChange={(validity) =>
+					setIsSelectedAgencyValid(validity)
+				}
 			/>
 		),
 		isValid: isSelectedAgencyValid
@@ -54,10 +61,10 @@ export const FormAccordion = (props: FormAccordionProps) => {
 			title: translate('registration.username.headline'),
 			nestedComponent: (
 				<RegistrationUsername
+					onUsernameChange={(username) => setUsername(username)}
 					onValidityChange={(validity) =>
 						setIsUsernameValid(validity)
 					}
-					onUsernameChange={(username) => setUsername(username)}
 				/>
 			),
 			isValid: isUsernameValid

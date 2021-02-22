@@ -27,7 +27,8 @@ const introItemsTranslations = [
 export interface AgencySelectionProps {
 	selectedConsultingType: number | undefined;
 	icon?: JSX.Element;
-	setAgency: Function;
+	onAgencyChange: Function;
+	onValidityChange?: Function;
 	userData?: UserDataInterface;
 	preselectedAgency?: AgencyDataInterface;
 	showHeadline?: boolean;
@@ -94,7 +95,8 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				id: selectedAgencyId,
 				postcode: selectedPostcode
 			};
-			props.setAgency(agency);
+			props.onAgencyChange(agency);
+			props.onValidityChange('valid');
 		} else if (props.preselectedAgency && !selectedAgencyId) {
 			setSelectedAgencyId(props.preselectedAgency.id);
 			if (
@@ -105,7 +107,8 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				setSelectedPostcode(props.preselectedAgency.postcode);
 			}
 		} else {
-			props.setAgency(null);
+			props.onAgencyChange(null);
+			props.onValidityChange('initial');
 		}
 	}, [selectedAgencyId, selectedPostcode, props.preselectedAgency]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -212,7 +215,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							<ul>
 								{introItemsTranslations.map(
 									(introItemTranslation, i) => (
-										<li>
+										<li key={i}>
 											<Text
 												text={translate(
 													introItemTranslation

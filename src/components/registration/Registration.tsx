@@ -627,10 +627,6 @@ const Registration = () => {
 							<h1 className="registration__headline">
 								{translate('registration.headline')}
 							</h1>
-							<FormAccordion
-								consultingType={consultingType}
-								prefilledAgencyData={prefilledAgencyData}
-							></FormAccordion>
 
 							<FormAccordion
 								consultingType={consultingType}
@@ -658,24 +654,6 @@ const Registration = () => {
 									item={inputItemUsername}
 									inputHandle={handleUsernameChange}
 								/>
-								{!autoselectPostcodeForConsultingType(
-									consultingType
-								) && (
-									<AgencySelection
-										selectedConsultingType={consultingType}
-										icon={<PinIcon />}
-										setAgency={(agency) => {
-											if (agency) {
-												setAgencyId(agency?.id);
-												setPostcode(agency?.postcode);
-											} else {
-												setAgencyId('');
-												setPostcode('');
-											}
-										}}
-										preselectedAgency={prefilledAgencyData}
-									/>
-								)}
 								<InputField
 									item={inputItemPassword}
 									inputHandle={handlepasswordChange}

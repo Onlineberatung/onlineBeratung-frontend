@@ -13,8 +13,8 @@ import {
 } from './registrationHelpers';
 
 interface RegistrationUsernameProps {
-	onValidityChange: Function;
 	onUsernameChange: Function;
+	onValidityChange: Function;
 }
 
 export const RegistrationUsername = (props: RegistrationUsernameProps) => {
@@ -24,12 +24,12 @@ export const RegistrationUsername = (props: RegistrationUsernameProps) => {
 	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
 
 	useEffect(() => {
-		props.onValidityChange(isValid);
-	}, [isValid, props]);
-
-	useEffect(() => {
 		props.onUsernameChange(username);
 	}, [username, props]);
+
+	useEffect(() => {
+		props.onValidityChange(isValid);
+	}, [isValid, props]);
 
 	const inputItemUsername: InputFieldItem = {
 		content: username,
