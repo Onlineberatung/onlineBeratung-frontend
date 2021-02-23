@@ -174,7 +174,7 @@ export const AskerNewRegistration = () => {
 			)}
 			<AgencySelection
 				selectedConsultingType={selectedConsultingType}
-				setAgency={(agency) => setSelectedAgency(agency)}
+				onAgencyChange={(agency) => setSelectedAgency(agency)}
 				userData={userData}
 				isProfileView={true}
 			/>

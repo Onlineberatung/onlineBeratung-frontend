@@ -1,6 +1,7 @@
 const registrationInformal = {
 	'agency.prefilled.prefix': 'Deine vorausgewählte Beratungsstelle: ',
 	'agency.prefilled.isTeam': 'Du wirst von einem Team beraten.',
+	'username.headline': 'Bitte wähle Deinen Benutzernamen',
 	'user.infoText':
 		'Um Deine Anonymität zu schützen, raten wir Dir nicht Deinen tatsächlichen Namen oder Initialien zu verwenden.<br>Wähle bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 	'user.suitable': 'Dein Benutzername ist geeignet.',
@@ -8,6 +9,7 @@ const registrationInformal = {
 	'agencySelection.headline':
 		'Bitte wähle eine Beratungsstelle in Deiner Nähe',
 	'agencySelection.postcode.label': 'Deine Postleitzahl',
+	'password.headline': 'Bitte wähle Dein Passwort',
 	'password.confirmation.infoText':
 		'Dein Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 10 Zeichen',
 	'password.secure': 'Dein Passwort ist sicher.',

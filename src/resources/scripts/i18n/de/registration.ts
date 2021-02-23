@@ -30,6 +30,7 @@ const registration = {
 	'login.label': 'Zum Login',
 	'agency.prefilled.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
 	'agency.prefilled.isTeam': 'Sie werden von einem Team beraten.',
+	'username.headline': 'Bitte wählen Sie Ihren Benutzernamen',
 	'user.label': 'Benutzername*',
 	'user.infoText':
 		'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialien zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
@@ -48,6 +49,7 @@ const registration = {
 		'mit den rechtlichen Voraussetzungen vertraut ist,',
 	'agencySelection.intro.point3':
 		'Sie gegebenfalls auch vor Ort beraten kann.',
+	'password.headline': 'Bitte wählen Sie Ihr Passwort',
 	'password.input.label': 'Passwort*',
 	'password.confirmation.label': 'Passwort wiederholen*',
 	'password.confirmation.infoText':
