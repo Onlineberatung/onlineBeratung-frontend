@@ -200,14 +200,14 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							text={translate(
 								'registration.agencySelection.intro.overline'
 							)}
-							type="infoSmall"
+							type="infoLargeAlternative"
 						/>
 						<div className="agencySelection__intro__content">
 							<Text
 								text={translate(
 									'registration.agencySelection.intro.subline'
 								)}
-								type="infoSmall"
+								type="infoLargeAlternative"
 							/>
 							<ul>
 								{introItemsTranslations.map(
@@ -217,7 +217,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												text={translate(
 													introItemTranslation
 												)}
-												type="infoSmall"
+												type="infoLargeAlternative"
 											/>
 										</li>
 									)
