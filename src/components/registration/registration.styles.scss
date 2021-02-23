@@ -23,7 +23,7 @@
 	}
 
 	form {
-		margin: $grid-base-eleven 0;
+		margin: 120px 0;
 		max-width: 400px;
 		animation: fadeIn linear 0.5s;
 
@@ -119,12 +119,6 @@
 	&__contentRow {
 		margin: 0 auto $grid-base-five;
 		max-width: 690px;
-	}
-
-	h3 {
-		color: $secondary;
-		font-size: $font-size-primary;
-		margin: 0 0 $grid-base 0;
 	}
 
 	.select__wrapper {

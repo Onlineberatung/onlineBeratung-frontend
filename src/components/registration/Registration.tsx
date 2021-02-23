@@ -570,9 +570,9 @@ const Registration = () => {
 							<h3 className="registration__overline">
 								{resortData.overline}
 							</h3>
-							<h1 className="registration__headline">
+							<h2 className="registration__headline">
 								{translate('registration.headline')}
-							</h1>
+							</h2>
 
 							<FormAccordion
 								consultingType={consultingType}

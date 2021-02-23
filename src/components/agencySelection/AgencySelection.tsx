@@ -31,7 +31,7 @@ export interface AgencySelectionProps {
 	onValidityChange?: Function;
 	userData?: UserDataInterface;
 	preselectedAgency?: AgencyDataInterface;
-	showHeadline?: boolean;
+	isProfileView?: boolean;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
@@ -205,7 +205,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				/>
 			) : (
 				<>
-					{props.showHeadline && (
+					{props.isProfileView && (
 						<h5>
 							{translate('registration.agencySelection.headline')}
 						</h5>
@@ -215,14 +215,14 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							text={translate(
 								'registration.agencySelection.intro.overline'
 							)}
-							type="infoSmall"
+							type="infoLargeAlternative"
 						/>
 						<div className="agencySelection__intro__content">
 							<Text
 								text={translate(
 									'registration.agencySelection.intro.subline'
 								)}
-								type="infoSmall"
+								type="infoLargeAlternative"
 							/>
 							<ul>
 								{introItemsTranslations.map(
@@ -232,7 +232,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												text={translate(
 													introItemTranslation
 												)}
-												type="infoSmall"
+												type="infoLargeAlternative"
 											/>
 										</li>
 									)
@@ -314,7 +314,11 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												displayAgencyInfo?.id ===
 													agency.id && (
 													<div
-														className="agencySelection__agencyInfo"
+														className={`agencySelection__agencyInfo ${
+															props.isProfileView
+																? 'agencySelection__agencyInfo--above'
+																: ''
+														}`}
 														ref={agencyInfoRef}
 													>
 														{displayAgencyInfo.teamAgency && (
