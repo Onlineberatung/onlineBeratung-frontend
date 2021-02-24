@@ -5,7 +5,6 @@ import { errorData } from './errorData';
 import { ReactComponent as Icon401 } from '../../resources/img/illustrations/kein-zutritt.svg';
 import { ReactComponent as Icon404 } from '../../resources/img/illustrations/ooh.svg';
 import { ReactComponent as Icon500 } from '../../resources/img/illustrations/gleich-zurueck.svg';
-import { ReactComponent as IconConstruction } from '../../resources/img/illustrations/baustelle.svg';
 import '../../resources/styles/styles';
 import './error.styles';
 import '../button/button.styles';
@@ -33,9 +32,6 @@ const Error = () => {
 				break;
 			case '500':
 				Icon = Icon500;
-				break;
-			case 'construction':
-				Icon = IconConstruction;
 				break;
 		}
 		return { ...errorData[type], Icon };

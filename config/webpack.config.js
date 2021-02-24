@@ -827,16 +827,6 @@ module.exports = function (webpackEnv) {
 				chunks: ['error'],
 				filename: 'error.500.html',
 			}),
-			new HtmlWebpackPlugin({
-				title: 'Error Page construction',
-				templateParameters: {
-					type: 'error',
-					errorType: 'construction',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['error'],
-				filename: 'under-construction.html',
-			}),
 			// Inlines the webpack runtime script. This script is too small to warrant
 			// a network request.
 			// https://github.com/facebook/create-react-app/issues/5358
