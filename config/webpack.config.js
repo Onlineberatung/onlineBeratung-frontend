@@ -26,6 +26,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -827,10 +828,15 @@ module.exports = function (webpackEnv) {
 				chunks: ['error'],
 				filename: 'error.500.html',
 			}),
-			new HtmlWebpackPlugin({
-				template: 'src/pages/under-construction.html',
-				filename: 'under-construction.html',
+			new CopyPlugin({
+				patterns: [
+					{ from: "src/pages/under-construction.html"}
+				],
 			}),
+			// new HtmlWebpackPlugin({
+			// 	template: 'src/pages/under-construction.html',
+			// 	filename: 'under-construction.html',
+			// }),
 			// Inlines the webpack runtime script. This script is too small to warrant
 			// a network request.
 			// https://github.com/facebook/create-react-app/issues/5358
