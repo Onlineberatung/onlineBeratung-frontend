@@ -833,10 +833,6 @@ module.exports = function (webpackEnv) {
 					{ from: "src/pages/under-construction.html"}
 				],
 			}),
-			// new HtmlWebpackPlugin({
-			// 	template: 'src/pages/under-construction.html',
-			// 	filename: 'under-construction.html',
-			// }),
 			// Inlines the webpack runtime script. This script is too small to warrant
 			// a network request.
 			// https://github.com/facebook/create-react-app/issues/5358
