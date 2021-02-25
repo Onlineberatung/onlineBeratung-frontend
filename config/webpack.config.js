@@ -26,6 +26,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -827,15 +828,10 @@ module.exports = function (webpackEnv) {
 				chunks: ['error'],
 				filename: 'error.500.html',
 			}),
-			new HtmlWebpackPlugin({
-				title: 'Error Page construction',
-				templateParameters: {
-					type: 'error',
-					errorType: 'construction',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['error'],
-				filename: 'under-construction.html',
+			new CopyPlugin({
+				patterns: [
+					{ from: "src/pages/under-construction.html"}
+				],
 			}),
 			// Inlines the webpack runtime script. This script is too small to warrant
 			// a network request.

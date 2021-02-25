@@ -13,11 +13,5 @@ export const errorData = {
 		headline: 'Ups!',
 		infoText:
 			'Wie es aussieht haben wir momentan ein Serverproblem.<br>Versuchen Sie es später noch einmal.'
-	},
-	construction: {
-		headline: 'Ohh!',
-		infoText:
-			'Wir arbeiten gerade an unserer Online-Beratung.<br><br>Leider können Sie währenddessen die Anwendung nicht nutzen.<br>Versuchen Sie es später noch einmal.',
-		hasCaritasButton: true
 	}
 };
