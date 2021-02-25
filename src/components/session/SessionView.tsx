@@ -164,26 +164,12 @@ export const SessionView = (props) => {
 		return null;
 	}
 
-	const fetchSessionMessages = (
-		isSocketConnected: boolean = false,
-		offset: number = INITIAL_MESSAGES_OFFSET
-	) => {
+	const fetchSessionMessages = (isSocketConnected: boolean = false) => {
 		const rcGroupId = props.match.params.rcGroupId;
-		apiGetSessionData(rcGroupId, offset)
+		apiGetSessionData(rcGroupId)
 			.then((messagesData) => {
-				let newMessages: any = messagesItem;
-				if (offset > 0) {
-					newMessages.messages = [
-						...messagesItem.messages,
-						...messagesData.messages
-					];
-					newMessages.total = messagesData.total;
-					newMessages.count = messagesData.total;
-					setLoadedMessages(newMessages);
-				} else {
-					setLoadedMessages(messagesData);
-					setIsLoading(false);
-				}
+				setLoadedMessages(messagesData);
+				setIsLoading(false);
 
 				if (!isSocketConnected) {
 					setSessionToRead();
