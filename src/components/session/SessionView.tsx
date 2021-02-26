@@ -46,7 +46,6 @@ import './session.styles';
 
 let typingTimeout;
 const TYPING_TIMEOUT_MS = 4000;
-const INITIAL_MESSAGES_OFFSET = 0;
 
 export const SessionView = (props) => {
 	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
