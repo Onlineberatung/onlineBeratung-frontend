@@ -17,22 +17,25 @@ export interface LoginData {
 	refresh_expires_in?: number;
 }
 
-export const autoLogin = (
-	username: string,
-	password: string,
-	redirect: boolean,
-	handleLoginError?: Function,
-	useOldUser?: boolean
-) => {
-	const userHash = useOldUser ? username : encodeUsername(username);
+export const autoLogin = (autoLoginProps: {
+	username: string;
+	password: string;
+	redirect: boolean;
+	handleLoginError?: Function;
+	handleLoginSucces?: Function;
+	useOldUser?: boolean;
+}) => {
+	const userHash = autoLoginProps.useOldUser
+		? autoLoginProps.username
+		: encodeUsername(autoLoginProps.username);
 	getKeycloakAccessToken(
-		useOldUser ? encodeURIComponent(userHash) : userHash,
-		encodeURIComponent(password)
+		autoLoginProps.useOldUser ? encodeURIComponent(userHash) : userHash,
+		encodeURIComponent(autoLoginProps.password)
 	)
 		.then((response) => {
 			setTokens(response);
 
-			getRocketchatAccessToken(userHash, password)
+			getRocketchatAccessToken(userHash, autoLoginProps.password)
 				.then((response) => {
 					const data = response.data;
 					if (data.authToken) {
@@ -44,24 +47,35 @@ export const autoLogin = (
 
 					//generate new csrf token for current session
 					generateCsrfToken(true);
-					if (redirect) {
+					if (autoLoginProps.redirect) {
 						redirectToApp();
 					}
-					// redirect ? redirectToApp() : null;
+
+					if (autoLoginProps.handleLoginSucces) {
+						autoLoginProps.handleLoginSucces();
+					}
 				})
 				.catch((error) => {
-					if (handleLoginError) {
-						handleLoginError();
+					if (autoLoginProps.handleLoginError) {
+						autoLoginProps.handleLoginError();
 					} else {
 						console.error(error);
 					}
 				});
 		})
 		.catch((error) => {
-			if (useOldUser) {
-				handleLoginError ? handleLoginError() : console.error(error);
+			if (autoLoginProps.useOldUser) {
+				autoLoginProps.handleLoginError
+					? autoLoginProps.handleLoginError()
+					: console.error(error);
 			} else {
-				autoLogin(username, password, redirect, handleLoginError, true);
+				autoLogin({
+					username: autoLoginProps.username,
+					password: autoLoginProps.password,
+					redirect: autoLoginProps.redirect,
+					handleLoginError: autoLoginProps.handleLoginError,
+					useOldUser: true
+				});
 			}
 		});
 };
