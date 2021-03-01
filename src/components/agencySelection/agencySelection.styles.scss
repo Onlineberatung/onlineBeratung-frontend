@@ -42,6 +42,7 @@ $breakpointFlyoutPosition: 1140px;
 			font-size: $font-size-primary;
 			line-height: $line-height-primary;
 			text-align: left;
+			margin-bottom: 12px;
 		}
 
 		&--warning {
@@ -62,6 +63,11 @@ $breakpointFlyoutPosition: 1140px;
 	&__proposedAgency {
 		display: flex;
 		position: relative;
+		padding: 12px 0;
+
+		.radioButton {
+			min-height: unset;
+		}
 
 		&:not(:last-of-type) {
 			border-bottom: 1px solid $black-10-opacity;
@@ -69,8 +75,7 @@ $breakpointFlyoutPosition: 1140px;
 
 		svg {
 			width: $infoIconSize;
-			height: $infoIconSize;
-			margin: auto 0;
+			height: 4px 0 0;
 		}
 	}
 

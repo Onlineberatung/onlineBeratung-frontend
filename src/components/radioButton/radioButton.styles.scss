@@ -1,9 +1,9 @@
 $input-size: 24px;
-$button-height: 50px;
+$minHeight: 50px;
 
 .radioButton {
 	width: 100%;
-	height: $button-height;
+	min-height: $minHeight;
 	display: inline-block;
 	text-align: start;
 	overflow: hidden;
@@ -50,17 +50,21 @@ $button-height: 50px;
 		display: inline-block;
 		width: 100%;
 		text-align: left;
-		line-height: $button-height;
+		line-height: $line-height-primary;
 		padding: 0 8px;
 		color: $form-secondary;
 		cursor: pointer;
 	}
 
 	&--default {
-		.radioButton__label {
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
+		.radioButton {
+			&__contentWrapper {
+				align-items: flex-start;
+			}
+
+			&__label {
+				padding: 0 12px 0 $grid-base;
+			}
 		}
 	}
 
@@ -78,8 +82,13 @@ $button-height: 50px;
 			max-width: 229px;
 		}
 
-		.radioButton__input {
-			margin-left: 10px;
+		.radioButton {
+			&__input {
+				margin-left: 10px;
+			}
+			&__label {
+				line-height: $minHeight;
+			}
 		}
 	}
 
