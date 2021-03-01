@@ -20,11 +20,11 @@ export const FormAccordion = (props: FormAccordionProps) => {
 	const [isUsernameValid, setIsUsernameValid] = useState<
 		AccordionItemValidity
 	>('initial');
-	const [username, setUsername] = useState<string>(undefined);
+	const [username, setUsername] = useState<string>();
 	const [isSelectedAgencyValid, setIsSelectedAgencyValid] = useState<
 		AccordionItemValidity
 	>('initial');
-	const [agency, setAgency] = useState<{ id; postcode }>(undefined);
+	const [agency, setAgency] = useState<{ id; postcode }>();
 
 	useEffect(() => {
 		if (isUsernameValid === 'valid' && isSelectedAgencyValid === 'valid') {
@@ -37,24 +37,6 @@ export const FormAccordion = (props: FormAccordionProps) => {
 			props.handleFormAccordionData(null);
 		}
 	}, [isUsernameValid, isSelectedAgencyValid, username, agency, props]);
-
-	const agencySelection = !autoselectPostcodeForConsultingType(
-		props.consultingType
-	) && {
-		title: translate('registration.agencySelection.headline'),
-		nestedComponent: (
-			<AgencySelection
-				selectedConsultingType={props.consultingType}
-				icon={<PinIcon />}
-				preselectedAgency={props.prefilledAgencyData}
-				onAgencyChange={(agency) => setAgency(agency)}
-				onValidityChange={(validity) =>
-					setIsSelectedAgencyValid(validity)
-				}
-			/>
-		),
-		isValid: isSelectedAgencyValid
-	};
 
 	const accordionItemData = [
 		{
@@ -73,9 +55,26 @@ export const FormAccordion = (props: FormAccordionProps) => {
 			title: translate('registration.password.headline'),
 			nestedComponent: null,
 			isValid: 'initial'
-		},
-		agencySelection
+		}
 	];
+
+	if (!autoselectPostcodeForConsultingType(props.consultingType)) {
+		accordionItemData.push({
+			title: translate('registration.agencySelection.headline'),
+			nestedComponent: (
+				<AgencySelection
+					selectedConsultingType={props.consultingType}
+					icon={<PinIcon />}
+					preselectedAgency={props.prefilledAgencyData}
+					onAgencyChange={(agency) => setAgency(agency)}
+					onValidityChange={(validity) =>
+						setIsSelectedAgencyValid(validity)
+					}
+				/>
+			),
+			isValid: isSelectedAgencyValid
+		});
+	}
 
 	const handleStepSubmit = (indexOfItem) => {
 		if (indexOfItem + 1 > accordionItemData.length) {
