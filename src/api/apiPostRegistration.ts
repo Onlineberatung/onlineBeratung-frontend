@@ -25,12 +25,12 @@ export const apiPostRegistration = (
 	xhr.open('POST', url);
 	xhr.onreadystatechange = function () {
 		if (xhr.readyState > 3 && xhr.status === 201) {
-			autoLogin(
-				data['username'],
-				decodeURIComponent(data['password']),
-				false
-			);
-			handleSuccessfulRegistration();
+			autoLogin({
+				username: data['username'],
+				password: decodeURIComponent(data['password']),
+				redirect: false,
+				handleLoginSuccess: handleSuccessfulRegistration
+			});
 		} else if (xhr.readyState > 3 && xhr.status === 409) {
 			handleConfirmationError(xhr.response);
 			isRequestInProgress = false;
