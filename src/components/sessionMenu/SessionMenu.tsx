@@ -200,11 +200,15 @@ export const SessionMenu = () => {
 	// hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
+		const videoCallWindow = window.open('', '_blank');
 		apiStartVideoCall(chatItem.id)
 			.then((response) => {
-				window.open(
-					getVideoCallUrl(response.videoCallUrl, isVideoActivated)
+				videoCallWindow.location.href = getVideoCallUrl(
+					response.videoCallUrl,
+					isVideoActivated,
+					true
 				);
+				videoCallWindow.focus();
 			})
 			.catch((error) => {
 				console.log(error);
@@ -313,7 +317,7 @@ export const SessionMenu = () => {
 						className="sessionMenu__item sessionMenu__item--mobile"
 						onClick={() => handleStartVideoCall(true)}
 					>
-						{translate('chatFlyout.startVideoCall')}
+						{translate('videoCall.button.startVideoCall')}
 					</div>
 				)}
 				{hasVideoCallFeatures() && (
@@ -321,7 +325,7 @@ export const SessionMenu = () => {
 						className="sessionMenu__item sessionMenu__item--mobile"
 						onClick={() => handleStartVideoCall()}
 					>
-						{translate('chatFlyout.startCall')}
+						{translate('videoCall.button.startCall')}
 					</div>
 				)}
 				{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&

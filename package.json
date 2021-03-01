@@ -1,7 +1,7 @@
 {
 	"name": "caritas-online-beratung-frontend",
 	"title": "Caritas Online-Beratung",
-	"version": "2.4.1",
+	"version": "2.5.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend.git"
@@ -97,6 +97,7 @@
 		"@types/prettier": "^2.1.5",
 		"breakpoint-sass": "2.7.1",
 		"concurrently": "^5.3.0",
+		"copy-webpack-plugin": "6.3.2",
 		"cross-env": "^7.0.2",
 		"cypress": "^6.2.0",
 		"cypress-file-upload": "^4.1.1",

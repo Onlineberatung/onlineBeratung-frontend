@@ -14,7 +14,7 @@ import {
 import './agencySelection.styles';
 import '../profile/profile.styles';
 import { DEFAULT_POSTCODE } from '../registration/prefillPostcode';
-import { InfoText, LABEL_TYPES } from '../infoText/InfoText';
+import { Text, LABEL_TYPES } from '../text/Text';
 import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
 
 export interface AgencySelectionProps {
@@ -182,12 +182,13 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	return (
 		<div className="askerRegistration__postcode">
 			{autoSelectPostcode ? (
-				<InfoText
+				<Text
 					className="askerRegistration__consultingModeInfo"
 					labelType={LABEL_TYPES.NOTICE}
 					text={translate(
 						'profile.data.register.consultingModeInfo.groupChats'
 					)}
+					type="infoSmall"
 				/>
 			) : (
 				<>
@@ -196,12 +197,13 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						inputHandle={(e) => handlePostcodeInput(e)}
 					></InputField>
 					{!autoSelectAgency && (
-						<InfoText
+						<Text
 							className="askerRegistration__selectAgencyInfo"
 							labelType={LABEL_TYPES.NOTICE}
 							text={translate(
 								'profile.data.register.selectAgencyInfo'
 							)}
+							type="infoSmall"
 						/>
 					)}
 					{!props.preselectedAgency &&
