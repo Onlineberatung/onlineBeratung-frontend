@@ -29,7 +29,7 @@ export const apiPostRegistration = (
 				username: data['username'],
 				password: decodeURIComponent(data['password']),
 				redirect: false,
-				handleLoginSucces: handleSuccessfulRegistration
+				handleLoginSuccess: handleSuccessfulRegistration
 			});
 		} else if (xhr.readyState > 3 && xhr.status === 409) {
 			handleConfirmationError(xhr.response);

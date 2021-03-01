@@ -22,7 +22,7 @@ export const autoLogin = (autoLoginProps: {
 	password: string;
 	redirect: boolean;
 	handleLoginError?: Function;
-	handleLoginSucces?: Function;
+	handleLoginSuccess?: Function;
 	useOldUser?: boolean;
 }) => {
 	const userHash = autoLoginProps.useOldUser
@@ -51,8 +51,8 @@ export const autoLogin = (autoLoginProps: {
 						redirectToApp();
 					}
 
-					if (autoLoginProps.handleLoginSucces) {
-						autoLoginProps.handleLoginSucces();
+					if (autoLoginProps.handleLoginSuccess) {
+						autoLoginProps.handleLoginSuccess();
 					}
 				})
 				.catch((error) => {
