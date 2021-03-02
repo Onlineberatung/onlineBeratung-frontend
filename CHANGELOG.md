@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.4.1...v2.5.0) (2021-03-01)
+
+
+### Features
+
+* 🎸 add hover state to button ([bc107ed](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/bc107ed3766c2f1ac3b290fffe390802d9b580f9))
+* 🎸 add informal translation ([95dc266](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/95dc266e22fcb876e12cfabcbef8b69f03665fea))
+* 🎸 add informal translations ([cf21c9c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/cf21c9cc692e45fe553021f8ef53a960c9c504aa))
+* 🎸 add isInitiator value to videocall url ([5087c6e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/5087c6e7eb201896f9a0f0fa22238b3ff7e9f0a0))
+* 🎸 add new static under construction page w/ inline styles ([25c8a11](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/25c8a115f8d3378420c1107847e3977574458e41))
+* 🎸 added welcomeScreen for registrations ([0b323c3](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/0b323c305c362f374bb5fb992285b344bad0d767))
+* 🎸 design finetuning ([282fe78](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/282fe78baca60108e1ce500cfa63333bf9ff2e11))
+* 🎸 disable video call functionalities ([7a7657a](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7a7657a6170daab9d8156c67f0fd9086b5052576))
+* 🎸 final style changes and refactoring ([f53d08d](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/f53d08d50ee90181e473e9e3fce200c0d048d72f))
+* 🎸 scrollToTop after welcomeScreen ([127d9ea](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/127d9ea977558df65adee43c9ac66c0a0585ddf5))
+* 🎸 welcomeScreen tests and styling ([6706c3e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/6706c3eec481d730f064f9430f2e54fa60538d77))
+
+
+### Bug Fixes
+
+* 🐛 add old session data url ([8e1a195](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/8e1a195d81b1469b9bcc1226ac445144bb1c1c4d))
+* 🐛 initiate window.open before call to prevent popupblocker ([5295361](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/52953611a022ecd64d872a2a17ccef904e602c28))
+* 🐛 show successful registration overlay after both token ([3a6b3da](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/3a6b3da7a4a313831b34e1819eec26e11aaef428))
+* 🐛 small design adjustments ([d93ba2a](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/d93ba2a9443278aa7ba18eba3a865df79403e011))
+* 🐛 translation for video functionality in mobile fylout ([b4db251](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/b4db2516ae204f51f9fa3ad22bb1b5f54826b6f9))
+
 ### [2.4.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.4.0...v2.4.1) (2021-02-08)
 
 ## [2.4.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.3.2...v2.4.0) (2021-02-08)
