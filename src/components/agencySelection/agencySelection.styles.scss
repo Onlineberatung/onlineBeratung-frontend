@@ -75,7 +75,8 @@ $breakpointFlyoutPosition: 1140px;
 
 		svg {
 			width: $infoIconSize;
-			height: 4px 0 0;
+			padding: 4px 0 0;
+			cursor: pointer;
 		}
 	}
 

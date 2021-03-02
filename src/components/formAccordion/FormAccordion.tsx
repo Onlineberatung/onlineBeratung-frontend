@@ -36,7 +36,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		} else {
 			props.handleFormAccordionData(null);
 		}
-	}, [isUsernameValid, isSelectedAgencyValid, username, agency, props]);
+	}, [isUsernameValid, isSelectedAgencyValid, username, agency]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const accordionItemData = [
 		{
