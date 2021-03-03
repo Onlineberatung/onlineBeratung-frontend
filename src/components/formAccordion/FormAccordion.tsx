@@ -27,7 +27,10 @@ export const FormAccordion = (props: FormAccordionProps) => {
 	const [agency, setAgency] = useState<{ id; postcode }>();
 
 	useEffect(() => {
-		if (autoselectPostcodeForConsultingType(props.consultingType)) {
+		if (
+			autoselectPostcodeForConsultingType(props.consultingType) &&
+			props.prefilledAgencyData
+		) {
 			setIsSelectedAgencyValid('valid');
 			setAgency({
 				id: props.prefilledAgencyData.id,
