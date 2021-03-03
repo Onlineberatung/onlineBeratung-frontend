@@ -85,11 +85,6 @@ export const FormAccordion = (props: FormAccordionProps) => {
 			isValid: isSelectedAgencyValid
 		});
 	}
-	// } else if (autoselectPostcodeForConsultingType(props.consultingType)) {
-	// 	console.log('ONCE FA', props.prefilledAgencyData);
-	// 	setIsSelectedAgencyValid('valid');
-	// 	setAgency({id: props.prefilledAgencyData.id, postcode: props.prefilledAgencyData.postcode});
-	// }
 
 	const handleStepSubmit = (indexOfItem) => {
 		if (indexOfItem + 1 > accordionItemData.length) {
