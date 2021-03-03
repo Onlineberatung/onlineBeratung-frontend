@@ -27,6 +27,16 @@ export const FormAccordion = (props: FormAccordionProps) => {
 	const [agency, setAgency] = useState<{ id; postcode }>();
 
 	useEffect(() => {
+		if (autoselectPostcodeForConsultingType(props.consultingType)) {
+			setIsSelectedAgencyValid('valid');
+			setAgency({
+				id: props.prefilledAgencyData.id,
+				postcode: props.prefilledAgencyData.postcode
+			});
+		}
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
 		if (isUsernameValid === 'valid' && isSelectedAgencyValid === 'valid') {
 			props.handleFormAccordionData({
 				username: username,
@@ -75,6 +85,11 @@ export const FormAccordion = (props: FormAccordionProps) => {
 			isValid: isSelectedAgencyValid
 		});
 	}
+	// } else if (autoselectPostcodeForConsultingType(props.consultingType)) {
+	// 	console.log('ONCE FA', props.prefilledAgencyData);
+	// 	setIsSelectedAgencyValid('valid');
+	// 	setAgency({id: props.prefilledAgencyData.id, postcode: props.prefilledAgencyData.postcode});
+	// }
 
 	const handleStepSubmit = (indexOfItem) => {
 		if (indexOfItem + 1 > accordionItemData.length) {
