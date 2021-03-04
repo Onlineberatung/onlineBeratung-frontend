@@ -309,11 +309,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 																agency
 														  )
 												}
-												onMouseEnter={() => {
-													setDisplayAgencyInfo(
-														agency
-													);
-												}}
+												onMouseEnter={() =>
+													setDisplayAgencyInfo(agency)
+												}
 												onMouseLeave={() =>
 													setDisplayAgencyInfo(null)
 												}
