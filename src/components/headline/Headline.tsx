@@ -2,7 +2,7 @@ import * as React from 'react';
 import './headline.styles';
 
 interface HeadlineProps {
-	semanticLevel: '1' | '2' | '3' | '4' | '5' | '6';
+	semanticLevel: '1' | '2' | '3' | '4' | '5';
 	styleLevel?: 'super' | '1' | '2' | '3' | '4' | '5';
 	text: string;
 }

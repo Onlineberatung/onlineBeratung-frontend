@@ -1,9 +1,131 @@
 .furtherSteps {
 	text-align: left;
 	margin-right: 52px;
-	padding: $grid-base-two;
+	padding: $grid-base-two $grid-base-two $grid-base-four;
 	border: 2px dashed $form-input-border;
 	border-radius: 0 12px 12px;
 
-	height: 500px;
+	.headline--5 {
+		margin-top: $grid-base-three;
+	}
+
+	button {
+		height: auto;
+		padding: 0;
+		margin-top: $grid-base-three;
+		text-align: left;
+	}
+
+	&__steps {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__step {
+		display: flex;
+		align-items: center;
+		margin-top: $grid-base;
+
+		&:first-child {
+			margin-top: $grid-base-two;
+
+			svg {
+				height: 36px;
+			}
+		}
+
+		&:nth-child(3) svg {
+			height: 35px;
+		}
+
+		&:last-child svg {
+			height: 28px;
+		}
+	}
+
+	&__illustration {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		height: 56px;
+		width: 56px;
+		background-color: $light-success;
+		border-radius: 100%;
+	}
+
+	&__stepInfo.text {
+		margin-left: 12px;
+		flex: 1;
+	}
+
+	&__arrow {
+		display: none;
+	}
+
+	&__emailInfo.text {
+		margin-top: $grid-base;
+	}
+}
+
+@include breakpoint($fromLarge) {
+	.furtherSteps {
+		max-width: 600px;
+
+		&__steps {
+			display: flex;
+			margin-top: $grid-base-four;
+		}
+
+		&__step {
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			flex-wrap: wrap;
+			flex: 1;
+			margin-top: 0;
+
+			&:first-child {
+				margin-top: 0;
+
+				svg {
+					height: 75px;
+				}
+			}
+
+			&:nth-child(3) svg {
+				height: 76px;
+			}
+
+			&:last-child svg {
+				height: 60px;
+			}
+		}
+
+		&__illustration {
+			height: 120px;
+			width: 120px;
+		}
+
+		&__stepInfo.text {
+			width: 100%;
+			flex: auto;
+			text-align: center;
+			margin-top: 12px;
+			margin-left: 0;
+		}
+
+		&__arrow {
+			display: block;
+			height: $grid-base-five;
+			width: 60px;
+			margin: $grid-base-five $grid-base-two;
+
+			svg {
+				height: 100%;
+				width: 100%;
+			}
+		}
+	}
 }
