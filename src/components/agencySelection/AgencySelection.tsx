@@ -17,6 +17,7 @@ import { DEFAULT_POSTCODE } from '../registration/prefillPostcode';
 import { RadioButton } from '../radioButton/RadioButton';
 import { Loading } from '../app/Loading';
 import { Text, LABEL_TYPES } from '../text/Text';
+import { isMobile } from 'react-device-detect';
 
 const introItemsTranslations = [
 	'registration.agencySelection.intro.point1',
@@ -309,12 +310,20 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 																agency
 														  )
 												}
-												onMouseEnter={() =>
-													setDisplayAgencyInfo(agency)
-												}
-												onMouseLeave={() =>
-													setDisplayAgencyInfo(null)
-												}
+												onMouseEnter={() => {
+													if (!isMobile) {
+														setDisplayAgencyInfo(
+															agency
+														);
+													}
+												}}
+												onMouseLeave={() => {
+													if (!isMobile) {
+														setDisplayAgencyInfo(
+															null
+														);
+													}
+												}}
 											/>
 											{displayAgencyInfo &&
 												displayAgencyInfo?.id ===
