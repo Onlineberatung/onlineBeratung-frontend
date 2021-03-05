@@ -190,12 +190,8 @@ $headerHeight: 80px;
 	}
 
 	&--empty {
-		padding-top: 20px;
+		margin-top: $grid-base-four;
 		text-align: center;
-		font-family: $font-family-slab-regular;
-		font-size: $font-size-secondary;
-		line-height: $line-height-secondary;
-		color: $light-grey;
 	}
 
 	&__itemsWrapper {
