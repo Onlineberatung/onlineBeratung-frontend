@@ -49,6 +49,7 @@ const registration = {
 	'password.notSame': 'Ihr Passwort ist nicht identisch.',
 	'password.note':
 		'Bitte notieren Sie Ihre Zugangsdaten – ein Passwort-Reset ist nicht möglich!',
+	//TODO: rm email texts after removal from registration
 	'email.label': 'E-Mail (optional)',
 	'email.infoText':
 		'Per E-Mail können wir Sie benachrichtigen, sobald eine Antwort auf Ihre Anfrage vorliegt. Zudem können Sie per E-Mail Ihr Passwort zurücksetzen, wenn Sie es vergessen haben.',
