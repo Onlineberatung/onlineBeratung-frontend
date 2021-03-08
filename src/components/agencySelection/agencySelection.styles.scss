@@ -73,7 +73,7 @@ $breakpointFlyoutPosition: 1140px;
 			border-bottom: 1px solid $black-10-opacity;
 		}
 
-		svg {
+		& > svg {
 			width: $infoIconSize;
 			padding: 4px 0 0;
 			cursor: pointer;
@@ -166,8 +166,8 @@ $breakpointFlyoutPosition: 1140px;
 
 			svg {
 				margin-right: $grid-base;
-				width: $font-size-primary;
-				height: $font-size-primary;
+				width: $infoIconSize;
+				height: $infoIconSize;
 
 				&* {
 					fill: $tertiary;
