@@ -22,6 +22,7 @@ import { stateToHTML } from 'draft-js-export-html';
 import { convertFromRaw, ContentState } from 'draft-js';
 import { urlifyLinksInText } from '../messageSubmitInterface/richtextHelpers';
 import { VideoCallMessage } from './VideoCallMessage';
+import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import './message.styles';
 
@@ -127,6 +128,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 				props.isMyMessage ? 'messageItem--right' : ''
 			} ${isVideoCallMessage ? 'videoCallMessage' : ''}`}
 		>
+			<FurtherSteps />
 			{getMessageDate()}
 			<div
 				className={

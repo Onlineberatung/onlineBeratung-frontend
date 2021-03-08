@@ -7,6 +7,8 @@ import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
 import enquiry from './de/enquiry';
 import enquiryInformal from './de/enquiryInformal';
+import furtherSteps from './de/furtherSteps';
+import furtherStepsInformal from './de/furtherStepsInformal';
 import groupChat from './de/groupChat';
 import groupChatInformal from './de/groupChatInformal';
 import login from './de/login';
@@ -41,6 +43,7 @@ const defaultLocale: any = {
 	chatFlyout,
 	consultant,
 	enquiry,
+	furtherSteps,
 	groupChat,
 	login,
 	message,
@@ -65,6 +68,7 @@ const informalLocale: any = {
 	attachments: { ...attachments, ...attachmentsInformal },
 	groupChat: { ...groupChat, ...groupChatInformal },
 	enquiry: { ...enquiry, ...enquiryInformal },
+	furtherSteps: { ...furtherSteps, ...furtherStepsInformal },
 	profile: { ...profile, ...profileInformal },
 	registration: { ...registration, ...registrationInformal },
 	session: { ...session, ...sessionInformal },
