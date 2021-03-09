@@ -202,14 +202,6 @@ a {
 					left: 0;
 				}
 			}
-
-			.loading__spinnerWrapper {
-				width: 100vw;
-
-				@include breakpoint($fromLarge) {
-					width: unset;
-				}
-			}
 		}
 
 		&__profile {

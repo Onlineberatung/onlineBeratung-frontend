@@ -1,4 +1,5 @@
 .formAccordion {
-	width: 100%;
-	border-top: 1px solid $form-disabled;
+	//TODO: remove margin-bottom; after removal of deprecated components
+	margin-bottom: 500px;
+	border-top: 1px solid $black-25-opacity;
 }

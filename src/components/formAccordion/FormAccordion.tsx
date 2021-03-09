@@ -1,21 +1,62 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './formAccordion.styles';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
+import { AgencySelection } from '../agencySelection/AgencySelection';
+import { autoselectPostcodeForConsultingType } from '../agencySelection/agencySelectionHelpers';
+import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
 import { AccordionItemValidity } from '../registration/registrationHelpers';
 
-export const FormAccordion = () => {
+interface FormAccordionProps {
+	consultingType: number;
+	prefilledAgencyData: any;
+	handleFormAccordionData: Function;
+}
+
+export const FormAccordion = (props: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
 	const [isUsernameValid, setIsUsernameValid] = useState<
 		AccordionItemValidity
 	>('initial');
+	const [username, setUsername] = useState<string>();
+	const [isSelectedAgencyValid, setIsSelectedAgencyValid] = useState<
+		AccordionItemValidity
+	>('initial');
+	const [agency, setAgency] = useState<{ id; postcode }>();
+
+	useEffect(() => {
+		if (
+			autoselectPostcodeForConsultingType(props.consultingType) &&
+			props.prefilledAgencyData
+		) {
+			setIsSelectedAgencyValid('valid');
+			setAgency({
+				id: props.prefilledAgencyData.id,
+				postcode: props.prefilledAgencyData.postcode
+			});
+		}
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (isUsernameValid === 'valid' && isSelectedAgencyValid === 'valid') {
+			props.handleFormAccordionData({
+				username: username,
+				agencyId: agency?.id.toString(),
+				postcode: agency?.postcode
+			});
+		} else {
+			props.handleFormAccordionData(null);
+		}
+	}, [isUsernameValid, isSelectedAgencyValid, username, agency]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const accordionItemData = [
 		{
-			title: 'Bitte wählen Sie Ihren Benutzernamen',
+			title: translate('registration.username.headline'),
 			nestedComponent: (
 				<RegistrationUsername
+					onUsernameChange={(username) => setUsername(username)}
 					onValidityChange={(validity) =>
 						setIsUsernameValid(validity)
 					}
@@ -24,16 +65,29 @@ export const FormAccordion = () => {
 			isValid: isUsernameValid
 		},
 		{
-			title: 'Bitte wählen Sie Ihr Passwort',
-			nestedComponent: null,
-			isValid: 'initial'
-		},
-		{
-			title: 'Bitte wählen Sie eine Beratungsstelle in Ihrer Nähe',
+			title: translate('registration.password.headline'),
 			nestedComponent: null,
 			isValid: 'initial'
 		}
 	];
+
+	if (!autoselectPostcodeForConsultingType(props.consultingType)) {
+		accordionItemData.push({
+			title: translate('registration.agencySelection.headline'),
+			nestedComponent: (
+				<AgencySelection
+					selectedConsultingType={props.consultingType}
+					icon={<PinIcon />}
+					preselectedAgency={props.prefilledAgencyData}
+					onAgencyChange={(agency) => setAgency(agency)}
+					onValidityChange={(validity) =>
+						setIsSelectedAgencyValid(validity)
+					}
+				/>
+			),
+			isValid: isSelectedAgencyValid
+		});
+	}
 
 	const handleStepSubmit = (indexOfItem) => {
 		if (indexOfItem + 1 > accordionItemData.length) {

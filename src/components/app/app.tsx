@@ -28,7 +28,6 @@ import { logout } from '../logout/logout';
 import '../../resources/styles/styles';
 import './app.styles';
 import './navigation.styles';
-import './loading.styles';
 import { Notifications } from '../notifications/Notifications';
 import { IncomingVideoCallProps } from '../incomingVideoCall/IncomingVideoCall';
 

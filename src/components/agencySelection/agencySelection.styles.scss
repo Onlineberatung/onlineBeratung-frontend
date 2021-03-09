@@ -1,78 +1,204 @@
-#suggestionLayer {
-	display: block;
-	position: absolute;
-	width: 90%;
-	right: 0;
-	background: $white;
-	z-index: 20;
-	top: 66px;
-}
+$maxFormElementWidth: 320px;
+$agencyInfoWidth: 266px;
+$infoIconSize: 16px;
+$breakpointFlyoutPosition: 1140px;
 
-.suggestionWrapper__item {
-	box-sizing: border-box;
-	background: $white;
-	width: 100%;
-	border: 1px solid $form-disabled;
-	@include rounded-drop-shadow;
+.agencySelection {
+	position: relative;
+	animation: fadeIn linear 0.2s;
+	margin: 0 auto $grid-base-four;
 
-	&:after,
-	&:before {
-		content: '';
-		position: absolute;
-		top: -13px;
-		border-left: 10px solid transparent;
-		border-right: 10px solid transparent;
-		margin-left: -10px;
-		transform: rotate(180deg);
-	}
+	&__intro {
+		> .text__infoLargeAlternative {
+			font-family: $font-family-medium;
+		}
 
-	&:before {
-		border-top: 10px solid $white;
-		margin-top: 5px;
-		z-index: 2;
-	}
+		&__content {
+			margin-top: $grid-base;
 
-	&:after {
-		border-top: 10px solid $form-disabled;
-		margin-top: 3px;
-		z-index: 1;
-	}
+			ul {
+				margin: 0;
+				padding-left: 15px;
+				font-size: $font-size-tertiary;
+				color: $tertiary;
+			}
 
-	&:hover {
-		color: $primary;
-		background-color: $hover-select;
-
-		.suggestionWrapper__item__content__teamAgency,
-		.suggestionWrapper__item__content__agencyDescr {
-			color: $primary;
+			li {
+				padding: 2px 0;
+			}
 		}
 	}
 
-	&__content {
-		text-align: left;
-		padding: $grid-base-two 20px;
-		cursor: pointer;
+	.inputField {
+		margin-top: $grid-base-three;
+	}
 
-		&__teamAgency {
+	&__proposedAgencies {
+		margin-top: 28px;
+		text-align: left;
+
+		h3 {
+			color: $secondary;
+			font-size: $font-size-primary;
+			line-height: $line-height-primary;
+			text-align: left;
+			margin-bottom: 12px;
+		}
+
+		&--warning {
+			.text__infoSmall {
+				color: $primary;
+			}
+
+			a {
+				display: block;
+				font-size: $font-size-secondary;
+				line-height: $line-height-secondary;
+				text-decoration: underline;
+				transition: all 0.6s ease;
+			}
+		}
+	}
+
+	&__proposedAgency {
+		display: flex;
+		position: relative;
+		padding: 12px 0;
+
+		.radioButton {
+			min-height: unset;
+		}
+
+		&:not(:last-of-type) {
+			border-bottom: 1px solid $black-10-opacity;
+		}
+
+		& > svg {
+			width: $infoIconSize;
+			padding: 4px 0 0;
+			cursor: pointer;
+		}
+	}
+
+	&__agencyInfo {
+		position: absolute;
+		top: 50px;
+		right: -12px;
+		width: $agencyInfoWidth;
+		padding-bottom: $grid-base-six;
+		text-align: left;
+		z-index: 20;
+		box-sizing: border-box;
+		background: $white;
+		padding: $grid-base-two 20px;
+		border: 1px solid $form-disabled;
+		@include rounded-drop-shadow;
+
+		@include breakpoint($breakpointFlyoutPosition) {
+			right: calc(
+				((#{$agencyInfoWidth} / 2) * -1) + (#{$infoIconSize} / 2)
+			);
+		}
+
+		&:after,
+		&:before {
+			content: '';
+			position: absolute;
+			top: -13px;
+			width: 20px;
+			right: $grid-base;
+			margin: 0 auto;
+			border-left: 10px solid transparent;
+			border-right: 10px solid transparent;
+			transform: rotate(180deg);
+
+			@include breakpoint($breakpointFlyoutPosition) {
+				left: 0;
+				right: 0;
+			}
+		}
+
+		&:before {
+			border-top: 10px solid $white;
+			margin-top: 5px;
+			z-index: 2;
+		}
+
+		&:after {
+			border-top: 10px solid $form-disabled;
+			margin-top: 3px;
+			z-index: 1;
+		}
+
+		&--above {
+			top: auto;
+			bottom: 50px;
+			right: -12px;
+
+			&::before,
+			&::after {
+				top: auto;
+				left: auto;
+				right: 8px;
+				transform: rotate(0);
+			}
+
+			&::before {
+				bottom: -10px;
+			}
+
+			&::after {
+				bottom: -11px;
+			}
+		}
+
+		&__teamAgency,
+		&__description {
 			font-size: $font-size-secondary;
 			line-height: $line-height-secondary;
-			margin: 0 0 $grid-base;
 			color: $tertiary;
+		}
 
-			&__icon {
-				svg {
-					margin-right: $grid-base;
-					width: $font-size-primary;
-					height: $font-size-primary;
+		&__teamAgency {
+			display: flex;
+			align-items: flex-end;
+			margin-bottom: $grid-base;
+
+			svg {
+				margin-right: $grid-base;
+				width: $infoIconSize;
+				height: $infoIconSize;
+
+				&* {
+					fill: $tertiary;
 				}
 			}
 		}
 
-		&__agencyDescr {
-			font-size: $font-size-secondary;
-			line-height: $line-height-secondary;
-			margin: $grid-base 0 0;
-			color: $tertiary;
+		&__name {
+			font-weight: $font-weight-bold;
+		}
+
+		&__description {
+			margin-top: $grid-base;
+		}
+	}
+
+	h5 {
+		margin-bottom: 12px;
+	}
+
+	&__consultingModeInfo {
+		animation: fadeIn linear 0.2s;
+		font-size: $font-size-secondary;
+		line-height: 1.3333em;
+		max-width: $maxFormElementWidth;
+		margin: -12px 0 $grid-base-three;
+		padding: 0 $grid-base-three 0 20px;
+
+		@include breakpoint($fromLarge) {
+			margin: -12px 0 $grid-base-three;
+			text-align: left;
 		}
 	}
 }

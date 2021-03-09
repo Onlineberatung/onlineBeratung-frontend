@@ -14,7 +14,8 @@ let isRequestInProgress = false;
 export const apiPostRegistration = (
 	url: string,
 	data: {},
-	handleSuccessfulRegistration: Function
+	handleSuccessfulRegistration: Function,
+	handleRegistrationError: Function
 ) => {
 	removeAllCookies();
 	if (isRequestInProgress) {
@@ -32,6 +33,8 @@ export const apiPostRegistration = (
 				handleLoginSuccess: handleSuccessfulRegistration
 			});
 		} else if (xhr.readyState > 3 && xhr.status === 409) {
+			//TODO rm deprecated error functionality
+			handleRegistrationError(xhr.response);
 			handleConfirmationError(xhr.response);
 			isRequestInProgress = false;
 		} else if (
