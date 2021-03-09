@@ -45,8 +45,7 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 				onClick={handleOnHeaderClick}
 			>
 				<span className="formAccordionItem__index">{props.index}</span>
-				{/*TODO: change title from span to h3 element as soon as registration h3 styles are removed*/}
-				<span className="formAccordionItem__title">{props.title}</span>
+				<h3 className="formAccordionItem__title">{props.title}</h3>
 				{props.isValid === 'valid' && (
 					<ValidIcon className="formAccordionItem__validationIcon formAccordionItem__validationIcon--valid" />
 				)}

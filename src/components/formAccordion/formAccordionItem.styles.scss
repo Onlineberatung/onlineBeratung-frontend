@@ -1,6 +1,6 @@
 .formAccordionItem {
 	width: 100%;
-	border-bottom: 1px solid $form-disabled;
+	border-bottom: 1px solid $black-25-opacity;
 
 	&__header {
 		position: relative;
@@ -31,13 +31,14 @@
 		font-family: $font-family-regular;
 		font-size: $font-size-h5;
 		font-weight: $font-weight-regular;
+		line-height: $line-height-primary;
 		color: $secondary;
 		text-align: left;
 	}
 
 	&__validationIcon {
 		position: absolute;
-		top: 26px;
+		top: $grid-base-four;
 		right: 0;
 		height: $grid-base-two;
 		width: $grid-base-two;
@@ -54,6 +55,10 @@
 	&__content {
 		display: none;
 		margin-bottom: $grid-base-three;
+
+		.inputField {
+			margin-right: $grid-base-four;
+		}
 	}
 
 	&__continueButton {

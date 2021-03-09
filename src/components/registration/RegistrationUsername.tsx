@@ -13,6 +13,7 @@ import {
 } from './registrationHelpers';
 
 interface RegistrationUsernameProps {
+	onUsernameChange: Function;
 	onValidityChange: Function;
 }
 
@@ -21,6 +22,10 @@ export const RegistrationUsername = (props: RegistrationUsernameProps) => {
 	const [isValid, setIsValid] = useState<AccordionItemValidity>('initial');
 	const [labelContent, setLabelContent] = useState<string>(null);
 	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
+
+	useEffect(() => {
+		props.onUsernameChange(username);
+	}, [username, props]);
 
 	useEffect(() => {
 		props.onValidityChange(isValid);

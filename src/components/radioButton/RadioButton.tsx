@@ -2,18 +2,21 @@ import * as React from 'react';
 import './radioButton.styles';
 
 export interface RadioButtonItem {
-	inputId: string;
-	name: string;
-	label: string;
 	checked: boolean;
+	handleRadioButton: Function;
+	inputId: string;
+	label: string;
+	name: string;
+	type: 'default' | 'box';
+	value: string;
 }
 
-export const RadioButton = (props) => {
+export const RadioButton = (props: RadioButtonItem) => {
 	return (
-		<div className="radioButton">
+		<div className={`radioButton radioButton--${props.type}`}>
 			<div className="radioButton__contentWrapper">
 				<input
-					onClick={props.handleRadioButton}
+					onClick={(e) => props.handleRadioButton(e)}
 					id={props.inputId}
 					className="radioButton__input"
 					type="radio"

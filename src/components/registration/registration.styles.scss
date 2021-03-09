@@ -23,7 +23,7 @@
 	}
 
 	form {
-		margin: $grid-base-eleven 0;
+		margin: 120px 0;
 		max-width: 400px;
 		animation: fadeIn linear 0.5s;
 
@@ -55,8 +55,7 @@
 		}
 
 		& > .askerRegistration__postcode {
-			.selectedAgencyInfo,
-			.askerRegistration__selectAgencyInfo {
+			.selectedAgencyInfo {
 				margin: -28px 20px $grid-base-five 52px;
 			}
 		}
@@ -122,13 +121,6 @@
 		max-width: 690px;
 	}
 
-	h3 {
-		color: $secondary;
-		text-align: center;
-		font-size: $font-size-primary;
-		margin: 0 0 $grid-base 0;
-	}
-
 	.select__wrapper {
 		padding: 0 0 0 $grid-base-four;
 	}
@@ -137,14 +129,6 @@
 		&__text {
 			&--tertiary {
 				color: $tertiary;
-
-				.suggestionWrapper__item__content__teamAgency__icon svg {
-					margin-top: 0 !important;
-
-					&* {
-						fill: $tertiary;
-					}
-				}
 			}
 		}
 	}
