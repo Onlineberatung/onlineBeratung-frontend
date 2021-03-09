@@ -105,9 +105,20 @@ $iconSizeSmall: 100px;
 		}
 	}
 
+	.headline--1 {
+		margin-bottom: 0;
+	}
+
 	.text {
 		margin-top: $grid-base-two;
 		text-align: center;
+	}
+
+	&__nestedComponent {
+		.inputField {
+			margin: $grid-base-three auto;
+			max-width: 325px;
+		}
 	}
 
 	.button {

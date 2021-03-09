@@ -24,8 +24,8 @@ export interface OverlayItem {
 	copy?: string;
 	headline?: string;
 	headlineStyleLevel?: HeadlineStyleLevel;
-	//TODO: & large/standard -> required -> every overlay?
-	iconSize?: 'small';
+	isIconSmall?: boolean;
+	nestedComponent?: React.ReactNode;
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
 	>;
@@ -60,11 +60,8 @@ export const Overlay = (props: {
 			<div className="overlay__content">
 				{item.svg && (
 					<span
-						className={`overlay__iconWrapper ${
-							item.iconSize
-								? `overlay__iconWrapper--${item.iconSize}`
-								: ''
-						}`}
+						className={`overlay__iconWrapper 
+						${item.isIconSmall ? `overlay__iconWrapper--small` : ''}`}
 					>
 						<Icon />
 					</span>
@@ -77,6 +74,11 @@ export const Overlay = (props: {
 					/>
 				)}
 				{item.copy && <Text text={item.copy} type="standard" />}
+				{item.nestedComponent && (
+					<div className="overlay__nestedComponent">
+						{item.nestedComponent}
+					</div>
+				)}
 				{item.buttonSet?.map((item, i) => {
 					return (
 						<Button
