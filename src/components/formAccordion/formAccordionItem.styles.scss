@@ -1,0 +1,79 @@
+.formAccordionItem {
+	width: 100%;
+	border-bottom: 1px solid $form-disabled;
+
+	&__header {
+		position: relative;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		cursor: pointer;
+		padding: $grid-base-three 0;
+	}
+
+	&__index {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: $grid-base-four;
+		height: $grid-base-four;
+		margin-right: 12px;
+		border: 2px solid $tertiary;
+		border-radius: 100%;
+		font-family: $font-family-bold;
+		font-weight: $font-weight-bold;
+		color: $tertiary;
+	}
+
+	&__title {
+		width: calc(100% - #{$grid-base-ten});
+		margin: 0;
+		font-family: $font-family-regular;
+		font-size: $font-size-h5;
+		font-weight: $font-weight-regular;
+		color: $secondary;
+		text-align: left;
+	}
+
+	&__validationIcon {
+		position: absolute;
+		top: 26px;
+		right: 0;
+		height: $grid-base-two;
+		width: $grid-base-two;
+
+		&--valid {
+			fill: $form-success;
+		}
+
+		&--invalid {
+			fill: $form-error;
+		}
+	}
+
+	&__content {
+		display: none;
+		margin-bottom: $grid-base-three;
+	}
+
+	&__continueButton {
+		margin-top: $grid-base-three;
+	}
+
+	&--active & {
+		&__index {
+			background-color: $dropdown-bg-red;
+			border: none;
+			color: $secondary;
+		}
+
+		&__title {
+			font-family: $font-family-medium;
+			font-weight: $font-weight-medium;
+		}
+
+		&__content {
+			display: block;
+		}
+	}
+}

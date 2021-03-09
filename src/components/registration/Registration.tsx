@@ -63,6 +63,7 @@ import {
 } from '../agencySelection/agencySelectionHelpers';
 import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
 import { AgencyDataInterface } from '../../globalState';
+import { FormAccordion } from '../formAccordion/FormAccordion';
 import { WelcomeScreen } from './WelcomeScreen';
 
 export const initRegistration = () => {
@@ -625,6 +626,8 @@ const Registration = () => {
 							<h1 className="registration__headline">
 								{translate('registration.headline')}
 							</h1>
+
+							<FormAccordion></FormAccordion>
 
 							{/* ----------------------------- Required Fields ---------------------------- */}
 							<div className="registration__generalInformation">

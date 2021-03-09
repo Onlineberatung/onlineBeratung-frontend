@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { config } from '../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
 import { autoLogin } from '../registration/autoLogin';
+import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import './login.styles';
@@ -52,7 +53,6 @@ const Login = () => {
 
 	const inputItemPassword: InputFieldItem = {
 		name: 'password',
-		class: 'passwordFields__fieldGroup__input',
 		id: 'passwordInput',
 		type: 'password',
 		label: translate('login.password.label'),
@@ -109,11 +109,10 @@ const Login = () => {
 					keyUpHandle={handleKeyUp}
 				/>
 				{showLoginError ? (
-					<div className="formWrapper">
-						<p className="formWrapper__infoText warning">
-							{translate('warningLabels.login.failed')}
-						</p>
-					</div>
+					<Text
+						text={translate('warningLabels.login.failed')}
+						type="infoSmall"
+					/>
 				) : null}
 				<a
 					href={config.endpoints.loginResetPasswordLink}

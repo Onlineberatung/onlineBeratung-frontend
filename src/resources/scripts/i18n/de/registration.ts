@@ -64,6 +64,8 @@ const registration = {
 		'Herzlich willkommen<br>bei der Beratung & Hilfe der Caritas.',
 	'overlay.success.copy': 'Sie haben sich erfolgreich registriert.',
 	'overlay.success.button': 'Nachricht verfassen',
+	'accordion.item.continueButton': 'Weiter',
+	'accordion.item.continueButton.title': 'Weiter zum nächsten Schritt',
 	'welcomeScreen.title.start': 'Willkommen bei der',
 	'welcomeScreen.title.end': '!',
 	'welcomeScreen.subline': 'Wie läuft die Beratung & Hilfe der Caritas ab?',

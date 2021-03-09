@@ -24,6 +24,7 @@
 
 	form {
 		margin: $grid-base-eleven 0;
+		max-width: 400px;
 		animation: fadeIn linear 0.5s;
 
 		@keyframes fadeIn {
@@ -39,7 +40,8 @@
 	&__overline {
 		color: $secondary;
 		text-align: center;
-		font-weight: normal;
+		font-family: $font-family-regular;
+		font-weight: $font-weight-regular;
 		margin: 0;
 		font-size: $font-size-primary;
 	}
@@ -124,7 +126,6 @@
 		color: $secondary;
 		text-align: center;
 		font-size: $font-size-primary;
-		font-weight: $font-weight-regular;
 		margin: 0 0 $grid-base 0;
 	}
 
