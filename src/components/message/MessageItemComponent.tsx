@@ -206,6 +206,13 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		}
 	};
 
+	if (
+		isFurtherStepsMessage &&
+		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+	) {
+		return null;
+	}
+
 	return (
 		<div
 			className={`messageItem ${
