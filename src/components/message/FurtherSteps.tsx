@@ -59,7 +59,7 @@ export const FurtherSteps = () => {
 					/>
 				</li>
 			</ul>
-			<Headline
+			{/* <Headline
 				semanticLevel="5"
 				text={translate('furtherSteps.emailNotification.headline')}
 			/>
@@ -68,7 +68,7 @@ export const FurtherSteps = () => {
 				text={translate('furtherSteps.emailNotification.infoText')}
 				className="furtherSteps__emailInfo"
 			/>
-			<Button item={addEmailButton} />
+			<Button item={addEmailButton} /> */}
 		</div>
 	);
 };
