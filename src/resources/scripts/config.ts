@@ -5,6 +5,7 @@ const endpointPort = nodeEnv === 'development' ? ':9000' : '';
 export const config = {
 	endpoints: {
 		draftMessages: tld + '/service/messages/draft',
+		email: tld + '/service/users/email',
 		enquiries: tld + '/service/users/sessions/consultants?status=1',
 		enquiryBase: tld + '/service/users/sessions/',
 		enquiryAcceptance: tld + '/service/users/sessions/new',
