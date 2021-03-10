@@ -3,16 +3,15 @@ import './furtherSteps.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as EnvelopeIllustration } from '../../resources/img/illustrations/envelope-check.svg';
 import { ReactComponent as ConsultantIllustration } from '../../resources/img/illustrations/consultant.svg';
 import { ReactComponent as AnswerIllustration } from '../../resources/img/illustrations/answer.svg';
 import { ReactComponent as ArrowIllustration } from '../../resources/img/illustrations/arrow.svg';
 
-const addEmailButton: ButtonItem = {
-	label: translate('furtherSteps.emailNotification.button'),
-	type: BUTTON_TYPES.LINK
-};
+// const addEmailButton: ButtonItem = {
+// 	label: translate('furtherSteps.emailNotification.button'),
+// 	type: BUTTON_TYPES.LINK
+// };
 
 export const FurtherSteps = () => {
 	return (
