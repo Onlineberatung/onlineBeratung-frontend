@@ -92,7 +92,9 @@ export const ProfileView = () => {
 					) : (
 						<ProfileDataViewAsker />
 					)}
-					<DeleteAccount />
+					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (
+						<DeleteAccount />
+					)}
 				</div>
 				<div className="profile__footer">
 					<a
