@@ -15,6 +15,7 @@ export const BUTTON_TYPES = {
 
 export interface ButtonItem {
 	function?: string;
+	disabled?: boolean;
 	icon?: JSX.Element;
 	id?: string;
 	label?: string;
@@ -79,7 +80,7 @@ export const Button = (props: ButtonProps) => {
 			event.preventDefault();
 		}
 
-		if (!props.disabled && props.buttonHandle) {
+		if (!props.disabled && !props.item.disabled && props.buttonHandle) {
 			window.clearTimeout(timeoutID);
 			props.buttonHandle(item.function);
 		}
@@ -106,7 +107,7 @@ export const Button = (props: ButtonProps) => {
 							? getButtonClassName(item.type) + '--withLabel'
 							: ''
 					} 
-					${props.disabled ? ' button__item--disabled' : ''}
+					${props.disabled || props.item.disabled ? ' button__item--disabled' : ''}
 				`}
 				data-cy={props.testingAttribute}
 			>
