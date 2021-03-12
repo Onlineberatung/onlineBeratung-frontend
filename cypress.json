@@ -1,5 +1,5 @@
 {
-	"baseUrl": "http://caritas.local:9000",
+	"baseUrl": "http://caritas.local",
 	"pluginsFile": false,
 	"chromeWebSecurity": false,
 	"viewportWidth": 1200,
