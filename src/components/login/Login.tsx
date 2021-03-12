@@ -110,7 +110,7 @@ const Login = () => {
 				/>
 				{showLoginError ? (
 					<Text
-						text={translate('warningLabels.login.failed')}
+						text={translate('login.warning.failed')}
 						type="infoSmall"
 					/>
 				) : null}
