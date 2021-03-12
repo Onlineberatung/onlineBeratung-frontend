@@ -36,6 +36,7 @@ const registration = {
 		'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialien zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 	'user.suitable': 'Ihr Benutzername ist geeignet.',
 	'user.unsuitable': 'Ihr Benutzername ist zu kurz.',
+	'user.unavailable': 'Der Benutzername ist bereits vergeben.',
 	'agencySelection.headline':
 		'Bitte wählen Sie eine Beratungsstelle in Ihrer Nähe',
 	'agencySelection.postcode.label': 'Ihre Postleitzahl',
@@ -49,6 +50,9 @@ const registration = {
 		'mit den rechtlichen Voraussetzungen vertraut ist,',
 	'agencySelection.intro.point3':
 		'Sie gegebenfalls auch vor Ort beraten kann.',
+	'agencySelection.postcode.unavailable':
+		'Momentan haben wir leider noch keine Online-Beratungsstelle in Ihrer Nähe. Auf unserer Webseite finden Sie Beratungsstellen für Ihr Anliegen.',
+	'agencySelection.postcode.search': 'Zur Beratungsstellensuche',
 	'password.headline': 'Bitte wählen Sie Ihr Passwort',
 	'password.input.label': 'Passwort*',
 	'password.confirmation.label': 'Passwort wiederholen*',
@@ -60,12 +64,6 @@ const registration = {
 	'password.notSame': 'Ihr Passwort ist nicht identisch.',
 	'password.note':
 		'Bitte notieren Sie Ihre Zugangsdaten – ein Passwort-Reset ist nicht möglich!',
-	//TODO: rm email texts after removal from registration
-	'email.label': 'E-Mail (optional)',
-	'email.infoText':
-		'Per E-Mail können wir Sie benachrichtigen, sobald eine Antwort auf Ihre Anfrage vorliegt. Zudem können Sie per E-Mail Ihr Passwort zurücksetzen, wenn Sie es vergessen haben.',
-	'email.valid': 'Ihre E-Mail-Adresse ist gültig.',
-	'email.invalid': 'Ihre E-Mail-Adresse ist nicht gültig.',
 	'required.infoText':
 		'* Die markierten Felder müssen ausgefüllt werden, um sich registrieren zu können.',
 	'dataProtection.label':

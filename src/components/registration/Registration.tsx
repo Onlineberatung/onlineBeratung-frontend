@@ -8,7 +8,6 @@ import {
 	InputFieldItem
 } from '../inputField/InputField';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
-import { ReactComponent as EnvelopeIcon } from '../../resources/img/icons/envelope.svg';
 import { useEffect, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button } from '../button/Button';
@@ -22,7 +21,6 @@ import {
 	buttonItemSubmit,
 	getOptionOfSelectedValue,
 	getValidationClassNames,
-	isStringValidEmail,
 	overlayItemRegistrationSuccess
 } from './registrationHelpers';
 import {
@@ -48,7 +46,6 @@ import {
 } from '../../resources/scripts/helpers/resorts';
 import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
-import { removeInputErrorClass, removeWarningLabelById } from './warningLabels';
 import { isNumber } from '../../resources/scripts/helpers/isNumber';
 import '../../resources/styles/styles';
 import './registration.styles';
@@ -70,7 +67,6 @@ export interface ResortData {
 	consultingType: string;
 	overline: string;
 	requiredComponents?: any[];
-	showEmail: boolean;
 	useInformal: boolean;
 	voluntaryComponents?: any[];
 }
@@ -109,10 +105,9 @@ const Registration = () => {
 		passwordConfirmationErrorMessage,
 		setPasswordConfirmationErrorMessage
 	] = useState('');
-	const [email, setEmail] = useState('');
-	const [isEmailValid, setIsEmailValid] = useState(true);
-	const [emailSuccessMessage, setEmailSuccessMessage] = useState('');
-	const [emailErrorMessage, setEmailErrorMessage] = useState('');
+	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] = useState<
+		boolean
+	>(false);
 	const [
 		valuesOfGeneratedInputs,
 		setValuesOfGeneratedInputs
@@ -194,10 +189,6 @@ const Registration = () => {
 
 		validation.push(generalValidation ? true : false);
 
-		if (resortData.showEmail) {
-			validation.push(isEmailValid ? true : false);
-		}
-
 		// U25 and gemeinsamstatteinsam
 		if (consultingType === 1) {
 			validation.push(
@@ -216,14 +207,6 @@ const Registration = () => {
 		prefillPostcode();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	useEffect(() => {
-		const warningLabels = document.querySelectorAll('.warning');
-		if (warningLabels.length > 0 && resortData.showEmail) {
-			removeWarningLabelById('email');
-			removeInputErrorClass('email');
-		}
-	}, [email, resortData.showEmail]);
-
 	useEffect(
 		() => {
 			if (isRegistrationValid()) {
@@ -237,7 +220,6 @@ const Registration = () => {
 			formAccordionData,
 			password,
 			passwordConfirmation,
-			email,
 			valuesOfGeneratedInputs,
 			isDataProtectionSelected
 		]
@@ -283,23 +265,6 @@ const Registration = () => {
 		type: 'password'
 	};
 
-	const inputItemEmail: InputFieldItem = {
-		content: email,
-		class: getValidationClassNames(
-			!!emailErrorMessage,
-			!!emailSuccessMessage
-		),
-		icon: <EnvelopeIcon />,
-		id: 'email',
-		label:
-			emailErrorMessage || emailSuccessMessage
-				? `${emailErrorMessage} ${emailSuccessMessage}`
-				: translate('registration.email.label'),
-		infoText: translate('registration.email.infoText'),
-		name: 'email',
-		type: 'text'
-	};
-
 	const checkboxItemDataProtection: CheckboxItem = {
 		inputId: 'dataProtectionCheckbox',
 		name: 'dataProtectionCheckbox',
@@ -319,39 +284,31 @@ const Registration = () => {
 		setPasswordConfirmation(event.target.value);
 	};
 
-	const handleEmailChange = (event) => {
-		validateEmail(event.target.value);
-		setEmail(event.target.value);
-	};
-
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_WITH_BLUR) {
 			redirectToApp();
 		}
 	};
 
-	const handleRegistrationError = (response) => {
-		//TODO: implement new error functionality!
-		console.log('ERROR', response);
+	const handleRegistrationError = (response: XMLHttpRequest) => {
+		const error = response.getResponseHeader(FETCH_ERRORS.X_REASON);
+		if (error && error === 'USERNAME_NOT_AVAILABLE') {
+			setIsUsernameAlreadyInUse(true);
+			setIsSubmitButtonDisabled(true);
+			window.scrollTo({ top: 0 });
+		}
 	};
-	// TODO: refactor warning for username already in use!
-	// useEffect(() => {
-	// 	const warningLabels = document.querySelectorAll('.warning');
-	// 	if (warningLabels.length > 0) {
-	// 		removeWarningLabelById('username');
-	// 		removeInputErrorClass('username');
-	// 	}
-	// }, [username]);
 
 	const handleSubmitButtonClick = () => {
+		setIsUsernameAlreadyInUse(false);
+
 		const generalRegistrationData = {
 			username: formAccordionData.username,
 			password: encodeURIComponent(password),
 			agencyId: formAccordionData.agencyId,
 			postcode: formAccordionData.postcode,
 			consultingType: consultingType?.toString(),
-			termsAccepted: isDataProtectionSelected.toString(),
-			...(email && { email: email })
+			termsAccepted: isDataProtectionSelected.toString()
 		};
 
 		let generatedRegistrationData = {};
@@ -424,22 +381,6 @@ const Registration = () => {
 		} else {
 			setPasswordConfirmationSuccessMessage('');
 			setPasswordConfirmationErrorMessage('');
-		}
-	};
-
-	const validateEmail = (email) => {
-		if (email.length > 0 && isStringValidEmail(email)) {
-			setIsEmailValid(true);
-			setEmailSuccessMessage(translate('registration.email.valid'));
-			setEmailErrorMessage('');
-		} else if (email.length > 0) {
-			setIsEmailValid(false);
-			setEmailSuccessMessage('');
-			setEmailErrorMessage(translate('registration.email.invalid'));
-		} else {
-			setIsEmailValid(true);
-			setEmailSuccessMessage('');
-			setEmailErrorMessage('');
 		}
 	};
 
@@ -576,6 +517,7 @@ const Registration = () => {
 
 							<FormAccordion
 								consultingType={consultingType}
+								isUsernameAlreadInUse={isUsernameAlreadyInUse}
 								prefilledAgencyData={prefilledAgencyData}
 								handleFormAccordionData={(formData) =>
 									setFormAccordionData(formData)
@@ -617,12 +559,6 @@ const Registration = () => {
 											'registration.password.note'
 										)}
 										type="infoSmall"
-									/>
-								)}
-								{resortData.showEmail && (
-									<InputField
-										item={inputItemEmail}
-										inputHandle={handleEmailChange}
 									/>
 								)}
 								{resortData.requiredComponents

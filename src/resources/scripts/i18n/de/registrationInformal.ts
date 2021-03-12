@@ -9,6 +9,8 @@ const registrationInformal = {
 	'agencySelection.headline':
 		'Bitte wähle eine Beratungsstelle in Deiner Nähe',
 	'agencySelection.postcode.label': 'Deine Postleitzahl',
+	'agencySelection.postcode.unavailable':
+		'Momentan haben wir leider noch keine Online-Beratungsstelle in Deiner Nähe. Auf unserer Webseite findest Du Beratungsstellen für Dein Anliegen.',
 	'password.headline': 'Bitte wähle Dein Passwort',
 	'password.confirmation.infoText':
 		'Dein Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 10 Zeichen',
@@ -18,11 +20,6 @@ const registrationInformal = {
 	'password.notSame': 'Dein Passwort ist nicht identisch.',
 	'password.note':
 		'Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!',
-	//TODO: rm email texts after removal from registration
-	'email.infoText':
-		'Per E-Mail können wir Dich benachrichtigen, sobald eine Antwort auf Deine Anfrage vorliegt. Zudem kannst Du per E-Mail Dein Passwort zurücksetzen, wenn Du es vergessen hast.',
-	'email.valid': 'Deine E-Mail-Adresse ist gültig.',
-	'email.invalid': 'Deine E-Mail-Adresse ist nicht gültig.',
 	'overlay.success.copy': 'Du hast Dich erfolgreich registriert.',
 	'welcomeScreen.info2.text':
 		'Schicke Deine Nachricht an eine lokale Beratungsstelle',

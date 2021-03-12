@@ -11,6 +11,7 @@ import { AccordionItemValidity } from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
 	consultingType: number;
+	isUsernameAlreadInUse: boolean;
 	prefilledAgencyData: any;
 	handleFormAccordionData: Function;
 }
@@ -51,11 +52,18 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		}
 	}, [isUsernameValid, isSelectedAgencyValid, username, agency]); // eslint-disable-line react-hooks/exhaustive-deps
 
+	useEffect(() => {
+		if (props.isUsernameAlreadInUse) {
+			setActiveItem(1);
+		}
+	}, [props.isUsernameAlreadInUse]);
+
 	const accordionItemData = [
 		{
 			title: translate('registration.username.headline'),
 			nestedComponent: (
 				<RegistrationUsername
+					isUsernameAlreadInUse={props.isUsernameAlreadInUse}
 					onUsernameChange={(username) => setUsername(username)}
 					onValidityChange={(validity) =>
 						setIsUsernameValid(validity)
@@ -89,14 +97,6 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		});
 	}
 
-	const handleStepSubmit = (indexOfItem) => {
-		if (indexOfItem + 1 > accordionItemData.length) {
-			setActiveItem(0);
-		} else {
-			setActiveItem(indexOfItem + 1);
-		}
-	};
-
 	const handleItemHeaderClick = (indexOfItem) => {
 		setActiveItem(indexOfItem);
 	};
@@ -109,7 +109,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 						index={i + 1}
 						isActive={i + 1 === activeItem}
 						isLastItem={i + 1 === accordionItemData.length}
-						onStepSubmit={handleStepSubmit}
+						onStepSubmit={(i) => setActiveItem(i + 1)}
 						onItemHeaderClick={handleItemHeaderClick}
 						title={accordionItem.title}
 						nestedComponent={accordionItem.nestedComponent}
