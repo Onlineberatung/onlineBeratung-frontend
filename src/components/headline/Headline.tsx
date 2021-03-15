@@ -1,11 +1,10 @@
 import * as React from 'react';
 import './headline.styles';
 
-export type HeadlineStyleLevel = 'super' | '1' | '2' | '3' | '4' | '5';
-
+export type headlineLevels = '1' | '2' | '3' | '4' | '5';
 interface HeadlineProps {
-	semanticLevel: '1' | '2' | '3' | '4' | '5';
-	styleLevel?: HeadlineStyleLevel;
+	semanticLevel: headlineLevels;
+	styleLevel?: headlineLevels;
 	text: string;
 }
 

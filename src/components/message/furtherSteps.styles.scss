@@ -1,7 +1,7 @@
 .furtherSteps {
 	text-align: left;
-	margin-right: 52px;
 	padding: $grid-base-two $grid-base-two $grid-base-four;
+	margin-bottom: 12px;
 	border: 2px dashed $form-input-border;
 	border-radius: 0 12px 12px;
 
@@ -69,9 +69,9 @@
 	}
 }
 
-@include breakpoint($fromLarge) {
+@include breakpoint(1024px) {
 	.furtherSteps {
-		max-width: 600px;
+		padding: $grid-base-three $grid-base-three $grid-base-four;
 
 		&__steps {
 			display: flex;

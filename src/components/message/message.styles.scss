@@ -94,6 +94,12 @@ $message-lineheight: 21px;
 		&--right {
 			text-align: right;
 		}
+
+		&--furtherSteps {
+			display: block;
+			max-width: 600px;
+			margin-right: 52px;
+		}
 	}
 
 	&__divider {
