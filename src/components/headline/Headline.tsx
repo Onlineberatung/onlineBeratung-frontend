@@ -16,8 +16,11 @@ export const Headline = (props: HeadlineProps) => {
 		: props.semanticLevel;
 
 	return (
-		<Tag className={`headline headline--${levelBasedClass}`}>
-			{props.text}
-		</Tag>
+		<Tag
+			className={`headline headline--${levelBasedClass}`}
+			dangerouslySetInnerHTML={{
+				__html: props.text
+			}}
+		></Tag>
 	);
 };
