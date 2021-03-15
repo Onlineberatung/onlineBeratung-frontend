@@ -87,6 +87,7 @@ export const FurtherSteps = () => {
 	const emailOverlayItem: OverlayItem = {
 		buttonSet: [
 			{
+				disabled: emailLabelState != 'valid',
 				label: translate('furtherSteps.email.overlay.button1.label'),
 				type: BUTTON_TYPES.PRIMARY
 			},
