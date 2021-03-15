@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import * as ReactDOM from 'react-dom';
 import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
-import { Headline, HeadlineStyleLevel } from '../headline/Headline';
+import { Headline, HeadlineLevels } from '../headline/Headline';
 import './overlay.styles';
 
 export const OVERLAY_FUNCTIONS = {
@@ -23,7 +23,7 @@ export interface OverlayItem {
 	buttonSet?: ButtonItem[];
 	copy?: string;
 	headline?: string;
-	headlineStyleLevel?: HeadlineStyleLevel;
+	headlineStyleLevel?: HeadlineLevels;
 	isIconSmall?: boolean;
 	nestedComponent?: React.ReactNode;
 	svg?: React.FunctionComponent<

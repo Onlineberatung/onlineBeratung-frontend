@@ -9,19 +9,22 @@ import { ReactComponent as ConsultantIllustration } from '../../resources/img/il
 import { ReactComponent as AnswerIllustration } from '../../resources/img/illustrations/answer.svg';
 import { ReactComponent as ArrowIllustration } from '../../resources/img/illustrations/arrow.svg';
 import { ReactComponent as EnvelopeIcon } from '../../resources/img/icons/envelope.svg';
+import { ReactComponent as SuccessIllustration } from '../../resources/img/illustrations/check.svg';
 import {
 	InputField,
 	InputFieldItem,
 	InputFieldLabelState
 } from '../inputField/InputField';
 import { isStringValidEmail } from '../registration/registrationHelpers';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
 	Overlay,
 	OverlayItem,
 	OverlayWrapper,
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
+import { apiPutEmail, FETCH_ERRORS } from '../../api';
+import { UserDataContext } from '../../globalState';
 
 const addEmailButton: ButtonItem = {
 	label: translate('furtherSteps.emailNotification.button'),
@@ -29,18 +32,29 @@ const addEmailButton: ButtonItem = {
 };
 
 export const FurtherSteps = () => {
-	const [overlayActive, setOverlayActive] = useState(false);
-	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [email, setEmail] = useState('');
-	const [emailInputItem, setEmailInputItem] = useState<InputFieldItem>({
+	const [overlayActive, setOverlayActive] = useState<boolean>(false);
+	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
+	const { userData, setUserData } = useContext(UserDataContext);
+	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
+		false
+	);
+	const [email, setEmail] = useState<string>('');
+	const [emailLabel, setEmailLabel] = useState<string>(
+		translate('furtherSteps.email.overlay.input.label')
+	);
+	const [emailLabelState, setEmailLabelState] = useState<
+		InputFieldLabelState
+	>();
+
+	const emailInputItem: InputFieldItem = {
 		content: email,
 		icon: <EnvelopeIcon />,
 		id: 'email',
-		label: translate('furtherSteps.email.overlay.input.label'),
+		label: emailLabel,
 		name: 'email',
 		type: 'text',
-		labelState: null
-	});
+		labelState: emailLabelState
+	};
 
 	const validateEmail = (
 		email
@@ -64,21 +78,16 @@ export const FurtherSteps = () => {
 	};
 
 	const handleEmailChange = (event) => {
-		console.log('HANDLE EMAIL CHANGE');
-		setEmail(event.target.value);
-		let inputEmail = emailInputItem;
 		const validity = validateEmail(event.target.value);
-		inputEmail.labelState = validity.valid;
-		inputEmail.label = validity.label;
-		inputEmail.content = event.target.value;
-		setEmailInputItem(inputEmail);
+		setEmailLabelState(validity.valid);
+		setEmailLabel(validity.label);
+		setEmail(event.target.value);
 	};
 
-	const overlayItem: OverlayItem = {
+	const emailOverlayItem: OverlayItem = {
 		buttonSet: [
 			{
 				label: translate('furtherSteps.email.overlay.button1.label'),
-				function: 'SET EMAIl',
 				type: BUTTON_TYPES.PRIMARY
 			},
 			{
@@ -87,13 +96,24 @@ export const FurtherSteps = () => {
 				type: BUTTON_TYPES.LINK
 			}
 		],
-		copy: translate('furtherSteps.email.overlay.copy'),
 		headline: translate('furtherSteps.email.overlay.headline'),
 		isIconSmall: true,
 		nestedComponent: (
 			<InputField item={emailInputItem} inputHandle={handleEmailChange} />
 		),
 		svg: EnvelopeIllustration
+	};
+
+	const successOverlayItem: OverlayItem = {
+		buttonSet: [
+			{
+				label: translate('furtherSteps.email.overlay.button2.label'),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		],
+		headline: translate('furtherSteps.email.success.overlay.headline'),
+		svg: SuccessIllustration
 	};
 
 	const handleAddEmail = () => {
@@ -103,14 +123,34 @@ export const FurtherSteps = () => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setOverlayActive(false);
+			setIsSuccessOverlay(false);
 			setIsRequestInProgress(false);
-		} else {
+		} else if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
-			//TODO: update email call
-			console.log('Email', emailInputItem.content, email);
+			apiPutEmail(email)
+				.then((response) => {
+					setIsRequestInProgress(false);
+					setIsSuccessOverlay(true);
+					let updatedUserData = userData;
+					updatedUserData.email = email;
+					setUserData(updatedUserData);
+				})
+				.catch((error: Response) => {
+					const reason = error.headers.get(FETCH_ERRORS.X_REASON);
+					if (reason === 'EMAIL_NOT_AVAILABLE') {
+						setEmailLabel(
+							translate(
+								'furtherSteps.email.overlay.input.unavailable'
+							)
+						);
+						setEmailLabelState('invalid');
+						setIsRequestInProgress(false);
+					}
+				});
 		}
 	};
 
+	const showAddEmail = !userData.email;
 	return (
 		<div className="furtherSteps">
 			<Headline
@@ -155,25 +195,39 @@ export const FurtherSteps = () => {
 					/>
 				</li>
 			</ul>
-			{/* TODO: condition to show email text and button & overlay */}
-			<Headline
-				semanticLevel="5"
-				text={translate('furtherSteps.emailNotification.headline')}
-			/>
-			<Text
-				type="standard"
-				text={translate('furtherSteps.emailNotification.infoText')}
-				className="furtherSteps__emailInfo"
-			/>
-			<Button item={addEmailButton} buttonHandle={handleAddEmail} />
-			{overlayActive ? (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
+			{showAddEmail && (
+				<>
+					<Headline
+						semanticLevel="5"
+						text={translate(
+							'furtherSteps.emailNotification.headline'
+						)}
 					/>
-				</OverlayWrapper>
-			) : null}
+					<Text
+						type="standard"
+						text={translate(
+							'furtherSteps.emailNotification.infoText'
+						)}
+						className="furtherSteps__emailInfo"
+					/>
+					<Button
+						item={addEmailButton}
+						buttonHandle={handleAddEmail}
+					/>
+					{overlayActive && (
+						<OverlayWrapper>
+							<Overlay
+								item={
+									isSuccessOverlay
+										? successOverlayItem
+										: emailOverlayItem
+								}
+								handleOverlay={handleOverlayAction}
+							/>
+						</OverlayWrapper>
+					)}
+				</>
+			)}
 		</div>
 	);
 };
