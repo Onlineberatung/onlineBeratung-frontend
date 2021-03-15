@@ -16,6 +16,9 @@ export const DeleteAccount = () => {
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [password, setPassword] = useState<string>('');
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
+	const [isPasswordWarningActive, setIsPasswordWarningActive] = useState<
+		boolean
+	>(true);
 
 	const deleteAccountButton: ButtonItem = {
 		label: translate('deleteAccount.button.label'),
@@ -27,8 +30,15 @@ export const DeleteAccount = () => {
 		class: 'passwordFields__fieldGroup__input',
 		id: 'passwordInput',
 		type: 'password',
-		label: translate('login.password.label'),
-		content: password
+		label: translate('deleteAccount.confirmOverlay.input.label'),
+		content: password,
+		warningLabel: translate('deleteAccount.confirmOverlay.input.warning'),
+		warningActive: isPasswordWarningActive
+	};
+
+	const handlePasswordInput = (e) => {
+		setPassword(e.target.value);
+		setIsPasswordWarningActive(false);
 	};
 
 	const overlayConfirm: OverlayItem = {
@@ -38,7 +48,7 @@ export const DeleteAccount = () => {
 		nestedComponent: (
 			<InputField
 				item={inputItemPassword}
-				inputHandle={(e) => setPassword(e.target.value)}
+				inputHandle={handlePasswordInput}
 			/>
 		),
 		buttonSet: [
