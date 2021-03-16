@@ -8,7 +8,8 @@ const deleteAccount = {
 	'confirmOverlay.input.label': 'Passwort',
 	'confirmOverlay.input.warning': 'Ihr Passwort ist nicht korrekt.',
 	'successOverlay.headline':
-		'Sie haben Ihren Account bei der Caritas Online Beratung und Hilfe erfolgreich gelöscht.'
+		'Sie haben Ihren Account bei der Caritas Online Beratung und Hilfe erfolgreich gelöscht.',
+	'successOverlay.button': 'schließen'
 };
 
 export default deleteAccount;

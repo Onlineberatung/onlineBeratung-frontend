@@ -22,6 +22,9 @@ export const DeleteAccount = () => {
 	const [isPasswordWarningActive, setIsPasswordWarningActive] = useState<
 		boolean
 	>(false);
+	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
+		false
+	);
 
 	const deleteAccountButton: ButtonItem = {
 		label: translate('deleteAccount.button.label'),
@@ -71,11 +74,10 @@ export const DeleteAccount = () => {
 
 	const overlaySuccess: OverlayItem = {
 		headline: translate('deleteAccount.successOverlay.headline'),
-		headlineStyleLevel: '3',
 		svg: CheckIllustration,
 		buttonSet: [
 			{
-				label: 'schließen',
+				label: translate('deleteAccount.successOverlay.button'),
 				function: OVERLAY_FUNCTIONS.REDIRECT,
 				type: BUTTON_TYPES.SECONDARY
 			}
@@ -85,7 +87,11 @@ export const DeleteAccount = () => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setIsOverlayActive(false);
-		} else if (buttonFunction === OVERLAY_FUNCTIONS.DELETE_ACCOUNT) {
+		} else if (
+			!isRequestInProgress &&
+			buttonFunction === OVERLAY_FUNCTIONS.DELETE_ACCOUNT
+		) {
+			setIsRequestInProgress(true);
 			apiDeleteAskerAccount(password)
 				.then(() => {
 					setIsSuccessOverlay(true);
@@ -93,6 +99,7 @@ export const DeleteAccount = () => {
 				.catch((error) => {
 					if (error.message === FETCH_ERRORS.BAD_REQUEST) {
 						setIsPasswordWarningActive(true);
+						setIsRequestInProgress(false);
 					} else {
 						console.log(error);
 					}
