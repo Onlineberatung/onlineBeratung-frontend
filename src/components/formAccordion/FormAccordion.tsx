@@ -11,7 +11,7 @@ import { AccordionItemValidity } from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
 	consultingType: number;
-	isUsernameAlreadInUse: boolean;
+	isUsernameAlreadyInUse: boolean;
 	prefilledAgencyData: any;
 	handleFormAccordionData: Function;
 }
@@ -53,17 +53,17 @@ export const FormAccordion = (props: FormAccordionProps) => {
 	}, [isUsernameValid, isSelectedAgencyValid, username, agency]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (props.isUsernameAlreadInUse) {
+		if (props.isUsernameAlreadyInUse) {
 			setActiveItem(1);
 		}
-	}, [props.isUsernameAlreadInUse]);
+	}, [props.isUsernameAlreadyInUse]);
 
 	const accordionItemData = [
 		{
 			title: translate('registration.username.headline'),
 			nestedComponent: (
 				<RegistrationUsername
-					isUsernameAlreadInUse={props.isUsernameAlreadInUse}
+					isUsernameAlreadyInUse={props.isUsernameAlreadyInUse}
 					onUsernameChange={(username) => setUsername(username)}
 					onValidityChange={(validity) =>
 						setIsUsernameValid(validity)

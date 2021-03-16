@@ -13,7 +13,7 @@ import {
 } from './registrationHelpers';
 
 interface RegistrationUsernameProps {
-	isUsernameAlreadInUse: boolean;
+	isUsernameAlreadyInUse: boolean;
 	onUsernameChange: Function;
 	onValidityChange: Function;
 }
@@ -25,12 +25,12 @@ export const RegistrationUsername = (props: RegistrationUsernameProps) => {
 	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
 
 	useEffect(() => {
-		if (props.isUsernameAlreadInUse) {
+		if (props.isUsernameAlreadyInUse) {
 			setIsValid('invalid');
 			setLabelState('invalid');
 			setLabelContent(translate('registration.user.unavailable'));
 		}
-	}, [props.isUsernameAlreadInUse]);
+	}, [props.isUsernameAlreadyInUse]);
 
 	useEffect(() => {
 		props.onUsernameChange(username);

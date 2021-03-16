@@ -517,7 +517,7 @@ const Registration = () => {
 
 							<FormAccordion
 								consultingType={consultingType}
-								isUsernameAlreadInUse={isUsernameAlreadyInUse}
+								isUsernameAlreadyInUse={isUsernameAlreadyInUse}
 								prefilledAgencyData={prefilledAgencyData}
 								handleFormAccordionData={(formData) =>
 									setFormAccordionData(formData)
