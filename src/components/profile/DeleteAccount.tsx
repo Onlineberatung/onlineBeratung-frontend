@@ -11,6 +11,9 @@ import {
 } from '../overlay/Overlay';
 import './deleteAccount.styles';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
+import { apiDeleteAskerAccount, FETCH_ERRORS } from '../../api';
+import { config } from '../../resources/scripts/config';
+import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 
 export const DeleteAccount = () => {
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
@@ -18,7 +21,7 @@ export const DeleteAccount = () => {
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const [isPasswordWarningActive, setIsPasswordWarningActive] = useState<
 		boolean
-	>(true);
+	>(false);
 
 	const deleteAccountButton: ButtonItem = {
 		label: translate('deleteAccount.button.label'),
@@ -83,10 +86,20 @@ export const DeleteAccount = () => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setIsOverlayActive(false);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.DELETE_ACCOUNT) {
-			setIsSuccessOverlay(true);
+			apiDeleteAskerAccount(password)
+				.then(() => {
+					setIsSuccessOverlay(true);
+				})
+				.catch((error) => {
+					if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+						setIsPasswordWarningActive(true);
+					} else {
+						console.log(error);
+					}
+				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
-			//TO-DO: need to logout first?
-			window.location.href = 'https://www.caritas.de';
+			removeAllCookies();
+			window.location.href = config.urls.caritas;
 		}
 	};
 
