@@ -100,8 +100,6 @@ export const DeleteAccount = () => {
 					if (error.message === FETCH_ERRORS.BAD_REQUEST) {
 						setIsPasswordWarningActive(true);
 						setIsRequestInProgress(false);
-					} else {
-						console.log(error);
 					}
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
