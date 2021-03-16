@@ -1,0 +1,33 @@
+.headline {
+	margin: 0;
+	padding: 0;
+	font-family: $font-family-medium;
+	font-weight: $font-weight-medium;
+
+	&--1 {
+		font-size: 40px;
+		line-height: 50px;
+		margin-bottom: $grid-base-five;
+	}
+
+	&--2 {
+		font-size: 30px;
+		line-height: 38px;
+		margin-bottom: $grid-base-three;
+	}
+
+	&--3 {
+		font-size: 24px;
+		line-height: 32px;
+	}
+
+	&--4 {
+		font-size: 20px;
+		line-height: 26px;
+	}
+
+	&--5 {
+		font-size: 16px;
+		line-height: 21px;
+	}
+}

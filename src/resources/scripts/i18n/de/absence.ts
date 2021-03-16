@@ -1,7 +1,7 @@
 const absence = {
 	'overlayHeadline': 'Willkommen zurück!',
-	'overlayCopy1': 'Ihre Abwesenheitsnachricht ist momentan aktiviert.',
-	'overlayCopy2': 'Möchten Sie diese deaktivieren?',
+	'overlay.copy':
+		'Ihre Abwesenheitsnachricht ist momentan aktiviert. <br> Möchten Sie diese deaktivieren?',
 	'overlayButton1.label': 'Ja',
 	'overlayButton2.label': 'Nein',
 	'changeSuccess.overlay.headline':

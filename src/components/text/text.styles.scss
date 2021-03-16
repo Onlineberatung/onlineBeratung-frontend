@@ -27,6 +27,13 @@
 		color: $tertiary;
 	}
 
+	&__divider {
+		font-family: $font-family-slab-regular;
+		font-size: $font-size-secondary;
+		line-height: $line-height-secondary;
+		color: $light-grey;
+	}
+
 	&__label {
 		font-family: $font-family-medium;
 		font-weight: $font-weight-medium;

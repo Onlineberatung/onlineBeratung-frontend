@@ -261,7 +261,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 									<div className="agencySelection__proposedAgencies--warning">
 										<Text
 											text={translate(
-												'warningLabels.postcode.unavailable'
+												'registration.agencySelection.postcode.unavailable'
 											)}
 											type="infoSmall"
 										/>{' '}
@@ -271,7 +271,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											rel="noreferrer"
 										>
 											{translate(
-												'warningLabels.postcode.search'
+												'registration.agencySelection.postcode.search'
 											)}
 										</a>
 									</div>

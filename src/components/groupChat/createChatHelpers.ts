@@ -36,20 +36,12 @@ export const durationSelectOptionsSet = [
 	}
 ];
 
-//TODO: reimplement on registration logic with link
 export const createChatSuccessOverlayItem: OverlayItem = {
 	svg: CheckIcon,
 	headline: translate('groupChat.createSuccess.overlayHeadline'),
-	//copy: translate('groupChat.createSuccess.overlayCopy'),
-	//copyTwo: '',
 	buttonSet: [
-		/*{
-        label: translate('groupChat.createSuccess.overlay.button1Label'),
-        function: OVERLAY_FUNCTIONS.COPY_LINK,
-        type: BUTTON_TYPES.PRIMARY
-    },*/
 		{
-			label: translate('groupChat.createSuccess.overlay.button2Label'),
+			label: translate('groupChat.createSuccess.overlay.buttonLabel'),
 			function: OVERLAY_FUNCTIONS.CLOSE,
 			type: BUTTON_TYPES.SECONDARY
 		}

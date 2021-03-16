@@ -7,6 +7,8 @@ import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
 import enquiry from './de/enquiry';
 import enquiryInformal from './de/enquiryInformal';
+import furtherSteps from './de/furtherSteps';
+import furtherStepsInformal from './de/furtherStepsInformal';
 import groupChat from './de/groupChat';
 import groupChatInformal from './de/groupChatInformal';
 import login from './de/login';
@@ -29,8 +31,6 @@ import user from './de/user';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
 import videoCallInformal from './de/videoCallInformal';
-import warningLabels from './de/warningLabels';
-import warningLabelsInformal from './de/warningLabelsInformal';
 import { getResortKeyForConsultingType } from '../helpers/resorts';
 import { getTokenFromCookie } from '../../../components/sessionCookie/accessSessionCookie';
 
@@ -41,6 +41,7 @@ const defaultLocale: any = {
 	chatFlyout,
 	consultant,
 	enquiry,
+	furtherSteps,
 	groupChat,
 	login,
 	message,
@@ -55,8 +56,7 @@ const defaultLocale: any = {
 	typingIndicator,
 	user,
 	userProfile,
-	videoCall,
-	warningLabels
+	videoCall
 };
 
 const informalLocale: any = {
@@ -65,13 +65,13 @@ const informalLocale: any = {
 	attachments: { ...attachments, ...attachmentsInformal },
 	groupChat: { ...groupChat, ...groupChatInformal },
 	enquiry: { ...enquiry, ...enquiryInformal },
+	furtherSteps: { ...furtherSteps, ...furtherStepsInformal },
 	profile: { ...profile, ...profileInformal },
 	registration: { ...registration, ...registrationInformal },
 	session: { ...session, ...sessionInformal },
 	sessionList: { ...sessionList, ...sessionListInformal },
 	statusOverlay: { ...statusOverlay, ...statusOverlayInformal },
-	videoCall: { ...videoCall, ...videoCallInformal },
-	warningLabels: { ...warningLabels, ...warningLabelsInformal }
+	videoCall: { ...videoCall, ...videoCallInformal }
 };
 
 export const getTranslation = (

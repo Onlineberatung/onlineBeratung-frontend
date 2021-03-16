@@ -15,8 +15,8 @@ import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/c
 export const AbsenceHandler = () => {
 	const absenceReminderOverlayItem: OverlayItem = {
 		headline: translate('absence.overlayHeadline'),
-		copy: translate('absence.overlayCopy1'),
-		copyTwo: translate('absence.overlayCopy2'),
+		headlineStyleLevel: '1',
+		copy: translate('absence.overlay.copy'),
 		buttonSet: [
 			{
 				label: translate('absence.overlayButton1.label'),

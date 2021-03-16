@@ -9,44 +9,45 @@ import { Text } from '../text/Text';
 import { config } from '../../resources/scripts/config';
 import './welcomeScreen.styles';
 
-const welcomeScreenData = [
-	{
-		icon: <PenIcon />,
-		title: translate('registration.welcomeScreen.info1.title'),
-		text: translate('registration.welcomeScreen.info1.text')
-	},
-	{
-		icon: <EnvelopeIcon />,
-		title: translate('registration.welcomeScreen.info2.title'),
-		text: translate('registration.welcomeScreen.info2.text')
-	},
-	{
-		icon: <SpeechBubbleIcon />,
-		title: translate('registration.welcomeScreen.info3.title'),
-		text: translate('registration.welcomeScreen.info3.text')
-	},
-	{
-		icon: <LockIcon />,
-		title: translate('registration.welcomeScreen.info4.title'),
-		text: translate('registration.welcomeScreen.info4.text')
-	}
-];
-
-const registrationButton: ButtonItem = {
-	label: translate('registration.welcomeScreen.register.buttonLabel'),
-	type: BUTTON_TYPES.PRIMARY
-};
-
-const loginButton: ButtonItem = {
-	label: translate('registration.login.label'),
-	type: BUTTON_TYPES.SECONDARY
-};
 interface WelcomeScreenProps {
 	resortTitle: string;
 	handleForwardToRegistration: Function;
 }
 
 export const WelcomeScreen = (props: WelcomeScreenProps) => {
+	const welcomeScreenData = [
+		{
+			icon: <PenIcon />,
+			title: translate('registration.welcomeScreen.info1.title'),
+			text: translate('registration.welcomeScreen.info1.text')
+		},
+		{
+			icon: <EnvelopeIcon />,
+			title: translate('registration.welcomeScreen.info2.title'),
+			text: translate('registration.welcomeScreen.info2.text')
+		},
+		{
+			icon: <SpeechBubbleIcon />,
+			title: translate('registration.welcomeScreen.info3.title'),
+			text: translate('registration.welcomeScreen.info3.text')
+		},
+		{
+			icon: <LockIcon />,
+			title: translate('registration.welcomeScreen.info4.title'),
+			text: translate('registration.welcomeScreen.info4.text')
+		}
+	];
+
+	const registrationButton: ButtonItem = {
+		label: translate('registration.welcomeScreen.register.buttonLabel'),
+		type: BUTTON_TYPES.PRIMARY
+	};
+
+	const loginButton: ButtonItem = {
+		label: translate('registration.login.label'),
+		type: BUTTON_TYPES.SECONDARY
+	};
+
 	return (
 		<div className="registrationWelcome">
 			<h2>

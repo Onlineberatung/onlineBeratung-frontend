@@ -5,10 +5,7 @@ import {
 	redirectToErrorPage
 } from '../components/error/errorHandling';
 import { redirectToHelpmail } from '../components/registration/prefillPostcode';
-import {
-	isU25Registration,
-	getConsultingTypeFromRegistration
-} from '../resources/scripts/helpers/resorts';
+import { isU25Registration } from '../resources/scripts/helpers/resorts';
 import { logout } from '../components/logout/logout';
 
 const isIE11Browser =
@@ -25,9 +22,11 @@ export const FETCH_ERRORS = {
 	EMPTY: 'EMPTY',
 	PASSWORD: 'PASSWORD',
 	CONFLICT: 'CONFLICT',
+	CONFLICT_WITH_RESPONSE: 'CONFLICT_WITH_RESPONSE',
 	TIMEOUT: 'TIMEOUT',
 	NO_MATCH: 'NO_MATCH',
-	CATCH_ALL: 'CATCH_ALL'
+	CATCH_ALL: 'CATCH_ALL',
+	X_REASON: 'X-Reason'
 };
 
 export const FETCH_SUCCESS = {
@@ -121,10 +120,17 @@ export const fetchData = (props: fetchDataProps): Promise<any> =>
 						reject(new Error(FETCH_ERRORS.NO_MATCH));
 					} else if (
 						response.status === 409 &&
-						props.responseHandling.includes(FETCH_ERRORS.CONFLICT)
+						(props.responseHandling.includes(
+							FETCH_ERRORS.CONFLICT
+						) ||
+							props.responseHandling.includes(
+								FETCH_ERRORS.CONFLICT_WITH_RESPONSE
+							))
 					) {
 						reject(
-							getConsultingTypeFromRegistration()
+							props.responseHandling.includes(
+								FETCH_ERRORS.CONFLICT_WITH_RESPONSE
+							)
 								? response
 								: new Error(FETCH_ERRORS.CONFLICT)
 						);

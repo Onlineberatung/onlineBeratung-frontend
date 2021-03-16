@@ -5,7 +5,6 @@ const registrationData = {
 		consultingType: '0',
 		useInformal: false,
 		overline: translate('registration.overline.addiction'),
-		showEmail: true,
 		voluntaryComponents: [
 			{
 				componentType: 'RadioButton',
@@ -142,7 +141,6 @@ const registrationData = {
 		consultingType: '1',
 		useInformal: true,
 		overline: translate('registration.overline.u25'),
-		showEmail: false,
 		requiredComponents: [
 			{
 				componentType: 'SelectDropdown',
@@ -336,7 +334,6 @@ const registrationData = {
 		consultingType: '1',
 		useInformal: true,
 		overline: translate('registration.overline.gemeinsamstatteinsam'),
-		showEmail: false,
 		requiredComponents: [
 			{
 				componentType: 'SelectDropdown',
@@ -493,116 +490,97 @@ const registrationData = {
 	pregnancy: {
 		consultingType: '2',
 		useInformal: true,
-		overline: translate('registration.overline.pregnancy'),
-		showEmail: true
+		overline: translate('registration.overline.pregnancy')
 	},
 	parenting: {
 		consultingType: '3',
 		useInformal: false,
-		overline: translate('registration.overline.parenting'),
-		showEmail: true
+		overline: translate('registration.overline.parenting')
 	},
 	cure: {
 		consultingType: '4',
 		useInformal: false,
-		overline: translate('registration.overline.cure'),
-		showEmail: true
+		overline: translate('registration.overline.cure')
 	},
 	debt: {
 		consultingType: '5',
 		useInformal: false,
-		overline: translate('registration.overline.debt'),
-		showEmail: true
+		overline: translate('registration.overline.debt')
 	},
 	social: {
 		consultingType: '6',
 		useInformal: false,
-		overline: translate('registration.overline.social'),
-		showEmail: true
+		overline: translate('registration.overline.social')
 	},
 	seniority: {
 		consultingType: '7',
 		useInformal: false,
-		overline: translate('registration.overline.seniority'),
-		showEmail: true
+		overline: translate('registration.overline.seniority')
 	},
 	disability: {
 		consultingType: '8',
 		useInformal: false,
-		overline: translate('registration.overline.disability'),
-		showEmail: true
+		overline: translate('registration.overline.disability')
 	},
 	planB: {
 		consultingType: '9',
 		useInformal: true,
-		overline: translate('registration.overline.planB'),
-		showEmail: true
+		overline: translate('registration.overline.planB')
 	},
 	law: {
 		consultingType: '10',
 		useInformal: false,
-		overline: translate('registration.overline.law'),
-		showEmail: true
+		overline: translate('registration.overline.law')
 	},
 	offender: {
 		consultingType: '11',
 		useInformal: false,
-		overline: translate('registration.overline.offender'),
-		showEmail: true
+		overline: translate('registration.overline.offender')
 	},
 	aids: {
 		consultingType: '12',
 		useInformal: false,
-		overline: translate('registration.overline.aids'),
-		showEmail: true
+		overline: translate('registration.overline.aids')
 	},
 	rehabilitation: {
 		consultingType: '13',
 		useInformal: false,
-		overline: translate('registration.overline.rehabilitation'),
-		showEmail: true
+		overline: translate('registration.overline.rehabilitation')
 	},
 	children: {
 		consultingType: '14',
 		useInformal: true,
-		overline: translate('registration.overline.children'),
-		showEmail: true
+		overline: translate('registration.overline.children')
 	},
 	kreuzbund: {
 		consultingType: '15',
 		useInformal: false,
-		overline: translate('registration.overline.kreuzbund'),
-		showEmail: true
+		overline: translate('registration.overline.kreuzbund')
 	},
 	migration: {
 		consultingType: '16',
 		useInformal: false,
-		overline: translate('registration.overline.migration'),
-		showEmail: true
+		overline: translate('registration.overline.migration')
 	},
 	emigration: {
 		consultingType: '17',
 		useInformal: false,
-		overline: translate('registration.overline.emigration'),
-		showEmail: true
+		overline: translate('registration.overline.emigration')
 	},
 	hospice: {
 		consultingType: '18',
 		useInformal: false,
-		overline: translate('registration.overline.hospice'),
-		showEmail: true
+		overline: translate('registration.overline.hospice')
 	},
 	regional: {
 		consultingType: '19',
 		useInformal: false,
-		overline: translate('registration.overline.regional'),
-		showEmail: true
+		overline: translate('registration.overline.regional')
 	},
 	men: {
 		consultingType: '20',
 		useInformal: false,
-		overline: translate('registration.overline.men'),
-		showEmail: true
+		overline: translate('registration.overline.men')
 	}
 };
 

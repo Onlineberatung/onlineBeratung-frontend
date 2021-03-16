@@ -76,7 +76,12 @@ const Login = () => {
 	const handleLogin = () => {
 		if (!isRequestInProgress && username && password) {
 			setIsRequestInProgress(true);
-			autoLogin(username, password, true, handleLoginError);
+			autoLogin({
+				username: username,
+				password: password,
+				redirect: true,
+				handleLoginError: handleLoginError
+			});
 		}
 	};
 
@@ -105,7 +110,7 @@ const Login = () => {
 				/>
 				{showLoginError ? (
 					<Text
-						text={translate('warningLabels.login.failed')}
+						text={translate('login.warning.failed')}
 						type="infoSmall"
 					/>
 				) : null}

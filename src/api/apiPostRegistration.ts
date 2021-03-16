@@ -1,7 +1,3 @@
-import {
-	removeWarningLabels,
-	warningLabelForTranslatableAndParentId
-} from '../components/registration/warningLabels';
 import { generateCsrfToken } from '../resources/scripts/helpers/generateCsrfToken';
 import { autoLogin } from '../components/registration/autoLogin';
 import {
@@ -15,7 +11,7 @@ export const apiPostRegistration = (
 	url: string,
 	data: {},
 	handleSuccessfulRegistration: Function,
-	handleRegistrationError: Function
+	handleRegistrationConflictError: Function
 ) => {
 	removeAllCookies();
 	if (isRequestInProgress) {
@@ -26,16 +22,14 @@ export const apiPostRegistration = (
 	xhr.open('POST', url);
 	xhr.onreadystatechange = function () {
 		if (xhr.readyState > 3 && xhr.status === 201) {
-			autoLogin(
-				data['username'],
-				decodeURIComponent(data['password']),
-				false
-			);
-			handleSuccessfulRegistration();
+			autoLogin({
+				username: data['username'],
+				password: decodeURIComponent(data['password']),
+				redirect: false,
+				handleLoginSuccess: handleSuccessfulRegistration
+			});
 		} else if (xhr.readyState > 3 && xhr.status === 409) {
-			//TODO rm deprecated error functionality
-			handleRegistrationError(xhr.response);
-			handleConfirmationError(xhr.response);
+			handleRegistrationConflictError(xhr);
 			isRequestInProgress = false;
 		} else if (
 			xhr.readyState > 3 &&
@@ -53,21 +47,4 @@ export const apiPostRegistration = (
 	xhr.withCredentials = true;
 	xhr.send(JSON.stringify(data));
 	return xhr;
-};
-
-export const handleConfirmationError = (data: string) => {
-	removeWarningLabels();
-	window.scrollTo(0, 0);
-	if (data.includes('"usernameAvailable":0')) {
-		warningLabelForTranslatableAndParentId(
-			'warningLabels.username.unavailable',
-			'username'
-		);
-	}
-	if (data.includes('"emailAvailable":0')) {
-		warningLabelForTranslatableAndParentId(
-			'warningLabels.email.unavailable',
-			'email'
-		);
-	}
 };
