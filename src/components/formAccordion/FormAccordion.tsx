@@ -7,6 +7,7 @@ import { autoselectPostcodeForConsultingType } from '../agencySelection/agencySe
 import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
+import { RegistrationPassword } from '../registration/RegistrationPassword';
 import { AccordionItemValidity } from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
@@ -22,6 +23,10 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		AccordionItemValidity
 	>('initial');
 	const [username, setUsername] = useState<string>();
+	const [isPasswordValid, setIsPasswordValid] = useState<
+		AccordionItemValidity
+	>('initial');
+	const [password, setPassword] = useState<string>();
 	const [isSelectedAgencyValid, setIsSelectedAgencyValid] = useState<
 		AccordionItemValidity
 	>('initial');
@@ -41,9 +46,14 @@ export const FormAccordion = (props: FormAccordionProps) => {
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (isUsernameValid === 'valid' && isSelectedAgencyValid === 'valid') {
+		if (
+			isUsernameValid === 'valid' &&
+			isPasswordValid === 'valid' &&
+			isSelectedAgencyValid === 'valid'
+		) {
 			props.handleFormAccordionData({
 				username: username,
+				password: password,
 				agencyId: agency?.id.toString(),
 				postcode: agency?.postcode
 			});
@@ -74,8 +84,15 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		},
 		{
 			title: translate('registration.password.headline'),
-			nestedComponent: null,
-			isValid: 'initial'
+			nestedComponent: (
+				<RegistrationPassword
+					onPasswordChange={(password) => setPassword(password)}
+					onValidityChange={(validity) =>
+						setIsPasswordValid(validity)
+					}
+				/>
+			),
+			isValid: isPasswordValid
 		}
 	];
 

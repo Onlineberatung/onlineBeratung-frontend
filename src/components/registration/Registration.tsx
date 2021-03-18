@@ -2,25 +2,15 @@ import '../../polyfill';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Stage } from '../stage/stage';
-import {
-	GeneratedInputs,
-	InputField,
-	InputFieldItem
-} from '../inputField/InputField';
-import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
+import { GeneratedInputs } from '../inputField/InputField';
 import { useEffect, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button } from '../button/Button';
 import registrationResortsData from './registrationData';
-import {
-	inputValuesFit,
-	strengthIndicator
-} from '../../resources/scripts/helpers/validateInputValue';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
 import {
 	buttonItemSubmit,
 	getOptionOfSelectedValue,
-	getValidationClassNames,
 	overlayItemRegistrationSuccess
 } from './registrationHelpers';
 import {
@@ -73,6 +63,7 @@ export interface ResortData {
 
 interface FormAccordionData {
 	username: string;
+	password: string;
 	agencyId: string;
 	postcode: string;
 }
@@ -86,25 +77,6 @@ const Registration = () => {
 		prefilledAgencyData,
 		setPrefilledAgencyData
 	] = useState<AgencyDataInterface | null>(null);
-	const [password, setPassword] = useState<string>('');
-	const [passwordSuccessMessage, setPasswordSuccessMessage] = useState<
-		string
-	>('');
-	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>(
-		''
-	);
-	const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
-	const [passwordConfirmation, setPasswordConfirmation] = useState<string>(
-		''
-	);
-	const [
-		passwordConfirmationSuccessMessage,
-		setPasswordConfirmationSuccessMessage
-	] = useState('');
-	const [
-		passwordConfirmationErrorMessage,
-		setPasswordConfirmationErrorMessage
-	] = useState('');
 	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] = useState<
 		boolean
 	>(false);
@@ -180,12 +152,7 @@ const Registration = () => {
 
 	const isRegistrationValid = () => {
 		const validation: boolean[] = [];
-		const generalValidation =
-			formAccordionData &&
-			password &&
-			isPasswordValid &&
-			password === passwordConfirmation &&
-			isDataProtectionSelected;
+		const generalValidation = formAccordionData && isDataProtectionSelected;
 
 		validation.push(generalValidation ? true : false);
 
@@ -216,13 +183,7 @@ const Registration = () => {
 			}
 		},
 		/* eslint-disable */
-		[
-			formAccordionData,
-			password,
-			passwordConfirmation,
-			valuesOfGeneratedInputs,
-			isDataProtectionSelected
-		]
+		[formAccordionData, valuesOfGeneratedInputs, isDataProtectionSelected]
 	);
 	/* eslint-enable */
 
@@ -231,57 +192,12 @@ const Registration = () => {
 		window.scrollTo({ top: 0 });
 	};
 
-	const inputItemPassword: InputFieldItem = {
-		content: password,
-		class: getValidationClassNames(
-			!!passwordErrorMessage,
-			!!passwordSuccessMessage
-		),
-		icon: <LockIcon />,
-		id: 'passwordInput',
-		label:
-			passwordErrorMessage || passwordSuccessMessage
-				? `${passwordErrorMessage} ${passwordSuccessMessage}`
-				: translate('registration.password.input.label'),
-		name: 'passwordInput',
-		type: 'password'
-	};
-
-	const inputItemPasswordConfirmation: InputFieldItem = {
-		content: passwordConfirmation,
-		class: getValidationClassNames(
-			!!passwordConfirmationErrorMessage,
-			!!passwordConfirmationSuccessMessage
-		),
-		icon: <LockIcon />,
-		id: 'passwordConfirmation',
-		label:
-			passwordConfirmationErrorMessage ||
-			passwordConfirmationSuccessMessage
-				? `${passwordConfirmationErrorMessage} ${passwordConfirmationSuccessMessage}`
-				: translate('registration.password.confirmation.label'),
-		infoText: translate('registration.password.confirmation.infoText'),
-		name: 'passwordConfirmation',
-		type: 'password'
-	};
-
 	const checkboxItemDataProtection: CheckboxItem = {
 		inputId: 'dataProtectionCheckbox',
 		name: 'dataProtectionCheckbox',
 		labelId: 'dataProtectionLabel',
 		label: translate('registration.dataProtection.label'),
 		checked: isDataProtectionSelected
-	};
-
-	const handlepasswordChange = (event) => {
-		validatePassword(event.target.value);
-		setPassword(event.target.value);
-		validatePasswordConfirmation(passwordConfirmation, event.target.value);
-	};
-
-	const handlePasswordConfirmationChange = (event) => {
-		validatePasswordConfirmation(event.target.value, password);
-		setPasswordConfirmation(event.target.value);
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
@@ -304,7 +220,7 @@ const Registration = () => {
 
 		const generalRegistrationData = {
 			username: formAccordionData.username,
-			password: encodeURIComponent(password),
+			password: encodeURIComponent(formAccordionData.password),
 			agencyId: formAccordionData.agencyId,
 			postcode: formAccordionData.postcode,
 			consultingType: consultingType?.toString(),
@@ -340,48 +256,6 @@ const Registration = () => {
 			() => setOverlayActive(true),
 			(response) => handleRegistrationError(response)
 		);
-	};
-
-	const validatePassword = (password: string) => {
-		let passwordStrength = strengthIndicator(password);
-		if (password.length >= 1 && passwordStrength < 4) {
-			setIsPasswordValid(false);
-			setPasswordSuccessMessage('');
-			setPasswordErrorMessage(
-				translate('registration.password.insecure')
-			);
-		} else if (password.length >= 1) {
-			setIsPasswordValid(true);
-			setPasswordSuccessMessage(
-				translate('registration.password.secure')
-			);
-			setPasswordErrorMessage('');
-		} else {
-			setIsPasswordValid(false);
-			setPasswordSuccessMessage('');
-			setPasswordErrorMessage('');
-		}
-	};
-
-	const validatePasswordConfirmation = (
-		confirmPassword: string,
-		password: string
-	) => {
-		let passwordFits = inputValuesFit(confirmPassword, password);
-		if (confirmPassword.length >= 1 && !passwordFits) {
-			setPasswordConfirmationSuccessMessage('');
-			setPasswordConfirmationErrorMessage(
-				translate('registration.password.notSame')
-			);
-		} else if (confirmPassword.length >= 1) {
-			setPasswordConfirmationSuccessMessage(
-				translate('registration.password.same')
-			);
-			setPasswordConfirmationErrorMessage('');
-		} else {
-			setPasswordConfirmationSuccessMessage('');
-			setPasswordConfirmationErrorMessage('');
-		}
 	};
 
 	const handleGeneratedInputfieldValueChange = (
@@ -541,16 +415,6 @@ const Registration = () => {
 										}
 									/>
 								)}
-								<InputField
-									item={inputItemPassword}
-									inputHandle={handlepasswordChange}
-								/>
-								<InputField
-									item={inputItemPasswordConfirmation}
-									inputHandle={
-										handlePasswordConfirmationChange
-									}
-								/>
 								{consultingType === 1 && (
 									<Text
 										className="registration__passwordNote"
