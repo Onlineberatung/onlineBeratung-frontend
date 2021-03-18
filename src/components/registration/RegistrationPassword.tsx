@@ -13,6 +13,7 @@ import {
 	strengthIndicator
 } from '../../resources/scripts/helpers/validateInputValue';
 import { AccordionItemValidity } from './registrationHelpers';
+import './registrationPassword.styles';
 
 interface RegistrationPasswordProps {
 	onPasswordChange: Function;
@@ -131,7 +132,7 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 	};
 
 	return (
-		<div>
+		<div className="registrationPassword">
 			<Text
 				text={translate('registration.password.intro')}
 				type="infoLargeAlternative"
