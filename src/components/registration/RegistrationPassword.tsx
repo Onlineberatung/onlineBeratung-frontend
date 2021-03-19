@@ -64,6 +64,24 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 	}, [passwordCriteriaValidation, password]);
 
 	useEffect(() => {
+		let passwordFits = inputValuesFit(passwordConfirmation, password);
+		if (passwordConfirmation.length >= 1 && !passwordFits) {
+			setPasswordConfirmationLabelState('invalid');
+			setPasswordConfirmationLabel(
+				translate('registration.password.notSame')
+			);
+		} else if (passwordConfirmation.length >= 1) {
+			setPasswordConfirmationLabelState('valid');
+			setPasswordConfirmationLabel(
+				translate('registration.password.same')
+			);
+		} else {
+			setPasswordConfirmationLabelState(null);
+			setPasswordConfirmationLabel(null);
+		}
+	}, [passwordConfirmation, password]);
+
+	useEffect(() => {
 		props.onValidityChange(isValid);
 	}, [isValid, props]);
 
@@ -88,7 +106,7 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 		id: 'passwordInput',
 		label: passwordLabel
 			? `${passwordLabel}`
-			: translate('registration.user.label'),
+			: translate('registration.password.input.label'),
 		name: 'passwordInput',
 		type: 'password',
 		...(passwordLabelState && { labelState: passwordLabelState })
@@ -112,34 +130,7 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 		setPasswordCriteriaValidation(
 			validatePasswordCriteria(event.target.value)
 		);
-		validatePasswordConfirmation(passwordConfirmation, event.target.value);
 		setPassword(event.target.value);
-	};
-
-	const handlePasswordConfirmationChange = (event) => {
-		validatePasswordConfirmation(event.target.value, password);
-		setPasswordConfirmation(event.target.value);
-	};
-
-	const validatePasswordConfirmation = (
-		confirmPassword: string,
-		password: string
-	) => {
-		let passwordFits = inputValuesFit(confirmPassword, password);
-		if (confirmPassword.length >= 1 && !passwordFits) {
-			setPasswordConfirmationLabelState('invalid');
-			setPasswordConfirmationLabel(
-				translate('registration.password.notSame')
-			);
-		} else if (confirmPassword.length >= 1) {
-			setPasswordConfirmationLabelState('valid');
-			setPasswordConfirmationLabel(
-				translate('registration.password.same')
-			);
-		} else {
-			setPasswordConfirmationLabelState(null);
-			setPasswordConfirmationLabel(null);
-		}
 	};
 
 	return (
@@ -204,7 +195,7 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 			/>
 			<InputField
 				item={inputItemPasswordConfirmation}
-				inputHandle={handlePasswordConfirmationChange}
+				inputHandle={(e) => setPasswordConfirmation(e.target.value)}
 			/>
 		</div>
 	);

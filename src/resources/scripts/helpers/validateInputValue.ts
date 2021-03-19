@@ -16,10 +16,12 @@ export const strengthColor = (count: number) => {
 	if (count >= 4) return 'green';
 };
 
+const PASSWORD_MIN_LENGTH = 8;
+
 export const strengthIndicator = (value: string) => {
 	let passwordStrength: number = 0;
 
-	if (value.length > 8) passwordStrength++;
+	if (value.length > PASSWORD_MIN_LENGTH) passwordStrength++;
 
 	if (hasNumber(value)) passwordStrength++;
 
@@ -49,7 +51,8 @@ export const validatePasswordCriteria = (value: string) => {
 		passwordValidationParams.hasUpperLowerCase = true;
 	if (hasNumber(value)) passwordValidationParams.hasNumber = true;
 	if (hasSpecialChar(value)) passwordValidationParams.hasSpecialChar = true;
-	if (value.length > 8) passwordValidationParams.hasMinLength = true;
+	if (value.length > PASSWORD_MIN_LENGTH)
+		passwordValidationParams.hasMinLength = true;
 
 	return passwordValidationParams;
 };
