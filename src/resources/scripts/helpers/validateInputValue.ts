@@ -30,6 +30,30 @@ export const strengthIndicator = (value: string) => {
 	return passwordStrength;
 };
 
+export type passwordCriteria = {
+	hasUpperLowerCase: boolean;
+	hasNumber: boolean;
+	hasSpecialChar: boolean;
+	hasMinLength: boolean;
+};
+
+export const validatePasswordCriteria = (value: string) => {
+	const passwordValidationParams: passwordCriteria = {
+		hasUpperLowerCase: false,
+		hasNumber: false,
+		hasSpecialChar: false,
+		hasMinLength: false
+	};
+
+	if (hasMixedLetters(value))
+		passwordValidationParams.hasUpperLowerCase = true;
+	if (hasNumber(value)) passwordValidationParams.hasNumber = true;
+	if (hasSpecialChar(value)) passwordValidationParams.hasSpecialChar = true;
+	if (value.length > 8) passwordValidationParams.hasMinLength = true;
+
+	return passwordValidationParams;
+};
+
 export const inputValuesFit = (firstValue: string, secondValue: string) => {
 	if (firstValue === secondValue) return true;
 

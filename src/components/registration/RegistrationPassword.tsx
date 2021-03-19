@@ -10,7 +10,8 @@ import { Text } from '../text/Text';
 import { translate } from '../../resources/scripts/i18n/translate';
 import {
 	inputValuesFit,
-	strengthIndicator
+	passwordCriteria,
+	validatePasswordCriteria
 } from '../../resources/scripts/helpers/validateInputValue';
 import { AccordionItemValidity } from './registrationHelpers';
 import './registrationPassword.styles';
@@ -28,7 +29,10 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 	const [passwordLabelState, setPasswordLabelState] = useState<
 		InputFieldLabelState
 	>(null);
-
+	const [
+		passwordCriteriaValidation,
+		setPasswordCriteriaValidation
+	] = useState<passwordCriteria>();
 	const [passwordConfirmation, setPasswordConfirmation] = useState<string>(
 		''
 	);
@@ -41,6 +45,33 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 	] = useState<InputFieldLabelState>(null);
 
 	useEffect(() => {
+		if (passwordCriteriaValidation) {
+			const areAllCriteriaValid = Object.values(
+				passwordCriteriaValidation
+			).every((criteria) => criteria);
+
+			if (password.length >= 1 && !areAllCriteriaValid) {
+				setPasswordLabelState('invalid');
+				setPasswordLabel(translate('registration.password.insecure'));
+			} else if (password.length >= 1) {
+				setPasswordLabelState('valid');
+				setPasswordLabel(translate('registration.password.secure'));
+			} else {
+				setPasswordLabelState(null);
+				setPasswordLabel(null);
+			}
+		}
+	}, [passwordCriteriaValidation, password]);
+
+	useEffect(() => {
+		props.onValidityChange(isValid);
+	}, [isValid, props]);
+
+	useEffect(() => {
+		props.onPasswordChange(password);
+	}, [password, props]);
+
+	useEffect(() => {
 		if (
 			passwordLabelState === 'valid' &&
 			passwordConfirmationLabelState === 'valid'
@@ -50,14 +81,6 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 			setIsValid('initial');
 		}
 	}, [passwordLabelState, passwordConfirmationLabelState]);
-
-	useEffect(() => {
-		props.onValidityChange(isValid);
-	}, [isValid, props]);
-
-	useEffect(() => {
-		props.onPasswordChange(password);
-	}, [password, props]);
 
 	const inputItemPassword: InputFieldItem = {
 		content: password,
@@ -86,7 +109,9 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 	};
 
 	const handlepasswordChange = (event) => {
-		validatePassword(event.target.value);
+		setPasswordCriteriaValidation(
+			validatePasswordCriteria(event.target.value)
+		);
 		validatePasswordConfirmation(passwordConfirmation, event.target.value);
 		setPassword(event.target.value);
 	};
@@ -94,20 +119,6 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 	const handlePasswordConfirmationChange = (event) => {
 		validatePasswordConfirmation(event.target.value, password);
 		setPasswordConfirmation(event.target.value);
-	};
-
-	const validatePassword = (password: string) => {
-		let passwordStrength = strengthIndicator(password);
-		if (password.length >= 1 && passwordStrength < 4) {
-			setPasswordLabelState('invalid');
-			setPasswordLabel(translate('registration.password.insecure'));
-		} else if (password.length >= 1) {
-			setPasswordLabelState('valid');
-			setPasswordLabel(translate('registration.password.secure'));
-		} else {
-			setPasswordLabelState(null);
-			setPasswordLabel(null);
-		}
 	};
 
 	const validatePasswordConfirmation = (
@@ -137,6 +148,56 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 				text={translate('registration.password.intro')}
 				type="infoLargeAlternative"
 			/>
+			<ul className="registrationPassword__validation">
+				<li
+					className={`
+					registrationPassword__validationItem 
+					${
+						passwordCriteriaValidation?.hasUpperLowerCase
+							? 'registrationPassword__validationItem--valid'
+							: ''
+					}
+				`}
+				>
+					{translate('registration.password.criteria.upperLowerCase')}
+				</li>
+				<li
+					className={`
+					registrationPassword__validationItem 
+					${
+						passwordCriteriaValidation?.hasNumber
+							? 'registrationPassword__validationItem--valid'
+							: ''
+					}
+				`}
+				>
+					{translate('registration.password.criteria.number')}
+				</li>
+				<li
+					className={`
+					registrationPassword__validationItem 
+					${
+						passwordCriteriaValidation?.hasSpecialChar
+							? 'registrationPassword__validationItem--valid'
+							: ''
+					}
+				`}
+				>
+					{translate('registration.password.criteria.specialChar')}
+				</li>
+				<li
+					className={`
+					registrationPassword__validationItem 
+					${
+						passwordCriteriaValidation?.hasMinLength
+							? 'registrationPassword__validationItem--valid'
+							: ''
+					}
+				`}
+				>
+					{translate('registration.password.criteria.length')}
+				</li>
+			</ul>
 			<InputField
 				item={inputItemPassword}
 				inputHandle={handlepasswordChange}

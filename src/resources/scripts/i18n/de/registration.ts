@@ -64,6 +64,10 @@ const registration = {
 		'Bitte notieren Sie Ihre Zugangsdaten – ein Passwort-Reset ist nicht möglich!',
 	'password.intro':
 		'Um eine geschützte Beratung zu garantieren, muss Ihr Passwort die folgenden Kriterien erfüllen:',
+	'password.criteria.upperLowerCase': 'Groß-/Kleinschreibung',
+	'password.criteria.number': 'mindestens eine Zahl',
+	'password.criteria.specialChar': 'mindestens ein Sonderzeichen',
+	'password.criteria.length': 'mindestens 9 Zeichen',
 	'required.infoText':
 		'* Die markierten Felder müssen ausgefüllt werden, um sich registrieren zu können.',
 	'dataProtection.label':
