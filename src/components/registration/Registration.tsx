@@ -398,6 +398,24 @@ const Registration = () => {
 								}
 							></FormAccordion>
 
+							<div className="registration__dataProtection">
+								<Checkbox
+									item={checkboxItemDataProtection}
+									checkboxHandle={() =>
+										setIsDataProtectionSelected(
+											!isDataProtectionSelected
+										)
+									}
+								/>
+							</div>
+
+							<Button
+								className="registration__submit"
+								item={buttonItemSubmit}
+								buttonHandle={handleSubmitButtonClick}
+								disabled={isSubmitButtonDisabled}
+							/>
+
 							{/* ----------------------------- Required Fields ---------------------------- */}
 							<div className="registration__generalInformation">
 								{prefilledAgencyData && (
@@ -456,20 +474,6 @@ const Registration = () => {
 										'registration.required.infoText'
 									)}
 								</p>
-
-								<Checkbox
-									item={checkboxItemDataProtection}
-									checkboxHandle={() =>
-										setIsDataProtectionSelected(
-											!isDataProtectionSelected
-										)
-									}
-								/>
-								<Button
-									item={buttonItemSubmit}
-									buttonHandle={handleSubmitButtonClick}
-									disabled={isSubmitButtonDisabled}
-								/>
 							</div>
 						</form>
 
