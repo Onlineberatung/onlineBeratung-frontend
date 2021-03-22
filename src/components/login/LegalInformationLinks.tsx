@@ -11,10 +11,6 @@ export const LegalInformationLinks = () => {
 				type={'infoSmall'}
 			/>
 			<Text
-				text={translate('login.legal.infoText.divider')}
-				type={'infoSmall'}
-			/>
-			<Text
 				text={translate('login.legal.infoText.dataprotection')}
 				type={'infoSmall'}
 			/>
