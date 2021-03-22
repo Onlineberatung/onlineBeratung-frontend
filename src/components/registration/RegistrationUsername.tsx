@@ -11,6 +11,7 @@ import {
 	AccordionItemValidity,
 	MIN_USERNAME_LENGTH
 } from './registrationHelpers';
+import { Text } from '../text/Text';
 
 interface RegistrationUsernameProps {
 	isUsernameAlreadyInUse: boolean;
@@ -47,7 +48,6 @@ export const RegistrationUsername = (props: RegistrationUsernameProps) => {
 		label: labelContent
 			? `${labelContent}`
 			: translate('registration.user.label'),
-		infoText: translate('registration.user.infoText'),
 		maxLength: 30,
 		name: 'username',
 		type: 'text',
@@ -77,6 +77,10 @@ export const RegistrationUsername = (props: RegistrationUsernameProps) => {
 
 	return (
 		<div>
+			<Text
+				text={translate('registration.user.infoText')}
+				type="infoLargeAlternative"
+			/>
 			<InputField
 				item={inputItemUsername}
 				inputHandle={handleUsernameChange}
