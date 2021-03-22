@@ -1,11 +1,11 @@
 import * as React from 'react';
 import './headline.styles';
 
-type headlineLevels = '1' | '2' | '3' | '4' | '5';
+export type HeadlineLevels = '1' | '2' | '3' | '4' | '5';
 
 interface HeadlineProps {
-	semanticLevel: headlineLevels;
-	styleLevel?: headlineLevels;
+	semanticLevel: HeadlineLevels;
+	styleLevel?: HeadlineLevels;
 	text: string;
 }
 
@@ -16,8 +16,11 @@ export const Headline = (props: HeadlineProps) => {
 		: props.semanticLevel;
 
 	return (
-		<Tag className={`headline headline--${levelBasedClass}`}>
-			{props.text}
-		</Tag>
+		<Tag
+			className={`headline headline--${levelBasedClass}`}
+			dangerouslySetInnerHTML={{
+				__html: props.text
+			}}
+		></Tag>
 	);
 };

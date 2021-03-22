@@ -1,6 +1,6 @@
 const absenceInformal = {
-	'overlayCopy1': 'Deine Abwesenheitsnachricht ist momentan aktiviert.',
-	'overlayCopy2': 'Möchtest Du diese deaktivieren?',
+	'overlay.copy':
+		'Deine Abwesenheitsnachricht ist momentan aktiviert. <br> Möchtest Du diese deaktivieren?',
 	'changeSuccess.overlay.headline':
 		'Der Status Deiner Abwesenheitsnachricht wurde erfolgreich aktualisiert.',
 	'input.infoText':

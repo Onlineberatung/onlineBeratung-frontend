@@ -15,6 +15,7 @@ import { setProfileWrapperInactive } from '../app/navigationHandler';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
 import './profile.styles';
+import { DeleteAccount } from './DeleteAccount';
 
 export const ProfileView = () => {
 	const { userData } = useContext(UserDataContext);
@@ -90,6 +91,9 @@ export const ProfileView = () => {
 						<ProfileDataViewConsultant />
 					) : (
 						<ProfileDataViewAsker />
+					)}
+					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (
+						<DeleteAccount />
 					)}
 				</div>
 				<div className="profile__footer">

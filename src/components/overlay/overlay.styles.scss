@@ -1,8 +1,10 @@
 $imageSize: 280px;
 $iconSize: 170px;
+$imageSizeSmall: 180px;
+$iconSizeSmall: 100px;
 
 .overlay {
-	display: none;
+	display: flex;
 	position: fixed;
 	flex-direction: column;
 	width: 100%;
@@ -10,10 +12,6 @@ $iconSize: 170px;
 	top: 0;
 	left: 0;
 	z-index: 20;
-
-	&--flex {
-		display: flex;
-	}
 
 	&__background {
 		position: fixed;
@@ -80,27 +78,47 @@ $iconSize: 170px;
 		}
 	}
 
-	&__icon {
-		width: $iconSize;
-		height: $iconSize;
+	&__iconWrapper {
+		display: flex;
+		justify-content: center;
 		align-self: center;
+		background-color: $light-success;
+		border-radius: $imageSize / 2;
+		height: $imageSize;
+		width: $imageSize;
+		margin-bottom: $grid-base-four;
 
-		&Wrapper {
-			display: flex;
-			justify-content: center;
+		& > svg {
+			width: $iconSize;
+			height: $iconSize;
 			align-self: center;
-			background-color: $light-success;
-			border-radius: $imageSize / 2;
-			height: $imageSize;
-			width: $imageSize;
-			margin-bottom: $grid-base-four;
+		}
+
+		&--small {
+			width: $imageSizeSmall;
+			height: $imageSizeSmall;
+
+			& > svg {
+				width: $iconSizeSmall;
+				height: $iconSizeSmall;
+			}
 		}
 	}
 
-	&__copy {
-		margin-top: 15px;
+	.headline--1 {
 		margin-bottom: 0;
-		text-transform: none;
+	}
+
+	.text {
+		margin-top: $grid-base-two;
+		text-align: center;
+	}
+
+	&__nestedComponent {
+		.inputField {
+			margin: $grid-base-three auto;
+			max-width: 325px;
+		}
 	}
 
 	.button {
@@ -117,6 +135,10 @@ $iconSize: 170px;
 
 			&:first-of-type {
 				margin-top: $grid-base-four;
+			}
+
+			& + .button__wrapper {
+				margin-top: $grid-base-two;
 			}
 		}
 	}

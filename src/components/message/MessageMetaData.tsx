@@ -32,7 +32,7 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 
 	const isReadStatus = () => {
 		if (
-			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) ||
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			activeSession.isFeedbackSession ||
 			props.isVideoCallMessage
 		) {
