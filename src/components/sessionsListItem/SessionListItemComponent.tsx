@@ -102,7 +102,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 				}`
 			);
 		} else if (
-			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			isCurrentSessionNewEnquiry
 		) {
 			setActiveSessionGroupId(listItem.id);

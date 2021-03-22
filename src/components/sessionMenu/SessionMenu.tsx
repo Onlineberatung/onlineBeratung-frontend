@@ -232,7 +232,7 @@ export const SessionMenu = () => {
 					/>
 				</div>
 			)}
-			{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
+			{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
 			chatItem.feedbackGroupId ? (
 				<Link to={feedbackPath} className="sessionInfo__feedbackButton">
@@ -328,7 +328,7 @@ export const SessionMenu = () => {
 						{translate('videoCall.button.startCall')}
 					</div>
 				)}
-				{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
+				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				chatItem.feedbackGroupId ? (
 					<Link
 						className="sessionMenu__item sessionMenu__item--mobile"
@@ -337,14 +337,14 @@ export const SessionMenu = () => {
 						{translate('chatFlyout.feedback')}
 					</Link>
 				) : null}
-				{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
+				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				!isGroupChat &&
 				!isGenericConsultingType(chatItem.consultingType) ? (
 					<Link className="sessionMenu__item" to={userProfileLink}>
 						{translate('chatFlyout.askerProfil')}
 					</Link>
 				) : null}
-				{!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
+				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				chatItem.monitoring &&
 				!typeIsEnquiry(getTypeOfLocation()) ? (
 					<Link className="sessionMenu__item" to={monitoringPath}>

@@ -64,6 +64,7 @@ import {
 import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
 import { AgencyDataInterface } from '../../globalState';
 import { WelcomeScreen } from './WelcomeScreen';
+import { LegalInformationLinks } from '../login/LegalInformationLinks';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -738,6 +739,9 @@ const Registration = () => {
 								/>
 							</div>
 						</form>
+
+						{/* ----------------------------- LEGAL INFORMATION ---------------------------- */}
+						<LegalInformationLinks />
 
 						{/* ----------------------------- TO LOGIN BUTTON ---------------------------- */}
 						<div className="registration__toLogin">
