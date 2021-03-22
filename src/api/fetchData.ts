@@ -16,14 +16,15 @@ const isIE11Browser =
 	!!navigator.userAgent.match(/Trident.*rv:11\./);
 
 export const FETCH_METHODS = {
-	POST: 'POST',
+	DELETE: 'DELETE',
 	GET: 'GET',
+	POST: 'POST',
 	PUT: 'PUT'
 };
 
 export const FETCH_ERRORS = {
 	EMPTY: 'EMPTY',
-	PASSWORD: 'PASSWORD',
+	BAD_REQUEST: 'BAD_REQUEST',
 	CONFLICT: 'CONFLICT',
 	TIMEOUT: 'TIMEOUT',
 	NO_MATCH: 'NO_MATCH',
@@ -111,9 +112,11 @@ export const fetchData = (props: fetchDataProps): Promise<any> =>
 						reject(new Error(FETCH_ERRORS.EMPTY));
 					} else if (
 						response.status === 400 &&
-						props.responseHandling.includes(FETCH_ERRORS.PASSWORD)
+						props.responseHandling.includes(
+							FETCH_ERRORS.BAD_REQUEST
+						)
 					) {
-						reject(new Error(response.status.toString()));
+						reject(new Error(FETCH_ERRORS.BAD_REQUEST));
 					} else if (
 						response.status === 404 &&
 						props.responseHandling.includes(FETCH_ERRORS.NO_MATCH)

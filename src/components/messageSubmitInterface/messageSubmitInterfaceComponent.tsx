@@ -176,7 +176,7 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const isConsultantAbsent =
-		hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
+		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 		activeSession &&
 		activeSession.consultant &&
 		activeSession.consultant.absent;
@@ -454,7 +454,7 @@ export const MessageSubmitInterfaceComponent = (
 
 		if (
 			typeIsEnquiry(props.type) &&
-			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
 			const enquirySessionId = activeSessionGroupId
 				? activeSessionGroupId
@@ -633,7 +633,7 @@ export const MessageSubmitInterfaceComponent = (
 	const hasUploadFunctionality =
 		!typeIsEnquiry(props.type) ||
 		(typeIsEnquiry(props.type) &&
-			!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData));
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData));
 	const hasRequestFeedbackCheckbox =
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
 		!hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&

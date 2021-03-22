@@ -125,7 +125,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const getPlaceholder = () => {
 		if (isGroupChat) {
 			return translate('enquiry.write.input.placeholder.groupChat');
-		} else if (hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)) {
+		} else if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			return translate('enquiry.write.input.placeholder');
 		} else if (
 			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
@@ -219,7 +219,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const getMonitoringLink = () => {
 		if (
 			typeIsSession(getTypeOfLocation()) &&
-			!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
 			return {
 				pathname: `/sessions/consultant/${getViewPathForType(
@@ -229,7 +229,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 		if (
 			typeIsTeamSession(getTypeOfLocation()) &&
-			!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
 			return {
 				pathname: `/sessions/consultant/${getViewPathForType(
@@ -300,7 +300,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			!activeSession.isFeedbackSession &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
 			monitoringButtonVisible &&
-			!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			getMonitoringLink() ? (
 				<Link to={getMonitoringLink()}>
 					<div className="monitoringButton">

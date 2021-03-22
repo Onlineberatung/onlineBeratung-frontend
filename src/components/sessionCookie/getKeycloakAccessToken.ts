@@ -29,7 +29,7 @@ export const getKeycloakAccessToken = (
 				if (response.status === 200) {
 					const data = response.json();
 					resolve(data);
-				} else if (response.status === 401) {
+				} else if (response.status === 400 || response.status === 401) {
 					reject(new Error('keycloakLogin'));
 				}
 			})
