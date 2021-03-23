@@ -7,6 +7,7 @@ import { autoselectPostcodeForConsultingType } from '../agencySelection/agencySe
 import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
+import { RegistrationAge } from '../registration/RegistrationAge';
 import { AccordionItemValidity } from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
@@ -94,6 +95,20 @@ export const FormAccordion = (props: FormAccordionProps) => {
 				/>
 			),
 			isValid: isSelectedAgencyValid
+		});
+	}
+
+	if (props.consultingType === 1) {
+		// refactor condition -> helper function?
+		accordionItemData.push({
+			title: 'Alter auswählen',
+			nestedComponent: <RegistrationAge />,
+			isValid: 'initial'
+		});
+		accordionItemData.push({
+			title: 'Bundesland auswählen',
+			nestedComponent: <p>registration state</p>,
+			isValid: 'initial'
 		});
 	}
 
