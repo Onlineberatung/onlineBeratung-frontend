@@ -66,8 +66,9 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		isPasswordValid,
 		username,
 		agency,
-		password
-	]); // eslint-disable-line react-hooks/exhaustive-deps
+		password,
+		props
+	]);
 
 	useEffect(() => {
 		if (props.isUsernameAlreadyInUse) {
