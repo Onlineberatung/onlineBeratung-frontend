@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.5.0...v2.6.0) (2021-03-22)
+
+
+### Features
+
+* 🎸 add basic functionality and styles for delete account ([c9221ea](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/c9221eacec4599bb8b63bb0634d97a1194cb31dd))
+* 🎸 add deleteAccount component with basic functionality ([56db3f1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/56db3f1e9aec0b436c404596be0c02bc1f5f9c4a))
+* 🎸 add further steps styles ([0f68a66](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/0f68a66db8e54e35c76fc9b71427266a90182251))
+* 🎸 add new alias to message item component ([c786bc7](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/c786bc7440897f51a792b260568d881dceda941a))
+* 🎸 add new delete account call ([9b2ddba](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/9b2ddba9fd232dbf36bf3629aa57c2cef47457a0))
+* 🎸 add new overlay component ([0115ea7](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/0115ea77634404a3508dfd0e54b1c20d3fddfa81))
+* 🎸 add warning label to password input field ([a9f8163](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/a9f81631c1525ecf213185a5421315ab0b87ae1c))
+* 🎸 added <LegalInformationLinks /> ([392244e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/392244eea2f73b692f5195ea563a6dfd1676e893))
+* 🎸 adjust styles ([3c39bc0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/3c39bc088bbdf7230377a0dc035e744b33578907))
+* 🎸 don't show the further steps for consultants ([47b6d10](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/47b6d10d0e2ec8c24e8b23213cf0f910df6de233))
+
+
+### Bug Fixes
+
+* 🐛 add new further steps and headline component ([7bc23b7](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7bc23b736b0ce225609cd112816ec0183cef0b7a))
+* 🐛 adjust copy text of absence overlay ([a5d5c9c](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/a5d5c9cec942d95c7f4cbd1996fe171232b4c51b))
+* 🐛 move welcome screen data inside component ([8888a01](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/8888a0104a8e69da69e71ae3f0f37485068ad745))
+* 🐛 prevent triggering the call multiple times ([6e91110](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/6e911103809a05e2ecdc744565a4afc9670eceeb))
+* 🐛 set content of headline with dangerouslySetInnerHTML ([c9f01fa](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/c9f01fac6b9e8810eb24e91e9f0e117151864282))
+* 🐛 small design adjustments based on QS ([96cc2ad](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/96cc2ad8f5d4771cd9dc18e7920d2a987df0ef85))
+* 🐛 trim username on login ([99dd613](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/99dd613a78d2ddde76ec72c837d42bb9f89c335d))
+
 ## [2.5.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.4.1...v2.5.0) (2021-03-01)
 
 
