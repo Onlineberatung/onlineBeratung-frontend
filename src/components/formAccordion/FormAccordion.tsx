@@ -60,7 +60,14 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		} else {
 			props.handleFormAccordionData(null);
 		}
-	}, [isUsernameValid, isSelectedAgencyValid, username, agency]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [
+		isUsernameValid,
+		isSelectedAgencyValid,
+		isPasswordValid,
+		username,
+		agency,
+		password
+	]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (props.isUsernameAlreadyInUse) {
