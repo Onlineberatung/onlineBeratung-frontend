@@ -45,30 +45,34 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	useEffect(() => {
-		if (
-			isUsernameValid === 'valid' &&
-			isPasswordValid === 'valid' &&
-			isSelectedAgencyValid === 'valid'
-		) {
-			props.handleFormAccordionData({
-				username: username,
-				password: password,
-				agencyId: agency?.id.toString(),
-				postcode: agency?.postcode
-			});
-		} else {
-			props.handleFormAccordionData(null);
-		}
-	}, [
-		isUsernameValid,
-		isSelectedAgencyValid,
-		isPasswordValid,
-		username,
-		agency,
-		password,
-		props
-	]);
+	useEffect(
+		() => {
+			if (
+				isUsernameValid === 'valid' &&
+				isPasswordValid === 'valid' &&
+				isSelectedAgencyValid === 'valid'
+			) {
+				props.handleFormAccordionData({
+					username: username,
+					password: password,
+					agencyId: agency?.id.toString(),
+					postcode: agency?.postcode
+				});
+			} else {
+				props.handleFormAccordionData(null);
+			}
+		},
+		/* eslint-disable */
+		[
+			isUsernameValid,
+			isSelectedAgencyValid,
+			isPasswordValid,
+			username,
+			agency,
+			password
+		]
+	);
+	/* eslint-enable */
 
 	useEffect(() => {
 		if (props.isUsernameAlreadyInUse) {
