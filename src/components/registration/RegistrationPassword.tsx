@@ -6,7 +6,7 @@ import {
 	InputFieldLabelState
 } from '../inputField/InputField';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
-import { Text } from '../text/Text';
+import { LABEL_TYPES, Text } from '../text/Text';
 import { translate } from '../../resources/scripts/i18n/translate';
 import {
 	inputValuesFit,
@@ -17,6 +17,7 @@ import { AccordionItemValidity } from './registrationHelpers';
 import './registrationPassword.styles';
 
 interface RegistrationPasswordProps {
+	hasNoResetNote: boolean;
 	onPasswordChange: Function;
 	onValidityChange: Function;
 }
@@ -186,6 +187,14 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 				item={inputItemPasswordConfirmation}
 				inputHandle={(e) => setPasswordConfirmation(e.target.value)}
 			/>
+			{props.hasNoResetNote && (
+				<Text
+					className="registrationPassword__note"
+					text={translate('registration.password.note')}
+					type="infoLargeAlternative"
+					labelType={LABEL_TYPES.NOTICE}
+				/>
+			)}
 		</div>
 	);
 };

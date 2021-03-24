@@ -102,6 +102,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					onValidityChange={(validity) =>
 						setIsPasswordValid(validity)
 					}
+					hasNoResetNote={props.consultingType === 1}
 				/>
 			),
 			isValid: isPasswordValid

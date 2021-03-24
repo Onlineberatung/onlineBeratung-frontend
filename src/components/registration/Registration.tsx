@@ -39,7 +39,6 @@ import { redirectToApp } from './autoLogin';
 import { isNumber } from '../../resources/scripts/helpers/isNumber';
 import '../../resources/styles/styles';
 import './registration.styles';
-import { Text, LABEL_TYPES } from '../text/Text';
 import { autoselectAgencyForConsultingType } from '../agencySelection/agencySelectionHelpers';
 import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
 import { AgencyDataInterface } from '../../globalState';
@@ -433,16 +432,6 @@ const Registration = () => {
 										}
 									/>
 								)}
-								{consultingType === 1 && (
-									<Text
-										className="registration__passwordNote"
-										labelType={LABEL_TYPES.NOTICE}
-										text={translate(
-											'registration.password.note'
-										)}
-										type="infoSmall"
-									/>
-								)}
 								{resortData.requiredComponents
 									? requiredComponents
 									: null}
@@ -466,15 +455,6 @@ const Registration = () => {
 									{voluntaryComponents}
 								</div>
 							)}
-
-							{/* ----------------------------- Submit Section ---------------------------- */}
-							<div className="registration__footer">
-								<p className="registration__requiredInfoText formWrapper__infoText">
-									{translate(
-										'registration.required.infoText'
-									)}
-								</p>
-							</div>
 						</form>
 
 						{/* ----------------------------- TO LOGIN BUTTON ---------------------------- */}
