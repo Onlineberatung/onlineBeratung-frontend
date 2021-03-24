@@ -23,7 +23,6 @@ interface RegistrationPasswordProps {
 
 export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 	const [isValid, setIsValid] = useState<AccordionItemValidity>('initial');
-
 	const [password, setPassword] = useState<string>('');
 	const [passwordLabel, setPasswordLabel] = useState<string>(null);
 	const [passwordLabelState, setPasswordLabelState] = useState<
@@ -133,6 +132,43 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 		setPassword(event.target.value);
 	};
 
+	const passwordCriteria = [
+		{
+			content: translate('registration.password.criteria.upperLowerCase'),
+			isValidCondition: passwordCriteriaValidation?.hasUpperLowerCase
+		},
+		{
+			content: translate('registration.password.criteria.number'),
+			isValidCondition: passwordCriteriaValidation?.hasNumber
+		},
+		{
+			content: translate('registration.password.criteria.specialChar'),
+			isValidCondition: passwordCriteriaValidation?.hasSpecialChar
+		},
+		{
+			content: translate('registration.password.criteria.length'),
+			isValidCondition: passwordCriteriaValidation?.hasMinLength
+		}
+	];
+
+	const passwordCriteriaList = passwordCriteria.map((criteria, index) => {
+		return (
+			<li
+				key={index}
+				className={`
+					registrationPassword__validationItem 
+					${
+						criteria.isValidCondition
+							? 'registrationPassword__validationItem--valid'
+							: ''
+					}
+				`}
+			>
+				{criteria.content}
+			</li>
+		);
+	});
+
 	return (
 		<div className="registrationPassword">
 			<Text
@@ -140,54 +176,7 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 				type="infoLargeAlternative"
 			/>
 			<ul className="registrationPassword__validation">
-				<li
-					className={`
-					registrationPassword__validationItem 
-					${
-						passwordCriteriaValidation?.hasUpperLowerCase
-							? 'registrationPassword__validationItem--valid'
-							: ''
-					}
-				`}
-				>
-					{translate('registration.password.criteria.upperLowerCase')}
-				</li>
-				<li
-					className={`
-					registrationPassword__validationItem 
-					${
-						passwordCriteriaValidation?.hasNumber
-							? 'registrationPassword__validationItem--valid'
-							: ''
-					}
-				`}
-				>
-					{translate('registration.password.criteria.number')}
-				</li>
-				<li
-					className={`
-					registrationPassword__validationItem 
-					${
-						passwordCriteriaValidation?.hasSpecialChar
-							? 'registrationPassword__validationItem--valid'
-							: ''
-					}
-				`}
-				>
-					{translate('registration.password.criteria.specialChar')}
-				</li>
-				<li
-					className={`
-					registrationPassword__validationItem 
-					${
-						passwordCriteriaValidation?.hasMinLength
-							? 'registrationPassword__validationItem--valid'
-							: ''
-					}
-				`}
-				>
-					{translate('registration.password.criteria.length')}
-				</li>
+				{passwordCriteriaList}
 			</ul>
 			<InputField
 				item={inputItemPassword}
