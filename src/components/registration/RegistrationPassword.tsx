@@ -188,12 +188,14 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 				inputHandle={(e) => setPasswordConfirmation(e.target.value)}
 			/>
 			{props.hasNoResetNote && (
-				<Text
-					className="registrationPassword__note"
-					text={translate('registration.password.note')}
-					type="infoLargeAlternative"
-					labelType={LABEL_TYPES.NOTICE}
-				/>
+				<div data-cy="no-password-reset-possible-note">
+					<Text
+						className="registrationPassword__note"
+						text={translate('registration.password.note')}
+						type="infoLargeAlternative"
+						labelType={LABEL_TYPES.NOTICE}
+					/>
+				</div>
 			)}
 		</div>
 	);

@@ -455,6 +455,15 @@ const Registration = () => {
 									{voluntaryComponents}
 								</div>
 							)}
+
+							{/* ----------------------------- Submit Section ---------------------------- */}
+							<div className="registration__footer">
+								<p className="registration__requiredInfoText formWrapper__infoText">
+									{translate(
+										'registration.required.infoText'
+									)}
+								</p>
+							</div>
 						</form>
 
 						{/* ----------------------------- TO LOGIN BUTTON ---------------------------- */}
