@@ -19,6 +19,10 @@
 		font-size: $font-size-tertiary;
 		line-height: 19px;
 		color: $tertiary;
+
+		.text__label {
+			text-transform: none;
+		}
 	}
 
 	&__infoSmall {

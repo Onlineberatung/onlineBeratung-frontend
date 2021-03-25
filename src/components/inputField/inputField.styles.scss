@@ -10,6 +10,7 @@ $inputHeight: 50px;
 		appearance: none;
 		-moz-appearance: textfield;
 		height: $inputHeight;
+		min-width: 0;
 		padding: 12px $grid-base-three 0;
 		flex: 1;
 		color: $form-secondary;
