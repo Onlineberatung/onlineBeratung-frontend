@@ -112,7 +112,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		} else {
 			props.onAgencyChange(null);
 			if (props.onValidityChange) {
-				props.onValidityChange('initial');
+				props.onValidityChange(
+					selectedPostcode ? 'invalid' : 'initial'
+				);
 			}
 		}
 	}, [selectedAgencyId, selectedPostcode, props.preselectedAgency]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -152,7 +154,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		) {
 			props.onAgencyChange(null);
 			if (props.onValidityChange) {
-				props.onValidityChange('initial');
+				props.onValidityChange(
+					selectedPostcode ? 'invalid' : 'initial'
+				);
 			}
 		}
 	}, [selectedPostcode]); // eslint-disable-line react-hooks/exhaustive-deps

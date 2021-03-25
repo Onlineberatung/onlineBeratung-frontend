@@ -65,7 +65,7 @@ export const RegistrationUsername = (props: RegistrationUsernameProps) => {
 			setLabelState('valid');
 			setLabelContent(translate('registration.user.suitable'));
 		} else if (username.length > 0) {
-			setIsValid('initial');
+			setIsValid('invalid');
 			setLabelState('invalid');
 			setLabelContent(translate('registration.user.unsuitable'));
 		} else {
