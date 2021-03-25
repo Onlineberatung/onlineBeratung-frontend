@@ -12,14 +12,14 @@ const registrationInformal = {
 	'agencySelection.postcode.unavailable':
 		'Momentan haben wir leider noch keine Online-Beratungsstelle in Deiner Nähe. Auf unserer Webseite findest Du Beratungsstellen für Dein Anliegen.',
 	'password.headline': 'Bitte wähle Dein Passwort',
-	'password.confirmation.infoText':
-		'Dein Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 10 Zeichen',
 	'password.secure': 'Dein Passwort ist sicher.',
 	'password.insecure': 'Dein Passwort ist nicht sicher.',
 	'password.same': 'Dein Passwort ist identisch.',
 	'password.notSame': 'Dein Passwort ist nicht identisch.',
 	'password.note':
 		'Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!',
+	'password.intro':
+		'Um eine geschützte Beratung zu garantieren, muss Dein Passwort die folgenden Kriterien erfüllen:',
 	'overlay.success.copy': 'Du hast Dich erfolgreich registriert.',
 	'welcomeScreen.info2.text':
 		'Schicke Deine Nachricht an eine lokale Beratungsstelle',

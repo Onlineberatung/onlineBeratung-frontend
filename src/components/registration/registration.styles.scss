@@ -22,6 +22,23 @@
 		}
 	}
 
+	&__dataProtection {
+		margin-top: $grid-base-eight;
+		margin-left: 4px;
+		text-align: left;
+
+		.checkbox__label {
+			line-height: $line-height-primary;
+		}
+	}
+
+	&__submit {
+		margin-top: $grid-base-four;
+
+		//TODO: remove margin-bottom after removal of deprecated components
+		margin-bottom: 500px;
+	}
+
 	form {
 		margin: 120px 0;
 		max-width: 400px;
@@ -63,22 +80,6 @@
 
 	&__passwordNote {
 		margin: -20px $grid-base-five $grid-base-five 52px;
-	}
-
-	&__footer {
-		.button__wrapper,
-		.checkbox__wrapper {
-			margin: $grid-base-five 0;
-		}
-
-		.checkbox__wrapper {
-			text-align: left;
-			justify-content: left;
-
-			.checkbox__label {
-				max-width: unset;
-			}
-		}
 	}
 
 	&__requiredInfoText {

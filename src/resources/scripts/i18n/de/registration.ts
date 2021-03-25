@@ -56,14 +56,18 @@ const registration = {
 	'password.headline': 'Bitte wählen Sie Ihr Passwort',
 	'password.input.label': 'Passwort*',
 	'password.confirmation.label': 'Passwort wiederholen*',
-	'password.confirmation.infoText':
-		'Ihr Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 10 Zeichen',
 	'password.secure': 'Ihr Passwort ist sicher.',
 	'password.insecure': 'Ihr Passwort ist nicht sicher.',
 	'password.same': 'Ihr Passwort ist identisch.',
 	'password.notSame': 'Ihr Passwort ist nicht identisch.',
 	'password.note':
 		'Bitte notieren Sie Ihre Zugangsdaten – ein Passwort-Reset ist nicht möglich!',
+	'password.intro':
+		'Um eine geschützte Beratung zu garantieren, muss Ihr Passwort die folgenden Kriterien erfüllen:',
+	'password.criteria.upperLowerCase': 'Groß-/Kleinschreibung',
+	'password.criteria.number': 'mindestens eine Zahl',
+	'password.criteria.specialChar': 'mindestens ein Sonderzeichen',
+	'password.criteria.length': 'mindestens 9 Zeichen',
 	'required.infoText':
 		'* Die markierten Felder müssen ausgefüllt werden, um sich registrieren zu können.',
 	'dataProtection.label':
