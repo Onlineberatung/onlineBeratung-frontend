@@ -8,37 +8,50 @@ import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
 import { RegistrationAge } from '../registration/RegistrationAge';
+import { RegistrationState } from '../registration/RegistrationState';
 import { RegistrationPassword } from '../registration/RegistrationPassword';
-import { AccordionItemValidity } from '../registration/registrationHelpers';
+import {
+	AccordionItemValidity,
+	ResortData
+} from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
 	consultingType: number;
 	isUsernameAlreadyInUse: boolean;
 	prefilledAgencyData: any;
 	handleFormAccordionData: Function;
+	resortData: ResortData;
 }
 
 export const FormAccordion = (props: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
-	const [isUsernameValid, setIsUsernameValid] = useState<
+	const [usernameValidity, setUsernameValidity] = useState<
 		AccordionItemValidity
 	>('initial');
 	const [username, setUsername] = useState<string>();
-	const [isPasswordValid, setIsPasswordValid] = useState<
+	const [passwordValidity, setPasswordValidity] = useState<
 		AccordionItemValidity
 	>('initial');
 	const [password, setPassword] = useState<string>();
-	const [isSelectedAgencyValid, setIsSelectedAgencyValid] = useState<
+	const [selectedAgencyValidity, setSelectedAgencyValidity] = useState<
 		AccordionItemValidity
 	>('initial');
 	const [agency, setAgency] = useState<{ id; postcode }>();
+	const [stateValidity, setStateValidity] = useState<AccordionItemValidity>(
+		'initial'
+	);
+	const [state, setState] = useState<string>();
+	const [ageValidity, setAgeValidity] = useState<AccordionItemValidity>(
+		'initial'
+	);
+	const [age, setAge] = useState<string>();
 
 	useEffect(() => {
 		if (
 			autoselectPostcodeForConsultingType(props.consultingType) &&
 			props.prefilledAgencyData
 		) {
-			setIsSelectedAgencyValid('valid');
+			setSelectedAgencyValidity('valid');
 			setAgency({
 				id: props.prefilledAgencyData.id,
 				postcode: props.prefilledAgencyData.postcode
@@ -49,15 +62,21 @@ export const FormAccordion = (props: FormAccordionProps) => {
 	useEffect(
 		() => {
 			if (
-				isUsernameValid === 'valid' &&
-				isPasswordValid === 'valid' &&
-				isSelectedAgencyValid === 'valid'
+				usernameValidity === 'valid' &&
+				passwordValidity === 'valid' &&
+				selectedAgencyValidity === 'valid' &&
+				(stateValidity === 'valid' ||
+					!props.resortData.requiredComponents?.state) &&
+				(ageValidity === 'valid' ||
+					!props.resortData.requiredComponents?.age)
 			) {
 				props.handleFormAccordionData({
 					username: username,
 					password: password,
 					agencyId: agency?.id.toString(),
-					postcode: agency?.postcode
+					postcode: agency?.postcode,
+					...(state && { state: state }),
+					...(age && { age: age })
 				});
 			} else {
 				props.handleFormAccordionData(null);
@@ -65,12 +84,16 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		},
 		/* eslint-disable */
 		[
-			isUsernameValid,
-			isSelectedAgencyValid,
-			isPasswordValid,
+			usernameValidity,
+			selectedAgencyValidity,
+			passwordValidity,
+			stateValidity,
+			ageValidity,
 			username,
 			agency,
-			password
+			password,
+			state,
+			age
 		]
 	);
 	/* eslint-enable */
@@ -89,11 +112,11 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					isUsernameAlreadyInUse={props.isUsernameAlreadyInUse}
 					onUsernameChange={(username) => setUsername(username)}
 					onValidityChange={(validity) =>
-						setIsUsernameValid(validity)
+						setUsernameValidity(validity)
 					}
 				/>
 			),
-			isValid: isUsernameValid
+			isValid: usernameValidity
 		},
 		{
 			title: translate('registration.password.headline'),
@@ -101,12 +124,12 @@ export const FormAccordion = (props: FormAccordionProps) => {
 				<RegistrationPassword
 					onPasswordChange={(password) => setPassword(password)}
 					onValidityChange={(validity) =>
-						setIsPasswordValid(validity)
+						setPasswordValidity(validity)
 					}
 					hasNoResetNote={props.consultingType === 1}
 				/>
 			),
-			isValid: isPasswordValid
+			isValid: passwordValidity
 		}
 	];
 
@@ -120,25 +143,41 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					preselectedAgency={props.prefilledAgencyData}
 					onAgencyChange={(agency) => setAgency(agency)}
 					onValidityChange={(validity) =>
-						setIsSelectedAgencyValid(validity)
+						setSelectedAgencyValidity(validity)
 					}
 				/>
 			),
-			isValid: isSelectedAgencyValid
+			isValid: selectedAgencyValidity
 		});
 	}
 
-	if (props.consultingType === 1) {
-		// refactor condition -> helper function?
+	if (props.resortData.requiredComponents?.age) {
 		accordionItemData.push({
-			title: 'Alter auswählen',
-			nestedComponent: <RegistrationAge />,
-			isValid: 'initial'
+			title: '?!? Alter ?!?',
+			nestedComponent: (
+				<RegistrationAge
+					dropdownSelectData={props.resortData.requiredComponents.age}
+					onAgeChange={(age) => setAge(age)}
+					onValidityChange={(validity) => setAgeValidity(validity)}
+				/>
+			),
+			isValid: ageValidity
 		});
+	}
+
+	if (props.resortData.requiredComponents?.state) {
 		accordionItemData.push({
-			title: 'Bundesland auswählen',
-			nestedComponent: <p>registration state</p>,
-			isValid: 'initial'
+			title: '?!? Bundesland ?!?',
+			nestedComponent: (
+				<RegistrationState
+					dropdownSelectData={
+						props.resortData.requiredComponents.state
+					}
+					onStateChange={(state) => setState(state)}
+					onValidityChange={(validity) => setStateValidity(validity)}
+				/>
+			),
+			isValid: stateValidity
 		});
 	}
 

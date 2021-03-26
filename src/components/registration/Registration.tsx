@@ -11,7 +11,8 @@ import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
 import {
 	buttonItemSubmit,
 	getOptionOfSelectedValue,
-	overlayItemRegistrationSuccess
+	overlayItemRegistrationSuccess,
+	ResortData
 } from './registrationHelpers';
 import {
 	apiPostRegistration,
@@ -52,19 +53,13 @@ export const initRegistration = () => {
 	);
 };
 
-export interface ResortData {
-	consultingType: string;
-	overline: string;
-	requiredComponents?: any[];
-	useInformal: boolean;
-	voluntaryComponents?: any[];
-}
-
 interface FormAccordionData {
 	username: string;
 	password: string;
 	agencyId: string;
 	postcode: string;
+	state?: string;
+	age?: string;
 }
 
 const Registration = () => {
@@ -149,42 +144,17 @@ const Registration = () => {
 			});
 	};
 
-	const isRegistrationValid = () => {
-		const validation: boolean[] = [];
-		const generalValidation = formAccordionData && isDataProtectionSelected;
-
-		validation.push(generalValidation ? true : false);
-
-		// U25 and gemeinsamstatteinsam
-		if (consultingType === 1) {
-			validation.push(
-				valuesOfGeneratedInputs &&
-					valuesOfGeneratedInputs['age'] &&
-					valuesOfGeneratedInputs['state']
-					? true
-					: false
-			);
-		}
-
-		return validation.indexOf(false) === -1;
-	};
-
 	useEffect(() => {
 		prefillPostcode();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	useEffect(
-		() => {
-			if (isRegistrationValid()) {
-				setIsSubmitButtonDisabled(false);
-			} else {
-				setIsSubmitButtonDisabled(true);
-			}
-		},
-		/* eslint-disable */
-		[formAccordionData, valuesOfGeneratedInputs, isDataProtectionSelected]
-	);
-	/* eslint-enable */
+	useEffect(() => {
+		if (!!(formAccordionData && isDataProtectionSelected)) {
+			setIsSubmitButtonDisabled(false);
+		} else {
+			setIsSubmitButtonDisabled(true);
+		}
+	}, [formAccordionData, isDataProtectionSelected]);
 
 	const handleForwardToRegistration = () => {
 		setShowWelcomeScreen(false);
@@ -223,7 +193,9 @@ const Registration = () => {
 			agencyId: formAccordionData.agencyId,
 			postcode: formAccordionData.postcode,
 			consultingType: consultingType?.toString(),
-			termsAccepted: isDataProtectionSelected.toString()
+			termsAccepted: isDataProtectionSelected.toString(),
+			...(formAccordionData.state && { state: formAccordionData.state }),
+			...(formAccordionData.age && { age: formAccordionData.age })
 		};
 
 		let generatedRegistrationData = {};
@@ -357,12 +329,6 @@ const Registration = () => {
 		  })
 		: null;
 
-	const requiredComponents = resortData.requiredComponents
-		? resortData.requiredComponents.map((component, index) => {
-				return renderInputComponent(component, index);
-		  })
-		: null;
-
 	return (
 		<div className="registration">
 			<Stage hasAnimation={true}></Stage>
@@ -395,6 +361,7 @@ const Registration = () => {
 								handleFormAccordionData={(formData) =>
 									setFormAccordionData(formData)
 								}
+								resortData={resortData}
 							></FormAccordion>
 
 							<div className="registration__dataProtection">
@@ -432,9 +399,6 @@ const Registration = () => {
 										}
 									/>
 								)}
-								{resortData.requiredComponents
-									? requiredComponents
-									: null}
 							</div>
 
 							{/* ----------------------------- Voluntary Fields ---------------------------- */}
