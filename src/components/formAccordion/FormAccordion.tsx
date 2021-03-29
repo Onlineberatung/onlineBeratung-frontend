@@ -12,7 +12,7 @@ import { RegistrationState } from '../registration/RegistrationState';
 import { RegistrationPassword } from '../registration/RegistrationPassword';
 import {
 	AccordionItemValidity,
-	ResortData
+	RequiredComponents
 } from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
@@ -20,7 +20,7 @@ interface FormAccordionProps {
 	isUsernameAlreadyInUse: boolean;
 	prefilledAgencyData: any;
 	handleFormAccordionData: Function;
-	resortData: ResortData;
+	additionalStepsData?: RequiredComponents;
 }
 
 export const FormAccordion = (props: FormAccordionProps) => {
@@ -66,9 +66,8 @@ export const FormAccordion = (props: FormAccordionProps) => {
 				passwordValidity === 'valid' &&
 				selectedAgencyValidity === 'valid' &&
 				(stateValidity === 'valid' ||
-					!props.resortData.requiredComponents?.state) &&
-				(ageValidity === 'valid' ||
-					!props.resortData.requiredComponents?.age)
+					!props.additionalStepsData?.state) &&
+				(ageValidity === 'valid' || !props.additionalStepsData?.age)
 			) {
 				props.handleFormAccordionData({
 					username: username,
@@ -151,12 +150,12 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		});
 	}
 
-	if (props.resortData.requiredComponents?.age) {
+	if (props.additionalStepsData?.age) {
 		accordionItemData.push({
 			title: '?!? Alter ?!?',
 			nestedComponent: (
 				<RegistrationAge
-					dropdownSelectData={props.resortData.requiredComponents.age}
+					dropdownSelectData={props.additionalStepsData.age}
 					onAgeChange={(age) => setAge(age)}
 					onValidityChange={(validity) => setAgeValidity(validity)}
 				/>
@@ -165,14 +164,12 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		});
 	}
 
-	if (props.resortData.requiredComponents?.state) {
+	if (props.additionalStepsData?.state) {
 		accordionItemData.push({
 			title: '?!? Bundesland ?!?',
 			nestedComponent: (
 				<RegistrationState
-					dropdownSelectData={
-						props.resortData.requiredComponents.state
-					}
+					dropdownSelectData={props.additionalStepsData.state}
 					onStateChange={(state) => setState(state)}
 					onValidityChange={(validity) => setStateValidity(validity)}
 				/>

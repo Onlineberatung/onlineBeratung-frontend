@@ -361,7 +361,9 @@ const Registration = () => {
 								handleFormAccordionData={(formData) =>
 									setFormAccordionData(formData)
 								}
-								resortData={resortData}
+								additionalStepsData={
+									resortData.requiredComponents
+								}
 							></FormAccordion>
 
 							<div className="registration__dataProtection">
