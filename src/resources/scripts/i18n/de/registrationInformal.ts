@@ -1,6 +1,6 @@
 const registrationInformal = {
-	'agency.prefilled.prefix': 'Deine vorausgewählte Beratungsstelle: ',
-	'agency.prefilled.isTeam': 'Du wirst von einem Team beraten.',
+	'agency.preselected.prefix': 'Deine vorausgewählte Beratungsstelle: ',
+	'agency.preselected.isTeam': 'Du wirst von einem Team beraten.',
 	'username.headline': 'Bitte wähle Deinen Benutzernamen',
 	'user.infoText':
 		'Um Deine Anonymität zu schützen, raten wir Dir nicht Deinen tatsächlichen Namen oder Initialien zu verwenden.<br>Wähle bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
@@ -11,6 +11,12 @@ const registrationInformal = {
 	'agencySelection.postcode.label': 'Deine Postleitzahl',
 	'agencySelection.postcode.unavailable':
 		'Momentan haben wir leider noch keine Online-Beratungsstelle in Deiner Nähe. Auf unserer Webseite findest Du Beratungsstellen für Dein Anliegen.',
+	'agencyPreselected.headline': 'Bitte gib Deine Postleitzahl an',
+	'agencyPreselected.intro.overline':
+		'Warum benötigen wir Deine Postleitzahl?',
+	'agencyPreselected.intro.point1':
+		'kennen dann die Hilfen rund um Deinen Wohnort',
+	'agencyPreselected.intro.point2': 'kennen die Gesetze Deines Bundeslandes',
 	'password.headline': 'Bitte wähle Dein Passwort',
 	'password.secure': 'Dein Passwort ist sicher.',
 	'password.insecure': 'Dein Passwort ist nicht sicher.',

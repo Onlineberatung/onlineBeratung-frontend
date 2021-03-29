@@ -39,8 +39,11 @@ import { redirectToApp } from './autoLogin';
 import { isNumber } from '../../resources/scripts/helpers/isNumber';
 import '../../resources/styles/styles';
 import './registration.styles';
-import { autoselectAgencyForConsultingType } from '../agencySelection/agencySelectionHelpers';
-import { SelectedAgencyInfo } from '../selectedAgencyInfo/SelectedAgencyInfo';
+import {
+	autoselectAgencyForConsultingType,
+	autoselectPostcodeForConsultingType
+} from '../agencySelection/agencySelectionHelpers';
+import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import { AgencyDataInterface } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { WelcomeScreen } from './WelcomeScreen';
@@ -73,8 +76,8 @@ const Registration = () => {
 		FormAccordionData
 	>();
 	const [
-		prefilledAgencyData,
-		setPrefilledAgencyData
+		preselectedAgencyData,
+		setPreselectedAgencyData
 	] = useState<AgencyDataInterface | null>(null);
 	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] = useState<
 		boolean
@@ -126,7 +129,7 @@ const Registration = () => {
 			})
 				.then((response) => {
 					const agencyData = response[0];
-					setPrefilledAgencyData(agencyData);
+					setPreselectedAgencyData(agencyData);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -139,7 +142,7 @@ const Registration = () => {
 			.then((response) => {
 				const agencyData = response[0];
 				agencyData.consultingType === consultingType
-					? setPrefilledAgencyData(agencyData)
+					? setPreselectedAgencyData(agencyData)
 					: redirectToRegistrationWithoutAid();
 			})
 			.catch((error) => {
@@ -391,11 +394,23 @@ const Registration = () => {
 							<FormAccordion
 								consultingType={consultingType}
 								isUsernameAlreadyInUse={isUsernameAlreadyInUse}
-								prefilledAgencyData={prefilledAgencyData}
+								preselectedAgencyData={preselectedAgencyData}
 								handleFormAccordionData={(formData) =>
 									setFormAccordionData(formData)
 								}
 							></FormAccordion>
+
+							{preselectedAgencyData &&
+								autoselectPostcodeForConsultingType(
+									consultingType
+								) && (
+									<PreselectedAgency
+										prefix={translate(
+											'registration.agency.preselected.prefix'
+										)}
+										agencyData={preselectedAgencyData}
+									/>
+								)}
 
 							<div className="registration__dataProtection">
 								<Checkbox
@@ -417,21 +432,6 @@ const Registration = () => {
 
 							{/* ----------------------------- Required Fields ---------------------------- */}
 							<div className="registration__generalInformation">
-								{prefilledAgencyData && (
-									<SelectedAgencyInfo
-										prefix={translate(
-											'registration.agency.prefilled.prefix'
-										)}
-										agencyData={prefilledAgencyData}
-										consultingType={
-											autoselectAgencyForConsultingType(
-												consultingType
-											)
-												? consultingType
-												: null
-										}
-									/>
-								)}
 								{resortData.requiredComponents
 									? requiredComponents
 									: null}

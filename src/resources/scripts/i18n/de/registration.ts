@@ -28,8 +28,8 @@ const registration = {
 		'Für die Beratung würden uns folgende Angaben sehr helfen',
 	'login.helper': 'Bereits registriert?',
 	'login.label': 'Zum Login',
-	'agency.prefilled.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
-	'agency.prefilled.isTeam': 'Sie werden von einem Team beraten.',
+	'agency.preselected.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
+	'agency.preselected.isTeam': 'Sie werden von einem Team beraten.',
 	'username.headline': 'Bitte wählen Sie Ihren Benutzernamen',
 	'user.label': 'Benutzername*',
 	'user.infoText':
@@ -53,6 +53,13 @@ const registration = {
 	'agencySelection.postcode.unavailable':
 		'Momentan haben wir leider noch keine Online-Beratungsstelle in Ihrer Nähe. Auf unserer Webseite finden Sie Beratungsstellen für Ihr Anliegen.',
 	'agencySelection.postcode.search': 'Zur Beratungsstellensuche',
+	'agencyPreselected.headline': 'Bitte geben Sie Ihre Postleitzahl an',
+	'agencyPreselected.intro.overline':
+		'Warum benötigen wir Ihre Postleitzahl?',
+	'agencyPreselected.intro.subline': 'Unsere Fachleute:',
+	'agencyPreselected.intro.point1':
+		'kennen dann die Hilfen rund um Ihren Wohnort',
+	'agencyPreselected.intro.point2': 'kennen die Gesetze Ihres Bundeslandes',
 	'password.headline': 'Bitte wählen Sie Ihr Passwort',
 	'password.input.label': 'Passwort*',
 	'password.confirmation.label': 'Passwort wiederholen*',
