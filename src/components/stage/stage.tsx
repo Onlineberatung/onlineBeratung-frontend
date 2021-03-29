@@ -11,20 +11,23 @@ import './stage.styles';
 
 export interface StageProps {
 	hasAnimation?: boolean;
+	isReady?: boolean;
 }
 
-export const Stage = (props: StageProps) => {
+export const Stage = ({ hasAnimation, isReady = true }: StageProps) => {
 	return (
 		<div
 			id="loginLogoWrapper"
-			className={props.hasAnimation ? `stage stage--animated` : `stage`}
+			className={`stage ${hasAnimation ? 'stage--animated' : ''} ${
+				isReady ? 'stage--ready' : ''
+			}`}
 		>
 			<div className="stage__headline">
 				<h1>{translate('app.title')}</h1>
 				<h4>{translate('app.claim')}</h4>
 			</div>
 
-			{props.hasAnimation ? (
+			{hasAnimation ? (
 				<div className="stage__spinner">
 					<div className="double-bounce1"></div>
 					<div className="double-bounce2"></div>

@@ -8,6 +8,7 @@ export * from './apiGetAgencyId';
 export * from './apiGetGroupChatInfo';
 export * from './apiGetGroupMembers';
 export * from './apiGetMonitoring';
+export * from './apiGetRegistrationData';
 export * from './apiGetSessionData';
 export * from './apiGetSessionsListData';
 export * from './apiGetUserData';
