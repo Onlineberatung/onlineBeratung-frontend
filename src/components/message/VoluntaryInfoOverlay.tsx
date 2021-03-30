@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { Headline } from '../headline/Headline';
 import { GeneratedInputs } from '../inputField/InputField';
 import {
 	OverlayWrapper,
@@ -90,8 +91,12 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 		props.voluntaryComponents &&
 		props.voluntaryComponents.map((component, index) => {
 			return (
-				<div key={index} className="registration__contentRow">
-					<h3>{component.headline}</h3>
+				<div key={index} className="voluntaryInfo__row">
+					<Headline
+						semanticLevel="2"
+						styleLevel="5"
+						text={component.headline}
+					/>
 					{renderInputComponent(component, index)}
 				</div>
 			);

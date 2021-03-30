@@ -69,6 +69,14 @@
 	}
 }
 
+.voluntaryInfo__row {
+	margin-top: $grid-base-four;
+
+	.headline {
+		margin-bottom: $grid-base-two;
+	}
+}
+
 @include breakpoint(1024px) {
 	.furtherSteps {
 		padding: $grid-base-three $grid-base-three $grid-base-four;
