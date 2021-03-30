@@ -28,7 +28,7 @@ const registration = {
 	'agency.prefilled.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
 	'agency.prefilled.isTeam': 'Sie werden von einem Team beraten.',
 	'username.headline': 'Bitte wählen Sie Ihren Benutzernamen',
-	'user.label': 'Benutzername*',
+	'user.label': 'Benutzername',
 	'user.infoText':
 		'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialien zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 	'user.suitable': 'Ihr Benutzername ist geeignet.',
@@ -51,8 +51,8 @@ const registration = {
 		'Momentan haben wir leider noch keine Online-Beratungsstelle in Ihrer Nähe. Auf unserer Webseite finden Sie Beratungsstellen für Ihr Anliegen.',
 	'agencySelection.postcode.search': 'Zur Beratungsstellensuche',
 	'password.headline': 'Bitte wählen Sie Ihr Passwort',
-	'password.input.label': 'Passwort*',
-	'password.confirmation.label': 'Passwort wiederholen*',
+	'password.input.label': 'Passwort',
+	'password.confirmation.label': 'Passwort wiederholen',
 	'password.secure': 'Ihr Passwort ist sicher.',
 	'password.insecure': 'Ihr Passwort ist nicht sicher.',
 	'password.same': 'Ihr Passwort ist identisch.',
@@ -65,10 +65,8 @@ const registration = {
 	'password.criteria.number': 'mindestens eine Zahl',
 	'password.criteria.specialChar': 'mindestens ein Sonderzeichen',
 	'password.criteria.length': 'mindestens 9 Zeichen',
-	'required.infoText':
-		'* Die markierten Felder müssen ausgefüllt werden, um sich registrieren zu können.',
 	'dataProtection.label':
-		'Ich habe die <a href="https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz" target="_blank">Datenschutzerklärung</a> zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.*',
+		'Ich habe die <a href="https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz" target="_blank">Datenschutzerklärung</a> zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 	'submitButton.label': 'Registrieren',
 	'overlay.success.headline':
 		'Herzlich willkommen<br>bei der Beratung & Hilfe der Caritas.',
