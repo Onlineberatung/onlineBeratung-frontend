@@ -15,7 +15,10 @@ import {
 	InputFieldItem,
 	InputFieldLabelState
 } from '../inputField/InputField';
-import { isStringValidEmail } from '../registration/registrationHelpers';
+import {
+	isStringValidEmail,
+	ResortData
+} from '../registration/registrationHelpers';
 import { useContext, useState } from 'react';
 import {
 	Overlay,
@@ -26,6 +29,7 @@ import {
 import { apiPutEmail, FETCH_ERRORS } from '../../api';
 import { UserDataContext } from '../../globalState';
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
+import registrationResortsData from '../registration/registrationData';
 
 const addEmailButton: ButtonItem = {
 	label: translate('furtherSteps.emailNotification.button'),
@@ -50,6 +54,13 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	const [emailLabelState, setEmailLabelState] = useState<
 		InputFieldLabelState
 	>();
+
+	const resortData: ResortData = Object.entries(
+		registrationResortsData
+	).filter(
+		(resort) =>
+			resort[1].consultingType === props.consultingType?.toString()
+	)[0][1];
 
 	const emailInputItem: InputFieldItem = {
 		content: email,
@@ -230,7 +241,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 					)}
 				</>
 			)}
-			{
+			{resortData?.voluntaryComponents && (
 				<>
 					<Headline
 						semanticLevel="5"
@@ -242,10 +253,10 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 						className="furtherSteps__infoText"
 					/>
 					<VoluntaryInfoOverlay
-						consultingType={props.consultingType}
+						voluntaryComponents={resortData.voluntaryComponents}
 					/>
 				</>
-			}
+			)}
 		</div>
 	);
 };

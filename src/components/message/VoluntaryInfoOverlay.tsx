@@ -10,16 +10,12 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
 import { RadioButton } from '../radioButton/RadioButton';
-import registrationResortsData from '../registration/registrationData';
-import {
-	getOptionOfSelectedValue,
-	ResortData
-} from '../registration/registrationHelpers';
+import { getOptionOfSelectedValue } from '../registration/registrationHelpers';
 import { SelectDropdown } from '../select/SelectDropdown';
 import { TagSelect } from '../tagSelect/TagSelect';
 
 interface VoluntaryInfoOverlayProps {
-	consultingType: number;
+	voluntaryComponents: any[];
 }
 
 export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
@@ -28,13 +24,6 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 		valuesOfGeneratedInputs,
 		setValuesOfGeneratedInputs
 	] = useState<GeneratedInputs | null>(null);
-
-	const resortDataArray = Object.entries(registrationResortsData).filter(
-		(resort) =>
-			resort[1].consultingType === props.consultingType?.toString()
-	);
-
-	const resortData: ResortData = resortDataArray[0][1];
 
 	const renderInputComponent = (component, index) => {
 		if (component.componentType === 'SelectDropdown') {
@@ -98,8 +87,8 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 	};
 
 	const voluntaryComponents =
-		resortData.voluntaryComponents &&
-		resortData.voluntaryComponents.map((component, index) => {
+		props.voluntaryComponents &&
+		props.voluntaryComponents.map((component, index) => {
 			return (
 				<div key={index} className="registration__contentRow">
 					<h3>{component.headline}</h3>
