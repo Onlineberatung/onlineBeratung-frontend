@@ -6,13 +6,13 @@
 	border-radius: 0 12px 12px;
 
 	.headline--5 {
-		margin-top: $grid-base-three;
+		margin-top: $grid-base-four;
 	}
 
 	button {
 		height: auto;
 		padding: 0;
-		margin-top: $grid-base-three;
+		margin-top: $grid-base-two;
 		text-align: left;
 	}
 
@@ -64,7 +64,7 @@
 		display: none;
 	}
 
-	&__emailInfo.text {
+	&__infoText.text {
 		margin-top: $grid-base;
 	}
 }

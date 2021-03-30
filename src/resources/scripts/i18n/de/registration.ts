@@ -23,9 +23,6 @@ const registration = {
 	'overline.hospice': 'Hospiz-, Palliativ- und Trauerberatung',
 	'overline.regional': 'Regionale Angebote',
 	'overline.men': 'Jungen- und Männerberatung',
-	'voluntary.headline': 'Freiwillige Angaben',
-	'voluntary.subline':
-		'Für die Beratung würden uns folgende Angaben sehr helfen',
 	'login.helper': 'Bereits registriert?',
 	'login.label': 'Zum Login',
 	'agency.prefilled.prefix': 'Ihre vorausgewählte Beratungsstelle: ',

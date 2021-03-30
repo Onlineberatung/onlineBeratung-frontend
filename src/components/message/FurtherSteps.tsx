@@ -25,14 +25,19 @@ import {
 } from '../overlay/Overlay';
 import { apiPutEmail, FETCH_ERRORS } from '../../api';
 import { UserDataContext } from '../../globalState';
+import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
 
 const addEmailButton: ButtonItem = {
 	label: translate('furtherSteps.emailNotification.button'),
 	type: BUTTON_TYPES.LINK
 };
 
-export const FurtherSteps = () => {
-	const [overlayActive, setOverlayActive] = useState<boolean>(false);
+interface FurtherStepsProps {
+	consultingType: number;
+}
+
+export const FurtherSteps = (props: FurtherStepsProps) => {
+	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
@@ -117,13 +122,9 @@ export const FurtherSteps = () => {
 		svg: SuccessIllustration
 	};
 
-	const handleAddEmail = () => {
-		setOverlayActive(true);
-	};
-
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setOverlayActive(false);
+			setIsOverlayActive(false);
 			setIsSuccessOverlay(false);
 			setIsRequestInProgress(false);
 		} else if (!isRequestInProgress) {
@@ -209,13 +210,13 @@ export const FurtherSteps = () => {
 						text={translate(
 							'furtherSteps.emailNotification.infoText'
 						)}
-						className="furtherSteps__emailInfo"
+						className="furtherSteps__infoText"
 					/>
 					<Button
 						item={addEmailButton}
-						buttonHandle={handleAddEmail}
+						buttonHandle={() => setIsOverlayActive(true)}
 					/>
-					{overlayActive && (
+					{isOverlayActive && (
 						<OverlayWrapper>
 							<Overlay
 								item={
@@ -229,6 +230,22 @@ export const FurtherSteps = () => {
 					)}
 				</>
 			)}
+			{
+				<>
+					<Headline
+						semanticLevel="5"
+						text={translate('furtherSteps.voluntaryInfo.headline')}
+					/>
+					<Text
+						type="standard"
+						text={translate('furtherSteps.voluntaryInfo.infoText')}
+						className="furtherSteps__infoText"
+					/>
+					<VoluntaryInfoOverlay
+						consultingType={props.consultingType}
+					/>
+				</>
+			}
 		</div>
 	);
 };

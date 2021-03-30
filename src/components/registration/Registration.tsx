@@ -2,7 +2,6 @@ import '../../polyfill';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Stage } from '../stage/stage';
-import { GeneratedInputs } from '../inputField/InputField';
 import { useEffect, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button } from '../button/Button';
@@ -10,7 +9,6 @@ import registrationResortsData from './registrationData';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
 import {
 	buttonItemSubmit,
-	getOptionOfSelectedValue,
 	overlayItemRegistrationSuccess,
 	ResortData
 } from './registrationHelpers';
@@ -22,9 +20,6 @@ import {
 } from '../../api';
 import { config } from '../../resources/scripts/config';
 import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
-import { SelectDropdown } from '../select/SelectDropdown';
-import { RadioButton } from '../radioButton/RadioButton';
-import { TagSelect } from '../tagSelect/TagSelect';
 import {
 	DEFAULT_POSTCODE,
 	redirectToHelpmail,
@@ -74,10 +69,6 @@ const Registration = () => {
 	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] = useState<
 		boolean
 	>(false);
-	const [
-		valuesOfGeneratedInputs,
-		setValuesOfGeneratedInputs
-	] = useState<GeneratedInputs | null>(null);
 	const [isDataProtectionSelected, setIsDataProtectionSelected] = useState(
 		false
 	);
@@ -187,7 +178,7 @@ const Registration = () => {
 	const handleSubmitButtonClick = () => {
 		setIsUsernameAlreadyInUse(false);
 
-		const generalRegistrationData = {
+		const registrationData = {
 			username: formAccordionData.username,
 			password: encodeURIComponent(formAccordionData.password),
 			agencyId: formAccordionData.agencyId,
@@ -198,29 +189,6 @@ const Registration = () => {
 			...(formAccordionData.age && { age: formAccordionData.age })
 		};
 
-		let generatedRegistrationData = {};
-
-		if (valuesOfGeneratedInputs) {
-			const {
-				addictiveDrugs,
-				...voluntaryFieldsWithOneValue
-			} = valuesOfGeneratedInputs;
-
-			generatedRegistrationData = {
-				...(valuesOfGeneratedInputs['addictiveDrugs'] && {
-					addictiveDrugs: valuesOfGeneratedInputs[
-						'addictiveDrugs'
-					].join(',')
-				}),
-				...voluntaryFieldsWithOneValue
-			};
-		}
-
-		const registrationData = {
-			...generalRegistrationData,
-			...generatedRegistrationData
-		};
-
 		apiPostRegistration(
 			config.endpoints.registerAsker,
 			registrationData,
@@ -228,106 +196,6 @@ const Registration = () => {
 			(response) => handleRegistrationError(response)
 		);
 	};
-
-	const handleGeneratedInputfieldValueChange = (
-		inputValue,
-		inputName,
-		areMultipleValuesAllowed?
-	) => {
-		if (areMultipleValuesAllowed) {
-			const values =
-				valuesOfGeneratedInputs && valuesOfGeneratedInputs[inputName]
-					? valuesOfGeneratedInputs[inputName]
-					: [];
-			const index = values.indexOf(inputValue);
-			if (index > -1) {
-				values.splice(index, 1);
-			} else {
-				values.push(inputValue);
-			}
-			setValuesOfGeneratedInputs({
-				...valuesOfGeneratedInputs,
-				[inputName]: values
-			});
-		} else {
-			setValuesOfGeneratedInputs({
-				...valuesOfGeneratedInputs,
-				[inputName]: inputValue
-			});
-		}
-	};
-
-	const renderInputComponent = (component, index) => {
-		if (component.componentType === 'SelectDropdown') {
-			return (
-				<SelectDropdown
-					key={index}
-					handleDropdownSelect={(e) =>
-						handleGeneratedInputfieldValueChange(
-							e.value,
-							component.name
-						)
-					}
-					defaultValue={
-						valuesOfGeneratedInputs
-							? getOptionOfSelectedValue(
-									component.item.selectedOptions,
-									valuesOfGeneratedInputs[component.name]
-							  )
-							: null
-					}
-					{...component.item}
-				/>
-			);
-		} else if (component.componentType === 'RadioButton') {
-			return component.radioButtons.map((radio, index) => {
-				return (
-					<RadioButton
-						key={index}
-						name={component.name}
-						handleRadioButton={(e) =>
-							handleGeneratedInputfieldValueChange(
-								e.target.value,
-								component.name
-							)
-						}
-						type="box"
-						value={index}
-						{...radio}
-					/>
-				);
-			});
-		} else if (component.componentType === 'TagSelect') {
-			return component.tagSelects.map((tag, index) => {
-				return (
-					<TagSelect
-						key={index}
-						name={component.name}
-						value={index}
-						handleTagSelectClick={(e) =>
-							handleGeneratedInputfieldValueChange(
-								e.target.value,
-								component.name,
-								true
-							)
-						}
-						{...tag}
-					/>
-				);
-			});
-		}
-	};
-
-	const voluntaryComponents = resortData.voluntaryComponents
-		? resortData.voluntaryComponents.map((component, index) => {
-				return (
-					<div key={index} className="registration__contentRow">
-						<h3>{component.headline}</h3>
-						{renderInputComponent(component, index)}
-					</div>
-				);
-		  })
-		: null;
 
 	return (
 		<div className="registration">
@@ -402,25 +270,6 @@ const Registration = () => {
 									/>
 								)}
 							</div>
-
-							{/* ----------------------------- Voluntary Fields ---------------------------- */}
-							{resortData.voluntaryComponents && (
-								<div className="registration__voluntaryInformation">
-									<div>
-										<h2>
-											{translate(
-												'registration.voluntary.headline'
-											)}
-										</h2>
-										<p>
-											{translate(
-												'registration.voluntary.subline'
-											)}
-										</p>
-									</div>
-									{voluntaryComponents}
-								</div>
-							)}
 
 							{/* ----------------------------- Submit Section ---------------------------- */}
 							<div className="registration__footer">

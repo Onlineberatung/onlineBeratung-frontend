@@ -134,7 +134,11 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 
 	const messageContent = (): JSX.Element => {
 		if (isFurtherStepsMessage) {
-			return <FurtherSteps />;
+			return (
+				<FurtherSteps
+					consultingType={activeSession.agency.consultingType}
+				/>
+			);
 		} else if (
 			isVideoCallMessage &&
 			videoCallMessage.eventType === 'IGNORED_CALL'

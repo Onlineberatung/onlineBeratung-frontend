@@ -44,7 +44,7 @@ export const buttonItemSubmit: ButtonItem = {
 	type: BUTTON_TYPES.PRIMARY
 };
 
-type RequiredComponents = {
+export type RequiredComponents = {
 	age?: any;
 	state?: any;
 };

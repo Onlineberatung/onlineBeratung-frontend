@@ -15,8 +15,17 @@ const furtherSteps = {
 	'email.overlay.input.unavailable':
 		'Diese E-Mail Adresse ist bereits registriert.',
 	'email.overlay.button1.label': 'Speichern',
-	'email.overlay.button2.label': 'Schliessen',
-	'email.success.overlay.headline': 'E-Mail-Adresse erfolgreich gespeichert'
+	'email.overlay.button2.label': 'Schließen',
+	'email.success.overlay.headline': 'E-Mail-Adresse erfolgreich gespeichert',
+	'voluntaryInfo.headline': 'Wir wollen Sie bestmöglich beraten',
+	'voluntaryInfo.infoText':
+		'Dabei hilft es uns, wenn Sie Angaben zu sich und Ihrem Anliegen machen.',
+	'voluntaryInfo.button': 'Angaben hinzufügen',
+	'voluntaryInfo.overlay.button1.label': 'Speichern',
+	'voluntaryInfo.overlay.button2.label': 'Schließen',
+	'voluntaryInfo.overlay.headline': 'Freiwillige Angaben',
+	'voluntaryInfo.overlay.copy':
+		'Für die Beratung würden uns folgende Angaben sehr helfen'
 };
 
 export default furtherSteps;
