@@ -65,7 +65,7 @@ describe('registration', () => {
 				cy.visit('/registration.u25.html?aid=1');
 				cy.get('[data-cy=close-welcome-screen]').click();
 				cy.get('[data-cy=show-preselected-agency]').should('exist');
-				cy.get('.selectedAgencyInfo__agencyName').contains(
+				cy.get('[data-cy=show-preselected-agency]').contains(
 					agencies[0].name
 				);
 			});
