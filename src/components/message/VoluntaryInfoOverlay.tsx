@@ -158,6 +158,7 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 			}
 		],
 		headline: translate('furtherSteps.voluntaryInfo.overlay.headline'),
+		headlineStyleLevel: '1',
 		copy: translate('furtherSteps.voluntaryInfo.overlay.copy'),
 		nestedComponent: voluntaryComponents
 	};
