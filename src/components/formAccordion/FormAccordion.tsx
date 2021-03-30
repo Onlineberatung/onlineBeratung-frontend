@@ -152,7 +152,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 
 	if (props.additionalStepsData?.age) {
 		accordionItemData.push({
-			title: '?!? Alter ?!?',
+			title: translate('registration.age.headline'),
 			nestedComponent: (
 				<RegistrationAge
 					dropdownSelectData={props.additionalStepsData.age}
@@ -166,7 +166,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 
 	if (props.additionalStepsData?.state) {
 		accordionItemData.push({
-			title: '?!? Bundesland ?!?',
+			title: translate('registration.state.headline'),
 			nestedComponent: (
 				<RegistrationState
 					dropdownSelectData={props.additionalStepsData.state}

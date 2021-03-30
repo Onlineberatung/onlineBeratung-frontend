@@ -65,6 +65,9 @@ const registration = {
 	'password.criteria.number': 'mindestens eine Zahl',
 	'password.criteria.specialChar': 'mindestens ein Sonderzeichen',
 	'password.criteria.length': 'mindestens 9 Zeichen',
+	'age.headline': 'Bitte teilen Sie uns Ihr Alter mit',
+	'state.headline':
+		'Bitte teilen Sie uns mit in welchem Bundesland Sie wohnen',
 	'dataProtection.label':
 		'Ich habe die <a href="https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz" target="_blank">Datenschutzerklärung</a> zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 	'submitButton.label': 'Registrieren',
