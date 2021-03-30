@@ -95,8 +95,10 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 			passwordConfirmationLabelState === 'valid'
 		) {
 			setIsValid('valid');
-		} else {
+		} else if (!passwordLabelState && !passwordConfirmationLabelState) {
 			setIsValid('initial');
+		} else {
+			setIsValid('invalid');
 		}
 	}, [passwordLabelState, passwordConfirmationLabelState]);
 
