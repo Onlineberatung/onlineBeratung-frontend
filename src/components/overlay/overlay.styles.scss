@@ -41,7 +41,6 @@ $iconSizeSmall: 100px;
 		max-width: none;
 		background-color: $white;
 		border-radius: 4px;
-		justify-content: normal;
 		text-align: center;
 		margin: auto;
 		padding: $grid-base-six $grid-base-three;
@@ -53,11 +52,6 @@ $iconSizeSmall: 100px;
 			height: auto;
 			max-width: 720px;
 			padding: $grid-base-six;
-			justify-content: center;
-		}
-
-		@media (min-height: $fromMedium) {
-			justify-content: center;
 		}
 
 		animation: fadeIn linear 0.8s;
