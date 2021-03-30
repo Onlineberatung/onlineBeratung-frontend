@@ -14,6 +14,7 @@ import { RadioButton } from '../radioButton/RadioButton';
 import { getOptionOfSelectedValue } from '../registration/registrationHelpers';
 import { SelectDropdown } from '../select/SelectDropdown';
 import { TagSelect } from '../tagSelect/TagSelect';
+import { ReactComponent as SuccessIllustration } from '../../resources/img/illustrations/check.svg';
 
 interface VoluntaryInfoOverlayProps {
 	voluntaryComponents: any[];
@@ -25,6 +26,7 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 		valuesOfGeneratedInputs,
 		setValuesOfGeneratedInputs
 	] = useState<GeneratedInputs | null>(null);
+	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 
 	const renderInputComponent = (component, index) => {
 		if (component.componentType === 'SelectDropdown') {
@@ -157,9 +159,28 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 		nestedComponent: voluntaryComponents
 	};
 
+	const successOverlayItem: OverlayItem = {
+		buttonSet: [
+			{
+				label: translate(
+					'furtherSteps.voluntaryInfo.overlay.button2.label'
+				),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		],
+		headline: translate(
+			'furtherSteps.voluntaryInfo.overlay.success.headline'
+		),
+		svg: SuccessIllustration
+	};
+
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setIsOverlayActive(false);
+			setIsSuccessOverlay(false);
+		} else {
+			setIsSuccessOverlay(true);
 		}
 	};
 
@@ -172,7 +193,11 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 			{isOverlayActive && (
 				<OverlayWrapper>
 					<Overlay
-						item={VoluntaryInfoOverlayItem}
+						item={
+							isSuccessOverlay
+								? successOverlayItem
+								: VoluntaryInfoOverlayItem
+						}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>
