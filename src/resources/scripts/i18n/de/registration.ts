@@ -86,7 +86,35 @@ const registration = {
 	'overlay.success.button': 'Nachricht verfassen',
 	'accordion.item.continueButton': 'Weiter',
 	'accordion.item.continueButton.title': 'Weiter zum nächsten Schritt',
-	'welcomeScreen.title.start': 'Willkommen bei der',
+	'welcomeScreen.title.start': 'Willkommen bei',
+	'welcomeScreen.title.addiction': 'der Suchtberatung',
+	'welcomeScreen.title.u25':
+		'der Beratung für Suizidgefährdete junge Menschen [U25]',
+	'welcomeScreen.title.gemeinsamstatteinsam':
+		'#gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten',
+	'welcomeScreen.title.pregnancy': 'der Schwangerschaftsberatung',
+	'welcomeScreen.title.parenting': 'der Beratung für Eltern und Familien',
+	'welcomeScreen.title.cure': 'der Kurberatung für Mütter und Väter',
+	'welcomeScreen.title.debt': 'der Beratung zum Thema Schulden',
+	'welcomeScreen.title.social': 'der Allgemeinen Sozialberatung',
+	'welcomeScreen.title.seniority': 'Leben im Alter',
+	'welcomeScreen.title.disability':
+		'Leben mit Behinderung und psychischer Erkrankung',
+	'welcomeScreen.title.planB':
+		'Mein PlanB: Beratung zwischen Schule und Beruf',
+	'welcomeScreen.title.law': 'der Rechtlichen Betreuung und Vorsorge',
+	'welcomeScreen.title.offender':
+		'der Beratung für Angehörige von Straffälligen',
+	'welcomeScreen.title.aids': 'der HIV/AIDS Beratung',
+	'welcomeScreen.title.rehabilitation':
+		'der Kinder- und Jugend-Rehabilitation',
+	'welcomeScreen.title.children': 'der Beratung für Kinder und Jugendliche',
+	'welcomeScreen.title.kreuzbund': 'der Sucht-Selbsthilfe - Kreuzbund-Chat',
+	'welcomeScreen.title.migration': 'der Migrationsberatung',
+	'welcomeScreen.title.emigration': 'der Aus-/Rück- & Weiterwanderung',
+	'welcomeScreen.title.hospice': 'der Hospiz-, Palliativ- und Trauerberatung',
+	'welcomeScreen.title.regional': 'den Regionalen Angeboten',
+	'welcomeScreen.title.men': 'der Jungen- und Männerberatung',
 	'welcomeScreen.title.end': '!',
 	'welcomeScreen.subline': 'Wie läuft die Beratung & Hilfe der Caritas ab?',
 	'welcomeScreen.info1.title': 'Einfache Registrierung',
