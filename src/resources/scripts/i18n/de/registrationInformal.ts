@@ -8,6 +8,10 @@ const registrationInformal = {
 	'user.unsuitable': 'Dein Benutzername ist zu kurz.',
 	'agencySelection.headline':
 		'Bitte wähle eine Beratungsstelle in Deiner Nähe',
+	'agencySelection.intro.overline':
+		'Warum hilft Dir auch online eine Beratungsstelle in Deiner Nähe?',
+	'agencySelection.intro.point3':
+		'Dich gegebenfalls auch vor Ort beraten kann.',
 	'agencySelection.postcode.label': 'Deine Postleitzahl',
 	'agencySelection.postcode.unavailable':
 		'Momentan haben wir leider noch keine Online-Beratungsstelle in Deiner Nähe. Auf unserer Webseite findest Du Beratungsstellen für Dein Anliegen.',

@@ -39,7 +39,6 @@ const registration = {
 	'user.unavailable': 'Der Benutzername ist bereits vergeben.',
 	'agencySelection.headline':
 		'Bitte wählen Sie eine Beratungsstelle in Ihrer Nähe',
-	'agencySelection.postcode.label': 'Ihre Postleitzahl',
 	'agencySelection.title.start': 'Beratungsstellen zur Postleitzahl',
 	'agencySelection.title.end': ':',
 	'agencySelection.intro.overline':
@@ -50,6 +49,7 @@ const registration = {
 		'mit den rechtlichen Voraussetzungen vertraut ist,',
 	'agencySelection.intro.point3':
 		'Sie gegebenfalls auch vor Ort beraten kann.',
+	'agencySelection.postcode.label': 'Ihre Postleitzahl',
 	'agencySelection.postcode.unavailable':
 		'Momentan haben wir leider noch keine Online-Beratungsstelle in Ihrer Nähe. Auf unserer Webseite finden Sie Beratungsstellen für Ihr Anliegen.',
 	'agencySelection.postcode.search': 'Zur Beratungsstellensuche',
