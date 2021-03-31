@@ -4,6 +4,7 @@ import { AgencyDataInterface } from '../../globalState';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { isMobile } from 'react-device-detect';
+import { Text } from '../text/Text';
 import './agencyInfo.styles';
 
 export interface DisplayAgencyInfoProps {
@@ -63,23 +64,27 @@ export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 					{displayAgencyInfo.teamAgency && (
 						<div className="agencyInfo__teamAgency">
 							<InfoIcon />
-							{translate(
-								'registration.agency.preselected.isTeam'
-							)}
+							<Text
+								text={translate(
+									'registration.agency.preselected.isTeam'
+								)}
+								type="infoSmall"
+							/>
 						</div>
 					)}
 					{displayAgencyInfo.name && (
-						<div className="agencyInfo__name">
-							{displayAgencyInfo.name}
-						</div>
+						<Text
+							className="agencyInfo__name"
+							text={displayAgencyInfo.name}
+							type="standard"
+						/>
 					)}
 					{displayAgencyInfo.description && (
-						<div
+						<Text
 							className="agencyInfo__description"
-							dangerouslySetInnerHTML={{
-								__html: displayAgencyInfo.description
-							}}
-						></div>
+							text={displayAgencyInfo.description}
+							type="infoSmall"
+						/>
 					)}
 				</div>
 			)}

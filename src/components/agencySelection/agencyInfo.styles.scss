@@ -83,13 +83,6 @@ $breakpointFlyoutPosition: 1140px;
 		}
 	}
 
-	&__teamAgency,
-	&__description {
-		font-size: $font-size-secondary;
-		line-height: $line-height-secondary;
-		color: $tertiary;
-	}
-
 	&__teamAgency {
 		display: flex;
 		align-items: flex-end;
