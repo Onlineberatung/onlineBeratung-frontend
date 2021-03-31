@@ -18,6 +18,7 @@ import { Loading } from '../app/Loading';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { AgencyInfo } from './AgencyInfo';
 import { PreselectedAgency } from './PreselectedAgency';
+import { Headline } from '../headline/Headline';
 
 export interface AgencySelectionProps {
 	selectedConsultingType: number | undefined;
@@ -40,9 +41,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	>(undefined);
 	const [autoSelectAgency, setAutoSelectAgency] = useState(false);
 	const [autoSelectPostcode, setAutoSelectPostcode] = useState(false);
-	const [preselectedAgency, setPreselectedAgency] = useState(
-		props.preselectedAgency
-	);
+	const [preselectedAgency, setPreselectedAgency] = useState<
+		AgencyDataInterface
+	>(props.preselectedAgency);
 
 	const validPostcode = () =>
 		selectedPostcode?.length === VALID_POSTCODE_LENGTH;
@@ -184,6 +185,13 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				'registration.agencySelection.intro.point2',
 				'registration.agencySelection.intro.point3'
 		  ];
+	const getHeadlineForProfileView = () => {
+		if (showPreselectedAgency) {
+			return translate('registration.agencyPreselected.headline');
+		} else {
+			return translate('registration.agencySelection.headline');
+		}
+	};
 
 	return (
 		<div className="agencySelection">
@@ -199,15 +207,10 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			) : (
 				<>
 					{props.isProfileView && (
-						<h5>
-							{showPreselectedAgency
-								? translate(
-										'registration.agencyPreselected.headline'
-								  )
-								: translate(
-										'registration.agencySelection.headline'
-								  )}
-						</h5>
+						<Headline
+							semanticLevel="5"
+							text={getHeadlineForProfileView()}
+						/>
 					)}
 					<div className="agencySelection__intro">
 						<Text
