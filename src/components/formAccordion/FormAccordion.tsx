@@ -13,7 +13,7 @@ import { AccordionItemValidity } from '../registration/registrationHelpers';
 interface FormAccordionProps {
 	consultingType: number;
 	isUsernameAlreadyInUse: boolean;
-	prefilledAgencyData: any;
+	preselectedAgencyData: any;
 	handleFormAccordionData: Function;
 }
 
@@ -35,12 +35,12 @@ export const FormAccordion = (props: FormAccordionProps) => {
 	useEffect(() => {
 		if (
 			autoselectPostcodeForConsultingType(props.consultingType) &&
-			props.prefilledAgencyData
+			props.preselectedAgencyData
 		) {
 			setIsSelectedAgencyValid('valid');
 			setAgency({
-				id: props.prefilledAgencyData.id,
-				postcode: props.prefilledAgencyData.postcode
+				id: props.preselectedAgencyData.id,
+				postcode: props.preselectedAgencyData.postcode
 			});
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -111,12 +111,14 @@ export const FormAccordion = (props: FormAccordionProps) => {
 
 	if (!autoselectPostcodeForConsultingType(props.consultingType)) {
 		accordionItemData.push({
-			title: translate('registration.agencySelection.headline'),
+			title: props.preselectedAgencyData
+				? translate('registration.agencyPreselected.headline')
+				: translate('registration.agencySelection.headline'),
 			nestedComponent: (
 				<AgencySelection
 					selectedConsultingType={props.consultingType}
 					icon={<PinIcon />}
-					preselectedAgency={props.prefilledAgencyData}
+					preselectedAgency={props.preselectedAgencyData}
 					onAgencyChange={(agency) => setAgency(agency)}
 					onValidityChange={(validity) =>
 						setIsSelectedAgencyValid(validity)

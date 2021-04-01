@@ -1,7 +1,5 @@
 $maxFormElementWidth: 320px;
-$agencyInfoWidth: 266px;
 $infoIconSize: 16px;
-$breakpointFlyoutPosition: 1140px;
 
 .agencySelection {
 	position: relative;
@@ -71,116 +69,6 @@ $breakpointFlyoutPosition: 1140px;
 
 		&:not(:last-of-type) {
 			border-bottom: 1px solid $black-10-opacity;
-		}
-
-		& > svg {
-			width: $infoIconSize;
-			padding: 4px 0 0;
-			cursor: pointer;
-		}
-	}
-
-	&__agencyInfo {
-		position: absolute;
-		top: 50px;
-		right: -12px;
-		width: $agencyInfoWidth;
-		padding-bottom: $grid-base-six;
-		text-align: left;
-		z-index: 20;
-		box-sizing: border-box;
-		background: $white;
-		padding: $grid-base-two 20px;
-		border: 1px solid $form-disabled;
-		@include rounded-drop-shadow;
-
-		@include breakpoint($breakpointFlyoutPosition) {
-			right: calc(
-				((#{$agencyInfoWidth} / 2) * -1) + (#{$infoIconSize} / 2)
-			);
-		}
-
-		&:after,
-		&:before {
-			content: '';
-			position: absolute;
-			top: -13px;
-			width: 20px;
-			right: $grid-base;
-			margin: 0 auto;
-			border-left: 10px solid transparent;
-			border-right: 10px solid transparent;
-			transform: rotate(180deg);
-
-			@include breakpoint($breakpointFlyoutPosition) {
-				left: 0;
-				right: 0;
-			}
-		}
-
-		&:before {
-			border-top: 10px solid $white;
-			margin-top: 5px;
-			z-index: 2;
-		}
-
-		&:after {
-			border-top: 10px solid $form-disabled;
-			margin-top: 3px;
-			z-index: 1;
-		}
-
-		&--above {
-			top: auto;
-			bottom: 50px;
-			right: -12px;
-
-			&::before,
-			&::after {
-				top: auto;
-				left: auto;
-				right: 8px;
-				transform: rotate(0);
-			}
-
-			&::before {
-				bottom: -10px;
-			}
-
-			&::after {
-				bottom: -11px;
-			}
-		}
-
-		&__teamAgency,
-		&__description {
-			font-size: $font-size-secondary;
-			line-height: $line-height-secondary;
-			color: $tertiary;
-		}
-
-		&__teamAgency {
-			display: flex;
-			align-items: flex-end;
-			margin-bottom: $grid-base;
-
-			svg {
-				margin-right: $grid-base;
-				width: $infoIconSize;
-				height: $infoIconSize;
-
-				&* {
-					fill: $tertiary;
-				}
-			}
-		}
-
-		&__name {
-			font-weight: $font-weight-bold;
-		}
-
-		&__description {
-			margin-top: $grid-base;
 		}
 	}
 

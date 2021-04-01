@@ -3,7 +3,7 @@ const registration = {
 	'overline.addiction': 'Suchtberatung',
 	'overline.u25': 'Beratung für Suizidgefährdete junge Menschen [U25]',
 	'overline.gemeinsamstatteinsam':
-		'#gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten',
+		'#gemeinsamstatteinsam – Onlineberatung für junge Menschen in besonderen Zeiten',
 	'overline.pregnancy': 'Schwangerschaftsberatung',
 	'overline.parenting': 'Beratung für Eltern und Familien',
 	'overline.cure': 'Kurberatung für Mütter und Väter',
@@ -14,10 +14,10 @@ const registration = {
 	'overline.planB': 'Mein PlanB: Beratung zwischen Schule und Beruf',
 	'overline.law': 'Rechtliche Betreuung und Vorsorge',
 	'overline.offender': 'Beratung für Angehörige von Straffälligen',
-	'overline.aids': 'HIV/AIDS Beratung',
+	'overline.aids': 'HIV/AID-Beratung',
 	'overline.rehabilitation': 'Kinder- und Jugend-Rehabilitation',
 	'overline.children': 'Beratung für Kinder und Jugendliche',
-	'overline.kreuzbund': 'Sucht-Selbsthilfe - Kreuzbund-Chat',
+	'overline.kreuzbund': 'Sucht-Selbsthilfe – Kreuzbund-Chat',
 	'overline.migration': 'Migrationsberatung',
 	'overline.emigration': 'Aus-/Rück- & Weiterwanderung',
 	'overline.hospice': 'Hospiz-, Palliativ- und Trauerberatung',
@@ -28,8 +28,8 @@ const registration = {
 		'Für die Beratung würden uns folgende Angaben sehr helfen',
 	'login.helper': 'Bereits registriert?',
 	'login.label': 'Zum Login',
-	'agency.prefilled.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
-	'agency.prefilled.isTeam': 'Sie werden von einem Team beraten.',
+	'agency.preselected.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
+	'agency.preselected.isTeam': 'Sie werden von einem Team beraten.',
 	'username.headline': 'Bitte wählen Sie Ihren Benutzernamen',
 	'user.label': 'Benutzername*',
 	'user.infoText':
@@ -39,7 +39,6 @@ const registration = {
 	'user.unavailable': 'Der Benutzername ist bereits vergeben.',
 	'agencySelection.headline':
 		'Bitte wählen Sie eine Beratungsstelle in Ihrer Nähe',
-	'agencySelection.postcode.label': 'Ihre Postleitzahl',
 	'agencySelection.title.start': 'Beratungsstellen zur Postleitzahl',
 	'agencySelection.title.end': ':',
 	'agencySelection.intro.overline':
@@ -50,9 +49,17 @@ const registration = {
 		'mit den rechtlichen Voraussetzungen vertraut ist,',
 	'agencySelection.intro.point3':
 		'Sie gegebenfalls auch vor Ort beraten kann.',
+	'agencySelection.postcode.label': 'Ihre Postleitzahl',
 	'agencySelection.postcode.unavailable':
 		'Momentan haben wir leider noch keine Online-Beratungsstelle in Ihrer Nähe. Auf unserer Webseite finden Sie Beratungsstellen für Ihr Anliegen.',
 	'agencySelection.postcode.search': 'Zur Beratungsstellensuche',
+	'agencyPreselected.headline': 'Bitte geben Sie Ihre Postleitzahl an',
+	'agencyPreselected.intro.overline':
+		'Warum benötigen wir Ihre Postleitzahl?',
+	'agencyPreselected.intro.subline': 'Unsere Fachleute:',
+	'agencyPreselected.intro.point1':
+		'kennen dann die Hilfen rund um Ihren Wohnort',
+	'agencyPreselected.intro.point2': 'kennen die Gesetze Ihres Bundeslandes',
 	'password.headline': 'Bitte wählen Sie Ihr Passwort',
 	'password.input.label': 'Passwort*',
 	'password.confirmation.label': 'Passwort wiederholen*',
@@ -79,7 +86,35 @@ const registration = {
 	'overlay.success.button': 'Nachricht verfassen',
 	'accordion.item.continueButton': 'Weiter',
 	'accordion.item.continueButton.title': 'Weiter zum nächsten Schritt',
-	'welcomeScreen.title.start': 'Willkommen bei der',
+	'welcomeScreen.title.start': 'Willkommen bei',
+	'welcomeScreen.title.addiction': 'der Suchtberatung',
+	'welcomeScreen.title.u25':
+		'der Beratung für Suizidgefährdete junge Menschen [U25]',
+	'welcomeScreen.title.gemeinsamstatteinsam':
+		'#gemeinsamstatteinsam – Onlineberatung für junge Menschen in besonderen Zeiten',
+	'welcomeScreen.title.pregnancy': 'der Schwangerschaftsberatung',
+	'welcomeScreen.title.parenting': 'der Beratung für Eltern und Familien',
+	'welcomeScreen.title.cure': 'der Kurberatung für Mütter und Väter',
+	'welcomeScreen.title.debt': 'der Beratung zum Thema Schulden',
+	'welcomeScreen.title.social': 'der Allgemeinen Sozialberatung',
+	'welcomeScreen.title.seniority': 'Leben im Alter',
+	'welcomeScreen.title.disability':
+		'Leben mit Behinderung und psychischer Erkrankung',
+	'welcomeScreen.title.planB':
+		'Mein PlanB: Beratung zwischen Schule und Beruf',
+	'welcomeScreen.title.law': 'der Rechtlichen Betreuung und Vorsorge',
+	'welcomeScreen.title.offender':
+		'der Beratung für Angehörige von Straffälligen',
+	'welcomeScreen.title.aids': 'der HIV/AIDS-Beratung',
+	'welcomeScreen.title.rehabilitation':
+		'der Kinder- und Jugend-Rehabilitation',
+	'welcomeScreen.title.children': 'der Beratung für Kinder und Jugendliche',
+	'welcomeScreen.title.kreuzbund': 'der Sucht-Selbsthilfe – Kreuzbund-Chat',
+	'welcomeScreen.title.migration': 'der Migrationsberatung',
+	'welcomeScreen.title.emigration': 'der Aus-/Rück- & Weiterwanderung',
+	'welcomeScreen.title.hospice': 'der Hospiz-, Palliativ- und Trauerberatung',
+	'welcomeScreen.title.regional': 'den Regionalen Angeboten',
+	'welcomeScreen.title.men': 'der Jungen- und Männerberatung',
 	'welcomeScreen.title.end': '!',
 	'welcomeScreen.subline': 'Wie läuft die Beratung & Hilfe der Caritas ab?',
 	'welcomeScreen.info1.title': 'Einfache Registrierung',
