@@ -3,7 +3,7 @@ const registration = {
 	'overline.addiction': 'Suchtberatung',
 	'overline.u25': 'Beratung für Suizidgefährdete junge Menschen [U25]',
 	'overline.gemeinsamstatteinsam':
-		'#gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten',
+		'#gemeinsamstatteinsam – Onlineberatung für junge Menschen in besonderen Zeiten',
 	'overline.pregnancy': 'Schwangerschaftsberatung',
 	'overline.parenting': 'Beratung für Eltern und Familien',
 	'overline.cure': 'Kurberatung für Mütter und Väter',
@@ -14,10 +14,10 @@ const registration = {
 	'overline.planB': 'Mein PlanB: Beratung zwischen Schule und Beruf',
 	'overline.law': 'Rechtliche Betreuung und Vorsorge',
 	'overline.offender': 'Beratung für Angehörige von Straffälligen',
-	'overline.aids': 'HIV/AIDS Beratung',
+	'overline.aids': 'HIV/AID-Beratung',
 	'overline.rehabilitation': 'Kinder- und Jugend-Rehabilitation',
 	'overline.children': 'Beratung für Kinder und Jugendliche',
-	'overline.kreuzbund': 'Sucht-Selbsthilfe - Kreuzbund-Chat',
+	'overline.kreuzbund': 'Sucht-Selbsthilfe – Kreuzbund-Chat',
 	'overline.migration': 'Migrationsberatung',
 	'overline.emigration': 'Aus-/Rück- & Weiterwanderung',
 	'overline.hospice': 'Hospiz-, Palliativ- und Trauerberatung',
@@ -91,7 +91,7 @@ const registration = {
 	'welcomeScreen.title.u25':
 		'der Beratung für Suizidgefährdete junge Menschen [U25]',
 	'welcomeScreen.title.gemeinsamstatteinsam':
-		'#gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten',
+		'#gemeinsamstatteinsam – Onlineberatung für junge Menschen in besonderen Zeiten',
 	'welcomeScreen.title.pregnancy': 'der Schwangerschaftsberatung',
 	'welcomeScreen.title.parenting': 'der Beratung für Eltern und Familien',
 	'welcomeScreen.title.cure': 'der Kurberatung für Mütter und Väter',
@@ -105,11 +105,11 @@ const registration = {
 	'welcomeScreen.title.law': 'der Rechtlichen Betreuung und Vorsorge',
 	'welcomeScreen.title.offender':
 		'der Beratung für Angehörige von Straffälligen',
-	'welcomeScreen.title.aids': 'der HIV/AIDS Beratung',
+	'welcomeScreen.title.aids': 'der HIV/AIDS-Beratung',
 	'welcomeScreen.title.rehabilitation':
 		'der Kinder- und Jugend-Rehabilitation',
 	'welcomeScreen.title.children': 'der Beratung für Kinder und Jugendliche',
-	'welcomeScreen.title.kreuzbund': 'der Sucht-Selbsthilfe - Kreuzbund-Chat',
+	'welcomeScreen.title.kreuzbund': 'der Sucht-Selbsthilfe – Kreuzbund-Chat',
 	'welcomeScreen.title.migration': 'der Migrationsberatung',
 	'welcomeScreen.title.emigration': 'der Aus-/Rück- & Weiterwanderung',
 	'welcomeScreen.title.hospice': 'der Hospiz-, Palliativ- und Trauerberatung',
