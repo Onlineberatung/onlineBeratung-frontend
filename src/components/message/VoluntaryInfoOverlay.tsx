@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
@@ -15,12 +15,23 @@ import { getOptionOfSelectedValue } from '../registration/registrationHelpers';
 import { SelectDropdown } from '../select/SelectDropdown';
 import { TagSelect } from '../tagSelect/TagSelect';
 import { ReactComponent as SuccessIllustration } from '../../resources/img/illustrations/check.svg';
+import { apiPutSessionData } from '../../api';
+import {
+	ActiveSessionGroupIdContext,
+	getActiveSession,
+	SessionsDataContext,
+	UserDataContext
+} from '../../globalState';
 
 interface VoluntaryInfoOverlayProps {
 	voluntaryComponents: any[];
 }
 
 export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
+	const { userData, setUserData } = useContext(UserDataContext);
+	const { sessionsData } = useContext(SessionsDataContext);
+	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [
 		valuesOfGeneratedInputs,
@@ -143,7 +154,8 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 				label: translate(
 					'furtherSteps.voluntaryInfo.overlay.button1.label'
 				),
-				type: BUTTON_TYPES.PRIMARY
+				type: BUTTON_TYPES.PRIMARY,
+				disabled: !valuesOfGeneratedInputs
 			},
 			{
 				label: translate(
@@ -175,12 +187,50 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 		svg: SuccessIllustration
 	};
 
+	const handleVoluntaryInfoSubmit = () => {
+		if (valuesOfGeneratedInputs) {
+			const {
+				addictiveDrugs,
+				...voluntaryFieldsWithOneValue
+			} = valuesOfGeneratedInputs;
+
+			const generatedRegistrationData = {
+				...(valuesOfGeneratedInputs['addictiveDrugs'] && {
+					addictiveDrugs: valuesOfGeneratedInputs[
+						'addictiveDrugs'
+					].join(',')
+				}),
+				...voluntaryFieldsWithOneValue
+			};
+
+			apiPutSessionData(
+				activeSession.session.id,
+				generatedRegistrationData
+			)
+				.then(() => {
+					setIsSuccessOverlay(true);
+					let updatedUserData = userData;
+					updatedUserData.consultingTypes[
+						activeSession.session.consultingType
+					].sessionData = generatedRegistrationData;
+					setUserData(updatedUserData);
+				})
+				.catch((error) => {
+					console.error(
+						'Could not submit voluntary information ',
+						error
+					);
+				});
+		}
+	};
+
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setIsOverlayActive(false);
 			setIsSuccessOverlay(false);
+			setValuesOfGeneratedInputs(null);
 		} else {
-			setIsSuccessOverlay(true);
+			handleVoluntaryInfoSubmit();
 		}
 	};
 
