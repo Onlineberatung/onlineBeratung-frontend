@@ -58,6 +58,7 @@ export const initRegistration = () => {
 export interface ResortData {
 	consultingType: string;
 	overline: string;
+	welcomeTitle: string;
 	requiredComponents?: any[];
 	useInformal: boolean;
 	voluntaryComponents?: any[];
@@ -373,7 +374,7 @@ const Registration = () => {
 			<div className="registration__content">
 				{showWelcomeScreen ? (
 					<WelcomeScreen
-						resortTitle={resortData.overline}
+						resortTitle={resortData.welcomeTitle}
 						handleForwardToRegistration={
 							handleForwardToRegistration
 						}
