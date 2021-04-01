@@ -185,13 +185,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				'registration.agencySelection.intro.point2',
 				'registration.agencySelection.intro.point3'
 		  ];
-	const getHeadlineForProfileView = () => {
-		if (showPreselectedAgency) {
-			return translate('registration.agencyPreselected.headline');
-		} else {
-			return translate('registration.agencySelection.headline');
-		}
-	};
 
 	return (
 		<div className="agencySelection">
@@ -209,7 +202,15 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					{props.isProfileView && (
 						<Headline
 							semanticLevel="5"
-							text={getHeadlineForProfileView()}
+							text={
+								showPreselectedAgency
+									? translate(
+											'registration.agencyPreselected.headline'
+									  )
+									: translate(
+											'registration.agencySelection.headline'
+									  )
+							}
 						/>
 					)}
 					<div className="agencySelection__intro">
