@@ -23,6 +23,8 @@ import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { ReactComponent as EnvelopeCheckIcon } from '../../resources/img/illustrations/envelope-check.svg';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
 import './enquiry.styles';
+import { Headline } from '../headline/Headline';
+import { Text } from '../text/Text';
 
 const overlayItem: OverlayItem = {
 	svg: EnvelopeCheckIcon,
@@ -117,33 +119,23 @@ export const WriteEnquiry = () => {
 	return (
 		<div className="enquiry__wrapper">
 			<div className="enquiry__infoWrapper">
-				<div className="enquiry__image">
-					<WelcomeIcon />
-				</div>
-				<div className="enquiry__infotext">
-					<h2 className="enquiry__headline">
-						{translate('enquiry.write.headline')}
-					</h2>
-					<h2 className="enquiry__infotextHeadline">
-						{translate('enquiry.write.infotext.headline')}
-					</h2>
-					<div className="enquiry__infotextCopy">
-						<p>{translate('enquiry.write.infotext.copy')}</p>
-						<ul>
-							<li>
-								{translate('enquiry.write.infotext.copy.fact1')}
-							</li>
-							<li>
-								{translate('enquiry.write.infotext.copy.fact2')}
-							</li>
-							<li>
-								{translate('enquiry.write.infotext.copy.fact3')}
-							</li>
-							<li>
-								{translate('enquiry.write.infotext.copy.fact4')}
-							</li>
-						</ul>
-					</div>
+				<WelcomeIcon className="enquiry__image" />
+				<div className="enquiry__text">
+					<Headline
+						semanticLevel="3"
+						text={translate('enquiry.write.infotext.headline')}
+						className="enquiry__infotextHeadline"
+					/>
+					<Headline
+						semanticLevel="4"
+						styleLevel="5"
+						text={translate('enquiry.write.infotext.copy')}
+					/>
+					<Text
+						text={translate('enquiry.write.infotext.copy.facts')}
+						type="standard"
+						className="enquiry__facts"
+					/>
 				</div>
 			</div>
 			<MessageSubmitInterfaceComponent

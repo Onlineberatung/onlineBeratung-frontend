@@ -1,5 +1,6 @@
 $enquiryImageSize: 170px;
 $enquiryImageWrapperSize: 280px;
+$backgroundCircleSize: 1800px;
 
 .enquiry {
 	&__wrapper {
@@ -9,15 +10,48 @@ $enquiryImageWrapperSize: 280px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		overflow: hidden;
 
 		@include breakpoint($fromLarge) {
 			min-height: calc(100vh - #{$grid-base-twelve});
+			padding-bottom: 128px;
+
+			&::after {
+				content: '';
+				position: absolute;
+				width: $backgroundCircleSize;
+				height: $backgroundCircleSize;
+				right: calc(100vw * 0.3);
+				border-radius: 100%;
+				background-color: $background-light-ochre;
+				z-index: 1;
+
+				animation: scale ease-out 1s;
+				@keyframes scale {
+					0% {
+						transform: scale(0);
+						opacity: 0;
+					}
+					50% {
+						transform: scale(0);
+						opacity: 0;
+					}
+					60% {
+						opacity: 0;
+					}
+					100% {
+						transform: scale(1);
+						opacity: 1;
+					}
+				}
+			}
 		}
 
 		.textarea {
 			position: fixed !important;
 			width: 100% !important;
 			bottom: 0;
+			left: 0;
 
 			@include breakpoint($fromLarge) {
 				position: absolute !important;
@@ -26,36 +60,66 @@ $enquiryImageWrapperSize: 280px;
 		}
 	}
 
-	&__image {
-		width: $enquiryImageWrapperSize;
-		min-height: $enquiryImageWrapperSize;
-		border-radius: $enquiryImageWrapperSize / 2;
-		background-color: $light-success;
-		display: none;
-		align-items: center;
+	&__infoWrapper {
+		display: flex;
+		flex-wrap: wrap;
 		justify-content: center;
-		margin: 0 auto;
+		margin: $grid-base-twelve $grid-base-two 109px;
+		overflow-y: scroll;
+		max-width: 350px;
+		z-index: 2;
 
-		@include breakpoint($fromSmall) {
-			display: flex;
+		@include breakpoint($fromLarge) {
+			max-width: none;
+			width: 100%;
+			flex-wrap: nowrap;
+			align-items: center;
+			margin: 0;
+			padding: 0 120px;
 		}
+	}
 
-		animation: fadeIn linear 0.5s;
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-			}
-			to {
-				opacity: 1;
+	&__image {
+		width: $enquiryImageSize;
+		height: $enquiryImageSize;
+		margin-bottom: $grid-base-seven;
+
+		@include breakpoint($fromLarge) {
+			width: auto;
+			height: auto;
+			max-width: 300px;
+			order: 2;
+			margin-bottom: 0;
+			margin-left: $grid-base-seven;
+
+			animation: bounceIn ease-out 1.4s;
+			@keyframes bounceIn {
+				0% {
+					transform: scale(0.2);
+					opacity: 0;
+				}
+				60% {
+					transform: scale(0.8);
+					opacity: 0;
+				}
+				80% {
+					transform: scale(1.1);
+					opacity: 1;
+				}
+				100% {
+					transform: translateX(0);
+					transform: scale(1);
+				}
 			}
 		}
+	}
 
-		svg {
-			width: $enquiryImageSize;
-			height: $enquiryImageSize;
-			margin: auto;
+	&__text {
+		@include breakpoint($fromLarge) {
+			max-width: 500px;
+			order: 1;
 
-			animation: fadeIn linear 0.8s;
+			animation: fadeIn ease-out 1s;
 			@keyframes fadeIn {
 				0% {
 					opacity: 0;
@@ -70,34 +134,12 @@ $enquiryImageWrapperSize: 280px;
 		}
 	}
 
-	&__headline {
-		font-size: $font-size-subheadline;
-		line-height: $line-height-quaternary;
-		margin: $grid-base-three 0 $grid-base-six;
-		text-align: left;
-	}
-
-	&__infotext {
-		color: $secondary;
-		text-align: left;
-	}
-
 	&__infotextHeadline {
-		font-size: $font-size-subheadline;
-		line-height: $line-height-quaternary;
-		margin: 0 0 8px;
+		margin-bottom: 8px;
 	}
 
-	&__infotextCopy {
-		p {
-			font-family: $font-family-medium;
-			margin: 0;
-		}
-
-		ul {
-			margin-top: 8px;
-			font-family: $font-family-regular;
-		}
+	&__facts {
+		margin-top: $grid-base-two;
 	}
 
 	&__footer {
