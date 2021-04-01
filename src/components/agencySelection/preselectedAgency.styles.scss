@@ -1,0 +1,27 @@
+$infoIconSize: 16px;
+
+.preselectedAgency {
+	margin-top: 28px;
+
+	.headline {
+		margin: 0 0 12px;
+		text-align: left;
+	}
+
+	&__item {
+		display: flex;
+		position: relative;
+
+		.text {
+			width: 100%;
+		}
+	}
+
+	.agencyInfo {
+		top: 34px;
+
+		&--above {
+			top: auto;
+		}
+	}
+}
