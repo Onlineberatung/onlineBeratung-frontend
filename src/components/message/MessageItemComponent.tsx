@@ -29,6 +29,7 @@ import './message.styles';
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
 	FORWARD = 'FORWARD',
+	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL'
 }
 
@@ -129,6 +130,8 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		props.alias?.videoCallMessageDTO;
 	const isFurtherStepsMessage =
 		props.alias?.messageType === MessageType.FURTHER_STEPS;
+	const isUpdateSessionDataMessage =
+		props.alias?.messageType === MessageType.UPDATE_SESSION_DATA;
 	const isVideoCallMessage =
 		props.alias?.messageType === MessageType.VIDEOCALL;
 
@@ -136,6 +139,13 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		if (isFurtherStepsMessage) {
 			return (
 				<FurtherSteps
+					consultingType={activeSession.agency.consultingType}
+				/>
+			);
+		} else if (isUpdateSessionDataMessage) {
+			return (
+				<FurtherSteps
+					onlyShowVoluntaryInfo={true}
 					consultingType={activeSession.agency.consultingType}
 				/>
 			);

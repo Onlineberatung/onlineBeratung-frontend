@@ -5,7 +5,7 @@
 	border: 2px dashed $form-input-border;
 	border-radius: 0 12px 12px;
 
-	.headline--5 {
+	* + .headline--5 {
 		margin-top: $grid-base-four;
 	}
 

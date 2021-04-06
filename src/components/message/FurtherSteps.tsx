@@ -38,6 +38,7 @@ const addEmailButton: ButtonItem = {
 
 interface FurtherStepsProps {
 	consultingType: number;
+	onlyShowVoluntaryInfo?: boolean;
 }
 
 export const FurtherSteps = (props: FurtherStepsProps) => {
@@ -166,78 +167,82 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	const showAddEmail = !userData.email;
 	return (
 		<div className="furtherSteps">
-			<Headline
-				semanticLevel="4"
-				text={translate('furtherSteps.headline')}
-			/>
-			<ul className="furtherSteps__steps">
-				<li className="furtherSteps__step">
-					<div className="furtherSteps__illustration">
-						<EnvelopeIllustration />
-					</div>
-					<Text
-						type="infoLargeStandard"
-						text={translate('furtherSteps.step1.info')}
-						className="furtherSteps__stepInfo"
-					/>
-				</li>
-				<li className="furtherSteps__arrow">
-					<ArrowIllustration />
-				</li>
-				<li className="furtherSteps__step">
-					<div className="furtherSteps__illustration">
-						<ConsultantIllustration />
-					</div>
-					<Text
-						type="infoLargeStandard"
-						text={translate('furtherSteps.step2.info')}
-						className="furtherSteps__stepInfo"
-					/>
-				</li>
-				<li className="furtherSteps__arrow">
-					<ArrowIllustration />
-				</li>
-				<li className="furtherSteps__step">
-					<div className="furtherSteps__illustration">
-						<AnswerIllustration />
-					</div>
-					<Text
-						type="infoLargeStandard"
-						text={translate('furtherSteps.step3.info')}
-						className="furtherSteps__stepInfo"
-					/>
-				</li>
-			</ul>
-			{showAddEmail && (
+			{!props.onlyShowVoluntaryInfo && (
 				<>
 					<Headline
-						semanticLevel="5"
-						text={translate(
-							'furtherSteps.emailNotification.headline'
-						)}
+						semanticLevel="4"
+						text={translate('furtherSteps.headline')}
 					/>
-					<Text
-						type="standard"
-						text={translate(
-							'furtherSteps.emailNotification.infoText'
-						)}
-						className="furtherSteps__infoText"
-					/>
-					<Button
-						item={addEmailButton}
-						buttonHandle={() => setIsOverlayActive(true)}
-					/>
-					{isOverlayActive && (
-						<OverlayWrapper>
-							<Overlay
-								item={
-									isSuccessOverlay
-										? successOverlayItem
-										: emailOverlayItem
-								}
-								handleOverlay={handleOverlayAction}
+					<ul className="furtherSteps__steps">
+						<li className="furtherSteps__step">
+							<div className="furtherSteps__illustration">
+								<EnvelopeIllustration />
+							</div>
+							<Text
+								type="infoLargeStandard"
+								text={translate('furtherSteps.step1.info')}
+								className="furtherSteps__stepInfo"
 							/>
-						</OverlayWrapper>
+						</li>
+						<li className="furtherSteps__arrow">
+							<ArrowIllustration />
+						</li>
+						<li className="furtherSteps__step">
+							<div className="furtherSteps__illustration">
+								<ConsultantIllustration />
+							</div>
+							<Text
+								type="infoLargeStandard"
+								text={translate('furtherSteps.step2.info')}
+								className="furtherSteps__stepInfo"
+							/>
+						</li>
+						<li className="furtherSteps__arrow">
+							<ArrowIllustration />
+						</li>
+						<li className="furtherSteps__step">
+							<div className="furtherSteps__illustration">
+								<AnswerIllustration />
+							</div>
+							<Text
+								type="infoLargeStandard"
+								text={translate('furtherSteps.step3.info')}
+								className="furtherSteps__stepInfo"
+							/>
+						</li>
+					</ul>
+					{showAddEmail && (
+						<>
+							<Headline
+								semanticLevel="5"
+								text={translate(
+									'furtherSteps.emailNotification.headline'
+								)}
+							/>
+							<Text
+								type="standard"
+								text={translate(
+									'furtherSteps.emailNotification.infoText'
+								)}
+								className="furtherSteps__infoText"
+							/>
+							<Button
+								item={addEmailButton}
+								buttonHandle={() => setIsOverlayActive(true)}
+							/>
+							{isOverlayActive && (
+								<OverlayWrapper>
+									<Overlay
+										item={
+											isSuccessOverlay
+												? successOverlayItem
+												: emailOverlayItem
+										}
+										handleOverlay={handleOverlayAction}
+									/>
+								</OverlayWrapper>
+							)}
+						</>
 					)}
 				</>
 			)}
