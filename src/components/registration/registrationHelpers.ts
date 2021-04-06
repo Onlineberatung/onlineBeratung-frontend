@@ -52,6 +52,7 @@ export type RequiredComponents = {
 export interface ResortData {
 	consultingType: string;
 	overline: string;
+	welcomeTitle: string;
 	useInformal: boolean;
 	requiredComponents?: RequiredComponents;
 	voluntaryComponents?: any[];
