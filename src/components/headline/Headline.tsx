@@ -17,7 +17,9 @@ export const Headline = (props: HeadlineProps) => {
 
 	return (
 		<Tag
-			className={`headline headline--${levelBasedClass} ${props.className}`}
+			className={`headline headline--${levelBasedClass} ${
+				props.className ? props.className : ''
+			}`}
 			dangerouslySetInnerHTML={{
 				__html: props.text
 			}}
