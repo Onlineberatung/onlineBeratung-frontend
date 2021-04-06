@@ -6,6 +6,7 @@ interface HeadlineProps {
 	semanticLevel: HeadlineLevels;
 	styleLevel?: HeadlineLevels;
 	text: string;
+	className?: string;
 }
 
 export const Headline = (props: HeadlineProps) => {
@@ -16,7 +17,7 @@ export const Headline = (props: HeadlineProps) => {
 
 	return (
 		<Tag
-			className={`headline headline--${levelBasedClass}`}
+			className={`headline headline--${levelBasedClass} ${props.className}`}
 			dangerouslySetInnerHTML={{
 				__html: props.text
 			}}

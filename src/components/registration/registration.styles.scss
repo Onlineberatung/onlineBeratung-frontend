@@ -63,16 +63,8 @@
 	&__generalInformation {
 		margin: 0 auto $grid-base-four;
 		max-width: 320px;
-
-		& > .selectedAgencyInfo {
-			margin: -$grid-base-two 20px $grid-base-five 52px;
-		}
-
-		& > .askerRegistration__postcode {
-			.selectedAgencyInfo {
-				margin: -28px 20px $grid-base-five 52px;
-			}
-		}
+		//TODO: remove margin-top; after removal of deprecated components
+		margin-top: 500px;
 	}
 
 	&__passwordNote {

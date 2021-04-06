@@ -141,46 +141,6 @@ $unreadButtonSize: 18px;
 	}
 }
 
-.enquiry__wrapper {
-	height: 100%;
-
-	.enquiry__infoWrapper {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		margin: $grid-base-two $grid-base-two 245px;
-		align-self: center;
-		overflow-y: scroll;
-
-		@include breakpoint($fromMedium) {
-			width: 70%;
-			margin: 128px $grid-base-two 245px;
-		}
-
-		@include breakpoint($fromLarge) {
-			margin: $grid-base-two $grid-base-two 128px;
-			align-items: center;
-			justify-content: center;
-			width: 60%;
-		}
-
-		@include breakpoint($fromXLarge) {
-			width: 40%;
-		}
-
-		@include breakpoint($fromXXLarge) {
-			width: 30%;
-		}
-	}
-	.messageSubmit__wrapper {
-		width: 100vw;
-
-		@include breakpoint($fromLarge) {
-			width: unset;
-		}
-	}
-}
-
 @keyframes appear-animation {
 	0% {
 		opacity: 0;
