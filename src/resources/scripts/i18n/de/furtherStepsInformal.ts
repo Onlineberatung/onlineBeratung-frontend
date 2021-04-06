@@ -9,7 +9,7 @@ const furtherStepsInformal = {
 	'email.overlay.input.invalid': 'Deine E-Mail-Adresse ist nicht gültig.',
 	'voluntaryInfo.headline': 'Wir wollen Dich bestmöglichst beraten',
 	'voluntaryInfo.infoText':
-		'Dabei hilft es uns, wenn Du weitere freiwillige Angaben zu Dir und Deinen Anliegen machst.'
+		'Dabei hilft es uns, wenn Du weitere freiwillige Angaben zu Dir und Deinem Anliegen machst.'
 };
 
 export default furtherStepsInformal;
