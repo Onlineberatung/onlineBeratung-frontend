@@ -1,5 +1,5 @@
 const furtherSteps = {
-	'headline': 'Vielen Dank für Ihre Nachricht! So geht es weiter:',
+	'headline': 'So geht es weiter:',
 	'step1.info': 'Wir haben Ihre Nachricht erhalten.',
 	'step2.info': 'Jetzt finden wir eine_n passende_n Berater_in für Sie.',
 	'step3.info': 'Ihr_e Berater_in antwortet innerhalb von 2 Werktagen.',
@@ -16,7 +16,8 @@ const furtherSteps = {
 		'Diese E-Mail Adresse ist bereits registriert.',
 	'email.overlay.button1.label': 'Speichern',
 	'email.overlay.button2.label': 'Schließen',
-	'email.success.overlay.headline': 'E-Mail-Adresse erfolgreich gespeichert',
+	'email.success.overlay.headline':
+		'Ihre E-Mail wurde erfolgreich gespeichert.',
 	'voluntaryInfo.headline': 'Wir wollen Sie bestmöglichst beraten',
 	'voluntaryInfo.infoText':
 		'Dabei hilft es uns, wenn Sie weitere freiwillige Angaben zu sich und Ihrem Anliegen machen.',
