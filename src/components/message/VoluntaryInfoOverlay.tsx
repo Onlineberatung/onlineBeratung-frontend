@@ -19,16 +19,15 @@ import { apiPutSessionData } from '../../api';
 import {
 	ActiveSessionGroupIdContext,
 	getActiveSession,
-	SessionsDataContext,
-	UserDataContext
+	SessionsDataContext
 } from '../../globalState';
 
 interface VoluntaryInfoOverlayProps {
 	voluntaryComponents: any[];
+	handleSuccess: Function;
 }
 
 export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
-	const { userData, setUserData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
@@ -209,11 +208,7 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 			)
 				.then(() => {
 					setIsSuccessOverlay(true);
-					let updatedUserData = userData;
-					updatedUserData.consultingTypes[
-						activeSession.session.consultingType
-					].sessionData = generatedRegistrationData;
-					setUserData(updatedUserData);
+					props.handleSuccess(generatedRegistrationData);
 				})
 				.catch((error) => {
 					console.error(

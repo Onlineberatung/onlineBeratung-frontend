@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getPrettyDateFromMessageDate } from '../../resources/scripts/helpers/dateHelpers';
 import {
 	UserDataContext,
@@ -25,6 +25,9 @@ import { VideoCallMessage } from './VideoCallMessage';
 import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import './message.styles';
+import { ResortData } from '../registration/registrationHelpers';
+import registrationResortsData from '../registration/registrationData';
+import { isVoluntaryInfoSet } from './messageHelpers';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -78,6 +81,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const rawMessageObject = markdownToDraft(props.message);
 	const contentStateMessage: ContentState = convertFromRaw(rawMessageObject);
@@ -86,6 +90,21 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		: '';
 	const hasRenderedMessage = renderedMessage && renderedMessage.length > 0;
 	const chatItem = getChatItemForSession(activeSession);
+
+	const resortData: ResortData = Object.entries(
+		registrationResortsData
+	).filter(
+		(resort) =>
+			resort[1].consultingType ===
+			activeSession.agency.consultingType?.toString()
+	)[0][1];
+
+	useEffect(() => {
+		const sessionData =
+			userData.consultingTypes[activeSession.agency.consultingType]
+				.sessionData;
+		setShowAddVoluntaryInfo(!isVoluntaryInfoSet(sessionData, resortData));
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const getMessageDate = () => {
 		if (props.messageDate) {
@@ -140,13 +159,18 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 			return (
 				<FurtherSteps
 					consultingType={activeSession.agency.consultingType}
+					resortData={resortData}
 				/>
 			);
 		} else if (isUpdateSessionDataMessage) {
 			return (
 				<FurtherSteps
 					onlyShowVoluntaryInfo={true}
+					handleVoluntaryInfoSet={() =>
+						setShowAddVoluntaryInfo(false)
+					}
 					consultingType={activeSession.agency.consultingType}
+					resortData={resortData}
 				/>
 			);
 		} else if (
@@ -224,6 +248,8 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		isFurtherStepsMessage &&
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 	) {
+		return null;
+	} else if (isUpdateSessionDataMessage && !showAddVoluntaryInfo) {
 		return null;
 	}
 
