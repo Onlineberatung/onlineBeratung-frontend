@@ -83,6 +83,11 @@ $backgroundCircleSize: 1800px;
 		width: $enquiryImageSize;
 		height: $enquiryImageSize;
 		margin-bottom: $grid-base-seven;
+		display: none;
+
+		@include breakpoint($fromSmall) {
+			display: block;
+		}
 
 		@include breakpoint($fromLarge) {
 			width: auto;
