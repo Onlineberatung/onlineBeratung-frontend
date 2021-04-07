@@ -184,7 +184,9 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 		].sessionData = generatedRegistrationData;
 		setUserData(updatedUserData);
 		setShowAddVoluntaryInfo(false);
-		props.handleVoluntaryInfoSet();
+		if (props.handleVoluntaryInfoSet) {
+			props.handleVoluntaryInfoSet();
+		}
 	};
 
 	const showAddEmail = !userData.email;
