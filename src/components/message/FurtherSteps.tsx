@@ -19,7 +19,7 @@ import {
 	isStringValidEmail,
 	ResortData
 } from '../registration/registrationHelpers';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
 	Overlay,
 	OverlayItem,
@@ -27,9 +27,14 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
 import { apiPutEmail, FETCH_ERRORS } from '../../api';
-import { UserDataContext } from '../../globalState';
+import {
+	ActiveSessionGroupIdContext,
+	getActiveSession,
+	SessionsDataContext,
+	UserDataContext
+} from '../../globalState';
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
-import registrationResortsData from '../registration/registrationData';
+import { isVoluntaryInfoSet } from './messageHelpers';
 
 const addEmailButton: ButtonItem = {
 	label: translate('furtherSteps.emailNotification.button'),
@@ -39,9 +44,14 @@ const addEmailButton: ButtonItem = {
 interface FurtherStepsProps {
 	consultingType: number;
 	onlyShowVoluntaryInfo?: boolean;
+	resortData: ResortData;
+	handleVoluntaryInfoSet?: Function;
 }
 
 export const FurtherSteps = (props: FurtherStepsProps) => {
+	const { sessionsData } = useContext(SessionsDataContext);
+	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -56,12 +66,15 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 		InputFieldLabelState
 	>();
 
-	const resortData: ResortData = Object.entries(
-		registrationResortsData
-	).filter(
-		(resort) =>
-			resort[1].consultingType === props.consultingType?.toString()
-	)[0][1];
+	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
+
+	useEffect(() => {
+		const sessionData =
+			userData.consultingTypes[props.consultingType].sessionData;
+		setShowAddVoluntaryInfo(
+			!isVoluntaryInfoSet(sessionData, props.resortData)
+		);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const emailInputItem: InputFieldItem = {
 		content: email,
@@ -164,6 +177,18 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 		}
 	};
 
+	const handleVoluntarySuccess = (generatedRegistrationData) => {
+		let updatedUserData = userData;
+		updatedUserData.consultingTypes[
+			activeSession.session.consultingType
+		].sessionData = generatedRegistrationData;
+		setUserData(updatedUserData);
+		setShowAddVoluntaryInfo(false);
+		if (props.handleVoluntaryInfoSet) {
+			props.handleVoluntaryInfoSet();
+		}
+	};
+
 	const showAddEmail = !userData.email;
 	return (
 		<div className="furtherSteps">
@@ -246,7 +271,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 					)}
 				</>
 			)}
-			{resortData?.voluntaryComponents && (
+			{props.resortData?.voluntaryComponents && showAddVoluntaryInfo && (
 				<>
 					<Headline
 						semanticLevel="5"
@@ -258,7 +283,10 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 						className="furtherSteps__infoText"
 					/>
 					<VoluntaryInfoOverlay
-						voluntaryComponents={resortData.voluntaryComponents}
+						voluntaryComponents={
+							props.resortData.voluntaryComponents
+						}
+						handleSuccess={handleVoluntarySuccess}
 					/>
 				</>
 			)}

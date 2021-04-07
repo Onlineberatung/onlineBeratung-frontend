@@ -10,7 +10,9 @@ const furtherStepsInformal = {
 		'Deine E-Mail wurde erfolgreich gespeichert.',
 	'voluntaryInfo.headline': 'Wir wollen Dich bestmöglichst beraten',
 	'voluntaryInfo.infoText':
-		'Dabei hilft es uns, wenn Du weitere freiwillige Angaben zu Dir und Deinem Anliegen machst.'
+		'Dabei hilft es uns, wenn Du weitere freiwillige Angaben zu Dir und Deinem Anliegen machst.',
+	'voluntaryInfo.overlay.success.headline':
+		'Vielen Dank. Deine freiwilligen Angaben wurden erfolgreich gespeichert.'
 };
 
 export default furtherStepsInformal;

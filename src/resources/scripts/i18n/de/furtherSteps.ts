@@ -28,7 +28,7 @@ const furtherSteps = {
 	'voluntaryInfo.overlay.copy':
 		'Für die Beratung würden uns folgende Angaben sehr helfen.',
 	'voluntaryInfo.overlay.success.headline':
-		'Freiwillige Angaben erfolgreich gespeichert'
+		'Vielen Dank. Ihre freiwilligen Angaben wurden erfolgreich gespeichert.'
 };
 
 export default furtherSteps;

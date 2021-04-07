@@ -19,16 +19,15 @@ import { apiPutSessionData } from '../../api';
 import {
 	ActiveSessionGroupIdContext,
 	getActiveSession,
-	SessionsDataContext,
-	UserDataContext
+	SessionsDataContext
 } from '../../globalState';
 
 interface VoluntaryInfoOverlayProps {
 	voluntaryComponents: any[];
+	handleSuccess: Function;
 }
 
 export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
-	const { userData, setUserData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
@@ -38,6 +37,9 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 		setValuesOfGeneratedInputs
 	] = useState<GeneratedInputs | null>(null);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
+	const [generatedRegistrationData, setGeneratedRegistrationData] = useState<
+		any
+	>();
 
 	const renderInputComponent = (component, index) => {
 		if (component.componentType === 'SelectDropdown') {
@@ -177,7 +179,7 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 				label: translate(
 					'furtherSteps.voluntaryInfo.overlay.button2.label'
 				),
-				function: OVERLAY_FUNCTIONS.CLOSE,
+				function: OVERLAY_FUNCTIONS.CLOSE_SUCCESS,
 				type: BUTTON_TYPES.PRIMARY
 			}
 		],
@@ -194,7 +196,7 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 				...voluntaryFieldsWithOneValue
 			} = valuesOfGeneratedInputs;
 
-			const generatedRegistrationData = {
+			const generatedRegistrationDataSet = {
 				...(valuesOfGeneratedInputs['addictiveDrugs'] && {
 					addictiveDrugs: valuesOfGeneratedInputs[
 						'addictiveDrugs'
@@ -205,15 +207,11 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 
 			apiPutSessionData(
 				activeSession.session.id,
-				generatedRegistrationData
+				generatedRegistrationDataSet
 			)
 				.then(() => {
 					setIsSuccessOverlay(true);
-					let updatedUserData = userData;
-					updatedUserData.consultingTypes[
-						activeSession.session.consultingType
-					].sessionData = generatedRegistrationData;
-					setUserData(updatedUserData);
+					setGeneratedRegistrationData(generatedRegistrationDataSet);
 				})
 				.catch((error) => {
 					console.error(
@@ -229,6 +227,11 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 			setIsOverlayActive(false);
 			setIsSuccessOverlay(false);
 			setValuesOfGeneratedInputs(null);
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE_SUCCESS) {
+			setIsOverlayActive(false);
+			setIsSuccessOverlay(false);
+			setValuesOfGeneratedInputs(null);
+			props.handleSuccess(generatedRegistrationData);
 		} else {
 			handleVoluntaryInfoSubmit();
 		}
