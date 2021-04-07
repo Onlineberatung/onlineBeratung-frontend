@@ -4,14 +4,10 @@ import * as ReactDOM from 'react-dom';
 import { Stage } from '../stage/stage';
 import { useEffect, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { Button } from '../button/Button';
+import { Button, BUTTON_TYPES } from '../button/Button';
 import registrationResortsData from './registrationData';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
-import {
-	buttonItemSubmit,
-	overlayItemRegistrationSuccess,
-	ResortData
-} from './registrationHelpers';
+import { buttonItemSubmit, ResortData } from './registrationHelpers';
 import {
 	apiPostRegistration,
 	FETCH_ERRORS,
@@ -30,7 +26,12 @@ import {
 	getConsultingTypeFromRegistration,
 	isU25Registration
 } from '../../resources/scripts/helpers/resorts';
-import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import {
+	OverlayWrapper,
+	Overlay,
+	OVERLAY_FUNCTIONS,
+	OverlayItem
+} from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
 import { isNumber } from '../../resources/scripts/helpers/isNumber';
 import '../../resources/styles/styles';
@@ -43,6 +44,7 @@ import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import { AgencyDataInterface } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { WelcomeScreen } from './WelcomeScreen';
+import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -161,6 +163,19 @@ const Registration = () => {
 		labelId: 'dataProtectionLabel',
 		label: translate('registration.dataProtection.label'),
 		checked: isDataProtectionSelected
+	};
+
+	const overlayItemRegistrationSuccess: OverlayItem = {
+		svg: WelcomeIcon,
+		headline: translate('registration.overlay.success.headline'),
+		copy: translate('registration.overlay.success.copy'),
+		buttonSet: [
+			{
+				label: translate('registration.overlay.success.button'),
+				function: OVERLAY_FUNCTIONS.REDIRECT_WITH_BLUR,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		]
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
