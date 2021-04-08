@@ -7,17 +7,17 @@ const furtherSteps = {
 		'E-Mail-Benachrichtigung erhalten & Passwort zurücksetzen',
 	'emailNotification.infoText':
 		'Wenn Sie Ihre E-Mail-Adresse angeben (freiwillig)<br><ul><li>erhalten Sie eine E-Mail-Benachrichtigung, wenn Ihre Berater_in Ihnen geschrieben hat</li><li>können Sie Ihr Passwort zurücksetzen, falls Sie es vergessen haben.</li></ul>Ihre E-Mail-Adresse kann von den Berater_innen nicht eingesehen werden.',
-	'emailNotification.button': 'E-Mail Adresse angeben',
+	'emailNotification.button': 'E-Mail-Adresse angeben',
 	'email.overlay.headline': 'E-Mail-Adresse angeben',
 	'email.overlay.input.label': 'E-Mail',
 	'email.overlay.input.valid': 'Ihre E-Mail-Adresse ist gültig.',
 	'email.overlay.input.invalid': 'Ihre E-Mail-Adresse ist nicht gültig.',
 	'email.overlay.input.unavailable':
-		'Diese E-Mail Adresse ist bereits registriert.',
+		'Diese E-Mail-Adresse ist bereits registriert.',
 	'email.overlay.button1.label': 'Speichern',
 	'email.overlay.button2.label': 'Schließen',
 	'email.success.overlay.headline':
-		'Ihre E-Mail wurde erfolgreich gespeichert.',
+		'Ihre E-Mail-Adresse wurde erfolgreich gespeichert.',
 	'voluntaryInfo.headline': 'Wir wollen Sie bestmöglichst beraten',
 	'voluntaryInfo.infoText':
 		'Dabei hilft es uns, wenn Sie weitere freiwillige Angaben zu sich und Ihrem Anliegen machen.',
