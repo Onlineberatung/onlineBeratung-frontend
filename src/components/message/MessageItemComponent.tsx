@@ -92,7 +92,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const chatItem = getChatItemForSession(activeSession);
 
 	useEffect(() => {
-		if (hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)) {
+		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			const sessionData =
 				userData.consultingTypes[activeSession.session.consultingType]
 					?.sessionData;
