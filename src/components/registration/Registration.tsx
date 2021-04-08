@@ -47,6 +47,7 @@ import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import { AgencyDataInterface } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { WelcomeScreen } from './WelcomeScreen';
+import { LegalInformationLinks } from '../login/LegalInformationLinks';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -466,6 +467,9 @@ const Registration = () => {
 								</p>
 							</div>
 						</form>
+
+						{/* ----------------------------- LEGAL INFORMATION ---------------------------- */}
+						<LegalInformationLinks />
 
 						{/* ----------------------------- TO LOGIN BUTTON ---------------------------- */}
 						<div className="registration__toLogin">

@@ -109,7 +109,7 @@ export const SessionsList: React.FC = () => {
 			setActiveSessionGroupId(null);
 		}
 		if (
-			!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData)
 		) {
 			if (activeCreateChat) {
@@ -475,7 +475,7 @@ export const SessionsList: React.FC = () => {
 				ref={listRef}
 				onScroll={handleListScroll}
 			>
-				{hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
+				{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 					sessionsData &&
 					sessionsData.mySessions.length <=
 						MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION && (

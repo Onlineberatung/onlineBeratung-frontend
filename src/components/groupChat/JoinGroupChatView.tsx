@@ -77,7 +77,7 @@ export const JoinGroupChatView = () => {
 		) {
 			setButtonItem(startButtonItem);
 		} else if (
-			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) ||
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			!chatItem.subscribed
 		) {
 			setButtonItem(joinButtonItem);

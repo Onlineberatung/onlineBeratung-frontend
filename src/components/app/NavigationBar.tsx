@@ -130,7 +130,7 @@ export const NavigationBar = (props: NavigationBarProps) => {
 				<div
 					onClick={props.handleLogout}
 					className={
-						!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
+						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 							? 'navigation__item navigation__item__logout navigation__item__logout--consultant'
 							: 'navigation__item navigation__item__logout'
 					}
