@@ -25,9 +25,8 @@ import { VideoCallMessage } from './VideoCallMessage';
 import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import './message.styles';
-import { ResortData } from '../registration/registrationHelpers';
-import registrationResortsData from '../registration/registrationData';
 import { isVoluntaryInfoSet } from './messageHelpers';
+import { ResortData } from '../registration/registrationHelpers';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -75,6 +74,7 @@ interface MessageItemComponentProps extends MessageItem {
 	isMyMessage: boolean;
 	type: string;
 	clientName: string;
+	resortData: ResortData;
 }
 
 export const MessageItemComponent = (props: MessageItemComponentProps) => {
@@ -91,19 +91,15 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const hasRenderedMessage = renderedMessage && renderedMessage.length > 0;
 	const chatItem = getChatItemForSession(activeSession);
 
-	const resortData: ResortData = Object.entries(
-		registrationResortsData
-	).filter(
-		(resort) =>
-			resort[1].consultingType ===
-			activeSession.agency.consultingType?.toString()
-	)[0][1];
-
 	useEffect(() => {
-		const sessionData =
-			userData.consultingTypes[activeSession.agency.consultingType]
-				.sessionData;
-		setShowAddVoluntaryInfo(!isVoluntaryInfoSet(sessionData, resortData));
+		if (hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)) {
+			const sessionData =
+				userData.consultingTypes[activeSession.session.consultingType]
+					?.sessionData;
+			setShowAddVoluntaryInfo(
+				!isVoluntaryInfoSet(sessionData, props.resortData)
+			);
+		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const getMessageDate = () => {
@@ -159,7 +155,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 			return (
 				<FurtherSteps
 					consultingType={activeSession.agency.consultingType}
-					resortData={resortData}
+					resortData={props.resortData}
 				/>
 			);
 		} else if (isUpdateSessionDataMessage) {
@@ -170,7 +166,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 						setShowAddVoluntaryInfo(false)
 					}
 					consultingType={activeSession.agency.consultingType}
-					resortData={resortData}
+					resortData={props.resortData}
 				/>
 			);
 		} else if (
