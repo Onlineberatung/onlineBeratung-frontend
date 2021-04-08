@@ -215,13 +215,13 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				</span>
 				<div
 					className={
-						hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) ||
+						hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 						isGenericConsultingType(chatItem.consultingType)
 							? `sessionInfo__username sessionInfo__username--deactivate`
 							: `sessionInfo__username`
 					}
 				>
-					{hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) ? (
+					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
 						<h3>
 							{activeSession.teamSession
 								? translate('sessionList.teamsession')
@@ -289,7 +289,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 			) : null}
 
 			{activeSession.teamSession &&
-			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) ? (
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
 				<div className="sessionInfo__metaInfo">
 					<div className="sessionInfo__metaInfo__content">
 						{username}
@@ -315,7 +315,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 			) : null}
 
 			{!activeSession.teamSession &&
-			hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) ? (
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
 				<div className="sessionInfo__metaInfo">
 					<div
 						className={

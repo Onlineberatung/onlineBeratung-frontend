@@ -15,6 +15,6 @@ export const apiUpdatePassword = async (
 		url: url,
 		method: FETCH_METHODS.PUT,
 		bodyData: passwords,
-		responseHandling: [FETCH_ERRORS.PASSWORD]
+		responseHandling: [FETCH_ERRORS.BAD_REQUEST]
 	});
 };

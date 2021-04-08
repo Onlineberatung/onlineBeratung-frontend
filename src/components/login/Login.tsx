@@ -11,6 +11,8 @@ import { autoLogin } from '../registration/autoLogin';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
+import { Text } from '../text/Text';
+import { LegalInformationLinks } from './LegalInformationLinks';
 import './login.styles';
 import '../../resources/styles/styles';
 
@@ -77,7 +79,7 @@ const Login = () => {
 		if (!isRequestInProgress && username && password) {
 			setIsRequestInProgress(true);
 			autoLogin({
-				username: username,
+				username: username.trim(),
 				password: password,
 				redirect: true,
 				handleLoginError: handleLoginError
@@ -128,11 +130,14 @@ const Login = () => {
 					disabled={isButtonDisabled}
 				/>
 				<div className="loginForm__register">
-					<p className="loginForm__register__infoText">
-						{translate('login.register.infoText.title')}
-						<br />
-						{translate('login.register.infoText.copy')}
-					</p>
+					<Text
+						text={translate('login.register.infoText.title')}
+						type={'infoSmall'}
+					/>
+					<Text
+						text={translate('login.register.infoText.copy')}
+						type={'infoSmall'}
+					/>
 					<a
 						className="loginForm__register__link"
 						href={config.urls.loginRedirectToRegistrationOverview}
@@ -141,6 +146,7 @@ const Login = () => {
 						{translate('login.register.linkLabel')}
 					</a>
 				</div>
+				<LegalInformationLinks />
 			</div>
 		</div>
 	);

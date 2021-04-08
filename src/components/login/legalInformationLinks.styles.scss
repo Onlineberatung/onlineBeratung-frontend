@@ -1,0 +1,12 @@
+.legalInformationLinks {
+	display: flex;
+	position: absolute;
+	bottom: $grid-base-four;
+
+	.text:not(:first-of-type) {
+		&::before {
+			content: '|';
+			margin: 0 $grid-base;
+		}
+	}
+}

@@ -45,6 +45,7 @@ import { AgencyDataInterface } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { WelcomeScreen } from './WelcomeScreen';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
+import { LegalInformationLinks } from '../login/LegalInformationLinks';
 
 export const initRegistration = () => {
 	ReactDOM.render(
@@ -282,6 +283,9 @@ const Registration = () => {
 								disabled={isSubmitButtonDisabled}
 							/>
 						</form>
+
+						{/* ----------------------------- LEGAL INFORMATION ---------------------------- */}
+						<LegalInformationLinks />
 
 						{/* ----------------------------- TO LOGIN BUTTON ---------------------------- */}
 						<div className="registration__toLogin">

@@ -5,6 +5,8 @@ import attachments from './de/attachments';
 import attachmentsInformal from './de/attachmentsInformal';
 import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
+import deleteAccount from './de/deleteAccount';
+import deleteAccountInformal from './de/deleteAccountInformal';
 import enquiry from './de/enquiry';
 import enquiryInformal from './de/enquiryInformal';
 import furtherSteps from './de/furtherSteps';
@@ -40,6 +42,7 @@ const defaultLocale: any = {
 	attachments,
 	chatFlyout,
 	consultant,
+	deleteAccount,
 	enquiry,
 	furtherSteps,
 	groupChat,
@@ -63,6 +66,7 @@ const informalLocale: any = {
 	...defaultLocale,
 	absence: { ...absence, ...absenceInformal },
 	attachments: { ...attachments, ...attachmentsInformal },
+	deleteAccount: { ...deleteAccount, ...deleteAccountInformal },
 	groupChat: { ...groupChat, ...groupChatInformal },
 	enquiry: { ...enquiry, ...enquiryInformal },
 	furtherSteps: { ...furtherSteps, ...furtherStepsInformal },
