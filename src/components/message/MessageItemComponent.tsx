@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getPrettyDateFromMessageDate } from '../../resources/scripts/helpers/dateHelpers';
 import {
 	UserDataContext,
@@ -25,10 +25,13 @@ import { VideoCallMessage } from './VideoCallMessage';
 import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import './message.styles';
+import { isVoluntaryInfoSet } from './messageHelpers';
+import { ResortData } from '../registration/registrationHelpers';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
 	FORWARD = 'FORWARD',
+	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL'
 }
 
@@ -71,12 +74,14 @@ interface MessageItemComponentProps extends MessageItem {
 	isMyMessage: boolean;
 	type: string;
 	clientName: string;
+	resortData: ResortData;
 }
 
 export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const rawMessageObject = markdownToDraft(props.message);
 	const contentStateMessage: ContentState = convertFromRaw(rawMessageObject);
@@ -85,6 +90,17 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		: '';
 	const hasRenderedMessage = renderedMessage && renderedMessage.length > 0;
 	const chatItem = getChatItemForSession(activeSession);
+
+	useEffect(() => {
+		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+			const sessionData =
+				userData.consultingTypes[activeSession.session.consultingType]
+					?.sessionData;
+			setShowAddVoluntaryInfo(
+				!isVoluntaryInfoSet(sessionData, props.resortData)
+			);
+		}
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const getMessageDate = () => {
 		if (props.messageDate) {
@@ -129,12 +145,30 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		props.alias?.videoCallMessageDTO;
 	const isFurtherStepsMessage =
 		props.alias?.messageType === MessageType.FURTHER_STEPS;
+	const isUpdateSessionDataMessage =
+		props.alias?.messageType === MessageType.UPDATE_SESSION_DATA;
 	const isVideoCallMessage =
 		props.alias?.messageType === MessageType.VIDEOCALL;
 
 	const messageContent = (): JSX.Element => {
 		if (isFurtherStepsMessage) {
-			return <FurtherSteps />;
+			return (
+				<FurtherSteps
+					consultingType={activeSession.agency.consultingType}
+					resortData={props.resortData}
+				/>
+			);
+		} else if (isUpdateSessionDataMessage) {
+			return (
+				<FurtherSteps
+					onlyShowVoluntaryInfo={true}
+					handleVoluntaryInfoSet={() =>
+						setShowAddVoluntaryInfo(false)
+					}
+					consultingType={activeSession.agency.consultingType}
+					resortData={props.resortData}
+				/>
+			);
 		} else if (
 			isVideoCallMessage &&
 			videoCallMessage.eventType === 'IGNORED_CALL'
@@ -210,6 +244,8 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		isFurtherStepsMessage &&
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 	) {
+		return null;
+	} else if (isUpdateSessionDataMessage && !showAddVoluntaryInfo) {
 		return null;
 	}
 

@@ -1,4 +1,7 @@
-import { getTokenFromCookie } from '../../../components/sessionCookie/accessSessionCookie';
+import {
+	getTokenFromCookie,
+	setTokenInCookie
+} from '../../../components/sessionCookie/accessSessionCookie';
 
 export const generateCsrfToken = (refreshToken: boolean = false) => {
 	const currentToken = getTokenFromCookie('CSRF-TOKEN');
@@ -14,13 +17,9 @@ export const generateCsrfToken = (refreshToken: boolean = false) => {
 			);
 		}
 
-		setTokenToCookie(token);
+		setTokenInCookie('CSRF-TOKEN', token);
 		return token;
 	} else {
 		return currentToken;
 	}
-};
-
-const setTokenToCookie = (token: string) => {
-	document.cookie = 'CSRF-TOKEN=' + token + ';path=/';
 };

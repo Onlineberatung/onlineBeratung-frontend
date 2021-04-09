@@ -116,6 +116,11 @@ $inputSpacing: 32px;
 		align-items: center;
 		height: 100%;
 		margin-top: $grid-base-three;
+
+		.inputField {
+			width: 320px;
+			margin-bottom: $grid-base-four;
+		}
 	}
 
 	&__buttonsWrapper {

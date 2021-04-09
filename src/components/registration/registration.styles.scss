@@ -1,3 +1,5 @@
+$scrollbarWidth: 20px;
+
 .registration {
 	text-align: center;
 
@@ -17,13 +19,28 @@
 		}
 
 		@include breakpoint($fromLarge) {
-			width: 60vw;
-			left: 40vw;
+			width: calc(60vw - #{$scrollbarWidth} * 2);
+			left: calc(40vw + #{$scrollbarWidth});
 		}
 	}
 
+	&__dataProtection {
+		margin-top: $grid-base-eight;
+		margin-left: 4px;
+		text-align: left;
+
+		.checkbox__label {
+			line-height: $line-height-primary;
+		}
+	}
+
+	&__submit {
+		margin-top: $grid-base-four;
+	}
+
 	form {
-		margin: $grid-base-eleven 0;
+		margin: 120px 0;
+		max-width: 400px;
 		animation: fadeIn linear 0.5s;
 
 		@keyframes fadeIn {
@@ -39,7 +56,8 @@
 	&__overline {
 		color: $secondary;
 		text-align: center;
-		font-weight: normal;
+		font-family: $font-family-regular;
+		font-weight: $font-weight-regular;
 		margin: 0;
 		font-size: $font-size-primary;
 	}
@@ -47,43 +65,12 @@
 	&__generalInformation {
 		margin: 0 auto $grid-base-four;
 		max-width: 320px;
-
-		& > .selectedAgencyInfo {
-			margin: -$grid-base-two 20px $grid-base-five 52px;
-		}
-
-		& > .askerRegistration__postcode {
-			.selectedAgencyInfo,
-			.askerRegistration__selectAgencyInfo {
-				margin: -28px 20px $grid-base-five 52px;
-			}
-		}
+		//TODO: remove margin-top; after removal of deprecated components
+		margin-top: 500px;
 	}
 
 	&__passwordNote {
 		margin: -20px $grid-base-five $grid-base-five 52px;
-	}
-
-	&__footer {
-		.button__wrapper,
-		.checkbox__wrapper {
-			margin: $grid-base-five 0;
-		}
-
-		.checkbox__wrapper {
-			text-align: left;
-			justify-content: left;
-
-			.checkbox__label {
-				max-width: unset;
-			}
-		}
-	}
-
-	&__requiredInfoText {
-		margin: 0;
-		max-width: none;
-		text-align: unset;
 	}
 
 	&__toLogin {
@@ -120,30 +107,15 @@
 		max-width: 690px;
 	}
 
-	h3 {
-		color: $secondary;
-		text-align: center;
-		font-size: $font-size-primary;
-		font-weight: $font-weight-regular;
-		margin: 0 0 $grid-base 0;
-	}
-
 	.select__wrapper {
-		padding: 0 0 0 $grid-base-four;
+		padding: 0;
+		margin: 0 auto;
 	}
 
 	.formWrapper__infoText {
 		&__text {
 			&--tertiary {
 				color: $tertiary;
-
-				.suggestionWrapper__item__content__teamAgency__icon svg {
-					margin-top: 0 !important;
-
-					&* {
-						fill: $tertiary;
-					}
-				}
 			}
 		}
 	}

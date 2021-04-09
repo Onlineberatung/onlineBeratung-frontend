@@ -68,6 +68,7 @@
 		"react-app-polyfill": "^2.0.0",
 		"react-datepicker": "3.3.0",
 		"react-dev-utils": "^11.0.0",
+		"react-device-detect": "^1.15.0",
 		"react-dom": "^17.0.1",
 		"react-refresh": "^0.8.3",
 		"react-router-dom": "5.2.0",

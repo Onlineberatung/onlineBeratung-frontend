@@ -264,8 +264,6 @@ export const CreateGroupChatView = (props) => {
 		setIsRequestInProgress(true);
 		apiCreateGroupChat(createChatDataItem)
 			.then((response: chatLinkData) => {
-				//TODO: reimplement on registration logic with link
-				//createChatSuccessOverlayItem.copyTwo = response.chatLink;
 				setGroupIdToRedirect(response.groupId);
 				setOverlayItem(createChatSuccessOverlayItem);
 				setOverlayActive(true);

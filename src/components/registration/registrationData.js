@@ -5,7 +5,7 @@ const registrationData = {
 		consultingType: '0',
 		useInformal: false,
 		overline: translate('registration.overline.addiction'),
-		showEmail: true,
+		welcomeTitle: translate('registration.welcomeScreen.title.addiction'),
 		voluntaryComponents: [
 			{
 				componentType: 'RadioButton',
@@ -142,171 +142,81 @@ const registrationData = {
 		consultingType: '1',
 		useInformal: true,
 		overline: translate('registration.overline.u25'),
-		showEmail: false,
-		requiredComponents: [
-			{
-				componentType: 'SelectDropdown',
-				headline: '',
-				name: 'age',
-				item: {
-					id: 'ageSelect',
-					selectedOptions: [
-						{
-							value: '0',
-							label: translate('user.userU25.age.0')
-						},
-						{
-							value: '1',
-							label: translate('user.userU25.age.1')
-						},
-						{
-							value: '2',
-							label: translate('user.userU25.age.2')
-						},
-						{
-							value: '3',
-							label: translate('user.userU25.age.3')
-						},
-						{
-							value: '4',
-							label: translate('user.userU25.age.4')
-						},
-						{
-							value: '5',
-							label: translate('user.userU25.age.5')
-						},
-						{
-							value: '6',
-							label: translate('user.userU25.age.6')
-						},
-						{
-							value: '7',
-							label: translate('user.userU25.age.7')
-						},
-						{
-							value: '8',
-							label: translate('user.userU25.age.8')
-						},
-						{
-							value: '9',
-							label: translate('user.userU25.age.9')
-						},
-						{
-							value: '10',
-							label: translate('user.userU25.age.10')
-						},
-						{
-							value: '11',
-							label: translate('user.userU25.age.11')
-						},
-						{
-							value: '12',
-							label: translate('user.userU25.age.12')
-						},
-						{
-							value: '13',
-							label: translate('user.userU25.age.13')
-						},
-						{
-							value: '14',
-							label: translate('user.userU25.age.14')
-						},
-						{
-							value: '15',
-							label: translate('user.userU25.age.15')
-						}
-					],
-					selectInputLabel: translate('user.userU25.age.selectLabel'),
-					useIconOption: false,
-					isSearchable: false,
-					menuPlacement: 'bottom'
-				}
+		welcomeTitle: translate('registration.welcomeScreen.title.u25'),
+		requiredComponents: {
+			age: {
+				label: translate('user.userU25.age.selectLabel'),
+				options: [
+					{
+						value: '0',
+						label: translate('user.userU25.age.0')
+					},
+					{
+						value: '1',
+						label: translate('user.userU25.age.1')
+					},
+					{
+						value: '2',
+						label: translate('user.userU25.age.2')
+					},
+					{
+						value: '3',
+						label: translate('user.userU25.age.3')
+					},
+					{
+						value: '4',
+						label: translate('user.userU25.age.4')
+					},
+					{
+						value: '5',
+						label: translate('user.userU25.age.5')
+					},
+					{
+						value: '6',
+						label: translate('user.userU25.age.6')
+					},
+					{
+						value: '7',
+						label: translate('user.userU25.age.7')
+					},
+					{
+						value: '8',
+						label: translate('user.userU25.age.8')
+					},
+					{
+						value: '9',
+						label: translate('user.userU25.age.9')
+					},
+					{
+						value: '10',
+						label: translate('user.userU25.age.10')
+					},
+					{
+						value: '11',
+						label: translate('user.userU25.age.11')
+					},
+					{
+						value: '12',
+						label: translate('user.userU25.age.12')
+					},
+					{
+						value: '13',
+						label: translate('user.userU25.age.13')
+					},
+					{
+						value: '14',
+						label: translate('user.userU25.age.14')
+					},
+					{
+						value: '15',
+						label: translate('user.userU25.age.15')
+					}
+				]
 			},
-			{
-				componentType: 'SelectDropdown',
-				headline: '',
-				name: 'state',
-				item: {
-					id: 'stateSelect',
-					selectedOptions: [
-						{
-							value: '1',
-							label: translate('user.userU25.state.1')
-						},
-						{
-							value: '2',
-							label: translate('user.userU25.state.2')
-						},
-						{
-							value: '3',
-							label: translate('user.userU25.state.3')
-						},
-						{
-							value: '4',
-							label: translate('user.userU25.state.4')
-						},
-						{
-							value: '5',
-							label: translate('user.userU25.state.5')
-						},
-						{
-							value: '6',
-							label: translate('user.userU25.state.6')
-						},
-						{
-							value: '7',
-							label: translate('user.userU25.state.7')
-						},
-						{
-							value: '8',
-							label: translate('user.userU25.state.8')
-						},
-						{
-							value: '9',
-							label: translate('user.userU25.state.9')
-						},
-						{
-							value: '10',
-							label: translate('user.userU25.state.10')
-						},
-						{
-							value: '11',
-							label: translate('user.userU25.state.11')
-						},
-						{
-							value: '12',
-							label: translate('user.userU25.state.12')
-						},
-						{
-							value: '13',
-							label: translate('user.userU25.state.13')
-						},
-						{
-							value: '14',
-							label: translate('user.userU25.state.14')
-						},
-						{
-							value: '15',
-							label: translate('user.userU25.state.15')
-						},
-						{
-							value: '16',
-							label: translate('user.userU25.state.16')
-						},
-						{
-							value: '0',
-							label: translate('user.userU25.state.0')
-						}
-					],
-					selectInputLabel: translate(
-						'user.userU25.state.selectLabel'
-					),
-					useIconOption: false,
-					isSearchable: false,
-					menuPlacement: 'bottom'
-				}
+			state: {
+				label: translate('user.userU25.state.selectLabel')
 			}
-		],
+		},
 		voluntaryComponents: [
 			{
 				componentType: 'RadioButton',
@@ -336,135 +246,47 @@ const registrationData = {
 		consultingType: '1',
 		useInformal: true,
 		overline: translate('registration.overline.gemeinsamstatteinsam'),
-		showEmail: false,
-		requiredComponents: [
-			{
-				componentType: 'SelectDropdown',
-				headline: '',
-				name: 'age',
-				item: {
-					id: 'ageSelect',
-					selectedOptions: [
-						{
-							value: '50',
-							label: translate('user.userU25.age.50')
-						},
-						{
-							value: '51',
-							label: translate('user.userU25.age.51')
-						},
-						{
-							value: '52',
-							label: translate('user.userU25.age.52')
-						},
-						{
-							value: '53',
-							label: translate('user.userU25.age.53')
-						},
-						{
-							value: '54',
-							label: translate('user.userU25.age.54')
-						},
-						{
-							value: '55',
-							label: translate('user.userU25.age.55')
-						},
-						{
-							value: '56',
-							label: translate('user.userU25.age.56')
-						}
-					],
-					selectInputLabel: translate('user.userU25.age.selectLabel'),
-					useIconOption: false,
-					isSearchable: false,
-					menuPlacement: 'bottom'
-				}
+		welcomeTitle: translate(
+			'registration.welcomeScreen.title.gemeinsamstatteinsam'
+		),
+		requiredComponents: {
+			age: {
+				label: translate('user.userU25.age.selectLabel'),
+				options: [
+					{
+						value: '50',
+						label: translate('user.userU25.age.50')
+					},
+					{
+						value: '51',
+						label: translate('user.userU25.age.51')
+					},
+					{
+						value: '52',
+						label: translate('user.userU25.age.52')
+					},
+					{
+						value: '53',
+						label: translate('user.userU25.age.53')
+					},
+					{
+						value: '54',
+						label: translate('user.userU25.age.54')
+					},
+					{
+						value: '55',
+						label: translate('user.userU25.age.55')
+					},
+					{
+						value: '56',
+						label: translate('user.userU25.age.56')
+					}
+				]
 			},
-			{
-				componentType: 'SelectDropdown',
-				headline: '',
-				name: 'state',
-				item: {
-					id: 'stateSelect',
-					selectedOptions: [
-						{
-							value: '1',
-							label: translate('user.userU25.state.1')
-						},
-						{
-							value: '2',
-							label: translate('user.userU25.state.2')
-						},
-						{
-							value: '3',
-							label: translate('user.userU25.state.3')
-						},
-						{
-							value: '4',
-							label: translate('user.userU25.state.4')
-						},
-						{
-							value: '5',
-							label: translate('user.userU25.state.5')
-						},
-						{
-							value: '6',
-							label: translate('user.userU25.state.6')
-						},
-						{
-							value: '7',
-							label: translate('user.userU25.state.7')
-						},
-						{
-							value: '8',
-							label: translate('user.userU25.state.8')
-						},
-						{
-							value: '9',
-							label: translate('user.userU25.state.9')
-						},
-						{
-							value: '10',
-							label: translate('user.userU25.state.10')
-						},
-						{
-							value: '11',
-							label: translate('user.userU25.state.11')
-						},
-						{
-							value: '12',
-							label: translate('user.userU25.state.12')
-						},
-						{
-							value: '13',
-							label: translate('user.userU25.state.13')
-						},
-						{
-							value: '14',
-							label: translate('user.userU25.state.14')
-						},
-						{
-							value: '15',
-							label: translate('user.userU25.state.15')
-						},
-						{
-							value: '16',
-							label: translate('user.userU25.state.16')
-						},
-						{
-							value: '0',
-							label: translate('user.userU25.state.0')
-						}
-					],
-					selectInputLabel: translate(
-						'user.userU25.state.selectLabel'
-					),
-					useIconOption: false,
-					isSearchable: false,
-					menuPlacement: 'bottom'
-				}
+			state: {
+				label: translate('user.userU25.state.selectLabel')
 			}
-		],
+		},
 		voluntaryComponents: [
 			{
 				componentType: 'RadioButton',
@@ -494,115 +316,117 @@ const registrationData = {
 		consultingType: '2',
 		useInformal: true,
 		overline: translate('registration.overline.pregnancy'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.pregnancy')
 	},
 	parenting: {
 		consultingType: '3',
 		useInformal: false,
 		overline: translate('registration.overline.parenting'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.parenting')
 	},
 	cure: {
 		consultingType: '4',
 		useInformal: false,
 		overline: translate('registration.overline.cure'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.cure')
 	},
 	debt: {
 		consultingType: '5',
 		useInformal: false,
 		overline: translate('registration.overline.debt'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.debt')
 	},
 	social: {
 		consultingType: '6',
 		useInformal: false,
 		overline: translate('registration.overline.social'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.social')
 	},
 	seniority: {
 		consultingType: '7',
 		useInformal: false,
 		overline: translate('registration.overline.seniority'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.seniority')
 	},
 	disability: {
 		consultingType: '8',
 		useInformal: false,
 		overline: translate('registration.overline.disability'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.disability')
 	},
 	planB: {
 		consultingType: '9',
 		useInformal: true,
 		overline: translate('registration.overline.planB'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.planB')
 	},
 	law: {
 		consultingType: '10',
 		useInformal: false,
 		overline: translate('registration.overline.law'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.law')
 	},
 	offender: {
 		consultingType: '11',
 		useInformal: false,
 		overline: translate('registration.overline.offender'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.offender')
 	},
 	aids: {
 		consultingType: '12',
 		useInformal: false,
 		overline: translate('registration.overline.aids'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.aids')
 	},
 	rehabilitation: {
 		consultingType: '13',
 		useInformal: false,
 		overline: translate('registration.overline.rehabilitation'),
-		showEmail: true
+		welcomeTitle: translate(
+			'registration.welcomeScreen.title.rehabilitation'
+		)
 	},
 	children: {
 		consultingType: '14',
 		useInformal: true,
 		overline: translate('registration.overline.children'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.children')
 	},
 	kreuzbund: {
 		consultingType: '15',
 		useInformal: false,
 		overline: translate('registration.overline.kreuzbund'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.kreuzbund')
 	},
 	migration: {
 		consultingType: '16',
 		useInformal: false,
 		overline: translate('registration.overline.migration'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.migration')
 	},
 	emigration: {
 		consultingType: '17',
 		useInformal: false,
 		overline: translate('registration.overline.emigration'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.emigration')
 	},
 	hospice: {
 		consultingType: '18',
 		useInformal: false,
 		overline: translate('registration.overline.hospice'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.hospice')
 	},
 	regional: {
 		consultingType: '19',
 		useInformal: false,
 		overline: translate('registration.overline.regional'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.regional')
 	},
 	men: {
 		consultingType: '20',
 		useInformal: false,
 		overline: translate('registration.overline.men'),
-		showEmail: true
+		welcomeTitle: translate('registration.welcomeScreen.title.men')
 	}
 };
 

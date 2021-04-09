@@ -172,24 +172,27 @@ export const AskerNewRegistration = () => {
 			) : (
 				<SelectDropdown {...consultingTypesDropdown} />
 			)}
-			<AgencySelection
-				selectedConsultingType={selectedConsultingType}
-				setAgency={(agency) => setSelectedAgency(agency)}
-				userData={userData}
-			/>
+			{selectedConsultingType && (
+				<AgencySelection
+					selectedConsultingType={selectedConsultingType}
+					onAgencyChange={(agency) => setSelectedAgency(agency)}
+					userData={userData}
+					isProfileView={true}
+				/>
+			)}
 			<Button
 				item={buttonSetRegistration}
 				buttonHandle={handleRegistration}
 				disabled={isButtonDisabled}
 			/>
-			{overlayActive ? (
+			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>
-			) : null}
+			)}
 		</div>
 	);
 };

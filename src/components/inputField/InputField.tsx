@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { translate } from '../../resources/scripts/i18n/translate';
 import { Text } from '../text/Text';
 import { ReactComponent as ShowPasswordIcon } from '../../resources/img/icons/eye.svg';
 import { ReactComponent as HidePasswordIcon } from '../../resources/img/icons/eye-closed.svg';
 import './inputField.styles';
-import './passwordFields.styles';
 
+export type InputFieldLabelState = 'valid' | 'invalid';
+
+// TODO: clean up interface
 export interface InputFieldItem {
 	id: string;
 	type: string;
@@ -22,6 +23,7 @@ export interface InputFieldItem {
 	postcodeFallbackLink?: string;
 	warningLabel?: string;
 	warningActive?: boolean;
+	labelState?: InputFieldLabelState;
 }
 
 export interface InputFieldProps {
@@ -63,89 +65,48 @@ export const InputField = (props: InputFieldProps) => {
 	};
 
 	return (
-		<div className="inputField__wrapper formWrapper">
-			<div className="formWrapper__inputRow">
-				<div
-					className={`formWrapper__inputWrapper ${
-						inputItem.icon
-							? `formWrapper__inputWrapper--withIcon`
-							: ``
-					} ${
-						inputItem.warningActive
-							? `formWrapper__inputWrapper--error`
-							: ''
-					}
-						`}
+		<div
+			className={`inputField ${
+				inputItem.icon ? `inputField--withIcon` : ``
+			}`}
+		>
+			{inputItem.icon && (
+				<span className="inputField__icon">{inputItem.icon}</span>
+			)}
+			<input
+				onChange={handleInputValidation}
+				id={inputItem.id}
+				type={showPassword ? 'text' : inputItem.type}
+				className={`inputField__input
+					${inputItem.class ? ' ' + inputItem.class : ''}
+					${inputItem.labelState === 'valid' ? ' inputField__input--valid' : ''}
+					${inputItem.labelState === 'invalid' ? ' inputField__input--invalid' : ''}
+				`}
+				value={inputItem.content ? inputItem.content : ``}
+				name={inputItem.name}
+				placeholder={inputItem.label}
+				disabled={inputItem.disabled}
+				autoComplete="off"
+				onKeyUp={handleKeyUp}
+			/>
+			<label className="inputField__label" htmlFor={inputItem.id}>
+				{inputItem.label}
+			</label>
+			{inputItem.type === 'password' && (
+				<span
+					onClick={() => setShowPassword(!showPassword)}
+					className="inputField__passwordToggle"
 				>
-					{inputItem.icon ? (
-						<span className="inputField__icon">
-							{inputItem.icon}
-						</span>
-					) : null}
-					<input
-						onChange={handleInputValidation}
-						id={inputItem.id}
-						type={showPassword ? 'text' : inputItem.type}
-						className={`inputField__input${
-							inputItem.class ? ' ' + inputItem.class : ''
-						}`}
-						value={inputItem.content ? inputItem.content : ``}
-						name={inputItem.name}
-						placeholder={inputItem.label}
-						disabled={inputItem.disabled}
-						autoComplete="off"
-						onKeyUp={handleKeyUp}
-					/>
-					<label
-						className="formWrapper__inputWrapper__label"
-						htmlFor={inputItem.id}
-					>
-						{inputItem.label}
-					</label>
-					{inputItem.type === 'password' ? (
-						<span
-							onClick={() => setShowPassword(!showPassword)}
-							className="passwordFields__fieldGroup__passVisibility"
-						>
-							<span className="passwordFields__fieldGroup__togglePass">
-								{showPassword ? (
-									<HidePasswordIcon />
-								) : (
-									<ShowPasswordIcon />
-								)}
-							</span>
-						</span>
-					) : null}
-					{inputItem.postcodeFallbackLink ? (
-						<p className="formWrapper__infoText warning">
-							{translate('warningLabels.postcode.unavailable')}{' '}
-							<a
-								className="warning__link"
-								href={inputItem.postcodeFallbackLink}
-								target="_blank"
-								rel="noreferrer"
-							>
-								{translate('warningLabels.postcode.search')}
-							</a>
-						</p>
-					) : null}
-					{inputItem.warningActive && inputItem.warningLabel ? (
-						<p
-							className="formWrapper__infoText warning"
-							dangerouslySetInnerHTML={{
-								__html: inputItem.warningLabel
-							}}
-						></p>
-					) : null}
-					{inputItem.infoText && (
-						<Text
-							className="formWrapper__infoText"
-							text={inputItem.infoText}
-							type="infoSmall"
-						/>
-					)}
-				</div>
-			</div>
+					{showPassword ? <HidePasswordIcon /> : <ShowPasswordIcon />}
+				</span>
+			)}
+			{inputItem.infoText && (
+				<Text
+					className="inputField__infoText"
+					text={inputItem.infoText}
+					type="infoSmall"
+				/>
+			)}
 		</div>
 	);
 };

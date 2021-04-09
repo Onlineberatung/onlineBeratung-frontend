@@ -30,6 +30,7 @@ export interface ButtonProps {
 	isLink?: boolean;
 	item: ButtonItem;
 	testingAttribute?: string;
+	className?: string;
 }
 
 export const Button = (props: ButtonProps) => {
@@ -87,7 +88,11 @@ export const Button = (props: ButtonProps) => {
 	};
 
 	return (
-		<div className="button__wrapper">
+		<div
+			className={`button__wrapper ${
+				props.className ? props.className : ''
+			}`}
+		>
 			<button
 				onClick={(event) => handleButtonClick(event)}
 				id={item.id}

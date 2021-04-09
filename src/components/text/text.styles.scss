@@ -19,12 +19,23 @@
 		font-size: $font-size-tertiary;
 		line-height: 19px;
 		color: $tertiary;
+
+		.text__label {
+			text-transform: none;
+		}
 	}
 
 	&__infoSmall {
 		font-size: $font-size-secondary;
 		line-height: $line-height-secondary;
 		color: $tertiary;
+	}
+
+	&__divider {
+		font-family: $font-family-slab-regular;
+		font-size: $font-size-secondary;
+		line-height: $line-height-secondary;
+		color: $light-grey;
 	}
 
 	&__label {
@@ -40,6 +51,15 @@
 
 		&--notice {
 			color: $primary;
+		}
+	}
+
+	ul {
+		margin: $grid-base 0 12px 0;
+		padding-left: 20px;
+
+		li:not(:first-of-type) {
+			margin-top: $grid-base;
 		}
 	}
 }

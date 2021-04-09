@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
-import { SessionListEmptyState } from './SessionsListEmptyState';
 import {
 	typeIsUser,
 	typeIsTeamSession,
@@ -51,6 +50,7 @@ import {
 	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
 	SCROLL_PAGINATE_THRESHOLD
 } from './sessionsListConfig';
+import { Text } from '../text/Text';
 
 export const SessionsList: React.FC = () => {
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -463,11 +463,11 @@ export const SessionsList: React.FC = () => {
 
 	return (
 		<div className="sessionsList__innerWrapper">
-			{showFilter ? (
+			{showFilter && (
 				<div className="sessionsList__selectWrapper">
 					<SelectDropdown {...selectDropdown} />
 				</div>
-			) : null}
+			)}
 			<div
 				className={`sessionsList__scrollContainer ${
 					showFilter ? 'sessionsList__scrollContainer--hasFilter' : ''
@@ -495,27 +495,32 @@ export const SessionsList: React.FC = () => {
 					data-cy="sessions-list-items-wrapper"
 				>
 					{activeCreateChat &&
-					typeIsSession(type) &&
-					hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData) ? (
-						<SessionListCreateChat />
-					) : null}
+						typeIsSession(type) &&
+						hasUserAuthority(
+							AUTHORITIES.CREATE_NEW_CHAT,
+							userData
+						) && <SessionListCreateChat />}
 					{sessionsData &&
 					sessionsData[getSessionsDataKeyForSessionType(type)] &&
-					!hasNoSessions ? (
-						sessionsData[
-							getSessionsDataKeyForSessionType(type)
-						].map((item: ListItemInterface, index) => (
-							<SessionListItemComponent
-								key={index}
-								type={type}
-								id={getChatItemForSession(item).id}
-							/>
-						))
-					) : !activeCreateChat ? (
-						<SessionListEmptyState />
-					) : null}
-					{loadingWithOffset ? <SessionsListSkeleton /> : null}
-					{isReloadButtonVisible ? (
+					!hasNoSessions
+						? sessionsData[
+								getSessionsDataKeyForSessionType(type)
+						  ].map((item: ListItemInterface, index) => (
+								<SessionListItemComponent
+									key={index}
+									type={type}
+									id={getChatItemForSession(item).id}
+								/>
+						  ))
+						: !activeCreateChat && (
+								<Text
+									className="sessionsList--empty"
+									text={translate('sessionList.empty')}
+									type="divider"
+								/>
+						  )}
+					{loadingWithOffset && <SessionsListSkeleton />}
+					{isReloadButtonVisible && (
 						<div className="sessionsList__reloadWrapper">
 							<Button
 								item={{
@@ -529,7 +534,7 @@ export const SessionsList: React.FC = () => {
 								buttonHandle={handleReloadButton}
 							/>
 						</div>
-					) : null}
+					)}
 				</div>
 			</div>
 		</div>
