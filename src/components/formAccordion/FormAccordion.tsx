@@ -7,37 +7,51 @@ import { autoselectPostcodeForConsultingType } from '../agencySelection/agencySe
 import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
+import { RegistrationAge } from '../registration/RegistrationAge';
+import { RegistrationState } from '../registration/RegistrationState';
 import { RegistrationPassword } from '../registration/RegistrationPassword';
-import { AccordionItemValidity } from '../registration/registrationHelpers';
+import {
+	AccordionItemValidity,
+	RequiredComponents
+} from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
 	consultingType: number;
 	isUsernameAlreadyInUse: boolean;
 	preselectedAgencyData: any;
 	handleFormAccordionData: Function;
+	additionalStepsData?: RequiredComponents;
 }
 
 export const FormAccordion = (props: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
-	const [isUsernameValid, setIsUsernameValid] = useState<
+	const [usernameValidity, setUsernameValidity] = useState<
 		AccordionItemValidity
 	>('initial');
 	const [username, setUsername] = useState<string>();
-	const [isPasswordValid, setIsPasswordValid] = useState<
+	const [passwordValidity, setPasswordValidity] = useState<
 		AccordionItemValidity
 	>('initial');
 	const [password, setPassword] = useState<string>();
-	const [isSelectedAgencyValid, setIsSelectedAgencyValid] = useState<
+	const [selectedAgencyValidity, setSelectedAgencyValidity] = useState<
 		AccordionItemValidity
 	>('initial');
 	const [agency, setAgency] = useState<{ id; postcode }>();
+	const [stateValidity, setStateValidity] = useState<AccordionItemValidity>(
+		'initial'
+	);
+	const [state, setState] = useState<string>();
+	const [ageValidity, setAgeValidity] = useState<AccordionItemValidity>(
+		'initial'
+	);
+	const [age, setAge] = useState<string>();
 
 	useEffect(() => {
 		if (
 			autoselectPostcodeForConsultingType(props.consultingType) &&
 			props.preselectedAgencyData
 		) {
-			setIsSelectedAgencyValid('valid');
+			setSelectedAgencyValidity('valid');
 			setAgency({
 				id: props.preselectedAgencyData.id,
 				postcode: props.preselectedAgencyData.postcode
@@ -48,15 +62,20 @@ export const FormAccordion = (props: FormAccordionProps) => {
 	useEffect(
 		() => {
 			if (
-				isUsernameValid === 'valid' &&
-				isPasswordValid === 'valid' &&
-				isSelectedAgencyValid === 'valid'
+				usernameValidity === 'valid' &&
+				passwordValidity === 'valid' &&
+				selectedAgencyValidity === 'valid' &&
+				(stateValidity === 'valid' ||
+					!props.additionalStepsData?.state) &&
+				(ageValidity === 'valid' || !props.additionalStepsData?.age)
 			) {
 				props.handleFormAccordionData({
 					username: username,
 					password: password,
 					agencyId: agency?.id.toString(),
-					postcode: agency?.postcode
+					postcode: agency?.postcode,
+					...(state && { state: state }),
+					...(age && { age: age })
 				});
 			} else {
 				props.handleFormAccordionData(null);
@@ -64,12 +83,16 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		},
 		/* eslint-disable */
 		[
-			isUsernameValid,
-			isSelectedAgencyValid,
-			isPasswordValid,
+			usernameValidity,
+			selectedAgencyValidity,
+			passwordValidity,
+			stateValidity,
+			ageValidity,
 			username,
 			agency,
-			password
+			password,
+			state,
+			age
 		]
 	);
 	/* eslint-enable */
@@ -88,11 +111,11 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					isUsernameAlreadyInUse={props.isUsernameAlreadyInUse}
 					onUsernameChange={(username) => setUsername(username)}
 					onValidityChange={(validity) =>
-						setIsUsernameValid(validity)
+						setUsernameValidity(validity)
 					}
 				/>
 			),
-			isValid: isUsernameValid
+			isValid: usernameValidity
 		},
 		{
 			title: translate('registration.password.headline'),
@@ -100,12 +123,12 @@ export const FormAccordion = (props: FormAccordionProps) => {
 				<RegistrationPassword
 					onPasswordChange={(password) => setPassword(password)}
 					onValidityChange={(validity) =>
-						setIsPasswordValid(validity)
+						setPasswordValidity(validity)
 					}
 					hasNoResetNote={props.consultingType === 1}
 				/>
 			),
-			isValid: isPasswordValid
+			isValid: passwordValidity
 		}
 	];
 
@@ -121,11 +144,39 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					preselectedAgency={props.preselectedAgencyData}
 					onAgencyChange={(agency) => setAgency(agency)}
 					onValidityChange={(validity) =>
-						setIsSelectedAgencyValid(validity)
+						setSelectedAgencyValidity(validity)
 					}
 				/>
 			),
-			isValid: isSelectedAgencyValid
+			isValid: selectedAgencyValidity
+		});
+	}
+
+	if (props.additionalStepsData?.age) {
+		accordionItemData.push({
+			title: translate('registration.age.headline'),
+			nestedComponent: (
+				<RegistrationAge
+					dropdownSelectData={props.additionalStepsData.age}
+					onAgeChange={(age) => setAge(age)}
+					onValidityChange={(validity) => setAgeValidity(validity)}
+				/>
+			),
+			isValid: ageValidity
+		});
+	}
+
+	if (props.additionalStepsData?.state) {
+		accordionItemData.push({
+			title: translate('registration.state.headline'),
+			nestedComponent: (
+				<RegistrationState
+					dropdownSelectData={props.additionalStepsData.state}
+					onStateChange={(state) => setState(state)}
+					onValidityChange={(validity) => setStateValidity(validity)}
+				/>
+			),
+			isValid: stateValidity
 		});
 	}
 

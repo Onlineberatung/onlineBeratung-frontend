@@ -11,7 +11,6 @@ import { autoLogin } from '../registration/autoLogin';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
-import { Text } from '../text/Text';
 import { LegalInformationLinks } from './LegalInformationLinks';
 import './login.styles';
 import '../../resources/styles/styles';
@@ -96,7 +95,7 @@ const Login = () => {
 	return (
 		<div className="loginWrapper">
 			<Stage hasAnimation={true}></Stage>
-			<div className="loginForm loginForm">
+			<div className="loginForm">
 				<div className="loginForm__headline">
 					<h1>{translate('login.headline')}</h1>
 				</div>
@@ -114,6 +113,7 @@ const Login = () => {
 					<Text
 						text={translate('login.warning.failed')}
 						type="infoSmall"
+						className="loginForm__error"
 					/>
 				) : null}
 				<a

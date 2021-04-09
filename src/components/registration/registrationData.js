@@ -143,170 +143,80 @@ const registrationData = {
 		useInformal: true,
 		overline: translate('registration.overline.u25'),
 		welcomeTitle: translate('registration.welcomeScreen.title.u25'),
-		requiredComponents: [
-			{
-				componentType: 'SelectDropdown',
-				headline: '',
-				name: 'age',
-				item: {
-					id: 'ageSelect',
-					selectedOptions: [
-						{
-							value: '0',
-							label: translate('user.userU25.age.0')
-						},
-						{
-							value: '1',
-							label: translate('user.userU25.age.1')
-						},
-						{
-							value: '2',
-							label: translate('user.userU25.age.2')
-						},
-						{
-							value: '3',
-							label: translate('user.userU25.age.3')
-						},
-						{
-							value: '4',
-							label: translate('user.userU25.age.4')
-						},
-						{
-							value: '5',
-							label: translate('user.userU25.age.5')
-						},
-						{
-							value: '6',
-							label: translate('user.userU25.age.6')
-						},
-						{
-							value: '7',
-							label: translate('user.userU25.age.7')
-						},
-						{
-							value: '8',
-							label: translate('user.userU25.age.8')
-						},
-						{
-							value: '9',
-							label: translate('user.userU25.age.9')
-						},
-						{
-							value: '10',
-							label: translate('user.userU25.age.10')
-						},
-						{
-							value: '11',
-							label: translate('user.userU25.age.11')
-						},
-						{
-							value: '12',
-							label: translate('user.userU25.age.12')
-						},
-						{
-							value: '13',
-							label: translate('user.userU25.age.13')
-						},
-						{
-							value: '14',
-							label: translate('user.userU25.age.14')
-						},
-						{
-							value: '15',
-							label: translate('user.userU25.age.15')
-						}
-					],
-					selectInputLabel: translate('user.userU25.age.selectLabel'),
-					useIconOption: false,
-					isSearchable: false,
-					menuPlacement: 'bottom'
-				}
+		requiredComponents: {
+			age: {
+				label: translate('user.userU25.age.selectLabel'),
+				options: [
+					{
+						value: '0',
+						label: translate('user.userU25.age.0')
+					},
+					{
+						value: '1',
+						label: translate('user.userU25.age.1')
+					},
+					{
+						value: '2',
+						label: translate('user.userU25.age.2')
+					},
+					{
+						value: '3',
+						label: translate('user.userU25.age.3')
+					},
+					{
+						value: '4',
+						label: translate('user.userU25.age.4')
+					},
+					{
+						value: '5',
+						label: translate('user.userU25.age.5')
+					},
+					{
+						value: '6',
+						label: translate('user.userU25.age.6')
+					},
+					{
+						value: '7',
+						label: translate('user.userU25.age.7')
+					},
+					{
+						value: '8',
+						label: translate('user.userU25.age.8')
+					},
+					{
+						value: '9',
+						label: translate('user.userU25.age.9')
+					},
+					{
+						value: '10',
+						label: translate('user.userU25.age.10')
+					},
+					{
+						value: '11',
+						label: translate('user.userU25.age.11')
+					},
+					{
+						value: '12',
+						label: translate('user.userU25.age.12')
+					},
+					{
+						value: '13',
+						label: translate('user.userU25.age.13')
+					},
+					{
+						value: '14',
+						label: translate('user.userU25.age.14')
+					},
+					{
+						value: '15',
+						label: translate('user.userU25.age.15')
+					}
+				]
 			},
-			{
-				componentType: 'SelectDropdown',
-				headline: '',
-				name: 'state',
-				item: {
-					id: 'stateSelect',
-					selectedOptions: [
-						{
-							value: '1',
-							label: translate('user.userU25.state.1')
-						},
-						{
-							value: '2',
-							label: translate('user.userU25.state.2')
-						},
-						{
-							value: '3',
-							label: translate('user.userU25.state.3')
-						},
-						{
-							value: '4',
-							label: translate('user.userU25.state.4')
-						},
-						{
-							value: '5',
-							label: translate('user.userU25.state.5')
-						},
-						{
-							value: '6',
-							label: translate('user.userU25.state.6')
-						},
-						{
-							value: '7',
-							label: translate('user.userU25.state.7')
-						},
-						{
-							value: '8',
-							label: translate('user.userU25.state.8')
-						},
-						{
-							value: '9',
-							label: translate('user.userU25.state.9')
-						},
-						{
-							value: '10',
-							label: translate('user.userU25.state.10')
-						},
-						{
-							value: '11',
-							label: translate('user.userU25.state.11')
-						},
-						{
-							value: '12',
-							label: translate('user.userU25.state.12')
-						},
-						{
-							value: '13',
-							label: translate('user.userU25.state.13')
-						},
-						{
-							value: '14',
-							label: translate('user.userU25.state.14')
-						},
-						{
-							value: '15',
-							label: translate('user.userU25.state.15')
-						},
-						{
-							value: '16',
-							label: translate('user.userU25.state.16')
-						},
-						{
-							value: '0',
-							label: translate('user.userU25.state.0')
-						}
-					],
-					selectInputLabel: translate(
-						'user.userU25.state.selectLabel'
-					),
-					useIconOption: false,
-					isSearchable: false,
-					menuPlacement: 'bottom'
-				}
+			state: {
+				label: translate('user.userU25.state.selectLabel')
 			}
-		],
+		},
 		voluntaryComponents: [
 			{
 				componentType: 'RadioButton',
@@ -339,134 +249,44 @@ const registrationData = {
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.gemeinsamstatteinsam'
 		),
-		requiredComponents: [
-			{
-				componentType: 'SelectDropdown',
-				headline: '',
-				name: 'age',
-				item: {
-					id: 'ageSelect',
-					selectedOptions: [
-						{
-							value: '50',
-							label: translate('user.userU25.age.50')
-						},
-						{
-							value: '51',
-							label: translate('user.userU25.age.51')
-						},
-						{
-							value: '52',
-							label: translate('user.userU25.age.52')
-						},
-						{
-							value: '53',
-							label: translate('user.userU25.age.53')
-						},
-						{
-							value: '54',
-							label: translate('user.userU25.age.54')
-						},
-						{
-							value: '55',
-							label: translate('user.userU25.age.55')
-						},
-						{
-							value: '56',
-							label: translate('user.userU25.age.56')
-						}
-					],
-					selectInputLabel: translate('user.userU25.age.selectLabel'),
-					useIconOption: false,
-					isSearchable: false,
-					menuPlacement: 'bottom'
-				}
+		requiredComponents: {
+			age: {
+				label: translate('user.userU25.age.selectLabel'),
+				options: [
+					{
+						value: '50',
+						label: translate('user.userU25.age.50')
+					},
+					{
+						value: '51',
+						label: translate('user.userU25.age.51')
+					},
+					{
+						value: '52',
+						label: translate('user.userU25.age.52')
+					},
+					{
+						value: '53',
+						label: translate('user.userU25.age.53')
+					},
+					{
+						value: '54',
+						label: translate('user.userU25.age.54')
+					},
+					{
+						value: '55',
+						label: translate('user.userU25.age.55')
+					},
+					{
+						value: '56',
+						label: translate('user.userU25.age.56')
+					}
+				]
 			},
-			{
-				componentType: 'SelectDropdown',
-				headline: '',
-				name: 'state',
-				item: {
-					id: 'stateSelect',
-					selectedOptions: [
-						{
-							value: '1',
-							label: translate('user.userU25.state.1')
-						},
-						{
-							value: '2',
-							label: translate('user.userU25.state.2')
-						},
-						{
-							value: '3',
-							label: translate('user.userU25.state.3')
-						},
-						{
-							value: '4',
-							label: translate('user.userU25.state.4')
-						},
-						{
-							value: '5',
-							label: translate('user.userU25.state.5')
-						},
-						{
-							value: '6',
-							label: translate('user.userU25.state.6')
-						},
-						{
-							value: '7',
-							label: translate('user.userU25.state.7')
-						},
-						{
-							value: '8',
-							label: translate('user.userU25.state.8')
-						},
-						{
-							value: '9',
-							label: translate('user.userU25.state.9')
-						},
-						{
-							value: '10',
-							label: translate('user.userU25.state.10')
-						},
-						{
-							value: '11',
-							label: translate('user.userU25.state.11')
-						},
-						{
-							value: '12',
-							label: translate('user.userU25.state.12')
-						},
-						{
-							value: '13',
-							label: translate('user.userU25.state.13')
-						},
-						{
-							value: '14',
-							label: translate('user.userU25.state.14')
-						},
-						{
-							value: '15',
-							label: translate('user.userU25.state.15')
-						},
-						{
-							value: '16',
-							label: translate('user.userU25.state.16')
-						},
-						{
-							value: '0',
-							label: translate('user.userU25.state.0')
-						}
-					],
-					selectInputLabel: translate(
-						'user.userU25.state.selectLabel'
-					),
-					useIconOption: false,
-					isSearchable: false,
-					menuPlacement: 'bottom'
-				}
+			state: {
+				label: translate('user.userU25.state.selectLabel')
 			}
-		],
+		},
 		voluntaryComponents: [
 			{
 				componentType: 'RadioButton',

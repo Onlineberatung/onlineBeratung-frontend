@@ -75,7 +75,7 @@ $backgroundCircleSize: 1800px;
 			flex-wrap: nowrap;
 			align-items: center;
 			margin: 0;
-			padding: 0 120px;
+			padding: 0 60px;
 		}
 	}
 
@@ -83,10 +83,15 @@ $backgroundCircleSize: 1800px;
 		width: $enquiryImageSize;
 		height: $enquiryImageSize;
 		margin-bottom: $grid-base-seven;
+		display: none;
+
+		@include breakpoint($fromSmall) {
+			display: block;
+		}
 
 		@include breakpoint($fromLarge) {
-			width: auto;
-			height: auto;
+			width: 100%;
+			height: 100%;
 			max-width: 300px;
 			order: 2;
 			margin-bottom: 0;

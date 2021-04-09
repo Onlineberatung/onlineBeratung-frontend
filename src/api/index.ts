@@ -18,6 +18,7 @@ export * from './apiLogoutRocketchat';
 export * from './apiPostRegistration';
 export * from './apiPutGroupChat';
 export * from './apiPutEmail';
+export * from './apiPutSessionData';
 export * from './apiRegistrationNewConsultingTypes';
 export * from './apiRejectVideoCall';
 export * from './apiSendEnquiry';

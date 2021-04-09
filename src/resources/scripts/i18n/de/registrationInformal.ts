@@ -30,6 +30,8 @@ const registrationInformal = {
 		'Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!',
 	'password.intro':
 		'Um eine geschützte Beratung zu garantieren, muss Dein Passwort die folgenden Kriterien erfüllen:',
+	'age.headline': 'Bitte teile uns Dein Alter mit',
+	'state.headline': 'Bitte teile uns mit in welchem Bundesland Du wohnst',
 	'overlay.success.copy': 'Du hast Dich erfolgreich registriert.',
 	'welcomeScreen.info2.text':
 		'Schicke Deine Nachricht an eine lokale Beratungsstelle',

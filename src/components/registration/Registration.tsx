@@ -2,17 +2,12 @@ import '../../polyfill';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Stage } from '../stage/stage';
-import { GeneratedInputs } from '../inputField/InputField';
 import { useEffect, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { Button } from '../button/Button';
+import { Button, BUTTON_TYPES } from '../button/Button';
 import registrationResortsData from './registrationData';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
-import {
-	buttonItemSubmit,
-	getOptionOfSelectedValue,
-	overlayItemRegistrationSuccess
-} from './registrationHelpers';
+import { buttonItemSubmit, ResortData } from './registrationHelpers';
 import {
 	apiPostRegistration,
 	FETCH_ERRORS,
@@ -21,9 +16,6 @@ import {
 } from '../../api';
 import { config } from '../../resources/scripts/config';
 import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
-import { SelectDropdown } from '../select/SelectDropdown';
-import { RadioButton } from '../radioButton/RadioButton';
-import { TagSelect } from '../tagSelect/TagSelect';
 import {
 	DEFAULT_POSTCODE,
 	redirectToHelpmail,
@@ -34,7 +26,12 @@ import {
 	getConsultingTypeFromRegistration,
 	isU25Registration
 } from '../../resources/scripts/helpers/resorts';
-import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import {
+	OverlayWrapper,
+	Overlay,
+	OVERLAY_FUNCTIONS,
+	OverlayItem
+} from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
 import { isNumber } from '../../resources/scripts/helpers/isNumber';
 import '../../resources/styles/styles';
@@ -47,6 +44,7 @@ import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import { AgencyDataInterface } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { WelcomeScreen } from './WelcomeScreen';
+import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
 import { LegalInformationLinks } from '../login/LegalInformationLinks';
 
 export const initRegistration = () => {
@@ -56,20 +54,13 @@ export const initRegistration = () => {
 	);
 };
 
-export interface ResortData {
-	consultingType: string;
-	overline: string;
-	welcomeTitle: string;
-	requiredComponents?: any[];
-	useInformal: boolean;
-	voluntaryComponents?: any[];
-}
-
 interface FormAccordionData {
 	username: string;
 	password: string;
 	agencyId: string;
 	postcode: string;
+	state?: string;
+	age?: string;
 }
 
 const Registration = () => {
@@ -84,10 +75,6 @@ const Registration = () => {
 	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] = useState<
 		boolean
 	>(false);
-	const [
-		valuesOfGeneratedInputs,
-		setValuesOfGeneratedInputs
-	] = useState<GeneratedInputs | null>(null);
 	const [isDataProtectionSelected, setIsDataProtectionSelected] = useState(
 		false
 	);
@@ -154,42 +141,17 @@ const Registration = () => {
 			});
 	};
 
-	const isRegistrationValid = () => {
-		const validation: boolean[] = [];
-		const generalValidation = formAccordionData && isDataProtectionSelected;
-
-		validation.push(generalValidation ? true : false);
-
-		// U25 and gemeinsamstatteinsam
-		if (consultingType === 1) {
-			validation.push(
-				valuesOfGeneratedInputs &&
-					valuesOfGeneratedInputs['age'] &&
-					valuesOfGeneratedInputs['state']
-					? true
-					: false
-			);
-		}
-
-		return validation.indexOf(false) === -1;
-	};
-
 	useEffect(() => {
 		prefillPostcode();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	useEffect(
-		() => {
-			if (isRegistrationValid()) {
-				setIsSubmitButtonDisabled(false);
-			} else {
-				setIsSubmitButtonDisabled(true);
-			}
-		},
-		/* eslint-disable */
-		[formAccordionData, valuesOfGeneratedInputs, isDataProtectionSelected]
-	);
-	/* eslint-enable */
+	useEffect(() => {
+		if (!!(formAccordionData && isDataProtectionSelected)) {
+			setIsSubmitButtonDisabled(false);
+		} else {
+			setIsSubmitButtonDisabled(true);
+		}
+	}, [formAccordionData, isDataProtectionSelected]);
 
 	const handleForwardToRegistration = () => {
 		setShowWelcomeScreen(false);
@@ -202,6 +164,19 @@ const Registration = () => {
 		labelId: 'dataProtectionLabel',
 		label: translate('registration.dataProtection.label'),
 		checked: isDataProtectionSelected
+	};
+
+	const overlayItemRegistrationSuccess: OverlayItem = {
+		svg: WelcomeIcon,
+		headline: translate('registration.overlay.success.headline'),
+		copy: translate('registration.overlay.success.copy'),
+		buttonSet: [
+			{
+				label: translate('registration.overlay.success.button'),
+				function: OVERLAY_FUNCTIONS.REDIRECT_WITH_BLUR,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		]
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
@@ -222,36 +197,15 @@ const Registration = () => {
 	const handleSubmitButtonClick = () => {
 		setIsUsernameAlreadyInUse(false);
 
-		const generalRegistrationData = {
+		const registrationData = {
 			username: formAccordionData.username,
 			password: encodeURIComponent(formAccordionData.password),
 			agencyId: formAccordionData.agencyId,
 			postcode: formAccordionData.postcode,
 			consultingType: consultingType?.toString(),
-			termsAccepted: isDataProtectionSelected.toString()
-		};
-
-		let generatedRegistrationData = {};
-
-		if (valuesOfGeneratedInputs) {
-			const {
-				addictiveDrugs,
-				...voluntaryFieldsWithOneValue
-			} = valuesOfGeneratedInputs;
-
-			generatedRegistrationData = {
-				...(valuesOfGeneratedInputs['addictiveDrugs'] && {
-					addictiveDrugs: valuesOfGeneratedInputs[
-						'addictiveDrugs'
-					].join(',')
-				}),
-				...voluntaryFieldsWithOneValue
-			};
-		}
-
-		const registrationData = {
-			...generalRegistrationData,
-			...generatedRegistrationData
+			termsAccepted: isDataProtectionSelected.toString(),
+			...(formAccordionData.state && { state: formAccordionData.state }),
+			...(formAccordionData.age && { age: formAccordionData.age })
 		};
 
 		apiPostRegistration(
@@ -261,112 +215,6 @@ const Registration = () => {
 			(response) => handleRegistrationError(response)
 		);
 	};
-
-	const handleGeneratedInputfieldValueChange = (
-		inputValue,
-		inputName,
-		areMultipleValuesAllowed?
-	) => {
-		if (areMultipleValuesAllowed) {
-			const values =
-				valuesOfGeneratedInputs && valuesOfGeneratedInputs[inputName]
-					? valuesOfGeneratedInputs[inputName]
-					: [];
-			const index = values.indexOf(inputValue);
-			if (index > -1) {
-				values.splice(index, 1);
-			} else {
-				values.push(inputValue);
-			}
-			setValuesOfGeneratedInputs({
-				...valuesOfGeneratedInputs,
-				[inputName]: values
-			});
-		} else {
-			setValuesOfGeneratedInputs({
-				...valuesOfGeneratedInputs,
-				[inputName]: inputValue
-			});
-		}
-	};
-
-	const renderInputComponent = (component, index) => {
-		if (component.componentType === 'SelectDropdown') {
-			return (
-				<SelectDropdown
-					key={index}
-					handleDropdownSelect={(e) =>
-						handleGeneratedInputfieldValueChange(
-							e.value,
-							component.name
-						)
-					}
-					defaultValue={
-						valuesOfGeneratedInputs
-							? getOptionOfSelectedValue(
-									component.item.selectedOptions,
-									valuesOfGeneratedInputs[component.name]
-							  )
-							: null
-					}
-					{...component.item}
-				/>
-			);
-		} else if (component.componentType === 'RadioButton') {
-			return component.radioButtons.map((radio, index) => {
-				return (
-					<RadioButton
-						key={index}
-						name={component.name}
-						handleRadioButton={(e) =>
-							handleGeneratedInputfieldValueChange(
-								e.target.value,
-								component.name
-							)
-						}
-						type="box"
-						value={index}
-						{...radio}
-					/>
-				);
-			});
-		} else if (component.componentType === 'TagSelect') {
-			return component.tagSelects.map((tag, index) => {
-				return (
-					<TagSelect
-						key={index}
-						name={component.name}
-						value={index}
-						handleTagSelectClick={(e) =>
-							handleGeneratedInputfieldValueChange(
-								e.target.value,
-								component.name,
-								true
-							)
-						}
-						{...tag}
-					/>
-				);
-			});
-		}
-	};
-
-	const voluntaryComponents = resortData.voluntaryComponents
-		? resortData.voluntaryComponents.map((component, index) => {
-				return (
-					<div key={index} className="registration__contentRow">
-						<h3>{component.headline}</h3>
-						{renderInputComponent(component, index)}
-					</div>
-				);
-		  })
-		: null;
-
-	const requiredComponents = resortData.requiredComponents
-		? resortData.requiredComponents.map((component, index) => {
-				return renderInputComponent(component, index);
-		  })
-		: null;
 
 	return (
 		<div className="registration">
@@ -400,6 +248,9 @@ const Registration = () => {
 								handleFormAccordionData={(formData) =>
 									setFormAccordionData(formData)
 								}
+								additionalStepsData={
+									resortData.requiredComponents
+								}
 							></FormAccordion>
 
 							{preselectedAgencyData &&
@@ -431,41 +282,6 @@ const Registration = () => {
 								buttonHandle={handleSubmitButtonClick}
 								disabled={isSubmitButtonDisabled}
 							/>
-
-							{/* ----------------------------- Required Fields ---------------------------- */}
-							<div className="registration__generalInformation">
-								{resortData.requiredComponents
-									? requiredComponents
-									: null}
-							</div>
-
-							{/* ----------------------------- Voluntary Fields ---------------------------- */}
-							{resortData.voluntaryComponents && (
-								<div className="registration__voluntaryInformation">
-									<div>
-										<h2>
-											{translate(
-												'registration.voluntary.headline'
-											)}
-										</h2>
-										<p>
-											{translate(
-												'registration.voluntary.subline'
-											)}
-										</p>
-									</div>
-									{voluntaryComponents}
-								</div>
-							)}
-
-							{/* ----------------------------- Submit Section ---------------------------- */}
-							<div className="registration__footer">
-								<p className="registration__requiredInfoText formWrapper__infoText">
-									{translate(
-										'registration.required.infoText'
-									)}
-								</p>
-							</div>
 						</form>
 
 						{/* ----------------------------- LEGAL INFORMATION ---------------------------- */}

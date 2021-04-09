@@ -42,11 +42,10 @@ export const config = {
 		updateMonitoring: tld + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
 		agencyConsultants: tld + '/service/users/consultants',
-		sessionAssign: tld + '/service/users/sessions',
 		passwordReset: tld + '/service/users/password/change',
-		getMonitoring: tld + '/service/users/sessions',
 		groupChatBase: tld + '/service/users/chat/',
-		rejectVideoCall: tld + '/service/videocalls/reject'
+		rejectVideoCall: tld + '/service/videocalls/reject',
+		sessionBase: tld + '/service/users/sessions'
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:

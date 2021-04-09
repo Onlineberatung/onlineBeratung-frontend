@@ -1,3 +1,5 @@
+$scrollbarWidth: 20px;
+
 .registration {
 	text-align: center;
 
@@ -17,8 +19,8 @@
 		}
 
 		@include breakpoint($fromLarge) {
-			width: 60vw;
-			left: 40vw;
+			width: calc(60vw - #{$scrollbarWidth} * 2);
+			left: calc(40vw + #{$scrollbarWidth});
 		}
 	}
 
@@ -34,9 +36,6 @@
 
 	&__submit {
 		margin-top: $grid-base-four;
-
-		//TODO: remove margin-bottom after removal of deprecated components
-		margin-bottom: 500px;
 	}
 
 	form {
@@ -74,12 +73,6 @@
 		margin: -20px $grid-base-five $grid-base-five 52px;
 	}
 
-	&__requiredInfoText {
-		margin: 0;
-		max-width: none;
-		text-align: unset;
-	}
-
 	&__toLogin {
 		position: absolute;
 		top: 22px;
@@ -115,7 +108,8 @@
 	}
 
 	.select__wrapper {
-		padding: 0 0 0 $grid-base-four;
+		padding: 0;
+		margin: 0 auto;
 	}
 
 	.formWrapper__infoText {

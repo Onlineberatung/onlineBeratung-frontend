@@ -15,8 +15,11 @@ import {
 	InputFieldItem,
 	InputFieldLabelState
 } from '../inputField/InputField';
-import { isStringValidEmail } from '../registration/registrationHelpers';
-import { useContext, useState } from 'react';
+import {
+	isStringValidEmail,
+	ResortData
+} from '../registration/registrationHelpers';
+import { useContext, useEffect, useState } from 'react';
 import {
 	Overlay,
 	OverlayItem,
@@ -24,15 +27,32 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
 import { apiPutEmail, FETCH_ERRORS } from '../../api';
-import { UserDataContext } from '../../globalState';
+import {
+	ActiveSessionGroupIdContext,
+	getActiveSession,
+	SessionsDataContext,
+	UserDataContext
+} from '../../globalState';
+import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
+import { isVoluntaryInfoSet } from './messageHelpers';
 
 const addEmailButton: ButtonItem = {
 	label: translate('furtherSteps.emailNotification.button'),
 	type: BUTTON_TYPES.LINK
 };
 
-export const FurtherSteps = () => {
-	const [overlayActive, setOverlayActive] = useState<boolean>(false);
+interface FurtherStepsProps {
+	consultingType: number;
+	onlyShowVoluntaryInfo?: boolean;
+	resortData: ResortData;
+	handleVoluntaryInfoSet?: Function;
+}
+
+export const FurtherSteps = (props: FurtherStepsProps) => {
+	const { sessionsData } = useContext(SessionsDataContext);
+	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
@@ -45,6 +65,16 @@ export const FurtherSteps = () => {
 	const [emailLabelState, setEmailLabelState] = useState<
 		InputFieldLabelState
 	>();
+
+	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
+
+	useEffect(() => {
+		const sessionData =
+			userData.consultingTypes[props.consultingType].sessionData;
+		setShowAddVoluntaryInfo(
+			!isVoluntaryInfoSet(sessionData, props.resortData)
+		);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const emailInputItem: InputFieldItem = {
 		content: email,
@@ -117,13 +147,9 @@ export const FurtherSteps = () => {
 		svg: SuccessIllustration
 	};
 
-	const handleAddEmail = () => {
-		setOverlayActive(true);
-	};
-
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setOverlayActive(false);
+			setIsOverlayActive(false);
 			setIsSuccessOverlay(false);
 			setIsRequestInProgress(false);
 		} else if (!isRequestInProgress) {
@@ -151,82 +177,117 @@ export const FurtherSteps = () => {
 		}
 	};
 
+	const handleVoluntarySuccess = (generatedRegistrationData) => {
+		let updatedUserData = userData;
+		updatedUserData.consultingTypes[
+			activeSession.session.consultingType
+		].sessionData = generatedRegistrationData;
+		setUserData(updatedUserData);
+		setShowAddVoluntaryInfo(false);
+		if (props.handleVoluntaryInfoSet) {
+			props.handleVoluntaryInfoSet();
+		}
+	};
+
 	const showAddEmail = !userData.email;
 	return (
 		<div className="furtherSteps">
-			<Headline
-				semanticLevel="4"
-				text={translate('furtherSteps.headline')}
-			/>
-			<ul className="furtherSteps__steps">
-				<li className="furtherSteps__step">
-					<div className="furtherSteps__illustration">
-						<EnvelopeIllustration />
-					</div>
-					<Text
-						type="infoLargeStandard"
-						text={translate('furtherSteps.step1.info')}
-						className="furtherSteps__stepInfo"
+			{!props.onlyShowVoluntaryInfo && (
+				<>
+					<Headline
+						semanticLevel="4"
+						text={translate('furtherSteps.headline')}
 					/>
-				</li>
-				<li className="furtherSteps__arrow">
-					<ArrowIllustration />
-				</li>
-				<li className="furtherSteps__step">
-					<div className="furtherSteps__illustration">
-						<ConsultantIllustration />
-					</div>
-					<Text
-						type="infoLargeStandard"
-						text={translate('furtherSteps.step2.info')}
-						className="furtherSteps__stepInfo"
-					/>
-				</li>
-				<li className="furtherSteps__arrow">
-					<ArrowIllustration />
-				</li>
-				<li className="furtherSteps__step">
-					<div className="furtherSteps__illustration">
-						<AnswerIllustration />
-					</div>
-					<Text
-						type="infoLargeStandard"
-						text={translate('furtherSteps.step3.info')}
-						className="furtherSteps__stepInfo"
-					/>
-				</li>
-			</ul>
-			{showAddEmail && (
+					<ul className="furtherSteps__steps">
+						<li className="furtherSteps__step">
+							<div className="furtherSteps__illustration">
+								<EnvelopeIllustration />
+							</div>
+							<Text
+								type="infoLargeStandard"
+								text={translate('furtherSteps.step1.info')}
+								className="furtherSteps__stepInfo"
+							/>
+						</li>
+						<li className="furtherSteps__arrow">
+							<ArrowIllustration />
+						</li>
+						<li className="furtherSteps__step">
+							<div className="furtherSteps__illustration">
+								<ConsultantIllustration />
+							</div>
+							<Text
+								type="infoLargeStandard"
+								text={translate('furtherSteps.step2.info')}
+								className="furtherSteps__stepInfo"
+							/>
+						</li>
+						<li className="furtherSteps__arrow">
+							<ArrowIllustration />
+						</li>
+						<li className="furtherSteps__step">
+							<div className="furtherSteps__illustration">
+								<AnswerIllustration />
+							</div>
+							<Text
+								type="infoLargeStandard"
+								text={translate('furtherSteps.step3.info')}
+								className="furtherSteps__stepInfo"
+							/>
+						</li>
+					</ul>
+					{showAddEmail && (
+						<>
+							<Headline
+								semanticLevel="5"
+								text={translate(
+									'furtherSteps.emailNotification.headline'
+								)}
+							/>
+							<Text
+								type="standard"
+								text={translate(
+									'furtherSteps.emailNotification.infoText'
+								)}
+								className="furtherSteps__infoText"
+							/>
+							<Button
+								item={addEmailButton}
+								buttonHandle={() => setIsOverlayActive(true)}
+							/>
+							{isOverlayActive && (
+								<OverlayWrapper>
+									<Overlay
+										item={
+											isSuccessOverlay
+												? successOverlayItem
+												: emailOverlayItem
+										}
+										handleOverlay={handleOverlayAction}
+									/>
+								</OverlayWrapper>
+							)}
+						</>
+					)}
+				</>
+			)}
+			{props.resortData?.voluntaryComponents && showAddVoluntaryInfo && (
 				<>
 					<Headline
 						semanticLevel="5"
-						text={translate(
-							'furtherSteps.emailNotification.headline'
-						)}
+						text={translate('furtherSteps.voluntaryInfo.headline')}
 					/>
 					<Text
 						type="standard"
-						text={translate(
-							'furtherSteps.emailNotification.infoText'
-						)}
-						className="furtherSteps__emailInfo"
+						text={translate('furtherSteps.voluntaryInfo.infoText')}
+						className="furtherSteps__infoText"
 					/>
-					<Button
-						item={addEmailButton}
-						buttonHandle={handleAddEmail}
+					<VoluntaryInfoOverlay
+						voluntaryComponents={
+							props.resortData.voluntaryComponents
+						}
+						handleSuccess={handleVoluntarySuccess}
 					/>
-					{overlayActive && (
-						<OverlayWrapper>
-							<Overlay
-								item={
-									isSuccessOverlay
-										? successOverlayItem
-										: emailOverlayItem
-								}
-								handleOverlay={handleOverlayAction}
-							/>
-						</OverlayWrapper>
-					)}
 				</>
 			)}
 		</div>

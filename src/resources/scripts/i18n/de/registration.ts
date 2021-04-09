@@ -23,15 +23,12 @@ const registration = {
 	'overline.hospice': 'Hospiz-, Palliativ- und Trauerberatung',
 	'overline.regional': 'Regionale Angebote',
 	'overline.men': 'Jungen- und Männerberatung',
-	'voluntary.headline': 'Freiwillige Angaben',
-	'voluntary.subline':
-		'Für die Beratung würden uns folgende Angaben sehr helfen',
 	'login.helper': 'Bereits registriert?',
 	'login.label': 'Zum Login',
 	'agency.preselected.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
 	'agency.preselected.isTeam': 'Sie werden von einem Team beraten.',
 	'username.headline': 'Bitte wählen Sie Ihren Benutzernamen',
-	'user.label': 'Benutzername*',
+	'user.label': 'Benutzername',
 	'user.infoText':
 		'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialien zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 	'user.suitable': 'Ihr Benutzername ist geeignet.',
@@ -61,8 +58,8 @@ const registration = {
 		'kennen dann die Hilfen rund um Ihren Wohnort',
 	'agencyPreselected.intro.point2': 'kennen die Gesetze Ihres Bundeslandes',
 	'password.headline': 'Bitte wählen Sie Ihr Passwort',
-	'password.input.label': 'Passwort*',
-	'password.confirmation.label': 'Passwort wiederholen*',
+	'password.input.label': 'Passwort',
+	'password.confirmation.label': 'Passwort wiederholen',
 	'password.secure': 'Ihr Passwort ist sicher.',
 	'password.insecure': 'Ihr Passwort ist nicht sicher.',
 	'password.same': 'Ihr Passwort ist identisch.',
@@ -75,10 +72,11 @@ const registration = {
 	'password.criteria.number': 'mindestens eine Zahl',
 	'password.criteria.specialChar': 'mindestens ein Sonderzeichen',
 	'password.criteria.length': 'mindestens 9 Zeichen',
-	'required.infoText':
-		'* Die markierten Felder müssen ausgefüllt werden, um sich registrieren zu können.',
+	'age.headline': 'Bitte teilen Sie uns Ihr Alter mit',
+	'state.headline':
+		'Bitte teilen Sie uns mit in welchem Bundesland Sie wohnen',
 	'dataProtection.label':
-		'Ich habe die <a href="https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz" target="_blank">Datenschutzerklärung</a> zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.*',
+		'Ich habe die <a href="https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz" target="_blank">Datenschutzerklärung</a> zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 	'submitButton.label': 'Registrieren',
 	'overlay.success.headline':
 		'Herzlich willkommen<br>bei der Beratung & Hilfe der Caritas.',
