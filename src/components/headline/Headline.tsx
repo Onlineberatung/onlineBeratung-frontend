@@ -1,11 +1,11 @@
 import * as React from 'react';
 import './headline.styles';
 
-export type HeadlineLevels = '1' | '2' | '3' | '4' | '5';
+export type HeadlineLevel = '1' | '2' | '3' | '4' | '5';
 interface HeadlineProps {
-	semanticLevel: HeadlineLevels;
-	styleLevel?: HeadlineLevels;
 	text: string;
+	semanticLevel: HeadlineLevel;
+	styleLevel?: HeadlineLevel;
 	className?: string;
 }
 
@@ -17,7 +17,7 @@ export const Headline = (props: HeadlineProps) => {
 
 	return (
 		<Tag
-			className={`headline headline--${levelBasedClass} ${
+			className={`headline headline--${levelBasedClass}${
 				props.className ? props.className : ''
 			}`}
 			dangerouslySetInnerHTML={{
