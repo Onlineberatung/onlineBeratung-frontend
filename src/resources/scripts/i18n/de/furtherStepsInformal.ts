@@ -7,7 +7,7 @@ const furtherStepsInformal = {
 	'email.overlay.input.valid': 'Deine E-Mail-Adresse ist gültig.',
 	'email.overlay.input.invalid': 'Deine E-Mail-Adresse ist nicht gültig.',
 	'email.success.overlay.headline':
-		'Deine E-Mail wurde erfolgreich gespeichert.',
+		'Deine E-Mail-Adresse wurde erfolgreich gespeichert.',
 	'voluntaryInfo.headline': 'Wir wollen Dich bestmöglichst beraten',
 	'voluntaryInfo.infoText':
 		'Dabei hilft es uns, wenn Du weitere freiwillige Angaben zu Dir und Deinem Anliegen machst.',

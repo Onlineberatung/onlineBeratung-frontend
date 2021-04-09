@@ -41,6 +41,8 @@ import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import smoothScroll from './smoothScrollHelper';
+import { ResortData } from '../registration/registrationHelpers';
+import registrationResortsData from '../registration/registrationData';
 
 interface SessionItemProps {
 	messages: MessageItem[];
@@ -125,7 +127,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const getPlaceholder = () => {
 		if (isGroupChat) {
 			return translate('enquiry.write.input.placeholder.groupChat');
-		} else if (hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)) {
+		} else if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			return translate('enquiry.write.input.placeholder');
 		} else if (
 			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
@@ -219,7 +221,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const getMonitoringLink = () => {
 		if (
 			typeIsSession(getTypeOfLocation()) &&
-			!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
 			return {
 				pathname: `/sessions/consultant/${getViewPathForType(
@@ -229,7 +231,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 		if (
 			typeIsTeamSession(getTypeOfLocation()) &&
-			!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData)
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
 			return {
 				pathname: `/sessions/consultant/${getViewPathForType(
@@ -238,6 +240,14 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			};
 		}
 	};
+
+	const resortData: ResortData = Object.entries(
+		registrationResortsData
+	).filter(
+		(resort) =>
+			resort[1].consultingType ===
+			activeSession.session.consultingType?.toString()
+	)[0][1];
 
 	return (
 		<div
@@ -270,6 +280,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							type={getTypeOfLocation()}
 							isOnlyEnquiry={isOnlyEnquiry}
 							isMyMessage={isMyMessage(message.userId)}
+							resortData={resortData}
 							{...message}
 						/>
 					))}
@@ -300,7 +311,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			!activeSession.isFeedbackSession &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
 			monitoringButtonVisible &&
-			!hasUserAuthority(AUTHORITIES.USER_DEFAULT, userData) &&
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			getMonitoringLink() ? (
 				<Link to={getMonitoringLink()}>
 					<div className="monitoringButton">

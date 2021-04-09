@@ -30,10 +30,10 @@ $spacingWithIcon: 52px;
 			}
 		}
 
-		.text.text__infoSmall {
+		&__error {
 			color: $form-error;
 			max-width: 245px;
-			margin-left: $grid-base-four;
+			margin-left: $grid-base-five;
 			margin-bottom: $grid-base-four;
 		}
 
@@ -44,12 +44,17 @@ $spacingWithIcon: 52px;
 		&__register {
 			margin-top: $grid-base-five;
 
-			&__infoText {
-				font-size: $font-size-secondary;
-				color: $tertiary;
+			& > .text {
+				position: relative;
+				text-align: center;
+
+				&:first-of-type {
+					margin-bottom: 6px;
+				}
 			}
 
 			&__link {
+				display: block;
 				font-weight: $font-weight-bold;
 				text-decoration: none;
 				text-transform: uppercase;

@@ -130,6 +130,10 @@ $iconSizeSmall: 100px;
 			&:first-of-type {
 				margin-top: $grid-base-four;
 			}
+
+			& + .button__wrapper {
+				margin-top: $grid-base-two;
+			}
 		}
 	}
 }

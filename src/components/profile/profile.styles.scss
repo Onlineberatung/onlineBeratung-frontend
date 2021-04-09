@@ -156,21 +156,22 @@ $maxFormElementWidth: 320px;
 
 	&__content {
 		display: inline-block;
-		flex-direction: column;
-		padding: 0 $grid-base-two $grid-base-six;
+		padding: 0 $grid-base-two $grid-base-ten;
 		height: auto;
 
 		@include breakpoint($fromMedium) {
-			padding: 0 $grid-base-three $grid-base-six;
+			padding: 0 $grid-base-three $grid-base-ten;
 		}
 
 		@include breakpoint($fromLarge) {
 			display: flex;
 			flex-direction: row;
+			flex-wrap: wrap;
+			padding: 0 $grid-base-three $grid-base-eight;
 		}
 
 		&__item {
-			flex-basis: 100%;
+			flex: 1;
 
 			&:first-of-type {
 				padding-right: 0;
@@ -224,6 +225,14 @@ $maxFormElementWidth: 320px;
 
 			@include breakpoint($fromLarge) {
 				text-align: left;
+			}
+		}
+
+		.deleteAccount {
+			margin-top: $grid-base-five;
+
+			@include breakpoint($fromLarge) {
+				margin-top: $grid-base-eight;
 			}
 		}
 	}

@@ -4,6 +4,7 @@ const endpointPort = nodeEnv === 'development' ? ':9000' : '';
 
 export const config = {
 	endpoints: {
+		deleteAskerAccount: tld + '/service/users/account',
 		draftMessages: tld + '/service/messages/draft',
 		email: tld + '/service/users/email',
 		enquiries: tld + '/service/users/sessions/consultants?status=1',
@@ -51,6 +52,7 @@ export const config = {
 			'https://www.caritas.de/onlineberatung',
 		toLogin: tld + endpointPort + '/login.html',
 		redirectToApp: tld + endpointPort + `/beratung-hilfe.html`,
+		caritas: 'https://www.caritas.de',
 		caritasImprint: 'https://www.caritas.de/impressum',
 		caritasDataprotection:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
