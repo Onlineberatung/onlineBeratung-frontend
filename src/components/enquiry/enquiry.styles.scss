@@ -90,8 +90,8 @@ $backgroundCircleSize: 1800px;
 		}
 
 		@include breakpoint($fromLarge) {
-			width: auto;
-			height: auto;
+			width: 100%;
+			height: 100%;
 			max-width: 300px;
 			order: 2;
 			margin-bottom: 0;
