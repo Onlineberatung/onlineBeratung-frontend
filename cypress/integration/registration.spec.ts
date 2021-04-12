@@ -38,10 +38,9 @@ describe('registration', () => {
 			});
 		});
 
-		it.only('should have all generic registration page elements', () => {
+		it('should have all generic registration page elements', () => {
 			cy.fixture('service.agencies.json').then((agencies) => {
 				cy.visit('/u25/registration?aid=1');
-				cy.visit('/registration.u25.html?aid=1');
 				cy.get('[data-cy=close-welcome-screen]').click();
 				checkForGenericRegistrationElements();
 			});
@@ -50,7 +49,6 @@ describe('registration', () => {
 		it('should have a password reset info text', () => {
 			cy.fixture('service.agencies.json').then((agencies) => {
 				cy.visit('/u25/registration?aid=1');
-				cy.visit('/registration.u25.html?aid=1');
 				cy.get('[data-cy=close-welcome-screen]').click();
 				cy.get('[data-cy=no-password-reset-possible-note]').should(
 					'exist'
