@@ -1,5 +1,6 @@
 const registration = {
 	'headline': 'Registrierung',
+	'title.start': 'Registrierung',
 	'overline.addiction': 'Suchtberatung',
 	'overline.u25': 'Beratung für Suizidgefährdete junge Menschen [U25]',
 	'overline.gemeinsamstatteinsam':

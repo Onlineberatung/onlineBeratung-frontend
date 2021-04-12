@@ -1,8 +1,10 @@
-import { translate } from '../../resources/scripts/i18n/translate';
+import { ResortDataInterface } from '../globalState';
+import { translate } from '../resources/scripts/i18n/translate';
 
-const registrationData = {
-	addiction: {
-		consultingType: '0',
+// TODO: This should be moved to the API at some point
+const registrationData: Record<string, ResortDataInterface> = {
+	'suchtberatung': {
+		consultingType: 0,
 		useInformal: false,
 		overline: translate('registration.overline.addiction'),
 		welcomeTitle: translate('registration.welcomeScreen.title.addiction'),
@@ -138,11 +140,12 @@ const registrationData = {
 			}
 		]
 	},
-	u25: {
-		consultingType: '1',
+	'u25': {
+		consultingType: 1,
 		useInformal: true,
 		overline: translate('registration.overline.u25'),
 		welcomeTitle: translate('registration.welcomeScreen.title.u25'),
+		requiredAidMissingRedirectUrl: 'https://www.u25.de/helpmail/',
 		requiredComponents: {
 			age: {
 				label: translate('user.userU25.age.selectLabel'),
@@ -242,8 +245,8 @@ const registrationData = {
 			}
 		]
 	},
-	gemeinsamstatteinsam: {
-		consultingType: '1',
+	'gemeinsamstatteinsam': {
+		consultingType: 1,
 		useInformal: true,
 		overline: translate('registration.overline.gemeinsamstatteinsam'),
 		welcomeTitle: translate(
@@ -312,122 +315,135 @@ const registrationData = {
 			}
 		]
 	},
-	pregnancy: {
-		consultingType: '2',
+	'schwangerschaftsberatung': {
+		consultingType: 2,
 		useInformal: true,
 		overline: translate('registration.overline.pregnancy'),
 		welcomeTitle: translate('registration.welcomeScreen.title.pregnancy')
 	},
-	parenting: {
-		consultingType: '3',
+	'eltern-familie': {
+		consultingType: 3,
 		useInformal: false,
 		overline: translate('registration.overline.parenting'),
 		welcomeTitle: translate('registration.welcomeScreen.title.parenting')
 	},
-	cure: {
-		consultingType: '4',
+	'kurberatung': {
+		consultingType: 4,
 		useInformal: false,
 		overline: translate('registration.overline.cure'),
 		welcomeTitle: translate('registration.welcomeScreen.title.cure')
 	},
-	debt: {
-		consultingType: '5',
+	'schuldnerberatung': {
+		consultingType: 5,
 		useInformal: false,
 		overline: translate('registration.overline.debt'),
 		welcomeTitle: translate('registration.welcomeScreen.title.debt')
 	},
-	social: {
-		consultingType: '6',
+	'allgemeine-soziale-beratung': {
+		consultingType: 6,
 		useInformal: false,
 		overline: translate('registration.overline.social'),
 		welcomeTitle: translate('registration.welcomeScreen.title.social')
 	},
-	seniority: {
-		consultingType: '7',
+	'leben-im-alter': {
+		consultingType: 7,
 		useInformal: false,
 		overline: translate('registration.overline.seniority'),
 		welcomeTitle: translate('registration.welcomeScreen.title.seniority')
 	},
-	disability: {
-		consultingType: '8',
+	'behinderung-und-psychische-erkrankung': {
+		consultingType: 8,
 		useInformal: false,
 		overline: translate('registration.overline.disability'),
 		welcomeTitle: translate('registration.welcomeScreen.title.disability')
 	},
-	planB: {
-		consultingType: '9',
+	'mein-planb': {
+		consultingType: 9,
 		useInformal: true,
 		overline: translate('registration.overline.planB'),
 		welcomeTitle: translate('registration.welcomeScreen.title.planB')
 	},
-	law: {
-		consultingType: '10',
+	'rechtliche-betreuung': {
+		consultingType: 10,
 		useInformal: false,
 		overline: translate('registration.overline.law'),
 		welcomeTitle: translate('registration.welcomeScreen.title.law')
 	},
-	offender: {
-		consultingType: '11',
+	'straffaelligkeit': {
+		consultingType: 11,
 		useInformal: false,
 		overline: translate('registration.overline.offender'),
 		welcomeTitle: translate('registration.welcomeScreen.title.offender')
 	},
-	aids: {
-		consultingType: '12',
+	'hiv-aids-beratung': {
+		consultingType: 12,
 		useInformal: false,
 		overline: translate('registration.overline.aids'),
 		welcomeTitle: translate('registration.welcomeScreen.title.aids')
 	},
-	rehabilitation: {
-		consultingType: '13',
+	'kinder-reha': {
+		consultingType: 13,
 		useInformal: false,
 		overline: translate('registration.overline.rehabilitation'),
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.rehabilitation'
 		)
 	},
-	children: {
-		consultingType: '14',
+	'kinder-jugendliche': {
+		consultingType: 14,
 		useInformal: true,
 		overline: translate('registration.overline.children'),
 		welcomeTitle: translate('registration.welcomeScreen.title.children')
 	},
-	kreuzbund: {
-		consultingType: '15',
+	'kb-sucht-selbsthilfe': {
+		consultingType: 15,
 		useInformal: false,
 		overline: translate('registration.overline.kreuzbund'),
 		welcomeTitle: translate('registration.welcomeScreen.title.kreuzbund')
 	},
-	migration: {
-		consultingType: '16',
+	'migration': {
+		consultingType: 16,
 		useInformal: false,
 		overline: translate('registration.overline.migration'),
 		welcomeTitle: translate('registration.welcomeScreen.title.migration')
 	},
-	emigration: {
-		consultingType: '17',
+	'rw-auswanderung': {
+		consultingType: 17,
 		useInformal: false,
 		overline: translate('registration.overline.emigration'),
 		welcomeTitle: translate('registration.welcomeScreen.title.emigration')
 	},
-	hospice: {
-		consultingType: '18',
+	'hospiz-palliativ': {
+		consultingType: 18,
 		useInformal: false,
 		overline: translate('registration.overline.hospice'),
 		welcomeTitle: translate('registration.welcomeScreen.title.hospice')
 	},
-	regional: {
-		consultingType: '19',
+	'regionale-angebote': {
+		consultingType: 19,
 		useInformal: false,
 		overline: translate('registration.overline.regional'),
 		welcomeTitle: translate('registration.welcomeScreen.title.regional')
 	},
-	men: {
-		consultingType: '20',
+	'jungen-und-maenner': {
+		consultingType: 20,
 		useInformal: false,
 		overline: translate('registration.overline.men'),
 		welcomeTitle: translate('registration.welcomeScreen.title.men')
 	}
 };
 
-export default registrationData;
+export const apiGetResortData = async (params: {
+	resortName?: string;
+	consultingType?: number;
+}): Promise<ResortDataInterface> => {
+	let foundData;
+	if (params.resortName != null) {
+		foundData = registrationData[params.resortName];
+	} else if (params.consultingType !== null) {
+		foundData = Object.values(registrationData).find(
+			(cur) => cur.consultingType === params.consultingType
+		);
+	}
+	return Promise.resolve(foundData);
+};

@@ -17,7 +17,7 @@ import { translate } from '../../resources/scripts/i18n/translate';
 import { MessageItemComponent } from '../message/MessageItemComponent';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { apiEnquiryAcceptance } from '../../api';
+import { apiEnquiryAcceptance, apiGetResortData } from '../../api';
 import {
 	Overlay,
 	OVERLAY_FUNCTIONS,
@@ -32,7 +32,8 @@ import {
 	getContact,
 	AcceptedGroupIdContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	ResortDataInterface
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { Link } from 'react-router-dom';
@@ -41,8 +42,6 @@ import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import smoothScroll from './smoothScrollHelper';
-import { ResortData } from '../registration/registrationHelpers';
-import registrationResortsData from '../registration/registrationData';
 
 interface SessionItemProps {
 	messages: MessageItem[];
@@ -113,6 +112,19 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			resetUnreadCount();
 		}
 	}, [isScrolledToBottom]); // eslint-disable-line
+
+	const [resortData, setResortData] = useState<ResortDataInterface>();
+	useEffect(() => {
+		let isCanceled = false;
+		const { consultingType } = activeSession.session;
+		apiGetResortData({ consultingType }).then((response) => {
+			if (isCanceled) return;
+			setResortData(response);
+		});
+		return () => {
+			isCanceled = true;
+		};
+	}, [activeSession.session]);
 
 	if (!activeSession) return null;
 
@@ -241,14 +253,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	};
 
-	const resortData: ResortData = Object.entries(
-		registrationResortsData
-	).filter(
-		(resort) =>
-			resort[1].consultingType ===
-			activeSession.session.consultingType?.toString()
-	)[0][1];
-
 	return (
 		<div
 			className={
@@ -272,6 +276,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				onScroll={(e) => handleScroll.callback(e)}
 			>
 				{messages &&
+					resortData &&
 					messages.map((message: MessageItem, index) => (
 						<MessageItemComponent
 							key={index}

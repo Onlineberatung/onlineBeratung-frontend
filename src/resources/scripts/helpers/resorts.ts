@@ -1,13 +1,3 @@
-export const getConsultingTypeFromRegistration = () => {
-	const registrationRoot = document.getElementById('registrationRoot');
-	return registrationRoot?.dataset?.consultingtype
-		? parseInt(registrationRoot.dataset.consultingtype)
-		: undefined;
-};
-
-export const isU25Registration = (): boolean =>
-	getConsultingTypeFromRegistration() === 1;
-
 export const isGenericConsultingType = (currentType: number): boolean => {
 	const genericTypes = [
 		2,

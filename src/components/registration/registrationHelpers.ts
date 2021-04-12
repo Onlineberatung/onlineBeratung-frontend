@@ -29,20 +29,6 @@ export const buttonItemSubmit: ButtonItem = {
 	type: BUTTON_TYPES.PRIMARY
 };
 
-export type RequiredComponents = {
-	age?: any;
-	state?: any;
-};
-
-export interface ResortData {
-	consultingType: string;
-	overline: string;
-	welcomeTitle: string;
-	useInformal: boolean;
-	requiredComponents?: RequiredComponents;
-	voluntaryComponents?: any[];
-}
-
 export type RegistrationDropdownSelectData = {
 	label: string;
 	options?: [];
