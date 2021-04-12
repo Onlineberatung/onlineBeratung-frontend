@@ -437,6 +437,9 @@ export const apiGetResortData = async (params: {
 	resortName?: string;
 	consultingType?: number;
 }): Promise<ResortDataInterface> => {
+	// TODO: Use `responseHandling: [FETCH_ERRORS.NO_MATCH]` once the real
+	// API is in use. This is relevant for the call site in `app.tsx`
+
 	let foundData;
 	if (params.resortName != null) {
 		foundData = registrationData[params.resortName];
