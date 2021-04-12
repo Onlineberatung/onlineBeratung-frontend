@@ -193,7 +193,7 @@ export const SessionMenu = () => {
 		label: translate('chatFlyout.feedback')
 	};
 
-	const hasVideoCallFeatures = () => false;
+	const hasVideoCallFeatures = () => true;
 	// TODO: reimplement on videocall release
 	// !isGroupChat &&
 	// !typeIsEnquiry(getTypeOfLocation()) &&
@@ -204,9 +204,8 @@ export const SessionMenu = () => {
 		apiStartVideoCall(chatItem.id)
 			.then((response) => {
 				videoCallWindow.location.href = getVideoCallUrl(
-					response.videoCallUrl,
-					isVideoActivated,
-					true
+					response.moderatorVideoCallUrl,
+					isVideoActivated
 				);
 				videoCallWindow.focus();
 			})
