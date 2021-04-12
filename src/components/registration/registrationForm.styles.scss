@@ -1,4 +1,17 @@
 .registrationForm {
+	margin: 120px 0;
+	max-width: 400px;
+	animation: fadeIn linear 0.5s;
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
 	&__dataProtection {
 		margin-top: $grid-base-eight;
 		margin-left: 4px;
@@ -11,21 +24,6 @@
 
 	&__submit {
 		margin-top: $grid-base-four;
-	}
-
-	form {
-		margin: 120px 0;
-		max-width: 400px;
-		animation: fadeIn linear 0.5s;
-
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-			}
-			to {
-				opacity: 1;
-			}
-		}
 	}
 
 	&__overline {

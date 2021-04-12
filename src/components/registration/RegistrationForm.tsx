@@ -183,7 +183,11 @@ export const RegistrationForm = ({
 
 	return (
 		<>
-			<form id="registrationForm" data-consultingtype={consultingType}>
+			<form
+				className="registrationForm"
+				id="registrationForm"
+				data-consultingtype={consultingType}
+			>
 				<h3 className="registrationForm__overline">
 					{registrationData.overline}
 				</h3>
