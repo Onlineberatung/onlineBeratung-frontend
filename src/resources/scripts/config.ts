@@ -6,6 +6,7 @@ export const config = {
 	endpoints: {
 		deleteAskerAccount: tld + '/service/users/account',
 		draftMessages: tld + '/service/messages/draft',
+		email: tld + '/service/users/email',
 		enquiries: tld + '/service/users/sessions/consultants?status=1',
 		enquiryBase: tld + '/service/users/sessions/',
 		enquiryAcceptance: tld + '/service/users/sessions/new',
@@ -41,11 +42,10 @@ export const config = {
 		updateMonitoring: tld + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
 		agencyConsultants: tld + '/service/users/consultants',
-		sessionAssign: tld + '/service/users/sessions',
 		passwordReset: tld + '/service/users/password/change',
-		getMonitoring: tld + '/service/users/sessions',
 		groupChatBase: tld + '/service/users/chat/',
-		rejectVideoCall: tld + '/service/videocalls/reject'
+		rejectVideoCall: tld + '/service/videocalls/reject',
+		sessionBase: tld + '/service/users/sessions'
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:

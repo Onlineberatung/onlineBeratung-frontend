@@ -9,7 +9,8 @@ export interface TextProps {
 		| 'standard'
 		| 'infoLargeStandard'
 		| 'infoLargeAlternative'
-		| 'infoSmall';
+		| 'infoSmall'
+		| 'divider';
 }
 
 export enum LABEL_TYPES {

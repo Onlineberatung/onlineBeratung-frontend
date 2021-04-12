@@ -198,6 +198,15 @@ $maxFormElementWidth: 320px;
 			&__assign {
 				margin-top: $grid-base-four;
 			}
+
+			.inputField {
+				max-width: 320px;
+				margin: 0 auto $grid-base-three;
+
+				@include breakpoint($fromLarge) {
+					margin: 0 0 $grid-base-three;
+				}
+			}
 		}
 
 		&__title {
@@ -422,8 +431,9 @@ $maxFormElementWidth: 320px;
 }
 
 .askerRegistration {
+	margin-top: $grid-base-six;
 	&__headline {
-		margin: $grid-base-six auto $grid-base-three;
+		margin: 0 auto;
 	}
 
 	&__consultingTypeWrapper {
@@ -436,129 +446,10 @@ $maxFormElementWidth: 320px;
 
 	.select__wrapper {
 		padding: 0;
-		margin: 0 auto $grid-base-three;
+		margin: $grid-base-three auto;
 
 		@include breakpoint($fromLarge) {
-			margin: 0 0 $grid-base-three;
-		}
-	}
-
-	&__consultingModeInfo {
-		animation: fadeIn linear 0.2s;
-		font-size: $font-size-secondary;
-		line-height: 1.3333em;
-		max-width: $maxFormElementWidth;
-		margin: -12px 0 $grid-base-three;
-		padding: 0 $grid-base-three 0 20px;
-
-		@include breakpoint($fromLarge) {
-			margin: -12px 0 $grid-base-three;
-			text-align: left;
-		}
-	}
-
-	&__postcode {
-		position: relative;
-		animation: fadeIn linear 0.2s;
-		max-width: $maxFormElementWidth;
-		margin: 0 auto;
-		@include breakpoint($fromLarge) {
-			margin: 0;
-		}
-
-		.formWrapper {
-			margin: 0 auto $grid-base-three;
-
-			@include breakpoint($fromLarge) {
-				margin: 0 0 $grid-base-three;
-			}
-
-			&__inputWrapper {
-				margin-left: 0;
-			}
-		}
-
-		.askerRegistration__consultingModeInfo {
-			padding: 0 $grid-base-three $grid-base-five 20px;
-		}
-
-		.selectedAgencyInfo,
-		.askerRegistration__selectAgencyInfo {
-			margin: -$grid-base-two 0 $grid-base-five 20px;
-		}
-	}
-
-	&__postcodeFlyout {
-		position: absolute;
-		top: 66px;
-		right: 0;
-		left: 0;
-		max-width: $maxFormElementWidth;
-		padding-bottom: $grid-base-six;
-		text-align: left;
-		z-index: 20;
-
-		&:after,
-		&:before {
-			content: '';
-			position: absolute;
-			top: -13px;
-			left: 0;
-			right: 0;
-			width: 20px;
-			margin: 0 auto;
-			border-left: 10px solid transparent;
-			border-right: 10px solid transparent;
-			transform: rotate(180deg);
-		}
-
-		&:before {
-			border-top: 10px solid $white;
-			margin-top: 5px;
-			z-index: 2;
-		}
-
-		&:after {
-			border-top: 10px solid $form-disabled;
-			margin-top: 3px;
-			z-index: 1;
-		}
-
-		&__content {
-			box-sizing: border-box;
-			background: $white;
-			padding: $grid-base-two 20px;
-			width: 100%;
-			border: 1px solid $form-disabled;
-			@include rounded-drop-shadow;
-			cursor: pointer;
-
-			&:hover {
-				color: $primary;
-				background-color: $hover-select;
-			}
-		}
-
-		&__name,
-		&__postcode {
-			font-weight: $font-weight-bold;
-		}
-
-		&__name {
-			margin-bottom: $grid-base;
-		}
-
-		&__teamagency,
-		&__description {
-			font-size: $font-size-secondary;
-			line-height: $line-height-secondary;
-			margin-bottom: $grid-base;
-			color: $tertiary;
-		}
-
-		&__teamagency {
-			display: flex;
-			align-items: flex-end;
+			margin: $grid-base-three 0;
 		}
 	}
 

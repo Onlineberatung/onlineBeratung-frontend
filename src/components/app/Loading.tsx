@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import './loading.styles';
 
 export const Loading = () => {
 	// show loading spinner after 500ms
@@ -7,7 +8,7 @@ export const Loading = () => {
 	setTimeout(() => setHide(false), 500);
 
 	return (
-		<div className="loading__spinnerWrapper ">
+		<div className="loading__wrapper">
 			<div
 				className={`loading__spinner ${
 					hide ? 'loading__spinner--hide' : null

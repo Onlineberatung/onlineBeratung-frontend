@@ -20,9 +20,7 @@ const groupChat = {
 	'create.listItem.label': 'Neuer Chat',
 	'createSuccess.overlayHeadline':
 		'Sie haben erfolgreich einen Chat angelegt.',
-	'createSuccess.overlayCopy': 'Link: blabla',
-	'createSuccess.overlay.button1Label': 'Link kopieren',
-	'createSuccess.overlay.button2Label': 'Schliessen',
+	'createSuccess.overlay.buttonLabel': 'Schliessen',
 	'createError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.',
 	'createError.overlay.buttonLabel': 'Schliessen',

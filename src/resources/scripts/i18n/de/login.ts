@@ -2,6 +2,8 @@ const login = {
 	'headline': 'Login',
 	'user.label': 'Benutzername/E-Mail',
 	'password.label': 'Passwort',
+	'warning.failed':
+		'Benutzername oder Passwort sind nicht korrekt. Bitte versuchen Sie es erneut.',
 	'button.label': 'Anmelden',
 	'resetPasswort.label': 'Passwort vergessen?',
 	'register.infoText.title': 'Noch nicht registriert?',

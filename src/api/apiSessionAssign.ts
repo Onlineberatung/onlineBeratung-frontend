@@ -6,7 +6,7 @@ export const apiSessionAssign = async (
 	consultantId: string
 ) => {
 	const url =
-		config.endpoints.sessionAssign +
+		config.endpoints.sessionBase +
 		'/' +
 		sessionId +
 		'/consultant/' +

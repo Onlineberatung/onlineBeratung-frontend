@@ -5,29 +5,29 @@
 	font-weight: $font-weight-medium;
 
 	&--1 {
-		font-size: $font-size-h1;
+		font-size: 40px;
 		line-height: 50px;
 		margin-bottom: $grid-base-five;
 	}
 
 	&--2 {
-		font-size: $font-size-h2;
+		font-size: 30px;
 		line-height: 38px;
 		margin-bottom: $grid-base-three;
 	}
 
 	&--3 {
-		font-size: $font-size-h3;
+		font-size: 24px;
 		line-height: 32px;
 	}
 
 	&--4 {
-		font-size: $font-size-h4;
+		font-size: 20px;
 		line-height: 26px;
 	}
 
 	&--5 {
-		font-size: $font-size-h5;
+		font-size: 16px;
 		line-height: 21px;
 	}
 }
