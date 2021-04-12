@@ -26,7 +26,7 @@ import {
 	IncomingVideoCallProps,
 	VideoCallRequestProps
 } from '../incomingVideoCall/IncomingVideoCall';
-import './app.styles';
+import './authenticatedApp.styles';
 import './navigation.styles';
 
 export const AuthenticatedAppContainer = (props) => {

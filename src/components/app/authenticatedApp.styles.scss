@@ -12,12 +12,9 @@ a {
 
 .app {
 	height: 100%;
+
 	&--blur {
 		filter: blur(5px);
-
-		&#registrationRoot {
-			position: fixed;
-		}
 	}
 }
 
