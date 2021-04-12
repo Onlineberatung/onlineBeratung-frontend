@@ -34,6 +34,7 @@ import { FormAccordion } from '../formAccordion/FormAccordion';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
 import { LegalInformationLinks } from '../login/LegalInformationLinks';
 import { getUrlParameter } from '../../resources/scripts/helpers/getUrlParameter';
+import './registrationForm.styles';
 
 interface RegistrationFormProps {
 	registrationData: ResortDataInterface;
