@@ -17,7 +17,6 @@
 			"consultingType": 0
 		}
 	],
-	"userRoles": ["consultant"],
 	"grantedAuthorities": ["AUTHORIZATION_CONSULTANT_DEFAULT"],
 	"consultingTypes": null,
 	"formalLanguage": true,
