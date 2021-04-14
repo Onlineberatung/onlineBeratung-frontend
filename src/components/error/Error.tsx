@@ -1,6 +1,5 @@
 import '../../polyfill';
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
 import { errorData } from './errorData';
 import { ReactComponent as Icon401 } from '../../resources/img/illustrations/kein-zutritt.svg';
 import { ReactComponent as Icon404 } from '../../resources/img/illustrations/ooh.svg';
@@ -14,11 +13,7 @@ const getErrorType = () => {
 	return errorRoot?.dataset?.errortype;
 };
 
-export const initError = () => {
-	ReactDOM.render(<Error />, document.getElementById('errorRoot'));
-};
-
-const Error = () => {
+export const Error = () => {
 	const [{ Icon, headline, infoText, hasCaritasButton }] = useState(() => {
 		const type = getErrorType();
 

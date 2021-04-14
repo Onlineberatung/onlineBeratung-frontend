@@ -33,7 +33,7 @@ export const getGroupChatDate = (
 			  };
 	const newStartDate = chatDate.toLocaleDateString(
 		'de-DE',
-		startDateFormatOptions
+		startDateFormatOptions as any
 	);
 	const formatedStartDate = newStartDate.slice(0, 2) + newStartDate.slice(3);
 

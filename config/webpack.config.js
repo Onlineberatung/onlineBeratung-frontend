@@ -377,13 +377,16 @@ module.exports = function (webpackEnv) {
 						// The preset includes JSX, Flow, TypeScript, and some ESnext features.
 						{
 							test: /\.(js|mjs|jsx|ts|tsx)$/,
-							include: paths.appSrc,
+							include: [
+								paths.appSrc,
+								path.resolve('node_modules/amannn-caritas-online-beratung-frontend')
+							],
 							loader: require.resolve('babel-loader'),
 							options: {
 								customize: require.resolve(
 									'babel-preset-react-app/webpack-overrides'
 								),
-
+								presets: ['react-app'],
 								plugins: [
 									[
 										require.resolve('babel-plugin-named-asset-import'),

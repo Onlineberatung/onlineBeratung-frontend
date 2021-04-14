@@ -44,7 +44,7 @@ import {
 import { getChatDate } from '../session/sessionDateHelpers';
 import { updateChatSuccessOverlayItem } from './groupChatHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
-import '../../../node_modules/react-datepicker/src/stylesheets/datepicker.scss';
+import 'react-datepicker/src/stylesheets/datepicker.scss';
 import '../datepicker/datepicker.styles';
 import './createChat.styles';
 
