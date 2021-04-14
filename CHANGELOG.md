@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.7.0...v2.8.0) (2021-04-14)
+
+
+### Features
+
+* 🎸 reference consultingType from chatitem ([a3d1d38](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/a3d1d3897af92b6571756d829dc09742389142c6))
+
+
+### Bug Fixes
+
+* 🐛 get consulting type for kreuzbund from other structure ([b6aa3ec](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/b6aa3ec742c510abb88872b7f4d7041b52b60f27))
+
 ## [2.7.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.6.0...v2.7.0) (2021-04-09)
 
 
