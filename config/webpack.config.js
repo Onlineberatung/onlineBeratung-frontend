@@ -147,14 +147,17 @@ module.exports = function (webpackEnv) {
         },
         {
           loader: require.resolve(preProcessor),
-		  options: 
-		  {
-			sassOptions: {includePaths: ['./src/resources/styles/settings.scss']},
-			prependData: `@import "${path.resolve(`${__dirname}/../`, 'src/resources/styles/settings.scss')}";`,
-            sourceMap: true,
-          },
-        }
-      );
+					options: {
+						sassOptions: {includePaths: [
+							path.resolve(
+								process.cwd(),
+								'./src/resources/styles/settings.scss'
+							)]},
+						prependData: `@import "${path.resolve(process.cwd(), './src/resources/styles/settings.scss')}";`,
+						sourceMap: true,
+					},
+				}
+			);
     }
     return loaders;
   };
