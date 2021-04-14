@@ -241,14 +241,11 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	};
 
-	const activeConsultingType =
-		activeSession.session?.consultingType ||
-		activeSession.chat.consultingType;
 	const resortData: ResortData = Object.entries(
 		registrationResortsData
 	).filter(
 		(resort) =>
-			resort[1].consultingType === activeConsultingType?.toString()
+			resort[1].consultingType === chatItem.consultingType?.toString()
 	)[0][1];
 
 	return (

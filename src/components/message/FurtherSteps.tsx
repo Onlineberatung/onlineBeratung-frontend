@@ -35,6 +35,7 @@ import {
 } from '../../globalState';
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
 import { isVoluntaryInfoSet } from './messageHelpers';
+import { getChatItemForSession } from '../session/sessionHelpers';
 
 const addEmailButton: ButtonItem = {
 	label: translate('furtherSteps.emailNotification.button'),
@@ -67,6 +68,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	>();
 
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
+	const chatItem = getChatItemForSession(activeSession);
 
 	useEffect(() => {
 		const sessionData =
@@ -180,7 +182,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	const handleVoluntarySuccess = (generatedRegistrationData) => {
 		let updatedUserData = userData;
 		updatedUserData.consultingTypes[
-			activeSession.session.consultingType
+			chatItem.consultingType
 		].sessionData = generatedRegistrationData;
 		setUserData(updatedUserData);
 		setShowAddVoluntaryInfo(false);
