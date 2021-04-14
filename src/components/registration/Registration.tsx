@@ -10,7 +10,6 @@ import { WelcomeScreen } from './WelcomeScreen';
 import { ResortDataInterface } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
 import { apiGetResortData } from '../../api';
-import '../../resources/styles/styles';
 import './registration.styles';
 
 export const initRegistration = () => {

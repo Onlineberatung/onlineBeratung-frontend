@@ -7,3 +7,4 @@
 export { App } from './src/components/app/app';
 export { Login } from './src/components/login/Login';
 export { Error } from './src/components/error/Error';
+export * from './src/globalState';
