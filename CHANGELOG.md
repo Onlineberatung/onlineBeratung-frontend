@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.8.0...v2.8.1) (2021-04-14)
+
+
+### Bug Fixes
+
+* 🐛 don't trim username on login ([b7be7c1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/b7be7c1295fb6dad6ee896b0e46bf1cd14c34722))
+
 ## [2.8.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.7.0...v2.8.0) (2021-04-14)
 
 
