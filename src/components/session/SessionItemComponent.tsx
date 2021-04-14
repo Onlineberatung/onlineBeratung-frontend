@@ -245,8 +245,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		registrationResortsData
 	).filter(
 		(resort) =>
-			resort[1].consultingType ===
-			activeSession.session.consultingType?.toString()
+			resort[1].consultingType === chatItem.consultingType?.toString()
 	)[0][1];
 
 	return (
