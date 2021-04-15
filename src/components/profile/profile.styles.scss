@@ -444,6 +444,10 @@ $maxFormElementWidth: 320px;
 		}
 	}
 
+	&__consultingModeInfo {
+		margin: 0 0 $grid-base-four;
+	}
+
 	.select__wrapper {
 		padding: 0;
 		margin: $grid-base-three auto;
