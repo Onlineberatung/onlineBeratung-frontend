@@ -427,6 +427,14 @@ const registrationData = {
 		useInformal: false,
 		overline: translate('registration.overline.men'),
 		welcomeTitle: translate('registration.welcomeScreen.title.men')
+	},
+	supportGroupVechta: {
+		consultingType: '21',
+		useInformal: false,
+		overline: translate('registration.overline.supportGroupVechta'),
+		welcomeTitle: translate(
+			'registration.welcomeScreen.title.supportGroupVechta'
+		)
 	}
 };
 
