@@ -193,7 +193,7 @@ export const SessionMenu = () => {
 		label: translate('chatFlyout.feedback')
 	};
 
-	const hasVideoCallFeatures = () => false;
+	const hasVideoCallFeatures = () => true;
 	// TODO: reimplement on videocall release
 	// !isGroupChat &&
 	// !typeIsEnquiry(getTypeOfLocation()) &&
