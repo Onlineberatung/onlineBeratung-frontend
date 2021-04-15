@@ -321,6 +321,24 @@ module.exports = function (webpackEnv) {
 					'scheduler/tracing': 'scheduler/tracing-profiling',
 				}),
 				...(modules.webpackAliases || {}),
+				// Resolve translations to local files
+				[path.resolve(
+					__dirname,
+					'../src/resources/scripts/i18n/defaultLocale'
+				)]:
+				path.resolve(
+					process.cwd(),
+					'./src/resources/scripts/i18n/defaultLocale'
+				)
+				,
+				[path.resolve(
+					__dirname,
+					'../src/resources/scripts/i18n/informalLocale'
+				)]: 
+				path.resolve(
+					process.cwd(),
+					'./src/resources/scripts/i18n/informalLocale'
+				)
 			},
 			plugins: [
 				// Adds support for installing with Plug'n'Play, leading to faster installs and adding
