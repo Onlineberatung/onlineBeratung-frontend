@@ -193,11 +193,15 @@ export const SessionMenu = () => {
 		label: translate('chatFlyout.feedback')
 	};
 
-	const hasVideoCallFeatures = () => true;
-	// TODO: reimplement on videocall release
-	// !isGroupChat &&
-	// !typeIsEnquiry(getTypeOfLocation()) &&
-	// hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+	const hasVideoCallFeatures = () => {
+		// false
+		// TODO: reimplement on videocall release
+		return (
+			!isGroupChat &&
+			!typeIsEnquiry(getTypeOfLocation()) &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+		);
+	};
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
 		const videoCallWindow = window.open('', '_blank');
