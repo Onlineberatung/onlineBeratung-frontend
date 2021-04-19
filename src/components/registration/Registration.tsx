@@ -251,6 +251,7 @@ const Registration = () => {
 								additionalStepsData={
 									resortData.requiredComponents
 								}
+								registrationNotes={resortData.registrationNotes}
 							></FormAccordion>
 
 							{preselectedAgencyData &&

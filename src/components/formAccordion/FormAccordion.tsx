@@ -12,6 +12,7 @@ import { RegistrationState } from '../registration/RegistrationState';
 import { RegistrationPassword } from '../registration/RegistrationPassword';
 import {
 	AccordionItemValidity,
+	RegistrationNotes,
 	RequiredComponents
 } from '../registration/registrationHelpers';
 
@@ -21,6 +22,7 @@ interface FormAccordionProps {
 	preselectedAgencyData: any;
 	handleFormAccordionData: Function;
 	additionalStepsData?: RequiredComponents;
+	registrationNotes?: RegistrationNotes;
 }
 
 export const FormAccordion = (props: FormAccordionProps) => {
@@ -125,7 +127,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					onValidityChange={(validity) =>
 						setPasswordValidity(validity)
 					}
-					hasNoResetNote={props.consultingType === 1}
+					passwordNote={props.registrationNotes?.password}
 				/>
 			),
 			isValid: passwordValidity
@@ -145,6 +147,9 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					onAgencyChange={(agency) => setAgency(agency)}
 					onValidityChange={(validity) =>
 						setSelectedAgencyValidity(validity)
+					}
+					agencySelectionNote={
+						props.registrationNotes?.agencySelection
 					}
 				/>
 			),

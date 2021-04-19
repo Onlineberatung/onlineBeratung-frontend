@@ -34,6 +34,11 @@ export type RequiredComponents = {
 	state?: any;
 };
 
+export type RegistrationNotes = {
+	agencySelection?: string;
+	password?: string;
+};
+
 export interface ResortData {
 	consultingType: string;
 	overline: string;
@@ -41,6 +46,7 @@ export interface ResortData {
 	useInformal: boolean;
 	requiredComponents?: RequiredComponents;
 	voluntaryComponents?: any[];
+	registrationNotes?: RegistrationNotes;
 }
 
 export type RegistrationDropdownSelectData = {
