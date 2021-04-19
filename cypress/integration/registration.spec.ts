@@ -21,10 +21,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.suchtberatung.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.suchtberatung.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -47,13 +53,22 @@ describe('registration', () => {
 			});
 		});
 
-		it('should have a password reset info text', () => {
+		it('should have a password info text', () => {
 			cy.fixture('service.agencies.json').then((agencies) => {
 				cy.intercept(config.endpoints.agencyServiceBase, agencies);
 				cy.visit('/registration.u25.html?aid=1');
 				cy.get('[data-cy=close-welcome-screen]').click();
-				cy.get('[data-cy=no-password-reset-possible-note]').should(
-					'exist'
+				cy.get('[data-cy=registration-password-note]').should('exist');
+			});
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.fixture('service.agencies.json').then((agencies) => {
+				cy.intercept(config.endpoints.agencyServiceBase, agencies);
+				cy.visit('/registration.u25.html?aid=1');
+				cy.get('[data-cy=close-welcome-screen]').click();
+				cy.get('[data-cy=registration-agency-selection-note]').should(
+					'not.exist'
 				);
 			});
 		});
@@ -78,10 +93,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.schwangerschaftsberatung.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.schwangerschaftsberatung.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -94,10 +115,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.eltern-familie.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.eltern-familie.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -110,10 +137,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.kurberatung.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.kurberatung.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -126,10 +159,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.schuldnerberatung.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.schuldnerberatung.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -142,10 +181,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.allgemeine-soziale-beratung.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.allgemeine-soziale-beratung.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -158,10 +203,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.leben-im-alter.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.leben-im-alter.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -176,12 +227,20 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit(
 				'/registration.behinderung-und-psychische-erkrankung.html'
 			);
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit(
+				'/registration.behinderung-und-psychische-erkrankung.html'
+			);
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -194,10 +253,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.mein-planb.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.mein-planb.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -210,10 +275,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.rechtliche-betreuung.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.rechtliche-betreuung.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -226,10 +297,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.straffaelligkeit.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.straffaelligkeit.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -242,10 +319,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.hiv-aids-beratung.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.hiv-aids-beratung.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -258,10 +341,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.kinder-reha.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.kinder-reha.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -274,10 +363,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.kinder-jugendliche.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.kinder-jugendliche.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -290,10 +385,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.kb-sucht-selbsthilfe.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.kb-sucht-selbsthilfe.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -306,10 +407,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.migration.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.migration.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -322,11 +429,17 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.rw-auswanderung.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
-				'not.exist'
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have a agency selection info text', () => {
+			cy.visit('/registration.rw-auswanderung.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
+				'exist'
 			);
 		});
 	});
@@ -338,10 +451,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.hospiz-palliativ.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.hospiz-palliativ.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -354,10 +473,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.regionale-angebote.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.regionale-angebote.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
@@ -370,10 +495,16 @@ describe('registration', () => {
 			checkForGenericRegistrationElements();
 		});
 
-		it('should have no password reset info text', () => {
+		it('should have no password info text', () => {
 			cy.visit('/registration.jungen-und-maenner.html');
 			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
+			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		});
+
+		it('should have no agency selection info text', () => {
+			cy.visit('/registration.jungen-und-maenner.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
 			);
 		});
