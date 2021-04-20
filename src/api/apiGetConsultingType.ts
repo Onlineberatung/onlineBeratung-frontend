@@ -1,8 +1,8 @@
-import { ResortDataInterface } from '../globalState';
+import { ConsultingTypeInterface } from '../globalState';
 import { translate } from '../resources/scripts/i18n/translate';
 
 // TODO: This should be moved to the API at some point
-const registrationData: Record<string, ResortDataInterface> = {
+const consultingTypes: Record<string, ConsultingTypeInterface> = {
 	'suchtberatung': {
 		consultingType: 0,
 		useInformal: false,
@@ -433,15 +433,15 @@ const registrationData: Record<string, ResortDataInterface> = {
 	}
 };
 
-export const apiGetResortData = async (params: {
+export const apiGetConsultingType = async (params: {
 	resortName?: string;
 	consultingType?: number;
-}): Promise<ResortDataInterface> => {
+}): Promise<ConsultingTypeInterface> => {
 	let foundData;
 	if (params.resortName != null) {
-		foundData = registrationData[params.resortName];
+		foundData = consultingTypes[params.resortName];
 	} else if (params.consultingType !== null) {
-		foundData = Object.values(registrationData).find(
+		foundData = Object.values(consultingTypes).find(
 			(cur) => cur.consultingType === params.consultingType
 		);
 	}

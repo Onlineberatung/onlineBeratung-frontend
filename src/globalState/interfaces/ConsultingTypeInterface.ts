@@ -3,7 +3,7 @@ export type RequiredComponentsInterface = {
 	state?: any;
 };
 
-export interface ResortDataInterface {
+export interface ConsultingTypeInterface {
 	consultingType: number;
 	overline: string;
 	welcomeTitle: string;
