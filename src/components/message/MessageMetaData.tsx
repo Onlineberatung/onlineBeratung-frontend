@@ -8,7 +8,7 @@ import {
 	hasUserAuthority,
 	AUTHORITIES
 } from '../../globalState';
-import { formatToHHMM } from '../../resources/scripts/helpers/dateHelpers';
+import { formatToHHMM } from '../../utils/dateHelpers';
 import {
 	SESSION_TYPES,
 	isGroupChatForSessionItem

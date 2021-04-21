@@ -30,7 +30,7 @@ import {
 	OVERLAY_FUNCTIONS,
 	OverlayItem
 } from '../overlay/Overlay';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { history } from '../app/app';
 import {
 	startButtonItem,
@@ -43,7 +43,7 @@ import { logout } from '../logout/logout';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
-import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
+import { isGroupChatConsultingType } from '../../utils/resorts';
 
 export const JoinGroupChatView = () => {
 	const { userData } = useContext(UserDataContext);

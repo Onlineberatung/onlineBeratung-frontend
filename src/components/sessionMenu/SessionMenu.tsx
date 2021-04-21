@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
 import { Link, Redirect } from 'react-router-dom';
 import {
@@ -19,7 +19,7 @@ import {
 	getSessionListPathForLocation,
 	getTypeOfLocation
 } from '../session/sessionHelpers';
-import { isGenericConsultingType } from '../../resources/scripts/helpers/resorts';
+import { isGenericConsultingType } from '../../utils/resorts';
 import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
 	stopGroupChatSecurityOverlayItem,
@@ -44,7 +44,7 @@ import './sessionMenu.styles';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import { getVideoCallUrl } from '../../resources/scripts/helpers/videoCallHelpers';
+import { getVideoCallUrl } from '../../utils/videoCallHelpers';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);

@@ -11,7 +11,7 @@ import {
 	getSessionListPathForLocation
 } from '../session/sessionHelpers';
 import { history } from '../app/app';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import {
 	SessionsDataContext,
 	ListItemInterface,

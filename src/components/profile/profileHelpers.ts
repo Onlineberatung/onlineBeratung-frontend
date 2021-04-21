@@ -1,8 +1,5 @@
 import { ButtonItem, BUTTON_TYPES } from '../button/Button';
-import {
-	translate,
-	getResortTranslation
-} from '../../resources/scripts/i18n/translate';
+import { translate, getResortTranslation } from '../../utils/translate';
 import { UserDataInterface } from '../../globalState';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
