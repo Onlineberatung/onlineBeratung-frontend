@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import { apiGetMonitoring } from '../../api';
 import { ReactComponent as EditIcon } from '../../resources/img/icons/pen.svg';
-import './profile.styles';
+import { Text } from '../text/Text';
 
 const buttonSet: ButtonItem = {
 	label: translate('userProfile.monitoring.buttonLabel'),
@@ -32,7 +32,7 @@ const buttonSet: ButtonItem = {
 	type: BUTTON_TYPES.SECONDARY
 };
 
-export const UserMonitoring = () => {
+export const AskerInfoMonitoring = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
@@ -119,25 +119,26 @@ export const UserMonitoring = () => {
 	};
 
 	const renderAssign = () => {
-		return hasUserAuthority(
-			AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
-			userData
-		) ? (
-			<div className="profile__content__item__assign">
-				<p className="profile__content__title">
-					{translate('userProfile.reassign.title')}
-				</p>
-				<SessionAssign value={activeSession.consultant.id} />
-			</div>
-		) : null;
+		return (
+			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) && (
+				<div className="profile__content__item__assign">
+					<Text
+						text={translate('userProfile.reassign.title')}
+						type="divider"
+					/>
+					<SessionAssign value={activeSession.consultant.id} />
+				</div>
+			)
+		);
 	};
 
 	if (monitoringDataAvailable) {
 		return (
 			<div className="profile__content__item profile__functions">
-				<p className="profile__content__title">
-					{translate('userProfile.monitoring.title')}
-				</p>
+				<Text
+					text={translate('userProfile.monitoring.title')}
+					type="divider"
+				/>
 				<div className="profile__data__content">
 					{renderAddiction(cleanMonitoringData, true)}
 				</div>
@@ -148,14 +149,15 @@ export const UserMonitoring = () => {
 
 	return (
 		<div className="profile__content__item profile__functions">
-			<p className="profile__content__title">
-				{translate('userProfile.monitoring.title')}
-			</p>
-			{!typeIsEnquiry(activeSession.type) ? (
+			<Text
+				text={translate('userProfile.monitoring.title')}
+				type="divider"
+			/>
+			{!typeIsEnquiry(activeSession.type) && (
 				<Link to={monitoringLink}>
 					<Button item={buttonSet} isLink={true} />
 				</Link>
-			) : null}
+			)}
 			{renderAssign()}
 		</div>
 	);

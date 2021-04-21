@@ -16,10 +16,10 @@ import {
 	convertUserDataObjectToArray,
 	getAddictiveDrugsTranslatable,
 	getUserDataTranslateBase
-} from './profileHelpers';
-import './profile.styles';
+} from '../profile/profileHelpers';
+import { Text } from '../text/Text';
 
-export const UserDataView = () => {
+export const AskerInfoData = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
@@ -36,17 +36,14 @@ export const UserDataView = () => {
 
 	return (
 		<div className="profile__content__item profile__data">
-			<p className="profile__content__title">
-				{translate('userProfile.data.title')}
-			</p>
-
+			<Text text={translate('userProfile.data.title')} type="divider" />
 			<div className="profile__data__item">
 				<p className="profile__data__label">
 					{translate('userProfile.data.resort')}
 				</p>
 				<p className="profile__data__content">{resort}</p>
 			</div>
-			{activeSession.session.consultingType === 0 ? (
+			{activeSession.session.consultingType === 0 && (
 				<div className="profile__data__item">
 					<p className="profile__data__label">
 						{translate('userProfile.data.postcode')}
@@ -55,7 +52,7 @@ export const UserDataView = () => {
 						{activeSession.session.postcode}
 					</p>
 				</div>
-			) : null}
+			)}
 			{preparedUserSessionData.map((item, index) => (
 				<div className="profile__data__item" key={index}>
 					<p className="profile__data__label">

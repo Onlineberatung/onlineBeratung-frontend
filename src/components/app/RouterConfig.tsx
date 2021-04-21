@@ -2,7 +2,7 @@ import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import { SESSION_TYPES } from '../session/sessionHelpers';
 import { SessionView } from '../session/SessionView';
 import { WriteEnquiry } from '../enquiry/WriteEnquiry';
-import { AskerInfo } from '../profile/AskerInfo';
+import { AskerInfo } from '../askerInfo/AskerInfo';
 import { Monitoring } from '../monitoring/Monitoring';
 import { ProfileView } from '../profile/ProfileView';
 import { SessionViewEmpty } from '../session/SessionViewEmpty';
