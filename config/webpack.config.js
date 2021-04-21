@@ -75,6 +75,18 @@ const hasJsxRuntime = (() => {
   }
 })();
 
+const localAliases = (paths) =>
+	paths.map(localPath =>
+		[
+			path.resolve(__dirname, `../${localPath}`),
+			path.resolve(process.cwd(), `./src/${localPath}`)
+		]
+	)
+	.reduce((aliases, [requestedPath, resolvedPath]) => {
+		aliases[requestedPath] = resolvedPath
+		return aliases;
+	}, {});
+
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function (webpackEnv) {
@@ -321,24 +333,14 @@ module.exports = function (webpackEnv) {
 					'scheduler/tracing': 'scheduler/tracing-profiling',
 				}),
 				...(modules.webpackAliases || {}),
-				// Resolve translations to local files
-				[path.resolve(
-					__dirname,
-					'../src/resources/scripts/i18n/defaultLocale'
-				)]:
-				path.resolve(
-					process.cwd(),
-					'./src/resources/scripts/i18n/defaultLocale'
-				)
-				,
-				[path.resolve(
-					__dirname,
-					'../src/resources/scripts/i18n/informalLocale'
-				)]: 
-				path.resolve(
-					process.cwd(),
-					'./src/resources/scripts/i18n/informalLocale'
-				)
+
+				// When this project is used as a library, resolve these files from the consuming project.
+				// This enables configuration without having to adjust source files.
+				...localAliases([
+					'src/resources/scripts/config',
+					'src/resources/scripts/i18n/defaultLocale',
+					'src/resources/scripts/i18n/informalLocale'
+				])
 			},
 			plugins: [
 				// Adds support for installing with Plug'n'Play, leading to faster installs and adding
