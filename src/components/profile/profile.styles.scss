@@ -209,12 +209,8 @@ $maxFormElementWidth: 320px;
 			}
 		}
 
-		&__title {
-			font-family: $font-family-slab-regular;
-			font-size: $font-size-secondary;
-			line-height: $line-height-secondary;
+		.text__divider {
 			text-align: center;
-			color: $light-grey;
 			margin-bottom: $grid-base-three;
 		}
 
@@ -268,7 +264,7 @@ $maxFormElementWidth: 320px;
 			border-bottom: 1px solid $line-grey;
 
 			&Wrapper {
-				.profile__content__title {
+				.text__divider {
 					margin: $grid-base-four 0 $grid-base-two;
 				}
 			}
