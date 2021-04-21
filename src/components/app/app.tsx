@@ -1,3 +1,4 @@
+import '../../polyfill';
 import * as React from 'react';
 import { useState } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';

@@ -1,11 +1,6 @@
-# caritas-onlineBeratung-frontend
+# Getting Started with Create React App
 
-The frontend app for the Caritas Online Beratung.
-
-This repository has two responsibilities:
-
-1. Be the executable frontend app for the Caritas Online Beratung
-2. Provide build tools and app code as a library, so this app can be developed and published in a themed setup
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
@@ -14,14 +9,15 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:9000](http://localhost:9000) to view it in the browser.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
 ### `npm test`
 
-Runs the Cypress end-to-end tests with a mocked backend.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
@@ -31,36 +27,20 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-## Library integration
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-When this project is used as a dependency, the consumer needs to fork these files from this repository into the consuming repository:
+### `npm run eject`
 
-```
-src
-  pages
-    app.html
-    under-construction.html
-  resources
-    scripts
-      i18n
-        defaultLocale.ts
-        informalLocale.ts
-      config.ts
-    styles
-      settings.scss
-  initApp.tsx
-  initError.tsx
-  initLogin.tsx
-```
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-They can be used to provide the necessary configuration and theming to the consuming app.
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Additionally, these scripts are available:
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-```sh
-# Run the dev server
-caritas-online-beratung-frontend start
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-# Build the app for production
-caritas-online-beratung-frontend build
-```
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
