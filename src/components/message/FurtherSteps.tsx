@@ -2,7 +2,7 @@ import * as React from 'react';
 import './furtherSteps.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as EnvelopeIllustration } from '../../resources/img/illustrations/envelope-check.svg';
 import { ReactComponent as ConsultantIllustration } from '../../resources/img/illustrations/consultant.svg';

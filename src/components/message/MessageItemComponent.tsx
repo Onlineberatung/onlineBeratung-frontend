@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { getPrettyDateFromMessageDate } from '../../resources/scripts/helpers/dateHelpers';
+import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
 import {
 	UserDataContext,
 	ActiveSessionGroupIdContext,

@@ -1,7 +1,7 @@
-import { getResortKeyForConsultingType } from '../helpers/resorts';
-import { getTokenFromCookie } from '../../../components/sessionCookie/accessSessionCookie';
-import defaultLocale from './defaultLocale';
-import informalLocale from './informalLocale';
+import { getResortKeyForConsultingType } from './resorts';
+import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import defaultLocale from '../resources/scripts/i18n/defaultLocale';
+import informalLocale from '../resources/scripts/i18n/informalLocale';
 
 export const getTranslation = (
 	translatable: string,

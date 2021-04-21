@@ -1,4 +1,4 @@
-import { generateCsrfToken } from '../resources/scripts/helpers/generateCsrfToken';
+import { generateCsrfToken } from '../utils/generateCsrfToken';
 import { autoLogin } from '../components/registration/autoLogin';
 import {
 	getErrorCaseForStatus,

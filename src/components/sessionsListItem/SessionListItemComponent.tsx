@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
-import { getPrettyDateFromMessageDate } from '../../resources/scripts/helpers/dateHelpers';
+import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
 import {
 	typeIsTeamSession,
 	getTypeOfLocation,
@@ -12,10 +12,7 @@ import {
 	getChatItemForSession,
 	isGroupChatForSessionItem
 } from '../session/sessionHelpers';
-import {
-	translate,
-	getResortTranslation
-} from '../../resources/scripts/i18n/translate';
+import { translate, getResortTranslation } from '../../utils/translate';
 import {
 	ActiveSessionGroupIdContext,
 	SessionsDataContext,
@@ -31,7 +28,7 @@ import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
 import './sessionsListItem.styles';
 import { Tag } from '../tag/Tag';
-import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
+import { isGroupChatConsultingType } from '../../utils/resorts';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
 

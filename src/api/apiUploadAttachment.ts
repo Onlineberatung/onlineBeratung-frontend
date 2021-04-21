@@ -1,7 +1,7 @@
 import { config } from '../resources/scripts/config';
 import { FETCH_METHODS } from './fetchData';
 import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
-import { generateCsrfToken } from '../resources/scripts/helpers/generateCsrfToken';
+import { generateCsrfToken } from '../utils/generateCsrfToken';
 
 export const apiUploadAttachment = (
 	messageData: string,
