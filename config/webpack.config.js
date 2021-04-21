@@ -79,7 +79,7 @@ const localAliases = (paths) =>
 	paths.map(localPath =>
 		[
 			path.resolve(__dirname, `../${localPath}`),
-			path.resolve(process.cwd(), `./src/${localPath}`)
+			path.resolve(process.cwd(), `./${localPath}`)
 		]
 	)
 	.reduce((aliases, [requestedPath, resolvedPath]) => {
