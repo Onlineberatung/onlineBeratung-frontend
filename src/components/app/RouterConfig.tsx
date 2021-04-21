@@ -4,7 +4,7 @@ import { SessionView } from '../session/SessionView';
 import { WriteEnquiry } from '../enquiry/WriteEnquiry';
 import { AskerInfo } from '../askerInfo/AskerInfo';
 import { Monitoring } from '../monitoring/Monitoring';
-import { ProfileView } from '../profile/ProfileView';
+import { Profile } from '../profile/Profile';
 import { SessionViewEmpty } from '../session/SessionViewEmpty';
 import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
@@ -53,7 +53,7 @@ export const RouterConfigUser = (): any => {
 		profileRoutes: [
 			{
 				path: '/profile',
-				component: ProfileView
+				component: Profile
 			}
 		]
 	};
@@ -152,7 +152,7 @@ export const RouterConfigConsultant = (): any => {
 		profileRoutes: [
 			{
 				path: '/profile',
-				component: ProfileView
+				component: Profile
 			}
 		]
 	};
@@ -290,7 +290,7 @@ export const RouterConfigTeamConsultant = (): any => {
 		profileRoutes: [
 			{
 				path: '/profile',
-				component: ProfileView
+				component: Profile
 			}
 		]
 	};

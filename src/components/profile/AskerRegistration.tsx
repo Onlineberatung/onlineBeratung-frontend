@@ -35,7 +35,7 @@ import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
 
-export const AskerNewRegistration = () => {
+export const AskerRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingType, setSelectedConsultingType] = useState<

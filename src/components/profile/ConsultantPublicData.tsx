@@ -1,0 +1,38 @@
+import * as React from 'react';
+import { useContext } from 'react';
+import { UserDataContext } from '../../globalState';
+import { translate } from '../../resources/scripts/i18n/translate';
+import { Headline } from '../headline/Headline';
+import { Text } from '../text/Text';
+
+export const ConsultantPublicData = () => {
+	const { userData } = useContext(UserDataContext);
+
+	return (
+		<>
+			<Headline text={'Öffentliche Daten'} semanticLevel="5" />
+			<Text
+				text={'Diese Daten werden den Ratsuchenden angezeigt.'}
+				type="infoLargeAlternative"
+			/>
+			<div className="profile__data__item">
+				<p className="profile__data__label">
+					{translate('profile.data.userName')}
+				</p>
+				<p className="profile__data__content">{userData.userName}</p>
+			</div>
+			<div className="profile__data__item">
+				<p className="profile__data__label">
+					{translate('profile.data.agency')}
+				</p>
+				{userData.agencies.map((item, i) => {
+					return (
+						<p className="profile__data__content" key={i}>
+							{item.name}
+						</p>
+					);
+				})}
+			</div>
+		</>
+	);
+};
