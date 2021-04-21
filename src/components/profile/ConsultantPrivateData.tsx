@@ -10,9 +10,12 @@ export const ConsultantPrivateData = () => {
 
 	return (
 		<>
-			<Headline text={'Private Daten'} semanticLevel="5" />
+			<Headline
+				text={translate('profile.data.title.private')}
+				semanticLevel="5"
+			/>
 			<Text
-				text={'Diese Daten können die Ratsuchenden nicht einsehen.'}
+				text={translate('profile.data.info.private')}
 				type="infoLargeAlternative"
 			/>
 			<div className="profile__data__item">
