@@ -1,4 +1,3 @@
-import '../../polyfill';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Stage } from '../stage/stage';

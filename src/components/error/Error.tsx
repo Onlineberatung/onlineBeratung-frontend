@@ -1,4 +1,3 @@
-import '../../polyfill';
 import React, { useState } from 'react';
 import { errorData } from './errorData';
 import { ReactComponent as Icon401 } from '../../resources/img/illustrations/kein-zutritt.svg';

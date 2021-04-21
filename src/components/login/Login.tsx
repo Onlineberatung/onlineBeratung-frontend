@@ -1,4 +1,3 @@
-import '../../polyfill';
 import * as React from 'react';
 import { Stage } from '../stage/stage';
 import { translate } from '../../utils/translate';
