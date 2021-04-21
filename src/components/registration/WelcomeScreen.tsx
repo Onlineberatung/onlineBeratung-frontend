@@ -3,7 +3,7 @@ import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { ReactComponent as EnvelopeIcon } from '../../resources/img/icons/envelope.svg';
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Text } from '../text/Text';
 import { config } from '../../resources/scripts/config';

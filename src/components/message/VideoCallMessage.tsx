@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { VideoCallMessageDTO } from './MessageItemComponent';
 import {
 	currentUserIsTeamConsultant,
 	currentUserWasVideoCallInitiator
-} from '../../utils/videoCallHelpers';
+} from '../../resources/scripts/helpers/videoCallHelpers';
 
 interface VideoCallMessageProps {
 	videoCallMessage: VideoCallMessageDTO;

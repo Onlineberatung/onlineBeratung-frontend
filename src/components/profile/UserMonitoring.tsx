@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {

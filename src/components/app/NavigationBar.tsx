@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import {
 	UserDataContext,
 	UnreadSessionsStatusContext,

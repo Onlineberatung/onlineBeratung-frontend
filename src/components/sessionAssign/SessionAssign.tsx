@@ -7,7 +7,7 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { history } from '../app/app';
 import {
 	apiGetUserData,

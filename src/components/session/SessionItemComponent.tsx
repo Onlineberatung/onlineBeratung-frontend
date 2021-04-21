@@ -13,7 +13,7 @@ import {
 } from './sessionHelpers';
 import { MessageItem } from '../message/MessageItemComponent';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { MessageItemComponent } from '../message/MessageItemComponent';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';

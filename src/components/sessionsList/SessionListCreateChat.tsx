@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { ReactComponent as SpeechBubblePlusIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
 

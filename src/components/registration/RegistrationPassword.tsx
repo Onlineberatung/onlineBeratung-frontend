@@ -7,12 +7,12 @@ import {
 } from '../inputField/InputField';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { LABEL_TYPES, Text } from '../text/Text';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import {
 	inputValuesFit,
 	passwordCriteria,
 	validatePasswordCriteria
-} from '../../utils/validateInputValue';
+} from '../../resources/scripts/helpers/validateInputValue';
 import { AccordionItemValidity } from './registrationHelpers';
 import './registrationPassword.styles';
 

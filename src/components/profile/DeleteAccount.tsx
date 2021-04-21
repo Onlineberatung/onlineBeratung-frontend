@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import {

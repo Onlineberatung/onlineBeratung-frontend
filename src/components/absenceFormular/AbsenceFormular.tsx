@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useContext, useState } from 'react';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
 import { InputFieldItem, InputField } from '../inputField/InputField';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { apiSetAbsence } from '../../api';
 import { BUTTON_TYPES } from '../button/Button';
 import {

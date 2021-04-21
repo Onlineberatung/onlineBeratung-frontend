@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { UserDataContext } from '../../globalState';
 import './profile.styles';
 

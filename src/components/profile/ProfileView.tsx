@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { ProfileDataViewConsultant } from './ProfileDataViewConsultant';
 import { ProfileFunctions } from './ProfileFunctions';
 import { logout } from '../logout/logout';

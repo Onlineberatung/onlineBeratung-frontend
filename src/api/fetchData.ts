@@ -1,5 +1,5 @@
 import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
-import { generateCsrfToken } from '../utils/generateCsrfToken';
+import { generateCsrfToken } from '../resources/scripts/helpers/generateCsrfToken';
 import {
 	getErrorCaseForStatus,
 	redirectToErrorPage

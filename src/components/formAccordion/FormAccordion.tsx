@@ -6,7 +6,7 @@ import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { AgencySelection } from '../agencySelection/AgencySelection';
 import { autoselectPostcodeForConsultingType } from '../agencySelection/agencySelectionHelpers';
 import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
 import { RegistrationAge } from '../registration/RegistrationAge';
 import { RegistrationState } from '../registration/RegistrationState';

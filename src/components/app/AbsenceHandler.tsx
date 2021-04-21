@@ -4,7 +4,7 @@ import {
 	OverlayWrapper,
 	Overlay
 } from '../overlay/Overlay';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import * as React from 'react';
 import { apiSetAbsence } from '../../api';

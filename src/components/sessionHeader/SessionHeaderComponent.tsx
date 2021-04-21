@@ -6,7 +6,7 @@ import {
 	handleNumericTranslation,
 	getAddictiveDrugsString,
 	getResortTranslation
-} from '../../utils/translate';
+} from '../../resources/scripts/i18n/translate';
 import { mobileListView } from '../app/navigationHandler';
 import {
 	UserDataContext,
@@ -30,10 +30,10 @@ import {
 	convertUserDataObjectToArray,
 	getAddictiveDrugsTranslatable
 } from '../profile/profileHelpers';
-import { isGenericConsultingType } from '../../utils/resorts';
+import { isGenericConsultingType } from '../../resources/scripts/helpers/resorts';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { apiGetGroupMembers } from '../../api';
-import { decodeUsername } from '../../utils/encryptionHelpers';
+import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';

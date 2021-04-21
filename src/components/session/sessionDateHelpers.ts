@@ -1,4 +1,4 @@
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { getValidTimeFormatForSelectedTime } from '../groupChat/createChatHelpers';
 
 export const getChatDate = (startDate, startTime) => {

@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 
 import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { SESSION_TYPES } from '../session/sessionHelpers';
 import {
 	OverlayItem,

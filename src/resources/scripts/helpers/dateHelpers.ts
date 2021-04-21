@@ -1,4 +1,4 @@
-import { translate } from './translate';
+import { translate } from '../i18n/translate';
 
 export const formatToDDMMYYYY = (unixDate: number) => {
 	const date = new Date(unixDate);

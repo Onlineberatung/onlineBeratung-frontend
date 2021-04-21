@@ -2,8 +2,8 @@ import { getKeycloakAccessToken } from '../sessionCookie/getKeycloakAccessToken'
 import { getRocketchatAccessToken } from '../sessionCookie/getRocketchatAccessToken';
 import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
 import { config } from '../../resources/scripts/config';
-import { generateCsrfToken } from '../../utils/generateCsrfToken';
-import { encodeUsername } from '../../utils/encryptionHelpers';
+import { generateCsrfToken } from '../../resources/scripts/helpers/generateCsrfToken';
+import { encodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
 import { setTokens } from '../auth/auth';
 
 export interface LoginData {

@@ -2,13 +2,13 @@ import {
 	SESSION_TYPES,
 	getChatItemForSession
 } from '../session/sessionHelpers';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import * as React from 'react';
 import { useContext } from 'react';
 import {
 	getPrettyDateFromMessageDate,
 	formatToHHMM
-} from '../../utils/dateHelpers';
+} from '../../resources/scripts/helpers/dateHelpers';
 import {
 	SessionsDataContext,
 	ActiveSessionGroupIdContext,

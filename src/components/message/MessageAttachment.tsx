@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import {
 	ATTACHMENT_TRANSLATE_FOR_TYPE,
 	getAttachmentSizeMBForKB

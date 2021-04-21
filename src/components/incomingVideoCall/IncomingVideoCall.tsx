@@ -3,14 +3,14 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 import { useContext } from 'react';
 import { NotificationsContext } from '../../globalState';
 import {
 	getVideoCallUrl,
 	NotificationType
-} from '../../utils/videoCallHelpers';
-import { decodeUsername } from '../../utils/encryptionHelpers';
+} from '../../resources/scripts/helpers/videoCallHelpers';
+import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
 import { apiRejectVideoCall } from '../../api';
 import './incomingVideoCall.styles';
 

@@ -1,4 +1,4 @@
-import { translate } from '../../utils/translate';
+import { translate } from '../../resources/scripts/i18n/translate';
 
 export const ATTACHMENT_TYPE_FOR_KEY = {
 	PNG: 'image/png',
