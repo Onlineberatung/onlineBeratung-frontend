@@ -9,15 +9,17 @@ export const ConsultantPrivateData = () => {
 	const { userData } = useContext(UserDataContext);
 
 	return (
-		<>
-			<Headline
-				text={translate('profile.data.title.private')}
-				semanticLevel="5"
-			/>
-			<Text
-				text={translate('profile.data.info.private')}
-				type="infoLargeAlternative"
-			/>
+		<div>
+			<div className="profile__content__title">
+				<Headline
+					text={translate('profile.data.title.private')}
+					semanticLevel="5"
+				/>
+				<Text
+					text={translate('profile.data.info.private')}
+					type="infoLargeAlternative"
+				/>
+			</div>
 			<div className="profile__data__item">
 				<p className="profile__data__label">
 					{translate('profile.data.firstName')}
@@ -66,6 +68,6 @@ export const ConsultantPrivateData = () => {
 						: translate('profile.noContent')}
 				</p>
 			</div>
-		</>
+		</div>
 	);
 };

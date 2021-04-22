@@ -214,13 +214,16 @@ $maxFormElementWidth: 320px;
 			margin-bottom: $grid-base-three;
 		}
 
-		&__subtitle {
-			font-family: $font-family-medium;
-			font-weight: $font-weight-medium;
+		&__title {
+			margin-bottom: $grid-base-three;
 			text-align: center;
 
 			@include breakpoint($fromLarge) {
 				text-align: left;
+			}
+
+			.text {
+				margin-top: $grid-base;
 			}
 		}
 
@@ -251,6 +254,17 @@ $maxFormElementWidth: 320px;
 		.profile__passwordLink {
 			display: inline-block;
 			line-height: 46px;
+		}
+	}
+
+	&__functions,
+	&__data {
+		> div:first-of-type {
+			margin-top: $grid-base-three;
+		}
+
+		> div:not(:first-of-type) {
+			margin-top: $grid-base-six;
 		}
 	}
 

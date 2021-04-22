@@ -59,11 +59,11 @@ export const AskerInfo = () => {
 				</div>
 				<div className="profile__content">
 					<AskerInfoData />
-					{(activeSession.session.monitoring &&
+					{((activeSession.session.monitoring &&
 						typeIsSession(activeSession.type)) ||
-						(typeIsTeamSession(activeSession.type) && (
-							<AskerInfoMonitoring />
-						))}
+						typeIsTeamSession(activeSession.type)) && (
+						<AskerInfoMonitoring />
+					)}
 				</div>
 			</div>
 		</div>

@@ -134,7 +134,7 @@ export const AskerInfoMonitoring = () => {
 
 	if (monitoringDataAvailable) {
 		return (
-			<div className="profile__content__item profile__functions">
+			<div className="profile__content__item">
 				<Text
 					text={translate('userProfile.monitoring.title')}
 					type="divider"
@@ -148,7 +148,7 @@ export const AskerInfoMonitoring = () => {
 	}
 
 	return (
-		<div className="profile__content__item profile__functions">
+		<div className="profile__content__item">
 			<Text
 				text={translate('userProfile.monitoring.title')}
 				type="divider"

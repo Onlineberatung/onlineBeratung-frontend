@@ -8,7 +8,7 @@ export const AskerAboutMeData = () => {
 	const { userData } = useContext(UserDataContext);
 
 	return (
-		<>
+		<div>
 			<Text text={translate('profile.data.title')} type="divider" />
 			<div className="profile__data__item">
 				<p className="profile__data__label">
@@ -32,6 +32,6 @@ export const AskerAboutMeData = () => {
 						: translate('profile.noContent')}
 				</p>
 			</div>
-		</>
+		</div>
 	);
 };

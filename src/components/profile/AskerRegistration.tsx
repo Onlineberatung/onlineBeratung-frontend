@@ -34,6 +34,7 @@ import './profile.styles';
 import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
+import { Headline } from '../headline/Headline';
 
 export const AskerRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -151,12 +152,12 @@ export const AskerRegistration = () => {
 		);
 	return (
 		<div className="profile__data__itemWrapper askerRegistration">
-			<p
-				className="askerRegistration__headline profile__content__subtitle"
-				dangerouslySetInnerHTML={{
-					__html: translate('profile.data.register.headline')
-				}}
-			></p>
+			<div className="profile__content__title">
+				<Headline
+					text={translate('profile.data.register.headline')}
+					semanticLevel="5"
+				/>
+			</div>
 			{isOnlyRegisteredForGroupChats ? (
 				<div className="askerRegistration__consultingTypeWrapper">
 					<SelectDropdown {...consultingTypesDropdown} />
