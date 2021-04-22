@@ -189,11 +189,6 @@ $headerHeight: 80px;
 		}
 	}
 
-	&--empty {
-		margin-top: $grid-base-four;
-		text-align: center;
-	}
-
 	&__itemsWrapper {
 		overflow-x: hidden;
 
@@ -222,15 +217,22 @@ $headerHeight: 80px;
 	}
 }
 
-.sessionsList__headline {
-	align-self: center;
-	font-size: $font-size-h3;
-	font-weight: $font-weight-medium;
-	line-height: $line-height-tertiary;
-	margin-bottom: 0;
-	margin-right: $grid-base-seven;
+.sessionsList {
+	&__headline {
+		align-self: center;
+		font-size: $font-size-h3;
+		font-weight: $font-weight-medium;
+		line-height: $line-height-tertiary;
+		margin-bottom: 0;
+		margin-right: $grid-base-seven;
 
-	@include breakpoint($fromLarge) {
-		margin-left: 0;
+		@include breakpoint($fromLarge) {
+			margin-left: 0;
+		}
+	}
+
+	&--empty {
+		margin-top: $grid-base-four;
+		text-align: center;
 	}
 }

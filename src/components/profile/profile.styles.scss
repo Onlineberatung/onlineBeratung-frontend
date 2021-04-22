@@ -209,22 +209,21 @@ $maxFormElementWidth: 320px;
 			}
 		}
 
-		&__title {
-			font-family: $font-family-slab-regular;
-			font-size: $font-size-secondary;
-			line-height: $line-height-secondary;
+		.text__divider {
 			text-align: center;
-			color: $light-grey;
 			margin-bottom: $grid-base-three;
 		}
 
-		&__subtitle {
-			font-family: $font-family-medium;
-			font-weight: $font-weight-medium;
+		&__title {
+			margin-bottom: $grid-base-three;
 			text-align: center;
 
 			@include breakpoint($fromLarge) {
 				text-align: left;
+			}
+
+			.text {
+				margin-top: $grid-base;
 			}
 		}
 
@@ -258,6 +257,17 @@ $maxFormElementWidth: 320px;
 		}
 	}
 
+	&__functions,
+	&__data {
+		> div:first-of-type {
+			margin-top: $grid-base-three;
+		}
+
+		> div:not(:first-of-type) {
+			margin-top: $grid-base-six;
+		}
+	}
+
 	&__data {
 		&__item {
 			display: flex;
@@ -268,7 +278,7 @@ $maxFormElementWidth: 320px;
 			border-bottom: 1px solid $line-grey;
 
 			&Wrapper {
-				.profile__content__title {
+				.text__divider {
 					margin: $grid-base-four 0 $grid-base-two;
 				}
 			}
