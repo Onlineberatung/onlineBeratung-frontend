@@ -1,0 +1,63 @@
+.editableData {
+	position: relative;
+	width: 100%;
+
+	&__input {
+		width: 100%;
+		padding: $grid-base 0;
+		background: none;
+		border: none;
+		border-bottom: 1px solid $line-grey;
+		color: $secondary;
+
+		&--empty {
+			color: $tertiary;
+			font-style: italic;
+		}
+
+		&:disabled {
+			cursor: default;
+		}
+
+		&:focus-visible {
+			outline: none;
+			border-bottom: 1px solid $primary;
+		}
+
+		&::selection {
+			background: rgba($primary, 0.1);
+		}
+	}
+
+	&__removeButton {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		right: 0;
+		bottom: 10px;
+		height: $grid-base-two;
+		width: $grid-base-two;
+		background-color: $black-10-opacity;
+		border-radius: 100%;
+		cursor: pointer;
+
+		svg {
+			height: 10px;
+			width: 10px;
+			fill: $white;
+		}
+	}
+
+	&__label--invalid {
+		.text {
+			color: $primary;
+		}
+	}
+
+	&--active {
+		.editableData__removeButton {
+			display: flex;
+		}
+	}
+}
