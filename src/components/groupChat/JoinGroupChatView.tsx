@@ -202,7 +202,7 @@ export const JoinGroupChatView = () => {
 				/>
 				{groupChatRuleTexts[
 					getResortKeyForConsultingType(chatItem.consultingType)
-				].map((groupChatRuleText, i) => (
+				]?.map((groupChatRuleText, i) => (
 					<Text text={groupChatRuleText} type="standard" key={i} />
 				))}
 			</div>

@@ -129,12 +129,8 @@ $unreadButtonSize: 18px;
 	&--empty {
 		justify-content: center;
 		align-items: center;
-		padding-top: 80px !important;
 		display: none;
-		p {
-			padding-top: 10px;
-			color: $light-grey;
-		}
+
 		@include breakpoint($fromLarge) {
 			display: flex;
 		}
