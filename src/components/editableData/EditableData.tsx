@@ -12,24 +12,22 @@ export interface EditableDataProps {
 	initialValue?: string;
 	isDisabled?: boolean;
 	isSingleEdit?: boolean;
+	onSingleEditActive?: Function;
 }
 
 export const EditableData = (props: EditableDataProps) => {
 	const inputFieldRef = React.useRef<HTMLInputElement>(null);
 	const [inputValue, setInputValue] = useState<string>();
-	const [isDisabled, setIsDisabled] = useState<boolean>(props.isDisabled);
 	const [isValid, setIsValid] = useState<boolean>(true);
-
-	useEffect(() => {
-		if (props.isSingleEdit) setIsDisabled(true);
-	}, [props.isSingleEdit]);
 
 	useEffect(() => {
 		inputFieldRef.current.focus();
 		inputFieldRef.current.select();
-	}, [isDisabled]);
+	}, [props.isDisabled]);
 
-	const handleFocus = (event) => event.target.select();
+	const handleFocus = (event) => {
+		event.target.select();
+	};
 
 	const handleInputValueChange = (event) => {
 		const value = event.target.value;
@@ -44,7 +42,10 @@ export const EditableData = (props: EditableDataProps) => {
 	};
 
 	const handleSingleEditButton = () => {
-		setIsDisabled(false);
+		props.onSingleEditActive();
+		if (!props.initialValue) {
+			setInputValue('');
+		}
 	};
 
 	return (
@@ -59,7 +60,8 @@ export const EditableData = (props: EditableDataProps) => {
 			</label>
 			<input
 				className={clsx('editableData__input', {
-					'editableData__input--empty': !props.initialValue
+					'editableData__input--empty':
+						!props.initialValue && !inputValue
 				})}
 				ref={inputFieldRef}
 				type="text"
@@ -73,9 +75,9 @@ export const EditableData = (props: EditableDataProps) => {
 				}
 				value={inputValue}
 				onChange={handleInputValueChange}
-				disabled={isDisabled || !props.initialValue}
+				disabled={props.isDisabled}
 			/>
-			{!isDisabled && props.initialValue && (
+			{!props.isDisabled && (
 				<span
 					className="editableData__inputButton editableData__inputButton--remove"
 					onClick={handleRemoveButtonClick}
@@ -83,7 +85,7 @@ export const EditableData = (props: EditableDataProps) => {
 					<CrossMarkIcon />
 				</span>
 			)}
-			{props.isSingleEdit && isDisabled && (
+			{props.isSingleEdit && props.isDisabled && (
 				<span
 					className="editableData__inputButton editableData__inputButton--singleEdit"
 					onClick={handleSingleEditButton}
