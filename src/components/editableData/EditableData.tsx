@@ -4,17 +4,30 @@ import { Text } from '../text/Text';
 import { translate } from '../../resources/scripts/i18n/translate';
 import clsx from 'clsx';
 import { ReactComponent as CrossMarkIcon } from '../../resources/img/icons/x.svg';
-import { useState } from 'react';
+import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
+import { useEffect, useState } from 'react';
 
 export interface EditableDataProps {
 	label: string;
-	initialValue: string;
+	initialValue?: string;
 	isDisabled?: boolean;
+	isSingleEdit?: boolean;
 }
 
 export const EditableData = (props: EditableDataProps) => {
+	const inputFieldRef = React.useRef<HTMLInputElement>(null);
 	const [inputValue, setInputValue] = useState<string>();
+	const [isDisabled, setIsDisabled] = useState<boolean>(props.isDisabled);
 	const [isValid, setIsValid] = useState<boolean>(true);
+
+	useEffect(() => {
+		if (props.isSingleEdit) setIsDisabled(true);
+	}, [props.isSingleEdit]);
+
+	useEffect(() => {
+		inputFieldRef.current.focus();
+		inputFieldRef.current.select();
+	}, [isDisabled]);
 
 	const handleFocus = (event) => event.target.select();
 
@@ -27,14 +40,15 @@ export const EditableData = (props: EditableDataProps) => {
 	const handleRemoveButtonClick = () => {
 		setInputValue('');
 		setIsValid(false);
+		inputFieldRef.current.focus();
+	};
+
+	const handleSingleEditButton = () => {
+		setIsDisabled(false);
 	};
 
 	return (
-		<div
-			className={clsx('editableData', {
-				'editableData--active': !props.isDisabled && props.initialValue
-			})}
-		>
+		<div className="editableData">
 			<label
 				className={clsx({
 					'editableData__label--invalid': !isValid
@@ -47,6 +61,7 @@ export const EditableData = (props: EditableDataProps) => {
 				className={clsx('editableData__input', {
 					'editableData__input--empty': !props.initialValue
 				})}
+				ref={inputFieldRef}
 				type="text"
 				onFocus={handleFocus}
 				id={props.label}
@@ -58,14 +73,24 @@ export const EditableData = (props: EditableDataProps) => {
 				}
 				value={inputValue}
 				onChange={handleInputValueChange}
-				disabled={props.isDisabled || !props.initialValue}
+				disabled={isDisabled || !props.initialValue}
 			/>
-			<span
-				className="editableData__removeButton"
-				onClick={handleRemoveButtonClick}
-			>
-				<CrossMarkIcon />
-			</span>
+			{!isDisabled && props.initialValue && (
+				<span
+					className="editableData__inputButton editableData__inputButton--remove"
+					onClick={handleRemoveButtonClick}
+				>
+					<CrossMarkIcon />
+				</span>
+			)}
+			{props.isSingleEdit && isDisabled && (
+				<span
+					className="editableData__inputButton editableData__inputButton--singleEdit"
+					onClick={handleSingleEditButton}
+				>
+					<PenIcon />
+				</span>
+			)}
 		</div>
 	);
 };

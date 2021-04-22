@@ -29,35 +29,44 @@
 		}
 	}
 
-	&__removeButton {
-		display: none;
+	&__inputButton {
+		display: flex;
 		align-items: center;
 		justify-content: center;
 		position: absolute;
 		right: 0;
-		bottom: 10px;
-		height: $grid-base-two;
-		width: $grid-base-two;
 		background-color: $black-10-opacity;
 		border-radius: 100%;
 		cursor: pointer;
 
-		svg {
-			height: 10px;
-			width: 10px;
-			fill: $white;
+		&--remove {
+			height: $grid-base-two;
+			width: $grid-base-two;
+			bottom: 10px;
+
+			svg {
+				height: 10px;
+				width: 10px;
+				fill: $white;
+			}
+		}
+
+		&--singleEdit {
+			height: $grid-base-three;
+			width: $grid-base-three;
+			bottom: 8px;
+
+			svg {
+				height: 14px;
+				width: 14px;
+				fill: $secondary;
+			}
 		}
 	}
 
 	&__label--invalid {
 		.text {
 			color: $primary;
-		}
-	}
-
-	&--active {
-		.editableData__removeButton {
-			display: flex;
 		}
 	}
 }
