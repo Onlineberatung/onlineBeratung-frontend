@@ -52,7 +52,11 @@ export const ConsultantPrivateData = () => {
 	const handleSaveEditButton = () => {
 		if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
-			apiPutConsultantData(email, firstName, lastName)
+			apiPutConsultantData({
+				email: email.trim(),
+				firstname: firstName.trim(),
+				lastname: lastName.trim()
+			})
 				.then((response) => {
 					setIsRequestInProgress(false);
 					let updatedUserData = userData;

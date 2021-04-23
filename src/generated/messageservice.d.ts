@@ -1,5 +1,13 @@
 declare namespace MessageService {
 	namespace Schemas {
+		export interface AliasMessageDTO {
+			forwardMessageDTO?: ForwardMessageDTO;
+			videoCallMessageDTO?: VideoCallMessageDTO;
+			messageType?: MessageType;
+		}
+		export interface AliasOnlyMessageDTO {
+			messageType: MessageType;
+		}
 		export interface AttachmentDTO {
 			/**
 			 * example:
@@ -108,39 +116,19 @@ declare namespace MessageService {
 		}
 		export interface MessageStreamDTO {
 			messages: MessagesDTO[];
-			/**
-			 * example:
-			 * 2
-			 */
-			count: string;
-			/**
-			 * example:
-			 * 0
-			 */
-			offset: string;
-			/**
-			 * example:
-			 * 2
-			 */
-			total: string;
-			/**
-			 * example:
-			 * true
-			 */
-			success: string;
-			/**
-			 * example:
-			 * true
-			 */
-			cleaned: string;
 		}
+		export type MessageType =
+			| 'FURTHER_STEPS'
+			| 'UPDATE_SESSION_DATA'
+			| 'FORWARD'
+			| 'VIDEOCALL';
 		export interface MessagesDTO {
 			/**
 			 * example:
 			 * M73fE4WhYF4peYB3s
 			 */
 			_id: string;
-			alias?: ForwardMessageDTO;
+			alias?: AliasMessageDTO;
 			/**
 			 * example:
 			 * fR2Rz7dmWmHdXE8uz
@@ -187,19 +175,32 @@ declare namespace MessageService {
 			 */
 			name: string;
 		}
+		export interface VideoCallMessageDTO {
+			eventType: 'IGNORED_CALL';
+			/**
+			 * example:
+			 * consultant23
+			 */
+			initiatorUserName: string;
+			/**
+			 * example:
+			 * ag89h3tjkerg94t
+			 */
+			initiatorRcUserId: string;
+		}
 	}
 }
 declare namespace Paths {
 	namespace CreateFeedbackMessage {
 		export interface HeaderParameters {
-			RCToken: Parameters.RCToken;
-			RCUserId: Parameters.RCUserId;
-			RCFeedbackGroupId: Parameters.RCFeedbackGroupId;
+			rcToken: Parameters.RcToken;
+			rcUserId: Parameters.RcUserId;
+			rcFeedbackGroupId: Parameters.RcFeedbackGroupId;
 		}
 		namespace Parameters {
-			export type RCFeedbackGroupId = string;
-			export type RCToken = string;
-			export type RCUserId = string;
+			export type RcFeedbackGroupId = string;
+			export type RcToken = string;
+			export type RcUserId = string;
 		}
 		export type RequestBody = MessageService.Schemas.MessageDTO;
 		namespace Responses {
@@ -212,14 +213,14 @@ declare namespace Paths {
 	}
 	namespace CreateMessage {
 		export interface HeaderParameters {
-			RCToken: Parameters.RCToken;
-			RCUserId: Parameters.RCUserId;
-			RCGroupId: Parameters.RCGroupId;
+			rcToken: Parameters.RcToken;
+			rcUserId: Parameters.RcUserId;
+			rcGroupId: Parameters.RcGroupId;
 		}
 		namespace Parameters {
-			export type RCGroupId = string;
-			export type RCToken = string;
-			export type RCUserId = string;
+			export type RcGroupId = string;
+			export type RcToken = string;
+			export type RcUserId = string;
 		}
 		export type RequestBody = MessageService.Schemas.MessageDTO;
 		namespace Responses {
@@ -230,12 +231,28 @@ declare namespace Paths {
 			export interface $500 {}
 		}
 	}
-	namespace FindDraftMessage {
+	namespace CreateVideoHintMessage {
 		export interface HeaderParameters {
-			RCGroupId: Parameters.RCGroupId;
+			rcGroupId: Parameters.RcGroupId;
 		}
 		namespace Parameters {
-			export type RCGroupId = string;
+			export type RcGroupId = string;
+		}
+		export type RequestBody = MessageService.Schemas.VideoCallMessageDTO;
+		namespace Responses {
+			export interface $201 {}
+			export interface $400 {}
+			export interface $401 {}
+			export interface $403 {}
+			export interface $500 {}
+		}
+	}
+	namespace FindDraftMessage {
+		export interface HeaderParameters {
+			rcGroupId: Parameters.RcGroupId;
+		}
+		namespace Parameters {
+			export type RcGroupId = string;
 		}
 		namespace Responses {
 			export type $200 = string;
@@ -248,14 +265,14 @@ declare namespace Paths {
 	}
 	namespace ForwardMessage {
 		export interface HeaderParameters {
-			RCToken: Parameters.RCToken;
-			RCUserId: Parameters.RCUserId;
-			RCGroupId: Parameters.RCGroupId;
+			rcToken: Parameters.RcToken;
+			rcUserId: Parameters.RcUserId;
+			rcGroupId: Parameters.RcGroupId;
 		}
 		namespace Parameters {
-			export type RCGroupId = string;
-			export type RCToken = string;
-			export type RCUserId = string;
+			export type RcGroupId = string;
+			export type RcToken = string;
+			export type RcUserId = string;
 		}
 		export type RequestBody = MessageService.Schemas.ForwardMessageDTO;
 		namespace Responses {
@@ -268,20 +285,16 @@ declare namespace Paths {
 	}
 	namespace GetMessageStream {
 		export interface HeaderParameters {
-			RCToken: Parameters.RCToken;
-			RCUserId: Parameters.RCUserId;
+			rcToken: Parameters.RcToken;
+			rcUserId: Parameters.RcUserId;
 		}
 		namespace Parameters {
-			export type Count = number;
-			export type Offset = number;
-			export type RCToken = string;
-			export type RCUserId = string;
 			export type RcGroupId = string;
+			export type RcToken = string;
+			export type RcUserId = string;
 		}
 		export interface QueryParameters {
 			rcGroupId: Parameters.RcGroupId;
-			offset: Parameters.Offset;
-			count: Parameters.Count;
 		}
 		namespace Responses {
 			export type $200 = MessageService.Schemas.MessageStreamDTO;
@@ -292,12 +305,28 @@ declare namespace Paths {
 			export interface $500 {}
 		}
 	}
-	namespace SaveDraftMessage {
+	namespace SaveAliasOnlyMessage {
 		export interface HeaderParameters {
-			RCGroupId: Parameters.RCGroupId;
+			rcGroupId: Parameters.RcGroupId;
 		}
 		namespace Parameters {
-			export type RCGroupId = string;
+			export type RcGroupId = string;
+		}
+		export type RequestBody = MessageService.Schemas.AliasOnlyMessageDTO;
+		namespace Responses {
+			export interface $201 {}
+			export interface $400 {}
+			export interface $401 {}
+			export interface $403 {}
+			export interface $500 {}
+		}
+	}
+	namespace SaveDraftMessage {
+		export interface HeaderParameters {
+			rcGroupId: Parameters.RcGroupId;
+		}
+		namespace Parameters {
+			export type RcGroupId = string;
 		}
 		export type RequestBody = string;
 		namespace Responses {
