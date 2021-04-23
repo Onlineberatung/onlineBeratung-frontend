@@ -68,12 +68,12 @@ export const AskerAboutMeData = () => {
 	return (
 		<div>
 			<Text text={translate('profile.data.title')} type="divider" />
-			<div className="profile__data__item">
-				<p className="profile__data__label">
-					{translate('profile.data.userName')}
-				</p>
-				<p className="profile__data__content">{userData.userName}</p>
-			</div>
+			<EditableData
+				label={translate('profile.data.userName')}
+				initialValue={userData.userName}
+				type="text"
+				isDisabled
+			/>
 			<EditableData
 				label={emailLabel}
 				type="email"
