@@ -87,7 +87,7 @@ export const AskerAboutMeData = () => {
 				isEmailAlreadyInUse={isEmailNotAvailable}
 			/>
 			{!isEmailDisabled && (
-				<>
+				<div className="editableData__buttonSet editableData__buttonSet--edit">
 					<Button
 						item={cancelEditButton}
 						buttonHandle={handleCancelEditButton}
@@ -96,7 +96,7 @@ export const AskerAboutMeData = () => {
 						item={saveEditButton}
 						buttonHandle={handleSaveEditButton}
 					/>
-				</>
+				</div>
 			)}
 		</div>
 	);
