@@ -72,7 +72,7 @@ export const ConsultantPrivateData = () => {
 				/>
 				{isEditDisabled && (
 					<span
-						className="editableData__inputButton"
+						className="editableData__inputButton editableData__inputButton--edit"
 						onClick={() => setIsEditDisabled(false)}
 					>
 						<PenIcon />
