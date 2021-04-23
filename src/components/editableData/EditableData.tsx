@@ -6,16 +6,17 @@ import clsx from 'clsx';
 import { ReactComponent as CrossMarkIcon } from '../../resources/img/icons/x.svg';
 import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { useEffect, useState } from 'react';
-import { InputFieldLabelState } from '../inputField/InputField';
+import { isStringValidEmail } from '../registration/registrationHelpers';
 
 export interface EditableDataProps {
 	label: string;
+	type: 'text' | 'email';
 	initialValue?: string;
 	isDisabled?: boolean;
 	isSingleEdit?: boolean;
 	onSingleEditActive?: Function;
-	validateCurrentValue?: Function;
-	validity?: InputFieldLabelState;
+	onValueisValid: Function;
+	isEmailAlreadyInUse?: boolean;
 }
 
 export const EditableData = (props: EditableDataProps) => {
@@ -24,9 +25,8 @@ export const EditableData = (props: EditableDataProps) => {
 		? props.initialValue
 		: translate('profile.noContent');
 	const [inputValue, setInputValue] = useState<string>();
-	const [isValid, setIsValid] = useState<InputFieldLabelState>(
-		props.validity ? props.validity : 'valid'
-	);
+	const [isValid, setIsValid] = useState<boolean>(true);
+	const [label, setLabel] = useState<string>();
 
 	useEffect(() => {
 		if (!props.isDisabled) {
@@ -37,8 +37,26 @@ export const EditableData = (props: EditableDataProps) => {
 				: getInitialValue;
 		} else if (props.isDisabled) {
 			inputFieldRef.current.value = getInitialValue;
+			setIsValid(true);
+			setLabel(props.label);
+			setInputValue(props.initialValue);
 		}
 	}, [props.isDisabled]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (isValid) {
+			props.onValueisValid(inputValue);
+		} else if (!isValid) {
+			props.onValueisValid(null);
+		}
+	}, [inputValue]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (props.isEmailAlreadyInUse) {
+			setIsValid(false);
+			setLabel(translate('furtherSteps.email.overlay.input.unavailable'));
+		}
+	}, [props.isEmailAlreadyInUse]);
 
 	const handleFocus = (event) => {
 		event.target.select();
@@ -47,16 +65,27 @@ export const EditableData = (props: EditableDataProps) => {
 	const handleInputValueChange = (event) => {
 		const value = event.target.value;
 		setInputValue(value);
-		if (props.validateCurrentValue) {
-			props.validateCurrentValue(value);
+
+		if (props.type === 'email') {
+			handleEmailValidation(value);
 		} else {
-			setIsValid(value.length > 0 ? 'valid' : 'invalid');
+			setIsValid(value.length > 0);
+		}
+	};
+
+	const handleEmailValidation = (email) => {
+		if (email.length > 0 && isStringValidEmail(email)) {
+			setIsValid(true);
+			setLabel(props.label);
+		} else {
+			setIsValid(false);
+			setLabel(translate('furtherSteps.email.overlay.input.invalid'));
 		}
 	};
 
 	const handleRemoveButtonClick = () => {
 		setInputValue('');
-		setIsValid('invalid');
+		setIsValid(false);
 		inputFieldRef.current.focus();
 	};
 
@@ -72,18 +101,15 @@ export const EditableData = (props: EditableDataProps) => {
 				})}
 				htmlFor={props.label}
 			>
-				<Text text={props.label} type="infoSmall" />
+				<Text text={label} type="infoSmall" />
 			</label>
 			<input
 				className={clsx('editableData__input', {
 					'editableData__input--empty':
-						!props.initialValue && props.isDisabled,
-					'inputField__input--valid': props.validity === 'valid',
-					'inputField__input--invalid': props.validity === 'invalid'
-					//TODO: only validity on label?
+						!props.initialValue && props.isDisabled
 				})}
 				ref={inputFieldRef}
-				type="text"
+				type={props.type}
 				onFocus={handleFocus}
 				id={props.label}
 				name={props.label}

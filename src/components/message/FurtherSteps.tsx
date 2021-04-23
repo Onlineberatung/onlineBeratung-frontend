@@ -15,7 +15,10 @@ import {
 	InputFieldItem,
 	InputFieldLabelState
 } from '../inputField/InputField';
-import { ResortData } from '../registration/registrationHelpers';
+import {
+	isStringValidEmail,
+	ResortData
+} from '../registration/registrationHelpers';
 import { useContext, useEffect, useState } from 'react';
 import {
 	Overlay,
@@ -23,7 +26,7 @@ import {
 	OverlayWrapper,
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
-import { apiPutEmail, FETCH_ERRORS, validateEmail } from '../../api';
+import { apiPutEmail, FETCH_ERRORS } from '../../api';
 import {
 	ActiveSessionGroupIdContext,
 	getActiveSession,
@@ -83,6 +86,27 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 		name: 'email',
 		type: 'text',
 		labelState: emailLabelState
+	};
+
+	const validateEmail = (
+		email
+	): { valid: InputFieldLabelState; label: string } => {
+		if (email.length > 0 && isStringValidEmail(email)) {
+			return {
+				valid: 'valid', //TODO: rename valid -> validity
+				label: translate('furtherSteps.email.overlay.input.valid')
+			};
+		} else if (email.length > 0) {
+			return {
+				valid: 'invalid',
+				label: translate('furtherSteps.email.overlay.input.invalid')
+			};
+		} else {
+			return {
+				valid: null,
+				label: translate('furtherSteps.email.overlay.input.label')
+			};
+		}
 	};
 
 	const handleEmailChange = (event) => {

@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
-import { apiPutEmail, FETCH_ERRORS, validateEmail } from '../../api';
+import { apiPutEmail, FETCH_ERRORS } from '../../api';
 import { UserDataContext } from '../../globalState';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditableData } from '../editableData/EditableData';
-import { InputFieldLabelState } from '../inputField/InputField';
 import { Text } from '../text/Text';
 
 const cancelEditButton: ButtonItem = {
@@ -20,28 +19,20 @@ export const AskerAboutMeData = () => {
 	const [emailLabel, setEmailLabel] = useState<string>(
 		translate('profile.data.email')
 	);
-	const [emailLabelState, setEmailLabelState] = useState<
-		InputFieldLabelState
-	>();
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
 		false
 	);
-
-	const handleEmailValidation = (email) => {
-		const validity = validateEmail(email);
-		setEmailLabelState(validity.valid);
-		setEmailLabel(validity.label);
-		setEmail(email);
-	};
+	const [isEmailNotAvailable, setIsEmailNotAvailable] = useState<boolean>(
+		false
+	);
 
 	const handleCancelEditButton = () => {
 		setIsEmailDisabled(true);
 		setEmailLabel(translate('profile.data.email'));
-		setEmailLabelState('valid');
 	};
 
 	const saveEditButton: ButtonItem = {
-		disabled: !(email && emailLabelState === 'valid'),
+		disabled: !email,
 		label: 'speichern',
 		type: BUTTON_TYPES.LINK
 	};
@@ -57,21 +48,23 @@ export const AskerAboutMeData = () => {
 					updatedUserData.email = email;
 					setUserData(updatedUserData);
 					setIsEmailDisabled(true);
+					setEmailLabel(translate('profile.data.email'));
 				})
 				.catch((error: Response) => {
-					const reason = error.headers.get(FETCH_ERRORS.X_REASON);
+					const reason = error.headers?.get(FETCH_ERRORS.X_REASON);
 					if (reason === 'EMAIL_NOT_AVAILABLE') {
-						setEmailLabel(
-							translate(
-								'furtherSteps.email.overlay.input.unavailable'
-							)
-						);
-						setEmailLabelState('invalid');
-						setIsRequestInProgress(false);
 					}
+					setIsEmailNotAvailable(true);
 					//TODO: handle other errors?
+					setIsRequestInProgress(false);
 				});
 		}
+	};
+
+	const handleEmailChange = (email) => {
+		setEmailLabel(translate('profile.data.email'));
+		setEmail(email);
+		setIsEmailNotAvailable(false);
 	};
 
 	return (
@@ -85,12 +78,13 @@ export const AskerAboutMeData = () => {
 			</div>
 			<EditableData
 				label={emailLabel}
+				type="email"
 				initialValue={userData.email}
 				isDisabled={isEmailDisabled}
 				isSingleEdit
 				onSingleEditActive={() => setIsEmailDisabled(false)}
-				validateCurrentValue={(value) => handleEmailValidation(value)}
-				validity={emailLabelState}
+				onValueisValid={handleEmailChange}
+				isEmailAlreadyInUse={isEmailNotAvailable}
 			/>
 			{!isEmailDisabled && (
 				<>
