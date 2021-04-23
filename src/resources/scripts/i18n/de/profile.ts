@@ -29,6 +29,8 @@ const profile = {
 	'data.info.private': 'Diese Daten können die Ratsuchenden nicht einsehen.',
 	'data.title.public': 'Öffentliche Daten',
 	'data.info.public': 'Diese Daten werden den Ratsuchenden angezeigt.',
+	'data.edit.button.cancel': 'Abbrechen',
+	'data.edit.button.save': 'Speichern',
 	'data.userName': 'Benutzername',
 	'data.firstName': 'Vorname',
 	'data.lastName': 'Nachname',
