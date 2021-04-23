@@ -215,6 +215,7 @@ $maxFormElementWidth: 320px;
 		}
 
 		&__title {
+			position: relative;
 			margin-bottom: $grid-base-three;
 			text-align: center;
 

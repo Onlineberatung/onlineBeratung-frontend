@@ -38,6 +38,22 @@
 		background-color: $black-10-opacity;
 		border-radius: 100%;
 		cursor: pointer;
+		height: $grid-base-three;
+		width: $grid-base-three;
+
+		svg {
+			height: 14px;
+			width: 14px;
+			fill: $secondary;
+		}
+
+		&--edit {
+			top: 0;
+		}
+
+		&--singleEdit {
+			bottom: 8px;
+		}
 
 		&--remove {
 			height: $grid-base-two;
@@ -50,23 +66,28 @@
 				fill: $white;
 			}
 		}
-
-		&--singleEdit {
-			height: $grid-base-three;
-			width: $grid-base-three;
-			bottom: 8px;
-
-			svg {
-				height: 14px;
-				width: 14px;
-				fill: $secondary;
-			}
-		}
 	}
 
 	&__label--invalid {
 		.text {
 			color: $primary;
+		}
+	}
+
+	&__buttonSet {
+		display: flex;
+		justify-content: flex-end;
+		margin-top: $grid-base-three;
+
+		.button {
+			&__wrapper:last-of-type {
+				margin-left: $grid-base-three;
+			}
+
+			&__item {
+				min-width: unset;
+				padding: 0;
+			}
 		}
 	}
 }
