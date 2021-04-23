@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
-import { apiPutEmail, FETCH_ERRORS } from '../../api';
+import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
 import { UserDataContext } from '../../globalState';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -40,7 +40,6 @@ export const AskerAboutMeData = () => {
 	const handleSaveEditButton = () => {
 		if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
-			//TODO: finish cleanups after call
 			apiPutEmail(email)
 				.then((response) => {
 					setIsRequestInProgress(false);
@@ -52,11 +51,10 @@ export const AskerAboutMeData = () => {
 				})
 				.catch((error: Response) => {
 					const reason = error.headers?.get(FETCH_ERRORS.X_REASON);
-					if (reason === 'EMAIL_NOT_AVAILABLE') {
+					if (reason === X_REASON.EMAIL_NOT_AVAILABLE) {
+						setIsEmailNotAvailable(true);
+						setIsRequestInProgress(false);
 					}
-					setIsEmailNotAvailable(true);
-					//TODO: handle other errors?
-					setIsRequestInProgress(false);
 				});
 		}
 	};

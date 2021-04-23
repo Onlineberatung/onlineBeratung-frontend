@@ -7,6 +7,7 @@ import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { EditableData } from '../editableData/EditableData';
+import { apiPutConsultantData, FETCH_ERRORS, X_REASON } from '../../api';
 
 const cancelEditButton: ButtonItem = {
 	label: translate('profile.data.edit.button.cancel'),
@@ -14,7 +15,7 @@ const cancelEditButton: ButtonItem = {
 };
 
 export const ConsultantPrivateData = () => {
-	const { userData } = useContext(UserDataContext);
+	const { userData, setUserData } = useContext(UserDataContext);
 	const [isEditDisabled, setIsEditDisabled] = useState<boolean>(true);
 	const [isSaveDisabled, setIsSaveDisabled] = useState<boolean>(true);
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
@@ -33,6 +34,8 @@ export const ConsultantPrivateData = () => {
 	useEffect(() => {
 		if (email && firstName && lastName) {
 			setIsSaveDisabled(false);
+		} else {
+			setIsSaveDisabled(true);
 		}
 	}, [email, firstName, lastName]);
 
@@ -48,8 +51,25 @@ export const ConsultantPrivateData = () => {
 
 	const handleSaveEditButton = () => {
 		if (!isRequestInProgress) {
-			// setIsRequestInProgress(true);
-			//Todo: send data + email label handling
+			setIsRequestInProgress(true);
+			apiPutConsultantData(email, firstName, lastName)
+				.then((response) => {
+					setIsRequestInProgress(false);
+					let updatedUserData = userData;
+					updatedUserData.email = email;
+					updatedUserData.firstName = firstName;
+					updatedUserData.lastName = lastName;
+					setUserData(updatedUserData);
+					setIsEditDisabled(true);
+					setEmailLabel(translate('profile.data.email'));
+				})
+				.catch((error: Response) => {
+					const reason = error.headers?.get(FETCH_ERRORS.X_REASON);
+					if (reason === X_REASON.EMAIL_NOT_AVAILABLE) {
+						setIsEmailNotAvailable(true);
+						setIsRequestInProgress(false);
+					}
+				});
 		}
 	};
 

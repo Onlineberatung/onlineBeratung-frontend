@@ -26,7 +26,7 @@ import {
 	OverlayWrapper,
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
-import { apiPutEmail, FETCH_ERRORS } from '../../api';
+import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
 import {
 	ActiveSessionGroupIdContext,
 	getActiveSession,
@@ -165,8 +165,8 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 					setUserData(updatedUserData);
 				})
 				.catch((error: Response) => {
-					const reason = error.headers.get(FETCH_ERRORS.X_REASON);
-					if (reason === 'EMAIL_NOT_AVAILABLE') {
+					const reason = error.headers?.get(FETCH_ERRORS.X_REASON);
+					if (reason === X_REASON.EMAIL_NOT_AVAILABLE) {
 						setEmailLabel(
 							translate(
 								'furtherSteps.email.overlay.input.unavailable'

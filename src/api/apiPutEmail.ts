@@ -8,9 +8,6 @@ export const apiPutEmail = async (email: string): Promise<any> => {
 		bodyData: email.trim(),
 		url: url,
 		method: FETCH_METHODS.PUT,
-		responseHandling: [
-			FETCH_ERRORS.CONFLICT_WITH_RESPONSE,
-			FETCH_ERRORS.CATCH_ALL
-		]
+		responseHandling: [FETCH_ERRORS.CONFLICT_WITH_RESPONSE]
 	});
 };
