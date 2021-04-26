@@ -28,6 +28,7 @@ export interface AgencySelectionProps {
 	userData?: UserDataInterface;
 	preselectedAgency?: AgencyDataInterface;
 	isProfileView?: boolean;
+	agencySelectionNote?: string;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
@@ -263,6 +264,16 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						item={postcodeInputItem}
 						inputHandle={(e) => handlePostcodeInput(e)}
 					></InputField>
+					{props.agencySelectionNote && (
+						<div data-cy="registration-agency-selection-note">
+							<Text
+								className="agencySelection__note"
+								text={props.agencySelectionNote}
+								type="infoLargeAlternative"
+								labelType={LABEL_TYPES.NOTICE}
+							/>
+						</div>
+					)}
 					{validPostcode() && !preselectedAgency && (
 						<div className="agencySelection__proposedAgencies">
 							<h3>

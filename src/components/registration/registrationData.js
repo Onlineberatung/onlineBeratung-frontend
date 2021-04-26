@@ -143,6 +143,10 @@ const registrationData = {
 		useInformal: true,
 		overline: translate('registration.overline.u25'),
 		welcomeTitle: translate('registration.welcomeScreen.title.u25'),
+		registrationNotes: {
+			password:
+				'Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!'
+		},
 		requiredComponents: {
 			age: {
 				label: translate('user.userU25.age.selectLabel'),
@@ -249,6 +253,10 @@ const registrationData = {
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.gemeinsamstatteinsam'
 		),
+		registrationNotes: {
+			password:
+				'Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!'
+		},
 		requiredComponents: {
 			age: {
 				label: translate('user.userU25.age.selectLabel'),
@@ -408,7 +416,11 @@ const registrationData = {
 		consultingType: '17',
 		useInformal: false,
 		overline: translate('registration.overline.emigration'),
-		welcomeTitle: translate('registration.welcomeScreen.title.emigration')
+		welcomeTitle: translate('registration.welcomeScreen.title.emigration'),
+		registrationNotes: {
+			agencySelection:
+				'Sollten Sie im Ausland leben, geben Sie bitte die Postleitzahl eines Bezugsortes in Deutschland (zukünftiger Wohnort, Heimatort…) an.'
+		}
 	},
 	hospice: {
 		consultingType: '18',
