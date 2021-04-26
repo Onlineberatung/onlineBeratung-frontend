@@ -21,7 +21,8 @@
 			-webkit-text-fill-color: $secondary;
 		}
 
-		&:focus-visible {
+		&:focus-visible,
+		&:focus {
 			outline: none;
 			border-bottom: 1px solid $primary;
 		}
