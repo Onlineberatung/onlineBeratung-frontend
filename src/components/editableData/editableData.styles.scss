@@ -17,6 +17,8 @@
 
 		&:disabled {
 			cursor: default;
+			opacity: 1;
+			-webkit-text-fill-color: $secondary;
 		}
 
 		&:focus-visible {
