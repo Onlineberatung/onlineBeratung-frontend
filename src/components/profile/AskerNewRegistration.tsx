@@ -34,6 +34,10 @@ import './profile.styles';
 import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
+import {
+	getConsultingTypeData,
+	ResortData
+} from '../registration/registrationHelpers';
 
 export const AskerNewRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -41,6 +45,10 @@ export const AskerNewRegistration = () => {
 	const [selectedConsultingType, setSelectedConsultingType] = useState<
 		number
 	>(null);
+	const [
+		selectedConsultingTypeData,
+		setSelectedConsultingTypeData
+	] = useState<ResortData>();
 	const [selectedAgency, setSelectedAgency] = useState<any>({});
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
@@ -59,6 +67,9 @@ export const AskerNewRegistration = () => {
 
 	const handleConsultingTypeSelect = (selectedOption) => {
 		setSelectedConsultingType(selectedOption.value);
+		setSelectedConsultingTypeData(
+			getConsultingTypeData(selectedOption.value)
+		);
 	};
 
 	const getOptionOfSelectedConsultingType = () => {
@@ -178,6 +189,10 @@ export const AskerNewRegistration = () => {
 					onAgencyChange={(agency) => setSelectedAgency(agency)}
 					userData={userData}
 					isProfileView={true}
+					agencySelectionNote={
+						selectedConsultingTypeData?.registrationNotes
+							?.agencySelection
+					}
 				/>
 			)}
 			<Button

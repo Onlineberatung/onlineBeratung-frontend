@@ -1,5 +1,6 @@
 import { translate } from '../../resources/scripts/i18n/translate';
 import { ButtonItem, BUTTON_TYPES } from '../button/Button';
+import registrationResortsData from './registrationData';
 
 export type AccordionItemValidity = 'initial' | 'valid' | 'invalid';
 
@@ -37,6 +38,25 @@ export type RequiredComponents = {
 export type RegistrationNotes = {
 	agencySelection?: string;
 	password?: string;
+};
+
+export const getConsultingTypeData = (consultingTypeId: number): ResortData => {
+	const resortDataArray = Object.entries(registrationResortsData).filter(
+		(resort) => resort[1].consultingType === consultingTypeId?.toString()
+	);
+
+	let resortData: ResortData;
+	if (resortDataArray.length > 1) {
+		const resortName = document.getElementById('registrationRoot')?.dataset
+			.resortname;
+		resortData = resortDataArray.filter(
+			(resort) => resort[0] === resortName
+		)[0][1];
+	} else {
+		resortData = resortDataArray[0][1];
+	}
+
+	return resortData;
 };
 
 export interface ResortData {
