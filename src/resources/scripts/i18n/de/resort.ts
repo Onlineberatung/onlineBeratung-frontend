@@ -31,6 +31,7 @@ const resort = {
 	'children.alt': 'Kinder Jugendliche',
 	'kreuzbund': 'Sucht',
 	'kreuzbund.alt': 'Sucht',
+	'kreuzbund.registerDropdown': 'Sucht-Selbsthilfe - Kreuzbund',
 	'migration': 'Migrationsberatung',
 	'migration.alt': 'Migrationsberatung',
 	'emigration': 'Auswanderung',
@@ -41,6 +42,9 @@ const resort = {
 	'regional.alt': 'Regionale Angebote',
 	'men': 'Jungen und Männer',
 	'men.alt': 'Jungen und Männer',
+	'supportGroupVechta': 'Selbsthilfe Vechta',
+	'supportGroupVechta.alt': 'Selbsthilfe',
+	'supportGroupVechta.registerDropdown': 'Selbsthilfe Vechta',
 	'default': 'Beratung & Hilfe'
 };
 

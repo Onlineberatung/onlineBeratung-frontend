@@ -33,7 +33,6 @@ const profile = {
 	'data.register.headline':
 		'Benötigen Sie auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Sie gerne.',
 	'data.register.consultingTypeSelect.label': 'Themenfelder',
-	'data.register.kreuzbund': 'Sucht-Selbsthilfe - Kreuzbund',
 	'data.register.consultingModeInfo.groupChats':
 		'In der Selbsthilfe tauschen sich Betroffene über ein Thema oder ein Anliegen miteinander aus. Die Betroffenen sprechen über ihre Probleme, Gefühle und Hoffnungen und erfahren so, wie andere Probleme bewältigt haben. Die Gruppen werden von Moderator_innen geleitet.',
 	'data.register.consultingModeInfo.singleChats':

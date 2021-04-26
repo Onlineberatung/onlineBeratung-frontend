@@ -148,7 +148,8 @@ export const AskerNewRegistration = () => {
 		registeredConsultingTypes?.length === 1 &&
 		isGroupChatConsultingType(
 			parseInt(registeredConsultingTypes[0].consultingType)
-		);
+		) &&
+		!isGroupChatConsultingType(selectedConsultingType);
 	return (
 		<div className="profile__data__itemWrapper askerRegistration">
 			<p

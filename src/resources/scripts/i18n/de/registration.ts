@@ -23,6 +23,7 @@ const registration = {
 	'overline.hospice': 'Hospiz-, Palliativ- und Trauerberatung',
 	'overline.regional': 'Regionale Angebote',
 	'overline.men': 'Jungen- und Männerberatung',
+	'overline.supportGroupVechta': 'Kontakt- und Beratungsstelle Selbsthilfe',
 	'login.helper': 'Bereits registriert?',
 	'login.label': 'Zum Login',
 	'agency.preselected.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
@@ -113,6 +114,8 @@ const registration = {
 	'welcomeScreen.title.hospice': 'der Hospiz-, Palliativ- und Trauerberatung',
 	'welcomeScreen.title.regional': 'den Regionalen Angeboten',
 	'welcomeScreen.title.men': 'der Jungen- und Männerberatung',
+	'welcomeScreen.title.supportGroupVechta':
+		'der Kontakt- und Beratungsstelle Selbsthilfe',
 	'welcomeScreen.title.end': '!',
 	'welcomeScreen.subline': 'Wie läuft die Beratung & Hilfe der Caritas ab?',
 	'welcomeScreen.info1.title': 'Einfache Registrierung',

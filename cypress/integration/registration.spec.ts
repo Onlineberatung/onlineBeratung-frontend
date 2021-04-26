@@ -378,4 +378,20 @@ describe('registration', () => {
 			);
 		});
 	});
+
+	describe('supportGroupVechta', () => {
+		it('should have all generic registration page elements', () => {
+			cy.visit('/registration.selbsthilfe-vechta.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			checkForGenericRegistrationElements();
+		});
+
+		it('should have no password reset info text', () => {
+			cy.visit('/registration.selbsthilfe-vechta.html');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=no-password-reset-possible-note]').should(
+				'not.exist'
+			);
+		});
+	});
 });
