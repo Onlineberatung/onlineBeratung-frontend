@@ -12,11 +12,11 @@ export const ConsultantPublicData = () => {
 		<div>
 			<div className="profile__content__title">
 				<Headline
-					text={translate('profile.data.title.private')}
+					text={translate('profile.data.title.public')}
 					semanticLevel="5"
 				/>
 				<Text
-					text={translate('profile.data.info.private')}
+					text={translate('profile.data.info.public')}
 					type="infoLargeAlternative"
 				/>
 			</div>
