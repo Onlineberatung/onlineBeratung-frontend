@@ -33,10 +33,8 @@ export const EditableData = (props: EditableDataProps) => {
 			inputFieldRef.current.value = !props.initialValue
 				? ''
 				: getInitialValue;
-			if (props.isSingleEdit) {
-				inputFieldRef.current.focus();
-				inputFieldRef.current.select();
-			}
+			inputFieldRef.current.focus();
+			inputFieldRef.current.select();
 		} else if (props.isDisabled) {
 			inputFieldRef.current.value = getInitialValue;
 			setIsValid(true);
