@@ -23,8 +23,10 @@
 
 		&:focus-visible,
 		&:focus {
-			outline: none;
 			border-bottom: 1px solid $primary;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
 		}
 
 		&::selection {
