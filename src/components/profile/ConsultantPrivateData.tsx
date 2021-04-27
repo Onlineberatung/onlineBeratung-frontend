@@ -59,7 +59,7 @@ export const ConsultantPrivateData = () => {
 			})
 				.then((response) => {
 					setIsRequestInProgress(false);
-					let updatedUserData = userData;
+					const updatedUserData = { ...userData };
 					updatedUserData.email = email;
 					updatedUserData.firstName = firstName;
 					updatedUserData.lastName = lastName;
