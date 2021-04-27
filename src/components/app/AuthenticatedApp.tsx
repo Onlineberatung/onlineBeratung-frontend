@@ -102,9 +102,38 @@ export const App: React.FC = () => {
 		});
 	}
 
+	// Init live service socket
 	useEffect(() => {
-		initLiveServiceSocket();
-	}, [appReady]);
+		stompClient.connect(
+			{
+				accessToken: getTokenFromCookie('keycloak')
+			},
+			(frame) => {
+				console.log('Connected: ' + frame);
+				stompClient.subscribe('/user/events', function (message) {
+					const stompMessageBody = JSON.parse(message.body);
+					const stompEventType = stompMessageBody['eventType'];
+					if (stompEventType === STOMP_EVENT_TYPES.DIRECT_MESSAGE) {
+						setNewStompDirectMessage(true);
+					} else if (
+						stompEventType === STOMP_EVENT_TYPES.VIDEO_CALL_REQUEST
+					) {
+						const stompEventContent: VideoCallRequestProps =
+							stompMessageBody['eventContent'];
+						setNewStompVideoCallRequest(stompEventContent);
+					}
+				});
+			}
+		);
+
+		stompClient.onWebSocketClose = (message) => {
+			console.log('Closed', message);
+		};
+
+		stompClient.onWebSocketError = (error) => {
+			console.log('Error', error);
+		};
+	}, [appReady, stompClient]);
 
 	useEffect(() => {
 		if (newStompDirectMessage) {
@@ -134,36 +163,6 @@ export const App: React.FC = () => {
 			}
 		}
 	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	const initLiveServiceSocket = () => {
-		stompClient.connect(
-			{
-				accessToken: getTokenFromCookie('keycloak')
-			},
-			(frame) => {
-				console.log('Connected: ' + frame);
-				stompClient.subscribe('/user/events', function (message) {
-					const stompMessageBody = JSON.parse(message.body);
-					const stompEventType = stompMessageBody['eventType'];
-					if (stompEventType === STOMP_EVENT_TYPES.DIRECT_MESSAGE) {
-						setNewStompDirectMessage(true);
-					} else if (
-						stompEventType === STOMP_EVENT_TYPES.VIDEO_CALL_REQUEST
-					) {
-						const stompEventContent: VideoCallRequestProps =
-							stompMessageBody['eventContent'];
-						setNewStompVideoCallRequest(stompEventContent);
-					}
-				});
-			}
-		);
-		stompClient.onWebSocketClose = (message) => {
-			console.log('Closed', message);
-		};
-		stompClient.onWebSocketError = (error) => {
-			console.log('Error', error);
-		};
-	};
 
 	const handleLogout = () => {
 		if (stompClient) {
