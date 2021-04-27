@@ -10,6 +10,11 @@
 		border-bottom: 1px solid $line-grey;
 		color: $secondary;
 
+		&[type='text'],
+		&[type='email'] {
+			-webkit-appearance: none;
+		}
+
 		&--empty {
 			color: $tertiary;
 			font-style: italic;
@@ -24,13 +29,14 @@
 		&:focus-visible,
 		&:focus {
 			border-bottom: 1px solid $primary;
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			appearance: none;
 		}
 
 		&::selection {
 			background: rgba($primary, 0.1);
+		}
+
+		&:-webkit-direct-focus {
+			-webkit-appearance: none;
 		}
 	}
 
