@@ -55,7 +55,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 				postcode: props.preselectedAgencyData.postcode
 			});
 		}
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [props.preselectedAgencyData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(
 		() => {
