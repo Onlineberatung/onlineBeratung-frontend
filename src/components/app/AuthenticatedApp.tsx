@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { Stomp } from '@stomp/stompjs';
+import useConstant from 'use-constant';
 import * as SockJS from 'sockjs-client';
 import { Routing } from './Routing';
 import { config } from '../../resources/scripts/config';
@@ -37,17 +38,21 @@ export const AuthenticatedAppContainer = (props) => {
 	);
 };
 
-const socket = new SockJS(config.endpoints.liveservice);
-const stompClient = Stomp.over(socket);
-// DEV-NOTE: comment next line to activate debug mode (stomp logging) for development
-stompClient.debug = () => {};
-
 const STOMP_EVENT_TYPES = {
 	DIRECT_MESSAGE: 'directMessage',
 	VIDEO_CALL_REQUEST: 'videoCallRequest'
 };
 
 export const App: React.FC = () => {
+	const stompClient = useConstant(() => {
+		const socket = new SockJS(config.endpoints.liveservice);
+		const client = Stomp.over(socket);
+
+		// DEV-NOTE: comment next line to activate debug mode (stomp logging) for development
+		client.debug = () => {};
+		return client;
+	});
+
 	const { setAuthData } = useContext(AuthDataContext);
 	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
 	const { setUserData } = useContext(UserDataContext);
