@@ -34,7 +34,7 @@ jobs:
               if: startsWith(env.BRANCH,'release') == true
               run: npm publish
               env:
-                NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Push changes
               if: startsWith(env.BRANCH,'release') == true
               uses: ad-m/github-push-action@master
