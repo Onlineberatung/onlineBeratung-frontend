@@ -5,9 +5,12 @@ import { Stage } from '../stage/stage';
 import { useEffect, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
-import registrationResortsData from './registrationData';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
-import { buttonItemSubmit, ResortData } from './registrationHelpers';
+import {
+	buttonItemSubmit,
+	getConsultingTypeData,
+	ResortData
+} from './registrationHelpers';
 import {
 	apiPostRegistration,
 	FETCH_ERRORS,
@@ -82,21 +85,7 @@ const Registration = () => {
 	const [consultingType] = useState(getConsultingTypeFromRegistration());
 	const [overlayActive, setOverlayActive] = useState(false);
 
-	const resortDataArray = Object.entries(registrationResortsData).filter(
-		(resort) => resort[1].consultingType === consultingType?.toString()
-	);
-
-	let resortData: ResortData;
-	if (resortDataArray.length > 1) {
-		const resortName = document.getElementById('registrationRoot')?.dataset
-			.resortname;
-		resortData = resortDataArray.filter(
-			(resort) => resort[0] === resortName
-		)[0][1];
-	} else {
-		resortData = resortDataArray[0][1];
-	}
-
+	const resortData: ResortData = getConsultingTypeData(consultingType);
 	// SET FORMAL/INFORMAL COOKIE
 	setTokenInCookie('useInformal', resortData.useInformal ? '1' : '');
 
@@ -251,6 +240,7 @@ const Registration = () => {
 								additionalStepsData={
 									resortData.requiredComponents
 								}
+								registrationNotes={resortData.registrationNotes}
 							></FormAccordion>
 
 							{preselectedAgencyData &&

@@ -123,10 +123,11 @@ export const getAddictiveDrugsString = (addictiveDrugs: string[]) => {
 
 export const getResortTranslation = (
 	consultingType: number,
-	alt: boolean = false
+	alt: boolean = false,
+	registerDropdown: boolean = false
 ) => {
 	const translatable = `resort.${getResortKeyForConsultingType(
 		consultingType
-	)}${alt ? '.alt' : ''}`;
+	)}${alt ? '.alt' : ''}${registerDropdown ? '.registerDropdown' : ''}`;
 	return translate(translatable);
 };

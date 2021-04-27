@@ -241,12 +241,14 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	};
 
-	const resortData: ResortData = Object.entries(
-		registrationResortsData
-	).filter(
+	const filteredResortsData = Object.entries(registrationResortsData).filter(
 		(resort) =>
 			resort[1].consultingType === chatItem.consultingType?.toString()
-	)[0][1];
+	);
+	let currentResortData: ResortData;
+	if (filteredResortsData) {
+		currentResortData = filteredResortsData[0][1];
+	}
 
 	return (
 		<div
@@ -279,7 +281,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							type={getTypeOfLocation()}
 							isOnlyEnquiry={isOnlyEnquiry}
 							isMyMessage={isMyMessage(message.userId)}
-							resortData={resortData}
+							resortData={currentResortData}
 							{...message}
 						/>
 					))}

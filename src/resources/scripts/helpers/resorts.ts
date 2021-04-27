@@ -28,7 +28,8 @@ export const isGenericConsultingType = (currentType: number): boolean => {
 		17,
 		18,
 		19,
-		20
+		20,
+		21
 	];
 	return genericTypes.includes(currentType);
 };
@@ -58,10 +59,24 @@ export const RESORT_KEYS = {
 	17: 'emigration',
 	18: 'hospice',
 	19: 'regional',
-	20: 'men'
+	20: 'men',
+	21: 'supportGroupVechta'
 };
 
-const groupChatConsultingTypes = ['15'];
+const groupChatConsultingTypes = ['15', '21'];
 export const isGroupChatConsultingType = (consultingType: number): boolean => {
 	return groupChatConsultingTypes.includes(consultingType?.toString());
+};
+
+export const groupChatRuleTexts = {
+	kreuzbund: [
+		'In der Sucht-Selbsthilfe duzen wir uns, sowohl in den Gruppen vor Ort als auch hier im Chat. Wer damit Probleme hat, teile das im Chat mit – wir stellen uns gerne darauf ein!',
+		'Menschen sind verschieden, ihre Meinungen sind es auch. Aufeinander zu achten sowie wertschätzende Chat-Beiträge gewährleisten ein helfendes Miteinander.',
+		'Moderator_innen haben die Aufgabe, dafür zu sorgen, dass sich die Chat-Teilnehmenden austauschen können. Sie bieten gegebenenfalls auch Sucht-Themen zur Diskussion an. Ihren Aufforderungen ist zu folgen, beispielsweise dann, wenn Chat-Regeln nicht eingehalten werden.'
+	],
+	supportGroupVechta: [
+		'In der Selbsthilfe duzen wir uns, sowohl in den Gruppen vor Ort als auch hier im Chat. Wer damit Probleme hat, teile das im Chat mit – wir stellen uns gerne darauf ein!',
+		'Menschen sind verschieden, ihre Meinungen sind es auch. Aufeinander zu achten sowie wertschätzende Chat-Beiträge gewährleisten ein helfendes Miteinander.',
+		'Moderator_innen haben die Aufgabe, dafür zu sorgen, dass sich die Chat-User_innen austauschen können. Ihren Aufforderungen ist zu folgen, beispielsweise dann, wenn Chat-Regeln nicht eingehalten werden.'
+	]
 };

@@ -7,6 +7,7 @@ import { UserDataInterface } from '../../globalState';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
+import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
 
 export const convertUserDataObjectToArray = (object) => {
 	const array = [];
@@ -69,12 +70,12 @@ export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
 		REGISTRATION_STATUS_KEYS.UNREGISTERED
 	);
 	return unregisteredConsultingTypesData.map((value) => {
+		const currentConsultingType = parseInt(value.consultingType);
 		return {
 			value: value.consultingType,
-			label:
-				value.consultingType === '15'
-					? translate('profile.data.register.kreuzbund')
-					: getResortTranslation(parseInt(value.consultingType))
+			label: isGroupChatConsultingType(currentConsultingType)
+				? getResortTranslation(currentConsultingType, false, true)
+				: getResortTranslation(currentConsultingType)
 		};
 	});
 };

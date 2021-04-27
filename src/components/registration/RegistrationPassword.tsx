@@ -17,9 +17,9 @@ import { AccordionItemValidity } from './registrationHelpers';
 import './registrationPassword.styles';
 
 interface RegistrationPasswordProps {
-	hasNoResetNote: boolean;
 	onPasswordChange: Function;
 	onValidityChange: Function;
+	passwordNote: string;
 }
 
 export const RegistrationPassword = (props: RegistrationPasswordProps) => {
@@ -189,11 +189,11 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 				item={inputItemPasswordConfirmation}
 				inputHandle={(e) => setPasswordConfirmation(e.target.value)}
 			/>
-			{props.hasNoResetNote && (
-				<div data-cy="no-password-reset-possible-note">
+			{props.passwordNote && (
+				<div data-cy="registration-password-note">
 					<Text
 						className="registrationPassword__note"
-						text={translate('registration.password.note')}
+						text={props.passwordNote}
 						type="infoLargeAlternative"
 						labelType={LABEL_TYPES.NOTICE}
 					/>
