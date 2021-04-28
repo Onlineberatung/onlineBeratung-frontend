@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { Stomp } from '@stomp/stompjs';
+import useConstant from 'use-constant';
 import * as SockJS from 'sockjs-client';
 import { Routing } from './Routing';
 import { config } from '../../resources/scripts/config';
@@ -37,17 +38,21 @@ export const AuthenticatedAppContainer = (props) => {
 	);
 };
 
-const socket = new SockJS(config.endpoints.liveservice);
-const stompClient = Stomp.over(socket);
-// DEV-NOTE: comment next line to activate debug mode (stomp logging) for development
-stompClient.debug = () => {};
-
 const STOMP_EVENT_TYPES = {
 	DIRECT_MESSAGE: 'directMessage',
 	VIDEO_CALL_REQUEST: 'videoCallRequest'
 };
 
 export const App: React.FC = () => {
+	const stompClient = useConstant(() => {
+		const socket = new SockJS(config.endpoints.liveservice);
+		const client = Stomp.over(socket);
+
+		// DEV-NOTE: comment next line to activate debug mode (stomp logging) for development
+		client.debug = () => {};
+		return client;
+	});
+
 	const { setAuthData } = useContext(AuthDataContext);
 	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
 	const { setUserData } = useContext(UserDataContext);
@@ -97,9 +102,38 @@ export const App: React.FC = () => {
 		});
 	}
 
+	// Init live service socket
 	useEffect(() => {
-		initLiveServiceSocket();
-	}, [appReady]);
+		stompClient.connect(
+			{
+				accessToken: getTokenFromCookie('keycloak')
+			},
+			(frame) => {
+				console.log('Connected: ' + frame);
+				stompClient.subscribe('/user/events', function (message) {
+					const stompMessageBody = JSON.parse(message.body);
+					const stompEventType = stompMessageBody['eventType'];
+					if (stompEventType === STOMP_EVENT_TYPES.DIRECT_MESSAGE) {
+						setNewStompDirectMessage(true);
+					} else if (
+						stompEventType === STOMP_EVENT_TYPES.VIDEO_CALL_REQUEST
+					) {
+						const stompEventContent: VideoCallRequestProps =
+							stompMessageBody['eventContent'];
+						setNewStompVideoCallRequest(stompEventContent);
+					}
+				});
+			}
+		);
+
+		stompClient.onWebSocketClose = (message) => {
+			console.log('Closed', message);
+		};
+
+		stompClient.onWebSocketError = (error) => {
+			console.log('Error', error);
+		};
+	}, [appReady, stompClient]);
 
 	useEffect(() => {
 		if (newStompDirectMessage) {
@@ -129,36 +163,6 @@ export const App: React.FC = () => {
 			}
 		}
 	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	const initLiveServiceSocket = () => {
-		stompClient.connect(
-			{
-				accessToken: getTokenFromCookie('keycloak')
-			},
-			(frame) => {
-				console.log('Connected: ' + frame);
-				stompClient.subscribe('/user/events', function (message) {
-					const stompMessageBody = JSON.parse(message.body);
-					const stompEventType = stompMessageBody['eventType'];
-					if (stompEventType === STOMP_EVENT_TYPES.DIRECT_MESSAGE) {
-						setNewStompDirectMessage(true);
-					} else if (
-						stompEventType === STOMP_EVENT_TYPES.VIDEO_CALL_REQUEST
-					) {
-						const stompEventContent: VideoCallRequestProps =
-							stompMessageBody['eventContent'];
-						setNewStompVideoCallRequest(stompEventContent);
-					}
-				});
-			}
-		);
-		stompClient.onWebSocketClose = (message) => {
-			console.log('Closed', message);
-		};
-		stompClient.onWebSocketError = (error) => {
-			console.log('Error', error);
-		};
-	};
 
 	const handleLogout = () => {
 		if (stompClient) {

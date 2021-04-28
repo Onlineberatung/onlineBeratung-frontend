@@ -7,9 +7,9 @@ import { useEffect, useState } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { getUrlParameter } from '../../resources/scripts/helpers/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
-import { ResortDataInterface } from '../../globalState';
+import { ConsultingTypeInterface } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
-import { apiGetResortData } from '../../api';
+import { apiGetConsultingType } from '../../api';
 import '../../resources/styles/styles';
 import './registration.styles';
 
@@ -21,10 +21,10 @@ export const initRegistration = () => {
 };
 
 export const Registration = () => {
-	const { resortName } = useParams();
+	const { consultingTypeSlug } = useParams();
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(true);
 	const [registrationData, setRegistrationData] = useState<
-		ResortDataInterface | undefined
+		ConsultingTypeInterface | undefined
 	>();
 
 	const handleForwardToRegistration = () => {
@@ -33,15 +33,17 @@ export const Registration = () => {
 	};
 
 	useEffect(() => {
-		if (!resortName) {
-			console.error('No `resortName` found in URL.');
+		if (!consultingTypeSlug) {
+			console.error('No `consultingTypeSlug` found in URL.');
 			return;
 		}
 
-		apiGetResortData({ resortName })
+		apiGetConsultingType({ consultingTypeSlug })
 			.then((result) => {
 				if (!result) {
-					console.error(`Unknown resort with name ${resortName}`);
+					console.error(
+						`Unknown consulting type with name ${consultingTypeSlug}`
+					);
 					return;
 				}
 
@@ -54,7 +56,7 @@ export const Registration = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [resortName]);
+	}, [consultingTypeSlug]);
 
 	useEffect(() => {
 		if (!registrationData) return;

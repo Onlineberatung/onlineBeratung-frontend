@@ -1,8 +1,8 @@
-import { ResortDataInterface } from '../globalState';
+import { ConsultingTypeInterface } from '../globalState';
 import { translate } from '../resources/scripts/i18n/translate';
 
 // TODO: This should be moved to the API at some point
-const registrationData: Record<string, ResortDataInterface> = {
+const consultingTypes: Record<string, ConsultingTypeInterface> = {
 	'suchtberatung': {
 		consultingType: 0,
 		useInformal: false,
@@ -433,19 +433,18 @@ const registrationData: Record<string, ResortDataInterface> = {
 	}
 };
 
-export const apiGetResortData = async (params: {
-	resortName?: string;
-	consultingType?: number;
-}): Promise<ResortDataInterface> => {
+export const apiGetConsultingType = async (params: {
+	consultingTypeSlug?: string;
+	consultingTypeId?: number;
+}): Promise<ConsultingTypeInterface> => {
 	// TODO: Use `responseHandling: [FETCH_ERRORS.NO_MATCH]` once the real
 	// API is in use. This is relevant for the call site in `app.tsx`
-
 	let foundData;
-	if (params.resortName != null) {
-		foundData = registrationData[params.resortName];
-	} else if (params.consultingType !== null) {
-		foundData = Object.values(registrationData).find(
-			(cur) => cur.consultingType === params.consultingType
+	if (params.consultingTypeSlug != null) {
+		foundData = consultingTypes[params.consultingTypeSlug];
+	} else if (params.consultingTypeId !== null) {
+		foundData = Object.values(consultingTypes).find(
+			(cur) => cur.consultingType === params.consultingTypeId
 		);
 	}
 	return Promise.resolve(foundData);

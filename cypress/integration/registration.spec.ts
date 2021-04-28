@@ -72,6 +72,34 @@ describe('registration', () => {
 				);
 			});
 		});
+
+		it('should be able to register', () => {
+			cy.fixture('service.agencies.json').then((agencies) => {
+				cy.intercept(config.endpoints.agencyServiceBase, agencies);
+				cy.visit('/u25/registration?aid=1');
+				cy.get('[data-cy=close-welcome-screen]').click();
+				cy.get('[data-cy=show-preselected-agency]').should('exist');
+				cy.get('[data-cy=show-preselected-agency]').contains(
+					agencies[0].name
+				);
+				cy.get('input[id="username"]').focus().type('u25-user');
+				cy.contains('Weiter').click();
+				cy.get('input[id="passwordInput"]')
+					.focus()
+					.type('Password123!');
+				cy.get('input[id="passwordConfirmation"]')
+					.focus()
+					.type('Password123!');
+				cy.get('button:contains("Weiter"):visible').click();
+				cy.contains('Alter auswählen*').click();
+				cy.get('[id^="react-select"]:contains("unter 12")').click();
+				cy.get('button:contains("Weiter"):visible').click();
+				cy.contains('Bundesland auswählen*').click();
+				cy.get('[id^="react-select"]:contains("Bayern")').click();
+				cy.get('#dataProtectionLabel').click();
+				cy.contains('Registrieren').should('be.enabled');
+			});
+		});
 	});
 
 	describe('pregnancy', () => {

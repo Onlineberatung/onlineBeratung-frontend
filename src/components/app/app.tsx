@@ -27,11 +27,11 @@ const App = () => {
 	return (
 		<Router history={history}>
 			<Switch>
-				<Route path="/:resortName/registration">
+				<Route path="/:consultingTypeSlug/registration">
 					<Registration />
 				</Route>
 				{!hasUnmatchedResortLogin && (
-					<Route path="/:resortName">
+					<Route path="/:consultingTypeSlug">
 						<LoginLoader handleUnmatch={handleUnmatchResortLogin} />
 					</Route>
 				)}

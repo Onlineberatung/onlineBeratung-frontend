@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { apiGetResortData } from '../../api';
+import { apiGetConsultingType } from '../../api';
 import { Login } from '../login/Login';
 
 export interface LoginLoaderProps {
@@ -10,14 +10,14 @@ export interface LoginLoaderProps {
 
 export const LoginLoader = ({ handleUnmatch }: LoginLoaderProps) => {
 	const [isValidResort, setIsValidResort] = useState<boolean>();
-	const { resortName } = useParams();
+	const { consultingTypeSlug } = useParams();
 
 	useEffect(() => {
-		apiGetResortData({ resortName }).then((result) => {
+		apiGetConsultingType({ consultingTypeSlug }).then((result) => {
 			if (result) setIsValidResort(true);
 			else handleUnmatch();
 		});
-	}, [resortName, handleUnmatch]);
+	}, [consultingTypeSlug, handleUnmatch]);
 
 	if (isValidResort) {
 		return <Login />;
