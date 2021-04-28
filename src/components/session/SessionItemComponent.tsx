@@ -117,10 +117,12 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	useEffect(() => {
 		let isCanceled = false;
 		const { consultingType } = activeSession.session;
-		apiGetConsultingType({ consultingType }).then((response) => {
-			if (isCanceled) return;
-			setResortData(response);
-		});
+		apiGetConsultingType({ consultingTypeId: consultingType }).then(
+			(response) => {
+				if (isCanceled) return;
+				setResortData(response);
+			}
+		);
 		return () => {
 			isCanceled = true;
 		};

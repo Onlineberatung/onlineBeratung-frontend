@@ -21,7 +21,7 @@ export const initRegistration = () => {
 };
 
 export const Registration = () => {
-	const { resortName } = useParams();
+	const { consultingTypeSlug } = useParams();
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(true);
 	const [registrationData, setRegistrationData] = useState<
 		ConsultingTypeInterface | undefined
@@ -33,15 +33,17 @@ export const Registration = () => {
 	};
 
 	useEffect(() => {
-		if (!resortName) {
-			console.error('No `resortName` found in URL.');
+		if (!consultingTypeSlug) {
+			console.error('No `consultingTypeSlug` found in URL.');
 			return;
 		}
 
-		apiGetConsultingType({ resortName })
+		apiGetConsultingType({ consultingTypeSlug })
 			.then((result) => {
 				if (!result) {
-					console.error(`Unknown resort with name ${resortName}`);
+					console.error(
+						`Unknown consulting type with name ${consultingTypeSlug}`
+					);
 					return;
 				}
 
@@ -54,7 +56,7 @@ export const Registration = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [resortName]);
+	}, [consultingTypeSlug]);
 
 	useEffect(() => {
 		if (!registrationData) return;

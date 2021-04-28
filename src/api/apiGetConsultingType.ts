@@ -434,15 +434,17 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 };
 
 export const apiGetConsultingType = async (params: {
-	resortName?: string;
-	consultingType?: number;
+	consultingTypeSlug?: string;
+	consultingTypeId?: number;
 }): Promise<ConsultingTypeInterface> => {
+	// TODO: Use `responseHandling: [FETCH_ERRORS.NO_MATCH]` once the real
+	// API is in use. This is relevant for the call site in `app.tsx`
 	let foundData;
-	if (params.resortName != null) {
-		foundData = consultingTypes[params.resortName];
-	} else if (params.consultingType !== null) {
+	if (params.consultingTypeSlug != null) {
+		foundData = consultingTypes[params.consultingTypeSlug];
+	} else if (params.consultingTypeId !== null) {
 		foundData = Object.values(consultingTypes).find(
-			(cur) => cur.consultingType === params.consultingType
+			(cur) => cur.consultingType === params.consultingTypeId
 		);
 	}
 	return Promise.resolve(foundData);
