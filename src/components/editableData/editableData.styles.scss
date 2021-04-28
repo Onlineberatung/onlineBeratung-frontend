@@ -24,6 +24,7 @@
 		&:focus-visible,
 		&:focus {
 			border-bottom: 1px solid $primary;
+			outline: none;
 		}
 
 		&::selection {
