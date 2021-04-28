@@ -81,7 +81,7 @@ export const AskerAboutMeData = () => {
 				isDisabled={isEmailDisabled}
 				isSingleEdit
 				onSingleEditActive={() => setIsEmailDisabled(false)}
-				onValueisValid={handleEmailChange}
+				onValueIsValid={handleEmailChange}
 				isEmailAlreadyInUse={isEmailNotAvailable}
 			/>
 			{!isEmailDisabled && (

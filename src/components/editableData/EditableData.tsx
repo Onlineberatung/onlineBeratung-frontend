@@ -15,7 +15,7 @@ export interface EditableDataProps {
 	isDisabled?: boolean;
 	isSingleEdit?: boolean;
 	onSingleEditActive?: Function;
-	onValueisValid?: Function;
+	onValueIsValid?: Function;
 	isEmailAlreadyInUse?: boolean;
 }
 
@@ -44,10 +44,10 @@ export const EditableData = (props: EditableDataProps) => {
 	}, [props.isDisabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (isValid && props.onValueisValid) {
-			props.onValueisValid(inputValue);
-		} else if (!isValid && props.onValueisValid) {
-			props.onValueisValid(null);
+		if (isValid && props.onValueIsValid) {
+			props.onValueIsValid(inputValue);
+		} else if (!isValid && props.onValueIsValid) {
+			props.onValueIsValid(null);
 		}
 	}, [inputValue]); // eslint-disable-line react-hooks/exhaustive-deps
 

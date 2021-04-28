@@ -108,7 +108,7 @@ export const ConsultantPrivateData = () => {
 				type="email"
 				initialValue={userData.email}
 				isDisabled={isEditDisabled}
-				onValueisValid={handleEmailChange}
+				onValueIsValid={handleEmailChange}
 				isEmailAlreadyInUse={isEmailNotAvailable}
 			/>
 			<EditableData
@@ -120,7 +120,7 @@ export const ConsultantPrivateData = () => {
 						: translate('profile.noContent')
 				}
 				isDisabled={isEditDisabled}
-				onValueisValid={(firstName) => setFirstName(firstName)}
+				onValueIsValid={(firstName) => setFirstName(firstName)}
 			/>
 			<EditableData
 				label={translate('profile.data.lastName')}
@@ -131,7 +131,7 @@ export const ConsultantPrivateData = () => {
 						: translate('profile.noContent')
 				}
 				isDisabled={isEditDisabled}
-				onValueisValid={(lastName) => setLastName(lastName)}
+				onValueIsValid={(lastName) => setLastName(lastName)}
 			/>
 			{!isEditDisabled && (
 				<div className="editableData__buttonSet editableData__buttonSet--edit">
