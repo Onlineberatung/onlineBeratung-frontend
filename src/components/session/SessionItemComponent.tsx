@@ -17,7 +17,7 @@ import { translate } from '../../utils/translate';
 import { MessageItemComponent } from '../message/MessageItemComponent';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { apiEnquiryAcceptance, apiGetResortData } from '../../api';
+import { apiEnquiryAcceptance, apiGetConsultingType } from '../../api';
 import {
 	Overlay,
 	OVERLAY_FUNCTIONS,
@@ -33,7 +33,7 @@ import {
 	AcceptedGroupIdContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	ResortDataInterface
+	ConsultingTypeInterface
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { Link } from 'react-router-dom';
@@ -113,14 +113,16 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	}, [isScrolledToBottom]); // eslint-disable-line
 
-	const [resortData, setResortData] = useState<ResortDataInterface>();
+	const [resortData, setResortData] = useState<ConsultingTypeInterface>();
 	useEffect(() => {
 		let isCanceled = false;
 		const { consultingType } = activeSession.session;
-		apiGetResortData({ consultingType }).then((response) => {
-			if (isCanceled) return;
-			setResortData(response);
-		});
+		apiGetConsultingType({ consultingTypeId: consultingType }).then(
+			(response) => {
+				if (isCanceled) return;
+				setResortData(response);
+			}
+		);
 		return () => {
 			isCanceled = true;
 		};

@@ -96,6 +96,7 @@ export const Button = (props: ButtonProps) => {
 			<button
 				onClick={(event) => handleButtonClick(event)}
 				id={item.id}
+				disabled={props.disabled}
 				title={item.title}
 				className={`
 					button__item 

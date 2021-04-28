@@ -29,7 +29,10 @@ import {
 	autoselectPostcodeForConsultingType
 } from '../agencySelection/agencySelectionHelpers';
 import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
-import { AgencyDataInterface, ResortDataInterface } from '../../globalState';
+import {
+	AgencyDataInterface,
+	ConsultingTypeInterface
+} from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
 import { LegalInformationLinks } from '../login/LegalInformationLinks';
@@ -37,7 +40,7 @@ import { getUrlParameter } from '../../utils/getUrlParameter';
 import './registrationForm.styles';
 
 interface RegistrationFormProps {
-	registrationData: ResortDataInterface;
+	registrationData: ConsultingTypeInterface;
 }
 
 interface FormAccordionData {

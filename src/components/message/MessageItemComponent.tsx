@@ -8,7 +8,7 @@ import {
 	getActiveSession,
 	hasUserAuthority,
 	AUTHORITIES,
-	ResortDataInterface
+	ConsultingTypeInterface
 } from '../../globalState';
 import {
 	SESSION_TYPES,
@@ -74,7 +74,7 @@ interface MessageItemComponentProps extends MessageItem {
 	isMyMessage: boolean;
 	type: string;
 	clientName: string;
-	resortData: ResortDataInterface;
+	resortData: ConsultingTypeInterface;
 }
 
 export const MessageItemComponent = (props: MessageItemComponentProps) => {

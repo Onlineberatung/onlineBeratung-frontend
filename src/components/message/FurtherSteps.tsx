@@ -27,7 +27,7 @@ import { apiPutEmail, FETCH_ERRORS } from '../../api';
 import {
 	ActiveSessionGroupIdContext,
 	getActiveSession,
-	ResortDataInterface,
+	ConsultingTypeInterface,
 	SessionsDataContext,
 	UserDataContext
 } from '../../globalState';
@@ -42,7 +42,7 @@ const addEmailButton: ButtonItem = {
 interface FurtherStepsProps {
 	consultingType: number;
 	onlyShowVoluntaryInfo?: boolean;
-	resortData: ResortDataInterface;
+	resortData: ConsultingTypeInterface;
 	handleVoluntaryInfoSet?: Function;
 }
 
