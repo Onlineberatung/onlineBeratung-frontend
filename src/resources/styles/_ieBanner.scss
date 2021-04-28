@@ -5,18 +5,19 @@ _:-ms-fullscreen,
 
 .ieBanner {
 	display: none;
-	background: $tertiary;
-	color: $white;
+	background: $form-medium;
+	color: $secondary;
 	text-align: left;
-	font-size: $font-size-secondary;
-	line-height: $line-height-secondary;
-	padding: $grid-base-two 56px $grid-base-two 48px;
-	@include breakpoint($fromLarge) {
-		padding: $grid-base-two 96px $grid-base-two 56px;
-	}
+	font-size: $font-size-primary;
+	line-height: $line-height-primary;
+	padding: $grid-base-two $grid-base-eight;
 	margin: 0;
 	position: relative;
 	z-index: 500;
+
+	@include breakpoint($fromLarge) {
+		padding: $grid-base-two 96px $grid-base-two $grid-base-eight;
+	}
 	a {
 		text-decoration: underline;
 		color: $white;
@@ -51,13 +52,13 @@ _:-ms-fullscreen,
 			right: $grid-base-two;
 			path {
 				transition: fill 500ms ease;
-				fill: $form-disabled;
+				fill: $secondary;
 			}
 		}
 		&:hover {
 			svg {
 				path {
-					fill: $white;
+					fill: $black;
 				}
 			}
 		}
