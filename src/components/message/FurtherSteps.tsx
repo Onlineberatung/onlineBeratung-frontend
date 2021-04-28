@@ -15,10 +15,7 @@ import {
 	InputFieldItem,
 	InputFieldLabelState
 } from '../inputField/InputField';
-import {
-	isStringValidEmail,
-	ResortData
-} from '../registration/registrationHelpers';
+import { isStringValidEmail } from '../registration/registrationHelpers';
 import { useContext, useEffect, useState } from 'react';
 import {
 	Overlay,
@@ -30,6 +27,7 @@ import { apiPutEmail, FETCH_ERRORS } from '../../api';
 import {
 	ActiveSessionGroupIdContext,
 	getActiveSession,
+	ConsultingTypeInterface,
 	SessionsDataContext,
 	UserDataContext
 } from '../../globalState';
@@ -44,7 +42,7 @@ const addEmailButton: ButtonItem = {
 interface FurtherStepsProps {
 	consultingType: number;
 	onlyShowVoluntaryInfo?: boolean;
-	resortData: ResortData;
+	resortData: ConsultingTypeInterface;
 	handleVoluntaryInfoSet?: Function;
 }
 

@@ -85,14 +85,7 @@
 			</script>
 		</p>
 
-		<% if(type === 'registration') { %>
-		<main
-			data-consultingtype="<%= consultingType %>"
-			data-resortName="<%= resortName %>"
-			class="app"
-			id="registrationRoot"
-		></main>
-		<% } else if(type === 'error') { %>
+		<% if(type === 'error') { %>
 		<main
 			data-errortype="<%= errorType %>"
 			class="app"
