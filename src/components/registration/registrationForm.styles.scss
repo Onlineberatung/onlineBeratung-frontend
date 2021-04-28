@@ -35,13 +35,6 @@
 		font-size: $font-size-primary;
 	}
 
-	&__generalInformation {
-		margin: 0 auto $grid-base-four;
-		max-width: 320px;
-		//TODO: remove margin-top; after removal of deprecated components
-		margin-top: 500px;
-	}
-
 	&__passwordNote {
 		margin: -20px $grid-base-five $grid-base-five 52px;
 	}
