@@ -94,8 +94,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	useEffect(() => {
 		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			const sessionData =
-				userData.consultingTypes[activeSession.session.consultingType]
-					?.sessionData;
+				userData.consultingTypes[chatItem.consultingType]?.sessionData;
 			setShowAddVoluntaryInfo(
 				!isVoluntaryInfoSet(sessionData, props.resortData)
 			);
@@ -154,7 +153,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		if (isFurtherStepsMessage) {
 			return (
 				<FurtherSteps
-					consultingType={activeSession.agency.consultingType}
+					consultingType={chatItem.consultingType}
 					resortData={props.resortData}
 				/>
 			);
@@ -165,7 +164,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 					handleVoluntaryInfoSet={() =>
 						setShowAddVoluntaryInfo(false)
 					}
-					consultingType={activeSession.agency.consultingType}
+					consultingType={chatItem.consultingType}
 					resortData={props.resortData}
 				/>
 			);

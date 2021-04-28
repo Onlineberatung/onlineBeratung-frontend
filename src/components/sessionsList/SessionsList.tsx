@@ -344,7 +344,7 @@ export const SessionsList: React.FC = () => {
 				});
 				if (
 					response.sessions.length === 1 &&
-					response.sessions[0].session.status === 0
+					response.sessions[0].session?.status === 0
 				) {
 					history.push(`/sessions/user/view/write`);
 				} else {

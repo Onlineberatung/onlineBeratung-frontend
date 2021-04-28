@@ -206,6 +206,7 @@ export const RegistrationForm = ({
 						setFormAccordionData(formData)
 					}
 					additionalStepsData={registrationData.requiredComponents}
+					registrationNotes={registrationData.registrationNotes}
 				></FormAccordion>
 
 				{preselectedAgencyData &&

@@ -1,5 +1,13 @@
 declare namespace MailService {
 	namespace Schemas {
+		export interface ErrorMailDTO {
+			/**
+			 * example:
+			 * template
+			 */
+			template: string;
+			templateData?: TemplateDataDTO[];
+		}
 		export interface MailDTO {
 			/**
 			 * example:
@@ -27,6 +35,14 @@ declare namespace MailService {
 	}
 }
 declare namespace Paths {
+	namespace SendErrorMail {
+		export type RequestBody = MailService.Schemas.ErrorMailDTO;
+		namespace Responses {
+			export interface $200 {}
+			export interface $400 {}
+			export interface $500 {}
+		}
+	}
 	namespace SendMails {
 		export type RequestBody = MailService.Schemas.MailsDTO;
 		namespace Responses {

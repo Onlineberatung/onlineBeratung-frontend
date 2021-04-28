@@ -40,12 +40,6 @@ const groupChat = {
 	'join.button.label.join': 'Teilnehmen',
 	'join.button.label.start': 'Chat starten',
 	'join.content.headline': '"Spielregeln" des Chats',
-	'join.content.rules.1':
-		'In der Sucht-Selbsthilfe duzen wir uns, sowohl in den Gruppen vor Ort als auch hier im Chat. Wer damit Probleme hat, teile das im Chat mit – wir stellen uns gerne darauf ein!',
-	'join.content.rules.2':
-		'Menschen sind verschieden, ihre Meinungen sind es auch. Aufeinander zu achten sowie wertschätzende Chat-Beiträge gewährleisten ein helfendes Miteinander.',
-	'join.content.rules.3':
-		'Moderator_innen haben die Aufgabe, dafür zu sorgen, dass sich die Chat-Teilnehmenden austauschen können. Sie bieten gegebenenfalls auch Sucht-Themen zur Diskussion an. Ihren Aufforderungen ist zu folgen, beispielsweise dann, wenn Chat-Regeln nicht eingehalten werden.',
 	'join.warning.message':
 		'Ihr Berater_in/Moderator_in hat den Chat noch nicht gestartet. Sobald Ihr Berater_in/Moderator_in den Chat gestartet hat können Sie mit uns chatten. Bitte haben Sie noch etwas Geduld.',
 	'join.chatClosedOverlay.headline': 'Der Chat wurde bereits beendet.',
