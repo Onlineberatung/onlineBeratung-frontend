@@ -443,7 +443,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		overline: translate('registration.overline.men'),
 		welcomeTitle: translate('registration.welcomeScreen.title.men')
 	},
-	'supportGroupVechta': {
+	'selbsthilfe-vechta': {
 		consultingType: 21,
 		useInformal: false,
 		overline: translate('registration.overline.supportGroupVechta'),

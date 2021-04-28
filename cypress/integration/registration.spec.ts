@@ -29,7 +29,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.suchtberatung.html');
+			cy.visit('/suchtberatung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -60,7 +60,7 @@ describe('registration', () => {
 		it('should have a password info text', () => {
 			cy.fixture('service.agencies.json').then((agencies) => {
 				cy.intercept(config.endpoints.agencyServiceBase, agencies);
-				cy.visit('/registration.u25.html?aid=1');
+				cy.visit('/u25/registration?aid=1');
 				cy.get('[data-cy=close-welcome-screen]').click();
 				cy.get('[data-cy=registration-password-note]').should('exist');
 			});
@@ -135,7 +135,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.schwangerschaftsberatung.html');
+			cy.visit('/schwangerschaftsberatung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -161,7 +161,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.eltern-familie.html');
+			cy.visit('/eltern-familie/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -187,7 +187,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.kurberatung.html');
+			cy.visit('/kurberatung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -213,7 +213,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.schuldnerberatung.html');
+			cy.visit('/schuldnerberatung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -239,7 +239,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.allgemeine-soziale-beratung.html');
+			cy.visit('/allgemeine-soziale-beratung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -262,7 +262,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.leben-im-alter.html');
+			cy.visit('/leben-im-alter/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -288,9 +288,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit(
-				'/registration.behinderung-und-psychische-erkrankung.html'
-			);
+			cy.visit('/behinderung-und-psychische-erkrankung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -316,7 +314,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.mein-planb.html');
+			cy.visit('/mein-planb/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -342,7 +340,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.rechtliche-betreuung.html');
+			cy.visit('/rechtliche-betreuung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -368,7 +366,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.straffaelligkeit.html');
+			cy.visit('/straffaelligkeit/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -391,7 +389,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.hiv-aids-beratung.html');
+			cy.visit('/hiv-aids-beratung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -417,7 +415,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.kinder-reha.html');
+			cy.visit('/kinder-reha/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -443,7 +441,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.kinder-jugendliche.html');
+			cy.visit('/kinder-jugendliche/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -469,7 +467,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.kb-sucht-selbsthilfe.html');
+			cy.visit('/kb-sucht-selbsthilfe/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -492,7 +490,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.migration.html');
+			cy.visit('/migration/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -518,7 +516,7 @@ describe('registration', () => {
 		});
 
 		it('should have a agency selection info text', () => {
-			cy.visit('/registration.rw-auswanderung.html');
+			cy.visit('/rw-auswanderung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'exist'
@@ -544,7 +542,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.hospiz-palliativ.html');
+			cy.visit('/hospiz-palliativ/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -567,7 +565,7 @@ describe('registration', () => {
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.regionale-angebote.html');
+			cy.visit('/regionale-angebote/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -597,13 +595,13 @@ describe('registration', () => {
 
 	describe('supportGroupVechta', () => {
 		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.selbsthilfe-vechta.html');
+			cy.visit('/selbsthilfe-vechta/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password reset info text', () => {
-			cy.visit('/registration.selbsthilfe-vechta.html');
+			cy.visit('/selbsthilfe-vechta/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=no-password-reset-possible-note]').should(
 				'not.exist'
