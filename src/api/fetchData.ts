@@ -30,6 +30,10 @@ export const FETCH_ERRORS = {
 	X_REASON: 'X-Reason'
 };
 
+export const X_REASON = {
+	EMAIL_NOT_AVAILABLE: 'EMAIL_NOT_AVAILABLE'
+};
+
 export const FETCH_SUCCESS = {
 	CONTENT: 'CONTENT'
 };

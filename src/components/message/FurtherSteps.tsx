@@ -26,7 +26,7 @@ import {
 	OverlayWrapper,
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
-import { apiPutEmail, FETCH_ERRORS } from '../../api';
+import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
 import {
 	ActiveSessionGroupIdContext,
 	getActiveSession,
@@ -90,29 +90,29 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 
 	const validateEmail = (
 		email
-	): { valid: InputFieldLabelState; label: string } => {
+	): { validity: InputFieldLabelState; label: string } => {
 		if (email.length > 0 && isStringValidEmail(email)) {
 			return {
-				valid: 'valid',
+				validity: 'valid',
 				label: translate('furtherSteps.email.overlay.input.valid')
 			};
 		} else if (email.length > 0) {
 			return {
-				valid: 'invalid',
+				validity: 'invalid',
 				label: translate('furtherSteps.email.overlay.input.invalid')
 			};
 		} else {
 			return {
-				valid: null,
+				validity: null,
 				label: translate('furtherSteps.email.overlay.input.label')
 			};
 		}
 	};
 
 	const handleEmailChange = (event) => {
-		const validity = validateEmail(event.target.value);
-		setEmailLabelState(validity.valid);
-		setEmailLabel(validity.label);
+		const validityData = validateEmail(event.target.value);
+		setEmailLabelState(validityData.validity);
+		setEmailLabel(validityData.label);
 		setEmail(event.target.value);
 	};
 
@@ -165,8 +165,8 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 					setUserData(updatedUserData);
 				})
 				.catch((error: Response) => {
-					const reason = error.headers.get(FETCH_ERRORS.X_REASON);
-					if (reason === 'EMAIL_NOT_AVAILABLE') {
+					const reason = error.headers?.get(FETCH_ERRORS.X_REASON);
+					if (reason === X_REASON.EMAIL_NOT_AVAILABLE) {
 						setEmailLabel(
 							translate(
 								'furtherSteps.email.overlay.input.unavailable'

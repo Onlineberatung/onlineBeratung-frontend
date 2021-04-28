@@ -209,22 +209,22 @@ $maxFormElementWidth: 320px;
 			}
 		}
 
-		&__title {
-			font-family: $font-family-slab-regular;
-			font-size: $font-size-secondary;
-			line-height: $line-height-secondary;
+		.text__divider {
 			text-align: center;
-			color: $light-grey;
 			margin-bottom: $grid-base-three;
 		}
 
-		&__subtitle {
-			font-family: $font-family-medium;
-			font-weight: $font-weight-medium;
+		&__title {
+			position: relative;
+			margin-bottom: $grid-base-three;
 			text-align: center;
 
 			@include breakpoint($fromLarge) {
 				text-align: left;
+			}
+
+			.text {
+				margin-top: $grid-base;
 			}
 		}
 
@@ -234,6 +234,10 @@ $maxFormElementWidth: 320px;
 			@include breakpoint($fromLarge) {
 				margin-top: $grid-base-eight;
 			}
+		}
+
+		.editableData {
+			margin-top: 12px;
 		}
 	}
 
@@ -258,17 +262,28 @@ $maxFormElementWidth: 320px;
 		}
 	}
 
+	&__functions,
+	&__data {
+		> div:first-of-type {
+			margin-top: $grid-base-three;
+		}
+
+		> div:not(:first-of-type) {
+			margin-top: $grid-base-six;
+		}
+	}
+
 	&__data {
 		&__item {
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-end;
 			min-height: 42px;
-			margin-top: 4px;
+			margin-top: 12px;
 			border-bottom: 1px solid $line-grey;
 
 			&Wrapper {
-				.profile__content__title {
+				.text__divider {
 					margin: $grid-base-four 0 $grid-base-two;
 				}
 			}
@@ -278,11 +293,11 @@ $maxFormElementWidth: 320px;
 			color: $tertiary;
 			font-size: $font-size-secondary;
 			line-height: $line-height-secondary;
-			margin: 0 0 4px;
+			margin: 0 0 6px;
 		}
 
 		&__content {
-			margin: 0;
+			margin: 0 0 6px;
 
 			&--empty {
 				color: $tertiary;

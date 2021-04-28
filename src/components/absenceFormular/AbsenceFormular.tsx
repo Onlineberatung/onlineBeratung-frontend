@@ -14,6 +14,7 @@ import {
 import { UserDataContext } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import './absenceFormular.styles';
+import { Headline } from '../headline/Headline';
 
 export const AbsenceFormular = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -133,9 +134,12 @@ export const AbsenceFormular = () => {
 
 	return (
 		<div id="absenceForm" className="absenceForm">
-			<p className="absence__title profile__content__subtitle">
-				{translate('profile.functions.absenceTitle')}
-			</p>
+			<div className="profile__content__title">
+				<Headline
+					text={translate('profile.functions.absenceTitle')}
+					semanticLevel="5"
+				/>
+			</div>
 			<div className="generalInformation">
 				<Checkbox
 					item={checkboxItem}

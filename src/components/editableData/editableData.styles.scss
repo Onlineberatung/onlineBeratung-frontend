@@ -1,0 +1,95 @@
+.editableData {
+	position: relative;
+	width: 100%;
+
+	&__input {
+		width: 100%;
+		padding: 6px 0;
+		background: none;
+		border: none;
+		border-bottom: 1px solid $line-grey;
+		color: $secondary;
+
+		&--empty {
+			color: $tertiary;
+			font-style: italic;
+		}
+
+		&:disabled {
+			cursor: default;
+			opacity: 1;
+			-webkit-text-fill-color: $secondary;
+		}
+
+		&:focus-visible,
+		&:focus {
+			border-bottom: 1px solid $primary;
+		}
+
+		&::selection {
+			background: rgba($primary, 0.1);
+		}
+	}
+
+	&__inputButton {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		right: 0;
+		background-color: $black-10-opacity;
+		border-radius: 100%;
+		cursor: pointer;
+		height: $grid-base-three;
+		width: $grid-base-three;
+
+		svg {
+			height: 14px;
+			width: 14px;
+			fill: $secondary;
+		}
+
+		&--edit {
+			top: 0;
+		}
+
+		&--singleEdit {
+			bottom: $grid-base;
+		}
+
+		&--remove {
+			height: $grid-base-two;
+			width: $grid-base-two;
+			bottom: 10px;
+
+			svg {
+				height: 10px;
+				width: 10px;
+				fill: $white;
+			}
+		}
+	}
+
+	&__label--invalid {
+		.text {
+			color: $primary;
+		}
+	}
+
+	&__buttonSet {
+		display: flex;
+		justify-content: flex-end;
+		margin-top: $grid-base-three;
+
+		.button {
+			&__wrapper:last-of-type {
+				margin-left: $grid-base-three;
+			}
+
+			&__item {
+				min-width: unset;
+				padding: 0;
+			}
+		}
+	}
+}

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { ProfileDataViewConsultant } from './ProfileDataViewConsultant';
-import { ProfileFunctions } from './ProfileFunctions';
 import { logout } from '../logout/logout';
 import { config } from '../../resources/scripts/config';
 import {
@@ -10,14 +8,22 @@ import {
 	hasUserAuthority,
 	AUTHORITIES
 } from '../../globalState';
-import { ProfileDataViewAsker } from './ProfileDataViewAsker';
+import { ConsultantPrivateData } from './ConsultantPrivateData';
+import { ConsultantPublicData } from './ConsultantPublicData';
+import { consultingTypeSelectOptionsSet } from './profileHelpers';
+import { AskerAboutMeData } from './AskerAboutMeData';
+import { AskerConsultingTypeData } from './AskerConsultingTypeData';
+import { AskerRegistration } from './AskerRegistration';
 import { setProfileWrapperInactive } from '../app/navigationHandler';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
-import './profile.styles';
 import { DeleteAccount } from './DeleteAccount';
+import { AbsenceFormular } from '../absenceFormular/AbsenceFormular';
+import { PasswordReset } from '../passwordReset/PasswordReset';
+import { Text } from '../text/Text';
+import './profile.styles';
 
-export const ProfileView = () => {
+export const Profile = () => {
 	const { userData } = useContext(UserDataContext);
 
 	useEffect(() => {
@@ -83,14 +89,36 @@ export const ProfileView = () => {
 					</h2>
 				</div>
 				<div className="profile__content">
-					<ProfileFunctions />
+					<div className="profile__content__item profile__functions">
+						<Text
+							text={translate('profile.functions.title')}
+							type="divider"
+						/>
+						{hasUserAuthority(
+							AUTHORITIES.CONSULTANT_DEFAULT,
+							userData
+						) && <AbsenceFormular />}
+						<PasswordReset />
+					</div>
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,
 						userData
 					) ? (
-						<ProfileDataViewConsultant />
+						<div className="profile__content__item profile__data">
+							<Text
+								text={translate('profile.data.title')}
+								type="divider"
+							/>
+							<ConsultantPrivateData />
+							<ConsultantPublicData />
+						</div>
 					) : (
-						<ProfileDataViewAsker />
+						<div className="profile__content__item profile__data">
+							<AskerAboutMeData />
+							<AskerConsultingTypeData />
+							{consultingTypeSelectOptionsSet(userData).length >
+								0 && <AskerRegistration />}
+						</div>
 					)}
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (
 						<DeleteAccount />

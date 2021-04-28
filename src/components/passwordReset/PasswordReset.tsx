@@ -18,6 +18,8 @@ import {
 } from '../../resources/scripts/helpers/validateInputValue';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import './passwordReset.styles';
+import { Headline } from '../headline/Headline';
+import { Text } from '../text/Text';
 
 export const PasswordReset = () => {
 	const [oldPassword, setOldPassword] = useState('');
@@ -204,12 +206,16 @@ export const PasswordReset = () => {
 
 	return (
 		<div id="passwordReset" className="passwordReset">
-			<p className="passwordReset__title profile__content__subtitle">
-				{translate('profile.functions.passwordResetTitle')}
-			</p>
-			<p className="passwordReset__subtitle">
-				{translate('profile.functions.passwordResetSubtitle')}
-			</p>
+			<div className="profile__content__title">
+				<Headline
+					text={translate('profile.functions.passwordResetTitle')}
+					semanticLevel="5"
+				/>
+				<Text
+					text={translate('profile.functions.passwordResetSubtitle')}
+					type="infoLargeAlternative"
+				/>
+			</div>
 			<div className="generalInformation">
 				<div className="generalInformation__innerWrapper">
 					<InputField
