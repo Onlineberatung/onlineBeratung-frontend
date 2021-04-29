@@ -46,9 +46,9 @@ export const getConsultingTypeData = (consultingTypeId: number): ResortData => {
 	);
 
 	let resortData: ResortData;
-	if (resortDataArray.length > 1) {
-		const resortName = document.getElementById('registrationRoot')?.dataset
-			.resortname;
+	const resortName = document.getElementById('registrationRoot')?.dataset
+		.resortname;
+	if (resortDataArray.length > 1 && resortName) {
 		resortData = resortDataArray.filter(
 			(resort) => resort[0] === resortName
 		)[0][1];
@@ -64,6 +64,7 @@ export interface ResortData {
 	overline: string;
 	welcomeTitle: string;
 	useInformal: boolean;
+	isSetEmailAllowed: boolean;
 	requiredComponents?: RequiredComponents;
 	voluntaryComponents?: any[];
 	registrationNotes?: RegistrationNotes;
