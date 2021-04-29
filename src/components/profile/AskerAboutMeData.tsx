@@ -6,6 +6,7 @@ import { translate } from '../../resources/scripts/i18n/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditableData } from '../editableData/EditableData';
 import { Text } from '../text/Text';
+import { hasAskerEmailFeatures } from './profileHelpers';
 
 const cancelEditButton: ButtonItem = {
 	label: 'abbrechen',
@@ -74,16 +75,18 @@ export const AskerAboutMeData = () => {
 				type="text"
 				isDisabled
 			/>
-			<EditableData
-				label={emailLabel}
-				type="email"
-				initialValue={userData.email}
-				isDisabled={isEmailDisabled}
-				isSingleEdit
-				onSingleEditActive={() => setIsEmailDisabled(false)}
-				onValueIsValid={handleEmailChange}
-				isEmailAlreadyInUse={isEmailNotAvailable}
-			/>
+			{hasAskerEmailFeatures(userData) && (
+				<EditableData
+					label={emailLabel}
+					type="email"
+					initialValue={userData.email}
+					isDisabled={isEmailDisabled}
+					isSingleEdit
+					onSingleEditActive={() => setIsEmailDisabled(false)}
+					onValueIsValid={handleEmailChange}
+					isEmailAlreadyInUse={isEmailNotAvailable}
+				/>
+			)}
 			{!isEmailDisabled && (
 				<div className="editableData__buttonSet editableData__buttonSet--edit">
 					<Button
