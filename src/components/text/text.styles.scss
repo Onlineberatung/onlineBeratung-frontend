@@ -1,7 +1,7 @@
 .text {
 	text-align: left;
 	margin: 0;
-	font-family: $font-family-regular;
+	font-family: $font-family-sans-serif;
 
 	&__standard {
 		font-size: $font-size-primary;
@@ -39,7 +39,6 @@
 	}
 
 	&__label {
-		font-family: $font-family-medium;
 		font-weight: $font-weight-medium;
 		text-transform: uppercase;
 		margin-right: 4px;
