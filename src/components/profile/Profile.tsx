@@ -128,7 +128,7 @@ export const Profile = () => {
 				</div>
 				<div className="profile__footer">
 					<a
-						href={config.urls.caritasImprint}
+						href={config.urls.imprint}
 						target="_blank"
 						rel="noreferrer"
 						className="profile__footer__item"
@@ -136,7 +136,7 @@ export const Profile = () => {
 						{translate('profile.footer.imprint')}
 					</a>
 					<a
-						href={config.urls.caritasDataprotection}
+						href={config.urls.privacy}
 						target="_blank"
 						rel="noreferrer"
 						className="profile__footer__item"

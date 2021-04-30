@@ -52,9 +52,9 @@ export const config = {
 			'https://www.caritas.de/onlineberatung',
 		toLogin: tld + endpointPort + '/login.html',
 		redirectToApp: tld + endpointPort + `/beratung-hilfe.html`,
-		caritas: 'https://www.caritas.de',
-		caritasImprint: 'https://www.caritas.de/impressum',
-		caritasDataprotection:
+		home: 'https://www.caritas.de',
+		imprint: 'https://www.caritas.de/impressum',
+		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		error500: tld + endpointPort + '/error.500.html',
 		error401: tld + endpointPort + '/error.401.html',

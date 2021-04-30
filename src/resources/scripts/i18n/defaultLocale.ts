@@ -1,3 +1,5 @@
 import de from './de';
 
-export default de;
+const defaultLocale = de;
+
+export default defaultLocale;
