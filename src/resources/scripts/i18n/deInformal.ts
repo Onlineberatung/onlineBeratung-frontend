@@ -22,10 +22,10 @@ import statusOverlay from './de/statusOverlay';
 import statusOverlayInformal from './de/statusOverlayInformal';
 import videoCall from './de/videoCall';
 import videoCallInformal from './de/videoCallInformal';
-import defaultLocale from './defaultLocale';
+import de from './de';
 
 const informalLocale = {
-	...defaultLocale,
+	...de,
 	absence: { ...absence, ...absenceInformal },
 	attachments: { ...attachments, ...attachmentsInformal },
 	deleteAccount: { ...deleteAccount, ...deleteAccountInformal },
