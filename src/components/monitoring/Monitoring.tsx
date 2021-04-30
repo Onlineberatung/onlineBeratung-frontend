@@ -232,7 +232,7 @@ export const Monitoring = () => {
 			</div>
 			<div className="profile__innerWrapper">
 				<div className="profile__content">
-					<div className="profile__content__item profile__functions">
+					<div className="profile__content__item">
 						<div className="monitoringAccordion">
 							{renderAccordion(null, monitoringData)}
 						</div>

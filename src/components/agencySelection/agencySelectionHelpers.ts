@@ -2,14 +2,14 @@ import { config } from '../../resources/scripts/config';
 
 export const VALID_POSTCODE_LENGTH = 5;
 
-const consultingTypesToAutoselectAgency = [11, 12, 13, 15, 17];
+const consultingTypesToAutoselectAgency = [11, 12, 13, 15, 17, 21];
 export const autoselectAgencyForConsultingType = (
 	consultingType: number
 ): boolean => {
 	return consultingTypesToAutoselectAgency.includes(consultingType);
 };
 
-const consultingTypesToAutoselectPostcode = [1, 15, 19];
+const consultingTypesToAutoselectPostcode = [1, 15, 19, 21];
 export const autoselectPostcodeForConsultingType = (
 	consultingType: number
 ): boolean => {

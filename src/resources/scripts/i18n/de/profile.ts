@@ -25,6 +25,12 @@ const profile = {
 		'Sie haben Ihr Passwort erfolgreich geändert. Sie werden nun zum Login weitergeleitet.',
 	'functions.passwordReset.overlay.buttonLabel': 'Zum Login',
 	'data.title': 'Über mich',
+	'data.title.private': 'Private Daten',
+	'data.info.private': 'Diese Daten können die Ratsuchenden nicht einsehen.',
+	'data.title.public': 'Öffentliche Daten',
+	'data.info.public': 'Diese Daten werden den Ratsuchenden angezeigt.',
+	'data.edit.button.cancel': 'Abbrechen',
+	'data.edit.button.save': 'Speichern',
 	'data.userName': 'Benutzername',
 	'data.firstName': 'Vorname',
 	'data.lastName': 'Nachname',
@@ -33,7 +39,6 @@ const profile = {
 	'data.register.headline':
 		'Benötigen Sie auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Sie gerne.',
 	'data.register.consultingTypeSelect.label': 'Themenfelder',
-	'data.register.kreuzbund': 'Sucht-Selbsthilfe - Kreuzbund',
 	'data.register.consultingModeInfo.groupChats':
 		'In der Selbsthilfe tauschen sich Betroffene über ein Thema oder ein Anliegen miteinander aus. Die Betroffenen sprechen über ihre Probleme, Gefühle und Hoffnungen und erfahren so, wie andere Probleme bewältigt haben. Die Gruppen werden von Moderator_innen geleitet.',
 	'data.register.consultingModeInfo.singleChats':

@@ -6,7 +6,6 @@
 	"email": null,
 	"absenceMessage": null,
 	"agencies": null,
-	"userRoles": ["offline_access", "uma_authorization", "user"],
 	"grantedAuthorities": ["AUTHORIZATION_USER_DEFAULT"],
 	"consultingTypes": {
 		"0": { "sessionData": null, "isRegistered": false, "agency": null },

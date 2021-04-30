@@ -3,6 +3,11 @@ export type RequiredComponentsInterface = {
 	state?: any;
 };
 
+export type RegistrationNotesInterface = {
+	agencySelection?: string;
+	password?: string;
+};
+
 export interface ConsultingTypeInterface {
 	consultingType: number;
 	overline: string;
@@ -11,4 +16,5 @@ export interface ConsultingTypeInterface {
 	useInformal: boolean;
 	voluntaryComponents?: any[];
 	requiredAidMissingRedirectUrl?: string;
+	registrationNotes?: RegistrationNotesInterface;
 }

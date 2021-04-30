@@ -35,6 +35,7 @@ import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
 import '../profile/profile.styles';
+import { Text } from '../text/Text';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
@@ -186,9 +187,12 @@ export const GroupChatInfo = () => {
 				) : null}
 				<div className="profile__content">
 					<div className="profile__content__item profile__data">
-						<p className="profile__content__title">
-							{translate('groupChat.info.subscribers.headline')}
-						</p>
+						<Text
+							text={translate(
+								'groupChat.info.subscribers.headline'
+							)}
+							type="divider"
+						/>
 						{subscriberList ? (
 							subscriberList.map((subscriber, index) => (
 								<div
@@ -212,9 +216,10 @@ export const GroupChatInfo = () => {
 					</div>
 
 					<div className="profile__content__item profile__data">
-						<p className="profile__content__title">
-							{translate('groupChat.info.settings.headline')}
-						</p>
+						<Text
+							text={translate('groupChat.info.settings.headline')}
+							type="divider"
+						/>
 						{preparedSettings.map((item, index) => (
 							<div className="profile__data__item" key={index}>
 								<p className="profile__data__label">

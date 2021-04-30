@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { translate } from '../../utils/translate';
-import { UserMonitoring } from './UserMonitoring';
+import { AskerInfoMonitoring } from './AskerInfoMonitoring';
 import {
 	typeIsSession,
 	typeIsTeamSession,
@@ -14,10 +14,10 @@ import {
 } from '../../globalState';
 import { Link } from 'react-router-dom';
 import { Loading } from '../app/Loading';
-import { UserDataView } from './UserDataView';
+import { AskerInfoData } from './AskerInfoData';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
-import './profile.styles';
+import '../profile/profile.styles';
 
 export const AskerInfo = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
@@ -58,12 +58,12 @@ export const AskerInfo = () => {
 					<h2>{activeSession.user.username}</h2>
 				</div>
 				<div className="profile__content">
-					<UserDataView />
-					{(activeSession.session.monitoring &&
+					<AskerInfoData />
+					{((activeSession.session.monitoring &&
 						typeIsSession(activeSession.type)) ||
-					typeIsTeamSession(activeSession.type) ? (
-						<UserMonitoring />
-					) : null}
+						typeIsTeamSession(activeSession.type)) && (
+						<AskerInfoMonitoring />
+					)}
 				</div>
 			</div>
 		</div>

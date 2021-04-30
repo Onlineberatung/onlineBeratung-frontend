@@ -146,6 +146,10 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		overline: translate('registration.overline.u25'),
 		welcomeTitle: translate('registration.welcomeScreen.title.u25'),
 		requiredAidMissingRedirectUrl: 'https://www.u25.de/helpmail/',
+		registrationNotes: {
+			password:
+				'Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!'
+		},
 		requiredComponents: {
 			age: {
 				label: translate('user.userU25.age.selectLabel'),
@@ -252,6 +256,10 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.gemeinsamstatteinsam'
 		),
+		registrationNotes: {
+			password:
+				'Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!'
+		},
 		requiredComponents: {
 			age: {
 				label: translate('user.userU25.age.selectLabel'),
@@ -411,7 +419,11 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 17,
 		useInformal: false,
 		overline: translate('registration.overline.emigration'),
-		welcomeTitle: translate('registration.welcomeScreen.title.emigration')
+		welcomeTitle: translate('registration.welcomeScreen.title.emigration'),
+		registrationNotes: {
+			agencySelection:
+				'Sollten Sie im Ausland leben, geben Sie bitte die Postleitzahl eines Bezugsortes in Deutschland (zukünftiger Wohnort, Heimatort…) an.'
+		}
 	},
 	'hospiz-palliativ': {
 		consultingType: 18,
@@ -430,6 +442,14 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		useInformal: false,
 		overline: translate('registration.overline.men'),
 		welcomeTitle: translate('registration.welcomeScreen.title.men')
+	},
+	'selbsthilfe-vechta': {
+		consultingType: 21,
+		useInformal: false,
+		overline: translate('registration.overline.supportGroupVechta'),
+		welcomeTitle: translate(
+			'registration.welcomeScreen.title.supportGroupVechta'
+		)
 	}
 };
 

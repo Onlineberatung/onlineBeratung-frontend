@@ -43,7 +43,13 @@ import { logout } from '../logout/logout';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
-import { isGroupChatConsultingType } from '../../utils/resorts';
+import {
+	getResortKeyForConsultingType,
+	groupChatRuleTexts,
+	isGroupChatConsultingType
+} from '../../utils/resorts';
+import { Headline } from '../headline/Headline';
+import { Text } from '../text/Text';
 
 export const JoinGroupChatView = () => {
 	const { userData } = useContext(UserDataContext);
@@ -190,34 +196,38 @@ export const JoinGroupChatView = () => {
 		<div className="session joinChat">
 			<SessionHeaderComponent />
 			<div className="joinChat__content session__content">
-				<h4>{translate('groupChat.join.content.headline')}</h4>
-				<p>{translate('groupChat.join.content.rules.1')}</p>
-				<p>{translate('groupChat.join.content.rules.2')}</p>
-				<p>{translate('groupChat.join.content.rules.3')}</p>
+				<Headline
+					text={translate('groupChat.join.content.headline')}
+					semanticLevel="4"
+				/>
+				{groupChatRuleTexts[
+					getResortKeyForConsultingType(chatItem.consultingType)
+				]?.map((groupChatRuleText, i) => (
+					<Text text={groupChatRuleText} type="standard" key={i} />
+				))}
 			</div>
 			<div className="joinChat__button-container">
 				{!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-				!chatItem.active ? (
-					<p className="joinChat__warning-message">
-						<WarningIcon />
-						{translate('groupChat.join.warning.message')}
-					</p>
-				) : null}
-
+					!chatItem.active && (
+						<p className="joinChat__warning-message">
+							<WarningIcon />
+							{translate('groupChat.join.warning.message')}
+						</p>
+					)}
 				<Button
 					item={buttonItem}
 					buttonHandle={handleButtonClick}
 					disabled={isButtonDisabled}
 				/>
 			</div>
-			{overlayActive ? (
+			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>
-			) : null}
+			)}
 		</div>
 	);
 };

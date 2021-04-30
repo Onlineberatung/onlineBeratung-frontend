@@ -11,19 +11,6 @@ import {
 } from '../../components/session/sessionHelpers';
 import { translate } from '../../utils/translate';
 
-export const USER_ROLES = {
-	USER: 'user',
-	CONSULTANT: 'consultant',
-	U25_CONSULTANT: 'u25-consultant',
-	U25_MAIN_CONSULTANT: 'u25-main-consultant',
-	KREUZBUND_CONSULTANT: 'kreuzbund-consultant'
-};
-
-export const isUserRole = (
-	role: string,
-	userData: UserDataInterface
-): boolean => userData.userRoles.includes(role);
-
 export const ACTIVE_SESSION = {
 	CREATE_CHAT: 'CREATE_CHAT'
 };

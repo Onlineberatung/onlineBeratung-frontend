@@ -50,6 +50,11 @@ declare namespace UserService {
 			offline?: boolean;
 			consultingType?: ConsultingType;
 		}
+		export interface AliasMessageDTO {
+			forwardMessageDTO?: ForwardMessageDTO;
+			videoCallMessageDTO?: VideoCallMessageDTO;
+			messageType?: MessageType;
+		}
 		export interface ChatDTO {
 			/**
 			 * example:
@@ -121,6 +126,85 @@ declare namespace UserService {
 			 */
 			lastName?: string;
 		}
+		export interface ConsultantSessionDTO {
+			/**
+			 * example:
+			 * 153918
+			 */
+			id?: number; // int64
+			/**
+			 * example:
+			 * 100
+			 */
+			agencyId?: number; // int64
+			/**
+			 * example:
+			 * 1
+			 */
+			consultingType?: number;
+			/**
+			 * example:
+			 * 0
+			 */
+			status?: number;
+			/**
+			 * example:
+			 * 79098
+			 */
+			postcode?: string;
+			/**
+			 * Rocket.Chat room ID
+			 * example:
+			 * xGklslk2JJKK
+			 */
+			groupId?: string;
+			/**
+			 * Rocket.Chat feedback room ID
+			 * example:
+			 * 8ertjlasdKJA
+			 */
+			feedbackGroupId?: string;
+			/**
+			 * keycloak id of assigned consultant
+			 * example:
+			 * 926b9777-4eef-443d-925a-4aa534797bd7
+			 */
+			consultantId?: string;
+			/**
+			 * Rocket.Chat ID of assigned consultant
+			 * example:
+			 * 8ertjlasdKJA
+			 */
+			consultantRcId?: string;
+			/**
+			 * asker keycloak id
+			 * example:
+			 * 926b9777-4eef-443d-925a-4aa534797bd7
+			 */
+			askerId?: string;
+			/**
+			 * asker Rocket.Chat ID
+			 * example:
+			 * 8ertjlasdKJA
+			 */
+			askerRcId?: string;
+			/**
+			 * asker username
+			 * example:
+			 * asker123
+			 */
+			askerUserName?: string;
+			/**
+			 * example:
+			 * false
+			 */
+			isTeamSession?: boolean;
+			/**
+			 * example:
+			 * true
+			 */
+			isMonitoring?: boolean;
+		}
 		export interface ConsultantSessionListResponseDTO {
 			sessions: ConsultantSessionResponseDTO[];
 			/**
@@ -159,19 +243,14 @@ declare namespace UserService {
 			 */
 			chatLink: string;
 		}
-		export interface CreateUserResponseDTO {
-			/**
-			 * example:
-			 * 0
-			 */
-			usernameAvailable: number;
-			/**
-			 * example:
-			 * 1
-			 */
-			emailAvailable: number;
-		}
 		export interface Date {}
+		export interface DeleteUserAccountDTO {
+			/**
+			 * example:
+			 * p@ssw0rd
+			 */
+			password: string;
+		}
 		export interface EnquiryMessageDTO {
 			/**
 			 * example:
@@ -179,13 +258,62 @@ declare namespace UserService {
 			 */
 			message: string;
 		}
+		export interface ForwardMessageDTO {
+			/**
+			 * example:
+			 * Lorem ipsum dolor sit amet, consetetur...
+			 */
+			message: string;
+			/**
+			 * Full qualified timestamp
+			 * example:
+			 * 2018-11-15T09:33:00.057Z
+			 */
+			timestamp: string;
+			/**
+			 * example:
+			 * asker23
+			 */
+			username: string;
+			/**
+			 * example:
+			 * ag89h3tjkerg94t
+			 */
+			rcUserId: string;
+		}
 		export interface HttpStatus {}
+		export interface MandatorySessionDataDTO {
+			/**
+			 * mandatory depending on the consulting type
+			 * example:
+			 * 17
+			 */
+			age?: string;
+			/**
+			 * mandatory depending on the consulting type
+			 * example:
+			 * 8
+			 */
+			state?: string;
+		}
 		export interface MasterKeyDTO {
 			/**
 			 * example:
 			 * sdj8wnFNASj324!ksldf9
 			 */
 			masterKey: string;
+		}
+		export type MessageType =
+			| 'FURTHER_STEPS'
+			| 'UPDATE_SESSION_DATA'
+			| 'FORWARD'
+			| 'VIDEOCALL';
+		export interface MobileTokenDTO {
+			/**
+			 * example:
+			 * 8cc2058
+			 */
+			token: string;
 		}
 		export interface MonitoringDTO {
 			additionalProperties?: Properties;
@@ -359,6 +487,37 @@ declare namespace UserService {
 			 */
 			monitoring?: boolean;
 			attachment?: SessionAttachmentDTO;
+			videoCallMessageDTO?: VideoCallMessageDTO;
+		}
+		export interface SessionDataDTO {
+			/**
+			 * mandatory depending on the consulting type
+			 * example:
+			 * 17
+			 */
+			age?: string;
+			/**
+			 * mandatory depending on the consulting type
+			 * example:
+			 * 8
+			 */
+			state?: string;
+			/**
+			 * comma separated list of addictive drug IDs
+			 * example:
+			 * 2,4
+			 */
+			addictiveDrugs?: string;
+			/**
+			 * example:
+			 * 2
+			 */
+			relation?: string;
+			/**
+			 * example:
+			 * 0
+			 */
+			gender?: string;
 		}
 		export interface SessionUserDTO {
 			/**
@@ -382,6 +541,23 @@ declare namespace UserService {
 			 * http://{baseUrl}}/{consultingTypeName}/GEYDA
 			 */
 			chatLink: string;
+		}
+		export interface UpdateConsultantDTO {
+			/**
+			 * example:
+			 * Max
+			 */
+			firstname: string;
+			/**
+			 * example:
+			 * Mustermann
+			 */
+			lastname: string;
+			/**
+			 * example:
+			 * maxmuster@mann.com
+			 */
+			email: string; // email
 		}
 		export interface UserChatDTO {
 			/**
@@ -455,6 +631,18 @@ declare namespace UserService {
 		}
 		export interface UserDTO {
 			/**
+			 * mandatory depending on the consulting type
+			 * example:
+			 * 17
+			 */
+			age?: string;
+			/**
+			 * mandatory depending on the consulting type
+			 * example:
+			 * 8
+			 */
+			state?: string;
+			/**
 			 * example:
 			 * max94
 			 */
@@ -474,37 +662,6 @@ declare namespace UserService {
 			 * pass@w0rd
 			 */
 			password: string; // password
-			/**
-			 * example:
-			 * max@mustermann.de
-			 */
-			email?: string; // email
-			/**
-			 * comma separated list of addictive drug IDs
-			 * example:
-			 * 2,4
-			 */
-			addictiveDrugs?: string;
-			/**
-			 * example:
-			 * 2
-			 */
-			relation?: string;
-			/**
-			 * example:
-			 * 17
-			 */
-			age?: string;
-			/**
-			 * example:
-			 * 0
-			 */
-			gender?: string;
-			/**
-			 * example:
-			 * 8
-			 */
-			state?: string;
 			/**
 			 * example:
 			 * true
@@ -563,7 +720,6 @@ declare namespace UserService {
 			 */
 			isInTeamAgency?: boolean;
 			agencies?: AgencyDTO[];
-			userRoles?: string[];
 			grantedAuthorities?: string[];
 			consultingTypes?: ConsultingTypeMap;
 		}
@@ -576,6 +732,19 @@ declare namespace UserService {
 			agency?: AgencyDTO;
 			consultant?: SessionConsultantForUserDTO;
 			latestMessage?: Date;
+		}
+		export interface VideoCallMessageDTO {
+			eventType: 'IGNORED_CALL';
+			/**
+			 * example:
+			 * consultant23
+			 */
+			initiatorUserName: string;
+			/**
+			 * example:
+			 * ag89h3tjkerg94t
+			 */
+			initiatorRcUserId: string;
 		}
 	}
 }
@@ -648,6 +817,32 @@ declare namespace Paths {
 			export interface $401 {}
 			export interface $403 {}
 			export interface $409 {}
+			export interface $500 {}
+		}
+	}
+	namespace DeactivateAndFlagUserAccountForDeletion {
+		export type RequestBody = UserService.Schemas.DeleteUserAccountDTO;
+		namespace Responses {
+			export interface $200 {}
+			export interface $400 {}
+			export interface $401 {}
+			export interface $403 {}
+			export interface $500 {}
+		}
+	}
+	namespace FetchSessionForConsultant {
+		namespace Parameters {
+			export type SessionId = number; // int64
+		}
+		export interface PathParameters {
+			sessionId: Parameters.SessionId /* int64 */;
+		}
+		namespace Responses {
+			export type $200 = UserService.Schemas.ConsultantSessionDTO;
+			export interface $400 {}
+			export interface $401 {}
+			export interface $403 {}
+			export interface $404 {}
 			export interface $500 {}
 		}
 	}
@@ -868,9 +1063,10 @@ declare namespace Paths {
 	namespace RegisterUser {
 		export type RequestBody = UserService.Schemas.UserDTO;
 		namespace Responses {
-			export type $201 = UserService.Schemas.CreateUserResponseDTO;
+			export interface $201 {}
 			export interface $400 {}
 			export interface $403 {}
+			export interface $409 {}
 			export interface $500 {}
 		}
 	}
@@ -967,6 +1163,28 @@ declare namespace Paths {
 			export interface $500 {}
 		}
 	}
+	namespace UpdateConsultantData {
+		export type RequestBody = UserService.Schemas.UpdateConsultantDTO;
+		namespace Responses {
+			export interface $200 {}
+			export interface $400 {}
+			export interface $401 {}
+			export interface $403 {}
+			export interface $409 {}
+			export interface $500 {}
+		}
+	}
+	namespace UpdateEmailAddress {
+		export type RequestBody = string;
+		namespace Responses {
+			export interface $200 {}
+			export interface $400 {}
+			export interface $401 {}
+			export interface $403 {}
+			export interface $409 {}
+			export interface $500 {}
+		}
+	}
 	namespace UpdateKey {
 		export type RequestBody = UserService.Schemas.MasterKeyDTO;
 		namespace Responses {
@@ -974,6 +1192,16 @@ declare namespace Paths {
 			export interface $401 {}
 			export interface $403 {}
 			export interface $409 {}
+			export interface $500 {}
+		}
+	}
+	namespace UpdateMobileToken {
+		export type RequestBody = UserService.Schemas.MobileTokenDTO;
+		namespace Responses {
+			export interface $200 {}
+			export interface $400 {}
+			export interface $401 {}
+			export interface $403 {}
 			export interface $500 {}
 		}
 	}
@@ -1000,6 +1228,23 @@ declare namespace Paths {
 			export interface $400 {}
 			export interface $401 {}
 			export interface $403 {}
+			export interface $500 {}
+		}
+	}
+	namespace UpdateSessionData {
+		namespace Parameters {
+			export type SessionId = number; // int64
+		}
+		export interface PathParameters {
+			sessionId: Parameters.SessionId /* int64 */;
+		}
+		export type RequestBody = UserService.Schemas.SessionDataDTO;
+		namespace Responses {
+			export interface $200 {}
+			export interface $400 {}
+			export interface $401 {}
+			export interface $403 {}
+			export interface $404 {}
 			export interface $500 {}
 		}
 	}

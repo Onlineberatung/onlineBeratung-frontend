@@ -34,13 +34,20 @@ import './profile.styles';
 import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { isGroupChatConsultingType } from '../../utils/resorts';
+import { Headline } from '../headline/Headline';
+import { apiGetConsultingType } from '../../api/apiGetConsultingType';
+import { ConsultingTypeInterface } from '../../globalState';
 
-export const AskerNewRegistration = () => {
+export const AskerRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingType, setSelectedConsultingType] = useState<
 		number
 	>(null);
+	const [
+		selectedConsultingTypeData,
+		setSelectedConsultingTypeData
+	] = useState<ConsultingTypeInterface>();
 	const [selectedAgency, setSelectedAgency] = useState<any>({});
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
@@ -48,6 +55,8 @@ export const AskerNewRegistration = () => {
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
 	const isAllRequiredDataSet = () => selectedConsultingType && selectedAgency;
+
+	console.log(selectedConsultingTypeData);
 
 	useEffect(() => {
 		if (isAllRequiredDataSet()) {
@@ -59,6 +68,14 @@ export const AskerNewRegistration = () => {
 
 	const handleConsultingTypeSelect = (selectedOption) => {
 		setSelectedConsultingType(selectedOption.value);
+
+		const consultingTypeId = parseInt(selectedOption.value);
+		console.log(consultingTypeId, typeof consultingTypeId);
+
+		// string or number?
+		apiGetConsultingType({
+			consultingTypeId
+		}).then((result) => setSelectedConsultingTypeData(result));
 	};
 
 	const getOptionOfSelectedConsultingType = () => {
@@ -148,15 +165,16 @@ export const AskerNewRegistration = () => {
 		registeredConsultingTypes?.length === 1 &&
 		isGroupChatConsultingType(
 			parseInt(registeredConsultingTypes[0].consultingType)
-		);
+		) &&
+		!isGroupChatConsultingType(selectedConsultingType);
 	return (
 		<div className="profile__data__itemWrapper askerRegistration">
-			<p
-				className="askerRegistration__headline profile__content__subtitle"
-				dangerouslySetInnerHTML={{
-					__html: translate('profile.data.register.headline')
-				}}
-			></p>
+			<div className="profile__content__title">
+				<Headline
+					text={translate('profile.data.register.headline')}
+					semanticLevel="5"
+				/>
+			</div>
 			{isOnlyRegisteredForGroupChats ? (
 				<div className="askerRegistration__consultingTypeWrapper">
 					<SelectDropdown {...consultingTypesDropdown} />
@@ -178,6 +196,10 @@ export const AskerNewRegistration = () => {
 					onAgencyChange={(agency) => setSelectedAgency(agency)}
 					userData={userData}
 					isProfileView={true}
+					agencySelectionNote={
+						selectedConsultingTypeData?.registrationNotes
+							?.agencySelection
+					}
 				/>
 			)}
 			<Button

@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import './formAccordion.styles';
-import { RequiredComponentsInterface } from '../../globalState';
+import {
+	RequiredComponentsInterface,
+	RegistrationNotesInterface
+} from '../../globalState';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { AgencySelection } from '../agencySelection/AgencySelection';
 import { autoselectPostcodeForConsultingType } from '../agencySelection/agencySelectionHelpers';
@@ -19,6 +22,7 @@ interface FormAccordionProps {
 	preselectedAgencyData: any;
 	handleFormAccordionData: Function;
 	additionalStepsData?: RequiredComponentsInterface;
+	registrationNotes?: RegistrationNotesInterface;
 }
 
 export const FormAccordion = (props: FormAccordionProps) => {
@@ -123,7 +127,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					onValidityChange={(validity) =>
 						setPasswordValidity(validity)
 					}
-					hasNoResetNote={props.consultingType === 1}
+					passwordNote={props.registrationNotes?.password}
 				/>
 			),
 			isValid: passwordValidity
@@ -143,6 +147,9 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					onAgencyChange={(agency) => setAgency(agency)}
 					onValidityChange={(validity) =>
 						setSelectedAgencyValidity(validity)
+					}
+					agencySelectionNote={
+						props.registrationNotes?.agencySelection
 					}
 				/>
 			),
