@@ -47,6 +47,7 @@ describe('registration', () => {
 
 		it('should have all generic registration page elements', () => {
 			cy.fixture('service.agencies.json').then((agencies) => {
+				cy.intercept(config.endpoints.agencyServiceBase, agencies);
 				cy.visit('/u25/registration?aid=1');
 				cy.title().should(
 					'be.equal',
@@ -68,6 +69,7 @@ describe('registration', () => {
 
 		it('should have no agency selection info text', () => {
 			cy.fixture('service.agencies.json').then((agencies) => {
+				cy.intercept(config.endpoints.agencyServiceBase, agencies);
 				cy.visit('/u25/registration?aid=1');
 				cy.get('[data-cy=close-welcome-screen]').click();
 				cy.get('[data-cy=registration-agency-selection-note]').should(
