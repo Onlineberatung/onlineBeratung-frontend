@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import './formAccordion.styles';
+import {
+	RequiredComponentsInterface,
+	RegistrationNotesInterface
+} from '../../globalState';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { AgencySelection } from '../agencySelection/AgencySelection';
 import { autoselectPostcodeForConsultingType } from '../agencySelection/agencySelectionHelpers';
@@ -10,19 +14,15 @@ import { RegistrationUsername } from '../registration/RegistrationUsername';
 import { RegistrationAge } from '../registration/RegistrationAge';
 import { RegistrationState } from '../registration/RegistrationState';
 import { RegistrationPassword } from '../registration/RegistrationPassword';
-import {
-	AccordionItemValidity,
-	RegistrationNotes,
-	RequiredComponents
-} from '../registration/registrationHelpers';
+import { AccordionItemValidity } from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
 	consultingType: number;
 	isUsernameAlreadyInUse: boolean;
 	preselectedAgencyData: any;
 	handleFormAccordionData: Function;
-	additionalStepsData?: RequiredComponents;
-	registrationNotes?: RegistrationNotes;
+	additionalStepsData?: RequiredComponentsInterface;
+	registrationNotes?: RegistrationNotesInterface;
 }
 
 export const FormAccordion = (props: FormAccordionProps) => {
@@ -59,7 +59,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 				postcode: props.preselectedAgencyData.postcode
 			});
 		}
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [props.preselectedAgencyData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(
 		() => {

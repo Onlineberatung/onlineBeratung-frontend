@@ -24,7 +24,7 @@ const loginButton: ButtonItem = {
 	type: BUTTON_TYPES.PRIMARY
 };
 
-const Login = () => {
+export const Login = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState(

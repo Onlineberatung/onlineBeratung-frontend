@@ -35,10 +35,8 @@ import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
 import { Headline } from '../headline/Headline';
-import {
-	getConsultingTypeData,
-	ResortData
-} from '../registration/registrationHelpers';
+import { apiGetConsultingType } from '../../api/apiGetConsultingType';
+import { ConsultingTypeInterface } from '../../globalState';
 
 export const AskerRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -49,7 +47,7 @@ export const AskerRegistration = () => {
 	const [
 		selectedConsultingTypeData,
 		setSelectedConsultingTypeData
-	] = useState<ResortData>();
+	] = useState<ConsultingTypeInterface>();
 	const [selectedAgency, setSelectedAgency] = useState<any>({});
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
@@ -68,9 +66,12 @@ export const AskerRegistration = () => {
 
 	const handleConsultingTypeSelect = (selectedOption) => {
 		setSelectedConsultingType(selectedOption.value);
-		setSelectedConsultingTypeData(
-			getConsultingTypeData(selectedOption.value)
-		);
+
+		const consultingTypeId = parseInt(selectedOption.value);
+
+		apiGetConsultingType({
+			consultingTypeId
+		}).then((result) => setSelectedConsultingTypeData(result));
 	};
 
 	const getOptionOfSelectedConsultingType = () => {

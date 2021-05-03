@@ -1,6 +1,5 @@
 import { translate } from '../../resources/scripts/i18n/translate';
 import { ButtonItem, BUTTON_TYPES } from '../button/Button';
-import registrationResortsData from './registrationData';
 
 export type AccordionItemValidity = 'initial' | 'valid' | 'invalid';
 
@@ -29,46 +28,6 @@ export const buttonItemSubmit: ButtonItem = {
 	label: translate('registration.submitButton.label'),
 	type: BUTTON_TYPES.PRIMARY
 };
-
-export type RequiredComponents = {
-	age?: any;
-	state?: any;
-};
-
-export type RegistrationNotes = {
-	agencySelection?: string;
-	password?: string;
-};
-
-export const getConsultingTypeData = (consultingTypeId: number): ResortData => {
-	const resortDataArray = Object.entries(registrationResortsData).filter(
-		(resort) => resort[1].consultingType === consultingTypeId?.toString()
-	);
-
-	let resortData: ResortData;
-	const resortName = document.getElementById('registrationRoot')?.dataset
-		.resortname;
-	if (resortDataArray.length > 1 && resortName) {
-		resortData = resortDataArray.filter(
-			(resort) => resort[0] === resortName
-		)[0][1];
-	} else {
-		resortData = resortDataArray[0][1];
-	}
-
-	return resortData;
-};
-
-export interface ResortData {
-	consultingType: string;
-	overline: string;
-	welcomeTitle: string;
-	useInformal: boolean;
-	isSetEmailAllowed: boolean;
-	requiredComponents?: RequiredComponents;
-	voluntaryComponents?: any[];
-	registrationNotes?: RegistrationNotes;
-}
 
 export type RegistrationDropdownSelectData = {
 	label: string;

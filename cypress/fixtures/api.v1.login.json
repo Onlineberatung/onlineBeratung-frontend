@@ -20,7 +20,6 @@
 			"status": "offline",
 			"active": true,
 			"_updatedAt": "2020-11-24T14:00:59.026Z",
-			"roles": ["user"],
 			"customFields": {},
 			"statusConnection": "offline",
 			"avatarUrl": "http://caritas/avatarUrl",
