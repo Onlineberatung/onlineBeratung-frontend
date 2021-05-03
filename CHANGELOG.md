@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.9.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.8.1...v2.9.0) (2021-05-03)
+
+
+### Features
+
+* 🎸 (wip) consultant editable data ([d8c248f](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/d8c248f3c98d979aceee91f0bbea68f192809a3f))
+* 🎸 (wip) validity on editableData & put email call ([be88585](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/be885858b6efae290e7f4d26ca2a3b6c0ae5fc64))
+* 🎸 activate video call features only for consultants ([ebf5ff7](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/ebf5ff74eb2ce5523120520a1e9244e3cc49fcba))
+* 🎸 add AgencySelection note in AskerRegistration (profile) ([330b25b](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/330b25b494969c98ca3bb64d591dd1bab463cef5))
+* 🎸 add clsx package ([0accc06](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/0accc063861b8d4a1761d9a8dbf3346093390e8c))
+* 🎸 add editableData component with basic functionality ([da9c554](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/da9c554d94a5807bbf09c39f7d2e38fc8dab37b2))
+* 🎸 add isSingleEdit functionality to editableData ([ffe15f4](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/ffe15f4311723113152b7b14d8229cd408f6aa34))
+* 🎸 added consultant data edit, api cleanups ([5e4641b](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/5e4641bbe352c1d006de0712ba7975c0e49434c2))
+* 🎸 added new consultingType supportGroupVechta ([085149a](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/085149a0030c0e603cecc854d846d594ba019453))
+* 🎸 adjust ie banner styles ([1ff5d43](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/1ff5d43bd5941e977b80b9014cb53ec74ba26c2a))
+* 🎸 adjust info text for ie banner ([6d34f0e](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/6d34f0e9f4df5bcb12f21a7be760b45a98054c5b))
+* 🎸 adjust styles for static profile data elements ([f66503a](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/f66503ac53cdd9e8218f71fbd1559faadd0f2461))
+* 🎸 groupChat styling fixes ([e3830b8](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/e3830b832efe2ce5f88cad7f6bd50718e29b8c29))
+* 🎸 only show email in asker profile if isSetEmailAllowed ([4d11642](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/4d1164262430b1351cb790fe09827a23d703b4ee))
+* 🎸 refactor accordion notes for password & agencySelection ([bf4788d](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/bf4788d350a8d97e42c7afdb96b2f2e54c0bc16b))
+* 🎸 set hasVideoCallFeatures to true for testing reasons ([0158ce6](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/0158ce6d376e506dbf075c548c4e5981659f7c2c))
+* 🎸 styling changes for registration notes ([e406a05](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/e406a050b5796926bd3b3199e37621a0c476b111))
+* 🎸 updated editableData for consultant profile ([63f3281](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/63f3281b217102775e10bf2c93e98936265a2784))
+* 🎸 WIP: add editableData to asker profile ([3eef9ec](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/3eef9eca5a66d18ae4698a415a1d4923fa19f74a))
+
+
+### Bug Fixes
+
+* 🐛 adjust startvideocall call based on new response ([ed5f3fd](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/ed5f3fddbce077f878ecfc2e9de109171928b4bd))
+* 🐛 consulting edit button ([f72773b](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/f72773b7b4ffbea8f708fb46e40ac0dc37682488))
+* 🐛 disable ie banner for other browers ([9142342](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/91423427ad8cdc1fc75a19c35121566082232a98))
+* 🐛 disabled styles for mobile input safari ([7a3c668](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7a3c6683855da95460efcf92bfe240b146b5bad0))
+* 🐛 editable data focus state on safari mobile ([7be8cf5](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7be8cf5418a75713a346e7896672cfb0192b31ce))
+* 🐛 mobile safari input styles ([0fbd59b](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/0fbd59bf0c7f63e3e6990484e21d7d7225ebbf5d))
+* 🐛 only set focus on editableData for isSingleEdit ([0c61319](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/0c6131988435cb049eb61735e8e028388fd1baad))
+* 🐛 remove default outline of editable data inputfield ([19560b6](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/19560b6a305adae2f604ec48977299fb24423e5c))
+* 🐛 remove safari default input focus styles ([3052d24](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/3052d248e36bcac59be569d9dbd308b085bd0612))
+* 🐛 rerender on global state change for name in profile ([7f956ec](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/7f956ec605d311666ae59d6172dd42454032c011))
+* 🐛 session empty state styles ([169e8a9](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/169e8a9d135ffb6c21474f1283e5ff70727b5f78))
+* 🐛 set focus on last editable data field ([4973a62](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/4973a6290c91b6f491409ed221805dc479ab3d9f))
+* 🐛 testing feedback, condition fixes ([5789d60](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/5789d6057c9f89d0791d3618d1c803a2a821ffad))
+* 🐛 use correct translate properties for consultant profile ([e761851](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/commit/e76185130e7b808324e9324b672ca40b76236d70))
+
 ### [2.8.1](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.8.0...v2.8.1) (2021-04-14)
 
 
