@@ -116,10 +116,8 @@ export const Profile = () => {
 						<div className="profile__content__item profile__data">
 							<AskerAboutMeData />
 							<AskerConsultingTypeData />
-							{'jan >'}
 							{consultingTypeSelectOptionsSet(userData).length >
 								0 && <AskerRegistration />}
-							{'jan <'}
 						</div>
 					)}
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (

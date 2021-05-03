@@ -3,11 +3,12 @@ import {
 	translate,
 	getResortTranslation
 } from '../../resources/scripts/i18n/translate';
-import { UserDataInterface } from '../../globalState';
+import { ConsultingTypeInterface, UserDataInterface } from '../../globalState';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
+import { apiGetConsultingType } from '../../api';
 
 export const convertUserDataObjectToArray = (object) => {
 	const array = [];
@@ -111,4 +112,24 @@ export const overlayItemNewRegistrationError: OverlayItem = {
 			type: BUTTON_TYPES.PRIMARY
 		}
 	]
+};
+
+export const hasAskerEmailFeatures = async (
+	userData: UserDataInterface
+): Promise<boolean> => {
+	const registeredConsultingTypes = getConsultingTypesForRegistrationStatus(
+		userData,
+		REGISTRATION_STATUS_KEYS.REGISTERED
+	);
+	let registeredConsultingTypesData: ConsultingTypeInterface[] = await Promise.all(
+		registeredConsultingTypes.map((element) =>
+			apiGetConsultingType({
+				consultingTypeId: parseInt(element.consultingType)
+			})
+		)
+	);
+
+	return registeredConsultingTypesData.some(
+		(data) => data?.isSetEmailAllowed
+	);
 };

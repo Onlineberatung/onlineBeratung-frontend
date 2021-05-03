@@ -72,7 +72,6 @@ export const AskerRegistration = () => {
 		const consultingTypeId = parseInt(selectedOption.value);
 		console.log(consultingTypeId, typeof consultingTypeId);
 
-		// string or number?
 		apiGetConsultingType({
 			consultingTypeId
 		}).then((result) => setSelectedConsultingTypeData(result));
