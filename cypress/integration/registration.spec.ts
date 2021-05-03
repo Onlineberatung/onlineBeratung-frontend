@@ -40,9 +40,7 @@ describe('registration', () => {
 	describe('u25', () => {
 		it('should redirect to helpmail when no aid is given', () => {
 			cy.visit('/u25/registration');
-			cy.url().then((url) => {
-				expect(url).to.contain('https://www.u25.de/helpmail/');
-			});
+			cy.url().should('be.equal', 'https://www.u25.de/helpmail/');
 		});
 
 		it('should have all generic registration page elements', () => {

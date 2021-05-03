@@ -56,8 +56,6 @@ export const AskerRegistration = () => {
 
 	const isAllRequiredDataSet = () => selectedConsultingType && selectedAgency;
 
-	console.log(selectedConsultingTypeData);
-
 	useEffect(() => {
 		if (isAllRequiredDataSet()) {
 			setIsButtonDisabled(false);
@@ -70,7 +68,6 @@ export const AskerRegistration = () => {
 		setSelectedConsultingType(selectedOption.value);
 
 		const consultingTypeId = parseInt(selectedOption.value);
-		console.log(consultingTypeId, typeof consultingTypeId);
 
 		apiGetConsultingType({
 			consultingTypeId
