@@ -204,9 +204,8 @@ export const SessionMenu = () => {
 		apiStartVideoCall(chatItem.id)
 			.then((response) => {
 				videoCallWindow.location.href = getVideoCallUrl(
-					response.videoCallUrl,
-					isVideoActivated,
-					true
+					response.moderatorVideoCallUrl,
+					isVideoActivated
 				);
 				videoCallWindow.focus();
 			})

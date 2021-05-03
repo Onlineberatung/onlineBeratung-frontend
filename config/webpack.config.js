@@ -799,6 +799,17 @@ module.exports = function (webpackEnv) {
 				filename: 'registration.jungen-und-maenner.html',
 			}),
 			new HtmlWebpackPlugin({
+				title: 'Registrierung Kontakt- und Beratungsstelle Selbsthilfe',
+				templateParameters: {
+					type: 'registration',
+					consultingType: 21,
+					resortName: 'supportGroupVechta',
+				},
+				template: 'src/pages/app.html',
+				chunks: ['registration'],
+				filename: 'registration.selbsthilfe-vechta.html',
+			}),
+			new HtmlWebpackPlugin({
 				title: 'Error Page 401',
 				templateParameters: {
 					type: 'error',

@@ -23,6 +23,7 @@ const registration = {
 	'overline.hospice': 'Hospiz-, Palliativ- und Trauerberatung',
 	'overline.regional': 'Regionale Angebote',
 	'overline.men': 'Jungen- und Männerberatung',
+	'overline.supportGroupVechta': 'Kontakt- und Beratungsstelle Selbsthilfe',
 	'login.helper': 'Bereits registriert?',
 	'login.label': 'Zum Login',
 	'agency.preselected.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
@@ -64,8 +65,6 @@ const registration = {
 	'password.insecure': 'Ihr Passwort ist nicht sicher.',
 	'password.same': 'Ihr Passwort ist identisch.',
 	'password.notSame': 'Ihr Passwort ist nicht identisch.',
-	'password.note':
-		'Bitte notieren Sie Ihre Zugangsdaten – ein Passwort-Reset ist nicht möglich!',
 	'password.intro':
 		'Um eine geschützte Beratung zu garantieren, muss Ihr Passwort die folgenden Kriterien erfüllen:',
 	'password.criteria.upperLowerCase': 'Groß-/Kleinschreibung',
@@ -113,6 +112,8 @@ const registration = {
 	'welcomeScreen.title.hospice': 'der Hospiz-, Palliativ- und Trauerberatung',
 	'welcomeScreen.title.regional': 'den Regionalen Angeboten',
 	'welcomeScreen.title.men': 'der Jungen- und Männerberatung',
+	'welcomeScreen.title.supportGroupVechta':
+		'der Kontakt- und Beratungsstelle Selbsthilfe',
 	'welcomeScreen.title.end': '!',
 	'welcomeScreen.subline': 'Wie läuft die Beratung & Hilfe der Caritas ab?',
 	'welcomeScreen.info1.title': 'Einfache Registrierung',

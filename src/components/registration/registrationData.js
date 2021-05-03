@@ -4,6 +4,7 @@ const registrationData = {
 	addiction: {
 		consultingType: '0',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.addiction'),
 		welcomeTitle: translate('registration.welcomeScreen.title.addiction'),
 		voluntaryComponents: [
@@ -141,8 +142,13 @@ const registrationData = {
 	u25: {
 		consultingType: '1',
 		useInformal: true,
+		isSetEmailAllowed: false,
 		overline: translate('registration.overline.u25'),
 		welcomeTitle: translate('registration.welcomeScreen.title.u25'),
+		registrationNotes: {
+			password:
+				'Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!'
+		},
 		requiredComponents: {
 			age: {
 				label: translate('user.userU25.age.selectLabel'),
@@ -245,10 +251,15 @@ const registrationData = {
 	gemeinsamstatteinsam: {
 		consultingType: '1',
 		useInformal: true,
+		isSetEmailAllowed: false,
 		overline: translate('registration.overline.gemeinsamstatteinsam'),
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.gemeinsamstatteinsam'
 		),
+		registrationNotes: {
+			password:
+				'Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!'
+		},
 		requiredComponents: {
 			age: {
 				label: translate('user.userU25.age.selectLabel'),
@@ -315,72 +326,84 @@ const registrationData = {
 	pregnancy: {
 		consultingType: '2',
 		useInformal: true,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.pregnancy'),
 		welcomeTitle: translate('registration.welcomeScreen.title.pregnancy')
 	},
 	parenting: {
 		consultingType: '3',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.parenting'),
 		welcomeTitle: translate('registration.welcomeScreen.title.parenting')
 	},
 	cure: {
 		consultingType: '4',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.cure'),
 		welcomeTitle: translate('registration.welcomeScreen.title.cure')
 	},
 	debt: {
 		consultingType: '5',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.debt'),
 		welcomeTitle: translate('registration.welcomeScreen.title.debt')
 	},
 	social: {
 		consultingType: '6',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.social'),
 		welcomeTitle: translate('registration.welcomeScreen.title.social')
 	},
 	seniority: {
 		consultingType: '7',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.seniority'),
 		welcomeTitle: translate('registration.welcomeScreen.title.seniority')
 	},
 	disability: {
 		consultingType: '8',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.disability'),
 		welcomeTitle: translate('registration.welcomeScreen.title.disability')
 	},
 	planB: {
 		consultingType: '9',
 		useInformal: true,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.planB'),
 		welcomeTitle: translate('registration.welcomeScreen.title.planB')
 	},
 	law: {
 		consultingType: '10',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.law'),
 		welcomeTitle: translate('registration.welcomeScreen.title.law')
 	},
 	offender: {
 		consultingType: '11',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.offender'),
 		welcomeTitle: translate('registration.welcomeScreen.title.offender')
 	},
 	aids: {
 		consultingType: '12',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.aids'),
 		welcomeTitle: translate('registration.welcomeScreen.title.aids')
 	},
 	rehabilitation: {
 		consultingType: '13',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.rehabilitation'),
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.rehabilitation'
@@ -389,44 +412,64 @@ const registrationData = {
 	children: {
 		consultingType: '14',
 		useInformal: true,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.children'),
 		welcomeTitle: translate('registration.welcomeScreen.title.children')
 	},
 	kreuzbund: {
 		consultingType: '15',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.kreuzbund'),
 		welcomeTitle: translate('registration.welcomeScreen.title.kreuzbund')
 	},
 	migration: {
 		consultingType: '16',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.migration'),
 		welcomeTitle: translate('registration.welcomeScreen.title.migration')
 	},
 	emigration: {
 		consultingType: '17',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.emigration'),
-		welcomeTitle: translate('registration.welcomeScreen.title.emigration')
+		welcomeTitle: translate('registration.welcomeScreen.title.emigration'),
+		registrationNotes: {
+			agencySelection:
+				'Sollten Sie im Ausland leben, geben Sie bitte die Postleitzahl eines Bezugsortes in Deutschland (zukünftiger Wohnort, Heimatort…) an.'
+		}
 	},
 	hospice: {
 		consultingType: '18',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.hospice'),
 		welcomeTitle: translate('registration.welcomeScreen.title.hospice')
 	},
 	regional: {
 		consultingType: '19',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.regional'),
 		welcomeTitle: translate('registration.welcomeScreen.title.regional')
 	},
 	men: {
 		consultingType: '20',
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.men'),
 		welcomeTitle: translate('registration.welcomeScreen.title.men')
+	},
+	supportGroupVechta: {
+		consultingType: '21',
+		useInformal: false,
+		isSetEmailAllowed: true,
+		overline: translate('registration.overline.supportGroupVechta'),
+		welcomeTitle: translate(
+			'registration.welcomeScreen.title.supportGroupVechta'
+		)
 	}
 };
 

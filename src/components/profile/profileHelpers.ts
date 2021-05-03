@@ -7,6 +7,11 @@ import { UserDataInterface } from '../../globalState';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
+import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
+import {
+	getConsultingTypeData,
+	ResortData
+} from '../registration/registrationHelpers';
 
 export const convertUserDataObjectToArray = (object) => {
 	const array = [];
@@ -69,12 +74,12 @@ export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
 		REGISTRATION_STATUS_KEYS.UNREGISTERED
 	);
 	return unregisteredConsultingTypesData.map((value) => {
+		const currentConsultingType = parseInt(value.consultingType);
 		return {
 			value: value.consultingType,
-			label:
-				value.consultingType === '15'
-					? translate('profile.data.register.kreuzbund')
-					: getResortTranslation(parseInt(value.consultingType))
+			label: isGroupChatConsultingType(currentConsultingType)
+				? getResortTranslation(currentConsultingType, false, true)
+				: getResortTranslation(currentConsultingType)
 		};
 	});
 };
@@ -110,4 +115,22 @@ export const overlayItemNewRegistrationError: OverlayItem = {
 			type: BUTTON_TYPES.PRIMARY
 		}
 	]
+};
+
+export const hasAskerEmailFeatures = (userData: UserDataInterface): boolean => {
+	const registeredConsultingTypes = getConsultingTypesForRegistrationStatus(
+		userData,
+		REGISTRATION_STATUS_KEYS.REGISTERED
+	);
+	let registeredConsultingTypesData: ResortData[] = [];
+
+	registeredConsultingTypes.forEach((element) => {
+		registeredConsultingTypesData.push(
+			getConsultingTypeData(parseInt(element.consultingType))
+		);
+	});
+
+	return registeredConsultingTypesData.some(
+		(data) => data?.isSetEmailAllowed
+	);
 };
