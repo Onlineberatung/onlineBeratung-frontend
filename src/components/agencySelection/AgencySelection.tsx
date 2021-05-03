@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { AgencyDataInterface, UserDataInterface } from '../../globalState';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import {

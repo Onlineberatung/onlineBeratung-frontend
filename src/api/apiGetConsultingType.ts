@@ -1,5 +1,5 @@
 import { ConsultingTypeInterface } from '../globalState';
-import { translate } from '../resources/scripts/i18n/translate';
+import { translate } from '../utils/translate';
 
 // TODO: This should be moved to the API at some point
 const consultingTypes: Record<string, ConsultingTypeInterface> = {

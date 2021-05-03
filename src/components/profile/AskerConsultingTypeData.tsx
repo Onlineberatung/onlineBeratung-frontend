@@ -6,7 +6,7 @@ import {
 	getResortTranslation,
 	handleNumericTranslation,
 	translate
-} from '../../resources/scripts/i18n/translate';
+} from '../../utils/translate';
 import { Text } from '../text/Text';
 import {
 	getAddictiveDrugsTranslatable,
