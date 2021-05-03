@@ -4,8 +4,6 @@ import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
 } from '../components/error/errorHandling';
-import { redirectToHelpmail } from '../components/registration/prefillPostcode';
-import { isU25Registration } from '../resources/scripts/helpers/resorts';
 import { logout } from '../components/logout/logout';
 
 const isIE11Browser =
@@ -146,9 +144,7 @@ export const fetchData = (props: fetchDataProps): Promise<any> =>
 					}
 				} else {
 					const error = getErrorCaseForStatus(response.status);
-					isU25Registration()
-						? redirectToHelpmail()
-						: redirectToErrorPage(error);
+					redirectToErrorPage(error);
 					reject(new Error('api call error'));
 				}
 			})

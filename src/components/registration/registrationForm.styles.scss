@@ -1,0 +1,88 @@
+.registrationForm {
+	margin: 120px 0;
+	max-width: 400px;
+	animation: fadeIn linear 0.5s;
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	&__dataProtection {
+		margin-top: $grid-base-eight;
+		margin-left: 4px;
+		text-align: left;
+
+		.checkbox__label {
+			line-height: $line-height-primary;
+		}
+	}
+
+	&__submit {
+		margin-top: $grid-base-four;
+	}
+
+	&__overline {
+		color: $secondary;
+		text-align: center;
+		font-family: $font-family-regular;
+		font-weight: $font-weight-regular;
+		margin: 0;
+		font-size: $font-size-primary;
+	}
+
+	&__passwordNote {
+		margin: -20px $grid-base-five $grid-base-five 52px;
+	}
+
+	&__toLogin {
+		position: absolute;
+		top: 22px;
+		right: 16px;
+		margin-top: 0;
+
+		@include breakpoint($fromMedium) {
+			right: 25px;
+		}
+
+		&__text {
+			font-size: $font-size-secondary;
+			color: $tertiary;
+			display: none;
+			@media screen and (min-width: 768px) and (max-width: 900px) {
+				display: inline-block;
+			}
+			@media screen and (min-width: 1200px) {
+				display: inline-block;
+			}
+		}
+
+		&__button {
+			display: inline-block;
+			margin-top: 0;
+			margin-left: 12px;
+		}
+	}
+
+	&__contentRow {
+		margin: 0 auto $grid-base-five;
+		max-width: 690px;
+	}
+
+	.select__wrapper {
+		padding: 0;
+		margin: 0 auto;
+	}
+
+	.formWrapper__infoText {
+		&__text {
+			&--tertiary {
+				color: $tertiary;
+			}
+		}
+	}
+}

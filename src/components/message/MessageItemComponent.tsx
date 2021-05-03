@@ -7,7 +7,8 @@ import {
 	SessionsDataContext,
 	getActiveSession,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	ConsultingTypeInterface
 } from '../../globalState';
 import {
 	SESSION_TYPES,
@@ -26,7 +27,6 @@ import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import './message.styles';
 import { isVoluntaryInfoSet } from './messageHelpers';
-import { ResortData } from '../registration/registrationHelpers';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -74,7 +74,7 @@ interface MessageItemComponentProps extends MessageItem {
 	isMyMessage: boolean;
 	type: string;
 	clientName: string;
-	resortData: ResortData;
+	resortData: ConsultingTypeInterface;
 }
 
 export const MessageItemComponent = (props: MessageItemComponentProps) => {

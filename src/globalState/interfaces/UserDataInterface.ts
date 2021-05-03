@@ -13,7 +13,6 @@ export interface UserDataInterface {
 	lastName?: string;
 	userId: string;
 	userName: string;
-	userRoles: [string];
 }
 
 export interface AgencyDataInterface {

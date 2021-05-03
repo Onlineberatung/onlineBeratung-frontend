@@ -720,7 +720,6 @@ declare namespace UserService {
 			 */
 			isInTeamAgency?: boolean;
 			agencies?: AgencyDTO[];
-			userRoles?: string[];
 			grantedAuthorities?: string[];
 			consultingTypes?: ConsultingTypeMap;
 		}

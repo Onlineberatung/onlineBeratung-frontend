@@ -11,9 +11,15 @@ import {
 	NotificationType
 } from '../../resources/scripts/helpers/videoCallHelpers';
 import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
-import { VideoCallRequestProps } from '../app/app';
-import './incomingVideoCall.styles';
 import { apiRejectVideoCall } from '../../api';
+import './incomingVideoCall.styles';
+
+export interface VideoCallRequestProps {
+	rcGroupId: string;
+	initiatorRcUserId: string;
+	initiatorUsername: string;
+	videoCallUrl: string;
+}
 
 export interface IncomingVideoCallProps {
 	notificationType: NotificationType;
