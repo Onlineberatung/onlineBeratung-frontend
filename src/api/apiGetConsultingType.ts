@@ -6,6 +6,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 	'suchtberatung': {
 		consultingType: 0,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.addiction'),
 		welcomeTitle: translate('registration.welcomeScreen.title.addiction'),
 		voluntaryComponents: [
@@ -143,6 +144,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 	'u25': {
 		consultingType: 1,
 		useInformal: true,
+		isSetEmailAllowed: false,
 		overline: translate('registration.overline.u25'),
 		welcomeTitle: translate('registration.welcomeScreen.title.u25'),
 		requiredAidMissingRedirectUrl: 'https://www.u25.de/helpmail/',
@@ -252,6 +254,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 	'gemeinsamstatteinsam': {
 		consultingType: 1,
 		useInformal: true,
+		isSetEmailAllowed: false,
 		overline: translate('registration.overline.gemeinsamstatteinsam'),
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.gemeinsamstatteinsam'
@@ -326,72 +329,84 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 	'schwangerschaftsberatung': {
 		consultingType: 2,
 		useInformal: true,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.pregnancy'),
 		welcomeTitle: translate('registration.welcomeScreen.title.pregnancy')
 	},
 	'eltern-familie': {
 		consultingType: 3,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.parenting'),
 		welcomeTitle: translate('registration.welcomeScreen.title.parenting')
 	},
 	'kurberatung': {
 		consultingType: 4,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.cure'),
 		welcomeTitle: translate('registration.welcomeScreen.title.cure')
 	},
 	'schuldnerberatung': {
 		consultingType: 5,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.debt'),
 		welcomeTitle: translate('registration.welcomeScreen.title.debt')
 	},
 	'allgemeine-soziale-beratung': {
 		consultingType: 6,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.social'),
 		welcomeTitle: translate('registration.welcomeScreen.title.social')
 	},
 	'leben-im-alter': {
 		consultingType: 7,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.seniority'),
 		welcomeTitle: translate('registration.welcomeScreen.title.seniority')
 	},
 	'behinderung-und-psychische-erkrankung': {
 		consultingType: 8,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.disability'),
 		welcomeTitle: translate('registration.welcomeScreen.title.disability')
 	},
 	'mein-planb': {
 		consultingType: 9,
 		useInformal: true,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.planB'),
 		welcomeTitle: translate('registration.welcomeScreen.title.planB')
 	},
 	'rechtliche-betreuung': {
 		consultingType: 10,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.law'),
 		welcomeTitle: translate('registration.welcomeScreen.title.law')
 	},
 	'straffaelligkeit': {
 		consultingType: 11,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.offender'),
 		welcomeTitle: translate('registration.welcomeScreen.title.offender')
 	},
 	'hiv-aids-beratung': {
 		consultingType: 12,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.aids'),
 		welcomeTitle: translate('registration.welcomeScreen.title.aids')
 	},
 	'kinder-reha': {
 		consultingType: 13,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.rehabilitation'),
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.rehabilitation'
@@ -400,24 +415,28 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 	'kinder-jugendliche': {
 		consultingType: 14,
 		useInformal: true,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.children'),
 		welcomeTitle: translate('registration.welcomeScreen.title.children')
 	},
 	'kb-sucht-selbsthilfe': {
 		consultingType: 15,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.kreuzbund'),
 		welcomeTitle: translate('registration.welcomeScreen.title.kreuzbund')
 	},
 	'migration': {
 		consultingType: 16,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.migration'),
 		welcomeTitle: translate('registration.welcomeScreen.title.migration')
 	},
 	'rw-auswanderung': {
 		consultingType: 17,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.emigration'),
 		welcomeTitle: translate('registration.welcomeScreen.title.emigration'),
 		registrationNotes: {
@@ -428,24 +447,28 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 	'hospiz-palliativ': {
 		consultingType: 18,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.hospice'),
 		welcomeTitle: translate('registration.welcomeScreen.title.hospice')
 	},
 	'regionale-angebote': {
 		consultingType: 19,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.regional'),
 		welcomeTitle: translate('registration.welcomeScreen.title.regional')
 	},
 	'jungen-und-maenner': {
 		consultingType: 20,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.men'),
 		welcomeTitle: translate('registration.welcomeScreen.title.men')
 	},
 	'selbsthilfe-vechta': {
 		consultingType: 21,
 		useInformal: false,
+		isSetEmailAllowed: true,
 		overline: translate('registration.overline.supportGroupVechta'),
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.supportGroupVechta'

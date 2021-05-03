@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
 import { UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditableData } from '../editableData/EditableData';
 import { Text } from '../text/Text';
+import { hasAskerEmailFeatures } from './profileHelpers';
 
 const cancelEditButton: ButtonItem = {
 	label: 'abbrechen',
@@ -19,12 +20,24 @@ export const AskerAboutMeData = () => {
 	const [emailLabel, setEmailLabel] = useState<string>(
 		translate('profile.data.email')
 	);
+	const [showEmail, setShowEmail] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
 		false
 	);
 	const [isEmailNotAvailable, setIsEmailNotAvailable] = useState<boolean>(
 		false
 	);
+
+	useEffect(() => {
+		let isCanceled = false;
+		hasAskerEmailFeatures(userData).then((result) => {
+			if (isCanceled) return;
+			setShowEmail(result);
+		});
+		return () => {
+			isCanceled = true;
+		};
+	}, [userData]);
 
 	const handleCancelEditButton = () => {
 		setIsEmailDisabled(true);
@@ -74,16 +87,18 @@ export const AskerAboutMeData = () => {
 				type="text"
 				isDisabled
 			/>
-			<EditableData
-				label={emailLabel}
-				type="email"
-				initialValue={userData.email}
-				isDisabled={isEmailDisabled}
-				isSingleEdit
-				onSingleEditActive={() => setIsEmailDisabled(false)}
-				onValueIsValid={handleEmailChange}
-				isEmailAlreadyInUse={isEmailNotAvailable}
-			/>
+			{showEmail && (
+				<EditableData
+					label={emailLabel}
+					type="email"
+					initialValue={userData.email}
+					isDisabled={isEmailDisabled}
+					isSingleEdit
+					onSingleEditActive={() => setIsEmailDisabled(false)}
+					onValueIsValid={handleEmailChange}
+					isEmailAlreadyInUse={isEmailNotAvailable}
+				/>
+			)}
 			{!isEmailDisabled && (
 				<div className="editableData__buttonSet editableData__buttonSet--edit">
 					<Button
