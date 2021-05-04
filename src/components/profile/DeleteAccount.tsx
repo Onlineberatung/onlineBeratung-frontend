@@ -104,7 +104,7 @@ export const DeleteAccount = () => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			removeAllCookies();
-			window.location.href = config.urls.caritas;
+			window.location.href = config.urls.home;
 		}
 	};
 

@@ -12,6 +12,7 @@
 
 		&--empty {
 			color: $tertiary;
+			-webkit-text-fill-color: $tertiary !important;
 		}
 
 		&:disabled {

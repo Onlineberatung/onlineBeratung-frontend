@@ -22,7 +22,7 @@ import user from './de/user';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
 
-const defaultLocale = {
+const de = {
 	app,
 	absence,
 	attachments,
@@ -48,4 +48,4 @@ const defaultLocale = {
 	videoCall
 };
 
-export default defaultLocale;
+export default de;

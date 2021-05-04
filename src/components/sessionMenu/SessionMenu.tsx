@@ -396,7 +396,7 @@ export const SessionMenu = () => {
 					className="sessionMenu__item sessionMenu__item--fixed sessionMenu__item--border"
 					target="_blank"
 					rel="noreferrer"
-					href={config.urls.caritasImprint}
+					href={config.urls.imprint}
 				>
 					{translate('chatFlyout.imprint')}
 				</a>
@@ -404,7 +404,7 @@ export const SessionMenu = () => {
 					className="sessionMenu__item sessionMenu__item--fixed"
 					target="_blank"
 					rel="noreferrer"
-					href={config.urls.caritasDataprotection}
+					href={config.urls.privacy}
 				>
 					{translate('chatFlyout.dataProtection')}
 				</a>
