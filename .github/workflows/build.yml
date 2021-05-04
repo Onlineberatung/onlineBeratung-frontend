@@ -36,8 +36,8 @@ jobs:
                   git config --local user.name "GitHub Action"
                   npm run release
             - name: Publish npm package
-              # if: startsWith(env.BRANCH,'release') == true
-              run: npm publish --tag alpha
+              if: startsWith(env.BRANCH,'release') == true
+              run: npm publish
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Push changes
