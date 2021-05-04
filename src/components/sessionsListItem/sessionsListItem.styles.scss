@@ -156,7 +156,6 @@ $icon-size-small: 16px;
 	}
 
 	&__username {
-		font-family: $font-family-medium;
 		font-weight: $font-weight-medium;
 		padding-top: 3px;
 		margin-right: auto;
@@ -165,7 +164,6 @@ $icon-size-small: 16px;
 		text-overflow: ellipsis;
 
 		&--readLabel {
-			font-family: $font-family-regular;
 			font-weight: $font-weight-regular;
 		}
 	}
