@@ -29,17 +29,16 @@ jobs:
                   echo "127.0.0.1 caritas.local" | sudo tee -a /etc/hosts
                   npm run test
                   npm run build
+            - name: Publish npm package
+              run: npm publish --tag alpha
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Bump version
               if: startsWith(env.BRANCH,'release') == true
               run: |
                   git config --local user.email "action@github.com"
                   git config --local user.name "GitHub Action"
                   npm run release
-            - name: Publish npm package
-              # if: startsWith(env.BRANCH,'release') == true
-              run: npm publish --tag alpha
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Push changes
               if: startsWith(env.BRANCH,'release') == true
               uses: ad-m/github-push-action@master
