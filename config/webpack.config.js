@@ -402,7 +402,7 @@ module.exports = function (webpackEnv) {
 							test: /\.(js|mjs|jsx|ts|tsx)$/,
 							include: [
 								paths.appSrc,
-								path.resolve('node_modules/caritas-online-beratung-frontend')
+								path.resolve('node_modules/@caritasdeutschland/caritas-online-beratung-frontend')
 							],
 							loader: require.resolve('babel-loader'),
 							options: {
