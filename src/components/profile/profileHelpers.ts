@@ -1,13 +1,10 @@
 import { ButtonItem, BUTTON_TYPES } from '../button/Button';
-import {
-	translate,
-	getResortTranslation
-} from '../../resources/scripts/i18n/translate';
-import { ConsultingTypeInterface, UserDataInterface } from '../../globalState';
+import { translate, getResortTranslation } from '../../utils/translate';
+import { UserDataInterface, ConsultingTypeInterface } from '../../globalState';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
-import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
+import { isGroupChatConsultingType } from '../../utils/resorts';
 import { apiGetConsultingType } from '../../api';
 
 export const convertUserDataObjectToArray = (object) => {

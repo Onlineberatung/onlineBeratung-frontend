@@ -6,7 +6,7 @@ import {
 	isGroupChatForSessionItem
 } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { UserDataContext } from '../../globalState/provider/UserDataProvider';
 import {
 	getActiveSession,
@@ -65,7 +65,7 @@ import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xl
 import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
 import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
 import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
-import useDebouncedValue from '../../resources/scripts/helpers/useDebouncedValue';
+import useDebouncedValue from '../../utils/useDebouncedValue';
 import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';

@@ -1,4 +1,4 @@
-import { getTokenFromCookie } from '../../../components/sessionCookie/accessSessionCookie';
+import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
 
 export type NotificationType = 'call';
 

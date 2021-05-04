@@ -12,7 +12,7 @@ import {
 	getSessionListPathForLocation
 } from '../session/sessionHelpers';
 import { Link, Redirect } from 'react-router-dom';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import {
 	OVERLAY_FUNCTIONS,
@@ -31,7 +31,7 @@ import {
 } from '../sessionMenu/sessionMenuHelpers';
 import { logout } from '../logout/logout';
 import { mobileListView, mobileDetailView } from '../app/navigationHandler';
-import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
+import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
 import '../profile/profile.styles';

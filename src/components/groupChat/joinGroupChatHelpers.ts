@@ -1,5 +1,5 @@
 import { BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 

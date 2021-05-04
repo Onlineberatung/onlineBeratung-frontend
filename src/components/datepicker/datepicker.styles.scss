@@ -20,7 +20,7 @@ $arrow-icon-size: 14px;
 			}
 
 			&__input-container::after {
-				background-image: url('/resources/img/icons/calendar.svg');
+				background-image: url('../../resources/img/icons/calendar.svg');
 			}
 		}
 	}
@@ -28,7 +28,7 @@ $arrow-icon-size: 14px;
 	&.react-datepicker--time {
 		.react-datepicker {
 			&__input-container::after {
-				background-image: url('/resources/img/icons/clock.svg');
+				background-image: url('../../resources/img/icons/clock.svg');
 			}
 			&__triangle {
 				border-bottom-color: #fff;
@@ -230,11 +230,11 @@ $arrow-icon-size: 14px;
 			width: $arrow-icon-size;
 
 			&--next {
-				background-image: url('/resources/img/icons/arrow-right.svg');
+				background-image: url('../../resources/img/icons/arrow-right.svg');
 			}
 
 			&--previous {
-				background-image: url('/resources/img/icons/arrow-left.svg');
+				background-image: url('../../resources/img/icons/arrow-left.svg');
 			}
 		}
 	}

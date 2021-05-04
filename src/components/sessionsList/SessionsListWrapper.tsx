@@ -6,7 +6,7 @@ import {
 	typeIsEnquiry,
 	getTypeOfLocation
 } from '../session/sessionHelpers';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
 	AUTHORITIES,

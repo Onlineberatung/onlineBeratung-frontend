@@ -30,7 +30,7 @@ import {
 	OVERLAY_FUNCTIONS,
 	OverlayItem
 } from '../overlay/Overlay';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { history } from '../app/app';
 import {
 	startButtonItem,
@@ -47,7 +47,7 @@ import {
 	getResortKeyForConsultingType,
 	groupChatRuleTexts,
 	isGroupChatConsultingType
-} from '../../resources/scripts/helpers/resorts';
+} from '../../utils/resorts';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 

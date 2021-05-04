@@ -75,6 +75,18 @@ const hasJsxRuntime = (() => {
   }
 })();
 
+const localAliases = (paths) =>
+	paths.map(localPath =>
+		[
+			path.resolve(__dirname, `../${localPath}`),
+			path.resolve(process.cwd(), `./${localPath}`)
+		]
+	)
+	.reduce((aliases, [requestedPath, resolvedPath]) => {
+		aliases[requestedPath] = resolvedPath
+		return aliases;
+	}, {});
+
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function (webpackEnv) {
@@ -147,14 +159,17 @@ module.exports = function (webpackEnv) {
         },
         {
           loader: require.resolve(preProcessor),
-		  options: 
-		  {
-			sassOptions: {includePaths: ['./src/resources/styles/settings.scss']},
-			prependData: `@import "${path.resolve(`${__dirname}/../`, 'src/resources/styles/settings.scss')}";`,
-            sourceMap: true,
-          },
-        }
-      );
+					options: {
+						sassOptions: {includePaths: [
+							path.resolve(
+								process.cwd(),
+								'./src/resources/styles/settings.scss'
+							)]},
+						prependData: `@import "${path.resolve(process.cwd(), './src/resources/styles/settings.scss')}";`,
+						sourceMap: true,
+					},
+				}
+			);
     }
     return loaders;
   };
@@ -318,6 +333,14 @@ module.exports = function (webpackEnv) {
 					'scheduler/tracing': 'scheduler/tracing-profiling',
 				}),
 				...(modules.webpackAliases || {}),
+
+				// When this project is used as a library, resolve these files from the consuming project.
+				// This enables configuration without having to adjust source files.
+				...localAliases([
+					'src/resources/scripts/config',
+					'src/resources/scripts/i18n/defaultLocale',
+					'src/resources/scripts/i18n/informalLocale'
+				])
 			},
 			plugins: [
 				// Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -377,13 +400,16 @@ module.exports = function (webpackEnv) {
 						// The preset includes JSX, Flow, TypeScript, and some ESnext features.
 						{
 							test: /\.(js|mjs|jsx|ts|tsx)$/,
-							include: paths.appSrc,
+							include: [
+								paths.appSrc,
+								path.resolve('node_modules/caritas-online-beratung-frontend')
+							],
 							loader: require.resolve('babel-loader'),
 							options: {
 								customize: require.resolve(
 									'babel-preset-react-app/webpack-overrides'
 								),
-
+								presets: ['react-app'],
 								plugins: [
 									[
 										require.resolve('babel-plugin-named-asset-import'),

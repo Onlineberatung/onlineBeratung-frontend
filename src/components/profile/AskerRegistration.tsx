@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
 	AcceptedGroupIdContext,
@@ -33,7 +33,7 @@ import { AgencySelection } from '../agencySelection/AgencySelection';
 import './profile.styles';
 import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
-import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
+import { isGroupChatConsultingType } from '../../utils/resorts';
 import { Headline } from '../headline/Headline';
 import { apiGetConsultingType } from '../../api/apiGetConsultingType';
 import { ConsultingTypeInterface } from '../../globalState';
