@@ -13,6 +13,7 @@ export interface ConsultingTypeInterface {
 	overline: string;
 	welcomeTitle: string;
 	isSetEmailAllowed: boolean;
+	isAnonymousConversationAllowed: boolean;
 	requiredComponents?: RequiredComponentsInterface;
 	useInformal: boolean;
 	voluntaryComponents?: any[];
