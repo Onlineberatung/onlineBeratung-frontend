@@ -18,6 +18,7 @@ import {
 import { history } from './app';
 import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import { NavigationBar } from './NavigationBar';
+import { Header } from '../header/Header';
 
 interface routingProps {
 	logout: Function;
@@ -62,14 +63,7 @@ export const Routing = (props: routingProps) => {
 			/>
 
 			<section className="contentWrapper">
-				<div className="contentWrapper__header">
-					<h1 className="contentWrapper__title">
-						{translate('app.title')}
-					</h1>
-					<p className="contentWrapper__claim">
-						{translate('app.claim')}
-					</p>
-				</div>
+				<Header />
 				<div className="contentWrapper__list">
 					{useMemo(
 						() =>
