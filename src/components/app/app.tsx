@@ -8,6 +8,7 @@ import { AuthenticatedAppContainer } from './AuthenticatedApp';
 import { Registration } from '../registration/Registration';
 import { LoginLoader } from './LoginLoader';
 import '../../resources/styles/styles';
+import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
 
 export const history = createBrowserHistory();
 
@@ -19,9 +20,17 @@ const App = () => {
 	const [hasUnmatchedResortLogin, setHasUnmatchedResortLogin] = useState(
 		false
 	);
+	const [
+		hasUnmatchedAnonyomousConversation,
+		setHasUnmatchedAnonyomousConversation
+	] = useState(false);
 
 	const handleUnmatchResortLogin = () => {
 		setHasUnmatchedResortLogin(true);
+	};
+
+	const handleUnmatchAnonyomousConversation = () => {
+		setHasUnmatchedAnonyomousConversation(true);
 	};
 
 	return (
@@ -30,6 +39,13 @@ const App = () => {
 				<Route path="/:consultingTypeSlug/registration">
 					<Registration />
 				</Route>
+				{!hasUnmatchedAnonyomousConversation && (
+					<Route path="/:consultingTypeSlug/warteraum">
+						<WaitingRoomLoader
+							handleUnmatch={handleUnmatchAnonyomousConversation}
+						/>
+					</Route>
+				)}
 				{!hasUnmatchedResortLogin && (
 					<Route path="/:consultingTypeSlug">
 						<LoginLoader handleUnmatch={handleUnmatchResortLogin} />

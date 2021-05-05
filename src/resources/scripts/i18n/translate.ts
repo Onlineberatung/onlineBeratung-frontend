@@ -1,6 +1,7 @@
 import app from './de/app';
 import absence from './de/absence';
 import absenceInformal from './de/absenceInformal';
+import anonymous from './de/anonymous';
 import attachments from './de/attachments';
 import attachmentsInformal from './de/attachmentsInformal';
 import chatFlyout from './de/chatFlyout';
@@ -39,6 +40,7 @@ import { getTokenFromCookie } from '../../../components/sessionCookie/accessSess
 const defaultLocale: any = {
 	app,
 	absence,
+	anonymous,
 	attachments,
 	chatFlyout,
 	consultant,
