@@ -1,6 +1,6 @@
 const nodeEnv: string = process.env.NODE_ENV as string;
 export const tld = nodeEnv === 'development' ? 'http://caritas.local' : '';
-const endpointPort = nodeEnv === 'development' ? ':9000' : '';
+export const endpointPort = nodeEnv === 'development' ? ':9000' : '';
 
 export const config = {
 	endpoints: {

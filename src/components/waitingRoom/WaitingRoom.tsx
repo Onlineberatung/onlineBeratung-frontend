@@ -6,15 +6,21 @@ import './waitingRoom.styles';
 import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/willkommen.svg';
 import { translate } from '../../resources/scripts/i18n/translate';
 import { useEffect } from 'react';
+import { endpointPort, tld } from '../../resources/scripts/config';
 
-export const WaitingRoom = () => {
+export interface WaitingRoomProps {
+	consultingTypeSlug: string;
+}
+
+export const WaitingRoom = (props: WaitingRoomProps) => {
 	useEffect(() => {
 		// make conversations/askers/anonymous/new call
 	}, []);
 
 	const getRedirectText = () => {
-		// get correct url for each resort
-		const url = '';
+		const url = `${tld + endpointPort}/${
+			props.consultingTypeSlug
+		}/registration`;
 
 		return `
 			${translate('anonymous.waitingroom.redirect.prefix')}<br>

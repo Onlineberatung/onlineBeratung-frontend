@@ -26,7 +26,7 @@ export const WaitingRoomLoader = ({
 	}, [consultingTypeSlug, handleUnmatch]);
 
 	if (isAnonymousConversationAllowed) {
-		return <WaitingRoom />;
+		return <WaitingRoom consultingTypeSlug={consultingTypeSlug} />;
 	} else {
 		return null;
 	}
