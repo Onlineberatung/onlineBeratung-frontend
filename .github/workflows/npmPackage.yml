@@ -1,0 +1,39 @@
+name: Publish tagged versions to npm package
+
+on:
+    push:
+        tags:
+            - 'npmPackage.v.*'
+
+jobs:
+    build:
+        name: Build
+        if: "!contains(github.event.head_commit.author, 'action@github.com')"
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get the tag version
+              run: echo VERSION=$(echo -n "${GITHUB_REF/refs\/tags\//}") >> $GITHUB_ENV
+            - uses: actions/checkout@v2.3.4
+            - uses: actions/setup-node@v2.1.5
+              with:
+                  node-version: 10
+                  registry-url: 'https://npm.pkg.github.com'
+            - run: npm i
+            #            - name: Run linters
+            #              uses: wearerequired/lint-action@v1
+            #              with:
+            #                  github_token: ${{ secrets.github_token }}
+            #                  eslint: true
+            #                  eslint_dir: ./src
+            #                  eslint_extensions: js,ts,tsx
+            #                  prettier: true
+            #                  prettier_dir: ./src
+            #            - name: test and build
+            #              run: |
+            #                  echo "127.0.0.1 caritas.local" | sudo tee -a /etc/hosts
+            #                  npm run test
+            - run: echo $VERSION
+            - run: npm version --no-git-tag-version 0.0.0-$VERSION
+            - run: npm publish --tag prerelease
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
