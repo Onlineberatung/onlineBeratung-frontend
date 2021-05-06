@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useMemo } from 'react';
 import { Route } from 'react-router-dom';
-import { translate } from '../../resources/scripts/i18n/translate';
 import {
 	RouterConfigUser,
 	RouterConfigConsultant,
