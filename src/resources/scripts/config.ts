@@ -36,6 +36,7 @@ export const config = {
 		userSessions: tld + '/service/users/sessions/askers',
 		setAbsence: tld + '/service/users/consultants/absences',
 		agencyServiceBase: tld + '/service/agencies',
+		consultingTypeServiceBase: tld + '/service/consultingtypes',
 		userData: tld + '/service/users/data',
 		headerData: tld + '/service/users/sessions/askers',
 		teamSessions: tld + '/service/users/sessions/teams',

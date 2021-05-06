@@ -1,6 +1,11 @@
 export type RequiredComponentsInterface = {
-	age?: any;
-	state?: any;
+	age?: {
+		isEnabled: boolean;
+		options: Array<{ value: string; label: string }>;
+	};
+	state?: {
+		isEnabled: boolean;
+	};
 };
 
 export type RegistrationNotesInterface = {
@@ -9,13 +14,20 @@ export type RegistrationNotesInterface = {
 };
 
 export interface ConsultingTypeInterface {
-	consultingType: number;
-	overline: string;
-	welcomeTitle: string;
+	id: number;
+	titles: {
+		long: string;
+		welcome: string;
+	};
 	isSetEmailAllowed: boolean;
 	requiredComponents?: RequiredComponentsInterface;
-	useInformal: boolean;
+	languageFormal: boolean;
 	voluntaryComponents?: any[];
-	requiredAidMissingRedirectUrl?: string;
-	registrationNotes?: RegistrationNotesInterface;
+	urls: {
+		registrationPostcodeFallbackUrl: string;
+		requiredAidMissingRedirectUrl: string;
+	};
+	registration: {
+		notes: RegistrationNotesInterface;
+	};
 }

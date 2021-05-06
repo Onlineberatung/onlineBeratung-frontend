@@ -18,7 +18,6 @@ import session from './de/session';
 import sessionList from './de/sessionList';
 import statusOverlay from './de/statusOverlay';
 import typingIndicator from './de/typingIndicator';
-import user from './de/user';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
 
@@ -43,7 +42,6 @@ const de = {
 	sessionList,
 	statusOverlay,
 	typingIndicator,
-	user,
 	userProfile,
 	videoCall
 };
