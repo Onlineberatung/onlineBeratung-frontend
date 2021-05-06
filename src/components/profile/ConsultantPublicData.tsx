@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { UserDataContext } from '../../globalState';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 

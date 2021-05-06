@@ -1,8 +1,7 @@
 import '../../polyfill';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import { Stage } from '../stage/stage';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { useState, useEffect } from 'react';
 import { config } from '../../resources/scripts/config';
@@ -14,10 +13,6 @@ import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { LegalInformationLinks } from './LegalInformationLinks';
 import './login.styles';
 import '../../resources/styles/styles';
-
-export const initLogin = () => {
-	ReactDOM.render(<Login />, document.getElementById('loginRoot'));
-};
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
