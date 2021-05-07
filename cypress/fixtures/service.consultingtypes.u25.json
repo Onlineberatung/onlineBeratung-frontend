@@ -14,7 +14,7 @@
 	"registration": {
 		"minPostcodeSize": 5,
 		"autoSelectAgency": false,
-		"autoSelectPostcode": false,
+		"autoSelectPostcode": true,
 		"notes": {
 			"agencySelection": "Sollten Sie im Ausland leben, geben Sie bitte die Postleitzahl eines Bezugsortes in Deutschland (zukünftiger Wohnort, Heimatort…) an.",
 			"password": "Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!"
