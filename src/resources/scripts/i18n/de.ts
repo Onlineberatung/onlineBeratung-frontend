@@ -15,6 +15,7 @@ import profile from './de/profile';
 import registration from './de/registration';
 import resort from './de/resort';
 import session from './de/session';
+import user from './de/user';
 import sessionList from './de/sessionList';
 import statusOverlay from './de/statusOverlay';
 import typingIndicator from './de/typingIndicator';
@@ -42,6 +43,7 @@ const de = {
 	sessionList,
 	statusOverlay,
 	typingIndicator,
+	user,
 	userProfile,
 	videoCall
 };
