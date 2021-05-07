@@ -1,250 +1,243 @@
 {
-  "id": 0,
-  "titles": {
-    "default": "Suchtberatung",
-    "short": "Sucht",
-    "long": "Suchtberatung",
-    "welcome": "Willkommen bei der Suchtberatung",
-    "registrationDropdown": "Sucht-Selbsthilfe - Kreuzbund"
-  },
-  "urls": {
-    "requiredAidMissingRedirectUrl": null,
-    "registrationPostcodeFallbackUrl": "https://www.domain.tld/registrationPostcodeFallbackPath"
-  },
-  "registration": {
-    "minPostcodeSize": 5,
-    "autoSelectAgency": false,
-    "autoSelectPostcode": false,
-    "notes": {
-      "agencySelection": null,
-      "password": null
-    },
-    "mandatoryFields": {
-      "age": false,
-      "state": false
-    }
-  },
-  "isSubsequentRegistrationAllowed": true,
-  "isSetEmailAllowed": false,
-  "slug": "suchtberatung",
-  "languageFormal": true,
-  "lockedAgencies": false,
-  "excludeNonMainConsultantsFromTeamSessions": false,
-  "whiteSpot": {
-    "whiteSpotAgencyAssigned": true,
-    "whiteSpotAgencyId": 100
-  },
-  "groupChat": {
-    "isGroupChat": true,
-    "groupChatRules": [
-      "In der Sucht-Selbsthilfe duzen wir uns, sowohl in den Gruppen vor Ort als auch hier im Chat. Wer damit Probleme hat, teile das im Chat mit – wir stellen uns gerne darauf ein!",
-      "Menschen sind verschieden, ihre Meinungen sind es auch. Aufeinander zu achten sowie wertschätzende Chat-Beiträge gewährleisten ein helfendes Miteinander.",
-      "Moderator_innen haben die Aufgabe, dafür zu sorgen, dass sich die Chat-Teilnehmenden austauschen können. Sie bieten gegebenenfalls auch Sucht-Themen zur Diskussion an. Ihren Aufforderungen ist zu folgen, beispielsweise dann, wenn Chat-Regeln nicht eingehalten werden."
-    ]
-  },
-  "consultantBoundedToConsultingType": false,
-  "welcomeMessage": {
-    "sendWelcomeMessage": true,
-    "welcomeMessageText": "Lorem ipsum"
-  },
-  "sendFurtherStepsMessage": true,
-  "sendSaveSessionDataMessage": true,
-  "sessionDataInitializing": {
-    "addictiveDrugs": true,
-    "age": true,
-    "gender": true,
-    "relation": true,
-    "state": true
-  },
-  "monitoring": {
-    "initializeMonitoring": true,
-    "monitoringTemplateFile": "addiction.json"
-  },
-  "initializeFeedbackChat": false,
-  "roles": {
-    "consultant": {
-      "main": [
-        "consultant",
-        "u25-consultant",
-        "u25-main-consultant"
-      ],
-      "peer": [
-        "consultant",
-        "u25-consultant"
-      ]
-    }
-  },
-  "notifications": {
-    "teamSessions": {
-      "newMessage": {
-        "allTeamConsultants": false
-      }
-    }
-  },
-  "showAskerProfile": true,
-  "voluntaryComponents": [
-    {
-      "componentType": "RadioButton",
-      "headline": "Hintergrund",
-      "name": "relation",
-      "radioButtons": [
-        {
-          "inputId": "affected",
-          "label": "Betroffen",
-          "checked": false
-        },
-        {
-          "inputId": "relative",
-          "label": "Angehörig",
-          "checked": false
-        },
-        {
-          "inputId": "otherType",
-          "label": "Anderes",
-          "checked": false
-        }
-      ]
-    },
-    {
-      "componentType": "TagSelect",
-      "headline": "Suchtmittel",
-      "name": "addictiveDrugs",
-      "tagSelects": [
-        {
-          "id": "alcohol",
-          "label": "Alkohol"
-        },
-        {
-          "id": "drugs",
-          "label": "Drogen"
-        },
-        {
-          "id": "legalHighs",
-          "label": "Legal Highs"
-        },
-        {
-          "id": "tabacco",
-          "label": "Tabak"
-        },
-        {
-          "id": "medication",
-          "label": "Medikamente"
-        },
-        {
-          "id": "gambling",
-          "label": "Glücksspiel"
-        },
-        {
-          "id": "internetUse",
-          "label": "Internet/Computer"
-        },
-        {
-          "id": "eatingDisorder",
-          "label": "Essstörungen"
-        },
-        {
-          "id": "otherDrug",
-          "label": "Andere"
-        }
-      ]
-    },
-    {
-      "componentType": "SelectDropdown",
-      "headline": "Alter",
-      "name": "age",
-      "item": {
-        "id": "ageSelect",
-        "selectedOptions": [
-          {
-            "value": "0",
-            "label": "0-17"
-          },
-          {
-            "value": "1",
-            "label": "18-20"
-          },
-          {
-            "value": "2",
-            "label": "21-30"
-          },
-          {
-            "value": "3",
-            "label": "31-40"
-          },
-          {
-            "value": "4",
-            "label": "41-59"
-          },
-          {
-            "value": "5",
-            "label": "60+"
-          }
-        ],
-        "selectInputLabel": "Alter auswählen",
-        "useIconOption": false,
-        "isSearchable": false,
-        "menuPlacement": "bottom"
-      }
-    },
-    {
-      "componentType": "RadioButton",
-      "headline": "Geschlecht",
-      "name": "gender",
-      "radioButtons": [
-        {
-          "inputId": "female",
-          "label": "Weiblich",
-          "checked": false
-        },
-        {
-          "inputId": "male",
-          "label": "Männlich",
-          "checked": false
-        },
-        {
-          "inputId": "diverseGender",
-          "label": "Divers",
-          "checked": false
-        }
-      ]
-    }
-  ],
-  "requiredComponents": {
-    "age": {
-      "isEnabled": true,
-      "options": [
-        {
-          "value": "50",
-          "label": "20"
-        },
-        {
-          "value": "51",
-          "label": "21"
-        },
-        {
-          "value": "52",
-          "label": "22"
-        },
-        {
-          "value": "53",
-          "label": "23"
-        },
-        {
-          "value": "54",
-          "label": "24"
-        },
-        {
-          "value": "55",
-          "label": "25"
-        },
-        {
-          "value": "56",
-          "label": "26"
-        }
-      ]
-    },
-    "state": {
-      "isEnabled": true
-    }
-  }
+	"id": 0,
+	"titles": {
+		"default": "Suchtberatung",
+		"short": "Sucht",
+		"long": "Suchtberatung",
+		"welcome": "Willkommen bei der Suchtberatung",
+		"registrationDropdown": "Sucht-Selbsthilfe - Kreuzbund"
+	},
+	"urls": {
+		"requiredAidMissingRedirectUrl": null,
+		"registrationPostcodeFallbackUrl": "https://www.domain.tld/registrationPostcodeFallbackPath"
+	},
+	"registration": {
+		"minPostcodeSize": 5,
+		"autoSelectAgency": false,
+		"autoSelectPostcode": false,
+		"notes": {
+			"agencySelection": null,
+			"password": null
+		},
+		"mandatoryFields": {
+			"age": false,
+			"state": false
+		}
+	},
+	"isSubsequentRegistrationAllowed": true,
+	"isSetEmailAllowed": false,
+	"slug": "suchtberatung",
+	"languageFormal": true,
+	"lockedAgencies": false,
+	"excludeNonMainConsultantsFromTeamSessions": false,
+	"whiteSpot": {
+		"whiteSpotAgencyAssigned": true,
+		"whiteSpotAgencyId": 100
+	},
+	"groupChat": {
+		"isGroupChat": true,
+		"groupChatRules": [
+			"In der Sucht-Selbsthilfe duzen wir uns, sowohl in den Gruppen vor Ort als auch hier im Chat. Wer damit Probleme hat, teile das im Chat mit – wir stellen uns gerne darauf ein!",
+			"Menschen sind verschieden, ihre Meinungen sind es auch. Aufeinander zu achten sowie wertschätzende Chat-Beiträge gewährleisten ein helfendes Miteinander.",
+			"Moderator_innen haben die Aufgabe, dafür zu sorgen, dass sich die Chat-Teilnehmenden austauschen können. Sie bieten gegebenenfalls auch Sucht-Themen zur Diskussion an. Ihren Aufforderungen ist zu folgen, beispielsweise dann, wenn Chat-Regeln nicht eingehalten werden."
+		]
+	},
+	"consultantBoundedToConsultingType": false,
+	"welcomeMessage": {
+		"sendWelcomeMessage": true,
+		"welcomeMessageText": "Lorem ipsum"
+	},
+	"sendFurtherStepsMessage": true,
+	"sendSaveSessionDataMessage": true,
+	"sessionDataInitializing": {
+		"addictiveDrugs": true,
+		"age": true,
+		"gender": true,
+		"relation": true,
+		"state": true
+	},
+	"monitoring": {
+		"initializeMonitoring": true,
+		"monitoringTemplateFile": "addiction.json"
+	},
+	"initializeFeedbackChat": false,
+	"roles": {
+		"consultant": {
+			"main": ["consultant", "u25-consultant", "u25-main-consultant"],
+			"peer": ["consultant", "u25-consultant"]
+		}
+	},
+	"notifications": {
+		"teamSessions": {
+			"newMessage": {
+				"allTeamConsultants": false
+			}
+		}
+	},
+	"showAskerProfile": true,
+	"voluntaryComponents": [
+		{
+			"componentType": "RadioButton",
+			"headline": "Hintergrund",
+			"name": "relation",
+			"radioButtons": [
+				{
+					"inputId": "affected",
+					"label": "Betroffen",
+					"checked": false
+				},
+				{
+					"inputId": "relative",
+					"label": "Angehörig",
+					"checked": false
+				},
+				{
+					"inputId": "otherType",
+					"label": "Anderes",
+					"checked": false
+				}
+			]
+		},
+		{
+			"componentType": "TagSelect",
+			"headline": "Suchtmittel",
+			"name": "addictiveDrugs",
+			"tagSelects": [
+				{
+					"id": "alcohol",
+					"label": "Alkohol"
+				},
+				{
+					"id": "drugs",
+					"label": "Drogen"
+				},
+				{
+					"id": "legalHighs",
+					"label": "Legal Highs"
+				},
+				{
+					"id": "tabacco",
+					"label": "Tabak"
+				},
+				{
+					"id": "medication",
+					"label": "Medikamente"
+				},
+				{
+					"id": "gambling",
+					"label": "Glücksspiel"
+				},
+				{
+					"id": "internetUse",
+					"label": "Internet/Computer"
+				},
+				{
+					"id": "eatingDisorder",
+					"label": "Essstörungen"
+				},
+				{
+					"id": "otherDrug",
+					"label": "Andere"
+				}
+			]
+		},
+		{
+			"componentType": "SelectDropdown",
+			"headline": "Alter",
+			"name": "age",
+			"item": {
+				"id": "ageSelect",
+				"selectedOptions": [
+					{
+						"value": "0",
+						"label": "0-17"
+					},
+					{
+						"value": "1",
+						"label": "18-20"
+					},
+					{
+						"value": "2",
+						"label": "21-30"
+					},
+					{
+						"value": "3",
+						"label": "31-40"
+					},
+					{
+						"value": "4",
+						"label": "41-59"
+					},
+					{
+						"value": "5",
+						"label": "60+"
+					}
+				],
+				"selectInputLabel": "Alter auswählen",
+				"useIconOption": false,
+				"isSearchable": false,
+				"menuPlacement": "bottom"
+			}
+		},
+		{
+			"componentType": "RadioButton",
+			"headline": "Geschlecht",
+			"name": "gender",
+			"radioButtons": [
+				{
+					"inputId": "female",
+					"label": "Weiblich",
+					"checked": false
+				},
+				{
+					"inputId": "male",
+					"label": "Männlich",
+					"checked": false
+				},
+				{
+					"inputId": "diverseGender",
+					"label": "Divers",
+					"checked": false
+				}
+			]
+		}
+	],
+	"requiredComponents": {
+		"age": {
+			"isEnabled": true,
+			"options": [
+				{
+					"value": "50",
+					"label": "20"
+				},
+				{
+					"value": "51",
+					"label": "21"
+				},
+				{
+					"value": "52",
+					"label": "22"
+				},
+				{
+					"value": "53",
+					"label": "23"
+				},
+				{
+					"value": "54",
+					"label": "24"
+				},
+				{
+					"value": "55",
+					"label": "25"
+				},
+				{
+					"value": "56",
+					"label": "26"
+				}
+			]
+		},
+		"state": {
+			"isEnabled": true
+		}
+	}
 }

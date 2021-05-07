@@ -6,19 +6,28 @@ export const apiGetConsultingType = async (params: {
 	consultingTypeSlug?: string;
 	consultingTypeId?: number;
 }): Promise<ConsultingTypeInterface> => {
+	let promise;
 	if (params.consultingTypeSlug != null) {
-		return fetchData({
+		promise = fetchData({
 			url: `${config.endpoints.consultingTypeServiceBase}/byslug/${params.consultingTypeSlug}/full`,
 			method: FETCH_METHODS.GET,
 			skipAuth: true,
 			responseHandling: [FETCH_ERRORS.NO_MATCH]
 		});
 	} else if (params.consultingTypeId !== null) {
-		return fetchData({
+		promise = fetchData({
 			url: `${config.endpoints.consultingTypeServiceBase}/${params.consultingTypeId}/full`,
 			method: FETCH_METHODS.GET,
 			skipAuth: true,
 			responseHandling: [FETCH_ERRORS.NO_MATCH]
 		});
 	}
+
+	return promise.catch((error) => {
+		if (error.message === FETCH_ERRORS.NO_MATCH) {
+			return null;
+		}
+
+		throw error;
+	});
 };

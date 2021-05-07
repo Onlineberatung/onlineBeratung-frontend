@@ -2,8 +2,20 @@ import { emitStompDirectMessage } from '../support/websocket';
 import { generateAskerSession, generateMessage } from '../support/sessions';
 import attachmentsI18n from '../../src/resources/scripts/i18n/de/attachments';
 import attachmentsInformalI18n from '../../src/resources/scripts/i18n/de/attachmentsInformal';
+import { config } from '../../src/resources/scripts/config';
 
 describe('Messages', () => {
+	beforeEach(() => {
+		cy.fixture('service.consultingtypes.addiction.json').then(
+			(addictionConsultingType) => {
+				cy.intercept(
+					`${config.endpoints.consultingTypeServiceBase}/1/full`,
+					addictionConsultingType
+				);
+			}
+		);
+	});
+
 	describe('Attachments', () => {
 		it('should allow to send a message with attachment', () => {
 			cy.caritasMockedLogin();
