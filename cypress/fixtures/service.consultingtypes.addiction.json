@@ -207,32 +207,28 @@
 			"isEnabled": true,
 			"options": [
 				{
-					"value": "50",
-					"label": "20"
+					"value": "0",
+					"label": "0-17"
 				},
 				{
-					"value": "51",
-					"label": "21"
+					"value": "1",
+					"label": "18-20"
 				},
 				{
-					"value": "52",
-					"label": "22"
+					"value": "2",
+					"label": "21-30"
 				},
 				{
-					"value": "53",
-					"label": "23"
+					"value": "3",
+					"label": "31-40"
 				},
 				{
-					"value": "54",
-					"label": "24"
+					"value": "4",
+					"label": "41-59"
 				},
 				{
-					"value": "55",
-					"label": "25"
-				},
-				{
-					"value": "56",
-					"label": "26"
+					"value": "5",
+					"label": "60+"
 				}
 			]
 		},
