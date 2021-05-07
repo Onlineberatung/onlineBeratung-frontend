@@ -193,7 +193,7 @@ export const AskerRegistration = () => {
 					userData={userData}
 					isProfileView={true}
 					agencySelectionNote={
-						selectedConsultingTypeData?.registrationNotes
+						selectedConsultingTypeData?.registration?.notes
 							?.agencySelection
 					}
 				/>

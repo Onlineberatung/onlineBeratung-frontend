@@ -49,10 +49,10 @@ const registration = {
 	'password.criteria.specialChar': 'mindestens ein Sonderzeichen',
 	'password.criteria.length': 'mindestens 9 Zeichen',
 	'age.headline': 'Bitte teilen Sie uns Ihr Alter mit',
-	'age.dropdown': 'Alter auswählen',
+	'age.dropdown': 'Alter auswählen*',
 	'state.headline':
 		'Bitte teilen Sie uns mit in welchem Bundesland Sie wohnen',
-	'state.dropdown': 'Alter auswählen',
+	'state.dropdown': 'Bundesland auswählen*',
 	'state.options.0': 'außerhalb Deutschlands',
 	'state.options.1': 'Baden-Württemberg',
 	'state.options.2': 'Bayern',

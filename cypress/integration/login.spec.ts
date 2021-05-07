@@ -1,3 +1,5 @@
+import { config } from '../../src/resources/scripts/config';
+
 describe('Login', () => {
 	it('should be able to login', () => {
 		cy.caritasMockedLogin();
@@ -21,6 +23,14 @@ describe('Login', () => {
 	});
 
 	it('displays the login for resorts', () => {
+		cy.fixture('service.consultingtypes.addiction.json').then(
+			(addictionConsultingType) => {
+				cy.intercept(
+					`${config.endpoints.consultingTypeServiceBase}/byslug/suchtberatung/full`,
+					addictionConsultingType
+				);
+			}
+		);
 		cy.visit('/suchtberatung');
 		cy.contains('Login');
 	});
