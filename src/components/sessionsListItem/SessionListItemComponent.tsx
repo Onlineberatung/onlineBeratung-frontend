@@ -12,7 +12,7 @@ import {
 	getChatItemForSession,
 	isGroupChatForSessionItem
 } from '../session/sessionHelpers';
-import { translate, getResortTranslation } from '../../utils/translate';
+import { translate } from '../../utils/translate';
 import {
 	ActiveSessionGroupIdContext,
 	SessionsDataContext,
@@ -31,6 +31,7 @@ import { Tag } from '../tag/Tag';
 import { isGroupChatConsultingType } from '../../utils/resorts';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
+import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 
 interface SessionListItemProps {
 	type: string;
@@ -55,6 +56,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
 	let plainTextLastMessage = '';
+	const consultingType = useConsultingType(listItem.id);
 
 	if (listItem.lastMessage) {
 		const rawMessageObject = markdownToDraft(listItem.lastMessage);
@@ -151,7 +153,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
-							{getResortTranslation(listItem.consultingType)}
+							{consultingType.titles.default}
 						</div>
 						<div className="sessionsListItem__date">
 							{getGroupChatDate(listItem)}
@@ -226,7 +228,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
-							{getResortTranslation(listItem.consultingType)}{' '}
+							{consultingType.titles.default}{' '}
 							{listItem.consultingType !== 1 && !typeIsUser(type)
 								? '/ ' + listItem.postcode
 								: null}

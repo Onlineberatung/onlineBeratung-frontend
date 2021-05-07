@@ -22,9 +22,11 @@ import { AbsenceFormular } from '../absenceFormular/AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { Text } from '../text/Text';
 import './profile.styles';
+import { ConsultingTypesContext } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const Profile = () => {
 	const { userData } = useContext(UserDataContext);
+	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	useEffect(() => {
 		setProfileWrapperActive();
@@ -116,8 +118,10 @@ export const Profile = () => {
 						<div className="profile__content__item profile__data">
 							<AskerAboutMeData />
 							<AskerConsultingTypeData />
-							{consultingTypeSelectOptionsSet(userData).length >
-								0 && <AskerRegistration />}
+							{consultingTypeSelectOptionsSet(
+								userData,
+								consultingTypes
+							).length > 0 && <AskerRegistration />}
 						</div>
 					)}
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (

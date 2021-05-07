@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { UserDataContext } from '../../globalState';
+import { ConsultingTypesContext } from '../../globalState/provider/ConsultingTypesProvider';
 import {
 	getAddictiveDrugsString,
-	getResortTranslation,
 	handleNumericTranslation,
 	translate
 } from '../../utils/translate';
@@ -15,6 +15,7 @@ import {
 
 export const AskerConsultingTypeData = () => {
 	const { userData } = useContext(UserDataContext);
+	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const preparedUserData = Object.keys(userData.consultingTypes).map(
 		(key) => {
@@ -30,7 +31,10 @@ export const AskerConsultingTypeData = () => {
 					resort.agency && (
 						<div className="profile__data__itemWrapper" key={index}>
 							<Text
-								text={getResortTranslation(index)}
+								text={
+									consultingTypes.find((cur) => cur.id)
+										?.titles.default
+								}
 								type="divider"
 							/>
 							{resort.sessionData &&

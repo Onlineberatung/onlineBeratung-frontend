@@ -13,16 +13,16 @@ export type RegistrationNotesInterface = {
 	password?: string;
 };
 
-export interface ConsultingTypeInterface {
+export interface ConsultingTypeBasicInterface {
 	id: number;
 	titles: {
+		default: string;
+		short: string;
 		long: string;
 		welcome: string;
+		registrationDropdown: string;
 	};
 	isSetEmailAllowed: boolean;
-	requiredComponents?: RequiredComponentsInterface;
-	languageFormal: boolean;
-	voluntaryComponents?: any[];
 	urls: {
 		registrationPostcodeFallbackUrl: string;
 		requiredAidMissingRedirectUrl: string;
@@ -32,4 +32,14 @@ export interface ConsultingTypeInterface {
 		autoSelectPostcode: boolean;
 		notes: RegistrationNotesInterface;
 	};
+	groupChat: {
+		isGroupChat: boolean;
+		groupChatRules: [string];
+	};
+}
+
+export interface ConsultingTypeInterface extends ConsultingTypeBasicInterface {
+	requiredComponents?: RequiredComponentsInterface;
+	languageFormal: boolean;
+	voluntaryComponents?: any[];
 }

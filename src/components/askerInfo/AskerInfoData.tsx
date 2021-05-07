@@ -3,8 +3,7 @@ import { useContext } from 'react';
 import {
 	translate,
 	handleNumericTranslation,
-	getAddictiveDrugsString,
-	getResortTranslation
+	getAddictiveDrugsString
 } from '../../utils/translate';
 import {
 	SessionsDataContext,
@@ -18,13 +17,15 @@ import {
 	getUserDataTranslateBase
 } from '../profile/profileHelpers';
 import { Text } from '../text/Text';
+import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const AskerInfoData = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-
-	const resort = getResortTranslation(activeSession.session.consultingType);
+	const consultingType = useConsultingType(
+		activeSession.session.consultingType
+	);
 
 	const userSessionData = getContact(activeSession).sessionData;
 	const preparedUserSessionData = convertUserDataObjectToArray(
@@ -41,7 +42,9 @@ export const AskerInfoData = () => {
 				<p className="profile__data__label">
 					{translate('userProfile.data.resort')}
 				</p>
-				<p className="profile__data__content">{resort}</p>
+				<p className="profile__data__content">
+					{consultingType.titles.default}
+				</p>
 			</div>
 			{activeSession.session.consultingType === 0 && (
 				<div className="profile__data__item">

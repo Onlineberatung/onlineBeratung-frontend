@@ -9,6 +9,7 @@ export * from './apiGetGroupChatInfo';
 export * from './apiGetGroupMembers';
 export * from './apiGetMonitoring';
 export * from './apiGetConsultingType';
+export * from './apiGetConsultingTypes';
 export * from './apiGetSessionData';
 export * from './apiGetSessionsListData';
 export * from './apiGetUserData';

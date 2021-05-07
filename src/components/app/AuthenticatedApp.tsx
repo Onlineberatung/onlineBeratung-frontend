@@ -11,14 +11,13 @@ import {
 } from '../sessionCookie/accessSessionCookie';
 import {
 	UserDataContext,
-	UserDataInterface,
 	AuthDataContext,
 	AuthDataInterface,
 	UnreadSessionsStatusContext,
 	NotificationsContext
 } from '../../globalState';
 import { ContextProvider } from '../../globalState/state';
-import { apiGetUserData } from '../../api';
+import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
@@ -29,6 +28,7 @@ import {
 } from '../incomingVideoCall/IncomingVideoCall';
 import './authenticatedApp.styles';
 import './navigation.styles';
+import { ConsultingTypesContext } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const AuthenticatedAppContainer = (props) => {
 	return (
@@ -53,6 +53,7 @@ export const App: React.FC = () => {
 		return client;
 	});
 
+	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { setAuthData } = useContext(AuthDataContext);
 	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
 	const { setUserData } = useContext(UserDataContext);
@@ -85,14 +86,15 @@ export const App: React.FC = () => {
 	if (!userDataRequested) {
 		setUserDataRequested(true);
 		handleTokenRefresh().then(() => {
-			apiGetUserData()
-				.then((userProfileData: UserDataInterface) => {
+			Promise.all([apiGetUserData(), apiGetConsultingTypes()])
+				.then(([userProfileData, consultingTypes]) => {
 					// set informal / formal cookie depending on the given userdata
 					setTokenInCookie(
 						'useInformal',
 						!userProfileData.formalLanguage ? '1' : ''
 					);
 					setUserData(userProfileData);
+					setConsultingTypes(consultingTypes);
 					setAppReady(true);
 				})
 				.catch((error) => {

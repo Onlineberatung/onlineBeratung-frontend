@@ -11,6 +11,7 @@ import {
 	UnreadSessionsStatusProvider,
 	UserDataProvider
 } from '.';
+import { ConsultingTypesProvider } from './provider/ConsultingTypesProvider';
 
 function ProviderComposer({ contexts, children }) {
 	return contexts.reduceRight(
@@ -35,7 +36,8 @@ function ContextProvider({ children }) {
 				<SessionsDataProvider />,
 				<StoppedGroupChatProvider />,
 				<UnreadSessionsStatusProvider />,
-				<UserDataProvider />
+				<UserDataProvider />,
+				<ConsultingTypesProvider />
 			]}
 		>
 			{children}

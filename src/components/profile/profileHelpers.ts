@@ -1,11 +1,15 @@
 import { ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { translate, getResortTranslation } from '../../utils/translate';
-import { UserDataInterface, ConsultingTypeInterface } from '../../globalState';
+import { translate } from '../../utils/translate';
+import {
+	UserDataInterface,
+	ConsultingTypeInterface,
+	ConsultingTypeBasicInterface
+} from '../../globalState';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
-import { isGroupChatConsultingType } from '../../utils/resorts';
 import { apiGetConsultingType } from '../../api';
+import { getConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const convertUserDataObjectToArray = (object) => {
 	const array = [];
@@ -62,18 +66,23 @@ export const getConsultingTypesForRegistrationStatus = (
 		});
 };
 
-export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
+export const consultingTypeSelectOptionsSet = (
+	userData: UserDataInterface,
+	consultingTypes: Array<ConsultingTypeBasicInterface>
+) => {
 	const unregisteredConsultingTypesData = getConsultingTypesForRegistrationStatus(
 		userData,
 		REGISTRATION_STATUS_KEYS.UNREGISTERED
 	);
 	return unregisteredConsultingTypesData.map((value) => {
-		const currentConsultingType = parseInt(value.consultingType);
+		const id = parseInt(value.consultingType);
+		const consultingType = getConsultingType(consultingTypes, id);
+
 		return {
 			value: value.consultingType,
-			label: isGroupChatConsultingType(currentConsultingType)
-				? getResortTranslation(currentConsultingType, false, true)
-				: getResortTranslation(currentConsultingType)
+			label: consultingType.groupChat.isGroupChat
+				? consultingType.titles.registrationDropdown
+				: consultingType.titles.default
 		};
 	});
 };

@@ -37,6 +37,7 @@ import { isGroupChatConsultingType } from '../../utils/resorts';
 import { Headline } from '../headline/Headline';
 import { apiGetConsultingType } from '../../api/apiGetConsultingType';
 import { ConsultingTypeInterface } from '../../globalState';
+import { ConsultingTypesContext } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const AskerRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -53,6 +54,7 @@ export const AskerRegistration = () => {
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const isAllRequiredDataSet = () => selectedConsultingType && selectedAgency;
 
@@ -75,14 +77,17 @@ export const AskerRegistration = () => {
 	};
 
 	const getOptionOfSelectedConsultingType = () => {
-		return consultingTypeSelectOptionsSet(userData).filter(
+		return consultingTypeSelectOptionsSet(userData, consultingTypes).filter(
 			(option) => option.value === (selectedConsultingType as any)
 		)[0];
 	};
 
 	const consultingTypesDropdown: SelectDropdownItem = {
 		id: 'consultingTypeSelect',
-		selectedOptions: consultingTypeSelectOptionsSet(userData),
+		selectedOptions: consultingTypeSelectOptionsSet(
+			userData,
+			consultingTypes
+		),
 		handleDropdownSelect: handleConsultingTypeSelect,
 		selectInputLabel: translate(
 			'profile.data.register.consultingTypeSelect.label'
