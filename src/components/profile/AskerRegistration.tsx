@@ -186,9 +186,9 @@ export const AskerRegistration = () => {
 			) : (
 				<SelectDropdown {...consultingTypesDropdown} />
 			)}
-			{selectedConsultingType && (
+			{selectedConsultingTypeData && (
 				<AgencySelection
-					selectedConsultingType={selectedConsultingType}
+					consultingType={selectedConsultingTypeData}
 					onAgencyChange={(agency) => setSelectedAgency(agency)}
 					userData={userData}
 					isProfileView={true}

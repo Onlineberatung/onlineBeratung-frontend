@@ -28,6 +28,8 @@ export interface ConsultingTypeInterface {
 		requiredAidMissingRedirectUrl: string;
 	};
 	registration: {
+		autoSelectAgency: boolean;
+		autoSelectPostcode: boolean;
 		notes: RegistrationNotesInterface;
 	};
 }

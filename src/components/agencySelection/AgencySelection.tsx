@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { AgencyDataInterface, UserDataInterface } from '../../globalState';
+import {
+	AgencyDataInterface,
+	ConsultingTypeInterface,
+	UserDataInterface
+} from '../../globalState';
 import { translate } from '../../utils/translate';
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import {
-	autoselectAgencyForConsultingType,
-	autoselectPostcodeForConsultingType,
-	POSTCODE_FALLBACK_LINKS,
-	VALID_POSTCODE_LENGTH
-} from './agencySelectionHelpers';
+import { VALID_POSTCODE_LENGTH } from './agencySelectionHelpers';
 import './agencySelection.styles';
 import '../profile/profile.styles';
 import { DEFAULT_POSTCODE } from '../registration/prefillPostcode';
@@ -21,7 +20,7 @@ import { PreselectedAgency } from './PreselectedAgency';
 import { Headline } from '../headline/Headline';
 
 export interface AgencySelectionProps {
-	selectedConsultingType: number | undefined;
+	consultingType: ConsultingTypeInterface;
 	icon?: JSX.Element;
 	onAgencyChange: Function;
 	onValidityChange?: Function;
@@ -40,8 +39,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	const [selectedAgencyId, setSelectedAgencyId] = useState<
 		number | undefined
 	>(undefined);
-	const [autoSelectAgency, setAutoSelectAgency] = useState(false);
-	const [autoSelectPostcode, setAutoSelectPostcode] = useState(false);
+	const autoSelectAgency = props.consultingType.registration.autoSelectAgency;
+	const autoSelectPostcode =
+		props.consultingType.registration.autoSelectPostcode;
 	const [preselectedAgency, setPreselectedAgency] = useState<
 		AgencyDataInterface
 	>(props.preselectedAgency);
@@ -57,20 +57,14 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		setPostcodeFallbackLink('');
 		setSelectedAgencyId(undefined);
 		setProposedAgencies(null);
-		setAutoSelectAgency(
-			autoselectAgencyForConsultingType(props.selectedConsultingType)
-		);
-		setAutoSelectPostcode(
-			autoselectPostcodeForConsultingType(props.selectedConsultingType)
-		);
 		setPreselectedAgency(props.preselectedAgency);
-	}, [props.selectedConsultingType, props.preselectedAgency]);
+	}, [props.preselectedAgency]);
 
 	useEffect(() => {
 		if (autoSelectAgency) {
 			apiAgencySelection({
 				postcode: DEFAULT_POSTCODE,
-				consultingType: props.selectedConsultingType
+				consultingType: props.consultingType.id
 			})
 				.then((response) => {
 					const defaultAgency = response[0];
@@ -98,11 +92,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		} else if (preselectedAgency && !selectedAgencyId) {
 			setSelectedAgencyId(preselectedAgency.id);
-			if (
-				autoselectPostcodeForConsultingType(
-					props.selectedConsultingType
-				)
-			) {
+			if (props.consultingType.registration.autoSelectPostcode) {
 				setSelectedPostcode(preselectedAgency.postcode);
 			}
 		} else {
@@ -122,7 +112,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			if (validPostcode()) {
 				apiAgencySelection({
 					postcode: selectedPostcode,
-					consultingType: props.selectedConsultingType
+					consultingType: props.consultingType.id
 				})
 					.then((response) => {
 						setProposedAgencies(response);
@@ -131,12 +121,11 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					.catch((error) => {
 						if (
 							error.message === FETCH_ERRORS.EMPTY &&
-							props.selectedConsultingType
+							props.consultingType.id
 						) {
 							setPostcodeFallbackLink(
-								POSTCODE_FALLBACK_LINKS[
-									props.selectedConsultingType
-								]
+								props.consultingType.urls
+									.registrationPostcodeFallbackUrl
 							);
 						}
 						return null;
@@ -166,10 +155,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		content: selectedPostcode,
 		maxLength: VALID_POSTCODE_LENGTH,
 		pattern: '^[0-9]+$',
-		disabled:
-			autoSelectPostcode ||
-			(!props.selectedConsultingType &&
-				props.selectedConsultingType !== 0),
+		disabled: autoSelectPostcode || props.consultingType.id == null,
 		icon: props.icon
 	};
 
@@ -177,9 +163,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		setSelectedPostcode(e.target.value);
 	};
 
-	const showPreselectedAgency =
-		preselectedAgency &&
-		!autoselectPostcodeForConsultingType(props.selectedConsultingType);
+	const showPreselectedAgency = preselectedAgency && autoSelectPostcode;
 	const introItemsTranslations = showPreselectedAgency
 		? [
 				'registration.agencyPreselected.intro.point1',
