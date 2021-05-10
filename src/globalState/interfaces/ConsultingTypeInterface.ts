@@ -15,6 +15,7 @@ export type RegistrationNotesInterface = {
 
 export interface ConsultingTypeBasicInterface {
 	id: number;
+	showAskerProfile: boolean;
 	titles: {
 		default: string;
 		short: string;

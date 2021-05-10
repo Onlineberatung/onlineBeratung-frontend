@@ -19,7 +19,6 @@ import {
 	getSessionListPathForLocation,
 	getTypeOfLocation
 } from '../session/sessionHelpers';
-import { isGenericConsultingType } from '../../utils/resorts';
 import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
 	stopGroupChatSecurityOverlayItem,
@@ -45,6 +44,7 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
+import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -55,6 +55,7 @@ export const SessionMenu = () => {
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
+	const consultingType = useConsultingType(chatItem.consultingType);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
@@ -338,7 +339,7 @@ export const SessionMenu = () => {
 				) : null}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				!isGroupChat &&
-				!isGenericConsultingType(chatItem.consultingType) ? (
+				consultingType.showAskerProfile ? (
 					<Link className="sessionMenu__item" to={userProfileLink}>
 						{translate('chatFlyout.askerProfil')}
 					</Link>

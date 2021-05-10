@@ -29,7 +29,6 @@ import {
 	convertUserDataObjectToArray,
 	getAddictiveDrugsTranslatable
 } from '../profile/profileHelpers';
-import { isGenericConsultingType } from '../../utils/resorts';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { apiGetGroupMembers } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
@@ -217,7 +216,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				<div
 					className={
 						hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
-						isGenericConsultingType(chatItem.consultingType)
+						!consultingType.showAskerProfile
 							? `sessionInfo__username sessionInfo__username--deactivate`
 							: `sessionInfo__username`
 					}
@@ -233,7 +232,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						AUTHORITIES.CONSULTANT_DEFAULT,
 						userData
 					) ? (
-						!isGenericConsultingType(chatItem.consultingType) ? (
+						consultingType.showAskerProfile ? (
 							<Link to={userProfileLink}>
 								<h3>{username}</h3>
 							</Link>
