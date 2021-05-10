@@ -104,6 +104,11 @@
 		}
 	}
 
+	&__username {
+		font-family: $font-family-medium;
+		font-weight: $font-weight-medium;
+	}
+
 	&__redirect {
 		margin-top: $grid-base-three;
 

@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { endpointPort, tld } from '../../resources/scripts/config';
 import { apiPostAnonymousRegistration } from '../../api';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
 
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
@@ -21,6 +22,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		isDataProtectionViewActive,
 		setIsDataProtectionViewActive
 	] = useState<boolean>(true);
+	const [username, setUsername] = useState<string>();
 
 	const getRedirectText = () => {
 		const url = `${tld + endpointPort}/${
@@ -33,6 +35,13 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		`;
 	};
 
+	const getUsernameText = () => {
+		return `
+		 ${translate('anonymous.waitingroom.username')} 
+		 <span class="waitingRoom__username">${username}</span>
+		`;
+	};
+
 	const confirmButton: ButtonItem = {
 		label: translate('anonymous.waitingroom.dataProtection.button'),
 		type: BUTTON_TYPES.PRIMARY
@@ -40,8 +49,9 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	const handleConfirmButton = () => {
 		apiPostAnonymousRegistration(props.consultingTypeId)
-			.then(() => {
+			.then((response) => {
 				setIsDataProtectionViewActive(false);
+				setUsername(decodeUsername(response.userName));
 			})
 			.catch((err) => {
 				console.log(err);
@@ -106,10 +116,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 							semanticLevel="3"
 							text={translate('anonymous.waitingroom.subline')}
 						/>
-						<Text
-							type="standard"
-							text={translate('anonymous.waitingroom.username')}
-						/>
+						<Text type="standard" text={getUsernameText()} />
 						<div className="waitingRoom__redirect">
 							<Text
 								type="standard"
