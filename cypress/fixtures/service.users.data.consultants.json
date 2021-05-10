@@ -14,7 +14,7 @@
 			"description": "description",
 			"teamAgency": true,
 			"offline": false,
-			"consultingType": 1
+			"consultingType": 0
 		}
 	],
 	"grantedAuthorities": ["AUTHORIZATION_CONSULTANT_DEFAULT"],

@@ -12,14 +12,14 @@ describe('Messages', () => {
 					`${config.endpoints.consultingTypeServiceBase}/1/full`,
 					addictionConsultingType
 				);
-			}
-		);
 
-		cy.fixture('service.consultingtypes.addiction.json').then(
-			(addictionConsultingType) => {
-				cy.intercept(
-					`${config.endpoints.consultingTypeServiceBase}/basic`,
-					[addictionConsultingType]
+				cy.fixture(
+					'service.consultingtypes.u25.json'
+				).then((u25ConsultingType) =>
+					cy.intercept(
+						`${config.endpoints.consultingTypeServiceBase}/basic`,
+						[addictionConsultingType, u25ConsultingType]
+					)
 				);
 			}
 		);
