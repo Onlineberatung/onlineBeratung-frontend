@@ -1,4 +1,3 @@
-import { getResortKeyForConsultingType } from './resorts';
 import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import defaultLocale from '../resources/scripts/i18n/defaultLocale';
 import informalLocale from '../resources/scripts/i18n/informalLocale';
