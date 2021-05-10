@@ -16,6 +16,7 @@ export * from './apiGetUserSessions';
 export * from './apiGroupChatSettings';
 export * from './apiLogoutKeycloak';
 export * from './apiLogoutRocketchat';
+export * from './apiPostAnonymousRegistration';
 export * from './apiPostRegistration';
 export * from './apiPutGroupChat';
 export * from './apiPutConsultantData';

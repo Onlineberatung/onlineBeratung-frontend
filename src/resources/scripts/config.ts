@@ -45,7 +45,9 @@ export const config = {
 		passwordReset: tld + '/service/users/password/change',
 		groupChatBase: tld + '/service/users/chat/',
 		rejectVideoCall: tld + '/service/videocalls/reject',
-		sessionBase: tld + '/service/users/sessions'
+		sessionBase: tld + '/service/users/sessions',
+		registerAnonymousAsker:
+			tld + '/service/conversations/askers/anonymous/new'
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:

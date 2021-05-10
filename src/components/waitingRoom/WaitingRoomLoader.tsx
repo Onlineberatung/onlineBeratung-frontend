@@ -16,17 +16,26 @@ export const WaitingRoomLoader = ({
 		setIsAnonymousConversationAllowed
 	] = useState<boolean>();
 	const { consultingTypeSlug } = useParams();
+	const [consultingTypeId, setConsultingTypeId] = useState<number>();
 
 	useEffect(() => {
 		apiGetConsultingType({ consultingTypeSlug }).then((result) => {
-			if (result?.isAnonymousConversationAllowed)
+			if (result?.isAnonymousConversationAllowed) {
+				setConsultingTypeId(result.consultingType);
 				setIsAnonymousConversationAllowed(true);
-			else handleUnmatch();
+			} else {
+				handleUnmatch();
+			}
 		});
 	}, [consultingTypeSlug, handleUnmatch]);
 
 	if (isAnonymousConversationAllowed) {
-		return <WaitingRoom consultingTypeSlug={consultingTypeSlug} />;
+		return (
+			<WaitingRoom
+				consultingTypeSlug={consultingTypeSlug}
+				consultingTypeId={consultingTypeId}
+			/>
+		);
 	} else {
 		return null;
 	}
