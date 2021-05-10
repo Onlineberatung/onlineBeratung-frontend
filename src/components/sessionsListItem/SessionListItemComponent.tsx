@@ -56,7 +56,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
 	let plainTextLastMessage = '';
-	const consultingType = useConsultingType(listItem.id);
+	const consultingType = useConsultingType(listItem.consultingType);
 
 	if (listItem.lastMessage) {
 		const rawMessageObject = markdownToDraft(listItem.lastMessage);

@@ -14,6 +14,15 @@ describe('Messages', () => {
 				);
 			}
 		);
+
+		cy.fixture('service.consultingtypes.addiction.json').then(
+			(addictionConsultingType) => {
+				cy.intercept(
+					`${config.endpoints.consultingTypeServiceBase}/basic`,
+					[addictionConsultingType]
+				);
+			}
+		);
 	});
 
 	describe('Attachments', () => {
@@ -110,7 +119,7 @@ describe('Messages', () => {
 
 			describe('Not on My Sessions', () => {
 				describe('New message from Live Service', () => {
-					it('should animate the enevelope and initial dot', () => {
+					it('should animate the envelope and initial dot', () => {
 						cy.caritasMockedLogin();
 						cy.get('a[href="/profile"]').click();
 
