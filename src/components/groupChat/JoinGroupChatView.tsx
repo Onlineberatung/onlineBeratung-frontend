@@ -43,7 +43,6 @@ import { logout } from '../logout/logout';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
-import { isGroupChatConsultingType } from '../../utils/resorts';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
@@ -101,7 +100,7 @@ export const JoinGroupChatView = () => {
 	const updateGroupChatInfo = () => {
 		if (
 			chatItem.groupId === activeSessionGroupId &&
-			isGroupChatConsultingType(chatItem.consultingType)
+			consultingType.groupChat.isGroupChat
 		) {
 			apiGetGroupChatInfo(chatItem.id)
 				.then((response: groupChatInfoData) => {

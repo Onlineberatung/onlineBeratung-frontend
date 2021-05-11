@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
 	AgencyDataInterface,
-	ConsultingTypeInterface,
+	ConsultingTypeBasicInterface,
 	UserDataInterface
 } from '../../globalState';
 import { translate } from '../../utils/translate';
@@ -20,7 +20,7 @@ import { PreselectedAgency } from './PreselectedAgency';
 import { Headline } from '../headline/Headline';
 
 export interface AgencySelectionProps {
-	consultingType: ConsultingTypeInterface;
+	consultingType: ConsultingTypeBasicInterface;
 	icon?: JSX.Element;
 	onAgencyChange: Function;
 	onValidityChange?: Function;

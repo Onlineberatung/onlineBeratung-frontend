@@ -23,8 +23,12 @@ export function ConsultingTypesProvider(props) {
 
 export function getConsultingType(
 	consultingTypes: Array<ConsultingTypeBasicInterface>,
-	id: number
+	id?: number
 ) {
+	if (!id) {
+		return undefined;
+	}
+
 	const consultingType = consultingTypes.find((cur) => cur.id === id);
 	if (!consultingType) {
 		throw new Error(`No consulting type found for id "${id}".`);
@@ -33,7 +37,7 @@ export function getConsultingType(
 	return consultingType;
 }
 
-export function useConsultingType(id: number) {
+export function useConsultingType(id?: number) {
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	if (!consultingTypes) {
 		throw new Error('`ConsultingTypesProvider` was not initialized.');

@@ -28,7 +28,6 @@ import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
 import './sessionsListItem.styles';
 import { Tag } from '../tag/Tag';
-import { isGroupChatConsultingType } from '../../utils/resorts';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
 import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
@@ -57,6 +56,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
 	let plainTextLastMessage = '';
 	const consultingType = useConsultingType(listItem.consultingType);
+	const sessionConsultingType = useConsultingType(
+		currentSessionData.session?.consultingType
+	);
 
 	if (listItem.lastMessage) {
 		const rawMessageObject = markdownToDraft(listItem.lastMessage);
@@ -122,7 +124,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	};
 	const Icon = getSessionsListItemIcon(iconVariant());
 
-	if (isGroupChatConsultingType(currentSessionData.session?.consultingType)) {
+	if (sessionConsultingType.groupChat.isGroupChat) {
 		return null;
 	}
 

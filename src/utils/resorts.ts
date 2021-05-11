@@ -22,8 +22,3 @@ export const RESORT_KEYS = {
 	20: 'men',
 	21: 'supportGroupVechta'
 };
-
-const groupChatConsultingTypes = ['15', '21'];
-export const isGroupChatConsultingType = (consultingType: number): boolean => {
-	return groupChatConsultingTypes.includes(consultingType?.toString());
-};
