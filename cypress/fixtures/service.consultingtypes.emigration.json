@@ -7,17 +7,13 @@
 		"welcome": "Willkommen bei der Aus-/Rück- & Weiterwanderung!",
 		"registrationDropdown": "Aus-/Rück- & Weiterwanderung"
 	},
-	"urls": {
-		"requiredAidMissingRedirectUrl": null,
-		"registrationPostcodeFallbackUrl": null
-	},
+	"urls": {},
 	"registration": {
 		"minPostcodeSize": 5,
 		"autoSelectAgency": false,
 		"autoSelectPostcode": false,
 		"notes": {
-			"agencySelection": "Sollten Sie im Ausland leben, geben Sie bitte die Postleitzahl eines Bezugsortes in Deutschland (zukünftiger Wohnort, Heimatort…) an.",
-			"password": null
+			"agencySelection": "Sollten Sie im Ausland leben, geben Sie bitte die Postleitzahl eines Bezugsortes in Deutschland (zukünftiger Wohnort, Heimatort…) an."
 		},
 		"mandatoryFields": {
 			"age": false,
@@ -45,16 +41,9 @@
 	},
 	"sendFurtherStepsMessage": true,
 	"sendSaveSessionDataMessage": true,
-	"sessionDataInitializing": {
-		"addictiveDrugs": null,
-		"age": null,
-		"gender": null,
-		"relation": null,
-		"state": null
-	},
+	"sessionDataInitializing": {},
 	"monitoring": {
-		"initializeMonitoring": false,
-		"monitoringTemplateFile": null
+		"initializeMonitoring": false
 	},
 	"initializeFeedbackChat": false,
 	"roles": {

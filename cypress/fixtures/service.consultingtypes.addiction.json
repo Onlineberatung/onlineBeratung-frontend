@@ -7,18 +7,12 @@
 		"welcome": "Willkommen bei der Suchtberatung!",
 		"registrationDropdown": "Sucht-Selbsthilfe - Kreuzbund"
 	},
-	"urls": {
-		"requiredAidMissingRedirectUrl": null,
-		"registrationPostcodeFallbackUrl": null
-	},
+	"urls": {},
 	"registration": {
 		"minPostcodeSize": 5,
 		"autoSelectAgency": false,
 		"autoSelectPostcode": false,
-		"notes": {
-			"agencySelection": null,
-			"password": null
-		},
+		"notes": {},
 		"mandatoryFields": {
 			"age": false,
 			"state": false
