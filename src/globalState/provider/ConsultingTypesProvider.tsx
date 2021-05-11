@@ -25,7 +25,7 @@ export function getConsultingType(
 	consultingTypes: Array<ConsultingTypeBasicInterface>,
 	id?: number
 ) {
-	if (!id) {
+	if (id == null) {
 		return undefined;
 	}
 

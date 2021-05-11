@@ -124,7 +124,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	};
 	const Icon = getSessionsListItemIcon(iconVariant());
 
-	if (sessionConsultingType.groupChat.isGroupChat) {
+	if (sessionConsultingType?.groupChat.isGroupChat) {
 		return null;
 	}
 
