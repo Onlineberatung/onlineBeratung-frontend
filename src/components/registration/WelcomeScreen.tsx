@@ -7,6 +7,7 @@ import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Text } from '../text/Text';
 import { config } from '../../resources/scripts/config';
+import { Headline } from '../headline/Headline';
 import './welcomeScreen.styles';
 
 interface WelcomeScreenProps {
@@ -50,7 +51,7 @@ export const WelcomeScreen = (props: WelcomeScreenProps) => {
 
 	return (
 		<div className="registrationWelcome">
-			<h2>{props.title}</h2>
+			<Headline text={props.title} semanticLevel="2" />
 			<h4>{translate('registration.welcomeScreen.subline')}</h4>
 
 			<div className="registrationWelcome__infoWrapper">

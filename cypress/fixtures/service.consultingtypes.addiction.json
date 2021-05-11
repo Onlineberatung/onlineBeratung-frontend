@@ -4,12 +4,12 @@
 		"default": "Suchtberatung",
 		"short": "Sucht",
 		"long": "Suchtberatung",
-		"welcome": "Willkommen bei der Suchtberatung",
+		"welcome": "Willkommen bei der Suchtberatung!",
 		"registrationDropdown": "Sucht-Selbsthilfe - Kreuzbund"
 	},
 	"urls": {
 		"requiredAidMissingRedirectUrl": null,
-		"registrationPostcodeFallbackUrl": "https://www.domain.tld/registrationPostcodeFallbackPath"
+		"registrationPostcodeFallbackUrl": null
 	},
 	"registration": {
 		"minPostcodeSize": 5,
@@ -25,7 +25,7 @@
 		}
 	},
 	"isSubsequentRegistrationAllowed": true,
-	"isSetEmailAllowed": false,
+	"isSetEmailAllowed": true,
 	"slug": "suchtberatung",
 	"languageFormal": true,
 	"lockedAgencies": false,
@@ -36,7 +36,11 @@
 	},
 	"groupChat": {
 		"isGroupChat": false,
-		"groupChatRules": []
+		"groupChatRules": [
+			"In der Sucht-Selbsthilfe duzen wir uns, sowohl in den Gruppen vor Ort als auch hier im Chat. Wer damit Probleme hat, teile das im Chat mit – wir stellen uns gerne darauf ein!",
+			"Menschen sind verschieden, ihre Meinungen sind es auch. Aufeinander zu achten sowie wertschätzende Chat-Beiträge gewährleisten ein helfendes Miteinander.",
+			"Moderator_innen haben die Aufgabe, dafür zu sorgen, dass sich die Chat-Teilnehmenden austauschen können. Sie bieten gegebenenfalls auch Sucht-Themen zur Diskussion an. Ihren Aufforderungen ist zu folgen, beispielsweise dann, wenn Chat-Regeln nicht eingehalten werden."
+		]
 	},
 	"consultantBoundedToConsultingType": false,
 	"welcomeMessage": {
@@ -59,8 +63,8 @@
 	"initializeFeedbackChat": false,
 	"roles": {
 		"consultant": {
-			"main": ["consultant", "u25-consultant", "u25-main-consultant"],
-			"peer": ["consultant", "u25-consultant"]
+			"main": ["consultant"],
+			"peer": ["consultant"]
 		}
 	},
 	"notifications": {
@@ -70,7 +74,7 @@
 			}
 		}
 	},
-	"showAskerProfile": true,
+	"showAskerProfile": false,
 	"voluntaryComponents": [
 		{
 			"componentType": "RadioButton",
@@ -197,39 +201,5 @@
 				}
 			]
 		}
-	],
-	"requiredComponents": {
-		"age": {
-			"isEnabled": true,
-			"options": [
-				{
-					"value": "0",
-					"label": "0-17"
-				},
-				{
-					"value": "1",
-					"label": "18-20"
-				},
-				{
-					"value": "2",
-					"label": "21-30"
-				},
-				{
-					"value": "3",
-					"label": "31-40"
-				},
-				{
-					"value": "4",
-					"label": "41-59"
-				},
-				{
-					"value": "5",
-					"label": "60+"
-				}
-			]
-		},
-		"state": {
-			"isEnabled": true
-		}
-	}
+	]
 }

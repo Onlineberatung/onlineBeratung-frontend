@@ -1,0 +1,74 @@
+{
+	"id": 17,
+	"titles": {
+		"default": "Aus-/Rück- & Weiterwanderung",
+		"short": "Auswanderung",
+		"long": "Aus-/Rück- & Weiterwanderung",
+		"welcome": "Willkommen bei der Aus-/Rück- & Weiterwanderung!",
+		"registrationDropdown": "Aus-/Rück- & Weiterwanderung"
+	},
+	"urls": {
+		"requiredAidMissingRedirectUrl": null,
+		"registrationPostcodeFallbackUrl": null
+	},
+	"registration": {
+		"minPostcodeSize": 5,
+		"autoSelectAgency": false,
+		"autoSelectPostcode": false,
+		"notes": {
+			"agencySelection": "Sollten Sie im Ausland leben, geben Sie bitte die Postleitzahl eines Bezugsortes in Deutschland (zukünftiger Wohnort, Heimatort…) an.",
+			"password": null
+		},
+		"mandatoryFields": {
+			"age": false,
+			"state": false
+		}
+	},
+	"isSubsequentRegistrationAllowed": true,
+	"isSetEmailAllowed": true,
+	"slug": "rw-auswanderung",
+	"languageFormal": true,
+	"lockedAgencies": false,
+	"excludeNonMainConsultantsFromTeamSessions": false,
+	"whiteSpot": {
+		"whiteSpotAgencyAssigned": true,
+		"whiteSpotAgencyId": 100
+	},
+	"groupChat": {
+		"isGroupChat": false,
+		"groupChatRules": []
+	},
+	"consultantBoundedToConsultingType": false,
+	"welcomeMessage": {
+		"sendWelcomeMessage": true,
+		"welcomeMessageText": "Lorem ipsum"
+	},
+	"sendFurtherStepsMessage": true,
+	"sendSaveSessionDataMessage": true,
+	"sessionDataInitializing": {
+		"addictiveDrugs": null,
+		"age": null,
+		"gender": null,
+		"relation": null,
+		"state": null
+	},
+	"monitoring": {
+		"initializeMonitoring": false,
+		"monitoringTemplateFile": null
+	},
+	"initializeFeedbackChat": false,
+	"roles": {
+		"consultant": {
+			"main": ["consultant"],
+			"peer": ["consultant"]
+		}
+	},
+	"notifications": {
+		"teamSessions": {
+			"newMessage": {
+				"allTeamConsultants": false
+			}
+		}
+	},
+	"showAskerProfile": false
+}
