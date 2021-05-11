@@ -8,15 +8,13 @@
 		"registrationDropdown": "Beratung für Suizidgefährdete junge Menschen [U25]"
 	},
 	"urls": {
-		"requiredAidMissingRedirectUrl": "https://www.u25.de/helpmail/",
-		"registrationPostcodeFallbackUrl": null
+		"requiredAidMissingRedirectUrl": "https://www.u25.de/helpmail/"
 	},
 	"registration": {
 		"minPostcodeSize": 5,
 		"autoSelectAgency": false,
 		"autoSelectPostcode": true,
 		"notes": {
-			"agencySelection": null,
 			"password": "Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!"
 		},
 		"mandatoryFields": {
@@ -53,8 +51,7 @@
 		"state": false
 	},
 	"monitoring": {
-		"initializeMonitoring": false,
-		"monitoringTemplateFile": null
+		"initializeMonitoring": false
 	},
 	"initializeFeedbackChat": false,
 	"roles": {
