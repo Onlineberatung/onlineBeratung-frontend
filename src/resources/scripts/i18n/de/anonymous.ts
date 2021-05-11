@@ -1,7 +1,7 @@
 const anonymous = {
 	'waitingroom.dataProtection.headline': 'Herzlich Willkommen!',
 	'waitingroom.dataProtection.subline':
-		'Bitte bestätigen Sie unsere Datenschutzsbestimmungen.',
+		'Bitte bestätigen Sie unsere Datenschutzbestimmungen.',
 	'waitingroom.dataProtection.description':
 		'Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.',
 	'waitingroom.dataProtection.button': 'Bestätigen',
