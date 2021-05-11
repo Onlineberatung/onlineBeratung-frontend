@@ -38,7 +38,6 @@ $arrow-icon-size: 14px;
 
 	.react-datepicker {
 		width: 100%;
-		font-family: $font-family-regular;
 		font-size: $font-size-tertiary;
 		border: 1px solid #c4bfc4;
 		@include rounded-drop-shadow;
@@ -131,7 +130,6 @@ $arrow-icon-size: 14px;
 		&__current-month,
 		&-time__header,
 		&-year-header {
-			font-family: $font-family-medium;
 			font-weight: $font-weight-medium;
 			font-size: $font-size-primary;
 		}
@@ -148,7 +146,6 @@ $arrow-icon-size: 14px;
 		&__day--today,
 		&__month-text--today,
 		&__quarter-text--today {
-			font-family: $font-family-medium;
 			font-weight: $font-weight-medium;
 			color: $primary;
 

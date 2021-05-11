@@ -1,7 +1,7 @@
 .text {
 	text-align: left;
 	margin: 0;
-	font-family: $font-family-regular;
+	font-family: $font-family-sans-serif;
 
 	&__standard {
 		font-size: $font-size-primary;
@@ -32,14 +32,13 @@
 	}
 
 	&__divider {
-		font-family: $font-family-slab-regular;
+		font-family: $font-family-divider;
 		font-size: $font-size-secondary;
 		line-height: $line-height-secondary;
 		color: $light-grey;
 	}
 
 	&__label {
-		font-family: $font-family-medium;
 		font-weight: $font-weight-medium;
 		text-transform: uppercase;
 		margin-right: 4px;

@@ -106,7 +106,7 @@ $message-lineheight: 21px;
 		display: flex;
 		align-items: center;
 		width: 200px;
-		font-family: 'RobotoSlab';
+		font-family: $font-family-divider;
 		font-size: $font-size-secondary;
 		line-height: $line-height-secondary;
 		text-align: center;
@@ -435,7 +435,7 @@ $message-lineheight: 21px;
 	}
 
 	&__username {
-		font-family: $font-family-bold;
+		font-weight: $font-weight-bold;
 	}
 
 	.messageItem__metaData {
