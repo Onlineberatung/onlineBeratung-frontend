@@ -138,4 +138,25 @@ describe('registration', () => {
 			});
 		});
 	});
+
+	describe('emigration', () => {
+		beforeEach(() => {
+			cy.fixture('service.consultingtypes.emigration.json').then(
+				(emigrationConsultingType) => {
+					cy.intercept(
+						`${config.endpoints.consultingTypeServiceBase}/byslug/rw-auswanderung/full`,
+						emigrationConsultingType
+					);
+				}
+			);
+		});
+
+		it('should have a agency selection info text', () => {
+			cy.visit('/rw-auswanderung/registration');
+			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.get('[data-cy=registration-agency-selection-note]').should(
+				'exist'
+			);
+		});
+	});
 });
