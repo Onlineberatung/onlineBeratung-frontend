@@ -11,7 +11,7 @@ const waitForTokenProcessing = () => {
 
 describe('Keycloak Tokens', () => {
 	let authTokenJson;
-	before(() => {
+	beforeEach(() => {
 		cy.fixture('auth.token.json').then((fixture) => {
 			authTokenJson = fixture;
 		});
@@ -115,7 +115,7 @@ describe('Keycloak Tokens', () => {
 		cy.get('#loginRoot').should('exist');
 	});
 
-	it('should not logout if refresh token is expired but access token is still valid', () => {
+	it.only('should not logout if refresh token is expired but access token is still valid', () => {
 		cy.clock();
 		cy.caritasMockedLogin({
 			auth: { expires_in: 1800, refresh_expires_in: 600 }

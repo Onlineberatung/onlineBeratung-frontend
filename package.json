@@ -123,7 +123,7 @@
 	"scripts": {
 		"start": "HOST=caritas.local node scripts/start.js",
 		"build": "node scripts/build.js",
-		"test": "concurrently --kill-others --success first \"cross-env BROWSER=none npm start\" \"wait-on http://caritas.local:9000 && cross-env NODE_ENV=development cypress run\"",
+		"test": "concurrently --kill-others --success first \"cross-env BROWSER=none npm start\" \"wait-on http://caritas.local:9000 && cross-env NODE_ENV=development cypress run --spec cypress/integration/tokens.spec.ts\"",
 		"release": "standard-version",
 		"serve": "serve build",
 		"dev": "run-s dev:cy",
