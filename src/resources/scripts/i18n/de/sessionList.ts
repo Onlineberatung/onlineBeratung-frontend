@@ -1,7 +1,11 @@
 const sessionList = {
 	'teamsession': 'Team Beratung',
 	'empty': 'Momentan sind keine Anfragen vorhanden.',
+	'empty.anonymous':
+		'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat.',
 	'preview.headline': 'Erstanfragen',
+	'preview.registered.tab': 'Erstanfragen',
+	'preview.anonymous.tab': 'Live-Chat Anfragen',
 	'view.headline': 'Meine Nachrichten',
 	'user.headline': 'Meine Nachrichten',
 	'peersessions.headline': 'Peer-Beratungen',

@@ -5,12 +5,7 @@ export const apiSessionAssign = async (
 	sessionId: number,
 	consultantId: string
 ) => {
-	const url =
-		config.endpoints.sessionBase +
-		'/' +
-		sessionId +
-		'/consultant/' +
-		consultantId;
+	const url = `${config.endpoints.sessionBase}/${sessionId}/consultant/${consultantId}`;
 
 	return fetchData({
 		url: url,

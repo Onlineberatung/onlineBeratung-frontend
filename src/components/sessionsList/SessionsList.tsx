@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import {
-	typeIsUser,
 	typeIsTeamSession,
 	typeIsEnquiry,
 	SESSION_TYPES,
 	getTypeOfLocation,
 	typeIsSession,
 	getChatItemForSession,
-	getSessionListPathForLocation
+	getSessionListPathForLocation,
+	SESSION_LIST_TAB
 } from '../session/sessionHelpers';
 import { history } from '../app/app';
 import { translate } from '../../resources/scripts/i18n/translate';
@@ -35,11 +36,11 @@ import { SessionsListSkeleton } from '../sessionsListItem/SessionsListItemSkelet
 import {
 	INITIAL_FILTER,
 	SESSION_COUNT,
-	apiGetUserSessions,
+	apiGetAskerSessionList,
 	apiGetUserData,
 	FETCH_ERRORS
 } from '../../api';
-import { getSessions } from './SessionsListData';
+import { getConsultantSessions } from './SessionsListData';
 import { Button } from '../button/Button';
 import { WelcomeIllustration } from './SessionsListWelcomeIllustration';
 import { SessionListCreateChat } from './SessionListCreateChat';
@@ -51,8 +52,10 @@ import {
 	SCROLL_PAGINATE_THRESHOLD
 } from './sessionsListConfig';
 import { Text } from '../text/Text';
+import clsx from 'clsx';
 
 export const SessionsList: React.FC = () => {
+	const location = useLocation();
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
 		ActiveSessionGroupIdContext
@@ -60,6 +63,9 @@ export const SessionsList: React.FC = () => {
 	const sessionsContext = useContext(SessionsDataContext);
 	const { sessionsData, setSessionsData } = sessionsContext;
 	const { filterStatus, setFilterStatus } = useContext(FilterStatusContext);
+	const [sessionListTab, setSessionListTab] = useState(
+		new URLSearchParams(location.search).get('sessionListTab')
+	);
 	const [hasNoSessions, setHasNoSessions] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -92,7 +98,7 @@ export const SessionsList: React.FC = () => {
 		if (!showFilter) {
 			setFilterStatus(INITIAL_FILTER);
 		}
-		if (typeIsUser(type)) {
+		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			resetActiveSession();
 			fetchUserData(acceptedGroupId, true);
 		}
@@ -103,7 +109,10 @@ export const SessionsList: React.FC = () => {
 
 	/* eslint-disable */
 	useEffect(() => {
-		if (typeIsUser(type) && acceptedGroupId) {
+		if (
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+			acceptedGroupId
+		) {
 			fetchUserData(acceptedGroupId);
 			setAcceptedGroupId(null);
 			setActiveSessionGroupId(null);
@@ -124,16 +133,21 @@ export const SessionsList: React.FC = () => {
 	/* eslint-enable */
 
 	useEffect(() => {
-		if (acceptedGroupId && !typeIsUser(type)) {
+		if (
+			acceptedGroupId &&
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
+		) {
 			setCurrentOffset(0);
 			if (acceptedGroupId !== ACCEPTED_GROUP_CLOSE && !stopAutoLoad) {
 				type = SESSION_TYPES.MY_SESSION; // eslint-disable-line
-				getSessions(
-					sessionsContext,
-					type,
-					getOffsetToUse(increaseOffsetForAcceptedGroup),
-					getFilterToUse()
-				)
+
+				getConsultantSessions({
+					context: sessionsContext,
+					type: type,
+					offset: getOffsetToUse(increaseOffsetForAcceptedGroup),
+					useFilter: getFilterToUse(),
+					sessionListTab: sessionListTab
+				})
 					.then((fetchedSessions) => {
 						let checkSessions = {
 							mySessions: fetchedSessions.sessions
@@ -191,10 +205,18 @@ export const SessionsList: React.FC = () => {
 	}, [acceptedGroupId]);
 
 	useEffect(() => {
-		if (!typeIsUser(type)) {
+		if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			getSessionsListData().catch(() => {});
 		}
-	}, [filterStatus]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [sessionListTab]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+			setSessionListTab(
+				new URLSearchParams(location.search).get('sessionListTab')
+			);
+		}
+	}, [filterStatus, location]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const didUnreadStatusChange = () =>
 		unreadSessionsStatus.mySessions !== getUnreadMyMessages(sessionsData);
@@ -216,7 +238,7 @@ export const SessionsList: React.FC = () => {
 			unreadSessionsStatus &&
 			unreadSessionsStatus.newDirectMessage
 		) {
-			if (typeIsUser(type)) {
+			if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 				fetchUserData();
 			} else {
 				getSessionsListData().catch(() => {});
@@ -226,7 +248,7 @@ export const SessionsList: React.FC = () => {
 
 	useEffect(() => {
 		if (stoppedGroupChat) {
-			if (!typeIsUser(type)) {
+			if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 				getSessionsListData().catch(() => {});
 			} else {
 				fetchUserData();
@@ -295,17 +317,24 @@ export const SessionsList: React.FC = () => {
 					AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 					userData
 				)));
-	const getFilterToUse = () => (showFilter ? filterStatus : INITIAL_FILTER);
+	const getFilterToUse = (): string =>
+		showFilter ? filterStatus : INITIAL_FILTER;
 
 	const getSessionsListData = (increaseOffset?: boolean): Promise<any> => {
 		resetActiveSession();
-		if (typeIsUser(type)) {
+		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			return null;
 		}
 		const useOffset = getOffsetToUse(increaseOffset);
 
 		return new Promise((resolve, reject) => {
-			getSessions(sessionsContext, type, useOffset, getFilterToUse())
+			getConsultantSessions({
+				context: sessionsContext,
+				type: type,
+				offset: useOffset,
+				useFilter: getFilterToUse(),
+				sessionListTab: sessionListTab
+			})
 				.then(({ sessions, total, count }) => {
 					if (increaseOffset) {
 						setLoadingWithOffset(false);
@@ -337,7 +366,7 @@ export const SessionsList: React.FC = () => {
 		newRegisteredSessionId: number | string = null,
 		redirectToEnquiry: boolean = false
 	) => {
-		apiGetUserSessions()
+		apiGetAskerSessionList()
 			.then((response) => {
 				setSessionsData({
 					mySessions: response.sessions
@@ -481,6 +510,39 @@ export const SessionsList: React.FC = () => {
 						MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION && (
 						<WelcomeIllustration />
 					)}
+				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+					typeIsEnquiry(type) && (
+						<div className="sessionsList__tabs">
+							<Link
+								className={clsx({
+									'sessionsList__tabs--active': !sessionListTab
+								})}
+								to={'/sessions/consultant/sessionPreview'}
+							>
+								<Text
+									text={translate(
+										'sessionList.preview.registered.tab'
+									)}
+									type="standard"
+								/>
+							</Link>
+							<Link
+								className={clsx({
+									'sessionsList__tabs--active':
+										sessionListTab ===
+										SESSION_LIST_TAB.ANONYMOUS
+								})}
+								to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
+							>
+								<Text
+									text={translate(
+										'sessionList.preview.anonymous.tab'
+									)}
+									type="standard"
+								/>
+							</Link>
+						</div>
+					)}
 				<div
 					className={`sessionsList__itemsWrapper ${
 						activeCreateChat ||
@@ -502,23 +564,30 @@ export const SessionsList: React.FC = () => {
 						) && <SessionListCreateChat />}
 					{sessionsData &&
 					sessionsData[getSessionsDataKeyForSessionType(type)] &&
-					!hasNoSessions
-						? sessionsData[
-								getSessionsDataKeyForSessionType(type)
-						  ].map((item: ListItemInterface, index) => (
-								<SessionListItemComponent
-									key={index}
-									type={type}
-									id={getChatItemForSession(item).id}
-								/>
-						  ))
-						: !activeCreateChat && (
-								<Text
-									className="sessionsList--empty"
-									text={translate('sessionList.empty')}
-									type="divider"
-								/>
-						  )}
+					!hasNoSessions ? (
+						sessionsData[
+							getSessionsDataKeyForSessionType(type)
+						].map((item: ListItemInterface, index) => (
+							<SessionListItemComponent
+								key={index}
+								type={type}
+								id={getChatItemForSession(item).id}
+							/>
+						))
+					) : !activeCreateChat &&
+					  sessionListTab !== SESSION_LIST_TAB.ANONYMOUS ? (
+						<Text
+							className="sessionsList--empty"
+							text={translate('sessionList.empty')}
+							type="divider"
+						/>
+					) : (
+						<Text
+							className="sessionsList--empty"
+							text={translate('sessionList.empty.anonymous')}
+							type="divider"
+						/>
+					)}
 					{loadingWithOffset && <SessionsListSkeleton />}
 					{isReloadButtonVisible && (
 						<div className="sessionsList__reloadWrapper">

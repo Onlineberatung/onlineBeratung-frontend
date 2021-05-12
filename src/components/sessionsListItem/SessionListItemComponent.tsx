@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import { getPrettyDateFromMessageDate } from '../../resources/scripts/helpers/dateHelpers';
 import {
@@ -8,7 +9,6 @@ import {
 	getSessionListPathForLocation,
 	getChatTypeForListItem,
 	typeIsEnquiry,
-	typeIsUser,
 	getChatItemForSession,
 	isGroupChatForSessionItem
 } from '../session/sessionHelpers';
@@ -41,6 +41,9 @@ interface SessionListItemProps {
 }
 
 export const SessionListItemComponent = (props: SessionListItemProps) => {
+	const sessionListTab = new URLSearchParams(useLocation().search).get(
+		'sessionListTab'
+	);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext<any>(
 		ActiveSessionGroupIdContext
@@ -99,7 +102,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 			history.push(
 				`${getSessionListPathForLocation()}/${listItem.groupId}/${
 					listItem.id
-				}`
+				}${sessionListTab ? `?sessionListTab=${sessionListTab}` : ``}`
 			);
 		} else if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -230,7 +233,11 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					) : (
 						<div className="sessionsListItem__consultingType">
 							{getResortTranslation(listItem.consultingType)}{' '}
-							{listItem.consultingType !== 1 && !typeIsUser(type)
+							{listItem.consultingType !== 1 &&
+							!hasUserAuthority(
+								AUTHORITIES.ASKER_DEFAULT,
+								userData
+							)
 								? '/ ' + listItem.postcode
 								: null}
 						</div>
@@ -252,7 +259,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								: `sessionsListItem__username`
 						}
 					>
-						{typeIsUser(type)
+						{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 							? currentSessionData.consultant
 								? currentSessionData.consultant.username
 								: isCurrentSessionNewEnquiry
@@ -286,7 +293,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 							listItemAskerRcId={listItem.askerRcId}
 						/>
 					)}
-					{!typeIsUser(type) &&
+					{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 						!typeIsEnquiry(type) &&
 						!listItem.feedbackRead &&
 						!(

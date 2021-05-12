@@ -2,7 +2,7 @@ import { config } from '../resources/scripts/config';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiEnquiryAcceptance = async (sessionId: number): Promise<any> => {
-	const url = config.endpoints.enquiryAcceptance + '/' + sessionId;
+	const url = `${config.endpoints.sessionBase}/new/${sessionId}`;
 
 	return fetchData({
 		url: url,
