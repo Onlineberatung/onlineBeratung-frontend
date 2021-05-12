@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import {
@@ -105,7 +105,7 @@ export const DeleteAccount = () => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			removeAllCookies();
-			window.location.href = config.urls.caritas;
+			window.location.href = config.urls.home;
 		}
 	};
 

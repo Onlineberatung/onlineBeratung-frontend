@@ -1,7 +1,10 @@
 @import 'vendor/print.css';
 @import 'vendor/sanitize.css';
 
-@import 'fonts';
 @import 'layout';
 @import 'ieBanner';
 @import 'types';
+
+@if mixin-exists(setup-fonts) {
+	@include setup-fonts();
+}

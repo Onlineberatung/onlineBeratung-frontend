@@ -3,7 +3,7 @@ import { MessageItem } from '../message/MessageItemComponent';
 import {
 	formatToDDMMYYYY,
 	getPrettyDateFromMessageDate
-} from '../../resources/scripts/helpers/dateHelpers';
+} from '../../utils/dateHelpers';
 import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
 
 export const SESSION_TYPES = {

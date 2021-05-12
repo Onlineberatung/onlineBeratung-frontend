@@ -9,7 +9,7 @@ import {
 	getChatItemForSession,
 	CHAT_TYPES
 } from '../../components/session/sessionHelpers';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 
 export const ACTIVE_SESSION = {
 	CREATE_CHAT: 'CREATE_CHAT'

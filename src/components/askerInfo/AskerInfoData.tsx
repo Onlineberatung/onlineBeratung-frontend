@@ -5,7 +5,7 @@ import {
 	handleNumericTranslation,
 	getAddictiveDrugsString,
 	getResortTranslation
-} from '../../resources/scripts/i18n/translate';
+} from '../../utils/translate';
 import {
 	SessionsDataContext,
 	ActiveSessionGroupIdContext,
