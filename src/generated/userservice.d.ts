@@ -313,7 +313,7 @@ declare namespace UserService {
 			 * example:
 			 * 8cc2058
 			 */
-			token: string;
+			token?: string;
 		}
 		export interface MonitoringDTO {
 			additionalProperties?: Properties;
@@ -486,6 +486,11 @@ declare namespace UserService {
 			 * true
 			 */
 			monitoring?: boolean;
+			/**
+			 * example:
+			 * ANONYMOUS
+			 */
+			registrationType: string;
 			attachment?: SessionAttachmentDTO;
 			videoCallMessageDTO?: VideoCallMessageDTO;
 		}
@@ -720,6 +725,7 @@ declare namespace UserService {
 			 */
 			isInTeamAgency?: boolean;
 			agencies?: AgencyDTO[];
+			userRoles?: string[];
 			grantedAuthorities?: string[];
 			consultingTypes?: ConsultingTypeMap;
 		}
