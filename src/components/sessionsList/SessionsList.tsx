@@ -212,6 +212,7 @@ export const SessionsList: React.FC = () => {
 
 	useEffect(() => {
 		if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+			setHasNoSessions(false);
 			setSessionListTab(
 				new URLSearchParams(location.search).get('sessionListTab')
 			);
