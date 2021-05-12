@@ -87,10 +87,9 @@ export const getSessionsDataKeyForSessionType = (sessionType) => {
 			return 'mySessions';
 		case SESSION_TYPES.TEAMSESSION:
 			return 'teamSessions';
-		case SESSION_TYPES.USER:
+		default:
 			return 'mySessions';
 	}
-	return null;
 };
 
 export const getUnreadMyMessages: Function = (sessionsData): number => {

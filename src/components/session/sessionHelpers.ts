@@ -9,8 +9,7 @@ import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
 export const SESSION_TYPES = {
 	ENQUIRY: 'ENQUIRY',
 	MY_SESSION: 'MY_SESSION',
-	TEAMSESSION: 'TEAMSESSION',
-	USER: 'USER'
+	TEAMSESSION: 'TEAMSESSION'
 };
 
 export const CHAT_TYPES = {

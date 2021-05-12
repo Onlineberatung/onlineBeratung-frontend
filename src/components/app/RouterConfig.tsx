@@ -31,15 +31,13 @@ export const RouterConfigUser = (): any => {
 		listRoutes: [
 			{
 				path: '/sessions/user/view',
-				component: SessionsListWrapper,
-				type: SESSION_TYPES.USER
+				component: SessionsListWrapper
 			}
 		],
 		detailRoutes: [
 			{
 				path: '/sessions/user/view/:rcGroupId/:sessionId',
-				component: SessionView,
-				type: SESSION_TYPES.USER
+				component: SessionView
 			},
 			{
 				path: '/sessions/user/view/',

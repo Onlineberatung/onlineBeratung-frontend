@@ -131,6 +131,38 @@ $headerHeight: 80px;
 		}
 	}
 
+	&__tabs {
+		display: flex;
+		width: 100%;
+		margin: 0 $grid-base-three $grid-base-three;
+
+		a {
+			color: $secondary;
+
+			&:last-of-type {
+				margin-left: $grid-base-three;
+			}
+
+			.text:hover {
+				color: $primary;
+			}
+		}
+
+		.sessionsList__tabs--active {
+			.text {
+				font-family: $font-family-medium;
+			}
+
+			&::after {
+				content: '';
+				background: $primary;
+				display: block;
+				height: 3px;
+				margin-top: 5px;
+			}
+		}
+	}
+
 	&__illustration {
 		&__wrapper {
 			padding: $grid-base-three;
