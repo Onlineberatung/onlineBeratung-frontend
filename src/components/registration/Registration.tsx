@@ -1,6 +1,5 @@
 import '../../polyfill';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import { Stage } from '../stage/stage';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -13,14 +12,11 @@ import { apiGetConsultingType } from '../../api';
 import '../../resources/styles/styles';
 import './registration.styles';
 
-export const initRegistration = () => {
-	ReactDOM.render(
-		<Registration />,
-		document.getElementById('registrationRoot')
-	);
-};
+interface RegistrationProps {
+	handleUnmatch: Function;
+}
 
-export const Registration = () => {
+export const Registration = ({ handleUnmatch }: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(true);
 	const [registrationData, setRegistrationData] = useState<
@@ -44,6 +40,7 @@ export const Registration = () => {
 					console.error(
 						`Unknown consulting type with name ${consultingTypeSlug}`
 					);
+					handleUnmatch();
 					return;
 				}
 
@@ -56,7 +53,7 @@ export const Registration = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [consultingTypeSlug]);
+	}, [consultingTypeSlug, handleUnmatch]);
 
 	useEffect(() => {
 		if (!registrationData) return;
