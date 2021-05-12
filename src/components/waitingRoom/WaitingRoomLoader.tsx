@@ -6,10 +6,12 @@ import { WaitingRoom } from '../waitingRoom/WaitingRoom';
 
 export interface WaitingRoomLoaderProps {
 	handleUnmatch: () => void;
+	onAnonymousRegistration: Function;
 }
 
 export const WaitingRoomLoader = ({
-	handleUnmatch
+	handleUnmatch,
+	onAnonymousRegistration
 }: WaitingRoomLoaderProps) => {
 	const [
 		isAnonymousConversationAllowed,
@@ -34,6 +36,7 @@ export const WaitingRoomLoader = ({
 			<WaitingRoom
 				consultingTypeSlug={consultingTypeSlug}
 				consultingTypeId={consultingTypeId}
+				onAnonymousRegistration={onAnonymousRegistration}
 			/>
 		);
 	} else {

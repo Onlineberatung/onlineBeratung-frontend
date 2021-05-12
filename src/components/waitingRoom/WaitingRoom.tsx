@@ -11,10 +11,12 @@ import { endpointPort, tld } from '../../resources/scripts/config';
 import { apiPostAnonymousRegistration } from '../../api';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
+import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
 
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
+	onAnonymousRegistration: Function;
 }
 
 export const WaitingRoom = (props: WaitingRoomProps) => {
@@ -52,6 +54,8 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			.then((response) => {
 				setIsDataProtectionViewActive(false);
 				setUsername(decodeUsername(response.userName));
+				setTokenInCookie('keycloak', response.accessToken);
+				props.onAnonymousRegistration();
 			})
 			.catch((err) => {
 				console.log(err);
