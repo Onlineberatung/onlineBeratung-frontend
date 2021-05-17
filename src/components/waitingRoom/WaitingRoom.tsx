@@ -6,12 +6,15 @@ import './waitingRoom.styles';
 import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/willkommen.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
 import { translate } from '../../resources/scripts/i18n/translate';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { endpointPort, tld } from '../../resources/scripts/config';
 import { apiPostAnonymousRegistration } from '../../api';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
-import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
+import {
+	getTokenFromCookie,
+	setTokenInCookie
+} from '../sessionCookie/accessSessionCookie';
 
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
@@ -25,6 +28,16 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		setIsDataProtectionViewActive
 	] = useState<boolean>(true);
 	const [username, setUsername] = useState<string>();
+
+	useEffect(() => {
+		const registeredUsername = getTokenFromCookie('registeredUsername');
+
+		if (registeredUsername && getTokenFromCookie('keycloak')) {
+			setIsDataProtectionViewActive(false);
+			setUsername(registeredUsername);
+			props.onAnonymousRegistration();
+		}
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const getRedirectText = () => {
 		const url = `${tld + endpointPort}/${
@@ -52,9 +65,11 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const handleConfirmButton = () => {
 		apiPostAnonymousRegistration(props.consultingTypeId)
 			.then((response) => {
+				const decodedUsername = decodeUsername(response.userName);
 				setIsDataProtectionViewActive(false);
-				setUsername(decodeUsername(response.userName));
+				setUsername(decodedUsername);
 				setTokenInCookie('keycloak', response.accessToken);
+				setTokenInCookie('registeredUsername', decodedUsername);
 				props.onAnonymousRegistration();
 			})
 			.catch((err) => {
