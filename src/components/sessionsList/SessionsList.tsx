@@ -64,6 +64,7 @@ export const SessionsList: React.FC = () => {
 	const [loading, setLoading] = useState(true);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [currentOffset, setCurrentOffset] = useState(0);
+	const [requestInProgress, setRequestInProgress] = useState(false);
 	const [totalItems, setTotalItems] = useState(0);
 	const { acceptedGroupId, setAcceptedGroupId } = useContext(
 		AcceptedGroupIdContext
@@ -304,6 +305,7 @@ export const SessionsList: React.FC = () => {
 		}
 		const useOffset = getOffsetToUse(increaseOffset);
 
+		setRequestInProgress(true);
 		return new Promise((resolve, reject) => {
 			getSessions(sessionsContext, type, useOffset, getFilterToUse())
 				.then(({ sessions, total, count }) => {
@@ -329,6 +331,9 @@ export const SessionsList: React.FC = () => {
 						setIsReloadButtonVisible(true);
 						reject(error);
 					}
+				})
+				.finally(() => {
+					setRequestInProgress(false);
 				});
 		});
 	};
@@ -382,7 +387,8 @@ export const SessionsList: React.FC = () => {
 		if (scrollPosition + SCROLL_PAGINATE_THRESHOLD >= list.scrollHeight) {
 			if (
 				totalItems > currentOffset + SESSION_COUNT &&
-				!isReloadButtonVisible
+				!isReloadButtonVisible &&
+				!requestInProgress
 			) {
 				getSessionsListData(true);
 			}
