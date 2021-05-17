@@ -1,6 +1,6 @@
 const nodeEnv: string = process.env.NODE_ENV as string;
 export const tld = nodeEnv === 'development' ? 'http://caritas.local' : '';
-const endpointPort = nodeEnv === 'development' ? '' : '';
+export const endpointPort = nodeEnv === 'development' ? ':9000' : '';
 
 export const config = {
 	endpoints: {
@@ -45,7 +45,9 @@ export const config = {
 		startVideoCall: tld + '/service/videocalls/new',
 		updateMonitoring: tld + '/service/users/sessions/monitoring',
 		userData: tld + '/service/users/data',
-		userSessionsListView: '/sessions/user/view'
+		userSessionsListView: '/sessions/user/view',
+		registerAnonymousAsker:
+			tld + '/service/conversations/askers/anonymous/new'
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:

@@ -9,6 +9,7 @@ import {
 	SessionsDataProvider,
 	StoppedGroupChatProvider,
 	UnreadSessionsStatusProvider,
+	UpdateAnonymousEnquiriesProvider,
 	UserDataProvider
 } from '.';
 
@@ -35,6 +36,7 @@ function ContextProvider({ children }) {
 				<SessionsDataProvider />,
 				<StoppedGroupChatProvider />,
 				<UnreadSessionsStatusProvider />,
+				<UpdateAnonymousEnquiriesProvider />,
 				<UserDataProvider />
 			]}
 		>

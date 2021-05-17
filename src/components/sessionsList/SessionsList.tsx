@@ -27,7 +27,8 @@ import {
 	hasUserAuthority,
 	StoppedGroupChatContext,
 	UserDataInterface,
-	getUnreadMyMessages
+	getUnreadMyMessages,
+	UpdateAnonymousEnquiriesContext
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
@@ -80,6 +81,10 @@ export const SessionsList: React.FC = () => {
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
+	const {
+		updateAnonymousEnquiries,
+		setUpdateAnonymousEnquiries
+	} = useContext(UpdateAnonymousEnquiriesContext);
 	const [isActiveSessionCreateChat, setIsActiveSessionCreateChat] = useState(
 		false
 	);
@@ -246,6 +251,17 @@ export const SessionsList: React.FC = () => {
 			}
 		}
 	}, [unreadSessionsStatus]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+			updateAnonymousEnquiries &&
+			sessionListTab === SESSION_LIST_TAB.ANONYMOUS
+		) {
+			getSessionsListData().catch(() => {});
+		}
+		setUpdateAnonymousEnquiries(false);
+	}, [updateAnonymousEnquiries]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (stoppedGroupChat) {

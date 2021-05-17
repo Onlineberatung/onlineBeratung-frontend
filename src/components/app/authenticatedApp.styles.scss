@@ -77,80 +77,17 @@ a {
 			flex: 1;
 		}
 
-		&__header {
+		.header {
 			display: none;
-			flex-direction: row;
-			justify-content: space-between;
-			align-items: center;
-			width: 100%;
-			height: $headerHeight;
-			background-color: $white;
 			position: absolute;
-			top: 0;
-			padding: 0 $grid-base-three;
 
-			.contentWrapper__header__text {
-				margin: auto;
-
-				@include breakpoint($fromLarge) {
-					display: flex;
-					flex-direction: row;
-					width: 100%;
-				}
-			}
-
-			&--enquiry {
-				position: absolute;
-				width: 100vw;
-				z-index: 10;
+			&--mobile {
 				display: flex;
-
-				.contentWrapper__claim {
-					margin: 0;
-					padding: 0;
-					text-align: center;
-					font-size: $font-size-secondary;
-					line-height: $line-height-secondary;
-					color: $tertiary;
-
-					@include breakpoint($fromLarge) {
-						font-size: $font-size-primary;
-						line-height: $line-height-primary;
-						align-self: center;
-						margin-left: auto;
-					}
-				}
-
-				@include breakpoint($fromLarge) {
-					flex-direction: row;
-					width: 100%;
-				}
-
-				.contentWrapper__header__text {
-					padding-right: 35px;
-					text-align: center;
-
-					.contentWrapper__title {
-						font-size: $font-size-h3;
-					}
-				}
-
-				.contentWrapper__title {
-					line-height: $line-height-tertiary;
-				}
+				z-index: 1;
 			}
 
 			@include breakpoint($fromLarge) {
 				display: flex;
-				flex-direction: row;
-			}
-
-			&__mobileLogo {
-				width: 35px;
-
-				@include breakpoint($fromLarge) {
-					display: none;
-				}
 			}
 		}
 

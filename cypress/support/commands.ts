@@ -60,7 +60,7 @@ Cypress.Commands.add(
 		if (args.sessionsCallback) {
 			cy.intercept(
 				'GET',
-				`${config.endpoints.sessions}*`,
+				`${config.endpoints.consultantSessions}*`,
 				args.sessionsCallback
 			);
 		}
@@ -75,7 +75,7 @@ Cypress.Commands.add(
 
 			if (!args.sessionsCallback) {
 				sessions = args.sessions || [generateAskerSession()];
-				cy.intercept('GET', config.endpoints.userSessions, (req) => {
+				cy.intercept('GET', config.endpoints.askerSessions, (req) => {
 					return new Promise((resolve) =>
 						setTimeout(() => {
 							req.reply({
@@ -103,30 +103,35 @@ Cypress.Commands.add(
 					generateConsultantSession()
 				];
 
-				cy.intercept('GET', `${config.endpoints.sessions}*`, (req) => {
-					const url = new URL(req.url);
+				cy.intercept(
+					'GET',
+					`${config.endpoints.consultantSessions}*`,
+					(req) => {
+						const url = new URL(req.url);
 
-					const offset =
-						parseInt(url.searchParams.get('offset')) || 0;
-					const count = parseInt(url.searchParams.get('count')) || 15;
+						const offset =
+							parseInt(url.searchParams.get('offset')) || 0;
+						const count =
+							parseInt(url.searchParams.get('count')) || 15;
 
-					return new Promise((resolve) =>
-						setTimeout(() => {
-							req.reply(
-								sessionsReply({
-									sessions,
-									offset,
-									count
-								})
-							);
-							resolve();
-						}, args.userSessionsTimeout || 0)
-					);
-				}).as('consultantSessionsRequest');
+						return new Promise((resolve) =>
+							setTimeout(() => {
+								req.reply(
+									sessionsReply({
+										sessions,
+										offset,
+										count
+									})
+								);
+								resolve();
+							}, args.userSessionsTimeout || 0)
+						);
+					}
+				).as('consultantSessionsRequest');
 			}
 		}
 
-		cy.intercept('GET', `${config.endpoints.enquiries}*`, {});
+		cy.intercept('GET', `${config.endpoints.consultantEnquiriesBase}*`, {});
 
 		const messages = args.messages || [
 			generateMessage({ rcGroupId: sessions[0].session.groupId })
