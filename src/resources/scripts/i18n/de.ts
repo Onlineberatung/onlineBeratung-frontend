@@ -1,5 +1,6 @@
 import app from './de/app';
 import absence from './de/absence';
+import anonymous from './de/anonymous';
 import attachments from './de/attachments';
 import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
@@ -25,6 +26,7 @@ import videoCall from './de/videoCall';
 const de = {
 	app,
 	absence,
+	anonymous,
 	attachments,
 	chatFlyout,
 	consultant,

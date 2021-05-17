@@ -77,18 +77,16 @@ a {
 			flex: 1;
 		}
 
-		&__header {
+		.header {
 			display: none;
-			flex-direction: row;
-			justify-content: space-between;
-			align-items: center;
-			width: 100%;
-			height: $headerHeight;
-			background-color: $white;
 			position: absolute;
-			top: 0;
-			padding: 0 $grid-base-three;
 
+			@include breakpoint($fromLarge) {
+				display: flex;
+			}
+		}
+
+		&__header {
 			.contentWrapper__header__text {
 				margin: auto;
 
@@ -137,19 +135,6 @@ a {
 
 				.contentWrapper__title {
 					line-height: $line-height-tertiary;
-				}
-			}
-
-			@include breakpoint($fromLarge) {
-				display: flex;
-				flex-direction: row;
-			}
-
-			&__mobileLogo {
-				width: 35px;
-
-				@include breakpoint($fromLarge) {
-					display: none;
 				}
 			}
 		}
