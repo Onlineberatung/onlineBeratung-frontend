@@ -1,11 +1,12 @@
 const nodeEnv: string = process.env.NODE_ENV as string;
 export const tld = nodeEnv === 'development' ? 'http://caritas.local' : '';
-const endpointPort = nodeEnv === 'development' ? ':9000' : '';
+const endpointPort = nodeEnv === 'development' ? '' : '';
 
 export const config = {
 	endpoints: {
 		agencyConsultants: tld + '/service/users/consultants',
 		agencyServiceBase: tld + '/service/agencies',
+		anonymousAskerBase: tld + '/service/conversations/askers/anonymous/',
 		askerSessions: tld + '/service/users/sessions/askers',
 		attachmentUpload: tld + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: tld + '/service/uploads/feedback/new/',

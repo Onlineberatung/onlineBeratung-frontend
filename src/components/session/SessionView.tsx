@@ -74,6 +74,7 @@ export const SessionView = (props) => {
 	const [typingUsers, setTypingUsers] = useState([]);
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
+	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
 		if (activeSession) {
@@ -108,8 +109,13 @@ export const SessionView = (props) => {
 		setIsLoading(true);
 		mobileDetailView();
 		setAcceptedGroupId(null);
+		setIsAnonymousEnquiry(
+			chatItem.status === 1 && chatItem.registrationType === 'ANONYMOUS'
+		);
 		typingTimeout = null;
 		if (isGroupChat && !chatItem.subscribed) {
+			setIsLoading(false);
+		} else if (isAnonymousEnquiry) {
 			setIsLoading(false);
 		} else {
 			window['socket'] = new rocketChatSocket();
@@ -149,6 +155,7 @@ export const SessionView = (props) => {
 
 	useEffect(() => {
 		if (loadedMessages) {
+			console.log('loadeed Messages:', loadedMessages);
 			setMessagesItem(loadedMessages);
 			setLoadedMessages(null);
 		}
@@ -281,14 +288,15 @@ export const SessionView = (props) => {
 
 	return (
 		<div className="session__wrapper">
-			{messagesItem ? (
-				<SessionItemComponent
-					messages={prepareMessages(messagesItem.messages)}
-					isTyping={handleTyping}
-					typingUsers={typingUsers}
-					currentGroupId={groupIdFromParam}
-				/>
-			) : null}
+			<SessionItemComponent
+				currentGroupId={groupIdFromParam}
+				isAnonymousEnquiry={isAnonymousEnquiry}
+				isTyping={handleTyping}
+				messages={
+					messagesItem ? prepareMessages(messagesItem.messages) : null
+				}
+				typingUsers={typingUsers}
+			/>
 			{isOverlayActive ? (
 				<OverlayWrapper>
 					<Overlay

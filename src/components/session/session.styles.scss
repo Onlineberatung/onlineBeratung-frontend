@@ -87,6 +87,12 @@ $unreadButtonSize: 18px;
 		@include breakpoint($fromLarge) {
 			height: calc(100% - #{$sessionHeaderHeight} - #{$textareaHeight});
 		}
+
+		&--anonymousEnquiry {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 	}
 
 	&__scrollToBottom {
