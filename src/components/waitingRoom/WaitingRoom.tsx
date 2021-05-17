@@ -5,12 +5,12 @@ import { Text } from '../text/Text';
 import './waitingRoom.styles';
 import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/willkommen.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { useEffect, useState } from 'react';
 import { endpointPort, tld } from '../../resources/scripts/config';
 import { apiPostAnonymousRegistration } from '../../api';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
+import { decodeUsername } from '../../utils/encryptionHelpers';
 import {
 	getTokenFromCookie,
 	setTokenInCookie

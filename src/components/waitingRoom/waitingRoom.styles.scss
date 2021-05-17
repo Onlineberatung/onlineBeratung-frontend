@@ -54,7 +54,8 @@
 	}
 
 	&__subline {
-		font-family: $font-family-regular;
+		font-family: $font-family-sans-serif;
+		font-weight: $font-weight-regular;
 		margin-top: $grid-base-two;
 	}
 
@@ -105,7 +106,7 @@
 	}
 
 	&__username {
-		font-family: $font-family-medium;
+		font-family: $font-family-sans-serif;
 		font-weight: $font-weight-medium;
 	}
 
@@ -114,7 +115,7 @@
 
 		.text:first-of-type {
 			margin-top: 0;
-			font-family: $font-family-medium;
+			font-family: $font-family-sans-serif;
 			font-weight: $font-weight-medium;
 		}
 
