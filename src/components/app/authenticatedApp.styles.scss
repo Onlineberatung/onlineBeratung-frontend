@@ -81,61 +81,13 @@ a {
 			display: none;
 			position: absolute;
 
+			&--mobile {
+				display: flex;
+				z-index: 1;
+			}
+
 			@include breakpoint($fromLarge) {
 				display: flex;
-			}
-		}
-
-		&__header {
-			.contentWrapper__header__text {
-				margin: auto;
-
-				@include breakpoint($fromLarge) {
-					display: flex;
-					flex-direction: row;
-					width: 100%;
-				}
-			}
-
-			&--enquiry {
-				position: absolute;
-				width: 100vw;
-				z-index: 10;
-				display: flex;
-
-				.contentWrapper__claim {
-					margin: 0;
-					padding: 0;
-					text-align: center;
-					font-size: $font-size-secondary;
-					line-height: $line-height-secondary;
-					color: $tertiary;
-
-					@include breakpoint($fromLarge) {
-						font-size: $font-size-primary;
-						line-height: $line-height-primary;
-						align-self: center;
-						margin-left: auto;
-					}
-				}
-
-				@include breakpoint($fromLarge) {
-					flex-direction: row;
-					width: 100%;
-				}
-
-				.contentWrapper__header__text {
-					padding-right: 35px;
-					text-align: center;
-
-					.contentWrapper__title {
-						font-size: $font-size-h3;
-					}
-				}
-
-				.contentWrapper__title {
-					line-height: $line-height-tertiary;
-				}
 			}
 		}
 
