@@ -14,4 +14,5 @@ export * from './provider/NotificationsProvider';
 export * from './provider/SessionsDataProvider';
 export * from './provider/StoppedGroupChatProvider';
 export * from './provider/UnreadSessionsStatusProvider';
+export * from './provider/UpdateAnonymousEnquiriesProvider';
 export * from './provider/UserDataProvider';
