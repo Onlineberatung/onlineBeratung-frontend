@@ -148,7 +148,7 @@ $headerHeight: 80px;
 			}
 		}
 
-		.sessionsList__tabs--active {
+		&--active {
 			.text {
 				font-weight: $font-weight-medium;
 			}
