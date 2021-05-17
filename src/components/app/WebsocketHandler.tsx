@@ -11,14 +11,9 @@ import {
 } from '../incomingVideoCall/IncomingVideoCall';
 import {
 	NotificationsContext,
-	UnreadSessionsStatusContext
+	UnreadSessionsStatusContext,
+	UpdateAnonymousEnquiriesContext
 } from '../../globalState';
-
-const STOMP_EVENT_TYPES = {
-	DIRECT_MESSAGE: 'directMessage',
-	VIDEO_CALL_REQUEST: 'videoCallRequest',
-	ANONYMOUS_ENQUIRY_ACCEPTED: 'anonymousEnquiryAccepted'
-};
 
 interface WebsocketHandlerProps {
 	disconnect: boolean;
@@ -28,11 +23,17 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const [newStompDirectMessage, setNewStompDirectMessage] = useState<boolean>(
 		false
 	);
+	const [newStompAnonymousEnquiry, setNewStompAnonymousEnquiry] = useState<
+		boolean
+	>(false);
 	const [newStompVideoCallRequest, setNewStompVideoCallRequest] = useState<
 		VideoCallRequestProps
 	>();
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
+	);
+	const { setUpdateAnonymousEnquiries } = useContext(
+		UpdateAnonymousEnquiriesContext
 	);
 	const { notifications, setNotifications } = useContext(
 		NotificationsContext
@@ -57,19 +58,17 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 				console.log('Connected: ' + frame);
 				stompClient.subscribe('/user/events', function (message) {
 					const stompMessageBody = JSON.parse(message.body);
-					const stompEventType = stompMessageBody['eventType'];
-					if (stompEventType === STOMP_EVENT_TYPES.DIRECT_MESSAGE) {
+					const stompEventType: LiveService.Schemas.EventType =
+						stompMessageBody['eventType'];
+					if (stompEventType === 'directMessage') {
 						setNewStompDirectMessage(true);
-					} else if (
-						stompEventType === STOMP_EVENT_TYPES.VIDEO_CALL_REQUEST
-					) {
+					} else if (stompEventType === 'newAnonymousEnquiry') {
+						setNewStompAnonymousEnquiry(true);
+					} else if (stompEventType === 'videoCallRequest') {
 						const stompEventContent: VideoCallRequestProps =
 							stompMessageBody['eventContent'];
 						setNewStompVideoCallRequest(stompEventContent);
-					} else if (
-						stompEventType ===
-						STOMP_EVENT_TYPES.ANONYMOUS_ENQUIRY_ACCEPTED
-					) {
+					} else if (stompEventType === 'anonymousEnquiryAccepted') {
 						//TODO: REDIRECT TO 1:1 LIVE CHAT
 					}
 				});
@@ -101,6 +100,13 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 			setNewStompDirectMessage(false);
 		}
 	}, [newStompDirectMessage]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (newStompAnonymousEnquiry) {
+			setUpdateAnonymousEnquiries(true);
+			setNewStompAnonymousEnquiry(false);
+		}
+	}, [newStompAnonymousEnquiry]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (newStompVideoCallRequest) {

@@ -1,4 +1,4 @@
-import { apiGetSessionsListData, FETCH_ERRORS } from '../../api';
+import { apiGetConsultantSessionList, FETCH_ERRORS } from '../../api';
 import {
 	SESSION_TYPES,
 	typeIsTeamSession,
@@ -10,7 +10,18 @@ import {
 	getSessionsDataKeyForSessionType
 } from '../../globalState';
 
-export const getSessions = (context, type, offset, useFilter): Promise<any> => {
+interface GetSessionsProps {
+	context: any;
+	type: string;
+	offset: number;
+	useFilter: string;
+	sessionListTab?: string;
+}
+
+export const getConsultantSessions = (
+	props: GetSessionsProps
+): Promise<any> => {
+	const { context, type, offset, useFilter, sessionListTab } = props;
 	const { sessionsData, setSessionsData } = context;
 	const isOffsetIncreased = Boolean(offset);
 
@@ -77,7 +88,7 @@ export const getSessions = (context, type, offset, useFilter): Promise<any> => {
 						  }
 						: { teamSessions: fetchedSessions }
 					: null;
-			apiGetSessionsListData(SESSION_TYPES.MY_SESSION, 'all', 0)
+			apiGetConsultantSessionList(SESSION_TYPES.MY_SESSION, 'all', 0)
 				.then((fetchedMySessions: ListItemsResponseInterface) => {
 					setSessionsData({
 						...enquiriesList,
@@ -100,7 +111,7 @@ export const getSessions = (context, type, offset, useFilter): Promise<any> => {
 		});
 
 	return new Promise((resolve, reject) => {
-		apiGetSessionsListData(type, useFilter, offset)
+		apiGetConsultantSessionList(type, useFilter, offset, sessionListTab)
 			.then((sessionList: ListItemsResponseInterface) => {
 				const fetchedSessions: ListItemInterface[] =
 					sessionList.sessions;

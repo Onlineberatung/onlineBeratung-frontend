@@ -4,6 +4,7 @@ import * as ReactDOM from 'react-dom';
 import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline, HeadlineLevel } from '../headline/Headline';
+import clsx from 'clsx';
 import './overlay.styles';
 
 export const OVERLAY_FUNCTIONS = {
@@ -23,6 +24,7 @@ export const OVERLAY_RESET_TIME = 10000;
 
 export interface OverlayItem {
 	buttonSet?: ButtonItem[];
+	className?: string;
 	copy?: string;
 	headline?: string;
 	headlineStyleLevel?: HeadlineLevel;
@@ -57,7 +59,7 @@ export const Overlay = (props: {
 	const item = props.item;
 	const Icon = item.svg;
 	return (
-		<div className="overlay">
+		<div className={clsx('overlay', item.className)}>
 			<div className="overlay__background"></div>
 			<div className="overlay__content">
 				{item.svg && (

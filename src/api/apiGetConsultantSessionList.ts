@@ -1,5 +1,6 @@
 import { config } from '../resources/scripts/config';
 import {
+	SESSION_LIST_TAB,
 	typeIsSession,
 	typeIsTeamSession
 } from '../components/session/sessionHelpers';
@@ -10,19 +11,24 @@ export const INITIAL_FILTER: string = 'all';
 export const INITIAL_OFFSET: number = 0;
 export const SESSION_COUNT: number = 15;
 
-export const apiGetSessionsListData = async (
+export const apiGetConsultantSessionList = async (
 	type: string,
 	filter: string = INITIAL_FILTER,
-	offset: number = INITIAL_OFFSET
+	offset: number = INITIAL_OFFSET,
+	sessionListTab?: string
 ): Promise<ListItemsResponseInterface> => {
 	const isTeamSession: boolean = typeIsTeamSession(type);
 	let url: string;
 	if (isTeamSession) {
-		url = config.endpoints.teamSessions + '?';
+		url = config.endpoints.consultantTeamSessions;
 	} else if (!isTeamSession && typeIsSession(type)) {
-		url = config.endpoints.sessions + '&';
+		url = config.endpoints.consultantSessions;
 	} else {
-		url = config.endpoints.enquiries + '&';
+		url = `${config.endpoints.consultantEnquiriesBase}${
+			sessionListTab && sessionListTab === SESSION_LIST_TAB.ANONYMOUS
+				? `${SESSION_LIST_TAB.ANONYMOUS}`
+				: `${SESSION_LIST_TAB.REGISTERED}`
+		}?`;
 	}
 	url = url + `count=${SESSION_COUNT}&filter=${filter}&offset=${offset}`;
 
