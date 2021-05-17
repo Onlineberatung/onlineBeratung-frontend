@@ -149,6 +149,7 @@ export const AskerRegistration = () => {
 	const registeredConsultingTypes = userData
 		? getConsultingTypesForRegistrationStatus(
 				userData,
+				consultingTypes,
 				REGISTRATION_STATUS_KEYS.REGISTERED
 		  )
 		: null;

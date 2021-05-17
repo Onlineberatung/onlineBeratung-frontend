@@ -24,6 +24,7 @@ export interface ConsultingTypeBasicInterface {
 		registrationDropdown: string;
 	};
 	isSetEmailAllowed: boolean;
+	isSubsequentRegistrationAllowed: boolean;
 	urls: {
 		registrationPostcodeFallbackUrl: string;
 		requiredAidMissingRedirectUrl: string;

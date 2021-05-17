@@ -2,13 +2,11 @@ import { ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { translate } from '../../utils/translate';
 import {
 	UserDataInterface,
-	ConsultingTypeInterface,
 	ConsultingTypeBasicInterface
 } from '../../globalState';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
-import { apiGetConsultingType } from '../../api';
 import { getConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const convertUserDataObjectToArray = (object) => {
@@ -43,9 +41,9 @@ export enum REGISTRATION_STATUS_KEYS {
 	REGISTERED = 'REGISTERED',
 	UNREGISTERED = 'UNREGISTERED'
 }
-const forAskerRegistrationExcludedConsultingTypes = [1, 19, 20];
 export const getConsultingTypesForRegistrationStatus = (
 	userData: UserDataInterface,
+	consultingTypes: Array<ConsultingTypeBasicInterface>,
 	registrationStatus: REGISTRATION_STATUS_KEYS
 ) => {
 	return Object.keys(userData.consultingTypes)
@@ -59,9 +57,10 @@ export const getConsultingTypesForRegistrationStatus = (
 			const validationForRegistrationStatus =
 				registrationStatus === REGISTRATION_STATUS_KEYS.REGISTERED
 					? value.data.isRegistered
-					: !forAskerRegistrationExcludedConsultingTypes.includes(
-							parseInt(value.consultingType)
-					  ) && !value.data.isRegistered;
+					: consultingTypes.find(
+							(cur) => cur.id === parseInt(value.consultingType)
+					  )?.isSubsequentRegistrationAllowed &&
+					  !value.data.isRegistered;
 			return validationForRegistrationStatus;
 		});
 };
@@ -72,6 +71,7 @@ export const consultingTypeSelectOptionsSet = (
 ) => {
 	const unregisteredConsultingTypesData = getConsultingTypesForRegistrationStatus(
 		userData,
+		consultingTypes,
 		REGISTRATION_STATUS_KEYS.UNREGISTERED
 	);
 	return unregisteredConsultingTypesData.map((value) => {
@@ -120,22 +120,20 @@ export const overlayItemNewRegistrationError: OverlayItem = {
 	]
 };
 
-export const hasAskerEmailFeatures = async (
-	userData: UserDataInterface
-): Promise<boolean> => {
+export const hasAskerEmailFeatures = (
+	userData: UserDataInterface,
+	consultingTypes: Array<ConsultingTypeBasicInterface>
+): boolean => {
 	const registeredConsultingTypes = getConsultingTypesForRegistrationStatus(
 		userData,
+		consultingTypes,
 		REGISTRATION_STATUS_KEYS.REGISTERED
 	);
-	let registeredConsultingTypesData: ConsultingTypeInterface[] = await Promise.all(
-		registeredConsultingTypes.map((element) =>
-			apiGetConsultingType({
-				consultingTypeId: parseInt(element.consultingType)
-			})
-		)
-	);
 
-	return registeredConsultingTypesData.some(
-		(data) => data?.isSetEmailAllowed
+	return registeredConsultingTypes.some(
+		(element) =>
+			consultingTypes.find(
+				(cur) => cur.id === parseInt(element.consultingType)
+			)?.isSetEmailAllowed
 	);
 };

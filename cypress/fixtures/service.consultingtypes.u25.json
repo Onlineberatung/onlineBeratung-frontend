@@ -18,8 +18,8 @@
 			"password": "Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!"
 		},
 		"mandatoryFields": {
-			"age": false,
-			"state": false
+			"age": true,
+			"state": true
 		}
 	},
 	"isSubsequentRegistrationAllowed": false,
