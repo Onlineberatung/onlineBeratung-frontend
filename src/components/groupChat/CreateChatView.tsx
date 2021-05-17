@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useContext, useState } from 'react';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
 	ActiveSessionGroupIdContext,
@@ -44,7 +44,7 @@ import {
 import { getChatDate } from '../session/sessionDateHelpers';
 import { updateChatSuccessOverlayItem } from './groupChatHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
-import '../../../node_modules/react-datepicker/src/stylesheets/datepicker.scss';
+import 'react-datepicker/src/stylesheets/datepicker.scss';
 import '../datepicker/datepicker.styles';
 import './createChat.styles';
 

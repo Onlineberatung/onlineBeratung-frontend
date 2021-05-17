@@ -296,7 +296,7 @@ export const RouterConfigTeamConsultant = (): any => {
 	};
 };
 
-export const RouterConfigU25Consultant = (): any => {
+export const RouterConfigPeerConsultant = (): any => {
 	let config = RouterConfigConsultant();
 	return config;
 };

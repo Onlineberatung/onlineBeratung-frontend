@@ -1,4 +1,4 @@
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { getValidTimeFormatForSelectedTime } from '../groupChat/createChatHelpers';
 
 export const getChatDate = (startDate, startTime) => {
@@ -33,7 +33,7 @@ export const getGroupChatDate = (
 			  };
 	const newStartDate = chatDate.toLocaleDateString(
 		'de-DE',
-		startDateFormatOptions
+		startDateFormatOptions as any
 	);
 	const formatedStartDate = newStartDate.slice(0, 2) + newStartDate.slice(3);
 

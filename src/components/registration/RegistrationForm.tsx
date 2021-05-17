@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
 import { buttonItemSubmit } from './registrationHelpers';
@@ -23,7 +23,7 @@ import {
 	OverlayItem
 } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
-import { isNumber } from '../../resources/scripts/helpers/isNumber';
+import { isNumber } from '../../utils/isNumber';
 import {
 	autoselectAgencyForConsultingType,
 	autoselectPostcodeForConsultingType
@@ -36,7 +36,7 @@ import {
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
 import { LegalInformationLinks } from '../login/LegalInformationLinks';
-import { getUrlParameter } from '../../resources/scripts/helpers/getUrlParameter';
+import { getUrlParameter } from '../../utils/getUrlParameter';
 import './registrationForm.styles';
 
 interface RegistrationFormProps {

@@ -6,7 +6,7 @@ import {
 	RouterConfigConsultant,
 	RouterConfigTeamConsultant,
 	RouterConfigMainConsultant,
-	RouterConfigU25Consultant
+	RouterConfigPeerConsultant
 } from './RouterConfig';
 import { AbsenceHandler } from './AbsenceHandler';
 import {
@@ -31,7 +31,7 @@ export const Routing = (props: routingProps) => {
 			return RouterConfigMainConsultant();
 		}
 		if (hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData)) {
-			return RouterConfigU25Consultant();
+			return RouterConfigPeerConsultant();
 		}
 		if (
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&

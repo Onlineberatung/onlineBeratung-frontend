@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { AgencyDataInterface } from '../../globalState';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { isMobile } from 'react-device-detect';
 import { Text } from '../text/Text';
 import './agencyInfo.styles';

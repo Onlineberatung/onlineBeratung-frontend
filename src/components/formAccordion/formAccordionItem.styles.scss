@@ -20,7 +20,6 @@
 		margin-right: 12px;
 		border: 2px solid $tertiary;
 		border-radius: 100%;
-		font-family: $font-family-bold;
 		font-weight: $font-weight-bold;
 		color: $tertiary;
 	}
@@ -28,7 +27,6 @@
 	&__title {
 		width: calc(100% - #{$grid-base-ten});
 		margin: 0;
-		font-family: $font-family-regular;
 		font-size: $font-size-h5;
 		font-weight: $font-weight-regular;
 		line-height: $line-height-primary;
@@ -74,7 +72,6 @@
 		}
 
 		&__title {
-			font-family: $font-family-medium;
 			font-weight: $font-weight-medium;
 		}
 

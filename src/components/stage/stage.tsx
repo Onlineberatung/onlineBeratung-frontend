@@ -1,6 +1,6 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { ReactComponent as SkfLogo } from '../../resources/img/logos/01_skf.svg';
 import { ReactComponent as CaritasLogo } from '../../resources/img/logos/02_caritas.svg';
 import { ReactComponent as SkmLogo } from '../../resources/img/logos/03_skm.svg';

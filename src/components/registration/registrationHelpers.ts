@@ -1,4 +1,4 @@
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { ButtonItem, BUTTON_TYPES } from '../button/Button';
 
 export type AccordionItemValidity = 'initial' | 'valid' | 'invalid';

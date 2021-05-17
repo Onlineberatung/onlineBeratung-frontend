@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { apiForwardMessage } from '../../api';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
 
