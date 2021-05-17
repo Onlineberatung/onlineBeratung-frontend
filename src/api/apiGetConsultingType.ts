@@ -7,6 +7,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 0,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.addiction'),
 		welcomeTitle: translate('registration.welcomeScreen.title.addiction'),
 		voluntaryComponents: [
@@ -145,6 +146,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 1,
 		useInformal: true,
 		isSetEmailAllowed: false,
+		isAnonymousConversationAllowed: false,
 		overline: translate('registration.overline.u25'),
 		welcomeTitle: translate('registration.welcomeScreen.title.u25'),
 		requiredAidMissingRedirectUrl: 'https://www.u25.de/helpmail/',
@@ -255,6 +257,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 1,
 		useInformal: true,
 		isSetEmailAllowed: false,
+		isAnonymousConversationAllowed: false,
 		overline: translate('registration.overline.gemeinsamstatteinsam'),
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.gemeinsamstatteinsam'
@@ -330,6 +333,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 2,
 		useInformal: true,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.pregnancy'),
 		welcomeTitle: translate('registration.welcomeScreen.title.pregnancy')
 	},
@@ -337,6 +341,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 3,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.parenting'),
 		welcomeTitle: translate('registration.welcomeScreen.title.parenting')
 	},
@@ -344,6 +349,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 4,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.cure'),
 		welcomeTitle: translate('registration.welcomeScreen.title.cure')
 	},
@@ -351,6 +357,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 5,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.debt'),
 		welcomeTitle: translate('registration.welcomeScreen.title.debt')
 	},
@@ -358,6 +365,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 6,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.social'),
 		welcomeTitle: translate('registration.welcomeScreen.title.social')
 	},
@@ -365,6 +373,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 7,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.seniority'),
 		welcomeTitle: translate('registration.welcomeScreen.title.seniority')
 	},
@@ -372,6 +381,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 8,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.disability'),
 		welcomeTitle: translate('registration.welcomeScreen.title.disability')
 	},
@@ -379,6 +389,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 9,
 		useInformal: true,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.planB'),
 		welcomeTitle: translate('registration.welcomeScreen.title.planB')
 	},
@@ -386,6 +397,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 10,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.law'),
 		welcomeTitle: translate('registration.welcomeScreen.title.law')
 	},
@@ -393,6 +405,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 11,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.offender'),
 		welcomeTitle: translate('registration.welcomeScreen.title.offender')
 	},
@@ -400,6 +413,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 12,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.aids'),
 		welcomeTitle: translate('registration.welcomeScreen.title.aids')
 	},
@@ -407,6 +421,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 13,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.rehabilitation'),
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.rehabilitation'
@@ -416,6 +431,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 14,
 		useInformal: true,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.children'),
 		welcomeTitle: translate('registration.welcomeScreen.title.children')
 	},
@@ -423,6 +439,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 15,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: false,
 		overline: translate('registration.overline.kreuzbund'),
 		welcomeTitle: translate('registration.welcomeScreen.title.kreuzbund')
 	},
@@ -430,6 +447,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 16,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.migration'),
 		welcomeTitle: translate('registration.welcomeScreen.title.migration')
 	},
@@ -437,6 +455,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 17,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.emigration'),
 		welcomeTitle: translate('registration.welcomeScreen.title.emigration'),
 		registrationNotes: {
@@ -448,6 +467,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 18,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.hospice'),
 		welcomeTitle: translate('registration.welcomeScreen.title.hospice')
 	},
@@ -455,6 +475,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 19,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: false,
 		overline: translate('registration.overline.regional'),
 		welcomeTitle: translate('registration.welcomeScreen.title.regional')
 	},
@@ -462,6 +483,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 20,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: true,
 		overline: translate('registration.overline.men'),
 		welcomeTitle: translate('registration.welcomeScreen.title.men')
 	},
@@ -469,6 +491,7 @@ const consultingTypes: Record<string, ConsultingTypeInterface> = {
 		consultingType: 21,
 		useInformal: false,
 		isSetEmailAllowed: true,
+		isAnonymousConversationAllowed: false,
 		overline: translate('registration.overline.supportGroupVechta'),
 		welcomeTitle: translate(
 			'registration.welcomeScreen.title.supportGroupVechta'

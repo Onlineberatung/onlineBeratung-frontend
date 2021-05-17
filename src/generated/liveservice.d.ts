@@ -5,7 +5,9 @@ declare namespace LiveService {
 		 */
 		export interface EventContent {}
 		export type EventType =
+			| 'anonymousEnquiryAccepted'
 			| 'directMessage'
+			| 'newAnonymousEnquiry'
 			| 'videoCallRequest'
 			| 'videoCallDeny';
 		export interface LiveEventMessage {
