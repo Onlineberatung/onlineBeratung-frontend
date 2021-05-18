@@ -3,6 +3,10 @@
 	position: absolute;
 	bottom: $grid-base-four;
 
+	a {
+		flex-shrink: 0;
+	}
+
 	&__linkLabel {
 		color: $primary;
 	}
