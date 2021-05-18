@@ -134,7 +134,7 @@ $headerHeight: 80px;
 	&__tabs {
 		display: flex;
 		width: 100%;
-		margin: 0 $grid-base-three $grid-base-three;
+		padding: 0 $grid-base-three $grid-base-three;
 
 		a {
 			color: $secondary;
