@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useMemo } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import {
 	typeIsTeamSession,
@@ -64,11 +64,13 @@ export const SessionsList: React.FC = () => {
 	const sessionsContext = useContext(SessionsDataContext);
 	const { sessionsData, setSessionsData } = sessionsContext;
 	const { filterStatus, setFilterStatus } = useContext(FilterStatusContext);
+	const currentFilter = useMemo(() => filterStatus, [filterStatus]);
 	const [sessionListTab, setSessionListTab] = useState(
 		new URLSearchParams(location.search).get('sessionListTab')
 	);
+	const currentTab = useMemo(() => sessionListTab, [sessionListTab]);
 	const [hasNoSessions, setHasNoSessions] = useState(false);
-	const [loading, setLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [totalItems, setTotalItems] = useState(0);
@@ -212,9 +214,10 @@ export const SessionsList: React.FC = () => {
 
 	useEffect(() => {
 		if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+			setIsLoading(true);
 			getSessionsListData().catch(() => {});
 		}
-	}, [sessionListTab]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [currentFilter, currentTab]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
@@ -361,7 +364,7 @@ export const SessionsList: React.FC = () => {
 					}
 					setTotalItems(total);
 					setCurrentOffset(useOffset);
-					setLoading(false);
+					setIsLoading(false);
 					resolve(sessions);
 				})
 				.catch((error) => {
@@ -373,7 +376,7 @@ export const SessionsList: React.FC = () => {
 						setIsReloadButtonVisible(true);
 						reject(FETCH_ERRORS.EMPTY);
 					} else if (error.message === FETCH_ERRORS.EMPTY) {
-						setLoading(false);
+						setIsLoading(false);
 						setHasNoSessions(true);
 						reject(FETCH_ERRORS.EMPTY);
 					} else if (error === FETCH_ERRORS.TIMEOUT) {
@@ -407,7 +410,7 @@ export const SessionsList: React.FC = () => {
 				) {
 					history.push(`/sessions/user/view/write`);
 				} else {
-					setLoading(false);
+					setIsLoading(false);
 					if (newRegisteredSessionId && redirectToEnquiry) {
 						setActiveSessionGroupId(newRegisteredSessionId);
 						history.push(`/sessions/user/view/write`);
@@ -497,30 +500,6 @@ export const SessionsList: React.FC = () => {
 		defaultValue: preSelectedOption
 	};
 
-	if (loading) {
-		return (
-			<span>
-				{isReloadButtonVisible ? (
-					<div className="sessionsList__reloadWrapper">
-						<Button
-							item={{
-								label: translate(
-									'sessionList.reloadButton.label'
-								),
-								function: '',
-								type: 'LINK',
-								id: 'reloadButton'
-							}}
-							buttonHandle={handleReloadButton}
-						/>
-					</div>
-				) : (
-					<SessionsListSkeleton />
-				)}
-			</span>
-		);
-	}
-
 	return (
 		<div className="sessionsList__innerWrapper">
 			{showFilter && (
@@ -574,68 +553,72 @@ export const SessionsList: React.FC = () => {
 							</Link>
 						</div>
 					)}
-				<div
-					className={`sessionsList__itemsWrapper ${
-						activeCreateChat ||
-						(sessionsData &&
-							sessionsData[
-								getSessionsDataKeyForSessionType(type)
-							] &&
-							!hasNoSessions)
-							? ''
-							: 'sessionsList__itemsWrapper--centered'
-					}`}
-					data-cy="sessions-list-items-wrapper"
-				>
-					{activeCreateChat &&
-						typeIsSession(type) &&
-						hasUserAuthority(
-							AUTHORITIES.CREATE_NEW_CHAT,
-							userData
-						) && <SessionListCreateChat />}
-					{sessionsData &&
-					sessionsData[getSessionsDataKeyForSessionType(type)] &&
-					!hasNoSessions ? (
-						sessionsData[
-							getSessionsDataKeyForSessionType(type)
-						].map((item: ListItemInterface, index) => (
-							<SessionListItemComponent
-								key={index}
-								type={type}
-								id={getChatItemForSession(item).id}
-							/>
-						))
-					) : !activeCreateChat &&
-					  sessionListTab !== SESSION_LIST_TAB.ANONYMOUS ? (
-						<Text
-							className="sessionsList--empty"
-							text={translate('sessionList.empty')}
-							type="divider"
-						/>
-					) : (
-						<Text
-							className="sessionsList--empty"
-							text={translate('sessionList.empty.anonymous')}
-							type="divider"
-						/>
-					)}
-					{loadingWithOffset && <SessionsListSkeleton />}
-					{isReloadButtonVisible && (
-						<div className="sessionsList__reloadWrapper">
-							<Button
-								item={{
-									label: translate(
-										'sessionList.reloadButton.label'
-									),
-									function: '',
-									type: 'LINK',
-									id: 'reloadButton'
-								}}
-								buttonHandle={handleReloadButton}
-							/>
-						</div>
-					)}
-				</div>
+				{isLoading ? (
+					<SessionsListSkeleton />
+				) : (
+					<div
+						className={`sessionsList__itemsWrapper ${
+							activeCreateChat ||
+							(sessionsData &&
+								sessionsData[
+									getSessionsDataKeyForSessionType(type)
+								] &&
+								!hasNoSessions)
+								? ''
+								: 'sessionsList__itemsWrapper--centered'
+						}`}
+						data-cy="sessions-list-items-wrapper"
+					>
+						{activeCreateChat &&
+							typeIsSession(type) &&
+							hasUserAuthority(
+								AUTHORITIES.CREATE_NEW_CHAT,
+								userData
+							) && <SessionListCreateChat />}
+						{sessionsData &&
+						sessionsData[getSessionsDataKeyForSessionType(type)] &&
+						!hasNoSessions
+							? sessionsData[
+									getSessionsDataKeyForSessionType(type)
+							  ].map((item: ListItemInterface, index) => (
+									<SessionListItemComponent
+										key={index}
+										type={type}
+										id={getChatItemForSession(item).id}
+									/>
+							  ))
+							: !activeCreateChat && (
+									<Text
+										className="sessionsList--empty"
+										text={
+											sessionListTab !==
+											SESSION_LIST_TAB.ANONYMOUS
+												? translate('sessionList.empty')
+												: translate(
+														'sessionList.empty.anonymous'
+												  )
+										}
+										type="divider"
+									/>
+							  )}
+						{loadingWithOffset && <SessionsListSkeleton />}
+						{isReloadButtonVisible && (
+							<div className="sessionsList__reloadWrapper">
+								<Button
+									item={{
+										label: translate(
+											'sessionList.reloadButton.label'
+										),
+										function: '',
+										type: 'LINK',
+										id: 'reloadButton'
+									}}
+									buttonHandle={handleReloadButton}
+								/>
+							</div>
+						)}
+					</div>
+				)}
 			</div>
 		</div>
 	);
