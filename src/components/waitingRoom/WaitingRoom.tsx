@@ -54,7 +54,15 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const getUsernameText = () => {
 		return `
 		 ${translate('anonymous.waitingroom.username')} 
-		 <span class="waitingRoom__username">${username}</span>
+		 <span class="waitingRoom__username">
+		 	${
+				username
+					? username
+					: `<span class="waitingRoom__username--loading">${translate(
+							'anonymous.waitingroom.username.loading'
+					  )}</span>`
+			}
+		 </span>
 		`;
 	};
 
@@ -66,10 +74,10 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const handleConfirmButton = () => {
 		if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
+			setIsDataProtectionViewActive(false);
 			apiPostAnonymousRegistration(props.consultingTypeId)
 				.then((response) => {
 					const decodedUsername = decodeUsername(response.userName);
-					setIsDataProtectionViewActive(false);
 					setUsername(decodedUsername);
 					setTokenInCookie('keycloak', response.accessToken);
 					setTokenInCookie('registeredUsername', decodedUsername);

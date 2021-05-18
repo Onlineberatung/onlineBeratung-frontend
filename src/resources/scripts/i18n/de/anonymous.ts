@@ -8,6 +8,7 @@ const anonymous = {
 	'waitingroom.headline': 'Bitte haben Sie etwas Geduld',
 	'waitingroom.subline': 'Wir sind gleich für Sie da.',
 	'waitingroom.username': 'Ihr Benutzername lautet:',
+	'waitingroom.username.loading': 'Wird geladen...',
 	'waitingroom.redirect.prefix': 'Sie wollen nicht warten?',
 	'waitingroom.redirect.link': 'Hinterlassen Sie uns Ihre Nachricht',
 	'waitingroom.redirect.suffix':
