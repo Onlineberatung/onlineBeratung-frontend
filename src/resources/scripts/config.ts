@@ -52,8 +52,8 @@ export const config = {
 	urls: {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
-		toLogin: tld + endpointPort + '/login.html',
-		redirectToApp: tld + endpointPort + `/beratung-hilfe.html`,
+		toLogin: tld + endpointPort + '/',
+		redirectToApp: tld + endpointPort + `/app`,
 		home: 'https://www.caritas.de',
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
