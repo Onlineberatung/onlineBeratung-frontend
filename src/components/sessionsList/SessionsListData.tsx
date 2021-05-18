@@ -115,7 +115,10 @@ export const getConsultantSessions = (
 			.then((sessionList: ListItemsResponseInterface) => {
 				const fetchedSessions: ListItemInterface[] =
 					sessionList.sessions;
-				if (type !== SESSION_TYPES.MY_SESSION) {
+				if (
+					type !== SESSION_TYPES.MY_SESSION &&
+					!sessionsData?.mySessions
+				) {
 					fetchMySessionsDatas(fetchedSessions, isOffsetIncreased)
 						.then(() => {
 							resolve(sessionList);
@@ -134,22 +137,7 @@ export const getConsultantSessions = (
 				}
 			})
 			.catch((error) => {
-				if (
-					type !== SESSION_TYPES.MY_SESSION &&
-					error.message === FETCH_ERRORS.EMPTY
-				) {
-					fetchMySessionsDatas(null, isOffsetIncreased)
-						.then(() => {
-							reject(error);
-						})
-						.catch((error) => {
-							if (error.message === FETCH_ERRORS.EMPTY) {
-								reject(error);
-							}
-						});
-				} else {
-					reject(error);
-				}
+				reject(error);
 			});
 	});
 };

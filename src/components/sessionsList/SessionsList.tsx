@@ -92,6 +92,7 @@ export const SessionsList: React.FC = () => {
 		increaseOffsetForAcceptedGroup,
 		setIncreaseOffsetForAcceptedGroup
 	] = useState(false);
+	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const { stoppedGroupChat, setStoppedGroupChat } = useContext(
 		StoppedGroupChatContext
 	);
@@ -217,6 +218,7 @@ export const SessionsList: React.FC = () => {
 
 	useEffect(() => {
 		if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+			setIsReloadButtonVisible(false);
 			setHasNoSessions(false);
 			setSessionListTab(
 				new URLSearchParams(location.search).get('sessionListTab')
@@ -344,6 +346,7 @@ export const SessionsList: React.FC = () => {
 		}
 		const useOffset = getOffsetToUse(increaseOffset);
 
+		setIsRequestInProgress(true);
 		return new Promise((resolve, reject) => {
 			getConsultantSessions({
 				context: sessionsContext,
@@ -362,7 +365,14 @@ export const SessionsList: React.FC = () => {
 					resolve(sessions);
 				})
 				.catch((error) => {
-					if (error.message === FETCH_ERRORS.EMPTY) {
+					if (
+						error.message === FETCH_ERRORS.EMPTY &&
+						increaseOffset
+					) {
+						setLoadingWithOffset(false);
+						setIsReloadButtonVisible(true);
+						reject(FETCH_ERRORS.EMPTY);
+					} else if (error.message === FETCH_ERRORS.EMPTY) {
 						setLoading(false);
 						setHasNoSessions(true);
 						reject(FETCH_ERRORS.EMPTY);
@@ -375,6 +385,9 @@ export const SessionsList: React.FC = () => {
 						setIsReloadButtonVisible(true);
 						reject(error);
 					}
+				})
+				.finally(() => {
+					setIsRequestInProgress(false);
 				});
 		});
 	};
@@ -428,7 +441,8 @@ export const SessionsList: React.FC = () => {
 		if (scrollPosition + SCROLL_PAGINATE_THRESHOLD >= list.scrollHeight) {
 			if (
 				totalItems > currentOffset + SESSION_COUNT &&
-				!isReloadButtonVisible
+				!isReloadButtonVisible &&
+				!isRequestInProgress
 			) {
 				getSessionsListData(true);
 			}
