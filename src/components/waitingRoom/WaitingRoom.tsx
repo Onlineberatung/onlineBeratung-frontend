@@ -28,6 +28,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		setIsDataProtectionViewActive
 	] = useState<boolean>(true);
 	const [username, setUsername] = useState<string>();
+	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
 	useEffect(() => {
 		const registeredUsername = getTokenFromCookie('registeredUsername');
@@ -63,18 +64,24 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	};
 
 	const handleConfirmButton = () => {
-		apiPostAnonymousRegistration(props.consultingTypeId)
-			.then((response) => {
-				const decodedUsername = decodeUsername(response.userName);
-				setIsDataProtectionViewActive(false);
-				setUsername(decodedUsername);
-				setTokenInCookie('keycloak', response.accessToken);
-				setTokenInCookie('registeredUsername', decodedUsername);
-				props.onAnonymousRegistration();
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		if (!isRequestInProgress) {
+			setIsRequestInProgress(true);
+			apiPostAnonymousRegistration(props.consultingTypeId)
+				.then((response) => {
+					const decodedUsername = decodeUsername(response.userName);
+					setIsDataProtectionViewActive(false);
+					setUsername(decodedUsername);
+					setTokenInCookie('keycloak', response.accessToken);
+					setTokenInCookie('registeredUsername', decodedUsername);
+					props.onAnonymousRegistration();
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+				.finally(() => {
+					setIsRequestInProgress(false);
+				});
+		}
 	};
 
 	return (
