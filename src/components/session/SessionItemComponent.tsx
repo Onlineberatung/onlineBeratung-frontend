@@ -126,7 +126,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		return () => {
 			isCanceled = true;
 		};
-	}, [activeSession.session]);
+	}, [chatItem]);
 
 	if (!activeSession) return null;
 
