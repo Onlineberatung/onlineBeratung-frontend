@@ -1,6 +1,5 @@
 {
 	"baseUrl": "http://caritas.local:9000",
-	"defaultCommandTimeout": 4000,
 	"pluginsFile": false,
 	"chromeWebSecurity": false,
 	"viewportWidth": 1200,

@@ -33,9 +33,9 @@ import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { apiGetGroupMembers } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
+import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
-import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: boolean;

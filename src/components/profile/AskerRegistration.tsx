@@ -35,8 +35,8 @@ import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
 import {
-	ConsultingTypesContext,
-	useConsultingType
+	useConsultingType,
+	useConsultingTypes
 } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const AskerRegistration = () => {
@@ -50,7 +50,7 @@ export const AskerRegistration = () => {
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const { consultingTypes } = useContext(ConsultingTypesContext);
+	const consultingTypes = useConsultingTypes();
 	const selectedConsultingType = useConsultingType(selectedConsultingTypeId);
 
 	const isAllRequiredDataSet = () =>

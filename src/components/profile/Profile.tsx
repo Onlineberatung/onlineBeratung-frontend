@@ -21,12 +21,12 @@ import { DeleteAccount } from './DeleteAccount';
 import { AbsenceFormular } from '../absenceFormular/AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { Text } from '../text/Text';
+import { useConsultingTypes } from '../../globalState/provider/ConsultingTypesProvider';
 import './profile.styles';
-import { ConsultingTypesContext } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const Profile = () => {
 	const { userData } = useContext(UserDataContext);
-	const { consultingTypes } = useContext(ConsultingTypesContext);
+	const consultingTypes = useConsultingTypes();
 
 	useEffect(() => {
 		setProfileWrapperActive();

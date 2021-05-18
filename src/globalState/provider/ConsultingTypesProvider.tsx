@@ -37,11 +37,15 @@ export function getConsultingType(
 	return consultingType;
 }
 
-export function useConsultingType(id?: number) {
+export function useConsultingTypes() {
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	if (!consultingTypes) {
 		throw new Error('`ConsultingTypesProvider` was not initialized.');
 	}
 
-	return getConsultingType(consultingTypes, id);
+	return consultingTypes;
+}
+
+export function useConsultingType(id?: number) {
+	return getConsultingType(useConsultingTypes(), id);
 }
