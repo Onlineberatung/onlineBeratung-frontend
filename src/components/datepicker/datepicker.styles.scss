@@ -163,7 +163,7 @@ $arrow-icon-size: 14px;
 		&__month-text:hover,
 		&__quarter-text:hover {
 			color: $primary;
-			background-color: $dropdown-bg-red;
+			background-color: $datepicker-hover-color;
 		}
 
 		&__day--disabled:hover {
@@ -205,7 +205,7 @@ $arrow-icon-size: 14px;
 
 			&:hover {
 				color: $primary;
-				background-color: $dropdown-bg-red;
+				background-color: $datepicker-hover-color;
 			}
 		}
 

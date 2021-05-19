@@ -18,10 +18,10 @@
 		width: $grid-base-four;
 		height: $grid-base-four;
 		margin-right: 12px;
-		border: 2px solid $tertiary;
+		border: $form-accordion-index-border;
 		border-radius: 100%;
 		font-weight: $font-weight-bold;
-		color: $tertiary;
+		color: $form-accordion-index-color;
 	}
 
 	&__title {
@@ -66,9 +66,9 @@
 
 	&--active & {
 		&__index {
-			background-color: $dropdown-bg-red;
+			background-color: $form-accordion-index-background-active;
 			border: none;
-			color: $secondary;
+			color: $form-accordion-index-color-active;
 		}
 
 		&__title {

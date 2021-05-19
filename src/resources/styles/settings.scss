@@ -26,6 +26,7 @@ $black-10-opacity: rgba(0, 0, 0, 0.1);
 $primary: #cc1e1c;
 $secondary: #3f373f;
 $tertiary: #8c878c;
+$background-accent: #f8dedd;
 
 $hover-primary: #a31816;
 $hover-select: #f4d2d1;
@@ -60,8 +61,12 @@ $dark-grey: #e7e3e1;
 $form-input-border: #dcd9dc;
 $message-bg-red: #d64b49;
 $upload-progress: #80dd92;
-
-$dropdown-bg-red: #f8dedd;
+$datepicker-hover-color: $background-accent;
+$form-accordion-index-border: 2px solid $tertiary;
+$form-accordion-index-color: $tertiary;
+$form-accordion-index-color-active: $secondary;
+$form-accordion-index-background-active: $background-accent;
+$welcome-screen-icon-background: $background-accent;
 
 // YELLOW THEME
 $yellow-1: #ffeed2;
