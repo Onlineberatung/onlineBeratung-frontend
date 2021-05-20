@@ -12,7 +12,11 @@ const anonymous = {
 	'waitingroom.redirect.prefix': 'Sie wollen nicht warten?',
 	'waitingroom.redirect.link': 'Hinterlassen Sie uns Ihre Nachricht',
 	'waitingroom.redirect.suffix':
-		'und wir melden uns sobald wie möglich bei Ihnen.'
+		'und wir melden uns sobald wie möglich bei Ihnen.',
+	'waitingroom.overlay.headline': 'Herzlich Willkommen!',
+	'waitingroom.overlay.copy':
+		'Sie werden von Ihrer Berater_in im Chat erwartet. Sind Sie bereit?',
+	'waitingroom.overlay.button': 'Jetzt chatten'
 };
 
 export default anonymous;

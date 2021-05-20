@@ -10,6 +10,7 @@ import {
 	VideoCallRequestProps
 } from '../incomingVideoCall/IncomingVideoCall';
 import {
+	AnonymousEnquiryAcceptedContext,
 	NotificationsContext,
 	UnreadSessionsStatusContext,
 	UpdateAnonymousEnquiriesContext
@@ -37,6 +38,9 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	);
 	const { notifications, setNotifications } = useContext(
 		NotificationsContext
+	);
+	const { setAnonymousEnquiryAccepted } = useContext(
+		AnonymousEnquiryAcceptedContext
 	);
 
 	// Init live service socket
@@ -69,7 +73,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 							stompMessageBody['eventContent'];
 						setNewStompVideoCallRequest(stompEventContent);
 					} else if (stompEventType === 'anonymousEnquiryAccepted') {
-						//TODO: REDIRECT TO 1:1 LIVE CHAT
+						setAnonymousEnquiryAccepted(true);
 					}
 				});
 			}
@@ -81,7 +85,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		stompClient.onWebSocketError = (error) => {
 			console.log('Error', error);
 		};
-	}, [stompClient]);
+	}, [stompClient]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (disconnect) {
