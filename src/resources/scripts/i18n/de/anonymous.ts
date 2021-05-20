@@ -1,4 +1,5 @@
 const anonymous = {
+	'waitingroom.title.start': 'Warteraum',
 	'waitingroom.dataProtection.headline': 'Herzlich Willkommen!',
 	'waitingroom.dataProtection.subline':
 		'Bitte bestätigen Sie unsere Datenschutzbestimmungen.',

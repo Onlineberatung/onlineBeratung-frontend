@@ -22,6 +22,7 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
 import { AnonymousEnquiryAcceptedContext } from '../../globalState';
+import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
@@ -50,6 +51,10 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			setUsername(registeredUsername);
 			props.onAnonymousRegistration();
 		}
+
+		document.title = `${translate(
+			'anonymous.waitingroom.title.start'
+		)} ${capitalizeFirstLetter(props.consultingTypeSlug)}`;
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
