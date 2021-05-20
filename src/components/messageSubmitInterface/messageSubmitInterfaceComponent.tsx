@@ -12,6 +12,7 @@ import {
 	getActiveSession,
 	getContact,
 	hasUserAuthority,
+	isAnonymousSession,
 	AUTHORITIES
 } from '../../globalState/helpers/stateHelpers';
 import {
@@ -144,6 +145,7 @@ export const MessageSubmitInterfaceComponent = (
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
+	const isLiveChat = isAnonymousSession(activeSession.session);
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
 		null
@@ -474,7 +476,8 @@ export const MessageSubmitInterfaceComponent = (
 			const sendToRoomWithId = sendToFeedbackEndpoint
 				? activeSession.session.feedbackGroupId
 				: activeSessionGroupId;
-			const getSendMailNotificationStatus = () => !isGroupChat;
+			const getSendMailNotificationStatus = () =>
+				!isGroupChat && !isLiveChat;
 
 			if (attachment) {
 				setAttachmentUpload(

@@ -1,6 +1,7 @@
 import { UserDataInterface } from '../interfaces/UserDataInterface';
 import {
 	SessionsDataInterface,
+	SessionItemInterface,
 	ListItemInterface
 } from '../interfaces/SessionsDataInterface';
 import {
@@ -141,4 +142,8 @@ export const getSessionsDataWithChangedValue = (
 	});
 
 	return sesData;
+};
+
+export const isAnonymousSession = (session: SessionItemInterface): boolean => {
+	return session.registrationType === 'ANONYMOUS';
 };
