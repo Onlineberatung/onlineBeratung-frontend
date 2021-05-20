@@ -109,14 +109,14 @@ export const SessionView = (props) => {
 		setIsLoading(true);
 		mobileDetailView();
 		setAcceptedGroupId(null);
-		setIsAnonymousEnquiry(
-			chatItem.status === 1 && chatItem.registrationType === 'ANONYMOUS'
-		);
 		typingTimeout = null;
+		const isCurrentAnonymousEnquiry =
+			chatItem.status === 1 && chatItem.registrationType === 'ANONYMOUS';
 		if (isGroupChat && !chatItem.subscribed) {
 			setIsLoading(false);
-		} else if (isAnonymousEnquiry) {
+		} else if (isCurrentAnonymousEnquiry) {
 			setIsLoading(false);
+			setIsAnonymousEnquiry(true);
 		} else {
 			window['socket'] = new rocketChatSocket();
 			fetchSessionMessages();
@@ -155,7 +155,6 @@ export const SessionView = (props) => {
 
 	useEffect(() => {
 		if (loadedMessages) {
-			console.log('loadeed Messages:', loadedMessages);
 			setMessagesItem(loadedMessages);
 			setLoadedMessages(null);
 		}
@@ -174,7 +173,7 @@ export const SessionView = (props) => {
 				setLoadedMessages(messagesData);
 				setIsLoading(false);
 
-				if (!isSocketConnected) {
+				if (!isSocketConnected && !isAnonymousEnquiry) {
 					setSessionToRead();
 					window['socket'].connect();
 					window[

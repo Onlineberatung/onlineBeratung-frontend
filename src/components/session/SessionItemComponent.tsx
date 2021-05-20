@@ -43,6 +43,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import smoothScroll from './smoothScrollHelper';
 import { Headline } from '../headline/Headline';
+import { history } from '../app/app';
 
 interface SessionItemProps {
 	currentGroupId: string;
@@ -191,6 +192,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		setIsRequestInProgress(false);
 		setCurrenGroupId('');
 		setAcceptedGroupId(currentGroupId);
+		history.push(`/sessions/consultant/sessionView/`);
 	};
 
 	/* eslint-disable */

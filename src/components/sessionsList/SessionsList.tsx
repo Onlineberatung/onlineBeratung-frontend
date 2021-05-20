@@ -148,11 +148,14 @@ export const SessionsList: React.FC = () => {
 			setCurrentOffset(0);
 			if (acceptedGroupId !== ACCEPTED_GROUP_CLOSE && !stopAutoLoad) {
 				type = SESSION_TYPES.MY_SESSION; // eslint-disable-line
+				const updatedOffset = getOffsetToUse(
+					increaseOffsetForAcceptedGroup
+				);
 
 				getConsultantSessions({
 					context: sessionsContext,
 					type: type,
-					offset: getOffsetToUse(increaseOffsetForAcceptedGroup),
+					offset: updatedOffset,
 					useFilter: getFilterToUse(),
 					sessionListTab: sessionListTab
 				})
@@ -166,10 +169,11 @@ export const SessionsList: React.FC = () => {
 						);
 						if (assignedSession) {
 							setIncreaseOffsetForAcceptedGroup(false);
+							setCurrentOffset(updatedOffset);
 							setAssignedSessionActive(assignedSession);
 							setStopAutoLoad(false);
 						} else {
-							getSessionsListData(true)
+							getSessionsListData(true, updatedOffset)
 								.then(
 									(fetchedSessions: ListItemInterface[]) => {
 										const newSessions: ListItemInterface[] = [
@@ -188,6 +192,7 @@ export const SessionsList: React.FC = () => {
 											checkSessions
 										);
 										if (assignedSession) {
+											setCurrentOffset(updatedOffset);
 											setAssignedSessionActive(
 												assignedSession
 											);
@@ -213,7 +218,10 @@ export const SessionsList: React.FC = () => {
 	}, [acceptedGroupId]);
 
 	useEffect(() => {
-		if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+		if (
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+			!acceptedGroupId
+		) {
 			setIsLoading(true);
 			getSessionsListData().catch(() => {});
 		}
@@ -342,12 +350,15 @@ export const SessionsList: React.FC = () => {
 	const getFilterToUse = (): string =>
 		showFilter ? filterStatus : INITIAL_FILTER;
 
-	const getSessionsListData = (increaseOffset?: boolean): Promise<any> => {
+	const getSessionsListData = (
+		increaseOffset?: boolean,
+		currentOffset?: number
+	): Promise<any> => {
 		resetActiveSession();
 		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			return null;
 		}
-		const useOffset = getOffsetToUse(increaseOffset);
+		const useOffset = currentOffset ?? getOffsetToUse(increaseOffset);
 
 		setIsRequestInProgress(true);
 		return new Promise((resolve, reject) => {
@@ -365,6 +376,7 @@ export const SessionsList: React.FC = () => {
 					setTotalItems(total);
 					setCurrentOffset(useOffset);
 					setIsLoading(false);
+					setHasNoSessions(false);
 					resolve(sessions);
 				})
 				.catch((error) => {
