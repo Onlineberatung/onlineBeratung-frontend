@@ -56,7 +56,7 @@ interface SessionItemProps {
 let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
-	let { sessionsData } = useContext(SessionsDataContext);
+	let { sessionsData, setSessionsData } = useContext(SessionsDataContext);
 	const activeSession = useMemo(
 		() => getActiveSession(props.currentGroupId, sessionsData),
 		[props.currentGroupId] // eslint-disable-line react-hooks/exhaustive-deps
@@ -80,9 +80,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		if (!props.isAnonymousEnquiry) {
 			resetUnreadCount();
 			scrollToEnd(0);
-		}
-		if (props.isAnonymousEnquiry) {
-			console.log('Test: isAnonymousEnquiry', props.isAnonymousEnquiry);
 		}
 	}, []); // eslint-disable-line
 
@@ -192,6 +189,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		setIsRequestInProgress(false);
 		setCurrenGroupId('');
 		setAcceptedGroupId(currentGroupId);
+		setSessionsData({ ...sessionsData, enquiries: [] });
 		history.push(`/sessions/consultant/sessionView/`);
 	};
 

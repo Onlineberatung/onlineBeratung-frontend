@@ -59,7 +59,6 @@ export const SessionView = (props) => {
 	const groupId = activeSession?.isFeedbackSession
 		? chatItem?.feedbackGroupId
 		: chatItem?.groupId;
-
 	const [isLoading, setIsLoading] = useState(true);
 	const [messagesItem, setMessagesItem] = useState(null);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
@@ -116,7 +115,7 @@ export const SessionView = (props) => {
 			setIsLoading(false);
 		} else if (isCurrentAnonymousEnquiry) {
 			setIsLoading(false);
-			setIsAnonymousEnquiry(true);
+			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
 		} else {
 			window['socket'] = new rocketChatSocket();
 			fetchSessionMessages();
