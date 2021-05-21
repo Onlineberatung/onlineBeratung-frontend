@@ -59,7 +59,6 @@ export const SessionView = (props) => {
 	const groupId = activeSession?.isFeedbackSession
 		? chatItem?.feedbackGroupId
 		: chatItem?.groupId;
-
 	const [isLoading, setIsLoading] = useState(true);
 	const [messagesItem, setMessagesItem] = useState(null);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
@@ -74,6 +73,7 @@ export const SessionView = (props) => {
 	const [typingUsers, setTypingUsers] = useState([]);
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
+	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
 		if (activeSession) {
@@ -109,8 +109,13 @@ export const SessionView = (props) => {
 		mobileDetailView();
 		setAcceptedGroupId(null);
 		typingTimeout = null;
+		const isCurrentAnonymousEnquiry =
+			chatItem.status === 1 && chatItem.registrationType === 'ANONYMOUS';
 		if (isGroupChat && !chatItem.subscribed) {
 			setIsLoading(false);
+		} else if (isCurrentAnonymousEnquiry) {
+			setIsLoading(false);
+			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
 		} else {
 			window['socket'] = new rocketChatSocket();
 			fetchSessionMessages();
@@ -167,7 +172,7 @@ export const SessionView = (props) => {
 				setLoadedMessages(messagesData);
 				setIsLoading(false);
 
-				if (!isSocketConnected) {
+				if (!isSocketConnected && !isAnonymousEnquiry) {
 					setSessionToRead();
 					window['socket'].connect();
 					window[
@@ -281,14 +286,15 @@ export const SessionView = (props) => {
 
 	return (
 		<div className="session__wrapper">
-			{messagesItem ? (
-				<SessionItemComponent
-					messages={prepareMessages(messagesItem.messages)}
-					isTyping={handleTyping}
-					typingUsers={typingUsers}
-					currentGroupId={groupIdFromParam}
-				/>
-			) : null}
+			<SessionItemComponent
+				currentGroupId={groupIdFromParam}
+				isAnonymousEnquiry={isAnonymousEnquiry}
+				isTyping={handleTyping}
+				messages={
+					messagesItem ? prepareMessages(messagesItem.messages) : null
+				}
+				typingUsers={typingUsers}
+			/>
 			{isOverlayActive ? (
 				<OverlayWrapper>
 					<Overlay

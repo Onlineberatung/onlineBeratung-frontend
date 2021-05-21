@@ -42,18 +42,21 @@ import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import smoothScroll from './smoothScrollHelper';
+import { Headline } from '../headline/Headline';
+import { history } from '../app/app';
 
 interface SessionItemProps {
-	messages: MessageItem[];
-	isTyping: Function;
-	typingUsers: string[];
 	currentGroupId: string;
+	isAnonymousEnquiry?: boolean;
+	isTyping: Function;
+	messages?: MessageItem[];
+	typingUsers: string[];
 }
 
 let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
-	let { sessionsData } = useContext(SessionsDataContext);
+	let { sessionsData, setSessionsData } = useContext(SessionsDataContext);
 	const activeSession = useMemo(
 		() => getActiveSession(props.currentGroupId, sessionsData),
 		[props.currentGroupId] // eslint-disable-line react-hooks/exhaustive-deps
@@ -74,38 +77,42 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const [newMessages, setNewMessages] = useState(0);
 
 	useEffect(() => {
-		resetUnreadCount();
-		scrollToEnd(0);
+		if (!props.isAnonymousEnquiry) {
+			resetUnreadCount();
+			scrollToEnd(0);
+		}
 	}, []); // eslint-disable-line
 
 	useEffect(() => {
-		if (isMyMessage(messages[messages.length - 1]?.userId)) {
-			resetUnreadCount();
-			scrollToEnd(0, true);
-		} else {
-			// if first unread message -> prepend element
-			if (newMessages === 0 && !isScrolledToBottom) {
-				const scrollContainer = scrollContainerRef.current;
-				const firstUnreadItem = Array.from(
-					scrollContainer.querySelectorAll('.messageItem')
-				).pop();
-				const lastReadDivider = document.createElement('div');
-				lastReadDivider.innerHTML = translate(
-					'session.divider.lastRead'
-				);
-				lastReadDivider.className =
-					'messageItem__divider messageItem__divider--lastRead';
-				firstUnreadItem.prepend(lastReadDivider);
-			}
-
-			if (isScrolledToBottom) {
+		if (!props.isAnonymousEnquiry && messages) {
+			if (isMyMessage(messages[messages.length - 1]?.userId)) {
 				resetUnreadCount();
 				scrollToEnd(0, true);
-			}
+			} else {
+				// if first unread message -> prepend element
+				if (newMessages === 0 && !isScrolledToBottom) {
+					const scrollContainer = scrollContainerRef.current;
+					const firstUnreadItem = Array.from(
+						scrollContainer.querySelectorAll('.messageItem')
+					).pop();
+					const lastReadDivider = document.createElement('div');
+					lastReadDivider.innerHTML = translate(
+						'session.divider.lastRead'
+					);
+					lastReadDivider.className =
+						'messageItem__divider messageItem__divider--lastRead';
+					firstUnreadItem.prepend(lastReadDivider);
+				}
 
-			setNewMessages(messages.length - initMessageCount);
+				if (isScrolledToBottom) {
+					resetUnreadCount();
+					scrollToEnd(0, true);
+				}
+
+				setNewMessages(messages.length - initMessageCount);
+			}
 		}
-	}, [messages.length]); // eslint-disable-line
+	}, [messages?.length]); // eslint-disable-line
 
 	useEffect(() => {
 		if (isScrolledToBottom) {
@@ -131,11 +138,13 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	if (!activeSession) return null;
 
 	const resetUnreadCount = () => {
-		setNewMessages(0);
-		initMessageCount = messages.length;
-		scrollContainerRef.current
-			.querySelectorAll('.messageItem__divider--lastRead')
-			.forEach((e) => e.remove());
+		if (!props.isAnonymousEnquiry) {
+			setNewMessages(0);
+			initMessageCount = messages?.length;
+			scrollContainerRef.current
+				.querySelectorAll('.messageItem__divider--lastRead')
+				.forEach((e) => e.remove());
+		}
 	};
 
 	const getPlaceholder = () => {
@@ -165,7 +174,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 		setIsRequestInProgress(true);
 
-		apiEnquiryAcceptance(sessionId)
+		apiEnquiryAcceptance(sessionId, props.isAnonymousEnquiry)
 			.then(() => {
 				setOverlayActive(true);
 				setCurrenGroupId(sessionGroupId);
@@ -180,6 +189,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		setIsRequestInProgress(false);
 		setCurrenGroupId('');
 		setAcceptedGroupId(currentGroupId);
+		setSessionsData({ ...sessionsData, enquiries: [] });
+		history.push(`/sessions/consultant/sessionView/`);
 	};
 
 	/* eslint-disable */
@@ -228,7 +239,9 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
 
 	const buttonItem: ButtonItem = {
-		label: translate('enquiry.acceptButton'),
+		label: props.isAnonymousEnquiry
+			? translate('enquiry.acceptButton.anonymous')
+			: translate('enquiry.acceptButton'),
 		type: BUTTON_TYPES.PRIMARY
 	};
 
@@ -271,63 +284,78 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				}
 			/>
 
-			<div
-				id="session-scroll-container"
-				className="session__content"
-				ref={scrollContainerRef}
-				onScroll={(e) => handleScroll.callback(e)}
-			>
-				{messages &&
-					resortData &&
-					messages.map((message: MessageItem, index) => (
-						<MessageItemComponent
-							key={index}
-							clientName={getContact(activeSession).username}
-							askerRcId={chatItem.askerRcId}
-							type={getTypeOfLocation()}
-							isOnlyEnquiry={isOnlyEnquiry}
-							isMyMessage={isMyMessage(message.userId)}
-							resortData={resortData}
-							{...message}
-						/>
-					))}
-
+			{!props.isAnonymousEnquiry && (
 				<div
-					className={`session__scrollToBottom ${
-						isScrolledToBottom
-							? 'session__scrollToBottom--disabled'
-							: ''
-					}`}
+					id="session-scroll-container"
+					className="session__content"
+					ref={scrollContainerRef}
+					onScroll={(e) => handleScroll.callback(e)}
 				>
-					{newMessages > 0 && (
-						<span className="session__unreadCount">
-							{newMessages > 99
-								? translate('session.unreadCount.maxValue')
-								: newMessages}
-						</span>
-					)}
-					<Button
-						item={scrollBottomButtonItem}
-						isLink={false}
-						buttonHandle={handleScrollToBottomButtonClick}
+					{messages &&
+						resortData &&
+						messages.map((message: MessageItem, index) => (
+							<MessageItemComponent
+								key={index}
+								clientName={getContact(activeSession).username}
+								askerRcId={chatItem.askerRcId}
+								type={getTypeOfLocation()}
+								isOnlyEnquiry={isOnlyEnquiry}
+								isMyMessage={isMyMessage(message.userId)}
+								resortData={resortData}
+								{...message}
+							/>
+						))}
+
+					<div
+						className={`session__scrollToBottom ${
+							isScrolledToBottom
+								? 'session__scrollToBottom--disabled'
+								: ''
+						}`}
+					>
+						{newMessages > 0 && (
+							<span className="session__unreadCount">
+								{newMessages > 99
+									? translate('session.unreadCount.maxValue')
+									: newMessages}
+							</span>
+						)}
+						<Button
+							item={scrollBottomButtonItem}
+							isLink={false}
+							buttonHandle={handleScrollToBottomButtonClick}
+						/>
+					</div>
+				</div>
+			)}
+
+			{props.isAnonymousEnquiry && (
+				<div className="session__content session__content--anonymousEnquiry">
+					<Headline
+						semanticLevel="3"
+						text={`${translate(
+							'enquiry.anonymous.infoLabel.start'
+						)}${getContact(activeSession).username}${translate(
+							'enquiry.anonymous.infoLabel.end'
+						)}`}
 					/>
 				</div>
-			</div>
+			)}
 
 			{chatItem.monitoring &&
-			!activeSession.isFeedbackSession &&
-			!typeIsEnquiry(getTypeOfLocation()) &&
-			monitoringButtonVisible &&
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-			getMonitoringLink() ? (
-				<Link to={getMonitoringLink()}>
-					<div className="monitoringButton">
-						<Button item={monitoringButtonItem} isLink={true} />
-					</div>
-				</Link>
-			) : null}
+				!activeSession.isFeedbackSession &&
+				!typeIsEnquiry(getTypeOfLocation()) &&
+				monitoringButtonVisible &&
+				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+				getMonitoringLink() && (
+					<Link to={getMonitoringLink()}>
+						<div className="monitoringButton">
+							<Button item={monitoringButtonItem} isLink={true} />
+						</div>
+					</Link>
+				)}
 
-			{typeIsEnquiry(getTypeOfLocation()) ? (
+			{typeIsEnquiry(getTypeOfLocation()) && (
 				<div className="session__acceptance messageItem">
 					{hasUserAuthority(
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
@@ -343,34 +371,35 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						/>
 					)}
 				</div>
-			) : null}
+			)}
 
-			{!typeIsEnquiry(getTypeOfLocation()) ||
-			(typeIsEnquiry(getTypeOfLocation()) &&
-				hasUserAuthority(
-					AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
-					userData
-				)) ? (
-				<MessageSubmitInterfaceComponent
-					handleSendButton={() => {}}
-					isTyping={() => props.isTyping()}
-					placeholder={getPlaceholder()}
-					showMonitoringButton={() => {
-						setMonitoringButtonVisible(true);
-					}}
-					type={getTypeOfLocation()}
-					typingUsers={props.typingUsers}
-				/>
-			) : null}
+			{!props.isAnonymousEnquiry &&
+				(!typeIsEnquiry(getTypeOfLocation()) ||
+					(typeIsEnquiry(getTypeOfLocation()) &&
+						hasUserAuthority(
+							AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
+							userData
+						))) && (
+					<MessageSubmitInterfaceComponent
+						handleSendButton={() => {}}
+						isTyping={() => props.isTyping()}
+						placeholder={getPlaceholder()}
+						showMonitoringButton={() => {
+							setMonitoringButtonVisible(true);
+						}}
+						type={getTypeOfLocation()}
+						typingUsers={props.typingUsers}
+					/>
+				)}
 
-			{overlayActive ? (
+			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>
-			) : null}
+			)}
 		</div>
 	);
 };

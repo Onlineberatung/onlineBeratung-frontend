@@ -6,6 +6,7 @@ export const config = {
 	endpoints: {
 		agencyConsultants: tld + '/service/users/consultants',
 		agencyServiceBase: tld + '/service/agencies',
+		anonymousAskerBase: tld + '/service/conversations/askers/anonymous/',
 		askerSessions: tld + '/service/users/sessions/askers',
 		attachmentUpload: tld + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: tld + '/service/uploads/feedback/new/',
@@ -51,8 +52,8 @@ export const config = {
 	urls: {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
-		toLogin: tld + endpointPort + '/login.html',
-		redirectToApp: tld + endpointPort + `/beratung-hilfe.html`,
+		toLogin: tld + endpointPort + '/',
+		redirectToApp: tld + endpointPort + `/app`,
 		home: 'https://www.caritas.de',
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
