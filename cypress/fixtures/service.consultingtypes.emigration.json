@@ -10,7 +10,7 @@
 	"urls": {},
 	"registration": {
 		"minPostcodeSize": 5,
-		"autoSelectAgency": false,
+		"autoSelectAgency": true,
 		"autoSelectPostcode": false,
 		"notes": {
 			"agencySelection": "Sollten Sie im Ausland leben, geben Sie bitte die Postleitzahl eines Bezugsortes in Deutschland (zukünftiger Wohnort, Heimatort…) an."
@@ -28,7 +28,7 @@
 	"excludeNonMainConsultantsFromTeamSessions": false,
 	"whiteSpot": {
 		"whiteSpotAgencyAssigned": true,
-		"whiteSpotAgencyId": 100
+		"whiteSpotAgencyId": 1731
 	},
 	"groupChat": {
 		"isGroupChat": false,

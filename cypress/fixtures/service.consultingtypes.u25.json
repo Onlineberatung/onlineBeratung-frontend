@@ -12,14 +12,14 @@
 	},
 	"registration": {
 		"minPostcodeSize": 5,
-		"autoSelectAgency": false,
+		"autoSelectAgency": true,
 		"autoSelectPostcode": true,
 		"notes": {
 			"password": "Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!"
 		},
 		"mandatoryFields": {
-			"age": false,
-			"state": false
+			"age": true,
+			"state": true
 		}
 	},
 	"isSubsequentRegistrationAllowed": false,
@@ -29,8 +29,7 @@
 	"lockedAgencies": false,
 	"excludeNonMainConsultantsFromTeamSessions": false,
 	"whiteSpot": {
-		"whiteSpotAgencyAssigned": true,
-		"whiteSpotAgencyId": 100
+		"whiteSpotAgencyAssigned": false
 	},
 	"groupChat": {
 		"isGroupChat": false,
@@ -41,19 +40,20 @@
 		"sendWelcomeMessage": true,
 		"welcomeMessageText": "Lorem ipsum"
 	},
-	"sendFurtherStepsMessage": true,
+	"sendFurtherStepsMessage": false,
 	"sendSaveSessionDataMessage": true,
 	"sessionDataInitializing": {
 		"addictiveDrugs": false,
-		"age": false,
-		"gender": false,
+		"age": true,
+		"gender": true,
 		"relation": false,
-		"state": false
+		"state": true
 	},
 	"monitoring": {
-		"initializeMonitoring": false
+		"initializeMonitoring": true,
+		"monitoringTemplateFile": "u25.json"
 	},
-	"initializeFeedbackChat": false,
+	"initializeFeedbackChat": true,
 	"roles": {
 		"consultant": {
 			"main": ["consultant", "u25-consultant", "u25-main-consultant"],
