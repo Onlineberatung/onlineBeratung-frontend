@@ -50,3 +50,12 @@ export const formatToHHMM = (timestamp: string) => {
 	}
 	return hours + ':' + minutes;
 };
+
+export const prettyPrintMinutesSince = (secondsSinceEpoch: number) => {
+	// TODO: Revise hard-coded locale once internationalization is implemented
+	const formatter = new Intl.RelativeTimeFormat('de', { numeric: 'auto' });
+	const now = new Date().getTime();
+	const minutesElapsed = Math.round((secondsSinceEpoch * 1000 - now) / 60000);
+
+	return formatter.format(minutesElapsed, 'minute');
+};
