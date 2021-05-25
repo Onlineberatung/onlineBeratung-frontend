@@ -14,7 +14,8 @@ import {
 	AuthDataContext,
 	AuthDataInterface,
 	UnreadSessionsStatusContext,
-	NotificationsContext
+	NotificationsContext,
+	ConsultingTypesContext
 } from '../../globalState';
 import { ContextProvider } from '../../globalState/state';
 import { apiGetConsultingTypes, apiGetUserData } from '../../api';
@@ -28,7 +29,6 @@ import {
 } from '../incomingVideoCall/IncomingVideoCall';
 import './authenticatedApp.styles';
 import './navigation.styles';
-import { ConsultingTypesContext } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const AuthenticatedAppContainer = (props) => {
 	return (

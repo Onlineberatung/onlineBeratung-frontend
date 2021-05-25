@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { UserDataContext } from '../../globalState';
-import { useConsultingTypes } from '../../globalState/provider/ConsultingTypesProvider';
+import { useConsultingTypes, UserDataContext } from '../../globalState';
 import {
 	getAddictiveDrugsString,
 	handleNumericTranslation,

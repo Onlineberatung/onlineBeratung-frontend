@@ -10,7 +10,8 @@ import {
 	UserDataContext,
 	StoppedGroupChatContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	useConsultingType
 } from '../../globalState';
 import {
 	typeIsEnquiry,
@@ -44,7 +45,6 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
-import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);

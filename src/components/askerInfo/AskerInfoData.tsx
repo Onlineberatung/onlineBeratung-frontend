@@ -9,7 +9,8 @@ import {
 	SessionsDataContext,
 	ActiveSessionGroupIdContext,
 	getActiveSession,
-	getContact
+	getContact,
+	useConsultingType
 } from '../../globalState';
 import {
 	convertUserDataObjectToArray,
@@ -17,7 +18,6 @@ import {
 	getUserDataTranslateBase
 } from '../profile/profileHelpers';
 import { Text } from '../text/Text';
-import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const AskerInfoData = () => {
 	const { sessionsData } = useContext(SessionsDataContext);

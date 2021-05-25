@@ -1,3 +1,5 @@
+// DOB-83: Replace this with auto-generated interfaces from dtsgen.
+
 export type RequiredComponentsInterface = {
 	age?: {
 		isEnabled: boolean;

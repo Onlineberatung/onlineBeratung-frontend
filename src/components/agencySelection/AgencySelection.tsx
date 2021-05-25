@@ -58,7 +58,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		setSelectedAgencyId(undefined);
 		setProposedAgencies(null);
 		setPreselectedAgency(props.preselectedAgency);
-	}, [props.preselectedAgency]);
+	}, [props.preselectedAgency, props.consultingType]);
 
 	useEffect(() => {
 		if (autoSelectAgency) {
@@ -121,7 +121,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					.catch((error) => {
 						if (
 							error.message === FETCH_ERRORS.EMPTY &&
-							props.consultingType.id
+							props.consultingType.id != null
 						) {
 							setPostcodeFallbackLink(
 								props.consultingType.urls
@@ -155,7 +155,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		content: selectedPostcode,
 		maxLength: VALID_POSTCODE_LENGTH,
 		pattern: '^[0-9]+$',
-		disabled: autoSelectPostcode || props.consultingType.id == null,
 		icon: props.icon
 	};
 

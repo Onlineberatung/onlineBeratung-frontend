@@ -20,7 +20,8 @@ import {
 	UserDataContext,
 	getSessionsDataKeyForSessionType,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	useConsultingType
 } from '../../globalState';
 import { history } from '../app/app';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
@@ -30,7 +31,6 @@ import './sessionsListItem.styles';
 import { Tag } from '../tag/Tag';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
-import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 
 interface SessionListItemProps {
 	type: string;

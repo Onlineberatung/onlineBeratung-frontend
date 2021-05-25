@@ -8,6 +8,7 @@
 	"agencies": null,
 	"grantedAuthorities": ["AUTHORIZATION_USER_DEFAULT"],
 	"consultingTypes": {
+		"0": { "sessionData": null, "isRegistered": false, "agency": null },
 		"1": {
 			"sessionData": { "age": null, "gender": null, "state": null },
 			"isRegistered": true,
@@ -21,7 +22,8 @@
 				"offline": false,
 				"consultingType": 1
 			}
-		}
+		},
+		"17": { "sessionData": null, "isRegistered": false, "agency": null }
 	},
 	"formalLanguage": true,
 	"absent": false,

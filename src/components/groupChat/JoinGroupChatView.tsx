@@ -9,7 +9,8 @@ import {
 	StoppedGroupChatContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	AcceptedGroupIdContext
+	AcceptedGroupIdContext,
+	useConsultingType
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
@@ -45,7 +46,6 @@ import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const JoinGroupChatView = () => {
 	const { userData } = useContext(UserDataContext);

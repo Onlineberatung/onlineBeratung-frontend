@@ -2,12 +2,12 @@ import { ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { translate } from '../../utils/translate';
 import {
 	UserDataInterface,
-	ConsultingTypeBasicInterface
+	ConsultingTypeBasicInterface,
+	getConsultingType
 } from '../../globalState';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
-import { getConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 
 export const convertUserDataObjectToArray = (object) => {
 	const array = [];

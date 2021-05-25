@@ -6,7 +6,8 @@ import { config } from '../../resources/scripts/config';
 import {
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	useConsultingTypes
 } from '../../globalState';
 import { ConsultantPrivateData } from './ConsultantPrivateData';
 import { ConsultantPublicData } from './ConsultantPublicData';
@@ -21,7 +22,6 @@ import { DeleteAccount } from './DeleteAccount';
 import { AbsenceFormular } from '../absenceFormular/AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { Text } from '../text/Text';
-import { useConsultingTypes } from '../../globalState/provider/ConsultingTypesProvider';
 import './profile.styles';
 
 export const Profile = () => {

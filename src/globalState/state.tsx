@@ -4,6 +4,7 @@ import {
 	ActiveSessionGroupIdProvider,
 	AuthDataProvider,
 	ConsultantListProvider,
+	ConsultingTypesProvider,
 	FilterStatusProvider,
 	NotificationsProvider,
 	SessionsDataProvider,
@@ -11,7 +12,6 @@ import {
 	UnreadSessionsStatusProvider,
 	UserDataProvider
 } from '.';
-import { ConsultingTypesProvider } from './provider/ConsultingTypesProvider';
 
 function ProviderComposer({ contexts, children }) {
 	return contexts.reduceRight(

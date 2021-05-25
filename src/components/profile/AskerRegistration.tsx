@@ -4,7 +4,9 @@ import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
 	AcceptedGroupIdContext,
-	UserDataInterface
+	UserDataInterface,
+	useConsultingTypes,
+	useConsultingType
 } from '../../globalState';
 import { history } from '../app/app';
 import { Button } from '../button/Button';
@@ -34,10 +36,6 @@ import './profile.styles';
 import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
-import {
-	useConsultingType,
-	useConsultingTypes
-} from '../../globalState/provider/ConsultingTypesProvider';
 
 export const AskerRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -54,7 +52,7 @@ export const AskerRegistration = () => {
 	const selectedConsultingType = useConsultingType(selectedConsultingTypeId);
 
 	const isAllRequiredDataSet = () =>
-		selectedConsultingTypeId && selectedAgency;
+		selectedConsultingTypeId != null && selectedAgency;
 
 	useEffect(() => {
 		if (isAllRequiredDataSet()) {

@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
-import { UserDataContext } from '../../globalState';
-import { useConsultingTypes } from '../../globalState/provider/ConsultingTypesProvider';
+import { useConsultingTypes, UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditableData } from '../editableData/EditableData';

@@ -14,7 +14,8 @@ import {
 	getActiveSession,
 	getContact,
 	AUTHORITIES,
-	hasUserAuthority
+	hasUserAuthority,
+	useConsultingType
 } from '../../globalState';
 import { Link } from 'react-router-dom';
 import {
@@ -33,7 +34,6 @@ import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { apiGetGroupMembers } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
-import { useConsultingType } from '../../globalState/provider/ConsultingTypesProvider';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
 
