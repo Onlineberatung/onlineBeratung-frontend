@@ -2,7 +2,7 @@ import { ReactComponent as OpenEnvelopeIcon } from '../../resources/img/icons/en
 import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as NewEnquiryIcon } from '../../resources/img/icons/plus.svg';
 import { ReactComponent as ClosedEnvelopeIcon } from '../../resources/img/icons/envelope.svg';
-import { ReactComponent as LiveChatIcon } from '../../resources/img/icons/person.svg';
+import { ReactComponent as LiveChatIcon } from '../../resources/img/icons/person-circle-solid.svg';
 
 export const LIST_ICONS = {
 	IS_READ: 'IS_READ',
