@@ -68,7 +68,7 @@ export const AskerRegistration = () => {
 
 	const getOptionOfSelectedConsultingType = () => {
 		return consultingTypeSelectOptionsSet(userData, consultingTypes).filter(
-			(option) => option.value === (selectedConsultingTypeId as any)
+			(option) => parseInt(option.value) === selectedConsultingTypeId
 		)[0];
 	};
 

@@ -162,7 +162,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		setSelectedPostcode(e.target.value);
 	};
 
-	const showPreselectedAgency = preselectedAgency && autoSelectPostcode;
+	const showPreselectedAgency = preselectedAgency && !autoSelectPostcode;
 	const introItemsTranslations = showPreselectedAgency
 		? [
 				'registration.agencyPreselected.intro.point1',
