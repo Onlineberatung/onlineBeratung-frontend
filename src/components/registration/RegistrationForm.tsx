@@ -40,7 +40,7 @@ import { getUrlParameter } from '../../utils/getUrlParameter';
 import './registrationForm.styles';
 
 interface RegistrationFormProps {
-	registrationData: ConsultingTypeInterface;
+	consultingType: ConsultingTypeInterface;
 }
 
 interface FormAccordionData {
@@ -52,9 +52,7 @@ interface FormAccordionData {
 	age?: string;
 }
 
-export const RegistrationForm = ({
-	registrationData
-}: RegistrationFormProps) => {
+export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 	const [formAccordionData, setFormAccordionData] = useState<
 		FormAccordionData
 	>();
@@ -69,11 +67,10 @@ export const RegistrationForm = ({
 		false
 	);
 	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
-	const consultingType = registrationData.consultingType;
 	const [overlayActive, setOverlayActive] = useState(false);
 
 	// SET FORMAL/INFORMAL COOKIE
-	setTokenInCookie('useInformal', registrationData.useInformal ? '1' : '');
+	setTokenInCookie('useInformal', consultingType.languageFormal ? '' : '1');
 
 	const prefillPostcode = () => {
 		const agencyId = isNumber(getUrlParameter('aid'))
@@ -84,10 +81,10 @@ export const RegistrationForm = ({
 			getAgencyDataById(agencyId);
 		}
 
-		if (autoselectAgencyForConsultingType(consultingType)) {
+		if (autoselectAgencyForConsultingType(consultingType.id)) {
 			apiAgencySelection({
 				postcode: DEFAULT_POSTCODE,
-				consultingType: consultingType
+				consultingType: consultingType.id
 			})
 				.then((response) => {
 					const agencyData = response[0];
@@ -103,7 +100,7 @@ export const RegistrationForm = ({
 		apiGetAgencyById(agencyId)
 			.then((response) => {
 				const agencyData = response[0];
-				agencyData.consultingType === consultingType
+				agencyData.consultingType === consultingType.id
 					? setPreselectedAgencyData(agencyData)
 					: redirectToRegistrationWithoutAid();
 			})
@@ -170,7 +167,7 @@ export const RegistrationForm = ({
 			password: encodeURIComponent(formAccordionData.password),
 			agencyId: formAccordionData.agencyId,
 			postcode: formAccordionData.postcode,
-			consultingType: consultingType?.toString(),
+			consultingType: consultingType.id.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
 			...(formAccordionData.state && { state: formAccordionData.state }),
 			...(formAccordionData.age && { age: formAccordionData.age })
@@ -189,28 +186,28 @@ export const RegistrationForm = ({
 			<form
 				className="registrationForm"
 				id="registrationForm"
-				data-consultingtype={consultingType}
+				data-consultingtype={consultingType.id}
 			>
 				<h3 className="registrationForm__overline">
-					{registrationData.overline}
+					{consultingType.titles.long}
 				</h3>
 				<h2 className="registrationForm__headline">
 					{translate('registration.headline')}
 				</h2>
 
 				<FormAccordion
-					consultingType={consultingType}
+					consultingType={consultingType.id}
 					isUsernameAlreadyInUse={isUsernameAlreadyInUse}
 					preselectedAgencyData={preselectedAgencyData}
 					handleFormAccordionData={(formData) =>
 						setFormAccordionData(formData)
 					}
-					additionalStepsData={registrationData.requiredComponents}
-					registrationNotes={registrationData.registrationNotes}
+					additionalStepsData={consultingType.requiredComponents}
+					registrationNotes={consultingType.registration.notes}
 				></FormAccordion>
 
 				{preselectedAgencyData &&
-					autoselectPostcodeForConsultingType(consultingType) && (
+					autoselectPostcodeForConsultingType(consultingType.id) && (
 						<PreselectedAgency
 							prefix={translate(
 								'registration.agency.preselected.prefix'

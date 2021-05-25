@@ -1,5 +1,6 @@
 import { RENEW_BEFORE_EXPIRY_IN_MS } from '../../src/components/auth/auth';
 import { getTokenExpiryFromLocalStorage } from '../../src/components/sessionCookie/accessSessionLocalStorage';
+import { config } from '../../src/resources/scripts/config';
 
 const waitForTokenProcessing = () => {
 	// TODO: don't arbitrarily wait for token to be processed, find some
@@ -48,6 +49,11 @@ describe('Keycloak Tokens', () => {
 	});
 
 	it('should refresh the access token if its expired when loading the app', () => {
+		cy.intercept(
+			`${config.endpoints.consultingTypeServiceBase}/byslug/sessions/full`,
+			{ statusCode: 404 }
+		);
+
 		cy.clock();
 		cy.caritasMockedLogin();
 

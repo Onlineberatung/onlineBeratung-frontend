@@ -14,7 +14,10 @@ import { RegistrationUsername } from '../registration/RegistrationUsername';
 import { RegistrationAge } from '../registration/RegistrationAge';
 import { RegistrationState } from '../registration/RegistrationState';
 import { RegistrationPassword } from '../registration/RegistrationPassword';
-import { AccordionItemValidity } from '../registration/registrationHelpers';
+import {
+	AccordionItemValidity,
+	stateData
+} from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
 	consultingType: number;
@@ -157,12 +160,15 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		});
 	}
 
-	if (props.additionalStepsData?.age) {
+	if (props.additionalStepsData?.age?.isEnabled) {
 		accordionItemData.push({
 			title: translate('registration.age.headline'),
 			nestedComponent: (
 				<RegistrationAge
-					dropdownSelectData={props.additionalStepsData.age}
+					dropdownSelectData={{
+						label: translate('registration.age.dropdown'),
+						options: props.additionalStepsData.age.options
+					}}
 					onAgeChange={(age) => setAge(age)}
 					onValidityChange={(validity) => setAgeValidity(validity)}
 				/>
@@ -171,12 +177,15 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		});
 	}
 
-	if (props.additionalStepsData?.state) {
+	if (props.additionalStepsData?.state?.isEnabled) {
 		accordionItemData.push({
 			title: translate('registration.state.headline'),
 			nestedComponent: (
 				<RegistrationState
-					dropdownSelectData={props.additionalStepsData.state}
+					dropdownSelectData={{
+						label: translate('registration.state.dropdown'),
+						options: stateData
+					}}
 					onStateChange={(state) => setState(state)}
 					onValidityChange={(validity) => setStateValidity(validity)}
 				/>

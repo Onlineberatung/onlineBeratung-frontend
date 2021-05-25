@@ -4,6 +4,10 @@ import { useParams } from 'react-router-dom';
 import { apiGetConsultingType } from '../../api';
 import { Login } from '../login/Login';
 
+// Avoid matching strings like "beratung-hilfe.html"
+// where we already know it's not a consulting type.
+const CONSULTING_TYPE_SLUG_PATTERN = /^[\w\d-]+$/;
+
 export interface LoginLoaderProps {
 	handleUnmatch: () => void;
 }
@@ -13,6 +17,11 @@ export const LoginLoader = ({ handleUnmatch }: LoginLoaderProps) => {
 	const { consultingTypeSlug } = useParams();
 
 	useEffect(() => {
+		if (!consultingTypeSlug.match(CONSULTING_TYPE_SLUG_PATTERN)) {
+			handleUnmatch();
+			return;
+		}
+
 		apiGetConsultingType({ consultingTypeSlug }).then((result) => {
 			if (result) setIsValidResort(true);
 			else handleUnmatch();
