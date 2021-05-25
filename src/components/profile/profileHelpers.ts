@@ -80,9 +80,7 @@ export const consultingTypeSelectOptionsSet = (
 
 		return {
 			value: value.consultingType,
-			label: consultingType.groupChat.isGroupChat
-				? consultingType.titles.registrationDropdown
-				: consultingType.titles.default
+			label: consultingType.titles.registrationDropdown
 		};
 	});
 };
