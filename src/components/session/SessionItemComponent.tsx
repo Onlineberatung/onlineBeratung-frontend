@@ -32,6 +32,7 @@ import {
 	getContact,
 	AcceptedGroupIdContext,
 	hasUserAuthority,
+	isAnonymousSession,
 	AUTHORITIES,
 	ConsultingTypeInterface
 } from '../../globalState';
@@ -70,6 +71,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
@@ -347,6 +349,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				!typeIsEnquiry(getTypeOfLocation()) &&
 				monitoringButtonVisible &&
 				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+				!isLiveChat &&
 				getMonitoringLink() && (
 					<Link to={getMonitoringLink()}>
 						<div className="monitoringButton">
@@ -355,7 +358,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					</Link>
 				)}
 
-			{typeIsEnquiry(getTypeOfLocation()) && (
+			{typeIsEnquiry(getTypeOfLocation()) ? (
 				<div className="session__acceptance messageItem">
 					{hasUserAuthority(
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
@@ -371,7 +374,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						/>
 					)}
 				</div>
-			)}
+			) : null}
 
 			{!props.isAnonymousEnquiry &&
 				(!typeIsEnquiry(getTypeOfLocation()) ||

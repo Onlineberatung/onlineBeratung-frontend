@@ -10,7 +10,8 @@ import {
 	SessionsDataContext,
 	ActiveSessionGroupIdContext,
 	getActiveSession,
-	getContact
+	getContact,
+	isAnonymousSession
 } from '../../globalState';
 import {
 	convertUserDataObjectToArray,
@@ -23,6 +24,7 @@ export const AskerInfoData = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 
 	const resort = getResortTranslation(activeSession.session.consultingType);
 
@@ -43,7 +45,7 @@ export const AskerInfoData = () => {
 				</p>
 				<p className="profile__data__content">{resort}</p>
 			</div>
-			{activeSession.session.consultingType === 0 && (
+			{activeSession.session.consultingType === 0 && !isLiveChat && (
 				<div className="profile__data__item">
 					<p className="profile__data__label">
 						{translate('userProfile.data.postcode')}
