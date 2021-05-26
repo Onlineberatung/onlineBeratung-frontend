@@ -50,7 +50,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		ActiveSessionGroupIdContext
 	);
 	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const isLiveChat = isAnonymousSession(activeSession.session);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const chatItem = getChatItemForSession(activeSession);
 
 	const username = getContact(activeSession).username;

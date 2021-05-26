@@ -57,7 +57,7 @@ export const SessionMenu = () => {
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const isLiveChat = isAnonymousSession(activeSession.session);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);

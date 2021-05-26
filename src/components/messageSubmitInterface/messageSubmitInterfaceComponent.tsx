@@ -145,7 +145,7 @@ export const MessageSubmitInterfaceComponent = (
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const isLiveChat = isAnonymousSession(activeSession.session);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
 		null

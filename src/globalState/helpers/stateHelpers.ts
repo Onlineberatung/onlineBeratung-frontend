@@ -145,7 +145,7 @@ export const getSessionsDataWithChangedValue = (
 };
 
 export const isAnonymousSession = (
-	session: SessionItemInterface | null
+	session: SessionItemInterface | null | undefined
 ): boolean => {
 	return session?.registrationType === 'ANONYMOUS';
 };

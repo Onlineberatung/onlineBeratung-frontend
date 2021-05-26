@@ -68,7 +68,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const isLiveChat = isAnonymousSession(activeSession.session);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);

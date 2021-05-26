@@ -61,7 +61,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const listItem =
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
-	const isLiveChat = isAnonymousSession(currentSessionData.session);
+	const isLiveChat = isAnonymousSession(currentSessionData?.session);
 	let plainTextLastMessage = '';
 
 	if (listItem.lastMessage) {

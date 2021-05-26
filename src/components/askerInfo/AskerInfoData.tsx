@@ -24,7 +24,7 @@ export const AskerInfoData = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const isLiveChat = isAnonymousSession(activeSession.session);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 
 	const resort = getResortTranslation(activeSession.session.consultingType);
 
