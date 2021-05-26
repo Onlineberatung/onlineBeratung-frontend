@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import clsx from 'clsx';
 import { history } from '../app/app';
 import {
 	translate,
@@ -217,13 +218,15 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					<BackIcon />
 				</span>
 				<div
-					className={
-						hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
-						isGenericConsultingType(chatItem.consultingType) ||
-						isLiveChat
-							? `sessionInfo__username sessionInfo__username--deactivate`
-							: `sessionInfo__username`
-					}
+					className={clsx('sessionInfo__username', {
+						'sessionInfo__username--deactivate':
+							hasUserAuthority(
+								AUTHORITIES.ASKER_DEFAULT,
+								userData
+							) ||
+							isGenericConsultingType(chatItem.consultingType) ||
+							isLiveChat
+					})}
 				>
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
 						<h3>
