@@ -1,5 +1,9 @@
 import { translate } from './translate';
 
+const MILLISECONDS_PER_SECOND = 1000;
+const MILLISECONDS_PER_MINUTE = 60 * MILLISECONDS_PER_SECOND;
+const MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
+
 export const formatToDDMMYYYY = (unixDate: number) => {
 	const date = new Date(unixDate);
 	const day = date.getDate();
@@ -51,11 +55,14 @@ export const formatToHHMM = (timestamp: string) => {
 	return hours + ':' + minutes;
 };
 
-export const prettyPrintMinutesSince = (secondsSinceEpoch: number) => {
-	// TODO: Revise hard-coded locale once internationalization is implemented
-	const formatter = new Intl.RelativeTimeFormat('de', { numeric: 'auto' });
+export const prettyPrintTimeSince = (secondsSinceEpoch: number) => {
 	const now = Date.now();
-	const minutesElapsed = Math.round((secondsSinceEpoch * 1000 - now) / 60000);
+	const deltaT = now - secondsSinceEpoch * MILLISECONDS_PER_SECOND;
+	const hours = Math.trunc(deltaT / MILLISECONDS_PER_HOUR);
+	const minutes = Math.trunc(
+		(deltaT % MILLISECONDS_PER_HOUR) / MILLISECONDS_PER_MINUTE
+	);
 
-	return formatter.format(minutesElapsed, 'minute');
+	// TODO: Revise hard-coded locale once internationalization is implemented
+	return `vor ${hours ? `${hours}h ` : ''}${minutes}min`;
 };

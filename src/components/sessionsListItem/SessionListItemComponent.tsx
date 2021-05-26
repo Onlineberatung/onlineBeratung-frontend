@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import {
 	getPrettyDateFromMessageDate,
-	prettyPrintMinutesSince
+	prettyPrintTimeSince
 } from '../../utils/dateHelpers';
 import {
 	typeIsTeamSession,
@@ -250,7 +250,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					<div className="sessionsListItem__date">
 						{listItem.messageDate
 							? isLiveChat
-								? prettyPrintMinutesSince(listItem.messageDate)
+								? prettyPrintTimeSince(listItem.messageDate)
 								: getPrettyDateFromMessageDate(
 										listItem.messageDate
 								  )
