@@ -70,7 +70,11 @@ $buttonHeight: 50px;
 		color: $white;
 		border: 2px solid $primary;
 		box-shadow: $button-box-shadow-default;
-		background: linear-gradient(to right, $light-red 50%, $primary 50%);
+		background: linear-gradient(
+			to right,
+			$button-auto-close-color 50%,
+			$primary 50%
+		);
 		background-size: 200% 100%;
 
 		animation: loadAnimation 10s linear;
@@ -87,7 +91,7 @@ $buttonHeight: 50px;
 			border: 2px solid $hover-primary;
 			background: linear-gradient(
 				to right,
-				$light-red 50%,
+				$button-auto-close-color 50%,
 				$hover-primary 50%
 			);
 			background-size: 200% 100%;
