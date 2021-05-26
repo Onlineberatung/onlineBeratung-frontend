@@ -127,7 +127,7 @@
 		&__stepInfo.text {
 			width: 100%;
 			flex: auto;
-			text-align: center;
+			text-align: $further-steps-step-info-text-align;
 			margin-top: 12px;
 			margin-left: 0;
 		}

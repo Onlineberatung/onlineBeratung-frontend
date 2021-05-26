@@ -210,7 +210,7 @@ $maxFormElementWidth: 320px;
 		}
 
 		.text__divider {
-			text-align: center;
+			text-align: $profile-divider-text-align;
 			margin-bottom: $grid-base-three;
 		}
 

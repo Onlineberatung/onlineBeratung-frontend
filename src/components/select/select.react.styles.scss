@@ -35,6 +35,10 @@ $inputHeight: 50px;
 			height: $grid-base-three;
 		}
 
+		&__control {
+			border-radius: $select-dropdown-border-radius;
+		}
+
 		&__option {
 			background-color: $white;
 			color: $secondary;

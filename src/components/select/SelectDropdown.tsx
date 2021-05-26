@@ -29,7 +29,7 @@ const colourStyles = {
 			...styles,
 			'backgroundColor': 'white',
 			'border': isFocused ? '2px solid #3F373F' : '1px solid #8C878C',
-			'borderRadius': '25px',
+			'borderRadius': undefined,
 			'height': '50px',
 			'outline': isFocused ? '0' : '0',
 			'padding': '0 12px',

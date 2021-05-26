@@ -12,7 +12,7 @@ $unreadButtonSize: 18px;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	background-color: $background-ochre;
+	background-color: $session-background-color;
 
 	@include breakpoint($fromLarge) {
 		width: 100%;
@@ -78,7 +78,7 @@ $unreadButtonSize: 18px;
 		overflow-x: hidden;
 		overflow-y: auto;
 		padding: $grid-base-three $grid-base-two $grid-base-two;
-		background-color: $background-ochre;
+		background-color: $session-content-background-color;
 
 		@include breakpoint($fromMedium) {
 			padding: $grid-base-three $grid-base-three $grid-base-two;
