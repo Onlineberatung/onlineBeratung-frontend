@@ -3,8 +3,10 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import {
+	MILLISECONDS_PER_SECOND,
+	convertISO8601ToMSSinceEpoch,
 	getPrettyDateFromMessageDate,
-	prettyPrintTimeSince
+	prettyPrintTimeDifference
 } from '../../utils/dateHelpers';
 import {
 	typeIsTeamSession,
@@ -130,6 +132,23 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	};
 	const Icon = getSessionsListItemIcon(iconVariant());
 
+	const prettyPrintDate = (
+		messageDate: number, // seconds since epoch
+		createDate: string, // ISO8601 string
+		isLiveChat: boolean
+	) => {
+		const newestDate = Math.max(
+			messageDate * MILLISECONDS_PER_SECOND,
+			convertISO8601ToMSSinceEpoch(createDate)
+		);
+
+		return isLiveChat
+			? prettyPrintTimeDifference(newestDate, Date.now())
+			: getPrettyDateFromMessageDate(
+					newestDate / MILLISECONDS_PER_SECOND
+			  );
+	};
+
 	if (isGroupChatConsultingType(currentSessionData.session?.consultingType)) {
 		return null;
 	}
@@ -248,13 +267,11 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						</div>
 					)}
 					<div className="sessionsListItem__date">
-						{listItem.messageDate
-							? isLiveChat
-								? prettyPrintTimeSince(listItem.messageDate)
-								: getPrettyDateFromMessageDate(
-										listItem.messageDate
-								  )
-							: ''}
+						{prettyPrintDate(
+							listItem.messageDate,
+							listItem.createDate,
+							isLiveChat
+						)}
 					</div>
 				</div>
 				<div className="sessionsListItem__row">

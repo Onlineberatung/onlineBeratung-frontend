@@ -1,8 +1,8 @@
 import { translate } from './translate';
 
-const MILLISECONDS_PER_SECOND = 1000;
-const MILLISECONDS_PER_MINUTE = 60 * MILLISECONDS_PER_SECOND;
-const MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
+export const MILLISECONDS_PER_SECOND = 1000;
+export const MILLISECONDS_PER_MINUTE = 60 * MILLISECONDS_PER_SECOND;
+export const MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
 
 export const formatToDDMMYYYY = (unixDate: number) => {
 	const date = new Date(unixDate);
@@ -55,9 +55,9 @@ export const formatToHHMM = (timestamp: string) => {
 	return hours + ':' + minutes;
 };
 
-export const prettyPrintTimeSince = (secondsSinceEpoch: number) => {
-	const now = Date.now();
-	const deltaT = now - secondsSinceEpoch * MILLISECONDS_PER_SECOND;
+// Expects milliseconds since epoch
+export const prettyPrintTimeDifference = (t1: number, t2: number): string => {
+	const deltaT = t2 - t1;
 	const hours = Math.trunc(deltaT / MILLISECONDS_PER_HOUR);
 	const minutes = Math.trunc(
 		(deltaT % MILLISECONDS_PER_HOUR) / MILLISECONDS_PER_MINUTE
@@ -65,4 +65,8 @@ export const prettyPrintTimeSince = (secondsSinceEpoch: number) => {
 
 	// TODO: Revise hard-coded locale once internationalization is implemented
 	return `vor ${hours ? `${hours}h ` : ''}${minutes}min`;
+};
+
+export const convertISO8601ToMSSinceEpoch = (iso8601Date) => {
+	return new Date(iso8601Date).getTime();
 };
