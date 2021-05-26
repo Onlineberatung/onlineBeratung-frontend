@@ -34,6 +34,16 @@ $inputHeight: 50px;
 			width: $grid-base-three;
 			height: $grid-base-three;
 		}
+
+		&__option {
+			background-color: $white;
+			color: $secondary;
+
+			&--is-focused {
+				background-color: $background-accent;
+				color: $primary;
+			}
+		}
 	}
 
 	&__option {
