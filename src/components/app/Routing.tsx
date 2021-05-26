@@ -6,7 +6,8 @@ import {
 	RouterConfigConsultant,
 	RouterConfigTeamConsultant,
 	RouterConfigMainConsultant,
-	RouterConfigPeerConsultant
+	RouterConfigPeerConsultant,
+	RouterConfigAnonymousAsker
 } from './RouterConfig';
 import { AbsenceHandler } from './AbsenceHandler';
 import {
@@ -20,7 +21,7 @@ import { NavigationBar } from './NavigationBar';
 import { Header } from '../header/Header';
 
 interface routingProps {
-	logout: Function;
+	logout?: Function;
 }
 
 export const Routing = (props: routingProps) => {
@@ -41,6 +42,9 @@ export const Routing = (props: routingProps) => {
 		}
 		if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
 			return RouterConfigConsultant();
+		}
+		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
+			return RouterConfigAnonymousAsker();
 		}
 		return RouterConfigUser();
 	}, [userData]);
@@ -132,7 +136,7 @@ export const Routing = (props: routingProps) => {
 				<div className="contentWrapper__profile">
 					{useMemo(
 						() =>
-							routerConfig.profileRoutes.map(
+							routerConfig.profileRoutes?.map(
 								(route: any, index: any): JSX.Element => (
 									<Route
 										exact

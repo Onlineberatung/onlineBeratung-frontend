@@ -256,7 +256,14 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								: `sessionsListItem__username`
 						}
 					>
-						{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
+						{hasUserAuthority(
+							AUTHORITIES.ASKER_DEFAULT,
+							userData
+						) ||
+						hasUserAuthority(
+							AUTHORITIES.ANONYMOUS_DEFAULT,
+							userData
+						)
 							? currentSessionData.consultant
 								? currentSessionData.consultant.username
 								: isCurrentSessionNewEnquiry

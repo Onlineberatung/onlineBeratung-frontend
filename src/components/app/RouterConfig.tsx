@@ -307,3 +307,34 @@ export const RouterConfigMainConsultant = (): any => {
 	};
 	return config;
 };
+
+export const RouterConfigAnonymousAsker = (): any => {
+	return {
+		navigation: [
+			{
+				to: '/sessions/user/view',
+				icon: 'speech-bubbles',
+				titleKeys: {
+					large: 'navigation.asker.sessions',
+					small: 'navigation.asker.sessions.small'
+				}
+			}
+		],
+		listRoutes: [
+			{
+				path: '/sessions/user/view',
+				component: SessionsListWrapper
+			}
+		],
+		detailRoutes: [
+			{
+				path: '/sessions/user/view/:rcGroupId/:sessionId',
+				component: SessionView
+			},
+			{
+				path: '/sessions/user/view/',
+				component: SessionViewEmpty
+			}
+		]
+	};
+};

@@ -101,7 +101,10 @@ export const SessionsList: React.FC = () => {
 		if (!showFilter) {
 			setFilterStatus(INITIAL_FILTER);
 		}
-		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+		if (
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+		) {
 			resetActiveSession();
 			fetchAskerData(acceptedGroupId, true);
 		}
@@ -122,6 +125,7 @@ export const SessionsList: React.FC = () => {
 		}
 		if (
 			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+			!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) &&
 			hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData)
 		) {
 			if (activeCreateChat) {
@@ -138,7 +142,8 @@ export const SessionsList: React.FC = () => {
 	useEffect(() => {
 		if (
 			acceptedGroupId &&
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
+			(!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+				!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData))
 		) {
 			setIsRequestInProgress(true);
 			setCurrentOffset(0);
@@ -157,6 +162,7 @@ export const SessionsList: React.FC = () => {
 	useEffect(() => {
 		if (
 			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+			!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) &&
 			!acceptedGroupId
 		) {
 			setIsLoading(true);
@@ -165,7 +171,10 @@ export const SessionsList: React.FC = () => {
 	}, [currentFilter, currentTab]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+		if (
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+			!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+		) {
 			setIsReloadButtonVisible(false);
 			setHasNoSessions(false);
 			setSessionListTab(
@@ -194,7 +203,10 @@ export const SessionsList: React.FC = () => {
 			unreadSessionsStatus &&
 			unreadSessionsStatus.newDirectMessage
 		) {
-			if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+			if (
+				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+			) {
 				fetchAskerData();
 			} else {
 				getSessionsListData().catch(() => {});
@@ -205,6 +217,7 @@ export const SessionsList: React.FC = () => {
 	useEffect(() => {
 		if (
 			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+			!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) &&
 			updateAnonymousEnquiries &&
 			sessionListTab === SESSION_LIST_TAB.ANONYMOUS
 		) {
@@ -215,7 +228,10 @@ export const SessionsList: React.FC = () => {
 
 	useEffect(() => {
 		if (stoppedGroupChat) {
-			if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+			if (
+				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+				!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+			) {
 				getSessionsListData().catch(() => {});
 			} else {
 				fetchAskerData();
@@ -309,7 +325,10 @@ export const SessionsList: React.FC = () => {
 
 	const getSessionsListData = (increaseOffset?: boolean): Promise<any> => {
 		resetActiveSession();
-		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+		if (
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+		) {
 			return null;
 		}
 		setIsRequestInProgress(true);

@@ -12,6 +12,7 @@ import { apiPostAnonymousRegistration } from '../../api';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import {
+	deleteCookieByName,
 	getTokenFromCookie,
 	setTokenInCookie
 } from '../sessionCookie/accessSessionCookie';
@@ -23,6 +24,7 @@ import {
 } from '../overlay/Overlay';
 import { AnonymousEnquiryAcceptedContext } from '../../globalState';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
+import { history } from '../app/app';
 
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
@@ -105,6 +107,10 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					setUsername(decodedUsername);
 					setTokenInCookie('keycloak', response.accessToken);
 					setTokenInCookie('registeredUsername', decodedUsername);
+					setTokenInCookie('rc_token', response.rcToken);
+					setTokenInCookie('rc_uid', response.rcUserId);
+					setTokenInCookie('refreshToken', response.refreshToken);
+
 					props.onAnonymousRegistration();
 				})
 				.catch((err) => {
@@ -131,8 +137,8 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
-			// TODO: REDIRECT TO 1:1 CHAT
-			console.log('redirect to app');
+			history.push(`/app`);
+			deleteCookieByName('registeredUsername');
 		}
 	};
 

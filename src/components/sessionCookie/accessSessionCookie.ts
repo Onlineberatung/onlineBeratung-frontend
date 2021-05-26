@@ -2,6 +2,10 @@ export const setTokenInCookie = (name: string, token: string) => {
 	document.cookie = name + '=' + token + ';path=/;';
 };
 
+export const deleteCookieByName = (name: string) => {
+	document.cookie = name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+};
+
 export const getTokenFromCookie = (targetToken: string) => {
 	const targetName = targetToken + '=';
 	const decodedCookie = decodeURIComponent(document.cookie);
