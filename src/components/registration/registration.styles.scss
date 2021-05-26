@@ -1,7 +1,7 @@
 $scrollbarWidth: 20px;
 
 .registration {
-	text-align: center;
+	text-align: $registration-text-align;
 
 	&__content {
 		position: relative;

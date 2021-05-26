@@ -62,6 +62,11 @@
 
 	&__continueButton {
 		margin-top: $grid-base-three;
+
+		button {
+			min-width: 0;
+			padding: 0;
+		}
 	}
 
 	&--active & {

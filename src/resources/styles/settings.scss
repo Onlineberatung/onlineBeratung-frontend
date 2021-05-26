@@ -157,19 +157,22 @@ $section_margin_top_xlarge: 80px;
 }
 
 // Components
-$content-max-width: $xlarge;
+$button-border-radius: $grid-base-three;
+$button-box-shadow-default: 0 6px 0 0 rgba(0, 0, 0, 0.1);
+$button-box-shadow-grey: 0 3px 0 0 rgba(0, 0, 0, 0.1);
 $component-max-width: 1200px;
-$max-input-width: 320px;
-$sendInputHeight: 48px;
+$content-max-width: $xlarge;
 $datepicker-hover-color: $background-accent;
 $form-accordion-index-background-active: $background-accent;
 $form-accordion-index-border: 2px solid $tertiary;
 $form-accordion-index-color-active: $secondary;
 $form-accordion-index-color: $tertiary;
 $form-input-border: #dcd9dc;
+$input-field-height: 50px;
+$input-field-border-radius: $input-field-height / 2;
+$max-input-width: 320px;
 $message-bg-red: #d64b49;
+$registration-text-align: center;
+$sendInputHeight: 48px;
 $upload-progress: #80dd92;
 $welcome-screen-icon-background: $background-accent;
-$button-border-radius: $grid-base-three;
-$button-box-shadow-default: 0 6px 0 0 rgba(0, 0, 0, 0.1);
-$button-box-shadow-grey: 0 3px 0 0 rgba(0, 0, 0, 0.1);

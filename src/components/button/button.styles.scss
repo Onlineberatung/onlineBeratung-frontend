@@ -113,7 +113,7 @@ $buttonHeight: 50px;
 			margin-right: $grid-base;
 		}
 
-		&:hover {
+		&:not([disabled]):hover {
 			color: $hover-primary;
 			text-decoration: underline;
 
