@@ -8,7 +8,7 @@ $headerHeight: 80px;
 .sessionsList,
 .session {
 	&__wrapper {
-		background-color: $background-ochre;
+		background-color: $sessions-list-background-color;
 		position: relative;
 		height: 100%;
 
@@ -16,7 +16,7 @@ $headerHeight: 80px;
 			display: flex;
 			flex-direction: column;
 			height: 100%;
-			background-color: $background-light-ochre;
+			background-color: $sessions-list-background-color-light;
 		}
 
 		.col {
@@ -33,7 +33,7 @@ $headerHeight: 80px;
 		flex-direction: row;
 		justify-content: space-between;
 		padding: $grid-base-three $grid-base-two;
-		background-color: $background-light-ochre;
+		background-color: $sessions-list-background-color-light;
 		z-index: 15;
 
 		@include breakpoint($fromMedium) {
@@ -100,12 +100,12 @@ $headerHeight: 80px;
 		width: 100%;
 		position: absolute;
 		top: 0;
-		background-color: $background-ochre;
+		background-color: $sessions-list-background-color;
 		z-index: 5;
 
 		@include breakpoint($fromLarge) {
 			top: $grid-base-ten;
-			background-color: $background-light-ochre;
+			background-color: $sessions-list-background-color-light;
 		}
 
 		.select__wrapper {
