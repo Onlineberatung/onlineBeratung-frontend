@@ -10,6 +10,7 @@ import {
 	UserDataContext,
 	StoppedGroupChatContext,
 	hasUserAuthority,
+	isAnonymousSession,
 	AUTHORITIES
 } from '../../globalState';
 import {
@@ -56,6 +57,7 @@ export const SessionMenu = () => {
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
@@ -338,13 +340,15 @@ export const SessionMenu = () => {
 				) : null}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				!isGroupChat &&
-				!isGenericConsultingType(chatItem.consultingType) ? (
+				!isGenericConsultingType(chatItem.consultingType) &&
+				!isLiveChat ? (
 					<Link className="sessionMenu__item" to={userProfileLink}>
 						{translate('chatFlyout.askerProfil')}
 					</Link>
 				) : null}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				chatItem.monitoring &&
+				!isLiveChat &&
 				!typeIsEnquiry(getTypeOfLocation()) ? (
 					<Link className="sessionMenu__item" to={monitoringPath}>
 						{translate('chatFlyout.documentation')}

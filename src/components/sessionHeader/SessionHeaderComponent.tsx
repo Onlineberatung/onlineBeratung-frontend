@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import clsx from 'clsx';
 import { history } from '../app/app';
 import {
 	translate,
@@ -15,7 +16,8 @@ import {
 	getActiveSession,
 	getContact,
 	AUTHORITIES,
-	hasUserAuthority
+	hasUserAuthority,
+	isAnonymousSession
 } from '../../globalState';
 import { Link } from 'react-router-dom';
 import {
@@ -49,13 +51,15 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		ActiveSessionGroupIdContext
 	);
 	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const chatItem = getChatItemForSession(activeSession);
 
 	const username = getContact(activeSession).username;
 	const userSessionData = getContact(activeSession).sessionData;
 	const preparedUserSessionData =
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-		userSessionData
+		userSessionData &&
+		!isLiveChat
 			? convertUserDataObjectToArray(userSessionData)
 			: null;
 	const addictiveDrugs =
@@ -214,12 +218,15 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					<BackIcon />
 				</span>
 				<div
-					className={
-						hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
-						isGenericConsultingType(chatItem.consultingType)
-							? `sessionInfo__username sessionInfo__username--deactivate`
-							: `sessionInfo__username`
-					}
+					className={clsx('sessionInfo__username', {
+						'sessionInfo__username--deactivate':
+							hasUserAuthority(
+								AUTHORITIES.ASKER_DEFAULT,
+								userData
+							) ||
+							isGenericConsultingType(chatItem.consultingType) ||
+							isLiveChat
+					})}
 				>
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
 						<h3>
@@ -232,7 +239,8 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						AUTHORITIES.CONSULTANT_DEFAULT,
 						userData
 					) ? (
-						!isGenericConsultingType(chatItem.consultingType) ? (
+						!isGenericConsultingType(chatItem.consultingType) &&
+						!isLiveChat ? (
 							<Link to={userProfileLink}>
 								<h3>{username}</h3>
 							</Link>

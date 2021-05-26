@@ -491,6 +491,11 @@ declare namespace UserService {
 			 * ANONYMOUS
 			 */
 			registrationType: string;
+			/**
+			 * example:
+			 * 2021-05-11T15:29:37.000Z
+			 */
+			createDate?: string;
 			attachment?: SessionAttachmentDTO;
 			videoCallMessageDTO?: VideoCallMessageDTO;
 		}
