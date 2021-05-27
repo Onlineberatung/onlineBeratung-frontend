@@ -149,10 +149,10 @@ $buttonHeight: 50px;
 
 		&:hover {
 			background-color: $white;
-			border-color: $primary;
+			border-color: $button-small-icon-background-color-default;
 
 			svg {
-				fill: $primary;
+				fill: $button-small-icon-background-color-default;
 			}
 		}
 
