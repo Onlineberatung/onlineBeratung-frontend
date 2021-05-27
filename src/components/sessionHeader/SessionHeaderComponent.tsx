@@ -248,6 +248,10 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							<h3>{username}</h3>
 						)
 					) : null}
+					{hasUserAuthority(
+						AUTHORITIES.ANONYMOUS_DEFAULT,
+						userData
+					) && <h3>{username}</h3>}
 				</div>
 				<SessionMenu />
 			</div>
