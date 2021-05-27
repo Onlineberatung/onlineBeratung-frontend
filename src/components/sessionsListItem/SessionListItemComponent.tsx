@@ -344,7 +344,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								link={feedbackPath}
 							/>
 						)}
-					{isLiveChat && (
+					{isLiveChat && !typeIsEnquiry(type) && (
 						<Tag
 							text={translate('anonymous.listItem.activeLabel')}
 							color="green"
