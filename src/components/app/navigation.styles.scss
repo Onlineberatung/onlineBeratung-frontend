@@ -171,7 +171,8 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		line-height: 16px;
 		text-align: center;
 		margin: auto;
-		opacity: 0.5;
+		opacity: 0.6;
+		letter-spacing: 0.5px;
 
 		@include breakpoint($fromLarge) {
 			display: block;

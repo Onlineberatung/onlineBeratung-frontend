@@ -1,6 +1,6 @@
 .registrationForm {
 	margin: 120px 0;
-	max-width: 400px;
+	max-width: $registration-form-max-width;
 	animation: fadeIn linear 0.5s;
 
 	@keyframes fadeIn {
