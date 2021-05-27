@@ -13,6 +13,7 @@ $unreadButtonSize: 18px;
 	display: flex;
 	flex-direction: column;
 	background-color: $session-background-color;
+	overflow: hidden;
 
 	@include breakpoint($fromLarge) {
 		width: 100%;
@@ -86,6 +87,14 @@ $unreadButtonSize: 18px;
 
 		@include breakpoint($fromLarge) {
 			height: calc(100% - #{$sessionHeaderHeight} - #{$textareaHeight});
+		}
+	}
+
+	&__submit-interface {
+		transition: box-shadow 0.3s ease;
+
+		&--scrolled-up {
+			box-shadow: 0 -2px 8px 0 rgba($black, 0.1);
 		}
 	}
 
