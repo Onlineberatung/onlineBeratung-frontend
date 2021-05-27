@@ -145,6 +145,16 @@ $buttonHeight: 50px;
 		background-color: $button-small-icon-background-color-default;
 		border-radius: $button-small-icon-border-radius;
 		transition: all 0.6s ease;
+		border: 1px solid $button-small-icon-background-color-default;
+
+		&:hover {
+			background-color: $white;
+			border-color: $primary;
+
+			svg {
+				fill: $primary;
+			}
+		}
 
 		svg {
 			fill: $white;

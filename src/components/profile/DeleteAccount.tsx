@@ -48,6 +48,7 @@ export const DeleteAccount = () => {
 	};
 
 	const overlayConfirm: OverlayItem = {
+		className: 'deleteAccount__overlay',
 		headline: translate('deleteAccount.confirmOverlay.headline'),
 		headlineStyleLevel: '1',
 		copy: translate('deleteAccount.confirmOverlay.copy'),
@@ -73,6 +74,7 @@ export const DeleteAccount = () => {
 	};
 
 	const overlaySuccess: OverlayItem = {
+		className: 'deleteAccount__overlay',
 		headline: translate('deleteAccount.successOverlay.headline'),
 		svg: CheckIllustration,
 		buttonSet: [

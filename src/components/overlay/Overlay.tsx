@@ -5,6 +5,7 @@ import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline, HeadlineLevel } from '../headline/Headline';
 import './overlay.styles';
+import clsx from 'clsx';
 
 export const OVERLAY_FUNCTIONS = {
 	CLOSE: 'CLOSE',
@@ -22,6 +23,7 @@ export const OVERLAY_FUNCTIONS = {
 export const OVERLAY_RESET_TIME = 10000;
 
 export interface OverlayItem {
+	className?: string;
 	buttonSet?: ButtonItem[];
 	copy?: string;
 	headline?: string;
@@ -57,7 +59,7 @@ export const Overlay = (props: {
 	const item = props.item;
 	const Icon = item.svg;
 	return (
-		<div className="overlay">
+		<div className={clsx(props.item.className, 'overlay')}>
 			<div className="overlay__background"></div>
 			<div className="overlay__content">
 				{item.svg && (
