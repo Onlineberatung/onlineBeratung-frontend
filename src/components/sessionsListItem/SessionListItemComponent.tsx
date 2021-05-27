@@ -331,6 +331,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 						!typeIsEnquiry(type) &&
 						!listItem.feedbackRead &&
+						!isLiveChat &&
 						!(
 							activeSession &&
 							activeSession.isFeedbackSession &&
