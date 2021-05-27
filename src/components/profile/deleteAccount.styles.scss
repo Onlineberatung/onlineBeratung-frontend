@@ -2,44 +2,44 @@
 	display: flex;
 	justify-content: center;
 	width: 100%;
-}
 
-.overlay {
-	&__content .text {
-		margin-top: $grid-base-three;
-	}
-
-	.button__wrapper {
-		margin-top: $grid-base-four;
-	}
-
-	&__nestedComponent {
-		margin-top: $grid-base-three;
-
-		.inputField__wrapper {
-			margin: 0 auto;
-		}
-
-		.formWrapper__inputWrapper {
-			margin: 0;
-		}
-	}
-
-	.headline--3 {
-		max-width: 500px;
-		margin: 0 auto;
-	}
-}
-
-@include breakpoint($fromLarge) {
 	.overlay {
 		&__content .text {
-			text-align: left;
+			margin-top: $grid-base-three;
 		}
 
-		.inputField__wrapper,
-		button {
-			width: 272px;
+		.button__wrapper {
+			margin-top: $grid-base-four;
+		}
+
+		&__nestedComponent {
+			margin-top: $grid-base-three;
+
+			.inputField__wrapper {
+				margin: 0 auto;
+			}
+
+			.formWrapper__inputWrapper {
+				margin: 0;
+			}
+		}
+
+		.headline--3 {
+			max-width: 500px;
+			margin: 0 auto;
+		}
+	}
+
+	@include breakpoint($fromLarge) {
+		.overlay {
+			&__content .text {
+				text-align: left;
+			}
+
+			.inputField__wrapper,
+			button {
+				width: 272px;
+			}
 		}
 	}
 }
