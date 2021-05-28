@@ -67,7 +67,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		false
 	);
 	const [overlayActive, setOverlayActive] = useState(false);
-	const [currentGroupId, setCurrenGroupId] = useState(null);
+	const [currentGroupId, setCurrentGroupId] = useState(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
@@ -179,7 +179,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		apiEnquiryAcceptance(sessionId, props.isAnonymousEnquiry)
 			.then(() => {
 				setOverlayActive(true);
-				setCurrenGroupId(sessionGroupId);
+				setCurrentGroupId(sessionGroupId);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -189,7 +189,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		setOverlayActive(false);
 		setIsRequestInProgress(false);
-		setCurrenGroupId('');
+		setCurrentGroupId('');
 		setAcceptedGroupId(currentGroupId);
 		setSessionsData({ ...sessionsData, enquiries: [] });
 		history.push(`/sessions/consultant/sessionView/`);
