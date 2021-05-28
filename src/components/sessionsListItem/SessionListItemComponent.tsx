@@ -331,6 +331,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 						!typeIsEnquiry(type) &&
 						!listItem.feedbackRead &&
+						!isLiveChat &&
 						!(
 							activeSession &&
 							activeSession.isFeedbackSession &&
@@ -343,7 +344,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								link={feedbackPath}
 							/>
 						)}
-					{isLiveChat && (
+					{isLiveChat && !typeIsEnquiry(type) && (
 						<Tag
 							text={translate('anonymous.listItem.activeLabel')}
 							color="green"
