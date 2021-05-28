@@ -88,3 +88,20 @@ export const leaveGroupChatSuccessOverlayItem: OverlayItem = {
 		}
 	]
 };
+
+export const finishAnonymousChatSecurityOverlayItem: OverlayItem = {
+	svg: XIcon,
+	headline: translate('anonymous.overlay.finishChat.headline'),
+	buttonSet: [
+		{
+			label: translate('anonymous.overlay.finishChat.button1'),
+			function: OVERLAY_FUNCTIONS.FINISH_ANONYMOUS_CHAT,
+			type: BUTTON_TYPES.PRIMARY
+		},
+		{
+			label: translate('anonymous.overlay.finishChat.button2'),
+			function: OVERLAY_FUNCTIONS.CLOSE,
+			type: BUTTON_TYPES.SECONDARY
+		}
+	]
+};

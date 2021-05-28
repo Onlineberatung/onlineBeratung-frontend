@@ -27,14 +27,15 @@ import {
 	stopGroupChatSuccessOverlayItem,
 	leaveGroupChatSecurityOverlayItem,
 	groupChatErrorOverlayItem,
-	leaveGroupChatSuccessOverlayItem
+	leaveGroupChatSuccessOverlayItem,
+	finishAnonymousChatSecurityOverlayItem
 } from './sessionMenuHelpers';
 import { apiPutGroupChat, apiStartVideoCall, GROUP_CHAT_API } from '../../api';
 import { logout } from '../logout/logout';
 import { mobileListView } from '../app/navigationHandler';
 import { isGroupChatOwner } from '../groupChat/groupChatHelpers';
 import { ReactComponent as FeedbackIcon } from '../../resources/img/icons/pen-paper.svg';
-import { ReactComponent as LeaveGroupChatIcon } from '../../resources/img/icons/out.svg';
+import { ReactComponent as LeaveChatIcon } from '../../resources/img/icons/out.svg';
 import { ReactComponent as GroupChatInfoIcon } from '../../resources/img/icons/i.svg';
 import { ReactComponent as StopGroupChatIcon } from '../../resources/img/icons/x.svg';
 import { ReactComponent as EditGroupChatIcon } from '../../resources/img/icons/gear.svg';
@@ -103,6 +104,11 @@ export const SessionMenu = () => {
 
 	const handleLeaveGroupChat = () => {
 		setOverlayItem(leaveGroupChatSecurityOverlayItem);
+		setOverlayActive(true);
+	};
+
+	const handleFinishAnonymousChat = () => {
+		setOverlayItem(finishAnonymousChatSecurityOverlayItem);
 		setOverlayActive(true);
 	};
 
@@ -218,6 +224,17 @@ export const SessionMenu = () => {
 
 	return (
 		<div className="sessionMenu__wrapper">
+			{isLiveChat && !typeIsEnquiry(getTypeOfLocation()) && (
+				<span
+					onClick={handleFinishAnonymousChat}
+					className="sessionMenu__item--desktop sessionMenu__button"
+				>
+					<span className="sessionMenu__icon">
+						<LeaveChatIcon />
+						{translate('anonymous.session.finishChat')}
+					</span>
+				</span>
+			)}
 			{hasVideoCallFeatures() && (
 				<div
 					className="sessionMenu__videoCallButtons"
@@ -247,7 +264,7 @@ export const SessionMenu = () => {
 					className="sessionMenu__item--desktop sessionMenu__button"
 				>
 					<span className="sessionMenu__icon">
-						<LeaveGroupChatIcon />
+						<LeaveChatIcon />
 						{translate('chatFlyout.leaveGroupChat')}
 					</span>
 				</span>
@@ -313,6 +330,14 @@ export const SessionMenu = () => {
 			</span>
 
 			<div id="flyout" className="sessionMenu__content">
+				{isLiveChat && (
+					<div
+						className="sessionMenu__item sessionMenu__item--mobile"
+						onClick={handleFinishAnonymousChat}
+					>
+						{translate('anonymous.session.finishChat')}
+					</div>
+				)}
 				{hasVideoCallFeatures() && (
 					<div
 						className="sessionMenu__item sessionMenu__item--mobile"
