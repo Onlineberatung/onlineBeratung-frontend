@@ -2,6 +2,9 @@ const session = {
 	'acceptance.overlayHeadline':
 		'Sie haben die Erstanfrage erfolgreich angenommen und finden diese nun unter „Meine Nachrichten“.',
 	'acceptance.buttonLabel': 'Antworten',
+	'anonymous.takenByOtherConsultant.overlayHeadline':
+		'Diese Erstanfrage wurde bereits von einem anderen Berater angenommen.',
+	'anonymous.takenByOtherConsultant.buttonLabel': 'Schliessen',
 	'assignOther.overlayHeadline':
 		'Sie haben die Beratung erfolgreich zugewiesen.',
 	'assignOther.buttonLabel': 'Schliessen',

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useContext, useEffect, useMemo } from 'react';
 import {
+	SESSION_LIST_TAB,
 	typeIsSession,
 	typeIsTeamSession,
 	typeIsEnquiry,
@@ -17,7 +18,11 @@ import { translate } from '../../utils/translate';
 import { MessageItemComponent } from '../message/MessageItemComponent';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { apiEnquiryAcceptance, apiGetConsultingType } from '../../api';
+import {
+	apiEnquiryAcceptance,
+	apiGetConsultingType,
+	FETCH_ERRORS
+} from '../../api';
 import {
 	Overlay,
 	OVERLAY_FUNCTIONS,
@@ -34,9 +39,11 @@ import {
 	hasUserAuthority,
 	isAnonymousSession,
 	AUTHORITIES,
-	ConsultingTypeInterface
+	ConsultingTypeInterface,
+	UpdateAnonymousEnquiriesContext
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 import { Link } from 'react-router-dom';
 import './session.styles';
 import './session.yellowTheme.styles';
@@ -67,6 +74,11 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		false
 	);
 	const [overlayActive, setOverlayActive] = useState(false);
+	const [
+		enquiryTakenByOtherConsultantOverlayActive,
+		setEnquiryTakenByOtherConsultantOverlayActive
+	] = useState(false);
+
 	const [currentGroupId, setCurrentGroupId] = useState(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const chatItem = getChatItemForSession(activeSession);
@@ -77,6 +89,9 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
 	const [newMessages, setNewMessages] = useState(0);
+	const { setUpdateAnonymousEnquiries } = useContext(
+		UpdateAnonymousEnquiriesContext
+	);
 
 	useEffect(() => {
 		if (!props.isAnonymousEnquiry) {
@@ -182,7 +197,11 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				setCurrentGroupId(sessionGroupId);
 			})
 			.catch((error) => {
-				console.log(error);
+				if (error.message === FETCH_ERRORS.CONFLICT) {
+					setEnquiryTakenByOtherConsultantOverlayActive(true);
+				} else {
+					console.log(error);
+				}
 			});
 	};
 
@@ -193,6 +212,14 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		setAcceptedGroupId(currentGroupId);
 		setSessionsData({ ...sessionsData, enquiries: [] });
 		history.push(`/sessions/consultant/sessionView/`);
+	};
+
+	const handleEnquiryTakenByOtherConsultantOverlayAction = () => {
+		setEnquiryTakenByOtherConsultantOverlayActive(false);
+		history.push(
+			`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`
+		);
+		setUpdateAnonymousEnquiries(true);
 	};
 
 	/* eslint-disable */
@@ -403,6 +430,16 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					/>
 				</OverlayWrapper>
 			)}
+			{enquiryTakenByOtherConsultantOverlayActive && (
+				<OverlayWrapper>
+					<Overlay
+						item={enquiryTakenByOtherConsultantOverlayItem}
+						handleOverlay={
+							handleEnquiryTakenByOtherConsultantOverlayAction
+						}
+					/>
+				</OverlayWrapper>
+			)}
 		</div>
 	);
 };
@@ -413,6 +450,22 @@ const overlayItem: OverlayItem = {
 	buttonSet: [
 		{
 			label: translate('session.acceptance.buttonLabel'),
+			function: OVERLAY_FUNCTIONS.REDIRECT,
+			type: BUTTON_TYPES.PRIMARY
+		}
+	]
+};
+
+const enquiryTakenByOtherConsultantOverlayItem: OverlayItem = {
+	svg: XIcon,
+	headline: translate(
+		'session.anonymous.takenByOtherConsultant.overlayHeadline'
+	),
+	buttonSet: [
+		{
+			label: translate(
+				'session.anonymous.takenByOtherConsultant.buttonLabel'
+			),
 			function: OVERLAY_FUNCTIONS.REDIRECT,
 			type: BUTTON_TYPES.PRIMARY
 		}
