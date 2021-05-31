@@ -4,14 +4,14 @@ const session = {
 	'acceptance.buttonLabel': 'Antworten',
 	'anonymous.takenByOtherConsultant.overlayHeadline':
 		'Diese Erstanfrage wurde bereits von einem anderen Berater angenommen.',
-	'anonymous.takenByOtherConsultant.buttonLabel': 'Schliessen',
+	'anonymous.takenByOtherConsultant.buttonLabel': 'Schließen',
 	'assignOther.overlayHeadline':
 		'Sie haben die Beratung erfolgreich zugewiesen.',
-	'assignOther.buttonLabel': 'Schliessen',
+	'assignOther.buttonLabel': 'Schließen',
 	'assignSelf.overlayHeadline':
 		'Sie haben die Beratung erfolgreich angenommen. Sie wurde in Meine Nachrichten verschoben.',
 	'assignSelf.button1.label': 'Antworten',
-	'assignSelf.button2.label': 'Schliessen',
+	'assignSelf.button2.label': 'Schließen',
 	'consultant.isAbsent': 'abwesend',
 	'consultant.prefix': 'Berater_in - ',
 	'divider.lastRead': 'Zuletzt gelesen',

@@ -6,7 +6,7 @@ const absence = {
 	'overlayButton2.label': 'Nein',
 	'changeSuccess.overlay.headline':
 		'Der Status Ihrer Abwesenheitsnachricht wurde erfolgreich aktualisiert.',
-	'changeSuccess.overlay.buttonLabel': 'Schliessen',
+	'changeSuccess.overlay.buttonLabel': 'Schließen',
 	'checkbox.label': 'Ratsuchende über meine Abwesenheit informieren',
 	'input.infoText':
 		'Ratsuchende sehen diese Abwesenheitsnachricht, können Ihnen aber weiterhin schreiben.'
