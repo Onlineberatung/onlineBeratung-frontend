@@ -3,6 +3,7 @@ import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
+import { ReactComponent as WavingIllustration } from '../../resources/img/illustrations/waving.svg';
 
 export const stopGroupChatSecurityOverlayItem: OverlayItem = {
 	svg: XIcon,
@@ -90,7 +91,8 @@ export const leaveGroupChatSuccessOverlayItem: OverlayItem = {
 };
 
 export const finishAnonymousChatSecurityOverlayItem: OverlayItem = {
-	svg: XIcon,
+	svg: WavingIllustration,
+	illustrationBackground: 'grey',
 	headline: translate('anonymous.overlay.finishChat.headline'),
 	buttonSet: [
 		{

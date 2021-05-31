@@ -29,7 +29,8 @@ export interface OverlayItem {
 	copy?: string;
 	headline?: string;
 	headlineStyleLevel?: HeadlineLevel;
-	isIconSmall?: boolean;
+	isIllustrationSmall?: boolean;
+	illustrationBackground?: 'red' | 'grey' | 'green';
 	nestedComponent?: React.ReactNode;
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
@@ -58,17 +59,25 @@ export const Overlay = (props: {
 	};
 
 	const item = props.item;
-	const Icon = item.svg;
+	const Illustration = item.svg;
 	return (
 		<div className={clsx('overlay', item.className)}>
 			<div className="overlay__background"></div>
 			<div className="overlay__content">
 				{item.svg && (
 					<span
-						className={`overlay__iconWrapper 
-						${item.isIconSmall ? `overlay__iconWrapper--small` : ''}`}
+						className={clsx('overlay__illustrationWrapper', {
+							'overlay__illustrationWrapper--small':
+								item.isIllustrationSmall,
+							'overlay__illustrationWrapper--red':
+								item.illustrationBackground === 'red',
+							'overlay__illustrationWrapper--green':
+								item.illustrationBackground === 'green',
+							'overlay__illustrationWrapper--grey':
+								item.illustrationBackground === 'grey'
+						})}
 					>
-						<Icon />
+						<Illustration />
 					</span>
 				)}
 				{item.headline && (
