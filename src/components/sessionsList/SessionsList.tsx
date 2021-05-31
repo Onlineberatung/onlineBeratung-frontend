@@ -484,6 +484,9 @@ export const SessionsList: React.FC = () => {
 		defaultValue: preSelectedOption
 	};
 
+	const showEnquiryTabs =
+		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+		typeIsEnquiry(type);
 	return (
 		<div className="sessionsList__innerWrapper">
 			{showFilter && (
@@ -491,10 +494,42 @@ export const SessionsList: React.FC = () => {
 					<SelectDropdown {...selectDropdown} />
 				</div>
 			)}
+			{showEnquiryTabs && (
+				<div className="sessionsList__tabs">
+					<Link
+						className={clsx({
+							'sessionsList__tabs--active': !sessionListTab
+						})}
+						to={'/sessions/consultant/sessionPreview'}
+					>
+						<Text
+							text={translate(
+								'sessionList.preview.registered.tab'
+							)}
+							type="standard"
+						/>
+					</Link>
+					<Link
+						className={clsx({
+							'sessionsList__tabs--active':
+								sessionListTab === SESSION_LIST_TAB.ANONYMOUS
+						})}
+						to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
+					>
+						<Text
+							text={translate(
+								'sessionList.preview.anonymous.tab'
+							)}
+							type="standard"
+						/>
+					</Link>
+				</div>
+			)}
 			<div
-				className={`sessionsList__scrollContainer ${
-					showFilter ? 'sessionsList__scrollContainer--hasFilter' : ''
-				}`}
+				className={clsx('sessionsList__scrollContainer', {
+					'sessionsList__scrollContainer--hasFilter': showFilter,
+					'sessionsList__scrollContainer--hasTabs': showEnquiryTabs
+				})}
 				ref={listRef}
 				onScroll={handleListScroll}
 			>
@@ -503,39 +538,6 @@ export const SessionsList: React.FC = () => {
 					sessionsData.mySessions.length <=
 						MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION && (
 						<WelcomeIllustration />
-					)}
-				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-					typeIsEnquiry(type) && (
-						<div className="sessionsList__tabs">
-							<Link
-								className={clsx({
-									'sessionsList__tabs--active': !sessionListTab
-								})}
-								to={'/sessions/consultant/sessionPreview'}
-							>
-								<Text
-									text={translate(
-										'sessionList.preview.registered.tab'
-									)}
-									type="standard"
-								/>
-							</Link>
-							<Link
-								className={clsx({
-									'sessionsList__tabs--active':
-										sessionListTab ===
-										SESSION_LIST_TAB.ANONYMOUS
-								})}
-								to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
-							>
-								<Text
-									text={translate(
-										'sessionList.preview.anonymous.tab'
-									)}
-									type="standard"
-								/>
-							</Link>
-						</div>
 					)}
 				{isLoading ? (
 					<SessionsListSkeleton />
