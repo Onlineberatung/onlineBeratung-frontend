@@ -95,7 +95,7 @@ export const finishAnonymousChatSecurityOverlayItem: OverlayItem = {
 	buttonSet: [
 		{
 			label: translate('anonymous.overlay.finishChat.button1'),
-			function: OVERLAY_FUNCTIONS.FINISH_ANONYMOUS_CHAT,
+			function: OVERLAY_FUNCTIONS.FINISH_ANONYMOUS_CONVERSATION,
 			type: BUTTON_TYPES.PRIMARY
 		},
 		{

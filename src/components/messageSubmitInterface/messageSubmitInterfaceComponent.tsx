@@ -3,7 +3,8 @@ import { useState, useEffect, useContext, useRef } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
 	typeIsEnquiry,
-	isGroupChatForSessionItem
+	isGroupChatForSessionItem,
+	getChatItemForSession
 } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { translate } from '../../utils/translate';
@@ -70,6 +71,7 @@ import useDebouncedValue from '../../utils/useDebouncedValue';
 import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';
+import clsx from 'clsx';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -144,8 +146,10 @@ export const MessageSubmitInterfaceComponent = (
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
+	const isLiveChatFinished = chatItem.status === 3;
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
 		null
@@ -644,11 +648,10 @@ export const MessageSubmitInterfaceComponent = (
 		!activeSession.isFeedbackSession;
 	return (
 		<div
-			className={
-				isGroupChat
-					? 'messageSubmit__wrapper messageSubmit__wrapper--withTyping'
-					: 'messageSubmit__wrapper'
-			}
+			className={clsx('messageSubmit__wrapper', {
+				'messageSubmit__wrapper--withTyping': isGroupChat,
+				'messageSubmit__wrapper--deactivated': isLiveChatFinished
+			})}
 		>
 			{isGroupChat ? (
 				<TypingIndicator

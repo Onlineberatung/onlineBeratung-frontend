@@ -364,3 +364,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 		}
 	}
 }
+
+.messageSubmit__wrapper--deactivated .textarea {
+	background-color: tomato;
+}
