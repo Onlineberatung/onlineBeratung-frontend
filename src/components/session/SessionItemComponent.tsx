@@ -73,11 +73,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const [monitoringButtonVisible, setMonitoringButtonVisible] = useState(
 		false
 	);
-	const [overlayActive, setOverlayActive] = useState(false);
-	const [
-		enquiryTakenByOtherConsultantOverlayActive,
-		setEnquiryTakenByOtherConsultantOverlayActive
-	] = useState(false);
+	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 
 	const [currentGroupId, setCurrentGroupId] = useState(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
@@ -193,12 +189,12 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 		apiEnquiryAcceptance(sessionId, props.isAnonymousEnquiry)
 			.then(() => {
-				setOverlayActive(true);
+				setOverlayItem(enquirySuccessfullyAcceptedOverlayItem);
 				setCurrentGroupId(sessionGroupId);
 			})
 			.catch((error) => {
 				if (error.message === FETCH_ERRORS.CONFLICT) {
-					setEnquiryTakenByOtherConsultantOverlayActive(true);
+					setOverlayItem(enquiryTakenByOtherConsultantOverlayItem);
 				} else {
 					console.log(error);
 				}
@@ -206,20 +202,26 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
-		setOverlayActive(false);
-		setIsRequestInProgress(false);
-		setCurrentGroupId('');
-		setAcceptedGroupId(currentGroupId);
-		setSessionsData({ ...sessionsData, enquiries: [] });
-		history.push(`/sessions/consultant/sessionView/`);
-	};
-
-	const handleEnquiryTakenByOtherConsultantOverlayAction = () => {
-		setEnquiryTakenByOtherConsultantOverlayActive(false);
-		history.push(
-			`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`
-		);
-		setUpdateAnonymousEnquiries(true);
+		switch (overlayItem) {
+			case enquirySuccessfullyAcceptedOverlayItem:
+				setOverlayItem(null);
+				setIsRequestInProgress(false);
+				setCurrentGroupId('');
+				setAcceptedGroupId(currentGroupId);
+				setSessionsData({ ...sessionsData, enquiries: [] });
+				history.push(`/sessions/consultant/sessionView/`);
+				break;
+			case enquiryTakenByOtherConsultantOverlayItem:
+				setOverlayItem(null);
+				history.push(
+					`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`
+				);
+				setUpdateAnonymousEnquiries(true);
+				break;
+			default:
+			// Should never be executed as `handleOverlayAction` is only called
+			// with a non-null `overlayItem`
+		}
 	};
 
 	/* eslint-disable */
@@ -421,8 +423,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						typingUsers={props.typingUsers}
 					/>
 				)}
-
-			{overlayActive && (
+			{overlayItem && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}
@@ -430,21 +431,11 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					/>
 				</OverlayWrapper>
 			)}
-			{enquiryTakenByOtherConsultantOverlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={enquiryTakenByOtherConsultantOverlayItem}
-						handleOverlay={
-							handleEnquiryTakenByOtherConsultantOverlayAction
-						}
-					/>
-				</OverlayWrapper>
-			)}
 		</div>
 	);
 };
 
-const overlayItem: OverlayItem = {
+const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = {
 	svg: CheckIcon,
 	headline: translate('session.acceptance.overlayHeadline'),
 	buttonSet: [
