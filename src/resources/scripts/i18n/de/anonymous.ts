@@ -2,7 +2,7 @@ const anonymous = {
 	'listItem.activeLabel': 'Aktiv',
 	'overlay.finishChat.headline': 'Möchten Sie diesen Chat beenden?',
 	'overlay.finishChat.button1': 'Chat beenden',
-	'overlay.finishChat.button2': 'Schließen',
+	'overlay.finishChat.button2': 'Abbrechen',
 	'session.finishChat': 'Chat beenden',
 	'waitingroom.title.start': 'Warteraum',
 	'waitingroom.dataProtection.headline': 'Herzlich Willkommen!',
