@@ -101,6 +101,7 @@ export const overlayItemNewRegistrationSuccess: OverlayItem = {
 
 export const overlayItemNewRegistrationError: OverlayItem = {
 	svg: XIcon,
+	illustrationBackground: 'red',
 	headline: translate('profile.data.registerError.overlay.headline'),
 	buttonSet: [
 		{

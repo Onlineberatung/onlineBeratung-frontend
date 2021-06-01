@@ -7,6 +7,7 @@ import { ReactComponent as WavingIllustration } from '../../resources/img/illust
 
 export const stopGroupChatSecurityOverlayItem: OverlayItem = {
 	svg: XIcon,
+	illustrationBackground: 'red',
 	headline: translate('groupChat.stopChat.securityOverlay.headline'),
 	copy: '',
 	buttonSet: [
@@ -42,6 +43,7 @@ export const stopGroupChatSuccessOverlayItem: OverlayItem = {
 
 export const groupChatErrorOverlayItem: OverlayItem = {
 	svg: XIcon,
+	illustrationBackground: 'red',
 	headline: translate('groupChat.createError.overlay.headline'),
 	buttonSet: [
 		{
@@ -54,6 +56,7 @@ export const groupChatErrorOverlayItem: OverlayItem = {
 
 export const leaveGroupChatSecurityOverlayItem: OverlayItem = {
 	svg: XIcon,
+	illustrationBackground: 'red',
 	headline: translate('groupChat.leaveChat.securityOverlay.headline'),
 	buttonSet: [
 		{
