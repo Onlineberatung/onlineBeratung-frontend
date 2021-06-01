@@ -117,20 +117,22 @@ export const SessionMenu = () => {
 			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)
 				.then((response) => {
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
-					setIsRequestInProgress(false);
 				})
 				.catch((error) => {
 					setOverlayItem(groupChatErrorOverlayItem);
+				})
+				.finally(() => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LEAVE_GROUP_CHAT) {
 			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.LEAVE)
 				.then((response) => {
 					setOverlayItem(leaveGroupChatSuccessOverlayItem);
-					setIsRequestInProgress(false);
 				})
 				.catch((error) => {
 					setOverlayItem(groupChatErrorOverlayItem);
+				})
+				.finally(() => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
