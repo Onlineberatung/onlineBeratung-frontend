@@ -92,8 +92,11 @@ $gridSpacing: $grid-base-four;
 	&--animated {
 		display: flex;
 		width: 100vw;
-		animation: overlayAnimation 1.4s ease forwards;
-		animation-delay: $loginOverlayDelayMobile;
+
+		&.stage--ready {
+			animation: overlayAnimation 1.4s ease forwards;
+			animation-delay: $loginOverlayDelayMobile;
+		}
 
 		.stage__headline {
 			margin-bottom: 80px;
@@ -109,8 +112,10 @@ $gridSpacing: $grid-base-four;
 		}
 
 		@include breakpoint($fromLarge) {
-			animation: overlayAnimation 1s ease forwards;
-			animation-delay: $loginOverlayDelayDesktop;
+			&.stage--ready {
+				animation: overlayAnimation 1s ease forwards;
+				animation-delay: $loginOverlayDelayDesktop;
+			}
 
 			@keyframes overlayAnimation {
 				from {

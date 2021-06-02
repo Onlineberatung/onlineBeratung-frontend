@@ -1,14 +1,19 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { ComponentType, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiGetConsultingType } from '../../api';
 import { Login } from '../login/Login';
+import { StageProps } from '../stage/stage';
 
 export interface LoginLoaderProps {
 	handleUnmatch: () => void;
+	stageComponent: ComponentType<StageProps>;
 }
 
-export const LoginLoader = ({ handleUnmatch }: LoginLoaderProps) => {
+export const LoginLoader = ({
+	handleUnmatch,
+	stageComponent
+}: LoginLoaderProps) => {
 	const [isValidResort, setIsValidResort] = useState<boolean>();
 	const { consultingTypeSlug } = useParams();
 
@@ -20,7 +25,7 @@ export const LoginLoader = ({ handleUnmatch }: LoginLoaderProps) => {
 	}, [consultingTypeSlug, handleUnmatch]);
 
 	if (isValidResort) {
-		return <Login />;
+		return <Login stageComponent={stageComponent} />;
 	} else {
 		return null;
 	}

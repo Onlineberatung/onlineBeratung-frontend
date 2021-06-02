@@ -4,7 +4,17 @@
  * but reuse as much code from this repository as useful.
  */
 
+// Page components
 export { App } from './src/components/app/app';
 export { Login } from './src/components/login/Login';
 export { Error } from './src/components/error/Error';
+
+// Component library
+export { Headline } from './src/components/headline/Headline';
+export { Text } from './src/components/text/Text';
+
+// Utils
+export { translate } from './src/utils/translate';
+
+// Types
 export * from './src/globalState';

@@ -1,9 +1,8 @@
 import '../../polyfill';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Stage } from '../stage/stage';
+import { StageProps } from '../stage/stage';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { ComponentType, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
@@ -13,14 +12,11 @@ import { apiGetConsultingType } from '../../api';
 import '../../resources/styles/styles';
 import './registration.styles';
 
-export const initRegistration = () => {
-	ReactDOM.render(
-		<Registration />,
-		document.getElementById('registrationRoot')
-	);
-};
+interface RegistrationProps {
+	stageComponent: ComponentType<StageProps>;
+}
 
-export const Registration = () => {
+export const Registration = ({ stageComponent: Stage }: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(true);
 	const [registrationData, setRegistrationData] = useState<
