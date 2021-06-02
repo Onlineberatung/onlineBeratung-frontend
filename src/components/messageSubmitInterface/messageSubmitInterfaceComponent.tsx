@@ -551,8 +551,10 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const handleAttachmentSelect = () => {
-		const attachmentInput: any = attachmentInputRef.current;
-		attachmentInput.click();
+		if (!isLiveChatFinished) {
+			const attachmentInput: any = attachmentInputRef.current;
+			attachmentInput.click();
+		}
 	};
 
 	const handleAttachmentChange = () => {
@@ -649,8 +651,7 @@ export const MessageSubmitInterfaceComponent = (
 	return (
 		<div
 			className={clsx('messageSubmit__wrapper', {
-				'messageSubmit__wrapper--withTyping': isGroupChat,
-				'messageSubmit__wrapper--deactivated': isLiveChatFinished
+				'messageSubmit__wrapper--withTyping': isGroupChat
 			})}
 		>
 			{isGroupChat ? (
@@ -682,13 +683,16 @@ export const MessageSubmitInterfaceComponent = (
 					<div className="textarea__wrapper">
 						<span
 							ref={featureWrapperRef}
-							className="textarea__featureWrapper"
+							className={clsx('textarea__featureWrapper', {
+								'textarea__featureWrapper--deactivated': isLiveChatFinished
+							})}
 						>
 							<span className="textarea__richtextToggle">
 								<RichtextToggleIcon
 									width="20"
 									height="20"
 									onClick={() =>
+										!isLiveChatFinished &&
 										setIsRichtextActive(!isRichtextActive)
 									}
 								/>
@@ -709,6 +713,7 @@ export const MessageSubmitInterfaceComponent = (
 								onClick={handleTextareaClick}
 							>
 								<PluginsEditor
+									readOnly={isLiveChatFinished}
 									editorState={editorState}
 									onChange={handleEditorChange}
 									handleKeyCommand={handleEditorKeyCommand}
@@ -747,7 +752,14 @@ export const MessageSubmitInterfaceComponent = (
 							</div>
 							{hasUploadFunctionality ? (
 								!attachmentSelected ? (
-									<span className="textarea__attachmentSelect">
+									<span
+										className={clsx(
+											'textarea__attachmentSelect',
+											{
+												'textarea__attachmentSelect--deactivated': isLiveChatFinished
+											}
+										)}
+									>
 										<ClipIcon
 											onClick={handleAttachmentSelect}
 										/>
@@ -779,9 +791,7 @@ export const MessageSubmitInterfaceComponent = (
 								handleButtonClick(event)
 							}
 							clicked={isRequestInProgress}
-							deactivated={
-								uploadProgress ? uploadProgress : undefined
-							}
+							deactivated={uploadProgress || isLiveChatFinished}
 						/>
 					</div>
 				</span>
