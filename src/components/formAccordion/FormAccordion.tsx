@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import './formAccordion.styles';
 import {
 	RequiredComponentsInterface,
-	RegistrationNotesInterface
+	RegistrationNotesInterface,
+	ConsultingTypeInterface
 } from '../../globalState';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { AgencySelection } from '../agencySelection/AgencySelection';
-import { autoselectPostcodeForConsultingType } from '../agencySelection/agencySelectionHelpers';
 import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
 import { translate } from '../../utils/translate';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
@@ -20,7 +20,7 @@ import {
 } from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
-	consultingType: number;
+	consultingType: ConsultingTypeInterface;
 	isUsernameAlreadyInUse: boolean;
 	preselectedAgencyData: any;
 	handleFormAccordionData: Function;
@@ -53,7 +53,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 
 	useEffect(() => {
 		if (
-			autoselectPostcodeForConsultingType(props.consultingType) &&
+			props.consultingType.registration.autoSelectPostcode &&
 			props.preselectedAgencyData
 		) {
 			setSelectedAgencyValidity('valid');
@@ -137,14 +137,14 @@ export const FormAccordion = (props: FormAccordionProps) => {
 		}
 	];
 
-	if (!autoselectPostcodeForConsultingType(props.consultingType)) {
+	if (!props.consultingType.registration.autoSelectPostcode) {
 		accordionItemData.push({
 			title: props.preselectedAgencyData
 				? translate('registration.agencyPreselected.headline')
 				: translate('registration.agencySelection.headline'),
 			nestedComponent: (
 				<AgencySelection
-					selectedConsultingType={props.consultingType}
+					consultingType={props.consultingType}
 					icon={<PinIcon />}
 					preselectedAgency={props.preselectedAgencyData}
 					onAgencyChange={(agency) => setAgency(agency)}

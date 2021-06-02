@@ -24,10 +24,6 @@ import {
 } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
 import { isNumber } from '../../utils/isNumber';
-import {
-	autoselectAgencyForConsultingType,
-	autoselectPostcodeForConsultingType
-} from '../agencySelection/agencySelectionHelpers';
 import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import {
 	AgencyDataInterface,
@@ -81,7 +77,7 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 			getAgencyDataById(agencyId);
 		}
 
-		if (autoselectAgencyForConsultingType(consultingType.id)) {
+		if (consultingType.registration.autoSelectAgency) {
 			apiAgencySelection({
 				postcode: DEFAULT_POSTCODE,
 				consultingType: consultingType.id
@@ -196,7 +192,7 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 				</h2>
 
 				<FormAccordion
-					consultingType={consultingType.id}
+					consultingType={consultingType}
 					isUsernameAlreadyInUse={isUsernameAlreadyInUse}
 					preselectedAgencyData={preselectedAgencyData}
 					handleFormAccordionData={(formData) =>
@@ -207,7 +203,7 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 				></FormAccordion>
 
 				{preselectedAgencyData &&
-					autoselectPostcodeForConsultingType(consultingType.id) && (
+					consultingType.registration.autoSelectPostcode && (
 						<PreselectedAgency
 							prefix={translate(
 								'registration.agency.preselected.prefix'

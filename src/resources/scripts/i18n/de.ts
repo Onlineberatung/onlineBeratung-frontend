@@ -13,7 +13,6 @@ import monitoring from './de/monitoring';
 import navigation from './de/navigation';
 import profile from './de/profile';
 import registration from './de/registration';
-import resort from './de/resort';
 import session from './de/session';
 import user from './de/user';
 import sessionList from './de/sessionList';
@@ -38,7 +37,6 @@ const de = {
 	navigation,
 	profile,
 	registration,
-	resort,
 	session,
 	sessionList,
 	statusOverlay,
