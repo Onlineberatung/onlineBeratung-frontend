@@ -5,9 +5,9 @@ import { ReactComponent as Icon401 } from '../../resources/img/illustrations/kei
 import { ReactComponent as Icon404 } from '../../resources/img/illustrations/ooh.svg';
 import { ReactComponent as Icon500 } from '../../resources/img/illustrations/gleich-zurueck.svg';
 import { translate } from '../../utils/translate';
+import { Button, BUTTON_TYPES } from '../button/Button';
 import '../../resources/styles/styles';
 import './error.styles';
-import '../button/button.styles';
 
 const getStatusCode = () => {
 	const errorRoot = document.getElementById('errorRoot');
@@ -16,6 +16,10 @@ const getStatusCode = () => {
 
 export const Error = () => {
 	const statusCode = getStatusCode();
+
+	const buttonHandle = () => {
+		document.location.href = '/';
+	};
 
 	let Icon;
 	let type;
@@ -58,11 +62,14 @@ export const Error = () => {
 							)
 						}}
 					/>
-					<a href="/">
-						<button className="errorPage__button button__item button__primary">
-							{translate('error.login')}
-						</button>
-					</a>
+					<Button
+						className="errorPage__button"
+						buttonHandle={buttonHandle}
+						item={{
+							type: BUTTON_TYPES.PRIMARY,
+							label: translate('error.login')
+						}}
+					/>
 				</div>
 			</div>
 		</div>

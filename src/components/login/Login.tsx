@@ -11,8 +11,8 @@ import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.s
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { LegalInformationLinks } from './LegalInformationLinks';
 import { StageProps } from '../stage/stage';
-import './login.styles';
 import '../../resources/styles/styles';
+import './login.styles';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
