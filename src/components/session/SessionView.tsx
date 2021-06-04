@@ -104,67 +104,6 @@ export const SessionView = (props) => {
 		}
 	};
 
-	useEffect(() => {
-		setIsLoading(true);
-		mobileDetailView();
-		setAcceptedGroupId(null);
-		typingTimeout = null;
-		const isCurrentAnonymousEnquiry =
-			chatItem.status === 1 && chatItem.registrationType === 'ANONYMOUS';
-		if (isGroupChat && !chatItem.subscribed) {
-			setIsLoading(false);
-		} else if (isCurrentAnonymousEnquiry) {
-			setIsLoading(false);
-			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
-		} else {
-			window['socket'] = new rocketChatSocket();
-			fetchSessionMessages();
-			return () => {
-				window['socket'].close();
-				setStoppedGroupChat(false);
-			};
-		}
-	}, [activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		if (sessionsData) {
-			const currentSession = getActiveSession(
-				groupIdFromParam,
-				sessionsData
-			);
-			const currentChatItem = getChatItemForSession(currentSession);
-			const currentSessionRead = currentSession.isFeedbackSession
-				? currentChatItem.feedbackRead
-				: currentChatItem.messagesRead;
-			if (!currentSessionRead) {
-				setSessionToRead(true);
-			}
-		}
-	}, [sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		setTypingUsers(currentlyTypingUsers);
-	}, [currentlyTypingUsers]);
-
-	useEffect(() => {
-		if (typingStatusSent) {
-			setTypingTimeout();
-		}
-	}, [typingStatusSent]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		if (loadedMessages) {
-			setMessagesItem(loadedMessages);
-			setLoadedMessages(null);
-		}
-	}, [loadedMessages]);
-
-	if (!sessionsData) return null;
-	if (!activeSession) {
-		history.push(getSessionListPathForLocation());
-		return null;
-	}
-
 	const fetchSessionMessages = (isSocketConnected: boolean = false) => {
 		const rcGroupId = props.match.params.rcGroupId;
 		apiGetSessionData(rcGroupId)
@@ -207,6 +146,68 @@ export const SessionView = (props) => {
 			})
 			.catch((error) => null);
 	};
+
+	useEffect(() => {
+		setIsLoading(true);
+		mobileDetailView();
+		setAcceptedGroupId(null);
+		typingTimeout = null;
+		const isCurrentAnonymousEnquiry =
+			chatItem?.status === 1 &&
+			chatItem?.registrationType === 'ANONYMOUS';
+		if (isGroupChat && !chatItem.subscribed) {
+			setIsLoading(false);
+		} else if (isCurrentAnonymousEnquiry) {
+			setIsLoading(false);
+			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
+		} else {
+			window['socket'] = new rocketChatSocket();
+			fetchSessionMessages();
+			return () => {
+				window['socket'].close();
+				setStoppedGroupChat(false);
+			};
+		}
+	}, [activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (sessionsData) {
+			const currentSession = getActiveSession(
+				groupIdFromParam,
+				sessionsData
+			);
+			const currentChatItem = getChatItemForSession(currentSession);
+			const currentSessionRead = currentSession?.isFeedbackSession
+				? currentChatItem?.feedbackRead
+				: currentChatItem?.messagesRead;
+			if (!currentSessionRead) {
+				setSessionToRead(true);
+			}
+		}
+	}, [sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		setTypingUsers(currentlyTypingUsers);
+	}, [currentlyTypingUsers]);
+
+	useEffect(() => {
+		if (typingStatusSent) {
+			setTypingTimeout();
+		}
+	}, [typingStatusSent]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (loadedMessages) {
+			setMessagesItem(loadedMessages);
+			setLoadedMessages(null);
+		}
+	}, [loadedMessages]);
+
+	if (!sessionsData) return null;
+	if (!activeSession) {
+		history.push(getSessionListPathForLocation());
+		return null;
+	}
 
 	const handleGroupChatStopped = () => {
 		setOverlayItem(groupChatStoppedOverlay);
