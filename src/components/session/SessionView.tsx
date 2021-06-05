@@ -11,6 +11,7 @@ import {
 	getSessionsDataWithChangedValue,
 	StoppedGroupChatContext,
 	AcceptedGroupIdContext,
+	UpdateSessionListContext,
 	UserDataContext
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
@@ -65,6 +66,7 @@ export const SessionView = (props) => {
 		UnreadSessionsStatusContext
 	);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
+	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
@@ -114,12 +116,10 @@ export const SessionView = (props) => {
 				if (!isSocketConnected && !isAnonymousEnquiry) {
 					setSessionToRead();
 					window['socket'].connect();
-					window[
-						'socket'
-					].addSubscription(
+					window['socket'].addSubscription(
 						SOCKET_COLLECTION.ROOM_MESSAGES,
 						[groupId, false],
-						() => fetchSessionMessages(true)
+						handleRoomMessage
 					);
 					if (isGroupChat) {
 						window['socket'].addSubscription(
@@ -145,6 +145,11 @@ export const SessionView = (props) => {
 				}
 			})
 			.catch((error) => null);
+	};
+
+	const handleRoomMessage = () => {
+		fetchSessionMessages(true);
+		setUpdateSessionList(true);
 	};
 
 	useEffect(() => {
