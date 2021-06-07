@@ -19,6 +19,7 @@ import { history } from './app';
 import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import { NavigationBar } from './NavigationBar';
 import { Header } from '../header/Header';
+import { FinishedAnonymousConversationHandler } from './FinishedAnonymousConversationHandler';
 
 interface routingProps {
 	logout?: Function;
@@ -155,7 +156,12 @@ export const Routing = (props: routingProps) => {
 					)}
 				</div>
 			</section>
-			<AbsenceHandler />
+			{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
+				<AbsenceHandler />
+			)}
+			{hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) && (
+				<FinishedAnonymousConversationHandler />
+			)}
 		</div>
 	);
 };

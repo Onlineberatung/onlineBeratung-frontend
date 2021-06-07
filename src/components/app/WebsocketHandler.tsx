@@ -10,6 +10,7 @@ import {
 	VideoCallRequestProps
 } from '../incomingVideoCall/IncomingVideoCall';
 import {
+	AnonymousConversationFinishedContext,
 	AnonymousEnquiryAcceptedContext,
 	NotificationsContext,
 	UnreadSessionsStatusContext,
@@ -41,6 +42,9 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	);
 	const { setAnonymousEnquiryAccepted } = useContext(
 		AnonymousEnquiryAcceptedContext
+	);
+	const { setAnonymousConversationFinished } = useContext(
+		AnonymousConversationFinishedContext
 	);
 
 	// Init live service socket
@@ -74,6 +78,10 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 						setNewStompVideoCallRequest(stompEventContent);
 					} else if (stompEventType === 'anonymousEnquiryAccepted') {
 						setAnonymousEnquiryAccepted(true);
+					} else if (
+						stompEventType === 'anonymousConversationFinished'
+					) {
+						setAnonymousConversationFinished(true);
 					}
 				});
 			}

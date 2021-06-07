@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
 	AcceptedGroupIdProvider,
 	ActiveSessionGroupIdProvider,
+	AnonymousConversationFinishedProvider,
 	AnonymousEnquiryAcceptedProvider,
 	AuthDataProvider,
 	ConsultantListProvider,
@@ -30,6 +31,7 @@ function ContextProvider({ children }) {
 			contexts={[
 				<AcceptedGroupIdProvider />,
 				<ActiveSessionGroupIdProvider />,
+				<AnonymousConversationFinishedProvider />,
 				<AnonymousEnquiryAcceptedProvider />,
 				<AuthDataProvider />,
 				<ConsultantListProvider />,

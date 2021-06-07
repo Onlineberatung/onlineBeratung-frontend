@@ -3,6 +3,10 @@ const anonymous = {
 	'overlay.finishChat.headline': 'Möchten Sie diesen Chat beenden?',
 	'overlay.finishChat.button1': 'Chat beenden',
 	'overlay.finishChat.button2': 'Abbrechen',
+	'overlay.chatWasFinished.headline': 'Der Berater hat den Chat beendet.',
+	'overlay.chatWasFinished.copy':
+		'Sie haben nun keinen Zugriff mehr auf Ihren Chat-Verlauf.',
+	'overlay.chatWasFinished.button': 'Zur Caritas.de',
 	'session.finishChat': 'Chat beenden',
 	'waitingroom.title.start': 'Warteraum',
 	'waitingroom.dataProtection.headline': 'Herzlich Willkommen!',
