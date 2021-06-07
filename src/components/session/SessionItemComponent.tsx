@@ -256,6 +256,30 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	};
 
+	const overlayItem: OverlayItem = {
+		svg: CheckIcon,
+		headline: translate('session.acceptance.overlayHeadline'),
+		buttonSet: [
+			{
+				label: translate('session.acceptance.buttonLabel'),
+				function: OVERLAY_FUNCTIONS.REDIRECT,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		]
+	};
+
+	const monitoringButtonItem: ButtonItem = {
+		label: translate('session.monitoring.buttonLabel'),
+		type: 'PRIMARY',
+		function: ''
+	};
+
+	const scrollBottomButtonItem: ButtonItem = {
+		icon: <ArrowDoubleDownIcon />,
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'grey'
+	};
+
 	return (
 		<div
 			className={
@@ -374,28 +398,4 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			) : null}
 		</div>
 	);
-};
-
-const overlayItem: OverlayItem = {
-	svg: CheckIcon,
-	headline: translate('session.acceptance.overlayHeadline'),
-	buttonSet: [
-		{
-			label: translate('session.acceptance.buttonLabel'),
-			function: OVERLAY_FUNCTIONS.REDIRECT,
-			type: BUTTON_TYPES.PRIMARY
-		}
-	]
-};
-
-const monitoringButtonItem: ButtonItem = {
-	label: translate('session.monitoring.buttonLabel'),
-	type: 'PRIMARY',
-	function: ''
-};
-
-const scrollBottomButtonItem: ButtonItem = {
-	icon: <ArrowDoubleDownIcon />,
-	type: BUTTON_TYPES.SMALL_ICON,
-	smallIconBackgroundColor: 'grey'
 };
