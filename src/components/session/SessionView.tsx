@@ -110,7 +110,8 @@ export const SessionView = (props) => {
 		setAcceptedGroupId(null);
 		typingTimeout = null;
 		const isCurrentAnonymousEnquiry =
-			chatItem.status === 1 && chatItem.registrationType === 'ANONYMOUS';
+			chatItem?.status === 1 &&
+			chatItem?.registrationType === 'ANONYMOUS';
 		if (isGroupChat && !chatItem.subscribed) {
 			setIsLoading(false);
 		} else if (isCurrentAnonymousEnquiry) {

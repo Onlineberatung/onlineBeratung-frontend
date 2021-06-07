@@ -68,7 +68,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 			? getAddictiveDrugsTranslatable(userSessionData.addictiveDrugs)
 			: null;
 	const translateBase =
-		chatItem.consultingType === 0 ? 'user.userAddiction' : 'user.userU25';
+		chatItem?.consultingType === 0 ? 'user.userAddiction' : 'user.userU25';
 
 	const [isSubscriberFlyoutOpen, setIsSubscriberFlyoutOpen] = useState(false);
 	const [subscriberList, setSubscriberList] = useState([]);
