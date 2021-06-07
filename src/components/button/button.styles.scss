@@ -119,7 +119,6 @@ $buttonHeight: 50px;
 
 		&:not([disabled]):hover {
 			color: $hover-primary;
-			text-decoration: underline;
 
 			svg * {
 				fill: $hover-primary;
