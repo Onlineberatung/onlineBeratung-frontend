@@ -11,7 +11,6 @@ import {
 	apiGetAgencyById
 } from '../../api';
 import { config } from '../../resources/scripts/config';
-import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	DEFAULT_POSTCODE,
 	redirectToRegistrationWithoutAid
@@ -64,9 +63,6 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 	);
 	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 	const [overlayActive, setOverlayActive] = useState(false);
-
-	// SET FORMAL/INFORMAL COOKIE
-	setTokenInCookie('useInformal', consultingType.languageFormal ? '' : '1');
 
 	const prefillPostcode = () => {
 		const agencyId = isNumber(getUrlParameter('aid'))
