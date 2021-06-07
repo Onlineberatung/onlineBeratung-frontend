@@ -116,17 +116,18 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const [resortData, setResortData] = useState<ConsultingTypeInterface>();
 	useEffect(() => {
 		let isCanceled = false;
-		const { consultingType } = activeSession.session;
-		apiGetConsultingType({ consultingTypeId: consultingType }).then(
-			(response) => {
-				if (isCanceled) return;
-				setResortData(response);
-			}
-		);
+
+		apiGetConsultingType({
+			consultingTypeId: getChatItemForSession(activeSession)
+				?.consultingType
+		}).then((response) => {
+			if (isCanceled) return;
+			setResortData(response);
+		});
 		return () => {
 			isCanceled = true;
 		};
-	}, [activeSession.session]);
+	}, [activeSession]);
 
 	if (!activeSession) return null;
 

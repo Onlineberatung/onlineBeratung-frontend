@@ -157,6 +157,7 @@ export const AskerRegistration = () => {
 			(cur) =>
 				cur.id === parseInt(registeredConsultingTypes[0].consultingType)
 		)?.groupChat.isGroupChat &&
+		selectedConsultingType &&
 		!selectedConsultingType.groupChat.isGroupChat;
 
 	return (
