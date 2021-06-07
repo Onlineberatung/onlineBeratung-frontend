@@ -29,6 +29,6 @@ export const removeAllCookies = () => {
 		document.cookie =
 			c.trim().split('=')[0] +
 			'=;' +
-			'expires=Thu, 27 May 1992 08:32:00 MET;';
+			'path=/; expires=Thu, 27 May 1992 08:32:00 MET;';
 	});
 };
