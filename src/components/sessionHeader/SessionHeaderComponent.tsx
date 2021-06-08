@@ -40,6 +40,7 @@ import './sessionHeader.yellowTheme.styles';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: boolean;
+	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
@@ -142,7 +143,11 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							<h3>{chatItem.topic}</h3>
 						)}
 					</div>
-					<SessionMenu />
+					<SessionMenu
+						hasUserInitiatedStopOrLeaveRequest={
+							props.hasUserInitiatedStopOrLeaveRequest
+						}
+					/>
 				</div>
 				<div className="sessionInfo__metaInfo">
 					<div className="sessionInfo__metaInfo__content">
@@ -241,7 +246,11 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						)
 					) : null}
 				</div>
-				<SessionMenu />
+				<SessionMenu
+					hasUserInitiatedStopOrLeaveRequest={
+						props.hasUserInitiatedStopOrLeaveRequest
+					}
+				/>
 			</div>
 			{!activeSession.teamSession ||
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
