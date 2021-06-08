@@ -96,7 +96,10 @@ export const SessionView = (props) => {
 				);
 				setSessionsData(changedSessionsData);
 
-				const newMySessionsCount = unreadSessionsStatus.mySessions - 1;
+				const newMySessionsCount = Math.max(
+					unreadSessionsStatus.mySessions - 1,
+					0
+				);
 				setUnreadSessionsStatus({
 					...unreadSessionsStatus,
 					mySessions: newMySessionsCount,

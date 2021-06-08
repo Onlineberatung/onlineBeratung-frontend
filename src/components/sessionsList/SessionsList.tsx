@@ -193,7 +193,7 @@ export const SessionsList: React.FC = () => {
 
 	useEffect(() => {
 		if (sessionsData && sessionsData.mySessions) {
-			if (didUnreadStatusChange) {
+			if (didUnreadStatusChange()) {
 				setUnreadSessionsStatus({
 					...unreadSessionsStatus,
 					mySessions: getUnreadMyMessages(sessionsData),
@@ -201,24 +201,7 @@ export const SessionsList: React.FC = () => {
 				});
 			}
 		}
-	}, [sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		if (
-			sessionsData &&
-			unreadSessionsStatus &&
-			unreadSessionsStatus.newDirectMessage
-		) {
-			if (
-				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
-				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
-			) {
-				fetchAskerData();
-			} else {
-				getSessionsListData().catch(() => {});
-			}
-		}
-	}, [unreadSessionsStatus]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [sessionsData, updateSessionList]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (
