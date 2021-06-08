@@ -37,14 +37,14 @@ export const FinishedAnonymousConversationHandler = () => {
 		buttonSet: [
 			{
 				label: translate('anonymous.overlay.chatWasFinished.button'),
-				function: OVERLAY_FUNCTIONS.REDIRECT,
+				function: OVERLAY_FUNCTIONS.REDIRECT_TO_HOME,
 				type: BUTTON_TYPES.PRIMARY
 			}
 		]
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
-		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
+		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_HOME) {
 			window.location.href = config.urls.home;
 		}
 	};

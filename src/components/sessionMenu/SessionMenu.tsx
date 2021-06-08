@@ -28,7 +28,8 @@ import {
 	leaveGroupChatSecurityOverlayItem,
 	groupChatErrorOverlayItem,
 	leaveGroupChatSuccessOverlayItem,
-	finishAnonymousChatSecurityOverlayItem
+	finishAnonymousChatSecurityOverlayItem,
+	finishAnonymousChatSuccessOverlayItem
 } from './sessionMenuHelpers';
 import {
 	apiFinishAnonymousConversation,
@@ -52,6 +53,7 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
+import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -114,6 +116,11 @@ export const SessionMenu = () => {
 	};
 
 	const handleFinishAnonymousChat = () => {
+		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
+			finishAnonymousChatSecurityOverlayItem.copy = translate(
+				'anonymous.overlay.finishChat.asker.copy'
+			);
+		}
 		setOverlayItem(finishAnonymousChatSecurityOverlayItem);
 		setOverlayActive(true);
 	};
@@ -157,14 +164,27 @@ export const SessionMenu = () => {
 		) {
 			apiFinishAnonymousConversation(chatItem.id)
 				.then((response) => {
-					setOverlayActive(false);
-					setOverlayItem(null);
 					setIsRequestInProgress(false);
+
+					if (
+						hasUserAuthority(
+							AUTHORITIES.ANONYMOUS_DEFAULT,
+							userData
+						)
+					) {
+						removeAllCookies();
+						setOverlayItem(finishAnonymousChatSuccessOverlayItem);
+					} else {
+						setOverlayActive(false);
+						setOverlayItem(null);
+					}
 				})
 				.catch((error) => {
 					console.error(error);
 					setIsRequestInProgress(false);
 				});
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_HOME) {
+			window.location.href = config.urls.home;
 		}
 	};
 
