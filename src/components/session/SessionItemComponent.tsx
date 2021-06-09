@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useContext, useEffect, useMemo } from 'react';
+import clsx from 'clsx';
 import {
 	typeIsSession,
 	typeIsTeamSession,
@@ -276,8 +277,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 	const scrollBottomButtonItem: ButtonItem = {
 		icon: <ArrowDoubleDownIcon />,
-		type: BUTTON_TYPES.SMALL_ICON,
-		smallIconBackgroundColor: 'grey'
+		type: BUTTON_TYPES.SMALL_ICON
 	};
 
 	return (
@@ -379,6 +379,11 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				<MessageSubmitInterfaceComponent
 					handleSendButton={() => {}}
 					isTyping={() => props.isTyping()}
+					className={clsx(
+						'session__submit-interface',
+						!isScrolledToBottom &&
+							'session__submit-interface--scrolled-up'
+					)}
 					placeholder={getPlaceholder()}
 					showMonitoringButton={() => {
 						setMonitoringButtonVisible(true);

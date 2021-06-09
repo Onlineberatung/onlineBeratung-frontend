@@ -59,14 +59,14 @@ a {
 		flex-direction: row;
 		position: relative;
 		overflow: hidden;
-		background-color: $background-ochre;
+		background-color: $background-light;
 
 		@include breakpoint($fromLarge) {
 			padding-bottom: 0;
 			width: calc(#{$maxWidth} - #{$navWidth});
 			height: #{$maxHeight};
 			overflow: visible;
-			background-color: $background-ochre;
+			background-color: $background-light;
 		}
 
 		&--navInactive {

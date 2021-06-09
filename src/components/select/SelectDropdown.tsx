@@ -29,7 +29,7 @@ const colourStyles = {
 			...styles,
 			'backgroundColor': 'white',
 			'border': isFocused ? '2px solid #3F373F' : '1px solid #8C878C',
-			'borderRadius': '25px',
+			'borderRadius': undefined,
 			'height': '50px',
 			'outline': isFocused ? '0' : '0',
 			'padding': '0 12px',
@@ -56,11 +56,14 @@ const colourStyles = {
 		...styles,
 		paddingTop: '12px'
 	}),
-	option: (styles, { isFocused }) => {
+	option: (styles) => {
 		return {
 			...styles,
-			backgroundColor: isFocused ? '#F8DEDD' : '#fff',
-			color: isFocused ? '#CC1E1C' : '#3F373F',
+
+			// Use values from stylesheet
+			color: undefined,
+			backgroundColor: undefined,
+
 			textAlign: 'left',
 			lineHeight: '48px',
 			paddingTop: '0',
@@ -138,6 +141,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 			<Select
 				id={props.id}
 				className="select__input"
+				classNamePrefix="select__input"
 				components={{
 					Option: props.useIconOption
 						? IconOption

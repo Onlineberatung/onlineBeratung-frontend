@@ -49,8 +49,6 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		width: $grid-base-five;
 		margin: 0;
 		color: $white;
-		opacity: 0.7;
-		fill-opacity: 0.7;
 		text-align: center;
 		text-decoration: none;
 
@@ -137,8 +135,14 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		&:hover,
 		&--active {
 			color: $white;
-			opacity: 1;
-			fill-opacity: 1;
+
+			.navigation__title {
+				opacity: 1;
+			}
+
+			.navigation__icon {
+				opacity: 1;
+			}
 
 			.navigation__item__count {
 				opacity: 1;
@@ -147,11 +151,17 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		}
 	}
 
+	&__title,
+	&__icon {
+		transition: opacity 0.3s ease;
+	}
+
 	&__icon {
 		width: $iconSize;
 		height: $iconSize;
 		margin: auto;
 		text-align: center;
+		opacity: 0.35;
 	}
 
 	&__title {
@@ -161,6 +171,8 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		line-height: 16px;
 		text-align: center;
 		margin: auto;
+		opacity: 0.6;
+		letter-spacing: 0.5px;
 
 		@include breakpoint($fromLarge) {
 			display: block;

@@ -1,9 +1,8 @@
 import '../../polyfill';
 import * as React from 'react';
-import { Stage } from '../stage/stage';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import { useState, useEffect } from 'react';
+import { ComponentType, useState, useEffect } from 'react';
 import { config } from '../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
 import { autoLogin } from '../registration/autoLogin';
@@ -11,6 +10,7 @@ import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { LegalInformationLinks } from './LegalInformationLinks';
+import { StageProps } from '../stage/stage';
 import './login.styles';
 import '../../resources/styles/styles';
 
@@ -19,7 +19,11 @@ const loginButton: ButtonItem = {
 	type: BUTTON_TYPES.PRIMARY
 };
 
-export const Login = () => {
+interface LoginProps {
+	stageComponent: ComponentType<StageProps>;
+}
+
+export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState(

@@ -119,6 +119,7 @@ export const DeleteAccount = () => {
 			{isOverlayActive && (
 				<OverlayWrapper>
 					<Overlay
+						className="deleteAccount__overlay"
 						item={
 							isSuccessOverlay ? overlaySuccess : overlayConfirm
 						}
