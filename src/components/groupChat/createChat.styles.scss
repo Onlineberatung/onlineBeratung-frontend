@@ -5,7 +5,7 @@ $inputSpacing: 32px;
 	&__wrapper {
 		display: flex;
 		flex-direction: column;
-		background-color: $background-ochre;
+		background-color: $background-light;
 		width: 100vw;
 		height: 100vh;
 
@@ -19,7 +19,7 @@ $inputSpacing: 32px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		background-color: $background-light-ochre;
+		background-color: $background-lighter;
 		padding: $grid-base-three $grid-base-two;
 
 		@include breakpoint($fromMedium) {
@@ -27,7 +27,7 @@ $inputSpacing: 32px;
 		}
 
 		@include breakpoint($fromLarge) {
-			background-color: $background-ochre;
+			background-color: $background-light;
 			align-items: flex-start;
 		}
 

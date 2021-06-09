@@ -42,6 +42,7 @@ import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import smoothScroll from './smoothScrollHelper';
+import clsx from 'clsx';
 
 interface SessionItemProps {
 	messages: MessageItem[];
@@ -354,6 +355,11 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				<MessageSubmitInterfaceComponent
 					handleSendButton={() => {}}
 					isTyping={() => props.isTyping()}
+					className={clsx(
+						'session__submit-interface',
+						!isScrolledToBottom &&
+							'session__submit-interface--scrolled-up'
+					)}
 					placeholder={getPlaceholder()}
 					showMonitoringButton={() => {
 						setMonitoringButtonVisible(true);
@@ -395,6 +401,5 @@ const monitoringButtonItem: ButtonItem = {
 
 const scrollBottomButtonItem: ButtonItem = {
 	icon: <ArrowDoubleDownIcon />,
-	type: BUTTON_TYPES.SMALL_ICON,
-	smallIconBackgroundColor: 'grey'
+	type: BUTTON_TYPES.SMALL_ICON
 };

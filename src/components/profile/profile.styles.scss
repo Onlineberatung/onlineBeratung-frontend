@@ -10,7 +10,7 @@ $maxFormElementWidth: 320px;
 	&__wrapper {
 		display: flex;
 		flex-direction: column;
-		background-color: $background-light-ochre;
+		background-color: $background-lighter;
 		height: 100%;
 	}
 
@@ -22,7 +22,7 @@ $maxFormElementWidth: 320px;
 		flex-direction: column;
 		align-items: center;
 		padding: $grid-base-three $grid-base-two;
-		background-color: $background-light-ochre;
+		background-color: $background-lighter;
 		z-index: 20;
 
 		@include breakpoint($fromMedium) {
@@ -90,13 +90,13 @@ $maxFormElementWidth: 320px;
 		display: flex;
 		flex-direction: column;
 		margin: $grid-base-twelve 0 $grid-base-nine;
-		background-color: $background-ochre;
+		background-color: $background-light;
 		overflow-x: auto;
 
 		@include breakpoint($fromLarge) {
 			height: calc(100vh - #{$doubleNavHeight - #{$imprintHeight}});
 			margin: 0;
-			background-color: $background-light-ochre;
+			background-color: $background-lighter;
 		}
 
 		&__stopButton {
@@ -210,7 +210,7 @@ $maxFormElementWidth: 320px;
 		}
 
 		.text__divider {
-			text-align: center;
+			text-align: $profile-divider-text-align;
 			margin-bottom: $grid-base-three;
 		}
 
@@ -328,7 +328,7 @@ $maxFormElementWidth: 320px;
 			justify-content: flex-start;
 			width: 100%;
 			margin-bottom: unset;
-			background-color: $background-ochre;
+			background-color: $background-light;
 		}
 
 		&__item {
@@ -348,7 +348,7 @@ $maxFormElementWidth: 320px;
 .contentWrapper__detail {
 	.profile {
 		&__wrapper {
-			background-color: $background-ochre;
+			background-color: $background-light;
 			height: 100vh;
 			width: 100vw;
 
@@ -364,15 +364,15 @@ $maxFormElementWidth: 320px;
 
 		&__innerWrapper {
 			height: calc(100vh - #{$grid-base-twelve});
-			background-color: $background-ochre;
+			background-color: $background-light;
 		}
 
 		&__header {
 			position: relative;
-			background-color: $background-light-ochre;
+			background-color: $background-lighter;
 
 			@include breakpoint($fromLarge) {
-				background-color: $background-ochre;
+				background-color: $background-light;
 			}
 
 			&__backButton {
@@ -405,7 +405,7 @@ $maxFormElementWidth: 320px;
 
 			&__innerWrapper {
 				margin: 0 auto;
-				background-color: $background-ochre;
+				background-color: $background-light;
 
 				@include breakpoint($fromLarge) {
 					margin: 0 auto 0 $grid-base;

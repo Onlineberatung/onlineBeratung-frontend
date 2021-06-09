@@ -57,11 +57,17 @@
 		.inputField {
 			margin-top: $grid-base-three;
 			margin-right: $grid-base-four;
+			max-width: 360px;
 		}
 	}
 
 	&__continueButton {
 		margin-top: $grid-base-three;
+
+		button {
+			min-width: 0;
+			padding: 0;
+		}
 	}
 
 	&--active & {
