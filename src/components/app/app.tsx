@@ -1,6 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import { ComponentType, useState } from 'react';
+import { ComponentType, ReactNode, useState } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedAppContainer } from './AuthenticatedApp';
@@ -13,9 +13,10 @@ export const history = createBrowserHistory();
 
 interface AppProps {
 	stageComponent: ComponentType<StageProps>;
+	extraRoutes?: ReactNode;
 }
 
-export const App = ({ stageComponent }: AppProps) => {
+export const App = ({ stageComponent, extraRoutes }: AppProps) => {
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
@@ -31,6 +32,7 @@ export const App = ({ stageComponent }: AppProps) => {
 	return (
 		<Router history={history}>
 			<Switch>
+				{extraRoutes}
 				<Route path="/:consultingTypeSlug/registration">
 					<Registration stageComponent={stageComponent} />
 				</Route>
