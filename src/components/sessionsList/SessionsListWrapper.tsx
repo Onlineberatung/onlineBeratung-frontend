@@ -21,7 +21,10 @@ export const SessionsListWrapper = () => {
 	const type = getTypeOfLocation();
 	const { userData } = useContext(UserDataContext);
 
-	if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+	if (
+		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+		hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+	) {
 		return (
 			<div className="sessionsList__wrapper">
 				<div

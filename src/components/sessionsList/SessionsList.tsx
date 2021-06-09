@@ -28,7 +28,8 @@ import {
 	StoppedGroupChatContext,
 	UserDataInterface,
 	getUnreadMyMessages,
-	UpdateAnonymousEnquiriesContext
+	UpdateAnonymousEnquiriesContext,
+	UpdateSessionListContext
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
@@ -39,7 +40,8 @@ import {
 	SESSION_COUNT,
 	apiGetAskerSessionList,
 	apiGetUserData,
-	FETCH_ERRORS
+	FETCH_ERRORS,
+	apiGetConsultantSessionList
 } from '../../api';
 import { getConsultantSessions } from './SessionsListData';
 import { Button } from '../button/Button';
@@ -86,6 +88,9 @@ export const SessionsList: React.FC = () => {
 		updateAnonymousEnquiries,
 		setUpdateAnonymousEnquiries
 	} = useContext(UpdateAnonymousEnquiriesContext);
+	const { updateSessionList, setUpdateSessionList } = useContext(
+		UpdateSessionListContext
+	);
 	const [isActiveSessionCreateChat, setIsActiveSessionCreateChat] = useState(
 		false
 	);
@@ -185,9 +190,10 @@ export const SessionsList: React.FC = () => {
 
 	const didUnreadStatusChange = () =>
 		unreadSessionsStatus.mySessions !== getUnreadMyMessages(sessionsData);
+
 	useEffect(() => {
 		if (sessionsData && sessionsData.mySessions) {
-			if (didUnreadStatusChange) {
+			if (didUnreadStatusChange()) {
 				setUnreadSessionsStatus({
 					...unreadSessionsStatus,
 					mySessions: getUnreadMyMessages(sessionsData),
@@ -195,24 +201,7 @@ export const SessionsList: React.FC = () => {
 				});
 			}
 		}
-	}, [sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		if (
-			sessionsData &&
-			unreadSessionsStatus &&
-			unreadSessionsStatus.newDirectMessage
-		) {
-			if (
-				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
-				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
-			) {
-				fetchAskerData();
-			} else {
-				getSessionsListData().catch(() => {});
-			}
-		}
-	}, [unreadSessionsStatus]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [sessionsData, updateSessionList]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (
@@ -225,6 +214,36 @@ export const SessionsList: React.FC = () => {
 		}
 		setUpdateAnonymousEnquiries(false);
 	}, [updateAnonymousEnquiries]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		const refreshSessionList = async () => {
+			if (
+				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+			) {
+				fetchAskerData();
+			} else if (
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+			) {
+				const { sessions, total } = await apiGetConsultantSessionList({
+					type: SESSION_TYPES.MY_SESSION,
+					filter: getFilterToUse(),
+					offset: 0,
+					count: sessionsData?.mySessions.length
+				});
+
+				setSessionsData((sessionsData) => {
+					return { ...sessionsData, mySessions: sessions };
+				});
+				setTotalItems(total);
+			}
+		};
+
+		if (updateSessionList) {
+			refreshSessionList();
+		}
+		setUpdateSessionList(false);
+	}, [updateSessionList, userData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (stoppedGroupChat) {
