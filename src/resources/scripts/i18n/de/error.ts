@@ -1,6 +1,4 @@
 const error = {
-	'title': 'Beratung & Hilfe',
-	'claim': 'Online. Anonym. Sicher.',
 	'statusCodes.401.headline': 'Schade!',
 	'statusCodes.401.description':
 		'Leider sind Sie nicht berechtigt diese Seite  einzusehen.<br>Bitte melden Sie sich an.',
