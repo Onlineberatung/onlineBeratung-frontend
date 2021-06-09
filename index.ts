@@ -16,6 +16,9 @@ export { Button, BUTTON_TYPES } from './src/components/button/Button';
 export { SelectDropdown } from './src/components/select/SelectDropdown';
 export { StageLayout } from './src/components/stageLayout/StageLayout';
 
+// Images
+export * from './src/resources/img/icons';
+
 // Utils
 export { translate } from './src/utils/translate';
 export * from './src/api/fetchData';
