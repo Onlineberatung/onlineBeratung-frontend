@@ -13,7 +13,8 @@ import {
 	AnonymousEnquiryAcceptedContext,
 	NotificationsContext,
 	UnreadSessionsStatusContext,
-	UpdateAnonymousEnquiriesContext
+	UpdateAnonymousEnquiriesContext,
+	UpdateSessionListContext
 } from '../../globalState';
 
 interface WebsocketHandlerProps {
@@ -36,6 +37,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const { setUpdateAnonymousEnquiries } = useContext(
 		UpdateAnonymousEnquiriesContext
 	);
+	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const { notifications, setNotifications } = useContext(
 		NotificationsContext
 	);
@@ -101,6 +103,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 				newDirectMessage: true,
 				resetedAnimations: unreadSessionsStatus.mySessions === 0
 			});
+			setUpdateSessionList(true);
 			setNewStompDirectMessage(false);
 		}
 	}, [newStompDirectMessage]); // eslint-disable-line react-hooks/exhaustive-deps

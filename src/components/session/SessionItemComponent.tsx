@@ -89,6 +89,16 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		UpdateAnonymousEnquiriesContext
 	);
 
+	const resetUnreadCount = () => {
+		if (!props.isAnonymousEnquiry) {
+			setNewMessages(0);
+			initMessageCount = messages?.length;
+			scrollContainerRef.current
+				.querySelectorAll('.messageItem__divider--lastRead')
+				.forEach((e) => e.remove());
+		}
+	};
+
 	useEffect(() => {
 		if (!props.isAnonymousEnquiry) {
 			resetUnreadCount();
@@ -149,16 +159,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	}, [chatItem]);
 
 	if (!activeSession) return null;
-
-	const resetUnreadCount = () => {
-		if (!props.isAnonymousEnquiry) {
-			setNewMessages(0);
-			initMessageCount = messages?.length;
-			scrollContainerRef.current
-				.querySelectorAll('.messageItem__divider--lastRead')
-				.forEach((e) => e.remove());
-		}
-	};
 
 	const getPlaceholder = () => {
 		if (isGroupChat) {
