@@ -14,9 +14,11 @@ export { Headline } from './src/components/headline/Headline';
 export { Text } from './src/components/text/Text';
 export { Button, BUTTON_TYPES } from './src/components/button/Button';
 export { SelectDropdown } from './src/components/select/SelectDropdown';
+export { StageLayout } from './src/components/stageLayout/StageLayout';
 
 // Utils
 export { translate } from './src/utils/translate';
+export * from './src/api/fetchData';
 
 // Types
 export * from './src/globalState';

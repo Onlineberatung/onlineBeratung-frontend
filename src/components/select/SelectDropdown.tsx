@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import * as React from 'react';
 import Select from 'react-select';
 import { components } from 'react-select';
@@ -13,13 +14,14 @@ export interface SelectOption {
 }
 
 export interface SelectDropdownItem {
+	className?: string;
 	id: string;
 	selectedOptions: SelectOption[];
 	selectInputLabel: string;
 	handleDropdownSelect: Function;
-	useIconOption: boolean;
-	isSearchable: boolean;
-	menuPlacement: string;
+	useIconOption?: boolean;
+	isSearchable?: boolean;
+	menuPlacement: 'top' | 'bottom';
 	defaultValue?: SelectOption;
 }
 
@@ -137,7 +139,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 	);
 
 	return (
-		<div className="select__wrapper">
+		<div className={clsx(props.className, 'select__wrapper')}>
 			<Select
 				id={props.id}
 				className="select__input"
