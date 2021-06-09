@@ -227,26 +227,6 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 				/>
 			</form>
 
-			{/* ----------------------------- LEGAL INFORMATION ---------------------------- */}
-			<LegalInformationLinks />
-
-			{/* ----------------------------- TO LOGIN BUTTON ---------------------------- */}
-			<div className="registrationForm__toLogin">
-				<p className="registrationForm__toLogin__text">
-					{translate('registration.login.helper')}
-				</p>
-				<div className="registrationForm__toLogin__button">
-					<a href={config.urls.toLogin}>
-						<Button
-							item={{
-								label: translate('registration.login.label'),
-								type: 'TERTIARY'
-							}}
-							isLink={true}
-						/>
-					</a>
-				</div>
-			</div>
 			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay

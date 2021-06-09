@@ -4,12 +4,6 @@ $iconSize: 55px;
 $gridSpacing: $grid-base-four;
 
 .stage {
-	position: fixed;
-	left: 0;
-	top: 0;
-	z-index: 20;
-	width: 40vw;
-	height: 100vh;
 	background-color: $primary;
 	color: $white;
 	flex-direction: column;

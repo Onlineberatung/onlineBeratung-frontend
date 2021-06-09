@@ -1,12 +1,19 @@
+import clsx from 'clsx';
 import * as React from 'react';
 import { config } from '../../resources/scripts/config';
 import { translate } from '../../utils/translate';
 import { Text } from '../text/Text';
 import './legalInformationLinks.styles';
 
-export const LegalInformationLinks = () => {
+interface LegalInformationLinksProps {
+	className?: string;
+}
+
+export const LegalInformationLinks = ({
+	className
+}: LegalInformationLinksProps) => {
 	return (
-		<div className="legalInformationLinks">
+		<div className={clsx(className, 'legalInformationLinks')}>
 			<a href={config.urls.imprint}>
 				<Text
 					className="legalInformationLinks__linkLabel"

@@ -1,8 +1,5 @@
 .legalInformationLinks {
 	display: flex;
-	position: absolute;
-	bottom: $grid-base-four;
-	right: $legal-information-links-right;
 
 	&__linkLabel {
 		color: $primary;
