@@ -27,10 +27,11 @@
 		}
 
 		@include breakpoint($fromLarge) {
-			width: 60vw;
-			left: 40vw;
-			padding: 0 150px;
-			max-width: 1000px;
+			$padding: 150px;
+
+			width: calc(60vw - #{$padding * 2});
+			left: calc(40vw + #{$padding});
+			max-width: 1000px - $padding * 2;
 		}
 	}
 
@@ -66,6 +67,6 @@
 	&__legalLinks {
 		position: absolute;
 		bottom: $grid-base-four;
-		right: $legal-information-links-right;
+		left: $legal-information-links-left;
 	}
 }
