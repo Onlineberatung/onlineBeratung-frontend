@@ -11,12 +11,19 @@ export const INITIAL_FILTER: string = 'all';
 export const INITIAL_OFFSET: number = 0;
 export const SESSION_COUNT: number = 15;
 
-export const apiGetConsultantSessionList = async (
-	type: string,
-	filter: string = INITIAL_FILTER,
-	offset: number = INITIAL_OFFSET,
-	sessionListTab?: string
-): Promise<ListItemsResponseInterface> => {
+export const apiGetConsultantSessionList = async ({
+	type,
+	filter = INITIAL_FILTER,
+	offset = INITIAL_OFFSET,
+	sessionListTab,
+	count = SESSION_COUNT
+}: {
+	type: string;
+	filter?: string;
+	offset?: number;
+	sessionListTab?: string;
+	count?: number;
+}): Promise<ListItemsResponseInterface> => {
 	const isTeamSession: boolean = typeIsTeamSession(type);
 	let url: string;
 	if (isTeamSession) {
@@ -30,7 +37,7 @@ export const apiGetConsultantSessionList = async (
 				: `${SESSION_LIST_TAB.REGISTERED}`
 		}?`;
 	}
-	url = url + `count=${SESSION_COUNT}&filter=${filter}&offset=${offset}`;
+	url = url + `count=${count}&filter=${filter}&offset=${offset}`;
 
 	const timeout = 10000;
 

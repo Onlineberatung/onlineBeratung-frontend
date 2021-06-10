@@ -95,15 +95,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	}
 
 	const handleOnClick = () => {
-		if (
-			!isCurrentSessionNewEnquiry &&
-			(isRequestInProgress || listItem.groupId === activeSessionGroupId)
-		) {
-			return null;
-		}
 		setIsRequestInProgress(true);
 
-		if (listItem.groupId) {
+		if (listItem.groupId && listItem.id) {
 			history.push(
 				`${getSessionListPathForLocation()}/${listItem.groupId}/${
 					listItem.id
@@ -332,6 +326,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 						!typeIsEnquiry(type) &&
 						!listItem.feedbackRead &&
+						!isLiveChat &&
 						!(
 							activeSession &&
 							activeSession.isFeedbackSession &&
@@ -344,12 +339,16 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								link={feedbackPath}
 							/>
 						)}
-					{isLiveChat && !isLiveChatFinished && (
-						<Tag
-							text={translate('anonymous.listItem.activeLabel')}
-							color="green"
-						/>
-					)}
+					{isLiveChat &&
+						!typeIsEnquiry(type) &&
+						!isLiveChatFinished && (
+							<Tag
+								text={translate(
+									'anonymous.listItem.activeLabel'
+								)}
+								color="green"
+							/>
+						)}
 				</div>
 			</div>
 		</div>

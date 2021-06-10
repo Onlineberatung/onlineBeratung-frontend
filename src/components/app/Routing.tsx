@@ -11,6 +11,7 @@ import {
 } from './RouterConfig';
 import { AbsenceHandler } from './AbsenceHandler';
 import {
+	SessionsDataContext,
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES
@@ -27,6 +28,7 @@ interface routingProps {
 
 export const Routing = (props: routingProps) => {
 	const { userData } = useContext(UserDataContext);
+	const { sessionsData } = useContext(SessionsDataContext);
 
 	const routerConfig = useMemo(() => {
 		if (hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData)) {
@@ -58,6 +60,18 @@ export const Routing = (props: routingProps) => {
 					: 'user/view')
 		);
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	// Redirect anonymous live chat users to their one and only session
+	useEffect(() => {
+		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
+			const groupId = sessionsData?.mySessions[0].session.groupId;
+			const id = sessionsData?.mySessions[0].session.id;
+
+			if (groupId && id) {
+				history.push(`/sessions/user/view/${groupId}/${id}`);
+			}
+		}
+	}, [sessionsData, userData]);
 
 	return (
 		<div className="app__wrapper">

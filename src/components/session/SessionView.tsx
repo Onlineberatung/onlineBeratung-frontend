@@ -11,6 +11,7 @@ import {
 	getSessionsDataWithChangedValue,
 	StoppedGroupChatContext,
 	AcceptedGroupIdContext,
+	UpdateSessionListContext,
 	UserDataContext
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
@@ -65,6 +66,7 @@ export const SessionView = (props) => {
 		UnreadSessionsStatusContext
 	);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
+	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
@@ -94,7 +96,10 @@ export const SessionView = (props) => {
 				);
 				setSessionsData(changedSessionsData);
 
-				const newMySessionsCount = unreadSessionsStatus.mySessions - 1;
+				const newMySessionsCount = Math.max(
+					unreadSessionsStatus.mySessions - 1,
+					0
+				);
 				setUnreadSessionsStatus({
 					...unreadSessionsStatus,
 					mySessions: newMySessionsCount,
@@ -102,6 +107,52 @@ export const SessionView = (props) => {
 				});
 			}
 		}
+	};
+
+	const fetchSessionMessages = (isSocketConnected: boolean = false) => {
+		const rcGroupId = props.match.params.rcGroupId;
+		apiGetSessionData(rcGroupId)
+			.then((messagesData) => {
+				setLoadedMessages(messagesData);
+				setIsLoading(false);
+
+				if (!isSocketConnected && !isAnonymousEnquiry) {
+					setSessionToRead();
+					window['socket'].connect();
+					window['socket'].addSubscription(
+						SOCKET_COLLECTION.ROOM_MESSAGES,
+						[groupId, false],
+						handleRoomMessage
+					);
+					if (isGroupChat) {
+						window['socket'].addSubscription(
+							SOCKET_COLLECTION.NOTIFY_USER,
+							[
+								getTokenFromCookie('rc_uid') +
+									'/subscriptions-changed',
+								false
+							],
+							handleGroupChatStopped
+						);
+						window[
+							'socket'
+						].addSubscription(
+							SOCKET_COLLECTION.NOTIFY_ROOM,
+							[
+								`${groupId}/typing`,
+								{ useCollection: false, args: [] }
+							],
+							(data) => handleTypingResponse(data)
+						);
+					}
+				}
+			})
+			.catch((error) => null);
+	};
+
+	const handleRoomMessage = () => {
+		fetchSessionMessages(true);
+		setUpdateSessionList(true);
 	};
 
 	useEffect(() => {
@@ -134,9 +185,9 @@ export const SessionView = (props) => {
 				sessionsData
 			);
 			const currentChatItem = getChatItemForSession(currentSession);
-			const currentSessionRead = currentSession.isFeedbackSession
-				? currentChatItem.feedbackRead
-				: currentChatItem.messagesRead;
+			const currentSessionRead = currentSession?.isFeedbackSession
+				? currentChatItem?.feedbackRead
+				: currentChatItem?.messagesRead;
 			if (!currentSessionRead) {
 				setSessionToRead(true);
 			}
@@ -165,49 +216,6 @@ export const SessionView = (props) => {
 		history.push(getSessionListPathForLocation());
 		return null;
 	}
-
-	const fetchSessionMessages = (isSocketConnected: boolean = false) => {
-		const rcGroupId = props.match.params.rcGroupId;
-		apiGetSessionData(rcGroupId)
-			.then((messagesData) => {
-				setLoadedMessages(messagesData);
-				setIsLoading(false);
-
-				if (!isSocketConnected && !isAnonymousEnquiry) {
-					setSessionToRead();
-					window['socket'].connect();
-					window[
-						'socket'
-					].addSubscription(
-						SOCKET_COLLECTION.ROOM_MESSAGES,
-						[groupId, false],
-						() => fetchSessionMessages(true)
-					);
-					if (isGroupChat) {
-						window['socket'].addSubscription(
-							SOCKET_COLLECTION.NOTIFY_USER,
-							[
-								getTokenFromCookie('rc_uid') +
-									'/subscriptions-changed',
-								false
-							],
-							handleGroupChatStopped
-						);
-						window[
-							'socket'
-						].addSubscription(
-							SOCKET_COLLECTION.NOTIFY_ROOM,
-							[
-								`${groupId}/typing`,
-								{ useCollection: false, args: [] }
-							],
-							(data) => handleTypingResponse(data)
-						);
-					}
-				}
-			})
-			.catch((error) => null);
-	};
 
 	const handleGroupChatStopped = () => {
 		setOverlayItem(groupChatStoppedOverlay);

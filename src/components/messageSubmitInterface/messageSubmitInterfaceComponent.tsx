@@ -475,10 +475,10 @@ export const MessageSubmitInterfaceComponent = (
 				});
 		} else {
 			const sendToFeedbackEndpoint =
-				activeSession.isFeedbackSession ||
+				activeSession?.isFeedbackSession ||
 				(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
 			const sendToRoomWithId = sendToFeedbackEndpoint
-				? activeSession.session.feedbackGroupId
+				? activeSession?.session.feedbackGroupId
 				: activeSessionGroupId;
 			const getSendMailNotificationStatus = () =>
 				!isGroupChat && !isLiveChat;

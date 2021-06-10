@@ -103,7 +103,7 @@ export const SessionMenu = () => {
 	};
 
 	const handleStopGroupChat = () => {
-		stopGroupChatSecurityOverlayItem.copy = chatItem.repetitive
+		stopGroupChatSecurityOverlayItem.copy = chatItem?.repetitive
 			? translate('groupChat.stopChat.securityOverlay.copyRepeat')
 			: translate('groupChat.stopChat.securityOverlay.copySingle');
 		setOverlayItem(stopGroupChatSecurityOverlayItem);
@@ -135,7 +135,7 @@ export const SessionMenu = () => {
 			setOverlayItem(null);
 			setIsRequestInProgress(false);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.STOP_GROUP_CHAT) {
-			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)
+			apiPutGroupChat(chatItem?.id, GROUP_CHAT_API.STOP)
 				.then((response) => {
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
 					setIsRequestInProgress(false);
@@ -145,7 +145,7 @@ export const SessionMenu = () => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LEAVE_GROUP_CHAT) {
-			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.LEAVE)
+			apiPutGroupChat(chatItem?.id, GROUP_CHAT_API.LEAVE)
 				.then((response) => {
 					setOverlayItem(leaveGroupChatSuccessOverlayItem);
 					setIsRequestInProgress(false);
@@ -198,20 +198,20 @@ export const SessionMenu = () => {
 	//list item icons only shown on outside
 
 	const feedbackPath = `${getSessionListPathForLocation()}/${
-		chatItem.feedbackGroupId
-	}/${chatItem.id}`;
+		chatItem?.feedbackGroupId
+	}/${chatItem?.id}`;
 	const monitoringPath = `${getSessionListPathForLocation()}/${
-		chatItem.groupId
-	}/${chatItem.id}/userProfile/monitoring`;
+		chatItem?.groupId
+	}/${chatItem?.id}/userProfile/monitoring`;
 	const userProfileLink = `${getSessionListPathForLocation()}/${
-		chatItem.groupId
-	}/${chatItem.id}/userProfile`;
+		chatItem?.groupId
+	}/${chatItem?.id}/userProfile`;
 	const groupChatInfoLink = `${getSessionListPathForLocation()}/${
-		chatItem.groupId
-	}/${chatItem.id}/groupChatInfo`;
+		chatItem?.groupId
+	}/${chatItem?.id}/groupChatInfo`;
 	const editGroupChatSettingsLink = `${getSessionListPathForLocation()}/${
-		chatItem.groupId
-	}/${chatItem.id}/editGroupChat`;
+		chatItem?.groupId
+	}/${chatItem?.id}/editGroupChat`;
 
 	if (redirectToSessionsList) {
 		mobileListView();
@@ -248,7 +248,7 @@ export const SessionMenu = () => {
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
 		const videoCallWindow = window.open('', '_blank');
-		apiStartVideoCall(chatItem.id)
+		apiStartVideoCall(chatItem?.id)
 			.then((response) => {
 				videoCallWindow.location.href = getVideoCallUrl(
 					response.moderatorVideoCallUrl,
@@ -293,13 +293,13 @@ export const SessionMenu = () => {
 			)}
 			{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			!typeIsEnquiry(getTypeOfLocation()) &&
-			chatItem.feedbackGroupId ? (
+			chatItem?.feedbackGroupId ? (
 				<Link to={feedbackPath} className="sessionInfo__feedbackButton">
 					<Button item={buttonFeedback} isLink={true} />
 				</Link>
 			) : null}
 
-			{isGroupChat && chatItem.subscribed ? (
+			{isGroupChat && chatItem?.subscribed ? (
 				<span
 					onClick={handleLeaveGroupChat}
 					className="sessionMenu__item--desktop sessionMenu__button"
@@ -325,7 +325,7 @@ export const SessionMenu = () => {
 			) : null}
 
 			{isGroupChat &&
-			chatItem.subscribed &&
+			chatItem?.subscribed &&
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
 				<span
 					onClick={handleStopGroupChat}
@@ -398,7 +398,7 @@ export const SessionMenu = () => {
 					</div>
 				)}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				chatItem.feedbackGroupId ? (
+				chatItem?.feedbackGroupId ? (
 					<Link
 						className="sessionMenu__item sessionMenu__item--mobile"
 						to={feedbackPath}
@@ -408,14 +408,14 @@ export const SessionMenu = () => {
 				) : null}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				!isGroupChat &&
-				!isGenericConsultingType(chatItem.consultingType) &&
+				!isGenericConsultingType(chatItem?.consultingType) &&
 				!isLiveChat ? (
 					<Link className="sessionMenu__item" to={userProfileLink}>
 						{translate('chatFlyout.askerProfil')}
 					</Link>
 				) : null}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				chatItem.monitoring &&
+				chatItem?.monitoring &&
 				!isLiveChat &&
 				!typeIsEnquiry(getTypeOfLocation()) ? (
 					<Link className="sessionMenu__item" to={monitoringPath}>
@@ -423,7 +423,7 @@ export const SessionMenu = () => {
 					</Link>
 				) : null}
 
-				{isGroupChat && chatItem.subscribed ? (
+				{isGroupChat && chatItem?.subscribed ? (
 					<div
 						onClick={handleLeaveGroupChat}
 						className="sessionMenu__item sessionMenu__item--mobile"
@@ -441,7 +441,7 @@ export const SessionMenu = () => {
 					</Link>
 				) : null}
 				{isGroupChat &&
-				chatItem.subscribed &&
+				chatItem?.subscribed &&
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
 					<div
 						onClick={handleStopGroupChat}

@@ -1,5 +1,5 @@
 import { config } from '../resources/scripts/config';
-import { fetchData, FETCH_METHODS } from './fetchData';
+import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 
 export const apiEnquiryAcceptance = async (
 	sessionId: number,
@@ -12,6 +12,7 @@ export const apiEnquiryAcceptance = async (
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.PUT,
-		rcValidation: true
+		rcValidation: true,
+		responseHandling: [FETCH_ERRORS.CONFLICT]
 	});
 };
