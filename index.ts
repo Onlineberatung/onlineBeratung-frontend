@@ -12,6 +12,7 @@ export { Error } from './src/components/error/Error';
 // Component library
 export { Headline } from './src/components/headline/Headline';
 export { Text } from './src/components/text/Text';
+export { LoadingIndicator } from './src/components/loadingIndicator/LoadingIndicator';
 export { Button, BUTTON_TYPES } from './src/components/button/Button';
 export { SelectDropdown } from './src/components/select/SelectDropdown';
 export { StageLayout } from './src/components/stageLayout/StageLayout';
@@ -21,7 +22,7 @@ export * from './src/resources/img/icons';
 
 // Utils
 export { translate } from './src/utils/translate';
-export * from './src/api/fetchData';
+export * from './src/api';
 
 // Types
 export * from './src/globalState';
