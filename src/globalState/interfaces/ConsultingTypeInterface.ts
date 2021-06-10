@@ -43,6 +43,8 @@ export interface ConsultingTypeBasicInterface {
 }
 
 export interface ConsultingTypeInterface extends ConsultingTypeBasicInterface {
+	description: string;
+	detailsUrl?: string;
 	requiredComponents?: RequiredComponentsInterface;
 	languageFormal: boolean;
 	voluntaryComponents?: any[];
