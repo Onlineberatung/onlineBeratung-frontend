@@ -45,6 +45,7 @@ interface fetchDataProps {
 	skipAuth?: boolean;
 	responseHandling?: string[];
 	timeout?: number;
+	signal?: AbortSignal;
 }
 
 export const fetchData = (props: fetchDataProps): Promise<any> =>
@@ -65,6 +66,19 @@ export const fetchData = (props: fetchDataProps): Promise<any> =>
 			  }
 			: null;
 
+		let controller;
+		if (!isIE11Browser) {
+			controller = new AbortController();
+			if (props.timeout) {
+				setTimeout(() => controller.abort(), props.timeout);
+			}
+			if (props.signal) {
+				props.signal.addEventListener('abort', () =>
+					controller.abort()
+				);
+			}
+		}
+
 		const req = new Request(props.url, {
 			method: props.method,
 			headers: {
@@ -76,20 +90,11 @@ export const fetchData = (props: fetchDataProps): Promise<any> =>
 				...rcHeaders
 			},
 			credentials: 'include',
-			body: props.bodyData
+			body: props.bodyData,
+			...(!isIE11Browser && { signal: controller.signal })
 		});
 
-		let controller;
-		let signal;
-		if (!isIE11Browser) {
-			controller = new AbortController();
-			signal = controller.signal;
-			if (props.timeout) {
-				setTimeout(() => controller.abort(), props.timeout);
-			}
-		}
-
-		fetch(req, !isIE11Browser && props.timeout ? { signal } : undefined)
+		fetch(req)
 			.then((response) => {
 				if (response.status === 200 || response.status === 201) {
 					const data =
