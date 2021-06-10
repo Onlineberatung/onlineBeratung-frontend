@@ -147,7 +147,7 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 				}
 			})
 			.catch((error) => {
-				if (props.signal.aborted && error.name === 'AbortError') {
+				if (props.signal?.aborted && error.name === 'AbortError') {
 					reject(new Error(FETCH_ERRORS.ABORT));
 				} else if (error.name === 'AbortError') {
 					reject(new Error(FETCH_ERRORS.TIMEOUT));
