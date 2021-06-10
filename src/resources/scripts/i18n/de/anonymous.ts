@@ -13,6 +13,7 @@ const anonymous = {
 		'Sie haben nun keinen Zugriff mehr auf Ihren Chat-Verlauf.',
 	'overlay.chatWasFinished.button': 'Zur Caritas.de',
 	'session.finishChat': 'Chat beenden',
+	'session.systemMessage.chatFinished': 'Der Chat wurde beendet.',
 	'waitingroom.title.start': 'Warteraum',
 	'waitingroom.dataProtection.headline': 'Herzlich Willkommen!',
 	'waitingroom.dataProtection.subline':

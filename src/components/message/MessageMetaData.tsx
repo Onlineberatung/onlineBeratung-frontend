@@ -18,7 +18,7 @@ import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/check
 interface MessageMetaDataProps {
 	isMyMessage: Boolean;
 	isNotRead: Boolean;
-	isVideoCallMessage: Boolean;
+	isReadStatusDisabled: Boolean;
 	messageTime: string;
 	type: string;
 }
@@ -35,7 +35,7 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) ||
 			activeSession.isFeedbackSession ||
-			props.isVideoCallMessage
+			props.isReadStatusDisabled
 		) {
 			return null;
 		}
