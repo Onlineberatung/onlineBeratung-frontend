@@ -89,6 +89,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 						setAnonymousConversationFinished(
 							finishConversationPhase
 						);
+						setUpdateSessionList(true);
 					}
 				});
 			}
