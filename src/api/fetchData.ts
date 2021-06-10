@@ -36,7 +36,7 @@ export const FETCH_SUCCESS = {
 	CONTENT: 'CONTENT'
 };
 
-interface fetchDataProps {
+interface FetchDataProps {
 	url: string;
 	method: string;
 	headersData?: object;
@@ -48,7 +48,7 @@ interface fetchDataProps {
 	signal?: AbortSignal;
 }
 
-export const fetchData = (props: fetchDataProps): Promise<any> =>
+export const fetchData = (props: FetchDataProps): Promise<any> =>
 	new Promise((resolve, reject) => {
 		const accessToken = getTokenFromCookie('keycloak');
 		const authorization = !props.skipAuth
