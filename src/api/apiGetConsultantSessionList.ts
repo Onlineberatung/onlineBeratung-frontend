@@ -12,19 +12,25 @@ export const INITIAL_OFFSET: number = 0;
 export const SESSION_COUNT: number = 15;
 export const TIMEOUT: number = 10000;
 
-export const apiGetConsultantSessionList = async ({
-	type,
-	filter = INITIAL_FILTER,
-	offset = INITIAL_OFFSET,
-	sessionListTab,
-	count = SESSION_COUNT
-}: {
+export interface ApiGetConsultantSessionListInterface {
 	type: string;
 	filter?: string;
 	offset?: number;
 	sessionListTab?: string;
 	count?: number;
-}): Promise<ListItemsResponseInterface> => {
+	signal?: AbortSignal;
+}
+
+export const apiGetConsultantSessionList = async ({
+	type,
+	filter = INITIAL_FILTER,
+	offset = INITIAL_OFFSET,
+	sessionListTab,
+	count = SESSION_COUNT,
+	signal
+}: ApiGetConsultantSessionListInterface): Promise<
+	ListItemsResponseInterface
+> => {
 	const isTeamSession: boolean = typeIsTeamSession(type);
 	let url: string;
 	if (isTeamSession) {
@@ -45,6 +51,7 @@ export const apiGetConsultantSessionList = async ({
 		method: FETCH_METHODS.GET,
 		rcValidation: true,
 		responseHandling: [FETCH_ERRORS.EMPTY],
-		timeout: TIMEOUT
+		timeout: TIMEOUT,
+		...(signal && { signal: signal })
 	});
 };
