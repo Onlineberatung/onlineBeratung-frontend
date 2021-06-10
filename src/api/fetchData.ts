@@ -6,10 +6,6 @@ import {
 } from '../components/error/errorHandling';
 import { logout } from '../components/logout/logout';
 
-const isIE11Browser =
-	window.navigator.userAgent.indexOf('MSIE ') > 0 ||
-	!!navigator.userAgent.match(/Trident.*rv:11\./);
-
 export const FETCH_METHODS = {
 	DELETE: 'DELETE',
 	GET: 'GET',
@@ -68,16 +64,12 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 			: null;
 
 		let controller;
-		if (!isIE11Browser) {
-			controller = new AbortController();
-			if (props.timeout) {
-				setTimeout(() => controller.abort(), props.timeout);
-			}
-			if (props.signal) {
-				props.signal.addEventListener('abort', () =>
-					controller.abort()
-				);
-			}
+		controller = new AbortController();
+		if (props.timeout) {
+			setTimeout(() => controller.abort(), props.timeout);
+		}
+		if (props.signal) {
+			props.signal.addEventListener('abort', () => controller.abort());
 		}
 
 		const req = new Request(props.url, {
@@ -92,7 +84,7 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 			},
 			credentials: 'include',
 			body: props.bodyData,
-			...(!isIE11Browser && { signal: controller.signal })
+			signal: controller.signal
 		});
 
 		fetch(req)
