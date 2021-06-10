@@ -57,6 +57,11 @@ import {
 import { Text } from '../text/Text';
 import clsx from 'clsx';
 
+interface GetSessionsListDataInterface {
+	increaseOffset?: boolean;
+	signal?: AbortSignal;
+}
+
 export const SessionsList: React.FC = () => {
 	const location = useLocation();
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -73,6 +78,11 @@ export const SessionsList: React.FC = () => {
 	const currentTab = useMemo(() => sessionListTab, [sessionListTab]);
 	const [hasNoSessions, setHasNoSessions] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [
+		abortController,
+		setAbortController
+	] = useState<AbortController | null>(null);
+
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [totalItems, setTotalItems] = useState(0);
@@ -171,7 +181,14 @@ export const SessionsList: React.FC = () => {
 			!acceptedGroupId
 		) {
 			setIsLoading(true);
-			getSessionsListData().catch(() => {});
+
+			if (abortController) {
+				abortController.abort();
+			}
+
+			const controller = new AbortController();
+			setAbortController(controller);
+			getSessionsListData({ signal: controller.signal }).catch(() => {});
 		}
 	}, [currentFilter, currentTab]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -342,7 +359,10 @@ export const SessionsList: React.FC = () => {
 	const getFilterToUse = (): string =>
 		showFilter ? filterStatus : INITIAL_FILTER;
 
-	const getSessionsListData = (increaseOffset?: boolean): Promise<any> => {
+	const getSessionsListData = ({
+		increaseOffset,
+		signal
+	}: GetSessionsListDataInterface = {}): Promise<any> => {
 		resetActiveSession();
 		if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
@@ -363,7 +383,8 @@ export const SessionsList: React.FC = () => {
 				type: type,
 				offset: useOffset,
 				useFilter: getFilterToUse(),
-				sessionListTab: sessionListTab
+				sessionListTab: sessionListTab,
+				...(signal && { signal: signal })
 			})
 				.then(({ sessions, total, count }) => {
 					setTotalItems(total);
@@ -377,21 +398,26 @@ export const SessionsList: React.FC = () => {
 						error.message === FETCH_ERRORS.EMPTY &&
 						increaseOffset
 					) {
+						setIsLoading(false);
 						setIsReloadButtonVisible(true);
 						reject(FETCH_ERRORS.EMPTY);
 					} else if (error.message === FETCH_ERRORS.EMPTY) {
+						setIsLoading(false);
 						setHasNoSessions(true);
 						reject(FETCH_ERRORS.EMPTY);
-					} else if (error === FETCH_ERRORS.TIMEOUT) {
+					} else if (error.message === FETCH_ERRORS.TIMEOUT) {
+						setIsLoading(false);
 						setIsReloadButtonVisible(true);
 						reject(FETCH_ERRORS.TIMEOUT);
+					} else if (error.message === FETCH_ERRORS.ABORT) {
+						// No action necessary. Just make sure to NOT set
+						// `isLoading` to false or `isReloadButtonVisible` to true.
 					} else {
 						setIsReloadButtonVisible(true);
 						reject(error);
 					}
 				})
 				.finally(() => {
-					setIsLoading(false);
 					setLoadingWithOffset(false);
 					setIsRequestInProgress(false);
 				});
@@ -450,7 +476,7 @@ export const SessionsList: React.FC = () => {
 				!isReloadButtonVisible &&
 				!isRequestInProgress
 			) {
-				getSessionsListData(true);
+				getSessionsListData({ increaseOffset: true });
 			}
 		}
 	};
