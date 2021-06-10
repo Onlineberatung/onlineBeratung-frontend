@@ -208,7 +208,7 @@ export const MessageSubmitInterfaceComponent = (
 			});
 
 		return () => {
-			if (currentDraftMessageRef.current) {
+			if (currentDraftMessageRef.current && !isLiveChatFinished) {
 				const requestFeedbackCheckboxCallback = document.getElementById(
 					'requestFeedback'
 				) as HTMLInputElement;
@@ -223,7 +223,11 @@ export const MessageSubmitInterfaceComponent = (
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (debouncedDraftMessage && currentDraftMessageRef.current) {
+		if (
+			debouncedDraftMessage &&
+			currentDraftMessageRef.current &&
+			!isLiveChatFinished
+		) {
 			const groupId =
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.session.feedbackGroupId
