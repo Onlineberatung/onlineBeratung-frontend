@@ -92,15 +92,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		}
 	}, [anonymousConversationFinished, setAnonymousConversationFinished]);
 
-	const getRedirectText = () => {
-		return `
-			<a href="${registrationUrl}">${translate(
-			'anonymous.waitingroom.redirect.link'
-		)}</a>
-			${translate('anonymous.waitingroom.redirect.suffix')}
-		`;
-	};
-
 	const getUsernameText = () => {
 		return `
 		 ${translate('anonymous.waitingroom.username')} 
@@ -218,18 +209,42 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 									'anonymous.waitingroom.subline'
 								)}
 							/>
-							<Text type="standard" text={getUsernameText()} />
+							<div className="waitingRoom__user">
+								<Text
+									type="standard"
+									text={getUsernameText()}
+								/>
+								<Text
+									type="standard"
+									text={translate(
+										'anonymous.waitingroom.info.accountDeletion'
+									)}
+								/>
+							</div>
 							<div className="waitingRoom__redirect">
 								<Text
 									type="standard"
 									text={translate(
-										'anonymous.waitingroom.redirect.prefix'
+										'anonymous.waitingroom.redirect.title'
 									)}
 								/>
 								<Text
 									type="standard"
-									text={getRedirectText()}
+									text={translate(
+										'anonymous.waitingroom.redirect.subline'
+									)}
 								/>
+								<a href={registrationUrl}>
+									<Button
+										item={{
+											label: translate(
+												'anonymous.waitingroom.redirect.button'
+											),
+											type: 'TERTIARY'
+										}}
+										isLink={true}
+									/>
+								</a>
 							</div>
 						</div>
 					</div>

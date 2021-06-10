@@ -24,13 +24,16 @@ const anonymous = {
 		'Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.',
 	'waitingroom.dataProtection.button': 'Bestätigen',
 	'waitingroom.headline': 'Bitte haben Sie etwas Geduld',
-	'waitingroom.subline': 'Wir sind gleich für Sie da.',
+	'waitingroom.subline':
+		'Derzeit sind alle Berater_innen im Gespräch. Wir sind schnellstmöglich für Sie da.',
 	'waitingroom.username': 'Ihr Benutzername lautet:',
 	'waitingroom.username.loading': 'Wird geladen...',
-	'waitingroom.redirect.prefix': 'Sie wollen nicht warten?',
-	'waitingroom.redirect.link': 'Hinterlassen Sie uns Ihre Nachricht',
-	'waitingroom.redirect.suffix':
-		'und wir melden uns sobald wie möglich bei Ihnen.',
+	'waitingroom.info.accountDeletion':
+		'Um Ihre Anonymität zu schützen, löschen wir Ihre Nachrichten spätestens 48 Stunden nachdem der Chat beendet wurde.',
+	'waitingroom.redirect.title': 'Sie wollen nicht warten?',
+	'waitingroom.redirect.subline':
+		'Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns innerhalb von zwei Werktagen bei Ihnen.',
+	'waitingroom.redirect.button': 'Zur Registrierung',
 	'waitingroom.overlay.acceptance.headline': 'Herzlich Willkommen!',
 	'waitingroom.overlay.acceptance.copy':
 		'Sie werden von Ihrer Berater_in im Chat erwartet. Sind Sie bereit?',
