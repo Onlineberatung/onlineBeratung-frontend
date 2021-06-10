@@ -29,27 +29,27 @@ export const StageLayout = ({
 				{showLegalLinks && (
 					<LegalInformationLinks className="stageLayout__legalLinks" />
 				)}
-				{showLoginLink && (
-					<div className="stageLayout__toLogin">
-						<p className="stageLayout__toLogin__text">
-							{translate('registration.login.helper')}
-						</p>
-						<div className="stageLayout__toLogin__button">
-							<a href={config.urls.toLogin}>
-								<Button
-									item={{
-										label: translate(
-											'registration.login.label'
-										),
-										type: 'TERTIARY'
-									}}
-									isLink
-								/>
-							</a>
-						</div>
-					</div>
-				)}
 			</div>
+			{showLoginLink && (
+				<div className="stageLayout__toLogin">
+					<p className="stageLayout__toLogin__text">
+						{translate('registration.login.helper')}
+					</p>
+					<div className="stageLayout__toLogin__button">
+						<a href={config.urls.toLogin}>
+							<Button
+								item={{
+									label: translate(
+										'registration.login.label'
+									),
+									type: 'TERTIARY'
+								}}
+								isLink
+							/>
+						</a>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
