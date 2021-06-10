@@ -10,12 +10,14 @@ export { Login } from './src/components/login/Login';
 export { Error } from './src/components/error/Error';
 
 // Component library
-export { Headline } from './src/components/headline/Headline';
-export { Text } from './src/components/text/Text';
-export { LoadingIndicator } from './src/components/loadingIndicator/LoadingIndicator';
-export { Button, BUTTON_TYPES } from './src/components/button/Button';
-export { SelectDropdown } from './src/components/select/SelectDropdown';
-export { StageLayout } from './src/components/stageLayout/StageLayout';
+export * from './src/components/headline/Headline';
+export * from './src/components/text/Text';
+export * from './src/components/loadingIndicator/LoadingIndicator';
+export * from './src/components/button/Button';
+export * from './src/components/select/SelectDropdown';
+export * from './src/components/stageLayout/StageLayout';
+export * from './src/components/overlay/Overlay';
+export * from './src/components/serviceExplanation/ServiceExplanation';
 
 // Images
 export * from './src/resources/img/icons';

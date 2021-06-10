@@ -1,0 +1,27 @@
+$iconSize: 32px;
+
+.serviceExplanation {
+	&__infoItem {
+		display: flex;
+
+		svg {
+			min-width: $iconSize;
+			height: $iconSize;
+			margin-right: 14px;
+
+			* {
+				fill: $welcome-screen-icon-background;
+			}
+		}
+	}
+
+	&__infoContent {
+		display: flex;
+		flex-direction: column;
+		text-align: left;
+
+		.text {
+			margin-top: $grid-base;
+		}
+	}
+}

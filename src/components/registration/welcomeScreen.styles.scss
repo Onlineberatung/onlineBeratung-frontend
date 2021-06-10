@@ -1,5 +1,3 @@
-$iconSize: 32px;
-
 .registrationWelcome {
 	max-width: 600px;
 	margin: $grid-base-six auto;
@@ -8,7 +6,7 @@ $iconSize: 32px;
 		margin-bottom: $grid-base;
 	}
 
-	&__infoWrapper,
+	&__explanation,
 	&__buttonsWrapper {
 		margin: $grid-base-five auto 0;
 		max-width: 500px;
@@ -21,30 +19,6 @@ $iconSize: 32px;
 			margin: $grid-base-six auto 0;
 			grid-template-columns: auto auto;
 			row-gap: $grid-base-four;
-		}
-	}
-
-	&__infoItem {
-		display: flex;
-
-		svg {
-			min-width: $iconSize;
-			height: $iconSize;
-			margin-right: 14px;
-
-			* {
-				fill: $welcome-screen-icon-background;
-			}
-		}
-	}
-
-	&__infoContent {
-		display: flex;
-		flex-direction: column;
-		text-align: left;
-
-		.text {
-			margin-top: $grid-base;
 		}
 	}
 
