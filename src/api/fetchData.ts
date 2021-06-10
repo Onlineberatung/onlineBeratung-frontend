@@ -154,8 +154,8 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 				}
 			})
 			.catch((error) => {
-				error.message === 'The operation was aborted. '
-					? reject(FETCH_ERRORS.TIMEOUT)
+				error.name === 'AbortError'
+					? reject(new Error(FETCH_ERRORS.TIMEOUT))
 					: reject(error);
 			});
 	});

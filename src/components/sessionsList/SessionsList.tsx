@@ -382,7 +382,7 @@ export const SessionsList: React.FC = () => {
 					} else if (error.message === FETCH_ERRORS.EMPTY) {
 						setHasNoSessions(true);
 						reject(FETCH_ERRORS.EMPTY);
-					} else if (error === FETCH_ERRORS.TIMEOUT) {
+					} else if (error.message === FETCH_ERRORS.TIMEOUT) {
 						setIsReloadButtonVisible(true);
 						reject(FETCH_ERRORS.TIMEOUT);
 					} else {
