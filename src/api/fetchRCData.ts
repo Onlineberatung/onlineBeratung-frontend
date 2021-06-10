@@ -7,7 +7,8 @@ import {
 export const fetchRCData = (
 	url: string,
 	method: string,
-	bodyData: any = null
+	bodyData: any = null,
+	ignoreErrors: boolean = false
 ): Promise<any> =>
 	new Promise((resolve, reject) => {
 		const rcAuthToken = getTokenFromCookie('rc_token');
@@ -30,7 +31,7 @@ export const fetchRCData = (
 				if (response.status === 200) {
 					const data = response.json();
 					resolve(data);
-				} else {
+				} else if (!ignoreErrors) {
 					const error = getErrorCaseForStatus(response.status);
 					redirectToErrorPage(error);
 					reject(new Error('api call error'));

@@ -12,10 +12,13 @@ import {
 import {
 	AnonymousConversationFinishedContext,
 	AnonymousEnquiryAcceptedContext,
+	AUTHORITIES,
+	hasUserAuthority,
 	NotificationsContext,
 	UnreadSessionsStatusContext,
 	UpdateAnonymousEnquiriesContext,
-	UpdateSessionListContext
+	UpdateSessionListContext,
+	UserDataContext
 } from '../../globalState';
 
 interface WebsocketHandlerProps {
@@ -32,6 +35,11 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const [newStompVideoCallRequest, setNewStompVideoCallRequest] = useState<
 		VideoCallRequestProps
 	>();
+	const { userData } = useContext(UserDataContext);
+	const [
+		newStompAnonymousChatFinished,
+		setNewStompAnonymousChatFinished
+	] = useState<boolean>(false);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
@@ -89,7 +97,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 						setAnonymousConversationFinished(
 							finishConversationPhase
 						);
-						setUpdateSessionList(true);
+						setNewStompAnonymousChatFinished(true);
 					}
 				});
 			}
@@ -128,6 +136,15 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 			setNewStompAnonymousEnquiry(false);
 		}
 	}, [newStompAnonymousEnquiry]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (newStompAnonymousChatFinished) {
+			if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
+				setUpdateSessionList(true);
+			}
+			setNewStompAnonymousChatFinished(false);
+		}
+	}, [newStompAnonymousChatFinished]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (newStompVideoCallRequest) {

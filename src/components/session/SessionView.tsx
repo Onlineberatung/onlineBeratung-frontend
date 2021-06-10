@@ -76,9 +76,10 @@ export const SessionView = (props) => {
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
+	const isLiveChatFinished = chatItem.status === 3;
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
-		if (activeSession) {
+		if (activeSession && !isLiveChatFinished) {
 			const isCurrentSessionRead = activeSession.isFeedbackSession
 				? chatItem.feedbackRead
 				: chatItem.messagesRead;
