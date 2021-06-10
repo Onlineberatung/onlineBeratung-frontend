@@ -81,7 +81,12 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 					} else if (
 						stompEventType === 'anonymousConversationFinished'
 					) {
-						setAnonymousConversationFinished(true);
+						const finishConversationPhase =
+							stompMessageBody.eventContent
+								?.finishConversationPhase;
+						setAnonymousConversationFinished(
+							finishConversationPhase
+						);
 					}
 				});
 			}

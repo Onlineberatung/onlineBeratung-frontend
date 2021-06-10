@@ -28,10 +28,14 @@ const anonymous = {
 	'waitingroom.redirect.link': 'Hinterlassen Sie uns Ihre Nachricht',
 	'waitingroom.redirect.suffix':
 		'und wir melden uns sobald wie möglich bei Ihnen.',
-	'waitingroom.overlay.headline': 'Herzlich Willkommen!',
-	'waitingroom.overlay.copy':
+	'waitingroom.overlay.acceptance.headline': 'Herzlich Willkommen!',
+	'waitingroom.overlay.acceptance.copy':
 		'Sie werden von Ihrer Berater_in im Chat erwartet. Sind Sie bereit?',
-	'waitingroom.overlay.button': 'Jetzt chatten'
+	'waitingroom.overlay.acceptance.button': 'Jetzt chatten',
+	'waitingroom.overlay.rejection.headline': 'Chat-Zeit beendet.',
+	'waitingroom.overlay.rejection.copy':
+		'Leider konnten wir innerhalb der Chat-Zeit nicht auf Ihr Anliegen eingehen. Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns innerhalb von zwei Werktagen bei Ihnen.',
+	'waitingroom.overlay.rejection.button': 'Zur Registrierung'
 };
 
 export default anonymous;

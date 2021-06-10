@@ -16,6 +16,12 @@ declare namespace LiveService {
 			userIds: string[];
 			eventContent?: /* general used object for all possible incoming DTOs used for socket transfer */ EventContent;
 		}
+		export interface StatusSource {
+			/**
+			 * represents the session status of the anonymous conversation where the anonymousConversationFinished event has been triggered
+			 */
+			finishConversationPhase: 'NEW' | 'IN_PROGRESS';
+		}
 		/**
 		 * the request DTO for event type videoCallRequest
 		 */

@@ -14,6 +14,7 @@ import { decodeUsername } from '../../utils/encryptionHelpers';
 import {
 	deleteCookieByName,
 	getTokenFromCookie,
+	removeAllCookies,
 	setTokenInCookie
 } from '../sessionCookie/accessSessionCookie';
 import {
@@ -22,9 +23,16 @@ import {
 	OverlayWrapper,
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
-import { AnonymousEnquiryAcceptedContext } from '../../globalState';
+import {
+	AnonymousConversationFinishedContext,
+	AnonymousEnquiryAcceptedContext
+} from '../../globalState';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 import { history } from '../app/app';
+import {
+	acceptanceOverlayItem,
+	rejectionOverlayItem
+} from './waitingRoomHelpers';
 
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
@@ -40,10 +48,18 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const [username, setUsername] = useState<string>();
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
+	const [overlayItem, setOverlayItem] = useState<OverlayItem>();
 	const {
 		anonymousEnquiryAccepted,
 		setAnonymousEnquiryAccepted
 	} = useContext(AnonymousEnquiryAcceptedContext);
+	const {
+		anonymousConversationFinished,
+		setAnonymousConversationFinished
+	} = useContext(AnonymousConversationFinishedContext);
+	const registrationUrl = `${tld + endpointPort}/${
+		props.consultingTypeSlug
+	}/registration`;
 
 	useEffect(() => {
 		const registeredUsername = getTokenFromCookie('registeredUsername');
@@ -61,18 +77,26 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	useEffect(() => {
 		if (anonymousEnquiryAccepted) {
+			setOverlayItem(acceptanceOverlayItem);
 			setIsOverlayActive(true);
 			setAnonymousEnquiryAccepted(false);
 		}
 	}, [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted]);
 
-	const getRedirectText = () => {
-		const url = `${tld + endpointPort}/${
-			props.consultingTypeSlug
-		}/registration`;
+	useEffect(() => {
+		if (anonymousConversationFinished === 'NEW') {
+			setOverlayItem(rejectionOverlayItem);
+			setIsOverlayActive(true);
+			removeAllCookies();
+			setAnonymousConversationFinished(null);
+		}
+	}, [anonymousConversationFinished, setAnonymousConversationFinished]);
 
+	const getRedirectText = () => {
 		return `
-			<a href="${url}">${translate('anonymous.waitingroom.redirect.link')}</a>
+			<a href="${registrationUrl}">${translate(
+			'anonymous.waitingroom.redirect.link'
+		)}</a>
 			${translate('anonymous.waitingroom.redirect.suffix')}
 		`;
 	};
@@ -122,23 +146,12 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		}
 	};
 
-	const redirectOverlayItem: OverlayItem = {
-		buttonSet: [
-			{
-				label: translate('anonymous.waitingroom.overlay.button'),
-				function: OVERLAY_FUNCTIONS.REDIRECT,
-				type: BUTTON_TYPES.AUTO_CLOSE
-			}
-		],
-		headline: translate('anonymous.waitingroom.overlay.headline'),
-		copy: translate('anonymous.waitingroom.overlay.copy'),
-		svg: WelcomeIllustration
-	};
-
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			history.push(`/app`);
 			deleteCookieByName('registeredUsername');
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_HOME) {
+			window.location.href = registrationUrl;
 		}
 	};
 
@@ -225,7 +238,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			{isOverlayActive && (
 				<OverlayWrapper>
 					<Overlay
-						item={redirectOverlayItem}
+						item={overlayItem}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>

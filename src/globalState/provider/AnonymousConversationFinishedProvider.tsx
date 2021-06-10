@@ -7,7 +7,7 @@ export function AnonymousConversationFinishedProvider(props) {
 	const [
 		anonymousConversationFinished,
 		setAnonymousConversationFinished
-	] = useState<boolean>(null);
+	] = useState<string>(null);
 
 	return (
 		<AnonymousConversationFinishedContext.Provider

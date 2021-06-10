@@ -21,10 +21,10 @@ export const FinishedAnonymousConversationHandler = () => {
 	} = useContext(AnonymousConversationFinishedContext);
 
 	useEffect(() => {
-		if (anonymousConversationFinished) {
+		if (anonymousConversationFinished === 'IN_PROGRESS') {
 			setOverlayActive(true);
 			removeAllCookies();
-			setAnonymousConversationFinished(false);
+			setAnonymousConversationFinished(null);
 		}
 	}, [anonymousConversationFinished, setAnonymousConversationFinished]);
 
