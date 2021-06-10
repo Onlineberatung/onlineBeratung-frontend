@@ -14,6 +14,8 @@ const anonymous = {
 	'overlay.chatWasFinished.button': 'Zur Caritas.de',
 	'session.finishChat': 'Chat beenden',
 	'session.systemMessage.chatFinished': 'Der Chat wurde beendet.',
+	'session.infoMessage.chatFinished':
+		'Die Nachrichten werden 48h nach dem Beenden des Chats gelöscht.',
 	'waitingroom.title.start': 'Warteraum',
 	'waitingroom.dataProtection.headline': 'Herzlich Willkommen!',
 	'waitingroom.dataProtection.subline':

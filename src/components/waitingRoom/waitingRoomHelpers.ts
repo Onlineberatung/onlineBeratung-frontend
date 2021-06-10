@@ -13,7 +13,7 @@ export const acceptanceOverlayItem: OverlayItem = {
 		{
 			label: translate('anonymous.waitingroom.overlay.acceptance.button'),
 			function: OVERLAY_FUNCTIONS.REDIRECT,
-			type: BUTTON_TYPES.PRIMARY
+			type: BUTTON_TYPES.AUTO_CLOSE
 		}
 	]
 };

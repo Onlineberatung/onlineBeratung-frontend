@@ -108,7 +108,8 @@ const INFO_TYPES = {
 	ATTACHMENT_SIZE_ERROR: 'ATTACHMENT_SIZE_ERROR',
 	ATTACHMENT_FORMAT_ERROR: 'ATTACHMENT_FORMAT_ERROR',
 	ATTACHMENT_QUOTA_REACHED_ERROR: 'ATTACHMENT_QUOTA_REACHED_ERROR',
-	ATTACHMENT_OTHER_ERROR: 'ATTACHMENT_OTHER_ERROR'
+	ATTACHMENT_OTHER_ERROR: 'ATTACHMENT_OTHER_ERROR',
+	FINISHED_CONVERSATION: 'FINISHED_CONVERSATION'
 };
 
 export const getIconForAttachmentType = (attachmentType: string) => {
@@ -190,6 +191,10 @@ export const MessageSubmitInterfaceComponent = (
 	useEffect(() => {
 		if (isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
+		}
+
+		if (isLiveChatFinished) {
+			setActiveInfo(INFO_TYPES.FINISHED_CONVERSATION);
 		}
 
 		apiGetDraftMessage(activeSessionGroupId)
@@ -338,19 +343,19 @@ export const MessageSubmitInterfaceComponent = (
 		const fileHeight = 44;
 		const richtextHeight = 37;
 
-		let textHeight = textarea.scrollHeight;
+		let textHeight = textarea?.scrollHeight;
 		textHeight = attachmentSelected ? textHeight + fileHeight : textHeight;
 		textHeight = isRichtextActive
 			? textHeight + richtextHeight
 			: textHeight;
 
 		if (textHeight <= maxHeight) {
-			textarea.setAttribute(
+			textarea?.setAttribute(
 				'style',
 				'min-height: ' + textHeight + 'px;' + ' overflow-y: hidden;' // eslint-disable-line
 			);
 			attachmentSelected
-				? textarea.setAttribute(
+				? textarea?.setAttribute(
 						'style',
 						'min-height: ' +
 							textHeight +
@@ -358,24 +363,24 @@ export const MessageSubmitInterfaceComponent = (
 							fileHeight +
 							'px; overflow-y: hidden;'
 				  )
-				: textarea.setAttribute(
+				: textarea?.setAttribute(
 						'style',
 						'min-height: ' +
 							textHeight +
 							'px;' +
 							' overflow-y: hidden;'
 				  );
-			featureWrapper.setAttribute(
+			featureWrapper?.setAttribute(
 				'style',
 				'min-height: ' + textHeight + 'px;'
 			);
 		} else {
-			textarea.setAttribute(
+			textarea?.setAttribute(
 				'style',
 				'min-height: ' + maxHeight + 'px;' + ' overflow-y: scroll;' // eslint-disable-line
 			);
 			attachmentSelected
-				? textarea.setAttribute(
+				? textarea?.setAttribute(
 						'style',
 						'min-height: ' +
 							maxHeight +
@@ -383,23 +388,23 @@ export const MessageSubmitInterfaceComponent = (
 							fileHeight +
 							'px; overflow-y: scroll;'
 				  )
-				: textarea.setAttribute(
+				: textarea?.setAttribute(
 						'style',
 						'min-height: ' +
 							maxHeight +
 							'px;' +
 							' overflow-y: scroll;'
 				  );
-			featureWrapper.setAttribute(
+			featureWrapper?.setAttribute(
 				'style',
 				'min-height: ' + maxHeight + 'px;'
 			);
 		}
 
-		const textareaContainer = textarea.closest('.textarea');
-		const textareaContainerHeight = textareaContainer.offsetHeight;
+		const textareaContainer = textarea?.closest('.textarea');
+		const textareaContainerHeight = textareaContainer?.offsetHeight;
 		const scrollButton = textareaContainer
-			.closest('.session')
+			?.closest('.session')
 			?.getElementsByClassName('session__scrollToBottom')[0];
 		if (scrollButton) {
 			scrollButton.style.bottom = textareaContainerHeight + 24 + 'px';
@@ -410,11 +415,11 @@ export const MessageSubmitInterfaceComponent = (
 		const featureWrapper: any = featureWrapperRef.current;
 
 		if (window.innerWidth <= 900) {
-			textarea.setAttribute('style', 'min-height: 87px;');
-			featureWrapper.setAttribute('style', 'min-height: 87px;');
+			textarea?.setAttribute('style', 'min-height: 87px;');
+			featureWrapper?.setAttribute('style', 'min-height: 87px;');
 		} else {
-			textarea.setAttribute('style', 'min-height: 106px;');
-			featureWrapper.setAttribute('style', 'min-height: 106px;');
+			textarea?.setAttribute('style', 'min-height: 106px;');
+			featureWrapper?.setAttribute('style', 'min-height: 106px;');
 		}
 	};
 
@@ -551,10 +556,8 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const handleAttachmentSelect = () => {
-		if (!isLiveChatFinished) {
-			const attachmentInput: any = attachmentInputRef.current;
-			attachmentInput.click();
-		}
+		const attachmentInput: any = attachmentInputRef.current;
+		attachmentInput.click();
 	};
 
 	const handleAttachmentChange = () => {
@@ -634,6 +637,13 @@ export const MessageSubmitInterfaceComponent = (
 				infoHeadline: translate('attachments.error.other.headline'),
 				infoMessage: translate('attachments.error.other.message')
 			};
+		} else if (activeInfo === INFO_TYPES.FINISHED_CONVERSATION) {
+			infoData = {
+				isInfo: true,
+				infoHeadline: translate(
+					'anonymous.session.infoMessage.chatFinished'
+				)
+			};
 		}
 
 		return infoData;
@@ -665,149 +675,147 @@ export const MessageSubmitInterfaceComponent = (
 			{activeInfo ? (
 				<MessageSubmitInfo {...getMessageSubmitInfo()} />
 			) : null}
-			<form
-				className={
-					hasRequestFeedbackCheckbox
-						? 'textarea textarea--large'
-						: 'textarea'
-				}
-			>
-				<span className="textarea__outerWrapper">
-					{hasRequestFeedbackCheckbox ? (
-						<Checkbox
-							className="textarea__checkbox"
-							item={checkboxItem}
-							checkboxHandle={handleCheckboxClick}
-						/>
-					) : null}
-					<div className="textarea__wrapper">
-						<span
-							ref={featureWrapperRef}
-							className={clsx('textarea__featureWrapper', {
-								'textarea__featureWrapper--deactivated': isLiveChatFinished
-							})}
-						>
-							<span className="textarea__richtextToggle">
-								<RichtextToggleIcon
-									width="20"
-									height="20"
-									onClick={() =>
-										!isLiveChatFinished &&
-										setIsRichtextActive(!isRichtextActive)
-									}
-								/>
-							</span>
-							<EmojiSelect />
-						</span>
-						<span className="textarea__inputWrapper">
-							<div
-								className={clsx('textarea__input', {
-									'textarea__input--activeRichtext': isRichtextActive,
-									'textarea__input--deactivated': isLiveChatFinished
-								})}
-								ref={textareaRef}
-								onKeyUp={resizeTextarea}
-								onFocus={toggleAbsentMessage}
-								onBlur={toggleAbsentMessage}
-								onClick={handleTextareaClick}
+			{!isLiveChatFinished && (
+				<form
+					className={
+						hasRequestFeedbackCheckbox
+							? 'textarea textarea--large'
+							: 'textarea'
+					}
+				>
+					<span className="textarea__outerWrapper">
+						{hasRequestFeedbackCheckbox ? (
+							<Checkbox
+								className="textarea__checkbox"
+								item={checkboxItem}
+								checkboxHandle={handleCheckboxClick}
+							/>
+						) : null}
+						<div className="textarea__wrapper">
+							<span
+								ref={featureWrapperRef}
+								className="textarea__featureWrapper"
 							>
-								<PluginsEditor
-									readOnly={isLiveChatFinished}
-									editorState={editorState}
-									onChange={handleEditorChange}
-									handleKeyCommand={handleEditorKeyCommand}
-									placeholder={placeholder}
-									stripPastedStyles={true}
-									spellCheck={true}
-									handleBeforeInput={() =>
-										handleEditorBeforeInput(editorState)
-									}
-									handlePastedText={(pastedText) =>
-										handleEditorPastedText(
-											editorState,
-											pastedText
-										)
-									}
-									ref={(element) => {
-										editorRef = element;
-									}}
-									plugins={[
-										linkifyPlugin,
-										staticToolbarPlugin,
-										emojiPlugin
-									]}
-								/>
-								<Toolbar>
-									{(externalProps) => (
-										<div className="textarea__toolbar__buttonWrapper">
-											<BoldButton {...externalProps} />
-											<ItalicButton {...externalProps} />
-											<UnorderedListButton
-												{...externalProps}
-											/>
-										</div>
-									)}
-								</Toolbar>
-							</div>
-							{hasUploadFunctionality ? (
-								!attachmentSelected ? (
-									<span
-										className={clsx(
-											'textarea__attachmentSelect',
-											{
-												'textarea__attachmentSelect--deactivated': isLiveChatFinished
-											}
-										)}
-									>
-										<ClipIcon
-											onClick={handleAttachmentSelect}
-										/>
-									</span>
-								) : (
-									<span className="textarea__attachmentSelected">
-										<span className="textarea__attachmentSelected__progress"></span>
-										<span className="textarea__attachmentSelected__labelWrapper">
-											{getIconForAttachmentType(
-												attachmentSelected.type
-											)}
-											<p className="textarea__attachmentSelected__label">
-												{attachmentSelected.name}
-											</p>
-											<span className="textarea__attachmentSelected__remove">
-												<RemoveIcon
-													onClick={
-														handleAttachmentRemoval
-													}
+								<span className="textarea__richtextToggle">
+									<RichtextToggleIcon
+										width="20"
+										height="20"
+										onClick={() =>
+											setIsRichtextActive(
+												!isRichtextActive
+											)
+										}
+									/>
+								</span>
+								<EmojiSelect />
+							</span>
+							<span className="textarea__inputWrapper">
+								<div
+									className={clsx('textarea__input', {
+										'textarea__input--activeRichtext': isRichtextActive
+									})}
+									ref={textareaRef}
+									onKeyUp={resizeTextarea}
+									onFocus={toggleAbsentMessage}
+									onBlur={toggleAbsentMessage}
+									onClick={handleTextareaClick}
+								>
+									<PluginsEditor
+										editorState={editorState}
+										onChange={handleEditorChange}
+										handleKeyCommand={
+											handleEditorKeyCommand
+										}
+										placeholder={placeholder}
+										stripPastedStyles={true}
+										spellCheck={true}
+										handleBeforeInput={() =>
+											handleEditorBeforeInput(editorState)
+										}
+										handlePastedText={(pastedText) =>
+											handleEditorPastedText(
+												editorState,
+												pastedText
+											)
+										}
+										ref={(element) => {
+											editorRef = element;
+										}}
+										plugins={[
+											linkifyPlugin,
+											staticToolbarPlugin,
+											emojiPlugin
+										]}
+									/>
+									<Toolbar>
+										{(externalProps) => (
+											<div className="textarea__toolbar__buttonWrapper">
+												<BoldButton
+													{...externalProps}
 												/>
+												<ItalicButton
+													{...externalProps}
+												/>
+												<UnorderedListButton
+													{...externalProps}
+												/>
+											</div>
+										)}
+									</Toolbar>
+								</div>
+								{hasUploadFunctionality ? (
+									!attachmentSelected ? (
+										<span className="textarea__attachmentSelect">
+											<ClipIcon
+												onClick={handleAttachmentSelect}
+											/>
+										</span>
+									) : (
+										<span className="textarea__attachmentSelected">
+											<span className="textarea__attachmentSelected__progress"></span>
+											<span className="textarea__attachmentSelected__labelWrapper">
+												{getIconForAttachmentType(
+													attachmentSelected.type
+												)}
+												<p className="textarea__attachmentSelected__label">
+													{attachmentSelected.name}
+												</p>
+												<span className="textarea__attachmentSelected__remove">
+													<RemoveIcon
+														onClick={
+															handleAttachmentRemoval
+														}
+													/>
+												</span>
 											</span>
 										</span>
-									</span>
-								)
-							) : null}
-						</span>
-						<SendMessageButton
-							handleSendButton={(event) =>
-								handleButtonClick(event)
-							}
-							clicked={isRequestInProgress}
-							deactivated={uploadProgress || isLiveChatFinished}
-						/>
-					</div>
-				</span>
-				{hasUploadFunctionality ? (
-					<span>
-						<input
-							ref={attachmentInputRef}
-							onChange={handleAttachmentChange}
-							className="textarea__attachmentInput"
-							type="file"
-							id="dataUpload"
-							name="dataUpload"
-							accept="image/jpeg, image/png, .pdf, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-						/>
+									)
+								) : null}
+							</span>
+							<SendMessageButton
+								handleSendButton={(event) =>
+									handleButtonClick(event)
+								}
+								clicked={isRequestInProgress}
+								deactivated={uploadProgress}
+							/>
+						</div>
 					</span>
-				) : null}
-			</form>
+					{hasUploadFunctionality ? (
+						<span>
+							<input
+								ref={attachmentInputRef}
+								onChange={handleAttachmentChange}
+								className="textarea__attachmentInput"
+								type="file"
+								id="dataUpload"
+								name="dataUpload"
+								accept="image/jpeg, image/png, .pdf, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+							/>
+						</span>
+					) : null}
+				</form>
+			)}
 		</div>
 	);
 };
