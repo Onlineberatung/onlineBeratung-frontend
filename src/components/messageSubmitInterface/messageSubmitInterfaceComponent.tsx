@@ -701,11 +701,10 @@ export const MessageSubmitInterfaceComponent = (
 						</span>
 						<span className="textarea__inputWrapper">
 							<div
-								className={`textarea__input ${
-									isRichtextActive
-										? 'textarea__input--activeRichtext'
-										: ''
-								}`}
+								className={clsx('textarea__input', {
+									'textarea__input--activeRichtext': isRichtextActive,
+									'textarea__input--deactivated': isLiveChatFinished
+								})}
 								ref={textareaRef}
 								onKeyUp={resizeTextarea}
 								onFocus={toggleAbsentMessage}
