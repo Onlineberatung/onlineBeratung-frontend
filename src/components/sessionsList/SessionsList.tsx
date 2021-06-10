@@ -57,6 +57,11 @@ import {
 import { Text } from '../text/Text';
 import clsx from 'clsx';
 
+interface GetSessionsListDataInterface {
+	increaseOffset?: boolean;
+	signal?: AbortSignal;
+}
+
 export const SessionsList: React.FC = () => {
 	const location = useLocation();
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -353,11 +358,6 @@ export const SessionsList: React.FC = () => {
 				)));
 	const getFilterToUse = (): string =>
 		showFilter ? filterStatus : INITIAL_FILTER;
-
-	interface GetSessionsListDataInterface {
-		increaseOffset?: boolean;
-		signal?: AbortSignal;
-	}
 
 	const getSessionsListData = ({
 		increaseOffset,
