@@ -18,6 +18,7 @@ export const FETCH_METHODS = {
 };
 
 export const FETCH_ERRORS = {
+	ABORT: 'ABORT',
 	EMPTY: 'EMPTY',
 	BAD_REQUEST: 'BAD_REQUEST',
 	CONFLICT: 'CONFLICT',
@@ -154,8 +155,12 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 				}
 			})
 			.catch((error) => {
-				error.name === 'AbortError'
-					? reject(new Error(FETCH_ERRORS.TIMEOUT))
-					: reject(error);
+				if (props.signal.aborted && error.name === 'AbortError') {
+					reject(new Error(FETCH_ERRORS.ABORT));
+				} else if (error.name === 'AbortError') {
+					reject(new Error(FETCH_ERRORS.TIMEOUT));
+				} else {
+					reject(error);
+				}
 			});
 	});
