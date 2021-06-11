@@ -14,8 +14,6 @@ import {
 	NotificationsContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	getActiveSession,
-	ActiveSessionGroupIdContext,
 	SessionsDataContext
 } from '../../globalState';
 import { apiFinishAnonymousConversation, apiGetUserData } from '../../api';
@@ -25,7 +23,6 @@ import { logout } from '../logout/logout';
 import { Notifications } from '../notifications/Notifications';
 import './authenticatedApp.styles';
 import './navigation.styles';
-import { getChatItemForSession } from '../session/sessionHelpers';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -40,9 +37,6 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { notifications } = useContext(NotificationsContext);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const chatItem = getChatItemForSession(activeSession);
 
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
@@ -81,7 +75,9 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 
 	const handleLogout = () => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
-			apiFinishAnonymousConversation(chatItem.id).catch((error) => {
+			apiFinishAnonymousConversation(
+				sessionsData?.mySessions[0].session.id
+			).catch((error) => {
 				console.error(error);
 			});
 		}
