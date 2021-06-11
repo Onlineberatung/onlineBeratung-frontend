@@ -12,7 +12,9 @@ import {
 	StoppedGroupChatContext,
 	AcceptedGroupIdContext,
 	UpdateSessionListContext,
-	UserDataContext
+	UserDataContext,
+	hasUserAuthority,
+	AUTHORITIES
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
@@ -79,7 +81,11 @@ export const SessionView = (props) => {
 	const isLiveChatFinished = chatItem.status === 3;
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
-		if (activeSession && !isLiveChatFinished) {
+		if (
+			activeSession &&
+			(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
+				!isLiveChatFinished)
+		) {
 			const isCurrentSessionRead = activeSession.isFeedbackSession
 				? chatItem.feedbackRead
 				: chatItem.messagesRead;
