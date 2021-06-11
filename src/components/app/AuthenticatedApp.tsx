@@ -11,15 +11,21 @@ import {
 	UserDataInterface,
 	AuthDataContext,
 	AuthDataInterface,
-	NotificationsContext
+	NotificationsContext,
+	hasUserAuthority,
+	AUTHORITIES,
+	getActiveSession,
+	ActiveSessionGroupIdContext,
+	SessionsDataContext
 } from '../../globalState';
-import { apiGetUserData } from '../../api';
+import { apiFinishAnonymousConversation, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
 import { Notifications } from '../notifications/Notifications';
 import './authenticatedApp.styles';
 import './navigation.styles';
+import { getChatItemForSession } from '../session/sessionHelpers';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -29,10 +35,14 @@ interface AuthenticatedAppProps {
 export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	const { setAuthData } = useContext(AuthDataContext);
 	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
-	const { setUserData } = useContext(UserDataContext);
+	const { userData, setUserData } = useContext(UserDataContext);
 	const [appReady, setAppReady] = useState<boolean>(false);
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { notifications } = useContext(NotificationsContext);
+	const { sessionsData } = useContext(SessionsDataContext);
+	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const chatItem = getChatItemForSession(activeSession);
 
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
@@ -70,6 +80,11 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	}, [appReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleLogout = () => {
+		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
+			apiFinishAnonymousConversation(chatItem.id).catch((error) => {
+				console.error(error);
+			});
+		}
 		props.onLogout();
 		logout();
 	};
