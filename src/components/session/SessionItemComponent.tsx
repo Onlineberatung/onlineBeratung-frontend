@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useContext, useEffect, useMemo } from 'react';
+import clsx from 'clsx';
 import {
 	typeIsSession,
 	typeIsTeamSession,
@@ -42,7 +43,6 @@ import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import smoothScroll from './smoothScrollHelper';
-import clsx from 'clsx';
 
 interface SessionItemProps {
 	messages: MessageItem[];
@@ -117,17 +117,18 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const [resortData, setResortData] = useState<ConsultingTypeInterface>();
 	useEffect(() => {
 		let isCanceled = false;
-		const { consultingType } = activeSession.session;
-		apiGetConsultingType({ consultingTypeId: consultingType }).then(
-			(response) => {
-				if (isCanceled) return;
-				setResortData(response);
-			}
-		);
+
+		apiGetConsultingType({
+			consultingTypeId: getChatItemForSession(activeSession)
+				?.consultingType
+		}).then((response) => {
+			if (isCanceled) return;
+			setResortData(response);
+		});
 		return () => {
 			isCanceled = true;
 		};
-	}, [activeSession.session]);
+	}, [activeSession]);
 
 	if (!activeSession) return null;
 
@@ -256,6 +257,29 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	};
 
+	const overlayItem: OverlayItem = {
+		svg: CheckIcon,
+		headline: translate('session.acceptance.overlayHeadline'),
+		buttonSet: [
+			{
+				label: translate('session.acceptance.buttonLabel'),
+				function: OVERLAY_FUNCTIONS.REDIRECT,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		]
+	};
+
+	const monitoringButtonItem: ButtonItem = {
+		label: translate('session.monitoring.buttonLabel'),
+		type: 'PRIMARY',
+		function: ''
+	};
+
+	const scrollBottomButtonItem: ButtonItem = {
+		icon: <ArrowDoubleDownIcon />,
+		type: BUTTON_TYPES.SMALL_ICON
+	};
+
 	return (
 		<div
 			className={
@@ -379,27 +403,4 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			) : null}
 		</div>
 	);
-};
-
-const overlayItem: OverlayItem = {
-	svg: CheckIcon,
-	headline: translate('session.acceptance.overlayHeadline'),
-	buttonSet: [
-		{
-			label: translate('session.acceptance.buttonLabel'),
-			function: OVERLAY_FUNCTIONS.REDIRECT,
-			type: BUTTON_TYPES.PRIMARY
-		}
-	]
-};
-
-const monitoringButtonItem: ButtonItem = {
-	label: translate('session.monitoring.buttonLabel'),
-	type: 'PRIMARY',
-	function: ''
-};
-
-const scrollBottomButtonItem: ButtonItem = {
-	icon: <ArrowDoubleDownIcon />,
-	type: BUTTON_TYPES.SMALL_ICON
 };

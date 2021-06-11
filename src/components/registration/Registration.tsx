@@ -9,6 +9,7 @@ import { WelcomeScreen } from './WelcomeScreen';
 import { ConsultingTypeInterface } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
 import { apiGetConsultingType } from '../../api';
+import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
 import '../../resources/styles/styles';
 import './registration.styles';
 
@@ -19,7 +20,7 @@ interface RegistrationProps {
 export const Registration = ({ stageComponent: Stage }: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(true);
-	const [registrationData, setRegistrationData] = useState<
+	const [consultingType, setConsultingType] = useState<
 		ConsultingTypeInterface | undefined
 	>();
 
@@ -38,15 +39,21 @@ export const Registration = ({ stageComponent: Stage }: RegistrationProps) => {
 			.then((result) => {
 				if (!result) {
 					console.error(
-						`Unknown consulting type with name ${consultingTypeSlug}`
+						`Unknown consulting type with slug ${consultingTypeSlug}`
 					);
 					return;
 				}
 
-				setRegistrationData(result);
+				// SET FORMAL/INFORMAL COOKIE
+				setTokenInCookie(
+					'useInformal',
+					result.languageFormal ? '' : '1'
+				);
+
+				setConsultingType(result);
 
 				document.title = `${translate('registration.title.start')} ${
-					result.overline
+					result.titles.long
 				}`;
 			})
 			.catch((error) => {
@@ -55,31 +62,31 @@ export const Registration = ({ stageComponent: Stage }: RegistrationProps) => {
 	}, [consultingTypeSlug]);
 
 	useEffect(() => {
-		if (!registrationData) return;
+		if (!consultingType) return;
 
 		if (
-			registrationData.requiredAidMissingRedirectUrl &&
+			consultingType.urls?.requiredAidMissingRedirectUrl &&
 			!getUrlParameter('aid')
 		) {
 			window.location.href =
-				registrationData.requiredAidMissingRedirectUrl;
+				consultingType.urls?.requiredAidMissingRedirectUrl;
 		}
-	}, [registrationData]);
+	}, [consultingType]);
 
 	return (
 		<div className="registration">
-			<Stage hasAnimation isReady={registrationData != null} />
-			{registrationData != null && (
+			<Stage hasAnimation isReady={consultingType != null} />
+			{consultingType != null && (
 				<div className="registration__content">
 					{showWelcomeScreen ? (
 						<WelcomeScreen
-							resortTitle={registrationData.welcomeTitle}
+							title={consultingType.titles.welcome}
 							handleForwardToRegistration={
 								handleForwardToRegistration
 							}
 						/>
 					) : (
-						<RegistrationForm registrationData={registrationData} />
+						<RegistrationForm consultingType={consultingType} />
 					)}
 				</div>
 			)}

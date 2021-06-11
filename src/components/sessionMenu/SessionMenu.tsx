@@ -10,7 +10,8 @@ import {
 	UserDataContext,
 	StoppedGroupChatContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	useConsultingType
 } from '../../globalState';
 import {
 	typeIsEnquiry,
@@ -19,7 +20,6 @@ import {
 	getSessionListPathForLocation,
 	getTypeOfLocation
 } from '../session/sessionHelpers';
-import { isGenericConsultingType } from '../../utils/resorts';
 import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
 	stopGroupChatSecurityOverlayItem,
@@ -55,6 +55,7 @@ export const SessionMenu = () => {
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
+	const consultingType = useConsultingType(chatItem.consultingType);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
@@ -338,7 +339,7 @@ export const SessionMenu = () => {
 				) : null}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				!isGroupChat &&
-				!isGenericConsultingType(chatItem.consultingType) ? (
+				consultingType.showAskerProfile ? (
 					<Link className="sessionMenu__item" to={userProfileLink}>
 						{translate('chatFlyout.askerProfil')}
 					</Link>

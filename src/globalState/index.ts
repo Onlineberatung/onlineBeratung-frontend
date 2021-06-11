@@ -9,6 +9,7 @@ export * from './provider/AcceptedGroupIdProvider';
 export * from './provider/ActiveSessionGroupIdProvider';
 export * from './provider/AuthDataProvider';
 export * from './provider/ConsultantListProvider';
+export * from './provider/ConsultingTypesProvider';
 export * from './provider/FilterStatusProvider';
 export * from './provider/NotificationsProvider';
 export * from './provider/SessionsDataProvider';

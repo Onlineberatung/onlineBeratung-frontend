@@ -14,12 +14,11 @@ import monitoring from './de/monitoring';
 import navigation from './de/navigation';
 import profile from './de/profile';
 import registration from './de/registration';
-import resort from './de/resort';
 import session from './de/session';
+import user from './de/user';
 import sessionList from './de/sessionList';
 import statusOverlay from './de/statusOverlay';
 import typingIndicator from './de/typingIndicator';
-import user from './de/user';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
 
@@ -40,7 +39,6 @@ const de = {
 	navigation,
 	profile,
 	registration,
-	resort,
 	session,
 	sessionList,
 	statusOverlay,
