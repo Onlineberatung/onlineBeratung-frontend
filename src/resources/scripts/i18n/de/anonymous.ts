@@ -2,16 +2,17 @@ const anonymous = {
 	'listItem.activeLabel': 'Aktiv',
 	'overlay.finishChat.headline': 'Möchten Sie diesen Chat beenden?',
 	'overlay.finishChat.asker.copy':
-		'Wenn Sie diesen Chat beendet haben Sie keinen Zugriff mehr auf Ihren Chat-Verlauf.',
+		'Wenn Sie diesen Chat beenden, haben Sie keinen Zugriff mehr auf Ihren Chat-Verlauf.',
 	'overlay.finishChat.button1': 'Chat beenden',
 	'overlay.finishChat.button2': 'Abbrechen',
 	'overlay.finishChat.success.headline':
 		'Der Chat wurde erfolgreich beendet.',
-	'overlay.finishChat.success.button': 'Zur Caritas.de',
-	'overlay.chatWasFinished.headline': 'Der Berater hat den Chat beendet.',
+	'overlay.finishChat.success.button': 'Zu Caritas.de',
+	'overlay.chatWasFinished.headline':
+		'Ihr_e Berater_in hat den Chat beendet.',
 	'overlay.chatWasFinished.copy':
 		'Sie haben nun keinen Zugriff mehr auf Ihren Chat-Verlauf.',
-	'overlay.chatWasFinished.button': 'Zur Caritas.de',
+	'overlay.chatWasFinished.button': 'Zu Caritas.de',
 	'session.finishChat': 'Chat beenden',
 	'session.systemMessage.chatFinished': 'Der Chat wurde beendet.',
 	'session.infoMessage.chatFinished':
