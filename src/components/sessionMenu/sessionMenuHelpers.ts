@@ -97,6 +97,7 @@ export const finishAnonymousChatSecurityOverlayItem: OverlayItem = {
 	svg: WavingIllustration,
 	illustrationBackground: 'grey',
 	headline: translate('anonymous.overlay.finishChat.headline'),
+	copy: translate('anonymous.overlay.finishChat.consultant.copy'),
 	buttonSet: [
 		{
 			label: translate('anonymous.overlay.finishChat.button1'),

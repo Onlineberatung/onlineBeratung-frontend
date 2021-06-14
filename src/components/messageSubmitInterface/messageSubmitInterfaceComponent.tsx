@@ -193,10 +193,6 @@ export const MessageSubmitInterfaceComponent = (
 			setActiveInfo(INFO_TYPES.ABSENT);
 		}
 
-		if (isLiveChatFinished) {
-			setActiveInfo(INFO_TYPES.FINISHED_CONVERSATION);
-		}
-
 		apiGetDraftMessage(activeSessionGroupId)
 			.then((response) => {
 				setEditorWithMarkdownString(response.message);
@@ -221,6 +217,12 @@ export const MessageSubmitInterfaceComponent = (
 			}
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (isLiveChatFinished) {
+			setActiveInfo(INFO_TYPES.FINISHED_CONVERSATION);
+		}
+	}, [isLiveChatFinished]);
 
 	useEffect(() => {
 		if (

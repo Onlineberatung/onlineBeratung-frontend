@@ -11,9 +11,12 @@ import {
 	UserDataInterface,
 	AuthDataContext,
 	AuthDataInterface,
-	NotificationsContext
+	NotificationsContext,
+	hasUserAuthority,
+	AUTHORITIES,
+	SessionsDataContext
 } from '../../globalState';
-import { apiGetUserData } from '../../api';
+import { apiFinishAnonymousConversation, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
@@ -29,10 +32,11 @@ interface AuthenticatedAppProps {
 export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	const { setAuthData } = useContext(AuthDataContext);
 	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
-	const { setUserData } = useContext(UserDataContext);
+	const { userData, setUserData } = useContext(UserDataContext);
 	const [appReady, setAppReady] = useState<boolean>(false);
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { notifications } = useContext(NotificationsContext);
+	const { sessionsData } = useContext(SessionsDataContext);
 
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
@@ -70,6 +74,13 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	}, [appReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleLogout = () => {
+		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
+			apiFinishAnonymousConversation(
+				sessionsData?.mySessions[0].session.id
+			).catch((error) => {
+				console.error(error);
+			});
+		}
 		props.onLogout();
 		logout();
 	};
