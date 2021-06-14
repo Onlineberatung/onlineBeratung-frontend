@@ -3,8 +3,8 @@ import { useContext, useEffect, useState } from 'react';
 import { Routing } from './Routing';
 import { config } from '../../resources/scripts/config';
 import {
-	setTokenInCookie,
-	getTokenFromCookie
+	setValueInCookie,
+	getValueFromCookie
 } from '../sessionCookie/accessSessionCookie';
 import {
 	UserDataContext,
@@ -41,10 +41,10 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
 		const currentAuthData: AuthDataInterface = {
-			keycloakRefreshToken: getTokenFromCookie('refreshToken'),
-			keycloakToken: getTokenFromCookie('keycloak'),
-			rocketchatToken: getTokenFromCookie('rc_token'),
-			rocketchatUserId: getTokenFromCookie('rc_uid')
+			keycloakRefreshToken: getValueFromCookie('refreshToken'),
+			keycloakToken: getValueFromCookie('keycloak'),
+			rocketchatToken: getValueFromCookie('rc_token'),
+			rocketchatUserId: getValueFromCookie('rc_uid')
 		};
 		setAuthData(currentAuthData);
 	}
@@ -55,7 +55,7 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 			apiGetUserData()
 				.then((userProfileData: UserDataInterface) => {
 					// set informal / formal cookie depending on the given userdata
-					setTokenInCookie(
+					setValueInCookie(
 						'useInformal',
 						!userProfileData.formalLanguage ? '1' : ''
 					);

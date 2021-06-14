@@ -4,7 +4,7 @@ import {
 	formatToDDMMYYYY,
 	getPrettyDateFromMessageDate
 } from '../../utils/dateHelpers';
-import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 
 export const SESSION_TYPES = {
 	ENQUIRY: 'ENQUIRY',
@@ -152,4 +152,4 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 };
 
 export const isMyMessage = (id: string): boolean =>
-	id === getTokenFromCookie('rc_uid');
+	id === getValueFromCookie('rc_uid');

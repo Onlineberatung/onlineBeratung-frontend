@@ -148,6 +148,9 @@ export const getConsultantSessions = (
 				}
 			})
 			.catch((error) => {
+				if (error.message === FETCH_ERRORS.EMPTY) {
+					setSessionsDataForCurrentType([], isOffsetIncreased);
+				}
 				reject(error);
 			});
 	});

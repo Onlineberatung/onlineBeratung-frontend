@@ -8,14 +8,17 @@ import { ReactComponent as WaitingIllustration } from '../../resources/img/illus
 import { translate } from '../../utils/translate';
 import { useContext, useEffect, useState } from 'react';
 import { endpointPort, tld } from '../../resources/scripts/config';
-import { apiPostAnonymousRegistration } from '../../api';
+import {
+	AnonymousRegistrationResponse,
+	apiPostAnonymousRegistration
+} from '../../api';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import {
 	deleteCookieByName,
-	getTokenFromCookie,
+	getValueFromCookie,
 	removeAllCookies,
-	setTokenInCookie
+	setValueInCookie
 } from '../sessionCookie/accessSessionCookie';
 import {
 	Overlay,
@@ -33,6 +36,7 @@ import {
 	acceptanceOverlayItem,
 	rejectionOverlayItem
 } from './waitingRoomHelpers';
+import { handleTokenRefresh, setTokens } from '../auth/auth';
 
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
@@ -62,11 +66,13 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	}/registration`;
 
 	useEffect(() => {
-		const registeredUsername = getTokenFromCookie('registeredUsername');
+		const registeredUsername = getValueFromCookie('registeredUsername');
 
-		if (registeredUsername && getTokenFromCookie('keycloak')) {
+		// handle a refresh as registered user and not initialize a new user
+		if (registeredUsername && getValueFromCookie('keycloak')) {
 			setIsDataProtectionViewActive(false);
 			setUsername(registeredUsername);
+			handleTokenRefresh();
 			props.onAnonymousRegistration();
 		}
 
@@ -117,15 +123,19 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			setIsRequestInProgress(true);
 			setIsDataProtectionViewActive(false);
 			apiPostAnonymousRegistration(props.consultingTypeId)
-				.then((response) => {
+				.then((response: AnonymousRegistrationResponse) => {
 					const decodedUsername = decodeUsername(response.userName);
 					setUsername(decodedUsername);
-					setTokenInCookie('keycloak', response.accessToken);
-					setTokenInCookie('registeredUsername', decodedUsername);
-					setTokenInCookie('rc_token', response.rcToken);
-					setTokenInCookie('rc_uid', response.rcUserId);
-					setTokenInCookie('refreshToken', response.refreshToken);
-
+					setValueInCookie('registeredUsername', decodedUsername);
+					setValueInCookie('rc_token', response.rcToken);
+					setValueInCookie('rc_uid', response.rcUserId);
+					setTokens(
+						response.accessToken,
+						response.expiresIn,
+						response.refreshToken,
+						response.refreshExpiresIn
+					);
+					handleTokenRefresh();
 					props.onAnonymousRegistration();
 				})
 				.catch((err) => {

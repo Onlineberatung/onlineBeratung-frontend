@@ -1,4 +1,4 @@
-import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { generateCsrfToken } from '../utils/generateCsrfToken';
 import {
 	getErrorCaseForStatus,
@@ -47,7 +47,7 @@ interface FetchDataProps {
 
 export const fetchData = (props: FetchDataProps): Promise<any> =>
 	new Promise((resolve, reject) => {
-		const accessToken = getTokenFromCookie('keycloak');
+		const accessToken = getValueFromCookie('keycloak');
 		const authorization = !props.skipAuth
 			? {
 					Authorization: `Bearer ${accessToken}`
@@ -58,8 +58,8 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 
 		const rcHeaders = props.rcValidation
 			? {
-					rcToken: getTokenFromCookie('rc_token'),
-					rcUserId: getTokenFromCookie('rc_uid')
+					rcToken: getValueFromCookie('rc_token'),
+					rcUserId: getValueFromCookie('rc_uid')
 			  }
 			: null;
 

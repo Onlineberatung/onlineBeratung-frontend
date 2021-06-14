@@ -246,7 +246,7 @@ export const SessionsList: React.FC = () => {
 					type: SESSION_TYPES.MY_SESSION,
 					filter: getFilterToUse(),
 					offset: 0,
-					count: sessionsData?.mySessions.length
+					count: sessionsData?.mySessions?.length
 				});
 
 				setSessionsData((sessionsData) => {
