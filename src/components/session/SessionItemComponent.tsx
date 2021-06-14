@@ -452,6 +452,7 @@ const enquiryTakenByOtherConsultantOverlayItem: OverlayItem = {
 	headline: translate(
 		'session.anonymous.takenByOtherConsultant.overlayHeadline'
 	),
+	illustrationBackground: 'red',
 	buttonSet: [
 		{
 			label: translate(
