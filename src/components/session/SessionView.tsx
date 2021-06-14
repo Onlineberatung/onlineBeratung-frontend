@@ -30,7 +30,7 @@ import {
 	prepareMessages
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
-import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -135,7 +135,7 @@ export const SessionView = (props) => {
 						window['socket'].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_USER,
 							[
-								getTokenFromCookie('rc_uid') +
+								getValueFromCookie('rc_uid') +
 									'/subscriptions-changed',
 								false
 							],

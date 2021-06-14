@@ -3,7 +3,7 @@ import { config } from '../../resources/scripts/config';
 import { Stomp } from '@stomp/stompjs';
 import useConstant from 'use-constant';
 import * as SockJS from 'sockjs-client';
-import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { useContext, useEffect, useState } from 'react';
 import {
 	IncomingVideoCallProps,
@@ -70,7 +70,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	useEffect(() => {
 		stompClient.connect(
 			{
-				accessToken: getTokenFromCookie('keycloak')
+				accessToken: getValueFromCookie('keycloak')
 			},
 			(frame) => {
 				console.log('Connected: ' + frame);

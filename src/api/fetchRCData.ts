@@ -1,4 +1,4 @@
-import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
@@ -11,8 +11,8 @@ export const fetchRCData = (
 	ignoreErrors: boolean = false
 ): Promise<any> =>
 	new Promise((resolve, reject) => {
-		const rcAuthToken = getTokenFromCookie('rc_token');
-		const rcUid = getTokenFromCookie('rc_uid');
+		const rcAuthToken = getValueFromCookie('rc_token');
+		const rcUid = getValueFromCookie('rc_uid');
 
 		const req = new Request(url, {
 			method: method,
