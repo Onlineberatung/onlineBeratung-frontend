@@ -1,6 +1,8 @@
 const anonymous = {
 	'listItem.activeLabel': 'Aktiv',
 	'overlay.finishChat.headline': 'Möchten Sie diesen Chat beenden?',
+	'overlay.finishChat.consultant.copy':
+		'Der Ratsuchende wird darüber informiert und kann danach nicht mehr auf den Chat-Verlauf zugreifen.',
 	'overlay.finishChat.asker.copy':
 		'Wenn Sie diesen Chat beenden, haben Sie keinen Zugriff mehr auf Ihren Chat-Verlauf.',
 	'overlay.finishChat.button1': 'Chat beenden',
