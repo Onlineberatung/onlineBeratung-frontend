@@ -400,12 +400,10 @@ export const SessionsList: React.FC = () => {
 					) {
 						setIsLoading(false);
 						setIsReloadButtonVisible(true);
-						console.log('emtäää 1');
 						reject(FETCH_ERRORS.EMPTY);
 					} else if (error.message === FETCH_ERRORS.EMPTY) {
 						setIsLoading(false);
 						setHasNoSessions(true);
-						console.log('emtäää 2');
 						reject(FETCH_ERRORS.EMPTY);
 					} else if (error.message === FETCH_ERRORS.TIMEOUT) {
 						setIsLoading(false);
