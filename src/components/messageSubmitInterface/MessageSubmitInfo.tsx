@@ -33,15 +33,17 @@ export const MessageSubmitInfo = (props: MessageSubmitInfoInterface) => {
 				</span>
 			</div>
 
-			<div
-				className={
-					props.isInfo
-						? 'messageSubmitInfoWrapper__message'
-						: 'messageSubmitInfoWrapper__message messageSubmitInfoWrapper__message--red'
-				}
-			>
-				{props.infoMessage}
-			</div>
+			{props.infoMessage && (
+				<div
+					className={
+						props.isInfo
+							? 'messageSubmitInfoWrapper__message'
+							: 'messageSubmitInfoWrapper__message messageSubmitInfoWrapper__message--red'
+					}
+				>
+					{props.infoMessage}
+				</div>
+			)}
 		</div>
 	);
 };

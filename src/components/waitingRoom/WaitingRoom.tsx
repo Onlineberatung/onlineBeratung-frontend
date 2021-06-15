@@ -122,6 +122,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			setIsDataProtectionViewActive(false);
+			window.scrollTo(0, 0);
 			apiPostAnonymousRegistration(props.consultingTypeId)
 				.then((response: AnonymousRegistrationResponse) => {
 					const decodedUsername = decodeUsername(response.userName);
