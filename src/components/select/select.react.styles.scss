@@ -45,7 +45,9 @@ $inputHeight: 50px;
 			color: $secondary;
 
 			&--is-focused {
-				background-color: $select-focus-background-color;
+				// The `!important` annotation is relevant to also cover the `:active`
+				// state, which would otherwise be overridden by inline styles.
+				background-color: $select-focus-background-color !important;
 				color: $selection-focus-color;
 			}
 		}

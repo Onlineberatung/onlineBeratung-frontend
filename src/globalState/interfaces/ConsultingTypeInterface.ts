@@ -44,6 +44,7 @@ export interface ConsultingTypeBasicInterface {
 
 export interface ConsultingTypeInterface extends ConsultingTypeBasicInterface {
 	description: string;
+	slug: string;
 	furtherInformation?: {
 		label: string;
 		url: string;
