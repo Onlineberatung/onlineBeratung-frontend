@@ -67,6 +67,14 @@
 	&__legalLinks {
 		position: absolute;
 		bottom: $grid-base-four;
-		left: $legal-information-links-left;
+		left: $legal-information-links-left-default;
+
+		@include breakpoint($fromMedium) {
+			left: $legal-information-links-left-medium;
+		}
+
+		@include breakpoint($fromLarge) {
+			left: $legal-information-links-left-large;
+		}
 	}
 }
