@@ -45,8 +45,8 @@ $inputHeight: 50px;
 			color: $secondary;
 
 			&--is-focused {
-				background-color: $background-accent;
-				color: $primary;
+				background-color: $select-focus-background-color;
+				color: $selection-focus-color;
 			}
 		}
 	}
