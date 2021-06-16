@@ -670,17 +670,15 @@ export const MessageSubmitInterfaceComponent = (
 				'messageSubmit__wrapper--withTyping': isGroupChat
 			})}
 		>
-			{isGroupChat ? (
+			{isGroupChat && (
 				<TypingIndicator
 					disabled={
 						!(props.typingUsers && props.typingUsers.length > 0)
 					}
 					typingUsers={props.typingUsers}
 				/>
-			) : null}
-			{activeInfo ? (
-				<MessageSubmitInfo {...getMessageSubmitInfo()} />
-			) : null}
+			)}
+			{activeInfo && <MessageSubmitInfo {...getMessageSubmitInfo()} />}
 			{!isLiveChatFinished && (
 				<form
 					className={
@@ -690,13 +688,13 @@ export const MessageSubmitInterfaceComponent = (
 					}
 				>
 					<span className="textarea__outerWrapper">
-						{hasRequestFeedbackCheckbox ? (
+						{hasRequestFeedbackCheckbox && (
 							<Checkbox
 								className="textarea__checkbox"
 								item={checkboxItem}
 								checkboxHandle={handleCheckboxClick}
 							/>
-						) : null}
+						)}
 						<div className="textarea__wrapper">
 							<span
 								ref={featureWrapperRef}
@@ -769,8 +767,8 @@ export const MessageSubmitInterfaceComponent = (
 										)}
 									</Toolbar>
 								</div>
-								{hasUploadFunctionality ? (
-									!attachmentSelected ? (
+								{hasUploadFunctionality &&
+									(!attachmentSelected ? (
 										<span className="textarea__attachmentSelect">
 											<ClipIcon
 												onClick={handleAttachmentSelect}
@@ -795,8 +793,7 @@ export const MessageSubmitInterfaceComponent = (
 												</span>
 											</span>
 										</span>
-									)
-								) : null}
+									))}
 							</span>
 							<SendMessageButton
 								handleSendButton={(event) =>
@@ -807,7 +804,7 @@ export const MessageSubmitInterfaceComponent = (
 							/>
 						</div>
 					</span>
-					{hasUploadFunctionality ? (
+					{hasUploadFunctionality && (
 						<span>
 							<input
 								ref={attachmentInputRef}
@@ -819,7 +816,7 @@ export const MessageSubmitInterfaceComponent = (
 								accept="image/jpeg, image/png, .pdf, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 							/>
 						</span>
-					) : null}
+					)}
 				</form>
 			)}
 		</div>
