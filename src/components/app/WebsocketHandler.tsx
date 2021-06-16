@@ -139,7 +139,10 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 
 	useEffect(() => {
 		if (newStompAnonymousChatFinished) {
-			if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
+			if (
+				userData &&
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+			) {
 				setUpdateSessionList(true);
 			}
 			setNewStompAnonymousChatFinished(false);
