@@ -26,7 +26,7 @@ export const rejectionOverlayItem: OverlayItem = {
 	buttonSet: [
 		{
 			label: translate('anonymous.waitingroom.overlay.rejection.button'),
-			function: OVERLAY_FUNCTIONS.REDIRECT_TO_HOME,
+			function: OVERLAY_FUNCTIONS.REDIRECT_TO_URL,
 			type: BUTTON_TYPES.PRIMARY
 		}
 	]

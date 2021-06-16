@@ -119,7 +119,7 @@ export const finishAnonymousChatSuccessOverlayItem: OverlayItem = {
 	buttonSet: [
 		{
 			label: translate('anonymous.overlay.finishChat.success.button'),
-			function: OVERLAY_FUNCTIONS.REDIRECT_TO_HOME,
+			function: OVERLAY_FUNCTIONS.REDIRECT_TO_URL,
 			type: BUTTON_TYPES.PRIMARY
 		}
 	]
