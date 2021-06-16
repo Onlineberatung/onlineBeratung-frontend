@@ -150,7 +150,7 @@ export const MessageSubmitInterfaceComponent = (
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
-	const isLiveChatFinished = chatItem.status === 3;
+	const isLiveChatFinished = chatItem?.status === 3;
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
 		null
