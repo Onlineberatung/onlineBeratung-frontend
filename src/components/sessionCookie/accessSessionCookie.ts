@@ -1,13 +1,13 @@
-export const setTokenInCookie = (name: string, token: string) => {
-	document.cookie = name + '=' + token + ';path=/;';
+export const setValueInCookie = (name: string, value: string) => {
+	document.cookie = name + '=' + value + ';path=/;';
 };
 
 export const deleteCookieByName = (name: string) => {
 	document.cookie = name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
 };
 
-export const getTokenFromCookie = (targetToken: string) => {
-	const targetName = targetToken + '=';
+export const getValueFromCookie = (targetValue: string) => {
+	const targetName = targetValue + '=';
 	const decodedCookie = decodeURIComponent(document.cookie);
 
 	const ca = decodedCookie.split(';');
@@ -29,6 +29,6 @@ export const removeAllCookies = () => {
 		document.cookie =
 			c.trim().split('=')[0] +
 			'=;' +
-			'expires=Thu, 27 May 1992 08:32:00 MET;';
+			'path=/; expires=Thu, 27 May 1992 08:32:00 MET;';
 	});
 };

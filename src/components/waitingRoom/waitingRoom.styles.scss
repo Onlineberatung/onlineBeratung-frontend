@@ -37,7 +37,7 @@
 		}
 
 		.text {
-			margin-top: $grid-base-five;
+			margin-top: $grid-base-four;
 		}
 
 		.text + .text {
@@ -127,10 +127,13 @@
 		}
 	}
 
-	&__redirect {
-		.button__wrapper {
-			display: inline-block;
-			margin-top: $grid-base-three;
+	&__redirectButton {
+		display: flex;
+		justify-content: center;
+		margin-top: $grid-base-three;
+
+		@include breakpoint($fromLarge) {
+			justify-content: start;
 		}
 	}
 

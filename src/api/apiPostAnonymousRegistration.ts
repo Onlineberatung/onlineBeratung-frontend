@@ -2,19 +2,21 @@ import { removeAllCookies } from '../components/sessionCookie/accessSessionCooki
 import { config } from '../resources/scripts/config';
 import { fetchData, FETCH_METHODS, FETCH_SUCCESS } from './fetchData';
 
-interface anonymousRegistrationResponse {
+export interface AnonymousRegistrationResponse {
 	userName: string;
 	sessionId: number;
 	accessToken: string;
+	expiresIn: number;
 	refreshToken: string;
 	rcUserId: string;
 	rcToken: string;
 	rcGroupId: string;
+	refreshExpiresIn: number;
 }
 
 export const apiPostAnonymousRegistration = async (
 	consultingType: number
-): Promise<anonymousRegistrationResponse> => {
+): Promise<AnonymousRegistrationResponse> => {
 	const url = config.endpoints.registerAnonymousAsker;
 	const data = JSON.stringify({
 		consultingType: consultingType

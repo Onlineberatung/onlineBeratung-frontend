@@ -1,6 +1,25 @@
 const anonymous = {
-	'waitingroom.title.start': 'Warteraum',
 	'listItem.activeLabel': 'Aktiv',
+	'overlay.finishChat.headline': 'Möchten Sie diesen Chat beenden?',
+	'overlay.finishChat.consultant.copy':
+		'Der Ratsuchende wird darüber informiert und kann danach nicht mehr auf den Chat-Verlauf zugreifen.',
+	'overlay.finishChat.asker.copy':
+		'Wenn Sie diesen Chat beenden, haben Sie keinen Zugriff mehr auf Ihren Chat-Verlauf.',
+	'overlay.finishChat.button1': 'Chat beenden',
+	'overlay.finishChat.button2': 'Abbrechen',
+	'overlay.finishChat.success.headline':
+		'Der Chat wurde erfolgreich beendet.',
+	'overlay.finishChat.success.button': 'Zu Caritas.de',
+	'overlay.chatWasFinished.headline':
+		'Ihr_e Berater_in hat den Chat beendet.',
+	'overlay.chatWasFinished.copy':
+		'Sie haben nun keinen Zugriff mehr auf Ihren Chat-Verlauf.',
+	'overlay.chatWasFinished.button': 'Zu Caritas.de',
+	'session.finishChat': 'Chat beenden',
+	'session.systemMessage.chatFinished': 'Der Chat wurde beendet.',
+	'session.infoMessage.chatFinished':
+		'Die Nachrichten werden 48h nach dem Beenden des Chats gelöscht.',
+	'waitingroom.title.start': 'Warteraum',
 	'waitingroom.dataProtection.headline': 'Herzlich Willkommen!',
 	'waitingroom.dataProtection.subline':
 		'Bitte bestätigen Sie unsere Datenschutzbestimmungen.',
@@ -18,10 +37,14 @@ const anonymous = {
 	'waitingroom.redirect.subline':
 		'Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns innerhalb von zwei Werktagen bei Ihnen.',
 	'waitingroom.redirect.button': 'Zur Registrierung',
-	'waitingroom.overlay.headline': 'Herzlich Willkommen!',
-	'waitingroom.overlay.copy':
+	'waitingroom.overlay.acceptance.headline': 'Herzlich Willkommen!',
+	'waitingroom.overlay.acceptance.copy':
 		'Sie werden von Ihrer Berater_in im Chat erwartet. Sind Sie bereit?',
-	'waitingroom.overlay.button': 'Jetzt chatten'
+	'waitingroom.overlay.acceptance.button': 'Jetzt chatten',
+	'waitingroom.overlay.rejection.headline': 'Chat-Zeit beendet.',
+	'waitingroom.overlay.rejection.copy':
+		'Leider konnten wir innerhalb der Chat-Zeit nicht auf Ihr Anliegen eingehen. Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns innerhalb von zwei Werktagen bei Ihnen.',
+	'waitingroom.overlay.rejection.button': 'Zur Registrierung'
 };
 
 export default anonymous;

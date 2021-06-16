@@ -64,6 +64,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
 	const isLiveChat = isAnonymousSession(currentSessionData?.session);
+	const isLiveChatFinished = listItem.status === 3;
 	let plainTextLastMessage = '';
 
 	if (listItem.lastMessage) {
@@ -338,12 +339,16 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								link={feedbackPath}
 							/>
 						)}
-					{isLiveChat && !typeIsEnquiry(type) && (
-						<Tag
-							text={translate('anonymous.listItem.activeLabel')}
-							color="green"
-						/>
-					)}
+					{isLiveChat &&
+						!typeIsEnquiry(type) &&
+						!isLiveChatFinished && (
+							<Tag
+								text={translate(
+									'anonymous.listItem.activeLabel'
+								)}
+								color="green"
+							/>
+						)}
 				</div>
 			</div>
 		</div>

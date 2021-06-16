@@ -12,12 +12,14 @@ export const OVERLAY_FUNCTIONS = {
 	CLOSE_SUCCESS: 'CLOSE_SUCCESS',
 	REDIRECT: 'REDIRECT',
 	REDIRECT_WITH_BLUR: 'REDIRECT_WITH_BLUR',
+	REDIRECT_TO_HOME: 'REDIRECT_TO_HOME',
 	LOGOUT: 'LOGOUT',
 	DEACTIVATE_ABSENCE: 'DEACTIVATE_ABSENCE',
 	COPY_LINK: 'COPY_LINK',
 	STOP_GROUP_CHAT: 'STOP_GROUP_CHAT',
 	LEAVE_GROUP_CHAT: 'LEAVE_GROUP_CHAT',
-	DELETE_ACCOUNT: 'DELETE_ACCOUNT'
+	DELETE_ACCOUNT: 'DELETE_ACCOUNT',
+	FINISH_ANONYMOUS_CONVERSATION: 'FINISH_ANONYMOUS_CONVERSATION'
 };
 
 export const OVERLAY_RESET_TIME = 10000;
@@ -28,7 +30,8 @@ export interface OverlayItem {
 	copy?: string;
 	headline?: string;
 	headlineStyleLevel?: HeadlineLevel;
-	isIconSmall?: boolean;
+	isIllustrationSmall?: boolean;
+	illustrationBackground?: 'red' | 'grey' | 'green';
 	nestedComponent?: React.ReactNode;
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
@@ -57,17 +60,25 @@ export const Overlay = (props: {
 	};
 
 	const item = props.item;
-	const Icon = item.svg;
+	const Illustration = item.svg;
 	return (
 		<div className={clsx('overlay', item.className)}>
 			<div className="overlay__background"></div>
 			<div className="overlay__content">
 				{item.svg && (
 					<span
-						className={`overlay__iconWrapper 
-						${item.isIconSmall ? `overlay__iconWrapper--small` : ''}`}
+						className={clsx('overlay__illustrationWrapper', {
+							'overlay__illustrationWrapper--small':
+								item.isIllustrationSmall,
+							'overlay__illustrationWrapper--red':
+								item.illustrationBackground === 'red',
+							'overlay__illustrationWrapper--green':
+								item.illustrationBackground === 'green',
+							'overlay__illustrationWrapper--grey':
+								item.illustrationBackground === 'grey'
+						})}
 					>
-						<Icon />
+						<Illustration />
 					</span>
 				)}
 				{item.headline && (

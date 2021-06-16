@@ -27,14 +27,21 @@ import {
 	stopGroupChatSuccessOverlayItem,
 	leaveGroupChatSecurityOverlayItem,
 	groupChatErrorOverlayItem,
-	leaveGroupChatSuccessOverlayItem
+	leaveGroupChatSuccessOverlayItem,
+	finishAnonymousChatSecurityOverlayItem,
+	finishAnonymousChatSuccessOverlayItem
 } from './sessionMenuHelpers';
-import { apiPutGroupChat, apiStartVideoCall, GROUP_CHAT_API } from '../../api';
+import {
+	apiFinishAnonymousConversation,
+	apiPutGroupChat,
+	apiStartVideoCall,
+	GROUP_CHAT_API
+} from '../../api';
 import { logout } from '../logout/logout';
 import { mobileListView } from '../app/navigationHandler';
 import { isGroupChatOwner } from '../groupChat/groupChatHelpers';
 import { ReactComponent as FeedbackIcon } from '../../resources/img/icons/pen-paper.svg';
-import { ReactComponent as LeaveGroupChatIcon } from '../../resources/img/icons/out.svg';
+import { ReactComponent as LeaveChatIcon } from '../../resources/img/icons/out.svg';
 import { ReactComponent as GroupChatInfoIcon } from '../../resources/img/icons/i.svg';
 import { ReactComponent as StopGroupChatIcon } from '../../resources/img/icons/x.svg';
 import { ReactComponent as EditGroupChatIcon } from '../../resources/img/icons/gear.svg';
@@ -46,6 +53,7 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
+import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 
 export const SessionMenu = () => {
 	const { userData } = useContext(UserDataContext);
@@ -58,6 +66,7 @@ export const SessionMenu = () => {
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
+	const isLiveChatFinished = chatItem.status === 3;
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
@@ -106,6 +115,16 @@ export const SessionMenu = () => {
 		setOverlayActive(true);
 	};
 
+	const handleFinishAnonymousChat = () => {
+		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
+			finishAnonymousChatSecurityOverlayItem.copy = translate(
+				'anonymous.overlay.finishChat.asker.copy'
+			);
+		}
+		setOverlayItem(finishAnonymousChatSecurityOverlayItem);
+		setOverlayActive(true);
+	};
+
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (isRequestInProgress) {
 			return null;
@@ -140,6 +159,32 @@ export const SessionMenu = () => {
 			setStoppedGroupChat(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
+		} else if (
+			buttonFunction === OVERLAY_FUNCTIONS.FINISH_ANONYMOUS_CONVERSATION
+		) {
+			apiFinishAnonymousConversation(chatItem.id)
+				.then((response) => {
+					setIsRequestInProgress(false);
+
+					if (
+						hasUserAuthority(
+							AUTHORITIES.ANONYMOUS_DEFAULT,
+							userData
+						)
+					) {
+						removeAllCookies();
+						setOverlayItem(finishAnonymousChatSuccessOverlayItem);
+					} else {
+						setOverlayActive(false);
+						setOverlayItem(null);
+					}
+				})
+				.catch((error) => {
+					console.error(error);
+					setIsRequestInProgress(false);
+				});
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_HOME) {
+			window.location.href = config.urls.home;
 		}
 	};
 
@@ -218,6 +263,19 @@ export const SessionMenu = () => {
 
 	return (
 		<div className="sessionMenu__wrapper">
+			{isLiveChat &&
+				!isLiveChatFinished &&
+				!typeIsEnquiry(getTypeOfLocation()) && (
+					<span
+						onClick={handleFinishAnonymousChat}
+						className="sessionMenu__item--desktop sessionMenu__button"
+					>
+						<span className="sessionMenu__icon">
+							<LeaveChatIcon />
+							{translate('anonymous.session.finishChat')}
+						</span>
+					</span>
+				)}
 			{hasVideoCallFeatures() && (
 				<div
 					className="sessionMenu__videoCallButtons"
@@ -247,7 +305,7 @@ export const SessionMenu = () => {
 					className="sessionMenu__item--desktop sessionMenu__button"
 				>
 					<span className="sessionMenu__icon">
-						<LeaveGroupChatIcon />
+						<LeaveChatIcon />
 						{translate('chatFlyout.leaveGroupChat')}
 					</span>
 				</span>
@@ -313,6 +371,16 @@ export const SessionMenu = () => {
 			</span>
 
 			<div id="flyout" className="sessionMenu__content">
+				{isLiveChat &&
+					!isLiveChatFinished &&
+					!typeIsEnquiry(getTypeOfLocation()) && (
+						<div
+							className="sessionMenu__item sessionMenu__item--mobile"
+							onClick={handleFinishAnonymousChat}
+						>
+							{translate('anonymous.session.finishChat')}
+						</div>
+					)}
 				{hasVideoCallFeatures() && (
 					<div
 						className="sessionMenu__item sessionMenu__item--mobile"

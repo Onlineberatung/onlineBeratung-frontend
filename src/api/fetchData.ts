@@ -1,14 +1,10 @@
-import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { generateCsrfToken } from '../utils/generateCsrfToken';
 import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
 } from '../components/error/errorHandling';
 import { logout } from '../components/logout/logout';
-
-const isIE11Browser =
-	window.navigator.userAgent.indexOf('MSIE ') > 0 ||
-	!!navigator.userAgent.match(/Trident.*rv:11\./);
 
 export const FETCH_METHODS = {
 	DELETE: 'DELETE',
@@ -18,6 +14,7 @@ export const FETCH_METHODS = {
 };
 
 export const FETCH_ERRORS = {
+	ABORT: 'ABORT',
 	EMPTY: 'EMPTY',
 	BAD_REQUEST: 'BAD_REQUEST',
 	CONFLICT: 'CONFLICT',
@@ -36,7 +33,7 @@ export const FETCH_SUCCESS = {
 	CONTENT: 'CONTENT'
 };
 
-interface fetchDataProps {
+interface FetchDataProps {
 	url: string;
 	method: string;
 	headersData?: object;
@@ -45,11 +42,12 @@ interface fetchDataProps {
 	skipAuth?: boolean;
 	responseHandling?: string[];
 	timeout?: number;
+	signal?: AbortSignal;
 }
 
-export const fetchData = (props: fetchDataProps): Promise<any> =>
+export const fetchData = (props: FetchDataProps): Promise<any> =>
 	new Promise((resolve, reject) => {
-		const accessToken = getTokenFromCookie('keycloak');
+		const accessToken = getValueFromCookie('keycloak');
 		const authorization = !props.skipAuth
 			? {
 					Authorization: `Bearer ${accessToken}`
@@ -60,10 +58,19 @@ export const fetchData = (props: fetchDataProps): Promise<any> =>
 
 		const rcHeaders = props.rcValidation
 			? {
-					rcToken: getTokenFromCookie('rc_token'),
-					rcUserId: getTokenFromCookie('rc_uid')
+					rcToken: getValueFromCookie('rc_token'),
+					rcUserId: getValueFromCookie('rc_uid')
 			  }
 			: null;
+
+		let controller;
+		controller = new AbortController();
+		if (props.timeout) {
+			setTimeout(() => controller.abort(), props.timeout);
+		}
+		if (props.signal) {
+			props.signal.addEventListener('abort', () => controller.abort());
+		}
 
 		const req = new Request(props.url, {
 			method: props.method,
@@ -76,20 +83,11 @@ export const fetchData = (props: fetchDataProps): Promise<any> =>
 				...rcHeaders
 			},
 			credentials: 'include',
-			body: props.bodyData
+			body: props.bodyData,
+			signal: controller.signal
 		});
 
-		let controller;
-		let signal;
-		if (!isIE11Browser) {
-			controller = new AbortController();
-			signal = controller.signal;
-			if (props.timeout) {
-				setTimeout(() => controller.abort(), props.timeout);
-			}
-		}
-
-		fetch(req, !isIE11Browser && props.timeout ? { signal } : undefined)
+		fetch(req)
 			.then((response) => {
 				if (response.status === 200 || response.status === 201) {
 					const data =
@@ -149,8 +147,12 @@ export const fetchData = (props: fetchDataProps): Promise<any> =>
 				}
 			})
 			.catch((error) => {
-				error.message === 'The operation was aborted. '
-					? reject(FETCH_ERRORS.TIMEOUT)
-					: reject(error);
+				if (props.signal?.aborted && error.name === 'AbortError') {
+					reject(new Error(FETCH_ERRORS.ABORT));
+				} else if (error.name === 'AbortError') {
+					reject(new Error(FETCH_ERRORS.TIMEOUT));
+				} else {
+					reject(error);
+				}
 			});
 	});

@@ -7,6 +7,7 @@ export const config = {
 		agencyConsultants: tld + '/service/users/consultants',
 		agencyServiceBase: tld + '/service/agencies',
 		anonymousAskerBase: tld + '/service/conversations/askers/anonymous/',
+		anonymousBase: tld + '/service/conversations/anonymous/',
 		askerSessions: tld + '/service/users/sessions/askers',
 		attachmentUpload: tld + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: tld + '/service/uploads/feedback/new/',

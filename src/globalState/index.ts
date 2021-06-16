@@ -8,6 +8,7 @@ export * from './interfaces/ConsultingTypeInterface';
 export * from './provider/AcceptedGroupIdProvider';
 export * from './provider/ActiveSessionGroupIdProvider';
 export * from './provider/AuthDataProvider';
+export * from './provider/AnonymousConversationFinishedProvider';
 export * from './provider/AnonymousEnquiryAcceptedProvider';
 export * from './provider/ConsultantListProvider';
 export * from './provider/FilterStatusProvider';

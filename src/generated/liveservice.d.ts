@@ -6,13 +6,21 @@ declare namespace LiveService {
 		export interface EventContent {}
 		export type EventType =
 			| 'anonymousEnquiryAccepted'
+			| 'anonymousConversationFinished'
 			| 'directMessage'
 			| 'newAnonymousEnquiry'
 			| 'videoCallRequest'
 			| 'videoCallDeny';
 		export interface LiveEventMessage {
 			eventType: EventType;
+			userIds: string[];
 			eventContent?: /* general used object for all possible incoming DTOs used for socket transfer */ EventContent;
+		}
+		export interface StatusSource {
+			/**
+			 * represents the session status of the anonymous conversation where the anonymousConversationFinished event has been triggered
+			 */
+			finishConversationPhase: 'NEW' | 'IN_PROGRESS';
 		}
 		/**
 		 * the request DTO for event type videoCallRequest
@@ -47,12 +55,6 @@ declare namespace LiveService {
 }
 declare namespace Paths {
 	namespace SendLiveEvent {
-		namespace Parameters {
-			export type UserIds = string[];
-		}
-		export interface QueryParameters {
-			userIds: Parameters.UserIds;
-		}
 		export type RequestBody = LiveService.Schemas.LiveEventMessage;
 		namespace Responses {
 			export interface $200 {}

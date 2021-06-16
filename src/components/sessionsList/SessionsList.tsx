@@ -57,6 +57,11 @@ import {
 import { Text } from '../text/Text';
 import clsx from 'clsx';
 
+interface GetSessionsListDataInterface {
+	increaseOffset?: boolean;
+	signal?: AbortSignal;
+}
+
 export const SessionsList: React.FC = () => {
 	const location = useLocation();
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -73,6 +78,11 @@ export const SessionsList: React.FC = () => {
 	const currentTab = useMemo(() => sessionListTab, [sessionListTab]);
 	const [hasNoSessions, setHasNoSessions] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [
+		abortController,
+		setAbortController
+	] = useState<AbortController | null>(null);
+
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [totalItems, setTotalItems] = useState(0);
@@ -171,7 +181,14 @@ export const SessionsList: React.FC = () => {
 			!acceptedGroupId
 		) {
 			setIsLoading(true);
-			getSessionsListData().catch(() => {});
+
+			if (abortController) {
+				abortController.abort();
+			}
+
+			const controller = new AbortController();
+			setAbortController(controller);
+			getSessionsListData({ signal: controller.signal }).catch(() => {});
 		}
 	}, [currentFilter, currentTab]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -229,7 +246,7 @@ export const SessionsList: React.FC = () => {
 					type: SESSION_TYPES.MY_SESSION,
 					filter: getFilterToUse(),
 					offset: 0,
-					count: sessionsData?.mySessions.length
+					count: sessionsData?.mySessions?.length
 				});
 
 				setSessionsData((sessionsData) => {
@@ -342,7 +359,10 @@ export const SessionsList: React.FC = () => {
 	const getFilterToUse = (): string =>
 		showFilter ? filterStatus : INITIAL_FILTER;
 
-	const getSessionsListData = (increaseOffset?: boolean): Promise<any> => {
+	const getSessionsListData = ({
+		increaseOffset,
+		signal
+	}: GetSessionsListDataInterface = {}): Promise<any> => {
 		resetActiveSession();
 		if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
@@ -363,7 +383,8 @@ export const SessionsList: React.FC = () => {
 				type: type,
 				offset: useOffset,
 				useFilter: getFilterToUse(),
-				sessionListTab: sessionListTab
+				sessionListTab: sessionListTab,
+				...(signal && { signal: signal })
 			})
 				.then(({ sessions, total, count }) => {
 					setTotalItems(total);
@@ -377,21 +398,26 @@ export const SessionsList: React.FC = () => {
 						error.message === FETCH_ERRORS.EMPTY &&
 						increaseOffset
 					) {
+						setIsLoading(false);
 						setIsReloadButtonVisible(true);
 						reject(FETCH_ERRORS.EMPTY);
 					} else if (error.message === FETCH_ERRORS.EMPTY) {
+						setIsLoading(false);
 						setHasNoSessions(true);
 						reject(FETCH_ERRORS.EMPTY);
-					} else if (error === FETCH_ERRORS.TIMEOUT) {
+					} else if (error.message === FETCH_ERRORS.TIMEOUT) {
+						setIsLoading(false);
 						setIsReloadButtonVisible(true);
 						reject(FETCH_ERRORS.TIMEOUT);
+					} else if (error.message === FETCH_ERRORS.ABORT) {
+						// No action necessary. Just make sure to NOT set
+						// `isLoading` to false or `isReloadButtonVisible` to true.
 					} else {
 						setIsReloadButtonVisible(true);
 						reject(error);
 					}
 				})
 				.finally(() => {
-					setIsLoading(false);
 					setLoadingWithOffset(false);
 					setIsRequestInProgress(false);
 				});
@@ -450,7 +476,7 @@ export const SessionsList: React.FC = () => {
 				!isReloadButtonVisible &&
 				!isRequestInProgress
 			) {
-				getSessionsListData(true);
+				getSessionsListData({ increaseOffset: true });
 			}
 		}
 	};
@@ -503,6 +529,9 @@ export const SessionsList: React.FC = () => {
 		defaultValue: preSelectedOption
 	};
 
+	const showEnquiryTabs =
+		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+		typeIsEnquiry(type);
 	return (
 		<div className="sessionsList__innerWrapper">
 			{showFilter && (
@@ -510,10 +539,42 @@ export const SessionsList: React.FC = () => {
 					<SelectDropdown {...selectDropdown} />
 				</div>
 			)}
+			{showEnquiryTabs && (
+				<div className="sessionsList__tabs">
+					<Link
+						className={clsx({
+							'sessionsList__tabs--active': !sessionListTab
+						})}
+						to={'/sessions/consultant/sessionPreview'}
+					>
+						<Text
+							text={translate(
+								'sessionList.preview.registered.tab'
+							)}
+							type="standard"
+						/>
+					</Link>
+					<Link
+						className={clsx({
+							'sessionsList__tabs--active':
+								sessionListTab === SESSION_LIST_TAB.ANONYMOUS
+						})}
+						to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
+					>
+						<Text
+							text={translate(
+								'sessionList.preview.anonymous.tab'
+							)}
+							type="standard"
+						/>
+					</Link>
+				</div>
+			)}
 			<div
-				className={`sessionsList__scrollContainer ${
-					showFilter ? 'sessionsList__scrollContainer--hasFilter' : ''
-				}`}
+				className={clsx('sessionsList__scrollContainer', {
+					'sessionsList__scrollContainer--hasFilter': showFilter,
+					'sessionsList__scrollContainer--hasTabs': showEnquiryTabs
+				})}
 				ref={listRef}
 				onScroll={handleListScroll}
 			>
@@ -522,39 +583,6 @@ export const SessionsList: React.FC = () => {
 					sessionsData.mySessions.length <=
 						MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION && (
 						<WelcomeIllustration />
-					)}
-				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-					typeIsEnquiry(type) && (
-						<div className="sessionsList__tabs">
-							<Link
-								className={clsx({
-									'sessionsList__tabs--active': !sessionListTab
-								})}
-								to={'/sessions/consultant/sessionPreview'}
-							>
-								<Text
-									text={translate(
-										'sessionList.preview.registered.tab'
-									)}
-									type="standard"
-								/>
-							</Link>
-							<Link
-								className={clsx({
-									'sessionsList__tabs--active':
-										sessionListTab ===
-										SESSION_LIST_TAB.ANONYMOUS
-								})}
-								to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
-							>
-								<Text
-									text={translate(
-										'sessionList.preview.anonymous.tab'
-									)}
-									type="standard"
-								/>
-							</Link>
-						</div>
 					)}
 				{isLoading ? (
 					<SessionsListSkeleton />

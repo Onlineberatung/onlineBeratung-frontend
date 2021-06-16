@@ -16,6 +16,7 @@ interface GetSessionsProps {
 	offset: number;
 	useFilter: string;
 	sessionListTab?: string;
+	signal?: AbortSignal;
 }
 
 export const getConsultantSessions = (
@@ -119,7 +120,8 @@ export const getConsultantSessions = (
 			type: type,
 			filter: useFilter,
 			offset: offset,
-			sessionListTab: sessionListTab
+			sessionListTab: sessionListTab,
+			...(props.signal && { signal: props.signal })
 		})
 			.then((sessionList: ListItemsResponseInterface) => {
 				const fetchedSessions: ListItemInterface[] =
@@ -146,6 +148,9 @@ export const getConsultantSessions = (
 				}
 			})
 			.catch((error) => {
+				if (error.message === FETCH_ERRORS.EMPTY) {
+					setSessionsDataForCurrentType([], isOffsetIncreased);
+				}
 				reject(error);
 			});
 	});

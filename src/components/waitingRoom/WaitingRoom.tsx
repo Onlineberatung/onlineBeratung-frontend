@@ -8,13 +8,17 @@ import { ReactComponent as WaitingIllustration } from '../../resources/img/illus
 import { translate } from '../../utils/translate';
 import { useContext, useEffect, useState } from 'react';
 import { endpointPort, tld } from '../../resources/scripts/config';
-import { apiPostAnonymousRegistration } from '../../api';
+import {
+	AnonymousRegistrationResponse,
+	apiPostAnonymousRegistration
+} from '../../api';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import {
 	deleteCookieByName,
-	getTokenFromCookie,
-	setTokenInCookie
+	getValueFromCookie,
+	removeAllCookies,
+	setValueInCookie
 } from '../sessionCookie/accessSessionCookie';
 import {
 	Overlay,
@@ -22,9 +26,17 @@ import {
 	OverlayWrapper,
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
-import { AnonymousEnquiryAcceptedContext } from '../../globalState';
+import {
+	AnonymousConversationFinishedContext,
+	AnonymousEnquiryAcceptedContext
+} from '../../globalState';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 import { history } from '../app/app';
+import {
+	acceptanceOverlayItem,
+	rejectionOverlayItem
+} from './waitingRoomHelpers';
+import { handleTokenRefresh, setTokens } from '../auth/auth';
 
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
@@ -40,17 +52,27 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const [username, setUsername] = useState<string>();
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
+	const [overlayItem, setOverlayItem] = useState<OverlayItem>();
 	const {
 		anonymousEnquiryAccepted,
 		setAnonymousEnquiryAccepted
 	} = useContext(AnonymousEnquiryAcceptedContext);
+	const {
+		anonymousConversationFinished,
+		setAnonymousConversationFinished
+	} = useContext(AnonymousConversationFinishedContext);
+	const registrationUrl = `${tld + endpointPort}/${
+		props.consultingTypeSlug
+	}/registration`;
 
 	useEffect(() => {
-		const registeredUsername = getTokenFromCookie('registeredUsername');
+		const registeredUsername = getValueFromCookie('registeredUsername');
 
-		if (registeredUsername && getTokenFromCookie('keycloak')) {
+		// handle a refresh as registered user and not initialize a new user
+		if (registeredUsername && getValueFromCookie('keycloak')) {
 			setIsDataProtectionViewActive(false);
 			setUsername(registeredUsername);
+			handleTokenRefresh();
 			props.onAnonymousRegistration();
 		}
 
@@ -61,10 +83,20 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	useEffect(() => {
 		if (anonymousEnquiryAccepted) {
+			setOverlayItem(acceptanceOverlayItem);
 			setIsOverlayActive(true);
 			setAnonymousEnquiryAccepted(false);
 		}
 	}, [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted]);
+
+	useEffect(() => {
+		if (anonymousConversationFinished === 'NEW') {
+			setOverlayItem(rejectionOverlayItem);
+			setIsOverlayActive(true);
+			removeAllCookies();
+			setAnonymousConversationFinished(null);
+		}
+	}, [anonymousConversationFinished, setAnonymousConversationFinished]);
 
 	const getUsernameText = () => {
 		return `
@@ -90,16 +122,21 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			setIsDataProtectionViewActive(false);
+			window.scrollTo(0, 0);
 			apiPostAnonymousRegistration(props.consultingTypeId)
-				.then((response) => {
+				.then((response: AnonymousRegistrationResponse) => {
 					const decodedUsername = decodeUsername(response.userName);
 					setUsername(decodedUsername);
-					setTokenInCookie('keycloak', response.accessToken);
-					setTokenInCookie('registeredUsername', decodedUsername);
-					setTokenInCookie('rc_token', response.rcToken);
-					setTokenInCookie('rc_uid', response.rcUserId);
-					setTokenInCookie('refreshToken', response.refreshToken);
-
+					setValueInCookie('registeredUsername', decodedUsername);
+					setValueInCookie('rc_token', response.rcToken);
+					setValueInCookie('rc_uid', response.rcUserId);
+					setTokens(
+						response.accessToken,
+						response.expiresIn,
+						response.refreshToken,
+						response.refreshExpiresIn
+					);
+					handleTokenRefresh();
 					props.onAnonymousRegistration();
 				})
 				.catch((err) => {
@@ -111,23 +148,12 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		}
 	};
 
-	const redirectOverlayItem: OverlayItem = {
-		buttonSet: [
-			{
-				label: translate('anonymous.waitingroom.overlay.button'),
-				function: OVERLAY_FUNCTIONS.REDIRECT,
-				type: BUTTON_TYPES.AUTO_CLOSE
-			}
-		],
-		headline: translate('anonymous.waitingroom.overlay.headline'),
-		copy: translate('anonymous.waitingroom.overlay.copy'),
-		svg: WelcomeIllustration
-	};
-
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			history.push(`/app`);
 			deleteCookieByName('registeredUsername');
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_HOME) {
+			window.location.href = registrationUrl;
 		}
 	};
 
@@ -219,21 +245,19 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 										'anonymous.waitingroom.redirect.subline'
 									)}
 								/>
-								<a
-									href={`${tld + endpointPort}/${
-										props.consultingTypeSlug
-									}/registration`}
-								>
-									<Button
-										item={{
-											label: translate(
-												'anonymous.waitingroom.redirect.button'
-											),
-											type: 'TERTIARY'
-										}}
-										isLink={true}
-									/>
-								</a>
+								<div className="waitingRoom__redirectButton">
+									<a href={registrationUrl}>
+										<Button
+											item={{
+												label: translate(
+													'anonymous.waitingroom.redirect.button'
+												),
+												type: 'TERTIARY'
+											}}
+											isLink={true}
+										/>
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -242,7 +266,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			{isOverlayActive && (
 				<OverlayWrapper>
 					<Overlay
-						item={redirectOverlayItem}
+						item={overlayItem}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>

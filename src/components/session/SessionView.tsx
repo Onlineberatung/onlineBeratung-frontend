@@ -12,7 +12,9 @@ import {
 	StoppedGroupChatContext,
 	AcceptedGroupIdContext,
 	UpdateSessionListContext,
-	UserDataContext
+	UserDataContext,
+	hasUserAuthority,
+	AUTHORITIES
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
@@ -28,7 +30,7 @@ import {
 	prepareMessages
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
-import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -76,9 +78,14 @@ export const SessionView = (props) => {
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
+	const isLiveChatFinished = chatItem.status === 3;
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
-		if (activeSession) {
+		if (
+			activeSession &&
+			(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
+				!isLiveChatFinished)
+		) {
 			const isCurrentSessionRead = activeSession.isFeedbackSession
 				? chatItem.feedbackRead
 				: chatItem.messagesRead;
@@ -128,7 +135,7 @@ export const SessionView = (props) => {
 						window['socket'].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_USER,
 							[
-								getTokenFromCookie('rc_uid') +
+								getValueFromCookie('rc_uid') +
 									'/subscriptions-changed',
 								false
 							],

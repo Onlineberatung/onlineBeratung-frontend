@@ -3,18 +3,22 @@ import { config } from '../../resources/scripts/config';
 import { Stomp } from '@stomp/stompjs';
 import useConstant from 'use-constant';
 import * as SockJS from 'sockjs-client';
-import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { useContext, useEffect, useState } from 'react';
 import {
 	IncomingVideoCallProps,
 	VideoCallRequestProps
 } from '../incomingVideoCall/IncomingVideoCall';
 import {
+	AnonymousConversationFinishedContext,
 	AnonymousEnquiryAcceptedContext,
+	AUTHORITIES,
+	hasUserAuthority,
 	NotificationsContext,
 	UnreadSessionsStatusContext,
 	UpdateAnonymousEnquiriesContext,
-	UpdateSessionListContext
+	UpdateSessionListContext,
+	UserDataContext
 } from '../../globalState';
 
 interface WebsocketHandlerProps {
@@ -31,6 +35,11 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const [newStompVideoCallRequest, setNewStompVideoCallRequest] = useState<
 		VideoCallRequestProps
 	>();
+	const { userData } = useContext(UserDataContext);
+	const [
+		newStompAnonymousChatFinished,
+		setNewStompAnonymousChatFinished
+	] = useState<boolean>(false);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
@@ -43,6 +52,9 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	);
 	const { setAnonymousEnquiryAccepted } = useContext(
 		AnonymousEnquiryAcceptedContext
+	);
+	const { setAnonymousConversationFinished } = useContext(
+		AnonymousConversationFinishedContext
 	);
 
 	// Init live service socket
@@ -58,7 +70,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	useEffect(() => {
 		stompClient.connect(
 			{
-				accessToken: getTokenFromCookie('keycloak')
+				accessToken: getValueFromCookie('keycloak')
 			},
 			(frame) => {
 				console.log('Connected: ' + frame);
@@ -76,6 +88,16 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 						setNewStompVideoCallRequest(stompEventContent);
 					} else if (stompEventType === 'anonymousEnquiryAccepted') {
 						setAnonymousEnquiryAccepted(true);
+					} else if (
+						stompEventType === 'anonymousConversationFinished'
+					) {
+						const finishConversationPhase =
+							stompMessageBody.eventContent
+								?.finishConversationPhase;
+						setAnonymousConversationFinished(
+							finishConversationPhase
+						);
+						setNewStompAnonymousChatFinished(true);
 					}
 				});
 			}
@@ -114,6 +136,15 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 			setNewStompAnonymousEnquiry(false);
 		}
 	}, [newStompAnonymousEnquiry]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (newStompAnonymousChatFinished) {
+			if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
+				setUpdateSessionList(true);
+			}
+			setNewStompAnonymousChatFinished(false);
+		}
+	}, [newStompAnonymousChatFinished]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (newStompVideoCallRequest) {

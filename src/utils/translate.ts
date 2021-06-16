@@ -1,5 +1,5 @@
 import { getResortKeyForConsultingType } from './resorts';
-import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import defaultLocale from '../resources/scripts/i18n/defaultLocale';
 import informalLocale from '../resources/scripts/i18n/informalLocale';
 
@@ -14,7 +14,7 @@ export const getTranslation = (
 };
 
 export const translate = (translatable: string): any => {
-	let informal = Boolean(getTokenFromCookie('useInformal'));
+	let informal = Boolean(getValueFromCookie('useInformal'));
 	return (
 		getTranslation(translatable, informal) ||
 		'[NO TRANSLATION FOR ' + translatable + ']'
