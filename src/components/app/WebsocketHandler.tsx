@@ -63,45 +63,13 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		const client = Stomp.over(socket);
 
 		// DEV-NOTE: comment next line to activate debug mode (stomp logging) for development
-		client.debug = () => {};
+		// client.debug = () => {};
 		return client;
 	});
 
 	useEffect(() => {
-		stompClient.connect(
-			{
-				accessToken: getValueFromCookie('keycloak')
-			},
-			(frame) => {
-				console.log('Connected: ' + frame);
-				stompClient.subscribe('/user/events', function (message) {
-					const stompMessageBody = JSON.parse(message.body);
-					const stompEventType: LiveService.Schemas.EventType =
-						stompMessageBody['eventType'];
-					if (stompEventType === 'directMessage') {
-						setNewStompDirectMessage(true);
-					} else if (stompEventType === 'newAnonymousEnquiry') {
-						setNewStompAnonymousEnquiry(true);
-					} else if (stompEventType === 'videoCallRequest') {
-						const stompEventContent: VideoCallRequestProps =
-							stompMessageBody['eventContent'];
-						setNewStompVideoCallRequest(stompEventContent);
-					} else if (stompEventType === 'anonymousEnquiryAccepted') {
-						setAnonymousEnquiryAccepted(true);
-					} else if (
-						stompEventType === 'anonymousConversationFinished'
-					) {
-						const finishConversationPhase =
-							stompMessageBody.eventContent
-								?.finishConversationPhase;
-						setAnonymousConversationFinished(
-							finishConversationPhase
-						);
-						setNewStompAnonymousChatFinished(true);
-					}
-				});
-			}
-		);
+		stompConnect();
+
 		stompClient.onWebSocketClose = (message) => {
 			console.log('Closed', message);
 		};
@@ -165,6 +133,44 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 			}
 		}
 	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	const stompConnect = () => {
+		stompClient.connect(
+			{
+				accessToken: getValueFromCookie('keycloak')
+			},
+			(frame) => {
+				console.log('Connected: ' + frame);
+				stompClient.subscribe('/user/events', function (message) {
+					const stompMessageBody = JSON.parse(message.body);
+					const stompEventType: LiveService.Schemas.EventType =
+						stompMessageBody['eventType'];
+					if (stompEventType === 'directMessage') {
+						setNewStompDirectMessage(true);
+					} else if (stompEventType === 'newAnonymousEnquiry') {
+						setNewStompAnonymousEnquiry(true);
+					} else if (stompEventType === 'videoCallRequest') {
+						const stompEventContent: VideoCallRequestProps =
+							stompMessageBody['eventContent'];
+						setNewStompVideoCallRequest(stompEventContent);
+					} else if (stompEventType === 'anonymousEnquiryAccepted') {
+						setAnonymousEnquiryAccepted(true);
+					} else if (
+						stompEventType === 'anonymousConversationFinished'
+					) {
+						const finishConversationPhase =
+							stompMessageBody.eventContent
+								?.finishConversationPhase;
+						setAnonymousConversationFinished(
+							finishConversationPhase
+						);
+						setNewStompAnonymousChatFinished(true);
+					}
+					message.ack();
+				});
+			}
+		);
+	};
 
 	return <></>;
 };
