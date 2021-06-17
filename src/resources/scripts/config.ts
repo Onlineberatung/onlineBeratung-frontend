@@ -56,6 +56,8 @@ export const config = {
 		toLogin: tld + endpointPort + '/',
 		redirectToApp: tld + endpointPort + `/app`,
 		home: 'https://www.caritas.de',
+		finishedAnonymousChatRedirect:
+			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',

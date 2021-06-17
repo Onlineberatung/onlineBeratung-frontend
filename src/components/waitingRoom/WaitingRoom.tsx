@@ -152,7 +152,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			history.push(`/app`);
 			deleteCookieByName('registeredUsername');
-		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_HOME) {
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_URL) {
 			window.location.href = registrationUrl;
 		}
 	};

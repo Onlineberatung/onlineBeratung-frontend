@@ -183,8 +183,8 @@ export const SessionMenu = () => {
 					console.error(error);
 					setIsRequestInProgress(false);
 				});
-		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_HOME) {
-			window.location.href = config.urls.home;
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_URL) {
+			window.location.href = config.urls.finishedAnonymousChatRedirect;
 		}
 	};
 
