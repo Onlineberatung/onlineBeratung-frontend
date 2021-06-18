@@ -531,6 +531,7 @@ export const SessionsList: React.FC = () => {
 
 	const showEnquiryTabs =
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+		userData.hasAnonymousConversations &&
 		typeIsEnquiry(type);
 	return (
 		<div className="sessionsList__innerWrapper">
