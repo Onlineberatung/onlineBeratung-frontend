@@ -126,7 +126,6 @@ const monitoringU25 = {
 	'monitoringU25.concern': 'Sorge um Suizidgefährdete_n',
 	'monitoringU25.mourning': 'Trauer nach Suizid',
 
-	// 'monitoringU25.eatingDisorder': 'Essstörung',
 	'monitoringU25.addictionDrugs': 'Sucht (Drogen/Medikamente)',
 	'monitoringU25.addictionAlcohol': 'Sucht (Alkohol)',
 	'monitoringU25.addictionInternetComputer': 'Sucht (Internet/Computer)',
