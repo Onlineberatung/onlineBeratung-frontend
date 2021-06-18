@@ -22,10 +22,22 @@ import { DeleteAccount } from './DeleteAccount';
 import { AbsenceFormular } from '../absenceFormular/AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { Text } from '../text/Text';
+import { TwoFactorAuth } from './TwoFactorAuth';
 import './profile.styles';
 
 export const Profile = () => {
 	const { userData } = useContext(UserDataContext);
+	//TODO: remove mockdata
+	const mock2faData = {
+		twoFactorAuth: {
+			isEnabled: true,
+			isActive: false,
+			secret: '7Tp1e6pA2aVLSxBOcD3I',
+			qrCode:
+				'iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2AQAAAADNaUdlAAACxElEQVR4Xu2Wsa4jMQhF3fmX3ZmOX6ZYyXsPTjI7U7xqjfSkWMko4bhAcLlMWz+eP+0ZuZ8vf0bu58ufkfv5Fdxa6zaXTZsxV7Qx5nKCRdz1CUHXM0Z3t9E6wSpuiq3oCiike9Z0y7hSx631GKSn+rQ2ZjVfVIeuTK7NDFZxPqHEFF2m0ujiDtZwpOjP89DvE/9Pnsf5qkzWlarzj1PCrakxQ/KMQaaa0GljXv05zT0lqbYMXWJAdSEklHd+pzm4M5ZMhb56DKVYxrGlbZDBjCqAVapRRTx2M5gKzHlQnM6VIr7Ij1hsX5ZWlCrNquFGf9yRRpBplqsblarhVISdqPBLqVqT8/KnwzzQpdCeUN2lWNSoiDOfE1/OTilZTamu3fzhJJcVNxJCoJ45dnwyLn2c5SvVmXVhUmK7gxpUxRfZTBpkA19MWMqzLpPPSnkgzssfjnOlFtRFImVXsSE0JquKe2aHTzAiSIX0yrjnCwFLaWyb4oa21Fufp7l8cVGTwYgayoiUShWnJN3576lRiYMfH32c5urLYDYVyjcF2VNa9CriKo7K40yHJpPuDGzSqzhDQZUUUmIrzXngVEU8bYH+SJICFEtvJ3oWcV6KGsOhRe0MCD3idxEnsHCE7AsKHTQs3vmd5iqNlmPOplwy52KpTsI1HH3OlMfCKLUcx8QkZhEPlvNLFbRqrwg6VcNRxAwcgpei181//fswV34ic/uDIQ/el3od32nJoxdbUvYojer/pz+nuX6pHCkKRyyMaoqlhisjZyNJoLJKmIaElVXEORIju5HnRC36efnHYU4u6Q1OnjgD82FX/oe554jIj/KGzErScKJV3DDjHBBjMILlyBtrIUeeNMgwaPLzqz8VfOsxmMvOeK5KzhUNBhmqMcGC0Ld/+nOYZ26YMz6x0h6VJ48a/sP58mfkfr78GbmfX8//AoifMamdzb9IAAAAAElFTkSuQmCC'
+		},
+		...userData
+	};
 	const consultingTypes = useConsultingTypes();
 
 	useEffect(() => {
@@ -101,6 +113,13 @@ export const Profile = () => {
 							userData
 						) && <AbsenceFormular />}
 						<PasswordReset />
+						{hasUserAuthority(
+							AUTHORITIES.CONSULTANT_DEFAULT,
+							userData
+						) &&
+							mock2faData.twoFactorAuth.isEnabled && (
+								<TwoFactorAuth {...mock2faData} />
+							)}
 					</div>
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,

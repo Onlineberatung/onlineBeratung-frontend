@@ -1,0 +1,90 @@
+.twoFactorAuth {
+	&__switch {
+		display: flex;
+
+		.text {
+			margin: auto 0 auto $grid-base;
+		}
+	}
+
+	&__overlay {
+		.overlay__content {
+			@include breakpoint($fromLarge) {
+				height: 680px;
+			}
+		}
+
+		.button__wrapper {
+			margin-top: auto;
+		}
+	}
+
+	&__tools {
+		display: grid;
+		grid-template-columns: auto;
+
+		@include breakpoint($fromMedium) {
+			grid-template-columns: auto auto;
+		}
+	}
+
+	&__tool {
+		display: grid;
+
+		& > .text {
+			font-weight: $font-weight-bold;
+			text-align: left;
+		}
+
+		a {
+			display: flex;
+			justify-items: start;
+			cursor: pointer;
+			margin-top: $grid-base-two;
+
+			.text {
+				color: $primary;
+				margin: auto 0 auto $grid-base;
+
+				&:hover {
+					color: $hover-primary;
+				}
+			}
+		}
+	}
+
+	&__connect {
+		.text__divider {
+			text-transform: uppercase;
+			display: flex;
+			color: $primary;
+
+			&::before,
+			&::after {
+				content: '';
+				border-top: 1px solid $primary;
+				width: max-content;
+				margin: auto $grid-base;
+				flex-grow: 1;
+			}
+		}
+	}
+
+	&__qrCode {
+		display: flex;
+
+		.text {
+			margin: auto;
+		}
+
+		img {
+			width: 150px;
+		}
+	}
+
+	&__key {
+		.text + .text {
+			font-weight: $font-weight-bold;
+		}
+	}
+}

@@ -2,6 +2,7 @@ $imageSize: 280px;
 $iconSize: 170px;
 $imageSizeSmall: 180px;
 $iconSizeSmall: 100px;
+$iconSizeXS: 24px;
 
 .overlay {
 	display: flex;
@@ -35,6 +36,7 @@ $iconSizeSmall: 100px;
 
 	&__content {
 		display: flex;
+		position: relative;
 		flex-direction: column;
 		width: 100vw;
 		height: 100vh;
@@ -69,6 +71,101 @@ $iconSizeSmall: 100px;
 
 		h1 {
 			margin-bottom: $grid-base-two;
+		}
+	}
+
+	&__closeIcon {
+		position: absolute;
+		top: 24px;
+		right: 24px;
+		cursor: pointer;
+	}
+
+	&__steps {
+		display: flex;
+		flex-direction: row;
+		margin: 0 auto 36px;
+
+		.text {
+			color: $primary;
+			text-transform: uppercase;
+		}
+	}
+
+	&__step {
+		display: flex;
+
+		&:not(:first-of-type) {
+			&::before {
+				content: '';
+				border-top: 1px solid $form-disabled;
+				margin: $iconSizeXS -4px $iconSizeXS;
+				width: 50px;
+			}
+
+			@include breakpoint($fromLarge) {
+				//TODO mobile?
+			}
+		}
+
+		svg {
+			width: $iconSizeXS;
+			height: $iconSizeXS;
+			fill: $primary;
+		}
+
+		.text {
+			margin-top: $grid-base;
+			min-width: 80px;
+			max-width: 100px;
+		}
+
+		&--active {
+			.overlay__stepIcon {
+				background-color: $primary;
+			}
+
+			svg {
+				fill: $white;
+			}
+		}
+
+		&--disabled {
+			.overlay__stepIcon {
+				border-color: $form-disabled;
+			}
+
+			.text {
+				color: $form-disabled;
+			}
+
+			svg {
+				fill: $form-disabled;
+			}
+		}
+	}
+
+	&__stepIcon {
+		width: calc(#{$iconSizeXS} * 2);
+		height: calc(#{$iconSizeXS} * 2);
+		border: 1px solid $primary;
+		border-radius: $iconSizeXS;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__stepContent {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	&__stepHeadline {
+		font-weight: $font-weight-regular;
+
+		&--prefix {
+			font-weight: $font-weight-bold;
 		}
 	}
 

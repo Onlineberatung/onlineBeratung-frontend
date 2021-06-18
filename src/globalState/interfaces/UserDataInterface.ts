@@ -13,6 +13,7 @@ export interface UserDataInterface {
 	lastName?: string;
 	userId: string;
 	userName: string;
+	twoFactorAuth?: TwoFactorAuthInterface;
 }
 
 export interface AgencyDataInterface {
@@ -30,4 +31,12 @@ export interface ConsultingTypeDataInterface {
 	agency: AgencyDataInterface;
 	isRegistered: boolean;
 	sessionData: Object;
+}
+
+//TODO: useDTSgen
+export interface TwoFactorAuthInterface {
+	isEnabled: boolean;
+	isActive: boolean;
+	secret: string;
+	qrCode: string;
 }

@@ -130,7 +130,10 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 		headline: translate('furtherSteps.email.overlay.headline'),
 		isIconSmall: true,
 		nestedComponent: (
-			<InputField item={emailInputItem} inputHandle={handleEmailChange} />
+			<InputField
+				item={emailInputItem}
+				inputHandle={(e) => handleEmailChange(e)}
+			/>
 		),
 		svg: EnvelopeIllustration
 	};

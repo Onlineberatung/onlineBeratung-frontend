@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as ReactDOM from 'react-dom';
 import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline, HeadlineLevel } from '../headline/Headline';
-import './overlay.styles';
+import { ReactComponent as XIcon } from '../../resources/img/icons/x.svg';
+import { translate } from '../../utils/translate';
 import clsx from 'clsx';
+import './overlay.styles';
 
 export const OVERLAY_FUNCTIONS = {
 	CLOSE: 'CLOSE',
@@ -17,7 +19,9 @@ export const OVERLAY_FUNCTIONS = {
 	COPY_LINK: 'COPY_LINK',
 	STOP_GROUP_CHAT: 'STOP_GROUP_CHAT',
 	LEAVE_GROUP_CHAT: 'LEAVE_GROUP_CHAT',
-	DELETE_ACCOUNT: 'DELETE_ACCOUNT'
+	DELETE_ACCOUNT: 'DELETE_ACCOUNT',
+	NEXT_STEP: 'NEXT_STEP',
+	PREV_STEP: 'PREV_STEP'
 };
 
 export const OVERLAY_RESET_TIME = 10000;
@@ -32,6 +36,14 @@ export interface OverlayItem {
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
 	>;
+	//TODO: rename handleOverlayAction
+	handleOverlay?: Function;
+	step?: {
+		icon: React.FunctionComponent<
+			React.SVGProps<SVGSVGElement> & { title?: string }
+		>;
+		label: string;
+	};
 }
 
 export const OverlayWrapper = (props) => {
@@ -41,9 +53,31 @@ export const OverlayWrapper = (props) => {
 
 export const Overlay = (props: {
 	className?: string;
-	item: OverlayItem;
-	handleOverlay: Function;
+
+	//TODO: move to overlayItem
+	item?: OverlayItem;
+	//TODO: rename handleOverlayAction
+	handleOverlay?: Function;
+
+	handleOverlayClose?: Function;
+	items?: OverlayItem[];
 }) => {
+	const [activeStep, setActiveStep] = useState<number>(0);
+	const [activeOverlay, setActiveOverlay] = useState<OverlayItem>(
+		props.item
+			? { ...props.item, ...props.handleOverlay }
+			: props.items[activeStep]
+	);
+
+	useEffect(() => {
+		console.log('change', props.item, props.items);
+		setActiveOverlay(
+			props.item
+				? { ...props.item, ...props.handleOverlay }
+				: props.items[activeStep]
+		);
+	}, [props.item, props.items]); // eslint-disable-line react-hooks/exhaustive-deps
+
 	useEffect(() => {
 		document.querySelector('.app')?.classList.add('app--blur');
 
@@ -52,38 +86,103 @@ export const Overlay = (props: {
 		};
 	}, []);
 
+	useEffect(() => {
+		if (props.items) {
+			setActiveOverlay(props.items[activeStep]);
+		}
+	}, [activeStep, props.items]);
+
 	const handleButtonClick = (buttonFunction: string) => {
-		props.handleOverlay(buttonFunction);
+		if (buttonFunction === OVERLAY_FUNCTIONS.NEXT_STEP) {
+			setActiveStep(activeStep + 1);
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.PREV_STEP) {
+			setActiveStep(activeStep - 1);
+		} else if (props.item && props.handleOverlay) {
+			props.handleOverlay(buttonFunction);
+		} else if (activeOverlay.handleOverlay) {
+			activeOverlay.handleOverlay(buttonFunction);
+		}
 	};
 
-	const item = props.item;
-	const Icon = item.svg;
+	const getOverlayHeadline = () => {
+		if (props.items?.some((item) => item.step)) {
+			return `
+				<span class="overlay__stepHeadline">
+					<span class="overlay__stepHeadline--prefix">
+						${activeStep + 1}${translate('overlay.step.headline.prefix')}
+					</span>
+					${activeOverlay.headline}
+				</span>
+				`;
+		} else return activeOverlay.headline;
+	};
+
+	const Icon = activeOverlay.svg;
 	return (
 		<div className={clsx(props.className, 'overlay')}>
 			<div className="overlay__background"></div>
 			<div className="overlay__content">
-				{item.svg && (
+				{props.handleOverlayClose && (
+					<XIcon
+						className="overlay__closeIcon"
+						onClick={(e) => props.handleOverlayClose(e)}
+					/>
+				)}
+				{props.items?.some((item) => item.step) && (
+					<div className="overlay__steps">
+						{props.items.map((item, i) => {
+							if (item.step) {
+								const StepIcon = item.step?.icon;
+								return (
+									<div
+										className={clsx('overlay__step', {
+											'overlay__step--active':
+												i === activeStep,
+											'overlay__step--disabled':
+												i > activeStep
+										})}
+									>
+										<div className="overlay__stepContent">
+											<div className="overlay__stepIcon">
+												<StepIcon />
+											</div>
+											<Text
+												text={item.step.label}
+												type="divider"
+											/>
+										</div>
+									</div>
+								);
+							} else return null;
+						})}
+					</div>
+				)}
+				{activeOverlay.svg && (
 					<span
-						className={`overlay__iconWrapper 
-						${item.isIconSmall ? `overlay__iconWrapper--small` : ''}`}
+						className={clsx('overlay__iconWrapper', {
+							'overlay__iconWrapper--small':
+								activeOverlay.isIconSmall
+						})}
 					>
 						<Icon />
 					</span>
 				)}
-				{item.headline && (
+				{activeOverlay.headline && (
 					<Headline
 						semanticLevel="3"
-						text={item.headline}
-						styleLevel={item.headlineStyleLevel}
+						text={getOverlayHeadline()}
+						styleLevel={activeOverlay.headlineStyleLevel}
 					/>
 				)}
-				{item.copy && <Text text={item.copy} type="standard" />}
-				{item.nestedComponent && (
+				{activeOverlay.copy && (
+					<Text text={activeOverlay.copy} type="standard" />
+				)}
+				{activeOverlay.nestedComponent && (
 					<div className="overlay__nestedComponent">
-						{item.nestedComponent}
+						{activeOverlay.nestedComponent}
 					</div>
 				)}
-				{item.buttonSet?.map((item, i) => {
+				{activeOverlay.buttonSet?.map((item, i) => {
 					return (
 						<Button
 							item={item}
