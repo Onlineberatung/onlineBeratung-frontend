@@ -18,6 +18,7 @@ import session from './de/session';
 import user from './de/user';
 import sessionList from './de/sessionList';
 import statusOverlay from './de/statusOverlay';
+import twoFactorAuth from './de/twoFactorAuth';
 import typingIndicator from './de/typingIndicator';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
@@ -42,6 +43,7 @@ const de = {
 	session,
 	sessionList,
 	statusOverlay,
+	twoFactorAuth,
 	typingIndicator,
 	user,
 	userProfile,
