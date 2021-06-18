@@ -39,6 +39,7 @@ export const config = {
 		consultingTypeServiceBase: tld + '/service/consultingtypes',
 		userData: tld + '/service/users/data',
 		headerData: tld + '/service/users/sessions/askers',
+		twoFactorAuth: tld + '/service/users/twoFactorAuth',
 		teamSessions: tld + '/service/users/sessions/teams',
 		updateMonitoring: tld + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',

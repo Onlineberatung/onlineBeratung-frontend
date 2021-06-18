@@ -30,6 +30,7 @@ export * from './apiSessionAssign';
 export * from './apiSetAbsence';
 export * from './apiSetSessionRead';
 export * from './apiStartVideoCall';
+export * from './apiTwoFactorAuth';
 export * from './apiUpdateMonitoring';
 export * from './apiUpdatePassword';
 export * from './apiUploadAttachment';
