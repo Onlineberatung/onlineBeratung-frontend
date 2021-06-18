@@ -70,6 +70,7 @@ import useDebouncedValue from '../../utils/useDebouncedValue';
 import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';
+import clsx from 'clsx';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -124,6 +125,7 @@ export const getIconForAttachmentType = (attachmentType: string) => {
 const SAVE_DRAFT_TIMEOUT = 10000;
 
 export interface MessageSubmitInterfaceComponentProps {
+	className?: string;
 	handleSendButton: Function;
 	isTyping?: Function;
 	placeholder: string;
@@ -644,11 +646,11 @@ export const MessageSubmitInterfaceComponent = (
 		!activeSession.isFeedbackSession;
 	return (
 		<div
-			className={
-				isGroupChat
-					? 'messageSubmit__wrapper messageSubmit__wrapper--withTyping'
-					: 'messageSubmit__wrapper'
-			}
+			className={clsx(
+				props.className,
+				'messageSubmit__wrapper',
+				isGroupChat && 'messageSubmit__wrapper--withTyping'
+			)}
 		>
 			{isGroupChat ? (
 				<TypingIndicator

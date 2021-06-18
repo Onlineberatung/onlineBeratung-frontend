@@ -3,7 +3,7 @@
 	justify-content: center;
 	width: 100%;
 
-	.overlay {
+	&__overlay {
 		&__content .text {
 			margin-top: $grid-base-three;
 		}
@@ -28,11 +28,9 @@
 			max-width: 500px;
 			margin: 0 auto;
 		}
-	}
 
-	@include breakpoint($fromLarge) {
-		.overlay {
-			&__content .text {
+		@include breakpoint($fromLarge) {
+			.overlay__content .text {
 				text-align: left;
 			}
 

@@ -24,7 +24,6 @@ export const OVERLAY_RESET_TIME = 10000;
 
 export interface OverlayItem {
 	buttonSet?: ButtonItem[];
-	className?: string;
 	copy?: string;
 	headline?: string;
 	headlineStyleLevel?: HeadlineLevel;
@@ -41,6 +40,7 @@ export const OverlayWrapper = (props) => {
 };
 
 export const Overlay = (props: {
+	className?: string;
 	item: OverlayItem;
 	handleOverlay: Function;
 }) => {
@@ -59,7 +59,7 @@ export const Overlay = (props: {
 	const item = props.item;
 	const Icon = item.svg;
 	return (
-		<div className={clsx('overlay', item.className)}>
+		<div className={clsx(props.className, 'overlay')}>
 			<div className="overlay__background"></div>
 			<div className="overlay__content">
 				{item.svg && (

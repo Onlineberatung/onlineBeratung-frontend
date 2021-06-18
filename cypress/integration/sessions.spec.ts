@@ -8,8 +8,24 @@ import {
 	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
 	SCROLL_PAGINATE_THRESHOLD
 } from '../../src/components/sessionsList/sessionsListConfig';
+import { config } from '../../src/resources/scripts/config';
 
 describe('Sessions', () => {
+	beforeEach(() => {
+		cy.fixture('service.consultingtypes.addiction.json').then(
+			(addictionConsultingType) => {
+				cy.fixture(
+					'service.consultingtypes.u25.json'
+				).then((u25ConsultingType) =>
+					cy.intercept(
+						`${config.endpoints.consultingTypeServiceBase}/basic`,
+						[addictionConsultingType, u25ConsultingType]
+					)
+				);
+			}
+		);
+	});
+
 	describe('Consultant', () => {
 		it('should list my sessions', () => {
 			const amountOfSessions = 3;

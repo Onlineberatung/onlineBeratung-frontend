@@ -4,6 +4,7 @@ import {
 	ActiveSessionGroupIdProvider,
 	AuthDataProvider,
 	ConsultantListProvider,
+	ConsultingTypesProvider,
 	FilterStatusProvider,
 	NotificationsProvider,
 	SessionsDataProvider,
@@ -37,7 +38,8 @@ function ContextProvider({ children }) {
 				<StoppedGroupChatProvider />,
 				<UnreadSessionsStatusProvider />,
 				<UpdateAnonymousEnquiriesProvider />,
-				<UserDataProvider />
+				<UserDataProvider />,
+				<ConsultingTypesProvider />
 			]}
 		>
 			{children}

@@ -48,3 +48,8 @@ jobs:
                   branch: ${{env.BRANCH}}
                   force: true
                   tags: true
+            - uses: actions/upload-artifact@v2
+              if: failure()
+              with:
+                  name: cypress-videos
+                  path: cypress/videos/

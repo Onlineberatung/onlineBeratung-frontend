@@ -1,4 +1,3 @@
-import { getResortKeyForConsultingType } from './resorts';
 import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import defaultLocale from '../resources/scripts/i18n/defaultLocale';
 import informalLocale from '../resources/scripts/i18n/informalLocale';
@@ -44,15 +43,4 @@ export const getAddictiveDrugsString = (addictiveDrugs: string[]) => {
 		);
 	});
 	return drugString;
-};
-
-export const getResortTranslation = (
-	consultingType: number,
-	alt: boolean = false,
-	registerDropdown: boolean = false
-) => {
-	const translatable = `resort.${getResortKeyForConsultingType(
-		consultingType
-	)}${alt ? '.alt' : ''}${registerDropdown ? '.registerDropdown' : ''}`;
-	return translate(translatable);
 };

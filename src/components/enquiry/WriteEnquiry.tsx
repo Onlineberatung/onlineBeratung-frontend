@@ -26,24 +26,6 @@ import './enquiry.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 
-const overlayItem: OverlayItem = {
-	svg: EnvelopeCheckIcon,
-	headline: translate('enquiry.write.overlayHeadline'),
-	copy: translate('enquiry.write.overlayCopy'),
-	buttonSet: [
-		{
-			label: translate('enquiry.write.overlayButton1.label'),
-			function: OVERLAY_FUNCTIONS.REDIRECT,
-			type: BUTTON_TYPES.PRIMARY
-		},
-		{
-			label: translate('enquiry.write.overlayButton2.label'),
-			function: OVERLAY_FUNCTIONS.LOGOUT,
-			type: BUTTON_TYPES.LINK
-		}
-	]
-};
-
 export const WriteEnquiry = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
@@ -112,6 +94,24 @@ export const WriteEnquiry = () => {
 				'contentWrapper__detail--smallInactive'
 			);
 		}
+	};
+
+	const overlayItem: OverlayItem = {
+		svg: EnvelopeCheckIcon,
+		headline: translate('enquiry.write.overlayHeadline'),
+		copy: translate('enquiry.write.overlayCopy'),
+		buttonSet: [
+			{
+				label: translate('enquiry.write.overlayButton1.label'),
+				function: OVERLAY_FUNCTIONS.REDIRECT,
+				type: BUTTON_TYPES.PRIMARY
+			},
+			{
+				label: translate('enquiry.write.overlayButton2.label'),
+				function: OVERLAY_FUNCTIONS.LOGOUT,
+				type: BUTTON_TYPES.LINK
+			}
+		]
 	};
 
 	return (

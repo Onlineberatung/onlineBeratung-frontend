@@ -1,7 +1,5 @@
-$scrollbarWidth: 20px;
-
 .registration {
-	text-align: center;
+	text-align: $registration-text-align;
 
 	&__content {
 		position: relative;
@@ -19,8 +17,10 @@ $scrollbarWidth: 20px;
 		}
 
 		@include breakpoint($fromLarge) {
-			width: calc(60vw - #{$scrollbarWidth} * 2);
-			left: calc(40vw + #{$scrollbarWidth});
+			width: 60vw;
+			left: 40vw;
+			padding: 0 150px;
+			max-width: 1000px;
 		}
 	}
 }
