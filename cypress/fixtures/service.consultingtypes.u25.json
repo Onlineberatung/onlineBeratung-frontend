@@ -23,6 +23,7 @@
 		}
 	},
 	"isSubsequentRegistrationAllowed": false,
+	"isAnonymousConversationAllowed": false,
 	"isSetEmailAllowed": false,
 	"slug": "u25",
 	"languageFormal": false,
