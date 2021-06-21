@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { config } from '../../resources/scripts/config';
 import { Stomp } from '@stomp/stompjs';
-import useConstant from 'use-constant';
 import * as SockJS from 'sockjs-client';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { useContext, useEffect, useState } from 'react';
@@ -57,17 +56,25 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		AnonymousConversationFinishedContext
 	);
 
-	// Init live service socket
-	const stompClient = useConstant(() => {
-		const socket = new SockJS(config.endpoints.liveservice);
-		const client = Stomp.over(socket);
-
-		// DEV-NOTE: comment next line to activate debug mode (stomp logging) for development
-		// client.debug = () => {};
-		return client;
+	const stompClient = Stomp.over(function () {
+		return new SockJS(config.endpoints.liveservice);
 	});
+	let reconnectAttemptCount = 0;
+	const RECONNECT_ATTEMPT_LIMIT = 10;
+	const RECONNECT_DELAY = 5000;
 
 	useEffect(() => {
+		stompClient.beforeConnect = () => {
+			stompClient.connectHeaders = {
+				accessToken: getValueFromCookie('keycloak')
+			};
+			reconnectAttemptCount++;
+
+			if (reconnectAttemptCount >= RECONNECT_ATTEMPT_LIMIT) {
+				stompClient.deactivate();
+			}
+		};
+
 		stompConnect();
 
 		stompClient.onWebSocketClose = (message) => {
@@ -135,41 +142,33 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const stompConnect = () => {
-		stompClient.connect(
-			{
-				accessToken: getValueFromCookie('keycloak')
-			},
-			(frame) => {
-				console.log('Connected: ' + frame);
-				stompClient.subscribe('/user/events', function (message) {
-					const stompMessageBody = JSON.parse(message.body);
-					const stompEventType: LiveService.Schemas.EventType =
-						stompMessageBody['eventType'];
-					if (stompEventType === 'directMessage') {
-						setNewStompDirectMessage(true);
-					} else if (stompEventType === 'newAnonymousEnquiry') {
-						setNewStompAnonymousEnquiry(true);
-					} else if (stompEventType === 'videoCallRequest') {
-						const stompEventContent: VideoCallRequestProps =
-							stompMessageBody['eventContent'];
-						setNewStompVideoCallRequest(stompEventContent);
-					} else if (stompEventType === 'anonymousEnquiryAccepted') {
-						setAnonymousEnquiryAccepted(true);
-					} else if (
-						stompEventType === 'anonymousConversationFinished'
-					) {
-						const finishConversationPhase =
-							stompMessageBody.eventContent
-								?.finishConversationPhase;
-						setAnonymousConversationFinished(
-							finishConversationPhase
-						);
-						setNewStompAnonymousChatFinished(true);
-					}
-					message.ack();
-				});
-			}
-		);
+		stompClient.reconnect_delay = RECONNECT_DELAY;
+		stompClient.connect({}, (frame) => {
+			console.log('Connected: ' + frame);
+			reconnectAttemptCount = 0;
+			stompClient.subscribe('/user/events', function (message) {
+				const stompMessageBody = JSON.parse(message.body);
+				const stompEventType: LiveService.Schemas.EventType =
+					stompMessageBody['eventType'];
+				if (stompEventType === 'directMessage') {
+					setNewStompDirectMessage(true);
+				} else if (stompEventType === 'newAnonymousEnquiry') {
+					setNewStompAnonymousEnquiry(true);
+				} else if (stompEventType === 'videoCallRequest') {
+					const stompEventContent: VideoCallRequestProps =
+						stompMessageBody['eventContent'];
+					setNewStompVideoCallRequest(stompEventContent);
+				} else if (stompEventType === 'anonymousEnquiryAccepted') {
+					setAnonymousEnquiryAccepted(true);
+				} else if (stompEventType === 'anonymousConversationFinished') {
+					const finishConversationPhase =
+						stompMessageBody.eventContent?.finishConversationPhase;
+					setAnonymousConversationFinished(finishConversationPhase);
+					setNewStompAnonymousChatFinished(true);
+				}
+				message.ack({ 'message-id': message.headers.id });
+			});
+		});
 	};
 
 	return <></>;
