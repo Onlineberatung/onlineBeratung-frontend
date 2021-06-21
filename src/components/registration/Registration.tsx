@@ -1,6 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import { Stage, StageProps } from '../stage/stage';
+import { StageProps } from '../stage/stage';
 import { useParams } from 'react-router-dom';
 import { ComponentType, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';

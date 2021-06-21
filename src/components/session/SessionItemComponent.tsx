@@ -129,7 +129,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		return () => {
 			isCanceled = true;
 		};
-	}, [chatItem]);
+	}, [chatItem]); // eslint-disable-line
 
 	if (!activeSession) return null;
 
