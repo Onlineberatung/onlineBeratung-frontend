@@ -29,7 +29,7 @@ describe('Messages', () => {
 		it('should allow to send a message with attachment', () => {
 			cy.caritasMockedLogin();
 
-			cy.get('[data-cy=sessions-list-items-wrapper]').click();
+			cy.get('[data-cy=session-list-item]').first().click();
 			cy.get('.textarea__attachmentInput').attachFile('empty.pdf');
 			cy.get('.textarea__iconWrapper').click();
 
@@ -47,7 +47,7 @@ describe('Messages', () => {
 					}
 				});
 
-				cy.get('[data-cy=sessions-list-items-wrapper]').click();
+				cy.get('[data-cy=session-list-item]').first().click();
 				cy.get('.textarea__attachmentInput').attachFile('empty.pdf');
 				cy.get('.textarea__iconWrapper').click();
 
@@ -71,7 +71,7 @@ describe('Messages', () => {
 					}
 				});
 
-				cy.get('[data-cy=sessions-list-items-wrapper]').click();
+				cy.get('[data-cy=session-list-item]').first().click();
 				cy.get('.textarea__attachmentInput').attachFile('empty.pdf');
 				cy.get('.textarea__iconWrapper').click();
 
