@@ -30,7 +30,7 @@ export const FinishedAnonymousConversationHandler = () => {
 
 	const overlayItem: OverlayItem = {
 		svg: WavingIllustration,
-		illustrationBackground: 'grey',
+		illustrationBackground: 'neutral',
 		headline: translate('anonymous.overlay.chatWasFinished.headline'),
 		headlineStyleLevel: '1',
 		copy: translate('anonymous.overlay.chatWasFinished.copy'),

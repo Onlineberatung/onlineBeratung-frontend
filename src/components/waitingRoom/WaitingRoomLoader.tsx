@@ -23,7 +23,7 @@ export const WaitingRoomLoader = ({
 	useEffect(() => {
 		apiGetConsultingType({ consultingTypeSlug }).then((result) => {
 			if (result?.isAnonymousConversationAllowed) {
-				setConsultingTypeId(result.consultingType);
+				setConsultingTypeId(result.id);
 				setIsAnonymousConversationAllowed(true);
 			} else {
 				handleUnmatch();

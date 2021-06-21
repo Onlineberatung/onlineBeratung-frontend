@@ -76,7 +76,7 @@ $iconSizeSmall: 100px;
 		display: flex;
 		justify-content: center;
 		align-self: center;
-		background-color: $light-success;
+		background-color: $illustration-background-info;
 		border-radius: $imageSize / 2;
 		height: $imageSize;
 		width: $imageSize;
@@ -98,16 +98,16 @@ $iconSizeSmall: 100px;
 			}
 		}
 
-		&--grey {
-			background-color: $light-neutral;
+		&--neutral {
+			background-color: $illustration-background-neutral;
 		}
 
-		&--red {
-			background-color: $light-error;
+		&--error {
+			background-color: $illustration-background-error;
 		}
 
-		&--green {
-			background-color: $light-success;
+		&--info {
+			background-color: $illustration-background-info;
 		}
 	}
 

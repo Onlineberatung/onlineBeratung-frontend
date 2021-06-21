@@ -271,25 +271,31 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 					)}
 				</>
 			)}
-			{props.resortData?.voluntaryComponents && showAddVoluntaryInfo && (
-				<>
-					<Headline
-						semanticLevel="5"
-						text={translate('furtherSteps.voluntaryInfo.headline')}
-					/>
-					<Text
-						type="standard"
-						text={translate('furtherSteps.voluntaryInfo.infoText')}
-						className="furtherSteps__infoText"
-					/>
-					<VoluntaryInfoOverlay
-						voluntaryComponents={
-							props.resortData.voluntaryComponents
-						}
-						handleSuccess={handleVoluntarySuccess}
-					/>
-				</>
-			)}
+			{props.resortData?.voluntaryComponents &&
+				props.resortData.voluntaryComponents.length > 0 &&
+				showAddVoluntaryInfo && (
+					<>
+						<Headline
+							semanticLevel="5"
+							text={translate(
+								'furtherSteps.voluntaryInfo.headline'
+							)}
+						/>
+						<Text
+							type="standard"
+							text={translate(
+								'furtherSteps.voluntaryInfo.infoText'
+							)}
+							className="furtherSteps__infoText"
+						/>
+						<VoluntaryInfoOverlay
+							voluntaryComponents={
+								props.resortData.voluntaryComponents
+							}
+							handleSuccess={handleVoluntarySuccess}
+						/>
+					</>
+				)}
 		</div>
 	);
 };

@@ -1,25 +1,30 @@
 import '../../polyfill';
 import * as React from 'react';
-import { Stage } from '../stage/stage';
+import { StageProps } from '../stage/stage';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { ComponentType, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
 import { ConsultingTypeInterface } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
 import { apiGetConsultingType } from '../../api';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import '../../resources/styles/styles';
 import './registration.styles';
 
 interface RegistrationProps {
 	handleUnmatch: Function;
+	stageComponent: ComponentType<StageProps>;
 }
 
-export const Registration = ({ handleUnmatch }: RegistrationProps) => {
+export const Registration = ({
+	handleUnmatch,
+	stageComponent: Stage
+}: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(true);
-	const [registrationData, setRegistrationData] = useState<
+	const [consultingType, setConsultingType] = useState<
 		ConsultingTypeInterface | undefined
 	>();
 
@@ -38,16 +43,22 @@ export const Registration = ({ handleUnmatch }: RegistrationProps) => {
 			.then((result) => {
 				if (!result) {
 					console.error(
-						`Unknown consulting type with name ${consultingTypeSlug}`
+						`Unknown consulting type with slug ${consultingTypeSlug}`
 					);
 					handleUnmatch();
 					return;
 				}
 
-				setRegistrationData(result);
+				// SET FORMAL/INFORMAL COOKIE
+				setValueInCookie(
+					'useInformal',
+					result.languageFormal ? '' : '1'
+				);
+
+				setConsultingType(result);
 
 				document.title = `${translate('registration.title.start')} ${
-					result.overline
+					result.titles.long
 				}`;
 			})
 			.catch((error) => {
@@ -56,31 +67,31 @@ export const Registration = ({ handleUnmatch }: RegistrationProps) => {
 	}, [consultingTypeSlug, handleUnmatch]);
 
 	useEffect(() => {
-		if (!registrationData) return;
+		if (!consultingType) return;
 
 		if (
-			registrationData.requiredAidMissingRedirectUrl &&
+			consultingType.urls?.requiredAidMissingRedirectUrl &&
 			!getUrlParameter('aid')
 		) {
 			window.location.href =
-				registrationData.requiredAidMissingRedirectUrl;
+				consultingType.urls?.requiredAidMissingRedirectUrl;
 		}
-	}, [registrationData]);
+	}, [consultingType]);
 
 	return (
 		<div className="registration">
-			<Stage hasAnimation isReady={registrationData != null} />
-			{registrationData != null && (
+			<Stage hasAnimation isReady={consultingType != null} />
+			{consultingType != null && (
 				<div className="registration__content">
 					{showWelcomeScreen ? (
 						<WelcomeScreen
-							resortTitle={registrationData.welcomeTitle}
+							title={consultingType.titles.welcome}
 							handleForwardToRegistration={
 								handleForwardToRegistration
 							}
 						/>
 					) : (
-						<RegistrationForm registrationData={registrationData} />
+						<RegistrationForm consultingType={consultingType} />
 					)}
 				</div>
 			)}

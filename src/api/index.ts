@@ -12,6 +12,7 @@ export * from './apiGetGroupChatInfo';
 export * from './apiGetGroupMembers';
 export * from './apiGetMonitoring';
 export * from './apiGetConsultingType';
+export * from './apiGetConsultingTypes';
 export * from './apiGetSessionData';
 export * from './apiGetUserData';
 export * from './apiGroupChatSettings';

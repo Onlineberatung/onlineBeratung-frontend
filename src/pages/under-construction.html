@@ -7,8 +7,7 @@
 		<title>Beratung & Hilfe – Wartungsarbeiten</title>
 	</head>
 	<body>
-		<div class="errorPage" data-errortype="construction">
-			<nav class="errorPage__nav"></nav>
+		<div class="errorPage errorPage--error" data-errortype="construction">
 			<header class="errorPage__header">
 				<h2 class="errorPage__title">Beratung & Hilfe</h2>
 				<p class="errorPage__claim">Online. Anonym. Sicher.</p>
@@ -198,8 +197,10 @@
 
 	.errorPage {
 		min-height: 100vh;
-		background-color: #677391;
-		color: #fff;
+	}
+
+	.errorPage--error {
+		background-color: rgba(255, 159, 0, 0.08);
 	}
 
 	.errorPage__header {
@@ -207,6 +208,7 @@
 		align-items: center;
 		justify-content: center;
 		padding: 24px;
+		background-color: white;
 	}
 
 	.errorPage__title {
@@ -300,13 +302,6 @@
 	@media (min-width: 900px) {
 		.errorPage {
 			min-height: auto;
-		}
-
-		.errorPage__nav {
-			background-color: #d61e20;
-			min-height: 100vh;
-			width: 96px;
-			float: left;
 		}
 
 		.errorPage__header {

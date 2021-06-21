@@ -108,7 +108,7 @@
 					position: absolute;
 					width: calc(100% + 32px);
 					height: 100%;
-					background-color: rgba(204, 30, 28, 0.06);
+					background-color: rgba($primary, 0.05);
 					top: 0;
 					left: -16px;
 					z-index: 1;
@@ -133,7 +133,7 @@
 				position: absolute;
 				width: calc(100% + 32px);
 				height: 100%;
-				background-color: rgba(204, 30, 28, 0.06);
+				background-color: rgba($primary, 0.05);
 				top: 0;
 				left: -16px;
 				z-index: 1;

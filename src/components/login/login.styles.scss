@@ -10,15 +10,15 @@ $spacingWithIcon: 52px;
 		left: unset;
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		align-items: $login-align-items;
 		flex-direction: column;
 		padding: 0 $grid-base-two;
-		text-align: center;
+		text-align: $login-text-align;
 
 		@include breakpoint($fromLarge) {
 			width: 60vw;
 			left: 40vw;
-			padding: 0 $grid-base-three;
+			padding: 0 150px;
 		}
 
 		.inputField {
@@ -38,6 +38,7 @@ $spacingWithIcon: 52px;
 		}
 
 		.button__item {
+			width: $login-button-width;
 			margin-top: $grid-base-five;
 		}
 
@@ -46,7 +47,7 @@ $spacingWithIcon: 52px;
 
 			& > .text {
 				position: relative;
-				text-align: center;
+				text-align: $login-text-align;
 
 				&:first-of-type {
 					margin-bottom: 6px;

@@ -9,7 +9,8 @@ import {
 	StoppedGroupChatContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	AcceptedGroupIdContext
+	AcceptedGroupIdContext,
+	useConsultingType
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
@@ -43,11 +44,6 @@ import { logout } from '../logout/logout';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
-import {
-	getResortKeyForConsultingType,
-	groupChatRuleTexts,
-	isGroupChatConsultingType
-} from '../../utils/resorts';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 
@@ -67,6 +63,7 @@ export const JoinGroupChatView = () => {
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
+	const consultingType = useConsultingType(chatItem.consultingType);
 
 	const [buttonItem, setButtonItem] = useState(joinButtonItem);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -103,7 +100,7 @@ export const JoinGroupChatView = () => {
 	const updateGroupChatInfo = () => {
 		if (
 			chatItem.groupId === activeSessionGroupId &&
-			isGroupChatConsultingType(chatItem.consultingType)
+			consultingType.groupChat.isGroupChat
 		) {
 			apiGetGroupChatInfo(chatItem.id)
 				.then((response: groupChatInfoData) => {
@@ -200,11 +197,15 @@ export const JoinGroupChatView = () => {
 					text={translate('groupChat.join.content.headline')}
 					semanticLevel="4"
 				/>
-				{groupChatRuleTexts[
-					getResortKeyForConsultingType(chatItem.consultingType)
-				]?.map((groupChatRuleText, i) => (
-					<Text text={groupChatRuleText} type="standard" key={i} />
-				))}
+				{consultingType.groupChat?.groupChatRules?.map(
+					(groupChatRuleText, i) => (
+						<Text
+							text={groupChatRuleText}
+							type="standard"
+							key={i}
+						/>
+					)
+				)}
 			</div>
 			<div className="joinChat__button-container">
 				{!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&

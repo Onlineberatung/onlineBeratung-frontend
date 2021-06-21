@@ -7,7 +7,7 @@ import { ReactComponent as WavingIllustration } from '../../resources/img/illust
 
 export const stopGroupChatSecurityOverlayItem: OverlayItem = {
 	svg: XIllustration,
-	illustrationBackground: 'red',
+	illustrationBackground: 'error',
 	headline: translate('groupChat.stopChat.securityOverlay.headline'),
 	copy: '',
 	buttonSet: [
@@ -43,7 +43,7 @@ export const stopGroupChatSuccessOverlayItem: OverlayItem = {
 
 export const groupChatErrorOverlayItem: OverlayItem = {
 	svg: XIllustration,
-	illustrationBackground: 'red',
+	illustrationBackground: 'error',
 	headline: translate('groupChat.createError.overlay.headline'),
 	buttonSet: [
 		{
@@ -56,7 +56,7 @@ export const groupChatErrorOverlayItem: OverlayItem = {
 
 export const leaveGroupChatSecurityOverlayItem: OverlayItem = {
 	svg: XIllustration,
-	illustrationBackground: 'red',
+	illustrationBackground: 'error',
 	headline: translate('groupChat.leaveChat.securityOverlay.headline'),
 	buttonSet: [
 		{
@@ -95,7 +95,7 @@ export const leaveGroupChatSuccessOverlayItem: OverlayItem = {
 
 export const finishAnonymousChatSecurityOverlayItem: OverlayItem = {
 	svg: WavingIllustration,
-	illustrationBackground: 'grey',
+	illustrationBackground: 'neutral',
 	headline: translate('anonymous.overlay.finishChat.headline'),
 	copy: translate('anonymous.overlay.finishChat.consultant.copy'),
 	buttonSet: [
@@ -114,7 +114,7 @@ export const finishAnonymousChatSecurityOverlayItem: OverlayItem = {
 
 export const finishAnonymousChatSuccessOverlayItem: OverlayItem = {
 	svg: CheckIllustration,
-	illustrationBackground: 'green',
+	illustrationBackground: 'info',
 	headline: translate('anonymous.overlay.finishChat.success.headline'),
 	buttonSet: [
 		{

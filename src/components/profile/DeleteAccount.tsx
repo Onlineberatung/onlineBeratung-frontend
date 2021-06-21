@@ -50,7 +50,6 @@ export const DeleteAccount = () => {
 	const overlayConfirm: OverlayItem = {
 		headline: translate('deleteAccount.confirmOverlay.headline'),
 		headlineStyleLevel: '1',
-		className: 'deleteAccount',
 		copy: translate('deleteAccount.confirmOverlay.copy'),
 		nestedComponent: (
 			<InputField
@@ -120,6 +119,7 @@ export const DeleteAccount = () => {
 			{isOverlayActive && (
 				<OverlayWrapper>
 					<Overlay
+						className="deleteAccount__overlay"
 						item={
 							isSuccessOverlay ? overlaySuccess : overlayConfirm
 						}

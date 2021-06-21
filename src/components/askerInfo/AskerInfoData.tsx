@@ -3,15 +3,15 @@ import { useContext } from 'react';
 import {
 	translate,
 	handleNumericTranslation,
-	getAddictiveDrugsString,
-	getResortTranslation
+	getAddictiveDrugsString
 } from '../../utils/translate';
 import {
 	SessionsDataContext,
 	ActiveSessionGroupIdContext,
 	getActiveSession,
 	getContact,
-	isAnonymousSession
+	isAnonymousSession,
+	useConsultingType
 } from '../../globalState';
 import {
 	convertUserDataObjectToArray,
@@ -26,7 +26,9 @@ export const AskerInfoData = () => {
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 
-	const resort = getResortTranslation(activeSession.session.consultingType);
+	const consultingType = useConsultingType(
+		activeSession.session.consultingType
+	);
 
 	const userSessionData = getContact(activeSession).sessionData;
 	const preparedUserSessionData = convertUserDataObjectToArray(
@@ -43,7 +45,9 @@ export const AskerInfoData = () => {
 				<p className="profile__data__label">
 					{translate('userProfile.data.resort')}
 				</p>
-				<p className="profile__data__content">{resort}</p>
+				<p className="profile__data__content">
+					{consultingType.titles.default}
+				</p>
 			</div>
 			{activeSession.session.consultingType === 0 && !isLiveChat && (
 				<div className="profile__data__item">

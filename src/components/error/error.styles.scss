@@ -13,23 +13,20 @@ $content-width-small: calc((100vw) / 2);
 $illustrationWrapperMaxSize: 650px;
 
 .errorPage {
-	color: $white;
+	&--warning {
+		.errorPage__main {
+			background-color: $illustration-background-error;
+		}
+	}
 
-	&__nav {
-		background-color: $primary;
-		float: left;
-		flex-direction: column;
-		width: $grid-base-twelve;
-		height: $max-height;
-		display: none;
-
-		@media (min-width: $fromLarge) {
-			display: flex;
+	&--error {
+		.errorPage__main {
+			background-color: rgba($form-medium, 0.08);
 		}
 	}
 
 	&__header {
-		background-color: $background-grey;
+		background-color: $white;
 		display: flex;
 		flex-direction: row;
 		justify-content: stretch;
@@ -59,7 +56,6 @@ $illustrationWrapperMaxSize: 650px;
 	}
 
 	&__main {
-		background-color: $background-grey;
 		padding: 0 $grid-base-three;
 		display: flex;
 		flex-direction: column;
@@ -95,7 +91,7 @@ $illustrationWrapperMaxSize: 650px;
 			flex-direction: row;
 			justify-content: center;
 			align-self: center;
-			background-color: $light-neutral;
+			background-color: $illustration-background-neutral;
 			min-width: $illustrationSize;
 			min-height: $illustrationSize;
 			max-width: $illustrationWrapperMaxSize;
@@ -166,10 +162,6 @@ $illustrationWrapperMaxSize: 650px;
 
 	&__button {
 		margin-top: $grid-base-six;
-	}
-
-	p {
-		color: $white;
 	}
 
 	h2 {

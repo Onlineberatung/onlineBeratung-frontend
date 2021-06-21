@@ -26,12 +26,11 @@ export const OVERLAY_RESET_TIME = 10000;
 
 export interface OverlayItem {
 	buttonSet?: ButtonItem[];
-	className?: string;
 	copy?: string;
 	headline?: string;
 	headlineStyleLevel?: HeadlineLevel;
 	isIllustrationSmall?: boolean;
-	illustrationBackground?: 'red' | 'grey' | 'green';
+	illustrationBackground?: 'error' | 'neutral' | 'info';
 	nestedComponent?: React.ReactNode;
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
@@ -44,6 +43,7 @@ export const OverlayWrapper = (props) => {
 };
 
 export const Overlay = (props: {
+	className?: string;
 	item: OverlayItem;
 	handleOverlay: Function;
 }) => {
@@ -62,7 +62,7 @@ export const Overlay = (props: {
 	const item = props.item;
 	const Illustration = item.svg;
 	return (
-		<div className={clsx('overlay', item.className)}>
+		<div className={clsx(props.className, 'overlay')}>
 			<div className="overlay__background"></div>
 			<div className="overlay__content">
 				{item.svg && (
@@ -70,12 +70,12 @@ export const Overlay = (props: {
 						className={clsx('overlay__illustrationWrapper', {
 							'overlay__illustrationWrapper--small':
 								item.isIllustrationSmall,
-							'overlay__illustrationWrapper--red':
-								item.illustrationBackground === 'red',
-							'overlay__illustrationWrapper--green':
-								item.illustrationBackground === 'green',
-							'overlay__illustrationWrapper--grey':
-								item.illustrationBackground === 'grey'
+							'overlay__illustrationWrapper--error':
+								item.illustrationBackground === 'error',
+							'overlay__illustrationWrapper--info':
+								item.illustrationBackground === 'info',
+							'overlay__illustrationWrapper--neutral':
+								item.illustrationBackground === 'neutral'
 						})}
 					>
 						<Illustration />

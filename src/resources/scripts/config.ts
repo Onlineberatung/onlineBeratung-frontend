@@ -44,8 +44,9 @@ export const config = {
 		sessionBase: tld + '/service/users/sessions',
 		setAbsence: tld + '/service/users/consultants/absences',
 		startVideoCall: tld + '/service/videocalls/new',
-		updateMonitoring: tld + '/service/users/sessions/monitoring',
+		consultingTypeServiceBase: tld + '/service/consultingtypes',
 		userData: tld + '/service/users/data',
+		updateMonitoring: tld + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
 		registerAnonymousAsker:
 			tld + '/service/conversations/askers/anonymous/new'

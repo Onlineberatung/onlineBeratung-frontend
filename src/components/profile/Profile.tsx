@@ -6,7 +6,8 @@ import { config } from '../../resources/scripts/config';
 import {
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	useConsultingTypes
 } from '../../globalState';
 import { ConsultantPrivateData } from './ConsultantPrivateData';
 import { ConsultantPublicData } from './ConsultantPublicData';
@@ -25,6 +26,7 @@ import './profile.styles';
 
 export const Profile = () => {
 	const { userData } = useContext(UserDataContext);
+	const consultingTypes = useConsultingTypes();
 
 	useEffect(() => {
 		setProfileWrapperActive();
@@ -116,8 +118,10 @@ export const Profile = () => {
 						<div className="profile__content__item profile__data">
 							<AskerAboutMeData />
 							<AskerConsultingTypeData />
-							{consultingTypeSelectOptionsSet(userData).length >
-								0 && <AskerRegistration />}
+							{consultingTypeSelectOptionsSet(
+								userData,
+								consultingTypes
+							).length > 0 && <AskerRegistration />}
 						</div>
 					)}
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (

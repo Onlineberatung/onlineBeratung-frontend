@@ -25,15 +25,14 @@ $black-25-opacity: rgba(0, 0, 0, 0.25);
 $black-10-opacity: rgba(0, 0, 0, 0.1);
 $primary: #cc1e1c;
 $secondary: #3f373f;
-$tertiary: #8c878c;
+$tertiary: rgba($black, 0.6);
+$background-accent: #f8dedd;
 
 $hover-primary: #a31816;
 $hover-select: #f4d2d1;
 
-$background-dark: #007c87;
-$background-light: #03afbf;
-$background-ochre: #f4f0ee;
-$background-light-ochre: #faf6f3;
+$background-light: #f4f0ee;
+$background-lighter: #faf6f3;
 $background-grey: #677391;
 
 $form-primary: #8c878c;
@@ -44,10 +43,6 @@ $form-error: #ff0000;
 $form-disabled: #c4bfc4;
 $form-active: #3f373f;
 
-$light-success: rgba(79, 204, 92, 0.12);
-$light-attention: rgba(255, 159, 0, 0.12);
-$light-error: rgba(255, 0, 0, 0.08);
-$light-neutral: rgba(53, 58, 74, 0.1);
 $light-grey: #787378;
 $light-grey-hover: #655f65;
 $light-red: #e07876;
@@ -56,12 +51,6 @@ $line-ochre: #cebfaa;
 $dark-brown: #432000;
 $light-brown: #b5906e;
 $dark-grey: #e7e3e1;
-
-$form-input-border: #dcd9dc;
-$message-bg-red: #d64b49;
-$upload-progress: #80dd92;
-
-$dropdown-bg-red: #f8dedd;
 
 // YELLOW THEME
 $yellow-1: #ffeed2;
@@ -124,12 +113,6 @@ $large: 1280px;
 $xlarge: 1350px;
 $medium: 1050px;
 
-// COMPONENT STYLES
-$content-max-width: $xlarge;
-$component-max-width: 1200px;
-$max-input-width: 320px;
-$sendInputHeight: 48px;
-
 // MaxValues
 $xsmallMax: $fromSmall - 1;
 $fromSmallMax: $medium - 1;
@@ -166,3 +149,48 @@ $section_margin_top_xlarge: 80px;
 	border-radius: 4px;
 	box-shadow: 0 3px 0 1px rgba(0, 0, 0, 0.1);
 }
+
+// Components
+$button-auto-close-color: $light-red;
+$button-border-radius: $grid-base-three;
+$button-box-shadow-default: 0 6px 0 0 rgba(0, 0, 0, 0.1);
+$button-box-shadow-grey: 0 3px 0 0 rgba(0, 0, 0, 0.1);
+$button-small-icon-background-color-default: $light-grey;
+$button-small-icon-border-radius: none;
+$component-max-width: 1200px;
+$content-max-width: $xlarge;
+$datepicker-hover-color: $background-accent;
+$enquiry-background: $background-light;
+$enquiry-circle-background: $background-lighter;
+$form-accordion-index-background-active: $background-accent;
+$form-accordion-index-border: 2px solid $tertiary;
+$form-accordion-index-color-active: $secondary;
+$form-accordion-index-color: $tertiary;
+$form-input-border: #dcd9dc;
+$further-steps-step-info-text-align: center;
+$illustration-background-neutral: rgba(53, 58, 74, 0.1);
+$illustration-background-error: rgba(255, 0, 0, 0.08);
+$illustration-background-info: rgba(79, 204, 92, 0.12);
+$input-field-border-radius: 25px;
+$input-field-height: 50px;
+$legal-information-links-right: auto;
+$login-align-items: center;
+$login-button-width: auto;
+$login-text-align: center;
+$max-input-width: 320px;
+$message-background: #d64b49;
+$message-submit-interface-textarea-background-color: $dark-grey;
+$profile-divider-text-align: center;
+$registration-form-max-width: 400px;
+$registration-text-align: center;
+$select-dropdown-border-radius: 25px;
+$sendInputHeight: 48px;
+$session-background-color: $background-light;
+$session-content-background-color: $background-light;
+$session-header-background-color-large: $background-light;
+$session-header-background-color: $background-lighter;
+$session-list-item-background-active: $background-light;
+$sessions-list-background-color-primary: $background-lighter;
+$sessions-list-background-color-secondary: $background-light;
+$upload-progress: #80dd92;
+$welcome-screen-icon-background: $background-accent;

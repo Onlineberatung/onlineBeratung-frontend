@@ -127,6 +127,7 @@ export const getIconForAttachmentType = (attachmentType: string) => {
 const SAVE_DRAFT_TIMEOUT = 10000;
 
 export interface MessageSubmitInterfaceComponentProps {
+	className?: string;
 	handleSendButton: Function;
 	isTyping?: Function;
 	placeholder: string;
@@ -666,9 +667,11 @@ export const MessageSubmitInterfaceComponent = (
 		!activeSession.isFeedbackSession;
 	return (
 		<div
-			className={clsx('messageSubmit__wrapper', {
-				'messageSubmit__wrapper--withTyping': isGroupChat
-			})}
+			className={clsx(
+				props.className,
+				'messageSubmit__wrapper',
+				isGroupChat && 'messageSubmit__wrapper--withTyping'
+			)}
 		>
 			{isGroupChat && (
 				<TypingIndicator
