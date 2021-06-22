@@ -99,8 +99,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 						);
 						setNewStompAnonymousChatFinished(true);
 					}
-					// TODO: reimplement for websocket optimization
-					// message.ack({ 'message-id': message.headers.id });
+					message.ack({ 'message-id': message.headers.id });
 				});
 			}
 		);
