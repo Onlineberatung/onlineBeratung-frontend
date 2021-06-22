@@ -32,7 +32,7 @@ describe('Video calls', () => {
 				});
 
 				cy.get('a[href="/sessions/consultant/sessionView"]').click();
-				cy.get('[data-cy=session-list-item]').first().click();
+				cy.get('[data-cy=sessions-list-items-wrapper]').click();
 
 				cy.get('[data-cy=session-header-video-call-buttons]').should(
 					'exist'
@@ -50,7 +50,7 @@ describe('Video calls', () => {
 			});
 
 			cy.get('a[href="/sessions/user/view"]').click();
-			cy.get('[data-cy=session-list-item]').first().click();
+			cy.get('[data-cy=sessions-list-items-wrapper]').click();
 
 			cy.get('[data-cy=session-header-video-call-buttons]').should(
 				'not.exist'
