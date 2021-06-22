@@ -9,7 +9,7 @@ const waitForTokenProcessing = () => {
 	return cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
 };
 
-describe.skip('Keycloak Tokens', () => {
+describe('Keycloak Tokens', () => {
 	let authTokenJson;
 	beforeEach(() => {
 		cy.fixture('auth.token.json').then((fixture) => {

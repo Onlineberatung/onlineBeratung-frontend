@@ -5,7 +5,7 @@ import {
 } from '../support/sessions';
 import { emitStompVideoCallRequest } from '../support/websocket';
 
-describe.skip('Video calls', () => {
+describe('Video calls', () => {
 	beforeEach(() => {
 		cy.fixture('service.consultingtypes.addiction.json').then(
 			(addictionConsultingType) => {

@@ -4,7 +4,7 @@ import attachmentsI18n from '../../src/resources/scripts/i18n/de/attachments';
 import attachmentsInformalI18n from '../../src/resources/scripts/i18n/de/attachmentsInformal';
 import { config } from '../../src/resources/scripts/config';
 
-describe.skip('Messages', () => {
+describe('Messages', () => {
 	beforeEach(() => {
 		cy.fixture('service.consultingtypes.addiction.json').then(
 			(addictionConsultingType) => {
