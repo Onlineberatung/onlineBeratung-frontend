@@ -10,7 +10,7 @@ import {
 } from '../../src/components/sessionsList/sessionsListConfig';
 import { config } from '../../src/resources/scripts/config';
 
-describe('Sessions', () => {
+describe.skip('Sessions', () => {
 	beforeEach(() => {
 		cy.fixture('service.consultingtypes.addiction.json').then(
 			(addictionConsultingType) => {
