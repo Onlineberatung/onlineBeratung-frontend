@@ -203,8 +203,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
-		switch (overlayItem) {
-			case enquirySuccessfullyAcceptedOverlayItem:
+		switch (buttonFunction) {
+			case OVERLAY_FUNCTIONS.REDIRECT:
 				setOverlayItem(null);
 				setIsRequestInProgress(false);
 				setCurrentGroupId('');
@@ -212,7 +212,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				setSessionsData({ ...sessionsData, enquiries: [] });
 				history.push(`/sessions/consultant/sessionView/`);
 				break;
-			case enquiryTakenByOtherConsultantOverlayItem:
+			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayItem(null);
 				history.push(
 					`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`
@@ -323,7 +323,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				label: translate(
 					'session.anonymous.takenByOtherConsultant.buttonLabel'
 				),
-				function: OVERLAY_FUNCTIONS.REDIRECT,
+				function: OVERLAY_FUNCTIONS.CLOSE,
 				type: BUTTON_TYPES.PRIMARY
 			}
 		]
