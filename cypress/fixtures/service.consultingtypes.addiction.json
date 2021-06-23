@@ -7,7 +7,9 @@
 		"welcome": "Willkommen bei der Suchtberatung!",
 		"registrationDropdown": "Suchtberatung"
 	},
-	"urls": {},
+	"urls": {
+		"registrationPostcodeFallbackUrl": "https://www.caritas.de/hilfeundberatung/onlineberatung/suchtberatung/start"
+	},
 	"registration": {
 		"minPostcodeSize": 5,
 		"autoSelectAgency": false,

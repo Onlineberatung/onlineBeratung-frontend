@@ -46,10 +46,17 @@ describe('profile', () => {
 		cy.get('[name="postcode"]').type('00000');
 		cy.contains('Schwangerschaftsberatung Baden');
 		cy.contains('Registrieren').click();
+		cy.contains(
+			'Ihre gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung'
+		);
+		cy.contains(
+			'Möchten Sie für „Suchtberatung“ zu der anderen Anwendung wechseln und sich dort registrieren? Ihre bisherigen Beratungs- und Hilfethemen finden Sie weiterhin hier.'
+		);
 
+		cy.contains('Jetzt wechseln').click();
 		cy.url().should(
 			'be.equal',
-			'https://www.onlineberatung-diakonie-baden.de/'
+			'https://www.caritas.de/hilfeundberatung/onlineberatung/suchtberatung/start'
 		);
 	});
 
