@@ -62,19 +62,24 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 	);
 	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 	const [overlayActive, setOverlayActive] = useState(false);
+	const [initialPostcode, setInitialPostcode] = useState('');
 
 	const prefillPostcode = () => {
-		const agencyId = isNumber(getUrlParameter('aid'))
-			? getUrlParameter('aid')
-			: null;
+		const postcodeParameter = getUrlParameter('postcode');
+		const aidParameter = getUrlParameter('aid');
+		const agencyId = isNumber(aidParameter) ? aidParameter : null;
 
 		if (agencyId) {
 			getAgencyDataById(agencyId);
 		}
 
+		if (postcodeParameter) {
+			setInitialPostcode(postcodeParameter);
+		}
+
 		if (consultingType.registration.autoSelectAgency) {
 			apiAgencySelection({
-				postcode: DEFAULT_POSTCODE,
+				postcode: postcodeParameter || DEFAULT_POSTCODE,
 				consultingType: consultingType.id
 			})
 				.then((response) => {
@@ -190,6 +195,7 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 					consultingType={consultingType}
 					isUsernameAlreadyInUse={isUsernameAlreadyInUse}
 					preselectedAgencyData={preselectedAgencyData}
+					initialPostcode={initialPostcode}
 					handleFormAccordionData={(formData) =>
 						setFormAccordionData(formData)
 					}

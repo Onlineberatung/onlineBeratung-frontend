@@ -26,6 +26,7 @@ interface FormAccordionProps {
 	handleFormAccordionData: Function;
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
+	initialPostcode?: string;
 }
 
 export const FormAccordion = (props: FormAccordionProps) => {
@@ -146,6 +147,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 				<AgencySelection
 					consultingType={props.consultingType}
 					icon={<PinIcon />}
+					initialPostcode={props.initialPostcode}
 					preselectedAgency={props.preselectedAgencyData}
 					onAgencyChange={(agency) => setAgency(agency)}
 					onValidityChange={(validity) =>

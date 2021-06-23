@@ -28,6 +28,7 @@ export interface AgencySelectionProps {
 	preselectedAgency?: AgencyDataInterface;
 	isProfileView?: boolean;
 	agencySelectionNote?: string;
+	initialPostcode?: string;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
@@ -53,12 +54,12 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		validPostcode() && typeof selectedAgencyId === 'number';
 
 	useEffect(() => {
-		setSelectedPostcode('');
+		setSelectedPostcode(props.initialPostcode || '');
 		setPostcodeFallbackLink('');
 		setSelectedAgencyId(undefined);
 		setProposedAgencies(null);
 		setPreselectedAgency(props.preselectedAgency);
-	}, [props.preselectedAgency, props.consultingType]);
+	}, [props.preselectedAgency, props.consultingType, props.initialPostcode]);
 
 	useEffect(() => {
 		if (autoSelectAgency) {
