@@ -95,6 +95,18 @@ export const AskerRegistration = () => {
 		setIsRequestInProgress(true);
 
 		if (isAllRequiredDataSet()) {
+			if (selectedAgency.external) {
+				if (selectedAgency.url) {
+					window.location.href = selectedAgency.url;
+					return;
+				} else {
+					console.error(
+						`External agency with id ${selectedAgency.id} doesn't have a url set.`
+					);
+					return;
+				}
+			}
+
 			apiRegistrationNewConsultingTypes(
 				selectedConsultingTypeId,
 				selectedAgency.id,

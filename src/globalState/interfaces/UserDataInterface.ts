@@ -24,6 +24,8 @@ export interface AgencyDataInterface {
 	offline: boolean;
 	postcode: string;
 	teamAgency: boolean;
+	url?: string;
+	external?: boolean;
 }
 
 export interface ConsultingTypeDataInterface {
