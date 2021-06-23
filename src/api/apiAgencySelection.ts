@@ -18,6 +18,21 @@ export const apiAgencySelection = async (params: {
 			method: FETCH_METHODS.GET,
 			skipAuth: true,
 			responseHandling: [FETCH_ERRORS.EMPTY]
+		}).then((result) => {
+			if (result) {
+				// External agencies should only be returned
+				// if there are no internal ones.
+				const internalAgencies = result.filter(
+					(agency) => !agency.external
+				);
+				if (internalAgencies.length > 0) {
+					return internalAgencies;
+				} else {
+					return result;
+				}
+			} else {
+				return result;
+			}
 		});
 	} else {
 		return null;
