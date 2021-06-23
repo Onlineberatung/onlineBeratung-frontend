@@ -60,9 +60,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		[props.currentGroupId] // eslint-disable-line react-hooks/exhaustive-deps
 	);
 	const { userData } = useContext(UserDataContext);
-	const [monitoringButtonVisible, setMonitoringButtonVisible] = useState(
-		false
-	);
+	const [monitoringButtonVisible, setMonitoringButtonVisible] =
+		useState(false);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [currentGroupId, setCurrenGroupId] = useState(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
@@ -119,8 +118,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		let isCanceled = false;
 
 		apiGetConsultingType({
-			consultingTypeId: getChatItemForSession(activeSession)
-				?.consultingType
+			consultingTypeId:
+				getChatItemForSession(activeSession)?.consultingType
 		}).then((response) => {
 			if (isCanceled) return;
 			setResortData(response);
@@ -201,9 +200,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const handleScrollToBottomButtonClick = () => {
 		if (newMessages > 0) {
 			const scrollContainer = scrollContainerRef.current;
-			const sessionHeader = scrollContainer.parentElement.getElementsByClassName(
-				'sessionInfo'
-			)[0] as HTMLElement;
+			const sessionHeader =
+				scrollContainer.parentElement.getElementsByClassName(
+					'sessionInfo'
+				)[0] as HTMLElement;
 			const messageItems = scrollContainer.querySelectorAll(
 				'.messageItem:not(.messageItem--right)'
 			);
@@ -300,7 +300,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				id="session-scroll-container"
 				className="session__content"
 				ref={scrollContainerRef}
-				onScroll={(e) => handleScroll.callback(e)}
+				onScroll={(e) => handleScroll(e)}
 			>
 				{messages &&
 					resortData &&
