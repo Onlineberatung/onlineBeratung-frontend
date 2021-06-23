@@ -36,6 +36,8 @@ const twoFactorAuth = {
 	'activate.step3.visualisation.label': 'Bestätigung',
 	'activate.step3.input.label': 'Einmal-Code',
 	'activate.step3.input.label.short': 'Der eingegebene Code ist zu kurz.',
+	'activate.step3.input.label.error':
+		'Die Authentifizierung fehlgeschlagen. Bitte wiederholen Sie den Vorgang.',
 	'overlayButton.next': 'Weiter',
 	'overlayButton.back': 'Zurück',
 	'overlayButton.save': 'Speichern'

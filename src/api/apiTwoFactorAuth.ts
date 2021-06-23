@@ -1,5 +1,5 @@
 import { config } from '../resources/scripts/config';
-import { fetchData, FETCH_METHODS } from './fetchData';
+import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 
 export const apiPutTwoFactorAuth = async (body: {
 	secret: string;
@@ -10,7 +10,8 @@ export const apiPutTwoFactorAuth = async (body: {
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.PUT,
-		bodyData: JSON.stringify(body)
+		bodyData: JSON.stringify(body),
+		responseHandling: [FETCH_ERRORS.BAD_REQUEST]
 	});
 };
 

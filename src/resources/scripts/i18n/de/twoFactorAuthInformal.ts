@@ -12,7 +12,9 @@ const twoFactorAuthInformal = {
 	'activate.step2.connect.key':
 		'Gebe den folgenden 32-stelligen Schlüssel ein:',
 	'activate.step3.copy':
-		'Gib den Einmal-Code ein, der von der App generiert wird und klicke auf „Speichern“, um die Einrichtung abzuschließen.'
+		'Gib den Einmal-Code ein, der von der App generiert wird und klicke auf „Speichern“, um die Einrichtung abzuschließen.',
+	'activate.step3.input.label.error':
+		'Die Authentifizierung fehlgeschlagen. Bitte wiederhole den Vorgang.'
 };
 
 export default twoFactorAuthInformal;

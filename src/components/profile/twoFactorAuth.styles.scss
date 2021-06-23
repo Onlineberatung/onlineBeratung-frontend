@@ -17,6 +17,11 @@
 		.button__wrapper {
 			margin-top: auto;
 		}
+
+		.inputField__infoText {
+			color: $form-error;
+			text-align: left;
+		}
 	}
 
 	&__tools {

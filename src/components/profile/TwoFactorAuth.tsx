@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { UserDataInterface } from '../../globalState/interfaces/UserDataInterface';
+import { useContext, useEffect, useState } from 'react';
+import { UserDataContext, UserDataInterface } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -21,39 +21,98 @@ import { ReactComponent as DownloadIcon } from '../../resources/img/icons/downlo
 import { ReactComponent as AddIcon } from '../../resources/img/icons/add.svg';
 import { ReactComponent as UrlIcon } from '../../resources/img/icons/url.svg';
 import { ReactComponent as CheckIcon } from '../../resources/img/icons/checkmark.svg';
+import {
+	apiDeleteTwoFactorAuth,
+	apiGetUserData,
+	apiPutTwoFactorAuth,
+	FETCH_ERRORS
+} from '../../api';
 import './twoFactorAuth.styles';
 
 const TOTP_LENGTH = 6;
 
-export const TwoFactorAuth = (props: UserDataInterface) => {
+export const TwoFactorAuth = () => {
+	const { userData, setUserData } = useContext(UserDataContext);
 	const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(
-		props.twoFactorAuth.isActive
+		userData.twoFactorAuth.isActive
 	);
 	const [overlayActive, setOverlayActive] = useState<boolean>(false);
 	const [totp, setTotp] = useState<string>('');
-	const [totpLabel, setTotpLabel] = useState<string>(
-		translate('twoFactorAuth.activate.step3.input.label')
+	const defaultTotpLabel = translate(
+		'twoFactorAuth.activate.step3.input.label'
 	);
+	const [totpLabel, setTotpLabel] = useState<string>(defaultTotpLabel);
 	const [totpLabelState, setTotpLabelState] = useState<
 		InputFieldLabelState
 	>();
+	const [totpInputInfo, setTotpInputInfo] = useState<string>('');
+	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
+		false
+	);
 
 	useEffect(() => {
 		setOverlayItems(twoFactorAuthStepsOverlay);
-	}, [totp]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [totp, totpLabel, totpLabelState]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	const updateUserData = () => {
+		apiGetUserData()
+			.then((newUserData: UserDataInterface) => {
+				setUserData(newUserData);
+			})
+			.catch((error) => console.log(error));
+	};
 
 	const handleSwitchChange = () => {
-		setIsSwitchChecked(!isSwitchChecked);
 		if (!isSwitchChecked) {
+			setIsSwitchChecked(true);
 			setOverlayActive(true);
 		} else {
-			//TODO: deactivate 2fa
+			setIsSwitchChecked(false);
+			apiDeleteTwoFactorAuth()
+				.then((response) => {
+					updateUserData();
+				})
+				.catch((error) => {
+					setIsSwitchChecked(true);
+				});
 		}
 	};
 
+	const handleOverlayClose = () => {
+		setOverlayActive(false);
+		setTotp('');
+		setTotpLabel(defaultTotpLabel);
+		setTotpLabelState(null);
+		setIsSwitchChecked(userData.twoFactorAuth.isActive);
+	};
+
 	const handleOverlayAction = (buttonFunction: string) => {
-		console.log('handleOverlay');
-		//TODO: activate 2fa
+		if (!isRequestInProgress) {
+			setIsRequestInProgress(true);
+			setTotpInputInfo('');
+			apiPutTwoFactorAuth({
+				secret: userData.twoFactorAuth.secret,
+				totp: totp
+			})
+				.then((response) => {
+					setOverlayActive(false);
+					setIsRequestInProgress(false);
+					updateUserData();
+				})
+				.catch((error) => {
+					if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+						setTotpLabel(defaultTotpLabel);
+						setTotpInputInfo(
+							translate(
+								'twoFactorAuth.activate.step3.input.label.error'
+							)
+						);
+						setTotpLabelState('invalid');
+						setIsRequestInProgress(false);
+						setIsSwitchChecked(false);
+					}
+				});
+		}
 	};
 
 	const getAuthenticatorTools = (): JSX.Element => {
@@ -79,9 +138,9 @@ export const TwoFactorAuth = (props: UserDataInterface) => {
 		];
 		return (
 			<div className="twoFactorAuth__tools">
-				{tools.map((tool) => {
+				{tools.map((tool, i) => {
 					return (
-						<div className="twoFactorAuth__tool">
+						<div className="twoFactorAuth__tool" key={i}>
 							<Text text={tool.title} type="standard" />
 							<a
 								target="_blank"
@@ -128,7 +187,7 @@ export const TwoFactorAuth = (props: UserDataInterface) => {
 					/>
 					<img
 						alt="qr code"
-						src={`data:image/png;base64,${props.twoFactorAuth.qrCode}`}
+						src={`data:image/png;base64,${userData.twoFactorAuth.qrCode}`}
 					/>
 				</div>
 				<Text
@@ -144,7 +203,10 @@ export const TwoFactorAuth = (props: UserDataInterface) => {
 						)}
 						type="standard"
 					/>
-					<Text text={props.twoFactorAuth.secret} type="standard" />
+					<Text
+						text={userData.twoFactorAuth.secret}
+						type="standard"
+					/>
 				</div>
 			</div>
 		);
@@ -153,6 +215,7 @@ export const TwoFactorAuth = (props: UserDataInterface) => {
 	const totpInputItem: InputFieldItem = {
 		content: totp,
 		id: 'totp',
+		infoText: totpInputInfo,
 		label: totpLabel,
 		name: 'totp',
 		type: 'text',
@@ -306,7 +369,7 @@ export const TwoFactorAuth = (props: UserDataInterface) => {
 					<Overlay
 						className="twoFactorAuth__overlay"
 						items={overlayItems}
-						handleOverlayClose={() => setOverlayActive(false)}
+						handleOverlayClose={handleOverlayClose}
 					/>
 				</OverlayWrapper>
 			) : null}

@@ -70,7 +70,6 @@ export const Overlay = (props: {
 	);
 
 	useEffect(() => {
-		console.log('change', props.item, props.items);
 		setActiveOverlay(
 			props.item
 				? { ...props.item, ...props.handleOverlay }
