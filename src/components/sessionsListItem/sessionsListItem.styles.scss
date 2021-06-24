@@ -102,6 +102,10 @@ $icon-size-small: 16px;
 		&:not(:last-child) {
 			margin-bottom: $grid-base;
 		}
+
+		a[role='button'] {
+			margin-left: auto;
+		}
 	}
 
 	&__consultingType {

@@ -4,8 +4,7 @@ import { history } from '../app/app';
 import {
 	translate,
 	handleNumericTranslation,
-	getAddictiveDrugsString,
-	getResortTranslation
+	getAddictiveDrugsString
 } from '../../utils/translate';
 import { mobileListView } from '../app/navigationHandler';
 import {
@@ -15,7 +14,8 @@ import {
 	getActiveSession,
 	getContact,
 	AUTHORITIES,
-	hasUserAuthority
+	hasUserAuthority,
+	useConsultingType
 } from '../../globalState';
 import { Link } from 'react-router-dom';
 import {
@@ -30,7 +30,6 @@ import {
 	convertUserDataObjectToArray,
 	getAddictiveDrugsTranslatable
 } from '../profile/profileHelpers';
-import { isGenericConsultingType } from '../../utils/resorts';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { apiGetGroupMembers } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
@@ -51,6 +50,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	);
 	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
+	const consultingType = useConsultingType(chatItem.consultingType);
 
 	const username = getContact(activeSession).username;
 	const userSessionData = getContact(activeSession).sessionData;
@@ -221,7 +221,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				<div
 					className={
 						hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
-						isGenericConsultingType(chatItem.consultingType)
+						!consultingType.showAskerProfile
 							? `sessionInfo__username sessionInfo__username--deactivate`
 							: `sessionInfo__username`
 					}
@@ -237,7 +237,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						AUTHORITIES.CONSULTANT_DEFAULT,
 						userData
 					) ? (
-						!isGenericConsultingType(chatItem.consultingType) ? (
+						consultingType.showAskerProfile ? (
 							<Link to={userProfileLink}>
 								<h3>{username}</h3>
 							</Link>
@@ -257,10 +257,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				<div className="sessionInfo__metaInfo">
 					{!activeSession.agency ? (
 						<div className="sessionInfo__metaInfo__content">
-							{getResortTranslation(
-								chatItem.consultingType,
-								true
-							)}
+							{consultingType.titles.short}
 						</div>
 					) : null}
 					{preparedUserSessionData

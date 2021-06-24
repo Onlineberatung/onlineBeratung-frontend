@@ -206,6 +206,23 @@ export const SessionView = (props) => {
 			.catch((error) => null);
 	};
 
+	const groupChatStoppedOverlay: OverlayItem = {
+		svg: CheckIcon,
+		headline: translate('groupChat.stopped.overlay.headline'),
+		buttonSet: [
+			{
+				label: translate('groupChat.stopped.overlay.button1Label'),
+				function: OVERLAY_FUNCTIONS.REDIRECT,
+				type: BUTTON_TYPES.PRIMARY
+			},
+			{
+				label: translate('groupChat.stopped.overlay.button2Label'),
+				function: OVERLAY_FUNCTIONS.LOGOUT,
+				type: BUTTON_TYPES.SECONDARY
+			}
+		]
+	};
+
 	const handleGroupChatStopped = (
 		hasUserInitiatedStopOrLeaveRequest
 	) => () => {
@@ -314,21 +331,4 @@ export const SessionView = (props) => {
 			) : null}
 		</div>
 	);
-};
-
-const groupChatStoppedOverlay: OverlayItem = {
-	svg: CheckIcon,
-	headline: translate('groupChat.stopped.overlay.headline'),
-	buttonSet: [
-		{
-			label: translate('groupChat.stopped.overlay.button1Label'),
-			function: OVERLAY_FUNCTIONS.REDIRECT,
-			type: BUTTON_TYPES.PRIMARY
-		},
-		{
-			label: translate('groupChat.stopped.overlay.button2Label'),
-			function: OVERLAY_FUNCTIONS.LOGOUT,
-			type: BUTTON_TYPES.SECONDARY
-		}
-	]
 };
