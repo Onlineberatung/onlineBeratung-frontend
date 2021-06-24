@@ -49,6 +49,7 @@ interface SessionItemProps {
 	isTyping: Function;
 	typingUsers: string[];
 	currentGroupId: string;
+	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 }
 
 let initMessageCount: number;
@@ -293,6 +294,9 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					activeSession.consultant && activeSession.consultant.absent
 						? activeSession.consultant
 						: false
+				}
+				hasUserInitiatedStopOrLeaveRequest={
+					props.hasUserInitiatedStopOrLeaveRequest
 				}
 			/>
 
