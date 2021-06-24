@@ -35,6 +35,11 @@
 
 	&__tool {
 		display: grid;
+		margin-top: $grid-base-two;
+
+		@include breakpoint($fromMedium) {
+			margin-top: 0;
+		}
 
 		& > .text {
 			font-weight: $font-weight-bold;

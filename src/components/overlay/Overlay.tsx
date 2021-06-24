@@ -140,6 +140,7 @@ export const Overlay = (props: {
 											'overlay__step--disabled':
 												i > activeStep
 										})}
+										key={i}
 									>
 										<div className="overlay__stepContent">
 											<div className="overlay__stepIcon">
