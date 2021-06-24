@@ -40,9 +40,8 @@ import { Headline } from '../headline/Headline';
 export const AskerRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-	const [selectedConsultingTypeId, setSelectedConsultingTypeId] = useState<
-		number
-	>(null);
+	const [selectedConsultingTypeId, setSelectedConsultingTypeId] =
+		useState<number>(null);
 	const [selectedAgency, setSelectedAgency] = useState<any>({});
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);

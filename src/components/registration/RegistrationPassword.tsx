@@ -26,23 +26,16 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 	const [isValid, setIsValid] = useState<AccordionItemValidity>('initial');
 	const [password, setPassword] = useState<string>('');
 	const [passwordLabel, setPasswordLabel] = useState<string>(null);
-	const [passwordLabelState, setPasswordLabelState] = useState<
-		InputFieldLabelState
-	>(null);
-	const [
-		passwordCriteriaValidation,
-		setPasswordCriteriaValidation
-	] = useState<passwordCriteria>();
-	const [passwordConfirmation, setPasswordConfirmation] = useState<string>(
-		''
-	);
-	const [passwordConfirmationLabel, setPasswordConfirmationLabel] = useState<
-		string
-	>(null);
-	const [
-		passwordConfirmationLabelState,
-		setPasswordConfirmationLabelState
-	] = useState<InputFieldLabelState>(null);
+	const [passwordLabelState, setPasswordLabelState] =
+		useState<InputFieldLabelState>(null);
+	const [passwordCriteriaValidation, setPasswordCriteriaValidation] =
+		useState<passwordCriteria>();
+	const [passwordConfirmation, setPasswordConfirmation] =
+		useState<string>('');
+	const [passwordConfirmationLabel, setPasswordConfirmationLabel] =
+		useState<string>(null);
+	const [passwordConfirmationLabelState, setPasswordConfirmationLabelState] =
+		useState<InputFieldLabelState>(null);
 
 	useEffect(() => {
 		if (passwordCriteriaValidation) {

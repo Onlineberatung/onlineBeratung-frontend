@@ -170,9 +170,7 @@ export const SessionView = (props) => {
 				if (!isSocketConnected) {
 					setSessionToRead();
 					window['socket'].connect();
-					window[
-						'socket'
-					].addSubscription(
+					window['socket'].addSubscription(
 						SOCKET_COLLECTION.ROOM_MESSAGES,
 						[groupId, false],
 						() => fetchSessionMessages(true)
@@ -187,9 +185,7 @@ export const SessionView = (props) => {
 							],
 							handleGroupChatStopped
 						);
-						window[
-							'socket'
-						].addSubscription(
+						window['socket'].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_ROOM,
 							[
 								`${groupId}/typing`,

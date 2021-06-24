@@ -105,12 +105,13 @@ export const JoinGroupChatView = () => {
 			apiGetGroupChatInfo(chatItem.id)
 				.then((response: groupChatInfoData) => {
 					if (chatItem.active !== response.active) {
-						let changedSessionsData = getSessionsDataWithChangedValue(
-							sessionsData,
-							activeSession,
-							'active',
-							response.active
-						);
+						let changedSessionsData =
+							getSessionsDataWithChangedValue(
+								sessionsData,
+								activeSession,
+								'active',
+								response.active
+							);
 						setSessionsData(changedSessionsData);
 						history.push(
 							`${getSessionListPathForLocation()}/${

@@ -75,13 +75,10 @@ export const SessionsList: React.FC = () => {
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
-	const [isActiveSessionCreateChat, setIsActiveSessionCreateChat] = useState(
-		false
-	);
-	const [
-		increaseOffsetForAcceptedGroup,
-		setIncreaseOffsetForAcceptedGroup
-	] = useState(false);
+	const [isActiveSessionCreateChat, setIsActiveSessionCreateChat] =
+		useState(false);
+	const [increaseOffsetForAcceptedGroup, setIncreaseOffsetForAcceptedGroup] =
+		useState(false);
 	const { stoppedGroupChat, setStoppedGroupChat } = useContext(
 		StoppedGroupChatContext
 	);
@@ -151,21 +148,23 @@ export const SessionsList: React.FC = () => {
 							getSessionsListData(true)
 								.then(
 									(fetchedSessions: ListItemInterface[]) => {
-										const newSessions: ListItemInterface[] = [
-											...sessionsData[
-												getSessionsDataKeyForSessionType(
-													type
-												)
-											],
-											...fetchedSessions
-										];
+										const newSessions: ListItemInterface[] =
+											[
+												...sessionsData[
+													getSessionsDataKeyForSessionType(
+														type
+													)
+												],
+												...fetchedSessions
+											];
 										let checkSessions = {
 											mySessions: newSessions
 										};
-										const assignedSession = getActiveSession(
-											acceptedGroupId,
-											checkSessions
-										);
+										const assignedSession =
+											getActiveSession(
+												acceptedGroupId,
+												checkSessions
+											);
 										if (assignedSession) {
 											setAssignedSessionActive(
 												assignedSession
