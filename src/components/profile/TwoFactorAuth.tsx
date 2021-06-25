@@ -29,7 +29,7 @@ import {
 } from '../../api';
 import './twoFactorAuth.styles';
 
-const TOTP_LENGTH = 6;
+const OTP_LENGTH = 6;
 
 export const TwoFactorAuth = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -37,22 +37,22 @@ export const TwoFactorAuth = () => {
 		userData.twoFactorAuth.isActive
 	);
 	const [overlayActive, setOverlayActive] = useState<boolean>(false);
-	const [totp, setTotp] = useState<string>('');
-	const defaultTotpLabel = translate(
+	const [otp, setOtp] = useState<string>('');
+	const defaultOtpLabel = translate(
 		'twoFactorAuth.activate.step3.input.label'
 	);
-	const [totpLabel, setTotpLabel] = useState<string>(defaultTotpLabel);
-	const [totpLabelState, setTotpLabelState] = useState<
+	const [otpLabel, setOtpLabel] = useState<string>(defaultOtpLabel);
+	const [otpLabelState, setOtpLabelState] = useState<
 		InputFieldLabelState
 	>();
-	const [totpInputInfo, setTotpInputInfo] = useState<string>('');
+	const [otpInputInfo, setOtpInputInfo] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
 		false
 	);
 
 	useEffect(() => {
 		setOverlayItems(twoFactorAuthStepsOverlay);
-	}, [totp, totpLabel, totpLabelState]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [otp, otpLabel, otpLabelState]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const updateUserData = () => {
 		apiGetUserData()
@@ -80,19 +80,19 @@ export const TwoFactorAuth = () => {
 
 	const handleOverlayClose = () => {
 		setOverlayActive(false);
-		setTotp('');
-		setTotpLabel(defaultTotpLabel);
-		setTotpLabelState(null);
+		setOtp('');
+		setOtpLabel(defaultOtpLabel);
+		setOtpLabelState(null);
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
-			setTotpInputInfo('');
+			setOtpInputInfo('');
 			apiPutTwoFactorAuth({
 				secret: userData.twoFactorAuth.secret,
-				totp: totp
+				totp: otp
 			})
 				.then((response) => {
 					setOverlayActive(false);
@@ -101,13 +101,13 @@ export const TwoFactorAuth = () => {
 				})
 				.catch((error) => {
 					if (error.message === FETCH_ERRORS.BAD_REQUEST) {
-						setTotpLabel(defaultTotpLabel);
-						setTotpInputInfo(
+						setOtpLabel(defaultOtpLabel);
+						setOtpInputInfo(
 							translate(
 								'twoFactorAuth.activate.step3.input.label.error'
 							)
 						);
-						setTotpLabelState('invalid');
+						setOtpLabelState('invalid');
 						setIsRequestInProgress(false);
 						setIsSwitchChecked(false);
 					}
@@ -212,21 +212,21 @@ export const TwoFactorAuth = () => {
 		);
 	};
 
-	const totpInputItem: InputFieldItem = {
-		content: totp,
-		id: 'totp',
-		infoText: totpInputInfo,
-		label: totpLabel,
-		name: 'totp',
+	const otpInputItem: InputFieldItem = {
+		content: otp,
+		id: 'otp',
+		infoText: otpInputInfo,
+		label: otpLabel,
+		name: 'otp',
 		type: 'text',
-		labelState: totpLabelState,
-		maxLength: TOTP_LENGTH
+		labelState: otpLabelState,
+		maxLength: OTP_LENGTH
 	};
 
-	const validateTotp = (
+	const validateOtp = (
 		totp
 	): { validity: InputFieldLabelState; label: string } => {
-		if (totp.length === TOTP_LENGTH) {
+		if (totp.length === OTP_LENGTH) {
 			return {
 				validity: 'valid',
 				label: translate('twoFactorAuth.activate.step3.input.label')
@@ -236,7 +236,7 @@ export const TwoFactorAuth = () => {
 				validity: null,
 				label: translate('twoFactorAuth.activate.step3.input.label')
 			};
-		} else if (totp.length < TOTP_LENGTH) {
+		} else if (totp.length < OTP_LENGTH) {
 			return {
 				validity: 'invalid',
 				label: translate(
@@ -246,11 +246,11 @@ export const TwoFactorAuth = () => {
 		}
 	};
 
-	const handleTotpChange = (event) => {
-		const validityData = validateTotp(event.target.value);
-		setTotpLabelState(validityData.validity);
-		setTotpLabel(validityData.label);
-		setTotp(event.target.value);
+	const handleOtpChange = (event) => {
+		const validityData = validateOtp(event.target.value);
+		setOtpLabelState(validityData.validity);
+		setOtpLabel(validityData.label);
+		setOtp(event.target.value);
 	};
 
 	const twoFactorAuthStepsOverlay: OverlayItem[] = [
@@ -300,8 +300,8 @@ export const TwoFactorAuth = () => {
 			copy: translate('twoFactorAuth.activate.step3.copy'),
 			nestedComponent: (
 				<InputField
-					item={totpInputItem}
-					inputHandle={handleTotpChange}
+					item={otpInputItem}
+					inputHandle={handleOtpChange}
 				/>
 			),
 			buttonSet: [
@@ -311,7 +311,7 @@ export const TwoFactorAuth = () => {
 					type: BUTTON_TYPES.SECONDARY
 				},
 				{
-					disabled: totpLabelState !== 'valid',
+					disabled: otpLabelState !== 'valid',
 					label: translate('twoFactorAuth.overlayButton.save'),
 					type: BUTTON_TYPES.PRIMARY
 				}
