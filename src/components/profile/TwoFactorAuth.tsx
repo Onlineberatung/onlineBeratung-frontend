@@ -29,7 +29,7 @@ import {
 } from '../../api';
 import './twoFactorAuth.styles';
 
-const OTP_LENGTH = 6;
+export const OTP_LENGTH = 6;
 
 export const TwoFactorAuth = () => {
 	const { userData, setUserData } = useContext(UserDataContext);

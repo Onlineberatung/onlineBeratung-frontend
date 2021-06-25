@@ -30,6 +30,18 @@ $spacingWithIcon: 52px;
 			}
 		}
 
+		&__otp {
+			max-height: 0;
+			overflow: hidden;
+			-webkit-transition: max-height 0.8s;
+			-moz-transition: max-height 0.8s;
+			transition: max-height 0.8s;
+
+			&--active {
+				max-height: 250px;
+			}
+		}
+
 		&__error {
 			color: $form-error;
 			max-width: 245px;

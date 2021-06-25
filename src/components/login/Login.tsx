@@ -9,8 +9,12 @@ import { autoLogin } from '../registration/autoLogin';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
+import { ReactComponent as VerifiedIcon } from '../../resources/img/icons/verified.svg';
 import { LegalInformationLinks } from './LegalInformationLinks';
 import { StageProps } from '../stage/stage';
+import { FETCH_ERRORS } from '../../api';
+import { OTP_LENGTH } from '../profile/TwoFactorAuth';
+import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
 
@@ -24,22 +28,29 @@ interface LoginProps {
 }
 
 export const Login = ({ stageComponent: Stage }: LoginProps) => {
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [isButtonDisabled, setIsButtonDisabled] = useState(
+	const [username, setUsername] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(
 		username.length > 0 && password.length > 0
 	);
-	const [showLoginError, setShowLoginError] = useState(false);
-	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const [otp, setOtp] = useState<string>('');
+	const [isOtpRequired, setIsOtpRequired] = useState<boolean>(false);
+	const [showLoginError, setShowLoginError] = useState<string>('');
+	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(false);
 
 	useEffect(() => {
-		setShowLoginError(false);
-		if (username && password) {
+		setShowLoginError('');
+		if ((!isOtpRequired && username && password) || (isOtpRequired && username && password && otp)) {
 			setIsButtonDisabled(false);
 		} else {
 			setIsButtonDisabled(true);
 		}
-	}, [username, password]);
+	}, [username, password, otp, isOtpRequired]);
+
+	useEffect(() => {
+		setOtp('');
+		setIsOtpRequired(false);
+	}, [username]);
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -60,6 +71,17 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		icon: <LockIcon />
 	};
 
+	const otpInputItem: InputFieldItem = {
+		content: otp,
+		id: 'otp',
+		infoText: translate('login.warning.failed.otp.missing'),
+		label: translate('twoFactorAuth.activate.step3.input.label'),
+		name: 'otp',
+		type: 'text',
+		icon: <VerifiedIcon />,
+		maxLength: OTP_LENGTH
+	};
+
 	const handleUsernameChange = (event) => {
 		setUsername(event.target.value);
 	};
@@ -68,9 +90,8 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		setPassword(event.target.value);
 	};
 
-	const handleLoginError = () => {
-		setShowLoginError(true);
-		setIsRequestInProgress(false);
+	const handleOtpChange = (event) => {
+		setOtp(event.target.value);
 	};
 
 	const handleLogin = () => {
@@ -79,8 +100,19 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			autoLogin({
 				username: username,
 				password: password,
-				redirect: true,
-				handleLoginError: handleLoginError
+				redirect: true
+			})
+			.catch((error) => {
+				if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
+					setShowLoginError(translate('login.warning.failed.unauthorized'));	
+				} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+					setIsOtpRequired(true);
+					if (isOtpRequired) {
+						setShowLoginError(translate('login.warning.failed.otp.invalid'));
+					}
+				}
+			}).finally(() => {
+				setIsRequestInProgress(false);
 			});
 		}
 	};
@@ -108,13 +140,20 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 					inputHandle={handlePasswordChange}
 					keyUpHandle={handleKeyUp}
 				/>
-				{showLoginError ? (
+				<div className={clsx('loginForm__otp', {'loginForm__otp--active': isOtpRequired})}>
+					<InputField
+						item={otpInputItem}
+						inputHandle={handleOtpChange}
+						keyUpHandle={handleKeyUp}
+					/>
+				</div>
+				{showLoginError && (
 					<Text
-						text={translate('login.warning.failed')}
+						text={showLoginError}
 						type="infoSmall"
 						className="loginForm__error"
 					/>
-				) : null}
+				)}
 				<a
 					href={config.endpoints.loginResetPasswordLink}
 					target="_blank"

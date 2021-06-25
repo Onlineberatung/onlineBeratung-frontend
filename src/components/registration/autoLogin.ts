@@ -5,6 +5,7 @@ import { config } from '../../resources/scripts/config';
 import { generateCsrfToken } from '../../utils/generateCsrfToken';
 import { encodeUsername } from '../../utils/encryptionHelpers';
 import { setTokens } from '../auth/auth';
+import { FETCH_ERRORS } from '../../api';
 
 export interface LoginData {
 	data: {
@@ -21,10 +22,10 @@ export const autoLogin = (autoLoginProps: {
 	username: string;
 	password: string;
 	redirect: boolean;
-	handleLoginError?: Function;
 	handleLoginSuccess?: Function;
+	otp?: string;
 	useOldUser?: boolean;
-}) => {
+}): Promise<any> => new Promise((resolve, reject) => {
 	const userHash = autoLoginProps.useOldUser
 		? autoLoginProps.username
 		: encodeUsername(autoLoginProps.username);
@@ -56,29 +57,22 @@ export const autoLogin = (autoLoginProps: {
 					}
 				})
 				.catch((error) => {
-					if (autoLoginProps.handleLoginError) {
-						autoLoginProps.handleLoginError();
-					} else {
-						console.error(error);
-					}
+					reject(error);
 				});
 		})
 		.catch((error) => {
-			if (autoLoginProps.useOldUser) {
-				autoLoginProps.handleLoginError
-					? autoLoginProps.handleLoginError()
-					: console.error(error);
-			} else {
+			if (!autoLoginProps.useOldUser && error.message === FETCH_ERRORS.UNAUTHORIZED) {
 				autoLogin({
 					username: autoLoginProps.username,
 					password: autoLoginProps.password,
 					redirect: autoLoginProps.redirect,
-					handleLoginError: autoLoginProps.handleLoginError,
 					useOldUser: true
-				});
+				}).catch((error) => reject(error));
+			} else {
+				reject(error);
 			}
 		});
-};
+});
 
 export const redirectToApp = () => {
 	window.location.href = config.urls.redirectToApp;
