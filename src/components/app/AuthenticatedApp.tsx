@@ -62,15 +62,12 @@ export const App: React.FC = () => {
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
-	const [newStompDirectMessage, setNewStompDirectMessage] = useState<boolean>(
-		false
-	);
-	const [newStompVideoCallRequest, setNewStompVideoCallRequest] = useState<
-		VideoCallRequestProps
-	>();
-	const { notifications, setNotifications } = useContext(
-		NotificationsContext
-	);
+	const [newStompDirectMessage, setNewStompDirectMessage] =
+		useState<boolean>(false);
+	const [newStompVideoCallRequest, setNewStompVideoCallRequest] =
+		useState<VideoCallRequestProps>();
+	const { notifications, setNotifications } =
+		useContext(NotificationsContext);
 
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
