@@ -5,6 +5,7 @@ import { Text } from '../text/Text';
 import './waitingRoom.styles';
 import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/willkommen.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
+import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/ooh.svg';
 import { translate } from '../../utils/translate';
 import { useContext, useEffect, useState } from 'react';
 import { endpointPort, tld } from '../../resources/scripts/config';
@@ -28,7 +29,8 @@ import {
 } from '../overlay/Overlay';
 import {
 	AnonymousConversationFinishedContext,
-	AnonymousEnquiryAcceptedContext
+	AnonymousEnquiryAcceptedContext,
+	WebsocketConnectionDeactivatedContext
 } from '../../globalState';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 import { history } from '../app/app';
@@ -51,6 +53,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	] = useState<boolean>(true);
 	const [username, setUsername] = useState<string>();
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const [isErrorPageActive, setIsErrorPageActive] = useState(false);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>();
 	const {
@@ -61,6 +64,10 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		anonymousConversationFinished,
 		setAnonymousConversationFinished
 	} = useContext(AnonymousConversationFinishedContext);
+	const {
+		websocketConnectionDeactivated,
+		setWebsocketConnectionDeactivated
+	} = useContext(WebsocketConnectionDeactivatedContext);
 	const registrationUrl = `${tld + endpointPort}/${
 		props.consultingTypeSlug
 	}/registration`;
@@ -98,6 +105,14 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		}
 	}, [anonymousConversationFinished, setAnonymousConversationFinished]);
 
+	useEffect(() => {
+		if (websocketConnectionDeactivated) {
+			console.log('disconnected');
+			setIsErrorPageActive(true);
+			setWebsocketConnectionDeactivated(null);
+		}
+	}, [websocketConnectionDeactivated, setWebsocketConnectionDeactivated]);
+
 	const getUsernameText = () => {
 		return `
 		 ${translate('anonymous.waitingroom.username')} 
@@ -115,6 +130,11 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	const confirmButton: ButtonItem = {
 		label: translate('anonymous.waitingroom.dataProtection.button'),
+		type: BUTTON_TYPES.PRIMARY
+	};
+
+	const reloadButton: ButtonItem = {
+		label: translate('anonymous.waitingroom.errorPage.button'),
 		type: BUTTON_TYPES.PRIMARY
 	};
 
@@ -148,6 +168,10 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		}
 	};
 
+	const handleReloadButton = () => {
+		window.location.reload();
+	};
+
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			history.push(`/app`);
@@ -157,111 +181,142 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		}
 	};
 
+	const getContent = () => {
+		if (isDataProtectionViewActive) {
+			return (
+				<>
+					<div className="waitingRoom__illustration">
+						<WelcomeIllustration />
+					</div>
+					<div>
+						<Headline
+							className="waitingRoom__headline"
+							semanticLevel="1"
+							text={translate(
+								'anonymous.waitingroom.dataProtection.headline'
+							)}
+						/>
+						<Headline
+							className="waitingRoom__subline"
+							semanticLevel="3"
+							text={translate(
+								'anonymous.waitingroom.dataProtection.subline'
+							)}
+						/>
+						<Text
+							type="standard"
+							text={translate(
+								'anonymous.waitingroom.dataProtection.description'
+							)}
+						/>
+						<Text
+							type="standard"
+							text={translate(
+								'registration.dataProtection.label'
+							)}
+						/>
+						<Button
+							className="waitingRoom__button"
+							buttonHandle={handleConfirmButton}
+							item={confirmButton}
+						/>
+					</div>
+				</>
+			);
+		} else if (isErrorPageActive) {
+			return (
+				<>
+					<div className="waitingRoom__illustration">
+						<ErrorIllustration className="waitingRoom__waitingIllustration" />
+					</div>
+					<div>
+						<Headline
+							className="waitingRoom__headline"
+							semanticLevel="1"
+							text={translate(
+								'anonymous.waitingroom.errorPage.headline'
+							)}
+						/>
+						<Text
+							type="standard"
+							text={translate(
+								'anonymous.waitingroom.errorPage.description'
+							)}
+						/>
+						<Button
+							className="waitingRoom__button"
+							buttonHandle={handleReloadButton}
+							item={reloadButton}
+						/>
+					</div>
+				</>
+			);
+		} else {
+			return (
+				<>
+					<div className="waitingRoom__illustration">
+						<WaitingIllustration className="waitingRoom__waitingIllustration" />
+					</div>
+					<div>
+						<Headline
+							className="waitingRoom__headline"
+							semanticLevel="1"
+							text={translate('anonymous.waitingroom.headline')}
+						/>
+						<Headline
+							className="waitingRoom__subline"
+							semanticLevel="3"
+							text={translate('anonymous.waitingroom.subline')}
+						/>
+						<div className="waitingRoom__user">
+							<Text type="standard" text={getUsernameText()} />
+							<Text
+								type="standard"
+								text={translate(
+									'anonymous.waitingroom.info.accountDeletion'
+								)}
+							/>
+						</div>
+						<div className="waitingRoom__redirect">
+							<Text
+								type="standard"
+								text={translate(
+									'anonymous.waitingroom.redirect.title'
+								)}
+							/>
+							<Text
+								type="standard"
+								text={translate(
+									'anonymous.waitingroom.redirect.subline'
+								)}
+							/>
+							<div className="waitingRoom__redirectButton">
+								<a href={registrationUrl}>
+									<Button
+										item={{
+											label: translate(
+												'anonymous.waitingroom.redirect.button'
+											),
+											type: 'TERTIARY'
+										}}
+										isLink={true}
+									/>
+								</a>
+							</div>
+						</div>
+					</div>
+				</>
+			);
+		}
+	};
+
 	return (
 		<>
 			<div className="waitingRoom">
 				<Header />
-				{isDataProtectionViewActive ? (
-					<div className="waitingRoom__contentWrapper">
-						<div className="waitingRoom__illustration">
-							<WelcomeIllustration />
-						</div>
-						<div>
-							<Headline
-								className="waitingRoom__headline"
-								semanticLevel="1"
-								text={translate(
-									'anonymous.waitingroom.dataProtection.headline'
-								)}
-							/>
-							<Headline
-								className="waitingRoom__subline"
-								semanticLevel="3"
-								text={translate(
-									'anonymous.waitingroom.dataProtection.subline'
-								)}
-							/>
-							<Text
-								type="standard"
-								text={translate(
-									'anonymous.waitingroom.dataProtection.description'
-								)}
-							/>
-							<Text
-								type="standard"
-								text={translate(
-									'registration.dataProtection.label'
-								)}
-							/>
-							<Button
-								className="waitingRoom__confirmButton"
-								buttonHandle={handleConfirmButton}
-								item={confirmButton}
-							/>
-						</div>
-					</div>
-				) : (
-					<div className="waitingRoom__contentWrapper">
-						<div className="waitingRoom__illustration">
-							<WaitingIllustration className="waitingRoom__waitingIllustration" />
-						</div>
-						<div>
-							<Headline
-								className="waitingRoom__headline"
-								semanticLevel="1"
-								text={translate(
-									'anonymous.waitingroom.headline'
-								)}
-							/>
-							<Headline
-								className="waitingRoom__subline"
-								semanticLevel="3"
-								text={translate(
-									'anonymous.waitingroom.subline'
-								)}
-							/>
-							<div className="waitingRoom__user">
-								<Text
-									type="standard"
-									text={getUsernameText()}
-								/>
-								<Text
-									type="standard"
-									text={translate(
-										'anonymous.waitingroom.info.accountDeletion'
-									)}
-								/>
-							</div>
-							<div className="waitingRoom__redirect">
-								<Text
-									type="standard"
-									text={translate(
-										'anonymous.waitingroom.redirect.title'
-									)}
-								/>
-								<Text
-									type="standard"
-									text={translate(
-										'anonymous.waitingroom.redirect.subline'
-									)}
-								/>
-								<div className="waitingRoom__redirectButton">
-									<a href={registrationUrl}>
-										<Button
-											item={{
-												label: translate(
-													'anonymous.waitingroom.redirect.button'
-												),
-												type: 'TERTIARY'
-											}}
-											isLink={true}
-										/>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				)}
+				<div className="waitingRoom__contentWrapper">
+					{getContent()}
+				</div>
 			</div>
 			{isOverlayActive && (
 				<OverlayWrapper>

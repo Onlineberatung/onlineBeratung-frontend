@@ -13,7 +13,8 @@ import {
 	UnreadSessionsStatusProvider,
 	UpdateAnonymousEnquiriesProvider,
 	UpdateSessionListProvider,
-	UserDataProvider
+	UserDataProvider,
+	WebsocketConnectionDeactivatedProvider
 } from '.';
 
 function ProviderComposer({ contexts, children }) {
@@ -43,7 +44,8 @@ function ContextProvider({ children }) {
 				<UnreadSessionsStatusProvider />,
 				<UpdateAnonymousEnquiriesProvider />,
 				<UpdateSessionListProvider />,
-				<UserDataProvider />
+				<UserDataProvider />,
+				<WebsocketConnectionDeactivatedProvider />
 			]}
 		>
 			{children}

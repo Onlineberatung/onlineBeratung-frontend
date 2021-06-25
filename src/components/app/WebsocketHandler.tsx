@@ -17,7 +17,8 @@ import {
 	UnreadSessionsStatusContext,
 	UpdateAnonymousEnquiriesContext,
 	UpdateSessionListContext,
-	UserDataContext
+	UserDataContext,
+	WebsocketConnectionDeactivatedContext
 } from '../../globalState';
 
 interface WebsocketHandlerProps {
@@ -55,6 +56,9 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const { setAnonymousConversationFinished } = useContext(
 		AnonymousConversationFinishedContext
 	);
+	const { setWebsocketConnectionDeactivated } = useContext(
+		WebsocketConnectionDeactivatedContext
+	);
 
 	const stompClient = Stomp.over(function () {
 		return new SockJS(config.endpoints.liveservice);
@@ -72,6 +76,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 
 			if (reconnectAttemptCount >= RECONNECT_ATTEMPT_LIMIT) {
 				stompClient.deactivate();
+				setWebsocketConnectionDeactivated(true);
 			}
 		};
 
