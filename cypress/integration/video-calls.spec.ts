@@ -4,7 +4,7 @@ import {
 } from '../support/sessions';
 import { emitStompVideoCallRequest } from '../support/websocket';
 
-describe('Video calls', () => {
+describe.skip('Video calls', () => {
 	describe('Consultant', () => {
 		describe('Start a new video call', () => {
 			//TODO: reimplement on videocall release
