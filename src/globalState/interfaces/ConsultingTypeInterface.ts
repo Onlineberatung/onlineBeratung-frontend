@@ -15,6 +15,13 @@ export type RegistrationNotesInterface = {
 	password?: string;
 };
 
+export type RegistrationWelcomeScreenInterface = {
+	anonymous: {
+		title: string;
+		text: string;
+	};
+};
+
 export interface ConsultingTypeBasicInterface {
 	id: number;
 	showAskerProfile: boolean;
@@ -35,6 +42,7 @@ export interface ConsultingTypeBasicInterface {
 		autoSelectAgency: boolean;
 		autoSelectPostcode: boolean;
 		notes: RegistrationNotesInterface;
+		welcomeScreen: RegistrationWelcomeScreenInterface;
 	};
 	groupChat: {
 		isGroupChat: boolean;

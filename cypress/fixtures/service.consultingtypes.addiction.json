@@ -16,6 +16,12 @@
 		"mandatoryFields": {
 			"age": false,
 			"state": false
+		},
+		"welcomeScreen": {
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text": "Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
 		}
 	},
 	"isSubsequentRegistrationAllowed": true,

@@ -8,11 +8,13 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Text } from '../text/Text';
 import { config } from '../../resources/scripts/config';
 import { Headline } from '../headline/Headline';
+import { RegistrationWelcomeScreenInterface } from '../../globalState';
 import './welcomeScreen.styles';
 
 interface WelcomeScreenProps {
 	title: string;
 	handleForwardToRegistration: Function;
+	welcomeScreenTexts: RegistrationWelcomeScreenInterface;
 }
 
 export const WelcomeScreen = (props: WelcomeScreenProps) => {
@@ -34,8 +36,8 @@ export const WelcomeScreen = (props: WelcomeScreenProps) => {
 		},
 		{
 			icon: <LockIcon />,
-			title: translate('registration.welcomeScreen.info4.title'),
-			text: translate('registration.welcomeScreen.info4.text')
+			title: props.welcomeScreenTexts.anonymous.title,
+			text: props.welcomeScreenTexts.anonymous.text
 		}
 	];
 
