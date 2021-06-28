@@ -4,13 +4,12 @@ import {
 	formatToDDMMYYYY,
 	getPrettyDateFromMessageDate
 } from '../../utils/dateHelpers';
-import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 
 export const SESSION_TYPES = {
 	ENQUIRY: 'ENQUIRY',
 	MY_SESSION: 'MY_SESSION',
-	TEAMSESSION: 'TEAMSESSION',
-	USER: 'USER'
+	TEAMSESSION: 'TEAMSESSION'
 };
 
 export const CHAT_TYPES = {
@@ -37,8 +36,15 @@ export const typeIsSession = (type: string) =>
 	type === SESSION_TYPES.MY_SESSION;
 export const typeIsTeamSession = (type: string) =>
 	type === SESSION_TYPES.TEAMSESSION;
-export const typeIsUser = (type: string) => type === SESSION_TYPES.USER;
 export const typeIsEnquiry = (type: string) => type === SESSION_TYPES.ENQUIRY;
+
+export const SESSION_LIST_TAB = {
+	ANONYMOUS: 'anonymous',
+	REGISTERED: 'registered'
+};
+
+export const isAnonymousSessionListTab = (currentTab: string): boolean =>
+	currentTab === SESSION_LIST_TAB.ANONYMOUS;
 
 export const getViewPathForType = (type: string) => {
 	if (type === SESSION_TYPES.ENQUIRY) {
@@ -63,10 +69,8 @@ export const getTypeOfLocation = () => {
 			return SESSION_TYPES.MY_SESSION;
 		} else if (path.indexOf('teamSessionView') !== -1) {
 			return SESSION_TYPES.TEAMSESSION;
-		} else if (path.indexOf('user') !== -1) {
-			return SESSION_TYPES.USER;
 		} else {
-			return SESSION_TYPES.MY_SESSION;
+			return null;
 		}
 	})(window.location.pathname);
 	return type;
@@ -79,10 +83,10 @@ export const getSessionListPathForLocation = () => {
 		sessionListPath = 'consultant/sessionView';
 	} else if (typeIsTeamSession(type)) {
 		sessionListPath = 'consultant/teamSessionView';
-	} else if (typeIsUser(type)) {
-		sessionListPath = 'user/view';
-	} else {
+	} else if (typeIsEnquiry(type)) {
 		sessionListPath = 'consultant/sessionPreview';
+	} else {
+		sessionListPath = 'user/view';
 	}
 	return `/sessions/${sessionListPath}`;
 };
@@ -148,4 +152,4 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 };
 
 export const isMyMessage = (id: string): boolean =>
-	id === getTokenFromCookie('rc_uid');
+	id === getValueFromCookie('rc_uid');

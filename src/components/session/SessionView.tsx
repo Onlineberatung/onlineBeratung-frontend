@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { history } from '../app/app';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
@@ -11,7 +11,10 @@ import {
 	getSessionsDataWithChangedValue,
 	StoppedGroupChatContext,
 	AcceptedGroupIdContext,
-	UserDataContext
+	UpdateSessionListContext,
+	UserDataContext,
+	hasUserAuthority,
+	AUTHORITIES
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
@@ -27,7 +30,7 @@ import {
 	prepareMessages
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
-import { getTokenFromCookie } from '../sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -59,13 +62,13 @@ export const SessionView = (props) => {
 	const groupId = activeSession?.isFeedbackSession
 		? chatItem?.feedbackGroupId
 		: chatItem?.groupId;
-
 	const [isLoading, setIsLoading] = useState(true);
 	const [messagesItem, setMessagesItem] = useState(null);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
+	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
@@ -74,9 +77,16 @@ export const SessionView = (props) => {
 	const [typingUsers, setTypingUsers] = useState([]);
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
+	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
+	const isLiveChatFinished = chatItem?.status === 3;
+	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
-		if (activeSession) {
+		if (
+			activeSession &&
+			(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
+				!isLiveChatFinished)
+		) {
 			const isCurrentSessionRead = activeSession.isFeedbackSession
 				? chatItem.feedbackRead
 				: chatItem.messagesRead;
@@ -94,7 +104,10 @@ export const SessionView = (props) => {
 				);
 				setSessionsData(changedSessionsData);
 
-				const newMySessionsCount = unreadSessionsStatus.mySessions - 1;
+				const newMySessionsCount = Math.max(
+					unreadSessionsStatus.mySessions - 1,
+					0
+				);
 				setUnreadSessionsStatus({
 					...unreadSessionsStatus,
 					mySessions: newMySessionsCount,
@@ -104,13 +117,63 @@ export const SessionView = (props) => {
 		}
 	};
 
+	const fetchSessionMessages = (isSocketConnected: boolean = false) => {
+		const rcGroupId = props.match.params.rcGroupId;
+		apiGetSessionData(rcGroupId)
+			.then((messagesData) => {
+				setLoadedMessages(messagesData);
+				setIsLoading(false);
+
+				if (!isSocketConnected && !isAnonymousEnquiry) {
+					setSessionToRead();
+					window['socket'].connect();
+					window['socket'].addSubscription(
+						SOCKET_COLLECTION.ROOM_MESSAGES,
+						[groupId, false],
+						handleRoomMessage
+					);
+					if (isGroupChat) {
+						window['socket'].addSubscription(
+							SOCKET_COLLECTION.NOTIFY_USER,
+							[
+								getValueFromCookie('rc_uid') +
+									'/subscriptions-changed',
+								false
+							],
+							handleGroupChatStopped
+						);
+						window['socket'].addSubscription(
+							SOCKET_COLLECTION.NOTIFY_ROOM,
+							[
+								`${groupId}/typing`,
+								{ useCollection: false, args: [] }
+							],
+							(data) => handleTypingResponse(data)
+						);
+					}
+				}
+			})
+			.catch((error) => null);
+	};
+
+	const handleRoomMessage = () => {
+		fetchSessionMessages(true);
+		setUpdateSessionList(true);
+	};
+
 	useEffect(() => {
 		setIsLoading(true);
 		mobileDetailView();
 		setAcceptedGroupId(null);
 		typingTimeout = null;
+		const isCurrentAnonymousEnquiry =
+			chatItem?.status === 1 &&
+			chatItem?.registrationType === 'ANONYMOUS';
 		if (isGroupChat && !chatItem.subscribed) {
 			setIsLoading(false);
+		} else if (isCurrentAnonymousEnquiry) {
+			setIsLoading(false);
+			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
 		} else {
 			window['socket'] = new rocketChatSocket();
 			fetchSessionMessages();
@@ -128,9 +191,9 @@ export const SessionView = (props) => {
 				sessionsData
 			);
 			const currentChatItem = getChatItemForSession(currentSession);
-			const currentSessionRead = currentSession.isFeedbackSession
-				? currentChatItem.feedbackRead
-				: currentChatItem.messagesRead;
+			const currentSessionRead = currentSession?.isFeedbackSession
+				? currentChatItem?.feedbackRead
+				: currentChatItem?.messagesRead;
 			if (!currentSessionRead) {
 				setSessionToRead(true);
 			}
@@ -160,49 +223,6 @@ export const SessionView = (props) => {
 		return null;
 	}
 
-	const fetchSessionMessages = (isSocketConnected: boolean = false) => {
-		const rcGroupId = props.match.params.rcGroupId;
-		apiGetSessionData(rcGroupId)
-			.then((messagesData) => {
-				setLoadedMessages(messagesData);
-				setIsLoading(false);
-
-				if (!isSocketConnected) {
-					setSessionToRead();
-					window['socket'].connect();
-					window[
-						'socket'
-					].addSubscription(
-						SOCKET_COLLECTION.ROOM_MESSAGES,
-						[groupId, false],
-						() => fetchSessionMessages(true)
-					);
-					if (isGroupChat) {
-						window['socket'].addSubscription(
-							SOCKET_COLLECTION.NOTIFY_USER,
-							[
-								getTokenFromCookie('rc_uid') +
-									'/subscriptions-changed',
-								false
-							],
-							handleGroupChatStopped
-						);
-						window[
-							'socket'
-						].addSubscription(
-							SOCKET_COLLECTION.NOTIFY_ROOM,
-							[
-								`${groupId}/typing`,
-								{ useCollection: false, args: [] }
-							],
-							(data) => handleTypingResponse(data)
-						);
-					}
-				}
-			})
-			.catch((error) => null);
-	};
-
 	const groupChatStoppedOverlay: OverlayItem = {
 		svg: CheckIcon,
 		headline: translate('groupChat.stopped.overlay.headline'),
@@ -220,10 +240,18 @@ export const SessionView = (props) => {
 		]
 	};
 
-	const handleGroupChatStopped = () => {
-		setOverlayItem(groupChatStoppedOverlay);
-		setIsOverlayActive(true);
-	};
+	const handleGroupChatStopped =
+		(hasUserInitiatedStopOrLeaveRequest) => () => {
+			// If the user has initiated the stop or leave request, he/she is already
+			// shown an appropriate overlay during the process via the SessionMenu component.
+			// Thus, there is no need for an additional notification.
+			if (hasUserInitiatedStopOrLeaveRequest.current) {
+				hasUserInitiatedStopOrLeaveRequest.current = false;
+			} else {
+				setOverlayItem(groupChatStoppedOverlay);
+				setIsOverlayActive(true);
+			}
+		};
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
@@ -298,14 +326,18 @@ export const SessionView = (props) => {
 
 	return (
 		<div className="session__wrapper">
-			{messagesItem ? (
-				<SessionItemComponent
-					messages={prepareMessages(messagesItem.messages)}
-					isTyping={handleTyping}
-					typingUsers={typingUsers}
-					currentGroupId={groupIdFromParam}
-				/>
-			) : null}
+			<SessionItemComponent
+				currentGroupId={groupIdFromParam}
+				hasUserInitiatedStopOrLeaveRequest={
+					hasUserInitiatedStopOrLeaveRequest
+				}
+				isAnonymousEnquiry={isAnonymousEnquiry}
+				isTyping={handleTyping}
+				messages={
+					messagesItem ? prepareMessages(messagesItem.messages) : null
+				}
+				typingUsers={typingUsers}
+			/>
 			{isOverlayActive ? (
 				<OverlayWrapper>
 					<Overlay

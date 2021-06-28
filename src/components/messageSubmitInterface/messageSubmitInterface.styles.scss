@@ -144,7 +144,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 				cursor: unset;
 				background-color: $form-input-border;
 
-				svg * {
+				svg rect {
 					fill: $form-primary;
 				}
 			}

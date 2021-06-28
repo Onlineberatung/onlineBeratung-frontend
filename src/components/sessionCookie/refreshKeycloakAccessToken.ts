@@ -1,10 +1,10 @@
 import { config } from '../../resources/scripts/config';
 import { LoginData } from '../registration/autoLogin';
-import { getTokenFromCookie } from './accessSessionCookie';
+import { getValueFromCookie } from './accessSessionCookie';
 
 export const refreshKeycloakAccessToken = (): Promise<LoginData> =>
 	new Promise((resolve, reject) => {
-		const refreshToken = getTokenFromCookie('refreshToken');
+		const refreshToken = getValueFromCookie('refreshToken');
 		const data =
 			'refresh_token=' +
 			refreshToken +

@@ -11,20 +11,17 @@ const services = [
 		out: 'userservice.d.ts'
 	},
 	{
-		path:
-			'caritas-onlineBeratung-agencyService/develop/api/agencyservice.yaml',
+		path: 'caritas-onlineBeratung-agencyService/develop/api/agencyservice.yaml',
 		namespace: 'AgencyService',
 		out: 'agencyservice.d.ts'
 	},
 	{
-		path:
-			'caritas-onlineBeratung-uploadService/develop/api/uploadservice.yaml',
+		path: 'caritas-onlineBeratung-uploadService/develop/api/uploadservice.yaml',
 		namespace: 'UploadService',
 		out: 'uploadservice.d.ts'
 	},
 	{
-		path:
-			'caritas-onlineBeratung-messageService/develop/api/messageservice.yaml',
+		path: 'caritas-onlineBeratung-messageService/develop/api/messageservice.yaml',
 		namespace: 'MessageService',
 		out: 'messageservice.d.ts'
 	},
@@ -39,8 +36,7 @@ const services = [
 		out: 'liveservice.d.ts'
 	},
 	{
-		path:
-			'caritas-onlineBeratung-videoService/develop/api/videoservice.yaml',
+		path: 'caritas-onlineBeratung-videoService/develop/api/videoservice.yaml',
 		namespace: 'VideoService',
 		out: 'videoservice.d.ts'
 	}

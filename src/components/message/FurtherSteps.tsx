@@ -54,16 +54,14 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);
-	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
-		false
-	);
+	const [isRequestInProgress, setIsRequestInProgress] =
+		useState<boolean>(false);
 	const [email, setEmail] = useState<string>('');
 	const [emailLabel, setEmailLabel] = useState<string>(
 		translate('furtherSteps.email.overlay.input.label')
 	);
-	const [emailLabelState, setEmailLabelState] = useState<
-		InputFieldLabelState
-	>();
+	const [emailLabelState, setEmailLabelState] =
+		useState<InputFieldLabelState>();
 
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
 	const chatItem = getChatItemForSession(activeSession);
@@ -128,7 +126,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 			}
 		],
 		headline: translate('furtherSteps.email.overlay.headline'),
-		isIconSmall: true,
+		isIllustrationSmall: true,
 		nestedComponent: (
 			<InputField item={emailInputItem} inputHandle={handleEmailChange} />
 		),
@@ -179,9 +177,8 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 
 	const handleVoluntarySuccess = (generatedRegistrationData) => {
 		let updatedUserData = userData;
-		updatedUserData.consultingTypes[
-			chatItem.consultingType
-		].sessionData = generatedRegistrationData;
+		updatedUserData.consultingTypes[chatItem.consultingType].sessionData =
+			generatedRegistrationData;
 		setUserData(updatedUserData);
 		setShowAddVoluntaryInfo(false);
 		if (props.handleVoluntaryInfoSet) {

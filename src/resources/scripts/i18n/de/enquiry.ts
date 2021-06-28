@@ -1,5 +1,8 @@
 const enquiry = {
 	'acceptButton': 'Anfrage annehmen',
+	'acceptButton.anonymous': 'Chat starten',
+	'anonymous.infoLabel.start': 'Starten Sie nun den Chat mit ',
+	'anonymous.infoLabel.end': '.',
 	'write.input.placeholder': 'Schreiben Sie uns, was Sie bewegt.',
 	'write.input.placeholder.consultant': 'Nachricht an Klient_in schreiben',
 	'write.input.placeholder.feedback.main': 'Nachricht an Peer schreiben',

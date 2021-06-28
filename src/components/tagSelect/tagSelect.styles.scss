@@ -15,7 +15,8 @@
 			color: $primary;
 			background-color: $background-accent;
 		}
-		@media (pointer: coarse) {
+
+		@media (hover: none) {
 			&:hover + .tagSelect__label {
 				color: $secondary;
 				background: $dark-grey;

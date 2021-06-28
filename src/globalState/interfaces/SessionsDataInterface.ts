@@ -39,6 +39,7 @@ export interface SessionItemInterface {
 	messageTime?: number;
 	monitoring: boolean;
 	postcode: number;
+	registrationType: 'ANONYMOUS' | 'REGISTERED';
 	status: number;
 	teamSession: boolean;
 	videoCallMessageDTO: VideoCallMessageDTO;

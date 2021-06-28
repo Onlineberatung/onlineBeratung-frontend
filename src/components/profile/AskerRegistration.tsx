@@ -41,18 +41,14 @@ import AskerRegistrationExternalAgencyOverlay from './AskerRegistrationExternalA
 export const AskerRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-	const [selectedConsultingTypeId, setSelectedConsultingTypeId] = useState<
-		number
-	>(null);
+	const [selectedConsultingTypeId, setSelectedConsultingTypeId] =
+		useState<number>(null);
 	const [selectedAgency, setSelectedAgency] = useState<any>({});
 	const [successOverlayActive, setSuccessOverlayActive] = useState(false);
-	const [successOverlayItem, setSuccessOverlayItem] = useState<OverlayItem>(
-		null
-	);
-	const [
-		externalAgencyOverlayActive,
-		setExternalAgencyOverlayActive
-	] = useState(false);
+	const [successOverlayItem, setSuccessOverlayItem] =
+		useState<OverlayItem>(null);
+	const [externalAgencyOverlayActive, setExternalAgencyOverlayActive] =
+		useState(false);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const consultingTypes = useConsultingTypes();

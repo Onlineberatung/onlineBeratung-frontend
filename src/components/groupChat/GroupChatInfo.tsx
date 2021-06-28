@@ -83,10 +83,11 @@ export const GroupChatInfo = () => {
 			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)
 				.then(() => {
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
-					setIsRequestInProgress(false);
 				})
 				.catch(() => {
 					setOverlayItem(groupChatErrorOverlayItem);
+				})
+				.finally(() => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {

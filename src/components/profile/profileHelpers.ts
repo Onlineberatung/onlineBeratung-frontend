@@ -69,11 +69,12 @@ export const consultingTypeSelectOptionsSet = (
 	userData: UserDataInterface,
 	consultingTypes: Array<ConsultingTypeBasicInterface>
 ) => {
-	const unregisteredConsultingTypesData = getConsultingTypesForRegistrationStatus(
-		userData,
-		consultingTypes,
-		REGISTRATION_STATUS_KEYS.UNREGISTERED
-	);
+	const unregisteredConsultingTypesData =
+		getConsultingTypesForRegistrationStatus(
+			userData,
+			consultingTypes,
+			REGISTRATION_STATUS_KEYS.UNREGISTERED
+		);
 	return unregisteredConsultingTypesData.map((value) => {
 		const id = parseInt(value.consultingType);
 		const consultingType = getConsultingType(consultingTypes, id);
@@ -108,6 +109,7 @@ export const overlayItemNewRegistrationSuccess: OverlayItem = {
 
 export const overlayItemNewRegistrationError: OverlayItem = {
 	svg: XIcon,
+	illustrationBackground: 'error',
 	headline: translate('profile.data.registerError.overlay.headline'),
 	buttonSet: [
 		{
