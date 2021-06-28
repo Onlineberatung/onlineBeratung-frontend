@@ -32,11 +32,14 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
-	const [valuesOfGeneratedInputs, setValuesOfGeneratedInputs] =
-		useState<GeneratedInputs | null>(null);
+	const [
+		valuesOfGeneratedInputs,
+		setValuesOfGeneratedInputs
+	] = useState<GeneratedInputs | null>(null);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
-	const [generatedRegistrationData, setGeneratedRegistrationData] =
-		useState<any>();
+	const [generatedRegistrationData, setGeneratedRegistrationData] = useState<
+		any
+	>();
 
 	const renderInputComponent = (component, index) => {
 		if (component.componentType === 'SelectDropdown') {
@@ -188,13 +191,16 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 
 	const handleVoluntaryInfoSubmit = () => {
 		if (valuesOfGeneratedInputs) {
-			const { addictiveDrugs, ...voluntaryFieldsWithOneValue } =
-				valuesOfGeneratedInputs;
+			const {
+				addictiveDrugs,
+				...voluntaryFieldsWithOneValue
+			} = valuesOfGeneratedInputs;
 
 			const generatedRegistrationDataSet = {
 				...(valuesOfGeneratedInputs['addictiveDrugs'] && {
-					addictiveDrugs:
-						valuesOfGeneratedInputs['addictiveDrugs'].join(',')
+					addictiveDrugs: valuesOfGeneratedInputs[
+						'addictiveDrugs'
+					].join(',')
 				}),
 				...voluntaryFieldsWithOneValue
 			};

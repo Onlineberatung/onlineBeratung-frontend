@@ -950,8 +950,7 @@ declare namespace Paths {
 			filter: Parameters.Filter;
 		}
 		namespace Responses {
-			export type $200 =
-				UserService.Schemas.ConsultantSessionListResponseDTO;
+			export type $200 = UserService.Schemas.ConsultantSessionListResponseDTO;
 			export interface $204 {}
 			export interface $401 {}
 			export interface $403 {}
@@ -990,8 +989,7 @@ declare namespace Paths {
 			filter: Parameters.Filter;
 		}
 		namespace Responses {
-			export type $200 =
-				UserService.Schemas.ConsultantSessionListResponseDTO;
+			export type $200 = UserService.Schemas.ConsultantSessionListResponseDTO;
 			export interface $204 {}
 			export interface $401 {}
 			export interface $403 {}

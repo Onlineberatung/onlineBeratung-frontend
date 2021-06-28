@@ -29,12 +29,17 @@ export const PasswordReset = () => {
 	const [oldPasswordErrorMessage, setOldPasswordErrorMessage] = useState('');
 	const [oldPasswordSuccessMessage] = useState('');
 	const [newPasswordErrorMessage, setNewPasswordErrorMessage] = useState('');
-	const [newPasswordSuccessMessage, setNewPasswordSuccessMessage] =
-		useState('');
-	const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
-		useState('');
-	const [confirmPasswordSuccessMessage, setConfirmPasswordSuccessMessage] =
-		useState('');
+	const [newPasswordSuccessMessage, setNewPasswordSuccessMessage] = useState(
+		''
+	);
+	const [
+		confirmPasswordErrorMessage,
+		setConfirmPasswordErrorMessage
+	] = useState('');
+	const [
+		confirmPasswordSuccessMessage,
+		setConfirmPasswordSuccessMessage
+	] = useState('');
 
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);

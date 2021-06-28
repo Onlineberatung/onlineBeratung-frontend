@@ -20,10 +20,12 @@ export const AskerAboutMeData = () => {
 	const [emailLabel, setEmailLabel] = useState<string>(
 		translate('profile.data.email')
 	);
-	const [isRequestInProgress, setIsRequestInProgress] =
-		useState<boolean>(false);
-	const [isEmailNotAvailable, setIsEmailNotAvailable] =
-		useState<boolean>(false);
+	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
+		false
+	);
+	const [isEmailNotAvailable, setIsEmailNotAvailable] = useState<boolean>(
+		false
+	);
 	const consultingTypes = useConsultingTypes();
 	const showEmail = hasAskerEmailFeatures(userData, consultingTypes);
 

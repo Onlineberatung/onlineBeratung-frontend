@@ -28,7 +28,9 @@ export const apiGetConsultantSessionList = async ({
 	sessionListTab,
 	count = SESSION_COUNT,
 	signal
-}: ApiGetConsultantSessionListInterface): Promise<ListItemsResponseInterface> => {
+}: ApiGetConsultantSessionListInterface): Promise<
+	ListItemsResponseInterface
+> => {
 	const isTeamSession: boolean = typeIsTeamSession(type);
 	let url: string;
 	if (isTeamSession) {

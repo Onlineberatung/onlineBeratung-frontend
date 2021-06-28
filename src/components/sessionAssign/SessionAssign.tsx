@@ -59,8 +59,9 @@ export const SessionAssign = (props: { value?: string }) => {
 		if (consultantList && consultantList.length <= 0) {
 			apiGetAgencyConsultantList(agencyId)
 				.then((response) => {
-					const consultants =
-						prepareConsultantDataForSelect(response);
+					const consultants = prepareConsultantDataForSelect(
+						response
+					);
 					setConsultantList(consultants);
 				})
 				.catch((error) => {

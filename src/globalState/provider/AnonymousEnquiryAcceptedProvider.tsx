@@ -4,8 +4,9 @@ import { createContext, useState } from 'react';
 export const AnonymousEnquiryAcceptedContext = createContext<any>(null);
 
 export function AnonymousEnquiryAcceptedProvider(props) {
-	const [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted] =
-		useState(null);
+	const [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted] = useState(
+		null
+	);
 
 	return (
 		<AnonymousEnquiryAcceptedContext.Provider

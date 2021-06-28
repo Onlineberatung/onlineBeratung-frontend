@@ -19,10 +19,12 @@ export const DeleteAccount = () => {
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [password, setPassword] = useState<string>('');
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
-	const [isPasswordWarningActive, setIsPasswordWarningActive] =
-		useState<boolean>(false);
-	const [isRequestInProgress, setIsRequestInProgress] =
-		useState<boolean>(false);
+	const [isPasswordWarningActive, setIsPasswordWarningActive] = useState<
+		boolean
+	>(false);
+	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
+		false
+	);
 
 	const deleteAccountButton: ButtonItem = {
 		label: translate('deleteAccount.button.label'),

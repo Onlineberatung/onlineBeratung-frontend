@@ -142,7 +142,9 @@ export const SessionView = (props) => {
 							],
 							handleGroupChatStopped
 						);
-						window['socket'].addSubscription(
+						window[
+							'socket'
+						].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_ROOM,
 							[
 								`${groupId}/typing`,
@@ -240,18 +242,19 @@ export const SessionView = (props) => {
 		]
 	};
 
-	const handleGroupChatStopped =
-		(hasUserInitiatedStopOrLeaveRequest) => () => {
-			// If the user has initiated the stop or leave request, he/she is already
-			// shown an appropriate overlay during the process via the SessionMenu component.
-			// Thus, there is no need for an additional notification.
-			if (hasUserInitiatedStopOrLeaveRequest.current) {
-				hasUserInitiatedStopOrLeaveRequest.current = false;
-			} else {
-				setOverlayItem(groupChatStoppedOverlay);
-				setIsOverlayActive(true);
-			}
-		};
+	const handleGroupChatStopped = (
+		hasUserInitiatedStopOrLeaveRequest
+	) => () => {
+		// If the user has initiated the stop or leave request, he/she is already
+		// shown an appropriate overlay during the process via the SessionMenu component.
+		// Thus, there is no need for an additional notification.
+		if (hasUserInitiatedStopOrLeaveRequest.current) {
+			hasUserInitiatedStopOrLeaveRequest.current = false;
+		} else {
+			setOverlayItem(groupChatStoppedOverlay);
+			setIsOverlayActive(true);
+		}
+	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {

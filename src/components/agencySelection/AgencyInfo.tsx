@@ -14,8 +14,9 @@ export interface DisplayAgencyInfoProps {
 
 export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 	const agencyInfoRef = React.useRef<HTMLDivElement>(null);
-	const [displayAgencyInfo, setDisplayAgencyInfo] =
-		useState<AgencyDataInterface>(null);
+	const [displayAgencyInfo, setDisplayAgencyInfo] = useState<
+		AgencyDataInterface
+	>(null);
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {

@@ -6,8 +6,9 @@ export let UpdateAnonymousEnquiries: boolean;
 export const UpdateAnonymousEnquiriesContext = createContext<any>(null);
 
 export function UpdateAnonymousEnquiriesProvider(props) {
-	const [updateAnonymousEnquiries, setUpdateAnonymousEnquiries] =
-		useState(null);
+	const [updateAnonymousEnquiries, setUpdateAnonymousEnquiries] = useState(
+		null
+	);
 
 	return (
 		<UpdateAnonymousEnquiriesContext.Provider

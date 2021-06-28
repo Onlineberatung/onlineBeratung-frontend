@@ -31,8 +31,9 @@ export const AskerInfoData = () => {
 	);
 
 	const userSessionData = getContact(activeSession).sessionData;
-	const preparedUserSessionData =
-		convertUserDataObjectToArray(userSessionData);
+	const preparedUserSessionData = convertUserDataObjectToArray(
+		userSessionData
+	);
 	const addictiveDrugs = userSessionData.addictiveDrugs
 		? getAddictiveDrugsTranslatable(userSessionData.addictiveDrugs)
 		: null;

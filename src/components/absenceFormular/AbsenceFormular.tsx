@@ -96,12 +96,12 @@ export const AbsenceFormular = () => {
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		setOverlayActive(false);
-		const absenceCheckbox = (
-			document.getElementById('isAbsent') as HTMLInputElement
-		)?.checked;
-		const absenceMessageInput = (
-			document.getElementById('absence') as HTMLInputElement
-		)?.value;
+		const absenceCheckbox = (document.getElementById(
+			'isAbsent'
+		) as HTMLInputElement)?.checked;
+		const absenceMessageInput = (document.getElementById(
+			'absence'
+		) as HTMLInputElement)?.value;
 		setSavedAbsence(true);
 		setUserData({
 			...userData,

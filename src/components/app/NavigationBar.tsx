@@ -133,11 +133,10 @@ export const NavigationBar = (props: NavigationBarProps) => {
 					className={clsx(
 						'navigation__item navigation__item__logout',
 						{
-							'navigation__item__logout--consultant':
-								hasUserAuthority(
-									AUTHORITIES.CONSULTANT_DEFAULT,
-									userData
-								)
+							'navigation__item__logout--consultant': hasUserAuthority(
+								AUTHORITIES.CONSULTANT_DEFAULT,
+								userData
+							)
 						}
 					)}
 				>

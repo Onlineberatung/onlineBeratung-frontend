@@ -36,8 +36,9 @@ export const App = ({ stageComponent }: AppProps) => {
 		setHasUnmatchedRegistrationConsultingType
 	] = useState(false);
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
-	const [disconnectWebsocket, setDisconnectWebsocket] =
-		useState<boolean>(false);
+	const [disconnectWebsocket, setDisconnectWebsocket] = useState<boolean>(
+		false
+	);
 
 	return (
 		<Router history={history}>
