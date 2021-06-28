@@ -47,27 +47,19 @@ export interface WaitingRoomProps {
 }
 
 export const WaitingRoom = (props: WaitingRoomProps) => {
-	const [
-		isDataProtectionViewActive,
-		setIsDataProtectionViewActive
-	] = useState<boolean>(true);
+	const [isDataProtectionViewActive, setIsDataProtectionViewActive] =
+		useState<boolean>(true);
 	const [username, setUsername] = useState<string>();
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [isErrorPageActive, setIsErrorPageActive] = useState(false);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>();
-	const {
-		anonymousEnquiryAccepted,
-		setAnonymousEnquiryAccepted
-	} = useContext(AnonymousEnquiryAcceptedContext);
-	const {
-		anonymousConversationFinished,
-		setAnonymousConversationFinished
-	} = useContext(AnonymousConversationFinishedContext);
-	const {
-		websocketConnectionDeactivated,
-		setWebsocketConnectionDeactivated
-	} = useContext(WebsocketConnectionDeactivatedContext);
+	const { anonymousEnquiryAccepted, setAnonymousEnquiryAccepted } =
+		useContext(AnonymousEnquiryAcceptedContext);
+	const { anonymousConversationFinished, setAnonymousConversationFinished } =
+		useContext(AnonymousConversationFinishedContext);
+	const { websocketConnectionDeactivated, setWebsocketConnectionDeactivated } =
+		useContext(WebsocketConnectionDeactivatedContext);
 	const registrationUrl = `${tld + endpointPort}/${
 		props.consultingTypeSlug
 	}/registration`;

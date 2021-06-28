@@ -15,10 +15,8 @@ import { config } from '../../resources/scripts/config';
 
 export const FinishedAnonymousConversationHandler = () => {
 	const [overlayActive, setOverlayActive] = useState(false);
-	const {
-		anonymousConversationFinished,
-		setAnonymousConversationFinished
-	} = useContext(AnonymousConversationFinishedContext);
+	const { anonymousConversationFinished, setAnonymousConversationFinished } =
+		useContext(AnonymousConversationFinishedContext);
 
 	useEffect(() => {
 		if (anonymousConversationFinished === 'IN_PROGRESS') {

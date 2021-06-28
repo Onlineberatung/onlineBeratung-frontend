@@ -13,10 +13,8 @@ export const WaitingRoomLoader = ({
 	handleUnmatch,
 	onAnonymousRegistration
 }: WaitingRoomLoaderProps) => {
-	const [
-		isAnonymousConversationAllowed,
-		setIsAnonymousConversationAllowed
-	] = useState<boolean>();
+	const [isAnonymousConversationAllowed, setIsAnonymousConversationAllowed] =
+		useState<boolean>();
 	const { consultingTypeSlug } = useParams();
 	const [consultingTypeId, setConsultingTypeId] = useState<number>();
 
