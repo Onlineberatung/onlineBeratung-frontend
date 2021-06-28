@@ -4,7 +4,9 @@ import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
 	AcceptedGroupIdContext,
-	UserDataInterface
+	UserDataInterface,
+	useConsultingTypes,
+	useConsultingType
 } from '../../globalState';
 import { history } from '../app/app';
 import { Button } from '../button/Button';
@@ -33,28 +35,23 @@ import { AgencySelection } from '../agencySelection/AgencySelection';
 import './profile.styles';
 import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
-import { isGroupChatConsultingType } from '../../utils/resorts';
 import { Headline } from '../headline/Headline';
-import { apiGetConsultingType } from '../../api/apiGetConsultingType';
-import { ConsultingTypeInterface } from '../../globalState';
 
 export const AskerRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-	const [selectedConsultingType, setSelectedConsultingType] = useState<
-		number
-	>(null);
-	const [
-		selectedConsultingTypeData,
-		setSelectedConsultingTypeData
-	] = useState<ConsultingTypeInterface>();
+	const [selectedConsultingTypeId, setSelectedConsultingTypeId] =
+		useState<number>(null);
 	const [selectedAgency, setSelectedAgency] = useState<any>({});
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const consultingTypes = useConsultingTypes();
+	const selectedConsultingType = useConsultingType(selectedConsultingTypeId);
 
-	const isAllRequiredDataSet = () => selectedConsultingType && selectedAgency;
+	const isAllRequiredDataSet = () =>
+		selectedConsultingTypeId != null && selectedAgency;
 
 	useEffect(() => {
 		if (isAllRequiredDataSet()) {
@@ -65,24 +62,21 @@ export const AskerRegistration = () => {
 	}, [selectedAgency]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleConsultingTypeSelect = (selectedOption) => {
-		setSelectedConsultingType(selectedOption.value);
-
-		const consultingTypeId = parseInt(selectedOption.value);
-
-		apiGetConsultingType({
-			consultingTypeId
-		}).then((result) => setSelectedConsultingTypeData(result));
+		setSelectedConsultingTypeId(parseInt(selectedOption.value));
 	};
 
 	const getOptionOfSelectedConsultingType = () => {
-		return consultingTypeSelectOptionsSet(userData).filter(
-			(option) => option.value === (selectedConsultingType as any)
+		return consultingTypeSelectOptionsSet(userData, consultingTypes).filter(
+			(option) => parseInt(option.value) === selectedConsultingTypeId
 		)[0];
 	};
 
 	const consultingTypesDropdown: SelectDropdownItem = {
 		id: 'consultingTypeSelect',
-		selectedOptions: consultingTypeSelectOptionsSet(userData),
+		selectedOptions: consultingTypeSelectOptionsSet(
+			userData,
+			consultingTypes
+		),
 		handleDropdownSelect: handleConsultingTypeSelect,
 		selectInputLabel: translate(
 			'profile.data.register.consultingTypeSelect.label'
@@ -101,19 +95,17 @@ export const AskerRegistration = () => {
 
 		if (isAllRequiredDataSet()) {
 			apiRegistrationNewConsultingTypes(
-				selectedConsultingType,
+				selectedConsultingTypeId,
 				selectedAgency.id,
 				selectedAgency.postcode
 			)
 				.then((response) => {
 					let overlayItem = overlayItemNewRegistrationSuccess;
-					if (isGroupChatConsultingType(selectedConsultingType)) {
+					if (selectedConsultingType?.groupChat.isGroupChat) {
 						overlayItem.buttonSet[0].label = translate(
 							'profile.data.registerSuccess.overlay.button1Label.groupChats'
 						);
-					} else if (
-						!isGroupChatConsultingType(selectedConsultingType)
-					) {
+					} else {
 						setAcceptedGroupId(response.sessionId);
 					}
 					setOverlayItem(overlayItem);
@@ -145,7 +137,7 @@ export const AskerRegistration = () => {
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setOverlayItem({});
 			setOverlayActive(false);
-			setSelectedConsultingType(null);
+			setSelectedConsultingTypeId(null);
 		} else {
 			logout();
 		}
@@ -154,15 +146,19 @@ export const AskerRegistration = () => {
 	const registeredConsultingTypes = userData
 		? getConsultingTypesForRegistrationStatus(
 				userData,
+				consultingTypes,
 				REGISTRATION_STATUS_KEYS.REGISTERED
 		  )
 		: null;
 	const isOnlyRegisteredForGroupChats =
 		registeredConsultingTypes?.length === 1 &&
-		isGroupChatConsultingType(
-			parseInt(registeredConsultingTypes[0].consultingType)
-		) &&
-		!isGroupChatConsultingType(selectedConsultingType);
+		consultingTypes.find(
+			(cur) =>
+				cur.id === parseInt(registeredConsultingTypes[0].consultingType)
+		)?.groupChat.isGroupChat &&
+		selectedConsultingType &&
+		!selectedConsultingType.groupChat.isGroupChat;
+
 	return (
 		<div className="profile__data__itemWrapper askerRegistration">
 			<div className="profile__content__title">
@@ -188,12 +184,12 @@ export const AskerRegistration = () => {
 			)}
 			{selectedConsultingType && (
 				<AgencySelection
-					selectedConsultingType={selectedConsultingType}
+					consultingType={selectedConsultingType}
 					onAgencyChange={(agency) => setSelectedAgency(agency)}
 					userData={userData}
 					isProfileView={true}
 					agencySelectionNote={
-						selectedConsultingTypeData?.registrationNotes
+						selectedConsultingType?.registration?.notes
 							?.agencySelection
 					}
 				/>

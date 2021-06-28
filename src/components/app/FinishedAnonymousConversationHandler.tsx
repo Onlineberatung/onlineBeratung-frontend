@@ -15,10 +15,8 @@ import { config } from '../../resources/scripts/config';
 
 export const FinishedAnonymousConversationHandler = () => {
 	const [overlayActive, setOverlayActive] = useState(false);
-	const {
-		anonymousConversationFinished,
-		setAnonymousConversationFinished
-	} = useContext(AnonymousConversationFinishedContext);
+	const { anonymousConversationFinished, setAnonymousConversationFinished } =
+		useContext(AnonymousConversationFinishedContext);
 
 	useEffect(() => {
 		if (anonymousConversationFinished === 'IN_PROGRESS') {
@@ -30,7 +28,7 @@ export const FinishedAnonymousConversationHandler = () => {
 
 	const overlayItem: OverlayItem = {
 		svg: WavingIllustration,
-		illustrationBackground: 'grey',
+		illustrationBackground: 'neutral',
 		headline: translate('anonymous.overlay.chatWasFinished.headline'),
 		headlineStyleLevel: '1',
 		copy: translate('anonymous.overlay.chatWasFinished.copy'),

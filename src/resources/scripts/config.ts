@@ -1,6 +1,8 @@
 const nodeEnv: string = process.env.NODE_ENV as string;
+const reactAppTest: string = process.env.REACT_APP_TEST as string;
 export const tld = nodeEnv === 'development' ? 'http://caritas.local' : '';
-export const endpointPort = nodeEnv === 'development' ? ':9000' : '';
+export const endpointPort = reactAppTest === 'test' ? ':9000' : '';
+export const APP_PATH = 'app';
 
 export const config = {
 	endpoints: {
@@ -44,8 +46,9 @@ export const config = {
 		sessionBase: tld + '/service/users/sessions',
 		setAbsence: tld + '/service/users/consultants/absences',
 		startVideoCall: tld + '/service/videocalls/new',
-		updateMonitoring: tld + '/service/users/sessions/monitoring',
+		consultingTypeServiceBase: tld + '/service/consultingtypes',
 		userData: tld + '/service/users/data',
+		updateMonitoring: tld + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
 		registerAnonymousAsker:
 			tld + '/service/conversations/askers/anonymous/new'
@@ -54,7 +57,7 @@ export const config = {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
 		toLogin: tld + endpointPort + '/',
-		redirectToApp: tld + endpointPort + `/app`,
+		redirectToApp: tld + endpointPort + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',

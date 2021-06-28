@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useContext, useEffect, useMemo } from 'react';
+import clsx from 'clsx';
 import {
 	SESSION_LIST_TAB,
 	typeIsSession,
@@ -59,6 +60,7 @@ interface SessionItemProps {
 	isTyping: Function;
 	messages?: MessageItem[];
 	typingUsers: string[];
+	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 }
 
 let initMessageCount: number;
@@ -70,11 +72,9 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		[props.currentGroupId] // eslint-disable-line react-hooks/exhaustive-deps
 	);
 	const { userData } = useContext(UserDataContext);
-	const [monitoringButtonVisible, setMonitoringButtonVisible] = useState(
-		false
-	);
+	const [monitoringButtonVisible, setMonitoringButtonVisible] =
+		useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
-
 	const [currentGroupId, setCurrentGroupId] = useState(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const chatItem = getChatItemForSession(activeSession);
@@ -146,17 +146,17 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const [resortData, setResortData] = useState<ConsultingTypeInterface>();
 	useEffect(() => {
 		let isCanceled = false;
-		const { consultingType } = chatItem;
-		apiGetConsultingType({ consultingTypeId: consultingType }).then(
-			(response) => {
-				if (isCanceled) return;
-				setResortData(response);
-			}
-		);
+		apiGetConsultingType({
+			consultingTypeId:
+				getChatItemForSession(activeSession)?.consultingType
+		}).then((response) => {
+			if (isCanceled) return;
+			setResortData(response);
+		});
 		return () => {
 			isCanceled = true;
 		};
-	}, [chatItem]);
+	}, [chatItem]); // eslint-disable-line
 
 	if (!activeSession) return null;
 
@@ -202,8 +202,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
-		switch (overlayItem) {
-			case enquirySuccessfullyAcceptedOverlayItem:
+		switch (buttonFunction) {
+			case OVERLAY_FUNCTIONS.REDIRECT:
 				setOverlayItem(null);
 				setIsRequestInProgress(false);
 				setCurrentGroupId('');
@@ -211,7 +211,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				setSessionsData({ ...sessionsData, enquiries: [] });
 				history.push(`/sessions/consultant/sessionView/`);
 				break;
-			case enquiryTakenByOtherConsultantOverlayItem:
+			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayItem(null);
 				history.push(
 					`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`
@@ -241,9 +241,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const handleScrollToBottomButtonClick = () => {
 		if (newMessages > 0) {
 			const scrollContainer = scrollContainerRef.current;
-			const sessionHeader = scrollContainer.parentElement.getElementsByClassName(
-				'sessionInfo'
-			)[0] as HTMLElement;
+			const sessionHeader =
+				scrollContainer.parentElement.getElementsByClassName(
+					'sessionInfo'
+				)[0] as HTMLElement;
 			const messageItems = scrollContainer.querySelectorAll(
 				'.messageItem:not(.messageItem--right)'
 			);
@@ -299,6 +300,47 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	};
 
+	const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = {
+		svg: CheckIcon,
+		headline: translate('session.acceptance.overlayHeadline'),
+		buttonSet: [
+			{
+				label: translate('session.acceptance.buttonLabel'),
+				function: OVERLAY_FUNCTIONS.REDIRECT,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		]
+	};
+
+	const enquiryTakenByOtherConsultantOverlayItem: OverlayItem = {
+		svg: XIcon,
+		headline: translate(
+			'session.anonymous.takenByOtherConsultant.overlayHeadline'
+		),
+		illustrationBackground: 'error',
+		buttonSet: [
+			{
+				label: translate(
+					'session.anonymous.takenByOtherConsultant.buttonLabel'
+				),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		]
+	};
+
+	const monitoringButtonItem: ButtonItem = {
+		label: translate('session.monitoring.buttonLabel'),
+		type: 'PRIMARY',
+		function: ''
+	};
+
+	const scrollBottomButtonItem: ButtonItem = {
+		icon: <ArrowDoubleDownIcon />,
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'grey'
+	};
+
 	return (
 		<div
 			className={
@@ -313,6 +355,9 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						? activeSession.consultant
 						: false
 				}
+				hasUserInitiatedStopOrLeaveRequest={
+					props.hasUserInitiatedStopOrLeaveRequest
+				}
 			/>
 
 			{!props.isAnonymousEnquiry && (
@@ -320,7 +365,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					id="session-scroll-container"
 					className="session__content"
 					ref={scrollContainerRef}
-					onScroll={(e) => handleScroll.callback(e)}
+					onScroll={(e) => handleScroll(e)}
 				>
 					{messages &&
 						resortData &&
@@ -415,6 +460,11 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					<MessageSubmitInterfaceComponent
 						handleSendButton={() => {}}
 						isTyping={() => props.isTyping()}
+						className={clsx(
+							'session__submit-interface',
+							!isScrolledToBottom &&
+								'session__submit-interface--scrolled-up'
+						)}
 						placeholder={getPlaceholder()}
 						showMonitoringButton={() => {
 							setMonitoringButtonVisible(true);
@@ -433,45 +483,4 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			)}
 		</div>
 	);
-};
-
-const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = {
-	svg: CheckIcon,
-	headline: translate('session.acceptance.overlayHeadline'),
-	buttonSet: [
-		{
-			label: translate('session.acceptance.buttonLabel'),
-			function: OVERLAY_FUNCTIONS.REDIRECT,
-			type: BUTTON_TYPES.PRIMARY
-		}
-	]
-};
-
-const enquiryTakenByOtherConsultantOverlayItem: OverlayItem = {
-	svg: XIcon,
-	headline: translate(
-		'session.anonymous.takenByOtherConsultant.overlayHeadline'
-	),
-	illustrationBackground: 'red',
-	buttonSet: [
-		{
-			label: translate(
-				'session.anonymous.takenByOtherConsultant.buttonLabel'
-			),
-			function: OVERLAY_FUNCTIONS.REDIRECT,
-			type: BUTTON_TYPES.PRIMARY
-		}
-	]
-};
-
-const monitoringButtonItem: ButtonItem = {
-	label: translate('session.monitoring.buttonLabel'),
-	type: 'PRIMARY',
-	function: ''
-};
-
-const scrollBottomButtonItem: ButtonItem = {
-	icon: <ArrowDoubleDownIcon />,
-	type: BUTTON_TYPES.SMALL_ICON,
-	smallIconBackgroundColor: 'grey'
 };

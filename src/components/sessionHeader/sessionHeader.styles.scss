@@ -7,7 +7,7 @@ $iconSize: 24px;
 	flex-direction: column;
 	align-items: center;
 	padding: $grid-base-two $grid-base-two;
-	background-color: $background-light-ochre;
+	background-color: $session-header-background-color;
 
 	@include breakpoint($fromMedium) {
 		padding: $grid-base-three;
@@ -15,7 +15,7 @@ $iconSize: 24px;
 
 	@include breakpoint($fromLarge) {
 		align-items: flex-start;
-		background-color: $background-ochre;
+		background-color: $session-header-background-color-large;
 	}
 
 	&__feedbackHeaderWrapper,

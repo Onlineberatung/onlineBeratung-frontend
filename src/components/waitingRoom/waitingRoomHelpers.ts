@@ -8,7 +8,7 @@ export const acceptanceOverlayItem: OverlayItem = {
 	headline: translate('anonymous.waitingroom.overlay.acceptance.headline'),
 	copy: translate('anonymous.waitingroom.overlay.acceptance.copy'),
 	svg: WelcomeIllustration,
-	illustrationBackground: 'green',
+	illustrationBackground: 'info',
 	buttonSet: [
 		{
 			label: translate('anonymous.waitingroom.overlay.acceptance.button'),
@@ -22,7 +22,7 @@ export const rejectionOverlayItem: OverlayItem = {
 	headline: translate('anonymous.waitingroom.overlay.rejection.headline'),
 	copy: translate('anonymous.waitingroom.overlay.rejection.copy'),
 	svg: WavingIllustration,
-	illustrationBackground: 'grey',
+	illustrationBackground: 'neutral',
 	buttonSet: [
 		{
 			label: translate('anonymous.waitingroom.overlay.rejection.button'),

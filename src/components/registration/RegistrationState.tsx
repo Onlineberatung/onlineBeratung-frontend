@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import {
 	AccordionItemValidity,
-	RegistrationDropdownSelectData,
-	stateData
+	RegistrationDropdownSelectData
 } from './registrationHelpers';
 
 interface RegistrationStateProps {
@@ -16,6 +15,7 @@ interface RegistrationStateProps {
 export const RegistrationState = (props: RegistrationStateProps) => {
 	const [state, setState] = useState<string>();
 	const [isValid, setIsValid] = useState<AccordionItemValidity>('initial');
+	const stateData = props.dropdownSelectData.options;
 
 	useEffect(() => {
 		props.onValidityChange(isValid);

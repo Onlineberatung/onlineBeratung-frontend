@@ -1,0 +1,170 @@
+{
+	"id": 1,
+	"titles": {
+		"default": "U25",
+		"short": "U25",
+		"long": "Beratung für Suizidgefährdete junge Menschen [U25]",
+		"welcome": "Willkommen bei der U25-Hilfe",
+		"registrationDropdown": "Beratung für Suizidgefährdete junge Menschen [U25]"
+	},
+	"urls": {
+		"requiredAidMissingRedirectUrl": "https://www.u25.de/helpmail/"
+	},
+	"registration": {
+		"minPostcodeSize": 5,
+		"autoSelectAgency": true,
+		"autoSelectPostcode": true,
+		"notes": {
+			"password": "Bitte notiere Dir Deine Zugangsdaten – ein Passwort-Reset ist nicht möglich!"
+		},
+		"mandatoryFields": {
+			"age": true,
+			"state": true
+		}
+	},
+	"isSubsequentRegistrationAllowed": false,
+	"isAnonymousConversationAllowed": false,
+	"isSetEmailAllowed": false,
+	"slug": "u25",
+	"languageFormal": false,
+	"lockedAgencies": false,
+	"excludeNonMainConsultantsFromTeamSessions": false,
+	"whiteSpot": {
+		"whiteSpotAgencyAssigned": false
+	},
+	"groupChat": {
+		"isGroupChat": false,
+		"groupChatRules": []
+	},
+	"consultantBoundedToConsultingType": false,
+	"welcomeMessage": {
+		"sendWelcomeMessage": true,
+		"welcomeMessageText": "Lorem ipsum"
+	},
+	"sendFurtherStepsMessage": false,
+	"sendSaveSessionDataMessage": true,
+	"sessionDataInitializing": {
+		"addictiveDrugs": false,
+		"age": true,
+		"gender": true,
+		"relation": false,
+		"state": true
+	},
+	"monitoring": {
+		"initializeMonitoring": true,
+		"monitoringTemplateFile": "u25.json"
+	},
+	"initializeFeedbackChat": true,
+	"roles": {
+		"consultant": {
+			"main": ["consultant", "u25-consultant", "u25-main-consultant"],
+			"peer": ["consultant", "u25-consultant"]
+		}
+	},
+	"notifications": {
+		"teamSessions": {
+			"newMessage": {
+				"allTeamConsultants": false
+			}
+		}
+	},
+	"showAskerProfile": true,
+	"voluntaryComponents": [
+		{
+			"componentType": "RadioButton",
+			"headline": "Geschlecht",
+			"name": "gender",
+			"radioButtons": [
+				{
+					"inputId": "female",
+					"label": "Weiblich",
+					"checked": false
+				},
+				{
+					"inputId": "male",
+					"label": "Männlich",
+					"checked": false
+				},
+				{
+					"inputId": "diverseGender",
+					"label": "Divers",
+					"checked": false
+				}
+			]
+		}
+	],
+	"requiredComponents": {
+		"age": {
+			"isEnabled": true,
+			"options": [
+				{
+					"value": "0",
+					"label": "unter 12"
+				},
+				{
+					"value": "1",
+					"label": "12"
+				},
+				{
+					"value": "2",
+					"label": "13"
+				},
+				{
+					"value": "3",
+					"label": "14"
+				},
+				{
+					"value": "4",
+					"label": "15"
+				},
+				{
+					"value": "5",
+					"label": "16"
+				},
+				{
+					"value": "6",
+					"label": "17"
+				},
+				{
+					"value": "7",
+					"label": "18"
+				},
+				{
+					"value": "8",
+					"label": "19"
+				},
+				{
+					"value": "9",
+					"label": "20"
+				},
+				{
+					"value": "10",
+					"label": "21"
+				},
+				{
+					"value": "11",
+					"label": "22"
+				},
+				{
+					"value": "12",
+					"label": "23"
+				},
+				{
+					"value": "13",
+					"label": "24"
+				},
+				{
+					"value": "14",
+					"label": "25"
+				},
+				{
+					"value": "15",
+					"label": "über 25"
+				}
+			]
+		},
+		"state": {
+			"isEnabled": true
+		}
+	}
+}

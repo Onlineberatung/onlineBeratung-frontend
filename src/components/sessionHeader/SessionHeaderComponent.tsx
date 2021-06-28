@@ -5,8 +5,7 @@ import { history } from '../app/app';
 import {
 	translate,
 	handleNumericTranslation,
-	getAddictiveDrugsString,
-	getResortTranslation
+	getAddictiveDrugsString
 } from '../../utils/translate';
 import { mobileListView } from '../app/navigationHandler';
 import {
@@ -17,7 +16,8 @@ import {
 	getContact,
 	AUTHORITIES,
 	hasUserAuthority,
-	isAnonymousSession
+	isAnonymousSession,
+	useConsultingType
 } from '../../globalState';
 import { Link } from 'react-router-dom';
 import {
@@ -32,7 +32,6 @@ import {
 	convertUserDataObjectToArray,
 	getAddictiveDrugsTranslatable
 } from '../profile/profileHelpers';
-import { isGenericConsultingType } from '../../utils/resorts';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { apiGetGroupMembers } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
@@ -42,6 +41,7 @@ import './sessionHeader.yellowTheme.styles';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: boolean;
+	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
@@ -53,6 +53,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const chatItem = getChatItemForSession(activeSession);
+	const consultingType = useConsultingType(chatItem.consultingType);
 
 	const username = getContact(activeSession).username;
 	const userSessionData = getContact(activeSession).sessionData;
@@ -146,7 +147,11 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							<h3>{chatItem.topic}</h3>
 						)}
 					</div>
-					<SessionMenu />
+					<SessionMenu
+						hasUserInitiatedStopOrLeaveRequest={
+							props.hasUserInitiatedStopOrLeaveRequest
+						}
+					/>
 				</div>
 				<div className="sessionInfo__metaInfo">
 					<div className="sessionInfo__metaInfo__content">
@@ -224,7 +229,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 								AUTHORITIES.ASKER_DEFAULT,
 								userData
 							) ||
-							isGenericConsultingType(chatItem?.consultingType) ||
+							!consultingType.showAskerProfile ||
 							isLiveChat
 					})}
 				>
@@ -239,8 +244,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						AUTHORITIES.CONSULTANT_DEFAULT,
 						userData
 					) ? (
-						!isGenericConsultingType(chatItem?.consultingType) &&
-						!isLiveChat ? (
+						consultingType.showAskerProfile && !isLiveChat ? (
 							<Link to={userProfileLink}>
 								<h3>{username}</h3>
 							</Link>
@@ -253,17 +257,18 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						userData
 					) && <h3>{username}</h3>}
 				</div>
-				<SessionMenu />
+				<SessionMenu
+					hasUserInitiatedStopOrLeaveRequest={
+						props.hasUserInitiatedStopOrLeaveRequest
+					}
+				/>
 			</div>
 			{!activeSession?.teamSession ||
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
 				<div className="sessionInfo__metaInfo">
 					{!activeSession?.agency ? (
 						<div className="sessionInfo__metaInfo__content">
-							{getResortTranslation(
-								chatItem?.consultingType,
-								true
-							)}
+							{consultingType.titles.short}
 						</div>
 					) : null}
 					{preparedUserSessionData

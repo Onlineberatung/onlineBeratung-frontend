@@ -26,20 +26,15 @@ interface WebsocketHandlerProps {
 }
 
 export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
-	const [newStompDirectMessage, setNewStompDirectMessage] = useState<boolean>(
-		false
-	);
-	const [newStompAnonymousEnquiry, setNewStompAnonymousEnquiry] = useState<
-		boolean
-	>(false);
-	const [newStompVideoCallRequest, setNewStompVideoCallRequest] = useState<
-		VideoCallRequestProps
-	>();
+	const [newStompDirectMessage, setNewStompDirectMessage] =
+		useState<boolean>(false);
+	const [newStompAnonymousEnquiry, setNewStompAnonymousEnquiry] =
+		useState<boolean>(false);
+	const [newStompVideoCallRequest, setNewStompVideoCallRequest] =
+		useState<VideoCallRequestProps>();
 	const { userData } = useContext(UserDataContext);
-	const [
-		newStompAnonymousChatFinished,
-		setNewStompAnonymousChatFinished
-	] = useState<boolean>(false);
+	const [newStompAnonymousChatFinished, setNewStompAnonymousChatFinished] =
+		useState<boolean>(false);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
@@ -47,9 +42,8 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		UpdateAnonymousEnquiriesContext
 	);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
-	const { notifications, setNotifications } = useContext(
-		NotificationsContext
-	);
+	const { notifications, setNotifications } =
+		useContext(NotificationsContext);
 	const { setAnonymousEnquiryAccepted } = useContext(
 		AnonymousEnquiryAcceptedContext
 	);
@@ -59,7 +53,6 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const { setWebsocketConnectionDeactivated } = useContext(
 		WebsocketConnectionDeactivatedContext
 	);
-
 	const stompClient = Stomp.over(function () {
 		return new SockJS(config.endpoints.liveservice);
 	});

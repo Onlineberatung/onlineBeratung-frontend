@@ -12,7 +12,8 @@ $unreadButtonSize: 18px;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	background-color: $background-ochre;
+	background-color: $session-background-color;
+	overflow: hidden;
 
 	@include breakpoint($fromLarge) {
 		width: 100%;
@@ -78,7 +79,7 @@ $unreadButtonSize: 18px;
 		overflow-x: hidden;
 		overflow-y: auto;
 		padding: $grid-base-three $grid-base-two $grid-base-two;
-		background-color: $background-ochre;
+		background-color: $session-content-background-color;
 
 		@include breakpoint($fromMedium) {
 			padding: $grid-base-three $grid-base-three $grid-base-two;
@@ -96,6 +97,14 @@ $unreadButtonSize: 18px;
 			.headline {
 				text-align: center;
 			}
+		}
+	}
+
+	&__submit-interface {
+		transition: box-shadow 0.3s ease;
+
+		&--scrolled-up {
+			box-shadow: 0 -2px 8px 0 rgba($black, 0.1);
 		}
 	}
 

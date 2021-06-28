@@ -50,7 +50,7 @@ export const createChatSuccessOverlayItem: OverlayItem = {
 
 export const createChatErrorOverlayItem: OverlayItem = {
 	svg: XIcon,
-	illustrationBackground: 'red',
+	illustrationBackground: 'error',
 	headline: translate('groupChat.createError.overlay.headline'),
 	buttonSet: [
 		{

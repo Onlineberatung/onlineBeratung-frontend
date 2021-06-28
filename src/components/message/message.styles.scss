@@ -252,7 +252,7 @@ $message-lineheight: 21px;
 
 		&--myMessage {
 			color: $white;
-			background-color: $message-bg-red;
+			background-color: $message-background;
 
 			.messageItem__message__attachment {
 				background-color: $white;

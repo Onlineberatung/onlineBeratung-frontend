@@ -4,10 +4,8 @@ import { createContext, useState } from 'react';
 export const AnonymousConversationFinishedContext = createContext<any>(null);
 
 export function AnonymousConversationFinishedProvider(props) {
-	const [
-		anonymousConversationFinished,
-		setAnonymousConversationFinished
-	] = useState<string>(null);
+	const [anonymousConversationFinished, setAnonymousConversationFinished] =
+		useState<string>(null);
 
 	return (
 		<AnonymousConversationFinishedContext.Provider

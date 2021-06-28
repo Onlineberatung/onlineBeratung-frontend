@@ -19,12 +19,10 @@ export const DeleteAccount = () => {
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [password, setPassword] = useState<string>('');
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
-	const [isPasswordWarningActive, setIsPasswordWarningActive] = useState<
-		boolean
-	>(false);
-	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
-		false
-	);
+	const [isPasswordWarningActive, setIsPasswordWarningActive] =
+		useState<boolean>(false);
+	const [isRequestInProgress, setIsRequestInProgress] =
+		useState<boolean>(false);
 
 	const deleteAccountButton: ButtonItem = {
 		label: translate('deleteAccount.button.label'),
@@ -50,7 +48,6 @@ export const DeleteAccount = () => {
 	const overlayConfirm: OverlayItem = {
 		headline: translate('deleteAccount.confirmOverlay.headline'),
 		headlineStyleLevel: '1',
-		className: 'deleteAccount',
 		copy: translate('deleteAccount.confirmOverlay.copy'),
 		nestedComponent: (
 			<InputField
@@ -120,6 +117,7 @@ export const DeleteAccount = () => {
 			{isOverlayActive && (
 				<OverlayWrapper>
 					<Overlay
+						className="deleteAccount__overlay"
 						item={
 							isSuccessOverlay ? overlaySuccess : overlayConfirm
 						}

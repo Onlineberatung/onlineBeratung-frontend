@@ -13,17 +13,15 @@ export const WaitingRoomLoader = ({
 	handleUnmatch,
 	onAnonymousRegistration
 }: WaitingRoomLoaderProps) => {
-	const [
-		isAnonymousConversationAllowed,
-		setIsAnonymousConversationAllowed
-	] = useState<boolean>();
+	const [isAnonymousConversationAllowed, setIsAnonymousConversationAllowed] =
+		useState<boolean>();
 	const { consultingTypeSlug } = useParams();
 	const [consultingTypeId, setConsultingTypeId] = useState<number>();
 
 	useEffect(() => {
 		apiGetConsultingType({ consultingTypeSlug }).then((result) => {
 			if (result?.isAnonymousConversationAllowed) {
-				setConsultingTypeId(result.consultingType);
+				setConsultingTypeId(result.id);
 				setIsAnonymousConversationAllowed(true);
 			} else {
 				handleUnmatch();

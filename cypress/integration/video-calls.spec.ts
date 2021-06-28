@@ -1,3 +1,4 @@
+import { config } from '../../src/resources/scripts/config';
 import {
 	generateMultipleAskerSessions,
 	generateMultipleConsultantSessions
@@ -5,6 +6,20 @@ import {
 import { emitStompVideoCallRequest } from '../support/websocket';
 
 describe('Video calls', () => {
+	beforeEach(() => {
+		cy.fixture('service.consultingtypes.addiction.json').then(
+			(addictionConsultingType) => {
+				cy.fixture('service.consultingtypes.u25.json').then(
+					(u25ConsultingType) =>
+						cy.intercept(
+							`${config.endpoints.consultingTypeServiceBase}/basic`,
+							[addictionConsultingType, u25ConsultingType]
+						)
+				);
+			}
+		);
+	});
+
 	describe('Consultant', () => {
 		describe('Start a new video call', () => {
 			//TODO: reimplement on videocall release

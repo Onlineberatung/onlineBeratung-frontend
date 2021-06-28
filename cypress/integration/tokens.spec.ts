@@ -1,5 +1,6 @@
 import { RENEW_BEFORE_EXPIRY_IN_MS } from '../../src/components/auth/auth';
 import { getTokenExpiryFromLocalStorage } from '../../src/components/sessionCookie/accessSessionLocalStorage';
+import { config } from '../../src/resources/scripts/config';
 
 const waitForTokenProcessing = () => {
 	// TODO: don't arbitrarily wait for token to be processed, find some
@@ -10,10 +11,22 @@ const waitForTokenProcessing = () => {
 
 describe('Keycloak Tokens', () => {
 	let authTokenJson;
-	before(() => {
+	beforeEach(() => {
 		cy.fixture('auth.token.json').then((fixture) => {
 			authTokenJson = fixture;
 		});
+
+		cy.fixture('service.consultingtypes.addiction.json').then(
+			(addictionConsultingType) => {
+				cy.fixture('service.consultingtypes.u25.json').then(
+					(u25ConsultingType) =>
+						cy.intercept(
+							`${config.endpoints.consultingTypeServiceBase}/basic`,
+							[addictionConsultingType, u25ConsultingType]
+						)
+				);
+			}
+		);
 	});
 
 	it('should get and store tokens and expiry time on login', () => {
@@ -48,6 +61,11 @@ describe('Keycloak Tokens', () => {
 	});
 
 	it('should refresh the access token if its expired when loading the app', () => {
+		cy.intercept(
+			`${config.endpoints.consultingTypeServiceBase}/byslug/sessions/full`,
+			{ statusCode: 404 }
+		);
+
 		cy.clock();
 		cy.caritasMockedLogin();
 

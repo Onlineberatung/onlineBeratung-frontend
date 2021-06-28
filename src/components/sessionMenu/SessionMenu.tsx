@@ -11,7 +11,8 @@ import {
 	StoppedGroupChatContext,
 	hasUserAuthority,
 	isAnonymousSession,
-	AUTHORITIES
+	AUTHORITIES,
+	useConsultingType
 } from '../../globalState';
 import {
 	typeIsEnquiry,
@@ -20,7 +21,6 @@ import {
 	getSessionListPathForLocation,
 	getTypeOfLocation
 } from '../session/sessionHelpers';
-import { isGenericConsultingType } from '../../utils/resorts';
 import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
 	stopGroupChatSecurityOverlayItem,
@@ -55,7 +55,11 @@ import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 
-export const SessionMenu = () => {
+export interface SessionMenuProps {
+	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
+}
+
+export const SessionMenu = (props: SessionMenuProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
@@ -64,6 +68,7 @@ export const SessionMenu = () => {
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
+	const consultingType = useConsultingType(chatItem.consultingType);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const isLiveChatFinished = chatItem?.status === 3;
@@ -135,23 +140,36 @@ export const SessionMenu = () => {
 			setOverlayItem(null);
 			setIsRequestInProgress(false);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.STOP_GROUP_CHAT) {
+			// In order to prevent a possible race condition between the user
+			// service and Rocket.Chat in case of a successful request, this ref
+			// is reset to `false` in the event handler that handles NOTIFY_USER
+			// events.
+			props.hasUserInitiatedStopOrLeaveRequest.current = true;
+
 			apiPutGroupChat(chatItem?.id, GROUP_CHAT_API.STOP)
 				.then((response) => {
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
-					setIsRequestInProgress(false);
 				})
 				.catch((error) => {
 					setOverlayItem(groupChatErrorOverlayItem);
+					props.hasUserInitiatedStopOrLeaveRequest.current = false;
+				})
+				.finally(() => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LEAVE_GROUP_CHAT) {
+			// See comment above
+			props.hasUserInitiatedStopOrLeaveRequest.current = true;
+
 			apiPutGroupChat(chatItem?.id, GROUP_CHAT_API.LEAVE)
 				.then((response) => {
 					setOverlayItem(leaveGroupChatSuccessOverlayItem);
-					setIsRequestInProgress(false);
 				})
 				.catch((error) => {
 					setOverlayItem(groupChatErrorOverlayItem);
+					props.hasUserInitiatedStopOrLeaveRequest.current = false;
+				})
+				.finally(() => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
@@ -408,7 +426,7 @@ export const SessionMenu = () => {
 				) : null}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				!isGroupChat &&
-				!isGenericConsultingType(chatItem?.consultingType) &&
+				consultingType.showAskerProfile &&
 				!isLiveChat ? (
 					<Link className="sessionMenu__item" to={userProfileLink}>
 						{translate('chatFlyout.askerProfil')}

@@ -13,7 +13,7 @@
 
 		&:hover + .tagSelect__label {
 			color: $primary;
-			background-color: #f8dedd;
+			background-color: $background-accent;
 		}
 
 		@media (hover: none) {
