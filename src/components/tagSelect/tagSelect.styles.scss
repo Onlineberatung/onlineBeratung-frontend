@@ -13,9 +13,10 @@
 
 		&:hover + .tagSelect__label {
 			color: $primary;
-			background-color: #f8dedd;
+			background-color: $background-accent;
 		}
-		@media (pointer: coarse) {
+
+		@media (hover: none) {
 			&:hover + .tagSelect__label {
 				color: $secondary;
 				background: $dark-grey;

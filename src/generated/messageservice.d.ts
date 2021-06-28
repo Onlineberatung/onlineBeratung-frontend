@@ -118,9 +118,10 @@ declare namespace MessageService {
 			messages: MessagesDTO[];
 		}
 		export type MessageType =
+			| 'FINISHED_CONVERSATION'
+			| 'FORWARD'
 			| 'FURTHER_STEPS'
 			| 'UPDATE_SESSION_DATA'
-			| 'FORWARD'
 			| 'VIDEOCALL';
 		export interface MessagesDTO {
 			/**

@@ -3,15 +3,18 @@ import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { ReactComponent as EnvelopeIcon } from '../../resources/img/icons/envelope.svg';
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Text } from '../text/Text';
 import { config } from '../../resources/scripts/config';
+import { Headline } from '../headline/Headline';
+import { RegistrationWelcomeScreenInterface } from '../../globalState';
 import './welcomeScreen.styles';
 
 interface WelcomeScreenProps {
-	resortTitle: string;
+	title: string;
 	handleForwardToRegistration: Function;
+	welcomeScreenConfig: RegistrationWelcomeScreenInterface;
 }
 
 export const WelcomeScreen = (props: WelcomeScreenProps) => {
@@ -33,8 +36,8 @@ export const WelcomeScreen = (props: WelcomeScreenProps) => {
 		},
 		{
 			icon: <LockIcon />,
-			title: translate('registration.welcomeScreen.info4.title'),
-			text: translate('registration.welcomeScreen.info4.text')
+			title: props.welcomeScreenConfig.anonymous.title,
+			text: props.welcomeScreenConfig.anonymous.text
 		}
 	];
 
@@ -50,11 +53,7 @@ export const WelcomeScreen = (props: WelcomeScreenProps) => {
 
 	return (
 		<div className="registrationWelcome">
-			<h2>
-				{translate('registration.welcomeScreen.title.start')}{' '}
-				{props.resortTitle}
-				{translate('registration.welcomeScreen.title.end')}
-			</h2>
+			<Headline text={props.title} semanticLevel="2" />
 			<h4>{translate('registration.welcomeScreen.subline')}</h4>
 
 			<div className="registrationWelcome__infoWrapper">

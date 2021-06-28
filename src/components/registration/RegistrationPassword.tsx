@@ -7,12 +7,12 @@ import {
 } from '../inputField/InputField';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { LABEL_TYPES, Text } from '../text/Text';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import {
 	inputValuesFit,
 	passwordCriteria,
 	validatePasswordCriteria
-} from '../../resources/scripts/helpers/validateInputValue';
+} from '../../utils/validateInputValue';
 import { AccordionItemValidity } from './registrationHelpers';
 import './registrationPassword.styles';
 
@@ -26,23 +26,16 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 	const [isValid, setIsValid] = useState<AccordionItemValidity>('initial');
 	const [password, setPassword] = useState<string>('');
 	const [passwordLabel, setPasswordLabel] = useState<string>(null);
-	const [passwordLabelState, setPasswordLabelState] = useState<
-		InputFieldLabelState
-	>(null);
-	const [
-		passwordCriteriaValidation,
-		setPasswordCriteriaValidation
-	] = useState<passwordCriteria>();
-	const [passwordConfirmation, setPasswordConfirmation] = useState<string>(
-		''
-	);
-	const [passwordConfirmationLabel, setPasswordConfirmationLabel] = useState<
-		string
-	>(null);
-	const [
-		passwordConfirmationLabelState,
-		setPasswordConfirmationLabelState
-	] = useState<InputFieldLabelState>(null);
+	const [passwordLabelState, setPasswordLabelState] =
+		useState<InputFieldLabelState>(null);
+	const [passwordCriteriaValidation, setPasswordCriteriaValidation] =
+		useState<passwordCriteria>();
+	const [passwordConfirmation, setPasswordConfirmation] =
+		useState<string>('');
+	const [passwordConfirmationLabel, setPasswordConfirmationLabel] =
+		useState<string>(null);
+	const [passwordConfirmationLabelState, setPasswordConfirmationLabelState] =
+		useState<InputFieldLabelState>(null);
 
 	useEffect(() => {
 		if (passwordCriteriaValidation) {

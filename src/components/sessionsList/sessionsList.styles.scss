@@ -8,7 +8,7 @@ $headerHeight: 80px;
 .sessionsList,
 .session {
 	&__wrapper {
-		background-color: $background-ochre;
+		background-color: $sessions-list-background-color-secondary;
 		position: relative;
 		height: 100%;
 
@@ -16,7 +16,7 @@ $headerHeight: 80px;
 			display: flex;
 			flex-direction: column;
 			height: 100%;
-			background-color: $background-light-ochre;
+			background-color: $sessions-list-background-color-primary;
 		}
 
 		.col {
@@ -33,7 +33,7 @@ $headerHeight: 80px;
 		flex-direction: row;
 		justify-content: space-between;
 		padding: $grid-base-three $grid-base-two;
-		background-color: $background-light-ochre;
+		background-color: $sessions-list-background-color-primary;
 		z-index: 15;
 
 		@include breakpoint($fromMedium) {
@@ -100,12 +100,12 @@ $headerHeight: 80px;
 		width: 100%;
 		position: absolute;
 		top: 0;
-		background-color: $background-ochre;
+		background-color: $sessions-list-background-color-secondary;
 		z-index: 5;
 
 		@include breakpoint($fromLarge) {
 			top: $grid-base-ten;
-			background-color: $background-light-ochre;
+			background-color: $sessions-list-background-color-primary;
 		}
 
 		.select__wrapper {
@@ -129,6 +129,56 @@ $headerHeight: 80px;
 		&--hasFilter {
 			padding-top: 82px;
 		}
+
+		&--hasTabs {
+			padding-top: 77px;
+
+			@include breakpoint($fromLarge) {
+				padding-top: 55px;
+			}
+		}
+	}
+
+	&__tabs {
+		position: absolute;
+		display: flex;
+		width: 100%;
+		padding: $grid-base-three;
+		background-color: $background-light;
+		z-index: 5;
+
+		@include breakpoint($fromLarge) {
+			padding: 0 $grid-base-three $grid-base-three;
+			background-color: $background-lighter;
+		}
+
+		a {
+			color: $secondary;
+
+			&:last-of-type {
+				margin-left: $grid-base-three;
+			}
+
+			@media (hover: hover) {
+				&:hover .text {
+					color: $primary;
+				}
+			}
+		}
+
+		&--active {
+			.text {
+				font-weight: $font-weight-medium;
+			}
+
+			&::after {
+				content: '';
+				background: $primary;
+				display: block;
+				height: 3px;
+				margin-top: 5px;
+			}
+		}
 	}
 
 	&__illustration {
@@ -144,7 +194,7 @@ $headerHeight: 80px;
 			width: $illustrationWrapperSize;
 			height: $illustrationWrapperSize;
 			border-radius: $illustrationWrapperSize / 2;
-			background-color: $light-success;
+			background-color: $illustration-background-info;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -182,7 +232,6 @@ $headerHeight: 80px;
 
 		&__infotext {
 			text-align: center;
-			font-family: $font-family-medium;
 			font-weight: $font-weight-medium;
 			font-size: $font-size-subheadline;
 			margin-bottom: 0;
@@ -232,7 +281,11 @@ $headerHeight: 80px;
 	}
 
 	&--empty {
-		margin-top: $grid-base-four;
+		margin: $grid-base-four $grid-base-two 0;
 		text-align: center;
+
+		@include breakpoint($fromMedium) {
+			margin: $grid-base-four $grid-base-three 0;
+		}
 	}
 }

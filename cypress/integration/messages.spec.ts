@@ -2,8 +2,28 @@ import { emitStompDirectMessage } from '../support/websocket';
 import { generateAskerSession, generateMessage } from '../support/sessions';
 import attachmentsI18n from '../../src/resources/scripts/i18n/de/attachments';
 import attachmentsInformalI18n from '../../src/resources/scripts/i18n/de/attachmentsInformal';
+import { config } from '../../src/resources/scripts/config';
 
 describe('Messages', () => {
+	beforeEach(() => {
+		cy.fixture('service.consultingtypes.addiction.json').then(
+			(addictionConsultingType) => {
+				cy.intercept(
+					`${config.endpoints.consultingTypeServiceBase}/1/full`,
+					addictionConsultingType
+				);
+
+				cy.fixture('service.consultingtypes.u25.json').then(
+					(u25ConsultingType) =>
+						cy.intercept(
+							`${config.endpoints.consultingTypeServiceBase}/basic`,
+							[addictionConsultingType, u25ConsultingType]
+						)
+				);
+			}
+		);
+	});
+
 	describe('Attachments', () => {
 		it('should allow to send a message with attachment', () => {
 			cy.caritasMockedLogin();
@@ -98,7 +118,7 @@ describe('Messages', () => {
 
 			describe('Not on My Sessions', () => {
 				describe('New message from Live Service', () => {
-					it('should animate the enevelope and initial dot', () => {
+					it('should animate the envelope and initial dot', () => {
 						cy.caritasMockedLogin();
 						cy.get('a[href="/profile"]').click();
 

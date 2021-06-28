@@ -31,7 +31,7 @@ $icon-size-small: 16px;
 			content: '';
 			width: 40px;
 			height: 100%;
-			background: $background-ochre;
+			background: $session-list-item-background-active;
 			display: block;
 			position: absolute;
 			bottom: 0;
@@ -51,7 +51,7 @@ $icon-size-small: 16px;
 
 		.sessionsListItem__content {
 			@include breakpoint($fromLarge) {
-				background-color: $background-ochre;
+				background-color: $session-list-item-background-active;
 				transition: all 0.3s ease;
 			}
 		}
@@ -80,7 +80,7 @@ $icon-size-small: 16px;
 		&:focus,
 		&:active {
 			@include breakpoint($fromLarge) {
-				background-color: $background-ochre;
+				background-color: $session-list-item-background-active;
 				transition: all 0.3s ease;
 			}
 		}
@@ -101,6 +101,10 @@ $icon-size-small: 16px;
 		}
 		&:not(:last-child) {
 			margin-bottom: $grid-base;
+		}
+
+		a[role='button'] {
+			margin-left: auto;
 		}
 	}
 
@@ -156,7 +160,6 @@ $icon-size-small: 16px;
 	}
 
 	&__username {
-		font-family: $font-family-medium;
 		font-weight: $font-weight-medium;
 		padding-top: 3px;
 		margin-right: auto;
@@ -165,7 +168,6 @@ $icon-size-small: 16px;
 		text-overflow: ellipsis;
 
 		&--readLabel {
-			font-family: $font-family-regular;
 			font-weight: $font-weight-regular;
 		}
 	}
@@ -227,12 +229,6 @@ $icon-size-small: 16px;
 }
 
 .skeleton {
-	margin-top: calc(#{$grid-base} * 13);
-
-	@include breakpoint($fromLarge) {
-		margin-top: 0;
-	}
-
 	&:hover {
 		cursor: auto !important;
 		.sessionsListItem__content {
@@ -247,7 +243,7 @@ $icon-size-small: 16px;
 		background: linear-gradient(
 			-90deg,
 			$dark-grey 0%,
-			$background-ochre 50%,
+			$session-list-item-background-active 50%,
 			$dark-grey 100%
 		);
 		background-size: 400% 400%;

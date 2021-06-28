@@ -2,11 +2,18 @@
 	display: flex;
 	position: absolute;
 	bottom: $grid-base-four;
+	right: $legal-information-links-right;
 
-	.text:not(:first-of-type) {
-		&::before {
-			content: '|';
-			margin: 0 $grid-base;
-		}
+	a {
+		flex-shrink: 0;
+	}
+
+	&__linkLabel {
+		color: $primary;
+	}
+
+	&__separator {
+		display: inline-block;
+		margin: 0 $grid-base;
 	}
 }

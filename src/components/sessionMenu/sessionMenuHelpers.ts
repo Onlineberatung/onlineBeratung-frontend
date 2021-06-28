@@ -1,11 +1,13 @@
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
+import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
+import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
+import { ReactComponent as WavingIllustration } from '../../resources/img/illustrations/waving.svg';
 
 export const stopGroupChatSecurityOverlayItem: OverlayItem = {
-	svg: XIcon,
+	svg: XIllustration,
+	illustrationBackground: 'error',
 	headline: translate('groupChat.stopChat.securityOverlay.headline'),
 	copy: '',
 	buttonSet: [
@@ -23,7 +25,7 @@ export const stopGroupChatSecurityOverlayItem: OverlayItem = {
 };
 
 export const stopGroupChatSuccessOverlayItem: OverlayItem = {
-	svg: CheckIcon,
+	svg: CheckIllustration,
 	headline: translate('groupChat.stopChat.successOverlay.headline'),
 	buttonSet: [
 		{
@@ -40,7 +42,8 @@ export const stopGroupChatSuccessOverlayItem: OverlayItem = {
 };
 
 export const groupChatErrorOverlayItem: OverlayItem = {
-	svg: XIcon,
+	svg: XIllustration,
+	illustrationBackground: 'error',
 	headline: translate('groupChat.createError.overlay.headline'),
 	buttonSet: [
 		{
@@ -52,7 +55,8 @@ export const groupChatErrorOverlayItem: OverlayItem = {
 };
 
 export const leaveGroupChatSecurityOverlayItem: OverlayItem = {
-	svg: XIcon,
+	svg: XIllustration,
+	illustrationBackground: 'error',
 	headline: translate('groupChat.leaveChat.securityOverlay.headline'),
 	buttonSet: [
 		{
@@ -73,7 +77,7 @@ export const leaveGroupChatSecurityOverlayItem: OverlayItem = {
 };
 
 export const leaveGroupChatSuccessOverlayItem: OverlayItem = {
-	svg: CheckIcon,
+	svg: CheckIllustration,
 	headline: translate('groupChat.leaveChat.successOverlay.headline'),
 	buttonSet: [
 		{
@@ -85,6 +89,38 @@ export const leaveGroupChatSuccessOverlayItem: OverlayItem = {
 			label: translate('groupChat.leaveChat.successOverlay.button2Label'),
 			function: OVERLAY_FUNCTIONS.LOGOUT,
 			type: BUTTON_TYPES.SECONDARY
+		}
+	]
+};
+
+export const finishAnonymousChatSecurityOverlayItem: OverlayItem = {
+	svg: WavingIllustration,
+	illustrationBackground: 'neutral',
+	headline: translate('anonymous.overlay.finishChat.headline'),
+	copy: translate('anonymous.overlay.finishChat.consultant.copy'),
+	buttonSet: [
+		{
+			label: translate('anonymous.overlay.finishChat.button1'),
+			function: OVERLAY_FUNCTIONS.FINISH_ANONYMOUS_CONVERSATION,
+			type: BUTTON_TYPES.PRIMARY
+		},
+		{
+			label: translate('anonymous.overlay.finishChat.button2'),
+			function: OVERLAY_FUNCTIONS.CLOSE,
+			type: BUTTON_TYPES.SECONDARY
+		}
+	]
+};
+
+export const finishAnonymousChatSuccessOverlayItem: OverlayItem = {
+	svg: CheckIllustration,
+	illustrationBackground: 'info',
+	headline: translate('anonymous.overlay.finishChat.success.headline'),
+	buttonSet: [
+		{
+			label: translate('anonymous.overlay.finishChat.success.button'),
+			function: OVERLAY_FUNCTIONS.REDIRECT_TO_URL,
+			type: BUTTON_TYPES.PRIMARY
 		}
 	]
 };

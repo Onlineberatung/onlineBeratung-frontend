@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useContext, useState } from 'react';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
 import { InputFieldItem, InputField } from '../inputField/InputField';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { apiSetAbsence } from '../../api';
 import { BUTTON_TYPES } from '../button/Button';
 import {
@@ -96,12 +96,12 @@ export const AbsenceFormular = () => {
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		setOverlayActive(false);
-		const absenceCheckbox = (document.getElementById(
-			'isAbsent'
-		) as HTMLInputElement)?.checked;
-		const absenceMessageInput = (document.getElementById(
-			'absence'
-		) as HTMLInputElement)?.value;
+		const absenceCheckbox = (
+			document.getElementById('isAbsent') as HTMLInputElement
+		)?.checked;
+		const absenceMessageInput = (
+			document.getElementById('absence') as HTMLInputElement
+		)?.value;
 		setSavedAbsence(true);
 		setUserData({
 			...userData,

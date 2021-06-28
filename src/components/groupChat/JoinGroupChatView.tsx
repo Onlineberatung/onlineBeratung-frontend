@@ -9,7 +9,8 @@ import {
 	StoppedGroupChatContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	AcceptedGroupIdContext
+	AcceptedGroupIdContext,
+	useConsultingType
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
@@ -30,7 +31,7 @@ import {
 	OVERLAY_FUNCTIONS,
 	OverlayItem
 } from '../overlay/Overlay';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { history } from '../app/app';
 import {
 	startButtonItem,
@@ -43,11 +44,6 @@ import { logout } from '../logout/logout';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
-import {
-	getResortKeyForConsultingType,
-	groupChatRuleTexts,
-	isGroupChatConsultingType
-} from '../../resources/scripts/helpers/resorts';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 
@@ -67,6 +63,7 @@ export const JoinGroupChatView = () => {
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
+	const consultingType = useConsultingType(chatItem.consultingType);
 
 	const [buttonItem, setButtonItem] = useState(joinButtonItem);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -103,17 +100,18 @@ export const JoinGroupChatView = () => {
 	const updateGroupChatInfo = () => {
 		if (
 			chatItem.groupId === activeSessionGroupId &&
-			isGroupChatConsultingType(chatItem.consultingType)
+			consultingType.groupChat.isGroupChat
 		) {
 			apiGetGroupChatInfo(chatItem.id)
 				.then((response: groupChatInfoData) => {
 					if (chatItem.active !== response.active) {
-						let changedSessionsData = getSessionsDataWithChangedValue(
-							sessionsData,
-							activeSession,
-							'active',
-							response.active
-						);
+						let changedSessionsData =
+							getSessionsDataWithChangedValue(
+								sessionsData,
+								activeSession,
+								'active',
+								response.active
+							);
 						setSessionsData(changedSessionsData);
 						history.push(
 							`${getSessionListPathForLocation()}/${
@@ -200,11 +198,15 @@ export const JoinGroupChatView = () => {
 					text={translate('groupChat.join.content.headline')}
 					semanticLevel="4"
 				/>
-				{groupChatRuleTexts[
-					getResortKeyForConsultingType(chatItem.consultingType)
-				]?.map((groupChatRuleText, i) => (
-					<Text text={groupChatRuleText} type="standard" key={i} />
-				))}
+				{consultingType.groupChat?.groupChatRules?.map(
+					(groupChatRuleText, i) => (
+						<Text
+							text={groupChatRuleText}
+							type="standard"
+							key={i}
+						/>
+					)
+				)}
 			</div>
 			<div className="joinChat__button-container">
 				{!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&

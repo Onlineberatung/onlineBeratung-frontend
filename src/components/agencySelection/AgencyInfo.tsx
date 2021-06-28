@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { AgencyDataInterface } from '../../globalState';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { isMobile } from 'react-device-detect';
 import { Text } from '../text/Text';
 import './agencyInfo.styles';
@@ -14,9 +14,8 @@ export interface DisplayAgencyInfoProps {
 
 export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 	const agencyInfoRef = React.useRef<HTMLDivElement>(null);
-	const [displayAgencyInfo, setDisplayAgencyInfo] = useState<
-		AgencyDataInterface
-	>(null);
+	const [displayAgencyInfo, setDisplayAgencyInfo] =
+		useState<AgencyDataInterface>(null);
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {

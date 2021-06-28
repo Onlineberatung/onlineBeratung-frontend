@@ -9,7 +9,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 .enquiry__wrapper {
 	.textarea {
 		z-index: 100;
-		background-color: $dark-grey;
+		background-color: $message-submit-interface-textarea-background-color;
 		padding: 12px $grid-base-two;
 		width: $contentWidthSmall;
 
@@ -144,7 +144,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 				cursor: unset;
 				background-color: $form-input-border;
 
-				svg * {
+				svg rect {
 					fill: $form-primary;
 				}
 			}

@@ -8,14 +8,28 @@ import {
 	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
 	SCROLL_PAGINATE_THRESHOLD
 } from '../../src/components/sessionsList/sessionsListConfig';
+import { config } from '../../src/resources/scripts/config';
 
 describe('Sessions', () => {
+	beforeEach(() => {
+		cy.fixture('service.consultingtypes.addiction.json').then(
+			(addictionConsultingType) => {
+				cy.fixture('service.consultingtypes.u25.json').then(
+					(u25ConsultingType) =>
+						cy.intercept(
+							`${config.endpoints.consultingTypeServiceBase}/basic`,
+							[addictionConsultingType, u25ConsultingType]
+						)
+				);
+			}
+		);
+	});
+
 	describe('Consultant', () => {
 		it('should list my sessions', () => {
 			const amountOfSessions = 3;
-			const sessions = generateMultipleConsultantSessions(
-				amountOfSessions
-			);
+			const sessions =
+				generateMultipleConsultantSessions(amountOfSessions);
 			cy.caritasMockedLogin({
 				type: 'consultant',
 				sessions
@@ -27,9 +41,8 @@ describe('Sessions', () => {
 
 		it('should fetch next batch of sessions if scroll threshold is reached', () => {
 			const amountOfSessions = 100;
-			const sessions = generateMultipleConsultantSessions(
-				amountOfSessions
-			);
+			const sessions =
+				generateMultipleConsultantSessions(amountOfSessions);
 
 			cy.caritasMockedLogin({
 				type: 'consultant',
@@ -61,9 +74,8 @@ describe('Sessions', () => {
 
 		it('should not fetch next batch of sessions if scroll threshold is not reached', () => {
 			const amountOfSessions = 100;
-			const sessions = generateMultipleConsultantSessions(
-				amountOfSessions
-			);
+			const sessions =
+				generateMultipleConsultantSessions(amountOfSessions);
 
 			cy.caritasMockedLogin({
 				type: 'consultant',
@@ -96,9 +108,8 @@ describe('Sessions', () => {
 		describe('Access Token expires while logged in', () => {
 			it('should logout if trying to paginate sessions', () => {
 				const amountOfSessions = 100;
-				const sessions = generateMultipleConsultantSessions(
-					amountOfSessions
-				);
+				const sessions =
+					generateMultipleConsultantSessions(amountOfSessions);
 
 				cy.caritasMockedLogin({
 					type: 'consultant',
@@ -147,9 +158,8 @@ describe('Sessions', () => {
 		describe('welcome illustration', () => {
 			it('should show until given session item limit is reached', () => {
 				const amountOfSessions = MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION;
-				const sessions = generateMultipleAskerSessions(
-					amountOfSessions
-				);
+				const sessions =
+					generateMultipleAskerSessions(amountOfSessions);
 				cy.caritasMockedLogin({
 					type: 'asker',
 					sessions
@@ -162,9 +172,8 @@ describe('Sessions', () => {
 			it('should not show when given session item limit is reached', () => {
 				const amountOfSessions =
 					MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION + 1;
-				const sessions = generateMultipleAskerSessions(
-					amountOfSessions
-				);
+				const sessions =
+					generateMultipleAskerSessions(amountOfSessions);
 				cy.caritasMockedLogin({
 					type: 'asker',
 					sessions

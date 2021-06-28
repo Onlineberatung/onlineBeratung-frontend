@@ -1,21 +1,23 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
-import { getPrettyDateFromMessageDate } from '../../resources/scripts/helpers/dateHelpers';
+import {
+	MILLISECONDS_PER_SECOND,
+	convertISO8601ToMSSinceEpoch,
+	getPrettyDateFromMessageDate,
+	prettyPrintTimeDifference
+} from '../../utils/dateHelpers';
 import {
 	typeIsTeamSession,
 	getTypeOfLocation,
 	getSessionListPathForLocation,
 	getChatTypeForListItem,
 	typeIsEnquiry,
-	typeIsUser,
 	getChatItemForSession,
 	isGroupChatForSessionItem
 } from '../session/sessionHelpers';
-import {
-	translate,
-	getResortTranslation
-} from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import {
 	ActiveSessionGroupIdContext,
 	SessionsDataContext,
@@ -23,7 +25,9 @@ import {
 	UserDataContext,
 	getSessionsDataKeyForSessionType,
 	hasUserAuthority,
-	AUTHORITIES
+	isAnonymousSession,
+	AUTHORITIES,
+	useConsultingType
 } from '../../globalState';
 import { history } from '../app/app';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
@@ -31,7 +35,6 @@ import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
 import './sessionsListItem.styles';
 import { Tag } from '../tag/Tag';
-import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
 
@@ -41,6 +44,9 @@ interface SessionListItemProps {
 }
 
 export const SessionListItemComponent = (props: SessionListItemProps) => {
+	const sessionListTab = new URLSearchParams(useLocation().search).get(
+		'sessionListTab'
+	);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext<any>(
 		ActiveSessionGroupIdContext
@@ -57,7 +63,13 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const listItem =
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
+	const isLiveChat = isAnonymousSession(currentSessionData?.session);
+	const isLiveChatFinished = listItem.status === 3;
 	let plainTextLastMessage = '';
+	const consultingType = useConsultingType(listItem.consultingType);
+	const sessionConsultingType = useConsultingType(
+		currentSessionData.session?.consultingType
+	);
 
 	if (listItem.lastMessage) {
 		const rawMessageObject = markdownToDraft(listItem.lastMessage);
@@ -87,19 +99,13 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	}
 
 	const handleOnClick = () => {
-		if (
-			!isCurrentSessionNewEnquiry &&
-			(isRequestInProgress || listItem.groupId === activeSessionGroupId)
-		) {
-			return null;
-		}
 		setIsRequestInProgress(true);
 
-		if (listItem.groupId) {
+		if (listItem.groupId && listItem.id) {
 			history.push(
 				`${getSessionListPathForLocation()}/${listItem.groupId}/${
 					listItem.id
-				}`
+				}${sessionListTab ? `?sessionListTab=${sessionListTab}` : ``}`
 			);
 		} else if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -113,6 +119,8 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const iconVariant = () => {
 		if (isGroupChat) {
 			return LIST_ICONS.IS_GROUP_CHAT;
+		} else if (isLiveChat) {
+			return LIST_ICONS.IS_LIVE_CHAT;
 		} else if (isCurrentSessionNewEnquiry) {
 			return LIST_ICONS.IS_NEW_ENQUIRY;
 		} else if (isRead) {
@@ -123,7 +131,24 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	};
 	const Icon = getSessionsListItemIcon(iconVariant());
 
-	if (isGroupChatConsultingType(currentSessionData.session?.consultingType)) {
+	const prettyPrintDate = (
+		messageDate: number, // seconds since epoch
+		createDate: string, // ISO8601 string
+		isLiveChat: boolean
+	) => {
+		const newestDate = Math.max(
+			messageDate * MILLISECONDS_PER_SECOND,
+			convertISO8601ToMSSinceEpoch(createDate)
+		);
+
+		return isLiveChat
+			? prettyPrintTimeDifference(newestDate, Date.now())
+			: getPrettyDateFromMessageDate(
+					newestDate / MILLISECONDS_PER_SECOND
+			  );
+	};
+
+	if (sessionConsultingType?.groupChat.isGroupChat) {
 		return null;
 	}
 
@@ -154,7 +179,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
-							{getResortTranslation(listItem.consultingType)}
+							{consultingType.titles.default}
 						</div>
 						<div className="sessionsListItem__date">
 							{getGroupChatDate(listItem)}
@@ -229,16 +254,23 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
-							{getResortTranslation(listItem.consultingType)}{' '}
-							{listItem.consultingType !== 1 && !typeIsUser(type)
+							{consultingType.titles.default}{' '}
+							{listItem.consultingType !== 1 &&
+							!hasUserAuthority(
+								AUTHORITIES.ASKER_DEFAULT,
+								userData
+							) &&
+							!isLiveChat
 								? '/ ' + listItem.postcode
 								: null}
 						</div>
 					)}
 					<div className="sessionsListItem__date">
-						{listItem.messageDate
-							? getPrettyDateFromMessageDate(listItem.messageDate)
-							: ''}
+						{prettyPrintDate(
+							listItem.messageDate,
+							listItem.createDate,
+							isLiveChat
+						)}
 					</div>
 				</div>
 				<div className="sessionsListItem__row">
@@ -252,7 +284,14 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								: `sessionsListItem__username`
 						}
 					>
-						{typeIsUser(type)
+						{hasUserAuthority(
+							AUTHORITIES.ASKER_DEFAULT,
+							userData
+						) ||
+						hasUserAuthority(
+							AUTHORITIES.ANONYMOUS_DEFAULT,
+							userData
+						)
 							? currentSessionData.consultant
 								? currentSessionData.consultant.username
 								: isCurrentSessionNewEnquiry
@@ -269,7 +308,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 							{plainTextLastMessage}
 						</div>
 					) : (
-						isCurrentSessionNewEnquiry && <span></span>
+						(isCurrentSessionNewEnquiry || isLiveChat) && (
+							<span></span>
+						)
 					)}
 					{listItem.attachment && (
 						<SessionListItemAttachment
@@ -286,9 +327,10 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 							listItemAskerRcId={listItem.askerRcId}
 						/>
 					)}
-					{!typeIsUser(type) &&
+					{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 						!typeIsEnquiry(type) &&
 						!listItem.feedbackRead &&
+						!isLiveChat &&
 						!(
 							activeSession &&
 							activeSession.isFeedbackSession &&
@@ -299,6 +341,16 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								color="yellow"
 								text={translate('chatFlyout.feedback')}
 								link={feedbackPath}
+							/>
+						)}
+					{isLiveChat &&
+						!typeIsEnquiry(type) &&
+						!isLiveChatFinished && (
+							<Tag
+								text={translate(
+									'anonymous.listItem.activeLabel'
+								)}
+								color="green"
 							/>
 						)}
 				</div>

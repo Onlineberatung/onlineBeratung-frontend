@@ -12,7 +12,8 @@ $unreadButtonSize: 18px;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	background-color: $background-ochre;
+	background-color: $session-background-color;
+	overflow: hidden;
 
 	@include breakpoint($fromLarge) {
 		width: 100%;
@@ -70,7 +71,7 @@ $unreadButtonSize: 18px;
 
 	&__acceptance {
 		text-align: center;
-		margin-top: $grid-base-four;
+		margin: $grid-base-four 0;
 	}
 
 	&__content {
@@ -78,7 +79,7 @@ $unreadButtonSize: 18px;
 		overflow-x: hidden;
 		overflow-y: auto;
 		padding: $grid-base-three $grid-base-two $grid-base-two;
-		background-color: $background-ochre;
+		background-color: $session-content-background-color;
 
 		@include breakpoint($fromMedium) {
 			padding: $grid-base-three $grid-base-three $grid-base-two;
@@ -86,6 +87,24 @@ $unreadButtonSize: 18px;
 
 		@include breakpoint($fromLarge) {
 			height: calc(100% - #{$sessionHeaderHeight} - #{$textareaHeight});
+		}
+
+		&--anonymousEnquiry {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.headline {
+				text-align: center;
+			}
+		}
+	}
+
+	&__submit-interface {
+		transition: box-shadow 0.3s ease;
+
+		&--scrolled-up {
+			box-shadow: 0 -2px 8px 0 rgba($black, 0.1);
 		}
 	}
 
@@ -116,7 +135,6 @@ $unreadButtonSize: 18px;
 		width: $unreadButtonSize;
 		height: $unreadButtonSize;
 		background-color: $primary;
-		font-family: $font-family-medium;
 		font-weight: $font-weight-medium;
 		font-size: 10px;
 		color: $white;

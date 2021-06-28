@@ -1,0 +1,151 @@
+$navWidth: $grid-base-twelve;
+$navHeight: $grid-base-nine;
+$maxHeight: 100vh;
+$maxWidth: 100vw;
+$listWidth: calc((100vw - #{$navWidth}) / 12 * 4);
+$contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
+$headerHeight: $grid-base-twelve;
+
+a {
+	color: $primary;
+}
+
+.app {
+	height: 100%;
+
+	&--blur {
+		filter: blur(5px);
+	}
+}
+
+.app__wrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	@include breakpoint($fromLarge) {
+		flex-direction: row;
+	}
+
+	.navigation__wrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		position: fixed;
+		bottom: 0;
+		z-index: 50;
+		width: $maxWidth;
+		height: $navHeight;
+		padding: $grid-base-two;
+
+		@include breakpoint($fromLarge) {
+			flex-direction: column;
+			justify-content: flex-start;
+			position: relative;
+			width: $navWidth;
+			height: $maxHeight;
+			padding: $grid-base-two 0;
+		}
+
+		&--inactive {
+			display: none;
+		}
+	}
+
+	.contentWrapper {
+		height: 100%;
+		width: $maxWidth;
+		display: flex;
+		flex-direction: row;
+		position: relative;
+		overflow: hidden;
+		background-color: $background-light;
+
+		@include breakpoint($fromLarge) {
+			padding-bottom: 0;
+			width: calc(#{$maxWidth} - #{$navWidth});
+			height: #{$maxHeight};
+			overflow: visible;
+			background-color: $background-light;
+		}
+
+		&--navInactive {
+			height: $maxHeight;
+		}
+
+		&__userProfile {
+			flex: 1;
+		}
+
+		.header {
+			display: none;
+			position: absolute;
+
+			&--mobile {
+				display: flex;
+				z-index: 1;
+			}
+
+			@include breakpoint($fromLarge) {
+				display: flex;
+			}
+		}
+
+		&__title {
+			margin: 0;
+			font-size: $font-size-h2;
+		}
+
+		&__list {
+			margin-top: 0;
+			width: 100vw;
+			transition: all 0.3s ease;
+
+			@include breakpoint($fromLarge) {
+				width: $listWidth;
+				margin-top: $headerHeight;
+			}
+
+			&--smallInactive {
+				margin-left: -100vw;
+				transition: all 0.3s ease;
+
+				.sessionsList__header {
+					left: -100vw;
+				}
+			}
+		}
+
+		&__detail {
+			display: flex;
+			margin-top: 0;
+			width: 100vw;
+			transition: all 0.3s ease;
+			flex: 1;
+
+			@include breakpoint($fromLarge) {
+				width: $contentWidth;
+				margin-top: $headerHeight;
+			}
+
+			&--smallInactive {
+				margin-right: -100vw;
+				transition: all 0.3s ease;
+
+				.sessionsList__header {
+					left: 0;
+				}
+			}
+		}
+
+		&__profile {
+			width: 100%;
+			display: none;
+			margin: 0;
+
+			@include breakpoint($fromLarge) {
+				margin-top: $headerHeight;
+			}
+		}
+	}
+}

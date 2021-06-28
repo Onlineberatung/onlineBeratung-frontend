@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
 	UnreadSessionsStatusContext,
@@ -14,6 +14,7 @@ import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/sp
 import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
+import clsx from 'clsx';
 
 export interface NavigationBarProps {
 	handleLogout: any;
@@ -129,11 +130,16 @@ export const NavigationBar = (props: NavigationBarProps) => {
 
 				<div
 					onClick={props.handleLogout}
-					className={
-						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
-							? 'navigation__item navigation__item__logout navigation__item__logout--consultant'
-							: 'navigation__item navigation__item__logout'
-					}
+					className={clsx(
+						'navigation__item navigation__item__logout',
+						{
+							'navigation__item__logout--consultant':
+								hasUserAuthority(
+									AUTHORITIES.CONSULTANT_DEFAULT,
+									userData
+								)
+						}
+					)}
 				>
 					<LogoutIcon className="navigation__icon" />
 					<span className="navigation__title">

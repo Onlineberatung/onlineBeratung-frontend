@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useState, useContext, useEffect, useMemo } from 'react';
+import clsx from 'clsx';
 import {
+	SESSION_LIST_TAB,
 	typeIsSession,
 	typeIsTeamSession,
 	typeIsEnquiry,
@@ -13,11 +15,15 @@ import {
 } from './sessionHelpers';
 import { MessageItem } from '../message/MessageItemComponent';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { MessageItemComponent } from '../message/MessageItemComponent';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { apiEnquiryAcceptance } from '../../api';
+import {
+	apiEnquiryAcceptance,
+	apiGetConsultingType,
+	FETCH_ERRORS
+} from '../../api';
 import {
 	Overlay,
 	OVERLAY_FUNCTIONS,
@@ -32,81 +38,104 @@ import {
 	getContact,
 	AcceptedGroupIdContext,
 	hasUserAuthority,
-	AUTHORITIES
+	isAnonymousSession,
+	AUTHORITIES,
+	ConsultingTypeInterface,
+	UpdateAnonymousEnquiriesContext
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 import { Link } from 'react-router-dom';
 import './session.styles';
 import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import smoothScroll from './smoothScrollHelper';
-import { ResortData } from '../registration/registrationHelpers';
-import registrationResortsData from '../registration/registrationData';
+import { Headline } from '../headline/Headline';
+import { history } from '../app/app';
 
 interface SessionItemProps {
-	messages: MessageItem[];
-	isTyping: Function;
-	typingUsers: string[];
 	currentGroupId: string;
+	isAnonymousEnquiry?: boolean;
+	isTyping: Function;
+	messages?: MessageItem[];
+	typingUsers: string[];
+	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 }
 
 let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
-	let { sessionsData } = useContext(SessionsDataContext);
+	let { sessionsData, setSessionsData } = useContext(SessionsDataContext);
 	const activeSession = useMemo(
 		() => getActiveSession(props.currentGroupId, sessionsData),
 		[props.currentGroupId] // eslint-disable-line react-hooks/exhaustive-deps
 	);
 	const { userData } = useContext(UserDataContext);
-	const [monitoringButtonVisible, setMonitoringButtonVisible] = useState(
-		false
-	);
-	const [overlayActive, setOverlayActive] = useState(false);
-	const [currentGroupId, setCurrenGroupId] = useState(null);
+	const [monitoringButtonVisible, setMonitoringButtonVisible] =
+		useState(false);
+	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
+	const [currentGroupId, setCurrentGroupId] = useState(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
 	const [newMessages, setNewMessages] = useState(0);
+	const { setUpdateAnonymousEnquiries } = useContext(
+		UpdateAnonymousEnquiriesContext
+	);
+
+	const resetUnreadCount = () => {
+		if (!props.isAnonymousEnquiry) {
+			setNewMessages(0);
+			initMessageCount = messages?.length;
+			scrollContainerRef.current
+				.querySelectorAll('.messageItem__divider--lastRead')
+				.forEach((e) => e.remove());
+		}
+	};
 
 	useEffect(() => {
-		resetUnreadCount();
-		scrollToEnd(0);
+		if (!props.isAnonymousEnquiry) {
+			resetUnreadCount();
+			scrollToEnd(0);
+		}
 	}, []); // eslint-disable-line
 
 	useEffect(() => {
-		if (isMyMessage(messages[messages.length - 1]?.userId)) {
-			resetUnreadCount();
-			scrollToEnd(0, true);
-		} else {
-			// if first unread message -> prepend element
-			if (newMessages === 0 && !isScrolledToBottom) {
-				const scrollContainer = scrollContainerRef.current;
-				const firstUnreadItem = Array.from(
-					scrollContainer.querySelectorAll('.messageItem')
-				).pop();
-				const lastReadDivider = document.createElement('div');
-				lastReadDivider.innerHTML = translate(
-					'session.divider.lastRead'
-				);
-				lastReadDivider.className =
-					'messageItem__divider messageItem__divider--lastRead';
-				firstUnreadItem.prepend(lastReadDivider);
-			}
-
-			if (isScrolledToBottom) {
+		if (!props.isAnonymousEnquiry && messages) {
+			if (isMyMessage(messages[messages.length - 1]?.userId)) {
 				resetUnreadCount();
 				scrollToEnd(0, true);
-			}
+			} else {
+				// if first unread message -> prepend element
+				if (newMessages === 0 && !isScrolledToBottom) {
+					const scrollContainer = scrollContainerRef.current;
+					const firstUnreadItem = Array.from(
+						scrollContainer.querySelectorAll('.messageItem')
+					).pop();
+					const lastReadDivider = document.createElement('div');
+					lastReadDivider.innerHTML = translate(
+						'session.divider.lastRead'
+					);
+					lastReadDivider.className =
+						'messageItem__divider messageItem__divider--lastRead';
+					firstUnreadItem.prepend(lastReadDivider);
+				}
 
-			setNewMessages(messages.length - initMessageCount);
+				if (isScrolledToBottom) {
+					resetUnreadCount();
+					scrollToEnd(0, true);
+				}
+
+				setNewMessages(messages.length - initMessageCount);
+			}
 		}
-	}, [messages.length]); // eslint-disable-line
+	}, [messages?.length]); // eslint-disable-line
 
 	useEffect(() => {
 		if (isScrolledToBottom) {
@@ -114,15 +143,22 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	}, [isScrolledToBottom]); // eslint-disable-line
 
-	if (!activeSession) return null;
+	const [resortData, setResortData] = useState<ConsultingTypeInterface>();
+	useEffect(() => {
+		let isCanceled = false;
+		apiGetConsultingType({
+			consultingTypeId:
+				getChatItemForSession(activeSession)?.consultingType
+		}).then((response) => {
+			if (isCanceled) return;
+			setResortData(response);
+		});
+		return () => {
+			isCanceled = true;
+		};
+	}, [chatItem]); // eslint-disable-line
 
-	const resetUnreadCount = () => {
-		setNewMessages(0);
-		initMessageCount = messages.length;
-		scrollContainerRef.current
-			.querySelectorAll('.messageItem__divider--lastRead')
-			.forEach((e) => e.remove());
-	};
+	if (!activeSession) return null;
 
 	const getPlaceholder = () => {
 		if (isGroupChat) {
@@ -151,21 +187,41 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 		setIsRequestInProgress(true);
 
-		apiEnquiryAcceptance(sessionId)
+		apiEnquiryAcceptance(sessionId, props.isAnonymousEnquiry)
 			.then(() => {
-				setOverlayActive(true);
-				setCurrenGroupId(sessionGroupId);
+				setOverlayItem(enquirySuccessfullyAcceptedOverlayItem);
+				setCurrentGroupId(sessionGroupId);
 			})
 			.catch((error) => {
-				console.log(error);
+				if (error.message === FETCH_ERRORS.CONFLICT) {
+					setOverlayItem(enquiryTakenByOtherConsultantOverlayItem);
+				} else {
+					console.log(error);
+				}
 			});
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
-		setOverlayActive(false);
-		setIsRequestInProgress(false);
-		setCurrenGroupId('');
-		setAcceptedGroupId(currentGroupId);
+		switch (buttonFunction) {
+			case OVERLAY_FUNCTIONS.REDIRECT:
+				setOverlayItem(null);
+				setIsRequestInProgress(false);
+				setCurrentGroupId('');
+				setAcceptedGroupId(currentGroupId);
+				setSessionsData({ ...sessionsData, enquiries: [] });
+				history.push(`/sessions/consultant/sessionView/`);
+				break;
+			case OVERLAY_FUNCTIONS.CLOSE:
+				setOverlayItem(null);
+				history.push(
+					`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`
+				);
+				setUpdateAnonymousEnquiries(true);
+				break;
+			default:
+			// Should never be executed as `handleOverlayAction` is only called
+			// with a non-null `overlayItem`
+		}
 	};
 
 	/* eslint-disable */
@@ -185,9 +241,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const handleScrollToBottomButtonClick = () => {
 		if (newMessages > 0) {
 			const scrollContainer = scrollContainerRef.current;
-			const sessionHeader = scrollContainer.parentElement.getElementsByClassName(
-				'sessionInfo'
-			)[0] as HTMLElement;
+			const sessionHeader =
+				scrollContainer.parentElement.getElementsByClassName(
+					'sessionInfo'
+				)[0] as HTMLElement;
 			const messageItems = scrollContainer.querySelectorAll(
 				'.messageItem:not(.messageItem--right)'
 			);
@@ -214,7 +271,9 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
 
 	const buttonItem: ButtonItem = {
-		label: translate('enquiry.acceptButton'),
+		label: props.isAnonymousEnquiry
+			? translate('enquiry.acceptButton.anonymous')
+			: translate('enquiry.acceptButton'),
 		type: BUTTON_TYPES.PRIMARY
 	};
 
@@ -241,14 +300,46 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	};
 
-	const filteredResortsData = Object.entries(registrationResortsData).filter(
-		(resort) =>
-			resort[1].consultingType === chatItem.consultingType?.toString()
-	);
-	let currentResortData: ResortData;
-	if (filteredResortsData) {
-		currentResortData = filteredResortsData[0][1];
-	}
+	const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = {
+		svg: CheckIcon,
+		headline: translate('session.acceptance.overlayHeadline'),
+		buttonSet: [
+			{
+				label: translate('session.acceptance.buttonLabel'),
+				function: OVERLAY_FUNCTIONS.REDIRECT,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		]
+	};
+
+	const enquiryTakenByOtherConsultantOverlayItem: OverlayItem = {
+		svg: XIcon,
+		headline: translate(
+			'session.anonymous.takenByOtherConsultant.overlayHeadline'
+		),
+		illustrationBackground: 'error',
+		buttonSet: [
+			{
+				label: translate(
+					'session.anonymous.takenByOtherConsultant.buttonLabel'
+				),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		]
+	};
+
+	const monitoringButtonItem: ButtonItem = {
+		label: translate('session.monitoring.buttonLabel'),
+		type: 'PRIMARY',
+		function: ''
+	};
+
+	const scrollBottomButtonItem: ButtonItem = {
+		icon: <ArrowDoubleDownIcon />,
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'grey'
+	};
 
 	return (
 		<div
@@ -264,62 +355,82 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						? activeSession.consultant
 						: false
 				}
+				hasUserInitiatedStopOrLeaveRequest={
+					props.hasUserInitiatedStopOrLeaveRequest
+				}
 			/>
 
-			<div
-				id="session-scroll-container"
-				className="session__content"
-				ref={scrollContainerRef}
-				onScroll={(e) => handleScroll.callback(e)}
-			>
-				{messages &&
-					messages.map((message: MessageItem, index) => (
-						<MessageItemComponent
-							key={index}
-							clientName={getContact(activeSession).username}
-							askerRcId={chatItem.askerRcId}
-							type={getTypeOfLocation()}
-							isOnlyEnquiry={isOnlyEnquiry}
-							isMyMessage={isMyMessage(message.userId)}
-							resortData={currentResortData}
-							{...message}
-						/>
-					))}
-
+			{!props.isAnonymousEnquiry && (
 				<div
-					className={`session__scrollToBottom ${
-						isScrolledToBottom
-							? 'session__scrollToBottom--disabled'
-							: ''
-					}`}
+					id="session-scroll-container"
+					className="session__content"
+					ref={scrollContainerRef}
+					onScroll={(e) => handleScroll(e)}
 				>
-					{newMessages > 0 && (
-						<span className="session__unreadCount">
-							{newMessages > 99
-								? translate('session.unreadCount.maxValue')
-								: newMessages}
-						</span>
-					)}
-					<Button
-						item={scrollBottomButtonItem}
-						isLink={false}
-						buttonHandle={handleScrollToBottomButtonClick}
+					{messages &&
+						resortData &&
+						messages.map((message: MessageItem, index) => (
+							<MessageItemComponent
+								key={index}
+								clientName={getContact(activeSession).username}
+								askerRcId={chatItem.askerRcId}
+								type={getTypeOfLocation()}
+								isOnlyEnquiry={isOnlyEnquiry}
+								isMyMessage={isMyMessage(message.userId)}
+								resortData={resortData}
+								{...message}
+							/>
+						))}
+
+					<div
+						className={`session__scrollToBottom ${
+							isScrolledToBottom
+								? 'session__scrollToBottom--disabled'
+								: ''
+						}`}
+					>
+						{newMessages > 0 && (
+							<span className="session__unreadCount">
+								{newMessages > 99
+									? translate('session.unreadCount.maxValue')
+									: newMessages}
+							</span>
+						)}
+						<Button
+							item={scrollBottomButtonItem}
+							isLink={false}
+							buttonHandle={handleScrollToBottomButtonClick}
+						/>
+					</div>
+				</div>
+			)}
+
+			{props.isAnonymousEnquiry && (
+				<div className="session__content session__content--anonymousEnquiry">
+					<Headline
+						semanticLevel="3"
+						text={`${translate(
+							'enquiry.anonymous.infoLabel.start'
+						)}${getContact(activeSession).username}${translate(
+							'enquiry.anonymous.infoLabel.end'
+						)}`}
 					/>
 				</div>
-			</div>
+			)}
 
 			{chatItem.monitoring &&
-			!activeSession.isFeedbackSession &&
-			!typeIsEnquiry(getTypeOfLocation()) &&
-			monitoringButtonVisible &&
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-			getMonitoringLink() ? (
-				<Link to={getMonitoringLink()}>
-					<div className="monitoringButton">
-						<Button item={monitoringButtonItem} isLink={true} />
-					</div>
-				</Link>
-			) : null}
+				!activeSession.isFeedbackSession &&
+				!typeIsEnquiry(getTypeOfLocation()) &&
+				monitoringButtonVisible &&
+				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+				!isLiveChat &&
+				getMonitoringLink() && (
+					<Link to={getMonitoringLink()}>
+						<div className="monitoringButton">
+							<Button item={monitoringButtonItem} isLink={true} />
+						</div>
+					</Link>
+				)}
 
 			{typeIsEnquiry(getTypeOfLocation()) ? (
 				<div className="session__acceptance messageItem">
@@ -339,56 +450,37 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				</div>
 			) : null}
 
-			{!typeIsEnquiry(getTypeOfLocation()) ||
-			(typeIsEnquiry(getTypeOfLocation()) &&
-				hasUserAuthority(
-					AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
-					userData
-				)) ? (
-				<MessageSubmitInterfaceComponent
-					handleSendButton={() => {}}
-					isTyping={() => props.isTyping()}
-					placeholder={getPlaceholder()}
-					showMonitoringButton={() => {
-						setMonitoringButtonVisible(true);
-					}}
-					type={getTypeOfLocation()}
-					typingUsers={props.typingUsers}
-				/>
-			) : null}
-
-			{overlayActive ? (
+			{!props.isAnonymousEnquiry &&
+				(!typeIsEnquiry(getTypeOfLocation()) ||
+					(typeIsEnquiry(getTypeOfLocation()) &&
+						hasUserAuthority(
+							AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
+							userData
+						))) && (
+					<MessageSubmitInterfaceComponent
+						handleSendButton={() => {}}
+						isTyping={() => props.isTyping()}
+						className={clsx(
+							'session__submit-interface',
+							!isScrolledToBottom &&
+								'session__submit-interface--scrolled-up'
+						)}
+						placeholder={getPlaceholder()}
+						showMonitoringButton={() => {
+							setMonitoringButtonVisible(true);
+						}}
+						type={getTypeOfLocation()}
+						typingUsers={props.typingUsers}
+					/>
+				)}
+			{overlayItem && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>
-			) : null}
+			)}
 		</div>
 	);
-};
-
-const overlayItem: OverlayItem = {
-	svg: CheckIcon,
-	headline: translate('session.acceptance.overlayHeadline'),
-	buttonSet: [
-		{
-			label: translate('session.acceptance.buttonLabel'),
-			function: OVERLAY_FUNCTIONS.REDIRECT,
-			type: BUTTON_TYPES.PRIMARY
-		}
-	]
-};
-
-const monitoringButtonItem: ButtonItem = {
-	label: translate('session.monitoring.buttonLabel'),
-	type: 'PRIMARY',
-	function: ''
-};
-
-const scrollBottomButtonItem: ButtonItem = {
-	icon: <ArrowDoubleDownIcon />,
-	type: BUTTON_TYPES.SMALL_ICON,
-	smallIconBackgroundColor: 'grey'
 };

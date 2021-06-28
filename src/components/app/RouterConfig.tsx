@@ -31,15 +31,13 @@ export const RouterConfigUser = (): any => {
 		listRoutes: [
 			{
 				path: '/sessions/user/view',
-				component: SessionsListWrapper,
-				type: SESSION_TYPES.USER
+				component: SessionsListWrapper
 			}
 		],
 		detailRoutes: [
 			{
 				path: '/sessions/user/view/:rcGroupId/:sessionId',
-				component: SessionView,
-				type: SESSION_TYPES.USER
+				component: SessionView
 			},
 			{
 				path: '/sessions/user/view/',
@@ -99,8 +97,7 @@ export const RouterConfigConsultant = (): any => {
 		],
 		detailRoutes: [
 			{
-				path:
-					'/sessions/consultant/sessionPreview/:rcGroupId/:sessionId',
+				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId',
 				component: SessionView,
 				type: SESSION_TYPES.ENQUIRY
 			},
@@ -122,30 +119,25 @@ export const RouterConfigConsultant = (): any => {
 				component: CreateGroupChatView
 			},
 			{
-				path:
-					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/editGroupChat',
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/editGroupChat',
 				component: CreateGroupChatView
 			}
 		],
 		userProfileRoutes: [
 			{
-				path:
-					'/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/userProfile',
+				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/userProfile',
 				component: AskerInfo
 			},
 			{
-				path:
-					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile',
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile',
 				component: AskerInfo
 			},
 			{
-				path:
-					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
 				component: Monitoring
 			},
 			{
-				path:
-					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
 				component: GroupChatInfo
 			}
 		],
@@ -215,8 +207,7 @@ export const RouterConfigTeamConsultant = (): any => {
 				component: SessionViewEmpty
 			},
 			{
-				path:
-					'/sessions/consultant/sessionPreview/:rcGroupId/:sessionId',
+				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId',
 				component: SessionView,
 				type: SESSION_TYPES.ENQUIRY
 			},
@@ -230,8 +221,7 @@ export const RouterConfigTeamConsultant = (): any => {
 				type: SESSION_TYPES.MY_SESSION
 			},
 			{
-				path:
-					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/editGroupChat',
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/editGroupChat',
 				component: CreateGroupChatView
 			},
 			{
@@ -239,51 +229,42 @@ export const RouterConfigTeamConsultant = (): any => {
 				component: SessionViewEmpty
 			},
 			{
-				path:
-					'/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/',
+				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/',
 				component: SessionView,
 				type: SESSION_TYPES.TEAMSESSION
 			},
 			{
-				path:
-					'/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/editGroupChat',
+				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/editGroupChat',
 				component: CreateGroupChatView
 			}
 		],
 		userProfileRoutes: [
 			{
-				path:
-					'/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/userProfile',
+				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/userProfile',
 				component: AskerInfo
 			},
 			{
-				path:
-					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile',
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile',
 				component: AskerInfo
 			},
 			{
-				path:
-					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
 				component: Monitoring
 			},
 			{
-				path:
-					'/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
 				component: GroupChatInfo
 			},
 			{
-				path:
-					'/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile',
+				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile',
 				component: AskerInfo
 			},
 			{
-				path:
-					'/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile/monitoring',
+				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile/monitoring',
 				component: Monitoring
 			},
 			{
-				path:
-					'/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/groupChatInfo',
+				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/groupChatInfo',
 				component: GroupChatInfo
 			}
 		],
@@ -296,7 +277,7 @@ export const RouterConfigTeamConsultant = (): any => {
 	};
 };
 
-export const RouterConfigU25Consultant = (): any => {
+export const RouterConfigPeerConsultant = (): any => {
 	let config = RouterConfigConsultant();
 	return config;
 };
@@ -308,4 +289,35 @@ export const RouterConfigMainConsultant = (): any => {
 		small: 'navigation.consultant.peersessions.small'
 	};
 	return config;
+};
+
+export const RouterConfigAnonymousAsker = (): any => {
+	return {
+		navigation: [
+			{
+				to: '/sessions/user/view',
+				icon: 'speech-bubbles',
+				titleKeys: {
+					large: 'navigation.asker.sessions',
+					small: 'navigation.asker.sessions.small'
+				}
+			}
+		],
+		listRoutes: [
+			{
+				path: '/sessions/user/view',
+				component: SessionsListWrapper
+			}
+		],
+		detailRoutes: [
+			{
+				path: '/sessions/user/view/:rcGroupId/:sessionId',
+				component: SessionView
+			},
+			{
+				path: '/sessions/user/view/',
+				component: SessionViewEmpty
+			}
+		]
+	};
 };

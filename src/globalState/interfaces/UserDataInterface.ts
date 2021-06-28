@@ -9,11 +9,11 @@ export interface UserDataInterface {
 	firstName?: string;
 	formalLanguage: boolean;
 	grantedAuthorities: [string];
+	hasAnonymousConversations: boolean;
 	inTeamAgency: boolean;
 	lastName?: string;
 	userId: string;
 	userName: string;
-	userRoles: [string];
 }
 
 export interface AgencyDataInterface {

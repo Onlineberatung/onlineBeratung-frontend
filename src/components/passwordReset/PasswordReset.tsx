@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { apiUpdatePassword } from '../../api';
 import {
@@ -15,7 +15,7 @@ import { logout } from '../logout/logout';
 import {
 	inputValuesFit,
 	strengthIndicator
-} from '../../resources/scripts/helpers/validateInputValue';
+} from '../../utils/validateInputValue';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import './passwordReset.styles';
 import { Headline } from '../headline/Headline';
@@ -29,17 +29,12 @@ export const PasswordReset = () => {
 	const [oldPasswordErrorMessage, setOldPasswordErrorMessage] = useState('');
 	const [oldPasswordSuccessMessage] = useState('');
 	const [newPasswordErrorMessage, setNewPasswordErrorMessage] = useState('');
-	const [newPasswordSuccessMessage, setNewPasswordSuccessMessage] = useState(
-		''
-	);
-	const [
-		confirmPasswordErrorMessage,
-		setConfirmPasswordErrorMessage
-	] = useState('');
-	const [
-		confirmPasswordSuccessMessage,
-		setConfirmPasswordSuccessMessage
-	] = useState('');
+	const [newPasswordSuccessMessage, setNewPasswordSuccessMessage] =
+		useState('');
+	const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
+		useState('');
+	const [confirmPasswordSuccessMessage, setConfirmPasswordSuccessMessage] =
+		useState('');
 
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);

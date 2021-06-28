@@ -34,6 +34,20 @@ $inputHeight: 50px;
 			width: $grid-base-three;
 			height: $grid-base-three;
 		}
+
+		&__control {
+			border-radius: $select-dropdown-border-radius;
+		}
+
+		&__option {
+			background-color: $white;
+			color: $secondary;
+
+			&--is-focused {
+				background-color: $background-accent;
+				color: $primary;
+			}
+		}
 	}
 
 	&__option {
@@ -54,7 +68,6 @@ $inputHeight: 50px;
 			background: $form-primary;
 			color: $white;
 			font-weight: $font-weight-bold;
-			font-family: $font-family-bold;
 			font-size: 9px;
 			line-height: 24px;
 			text-align: center;

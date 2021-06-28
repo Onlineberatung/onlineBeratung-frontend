@@ -3,32 +3,44 @@ import { config } from '../../src/resources/scripts/config';
 const checkForGenericRegistrationElements = () => {
 	cy.get('#loginLogoWrapper').should('exist');
 	cy.get('[data-consultingtype]').should('exist');
-	cy.get('.registration__overline').should('exist');
-	cy.get('.registration__headline').should('exist');
+	cy.get('.registrationForm__overline').should('exist');
+	cy.get('.registrationForm__headline').should('exist');
 	cy.get('#username').should('exist');
 	cy.get('#passwordInput').should('exist');
 	cy.get('#passwordConfirmation').should('exist');
 	cy.get('#dataProtectionCheckbox').should('exist');
 	cy.get('.button__primary').should('exist');
-	cy.get('.registration__toLogin').should('exist');
+	cy.get('.registrationForm__toLogin').should('exist');
 };
 
 describe('registration', () => {
 	describe('addiction', () => {
+		beforeEach(() => {
+			cy.fixture('service.consultingtypes.addiction.json').then(
+				(addictionConsultingType) => {
+					cy.intercept(
+						`${config.endpoints.consultingTypeServiceBase}/byslug/suchtberatung/full`,
+						addictionConsultingType
+					);
+				}
+			);
+		});
+
 		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.suchtberatung.html');
+			cy.visit('/suchtberatung/registration');
+			cy.title().should('be.equal', 'Registrierung Suchtberatung');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			checkForGenericRegistrationElements();
 		});
 
 		it('should have no password info text', () => {
-			cy.visit('/registration.suchtberatung.html');
+			cy.visit('/suchtberatung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-password-note]').should('not.exist');
 		});
 
 		it('should have no agency selection info text', () => {
-			cy.visit('/registration.suchtberatung.html');
+			cy.visit('/suchtberatung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'not.exist'
@@ -37,26 +49,52 @@ describe('registration', () => {
 	});
 
 	describe('u25', () => {
+		beforeEach(() => {
+			cy.fixture('service.consultingtypes.u25.json').then(
+				(u25ConsultingType) => {
+					cy.intercept(
+						`${config.endpoints.consultingTypeServiceBase}/byslug/u25/full`,
+						u25ConsultingType
+					);
+				}
+			);
+		});
+
 		it('should redirect to helpmail when no aid is given', () => {
-			cy.visit('/registration.u25.html');
-			cy.url().then((url) => {
-				expect(url).to.contain(config.urls.toU25Helpmail);
+			// Currently (2021-06-23), 'https://www.u25.de/helpmail/' throws an
+			// `Uncaught ReferenceError: setVisitorCookieTimeout is not defined`
+			// and causes Cypress to fail the test.
+			// As this is outside of our control, we ignore this specific error for now.
+			cy.on('uncaught:exception', (error) => {
+				if (
+					error.message.includes(
+						'setVisitorCookieTimeout is not defined'
+					)
+				) {
+					return false;
+				}
 			});
+			cy.visit('/u25/registration');
+			cy.url().should('be.equal', 'https://www.u25.de/helpmail/');
 		});
 
 		it('should have all generic registration page elements', () => {
 			cy.fixture('service.agencies.json').then((agencies) => {
 				cy.intercept(config.endpoints.agencyServiceBase, agencies);
-				cy.visit('/registration.u25.html?aid=1');
-				cy.get('[data-cy=close-welcome-screen]').click();
-				checkForGenericRegistrationElements();
 			});
+			cy.visit('/u25/registration?aid=1');
+			cy.title().should(
+				'be.equal',
+				'Registrierung Beratung für Suizidgefährdete junge Menschen [U25]'
+			);
+			cy.get('[data-cy=close-welcome-screen]').click();
+			checkForGenericRegistrationElements();
 		});
 
 		it('should have a password info text', () => {
 			cy.fixture('service.agencies.json').then((agencies) => {
 				cy.intercept(config.endpoints.agencyServiceBase, agencies);
-				cy.visit('/registration.u25.html?aid=1');
+				cy.visit('/u25/registration?aid=1');
 				cy.get('[data-cy=close-welcome-screen]').click();
 				cy.get('[data-cy=registration-password-note]').should('exist');
 			});
@@ -65,7 +103,7 @@ describe('registration', () => {
 		it('should have no agency selection info text', () => {
 			cy.fixture('service.agencies.json').then((agencies) => {
 				cy.intercept(config.endpoints.agencyServiceBase, agencies);
-				cy.visit('/registration.u25.html?aid=1');
+				cy.visit('/u25/registration?aid=1');
 				cy.get('[data-cy=close-welcome-screen]').click();
 				cy.get('[data-cy=registration-agency-selection-note]').should(
 					'not.exist'
@@ -76,7 +114,7 @@ describe('registration', () => {
 		it('should have an agency info when aid is given', () => {
 			cy.fixture('service.agencies.json').then((agencies) => {
 				cy.intercept(config.endpoints.agencyServiceBase, agencies);
-				cy.visit('/registration.u25.html?aid=1');
+				cy.visit('/u25/registration?aid=1');
 				cy.get('[data-cy=close-welcome-screen]').click();
 				cy.get('[data-cy=show-preselected-agency]').should('exist');
 				cy.get('[data-cy=show-preselected-agency]').contains(
@@ -84,444 +122,53 @@ describe('registration', () => {
 				);
 			});
 		});
-	});
 
-	describe('pregnancy', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.schwangerschaftsberatung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.schwangerschaftsberatung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.schwangerschaftsberatung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('parenting', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.eltern-familie.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.eltern-familie.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.eltern-familie.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('cure', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.kurberatung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.kurberatung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.kurberatung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('debt', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.schuldnerberatung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.schuldnerberatung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.schuldnerberatung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('social', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.allgemeine-soziale-beratung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.allgemeine-soziale-beratung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.allgemeine-soziale-beratung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('seniority', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.leben-im-alter.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.leben-im-alter.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.leben-im-alter.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('disability', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit(
-				'/registration.behinderung-und-psychische-erkrankung.html'
-			);
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit(
-				'/registration.behinderung-und-psychische-erkrankung.html'
-			);
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit(
-				'/registration.behinderung-und-psychische-erkrankung.html'
-			);
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('planB', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.mein-planb.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.mein-planb.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.mein-planb.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('law', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.rechtliche-betreuung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.rechtliche-betreuung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.rechtliche-betreuung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('offender', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.straffaelligkeit.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.straffaelligkeit.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.straffaelligkeit.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('aids', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.hiv-aids-beratung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.hiv-aids-beratung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.hiv-aids-beratung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('rehabilitation', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.kinder-reha.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.kinder-reha.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.kinder-reha.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('children', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.kinder-jugendliche.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.kinder-jugendliche.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.kinder-jugendliche.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('kreuzbund', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.kb-sucht-selbsthilfe.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.kb-sucht-selbsthilfe.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.kb-sucht-selbsthilfe.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('migration', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.migration.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.migration.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.migration.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
+		it('should be able to register', () => {
+			cy.fixture('service.agencies.json').then((agencies) => {
+				cy.intercept(config.endpoints.agencyServiceBase, agencies);
+				cy.visit('/u25/registration?aid=1');
+				cy.get('[data-cy=close-welcome-screen]').click();
+				cy.get('[data-cy=show-preselected-agency]').should('exist');
+				cy.get('[data-cy=show-preselected-agency]').contains(
+					agencies[0].name
+				);
+				cy.get('input[id="username"]').focus().type('u25-user');
+				cy.contains('Weiter').click();
+				cy.get('input[id="passwordInput"]')
+					.focus()
+					.type('Password123!');
+				cy.get('input[id="passwordConfirmation"]')
+					.focus()
+					.type('Password123!');
+				cy.get('button:contains("Weiter"):visible').click();
+				cy.contains('Alter auswählen*').click();
+				cy.get('[id^="react-select"]:contains("unter 12")').click();
+				cy.get('button:contains("Weiter"):visible').click();
+				cy.contains('Bundesland auswählen*').click();
+				cy.get('[id^="react-select"]:contains("Bayern")').click();
+				cy.get('#dataProtectionLabel').click();
+				cy.contains('Registrieren').should('be.enabled');
+			});
 		});
 	});
 
 	describe('emigration', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.rw-auswanderung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.rw-auswanderung.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
+		beforeEach(() => {
+			cy.fixture('service.consultingtypes.emigration.json').then(
+				(emigrationConsultingType) => {
+					cy.intercept(
+						`${config.endpoints.consultingTypeServiceBase}/byslug/rw-auswanderung/full`,
+						emigrationConsultingType
+					);
+				}
+			);
 		});
 
 		it('should have a agency selection info text', () => {
-			cy.visit('/registration.rw-auswanderung.html');
+			cy.visit('/rw-auswanderung/registration');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.get('[data-cy=registration-agency-selection-note]').should(
 				'exist'
-			);
-		});
-	});
-
-	describe('hospice', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.hospiz-palliativ.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.hospiz-palliativ.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.hospiz-palliativ.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('regional', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.regionale-angebote.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.regionale-angebote.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.regionale-angebote.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('men', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.jungen-und-maenner.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password info text', () => {
-			cy.visit('/registration.jungen-und-maenner.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-password-note]').should('not.exist');
-		});
-
-		it('should have no agency selection info text', () => {
-			cy.visit('/registration.jungen-und-maenner.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=registration-agency-selection-note]').should(
-				'not.exist'
-			);
-		});
-	});
-
-	describe('supportGroupVechta', () => {
-		it('should have all generic registration page elements', () => {
-			cy.visit('/registration.selbsthilfe-vechta.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			checkForGenericRegistrationElements();
-		});
-
-		it('should have no password reset info text', () => {
-			cy.visit('/registration.selbsthilfe-vechta.html');
-			cy.get('[data-cy=close-welcome-screen]').click();
-			cy.get('[data-cy=no-password-reset-possible-note]').should(
-				'not.exist'
 			);
 		});
 	});

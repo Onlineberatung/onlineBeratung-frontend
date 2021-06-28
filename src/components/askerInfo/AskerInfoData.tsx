@@ -3,14 +3,15 @@ import { useContext } from 'react';
 import {
 	translate,
 	handleNumericTranslation,
-	getAddictiveDrugsString,
-	getResortTranslation
-} from '../../resources/scripts/i18n/translate';
+	getAddictiveDrugsString
+} from '../../utils/translate';
 import {
 	SessionsDataContext,
 	ActiveSessionGroupIdContext,
 	getActiveSession,
-	getContact
+	getContact,
+	isAnonymousSession,
+	useConsultingType
 } from '../../globalState';
 import {
 	convertUserDataObjectToArray,
@@ -23,13 +24,15 @@ export const AskerInfoData = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 
-	const resort = getResortTranslation(activeSession.session.consultingType);
+	const consultingType = useConsultingType(
+		activeSession.session.consultingType
+	);
 
 	const userSessionData = getContact(activeSession).sessionData;
-	const preparedUserSessionData = convertUserDataObjectToArray(
-		userSessionData
-	);
+	const preparedUserSessionData =
+		convertUserDataObjectToArray(userSessionData);
 	const addictiveDrugs = userSessionData.addictiveDrugs
 		? getAddictiveDrugsTranslatable(userSessionData.addictiveDrugs)
 		: null;
@@ -41,9 +44,11 @@ export const AskerInfoData = () => {
 				<p className="profile__data__label">
 					{translate('userProfile.data.resort')}
 				</p>
-				<p className="profile__data__content">{resort}</p>
+				<p className="profile__data__content">
+					{consultingType.titles.default}
+				</p>
 			</div>
-			{activeSession.session.consultingType === 0 && (
+			{activeSession.session.consultingType === 0 && !isLiveChat && (
 				<div className="profile__data__item">
 					<p className="profile__data__label">
 						{translate('userProfile.data.postcode')}

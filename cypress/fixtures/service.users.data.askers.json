@@ -6,7 +6,6 @@
 	"email": null,
 	"absenceMessage": null,
 	"agencies": null,
-	"userRoles": ["offline_access", "uma_authorization", "user"],
 	"grantedAuthorities": ["AUTHORIZATION_USER_DEFAULT"],
 	"consultingTypes": {
 		"0": { "sessionData": null, "isRegistered": false, "agency": null },
@@ -24,25 +23,9 @@
 				"consultingType": 1
 			}
 		},
-		"2": { "sessionData": null, "isRegistered": false, "agency": null },
-		"3": { "sessionData": null, "isRegistered": false, "agency": null },
-		"4": { "sessionData": null, "isRegistered": false, "agency": null },
-		"5": { "sessionData": null, "isRegistered": false, "agency": null },
-		"6": { "sessionData": null, "isRegistered": false, "agency": null },
-		"7": { "sessionData": null, "isRegistered": false, "agency": null },
-		"8": { "sessionData": null, "isRegistered": false, "agency": null },
-		"9": { "sessionData": null, "isRegistered": false, "agency": null },
-		"10": { "sessionData": null, "isRegistered": false, "agency": null },
-		"11": { "sessionData": null, "isRegistered": false, "agency": null },
-		"12": { "sessionData": null, "isRegistered": false, "agency": null },
-		"13": { "sessionData": null, "isRegistered": false, "agency": null },
-		"14": { "sessionData": null, "isRegistered": false, "agency": null },
-		"15": { "sessionData": null, "isRegistered": false, "agency": null },
-		"16": { "sessionData": null, "isRegistered": false, "agency": null },
-		"17": { "sessionData": null, "isRegistered": false, "agency": null },
-		"18": { "sessionData": null, "isRegistered": false, "agency": null },
-		"19": { "sessionData": null, "isRegistered": false, "agency": null }
+		"17": { "sessionData": null, "isRegistered": false, "agency": null }
 	},
+	"hasAnonymousConversations": false,
 	"formalLanguage": true,
 	"absent": false,
 	"inTeamAgency": false

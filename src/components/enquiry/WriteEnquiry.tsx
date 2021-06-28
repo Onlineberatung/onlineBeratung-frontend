@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 
 import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { SESSION_TYPES } from '../session/sessionHelpers';
 import {
 	OverlayItem,
@@ -25,24 +25,6 @@ import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations
 import './enquiry.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-
-const overlayItem: OverlayItem = {
-	svg: EnvelopeCheckIcon,
-	headline: translate('enquiry.write.overlayHeadline'),
-	copy: translate('enquiry.write.overlayCopy'),
-	buttonSet: [
-		{
-			label: translate('enquiry.write.overlayButton1.label'),
-			function: OVERLAY_FUNCTIONS.REDIRECT,
-			type: BUTTON_TYPES.PRIMARY
-		},
-		{
-			label: translate('enquiry.write.overlayButton2.label'),
-			function: OVERLAY_FUNCTIONS.LOGOUT,
-			type: BUTTON_TYPES.LINK
-		}
-	]
-};
 
 export const WriteEnquiry = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
@@ -100,9 +82,7 @@ export const WriteEnquiry = () => {
 		document
 			.querySelector('.navigation__wrapper')
 			?.classList.add('navigation__wrapper--mobileHidden');
-		document
-			.querySelector('.contentWrapper__header')
-			?.classList.add('contentWrapper__header--enquiry');
+		document.querySelector('.header')?.classList.add('header--mobile');
 
 		const contentWrapper = document.querySelector(
 			'.contentWrapper__detail'
@@ -114,6 +94,24 @@ export const WriteEnquiry = () => {
 				'contentWrapper__detail--smallInactive'
 			);
 		}
+	};
+
+	const overlayItem: OverlayItem = {
+		svg: EnvelopeCheckIcon,
+		headline: translate('enquiry.write.overlayHeadline'),
+		copy: translate('enquiry.write.overlayCopy'),
+		buttonSet: [
+			{
+				label: translate('enquiry.write.overlayButton1.label'),
+				function: OVERLAY_FUNCTIONS.REDIRECT,
+				type: BUTTON_TYPES.PRIMARY
+			},
+			{
+				label: translate('enquiry.write.overlayButton2.label'),
+				function: OVERLAY_FUNCTIONS.LOGOUT,
+				type: BUTTON_TYPES.LINK
+			}
+		]
 	};
 
 	return (

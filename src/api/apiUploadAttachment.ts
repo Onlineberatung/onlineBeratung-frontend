@@ -1,7 +1,7 @@
 import { config } from '../resources/scripts/config';
 import { FETCH_METHODS } from './fetchData';
-import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
-import { generateCsrfToken } from '../resources/scripts/helpers/generateCsrfToken';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { generateCsrfToken } from '../utils/generateCsrfToken';
 
 export const apiUploadAttachment = (
 	messageData: string,
@@ -12,9 +12,9 @@ export const apiUploadAttachment = (
 	uploadProgress: Function,
 	onLoadHandling: Function
 ) => {
-	const accessToken = getTokenFromCookie('keycloak');
-	const rcAuthToken = getTokenFromCookie('rc_token');
-	const rcUid = getTokenFromCookie('rc_uid');
+	const accessToken = getValueFromCookie('keycloak');
+	const rcAuthToken = getValueFromCookie('rc_token');
+	const rcUid = getValueFromCookie('rc_uid');
 	const csrfToken = generateCsrfToken();
 
 	const url = isFeedback

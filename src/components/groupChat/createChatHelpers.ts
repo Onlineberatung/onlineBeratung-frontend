@@ -1,4 +1,4 @@
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
@@ -50,6 +50,7 @@ export const createChatSuccessOverlayItem: OverlayItem = {
 
 export const createChatErrorOverlayItem: OverlayItem = {
 	svg: XIcon,
+	illustrationBackground: 'error',
 	headline: translate('groupChat.createError.overlay.headline'),
 	buttonSet: [
 		{

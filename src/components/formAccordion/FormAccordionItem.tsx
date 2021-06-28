@@ -3,7 +3,7 @@ import './formAccordionItem.styles';
 import { ReactComponent as ValidIcon } from '../../resources/img/icons/checkmark.svg';
 import { ReactComponent as InvalidIcon } from '../../resources/img/icons/exclamation-mark.svg';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { AccordionItemValidity } from '../registration/registrationHelpers';
 
 interface FormAccordionItemProps {

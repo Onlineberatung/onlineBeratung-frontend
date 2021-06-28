@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { getPrettyDateFromMessageDate } from '../../resources/scripts/helpers/dateHelpers';
+import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
 import {
 	UserDataContext,
 	ActiveSessionGroupIdContext,
 	SessionsDataContext,
 	getActiveSession,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	ConsultingTypeInterface
 } from '../../globalState';
 import {
 	SESSION_TYPES,
@@ -26,13 +27,14 @@ import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import './message.styles';
 import { isVoluntaryInfoSet } from './messageHelpers';
-import { ResortData } from '../registration/registrationHelpers';
+import { translate } from '../../utils/translate';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
 	FORWARD = 'FORWARD',
 	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
-	VIDEOCALL = 'VIDEOCALL'
+	VIDEOCALL = 'VIDEOCALL',
+	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION'
 }
 
 export interface ForwardMessageDTO {
@@ -74,7 +76,7 @@ interface MessageItemComponentProps extends MessageItem {
 	isMyMessage: boolean;
 	type: string;
 	clientName: string;
-	resortData: ResortData;
+	resortData: ConsultingTypeInterface;
 }
 
 export const MessageItemComponent = (props: MessageItemComponentProps) => {
@@ -148,6 +150,8 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		props.alias?.messageType === MessageType.UPDATE_SESSION_DATA;
 	const isVideoCallMessage =
 		props.alias?.messageType === MessageType.VIDEOCALL;
+	const isFinishedConversationMessage =
+		props.alias?.messageType === MessageType.FINISHED_CONVERSATION;
 
 	const messageContent = (): JSX.Element => {
 		if (isFurtherStepsMessage) {
@@ -167,6 +171,12 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 					consultingType={chatItem.consultingType}
 					resortData={props.resortData}
 				/>
+			);
+		} else if (isFinishedConversationMessage) {
+			return (
+				<span className="messageItem__message--system">
+					{translate('anonymous.session.systemMessage.chatFinished')}
+				</span>
 			);
 		} else if (
 			isVideoCallMessage &&
@@ -269,7 +279,9 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 					isNotRead={props.isNotRead}
 					messageTime={props.messageTime}
 					type={getUsernameType()}
-					isVideoCallMessage={isVideoCallMessage}
+					isReadStatusDisabled={
+						isVideoCallMessage || isFinishedConversationMessage
+					}
 				></MessageMetaData>
 			</div>
 		</div>

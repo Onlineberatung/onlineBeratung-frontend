@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
-import { UserDataContext } from '../../globalState';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { useConsultingTypes, UserDataContext } from '../../globalState';
+import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditableData } from '../editableData/EditableData';
 import { Text } from '../text/Text';
@@ -20,12 +20,12 @@ export const AskerAboutMeData = () => {
 	const [emailLabel, setEmailLabel] = useState<string>(
 		translate('profile.data.email')
 	);
-	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
-		false
-	);
-	const [isEmailNotAvailable, setIsEmailNotAvailable] = useState<boolean>(
-		false
-	);
+	const [isRequestInProgress, setIsRequestInProgress] =
+		useState<boolean>(false);
+	const [isEmailNotAvailable, setIsEmailNotAvailable] =
+		useState<boolean>(false);
+	const consultingTypes = useConsultingTypes();
+	const showEmail = hasAskerEmailFeatures(userData, consultingTypes);
 
 	const handleCancelEditButton = () => {
 		setIsEmailDisabled(true);
@@ -75,7 +75,7 @@ export const AskerAboutMeData = () => {
 				type="text"
 				isDisabled
 			/>
-			{hasAskerEmailFeatures(userData) && (
+			{showEmail && (
 				<EditableData
 					label={emailLabel}
 					type="email"

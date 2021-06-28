@@ -21,7 +21,6 @@
 			"teamAgency": false
 		}
 	],
-	"userRoles": ["string"],
 	"grantedAuthorities": ["string"]
 }
 ```

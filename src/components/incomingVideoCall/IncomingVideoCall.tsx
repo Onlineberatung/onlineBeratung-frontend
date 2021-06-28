@@ -3,17 +3,23 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { useContext } from 'react';
 import { NotificationsContext } from '../../globalState';
 import {
 	getVideoCallUrl,
 	NotificationType
-} from '../../resources/scripts/helpers/videoCallHelpers';
-import { decodeUsername } from '../../resources/scripts/helpers/encryptionHelpers';
-import { VideoCallRequestProps } from '../app/app';
-import './incomingVideoCall.styles';
+} from '../../utils/videoCallHelpers';
+import { decodeUsername } from '../../utils/encryptionHelpers';
 import { apiRejectVideoCall } from '../../api';
+import './incomingVideoCall.styles';
+
+export interface VideoCallRequestProps {
+	rcGroupId: string;
+	initiatorRcUserId: string;
+	initiatorUsername: string;
+	videoCallUrl: string;
+}
 
 export interface IncomingVideoCallProps {
 	notificationType: NotificationType;
@@ -53,9 +59,8 @@ const getInitials = (text: string) => {
 };
 
 export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
-	const { notifications, setNotifications } = useContext(
-		NotificationsContext
-	);
+	const { notifications, setNotifications } =
+		useContext(NotificationsContext);
 
 	const decodedUsername = decodeUsername(props.videoCall.initiatorUsername);
 

@@ -6,7 +6,7 @@ import {
 	typeIsEnquiry,
 	getTypeOfLocation
 } from '../session/sessionHelpers';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
 	AUTHORITIES,
@@ -21,7 +21,10 @@ export const SessionsListWrapper = () => {
 	const type = getTypeOfLocation();
 	const { userData } = useContext(UserDataContext);
 
-	if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+	if (
+		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+		hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+	) {
 		return (
 			<div className="sessionsList__wrapper">
 				<div

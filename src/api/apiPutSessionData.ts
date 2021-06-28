@@ -5,7 +5,7 @@ export const apiPutSessionData = async (
 	sessionId: number,
 	voluntaryData: any
 ): Promise<any> => {
-	const url = config.endpoints.sessionBase + '/' + sessionId + '/data';
+	const url = `${config.endpoints.sessionBase}/${sessionId}/data`;
 	const sessionData = JSON.stringify(voluntaryData);
 
 	return fetchData({

@@ -1,0 +1,70 @@
+{
+	"id": 17,
+	"titles": {
+		"default": "Aus-/Rück- & Weiterwanderung",
+		"short": "Auswanderung",
+		"long": "Aus-/Rück- & Weiterwanderung",
+		"welcome": "Willkommen bei der Aus-/Rück- & Weiterwanderung!",
+		"registrationDropdown": "Aus-/Rück- & Weiterwanderung"
+	},
+	"urls": {},
+	"registration": {
+		"minPostcodeSize": 5,
+		"autoSelectAgency": true,
+		"autoSelectPostcode": false,
+		"notes": {
+			"agencySelection": "Sollten Sie im Ausland leben, geben Sie bitte die Postleitzahl eines Bezugsortes in Deutschland (zukünftiger Wohnort, Heimatort…) an."
+		},
+		"mandatoryFields": {
+			"age": false,
+			"state": false
+		}
+	},
+	"isSubsequentRegistrationAllowed": true,
+	"isAnonymousConversationAllowed": true,
+	"isSetEmailAllowed": true,
+	"slug": "rw-auswanderung",
+	"languageFormal": true,
+	"lockedAgencies": false,
+	"excludeNonMainConsultantsFromTeamSessions": false,
+	"whiteSpot": {
+		"whiteSpotAgencyAssigned": true,
+		"whiteSpotAgencyId": 1731
+	},
+	"groupChat": {
+		"isGroupChat": false,
+		"groupChatRules": []
+	},
+	"consultantBoundedToConsultingType": false,
+	"welcomeMessage": {
+		"sendWelcomeMessage": true,
+		"welcomeMessageText": "Lorem ipsum"
+	},
+	"sendFurtherStepsMessage": true,
+	"sendSaveSessionDataMessage": true,
+	"sessionDataInitializing": {},
+	"monitoring": {
+		"initializeMonitoring": false
+	},
+	"initializeFeedbackChat": false,
+	"roles": {
+		"consultant": {
+			"main": ["consultant"],
+			"peer": ["consultant"]
+		}
+	},
+	"notifications": {
+		"teamSessions": {
+			"newMessage": {
+				"allTeamConsultants": false
+			}
+		}
+	},
+	"showAskerProfile": false,
+	"welcomeScreen": {
+		"anonymous": {
+			"title": "Anonym",
+			"text": "Sie bleiben anonym und erhalten Beratung und Hilfe"
+		}
+	}
+}

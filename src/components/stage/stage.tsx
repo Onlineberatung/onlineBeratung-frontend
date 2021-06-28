@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { translate } from '../../resources/scripts/i18n/translate';
+import clsx from 'clsx';
+import { translate } from '../../utils/translate';
 import { ReactComponent as SkfLogo } from '../../resources/img/logos/01_skf.svg';
 import { ReactComponent as CaritasLogo } from '../../resources/img/logos/02_caritas.svg';
 import { ReactComponent as SkmLogo } from '../../resources/img/logos/03_skm.svg';
@@ -11,20 +12,24 @@ import './stage.styles';
 
 export interface StageProps {
 	hasAnimation?: boolean;
+	isReady?: boolean;
 }
 
-export const Stage = (props: StageProps) => {
+export const Stage = ({ hasAnimation, isReady = true }: StageProps) => {
 	return (
 		<div
 			id="loginLogoWrapper"
-			className={props.hasAnimation ? `stage stage--animated` : `stage`}
+			className={clsx('stage', {
+				'stage--animated': hasAnimation,
+				'stage--ready': isReady
+			})}
 		>
 			<div className="stage__headline">
 				<h1>{translate('app.title')}</h1>
 				<h4>{translate('app.claim')}</h4>
 			</div>
 
-			{props.hasAnimation ? (
+			{hasAnimation ? (
 				<div className="stage__spinner">
 					<div className="double-bounce1"></div>
 					<div className="double-bounce2"></div>

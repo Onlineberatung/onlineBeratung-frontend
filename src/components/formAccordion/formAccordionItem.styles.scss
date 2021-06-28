@@ -18,17 +18,15 @@
 		width: $grid-base-four;
 		height: $grid-base-four;
 		margin-right: 12px;
-		border: 2px solid $tertiary;
+		border: $form-accordion-index-border;
 		border-radius: 100%;
-		font-family: $font-family-bold;
 		font-weight: $font-weight-bold;
-		color: $tertiary;
+		color: $form-accordion-index-color;
 	}
 
 	&__title {
 		width: calc(100% - #{$grid-base-ten});
 		margin: 0;
-		font-family: $font-family-regular;
 		font-size: $font-size-h5;
 		font-weight: $font-weight-regular;
 		line-height: $line-height-primary;
@@ -59,22 +57,27 @@
 		.inputField {
 			margin-top: $grid-base-three;
 			margin-right: $grid-base-four;
+			max-width: 360px;
 		}
 	}
 
 	&__continueButton {
 		margin-top: $grid-base-three;
+
+		button {
+			min-width: 0;
+			padding: 0;
+		}
 	}
 
 	&--active & {
 		&__index {
-			background-color: $dropdown-bg-red;
+			background-color: $form-accordion-index-background-active;
 			border: none;
-			color: $secondary;
+			color: $form-accordion-index-color-active;
 		}
 
 		&__title {
-			font-family: $font-family-medium;
 			font-weight: $font-weight-medium;
 		}
 

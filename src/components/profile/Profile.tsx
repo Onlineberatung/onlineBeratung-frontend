@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { logout } from '../logout/logout';
 import { config } from '../../resources/scripts/config';
 import {
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	useConsultingTypes
 } from '../../globalState';
 import { ConsultantPrivateData } from './ConsultantPrivateData';
 import { ConsultantPublicData } from './ConsultantPublicData';
@@ -25,6 +26,7 @@ import './profile.styles';
 
 export const Profile = () => {
 	const { userData } = useContext(UserDataContext);
+	const consultingTypes = useConsultingTypes();
 
 	useEffect(() => {
 		setProfileWrapperActive();
@@ -116,8 +118,10 @@ export const Profile = () => {
 						<div className="profile__content__item profile__data">
 							<AskerAboutMeData />
 							<AskerConsultingTypeData />
-							{consultingTypeSelectOptionsSet(userData).length >
-								0 && <AskerRegistration />}
+							{consultingTypeSelectOptionsSet(
+								userData,
+								consultingTypes
+							).length > 0 && <AskerRegistration />}
 						</div>
 					)}
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (
@@ -126,7 +130,7 @@ export const Profile = () => {
 				</div>
 				<div className="profile__footer">
 					<a
-						href={config.urls.caritasImprint}
+						href={config.urls.imprint}
 						target="_blank"
 						rel="noreferrer"
 						className="profile__footer__item"
@@ -134,7 +138,7 @@ export const Profile = () => {
 						{translate('profile.footer.imprint')}
 					</a>
 					<a
-						href={config.urls.caritasDataprotection}
+						href={config.urls.privacy}
 						target="_blank"
 						rel="noreferrer"
 						className="profile__footer__item"

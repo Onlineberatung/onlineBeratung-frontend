@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { useContext, useEffect, useMemo } from 'react';
 import { Route } from 'react-router-dom';
-import { translate } from '../../resources/scripts/i18n/translate';
 import {
 	RouterConfigUser,
 	RouterConfigConsultant,
 	RouterConfigTeamConsultant,
 	RouterConfigMainConsultant,
-	RouterConfigU25Consultant
+	RouterConfigPeerConsultant,
+	RouterConfigAnonymousAsker
 } from './RouterConfig';
 import { AbsenceHandler } from './AbsenceHandler';
 import {
+	SessionsDataContext,
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES
@@ -18,20 +19,23 @@ import {
 import { history } from './app';
 import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import { NavigationBar } from './NavigationBar';
+import { Header } from '../header/Header';
+import { FinishedAnonymousConversationHandler } from './FinishedAnonymousConversationHandler';
 
 interface routingProps {
-	logout: Function;
+	logout?: Function;
 }
 
 export const Routing = (props: routingProps) => {
 	const { userData } = useContext(UserDataContext);
+	const { sessionsData } = useContext(SessionsDataContext);
 
 	const routerConfig = useMemo(() => {
 		if (hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData)) {
 			return RouterConfigMainConsultant();
 		}
 		if (hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData)) {
-			return RouterConfigU25Consultant();
+			return RouterConfigPeerConsultant();
 		}
 		if (
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
@@ -41,6 +45,9 @@ export const Routing = (props: routingProps) => {
 		}
 		if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
 			return RouterConfigConsultant();
+		}
+		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
+			return RouterConfigAnonymousAsker();
 		}
 		return RouterConfigUser();
 	}, [userData]);
@@ -54,6 +61,18 @@ export const Routing = (props: routingProps) => {
 		);
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+	// Redirect anonymous live chat users to their one and only session
+	useEffect(() => {
+		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
+			const groupId = sessionsData?.mySessions[0].session.groupId;
+			const id = sessionsData?.mySessions[0].session.id;
+
+			if (groupId && id) {
+				history.push(`/sessions/user/view/${groupId}/${id}`);
+			}
+		}
+	}, [sessionsData, userData]);
+
 	return (
 		<div className="app__wrapper">
 			<NavigationBar
@@ -62,14 +81,7 @@ export const Routing = (props: routingProps) => {
 			/>
 
 			<section className="contentWrapper">
-				<div className="contentWrapper__header">
-					<h1 className="contentWrapper__title">
-						{translate('app.title')}
-					</h1>
-					<p className="contentWrapper__claim">
-						{translate('app.claim')}
-					</p>
-				</div>
+				<Header />
 				<div className="contentWrapper__list">
 					{useMemo(
 						() =>
@@ -139,7 +151,7 @@ export const Routing = (props: routingProps) => {
 				<div className="contentWrapper__profile">
 					{useMemo(
 						() =>
-							routerConfig.profileRoutes.map(
+							routerConfig.profileRoutes?.map(
 								(route: any, index: any): JSX.Element => (
 									<Route
 										exact
@@ -158,7 +170,12 @@ export const Routing = (props: routingProps) => {
 					)}
 				</div>
 			</section>
-			<AbsenceHandler />
+			{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
+				<AbsenceHandler />
+			)}
+			{hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) && (
+				<FinishedAnonymousConversationHandler />
+			)}
 		</div>
 	);
 };

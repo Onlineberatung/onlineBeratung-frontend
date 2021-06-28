@@ -4,7 +4,7 @@ $backgroundCircleSize: 1800px;
 
 .enquiry {
 	&__wrapper {
-		background-color: $background-ochre;
+		background-color: $enquiry-background;
 		min-height: 100vh;
 		position: relative;
 		display: flex;
@@ -23,7 +23,7 @@ $backgroundCircleSize: 1800px;
 				height: $backgroundCircleSize;
 				right: calc(100vw * 0.3);
 				border-radius: 100%;
-				background-color: $background-light-ochre;
+				background-color: $enquiry-circle-background;
 				z-index: 1;
 
 				animation: scale ease-out 1s;
@@ -65,7 +65,7 @@ $backgroundCircleSize: 1800px;
 		flex-wrap: wrap;
 		justify-content: center;
 		margin: $grid-base-twelve $grid-base-two 109px;
-		overflow-y: scroll;
+		overflow-y: auto;
 		max-width: 350px;
 		z-index: 2;
 

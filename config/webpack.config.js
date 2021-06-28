@@ -75,6 +75,18 @@ const hasJsxRuntime = (() => {
   }
 })();
 
+const localAliases = (paths) =>
+	paths.map(localPath =>
+		[
+			path.resolve(__dirname, `../${localPath}`),
+			path.resolve(process.cwd(), `./${localPath}`)
+		]
+	)
+	.reduce((aliases, [requestedPath, resolvedPath]) => {
+		aliases[requestedPath] = resolvedPath
+		return aliases;
+	}, {});
+
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function (webpackEnv) {
@@ -147,14 +159,17 @@ module.exports = function (webpackEnv) {
         },
         {
           loader: require.resolve(preProcessor),
-		  options: 
-		  {
-			sassOptions: {includePaths: ['./src/resources/styles/settings.scss']},
-			prependData: `@import "${path.resolve(`${__dirname}/../`, 'src/resources/styles/settings.scss')}";`,
-            sourceMap: true,
-          },
-        }
-      );
+					options: {
+						sassOptions: {includePaths: [
+							path.resolve(
+								process.cwd(),
+								'./src/resources/styles/settings.scss'
+							)]},
+						additionalData: `@import "${path.resolve(process.cwd(), './src/resources/styles/settings.scss')}";`,
+						sourceMap: true,
+					},
+				}
+			);
     }
     return loaders;
   };
@@ -318,6 +333,14 @@ module.exports = function (webpackEnv) {
 					'scheduler/tracing': 'scheduler/tracing-profiling',
 				}),
 				...(modules.webpackAliases || {}),
+
+				// When this project is used as a library, resolve these files from the consuming project.
+				// This enables configuration without having to adjust source files.
+				...localAliases([
+					'src/resources/scripts/config',
+					'src/resources/scripts/i18n/defaultLocale',
+					'src/resources/scripts/i18n/informalLocale'
+				])
 			},
 			plugins: [
 				// Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -377,13 +400,16 @@ module.exports = function (webpackEnv) {
 						// The preset includes JSX, Flow, TypeScript, and some ESnext features.
 						{
 							test: /\.(js|mjs|jsx|ts|tsx)$/,
-							include: paths.appSrc,
+							include: [
+								paths.appSrc,
+								path.resolve('node_modules/@caritasdeutschland/caritas-online-beratung-frontend')
+							],
 							loader: require.resolve('babel-loader'),
 							options: {
 								customize: require.resolve(
 									'babel-preset-react-app/webpack-overrides'
 								),
-
+								presets: ['react-app'],
 								plugins: [
 									[
 										require.resolve('babel-plugin-named-asset-import'),
@@ -552,262 +578,6 @@ module.exports = function (webpackEnv) {
 				template: 'src/pages/app.html',
 				chunks: ['login'],
 				filename: 'login.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Suchtberatung',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 0,
-					resortName: 'addiction',
-				},
-				inject: true,
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.suchtberatung.html',
-			}),
-			new HtmlWebpackPlugin({
-				title:
-					'Registrierung Beratung für Suizidgefährdete junge Menschen [U25]',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 1,
-					resortName: 'u25',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.u25.html',
-			}),
-			new HtmlWebpackPlugin({
-				title:
-					'Registrierung gemeinsamstatteinsam - Onlineberatung für junge Menschen in besonderen Zeiten',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 1,
-					resortName: 'gemeinsamstatteinsam',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.gemeinsamstatteinsam.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Schwangerschaftsberatung',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 2,
-					resortName: 'pregnancy',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.schwangerschaftsberatung.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Beratung für Eltern und Familien',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 3,
-					resortName: 'parenting',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.eltern-familie.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Kurberatung für Mütter und Väter',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 4,
-					resortName: 'cure',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.kurberatung.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Beratung zum Thema Schulden',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 5,
-					resortName: 'debt',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.schuldnerberatung.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Allgemeine Sozialberatung',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 6,
-					resortName: 'social',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.allgemeine-soziale-beratung.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Leben im Alter',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 7,
-					resortName: 'seniority',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.leben-im-alter.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Leben mit Behinderung und psychischer Erkrankung',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 8,
-					resortName: 'disability',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.behinderung-und-psychische-erkrankung.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Mein PlanB - Beratung zwischen Schule und Beruf',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 9,
-					resortName: 'planB',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.mein-planb.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Rechtliche Betreuung und Vorsorge',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 10,
-					resortName: 'law',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.rechtliche-betreuung.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Beratung für Angehörige von Straffälligen',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 11,
-					resortName: 'offender',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.straffaelligkeit.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung HIV/AIDS Beratung',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 12,
-					resortName: 'aids',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.hiv-aids-beratung.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Kinder- und Jugend-Rehabilitation',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 13,
-					resortName: 'rehabilitation',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.kinder-reha.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Beratung für Kinder und Jugendliche',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 14,
-					resortName: 'children',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.kinder-jugendliche.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Sucht-Selbsthilfe - Kreuzbund-Chat',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 15,
-					resortName: 'kreuzbund',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.kb-sucht-selbsthilfe.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Migrationsberatung',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 16,
-					resortName: 'migration',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.migration.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Aus-/Rück- & Weiterwanderung',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 17,
-					resortName: 'emigration',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.rw-auswanderung.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Hospiz-, Palliativ- und Trauerberatung',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 18,
-					resortName: 'hospice',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.hospiz-palliativ.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Regionale Angebote',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 19,
-					resortName: 'regional',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.regionale-angebote.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Jungen- und Männerberatung',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 20,
-					resortName: 'men',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.jungen-und-maenner.html',
-			}),
-			new HtmlWebpackPlugin({
-				title: 'Registrierung Kontakt- und Beratungsstelle Selbsthilfe',
-				templateParameters: {
-					type: 'registration',
-					consultingType: 21,
-					resortName: 'supportGroupVechta',
-				},
-				template: 'src/pages/app.html',
-				chunks: ['registration'],
-				filename: 'registration.selbsthilfe-vechta.html',
 			}),
 			new HtmlWebpackPlugin({
 				title: 'Error Page 401',

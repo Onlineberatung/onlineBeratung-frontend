@@ -1,17 +1,13 @@
 import { ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { translate } from '../../utils/translate';
 import {
-	translate,
-	getResortTranslation
-} from '../../resources/scripts/i18n/translate';
-import { UserDataInterface } from '../../globalState';
+	UserDataInterface,
+	ConsultingTypeBasicInterface,
+	getConsultingType
+} from '../../globalState';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
-import { isGroupChatConsultingType } from '../../resources/scripts/helpers/resorts';
-import {
-	getConsultingTypeData,
-	ResortData
-} from '../registration/registrationHelpers';
 
 export const convertUserDataObjectToArray = (object) => {
 	const array = [];
@@ -45,9 +41,9 @@ export enum REGISTRATION_STATUS_KEYS {
 	REGISTERED = 'REGISTERED',
 	UNREGISTERED = 'UNREGISTERED'
 }
-const forAskerRegistrationExcludedConsultingTypes = [1, 19, 20];
 export const getConsultingTypesForRegistrationStatus = (
 	userData: UserDataInterface,
+	consultingTypes: Array<ConsultingTypeBasicInterface>,
 	registrationStatus: REGISTRATION_STATUS_KEYS
 ) => {
 	return Object.keys(userData.consultingTypes)
@@ -61,25 +57,31 @@ export const getConsultingTypesForRegistrationStatus = (
 			const validationForRegistrationStatus =
 				registrationStatus === REGISTRATION_STATUS_KEYS.REGISTERED
 					? value.data.isRegistered
-					: !forAskerRegistrationExcludedConsultingTypes.includes(
-							parseInt(value.consultingType)
-					  ) && !value.data.isRegistered;
+					: consultingTypes.find(
+							(cur) => cur.id === parseInt(value.consultingType)
+					  )?.isSubsequentRegistrationAllowed &&
+					  !value.data.isRegistered;
 			return validationForRegistrationStatus;
 		});
 };
 
-export const consultingTypeSelectOptionsSet = (userData: UserDataInterface) => {
-	const unregisteredConsultingTypesData = getConsultingTypesForRegistrationStatus(
-		userData,
-		REGISTRATION_STATUS_KEYS.UNREGISTERED
-	);
+export const consultingTypeSelectOptionsSet = (
+	userData: UserDataInterface,
+	consultingTypes: Array<ConsultingTypeBasicInterface>
+) => {
+	const unregisteredConsultingTypesData =
+		getConsultingTypesForRegistrationStatus(
+			userData,
+			consultingTypes,
+			REGISTRATION_STATUS_KEYS.UNREGISTERED
+		);
 	return unregisteredConsultingTypesData.map((value) => {
-		const currentConsultingType = parseInt(value.consultingType);
+		const id = parseInt(value.consultingType);
+		const consultingType = getConsultingType(consultingTypes, id);
+
 		return {
 			value: value.consultingType,
-			label: isGroupChatConsultingType(currentConsultingType)
-				? getResortTranslation(currentConsultingType, false, true)
-				: getResortTranslation(currentConsultingType)
+			label: consultingType.titles.registrationDropdown
 		};
 	});
 };
@@ -107,6 +109,7 @@ export const overlayItemNewRegistrationSuccess: OverlayItem = {
 
 export const overlayItemNewRegistrationError: OverlayItem = {
 	svg: XIcon,
+	illustrationBackground: 'error',
 	headline: translate('profile.data.registerError.overlay.headline'),
 	buttonSet: [
 		{
@@ -117,20 +120,20 @@ export const overlayItemNewRegistrationError: OverlayItem = {
 	]
 };
 
-export const hasAskerEmailFeatures = (userData: UserDataInterface): boolean => {
+export const hasAskerEmailFeatures = (
+	userData: UserDataInterface,
+	consultingTypes: Array<ConsultingTypeBasicInterface>
+): boolean => {
 	const registeredConsultingTypes = getConsultingTypesForRegistrationStatus(
 		userData,
+		consultingTypes,
 		REGISTRATION_STATUS_KEYS.REGISTERED
 	);
-	let registeredConsultingTypesData: ResortData[] = [];
 
-	registeredConsultingTypes.forEach((element) => {
-		registeredConsultingTypesData.push(
-			getConsultingTypeData(parseInt(element.consultingType))
-		);
-	});
-
-	return registeredConsultingTypesData.some(
-		(data) => data?.isSetEmailAllowed
+	return registeredConsultingTypes.some(
+		(element) =>
+			consultingTypes.find(
+				(cur) => cur.id === parseInt(element.consultingType)
+			)?.isSetEmailAllowed
 	);
 };

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { UserDataContext } from '../../globalState';
-import { translate } from '../../resources/scripts/i18n/translate';
+import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -18,16 +18,14 @@ export const ConsultantPrivateData = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isEditDisabled, setIsEditDisabled] = useState<boolean>(true);
 	const [isSaveDisabled, setIsSaveDisabled] = useState<boolean>(true);
-	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
-		false
-	);
+	const [isRequestInProgress, setIsRequestInProgress] =
+		useState<boolean>(false);
 	const [email, setEmail] = useState<string>();
 	const [emailLabel, setEmailLabel] = useState<string>(
 		translate('profile.data.email')
 	);
-	const [isEmailNotAvailable, setIsEmailNotAvailable] = useState<boolean>(
-		false
-	);
+	const [isEmailNotAvailable, setIsEmailNotAvailable] =
+		useState<boolean>(false);
 	const [firstName, setFirstName] = useState<string>();
 	const [lastName, setLastName] = useState<string>();
 

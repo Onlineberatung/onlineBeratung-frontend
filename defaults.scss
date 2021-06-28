@@ -1,0 +1,3 @@
+// Expose SASS variables as defaults, so we can
+// add new variables without a breaking change.
+@import './src/resources/styles/settings.scss';
