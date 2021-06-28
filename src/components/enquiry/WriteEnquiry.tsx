@@ -82,9 +82,7 @@ export const WriteEnquiry = () => {
 		document
 			.querySelector('.navigation__wrapper')
 			?.classList.add('navigation__wrapper--mobileHidden');
-		document
-			.querySelector('.contentWrapper__header')
-			?.classList.add('contentWrapper__header--enquiry');
+		document.querySelector('.header')?.classList.add('header--mobile');
 
 		const contentWrapper = document.querySelector(
 			'.contentWrapper__detail'

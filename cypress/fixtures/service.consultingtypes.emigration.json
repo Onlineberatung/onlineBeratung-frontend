@@ -21,6 +21,7 @@
 		}
 	},
 	"isSubsequentRegistrationAllowed": true,
+	"isAnonymousConversationAllowed": true,
 	"isSetEmailAllowed": true,
 	"slug": "rw-auswanderung",
 	"languageFormal": true,
@@ -59,5 +60,11 @@
 			}
 		}
 	},
-	"showAskerProfile": false
+	"showAskerProfile": false,
+	"welcomeScreen": {
+		"anonymous": {
+			"title": "Anonym",
+			"text": "Sie bleiben anonym und erhalten Beratung und Hilfe"
+		}
+	}
 }

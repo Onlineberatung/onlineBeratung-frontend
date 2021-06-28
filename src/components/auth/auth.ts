@@ -1,6 +1,5 @@
 import { logout } from '../logout/logout';
-import { LoginData } from '../registration/autoLogin';
-import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	getTokenExpiryFromLocalStorage,
 	setTokenExpiryInLocalStorage
@@ -9,19 +8,24 @@ import { refreshKeycloakAccessToken } from '../sessionCookie/refreshKeycloakAcce
 
 export const RENEW_BEFORE_EXPIRY_IN_MS = 10 * 1000; // seconds
 
-export const setTokens = (data: LoginData) => {
-	if (data.access_token) {
-		setTokenInCookie('keycloak', data.access_token);
+export const setTokens = (
+	access_token: string,
+	expires_in: number,
+	refresh_token: string,
+	refresh_expires_in: number
+) => {
+	if (access_token) {
+		setValueInCookie('keycloak', access_token);
 		setTokenExpiryInLocalStorage(
 			'auth.access_token_valid_until',
-			data.expires_in
+			expires_in
 		);
 	}
-	if (data.refresh_token) {
-		setTokenInCookie('refreshToken', data.refresh_token);
+	if (refresh_token) {
+		setValueInCookie('refreshToken', refresh_token);
 		setTokenExpiryInLocalStorage(
 			'auth.refresh_token_valid_until',
-			data.refresh_expires_in
+			refresh_expires_in
 		);
 	}
 };
@@ -39,7 +43,12 @@ const refreshTokens = (): Promise<void> => {
 	}
 
 	return refreshKeycloakAccessToken().then((response) => {
-		setTokens(response);
+		setTokens(
+			response.access_token,
+			response.expires_in,
+			response.refresh_token,
+			response.refresh_expires_in
+		);
 	});
 };
 

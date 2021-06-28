@@ -15,7 +15,7 @@ $illustrationWrapperMaxSize: 650px;
 .errorPage {
 	&--warning {
 		.errorPage__main {
-			background-color: rgba($form-error, 0.08);
+			background-color: $illustration-background-error;
 		}
 	}
 
@@ -91,7 +91,7 @@ $illustrationWrapperMaxSize: 650px;
 			flex-direction: row;
 			justify-content: center;
 			align-self: center;
-			background-color: $illustration-background-error;
+			background-color: $illustration-background-neutral;
 			min-width: $illustrationSize;
 			min-height: $illustrationSize;
 			max-width: $illustrationWrapperMaxSize;

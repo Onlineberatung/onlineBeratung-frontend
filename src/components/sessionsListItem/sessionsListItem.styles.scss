@@ -229,12 +229,6 @@ $icon-size-small: 16px;
 }
 
 .skeleton {
-	margin-top: calc(#{$grid-base} * 13);
-
-	@include breakpoint($fromLarge) {
-		margin-top: 0;
-	}
-
 	&:hover {
 		cursor: auto !important;
 		.sessionsListItem__content {

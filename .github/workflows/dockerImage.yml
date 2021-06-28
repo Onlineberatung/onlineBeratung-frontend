@@ -30,6 +30,7 @@ jobs:
             - name: test and build
               run: |
                   echo "127.0.0.1 caritas.local" | sudo tee -a /etc/hosts
+                  echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
                   npm run test
                   npm run build
             - uses: actions/upload-artifact@v2

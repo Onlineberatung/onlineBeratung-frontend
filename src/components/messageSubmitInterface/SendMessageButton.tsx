@@ -4,7 +4,7 @@ import { ReactComponent as SendIcon } from '../../resources/img/icons/paper-plan
 
 interface SendMessageButtonProps {
 	clicked?: boolean;
-	deactivated?: number;
+	deactivated?: boolean;
 	handleSendButton: Function;
 }
 

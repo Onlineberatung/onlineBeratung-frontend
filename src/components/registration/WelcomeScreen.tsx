@@ -5,11 +5,13 @@ import { Text } from '../text/Text';
 import { config } from '../../resources/scripts/config';
 import { Headline } from '../headline/Headline';
 import { ServiceExplanation } from '../serviceExplanation/ServiceExplanation';
+import { RegistrationWelcomeScreenInterface } from '../../globalState';
 import './welcomeScreen.styles';
 
 interface WelcomeScreenProps {
 	title: string;
 	handleForwardToRegistration: Function;
+	welcomeScreenConfig?: RegistrationWelcomeScreenInterface;
 }
 
 export const WelcomeScreen = (props: WelcomeScreenProps) => {
@@ -27,7 +29,10 @@ export const WelcomeScreen = (props: WelcomeScreenProps) => {
 		<div className="registrationWelcome">
 			<Headline text={props.title} semanticLevel="2" />
 			<h4>{translate('registration.welcomeScreen.subline')}</h4>
-			<ServiceExplanation className="registrationWelcome__explanation" />
+			<ServiceExplanation
+				welcomeScreenConfig={props.welcomeScreenConfig}
+				className="registrationWelcome__explanation"
+			/>
 			<div className="registrationWelcome__buttonsWrapper">
 				<div>
 					<Text

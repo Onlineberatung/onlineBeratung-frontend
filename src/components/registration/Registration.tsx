@@ -9,15 +9,19 @@ import { WelcomeScreen } from './WelcomeScreen';
 import { ConsultingTypeInterface } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
 import { apiGetConsultingType } from '../../api';
-import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
 
 interface RegistrationProps {
+	handleUnmatch: Function;
 	stageComponent: ComponentType<StageProps>;
 }
 
-export const Registration = ({ stageComponent: Stage }: RegistrationProps) => {
+export const Registration = ({
+	handleUnmatch,
+	stageComponent: Stage
+}: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(true);
 	const [consultingType, setConsultingType] = useState<
@@ -41,11 +45,12 @@ export const Registration = ({ stageComponent: Stage }: RegistrationProps) => {
 					console.error(
 						`Unknown consulting type with slug ${consultingTypeSlug}`
 					);
+					handleUnmatch();
 					return;
 				}
 
 				// SET FORMAL/INFORMAL COOKIE
-				setTokenInCookie(
+				setValueInCookie(
 					'useInformal',
 					result.languageFormal ? '' : '1'
 				);
@@ -59,7 +64,7 @@ export const Registration = ({ stageComponent: Stage }: RegistrationProps) => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [consultingTypeSlug]);
+	}, [consultingTypeSlug, handleUnmatch]);
 
 	useEffect(() => {
 		if (!consultingType) return;
@@ -79,17 +84,15 @@ export const Registration = ({ stageComponent: Stage }: RegistrationProps) => {
 			showLoginLink={!showWelcomeScreen}
 			stage={<Stage hasAnimation isReady={consultingType != null} />}
 		>
-			{consultingType != null &&
-				(showWelcomeScreen ? (
-					<WelcomeScreen
-						title={consultingType.titles.welcome}
-						handleForwardToRegistration={
-							handleForwardToRegistration
-						}
-					/>
-				) : (
-					<RegistrationForm consultingType={consultingType} />
-				))}
+			{showWelcomeScreen ? (
+				<WelcomeScreen
+					title={consultingType.titles.welcome}
+					handleForwardToRegistration={handleForwardToRegistration}
+					welcomeScreenConfig={consultingType.welcomeScreen}
+				/>
+			) : (
+				<RegistrationForm consultingType={consultingType} />
+			)}
 		</StageLayout>
 	);
 };

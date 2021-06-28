@@ -1,6 +1,10 @@
 .legalInformationLinks {
 	display: flex;
 
+	a {
+		flex-shrink: 0;
+	}
+
 	&__linkLabel {
 		color: $primary;
 	}
