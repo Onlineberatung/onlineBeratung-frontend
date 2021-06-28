@@ -89,7 +89,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		stompClient.onWebSocketError = (error) => {
 			console.log('Error', error);
 		};
-	}, [stompClient]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (disconnect) {
