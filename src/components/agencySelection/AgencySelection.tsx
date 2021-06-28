@@ -33,9 +33,8 @@ export interface AgencySelectionProps {
 
 export const AgencySelection = (props: AgencySelectionProps) => {
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState('');
-	const [proposedAgencies, setProposedAgencies] = useState<Array<
-		AgencyDataInterface
-	> | null>(null);
+	const [proposedAgencies, setProposedAgencies] =
+		useState<Array<AgencyDataInterface> | null>(null);
 	const [selectedPostcode, setSelectedPostcode] = useState('');
 	const [selectedAgencyId, setSelectedAgencyId] = useState<
 		number | undefined
