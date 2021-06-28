@@ -78,10 +78,8 @@ export const SessionsList: React.FC = () => {
 	const currentTab = useMemo(() => sessionListTab, [sessionListTab]);
 	const [hasNoSessions, setHasNoSessions] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [
-		abortController,
-		setAbortController
-	] = useState<AbortController | null>(null);
+	const [abortController, setAbortController] =
+		useState<AbortController | null>(null);
 
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [currentOffset, setCurrentOffset] = useState(0);
@@ -94,17 +92,14 @@ export const SessionsList: React.FC = () => {
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
-	const {
-		updateAnonymousEnquiries,
-		setUpdateAnonymousEnquiries
-	} = useContext(UpdateAnonymousEnquiriesContext);
+	const { updateAnonymousEnquiries, setUpdateAnonymousEnquiries } =
+		useContext(UpdateAnonymousEnquiriesContext);
 	const { updateSessionList, setUpdateSessionList } = useContext(
 		UpdateSessionListContext
 	);
-	const [isActiveSessionCreateChat, setIsActiveSessionCreateChat] = useState(
-		false
-	);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const [isActiveSessionCreateChat, setIsActiveSessionCreateChat] =
+		useState(false);
 	const { stoppedGroupChat, setStoppedGroupChat } = useContext(
 		StoppedGroupChatContext
 	);
