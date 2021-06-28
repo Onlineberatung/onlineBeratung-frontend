@@ -84,9 +84,7 @@ export const Registration = ({ stageComponent: Stage }: RegistrationProps) => {
 							handleForwardToRegistration={
 								handleForwardToRegistration
 							}
-							welcomeScreenTexts={
-								consultingType.registration.welcomeScreen
-							}
+							welcomeScreenConfig={consultingType.welcomeScreen}
 						/>
 					) : (
 						<RegistrationForm consultingType={consultingType} />

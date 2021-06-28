@@ -14,7 +14,7 @@ import './welcomeScreen.styles';
 interface WelcomeScreenProps {
 	title: string;
 	handleForwardToRegistration: Function;
-	welcomeScreenTexts: RegistrationWelcomeScreenInterface;
+	welcomeScreenConfig: RegistrationWelcomeScreenInterface;
 }
 
 export const WelcomeScreen = (props: WelcomeScreenProps) => {
@@ -36,8 +36,8 @@ export const WelcomeScreen = (props: WelcomeScreenProps) => {
 		},
 		{
 			icon: <LockIcon />,
-			title: props.welcomeScreenTexts.anonymous.title,
-			text: props.welcomeScreenTexts.anonymous.text
+			title: props.welcomeScreenConfig.anonymous.title,
+			text: props.welcomeScreenConfig.anonymous.text
 		}
 	];
 
