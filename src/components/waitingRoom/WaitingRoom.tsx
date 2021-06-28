@@ -99,7 +99,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	useEffect(() => {
 		if (websocketConnectionDeactivated) {
-			console.log('disconnected');
 			setIsErrorPageActive(true);
 			setWebsocketConnectionDeactivated(null);
 		}

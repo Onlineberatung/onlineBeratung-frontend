@@ -60,6 +60,9 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const RECONNECT_ATTEMPT_LIMIT = 10;
 	const RECONNECT_DELAY = 5000;
 
+	// DEV-NOTE: comment next line to activate debug mode (stomp logging) for development
+	stompClient.debug = () => {};
+
 	useEffect(() => {
 		stompClient.beforeConnect = () => {
 			stompClient.connectHeaders = {
