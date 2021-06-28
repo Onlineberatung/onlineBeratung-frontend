@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { history } from '../app/app';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
@@ -74,6 +74,7 @@ export const SessionView = (props) => {
 	const [typingUsers, setTypingUsers] = useState([]);
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
+	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
 		if (activeSession) {
@@ -170,9 +171,7 @@ export const SessionView = (props) => {
 				if (!isSocketConnected) {
 					setSessionToRead();
 					window['socket'].connect();
-					window[
-						'socket'
-					].addSubscription(
+					window['socket'].addSubscription(
 						SOCKET_COLLECTION.ROOM_MESSAGES,
 						[groupId, false],
 						() => fetchSessionMessages(true)
@@ -185,11 +184,11 @@ export const SessionView = (props) => {
 									'/subscriptions-changed',
 								false
 							],
-							handleGroupChatStopped
+							handleGroupChatStopped(
+								hasUserInitiatedStopOrLeaveRequest
+							)
 						);
-						window[
-							'socket'
-						].addSubscription(
+						window['socket'].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_ROOM,
 							[
 								`${groupId}/typing`,
@@ -220,9 +219,18 @@ export const SessionView = (props) => {
 		]
 	};
 
-	const handleGroupChatStopped = () => {
-		setOverlayItem(groupChatStoppedOverlay);
-		setIsOverlayActive(true);
+	const handleGroupChatStopped = (
+		hasUserInitiatedStopOrLeaveRequest
+	) => () => {
+		// If the user has initiated the stop or leave request, he/she is already
+		// shown an appropriate overlay during the process via the SessionMenu component.
+		// Thus, there is no need for an additional notification.
+		if (hasUserInitiatedStopOrLeaveRequest.current) {
+			hasUserInitiatedStopOrLeaveRequest.current = false;
+		} else {
+			setOverlayItem(groupChatStoppedOverlay);
+			setIsOverlayActive(true);
+		}
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
@@ -304,6 +312,9 @@ export const SessionView = (props) => {
 					isTyping={handleTyping}
 					typingUsers={typingUsers}
 					currentGroupId={groupIdFromParam}
+					hasUserInitiatedStopOrLeaveRequest={
+						hasUserInitiatedStopOrLeaveRequest
+					}
 				/>
 			) : null}
 			{isOverlayActive ? (

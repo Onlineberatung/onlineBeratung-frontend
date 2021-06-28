@@ -47,19 +47,14 @@ interface FormAccordionData {
 }
 
 export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
-	const [formAccordionData, setFormAccordionData] = useState<
-		FormAccordionData
-	>();
-	const [
-		preselectedAgencyData,
-		setPreselectedAgencyData
-	] = useState<AgencyDataInterface | null>(null);
-	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] = useState<
-		boolean
-	>(false);
-	const [isDataProtectionSelected, setIsDataProtectionSelected] = useState(
-		false
-	);
+	const [formAccordionData, setFormAccordionData] =
+		useState<FormAccordionData>();
+	const [preselectedAgencyData, setPreselectedAgencyData] =
+		useState<AgencyDataInterface | null>(null);
+	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] =
+		useState<boolean>(false);
+	const [isDataProtectionSelected, setIsDataProtectionSelected] =
+		useState(false);
 	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [initialPostcode, setInitialPostcode] = useState('');

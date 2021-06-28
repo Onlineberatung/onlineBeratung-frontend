@@ -153,10 +153,8 @@ export const MessageSubmitInterfaceComponent = (
 	const [uploadProgress, setUploadProgress] = useState(null);
 	const [uploadOnLoadHandling, setUploadOnLoadHandling] = useState(null);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [
-		attachmentUpload,
-		setAttachmentUpload
-	] = useState<XMLHttpRequest | null>(null);
+	const [attachmentUpload, setAttachmentUpload] =
+		useState<XMLHttpRequest | null>(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
 	const currentDraftMessageRef = useRef<string>();
@@ -231,9 +229,8 @@ export const MessageSubmitInterfaceComponent = (
 
 	useEffect(() => {
 		resizeTextarea();
-		const toolbar: HTMLDivElement | null = document.querySelector(
-			'.textarea__toolbar'
-		);
+		const toolbar: HTMLDivElement | null =
+			document.querySelector('.textarea__toolbar');
 		const richtextToggle: HTMLSpanElement | null = document.querySelector(
 			'.textarea__richtextToggle'
 		);
@@ -304,9 +301,8 @@ export const MessageSubmitInterfaceComponent = (
 			}
 		}
 		setEditorState(currentEditorState);
-		currentDraftMessageRef.current = getTypedMarkdownMessage(
-			currentEditorState
-		);
+		currentDraftMessageRef.current =
+			getTypedMarkdownMessage(currentEditorState);
 	};
 
 	const handleEditorKeyCommand = (command) => {

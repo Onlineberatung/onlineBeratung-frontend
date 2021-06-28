@@ -18,16 +18,14 @@ export const ConsultantPrivateData = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isEditDisabled, setIsEditDisabled] = useState<boolean>(true);
 	const [isSaveDisabled, setIsSaveDisabled] = useState<boolean>(true);
-	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
-		false
-	);
+	const [isRequestInProgress, setIsRequestInProgress] =
+		useState<boolean>(false);
 	const [email, setEmail] = useState<string>();
 	const [emailLabel, setEmailLabel] = useState<string>(
 		translate('profile.data.email')
 	);
-	const [isEmailNotAvailable, setIsEmailNotAvailable] = useState<boolean>(
-		false
-	);
+	const [isEmailNotAvailable, setIsEmailNotAvailable] =
+		useState<boolean>(false);
 	const [firstName, setFirstName] = useState<string>();
 	const [lastName, setLastName] = useState<string>();
 

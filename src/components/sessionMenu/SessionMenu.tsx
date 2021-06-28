@@ -46,7 +46,11 @@ import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
 
-export const SessionMenu = () => {
+export interface SessionMenuProps {
+	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
+}
+
+export const SessionMenu = (props: SessionMenuProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
@@ -115,23 +119,36 @@ export const SessionMenu = () => {
 			setOverlayItem(null);
 			setIsRequestInProgress(false);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.STOP_GROUP_CHAT) {
+			// In order to prevent a possible race condition between the user
+			// service and Rocket.Chat in case of a successful request, this ref
+			// is reset to `false` in the event handler that handles NOTIFY_USER
+			// events.
+			props.hasUserInitiatedStopOrLeaveRequest.current = true;
+
 			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)
 				.then((response) => {
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
-					setIsRequestInProgress(false);
 				})
 				.catch((error) => {
 					setOverlayItem(groupChatErrorOverlayItem);
+					props.hasUserInitiatedStopOrLeaveRequest.current = false;
+				})
+				.finally(() => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LEAVE_GROUP_CHAT) {
+			// See comment above
+			props.hasUserInitiatedStopOrLeaveRequest.current = true;
+
 			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.LEAVE)
 				.then((response) => {
 					setOverlayItem(leaveGroupChatSuccessOverlayItem);
-					setIsRequestInProgress(false);
 				})
 				.catch((error) => {
 					setOverlayItem(groupChatErrorOverlayItem);
+					props.hasUserInitiatedStopOrLeaveRequest.current = false;
+				})
+				.finally(() => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {

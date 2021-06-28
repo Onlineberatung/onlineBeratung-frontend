@@ -5,6 +5,7 @@ import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
 import deleteAccount from './de/deleteAccount';
 import enquiry from './de/enquiry';
+import error from './de/error';
 import furtherSteps from './de/furtherSteps';
 import groupChat from './de/groupChat';
 import login from './de/login';
@@ -22,13 +23,14 @@ import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
 
 const de = {
-	app,
 	absence,
+	app,
 	attachments,
 	chatFlyout,
 	consultant,
 	deleteAccount,
 	enquiry,
+	error,
 	furtherSteps,
 	groupChat,
 	login,

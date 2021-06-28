@@ -43,9 +43,8 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	const autoSelectAgency = props.consultingType.registration.autoSelectAgency;
 	const autoSelectPostcode =
 		props.consultingType.registration.autoSelectPostcode;
-	const [preselectedAgency, setPreselectedAgency] = useState<
-		AgencyDataInterface
-	>(props.preselectedAgency);
+	const [preselectedAgency, setPreselectedAgency] =
+		useState<AgencyDataInterface>(props.preselectedAgency);
 
 	const validPostcode = () =>
 		selectedPostcode?.length === VALID_POSTCODE_LENGTH;

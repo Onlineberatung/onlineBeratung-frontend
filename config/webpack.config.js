@@ -165,7 +165,7 @@ module.exports = function (webpackEnv) {
 								process.cwd(),
 								'./src/resources/styles/settings.scss'
 							)]},
-						prependData: `@import "${path.resolve(process.cwd(), './src/resources/styles/settings.scss')}";`,
+						additionalData: `@import "${path.resolve(process.cwd(), './src/resources/styles/settings.scss')}";`,
 						sourceMap: true,
 					},
 				}
