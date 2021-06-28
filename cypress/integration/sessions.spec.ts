@@ -9,7 +9,7 @@ import {
 	SCROLL_PAGINATE_THRESHOLD
 } from '../../src/components/sessionsList/sessionsListConfig';
 
-describe.skip('Sessions', () => {
+describe('Sessions', () => {
 	describe('Consultant', () => {
 		it('should list my sessions', () => {
 			const amountOfSessions = 3;

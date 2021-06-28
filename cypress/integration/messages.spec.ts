@@ -3,7 +3,7 @@ import { generateAskerSession, generateMessage } from '../support/sessions';
 import attachmentsI18n from '../../src/resources/scripts/i18n/de/attachments';
 import attachmentsInformalI18n from '../../src/resources/scripts/i18n/de/attachmentsInformal';
 
-describe.skip('Messages', () => {
+describe('Messages', () => {
 	describe('Attachments', () => {
 		it('should allow to send a message with attachment', () => {
 			cy.caritasMockedLogin();
