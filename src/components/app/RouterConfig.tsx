@@ -31,15 +31,13 @@ export const RouterConfigUser = (): any => {
 		listRoutes: [
 			{
 				path: '/sessions/user/view',
-				component: SessionsListWrapper,
-				type: SESSION_TYPES.USER
+				component: SessionsListWrapper
 			}
 		],
 		detailRoutes: [
 			{
 				path: '/sessions/user/view/:rcGroupId/:sessionId',
-				component: SessionView,
-				type: SESSION_TYPES.USER
+				component: SessionView
 			},
 			{
 				path: '/sessions/user/view/',
@@ -291,4 +289,35 @@ export const RouterConfigMainConsultant = (): any => {
 		small: 'navigation.consultant.peersessions.small'
 	};
 	return config;
+};
+
+export const RouterConfigAnonymousAsker = (): any => {
+	return {
+		navigation: [
+			{
+				to: '/sessions/user/view',
+				icon: 'speech-bubbles',
+				titleKeys: {
+					large: 'navigation.asker.sessions',
+					small: 'navigation.asker.sessions.small'
+				}
+			}
+		],
+		listRoutes: [
+			{
+				path: '/sessions/user/view',
+				component: SessionsListWrapper
+			}
+		],
+		detailRoutes: [
+			{
+				path: '/sessions/user/view/:rcGroupId/:sessionId',
+				component: SessionView
+			},
+			{
+				path: '/sessions/user/view/',
+				component: SessionViewEmpty
+			}
+		]
+	};
 };

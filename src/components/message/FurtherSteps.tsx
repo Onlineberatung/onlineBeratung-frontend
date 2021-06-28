@@ -126,7 +126,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 			}
 		],
 		headline: translate('furtherSteps.email.overlay.headline'),
-		isIconSmall: true,
+		isIllustrationSmall: true,
 		nestedComponent: (
 			<InputField item={emailInputItem} inputHandle={handleEmailChange} />
 		),

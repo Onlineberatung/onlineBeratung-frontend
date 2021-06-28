@@ -129,6 +129,56 @@ $headerHeight: 80px;
 		&--hasFilter {
 			padding-top: 82px;
 		}
+
+		&--hasTabs {
+			padding-top: 77px;
+
+			@include breakpoint($fromLarge) {
+				padding-top: 55px;
+			}
+		}
+	}
+
+	&__tabs {
+		position: absolute;
+		display: flex;
+		width: 100%;
+		padding: $grid-base-three;
+		background-color: $background-light;
+		z-index: 5;
+
+		@include breakpoint($fromLarge) {
+			padding: 0 $grid-base-three $grid-base-three;
+			background-color: $background-lighter;
+		}
+
+		a {
+			color: $secondary;
+
+			&:last-of-type {
+				margin-left: $grid-base-three;
+			}
+
+			@media (hover: hover) {
+				&:hover .text {
+					color: $primary;
+				}
+			}
+		}
+
+		&--active {
+			.text {
+				font-weight: $font-weight-medium;
+			}
+
+			&::after {
+				content: '';
+				background: $primary;
+				display: block;
+				height: 3px;
+				margin-top: 5px;
+			}
+		}
 	}
 
 	&__illustration {
@@ -231,7 +281,11 @@ $headerHeight: 80px;
 	}
 
 	&--empty {
-		margin-top: $grid-base-four;
+		margin: $grid-base-four $grid-base-two 0;
 		text-align: center;
+
+		@include breakpoint($fromMedium) {
+			margin: $grid-base-four $grid-base-three 0;
+		}
 	}
 }

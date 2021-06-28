@@ -152,6 +152,11 @@ $message-lineheight: 21px;
 		white-space: pre-wrap;
 		position: relative;
 
+		&--system {
+			margin: 4px 0;
+			font-size: $font-size-tertiary;
+		}
+
 		&--withAttachment {
 			margin-top: $grid-base;
 		}

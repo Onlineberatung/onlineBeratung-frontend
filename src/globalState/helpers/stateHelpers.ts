@@ -1,6 +1,7 @@
 import { UserDataInterface } from '../interfaces/UserDataInterface';
 import {
 	SessionsDataInterface,
+	SessionItemInterface,
 	ListItemInterface
 } from '../interfaces/SessionsDataInterface';
 import {
@@ -87,10 +88,9 @@ export const getSessionsDataKeyForSessionType = (sessionType) => {
 			return 'mySessions';
 		case SESSION_TYPES.TEAMSESSION:
 			return 'teamSessions';
-		case SESSION_TYPES.USER:
+		default:
 			return 'mySessions';
 	}
-	return null;
 };
 
 export const getUnreadMyMessages: Function = (sessionsData): number => {
@@ -113,6 +113,7 @@ export const hasUserAuthority = (
 ): boolean => userData.grantedAuthorities.includes(authority);
 
 export const AUTHORITIES = {
+	ANONYMOUS_DEFAULT: 'AUTHORIZATION_ANONYMOUS_DEFAULT',
 	ASSIGN_CONSULTANT_TO_ENQUIRY: 'AUTHORIZATION_ASSIGN_CONSULTANT_TO_ENQUIRY',
 	ASSIGN_CONSULTANT_TO_SESSION: 'AUTHORIZATION_ASSIGN_CONSULTANT_TO_SESSION',
 	CONSULTANT_DEFAULT: 'AUTHORIZATION_CONSULTANT_DEFAULT',
@@ -142,4 +143,10 @@ export const getSessionsDataWithChangedValue = (
 	});
 
 	return sesData;
+};
+
+export const isAnonymousSession = (
+	session: SessionItemInterface | undefined
+): boolean => {
+	return session?.registrationType === 'ANONYMOUS';
 };

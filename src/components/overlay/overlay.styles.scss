@@ -72,7 +72,7 @@ $iconSizeSmall: 100px;
 		}
 	}
 
-	&__iconWrapper {
+	&__illustrationWrapper {
 		display: flex;
 		justify-content: center;
 		align-self: center;
@@ -96,6 +96,18 @@ $iconSizeSmall: 100px;
 				width: $iconSizeSmall;
 				height: $iconSizeSmall;
 			}
+		}
+
+		&--neutral {
+			background-color: $illustration-background-neutral;
+		}
+
+		&--error {
+			background-color: $illustration-background-error;
+		}
+
+		&--info {
+			background-color: $illustration-background-info;
 		}
 	}
 

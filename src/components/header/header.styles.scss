@@ -1,0 +1,21 @@
+.header {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	background-color: $white;
+	height: $grid-base-twelve;
+	width: 100%;
+	padding: 0 $grid-base-three;
+
+	.headline {
+		margin-bottom: 0;
+	}
+
+	@include breakpoint($fromSmall) {
+		flex-direction: row;
+		justify-content: space-between;
+		flex-wrap: nowrap;
+	}
+}

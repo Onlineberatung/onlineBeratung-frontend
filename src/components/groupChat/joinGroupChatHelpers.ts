@@ -15,6 +15,7 @@ export const startButtonItem: ButtonItem = {
 
 export const startJoinGroupChatErrorOverlay: OverlayItem = {
 	svg: XIcon,
+	illustrationBackground: 'error',
 	headline: translate('groupChat.joinError.overlay.headline'),
 	buttonSet: [
 		{
@@ -27,6 +28,7 @@ export const startJoinGroupChatErrorOverlay: OverlayItem = {
 
 export const joinGroupChatClosedErrorOverlay: OverlayItem = {
 	svg: XIcon,
+	illustrationBackground: 'error',
 	headline: translate('groupChat.join.chatClosedOverlay.headline'),
 	buttonSet: [
 		{

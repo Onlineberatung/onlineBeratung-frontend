@@ -71,7 +71,7 @@ $unreadButtonSize: 18px;
 
 	&__acceptance {
 		text-align: center;
-		margin-top: $grid-base-four;
+		margin: $grid-base-four 0;
 	}
 
 	&__content {
@@ -87,6 +87,16 @@ $unreadButtonSize: 18px;
 
 		@include breakpoint($fromLarge) {
 			height: calc(100% - #{$sessionHeaderHeight} - #{$textareaHeight});
+		}
+
+		&--anonymousEnquiry {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.headline {
+				text-align: center;
+			}
 		}
 	}
 
