@@ -84,15 +84,18 @@ export const Registration = ({
 			showLoginLink={!showWelcomeScreen}
 			stage={<Stage hasAnimation isReady={consultingType != null} />}
 		>
-			{showWelcomeScreen ? (
-				<WelcomeScreen
-					title={consultingType.titles.welcome}
-					handleForwardToRegistration={handleForwardToRegistration}
-					welcomeScreenConfig={consultingType.welcomeScreen}
-				/>
-			) : (
-				<RegistrationForm consultingType={consultingType} />
-			)}
+			{consultingType != null &&
+				(showWelcomeScreen ? (
+					<WelcomeScreen
+						title={consultingType.titles.welcome}
+						handleForwardToRegistration={
+							handleForwardToRegistration
+						}
+						welcomeScreenConfig={consultingType.welcomeScreen}
+					/>
+				) : (
+					<RegistrationForm consultingType={consultingType} />
+				))}
 		</StageLayout>
 	);
 };
