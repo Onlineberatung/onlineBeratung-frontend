@@ -4,6 +4,7 @@ import { config } from '../../resources/scripts/config';
 import { translate } from '../../utils/translate';
 import { Button } from '../button/Button';
 import { LegalInformationLinks } from '../login/LegalInformationLinks';
+import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 
 interface StageLayoutProps {
@@ -32,9 +33,11 @@ export const StageLayout = ({
 			</div>
 			{showLoginLink && (
 				<div className="stageLayout__toLogin">
-					<p className="stageLayout__toLogin__text">
-						{translate('registration.login.helper')}
-					</p>
+					<Text
+						type="infoSmall"
+						text={translate('registration.login.helper')}
+						className="stageLayout__toLogin__text"
+					/>
 					<div className="stageLayout__toLogin__button">
 						<a href={config.urls.toLogin}>
 							<Button
