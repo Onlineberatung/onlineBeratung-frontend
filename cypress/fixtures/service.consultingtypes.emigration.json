@@ -21,6 +21,7 @@
 		}
 	},
 	"isSubsequentRegistrationAllowed": true,
+	"isAnonymousConversationAllowed": true,
 	"isSetEmailAllowed": true,
 	"slug": "rw-auswanderung",
 	"languageFormal": true,

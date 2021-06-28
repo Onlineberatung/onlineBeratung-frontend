@@ -1,4 +1,4 @@
-import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 
 export type NotificationType = 'call';
 
@@ -10,10 +10,10 @@ export const getVideoCallUrl = (
 };
 
 export const currentUserWasVideoCallInitiator = (initiatorRcUserId: string) =>
-	initiatorRcUserId === getTokenFromCookie('rc_uid');
+	initiatorRcUserId === getValueFromCookie('rc_uid');
 
 const currentUserIsAsker = (askerRcUserId: string) =>
-	askerRcUserId === getTokenFromCookie('rc_uid');
+	askerRcUserId === getValueFromCookie('rc_uid');
 
 export const currentUserIsTeamConsultant = (
 	initiatorRcUserId: string,

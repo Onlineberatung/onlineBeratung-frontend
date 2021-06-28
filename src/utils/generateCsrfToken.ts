@@ -1,10 +1,10 @@
 import {
-	getTokenFromCookie,
-	setTokenInCookie
+	getValueFromCookie,
+	setValueInCookie
 } from '../components/sessionCookie/accessSessionCookie';
 
 export const generateCsrfToken = (refreshToken: boolean = false) => {
-	const currentToken = getTokenFromCookie('CSRF-TOKEN');
+	const currentToken = getValueFromCookie('CSRF-TOKEN');
 	//only refresh if necessary to avoid errors on asnyc functionality
 	if (!currentToken || refreshToken) {
 		let token = '';
@@ -17,7 +17,7 @@ export const generateCsrfToken = (refreshToken: boolean = false) => {
 			);
 		}
 
-		setTokenInCookie('CSRF-TOKEN', token);
+		setValueInCookie('CSRF-TOKEN', token);
 		return token;
 	} else {
 		return currentToken;

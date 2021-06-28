@@ -51,7 +51,7 @@ const profile = {
 	'data.registerSuccess.overlay.button2Label': 'Abmelden',
 	'data.registerError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.',
-	'data.registerError.overlay.buttonLabel': 'Schliessen',
+	'data.registerError.overlay.buttonLabel': 'Schließen',
 	'footer.imprint': 'Impressum',
 	'footer.dataprotection': 'Datenschutz'
 };

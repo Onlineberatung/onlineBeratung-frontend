@@ -1,11 +1,15 @@
 const nodeEnv: string = process.env.NODE_ENV as string;
+const reactAppTest: string = process.env.REACT_APP_TEST as string;
 export const tld = nodeEnv === 'development' ? 'http://caritas.local' : '';
-export const endpointPort = nodeEnv === 'development' ? ':9000' : '';
+export const endpointPort = reactAppTest === 'test' ? ':9000' : '';
+export const APP_PATH = 'app';
 
 export const config = {
 	endpoints: {
 		agencyConsultants: tld + '/service/users/consultants',
 		agencyServiceBase: tld + '/service/agencies',
+		anonymousAskerBase: tld + '/service/conversations/askers/anonymous/',
+		anonymousBase: tld + '/service/conversations/anonymous/',
 		askerSessions: tld + '/service/users/sessions/askers',
 		attachmentUpload: tld + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: tld + '/service/uploads/feedback/new/',
@@ -52,9 +56,11 @@ export const config = {
 	urls: {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
-		toLogin: tld + endpointPort + '/login.html',
-		redirectToApp: tld + endpointPort + `/beratung-hilfe.html`,
+		toLogin: tld + endpointPort + '/',
+		redirectToApp: tld + endpointPort + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
+		finishedAnonymousChatRedirect:
+			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',

@@ -48,7 +48,11 @@ declare namespace UserService {
 			 * false
 			 */
 			offline?: boolean;
-			consultingType?: ConsultingType;
+			/**
+			 * example:
+			 * 1
+			 */
+			consultingType?: number;
 		}
 		export interface AliasMessageDTO {
 			forwardMessageDTO?: ForwardMessageDTO;
@@ -227,7 +231,6 @@ declare namespace UserService {
 			consultant?: SessionConsultantForConsultantDTO;
 			latestMessage?: Date;
 		}
-		export interface ConsultingType {}
 		export interface ConsultingTypeMap {
 			value?: unknown;
 		}
@@ -239,7 +242,7 @@ declare namespace UserService {
 			groupId: string;
 			/**
 			 * example:
-			 * http://{baseUrl}}/{consultingTypeName}/GEYDA
+			 * https://{baseUrl}}/{consultingTypeName}/GEYDA
 			 */
 			chatLink: string;
 		}
@@ -429,6 +432,7 @@ declare namespace UserService {
 			 */
 			consultingType: number;
 			/**
+			 * 0 = INITIAL, 1 = NEW, 2 = IN PROGRESS, 3 = DONE
 			 * example:
 			 * 0
 			 */
@@ -548,7 +552,7 @@ declare namespace UserService {
 			groupId: string;
 			/**
 			 * example:
-			 * http://{baseUrl}}/{consultingTypeName}/GEYDA
+			 * https://{baseUrl}}/{consultingTypeName}/GEYDA
 			 */
 			chatLink: string;
 		}
@@ -733,6 +737,12 @@ declare namespace UserService {
 			userRoles?: string[];
 			grantedAuthorities?: string[];
 			consultingTypes?: ConsultingTypeMap;
+			/**
+			 * Is true if consultant has at least one consulting type containing anonymous conversations active
+			 * example:
+			 * true
+			 */
+			hasAnonymousConversations?: boolean;
 		}
 		export interface UserSessionListResponseDTO {
 			sessions?: UserSessionResponseDTO[];

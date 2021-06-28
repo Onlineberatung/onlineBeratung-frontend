@@ -129,12 +129,28 @@ $headerHeight: 80px;
 		&--hasFilter {
 			padding-top: 82px;
 		}
+
+		&--hasTabs {
+			padding-top: 77px;
+
+			@include breakpoint($fromLarge) {
+				padding-top: 55px;
+			}
+		}
 	}
 
 	&__tabs {
+		position: absolute;
 		display: flex;
 		width: 100%;
-		margin: 0 $grid-base-three $grid-base-three;
+		padding: $grid-base-three;
+		background-color: $background-light;
+		z-index: 5;
+
+		@include breakpoint($fromLarge) {
+			padding: 0 $grid-base-three $grid-base-three;
+			background-color: $background-lighter;
+		}
 
 		a {
 			color: $secondary;
@@ -143,8 +159,10 @@ $headerHeight: 80px;
 				margin-left: $grid-base-three;
 			}
 
-			.text:hover {
-				color: $primary;
+			@media (hover: hover) {
+				&:hover .text {
+					color: $primary;
+				}
 			}
 		}
 
@@ -263,7 +281,11 @@ $headerHeight: 80px;
 	}
 
 	&--empty {
-		margin-top: $grid-base-four;
+		margin: $grid-base-four $grid-base-two 0;
 		text-align: center;
+
+		@include breakpoint($fromMedium) {
+			margin: $grid-base-four $grid-base-three 0;
+		}
 	}
 }

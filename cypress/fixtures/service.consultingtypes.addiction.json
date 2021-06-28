@@ -19,6 +19,7 @@
 		}
 	},
 	"isSubsequentRegistrationAllowed": true,
+	"isAnonymousConversationAllowed": true,
 	"isSetEmailAllowed": true,
 	"slug": "suchtberatung",
 	"languageFormal": true,

@@ -9,7 +9,7 @@ import { WelcomeScreen } from './WelcomeScreen';
 import { ConsultingTypeInterface } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
 import { apiGetConsultingType } from '../../api';
-import { setTokenInCookie } from '../sessionCookie/accessSessionCookie';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import '../../resources/styles/styles';
 import './registration.styles';
 
@@ -50,7 +50,7 @@ export const Registration = ({
 				}
 
 				// SET FORMAL/INFORMAL COOKIE
-				setTokenInCookie(
+				setValueInCookie(
 					'useInformal',
 					result.languageFormal ? '' : '1'
 				);

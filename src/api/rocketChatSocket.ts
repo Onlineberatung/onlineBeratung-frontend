@@ -1,4 +1,4 @@
-import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 
 const SOCKET_STATUS = {
 	CONNECTING: 0,
@@ -20,7 +20,7 @@ export class rocketChatSocket {
 	private messageListeners: Function[] = [];
 
 	constructor() {
-		this.rcUid = getTokenFromCookie('rc_uid');
+		this.rcUid = getValueFromCookie('rc_uid');
 		this.rcWebsocket = null;
 	}
 
@@ -34,7 +34,7 @@ export class rocketChatSocket {
 	}
 
 	public connect() {
-		const rcAuthToken = getTokenFromCookie('rc_token');
+		const rcAuthToken = getValueFromCookie('rc_token');
 		this.rcWebsocket = new WebSocket(this.getEndpoint());
 
 		this.rcWebsocket.onopen = () => {

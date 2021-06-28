@@ -10,13 +10,27 @@ import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 export const INITIAL_FILTER: string = 'all';
 export const INITIAL_OFFSET: number = 0;
 export const SESSION_COUNT: number = 15;
+export const TIMEOUT: number = 10000;
 
-export const apiGetConsultantSessionList = async (
-	type: string,
-	filter: string = INITIAL_FILTER,
-	offset: number = INITIAL_OFFSET,
-	sessionListTab?: string
-): Promise<ListItemsResponseInterface> => {
+export interface ApiGetConsultantSessionListInterface {
+	type: string;
+	filter?: string;
+	offset?: number;
+	sessionListTab?: string;
+	count?: number;
+	signal?: AbortSignal;
+}
+
+export const apiGetConsultantSessionList = async ({
+	type,
+	filter = INITIAL_FILTER,
+	offset = INITIAL_OFFSET,
+	sessionListTab,
+	count = SESSION_COUNT,
+	signal
+}: ApiGetConsultantSessionListInterface): Promise<
+	ListItemsResponseInterface
+> => {
 	const isTeamSession: boolean = typeIsTeamSession(type);
 	let url: string;
 	if (isTeamSession) {
@@ -30,15 +44,14 @@ export const apiGetConsultantSessionList = async (
 				: `${SESSION_LIST_TAB.REGISTERED}`
 		}?`;
 	}
-	url = url + `count=${SESSION_COUNT}&filter=${filter}&offset=${offset}`;
-
-	const timeout = 10000;
+	url = url + `count=${count}&filter=${filter}&offset=${offset}`;
 
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.GET,
 		rcValidation: true,
 		responseHandling: [FETCH_ERRORS.EMPTY],
-		timeout: timeout
+		timeout: TIMEOUT,
+		...(signal && { signal: signal })
 	});
 };

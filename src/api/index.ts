@@ -2,6 +2,7 @@ export * from './apiAgencySelection';
 export * from './apiDeleteAskerAccount';
 export * from './apiDraftMessages';
 export * from './apiEnquiryAcceptance';
+export * from './apiFinishAnonymousConversation';
 export * from './apiForwardMessage';
 export * from './apiGetAgencyConsultantList';
 export * from './apiGetAgencyId';

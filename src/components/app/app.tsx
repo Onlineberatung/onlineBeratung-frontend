@@ -28,8 +28,8 @@ export const App = ({ stageComponent }: AppProps) => {
 		setHasUnmatchedLoginConsultingType
 	] = useState(false);
 	const [
-		hasUnmatchedAnonyomousConversation,
-		setHasUnmatchedAnonyomousConversation
+		hasUnmatchedAnonymousConversation,
+		setHasUnmatchedAnonymousConversation
 	] = useState(false);
 	const [
 		hasUnmatchedRegistrationConsultingType,
@@ -59,11 +59,11 @@ export const App = ({ stageComponent }: AppProps) => {
 							/>
 						</Route>
 					)}
-					{!hasUnmatchedAnonyomousConversation && (
+					{!hasUnmatchedAnonymousConversation && (
 						<Route path="/:consultingTypeSlug/warteraum">
 							<WaitingRoomLoader
 								handleUnmatch={() =>
-									setHasUnmatchedAnonyomousConversation(true)
+									setHasUnmatchedAnonymousConversation(true)
 								}
 								onAnonymousRegistration={() =>
 									setStartWebsocket(true)

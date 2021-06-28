@@ -68,7 +68,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 			? getAddictiveDrugsTranslatable(userSessionData.addictiveDrugs)
 			: null;
 	const translateBase =
-		chatItem.consultingType === 0 ? 'user.userAddiction' : 'user.userU25';
+		chatItem?.consultingType === 0 ? 'user.userAddiction' : 'user.userU25';
 
 	const [isSubscriberFlyoutOpen, setIsSubscriberFlyoutOpen] = useState(false);
 	const [subscriberList, setSubscriberList] = useState([]);
@@ -82,7 +82,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	}, [isSubscriberFlyoutOpen]);
 
 	const sessionView = getViewPathForType(getTypeOfLocation());
-	const userProfileLink = `/sessions/consultant/${sessionView}/${chatItem.groupId}/${chatItem.id}/userProfile`;
+	const userProfileLink = `/sessions/consultant/${sessionView}/${chatItem?.groupId}/${chatItem?.id}/userProfile`;
 
 	const handleBackButton = () => {
 		mobileListView();
@@ -181,7 +181,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		);
 	}
 
-	if (activeSession.isFeedbackSession) {
+	if (activeSession?.isFeedbackSession) {
 		return (
 			<div className="sessionInfo">
 				<div className="sessionInfo__feedbackHeaderWrapper">
@@ -230,7 +230,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				>
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
 						<h3>
-							{activeSession.teamSession
+							{activeSession?.teamSession
 								? translate('sessionList.teamsession')
 								: username}
 						</h3>
@@ -247,13 +247,17 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							<h3>{username}</h3>
 						)
 					) : null}
+					{hasUserAuthority(
+						AUTHORITIES.ANONYMOUS_DEFAULT,
+						userData
+					) && <h3>{username}</h3>}
 				</div>
 				<SessionMenu />
 			</div>
-			{!activeSession.teamSession ||
+			{!activeSession?.teamSession ||
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
 				<div className="sessionInfo__metaInfo">
-					{!activeSession.agency ? (
+					{!activeSession?.agency ? (
 						<div className="sessionInfo__metaInfo__content">
 							{consultingType.titles.short}
 						</div>
@@ -278,13 +282,13 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 								) : null
 						  )
 						: null}
-					{activeSession.agency && activeSession.agency.name ? (
+					{activeSession?.agency && activeSession?.agency.name ? (
 						<div className="sessionInfo__metaInfo__content">
 							{' '}
 							{activeSession.agency.name}{' '}
 						</div>
 					) : null}
-					{activeSession.agency ? (
+					{activeSession?.agency ? (
 						<div className="sessionInfo__metaInfo__content">
 							{translate('consultant.jobTitle')}
 						</div>
@@ -292,7 +296,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				</div>
 			) : null}
 
-			{activeSession.teamSession &&
+			{activeSession?.teamSession &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
 				<div className="sessionInfo__metaInfo">
 					<div className="sessionInfo__metaInfo__content">
@@ -318,7 +322,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				</div>
 			) : null}
 
-			{!activeSession.teamSession &&
+			{!activeSession?.teamSession &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
 				<div className="sessionInfo__metaInfo">
 					<div

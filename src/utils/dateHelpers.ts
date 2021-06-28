@@ -64,7 +64,9 @@ export const prettyPrintTimeDifference = (t1: number, t2: number): string => {
 	);
 
 	// TODO: Revise hard-coded locale once internationalization is implemented
-	return `vor ${hours ? `${hours}h ` : ''}${minutes}min`;
+	return hours === 0 && minutes === 0
+		? 'jetzt'
+		: `vor ${hours ? `${hours} h ` : ''}${minutes} min`;
 };
 
 export const convertISO8601ToMSSinceEpoch = (iso8601Date) => {

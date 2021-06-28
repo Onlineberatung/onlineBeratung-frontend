@@ -2,6 +2,8 @@ import * as React from 'react';
 import {
 	AcceptedGroupIdProvider,
 	ActiveSessionGroupIdProvider,
+	AnonymousConversationFinishedProvider,
+	AnonymousEnquiryAcceptedProvider,
 	AuthDataProvider,
 	ConsultantListProvider,
 	ConsultingTypesProvider,
@@ -11,6 +13,7 @@ import {
 	StoppedGroupChatProvider,
 	UnreadSessionsStatusProvider,
 	UpdateAnonymousEnquiriesProvider,
+	UpdateSessionListProvider,
 	UserDataProvider
 } from '.';
 
@@ -30,6 +33,8 @@ function ContextProvider({ children }) {
 			contexts={[
 				<AcceptedGroupIdProvider />,
 				<ActiveSessionGroupIdProvider />,
+				<AnonymousConversationFinishedProvider />,
+				<AnonymousEnquiryAcceptedProvider />,
 				<AuthDataProvider />,
 				<ConsultantListProvider />,
 				<FilterStatusProvider />,
@@ -38,6 +43,7 @@ function ContextProvider({ children }) {
 				<StoppedGroupChatProvider />,
 				<UnreadSessionsStatusProvider />,
 				<UpdateAnonymousEnquiriesProvider />,
+				<UpdateSessionListProvider />,
 				<UserDataProvider />,
 				<ConsultingTypesProvider />
 			]}

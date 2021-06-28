@@ -3,17 +3,24 @@ import { useContext, useEffect, useState } from 'react';
 import { Routing } from './Routing';
 import { config } from '../../resources/scripts/config';
 import {
-	setTokenInCookie,
-	getTokenFromCookie
+	setValueInCookie,
+	getValueFromCookie
 } from '../sessionCookie/accessSessionCookie';
 import {
 	UserDataContext,
 	AuthDataContext,
 	AuthDataInterface,
 	NotificationsContext,
+	hasUserAuthority,
+	AUTHORITIES,
+	SessionsDataContext,
 	ConsultingTypesContext
 } from '../../globalState';
-import { apiGetConsultingTypes, apiGetUserData } from '../../api';
+import {
+	apiFinishAnonymousConversation,
+	apiGetConsultingTypes,
+	apiGetUserData
+} from '../../api';
 import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
@@ -30,18 +37,19 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { setAuthData } = useContext(AuthDataContext);
 	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
-	const { setUserData } = useContext(UserDataContext);
+	const { userData, setUserData } = useContext(UserDataContext);
 	const [appReady, setAppReady] = useState<boolean>(false);
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { notifications } = useContext(NotificationsContext);
+	const { sessionsData } = useContext(SessionsDataContext);
 
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
 		const currentAuthData: AuthDataInterface = {
-			keycloakRefreshToken: getTokenFromCookie('refreshToken'),
-			keycloakToken: getTokenFromCookie('keycloak'),
-			rocketchatToken: getTokenFromCookie('rc_token'),
-			rocketchatUserId: getTokenFromCookie('rc_uid')
+			keycloakRefreshToken: getValueFromCookie('refreshToken'),
+			keycloakToken: getValueFromCookie('keycloak'),
+			rocketchatToken: getValueFromCookie('rc_token'),
+			rocketchatUserId: getValueFromCookie('rc_uid')
 		};
 		setAuthData(currentAuthData);
 	}
@@ -52,7 +60,7 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 			Promise.all([apiGetUserData(), apiGetConsultingTypes()])
 				.then(([userProfileData, consultingTypes]) => {
 					// set informal / formal cookie depending on the given userdata
-					setTokenInCookie(
+					setValueInCookie(
 						'useInformal',
 						!userProfileData.formalLanguage ? '1' : ''
 					);
@@ -72,6 +80,13 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	}, [appReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleLogout = () => {
+		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
+			apiFinishAnonymousConversation(
+				sessionsData?.mySessions[0].session.id
+			).catch((error) => {
+				console.error(error);
+			});
+		}
 		props.onLogout();
 		logout();
 	};

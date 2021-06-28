@@ -64,6 +64,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
 	const isLiveChat = isAnonymousSession(currentSessionData?.session);
+	const isLiveChatFinished = listItem.status === 3;
 	let plainTextLastMessage = '';
 	const consultingType = useConsultingType(listItem.consultingType);
 	const sessionConsultingType = useConsultingType(
@@ -98,15 +99,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	}
 
 	const handleOnClick = () => {
-		if (
-			!isCurrentSessionNewEnquiry &&
-			(isRequestInProgress || listItem.groupId === activeSessionGroupId)
-		) {
-			return null;
-		}
 		setIsRequestInProgress(true);
 
-		if (listItem.groupId) {
+		if (listItem.groupId && listItem.id) {
 			history.push(
 				`${getSessionListPathForLocation()}/${listItem.groupId}/${
 					listItem.id
@@ -289,7 +284,14 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								: `sessionsListItem__username`
 						}
 					>
-						{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
+						{hasUserAuthority(
+							AUTHORITIES.ASKER_DEFAULT,
+							userData
+						) ||
+						hasUserAuthority(
+							AUTHORITIES.ANONYMOUS_DEFAULT,
+							userData
+						)
 							? currentSessionData.consultant
 								? currentSessionData.consultant.username
 								: isCurrentSessionNewEnquiry
@@ -328,6 +330,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 					{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 						!typeIsEnquiry(type) &&
 						!listItem.feedbackRead &&
+						!isLiveChat &&
 						!(
 							activeSession &&
 							activeSession.isFeedbackSession &&
@@ -340,12 +343,16 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 								link={feedbackPath}
 							/>
 						)}
-					{isLiveChat && (
-						<Tag
-							text={translate('anonymous.listItem.activeLabel')}
-							color="green"
-						/>
-					)}
+					{isLiveChat &&
+						!typeIsEnquiry(type) &&
+						!isLiveChatFinished && (
+							<Tag
+								text={translate(
+									'anonymous.listItem.activeLabel'
+								)}
+								color="green"
+							/>
+						)}
 				</div>
 			</div>
 		</div>

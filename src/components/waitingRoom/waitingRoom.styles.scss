@@ -15,7 +15,6 @@
 	}
 
 	&__contentWrapper {
-		align-self: center;
 		padding: $grid-base-five $grid-base-two;
 		width: 100%;
 		max-width: 1370px;
@@ -37,7 +36,7 @@
 		}
 
 		.text {
-			margin-top: $grid-base-five;
+			margin-top: $grid-base-four;
 		}
 
 		.text + .text {
@@ -77,7 +76,7 @@
 		&::after {
 			content: '';
 			position: absolute;
-			background-color: $illustration-background-error;
+			background-color: $illustration-background-neutral;
 			height: 100%;
 			width: 100%;
 			border-radius: 100%;
@@ -105,9 +104,21 @@
 		}
 	}
 
+	&__user,
+	&__redirect {
+		margin-top: $grid-base-four;
+
+		.text:first-of-type {
+			font-weight: $font-weight-medium;
+		}
+
+		.text + .text {
+			margin-top: $grid-base;
+		}
+	}
+
 	&__username {
-		font-family: $font-family-sans-serif;
-		font-weight: $font-weight-medium;
+		color: $form-success;
 
 		&--loading {
 			color: $tertiary;
@@ -115,17 +126,13 @@
 		}
 	}
 
-	&__redirect {
+	&__redirectButton {
+		display: flex;
+		justify-content: center;
 		margin-top: $grid-base-three;
 
-		.text:first-of-type {
-			margin-top: 0;
-			font-family: $font-family-sans-serif;
-			font-weight: $font-weight-medium;
-		}
-
-		.text + .text {
-			margin-top: 2px;
+		@include breakpoint($fromLarge) {
+			justify-content: start;
 		}
 	}
 

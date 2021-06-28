@@ -20,10 +20,10 @@ const groupChat = {
 	'create.listItem.label': 'Neuer Chat',
 	'createSuccess.overlayHeadline':
 		'Sie haben erfolgreich einen Chat angelegt.',
-	'createSuccess.overlay.buttonLabel': 'Schliessen',
+	'createSuccess.overlay.buttonLabel': 'Schließen',
 	'createError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.',
-	'createError.overlay.buttonLabel': 'Schliessen',
+	'createError.overlay.buttonLabel': 'Schließen',
 	'edit.title': 'Chat-Einstellungen',
 	'info.headline': 'Chat-Info',
 	'info.subscribers.headline': 'Teilnehmende',
@@ -47,7 +47,7 @@ const groupChat = {
 	'join.chatClosedOverlay.button2Label': 'Logout',
 	'joinError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.',
-	'joinError.overlay.buttonLabel': 'Schliessen',
+	'joinError.overlay.buttonLabel': 'Schließen',
 	'leaveChat.securityOverlay.headline':
 		'Möchten Sie den Chat wirklich verlassen?',
 	'leaveChat.securityOverlay.button1Label': 'Chat verlassen',
@@ -76,7 +76,7 @@ const groupChat = {
 	'stopped.overlay.button2Label': 'Logout',
 	'updateSuccess.overlayHeadline':
 		'Ihre Änderungen wurden erfolgreich gespeichert.',
-	'updateSuccess.overlay.button1Label': 'Schliessen'
+	'updateSuccess.overlay.button1Label': 'Schließen'
 };
 
 export default groupChat;
