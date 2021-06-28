@@ -233,6 +233,7 @@ export const AskerRegistration = () => {
 			)}
 			{externalAgencyOverlayActive && (
 				<AskerRegistrationExternalAgencyOverlay
+					selectedAgency={selectedAgency}
 					consultingType={selectedConsultingType}
 					handleOverlayAction={handleExternalAgencyOverlayAction}
 				/>

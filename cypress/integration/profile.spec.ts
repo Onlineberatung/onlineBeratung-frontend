@@ -38,6 +38,11 @@ describe('profile', () => {
 		);
 
 		cy.caritasMockedLogin();
+		cy.visit('/beratung-hilfe.html', {
+			onBeforeLoad(window) {
+				cy.stub(window, 'open');
+			}
+		});
 		cy.contains('Profil').click();
 
 		cy.get('#consultingTypeSelect').click();
@@ -54,10 +59,13 @@ describe('profile', () => {
 		);
 
 		cy.contains('Jetzt wechseln').click();
-		cy.url().should(
-			'be.equal',
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/suchtberatung/start'
-		);
+		cy.window()
+			.its('open')
+			.should(
+				'be.calledWith',
+				'https://www.onlineberatung-diakonie-baden.de/',
+				'_blank'
+			);
 	});
 
 	it('can register for a new consulting type with an internal agency', () => {

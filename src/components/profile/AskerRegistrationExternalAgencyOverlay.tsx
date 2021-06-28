@@ -8,16 +8,17 @@ import { ConsultingTypeBasicInterface } from '../../globalState';
 interface AskerRegistrationExternalAgencyOverlayProps {
 	consultingType: ConsultingTypeBasicInterface;
 	handleOverlayAction: (action: string) => void;
+	selectedAgency: any;
 }
 
 const AskerRegistrationExternalAgencyOverlay = ({
 	consultingType,
-	handleOverlayAction
+	handleOverlayAction,
+	selectedAgency
 }: AskerRegistrationExternalAgencyOverlayProps) => {
 	const handleOverlay = (action) => {
 		if (action === OVERLAY_FUNCTIONS.REDIRECT) {
-			window.location.href =
-				consultingType.urls.registrationPostcodeFallbackUrl;
+			window.open(selectedAgency.url, '_blank')?.focus();
 		} else {
 			handleOverlayAction(action);
 		}
