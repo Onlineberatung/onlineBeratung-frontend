@@ -89,6 +89,7 @@ export const Registration = ({
 							handleForwardToRegistration={
 								handleForwardToRegistration
 							}
+							welcomeScreenConfig={consultingType.welcomeScreen}
 						/>
 					) : (
 						<RegistrationForm consultingType={consultingType} />

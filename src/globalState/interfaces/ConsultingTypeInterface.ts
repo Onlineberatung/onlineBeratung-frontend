@@ -15,6 +15,13 @@ export type RegistrationNotesInterface = {
 	password?: string;
 };
 
+export type RegistrationWelcomeScreenInterface = {
+	anonymous: {
+		title: string;
+		text: string;
+	};
+};
+
 export interface ConsultingTypeBasicInterface {
 	id: number;
 	showAskerProfile: boolean;
@@ -47,4 +54,5 @@ export interface ConsultingTypeInterface extends ConsultingTypeBasicInterface {
 	requiredComponents?: RequiredComponentsInterface;
 	languageFormal: boolean;
 	voluntaryComponents?: any[];
+	welcomeScreen: RegistrationWelcomeScreenInterface;
 }

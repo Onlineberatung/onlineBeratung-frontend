@@ -166,5 +166,11 @@
 		"state": {
 			"isEnabled": true
 		}
+	},
+	"welcomeScreen": {
+		"anonymous": {
+			"title": "Anonym und kostenfrei",
+			"text": "Du bleibst anonym und erhältst kostenfreie Beratung und Hilfe"
+		}
 	}
 }

@@ -60,5 +60,11 @@
 			}
 		}
 	},
-	"showAskerProfile": false
+	"showAskerProfile": false,
+	"welcomeScreen": {
+		"anonymous": {
+			"title": "Anonym",
+			"text": "Sie bleiben anonym und erhalten Beratung und Hilfe"
+		}
+	}
 }
