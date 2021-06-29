@@ -1,7 +1,7 @@
-$imageSize: 280px;
-$iconSize: 170px;
-$imageSizeSmall: 180px;
-$iconSizeSmall: 100px;
+$illustrationSize: 120px;
+$illustrationSizeLarge: 80px;
+$iconSize: 56px;
+$iconSizeLarge: 48px;
 
 .overlay {
 	display: flex;
@@ -41,11 +41,10 @@ $iconSizeSmall: 100px;
 		max-width: none;
 		background-color: $white;
 		border-radius: 4px;
-		text-align: center;
+		text-align: $overlay-text-align;
 		margin: auto;
 		padding: $grid-base-six $grid-base-three;
-		overflow-y: scroll;
-		overflow-x: hidden;
+		overflow: visible;
 
 		@include breakpoint($fromLarge) {
 			width: 100%;
@@ -73,28 +72,48 @@ $iconSizeSmall: 100px;
 	}
 
 	&__illustrationWrapper {
+		margin-bottom: $grid-base;
+
+		@include breakpoint($fromLarge) {
+			$size: $illustrationSizeLarge + $grid-base * 2;
+
+			display: inline-block;
+			background-color: $white;
+			margin-top: ((-$size / 2) - $grid-base-six);
+			margin-left: auto;
+			margin-right: auto;
+			width: $size;
+			height: $size;
+			padding: $grid-base;
+			border-radius: 50%;
+		}
+	}
+
+	&__illustration {
 		display: flex;
 		justify-content: center;
 		align-self: center;
-		background-color: $illustration-background-info;
-		border-radius: $imageSize / 2;
-		height: $imageSize;
-		width: $imageSize;
+		height: $illustrationSize;
+		width: $illustrationSize;
 		margin-bottom: $grid-base-four;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: $illustration-background-info;
+		border-radius: $illustrationSize / 2;
+
+		@include breakpoint($fromLarge) {
+			height: $illustrationSizeLarge;
+			width: $illustrationSizeLarge;
+		}
 
 		& > svg {
 			width: $iconSize;
 			height: $iconSize;
 			align-self: center;
-		}
 
-		&--small {
-			width: $imageSizeSmall;
-			height: $imageSizeSmall;
-
-			& > svg {
-				width: $iconSizeSmall;
-				height: $iconSizeSmall;
+			@include breakpoint($fromLarge) {
+				width: $iconSizeLarge;
+				height: $iconSizeLarge;
 			}
 		}
 
@@ -117,7 +136,6 @@ $iconSizeSmall: 100px;
 
 	.text {
 		margin-top: $grid-base-two;
-		text-align: center;
 	}
 
 	&__nestedComponent {
@@ -127,9 +145,26 @@ $iconSizeSmall: 100px;
 		}
 	}
 
+	&__buttons {
+		$gap: $grid-base;
+		margin-top: $grid-base-two;
+		margin-left: -$gap;
+
+		> * {
+			display: inline-block;
+			margin-top: $gap;
+			margin-left: $gap;
+		}
+	}
+
 	.button {
 		&__wrapper {
-			margin-top: $grid-base-three;
+			margin-top: $grid-base-two;
+			width: 100%;
+
+			@include breakpoint($fromSmall) {
+				width: auto;
+			}
 
 			&:last-child {
 				padding-bottom: $grid-base-three;
@@ -138,14 +173,10 @@ $iconSizeSmall: 100px;
 					padding-bottom: 0;
 				}
 			}
+		}
 
-			&:first-of-type {
-				margin-top: $grid-base-four;
-			}
-
-			& + .button__wrapper {
-				margin-top: $grid-base-two;
-			}
+		&__item {
+			width: 100%;
 		}
 	}
 }
