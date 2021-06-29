@@ -1,22 +1,24 @@
+import clsx from 'clsx';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { LoadingIndicator } from '../loadingIndicator/LoadingIndicator';
 import './loading.styles';
 
 export const Loading = () => {
-	// show loading spinner after 500ms
-	const [hide, setHide] = useState(true);
-	setTimeout(() => setHide(false), 500);
+	const [isVisible, setIsVisible] = useState(false);
+
+	useEffect(() => {
+		// Delay showing the loading indicator, but hide it again if loading takes too long
+		const timeoutIds = [
+			setTimeout(() => setIsVisible(true), 500),
+			setTimeout(() => setIsVisible(false), 2000)
+		];
+		return () => timeoutIds.forEach(clearTimeout);
+	}, []);
 
 	return (
-		<div className="loading__wrapper">
-			<div
-				className={`loading__spinner ${
-					hide ? 'loading__spinner--hide' : null
-				}`}
-			>
-				<div className="double-bounce1"></div>
-				<div className="double-bounce2"></div>
-			</div>
+		<div className={clsx('loading', isVisible && 'loading--visible')}>
+			<LoadingIndicator />
 		</div>
 	);
 };

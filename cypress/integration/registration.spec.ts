@@ -10,7 +10,7 @@ const checkForGenericRegistrationElements = () => {
 	cy.get('#passwordConfirmation').should('exist');
 	cy.get('#dataProtectionCheckbox').should('exist');
 	cy.get('.button__primary').should('exist');
-	cy.get('.registrationForm__toLogin').should('exist');
+	cy.get('.stageLayout__toLogin').should('exist');
 };
 
 describe('registration', () => {
