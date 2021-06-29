@@ -82,7 +82,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
 			const agency = {
-				...proposedAgencies.find((cur) => cur.id === selectedAgencyId),
+				...proposedAgencies?.find((cur) => cur.id === selectedAgencyId),
 				id: selectedAgencyId,
 				postcode: selectedPostcode
 			};
