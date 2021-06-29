@@ -3,6 +3,9 @@ import { FETCH_METHODS } from './fetchData';
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { generateCsrfToken } from '../utils/generateCsrfToken';
 
+const nodeEnv: string = process.env.NODE_ENV as string;
+const isLocalDevelopment = nodeEnv === 'development';
+
 export const apiUploadAttachment = (
 	messageData: string,
 	attachment: File,
@@ -44,6 +47,9 @@ export const apiUploadAttachment = (
 	xhr.setRequestHeader('rcUserId', rcUid);
 	xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
 	xhr.setRequestHeader('cache-control', 'no-cache');
+	if (isLocalDevelopment) {
+		xhr.setRequestHeader('X-U25-APP-CSRF-TOKEN', csrfToken);
+	}
 
 	xhr.send(data);
 

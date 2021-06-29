@@ -26,11 +26,9 @@ export class rocketChatSocket {
 
 	private getEndpoint() {
 		const host = window.location.hostname;
-		const secure = /https/g.test(window.location.protocol);
-		if (host !== 'caritas.local') {
-			return `ws${secure ? 's' : ''}://${host}/websocket`;
-		}
-		return `ws${secure ? 's' : ''}://${host}:3000/websocket`;
+		return host === 'localhost'
+			? `wss://caritas-dev.virtual-identity.com/websocket`
+			: `wss://${host}/websocket`;
 	}
 
 	public connect() {

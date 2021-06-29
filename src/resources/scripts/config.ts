@@ -1,7 +1,8 @@
 const nodeEnv: string = process.env.NODE_ENV as string;
-const reactAppTest: string = process.env.REACT_APP_TEST as string;
-export const tld = nodeEnv === 'development' ? 'http://caritas.local' : '';
-export const endpointPort = reactAppTest === 'test' ? ':9000' : '';
+export const tld =
+	nodeEnv === 'development' ? 'https://caritas-dev.virtual-identity.com' : '';
+export const tldRedirect =
+	nodeEnv === 'development' ? 'http://localhost:9000' : '';
 export const APP_PATH = 'app';
 
 export const config = {
@@ -56,17 +57,17 @@ export const config = {
 	urls: {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
-		toLogin: tld + endpointPort + '/',
-		redirectToApp: tld + endpointPort + '/' + APP_PATH,
+		toLogin: tldRedirect + '/',
+		redirectToApp: tldRedirect + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
-		error500: tld + endpointPort + '/error.500.html',
-		error401: tld + endpointPort + '/error.401.html',
-		error404: tld + endpointPort + '/error.404.html',
+		error500: tldRedirect + '/error.500.html',
+		error401: tldRedirect + '/error.401.html',
+		error404: tldRedirect + '/error.404.html',
 		registrationDisabilityPostcodeFallback:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/behinderung-und-psychische-erkrankung/adressen',
 		registrationMigrationPostcodeFallback:

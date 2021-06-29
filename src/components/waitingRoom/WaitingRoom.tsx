@@ -8,7 +8,7 @@ import { ReactComponent as WaitingIllustration } from '../../resources/img/illus
 import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/ooh.svg';
 import { translate } from '../../utils/translate';
 import { useContext, useEffect, useState } from 'react';
-import { endpointPort, tld } from '../../resources/scripts/config';
+import { tldRedirect } from '../../resources/scripts/config';
 import {
 	AnonymousRegistrationResponse,
 	apiPostAnonymousRegistration
@@ -62,9 +62,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		websocketConnectionDeactivated,
 		setWebsocketConnectionDeactivated
 	} = useContext(WebsocketConnectionDeactivatedContext);
-	const registrationUrl = `${tld + endpointPort}/${
-		props.consultingTypeSlug
-	}/registration`;
+	const registrationUrl = `${tldRedirect}/${props.consultingTypeSlug}/registration`;
 
 	useEffect(() => {
 		const registeredUsername = getValueFromCookie('registeredUsername');

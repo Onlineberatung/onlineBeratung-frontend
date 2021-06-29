@@ -6,6 +6,9 @@ import {
 } from '../components/error/errorHandling';
 import { logout } from '../components/logout/logout';
 
+const nodeEnv: string = process.env.NODE_ENV as string;
+const isLocalDevelopment = nodeEnv === 'development';
+
 export const FETCH_METHODS = {
 	DELETE: 'DELETE',
 	GET: 'GET',
@@ -63,6 +66,10 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 			  }
 			: null;
 
+		const localDevelopmentHeader = isLocalDevelopment
+			? { 'X-U25-APP-CSRF-TOKEN': csrfToken }
+			: null;
+
 		let controller;
 		controller = new AbortController();
 		if (props.timeout) {
@@ -80,7 +87,8 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 				...authorization,
 				'X-CSRF-TOKEN': csrfToken,
 				...props.headersData,
-				...rcHeaders
+				...rcHeaders,
+				...localDevelopmentHeader
 			},
 			credentials: 'include',
 			body: props.bodyData,
