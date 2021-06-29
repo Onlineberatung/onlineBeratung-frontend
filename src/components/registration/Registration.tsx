@@ -11,7 +11,7 @@ import { RegistrationForm } from './RegistrationForm';
 import { apiGetConsultingType } from '../../api';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import '../../resources/styles/styles';
-import './registration.styles';
+import { StageLayout } from '../stageLayout/StageLayout';
 
 interface RegistrationProps {
 	handleUnmatch: Function;
@@ -79,23 +79,23 @@ export const Registration = ({
 	}, [consultingType]);
 
 	return (
-		<div className="registration">
-			<Stage hasAnimation isReady={consultingType != null} />
-			{consultingType != null && (
-				<div className="registration__content">
-					{showWelcomeScreen ? (
-						<WelcomeScreen
-							title={consultingType.titles.welcome}
-							handleForwardToRegistration={
-								handleForwardToRegistration
-							}
-							welcomeScreenConfig={consultingType.welcomeScreen}
-						/>
-					) : (
-						<RegistrationForm consultingType={consultingType} />
-					)}
-				</div>
-			)}
-		</div>
+		<StageLayout
+			showLegalLinks={!showWelcomeScreen}
+			showLoginLink={!showWelcomeScreen}
+			stage={<Stage hasAnimation isReady={consultingType != null} />}
+		>
+			{consultingType != null &&
+				(showWelcomeScreen ? (
+					<WelcomeScreen
+						title={consultingType.titles.welcome}
+						handleForwardToRegistration={
+							handleForwardToRegistration
+						}
+						welcomeScreenConfig={consultingType.welcomeScreen}
+					/>
+				) : (
+					<RegistrationForm consultingType={consultingType} />
+				))}
+		</StageLayout>
 	);
 };

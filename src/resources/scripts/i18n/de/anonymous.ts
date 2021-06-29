@@ -26,6 +26,10 @@ const anonymous = {
 	'waitingroom.dataProtection.description':
 		'Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.',
 	'waitingroom.dataProtection.button': 'Bestätigen',
+	'waitingroom.errorPage.headline': 'Ups!',
+	'waitingroom.errorPage.description':
+		'Es tut uns leid da ist wohl etwas schief gelaufen.<br>Versuchen Sie es erneut.',
+	'waitingroom.errorPage.button': 'Neu laden',
 	'waitingroom.headline': 'Bitte haben Sie etwas Geduld',
 	'waitingroom.subline':
 		'Derzeit sind alle Berater_innen im Gespräch. Wir sind schnellstmöglich für Sie da.',

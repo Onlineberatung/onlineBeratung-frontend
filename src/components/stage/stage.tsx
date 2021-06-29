@@ -11,15 +11,20 @@ import { ReactComponent as MalteserLogo } from '../../resources/img/logos/07_mal
 import './stage.styles';
 
 export interface StageProps {
+	className?: string;
 	hasAnimation?: boolean;
 	isReady?: boolean;
 }
 
-export const Stage = ({ hasAnimation, isReady = true }: StageProps) => {
+export const Stage = ({
+	className,
+	hasAnimation,
+	isReady = true
+}: StageProps) => {
 	return (
 		<div
 			id="loginLogoWrapper"
-			className={clsx('stage', {
+			className={clsx(className, 'stage', {
 				'stage--animated': hasAnimation,
 				'stage--ready': isReady
 			})}
