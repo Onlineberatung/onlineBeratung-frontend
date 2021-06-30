@@ -434,7 +434,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 			{typeIsEnquiry(getTypeOfLocation()) ? (
 				<div className="session__acceptance messageItem">
-					{hasUserAuthority(
+					{!isLiveChat &&
+					hasUserAuthority(
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 						userData
 					) ? (
