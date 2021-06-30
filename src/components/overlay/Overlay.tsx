@@ -29,7 +29,6 @@ export interface OverlayItem {
 	copy?: string;
 	headline?: string;
 	headlineStyleLevel?: HeadlineLevel;
-	isIllustrationSmall?: boolean;
 	illustrationBackground?: 'error' | 'neutral' | 'info';
 	nestedComponent?: React.ReactNode;
 	svg?: React.FunctionComponent<
@@ -66,20 +65,20 @@ export const Overlay = (props: {
 			<div className="overlay__background"></div>
 			<div className="overlay__content">
 				{item.svg && (
-					<span
-						className={clsx('overlay__illustrationWrapper', {
-							'overlay__illustrationWrapper--small':
-								item.isIllustrationSmall,
-							'overlay__illustrationWrapper--error':
-								item.illustrationBackground === 'error',
-							'overlay__illustrationWrapper--info':
-								item.illustrationBackground === 'info',
-							'overlay__illustrationWrapper--neutral':
-								item.illustrationBackground === 'neutral'
-						})}
-					>
-						<Illustration />
-					</span>
+					<div className="overlay__illustrationWrapper">
+						<span
+							className={clsx('overlay__illustration', {
+								'overlay__illustration--error':
+									item.illustrationBackground === 'error',
+								'overlay__illustration--info':
+									item.illustrationBackground === 'info',
+								'overlay__illustration--neutral':
+									item.illustrationBackground === 'neutral'
+							})}
+						>
+							<Illustration />
+						</span>
+					</div>
 				)}
 				{item.headline && (
 					<Headline
@@ -94,15 +93,17 @@ export const Overlay = (props: {
 						{item.nestedComponent}
 					</div>
 				)}
-				{item.buttonSet?.map((item, i) => {
-					return (
-						<Button
-							item={item}
-							key={i}
-							buttonHandle={handleButtonClick}
-						/>
-					);
-				})}
+				{item.buttonSet && item.buttonSet.length > 0 && (
+					<div className="overlay__buttons">
+						{item.buttonSet?.map((item, i) => (
+							<Button
+								item={item}
+								key={i}
+								buttonHandle={handleButtonClick}
+							/>
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 	);
