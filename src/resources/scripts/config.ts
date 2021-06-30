@@ -1,15 +1,8 @@
 const nodeEnv: string = process.env.NODE_ENV as string;
 const devServer: string = process.env.REACT_APP_DEV_SERVER as string;
-const reactAppTest: string = process.env.REACT_APP_TEST as string;
 const isDevelopment = () => nodeEnv === 'development';
-const isCypressTest = () => reactAppTest === 'test';
-export const tld = isCypressTest
-	? 'https://caritas-dev.virtual-identity.com'
-	: isDevelopment
-	? 'https://' + devServer
-	: '';
-export const tldRedirect =
-	isCypressTest || isDevelopment ? 'http://localhost:9000' : '';
+export const tld = isDevelopment ? 'https://' + devServer : '';
+export const tldRedirect = isDevelopment ? 'http://localhost:9000' : '';
 export const APP_PATH = 'app';
 
 export const config = {
