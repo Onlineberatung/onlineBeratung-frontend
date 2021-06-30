@@ -1,4 +1,5 @@
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
+const devServer: string = process.env.REACT_APP_DEV_SERVER as string;
 
 const SOCKET_STATUS = {
 	CONNECTING: 0,
@@ -27,7 +28,7 @@ export class rocketChatSocket {
 	private getEndpoint() {
 		const host = window.location.hostname;
 		return host === 'localhost'
-			? `wss://caritas-dev.virtual-identity.com/websocket`
+			? `wss://${devServer}/websocket`
 			: `wss://${host}/websocket`;
 	}
 
