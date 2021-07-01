@@ -1,19 +1,9 @@
-const nodeEnv: string = process.env.NODE_ENV as string;
-// const devServer: string = process.env.REACT_APP_DEV_SERVER as string;
 export const apiUrlEnv: string = process.env.REACT_APP_API_URL;
-// const isDevelopment = () => nodeEnv === 'development';
 export const apiUrl = process.env.REACT_APP_API_URL
 	? 'https://' + apiUrlEnv
 	: '';
-// export const tld = isDevelopment ? 'https://' + devServer : '';
 export const uiUrl = process.env.REACT_APP_UI_URL || '';
-// export const tldRedirect = isDevelopment ? 'http://localhost:9000' : '';
 export const APP_PATH = 'app';
-
-console.log('config.ts', apiUrl, uiUrl);
-
-//tld = apiUrl => process.env.REACT_APP_apiUrl || '';
-//tldRedirect = uiUrl => process.env.REACT_APP_uiUrl || '';
 
 export const config = {
 	endpoints: {
