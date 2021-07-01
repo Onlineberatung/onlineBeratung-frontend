@@ -1,5 +1,5 @@
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
-const devServer: string = process.env.REACT_APP_DEV_SERVER as string;
+import { apiUrlEnv } from '../resources/scripts/config';
 
 const SOCKET_STATUS = {
 	CONNECTING: 0,
@@ -27,8 +27,8 @@ export class rocketChatSocket {
 
 	private getEndpoint() {
 		const host = window.location.hostname;
-		return host === 'localhost'
-			? `wss://${devServer}/websocket`
+		return apiUrlEnv
+			? `wss://${apiUrlEnv}/websocket`
 			: `wss://${host}/websocket`;
 	}
 
