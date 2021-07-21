@@ -123,7 +123,7 @@
 	"scripts": {
 		"start": "REACT_APP_UI_URL=http://localhost:9000 node scripts/start.js",
 		"build": "node scripts/build.js",
-		"test": "concurrently --kill-others --success first \"cross-env BROWSER=none API_URL_FOR_LOCAL_DEVELOPMENT=test npm start\" \"wait-on http://localhost:9000 && cypress run\"",
+		"test": "concurrently --kill-others --success first \"cross-env BROWSER=none API_URL_FOR_LOCAL_DEVELOPMENT=test PORT=9000 npm start\" \"wait-on http://localhost:9000 && cypress run\"",
 		"release": "standard-version",
 		"serve": "serve build",
 		"dev": "run-s dev:cy",
