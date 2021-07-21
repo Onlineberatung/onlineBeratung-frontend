@@ -1,5 +1,11 @@
 'use strict';
 
+// Set REACT_APP_API_URL for local developement
+const dotenv = require('dotenv');
+const dotenvExpand = require('dotenv-expand');
+dotenvExpand(dotenv.config());
+process.env.REACT_APP_API_URL = process.env.API_URL_FOR_LOCAL_DEVELOPMENT;
+
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
