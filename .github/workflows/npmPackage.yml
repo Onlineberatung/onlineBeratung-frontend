@@ -30,7 +30,7 @@ jobs:
                   prettier_dir: ./src
             - name: test and build
               run: |
-                  echo "127.0.0.1 caritas.local" | sudo tee -a /etc/hosts
+                  echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
                   echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
                   npm run test
             - run: npm version --no-git-tag-version 0.0.0-$VERSION

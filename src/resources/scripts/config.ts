@@ -1,72 +1,75 @@
-const nodeEnv: string = process.env.NODE_ENV as string;
-const reactAppTest: string = process.env.REACT_APP_TEST as string;
-export const tld = nodeEnv === 'development' ? 'http://caritas.local' : '';
-export const endpointPort = reactAppTest === 'test' ? ':9000' : '';
+export const CSRF_WHITELIST_HEADER: string =
+	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
+export const apiUrlEnv: string = process.env.REACT_APP_API_URL;
+export const apiUrl = process.env.REACT_APP_API_URL
+	? 'https://' + apiUrlEnv
+	: '';
+export const uiUrl = process.env.REACT_APP_UI_URL || '';
 export const APP_PATH = 'app';
 
 export const config = {
 	endpoints: {
-		agencyConsultants: tld + '/service/users/consultants',
-		agencyServiceBase: tld + '/service/agencies',
-		anonymousAskerBase: tld + '/service/conversations/askers/anonymous/',
-		anonymousBase: tld + '/service/conversations/anonymous/',
-		askerSessions: tld + '/service/users/sessions/askers',
-		attachmentUpload: tld + '/service/uploads/new/',
-		attachmentUploadFeedbackRoom: tld + '/service/uploads/feedback/new/',
+		agencyConsultants: apiUrl + '/service/users/consultants',
+		agencyServiceBase: apiUrl + '/service/agencies',
+		anonymousAskerBase: apiUrl + '/service/conversations/askers/anonymous/',
+		anonymousBase: apiUrl + '/service/conversations/anonymous/',
+		askerSessions: apiUrl + '/service/users/sessions/askers',
+		attachmentUpload: apiUrl + '/service/uploads/new/',
+		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
 		consultantEnquiriesBase:
-			tld + '/service/conversations/consultants/enquiries/',
+			apiUrl + '/service/conversations/consultants/enquiries/',
 		consultantSessions:
-			tld + '/service/users/sessions/consultants?status=2&',
-		consultantTeamSessions: tld + '/service/users/sessions/teams?',
-		deleteAskerAccount: tld + '/service/users/account',
-		draftMessages: tld + '/service/messages/draft',
-		email: tld + '/service/users/email',
-		forwardMessage: tld + '/service/messages/forward',
-		groupChatBase: tld + '/service/users/chat/',
+			apiUrl + '/service/users/sessions/consultants?status=2&',
+		consultantTeamSessions: apiUrl + '/service/users/sessions/teams?',
+		deleteAskerAccount: apiUrl + '/service/users/account',
+		draftMessages: apiUrl + '/service/messages/draft',
+		email: apiUrl + '/service/users/email',
+		forwardMessage: apiUrl + '/service/messages/forward',
+		groupChatBase: apiUrl + '/service/users/chat/',
 		keycloakAccessToken:
-			tld +
+			apiUrl +
 			'/auth/realms/caritas-online-beratung/protocol/openid-connect/token',
 		keycloakLogout:
-			tld +
+			apiUrl +
 			'/auth/realms/caritas-online-beratung/protocol/openid-connect/logout',
-		liveservice: tld + '/service/live',
+		liveservice: apiUrl + '/service/live',
 		loginResetPasswordLink:
 			'/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
-		messageRead: tld + '/api/v1/subscriptions.read',
-		messages: tld + '/service/messages',
-		passwordReset: tld + '/service/users/password/change',
-		rejectVideoCall: tld + '/service/videocalls/reject',
-		registerAsker: tld + '/service/users/askers/new',
+		messageRead: apiUrl + '/api/v1/subscriptions.read',
+		messages: apiUrl + '/service/messages',
+		passwordReset: apiUrl + '/service/users/password/change',
+		rejectVideoCall: apiUrl + '/service/videocalls/reject',
+		registerAsker: apiUrl + '/service/users/askers/new',
 		registerAskerNewConsultingType:
-			tld + '/service/users/askers/consultingType/new',
-		rocketchatAccessToken: tld + '/api/v1/login',
-		rocketchatLogout: tld + '/api/v1/logout',
-		sendMessage: tld + '/service/messages/new',
-		sendMessageToFeedback: tld + '/service/messages/feedback/new',
-		sessionBase: tld + '/service/users/sessions',
-		setAbsence: tld + '/service/users/consultants/absences',
-		startVideoCall: tld + '/service/videocalls/new',
-		consultingTypeServiceBase: tld + '/service/consultingtypes',
-		userData: tld + '/service/users/data',
-		updateMonitoring: tld + '/service/users/sessions/monitoring',
+			apiUrl + '/service/users/askers/consultingType/new',
+		rocketchatAccessToken: apiUrl + '/api/v1/login',
+		rocketchatLogout: apiUrl + '/api/v1/logout',
+		sendMessage: apiUrl + '/service/messages/new',
+		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
+		sessionBase: apiUrl + '/service/users/sessions',
+		setAbsence: apiUrl + '/service/users/consultants/absences',
+		startVideoCall: apiUrl + '/service/videocalls/new',
+		consultingTypeServiceBase: apiUrl + '/service/consultingtypes',
+		userData: apiUrl + '/service/users/data',
+		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
 		registerAnonymousAsker:
-			tld + '/service/conversations/askers/anonymous/new'
+			apiUrl + '/service/conversations/askers/anonymous/new'
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
-		toLogin: tld + endpointPort + '/',
-		redirectToApp: tld + endpointPort + '/' + APP_PATH,
+		toLogin: uiUrl + '/',
+		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
-		error500: tld + endpointPort + '/error.500.html',
-		error401: tld + endpointPort + '/error.401.html',
-		error404: tld + endpointPort + '/error.404.html',
+		error500: uiUrl + '/error.500.html',
+		error401: uiUrl + '/error.401.html',
+		error404: uiUrl + '/error.404.html',
 		registrationDisabilityPostcodeFallback:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/behinderung-und-psychische-erkrankung/adressen',
 		registrationMigrationPostcodeFallback:

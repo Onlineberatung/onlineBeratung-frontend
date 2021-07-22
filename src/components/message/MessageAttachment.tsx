@@ -5,7 +5,7 @@ import {
 	getAttachmentSizeMBForKB
 } from '../messageSubmitInterface/attachmentHelpers';
 import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import { tld } from '../../resources/scripts/config';
+import { apiUrl } from '../../resources/scripts/config';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 
 interface MessageAttachmentProps {
@@ -45,7 +45,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 				</span>
 			</div>
 			<a
-				href={tld + props.attachment.title_link}
+				href={apiUrl + props.attachment.title_link}
 				rel="noopener noreferer"
 				className="messageItem__message__attachment__download"
 			>
