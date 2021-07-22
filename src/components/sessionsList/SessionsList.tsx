@@ -477,6 +477,7 @@ export const SessionsList: React.FC = () => {
 	};
 
 	const handleSelect = (selectedOption) => {
+		setCurrentOffset(0);
 		setHasNoSessions(false);
 		setActiveSessionGroupId(null);
 		setFilterStatus(selectedOption.value);
