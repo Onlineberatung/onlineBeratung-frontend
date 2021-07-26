@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import * as React from 'react';
 import Select from 'react-select';
 import { components } from 'react-select';
@@ -13,13 +14,14 @@ export interface SelectOption {
 }
 
 export interface SelectDropdownItem {
+	className?: string;
 	id: string;
 	selectedOptions: SelectOption[];
 	selectInputLabel: string;
 	handleDropdownSelect: Function;
-	useIconOption: boolean;
-	isSearchable: boolean;
-	menuPlacement: string;
+	useIconOption?: boolean;
+	isSearchable?: boolean;
+	menuPlacement: 'top' | 'bottom';
 	defaultValue?: SelectOption;
 }
 
@@ -34,7 +36,7 @@ const colourStyles = {
 			'outline': isFocused ? '0' : '0',
 			'padding': '0 12px',
 			'color': '#3F373F',
-			'boxShadow': 'inset 0 2px 0 0 rgba(0,0,0,0.1)',
+			'boxShadow': undefined,
 			'&:hover': {
 				border: isFocused ? '2px solid #3F373F' : '1px solid #3F373F'
 			},
@@ -137,7 +139,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 	);
 
 	return (
-		<div className="select__wrapper">
+		<div className={clsx(props.className, 'select__wrapper')}>
 			<Select
 				id={props.id}
 				className="select__input"

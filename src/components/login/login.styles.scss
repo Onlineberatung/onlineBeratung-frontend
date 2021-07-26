@@ -1,66 +1,52 @@
 $spacingWithIcon: 52px;
 
-.loginWrapper {
-	overflow-x: hidden;
+.loginForm {
+	display: flex;
+	justify-content: center;
+	align-items: $login-align-items;
+	flex-direction: column;
+	text-align: $login-text-align;
+	width: 100%;
 
-	.loginForm {
-		position: relative;
-		min-height: 100vh;
-		width: unset;
-		left: unset;
-		display: flex;
-		justify-content: center;
-		align-items: $login-align-items;
-		flex-direction: column;
-		padding: 0 $grid-base-two;
-		text-align: $login-text-align;
+	.inputField {
+		width: 280px;
+		margin-bottom: $grid-base-three;
 
 		@include breakpoint($fromLarge) {
-			width: 60vw;
-			left: 40vw;
-			padding: 0 150px;
+			width: 320px;
 		}
+	}
 
-		.inputField {
-			width: 280px;
-			margin-bottom: $grid-base-three;
+	&__error {
+		color: $form-error;
+		max-width: 245px;
+		margin-left: $grid-base-five;
+		margin-bottom: $grid-base-four;
+	}
 
-			@include breakpoint($fromLarge) {
-				width: 320px;
+	.button__item {
+		width: $login-button-width;
+		margin-top: $grid-base-five;
+	}
+
+	&__register {
+		margin-top: $grid-base-five;
+
+		& > .text {
+			position: relative;
+			text-align: $login-text-align;
+
+			&:first-of-type {
+				margin-bottom: 6px;
 			}
 		}
 
-		&__error {
-			color: $form-error;
-			max-width: 245px;
-			margin-left: $grid-base-five;
-			margin-bottom: $grid-base-four;
-		}
-
-		.button__item {
-			width: $login-button-width;
-			margin-top: $grid-base-five;
-		}
-
-		&__register {
-			margin-top: $grid-base-five;
-
-			& > .text {
-				position: relative;
-				text-align: $login-text-align;
-
-				&:first-of-type {
-					margin-bottom: 6px;
-				}
-			}
-
-			&__link {
-				display: block;
-				font-weight: $font-weight-bold;
-				text-decoration: none;
-				text-transform: uppercase;
-				margin-top: $grid-base-two;
-			}
+		&__link {
+			display: block;
+			font-weight: $font-weight-bold;
+			text-decoration: none;
+			text-transform: uppercase;
+			margin-top: $grid-base-two;
 		}
 	}
 }

@@ -30,7 +30,6 @@ import {
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
-import { LegalInformationLinks } from '../login/LegalInformationLinks';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import './registrationForm.styles';
 
@@ -58,19 +57,24 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 		useState(false);
 	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 	const [overlayActive, setOverlayActive] = useState(false);
+	const [initialPostcode, setInitialPostcode] = useState('');
 
 	const prefillPostcode = () => {
-		const agencyId = isNumber(getUrlParameter('aid'))
-			? getUrlParameter('aid')
-			: null;
+		const postcodeParameter = getUrlParameter('postcode');
+		const aidParameter = getUrlParameter('aid');
+		const agencyId = isNumber(aidParameter) ? aidParameter : null;
 
 		if (agencyId) {
 			getAgencyDataById(agencyId);
 		}
 
+		if (postcodeParameter) {
+			setInitialPostcode(postcodeParameter);
+		}
+
 		if (consultingType.registration.autoSelectAgency) {
 			apiAgencySelection({
-				postcode: DEFAULT_POSTCODE,
+				postcode: postcodeParameter || DEFAULT_POSTCODE,
 				consultingType: consultingType.id
 			})
 				.then((response) => {
@@ -186,6 +190,7 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 					consultingType={consultingType}
 					isUsernameAlreadyInUse={isUsernameAlreadyInUse}
 					preselectedAgencyData={preselectedAgencyData}
+					initialPostcode={initialPostcode}
 					handleFormAccordionData={(formData) =>
 						setFormAccordionData(formData)
 					}
@@ -222,26 +227,6 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 				/>
 			</form>
 
-			{/* ----------------------------- LEGAL INFORMATION ---------------------------- */}
-			<LegalInformationLinks />
-
-			{/* ----------------------------- TO LOGIN BUTTON ---------------------------- */}
-			<div className="registrationForm__toLogin">
-				<p className="registrationForm__toLogin__text">
-					{translate('registration.login.helper')}
-				</p>
-				<div className="registrationForm__toLogin__button">
-					<a href={config.urls.toLogin}>
-						<Button
-							item={{
-								label: translate('registration.login.label'),
-								type: 'TERTIARY'
-							}}
-							isLink={true}
-						/>
-					</a>
-				</div>
-			</div>
 			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay

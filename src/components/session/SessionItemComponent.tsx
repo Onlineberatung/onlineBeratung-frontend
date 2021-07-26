@@ -81,6 +81,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
+	const [initialScrollCompleted, setInitialScrollCompleted] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
@@ -102,13 +103,15 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	useEffect(() => {
 		if (!props.isAnonymousEnquiry) {
 			resetUnreadCount();
-			scrollToEnd(0);
 		}
 	}, []); // eslint-disable-line
 
 	useEffect(() => {
 		if (!props.isAnonymousEnquiry && messages) {
-			if (isMyMessage(messages[messages.length - 1]?.userId)) {
+			if (
+				initialScrollCompleted &&
+				isMyMessage(messages[messages.length - 1]?.userId)
+			) {
 				resetUnreadCount();
 				scrollToEnd(0, true);
 			} else {
@@ -127,7 +130,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					firstUnreadItem.prepend(lastReadDivider);
 				}
 
-				if (isScrolledToBottom) {
+				if (isScrolledToBottom && initialScrollCompleted) {
 					resetUnreadCount();
 					scrollToEnd(0, true);
 				}
@@ -268,6 +271,13 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	};
 
+	const enableInitialScroll = () => {
+		if (!initialScrollCompleted) {
+			setInitialScrollCompleted(true);
+			scrollToEnd(500, true);
+		}
+	};
+
 	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
 
 	const buttonItem: ButtonItem = {
@@ -370,18 +380,23 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					{messages &&
 						resortData &&
 						messages.map((message: MessageItem, index) => (
-							<MessageItemComponent
-								key={index}
-								clientName={getContact(activeSession).username}
-								askerRcId={chatItem.askerRcId}
-								type={getTypeOfLocation()}
-								isOnlyEnquiry={isOnlyEnquiry}
-								isMyMessage={isMyMessage(message.userId)}
-								resortData={resortData}
-								{...message}
-							/>
+							<>
+								<MessageItemComponent
+									key={index}
+									clientName={
+										getContact(activeSession).username
+									}
+									askerRcId={chatItem.askerRcId}
+									type={getTypeOfLocation()}
+									isOnlyEnquiry={isOnlyEnquiry}
+									isMyMessage={isMyMessage(message.userId)}
+									resortData={resortData}
+									{...message}
+								/>
+								{index === messages.length - 1 &&
+									enableInitialScroll()}
+							</>
 						))}
-
 					<div
 						className={`session__scrollToBottom ${
 							isScrolledToBottom
@@ -434,7 +449,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 			{typeIsEnquiry(getTypeOfLocation()) ? (
 				<div className="session__acceptance messageItem">
-					{hasUserAuthority(
+					{!isLiveChat &&
+					hasUserAuthority(
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 						userData
 					) ? (

@@ -5,6 +5,10 @@ import {
 	redirectToErrorPage
 } from '../components/error/errorHandling';
 import { logout } from '../components/logout/logout';
+import { CSRF_WHITELIST_HEADER } from '../resources/scripts/config';
+
+const nodeEnv: string = process.env.NODE_ENV as string;
+const isLocalDevelopment = nodeEnv === 'development';
 
 export const FETCH_METHODS = {
 	DELETE: 'DELETE',
@@ -63,6 +67,10 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 			  }
 			: null;
 
+		const localDevelopmentHeader = isLocalDevelopment
+			? { [CSRF_WHITELIST_HEADER]: csrfToken }
+			: null;
+
 		let controller;
 		controller = new AbortController();
 		if (props.timeout) {
@@ -80,7 +88,8 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 				...authorization,
 				'X-CSRF-TOKEN': csrfToken,
 				...props.headersData,
-				...rcHeaders
+				...rcHeaders,
+				...localDevelopmentHeader
 			},
 			credentials: 'include',
 			body: props.bodyData,

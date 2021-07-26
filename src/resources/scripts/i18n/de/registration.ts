@@ -88,6 +88,9 @@ const registration = {
 	'welcomeScreen.info3.title': 'Persönliche und professionelle Beratung',
 	'welcomeScreen.info3.text':
 		'Innerhalb von zwei Werktagen bekommen Sie eine Antwort',
+	'welcomeScreen.info4.title': 'Anonym und kostenfrei',
+	'welcomeScreen.info4.text':
+		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 	'welcomeScreen.register.helperText': 'Noch nicht registriert?',
 	'welcomeScreen.register.buttonLabel': 'Zur Registrierung'
 };
