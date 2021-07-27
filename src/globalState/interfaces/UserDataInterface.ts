@@ -9,6 +9,7 @@ export interface UserDataInterface {
 	firstName?: string;
 	formalLanguage: boolean;
 	grantedAuthorities: [string];
+	hasAnonymousConversations: boolean;
 	inTeamAgency: boolean;
 	lastName?: string;
 	userId: string;
@@ -25,6 +26,8 @@ export interface AgencyDataInterface {
 	offline: boolean;
 	postcode: string;
 	teamAgency: boolean;
+	url?: string;
+	external?: boolean;
 }
 
 export interface ConsultingTypeDataInterface {

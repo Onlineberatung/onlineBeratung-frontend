@@ -26,29 +26,25 @@ interface FormAccordionProps {
 	handleFormAccordionData: Function;
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
+	initialPostcode?: string;
 }
 
 export const FormAccordion = (props: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
-	const [usernameValidity, setUsernameValidity] = useState<
-		AccordionItemValidity
-	>('initial');
+	const [usernameValidity, setUsernameValidity] =
+		useState<AccordionItemValidity>('initial');
 	const [username, setUsername] = useState<string>();
-	const [passwordValidity, setPasswordValidity] = useState<
-		AccordionItemValidity
-	>('initial');
+	const [passwordValidity, setPasswordValidity] =
+		useState<AccordionItemValidity>('initial');
 	const [password, setPassword] = useState<string>();
-	const [selectedAgencyValidity, setSelectedAgencyValidity] = useState<
-		AccordionItemValidity
-	>('initial');
+	const [selectedAgencyValidity, setSelectedAgencyValidity] =
+		useState<AccordionItemValidity>('initial');
 	const [agency, setAgency] = useState<{ id; postcode }>();
-	const [stateValidity, setStateValidity] = useState<AccordionItemValidity>(
-		'initial'
-	);
+	const [stateValidity, setStateValidity] =
+		useState<AccordionItemValidity>('initial');
 	const [state, setState] = useState<string>();
-	const [ageValidity, setAgeValidity] = useState<AccordionItemValidity>(
-		'initial'
-	);
+	const [ageValidity, setAgeValidity] =
+		useState<AccordionItemValidity>('initial');
 	const [age, setAge] = useState<string>();
 
 	useEffect(() => {
@@ -146,6 +142,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 				<AgencySelection
 					consultingType={props.consultingType}
 					icon={<PinIcon />}
+					initialPostcode={props.initialPostcode}
 					preselectedAgency={props.preselectedAgencyData}
 					onAgencyChange={(agency) => setAgency(agency)}
 					onValidityChange={(validity) =>

@@ -28,13 +28,13 @@ export interface AgencySelectionProps {
 	preselectedAgency?: AgencyDataInterface;
 	isProfileView?: boolean;
 	agencySelectionNote?: string;
+	initialPostcode?: string;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState('');
-	const [proposedAgencies, setProposedAgencies] = useState<
-		[AgencyDataInterface] | null
-	>(null);
+	const [proposedAgencies, setProposedAgencies] =
+		useState<Array<AgencyDataInterface> | null>(null);
 	const [selectedPostcode, setSelectedPostcode] = useState('');
 	const [selectedAgencyId, setSelectedAgencyId] = useState<
 		number | undefined
@@ -42,9 +42,8 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	const autoSelectAgency = props.consultingType.registration.autoSelectAgency;
 	const autoSelectPostcode =
 		props.consultingType.registration.autoSelectPostcode;
-	const [preselectedAgency, setPreselectedAgency] = useState<
-		AgencyDataInterface
-	>(props.preselectedAgency);
+	const [preselectedAgency, setPreselectedAgency] =
+		useState<AgencyDataInterface>(props.preselectedAgency);
 
 	const validPostcode = () =>
 		selectedPostcode?.length === VALID_POSTCODE_LENGTH;
@@ -53,12 +52,12 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		validPostcode() && typeof selectedAgencyId === 'number';
 
 	useEffect(() => {
-		setSelectedPostcode('');
+		setSelectedPostcode(props.initialPostcode || '');
 		setPostcodeFallbackLink('');
 		setSelectedAgencyId(undefined);
 		setProposedAgencies(null);
 		setPreselectedAgency(props.preselectedAgency);
-	}, [props.preselectedAgency, props.consultingType]);
+	}, [props.preselectedAgency, props.consultingType, props.initialPostcode]);
 
 	useEffect(() => {
 		if (autoSelectAgency) {
@@ -83,6 +82,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
 			const agency = {
+				...proposedAgencies?.find((cur) => cur.id === selectedAgencyId),
 				id: selectedAgencyId,
 				postcode: selectedPostcode
 			};

@@ -14,6 +14,7 @@ export const OVERLAY_FUNCTIONS = {
 	CLOSE_SUCCESS: 'CLOSE_SUCCESS',
 	REDIRECT: 'REDIRECT',
 	REDIRECT_WITH_BLUR: 'REDIRECT_WITH_BLUR',
+	REDIRECT_TO_URL: 'REDIRECT_TO_URL',
 	LOGOUT: 'LOGOUT',
 	DEACTIVATE_ABSENCE: 'DEACTIVATE_ABSENCE',
 	COPY_LINK: 'COPY_LINK',
@@ -21,7 +22,8 @@ export const OVERLAY_FUNCTIONS = {
 	LEAVE_GROUP_CHAT: 'LEAVE_GROUP_CHAT',
 	DELETE_ACCOUNT: 'DELETE_ACCOUNT',
 	NEXT_STEP: 'NEXT_STEP',
-	PREV_STEP: 'PREV_STEP'
+	PREV_STEP: 'PREV_STEP',
+	FINISH_ANONYMOUS_CONVERSATION: 'FINISH_ANONYMOUS_CONVERSATION'
 };
 
 export const OVERLAY_RESET_TIME = 10000;
@@ -31,7 +33,7 @@ export interface OverlayItem {
 	copy?: string;
 	headline?: string;
 	headlineStyleLevel?: HeadlineLevel;
-	isIconSmall?: boolean;
+	illustrationBackground?: 'error' | 'neutral' | 'info';
 	nestedComponent?: React.ReactNode;
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
@@ -116,7 +118,8 @@ export const Overlay = (props: {
 		} else return activeOverlay.headline;
 	};
 
-	const Icon = activeOverlay.svg;
+	const item = props.item;
+	const Illustration = activeOverlay.svg;
 	return (
 		<div className={clsx(props.className, 'overlay')}>
 			<div className="overlay__background"></div>
@@ -158,14 +161,23 @@ export const Overlay = (props: {
 					</div>
 				)}
 				{activeOverlay.svg && (
-					<span
-						className={clsx('overlay__iconWrapper', {
-							'overlay__iconWrapper--small':
-								activeOverlay.isIconSmall
-						})}
-					>
-						<Icon />
-					</span>
+					<div className="overlay__illustrationWrapper">
+						<span
+							className={clsx('overlay__illustration', {
+								'overlay__illustration--error':
+									activeOverlay.illustrationBackground ===
+									'error',
+								'overlay__illustration--info':
+									activeOverlay.illustrationBackground ===
+									'info',
+								'overlay__illustration--neutral':
+									activeOverlay.illustrationBackground ===
+									'neutral'
+							})}
+						>
+							<Illustration />
+						</span>
+					</div>
 				)}
 				{activeOverlay.headline && (
 					<Headline
@@ -182,15 +194,17 @@ export const Overlay = (props: {
 						{activeOverlay.nestedComponent}
 					</div>
 				)}
-				{activeOverlay.buttonSet?.map((item, i) => {
-					return (
-						<Button
-							item={item}
-							key={i}
-							buttonHandle={handleButtonClick}
-						/>
-					);
-				})}
+				{activeOverlay.buttonSet && activeOverlay.buttonSet.length > 0 && (
+					<div className="overlay__buttons">
+						{activeOverlay.buttonSet?.map((item, i) => (
+							<Button
+								item={item}
+								key={i}
+								buttonHandle={handleButtonClick}
+							/>
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 	);

@@ -34,8 +34,11 @@
 	&__divider {
 		font-family: $font-family-divider;
 		font-size: $font-size-secondary;
+		font-weight: $text-divier-font-weight;
+		text-transform: $text-divier-text-transform;
 		line-height: $line-height-secondary;
-		color: $light-grey;
+		color: $text-divider-color;
+		letter-spacing: $text-divider-letter-spacing;
 	}
 
 	&__label {

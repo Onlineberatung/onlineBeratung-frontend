@@ -1,4 +1,5 @@
 const enquiryInformal = {
+	'anonymous.infoLabel.start': 'Starte nun den Chat mit ',
 	'write.input.placeholder': 'Schreibe uns, was Dich bewegt.',
 	'write.infotext.headline': 'Hier ist Platz für Deine Anliegen.',
 	'write.infotext.copy':

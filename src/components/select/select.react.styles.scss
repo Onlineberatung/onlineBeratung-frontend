@@ -37,6 +37,7 @@ $inputHeight: 50px;
 
 		&__control {
 			border-radius: $select-dropdown-border-radius;
+			box-shadow: $input-field-box-shadow;
 		}
 
 		&__option {
@@ -44,8 +45,10 @@ $inputHeight: 50px;
 			color: $secondary;
 
 			&--is-focused {
-				background-color: $background-accent;
-				color: $primary;
+				// The `!important` annotation is relevant to also cover the `:active`
+				// state, which would otherwise be overridden by inline styles.
+				background-color: $select-focus-background-color !important;
+				color: $selection-focus-color;
 			}
 		}
 	}

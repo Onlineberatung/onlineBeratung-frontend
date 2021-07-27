@@ -16,7 +16,7 @@ jobs:
             - uses: actions/checkout@v1
             - uses: actions/setup-node@v1
               with:
-                  node-version: 10
+                  node-version: 12.13.0
             - run: npm i
             - name: Run linters
               uses: wearerequired/lint-action@v1
@@ -29,7 +29,8 @@ jobs:
                   prettier_dir: ./src
             - name: test and build
               run: |
-                  echo "127.0.0.1 caritas.local" | sudo tee -a /etc/hosts
+                  echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
+                  echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
                   npm run test
                   npm run build
             - uses: actions/upload-artifact@v2

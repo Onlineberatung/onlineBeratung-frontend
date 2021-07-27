@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.9.2 (2021-07-26)
+
+### 2.9.1 (2021-06-28)
+
 ## [2.9.0](https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend/compare/v2.8.1...v2.9.0) (2021-05-03)
 
 

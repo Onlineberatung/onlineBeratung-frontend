@@ -19,6 +19,7 @@
 		}
 	},
 	"isSubsequentRegistrationAllowed": true,
+	"isAnonymousConversationAllowed": true,
 	"isSetEmailAllowed": true,
 	"slug": "suchtberatung",
 	"languageFormal": true,
@@ -190,5 +191,11 @@
 				}
 			]
 		}
-	]
+	],
+	"welcomeScreen": {
+		"anonymous": {
+			"title": "Anonym und kostenfrei",
+			"text": "Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+		}
+	}
 }

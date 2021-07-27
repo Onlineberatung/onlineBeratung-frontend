@@ -1,7 +1,10 @@
-import { config } from '../resources/scripts/config';
+import { config, CSRF_WHITELIST_HEADER } from '../resources/scripts/config';
 import { FETCH_METHODS } from './fetchData';
-import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { generateCsrfToken } from '../utils/generateCsrfToken';
+
+const nodeEnv: string = process.env.NODE_ENV as string;
+const isLocalDevelopment = nodeEnv === 'development';
 
 export const apiUploadAttachment = (
 	messageData: string,
@@ -12,9 +15,9 @@ export const apiUploadAttachment = (
 	uploadProgress: Function,
 	onLoadHandling: Function
 ) => {
-	const accessToken = getTokenFromCookie('keycloak');
-	const rcAuthToken = getTokenFromCookie('rc_token');
-	const rcUid = getTokenFromCookie('rc_uid');
+	const accessToken = getValueFromCookie('keycloak');
+	const rcAuthToken = getValueFromCookie('rc_token');
+	const rcUid = getValueFromCookie('rc_uid');
 	const csrfToken = generateCsrfToken();
 
 	const url = isFeedback
@@ -44,6 +47,9 @@ export const apiUploadAttachment = (
 	xhr.setRequestHeader('rcUserId', rcUid);
 	xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
 	xhr.setRequestHeader('cache-control', 'no-cache');
+	if (isLocalDevelopment) {
+		xhr.setRequestHeader(CSRF_WHITELIST_HEADER, csrfToken);
+	}
 
 	xhr.send(data);
 

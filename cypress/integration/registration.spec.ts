@@ -10,7 +10,7 @@ const checkForGenericRegistrationElements = () => {
 	cy.get('#passwordConfirmation').should('exist');
 	cy.get('#dataProtectionCheckbox').should('exist');
 	cy.get('.button__primary').should('exist');
-	cy.get('.registrationForm__toLogin').should('exist');
+	cy.get('.stageLayout__toLogin').should('exist');
 };
 
 describe('registration', () => {
@@ -61,6 +61,19 @@ describe('registration', () => {
 		});
 
 		it('should redirect to helpmail when no aid is given', () => {
+			// Currently (2021-06-23), 'https://www.u25.de/helpmail/' throws an
+			// `Uncaught ReferenceError: setVisitorCookieTimeout is not defined`
+			// and causes Cypress to fail the test.
+			// As this is outside of our control, we ignore this specific error for now.
+			cy.on('uncaught:exception', (error) => {
+				if (
+					error.message.includes(
+						'setVisitorCookieTimeout is not defined'
+					)
+				) {
+					return false;
+				}
+			});
 			cy.visit('/u25/registration');
 			cy.url().should('be.equal', 'https://www.u25.de/helpmail/');
 		});

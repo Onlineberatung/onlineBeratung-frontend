@@ -36,16 +36,19 @@ import './profile.styles';
 import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
+import AskerRegistrationExternalAgencyOverlay from './AskerRegistrationExternalAgencyOverlay';
 
 export const AskerRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-	const [selectedConsultingTypeId, setSelectedConsultingTypeId] = useState<
-		number
-	>(null);
+	const [selectedConsultingTypeId, setSelectedConsultingTypeId] =
+		useState<number>(null);
 	const [selectedAgency, setSelectedAgency] = useState<any>({});
-	const [overlayActive, setOverlayActive] = useState(false);
-	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
+	const [successOverlayActive, setSuccessOverlayActive] = useState(false);
+	const [successOverlayItem, setSuccessOverlayItem] =
+		useState<OverlayItem>(null);
+	const [externalAgencyOverlayActive, setExternalAgencyOverlayActive] =
+		useState(false);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const consultingTypes = useConsultingTypes();
@@ -92,9 +95,21 @@ export const AskerRegistration = () => {
 		if (isRequestInProgress) {
 			return null;
 		}
-		setIsRequestInProgress(true);
 
 		if (isAllRequiredDataSet()) {
+			if (selectedAgency.external) {
+				if (selectedAgency.url) {
+					setExternalAgencyOverlayActive(true);
+				} else {
+					console.error(
+						`External agency with id ${selectedAgency.id} doesn't have a url set.`
+					);
+				}
+				return;
+			}
+
+			setIsRequestInProgress(true);
+
 			apiRegistrationNewConsultingTypes(
 				selectedConsultingTypeId,
 				selectedAgency.id,
@@ -109,19 +124,19 @@ export const AskerRegistration = () => {
 					} else {
 						setAcceptedGroupId(response.sessionId);
 					}
-					setOverlayItem(overlayItem);
-					setOverlayActive(true);
+					setSuccessOverlayItem(overlayItem);
+					setSuccessOverlayActive(true);
 					setIsRequestInProgress(false);
 				})
 				.catch((error) => {
-					setOverlayItem(overlayItemNewRegistrationError);
-					setOverlayActive(true);
+					setSuccessOverlayItem(overlayItemNewRegistrationError);
+					setSuccessOverlayActive(true);
 					setIsRequestInProgress(false);
 				});
 		}
 	};
 
-	const handleOverlayAction = (buttonFunction: string) => {
+	const handleSuccessOverlayAction = (buttonFunction: string) => {
 		apiGetUserData()
 			.then((userProfileData: UserDataInterface) => {
 				setUserData(userProfileData);
@@ -136,12 +151,16 @@ export const AskerRegistration = () => {
 				pathname: `/sessions/user/view`
 			});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setOverlayItem({});
-			setOverlayActive(false);
+			setSuccessOverlayItem({});
+			setSuccessOverlayActive(false);
 			setSelectedConsultingTypeId(null);
 		} else {
 			logout();
 		}
+	};
+
+	const handleExternalAgencyOverlayAction = () => {
+		setExternalAgencyOverlayActive(false);
 	};
 
 	const registeredConsultingTypes = userData
@@ -200,13 +219,20 @@ export const AskerRegistration = () => {
 				buttonHandle={handleRegistration}
 				disabled={isButtonDisabled}
 			/>
-			{overlayActive && (
+			{successOverlayActive && (
 				<OverlayWrapper>
 					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
+						item={successOverlayItem}
+						handleOverlay={handleSuccessOverlayAction}
 					/>
 				</OverlayWrapper>
+			)}
+			{externalAgencyOverlayActive && (
+				<AskerRegistrationExternalAgencyOverlay
+					selectedAgency={selectedAgency}
+					consultingType={selectedConsultingType}
+					handleOverlayAction={handleExternalAgencyOverlayAction}
+				/>
 			)}
 		</div>
 	);

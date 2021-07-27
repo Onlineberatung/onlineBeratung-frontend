@@ -10,8 +10,8 @@ import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { ReactComponent as VerifiedIcon } from '../../resources/img/icons/verified.svg';
-import { LegalInformationLinks } from './LegalInformationLinks';
 import { StageProps } from '../stage/stage';
+import { StageLayout } from '../stageLayout/StageLayout';
 import { FETCH_ERRORS } from '../../api';
 import { OTP_LENGTH } from '../profile/TwoFactorAuth';
 import clsx from 'clsx';
@@ -36,11 +36,15 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	const [otp, setOtp] = useState<string>('');
 	const [isOtpRequired, setIsOtpRequired] = useState<boolean>(false);
 	const [showLoginError, setShowLoginError] = useState<string>('');
-	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(false);
+	const [isRequestInProgress, setIsRequestInProgress] =
+		useState<boolean>(false);
 
 	useEffect(() => {
 		setShowLoginError('');
-		if ((!isOtpRequired && username && password) || (isOtpRequired && username && password && otp)) {
+		if (
+			(!isOtpRequired && username && password) ||
+			(isOtpRequired && username && password && otp)
+		) {
 			setIsButtonDisabled(false);
 		} else {
 			setIsButtonDisabled(true);
@@ -102,18 +106,23 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				password: password,
 				redirect: true
 			})
-			.catch((error) => {
-				if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
-					setShowLoginError(translate('login.warning.failed.unauthorized'));	
-				} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
-					setIsOtpRequired(true);
-					if (isOtpRequired) {
-						setShowLoginError(translate('login.warning.failed.otp.invalid'));
+				.catch((error) => {
+					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
+						setShowLoginError(
+							translate('login.warning.failed.unauthorized')
+						);
+					} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+						setIsOtpRequired(true);
+						if (isOtpRequired) {
+							setShowLoginError(
+								translate('login.warning.failed.otp.invalid')
+							);
+						}
 					}
-				}
-			}).finally(() => {
-				setIsRequestInProgress(false);
-			});
+				})
+				.finally(() => {
+					setIsRequestInProgress(false);
+				});
 		}
 	};
 
@@ -124,8 +133,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	};
 
 	return (
-		<div className="loginWrapper">
-			<Stage hasAnimation={true}></Stage>
+		<StageLayout stage={<Stage hasAnimation />} showLegalLinks>
 			<div className="loginForm">
 				<div className="loginForm__headline">
 					<h1>{translate('login.headline')}</h1>
@@ -140,7 +148,11 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 					inputHandle={handlePasswordChange}
 					keyUpHandle={handleKeyUp}
 				/>
-				<div className={clsx('loginForm__otp', {'loginForm__otp--active': isOtpRequired})}>
+				<div
+					className={clsx('loginForm__otp', {
+						'loginForm__otp--active': isOtpRequired
+					})}
+				>
 					<InputField
 						item={otpInputItem}
 						inputHandle={handleOtpChange}
@@ -184,8 +196,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 						{translate('login.register.linkLabel')}
 					</a>
 				</div>
-				<LegalInformationLinks />
 			</div>
-		</div>
+		</StageLayout>
 	);
 };

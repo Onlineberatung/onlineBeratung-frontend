@@ -1,4 +1,5 @@
-import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { apiUrlEnv } from '../resources/scripts/config';
 
 const SOCKET_STATUS = {
 	CONNECTING: 0,
@@ -20,21 +21,19 @@ export class rocketChatSocket {
 	private messageListeners: Function[] = [];
 
 	constructor() {
-		this.rcUid = getTokenFromCookie('rc_uid');
+		this.rcUid = getValueFromCookie('rc_uid');
 		this.rcWebsocket = null;
 	}
 
 	private getEndpoint() {
 		const host = window.location.hostname;
-		const secure = /https/g.test(window.location.protocol);
-		if (host !== 'caritas.local') {
-			return `ws${secure ? 's' : ''}://${host}/websocket`;
-		}
-		return `ws${secure ? 's' : ''}://${host}:3000/websocket`;
+		return apiUrlEnv
+			? `wss://${apiUrlEnv}/websocket`
+			: `wss://${host}/websocket`;
 	}
 
 	public connect() {
-		const rcAuthToken = getTokenFromCookie('rc_token');
+		const rcAuthToken = getValueFromCookie('rc_token');
 		this.rcWebsocket = new WebSocket(this.getEndpoint());
 
 		this.rcWebsocket.onopen = () => {

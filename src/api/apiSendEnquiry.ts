@@ -5,7 +5,7 @@ export const apiSendEnquiry = async (
 	sessionId: number,
 	messageData: string
 ): Promise<any> => {
-	const url = config.endpoints.enquiryBase + sessionId + '/enquiry/new';
+	const url = `${config.endpoints.sessionBase}/${sessionId}/enquiry/new`;
 	const message = JSON.stringify({
 		message: messageData,
 		sendNotification: true

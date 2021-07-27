@@ -59,9 +59,8 @@ const getInitials = (text: string) => {
 };
 
 export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
-	const { notifications, setNotifications } = useContext(
-		NotificationsContext
-	);
+	const { notifications, setNotifications } =
+		useContext(NotificationsContext);
 
 	const decodedUsername = decodeUsername(props.videoCall.initiatorUsername);
 

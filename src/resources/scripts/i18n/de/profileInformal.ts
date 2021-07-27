@@ -19,7 +19,12 @@ const profileInformal = {
 	'data.registerSuccess.overlay.headline':
 		'Du hast Dich erfolgreich für ein neues Themenfeld registriert.',
 	'data.registerError.overlay.headline':
-		'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.'
+		'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.',
+	'externalRegistration.headline':
+		'Deine gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung',
+	'externalRegistration.copy.start': 'Möchtest Du für „',
+	'externalRegistration.copy.end':
+		'“ zu der anderen Anwendung wechseln und dich dort registrieren? Deine bisherigen Beratungs- und Hilfethemen findest Du weiterhin hier.'
 };
 
 export default profileInformal;

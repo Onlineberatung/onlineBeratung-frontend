@@ -73,6 +73,21 @@ declare namespace Paths {
 		namespace Responses {
 			export type $200 = AgencyService.Schemas.AgencyResponseDTO[];
 			export interface $400 {}
+			export interface $403 {}
+			export interface $500 {}
+		}
+	}
+	namespace GetAgenciesByConsultingType {
+		namespace Parameters {
+			export type ConsultingTypeId = number;
+		}
+		export interface PathParameters {
+			consultingTypeId: Parameters.ConsultingTypeId;
+		}
+		namespace Responses {
+			export type $200 = AgencyService.Schemas.AgencyResponseDTO[];
+			export interface $400 {}
+			export interface $403 {}
 			export interface $500 {}
 		}
 	}
@@ -86,7 +101,7 @@ declare namespace Paths {
 		namespace Responses {
 			export type $200 = AgencyService.Schemas.AgencyResponseDTO[];
 			export interface $400 {}
-			export interface $401 {}
+			export interface $403 {}
 			export interface $500 {}
 		}
 	}

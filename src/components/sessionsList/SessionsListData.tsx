@@ -1,4 +1,4 @@
-import { apiGetSessionsListData, FETCH_ERRORS } from '../../api';
+import { apiGetConsultantSessionList, FETCH_ERRORS } from '../../api';
 import {
 	SESSION_TYPES,
 	typeIsTeamSession,
@@ -10,7 +10,19 @@ import {
 	getSessionsDataKeyForSessionType
 } from '../../globalState';
 
-export const getSessions = (context, type, offset, useFilter): Promise<any> => {
+interface GetSessionsProps {
+	context: any;
+	type: string;
+	offset: number;
+	useFilter: string;
+	sessionListTab?: string;
+	signal?: AbortSignal;
+}
+
+export const getConsultantSessions = (
+	props: GetSessionsProps
+): Promise<any> => {
+	const { context, type, offset, useFilter, sessionListTab } = props;
 	const { sessionsData, setSessionsData } = context;
 	const isOffsetIncreased = Boolean(offset);
 
@@ -77,7 +89,11 @@ export const getSessions = (context, type, offset, useFilter): Promise<any> => {
 						  }
 						: { teamSessions: fetchedSessions }
 					: null;
-			apiGetSessionsListData(SESSION_TYPES.MY_SESSION, 'all', 0)
+			apiGetConsultantSessionList({
+				type: SESSION_TYPES.MY_SESSION,
+				filter: 'all',
+				offset: 0
+			})
 				.then((fetchedMySessions: ListItemsResponseInterface) => {
 					setSessionsData({
 						...enquiriesList,
@@ -100,11 +116,20 @@ export const getSessions = (context, type, offset, useFilter): Promise<any> => {
 		});
 
 	return new Promise((resolve, reject) => {
-		apiGetSessionsListData(type, useFilter, offset)
+		apiGetConsultantSessionList({
+			type: type,
+			filter: useFilter,
+			offset: offset,
+			sessionListTab: sessionListTab,
+			...(props.signal && { signal: props.signal })
+		})
 			.then((sessionList: ListItemsResponseInterface) => {
 				const fetchedSessions: ListItemInterface[] =
 					sessionList.sessions;
-				if (type !== SESSION_TYPES.MY_SESSION) {
+				if (
+					type !== SESSION_TYPES.MY_SESSION &&
+					!sessionsData?.mySessions
+				) {
 					fetchMySessionsDatas(fetchedSessions, isOffsetIncreased)
 						.then(() => {
 							resolve(sessionList);
@@ -123,22 +148,10 @@ export const getSessions = (context, type, offset, useFilter): Promise<any> => {
 				}
 			})
 			.catch((error) => {
-				if (
-					type !== SESSION_TYPES.MY_SESSION &&
-					error.message === FETCH_ERRORS.EMPTY
-				) {
-					fetchMySessionsDatas(null, isOffsetIncreased)
-						.then(() => {
-							reject(error);
-						})
-						.catch((error) => {
-							if (error.message === FETCH_ERRORS.EMPTY) {
-								reject(error);
-							}
-						});
-				} else {
-					reject(error);
+				if (error.message === FETCH_ERRORS.EMPTY) {
+					setSessionsDataForCurrentType([], isOffsetIncreased);
 				}
+				reject(error);
 			});
 	});
 };

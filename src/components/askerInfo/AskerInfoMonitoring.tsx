@@ -18,7 +18,8 @@ import {
 	ActiveSessionGroupIdContext,
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	isAnonymousSession
 } from '../../globalState';
 import { Link } from 'react-router-dom';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
@@ -36,6 +37,7 @@ export const AskerInfoMonitoring = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const { userData } = useContext(UserDataContext);
 	const [monitoringData, setMonitoringData] = useState({});
 
@@ -120,6 +122,7 @@ export const AskerInfoMonitoring = () => {
 
 	const renderAssign = () => {
 		return (
+			!isLiveChat &&
 			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) && (
 				<div className="profile__content__item__assign">
 					<Text

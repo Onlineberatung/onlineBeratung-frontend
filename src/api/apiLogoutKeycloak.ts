@@ -1,5 +1,5 @@
 import { config } from '../resources/scripts/config';
-import { getTokenFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
@@ -8,7 +8,7 @@ import {
 export const apiKeycloakLogout = (): Promise<any> =>
 	new Promise((resolve, reject) => {
 		const url = config.endpoints.keycloakLogout;
-		const refreshToken = getTokenFromCookie('refreshToken');
+		const refreshToken = getValueFromCookie('refreshToken');
 		const data = `client_id=app&grant_type=refresh_token&refresh_token=${refreshToken}`;
 
 		const req = new Request(url, {

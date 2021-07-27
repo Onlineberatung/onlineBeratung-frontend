@@ -51,7 +51,14 @@ const profile = {
 	'data.registerSuccess.overlay.button2Label': 'Abmelden',
 	'data.registerError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.',
-	'data.registerError.overlay.buttonLabel': 'Schliessen',
+	'data.registerError.overlay.buttonLabel': 'Schließen',
+	'externalRegistration.headline':
+		'Ihre gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung',
+	'externalRegistration.copy.start': 'Möchten Sie für „',
+	'externalRegistration.copy.end':
+		'“ zu der anderen Anwendung wechseln und sich dort registrieren? Ihre bisherigen Beratungs- und Hilfethemen finden Sie weiterhin hier.',
+	'externalRegistration.submit': 'Jetzt wechseln',
+	'externalRegistration.cancel': 'Abbrechen',
 	'footer.imprint': 'Impressum',
 	'footer.dataprotection': 'Datenschutz'
 };
