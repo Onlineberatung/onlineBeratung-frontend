@@ -70,14 +70,6 @@ export const config = {
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		error500: uiUrl + '/error.500.html',
 		error401: uiUrl + '/error.401.html',
-		error404: uiUrl + '/error.404.html',
-		registrationDisabilityPostcodeFallback:
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/behinderung-und-psychische-erkrankung/adressen',
-		registrationMigrationPostcodeFallback:
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/migration/adressen',
-		registrationHospicePostcodeFallback:
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/hospiz-palliativ/adressen',
-		registrationMenPostcodeFallback:
-			'https://www.skmev.de/beratung-hilfe/jungen-und-maennerarbeit/'
+		error404: uiUrl + '/error.404.html'
 	}
 };
