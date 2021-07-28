@@ -42,13 +42,10 @@ export const TwoFactorAuth = () => {
 		'twoFactorAuth.activate.step3.input.label'
 	);
 	const [otpLabel, setOtpLabel] = useState<string>(defaultOtpLabel);
-	const [otpLabelState, setOtpLabelState] = useState<
-		InputFieldLabelState
-	>();
+	const [otpLabelState, setOtpLabelState] = useState<InputFieldLabelState>();
 	const [otpInputInfo, setOtpInputInfo] = useState<string>('');
-	const [isRequestInProgress, setIsRequestInProgress] = useState<boolean>(
-		false
-	);
+	const [isRequestInProgress, setIsRequestInProgress] =
+		useState<boolean>(false);
 
 	useEffect(() => {
 		setOverlayItems(twoFactorAuthStepsOverlay);
@@ -299,10 +296,7 @@ export const TwoFactorAuth = () => {
 			headline: translate('twoFactorAuth.activate.step3.title'),
 			copy: translate('twoFactorAuth.activate.step3.copy'),
 			nestedComponent: (
-				<InputField
-					item={otpInputItem}
-					inputHandle={handleOtpChange}
-				/>
+				<InputField item={otpInputItem} inputHandle={handleOtpChange} />
 			),
 			buttonSet: [
 				{

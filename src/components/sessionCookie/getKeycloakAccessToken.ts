@@ -8,7 +8,9 @@ export const getKeycloakAccessToken = (
 	otp?: string
 ): Promise<LoginData> =>
 	new Promise((resolve, reject) => {
-		const data = `username=${username}&password=${password}${otp ? `&otp=${otp}` : ``}&client_id=app&grant_type=password`;
+		const data = `username=${username}&password=${password}${
+			otp ? `&otp=${otp}` : ``
+		}&client_id=app&grant_type=password`;
 		const url = config.endpoints.keycloakAccessToken;
 
 		const req = new Request(url, {

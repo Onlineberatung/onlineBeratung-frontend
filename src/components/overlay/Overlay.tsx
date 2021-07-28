@@ -118,7 +118,6 @@ export const Overlay = (props: {
 		} else return activeOverlay.headline;
 	};
 
-	const item = props.item;
 	const Illustration = activeOverlay.svg;
 	return (
 		<div className={clsx(props.className, 'overlay')}>
