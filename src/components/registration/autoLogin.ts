@@ -32,7 +32,8 @@ export const autoLogin = (autoLoginProps: {
 			: encodeUsername(autoLoginProps.username);
 		getKeycloakAccessToken(
 			autoLoginProps.useOldUser ? encodeURIComponent(userHash) : userHash,
-			encodeURIComponent(autoLoginProps.password)
+			encodeURIComponent(autoLoginProps.password),
+			autoLoginProps.otp ? autoLoginProps.otp : null
 		)
 			.then((response) => {
 				setTokens(

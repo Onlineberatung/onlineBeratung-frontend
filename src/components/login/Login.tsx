@@ -99,7 +99,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	};
 
 	const handleLogin = () => {
-		if (!isRequestInProgress && username && password) {
+		if (!isRequestInProgress && !isOtpRequired && username && password) {
 			setIsRequestInProgress(true);
 			autoLogin({
 				username: username,
@@ -113,11 +113,30 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 						);
 					} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
 						setIsOtpRequired(true);
-						if (isOtpRequired) {
-							setShowLoginError(
-								translate('login.warning.failed.otp.invalid')
-							);
-						}
+					}
+				})
+				.finally(() => {
+					setIsRequestInProgress(false);
+				});
+		} else if (
+			!isRequestInProgress &&
+			isOtpRequired &&
+			username &&
+			password &&
+			otp
+		) {
+			setIsRequestInProgress(true);
+			autoLogin({
+				username: username,
+				password: password,
+				redirect: true,
+				otp: otp
+			})
+				.catch((error) => {
+					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
+						setShowLoginError(
+							translate('login.warning.failed.unauthorized.otp')
+						);
 					}
 				})
 				.finally(() => {
