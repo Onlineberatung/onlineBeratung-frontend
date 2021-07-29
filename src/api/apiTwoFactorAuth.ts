@@ -3,7 +3,7 @@ import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 
 export const apiPutTwoFactorAuth = async (body: {
 	secret: string;
-	totp: string;
+	initialCode: string;
 }): Promise<any> => {
 	const url = config.endpoints.twoFactorAuth;
 

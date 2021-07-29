@@ -89,7 +89,7 @@ export const TwoFactorAuth = () => {
 			setOtpInputInfo('');
 			apiPutTwoFactorAuth({
 				secret: userData.twoFactorAuth.secret,
-				totp: otp
+				initialCode: otp
 			})
 				.then((response) => {
 					setOverlayActive(false);
