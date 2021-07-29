@@ -36,7 +36,6 @@ export interface ConsultingTypeDataInterface {
 	sessionData: Object;
 }
 
-//TODO: useDTSgen
 export interface TwoFactorAuthInterface {
 	isEnabled: boolean;
 	isActive: boolean;

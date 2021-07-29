@@ -38,7 +38,6 @@ export interface OverlayItem {
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
 	>;
-	//TODO: rename handleOverlayAction
 	handleOverlay?: Function;
 	step?: {
 		icon: React.FunctionComponent<
@@ -55,12 +54,8 @@ export const OverlayWrapper = (props) => {
 
 export const Overlay = (props: {
 	className?: string;
-
-	//TODO: move to overlayItem
 	item?: OverlayItem;
-	//TODO: rename handleOverlayAction
 	handleOverlay?: Function;
-
 	handleOverlayClose?: Function;
 	items?: OverlayItem[];
 }) => {
