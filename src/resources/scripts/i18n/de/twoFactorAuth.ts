@@ -4,8 +4,7 @@ const twoFactorAuth = {
 		'Nutzen Sie eine weitere App für die Anmeldung mit Ihrem Diakonie Konto. Dadurch ist Ihr Konto sicherer vor einem möglichen unbefugtem Zugriff.',
 	'switch.active.label': '2-Faktor-Authentifizierung aktiviert',
 	'switch.deactive.label': '2-Faktor-Authentifizierung deaktiviert',
-	'activate.step1.title':
-		'<bold>1. Schritt | </bold>Installieren Sie sich die App',
+	'activate.step1.title': 'Installieren Sie sich die App',
 	'activate.step1.copy':
 		'Installieren Sie sich FreeOTP oder Google Authentificator auf Ihrem Smartphone oder Tablet. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
 	'activate.step1.visualisation.label': 'Installation',
