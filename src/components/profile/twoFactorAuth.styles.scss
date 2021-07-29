@@ -10,12 +10,17 @@
 	&__overlay {
 		.overlay__content {
 			@include breakpoint($fromLarge) {
-				height: 680px;
+				height: 620px;
 			}
 		}
 
-		.button__wrapper {
+		.overlay__buttons {
+			align-self: flex-end;
 			margin-top: auto;
+		}
+
+		.button__wrapper {
+			margin-top: $grid-base-three;
 		}
 
 		.inputField__infoText {

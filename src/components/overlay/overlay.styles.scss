@@ -1,7 +1,3 @@
-$imageSize: 280px;
-$iconSize: 170px;
-$imageSizeSmall: 180px;
-$iconSizeSmall: 100px;
 $iconSizeXS: 24px;
 $stepsBreakpoint: 400px;
 $illustrationSize: 120px;
@@ -131,8 +127,9 @@ $iconSizeLarge: 48px;
 
 		.text {
 			margin-top: $grid-base;
-			min-width: 80px;
-			max-width: 100px;
+			text-align: center;
+			min-width: 104px;
+			max-width: 110px;
 		}
 
 		&--active {
