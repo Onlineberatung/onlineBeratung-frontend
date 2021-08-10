@@ -23,7 +23,10 @@ export const Registration = ({
 	stageComponent: Stage
 }: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
-	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(true);
+	const postcodeParameter = getUrlParameter('postcode');
+	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(
+		!postcodeParameter
+	);
 	const [consultingType, setConsultingType] = useState<
 		ConsultingTypeInterface | undefined
 	>();
