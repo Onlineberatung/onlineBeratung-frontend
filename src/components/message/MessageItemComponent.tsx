@@ -25,9 +25,10 @@ import { urlifyLinksInText } from '../messageSubmitInterface/richtextHelpers';
 import { VideoCallMessage } from './VideoCallMessage';
 import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
-import './message.styles';
 import { isVoluntaryInfoSet } from './messageHelpers';
+import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
+import './message.styles';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -107,9 +108,16 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		if (props.messageDate) {
 			return (
 				<div className="messageItem__divider">
-					{typeof props.messageDate === 'number'
-						? getPrettyDateFromMessageDate(props.messageDate)
-						: props.messageDate}
+					<Text
+						text={
+							typeof props.messageDate === 'number'
+								? getPrettyDateFromMessageDate(
+										props.messageDate
+								  )
+								: props.messageDate
+						}
+						type="divider"
+					/>
 				</div>
 			);
 		}
