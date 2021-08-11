@@ -122,7 +122,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 			{
 				label: translate('furtherSteps.email.overlay.button2.label'),
 				function: OVERLAY_FUNCTIONS.CLOSE,
-				type: BUTTON_TYPES.LINK
+				type: BUTTON_TYPES.SECONDARY
 			}
 		],
 		headline: translate('furtherSteps.email.overlay.headline'),
