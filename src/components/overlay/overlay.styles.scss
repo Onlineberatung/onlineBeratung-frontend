@@ -256,14 +256,12 @@ $iconSizeLarge: 48px;
 	}
 
 	&__buttons {
-		$gap: $grid-base;
-		margin-top: $grid-base-two;
-		margin-left: -$gap;
+		margin: $overlay-button-margin;
 
 		> * {
 			display: inline-block;
-			margin-top: $gap;
-			margin-left: $gap;
+			margin-top: $grid-base;
+			margin-left: $grid-base;
 		}
 	}
 
