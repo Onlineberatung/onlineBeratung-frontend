@@ -348,7 +348,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const scrollBottomButtonItem: ButtonItem = {
 		icon: <ArrowDoubleDownIcon />,
 		type: BUTTON_TYPES.SMALL_ICON,
-		smallIconBackgroundColor: 'grey'
+		smallIconBackgroundColor: 'alternate'
 	};
 
 	return (
