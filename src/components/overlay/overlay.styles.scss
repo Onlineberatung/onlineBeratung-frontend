@@ -250,7 +250,7 @@ $iconSizeLarge: 48px;
 
 	&__nestedComponent {
 		.inputField {
-			margin: $grid-base-three auto;
+			margin: $overlay-input-field-margin;
 			max-width: 325px;
 		}
 	}
