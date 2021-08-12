@@ -95,7 +95,7 @@
 		"webpack-dev-server": "3.11.2",
 		"webpack-manifest-plugin": "3.1.1",
 		"whatwg-fetch": "^3.6.2",
-		"workbox-webpack-plugin": "6.1.5"
+		"workbox-webpack-plugin": "^6.2.4"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "13.0.0",
