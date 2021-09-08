@@ -164,7 +164,10 @@ export class rocketChatSocket {
 				response.fields.eventName === params[0];
 			if (changeResponseOnSubscribedEvent) {
 				const newMessage =
-					response.collection === SOCKET_COLLECTION.ROOM_MESSAGES;
+					response.collection === SOCKET_COLLECTION.ROOM_MESSAGES &&
+					!response.fields.args[0].u.username.starsWith(
+						'cob-rocket-chat-technical-user'
+					);
 				const roomClosed =
 					response.collection === SOCKET_COLLECTION.NOTIFY_USER &&
 					response.fields.args &&

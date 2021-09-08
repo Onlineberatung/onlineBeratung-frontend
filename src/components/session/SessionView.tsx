@@ -166,15 +166,15 @@ export const SessionView = (props) => {
 		mobileDetailView();
 		setAcceptedGroupId(null);
 		typingTimeout = null;
+		const isEnquiry = chatItem?.status === 1;
 		const isCurrentAnonymousEnquiry =
-			chatItem?.status === 1 &&
-			chatItem?.registrationType === 'ANONYMOUS';
+			isEnquiry && chatItem?.registrationType === 'ANONYMOUS';
 		if (isGroupChat && !chatItem.subscribed) {
 			setIsLoading(false);
 		} else if (isCurrentAnonymousEnquiry) {
 			setIsLoading(false);
 			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
-		} else {
+		} else if (!isEnquiry) {
 			window['socket'] = new rocketChatSocket();
 			fetchSessionMessages();
 			return () => {
