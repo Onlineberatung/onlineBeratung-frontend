@@ -174,7 +174,9 @@ export const SessionView = (props) => {
 		} else if (isCurrentAnonymousEnquiry) {
 			setIsLoading(false);
 			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
-		} else if (!isEnquiry) {
+		} else if (isEnquiry) {
+			fetchSessionMessages();
+		} else {
 			window['socket'] = new rocketChatSocket();
 			fetchSessionMessages();
 			return () => {
