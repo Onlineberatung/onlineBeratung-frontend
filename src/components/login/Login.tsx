@@ -76,12 +76,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	const handleLogin = () => {
 		if (!isRequestInProgress && username && password) {
 			setIsRequestInProgress(true);
-			autoLogin({
-				username: username,
-				password: password,
-				redirect: true,
-				handleLoginError: handleLoginError
-			});
+			autoLogin({ username, password, redirect: true, handleLoginError });
 		}
 	};
 
