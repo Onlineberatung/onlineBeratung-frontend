@@ -166,7 +166,7 @@ export class rocketChatSocket {
 				const newMessage =
 					response.collection === SOCKET_COLLECTION.ROOM_MESSAGES;
 				const isTechnicalMessage =
-					response.fields.args[0].u.username.starsWith(
+					response.fields.args[0].u.username.startsWith(
 						'cob-rocket-chat-technical-user'
 					);
 				const roomClosed =
