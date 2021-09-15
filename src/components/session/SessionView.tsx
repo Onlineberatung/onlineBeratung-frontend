@@ -78,6 +78,7 @@ export const SessionView = (props) => {
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
+	const isEnquiry = chatItem?.status === 1;
 	const isLiveChatFinished = chatItem?.status === 3;
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
@@ -124,7 +125,7 @@ export const SessionView = (props) => {
 				setLoadedMessages(messagesData);
 				setIsLoading(false);
 
-				if (!isSocketConnected && !isAnonymousEnquiry) {
+				if (!isSocketConnected && !isEnquiry) {
 					setSessionToRead();
 					window['socket'].connect();
 					window['socket'].addSubscription(
