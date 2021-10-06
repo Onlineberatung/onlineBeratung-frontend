@@ -78,6 +78,7 @@ export const SessionView = (props) => {
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
+	const isEnquiry = chatItem?.status === 1;
 	const isLiveChatFinished = chatItem?.status === 3;
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
@@ -124,7 +125,7 @@ export const SessionView = (props) => {
 				setLoadedMessages(messagesData);
 				setIsLoading(false);
 
-				if (!isSocketConnected && !isAnonymousEnquiry) {
+				if (!isSocketConnected && !isEnquiry) {
 					setSessionToRead();
 					window['socket'].connect();
 					window['socket'].addSubscription(
@@ -166,14 +167,16 @@ export const SessionView = (props) => {
 		mobileDetailView();
 		setAcceptedGroupId(null);
 		typingTimeout = null;
+		const isEnquiry = chatItem?.status === 1;
 		const isCurrentAnonymousEnquiry =
-			chatItem?.status === 1 &&
-			chatItem?.registrationType === 'ANONYMOUS';
+			isEnquiry && chatItem?.registrationType === 'ANONYMOUS';
 		if (isGroupChat && !chatItem.subscribed) {
 			setIsLoading(false);
 		} else if (isCurrentAnonymousEnquiry) {
 			setIsLoading(false);
 			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
+		} else if (isEnquiry) {
+			fetchSessionMessages();
 		} else {
 			window['socket'] = new rocketChatSocket();
 			fetchSessionMessages();
