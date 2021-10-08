@@ -80,7 +80,7 @@ export const Registration = ({
 
 	return (
 		<StageLayout
-			showLegalLinks={!showWelcomeScreen}
+			showLegalLinks={true}
 			showLoginLink={!showWelcomeScreen}
 			stage={<Stage hasAnimation isReady={consultingType != null} />}
 		>
