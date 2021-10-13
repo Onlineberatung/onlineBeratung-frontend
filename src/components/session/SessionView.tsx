@@ -27,7 +27,8 @@ import {
 	getSessionListPathForLocation,
 	getChatItemForSession,
 	isGroupChatForSessionItem,
-	prepareMessages
+	prepareMessages,
+	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -159,7 +160,7 @@ export const SessionView = (props) => {
 
 	const handleRoomMessage = () => {
 		fetchSessionMessages(true);
-		setUpdateSessionList(true);
+		setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
 	};
 
 	useEffect(() => {

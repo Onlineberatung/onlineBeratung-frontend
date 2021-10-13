@@ -1,6 +1,7 @@
 import { config } from '../resources/scripts/config';
 import {
 	SESSION_LIST_TAB,
+	SESSION_LIST_TYPES,
 	typeIsSession,
 	typeIsTeamSession
 } from '../components/session/sessionHelpers';
@@ -13,7 +14,7 @@ export const SESSION_COUNT: number = 15;
 export const TIMEOUT: number = 10000;
 
 export interface ApiGetConsultantSessionListInterface {
-	type: string;
+	type: SESSION_LIST_TYPES;
 	filter?: string;
 	offset?: number;
 	sessionListTab?: string;

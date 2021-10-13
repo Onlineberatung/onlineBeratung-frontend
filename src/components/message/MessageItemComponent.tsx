@@ -11,7 +11,7 @@ import {
 	ConsultingTypeInterface
 } from '../../globalState';
 import {
-	SESSION_TYPES,
+	SESSION_LIST_TYPES,
 	getChatItemForSession
 } from '../session/sessionHelpers';
 import { ForwardMessage } from './ForwardMessage';
@@ -74,7 +74,7 @@ export interface MessageItem {
 interface MessageItemComponentProps extends MessageItem {
 	isOnlyEnquiry?: boolean;
 	isMyMessage: boolean;
-	type: string;
+	type: SESSION_LIST_TYPES;
 	clientName: string;
 	resortData: ConsultingTypeInterface;
 }
@@ -137,7 +137,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		(chatItem.moderators && !chatItem.moderators.includes(props.userId));
 	const showForwardMessage = () =>
 		hasRenderedMessage &&
-		activeSession.type !== SESSION_TYPES.ENQUIRY &&
+		activeSession.type !== SESSION_LIST_TYPES.ENQUIRY &&
 		chatItem.feedbackGroupId &&
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
 		!activeSession.isFeedbackSession;

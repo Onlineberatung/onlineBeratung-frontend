@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from 'react';
 import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { translate } from '../../utils/translate';
-import { SESSION_TYPES } from '../session/sessionHelpers';
+import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import {
 	OverlayItem,
 	OVERLAY_FUNCTIONS,
@@ -139,7 +139,7 @@ export const WriteEnquiry = () => {
 			<MessageSubmitInterfaceComponent
 				handleSendButton={() => setOverlayActive(true)}
 				placeholder={translate('enquiry.write.input.placeholder')}
-				type={SESSION_TYPES.ENQUIRY}
+				type={SESSION_LIST_TYPES.ENQUIRY}
 			/>
 			{overlayActive ? (
 				<OverlayWrapper>

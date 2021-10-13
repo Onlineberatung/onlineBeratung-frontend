@@ -1,6 +1,6 @@
 import { apiGetConsultantSessionList, FETCH_ERRORS } from '../../api';
 import {
-	SESSION_TYPES,
+	SESSION_LIST_TYPES,
 	typeIsTeamSession,
 	typeIsEnquiry
 } from '../session/sessionHelpers';
@@ -12,7 +12,7 @@ import {
 
 interface GetSessionsProps {
 	context: any;
-	type: string;
+	type: SESSION_LIST_TYPES;
 	offset: number;
 	useFilter: string;
 	sessionListTab?: string;
@@ -38,19 +38,19 @@ export const getConsultantSessions = (
 				  ]
 				: fetchedSessions;
 
-		if (type === SESSION_TYPES.ENQUIRY) {
+		if (type === SESSION_LIST_TYPES.ENQUIRY) {
 			setSessionsData({
 				...sessionsData,
 				enquiries: newSessions
 			});
 		}
-		if (type === SESSION_TYPES.MY_SESSION) {
+		if (type === SESSION_LIST_TYPES.MY_SESSION) {
 			setSessionsData({
 				...sessionsData,
 				mySessions: newSessions
 			});
 		}
-		if (type === SESSION_TYPES.TEAMSESSION) {
+		if (type === SESSION_LIST_TYPES.TEAMSESSION) {
 			setSessionsData({
 				...sessionsData,
 				teamSessions: newSessions
@@ -90,7 +90,7 @@ export const getConsultantSessions = (
 						: { teamSessions: fetchedSessions }
 					: null;
 			apiGetConsultantSessionList({
-				type: SESSION_TYPES.MY_SESSION,
+				type: SESSION_LIST_TYPES.MY_SESSION,
 				filter: 'all',
 				offset: 0
 			})
@@ -127,7 +127,7 @@ export const getConsultantSessions = (
 				const fetchedSessions: ListItemInterface[] =
 					sessionList.sessions;
 				if (
-					type !== SESSION_TYPES.MY_SESSION &&
+					type !== SESSION_LIST_TYPES.MY_SESSION &&
 					!sessionsData?.mySessions
 				) {
 					fetchMySessionsDatas(fetchedSessions, isOffsetIncreased)

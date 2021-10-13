@@ -4,7 +4,8 @@ import { SendMessageButton } from './SendMessageButton';
 import {
 	typeIsEnquiry,
 	isGroupChatForSessionItem,
-	getChatItemForSession
+	getChatItemForSession,
+	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { translate } from '../../utils/translate';
@@ -132,7 +133,7 @@ export interface MessageSubmitInterfaceComponentProps {
 	isTyping?: Function;
 	placeholder: string;
 	showMonitoringButton?: Function;
-	type: string;
+	type: SESSION_LIST_TYPES;
 	typingUsers?: string[];
 }
 
