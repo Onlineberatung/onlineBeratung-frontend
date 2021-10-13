@@ -4,7 +4,7 @@ import { useLocation, Link } from 'react-router-dom';
 import {
 	typeIsTeamSession,
 	typeIsEnquiry,
-	SESSION_TYPES,
+	SESSION_LIST_TYPES,
 	getTypeOfLocation,
 	typeIsSession,
 	getChatItemForSession,
@@ -228,7 +228,9 @@ export const SessionsList: React.FC = () => {
 	}, [updateAnonymousEnquiries]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		const refreshSessionList = async () => {
+		const refreshSessionList = async (
+			sessionListType: SESSION_LIST_TYPES
+		) => {
 			if (
 				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
@@ -238,23 +240,29 @@ export const SessionsList: React.FC = () => {
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 			) {
 				const { sessions, total } = await apiGetConsultantSessionList({
-					type: SESSION_TYPES.MY_SESSION,
+					type: sessionListType,
 					filter: getFilterToUse(),
 					offset: 0,
-					count: sessionsData?.mySessions?.length
+					count: sessionsData?.[
+						getSessionsDataKeyForSessionType(sessionListType)
+					]?.length
 				});
 
 				setSessionsData((sessionsData) => {
-					return { ...sessionsData, mySessions: sessions };
+					return {
+						...sessionsData,
+						[getSessionsDataKeyForSessionType(sessionListType)]:
+							sessions
+					};
 				});
 				setTotalItems(total);
 			}
 		};
 
 		if (updateSessionList) {
-			refreshSessionList();
+			refreshSessionList(updateSessionList);
 		}
-		setUpdateSessionList(false);
+		setUpdateSessionList(null);
 	}, [updateSessionList, userData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
@@ -278,7 +286,7 @@ export const SessionsList: React.FC = () => {
 		}
 		getConsultantSessions({
 			context: sessionsContext,
-			type: SESSION_TYPES.MY_SESSION,
+			type: SESSION_LIST_TYPES.MY_SESSION,
 			offset: updatedOffset,
 			useFilter: getFilterToUse(),
 			sessionListTab: sessionListTab
