@@ -33,9 +33,17 @@ export const apiGetConsultantSessionList = async ({
 	const isTeamSession: boolean = typeIsTeamSession(type);
 	let url: string;
 	if (isTeamSession) {
-		url = config.endpoints.consultantTeamSessions;
+		url = `${
+			sessionListTab === SESSION_LIST_TAB.ARCHIVE
+				? `${config.endpoints.teamSessionsBase}${SESSION_LIST_TAB.ARCHIVE}?`
+				: `${config.endpoints.consultantSessions}`
+		}`;
 	} else if (!isTeamSession && typeIsSession(type)) {
-		url = config.endpoints.consultantSessions;
+		url = `${
+			sessionListTab === SESSION_LIST_TAB.ARCHIVE
+				? `${config.endpoints.myMessagesBase}${SESSION_LIST_TAB.ARCHIVE}?`
+				: `${config.endpoints.consultantSessions}`
+		}`;
 	} else {
 		url = `${config.endpoints.consultantEnquiriesBase}${
 			sessionListTab && sessionListTab === SESSION_LIST_TAB.ANONYMOUS

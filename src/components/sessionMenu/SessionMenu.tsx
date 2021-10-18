@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import {
 	ActiveSessionGroupIdContext,
 	getActiveSession,
@@ -21,7 +21,8 @@ import {
 	isGroupChatForSessionItem,
 	getSessionListPathForLocation,
 	getTypeOfLocation,
-	typeIsTeamSession
+	typeIsTeamSession,
+	SESSION_LIST_TAB
 } from '../session/sessionHelpers';
 import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
@@ -82,6 +83,10 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const location = useLocation();
+	const [sessionListTab] = useState(
+		new URLSearchParams(location.search).get('sessionListTab')
+	);
 
 	useEffect(() => {
 		document.addEventListener('mousedown', (e) => handleClick(e));
@@ -465,7 +470,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				) : null}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 					!typeIsEnquiry(getTypeOfLocation()) &&
-					!isLiveChat && (
+					!isLiveChat &&
+					sessionListTab !== SESSION_LIST_TAB.ARCHIVE && (
 						<div
 							onClick={handleArchiveSession}
 							className="sessionMenu__item"

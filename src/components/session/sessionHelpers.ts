@@ -41,7 +41,8 @@ export const typeIsEnquiry = (type: SESSION_LIST_TYPES) =>
 
 export const SESSION_LIST_TAB = {
 	ANONYMOUS: 'anonymous',
-	REGISTERED: 'registered'
+	REGISTERED: 'registered',
+	ARCHIVE: 'archive'
 };
 
 export const isAnonymousSessionListTab = (currentTab: string): boolean =>

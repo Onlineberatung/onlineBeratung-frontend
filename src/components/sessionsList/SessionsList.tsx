@@ -352,6 +352,7 @@ export const SessionsList: React.FC = () => {
 
 	const showFilter =
 		!typeIsEnquiry(type) &&
+		sessionListTab !== SESSION_LIST_TAB.ARCHIVE &&
 		((hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
 			typeIsTeamSession(type)) ||
 			(hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
@@ -537,48 +538,101 @@ export const SessionsList: React.FC = () => {
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 		userData.hasAnonymousConversations &&
 		typeIsEnquiry(type);
+
+	const showSessionListTabs =
+		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+		(typeIsSession(type) || typeIsTeamSession(type));
+
 	return (
 		<div className="sessionsList__innerWrapper">
-			{showFilter && (
-				<div className="sessionsList__selectWrapper">
-					<SelectDropdown {...selectDropdown} />
-				</div>
-			)}
-			{showEnquiryTabs && (
-				<div className="sessionsList__tabs">
-					<Link
-						className={clsx({
-							'sessionsList__tabs--active': !sessionListTab
-						})}
-						to={'/sessions/consultant/sessionPreview'}
-					>
-						<Text
-							text={translate(
-								'sessionList.preview.registered.tab'
-							)}
-							type="standard"
-						/>
-					</Link>
-					<Link
-						className={clsx({
-							'sessionsList__tabs--active':
-								sessionListTab === SESSION_LIST_TAB.ANONYMOUS
-						})}
-						to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
-					>
-						<Text
-							text={translate(
-								'sessionList.preview.anonymous.tab'
-							)}
-							type="standard"
-						/>
-					</Link>
+			{(showFilter || showEnquiryTabs || showSessionListTabs) && (
+				<div className="sessionsList__functionalityWrapper">
+					{showEnquiryTabs && (
+						<div className="sessionsList__tabs">
+							<Link
+								className={clsx({
+									'sessionsList__tabs--active':
+										!sessionListTab
+								})}
+								to={'/sessions/consultant/sessionPreview'}
+							>
+								<Text
+									text={translate(
+										'sessionList.preview.registered.tab'
+									)}
+									type="standard"
+								/>
+							</Link>
+							<Link
+								className={clsx({
+									'sessionsList__tabs--active':
+										sessionListTab ===
+										SESSION_LIST_TAB.ANONYMOUS
+								})}
+								to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
+							>
+								<Text
+									text={translate(
+										'sessionList.preview.anonymous.tab'
+									)}
+									type="standard"
+								/>
+							</Link>
+						</div>
+					)}
+					{showSessionListTabs && (
+						<div className="sessionsList__tabs">
+							<Link
+								className={clsx({
+									'sessionsList__tabs--active':
+										!sessionListTab
+								})}
+								to={`/sessions/consultant/${
+									typeIsTeamSession(getTypeOfLocation())
+										? 'teamSessionView'
+										: 'sessionView'
+								}`}
+							>
+								<Text
+									text={translate(
+										'sessionList.view.asker.tab'
+									)}
+									type="standard"
+								/>
+							</Link>
+							<Link
+								className={clsx({
+									'sessionsList__tabs--active':
+										sessionListTab ===
+										SESSION_LIST_TAB.ARCHIVE
+								})}
+								to={`/sessions/consultant/${
+									typeIsTeamSession(getTypeOfLocation())
+										? 'teamSessionView'
+										: 'sessionView'
+								}?sessionListTab=${SESSION_LIST_TAB.ARCHIVE}`}
+							>
+								<Text
+									text={translate(
+										'sessionList.view.archive.tab'
+									)}
+									type="standard"
+								/>
+							</Link>
+						</div>
+					)}
+					{showFilter && (
+						<div className="sessionsList__selectWrapper">
+							<SelectDropdown {...selectDropdown} />
+						</div>
+					)}
 				</div>
 			)}
 			<div
 				className={clsx('sessionsList__scrollContainer', {
 					'sessionsList__scrollContainer--hasFilter': showFilter,
-					'sessionsList__scrollContainer--hasTabs': showEnquiryTabs
+					'sessionsList__scrollContainer--hasTabs':
+						showEnquiryTabs || showSessionListTabs
 				})}
 				ref={listRef}
 				onScroll={handleListScroll}
