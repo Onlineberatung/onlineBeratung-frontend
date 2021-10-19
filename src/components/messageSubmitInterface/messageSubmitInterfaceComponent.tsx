@@ -106,6 +106,7 @@ const { EmojiSelect } = emojiPlugin;
 
 const INFO_TYPES = {
 	ABSENT: 'ABSENT',
+	ARCHIVED: 'ARCHIVED',
 	ATTACHMENT_SIZE_ERROR: 'ATTACHMENT_SIZE_ERROR',
 	ATTACHMENT_FORMAT_ERROR: 'ATTACHMENT_FORMAT_ERROR',
 	ATTACHMENT_QUOTA_REACHED_ERROR: 'ATTACHMENT_QUOTA_REACHED_ERROR',
@@ -188,8 +189,12 @@ export const MessageSubmitInterfaceComponent = (
 		activeSession.consultant &&
 		activeSession.consultant.absent;
 
+	const isSessionArchived = activeSession.session.status === 4;
+
 	useEffect(() => {
-		if (isConsultantAbsent) {
+		if (isSessionArchived) {
+			setActiveInfo(INFO_TYPES.ARCHIVED);
+		} else if (isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
 		}
 
@@ -647,6 +652,12 @@ export const MessageSubmitInterfaceComponent = (
 				infoHeadline: translate(
 					'anonymous.session.infoMessage.chatFinished'
 				)
+			};
+		} else if (activeInfo === INFO_TYPES.ARCHIVED) {
+			infoData = {
+				isInfo: true,
+				infoHeadline: translate('archive.submitInfo.headline'),
+				infoMessage: translate('archive.submitInfo.message')
 			};
 		}
 
