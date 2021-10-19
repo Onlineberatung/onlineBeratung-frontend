@@ -471,6 +471,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 					!typeIsEnquiry(getTypeOfLocation()) &&
 					!isLiveChat &&
+					!isGroupChat &&
 					sessionListTab !== SESSION_LIST_TAB.ARCHIVE && (
 						<div
 							onClick={handleArchiveSession}
