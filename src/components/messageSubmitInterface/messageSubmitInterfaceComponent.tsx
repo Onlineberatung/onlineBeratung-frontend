@@ -27,7 +27,8 @@ import {
 	apiUploadAttachment,
 	apiPostDraftMessage,
 	apiGetDraftMessage,
-	FETCH_ERRORS
+	FETCH_ERRORS,
+	apiPutDearchive
 } from '../../api';
 import {
 	MessageSubmitInfo,
@@ -464,6 +465,21 @@ export const MessageSubmitInterfaceComponent = (
 			return null;
 		}
 
+		if (isSessionArchived) {
+			apiPutDearchive(chatItem.id)
+				.then(() => {
+					console.log('session reactivated! :)');
+					sendMessage();
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		} else {
+			sendMessage();
+		}
+	};
+
+	const sendMessage = () => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const attachment = attachmentInput && attachmentInput.files[0];
 		if (getTypedMarkdownMessage() || attachment) {
