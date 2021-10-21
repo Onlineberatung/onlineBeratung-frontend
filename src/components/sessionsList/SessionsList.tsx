@@ -540,8 +540,7 @@ export const SessionsList: React.FC = () => {
 		typeIsEnquiry(type);
 
 	const showSessionListTabs =
-		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-		(typeIsSession(type) || typeIsTeamSession(type));
+		userData.hasArchive && (typeIsSession(type) || typeIsTeamSession(type));
 
 	return (
 		<div className="sessionsList__innerWrapper">
