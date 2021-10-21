@@ -5,7 +5,9 @@ import {
 	typeIsEnquiry,
 	isGroupChatForSessionItem,
 	getChatItemForSession,
-	SESSION_LIST_TYPES
+	SESSION_LIST_TYPES,
+	getTypeOfLocation,
+	getSessionListPathForLocation
 } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { translate } from '../../utils/translate';
@@ -18,8 +20,10 @@ import {
 	AUTHORITIES
 } from '../../globalState/helpers/stateHelpers';
 import {
+	AcceptedGroupIdContext,
 	ActiveSessionGroupIdContext,
-	SessionsDataContext
+	SessionsDataContext,
+	UpdateSessionListContext
 } from '../../globalState';
 import {
 	apiSendEnquiry,
@@ -74,6 +78,7 @@ import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';
 import clsx from 'clsx';
+import { history } from '../app/app';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -171,6 +176,7 @@ export const MessageSubmitInterfaceComponent = (
 		currentDraftMessageRef.current,
 		SAVE_DRAFT_TIMEOUT
 	);
+	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -468,8 +474,13 @@ export const MessageSubmitInterfaceComponent = (
 		if (isSessionArchived) {
 			apiPutDearchive(chatItem.id)
 				.then(() => {
-					console.log('session reactivated! :)');
 					sendMessage();
+					if (
+						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
+					) {
+						history.push(getSessionListPathForLocation());
+						setAcceptedGroupId(activeSessionGroupId);
+					}
 				})
 				.catch((error) => {
 					console.error(error);
