@@ -6,7 +6,6 @@ import {
 	isGroupChatForSessionItem,
 	getChatItemForSession,
 	SESSION_LIST_TYPES,
-	getTypeOfLocation,
 	getSessionListPathForLocation
 } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
@@ -22,8 +21,7 @@ import {
 import {
 	AcceptedGroupIdContext,
 	ActiveSessionGroupIdContext,
-	SessionsDataContext,
-	UpdateSessionListContext
+	SessionsDataContext
 } from '../../globalState';
 import {
 	apiSendEnquiry,
