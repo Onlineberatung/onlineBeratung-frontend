@@ -239,10 +239,16 @@ export const SessionsList: React.FC = () => {
 			} else if (
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 			) {
+				const currentTab = sessionListTab
+					? {
+							sessionListTab: sessionListTab
+					  }
+					: null;
 				const { sessions, total } = await apiGetConsultantSessionList({
 					type: sessionListType,
 					filter: getFilterToUse(),
 					offset: 0,
+					...currentTab,
 					count: sessionsData?.[
 						getSessionsDataKeyForSessionType(sessionListType)
 					]?.length
