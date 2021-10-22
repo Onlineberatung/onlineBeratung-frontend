@@ -197,7 +197,10 @@ export const MessageSubmitInterfaceComponent = (
 	const isSessionArchived = activeSession?.session.status === 4;
 
 	useEffect(() => {
-		if (isSessionArchived) {
+		if (
+			isSessionArchived &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+		) {
 			setActiveInfo(INFO_TYPES.ARCHIVED);
 		} else if (isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
