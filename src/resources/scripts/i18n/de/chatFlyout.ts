@@ -8,7 +8,8 @@ const chatFlyout = {
 	editGroupChat: 'Chat-Einstellungen',
 	leaveGroupChat: 'Chat verlassen',
 	stopGroupChat: 'Chat beenden',
-	archive: 'Archivieren'
+	archive: 'Archivieren',
+	dearchive: 'Dearchivieren'
 };
 
 export default chatFlyout;

@@ -13,7 +13,8 @@ import {
 	isAnonymousSession,
 	AUTHORITIES,
 	useConsultingType,
-	UpdateSessionListContext
+	UpdateSessionListContext,
+	AcceptedGroupIdContext
 } from '../../globalState';
 import {
 	typeIsEnquiry,
@@ -38,6 +39,7 @@ import {
 import {
 	apiFinishAnonymousConversation,
 	apiPutArchive,
+	apiPutDearchive,
 	apiPutGroupChat,
 	apiStartVideoCall,
 	GROUP_CHAT_API
@@ -87,6 +89,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const [sessionListTab] = useState(
 		new URLSearchParams(location.search).get('sessionListTab')
 	);
+	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
 	useEffect(() => {
 		document.addEventListener('mousedown', (e) => handleClick(e));
@@ -149,6 +152,17 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		}
 		setOverlayItem(archiveSessionSuccessOverlayItem);
 		setOverlayActive(true);
+	};
+
+	const handleDearchiveSession = () => {
+		apiPutDearchive(chatItem.id)
+			.then(() => {
+				history.push(getSessionListPathForLocation());
+				setAcceptedGroupId(activeSessionGroupId);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
@@ -478,6 +492,18 @@ export const SessionMenu = (props: SessionMenuProps) => {
 							className="sessionMenu__item"
 						>
 							{translate('chatFlyout.archive')}
+						</div>
+					)}
+				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+					!typeIsEnquiry(getTypeOfLocation()) &&
+					!isLiveChat &&
+					!isGroupChat &&
+					sessionListTab === SESSION_LIST_TAB.ARCHIVE && (
+						<div
+							onClick={handleDearchiveSession}
+							className="sessionMenu__item"
+						>
+							{translate('chatFlyout.dearchive')}
 						</div>
 					)}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
