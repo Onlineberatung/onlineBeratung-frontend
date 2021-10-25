@@ -157,8 +157,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const handleDearchiveSession = () => {
 		apiPutDearchive(chatItem.id)
 			.then(() => {
+				mobileListView();
 				history.push(getSessionListPathForLocation());
-				setAcceptedGroupId(activeSessionGroupId);
+				if (window.innerWidth >= 900) {
+					setAcceptedGroupId(activeSessionGroupId);
+				}
 			})
 			.catch((error) => {
 				console.error(error);
@@ -241,6 +244,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.ARCHIVE) {
 			apiPutArchive(chatItem.id)
 				.then(() => {
+					mobileListView();
 					history.push(getSessionListPathForLocation());
 					setUpdateSessionList(getTypeOfLocation());
 					setActiveSessionGroupId(null);

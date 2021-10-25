@@ -77,6 +77,7 @@ import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';
 import clsx from 'clsx';
 import { history } from '../app/app';
+import { mobileListView } from '../app/navigationHandler';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -479,8 +480,11 @@ export const MessageSubmitInterfaceComponent = (
 					if (
 						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 					) {
+						mobileListView();
 						history.push(getSessionListPathForLocation());
-						setAcceptedGroupId(activeSessionGroupId);
+						if (window.innerWidth >= 900) {
+							setAcceptedGroupId(activeSessionGroupId);
+						}
 					}
 				})
 				.catch((error) => {
