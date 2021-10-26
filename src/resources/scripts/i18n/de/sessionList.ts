@@ -7,6 +7,8 @@ const sessionList = {
 	'preview.registered.tab': 'Erstanfragen',
 	'preview.anonymous.tab': 'Live-Chat Anfragen',
 	'view.headline': 'Meine Nachrichten',
+	'view.asker.tab': 'Ratsuchende',
+	'view.archive.tab': 'Archiv',
 	'user.headline': 'Meine Nachrichten',
 	'peersessions.headline': 'Peer-Beratungen',
 	'user.consultantUnknown': 'Berater_innen-Suche läuft',

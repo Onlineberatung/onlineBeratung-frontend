@@ -27,7 +27,8 @@ import {
 	getSessionListPathForLocation,
 	getChatItemForSession,
 	isGroupChatForSessionItem,
-	prepareMessages
+	prepareMessages,
+	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -78,9 +79,11 @@ export const SessionView = (props) => {
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
-	const isEnquiry = chatItem?.status === 1;
 	const isLiveChatFinished = chatItem?.status === 3;
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
+	const isEnquiry = chatItem?.status === 1;
+	const isConsultantEnquiry =
+		isEnquiry && hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
 		if (
@@ -125,7 +128,7 @@ export const SessionView = (props) => {
 				setLoadedMessages(messagesData);
 				setIsLoading(false);
 
-				if (!isSocketConnected && !isEnquiry) {
+				if (!isSocketConnected && !isConsultantEnquiry) {
 					setSessionToRead();
 					window['socket'].connect();
 					window['socket'].addSubscription(
@@ -159,7 +162,7 @@ export const SessionView = (props) => {
 
 	const handleRoomMessage = () => {
 		fetchSessionMessages(true);
-		setUpdateSessionList(true);
+		setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
 	};
 
 	useEffect(() => {
@@ -175,7 +178,7 @@ export const SessionView = (props) => {
 		} else if (isCurrentAnonymousEnquiry) {
 			setIsLoading(false);
 			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
-		} else if (isEnquiry) {
+		} else if (isConsultantEnquiry) {
 			fetchSessionMessages();
 		} else {
 			window['socket'] = new rocketChatSocket();

@@ -1,5 +1,5 @@
 import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
-import { SESSION_TYPES } from '../session/sessionHelpers';
+import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import { SessionView } from '../session/SessionView';
 import { WriteEnquiry } from '../enquiry/WriteEnquiry';
 import { AskerInfo } from '../askerInfo/AskerInfo';
@@ -87,24 +87,24 @@ export const RouterConfigConsultant = (): any => {
 			{
 				path: '/sessions/consultant/sessionPreview',
 				component: SessionsListWrapper,
-				type: SESSION_TYPES.ENQUIRY
+				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
 				path: '/sessions/consultant/sessionView',
 				component: SessionsListWrapper,
-				type: SESSION_TYPES.MY_SESSION
+				type: SESSION_LIST_TYPES.MY_SESSION
 			}
 		],
 		detailRoutes: [
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId',
 				component: SessionView,
-				type: SESSION_TYPES.ENQUIRY
+				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/',
 				component: SessionView,
-				type: SESSION_TYPES.MY_SESSION
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionPreview/',
@@ -188,17 +188,17 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				path: '/sessions/consultant/sessionPreview',
 				component: SessionsListWrapper,
-				type: SESSION_TYPES.ENQUIRY
+				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
 				path: '/sessions/consultant/sessionView',
 				component: SessionsListWrapper,
-				type: SESSION_TYPES.MY_SESSION
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/teamSessionView',
 				component: SessionsListWrapper,
-				type: SESSION_TYPES.TEAMSESSION
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			}
 		],
 		detailRoutes: [
@@ -209,7 +209,7 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId',
 				component: SessionView,
-				type: SESSION_TYPES.ENQUIRY
+				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
 				path: '/sessions/consultant/sessionView/',
@@ -218,7 +218,7 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/',
 				component: SessionView,
-				type: SESSION_TYPES.MY_SESSION
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/editGroupChat',
@@ -231,7 +231,7 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/',
 				component: SessionView,
-				type: SESSION_TYPES.TEAMSESSION
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/editGroupChat',

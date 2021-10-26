@@ -15,7 +15,8 @@ import {
 	getChatTypeForListItem,
 	typeIsEnquiry,
 	getChatItemForSession,
-	isGroupChatForSessionItem
+	isGroupChatForSessionItem,
+	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import {
@@ -39,7 +40,7 @@ import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
 
 interface SessionListItemProps {
-	type: string;
+	type: SESSION_LIST_TYPES;
 	id: number;
 }
 
