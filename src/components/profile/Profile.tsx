@@ -106,7 +106,7 @@ export const Profile = () => {
 							AUTHORITIES.CONSULTANT_DEFAULT,
 							userData
 						) &&
-							userData.twoFactorAuth.isEnabled && (
+							userData.twoFactorAuth?.isEnabled && (
 								<TwoFactorAuth />
 							)}
 					</div>
