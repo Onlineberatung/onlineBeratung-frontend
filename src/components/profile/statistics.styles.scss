@@ -39,14 +39,14 @@
 			p {
 				color: $primary;
 				margin: 0 0 0 $grid-base;
-				font-weight: 500;
+				font-weight: $font-weight-medium;
 				font-size: 30px;
 				line-height: 38px;
 			}
 		}
 
 		> p {
-			font-weight: 500;
+			font-weight: $font-weight-medium;
 		}
 	}
 
