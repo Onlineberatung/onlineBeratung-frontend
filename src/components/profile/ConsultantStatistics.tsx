@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	apiGetConsultantStatistics,
 	ApiGetConsultantStatisticsInterface,
 	ConsultantStatisticsDTO
 } from '../../api';
-import { UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
@@ -97,7 +96,6 @@ const csvHeaders = [
 ];
 
 export const ConsultantStatistics = () => {
-	const { userData } = useContext(UserDataContext);
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
 	const [statisticsPeriod, setStatisticsPeriod] =
@@ -113,7 +111,7 @@ export const ConsultantStatistics = () => {
 		//fetch complete statistics to deliver csv download
 		const currentDate = getValidDateFormatForSelectedDate(new Date());
 		getConsultantStatistics('1970-01-01', currentDate, true);
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (statisticsPeriod) {
@@ -121,7 +119,7 @@ export const ConsultantStatistics = () => {
 				getDatesForSelectedPeriod(statisticsPeriod);
 			getConsultantStatistics(dates.startDate, dates.endDate);
 		}
-	}, [statisticsPeriod]);
+	}, [statisticsPeriod]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const getPeriodOptions = () => {
 		return statisticsPeriodOptions.filter(
