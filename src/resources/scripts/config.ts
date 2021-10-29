@@ -20,6 +20,7 @@ export const config = {
 			apiUrl + '/service/conversations/consultants/enquiries/',
 		consultantSessions:
 			apiUrl + '/service/users/sessions/consultants?status=2&',
+		consultantStatistics: apiUrl + '/service/statistics/consultant',
 		consultantTeamSessions: apiUrl + '/service/users/sessions/teams?',
 		consultingTypeServiceBase: apiUrl + '/service/consultingtypes',
 		deleteAskerAccount: apiUrl + '/service/users/account',
