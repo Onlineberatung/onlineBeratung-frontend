@@ -23,6 +23,7 @@ import { AbsenceFormular } from '../absenceFormular/AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { Text } from '../text/Text';
 import { TwoFactorAuth } from './TwoFactorAuth';
+import { ConsultantStatistics } from './ConsultantStatistics';
 import './profile.styles';
 
 export const Profile = () => {
@@ -119,6 +120,7 @@ export const Profile = () => {
 								text={translate('profile.data.title')}
 								type="divider"
 							/>
+							<ConsultantStatistics />
 							<ConsultantPrivateData />
 							<ConsultantPublicData />
 						</div>
