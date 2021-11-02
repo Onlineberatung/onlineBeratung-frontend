@@ -1,7 +1,8 @@
 const app = {
 	title: 'Beratung & Hilfe',
 	claim: 'Online. Anonym. Sicher.',
-	save: 'Speichern',
+	save: 'Speichern', 
+	'stage.title': 'Beratung & Hilfe',
 	logout: 'Abmelden'
 };
 
