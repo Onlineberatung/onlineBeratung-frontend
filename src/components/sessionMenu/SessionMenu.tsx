@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import {
 	ActiveSessionGroupIdContext,
 	getActiveSession,
@@ -12,14 +12,18 @@ import {
 	hasUserAuthority,
 	isAnonymousSession,
 	AUTHORITIES,
-	useConsultingType
+	useConsultingType,
+	UpdateSessionListContext,
+	AcceptedGroupIdContext
 } from '../../globalState';
 import {
 	typeIsEnquiry,
 	getChatItemForSession,
 	isGroupChatForSessionItem,
 	getSessionListPathForLocation,
-	getTypeOfLocation
+	getTypeOfLocation,
+	typeIsTeamSession,
+	SESSION_LIST_TAB
 } from '../session/sessionHelpers';
 import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
@@ -29,10 +33,13 @@ import {
 	groupChatErrorOverlayItem,
 	leaveGroupChatSuccessOverlayItem,
 	finishAnonymousChatSecurityOverlayItem,
-	finishAnonymousChatSuccessOverlayItem
+	finishAnonymousChatSuccessOverlayItem,
+	archiveSessionSuccessOverlayItem
 } from './sessionMenuHelpers';
 import {
 	apiFinishAnonymousConversation,
+	apiPutArchive,
+	apiPutDearchive,
 	apiPutGroupChat,
 	apiStartVideoCall,
 	GROUP_CHAT_API
@@ -54,6 +61,7 @@ import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
+import { history } from '../app/app';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -66,6 +74,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		ActiveSessionGroupIdContext
 	);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
+	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
 	const consultingType = useConsultingType(chatItem.consultingType);
@@ -76,6 +85,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const location = useLocation();
+	const [sessionListTab] = useState(
+		new URLSearchParams(location.search).get('sessionListTab')
+	);
+	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
 	useEffect(() => {
 		document.addEventListener('mousedown', (e) => handleClick(e));
@@ -128,6 +142,30 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		}
 		setOverlayItem(finishAnonymousChatSecurityOverlayItem);
 		setOverlayActive(true);
+	};
+
+	const handleArchiveSession = () => {
+		if (typeIsTeamSession(activeSession.type)) {
+			archiveSessionSuccessOverlayItem.copy = translate(
+				'archive.overlay.teamsession.success.copy'
+			);
+		}
+		setOverlayItem(archiveSessionSuccessOverlayItem);
+		setOverlayActive(true);
+	};
+
+	const handleDearchiveSession = () => {
+		apiPutDearchive(chatItem.id)
+			.then(() => {
+				mobileListView();
+				history.push(getSessionListPathForLocation());
+				if (window.innerWidth >= 900) {
+					setAcceptedGroupId(activeSessionGroupId);
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
@@ -203,6 +241,22 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_URL) {
 			window.location.href = config.urls.finishedAnonymousChatRedirect;
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.ARCHIVE) {
+			apiPutArchive(chatItem.id)
+				.then(() => {
+					mobileListView();
+					history.push(getSessionListPathForLocation());
+					setUpdateSessionList(getTypeOfLocation());
+					setActiveSessionGroupId(null);
+				})
+				.catch((error) => {
+					console.error(error);
+				})
+				.finally(() => {
+					setOverlayActive(false);
+					setOverlayItem(null);
+					setIsRequestInProgress(false);
+				});
 		}
 	};
 
@@ -432,6 +486,30 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						{translate('chatFlyout.askerProfil')}
 					</Link>
 				) : null}
+				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+					!typeIsEnquiry(getTypeOfLocation()) &&
+					!isLiveChat &&
+					!isGroupChat &&
+					sessionListTab !== SESSION_LIST_TAB.ARCHIVE && (
+						<div
+							onClick={handleArchiveSession}
+							className="sessionMenu__item"
+						>
+							{translate('chatFlyout.archive')}
+						</div>
+					)}
+				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+					!typeIsEnquiry(getTypeOfLocation()) &&
+					!isLiveChat &&
+					!isGroupChat &&
+					sessionListTab === SESSION_LIST_TAB.ARCHIVE && (
+						<div
+							onClick={handleDearchiveSession}
+							className="sessionMenu__item"
+						>
+							{translate('chatFlyout.dearchive')}
+						</div>
+					)}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				chatItem?.monitoring &&
 				!isLiveChat &&

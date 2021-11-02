@@ -27,7 +27,8 @@ import {
 	getSessionListPathForLocation,
 	getChatItemForSession,
 	isGroupChatForSessionItem,
-	prepareMessages
+	prepareMessages,
+	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -80,6 +81,9 @@ export const SessionView = (props) => {
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
 	const isLiveChatFinished = chatItem?.status === 3;
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
+	const isEnquiry = chatItem?.status === 1;
+	const isConsultantEnquiry =
+		isEnquiry && hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
 		if (
@@ -124,7 +128,7 @@ export const SessionView = (props) => {
 				setLoadedMessages(messagesData);
 				setIsLoading(false);
 
-				if (!isSocketConnected && !isAnonymousEnquiry) {
+				if (!isSocketConnected && !isConsultantEnquiry) {
 					setSessionToRead();
 					window['socket'].connect();
 					window['socket'].addSubscription(
@@ -158,7 +162,7 @@ export const SessionView = (props) => {
 
 	const handleRoomMessage = () => {
 		fetchSessionMessages(true);
-		setUpdateSessionList(true);
+		setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
 	};
 
 	useEffect(() => {
@@ -166,14 +170,16 @@ export const SessionView = (props) => {
 		mobileDetailView();
 		setAcceptedGroupId(null);
 		typingTimeout = null;
+		const isEnquiry = chatItem?.status === 1;
 		const isCurrentAnonymousEnquiry =
-			chatItem?.status === 1 &&
-			chatItem?.registrationType === 'ANONYMOUS';
+			isEnquiry && chatItem?.registrationType === 'ANONYMOUS';
 		if (isGroupChat && !chatItem.subscribed) {
 			setIsLoading(false);
 		} else if (isCurrentAnonymousEnquiry) {
 			setIsLoading(false);
 			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
+		} else if (isConsultantEnquiry) {
+			fetchSessionMessages();
 		} else {
 			window['socket'] = new rocketChatSocket();
 			fetchSessionMessages();

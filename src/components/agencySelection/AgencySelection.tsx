@@ -60,24 +60,27 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	}, [props.preselectedAgency, props.consultingType, props.initialPostcode]);
 
 	useEffect(() => {
-		if (autoSelectAgency) {
-			apiAgencySelection({
-				postcode: DEFAULT_POSTCODE,
-				consultingType: props.consultingType.id
-			})
-				.then((response) => {
+		(async () => {
+			try {
+				if (autoSelectAgency) {
+					const response = await apiAgencySelection({
+						postcode: DEFAULT_POSTCODE,
+						consultingType: props.consultingType.id
+					});
+
 					const defaultAgency = response[0];
 					if (autoSelectPostcode) {
 						setSelectedPostcode(defaultAgency.postcode);
 					}
 					setSelectedAgencyId(defaultAgency.id);
 					setPreselectedAgency(defaultAgency);
-				})
-				.catch((error) => {
-					return null;
-				});
-		}
-	}, [autoSelectAgency]); // eslint-disable-line react-hooks/exhaustive-deps
+				}
+			} catch (err) {
+				return null;
+			}
+		})();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [autoSelectAgency, props.consultingType.id]);
 
 	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
@@ -103,36 +106,38 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				);
 			}
 		}
-	}, [selectedAgencyId, selectedPostcode, preselectedAgency]); // eslint-disable-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selectedAgencyId, selectedPostcode, preselectedAgency]);
 
 	useEffect(() => {
 		if (!autoSelectAgency && !preselectedAgency) {
-			setSelectedAgencyId(undefined);
-			setPostcodeFallbackLink('');
-			if (validPostcode()) {
-				apiAgencySelection({
-					postcode: selectedPostcode,
-					consultingType: props.consultingType.id
-				})
-					.then((response) => {
+			(async () => {
+				try {
+					setSelectedAgencyId(undefined);
+					setPostcodeFallbackLink('');
+					if (validPostcode()) {
+						const response = await apiAgencySelection({
+							postcode: selectedPostcode,
+							consultingType: props.consultingType.id
+						});
 						setProposedAgencies(response);
 						setSelectedAgencyId(response[0].id);
-					})
-					.catch((error) => {
-						if (
-							error.message === FETCH_ERRORS.EMPTY &&
-							props.consultingType.id != null
-						) {
-							setPostcodeFallbackLink(
-								props.consultingType.urls
-									.registrationPostcodeFallbackUrl
-							);
-						}
-						return null;
-					});
-			} else if (proposedAgencies) {
-				setProposedAgencies(null);
-			}
+					} else if (proposedAgencies) {
+						setProposedAgencies(null);
+					}
+				} catch (err: any) {
+					if (
+						err.message === FETCH_ERRORS.EMPTY &&
+						props.consultingType.id !== null
+					) {
+						setPostcodeFallbackLink(
+							props.consultingType.urls
+								.registrationPostcodeFallbackUrl
+						);
+					}
+					return null;
+				}
+			})();
 		} else if (
 			(autoSelectAgency || preselectedAgency) &&
 			!validPostcode()
@@ -144,7 +149,8 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				);
 			}
 		}
-	}, [selectedPostcode]); // eslint-disable-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selectedPostcode, props.consultingType.id]);
 
 	const postcodeInputItem: InputFieldItem = {
 		name: 'postcode',

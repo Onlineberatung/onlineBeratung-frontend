@@ -124,3 +124,16 @@ export const finishAnonymousChatSuccessOverlayItem: OverlayItem = {
 		}
 	]
 };
+
+export const archiveSessionSuccessOverlayItem: OverlayItem = {
+	svg: CheckIllustration,
+	illustrationBackground: 'info',
+	copy: translate('archive.overlay.session.success.copy'),
+	buttonSet: [
+		{
+			label: translate('archive.overlay.session.success.button'),
+			function: OVERLAY_FUNCTIONS.ARCHIVE,
+			type: BUTTON_TYPES.AUTO_CLOSE
+		}
+	]
+};

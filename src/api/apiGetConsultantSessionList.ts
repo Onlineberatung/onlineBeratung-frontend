@@ -1,6 +1,7 @@
 import { config } from '../resources/scripts/config';
 import {
 	SESSION_LIST_TAB,
+	SESSION_LIST_TYPES,
 	typeIsSession,
 	typeIsTeamSession
 } from '../components/session/sessionHelpers';
@@ -13,7 +14,7 @@ export const SESSION_COUNT: number = 15;
 export const TIMEOUT: number = 10000;
 
 export interface ApiGetConsultantSessionListInterface {
-	type: string;
+	type: SESSION_LIST_TYPES;
 	filter?: string;
 	offset?: number;
 	sessionListTab?: string;
@@ -32,9 +33,17 @@ export const apiGetConsultantSessionList = async ({
 	const isTeamSession: boolean = typeIsTeamSession(type);
 	let url: string;
 	if (isTeamSession) {
-		url = config.endpoints.consultantTeamSessions;
+		url = `${
+			sessionListTab === SESSION_LIST_TAB.ARCHIVE
+				? `${config.endpoints.teamSessionsBase}${SESSION_LIST_TAB.ARCHIVE}?`
+				: `${config.endpoints.consultantSessions}`
+		}`;
 	} else if (!isTeamSession && typeIsSession(type)) {
-		url = config.endpoints.consultantSessions;
+		url = `${
+			sessionListTab === SESSION_LIST_TAB.ARCHIVE
+				? `${config.endpoints.myMessagesBase}${SESSION_LIST_TAB.ARCHIVE}?`
+				: `${config.endpoints.consultantSessions}`
+		}`;
 	} else {
 		url = `${config.endpoints.consultantEnquiriesBase}${
 			sessionListTab && sessionListTab === SESSION_LIST_TAB.ANONYMOUS
