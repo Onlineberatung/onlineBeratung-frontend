@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { ComponentType, useContext, useEffect, useState } from 'react';
 import { Routing } from './Routing';
 import { config } from '../../resources/scripts/config';
 import {
@@ -25,12 +25,14 @@ import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
 import { Notifications } from '../notifications/Notifications';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './authenticatedApp.styles';
 import './navigation.styles';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
 	onLogout: Function;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
 export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
@@ -94,7 +96,10 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	if (appReady) {
 		return (
 			<>
-				<Routing logout={handleLogout} />
+				<Routing
+					logout={handleLogout}
+					legalComponent={props.legalComponent}
+				/>
 				{notifications && (
 					<Notifications notifications={notifications} />
 				)}
