@@ -83,6 +83,25 @@ $iconSize: 20px;
 			visibility: visible;
 			transition-duration: 0.25s;
 		}
+
+		.legalInformationLinks--menu {
+			display: block;
+			border-top: 1px solid $line-grey;
+
+			a {
+				background-color: $white;
+				p {
+					color: $tertiary !important;
+				}
+
+				&:hover {
+					background-color: $hover-select;
+					p {
+						color: $primary !important;
+					}
+				}
+			}
+		}
 	}
 
 	&__item {
@@ -93,22 +112,6 @@ $iconSize: 20px;
 		&:hover {
 			color: $primary;
 			background-color: $hover-select;
-		}
-
-		&--fixed {
-			background-color: $white;
-			color: $tertiary !important;
-			font-size: $font-size-tertiary;
-			line-height: 19px;
-
-			&:hover {
-				color: $primary !important;
-				background-color: $hover-select;
-			}
-		}
-
-		&--border {
-			border-top: 1px solid $line-grey;
 		}
 
 		&--mobile {
