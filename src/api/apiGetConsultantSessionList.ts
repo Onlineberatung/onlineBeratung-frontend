@@ -36,7 +36,7 @@ export const apiGetConsultantSessionList = async ({
 		url = `${
 			sessionListTab === SESSION_LIST_TAB.ARCHIVE
 				? `${config.endpoints.teamSessionsBase}${SESSION_LIST_TAB.ARCHIVE}?`
-				: `${config.endpoints.consultantSessions}`
+				: `${config.endpoints.consultantTeamSessions}`
 		}`;
 	} else if (!isTeamSession && typeIsSession(type)) {
 		url = `${
