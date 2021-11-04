@@ -21,7 +21,7 @@ import {
 	AUTHORITIES,
 	isAnonymousSession
 } from '../../globalState';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import { apiGetMonitoring } from '../../api';
 import { ReactComponent as EditIcon } from '../../resources/img/icons/pen.svg';
@@ -40,6 +40,9 @@ export const AskerInfoMonitoring = () => {
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const { userData } = useContext(UserDataContext);
 	const [monitoringData, setMonitoringData] = useState({});
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
 
 	useEffect(() => {
 		apiGetMonitoring(activeSession.session.id)
@@ -61,7 +64,9 @@ export const AskerInfoMonitoring = () => {
 			: 'monitoringU25';
 	const monitoringLink = `${getSessionListPathForLocation()}/${
 		activeSession.session.groupId
-	}/${activeSession.session.id}/userProfile/monitoring`;
+	}/${activeSession.session.id}/userProfile/monitoring${
+		sessionListTab ? `?sessionListTab=${sessionListTab}` : ''
+	}`;
 
 	const renderAddiction = (obj: any, firstLevel: any = false): any => {
 		if (!obj) return null;
