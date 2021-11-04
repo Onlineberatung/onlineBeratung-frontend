@@ -12,7 +12,6 @@ import {
 	SessionsDataProvider,
 	StoppedGroupChatProvider,
 	UnreadSessionsStatusProvider,
-	UpdateAnonymousEnquiriesProvider,
 	UpdateSessionListProvider,
 	UserDataProvider,
 	WebsocketConnectionDeactivatedProvider
@@ -44,7 +43,6 @@ function ContextProvider({ children }) {
 				<SessionsDataProvider />,
 				<StoppedGroupChatProvider />,
 				<UnreadSessionsStatusProvider />,
-				<UpdateAnonymousEnquiriesProvider />,
 				<UpdateSessionListProvider />,
 				<UserDataProvider />,
 				<WebsocketConnectionDeactivatedProvider />

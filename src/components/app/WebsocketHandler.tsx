@@ -15,7 +15,6 @@ import {
 	hasUserAuthority,
 	NotificationsContext,
 	UnreadSessionsStatusContext,
-	UpdateAnonymousEnquiriesContext,
 	UpdateSessionListContext,
 	UserDataContext,
 	WebsocketConnectionDeactivatedContext
@@ -38,9 +37,6 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		useState<boolean>(false);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
-	);
-	const { setUpdateAnonymousEnquiries } = useContext(
-		UpdateAnonymousEnquiriesContext
 	);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const { notifications, setNotifications } =
@@ -109,7 +105,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 
 	useEffect(() => {
 		if (newStompAnonymousEnquiry) {
-			setUpdateAnonymousEnquiries(true);
+			setUpdateSessionList(SESSION_LIST_TYPES.ENQUIRY);
 			setNewStompAnonymousEnquiry(false);
 		}
 	}, [newStompAnonymousEnquiry]); // eslint-disable-line react-hooks/exhaustive-deps
