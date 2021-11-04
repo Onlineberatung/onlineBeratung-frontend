@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { history } from '../app/app';
+import { useLocation } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
@@ -84,6 +85,9 @@ export const SessionView = (props) => {
 	const isEnquiry = chatItem?.status === 1;
 	const isConsultantEnquiry =
 		isEnquiry && hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
 		if (
@@ -327,7 +331,10 @@ export const SessionView = (props) => {
 	if (redirectToSessionsList) {
 		mobileListView();
 		setActiveSessionGroupId(null);
-		history.push(getSessionListPathForLocation());
+		history.push(
+			getSessionListPathForLocation() +
+				(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+		);
 	}
 
 	return (
