@@ -44,7 +44,11 @@ const userU25 = {
 	'userU25.gender.headline': 'Geschlecht',
 	'userU25.gender.0': 'Weiblich',
 	'userU25.gender.1': 'Männlich',
-	'userU25.gender.2': 'Divers'
+	'userU25.gender.2': 'Divers',
+	'userU25.relation.headline': 'Hintergrund',
+	'userU25.relation.0': 'Betroffen',
+	'userU25.relation.1': 'Angehörig',
+	'userU25.relation.2': 'Anderes'
 };
 
 export default userU25;
