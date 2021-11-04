@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { history } from '../app/app';
 import {
 	translate,
 	handleNumericTranslation,
