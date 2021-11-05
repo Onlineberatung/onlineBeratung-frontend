@@ -48,6 +48,8 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const sessionListTab = new URLSearchParams(useLocation().search).get(
 		'sessionListTab'
 	);
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext<any>(
 		ActiveSessionGroupIdContext
@@ -106,7 +108,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 			history.push(
 				`${getSessionListPathForLocation()}/${listItem.groupId}/${
 					listItem.id
-				}${sessionListTab ? `?sessionListTab=${sessionListTab}` : ``}`
+				}${getSessionListTab()}`
 			);
 		} else if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -227,7 +229,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 
 	const feedbackPath = `${getSessionListPathForLocation()}/${
 		listItem.feedbackGroupId
-	}/${listItem.id}`;
+	}/${listItem.id}${getSessionListTab()}`;
 	return (
 		<div
 			onClick={handleOnClick}

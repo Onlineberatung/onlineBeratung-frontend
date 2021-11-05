@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import {
 	typeIsSession,
 	typeIsTeamSession,
@@ -13,13 +13,16 @@ import {
 	hasUserAuthority
 } from '../../globalState';
 import { SessionsList } from './SessionsList';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
 
 export const SessionsListWrapper = () => {
 	const type = getTypeOfLocation();
 	const { userData } = useContext(UserDataContext);
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
 
 	if (
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
@@ -76,7 +79,11 @@ export const SessionsListWrapper = () => {
 					<Link
 						className="sessionsList__createChatLink"
 						to={{
-							pathname: `/sessions/consultant/sessionView/createGroupChat`
+							pathname: `/sessions/consultant/sessionView/createGroupChat${
+								sessionListTab
+									? `?sessionListTab=${sessionListTab}`
+									: ''
+							}`
 						}}
 					>
 						<span

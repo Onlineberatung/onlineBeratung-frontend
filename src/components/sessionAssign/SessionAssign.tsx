@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -53,6 +54,11 @@ export const SessionAssign = (props: { value?: string }) => {
 	);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState({});
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	useEffect(() => {
 		const agencyId = activeSession.session.agencyId.toString();
@@ -151,9 +157,10 @@ export const SessionAssign = (props: { value?: string }) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setActiveSessionGroupId(null);
 			setAcceptedGroupId(ACCEPTED_GROUP_CLOSE);
-			history.push(getSessionListPathForLocation());
+			history.push(getSessionListPathForLocation() + getSessionListTab());
 		} else {
 			setAcceptedGroupId(activeSession.session.groupId);
+			history.push(`consultant/sessionView${getSessionListTab()}`);
 		}
 	};
 

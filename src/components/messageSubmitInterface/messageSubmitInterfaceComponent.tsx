@@ -195,7 +195,7 @@ export const MessageSubmitInterfaceComponent = (
 		activeSession.consultant &&
 		activeSession.consultant.absent;
 
-	const isSessionArchived = activeSession?.session.status === 4;
+	const isSessionArchived = activeSession?.session?.status === 4;
 
 	useEffect(() => {
 		if (

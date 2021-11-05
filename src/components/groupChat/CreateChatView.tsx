@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useEffect, useContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
@@ -77,6 +78,11 @@ export const CreateGroupChatView = (props) => {
 	const prevPathIsGroupChatInfo =
 		props.location.state && props.location.state.prevIsInfoPage;
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	useEffect(() => {
 		mobileDetailView();
@@ -134,10 +140,10 @@ export const CreateGroupChatView = (props) => {
 			const redirectPath = prevPathIsGroupChatInfo
 				? `${getSessionListPathForLocation()}/${chatItem.groupId}/${
 						chatItem.id
-				  }/groupChatInfo`
+				  }/groupChatInfo${getSessionListTab()}`
 				: `${getSessionListPathForLocation()}/${chatItem.groupId}/${
 						chatItem.id
-				  }`;
+				  }${getSessionListTab()}`;
 			history.push(redirectPath);
 		} else {
 			setActiveSessionGroupId(null);
@@ -299,10 +305,10 @@ export const CreateGroupChatView = (props) => {
 					const redirectPath = prevPathIsGroupChatInfo
 						? `${getSessionListPathForLocation()}/${
 								chatItem.groupId
-						  }/${chatItem.id}/groupChatInfo`
+						  }/${chatItem.id}/groupChatInfo${getSessionListTab()}`
 						: `${getSessionListPathForLocation()}/${
 								chatItem.groupId
-						  }/${chatItem.id}`;
+						  }/${chatItem.id}${getSessionListTab()}`;
 					let changedSessionsData = getSessionsDataWithChangedValue(
 						sessionsData,
 						activeSession,
@@ -338,7 +344,10 @@ export const CreateGroupChatView = (props) => {
 				} else {
 					setAcceptedGroupId(groupIdToRedirect);
 					history.push({
-						pathname: `${getSessionListPathForLocation()}`
+						pathname: `${
+							getSessionListPathForLocation() +
+							getSessionListTab()
+						}`
 					});
 				}
 			} else {

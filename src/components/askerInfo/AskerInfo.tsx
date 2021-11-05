@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { AskerInfoMonitoring } from './AskerInfoMonitoring';
 import {
@@ -12,7 +12,7 @@ import {
 	ActiveSessionGroupIdContext,
 	getActiveSession
 } from '../../globalState';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { AskerInfoData } from './AskerInfoData';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
@@ -23,6 +23,9 @@ export const AskerInfo = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
 
 	if (!activeSession) {
 		return <Loading></Loading>;
@@ -35,7 +38,11 @@ export const AskerInfo = () => {
 					<Link
 						to={`${getSessionListPathForLocation()}/${
 							activeSession.session.groupId
-						}/${activeSession.session.id}`}
+						}/${activeSession.session.id}${
+							sessionListTab
+								? `?sessionListTab=${sessionListTab}`
+								: ''
+						}`}
 						className="profile__header__backButton"
 					>
 						<BackIcon />
