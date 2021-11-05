@@ -282,7 +282,7 @@ export const SessionsList: React.FC = () => {
 		}
 		getConsultantSessions({
 			context: sessionsContext,
-			type: SESSION_LIST_TYPES.MY_SESSION,
+			type: type,
 			offset: updatedOffset,
 			useFilter: getFilterToUse(),
 			sessionListTab: sessionListTab
@@ -311,7 +311,9 @@ export const SessionsList: React.FC = () => {
 	const setAssignedSessionActive = (assignedSession) => {
 		const chatItem = getChatItemForSession(assignedSession);
 		history.push(
-			`/sessions/consultant/sessionView/${chatItem.groupId}/${chatItem.id}`
+			`${getSessionListPathForLocation()}/${chatItem.groupId}/${
+				chatItem.id
+			}${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`
 		);
 		const activeItem = document.querySelector('.sessionsListItem--active');
 		if (activeItem) {

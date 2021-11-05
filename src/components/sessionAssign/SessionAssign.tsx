@@ -57,6 +57,8 @@ export const SessionAssign = (props: { value?: string }) => {
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	useEffect(() => {
 		const agencyId = activeSession.session.agencyId.toString();
@@ -155,12 +157,10 @@ export const SessionAssign = (props: { value?: string }) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setActiveSessionGroupId(null);
 			setAcceptedGroupId(ACCEPTED_GROUP_CLOSE);
-			history.push(
-				getSessionListPathForLocation() +
-					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
-			);
+			history.push(getSessionListPathForLocation() + getSessionListTab());
 		} else {
 			setAcceptedGroupId(activeSession.session.groupId);
+			history.push(`consultant/sessionView${getSessionListTab()}`);
 		}
 	};
 
