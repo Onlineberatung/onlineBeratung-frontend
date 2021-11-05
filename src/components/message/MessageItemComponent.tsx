@@ -134,7 +134,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 
 	const isUserMessage = () =>
 		props.userId === props.askerRcId ||
-		(chatItem.moderators && !chatItem.moderators.includes(props.userId));
+		(chatItem?.moderators && !chatItem?.moderators?.includes(props.userId));
 	const showForwardMessage = () =>
 		hasRenderedMessage &&
 		activeSession.type !== SESSION_LIST_TYPES.ENQUIRY &&

@@ -28,7 +28,6 @@ import {
 	StoppedGroupChatContext,
 	UserDataInterface,
 	getUnreadMyMessages,
-	UpdateAnonymousEnquiriesContext,
 	UpdateSessionListContext
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
@@ -92,8 +91,6 @@ export const SessionsList: React.FC = () => {
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
-	const { updateAnonymousEnquiries, setUpdateAnonymousEnquiries } =
-		useContext(UpdateAnonymousEnquiriesContext);
 	const { updateSessionList, setUpdateSessionList } = useContext(
 		UpdateSessionListContext
 	);
@@ -216,18 +213,6 @@ export const SessionsList: React.FC = () => {
 	}, [sessionsData, updateSessionList]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-			!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) &&
-			updateAnonymousEnquiries &&
-			sessionListTab === SESSION_LIST_TAB.ANONYMOUS
-		) {
-			getSessionsListData().catch(() => {});
-		}
-		setUpdateAnonymousEnquiries(false);
-	}, [updateAnonymousEnquiries]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
 		const refreshSessionList = async (
 			sessionListType: SESSION_LIST_TYPES
 		) => {
@@ -244,14 +229,19 @@ export const SessionsList: React.FC = () => {
 							sessionListTab: sessionListTab
 					  }
 					: null;
+				const currentCount =
+					sessionsData?.[
+						getSessionsDataKeyForSessionType(sessionListType)
+					]?.length;
 				const { sessions, total } = await apiGetConsultantSessionList({
 					type: sessionListType,
 					filter: getFilterToUse(),
 					offset: 0,
 					...currentTab,
-					count: sessionsData?.[
-						getSessionsDataKeyForSessionType(sessionListType)
-					]?.length
+					count:
+						currentCount > 0
+							? currentCount + SESSION_COUNT
+							: SESSION_COUNT
 				});
 
 				setSessionsData((sessionsData) => {
@@ -292,7 +282,7 @@ export const SessionsList: React.FC = () => {
 		}
 		getConsultantSessions({
 			context: sessionsContext,
-			type: SESSION_LIST_TYPES.MY_SESSION,
+			type: type,
 			offset: updatedOffset,
 			useFilter: getFilterToUse(),
 			sessionListTab: sessionListTab
@@ -321,7 +311,9 @@ export const SessionsList: React.FC = () => {
 	const setAssignedSessionActive = (assignedSession) => {
 		const chatItem = getChatItemForSession(assignedSession);
 		history.push(
-			`/sessions/consultant/sessionView/${chatItem.groupId}/${chatItem.id}`
+			`${getSessionListPathForLocation()}/${chatItem.groupId}/${
+				chatItem.id
+			}${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`
 		);
 		const activeItem = document.querySelector('.sessionsListItem--active');
 		if (activeItem) {

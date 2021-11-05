@@ -85,10 +85,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const location = useLocation();
 	const [sessionListTab] = useState(
-		new URLSearchParams(location.search).get('sessionListTab')
+		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
 	useEffect(() => {
@@ -271,24 +272,28 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const feedbackPath = `${getSessionListPathForLocation()}/${
 		chatItem?.feedbackGroupId
-	}/${chatItem?.id}`;
+	}/${chatItem?.id}${getSessionListTab()}`;
 	const monitoringPath = `${getSessionListPathForLocation()}/${
 		chatItem?.groupId
-	}/${chatItem?.id}/userProfile/monitoring`;
+	}/${chatItem?.id}/userProfile/monitoring${getSessionListTab()}`;
 	const userProfileLink = `${getSessionListPathForLocation()}/${
 		chatItem?.groupId
-	}/${chatItem?.id}/userProfile`;
+	}/${chatItem?.id}/userProfile${getSessionListTab()}`;
 	const groupChatInfoLink = `${getSessionListPathForLocation()}/${
 		chatItem?.groupId
-	}/${chatItem?.id}/groupChatInfo`;
+	}/${chatItem?.id}/groupChatInfo${getSessionListTab()}`;
 	const editGroupChatSettingsLink = `${getSessionListPathForLocation()}/${
 		chatItem?.groupId
-	}/${chatItem?.id}/editGroupChat`;
+	}/${chatItem?.id}/editGroupChat${getSessionListTab()}`;
 
 	if (redirectToSessionsList) {
 		mobileListView();
 		setActiveSessionGroupId(null);
-		return <Redirect to={getSessionListPathForLocation()} />;
+		return (
+			<Redirect
+				to={getSessionListPathForLocation() + getSessionListTab()}
+			/>
+		);
 	}
 
 	const buttonStartCall: ButtonItem = {
