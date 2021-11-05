@@ -97,8 +97,7 @@ export const Monitoring = () => {
 	const handleSubmit = () => {
 		apiUpdateMonitoring(activeSession.session.id, monitoringData)
 			.then((response) => {
-				const backLink: any = backLinkRef.current;
-				backLink.click();
+				backLinkRef.current.click();
 			})
 			.catch((error) => {
 				console.log(error);
