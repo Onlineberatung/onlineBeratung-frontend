@@ -38,7 +38,7 @@ export const AskerInfoData = () => {
 		: null;
 
 	return (
-		<div className="profile__content__item">
+		<>
 			<Text text={translate('userProfile.data.title')} type="divider" />
 			<div className="profile__data__item">
 				<p className="profile__data__label">
@@ -84,6 +84,6 @@ export const AskerInfoData = () => {
 					</p>
 				</div>
 			))}
-		</div>
+		</>
 	);
 };
