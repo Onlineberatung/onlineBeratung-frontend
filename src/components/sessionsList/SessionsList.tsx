@@ -39,8 +39,7 @@ import {
 	SESSION_COUNT,
 	apiGetAskerSessionList,
 	apiGetUserData,
-	FETCH_ERRORS,
-	apiGetConsultantSessionList
+	FETCH_ERRORS
 } from '../../api';
 import { getConsultantSessions } from './SessionsListData';
 import { Button } from '../button/Button';
@@ -224,34 +223,7 @@ export const SessionsList: React.FC = () => {
 			} else if (
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 			) {
-				const currentTab = sessionListTab
-					? {
-							sessionListTab: sessionListTab
-					  }
-					: null;
-				const currentCount =
-					sessionsData?.[
-						getSessionsDataKeyForSessionType(sessionListType)
-					]?.length;
-				const { sessions, total } = await apiGetConsultantSessionList({
-					type: sessionListType,
-					filter: getFilterToUse(),
-					offset: 0,
-					...currentTab,
-					count:
-						currentCount > 0
-							? currentCount + SESSION_COUNT
-							: SESSION_COUNT
-				});
-
-				setSessionsData((sessionsData) => {
-					return {
-						...sessionsData,
-						[getSessionsDataKeyForSessionType(sessionListType)]:
-							sessions
-					};
-				});
-				setTotalItems(total);
+				getSessionsListData();
 			}
 		};
 
