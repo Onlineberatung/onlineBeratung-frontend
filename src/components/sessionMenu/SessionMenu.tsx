@@ -316,11 +316,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		label: translate('chatFlyout.feedback')
 	};
 
-	const hasVideoCallFeatures = () => false;
-	// TODO: reimplement on videocall release
-	// !isGroupChat &&
-	// !typeIsEnquiry(getTypeOfLocation()) &&
-	// hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+	const hasVideoCallFeatures = () =>
+		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+		!isGroupChat &&
+		!isLiveChat &&
+		!typeIsEnquiry(getTypeOfLocation()) &&
+		consultingType.isVideoCallAllowed;
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
 		const videoCallWindow = window.open('', '_blank');

@@ -34,6 +34,7 @@ export interface ConsultingTypeBasicInterface {
 	};
 	isSetEmailAllowed: boolean;
 	isAnonymousConversationAllowed: boolean;
+	isVideoCallAllowed: boolean;
 	isSubsequentRegistrationAllowed: boolean;
 	urls: {
 		registrationPostcodeFallbackUrl: string;
