@@ -12,7 +12,6 @@ import {
 	hasUserAuthority,
 	isAnonymousSession,
 	AUTHORITIES,
-	useConsultingType,
 	UpdateSessionListContext,
 	AcceptedGroupIdContext
 } from '../../globalState';
@@ -65,6 +64,7 @@ import { history } from '../app/app';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
+	isAskerInfoAvailable: boolean;
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
@@ -77,7 +77,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const chatItem = getChatItemForSession(activeSession);
-	const consultingType = useConsultingType(chatItem.consultingType);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const isLiveChatFinished = chatItem?.status === 3;
@@ -483,10 +482,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						{translate('chatFlyout.feedback')}
 					</Link>
 				) : null}
-				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				!isGroupChat &&
-				consultingType.showAskerProfile &&
-				!isLiveChat ? (
+				{props.isAskerInfoAvailable ? (
 					<Link className="sessionMenu__item" to={userProfileLink}>
 						{translate('chatFlyout.askerProfil')}
 					</Link>
