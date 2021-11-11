@@ -87,16 +87,9 @@
 			</script>
 		</p>
 
-		<% if(type === 'error') { %>
-		<main
-			data-errortype="<%= errorType %>"
-			class="app"
-			id="errorRoot"
-		></main>
-		<% } else { %>
-		<main class="app" id="<%= type %>Root"></main>
-		<% } %>
-
+		
+		<main class="app" id="appRoot"></main>
+		
 		<div id="overlay"></div>
 	</body>
 </html>
