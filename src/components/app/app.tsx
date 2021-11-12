@@ -80,7 +80,7 @@ export const App = ({
 						</Route>
 					)}
 					{!hasUnmatchedLoginConsultingType && (
-						<Route path="/:consultingTypeSlug">
+						<Route path={['/:consultingTypeSlug', '/login']}>
 							<LoginLoader
 								handleUnmatch={() =>
 									setHasUnmatchedLoginConsultingType(true)
