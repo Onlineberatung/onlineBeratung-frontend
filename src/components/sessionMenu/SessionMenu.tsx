@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { ComponentType, useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
 import { Link, Redirect } from 'react-router-dom';
@@ -54,9 +54,11 @@ import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
@@ -481,22 +483,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					</Link>
 				) : null}
 
-				<a
-					className="sessionMenu__item sessionMenu__item--fixed sessionMenu__item--border"
-					target="_blank"
-					rel="noreferrer"
-					href={config.urls.imprint}
-				>
-					{translate('chatFlyout.imprint')}
-				</a>
-				<a
-					className="sessionMenu__item sessionMenu__item--fixed"
-					target="_blank"
-					rel="noreferrer"
-					href={config.urls.privacy}
-				>
-					{translate('chatFlyout.dataProtection')}
-				</a>
+				<props.legalComponent
+					className="legalInformationLinks--menu"
+					showDivider={false}
+					textStyle={'infoLargeStandard'}
+				/>
 			</div>
 			{overlayActive ? (
 				<OverlayWrapper>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useMemo } from 'react';
+import { ComponentType, useContext, useEffect, useMemo } from 'react';
 import { Route } from 'react-router-dom';
 import {
 	RouterConfigUser,
@@ -21,9 +21,11 @@ import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import { NavigationBar } from './NavigationBar';
 import { Header } from '../header/Header';
 import { FinishedAnonymousConversationHandler } from './FinishedAnonymousConversationHandler';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 interface routingProps {
 	logout?: Function;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
 export const Routing = (props: routingProps) => {
@@ -106,8 +108,9 @@ export const Routing = (props: routingProps) => {
 										exact
 										key={index}
 										path={route.path}
-										component={(props) => (
+										component={(componentProps) => (
 											<route.component
+												{...componentProps}
 												{...props}
 												type={route.type || null}
 											/>
@@ -115,7 +118,7 @@ export const Routing = (props: routingProps) => {
 									/>
 								)
 							),
-						[routerConfig.detailRoutes]
+						[routerConfig.detailRoutes, props]
 					)}
 
 					{((hasUserProfileRoutes) => {
@@ -157,7 +160,7 @@ export const Routing = (props: routingProps) => {
 										exact
 										key={index}
 										path={route.path}
-										component={(props) => (
+										component={() => (
 											<route.component
 												{...props}
 												type={route.type || null}
@@ -166,7 +169,7 @@ export const Routing = (props: routingProps) => {
 									/>
 								)
 							),
-						[routerConfig.profileRoutes]
+						[routerConfig.profileRoutes, props]
 					)}
 				</div>
 			</section>

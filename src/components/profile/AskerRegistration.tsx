@@ -36,7 +36,7 @@ import './profile.styles';
 import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
-import AskerRegistrationExternalAgencyOverlay from './AskerRegistrationExternalAgencyOverlay';
+import { AskerRegistrationExternalAgencyOverlay } from './AskerRegistrationExternalAgencyOverlay';
 
 export const AskerRegistration = () => {
 	const { userData, setUserData } = useContext(UserDataContext);

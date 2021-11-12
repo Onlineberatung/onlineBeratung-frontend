@@ -11,15 +11,21 @@ import '../../resources/styles/styles';
 import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 export const history = createBrowserHistory();
 
 interface AppProps {
 	stageComponent: ComponentType<StageProps>;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 	extraRoutes?: ReactNode;
 }
 
-export const App = ({ stageComponent, extraRoutes }: AppProps) => {
+export const App = ({
+	stageComponent,
+	extraRoutes,
+	legalComponent
+}: AppProps) => {
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
@@ -57,6 +63,7 @@ export const App = ({ stageComponent, extraRoutes }: AppProps) => {
 									)
 								}
 								stageComponent={stageComponent}
+								legalComponent={legalComponent}
 							/>
 						</Route>
 					)}
@@ -79,12 +86,14 @@ export const App = ({ stageComponent, extraRoutes }: AppProps) => {
 									setHasUnmatchedLoginConsultingType(true)
 								}
 								stageComponent={stageComponent}
+								legalComponent={legalComponent}
 							/>
 						</Route>
 					)}
 					<AuthenticatedApp
 						onAppReady={() => setStartWebsocket(true)}
 						onLogout={() => setDisconnectWebsocket(true)}
+						legalComponent={legalComponent}
 					/>
 				</Switch>
 			</ContextProvider>

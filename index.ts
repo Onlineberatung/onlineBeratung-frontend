@@ -20,6 +20,7 @@ export * from './src/components/overlay/Overlay';
 export * from './src/components/serviceExplanation/ServiceExplanation';
 export * from './src/components/inputField/InputField';
 export * from './src/components/agencySelection/agencySelectionHelpers';
+export * from './src/components/profile/AskerRegistrationExternalAgencyOverlay';
 
 // Images
 export * from './src/resources/img/icons';

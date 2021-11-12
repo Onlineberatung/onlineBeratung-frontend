@@ -12,14 +12,17 @@ import { apiGetConsultingType } from '../../api';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 interface RegistrationProps {
 	handleUnmatch: Function;
 	stageComponent: ComponentType<StageProps>;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
 export const Registration = ({
 	handleUnmatch,
+	legalComponent,
 	stageComponent: Stage
 }: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
@@ -83,6 +86,7 @@ export const Registration = ({
 
 	return (
 		<StageLayout
+			legalComponent={legalComponent}
 			showLegalLinks={!showWelcomeScreen}
 			showLoginLink={!showWelcomeScreen}
 			stage={<Stage hasAnimation isReady={consultingType != null} />}

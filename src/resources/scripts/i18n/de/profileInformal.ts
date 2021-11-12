@@ -24,7 +24,11 @@ const profileInformal = {
 		'Deine gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung',
 	'externalRegistration.copy.start': 'Möchtest Du für „',
 	'externalRegistration.copy.end':
-		'“ zu der anderen Anwendung wechseln und dich dort registrieren? Deine bisherigen Beratungs- und Hilfethemen findest Du weiterhin hier.'
+		'“ zu der anderen Anwendung wechseln und dich dort registrieren? Deine bisherigen Beratungs- und Hilfethemen findest Du weiterhin hier.',
+	'statistics.period.prefix': 'Deine Zahlen des',
+	'statistics.period.display.suffix': ' hast Du:',
+	'statistics.complete.title':
+		'Deine Statistik über Deinen gesamten Beratungszeitraum kannst Du hier herunterladen:'
 };
 
 export default profileInformal;

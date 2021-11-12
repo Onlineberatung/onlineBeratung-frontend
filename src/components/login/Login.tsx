@@ -17,6 +17,7 @@ import { OTP_LENGTH } from '../profile/TwoFactorAuth';
 import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
+import { LegalInformationLinksProps } from './LegalInformationLinks';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -24,10 +25,14 @@ const loginButton: ButtonItem = {
 };
 
 interface LoginProps {
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 	stageComponent: ComponentType<StageProps>;
 }
 
-export const Login = ({ stageComponent: Stage }: LoginProps) => {
+export const Login = ({
+	legalComponent,
+	stageComponent: Stage
+}: LoginProps) => {
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(
@@ -152,7 +157,11 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	};
 
 	return (
-		<StageLayout stage={<Stage hasAnimation />} showLegalLinks>
+		<StageLayout
+			legalComponent={legalComponent}
+			stage={<Stage hasAnimation />}
+			showLegalLinks
+		>
 			<div className="loginForm">
 				<div className="loginForm__headline">
 					<h1>{translate('login.headline')}</h1>
