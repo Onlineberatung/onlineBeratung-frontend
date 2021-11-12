@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
+import { ComponentType, useContext, useEffect } from 'react';
 import { translate } from '../../utils/translate';
 import { logout } from '../logout/logout';
-import { config } from '../../resources/scripts/config';
 import {
 	UserDataContext,
 	hasUserAuthority,
@@ -24,9 +23,14 @@ import { PasswordReset } from '../passwordReset/PasswordReset';
 import { Text } from '../text/Text';
 import { TwoFactorAuth } from './TwoFactorAuth';
 import { ConsultantStatistics } from './ConsultantStatistics';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './profile.styles';
 
-export const Profile = () => {
+interface ProfileProps {
+	legalComponent: ComponentType<LegalInformationLinksProps>;
+}
+
+export const Profile = (props: ProfileProps) => {
 	const { userData } = useContext(UserDataContext);
 	const consultingTypes = useConsultingTypes();
 
@@ -139,22 +143,7 @@ export const Profile = () => {
 					)}
 				</div>
 				<div className="profile__footer">
-					<a
-						href={config.urls.imprint}
-						target="_blank"
-						rel="noreferrer"
-						className="profile__footer__item"
-					>
-						{translate('profile.footer.imprint')}
-					</a>
-					<a
-						href={config.urls.privacy}
-						target="_blank"
-						rel="noreferrer"
-						className="profile__footer__item"
-					>
-						{translate('profile.footer.dataprotection')}
-					</a>
+					<props.legalComponent textStyle={'standard'} />
 				</div>
 			</div>
 		</div>

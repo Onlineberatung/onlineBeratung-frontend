@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { ComponentType, useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { history } from '../app/app';
 import {
@@ -38,10 +38,12 @@ import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: boolean;
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
@@ -151,6 +153,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						hasUserInitiatedStopOrLeaveRequest={
 							props.hasUserInitiatedStopOrLeaveRequest
 						}
+						legalComponent={props.legalComponent}
 					/>
 				</div>
 				<div className="sessionInfo__metaInfo">
@@ -261,6 +264,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					hasUserInitiatedStopOrLeaveRequest={
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
+					legalComponent={props.legalComponent}
 				/>
 			</div>
 			{!activeSession?.teamSession ||

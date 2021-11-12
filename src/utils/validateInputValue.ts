@@ -3,7 +3,9 @@ const hasNumber = (value: string) => {
 };
 
 const hasMixedLetters = (value: string) => {
-	return new RegExp(/[a-z]/).test(value) && new RegExp(/[A-Z]/).test(value);
+	return (
+		new RegExp(/[a-zäöü]/).test(value) && new RegExp(/[A-ZÄÖÜ]/).test(value)
+	);
 };
 
 const hasSpecialChar = (value: string) => {
