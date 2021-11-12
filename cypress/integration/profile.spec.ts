@@ -16,7 +16,7 @@ describe('profile', () => {
 		);
 	});
 
-	it('can register for a new consulting type with an external agency', () => {
+	it.skip('can register for a new consulting type with an external agency', () => {
 		cy.intercept(
 			config.endpoints.agencyServiceBase +
 				'?postcode=00000&consultingType=0',
