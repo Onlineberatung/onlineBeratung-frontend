@@ -1,6 +1,0 @@
-{
-	"appId": "com.CaritasOnlineBeratung.app",
-	"appName": "Caritas Online-Beratung",
-	"webDir": "./src/pages",
-	"bundledWebRuntime": false
-}
