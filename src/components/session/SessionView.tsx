@@ -34,7 +34,9 @@ import {
 	getSessionListPathForLocation,
 	getChatItemForSession,
 	isGroupChatForSessionItem,
-	prepareMessages
+	prepareMessages,
+	getTypeOfLocation,
+	typeIsEnquiry
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -94,6 +96,9 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
 	const isLiveChatFinished = chatItem?.status === 3;
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
+	const isEnquiry = typeIsEnquiry(getTypeOfLocation());
+	const isConsultantEnquiry =
+		isEnquiry && hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
 		if (
@@ -138,7 +143,7 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 				setLoadedMessages(messagesData);
 				setIsLoading(false);
 
-				if (!isSocketConnected && !isAnonymousEnquiry) {
+				if (!isSocketConnected && !isConsultantEnquiry) {
 					setSessionToRead();
 					window['socket'].connect();
 					window['socket'].addSubscription(
@@ -181,13 +186,14 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 		setAcceptedGroupId(null);
 		typingTimeout = null;
 		const isCurrentAnonymousEnquiry =
-			chatItem?.status === 1 &&
-			chatItem?.registrationType === 'ANONYMOUS';
+			isEnquiry && chatItem?.registrationType === 'ANONYMOUS';
 		if (isGroupChat && !chatItem.subscribed) {
 			setIsLoading(false);
 		} else if (isCurrentAnonymousEnquiry) {
 			setIsLoading(false);
 			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
+		} else if (isConsultantEnquiry) {
+			fetchSessionMessages();
 		} else {
 			window['socket'] = new rocketChatSocket();
 			fetchSessionMessages();

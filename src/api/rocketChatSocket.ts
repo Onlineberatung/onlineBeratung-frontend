@@ -165,6 +165,9 @@ export class rocketChatSocket {
 			if (changeResponseOnSubscribedEvent) {
 				const newMessage =
 					response.collection === SOCKET_COLLECTION.ROOM_MESSAGES;
+				const isTechnicalMessage =
+					response.fields.args[0].u?.username ===
+					'rocket-chat-technical-user';
 				const roomClosed =
 					response.collection === SOCKET_COLLECTION.NOTIFY_USER &&
 					response.fields.args &&
@@ -172,7 +175,7 @@ export class rocketChatSocket {
 					response.fields.args[1].u._id === this.rcUid;
 				const userTyping =
 					response.collection === SOCKET_COLLECTION.NOTIFY_ROOM;
-				if (newMessage && callbackRoom) {
+				if (newMessage && callbackRoom && !isTechnicalMessage) {
 					callbackRoom();
 				} else if (roomClosed && callbackUser) {
 					callbackUser();
