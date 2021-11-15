@@ -1,9 +1,9 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.CaritasOnlineBeratung.app',
+  appId: 'de.caritas.onlineberatung.app',
   appName: 'Caritas Online-Beratung',
-  webDir: './src/pages',
+  webDir: './build',
   bundledWebRuntime: false
 };
 
