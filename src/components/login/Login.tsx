@@ -13,6 +13,7 @@ import { StageProps } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
 import '../../resources/styles/styles';
 import './login.styles';
+import { Capacitor, Plugins } from '@capacitor/core';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
