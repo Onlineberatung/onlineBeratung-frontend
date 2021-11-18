@@ -8,7 +8,6 @@ import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import '../../resources/styles/styles';
 import './error.styles';
-import { Capacitor, Plugins } from '@capacitor/core';
 
 const getStatusCode = () => {
 	const errorRoot = document.getElementById('errorRoot');

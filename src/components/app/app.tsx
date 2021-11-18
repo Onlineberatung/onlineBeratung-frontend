@@ -11,7 +11,6 @@ import '../../resources/styles/styles';
 import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
-import { Capacitor, Plugins } from '@capacitor/core';
 
 export const history = createBrowserHistory();
 
@@ -21,7 +20,6 @@ interface AppProps {
 }
 
 export const App = ({ stageComponent, extraRoutes }: AppProps) => {
-	console.log('Plugins', Capacitor.Plugins);
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
