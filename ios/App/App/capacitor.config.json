@@ -1,18 +1,18 @@
 {
-    "appId": "de.caritas.onlineberatung.app",
-    "appName": "Caritas Online-Beratung",
-    "bundledWebRuntime": false,
-    "npmClient": "npm",
-    "webDir": "build",
-    "plugins": {
-      "SplashScreen": {
-        "launchShowDuration": 0,
-        "androidScaleType": "CENTER_CROP"
-      }
-    },
-    "server": {
-      "url": "https://caritas-dev.virtual-identity.com/",
-      "cleartext": true
-    },
-    "cordova": {}
-  }
+	"appId": "de.caritas.onlineberatung.app",
+	"appName": "Caritas Online-Beratung",
+	"bundledWebRuntime": false,
+	"npmClient": "npm",
+	"webDir": "build",
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 0,
+			"androidScaleType": "CENTER_CROP"
+		}
+	},
+	"server": {
+		"url": "https://caritas-dev.virtual-identity.com/",
+		"cleartext": true
+	},
+	"cordova": {}
+}
