@@ -422,7 +422,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							getTypeOfLocation()
 						)}/${chatItem.groupId}/${
 							chatItem.id
-						}/userProfile/monitoring${getSessionListTab()}}`}
+						}/userProfile/monitoring${getSessionListTab()}`}
 					>
 						<div className="monitoringButton">
 							<Button item={monitoringButtonItem} isLink={true} />
