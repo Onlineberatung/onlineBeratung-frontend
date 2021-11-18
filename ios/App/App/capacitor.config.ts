@@ -1,10 +1,17 @@
 {
 	"appId": "de.caritas.onlineberatung.app",
 	"appName": "Caritas Online-Beratung",
-	"webDir": "./build",
 	"bundledWebRuntime": false,
+	"webDir": "./build",
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 0,
+			"androidScaleType": "CENTER_CROP"
+		}
+	},
 	"server": {
-		"url": "https://diakonie-dev.virtual-identity.com/",
+		"url": "https://caritas-dev.virtual-identity.com/",
 		"cleartext": true
-	}
+	},
+	"cordova": {}
 }
