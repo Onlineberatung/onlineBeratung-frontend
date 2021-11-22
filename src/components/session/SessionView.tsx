@@ -15,7 +15,8 @@ import {
 	UpdateSessionListContext,
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	isAnonymousSession
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
@@ -61,6 +62,8 @@ export const SessionView = (props) => {
 	);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
+	const isTypingActive = isGroupChat || isLiveChat;
 	const groupId = activeSession?.isFeedbackSession
 		? chatItem?.feedbackGroupId
 		: chatItem?.groupId;
@@ -132,15 +135,15 @@ export const SessionView = (props) => {
 				setLoadedMessages(messagesData);
 				setIsLoading(false);
 
-				if (!isSocketConnected && !isConsultantEnquiry) {
+				if (!isSocketConnected && !isConsultantEnquiry && groupId) {
 					setSessionToRead();
 					window['socket'].connect();
 					window['socket'].addSubscription(
 						SOCKET_COLLECTION.ROOM_MESSAGES,
-						[groupId, false],
+						[rcGroupId, false],
 						handleRoomMessage
 					);
-					if (isGroupChat) {
+					if (isTypingActive) {
 						window['socket'].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_USER,
 							[
@@ -153,7 +156,7 @@ export const SessionView = (props) => {
 						window['socket'].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_ROOM,
 							[
-								`${groupId}/typing`,
+								`${rcGroupId}/typing`,
 								{ useCollection: false, args: [] }
 							],
 							(data) => handleTypingResponse(data)
@@ -284,7 +287,7 @@ export const SessionView = (props) => {
 	};
 
 	const handleTyping = () => {
-		if (isGroupChat && window['socket']) {
+		if (isTypingActive && window['socket']) {
 			if (!typingStatusSent) {
 				window['socket'].sendTypingState(
 					SOCKET_COLLECTION.NOTIFY_ROOM,
