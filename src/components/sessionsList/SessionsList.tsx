@@ -28,7 +28,8 @@ import {
 	StoppedGroupChatContext,
 	UserDataInterface,
 	getUnreadMyMessages,
-	UpdateSessionListContext
+	UpdateSessionListContext,
+	isAnonymousSession
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
@@ -407,11 +408,21 @@ export const SessionsList: React.FC = () => {
 				setSessionsData({
 					mySessions: response.sessions
 				});
+				const firstSession = response.sessions[0].session;
 				if (
 					response.sessions.length === 1 &&
-					response.sessions[0].session?.status === 0
+					firstSession?.status === 0
 				) {
 					history.push(`/sessions/user/view/write`);
+				} else if (
+					response.sessions.length === 1 &&
+					isAnonymousSession(firstSession) &&
+					hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+				) {
+					setIsLoading(false);
+					history.push(
+						`/sessions/user/view/${firstSession.groupId}/${firstSession.id}`
+					);
 				} else {
 					setIsLoading(false);
 					if (newRegisteredSessionId && redirectToEnquiry) {
