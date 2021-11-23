@@ -9,23 +9,27 @@ export interface LegalInformationLinksProps {
 	className?: string;
 	showDivider?: boolean;
 	textStyle?: TextTypeOptions;
+	hideImprint?: boolean;
 }
 
 export const LegalInformationLinks = ({
 	className,
 	showDivider = true,
-	textStyle = 'infoSmall'
+	textStyle = 'infoSmall',
+	hideImprint = false
 }: LegalInformationLinksProps) => {
 	return (
 		<div className={clsx(className, 'legalInformationLinks')}>
-			<a href={config.urls.imprint} target="_blank" rel="noreferrer">
-				<Text
-					className="legalInformationLinks__linkLabel"
-					text={translate('login.legal.infoText.impressum')}
-					type={textStyle}
-				/>
-			</a>
-			{showDivider && (
+			{!hideImprint && (
+				<a href={config.urls.imprint} target="_blank" rel="noreferrer">
+					<Text
+						className="legalInformationLinks__linkLabel"
+						text={translate('login.legal.infoText.impressum')}
+						type={textStyle}
+					/>
+				</a>
+			)}
+			{!hideImprint && showDivider && (
 				<Text
 					type={textStyle}
 					className="legalInformationLinks__separator"

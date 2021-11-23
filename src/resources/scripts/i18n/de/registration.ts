@@ -72,6 +72,9 @@ const registration = {
 	'state.options.16': 'Thüringen',
 	'dataProtection.label':
 		'Ich habe die <a href="https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz" target="_blank">Datenschutzerklärung</a> zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
+	'dataProtection.label.prefix': 'Ich habe die  ',
+	'dataProtection.label.suffix':
+		' zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 	'submitButton.label': 'Registrieren',
 	'overlay.success.headline':
 		'Herzlich willkommen<br>bei der Beratung & Hilfe der Caritas.',
