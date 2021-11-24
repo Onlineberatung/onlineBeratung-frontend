@@ -65,6 +65,7 @@ import { history } from '../app/app';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
+	isAskerInfoAvailable: boolean;
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
@@ -484,10 +485,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						{translate('chatFlyout.feedback')}
 					</Link>
 				) : null}
-				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				!isGroupChat &&
-				consultingType.showAskerProfile &&
-				!isLiveChat ? (
+				{props.isAskerInfoAvailable ? (
 					<Link className="sessionMenu__item" to={userProfileLink}>
 						{translate('chatFlyout.askerProfil')}
 					</Link>
