@@ -19,13 +19,13 @@ $checkbox-size: 24px;
 		line-height: 24px;
 
 		&--complex {
-			.text,
+			.text:first-of-type,
 			div {
-				display: inline-block;
+				float: left;
 			}
 
 			div {
-				margin-left: 3px;
+				margin: 0 3px;
 			}
 		}
 	}
