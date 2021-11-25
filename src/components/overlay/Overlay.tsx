@@ -19,6 +19,7 @@ export const OVERLAY_FUNCTIONS = {
 	STOP_GROUP_CHAT: 'STOP_GROUP_CHAT',
 	LEAVE_GROUP_CHAT: 'LEAVE_GROUP_CHAT',
 	DELETE_ACCOUNT: 'DELETE_ACCOUNT',
+	DELETE_SESSION: 'DELETE_SESSION',
 	FINISH_ANONYMOUS_CONVERSATION: 'FINISH_ANONYMOUS_CONVERSATION',
 	ARCHIVE: 'ARCHIVE'
 };
@@ -99,7 +100,7 @@ export const Overlay = (props: {
 						{item.buttonSet?.map((item, i) => (
 							<Button
 								item={item}
-								key={i}
+								key={`${i}-${item.type}`}
 								buttonHandle={handleButtonClick}
 							/>
 						))}

@@ -6,6 +6,8 @@ import attachments from './de/attachments';
 import attachmentsInformal from './de/attachmentsInformal';
 import deleteAccount from './de/deleteAccount';
 import deleteAccountInformal from './de/deleteAccountInformal';
+import deleteSession from './de/deleteSession';
+import deleteSessionInformal from './de/deleteSessionInformal';
 import enquiry from './de/enquiry';
 import enquiryInformal from './de/enquiryInformal';
 import furtherSteps from './de/furtherSteps';
@@ -32,6 +34,7 @@ const informalLocale = {
 	archive: { ...archive, ...archiveInformal },
 	attachments: { ...attachments, ...attachmentsInformal },
 	deleteAccount: { ...deleteAccount, ...deleteAccountInformal },
+	deleteSession: { ...deleteSession, ...deleteSessionInformal },
 	groupChat: { ...groupChat, ...groupChatInformal },
 	enquiry: { ...enquiry, ...enquiryInformal },
 	furtherSteps: { ...furtherSteps, ...furtherStepsInformal },
