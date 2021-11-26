@@ -71,7 +71,7 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 					setAppReady(true);
 				})
 				.catch((error) => {
-					window.location.href = config.urls.toLogin;
+					window.location.href = config.urls.toEntry;
 					console.log(error);
 				});
 		});

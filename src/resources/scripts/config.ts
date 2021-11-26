@@ -61,7 +61,8 @@ export const config = {
 	urls: {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
-		toLogin: uiUrl + '/',
+		toLogin: uiUrl + '/login',
+		toEntry: uiUrl + '/',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
 		finishedAnonymousChatRedirect:
