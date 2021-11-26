@@ -10,6 +10,10 @@
 	"bin": "cli.js",
 	"dependencies": {
 		"@babel/core": "7.14.6",
+		"@capacitor/android": "^3.3.2",
+		"@capacitor/cli": "^3.3.2",
+		"@capacitor/core": "^3.3.2",
+		"@capacitor/ios": "^3.3.2",
 		"@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
 		"@stomp/stompjs": "6.1.0",
 		"@svgr/webpack": "5.5.0",
