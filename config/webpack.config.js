@@ -567,7 +567,7 @@ module.exports = function (webpackEnv) {
 				inject: true,
 				template: 'src/pages/app.html',
 				chunks: ['app'],
-				filename: 'index.html',
+				filename: 'beratung-hilfe.html',
 			}),
 			new HtmlWebpackPlugin({
 				title: 'Login',
