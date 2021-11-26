@@ -1,6 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import { ComponentType, ReactNode, useState } from 'react';
+import { ComponentType, ReactNode, useEffect, useState } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedApp } from './AuthenticatedApp';
@@ -18,13 +18,15 @@ export const history = createBrowserHistory();
 interface AppProps {
 	stageComponent: ComponentType<StageProps>;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	entryPoint: string;
 	extraRoutes?: ReactNode;
 }
 
 export const App = ({
 	stageComponent,
-	extraRoutes,
-	legalComponent
+	legalComponent,
+	entryPoint,
+	extraRoutes
 }: AppProps) => {
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
@@ -45,6 +47,20 @@ export const App = ({
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
 		useState<boolean>(false);
+	const [isInitiallyLoaded, setIsInitiallyLoaded] = useState<boolean>(false);
+
+	const activateInitialRedirect = () => {
+		setIsInitiallyLoaded(true);
+		history.push(entryPoint);
+	};
+
+	useEffect(() => {
+		if (!isInitiallyLoaded && window.location.pathname === '/') {
+			activateInitialRedirect();
+		} else {
+			setIsInitiallyLoaded(true);
+		}
+	}, []); // eslint-disable-line
 
 	return (
 		<Router history={history}>
@@ -90,11 +106,13 @@ export const App = ({
 							/>
 						</Route>
 					)}
-					<AuthenticatedApp
-						onAppReady={() => setStartWebsocket(true)}
-						onLogout={() => setDisconnectWebsocket(true)}
-						legalComponent={legalComponent}
-					/>
+					{isInitiallyLoaded && (
+						<AuthenticatedApp
+							onAppReady={() => setStartWebsocket(true)}
+							onLogout={() => setDisconnectWebsocket(true)}
+							legalComponent={legalComponent}
+						/>
+					)}
 				</Switch>
 			</ContextProvider>
 		</Router>
