@@ -95,7 +95,6 @@ export const markdownToDraftDefaultOptions = {
 			inline: [
 				'autolink',
 				'backticks',
-				'entity',
 				'escape',
 				'htmltag',
 				'links',
