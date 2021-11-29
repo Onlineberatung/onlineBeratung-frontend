@@ -1,7 +1,6 @@
 FROM docker.pkg.github.com/caritasdeutschland/caritas-onlineberatung-nginx/nginx-image:dockerimage.v.1
 COPY beratung-hilfe.html /usr/share/nginx/html/
 COPY error.401.html /usr/share/nginx/html/
-COPY 50x.html /usr/share/nginx/html/
 COPY error.404.html /usr/share/nginx/html/
 COPY error.500.html /usr/share/nginx/html/
 COPY favicon.ico /usr/share/nginx/html/
