@@ -78,3 +78,30 @@ export const urlifyLinksInText = (text) => {
 		return `<a href="${href}" target="_blank">${url}</a>`;
 	});
 };
+
+export const markdownToDraftDefaultOptions = {
+	remarkablePreset: 'commonmark',
+	remarkableOptions: {
+		disable: {
+			block: [
+				'blockquote',
+				'code',
+				'fences',
+				'heading',
+				'hr',
+				'htmlblock',
+				'lheading'
+			],
+			inline: [
+				'autolink',
+				'backticks',
+				'entity',
+				'escape',
+				'htmltag',
+				'links',
+				'newline',
+				'text'
+			]
+		}
+	}
+};

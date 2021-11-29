@@ -21,7 +21,10 @@ import { MessageUsername } from './MessageUsername';
 import { markdownToDraft } from 'markdown-draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import { convertFromRaw, ContentState } from 'draft-js';
-import { urlifyLinksInText } from '../messageSubmitInterface/richtextHelpers';
+import {
+	markdownToDraftDefaultOptions,
+	urlifyLinksInText
+} from '../messageSubmitInterface/richtextHelpers';
 import { VideoCallMessage } from './VideoCallMessage';
 import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
@@ -79,17 +82,42 @@ interface MessageItemComponentProps extends MessageItem {
 	resortData: ConsultingTypeInterface;
 }
 
-export const MessageItemComponent = (props: MessageItemComponentProps) => {
+export const MessageItemComponent = ({
+	alias,
+	userId,
+	message,
+	messageDate,
+	messageTime,
+	resortData,
+	isMyMessage,
+	username,
+	askerRcId,
+	attachments,
+	file,
+	isNotRead
+}: MessageItemComponentProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const rawMessageObject = markdownToDraft(props.message);
-	const contentStateMessage: ContentState = convertFromRaw(rawMessageObject);
-	const renderedMessage = contentStateMessage.hasText()
-		? urlifyLinksInText(stateToHTML(contentStateMessage))
-		: '';
+
+	const [renderedMessage, setRenderedMessage] = useState<string | null>(null);
+	useEffect((): void => {
+		const rawMessageObject = markdownToDraft(
+			message,
+			markdownToDraftDefaultOptions
+		);
+		const contentStateMessage: ContentState =
+			convertFromRaw(rawMessageObject);
+
+		setRenderedMessage(
+			contentStateMessage.hasText()
+				? urlifyLinksInText(stateToHTML(contentStateMessage))
+				: ''
+		);
+	}, [message]);
+
 	const hasRenderedMessage = renderedMessage && renderedMessage.length > 0;
 	const chatItem = getChatItemForSession(activeSession);
 
@@ -98,18 +126,18 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 			const sessionData =
 				userData.consultingTypes[chatItem.consultingType]?.sessionData;
 			setShowAddVoluntaryInfo(
-				!isVoluntaryInfoSet(sessionData, props.resortData)
+				!isVoluntaryInfoSet(sessionData, resortData)
 			);
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const getMessageDate = () => {
-		if (props.messageDate) {
+		if (messageDate) {
 			return (
 				<div className="messageItem__divider">
-					{typeof props.messageDate === 'number'
-						? getPrettyDateFromMessageDate(props.messageDate)
-						: props.messageDate}
+					{typeof messageDate === 'number'
+						? getPrettyDateFromMessageDate(messageDate)
+						: messageDate}
 				</div>
 			);
 		}
@@ -117,13 +145,13 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	};
 
 	const getUsernameType = () => {
-		if (props.isMyMessage) {
+		if (isMyMessage) {
 			return 'self';
 		}
-		if (props.alias?.forwardMessageDTO) {
+		if (alias?.forwardMessageDTO) {
 			return 'forwarded';
 		}
-		if (props.username === 'system') {
+		if (username === 'system') {
 			return 'system';
 		}
 		if (isUserMessage()) {
@@ -133,8 +161,8 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	};
 
 	const isUserMessage = () =>
-		props.userId === props.askerRcId ||
-		(chatItem?.moderators && !chatItem?.moderators?.includes(props.userId));
+		userId === askerRcId ||
+		(chatItem?.moderators && !chatItem?.moderators?.includes(userId));
 	const showForwardMessage = () =>
 		hasRenderedMessage &&
 		activeSession.type !== SESSION_LIST_TYPES.ENQUIRY &&
@@ -142,23 +170,21 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
 		!activeSession.isFeedbackSession;
 
-	const videoCallMessage: VideoCallMessageDTO =
-		props.alias?.videoCallMessageDTO;
+	const videoCallMessage: VideoCallMessageDTO = alias?.videoCallMessageDTO;
 	const isFurtherStepsMessage =
-		props.alias?.messageType === MessageType.FURTHER_STEPS;
+		alias?.messageType === MessageType.FURTHER_STEPS;
 	const isUpdateSessionDataMessage =
-		props.alias?.messageType === MessageType.UPDATE_SESSION_DATA;
-	const isVideoCallMessage =
-		props.alias?.messageType === MessageType.VIDEOCALL;
+		alias?.messageType === MessageType.UPDATE_SESSION_DATA;
+	const isVideoCallMessage = alias?.messageType === MessageType.VIDEOCALL;
 	const isFinishedConversationMessage =
-		props.alias?.messageType === MessageType.FINISHED_CONVERSATION;
+		alias?.messageType === MessageType.FINISHED_CONVERSATION;
 
 	const messageContent = (): JSX.Element => {
 		if (isFurtherStepsMessage) {
 			return (
 				<FurtherSteps
 					consultingType={chatItem.consultingType}
-					resortData={props.resortData}
+					resortData={resortData}
 				/>
 			);
 		} else if (isUpdateSessionDataMessage) {
@@ -169,7 +195,7 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 						setShowAddVoluntaryInfo(false)
 					}
 					consultingType={chatItem.consultingType}
-					resortData={props.resortData}
+					resortData={resortData}
 				/>
 			);
 		} else if (isFinishedConversationMessage) {
@@ -196,19 +222,19 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 			return (
 				<>
 					<MessageUsername
-						alias={props.alias?.forwardMessageDTO}
-						isMyMessage={props.isMyMessage}
+						alias={alias?.forwardMessageDTO}
+						isMyMessage={isMyMessage}
 						isUser={isUserMessage()}
 						type={getUsernameType()}
-						userId={props.userId}
-						username={props.username}
-					></MessageUsername>
+						userId={userId}
+						username={username}
+					/>
 
 					<div
 						className={
-							props.isMyMessage && !props.alias
+							isMyMessage && !alias
 								? `messageItem__message messageItem__message--myMessage`
-								: props.alias
+								: alias
 								? `messageItem__message messageItem__message--forwarded`
 								: `messageItem__message`
 						}
@@ -217,31 +243,31 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 							dangerouslySetInnerHTML={{
 								__html: renderedMessage
 							}}
-						></span>
-						{props.attachments &&
-							props.attachments.map((attachment, key) => (
+						/>
+						{attachments &&
+							attachments.map((attachment, key) => (
 								<MessageAttachment
 									key={key}
 									attachment={attachment}
-									file={props.file}
+									file={file}
 									hasRenderedMessage={hasRenderedMessage}
 								/>
 							))}
 						{activeSession.isFeedbackSession && (
 							<CopyMessage
-								right={props.isMyMessage}
+								right={isMyMessage}
 								message={renderedMessage}
-							></CopyMessage>
+							/>
 						)}
 						{showForwardMessage() && (
 							<ForwardMessage
-								right={props.isMyMessage}
-								message={props.message}
-								messageTime={props.messageTime}
-								askerRcId={props.askerRcId}
+								right={isMyMessage}
+								message={message}
+								messageTime={messageTime}
+								askerRcId={askerRcId}
 								groupId={chatItem.feedbackGroupId}
-								username={props.username}
-							></ForwardMessage>
+								username={username}
+							/>
 						)}
 					</div>
 				</>
@@ -261,28 +287,28 @@ export const MessageItemComponent = (props: MessageItemComponentProps) => {
 	return (
 		<div
 			className={`messageItem ${
-				props.isMyMessage ? 'messageItem--right' : ''
+				isMyMessage ? 'messageItem--right' : ''
 			} ${isVideoCallMessage ? 'videoCallMessage' : ''}`}
 		>
 			{getMessageDate()}
 			<div
 				className={`
 					messageItem__messageWrap
-					${props.isMyMessage ? 'messageItem__messageWrap--right' : ''}
+					${isMyMessage ? 'messageItem__messageWrap--right' : ''}
 					${isFurtherStepsMessage ? 'messageItem__messageWrap--furtherSteps' : ''}
 				`}
 			>
 				{messageContent()}
 
 				<MessageMetaData
-					isMyMessage={props.isMyMessage}
-					isNotRead={props.isNotRead}
-					messageTime={props.messageTime}
+					isMyMessage={isMyMessage}
+					isNotRead={isNotRead}
+					messageTime={messageTime}
 					type={getUsernameType()}
 					isReadStatusDisabled={
 						isVideoCallMessage || isFinishedConversationMessage
 					}
-				></MessageMetaData>
+				/>
 			</div>
 		</div>
 	);
