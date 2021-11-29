@@ -4,7 +4,6 @@ COPY error.401.html /usr/share/nginx/html/
 COPY error.404.html /usr/share/nginx/html/
 COPY error.500.html /usr/share/nginx/html/
 COPY favicon.ico /usr/share/nginx/html/
-COPY index.html /usr/share/nginx/html/
 COPY login.html /usr/share/nginx/html/
 COPY logo192.png /usr/share/nginx/html/
 COPY logo512.png /usr/share/nginx/html/
