@@ -1,5 +1,5 @@
 import { config } from '../resources/scripts/config';
-import { fetchData, FETCH_METHODS } from './fetchData';
+import { fetchData, FETCH_METHODS, FETCH_SUCCESS } from './fetchData';
 
 export const apiSendEnquiry = async (
 	sessionId: number,
@@ -15,6 +15,7 @@ export const apiSendEnquiry = async (
 		url: url,
 		method: FETCH_METHODS.POST,
 		rcValidation: true,
-		bodyData: message
+		bodyData: message,
+		responseHandling: [FETCH_SUCCESS.CONTENT]
 	});
 };

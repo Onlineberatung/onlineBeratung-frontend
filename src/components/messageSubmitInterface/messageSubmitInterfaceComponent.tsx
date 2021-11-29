@@ -514,7 +514,7 @@ export const MessageSubmitInterfaceComponent = (
 			apiSendEnquiry(enquirySessionId, getTypedMarkdownMessage())
 				.then((response) => {
 					setEditorState(EditorState.createEmpty());
-					props.handleSendButton();
+					props.handleSendButton(response);
 				})
 				.catch((error) => {
 					console.log(error);

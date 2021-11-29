@@ -18,8 +18,7 @@ const enquiry = {
 	'write.overlayHeadline': 'Vielen Dank für Ihre Nachricht!',
 	'write.overlayCopy':
 		'Innerhalb von zwei Werktagen erhalten Sie eine Antwort von uns.',
-	'write.overlayButton1.label': 'Zur Übersicht',
-	'write.overlayButton2.label': 'Abmelden'
+	'write.overlay.button': 'Zur Nachricht'
 };
 
 export default enquiry;
