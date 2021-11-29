@@ -79,6 +79,7 @@
 		"react-select": "4.3.1",
 		"resolve": "1.20.0",
 		"resolve-url-loader": "^4.0.0",
+		"sanitize-html": "^2.6.0",
 		"sass-loader": "^10.1.1",
 		"semver": "7.3.5",
 		"sockjs-client": "1.5.1",

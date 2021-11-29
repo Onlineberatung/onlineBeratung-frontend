@@ -1,4 +1,5 @@
 import { DraftHandleValue } from 'draft-js';
+import sanitizeHtml from 'sanitize-html';
 
 export const emojiPickerCustomClasses = {
 	emojiSelect: 'emoji__select',
@@ -103,4 +104,21 @@ export const markdownToDraftDefaultOptions = {
 			]
 		}
 	}
+};
+
+export const sanitizeHtmlDefaultOptions = {
+	allowedTags: [
+		'a',
+		'em',
+		'p',
+		'div',
+		'b',
+		'i',
+		'ol',
+		'ul',
+		'li',
+		'strong',
+		'br'
+	],
+	allowedAttributes: sanitizeHtml.defaults.allowedAttributes
 };
