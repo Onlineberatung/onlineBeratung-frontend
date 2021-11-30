@@ -17,7 +17,7 @@ const enquiry = {
 		'<ul><li>Was ist passiert?</li><li>Wie ist Ihre aktuelle Situation?</li><li>Was beschäftigt Sie?</li><li>Haben Sie eine bestimmte Frage oder wissen Sie vielleicht selbst noch nicht so genau was Ihnen helfen könnte?</li></ul>',
 	'write.overlayHeadline': 'Vielen Dank für Ihre Nachricht!',
 	'write.overlayCopy':
-		'Innerhalb von zwei Werktagen erhalten Sie eine Antwort von uns.',
+		'Innerhalb von 2 Werktagen erhalten Sie eine Antwort von uns.',
 	'write.overlayButton1.label': 'Zur Übersicht',
 	'write.overlayButton2.label': 'Abmelden'
 };

@@ -101,7 +101,10 @@ export const Registration = ({
 						welcomeScreenConfig={consultingType.welcomeScreen}
 					/>
 				) : (
-					<RegistrationForm consultingType={consultingType} />
+					<RegistrationForm
+						consultingType={consultingType}
+						legalComponent={legalComponent}
+					/>
 				))}
 		</StageLayout>
 	);

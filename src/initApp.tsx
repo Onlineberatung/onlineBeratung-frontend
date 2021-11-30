@@ -5,6 +5,10 @@ import { LegalInformationLinks } from './components/login/LegalInformationLinks'
 import { Stage } from './components/stage/stage';
 
 ReactDOM.render(
-	<App stageComponent={Stage} legalComponent={LegalInformationLinks} />,
+	<App
+		stageComponent={Stage}
+		legalComponent={LegalInformationLinks}
+		entryPoint="/login"
+	/>,
 	document.getElementById('appRoot')
 );

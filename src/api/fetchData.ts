@@ -5,7 +5,7 @@ import {
 	redirectToErrorPage
 } from '../components/error/errorHandling';
 import { logout } from '../components/logout/logout';
-import { CSRF_WHITELIST_HEADER } from '../resources/scripts/config';
+import { config, CSRF_WHITELIST_HEADER } from '../resources/scripts/config';
 
 const nodeEnv: string = process.env.NODE_ENV as string;
 const isLocalDevelopment = nodeEnv === 'development';
@@ -148,7 +148,7 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 								: new Error(FETCH_ERRORS.CONFLICT)
 						);
 					} else if (response.status === 401) {
-						logout(true);
+						logout(true, config.urls.toLogin);
 					}
 				} else {
 					const error = getErrorCaseForStatus(response.status);

@@ -26,7 +26,7 @@ const registration = {
 		'Sie gegebenfalls auch vor Ort beraten kann.',
 	'agencySelection.postcode.label': 'Ihre Postleitzahl',
 	'agencySelection.postcode.unavailable':
-		'Momentan haben wir leider noch keine Online-Beratungsstelle in Ihrer Nähe. Auf unserer Webseite finden Sie Beratungsstellen für Ihr Anliegen.',
+		'Momentan haben wir leider noch keine Online-Beratungsstelle in Ihrer Nähe. Auf unserer Webseite finden Sie Beratungsstellen vor Ort für Ihr Anliegen.',
 	'agencySelection.postcode.search': 'Zur Beratungsstellensuche',
 	'agencyPreselected.headline': 'Bitte geben Sie Ihre Postleitzahl an',
 	'agencyPreselected.intro.overline':
@@ -72,6 +72,9 @@ const registration = {
 	'state.options.16': 'Thüringen',
 	'dataProtection.label':
 		'Ich habe die <a href="https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz" target="_blank">Datenschutzerklärung</a> zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
+	'dataProtection.label.prefix': 'Ich habe die  ',
+	'dataProtection.label.suffix':
+		' zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 	'submitButton.label': 'Registrieren',
 	'overlay.success.headline':
 		'Herzlich willkommen<br>bei der Beratung & Hilfe der Caritas.',
@@ -87,7 +90,7 @@ const registration = {
 		'Sie schicken Ihre Nachricht an eine lokale Beratungsstelle',
 	'welcomeScreen.info3.title': 'Persönliche und professionelle Beratung',
 	'welcomeScreen.info3.text':
-		'Innerhalb von zwei Werktagen bekommen Sie eine Antwort',
+		'Innerhalb von 2 Werktagen bekommen Sie eine Antwort',
 	'welcomeScreen.info4.title': 'Anonym und kostenfrei',
 	'welcomeScreen.info4.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
