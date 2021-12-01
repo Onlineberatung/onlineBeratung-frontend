@@ -61,7 +61,8 @@ import {
 	emojiPickerCustomClasses,
 	toolbarCustomClasses,
 	handleEditorBeforeInput,
-	handleEditorPastedText
+	handleEditorPastedText,
+	escapeMarkdownChars
 } from './richtextHelpers';
 import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
 import { ReactComponent as FileDocIcon } from '../../resources/img/icons/file-doc.svg';
@@ -457,8 +458,10 @@ export const MessageSubmitInterfaceComponent = (
 		const contentState = currentEditorState
 			? currentEditorState.getCurrentContent()
 			: editorState.getCurrentContent();
-		const rawObject = convertToRaw(contentState);
-		const markdownString = draftToMarkdown(rawObject);
+		const rawObject = convertToRaw(escapeMarkdownChars(contentState));
+		const markdownString = draftToMarkdown(rawObject, {
+			escapeMarkdownCharacters: false
+		});
 		return markdownString.trim();
 	};
 
