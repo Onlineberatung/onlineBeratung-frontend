@@ -11,10 +11,10 @@ const config: CapacitorConfig = {
 			androidScaleType: 'CENTER_CROP'
 		}
 	},
-	// server: {
-	// 	url: 'https://caritas-dev.virtual-identity.com/',
-	// 	cleartext: true
-	// },
+	server: {
+		url: 'http://localhost:9000',
+		cleartext: true
+	},
 	cordova: {}
 };
 

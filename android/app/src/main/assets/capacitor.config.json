@@ -10,7 +10,7 @@
 		}
 	},
 	"server": {
-		"url": "https://caritas-dev.virtual-identity.com/",
+		"url": "http://localhost:9000",
 		"cleartext": true
 	},
 	"cordova": {}

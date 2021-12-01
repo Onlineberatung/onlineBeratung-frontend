@@ -2,8 +2,7 @@
 	"appId": "de.caritas.onlineberatung.app",
 	"appName": "Caritas Online-Beratung",
 	"bundledWebRuntime": false,
-	"npmClient": "npm",
-	"webDir": "build",
+	"webDir": "./build",
 	"plugins": {
 		"SplashScreen": {
 			"launchShowDuration": 0,
@@ -11,7 +10,7 @@
 		}
 	},
 	"server": {
-		"url": "https://caritas-dev.virtual-identity.com/",
+		"url": "http://localhost:9000",
 		"cleartext": true
 	},
 	"cordova": {}
