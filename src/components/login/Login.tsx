@@ -13,10 +13,19 @@ import { StageProps } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
 import '../../resources/styles/styles';
 import './login.styles';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+defineCustomElements(window);
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
 	type: BUTTON_TYPES.PRIMARY
+};
+
+const photoButton: ButtonItem = {
+	label: 'Take a picture',
+	type: BUTTON_TYPES.SECONDARY
 };
 
 interface LoginProps {
@@ -121,6 +130,22 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 					item={loginButton}
 					buttonHandle={handleLogin}
 					disabled={isButtonDisabled}
+				/>
+				<Button
+					item={photoButton}
+					buttonHandle={async () => {
+						const image = await Camera.getPhoto({
+							quality: 100,
+							allowEditing: true,
+							resultType: CameraResultType.Uri,
+							source: CameraSource.Camera,
+							saveToGallery: true,
+							width: 100,
+							height: 100
+						}).catch((e) => {
+							// console.error('E')
+						});
+					}}
 				/>
 				<div className="loginForm__register">
 					<Text
