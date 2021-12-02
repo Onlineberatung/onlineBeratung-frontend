@@ -1,5 +1,7 @@
 import absence from './de/absence';
 import absenceInformal from './de/absenceInformal';
+import archive from './de/archive';
+import archiveInformal from './de/archiveInformal';
 import attachments from './de/attachments';
 import attachmentsInformal from './de/attachmentsInformal';
 import deleteAccount from './de/deleteAccount';
@@ -29,6 +31,7 @@ import de from './de';
 const informalLocale = {
 	...de,
 	absence: { ...absence, ...absenceInformal },
+	archive: { ...archive, ...archiveInformal },
 	attachments: { ...attachments, ...attachmentsInformal },
 	deleteAccount: { ...deleteAccount, ...deleteAccountInformal },
 	groupChat: { ...groupChat, ...groupChatInformal },

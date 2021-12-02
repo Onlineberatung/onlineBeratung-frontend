@@ -39,6 +39,8 @@ export const config = {
 			'/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
 		messageRead: apiUrl + '/api/v1/subscriptions.read',
 		messages: apiUrl + '/service/messages',
+		myMessagesBase:
+			apiUrl + '/service/conversations/consultants/mymessages/',
 		passwordReset: apiUrl + '/service/users/password/change',
 		rejectVideoCall: apiUrl + '/service/videocalls/reject',
 		registerAnonymousAsker:
@@ -53,6 +55,8 @@ export const config = {
 		sessionBase: apiUrl + '/service/users/sessions',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
 		startVideoCall: apiUrl + '/service/videocalls/new',
+		teamSessionsBase:
+			apiUrl + '/service/conversations/consultants/teamsessions/',
 		twoFactorAuth: apiUrl + '/service/users/twoFactorAuth',
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',

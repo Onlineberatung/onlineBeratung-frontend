@@ -11,7 +11,7 @@ import {
 	getChatItemForSession,
 	getSessionListPathForLocation
 } from '../session/sessionHelpers';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import {
@@ -57,6 +57,11 @@ export const GroupChatInfo = () => {
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	useEffect(() => {
 		mobileDetailView();
@@ -143,7 +148,11 @@ export const GroupChatInfo = () => {
 	if (redirectToSessionsList) {
 		mobileListView();
 		setActiveSessionGroupId(null);
-		return <Redirect to={getSessionListPathForLocation()} />;
+		return (
+			<Redirect
+				to={getSessionListPathForLocation() + getSessionListTab()}
+			/>
+		);
 	}
 
 	return (
@@ -153,7 +162,7 @@ export const GroupChatInfo = () => {
 					<Link
 						to={`${getSessionListPathForLocation()}/${
 							chatItem.groupId
-						}/${chatItem.id}`}
+						}/${chatItem.id}${getSessionListTab()}`}
 						className="profile__header__backButton"
 					>
 						<BackIcon />
@@ -238,7 +247,9 @@ export const GroupChatInfo = () => {
 								to={{
 									pathname: `${getSessionListPathForLocation()}/${
 										chatItem.groupId
-									}/${chatItem.id}/editGroupChat`,
+									}/${
+										chatItem.id
+									}/editGroupChat${getSessionListTab()}`,
 									state: {
 										isEditMode: true,
 										prevIsInfoPage: true

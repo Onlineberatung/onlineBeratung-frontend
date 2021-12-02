@@ -21,6 +21,8 @@ export * from './apiLogoutKeycloak';
 export * from './apiLogoutRocketchat';
 export * from './apiPostAnonymousRegistration';
 export * from './apiPostRegistration';
+export * from './apiPutArchive';
+export * from './apiPutDearchive';
 export * from './apiPutGroupChat';
 export * from './apiPutConsultantData';
 export * from './apiPutEmail';

@@ -5,7 +5,7 @@ import {
 	ListItemInterface
 } from '../interfaces/SessionsDataInterface';
 import {
-	SESSION_TYPES,
+	SESSION_LIST_TYPES,
 	getChatTypeForListItem,
 	getChatItemForSession,
 	CHAT_TYPES
@@ -27,11 +27,11 @@ export const getActiveSession = (
 	const getTypeByKey = (key) => {
 		switch (key) {
 			case 'enquiries':
-				return SESSION_TYPES.ENQUIRY;
+				return SESSION_LIST_TYPES.ENQUIRY;
 			case 'mySessions':
-				return SESSION_TYPES.MY_SESSION;
+				return SESSION_LIST_TYPES.MY_SESSION;
 			case 'teamSessions':
-				return SESSION_TYPES.TEAMSESSION;
+				return SESSION_LIST_TYPES.TEAMSESSION;
 		}
 		return null;
 	};
@@ -82,11 +82,11 @@ export const getContact = (activeSession: ListItemInterface): any => {
 
 export const getSessionsDataKeyForSessionType = (sessionType) => {
 	switch (sessionType) {
-		case SESSION_TYPES.ENQUIRY:
+		case SESSION_LIST_TYPES.ENQUIRY:
 			return 'enquiries';
-		case SESSION_TYPES.MY_SESSION:
+		case SESSION_LIST_TYPES.MY_SESSION:
 			return 'mySessions';
-		case SESSION_TYPES.TEAMSESSION:
+		case SESSION_LIST_TYPES.TEAMSESSION:
 			return 'teamSessions';
 		default:
 			return 'mySessions';
@@ -115,6 +115,8 @@ export const hasUserAuthority = (
 export const AUTHORITIES = {
 	ANONYMOUS_DEFAULT: 'AUTHORIZATION_ANONYMOUS_DEFAULT',
 	ASSIGN_CONSULTANT_TO_ENQUIRY: 'AUTHORIZATION_ASSIGN_CONSULTANT_TO_ENQUIRY',
+	ASSIGN_CONSULTANT_TO_PEER_SESSION:
+		'AUTHORIZATION_ASSIGN_CONSULTANT_TO_PEER_SESSION',
 	ASSIGN_CONSULTANT_TO_SESSION: 'AUTHORIZATION_ASSIGN_CONSULTANT_TO_SESSION',
 	CONSULTANT_DEFAULT: 'AUTHORIZATION_CONSULTANT_DEFAULT',
 	CREATE_NEW_CHAT: 'AUTHORIZATION_CREATE_NEW_CHAT',

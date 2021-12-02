@@ -246,6 +246,7 @@ $iconSizeLarge: 48px;
 
 	.text {
 		margin-top: $grid-base-two;
+		text-align: $overlay-text-align;
 	}
 
 	&__nestedComponent {

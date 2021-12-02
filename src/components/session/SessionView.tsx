@@ -8,6 +8,7 @@ import {
 	useState
 } from 'react';
 import { history } from '../app/app';
+import { useLocation } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
@@ -36,7 +37,8 @@ import {
 	isGroupChatForSessionItem,
 	prepareMessages,
 	getTypeOfLocation,
-	typeIsEnquiry
+	typeIsEnquiry,
+	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -99,6 +101,9 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 	const isEnquiry = typeIsEnquiry(getTypeOfLocation());
 	const isConsultantEnquiry =
 		isEnquiry && hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
 		if (
@@ -177,7 +182,7 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 
 	const handleRoomMessage = () => {
 		fetchSessionMessages(true);
-		setUpdateSessionList(true);
+		setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
 	};
 
 	useEffect(() => {
@@ -185,6 +190,7 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 		mobileDetailView();
 		setAcceptedGroupId(null);
 		typingTimeout = null;
+		const isEnquiry = chatItem?.status === 1;
 		const isCurrentAnonymousEnquiry =
 			isEnquiry && chatItem?.registrationType === 'ANONYMOUS';
 		if (isGroupChat && !chatItem.subscribed) {
@@ -341,7 +347,10 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 	if (redirectToSessionsList) {
 		mobileListView();
 		setActiveSessionGroupId(null);
-		history.push(getSessionListPathForLocation());
+		history.push(
+			getSessionListPathForLocation() +
+				(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+		);
 	}
 
 	return (

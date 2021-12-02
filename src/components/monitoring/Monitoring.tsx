@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import {
 	SessionsDataContext,
 	ActiveSessionGroupIdContext,
 	getActiveSession
 } from '../../globalState';
-import { getViewPathForType } from '../session/sessionHelpers';
-import { history } from '../app/app';
+import { getSessionListPathForLocation } from '../session/sessionHelpers';
 import { Checkbox } from '../checkbox/Checkbox';
 import { Button } from '../button/Button';
 import { apiUpdateMonitoring, apiGetMonitoring } from '../../api';
@@ -15,7 +15,6 @@ import { ReactComponent as ArrowRightIcon } from '../../resources/img/icons/arro
 import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down.svg';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
-
 import './monitoring.styles';
 import '../profile/profile.styles';
 
@@ -25,6 +24,10 @@ export const Monitoring = () => {
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const [accordionOpened, setAccordionOpened] = useState<any[]>([]);
 	const [monitoringData, setMonitoringData] = useState({});
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
+	let backLinkRef: React.RefObject<Link> = React.createRef();
 
 	const resort =
 		activeSession.session.consultingType === 0
@@ -40,13 +43,6 @@ export const Monitoring = () => {
 				console.log(error);
 			});
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-	const handleBackButton = () => {
-		const view = getViewPathForType(activeSession.type);
-		history.push({
-			pathname: `/sessions/consultant/${view}/${activeSession.session.groupId}/${activeSession.session.id}/userProfile`
-		});
-	};
 
 	const handleChange = (key, parentKey) => {
 		const checkObj = (obj, k, prevk) => {
@@ -101,7 +97,7 @@ export const Monitoring = () => {
 	const handleSubmit = () => {
 		apiUpdateMonitoring(activeSession.session.id, monitoringData)
 			.then((response) => {
-				handleBackButton();
+				backLinkRef.current.click();
 			})
 			.catch((error) => {
 				console.log(error);
@@ -214,12 +210,19 @@ export const Monitoring = () => {
 		<div className="profile__wrapper">
 			<div className="profile__header">
 				<div className="profile__header__wrapper">
-					<span
-						onClick={handleBackButton}
+					<Link
+						ref={backLinkRef}
+						to={`${getSessionListPathForLocation()}/${
+							activeSession.session.groupId
+						}/${activeSession.session.id}/userProfile${
+							sessionListTab
+								? `?sessionListTab=${sessionListTab}`
+								: ''
+						}`}
 						className="profile__header__backButton"
 					>
 						<BackIcon />
-					</span>
+					</Link>
 					<h3 className="profile__header__title profile__header__title--withBackButton">
 						{translate('monitoring.title')}
 					</h3>

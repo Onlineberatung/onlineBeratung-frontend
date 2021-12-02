@@ -41,7 +41,7 @@ import {
 } from './joinGroupChatHelpers';
 import { Button } from '../button/Button';
 import { logout } from '../logout/logout';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
 import { Headline } from '../headline/Headline';
@@ -76,6 +76,11 @@ export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
 	let timeoutId;
 
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	useEffect(() => {
 		mobileDetailView();
@@ -121,7 +126,7 @@ export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
 						history.push(
 							`${getSessionListPathForLocation()}/${
 								chatItem.groupId
-							}/${chatItem.id}`
+							}/${chatItem.id}${getSessionListTab()}`
 						);
 					}
 				})
@@ -168,7 +173,9 @@ export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
 					setSessionsData(changedSessionsData);
 				}
 				setAcceptedGroupId(chatItem.groupId);
-				history.push(getSessionListPathForLocation());
+				history.push(
+					getSessionListPathForLocation() + getSessionListTab()
+				);
 			})
 			.catch(() => {
 				setOverlayItem(startJoinGroupChatErrorOverlay);
@@ -192,7 +199,11 @@ export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
 	if (redirectToSessionsList) {
 		mobileListView();
 		setActiveSessionGroupId(null);
-		return <Redirect to={getSessionListPathForLocation()} />;
+		return (
+			<Redirect
+				to={getSessionListPathForLocation() + getSessionListTab()}
+			/>
+		);
 	}
 
 	return (

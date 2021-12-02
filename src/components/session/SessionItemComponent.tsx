@@ -2,16 +2,14 @@ import * as React from 'react';
 import { useState, useContext, useEffect, useMemo, ComponentType } from 'react';
 import clsx from 'clsx';
 import {
-	SESSION_LIST_TAB,
-	typeIsSession,
-	typeIsTeamSession,
 	typeIsEnquiry,
 	getViewPathForType,
 	getChatItemForSession,
 	getTypeOfLocation,
 	isGroupChatForSessionItem,
 	scrollToEnd,
-	isMyMessage
+	isMyMessage,
+	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import { MessageItem } from '../message/MessageItemComponent';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
@@ -41,11 +39,11 @@ import {
 	isAnonymousSession,
 	AUTHORITIES,
 	ConsultingTypeInterface,
-	UpdateAnonymousEnquiriesContext
+	UpdateSessionListContext
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './session.styles';
 import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
@@ -88,9 +86,12 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
 	const [newMessages, setNewMessages] = useState(0);
-	const { setUpdateAnonymousEnquiries } = useContext(
-		UpdateAnonymousEnquiriesContext
+	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	const resetUnreadCount = () => {
 		if (!props.isAnonymousEnquiry) {
@@ -218,10 +219,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayItem(null);
+				setUpdateSessionList(SESSION_LIST_TYPES.ENQUIRY);
 				history.push(
-					`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`
+					`/sessions/consultant/sessionPreview${getSessionListTab()}`
 				);
-				setUpdateAnonymousEnquiries(true);
 				break;
 			default:
 			// Should never be executed as `handleOverlayAction` is only called
@@ -287,29 +288,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			? translate('enquiry.acceptButton.anonymous')
 			: translate('enquiry.acceptButton'),
 		type: BUTTON_TYPES.PRIMARY
-	};
-
-	const getMonitoringLink = () => {
-		if (
-			typeIsSession(getTypeOfLocation()) &&
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
-		) {
-			return {
-				pathname: `/sessions/consultant/${getViewPathForType(
-					getTypeOfLocation()
-				)}/${chatItem.groupId}/${chatItem.id}/userProfile/monitoring`
-			};
-		}
-		if (
-			typeIsTeamSession(getTypeOfLocation()) &&
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
-		) {
-			return {
-				pathname: `/sessions/consultant/${getViewPathForType(
-					getTypeOfLocation()
-				)}/${chatItem.groupId}/${chatItem.id}/userProfile/monitoring`
-			};
-		}
 	};
 
 	const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = {
@@ -437,13 +415,18 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			)}
 
 			{chatItem.monitoring &&
+				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				!activeSession.isFeedbackSession &&
 				!typeIsEnquiry(getTypeOfLocation()) &&
 				monitoringButtonVisible &&
-				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				!isLiveChat &&
-				getMonitoringLink() && (
-					<Link to={getMonitoringLink()}>
+				!isLiveChat && (
+					<Link
+						to={`/sessions/consultant/${getViewPathForType(
+							getTypeOfLocation()
+						)}/${chatItem.groupId}/${
+							chatItem.id
+						}/userProfile/monitoring${getSessionListTab()}`}
+					>
 						<div className="monitoringButton">
 							<Button item={monitoringButtonItem} isLink={true} />
 						</div>

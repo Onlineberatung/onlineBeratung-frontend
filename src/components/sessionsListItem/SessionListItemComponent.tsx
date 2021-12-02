@@ -15,7 +15,8 @@ import {
 	getChatTypeForListItem,
 	typeIsEnquiry,
 	getChatItemForSession,
-	isGroupChatForSessionItem
+	isGroupChatForSessionItem,
+	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import {
@@ -39,7 +40,7 @@ import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
 
 interface SessionListItemProps {
-	type: string;
+	type: SESSION_LIST_TYPES;
 	id: number;
 }
 
@@ -47,6 +48,8 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const sessionListTab = new URLSearchParams(useLocation().search).get(
 		'sessionListTab'
 	);
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext<any>(
 		ActiveSessionGroupIdContext
@@ -105,7 +108,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 			history.push(
 				`${getSessionListPathForLocation()}/${listItem.groupId}/${
 					listItem.id
-				}${sessionListTab ? `?sessionListTab=${sessionListTab}` : ``}`
+				}${getSessionListTab()}`
 			);
 		} else if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -226,7 +229,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 
 	const feedbackPath = `${getSessionListPathForLocation()}/${
 		listItem.feedbackGroupId
-	}/${listItem.id}`;
+	}/${listItem.id}${getSessionListTab()}`;
 	return (
 		<div
 			onClick={handleOnClick}

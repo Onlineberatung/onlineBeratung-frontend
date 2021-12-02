@@ -132,10 +132,10 @@ export const Login = ({
 		) {
 			setIsRequestInProgress(true);
 			autoLogin({
-				username: username,
-				password: password,
+				username,
+				password,
 				redirect: true,
-				otp: otp
+				otp
 			})
 				.catch((error) => {
 					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {

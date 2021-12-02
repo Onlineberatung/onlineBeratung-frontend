@@ -7,7 +7,9 @@ const chatFlyout = {
 	imprint: 'Impressum',
 	editGroupChat: 'Chat-Einstellungen',
 	leaveGroupChat: 'Chat verlassen',
-	stopGroupChat: 'Chat beenden'
+	stopGroupChat: 'Chat beenden',
+	archive: 'Archivieren',
+	dearchive: 'Dearchivieren'
 };
 
 export default chatFlyout;
