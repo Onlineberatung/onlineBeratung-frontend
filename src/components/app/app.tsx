@@ -11,6 +11,7 @@ import '../../resources/styles/styles';
 import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
+import ErrorBoundary from './ErrorBoundary';
 
 export const history = createBrowserHistory();
 
@@ -41,53 +42,57 @@ export const App = ({ stageComponent, extraRoutes }: AppProps) => {
 		useState<boolean>(false);
 
 	return (
-		<Router history={history}>
-			<ContextProvider>
-				{startWebsocket && (
-					<WebsocketHandler disconnect={disconnectWebsocket} />
-				)}
-				<Switch>
-					{extraRoutes}
-					{!hasUnmatchedRegistrationConsultingType && (
-						<Route path="/:consultingTypeSlug/registration">
-							<Registration
-								handleUnmatch={() =>
-									setHasUnmatchedRegistrationConsultingType(
-										true
-									)
-								}
-								stageComponent={stageComponent}
-							/>
-						</Route>
+		<ErrorBoundary>
+			<Router history={history}>
+				<ContextProvider>
+					{startWebsocket && (
+						<WebsocketHandler disconnect={disconnectWebsocket} />
 					)}
-					{!hasUnmatchedAnonymousConversation && (
-						<Route path="/:consultingTypeSlug/warteraum">
-							<WaitingRoomLoader
-								handleUnmatch={() =>
-									setHasUnmatchedAnonymousConversation(true)
-								}
-								onAnonymousRegistration={() =>
-									setStartWebsocket(true)
-								}
-							/>
-						</Route>
-					)}
-					{!hasUnmatchedLoginConsultingType && (
-						<Route path="/:consultingTypeSlug">
-							<LoginLoader
-								handleUnmatch={() =>
-									setHasUnmatchedLoginConsultingType(true)
-								}
-								stageComponent={stageComponent}
-							/>
-						</Route>
-					)}
-					<AuthenticatedApp
-						onAppReady={() => setStartWebsocket(true)}
-						onLogout={() => setDisconnectWebsocket(true)}
-					/>
-				</Switch>
-			</ContextProvider>
-		</Router>
+					<Switch>
+						{extraRoutes}
+						{!hasUnmatchedRegistrationConsultingType && (
+							<Route path="/:consultingTypeSlug/registration">
+								<Registration
+									handleUnmatch={() =>
+										setHasUnmatchedRegistrationConsultingType(
+											true
+										)
+									}
+									stageComponent={stageComponent}
+								/>
+							</Route>
+						)}
+						{!hasUnmatchedAnonymousConversation && (
+							<Route path="/:consultingTypeSlug/warteraum">
+								<WaitingRoomLoader
+									handleUnmatch={() =>
+										setHasUnmatchedAnonymousConversation(
+											true
+										)
+									}
+									onAnonymousRegistration={() =>
+										setStartWebsocket(true)
+									}
+								/>
+							</Route>
+						)}
+						{!hasUnmatchedLoginConsultingType && (
+							<Route path="/:consultingTypeSlug">
+								<LoginLoader
+									handleUnmatch={() =>
+										setHasUnmatchedLoginConsultingType(true)
+									}
+									stageComponent={stageComponent}
+								/>
+							</Route>
+						)}
+						<AuthenticatedApp
+							onAppReady={() => setStartWebsocket(true)}
+							onLogout={() => setDisconnectWebsocket(true)}
+						/>
+					</Switch>
+				</ContextProvider>
+			</Router>
+		</ErrorBoundary>
 	);
 };
