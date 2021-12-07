@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import sanitizeHtml from 'sanitize-html';
 import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
 import {
 	UserDataContext,
@@ -23,6 +24,7 @@ import { stateToHTML } from 'draft-js-export-html';
 import { convertFromRaw, ContentState } from 'draft-js';
 import {
 	markdownToDraftDefaultOptions,
+	sanitizeHtmlDefaultOptions,
 	urlifyLinksInText
 } from '../messageSubmitInterface/richtextHelpers';
 import { VideoCallMessage } from './VideoCallMessage';
@@ -113,7 +115,10 @@ export const MessageItemComponent = ({
 
 		setRenderedMessage(
 			contentStateMessage.hasText()
-				? urlifyLinksInText(stateToHTML(contentStateMessage))
+				? sanitizeHtml(
+						urlifyLinksInText(stateToHTML(contentStateMessage)),
+						sanitizeHtmlDefaultOptions
+				  )
 				: ''
 		);
 	}, [message]);
