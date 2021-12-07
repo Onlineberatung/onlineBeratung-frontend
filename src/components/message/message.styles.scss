@@ -106,14 +106,8 @@ $message-lineheight: 21px;
 		display: flex;
 		align-items: center;
 		width: 200px;
-		font-family: $font-family-divider;
-		font-size: $font-size-secondary;
-		line-height: $line-height-secondary;
 		text-align: center;
 		margin: $grid-base-four auto $grid-base-two;
-		color: $message-item-divider-color;
-		font-weight: $message-item-divider-font-weight;
-		letter-spacing: $message-item-divider-letter-spacing;
 
 		@include breakpoint($fromLarge) {
 			width: 280px;
@@ -123,7 +117,7 @@ $message-lineheight: 21px;
 		&::after {
 			content: '';
 			display: inline-block;
-			border-top: 1px solid $message-item-divider-line-color;
+			border-top: 1px solid $text-divider-color;
 			width: $grid-base-three;
 			vertical-align: middle;
 			margin: 0 $grid-base;

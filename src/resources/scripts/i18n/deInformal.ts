@@ -24,6 +24,8 @@ import sessionList from './de/sessionList';
 import sessionListInformal from './de/sessionListInformal';
 import statusOverlay from './de/statusOverlay';
 import statusOverlayInformal from './de/statusOverlayInformal';
+import twoFactorAuth from './de/twoFactorAuth';
+import twoFactorAuthInformal from './de/twoFactorAuthInformal';
 import videoCall from './de/videoCall';
 import videoCallInformal from './de/videoCallInformal';
 import de from './de';
@@ -43,6 +45,7 @@ const informalLocale = {
 	session: { ...session, ...sessionInformal },
 	sessionList: { ...sessionList, ...sessionListInformal },
 	statusOverlay: { ...statusOverlay, ...statusOverlayInformal },
+	twoFactorAuth: { ...twoFactorAuth, ...twoFactorAuthInformal },
 	videoCall: { ...videoCall, ...videoCallInformal }
 };
 

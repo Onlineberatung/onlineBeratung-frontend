@@ -1,3 +1,4 @@
+import { config } from '../../resources/scripts/config';
 import { logout } from '../logout/logout';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import {
@@ -38,7 +39,7 @@ const refreshTokens = (): Promise<void> => {
 		tokenExpiry.refreshTokenValidUntilTime <=
 		currentTime - RENEW_BEFORE_EXPIRY_IN_MS
 	) {
-		logout(true);
+		logout(true, config.urls.toLogin);
 		return Promise.resolve();
 	}
 
@@ -78,7 +79,7 @@ const startTimers = ({
 				window.clearInterval(refreshInterval);
 			}
 
-			logout(true);
+			logout(true, config.urls.toLogin);
 		}, refreshTokenValidInMs);
 	}
 };
@@ -95,7 +96,7 @@ export const handleTokenRefresh = (): Promise<void> => {
 
 		if (refreshTokenValidInMs <= 0 && accessTokenValidInMs <= 0) {
 			// access token and refresh token no longer valid, logout
-			logout(true);
+			logout(true, config.urls.toLogin);
 			resolve();
 		} else if (accessTokenValidInMs <= 0) {
 			// access token no longer valid but refresh token still valid, refresh tokens

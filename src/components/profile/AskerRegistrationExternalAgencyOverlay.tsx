@@ -11,7 +11,7 @@ interface AskerRegistrationExternalAgencyOverlayProps {
 	selectedAgency: any;
 }
 
-const AskerRegistrationExternalAgencyOverlay = ({
+export const AskerRegistrationExternalAgencyOverlay = ({
 	consultingType,
 	handleOverlayAction,
 	selectedAgency
@@ -58,5 +58,3 @@ const AskerRegistrationExternalAgencyOverlay = ({
 		</OverlayWrapper>
 	);
 };
-
-export default AskerRegistrationExternalAgencyOverlay;

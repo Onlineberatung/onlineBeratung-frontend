@@ -30,9 +30,10 @@ import {
 import { VideoCallMessage } from './VideoCallMessage';
 import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
-import './message.styles';
 import { isVoluntaryInfoSet } from './messageHelpers';
+import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
+import './message.styles';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -140,9 +141,14 @@ export const MessageItemComponent = ({
 		if (messageDate) {
 			return (
 				<div className="messageItem__divider">
-					{typeof messageDate === 'number'
-						? getPrettyDateFromMessageDate(messageDate)
-						: messageDate}
+					<Text
+						text={
+							typeof messageDate === 'number'
+								? getPrettyDateFromMessageDate(messageDate)
+								: messageDate
+						}
+						type="divider"
+					/>
 				</div>
 			);
 		}

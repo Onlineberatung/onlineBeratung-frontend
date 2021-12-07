@@ -19,7 +19,12 @@ export interface ButtonItem {
 	icon?: JSX.Element;
 	id?: string;
 	label?: string;
-	smallIconBackgroundColor?: 'green' | 'red' | 'yellow' | 'grey';
+	smallIconBackgroundColor?:
+		| 'green'
+		| 'red'
+		| 'yellow'
+		| 'grey'
+		| 'alternate';
 	title?: string;
 	type: string;
 }

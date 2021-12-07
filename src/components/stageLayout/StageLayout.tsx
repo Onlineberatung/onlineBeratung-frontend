@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { Children, ReactNode, ReactElement } from 'react';
+import { Children, ReactNode, ReactElement, ComponentType } from 'react';
 import { config } from '../../resources/scripts/config';
 import { translate } from '../../utils/translate';
 import { Button } from '../button/Button';
-import { LegalInformationLinks } from '../login/LegalInformationLinks';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 
 interface StageLayoutProps {
 	children: ReactNode;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 	stage: ReactNode;
 	showLegalLinks?: boolean;
 	showLoginLink?: boolean;
@@ -18,7 +19,8 @@ export const StageLayout = ({
 	children,
 	stage,
 	showLegalLinks,
-	showLoginLink
+	showLoginLink,
+	legalComponent: LegalComponent
 }: StageLayoutProps) => {
 	return (
 		<div className="stageLayout">
@@ -28,7 +30,7 @@ export const StageLayout = ({
 			<div className="stageLayout__content">
 				{children}
 				{showLegalLinks && (
-					<LegalInformationLinks className="stageLayout__legalLinks" />
+					<LegalComponent className="stageLayout__legalLinks" />
 				)}
 			</div>
 			{showLoginLink && (
