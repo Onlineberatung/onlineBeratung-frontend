@@ -1,4 +1,10 @@
-import { DraftHandleValue } from 'draft-js';
+import {
+	ContentState,
+	convertToRaw,
+	DraftHandleValue,
+	Modifier,
+	SelectionState
+} from 'draft-js';
 import sanitizeHtml from 'sanitize-html';
 
 export const emojiPickerCustomClasses = {
@@ -96,7 +102,6 @@ export const markdownToDraftDefaultOptions = {
 			inline: [
 				'autolink',
 				'backticks',
-				'escape',
 				'htmltag',
 				'links',
 				'newline',
@@ -121,4 +126,33 @@ export const sanitizeHtmlDefaultOptions = {
 		'br'
 	],
 	allowedAttributes: sanitizeHtml.defaults.allowedAttributes
+};
+
+/**
+ * Escape markdown characters typed by the user
+ * @param contentState
+ */
+export const escapeMarkdownChars = (contentState: ContentState) => {
+	let newContentState = contentState;
+	const rawDraftObject = convertToRaw(contentState);
+
+	rawDraftObject.blocks.forEach((block) => {
+		const selectionState = SelectionState.createEmpty(block.key);
+		let counter = 0;
+		newContentState = [...block.text].reduce(
+			(contentState, char, charIndex) => {
+				if (['*', '_', '~', '`'].indexOf(char) < 0) return contentState;
+
+				const selection = selectionState.merge({
+					focusOffset: charIndex + counter,
+					anchorOffset: charIndex + counter
+				});
+				counter++;
+				return Modifier.insertText(contentState, selection, '\\');
+			},
+			newContentState
+		);
+	});
+
+	return newContentState;
 };
