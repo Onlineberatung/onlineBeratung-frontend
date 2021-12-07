@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { ComponentType, useContext, useEffect, useState } from 'react';
+import {
+	ComponentType,
+	useCallback,
+	useContext,
+	useEffect,
+	useState
+} from 'react';
 import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
 import { Link, Redirect, useLocation } from 'react-router-dom';
@@ -63,6 +69,7 @@ import { getVideoCallUrl } from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { history } from '../app/app';
+import DeleteSession from '../session/DeleteSession';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -263,6 +270,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				});
 		}
 	};
+
+	const onSuccessDeleteSession = useCallback(() => {
+		setRedirectToSessionsList(true);
+		setUpdateSessionList(getTypeOfLocation());
+	}, [setUpdateSessionList]);
 
 	//TODO:
 	//enquiries: only RS profil
@@ -515,6 +527,24 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						>
 							{translate('chatFlyout.dearchive')}
 						</div>
+					)}
+				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+					!typeIsEnquiry(getTypeOfLocation()) &&
+					!isLiveChat &&
+					!isGroupChat && (
+						<DeleteSession
+							chatId={chatItem.id}
+							onSuccess={onSuccessDeleteSession}
+						>
+							{(onClick) => (
+								<div
+									onClick={onClick}
+									className="sessionMenu__item"
+								>
+									{translate('chatFlyout.remove')}
+								</div>
+							)}
+						</DeleteSession>
 					)}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				chatItem?.monitoring &&

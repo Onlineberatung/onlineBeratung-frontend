@@ -23,6 +23,7 @@ export const OVERLAY_FUNCTIONS = {
 	DELETE_ACCOUNT: 'DELETE_ACCOUNT',
 	NEXT_STEP: 'NEXT_STEP',
 	PREV_STEP: 'PREV_STEP',
+	DELETE_SESSION: 'DELETE_SESSION',
 	FINISH_ANONYMOUS_CONVERSATION: 'FINISH_ANONYMOUS_CONVERSATION',
 	ARCHIVE: 'ARCHIVE'
 };
@@ -194,7 +195,7 @@ export const Overlay = (props: {
 						{activeOverlay.buttonSet?.map((item, i) => (
 							<Button
 								item={item}
-								key={i}
+								key={`${i}-${item.type}`}
 								buttonHandle={handleButtonClick}
 							/>
 						))}
