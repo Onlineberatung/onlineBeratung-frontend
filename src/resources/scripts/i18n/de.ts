@@ -6,6 +6,7 @@ import attachments from './de/attachments';
 import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
 import deleteAccount from './de/deleteAccount';
+import deleteSession from './de/deleteSession';
 import enquiry from './de/enquiry';
 import error from './de/error';
 import furtherSteps from './de/furtherSteps';
@@ -33,6 +34,7 @@ const de = {
 	chatFlyout,
 	consultant,
 	deleteAccount,
+	deleteSession,
 	enquiry,
 	error,
 	furtherSteps,
