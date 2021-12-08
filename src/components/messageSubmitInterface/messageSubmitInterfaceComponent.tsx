@@ -47,7 +47,13 @@ import {
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
-import { EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import {
+	EditorState,
+	RichUtils,
+	DraftHandleValue,
+	convertToRaw,
+	convertFromRaw
+} from 'draft-js';
 import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
@@ -783,12 +789,21 @@ export const MessageSubmitInterfaceComponent = (
 										handleBeforeInput={() =>
 											handleEditorBeforeInput(editorState)
 										}
-										handlePastedText={(pastedText) =>
-											handleEditorPastedText(
-												editorState,
-												pastedText
-											)
-										}
+										handlePastedText={(
+											text: string,
+											html?: string
+										): DraftHandleValue => {
+											const newEditorState =
+												handleEditorPastedText(
+													editorState,
+													text,
+													html
+												);
+											if (newEditorState) {
+												setEditorState(newEditorState);
+											}
+											return 'handled';
+										}}
 										ref={(element) => {
 											editorRef = element;
 										}}
