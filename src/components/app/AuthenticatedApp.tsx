@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { ComponentType, useContext, useEffect, useState } from 'react';
+import {
+	ComponentType,
+	useCallback,
+	useContext,
+	useEffect,
+	useState
+} from 'react';
 import { Routing } from './Routing';
 import { config } from '../../resources/scripts/config';
 import {
@@ -35,7 +41,11 @@ interface AuthenticatedAppProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
-export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
+export const AuthenticatedApp = ({
+	onLogout,
+	onAppReady,
+	legalComponent
+}: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { setAuthData } = useContext(AuthDataContext);
 	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
@@ -44,6 +54,7 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { notifications } = useContext(NotificationsContext);
 	const { sessionsData } = useContext(SessionsDataContext);
+	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
 
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
@@ -78,27 +89,25 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	}
 
 	useEffect(() => {
-		props.onAppReady();
+		onAppReady();
 	}, [appReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const handleLogout = () => {
+	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
-			apiFinishAnonymousConversation(
-				sessionsData?.mySessions[0].session.id
-			).catch((error) => {
+			apiFinishAnonymousConversation(sessionId).catch((error) => {
 				console.error(error);
 			});
 		}
-		props.onLogout();
+		onLogout();
 		logout();
-	};
+	}, [onLogout, sessionId, userData]);
 
 	if (appReady) {
 		return (
 			<>
 				<Routing
 					logout={handleLogout}
-					legalComponent={props.legalComponent}
+					legalComponent={legalComponent}
 				/>
 				{notifications && (
 					<Notifications notifications={notifications} />

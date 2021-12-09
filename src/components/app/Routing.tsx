@@ -31,6 +31,8 @@ interface routingProps {
 export const Routing = (props: routingProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
+	const sessionGroupId = sessionsData?.mySessions?.[0]?.session?.groupId;
+	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
 
 	const routerConfig = useMemo(() => {
 		if (hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData)) {
@@ -66,14 +68,13 @@ export const Routing = (props: routingProps) => {
 	// Redirect anonymous live chat users to their one and only session
 	useEffect(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
-			const groupId = sessionsData?.mySessions[0].session.groupId;
-			const id = sessionsData?.mySessions[0].session.id;
-
-			if (groupId && id) {
-				history.push(`/sessions/user/view/${groupId}/${id}`);
+			if (sessionGroupId && sessionId) {
+				history.push(
+					`/sessions/user/view/${sessionGroupId}/${sessionId}`
+				);
 			}
 		}
-	}, [sessionsData, userData]);
+	}, [sessionGroupId, sessionId, userData]);
 
 	return (
 		<div className="app__wrapper">
@@ -85,40 +86,32 @@ export const Routing = (props: routingProps) => {
 			<section className="contentWrapper">
 				<Header />
 				<div className="contentWrapper__list">
-					{useMemo(
-						() =>
-							routerConfig.listRoutes.map(
-								(route: any, index: any): JSX.Element => (
-									<Route
-										key={index}
-										path={route.path}
-										component={SessionsListWrapper}
-									/>
-								)
-							),
-						[routerConfig.listRoutes]
+					{routerConfig.listRoutes.map(
+						(route: any): JSX.Element => (
+							<Route
+								key={`list-${route.path}`}
+								path={route.path}
+								component={SessionsListWrapper}
+							/>
+						)
 					)}
 				</div>
 				<div className="contentWrapper__detail">
-					{useMemo(
-						() =>
-							routerConfig.detailRoutes.map(
-								(route: any, index: any): JSX.Element => (
-									<Route
-										exact
-										key={index}
-										path={route.path}
-										component={(componentProps) => (
-											<route.component
-												{...componentProps}
-												{...props}
-												type={route.type || null}
-											/>
-										)}
+					{routerConfig.detailRoutes.map(
+						(route: any): JSX.Element => (
+							<Route
+								exact
+								key={`detail-${route.path}`}
+								path={route.path}
+								render={(componentProps) => (
+									<route.component
+										{...componentProps}
+										{...props}
+										type={route.type || null}
 									/>
-								)
-							),
-						[routerConfig.detailRoutes, props]
+								)}
+							/>
+						)
 					)}
 
 					{((hasUserProfileRoutes) => {
@@ -126,15 +119,12 @@ export const Routing = (props: routingProps) => {
 							return (
 								<div className="contentWrapper__userProfile">
 									{routerConfig.userProfileRoutes.map(
-										(
-											route: any,
-											index: any
-										): JSX.Element => (
+										(route: any): JSX.Element => (
 											<Route
 												exact
-												key={index}
+												key={`userProfile-${route.path}`}
 												path={route.path}
-												component={(props) => (
+												render={(props) => (
 													<route.component
 														{...props}
 														type={
@@ -152,24 +142,20 @@ export const Routing = (props: routingProps) => {
 				</div>
 
 				<div className="contentWrapper__profile">
-					{useMemo(
-						() =>
-							routerConfig.profileRoutes?.map(
-								(route: any, index: any): JSX.Element => (
-									<Route
-										exact
-										key={index}
-										path={route.path}
-										component={() => (
-											<route.component
-												{...props}
-												type={route.type || null}
-											/>
-										)}
+					{routerConfig.profileRoutes?.map(
+						(route: any): JSX.Element => (
+							<Route
+								exact
+								key={`profile-${route.path}`}
+								path={route.path}
+								render={() => (
+									<route.component
+										{...props}
+										type={route.type || null}
 									/>
-								)
-							),
-						[routerConfig.profileRoutes, props]
+								)}
+							/>
+						)
 					)}
 				</div>
 			</section>
