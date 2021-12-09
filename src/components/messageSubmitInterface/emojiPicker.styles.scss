@@ -26,7 +26,7 @@ $emoji-popover-height: 433px;
 
 			&:hover {
 				* {
-					fill: $primary;
+					fill: var(--skin-color-primary, $primary);
 				}
 			}
 		}
@@ -37,7 +37,7 @@ $emoji-popover-height: 433px;
 	}
 	.emoji__selectButton--pressed {
 		svg * {
-			fill: $primary;
+			fill: var(--skin-color-primary, $primary);
 		}
 	}
 	.emoji__selectPopover {
@@ -179,7 +179,7 @@ $emoji-popover-height: 433px;
 		outline: none;
 	}
 	.emoji__selectPopover__navEntry--active {
-		color: $primary;
+		color: var(--skin-color-primary, $primary);
 	}
 	.emoji__selectPopover__scrollbar {
 		position: absolute;

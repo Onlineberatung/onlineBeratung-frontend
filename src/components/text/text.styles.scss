@@ -6,13 +6,13 @@
 	&__standard {
 		font-size: $font-size-primary;
 		line-height: $line-height-primary;
-		color: $secondary;
+		color: var(--skin-color-text, $secondary);
 	}
 
 	&__infoLargeStandard {
 		font-size: $font-size-tertiary;
 		line-height: 19px;
-		color: $secondary;
+		color: var(--skin-color-text, $secondary);
 	}
 
 	&__infoLargeAlternative {
@@ -52,7 +52,7 @@
 		}
 
 		&--notice {
-			color: $primary;
+			color: var(--skin-color-primary, $primary);
 		}
 	}
 

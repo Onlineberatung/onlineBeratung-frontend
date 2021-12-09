@@ -87,7 +87,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 			height: $grid-base-six;
 			border-radius: $grid-base-three;
 			cursor: pointer;
-			background-color: $primary;
+			background-color: var(--skin-color-primary, $primary);
 			margin: 0 0 4px 4px;
 			align-self: flex-end;
 			transition: background-color 0.6s ease;
@@ -204,14 +204,14 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 
 				&:hover {
 					* {
-						fill: $primary;
+						fill: var(--skin-color-primary, $primary);
 					}
 				}
 			}
 
 			&--active {
 				svg * {
-					fill: $primary;
+					fill: var(--skin-color-primary, $primary);
 				}
 			}
 		}
@@ -260,7 +260,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 
 				&--active {
 					svg * {
-						color: $primary;
+						color: var(--skin-color-primary, $primary);
 					}
 				}
 			}
@@ -292,7 +292,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 			&:hover {
 				svg {
 					* {
-						fill: $primary;
+						fill: var(--skin-color-primary, $primary);
 					}
 				}
 			}

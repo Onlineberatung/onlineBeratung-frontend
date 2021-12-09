@@ -8,7 +8,7 @@
 		background: none;
 		border: none;
 		border-bottom: 1px solid $line-grey;
-		color: $secondary;
+		color: var(--skin-color-text, $secondary);
 
 		&--empty {
 			color: $tertiary;
@@ -18,17 +18,17 @@
 		&:disabled {
 			cursor: default;
 			opacity: 1;
-			-webkit-text-fill-color: $secondary;
+			-webkit-text-fill-color: var(--skin-color-text, $secondary);
 		}
 
 		&:focus-visible,
 		&:focus {
-			border-bottom: 1px solid $primary;
+			border-bottom: 1px solid var(--skin-color-primary, $primary);
 			outline: none;
 		}
 
 		&::selection {
-			background: rgba($primary, 0.1);
+			background: rgba(var(--skin-color-primary, $primary), 0.1);
 		}
 	}
 
@@ -73,7 +73,7 @@
 
 	&__label--invalid {
 		.text {
-			color: $primary;
+			color: var(--skin-color-primary, $primary);
 		}
 	}
 

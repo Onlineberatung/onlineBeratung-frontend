@@ -7,7 +7,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 $headerHeight: $grid-base-twelve;
 
 a {
-	color: $primary;
+	color: var(--skin-color-primary, $primary);
 }
 
 .app {

@@ -27,7 +27,7 @@ $message-lineheight: 21px;
 		text-decoration: underline;
 
 		&:hover {
-			color: $primary;
+			color: var(--skin-color-primary, $primary);
 			transition: unset;
 		}
 
@@ -131,11 +131,11 @@ $message-lineheight: 21px;
 		}
 
 		&--lastRead {
-			color: $primary;
+			color: var(--skin-color-primary, $primary);
 
 			&::before,
 			&::after {
-				border-top: 1px solid $primary;
+				border-top: 1px solid var(--skin-color-primary, $primary);
 			}
 		}
 
@@ -145,7 +145,7 @@ $message-lineheight: 21px;
 	}
 
 	&__message {
-		color: $secondary;
+		color: var(--skin-color-text, $secondary);
 		line-height: $message-lineheight;
 		background-color: $white;
 		border-radius: 0 12px 12px;
@@ -200,7 +200,7 @@ $message-lineheight: 21px;
 			align-items: center;
 			background-color: $dark-grey;
 			border-radius: $icon-size;
-			color: $secondary;
+			color: var(--skin-color-text, $secondary);
 			padding: 6px $grid-base-three 5px 12px;
 			max-width: 350px;
 
@@ -212,7 +212,7 @@ $message-lineheight: 21px;
 
 				p {
 					margin: 0;
-					color: $secondary;
+					color: var(--skin-color-text, $secondary);
 					line-height: $icon-size;
 				}
 			}
@@ -236,11 +236,11 @@ $message-lineheight: 21px;
 			&__download {
 				&:hover {
 					p {
-						color: $primary;
+						color: var(--skin-color-primary, $primary);
 					}
 					svg {
 						* {
-							fill: $primary;
+							fill: var(--skin-color-primary, $primary);
 						}
 					}
 				}
@@ -320,7 +320,7 @@ $message-lineheight: 21px;
 			}
 
 			&:hover path {
-				fill: $primary;
+				fill: var(--skin-color-primary, $primary);
 			}
 
 			&.success {

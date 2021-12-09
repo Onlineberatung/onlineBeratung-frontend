@@ -23,7 +23,7 @@
 			font-weight: $font-weight-bold;
 			text-transform: uppercase;
 			cursor: pointer;
-			color: $primary;
+			color: var(--skin-color-primary, $primary);
 			text-decoration: none;
 			transition: all 0.6s ease;
 

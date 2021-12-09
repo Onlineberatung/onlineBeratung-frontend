@@ -61,8 +61,8 @@ $yellow-5: #ff9f00;
 $yellow-6: #de8a00;
 
 $message-name-self: $form-primary;
-$message-name-system: $primary;
-$message-name-consultant: $primary;
+$message-name-system: var(--skin-color-primary, $primary);
+$message-name-consultant: var(--skin-color-primary, $primary);
 $message-name-user: #1b998b;
 $message-name-forwarded: $yellow-6;
 
@@ -92,7 +92,7 @@ $font-size-subheadline: 20px;
 
 // BODY STYLES
 $body-bg: $white;
-$body-font-color: $secondary;
+$body-font-color: var(--skin-color-text, $secondary);
 $body-font-family: $font-family-sans-serif;
 $body-font-weight: $font-weight-regular;
 $body-font-style: normal;
@@ -194,7 +194,7 @@ $registration-form-max-width: 400px;
 $registration-text-align: center;
 $select-dropdown-border-radius: 25px;
 $select-focus-background-color: $background-accent;
-$selection-focus-color: $primary;
+$selection-focus-color: var(--skin-color-primary, $primary);
 $sendInputHeight: 48px;
 $session-background-color: $background-light;
 $session-content-background-color: $background-light;
