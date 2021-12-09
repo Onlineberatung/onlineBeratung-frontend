@@ -32,12 +32,13 @@ export const Stage = ({
 			<div className="stage__headline">
 				<h1>{translate('app.title')}</h1>
 				<h4>{translate('app.claim')}</h4>
+				<div className="logo" />
 			</div>
 
 			{hasAnimation ? (
 				<div className="stage__spinner">
-					<div className="double-bounce1"></div>
-					<div className="double-bounce2"></div>
+					<div className="double-bounce1" />
+					<div className="double-bounce2" />
 				</div>
 			) : null}
 

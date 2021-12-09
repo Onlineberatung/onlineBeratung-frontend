@@ -27,6 +27,8 @@ export const LoginLoader = ({
 	const [isValidResort, setIsValidResort] = useState<boolean>();
 	const { consultingTypeSlug } = useParams();
 
+	console.log('LoginLoader');
+
 	useEffect(() => {
 		if (!isValidConsultingTypeSlug(consultingTypeSlug)) {
 			handleUnmatch();

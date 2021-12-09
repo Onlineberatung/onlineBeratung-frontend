@@ -13,6 +13,7 @@ import { StageProps } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
 import '../../resources/styles/styles';
 import './login.styles';
+import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -24,6 +25,7 @@ interface LoginProps {
 }
 
 export const Login = ({ stageComponent: Stage }: LoginProps) => {
+	useLoadTenantThemeFiles();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState(

@@ -1,0 +1,19 @@
+/*
+--colorPrimary-h: 0;
+--colorPrimary-s: 100%;
+--colorPrimary-l: 50%;
+
+--colorPrimary: var(--colorPrimary-h), var(--colorPrimary-s), --colorPrimary-l);
+ */
+
+:root {
+	--skin-color-primary-background: #fff;
+	--skin-color-primary: #ccc;
+	--skin-color-text: #222;
+}
+
+.logo {
+	width: 40px;
+	height: 40px;
+	margin: 20px auto;
+}

@@ -1,0 +1,13 @@
+:root {
+	--skin-color-primary-background: #fff;
+	--skin-color-primary: #0dcd21;
+}
+
+.logo {
+	width: 40px;
+	height: 40px;
+	margin: 20px auto;
+	background-image: url('./logo.png');
+	background-repeat: no-repeat;
+	background-size: contain;
+}

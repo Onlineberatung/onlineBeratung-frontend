@@ -4,7 +4,7 @@ $iconSize: 55px;
 $gridSpacing: $grid-base-four;
 
 .stage {
-	background-color: $primary;
+	background-color: var(--skin-color-primary, $primary);
 	color: $white;
 	flex-direction: column;
 	align-items: center;
