@@ -44,13 +44,14 @@ $iconSizeLarge: 48px;
 		text-align: $overlay-text-align;
 		margin: auto;
 		padding: $grid-base-six $grid-base-three;
-		overflow: visible;
+		overflow: scroll;
 
 		@include breakpoint($fromLarge) {
 			width: 100%;
 			height: auto;
 			max-width: 720px;
 			padding: $grid-base-six;
+			overflow: visible;
 		}
 
 		animation: fadeIn linear 0.8s;
