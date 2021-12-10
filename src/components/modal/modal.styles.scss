@@ -1,0 +1,28 @@
+.modal {
+	position: fixed;
+	z-index: 9999;
+
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: $white;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+
+	&.hidden {
+		display: none;
+		visibility: hidden;
+	}
+
+	.stage__spinner {
+		animation: none;
+		.double-bounce1,
+		.double-bounce2 {
+			background-color: $black-10-opacity;
+		}
+	}
+}

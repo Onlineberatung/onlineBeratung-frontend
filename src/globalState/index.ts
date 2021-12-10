@@ -20,4 +20,4 @@ export * from './provider/UnreadSessionsStatusProvider';
 export * from './provider/UpdateSessionListProvider';
 export * from './provider/UserDataProvider';
 export * from './provider/WebsocketConnectionDeactivatedProvider';
-export * from './provider/ThemeProvider';
+export * from './provider/TenantProvider';

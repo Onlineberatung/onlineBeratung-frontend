@@ -4,8 +4,6 @@ import { Login } from './components/login/Login';
 import { Stage } from './components/stage/stage';
 import { ContextProvider } from './globalState/state';
 
-console.log('init Login');
-
 ReactDOM.render(
 	<ContextProvider>
 		<Login stageComponent={Stage} />

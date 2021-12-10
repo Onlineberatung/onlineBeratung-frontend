@@ -2,7 +2,7 @@ import '../../polyfill';
 import * as React from 'react';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import { ComponentType, useState, useEffect } from 'react';
+import { ComponentType, useState, useEffect, useContext } from 'react';
 import { config } from '../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
 import { autoLogin } from '../registration/autoLogin';
@@ -14,6 +14,8 @@ import { StageLayout } from '../stageLayout/StageLayout';
 import '../../resources/styles/styles';
 import './login.styles';
 import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
+import Modal from '../modal/Modal';
+import { TenantContext } from '../../globalState';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -26,6 +28,7 @@ interface LoginProps {
 
 export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	useLoadTenantThemeFiles();
+	const { tenant } = useContext(TenantContext);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState(
@@ -89,59 +92,69 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	};
 
 	return (
-		<StageLayout stage={<Stage hasAnimation />} showLegalLinks>
-			<div className="loginForm">
-				<div className="loginForm__headline">
-					<h1>{translate('login.headline')}</h1>
-				</div>
-				<InputField
-					item={inputItemUsername}
-					inputHandle={handleUsernameChange}
-					keyUpHandle={handleKeyUp}
-				/>
-				<InputField
-					item={inputItemPassword}
-					inputHandle={handlePasswordChange}
-					keyUpHandle={handleKeyUp}
-				/>
-				{showLoginError ? (
-					<Text
-						text={translate('login.warning.failed')}
-						type="infoSmall"
-						className="loginForm__error"
+		<>
+			<StageLayout stage={<Stage hasAnimation />} showLegalLinks>
+				<div className="loginForm">
+					<div className="loginForm__headline">
+						<h1>{translate('login.headline')}</h1>
+					</div>
+					<InputField
+						item={inputItemUsername}
+						inputHandle={handleUsernameChange}
+						keyUpHandle={handleKeyUp}
 					/>
-				) : null}
-				<a
-					href={config.endpoints.loginResetPasswordLink}
-					target="_blank"
-					rel="noreferrer"
-					className="loginForm__passwordReset"
-				>
-					{translate('login.resetPasswort.label')}
-				</a>
-				<Button
-					item={loginButton}
-					buttonHandle={handleLogin}
-					disabled={isButtonDisabled}
-				/>
-				<div className="loginForm__register">
-					<Text
-						text={translate('login.register.infoText.title')}
-						type={'infoSmall'}
+					<InputField
+						item={inputItemPassword}
+						inputHandle={handlePasswordChange}
+						keyUpHandle={handleKeyUp}
 					/>
-					<Text
-						text={translate('login.register.infoText.copy')}
-						type={'infoSmall'}
-					/>
+					{showLoginError ? (
+						<Text
+							text={translate('login.warning.failed')}
+							type="infoSmall"
+							className="loginForm__error"
+						/>
+					) : null}
 					<a
-						className="loginForm__register__link"
-						href={config.urls.loginRedirectToRegistrationOverview}
-						target="_self"
+						href={config.endpoints.loginResetPasswordLink}
+						target="_blank"
+						rel="noreferrer"
+						className="loginForm__passwordReset"
 					>
-						{translate('login.register.linkLabel')}
+						{translate('login.resetPasswort.label')}
 					</a>
+					<Button
+						item={loginButton}
+						buttonHandle={handleLogin}
+						disabled={isButtonDisabled}
+					/>
+					<div className="loginForm__register">
+						<Text
+							text={translate('login.register.infoText.title')}
+							type={'infoSmall'}
+						/>
+						<Text
+							text={translate('login.register.infoText.copy')}
+							type={'infoSmall'}
+						/>
+						<a
+							className="loginForm__register__link"
+							href={
+								config.urls.loginRedirectToRegistrationOverview
+							}
+							target="_self"
+						>
+							{translate('login.register.linkLabel')}
+						</a>
+					</div>
 				</div>
-			</div>
-		</StageLayout>
+			</StageLayout>
+			<Modal isVisible={!tenant?.subdomain}>
+				<div className="stage__spinner">
+					<div className="double-bounce1" />
+					<div className="double-bounce2" />
+				</div>
+			</Modal>
+		</>
 	);
 };
