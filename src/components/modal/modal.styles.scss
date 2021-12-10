@@ -17,12 +17,4 @@
 		display: none;
 		visibility: hidden;
 	}
-
-	.stage__spinner {
-		animation: none;
-		.double-bounce1,
-		.double-bounce2 {
-			background-color: $black-10-opacity;
-		}
-	}
 }

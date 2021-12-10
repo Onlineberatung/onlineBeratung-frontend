@@ -9,6 +9,7 @@ import { ReactComponent as KreuzbundLogo } from '../../resources/img/logos/05_kr
 import { ReactComponent as RaphaelswerkLogo } from '../../resources/img/logos/06_raphael.svg';
 import { ReactComponent as MalteserLogo } from '../../resources/img/logos/07_malteser.svg';
 import './stage.styles';
+import Spinner from '../spinner/Spinner';
 
 export interface StageProps {
 	className?: string;
@@ -35,12 +36,7 @@ export const Stage = ({
 				<div className="logo" />
 			</div>
 
-			{hasAnimation ? (
-				<div className="stage__spinner">
-					<div className="double-bounce1" />
-					<div className="double-bounce2" />
-				</div>
-			) : null}
+			{hasAnimation ? <Spinner className="stage__spinner" /> : null}
 
 			<div className="stage__logos">
 				<SkfLogo />

@@ -16,6 +16,7 @@ import './login.styles';
 import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
 import Modal from '../modal/Modal';
 import { TenantContext } from '../../globalState';
+import Spinner from '../spinner/Spinner';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -150,10 +151,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				</div>
 			</StageLayout>
 			<Modal isVisible={!tenant?.subdomain}>
-				<div className="stage__spinner">
-					<div className="double-bounce1" />
-					<div className="double-bounce2" />
-				</div>
+				<Spinner isDark />
 			</Modal>
 		</>
 	);
