@@ -54,7 +54,8 @@
 			top: 0;
 		}
 
-		&--singleEdit {
+		&--singleEdit,
+		&--singleClear {
 			bottom: $grid-base;
 		}
 
@@ -68,6 +69,24 @@
 				width: 10px;
 				fill: $white;
 			}
+		}
+	}
+
+	&__inputButtonGroup {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		right: 0;
+		bottom: 0;
+	}
+
+	&__inputButtonGroup > &__inputButton {
+		position: relative;
+		margin-right: 5px;
+
+		&:last-child {
+			margin-right: 0;
 		}
 	}
 
