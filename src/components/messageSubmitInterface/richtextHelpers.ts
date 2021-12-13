@@ -1,9 +1,11 @@
 import {
 	ContentState,
 	convertToRaw,
+	convertFromHTML,
 	DraftHandleValue,
 	Modifier,
-	SelectionState
+	SelectionState,
+	EditorState
 } from 'draft-js';
 import sanitizeHtml from 'sanitize-html';
 
@@ -63,16 +65,29 @@ export const handleEditorBeforeInput = (editorState): DraftHandleValue => {
 };
 
 export const handleEditorPastedText = (
-	editorState,
-	pastedText
-): DraftHandleValue => {
+	editorState: EditorState,
+	text: string,
+	html?: string
+): EditorState => {
+	const pastedContent = html ?? text;
 	const currentContent = editorState.getCurrentContent();
 	const currentContentLength = currentContent.getPlainText('').length;
 
-	if (currentContentLength + pastedText.length > INPUT_MAX_LENGTH) {
-		return 'handled';
+	if (currentContentLength + text.length > INPUT_MAX_LENGTH) {
+		return null;
 	} else {
-		return 'not-handled';
+		const { contentBlocks, entityMap } = convertFromHTML(
+			sanitizeHtml(pastedContent, sanitizeHtmlPasteOptions)
+		);
+		const contentState = Modifier.replaceWithFragment(
+			editorState.getCurrentContent(),
+			editorState.getSelection(),
+			ContentState.createFromBlockArray(
+				contentBlocks,
+				entityMap
+			).getBlockMap()
+		);
+		return EditorState.push(editorState, contentState, 'insert-fragment');
 	}
 };
 
@@ -111,20 +126,12 @@ export const markdownToDraftDefaultOptions = {
 	}
 };
 
+export const sanitizeHtmlPasteOptions = {
+	allowedTags: ['em', 'p', 'div', 'b', 'i', 'ol', 'ul', 'li', 'strong', 'br']
+};
+
 export const sanitizeHtmlDefaultOptions = {
-	allowedTags: [
-		'a',
-		'em',
-		'p',
-		'div',
-		'b',
-		'i',
-		'ol',
-		'ul',
-		'li',
-		'strong',
-		'br'
-	],
+	allowedTags: [...sanitizeHtmlPasteOptions.allowedTags, 'a'],
 	allowedAttributes: sanitizeHtml.defaults.allowedAttributes
 };
 
