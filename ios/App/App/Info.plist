@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>For an easier and faster log in.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>TEST - Permission to take picture</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>TEST - Permission to photo libary access</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -11,7 +15,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>Caritas Online-Beratung</string>
+	<string>Caritas Online-Beratung</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
