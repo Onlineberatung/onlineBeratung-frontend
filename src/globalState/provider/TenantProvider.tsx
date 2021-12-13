@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createContext, useState } from 'react';
 
-export const TenantContext = createContext<any>('default');
+export const TenantContext = createContext<any>({});
 
 export function TenantProvider(props) {
 	const [tenant, setTenant] = useState({});

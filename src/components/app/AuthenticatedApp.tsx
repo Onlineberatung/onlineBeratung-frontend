@@ -14,7 +14,8 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	SessionsDataContext,
-	ConsultingTypesContext
+	ConsultingTypesContext,
+	TenantContext
 } from '../../globalState';
 import {
 	apiFinishAnonymousConversation,
@@ -27,6 +28,7 @@ import { logout } from '../logout/logout';
 import { Notifications } from '../notifications/Notifications';
 import './authenticatedApp.styles';
 import './navigation.styles';
+import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -34,6 +36,8 @@ interface AuthenticatedAppProps {
 }
 
 export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
+	useLoadTenantThemeFiles();
+	const { tenant } = useContext(TenantContext);
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { setAuthData } = useContext(AuthDataContext);
 	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
@@ -69,7 +73,10 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 					setAppReady(true);
 				})
 				.catch((error) => {
-					window.location.href = config.urls.toLogin;
+					// ToDo: replace with React router history
+					window.location.href = tenant?.url
+						? tenant.url
+						: config.urls.toLogin;
 					console.log(error);
 				});
 		});

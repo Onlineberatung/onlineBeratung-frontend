@@ -1,7 +1,7 @@
 import { getKeycloakAccessToken } from '../sessionCookie/getKeycloakAccessToken';
 import { getRocketchatAccessToken } from '../sessionCookie/getRocketchatAccessToken';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
-import { config } from '../../resources/scripts/config';
+import { APP_PATH, config } from '../../resources/scripts/config';
 import { generateCsrfToken } from '../../utils/generateCsrfToken';
 import { encodeUsername } from '../../utils/encryptionHelpers';
 import { setTokens } from '../auth/auth';
@@ -21,6 +21,7 @@ export const autoLogin = (autoLoginProps: {
 	username: string;
 	password: string;
 	redirect: boolean;
+	redirectURL?: string;
 	handleLoginError?: Function;
 	handleLoginSuccess?: Function;
 	useOldUser?: boolean;
@@ -53,7 +54,7 @@ export const autoLogin = (autoLoginProps: {
 					//generate new csrf token for current session
 					generateCsrfToken(true);
 					if (autoLoginProps.redirect) {
-						redirectToApp();
+						redirectToApp(autoLoginProps.redirectURL);
 					}
 
 					if (autoLoginProps.handleLoginSuccess) {
@@ -78,6 +79,7 @@ export const autoLogin = (autoLoginProps: {
 					username: autoLoginProps.username,
 					password: autoLoginProps.password,
 					redirect: autoLoginProps.redirect,
+					redirectURL: autoLoginProps.redirectURL,
 					handleLoginError: autoLoginProps.handleLoginError,
 					useOldUser: true
 				});
@@ -85,6 +87,8 @@ export const autoLogin = (autoLoginProps: {
 		});
 };
 
-export const redirectToApp = () => {
-	window.location.href = config.urls.redirectToApp;
+export const redirectToApp = (redirectURL?: string) => {
+	window.location.href = redirectURL
+		? redirectURL + '/' + APP_PATH
+		: config.urls.redirectToApp;
 };

@@ -96,7 +96,10 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 				transform: translate(0);
 			}
 			&:hover {
-				background-color: $hover-primary;
+				background-color: var(
+					--skin-color-primary-hover,
+					$hover-primary
+				);
 			}
 			&--clicked {
 				svg {

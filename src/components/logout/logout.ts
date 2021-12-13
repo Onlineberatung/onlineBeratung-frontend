@@ -2,6 +2,7 @@ import { config } from '../../resources/scripts/config';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { apiRocketchatLogout, apiKeycloakLogout } from '../../api';
 import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
+import { getLocationVariables } from '../../utils/useLoadTenantThemeFiles';
 
 let isRequestInProgress = false;
 export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
@@ -10,16 +11,16 @@ export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
 	}
 	isRequestInProgress = true;
 	apiRocketchatLogout()
-		.then((response) => {
+		.then(() => {
 			apiKeycloakLogout()
-				.then((response) => {
+				.then(() => {
 					invalidateCookies(withRedirect, redirectUrl);
 				})
-				.catch((error) => {
+				.catch(() => {
 					invalidateCookies(withRedirect, redirectUrl);
 				});
 		})
-		.catch((error) => {
+		.catch(() => {
 			invalidateCookies(withRedirect, redirectUrl);
 		});
 };
@@ -36,7 +37,13 @@ const invalidateCookies = (
 };
 
 const redirectAfterLogout = (altRedirectUrl?: string) => {
-	const redirectUrl = altRedirectUrl ? altRedirectUrl : config.urls.toLogin;
+	const { subdomain, origin } = getLocationVariables();
+
+	let redirectUrl = altRedirectUrl ? altRedirectUrl : config.urls.toLogin;
+	if (subdomain) {
+		redirectUrl = origin;
+	}
+
 	setTimeout(() => {
 		window.location.href = redirectUrl;
 	}, 1000);

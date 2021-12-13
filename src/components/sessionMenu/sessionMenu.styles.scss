@@ -138,14 +138,14 @@ $iconSize: 20px;
 
 		:hover {
 			cursor: pointer;
-			color: $hover-primary;
+			color: var(--skin-color-primary-hover, $hover-primary);
 
 			p {
-				color: $hover-primary;
+				color: var(--skin-color-primary-hover, $hover-primary);
 			}
 
 			svg * {
-				fill: $hover-primary;
+				fill: var(--skin-color-primary-hover, $hover-primary);
 			}
 		}
 	}

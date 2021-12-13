@@ -196,7 +196,7 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 					}
 					additionalStepsData={consultingType.requiredComponents}
 					registrationNotes={consultingType.registration.notes}
-				></FormAccordion>
+				/>
 
 				{preselectedAgencyData &&
 					consultingType.registration.autoSelectPostcode && (

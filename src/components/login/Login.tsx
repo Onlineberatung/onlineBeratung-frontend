@@ -82,7 +82,13 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	const handleLogin = () => {
 		if (!isRequestInProgress && username && password) {
 			setIsRequestInProgress(true);
-			autoLogin({ username, password, redirect: true, handleLoginError });
+			autoLogin({
+				username,
+				password,
+				redirect: true,
+				redirectURL: tenant.origin,
+				handleLoginError
+			});
 		}
 	};
 
@@ -151,7 +157,22 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				</div>
 			</StageLayout>
 			<Modal isVisible={!tenant?.subdomain}>
-				<Spinner isDark />
+				<div>
+					<Spinner isDark />
+					<p>
+						Bitte melden Sie sich bei <strong>Ihrer</strong>{' '}
+						Beratungs-Stelle an.{' '}
+					</p>
+					<p>
+						Diese finden sie unter{' '}
+						<strong>[beratungsstelle].onlineberatung.de</strong>
+					</p>
+					<p>
+						Sie wollen selbst eine Beratungsstelle online eröffnen.
+						Dann geht's{' '}
+						<a href="http://www.onlineberatung.de">hier</a> lang
+					</p>
+				</div>
 			</Modal>
 		</>
 	);

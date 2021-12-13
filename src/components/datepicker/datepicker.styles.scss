@@ -188,7 +188,10 @@ $arrow-icon-size: 14px;
 
 			&:hover {
 				color: $white !important;
-				background-color: $hover-primary;
+				background-color: var(
+					--skin-color-primary-hover,
+					$hover-primary
+				);
 				border-radius: 4px;
 			}
 		}
