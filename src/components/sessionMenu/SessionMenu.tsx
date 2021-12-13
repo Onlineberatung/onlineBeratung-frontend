@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import {
+	ComponentType,
+	useCallback,
+	useContext,
+	useEffect,
+	useState
+} from 'react';
 import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
 import { Link, Redirect, useLocation } from 'react-router-dom';
@@ -61,10 +67,14 @@ import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { history } from '../app/app';
+import DeleteSession from '../session/DeleteSession';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
+	isAskerInfoAvailable: boolean;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
@@ -261,6 +271,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		}
 	};
 
+	const onSuccessDeleteSession = useCallback(() => {
+		setRedirectToSessionsList(true);
+		setUpdateSessionList(getTypeOfLocation());
+	}, [setUpdateSessionList]);
+
 	//TODO:
 	//enquiries: only RS profil
 	//sessions/peer/team: feedback (if u25), rs, docu
@@ -317,11 +332,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		label: translate('chatFlyout.feedback')
 	};
 
-	const hasVideoCallFeatures = () => false;
-	// TODO: reimplement on videocall release
-	// !isGroupChat &&
-	// !typeIsEnquiry(getTypeOfLocation()) &&
-	// hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+	const hasVideoCallFeatures = () =>
+		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+		!isGroupChat &&
+		!isLiveChat &&
+		!typeIsEnquiry(getTypeOfLocation()) &&
+		consultingType.isVideoCallAllowed;
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
 		const videoCallWindow = window.open('', '_blank');
@@ -483,10 +499,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						{translate('chatFlyout.feedback')}
 					</Link>
 				) : null}
-				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				!isGroupChat &&
-				consultingType.showAskerProfile &&
-				!isLiveChat ? (
+				{props.isAskerInfoAvailable ? (
 					<Link className="sessionMenu__item" to={userProfileLink}>
 						{translate('chatFlyout.askerProfil')}
 					</Link>
@@ -514,6 +527,24 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						>
 							{translate('chatFlyout.dearchive')}
 						</div>
+					)}
+				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+					!typeIsEnquiry(getTypeOfLocation()) &&
+					!isLiveChat &&
+					!isGroupChat && (
+						<DeleteSession
+							chatId={chatItem.id}
+							onSuccess={onSuccessDeleteSession}
+						>
+							{(onClick) => (
+								<div
+									onClick={onClick}
+									className="sessionMenu__item"
+								>
+									{translate('chatFlyout.remove')}
+								</div>
+							)}
+						</DeleteSession>
 					)}
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				chatItem?.monitoring &&
@@ -565,22 +596,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					</Link>
 				) : null}
 
-				<a
-					className="sessionMenu__item sessionMenu__item--fixed sessionMenu__item--border"
-					target="_blank"
-					rel="noreferrer"
-					href={config.urls.imprint}
-				>
-					{translate('chatFlyout.imprint')}
-				</a>
-				<a
-					className="sessionMenu__item sessionMenu__item--fixed"
-					target="_blank"
-					rel="noreferrer"
-					href={config.urls.privacy}
-				>
-					{translate('chatFlyout.dataProtection')}
-				</a>
+				<props.legalComponent
+					className="legalInformationLinks--menu"
+					showDivider={false}
+					textStyle={'infoLargeStandard'}
+				/>
 			</div>
 			{overlayActive ? (
 				<OverlayWrapper>

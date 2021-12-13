@@ -41,7 +41,8 @@ export interface SessionItemInterface {
 	postcode: number;
 	registrationType: 'ANONYMOUS' | 'REGISTERED';
 	status: number;
-	teamSession: boolean;
+	isPeerChat: boolean;
+	isTeamSession: boolean;
 	videoCallMessageDTO: VideoCallMessageDTO;
 }
 

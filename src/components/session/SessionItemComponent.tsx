@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useContext, useEffect, useMemo } from 'react';
+import { useState, useContext, useEffect, useMemo, ComponentType } from 'react';
 import clsx from 'clsx';
 import {
 	typeIsEnquiry,
@@ -51,6 +51,7 @@ import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons
 import smoothScroll from './smoothScrollHelper';
 import { Headline } from '../headline/Headline';
 import { history } from '../app/app';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 interface SessionItemProps {
 	currentGroupId: string;
@@ -59,6 +60,7 @@ interface SessionItemProps {
 	messages?: MessageItem[];
 	typingUsers: string[];
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
 let initMessageCount: number;
@@ -326,7 +328,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const scrollBottomButtonItem: ButtonItem = {
 		icon: <ArrowDoubleDownIcon />,
 		type: BUTTON_TYPES.SMALL_ICON,
-		smallIconBackgroundColor: 'grey'
+		smallIconBackgroundColor: 'alternate'
 	};
 
 	return (
@@ -346,6 +348,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				hasUserInitiatedStopOrLeaveRequest={
 					props.hasUserInitiatedStopOrLeaveRequest
 				}
+				legalComponent={props.legalComponent}
 			/>
 
 			{!props.isAnonymousEnquiry && (
@@ -422,7 +425,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							getTypeOfLocation()
 						)}/${chatItem.groupId}/${
 							chatItem.id
-						}/userProfile/monitoring${getSessionListTab()}}`}
+						}/userProfile/monitoring${getSessionListTab()}`}
 					>
 						<div className="monitoringButton">
 							<Button item={monitoringButtonItem} isLink={true} />

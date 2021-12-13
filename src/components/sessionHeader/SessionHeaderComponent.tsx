@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { ComponentType, useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import {
 	translate,
@@ -24,7 +24,8 @@ import {
 	getChatItemForSession,
 	isGroupChatForSessionItem,
 	getTypeOfLocation,
-	getSessionListPathForLocation
+	getSessionListPathForLocation,
+	typeIsEnquiry
 } from '../session/sessionHelpers';
 import { SessionMenu } from '../sessionMenu/SessionMenu';
 import {
@@ -37,10 +38,16 @@ import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 export interface SessionHeaderProps {
-	consultantAbsent?: boolean;
+	consultantAbsent?: {
+		absenceMessage: string;
+		absent: boolean;
+		username: string;
+	};
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
@@ -77,6 +84,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	);
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
+	const sessionListType = getTypeOfLocation();
 
 	useEffect(() => {
 		if (isSubscriberFlyoutOpen) {
@@ -128,6 +136,15 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	};
 
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
+	const isAskerInfoAvailable = () =>
+		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+		consultingType.showAskerProfile &&
+		!isLiveChat &&
+		!isGroupChat &&
+		((typeIsEnquiry(sessionListType) &&
+			Object.entries(userSessionData).length !== 0) ||
+			!typeIsEnquiry(sessionListType));
+
 	if (isGroupChat) {
 		return (
 			<div className="sessionInfo">
@@ -164,6 +181,8 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						hasUserInitiatedStopOrLeaveRequest={
 							props.hasUserInitiatedStopOrLeaveRequest
 						}
+						isAskerInfoAvailable={isAskerInfoAvailable()}
+						legalComponent={props.legalComponent}
 					/>
 				</div>
 				<div className="sessionInfo__metaInfo">
@@ -242,17 +261,12 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				<div
 					className={clsx('sessionInfo__username', {
 						'sessionInfo__username--deactivate':
-							hasUserAuthority(
-								AUTHORITIES.ASKER_DEFAULT,
-								userData
-							) ||
-							!consultingType.showAskerProfile ||
-							isLiveChat
+							!isAskerInfoAvailable()
 					})}
 				>
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
 						<h3>
-							{activeSession?.teamSession
+							{activeSession?.isTeamSession
 								? translate('sessionList.teamsession')
 								: username}
 						</h3>
@@ -261,7 +275,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						AUTHORITIES.CONSULTANT_DEFAULT,
 						userData
 					) ? (
-						consultingType.showAskerProfile && !isLiveChat ? (
+						isAskerInfoAvailable() ? (
 							<Link to={userProfileLink}>
 								<h3>{username}</h3>
 							</Link>
@@ -278,9 +292,11 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					hasUserInitiatedStopOrLeaveRequest={
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
+					isAskerInfoAvailable={isAskerInfoAvailable()}
+					legalComponent={props.legalComponent}
 				/>
 			</div>
-			{!activeSession?.teamSession ||
+			{!activeSession?.isTeamSession ||
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
 				<div className="sessionInfo__metaInfo">
 					{!activeSession?.agency ? (
@@ -322,12 +338,12 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				</div>
 			) : null}
 
-			{activeSession?.teamSession &&
+			{activeSession?.isTeamSession &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
 				<div className="sessionInfo__metaInfo">
 					<div className="sessionInfo__metaInfo__content">
 						{username}
-						{getContact(activeSession).consultantAbsent ? (
+						{getContact(activeSession).consultantAbsent.absent ? (
 							<span>
 								{translate(
 									'session.teamConsultant.isAbsentPrefix'
@@ -348,17 +364,17 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				</div>
 			) : null}
 
-			{!activeSession?.teamSession &&
+			{!activeSession?.isTeamSession &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
 				<div className="sessionInfo__metaInfo">
 					<div
 						className={
-							props.consultantAbsent
+							props.consultantAbsent?.absent
 								? `sessionInfo__metaInfo__content sessionInfo__metaInfo__content--red`
 								: `sessionInfo__metaInfo__content`
 						}
 					>
-						{getContact(activeSession).consultantAbsent
+						{getContact(activeSession).consultantAbsent?.absent
 							? translate('session.consultant.isAbsent')
 							: null}
 					</div>

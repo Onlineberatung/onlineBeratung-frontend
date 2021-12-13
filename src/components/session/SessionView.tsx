@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import {
+	ComponentType,
+	useContext,
+	useEffect,
+	useMemo,
+	useRef,
+	useState
+} from 'react';
 import { history } from '../app/app';
 import { useLocation } from 'react-router-dom';
 import { Loading } from '../app/Loading';
@@ -30,6 +37,8 @@ import {
 	getChatItemForSession,
 	isGroupChatForSessionItem,
 	prepareMessages,
+	getTypeOfLocation,
+	typeIsEnquiry,
 	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
@@ -46,11 +55,18 @@ import { logout } from '../logout/logout';
 import { encodeUsername, decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import './session.styles';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { RouteComponentProps } from 'react-router-dom';
 
 let typingTimeout;
 const TYPING_TIMEOUT_MS = 4000;
 
-export const SessionView = (props) => {
+interface RouterProps {
+	rcGroupId: string;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
+}
+
+export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { setActiveSessionGroupId } = useContext(ActiveSessionGroupIdContext);
@@ -85,7 +101,7 @@ export const SessionView = (props) => {
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
 	const isLiveChatFinished = chatItem?.status === 3;
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
-	const isEnquiry = chatItem?.status === 1;
+	const isEnquiry = typeIsEnquiry(getTypeOfLocation());
 	const isConsultantEnquiry =
 		isEnquiry && hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 	const [sessionListTab] = useState(
@@ -328,7 +344,7 @@ export const SessionView = (props) => {
 	}
 
 	if (isGroupChat && !chatItem.subscribed) {
-		return <JoinGroupChatView />;
+		return <JoinGroupChatView legalComponent={props.legalComponent} />;
 	}
 
 	if (redirectToSessionsList) {
@@ -353,6 +369,7 @@ export const SessionView = (props) => {
 					messagesItem ? prepareMessages(messagesItem.messages) : null
 				}
 				typingUsers={typingUsers}
+				legalComponent={props.legalComponent}
 			/>
 			{isOverlayActive ? (
 				<OverlayWrapper>

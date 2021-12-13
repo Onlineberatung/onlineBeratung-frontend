@@ -99,7 +99,7 @@ describe('Keycloak Tokens', () => {
 		waitForTokenProcessing();
 
 		cy.tick(1000); // logout() call uses setTimeout
-		cy.get('#loginRoot').should('exist');
+		cy.get('.loginForm').should('exist');
 	});
 
 	//TODO: inspect this test, as there seems to be a race condition
@@ -112,7 +112,7 @@ describe('Keycloak Tokens', () => {
 		waitForTokenProcessing();
 
 		cy.tick(1000); // logout() call uses setTimeout
-		cy.get('#loginRoot').should('exist');
+		cy.get('.loginForm').should('exist');
 	});
 
 	it('should not logout if refresh token is expired but access token is still valid', () => {
@@ -126,7 +126,7 @@ describe('Keycloak Tokens', () => {
 		waitForTokenProcessing();
 
 		cy.tick(1000); // logout() call uses setTimeout
-		cy.get('#loginRoot').should('not.exist');
+		cy.get('.loginForm').should('not.exist');
 	});
 
 	it('should not logout if refresh token is expired but access token is still valid when the app loads', () => {
@@ -146,6 +146,6 @@ describe('Keycloak Tokens', () => {
 		waitForTokenProcessing();
 
 		cy.tick(1000); // logout() call uses setTimeout
-		cy.get('#loginRoot').should('not.exist');
+		cy.get('.loginForm').should('not.exist');
 	});
 });

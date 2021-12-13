@@ -56,7 +56,6 @@ module.exports = {
 	appPublic: resolveApp('public'),
 	appEntryPoints: {
 		app: resolveModule(resolveApp, 'src/initApp'),
-		login: resolveModule(resolveApp, 'src/initLogin'),
 		error: resolveModule(resolveApp, 'src/initError')
 	},
 	appPackageJson: resolveApp('package.json'),

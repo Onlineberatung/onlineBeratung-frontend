@@ -1,4 +1,11 @@
-import { DraftHandleValue } from 'draft-js';
+import {
+	ContentState,
+	convertToRaw,
+	DraftHandleValue,
+	Modifier,
+	SelectionState
+} from 'draft-js';
+import sanitizeHtml from 'sanitize-html';
 
 export const emojiPickerCustomClasses = {
 	emojiSelect: 'emoji__select',
@@ -77,4 +84,75 @@ export const urlifyLinksInText = (text) => {
 			url.search(/^http[s]?\:\/\//) === -1 ? `http://${url}` : url; // eslint-disable-line
 		return `<a href="${href}" target="_blank">${url}</a>`;
 	});
+};
+
+export const markdownToDraftDefaultOptions = {
+	remarkablePreset: 'commonmark',
+	remarkableOptions: {
+		disable: {
+			block: [
+				'blockquote',
+				'code',
+				'fences',
+				'heading',
+				'hr',
+				'htmlblock',
+				'lheading'
+			],
+			inline: [
+				'autolink',
+				'backticks',
+				'htmltag',
+				'links',
+				'newline',
+				'text'
+			]
+		}
+	}
+};
+
+export const sanitizeHtmlDefaultOptions = {
+	allowedTags: [
+		'a',
+		'em',
+		'p',
+		'div',
+		'b',
+		'i',
+		'ol',
+		'ul',
+		'li',
+		'strong',
+		'br'
+	],
+	allowedAttributes: sanitizeHtml.defaults.allowedAttributes
+};
+
+/**
+ * Escape markdown characters typed by the user
+ * @param contentState
+ */
+export const escapeMarkdownChars = (contentState: ContentState) => {
+	let newContentState = contentState;
+	const rawDraftObject = convertToRaw(contentState);
+
+	rawDraftObject.blocks.forEach((block) => {
+		const selectionState = SelectionState.createEmpty(block.key);
+		let counter = 0;
+		newContentState = [...block.text].reduce(
+			(contentState, char, charIndex) => {
+				if (['*', '_', '~', '`'].indexOf(char) < 0) return contentState;
+
+				const selection = selectionState.merge({
+					focusOffset: charIndex + counter,
+					anchorOffset: charIndex + counter
+				});
+				counter++;
+				return Modifier.insertText(contentState, selection, '\\');
+			},
+			newContentState
+		);
+	});
+
+	return newContentState;
 };

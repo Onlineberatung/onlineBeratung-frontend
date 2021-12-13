@@ -5,31 +5,67 @@ import { AskerInfoMonitoring } from './AskerInfoMonitoring';
 import {
 	typeIsSession,
 	typeIsTeamSession,
-	getSessionListPathForLocation
+	getSessionListPathForLocation,
+	typeIsEnquiry,
+	getTypeOfLocation,
+	isGroupChatForSessionItem
 } from '../session/sessionHelpers';
 import {
 	SessionsDataContext,
 	ActiveSessionGroupIdContext,
-	getActiveSession
+	getActiveSession,
+	UserDataContext,
+	hasUserAuthority,
+	AUTHORITIES,
+	isAnonymousSession
 } from '../../globalState';
 import { Link, useLocation } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { AskerInfoData } from './AskerInfoData';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { AskerInfoAssign } from './AskerInfoAssign';
 import '../profile/profile.styles';
+import './askerInfo.styles';
 
 export const AskerInfo = () => {
+	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
+	const isGroupChat = isGroupChatForSessionItem(activeSession);
+	const sessionListType = getTypeOfLocation();
+	const isPeerChat = activeSession.session?.isPeerChat;
 
 	if (!activeSession) {
 		return <Loading></Loading>;
 	}
+
+	const isSessionAssignAvailable = () =>
+		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+		!isLiveChat &&
+		!isGroupChat &&
+		((typeIsEnquiry(sessionListType) &&
+			hasUserAuthority(
+				AUTHORITIES.ASSIGN_CONSULTANT_TO_ENQUIRY,
+				userData
+			) &&
+			isPeerChat) ||
+			(!typeIsEnquiry(sessionListType) &&
+				((isPeerChat &&
+					hasUserAuthority(
+						AUTHORITIES.ASSIGN_CONSULTANT_TO_PEER_SESSION,
+						userData
+					)) ||
+					(!isPeerChat &&
+						hasUserAuthority(
+							AUTHORITIES.ASSIGN_CONSULTANT_TO_SESSION,
+							userData
+						)))));
 
 	return (
 		<div className="profile__wrapper">
@@ -64,12 +100,21 @@ export const AskerInfo = () => {
 					</div>
 					<h2>{activeSession.user.username}</h2>
 				</div>
-				<div className="profile__content">
-					<AskerInfoData />
+				<div className="profile__content askerInfo__content">
+					<div>
+						<AskerInfoData />
+					</div>
 					{((activeSession.session.monitoring &&
 						typeIsSession(activeSession.type)) ||
 						typeIsTeamSession(activeSession.type)) && (
-						<AskerInfoMonitoring />
+						<div>
+							<AskerInfoMonitoring />
+						</div>
+					)}
+					{isSessionAssignAvailable() && (
+						<div>
+							<AskerInfoAssign />
+						</div>
 					)}
 				</div>
 			</div>

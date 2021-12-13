@@ -6,6 +6,8 @@ import attachments from './de/attachments';
 import attachmentsInformal from './de/attachmentsInformal';
 import deleteAccount from './de/deleteAccount';
 import deleteAccountInformal from './de/deleteAccountInformal';
+import deleteSession from './de/deleteSession';
+import deleteSessionInformal from './de/deleteSessionInformal';
 import enquiry from './de/enquiry';
 import enquiryInformal from './de/enquiryInformal';
 import furtherSteps from './de/furtherSteps';
@@ -22,6 +24,8 @@ import sessionList from './de/sessionList';
 import sessionListInformal from './de/sessionListInformal';
 import statusOverlay from './de/statusOverlay';
 import statusOverlayInformal from './de/statusOverlayInformal';
+import twoFactorAuth from './de/twoFactorAuth';
+import twoFactorAuthInformal from './de/twoFactorAuthInformal';
 import videoCall from './de/videoCall';
 import videoCallInformal from './de/videoCallInformal';
 import de from './de';
@@ -32,6 +36,7 @@ const informalLocale = {
 	archive: { ...archive, ...archiveInformal },
 	attachments: { ...attachments, ...attachmentsInformal },
 	deleteAccount: { ...deleteAccount, ...deleteAccountInformal },
+	deleteSession: { ...deleteSession, ...deleteSessionInformal },
 	groupChat: { ...groupChat, ...groupChatInformal },
 	enquiry: { ...enquiry, ...enquiryInformal },
 	furtherSteps: { ...furtherSteps, ...furtherStepsInformal },
@@ -40,6 +45,7 @@ const informalLocale = {
 	session: { ...session, ...sessionInformal },
 	sessionList: { ...sessionList, ...sessionListInformal },
 	statusOverlay: { ...statusOverlay, ...statusOverlayInformal },
+	twoFactorAuth: { ...twoFactorAuth, ...twoFactorAuthInformal },
 	videoCall: { ...videoCall, ...videoCallInformal }
 };
 

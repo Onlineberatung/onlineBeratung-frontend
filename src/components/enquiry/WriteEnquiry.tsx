@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 
 import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
@@ -12,12 +12,10 @@ import {
 	Overlay
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
-import { logout } from '../logout/logout';
 import { config } from '../../resources/scripts/config';
 import {
 	ActiveSessionGroupIdContext,
-	AcceptedGroupIdContext,
-	SessionsDataContext
+	AcceptedGroupIdContext
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { ReactComponent as EnvelopeCheckIcon } from '../../resources/img/illustrations/envelope-check.svg';
@@ -27,10 +25,11 @@ import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 
 export const WriteEnquiry = () => {
-	const { sessionsData } = useContext(SessionsDataContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	let [overlayActive, setOverlayActive] = useState(false);
+	const [sessionId, setSessionId] = useState<number | null>(null);
+	const [groupId, setGroupId] = useState<string | null>(null);
 
 	useEffect(() => {
 		if (activeSessionGroupId) {
@@ -43,17 +42,13 @@ export const WriteEnquiry = () => {
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const handleOverlayAction = (buttonFunction: string) => {
+	const handleOverlayAction = (buttonFunction: string): void => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			activateListView();
-			activeSessionGroupId
-				? setAcceptedGroupId(activeSessionGroupId)
-				: setAcceptedGroupId(sessionsData.mySessions[0].session.id);
+			setAcceptedGroupId(groupId);
 			history.push({
-				pathname: config.endpoints.userSessionsListView
+				pathname: `${config.endpoints.userSessionsListView}/${groupId}/${sessionId}`
 			});
-		} else {
-			logout();
 		}
 	};
 
@@ -102,17 +97,18 @@ export const WriteEnquiry = () => {
 		copy: translate('enquiry.write.overlayCopy'),
 		buttonSet: [
 			{
-				label: translate('enquiry.write.overlayButton1.label'),
+				label: translate('enquiry.write.overlay.button'),
 				function: OVERLAY_FUNCTIONS.REDIRECT,
-				type: BUTTON_TYPES.PRIMARY
-			},
-			{
-				label: translate('enquiry.write.overlayButton2.label'),
-				function: OVERLAY_FUNCTIONS.LOGOUT,
-				type: BUTTON_TYPES.LINK
+				type: BUTTON_TYPES.AUTO_CLOSE
 			}
 		]
 	};
+
+	const handleSendButton = useCallback((response) => {
+		setSessionId(response.sessionId);
+		setGroupId(response.rcGroupId);
+		setOverlayActive(true);
+	}, []);
 
 	return (
 		<div className="enquiry__wrapper">
@@ -137,7 +133,7 @@ export const WriteEnquiry = () => {
 				</div>
 			</div>
 			<MessageSubmitInterfaceComponent
-				handleSendButton={() => setOverlayActive(true)}
+				handleSendButton={handleSendButton}
 				placeholder={translate('enquiry.write.input.placeholder')}
 				type={SESSION_LIST_TYPES.ENQUIRY}
 			/>
