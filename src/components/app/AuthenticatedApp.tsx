@@ -34,6 +34,7 @@ import { Notifications } from '../notifications/Notifications';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './authenticatedApp.styles';
 import './navigation.styles';
+import { requestPermissions } from '../../utils/notificationHelpers';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -55,6 +56,15 @@ export const AuthenticatedApp = ({
 	const { notifications } = useContext(NotificationsContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
+
+	useEffect(() => {
+		if (
+			userData &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+		) {
+			requestPermissions();
+		}
+	}, [userData]);
 
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
