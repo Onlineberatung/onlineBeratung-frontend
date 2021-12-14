@@ -17,7 +17,7 @@ export interface SelectDropdownItem {
 	className?: string;
 	id: string;
 	selectedOptions: SelectOption[];
-	selectInputLabel: string;
+	selectInputLabel?: string;
 	handleDropdownSelect: Function;
 	useIconOption?: boolean;
 	isSearchable?: boolean;
@@ -149,7 +149,9 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 						? IconOption
 						: components.Option,
 					DropdownIndicator: IconDropdown,
-					ValueContainer: CustomValueContainer,
+					ValueContainer: props.selectInputLabel
+						? CustomValueContainer
+						: components.ValueContainer,
 					IndicatorSeparator: !props.isSearchable
 						? () => null
 						: components.IndicatorSeparator

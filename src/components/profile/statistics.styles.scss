@@ -1,0 +1,61 @@
+.statistics {
+	&__periodSelect {
+		display: flex;
+		margin-bottom: 18px;
+
+		> p {
+			margin: auto 0;
+		}
+
+		.select__wrapper {
+			margin: 0;
+		}
+	}
+
+	&__visuals__wrapper {
+		display: flex;
+		margin: $grid-base-four 0;
+	}
+
+	&__visualization {
+		display: flex;
+		flex-direction: column;
+
+		&:first-of-type {
+			margin-right: $grid-base-five;
+		}
+
+		span {
+			display: flex;
+			flex-grow: 1;
+
+			svg {
+				width: 35px;
+				height: 35px;
+				fill: $primary;
+			}
+
+			p {
+				color: $primary;
+				margin: 0 0 0 $grid-base;
+				font-weight: $font-weight-medium;
+				font-size: 30px;
+				line-height: 38px;
+			}
+		}
+
+		> p {
+			font-weight: $font-weight-medium;
+		}
+	}
+
+	&__download {
+		> p {
+			margin-bottom: 12px;
+		}
+
+		a > svg {
+			margin-right: $grid-base;
+		}
+	}
+}

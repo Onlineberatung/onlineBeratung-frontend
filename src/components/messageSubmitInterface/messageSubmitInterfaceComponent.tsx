@@ -47,7 +47,13 @@ import {
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
-import { EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import {
+	EditorState,
+	RichUtils,
+	DraftHandleValue,
+	convertToRaw,
+	convertFromRaw
+} from 'draft-js';
 import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
@@ -61,7 +67,8 @@ import {
 	emojiPickerCustomClasses,
 	toolbarCustomClasses,
 	handleEditorBeforeInput,
-	handleEditorPastedText
+	handleEditorPastedText,
+	escapeMarkdownChars
 } from './richtextHelpers';
 import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
 import { ReactComponent as FileDocIcon } from '../../resources/img/icons/file-doc.svg';
@@ -457,8 +464,10 @@ export const MessageSubmitInterfaceComponent = (
 		const contentState = currentEditorState
 			? currentEditorState.getCurrentContent()
 			: editorState.getCurrentContent();
-		const rawObject = convertToRaw(contentState);
-		const markdownString = draftToMarkdown(rawObject);
+		const rawObject = convertToRaw(escapeMarkdownChars(contentState));
+		const markdownString = draftToMarkdown(rawObject, {
+			escapeMarkdownCharacters: false
+		});
 		return markdownString.trim();
 	};
 
@@ -514,7 +523,7 @@ export const MessageSubmitInterfaceComponent = (
 			apiSendEnquiry(enquirySessionId, getTypedMarkdownMessage())
 				.then((response) => {
 					setEditorState(EditorState.createEmpty());
-					props.handleSendButton();
+					props.handleSendButton(response);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -780,12 +789,21 @@ export const MessageSubmitInterfaceComponent = (
 										handleBeforeInput={() =>
 											handleEditorBeforeInput(editorState)
 										}
-										handlePastedText={(pastedText) =>
-											handleEditorPastedText(
-												editorState,
-												pastedText
-											)
-										}
+										handlePastedText={(
+											text: string,
+											html?: string
+										): DraftHandleValue => {
+											const newEditorState =
+												handleEditorPastedText(
+													editorState,
+													text,
+													html
+												);
+											if (newEditorState) {
+												setEditorState(newEditorState);
+											}
+											return 'handled';
+										}}
 										ref={(element) => {
 											editorRef = element;
 										}}

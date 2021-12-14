@@ -1,6 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import { ComponentType, ReactNode, useState } from 'react';
+import { ComponentType, ReactNode, useEffect, useState } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedApp } from './AuthenticatedApp';
@@ -11,15 +11,24 @@ import '../../resources/styles/styles';
 import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
+import ErrorBoundary from './ErrorBoundary';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 export const history = createBrowserHistory();
 
 interface AppProps {
 	stageComponent: ComponentType<StageProps>;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
+	entryPoint: string;
 	extraRoutes?: ReactNode;
 }
 
-export const App = ({ stageComponent, extraRoutes }: AppProps) => {
+export const App = ({
+	stageComponent,
+	legalComponent,
+	entryPoint,
+	extraRoutes
+}: AppProps) => {
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
@@ -39,55 +48,78 @@ export const App = ({ stageComponent, extraRoutes }: AppProps) => {
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
 		useState<boolean>(false);
+	const [isInitiallyLoaded, setIsInitiallyLoaded] = useState<boolean>(false);
+
+	const activateInitialRedirect = () => {
+		setIsInitiallyLoaded(true);
+		history.push(entryPoint);
+	};
+
+	useEffect(() => {
+		if (!isInitiallyLoaded && window.location.pathname === '/') {
+			activateInitialRedirect();
+		} else {
+			setIsInitiallyLoaded(true);
+		}
+	}, []); // eslint-disable-line
 
 	return (
-		<Router history={history}>
-			<ContextProvider>
-				{startWebsocket && (
-					<WebsocketHandler disconnect={disconnectWebsocket} />
-				)}
-				<Switch>
-					{extraRoutes}
-					{!hasUnmatchedRegistrationConsultingType && (
-						<Route path="/:consultingTypeSlug/registration">
-							<Registration
-								handleUnmatch={() =>
-									setHasUnmatchedRegistrationConsultingType(
-										true
-									)
-								}
-								stageComponent={stageComponent}
-							/>
-						</Route>
+		<ErrorBoundary>
+			<Router history={history}>
+				<ContextProvider>
+					{startWebsocket && (
+						<WebsocketHandler disconnect={disconnectWebsocket} />
 					)}
-					{!hasUnmatchedAnonymousConversation && (
-						<Route path="/:consultingTypeSlug/warteraum">
-							<WaitingRoomLoader
-								handleUnmatch={() =>
-									setHasUnmatchedAnonymousConversation(true)
-								}
-								onAnonymousRegistration={() =>
-									setStartWebsocket(true)
-								}
+					<Switch>
+						{extraRoutes}
+						{!hasUnmatchedRegistrationConsultingType && (
+							<Route path="/:consultingTypeSlug/registration">
+								<Registration
+									handleUnmatch={() =>
+										setHasUnmatchedRegistrationConsultingType(
+											true
+										)
+									}
+									legalComponent={legalComponent}
+									stageComponent={stageComponent}
+								/>
+							</Route>
+						)}
+						{!hasUnmatchedAnonymousConversation && (
+							<Route path="/:consultingTypeSlug/warteraum">
+								<WaitingRoomLoader
+									handleUnmatch={() =>
+										setHasUnmatchedAnonymousConversation(
+											true
+										)
+									}
+									onAnonymousRegistration={() =>
+										setStartWebsocket(true)
+									}
+								/>
+							</Route>
+						)}
+						{!hasUnmatchedLoginConsultingType && (
+							<Route path={['/:consultingTypeSlug', '/login']}>
+								<LoginLoader
+									handleUnmatch={() =>
+										setHasUnmatchedLoginConsultingType(true)
+									}
+									legalComponent={legalComponent}
+									stageComponent={stageComponent}
+								/>
+							</Route>
+						)}
+						{isInitiallyLoaded && (
+							<AuthenticatedApp
+								legalComponent={legalComponent}
+								onAppReady={() => setStartWebsocket(true)}
+								onLogout={() => setDisconnectWebsocket(true)}
 							/>
-						</Route>
-					)}
-					{!hasUnmatchedLoginConsultingType && (
-						<Route path="/:consultingTypeSlug">
-							<LoginLoader
-								handleUnmatch={() =>
-									setHasUnmatchedLoginConsultingType(true)
-								}
-								stageComponent={stageComponent}
-							/>
-						</Route>
-					)}
-					<AuthenticatedApp
-						onAppReady={() => setStartWebsocket(true)}
-						onLogout={() => setDisconnectWebsocket(true)}
-					/>
-				</Switch>
-			</ContextProvider>
-		</Router>
+						)}
+					</Switch>
+				</ContextProvider>
+			</Router>
+		</ErrorBoundary>
 	);
 };
