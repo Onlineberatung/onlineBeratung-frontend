@@ -76,6 +76,7 @@ export const autoLogin = (autoLoginProps: {
 						username: autoLoginProps.username,
 						password: autoLoginProps.password,
 						redirect: autoLoginProps.redirect,
+						otp: autoLoginProps.otp,
 						useOldUser: true
 					}).catch((error) => reject(error));
 				} else {
