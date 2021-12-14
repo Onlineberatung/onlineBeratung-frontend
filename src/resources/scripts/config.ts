@@ -26,6 +26,7 @@ export const config = {
 		deleteAskerAccount: apiUrl + '/service/users/account',
 		draftMessages: apiUrl + '/service/messages/draft',
 		email: apiUrl + '/service/users/email',
+		error: apiUrl + '/service/logstash',
 		forwardMessage: apiUrl + '/service/messages/forward',
 		groupChatBase: apiUrl + '/service/users/chat/',
 		keycloakAccessToken:
