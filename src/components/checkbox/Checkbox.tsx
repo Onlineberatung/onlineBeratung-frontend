@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { ComponentType } from 'react';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
+import { Text } from '../text/Text';
 import './checkbox.styles';
 
 export interface CheckboxItem {
@@ -8,10 +10,25 @@ export interface CheckboxItem {
 	labelId: string;
 	label: string;
 	checked: boolean;
+	complexLabel?: {
+		prefix: string;
+		suffix: string;
+		component: ComponentType;
+		attributes: Object;
+	};
 }
 
 export const Checkbox = (props) => {
 	const checkboxItem = props.item;
+
+	const preparedLabel = checkboxItem.complexLabel
+		? null
+		: {
+				dangerouslySetInnerHTML: {
+					__html: checkboxItem.label
+				}
+		  };
+
 	return (
 		<div className="checkbox__wrapper formWrapper__inputRow">
 			<input
@@ -38,10 +55,24 @@ export const Checkbox = (props) => {
 				id={checkboxItem.labelId}
 				className="checkbox__label"
 				htmlFor={checkboxItem.inputId}
-				dangerouslySetInnerHTML={{
-					__html: checkboxItem.label
-				}}
-			></label>
+				{...preparedLabel}
+			>
+				{checkboxItem.complexLabel && (
+					<span className="checkbox__label--complex">
+						<Text
+							type="standard"
+							text={checkboxItem.complexLabel.prefix}
+						/>
+						<checkboxItem.complexLabel.component
+							{...checkboxItem.complexLabel.attributes}
+						/>
+						<Text
+							type="standard"
+							text={checkboxItem.complexLabel.suffix}
+						/>
+					</span>
+				)}
+			</label>
 		</div>
 	);
 };

@@ -162,12 +162,12 @@ $tabBarHeightDesktop: 53px;
 		display: flex;
 		width: 100%;
 		padding: $grid-base-three;
-		background-color: $background-light;
+		background-color: $sessions-list-background-color-secondary;
 		z-index: 5;
 
 		@include breakpoint($fromLarge) {
 			padding: 0 $grid-base-three $grid-base-three;
-			background-color: $background-lighter;
+			background-color: $sessions-list-background-color-primary;
 		}
 
 		a {

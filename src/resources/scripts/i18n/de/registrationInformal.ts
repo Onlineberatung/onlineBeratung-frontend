@@ -14,7 +14,7 @@ const registrationInformal = {
 		'Dich gegebenfalls auch vor Ort beraten kann.',
 	'agencySelection.postcode.label': 'Deine Postleitzahl',
 	'agencySelection.postcode.unavailable':
-		'Momentan haben wir leider noch keine Online-Beratungsstelle in Deiner Nähe. Auf unserer Webseite findest Du Beratungsstellen für Dein Anliegen.',
+		'Momentan haben wir leider noch keine Online-Beratungsstelle in Deiner Nähe. Auf unserer Webseite findest Du Beratungsstellen vor Ort für Dein Anliegen.',
 	'agencyPreselected.headline': 'Bitte gib Deine Postleitzahl an',
 	'agencyPreselected.intro.overline':
 		'Warum benötigen wir Deine Postleitzahl?',
@@ -34,7 +34,7 @@ const registrationInformal = {
 	'welcomeScreen.info2.text':
 		'Schicke Deine Nachricht an eine lokale Beratungsstelle',
 	'welcomeScreen.info3.text':
-		'Innerhalb von zwei Werktagen bekommst Du eine Antwort'
+		'Innerhalb von 2 Werktagen bekommst Du eine Antwort'
 };
 
 export default registrationInformal;
