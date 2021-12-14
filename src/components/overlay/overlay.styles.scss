@@ -114,8 +114,8 @@ $iconSizeLarge: 48px;
 				width: 40px;
 
 				@include breakpoint($stepsBreakpoint) {
-					margin: $iconSizeXS -4px $iconSizeXS;
-					width: 50px;
+					margin: $iconSizeXS -14px $iconSizeXS;
+					width: 60px;
 				}
 			}
 		}
@@ -254,6 +254,19 @@ $iconSizeLarge: 48px;
 		.inputField {
 			margin: $overlay-input-field-margin;
 			max-width: 325px;
+		}
+	}
+
+	&--stepped {
+		.text,
+		.headline {
+			text-align: $overlay-stepped-text-align;
+		}
+	}
+
+	&--stepped &__nestedComponent {
+		.inputField {
+			margin: $overlay-stepped-input-field-margin;
 		}
 	}
 

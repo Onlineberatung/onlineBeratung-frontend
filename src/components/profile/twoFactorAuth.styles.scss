@@ -93,7 +93,11 @@
 		}
 
 		img {
-			width: 150px;
+			width: $two-factor-qr-code-width;
+		}
+
+		& + .text__divider {
+			margin: 12px 0 24px;
 		}
 	}
 
