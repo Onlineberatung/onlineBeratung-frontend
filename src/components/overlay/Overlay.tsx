@@ -117,7 +117,13 @@ export const Overlay = (props: {
 
 	const Illustration = activeOverlay.svg;
 	return (
-		<div className={clsx(props.className, 'overlay')}>
+		<div
+			className={clsx(
+				props.className,
+				'overlay',
+				props.items?.length > 0 ? 'overlay--stepped' : ''
+			)}
+		>
 			<div className="overlay__background"></div>
 			<div className="overlay__content">
 				{props.handleOverlayClose && (
