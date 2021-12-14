@@ -6,9 +6,9 @@ import { Stage } from './components/stage/stage';
 
 ReactDOM.render(
 	<App
-		stageComponent={Stage}
-		legalComponent={LegalInformationLinks}
 		entryPoint="/login"
+		legalComponent={LegalInformationLinks}
+		stageComponent={Stage}
 	/>,
 	document.getElementById('appRoot')
 );

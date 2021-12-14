@@ -100,7 +100,7 @@ export const App = ({
 							</Route>
 						)}
 						{!hasUnmatchedLoginConsultingType && (
-							<Route path="/:consultingTypeSlug">
+							<Route path={['/:consultingTypeSlug', '/login']}>
 								<LoginLoader
 									handleUnmatch={() =>
 										setHasUnmatchedLoginConsultingType(true)
@@ -110,11 +110,13 @@ export const App = ({
 								/>
 							</Route>
 						)}
-						<AuthenticatedApp
-							legalComponent={legalComponent}
-							onAppReady={() => setStartWebsocket(true)}
-							onLogout={() => setDisconnectWebsocket(true)}
-						/>
+						{isInitiallyLoaded && (
+							<AuthenticatedApp
+								legalComponent={legalComponent}
+								onAppReady={() => setStartWebsocket(true)}
+								onLogout={() => setDisconnectWebsocket(true)}
+							/>
+						)}
 					</Switch>
 				</ContextProvider>
 			</Router>
