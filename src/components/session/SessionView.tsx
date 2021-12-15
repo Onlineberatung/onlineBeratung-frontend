@@ -145,8 +145,7 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 	};
 
 	const fetchSessionMessages = (isSocketConnected: boolean = false) => {
-		const rcGroupId = props.match.params.rcGroupId;
-		apiGetSessionData(rcGroupId)
+		apiGetSessionData(groupIdFromParam)
 			.then((messagesData) => {
 				setLoadedMessages(messagesData);
 				setIsLoading(false);
@@ -156,7 +155,7 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 					window['socket'].connect();
 					window['socket'].addSubscription(
 						SOCKET_COLLECTION.ROOM_MESSAGES,
-						[rcGroupId, false],
+						[groupIdFromParam, false],
 						handleRoomMessage
 					);
 					if (isTypingActive) {
@@ -172,7 +171,7 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 						window['socket'].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_ROOM,
 							[
-								`${rcGroupId}/typing`,
+								`${groupIdFromParam}/typing`,
 								{ useCollection: false, args: [] }
 							],
 							(data) => handleTypingResponse(data)
