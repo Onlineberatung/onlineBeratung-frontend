@@ -713,7 +713,7 @@ export const MessageSubmitInterfaceComponent = (
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
 		!hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
 		activeSession.session.feedbackGroupId &&
-		!activeSession.isFeedbackSession;
+		!activeSession?.isFeedbackSession;
 	return (
 		<div
 			className={clsx(
