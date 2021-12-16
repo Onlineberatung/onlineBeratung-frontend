@@ -78,5 +78,6 @@ export const config = {
 		error500: uiUrl + '/error.500.html',
 		error401: uiUrl + '/error.401.html',
 		error404: uiUrl + '/error.404.html'
-	}
+	},
+	postcodeFallbackUrl: '{url}'
 };

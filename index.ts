@@ -26,6 +26,7 @@ export * from './src/resources/img/icons';
 
 // Utils
 export { translate } from './src/utils/translate';
+export { parsePlaceholderString } from './src/utils/parsePlaceholderString';
 export * from './src/api';
 
 // Types

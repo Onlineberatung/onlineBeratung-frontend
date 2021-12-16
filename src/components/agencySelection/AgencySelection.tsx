@@ -18,6 +18,8 @@ import { Text, LABEL_TYPES } from '../text/Text';
 import { AgencyInfo } from './AgencyInfo';
 import { PreselectedAgency } from './PreselectedAgency';
 import { Headline } from '../headline/Headline';
+import { parsePlaceholderString } from '../../utils/parsePlaceholderString';
+import { config } from '../../resources/scripts/config';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
@@ -131,8 +133,11 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						props.consultingType.id !== null
 					) {
 						setPostcodeFallbackLink(
-							props.consultingType.urls
-								.registrationPostcodeFallbackUrl
+							parsePlaceholderString(config.postcodeFallbackUrl, {
+								url: props.consultingType.urls
+									.registrationPostcodeFallbackUrl,
+								postcode: selectedPostcode
+							})
 						);
 					}
 					return null;
