@@ -59,7 +59,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const chatItem = getChatItemForSession(activeSession);
-	const consultingType = useConsultingType(chatItem.consultingType);
+	const consultingType = useConsultingType(chatItem?.consultingType);
 
 	const username = getContact(activeSession).username;
 	const userSessionData = getContact(activeSession).sessionData;
