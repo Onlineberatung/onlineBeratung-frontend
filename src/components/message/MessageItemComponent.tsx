@@ -177,7 +177,7 @@ export const MessageItemComponent = ({
 	const showForwardMessage = () =>
 		hasRenderedMessage &&
 		activeSession.type !== SESSION_LIST_TYPES.ENQUIRY &&
-		chatItem.feedbackGroupId &&
+		chatItem?.feedbackGroupId &&
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
 		!activeSession?.isFeedbackSession;
 

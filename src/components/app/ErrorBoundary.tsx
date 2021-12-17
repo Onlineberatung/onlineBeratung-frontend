@@ -1,4 +1,5 @@
 import React, { ReactNode, Component } from 'react';
+import StackTrace from 'stacktrace-js';
 import { apiPostError } from '../../api/apiPostError';
 import { redirectToErrorPage } from '../error/errorHandling';
 import { Loading } from './Loading';
@@ -21,6 +22,7 @@ export type ErrorBoundaryError = {
 		'Referer'?: string;
 	};
 	stack: string;
+	parsedStack?: string;
 };
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -28,6 +30,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 		hasError: false,
 		window: null
 	};
+
+	prevError: null | Error = null;
 
 	componentDidMount() {
 		this.setState({
@@ -37,6 +41,13 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
 	componentDidCatch(error, info) {
 		const { window } = this.state;
+
+		const isNewError =
+			!this.prevError || error.toString() !== this.prevError.toString();
+
+		if (!isNewError) return;
+
+		this.prevError = error;
 
 		const errorBoundaryError: ErrorBoundaryError = {
 			name: error.name,
@@ -58,9 +69,19 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 			};
 		}
 
-		apiPostError(errorBoundaryError, info).finally(() => {
-			redirectToErrorPage(500);
-		});
+		StackTrace.fromError(error)
+			.then((stackFrames) => {
+				errorBoundaryError.parsedStack = stackFrames
+					.map((sf) => {
+						return sf.toString();
+					})
+					.join('\n');
+			})
+			.finally(() => {
+				apiPostError(errorBoundaryError, info).finally(() => {
+					redirectToErrorPage(500);
+				});
+			});
 	}
 
 	static getDerivedStateFromError() {
