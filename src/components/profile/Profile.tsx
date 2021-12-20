@@ -23,6 +23,7 @@ import { AbsenceFormular } from '../absenceFormular/AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { Text } from '../text/Text';
 import './profile.styles';
+import { BiometricAuthenticationSettings } from '../biometricAuthenticationSettings/BiometricAuthenticationSettings';
 
 export const Profile = () => {
 	const { userData } = useContext(UserDataContext);
@@ -101,6 +102,8 @@ export const Profile = () => {
 							userData
 						) && <AbsenceFormular />}
 						<PasswordReset />
+			
+						<BiometricAuthenticationSettings />
 					</div>
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,
@@ -127,6 +130,7 @@ export const Profile = () => {
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (
 						<DeleteAccount />
 					)}
+					
 				</div>
 				<div className="profile__footer">
 					<a
