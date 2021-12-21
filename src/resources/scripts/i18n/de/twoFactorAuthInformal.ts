@@ -1,6 +1,6 @@
 const twoFactorAuthInformal = {
 	'subtitle':
-		'Nutze eine weitere App für die Anmeldung mit Deinem Diakonie Konto. Dadurch ist Dein Konto sicherer vor einem möglichen unbefugtem Zugriff.',
+		'Nutze eine weitere App für die Anmeldung mit Deinem Caritas Konto. Dadurch ist Dein Konto sicherer vor einem möglichen unbefugtem Zugriff.',
 	'activate.step1.title': 'Installiere Dir die App',
 	'activate.step1.copy':
 		'Installiere Dir FreeOTP oder Google Authentificator auf Deinem Smartphone oder Tablet. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
