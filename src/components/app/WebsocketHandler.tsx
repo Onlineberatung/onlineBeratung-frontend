@@ -123,6 +123,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 			setNewStompAnonymousEnquiry(false);
 
 			sendNotification(translate('notifications.enquiry.new'), {
+				showAlways: true,
 				onclick: () => {
 					history.push(
 						`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`

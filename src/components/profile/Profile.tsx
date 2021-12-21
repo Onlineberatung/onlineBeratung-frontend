@@ -25,12 +25,6 @@ import { TwoFactorAuth } from './TwoFactorAuth';
 import { ConsultantStatistics } from './ConsultantStatistics';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './profile.styles';
-import {
-	hasPermissions,
-	isSupported,
-	PERMISSION_DEFAULT,
-	requestPermissions
-} from '../../utils/notificationHelpers';
 
 interface ProfileProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
@@ -119,21 +113,6 @@ export const Profile = (props: ProfileProps) => {
 						) &&
 							userData.twoFactorAuth?.isEnabled && (
 								<TwoFactorAuth />
-							)}
-						{hasUserAuthority(
-							AUTHORITIES.CONSULTANT_DEFAULT,
-							userData
-						) &&
-							isSupported() &&
-							hasPermissions(PERMISSION_DEFAULT) && (
-								<div>
-									Enable notifications
-									<button
-										onClick={() => requestPermissions()}
-									>
-										Request
-									</button>
-								</div>
 							)}
 					</div>
 					{hasUserAuthority(

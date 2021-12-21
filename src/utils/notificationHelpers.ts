@@ -1,17 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
+import incomingNotification from '../resources/audio/incomingNotification.mp3';
 
-const audio =
-	'Audio' in window
-		? new Audio('https://gget.it/u1urz3zh/popsound.mp3')
-		: null;
+const audio = 'Audio' in window ? new Audio(incomingNotification) : null;
 
 type ExtraNotificationOptions = {
+	showAlways?: boolean;
 	onclick?: Function;
 	onclose?: Function;
 	onshow?: Function;
 };
 
-export const PERMISSION_DENIED = 'denied';
 export const PERMISSION_GRANTED = 'granted';
 export const PERMISSION_DEFAULT = 'default';
 
@@ -45,12 +43,16 @@ export const sendNotification = (
 
 	const options = opts || {};
 
+	// If always is false and window has the focus do not send any notification
+	if (!options.showAlways && document.hasFocus()) {
+		return;
+	}
+
 	const notification = new Notification(title, {
 		...options,
 		tag: uuidv4(),
 		icon: '/logo192.png',
 		image: '/logo192.png'
-		//sound: 'https://gget.it/u1urz3zh/popsound.mp3',
 	});
 
 	notification.onshow = () => {
@@ -68,6 +70,4 @@ export const sendNotification = (
 	notification.onclose = () => {
 		options.onclose && options.onclose(notification);
 	};
-
-	//return notification;
 };
