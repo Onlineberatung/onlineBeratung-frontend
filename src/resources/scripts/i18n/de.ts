@@ -15,6 +15,7 @@ import login from './de/login';
 import message from './de/message';
 import monitoring from './de/monitoring';
 import navigation from './de/navigation';
+import notifications from './de/notifications';
 import overlay from './de/overlay';
 import profile from './de/profile';
 import registration from './de/registration';
@@ -45,6 +46,7 @@ const de = {
 	message,
 	monitoring,
 	navigation,
+	notifications,
 	overlay,
 	profile,
 	registration,
