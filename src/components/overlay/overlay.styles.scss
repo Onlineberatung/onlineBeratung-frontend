@@ -255,6 +255,11 @@ $iconSizeLarge: 48px;
 			margin: $overlay-input-field-margin;
 			max-width: 325px;
 		}
+
+		ul li,
+		ol li {
+			text-align: $overlay-list-align;
+		}
 	}
 
 	&--stepped {
