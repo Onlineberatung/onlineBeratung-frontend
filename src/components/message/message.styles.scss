@@ -145,7 +145,7 @@ $message-lineheight: 21px;
 	}
 
 	&__message {
-		color: var(--skin-color-text, $secondary);
+		color: var(--skin-color-secondary, $secondary);
 		line-height: $message-lineheight;
 		background-color: $white;
 		border-radius: 0 12px 12px;
@@ -200,7 +200,7 @@ $message-lineheight: 21px;
 			align-items: center;
 			background-color: $dark-grey;
 			border-radius: $icon-size;
-			color: var(--skin-color-text, $secondary);
+			color: var(--skin-color-secondary, $secondary);
 			padding: 6px $grid-base-three 5px 12px;
 			max-width: 350px;
 
@@ -212,7 +212,7 @@ $message-lineheight: 21px;
 
 				p {
 					margin: 0;
-					color: var(--skin-color-text, $secondary);
+					color: var(--skin-color-secondary, $secondary);
 					line-height: $icon-size;
 				}
 			}
@@ -301,10 +301,10 @@ $message-lineheight: 21px;
 		cursor: pointer;
 
 		svg {
-			fill: $secondary;
+			fill: var(--skin-color-secondary, $secondary);
 
 			path {
-				fill: $secondary;
+				fill: var(--skin-color-secondary, $secondary);
 			}
 
 			&.forward {

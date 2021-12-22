@@ -23,26 +23,26 @@ $buttonHeight: 50px;
 
 	&__primary {
 		color: $white;
-		background: var(--skin-color-primary, $primary);
+		background: var(--skin-color-link, $primary);
 		box-shadow: $button-box-shadow-default;
 		transition: all 0.6s ease;
 
 		&:hover {
-			background-color: var(--skin-color-primary-hover, $hover-primary);
+			background-color: var(--skin-color-link-hover, $hover-primary);
 			transition: all 0.3s ease;
 		}
 	}
 
 	&__secondary {
-		color: var(--skin-color-primary, $primary);
+		color: var(--skin-color-link, $primary);
 		background-color: transparent;
-		border: 3px solid var(--skin-color-primary, $primary);
+		border: 3px solid var(--skin-color-link, $primary);
 		transition: all 0.6s ease;
 
 		&:hover {
 			color: $white;
-			border-color: var(--skin-color-primary-hover, $hover-primary);
-			background-color: var(--skin-color-primary-hover, $hover-primary);
+			border-color: var(--skin-color-link-hover, $hover-primary);
+			background-color: var(--skin-color-link-hover, $hover-primary);
 			transition: all 0.3s ease;
 		}
 	}
@@ -60,15 +60,15 @@ $buttonHeight: 50px;
 		text-transform: none;
 
 		&:hover {
-			background-color: var(--skin-color-primary-hover, $hover-primary);
+			background-color: var(--skin-color-link-hover, $hover-primary);
 			color: white;
-			border-color: var(--skin-color-primary-hover, $hover-primary);
+			border-color: var(--skin-color-link-hover, $hover-primary);
 		}
 	}
 
 	&__autoClose {
 		color: $white;
-		border: 2px solid var(--skin-color-primary, $primary);
+		border: 2px solid var(--skin-color-link, $primary);
 		box-shadow: $button-box-shadow-default;
 		background: linear-gradient(
 			to right,
@@ -88,11 +88,11 @@ $buttonHeight: 50px;
 		}
 
 		&:hover {
-			border: 2px solid var(--skin-color-primary-hover, $hover-primary);
+			border: 2px solid var(--skin-color-link-hover, $hover-primary);
 			background: linear-gradient(
 				to right,
 				$button-auto-close-color 50%,
-				var(--skin-color-primary-hover, $hover-primary) 50%
+				var(--skin-color-link-hover, $hover-primary) 50%
 			);
 			background-size: 200% 100%;
 
@@ -109,7 +109,7 @@ $buttonHeight: 50px;
 	}
 
 	&__link {
-		color: var(--skin-color-primary, $primary);
+		color: var(--skin-color-link, $primary);
 		background: none;
 		height: 21px;
 
@@ -118,10 +118,10 @@ $buttonHeight: 50px;
 		}
 
 		&:not([disabled]):hover {
-			color: var(--skin-color-primary-hover, $hover-primary);
+			color: var(--skin-color-link-hover, $hover-primary);
 
 			svg * {
-				fill: var(--skin-color-primary-hover, $hover-primary);
+				fill: var(--skin-color-link-hover, $hover-primary);
 			}
 		}
 
@@ -214,7 +214,7 @@ $buttonHeight: 50px;
 		}
 
 		&--yellow {
-			color: var(--skin-color-text, $secondary);
+			color: $secondary;
 			background-color: $yellow-3;
 			border: none;
 

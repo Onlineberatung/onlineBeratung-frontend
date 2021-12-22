@@ -18,7 +18,7 @@
 
 		@media (hover: none) {
 			&:hover + .tagSelect__label {
-				color: var(--skin-color-text, $secondary);
+				color: var(--skin-color-secondary, $secondary);
 				background: $dark-grey;
 			}
 		}
@@ -35,7 +35,7 @@
 		text-align: center;
 		cursor: pointer;
 		padding: 0 $grid-base-two;
-		color: var(--skin-color-text, $secondary);
+		color: var(--skin-color-secondary, $secondary);
 		height: $grid-base-four;
 		line-height: $grid-base-four;
 		font-size: $font-size-tertiary;

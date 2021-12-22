@@ -98,7 +98,7 @@ $iconSize: 24px;
 		}
 
 		h3 {
-			color: var(--skin-color-text, $secondary);
+			color: var(--skin-color-secondary, $secondary);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -106,10 +106,10 @@ $iconSize: 24px;
 
 		&--groupChat {
 			a {
-				color: var(--skin-color-text, $secondary);
+				color: var(--skin-color-secondary, $secondary);
 
 				&:hover {
-					color: var(--skin-color-text, $secondary);
+					color: var(--skin-color-secondary, $secondary);
 				}
 			}
 		}
@@ -222,7 +222,7 @@ $iconSize: 24px;
 				padding: 14px $grid-base-two;
 				font-size: $font-size-primary;
 				line-height: $line-height-primary;
-				color: var(--skin-color-text, $secondary);
+				color: var(--skin-color-secondary, $secondary);
 				text-overflow: ellipsis;
 				overflow: hidden;
 			}

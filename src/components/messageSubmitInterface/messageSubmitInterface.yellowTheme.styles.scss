@@ -1,6 +1,6 @@
 .session--yellowTheme {
 	.textarea {
-		background-color: $yellow-3;
+		background-color: var(--skin-color-secondary-light, $yellow-3);
 	}
 }
 
@@ -17,7 +17,7 @@
 			background: $yellow-4;
 		}
 		100% {
-			background: $yellow-3;
+			background: var(--skin-color-secondary-light, $yellow-3);
 		}
 	}
 }

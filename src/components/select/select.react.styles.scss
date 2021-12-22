@@ -42,7 +42,7 @@ $inputHeight: 50px;
 
 		&__option {
 			background-color: $white;
-			color: var(--skin-color-text, $secondary);
+			color: var(--skin-color-secondary, $secondary);
 
 			&--is-focused {
 				// The `!important` annotation is relevant to also cover the `:active`

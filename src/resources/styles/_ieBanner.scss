@@ -6,7 +6,7 @@ _:-ms-fullscreen,
 .ieBanner {
 	display: none;
 	background: $form-medium;
-	color: var(--skin-color-text, $secondary);
+	color: var(--skin-color-secondary, $secondary);
 	text-align: left;
 	font-size: $font-size-primary;
 	line-height: $line-height-primary;

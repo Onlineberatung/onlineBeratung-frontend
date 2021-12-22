@@ -27,7 +27,7 @@
 	}
 
 	&__overline {
-		color: var(--skin-color-text, $secondary);
+		color: var(--skin-color-secondary, $secondary);
 		font-weight: $font-weight-regular;
 		margin: 0;
 		font-size: $font-size-primary;

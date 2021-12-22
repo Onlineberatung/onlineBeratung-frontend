@@ -87,7 +87,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 			height: $grid-base-six;
 			border-radius: $grid-base-three;
 			cursor: pointer;
-			background-color: var(--skin-color-primary, $primary);
+			background-color: var(--skin-color-link, $primary);
 			margin: 0 0 4px 4px;
 			align-self: flex-end;
 			transition: background-color 0.6s ease;
@@ -96,10 +96,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 				transform: translate(0);
 			}
 			&:hover {
-				background-color: var(
-					--skin-color-primary-hover,
-					$hover-primary
-				);
+				background-color: var(--skin-color-link-hover, $hover-primary);
 			}
 			&--clicked {
 				svg {

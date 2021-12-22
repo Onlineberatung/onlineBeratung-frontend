@@ -328,7 +328,7 @@ $maxFormElementWidth: 320px;
 		}
 
 		&__item {
-			color: var(--skin-color-text, $secondary);
+			color: var(--skin-color-secondary, $secondary);
 
 			&:not(:first-child) {
 				margin-left: 20px;

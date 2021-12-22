@@ -6,7 +6,7 @@ $iconSize: 20px;
 		flex-direction: row;
 
 		a {
-			color: var(--skin-color-text, $secondary);
+			color: var(--skin-color-secondary, $secondary);
 		}
 
 		.button__wrapper {

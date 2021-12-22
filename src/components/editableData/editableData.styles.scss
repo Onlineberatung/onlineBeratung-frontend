@@ -8,7 +8,7 @@
 		background: none;
 		border: none;
 		border-bottom: 1px solid $line-grey;
-		color: var(--skin-color-text, $secondary);
+		color: var(--skin-color-secondary, $secondary);
 
 		&--empty {
 			color: $tertiary;
@@ -18,7 +18,7 @@
 		&:disabled {
 			cursor: default;
 			opacity: 1;
-			-webkit-text-fill-color: var(--skin-color-text, $secondary);
+			-webkit-text-fill-color: var(--skin-color-secondary, $secondary);
 		}
 
 		&:focus-visible,

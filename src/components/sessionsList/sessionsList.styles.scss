@@ -171,7 +171,8 @@ $tabBarHeightDesktop: 53px;
 		}
 
 		a {
-			color: var(--skin-color-text, $secondary);
+			color: var(--skin-color-secondary, $secondary);
+			text-decoration: none;
 
 			&:last-of-type {
 				margin-left: $grid-base-three;
