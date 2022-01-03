@@ -12,7 +12,11 @@ const config: CapacitorConfig = {
 		}
 	},
 	server: {
-		url: 'http://localhost:9000',
+		hostname: 'caritas-dev.virtual-identity.com',
+		androidScheme: 'https',
+		iosScheme: 'https',
+		url: 'http://10.1.11.73:9000',
+		// url: 'https://caritas-dev.virtual-identity.com/',
 		cleartext: true
 	},
 	cordova: {}

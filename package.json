@@ -129,7 +129,7 @@
 		"wait-on": "^5.3.0"
 	},
 	"scripts": {
-		"start": "REACT_APP_UI_URL=http://localhost:9000 node scripts/start.js",
+		"start": "REACT_APP_UI_URL=http://10.1.11.73:9000 node scripts/start.js",
 		"build": "node scripts/build.js",
 		"test": "concurrently --kill-others --success first \"cross-env BROWSER=none API_URL_FOR_LOCAL_DEVELOPMENT=test PORT=9000 npm start\" \"wait-on http://localhost:9000 && cypress run\"",
 		"release": "standard-version",

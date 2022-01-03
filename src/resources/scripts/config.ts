@@ -2,7 +2,7 @@ export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 export const apiUrlEnv: string = process.env.REACT_APP_API_URL;
 export const apiUrl = process.env.REACT_APP_API_URL
-	? 'https://' + apiUrlEnv
+	? 'http://' + apiUrlEnv
 	: '';
 export const uiUrl = process.env.REACT_APP_UI_URL || '';
 export const APP_PATH = 'app';
