@@ -13,19 +13,18 @@ import { StageProps } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
 import '../../resources/styles/styles';
 import './login.styles';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import {
+	AvailableResult,
+	Credentials,
+	NativeBiometric
+} from 'capacitor-native-biometric';
 
 defineCustomElements(window);
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
 	type: BUTTON_TYPES.PRIMARY
-};
-
-const photoButton: ButtonItem = {
-	label: 'Take a picture',
-	type: BUTTON_TYPES.SECONDARY
 };
 
 interface LoginProps {
@@ -40,6 +39,15 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	);
 	const [showLoginError, setShowLoginError] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const [isBioAuthAvailable, setIsBioAuthAvailable] = useState(false);
+
+	useEffect(() => {
+		checkAvailability();
+	}, []);
+
+	useEffect(() => {
+		checkActive();
+	}, []);
 
 	useEffect(() => {
 		setShowLoginError(false);
@@ -49,6 +57,71 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			setIsButtonDisabled(true);
 		}
 	}, [username, password]);
+
+	let timer;
+
+	const BioAuthRequest = () => {
+		timer = window.setTimeout(checkAvailability, 5000); //3 Minuten = 180000 Millisekunden
+	};
+
+	const checkActive = () => {
+		document.addEventListener('visibilitychange', function (event) {
+			if (document.hidden) {
+				BioAuthRequest();
+			} else {
+				clearTimeout(timer);
+			}
+		});
+	};
+
+	const checkAvailability = () => {
+		NativeBiometric.isAvailable().then(
+			(result: AvailableResult) => {
+				const isAvailable = result.isAvailable;
+				if (isAvailable) {
+					checkIdentity();
+					setIsBioAuthAvailable(true);
+				}
+			},
+			(error) => {
+				let stage = document.getElementById('loginLogoWrapper');
+				stage.classList.add('stage--ready');
+			}
+		);
+		console.log('2) not available');
+	};
+
+	const checkIdentity = () => {
+		NativeBiometric.getCredentials({
+			server: 'string'
+		})
+			.then(
+				(credentials: Credentials) =>
+					new Promise((resolve, reject) => {
+						NativeBiometric.verifyIdentity({
+							reason: 'For easy log in',
+							title: 'Log in',
+							subtitle: 'Maybe add subtitle here?',
+							description: 'Maybe a description too?'
+						})
+							.then(() => resolve(credentials))
+							.catch(reject);
+					})
+			)
+			.then(() => {
+				autoLogin({
+					username: 'u25main',
+					password: 'Testtest!12',
+					redirect: true,
+					handleLoginError
+				});
+				let stage = document.getElementById('loginLogoWrapper');
+				stage.classList.add('stage--ready-mobile');
+			})
+			.catch((err) => {
+				console.log('Fehler bei Bio Auth: ' + err.code);
+			});
+	};
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -126,27 +199,13 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				>
 					{translate('login.resetPasswort.label')}
 				</a>
+
 				<Button
 					item={loginButton}
 					buttonHandle={handleLogin}
 					disabled={isButtonDisabled}
 				/>
-				<Button
-					item={photoButton}
-					buttonHandle={async () => {
-						const image = await Camera.getPhoto({
-							quality: 100,
-							allowEditing: true,
-							resultType: CameraResultType.Uri,
-							source: CameraSource.Camera,
-							saveToGallery: true,
-							width: 100,
-							height: 100
-						}).catch((e) => {
-							// console.error('E')
-						});
-					}}
-				/>
+
 				<div className="loginForm__register">
 					<Text
 						text={translate('login.register.infoText.title')}
@@ -168,3 +227,27 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		</StageLayout>
 	);
 };
+
+// import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
+// const photoButton: ButtonItem = {
+// 	label: 'Take a picture',
+// 	type: BUTTON_TYPES.SECONDARY
+// };
+
+// <Button
+// 	item={photoButton}
+// 	buttonHandle={async () => {
+// 		await Camera.getPhoto({
+// 			quality: 100,
+// 			allowEditing: true,
+// 			resultType: CameraResultType.Uri,
+// 			source: CameraSource.Camera,
+// 			saveToGallery: true,
+// 			width: 100,
+// 			height: 100
+// 		}).catch((e) => {
+// 			// console.error('E')
+// 		});
+// 	}}
+// />;
