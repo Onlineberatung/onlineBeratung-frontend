@@ -14,19 +14,20 @@ export interface StageProps {
 	className?: string;
 	hasAnimation?: boolean;
 	isReady?: boolean;
+	isReadyApp?: boolean;
 }
 
 export const Stage = ({
 	className,
 	hasAnimation,
-	isReady = true
+	isReady = false
 }: StageProps) => {
 	return (
 		<div
 			id="loginLogoWrapper"
 			className={clsx(className, 'stage', {
 				'stage--animated': hasAnimation,
-				'stage--ready': isReady
+				'stage--ready': isReady,
 			})}
 		>
 			<div className="stage__headline">
