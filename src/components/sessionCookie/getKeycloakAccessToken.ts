@@ -17,7 +17,7 @@ export const getKeycloakAccessToken = (
 		const req = new Request(url, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
+				'Content-Type': 'application/x-www-form-urlencoded'
 				// 'cache-control': 'no-cache'
 			},
 			credentials: 'include',

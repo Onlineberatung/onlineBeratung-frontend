@@ -102,7 +102,7 @@ export const Profile = () => {
 							userData
 						) && <AbsenceFormular />}
 						<PasswordReset />
-			
+
 						<BiometricAuthenticationSettings />
 					</div>
 					{hasUserAuthority(
@@ -130,7 +130,6 @@ export const Profile = () => {
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (
 						<DeleteAccount />
 					)}
-					
 				</div>
 				<div className="profile__footer">
 					<a

@@ -1,90 +1,89 @@
-
 .bioAuth__container {
-    .checkbox__wrapper {
-       justify-content:flex-start;
-       margin-top:25px;
-    }
-    .inputField {
-        margin-top: 25px;
-    }
-    & > p{
-        margin-top:8px;
-    }
+	.checkbox__wrapper {
+		justify-content: flex-start;
+		margin-top: 25px;
+	}
+	.inputField {
+		margin-top: 25px;
+	}
+	& > p {
+		margin-top: 8px;
+	}
 }
 
 .bioAuth {
-    &__button {
-        font-weight: $font-weight-bold;
-        text-transform: uppercase;
-        cursor: pointer;
-        color: $primary;
-        text-decoration: none;
-        transition: all 0.6s ease;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-        text-align: center;
+	&__button {
+		font-weight: $font-weight-bold;
+		text-transform: uppercase;
+		cursor: pointer;
+		color: $primary;
+		text-decoration: none;
+		transition: all 0.6s ease;
+		margin-left: auto;
+		margin-right: auto;
+		display: block;
+		text-align: center;
 
-        @include breakpoint($fromLarge) {
-            margin-left: 0;
-            margin-right: 0;
-            text-align: left;
-        }
+		@include breakpoint($fromLarge) {
+			margin-left: 0;
+			margin-right: 0;
+			text-align: left;
+		}
 
-        &:hover {
-            color: $hover-primary;
-            transition: all 0.3s ease;
-        }
+		&:hover {
+			color: $hover-primary;
+			transition: all 0.3s ease;
+		}
 
-        &--disabled {
-            cursor: inherit;
-            color: $form-disabled;
-            &:hover {
-                color: $form-disabled;
-            }
-        }
-    }
+		&--disabled {
+			cursor: inherit;
+			color: $form-disabled;
+			&:hover {
+				color: $form-disabled;
+			}
+		}
+	}
 }
 
 .profile__content__title {
-    margin-top: 8px;
+	margin-top: 8px;
 }
 
 .passwordReset__input {
-    &--red {
-        border: 2px solid $form-error;
-        color: $form-error;
+	&--red {
+		border: 2px solid $form-error;
+		color: $form-error;
 
-        &:hover,
-        &:focus {
-            border-color: $form-error;
-        }
+		&:hover,
+		&:focus {
+			border-color: $form-error;
+		}
 
-        + label {
-            color: $form-error;
-            + span {
-                + p {
-                    color: $form-error;
-                }
-            }
-        }
-    }
+		+ label {
+			color: $form-error;
+			+ span {
+				+ p {
+					color: $form-error;
+				}
+			}
+		}
+	}
 
-    &--green {
-        border: 2px solid $form-success;
-        color: $form-success;
+	&--green {
+		border: 2px solid $form-success;
+		color: $form-success;
 
-        &:focus {
-            border-color: $form-success;
-        }
+		&:focus {
+			border-color: $form-success;
+		}
 
-        + label {
-            color: $form-success;
-            + span {
-                + p {
-                    color: $form-success;
-                }
-            }
-        }
-    }
+		+ label {
+			color: $form-success;
+			+ span {
+				+ p {
+					color: $form-success;
+				}
+			}
+		}
+	}
 }

@@ -42,15 +42,18 @@ export const BiometricAuthenticationSettings = () => {
 	}, []);
 
 	const checkAvailability = () => {
-		NativeBiometric.isAvailable().then((result: AvailableResult) => {
-			const isAvailable = result.isAvailable;
-			if (isAvailable) {
-				setIsNativeBiometricAvailable(true);
-			} 
-		}, (error) => {
-			console.log('1) not available')
-		});
-		console.log('2) not available')
+		NativeBiometric.isAvailable().then(
+			(result: AvailableResult) => {
+				const isAvailable = result.isAvailable;
+				if (isAvailable) {
+					setIsNativeBiometricAvailable(true);
+				}
+			},
+			(error) => {
+				console.log('1) not available');
+			}
+		);
+		console.log('2) not available');
 	};
 
 	const bioAuthCheckboxItem: CheckboxItem = {
@@ -171,8 +174,8 @@ export const BiometricAuthenticationSettings = () => {
 		console.log('deleteCredentials wird aufgerufen');
 
 		NativeBiometric.deleteCredentials({
-			server: "string", //The string used to identify the credentials object when setting the credentials.
-		  }).then();
+			server: 'string' //The string used to identify the credentials object when setting the credentials.
+		}).then();
 	};
 
 	if (isNativeBiometricAvailable === false) {
@@ -185,7 +188,7 @@ export const BiometricAuthenticationSettings = () => {
 			</div>
 		);
 	}
-	
+
 	return (
 		<div className="bioAuth__container">
 			<Headline text="Biometric Authentication" semanticLevel="5" />
