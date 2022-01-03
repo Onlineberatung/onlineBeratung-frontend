@@ -175,7 +175,7 @@ export const BiometricAuthenticationSettings = () => {
 		  }).then();
 	};
 
-	if (isNativeBiometricAvailable === true) {
+	if (isNativeBiometricAvailable === false) {
 		return (
 			<div className="bioAuth__container">
 				<Headline
