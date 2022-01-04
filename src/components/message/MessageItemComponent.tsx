@@ -176,10 +176,10 @@ export const MessageItemComponent = ({
 		(chatItem?.moderators && !chatItem?.moderators?.includes(userId));
 	const showForwardMessage = () =>
 		hasRenderedMessage &&
-		activeSession.type !== SESSION_LIST_TYPES.ENQUIRY &&
-		chatItem.feedbackGroupId &&
+		activeSession?.type !== SESSION_LIST_TYPES.ENQUIRY &&
+		chatItem?.feedbackGroupId &&
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
-		!activeSession.isFeedbackSession;
+		!activeSession?.isFeedbackSession;
 
 	const videoCallMessage: VideoCallMessageDTO = alias?.videoCallMessageDTO;
 	const isFurtherStepsMessage =
@@ -264,7 +264,7 @@ export const MessageItemComponent = ({
 									hasRenderedMessage={hasRenderedMessage}
 								/>
 							))}
-						{activeSession.isFeedbackSession && (
+						{activeSession?.isFeedbackSession && (
 							<CopyMessage
 								right={isMyMessage}
 								message={renderedMessage}

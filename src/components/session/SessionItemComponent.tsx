@@ -93,8 +93,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
+	const { isAnonymousEnquiry } = props;
+
 	const resetUnreadCount = () => {
-		if (!props.isAnonymousEnquiry) {
+		if (!isAnonymousEnquiry) {
 			setNewMessages(0);
 			initMessageCount = messages?.length;
 			scrollContainerRef.current
@@ -104,13 +106,13 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	};
 
 	useEffect(() => {
-		if (!props.isAnonymousEnquiry) {
+		if (scrollContainerRef.current) {
 			resetUnreadCount();
 		}
-	}, []); // eslint-disable-line
+	}, [scrollContainerRef]); // eslint-disable-line
 
 	useEffect(() => {
-		if (!props.isAnonymousEnquiry && messages) {
+		if (!isAnonymousEnquiry && messages) {
 			if (
 				initialScrollCompleted &&
 				isMyMessage(messages[messages.length - 1]?.userId)
@@ -193,7 +195,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 		setIsRequestInProgress(true);
 
-		apiEnquiryAcceptance(sessionId, props.isAnonymousEnquiry)
+		apiEnquiryAcceptance(sessionId, isAnonymousEnquiry)
 			.then(() => {
 				setOverlayItem(enquirySuccessfullyAcceptedOverlayItem);
 				setCurrentGroupId(sessionGroupId);
@@ -284,7 +286,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
 
 	const buttonItem: ButtonItem = {
-		label: props.isAnonymousEnquiry
+		label: isAnonymousEnquiry
 			? translate('enquiry.acceptButton.anonymous')
 			: translate('enquiry.acceptButton'),
 		type: BUTTON_TYPES.PRIMARY
@@ -351,7 +353,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				legalComponent={props.legalComponent}
 			/>
 
-			{!props.isAnonymousEnquiry && (
+			{!isAnonymousEnquiry && (
 				<div
 					id="session-scroll-container"
 					className="session__content"
@@ -361,9 +363,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					{messages &&
 						resortData &&
 						messages.map((message: MessageItem, index) => (
-							<>
+							<React.Fragment key={index}>
 								<MessageItemComponent
-									key={index}
 									clientName={
 										getContact(activeSession).username
 									}
@@ -376,7 +377,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 								/>
 								{index === messages.length - 1 &&
 									enableInitialScroll()}
-							</>
+							</React.Fragment>
 						))}
 					<div
 						className={`session__scrollToBottom ${
@@ -401,7 +402,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				</div>
 			)}
 
-			{props.isAnonymousEnquiry && (
+			{isAnonymousEnquiry && (
 				<div className="session__content session__content--anonymousEnquiry">
 					<Headline
 						semanticLevel="3"
@@ -452,7 +453,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				</div>
 			) : null}
 
-			{!props.isAnonymousEnquiry &&
+			{!isAnonymousEnquiry &&
 				(!typeIsEnquiry(getTypeOfLocation()) ||
 					(typeIsEnquiry(getTypeOfLocation()) &&
 						hasUserAuthority(
