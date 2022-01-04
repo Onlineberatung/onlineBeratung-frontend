@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useContext, useEffect, useMemo, ComponentType } from 'react';
+import { useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import {
 	typeIsEnquiry,
@@ -31,7 +32,6 @@ import {
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import {
 	SessionsDataContext,
-	getActiveSession,
 	UserDataContext,
 	getContact,
 	AcceptedGroupIdContext,
@@ -39,7 +39,8 @@ import {
 	isAnonymousSession,
 	AUTHORITIES,
 	ConsultingTypeInterface,
-	UpdateSessionListContext
+	UpdateSessionListContext,
+	SessionItemInterface
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
@@ -52,9 +53,9 @@ import smoothScroll from './smoothScrollHelper';
 import { Headline } from '../headline/Headline';
 import { history } from '../app/app';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 interface SessionItemProps {
-	currentGroupId: string;
 	isAnonymousEnquiry?: boolean;
 	isTyping: Function;
 	messages?: MessageItem[];
@@ -66,18 +67,19 @@ interface SessionItemProps {
 let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
+	const { rcGroupId: groupIdFromParam } = useParams();
+
+	const activeSession = useContext(ActiveSessionContext);
 	let { sessionsData, setSessionsData } = useContext(SessionsDataContext);
-	const activeSession = useMemo(
-		() => getActiveSession(props.currentGroupId, sessionsData),
-		[props.currentGroupId] // eslint-disable-line react-hooks/exhaustive-deps
-	);
 	const { userData } = useContext(UserDataContext);
 	const [monitoringButtonVisible, setMonitoringButtonVisible] =
 		useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [currentGroupId, setCurrentGroupId] = useState(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-	const chatItem = getChatItemForSession(activeSession);
+	const chatItem = getChatItemForSession(
+		activeSession
+	) as SessionItemInterface;
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -166,8 +168,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		};
 	}, [chatItem]); // eslint-disable-line
 
-	if (!activeSession) return null;
-
 	const getPlaceholder = () => {
 		if (isGroupChat) {
 			return translate('enquiry.write.input.placeholder.groupChat');
@@ -214,6 +214,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			case OVERLAY_FUNCTIONS.REDIRECT:
 				setOverlayItem(null);
 				setIsRequestInProgress(false);
+				// ToDo: How it should work. Look weired it gets set to '' and in next step its used.
+				//  I think the state isn't updated in setAcceptedGroupId and it works only luckily
 				setCurrentGroupId('');
 				setAcceptedGroupId(currentGroupId);
 				setSessionsData({ ...sessionsData, enquiries: [] });
@@ -345,7 +347,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				consultantAbsent={
 					activeSession.consultant && activeSession.consultant.absent
 						? activeSession.consultant
-						: false
+						: null
 				}
 				hasUserInitiatedStopOrLeaveRequest={
 					props.hasUserInitiatedStopOrLeaveRequest
@@ -474,6 +476,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						}}
 						type={getTypeOfLocation()}
 						typingUsers={props.typingUsers}
+						groupIdFromParam={groupIdFromParam}
 					/>
 				)}
 			{overlayItem && (

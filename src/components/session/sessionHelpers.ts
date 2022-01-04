@@ -1,4 +1,9 @@
-import { ListItemInterface } from '../../globalState';
+import {
+	GroupChatItemInterface,
+	ListItemInterface,
+	REGISTRATION_TYPE_ANONYMOUS,
+	SessionItemInterface
+} from '../../globalState';
 import { MessageItem } from '../message/MessageItemComponent';
 import {
 	formatToDDMMYYYY,
@@ -17,15 +22,49 @@ export const CHAT_TYPES = {
 	SINGLE_CHAT: 'session'
 };
 
-export const getChatTypeForListItem = (listItem: ListItemInterface): string =>
+export const getChatTypeForListItem = (listItem?: ListItemInterface): string =>
 	listItem && listItem.chat ? CHAT_TYPES.GROUP_CHAT : CHAT_TYPES.SINGLE_CHAT;
-export const getChatItemForSession = (sessionItem: ListItemInterface) => {
+
+export const isSessionChat = (
+	chatItem: SessionItemInterface | GroupChatItemInterface
+): chatItem is SessionItemInterface => {
+	return chatItem && 'feedbackGroupId' in chatItem;
+};
+
+export const isLiveChat = (
+	chatItem: SessionItemInterface | GroupChatItemInterface
+): chatItem is SessionItemInterface => {
+	return (
+		isSessionChat(chatItem) &&
+		chatItem.registrationType === REGISTRATION_TYPE_ANONYMOUS
+	);
+};
+
+export const isSessionChatItemNotAnonymous = (
+	chatItem: SessionItemInterface | GroupChatItemInterface
+): chatItem is SessionItemInterface => {
+	return (
+		isSessionChat(chatItem) &&
+		chatItem.registrationType !== REGISTRATION_TYPE_ANONYMOUS
+	);
+};
+
+export const isGroupChat = (
+	chatItem: SessionItemInterface | GroupChatItemInterface
+): chatItem is GroupChatItemInterface => {
+	return chatItem && !('feedbackGroupId' in chatItem);
+};
+
+export const getChatItemForSession = (
+	sessionItem?: ListItemInterface
+): GroupChatItemInterface | SessionItemInterface | null => {
 	if (!sessionItem) {
 		return null;
 	}
 	const chatType = getChatTypeForListItem(sessionItem);
 	return sessionItem[chatType];
 };
+
 export const isGroupChatForSessionItem = (sessionItem: ListItemInterface) => {
 	return getChatTypeForListItem(sessionItem) === CHAT_TYPES.GROUP_CHAT;
 };

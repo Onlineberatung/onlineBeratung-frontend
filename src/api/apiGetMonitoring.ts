@@ -1,7 +1,7 @@
 import { config } from '../resources/scripts/config';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 
-export const apiGetMonitoring = async (sessionId: string) => {
+export const apiGetMonitoring = async (sessionId: number) => {
 	const url = `${config.endpoints.sessionBase}/${sessionId}/monitoring`;
 
 	return fetchData({

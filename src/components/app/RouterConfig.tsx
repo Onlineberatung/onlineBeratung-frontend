@@ -30,11 +30,15 @@ export const RouterConfigUser = (): any => {
 		],
 		listRoutes: [
 			{
-				path: '/sessions/user/view',
+				path: '/sessions/user/view/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper
 			}
 		],
 		detailRoutes: [
+			{
+				path: '/sessions/user/view/write/:sessionId?',
+				component: WriteEnquiry
+			},
 			{
 				path: '/sessions/user/view/:rcGroupId/:sessionId',
 				component: SessionView
@@ -42,10 +46,6 @@ export const RouterConfigUser = (): any => {
 			{
 				path: '/sessions/user/view/',
 				component: SessionViewEmpty
-			},
-			{
-				path: '/sessions/user/view/write',
-				component: WriteEnquiry
 			}
 		],
 		profileRoutes: [
@@ -85,12 +85,12 @@ export const RouterConfigConsultant = (): any => {
 		],
 		listRoutes: [
 			{
-				path: '/sessions/consultant/sessionPreview',
+				path: '/sessions/consultant/sessionPreview/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
 				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
-				path: '/sessions/consultant/sessionView',
+				path: '/sessions/consultant/sessionView/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
 				type: SESSION_LIST_TYPES.MY_SESSION
 			}
@@ -186,17 +186,17 @@ export const RouterConfigTeamConsultant = (): any => {
 		],
 		listRoutes: [
 			{
-				path: '/sessions/consultant/sessionPreview',
+				path: '/sessions/consultant/sessionPreview/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
 				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
-				path: '/sessions/consultant/sessionView',
+				path: '/sessions/consultant/sessionView/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
 				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
-				path: '/sessions/consultant/teamSessionView',
+				path: '/sessions/consultant/teamSessionView/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
 				type: SESSION_LIST_TYPES.TEAMSESSION
 			}
@@ -305,7 +305,7 @@ export const RouterConfigAnonymousAsker = (): any => {
 		],
 		listRoutes: [
 			{
-				path: '/sessions/user/view',
+				path: '/sessions/user/view/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper
 			}
 		],

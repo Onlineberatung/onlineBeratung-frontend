@@ -2,9 +2,6 @@ import * as React from 'react';
 import { useContext } from 'react';
 import {
 	UserDataContext,
-	SessionsDataContext,
-	ActiveSessionGroupIdContext,
-	getActiveSession,
 	hasUserAuthority,
 	AUTHORITIES
 } from '../../globalState';
@@ -14,6 +11,7 @@ import {
 	isGroupChatForSessionItem
 } from '../session/sessionHelpers';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 interface MessageMetaDataProps {
 	isMyMessage: Boolean;
@@ -25,9 +23,7 @@ interface MessageMetaDataProps {
 
 export const MessageMetaData = (props: MessageMetaDataProps) => {
 	const { userData } = useContext(UserDataContext);
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 
 	const isReadStatus = () => {
@@ -62,7 +58,7 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 			<div
 				className={
 					props.isMyMessage &&
-					activeSession.type !== SESSION_LIST_TYPES.ENQUIRY
+					activeSession?.type !== SESSION_LIST_TYPES.ENQUIRY
 						? `messageItem__time messageItem__time--right`
 						: `messageItem__time`
 				}

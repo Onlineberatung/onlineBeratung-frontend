@@ -2,22 +2,18 @@ import * as React from 'react';
 import { useEffect, useContext, useState, ComponentType } from 'react';
 import {
 	UserDataContext,
-	ActiveSessionGroupIdContext,
-	getActiveSession,
 	SessionsDataContext,
 	getSessionsDataWithChangedValue,
 	StoppedGroupChatContext,
 	hasUserAuthority,
 	AUTHORITIES,
 	AcceptedGroupIdContext,
-	useConsultingType
+	useConsultingType,
+	GroupChatItemInterface
 } from '../../globalState';
-import { mobileDetailView, mobileListView } from '../app/navigationHandler';
+import { mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
-import {
-	getChatItemForSession,
-	getSessionListPathForLocation
-} from '../session/sessionHelpers';
+import { getSessionListPathForLocation } from '../session/sessionHelpers';
 import {
 	apiPutGroupChat,
 	apiGetGroupChatInfo,
@@ -41,29 +37,29 @@ import {
 } from './joinGroupChatHelpers';
 import { Button } from '../button/Button';
 import { logout } from '../logout/logout';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Redirect, useLocation, useParams } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 interface JoinGroupChatViewProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	chatItem: GroupChatItemInterface;
 }
 
-export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
+export const JoinGroupChatView = ({
+	legalComponent,
+	chatItem
+}: JoinGroupChatViewProps) => {
+	const { rcGroupId: groupIdFromParam } = useParams();
+
+	const activeSession = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
-	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
-		ActiveSessionGroupIdContext
-	);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	if (!activeSession) {
-		history.push(getSessionListPathForLocation());
-	}
-	const chatItem = getChatItemForSession(activeSession);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
@@ -83,7 +79,6 @@ export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	useEffect(() => {
-		mobileDetailView();
 		if (
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 			!chatItem.active
@@ -109,7 +104,7 @@ export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
 
 	const updateGroupChatInfo = () => {
 		if (
-			chatItem.groupId === activeSessionGroupId &&
+			chatItem.groupId === groupIdFromParam &&
 			consultingType.groupChat.isGroupChat
 		) {
 			apiGetGroupChatInfo(chatItem.id)
@@ -198,7 +193,6 @@ export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
 
 	if (redirectToSessionsList) {
 		mobileListView();
-		setActiveSessionGroupId(null);
 		return (
 			<Redirect
 				to={getSessionListPathForLocation() + getSessionListTab()}
@@ -208,7 +202,7 @@ export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
 
 	return (
 		<div className="session joinChat">
-			<SessionHeaderComponent legalComponent={props.legalComponent} />
+			<SessionHeaderComponent legalComponent={legalComponent} />
 			<div className="joinChat__content session__content">
 				<Headline
 					text={translate('groupChat.join.content.headline')}

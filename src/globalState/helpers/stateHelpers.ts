@@ -1,25 +1,32 @@
 import { UserDataInterface } from '../interfaces/UserDataInterface';
 import {
-	SessionsDataInterface,
+	ListItemInterface,
+	REGISTRATION_TYPE_ANONYMOUS,
 	SessionItemInterface,
-	ListItemInterface
+	SessionsDataInterface
 } from '../interfaces/SessionsDataInterface';
 import {
-	SESSION_LIST_TYPES,
-	getChatTypeForListItem,
+	CHAT_TYPES,
 	getChatItemForSession,
-	CHAT_TYPES
+	getChatTypeForListItem,
+	isSessionChat,
+	SESSION_LIST_TYPES
 } from '../../components/session/sessionHelpers';
 import { translate } from '../../utils/translate';
 
-export const ACTIVE_SESSION = {
-	CREATE_CHAT: 'CREATE_CHAT'
+export type ActiveSessionType = ListItemInterface & {
+	type: SESSION_LIST_TYPES;
+	isFeedbackSession?: boolean;
+	// ToDo: isTeamSession was checked with activeSession.isTeamSession but
+	//  was never set and is only available
+	//  in activeSession.session.isTeamSession
+	isTeamSession?: boolean;
 };
 
 export const getActiveSession = (
-	sessionGroupId: string,
-	sessionsData: SessionsDataInterface
-) => {
+	sessionGroupId?: string,
+	sessionsData?: SessionsDataInterface
+): ActiveSessionType | null => {
 	if (!sessionsData || !sessionGroupId) {
 		return null;
 	}
@@ -37,31 +44,39 @@ export const getActiveSession = (
 	};
 
 	for (let key in sessionsData) {
-		sessionsData[key] = sessionsData[key].map((value) => ({
-			...value,
-			type: getTypeByKey(key)
-		}));
+		if (sessionsData.hasOwnProperty(key)) {
+			sessionsData[key] = sessionsData[key].map(
+				(value: ListItemInterface): ActiveSessionType => ({
+					...value,
+					type: getTypeByKey(key)
+				})
+			);
+		}
 	}
+
 	const allSessions = Object.keys(sessionsData)
-		.map((e) => sessionsData[e])
+		.map((e): ActiveSessionType[] => sessionsData[e])
 		.reduce((a, b) => [...a, ...b]);
-	const resultSessions = allSessions.filter((sessionItem) => {
+
+	const resultSession = allSessions.find((sessionItem) => {
 		const chatItem = getChatItemForSession(sessionItem);
 		return (
 			(chatItem.groupId && chatItem.groupId === sessionGroupId) ||
-			(chatItem.feedbackGroupId &&
+			(isSessionChat(chatItem) &&
+				chatItem.feedbackGroupId &&
 				chatItem.feedbackGroupId === sessionGroupId) ||
-			(chatItem.id && chatItem.id === sessionGroupId)
+			(chatItem.id && chatItem.id.toString() === sessionGroupId)
 		);
 	});
 
-	if (resultSessions.length) {
-		const chatType = getChatTypeForListItem(resultSessions[0]);
+	if (resultSession) {
+		const chatType = getChatTypeForListItem(resultSession);
 		if (chatType !== CHAT_TYPES.GROUP_CHAT) {
-			resultSessions[0].isFeedbackSession =
-				resultSessions[0].session.feedbackGroupId === sessionGroupId;
+			resultSession.isFeedbackSession =
+				resultSession.session.feedbackGroupId === sessionGroupId;
+			resultSession.isTeamSession = resultSession.session.isTeamSession;
 		}
-		return resultSessions[0];
+		return resultSession;
 	}
 
 	return null;
@@ -151,5 +166,5 @@ export const getSessionsDataWithChangedValue = (
 export const isAnonymousSession = (
 	session: SessionItemInterface | undefined
 ): boolean => {
-	return session?.registrationType === 'ANONYMOUS';
+	return session?.registrationType === REGISTRATION_TYPE_ANONYMOUS;
 };

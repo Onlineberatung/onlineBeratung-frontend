@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import {
 	MILLISECONDS_PER_SECOND,
@@ -20,15 +20,17 @@ import {
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import {
-	ActiveSessionGroupIdContext,
 	SessionsDataContext,
-	getActiveSession,
 	UserDataContext,
 	getSessionsDataKeyForSessionType,
 	hasUserAuthority,
 	isAnonymousSession,
 	AUTHORITIES,
-	useConsultingType
+	useConsultingType,
+	getActiveSession,
+	STATUS_FINISHED,
+	STATUS_EMPTY,
+	STATUS_ENQUIRY
 } from '../../globalState';
 import { history } from '../app/app';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
@@ -45,35 +47,45 @@ interface SessionListItemProps {
 	language: string;
 }
 
-export const SessionListItemComponent = (props: SessionListItemProps) => {
+export const SessionListItemComponent = ({
+	id,
+	language
+}: SessionListItemProps) => {
+	const { sessionId, rcGroupId: groupIdFromParam } = useParams();
+	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
+
 	const sessionListTab = new URLSearchParams(useLocation().search).get(
 		'sessionListTab'
 	);
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId, setActiveSessionGroupId } = useContext<any>(
-		ActiveSessionGroupIdContext
-	);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const [activeSession, setActiveSession] = useState(null);
 	const [isRead, setIsRead] = useState(false);
-	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const { userData } = useContext(UserDataContext);
 	const type = getTypeOfLocation();
 
 	const currentSessionData = sessionsData[
 		getSessionsDataKeyForSessionType(type)
-	].filter((session) => props.id === getChatItemForSession(session).id)[0];
+	].filter((session) => id === getChatItemForSession(session).id)[0];
 	const listItem =
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
 	const isLiveChat = isAnonymousSession(currentSessionData?.session);
-	const isLiveChatFinished = listItem.status === 3;
+	const isLiveChatFinished = listItem.status === STATUS_FINISHED;
 	let plainTextLastMessage = '';
 	const consultingType = useConsultingType(listItem.consultingType);
 	const sessionConsultingType = useConsultingType(
 		currentSessionData.session?.consultingType
 	);
+
+	useEffect(() => {
+		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+		const chatItem = getChatItemForSession(activeSession);
+
+		setActiveSession(activeSession);
+		setIsRead(chatItem?.id === listItem.id || listItem.messagesRead);
+	}, [groupIdFromParam, listItem.id, listItem.messagesRead, sessionsData]);
 
 	if (listItem.lastMessage) {
 		const rawMessageObject = markdownToDraft(listItem.lastMessage);
@@ -82,32 +94,22 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	}
 
 	const isCurrentSessionNewEnquiry =
-		currentSessionData.session && currentSessionData.session.status === 0;
+		currentSessionData.session &&
+		currentSessionData.session.status === STATUS_EMPTY;
 
 	const isCurrentSessionFirstContactMessage =
-		currentSessionData.session && currentSessionData.session.status === 1;
-
-	useEffect(() => {
-		const chatItem = activeSession
-			? getChatItemForSession(activeSession)
-			: null;
-		setIsRead(chatItem?.id === listItem.id || listItem.messagesRead);
-
-		if (activeSessionGroupId && isRequestInProgress) {
-			setIsRequestInProgress(false);
-		}
-	}, [activeSessionGroupId, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+		currentSessionData.session &&
+		currentSessionData.session.status === STATUS_ENQUIRY;
 
 	if (!sessionsData) {
 		return null;
 	}
+
 	if (!currentSessionData) {
 		return null;
 	}
 
 	const handleOnClick = () => {
-		setIsRequestInProgress(true);
-
 		if (listItem.groupId && listItem.id) {
 			history.push(
 				`${getSessionListPathForLocation()}/${listItem.groupId}/${
@@ -118,8 +120,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			isCurrentSessionNewEnquiry
 		) {
-			setActiveSessionGroupId(listItem.id);
-			history.push(`/sessions/user/view/write`);
+			history.push(`/sessions/user/view/write/${listItem.id}`);
 		}
 	};
 
@@ -239,7 +240,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 			onClick={handleOnClick}
 			className={
 				(activeSession && activeSession.session?.id === listItem?.id) ||
-				activeSessionGroupId === listItem.id
+				sessionIdFromParam === listItem.id
 					? `sessionsListItem sessionsListItem--active`
 					: `sessionsListItem`
 			}
@@ -312,12 +313,11 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 				<div className="sessionsListItem__row">
 					{listItem.lastMessage ? (
 						<div className="sessionsListItem__subject">
-							{isCurrentSessionFirstContactMessage &&
-							props.language ? (
+							{isCurrentSessionFirstContactMessage && language ? (
 								<>
 									<span>
 										{/* we need a &nbsp; here, to ensure correct spacing for long messages */}
-										{props.language.toUpperCase()} |&nbsp;
+										{language.toUpperCase()} |&nbsp;
 									</span>
 									{plainTextLastMessage}
 								</>
