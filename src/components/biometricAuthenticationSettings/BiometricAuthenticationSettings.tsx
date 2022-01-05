@@ -17,6 +17,7 @@ import {
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { BUTTON_TYPES } from '../button/Button';
 import { AvailableResult, NativeBiometric } from 'capacitor-native-biometric';
+import { apiUrl } from '../../resources/scripts/config';
 
 export const BiometricAuthenticationSettings = () => {
 	const [isNativeBiometricAvailable, setIsNativeBiometricAvailable] =
@@ -166,7 +167,7 @@ export const BiometricAuthenticationSettings = () => {
 		NativeBiometric.setCredentials({
 			username: userData.userName,
 			password: password,
-			server: 'string' //Any string to identify the credentials object with
+			server: apiUrl //Any string to identify the credentials object with
 		}).then();
 	};
 
@@ -174,7 +175,7 @@ export const BiometricAuthenticationSettings = () => {
 		console.log('deleteCredentials wird aufgerufen');
 
 		NativeBiometric.deleteCredentials({
-			server: 'string' //The string used to identify the credentials object when setting the credentials.
+			server: apiUrl //The string used to identify the credentials object when setting the credentials.
 		}).then();
 	};
 
