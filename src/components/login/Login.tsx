@@ -3,7 +3,7 @@ import * as React from 'react';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { ComponentType, useState, useEffect } from 'react';
-import { config } from '../../resources/scripts/config';
+import { apiUrl, config } from '../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
 import { autoLogin } from '../registration/autoLogin';
 import { Text } from '../text/Text';
@@ -39,14 +39,11 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	);
 	const [showLoginError, setShowLoginError] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [isBioAuthAvailable, setIsBioAuthAvailable] = useState(false);
-
-	useEffect(() => {
-		checkAvailability();
-	}, []);
+	// const [isBioAuthAvailable, setIsBioAuthAvailable] = useState(false);
 
 	useEffect(() => {
 		checkActive();
+		checkAvailability();
 	}, []);
 
 	useEffect(() => {
@@ -57,6 +54,9 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			setIsButtonDisabled(true);
 		}
 	}, [username, password]);
+
+
+	// TODO
 
 	let timer;
 
@@ -74,52 +74,63 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		});
 	};
 
+	//------------
+
 	const checkAvailability = () => {
 		NativeBiometric.isAvailable().then(
 			(result: AvailableResult) => {
 				const isAvailable = result.isAvailable;
 				if (isAvailable) {
 					checkIdentity();
-					setIsBioAuthAvailable(true);
+					// setIsBioAuthAvailable(true);
 				}
 			},
 			(error) => {
+				// TODO : Funktion erstellen
 				let stage = document.getElementById('loginLogoWrapper');
 				stage.classList.add('stage--ready');
 			}
-		);
-		console.log('2) not available');
+		);		
 	};
 
 	const checkIdentity = () => {
 		NativeBiometric.getCredentials({
-			server: 'string'
+			server: apiUrl
 		})
 			.then(
 				(credentials: Credentials) =>
-					new Promise((resolve, reject) => {
+					new Promise((reject) => {
 						NativeBiometric.verifyIdentity({
 							reason: 'For easy log in',
 							title: 'Log in',
 							subtitle: 'Maybe add subtitle here?',
 							description: 'Maybe a description too?'
 						})
-							.then(() => resolve(credentials))
+							.then(() => {
+								autoLogin({
+									username: credentials.username,
+									password: credentials.password,
+									redirect: true,
+									handleLoginError
+								});
+							})
+							
 							.catch(reject);
 					})
 			)
-			.then(() => {
-				autoLogin({
-					username: 'u25main',
-					password: 'Testtest!12',
-					redirect: true,
-					handleLoginError
-				});
-				let stage = document.getElementById('loginLogoWrapper');
-				stage.classList.add('stage--ready-mobile');
-			})
+			// .then((credentials: Credentials) => {
+			// 	console.log('Test', credentials);
+			// 	autoLogin({
+			// 		username: credentials.username,
+			// 		password: credentials.password,
+			// 		redirect: true,
+			// 		handleLoginError
+			// 	});
+			// })
 			.catch((err) => {
 				console.log('Fehler bei Bio Auth: ' + err.code);
+				let stage = document.getElementById('loginLogoWrapper');
+				stage.classList.add('stage--ready-mobile');
 			});
 	};
 
