@@ -10,7 +10,7 @@ import {
 } from '../../globalState';
 import { formatToHHMM } from '../../utils/dateHelpers';
 import {
-	SESSION_TYPES,
+	SESSION_LIST_TYPES,
 	isGroupChatForSessionItem
 } from '../session/sessionHelpers';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
@@ -34,7 +34,7 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 		if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) ||
-			activeSession.isFeedbackSession ||
+			activeSession?.isFeedbackSession ||
 			props.isReadStatusDisabled
 		) {
 			return null;
@@ -62,7 +62,7 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 			<div
 				className={
 					props.isMyMessage &&
-					activeSession.type !== SESSION_TYPES.ENQUIRY
+					activeSession.type !== SESSION_LIST_TYPES.ENQUIRY
 						? `messageItem__time messageItem__time--right`
 						: `messageItem__time`
 				}

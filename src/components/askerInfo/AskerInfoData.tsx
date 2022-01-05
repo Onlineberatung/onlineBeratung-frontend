@@ -27,7 +27,7 @@ export const AskerInfoData = () => {
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 
 	const consultingType = useConsultingType(
-		activeSession.session.consultingType
+		activeSession?.session.consultingType
 	);
 
 	const userSessionData = getContact(activeSession).sessionData;
@@ -38,7 +38,7 @@ export const AskerInfoData = () => {
 		: null;
 
 	return (
-		<div className="profile__content__item">
+		<>
 			<Text text={translate('userProfile.data.title')} type="divider" />
 			<div className="profile__data__item">
 				<p className="profile__data__label">
@@ -48,7 +48,7 @@ export const AskerInfoData = () => {
 					{consultingType.titles.default}
 				</p>
 			</div>
-			{activeSession.session.consultingType === 0 && !isLiveChat && (
+			{activeSession?.session.consultingType === 0 && !isLiveChat && (
 				<div className="profile__data__item">
 					<p className="profile__data__label">
 						{translate('userProfile.data.postcode')}
@@ -84,6 +84,6 @@ export const AskerInfoData = () => {
 					</p>
 				</div>
 			))}
-		</div>
+		</>
 	);
 };

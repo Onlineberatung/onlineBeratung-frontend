@@ -1,16 +1,18 @@
 import * as React from 'react';
 import './text.styles';
 
+export type TextTypeOptions =
+	| 'standard'
+	| 'infoLargeStandard'
+	| 'infoLargeAlternative'
+	| 'infoSmall'
+	| 'divider';
+
 export interface TextProps {
 	text: string;
 	labelType?: LABEL_TYPES;
 	className?: string;
-	type:
-		| 'standard'
-		| 'infoLargeStandard'
-		| 'infoLargeAlternative'
-		| 'infoSmall'
-		| 'divider';
+	type: TextTypeOptions;
 }
 
 export enum LABEL_TYPES {

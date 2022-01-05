@@ -31,7 +31,7 @@ export const Stage = ({
 			})}
 		>
 			<div className="stage__headline">
-				<h1>{translate('app.title')}</h1>
+				<h1>{translate('app.stage.title')}</h1>
 				<h4>{translate('app.claim')}</h4>
 			</div>
 

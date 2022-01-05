@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as ReactDOM from 'react-dom';
 import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline, HeadlineLevel } from '../headline/Headline';
+import { ReactComponent as XIcon } from '../../resources/img/icons/x.svg';
+import { translate } from '../../utils/translate';
 import clsx from 'clsx';
 import './overlay.styles';
 
@@ -19,7 +21,12 @@ export const OVERLAY_FUNCTIONS = {
 	STOP_GROUP_CHAT: 'STOP_GROUP_CHAT',
 	LEAVE_GROUP_CHAT: 'LEAVE_GROUP_CHAT',
 	DELETE_ACCOUNT: 'DELETE_ACCOUNT',
-	FINISH_ANONYMOUS_CONVERSATION: 'FINISH_ANONYMOUS_CONVERSATION'
+	DELETE_EMAIL: 'DELETE_EMAIL',
+	NEXT_STEP: 'NEXT_STEP',
+	PREV_STEP: 'PREV_STEP',
+	DELETE_SESSION: 'DELETE_SESSION',
+	FINISH_ANONYMOUS_CONVERSATION: 'FINISH_ANONYMOUS_CONVERSATION',
+	ARCHIVE: 'ARCHIVE'
 };
 
 export const OVERLAY_RESET_TIME = 10000;
@@ -34,6 +41,13 @@ export interface OverlayItem {
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
 	>;
+	handleOverlay?: Function;
+	step?: {
+		icon: React.FunctionComponent<
+			React.SVGProps<SVGSVGElement> & { title?: string }
+		>;
+		label: string;
+	};
 }
 
 export const OverlayWrapper = (props) => {
@@ -43,9 +57,26 @@ export const OverlayWrapper = (props) => {
 
 export const Overlay = (props: {
 	className?: string;
-	item: OverlayItem;
-	handleOverlay: Function;
+	item?: OverlayItem;
+	handleOverlay?: Function;
+	handleOverlayClose?: Function;
+	items?: OverlayItem[];
 }) => {
+	const [activeStep, setActiveStep] = useState<number>(0);
+	const [activeOverlay, setActiveOverlay] = useState<OverlayItem>(
+		props.item
+			? { ...props.item, ...props.handleOverlay }
+			: props.items[activeStep]
+	);
+
+	useEffect(() => {
+		setActiveOverlay(
+			props.item
+				? { ...props.item, ...props.handleOverlay }
+				: props.items[activeStep]
+		);
+	}, [props.item, props.items]); // eslint-disable-line react-hooks/exhaustive-deps
+
 	useEffect(() => {
 		document.querySelector('.app')?.classList.add('app--blur');
 
@@ -54,51 +85,124 @@ export const Overlay = (props: {
 		};
 	}, []);
 
+	useEffect(() => {
+		if (props.items) {
+			setActiveOverlay(props.items[activeStep]);
+		}
+	}, [activeStep, props.items]);
+
 	const handleButtonClick = (buttonFunction: string) => {
-		props.handleOverlay(buttonFunction);
+		if (buttonFunction === OVERLAY_FUNCTIONS.NEXT_STEP) {
+			setActiveStep(activeStep + 1);
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.PREV_STEP) {
+			setActiveStep(activeStep - 1);
+		} else if (props.item && props.handleOverlay) {
+			props.handleOverlay(buttonFunction);
+		} else if (activeOverlay.handleOverlay) {
+			activeOverlay.handleOverlay(buttonFunction);
+		}
 	};
 
-	const item = props.item;
-	const Illustration = item.svg;
+	const getOverlayHeadline = () => {
+		if (props.items?.some((item) => item.step)) {
+			return `
+				<span class="overlay__stepHeadline">
+					<span class="overlay__stepHeadline--prefix">
+						${activeStep + 1}${translate('overlay.step.headline.prefix')}
+					</span>
+					${activeOverlay.headline}
+				</span>
+				`;
+		} else return activeOverlay.headline;
+	};
+
+	const Illustration = activeOverlay.svg;
 	return (
-		<div className={clsx(props.className, 'overlay')}>
+		<div
+			className={clsx(
+				props.className,
+				'overlay',
+				props.items?.length > 0 ? 'overlay--stepped' : ''
+			)}
+		>
 			<div className="overlay__background"></div>
 			<div className="overlay__content">
-				{item.svg && (
+				{props.handleOverlayClose && (
+					<XIcon
+						className="overlay__closeIcon"
+						onClick={(e) => props.handleOverlayClose(e)}
+					/>
+				)}
+				{props.items?.some((item) => item.step) && (
+					<div className="overlay__steps">
+						{props.items.map((item, i) => {
+							if (item.step) {
+								const StepIcon = item.step?.icon;
+								return (
+									<div
+										className={clsx('overlay__step', {
+											'overlay__step--active':
+												i === activeStep,
+											'overlay__step--disabled':
+												i > activeStep
+										})}
+										key={i}
+									>
+										<div className="overlay__stepContent">
+											<div className="overlay__stepIcon">
+												<StepIcon />
+											</div>
+											<Text
+												text={item.step.label}
+												type="divider"
+											/>
+										</div>
+									</div>
+								);
+							} else return null;
+						})}
+					</div>
+				)}
+				{activeOverlay.svg && (
 					<div className="overlay__illustrationWrapper">
 						<span
 							className={clsx('overlay__illustration', {
 								'overlay__illustration--error':
-									item.illustrationBackground === 'error',
+									activeOverlay.illustrationBackground ===
+									'error',
 								'overlay__illustration--info':
-									item.illustrationBackground === 'info',
+									activeOverlay.illustrationBackground ===
+									'info',
 								'overlay__illustration--neutral':
-									item.illustrationBackground === 'neutral'
+									activeOverlay.illustrationBackground ===
+									'neutral'
 							})}
 						>
 							<Illustration />
 						</span>
 					</div>
 				)}
-				{item.headline && (
+				{activeOverlay.headline && (
 					<Headline
 						semanticLevel="3"
-						text={item.headline}
-						styleLevel={item.headlineStyleLevel}
+						text={getOverlayHeadline()}
+						styleLevel={activeOverlay.headlineStyleLevel}
 					/>
 				)}
-				{item.copy && <Text text={item.copy} type="standard" />}
-				{item.nestedComponent && (
+				{activeOverlay.copy && (
+					<Text text={activeOverlay.copy} type="standard" />
+				)}
+				{activeOverlay.nestedComponent && (
 					<div className="overlay__nestedComponent">
-						{item.nestedComponent}
+						{activeOverlay.nestedComponent}
 					</div>
 				)}
-				{item.buttonSet && item.buttonSet.length > 0 && (
+				{activeOverlay.buttonSet && activeOverlay.buttonSet.length > 0 && (
 					<div className="overlay__buttons">
-						{item.buttonSet?.map((item, i) => (
+						{activeOverlay.buttonSet?.map((item, i) => (
 							<Button
 								item={item}
-								key={i}
+								key={`${i}-${item.type}`}
 								buttonHandle={handleButtonClick}
 							/>
 						))}

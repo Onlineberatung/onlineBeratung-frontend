@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState, ComponentType } from 'react';
 import {
 	UserDataContext,
 	ActiveSessionGroupIdContext,
@@ -41,13 +41,18 @@ import {
 } from './joinGroupChatHelpers';
 import { Button } from '../button/Button';
 import { logout } from '../logout/logout';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
-export const JoinGroupChatView = () => {
+interface JoinGroupChatViewProps {
+	legalComponent: ComponentType<LegalInformationLinksProps>;
+}
+
+export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
@@ -71,6 +76,11 @@ export const JoinGroupChatView = () => {
 	let timeoutId;
 
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	useEffect(() => {
 		mobileDetailView();
@@ -116,7 +126,7 @@ export const JoinGroupChatView = () => {
 						history.push(
 							`${getSessionListPathForLocation()}/${
 								chatItem.groupId
-							}/${chatItem.id}`
+							}/${chatItem.id}${getSessionListTab()}`
 						);
 					}
 				})
@@ -163,7 +173,9 @@ export const JoinGroupChatView = () => {
 					setSessionsData(changedSessionsData);
 				}
 				setAcceptedGroupId(chatItem.groupId);
-				history.push(getSessionListPathForLocation());
+				history.push(
+					getSessionListPathForLocation() + getSessionListTab()
+				);
 			})
 			.catch(() => {
 				setOverlayItem(startJoinGroupChatErrorOverlay);
@@ -187,12 +199,16 @@ export const JoinGroupChatView = () => {
 	if (redirectToSessionsList) {
 		mobileListView();
 		setActiveSessionGroupId(null);
-		return <Redirect to={getSessionListPathForLocation()} />;
+		return (
+			<Redirect
+				to={getSessionListPathForLocation() + getSessionListTab()}
+			/>
+		);
 	}
 
 	return (
 		<div className="session joinChat">
-			<SessionHeaderComponent />
+			<SessionHeaderComponent legalComponent={props.legalComponent} />
 			<div className="joinChat__content session__content">
 				<Headline
 					text={translate('groupChat.join.content.headline')}

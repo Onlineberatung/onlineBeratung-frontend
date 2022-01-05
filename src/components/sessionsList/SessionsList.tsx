@@ -4,7 +4,7 @@ import { useLocation, Link } from 'react-router-dom';
 import {
 	typeIsTeamSession,
 	typeIsEnquiry,
-	SESSION_TYPES,
+	SESSION_LIST_TYPES,
 	getTypeOfLocation,
 	typeIsSession,
 	getChatItemForSession,
@@ -28,8 +28,8 @@ import {
 	StoppedGroupChatContext,
 	UserDataInterface,
 	getUnreadMyMessages,
-	UpdateAnonymousEnquiriesContext,
-	UpdateSessionListContext
+	UpdateSessionListContext,
+	isAnonymousSession
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
@@ -40,8 +40,7 @@ import {
 	SESSION_COUNT,
 	apiGetAskerSessionList,
 	apiGetUserData,
-	FETCH_ERRORS,
-	apiGetConsultantSessionList
+	FETCH_ERRORS
 } from '../../api';
 import { getConsultantSessions } from './SessionsListData';
 import { Button } from '../button/Button';
@@ -92,8 +91,6 @@ export const SessionsList: React.FC = () => {
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
-	const { updateAnonymousEnquiries, setUpdateAnonymousEnquiries } =
-		useContext(UpdateAnonymousEnquiriesContext);
 	const { updateSessionList, setUpdateSessionList } = useContext(
 		UpdateSessionListContext
 	);
@@ -216,19 +213,9 @@ export const SessionsList: React.FC = () => {
 	}, [sessionsData, updateSessionList]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-			!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) &&
-			updateAnonymousEnquiries &&
-			sessionListTab === SESSION_LIST_TAB.ANONYMOUS
-		) {
-			getSessionsListData().catch(() => {});
-		}
-		setUpdateAnonymousEnquiries(false);
-	}, [updateAnonymousEnquiries]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		const refreshSessionList = async () => {
+		const refreshSessionList = async (
+			sessionListType: SESSION_LIST_TYPES
+		) => {
 			if (
 				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
@@ -237,24 +224,14 @@ export const SessionsList: React.FC = () => {
 			} else if (
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 			) {
-				const { sessions, total } = await apiGetConsultantSessionList({
-					type: SESSION_TYPES.MY_SESSION,
-					filter: getFilterToUse(),
-					offset: 0,
-					count: sessionsData?.mySessions?.length
-				});
-
-				setSessionsData((sessionsData) => {
-					return { ...sessionsData, mySessions: sessions };
-				});
-				setTotalItems(total);
+				getSessionsListData();
 			}
 		};
 
 		if (updateSessionList) {
-			refreshSessionList();
+			refreshSessionList(updateSessionList);
 		}
-		setUpdateSessionList(false);
+		setUpdateSessionList(null);
 	}, [updateSessionList, userData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
@@ -278,7 +255,7 @@ export const SessionsList: React.FC = () => {
 		}
 		getConsultantSessions({
 			context: sessionsContext,
-			type: SESSION_TYPES.MY_SESSION,
+			type: type,
 			offset: updatedOffset,
 			useFilter: getFilterToUse(),
 			sessionListTab: sessionListTab
@@ -307,7 +284,9 @@ export const SessionsList: React.FC = () => {
 	const setAssignedSessionActive = (assignedSession) => {
 		const chatItem = getChatItemForSession(assignedSession);
 		history.push(
-			`/sessions/consultant/sessionView/${chatItem.groupId}/${chatItem.id}`
+			`${getSessionListPathForLocation()}/${chatItem.groupId}/${
+				chatItem.id
+			}${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`
 		);
 		const activeItem = document.querySelector('.sessionsListItem--active');
 		if (activeItem) {
@@ -344,6 +323,7 @@ export const SessionsList: React.FC = () => {
 
 	const showFilter =
 		!typeIsEnquiry(type) &&
+		sessionListTab !== SESSION_LIST_TAB.ARCHIVE &&
 		((hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
 			typeIsTeamSession(type)) ||
 			(hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
@@ -428,11 +408,21 @@ export const SessionsList: React.FC = () => {
 				setSessionsData({
 					mySessions: response.sessions
 				});
+				const firstSession = response.sessions[0].session;
 				if (
 					response.sessions.length === 1 &&
-					response.sessions[0].session?.status === 0
+					firstSession?.status === 0
 				) {
 					history.push(`/sessions/user/view/write`);
+				} else if (
+					response.sessions.length === 1 &&
+					isAnonymousSession(firstSession) &&
+					hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+				) {
+					setIsLoading(false);
+					history.push(
+						`/sessions/user/view/${firstSession.groupId}/${firstSession.id}`
+					);
 				} else {
 					setIsLoading(false);
 					if (newRegisteredSessionId && redirectToEnquiry) {
@@ -529,48 +519,100 @@ export const SessionsList: React.FC = () => {
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 		userData.hasAnonymousConversations &&
 		typeIsEnquiry(type);
+
+	const showSessionListTabs =
+		userData.hasArchive && (typeIsSession(type) || typeIsTeamSession(type));
+
 	return (
 		<div className="sessionsList__innerWrapper">
-			{showFilter && (
-				<div className="sessionsList__selectWrapper">
-					<SelectDropdown {...selectDropdown} />
-				</div>
-			)}
-			{showEnquiryTabs && (
-				<div className="sessionsList__tabs">
-					<Link
-						className={clsx({
-							'sessionsList__tabs--active': !sessionListTab
-						})}
-						to={'/sessions/consultant/sessionPreview'}
-					>
-						<Text
-							text={translate(
-								'sessionList.preview.registered.tab'
-							)}
-							type="standard"
-						/>
-					</Link>
-					<Link
-						className={clsx({
-							'sessionsList__tabs--active':
-								sessionListTab === SESSION_LIST_TAB.ANONYMOUS
-						})}
-						to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
-					>
-						<Text
-							text={translate(
-								'sessionList.preview.anonymous.tab'
-							)}
-							type="standard"
-						/>
-					</Link>
+			{(showFilter || showEnquiryTabs || showSessionListTabs) && (
+				<div className="sessionsList__functionalityWrapper">
+					{showEnquiryTabs && (
+						<div className="sessionsList__tabs">
+							<Link
+								className={clsx({
+									'sessionsList__tabs--active':
+										!sessionListTab
+								})}
+								to={'/sessions/consultant/sessionPreview'}
+							>
+								<Text
+									text={translate(
+										'sessionList.preview.registered.tab'
+									)}
+									type="standard"
+								/>
+							</Link>
+							<Link
+								className={clsx({
+									'sessionsList__tabs--active':
+										sessionListTab ===
+										SESSION_LIST_TAB.ANONYMOUS
+								})}
+								to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
+							>
+								<Text
+									text={translate(
+										'sessionList.preview.anonymous.tab'
+									)}
+									type="standard"
+								/>
+							</Link>
+						</div>
+					)}
+					{showSessionListTabs && (
+						<div className="sessionsList__tabs">
+							<Link
+								className={clsx({
+									'sessionsList__tabs--active':
+										!sessionListTab
+								})}
+								to={`/sessions/consultant/${
+									typeIsTeamSession(getTypeOfLocation())
+										? 'teamSessionView'
+										: 'sessionView'
+								}`}
+							>
+								<Text
+									text={translate(
+										'sessionList.view.asker.tab'
+									)}
+									type="standard"
+								/>
+							</Link>
+							<Link
+								className={clsx({
+									'sessionsList__tabs--active':
+										sessionListTab ===
+										SESSION_LIST_TAB.ARCHIVE
+								})}
+								to={`/sessions/consultant/${
+									typeIsTeamSession(getTypeOfLocation())
+										? 'teamSessionView'
+										: 'sessionView'
+								}?sessionListTab=${SESSION_LIST_TAB.ARCHIVE}`}
+							>
+								<Text
+									text={translate(
+										'sessionList.view.archive.tab'
+									)}
+									type="standard"
+								/>
+							</Link>
+						</div>
+					)}
+					{showFilter && (
+						<div className="sessionsList__selectWrapper">
+							<SelectDropdown {...selectDropdown} />
+						</div>
+					)}
 				</div>
 			)}
 			<div
 				className={clsx('sessionsList__scrollContainer', {
 					'sessionsList__scrollContainer--hasFilter': showFilter,
-					'sessionsList__scrollContainer--hasTabs': showEnquiryTabs
+					'sessionsList__scrollContainer--hasTabs':
+						showEnquiryTabs || showSessionListTabs
 				})}
 				ref={listRef}
 				onScroll={handleListScroll}

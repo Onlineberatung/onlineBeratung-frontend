@@ -20,10 +20,13 @@ export const config = {
 			apiUrl + '/service/conversations/consultants/enquiries/',
 		consultantSessions:
 			apiUrl + '/service/users/sessions/consultants?status=2&',
+		consultantStatistics: apiUrl + '/service/statistics/consultant',
 		consultantTeamSessions: apiUrl + '/service/users/sessions/teams?',
+		consultingTypeServiceBase: apiUrl + '/service/consultingtypes',
 		deleteAskerAccount: apiUrl + '/service/users/account',
 		draftMessages: apiUrl + '/service/messages/draft',
 		email: apiUrl + '/service/users/email',
+		error: apiUrl + '/service/logstash',
 		forwardMessage: apiUrl + '/service/messages/forward',
 		groupChatBase: apiUrl + '/service/users/chat/',
 		keycloakAccessToken:
@@ -37,8 +40,12 @@ export const config = {
 			'/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
 		messageRead: apiUrl + '/api/v1/subscriptions.read',
 		messages: apiUrl + '/service/messages',
+		myMessagesBase:
+			apiUrl + '/service/conversations/consultants/mymessages/',
 		passwordReset: apiUrl + '/service/users/password/change',
 		rejectVideoCall: apiUrl + '/service/videocalls/reject',
+		registerAnonymousAsker:
+			apiUrl + '/service/conversations/askers/anonymous/new',
 		registerAsker: apiUrl + '/service/users/askers/new',
 		registerAskerNewConsultingType:
 			apiUrl + '/service/users/askers/consultingType/new',
@@ -49,17 +56,18 @@ export const config = {
 		sessionBase: apiUrl + '/service/users/sessions',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
 		startVideoCall: apiUrl + '/service/videocalls/new',
-		consultingTypeServiceBase: apiUrl + '/service/consultingtypes',
+		teamSessionsBase:
+			apiUrl + '/service/conversations/consultants/teamsessions/',
+		twoFactorAuth: apiUrl + '/service/users/twoFactorAuth',
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
-		userSessionsListView: '/sessions/user/view',
-		registerAnonymousAsker:
-			apiUrl + '/service/conversations/askers/anonymous/new'
+		userSessionsListView: '/sessions/user/view'
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
-		toLogin: uiUrl + '/',
+		toLogin: uiUrl + '/login',
+		toEntry: uiUrl + '/',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
 		finishedAnonymousChatRedirect:
@@ -69,14 +77,6 @@ export const config = {
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		error500: uiUrl + '/error.500.html',
 		error401: uiUrl + '/error.401.html',
-		error404: uiUrl + '/error.404.html',
-		registrationDisabilityPostcodeFallback:
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/behinderung-und-psychische-erkrankung/adressen',
-		registrationMigrationPostcodeFallback:
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/migration/adressen',
-		registrationHospicePostcodeFallback:
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/hospiz-palliativ/adressen',
-		registrationMenPostcodeFallback:
-			'https://www.skmev.de/beratung-hilfe/jungen-und-maennerarbeit/'
+		error404: uiUrl + '/error.404.html'
 	}
 };

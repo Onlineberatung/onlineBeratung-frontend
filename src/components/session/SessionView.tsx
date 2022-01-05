@@ -1,6 +1,14 @@
 import * as React from 'react';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import {
+	ComponentType,
+	useContext,
+	useEffect,
+	useMemo,
+	useRef,
+	useState
+} from 'react';
 import { history } from '../app/app';
+import { useLocation } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
@@ -14,7 +22,8 @@ import {
 	UpdateSessionListContext,
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	isAnonymousSession
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
@@ -27,7 +36,10 @@ import {
 	getSessionListPathForLocation,
 	getChatItemForSession,
 	isGroupChatForSessionItem,
-	prepareMessages
+	prepareMessages,
+	getTypeOfLocation,
+	typeIsEnquiry,
+	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -43,11 +55,18 @@ import { logout } from '../logout/logout';
 import { encodeUsername, decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import './session.styles';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { RouteComponentProps } from 'react-router-dom';
 
 let typingTimeout;
 const TYPING_TIMEOUT_MS = 4000;
 
-export const SessionView = (props) => {
+interface RouterProps {
+	rcGroupId: string;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
+}
+
+export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { setActiveSessionGroupId } = useContext(ActiveSessionGroupIdContext);
@@ -59,6 +78,8 @@ export const SessionView = (props) => {
 	);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
+	const isTypingActive = isGroupChat || isLiveChat;
 	const groupId = activeSession?.isFeedbackSession
 		? chatItem?.feedbackGroupId
 		: chatItem?.groupId;
@@ -78,9 +99,14 @@ export const SessionView = (props) => {
 	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
 	const [typingStatusSent, setTypingStatusSent] = useState(false);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
-	const isEnquiry = chatItem?.status === 1;
 	const isLiveChatFinished = chatItem?.status === 3;
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
+	const isEnquiry = typeIsEnquiry(getTypeOfLocation());
+	const isConsultantEnquiry =
+		isEnquiry && hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
 
 	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
 		if (
@@ -119,21 +145,20 @@ export const SessionView = (props) => {
 	};
 
 	const fetchSessionMessages = (isSocketConnected: boolean = false) => {
-		const rcGroupId = props.match.params.rcGroupId;
-		apiGetSessionData(rcGroupId)
+		apiGetSessionData(groupIdFromParam)
 			.then((messagesData) => {
 				setLoadedMessages(messagesData);
 				setIsLoading(false);
 
-				if (!isSocketConnected && !isEnquiry) {
+				if (!isSocketConnected && !isConsultantEnquiry && groupId) {
 					setSessionToRead();
 					window['socket'].connect();
 					window['socket'].addSubscription(
 						SOCKET_COLLECTION.ROOM_MESSAGES,
-						[groupId, false],
+						[groupIdFromParam, false],
 						handleRoomMessage
 					);
-					if (isGroupChat) {
+					if (isTypingActive) {
 						window['socket'].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_USER,
 							[
@@ -146,7 +171,7 @@ export const SessionView = (props) => {
 						window['socket'].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_ROOM,
 							[
-								`${groupId}/typing`,
+								`${groupIdFromParam}/typing`,
 								{ useCollection: false, args: [] }
 							],
 							(data) => handleTypingResponse(data)
@@ -159,7 +184,7 @@ export const SessionView = (props) => {
 
 	const handleRoomMessage = () => {
 		fetchSessionMessages(true);
-		setUpdateSessionList(true);
+		setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
 	};
 
 	useEffect(() => {
@@ -175,7 +200,7 @@ export const SessionView = (props) => {
 		} else if (isCurrentAnonymousEnquiry) {
 			setIsLoading(false);
 			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
-		} else if (isEnquiry) {
+		} else if (isConsultantEnquiry) {
 			fetchSessionMessages();
 		} else {
 			window['socket'] = new rocketChatSocket();
@@ -277,7 +302,7 @@ export const SessionView = (props) => {
 	};
 
 	const handleTyping = () => {
-		if (isGroupChat && window['socket']) {
+		if (isTypingActive && window['socket']) {
 			if (!typingStatusSent) {
 				window['socket'].sendTypingState(
 					SOCKET_COLLECTION.NOTIFY_ROOM,
@@ -318,13 +343,16 @@ export const SessionView = (props) => {
 	}
 
 	if (isGroupChat && !chatItem.subscribed) {
-		return <JoinGroupChatView />;
+		return <JoinGroupChatView legalComponent={props.legalComponent} />;
 	}
 
 	if (redirectToSessionsList) {
 		mobileListView();
 		setActiveSessionGroupId(null);
-		history.push(getSessionListPathForLocation());
+		history.push(
+			getSessionListPathForLocation() +
+				(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+		);
 	}
 
 	return (
@@ -340,6 +368,7 @@ export const SessionView = (props) => {
 					messagesItem ? prepareMessages(messagesItem.messages) : null
 				}
 				typingUsers={typingUsers}
+				legalComponent={props.legalComponent}
 			/>
 			{isOverlayActive ? (
 				<OverlayWrapper>

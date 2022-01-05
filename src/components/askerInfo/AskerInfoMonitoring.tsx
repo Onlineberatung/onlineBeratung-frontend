@@ -15,14 +15,9 @@ import {
 import {
 	getActiveSession,
 	SessionsDataContext,
-	ActiveSessionGroupIdContext,
-	UserDataContext,
-	hasUserAuthority,
-	AUTHORITIES,
-	isAnonymousSession
+	ActiveSessionGroupIdContext
 } from '../../globalState';
-import { Link } from 'react-router-dom';
-import { SessionAssign } from '../sessionAssign/SessionAssign';
+import { Link, useLocation } from 'react-router-dom';
 import { apiGetMonitoring } from '../../api';
 import { ReactComponent as EditIcon } from '../../resources/img/icons/pen.svg';
 import { Text } from '../text/Text';
@@ -37,12 +32,13 @@ export const AskerInfoMonitoring = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const isLiveChat = isAnonymousSession(activeSession?.session);
-	const { userData } = useContext(UserDataContext);
 	const [monitoringData, setMonitoringData] = useState({});
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
+	);
 
 	useEffect(() => {
-		apiGetMonitoring(activeSession.session.id)
+		apiGetMonitoring(activeSession?.session.id)
 			.then((monitoringData) => {
 				setMonitoringData(monitoringData);
 			})
@@ -56,14 +52,16 @@ export const AskerInfoMonitoring = () => {
 	cleanMonitoringData = deleteKeyFromObject(cleanMonitoringData, 'meta');
 
 	const resort =
-		activeSession.session.consultingType === 0
+		activeSession?.session.consultingType === 0
 			? 'monitoringAddiction'
 			: 'monitoringU25';
 	const monitoringLink = `${getSessionListPathForLocation()}/${
-		activeSession.session.groupId
-	}/${activeSession.session.id}/userProfile/monitoring`;
+		activeSession?.session.groupId
+	}/${activeSession?.session.id}/userProfile/monitoring${
+		sessionListTab ? `?sessionListTab=${sessionListTab}` : ''
+	}`;
 
-	const renderAddiction = (obj: any, firstLevel: any = false): any => {
+	const renderMonitoringData = (obj: any, firstLevel: any = false): any => {
 		if (!obj) return null;
 		return Object.keys(obj).map((key) => {
 			const val = obj[key];
@@ -91,7 +89,7 @@ export const AskerInfoMonitoring = () => {
 								<div className="monitoring__data">
 									{hasChildVal ? (
 										<div className="profile__data__content">
-											{renderAddiction(val)}
+											{renderMonitoringData(val)}
 										</div>
 									) : (
 										<div className="profile__data__content profile__data__content--empty">
@@ -106,7 +104,7 @@ export const AskerInfoMonitoring = () => {
 						</Link>
 					);
 				}
-				return renderAddiction(val);
+				return renderMonitoringData(val);
 			}
 			if (!val) {
 				return null;
@@ -120,48 +118,23 @@ export const AskerInfoMonitoring = () => {
 		});
 	};
 
-	const renderAssign = () => {
-		return (
-			!isLiveChat &&
-			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) && (
-				<div className="profile__content__item__assign">
-					<Text
-						text={translate('userProfile.reassign.title')}
-						type="divider"
-					/>
-					<SessionAssign value={activeSession.consultant.id} />
-				</div>
-			)
-		);
-	};
-
-	if (monitoringDataAvailable) {
-		return (
-			<div className="profile__content__item">
-				<Text
-					text={translate('userProfile.monitoring.title')}
-					type="divider"
-				/>
-				<div className="profile__data__content">
-					{renderAddiction(cleanMonitoringData, true)}
-				</div>
-				{renderAssign()}
-			</div>
-		);
-	}
-
 	return (
-		<div className="profile__content__item">
+		<>
 			<Text
 				text={translate('userProfile.monitoring.title')}
 				type="divider"
 			/>
-			{!typeIsEnquiry(activeSession.type) && (
-				<Link to={monitoringLink}>
-					<Button item={buttonSet} isLink={true} />
-				</Link>
+			{monitoringDataAvailable ? (
+				<div className="profile__data__content">
+					{renderMonitoringData(cleanMonitoringData, true)}
+				</div>
+			) : (
+				!typeIsEnquiry(activeSession.type) && (
+					<Link to={monitoringLink}>
+						<Button item={buttonSet} isLink={true} />
+					</Link>
+				)
 			)}
-			{renderAssign()}
-		</div>
+		</>
 	);
 };

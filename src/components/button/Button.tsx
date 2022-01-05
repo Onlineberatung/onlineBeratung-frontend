@@ -19,7 +19,12 @@ export interface ButtonItem {
 	icon?: JSX.Element;
 	id?: string;
 	label?: string;
-	smallIconBackgroundColor?: 'green' | 'red' | 'yellow' | 'grey';
+	smallIconBackgroundColor?:
+		| 'green'
+		| 'red'
+		| 'yellow'
+		| 'grey'
+		| 'alternate';
 	title?: string;
 	type: string;
 }
@@ -39,6 +44,10 @@ export const Button = (props: ButtonProps) => {
 
 	useEffect(() => {
 		handleButtonTimer();
+
+		return (): void => {
+			if (timeoutID) window.clearTimeout(timeoutID);
+		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleButtonTimer = () => {
@@ -82,7 +91,7 @@ export const Button = (props: ButtonProps) => {
 		}
 
 		if (!props.disabled && !props.item.disabled && props.buttonHandle) {
-			window.clearTimeout(timeoutID);
+			if (timeoutID) window.clearTimeout(timeoutID);
 			props.buttonHandle(item.function);
 		}
 	};

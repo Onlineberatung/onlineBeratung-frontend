@@ -4,7 +4,9 @@ import { SendMessageButton } from './SendMessageButton';
 import {
 	typeIsEnquiry,
 	isGroupChatForSessionItem,
-	getChatItemForSession
+	getChatItemForSession,
+	SESSION_LIST_TYPES,
+	getSessionListPathForLocation
 } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { translate } from '../../utils/translate';
@@ -17,6 +19,7 @@ import {
 	AUTHORITIES
 } from '../../globalState/helpers/stateHelpers';
 import {
+	AcceptedGroupIdContext,
 	ActiveSessionGroupIdContext,
 	SessionsDataContext
 } from '../../globalState';
@@ -26,7 +29,8 @@ import {
 	apiUploadAttachment,
 	apiPostDraftMessage,
 	apiGetDraftMessage,
-	FETCH_ERRORS
+	FETCH_ERRORS,
+	apiPutDearchive
 } from '../../api';
 import {
 	MessageSubmitInfo,
@@ -43,7 +47,13 @@ import {
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
-import { EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
+import {
+	EditorState,
+	RichUtils,
+	DraftHandleValue,
+	convertToRaw,
+	convertFromRaw
+} from 'draft-js';
 import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
@@ -57,7 +67,8 @@ import {
 	emojiPickerCustomClasses,
 	toolbarCustomClasses,
 	handleEditorBeforeInput,
-	handleEditorPastedText
+	handleEditorPastedText,
+	escapeMarkdownChars
 } from './richtextHelpers';
 import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
 import { ReactComponent as FileDocIcon } from '../../resources/img/icons/file-doc.svg';
@@ -72,6 +83,8 @@ import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';
 import clsx from 'clsx';
+import { history } from '../app/app';
+import { mobileListView } from '../app/navigationHandler';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -105,6 +118,7 @@ const { EmojiSelect } = emojiPlugin;
 
 const INFO_TYPES = {
 	ABSENT: 'ABSENT',
+	ARCHIVED: 'ARCHIVED',
 	ATTACHMENT_SIZE_ERROR: 'ATTACHMENT_SIZE_ERROR',
 	ATTACHMENT_FORMAT_ERROR: 'ATTACHMENT_FORMAT_ERROR',
 	ATTACHMENT_QUOTA_REACHED_ERROR: 'ATTACHMENT_QUOTA_REACHED_ERROR',
@@ -132,7 +146,7 @@ export interface MessageSubmitInterfaceComponentProps {
 	isTyping?: Function;
 	placeholder: string;
 	showMonitoringButton?: Function;
-	type: string;
+	type: SESSION_LIST_TYPES;
 	typingUsers?: string[];
 }
 
@@ -151,6 +165,7 @@ export const MessageSubmitInterfaceComponent = (
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
+	const isTypingActive = isGroupChat || isLiveChat;
 	const isLiveChatFinished = chatItem?.status === 3;
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
@@ -168,6 +183,7 @@ export const MessageSubmitInterfaceComponent = (
 		currentDraftMessageRef.current,
 		SAVE_DRAFT_TIMEOUT
 	);
+	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -187,8 +203,15 @@ export const MessageSubmitInterfaceComponent = (
 		activeSession.consultant &&
 		activeSession.consultant.absent;
 
+	const isSessionArchived = activeSession?.session?.status === 4;
+
 	useEffect(() => {
-		if (isConsultantAbsent) {
+		if (
+			isSessionArchived &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+		) {
+			setActiveInfo(INFO_TYPES.ARCHIVED);
+		} else if (isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
 		}
 
@@ -308,7 +331,7 @@ export const MessageSubmitInterfaceComponent = (
 
 	const handleEditorChange = (currentEditorState) => {
 		if (
-			isGroupChat &&
+			isTypingActive &&
 			currentEditorState.getCurrentContent() !==
 				editorState.getCurrentContent()
 		) {
@@ -442,8 +465,10 @@ export const MessageSubmitInterfaceComponent = (
 		const contentState = currentEditorState
 			? currentEditorState.getCurrentContent()
 			: editorState.getCurrentContent();
-		const rawObject = convertToRaw(contentState);
-		const markdownString = draftToMarkdown(rawObject);
+		const rawObject = convertToRaw(escapeMarkdownChars(contentState));
+		const markdownString = draftToMarkdown(rawObject, {
+			escapeMarkdownCharacters: false
+		});
 		return markdownString.trim();
 	};
 
@@ -458,6 +483,29 @@ export const MessageSubmitInterfaceComponent = (
 			return null;
 		}
 
+		if (isSessionArchived) {
+			apiPutDearchive(chatItem.id)
+				.then(() => {
+					sendMessage();
+					if (
+						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
+					) {
+						mobileListView();
+						history.push(getSessionListPathForLocation());
+						if (window.innerWidth >= 900) {
+							setAcceptedGroupId(activeSessionGroupId);
+						}
+					}
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		} else {
+			sendMessage();
+		}
+	};
+
+	const sendMessage = () => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const attachment = attachmentInput && attachmentInput.files[0];
 		if (getTypedMarkdownMessage() || attachment) {
@@ -476,7 +524,7 @@ export const MessageSubmitInterfaceComponent = (
 			apiSendEnquiry(enquirySessionId, getTypedMarkdownMessage())
 				.then((response) => {
 					setEditorState(EditorState.createEmpty());
-					props.handleSendButton();
+					props.handleSendButton(response);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -647,6 +695,12 @@ export const MessageSubmitInterfaceComponent = (
 					'anonymous.session.infoMessage.chatFinished'
 				)
 			};
+		} else if (activeInfo === INFO_TYPES.ARCHIVED) {
+			infoData = {
+				isInfo: true,
+				infoHeadline: translate('archive.submitInfo.headline'),
+				infoMessage: translate('archive.submitInfo.message')
+			};
 		}
 
 		return infoData;
@@ -660,16 +714,16 @@ export const MessageSubmitInterfaceComponent = (
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
 		!hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
 		activeSession.session.feedbackGroupId &&
-		!activeSession.isFeedbackSession;
+		!activeSession?.isFeedbackSession;
 	return (
 		<div
 			className={clsx(
 				props.className,
 				'messageSubmit__wrapper',
-				isGroupChat && 'messageSubmit__wrapper--withTyping'
+				isTypingActive && 'messageSubmit__wrapper--withTyping'
 			)}
 		>
-			{isGroupChat && (
+			{isTypingActive && (
 				<TypingIndicator
 					disabled={
 						!(props.typingUsers && props.typingUsers.length > 0)
@@ -736,12 +790,21 @@ export const MessageSubmitInterfaceComponent = (
 										handleBeforeInput={() =>
 											handleEditorBeforeInput(editorState)
 										}
-										handlePastedText={(pastedText) =>
-											handleEditorPastedText(
-												editorState,
-												pastedText
-											)
-										}
+										handlePastedText={(
+											text: string,
+											html?: string
+										): DraftHandleValue => {
+											const newEditorState =
+												handleEditorPastedText(
+													editorState,
+													text,
+													html
+												);
+											if (newEditorState) {
+												setEditorState(newEditorState);
+											}
+											return 'handled';
+										}}
 										ref={(element) => {
 											editorRef = element;
 										}}

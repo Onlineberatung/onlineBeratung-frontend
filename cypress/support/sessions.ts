@@ -1,14 +1,14 @@
 import { v4 as uuid } from 'uuid';
-import { SESSION_TYPES } from '../../src/components/session/sessionHelpers';
+import { SESSION_LIST_TYPES } from '../../src/components/session/sessionHelpers';
 import { SessionUserDataInterface } from '../../src/globalState';
 
 export const generateConsultantSession = ({
 	type
 }: {
-	type?: string;
+	type?: SESSION_LIST_TYPES;
 } = {}): UserService.Schemas.ConsultantSessionResponseDTO => {
 	let status;
-	if (type === SESSION_TYPES.ENQUIRY) {
+	if (type === SESSION_LIST_TYPES.ENQUIRY) {
 		status = 1;
 	} else {
 		status = 2;

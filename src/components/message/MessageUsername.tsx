@@ -1,5 +1,5 @@
 import {
-	SESSION_TYPES,
+	SESSION_LIST_TYPES,
 	getChatItemForSession
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
@@ -65,7 +65,7 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 		<>
 			{!props.alias &&
 			props.username &&
-			chatItem.type !== SESSION_TYPES.ENQUIRY ? (
+			chatItem?.type !== SESSION_LIST_TYPES.ENQUIRY ? (
 				<div
 					className={`messageItem__username messageItem__username--${props.type}`}
 				>

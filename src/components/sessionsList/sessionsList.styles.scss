@@ -4,6 +4,9 @@ $iconWrapperSize: 48px;
 $iconSize: 24px;
 $selectWrapperHeight: 98px;
 $headerHeight: 80px;
+$mobileNavigationHeight: 72px;
+$tabBarHeightMobile: 77px;
+$tabBarHeightDesktop: 53px;
 
 .sessionsList,
 .session {
@@ -93,13 +96,13 @@ $headerHeight: 80px;
 
 		@include breakpoint($fromLarge) {
 			height: calc(100% - #{$headerHeight});
+			display: flex;
+			flex-direction: column;
 		}
 	}
 
 	&__selectWrapper {
 		width: 100%;
-		position: absolute;
-		top: 0;
 		background-color: $sessions-list-background-color-secondary;
 		z-index: 5;
 
@@ -114,7 +117,7 @@ $headerHeight: 80px;
 	}
 
 	&__scrollContainer {
-		height: calc(100% - 152px);
+		height: calc(100% - #{$headerHeight} - #{$mobileNavigationHeight});
 		margin-top: $grid-base-ten;
 		padding-top: $grid-base-three;
 		overflow: auto;
@@ -131,25 +134,40 @@ $headerHeight: 80px;
 		}
 
 		&--hasTabs {
-			padding-top: 77px;
+			padding-top: 0;
+			margin-top: 0;
+			height: calc(
+				100% - #{$headerHeight} - #{$mobileNavigationHeight} - #{$tabBarHeightMobile}
+			);
 
 			@include breakpoint($fromLarge) {
-				padding-top: 55px;
+				flex: 1;
 			}
 		}
 	}
 
+	&__functionalityWrapper {
+		margin-top: $grid-base-ten;
+
+		.sessionsList__tabs + .sessionsList__selectWrapper .select__wrapper {
+			margin-top: 0;
+		}
+
+		@include breakpoint($fromLarge) {
+			margin-top: 0;
+		}
+	}
+
 	&__tabs {
-		position: absolute;
 		display: flex;
 		width: 100%;
 		padding: $grid-base-three;
-		background-color: $background-light;
+		background-color: $sessions-list-background-color-secondary;
 		z-index: 5;
 
 		@include breakpoint($fromLarge) {
 			padding: 0 $grid-base-three $grid-base-three;
-			background-color: $background-lighter;
+			background-color: $sessions-list-background-color-primary;
 		}
 
 		a {

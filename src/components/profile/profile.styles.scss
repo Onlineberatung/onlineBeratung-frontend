@@ -195,10 +195,6 @@ $maxFormElementWidth: 320px;
 				padding: 0;
 			}
 
-			&__assign {
-				margin-top: $grid-base-four;
-			}
-
 			.inputField {
 				max-width: 320px;
 				margin: 0 auto $grid-base-three;
@@ -312,7 +308,7 @@ $maxFormElementWidth: 320px;
 		justify-content: center;
 		margin-top: auto;
 		padding: 0 $grid-base-two;
-		background-color: $dark-grey;
+		background-color: $profile-imprint-background-color-mobile;
 		min-height: $imprintHeight;
 		position: absolute;
 		bottom: 0;
@@ -490,3 +486,5 @@ $maxFormElementWidth: 320px;
 		}
 	}
 }
+
+@import './statistics.styles.scss';

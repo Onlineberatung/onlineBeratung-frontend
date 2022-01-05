@@ -1,17 +1,15 @@
 import * as React from 'react';
-import { useState, useContext, useEffect, useMemo } from 'react';
+import { useState, useContext, useEffect, useMemo, ComponentType } from 'react';
 import clsx from 'clsx';
 import {
-	SESSION_LIST_TAB,
-	typeIsSession,
-	typeIsTeamSession,
 	typeIsEnquiry,
 	getViewPathForType,
 	getChatItemForSession,
 	getTypeOfLocation,
 	isGroupChatForSessionItem,
 	scrollToEnd,
-	isMyMessage
+	isMyMessage,
+	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import { MessageItem } from '../message/MessageItemComponent';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
@@ -41,11 +39,11 @@ import {
 	isAnonymousSession,
 	AUTHORITIES,
 	ConsultingTypeInterface,
-	UpdateAnonymousEnquiriesContext
+	UpdateSessionListContext
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './session.styles';
 import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
@@ -53,6 +51,7 @@ import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons
 import smoothScroll from './smoothScrollHelper';
 import { Headline } from '../headline/Headline';
 import { history } from '../app/app';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 interface SessionItemProps {
 	currentGroupId: string;
@@ -61,6 +60,7 @@ interface SessionItemProps {
 	messages?: MessageItem[];
 	typingUsers: string[];
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
 let initMessageCount: number;
@@ -86,12 +86,17 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
 	const [newMessages, setNewMessages] = useState(0);
-	const { setUpdateAnonymousEnquiries } = useContext(
-		UpdateAnonymousEnquiriesContext
+	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
+	const [sessionListTab] = useState(
+		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
+
+	const { isAnonymousEnquiry } = props;
 
 	const resetUnreadCount = () => {
-		if (!props.isAnonymousEnquiry) {
+		if (!isAnonymousEnquiry) {
 			setNewMessages(0);
 			initMessageCount = messages?.length;
 			scrollContainerRef.current
@@ -101,13 +106,13 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	};
 
 	useEffect(() => {
-		if (!props.isAnonymousEnquiry) {
+		if (scrollContainerRef.current) {
 			resetUnreadCount();
 		}
-	}, []); // eslint-disable-line
+	}, [scrollContainerRef]); // eslint-disable-line
 
 	useEffect(() => {
-		if (!props.isAnonymousEnquiry && messages) {
+		if (!isAnonymousEnquiry && messages) {
 			if (
 				initialScrollCompleted &&
 				isMyMessage(messages[messages.length - 1]?.userId)
@@ -190,7 +195,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 		setIsRequestInProgress(true);
 
-		apiEnquiryAcceptance(sessionId, props.isAnonymousEnquiry)
+		apiEnquiryAcceptance(sessionId, isAnonymousEnquiry)
 			.then(() => {
 				setOverlayItem(enquirySuccessfullyAcceptedOverlayItem);
 				setCurrentGroupId(sessionGroupId);
@@ -216,10 +221,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayItem(null);
+				setUpdateSessionList(SESSION_LIST_TYPES.ENQUIRY);
 				history.push(
-					`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`
+					`/sessions/consultant/sessionPreview${getSessionListTab()}`
 				);
-				setUpdateAnonymousEnquiries(true);
 				break;
 			default:
 			// Should never be executed as `handleOverlayAction` is only called
@@ -281,33 +286,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
 
 	const buttonItem: ButtonItem = {
-		label: props.isAnonymousEnquiry
+		label: isAnonymousEnquiry
 			? translate('enquiry.acceptButton.anonymous')
 			: translate('enquiry.acceptButton'),
 		type: BUTTON_TYPES.PRIMARY
-	};
-
-	const getMonitoringLink = () => {
-		if (
-			typeIsSession(getTypeOfLocation()) &&
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
-		) {
-			return {
-				pathname: `/sessions/consultant/${getViewPathForType(
-					getTypeOfLocation()
-				)}/${chatItem.groupId}/${chatItem.id}/userProfile/monitoring`
-			};
-		}
-		if (
-			typeIsTeamSession(getTypeOfLocation()) &&
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
-		) {
-			return {
-				pathname: `/sessions/consultant/${getViewPathForType(
-					getTypeOfLocation()
-				)}/${chatItem.groupId}/${chatItem.id}/userProfile/monitoring`
-			};
-		}
 	};
 
 	const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = {
@@ -348,7 +330,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const scrollBottomButtonItem: ButtonItem = {
 		icon: <ArrowDoubleDownIcon />,
 		type: BUTTON_TYPES.SMALL_ICON,
-		smallIconBackgroundColor: 'grey'
+		smallIconBackgroundColor: 'alternate'
 	};
 
 	return (
@@ -368,9 +350,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				hasUserInitiatedStopOrLeaveRequest={
 					props.hasUserInitiatedStopOrLeaveRequest
 				}
+				legalComponent={props.legalComponent}
 			/>
 
-			{!props.isAnonymousEnquiry && (
+			{!isAnonymousEnquiry && (
 				<div
 					id="session-scroll-container"
 					className="session__content"
@@ -380,9 +363,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					{messages &&
 						resortData &&
 						messages.map((message: MessageItem, index) => (
-							<>
+							<React.Fragment key={index}>
 								<MessageItemComponent
-									key={index}
 									clientName={
 										getContact(activeSession).username
 									}
@@ -395,7 +377,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 								/>
 								{index === messages.length - 1 &&
 									enableInitialScroll()}
-							</>
+							</React.Fragment>
 						))}
 					<div
 						className={`session__scrollToBottom ${
@@ -420,7 +402,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				</div>
 			)}
 
-			{props.isAnonymousEnquiry && (
+			{isAnonymousEnquiry && (
 				<div className="session__content session__content--anonymousEnquiry">
 					<Headline
 						semanticLevel="3"
@@ -434,13 +416,18 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			)}
 
 			{chatItem.monitoring &&
+				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				!activeSession.isFeedbackSession &&
 				!typeIsEnquiry(getTypeOfLocation()) &&
 				monitoringButtonVisible &&
-				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				!isLiveChat &&
-				getMonitoringLink() && (
-					<Link to={getMonitoringLink()}>
+				!isLiveChat && (
+					<Link
+						to={`/sessions/consultant/${getViewPathForType(
+							getTypeOfLocation()
+						)}/${chatItem.groupId}/${
+							chatItem.id
+						}/userProfile/monitoring${getSessionListTab()}`}
+					>
 						<div className="monitoringButton">
 							<Button item={monitoringButtonItem} isLink={true} />
 						</div>
@@ -466,7 +453,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				</div>
 			) : null}
 
-			{!props.isAnonymousEnquiry &&
+			{!isAnonymousEnquiry &&
 				(!typeIsEnquiry(getTypeOfLocation()) ||
 					(typeIsEnquiry(getTypeOfLocation()) &&
 						hasUserAuthority(

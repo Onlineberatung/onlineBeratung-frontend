@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import {
+	ComponentType,
+	useCallback,
+	useContext,
+	useEffect,
+	useState
+} from 'react';
 import { Routing } from './Routing';
 import { config } from '../../resources/scripts/config';
 import {
@@ -25,15 +31,22 @@ import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
 import { Notifications } from '../notifications/Notifications';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './authenticatedApp.styles';
 import './navigation.styles';
+import { requestPermissions } from '../../utils/notificationHelpers';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
 	onLogout: Function;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
-export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
+export const AuthenticatedApp = ({
+	onLogout,
+	onAppReady,
+	legalComponent
+}: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { setAuthData } = useContext(AuthDataContext);
 	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
@@ -42,6 +55,16 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { notifications } = useContext(NotificationsContext);
 	const { sessionsData } = useContext(SessionsDataContext);
+	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
+
+	useEffect(() => {
+		if (
+			userData &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+		) {
+			requestPermissions();
+		}
+	}, [userData]);
 
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
@@ -69,32 +92,33 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 					setAppReady(true);
 				})
 				.catch((error) => {
-					window.location.href = config.urls.toLogin;
+					window.location.href = config.urls.toEntry;
 					console.log(error);
 				});
 		});
 	}
 
 	useEffect(() => {
-		props.onAppReady();
+		onAppReady();
 	}, [appReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const handleLogout = () => {
+	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
-			apiFinishAnonymousConversation(
-				sessionsData?.mySessions[0].session.id
-			).catch((error) => {
+			apiFinishAnonymousConversation(sessionId).catch((error) => {
 				console.error(error);
 			});
 		}
-		props.onLogout();
+		onLogout();
 		logout();
-	};
+	}, [onLogout, sessionId, userData]);
 
 	if (appReady) {
 		return (
 			<>
-				<Routing logout={handleLogout} />
+				<Routing
+					logout={handleLogout}
+					legalComponent={legalComponent}
+				/>
 				{notifications && (
 					<Notifications notifications={notifications} />
 				)}

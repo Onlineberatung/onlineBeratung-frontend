@@ -6,11 +6,11 @@ import {
 } from '../../utils/dateHelpers';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 
-export const SESSION_TYPES = {
-	ENQUIRY: 'ENQUIRY',
-	MY_SESSION: 'MY_SESSION',
-	TEAMSESSION: 'TEAMSESSION'
-};
+export enum SESSION_LIST_TYPES {
+	ENQUIRY = 'ENQUIRY',
+	MY_SESSION = 'MY_SESSION',
+	TEAMSESSION = 'TEAMSESSION'
+}
 
 export const CHAT_TYPES = {
 	GROUP_CHAT: 'chat',
@@ -32,26 +32,28 @@ export const isGroupChatForSessionItem = (sessionItem: ListItemInterface) => {
 
 export const getGroupIdFromSessionItem = (item: any) => item.messages[0].rid;
 
-export const typeIsSession = (type: string) =>
-	type === SESSION_TYPES.MY_SESSION;
-export const typeIsTeamSession = (type: string) =>
-	type === SESSION_TYPES.TEAMSESSION;
-export const typeIsEnquiry = (type: string) => type === SESSION_TYPES.ENQUIRY;
+export const typeIsSession = (type: SESSION_LIST_TYPES) =>
+	type === SESSION_LIST_TYPES.MY_SESSION;
+export const typeIsTeamSession = (type: SESSION_LIST_TYPES) =>
+	type === SESSION_LIST_TYPES.TEAMSESSION;
+export const typeIsEnquiry = (type: SESSION_LIST_TYPES) =>
+	type === SESSION_LIST_TYPES.ENQUIRY;
 
 export const SESSION_LIST_TAB = {
 	ANONYMOUS: 'anonymous',
-	REGISTERED: 'registered'
+	REGISTERED: 'registered',
+	ARCHIVE: 'archive'
 };
 
 export const isAnonymousSessionListTab = (currentTab: string): boolean =>
 	currentTab === SESSION_LIST_TAB.ANONYMOUS;
 
-export const getViewPathForType = (type: string) => {
-	if (type === SESSION_TYPES.ENQUIRY) {
+export const getViewPathForType = (type: SESSION_LIST_TYPES) => {
+	if (type === SESSION_LIST_TYPES.ENQUIRY) {
 		return 'sessionPreview';
-	} else if (type === SESSION_TYPES.MY_SESSION) {
+	} else if (type === SESSION_LIST_TYPES.MY_SESSION) {
 		return 'sessionView';
-	} else if (type === SESSION_TYPES.TEAMSESSION) {
+	} else if (type === SESSION_LIST_TYPES.TEAMSESSION) {
 		return 'teamSessionView';
 	}
 };
@@ -64,11 +66,11 @@ export const initialScrollDown = () => {
 export const getTypeOfLocation = () => {
 	const type = ((path) => {
 		if (path.indexOf('sessionPreview') !== -1) {
-			return SESSION_TYPES.ENQUIRY;
+			return SESSION_LIST_TYPES.ENQUIRY;
 		} else if (path.indexOf('sessionView') !== -1) {
-			return SESSION_TYPES.MY_SESSION;
+			return SESSION_LIST_TYPES.MY_SESSION;
 		} else if (path.indexOf('teamSessionView') !== -1) {
-			return SESSION_TYPES.TEAMSESSION;
+			return SESSION_LIST_TYPES.TEAMSESSION;
 		} else {
 			return null;
 		}

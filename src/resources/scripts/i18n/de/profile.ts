@@ -60,7 +60,41 @@ const profile = {
 	'externalRegistration.submit': 'Jetzt wechseln',
 	'externalRegistration.cancel': 'Abbrechen',
 	'footer.imprint': 'Impressum',
-	'footer.dataprotection': 'Datenschutz'
+	'footer.dataprotection': 'Datenschutz',
+	'statistics.title': 'Meine Statistik',
+	'statistics.period.prefix': 'Ihre Zahlen des',
+	'statistics.period.lastMonth': 'letzten Monats',
+	'statistics.period.currentMonth': 'aktuellen Monats',
+	'statistics.period.currentYear': 'aktuellen Jahres',
+	'statistics.period.lastYear': 'vergangenen Jahres',
+	'statistics.period.display.default': 'DD.MM.JJJJ - DD.MM.JJJJ',
+	'statistics.period.display.prefix': 'Im Zeitraum vom ',
+	'statistics.period.display.suffix': ' haben Sie:',
+	'statistics.complete.title':
+		'Ihre Statistik über Ihren gesamten Beratungszeitraum können Sie hier herunterladen:',
+	'statistics.complete.filename': 'Gesamtstatistik Online-Beratung.csv',
+	'statistics.complete.download.label': 'Download Excel Datei',
+	'statistics.csvHeader.numberOfAssignedSessions': 'Beratungen angenommen',
+	'statistics.csvHeader.numberOfSentMessages': 'Nachrichten geschrieben',
+	'statistics.csvHeader.numberOfSessionsWhereConsultantWasActive':
+		'Aktive Beratungen',
+	'statistics.csvHeader.videoCallDuration':
+		'Dauer von Videoanrufen in Minuten',
+	'unsetEmail.confirmOverlay.headline':
+		'Möchten Sie Ihre E-Mail Adresse wirklich löschen?',
+	'unsetEmail.confirmOverlay.copy': 'Wenn Sie ihre E-Mail Adresse löschen:',
+	'unsetEmail.confirmOverlay.benefit.1':
+		'erhalten Sie keine E-Mail-Benachrichtigung, wenn Ihre Berater_in Ihnen geschrieben hat',
+	'unsetEmail.confirmOverlay.benefit.2':
+		'können Sie Ihr Passwort nicht zurücksetzen, falls Sie es vergessen haben.',
+	'unsetEmail.confirmOverlay.button.confirm': 'Löschen',
+	'unsetEmail.confirmOverlay.button.deny': 'Abbrechen',
+	'unsetEmail.errorOverlay.headline':
+		'Ups! Wir konnten die E-Mail Adresse gerade nicht löschen. Bitte versuchen Sie es noch einmal.',
+	'unsetEmail.errorOverlay.button': 'ok',
+	'unsetEmail.successOverlay.headline':
+		'Sie haben Ihre E-Mail Adresse erfolgreich gelöscht.',
+	'unsetEmail.successOverlay.button': 'ok'
 };
 
 export default profile;
