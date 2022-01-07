@@ -7,14 +7,10 @@ import { buttonItemSubmit } from './registrationHelpers';
 import {
 	apiPostRegistration,
 	FETCH_ERRORS,
-	apiAgencySelection,
-	apiGetAgencyById
+	apiAgencySelection
 } from '../../api';
 import { config } from '../../resources/scripts/config';
-import {
-	DEFAULT_POSTCODE,
-	redirectToRegistrationWithoutAid
-} from './prefillPostcode';
+import { DEFAULT_POSTCODE } from './prefillPostcode';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -22,7 +18,6 @@ import {
 	OverlayItem
 } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
-import { isNumber } from '../../utils/isNumber';
 import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import {
 	AgencyDataInterface,
@@ -36,6 +31,7 @@ import './registrationForm.styles';
 
 interface RegistrationFormProps {
 	consultingType: ConsultingTypeInterface;
+	agency: AgencyDataInterface;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
@@ -50,6 +46,7 @@ interface FormAccordionData {
 
 export const RegistrationForm = ({
 	consultingType,
+	agency,
 	legalComponent: LegalComponent
 }: RegistrationFormProps) => {
 	const [formAccordionData, setFormAccordionData] =
@@ -66,11 +63,9 @@ export const RegistrationForm = ({
 
 	const prefillPostcode = () => {
 		const postcodeParameter = getUrlParameter('postcode');
-		const aidParameter = getUrlParameter('aid');
-		const agencyId = isNumber(aidParameter) ? aidParameter : null;
 
-		if (agencyId) {
-			getAgencyDataById(agencyId);
+		if (agency) {
+			setPreselectedAgencyData(agency);
 		}
 
 		if (postcodeParameter) {
@@ -90,21 +85,6 @@ export const RegistrationForm = ({
 					console.log(error);
 				});
 		}
-	};
-
-	const getAgencyDataById = (agencyId) => {
-		apiGetAgencyById(agencyId)
-			.then((response) => {
-				const agencyData = response[0];
-				agencyData.consultingType === consultingType.id
-					? setPreselectedAgencyData(agencyData)
-					: redirectToRegistrationWithoutAid();
-			})
-			.catch((error) => {
-				if (error.message === FETCH_ERRORS.NO_MATCH) {
-					redirectToRegistrationWithoutAid();
-				}
-			});
 	};
 
 	useEffect(() => {
