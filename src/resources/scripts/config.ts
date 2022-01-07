@@ -67,6 +67,7 @@ export const config = {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
 		toLogin: uiUrl + '/login',
+		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',

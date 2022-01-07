@@ -1,9 +1,16 @@
 import * as React from 'react';
-import { useContext } from 'react';
-import { UserDataContext } from '../../globalState';
+import { useCallback, useContext } from 'react';
+import {
+	NOTIFICATION_TYPE_INFO,
+	NotificationDefaultType,
+	NotificationsContext,
+	UserDataContext
+} from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
+import { copyTextToClipboard } from '../../utils/clipboardHelpers';
+import { config } from '../../resources/scripts/config';
 
 export const ConsultantPublicData = () => {
 	const { userData } = useContext(UserDataContext);
@@ -33,11 +40,45 @@ export const ConsultantPublicData = () => {
 				{userData.agencies.map((item, i) => {
 					return (
 						<p className="profile__data__content" key={i}>
-							{item.name}
+							{item.name} <AgencyRegistrationLink agency={item} />
 						</p>
 					);
 				})}
 			</div>
 		</div>
+	);
+};
+
+type AgencyRegistrationLinkProps = {
+	agency: any;
+};
+
+const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
+	const { addNotification } = useContext(NotificationsContext);
+
+	const copyRegistrationLink = useCallback(async () => {
+		await copyTextToClipboard(
+			`${config.urls.registration}?aid=${agency.id}`,
+			() => {
+				addNotification({
+					notificationType: NOTIFICATION_TYPE_INFO,
+					text: 'Registrierungslink in Zwischenablage kopiert!'
+				} as NotificationDefaultType);
+			}
+		);
+	}, [agency, addNotification]);
+
+	return (
+		<>
+			(ID:{' '}
+			<span
+				className="profile__data__copy_registration_link"
+				role="button"
+				onClick={copyRegistrationLink}
+			>
+				{agency.id}
+			</span>
+			)
+		</>
 	);
 };

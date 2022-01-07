@@ -299,6 +299,10 @@ $maxFormElementWidth: 320px;
 				color: $tertiary;
 			}
 		}
+
+		&__copy_registration_link {
+			cursor: pointer;
+		}
 	}
 
 	&__footer {

@@ -15,4 +15,51 @@
 	& > :not(:first-child) {
 		margin-top: 3px;
 	}
+
+	.notification {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		padding: $grid-base-two;
+		border-radius: 4px;
+		background-color: rgba(120, 115, 120, 0.95);
+		backdrop-filter: blur(2px);
+		animation: flyIn 0.3s ease forwards;
+
+		&--warning,
+		&--info,
+		&--success {
+			color: $white;
+			text-align: center;
+		}
+
+		&--warning,
+		&--info {
+			color: $body-font-color;
+		}
+
+		&--warning {
+			background-color: rgba($form-error, 0.8);
+		}
+
+		&--info {
+			background-color: rgba($form-medium, 0.8);
+		}
+
+		&--success {
+			background-color: rgba($form-success, 0.8);
+		}
+	}
+}
+
+@keyframes flyIn {
+	0% {
+		opacity: 0.8;
+		transform: translateX(32px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
 }
