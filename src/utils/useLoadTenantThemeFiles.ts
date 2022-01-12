@@ -194,8 +194,10 @@ const useLoadTenantThemeFiles = () => {
 	);
 
 	useEffect(() => {
-		if (!loaded) {
+		if (!loaded && subdomain) {
 			fetchThemeData(`/themes/${subdomain}.json`);
+			setLoaded(true);
+		} else {
 			setLoaded(true);
 		}
 

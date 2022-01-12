@@ -47,6 +47,8 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 	const { notifications } = useContext(NotificationsContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 
+	console.log('auth tenant', tenant);
+
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
 		const currentAuthData: AuthDataInterface = {
@@ -73,7 +75,8 @@ export const AuthenticatedApp = (props: AuthenticatedAppProps) => {
 					setAppReady(true);
 				})
 				.catch((error) => {
-					// ToDo: replace with React router history
+					// ToDo: replace with React router history?!
+					alert(error + tenant?.url);
 					window.location.href = tenant?.url
 						? tenant.url
 						: config.urls.toLogin;

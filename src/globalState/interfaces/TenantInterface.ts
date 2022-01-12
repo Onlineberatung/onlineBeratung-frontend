@@ -1,8 +1,12 @@
 export interface TenantDataInterface {
-	origin?: string;
-	subdomain?: string;
-	domain?: string;
-	protocol?: string;
-	contactEmail?: string;
-	www?: string;
+	subdomain: string;
+	host: string;
+	protocol: string;
+	origin: string;
+	id: number;
+	name: string;
+	slogan: string;
+	primaryColor: string;
+	secondaryColor: string;
+	logo: string;
 }

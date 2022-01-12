@@ -88,6 +88,8 @@ export const autoLogin = (autoLoginProps: {
 };
 
 export const redirectToApp = (redirectURL?: string) => {
+	console.log('tenant', redirectURL + '/' + APP_PATH);
+
 	window.location.href = redirectURL
 		? redirectURL + '/' + APP_PATH
 		: config.urls.redirectToApp;
