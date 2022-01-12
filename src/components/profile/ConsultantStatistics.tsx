@@ -12,7 +12,6 @@ import { Text } from '../text/Text';
 import { ReactComponent as PersonsIcon } from '../../resources/img/icons/persons.svg';
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
-import { getValidDateFormatForSelectedDate } from '../groupChat/createChatHelpers';
 import { CSVLink } from 'react-csv';
 import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
