@@ -82,6 +82,7 @@ export const App = ({
 									}
 									legalComponent={legalComponent}
 									stageComponent={stageComponent}
+									showAnimation={isInitiallyLoaded}
 								/>
 							</Route>
 						)}
@@ -107,6 +108,7 @@ export const App = ({
 									}
 									legalComponent={legalComponent}
 									stageComponent={stageComponent}
+									showAnimation={isInitiallyLoaded}
 								/>
 							</Route>
 						)}

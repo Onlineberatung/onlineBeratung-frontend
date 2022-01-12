@@ -27,11 +27,13 @@ const loginButton: ButtonItem = {
 interface LoginProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	stageComponent: ComponentType<StageProps>;
+	showAnimation?: boolean;
 }
 
 export const Login = ({
 	legalComponent,
-	stageComponent: Stage
+	stageComponent: Stage,
+	showAnimation = true
 }: LoginProps) => {
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -43,7 +45,6 @@ export const Login = ({
 	const [showLoginError, setShowLoginError] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
-	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 
 	useEffect(() => {
 		setShowLoginError('');
@@ -156,11 +157,6 @@ export const Login = ({
 			handleLogin();
 		}
 	};
-
-	useEffect(() => {
-		setShowAnimation(sessionStorage.getItem('visited') !== 'true');
-		sessionStorage.setItem('visited', 'true');
-	}, []);
 
 	return (
 		<StageLayout

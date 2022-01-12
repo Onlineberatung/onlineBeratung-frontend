@@ -18,12 +18,14 @@ interface RegistrationProps {
 	handleUnmatch: Function;
 	stageComponent: ComponentType<StageProps>;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	showAnimation?: boolean;
 }
 
 export const Registration = ({
 	handleUnmatch,
 	legalComponent,
-	stageComponent: Stage
+	stageComponent: Stage,
+	showAnimation = true
 }: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
 	const postcodeParameter = getUrlParameter('postcode');
@@ -33,7 +35,6 @@ export const Registration = ({
 	const [consultingType, setConsultingType] = useState<
 		ConsultingTypeInterface | undefined
 	>();
-	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 
 	const handleForwardToRegistration = () => {
 		setShowWelcomeScreen(false);
@@ -84,11 +85,6 @@ export const Registration = ({
 				consultingType.urls?.requiredAidMissingRedirectUrl;
 		}
 	}, [consultingType]);
-
-	useEffect(() => {
-		setShowAnimation(sessionStorage.getItem('visited') !== 'true');
-		sessionStorage.setItem('visited', 'true');
-	}, []);
 
 	return (
 		<StageLayout
