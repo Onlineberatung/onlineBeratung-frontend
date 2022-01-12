@@ -43,6 +43,7 @@ export const Login = ({
 	const [showLoginError, setShowLoginError] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
+	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 
 	useEffect(() => {
 		setShowLoginError('');
@@ -156,10 +157,15 @@ export const Login = ({
 		}
 	};
 
+	useEffect(() => {
+		setShowAnimation(sessionStorage.getItem('visited') !== 'true');
+		sessionStorage.setItem('visited', 'true');
+	}, []);
+
 	return (
 		<StageLayout
 			legalComponent={legalComponent}
-			stage={<Stage hasAnimation />}
+			stage={<Stage hasAnimation={showAnimation} />}
 			showLegalLinks
 		>
 			<div className="loginForm">

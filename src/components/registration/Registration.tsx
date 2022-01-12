@@ -33,6 +33,7 @@ export const Registration = ({
 	const [consultingType, setConsultingType] = useState<
 		ConsultingTypeInterface | undefined
 	>();
+	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 
 	const handleForwardToRegistration = () => {
 		setShowWelcomeScreen(false);
@@ -84,12 +85,22 @@ export const Registration = ({
 		}
 	}, [consultingType]);
 
+	useEffect(() => {
+		setShowAnimation(sessionStorage.getItem('visited') !== 'true');
+		sessionStorage.setItem('visited', 'true');
+	}, []);
+
 	return (
 		<StageLayout
 			legalComponent={legalComponent}
 			showLegalLinks={true}
 			showLoginLink={!showWelcomeScreen}
-			stage={<Stage hasAnimation isReady={consultingType != null} />}
+			stage={
+				<Stage
+					hasAnimation={showAnimation}
+					isReady={consultingType != null}
+				/>
+			}
 		>
 			{consultingType != null &&
 				(showWelcomeScreen ? (
