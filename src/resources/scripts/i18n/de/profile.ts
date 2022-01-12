@@ -71,8 +71,8 @@ const profile = {
 	'statistics.period.display.prefix': 'Im Zeitraum vom ',
 	'statistics.period.display.suffix': ' haben Sie:',
 	'statistics.complete.title':
-		'Ihre Statistik über Ihren gesamten Beratungszeitraum können Sie hier herunterladen:',
-	'statistics.complete.filename': 'Gesamtstatistik Online-Beratung.csv',
+		'Ihre Statistik über Ihren gewählten Beratungszeitraum können Sie hier herunterladen:',
+	'statistics.complete.filename': 'Statistik Online-Beratung',
 	'statistics.complete.download.label': 'Download Excel Datei',
 	'statistics.csvHeader.numberOfAssignedSessions': 'Beratungen angenommen',
 	'statistics.csvHeader.numberOfSentMessages': 'Nachrichten geschrieben',
