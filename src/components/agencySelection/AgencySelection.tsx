@@ -286,7 +286,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											text={translate(
 												'registration.agencySelection.postcode.unavailable'
 											)}
-											type="infoSmall"
+											type="infoLargeAlternative"
 										/>{' '}
 										<a
 											href={postcodeFallbackLink}
