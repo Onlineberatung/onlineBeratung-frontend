@@ -26,6 +26,7 @@ import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 interface routingProps {
 	logout?: Function;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	spokenLanguages: string[];
 }
 
 export const Routing = (props: routingProps) => {

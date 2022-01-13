@@ -25,9 +25,11 @@ import { TwoFactorAuth } from './TwoFactorAuth';
 import { ConsultantStatistics } from './ConsultantStatistics';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './profile.styles';
+import { ConsultantSpokenLanguages } from './ConsultantSpokenLanguages';
 
 interface ProfileProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	spokenLanguages: string[];
 }
 
 export const Profile = (props: ProfileProps) => {
@@ -123,6 +125,9 @@ export const Profile = (props: ProfileProps) => {
 							<Text
 								text={translate('profile.data.title')}
 								type="divider"
+							/>
+							<ConsultantSpokenLanguages
+								spokenLanguages={props.spokenLanguages}
 							/>
 							<ConsultantStatistics />
 							<ConsultantPrivateData />

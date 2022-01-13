@@ -11,6 +11,7 @@ export interface SelectOption {
 	value: string;
 	label: string;
 	iconLabel?: string;
+	isFixed?: boolean;
 }
 
 export interface SelectDropdownItem {
@@ -21,8 +22,10 @@ export interface SelectDropdownItem {
 	handleDropdownSelect: Function;
 	useIconOption?: boolean;
 	isSearchable?: boolean;
+	isMulti?: boolean;
+	isClearable?: boolean;
 	menuPlacement: 'top' | 'bottom';
-	defaultValue?: SelectOption;
+	defaultValue?: SelectOption | SelectOption[];
 }
 
 const colourStyles = {
@@ -54,10 +57,14 @@ const colourStyles = {
 		...styles,
 		top: '60%'
 	}),
-	input: (styles) => ({
-		...styles,
-		paddingTop: '12px'
-	}),
+	input: (styles, state) => {
+		return state.isMulti
+			? styles
+			: {
+					...styles,
+					paddingTop: '12px'
+			  };
+	},
 	option: (styles) => {
 		return {
 			...styles,
@@ -105,7 +112,20 @@ const colourStyles = {
 			top: menuPlacement === 'top' ? 'auto' : '-10px',
 			zIndex: 1
 		}
-	})
+	}),
+	multiValue: (styles, state) => {
+		return state.data.isFixed
+			? { ...styles, backgroundColor: 'gray' }
+			: styles;
+	},
+	multiValueLabel: (styles, state) => {
+		return state.data.isFixed
+			? { ...styles, fontWeight: 'bold', color: 'white', paddingRight: 6 }
+			: styles;
+	},
+	multiValueRemove: (styles, state) => {
+		return state.data.isFixed ? { ...styles, display: 'none' } : styles;
+	}
 };
 
 export const SelectDropdown = (props: SelectDropdownItem) => {
@@ -163,7 +183,9 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				noOptionsMessage={() => null}
 				menuPlacement={props.menuPlacement}
 				placeholder={''}
+				isClearable={props.isClearable}
 				isSearchable={props.isSearchable}
+				isMulti={props.isMulti}
 				styles={colourStyles}
 			/>
 		</div>

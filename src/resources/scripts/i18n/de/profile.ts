@@ -61,6 +61,7 @@ const profile = {
 	'externalRegistration.cancel': 'Abbrechen',
 	'footer.imprint': 'Impressum',
 	'footer.dataprotection': 'Datenschutz',
+	'spokenLanguages.title': 'Meine Sprachen',
 	'statistics.title': 'Meine Statistik',
 	'statistics.period.prefix': 'Ihre Zahlen des',
 	'statistics.period.lastMonth': 'letzten Monats',
