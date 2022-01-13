@@ -18,27 +18,32 @@ import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
 import './profile.styles';
 
+const statisticsPeriodOptionCurrentMonth = 'currentMonth';
+const statisticsPeriodOptionLastMonth = 'lastMonth';
+const statisticsPeriodOptionCurrentYear = 'currentYear';
+const statisticsPeriodOptionLastYear = 'lastYear';
+
 type statisticOptions =
-	| 'lastMonth'
-	| 'currentMonth'
-	| 'currentYear'
-	| 'lastYear';
+	| typeof statisticsPeriodOptionCurrentMonth
+	| typeof statisticsPeriodOptionLastMonth
+	| typeof statisticsPeriodOptionCurrentYear
+	| typeof statisticsPeriodOptionLastYear;
 
 const statisticsPeriodOptions: { value: statisticOptions; label: string }[] = [
 	{
-		value: 'lastMonth',
-		label: translate('profile.statistics.period.lastMonth')
-	},
-	{
-		value: 'currentMonth',
+		value: statisticsPeriodOptionCurrentMonth,
 		label: translate('profile.statistics.period.currentMonth')
 	},
 	{
-		value: 'currentYear',
+		value: statisticsPeriodOptionLastMonth,
+		label: translate('profile.statistics.period.lastMonth')
+	},
+	{
+		value: statisticsPeriodOptionCurrentYear,
 		label: translate('profile.statistics.period.currentYear')
 	},
 	{
-		value: 'lastYear',
+		value: statisticsPeriodOptionLastYear,
 		label: translate('profile.statistics.period.lastYear')
 	}
 ];
@@ -98,8 +103,9 @@ const csvHeaders = [
 export const ConsultantStatistics = () => {
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
-	const [statisticsPeriod, setStatisticsPeriod] =
-		useState<statisticOptions>('lastMonth');
+	const [statisticsPeriod, setStatisticsPeriod] = useState<statisticOptions>(
+		statisticsPeriodOptionCurrentMonth
+	);
 	const [periodDisplay, setPeriodDisplay] = useState<string>(
 		translate('profile.statistics.period.display.default')
 	);
@@ -129,7 +135,8 @@ export const ConsultantStatistics = () => {
 
 	const preSelectedOption = statisticsPeriod
 		? getPeriodOptions()
-		: statisticsPeriodOptions[1];
+		: statisticsPeriodOptions[0];
+
 	const selectDropdown: SelectDropdownItem = {
 		id: 'statisticsSelect',
 		selectedOptions: statisticsPeriodOptions,
