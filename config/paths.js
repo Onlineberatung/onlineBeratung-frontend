@@ -21,6 +21,8 @@ const publicUrlOrPath = getPublicUrlOrPath(
 	process.env.PUBLIC_URL
 );
 
+const buildPath = process.env.BUILD_PATH || 'build';
+
 const moduleFileExtensions = [
 	'web.mjs',
 	'mjs',
@@ -45,6 +47,7 @@ const resolveModule = (resolveFn, filePath) => {
 	if (extension) {
 		return resolveFn(`${filePath}.${extension}`);
 	}
+
 	return resolveFn(`${filePath}.js`);
 };
 
@@ -52,7 +55,7 @@ const resolveModule = (resolveFn, filePath) => {
 module.exports = {
 	dotenv: resolveApp('.env'),
 	appPath: resolveApp('.'),
-	appBuild: resolveApp('build'),
+	appBuild: resolveApp(buildPath),
 	appPublic: resolveApp('public'),
 	appEntryPoints: {
 		app: resolveModule(resolveApp, 'src/initApp'),
@@ -67,6 +70,8 @@ module.exports = {
 	testsSetup: resolveModule(resolveApp, 'src/setupTests'),
 	proxySetup: resolveApp('src/setupProxy.js'),
 	appNodeModules: resolveApp('node_modules'),
+	appWebpackCache: resolveApp('node_modules/.cache'),
+	appTsBuildInfoFile: resolveApp('node_modules/.cache/tsconfig.tsbuildinfo'),
 	swSrc: resolveModule(resolveApp, 'src/service-worker'),
 	publicUrlOrPath
 };

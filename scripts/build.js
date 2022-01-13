@@ -38,6 +38,11 @@ const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
 const isInteractive = process.stdout.isTTY;
 
+// Warn and crash if required files are missing
+if (!checkRequiredFiles(Object.values(paths.appEntryPoints))) {
+	process.exit(1);
+}
+
 const argv = process.argv.slice(2);
 const writeStatsJson = argv.indexOf('--stats') !== -1;
 
@@ -172,13 +177,19 @@ function build(previousFileSizes) {
 					process.env.CI.toLowerCase() !== 'false') &&
 				messages.warnings.length
 			) {
-				console.log(
-					chalk.yellow(
-						'\nTreating warnings as errors because process.env.CI = true.\n' +
-							'Most CI servers set it automatically.\n'
-					)
+				// Ignore sourcemap warnings in CI builds. See #8227 for more info.
+				const filteredWarnings = messages.warnings.filter(
+					(w) => !/Failed to parse source map/.test(w)
 				);
-				return reject(new Error(messages.warnings.join('\n\n')));
+				if (filteredWarnings.length) {
+					console.log(
+						chalk.yellow(
+							'\nTreating warnings as errors because process.env.CI = true.\n' +
+								'Most CI servers set it automatically.\n'
+						)
+					);
+					return reject(new Error(filteredWarnings.join('\n\n')));
+				}
 			}
 
 			const resolveArgs = {
