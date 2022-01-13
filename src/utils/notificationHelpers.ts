@@ -1,7 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 import incomingNotification from '../resources/audio/incomingNotification.mp3';
 
-const audio = 'Audio' in window ? new Audio(incomingNotification) : null;
+const audio =
+	'Audio' in window
+		? new Audio(
+				process.env.AUDIO_FILE_INCOMING_NOTIFICATION ??
+					incomingNotification
+		  )
+		: null;
 
 type ExtraNotificationOptions = {
 	showAlways?: boolean;

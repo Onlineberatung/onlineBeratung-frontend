@@ -28,7 +28,12 @@ export const Notifications = (props: NotificationsProps) => {
 			)}
 			{hasIncomingVideoCall && (
 				<audio loop autoPlay data-cy="incoming-video-call-audio">
-					<source src={incomingCallRingtone}></source>
+					<source
+						src={
+							process.env.AUDIO_FILE_INCOMING_CALL ??
+							incomingCallRingtone
+						}
+					></source>
 				</audio>
 			)}
 		</div>
