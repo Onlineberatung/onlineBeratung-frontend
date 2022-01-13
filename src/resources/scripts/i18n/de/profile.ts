@@ -56,7 +56,7 @@ const profile = {
 		'Ihre gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung',
 	'externalRegistration.copy.start': 'Möchten Sie für „',
 	'externalRegistration.copy.end':
-		'“ zu der anderen Anwendung wechseln und sich dort registrieren? Ihre bisherigen Beratungs- und Hilfethemen finden Sie weiterhin hier.',
+		'“ zu der anderen Anwendung wechseln und sich dort registrieren?',
 	'externalRegistration.submit': 'Jetzt wechseln',
 	'externalRegistration.cancel': 'Abbrechen',
 	'footer.imprint': 'Impressum',
