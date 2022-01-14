@@ -76,6 +76,8 @@ const profile = {
 	'statistics.complete.download.label': 'Download Excel Datei',
 	'statistics.csvHeader.numberOfAssignedSessions': 'Beratungen angenommen',
 	'statistics.csvHeader.numberOfSentMessages': 'Nachrichten geschrieben',
+	'statistics.csvHeader.numberOfSessionsWhereConsultantWasActive':
+		'Aktive Beratungen',
 	'statistics.csvHeader.videoCallDuration':
 		'Dauer von Videoanrufen in Minuten'
 };
