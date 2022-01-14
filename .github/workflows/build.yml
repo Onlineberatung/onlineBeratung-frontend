@@ -17,13 +17,7 @@ jobs:
                   registry-url: 'https://npm.pkg.github.com'
             - run: npm i
             - name: Run linters
-              uses: wearerequired/lint-action@v1
-              with:
-                  github_token: ${{ secrets.github_token }}
-                  eslint: true
-                  eslint_dir: ./src
-                  eslint_extensions: js,ts,tsx
-                  prettier: true
+              run: npx eslint src
             - name: test and build
               run: |
                   echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
