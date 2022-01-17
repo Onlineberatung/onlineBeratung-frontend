@@ -12,7 +12,6 @@ import { Text } from '../text/Text';
 import { ReactComponent as PersonsIcon } from '../../resources/img/icons/persons.svg';
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
-import { getValidDateFormatForSelectedDate } from '../groupChat/createChatHelpers';
 import { CSVLink } from 'react-csv';
 import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
@@ -114,12 +113,6 @@ export const ConsultantStatistics = () => {
 	const [csvData, setCsvData] = useState([]);
 
 	useEffect(() => {
-		//fetch complete statistics to deliver csv download
-		const currentDate = getValidDateFormatForSelectedDate(new Date());
-		getConsultantStatistics('1970-01-01', currentDate, true);
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
 		if (statisticsPeriod) {
 			const dates: ApiGetConsultantStatisticsInterface =
 				getDatesForSelectedPeriod(statisticsPeriod);
@@ -148,44 +141,38 @@ export const ConsultantStatistics = () => {
 		defaultValue: preSelectedOption
 	};
 
-	const getConsultantStatistics = (
-		startDate: string,
-		endDate: string,
-		generatePdf: boolean = false
-	) => {
+	const getConsultantStatistics = (startDate: string, endDate: string) => {
 		if (isRequestInProgress) {
 			return null;
 		}
 		setIsRequestInProgress(true);
 		apiGetConsultantStatistics({ startDate, endDate })
 			.then((response: ConsultantStatisticsDTO) => {
-				if (generatePdf) {
-					const videoCallDurationInMinutes =
-						response.videoCallDuration / 60;
-					const data = [
-						{
-							numberOfAssignedSessions:
-								response.numberOfAssignedSessions,
-							numberOfSentMessages: response.numberOfSentMessages,
-							numberOfSessionsWhereConsultantWasActive:
-								response.numberOfSessionsWhereConsultantWasActive,
-							videoCallDuration:
-								videoCallDurationInMinutes === 0
-									? 0
-									: videoCallDurationInMinutes.toFixed(2)
-						}
-					];
-					setCsvData(data);
-				} else {
-					setSelectedStatistics(response);
-					const startDateString = formatToDDMMYYYY(
-						Date.parse(response.startDate)
-					);
-					const endDateString = formatToDDMMYYYY(
-						Date.parse(response.endDate)
-					);
-					setPeriodDisplay(`${startDateString} - ${endDateString}`);
-				}
+				const videoCallDurationInMinutes =
+					response.videoCallDuration / 60;
+				const data = [
+					{
+						numberOfAssignedSessions:
+							response.numberOfAssignedSessions,
+						numberOfSentMessages: response.numberOfSentMessages,
+						numberOfSessionsWhereConsultantWasActive:
+							response.numberOfSessionsWhereConsultantWasActive,
+						videoCallDuration:
+							videoCallDurationInMinutes === 0
+								? 0
+								: videoCallDurationInMinutes.toFixed(2)
+					}
+				];
+				setCsvData(data);
+
+				setSelectedStatistics(response);
+				const startDateString = formatToDDMMYYYY(
+					Date.parse(response.startDate)
+				);
+				const endDateString = formatToDDMMYYYY(
+					Date.parse(response.endDate)
+				);
+				setPeriodDisplay(`${startDateString} - ${endDateString}`);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -261,9 +248,9 @@ export const ConsultantStatistics = () => {
 						separator={';'}
 						headers={csvHeaders}
 						data={csvData}
-						filename={translate(
+						filename={`${translate(
 							'profile.statistics.complete.filename'
-						)}
+						)} - ${periodDisplay}.csv`}
 					>
 						<DownloadIcon />
 						{translate(
