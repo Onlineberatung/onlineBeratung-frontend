@@ -61,7 +61,6 @@ export const SessionListItemComponent = ({
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { sessionsData } = useContext(SessionsDataContext);
 	const [activeSession, setActiveSession] = useState(null);
-	//const [isRead, setIsRead] = useState(false);
 	const { userData } = useContext(UserDataContext);
 	const type = getTypeOfLocation();
 
@@ -82,13 +81,6 @@ export const SessionListItemComponent = ({
 		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
 
 		setActiveSession(activeSession);
-		/* ToDo: This was just temporary setting as read. On reload it will be unread again
-		 * If this should be the case then it should generally be set in the sessionData in sessionView
-		 * even if its just temporary
-		 */
-		//const chatItem = getChatItemForSession(activeSession);
-		//setIsRead(chatItem?.id === listItem.id || listItem.messagesRead);
-		//setIsRead(listItem.messagesRead);
 	}, [groupIdFromParam, listItem.id, listItem.messagesRead, sessionsData]);
 
 	if (listItem.lastMessage) {

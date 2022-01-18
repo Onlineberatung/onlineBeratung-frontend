@@ -22,10 +22,6 @@ export type ActiveSessionType = ListItemInterface & {
 	type: SESSION_LIST_TYPES;
 	key: SessionDataKeys;
 	isFeedbackSession?: boolean;
-	// ToDo: isTeamSession was checked with activeSession.isTeamSession but
-	//  was never set and is only available
-	//  in activeSession.session.isTeamSession
-	isTeamSession?: boolean;
 };
 
 export const getActiveSession = (
@@ -80,7 +76,6 @@ export const getActiveSession = (
 		if (chatType !== CHAT_TYPE_GROUP_CHAT) {
 			resultSession.isFeedbackSession =
 				resultSession.session.feedbackGroupId === sessionGroupId;
-			resultSession.isTeamSession = resultSession.session.isTeamSession;
 		}
 		return resultSession;
 	}

@@ -253,13 +253,9 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							!isAskerInfoAvailable()
 					})}
 				>
-					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
-						<h3>
-							{activeSession?.isTeamSession
-								? translate('sessionList.teamsession')
-								: username}
-						</h3>
-					) : null}
+					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (
+						<h3>{username}</h3>
+					)}
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,
 						userData
@@ -285,8 +281,9 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					legalComponent={props.legalComponent}
 				/>
 			</div>
-			{!activeSession?.isTeamSession ||
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
+
+			{(hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) && (
 				<div className="sessionInfo__metaInfo">
 					{!activeSession?.agency ? (
 						<div className="sessionInfo__metaInfo__content">
@@ -313,62 +310,19 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 								) : null
 						  )
 						: null}
-					{activeSession?.agency && activeSession?.agency.name ? (
+					{activeSession?.agency && activeSession?.agency.name && (
 						<div className="sessionInfo__metaInfo__content">
 							{' '}
 							{activeSession.agency.name}{' '}
 						</div>
-					) : null}
-					{activeSession?.agency ? (
+					)}
+					{activeSession?.agency && (
 						<div className="sessionInfo__metaInfo__content">
 							{translate('consultant.jobTitle')}
 						</div>
-					) : null}
+					)}
 				</div>
-			) : null}
-
-			{activeSession?.isTeamSession &&
-			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
-				<div className="sessionInfo__metaInfo">
-					<div className="sessionInfo__metaInfo__content">
-						{username}
-						{getContact(activeSession).consultantAbsent?.absent ? (
-							<span>
-								{translate(
-									'session.teamConsultant.isAbsentPrefix'
-								)}
-								<span className="sessionInfo__metaInfo__content--red">
-									{translate(
-										'session.teamConsultant.isAbsent'
-									)}
-								</span>
-							</span>
-						) : username ===
-						  translate('sessionList.user.consultantUnknown') ? (
-							''
-						) : (
-							translate('session.header.consultants.suffix')
-						)}
-					</div>
-				</div>
-			) : null}
-
-			{!activeSession?.isTeamSession &&
-			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
-				<div className="sessionInfo__metaInfo">
-					<div
-						className={
-							props.consultantAbsent?.absent
-								? `sessionInfo__metaInfo__content sessionInfo__metaInfo__content--red`
-								: `sessionInfo__metaInfo__content`
-						}
-					>
-						{getContact(activeSession).consultantAbsent?.absent
-							? translate('session.consultant.isAbsent')
-							: null}
-					</div>
-				</div>
-			) : null}
+			)}
 		</div>
 	);
 };
