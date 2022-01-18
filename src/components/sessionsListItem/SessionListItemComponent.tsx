@@ -12,11 +12,12 @@ import {
 	typeIsTeamSession,
 	getTypeOfLocation,
 	getSessionListPathForLocation,
-	getChatTypeForListItem,
 	typeIsEnquiry,
 	getChatItemForSession,
-	isGroupChatForSessionItem,
-	SESSION_LIST_TYPES
+	SESSION_LIST_TYPES,
+	isSessionChat,
+	isGroupChat,
+	isLiveChat
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import {
@@ -24,7 +25,6 @@ import {
 	UserDataContext,
 	getSessionsDataKeyForSessionType,
 	hasUserAuthority,
-	isAnonymousSession,
 	AUTHORITIES,
 	useConsultingType,
 	getActiveSession,
@@ -61,18 +61,17 @@ export const SessionListItemComponent = ({
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { sessionsData } = useContext(SessionsDataContext);
 	const [activeSession, setActiveSession] = useState(null);
-	const [isRead, setIsRead] = useState(false);
+	//const [isRead, setIsRead] = useState(false);
 	const { userData } = useContext(UserDataContext);
 	const type = getTypeOfLocation();
 
 	const currentSessionData = sessionsData[
 		getSessionsDataKeyForSessionType(type)
-	].filter((session) => id === getChatItemForSession(session).id)[0];
-	const listItem =
-		currentSessionData[getChatTypeForListItem(currentSessionData)];
-	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
-	const isLiveChat = isAnonymousSession(currentSessionData?.session);
-	const isLiveChatFinished = listItem.status === STATUS_FINISHED;
+	].find((session) => id === getChatItemForSession(session).id);
+	const listItem = getChatItemForSession(currentSessionData);
+	const isLiveChatFinished = isSessionChat(listItem)
+		? listItem.status === STATUS_FINISHED
+		: false;
 	let plainTextLastMessage = '';
 	const consultingType = useConsultingType(listItem.consultingType);
 	const sessionConsultingType = useConsultingType(
@@ -81,10 +80,15 @@ export const SessionListItemComponent = ({
 
 	useEffect(() => {
 		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
-		const chatItem = getChatItemForSession(activeSession);
 
 		setActiveSession(activeSession);
-		setIsRead(chatItem?.id === listItem.id || listItem.messagesRead);
+		/* ToDo: This was just temporary setting as read. On reload it will be unread again
+		 * If this should be the case then it should generally be set in the sessionData in sessionView
+		 * even if its just temporary
+		 */
+		//const chatItem = getChatItemForSession(activeSession);
+		//setIsRead(chatItem?.id === listItem.id || listItem.messagesRead);
+		//setIsRead(listItem.messagesRead);
 	}, [groupIdFromParam, listItem.id, listItem.messagesRead, sessionsData]);
 
 	if (listItem.lastMessage) {
@@ -125,13 +129,13 @@ export const SessionListItemComponent = ({
 	};
 
 	const iconVariant = () => {
-		if (isGroupChat) {
+		if (isGroupChat(listItem)) {
 			return LIST_ICONS.IS_GROUP_CHAT;
-		} else if (isLiveChat) {
+		} else if (isLiveChat(listItem)) {
 			return LIST_ICONS.IS_LIVE_CHAT;
 		} else if (isCurrentSessionNewEnquiry) {
 			return LIST_ICONS.IS_NEW_ENQUIRY;
-		} else if (isRead) {
+		} else if (listItem.messagesRead) {
 			return LIST_ICONS.IS_READ;
 		} else {
 			return LIST_ICONS.IS_UNREAD;
@@ -160,7 +164,7 @@ export const SessionListItemComponent = ({
 		return null;
 	}
 
-	if (isGroupChat) {
+	if (isGroupChat(listItem)) {
 		const isMyChat = () =>
 			currentSessionData.consultant &&
 			userData.userId === currentSessionData.consultant.id;
@@ -199,7 +203,7 @@ export const SessionListItemComponent = ({
 						</div>
 						<div
 							className={
-								isRead
+								listItem.messagesRead
 									? `sessionsListItem__username sessionsListItem__username--readLabel`
 									: `sessionsListItem__username`
 							}
@@ -268,7 +272,7 @@ export const SessionListItemComponent = ({
 								AUTHORITIES.ASKER_DEFAULT,
 								userData
 							) &&
-							!isLiveChat
+							!isLiveChat(listItem)
 								? '/ ' + listItem.postcode
 								: null}
 						</div>
@@ -277,7 +281,7 @@ export const SessionListItemComponent = ({
 						{prettyPrintDate(
 							listItem.messageDate,
 							listItem.createDate,
-							isLiveChat
+							isLiveChat(listItem)
 						)}
 					</div>
 				</div>
@@ -287,7 +291,7 @@ export const SessionListItemComponent = ({
 					</div>
 					<div
 						className={
-							isRead
+							listItem.messagesRead
 								? `sessionsListItem__username sessionsListItem__username--readLabel`
 								: `sessionsListItem__username`
 						}
@@ -326,9 +330,8 @@ export const SessionListItemComponent = ({
 							)}
 						</div>
 					) : (
-						(isCurrentSessionNewEnquiry || isLiveChat) && (
-							<span></span>
-						)
+						(isCurrentSessionNewEnquiry ||
+							isLiveChat(listItem)) && <span></span>
 					)}
 					{listItem.attachment && (
 						<SessionListItemAttachment
@@ -348,7 +351,7 @@ export const SessionListItemComponent = ({
 					{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 						!typeIsEnquiry(type) &&
 						!listItem.feedbackRead &&
-						!isLiveChat &&
+						!isLiveChat(listItem) &&
 						!(
 							activeSession &&
 							activeSession.isFeedbackSession &&
@@ -361,7 +364,7 @@ export const SessionListItemComponent = ({
 								link={feedbackPath}
 							/>
 						)}
-					{isLiveChat &&
+					{isLiveChat(listItem) &&
 						!typeIsEnquiry(type) &&
 						!isLiveChatFinished && (
 							<Tag

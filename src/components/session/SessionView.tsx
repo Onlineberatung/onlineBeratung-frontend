@@ -16,7 +16,6 @@ import {
 	AcceptedGroupIdContext,
 	AUTHORITIES,
 	getActiveSession,
-	getSessionsDataWithChangedValue,
 	hasUserAuthority,
 	REGISTRATION_TYPE_ANONYMOUS,
 	SessionsDataContext,
@@ -24,6 +23,7 @@ import {
 	STATUS_FINISHED,
 	StoppedGroupChatContext,
 	UnreadSessionsStatusContext,
+	UPDATE_SESSION_CHAT_ITEM,
 	UpdateSessionListContext,
 	UserDataContext
 } from '../../globalState';
@@ -72,7 +72,8 @@ interface RouterProps {
 export const SessionView = (props: RouterProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
-	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
+	const { sessionsData, dispatchSessionsData } =
+		useContext(SessionsDataContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { userData } = useContext(UserDataContext);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
@@ -172,6 +173,23 @@ export const SessionView = (props: RouterProps) => {
 		[groupChatStoppedOverlay]
 	);
 
+	useEffect(() => {
+		if (!activeSession || !chatItem) {
+			return;
+		}
+
+		dispatchSessionsData({
+			type: UPDATE_SESSION_CHAT_ITEM,
+			key: activeSession.key,
+			groupId: chatItem.groupId,
+			data: {
+				[activeSession.isFeedbackSession
+					? 'feedbackRead'
+					: 'messagesRead']: true
+			}
+		});
+	}, [activeSession, chatItem, dispatchSessionsData]);
+
 	const setSessionToRead = useCallback(
 		(newMessageFromSocket: boolean = false) => {
 			if (
@@ -186,17 +204,6 @@ export const SessionView = (props: RouterProps) => {
 
 				if (!isCurrentSessionRead || newMessageFromSocket) {
 					apiSetSessionRead(groupIdFromParam).then();
-					activeSession.isFeedbackSession && isSessionChat(chatItem)
-						? (chatItem.feedbackRead = true) // ToDo: Whats this?
-						: (chatItem.messagesRead = true); // ToDo: Whats this?
-
-					const changedSessionsData = getSessionsDataWithChangedValue(
-						sessionsData,
-						activeSession,
-						'messagesRead',
-						true
-					);
-					setSessionsData(changedSessionsData);
 
 					const newMySessionsCount = Math.max(
 						unreadSessionsStatus.mySessions - 1,
@@ -215,8 +222,6 @@ export const SessionView = (props: RouterProps) => {
 			chatItem,
 			groupIdFromParam,
 			isLiveChatFinished,
-			sessionsData,
-			setSessionsData,
 			setUnreadSessionsStatus,
 			unreadSessionsStatus,
 			userData

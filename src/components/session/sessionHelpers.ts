@@ -1,6 +1,7 @@
 import {
 	GroupChatItemInterface,
 	ListItemInterface,
+	LiveChatInterface,
 	REGISTRATION_TYPE_ANONYMOUS,
 	SessionItemInterface
 } from '../../globalState';
@@ -17,47 +18,47 @@ export enum SESSION_LIST_TYPES {
 	TEAMSESSION = 'TEAMSESSION'
 }
 
-export const CHAT_TYPES = {
-	GROUP_CHAT: 'chat',
-	SINGLE_CHAT: 'session'
-};
+export const CHAT_TYPE_GROUP_CHAT = 'chat';
+export const CHAT_TYPE_SINGLE_CHAT = 'session';
 
-export const getChatTypeForListItem = (listItem?: ListItemInterface): string =>
-	listItem && listItem.chat ? CHAT_TYPES.GROUP_CHAT : CHAT_TYPES.SINGLE_CHAT;
+export type ChatTypes =
+	| typeof CHAT_TYPE_GROUP_CHAT
+	| typeof CHAT_TYPE_SINGLE_CHAT;
+
+export const CHAT_TYPES: ChatTypes[] = [
+	CHAT_TYPE_GROUP_CHAT,
+	CHAT_TYPE_SINGLE_CHAT
+];
+
+export const getChatTypeForListItem = (
+	listItem?: ListItemInterface
+): ChatTypes =>
+	listItem && listItem.chat ? CHAT_TYPE_GROUP_CHAT : CHAT_TYPE_SINGLE_CHAT;
 
 export const isSessionChat = (
-	chatItem: SessionItemInterface | GroupChatItemInterface
-): chatItem is SessionItemInterface => {
+	chatItem: SessionItemInterface | GroupChatItemInterface | LiveChatInterface
+): chatItem is SessionItemInterface | LiveChatInterface => {
 	return chatItem && 'feedbackGroupId' in chatItem;
 };
 
 export const isLiveChat = (
-	chatItem: SessionItemInterface | GroupChatItemInterface
-): chatItem is SessionItemInterface => {
+	chatItem: SessionItemInterface | GroupChatItemInterface | LiveChatInterface
+): chatItem is LiveChatInterface => {
 	return (
 		isSessionChat(chatItem) &&
 		chatItem.registrationType === REGISTRATION_TYPE_ANONYMOUS
 	);
 };
 
-export const isSessionChatItemNotAnonymous = (
-	chatItem: SessionItemInterface | GroupChatItemInterface
-): chatItem is SessionItemInterface => {
-	return (
-		isSessionChat(chatItem) &&
-		chatItem.registrationType !== REGISTRATION_TYPE_ANONYMOUS
-	);
-};
-
 export const isGroupChat = (
-	chatItem: SessionItemInterface | GroupChatItemInterface
+	chatItem: SessionItemInterface | GroupChatItemInterface | LiveChatInterface
 ): chatItem is GroupChatItemInterface => {
 	return chatItem && !('feedbackGroupId' in chatItem);
 };
 
 export const getChatItemForSession = (
 	sessionItem?: ListItemInterface
-): GroupChatItemInterface | SessionItemInterface | null => {
+): GroupChatItemInterface | SessionItemInterface | LiveChatInterface | null => {
 	if (!sessionItem) {
 		return null;
 	}
@@ -66,7 +67,7 @@ export const getChatItemForSession = (
 };
 
 export const isGroupChatForSessionItem = (sessionItem: ListItemInterface) => {
-	return getChatTypeForListItem(sessionItem) === CHAT_TYPES.GROUP_CHAT;
+	return getChatTypeForListItem(sessionItem) === CHAT_TYPE_GROUP_CHAT;
 };
 
 export const getGroupIdFromSessionItem = (item: any) => item.messages[0].rid;

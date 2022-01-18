@@ -214,9 +214,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			case OVERLAY_FUNCTIONS.REDIRECT:
 				setOverlayItem(null);
 				setIsRequestInProgress(false);
-				// ToDo: How it should work. Look weired it gets set to '' and in next step its used.
-				//  I think the state isn't updated in setAcceptedGroupId and it works only luckily
-				setCurrentGroupId('');
 				setAcceptedGroupId(currentGroupId);
 				setSessionsData({ ...sessionsData, enquiries: [] });
 				history.push(`/sessions/consultant/sessionView/`);

@@ -34,7 +34,6 @@ import {
 	getTypeOfLocation,
 	isGroupChat,
 	isLiveChat,
-	isSessionChatItemNotAnonymous,
 	isSessionChat,
 	SESSION_LIST_TAB,
 	typeIsEnquiry,
@@ -341,7 +340,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const hasVideoCallFeatures = () =>
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-		!isGroupChat(chatItem) &&
+		isSessionChat(chatItem) &&
 		!isLiveChat(chatItem) &&
 		!typeIsEnquiry(getTypeOfLocation()) &&
 		consultingType.isVideoCallAllowed;
@@ -484,8 +483,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 					!typeIsEnquiry(getTypeOfLocation()) &&
-					!isLiveChat(chatItem) &&
-					isSessionChat(chatItem) && (
+					isSessionChat(chatItem) &&
+					!isLiveChat(chatItem) && (
 						<>
 							{sessionListTab !== SESSION_LIST_TAB.ARCHIVE ? (
 								<div
@@ -507,8 +506,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 					!typeIsEnquiry(getTypeOfLocation()) &&
-					!isLiveChat(chatItem) &&
-					isSessionChat(chatItem) && (
+					isSessionChat(chatItem) &&
+					!isLiveChat(chatItem) && (
 						<DeleteSession
 							chatId={chatItem.id}
 							onSuccess={onSuccessDeleteSession}
@@ -526,7 +525,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 					!typeIsEnquiry(getTypeOfLocation()) &&
-					isSessionChatItemNotAnonymous(chatItem) &&
+					isSessionChat(chatItem) &&
+					!isLiveChat(chatItem) &&
 					chatItem?.monitoring && (
 						<Link className="sessionMenu__item" to={monitoringPath}>
 							{translate('chatFlyout.documentation')}

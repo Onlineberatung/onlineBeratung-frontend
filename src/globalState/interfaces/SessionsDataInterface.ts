@@ -1,16 +1,27 @@
 import { VideoCallMessageDTO } from '../../components/message/MessageItemComponent';
 import { AgencyDataInterface } from './UserDataInterface';
 
-export interface SessionsDataInterface {
-	enquiries?: ListItemInterface[];
-	mySessions?: ListItemInterface[];
-	teamSessions?: ListItemInterface[];
-}
+export const SESSION_DATA_KEY_ENQUIRIES = 'enquiries';
+export const SESSION_DATA_KEY_MY_SESSIONS = 'mySessions';
+export const SESSION_DATA_KEY_TEAM_SESSIONS = 'teamSessions';
+
+export type SessionDataKeyEnquiries = typeof SESSION_DATA_KEY_ENQUIRIES;
+export type SessionDataKeyMySessions = typeof SESSION_DATA_KEY_MY_SESSIONS;
+export type SessionDataKeyTeamSessions = typeof SESSION_DATA_KEY_TEAM_SESSIONS;
+
+export type SessionDataKeys =
+	| SessionDataKeyEnquiries
+	| SessionDataKeyMySessions
+	| SessionDataKeyTeamSessions;
+
+export type SessionsDataInterface = {
+	[key in SessionDataKeys]?: ListItemInterface[];
+};
 
 export interface ListItemInterface {
 	agency?: AgencyDataInterface;
 	consultant?: SessionConsultantInterface;
-	session?: SessionItemInterface;
+	session?: SessionItemInterface | LiveChatInterface;
 	chat?: GroupChatItemInterface;
 	user?: SessionUserInterface;
 	language?: string;
@@ -57,6 +68,7 @@ export interface SessionItemInterface {
 	id: number;
 	lastMessage?: string;
 	messageDate: number;
+	createDate: string;
 	messagesRead: boolean;
 	messageTime?: number;
 	monitoring: boolean;
@@ -73,6 +85,10 @@ export interface SessionItemInterface {
 	videoCallMessageDTO: VideoCallMessageDTO;
 	language?: string;
 	isFeedbackSession: boolean;
+}
+
+export interface LiveChatInterface extends SessionItemInterface {
+	registrationType: registrationTypeAnonymous;
 }
 
 export interface GroupChatItemInterface {

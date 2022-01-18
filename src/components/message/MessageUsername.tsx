@@ -1,8 +1,4 @@
-import {
-	SESSION_LIST_TYPES,
-	getChatItemForSession,
-	isGroupChat
-} from '../session/sessionHelpers';
+import { getChatItemForSession, isGroupChat } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import * as React from 'react';
 import { useContext } from 'react';
@@ -60,24 +56,17 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 
 	return (
 		<>
-			{!props.alias &&
-				props.username &&
-				// ToDo: Did this ever work? type is never set on chatItem
-				activeSession?.type !== SESSION_LIST_TYPES.ENQUIRY && (
-					<div
-						className={`messageItem__username messageItem__username--${props.type}`}
-					>
-						{getUsernameWithPrefix()}
-					</div>
-				)}
+			{!props.alias && props.username && (
+				<div
+					className={`messageItem__username messageItem__username--${props.type}`}
+				>
+					{getUsernameWithPrefix()}
+				</div>
+			)}
 
 			{props.alias ? (
 				<div className="messageItem__username messageItem__username--forwarded">
-					<ArrowForwardIcon
-						width="16"
-						height="16"
-						viewBox="0 0 24 19"
-					/>
+					<ArrowForwardIcon />
 					{forwardedLabel()}
 				</div>
 			) : (

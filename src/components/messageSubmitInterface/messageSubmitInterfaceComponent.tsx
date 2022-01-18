@@ -150,7 +150,7 @@ export interface MessageSubmitInterfaceComponentProps {
 	showMonitoringButton?: Function;
 	type: SESSION_LIST_TYPES;
 	typingUsers?: string[];
-	sessionIdFromParam?: string;
+	sessionIdFromParam?: number;
 	groupIdFromParam?: string;
 	language?: string;
 }

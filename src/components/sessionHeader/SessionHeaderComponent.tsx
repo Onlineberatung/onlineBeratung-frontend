@@ -23,7 +23,8 @@ import {
 	getSessionListPathForLocation,
 	typeIsEnquiry,
 	isGroupChat,
-	isLiveChat
+	isLiveChat,
+	isSessionChat
 } from '../session/sessionHelpers';
 import { SessionMenu } from '../sessionMenu/SessionMenu';
 import {
@@ -127,8 +128,8 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	const isAskerInfoAvailable = () =>
 		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 		consultingType.showAskerProfile &&
+		isSessionChat(chatItem) &&
 		!isLiveChat(chatItem) &&
-		!isGroupChat(chatItem) &&
 		((typeIsEnquiry(sessionListType) &&
 			Object.entries(userSessionData).length !== 0) ||
 			!typeIsEnquiry(sessionListType));

@@ -2,11 +2,15 @@ import { UserDataInterface } from '../interfaces/UserDataInterface';
 import {
 	ListItemInterface,
 	REGISTRATION_TYPE_ANONYMOUS,
+	SESSION_DATA_KEY_ENQUIRIES,
+	SESSION_DATA_KEY_MY_SESSIONS,
+	SESSION_DATA_KEY_TEAM_SESSIONS,
+	SessionDataKeys,
 	SessionItemInterface,
 	SessionsDataInterface
 } from '../interfaces/SessionsDataInterface';
 import {
-	CHAT_TYPES,
+	CHAT_TYPE_GROUP_CHAT,
 	getChatItemForSession,
 	getChatTypeForListItem,
 	isSessionChat,
@@ -16,6 +20,7 @@ import { translate } from '../../utils/translate';
 
 export type ActiveSessionType = ListItemInterface & {
 	type: SESSION_LIST_TYPES;
+	key: SessionDataKeys;
 	isFeedbackSession?: boolean;
 	// ToDo: isTeamSession was checked with activeSession.isTeamSession but
 	//  was never set and is only available
@@ -33,22 +38,23 @@ export const getActiveSession = (
 
 	const getTypeByKey = (key) => {
 		switch (key) {
-			case 'enquiries':
+			case SESSION_DATA_KEY_ENQUIRIES:
 				return SESSION_LIST_TYPES.ENQUIRY;
-			case 'mySessions':
+			case SESSION_DATA_KEY_MY_SESSIONS:
 				return SESSION_LIST_TYPES.MY_SESSION;
-			case 'teamSessions':
+			case SESSION_DATA_KEY_TEAM_SESSIONS:
 				return SESSION_LIST_TYPES.TEAMSESSION;
 		}
 		return null;
 	};
 
-	for (let key in sessionsData) {
+	for (const key in sessionsData) {
 		if (sessionsData.hasOwnProperty(key)) {
 			sessionsData[key] = sessionsData[key].map(
 				(value: ListItemInterface): ActiveSessionType => ({
 					...value,
-					type: getTypeByKey(key)
+					type: getTypeByKey(key),
+					key: key as SessionDataKeys
 				})
 			);
 		}
@@ -71,7 +77,7 @@ export const getActiveSession = (
 
 	if (resultSession) {
 		const chatType = getChatTypeForListItem(resultSession);
-		if (chatType !== CHAT_TYPES.GROUP_CHAT) {
+		if (chatType !== CHAT_TYPE_GROUP_CHAT) {
 			resultSession.isFeedbackSession =
 				resultSession.session.feedbackGroupId === sessionGroupId;
 			resultSession.isTeamSession = resultSession.session.isTeamSession;
@@ -99,13 +105,13 @@ export const getContact = (activeSession: ListItemInterface): any => {
 export const getSessionsDataKeyForSessionType = (sessionType) => {
 	switch (sessionType) {
 		case SESSION_LIST_TYPES.ENQUIRY:
-			return 'enquiries';
+			return SESSION_DATA_KEY_ENQUIRIES;
 		case SESSION_LIST_TYPES.MY_SESSION:
-			return 'mySessions';
+			return SESSION_DATA_KEY_MY_SESSIONS;
 		case SESSION_LIST_TYPES.TEAMSESSION:
-			return 'teamSessions';
+			return SESSION_DATA_KEY_TEAM_SESSIONS;
 		default:
-			return 'mySessions';
+			return SESSION_DATA_KEY_MY_SESSIONS;
 	}
 };
 
@@ -143,6 +149,9 @@ export const AUTHORITIES = {
 	VIEW_ALL_PEER_SESSIONS: 'AUTHORIZATION_VIEW_ALL_PEER_SESSIONS'
 };
 
+/**
+ * @deprecated Use SessionContext dispatching
+ */
 export const getSessionsDataWithChangedValue = (
 	sessionsData,
 	activeSession,
