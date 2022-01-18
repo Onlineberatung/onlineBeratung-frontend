@@ -2,7 +2,9 @@ const languages = {
 	de: 'Deutsch',
 	en: 'Englisch',
 	fr: 'Französisch',
-	es: 'Spanisch'
+	es: 'Spanisch',
+	dk: 'Dänisch',
+	it: 'Italienisch'
 };
 
 export default languages;

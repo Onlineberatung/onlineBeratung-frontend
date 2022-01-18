@@ -22,6 +22,7 @@ interface AppProps {
 	entryPoint: string;
 	extraRoutes?: ReactNode;
 	spokenLanguages?: string[];
+	fixedLanguages?: string[];
 }
 
 export const App = ({
@@ -29,7 +30,8 @@ export const App = ({
 	legalComponent,
 	entryPoint,
 	extraRoutes,
-	spokenLanguages = ['de', 'en', 'fr', 'es']
+	spokenLanguages = ['de', 'en', 'fr', 'es', 'dk', 'it'],
+	fixedLanguages = ['de']
 }: AppProps) => {
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
@@ -116,6 +118,7 @@ export const App = ({
 							<AuthenticatedApp
 								legalComponent={legalComponent}
 								spokenLanguages={spokenLanguages}
+								fixedLanguages={fixedLanguages}
 								onAppReady={() => setStartWebsocket(true)}
 								onLogout={() => setDisconnectWebsocket(true)}
 							/>

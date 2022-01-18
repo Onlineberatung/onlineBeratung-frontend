@@ -5,6 +5,7 @@ import { components } from 'react-select';
 import { CloseCircle } from '../../resources/img/icons';
 import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down-light.svg';
 import { ReactComponent as ArrowUpIcon } from '../../resources/img/icons/arrow-up-light.svg';
+import { Text } from '../text/Text';
 import './select.react.styles';
 import './select.styles';
 
@@ -27,6 +28,8 @@ export interface SelectDropdownItem {
 	isClearable?: boolean;
 	menuPlacement: 'top' | 'bottom';
 	defaultValue?: SelectOption | SelectOption[];
+	hasError?: boolean;
+	errorMessage?: string;
 }
 
 const colourStyles = {
@@ -116,7 +119,7 @@ const colourStyles = {
 	}),
 	multiValue: (styles, state) => {
 		const common = {
-			borderRadius: '50px'
+			margin: '4px'
 		};
 		return state.data.isFixed
 			? { ...styles, ...common, backgroundColor: 'rgba(0,0,0,0.05)' }
@@ -197,7 +200,9 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 		<div className={clsx(props.className, 'select__wrapper')}>
 			<Select
 				id={props.id}
-				className="select__input"
+				className={`select__input ${
+					props.hasError ? 'select__input--error' : ''
+				}`}
 				classNamePrefix="select__input"
 				components={{
 					Option: props.useIconOption
@@ -224,6 +229,11 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				isMulti={props.isMulti}
 				styles={colourStyles}
 			/>
+			{props.hasError && (
+				<div className="select__error">
+					<Text text={props.errorMessage} type="infoSmall" />
+				</div>
+			)}
 		</div>
 	);
 };

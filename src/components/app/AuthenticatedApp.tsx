@@ -40,13 +40,15 @@ interface AuthenticatedAppProps {
 	onLogout: Function;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	spokenLanguages: string[];
+	fixedLanguages: string[];
 }
 
 export const AuthenticatedApp = ({
 	onLogout,
 	onAppReady,
 	legalComponent,
-	spokenLanguages
+	spokenLanguages,
+	fixedLanguages
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { setAuthData } = useContext(AuthDataContext);
@@ -111,6 +113,7 @@ export const AuthenticatedApp = ({
 					logout={handleLogout}
 					legalComponent={legalComponent}
 					spokenLanguages={spokenLanguages}
+					fixedLanguages={fixedLanguages}
 				/>
 				{notifications && (
 					<Notifications notifications={notifications} />

@@ -137,3 +137,7 @@ export const hasAskerEmailFeatures = (
 			)?.isSetEmailAllowed
 	);
 };
+
+export const isUniqueLanguage = (value, index, self) => {
+	return self.indexOf(value) === index;
+};

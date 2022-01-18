@@ -30,6 +30,7 @@ import { ConsultantSpokenLanguages } from './ConsultantSpokenLanguages';
 interface ProfileProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	spokenLanguages: string[];
+	fixedLanguages: string[];
 }
 
 export const Profile = (props: ProfileProps) => {
@@ -128,6 +129,7 @@ export const Profile = (props: ProfileProps) => {
 							/>
 							<ConsultantSpokenLanguages
 								spokenLanguages={props.spokenLanguages}
+								fixedLanguages={props.fixedLanguages}
 							/>
 							<ConsultantStatistics />
 							<ConsultantPrivateData />

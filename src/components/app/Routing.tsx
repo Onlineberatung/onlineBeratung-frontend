@@ -27,6 +27,7 @@ interface routingProps {
 	logout?: Function;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	spokenLanguages: string[];
+	fixedLanguages: string[];
 }
 
 export const Routing = (props: routingProps) => {
