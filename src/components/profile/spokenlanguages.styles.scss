@@ -1,7 +1,19 @@
 .spokenLanguages {
+	&__languageSelect {
+		display: flex;
+
+		& > p {
+			margin: 14px 0 auto;
+		}
+	}
+
 	.select__wrapper {
-		max-width: unset;
 		margin: 0;
-		padding: 0;
+
+		.select__input__control {
+			height: auto;
+			padding-top: 4px;
+			padding-bottom: 4px;
+		}
 	}
 }

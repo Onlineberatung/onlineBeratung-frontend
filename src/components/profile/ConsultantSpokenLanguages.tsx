@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { SelectDropdown, SelectOption } from '../select/SelectDropdown';
+import { Text } from '../text/Text';
 
 import './profile.styles';
 
@@ -14,7 +15,7 @@ export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps>
 		const [selectedLanguages, setSelectedLanguages] = useState(['de']);
 
 		const selectHandler = (e: SelectOption[]) => {
-			console.log(e);
+			// API CALL -> then state
 			setSelectedLanguages(
 				e.map((languageObject) => languageObject.value)
 			);
@@ -35,20 +36,31 @@ export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps>
 						text={translate('profile.spokenLanguages.title')}
 						semanticLevel="5"
 					/>
+
+					<Text
+						text={translate('profile.spokenLanguages.info')}
+						type="infoLargeAlternative"
+					/>
 				</div>
-				<SelectDropdown
-					handleDropdownSelect={selectHandler}
-					id="spoken-languages-select"
-					menuPlacement="bottom"
-					selectedOptions={languageOptions}
-					isClearable={false}
-					isSearchable
-					isMulti
-					defaultValue={languageOptions.filter(
-						(option) =>
-							selectedLanguages.indexOf(option.value) !== -1
-					)}
-				/>
+				<div className="spokenLanguages__languageSelect">
+					<Text
+						text={translate('profile.spokenLanguages.prefix')}
+						type="infoLargeAlternative"
+					/>
+					<SelectDropdown
+						handleDropdownSelect={selectHandler}
+						id="spoken-languages-select"
+						menuPlacement="bottom"
+						selectedOptions={languageOptions}
+						isClearable={false}
+						isSearchable
+						isMulti
+						defaultValue={languageOptions.filter(
+							(option) =>
+								selectedLanguages.indexOf(option.value) !== -1
+						)}
+					/>
+				</div>
 			</div>
 		);
 	};

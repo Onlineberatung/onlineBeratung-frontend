@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 import Select from 'react-select';
 import { components } from 'react-select';
+import { CloseCircle } from '../../resources/img/icons';
 import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down-light.svg';
 import { ReactComponent as ArrowUpIcon } from '../../resources/img/icons/arrow-up-light.svg';
 import './select.react.styles';
@@ -114,17 +115,43 @@ const colourStyles = {
 		}
 	}),
 	multiValue: (styles, state) => {
+		const common = {
+			borderRadius: '50px'
+		};
 		return state.data.isFixed
-			? { ...styles, backgroundColor: 'gray' }
-			: styles;
+			? { ...styles, ...common, backgroundColor: 'rgba(0,0,0,0.05)' }
+			: { ...styles, ...common };
 	},
 	multiValueLabel: (styles, state) => {
+		const common = {
+			paddingLeft: '12px',
+			paddingRight: '12px',
+			paddingTop: '5px',
+			paddingBottom: '5px'
+		};
 		return state.data.isFixed
-			? { ...styles, fontWeight: 'bold', color: 'white', paddingRight: 6 }
-			: styles;
+			? { ...styles, ...common, color: 'rgba(0,0,0,0.2)' }
+			: { ...styles, ...common, paddingRight: '4px' };
 	},
 	multiValueRemove: (styles, state) => {
-		return state.data.isFixed ? { ...styles, display: 'none' } : styles;
+		return state.data.isFixed
+			? { ...styles, display: 'none' }
+			: {
+					...styles,
+					'paddingRight': '8px',
+					'cursor': 'pointer',
+					'opacity': 0.6,
+					'&:hover': {
+						backgroundColor: 'transparent',
+						opacity: 1
+					}
+			  };
+	},
+	indicatorSeparator: (styles, state) => {
+		return {
+			...styles,
+			display: 'none'
+		};
 	}
 };
 
@@ -158,6 +185,14 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 		</components.ValueContainer>
 	);
 
+	const CustomMultiValueRemove = (props) => {
+		return (
+			<components.MultiValueRemove {...props}>
+				<CloseCircle />
+			</components.MultiValueRemove>
+		);
+	};
+
 	return (
 		<div className={clsx(props.className, 'select__wrapper')}>
 			<Select
@@ -174,7 +209,8 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 						: components.ValueContainer,
 					IndicatorSeparator: !props.isSearchable
 						? () => null
-						: components.IndicatorSeparator
+						: components.IndicatorSeparator,
+					MultiValueRemove: CustomMultiValueRemove
 				}}
 				value={props.defaultValue ? props.defaultValue : null}
 				defaultValue={props.defaultValue ? props.defaultValue : null}

@@ -62,6 +62,9 @@ const profile = {
 	'footer.imprint': 'Impressum',
 	'footer.dataprotection': 'Datenschutz',
 	'spokenLanguages.title': 'Meine Sprachen',
+	'spokenLanguages.info':
+		'Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.',
+	'spokenLanguages.prefix': 'Sprachauswahl',
 	'statistics.title': 'Meine Statistik',
 	'statistics.period.prefix': 'Ihre Zahlen des',
 	'statistics.period.lastMonth': 'letzten Monats',

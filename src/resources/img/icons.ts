@@ -9,6 +9,7 @@ export { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.
 export { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 export { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
 export { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
+export { ReactComponent as CloseCircle } from '../../resources/img/icons/close-circle.svg';
 export { ReactComponent as ClosedEnvelopeIcon } from '../../resources/img/icons/envelope.svg';
 export { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 export { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
