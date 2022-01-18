@@ -27,28 +27,62 @@
 		backdrop-filter: blur(2px);
 		animation: flyIn 0.3s ease forwards;
 
-		&--warning,
+		&__header {
+			display: flex;
+			width: 100%;
+			margin-bottom: 6px;
+
+			&__title {
+				flex: 1;
+				height: 24px;
+				line-height: 24px;
+				font-size: $font-size-h5;
+				font-weight: $font-weight-bold;
+			}
+
+			&__icon {
+				flex: 0 24px;
+				height: 24px;
+				text-align: center;
+				border-radius: 50%;
+				margin-right: 12px;
+
+				svg {
+					width: 14px;
+					height: 14px;
+				}
+			}
+		}
+
+		&__text {
+			font-size: $font-size-tertiary;
+		}
+
 		&--info,
+		&--warning,
+		&--error,
 		&--success {
 			color: $white;
-			text-align: center;
+			text-align: left;
 		}
 
-		&--warning,
-		&--info {
-			color: $body-font-color;
+		&--info .notification__header__icon {
+			svg {
+				width: 24px;
+				height: 24px;
+			}
 		}
 
-		&--warning {
-			background-color: rgba($form-error, 0.8);
+		&--success .notification__header__icon {
+			background: $form-success;
 		}
 
-		&--info {
-			background-color: rgba($form-medium, 0.8);
+		&--error .notification__header__icon {
+			background: $form-error;
 		}
 
-		&--success {
-			background-color: rgba($form-success, 0.8);
+		&--warning .notification__header__icon {
+			background: $form-medium;
 		}
 	}
 }

@@ -1,7 +1,16 @@
 import * as React from 'react';
-import { createContext, ReactNode, useCallback, useState } from 'react';
+import {
+	createContext,
+	Dispatch,
+	ReactNode,
+	useCallback,
+	useState
+} from 'react';
 import { v4 as uuid } from 'uuid';
-import { NotificationTypeCall } from '../../components/incomingVideoCall/IncomingVideoCall';
+import {
+	IncomingVideoCallProps,
+	NotificationTypeCall
+} from '../../components/incomingVideoCall/IncomingVideoCall';
 
 export const NOTIFICATION_DEFAULT_TIMEOUT = 3000;
 
@@ -11,11 +20,15 @@ export type NotificationTypeInfo = typeof NOTIFICATION_TYPE_INFO;
 export const NOTIFICATION_TYPE_WARNING = 'warning';
 export type NotificationTypeWarning = typeof NOTIFICATION_TYPE_WARNING;
 
+export const NOTIFICATION_TYPE_ERROR = 'error';
+export type NotificationTypeError = typeof NOTIFICATION_TYPE_ERROR;
+
 export const NOTIFICATION_TYPE_SUCCESS = 'success';
 export type NotificationTypeSuccess = typeof NOTIFICATION_TYPE_SUCCESS;
 
 export type NotificationTypes =
 	| NotificationTypeCall
+	| NotificationTypeError
 	| NotificationTypeInfo
 	| NotificationTypeWarning
 	| NotificationTypeSuccess;
@@ -29,8 +42,10 @@ export type NotificationType = {
 export type NotificationDefaultType = NotificationType & {
 	notificationType:
 		| NotificationTypeInfo
+		| NotificationTypeError
 		| NotificationTypeSuccess
 		| NotificationTypeWarning;
+	title: string;
 	text: string | ReactNode;
 };
 
@@ -38,7 +53,7 @@ type NotificationsContextProps = {
 	notifications: NotificationType[];
 	setNotifications: Function;
 	hasNotification: Function;
-	addNotification: Function;
+	addNotification: Dispatch<NotificationDefaultType | IncomingVideoCallProps>;
 	removeNotification: Function;
 };
 

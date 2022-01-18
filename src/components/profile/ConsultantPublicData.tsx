@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
+import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import {
 	NOTIFICATION_TYPE_INFO,
-	NotificationDefaultType,
 	NotificationsContext,
 	UserDataContext
 } from '../../globalState';
@@ -62,23 +62,29 @@ const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 			() => {
 				addNotification({
 					notificationType: NOTIFICATION_TYPE_INFO,
-					text: 'Registrierungslink in Zwischenablage kopiert!'
-				} as NotificationDefaultType);
+					title: translate(
+						'profile.data.agency.registrationLink.notification.title'
+					),
+					text: translate(
+						'profile.data.agency.registrationLink.notification.text'
+					)
+				});
 			}
 		);
 	}, [agency, addNotification]);
 
 	return (
 		<>
-			(ID:{' '}
+			<span className="profile__data__divider">|</span>
 			<span
 				className="profile__data__copy_registration_link"
 				role="button"
 				onClick={copyRegistrationLink}
+				title={translate('profile.data.agency.registrationLink.title')}
 			>
-				{agency.id}
+				<CopyIcon className={`copy`} />{' '}
+				{translate('profile.data.agency.registrationLink.text')}
 			</span>
-			)
 		</>
 	);
 };

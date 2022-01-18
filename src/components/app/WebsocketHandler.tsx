@@ -6,7 +6,6 @@ import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import {
-	IncomingVideoCallProps,
 	NOTIFICATION_TYPE_CALL,
 	VideoCallRequestProps
 } from '../incomingVideoCall/IncomingVideoCall';
@@ -147,12 +146,11 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 
 	useEffect(() => {
 		if (newStompVideoCallRequest) {
-			const notification: IncomingVideoCallProps = {
+			addNotification({
 				id: newStompVideoCallRequest.rcGroupId,
 				notificationType: NOTIFICATION_TYPE_CALL,
 				videoCall: newStompVideoCallRequest
-			};
-			addNotification(notification);
+			});
 		}
 	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
 
