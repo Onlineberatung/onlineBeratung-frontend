@@ -4,7 +4,8 @@ import {
 	LiveChatInterface,
 	REGISTRATION_TYPE_ANONYMOUS,
 	SessionItemInterface
-} from '../../globalState';
+} from '../../globalState/interfaces/SessionsDataInterface';
+
 import { MessageItem } from '../message/MessageItemComponent';
 import {
 	formatToDDMMYYYY,
