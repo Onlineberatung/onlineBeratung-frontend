@@ -99,7 +99,7 @@ module.exports = function (proxy, allowedHost) {
 			disableDotRule: true,
 			index: paths.publicUrlOrPath,
 			rewrites: [
-				{ from: /^\/$/, to: '/login.html' },
+				{ from: /^\/$/, to: '/beratung-hilfe.html' },
 				{ from: /^\/.+/, to: '/beratung-hilfe.html' }
 			]
 		},

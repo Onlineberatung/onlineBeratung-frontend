@@ -39,7 +39,7 @@ export const AskerInfo = () => {
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const sessionListType = getTypeOfLocation();
-	const isPeerChat = activeSession.session?.isPeerChat;
+	const isPeerChat = activeSession?.session?.isPeerChat;
 
 	if (!activeSession) {
 		return <Loading></Loading>;

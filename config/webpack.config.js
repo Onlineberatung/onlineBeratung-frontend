@@ -637,16 +637,6 @@ module.exports = function (webpackEnv) {
 				filename: 'beratung-hilfe.html'
 			}),
 			new HtmlWebpackPlugin({
-				title: 'Login',
-				templateParameters: {
-					type: 'login'
-				},
-				inject: true,
-				template: 'src/pages/app.html',
-				chunks: ['login'],
-				filename: 'login.html'
-			}),
-			new HtmlWebpackPlugin({
 				title: 'Error Page 401',
 				templateParameters: {
 					type: 'error',

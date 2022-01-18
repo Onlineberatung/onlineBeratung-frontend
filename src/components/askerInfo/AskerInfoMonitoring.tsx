@@ -38,7 +38,7 @@ export const AskerInfoMonitoring = () => {
 	);
 
 	useEffect(() => {
-		apiGetMonitoring(activeSession.session.id)
+		apiGetMonitoring(activeSession?.session.id)
 			.then((monitoringData) => {
 				setMonitoringData(monitoringData);
 			})
@@ -52,12 +52,12 @@ export const AskerInfoMonitoring = () => {
 	cleanMonitoringData = deleteKeyFromObject(cleanMonitoringData, 'meta');
 
 	const resort =
-		activeSession.session.consultingType === 0
+		activeSession?.session.consultingType === 0
 			? 'monitoringAddiction'
 			: 'monitoringU25';
 	const monitoringLink = `${getSessionListPathForLocation()}/${
-		activeSession.session.groupId
-	}/${activeSession.session.id}/userProfile/monitoring${
+		activeSession?.session.groupId
+	}/${activeSession?.session.id}/userProfile/monitoring${
 		sessionListTab ? `?sessionListTab=${sessionListTab}` : ''
 	}`;
 
