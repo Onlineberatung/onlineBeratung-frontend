@@ -230,6 +230,23 @@ $buttonHeight: 50px;
 				}
 			}
 		}
+
+		&--alternate {
+			background-color: $button-small-icon-alternate-background-color;
+			box-shadow: $button-box-shadow-grey;
+			border: none;
+
+			&:hover {
+				background-color: darken(
+					$button-small-icon-alternate-background-color,
+					7%
+				);
+
+				svg {
+					fill: $white;
+				}
+			}
+		}
 	}
 
 	&__item--disabled {

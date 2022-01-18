@@ -16,7 +16,7 @@ describe('profile', () => {
 		);
 	});
 
-	it('can register for a new consulting type with an external agency', () => {
+	it.skip('can register for a new consulting type with an external agency', () => {
 		cy.intercept(
 			config.endpoints.agencyServiceBase +
 				'?postcode=00000&consultingType=0',
@@ -40,7 +40,7 @@ describe('profile', () => {
 		cy.caritasMockedLogin();
 		cy.visit('/beratung-hilfe.html', {
 			onBeforeLoad(window) {
-				cy.stub(window, 'open');
+				cy.spy(window, 'open').as('windowOpen');
 			}
 		});
 		cy.contains('Profil').click();
@@ -59,13 +59,11 @@ describe('profile', () => {
 		);
 
 		cy.contains('Jetzt wechseln').click();
-		cy.window()
-			.its('open')
-			.should(
-				'be.calledWith',
-				'https://www.onlineberatung-diakonie-baden.de/',
-				'_blank'
-			);
+		cy.get('@windowOpen').should(
+			'be.calledWith',
+			'https://www.onlineberatung-diakonie-baden.de/',
+			'_blank'
+		);
 	});
 
 	it('can register for a new consulting type with an internal agency', () => {

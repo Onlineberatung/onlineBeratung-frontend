@@ -160,7 +160,9 @@ export const SessionAssign = (props: { value?: string }) => {
 			history.push(getSessionListPathForLocation() + getSessionListTab());
 		} else {
 			setAcceptedGroupId(activeSession.session.groupId);
-			history.push(`consultant/sessionView${getSessionListTab()}`);
+			history.push(
+				`/sessions/consultant/sessionView${getSessionListTab()}`
+			);
 		}
 	};
 

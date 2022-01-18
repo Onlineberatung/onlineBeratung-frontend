@@ -5,7 +5,7 @@ import {
 	redirectToErrorPage
 } from '../components/error/errorHandling';
 import { logout } from '../components/logout/logout';
-import { CSRF_WHITELIST_HEADER } from '../resources/scripts/config';
+import { config, CSRF_WHITELIST_HEADER } from '../resources/scripts/config';
 
 const nodeEnv: string = process.env.NODE_ENV as string;
 const isLocalDevelopment = nodeEnv === 'development';
@@ -19,13 +19,14 @@ export const FETCH_METHODS = {
 
 export const FETCH_ERRORS = {
 	ABORT: 'ABORT',
-	EMPTY: 'EMPTY',
 	BAD_REQUEST: 'BAD_REQUEST',
+	CATCH_ALL: 'CATCH_ALL',
 	CONFLICT: 'CONFLICT',
 	CONFLICT_WITH_RESPONSE: 'CONFLICT_WITH_RESPONSE',
-	TIMEOUT: 'TIMEOUT',
+	EMPTY: 'EMPTY',
 	NO_MATCH: 'NO_MATCH',
-	CATCH_ALL: 'CATCH_ALL',
+	TIMEOUT: 'TIMEOUT',
+	UNAUTHORIZED: 'UNAUTHORIZED',
 	X_REASON: 'X-Reason'
 };
 
@@ -147,7 +148,7 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 								: new Error(FETCH_ERRORS.CONFLICT)
 						);
 					} else if (response.status === 401) {
-						logout(true);
+						logout(true, config.urls.toLogin);
 					}
 				} else {
 					const error = getErrorCaseForStatus(response.status);

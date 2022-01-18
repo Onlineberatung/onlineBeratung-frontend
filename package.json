@@ -1,7 +1,7 @@
 {
 	"name": "@caritasdeutschland/caritas-online-beratung-frontend",
 	"title": "Caritas Online-Beratung",
-	"version": "2.9.8",
+	"version": "2.9.10",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/CaritasDeutschland/caritas-onlineBeratung-frontend.git"
@@ -17,6 +17,7 @@
 		"@types/node": "^15.12.4",
 		"@types/react": "^17.0.11",
 		"@types/react-dom": "^17.0.8",
+		"@types/uuid": "^8.3.2",
 		"@typescript-eslint/eslint-plugin": "^4.28.0",
 		"@typescript-eslint/parser": "^4.28.0",
 		"babel-eslint": "^10.1.0",
@@ -30,6 +31,7 @@
 		"copy-webpack-plugin": "6.4.0",
 		"core-js": "^3.15.0",
 		"css-loader": "5.2.6",
+		"dayjs": "^1.10.7",
 		"dotenv": "10.0.0",
 		"dotenv-expand": "5.1.0",
 		"draft-js": "0.11.7",
@@ -70,6 +72,7 @@
 		"postcss-safe-parser": "5.0.2",
 		"react": "^17.0.2",
 		"react-app-polyfill": "^2.0.0",
+		"react-csv": "^2.0.3",
 		"react-datepicker": "4.1.1",
 		"react-dev-utils": "^11.0.4",
 		"react-device-detect": "^1.17.0",
@@ -77,11 +80,14 @@
 		"react-refresh": "^0.10.0",
 		"react-router-dom": "5.2.0",
 		"react-select": "4.3.1",
+		"react-switch": "^6.0.0",
 		"resolve": "1.20.0",
 		"resolve-url-loader": "^4.0.0",
+		"sanitize-html": "^2.6.0",
 		"sass-loader": "^10.1.1",
 		"semver": "7.3.5",
 		"sockjs-client": "1.5.1",
+		"stacktrace-js": "^2.0.2",
 		"style-loader": "2.0.0",
 		"terser-webpack-plugin": "4.2.3",
 		"ts-pnp": "1.2.0",
@@ -89,12 +95,13 @@
 		"url-loader": "4.1.1",
 		"use-constant": "^1.1.0",
 		"use-debounce": "^7.0.0",
+		"uuid": "^8.3.2",
 		"web-vitals": "^2.0.1",
 		"webpack": "4.44.2",
 		"webpack-dev-server": "3.11.2",
 		"webpack-manifest-plugin": "3.1.1",
 		"whatwg-fetch": "^3.6.2",
-		"workbox-webpack-plugin": "6.1.5"
+		"workbox-webpack-plugin": "^6.2.4"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "13.0.0",
@@ -117,7 +124,6 @@
 		"serve": "^12.0.0",
 		"standard-version": "9.3.0",
 		"ts-node": "^10.0.0",
-		"uuid": "^8.3.2",
 		"wait-on": "^5.3.0"
 	},
 	"scripts": {
