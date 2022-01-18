@@ -6,7 +6,7 @@ import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import {
-	IncomingVideoCallProps,
+	NOTIFICATION_TYPE_CALL,
 	VideoCallRequestProps
 } from '../incomingVideoCall/IncomingVideoCall';
 import {
@@ -45,8 +45,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		UnreadSessionsStatusContext
 	);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
-	const { notifications, setNotifications } =
-		useContext(NotificationsContext);
+	const { addNotification } = useContext(NotificationsContext);
 	const { setAnonymousEnquiryAccepted } = useContext(
 		AnonymousEnquiryAcceptedContext
 	);
@@ -147,18 +146,11 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 
 	useEffect(() => {
 		if (newStompVideoCallRequest) {
-			const requestedRoomAlreadyHasActiveVideoCall = notifications.some(
-				(notification) =>
-					notification.videoCall.rcGroupId ===
-					newStompVideoCallRequest.rcGroupId
-			);
-			if (!requestedRoomAlreadyHasActiveVideoCall) {
-				const newNotification: IncomingVideoCallProps = {
-					notificationType: 'call',
-					videoCall: newStompVideoCallRequest
-				};
-				setNotifications([...notifications, newNotification]);
-			}
+			addNotification({
+				id: newStompVideoCallRequest.rcGroupId,
+				notificationType: NOTIFICATION_TYPE_CALL,
+				videoCall: newStompVideoCallRequest
+			});
 		}
 	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
 

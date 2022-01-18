@@ -36,6 +36,14 @@ const profile = {
 	'data.lastName': 'Nachname',
 	'data.email': 'E-Mail-Adresse',
 	'data.agency': 'Beratungsstelle',
+
+	'data.agency.registrationLink.title':
+		'Registrierungslink zur Beratungsstelle in Zwischenablage kopieren',
+	'data.agency.registrationLink.text': 'Link kopieren',
+	'data.agency.registrationLink.notification.title': 'Link kopiert',
+	'data.agency.registrationLink.notification.text':
+		'Registrierungslink zur Beratungsstelle in Zwischenablage kopiert!',
+
 	'data.register.headline':
 		'Benötigen Sie auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Sie gerne.',
 	'data.register.consultingTypeSelect.label': 'Themenfelder',

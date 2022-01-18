@@ -299,6 +299,21 @@ $maxFormElementWidth: 320px;
 				color: $tertiary;
 			}
 		}
+
+		&__divider {
+			color: $black-25-opacity;
+			margin: 0 5px;
+		}
+
+		&__copy_registration_link {
+			cursor: pointer;
+			color: $primary;
+
+			.copy {
+				width: 16px;
+				height: 16px;
+			}
+		}
 	}
 
 	&__footer {

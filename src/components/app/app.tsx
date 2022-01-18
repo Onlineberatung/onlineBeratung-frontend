@@ -72,8 +72,14 @@ export const App = ({
 					)}
 					<Switch>
 						{extraRoutes}
+
 						{!hasUnmatchedRegistrationConsultingType && (
-							<Route path="/:consultingTypeSlug/registration">
+							<Route
+								path={[
+									'/registration',
+									'/:consultingTypeSlug/registration'
+								]}
+							>
 								<Registration
 									handleUnmatch={() =>
 										setHasUnmatchedRegistrationConsultingType(
