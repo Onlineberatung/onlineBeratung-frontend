@@ -5,11 +5,8 @@ import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-of
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { translate } from '../../utils/translate';
 import { useContext } from 'react';
-import { NotificationsContext } from '../../globalState';
-import {
-	getVideoCallUrl,
-	NotificationType
-} from '../../utils/videoCallHelpers';
+import { NotificationType, NotificationsContext } from '../../globalState';
+import { getVideoCallUrl } from '../../utils/videoCallHelpers';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { apiRejectVideoCall } from '../../api';
 import './incomingVideoCall.styles';
@@ -21,10 +18,19 @@ export interface VideoCallRequestProps {
 	videoCallUrl: string;
 }
 
-export interface IncomingVideoCallProps {
-	notificationType: NotificationType;
+export const NOTIFICATION_TYPE_CALL = 'call';
+export type NotificationTypeCall = typeof NOTIFICATION_TYPE_CALL;
+
+export interface IncomingVideoCallProps extends NotificationType {
+	notificationType: NotificationTypeCall;
 	videoCall: VideoCallRequestProps;
 }
+
+export const isNotificationTypeCall = (
+	notification: NotificationType
+): notification is IncomingVideoCallProps => {
+	return notification.notificationType === NOTIFICATION_TYPE_CALL;
+};
 
 const buttonAnswerCall: ButtonItem = {
 	icon: <CallOnIcon />,
@@ -59,8 +65,7 @@ const getInitials = (text: string) => {
 };
 
 export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
-	const { notifications, setNotifications } =
-		useContext(NotificationsContext);
+	const { removeNotification } = useContext(NotificationsContext);
 
 	const decodedUsername = decodeUsername(props.videoCall.initiatorUsername);
 
@@ -86,16 +91,14 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 	};
 
 	const removeIncomingVideoCallNotification = () => {
-		const currentNotifications = notifications.filter((notification) => {
-			return (
-				notification.videoCall.rcGroupId !== props.videoCall.rcGroupId
-			);
-		});
-		setNotifications(currentNotifications);
+		removeNotification(props.videoCall.rcGroupId, NOTIFICATION_TYPE_CALL);
 	};
 
 	return (
-		<div className="incomingVideoCall" data-cy="incoming-video-call">
+		<div
+			className="notification incomingVideoCall"
+			data-cy="incoming-video-call"
+		>
 			<p className="incomingVideoCall__description">
 				<span className="incomingVideoCall__username">
 					{decodedUsername}

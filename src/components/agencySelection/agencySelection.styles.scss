@@ -48,14 +48,14 @@ $infoIconSize: 16px;
 		}
 
 		&--warning {
-			.text__infoSmall {
+			.text__infoLargeAlternative {
 				color: $primary;
 			}
 
 			a {
 				display: block;
-				font-size: $font-size-secondary;
-				line-height: $line-height-secondary;
+				font-size: $font-size-tertiary;
+				line-height: 19px;
 				text-decoration: underline;
 				transition: all 0.6s ease;
 			}

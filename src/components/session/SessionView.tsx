@@ -22,7 +22,8 @@ import {
 	UpdateSessionListContext,
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	isAnonymousSession
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
@@ -77,6 +78,8 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 	);
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
+	const isLiveChat = isAnonymousSession(activeSession?.session);
+	const isTypingActive = isGroupChat || isLiveChat;
 	const groupId = activeSession?.isFeedbackSession
 		? chatItem?.feedbackGroupId
 		: chatItem?.groupId;
@@ -142,21 +145,20 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 	};
 
 	const fetchSessionMessages = (isSocketConnected: boolean = false) => {
-		const rcGroupId = props.match.params.rcGroupId;
-		apiGetSessionData(rcGroupId)
+		apiGetSessionData(groupIdFromParam)
 			.then((messagesData) => {
 				setLoadedMessages(messagesData);
 				setIsLoading(false);
 
-				if (!isSocketConnected && !isConsultantEnquiry) {
+				if (!isSocketConnected && !isConsultantEnquiry && groupId) {
 					setSessionToRead();
 					window['socket'].connect();
 					window['socket'].addSubscription(
 						SOCKET_COLLECTION.ROOM_MESSAGES,
-						[groupId, false],
+						[groupIdFromParam, false],
 						handleRoomMessage
 					);
-					if (isGroupChat) {
+					if (isTypingActive) {
 						window['socket'].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_USER,
 							[
@@ -169,7 +171,7 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 						window['socket'].addSubscription(
 							SOCKET_COLLECTION.NOTIFY_ROOM,
 							[
-								`${groupId}/typing`,
+								`${groupIdFromParam}/typing`,
 								{ useCollection: false, args: [] }
 							],
 							(data) => handleTypingResponse(data)
@@ -300,7 +302,7 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 	};
 
 	const handleTyping = () => {
-		if (isGroupChat && window['socket']) {
+		if (isTypingActive && window['socket']) {
 			if (!typingStatusSent) {
 				window['socket'].sendTypingState(
 					SOCKET_COLLECTION.NOTIFY_ROOM,

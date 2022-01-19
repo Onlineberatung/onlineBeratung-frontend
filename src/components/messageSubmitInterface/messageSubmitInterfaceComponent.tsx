@@ -165,6 +165,7 @@ export const MessageSubmitInterfaceComponent = (
 	const chatItem = getChatItemForSession(activeSession);
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
+	const isTypingActive = isGroupChat || isLiveChat;
 	const isLiveChatFinished = chatItem?.status === 3;
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
@@ -330,7 +331,7 @@ export const MessageSubmitInterfaceComponent = (
 
 	const handleEditorChange = (currentEditorState) => {
 		if (
-			isGroupChat &&
+			isTypingActive &&
 			currentEditorState.getCurrentContent() !==
 				editorState.getCurrentContent()
 		) {
@@ -719,10 +720,10 @@ export const MessageSubmitInterfaceComponent = (
 			className={clsx(
 				props.className,
 				'messageSubmit__wrapper',
-				isGroupChat && 'messageSubmit__wrapper--withTyping'
+				isTypingActive && 'messageSubmit__wrapper--withTyping'
 			)}
 		>
-			{isGroupChat && (
+			{isTypingActive && (
 				<TypingIndicator
 					disabled={
 						!(props.typingUsers && props.typingUsers.length > 0)

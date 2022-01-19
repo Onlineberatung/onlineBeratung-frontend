@@ -36,6 +36,14 @@ const profile = {
 	'data.lastName': 'Nachname',
 	'data.email': 'E-Mail-Adresse',
 	'data.agency': 'Beratungsstelle',
+
+	'data.agency.registrationLink.title':
+		'Registrierungslink zur Beratungsstelle in Zwischenablage kopieren',
+	'data.agency.registrationLink.text': 'Link kopieren',
+	'data.agency.registrationLink.notification.title': 'Link kopiert',
+	'data.agency.registrationLink.notification.text':
+		'Registrierungslink zur Beratungsstelle in Zwischenablage kopiert!',
+
 	'data.register.headline':
 		'Benötigen Sie auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Sie gerne.',
 	'data.register.consultingTypeSelect.label': 'Themenfelder',
@@ -56,7 +64,7 @@ const profile = {
 		'Ihre gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung',
 	'externalRegistration.copy.start': 'Möchten Sie für „',
 	'externalRegistration.copy.end':
-		'“ zu der anderen Anwendung wechseln und sich dort registrieren? Ihre bisherigen Beratungs- und Hilfethemen finden Sie weiterhin hier.',
+		'“ zu der anderen Anwendung wechseln und sich dort registrieren?',
 	'externalRegistration.submit': 'Jetzt wechseln',
 	'externalRegistration.cancel': 'Abbrechen',
 	'footer.imprint': 'Impressum',
@@ -71,15 +79,30 @@ const profile = {
 	'statistics.period.display.prefix': 'Im Zeitraum vom ',
 	'statistics.period.display.suffix': ' haben Sie:',
 	'statistics.complete.title':
-		'Ihre Statistik über Ihren gesamten Beratungszeitraum können Sie hier herunterladen:',
-	'statistics.complete.filename': 'Gesamtstatistik Online-Beratung.csv',
+		'Ihre Statistik über Ihren gewählten Beratungszeitraum können Sie hier herunterladen:',
+	'statistics.complete.filename': 'Statistik Online-Beratung',
 	'statistics.complete.download.label': 'Download Excel Datei',
 	'statistics.csvHeader.numberOfAssignedSessions': 'Beratungen angenommen',
 	'statistics.csvHeader.numberOfSentMessages': 'Nachrichten geschrieben',
 	'statistics.csvHeader.numberOfSessionsWhereConsultantWasActive':
 		'Aktive Beratungen',
 	'statistics.csvHeader.videoCallDuration':
-		'Dauer von Videoanrufen in Minuten'
+		'Dauer von Videoanrufen in Minuten',
+	'unsetEmail.confirmOverlay.headline':
+		'Möchten Sie Ihre E-Mail Adresse wirklich löschen?',
+	'unsetEmail.confirmOverlay.copy': 'Wenn Sie ihre E-Mail Adresse löschen:',
+	'unsetEmail.confirmOverlay.benefit.1':
+		'erhalten Sie keine E-Mail-Benachrichtigung, wenn Ihre Berater_in Ihnen geschrieben hat',
+	'unsetEmail.confirmOverlay.benefit.2':
+		'können Sie Ihr Passwort nicht zurücksetzen, falls Sie es vergessen haben.',
+	'unsetEmail.confirmOverlay.button.confirm': 'Löschen',
+	'unsetEmail.confirmOverlay.button.deny': 'Abbrechen',
+	'unsetEmail.errorOverlay.headline':
+		'Ups! Wir konnten die E-Mail Adresse gerade nicht löschen. Bitte versuchen Sie es noch einmal.',
+	'unsetEmail.errorOverlay.button': 'ok',
+	'unsetEmail.successOverlay.headline':
+		'Sie haben Ihre E-Mail Adresse erfolgreich gelöscht.',
+	'unsetEmail.successOverlay.button': 'ok'
 };
 
 export default profile;

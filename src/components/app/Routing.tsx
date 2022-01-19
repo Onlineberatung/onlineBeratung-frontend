@@ -11,10 +11,10 @@ import {
 } from './RouterConfig';
 import { AbsenceHandler } from './AbsenceHandler';
 import {
-	SessionsDataContext,
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	SessionsDataContext
 } from '../../globalState';
 import { history } from './app';
 import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';

@@ -67,6 +67,7 @@ export const config = {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
 		toLogin: uiUrl + '/login',
+		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
@@ -78,5 +79,6 @@ export const config = {
 		error500: uiUrl + '/error.500.html',
 		error401: uiUrl + '/error.401.html',
 		error404: uiUrl + '/error.404.html'
-	}
+	},
+	postcodeFallbackUrl: '{url}'
 };
