@@ -20,6 +20,7 @@ import { PreselectedAgency } from './PreselectedAgency';
 import { Headline } from '../headline/Headline';
 import { parsePlaceholderString } from '../../utils/parsePlaceholderString';
 import { config } from '../../resources/scripts/config';
+import { Notice } from '../notice/Notice';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
@@ -281,13 +282,18 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							</h3>
 							{!proposedAgencies ? (
 								postcodeFallbackLink ? (
-									<div className="agencySelection__proposedAgencies--warning">
+									<Notice
+										className="agencySelection__proposedAgencies--warning"
+										title={translate(
+											'registration.agencySelection.postcode.unavailable.title'
+										)}
+									>
 										<Text
 											text={translate(
-												'registration.agencySelection.postcode.unavailable'
+												'registration.agencySelection.postcode.unavailable.text'
 											)}
 											type="infoLargeAlternative"
-										/>{' '}
+										/>
 										<a
 											href={postcodeFallbackLink}
 											target="_blank"
@@ -297,7 +303,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												'registration.agencySelection.postcode.search'
 											)}
 										</a>
-									</div>
+									</Notice>
 								) : (
 									<Loading />
 								)
