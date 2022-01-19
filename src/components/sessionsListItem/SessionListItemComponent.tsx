@@ -170,20 +170,22 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 		return (
 			<div
 				onClick={handleOnClick}
-				className={
-					activeSession && activeSession.chat?.id === listItem.id
-						? `sessionsListItem sessionsListItem--active`
-						: `sessionsListItem`
-				}
+				className={clsx(
+					'sessionsListItem',
+					activeSession &&
+						activeSession.chat?.id === listItem.id &&
+						'sessionsListItem--active'
+				)}
 				data-group-id={listItem.groupId ? listItem.groupId : ''}
 				data-cy="session-list-item"
 			>
 				<div
-					className={
-						activeSession && activeSession.chat?.id === listItem.id
-							? `sessionsListItem__content sessionsListItem__content--active`
-							: `sessionsListItem__content`
-					}
+					className={clsx(
+						'sessionsListItem__content',
+						activeSession &&
+							activeSession.chat?.id === listItem.id &&
+							'sessionsListItem__content--active'
+					)}
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
@@ -198,11 +200,11 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 							<Icon />
 						</div>
 						<div
-							className={
-								isRead
-									? `sessionsListItem__username sessionsListItem__username--readLabel`
-									: `sessionsListItem__username`
-							}
+							className={clsx(
+								'sessionsListItem__username',
+								isRead &&
+									'sessionsListItem__username--readLabel'
+							)}
 						>
 							{listItem.topic}
 						</div>
@@ -288,11 +290,10 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 						<Icon />
 					</div>
 					<div
-						className={
-							isRead
-								? `sessionsListItem__username sessionsListItem__username--readLabel`
-								: `sessionsListItem__username`
-						}
+						className={clsx(
+							'sessionsListItem__username',
+							isRead && 'sessionsListItem__username--readLabel'
+						)}
 					>
 						{hasUserAuthority(
 							AUTHORITIES.ASKER_DEFAULT,

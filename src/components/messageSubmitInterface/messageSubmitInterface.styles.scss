@@ -60,7 +60,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 			overflow: hidden;
 			outline: none;
 			border: 1px solid $form-input-border;
-			border-radius: 0 $grid-base-three $grid-base-three 0;
+			border-radius: 0 4px 4px 0;
 			background-color: $white;
 			resize: none;
 			box-sizing: border-box;
@@ -179,7 +179,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 			width: $sendInputHeight;
 			height: $sendInputHeight;
 			padding-left: 7px;
-			border-radius: $sendInputHeight/2 0 0 $sendInputHeight/2;
+			border-radius: 4px 0 0 4px;
 			background: $white;
 			border: 1px solid $form-input-border;
 			box-shadow: inset 0 2px 0 0 $inputShadowColor;
@@ -271,7 +271,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 
 		.public-DraftEditorPlaceholder-root {
 			position: absolute;
-			color: $light-grey;
+			color: var(--skin-line-grey, $light-grey);
 		}
 
 		&__attachmentSelect {
