@@ -53,7 +53,7 @@ $inputHeight: 50px;
 		}
 
 		&__multi-value {
-			border-radius: $select-dropdown-border-radius;
+			border-radius: $select-dropdown-border-radius !important;
 		}
 
 		&--error {

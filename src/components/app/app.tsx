@@ -30,7 +30,7 @@ export const App = ({
 	legalComponent,
 	entryPoint,
 	extraRoutes,
-	spokenLanguages = ['de', 'en', 'fr', 'es', 'dk', 'it'],
+	spokenLanguages = ['de', 'en', 'fr', 'es', 'da', 'it'],
 	fixedLanguages = ['de']
 }: AppProps) => {
 	// The login is possible both at the root URL as well as with an

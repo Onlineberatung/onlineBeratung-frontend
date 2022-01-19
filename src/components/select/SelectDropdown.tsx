@@ -129,8 +129,8 @@ const colourStyles = {
 		const common = {
 			paddingLeft: '12px',
 			paddingRight: '12px',
-			paddingTop: '5px',
-			paddingBottom: '5px'
+			paddingTop: '4px',
+			paddingBottom: '4px'
 		};
 		return state.data.isFixed
 			? { ...styles, ...common, color: 'rgba(0,0,0,0.2)' }

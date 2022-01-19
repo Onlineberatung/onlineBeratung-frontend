@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { apiPutConsultantData } from '../../api';
 import { UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { SelectDropdown, SelectOption } from '../select/SelectDropdown';
 import { Text } from '../text/Text';
@@ -14,15 +15,28 @@ interface ConsultantSpokenLanguagesProps {
 	fixedLanguages: string[];
 }
 
+const cancelEditButton: ButtonItem = {
+	label: translate('profile.data.edit.button.cancel'),
+	type: BUTTON_TYPES.LINK
+};
+
+const saveEditButton: ButtonItem = {
+	label: translate('profile.data.edit.button.save'),
+	type: BUTTON_TYPES.LINK
+};
+
 export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps> =
 	({ spokenLanguages, fixedLanguages }) => {
 		const { userData, setUserData } = useContext(UserDataContext);
 		const [hasError, setHasError] = useState(false);
 		const [selectedLanguages, setSelectedLanguages] =
 			useState(fixedLanguages);
+		const [previousLanguages, setPreviousLanguages] =
+			useState(fixedLanguages);
 
 		useEffect(() => {
 			setSelectedLanguages([...userData.languages]);
+			setPreviousLanguages([...userData.languages]);
 		}, [userData]);
 
 		const selectHandler = (e: SelectOption[]) => {
@@ -31,19 +45,29 @@ export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps>
 				...e.map((languageObject) => languageObject.value)
 			];
 
-			setHasError(true);
+			setSelectedLanguages(newLanguages.filter(isUniqueLanguage));
+		};
+
+		const cancelHandler = () => {
+			setSelectedLanguages(previousLanguages);
+		};
+
+		const saveHandler = () => {
+			setHasError(false);
 
 			apiPutConsultantData({
 				email: userData.email.trim(),
 				firstname: userData.firstName.trim(),
 				lastname: userData.lastName.trim(),
-				languages: newLanguages.filter(isUniqueLanguage)
+				languages: selectedLanguages.filter(isUniqueLanguage)
 			})
 				.then(() => {
-					const updatedUserData = { ...userData };
+					const updatedUserData = {
+						...userData,
+						languages: selectedLanguages.filter(isUniqueLanguage)
+					};
 
 					setUserData(updatedUserData);
-					setSelectedLanguages(newLanguages); // TODO CHECK IF THIS IS NEEDED
 				})
 				.catch(() => {
 					setHasError(true);
@@ -77,23 +101,40 @@ export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps>
 						type="infoLargeAlternative"
 					/>
 
-					<SelectDropdown
-						handleDropdownSelect={selectHandler}
-						id="spoken-languages-select"
-						menuPlacement="bottom"
-						selectedOptions={languageOptions}
-						isClearable={false}
-						isSearchable
-						isMulti
-						hasError={hasError}
-						errorMessage={translate(
-							'profile.functions.spokenLanguages.saveError'
+					<div>
+						<SelectDropdown
+							handleDropdownSelect={selectHandler}
+							id="spoken-languages-select"
+							menuPlacement="bottom"
+							selectedOptions={languageOptions}
+							isClearable={false}
+							isSearchable
+							isMulti
+							hasError={hasError}
+							errorMessage={translate(
+								'profile.functions.spokenLanguages.saveError'
+							)}
+							defaultValue={languageOptions.filter(
+								(option) =>
+									selectedLanguages.indexOf(option.value) !==
+									-1
+							)}
+						/>
+
+						{JSON.stringify(previousLanguages) !==
+							JSON.stringify(selectedLanguages) && (
+							<div className="spokenLanguages__buttons">
+								<Button
+									item={cancelEditButton}
+									buttonHandle={cancelHandler}
+								/>
+								<Button
+									item={saveEditButton}
+									buttonHandle={saveHandler}
+								/>
+							</div>
 						)}
-						defaultValue={languageOptions.filter(
-							(option) =>
-								selectedLanguages.indexOf(option.value) !== -1
-						)}
-					/>
+					</div>
 				</div>
 			</div>
 		);
