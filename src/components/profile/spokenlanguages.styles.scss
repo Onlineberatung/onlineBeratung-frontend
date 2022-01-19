@@ -1,4 +1,8 @@
 .spokenLanguages {
+	.text {
+		max-width: 600px;
+	}
+
 	&__languageSelect {
 		@include breakpoint($fromMedium) {
 			display: flex;

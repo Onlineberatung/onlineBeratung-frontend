@@ -127,11 +127,11 @@ export const Profile = (props: ProfileProps) => {
 								text={translate('profile.data.title')}
 								type="divider"
 							/>
+							<ConsultantStatistics />
 							<ConsultantSpokenLanguages
 								spokenLanguages={props.spokenLanguages}
 								fixedLanguages={props.fixedLanguages}
 							/>
-							<ConsultantStatistics />
 							<ConsultantPrivateData />
 							<ConsultantPublicData />
 						</div>

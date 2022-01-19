@@ -65,7 +65,7 @@ const profile = {
 	'footer.dataprotection': 'Datenschutz',
 	'spokenLanguages.title': 'Meine Sprachen',
 	'spokenLanguages.info':
-		'Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.',
+		'Wählen Sie die Sprache(n) aus, in der Sie die Ratsuchenden beraten können. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.',
 	'spokenLanguages.prefix': 'Sprachauswahl',
 	'statistics.title': 'Meine Statistik',
 	'statistics.period.prefix': 'Ihre Zahlen des',
