@@ -50,11 +50,10 @@ export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps>
 
 		const cancelHandler = () => {
 			setSelectedLanguages(previousLanguages);
+			setHasError(false);
 		};
 
 		const saveHandler = () => {
-			setHasError(false);
-
 			apiPutConsultantData({
 				email: userData.email.trim(),
 				firstname: userData.firstName.trim(),
@@ -68,6 +67,7 @@ export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps>
 					};
 
 					setUserData(updatedUserData);
+					setHasError(false);
 				})
 				.catch(() => {
 					setHasError(true);
