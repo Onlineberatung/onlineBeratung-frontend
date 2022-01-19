@@ -25,7 +25,9 @@ const registration = {
 	'agencySelection.intro.point3':
 		'Sie gegebenfalls auch vor Ort beraten kann.',
 	'agencySelection.postcode.label': 'Ihre Postleitzahl',
-	'agencySelection.postcode.unavailable':
+	'agencySelection.postcode.unavailable.title':
+		'Keine Beratungsstelle in der Nähe gefunden',
+	'agencySelection.postcode.unavailable.text':
 		'Momentan haben wir leider noch keine Online-Beratungsstelle in Ihrer Nähe. Auf unserer Webseite finden Sie Beratungsstellen vor Ort für Ihr Anliegen.',
 	'agencySelection.postcode.search': 'Zur Beratungsstellensuche',
 	'agencyPreselected.headline': 'Bitte geben Sie Ihre Postleitzahl an',

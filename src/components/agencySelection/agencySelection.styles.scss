@@ -48,16 +48,13 @@ $infoIconSize: 16px;
 		}
 
 		&--warning {
-			.text__infoLargeAlternative {
-				color: $primary;
+			p {
+				margin-bottom: 20px;
 			}
 
 			a {
 				display: block;
-				font-size: $font-size-tertiary;
-				line-height: 19px;
 				text-decoration: underline;
-				transition: all 0.6s ease;
 			}
 		}
 	}
