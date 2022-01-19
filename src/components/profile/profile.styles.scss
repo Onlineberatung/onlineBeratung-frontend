@@ -328,14 +328,14 @@ $maxFormElementWidth: 320px;
 		}
 
 		&__item {
-			color: var(--skin-color-secondary, $secondary);
+			color: var(--skin-color-default, $secondary);
 
 			&:not(:first-child) {
 				margin-left: 20px;
 			}
 
 			&:hover {
-				color: var(--skin-color-primary, $primary);
+				color: var(--skin-color-default, $primary);
 			}
 		}
 	}

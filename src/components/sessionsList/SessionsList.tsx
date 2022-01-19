@@ -69,8 +69,6 @@ export const SessionsList: React.FC = () => {
 	const { sessionsData, setSessionsData } = sessionsContext;
 	const { filterStatus, setFilterStatus } = useContext(FilterStatusContext);
 
-	console.log('Sessions', filterStatus);
-
 	const currentFilter = useMemo(() => filterStatus, [filterStatus]);
 	const [sessionListTab, setSessionListTab] = useState(
 		new URLSearchParams(location.search).get('sessionListTab')

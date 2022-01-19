@@ -14,7 +14,7 @@ $checkbox-size: 24px;
 
 	&__label {
 		cursor: pointer;
-		color: var(--skin-color-secondary, $secondary);
+		color: var(--skin-color-default, $secondary);
 		margin: 0 0 0 12px;
 		line-height: 24px;
 	}
@@ -47,7 +47,7 @@ $checkbox-size: 24px;
 	}
 
 	&__icon {
-		color: var(--skin-color-primary, $primary);
+		color: var(--skin-color-default, $primary);
 		left: 0;
 		padding: 2px;
 		position: absolute;
