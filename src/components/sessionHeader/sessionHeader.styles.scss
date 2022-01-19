@@ -61,17 +61,17 @@ $iconSize: 24px;
 		svg {
 			width: $iconSize;
 			height: $iconSize;
-			fill: $secondary;
+			fill: var(--skin-color-default, $secondary);
 
 			svg path {
-				fill: $secondary;
+				fill: var(--skin-color-default, $secondary);
 			}
 
 			&:hover {
-				fill: var(--skin-color-primary, $primary);
+				fill: var(--skin-color-default, $primary);
 
 				svg path {
-					fill: var(--skin-color-primary, $primary);
+					fill: var(--skin-color-default, $primary);
 				}
 			}
 		}
@@ -98,7 +98,7 @@ $iconSize: 24px;
 		}
 
 		h3 {
-			color: var(--skin-color-secondary, $secondary);
+			color: var(--skin-color-default, $secondary);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -248,7 +248,6 @@ $iconSize: 24px;
 				border-left: 10px solid transparent;
 				border-right: 10px solid transparent;
 				margin-left: -10px;
-				-webkit-transform: rotate(180deg);
 				transform: rotate(180deg);
 
 				@include breakpoint($fromSmall) {

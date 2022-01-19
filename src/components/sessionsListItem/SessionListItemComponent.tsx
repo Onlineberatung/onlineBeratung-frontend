@@ -38,6 +38,7 @@ import './sessionsListItem.styles';
 import { Tag } from '../tag/Tag';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
+import clsx from 'clsx';
 
 interface SessionListItemProps {
 	type: SESSION_LIST_TYPES;
@@ -54,6 +55,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext<any>(
 		ActiveSessionGroupIdContext
 	);
+
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const [isRead, setIsRead] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
@@ -65,6 +67,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	].filter((session) => props.id === getChatItemForSession(session).id)[0];
 	const listItem =
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
+
+	const isFeedbackChat = listItem.feedbackGroupId === activeSessionGroupId;
+
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
 	const isLiveChat = isAnonymousSession(currentSessionData?.session);
 	const isLiveChatFinished = listItem.status === 3;
@@ -233,12 +238,14 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	return (
 		<div
 			onClick={handleOnClick}
-			className={
-				(activeSession && activeSession.session?.id === listItem?.id) ||
-				activeSessionGroupId === listItem.id
-					? `sessionsListItem sessionsListItem--active`
-					: `sessionsListItem`
-			}
+			className={clsx(
+				`sessionsListItem`,
+				((activeSession &&
+					activeSession.session?.id === listItem?.id) ||
+					activeSessionGroupId === listItem.id) &&
+					`sessionsListItem--active`,
+				isFeedbackChat && 'sessionsListItem--yellowTheme'
+			)}
 			data-group-id={listItem.groupId}
 			data-cy="session-list-item"
 		>
@@ -311,9 +318,7 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 							{plainTextLastMessage}
 						</div>
 					) : (
-						(isCurrentSessionNewEnquiry || isLiveChat) && (
-							<span></span>
-						)
+						(isCurrentSessionNewEnquiry || isLiveChat) && <span />
 					)}
 					{listItem.attachment && (
 						<SessionListItemAttachment

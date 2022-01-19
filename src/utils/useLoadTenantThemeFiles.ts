@@ -77,30 +77,20 @@ const hexToRGB = (hex) => {
 	return RGBToHSL(r, g, b);
 };
 
-/*
-	Buttons + Links etc will be
-	1. primary color, if not to light to be readable on white
-	2. secondary color, if not to light to be readable on white
-	3. default text color
+/**
+ * adjusting colors via lightness, for hover effects, etc.
+ * @param color {object}
+ * @param adjust {number}
+ * @return {string}
  */
-const setLinkColor = ({
-	primaryHSL,
-	secondaryHSL,
-	contrastThreshold,
-	darken = 0
-}) => {
-	let color = 'var(--skin-color-link-dark)';
-	if (secondaryHSL.l < contrastThreshold) {
-		color = `hsl(${secondaryHSL.h}, ${secondaryHSL.s}%, ${
-			secondaryHSL.l - darken
-		}%)`;
-	}
-	if (primaryHSL.l < contrastThreshold) {
-		color = `hsl(${primaryHSL.h}, ${primaryHSL.s}%, ${
-			primaryHSL.l - darken
-		}%)`;
-	}
-	return color;
+const adjustHSLColor = ({
+	color,
+	adjust
+}: {
+	color: Record<string, any>;
+	adjust: number;
+}): string => {
+	return `hsl(${color.h}, ${color.s}%, ${adjust}%)`;
 };
 
 const createCSS = ({ primaryColor, secondaryColor, logo }) => {
@@ -114,23 +104,24 @@ const createCSS = ({ primaryColor, secondaryColor, logo }) => {
 		`<style>
 		:root {
 		--skin-color-primary: ${primaryColor};
+		--skin-color-primary-hover: ${
+			primaryHSL.l < contrastThreshold
+				? adjustHSLColor({
+						color: primaryHSL,
+						adjust: primaryHSL.l + 10
+				  }) // lighter
+				: adjustHSLColor({
+						color: primaryHSL,
+						adjust: primaryHSL.l - 1
+				  }) // darker
+		};
 		--skin-color-secondary: ${secondaryColor};
-		--skin-color-secondary-light: hsla(${secondaryHSL.h}, ${secondaryHSL.s}%, ${
-			secondaryHSL.l
-		}%, 0.1);
-		--skin-color-link: ${setLinkColor({
-			primaryHSL,
-			secondaryHSL,
-			contrastThreshold,
-			darken: 0
+		--skin-color-secondary-light: ${adjustHSLColor({
+			color: secondaryHSL,
+			adjust: 90
 		})};
-		--skin-color-link-hover: ${setLinkColor({
-			primaryHSL,
-			secondaryHSL,
-			contrastThreshold,
-			darken: 10
-		})};
-		--navigation-color-link: ${
+		
+		--text-color-contrast-switch: ${
 			primaryHSL.l < contrastThreshold
 				? 'var(--skin-color-link-light)'
 				: 'var(--skin-color-link-dark)'
@@ -154,6 +145,12 @@ const createCSS = ({ primaryColor, secondaryColor, logo }) => {
 		}
 		a:hover {
 			color: var(--skin-color-link-hover);
+		}
+		
+		
+		.loginForm button:not(.button__item--disabled) {
+			background-color: var(--skin-color-primary) ;
+			color: var(--text-color-contrast-switch);
 		}
 		
 		</style>`
@@ -201,8 +198,8 @@ const useLoadTenantThemeFiles = () => {
 			setLoaded(true);
 		}
 
-		if (tenant?.primaryColor && tenant?.secondaryColor) {
-			const { primaryColor, secondaryColor, logo } = tenant;
+		if (tenant?.theming) {
+			const { primaryColor, secondaryColor, logo } = tenant.theming;
 			createCSS({ primaryColor, secondaryColor, logo });
 		}
 	}, [subdomain, fetchThemeData, tenant, loaded]);

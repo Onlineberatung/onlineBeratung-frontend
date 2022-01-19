@@ -48,7 +48,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		height: $grid-base-five;
 		width: $grid-base-five;
 		margin: 0;
-		color: var(--navigation-color-link, $white);
+		color: var(--text-color-contrast-switch, $white);
 		text-align: center;
 		text-decoration: none;
 
@@ -134,7 +134,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
 		&:hover,
 		&--active {
-			color: var(--navigation-color-link, $white);
+			color: var(--text-color-contrast-switch, $white);
 
 			.navigation__title {
 				opacity: 1;

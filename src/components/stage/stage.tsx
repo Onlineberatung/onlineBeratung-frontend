@@ -27,7 +27,7 @@ export const Stage = ({
 		>
 			<div className="stage__headline">
 				<h1>{tenant.name}</h1>
-				<h4>{tenant.slogan}</h4>
+				<h4>{tenant.content.claim}</h4>
 			</div>
 
 			{hasAnimation ? <Spinner className="stage__spinner" /> : null}

@@ -1,0 +1,27 @@
+:root {
+	--skin-color-default: #{$body-font-color};
+	--message: #{$message-submit-interface-textarea-background-color};
+}
+
+$loginFormIconTranslate: 32px;
+
+.loginForm {
+	&__headline,
+	&__register,
+	.button__wrapper,
+	&__passwordReset {
+		transform: translateX($loginFormIconTranslate);
+	}
+
+	@include breakpoint($fromLarge) {
+		.button__primary.button__item {
+			width: $max-input-width - $loginFormIconTranslate;
+		}
+	}
+}
+
+.session__scrollToBottom {
+	.button__smallIcon.button__smallIcon--grey {
+		background-color: var(--skin-color-secondary);
+	}
+}

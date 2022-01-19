@@ -1,18 +1,24 @@
 import * as React from 'react';
 import { createContext, useState } from 'react';
-import { TenantDataInterface } from '../interfaces/TenantInterface';
+import { TenantDataInterface } from '../interfaces/TenantDataInterface';
 
-const initialTenantProps = {
+const initialTenantProps: TenantDataInterface = {
+	id: null,
+	name: '',
 	subdomain: '',
 	host: '',
 	protocol: '',
 	origin: '',
-	id: undefined,
-	name: '',
-	slogan: '',
-	primaryColor: '',
-	secondaryColor: '',
-	logo: ''
+	theming: {
+		logo: '',
+		favicon: '',
+		primaryColor: '',
+		secondaryColor: ''
+	},
+	content: {
+		impressum: '',
+		claim: ''
+	}
 };
 
 export const TenantContext = createContext<any>({});

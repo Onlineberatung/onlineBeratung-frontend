@@ -61,8 +61,8 @@ $yellow-5: #ff9f00;
 $yellow-6: #de8a00;
 
 $message-name-self: $form-primary;
-$message-name-system: var(--skin-color-primary, $primary);
-$message-name-consultant: var(--skin-color-primary, $primary);
+$message-name-system: var(--skin-color-default, $primary);
+$message-name-consultant: var(--skin-color-default, $primary);
 $message-name-user: #1b998b;
 $message-name-forwarded: $yellow-6;
 
@@ -178,9 +178,9 @@ $input-field-height: 50px;
 $legal-information-links-left-default: auto;
 $legal-information-links-left-medium: auto;
 $legal-information-links-left-large: auto;
-$login-align-items: center;
+$login-align-items: flex-start;
 $login-button-width: auto;
-$login-text-align: center;
+$login-text-align: left;
 $max-input-width: 320px;
 $message-background: pink;
 $message-item-divider-color: inherit;

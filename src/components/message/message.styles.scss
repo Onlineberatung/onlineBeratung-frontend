@@ -145,7 +145,7 @@ $message-lineheight: 21px;
 	}
 
 	&__message {
-		color: var(--skin-color-secondary, $secondary);
+		color: var(--skin-color-default, $secondary);
 		line-height: $message-lineheight;
 		background-color: $white;
 		border-radius: 0 12px 12px;
@@ -254,8 +254,8 @@ $message-lineheight: 21px;
 		}
 
 		&--myMessage {
-			color: $white;
-			background-color: $message-background;
+			color: var(--text-color-contrast-switch, $white);
+			background-color: var(--skin-color-primary, $message-background);
 
 			.messageItem__message__attachment {
 				background-color: $white;

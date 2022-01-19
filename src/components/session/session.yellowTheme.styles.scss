@@ -4,3 +4,12 @@
 		background-color: var(--skin-color-secondary-light, $yellow-2);
 	}
 }
+
+.sessionsListItem--yellowTheme {
+	.sessionsListItem__content {
+		background-color: var(--skin-color-secondary-light, $yellow-2);
+	}
+	&:after {
+		background-color: var(--skin-color-secondary-light, $yellow-2);
+	}
+}
