@@ -53,7 +53,8 @@ export const ConsultantPrivateData = () => {
 			apiPutConsultantData({
 				email: email.trim(),
 				firstname: firstName.trim(),
-				lastname: lastName.trim()
+				lastname: lastName.trim(),
+				languages: userData.languages
 			})
 				.then((response) => {
 					setIsRequestInProgress(false);
