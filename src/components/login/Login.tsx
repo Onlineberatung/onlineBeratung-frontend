@@ -18,6 +18,7 @@ import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
+import useIsFirstVisit from '../../utils/useIsFirstVisit';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -43,7 +44,6 @@ export const Login = ({
 	const [showLoginError, setShowLoginError] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
-	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 
 	useEffect(() => {
 		setShowLoginError('');
@@ -157,15 +157,12 @@ export const Login = ({
 		}
 	};
 
-	useEffect(() => {
-		setShowAnimation(sessionStorage.getItem('visited') !== 'true');
-		sessionStorage.setItem('visited', 'true');
-	}, []);
+	const isFirstVisit = useIsFirstVisit();
 
 	return (
 		<StageLayout
 			legalComponent={legalComponent}
-			stage={<Stage hasAnimation={showAnimation} />}
+			stage={<Stage hasAnimation={isFirstVisit} />}
 			showLegalLinks
 		>
 			<div className="loginForm">

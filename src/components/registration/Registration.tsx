@@ -22,6 +22,7 @@ import { StageLayout } from '../stageLayout/StageLayout';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { redirectToRegistrationWithoutAid } from './prefillPostcode';
 import { isNumber } from '../../utils/isNumber';
+import useIsFirstVisit from '../../utils/useIsFirstVisit';
 
 interface RegistrationProps {
 	handleUnmatch: Function;
@@ -43,7 +44,6 @@ export const Registration = ({
 	const [consultingType, setConsultingType] = useState<
 		ConsultingTypeInterface | undefined
 	>();
-	const [showAnimation, setShowAnimation] = useState<boolean>(false);
 	const [agency, setAgency] = useState<AgencyDataInterface | null>(null);
 	const [isReady, setIsReady] = useState(false);
 
@@ -137,17 +137,14 @@ export const Registration = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [consultingTypeSlug, agencyId]);
 
-	useEffect(() => {
-		setShowAnimation(sessionStorage.getItem('visited') !== 'true');
-		sessionStorage.setItem('visited', 'true');
-	}, []);
+	const isFirstVisit = useIsFirstVisit();
 
 	return (
 		<StageLayout
 			legalComponent={legalComponent}
 			showLegalLinks={true}
 			showLoginLink={!showWelcomeScreen}
-			stage={<Stage hasAnimation={showAnimation} isReady={isReady} />}
+			stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
 		>
 			{isReady &&
 				(showWelcomeScreen ? (
