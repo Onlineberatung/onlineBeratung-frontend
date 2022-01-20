@@ -50,6 +50,10 @@ export const App = ({
 		hasUnmatchedRegistrationConsultingType,
 		setHasUnmatchedRegistrationConsultingType
 	] = useState(false);
+	const [
+		hasUnmatchedRegistrationConsultant,
+		setHasUnmatchedRegistrationConsultant
+	] = useState(false);
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
 		useState<boolean>(false);
@@ -78,25 +82,32 @@ export const App = ({
 					<Switch>
 						{extraRoutes}
 
-						{!hasUnmatchedRegistrationConsultingType && (
-							<Route
-								path={[
-									'/registration',
-									'/:consultingTypeSlug/registration'
-								]}
-							>
-								<Registration
-									handleUnmatch={() =>
-										setHasUnmatchedRegistrationConsultingType(
-											true
-										)
-									}
-									legalComponent={legalComponent}
-									stageComponent={stageComponent}
-									fixedLanguages={fixedLanguages}
-								/>
-							</Route>
-						)}
+						{!hasUnmatchedRegistrationConsultingType &&
+							!hasUnmatchedRegistrationConsultant && (
+								<Route
+									path={[
+										'/registration',
+										'/:consultingTypeSlug/registration'
+									]}
+								>
+									<Registration
+										handleUnmatchConsultingType={() =>
+											setHasUnmatchedRegistrationConsultingType(
+												true
+											)
+										}
+										handleUnmatchConsultant={() => {
+											setHasUnmatchedRegistrationConsultant(
+												true
+											);
+										}}
+										legalComponent={legalComponent}
+										stageComponent={stageComponent}
+										fixedLanguages={fixedLanguages}
+									/>
+								</Route>
+							)}
+
 						{!hasUnmatchedAnonymousConversation && (
 							<Route path="/:consultingTypeSlug/warteraum">
 								<WaitingRoomLoader
@@ -112,7 +123,7 @@ export const App = ({
 							</Route>
 						)}
 						{!hasUnmatchedLoginConsultingType && (
-							<Route path={['/:consultingTypeSlug', '/login']}>
+							<Route path={['/login', '/:consultingTypeSlug']}>
 								<LoginLoader
 									handleUnmatch={() =>
 										setHasUnmatchedLoginConsultingType(true)

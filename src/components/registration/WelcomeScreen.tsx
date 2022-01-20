@@ -12,9 +12,15 @@ interface WelcomeScreenProps {
 	title: string;
 	handleForwardToRegistration: Function;
 	welcomeScreenConfig?: RegistrationWelcomeScreenInterface;
+	loginParams?: string;
 }
 
-export const WelcomeScreen = (props: WelcomeScreenProps) => {
+export const WelcomeScreen = ({
+	title,
+	handleForwardToRegistration,
+	welcomeScreenConfig,
+	loginParams
+}: WelcomeScreenProps) => {
 	const registrationButton: ButtonItem = {
 		label: translate('registration.welcomeScreen.register.buttonLabel'),
 		type: BUTTON_TYPES.PRIMARY
@@ -27,10 +33,10 @@ export const WelcomeScreen = (props: WelcomeScreenProps) => {
 
 	return (
 		<div className="registrationWelcome">
-			<Headline text={props.title} semanticLevel="2" />
+			<Headline text={title} semanticLevel="2" />
 			<h4>{translate('registration.welcomeScreen.subline')}</h4>
 			<ServiceExplanation
-				welcomeScreenConfig={props.welcomeScreenConfig}
+				welcomeScreenConfig={welcomeScreenConfig}
 				className="registrationWelcome__explanation"
 			/>
 			<div className="registrationWelcome__buttonsWrapper">
@@ -42,7 +48,7 @@ export const WelcomeScreen = (props: WelcomeScreenProps) => {
 						type="infoLargeAlternative"
 					/>
 					<Button
-						buttonHandle={props.handleForwardToRegistration}
+						buttonHandle={handleForwardToRegistration}
 						item={registrationButton}
 						testingAttribute="close-welcome-screen"
 					/>
@@ -52,7 +58,11 @@ export const WelcomeScreen = (props: WelcomeScreenProps) => {
 						text={translate('registration.login.helper')}
 						type="infoLargeAlternative"
 					/>
-					<a href={config.urls.toLogin}>
+					<a
+						href={`${config.urls.toLogin}${
+							loginParams ? `?${loginParams}` : ''
+						}`}
+					>
 						<Button isLink={true} item={loginButton} />
 					</a>
 				</div>

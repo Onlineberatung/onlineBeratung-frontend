@@ -212,7 +212,6 @@ export const AskerRegistration: React.FC<AskerRegistrationProps> = ({
 				<AgencySelection
 					consultingType={selectedConsultingType}
 					onAgencyChange={(agency) => setSelectedAgency(agency)}
-					userData={userData}
 					isProfileView={true}
 					agencySelectionNote={
 						selectedConsultingType?.registration?.notes

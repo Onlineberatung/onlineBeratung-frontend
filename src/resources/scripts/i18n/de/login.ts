@@ -14,7 +14,11 @@ const login = {
 	'register.infoText.copy': 'Wir beraten Sie gerne zu folgenden Themen:',
 	'register.linkLabel': 'Zur Übersicht',
 	'legal.infoText.impressum': 'Impressum',
-	'legal.infoText.dataprotection': 'Datenschutzerklärung'
+	'legal.infoText.dataprotection': 'Datenschutzerklärung',
+
+	'consultant.overlay.success.headline': 'Herzlich willkommen',
+	'consultant.overlay.success.button': 'Weiter',
+	'consultant.overlay.cancel.button': 'Zur Übersicht'
 };
 
 export default login;

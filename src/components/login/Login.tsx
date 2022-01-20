@@ -1,24 +1,60 @@
 import '../../polyfill';
 import * as React from 'react';
+import { generatePath } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import { ComponentType, useState, useEffect } from 'react';
+import {
+	ComponentType,
+	useState,
+	useEffect,
+	useCallback,
+	useMemo,
+	useContext
+} from 'react';
 import { config } from '../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
-import { autoLogin } from '../registration/autoLogin';
+import { autoLogin, redirectToApp } from '../registration/autoLogin';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { ReactComponent as VerifiedIcon } from '../../resources/img/icons/verified.svg';
 import { StageProps } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
-import { FETCH_ERRORS } from '../../api';
+import {
+	apiGetUserData,
+	apiRegistrationNewConsultingTypes,
+	FETCH_ERRORS
+} from '../../api';
 import { OTP_LENGTH } from '../profile/TwoFactorAuth';
 import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
+import { getUrlParameter } from '../../utils/getUrlParameter';
+import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
+import {
+	ConsultingTypeAgencySelection,
+	useConsultingTypeAgencySelection
+} from '../consultingTypeSelection/ConsultingTypeAgencySelection';
+import {
+	Overlay,
+	OVERLAY_FUNCTIONS,
+	OverlayItem,
+	OverlayWrapper
+} from '../overlay/Overlay';
+import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
+import {
+	VALIDITY_INITIAL,
+	VALIDITY_VALID
+} from '../registration/registrationHelpers';
+import {
+	AcceptedGroupIdContext,
+	AUTHORITIES,
+	hasUserAuthority,
+	UserDataInterface
+} from '../../globalState';
+import { history } from '../app/app';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -34,6 +70,14 @@ export const Login = ({
 	legalComponent,
 	stageComponent: Stage
 }: LoginProps) => {
+	const consultantId = getUrlParameter('cid');
+	const {
+		agency: preselectedAgency,
+		consultingType,
+		consultant,
+		loaded: isReady
+	} = useUrlParamsLoader();
+
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(
@@ -44,6 +88,8 @@ export const Login = ({
 	const [showLoginError, setShowLoginError] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
+
+	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
 	useEffect(() => {
 		setShowLoginError('');
@@ -61,6 +107,10 @@ export const Login = ({
 		setOtp('');
 		setIsOtpRequired(false);
 	}, [username]);
+
+	const [agency, setAgency] = useState(null);
+	const [registerOverlayActive, setRegisterOverlayActive] = useState(false);
+	const [validity, setValidity] = useState(VALIDITY_INITIAL);
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -104,14 +154,143 @@ export const Login = ({
 		setOtp(event.target.value);
 	};
 
+	const {
+		agencies: possibleAgencies,
+		consultingTypes: possibleConsultingTypes
+	} = useConsultingTypeAgencySelection(
+		consultant,
+		consultingType,
+		preselectedAgency
+	);
+
+	const registerOverlay = useMemo(
+		(): OverlayItem => ({
+			svg: WelcomeIcon,
+			headline: translate('login.consultant.overlay.success.headline'),
+			nestedComponent: (
+				<ConsultingTypeAgencySelection
+					consultant={consultant}
+					agency={agency}
+					preselectedConsultingType={consultingType}
+					preselectedAgency={preselectedAgency}
+					onChange={setAgency}
+					onValidityChange={(validity) => setValidity(validity)}
+				/>
+			),
+			buttonSet: [
+				{
+					label: translate('login.consultant.overlay.cancel.button'),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate('login.consultant.overlay.success.button'),
+					function: OVERLAY_FUNCTIONS.REDIRECT_WITH_BLUR,
+					type: BUTTON_TYPES.PRIMARY,
+					disabled: validity !== VALIDITY_VALID
+				}
+			]
+		}),
+		[agency, consultant, consultingType, preselectedAgency, validity]
+	);
+
+	const handleRegistration = useCallback(
+		(agency) => {
+			if (validity === VALIDITY_VALID) {
+				apiRegistrationNewConsultingTypes(
+					agency.consultingTypeRel.id,
+					agency.id,
+					agency.postcode,
+					consultantId
+				)
+					.catch((response) => response.json())
+					.then((response) => {
+						if (response instanceof Error) {
+							return redirectToApp();
+						}
+
+						if (response.rcGroupId) {
+							setAcceptedGroupId(response.rcGroupId);
+						} else if (response.sessionId) {
+							setAcceptedGroupId(response.sessionId);
+						}
+
+						if (!response.rcGroupId || !response.sessionId) {
+							history.push(config.endpoints.userSessionsListView);
+							return;
+						}
+
+						history.push(
+							generatePath(
+								`${config.endpoints.userSessionsListView}/:rcGroupId/:sessionId`,
+								response
+							)
+						);
+					});
+			}
+		},
+		[consultantId, setAcceptedGroupId, validity]
+	);
+
+	const handleOverlayAction = useCallback(
+		(buttonFunction: string) => {
+			if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_WITH_BLUR) {
+				handleRegistration(agency);
+			} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
+				redirectToApp();
+			}
+		},
+		[agency, handleRegistration]
+	);
+
+	useEffect(() => {
+		if (
+			possibleAgencies.length === 1 &&
+			possibleConsultingTypes.length === 1
+		) {
+			setAgency(possibleAgencies[0]);
+			setValidity(VALIDITY_VALID);
+		}
+	}, [possibleAgencies, possibleConsultingTypes]);
+
+	const postLogin = useCallback(
+		(data) => {
+			if (!consultant) {
+				return redirectToApp();
+			}
+
+			return apiGetUserData().then((userData: UserDataInterface) => {
+				if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+					return redirectToApp();
+				}
+
+				if (
+					possibleAgencies.length === 1 &&
+					possibleConsultingTypes.length === 1
+				) {
+					handleRegistration(possibleAgencies[0]);
+				} else {
+					setRegisterOverlayActive(true);
+				}
+			});
+		},
+		[
+			consultant,
+			possibleAgencies,
+			possibleConsultingTypes,
+			handleRegistration
+		]
+	);
+
 	const handleLogin = () => {
 		if (!isRequestInProgress && !isOtpRequired && username && password) {
 			setIsRequestInProgress(true);
 			autoLogin({
 				username: username,
 				password: password,
-				redirect: true
+				redirect: !consultant
 			})
+				.then(postLogin)
 				.catch((error) => {
 					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
 						setShowLoginError(
@@ -135,9 +314,10 @@ export const Login = ({
 			autoLogin({
 				username,
 				password,
-				redirect: true,
+				redirect: !consultant,
 				otp
 			})
+				.then(postLogin)
 				.catch((error) => {
 					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
 						setShowLoginError(
@@ -162,7 +342,7 @@ export const Login = ({
 	return (
 		<StageLayout
 			legalComponent={legalComponent}
-			stage={<Stage hasAnimation={isFirstVisit} />}
+			stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
 			showLegalLinks
 		>
 			<div className="loginForm">
@@ -205,6 +385,7 @@ export const Login = ({
 				>
 					{translate('login.resetPasswort.label')}
 				</a>
+
 				<Button
 					item={loginButton}
 					buttonHandle={handleLogin}
@@ -228,6 +409,14 @@ export const Login = ({
 					</a>
 				</div>
 			</div>
+			{registerOverlayActive && (
+				<OverlayWrapper>
+					<Overlay
+						item={registerOverlay}
+						handleOverlay={handleOverlayAction}
+					/>
+				</OverlayWrapper>
+			)}
 		</StageLayout>
 	);
 };
