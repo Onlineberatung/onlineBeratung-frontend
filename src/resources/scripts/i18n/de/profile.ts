@@ -89,8 +89,8 @@ const profile = {
 	'statistics.csvHeader.videoCallDuration':
 		'Dauer von Videoanrufen in Minuten',
 	'unsetEmail.confirmOverlay.headline':
-		'Möchten Sie Ihre E-Mail Adresse wirklich löschen?',
-	'unsetEmail.confirmOverlay.copy': 'Wenn Sie ihre E-Mail Adresse löschen:',
+		'Möchten Sie Ihre E-Mail-Adresse wirklich löschen?',
+	'unsetEmail.confirmOverlay.copy': 'Wenn Sie ihre E-Mail-Adresse löschen:',
 	'unsetEmail.confirmOverlay.benefit.1':
 		'erhalten Sie keine E-Mail-Benachrichtigung, wenn Ihre Berater_in Ihnen geschrieben hat',
 	'unsetEmail.confirmOverlay.benefit.2':
@@ -98,10 +98,10 @@ const profile = {
 	'unsetEmail.confirmOverlay.button.confirm': 'Löschen',
 	'unsetEmail.confirmOverlay.button.deny': 'Abbrechen',
 	'unsetEmail.errorOverlay.headline':
-		'Ups! Wir konnten die E-Mail Adresse gerade nicht löschen. Bitte versuchen Sie es noch einmal.',
+		'Ups! Wir konnten die E-Mail-Adresse gerade nicht löschen. Bitte versuchen Sie es noch einmal.',
 	'unsetEmail.errorOverlay.button': 'ok',
 	'unsetEmail.successOverlay.headline':
-		'Sie haben Ihre E-Mail Adresse erfolgreich gelöscht.',
+		'Sie haben Ihre E-Mail-Adresse erfolgreich gelöscht.',
 	'unsetEmail.successOverlay.button': 'ok'
 };
 
