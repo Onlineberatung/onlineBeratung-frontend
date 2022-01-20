@@ -68,7 +68,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 	const listItem =
 		currentSessionData[getChatTypeForListItem(currentSessionData)];
 
-	const isFeedbackChat = listItem.feedbackGroupId === activeSessionGroupId;
+	const isFeedbackChat =
+		listItem.feedbackGroupId &&
+		listItem.feedbackGroupId === activeSessionGroupId;
 
 	const isGroupChat = isGroupChatForSessionItem(currentSessionData);
 	const isLiveChat = isAnonymousSession(currentSessionData?.session);

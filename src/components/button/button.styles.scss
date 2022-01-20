@@ -34,15 +34,15 @@ $buttonHeight: 50px;
 	}
 
 	&__secondary {
-		color: var(--skin-color-link, $primary);
+		color: var(--skin-color-default, $primary);
 		background-color: transparent;
-		border: 3px solid var(--skin-color-link, $primary);
+		border: 3px solid var(--skin-color-default, $primary);
 		transition: all 0.6s ease;
 
 		&:hover {
 			color: $white;
-			border-color: var(--skin-color-link-hover, $hover-primary);
-			background-color: var(--skin-color-link-hover, $hover-primary);
+			border-color: var(--skin-color-default, $hover-primary);
+			background-color: var(--skin-color-default, $hover-primary);
 			transition: all 0.3s ease;
 		}
 	}
@@ -109,7 +109,7 @@ $buttonHeight: 50px;
 	}
 
 	&__link {
-		color: var(--skin-color-link, $primary);
+		color: var(--skin-color-default, $primary);
 		background: none;
 		height: 21px;
 
@@ -118,10 +118,10 @@ $buttonHeight: 50px;
 		}
 
 		&:not([disabled]):hover {
-			color: var(--skin-color-link-hover, $hover-primary);
+			color: var(--skin-color-default, $hover-primary);
 
 			svg * {
-				fill: var(--skin-color-link-hover, $hover-primary);
+				fill: var(--skin-color-default, $hover-primary);
 			}
 		}
 

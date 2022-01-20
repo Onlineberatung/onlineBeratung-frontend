@@ -96,6 +96,9 @@ $iconSize: 24px;
 		&--deactivate {
 			cursor: unset;
 		}
+		a {
+			text-decoration: none;
+		}
 
 		h3 {
 			color: var(--skin-color-default, $secondary);

@@ -88,7 +88,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 			border-radius: $grid-base-three;
 			cursor: pointer;
 			background-color: var(--skin-color-primary, $primary);
-			margin: 0 0 4px 4px;
+			margin: 0 0 4px 14px;
 			align-self: flex-end;
 			transition: background-color 0.6s ease;
 			overflow: hidden;
@@ -159,7 +159,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 			margin: 12px 0 0 14px;
 
 			rect {
-				fill: $white;
+				fill: var(--text-color-contrast-switch, $white);
 			}
 
 			&--active {

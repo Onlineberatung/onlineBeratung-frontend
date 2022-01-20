@@ -119,7 +119,7 @@ $input-height: 48px;
 			cursor: pointer;
 
 			&:hover {
-				color: var(--skin-color-primary, $primary);
+				color: var(--skin-color-default, $primary);
 				background-color: $hover-select;
 			}
 		}
