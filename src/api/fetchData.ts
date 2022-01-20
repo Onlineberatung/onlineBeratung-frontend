@@ -111,10 +111,6 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 					resolve(data);
 				} else if (props.responseHandling) {
 					if (
-						props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)
-					) {
-						reject(new Error(FETCH_ERRORS.CATCH_ALL));
-					} else if (
 						response.status === 204 &&
 						props.responseHandling.includes(FETCH_ERRORS.EMPTY)
 					) {
@@ -147,6 +143,10 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 								? response
 								: new Error(FETCH_ERRORS.CONFLICT)
 						);
+					} else if (
+						props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)
+					) {
+						reject(new Error(FETCH_ERRORS.CATCH_ALL));
 					} else if (response.status === 401) {
 						logout(true, config.urls.toLogin);
 					}

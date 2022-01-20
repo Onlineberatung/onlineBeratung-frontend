@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
 	AgencyDataInterface,
-	ConsultingTypeBasicInterface,
-	UserDataInterface
+	ConsultingTypeBasicInterface
 } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
@@ -22,13 +21,17 @@ import { parsePlaceholderString } from '../../utils/parsePlaceholderString';
 import { config } from '../../resources/scripts/config';
 import { Notice } from '../notice/Notice';
 import { AgencyLanguages } from './AgencyLanguages';
+import {
+	VALIDITY_INITIAL,
+	VALIDITY_INVALID,
+	VALIDITY_VALID
+} from '../registration/registrationHelpers';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
 	icon?: JSX.Element;
 	onAgencyChange: Function;
 	onValidityChange?: Function;
-	userData?: UserDataInterface;
 	preselectedAgency?: AgencyDataInterface;
 	isProfileView?: boolean;
 	agencySelectionNote?: string;
@@ -98,7 +101,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			};
 			props.onAgencyChange(agency);
 			if (props.onValidityChange) {
-				props.onValidityChange('valid');
+				props.onValidityChange(VALIDITY_VALID);
 			}
 		} else if (preselectedAgency && !selectedAgencyId) {
 			setSelectedAgencyId(preselectedAgency.id);
@@ -109,7 +112,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			props.onAgencyChange(null);
 			if (props.onValidityChange) {
 				props.onValidityChange(
-					selectedPostcode ? 'invalid' : 'initial'
+					selectedPostcode ? VALIDITY_INVALID : VALIDITY_INITIAL
 				);
 			}
 		}
@@ -161,7 +164,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			props.onAgencyChange(null);
 			if (props.onValidityChange) {
 				props.onValidityChange(
-					selectedPostcode ? 'invalid' : 'initial'
+					selectedPostcode ? VALIDITY_INVALID : VALIDITY_INITIAL
 				);
 			}
 		}
