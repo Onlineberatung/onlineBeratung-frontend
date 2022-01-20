@@ -31,7 +31,7 @@ export const LoginLoader = ({
 	const { consultingTypeSlug } = useParams();
 
 	useEffect(() => {
-		if (consultingTypeSlug === 'login') {
+		if (!consultingTypeSlug) {
 			setIsValidResort(true);
 			return;
 		}
