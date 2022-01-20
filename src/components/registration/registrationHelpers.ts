@@ -1,7 +1,14 @@
 import { translate } from '../../utils/translate';
 import { ButtonItem, BUTTON_TYPES } from '../button/Button';
 
-export type AccordionItemValidity = 'initial' | 'valid' | 'invalid';
+export const VALIDITY_INITIAL = 'initial';
+export const VALIDITY_VALID = 'valid';
+export const VALIDITY_INVALID = 'invalid';
+
+export type AccordionItemValidity =
+	| typeof VALIDITY_INITIAL
+	| typeof VALIDITY_VALID
+	| typeof VALIDITY_INVALID;
 
 export const MIN_USERNAME_LENGTH = 5;
 

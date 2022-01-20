@@ -22,7 +22,6 @@ export const autoLogin = (autoLoginProps: {
 	username: string;
 	password: string;
 	redirect: boolean;
-	handleLoginSuccess?: Function;
 	otp?: string;
 	useOldUser?: boolean;
 }): Promise<any> =>
@@ -59,9 +58,7 @@ export const autoLogin = (autoLoginProps: {
 							redirectToApp();
 						}
 
-						if (autoLoginProps.handleLoginSuccess) {
-							autoLoginProps.handleLoginSuccess();
-						}
+						resolve(undefined);
 					})
 					.catch((error) => {
 						reject(error);
@@ -78,7 +75,9 @@ export const autoLogin = (autoLoginProps: {
 						redirect: autoLoginProps.redirect,
 						otp: autoLoginProps.otp,
 						useOldUser: true
-					}).catch((error) => reject(error));
+					})
+						.then(() => resolve(undefined))
+						.catch((error) => reject(error));
 				} else {
 					reject(error);
 				}

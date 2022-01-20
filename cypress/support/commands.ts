@@ -185,9 +185,7 @@ Cypress.Commands.add(
 
 		cy.get('.loginForm');
 		cy.get('#username').type('username', { force: true });
-		cy.get('#passwordInput').type('password', {
-			force: true
-		});
+		cy.get('#passwordInput').type('password', { force: true });
 		cy.get('.button__primary').click();
 		cy.wait('@authToken');
 		cy.get('#appRoot').should('be.visible');

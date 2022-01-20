@@ -1,52 +1,51 @@
 import '../../polyfill';
 import * as React from 'react';
-import { StageProps } from '../stage/stage';
 import { useParams } from 'react-router-dom';
-import { ComponentType, useCallback, useEffect, useState } from 'react';
-import { translate } from '../../utils/translate';
+import { StageProps } from '../stage/stage';
+import { ComponentType, useEffect, useState } from 'react';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
-import {
-	AgencyDataInterface,
-	ConsultingTypeInterface
-} from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
-import {
-	apiGetAgencyById,
-	apiGetConsultingType,
-	FETCH_ERRORS
-} from '../../api';
-import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
-import { redirectToRegistrationWithoutAid } from './prefillPostcode';
-import { isNumber } from '../../utils/isNumber';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
+import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
+import { translate } from '../../utils/translate';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 
 interface RegistrationProps {
-	handleUnmatch: Function;
+	handleUnmatchConsultingType: Function;
+	handleUnmatchConsultant: Function;
 	stageComponent: ComponentType<StageProps>;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	fixedLanguages: string[];
 }
 
 export const Registration = ({
-	handleUnmatch,
+	handleUnmatchConsultingType,
+	handleUnmatchConsultant,
 	legalComponent,
 	stageComponent: Stage,
 	fixedLanguages
 }: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
 	const agencyId = getUrlParameter('aid');
+	const consultantId = getUrlParameter('cid');
 	const postcodeParameter = getUrlParameter('postcode');
+
+	const loginParams = Object.entries({
+		cid: consultantId,
+		aid: agencyId
+	})
+		.filter(([, value]) => value)
+		.map(([key, value]) => `${key}=${value}`)
+		.join('&');
+
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(
 		!postcodeParameter
 	);
-	const [consultingType, setConsultingType] = useState<
-		ConsultingTypeInterface | undefined
-	>();
-	const [agency, setAgency] = useState<AgencyDataInterface | null>(null);
+
 	const [isReady, setIsReady] = useState(false);
 
 	const handleForwardToRegistration = () => {
@@ -54,90 +53,96 @@ export const Registration = ({
 		window.scrollTo({ top: 0 });
 	};
 
-	const getAgency = useCallback(() => {
-		return apiGetAgencyById(agencyId)
-			.then((response) => {
-				setAgency(response[0]);
-				return response[0].consultingType;
-			})
-			.catch((error) => {
-				if (error.message === FETCH_ERRORS.NO_MATCH) {
-					redirectToRegistrationWithoutAid();
-				}
-				return null;
-			});
-	}, [agencyId]);
-
-	const getConsultingType = useCallback(
-		(consultingTypeId: number | null = null) => {
-			return apiGetConsultingType({
-				consultingTypeSlug,
-				consultingTypeId
-			})
-				.then((consultingType) => {
-					if (!consultingType) {
-						console.error(
-							`Unknown consulting type with slug ${consultingTypeSlug}`
-						);
-						handleUnmatch();
-						return false;
-					} else if (
-						consultingTypeId &&
-						consultingTypeId !== consultingType.id
-					) {
-						redirectToRegistrationWithoutAid();
-						return false;
-					} else if (
-						consultingType.urls?.requiredAidMissingRedirectUrl &&
-						!consultingTypeId
-					) {
-						window.location.href =
-							consultingType.urls?.requiredAidMissingRedirectUrl;
-						return false;
-					}
-
-					// SET FORMAL/INFORMAL COOKIE
-					setValueInCookie(
-						'useInformal',
-						consultingType.languageFormal ? '' : '1'
-					);
-
-					setConsultingType(consultingType);
-
-					document.title = `${translate(
-						'registration.title.start'
-					)} ${consultingType.titles.long}`;
-
-					return true;
-				})
-				.catch((error) => {
-					console.log(error);
-					return false;
-				});
-		},
-		[consultingTypeSlug, handleUnmatch]
-	);
+	const { agency, consultingType, consultant, loaded } = useUrlParamsLoader();
 
 	useEffect(() => {
-		if (!consultingTypeSlug && !agencyId) {
-			console.error('No `consultingTypeSlug` or `aid` found in URL.');
+		if (!loaded) {
 			return;
 		}
 
-		if (isNumber(agencyId)) {
-			getAgency()
-				.then(getConsultingType)
-				.then((isReady) => {
-					setIsReady(isReady);
-				});
-		} else {
-			getConsultingType().then((isReady) => {
-				setIsReady(isReady);
-			});
+		if (!consultingType && !agency && !consultant) {
+			console.error(
+				'No `consultingType`, `consultant` or `agency` found in URL.'
+			);
+			return;
 		}
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [consultingTypeSlug, agencyId]);
+		try {
+			if (consultantId) {
+				if (!consultant) {
+					handleUnmatchConsultant();
+					throw new Error(
+						`Unknown consultant with id ${consultantId}`
+					);
+				}
+
+				// If all consultant agencies are informal then use informal
+				const isInformal = consultant.agencies.every(
+					(agency) => !agency.consultingTypeRel.languageFormal
+				);
+				setValueInCookie('useInformal', isInformal ? '1' : '');
+
+				// If consultant has only one consulting type set document title
+				const hasUniqueConsultingType =
+					consultant.agencies.reduce(
+						(acc: number[], { consultingType }) => {
+							if (acc.indexOf(consultingType) < 0) {
+								acc.push(consultingType);
+							}
+							return acc;
+						},
+						[]
+					).length > 1;
+
+				if (hasUniqueConsultingType) {
+					document.title = `${translate(
+						'registration.title.start'
+					)} ${consultant.agencies[0].consultingTypeRel.titles.long}`;
+				}
+			} else {
+				if (!consultingType) {
+					handleUnmatchConsultingType();
+					throw new Error(
+						agency
+							? `Unknown consulting type with agency ${agency.name}`
+							: `Unknown consulting type with slug ${consultingTypeSlug}`
+					);
+				}
+
+				if (
+					consultingType.urls?.requiredAidMissingRedirectUrl &&
+					!agency
+				) {
+					window.location.href =
+						consultingType.urls?.requiredAidMissingRedirectUrl;
+					throw new Error(`Consulting type requires matching aid`);
+				}
+
+				// SET FORMAL/INFORMAL COOKIE
+				setValueInCookie(
+					'useInformal',
+					consultingType.languageFormal ? '' : '1'
+				);
+
+				document.title = `${translate('registration.title.start')} ${
+					consultingType.titles.long
+				}`;
+			}
+			setIsReady(true);
+		} catch (error) {
+			console.log(error);
+			return;
+		}
+	}, [
+		consultingType,
+		agency,
+		consultant,
+		loaded,
+		consultantId,
+		handleUnmatchConsultant,
+		handleUnmatchConsultingType,
+		consultingTypeSlug
+	]);
 
 	const isFirstVisit = useIsFirstVisit();
 
@@ -147,20 +152,26 @@ export const Registration = ({
 			showLegalLinks={true}
 			showLoginLink={!showWelcomeScreen}
 			stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
+			loginParams={loginParams}
 		>
 			{isReady &&
 				(showWelcomeScreen ? (
 					<WelcomeScreen
-						title={consultingType.titles.welcome}
+						title={
+							consultingType?.titles.welcome ||
+							translate('registration.overline')
+						}
 						handleForwardToRegistration={
 							handleForwardToRegistration
 						}
-						welcomeScreenConfig={consultingType.welcomeScreen}
+						loginParams={loginParams}
+						welcomeScreenConfig={consultingType?.welcomeScreen}
 					/>
 				) : (
 					<RegistrationForm
 						consultingType={consultingType}
 						agency={agency}
+						consultant={consultant}
 						legalComponent={legalComponent}
 						fixedLanguages={fixedLanguages}
 					/>
