@@ -23,7 +23,7 @@ export const hasPermissions = (permission: NotificationPermission) => {
 
 export const requestPermissions = () => {
 	// Only ask for notification if not denied or granted already
-	if (hasPermissions(PERMISSION_DEFAULT)) {
+	if (isSupported() && hasPermissions(PERMISSION_DEFAULT)) {
 		Notification.requestPermission().then((permission) => {
 			if (permission === PERMISSION_GRANTED) {
 				sendNotification('Benachrichtigungen aktiviert!');

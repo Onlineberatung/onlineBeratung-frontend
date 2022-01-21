@@ -35,6 +35,11 @@ import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './authenticatedApp.styles';
 import './navigation.styles';
 import { requestPermissions } from '../../utils/notificationHelpers';
+import { BiometricAuthenticationTimer } from '../biometricAuthentication/BiometricAuthenticationTimer';
+import {
+	checkForBiometricAvailability,
+	checkForExistingCredentials
+} from '../../utils/biometricAuthenticationHelpers';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -56,6 +61,24 @@ export const AuthenticatedApp = ({
 	const { notifications } = useContext(NotificationsContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
+	const [activateTimer, setActivateTimer] = useState<boolean>(false);
+
+	useEffect(() => {
+		checkForBiometricAvailability(handleAvailableBiometrics);
+	}, [activateTimer]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	const handleAvailableBiometrics = () => {
+		checkForExistingCredentials(handleCredentials);
+	};
+
+	const handleCredentials = (hasCredentialsSet: Boolean) => {
+		console.log('handleCredentials wird aufgerufen');
+		if (hasCredentialsSet) {
+			setActivateTimer(true);
+		} else {
+			setActivateTimer(false);
+		}
+	};
 
 	useEffect(() => {
 		if (
@@ -115,9 +138,13 @@ export const AuthenticatedApp = ({
 	if (appReady) {
 		return (
 			<>
+				{activateTimer && <BiometricAuthenticationTimer />}
 				<Routing
 					logout={handleLogout}
 					legalComponent={legalComponent}
+					activateBiometricAuthTimer={(isActive) => {
+						setActivateTimer(isActive);
+					}}
 				/>
 				{notifications && (
 					<Notifications notifications={notifications} />

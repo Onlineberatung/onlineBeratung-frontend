@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserDataContext } from '../../globalState';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -15,8 +15,16 @@ import {
 } from '../overlay/Overlay';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { BUTTON_TYPES } from '../button/Button';
+import { NativeBiometric } from 'capacitor-native-biometric';
+import { apiUrl } from '../../resources/scripts/config';
+import {
+	checkForBiometricAvailability,
+	checkForExistingCredentials
+} from '../../utils/biometricAuthenticationHelpers';
 
-export const BiometricAuthentication = () => {
+export const BiometricAuthenticationProfile = (props: {
+	activateBiometricAuthTimer: Function;
+}) => {
 	const [isPasswordValid, setIsPasswordValid] = useState(null);
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 	const [password, setPassword] = useState('');
@@ -24,6 +32,35 @@ export const BiometricAuthentication = () => {
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const { userData } = useContext(UserDataContext);
+	const [isNativeBiometricAvailable, setIsNativeBiometricAvailable] =
+		useState(false);
+
+	useEffect(() => {
+		checkForBiometricAvailability(handleAvailableBiometrics);
+	}, []);
+
+	const handleAvailableBiometrics = () => {
+		setIsNativeBiometricAvailable(true);
+		checkForExistingCredentials((hasCredentialsSet) =>
+			setIsSwitchChecked(hasCredentialsSet)
+		);
+	};
+
+	//Set credentials on currently used device
+	const functionSetCredentials = () => {
+		NativeBiometric.setCredentials({
+			username: userData.userName,
+			password: password,
+			server: apiUrl
+		}).then(props.activateBiometricAuthTimer(true));
+	};
+
+	//Delete credentials on currently used device
+	const functionDeleteCredentials = () => {
+		NativeBiometric.deleteCredentials({
+			server: apiUrl
+		}).then(props.activateBiometricAuthTimer(false));
+	};
 
 	const handleSwitchChange = () => {
 		if (!isSwitchChecked) {
@@ -31,7 +68,7 @@ export const BiometricAuthentication = () => {
 			setIsSuccessOverlay(false);
 		} else {
 			setIsSwitchChecked(false);
-			//TO DO: Implement deleteCredentials Function (Template already in 'BiometricAuthenticationSettings')
+			functionDeleteCredentials();
 		}
 	};
 
@@ -45,16 +82,6 @@ export const BiometricAuthentication = () => {
 		return classNames.join(' ');
 	};
 
-	const bioAuthPasswordItem: InputFieldItem = {
-		id: 'bioAuthPassword',
-		type: 'password',
-		name: 'bioAuthPassword',
-		label: 'Passwort zur Bestätigung', //TO DO: Wording
-		class: getClassNames(isPasswordValid),
-		infoText: passwordErrorMessage,
-		content: password
-	};
-
 	const handlePasswordInput = (e) => {
 		setPassword(e.target.value);
 	};
@@ -64,18 +91,39 @@ export const BiometricAuthentication = () => {
 		getKeycloakAccessToken(username, password)
 			.then((response) => {
 				setIsPasswordValid(true);
-				setPasswordErrorMessage('');
 				setIsSwitchChecked(true);
 				setIsSuccessOverlay(true);
+				setPasswordErrorMessage('');
 				setPassword('');
 				setIsPasswordValid(undefined);
-				//TO DO: Implement setCredentials Function (Template already in 'BiometricAuthenticationSettings')
+				functionSetCredentials();
 			})
 			.catch((error) => {
 				setIsPasswordValid(false);
 				setIsSwitchChecked(false);
 				setPasswordErrorMessage('Ihr Passwort ist nicht korrekt'); //TO DO: Wording
 			});
+	};
+
+	const handleOverlayAction = (buttonFunction: string) => {
+		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
+			setIsOverlayActive(false);
+			setPasswordErrorMessage('');
+			setPassword('');
+			setIsPasswordValid(undefined);
+		} else {
+			handleSubmit();
+		}
+	};
+
+	const bioAuthPasswordItem: InputFieldItem = {
+		id: 'bioAuthPassword',
+		type: 'password',
+		name: 'bioAuthPassword',
+		label: 'Passwort zur Bestätigung', //TO DO: Wording
+		class: getClassNames(isPasswordValid),
+		infoText: passwordErrorMessage,
+		content: password
 	};
 
 	const overlaySuccess: OverlayItem = {
@@ -114,13 +162,9 @@ export const BiometricAuthentication = () => {
 		]
 	};
 
-	const handleOverlayAction = (buttonFunction: string) => {
-		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setIsOverlayActive(false);
-		} else {
-			handleSubmit();
-		}
-	};
+	if (!isNativeBiometricAvailable) {
+		return null;
+	}
 
 	return (
 		<div className="bioAuth">

@@ -25,10 +25,11 @@ import { TwoFactorAuth } from './TwoFactorAuth';
 import { ConsultantStatistics } from './ConsultantStatistics';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './profile.styles';
-import { BiometricAuthenticationSettings } from '../biometricAuthenticationSettings/BiometricAuthenticationSettings';
+import { BiometricAuthenticationProfile } from '../biometricAuthentication/BiometricAuthenticationProfile';
 
 interface ProfileProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	activateBiometricAuthTimer: Function;
 }
 
 export const Profile = (props: ProfileProps) => {
@@ -109,7 +110,6 @@ export const Profile = (props: ProfileProps) => {
 						) && <AbsenceFormular />}
 						<PasswordReset />
 
-						<BiometricAuthenticationSettings />
 						{hasUserAuthority(
 							AUTHORITIES.CONSULTANT_DEFAULT,
 							userData
@@ -117,6 +117,11 @@ export const Profile = (props: ProfileProps) => {
 							userData.twoFactorAuth?.isEnabled && (
 								<TwoFactorAuth />
 							)}
+						<BiometricAuthenticationProfile
+							activateBiometricAuthTimer={(setActive) =>
+								props.activateBiometricAuthTimer(setActive)
+							}
+						/>
 					</div>
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,

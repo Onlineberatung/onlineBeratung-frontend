@@ -26,6 +26,7 @@ import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 interface routingProps {
 	logout?: Function;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	activateBiometricAuthTimer: Function;
 }
 
 export const Routing = (props: routingProps) => {

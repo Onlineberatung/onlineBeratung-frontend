@@ -3,7 +3,7 @@ import * as React from 'react';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { ComponentType, useState, useEffect } from 'react';
-import { apiUrl, config } from '../../resources/scripts/config';
+import { config } from '../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
 import { autoLogin } from '../registration/autoLogin';
 import { Text } from '../text/Text';
@@ -17,21 +17,13 @@ import { OTP_LENGTH } from '../profile/TwoFactorAuth';
 import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
-import { defineCustomElements } from '@ionic/pwa-elements/loader';
-import {
-	AvailableResult,
-	Credentials,
-	NativeBiometric
-} from 'capacitor-native-biometric';
-
-defineCustomElements(window);
 import { LegalInformationLinksProps } from './LegalInformationLinks';
+import { BiometricAuthenticationLogin } from '../biometricAuthentication/BiometricAuthenticationLogin';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
 	type: BUTTON_TYPES.PRIMARY
 };
-
 interface LoginProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	stageComponent: ComponentType<StageProps>;
@@ -46,12 +38,7 @@ export const Login = ({
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(
 		username.length > 0 && password.length > 0
 	);
-	// const [isBioAuthAvailable, setIsBioAuthAvailable] = useState(false);
 
-	useEffect(() => {
-		checkActive();
-		checkAvailability();
-	}, []);
 	const [otp, setOtp] = useState<string>('');
 	const [isOtpRequired, setIsOtpRequired] = useState<boolean>(false);
 	const [showLoginError, setShowLoginError] = useState<string>('');
@@ -74,84 +61,6 @@ export const Login = ({
 		setOtp('');
 		setIsOtpRequired(false);
 	}, [username]);
-
-	// TODO
-
-	let timer;
-
-	const BioAuthRequest = () => {
-		timer = window.setTimeout(checkAvailability, 5000); //3 Minuten = 180000 Millisekunden
-	};
-
-	const checkActive = () => {
-		document.addEventListener('visibilitychange', function (event) {
-			if (document.hidden) {
-				BioAuthRequest();
-			} else {
-				clearTimeout(timer);
-			}
-		});
-	};
-
-	//------------
-
-	const checkAvailability = () => {
-		NativeBiometric.isAvailable().then(
-			(result: AvailableResult) => {
-				const isAvailable = result.isAvailable;
-				if (isAvailable) {
-					checkIdentity();
-					// setIsBioAuthAvailable(true);
-				}
-			},
-			(error) => {
-				// TODO : Funktion erstellen
-				let stage = document.getElementById('loginLogoWrapper');
-				stage.classList.add('stage--ready');
-			}
-		);
-	};
-
-	const checkIdentity = () => {
-		NativeBiometric.getCredentials({
-			server: apiUrl
-		})
-			.then(
-				(credentials: Credentials) =>
-					new Promise((reject) => {
-						NativeBiometric.verifyIdentity({
-							reason: 'For easy log in',
-							title: 'Log in',
-							subtitle: 'Maybe add subtitle here?',
-							description: 'Maybe a description too?'
-						})
-							.then(() => {
-								autoLogin({
-									username: credentials.username,
-									password: credentials.password,
-									redirect: true
-									// handleLoginError
-								});
-							})
-
-							.catch(reject);
-					})
-			)
-			// .then((credentials: Credentials) => {
-			// 	console.log('Test', credentials);
-			// 	autoLogin({
-			// 		username: credentials.username,
-			// 		password: credentials.password,
-			// 		redirect: true,
-			// 		handleLoginError
-			// 	});
-			// })
-			.catch((err) => {
-				console.log('Fehler bei Bio Auth: ' + err.code);
-				let stage = document.getElementById('loginLogoWrapper');
-				stage.classList.add('stage--ready-mobile');
-			});
-	};
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -244,7 +153,6 @@ export const Login = ({
 
 	const handleKeyUp = (e) => {
 		if (e.key === 'Enter') {
-			handleLogin();
 		}
 	};
 
@@ -319,12 +227,15 @@ export const Login = ({
 					</a>
 				</div>
 			</div>
+			<BiometricAuthenticationLogin />
 		</StageLayout>
 	);
 };
 
+// import { defineCustomElements } from '@ionic/pwa-elements/loader';
 // import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
+// defineCustomElements(window);
 // const photoButton: ButtonItem = {
 // 	label: 'Take a picture',
 // 	type: BUTTON_TYPES.SECONDARY
