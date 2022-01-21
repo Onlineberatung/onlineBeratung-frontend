@@ -18,6 +18,7 @@ import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
+import useIsFirstVisit from '../../utils/useIsFirstVisit';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -156,10 +157,12 @@ export const Login = ({
 		}
 	};
 
+	const isFirstVisit = useIsFirstVisit();
+
 	return (
 		<StageLayout
 			legalComponent={legalComponent}
-			stage={<Stage hasAnimation />}
+			stage={<Stage hasAnimation={isFirstVisit} />}
 			showLegalLinks
 		>
 			<div className="loginForm">
