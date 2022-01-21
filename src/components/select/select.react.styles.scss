@@ -58,8 +58,8 @@ $inputHeight: 50px;
 
 		&:hover,
 		:focus {
-			background-color: #f8dedd;
-			color: $primary;
+			background-color: $background-accent;
+			color: $selection-focus-color;
 		}
 
 		&__icon {
@@ -75,6 +75,7 @@ $inputHeight: 50px;
 			line-height: 24px;
 			text-align: center;
 			margin: -4px $grid-base 0 0;
+			top: -4px;
 		}
 
 		&__label {
