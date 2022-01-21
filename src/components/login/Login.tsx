@@ -9,10 +9,15 @@ import { autoLogin } from '../registration/autoLogin';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
+import { ReactComponent as VerifiedIcon } from '../../resources/img/icons/verified.svg';
 import { StageProps } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
+import { FETCH_ERRORS } from '../../api';
+import { OTP_LENGTH } from '../profile/TwoFactorAuth';
+import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
+import { LegalInformationLinksProps } from './LegalInformationLinks';
 import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
 import Modal from '../modal/Modal';
 import { TenantContext } from '../../globalState';
@@ -24,28 +29,44 @@ const loginButton: ButtonItem = {
 };
 
 interface LoginProps {
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 	stageComponent: ComponentType<StageProps>;
 }
 
-export const Login = ({ stageComponent: Stage }: LoginProps) => {
+export const Login = ({
+	legalComponent,
+	stageComponent: Stage
+}: LoginProps) => {
 	useLoadTenantThemeFiles();
 	const { tenant } = useContext(TenantContext);
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [isButtonDisabled, setIsButtonDisabled] = useState(
+
+	const [username, setUsername] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(
 		username.length > 0 && password.length > 0
 	);
-	const [showLoginError, setShowLoginError] = useState(false);
-	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const [otp, setOtp] = useState<string>('');
+	const [isOtpRequired, setIsOtpRequired] = useState<boolean>(false);
+	const [showLoginError, setShowLoginError] = useState<string>('');
+	const [isRequestInProgress, setIsRequestInProgress] =
+		useState<boolean>(false);
 
 	useEffect(() => {
-		setShowLoginError(false);
-		if (username && password) {
+		setShowLoginError('');
+		if (
+			(!isOtpRequired && username && password) ||
+			(isOtpRequired && username && password && otp)
+		) {
 			setIsButtonDisabled(false);
 		} else {
 			setIsButtonDisabled(true);
 		}
-	}, [username, password]);
+	}, [username, password, otp, isOtpRequired]);
+
+	useEffect(() => {
+		setOtp('');
+		setIsOtpRequired(false);
+	}, [username]);
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -66,6 +87,17 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		icon: <LockIcon />
 	};
 
+	const otpInputItem: InputFieldItem = {
+		content: otp,
+		id: 'otp',
+		infoText: translate('login.warning.failed.otp.missing'),
+		label: translate('twoFactorAuth.activate.step3.input.label'),
+		name: 'otp',
+		type: 'text',
+		icon: <VerifiedIcon />,
+		maxLength: OTP_LENGTH
+	};
+
 	const handleUsernameChange = (event) => {
 		setUsername(event.target.value);
 	};
@@ -74,21 +106,56 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		setPassword(event.target.value);
 	};
 
-	const handleLoginError = () => {
-		setShowLoginError(true);
-		setIsRequestInProgress(false);
+	const handleOtpChange = (event) => {
+		setOtp(event.target.value);
 	};
 
 	const handleLogin = () => {
-		if (!isRequestInProgress && username && password) {
+		if (!isRequestInProgress && !isOtpRequired && username && password) {
+			setIsRequestInProgress(true);
+			autoLogin({
+				username: username,
+				password: password,
+				redirect: true,
+				redirectURL: tenant.origin
+			})
+				.catch((error) => {
+					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
+						setShowLoginError(
+							translate('login.warning.failed.unauthorized')
+						);
+					} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+						setIsOtpRequired(true);
+					}
+				})
+				.finally(() => {
+					setIsRequestInProgress(false);
+				});
+		} else if (
+			!isRequestInProgress &&
+			isOtpRequired &&
+			username &&
+			password &&
+			otp
+		) {
 			setIsRequestInProgress(true);
 			autoLogin({
 				username,
 				password,
 				redirect: true,
 				redirectURL: tenant.origin,
-				handleLoginError
-			});
+				otp
+			})
+				.catch((error) => {
+					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
+						setShowLoginError(
+							translate('login.warning.failed.unauthorized.otp')
+						);
+					}
+				})
+				.finally(() => {
+					setIsRequestInProgress(false);
+				});
 		}
 	};
 
@@ -100,7 +167,11 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 
 	return (
 		<>
-			<StageLayout stage={<Stage hasAnimation />} showLegalLinks>
+			<StageLayout
+				legalComponent={legalComponent}
+				stage={<Stage hasAnimation />}
+				showLegalLinks
+			>
 				<div className="loginForm">
 					<div className="loginForm__headline">
 						<h1>{translate('login.headline')}</h1>
@@ -115,13 +186,24 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 						inputHandle={handlePasswordChange}
 						keyUpHandle={handleKeyUp}
 					/>
-					{showLoginError ? (
+					<div
+						className={clsx('loginForm__otp', {
+							'loginForm__otp--active': isOtpRequired
+						})}
+					>
+						<InputField
+							item={otpInputItem}
+							inputHandle={handleOtpChange}
+							keyUpHandle={handleKeyUp}
+						/>
+					</div>
+					{showLoginError && (
 						<Text
-							text={translate('login.warning.failed')}
+							text={showLoginError}
 							type="infoSmall"
 							className="loginForm__error"
 						/>
-					) : null}
+					)}
 					<a
 						href={config.endpoints.loginResetPasswordLink}
 						target="_blank"

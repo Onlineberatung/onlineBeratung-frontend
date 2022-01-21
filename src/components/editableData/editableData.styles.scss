@@ -73,7 +73,7 @@
 
 	&__label--invalid {
 		.text {
-			color: var(--skin-color-default, $primary);
+			color: var(--skin-color-default, $form-error);
 		}
 	}
 

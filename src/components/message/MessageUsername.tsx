@@ -65,7 +65,7 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 		<>
 			{!props.alias &&
 			props.username &&
-			chatItem.type !== SESSION_LIST_TYPES.ENQUIRY ? (
+			chatItem?.type !== SESSION_LIST_TYPES.ENQUIRY ? (
 				<div
 					className={`messageItem__username messageItem__username--${props.type}`}
 				>

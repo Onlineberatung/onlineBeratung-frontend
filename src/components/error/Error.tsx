@@ -6,6 +6,7 @@ import { ReactComponent as Icon404 } from '../../resources/img/illustrations/ooh
 import { ReactComponent as Icon500 } from '../../resources/img/illustrations/gleich-zurueck.svg';
 import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
+import { config } from '../../resources/scripts/config';
 import '../../resources/styles/styles';
 import './error.styles';
 
@@ -18,7 +19,7 @@ export const Error = () => {
 	const statusCode = getStatusCode();
 
 	const buttonHandle = () => {
-		document.location.href = '/';
+		document.location.href = config.urls.toLogin;
 	};
 
 	let Icon;

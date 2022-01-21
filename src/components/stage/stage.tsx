@@ -4,6 +4,7 @@ import './stage.styles';
 import Spinner from '../spinner/Spinner';
 import { useContext } from 'react';
 import { TenantContext } from '../../globalState';
+import { translate } from '../../utils/translate';
 
 export interface StageProps {
 	className?: string;
@@ -26,8 +27,8 @@ export const Stage = ({
 			})}
 		>
 			<div className="stage__headline">
-				<h1>{tenant.name}</h1>
-				<h4>{tenant.content.claim}</h4>
+				<h1>{tenant.name || translate('app.stage.title')}</h1>
+				<h4>{tenant.content.claim || translate('app.claim')}</h4>
 			</div>
 
 			{hasAnimation ? <Spinner className="stage__spinner" /> : null}

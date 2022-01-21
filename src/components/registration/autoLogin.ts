@@ -5,6 +5,7 @@ import { APP_PATH, config } from '../../resources/scripts/config';
 import { generateCsrfToken } from '../../utils/generateCsrfToken';
 import { encodeUsername } from '../../utils/encryptionHelpers';
 import { setTokens } from '../auth/auth';
+import { FETCH_ERRORS } from '../../api';
 
 export interface LoginData {
 	data: {
@@ -22,74 +23,71 @@ export const autoLogin = (autoLoginProps: {
 	password: string;
 	redirect: boolean;
 	redirectURL?: string;
-	handleLoginError?: Function;
 	handleLoginSuccess?: Function;
+	otp?: string;
 	useOldUser?: boolean;
-}) => {
-	const userHash = autoLoginProps.useOldUser
-		? autoLoginProps.username
-		: encodeUsername(autoLoginProps.username);
-	getKeycloakAccessToken(
-		autoLoginProps.useOldUser ? encodeURIComponent(userHash) : userHash,
-		encodeURIComponent(autoLoginProps.password)
-	)
-		.then((response) => {
-			setTokens(
-				response.access_token,
-				response.expires_in,
-				response.refresh_token,
-				response.refresh_expires_in
-			);
+}): Promise<any> =>
+	new Promise((resolve, reject) => {
+		const userHash = autoLoginProps.useOldUser
+			? autoLoginProps.username
+			: encodeUsername(autoLoginProps.username);
+		getKeycloakAccessToken(
+			autoLoginProps.useOldUser ? encodeURIComponent(userHash) : userHash,
+			encodeURIComponent(autoLoginProps.password),
+			autoLoginProps.otp ? autoLoginProps.otp : null
+		)
+			.then((response) => {
+				setTokens(
+					response.access_token,
+					response.expires_in,
+					response.refresh_token,
+					response.refresh_expires_in
+				);
 
-			getRocketchatAccessToken(userHash, autoLoginProps.password)
-				.then((response) => {
-					const data = response.data;
-					if (data.authToken) {
-						setValueInCookie('rc_token', data.authToken);
-					}
-					if (data.userId) {
-						setValueInCookie('rc_uid', data.userId);
-					}
+				getRocketchatAccessToken(userHash, autoLoginProps.password)
+					.then((response) => {
+						const data = response.data;
+						if (data.authToken) {
+							setValueInCookie('rc_token', data.authToken);
+						}
+						if (data.userId) {
+							setValueInCookie('rc_uid', data.userId);
+						}
 
-					//generate new csrf token for current session
-					generateCsrfToken(true);
-					if (autoLoginProps.redirect) {
-						redirectToApp(autoLoginProps.redirectURL);
-					}
+						//generate new csrf token for current session
+						generateCsrfToken(true);
+						if (autoLoginProps.redirect) {
+							redirectToApp(autoLoginProps.redirectURL);
+						}
 
-					if (autoLoginProps.handleLoginSuccess) {
-						autoLoginProps.handleLoginSuccess();
-					}
-				})
-				.catch((error) => {
-					if (autoLoginProps.handleLoginError) {
-						autoLoginProps.handleLoginError();
-					} else {
-						console.error(error);
-					}
-				});
-		})
-		.catch((error) => {
-			if (autoLoginProps.useOldUser) {
-				autoLoginProps.handleLoginError
-					? autoLoginProps.handleLoginError()
-					: console.error(error);
-			} else {
-				autoLogin({
-					username: autoLoginProps.username,
-					password: autoLoginProps.password,
-					redirect: autoLoginProps.redirect,
-					redirectURL: autoLoginProps.redirectURL,
-					handleLoginError: autoLoginProps.handleLoginError,
-					useOldUser: true
-				});
-			}
-		});
-};
+						if (autoLoginProps.handleLoginSuccess) {
+							autoLoginProps.handleLoginSuccess();
+						}
+					})
+					.catch((error) => {
+						reject(error);
+					});
+			})
+			.catch((error) => {
+				if (
+					!autoLoginProps.useOldUser &&
+					error.message === FETCH_ERRORS.UNAUTHORIZED
+				) {
+					autoLogin({
+						username: autoLoginProps.username,
+						password: autoLoginProps.password,
+						redirectURL: autoLoginProps.redirectURL,
+						redirect: autoLoginProps.redirect,
+						otp: autoLoginProps.otp,
+						useOldUser: true
+					}).catch((error) => reject(error));
+				} else {
+					reject(error);
+				}
+			});
+	});
 
 export const redirectToApp = (redirectURL?: string) => {
-	console.log('tenant', redirectURL + '/' + APP_PATH);
-
 	window.location.href = redirectURL
 		? redirectURL + '/' + APP_PATH
 		: config.urls.redirectToApp;
