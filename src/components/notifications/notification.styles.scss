@@ -1,11 +1,13 @@
-.notice {
+.notification {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: stretch;
 	width: 100%;
-	padding: $notice-padding;
+	padding: $grid-base-two;
 	border-radius: 4px;
-	background-color: $notice-background;
+	background-color: rgba(120, 115, 120, 0.95);
+	backdrop-filter: blur(2px);
+	animation: flyIn 0.3s ease forwards;
 
 	&__header {
 		display: flex;
@@ -42,6 +44,7 @@
 	&--warning,
 	&--error,
 	&--success {
+		color: $white;
 		text-align: left;
 	}
 
@@ -62,5 +65,16 @@
 
 	&--warning &__icon {
 		background: $form-medium;
+	}
+}
+
+@keyframes flyIn {
+	0% {
+		opacity: 0.8;
+		transform: translateX(32px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
 	}
 }

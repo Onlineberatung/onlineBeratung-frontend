@@ -44,8 +44,8 @@ export const Notice = ({
 	return (
 		<div className={`notice notice--${type} ${className}`}>
 			<div className="notice__header">
-				<div className="notice__header__icon">{getIcon()}</div>
-				<div className="notice__header__title">{title}</div>
+				<div className="notice__icon">{getIcon()}</div>
+				<div className="notice__title">{title}</div>
 			</div>
 			<div className="notice__text">{children}</div>
 		</div>
