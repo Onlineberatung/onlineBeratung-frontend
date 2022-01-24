@@ -13,6 +13,7 @@ import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { languageIsoCodes } from '../../resources/scripts/i18n/de/languages';
 
 export const history = createBrowserHistory();
 
@@ -30,7 +31,7 @@ export const App = ({
 	legalComponent,
 	entryPoint,
 	extraRoutes,
-	spokenLanguages = ['de', 'en', 'fr', 'es', 'da', 'it'],
+	spokenLanguages = languageIsoCodes,
 	fixedLanguages = ['de']
 }: AppProps) => {
 	// The login is possible both at the root URL as well as with an
