@@ -13,7 +13,7 @@ const registrationInformal = {
 	'agencySelection.intro.point3':
 		'Dich gegebenfalls auch vor Ort beraten kann.',
 	'agencySelection.postcode.label': 'Deine Postleitzahl',
-	'agencySelection.postcode.unavailable':
+	'agencySelection.postcode.unavailable.text':
 		'Momentan haben wir leider noch keine Online-Beratungsstelle in Deiner Nähe. Auf unserer Webseite findest Du Beratungsstellen vor Ort für Dein Anliegen.',
 	'agencyPreselected.headline': 'Bitte gib Deine Postleitzahl an',
 	'agencyPreselected.intro.overline':

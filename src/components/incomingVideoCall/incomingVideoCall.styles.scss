@@ -1,6 +1,10 @@
 $userIconSize: 62px;
 
 .incomingVideoCall {
+	&.notification {
+		align-items: center;
+	}
+
 	&__description {
 		color: $white;
 		margin: 0;
