@@ -11,6 +11,9 @@ export const apiPutConsultantData = async (
 		bodyData: bodyData,
 		url: url,
 		method: FETCH_METHODS.PUT,
-		responseHandling: [FETCH_ERRORS.CONFLICT_WITH_RESPONSE]
+		responseHandling: [
+			FETCH_ERRORS.CONFLICT_WITH_RESPONSE,
+			FETCH_ERRORS.BAD_REQUEST
+		]
 	});
 };

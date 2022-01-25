@@ -13,6 +13,7 @@ import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { languageIsoCodes } from '../../resources/scripts/i18n/de/languages';
 
 export const history = createBrowserHistory();
 
@@ -21,13 +22,17 @@ interface AppProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	entryPoint: string;
 	extraRoutes?: ReactNode;
+	spokenLanguages?: string[];
+	fixedLanguages?: string[];
 }
 
 export const App = ({
 	stageComponent,
 	legalComponent,
 	entryPoint,
-	extraRoutes
+	extraRoutes,
+	spokenLanguages = languageIsoCodes,
+	fixedLanguages = ['de']
 }: AppProps) => {
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
@@ -119,6 +124,8 @@ export const App = ({
 						{isInitiallyLoaded && (
 							<AuthenticatedApp
 								legalComponent={legalComponent}
+								spokenLanguages={spokenLanguages}
+								fixedLanguages={fixedLanguages}
 								onAppReady={() => setStartWebsocket(true)}
 								onLogout={() => setDisconnectWebsocket(true)}
 							/>

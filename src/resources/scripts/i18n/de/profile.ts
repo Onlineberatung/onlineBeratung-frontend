@@ -24,6 +24,8 @@ const profile = {
 	'functions.passwordReset.overlay.headline':
 		'Sie haben Ihr Passwort erfolgreich geändert. Sie werden nun zum Login weitergeleitet.',
 	'functions.passwordReset.overlay.buttonLabel': 'Zum Login',
+	'functions.spokenLanguages.saveError':
+		'Beim Speichern ist ein Problem aufgetaucht. Bitte versuchen Sie es erneut.',
 	'data.title': 'Über mich',
 	'data.title.private': 'Private Daten',
 	'data.info.private': 'Diese Daten können die Ratsuchenden nicht einsehen.',
@@ -69,6 +71,10 @@ const profile = {
 	'externalRegistration.cancel': 'Abbrechen',
 	'footer.imprint': 'Impressum',
 	'footer.dataprotection': 'Datenschutz',
+	'spokenLanguages.title': 'Meine Sprachen',
+	'spokenLanguages.info':
+		'Wählen Sie die Sprache(n) aus, in der Sie die Ratsuchenden beraten können. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.',
+	'spokenLanguages.prefix': 'Sprachauswahl',
 	'statistics.title': 'Meine Statistik',
 	'statistics.period.prefix': 'Ihre Zahlen des',
 	'statistics.period.lastMonth': 'letzten Monats',

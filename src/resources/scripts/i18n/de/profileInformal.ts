@@ -11,6 +11,8 @@ const profileInformal = {
 		'Dein Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 9 Zeichen',
 	'functions.passwordReset.overlay.headline':
 		'Du hast Dein Passwort erfolgreich geändert. Du wirst nun zum Login weitergeleitet.',
+	'functions.spokenLanguages.saveError':
+		'Beim Speichern ist ein Problem aufgetaucht. Bitte versuche es erneut.',
 	'data.register.headline':
 		'Benötigst Du auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Dich gerne.',
 	'data.register.selectAgencyInfo': 'Bitte wähle eine Beratungsstelle aus.',

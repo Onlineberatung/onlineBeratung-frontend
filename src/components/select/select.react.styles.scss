@@ -51,6 +51,20 @@ $inputHeight: 50px;
 				color: $selection-focus-color;
 			}
 		}
+
+		&__multi-value {
+			// The `!important` annotation is relevant to not be overridden by inline styles.
+			border-radius: $select-dropdown-border-radius !important;
+		}
+
+		&--error {
+			.select__input__control {
+				border: 2px solid $form-error !important;
+
+				// The `!important` annotation is relevant to also cover the `:active` and `:focus`
+				// state, which would otherwise be overridden by inline styles.
+			}
+		}
 	}
 
 	&__option {
@@ -82,6 +96,14 @@ $inputHeight: 50px;
 			display: inline-block;
 			margin: 0 0 2px;
 			vertical-align: bottom;
+		}
+	}
+
+	&__error {
+		margin: $grid-base $grid-base-three 0;
+
+		p {
+			color: $form-error;
 		}
 	}
 }

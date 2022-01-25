@@ -1,14 +1,23 @@
 .statistics {
 	&__periodSelect {
-		display: flex;
 		margin-bottom: 18px;
+
+		@include breakpoint($fromMedium) {
+			display: flex;
+		}
 
 		> p {
 			margin: auto 0;
 		}
 
 		.select__wrapper {
+			max-width: #{$max-input-width + $grid-base-three + $grid-base-three};
 			margin: 0;
+			padding: 0;
+
+			@include breakpoint($fromMedium) {
+				padding: 0 $grid-base-three;
+			}
 		}
 	}
 
