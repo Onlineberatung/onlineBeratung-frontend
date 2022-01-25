@@ -145,6 +145,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					initialPostcode={props.initialPostcode}
 					preselectedAgency={props.preselectedAgencyData}
 					onAgencyChange={(agency) => setAgency(agency)}
+					hideExternalAgencies
 					onValidityChange={(validity) =>
 						setSelectedAgencyValidity(validity)
 					}

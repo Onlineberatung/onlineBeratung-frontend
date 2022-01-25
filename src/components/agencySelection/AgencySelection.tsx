@@ -32,12 +32,14 @@ export interface AgencySelectionProps {
 	isProfileView?: boolean;
 	agencySelectionNote?: string;
 	initialPostcode?: string;
+	hideExternalAgencies?: boolean;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState('');
-	const [proposedAgencies, setProposedAgencies] =
-		useState<Array<AgencyDataInterface> | null>(null);
+	const [proposedAgencies, setProposedAgencies] = useState<
+		AgencyDataInterface[] | null
+	>(null);
 	const [selectedPostcode, setSelectedPostcode] = useState('');
 	const [selectedAgencyId, setSelectedAgencyId] = useState<
 		number | undefined
@@ -119,12 +121,18 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					setSelectedAgencyId(undefined);
 					setPostcodeFallbackLink('');
 					if (validPostcode()) {
-						const response = await apiAgencySelection({
-							postcode: selectedPostcode,
-							consultingType: props.consultingType.id
-						});
-						setProposedAgencies(response);
-						setSelectedAgencyId(response[0].id);
+						const agencies = (
+							await apiAgencySelection({
+								postcode: selectedPostcode,
+								consultingType: props.consultingType.id
+							})
+						).filter(
+							(agency) =>
+								!props.hideExternalAgencies || !agency.external
+						);
+
+						setProposedAgencies(agencies);
+						setSelectedAgencyId(agencies[0].id);
 					} else if (proposedAgencies) {
 						setProposedAgencies(null);
 					}
@@ -141,7 +149,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							})
 						);
 					}
-					return null;
+					return;
 				}
 			})();
 		} else if (
