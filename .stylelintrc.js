@@ -36,7 +36,7 @@ module.exports = {
 		],
 
 		// Defaults are not good
-		// 'alpha-value-notation': 'number',
+		'alpha-value-notation': 'number',
 		'number-leading-zero': 'always',
 		'color-function-notation': 'legacy',
 		'value-keyword-case': null, // Requires e.g. "robotoslab" instead of "RobotoSlab"
