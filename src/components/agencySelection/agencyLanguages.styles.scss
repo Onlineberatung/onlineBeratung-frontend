@@ -1,0 +1,36 @@
+$input-size: 24px;
+
+.agencyLanguages {
+	flex-basis: 100%;
+	margin-top: 8px;
+	margin-left: #{$input-size + $grid-base};
+
+	font-size: $font-size-tertiary;
+	line-height: 19px;
+	color: $tertiary;
+
+	p {
+		margin: 0;
+	}
+
+	span {
+		display: inline-block;
+		&::after {
+			content: '|';
+			display: inline-block;
+			margin: 0 $grid-base;
+		}
+
+		&:last-child {
+			&::after {
+				display: none;
+			}
+		}
+	}
+
+	&__more {
+		color: $primary;
+		text-decoration: underline;
+		cursor: pointer;
+	}
+}

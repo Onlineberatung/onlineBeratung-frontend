@@ -21,6 +21,7 @@ import { Headline } from '../headline/Headline';
 import { parsePlaceholderString } from '../../utils/parsePlaceholderString';
 import { config } from '../../resources/scripts/config';
 import { Notice } from '../notice/Notice';
+import { AgencyLanguages } from './AgencyLanguages';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
@@ -331,6 +332,17 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												agency={agency}
 												isProfileView={
 													props.isProfileView
+												}
+											/>
+											<AgencyLanguages
+												languages={
+													/* TODO */ [
+														'de',
+														'en',
+														'da',
+														'fr',
+														'it'
+													]
 												}
 											/>
 										</div>
