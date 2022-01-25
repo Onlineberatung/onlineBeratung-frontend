@@ -93,7 +93,12 @@ export const Routing = (props: routingProps) => {
 							<Route
 								key={`list-${route.path}`}
 								path={route.path}
-								component={SessionsListWrapper}
+								render={(componentProps) => (
+									<route.component
+										{...componentProps}
+										{...props}
+									/>
+								)}
 							/>
 						)
 					)}

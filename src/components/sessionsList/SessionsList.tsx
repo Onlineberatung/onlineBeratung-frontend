@@ -61,7 +61,13 @@ interface GetSessionsListDataInterface {
 	signal?: AbortSignal;
 }
 
-export const SessionsList: React.FC = () => {
+interface SessionsListProps {
+	defaultLanguage: string;
+}
+
+export const SessionsList: React.FC<SessionsListProps> = ({
+	defaultLanguage
+}) => {
 	const location = useLocation();
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
@@ -655,6 +661,11 @@ export const SessionsList: React.FC = () => {
 										key={index}
 										type={type}
 										id={getChatItemForSession(item).id}
+										language={
+											item.language
+												? item.language
+												: defaultLanguage
+										}
 									/>
 							  ))
 							: !activeCreateChat && (

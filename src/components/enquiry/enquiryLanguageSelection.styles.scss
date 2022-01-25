@@ -9,7 +9,7 @@
 
 	&__tab {
 		font-size: $font-size-tertiary;
-		color: $tertiary;
+		color: $tab-color;
 		display: inline-block;
 		padding: 8px 12px;
 		background: $tab-background-color;
@@ -18,9 +18,14 @@
 		margin: 4px;
 		cursor: pointer;
 
+		&:hover {
+			background-color: $tab-background-color-hover;
+			color: $tab-color-hover;
+		}
+
 		&--selected {
 			background-color: $tab-background-color-selected;
-			color: $primary;
+			color: $tab-color-selected;
 		}
 	}
 }

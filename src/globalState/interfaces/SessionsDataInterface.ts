@@ -13,6 +13,7 @@ export interface ListItemInterface {
 	session?: SessionItemInterface;
 	chat?: GroupChatItemInterface;
 	user?: SessionUserInterface;
+	language?: string;
 }
 
 export interface SessionConsultantInterface {
