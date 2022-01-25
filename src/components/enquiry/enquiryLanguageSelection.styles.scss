@@ -1,0 +1,26 @@
+.enquiryLanguageSelection {
+	margin-top: 48px;
+	overflow: hidden;
+	width: 100%;
+
+	&__tabs {
+		margin: 12px -4px 0;
+	}
+
+	&__tab {
+		font-size: $font-size-tertiary;
+		color: $tertiary;
+		display: inline-block;
+		padding: 8px 12px;
+		background: $tab-background-color;
+		border-radius: $tab-border-radius;
+		white-space: nowrap;
+		margin: 4px;
+		cursor: pointer;
+
+		&--selected {
+			background-color: $tab-background-color-selected;
+			color: $primary;
+		}
+	}
+}

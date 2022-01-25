@@ -148,6 +148,7 @@ export interface MessageSubmitInterfaceComponentProps {
 	showMonitoringButton?: Function;
 	type: SESSION_LIST_TYPES;
 	typingUsers?: string[];
+	language?: string;
 }
 
 export const MessageSubmitInterfaceComponent = (
@@ -521,7 +522,11 @@ export const MessageSubmitInterfaceComponent = (
 			const enquirySessionId = activeSessionGroupId
 				? activeSessionGroupId
 				: sessionsData.mySessions[0].session.id;
-			apiSendEnquiry(enquirySessionId, getTypedMarkdownMessage())
+			apiSendEnquiry(
+				enquirySessionId,
+				getTypedMarkdownMessage(),
+				props.language
+			)
 				.then((response) => {
 					setEditorState(EditorState.createEmpty());
 					props.handleSendButton(response);

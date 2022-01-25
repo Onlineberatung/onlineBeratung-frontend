@@ -8,7 +8,9 @@ const enquiryInformal = {
 		'<ul><li>Was ist passiert?</li><li>Wie ist Deine aktuelle Situation?</li><li>Was beschäftigt Dich?</li><li>Hast Du eine bestimmte Frage oder weißt Du vielleicht selbst noch nicht so genau was Dir helfen könnte?</li></ul>',
 	'write.overlayHeadline': 'Vielen Dank für Deine Nachricht!',
 	'write.overlayCopy':
-		'Innerhalb von 2 Werktagen erhältst Du eine Antwort von uns.'
+		'Innerhalb von 2 Werktagen erhältst Du eine Antwort von uns.',
+	'language.selection.headline':
+		'Bitte wähle die Sprache in der Du beraten werden willst.'
 };
 
 export default enquiryInformal;

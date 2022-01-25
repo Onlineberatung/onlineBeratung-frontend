@@ -64,7 +64,9 @@ $backgroundCircleSize: 1800px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		margin: $grid-base-twelve $grid-base-two 109px;
+		margin-bottom: 10px;
+		max-height: calc(100% - 240px);
+
 		overflow-y: auto;
 		max-width: 350px;
 		z-index: 2;

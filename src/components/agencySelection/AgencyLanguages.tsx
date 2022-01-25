@@ -14,9 +14,9 @@ export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
 	const languagesSelection = languages.slice(0, 2);
 	const difference = languages.length - languagesSelection.length;
 
-	const mapLanguages = (lang) => (
-		<span>
-			{translate(`languages.${lang}`)} ({lang.toUpperCase()})
+	const mapLanguages = (isoCode) => (
+		<span key={isoCode}>
+			{translate(`languages.${isoCode}`)} ({isoCode.toUpperCase()})
 		</span>
 	);
 
