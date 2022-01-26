@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
 	checkForBiometricAvailability,
 	checkForExistingCredentials,
@@ -6,18 +6,42 @@ import {
 } from '../../utils/biometricAuthenticationHelpers';
 import { autoLogin } from '../registration/autoLogin';
 import { Credentials } from 'capacitor-native-biometric';
+import { App } from '@capacitor/app';
 
 export const BiometricAuthenticationLogin = () => {
+	const [isAppActive, setIsAppActive] = useState<boolean>(true);
+	const isBiometricDialogOpen = useRef<boolean>(false);
+
 	const stageAnimation = () => {
 		let stage = document.getElementById('loginLogoWrapper');
 		stage?.classList.add('stage--ready');
 	};
 
 	useEffect(() => {
-		checkForBiometricAvailability(handleAvailableBiometrics, () => {
-			stageAnimation();
+		if (isAppActive && !isBiometricDialogOpen.current) {
+			isBiometricDialogOpen.current = true;
+			checkForBiometricAvailability(
+				handleAvailableBiometrics,
+				() => {
+					stageAnimation();
+				},
+				() => {
+					stageAnimation();
+				}
+			);
+		} else if (isAppActive && isBiometricDialogOpen.current) {
+			isBiometricDialogOpen.current = false;
+		}
+	}, [isAppActive]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		App.addListener('appStateChange', ({ isActive }) => {
+			setIsAppActive(isActive);
 		});
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+		return () => {
+			App.removeAllListeners();
+		};
+	}, []);
 
 	const handleAvailableBiometrics = () => {
 		checkForExistingCredentials(handleCredentials, () => {
@@ -27,15 +51,13 @@ export const BiometricAuthenticationLogin = () => {
 
 	const handleCredentials = (hasCredentialsSet: Boolean) => {
 		if (hasCredentialsSet) {
-			checkIdentity(
-				() => {
+			checkIdentity((error) => {
+				if (error.code !== '15') {
 					stageAnimation();
-				},
-				() => {
-					stageAnimation();
-				},
-				handleCheckIdentitySuccess
-			);
+				} else {
+					isBiometricDialogOpen.current = false;
+				}
+			}, handleCheckIdentitySuccess);
 		} else {
 			stageAnimation();
 		}
@@ -47,6 +69,7 @@ export const BiometricAuthenticationLogin = () => {
 			password: credentials.password,
 			redirect: true
 		});
+		App.removeAllListeners();
 	};
 
 	return null;
