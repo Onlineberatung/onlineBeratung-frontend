@@ -72,7 +72,6 @@ export const AuthenticatedApp = ({
 	};
 
 	const handleCredentials = (hasCredentialsSet: Boolean) => {
-		console.log('handleCredentials wird aufgerufen');
 		if (hasCredentialsSet) {
 			setActivateTimer(true);
 		} else {
