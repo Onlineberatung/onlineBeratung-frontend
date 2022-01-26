@@ -316,8 +316,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 							props.language ? (
 								<>
 									<span>
-										{props.language.toUpperCase()} |
-									</span>{' '}
+										{/* we need a &nbsp; here, to ensure correct spacing for long messages */}
+										{props.language.toUpperCase()} |&nbsp;
+									</span>
 									{plainTextLastMessage}
 								</>
 							) : (

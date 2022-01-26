@@ -17,7 +17,6 @@ import {
 	SessionsDataContext
 } from '../../globalState';
 import { history } from './app';
-import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import { NavigationBar } from './NavigationBar';
 import { Header } from '../header/Header';
 import { FinishedAnonymousConversationHandler } from './FinishedAnonymousConversationHandler';

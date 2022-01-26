@@ -1,7 +1,11 @@
 .enquiryLanguageSelection {
-	margin-top: 48px;
+	margin-top: 32px;
 	overflow: hidden;
 	width: 100%;
+
+	@include breakpoint($fromLarge) {
+		margin-top: 48px;
+	}
 
 	&__tabs {
 		margin: 12px -4px 0;

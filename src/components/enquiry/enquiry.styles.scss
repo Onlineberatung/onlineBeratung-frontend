@@ -64,15 +64,15 @@ $backgroundCircleSize: 1800px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		margin-bottom: 10px;
+		margin-bottom: 30px;
 		max-height: calc(100% - 240px);
-
 		overflow-y: auto;
 		max-width: 350px;
 		z-index: 2;
 
 		@include breakpoint($fromLarge) {
 			max-width: none;
+			max-height: calc(100% - 40px);
 			width: 100%;
 			flex-wrap: nowrap;
 			align-items: center;
@@ -124,6 +124,8 @@ $backgroundCircleSize: 1800px;
 	&__text {
 		@include breakpoint($fromLarge) {
 			max-width: 500px;
+			max-height: 100%;
+			overflow: auto;
 			order: 1;
 
 			animation: fadeIn ease-out 1s;

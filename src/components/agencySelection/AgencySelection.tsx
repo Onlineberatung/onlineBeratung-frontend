@@ -322,7 +322,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 														agency.id
 													)
 												}
-												type="default"
+												type="smaller"
 												value={agency.id.toString()}
 												checked={index === 0}
 												inputId={agency.id.toString()}
@@ -335,15 +335,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												}
 											/>
 											<AgencyLanguages
-												languages={
-													/* TODO */ [
-														'de',
-														'en',
-														'da',
-														'fr',
-														'it'
-													]
-												}
+												agencyId={agency.id}
 											/>
 										</div>
 									)
