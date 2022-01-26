@@ -22,9 +22,11 @@
 		margin: 4px;
 		cursor: pointer;
 
-		&:hover {
-			background-color: $tab-background-color-hover;
-			color: $tab-color-hover;
+		@media not all and (hover: none) {
+			&:hover {
+				background-color: $tab-background-color-hover;
+				color: $tab-color-hover;
+			}
 		}
 
 		&--selected {
