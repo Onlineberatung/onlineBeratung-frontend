@@ -11,7 +11,6 @@ export const config = {
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
 		agencyServiceBase: apiUrl + '/service/agencies',
-		agencyLanguagesServiceBase: apiUrl + '/service/agencies/languages',
 		anonymousAskerBase: apiUrl + '/service/conversations/askers/anonymous/',
 		anonymousBase: apiUrl + '/service/conversations/anonymous/',
 		askerSessions: apiUrl + '/service/users/sessions/askers',
@@ -62,7 +61,8 @@ export const config = {
 		twoFactorAuth: apiUrl + '/service/users/twoFactorAuth',
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
-		userSessionsListView: '/sessions/user/view'
+		userSessionsListView: '/sessions/user/view',
+		consultantsLanguages: apiUrl + '/users/consultants/languages'
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:

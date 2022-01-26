@@ -33,6 +33,7 @@ export interface AgencySelectionProps {
 	isProfileView?: boolean;
 	agencySelectionNote?: string;
 	initialPostcode?: string;
+	fixedLanguages: string[];
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
@@ -336,6 +337,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											/>
 											<AgencyLanguages
 												agencyId={agency.id}
+												fixedLanguages={
+													props.fixedLanguages
+												}
 											/>
 										</div>
 									)

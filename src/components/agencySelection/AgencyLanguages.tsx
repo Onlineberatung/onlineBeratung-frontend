@@ -5,25 +5,24 @@ import './agencyLanguages.styles';
 
 interface AgencyLanguagesProps {
 	agencyId: number;
+	fixedLanguages: string[];
 }
 
 export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
-	agencyId
+	agencyId,
+	fixedLanguages
 }) => {
 	const [isAllShown, setIsAllShown] = useState(false);
-	const [languages, setLanguages] = useState<string[]>([]);
+	const [languages, setLanguages] = useState<string[]>([...fixedLanguages]);
 
 	useEffect(() => {
 		// async wrapper
 		const getLanguagesFromApi = async () => {
-			// TODO REMOVE
-			setLanguages(['de', 'en', 'zh', 'it', 'ar']);
+			setLanguages(['de', 'en', 'zh', 'it', 'ar']); // TODO REMOVE
 
-			const response = await apiAgencyLanguages(agencyId).catch(
-				(error) => {
-					// TODO error handling
-				}
-			);
+			const response = await apiAgencyLanguages(agencyId).catch(() => {
+				/* intentional, falls back to fixed languages */
+			});
 
 			if (response) {
 				setLanguages(response.languages);
