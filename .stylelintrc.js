@@ -47,7 +47,7 @@ module.exports = {
 		'selector-class-pattern': null,
 
 		// TODO: Only disabled temporarily to compile this list, but should be fixed
-		// 'scss/dollar-variable-pattern': null, // Likely requires changes in lib consumer
+		'scss/dollar-variable-pattern': null, // Likely requires changes in lib consumer
 		'scss/at-mixin-argumentless-call-parentheses': null,
 		'color-hex-length': null,
 		'scss/double-slash-comment-whitespace-inside': null,
