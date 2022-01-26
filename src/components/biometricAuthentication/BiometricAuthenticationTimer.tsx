@@ -4,7 +4,8 @@ import { checkIdentity } from '../../utils/biometricAuthenticationHelpers';
 import './biometricAuthentication.styles';
 
 export const BiometricAuthenticationTimer = () => {
-	let timer;
+	let timerStart: number;
+	let timerStop: number;
 
 	useEffect(() => {
 		document.addEventListener('visibilitychange', startAbsenceTimer);
@@ -15,19 +16,31 @@ export const BiometricAuthenticationTimer = () => {
 
 	const startAbsenceTimer = () => {
 		if (document.hidden) {
-			timer = window.setTimeout(helperFunction, 20000); //3 Minuten = 180 Sekunden = 180000 Millisekunden
+			timerStart = Date.now();
 		} else {
-			clearTimeout(timer);
+			timerStop = Date.now();
+		}
+		console.log('Dauer: ' + (timerStop - timerStart) / 1000 + ' Sekunden');
+
+		if ((timerStop - timerStart) / 1000 > 5) {
+			console.log('App war länger als 5 sek im Hintergrund');
+			helperFunction();
 		}
 	};
 
 	const helperFunction = () => {
+		console.log('helperFunction wird aufgerufen');
 		checkIdentity(
-			() => {
-				logout();
-			},
-			() => {
-				logout();
+			(error) => {
+				//error.code 16 =
+				if (error.code === '16' || error.code === '0') {
+					logout();
+					console.log('error.code ist 16 --> Logout');
+				} else {
+					console.log('error.code ist 15');
+					// document.addEventListener('visibilitychange', testfunc);
+					// checkIdentity --> TODO
+				}
 			},
 			() => {
 				document
