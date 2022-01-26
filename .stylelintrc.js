@@ -3,6 +3,9 @@ const defaultConfig = require('@biotope/quality-gate/config/.stylelintrc');
 module.exports = {
 	...defaultConfig,
 	extends: [
+		// TODO: From the admin app. Probably a good idea to enable.
+		// 'stylelint-config-idiomatic-order',
+
 		// The config from quality-gate isn't compatible with stylelint@^14,
 		// therefore merge it with working alternatives.
 		'stylelint-config-standard-scss',
@@ -32,6 +35,20 @@ module.exports = {
 					'css-resize',
 					'intrinsic-width'
 				]
+			}
+		],
+
+		// From admin app
+		'max-empty-lines': [
+			2,
+			{
+				ignore: ['comments']
+			}
+		],
+		'rule-empty-line-before': [
+			'always-multi-line',
+			{
+				except: ['after-single-line-comment', 'first-nested']
 			}
 		],
 
