@@ -140,20 +140,7 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 					/>
 					<EnquiryLanguageSelection
 						className="enquiry__languageSelection"
-						languages={
-							/* TODO */ [
-								'de',
-								'ar',
-								'en',
-								'fr',
-								'pl',
-								'it',
-								'af',
-								'ch',
-								'ca'
-							]
-						}
-						defaultLanguage={fixedLanguages[0]}
+						fixedLanguages={fixedLanguages}
 						handleSelection={setSelectedLanguage}
 					/>
 				</div>
