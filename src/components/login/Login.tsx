@@ -231,29 +231,3 @@ export const Login = ({
 		</StageLayout>
 	);
 };
-
-// import { defineCustomElements } from '@ionic/pwa-elements/loader';
-// import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-
-// defineCustomElements(window);
-// const photoButton: ButtonItem = {
-// 	label: 'Take a picture',
-// 	type: BUTTON_TYPES.SECONDARY
-// };
-
-// <Button
-// 	item={photoButton}
-// 	buttonHandle={async () => {
-// 		await Camera.getPhoto({
-// 			quality: 100,
-// 			allowEditing: true,
-// 			resultType: CameraResultType.Uri,
-// 			source: CameraSource.Camera,
-// 			saveToGallery: true,
-// 			width: 100,
-// 			height: 100
-// 		}).catch((e) => {
-// 			// console.error('E')
-// 		});
-// 	}}
-// />;

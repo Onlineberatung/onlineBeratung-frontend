@@ -4,7 +4,6 @@ import { config } from '../../resources/scripts/config';
 import { translate } from '../../utils/translate';
 import { Text, TextTypeOptions } from '../text/Text';
 import './legalInformationLinks.styles';
-// import { Browser } from '@capacitor/browser';
 
 export interface LegalInformationLinksProps {
 	className?: string;
@@ -21,16 +20,6 @@ export const LegalInformationLinks = ({
 }: LegalInformationLinksProps) => {
 	return (
 		<div className={clsx(className, 'legalInformationLinks')}>
-			{/* <button
-				type="button"
-				onClick={async () => {
-					await Browser.open({
-						// toolbarColor: '#3f373f',
-						url: 'https://www.caritas.de/impressum'
-					});
-					console.log('funktion wird aufgerufen');
-				}}
-			> */}
 			{!hideImprint && (
 				<a href={config.urls.imprint} target="_blank" rel="noreferrer">
 					<Text
