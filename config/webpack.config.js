@@ -8,7 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin').default;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
@@ -456,7 +456,7 @@ module.exports = function (webpackEnv) {
 							include: [
 								paths.appSrc,
 								path.resolve(
-									'node_modules/@caritasdeutschland/caritas-online-beratung-frontend'
+									'node_modules/@virtualidentityag/vi-saas-frontend'
 								)
 							],
 							loader: require.resolve('babel-loader'),
