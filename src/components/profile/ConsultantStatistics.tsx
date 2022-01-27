@@ -148,8 +148,11 @@ export const ConsultantStatistics = () => {
 		setIsRequestInProgress(true);
 		apiGetConsultantStatistics({ startDate, endDate })
 			.then((response: ConsultantStatisticsDTO) => {
-				const videoCallDurationInMinutes =
-					response.videoCallDuration / 60;
+				const videoCallDurationMinutes = Math.floor(
+					response.videoCallDuration / 60
+				);
+				const videoCallDurationSeconds =
+					response.videoCallDuration % 60;
 				const data = [
 					{
 						numberOfAssignedSessions:
@@ -158,11 +161,12 @@ export const ConsultantStatistics = () => {
 						numberOfSessionsWhereConsultantWasActive:
 							response.numberOfSessionsWhereConsultantWasActive,
 						videoCallDuration:
-							videoCallDurationInMinutes === 0
-								? 0
-								: videoCallDurationInMinutes.toFixed(2)
+							videoCallDurationMinutes +
+							':' +
+							videoCallDurationSeconds
 					}
 				];
+
 				setCsvData(data);
 
 				setSelectedStatistics(response);
