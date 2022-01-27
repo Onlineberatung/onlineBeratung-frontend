@@ -1,5 +1,7 @@
+/* stylelint-disable-next-line selector-type-no-unknown, selector-no-vendor-prefix */
 _:-ms-fullscreen,
 :root .ieBanner[style] {
+	/* stylelint-disable-next-line declaration-no-important */
 	display: block !important;
 }
 

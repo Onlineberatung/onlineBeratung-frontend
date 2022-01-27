@@ -23,6 +23,9 @@ jobs:
                   eslint: true
                   eslint_dir: ./src
                   eslint_extensions: js,ts,tsx
+                  stylelint: true
+                  stylelint_dir: ./src
+                  stylelint_extensions: scss
                   prettier: true
             - name: test and build
               run: |
