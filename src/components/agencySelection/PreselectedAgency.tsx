@@ -4,11 +4,13 @@ import { AgencyDataInterface } from '../../globalState';
 import { Headline } from '../headline/Headline';
 import { AgencyInfo } from './AgencyInfo';
 import './preselectedAgency.styles';
+import { AgencyLanguages } from './AgencyLanguages';
 
 export interface PreselectedAgencyProps {
 	prefix: string;
 	agencyData: AgencyDataInterface;
 	isProfileView?: boolean;
+	fixedLanguages: string[];
 }
 
 export const PreselectedAgency = (props: PreselectedAgencyProps) => (
@@ -19,6 +21,12 @@ export const PreselectedAgency = (props: PreselectedAgencyProps) => (
 			<AgencyInfo
 				agency={props.agencyData}
 				isProfileView={props.isProfileView}
+			/>
+		</div>
+		<div>
+			<AgencyLanguages
+				fixedLanguages={props.fixedLanguages}
+				agencyId={props.agencyData.id}
 			/>
 		</div>
 	</div>

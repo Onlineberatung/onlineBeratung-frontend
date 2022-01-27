@@ -199,6 +199,7 @@ export const RegistrationForm = ({
 								'registration.agency.preselected.prefix'
 							)}
 							agencyData={preselectedAgencyData}
+							fixedLanguages={fixedLanguages}
 						/>
 					)}
 

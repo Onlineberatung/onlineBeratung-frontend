@@ -3,11 +3,15 @@ $input-size: 24px;
 .agencyLanguages {
 	flex-basis: 100%;
 	margin-top: 8px;
-	margin-left: #{$input-size + $grid-base};
+	text-align: left;
 
 	font-size: $font-size-tertiary;
 	line-height: 19px;
 	color: $tertiary;
+
+	.agencySelection__proposedAgency & {
+		margin-left: #{$input-size + $grid-base};
+	}
 
 	p {
 		margin: 0;

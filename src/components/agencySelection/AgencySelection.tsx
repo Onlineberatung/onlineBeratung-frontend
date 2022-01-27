@@ -354,6 +354,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					prefix={translate('registration.agency.preselected.prefix')}
 					agencyData={preselectedAgency}
 					isProfileView={props.isProfileView}
+					fixedLanguages={props.fixedLanguages}
 				/>
 			)}
 		</div>
