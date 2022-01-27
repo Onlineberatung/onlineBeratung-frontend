@@ -213,5 +213,6 @@ $text-divider-font-weight: $font-weight-regular;
 $text-divider-text-transform: none;
 $upload-progress: #80dd92;
 $welcome-screen-icon-background: $background-accent;
-$notice-background: $background-lighter;
+$notice-background: transparent;
+$notice-border: 1px solid rgba(0, 0, 0, 0.2);
 $notice-padding: $grid-base-two;

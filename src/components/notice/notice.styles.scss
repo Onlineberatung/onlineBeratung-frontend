@@ -3,9 +3,10 @@
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	padding: $notice-padding;
 	border-radius: 4px;
+	padding: $notice-padding;
 	background-color: $notice-background;
+	border: $notice-border;
 
 	&__header {
 		display: flex;
