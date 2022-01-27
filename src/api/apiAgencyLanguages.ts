@@ -14,6 +14,6 @@ export const apiAgencyLanguages = async (
 		skipAuth: true,
 		responseHandling: []
 	}).then((result) => {
-		return result.languages;
+		return result;
 	});
 };

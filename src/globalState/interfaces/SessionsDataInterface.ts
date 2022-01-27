@@ -45,6 +45,7 @@ export interface SessionItemInterface {
 	isPeerChat: boolean;
 	isTeamSession: boolean;
 	videoCallMessageDTO: VideoCallMessageDTO;
+	language?: string;
 }
 
 export interface GroupChatItemInterface {

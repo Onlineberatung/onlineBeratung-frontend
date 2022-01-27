@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { apiAgencyLanguages } from '../../api/apiAgencyLanguages';
 import { translate } from '../../utils/translate';
+import { isUniqueLanguage } from '../profile/profileHelpers';
 import './agencyLanguages.styles';
 
 interface AgencyLanguagesProps {
@@ -18,19 +19,21 @@ export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
 	useEffect(() => {
 		// async wrapper
 		const getLanguagesFromApi = async () => {
-			setLanguages(['de', 'en', 'zh', 'it', 'ar']); // TODO REMOVE
-
 			const response = await apiAgencyLanguages(agencyId).catch(() => {
 				/* intentional, falls back to fixed languages */
 			});
 
 			if (response) {
-				setLanguages(response.languages);
+				const sortedLanguages = [
+					...fixedLanguages,
+					...response.languages
+				].filter(isUniqueLanguage);
+				setLanguages(sortedLanguages);
 			}
 		};
 
 		getLanguagesFromApi();
-	}, [agencyId]);
+	}, [agencyId, fixedLanguages]);
 
 	const languagesSelection = languages.slice(0, 2);
 	const difference = languages.length - languagesSelection.length;

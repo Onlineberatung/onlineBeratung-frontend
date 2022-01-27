@@ -155,3 +155,10 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 
 export const isMyMessage = (id: string): boolean =>
 	id === getValueFromCookie('rc_uid');
+
+export const getActiveSessionFromSessionId = (
+	id: number,
+	mySessions: any
+): any => {
+	return mySessions.filter((mySession) => mySession.session.id === id)[0];
+};

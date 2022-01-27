@@ -62,7 +62,7 @@ export const config = {
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
-		consultantsLanguages: apiUrl + '/users/consultants/languages'
+		consultantsLanguages: apiUrl + '/service/users/consultants/languages'
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:
