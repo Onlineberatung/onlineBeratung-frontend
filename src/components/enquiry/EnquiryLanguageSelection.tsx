@@ -31,19 +31,22 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 		useEffect(() => {
 			// async wrapper
 			const getLanguagesFromApi = async () => {
-				const agencyId = getActiveSessionFromSessionId(
+				const currentSession = getActiveSessionFromSessionId(
 					activeSessionGroupId,
 					sessionsData.mySessions
-				).agency.id;
-
-				const response = await apiAgencyLanguages(agencyId).catch(
-					() => {
-						/* intentional, falls back to fixed languages */
-					}
 				);
+				if (currentSession) {
+					const agencyId = currentSession.agency.id;
 
-				if (response) {
-					setLanguages(response.languages);
+					const response = await apiAgencyLanguages(agencyId).catch(
+						() => {
+							/* intentional, falls back to fixed languages */
+						}
+					);
+
+					if (response) {
+						setLanguages(response.languages);
+					}
 				}
 			};
 

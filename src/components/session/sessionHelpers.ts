@@ -160,5 +160,11 @@ export const getActiveSessionFromSessionId = (
 	id: number,
 	mySessions: any
 ): any => {
-	return mySessions.filter((mySession) => mySession.session.id === id)[0];
+	if (id) {
+		return mySessions.filter((mySession) => mySession.session.id === id)[0];
+	}
+	if (mySessions.length === 1) {
+		return mySessions[0];
+	}
+	return null;
 };
