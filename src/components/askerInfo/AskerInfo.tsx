@@ -112,7 +112,7 @@ export const AskerInfo = () => {
 						</div>
 					)}
 					{isSessionAssignAvailable() && (
-						<div>
+						<div className="askerInfo__assign">
 							<AskerInfoAssign />
 						</div>
 					)}
