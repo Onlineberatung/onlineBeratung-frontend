@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { apiAgencyLanguages } from '../../api/apiAgencyLanguages';
 import {
 	ActiveSessionGroupIdContext,
+	getActiveSession,
 	SessionsDataContext
 } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
-import { getActiveSessionFromSessionId } from '../session/sessionHelpers';
 
 import './enquiryLanguageSelection.styles';
 
@@ -31,12 +31,13 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 		useEffect(() => {
 			// async wrapper
 			const getLanguagesFromApi = async () => {
-				const currentSession = getActiveSessionFromSessionId(
+				const activeSession = getActiveSession(
 					activeSessionGroupId,
-					sessionsData.mySessions
+					sessionsData
 				);
-				if (currentSession) {
-					const agencyId = currentSession.agency.id;
+
+				if (activeSession) {
+					const agencyId = activeSession.agency.id;
 
 					const response = await apiAgencyLanguages(agencyId).catch(
 						() => {
