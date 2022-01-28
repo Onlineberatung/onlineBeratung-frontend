@@ -41,11 +41,12 @@ const colourStyles = {
 			'borderRadius': undefined,
 			'height': '50px',
 			'outline': isFocused ? '0' : '0',
-			'padding': '0 12px',
+			'padding': isFocused ? '0 11px' : '0 12px',
 			'color': '#3F373F',
 			'boxShadow': undefined,
 			'&:hover': {
-				border: isFocused ? '2px solid #3F373F' : '1px solid #3F373F'
+				border: isFocused ? '2px solid #3F373F' : '1px solid #3F373F',
+				padding: isFocused ? '0 11px' : '0 12px'
 			},
 			'.select__inputLabel': {
 				fontSize: isFocused || hasValue ? '12px' : '16px',
