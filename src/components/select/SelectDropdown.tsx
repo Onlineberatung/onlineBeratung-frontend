@@ -78,9 +78,7 @@ const colourStyles = {
 			backgroundColor: undefined,
 
 			textAlign: 'left',
-			lineHeight: '48px',
-			paddingTop: '0',
-			paddingBottom: '0'
+			lineHeight: '21px'
 		};
 	},
 	menuList: (styles) => ({
