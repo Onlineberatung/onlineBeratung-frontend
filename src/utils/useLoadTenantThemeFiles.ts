@@ -101,6 +101,12 @@ const createCSS = ({ primaryColor, secondaryColor, logo }) => {
 
 	document.head.insertAdjacentHTML(
 		'beforeend',
+		`<link rel="preconnect" href="https://fonts.googleapis.com">
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+				<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;1,700&display=swap" rel="stylesheet">`
+	);
+	document.head.insertAdjacentHTML(
+		'beforeend',
 		`<style>
 		:root {
 		--skin-color-primary: ${primaryColor};
@@ -127,6 +133,8 @@ const createCSS = ({ primaryColor, secondaryColor, logo }) => {
 				: 'var(--skin-color-link-dark)'
 		};
 		}
+		
+		@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;1,700&display=swap');
 		
 		.logo {
 			width: 200px;

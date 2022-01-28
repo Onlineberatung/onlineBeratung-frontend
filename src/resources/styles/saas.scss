@@ -27,51 +27,63 @@ $loginFormIconTranslate: 32px;
 	}
 }
 
-.stage.multiTantent {
-	flex-direction: column-reverse;
-	margin-top: auto;
-	.stage__headline,
-	.stage__headline h4 {
-		text-align: left;
-	}
-
-	.stage__logos {
-		align-items: flex-start;
-		align-content: flex-start;
-		padding-top: 60px;
-		margin-bottom: 0;
+.contentWrapper {
+	h1,
+	h2 {
+		font-weight: 700;
 	}
 }
 
-.stageLayout.multiTantent {
-	.stageLayout__content {
-		@include breakpoint($fromLarge) {
-			$padding: 150px;
-			width: 60vw;
-			padding: 0;
-			left: 40vw;
-			max-width: 1000px - $padding * 2;
+.multiTantent {
+	&.stage {
+		flex-direction: column-reverse;
+		margin-top: auto;
 
-			.loginForm {
-				margin-left: $padding;
-				width: auto;
+		.stage__headline,
+		.stage__headline h4 {
+			text-align: left;
+		}
+
+		.stage__logos {
+			align-items: flex-start;
+			align-content: flex-start;
+			padding-top: 60px;
+			margin-bottom: 0;
+		}
+	}
+
+	&.stageLayout {
+		.stageLayout__content {
+			@include breakpoint($fromLarge) {
+				$padding: 150px;
+				width: 60vw;
+				padding: 0;
+				left: 40vw;
+				max-width: 1000px - $padding * 2;
+
+				.loginForm {
+					margin-left: $padding;
+					width: auto;
+				}
+			}
+		}
+
+		.stageLayout__legalLinks {
+			text-transform: uppercase;
+			font-size: 14px;
+			left: 30px;
+
+			a {
+				text-decoration: none;
+
+				p {
+					color: $body-font-color;
+				}
 			}
 		}
 	}
 
-	.stageLayout__legalLinks {
-		text-transform: uppercase;
-		font-size: 14px;
-		left: 30px;
-		a {
-			text-decoration: none;
-			p {
-				color: $body-font-color;
-			}
-		}
+	&.loginForm__register {
+		display: none;
 	}
-}
-
-.loginForm__register.multiTantent {
-	display: none;
 }
