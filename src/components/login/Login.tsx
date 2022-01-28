@@ -171,6 +171,7 @@ export const Login = ({
 				legalComponent={legalComponent}
 				stage={<Stage hasAnimation />}
 				showLegalLinks
+				className={tenant.name && 'multiTantent'}
 			>
 				<div className="loginForm">
 					<div className="loginForm__headline">
@@ -217,7 +218,12 @@ export const Login = ({
 						buttonHandle={handleLogin}
 						disabled={isButtonDisabled}
 					/>
-					<div className="loginForm__register">
+					<div
+						className={clsx(
+							'loginForm__register',
+							tenant.name && 'multiTantent'
+						)}
+					>
 						<Text
 							text={translate('login.register.infoText.title')}
 							type={'infoSmall'}

@@ -23,7 +23,8 @@ export const Stage = ({
 			id="loginLogoWrapper"
 			className={clsx(className, 'stage', {
 				'stage--animated': hasAnimation,
-				'stage--ready': isReady
+				'stage--ready': isReady,
+				'multiTantent': tenant.name
 			})}
 		>
 			<div className="stage__headline">

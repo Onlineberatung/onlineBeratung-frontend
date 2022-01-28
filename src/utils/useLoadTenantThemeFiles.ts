@@ -131,7 +131,6 @@ const createCSS = ({ primaryColor, secondaryColor, logo }) => {
 		.logo {
 			width: 200px;
 			height: 80px;
-			margin: 20px auto;
 			background-image: url('${logo}');
 			background-repeat: no-repeat;
 			background-size: contain;
