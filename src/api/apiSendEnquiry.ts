@@ -3,13 +3,19 @@ import { fetchData, FETCH_METHODS, FETCH_SUCCESS } from './fetchData';
 
 export const apiSendEnquiry = async (
 	sessionId: number,
-	messageData: string
+	messageData: string,
+	language?: string
 ): Promise<any> => {
 	const url = `${config.endpoints.sessionBase}/${sessionId}/enquiry/new`;
-	const message = JSON.stringify({
+	const data: any = {
 		message: messageData,
 		sendNotification: true
-	});
+	};
+	if (language) {
+		data.language = language;
+	}
+
+	const message = JSON.stringify(data);
 
 	return fetchData({
 		url: url,

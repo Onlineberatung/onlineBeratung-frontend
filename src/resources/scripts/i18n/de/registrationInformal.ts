@@ -12,6 +12,7 @@ const registrationInformal = {
 		'Warum hilft Dir auch online eine Beratungsstelle in Deiner Nähe?',
 	'agencySelection.intro.point3':
 		'Dich gegebenfalls auch vor Ort beraten kann.',
+	'agencySelection.languages.info': 'Diese Beratungsstelle berät Dich auf:',
 	'agencySelection.postcode.label': 'Deine Postleitzahl',
 	'agencySelection.postcode.unavailable.text':
 		'Momentan haben wir leider noch keine Online-Beratungsstelle in Deiner Nähe. Auf unserer Webseite findest Du Beratungsstellen vor Ort für Dein Anliegen.',

@@ -61,7 +61,8 @@ export const config = {
 		twoFactorAuth: apiUrl + '/service/users/twoFactorAuth',
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
-		userSessionsListView: '/sessions/user/view'
+		userSessionsListView: '/sessions/user/view',
+		consultantsLanguages: apiUrl + '/service/users/consultants/languages'
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:

@@ -16,6 +16,8 @@ const registration = {
 		'Bitte wählen Sie eine Beratungsstelle in Ihrer Nähe',
 	'agencySelection.title.start': 'Beratungsstellen zur Postleitzahl',
 	'agencySelection.title.end': ':',
+	'agencySelection.languages.info': 'Diese Beratungsstelle berät Sie auf:',
+	'agencySelection.languages.more': 'Sprachen',
 	'agencySelection.intro.overline':
 		'Warum hilft Ihnen auch online eine Beratungsstelle in Ihrer Nähe?',
 	'agencySelection.intro.subline': 'Weil dann das Fachpersonal:',

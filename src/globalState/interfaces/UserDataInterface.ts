@@ -43,3 +43,7 @@ export interface TwoFactorAuthInterface {
 	secret: string;
 	qrCode: string;
 }
+
+export interface AgencyLanguagesInterface {
+	languages: string[];
+}

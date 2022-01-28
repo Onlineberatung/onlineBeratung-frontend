@@ -17,7 +17,6 @@ import {
 	SessionsDataContext
 } from '../../globalState';
 import { history } from './app';
-import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import { NavigationBar } from './NavigationBar';
 import { Header } from '../header/Header';
 import { FinishedAnonymousConversationHandler } from './FinishedAnonymousConversationHandler';
@@ -93,7 +92,12 @@ export const Routing = (props: routingProps) => {
 							<Route
 								key={`list-${route.path}`}
 								path={route.path}
-								component={SessionsListWrapper}
+								render={(componentProps) => (
+									<route.component
+										{...componentProps}
+										{...props}
+									/>
+								)}
 							/>
 						)
 					)}
