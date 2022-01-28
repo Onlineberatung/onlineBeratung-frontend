@@ -43,6 +43,10 @@ $inputHeight: 50px;
 		&__option {
 			background-color: $white;
 			color: $secondary;
+			min-height: 48px;
+			// The `!important` annotation is relevant to not be overridden by inline styles.
+			display: flex !important;
+			align-items: center;
 
 			&--is-focused {
 				// The `!important` annotation is relevant to also cover the `:active`
