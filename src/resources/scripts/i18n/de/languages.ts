@@ -187,4 +187,12 @@ const languages = {
 
 export const languageIsoCodes = Object.keys(languages).map((key) => key);
 
+export const languageIsoCodesSortedByName = Object.keys(languages).sort(
+	(codeA, codeB) => {
+		if (languages[codeA] > languages[codeB]) return 1;
+		if (languages[codeA] < languages[codeB]) return -1;
+		return 0;
+	}
+);
+
 export default languages;
