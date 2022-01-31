@@ -273,7 +273,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 
 		.public-DraftEditorPlaceholder-root {
 			position: absolute;
-			color: var(--skin-line-grey, $light-grey);
+			color: $message-submit-interface-textarea-placeholder-color;
 		}
 
 		&__attachmentSelect {
