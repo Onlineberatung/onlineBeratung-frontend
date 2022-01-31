@@ -48,7 +48,7 @@ const registrationInformal = {
 	'welcomeScreen.info3.text':
 		'Innerhalb von 2 Werktagen bekommst Du eine Antwort',
 	'teaser.consultant':
-		'Bitte registriere Dich, um mit deinem Berater in Kontakt zu kommen'
+		'Bitte registriere Dich, um mit Deiner Beraterin / Deinem Berater in Kontakt zu kommen'
 };
 
 export default registrationInformal;

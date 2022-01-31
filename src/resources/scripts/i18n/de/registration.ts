@@ -114,7 +114,7 @@ const registration = {
 	'welcomeScreen.register.helperText': 'Noch nicht registriert?',
 	'welcomeScreen.register.buttonLabel': 'Zur Registrierung',
 	'teaser.consultant':
-		'Bitte registrieren Sie sich, um mit Ihrem Berater in Kontakt zu kommen'
+		'Bitte registrieren Sie sich, um mit Ihrer Beraterin / Ihrem Berater in Kontakt zu kommen'
 };
 
 export default registration;
