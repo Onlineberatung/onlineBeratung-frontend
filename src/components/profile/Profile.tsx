@@ -142,7 +142,11 @@ export const Profile = (props: ProfileProps) => {
 							{consultingTypeSelectOptionsSet(
 								userData,
 								consultingTypes
-							).length > 0 && <AskerRegistration />}
+							).length > 0 && (
+								<AskerRegistration
+									fixedLanguages={props.fixedLanguages}
+								/>
+							)}
 						</div>
 					)}
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (

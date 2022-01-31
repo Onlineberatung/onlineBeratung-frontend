@@ -42,6 +42,7 @@ import { SessionListItemAttachment } from './SessionListItemAttachment';
 interface SessionListItemProps {
 	type: SESSION_LIST_TYPES;
 	id: number;
+	language: string;
 }
 
 export const SessionListItemComponent = (props: SessionListItemProps) => {
@@ -82,6 +83,9 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 
 	const isCurrentSessionNewEnquiry =
 		currentSessionData.session && currentSessionData.session.status === 0;
+
+	const isCurrentSessionFirstContactMessage =
+		currentSessionData.session && currentSessionData.session.status === 1;
 
 	useEffect(() => {
 		const chatItem = activeSession
@@ -308,7 +312,18 @@ export const SessionListItemComponent = (props: SessionListItemProps) => {
 				<div className="sessionsListItem__row">
 					{listItem.lastMessage ? (
 						<div className="sessionsListItem__subject">
-							{plainTextLastMessage}
+							{isCurrentSessionFirstContactMessage &&
+							props.language ? (
+								<>
+									<span>
+										{/* we need a &nbsp; here, to ensure correct spacing for long messages */}
+										{props.language.toUpperCase()} |&nbsp;
+									</span>
+									{plainTextLastMessage}
+								</>
+							) : (
+								plainTextLastMessage
+							)}
 						</div>
 					) : (
 						(isCurrentSessionNewEnquiry || isLiveChat) && (

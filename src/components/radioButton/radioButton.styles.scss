@@ -68,6 +68,21 @@ $minHeight: 50px;
 		}
 	}
 
+	&--smaller {
+		.radioButton {
+			&__contentWrapper {
+				align-items: flex-start;
+			}
+
+			&__label {
+				padding: 0 12px 0 $grid-base;
+				font-size: $font-size-tertiary;
+				font-weight: $font-weight-bold;
+				line-height: 20px;
+			}
+		}
+	}
+
 	&--box {
 		border: 1px solid $form-primary;
 		border-radius: 24px;

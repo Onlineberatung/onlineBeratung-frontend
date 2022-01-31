@@ -33,6 +33,7 @@ interface RegistrationFormProps {
 	consultingType: ConsultingTypeInterface;
 	agency: AgencyDataInterface;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	fixedLanguages: string[];
 }
 
 interface FormAccordionData {
@@ -47,7 +48,8 @@ interface FormAccordionData {
 export const RegistrationForm = ({
 	consultingType,
 	agency,
-	legalComponent: LegalComponent
+	legalComponent: LegalComponent,
+	fixedLanguages
 }: RegistrationFormProps) => {
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>();
@@ -187,6 +189,7 @@ export const RegistrationForm = ({
 					}
 					additionalStepsData={consultingType.requiredComponents}
 					registrationNotes={consultingType.registration.notes}
+					fixedLanguages={fixedLanguages}
 				></FormAccordion>
 
 				{preselectedAgencyData &&
@@ -196,6 +199,7 @@ export const RegistrationForm = ({
 								'registration.agency.preselected.prefix'
 							)}
 							agencyData={preselectedAgencyData}
+							fixedLanguages={fixedLanguages}
 						/>
 					)}
 

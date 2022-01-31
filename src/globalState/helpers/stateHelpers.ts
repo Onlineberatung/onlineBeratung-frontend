@@ -50,7 +50,8 @@ export const getActiveSession = (
 		return (
 			(chatItem.groupId && chatItem.groupId === sessionGroupId) ||
 			(chatItem.feedbackGroupId &&
-				chatItem.feedbackGroupId === sessionGroupId)
+				chatItem.feedbackGroupId === sessionGroupId) ||
+			(chatItem.id && chatItem.id === sessionGroupId)
 		);
 	});
 

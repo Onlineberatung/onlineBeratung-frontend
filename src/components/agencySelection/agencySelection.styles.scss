@@ -61,10 +61,13 @@ $infoIconSize: 16px;
 
 	&__proposedAgency {
 		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
 		position: relative;
 		padding: 12px 0;
 
 		.radioButton {
+			flex-basis: calc(100% - #{$infoIconSize + 1px});
 			min-height: unset;
 		}
 

@@ -21,6 +21,7 @@ import { Headline } from '../headline/Headline';
 import { parsePlaceholderString } from '../../utils/parsePlaceholderString';
 import { config } from '../../resources/scripts/config';
 import { Notice } from '../notice/Notice';
+import { AgencyLanguages } from './AgencyLanguages';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
@@ -32,6 +33,7 @@ export interface AgencySelectionProps {
 	isProfileView?: boolean;
 	agencySelectionNote?: string;
 	initialPostcode?: string;
+	fixedLanguages: string[];
 	hideExternalAgencies?: boolean;
 }
 
@@ -329,7 +331,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 														agency.id
 													)
 												}
-												type="default"
+												type="smaller"
 												value={agency.id.toString()}
 												checked={index === 0}
 												inputId={agency.id.toString()}
@@ -339,6 +341,12 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												agency={agency}
 												isProfileView={
 													props.isProfileView
+												}
+											/>
+											<AgencyLanguages
+												agencyId={agency.id}
+												fixedLanguages={
+													props.fixedLanguages
 												}
 											/>
 										</div>
@@ -354,6 +362,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					prefix={translate('registration.agency.preselected.prefix')}
 					agencyData={preselectedAgency}
 					isProfileView={props.isProfileView}
+					fixedLanguages={props.fixedLanguages}
 				/>
 			)}
 		</div>

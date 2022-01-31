@@ -27,6 +27,7 @@ interface FormAccordionProps {
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
 	initialPostcode?: string;
+	fixedLanguages: string[];
 }
 
 export const FormAccordion = (props: FormAccordionProps) => {
@@ -152,6 +153,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 					agencySelectionNote={
 						props.registrationNotes?.agencySelection
 					}
+					fixedLanguages={props.fixedLanguages}
 				/>
 			),
 			isValid: selectedAgencyValidity
