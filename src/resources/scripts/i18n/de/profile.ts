@@ -74,7 +74,7 @@ const profile = {
 	'spokenLanguages.title': 'Meine Sprachen',
 	'spokenLanguages.info':
 		'Wählen Sie die Sprache(n) aus, in der Sie die Ratsuchenden beraten können. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.',
-	'spokenLanguages.prefix': 'Sprachauswahl',
+	'spokenLanguages.prefix': 'Sprach&shy;auswahl',
 	'statistics.title': 'Meine Statistik',
 	'statistics.period.prefix': 'Ihre Zahlen des',
 	'statistics.period.lastMonth': 'letzten Monats',

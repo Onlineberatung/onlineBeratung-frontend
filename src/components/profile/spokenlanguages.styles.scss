@@ -10,6 +10,7 @@
 
 		& > p {
 			margin: 14px 0 auto;
+			min-width: 80px;
 		}
 	}
 
@@ -31,11 +32,12 @@
 	.select__wrapper {
 		margin: 0;
 		padding: 0;
-		max-width: $max-input-width;
+		max-width: 600px;
 
 		@include breakpoint($fromMedium) {
-			margin: 0 0 0 $grid-base-three;
-			min-width: $max-input-width;
+			padding-left: $grid-base-three;
+			min-width: #{$max-input-width + $grid-base-three};
+			max-width: 470px;
 		}
 
 		.select__input__control {
@@ -50,6 +52,14 @@
 
 		.select__input__indicator {
 			margin-top: 2px;
+		}
+
+		.select__input__multi-value {
+			background-color: $tab-background-color-selected;
+		}
+
+		.select__input__multi-value__label {
+			color: $primary;
 		}
 	}
 }

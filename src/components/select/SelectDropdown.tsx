@@ -121,7 +121,11 @@ const colourStyles = {
 			margin: '4px'
 		};
 		return state.data.isFixed
-			? { ...styles, ...common, backgroundColor: 'rgba(0,0,0,0.05)' }
+			? {
+					...styles,
+					...common,
+					backgroundColor: 'rgba(0,0,0,0.05) !important'
+			  } // important is needed for fixed option to overwrite color from scss
 			: { ...styles, ...common };
 	},
 	multiValueLabel: (styles, state) => {
@@ -132,7 +136,7 @@ const colourStyles = {
 			paddingBottom: '4px'
 		};
 		return state.data.isFixed
-			? { ...styles, ...common, color: 'rgba(0,0,0,0.2)' }
+			? { ...styles, ...common, color: 'rgba(0,0,0,0.2) !important' } // important is needed for fixed option to overwrite color from scss
 			: { ...styles, ...common, paddingRight: '4px' };
 	},
 	multiValueRemove: (styles, state) => {
