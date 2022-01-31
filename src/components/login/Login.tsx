@@ -115,7 +115,7 @@ export const Login = ({
 				username: username,
 				password: password,
 				redirect: true,
-				redirectURL: tenant.origin
+				redirectURL: tenant?.origin
 			})
 				.catch((error) => {
 					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
@@ -141,7 +141,7 @@ export const Login = ({
 				username,
 				password,
 				redirect: true,
-				redirectURL: tenant.origin,
+				redirectURL: tenant?.origin,
 				otp
 			})
 				.catch((error) => {
@@ -168,7 +168,6 @@ export const Login = ({
 			legalComponent={legalComponent}
 			stage={<Stage hasAnimation />}
 			showLegalLinks
-			className={tenant.name && 'multiTantent'}
 		>
 			<div className="loginForm">
 				<div className="loginForm__headline">
@@ -215,12 +214,7 @@ export const Login = ({
 					buttonHandle={handleLogin}
 					disabled={isButtonDisabled}
 				/>
-				<div
-					className={clsx(
-						'loginForm__register',
-						tenant.name && 'multiTantent'
-					)}
-				>
+				<div className="loginForm__register">
 					<Text
 						text={translate('login.register.infoText.title')}
 						type={'infoSmall'}
