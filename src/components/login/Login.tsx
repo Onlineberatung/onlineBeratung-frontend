@@ -37,6 +37,7 @@ export const Login = ({
 }: LoginProps) => {
 	useLoadTenantThemeFiles();
 	const { tenant } = useContext(TenantContext);
+	const isMultiTenant = tenant != null;
 
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -214,23 +215,27 @@ export const Login = ({
 					buttonHandle={handleLogin}
 					disabled={isButtonDisabled}
 				/>
-				<div className="loginForm__register">
-					<Text
-						text={translate('login.register.infoText.title')}
-						type={'infoSmall'}
-					/>
-					<Text
-						text={translate('login.register.infoText.copy')}
-						type={'infoSmall'}
-					/>
-					<a
-						className="loginForm__register__link"
-						href={config.urls.loginRedirectToRegistrationOverview}
-						target="_self"
-					>
-						{translate('login.register.linkLabel')}
-					</a>
-				</div>
+				{!isMultiTenant && (
+					<div className="loginForm__register">
+						<Text
+							text={translate('login.register.infoText.title')}
+							type={'infoSmall'}
+						/>
+						<Text
+							text={translate('login.register.infoText.copy')}
+							type={'infoSmall'}
+						/>
+						<a
+							className="loginForm__register__link"
+							href={
+								config.urls.loginRedirectToRegistrationOverview
+							}
+							target="_self"
+						>
+							{translate('login.register.linkLabel')}
+						</a>
+					</div>
+				)}
 			</div>
 		</StageLayout>
 	);
