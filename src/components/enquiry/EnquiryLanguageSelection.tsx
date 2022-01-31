@@ -73,15 +73,19 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			</span>
 		);
 
-		return (
-			<div className={`enquiryLanguageSelection ${className}`}>
-				<Headline
-					semanticLevel="5"
-					text={translate('enquiry.language.selection.headline')}
-				/>
-				<div className="enquiryLanguageSelection__tabs">
-					{languages.map(mapLanguages)}
+		if (languages.length > 1) {
+			return (
+				<div className={`enquiryLanguageSelection ${className}`}>
+					<Headline
+						semanticLevel="5"
+						text={translate('enquiry.language.selection.headline')}
+					/>
+					<div className="enquiryLanguageSelection__tabs">
+						{languages.map(mapLanguages)}
+					</div>
 				</div>
-			</div>
-		);
+			);
+		} else {
+			return <></>;
+		}
 	};
