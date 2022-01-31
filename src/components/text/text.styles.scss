@@ -6,13 +6,13 @@
 	&__standard {
 		font-size: $font-size-primary;
 		line-height: $line-height-primary;
-		color: $body-font-color;
+		color: $text-color-standard;
 	}
 
 	&__infoLargeStandard {
 		font-size: $font-size-tertiary;
 		line-height: 19px;
-		color: $body-font-color;
+		color: $text-color-info-large-standard;
 	}
 
 	&__infoLargeAlternative {
