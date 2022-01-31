@@ -19,9 +19,7 @@ import '../../resources/styles/styles';
 import './login.styles';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
 import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
-import Modal from '../modal/Modal';
 import { TenantContext } from '../../globalState';
-import { Spinner } from '../spinner/Spinner';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -166,102 +164,80 @@ export const Login = ({
 	};
 
 	return (
-		<>
-			<StageLayout
-				legalComponent={legalComponent}
-				stage={<Stage hasAnimation />}
-				showLegalLinks
-				className={tenant.name && 'multiTantent'}
-			>
-				<div className="loginForm">
-					<div className="loginForm__headline">
-						<h1>{translate('login.headline')}</h1>
-					</div>
+		<StageLayout
+			legalComponent={legalComponent}
+			stage={<Stage hasAnimation />}
+			showLegalLinks
+			className={tenant.name && 'multiTantent'}
+		>
+			<div className="loginForm">
+				<div className="loginForm__headline">
+					<h1>{translate('login.headline')}</h1>
+				</div>
+				<InputField
+					item={inputItemUsername}
+					inputHandle={handleUsernameChange}
+					keyUpHandle={handleKeyUp}
+				/>
+				<InputField
+					item={inputItemPassword}
+					inputHandle={handlePasswordChange}
+					keyUpHandle={handleKeyUp}
+				/>
+				<div
+					className={clsx('loginForm__otp', {
+						'loginForm__otp--active': isOtpRequired
+					})}
+				>
 					<InputField
-						item={inputItemUsername}
-						inputHandle={handleUsernameChange}
+						item={otpInputItem}
+						inputHandle={handleOtpChange}
 						keyUpHandle={handleKeyUp}
 					/>
-					<InputField
-						item={inputItemPassword}
-						inputHandle={handlePasswordChange}
-						keyUpHandle={handleKeyUp}
+				</div>
+				{showLoginError && (
+					<Text
+						text={showLoginError}
+						type="infoSmall"
+						className="loginForm__error"
 					/>
-					<div
-						className={clsx('loginForm__otp', {
-							'loginForm__otp--active': isOtpRequired
-						})}
-					>
-						<InputField
-							item={otpInputItem}
-							inputHandle={handleOtpChange}
-							keyUpHandle={handleKeyUp}
-						/>
-					</div>
-					{showLoginError && (
-						<Text
-							text={showLoginError}
-							type="infoSmall"
-							className="loginForm__error"
-						/>
+				)}
+				<a
+					href={config.endpoints.loginResetPasswordLink}
+					target="_blank"
+					rel="noreferrer"
+					className="loginForm__passwordReset"
+				>
+					{translate('login.resetPasswort.label')}
+				</a>
+				<Button
+					item={loginButton}
+					buttonHandle={handleLogin}
+					disabled={isButtonDisabled}
+				/>
+				<div
+					className={clsx(
+						'loginForm__register',
+						tenant.name && 'multiTantent'
 					)}
-					<a
-						href={config.endpoints.loginResetPasswordLink}
-						target="_blank"
-						rel="noreferrer"
-						className="loginForm__passwordReset"
-					>
-						{translate('login.resetPasswort.label')}
-					</a>
-					<Button
-						item={loginButton}
-						buttonHandle={handleLogin}
-						disabled={isButtonDisabled}
+				>
+					<Text
+						text={translate('login.register.infoText.title')}
+						type={'infoSmall'}
 					/>
-					<div
-						className={clsx(
-							'loginForm__register',
-							tenant.name && 'multiTantent'
-						)}
+					<Text
+						text={translate('login.register.infoText.copy')}
+						type={'infoSmall'}
+					/>
+					<a
+						className="loginForm__register__link"
+						href={config.urls.loginRedirectToRegistrationOverview}
+						target="_self"
 					>
-						<Text
-							text={translate('login.register.infoText.title')}
-							type={'infoSmall'}
-						/>
-						<Text
-							text={translate('login.register.infoText.copy')}
-							type={'infoSmall'}
-						/>
-						<a
-							className="loginForm__register__link"
-							href={
-								config.urls.loginRedirectToRegistrationOverview
-							}
-							target="_self"
-						>
-							{translate('login.register.linkLabel')}
-						</a>
-					</div>
+						{translate('login.register.linkLabel')}
+					</a>
 				</div>
-			</StageLayout>
-			<Modal isVisible={!tenant?.subdomain}>
-				<div>
-					<Spinner isDark />
-					<p>
-						Bitte melden Sie sich bei <strong>Ihrer</strong>{' '}
-						Beratungs-Stelle an.{' '}
-					</p>
-					<p>
-						Diese finden sie unter{' '}
-						<strong>[beratungsstelle].onlineberatung.de</strong>
-					</p>
-					<p>
-						Sie wollen selbst eine Beratungsstelle online eröffnen.
-						Dann geht's{' '}
-						<a href="http://www.onlineberatung.de">hier</a> lang
-					</p>
-				</div>
-			</Modal>
-		</>
+			</div>
+		</StageLayout>
 	);
 };
