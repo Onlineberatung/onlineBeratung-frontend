@@ -11,47 +11,46 @@ jobs:
             - name: set env
               run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
             - uses: actions/checkout@v2.3.4
-# Temporarily disabled as the build fails
-#            - uses: actions/setup-node@v2.1.5
-#              with:
-#                  node-version: 12.13.0
-#                  registry-url: 'https://npm.pkg.github.com'
-#            - run: npm i
-#            - name: Run linters
-#              uses: wearerequired/lint-action@v1
-#              with:
-#                  github_token: ${{ secrets.github_token }}
-#                  eslint: true
-#                  eslint_dir: ./src
-#                  eslint_extensions: js,ts,tsx
-#                  prettier: true
-#            - name: test and build
-#              run: |
-#                  echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
-#                  echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
-#                  npm run test
-#                  npm run build
-#            - name: Bump version
-#              if: startsWith(env.BRANCH,'release') == true
-#              run: |
-#                  git config --local user.email "action@github.com"
-#                  git config --local user.name "GitHub Action"
-#                  npm run release
-#            - name: Publish npm package
-#              if: startsWith(env.BRANCH,'release') == true
-#              run: npm publish
-#              env:
-#                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#            - name: Push changes
-#              if: startsWith(env.BRANCH,'release') == true
-#              uses: ad-m/github-push-action@master
-#              with:
-#                  github_token: ${{ secrets.GITHUB_TOKEN }}
-#                  branch: ${{env.BRANCH}}
-#                  force: true
-#                  tags: true
-#            - uses: actions/upload-artifact@v2
-#              if: failure()
-#              with:
-#                  name: cypress-videos
-#                  path: cypress/videos/
+           - uses: actions/setup-node@v2.1.5
+             with:
+                 node-version: 12.13.0
+                 registry-url: 'https://npm.pkg.github.com'
+           - run: npm i
+           - name: Run linters
+             uses: wearerequired/lint-action@v1
+             with:
+                 github_token: ${{ secrets.github_token }}
+                 eslint: true
+                 eslint_dir: ./src
+                 eslint_extensions: js,ts,tsx
+                 prettier: true
+           - name: test and build
+             run: |
+                 echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
+                 echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
+                 npm run test
+                 npm run build
+           - name: Bump version
+             if: startsWith(env.BRANCH,'release') == true
+             run: |
+                 git config --local user.email "action@github.com"
+                 git config --local user.name "GitHub Action"
+                 npm run release
+           - name: Publish npm package
+             if: startsWith(env.BRANCH,'release') == true
+             run: npm publish
+             env:
+                 NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           - name: Push changes
+             if: startsWith(env.BRANCH,'release') == true
+             uses: ad-m/github-push-action@master
+             with:
+                 github_token: ${{ secrets.GITHUB_TOKEN }}
+                 branch: ${{env.BRANCH}}
+                 force: true
+                 tags: true
+           - uses: actions/upload-artifact@v2
+             if: failure()
+             with:
+                 name: cypress-videos
+                 path: cypress/videos/
