@@ -74,7 +74,12 @@ export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps>
 				});
 		};
 
-		const languageOptions = spokenLanguages.map((language) => {
+		const availableLanguages = [
+			...fixedLanguages,
+			...spokenLanguages
+		].filter(isUniqueLanguage);
+
+		const languageOptions = availableLanguages.map((language) => {
 			return {
 				value: language,
 				label: translate(`languages.${language}`),
