@@ -92,10 +92,6 @@ $gridSpacing: $grid-base-four;
 			animation-delay: $loginOverlayDelayMobile;
 		}
 
-		&.stage--ready-mobile {
-			animation: overlayAnimation 1.4s ease forwards;
-		}
-
 		.stage__headline {
 			margin-bottom: 80px;
 		}

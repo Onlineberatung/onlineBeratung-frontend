@@ -20,7 +20,7 @@ export interface StageProps {
 export const Stage = ({
 	className,
 	hasAnimation,
-	isReady = false
+	isReady = true
 }: StageProps) => {
 	return (
 		<div
