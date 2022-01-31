@@ -58,7 +58,7 @@ $inputHeight: 50px;
 
 		&__multi-value {
 			// The `!important` annotation is relevant to not be overridden by inline styles.
-			border-radius: $select-dropdown-border-radius !important;
+			border-radius: $tab-border-radius !important;
 		}
 
 		&--error {
