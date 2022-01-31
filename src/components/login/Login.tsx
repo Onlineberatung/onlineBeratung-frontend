@@ -21,7 +21,7 @@ import { LegalInformationLinksProps } from './LegalInformationLinks';
 import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
 import Modal from '../modal/Modal';
 import { TenantContext } from '../../globalState';
-import Spinner from '../spinner/Spinner';
+import { Spinner } from '../spinner/Spinner';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),

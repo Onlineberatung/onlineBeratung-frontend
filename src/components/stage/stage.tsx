@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import './stage.styles';
-import Spinner from '../spinner/Spinner';
+import { Spinner } from '../spinner/Spinner';
 import { useContext } from 'react';
 import { TenantContext } from '../../globalState';
 import { translate } from '../../utils/translate';

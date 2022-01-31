@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createContext, useState } from 'react';
+import { createContext, useState, useContext } from 'react';
 import { TenantDataInterface } from '../interfaces/TenantDataInterface';
 
 const initialTenantProps: TenantDataInterface = {
@@ -21,7 +21,10 @@ const initialTenantProps: TenantDataInterface = {
 	}
 };
 
-export const TenantContext = createContext<any>({});
+export const TenantContext = createContext<{
+	tenant: TenantDataInterface;
+	setTenant(tenant: TenantDataInterface): void;
+}>(null);
 
 export function TenantProvider(props) {
 	const [tenant, setTenant] =
@@ -32,4 +35,8 @@ export function TenantProvider(props) {
 			{props.children}
 		</TenantContext.Provider>
 	);
+}
+
+export function useTenant() {
+	return useContext(TenantContext).tenant;
 }
