@@ -104,13 +104,13 @@ export const AskerInfo = () => {
 					<div>
 						<AskerInfoData />
 					</div>
-					{((activeSession.session.monitoring &&
-						typeIsSession(activeSession.type)) ||
-						typeIsTeamSession(activeSession.type)) && (
-						<div>
-							<AskerInfoMonitoring />
-						</div>
-					)}
+					{activeSession.session.monitoring &&
+						(typeIsSession(activeSession.type) ||
+							typeIsTeamSession(activeSession.type)) && (
+							<div>
+								<AskerInfoMonitoring />
+							</div>
+						)}
 					{isSessionAssignAvailable() && (
 						<div className="askerInfo__assign">
 							<AskerInfoAssign />
