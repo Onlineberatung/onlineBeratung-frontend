@@ -17,6 +17,7 @@ html {
 }
 
 :root {
+	--skin-color-default: #{$body-font-color};
 	--skin-color-link-dark: #{$body-font-color};
 	--skin-color-link-light: #{$white};
 }
