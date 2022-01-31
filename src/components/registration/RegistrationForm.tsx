@@ -183,14 +183,15 @@ export const RegistrationForm = ({
 
 				if (!response.rcGroupId || !response.sessionId) {
 					setRedirectUrl(config.endpoints.userSessionsListView);
+				} else {
+					setRedirectUrl(
+						generatePath(
+							`${config.endpoints.userSessionsListView}/:rcGroupId/:sessionId`,
+							response
+						)
+					);
 				}
 
-				setRedirectUrl(
-					generatePath(
-						`${config.endpoints.userSessionsListView}/:rcGroupId/:sessionId`,
-						response
-					)
-				);
 				return setOverlayActive(true);
 			});
 	}, [consultant, formAccordionData, setAcceptedGroupId]);
