@@ -46,6 +46,15 @@ const profile = {
 	'data.agency.registrationLink.notification.text':
 		'Registrierungslink zur Beratungsstelle in Zwischenablage kopiert!',
 
+	'data.personal.registrationLink.title':
+		'Kontakt-Link in Zwischenablage kopieren',
+	'data.personal.registrationLink.text': 'Kontakt-Link kopieren',
+	'data.personal.registrationLink.notification.title': 'Link kopiert',
+	'data.personal.registrationLink.notification.text':
+		'Der Link wurde erfolgreich in die Zwischenablage kopiert!',
+	'data.personal.registrationLink.tooltip':
+		'Teilen Sie Ihren Kontakt-Link mit jemanden, damit diese Person eine Onlineberatung mit Ihnen starten kann.',
+
 	'data.register.headline':
 		'Benötigen Sie auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Sie gerne.',
 	'data.register.consultingTypeSelect.label': 'Themenfelder',

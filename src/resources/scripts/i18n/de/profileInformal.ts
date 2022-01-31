@@ -22,6 +22,8 @@ const profileInformal = {
 		'Du hast Dich erfolgreich für ein neues Themenfeld registriert.',
 	'data.registerError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.',
+	'data.personal.registrationLink.tooltip':
+		'Teile deinen Kontakt-Link mit jemanden, damit diese Person eine Onlineberatung mit dir starten kann.',
 	'externalRegistration.headline':
 		'Deine gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung',
 	'externalRegistration.copy.start': 'Möchtest Du für „',
