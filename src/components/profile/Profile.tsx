@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { ComponentType, useContext, useEffect } from 'react';
+import { ComponentType, useCallback, useContext, useEffect } from 'react';
 import { translate } from '../../utils/translate';
 import { logout } from '../logout/logout';
 import {
-	UserDataContext,
-	hasUserAuthority,
 	AUTHORITIES,
-	useConsultingTypes
+	hasUserAuthority,
+	NOTIFICATION_TYPE_INFO,
+	NotificationsContext,
+	useConsultingTypes,
+	UserDataContext
 } from '../../globalState';
 import { ConsultantPrivateData } from './ConsultantPrivateData';
 import { ConsultantPublicData } from './ConsultantPublicData';
@@ -26,6 +28,10 @@ import { ConsultantStatistics } from './ConsultantStatistics';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './profile.styles';
 import { ConsultantSpokenLanguages } from './ConsultantSpokenLanguages';
+import { copyTextToClipboard } from '../../utils/clipboardHelpers';
+import { config } from '../../resources/scripts/config';
+import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
+import { Tooltip } from '../tooltip/Tooltip';
 
 interface ProfileProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
@@ -67,12 +73,23 @@ export const Profile = (props: ProfileProps) => {
 					<h3 className="profile__header__title">
 						{translate('profile.header.title')}
 					</h3>
-					<span
-						onClick={handleLogout}
-						className="profile__header__logout"
-					>
-						<LogoutIcon />
-					</span>
+					<div className="profile__header__actions">
+						{hasUserAuthority(
+							AUTHORITIES.CONSULTANT_DEFAULT,
+							userData
+						) && (
+							<PersonalRegistrationLink
+								cid={userData.userId}
+								className="profile__header__personal_link"
+							/>
+						)}
+						<div
+							onClick={handleLogout}
+							className="profile__header__logout"
+						>
+							<LogoutIcon />
+						</div>
+					</div>
 				</div>
 				<div className="profile__header__metaInfo">
 					<p className="profile__header__username">
@@ -98,6 +115,17 @@ export const Profile = (props: ProfileProps) => {
 							? `${userData.firstName} ${userData.lastName}`
 							: userData.userName}
 					</h2>
+					{hasUserAuthority(
+						AUTHORITIES.CONSULTANT_DEFAULT,
+						userData
+					) && (
+						<div>
+							<PersonalRegistrationLink
+								cid={userData.userId}
+								className="profile__user__personal_link"
+							/>
+						</div>
+					)}
 				</div>
 				<div className="profile__content">
 					<div className="profile__content__item profile__functions">
@@ -157,6 +185,53 @@ export const Profile = (props: ProfileProps) => {
 					<props.legalComponent textStyle={'standard'} />
 				</div>
 			</div>
+		</div>
+	);
+};
+
+type PersonalRegistrationLinkProps = {
+	cid: string;
+	className: string;
+};
+
+const PersonalRegistrationLink = ({
+	cid,
+	className
+}: PersonalRegistrationLinkProps) => {
+	const { addNotification } = useContext(NotificationsContext);
+
+	const copyRegistrationLink = useCallback(async () => {
+		await copyTextToClipboard(
+			`${config.urls.registration}?cid=${cid}`,
+			() => {
+				addNotification({
+					notificationType: NOTIFICATION_TYPE_INFO,
+					title: translate(
+						'profile.data.personal.registrationLink.notification.title'
+					),
+					text: translate(
+						'profile.data.personal.registrationLink.notification.text'
+					)
+				});
+			}
+		);
+	}, [cid, addNotification]);
+
+	return (
+		<div className={className}>
+			<span
+				role="button"
+				onClick={copyRegistrationLink}
+				title={translate(
+					'profile.data.personal.registrationLink.title'
+				)}
+			>
+				<CopyIcon className={`copy`} />{' '}
+				{translate('profile.data.personal.registrationLink.text')}
+			</span>
+			<Tooltip>
+				{translate('profile.data.personal.registrationLink.tooltip')}
+			</Tooltip>
 		</div>
 	);
 };
