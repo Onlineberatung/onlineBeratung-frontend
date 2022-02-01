@@ -2,6 +2,8 @@ name: FE build action
 
 on:
     push:
+        branches:
+            - '**'
         tags-ignore:
             - 'npmPackage.v.*'
             - 'dockerImage.v.*'
