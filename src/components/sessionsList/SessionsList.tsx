@@ -419,7 +419,6 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 					response.sessions.length === 1 &&
 					firstSession?.status === 0
 				) {
-					setActiveSessionGroupId(firstSession.id);
 					history.push(`/sessions/user/view/write`);
 				} else if (
 					response.sessions.length === 1 &&
