@@ -34,7 +34,7 @@ $iconSize: 24px;
 			flex: 1;
 			text-align: center;
 			margin-left: -36px;
-			cursor: initial;
+			cursor: auto;
 
 			@include breakpoint($fromLarge) {
 				text-align: left;

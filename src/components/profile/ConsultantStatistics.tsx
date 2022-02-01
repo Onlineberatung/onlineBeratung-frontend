@@ -16,6 +16,7 @@ import { getValidDateFormatForSelectedDate } from '../groupChat/createChatHelper
 import { CSVLink } from 'react-csv';
 import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
+import './statistics.styles';
 import './profile.styles';
 
 type statisticOptions =

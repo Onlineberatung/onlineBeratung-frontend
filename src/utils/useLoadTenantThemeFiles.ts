@@ -141,7 +141,9 @@ const createCSS = ({ primaryColor, secondaryColor, logo }) => {
 	);
 };
 
-const useLoadTenantThemeFiles = () => {
+const useLoadTenantThemeFiles = (
+	setIsLoadingTheme?: (isLoadingTheme) => void
+) => {
 	const { tenant, setTenant } = useContext(TenantContext);
 	const { subdomain, host, protocol, origin } = getLocationVariables();
 	const [loaded, setLoaded] = useState(false);
@@ -162,6 +164,7 @@ const useLoadTenantThemeFiles = () => {
 							...data
 						});
 					}
+					setIsLoadingTheme && setIsLoadingTheme(false);
 				})
 				.catch(function (error) {
 					console.log(
@@ -171,7 +174,7 @@ const useLoadTenantThemeFiles = () => {
 					);
 				});
 		},
-		[host, origin, protocol, setTenant, subdomain]
+		[host, origin, protocol, setIsLoadingTheme, setTenant, subdomain]
 	);
 
 	useEffect(() => {

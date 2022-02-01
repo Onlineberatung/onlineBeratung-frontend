@@ -6,6 +6,8 @@ import { ComponentType, useState, useEffect, useContext } from 'react';
 import { config } from '../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
 import { autoLogin } from '../registration/autoLogin';
+import { Modal } from '../modal/Modal';
+import { Spinner } from '../spinner/Spinner';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
@@ -35,9 +37,10 @@ export const Login = ({
 	legalComponent,
 	stageComponent: Stage
 }: LoginProps) => {
-	useLoadTenantThemeFiles();
 	const { tenant } = useContext(TenantContext);
 	const isMultiTenant = tenant != null;
+	const [letIsLoadingTheme, setIsLoadingTheme] = useState(isMultiTenant);
+	useLoadTenantThemeFiles(setIsLoadingTheme);
 
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -165,78 +168,101 @@ export const Login = ({
 	};
 
 	return (
-		<StageLayout
-			legalComponent={legalComponent}
-			stage={<Stage hasAnimation />}
-			showLegalLinks
-		>
-			<div className="loginForm">
-				<div className="loginForm__headline">
-					<h1>{translate('login.headline')}</h1>
-				</div>
-				<InputField
-					item={inputItemUsername}
-					inputHandle={handleUsernameChange}
-					keyUpHandle={handleKeyUp}
-				/>
-				<InputField
-					item={inputItemPassword}
-					inputHandle={handlePasswordChange}
-					keyUpHandle={handleKeyUp}
-				/>
-				<div
-					className={clsx('loginForm__otp', {
-						'loginForm__otp--active': isOtpRequired
-					})}
-				>
+		<>
+			<StageLayout
+				legalComponent={legalComponent}
+				stage={<Stage hasAnimation />}
+				showLegalLinks
+			>
+				<div className="loginForm">
+					<div className="loginForm__headline">
+						<h1>{translate('login.headline')}</h1>
+					</div>
 					<InputField
-						item={otpInputItem}
-						inputHandle={handleOtpChange}
+						item={inputItemUsername}
+						inputHandle={handleUsernameChange}
 						keyUpHandle={handleKeyUp}
 					/>
-				</div>
-				{showLoginError && (
-					<Text
-						text={showLoginError}
-						type="infoSmall"
-						className="loginForm__error"
+					<InputField
+						item={inputItemPassword}
+						inputHandle={handlePasswordChange}
+						keyUpHandle={handleKeyUp}
 					/>
-				)}
-				<a
-					href={config.endpoints.loginResetPasswordLink}
-					target="_blank"
-					rel="noreferrer"
-					className="loginForm__passwordReset"
-				>
-					{translate('login.resetPasswort.label')}
-				</a>
-				<Button
-					item={loginButton}
-					buttonHandle={handleLogin}
-					disabled={isButtonDisabled}
-				/>
-				{!isMultiTenant && (
-					<div className="loginForm__register">
-						<Text
-							text={translate('login.register.infoText.title')}
-							type={'infoSmall'}
+					<div
+						className={clsx('loginForm__otp', {
+							'loginForm__otp--active': isOtpRequired
+						})}
+					>
+						<InputField
+							item={otpInputItem}
+							inputHandle={handleOtpChange}
+							keyUpHandle={handleKeyUp}
 						/>
-						<Text
-							text={translate('login.register.infoText.copy')}
-							type={'infoSmall'}
-						/>
-						<a
-							className="loginForm__register__link"
-							href={
-								config.urls.loginRedirectToRegistrationOverview
-							}
-							target="_self"
-						>
-							{translate('login.register.linkLabel')}
-						</a>
 					</div>
-				)}
-			</div>
-		</StageLayout>
+					{showLoginError && (
+						<Text
+							text={showLoginError}
+							type="infoSmall"
+							className="loginForm__error"
+						/>
+					)}
+					<a
+						href={config.endpoints.loginResetPasswordLink}
+						target="_blank"
+						rel="noreferrer"
+						className="loginForm__passwordReset"
+					>
+						{translate('login.resetPasswort.label')}
+					</a>
+					<Button
+						item={loginButton}
+						buttonHandle={handleLogin}
+						disabled={isButtonDisabled}
+					/>
+					{!isMultiTenant && (
+						<div className="loginForm__register">
+							<Text
+								text={translate(
+									'login.register.infoText.title'
+								)}
+								type={'infoSmall'}
+							/>
+							<Text
+								text={translate('login.register.infoText.copy')}
+								type={'infoSmall'}
+							/>
+							<a
+								className="loginForm__register__link"
+								href={
+									config.urls
+										.loginRedirectToRegistrationOverview
+								}
+								target="_self"
+							>
+								{translate('login.register.linkLabel')}
+							</a>
+						</div>
+					)}
+				</div>
+			</StageLayout>
+			<Modal isVisible={letIsLoadingTheme}>
+				<div>
+					<Spinner isDark />
+					<p>
+						Bitte melden Sie sich bei <strong>Ihrer</strong>{' '}
+						Beratungs-Stelle an.{' '}
+					</p>
+					<p>
+						Diese finden sie unter{' '}
+						<strong>[beratungsstelle].onlineberatung.de</strong>
+					</p>
+					<p>
+						Sie wollen selbst eine Beratungsstelle online eröffnen.
+						Dann geht's{' '}
+						<a href="http://www.onlineberatung.de">hier</a> lang
+					</p>
+				</div>
+			</Modal>
+		</>
 	);
 };
