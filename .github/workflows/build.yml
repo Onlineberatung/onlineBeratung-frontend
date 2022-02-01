@@ -1,6 +1,10 @@
 name: FE build action
 
-on: [push]
+on:
+    push:
+        tags-ignore:
+            - 'npmPackage.v.*'
+            - 'dockerImage.v.*'
 
 jobs:
     build:
