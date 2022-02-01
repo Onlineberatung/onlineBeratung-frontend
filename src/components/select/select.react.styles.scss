@@ -59,6 +59,15 @@ $inputHeight: 50px;
 		&__multi-value {
 			// The `!important` annotation is relevant to not be overridden by inline styles.
 			border-radius: $tab-border-radius !important;
+
+			&__remove {
+				color: $primary;
+
+				&:hover {
+					// The `!important` annotation is relevant to not be overridden by inline styles.
+					color: $hover-primary !important;
+				}
+			}
 		}
 
 		&--error {

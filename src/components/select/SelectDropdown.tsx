@@ -146,10 +146,10 @@ const colourStyles = {
 					...styles,
 					'paddingRight': '8px',
 					'cursor': 'pointer',
-					'opacity': 0.6,
+					'opacity': 1,
+					'backgroundColor': 'transparent',
 					'&:hover': {
-						backgroundColor: 'transparent',
-						opacity: 1
+						backgroundColor: 'transparent'
 					}
 			  };
 	},
