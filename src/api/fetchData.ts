@@ -21,6 +21,7 @@ export const FETCH_ERRORS = {
 	ABORT: 'ABORT',
 	BAD_REQUEST: 'BAD_REQUEST',
 	CATCH_ALL: 'CATCH_ALL',
+	CATCH_ALL_WITH_RESPONSE: 'CATCH_ALL_WITH_RESPONSE',
 	CONFLICT: 'CONFLICT',
 	CONFLICT_WITH_RESPONSE: 'CONFLICT_WITH_RESPONSE',
 	EMPTY: 'EMPTY',
@@ -31,7 +32,8 @@ export const FETCH_ERRORS = {
 };
 
 export const X_REASON = {
-	EMAIL_NOT_AVAILABLE: 'EMAIL_NOT_AVAILABLE'
+	EMAIL_NOT_AVAILABLE: 'EMAIL_NOT_AVAILABLE',
+	USERNAME_NOT_AVAILABLE: 'USERNAME_NOT_AVAILABLE'
 };
 
 export const FETCH_SUCCESS = {
@@ -144,9 +146,20 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 								: new Error(FETCH_ERRORS.CONFLICT)
 						);
 					} else if (
-						props.responseHandling.includes(FETCH_ERRORS.CATCH_ALL)
+						props.responseHandling.includes(
+							FETCH_ERRORS.CATCH_ALL
+						) ||
+						props.responseHandling.includes(
+							FETCH_ERRORS.CATCH_ALL_WITH_RESPONSE
+						)
 					) {
-						reject(new Error(FETCH_ERRORS.CATCH_ALL));
+						reject(
+							props.responseHandling.includes(
+								FETCH_ERRORS.CATCH_ALL_WITH_RESPONSE
+							)
+								? response
+								: new Error(FETCH_ERRORS.CATCH_ALL)
+						);
 					} else if (response.status === 401) {
 						logout(true, config.urls.toLogin);
 					}

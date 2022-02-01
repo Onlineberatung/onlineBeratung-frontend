@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-	useState,
-	useEffect,
-	ComponentType,
-	useCallback,
-	useContext
-} from 'react';
-import { generatePath } from 'react-router-dom';
+import { useState, useEffect, ComponentType, useCallback } from 'react';
 import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
@@ -15,7 +8,7 @@ import {
 	apiPostRegistration,
 	FETCH_ERRORS,
 	apiAgencySelection,
-	apiRegistrationNewConsultingTypes
+	X_REASON
 } from '../../api';
 import { config } from '../../resources/scripts/config';
 import { DEFAULT_POSTCODE } from './prefillPostcode';
@@ -28,7 +21,6 @@ import {
 import { redirectToApp } from './autoLogin';
 import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import {
-	AcceptedGroupIdContext,
 	AgencyDataInterface,
 	ConsultantDataInterface,
 	ConsultingTypeInterface
@@ -38,7 +30,10 @@ import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './registrationForm.styles';
-import { history } from '../app/app';
+import {
+	getErrorCaseForStatus,
+	redirectToErrorPage
+} from '../error/errorHandling';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -76,10 +71,8 @@ export const RegistrationForm = ({
 		useState(false);
 	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 	const [overlayActive, setOverlayActive] = useState(false);
-	const [redirectUrl, setRedirectUrl] = useState(null);
 
 	const [initialPostcode, setInitialPostcode] = useState('');
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
 	useEffect(() => {
 		const postcodeParameter = getUrlParameter('postcode');
@@ -146,58 +139,13 @@ export const RegistrationForm = ({
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_WITH_BLUR) {
-			if (redirectUrl) {
-				return history.push(redirectUrl);
-			}
 			redirectToApp();
 		}
 	};
 
-	const handleRegistrationError = (response: XMLHttpRequest) => {
-		const error = response.getResponseHeader(FETCH_ERRORS.X_REASON);
-		if (error && error === 'USERNAME_NOT_AVAILABLE') {
-			setIsUsernameAlreadyInUse(true);
-			setIsSubmitButtonDisabled(true);
-			window.scrollTo({ top: 0 });
-		}
-	};
-
-	const handleRegistration = useCallback(() => {
-		apiRegistrationNewConsultingTypes(
-			formAccordionData.consultingTypeId,
-			formAccordionData.agencyId,
-			formAccordionData.postcode,
-			consultant.consultantId
-		)
-			.catch((response) => response.json())
-			.then((response) => {
-				if (response instanceof Error) {
-					return setOverlayActive(true);
-				}
-
-				if (response.rcGroupId) {
-					setAcceptedGroupId(response.rcGroupId);
-				} else if (response.sessionId) {
-					setAcceptedGroupId(response.sessionId);
-				}
-
-				if (!response.rcGroupId || !response.sessionId) {
-					setRedirectUrl(config.endpoints.userSessionsListView);
-				} else {
-					setRedirectUrl(
-						generatePath(
-							`${config.endpoints.userSessionsListView}/:rcGroupId/:sessionId`,
-							response
-						)
-					);
-				}
-
-				return setOverlayActive(true);
-			});
-	}, [consultant, formAccordionData, setAcceptedGroupId]);
-
 	const handleSubmitButtonClick = () => {
 		setIsUsernameAlreadyInUse(false);
+		setIsSubmitButtonDisabled(true);
 
 		const registrationData = {
 			username: formAccordionData.username,
@@ -207,19 +155,29 @@ export const RegistrationForm = ({
 			consultingType: formAccordionData.consultingTypeId?.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
 			...(formAccordionData.state && { state: formAccordionData.state }),
-			...(formAccordionData.age && { age: formAccordionData.age })
+			...(formAccordionData.age && { age: formAccordionData.age }),
+			...(consultant && { consultantId: consultant.consultantId })
 		};
 
-		apiPostRegistration(
-			config.endpoints.registerAsker,
-			registrationData,
-			(response) => handleRegistrationError(response)
-		).then(() => {
-			if (!consultant) {
+		apiPostRegistration(config.endpoints.registerAsker, registrationData)
+			.then((res) => {
 				return setOverlayActive(true);
-			}
-			handleRegistration();
-		});
+			})
+			.catch((errorRes) => {
+				if (
+					errorRes.status === 409 &&
+					errorRes.headers?.get(FETCH_ERRORS.X_REASON) ===
+						X_REASON.USERNAME_NOT_AVAILABLE
+				) {
+					setIsUsernameAlreadyInUse(true);
+					setIsSubmitButtonDisabled(true);
+					window.scrollTo({ top: 0 });
+					return;
+				}
+
+				const error = getErrorCaseForStatus(errorRes.status);
+				redirectToErrorPage(error);
+			});
 	};
 
 	const handleChange = useCallback(
