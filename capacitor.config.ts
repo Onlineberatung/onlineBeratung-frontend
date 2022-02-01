@@ -15,8 +15,14 @@ const config: CapacitorConfig = {
 		hostname: 'caritas-dev.virtual-identity.com',
 		androidScheme: 'https',
 		iosScheme: 'https',
-		url: 'http://10.1.11.73:9000',
-		// url: 'https://caritas-dev.virtual-identity.com/',
+
+		// For testing on a local device or an emulator add your own IP adress with the port here
+		// Please note that for testing with a local device your device and your computer have to be connected to the same Network
+		url: 'http://x.x.x.x:9000',
+
+		// To use the app in production use the url of your web application
+		// url: 'https://beratung.caritas.de/',
+
 		cleartext: true
 	},
 	cordova: {}
