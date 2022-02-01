@@ -89,7 +89,6 @@ export const BiometricAuthenticationTimer = () => {
 			logout();
 			setIsLogoutLoading(true);
 		}
-		//TODO: Error handling for devices which are not ios or android
 	};
 
 	const authProcess = () => {
