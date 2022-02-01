@@ -37,7 +37,8 @@ export const Login = ({
 	legalComponent,
 	stageComponent: Stage
 }: LoginProps) => {
-	useLoadTenantThemeFiles();
+	const [letIsLoadingTheme, setIsLoadingTheme] = useState(true);
+	useLoadTenantThemeFiles(setIsLoadingTheme);
 	const { tenant } = useContext(TenantContext);
 
 	const [username, setUsername] = useState<string>('');
@@ -244,7 +245,7 @@ export const Login = ({
 					</div>
 				</div>
 			</StageLayout>
-			<Modal isVisible={!tenant?.subdomain}>
+			<Modal isVisible={letIsLoadingTheme}>
 				<div>
 					<Spinner isDark />
 					<p>
