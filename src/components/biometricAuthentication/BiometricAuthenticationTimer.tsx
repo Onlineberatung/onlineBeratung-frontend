@@ -14,7 +14,6 @@ export const BiometricAuthenticationTimer = () => {
 	const [isAppActive, setIsAppActive] = useState<boolean>(true);
 
 	useEffect(() => {
-		console.log('Stand ist aktuell');
 		document.addEventListener('visibilitychange', startAbsenceTimer);
 		return () => {
 			document.removeEventListener('visibilitychange', startAbsenceTimer);
@@ -90,6 +89,7 @@ export const BiometricAuthenticationTimer = () => {
 			logout();
 			setIsLogoutLoading(true);
 		}
+		//TODO: Error handling for devices which are not ios or android
 	};
 
 	const authProcess = () => {
@@ -98,7 +98,6 @@ export const BiometricAuthenticationTimer = () => {
 				(error) => {
 					errorHandling(error);
 				},
-
 				() => {
 					App.removeAllListeners();
 					document
