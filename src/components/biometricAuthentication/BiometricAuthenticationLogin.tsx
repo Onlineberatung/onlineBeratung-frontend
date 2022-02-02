@@ -16,7 +16,6 @@ export const BiometricAuthenticationLogin = () => {
 	useEffect(() => {
 		if (isAppActive && !isBiometricDialogOpen.current) {
 			isBiometricDialogOpen.current = true;
-			console.log('Login: checkForBiometricAvailability');
 			checkForBiometricAvailability(handleAvailableBiometrics);
 		} else if (isAppActive && isBiometricDialogOpen.current) {
 			isBiometricDialogOpen.current = false;
@@ -33,7 +32,6 @@ export const BiometricAuthenticationLogin = () => {
 	}, []);
 
 	const handleAvailableBiometrics = () => {
-		console.log('Login: checkForExistingCredentials');
 		checkForExistingCredentials(handleCredentials);
 	};
 
@@ -49,7 +47,6 @@ export const BiometricAuthenticationLogin = () => {
 		}
 		let stageStatus = document.querySelector('.stage--ready');
 		stageStatus.addEventListener('animationend', () => {
-			console.log('Animation ended');
 			setIsAnimated(true);
 		});
 	};
