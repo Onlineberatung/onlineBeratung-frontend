@@ -180,6 +180,7 @@ export const FormAccordion = ({
 						onValidityChange={(validity) =>
 							handleValidity('agency', validity)
 						}
+						fixedLanguages={fixedLanguages}
 					/>
 				),
 				isValid: validity.agency

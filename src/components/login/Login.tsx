@@ -64,11 +64,13 @@ const loginButton: ButtonItem = {
 interface LoginProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	stageComponent: ComponentType<StageProps>;
+	fixedLanguages: string[];
 }
 
 export const Login = ({
 	legalComponent,
-	stageComponent: Stage
+	stageComponent: Stage,
+	fixedLanguages
 }: LoginProps) => {
 	const consultantId = getUrlParameter('cid');
 	const {
@@ -175,6 +177,7 @@ export const Login = ({
 					preselectedAgency={preselectedAgency}
 					onChange={setAgency}
 					onValidityChange={(validity) => setValidity(validity)}
+					fixedLanguages={fixedLanguages}
 				/>
 			),
 			buttonSet: [
@@ -191,7 +194,14 @@ export const Login = ({
 				}
 			]
 		}),
-		[agency, consultant, consultingType, preselectedAgency, validity]
+		[
+			agency,
+			consultant,
+			consultingType,
+			preselectedAgency,
+			validity,
+			fixedLanguages
+		]
 	);
 
 	const handleRegistration = useCallback(

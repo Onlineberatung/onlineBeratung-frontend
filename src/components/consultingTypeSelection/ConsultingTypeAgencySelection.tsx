@@ -20,14 +20,16 @@ import {
 	SelectOption
 } from '../select/SelectDropdown';
 import { Text } from '../text/Text';
+import { AgencyLanguages } from '../agencySelection/AgencyLanguages';
 
-export interface ConsultingTypeSelectionProps {
+export interface ConsultingTypeAgencySelectionProps {
 	consultant: ConsultantDataInterface;
 	onChange: Function;
 	onValidityChange?: Function;
 	agency?: any;
 	preselectedConsultingType?: ConsultingTypeInterface;
 	preselectedAgency?: any;
+	fixedLanguages: string[];
 }
 
 export const useConsultingTypeAgencySelection = (
@@ -59,7 +61,7 @@ export const useConsultingTypeAgencySelection = (
 				return acc;
 			}, [])
 			// If consultingType was preselected by url slug
-			.filter((c) => c.id !== consultingType?.id);
+			.filter((c) => !consultingType || c.id === consultingType.id);
 
 		if (agency) {
 			const consultingTypeIds = consultingTypes.map((c) => c.id);
@@ -96,8 +98,9 @@ export const ConsultingTypeAgencySelection = ({
 	onValidityChange,
 	agency,
 	preselectedConsultingType,
-	preselectedAgency
-}: ConsultingTypeSelectionProps) => {
+	preselectedAgency,
+	fixedLanguages
+}: ConsultingTypeAgencySelectionProps) => {
 	const [selectedConsultingTypeOption, setSelectedConsultingTypeOption] =
 		useState<SelectOption>(null);
 	const [consultingTypeOptions, setConsultingTypeOptions] = useState<
@@ -196,6 +199,7 @@ export const ConsultingTypeAgencySelection = ({
 						agencies={agencyOptions}
 						onChange={onChange}
 						selectedAgency={agency}
+						fixedLanguages={fixedLanguages}
 					/>
 				</div>
 			)}
@@ -207,12 +211,14 @@ type AgencySelectionProps = {
 	agencies: AgencyDataInterface[];
 	selectedAgency?: AgencyDataInterface;
 	onChange: Function;
+	fixedLanguages: string[];
 };
 
 const AgencySelection = ({
 	agencies,
 	onChange,
-	selectedAgency
+	selectedAgency,
+	fixedLanguages
 }: AgencySelectionProps) => {
 	return (
 		<div>
@@ -233,6 +239,10 @@ const AgencySelection = ({
 						label={agency.name}
 					/>
 					<AgencyInfo agency={agency} />
+					<AgencyLanguages
+						agencyId={agency.id}
+						fixedLanguages={fixedLanguages}
+					/>
 				</div>
 			))}
 		</div>
