@@ -12,11 +12,11 @@ export const Header = () => {
 		<header className="header">
 			<Headline
 				semanticLevel="2"
-				text={tenant.name || translate('app.title')}
+				text={tenant?.name || translate('app.title')}
 			/>
 			<Text
 				type="standard"
-				text={tenant.content.claim || translate('app.claim')}
+				text={tenant?.content.claim || translate('app.claim')}
 			/>
 		</header>
 	);

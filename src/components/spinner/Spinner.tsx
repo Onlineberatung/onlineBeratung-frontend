@@ -8,7 +8,7 @@ interface SpinnerProps {
 	className?: string;
 }
 
-const Spinner = ({ isDark, className }: SpinnerProps) => {
+export const Spinner = ({ isDark, className }: SpinnerProps) => {
 	return (
 		<div className={clsx('spinner', isDark && 'dark', className)}>
 			<div className="double-bounce1" />
@@ -16,5 +16,3 @@ const Spinner = ({ isDark, className }: SpinnerProps) => {
 		</div>
 	);
 };
-
-export default Spinner;

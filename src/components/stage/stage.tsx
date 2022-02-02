@@ -1,10 +1,17 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import './stage.styles';
-import Spinner from '../spinner/Spinner';
+import { Spinner } from '../spinner/Spinner';
 import { useContext } from 'react';
 import { TenantContext } from '../../globalState';
 import { translate } from '../../utils/translate';
+import { ReactComponent as SkfLogo } from '../../resources/img/logos/01_skf.svg';
+import { ReactComponent as CaritasLogo } from '../../resources/img/logos/02_caritas.svg';
+import { ReactComponent as SkmLogo } from '../../resources/img/logos/03_skm.svg';
+import { ReactComponent as InViaLogo } from '../../resources/img/logos/04_via.svg';
+import { ReactComponent as KreuzbundLogo } from '../../resources/img/logos/05_kreuzbund.svg';
+import { ReactComponent as RaphaelswerkLogo } from '../../resources/img/logos/06_raphael.svg';
+import { ReactComponent as MalteserLogo } from '../../resources/img/logos/07_malteser.svg';
 
 export interface StageProps {
 	className?: string;
@@ -23,8 +30,7 @@ export const Stage = ({
 			id="loginLogoWrapper"
 			className={clsx(className, 'stage', {
 				'stage--animated': hasAnimation,
-				'stage--ready': isReady,
-				'multiTantent': tenant.name
+				'stage--ready': isReady
 			})}
 		>
 			<div className="stage__headline">
@@ -34,7 +40,13 @@ export const Stage = ({
 
 			{hasAnimation ? <Spinner className="stage__spinner" /> : null}
 			<div className="stage__logos">
-				<div className="logo" />
+				<SkfLogo />
+				<CaritasLogo />
+				<SkmLogo />
+				<MalteserLogo />
+				<KreuzbundLogo />
+				<RaphaelswerkLogo />
+				<InViaLogo />
 			</div>
 		</div>
 	);

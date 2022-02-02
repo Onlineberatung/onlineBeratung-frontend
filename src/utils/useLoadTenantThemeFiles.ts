@@ -89,12 +89,6 @@ const createCSS = ({ primaryColor, secondaryColor, logo }) => {
 
 	document.head.insertAdjacentHTML(
 		'beforeend',
-		`<link rel="preconnect" href="https://fonts.googleapis.com">
-				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-				<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;1,700&display=swap" rel="stylesheet">`
-	);
-	document.head.insertAdjacentHTML(
-		'beforeend',
 		`<style>
 		:root {
 		--skin-color-primary: ${primaryColor};
@@ -122,17 +116,6 @@ const createCSS = ({ primaryColor, secondaryColor, logo }) => {
 		};
 		}
 		
-		@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;1,700&display=swap');
-		
-		.logo {
-			width: 200px;
-			height: 80px;
-			background-image: url('${logo}');
-			background-repeat: no-repeat;
-			background-size: contain;
-			background-position: center;
-		}
-		
 		/* Text-links must be underlined in case we use the default color */
 		a {
 			text-decoration: underline;
@@ -141,13 +124,7 @@ const createCSS = ({ primaryColor, secondaryColor, logo }) => {
 		a:hover {
 			color: var(--skin-color-link-hover);
 		}
-		
-		
-		.loginForm button:not(.button__item--disabled) {
-			background-color: var(--skin-color-primary) ;
-			color: var(--text-color-contrast-switch);
-		}
-		
+
 		</style>`
 	);
 };

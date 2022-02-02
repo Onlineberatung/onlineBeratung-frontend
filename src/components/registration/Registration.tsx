@@ -13,6 +13,7 @@ import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
 
 interface RegistrationProps {
 	handleUnmatch: Function;
@@ -25,6 +26,7 @@ export const Registration = ({
 	legalComponent,
 	stageComponent: Stage
 }: RegistrationProps) => {
+	useLoadTenantThemeFiles();
 	const { consultingTypeSlug } = useParams();
 	const postcodeParameter = getUrlParameter('postcode');
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(

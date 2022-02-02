@@ -11,6 +11,7 @@ export { Error } from './src/components/error/Error';
 // Component library
 export * from './src/components/headline/Headline';
 export * from './src/components/text/Text';
+export * from './src/components/spinner/Spinner';
 export * from './src/components/loadingIndicator/LoadingIndicator';
 export * from './src/components/button/Button';
 export * from './src/components/select/SelectDropdown';
@@ -20,6 +21,9 @@ export * from './src/components/serviceExplanation/ServiceExplanation';
 export * from './src/components/inputField/InputField';
 export * from './src/components/agencySelection/agencySelectionHelpers';
 export * from './src/components/profile/AskerRegistrationExternalAgencyOverlay';
+
+// Data
+export * from './src/globalState/provider/TenantProvider';
 
 // Images
 export * from './src/resources/img/icons';

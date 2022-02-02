@@ -1,6 +1,6 @@
 .session--yellowTheme {
 	.textarea {
-		background-color: var(--message, $yellow-3);
+		background-color: $message-submit-interface-textarea-background-color-yellow;
 	}
 }
 
