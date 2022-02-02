@@ -27,13 +27,6 @@ body {
 	font-size: $body-font-size;
 	line-height: $body-line-height;
 	color: $body-font-color;
-	/**
-	possible theming solution based on HSL colors
-	background: var(--colorPrimary);
-
-	  --switch: calc((var(--colorPrimary-l) - var(--contrastThreshold)) * -100);
-	  color: hsl(0, 0%, var(--skin-color-secondary, var(--switch, $body-font-color)));
-	 */
 
 	min-width: $body-min-width;
 
