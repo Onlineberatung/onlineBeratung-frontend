@@ -6,6 +6,8 @@ import { ComponentType, useState, useEffect, useContext } from 'react';
 import { config } from '../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
 import { autoLogin } from '../registration/autoLogin';
+import { Modal } from '../modal/Modal';
+import { Spinner } from '../spinner/Spinner';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
@@ -19,9 +21,7 @@ import '../../resources/styles/styles';
 import './login.styles';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
 import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
-import Modal from '../modal/Modal';
 import { TenantContext } from '../../globalState';
-import Spinner from '../spinner/Spinner';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -37,9 +37,10 @@ export const Login = ({
 	legalComponent,
 	stageComponent: Stage
 }: LoginProps) => {
-	const [letIsLoadingTheme, setIsLoadingTheme] = useState(true);
-	useLoadTenantThemeFiles(setIsLoadingTheme);
 	const { tenant } = useContext(TenantContext);
+	const isMultiTenant = tenant != null;
+	const [letIsLoadingTheme, setIsLoadingTheme] = useState(isMultiTenant);
+	useLoadTenantThemeFiles(setIsLoadingTheme);
 
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -118,7 +119,7 @@ export const Login = ({
 				username: username,
 				password: password,
 				redirect: true,
-				redirectURL: tenant.origin
+				redirectURL: tenant?.origin
 			})
 				.catch((error) => {
 					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
@@ -144,7 +145,7 @@ export const Login = ({
 				username,
 				password,
 				redirect: true,
-				redirectURL: tenant.origin,
+				redirectURL: tenant?.origin,
 				otp
 			})
 				.catch((error) => {
@@ -172,7 +173,6 @@ export const Login = ({
 				legalComponent={legalComponent}
 				stage={<Stage hasAnimation />}
 				showLegalLinks
-				className={tenant.name && 'multiTantent'}
 			>
 				<div className="loginForm">
 					<div className="loginForm__headline">
@@ -219,30 +219,30 @@ export const Login = ({
 						buttonHandle={handleLogin}
 						disabled={isButtonDisabled}
 					/>
-					<div
-						className={clsx(
-							'loginForm__register',
-							tenant.name && 'multiTantent'
-						)}
-					>
-						<Text
-							text={translate('login.register.infoText.title')}
-							type={'infoSmall'}
-						/>
-						<Text
-							text={translate('login.register.infoText.copy')}
-							type={'infoSmall'}
-						/>
-						<a
-							className="loginForm__register__link"
-							href={
-								config.urls.loginRedirectToRegistrationOverview
-							}
-							target="_self"
-						>
-							{translate('login.register.linkLabel')}
-						</a>
-					</div>
+					{!isMultiTenant && (
+						<div className="loginForm__register">
+							<Text
+								text={translate(
+									'login.register.infoText.title'
+								)}
+								type={'infoSmall'}
+							/>
+							<Text
+								text={translate('login.register.infoText.copy')}
+								type={'infoSmall'}
+							/>
+							<a
+								className="loginForm__register__link"
+								href={
+									config.urls
+										.loginRedirectToRegistrationOverview
+								}
+								target="_self"
+							>
+								{translate('login.register.linkLabel')}
+							</a>
+						</div>
+					)}
 				</div>
 			</StageLayout>
 			<Modal isVisible={letIsLoadingTheme}>

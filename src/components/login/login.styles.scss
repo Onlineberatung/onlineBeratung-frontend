@@ -17,6 +17,10 @@ $spacingWithIcon: 52px;
 		}
 	}
 
+	&__headline {
+		transform: $login-icon-transform;
+	}
+
 	&__otp {
 		max-height: 0;
 		overflow: hidden;
@@ -39,10 +43,18 @@ $spacingWithIcon: 52px;
 	.button__item {
 		width: $login-button-width;
 		margin-top: $grid-base-five;
+		transform: $login-icon-transform;
+		background-color: var(--skin-color-primary, $primary);
+		color: var(--text-color-contrast-switch, $white);
+	}
+
+	&__passwordReset {
+		transform: $login-icon-transform;
 	}
 
 	&__register {
 		margin-top: $grid-base-five;
+		transform: $login-icon-transform;
 
 		& > .text {
 			position: relative;
