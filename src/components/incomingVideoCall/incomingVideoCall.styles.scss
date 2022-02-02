@@ -5,10 +5,31 @@ $userIconSize: 62px;
 		align-items: center;
 	}
 
-	&__description {
+	&__description,
+	&__hint {
 		color: $white;
 		margin: 0;
 		text-align: center;
+	}
+
+	&__hint {
+		margin-top: 10px;
+		font-size: $font-size-tertiary;
+
+		a,
+		a:hover {
+			color: $white;
+			text-decoration: underline;
+		}
+
+		button {
+			font-size: 14px;
+			height: $grid-base-four;
+			color: #fff;
+			border: 2px solid #fff;
+			background: none;
+			border-radius: $grid-base-two;
+		}
 	}
 
 	&__username,
@@ -22,7 +43,7 @@ $userIconSize: 62px;
 		justify-content: center;
 		width: $userIconSize;
 		height: $userIconSize;
-		margin-top: $grid-base;
+		margin: $grid-base auto 0;
 		background-color: #524b52;
 		border: 3px solid $white-50-opacity;
 		color: $white-50-opacity;
@@ -32,10 +53,42 @@ $userIconSize: 62px;
 
 	&__buttons {
 		display: flex;
+		justify-content: center;
 		margin-top: $grid-base-two;
+		margin-bottom: $grid-base-two * -1;
+		padding: $grid-base-two 0;
+		background: rgba(0, 0, 0, 0.4);
+		width: calc(100% + #{$grid-base-four});
 
 		.button__wrapper:not(:last-of-type) {
 			margin-right: $grid-base-two;
+		}
+
+		button {
+			height: $grid-base-six;
+			min-width: $grid-base-six;
+
+			svg {
+				height: 46%;
+				width: 46%;
+			}
+		}
+	}
+}
+
+.unsupported {
+	.incomingVideoCall {
+		&__user {
+			order: 1;
+		}
+		&__description {
+			order: 2;
+		}
+		&__hint {
+			order: 3;
+		}
+		&__buttons {
+			order: 4;
 		}
 	}
 }

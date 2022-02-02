@@ -47,7 +47,8 @@ import {
 	leaveGroupChatSecurityOverlayItem,
 	leaveGroupChatSuccessOverlayItem,
 	stopGroupChatSecurityOverlayItem,
-	stopGroupChatSuccessOverlayItem
+	stopGroupChatSuccessOverlayItem,
+	videoCallErrorOverlayItem
 } from './sessionMenuHelpers';
 import {
 	apiFinishAnonymousConversation,
@@ -72,7 +73,10 @@ import './sessionMenu.styles';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import { getVideoCallUrl } from '../../utils/videoCallHelpers';
+import {
+	getVideoCallUrl,
+	supportsE2EEncryptionVideoCall
+} from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { history } from '../app/app';
@@ -270,6 +274,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					setOverlayItem(null);
 					setIsRequestInProgress(false);
 				});
+		} else if (buttonFunction === 'GOTO_MANUAL') {
+			window.location.href = '/help/videoCall';
 		}
 	};
 
@@ -345,6 +351,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		consultingType.isVideoCallAllowed;
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
+		if (!supportsE2EEncryptionVideoCall()) {
+			setOverlayItem(videoCallErrorOverlayItem);
+			setOverlayActive(true);
+			return;
+		}
+
 		const videoCallWindow = window.open('', '_blank');
 		apiStartVideoCall(chatItem?.id)
 			.then((response) => {
