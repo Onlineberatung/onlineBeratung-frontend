@@ -40,7 +40,8 @@ import {
 	leaveGroupChatSuccessOverlayItem,
 	finishAnonymousChatSecurityOverlayItem,
 	finishAnonymousChatSuccessOverlayItem,
-	archiveSessionSuccessOverlayItem
+	archiveSessionSuccessOverlayItem,
+	videoCallErrorOverlayItem
 } from './sessionMenuHelpers';
 import {
 	apiFinishAnonymousConversation,
@@ -65,11 +66,15 @@ import './sessionMenu.styles';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import { getVideoCallUrl } from '../../utils/videoCallHelpers';
+import {
+	getVideoCallUrl,
+	supportsE2EEncryptionVideoCall
+} from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { history } from '../app/app';
 import DeleteSession from '../session/DeleteSession';
+import { Tooltip } from '../tooltip/Tooltip';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -179,7 +184,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			});
 	};
 
-	const handleOverlayAction = (buttonFunction: string) => {
+	const handleOverlayAction = (buttonFunction: string, args?: any) => {
 		if (isRequestInProgress) {
 			return null;
 		}
@@ -268,6 +273,21 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					setOverlayItem(null);
 					setIsRequestInProgress(false);
 				});
+		} else if (buttonFunction === 'START_JITSI') {
+			apiStartVideoCall(chatItem?.id)
+				.then((response) => {
+					window.location.href = getVideoCallUrl(
+						response.moderatorVideoCallUrl,
+						args.isVideoActivated
+					).replace('https://', 'org.jitsi.meet://');
+
+					setOverlayActive(false);
+					setOverlayItem(null);
+					setIsRequestInProgress(false);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 		}
 	};
 
@@ -340,6 +360,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		consultingType.isVideoCallAllowed;
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
+		if (!supportsE2EEncryptionVideoCall()) {
+			setOverlayItem(videoCallErrorOverlayItem(isVideoActivated));
+			setOverlayActive(true);
+			return;
+		}
+
 		const videoCallWindow = window.open('', '_blank');
 		apiStartVideoCall(chatItem?.id)
 			.then((response) => {
@@ -374,14 +400,65 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					className="sessionMenu__videoCallButtons"
 					data-cy="session-header-video-call-buttons"
 				>
-					<Button
-						buttonHandle={() => handleStartVideoCall(true)}
-						item={buttonStartVideoCall}
-					/>
-					<Button
-						buttonHandle={() => handleStartVideoCall()}
-						item={buttonStartCall}
-					/>
+					{supportsE2EEncryptionVideoCall() ? (
+						<>
+							<Button
+								buttonHandle={() => handleStartVideoCall(true)}
+								item={buttonStartVideoCall}
+							/>
+							<Button
+								buttonHandle={() => handleStartVideoCall()}
+								item={buttonStartCall}
+							/>
+						</>
+					) : (
+						<>
+							<Tooltip
+								trigger={
+									<Button
+										buttonHandle={() =>
+											handleStartVideoCall(true)
+										}
+										item={buttonStartVideoCall}
+										disabled={true}
+									/>
+								}
+							>
+								<h5>
+									{translate(
+										'videoCall.overlay.unsupported.headline'
+									)}
+								</h5>
+								<p>
+									{translate(
+										'videoCall.overlay.unsupported.copy'
+									)}
+								</p>
+							</Tooltip>
+							<Tooltip
+								trigger={
+									<Button
+										buttonHandle={() =>
+											handleStartVideoCall()
+										}
+										item={buttonStartCall}
+										disabled={true}
+									/>
+								}
+							>
+								<h5>
+									{translate(
+										'videoCall.overlay.unsupported.headline'
+									)}
+								</h5>
+								<p>
+									{translate(
+										'videoCall.overlay.unsupported.copy'
+									)}
+								</p>
+							</Tooltip>
+						</>
+					)}
 				</div>
 			)}
 			{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -476,7 +553,10 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					)}
 				{hasVideoCallFeatures() && (
 					<div
-						className="sessionMenu__item sessionMenu__item--mobile"
+						className={`sessionMenu__item sessionMenu__item--mobile ${
+							!supportsE2EEncryptionVideoCall() &&
+							'sessionMenu__item--disabled'
+						}`}
 						onClick={() => handleStartVideoCall(true)}
 					>
 						{translate('videoCall.button.startVideoCall')}
@@ -484,7 +564,10 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				)}
 				{hasVideoCallFeatures() && (
 					<div
-						className="sessionMenu__item sessionMenu__item--mobile"
+						className={`sessionMenu__item sessionMenu__item--mobile ${
+							!supportsE2EEncryptionVideoCall() &&
+							'sessionMenu__item--disabled'
+						}`}
 						onClick={() => handleStartVideoCall()}
 					>
 						{translate('videoCall.button.startCall')}

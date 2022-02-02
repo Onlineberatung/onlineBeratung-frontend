@@ -15,6 +15,9 @@ export const BUTTON_TYPES = {
 
 export interface ButtonItem {
 	function?: string;
+	functionArgs?: {
+		[key: string]: any;
+	};
 	disabled?: boolean;
 	icon?: JSX.Element;
 	id?: string;
@@ -92,7 +95,7 @@ export const Button = (props: ButtonProps) => {
 
 		if (!props.disabled && !props.item.disabled && props.buttonHandle) {
 			if (timeoutID) window.clearTimeout(timeoutID);
-			props.buttonHandle(item.function);
+			props.buttonHandle(item.function, item.functionArgs);
 		}
 	};
 

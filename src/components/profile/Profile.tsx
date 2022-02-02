@@ -32,6 +32,7 @@ import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { config } from '../../resources/scripts/config';
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import { Tooltip } from '../tooltip/Tooltip';
+import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 
 interface ProfileProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
@@ -229,7 +230,7 @@ const PersonalRegistrationLink = ({
 				<CopyIcon className={`copy`} />{' '}
 				{translate('profile.data.personal.registrationLink.text')}
 			</span>
-			<Tooltip>
+			<Tooltip trigger={<InfoIcon />}>
 				{translate('profile.data.personal.registrationLink.tooltip')}
 			</Tooltip>
 		</div>
