@@ -35,7 +35,7 @@ import { Notifications } from '../notifications/Notifications';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './authenticatedApp.styles';
 import './navigation.styles';
-import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
+import useTenantTheming from '../../utils/useTenantTheming';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -48,7 +48,7 @@ export const AuthenticatedApp = ({
 	onAppReady,
 	legalComponent
 }: AuthenticatedAppProps) => {
-	useLoadTenantThemeFiles();
+	useTenantTheming();
 	const { tenant } = useContext(TenantContext);
 
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
