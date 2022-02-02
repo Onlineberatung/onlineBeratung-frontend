@@ -129,9 +129,7 @@ const createCSS = ({ primaryColor, secondaryColor, logo }) => {
 	);
 };
 
-const useLoadTenantThemeFiles = (
-	setIsLoadingTheme?: (isLoadingTheme) => void
-) => {
+const useTenantTheming = (setIsLoadingTheme?: (isLoadingTheme) => void) => {
 	const { tenant, setTenant } = useContext(TenantContext);
 	const { subdomain, host, protocol, origin } = getLocationVariables();
 	const [loaded, setLoaded] = useState(false);
@@ -155,11 +153,7 @@ const useLoadTenantThemeFiles = (
 					setIsLoadingTheme && setIsLoadingTheme(false);
 				})
 				.catch(function (error) {
-					console.log(
-						'Theme konnte nicht geladen werden',
-						error,
-						src
-					);
+					console.log('Theme could not be loaded', error, src);
 				});
 		},
 		[host, origin, protocol, setIsLoadingTheme, setTenant, subdomain]
@@ -180,4 +174,4 @@ const useLoadTenantThemeFiles = (
 	}, [subdomain, fetchThemeData, tenant, loaded]);
 };
 
-export default useLoadTenantThemeFiles;
+export default useTenantTheming;

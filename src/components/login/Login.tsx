@@ -20,7 +20,7 @@ import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
-import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
+import useTenantTheming from '../../utils/useTenantTheming';
 import { TenantContext } from '../../globalState';
 import getLocationVariables from '../../utils/getLocationVariables';
 
@@ -39,11 +39,11 @@ export const Login = ({
 	stageComponent: Stage
 }: LoginProps) => {
 	const { tenant } = useContext(TenantContext);
-	const isMultiTenant = tenant != null;
-	const [letIsLoadingTheme, setIsLoadingTheme] = useState(isMultiTenant);
 	const { subdomain } = getLocationVariables();
+	const isMultiTenant = subdomain != null;
+	const [isLoadingTheme, setIsLoadingTheme] = useState(isMultiTenant);
 
-	useLoadTenantThemeFiles(setIsLoadingTheme);
+	useTenantTheming(setIsLoadingTheme);
 
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -249,7 +249,7 @@ export const Login = ({
 				</div>
 			</StageLayout>
 			{subdomain && (
-				<Modal isVisible={letIsLoadingTheme}>
+				<Modal isVisible={isLoadingTheme}>
 					<div>
 						<Spinner isDark />
 					</div>
