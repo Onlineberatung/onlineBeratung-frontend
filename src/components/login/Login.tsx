@@ -18,7 +18,9 @@ import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
-import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
+import useLoadTenantThemeFiles, {
+	getLocationVariables
+} from '../../utils/useLoadTenantThemeFiles';
 import Modal from '../modal/Modal';
 import { TenantContext } from '../../globalState';
 import Spinner from '../spinner/Spinner';
@@ -38,7 +40,10 @@ export const Login = ({
 	stageComponent: Stage
 }: LoginProps) => {
 	const [letIsLoadingTheme, setIsLoadingTheme] = useState(true);
+	const { subdomain } = getLocationVariables();
+
 	useLoadTenantThemeFiles(setIsLoadingTheme);
+
 	const { tenant } = useContext(TenantContext);
 
 	const [username, setUsername] = useState<string>('');
@@ -245,24 +250,13 @@ export const Login = ({
 					</div>
 				</div>
 			</StageLayout>
-			<Modal isVisible={letIsLoadingTheme}>
-				<div>
-					<Spinner isDark />
-					<p>
-						Bitte melden Sie sich bei <strong>Ihrer</strong>{' '}
-						Beratungs-Stelle an.{' '}
-					</p>
-					<p>
-						Diese finden sie unter{' '}
-						<strong>[beratungsstelle].onlineberatung.de</strong>
-					</p>
-					<p>
-						Sie wollen selbst eine Beratungsstelle online eröffnen.
-						Dann geht's{' '}
-						<a href="http://www.onlineberatung.de">hier</a> lang
-					</p>
-				</div>
-			</Modal>
+			{subdomain && (
+				<Modal isVisible={letIsLoadingTheme}>
+					<div>
+						<Spinner isDark />
+					</div>
+				</Modal>
+			)}
 		</>
 	);
 };
