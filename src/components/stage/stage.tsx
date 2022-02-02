@@ -28,8 +28,8 @@ export const Stage = ({
 			})}
 		>
 			<div className="stage__headline">
-				<h1>{tenant.name || translate('app.stage.title')}</h1>
-				<h4>{tenant.content.claim || translate('app.claim')}</h4>
+				<h1>{tenant?.name || translate('app.stage.title')}</h1>
+				<h4>{tenant?.content?.claim || translate('app.claim')}</h4>
 			</div>
 
 			{hasAnimation ? <Spinner className="stage__spinner" /> : null}

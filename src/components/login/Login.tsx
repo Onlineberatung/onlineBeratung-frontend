@@ -18,12 +18,11 @@ import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
-import useLoadTenantThemeFiles, {
-	getLocationVariables
-} from '../../utils/useLoadTenantThemeFiles';
+import useLoadTenantThemeFiles from '../../utils/useLoadTenantThemeFiles';
 import Modal from '../modal/Modal';
 import { TenantContext } from '../../globalState';
 import Spinner from '../spinner/Spinner';
+import getLocationVariables from '../../utils/getLocationVariables';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
