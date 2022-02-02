@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { config } from '../../resources/scripts/config';
+import { useContext, useEffect, useState } from 'react';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
+import { config } from '../../resources/scripts/config';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import {
 	NOTIFICATION_TYPE_CALL,
