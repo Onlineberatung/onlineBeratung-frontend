@@ -130,6 +130,7 @@ export const App = ({
 									}
 									legalComponent={legalComponent}
 									stageComponent={stageComponent}
+									fixedLanguages={fixedLanguages}
 								/>
 							</Route>
 						)}
