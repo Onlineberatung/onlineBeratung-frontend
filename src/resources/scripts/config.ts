@@ -4,7 +4,6 @@ export const apiUrlEnv: string = process.env.REACT_APP_API_URL;
 export const apiUrl = process.env.REACT_APP_API_URL
 	? 'https://' + apiUrlEnv
 	: '';
-export const uiUrl = process.env.REACT_APP_UI_URL || '';
 export const APP_PATH = 'app';
 
 export const config = {
@@ -67,17 +66,17 @@ export const config = {
 	urls: {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
-		toLogin: uiUrl + '/login',
-		toEntry: uiUrl + '/',
-		redirectToApp: uiUrl + '/' + APP_PATH,
+		toLogin: '/login',
+		toEntry: '/',
+		redirectToApp: '/' + APP_PATH,
 		home: 'https://www.caritas.de',
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
-		error500: uiUrl + '/error.500.html',
-		error401: uiUrl + '/error.401.html',
-		error404: uiUrl + '/error.404.html'
+		error500: '/error.500.html',
+		error401: '/error.401.html',
+		error404: '/error.404.html'
 	}
 };
