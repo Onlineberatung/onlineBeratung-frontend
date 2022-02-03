@@ -2,9 +2,6 @@ export interface TenantDataInterface {
 	id: number | null;
 	name: string;
 	subdomain: string;
-	host;
-	protocol;
-	origin;
 	theming: {
 		logo: string;
 		favicon: string;

@@ -30,7 +30,7 @@ import {
 	UpdateSessionListContext
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
-import { FilterStatusContext } from '../../globalState';
+import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
 import { SessionListItemComponent } from '../sessionsListItem/SessionListItemComponent';
 import { SessionsListSkeleton } from '../sessionsListItem/SessionsListItemSkeleton';
 import {
@@ -212,23 +212,21 @@ export const SessionsList: React.FC = () => {
 	}, [sessionsData, updateSessionList]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		const refreshSessionList = async () =>
-			// sessionListType: SESSION_LIST_TYPES
-			{
-				if (
-					hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
-					hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
-				) {
-					fetchAskerData();
-				} else if (
-					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
-				) {
-					getSessionsListData();
-				}
-			};
+		const refreshSessionList = async () => {
+			if (
+				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+			) {
+				fetchAskerData();
+			} else if (
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+			) {
+				getSessionsListData();
+			}
+		};
 
 		if (updateSessionList) {
-			refreshSessionList(/*updateSessionList*/);
+			refreshSessionList();
 		}
 		setUpdateSessionList(null);
 	}, [updateSessionList, userData]); // eslint-disable-line react-hooks/exhaustive-deps

@@ -22,7 +22,6 @@ import './login.styles';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
 import useTenantTheming from '../../utils/useTenantTheming';
 import { TenantContext } from '../../globalState';
-import getLocationVariables from '../../utils/getLocationVariables';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -39,11 +38,7 @@ export const Login = ({
 	stageComponent: Stage
 }: LoginProps) => {
 	const { tenant } = useContext(TenantContext);
-	const { subdomain } = getLocationVariables();
-	const isMultiTenant = subdomain != null;
-	const [isLoadingTheme, setIsLoadingTheme] = useState(isMultiTenant);
-
-	useTenantTheming(setIsLoadingTheme);
+	const isLoadingTheme = useTenantTheming();
 
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -121,8 +116,7 @@ export const Login = ({
 			autoLogin({
 				username: username,
 				password: password,
-				redirect: true,
-				redirectURL: tenant?.origin
+				redirect: true
 			})
 				.catch((error) => {
 					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
@@ -148,7 +142,6 @@ export const Login = ({
 				username,
 				password,
 				redirect: true,
-				redirectURL: tenant?.origin,
 				otp
 			})
 				.catch((error) => {
@@ -222,7 +215,7 @@ export const Login = ({
 						buttonHandle={handleLogin}
 						disabled={isButtonDisabled}
 					/>
-					{!isMultiTenant && (
+					{!tenant && (
 						<div className="loginForm__register">
 							<Text
 								text={translate(
@@ -248,8 +241,8 @@ export const Login = ({
 					)}
 				</div>
 			</StageLayout>
-			{subdomain && (
-				<Modal isVisible={isLoadingTheme}>
+			{isLoadingTheme && (
+				<Modal>
 					<div>
 						<Spinner isDark />
 					</div>

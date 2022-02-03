@@ -37,12 +37,7 @@ const invalidateCookies = (
 };
 
 const redirectAfterLogout = (altRedirectUrl?: string) => {
-	const { subdomain, origin } = getLocationVariables();
-
-	let redirectUrl = altRedirectUrl ? altRedirectUrl : config.urls.toEntry;
-	if (subdomain) {
-		redirectUrl = origin;
-	}
+	const redirectUrl = altRedirectUrl ? altRedirectUrl : config.urls.toEntry;
 	setTimeout(() => {
 		window.location.href = redirectUrl;
 	}, 1000);

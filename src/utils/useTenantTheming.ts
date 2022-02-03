@@ -1,5 +1,7 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { apiGetTenantTheming } from '../api/apiGetTenantTheming';
 import { TenantContext } from '../globalState';
+import { config } from '../resources/scripts/config';
 import getLocationVariables from './getLocationVariables';
 
 const RGBToHSL = (r, g, b) => {
@@ -81,7 +83,7 @@ const adjustHSLColor = ({
 	return `hsl(${color.h}, ${color.s}%, ${adjust}%)`;
 };
 
-const createCSS = ({ primaryColor, secondaryColor, logo }) => {
+const injectCss = ({ primaryColor, secondaryColor }) => {
 	// make HSL colors over RGB from hex
 	const primaryHSL = hexToRGB(primaryColor);
 	const secondaryHSL = hexToRGB(secondaryColor);
@@ -129,49 +131,38 @@ const createCSS = ({ primaryColor, secondaryColor, logo }) => {
 	);
 };
 
-const useTenantTheming = (setIsLoadingTheme?: (isLoadingTheme) => void) => {
+const useTenantTheming = () => {
 	const { tenant, setTenant } = useContext(TenantContext);
-	const { subdomain, host, protocol, origin } = getLocationVariables();
-	const [loaded, setLoaded] = useState(false);
-
-	const fetchThemeData = useCallback(
-		(src) => {
-			fetch(src)
-				.then(function (response) {
-					return response.json();
-				})
-				.then(function (data) {
-					if (subdomain) {
-						setTenant({
-							subdomain,
-							host,
-							protocol,
-							origin,
-							...data
-						});
-					}
-					setIsLoadingTheme && setIsLoadingTheme(false);
-				})
-				.catch(function (error) {
-					console.log('Theme could not be loaded', error, src);
-				});
-		},
-		[host, origin, protocol, setIsLoadingTheme, setTenant, subdomain]
+	const { subdomain } = getLocationVariables();
+	const [isLoadingTenant, setIsLoadingTenant] = useState(
+		config.enableTenantTheming
 	);
 
 	useEffect(() => {
-		if (!loaded && subdomain) {
-			fetchThemeData(`/themes/${subdomain}.json`);
-			setLoaded(true);
-		} else {
-			setLoaded(true);
+		if (!subdomain || !config.enableTenantTheming) {
+			setIsLoadingTenant(false);
+			return;
 		}
 
-		if (subdomain && tenant?.theming) {
-			const { primaryColor, secondaryColor, logo } = tenant.theming;
-			createCSS({ primaryColor, secondaryColor, logo });
-		}
-	}, [subdomain, fetchThemeData, tenant, loaded]);
+		apiGetTenantTheming({ subdomain })
+			.then((tenant) => {
+				setTenant(tenant);
+			})
+			.catch((error) => {
+				console.log('Theme could not be loaded', error);
+			})
+			.finally(() => {
+				setIsLoadingTenant(false);
+			});
+	}, [setTenant, subdomain]);
+
+	useEffect(() => {
+		if (!tenant?.theming) return;
+
+		injectCss(tenant.theming);
+	}, [tenant?.theming]);
+
+	return isLoadingTenant;
 };
 
 export default useTenantTheming;

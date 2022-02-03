@@ -87,10 +87,8 @@ export const AuthenticatedApp = ({
 					setAppReady(true);
 				})
 				.catch((error) => {
-					window.location.href = tenant?.host
-						? tenant.host
-						: config.urls.toEntry;
-					console.log('Error', error);
+					window.location.href = config.urls.toEntry;
+					console.log(error);
 				});
 		});
 	}
