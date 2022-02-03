@@ -172,6 +172,12 @@ $iconSizeLarge: 48px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+
+		.text {
+			.overlay--stepped & {
+				text-align: center;
+			}
+		}
 	}
 
 	&__stepHeadline {

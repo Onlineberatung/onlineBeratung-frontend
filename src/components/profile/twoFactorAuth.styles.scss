@@ -106,4 +106,18 @@
 			font-weight: $font-weight-bold;
 		}
 	}
+
+	&__selectType {
+		margin: $grid-base-two;
+		width: 100%;
+		display: flex;
+		justify-content: space-around;
+
+		button {
+			&.is-active {
+				background-color: $background-accent;
+				color: $primary;
+			}
+		}
+	}
 }

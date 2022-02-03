@@ -41,6 +41,7 @@ export interface OverlayItem {
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
 	>;
+	handleNextStep?: (callback: Function) => void;
 	handleOverlay?: Function;
 	step?: {
 		icon: React.FunctionComponent<
@@ -93,7 +94,13 @@ export const Overlay = (props: {
 
 	const handleButtonClick = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.NEXT_STEP) {
-			setActiveStep(activeStep + 1);
+			if (activeOverlay.handleNextStep) {
+				activeOverlay.handleNextStep(() => {
+					setActiveStep(activeStep + 1);
+				});
+			} else {
+				setActiveStep(activeStep + 1);
+			}
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.PREV_STEP) {
 			setActiveStep(activeStep - 1);
 		} else if (props.item && props.handleOverlay) {
