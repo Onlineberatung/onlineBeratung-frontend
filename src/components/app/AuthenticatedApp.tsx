@@ -40,6 +40,7 @@ import {
 	checkForBiometricAvailability,
 	checkForExistingCredentials
 } from '../../utils/biometricAuthenticationHelpers';
+import { registerPushNotifications } from '../pushNotifications/pushNotifications';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -122,6 +123,9 @@ export const AuthenticatedApp = ({
 
 	useEffect(() => {
 		onAppReady();
+		if (appReady) {
+			registerPushNotifications();
+		}
 	}, [appReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleLogout = useCallback(() => {

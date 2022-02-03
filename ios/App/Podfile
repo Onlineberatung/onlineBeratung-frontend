@@ -10,10 +10,12 @@ def capacitor_pods
   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorApp', :path => '../../node_modules/@capacitor/app'
+  pod 'CapacitorPushNotifications', :path => '../../node_modules/@capacitor/push-notifications'
   pod 'CapacitorNativeBiometric', :path => '../../node_modules/capacitor-native-biometric'
 end
 
 target 'App' do
   capacitor_pods
   # Add your Pods here
+  pod 'Firebase/Messaging'
 end
