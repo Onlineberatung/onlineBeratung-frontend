@@ -106,9 +106,9 @@ describe('Messages', () => {
 							emitStompDirectMessage();
 						});
 
-						cy.get('.navigation__item__count--active').should(
-							'exist'
-						);
+						cy.get('.navigation__item__count--active', {
+							timeout: 10000
+						}).should('exist');
 						cy.get('.navigation__item__count--initial').should(
 							'exist'
 						);
@@ -124,9 +124,9 @@ describe('Messages', () => {
 
 						emitStompDirectMessage();
 
-						cy.get('.navigation__item__count--active').should(
-							'exist'
-						);
+						cy.get('.navigation__item__count--active', {
+							timeout: 10000
+						}).should('exist');
 						cy.get('.navigation__item__count--initial').should(
 							'exist'
 						);
@@ -160,21 +160,16 @@ describe('Messages', () => {
 
 						emitStompDirectMessage();
 
-						cy.get('.navigation__item__count--active').should(
-							'exist'
-						);
+						cy.get('.navigation__item__count--active', {
+							timeout: 10000
+						}).should('exist');
 						cy.get('.navigation__item__count--initial').should(
 							'exist'
 						);
 
-						// wait for the animation to finish and the dot to disappear
-						// TODO: use cy.clock instead
-						// eslint-disable-next-line cypress/no-unnecessary-waiting
-						cy.wait(1500);
-
-						cy.get('.navigation__item__count--active').should(
-							'not.exist'
-						);
+						cy.get('.navigation__item__count--active', {
+							timeout: 10000
+						}).should('not.exist');
 						cy.get('.navigation__item__count').should('not.exist');
 					});
 				});
@@ -222,9 +217,9 @@ describe('Messages', () => {
 							});
 						});
 
-						cy.get('.navigation__item__count--active').should(
-							'exist'
-						);
+						cy.get('.navigation__item__count--active', {
+							timeout: 10000
+						}).should('exist');
 						cy.get('.navigation__item__count--initial').should(
 							'exist'
 						);
@@ -261,12 +256,12 @@ describe('Messages', () => {
 
 						emitStompDirectMessage();
 
-						cy.get('.navigation__item__count--active').should(
-							'exist'
-						);
-						cy.get('.navigation__item__count--reanimate').should(
-							'exist'
-						);
+						cy.get('.navigation__item__count--active', {
+							timeout: 10000
+						}).should('exist');
+						cy.get('.navigation__item__count--reanimate', {
+							timeout: 10000
+						}).should('exist');
 					});
 				});
 			});
@@ -284,12 +279,12 @@ describe('Messages', () => {
 
 						emitStompDirectMessage();
 
-						cy.get('.navigation__item__count--active').should(
-							'exist'
-						);
-						cy.get('.navigation__item__count--reanimate').should(
-							'exist'
-						);
+						cy.get('.navigation__item__count--active', {
+							timeout: 10000
+						}).should('exist');
+						cy.get('.navigation__item__count--reanimate', {
+							timeout: 10000
+						}).should('exist');
 					});
 				});
 			});
@@ -344,12 +339,12 @@ describe('Messages', () => {
 							});
 						});
 
-						cy.get('.navigation__item__count--active').should(
-							'exist'
-						);
-						cy.get('.navigation__item__count--reanimate').should(
-							'exist'
-						);
+						cy.get('.navigation__item__count--active', {
+							timeout: 10000
+						}).should('exist');
+						cy.get('.navigation__item__count--reanimate', {
+							timeout: 10000
+						}).should('exist');
 					});
 				});
 
@@ -400,12 +395,12 @@ describe('Messages', () => {
 							});
 						});
 
-						cy.get('.navigation__item__count--active').should(
-							'exist'
-						);
-						cy.get('.navigation__item__count--reanimate').should(
-							'exist'
-						);
+						cy.get('.navigation__item__count--active', {
+							timeout: 10000
+						}).should('exist');
+						cy.get('.navigation__item__count--reanimate', {
+							timeout: 10000
+						}).should('exist');
 					});
 				});
 			});

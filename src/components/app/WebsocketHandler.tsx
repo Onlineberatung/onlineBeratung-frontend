@@ -82,10 +82,16 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 
 		stompClient.onWebSocketClose = (message) => {
 			console.log('Closed', message);
+			document
+				.getElementsByTagName('body')[0]
+				.classList.remove('cy-stompSocket-ready');
 		};
 
 		stompClient.onWebSocketError = (error) => {
 			console.log('Error', error);
+			document
+				.getElementsByTagName('body')[0]
+				.classList.remove('cy-stompSocket-ready');
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -158,6 +164,9 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		stompClient.reconnect_delay = RECONNECT_DELAY;
 		stompClient.connect({}, (frame) => {
 			console.log('Connected: ' + frame);
+			document
+				.getElementsByTagName('body')[0]
+				.classList.add('cy-stompSocket-ready');
 			reconnectAttemptCount = 0;
 			stompClient.subscribe('/user/events', function (message) {
 				const stompMessageBody = JSON.parse(message.body);

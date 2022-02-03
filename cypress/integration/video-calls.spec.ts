@@ -72,7 +72,9 @@ describe('Video calls', () => {
 					emitStompVideoCallRequest();
 				});
 
-				cy.get('[data-cy=notifications]').should('exist');
+				cy.get('[data-cy=notifications]', {
+					timeout: 10000
+				}).should('exist');
 				cy.get('[data-cy=incoming-video-call]').should('exist');
 				cy.get('[data-cy=incoming-video-call]').should(
 					'have.length',
@@ -90,7 +92,9 @@ describe('Video calls', () => {
 					emitStompVideoCallRequest();
 				});
 
-				cy.get('[data-cy=notifications]').should('exist');
+				cy.get('[data-cy=notifications]', {
+					timeout: 10000
+				}).should('exist');
 				cy.get('[data-cy=incoming-video-call]').should('exist');
 				cy.get('[data-cy=incoming-video-call]').should(
 					'have.length',
@@ -99,10 +103,9 @@ describe('Video calls', () => {
 				for (let i = 0; i < amountOfIncomingCalls - 1; i++) {
 					emitStompVideoCallRequest();
 				}
-				cy.get('[data-cy=incoming-video-call]').should(
-					'have.length',
-					amountOfIncomingCalls
-				);
+				cy.get('[data-cy=incoming-video-call]', {
+					timeout: 10000
+				}).should('have.length', amountOfIncomingCalls);
 			});
 
 			it('should remove incoming call when call is answered', () => {
@@ -115,10 +118,9 @@ describe('Video calls', () => {
 					emitStompVideoCallRequest();
 				});
 
-				cy.get('[data-cy=incoming-video-call]').should(
-					'have.length',
-					2
-				);
+				cy.get('[data-cy=incoming-video-call]', {
+					timeout: 10000
+				}).should('have.length', 2);
 				cy.get('[data-cy=answer-incoming-video-call]').first().click();
 				cy.get('[data-cy=incoming-video-call]').should(
 					'have.length',
@@ -135,10 +137,9 @@ describe('Video calls', () => {
 					emitStompVideoCallRequest();
 				});
 
-				cy.get('[data-cy=incoming-video-call]').should(
-					'have.length',
-					1
-				);
+				cy.get('[data-cy=incoming-video-call]', {
+					timeout: 10000
+				}).should('have.length', 1);
 				cy.get('[data-cy=reject-incoming-video-call]').click();
 				cy.get('[data-cy=incoming-video-call]').should(
 					'have.length',
@@ -156,10 +157,9 @@ describe('Video calls', () => {
 						emitStompVideoCallRequest();
 					});
 
-					cy.get('[data-cy=incoming-video-call]').should(
-						'have.length',
-						1
-					);
+					cy.get('[data-cy=incoming-video-call]', {
+						timeout: 10000
+					}).should('have.length', 1);
 					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
 					);
@@ -174,9 +174,9 @@ describe('Video calls', () => {
 						emitStompVideoCallRequest();
 					});
 
-					cy.get('[data-cy=incoming-video-call-audio]').should(
-						'exist'
-					);
+					cy.get('[data-cy=incoming-video-call-audio]', {
+						timeout: 10000
+					}).should('exist');
 					cy.get('[data-cy=reject-incoming-video-call]').click();
 					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'not.exist'
@@ -192,9 +192,9 @@ describe('Video calls', () => {
 						emitStompVideoCallRequest();
 					});
 
-					cy.get('[data-cy=incoming-video-call-audio]').should(
-						'exist'
-					);
+					cy.get('[data-cy=incoming-video-call-audio]', {
+						timeout: 10000
+					}).should('exist');
 					cy.get('[data-cy=answer-incoming-video-call]').click();
 					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'not.exist'
@@ -211,9 +211,9 @@ describe('Video calls', () => {
 						emitStompVideoCallRequest();
 					});
 
-					cy.get('[data-cy=incoming-video-call-audio]').should(
-						'exist'
-					);
+					cy.get('[data-cy=incoming-video-call-audio]', {
+						timeout: 10000
+					}).should('exist');
 					cy.get('[data-cy=reject-incoming-video-call]')
 						.first()
 						.click();
@@ -236,9 +236,9 @@ describe('Video calls', () => {
 						emitStompVideoCallRequest();
 					});
 
-					cy.get('[data-cy=incoming-video-call-audio]').should(
-						'exist'
-					);
+					cy.get('[data-cy=incoming-video-call-audio]', {
+						timeout: 10000
+					}).should('exist');
 					cy.get('[data-cy=answer-incoming-video-call]')
 						.first()
 						.click();

@@ -38,6 +38,9 @@ export class rocketChatSocket {
 
 		this.rcWebsocket.onopen = () => {
 			if (this.rcWebsocket?.readyState === SOCKET_STATUS.OPEN) {
+				document
+					.getElementsByTagName('body')[0]
+					.classList.add('cy-rocketChatSocket-ready');
 				// connect
 				this.rcWebsocket.send(
 					JSON.stringify({
@@ -104,9 +107,17 @@ export class rocketChatSocket {
 
 		this.keepAlive();
 
-		this.rcWebsocket.onclose = function (event) {};
+		this.rcWebsocket.onclose = function (event) {
+			document
+				.getElementsByTagName('body')[0]
+				.classList.remove('cy-rocketChatSocket-ready');
+		};
 
-		this.rcWebsocket.onerror = function (event) {};
+		this.rcWebsocket.onerror = function (event) {
+			document
+				.getElementsByTagName('body')[0]
+				.classList.remove('cy-rocketChatSocket-ready');
+		};
 	}
 
 	public close() {
