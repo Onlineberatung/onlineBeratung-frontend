@@ -15,7 +15,9 @@ import { BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
 import {
 	ActiveSessionGroupIdContext,
-	AcceptedGroupIdContext
+	AcceptedGroupIdContext,
+	getActiveSession,
+	SessionsDataContext
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { ReactComponent as EnvelopeCheckIcon } from '../../resources/img/illustrations/envelope-check.svg';
@@ -34,6 +36,8 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 }) => {
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const { sessionsData } = useContext(SessionsDataContext);
+	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	let [overlayActive, setOverlayActive] = useState(false);
 	const [sessionId, setSessionId] = useState<number | null>(null);
 	const [groupId, setGroupId] = useState<string | null>(null);
@@ -118,6 +122,10 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 		setOverlayActive(true);
 	}, []);
 
+	const isUnassignedSession =
+		(activeSession && !activeSession?.consultant) ||
+		(!activeSession && !sessionsData?.mySessions?.[0]?.consultant);
+
 	return (
 		<div className="enquiry__wrapper">
 			<div className="enquiry__infoWrapper">
@@ -138,11 +146,13 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 						type="standard"
 						className="enquiry__facts"
 					/>
-					<EnquiryLanguageSelection
-						className="enquiry__languageSelection"
-						fixedLanguages={fixedLanguages}
-						handleSelection={setSelectedLanguage}
-					/>
+					{isUnassignedSession && (
+						<EnquiryLanguageSelection
+							className="enquiry__languageSelection"
+							fixedLanguages={fixedLanguages}
+							handleSelection={setSelectedLanguage}
+						/>
+					)}
 				</div>
 			</div>
 			<MessageSubmitInterfaceComponent
