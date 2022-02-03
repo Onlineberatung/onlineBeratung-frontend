@@ -19,20 +19,6 @@ jobs:
                   node-version: 14.18.3
                   registry-url: 'https://npm.pkg.github.com'
             - run: npm i
-            - name: Run linters
-              uses: wearerequired/lint-action@v1
-              with:
-                  github_token: ${{ secrets.github_token }}
-                  eslint: true
-                  eslint_dir: ./src
-                  eslint_extensions: js,ts,tsx
-                  prettier: true
-                  prettier_dir: ./src
-            - name: test and build
-              run: |
-                  echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
-                  echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
-                  npm run test
             - run: npm version --no-git-tag-version 0.0.0-$VERSION
             - run: npm publish --tag prerelease
               env:
