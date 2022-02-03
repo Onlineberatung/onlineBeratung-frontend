@@ -44,7 +44,7 @@ a {
 	transition: all 0.6s ease;
 
 	&:hover {
-		color: var(--skin-color-primary-hover, $hover-primary);
+		color: $link-hover-color-default;
 		transition: all 0.3s ease;
 	}
 }
