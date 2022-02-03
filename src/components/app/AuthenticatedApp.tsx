@@ -20,8 +20,7 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	SessionsDataContext,
-	ConsultingTypesContext,
-	TenantContext
+	ConsultingTypesContext
 } from '../../globalState';
 import {
 	apiFinishAnonymousConversation,
