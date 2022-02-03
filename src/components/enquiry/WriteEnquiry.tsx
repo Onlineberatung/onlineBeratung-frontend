@@ -15,7 +15,8 @@ import { BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
 import {
 	ActiveSessionGroupIdContext,
-	AcceptedGroupIdContext
+	AcceptedGroupIdContext,
+	SessionsDataContext
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { ReactComponent as EnvelopeCheckIcon } from '../../resources/img/illustrations/envelope-check.svg';
@@ -34,6 +35,7 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 }) => {
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const { sessionsData } = useContext(SessionsDataContext);
 	let [overlayActive, setOverlayActive] = useState(false);
 	const [sessionId, setSessionId] = useState<number | null>(null);
 	const [groupId, setGroupId] = useState<string | null>(null);
@@ -138,11 +140,13 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 						type="standard"
 						className="enquiry__facts"
 					/>
-					<EnquiryLanguageSelection
-						className="enquiry__languageSelection"
-						fixedLanguages={fixedLanguages}
-						handleSelection={setSelectedLanguage}
-					/>
+					{!sessionsData?.mySessions?.[0]?.consultant && (
+						<EnquiryLanguageSelection
+							className="enquiry__languageSelection"
+							fixedLanguages={fixedLanguages}
+							handleSelection={setSelectedLanguage}
+						/>
+					)}
 				</div>
 			</div>
 			<MessageSubmitInterfaceComponent
