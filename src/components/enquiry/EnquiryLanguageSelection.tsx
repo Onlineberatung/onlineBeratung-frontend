@@ -36,9 +36,14 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 					sessionsData
 				);
 
+				let agencyId = null;
 				if (activeSession) {
-					const agencyId = activeSession.agency.id;
+					agencyId = activeSession.agency.id;
+				} else if (sessionsData?.mySessions.length === 1) {
+					agencyId = sessionsData.mySessions[0].agency.id;
+				}
 
+				if (agencyId) {
 					const response = await apiAgencyLanguages(agencyId).catch(
 						() => {
 							/* intentional, falls back to fixed languages */
