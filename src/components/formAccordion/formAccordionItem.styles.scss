@@ -54,7 +54,9 @@
 		display: none;
 		margin-bottom: $grid-base-three;
 
-		.inputField {
+		.inputField,
+		.consultingTypeSelection__possibleConsultingTypes .select__wrapper,
+		.consultingTypeSelection__possibleConsultingTypes + .agencySelection {
 			margin-top: $grid-base-three;
 			margin-right: $grid-base-four;
 			max-width: 360px;

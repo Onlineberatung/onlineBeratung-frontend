@@ -201,6 +201,7 @@ export const Overlay = (props: {
 					<div className="overlay__buttons">
 						{activeOverlay.buttonSet?.map((item, i) => (
 							<Button
+								disabled={item.disabled}
 								item={item}
 								key={`${i}-${item.type}`}
 								buttonHandle={handleButtonClick}

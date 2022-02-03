@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
 	AgencyDataInterface,
-	ConsultingTypeBasicInterface,
-	UserDataInterface
+	ConsultingTypeBasicInterface
 } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
@@ -22,13 +21,17 @@ import { parsePlaceholderString } from '../../utils/parsePlaceholderString';
 import { config } from '../../resources/scripts/config';
 import { Notice } from '../notice/Notice';
 import { AgencyLanguages } from './AgencyLanguages';
+import {
+	VALIDITY_INITIAL,
+	VALIDITY_INVALID,
+	VALIDITY_VALID
+} from '../registration/registrationHelpers';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
 	icon?: JSX.Element;
 	onAgencyChange: Function;
 	onValidityChange?: Function;
-	userData?: UserDataInterface;
 	preselectedAgency?: AgencyDataInterface;
 	isProfileView?: boolean;
 	agencySelectionNote?: string;
@@ -43,9 +46,8 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		AgencyDataInterface[] | null
 	>(null);
 	const [selectedPostcode, setSelectedPostcode] = useState('');
-	const [selectedAgencyId, setSelectedAgencyId] = useState<
-		number | undefined
-	>(undefined);
+	const [selectedAgency, setSelectedAgency] =
+		useState<AgencyDataInterface | null>(null);
 	const autoSelectAgency = props.consultingType.registration.autoSelectAgency;
 	const autoSelectPostcode =
 		props.consultingType.registration.autoSelectPostcode;
@@ -56,12 +58,12 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		selectedPostcode?.length === VALID_POSTCODE_LENGTH;
 
 	const isSelectedAgencyValidated = () =>
-		validPostcode() && typeof selectedAgencyId === 'number';
+		validPostcode() && typeof selectedAgency?.id === 'number';
 
 	useEffect(() => {
 		setSelectedPostcode(props.initialPostcode || '');
 		setPostcodeFallbackLink('');
-		setSelectedAgencyId(undefined);
+		setSelectedAgency(null);
 		setProposedAgencies(null);
 		setPreselectedAgency(props.preselectedAgency);
 	}, [props.preselectedAgency, props.consultingType, props.initialPostcode]);
@@ -79,7 +81,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					if (autoSelectPostcode) {
 						setSelectedPostcode(defaultAgency.postcode);
 					}
-					setSelectedAgencyId(defaultAgency.id);
+					setSelectedAgency(defaultAgency);
 					setPreselectedAgency(defaultAgency);
 				}
 			} catch (err) {
@@ -92,16 +94,15 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
 			const agency = {
-				...proposedAgencies?.find((cur) => cur.id === selectedAgencyId),
-				id: selectedAgencyId,
+				...selectedAgency,
 				postcode: selectedPostcode
 			};
 			props.onAgencyChange(agency);
 			if (props.onValidityChange) {
-				props.onValidityChange('valid');
+				props.onValidityChange(VALIDITY_VALID);
 			}
-		} else if (preselectedAgency && !selectedAgencyId) {
-			setSelectedAgencyId(preselectedAgency.id);
+		} else if (preselectedAgency && !selectedAgency?.id) {
+			setSelectedAgency(preselectedAgency);
 			if (props.consultingType.registration.autoSelectPostcode) {
 				setSelectedPostcode(preselectedAgency.postcode);
 			}
@@ -109,18 +110,18 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			props.onAgencyChange(null);
 			if (props.onValidityChange) {
 				props.onValidityChange(
-					selectedPostcode ? 'invalid' : 'initial'
+					selectedPostcode ? VALIDITY_INVALID : VALIDITY_INITIAL
 				);
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selectedAgencyId, selectedPostcode, preselectedAgency]);
+	}, [selectedAgency, selectedPostcode, preselectedAgency]);
 
 	useEffect(() => {
 		if (!autoSelectAgency && !preselectedAgency) {
 			(async () => {
 				try {
-					setSelectedAgencyId(undefined);
+					setSelectedAgency(null);
 					setPostcodeFallbackLink('');
 					if (validPostcode()) {
 						const agencies = (
@@ -134,7 +135,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						);
 
 						setProposedAgencies(agencies);
-						setSelectedAgencyId(agencies[0].id);
+						setSelectedAgency(agencies[0]);
 					} else if (proposedAgencies) {
 						setProposedAgencies(null);
 					}
@@ -161,7 +162,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			props.onAgencyChange(null);
 			if (props.onValidityChange) {
 				props.onValidityChange(
-					selectedPostcode ? 'invalid' : 'initial'
+					selectedPostcode ? VALIDITY_INVALID : VALIDITY_INITIAL
 				);
 			}
 		}
@@ -327,9 +328,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											<RadioButton
 												name="agencySelection"
 												handleRadioButton={() =>
-													setSelectedAgencyId(
-														agency.id
-													)
+													setSelectedAgency(agency)
 												}
 												type="smaller"
 												value={agency.id.toString()}

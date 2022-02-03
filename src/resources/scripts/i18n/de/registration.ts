@@ -1,10 +1,12 @@
 const registration = {
 	'headline': 'Registrierung',
+	'overline': 'Herzlich willkommen',
 	'title.start': 'Registrierung',
 	'login.helper': 'Bereits registriert?',
 	'login.label': 'Zum Login',
 	'agency.preselected.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
 	'agency.preselected.isTeam': 'Sie werden von einem Team beraten.',
+	'consultingType.preselected.prefix': 'Ihr vorausgewähltes Themenfeld: ',
 	'username.headline': 'Bitte wählen Sie Ihren Benutzernamen',
 	'user.label': 'Benutzername',
 	'user.infoText':
@@ -39,6 +41,17 @@ const registration = {
 	'agencyPreselected.intro.point1':
 		'kennen dann die Hilfen rund um Ihren Wohnort',
 	'agencyPreselected.intro.point2': 'kennen die Gesetze Ihres Bundeslandes',
+
+	'consultingTypeAgencySelection.consultingType.headline':
+		'Bitte wählen Sie ein Themenfeld',
+	'consultingTypeAgencySelection.consultingType.infoText':
+		'Ihr_e Berater_in ist in mehreren Themenfeldern tätig. Bitte wählen Sie Ihr gewünschtes Themenfeld.',
+	'consultingTypeAgencySelection.consultingType.select.label': 'Themenfeld',
+	'consultingTypeAgencySelection.agency.headline':
+		'Bitte wählen Sie eine Beratungsstelle',
+	'consultingTypeAgencySelection.agency.infoText':
+		'Ihr_e Berater_in ist in mehreren Beratungsstellen tätig. Bitte wählen Sie Ihre gewünschte Beratungsstelle.',
+
 	'password.headline': 'Bitte wählen Sie Ihr Passwort',
 	'password.input.label': 'Passwort',
 	'password.confirmation.label': 'Passwort wiederholen',
@@ -99,7 +112,9 @@ const registration = {
 	'welcomeScreen.info4.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 	'welcomeScreen.register.helperText': 'Noch nicht registriert?',
-	'welcomeScreen.register.buttonLabel': 'Zur Registrierung'
+	'welcomeScreen.register.buttonLabel': 'Zur Registrierung',
+	'teaser.consultant':
+		'Bitte registrieren Sie sich, um mit Ihrer Beraterin / Ihrem Berater in Kontakt zu kommen'
 };
 
 export default registration;
