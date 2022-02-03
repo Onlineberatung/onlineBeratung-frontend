@@ -49,7 +49,6 @@ export const AuthenticatedApp = ({
 	legalComponent
 }: AuthenticatedAppProps) => {
 	useTenantTheming();
-	const { tenant } = useContext(TenantContext);
 
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { setAuthData } = useContext(AuthDataContext);

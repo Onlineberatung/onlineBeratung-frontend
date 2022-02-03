@@ -2,7 +2,6 @@ import { config } from '../../resources/scripts/config';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { apiRocketchatLogout, apiKeycloakLogout } from '../../api';
 import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
-import getLocationVariables from '../../utils/getLocationVariables';
 
 let isRequestInProgress = false;
 export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
