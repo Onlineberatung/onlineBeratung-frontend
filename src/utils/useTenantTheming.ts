@@ -117,16 +117,6 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 				: 'var(--skin-color-link-dark)'
 		};
 		}
-		
-		/* Text-links must be underlined in case we use the default color */
-		a {
-			text-decoration: underline;
-			color: var(--skin-color-link);
-		}
-		a:hover {
-			color: var(--skin-color-link-hover);
-		}
-
 		</style>`
 	);
 };

@@ -46,10 +46,15 @@ $spacingWithIcon: 52px;
 		transform: $login-icon-transform;
 		background-color: var(--skin-color-primary, $primary);
 		color: var(--text-color-contrast-switch, $white);
+
+		@media (min-width: $fromLarge) {
+			width: $login-button-width-large;
+		}
 	}
 
 	&__passwordReset {
 		transform: $login-icon-transform;
+		text-decoration: $login-password-reset-text-decoration;
 	}
 
 	&__register {
