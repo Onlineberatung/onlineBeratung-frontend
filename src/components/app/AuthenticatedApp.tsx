@@ -32,9 +32,9 @@ import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
 import { Notifications } from '../notifications/Notifications';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import useTenantTheming from '../../utils/useTenantTheming';
 import './authenticatedApp.styles';
 import './navigation.styles';
-import useTenantTheming from '../../utils/useTenantTheming';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import './stage.styles';
 import { Spinner } from '../spinner/Spinner';
 import { useContext } from 'react';
 import { TenantContext } from '../../globalState';
@@ -12,6 +11,7 @@ import { ReactComponent as InViaLogo } from '../../resources/img/logos/04_via.sv
 import { ReactComponent as KreuzbundLogo } from '../../resources/img/logos/05_kreuzbund.svg';
 import { ReactComponent as RaphaelswerkLogo } from '../../resources/img/logos/06_raphael.svg';
 import { ReactComponent as MalteserLogo } from '../../resources/img/logos/07_malteser.svg';
+import './stage.styles';
 
 export interface StageProps {
 	className?: string;

@@ -256,21 +256,22 @@ $message-lineheight: 21px;
 
 				&__download {
 					svg * {
-						fill: $white;
+						fill: var(--text-color-contrast-switch, $white);
 					}
 
 					svg {
 						&:hover {
 							* {
-								fill: $white;
+								fill: var(--text-color-contrast-switch, $white);
 							}
 						}
 					}
 
 					p {
-						color: $white;
+						color: var(--text-color-contrast-switch, $white);
+
 						&:hover {
-							color: $white;
+							color: var(--text-color-contrast-switch, $white);
 						}
 					}
 				}

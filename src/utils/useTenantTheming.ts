@@ -89,6 +89,13 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 	const secondaryHSL = hexToRGB(secondaryColor);
 	const contrastThreshold = 40;
 
+	// Intended to be used as the foreground color when text
+	// or icons are used on top of the primary color.
+	const textColorContrastSwitch =
+		primaryHSL.l < contrastThreshold
+			? 'var(--skin-color-link-light)'
+			: 'var(--skin-color-link-dark)';
+
 	document.head.insertAdjacentHTML(
 		'beforeend',
 		`<style>
@@ -111,11 +118,7 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 			adjust: 90
 		})};
 		
-		--text-color-contrast-switch: ${
-			primaryHSL.l < contrastThreshold
-				? 'var(--skin-color-link-light)'
-				: 'var(--skin-color-link-dark)'
-		};
+		--text-color-contrast-switch: ${textColorContrastSwitch};
 		}
 		</style>`
 	);

@@ -7,8 +7,6 @@ $iconSize: 20px;
 
 		a {
 			color: var(--skin-color-default, $secondary);
-
-			text-decoration: none;
 		}
 
 		.button__wrapper {
@@ -98,8 +96,9 @@ $iconSize: 20px;
 
 				&:hover {
 					background-color: $hover-select;
+
 					p {
-						color: $primary !important;
+						color: $session-menu-legal-links-color !important;
 					}
 				}
 			}

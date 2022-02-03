@@ -53,6 +53,7 @@ $spacingWithIcon: 52px;
 	}
 
 	&__passwordReset {
+		color: var(--skin-color-link-dark, inherit);
 		transform: $login-icon-transform;
 		text-decoration: $login-password-reset-text-decoration;
 	}

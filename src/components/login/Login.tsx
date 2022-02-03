@@ -17,11 +17,11 @@ import { StageLayout } from '../stageLayout/StageLayout';
 import { FETCH_ERRORS } from '../../api';
 import { OTP_LENGTH } from '../profile/TwoFactorAuth';
 import clsx from 'clsx';
-import '../../resources/styles/styles';
-import './login.styles';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
 import useTenantTheming from '../../utils/useTenantTheming';
 import { TenantContext } from '../../globalState';
+import '../../resources/styles/styles';
+import './login.styles';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),

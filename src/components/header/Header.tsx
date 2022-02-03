@@ -2,9 +2,9 @@ import * as React from 'react';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import './header.styles';
 import { useContext } from 'react';
 import { TenantContext } from '../../globalState';
+import './header.styles';
 
 export const Header = () => {
 	const { tenant } = useContext(TenantContext);
