@@ -14,6 +14,7 @@ export interface StageProps {
 	className?: string;
 	hasAnimation?: boolean;
 	isReady?: boolean;
+	isReadyApp?: boolean;
 }
 
 export const Stage = ({

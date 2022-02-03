@@ -10,6 +10,10 @@
 	"bin": "cli.js",
 	"dependencies": {
 		"@babel/core": "7.14.6",
+		"@capacitor/android": "^3.3.2",
+		"@capacitor/app": "^1.1.0",
+		"@capacitor/core": "^3.3.1",
+		"@capacitor/ios": "^3.3.1",
 		"@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
 		"@stomp/stompjs": "6.1.0",
 		"@svgr/webpack": "5.5.0",
@@ -26,6 +30,7 @@
 		"babel-preset-react-app": "^10.0.0",
 		"bfj": "^7.0.2",
 		"camelcase": "^6.2.0",
+		"capacitor-native-biometric": "^3.0.3",
 		"case-sensitive-paths-webpack-plugin": "2.4.0",
 		"clsx": "^1.1.1",
 		"copy-webpack-plugin": "6.4.0",
@@ -104,6 +109,7 @@
 		"workbox-webpack-plugin": "^6.2.4"
 	},
 	"devDependencies": {
+		"@capacitor/cli": "^3.3.1",
 		"@commitlint/cli": "13.0.0",
 		"@commitlint/config-conventional": "13.0.0",
 		"@dtsgenerator/replace-namespace": "^1.4.1",
@@ -127,7 +133,7 @@
 		"wait-on": "^5.3.0"
 	},
 	"scripts": {
-		"start": "REACT_APP_UI_URL=http://localhost:9000 node scripts/start.js",
+		"start": "node scripts/start.js",
 		"build": "node scripts/build.js",
 		"test": "concurrently --kill-others --success first \"cross-env BROWSER=none API_URL_FOR_LOCAL_DEVELOPMENT=test PORT=9000 npm start\" \"wait-on http://localhost:9000 && cypress run\"",
 		"release": "standard-version",

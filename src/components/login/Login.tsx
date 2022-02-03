@@ -18,12 +18,12 @@ import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
+import { BiometricAuthenticationLogin } from '../biometricAuthentication/BiometricAuthenticationLogin';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
 	type: BUTTON_TYPES.PRIMARY
 };
-
 interface LoginProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	stageComponent: ComponentType<StageProps>;
@@ -38,6 +38,7 @@ export const Login = ({
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(
 		username.length > 0 && password.length > 0
 	);
+
 	const [otp, setOtp] = useState<string>('');
 	const [isOtpRequired, setIsOtpRequired] = useState<boolean>(false);
 	const [showLoginError, setShowLoginError] = useState<string>('');
@@ -152,7 +153,6 @@ export const Login = ({
 
 	const handleKeyUp = (e) => {
 		if (e.key === 'Enter') {
-			handleLogin();
 		}
 	};
 
@@ -202,11 +202,13 @@ export const Login = ({
 				>
 					{translate('login.resetPasswort.label')}
 				</a>
+
 				<Button
 					item={loginButton}
 					buttonHandle={handleLogin}
 					disabled={isButtonDisabled}
 				/>
+
 				<div className="loginForm__register">
 					<Text
 						text={translate('login.register.infoText.title')}
@@ -225,6 +227,7 @@ export const Login = ({
 					</a>
 				</div>
 			</div>
+			<BiometricAuthenticationLogin />
 		</StageLayout>
 	);
 };
