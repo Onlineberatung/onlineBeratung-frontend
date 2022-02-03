@@ -13,6 +13,12 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 		padding: 12px $grid-base-two;
 		width: $contentWidthSmall;
 
+		@supports (padding-bottom: min(0px)) {
+			padding-bottom: unquote(
+				'calc(#{$grid-base-two} + min(env(safe-area-inset-bottom), 16px))'
+			);
+		}
+
 		@include breakpoint($fromMedium) {
 			padding: 12px $grid-base-three;
 		}

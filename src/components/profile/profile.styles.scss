@@ -22,6 +22,7 @@ $maxFormElementWidth: 320px;
 		flex-direction: column;
 		align-items: center;
 		padding: $grid-base-three $grid-base-two;
+		padding-top: calc(#{$grid-base-three} + env(safe-area-inset-top));
 		background-color: $background-lighter;
 		z-index: 20;
 
@@ -92,6 +93,12 @@ $maxFormElementWidth: 320px;
 		margin: $grid-base-twelve 0 $grid-base-nine;
 		background-color: $background-light;
 		overflow-x: auto;
+
+		@supports (margin-bottom: min(0px)) {
+			margin-bottom: unquote(
+				'calc(#{$grid-base-nine} + min(env(safe-area-inset-bottom), 16px))'
+			);
+		}
 
 		@include breakpoint($fromLarge) {
 			height: calc(100vh - #{$doubleNavHeight - #{$imprintHeight}});
@@ -315,6 +322,12 @@ $maxFormElementWidth: 320px;
 		margin-bottom: $grid-base-nine;
 		width: 100%;
 		z-index: 100;
+
+		@supports (margin-bottom: min(0px)) {
+			margin-bottom: unquote(
+				'calc(#{$grid-base-nine} + min(env(safe-area-inset-bottom), 16px))'
+			);
+		}
 
 		@include breakpoint($fromMedium) {
 			padding: 0 $grid-base-three;
