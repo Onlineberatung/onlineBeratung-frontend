@@ -58,7 +58,7 @@ $inputHeight: 50px;
 
 		&:hover,
 		:focus {
-			background-color: #f8dedd;
+			background-color: $select-focus-background-color;
 			color: var(--skin-color-default, $primary);
 		}
 
