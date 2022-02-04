@@ -5,6 +5,11 @@ const videoCall = {
 	'button.startVideoCall': 'Videoanruf starten',
 	'button.answerVideoCall': 'Videoanruf annehmen',
 	'incomingCall.description': 'ruft an...',
+	'incomingCall.unsupported.description': 'versucht Sie anzurufen ...',
+	'incomingCall.unsupported.hint':
+		'Ihr Browser unterstützt leider keine Ende-zu-Ende Verschlüsselung. Bitte wechseln Sie zu einem der Browser Google Chrome oder Microsoft Edge (Browser auf Basis der Chromium Engine), um den Anruf annehmen zu können.',
+	'incomingCall.unsupported.hint.mobile':
+		'Ihr Browser unterstützt leider keine Ende-zu-Ende Verschlüsselung. Sie können den Anruf in der Jitsi App annehmen oder Ihren Browser zu einem der Browser Google Chrome oder Microsoft Edge (Browser auf Basis der Chromium Engine) wechseln.',
 	'incomingCall.ignored': 'hat versucht Sie zu erreichen.',
 	'incomingCall.rejected.prefix': 'Sie haben versucht',
 	'incomingCall.rejected.suffix': 'zu erreichen.',

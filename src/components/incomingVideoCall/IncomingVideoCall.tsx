@@ -6,10 +6,14 @@ import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera
 import { translate } from '../../utils/translate';
 import { useContext } from 'react';
 import { NotificationType, NotificationsContext } from '../../globalState';
-import { getVideoCallUrl } from '../../utils/videoCallHelpers';
+import {
+	getVideoCallUrl,
+	supportsE2EEncryptionVideoCall
+} from '../../utils/videoCallHelpers';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { apiRejectVideoCall } from '../../api';
 import './incomingVideoCall.styles';
+import { isMobile } from 'react-device-detect';
 
 export interface VideoCallRequestProps {
 	rcGroupId: string;
@@ -70,9 +74,18 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 	const decodedUsername = decodeUsername(props.videoCall.initiatorUsername);
 
 	const handleAnswerVideoCall = (isVideoActivated: boolean = false) => {
-		window.open(
-			getVideoCallUrl(props.videoCall.videoCallUrl, isVideoActivated)
+		const videoCallUrl = getVideoCallUrl(
+			props.videoCall.videoCallUrl,
+			isVideoActivated
 		);
+		if (!supportsE2EEncryptionVideoCall() && isMobile) {
+			window.location.href = videoCallUrl.replace(
+				'https://',
+				'org.jitsi.meet://'
+			);
+		} else {
+			window.open(videoCallUrl);
+		}
 		removeIncomingVideoCallNotification();
 	};
 
@@ -103,20 +116,44 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 				<span className="incomingVideoCall__username">
 					{decodedUsername}
 				</span>{' '}
-				{translate('videoCall.incomingCall.description')}
+				{!supportsE2EEncryptionVideoCall()
+					? translate(
+							'videoCall.incomingCall.unsupported.description'
+					  )
+					: translate('videoCall.incomingCall.description')}
 			</p>
 			<div className="incomingVideoCall__user">
 				{getInitials(decodedUsername)}
 			</div>
+			{!supportsE2EEncryptionVideoCall() && (
+				<>
+					{isMobile ? (
+						<p className="incomingVideoCall__hint">
+							{translate(
+								'videoCall.incomingCall.unsupported.hint.mobile'
+							)}
+						</p>
+					) : (
+						<p className="incomingVideoCall__hint">
+							{translate(
+								'videoCall.incomingCall.unsupported.hint'
+							)}
+						</p>
+					)}
+				</>
+			)}
+
 			<div className="incomingVideoCall__buttons">
 				<Button
 					buttonHandle={() => handleAnswerVideoCall(true)}
 					item={buttonAnswerVideoCall}
 					testingAttribute="answer-incoming-video-call"
+					disabled={!supportsE2EEncryptionVideoCall() && !isMobile}
 				/>
 				<Button
 					buttonHandle={() => handleAnswerVideoCall()}
 					item={buttonAnswerCall}
+					disabled={!supportsE2EEncryptionVideoCall() && !isMobile}
 				/>
 				<Button
 					buttonHandle={() => handleRejectVideoCall()}

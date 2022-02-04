@@ -5,10 +5,16 @@ $userIconSize: 62px;
 		align-items: center;
 	}
 
-	&__description {
+	&__description,
+	&__hint {
 		color: $white;
 		margin: 0;
 		text-align: center;
+	}
+
+	&__hint {
+		margin-top: 10px;
+		font-size: $font-size-tertiary;
 	}
 
 	&__username,
