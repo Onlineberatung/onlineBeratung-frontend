@@ -88,6 +88,16 @@ const hasJsxRuntime = (() => {
 
 const localAliases = (paths) =>
 	paths
+		// Remove paths which are not overridden
+		.filter((localPath) => {
+			const fullPath = path.resolve(process.cwd(), `./${localPath}`);
+			try {
+				fs.statSync(fullPath);
+				return true;
+			} catch (error) {
+				return false;
+			}
+		})
 		.map((localPath) => [
 			path.resolve(__dirname, `../${localPath}`),
 			path.resolve(process.cwd(), `./${localPath}`)
@@ -352,12 +362,28 @@ module.exports = function (webpackEnv) {
 				}),
 				...(modules.webpackAliases || {}),
 
-				// When this project is used as a library, resolve these files from the consuming project.
-				// This enables configuration without having to adjust source files.
+				// When this project is used as a library, resolve these files from the
+				// consuming project if they are defined there. This enables
+				// configuration without having to adjust source files.
 				...localAliases([
 					'src/resources/scripts/config',
 					'src/resources/scripts/i18n/defaultLocale',
-					'src/resources/scripts/i18n/informalLocale'
+					'src/resources/scripts/i18n/informalLocale',
+					'src/resources/img/illustrations/answer.svg',
+					'src/resources/img/illustrations/arrow.svg',
+					'src/resources/img/illustrations/bad-request.svg',
+					'src/resources/img/illustrations/baustelle.svg',
+					'src/resources/img/illustrations/check.svg',
+					'src/resources/img/illustrations/consultant.svg',
+					'src/resources/img/illustrations/envelope-check.svg',
+					'src/resources/img/illustrations/envelope-new.svg',
+					'src/resources/img/illustrations/internal-server-error.svg',
+					'src/resources/img/illustrations/not-found.svg',
+					'src/resources/img/illustrations/unauthorized.svg',
+					'src/resources/img/illustrations/waiting.svg',
+					'src/resources/img/illustrations/waving.svg',
+					'src/resources/img/illustrations/welcome.svg',
+					'src/resources/img/illustrations/x.svg'
 				])
 			},
 			plugins: [
