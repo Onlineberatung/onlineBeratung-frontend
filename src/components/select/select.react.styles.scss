@@ -42,7 +42,7 @@ $inputHeight: 50px;
 
 		&__option {
 			background-color: $white;
-			color: $secondary;
+			color: var(--skin-color-default, $secondary);
 
 			&--is-focused {
 				// The `!important` annotation is relevant to also cover the `:active`
@@ -58,8 +58,8 @@ $inputHeight: 50px;
 
 		&:hover,
 		:focus {
-			background-color: #f8dedd;
-			color: $primary;
+			background-color: $select-focus-background-color;
+			color: var(--skin-color-default, $primary);
 		}
 
 		&__icon {

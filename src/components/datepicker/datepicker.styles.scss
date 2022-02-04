@@ -147,10 +147,10 @@ $arrow-icon-size: 14px;
 		&__month-text--today,
 		&__quarter-text--today {
 			font-weight: $font-weight-medium;
-			color: $primary;
+			color: var(--skin-color-primary, $primary);
 
 			&:hover {
-				color: $primary !important;
+				color: var(--skin-color-primary, $primary) !important;
 			}
 		}
 
@@ -162,7 +162,7 @@ $arrow-icon-size: 14px;
 		&__day:hover,
 		&__month-text:hover,
 		&__quarter-text:hover {
-			color: $primary;
+			color: var(--skin-color-primary, $primary);
 			background-color: $datepicker-hover-color;
 		}
 
@@ -182,13 +182,16 @@ $arrow-icon-size: 14px;
 		&__quarter-text--selected,
 		&__quarter-text--in-selecting-range,
 		&__quarter-text--keyboard-selected {
-			background-color: $primary;
+			background-color: var(--skin-color-primary, $primary);
 			border-radius: 4px;
 			color: $white;
 
 			&:hover {
 				color: $white !important;
-				background-color: $hover-primary;
+				background-color: var(
+					--skin-color-primary-hover,
+					$hover-primary
+				);
 				border-radius: 4px;
 			}
 		}
@@ -204,7 +207,7 @@ $arrow-icon-size: 14px;
 			border-radius: 0;
 
 			&:hover {
-				color: $primary;
+				color: var(--skin-color-primary, $primary);
 				background-color: $datepicker-hover-color;
 			}
 		}

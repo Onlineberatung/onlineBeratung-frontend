@@ -12,19 +12,19 @@
 		transition: all ease 0.5s;
 
 		&:hover + .tagSelect__label {
-			color: $primary;
+			color: var(--skin-color-primary, $primary);
 			background-color: $background-accent;
 		}
 
 		@media (hover: none) {
 			&:hover + .tagSelect__label {
-				color: $secondary;
+				color: var(--skin-color-secondary, $secondary);
 				background: $dark-grey;
 			}
 		}
 
 		&:checked + .tagSelect__label {
-			color: $primary;
+			color: var(--skin-color-primary, $primary);
 			background-color: $hover-select;
 		}
 	}
@@ -35,14 +35,14 @@
 		text-align: center;
 		cursor: pointer;
 		padding: 0 $grid-base-two;
-		color: $secondary;
+		color: var(--skin-color-secondary, $secondary);
 		height: $grid-base-four;
 		line-height: $grid-base-four;
 		font-size: $font-size-tertiary;
 		transition: all ease 0.5s;
 
 		&:hover {
-			color: $primary;
+			color: var(--skin-color-primary, $primary);
 			background-color: $hover-select;
 		}
 

@@ -11,7 +11,7 @@ $indicator-height: 29px;
 	z-index: 2;
 
 	&__text {
-		color: $primary;
+		color: var(--skin-color-primary, $primary);
 		font-size: $font-size-secondary;
 		line-height: $line-height-secondary;
 		margin-right: $grid-base;

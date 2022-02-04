@@ -6,8 +6,10 @@ import { Button } from '../button/Button';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
+import clsx from 'clsx';
 
 interface StageLayoutProps {
+	className?: string;
 	children: ReactNode;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	stage: ReactNode;
@@ -16,6 +18,7 @@ interface StageLayoutProps {
 }
 
 export const StageLayout = ({
+	className,
 	children,
 	stage,
 	showLegalLinks,
@@ -23,7 +26,7 @@ export const StageLayout = ({
 	legalComponent: LegalComponent
 }: StageLayoutProps) => {
 	return (
-		<div className="stageLayout">
+		<div className={clsx('stageLayout', className)}>
 			{React.cloneElement(Children.only(stage as ReactElement), {
 				className: 'stageLayout__stage'
 			})}

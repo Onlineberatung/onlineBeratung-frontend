@@ -328,14 +328,14 @@ $maxFormElementWidth: 320px;
 		}
 
 		&__item {
-			color: $secondary;
+			color: var(--skin-color-default, $secondary);
 
 			&:not(:first-child) {
 				margin-left: 20px;
 			}
 
 			&:hover {
-				color: $primary;
+				color: var(--skin-color-default, $primary);
 			}
 		}
 	}
@@ -391,9 +391,9 @@ $maxFormElementWidth: 320px;
 					}
 
 					&:hover {
-						fill: $primary;
+						fill: var(--skin-color-primary, $primary);
 						svg path {
-							fill: $primary;
+							fill: var(--skin-color-primary, $primary);
 						}
 					}
 				}
@@ -428,7 +428,7 @@ $maxFormElementWidth: 320px;
 
 			&:hover {
 				svg * {
-					fill: $primary;
+					fill: var(--skin-color-primary, $primary);
 				}
 			}
 		}

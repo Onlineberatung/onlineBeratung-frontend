@@ -6,7 +6,7 @@ $iconSize: 20px;
 		flex-direction: row;
 
 		a {
-			color: $secondary;
+			color: var(--skin-color-default, $secondary);
 		}
 
 		.button__wrapper {
@@ -45,7 +45,7 @@ $iconSize: 20px;
 			height: $iconSize;
 
 			&:hover {
-				fill: $primary;
+				fill: var(--skin-color-default, $primary);
 				svg path {
 					fill: $font-size-secondary;
 				}
@@ -66,7 +66,7 @@ $iconSize: 20px;
 		transition: opacity 0.25s ease, visibility 0.25s ease;
 		box-sizing: border-box;
 		background: $white;
-		width: 192px;
+		width: 230px;
 		border: 1px solid $form-disabled;
 		@include rounded-drop-shadow;
 		z-index: 1;
@@ -96,8 +96,9 @@ $iconSize: 20px;
 
 				&:hover {
 					background-color: $hover-select;
+
 					p {
-						color: $primary !important;
+						color: $session-menu-legal-links-color !important;
 					}
 				}
 			}
@@ -110,7 +111,7 @@ $iconSize: 20px;
 		cursor: pointer;
 
 		&:hover {
-			color: $primary;
+			color: var(--skin-color-default, $primary);
 			background-color: $hover-select;
 		}
 
@@ -141,14 +142,14 @@ $iconSize: 20px;
 
 		:hover {
 			cursor: pointer;
-			color: $hover-primary;
+			color: var(--skin-color-primary-hover, $hover-primary);
 
 			p {
-				color: $hover-primary;
+				color: var(--skin-color-primary-hover, $hover-primary);
 			}
 
 			svg * {
-				fill: $hover-primary;
+				fill: var(--skin-color-primary-hover, $hover-primary);
 			}
 		}
 	}

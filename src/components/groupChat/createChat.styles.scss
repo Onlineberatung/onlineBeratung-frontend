@@ -58,9 +58,9 @@ $inputSpacing: 32px;
 				}
 
 				&:hover {
-					fill: $primary;
+					fill: var(--skin-color-primary, $primary);
 					svg path {
-						fill: $primary;
+						fill: var(--skin-color-primary, $primary);
 					}
 				}
 			}

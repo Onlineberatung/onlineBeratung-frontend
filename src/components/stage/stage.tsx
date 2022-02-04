@@ -1,5 +1,8 @@
 import * as React from 'react';
 import clsx from 'clsx';
+import { Spinner } from '../spinner/Spinner';
+import { useContext } from 'react';
+import { TenantContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { ReactComponent as SkfLogo } from '../../resources/img/logos/01_skf.svg';
 import { ReactComponent as CaritasLogo } from '../../resources/img/logos/02_caritas.svg';
@@ -21,6 +24,7 @@ export const Stage = ({
 	hasAnimation,
 	isReady = true
 }: StageProps) => {
+	const { tenant } = useContext(TenantContext);
 	return (
 		<div
 			id="loginLogoWrapper"
@@ -30,17 +34,11 @@ export const Stage = ({
 			})}
 		>
 			<div className="stage__headline">
-				<h1>{translate('app.stage.title')}</h1>
-				<h4>{translate('app.claim')}</h4>
+				<h1>{tenant?.name || translate('app.stage.title')}</h1>
+				<h4>{tenant?.content?.claim || translate('app.claim')}</h4>
 			</div>
 
-			{hasAnimation ? (
-				<div className="stage__spinner">
-					<div className="double-bounce1"></div>
-					<div className="double-bounce2"></div>
-				</div>
-			) : null}
-
+			{hasAnimation ? <Spinner className="stage__spinner" /> : null}
 			<div className="stage__logos">
 				<SkfLogo />
 				<CaritasLogo />

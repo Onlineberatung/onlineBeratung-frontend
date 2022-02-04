@@ -3,7 +3,7 @@
 		background-color: $yellow-1;
 
 		@include breakpoint($fromLarge) {
-			background-color: $yellow-2;
+			background-color: var(--skin-color-secondary-light, $yellow-2);
 		}
 	}
 }

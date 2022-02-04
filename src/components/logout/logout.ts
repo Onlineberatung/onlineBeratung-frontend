@@ -10,16 +10,16 @@ export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
 	}
 	isRequestInProgress = true;
 	apiRocketchatLogout()
-		.then((response) => {
+		.then(() => {
 			apiKeycloakLogout()
-				.then((response) => {
+				.then(() => {
 					invalidateCookies(withRedirect, redirectUrl);
 				})
-				.catch((error) => {
+				.catch(() => {
 					invalidateCookies(withRedirect, redirectUrl);
 				});
 		})
-		.catch((error) => {
+		.catch(() => {
 			invalidateCookies(withRedirect, redirectUrl);
 		});
 };

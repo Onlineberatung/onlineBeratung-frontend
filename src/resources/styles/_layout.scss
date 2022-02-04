@@ -16,12 +16,19 @@ html {
 	box-sizing: inherit;
 }
 
+:root {
+	--skin-color-default: #{$body-font-color};
+	--skin-color-link-dark: #{$body-font-color};
+	--skin-color-link-light: #{$white};
+}
+
 body {
 	font-family: $body-font-family;
-	background-color: $body-bg;
+	background-color: var(--skin-color-body-background, $body-bg);
 	font-size: $body-font-size;
 	line-height: $body-line-height;
 	color: $body-font-color;
+
 	min-width: $body-min-width;
 
 	-moz-osx-font-smoothing: grayscale;

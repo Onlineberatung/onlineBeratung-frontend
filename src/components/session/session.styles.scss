@@ -134,7 +134,7 @@ $unreadButtonSize: 18px;
 		right: -9px;
 		width: $unreadButtonSize;
 		height: $unreadButtonSize;
-		background-color: $primary;
+		background-color: var(--skin-color-primary, $primary);
 		font-weight: $font-weight-medium;
 		font-size: 10px;
 		color: $white;

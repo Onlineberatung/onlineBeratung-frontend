@@ -8,7 +8,6 @@ import { ReactComponent as WaitingIllustration } from '../../resources/img/illus
 import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/ooh.svg';
 import { translate } from '../../utils/translate';
 import { useContext, useEffect, useState } from 'react';
-import { uiUrl } from '../../resources/scripts/config';
 import {
 	AnonymousRegistrationResponse,
 	apiPostAnonymousRegistration
@@ -62,7 +61,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		websocketConnectionDeactivated,
 		setWebsocketConnectionDeactivated
 	} = useContext(WebsocketConnectionDeactivatedContext);
-	const registrationUrl = `${uiUrl}/${props.consultingTypeSlug}/registration`;
+	const registrationUrl = `/${props.consultingTypeSlug}/registration`;
 
 	useEffect(() => {
 		const registeredUsername = getValueFromCookie('registeredUsername');
