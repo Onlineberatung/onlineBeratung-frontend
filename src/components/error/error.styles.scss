@@ -13,6 +13,7 @@ $content-width-small: calc((100vw) / 2);
 $illustrationWrapperMaxSize: 650px;
 $error-illustration-width: calc(#{$content-width-small} / 2.25) !default;
 $error-illustration-background-neutral: $illustration-background-neutral !default;
+$error-page-background: rgba($form-medium, 0.08) !default;
 
 .errorPage {
 	&--warning {
@@ -23,7 +24,7 @@ $error-illustration-background-neutral: $illustration-background-neutral !defaul
 
 	&--error {
 		.errorPage__main {
-			background-color: rgba($form-medium, 0.08);
+			background-color: $error-page-background;
 		}
 	}
 
