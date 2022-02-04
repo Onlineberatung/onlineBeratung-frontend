@@ -1,7 +1,7 @@
 const error = {
 	'statusCodes.400.headline': 'Ups!',
 	'statusCodes.400.description':
-		'Da ist etwas schiefgelaufen, bitte überprüfe noch einmal deine URL, sie sollte so aussehen: <br /><br/><strong>[beratungsstelle].onlineberatung.de</strong>',
+		'Die von Ihnen eingegebene URL ist ungültig.',
 	'statusCodes.401.headline': 'Schade!',
 	'statusCodes.401.description':
 		'Leider sind Sie nicht berechtigt diese Seite  einzusehen.<br>Bitte melden Sie sich an.',
