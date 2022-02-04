@@ -12,6 +12,7 @@ $content-width-medium: calc(
 $content-width-small: calc((100vw) / 2);
 $illustrationWrapperMaxSize: 650px;
 $error-illustration-width: calc(#{$content-width-small} / 2.25) !default;
+$error-illustration-background-neutral: $illustration-background-neutral !default;
 
 .errorPage {
 	&--warning {
@@ -92,7 +93,7 @@ $error-illustration-width: calc(#{$content-width-small} / 2.25) !default;
 			flex-direction: row;
 			justify-content: center;
 			align-self: center;
-			background-color: $illustration-background-neutral;
+			background-color: $error-illustration-background-neutral;
 			min-width: $illustrationSize;
 			min-height: $illustrationSize;
 			max-width: $illustrationWrapperMaxSize;
