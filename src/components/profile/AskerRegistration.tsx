@@ -38,7 +38,13 @@ import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
 import { AskerRegistrationExternalAgencyOverlay } from './AskerRegistrationExternalAgencyOverlay';
 
-export const AskerRegistration = () => {
+interface AskerRegistrationProps {
+	fixedLanguages: string[];
+}
+
+export const AskerRegistration: React.FC<AskerRegistrationProps> = ({
+	fixedLanguages
+}) => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingTypeId, setSelectedConsultingTypeId] =
@@ -206,12 +212,12 @@ export const AskerRegistration = () => {
 				<AgencySelection
 					consultingType={selectedConsultingType}
 					onAgencyChange={(agency) => setSelectedAgency(agency)}
-					userData={userData}
 					isProfileView={true}
 					agencySelectionNote={
 						selectedConsultingType?.registration?.notes
 							?.agencySelection
 					}
+					fixedLanguages={fixedLanguages}
 				/>
 			)}
 			<Button

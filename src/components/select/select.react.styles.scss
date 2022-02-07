@@ -43,12 +43,39 @@ $inputHeight: 50px;
 		&__option {
 			background-color: $white;
 			color: $secondary;
+			min-height: 48px;
+			// The `!important` annotation is relevant to not be overridden by inline styles.
+			display: flex !important;
+			align-items: center;
 
 			&--is-focused {
 				// The `!important` annotation is relevant to also cover the `:active`
 				// state, which would otherwise be overridden by inline styles.
 				background-color: $select-focus-background-color !important;
 				color: $selection-focus-color;
+			}
+		}
+
+		&__multi-value {
+			// The `!important` annotation is relevant to not be overridden by inline styles.
+			border-radius: $tab-border-radius !important;
+
+			&__remove {
+				color: $primary;
+
+				&:hover {
+					// The `!important` annotation is relevant to not be overridden by inline styles.
+					color: $hover-primary !important;
+				}
+			}
+		}
+
+		&--error {
+			.select__input__control {
+				border: 2px solid $form-error !important;
+
+				// The `!important` annotation is relevant to also cover the `:active` and `:focus`
+				// state, which would otherwise be overridden by inline styles.
 			}
 		}
 	}
@@ -58,8 +85,8 @@ $inputHeight: 50px;
 
 		&:hover,
 		:focus {
-			background-color: #f8dedd;
-			color: $primary;
+			background-color: $background-accent;
+			color: $selection-focus-color;
 		}
 
 		&__icon {
@@ -75,12 +102,21 @@ $inputHeight: 50px;
 			line-height: 24px;
 			text-align: center;
 			margin: -4px $grid-base 0 0;
+			top: -4px;
 		}
 
 		&__label {
 			display: inline-block;
 			margin: 0 0 2px;
 			vertical-align: bottom;
+		}
+	}
+
+	&__error {
+		margin: $grid-base $grid-base-three 0;
+
+		p {
+			color: $form-error;
 		}
 	}
 }

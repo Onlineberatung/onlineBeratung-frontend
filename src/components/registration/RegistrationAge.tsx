@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import {
 	AccordionItemValidity,
-	RegistrationDropdownSelectData
+	RegistrationDropdownSelectData,
+	VALIDITY_INITIAL,
+	VALIDITY_VALID
 } from './registrationHelpers';
 
 interface RegistrationAgeProps {
@@ -12,21 +14,26 @@ interface RegistrationAgeProps {
 	dropdownSelectData: RegistrationDropdownSelectData;
 }
 
-export const RegistrationAge = (props: RegistrationAgeProps) => {
+export const RegistrationAge = ({
+	onValidityChange,
+	onAgeChange,
+	dropdownSelectData
+}: RegistrationAgeProps) => {
 	const [age, setAge] = useState<string>();
-	const [isValid, setIsValid] = useState<AccordionItemValidity>('initial');
+	const [isValid, setIsValid] =
+		useState<AccordionItemValidity>(VALIDITY_INITIAL);
 
 	useEffect(() => {
-		props.onValidityChange(isValid);
-	}, [isValid, props]);
+		onValidityChange(isValid);
+	}, [isValid]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		age ? setIsValid('valid') : setIsValid('initial');
-		props.onAgeChange(age);
-	}, [age, props]);
+		setIsValid(age ? VALIDITY_VALID : VALIDITY_INITIAL);
+		onAgeChange(age);
+	}, [age]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const getOptionOfSelectedAge = () => {
-		return props.dropdownSelectData.options.filter(
+		return dropdownSelectData.options.filter(
 			(option: any) => option.value === age
 		)[0];
 	};
@@ -34,8 +41,8 @@ export const RegistrationAge = (props: RegistrationAgeProps) => {
 	const ageSelectDropdown: SelectDropdownItem = {
 		handleDropdownSelect: (e) => setAge(e.value),
 		id: 'ageSelect',
-		selectedOptions: props.dropdownSelectData.options,
-		selectInputLabel: props.dropdownSelectData.label,
+		selectedOptions: dropdownSelectData.options,
+		selectInputLabel: dropdownSelectData.label,
 		useIconOption: false,
 		isSearchable: false,
 		menuPlacement: 'bottom',

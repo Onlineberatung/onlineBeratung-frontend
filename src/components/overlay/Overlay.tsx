@@ -21,6 +21,7 @@ export const OVERLAY_FUNCTIONS = {
 	STOP_GROUP_CHAT: 'STOP_GROUP_CHAT',
 	LEAVE_GROUP_CHAT: 'LEAVE_GROUP_CHAT',
 	DELETE_ACCOUNT: 'DELETE_ACCOUNT',
+	DELETE_EMAIL: 'DELETE_EMAIL',
 	NEXT_STEP: 'NEXT_STEP',
 	PREV_STEP: 'PREV_STEP',
 	DELETE_SESSION: 'DELETE_SESSION',
@@ -200,6 +201,7 @@ export const Overlay = (props: {
 					<div className="overlay__buttons">
 						{activeOverlay.buttonSet?.map((item, i) => (
 							<Button
+								disabled={item.disabled}
 								item={item}
 								key={`${i}-${item.type}`}
 								buttonHandle={handleButtonClick}

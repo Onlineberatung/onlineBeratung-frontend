@@ -68,10 +68,22 @@ $maxFormElementWidth: 320px;
 			}
 		}
 
-		&__logout {
+		&__actions {
 			position: absolute;
 			right: 0;
 			top: 15px;
+			display: flex;
+
+			& > * {
+				margin-right: 10px;
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+
+		&__logout {
 			cursor: pointer;
 
 			@include breakpoint($fromLarge) {
@@ -81,6 +93,25 @@ $maxFormElementWidth: 320px;
 			svg {
 				width: $iconSize;
 				height: $iconSize;
+			}
+		}
+
+		&__personal_link {
+			display: none;
+			align-items: center;
+
+			@include breakpoint($fromLarge) {
+				display: flex;
+			}
+
+			& > span {
+				border: 2px solid;
+				padding: 5px;
+				cursor: pointer;
+			}
+
+			.tooltip {
+				margin-left: 10px;
 			}
 		}
 	}
@@ -116,6 +147,27 @@ $maxFormElementWidth: 320px;
 
 		@include breakpoint($fromMedium) {
 			padding: 0 $grid-base-three $grid-base;
+		}
+
+		&__personal_link {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding-left: 34px;
+
+			@include breakpoint($fromLarge) {
+				display: none;
+			}
+
+			& > span {
+				border: 2px solid;
+				padding: 5px;
+				cursor: pointer;
+			}
+
+			.tooltip {
+				margin-left: 10px;
+			}
 		}
 	}
 
@@ -297,6 +349,21 @@ $maxFormElementWidth: 320px;
 
 			&--empty {
 				color: $tertiary;
+			}
+		}
+
+		&__divider {
+			color: $black-25-opacity;
+			margin: 0 5px;
+		}
+
+		&__copy_registration_link {
+			cursor: pointer;
+			color: $primary;
+
+			.copy {
+				width: 16px;
+				height: 16px;
 			}
 		}
 	}
@@ -488,3 +555,4 @@ $maxFormElementWidth: 320px;
 }
 
 @import './statistics.styles.scss';
+@import './spokenlanguages.styles.scss';

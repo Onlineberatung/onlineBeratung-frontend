@@ -2,8 +2,10 @@ import clsx from 'clsx';
 import * as React from 'react';
 import Select from 'react-select';
 import { components } from 'react-select';
+import { CloseCircle } from '../../resources/img/icons';
 import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down-light.svg';
 import { ReactComponent as ArrowUpIcon } from '../../resources/img/icons/arrow-up-light.svg';
+import { Text } from '../text/Text';
 import './select.react.styles';
 import './select.styles';
 
@@ -11,6 +13,7 @@ export interface SelectOption {
 	value: string;
 	label: string;
 	iconLabel?: string;
+	isFixed?: boolean;
 }
 
 export interface SelectDropdownItem {
@@ -21,8 +24,12 @@ export interface SelectDropdownItem {
 	handleDropdownSelect: Function;
 	useIconOption?: boolean;
 	isSearchable?: boolean;
+	isMulti?: boolean;
+	isClearable?: boolean;
 	menuPlacement: 'top' | 'bottom';
-	defaultValue?: SelectOption;
+	defaultValue?: SelectOption | SelectOption[];
+	hasError?: boolean;
+	errorMessage?: string;
 }
 
 const colourStyles = {
@@ -34,11 +41,12 @@ const colourStyles = {
 			'borderRadius': undefined,
 			'height': '50px',
 			'outline': isFocused ? '0' : '0',
-			'padding': '0 12px',
+			'padding': isFocused ? '0 11px' : '0 12px',
 			'color': '#3F373F',
 			'boxShadow': undefined,
 			'&:hover': {
-				border: isFocused ? '2px solid #3F373F' : '1px solid #3F373F'
+				border: isFocused ? '2px solid #3F373F' : '1px solid #3F373F',
+				padding: isFocused ? '0 11px' : '0 12px'
 			},
 			'.select__inputLabel': {
 				fontSize: isFocused || hasValue ? '12px' : '16px',
@@ -54,10 +62,14 @@ const colourStyles = {
 		...styles,
 		top: '60%'
 	}),
-	input: (styles) => ({
-		...styles,
-		paddingTop: '12px'
-	}),
+	input: (styles, state) => {
+		return state.isMulti
+			? styles
+			: {
+					...styles,
+					paddingTop: '12px'
+			  };
+	},
 	option: (styles) => {
 		return {
 			...styles,
@@ -67,9 +79,7 @@ const colourStyles = {
 			backgroundColor: undefined,
 
 			textAlign: 'left',
-			lineHeight: '48px',
-			paddingTop: '0',
-			paddingBottom: '0'
+			lineHeight: '21px'
 		};
 	},
 	menuList: (styles) => ({
@@ -105,7 +115,50 @@ const colourStyles = {
 			top: menuPlacement === 'top' ? 'auto' : '-10px',
 			zIndex: 1
 		}
-	})
+	}),
+	multiValue: (styles, state) => {
+		const common = {
+			margin: '4px'
+		};
+		return state.data.isFixed
+			? {
+					...styles,
+					...common,
+					backgroundColor: 'rgba(0,0,0,0.05) !important'
+			  } // important is needed for fixed option to overwrite color from scss
+			: { ...styles, ...common };
+	},
+	multiValueLabel: (styles, state) => {
+		const common = {
+			paddingLeft: '12px',
+			paddingRight: '12px',
+			paddingTop: '4px',
+			paddingBottom: '4px'
+		};
+		return state.data.isFixed
+			? { ...styles, ...common, color: 'rgba(0,0,0,0.2) !important' } // important is needed for fixed option to overwrite color from scss
+			: { ...styles, ...common, paddingRight: '4px' };
+	},
+	multiValueRemove: (styles, state) => {
+		return state.data.isFixed
+			? { ...styles, display: 'none' }
+			: {
+					...styles,
+					'paddingRight': '8px',
+					'cursor': 'pointer',
+					'opacity': 1,
+					'backgroundColor': 'transparent',
+					'&:hover': {
+						backgroundColor: 'transparent'
+					}
+			  };
+	},
+	indicatorSeparator: (styles, state) => {
+		return {
+			...styles,
+			display: 'none'
+		};
+	}
 };
 
 export const SelectDropdown = (props: SelectDropdownItem) => {
@@ -138,11 +191,21 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 		</components.ValueContainer>
 	);
 
+	const CustomMultiValueRemove = (props) => {
+		return (
+			<components.MultiValueRemove {...props}>
+				<CloseCircle />
+			</components.MultiValueRemove>
+		);
+	};
+
 	return (
 		<div className={clsx(props.className, 'select__wrapper')}>
 			<Select
 				id={props.id}
-				className="select__input"
+				className={`select__input ${
+					props.hasError ? 'select__input--error' : ''
+				}`}
 				classNamePrefix="select__input"
 				components={{
 					Option: props.useIconOption
@@ -154,7 +217,8 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 						: components.ValueContainer,
 					IndicatorSeparator: !props.isSearchable
 						? () => null
-						: components.IndicatorSeparator
+						: components.IndicatorSeparator,
+					MultiValueRemove: CustomMultiValueRemove
 				}}
 				value={props.defaultValue ? props.defaultValue : null}
 				defaultValue={props.defaultValue ? props.defaultValue : null}
@@ -163,9 +227,16 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				noOptionsMessage={() => null}
 				menuPlacement={props.menuPlacement}
 				placeholder={''}
+				isClearable={props.isClearable}
 				isSearchable={props.isSearchable}
+				isMulti={props.isMulti}
 				styles={colourStyles}
 			/>
+			{props.hasError && (
+				<div className="select__error">
+					<Text text={props.errorMessage} type="infoSmall" />
+				</div>
+			)}
 		</div>
 	);
 };

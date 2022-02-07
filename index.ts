@@ -10,6 +10,7 @@ export { Error } from './src/components/error/Error';
 
 // Component library
 export * from './src/components/headline/Headline';
+export * from './src/components/notice/Notice';
 export * from './src/components/text/Text';
 export * from './src/components/loadingIndicator/LoadingIndicator';
 export * from './src/components/button/Button';
@@ -26,6 +27,7 @@ export * from './src/resources/img/icons';
 
 // Utils
 export { translate } from './src/utils/translate';
+export { parsePlaceholderString } from './src/utils/parsePlaceholderString';
 export * from './src/api';
 
 // Types
