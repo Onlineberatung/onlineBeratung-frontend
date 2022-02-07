@@ -13,6 +13,7 @@ import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { App as CapacitorApp } from '@capacitor/app';
 
 export const history = createBrowserHistory();
 
@@ -62,6 +63,16 @@ export const App = ({
 			setIsInitiallyLoaded(true);
 		}
 	}, []); // eslint-disable-line
+
+	useEffect(() => {
+		CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+			if (!canGoBack) {
+				CapacitorApp.exitApp();
+			} else {
+				window.history.back();
+			}
+		});
+	}, []);
 
 	return (
 		<ErrorBoundary>

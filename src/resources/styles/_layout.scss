@@ -8,6 +8,8 @@ html {
 	box-sizing: border-box;
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
+	padding-top: env(safe-area-inset-top);
+	background-color: $sessions-list-background-color-primary;
 }
 
 *,

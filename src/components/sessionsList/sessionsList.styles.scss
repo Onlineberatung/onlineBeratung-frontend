@@ -36,6 +36,7 @@ $tabBarHeightDesktop: 53px;
 		flex-direction: row;
 		justify-content: space-between;
 		padding: $grid-base-three $grid-base-two;
+		padding-top: calc(#{$grid-base-three} + env(safe-area-inset-top));
 		background-color: $sessions-list-background-color-primary;
 		z-index: 15;
 
