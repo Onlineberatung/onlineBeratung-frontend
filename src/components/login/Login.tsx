@@ -6,8 +6,6 @@ import { ComponentType, useState, useEffect, useContext } from 'react';
 import { config } from '../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
 import { autoLogin } from '../registration/autoLogin';
-import { Modal } from '../modal/Modal';
-import { Spinner } from '../spinner/Spinner';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
@@ -18,7 +16,6 @@ import { FETCH_ERRORS } from '../../api';
 import { OTP_LENGTH } from '../profile/TwoFactorAuth';
 import clsx from 'clsx';
 import { LegalInformationLinksProps } from './LegalInformationLinks';
-import useTenantTheming from '../../utils/useTenantTheming';
 import { TenantContext } from '../../globalState';
 import '../../resources/styles/styles';
 import './login.styles';
@@ -38,7 +35,6 @@ export const Login = ({
 	stageComponent: Stage
 }: LoginProps) => {
 	const { tenant } = useContext(TenantContext);
-	const isLoadingTheme = useTenantTheming();
 
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -241,13 +237,6 @@ export const Login = ({
 					)}
 				</div>
 			</StageLayout>
-			{isLoadingTheme && (
-				<Modal>
-					<div>
-						<Spinner isDark />
-					</div>
-				</Modal>
-			)}
 		</>
 	);
 };

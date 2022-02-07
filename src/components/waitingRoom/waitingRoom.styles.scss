@@ -1,5 +1,5 @@
 $waiting-room-illustration-width: 65% !default;
-$waiting-room-illustration-background-neutral: $illustration-background-neutral !default;
+$waiting-room-illustration-background: $illustration-background-neutral !default;
 $waiting-room-page-background: $background-light !default;
 $waiting-room-subline-opacity: 1 !default;
 
@@ -90,7 +90,7 @@ $waiting-room-subline-opacity: 1 !default;
 		&::after {
 			content: '';
 			position: absolute;
-			background-color: $illustration-background-neutral;
+			background-color: $waiting-room-illustration-background;
 			height: 100%;
 			width: 100%;
 			border-radius: 100%;

@@ -13,6 +13,9 @@ import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import useTenantTheming from '../../utils/useTenantTheming';
+import { Modal } from '../modal/Modal';
+import { Spinner } from '../spinner/Spinner';
 
 export const history = createBrowserHistory();
 
@@ -29,6 +32,8 @@ export const App = ({
 	entryPoint,
 	extraRoutes
 }: AppProps) => {
+	const isLoadingTheme = useTenantTheming();
+
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
@@ -120,6 +125,13 @@ export const App = ({
 					</Switch>
 				</ContextProvider>
 			</Router>
+			{isLoadingTheme && (
+				<Modal>
+					<div>
+						<Spinner isDark />
+					</div>
+				</Modal>
+			)}
 		</ErrorBoundary>
 	);
 };
