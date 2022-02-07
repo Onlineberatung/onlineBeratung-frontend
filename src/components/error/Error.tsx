@@ -8,6 +8,7 @@ import { ReactComponent as Icon500 } from '../../resources/img/illustrations/int
 import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
+import useTenantTheming from '../../utils/useTenantTheming';
 import '../../resources/styles/styles';
 import './error.styles';
 
@@ -17,6 +18,7 @@ const getStatusCode = () => {
 };
 
 export const Error = () => {
+	useTenantTheming();
 	const statusCode = getStatusCode();
 
 	const buttonHandle = () => {
