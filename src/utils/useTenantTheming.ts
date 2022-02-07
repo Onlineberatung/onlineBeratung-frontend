@@ -125,7 +125,7 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 };
 
 const useTenantTheming = () => {
-	const { tenant, setTenant } = useContext(TenantContext);
+	const tenantContext = useContext(TenantContext);
 	const { subdomain } = getLocationVariables();
 	const [isLoadingTenant, setIsLoadingTenant] = useState(
 		config.enableTenantTheming
@@ -139,7 +139,11 @@ const useTenantTheming = () => {
 
 		apiGetTenantTheming({ subdomain })
 			.then((tenant) => {
-				setTenant(tenant);
+				if (tenant?.theming) {
+					injectCss(tenant.theming);
+				}
+
+				tenantContext?.setTenant(tenant);
 			})
 			.catch((error) => {
 				console.log('Theme could not be loaded', error);
@@ -147,13 +151,9 @@ const useTenantTheming = () => {
 			.finally(() => {
 				setIsLoadingTenant(false);
 			});
-	}, [setTenant, subdomain]);
-
-	useEffect(() => {
-		if (!tenant?.theming) return;
-
-		injectCss(tenant.theming);
-	}, [tenant?.theming]);
+		// False positive
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [tenantContext?.setTenant, subdomain]);
 
 	return isLoadingTenant;
 };
