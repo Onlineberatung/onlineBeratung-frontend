@@ -11,13 +11,12 @@ import {
 } from './RouterConfig';
 import { AbsenceHandler } from './AbsenceHandler';
 import {
-	SessionsDataContext,
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	SessionsDataContext
 } from '../../globalState';
 import { history } from './app';
-import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import { NavigationBar } from './NavigationBar';
 import { Header } from '../header/Header';
 import { FinishedAnonymousConversationHandler } from './FinishedAnonymousConversationHandler';
@@ -26,6 +25,8 @@ import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 interface routingProps {
 	logout?: Function;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	spokenLanguages: string[];
+	fixedLanguages: string[];
 }
 
 export const Routing = (props: routingProps) => {
@@ -91,7 +92,12 @@ export const Routing = (props: routingProps) => {
 							<Route
 								key={`list-${route.path}`}
 								path={route.path}
-								component={SessionsListWrapper}
+								render={(componentProps) => (
+									<route.component
+										{...componentProps}
+										{...props}
+									/>
+								)}
 							/>
 						)
 					)}

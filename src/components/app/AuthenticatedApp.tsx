@@ -34,17 +34,22 @@ import { Notifications } from '../notifications/Notifications';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './authenticatedApp.styles';
 import './navigation.styles';
+import { requestPermissions } from '../../utils/notificationHelpers';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
 	onLogout: Function;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	spokenLanguages: string[];
+	fixedLanguages: string[];
 }
 
 export const AuthenticatedApp = ({
 	onLogout,
 	onAppReady,
-	legalComponent
+	legalComponent,
+	spokenLanguages,
+	fixedLanguages
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { setAuthData } = useContext(AuthDataContext);
@@ -55,6 +60,15 @@ export const AuthenticatedApp = ({
 	const { notifications } = useContext(NotificationsContext);
 	const { sessionsData } = useContext(SessionsDataContext);
 	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
+
+	useEffect(() => {
+		if (
+			userData &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+		) {
+			requestPermissions();
+		}
+	}, [userData]);
 
 	if (!authDataRequested) {
 		setAuthDataRequested(true);
@@ -108,6 +122,8 @@ export const AuthenticatedApp = ({
 				<Routing
 					logout={handleLogout}
 					legalComponent={legalComponent}
+					spokenLanguages={spokenLanguages}
+					fixedLanguages={fixedLanguages}
 				/>
 				{notifications && (
 					<Notifications notifications={notifications} />

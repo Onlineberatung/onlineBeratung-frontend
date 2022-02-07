@@ -4,7 +4,7 @@ import { AgencyDataInterface } from '../globalState';
 
 export const apiGetAgencyById = async (
 	agencyId: any
-): Promise<[AgencyDataInterface]> => {
+): Promise<AgencyDataInterface> => {
 	const url = config.endpoints.agencyServiceBase + '/' + agencyId;
 
 	return fetchData({
@@ -12,5 +12,5 @@ export const apiGetAgencyById = async (
 		method: FETCH_METHODS.GET,
 		skipAuth: true,
 		responseHandling: [FETCH_ERRORS.EMPTY, FETCH_ERRORS.NO_MATCH]
-	});
+	}).then((response) => response[0]);
 };

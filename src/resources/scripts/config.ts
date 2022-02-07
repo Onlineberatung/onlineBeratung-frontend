@@ -4,7 +4,7 @@ export const apiUrlEnv: string = process.env.REACT_APP_API_URL;
 export const apiUrl = process.env.REACT_APP_API_URL
 	? 'https://' + apiUrlEnv
 	: '';
-export const uiUrl = process.env.REACT_APP_UI_URL || '';
+export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
 export const APP_PATH = 'app';
 
 export const config = {
@@ -61,12 +61,14 @@ export const config = {
 		twoFactorAuth: apiUrl + '/service/users/twoFactorAuth',
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
-		userSessionsListView: '/sessions/user/view'
+		userSessionsListView: '/sessions/user/view',
+		consultantsLanguages: apiUrl + '/service/users/consultants/languages'
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:
 			'https://www.caritas.de/onlineberatung',
 		toLogin: uiUrl + '/login',
+		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
@@ -78,5 +80,6 @@ export const config = {
 		error500: uiUrl + '/error.500.html',
 		error401: uiUrl + '/error.401.html',
 		error404: uiUrl + '/error.404.html'
-	}
+	},
+	postcodeFallbackUrl: '{url}'
 };

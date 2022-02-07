@@ -2,6 +2,7 @@ const registrationInformal = {
 	'agency.preselected.prefix': 'Deine vorausgewählte Beratungsstelle: ',
 	'agency.preselected.isTeam': 'Du wirst von einem Team beraten.',
 	'username.headline': 'Bitte wähle Deinen Benutzernamen',
+	'consultingType.preselected.prefix': 'Dein vorausgewähltes Themenfeld: ',
 	'user.infoText':
 		'Um Deine Anonymität zu schützen, raten wir Dir nicht Deinen tatsächlichen Namen oder Initialien zu verwenden.<br>Wähle bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 	'user.suitable': 'Dein Benutzername ist geeignet.',
@@ -12,8 +13,9 @@ const registrationInformal = {
 		'Warum hilft Dir auch online eine Beratungsstelle in Deiner Nähe?',
 	'agencySelection.intro.point3':
 		'Dich gegebenfalls auch vor Ort beraten kann.',
+	'agencySelection.languages.info': 'Diese Beratungsstelle berät Dich auf:',
 	'agencySelection.postcode.label': 'Deine Postleitzahl',
-	'agencySelection.postcode.unavailable':
+	'agencySelection.postcode.unavailable.text':
 		'Momentan haben wir leider noch keine Online-Beratungsstelle in Deiner Nähe. Auf unserer Webseite findest Du Beratungsstellen vor Ort für Dein Anliegen.',
 	'agencyPreselected.headline': 'Bitte gib Deine Postleitzahl an',
 	'agencyPreselected.intro.overline':
@@ -21,6 +23,16 @@ const registrationInformal = {
 	'agencyPreselected.intro.point1':
 		'kennen dann die Hilfen rund um Deinen Wohnort',
 	'agencyPreselected.intro.point2': 'kennen die Gesetze Deines Bundeslandes',
+
+	'consultingTypeAgencySelection.consultingType.headline':
+		'Bitte wähle ein Themenfeld',
+	'consultingTypeAgencySelection.consultingType.infoText':
+		'Dein_e Berater_in ist in mehreren Themenfeldern tätig. Bitte wähle Dein gewünschtes Themenfeld.',
+	'consultingTypeAgencySelection.agency.headline':
+		'Bitte wähle eine Beratungsstelle',
+	'consultingTypeAgencySelection.agency.infoText':
+		'Dein_e Berater_in ist in mehreren Beratungsstellen tätig. Bitte wähle Deine gewünschte Beratungsstelle.',
+
 	'password.headline': 'Bitte wähle Dein Passwort',
 	'password.secure': 'Dein Passwort ist sicher.',
 	'password.insecure': 'Dein Passwort ist nicht sicher.',
@@ -34,7 +46,9 @@ const registrationInformal = {
 	'welcomeScreen.info2.text':
 		'Schicke Deine Nachricht an eine lokale Beratungsstelle',
 	'welcomeScreen.info3.text':
-		'Innerhalb von 2 Werktagen bekommst Du eine Antwort'
+		'Innerhalb von 2 Werktagen bekommst Du eine Antwort',
+	'teaser.consultant':
+		'Bitte registriere Dich, um mit Deiner Beraterin / Deinem Berater in Kontakt zu kommen'
 };
 
 export default registrationInformal;

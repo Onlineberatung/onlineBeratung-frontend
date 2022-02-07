@@ -572,6 +572,12 @@ declare namespace UserService {
 			 * maxmuster@mann.com
 			 */
 			email: string; // email
+			/**
+			 * Added this manually since generator is not working at the moment
+			 * example:
+			 * ['de','en']
+			 */
+			languages: string[];
 		}
 		export interface UserChatDTO {
 			/**

@@ -13,6 +13,7 @@ import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 
 export const history = createBrowserHistory();
 
@@ -21,13 +22,17 @@ interface AppProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	entryPoint: string;
 	extraRoutes?: ReactNode;
+	spokenLanguages?: string[];
+	fixedLanguages?: string[];
 }
 
 export const App = ({
 	stageComponent,
 	legalComponent,
 	entryPoint,
-	extraRoutes
+	extraRoutes,
+	spokenLanguages = languageIsoCodesSortedByName,
+	fixedLanguages = ['de']
 }: AppProps) => {
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
@@ -44,6 +49,10 @@ export const App = ({
 	const [
 		hasUnmatchedRegistrationConsultingType,
 		setHasUnmatchedRegistrationConsultingType
+	] = useState(false);
+	const [
+		hasUnmatchedRegistrationConsultant,
+		setHasUnmatchedRegistrationConsultant
 	] = useState(false);
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
@@ -72,19 +81,33 @@ export const App = ({
 					)}
 					<Switch>
 						{extraRoutes}
-						{!hasUnmatchedRegistrationConsultingType && (
-							<Route path="/:consultingTypeSlug/registration">
-								<Registration
-									handleUnmatch={() =>
-										setHasUnmatchedRegistrationConsultingType(
-											true
-										)
-									}
-									legalComponent={legalComponent}
-									stageComponent={stageComponent}
-								/>
-							</Route>
-						)}
+
+						{!hasUnmatchedRegistrationConsultingType &&
+							!hasUnmatchedRegistrationConsultant && (
+								<Route
+									path={[
+										'/registration',
+										'/:consultingTypeSlug/registration'
+									]}
+								>
+									<Registration
+										handleUnmatchConsultingType={() =>
+											setHasUnmatchedRegistrationConsultingType(
+												true
+											)
+										}
+										handleUnmatchConsultant={() => {
+											setHasUnmatchedRegistrationConsultant(
+												true
+											);
+										}}
+										legalComponent={legalComponent}
+										stageComponent={stageComponent}
+										fixedLanguages={fixedLanguages}
+									/>
+								</Route>
+							)}
+
 						{!hasUnmatchedAnonymousConversation && (
 							<Route path="/:consultingTypeSlug/warteraum">
 								<WaitingRoomLoader
@@ -100,19 +123,22 @@ export const App = ({
 							</Route>
 						)}
 						{!hasUnmatchedLoginConsultingType && (
-							<Route path={['/:consultingTypeSlug', '/login']}>
+							<Route path={['/login', '/:consultingTypeSlug']}>
 								<LoginLoader
 									handleUnmatch={() =>
 										setHasUnmatchedLoginConsultingType(true)
 									}
 									legalComponent={legalComponent}
 									stageComponent={stageComponent}
+									fixedLanguages={fixedLanguages}
 								/>
 							</Route>
 						)}
 						{isInitiallyLoaded && (
 							<AuthenticatedApp
 								legalComponent={legalComponent}
+								spokenLanguages={spokenLanguages}
+								fixedLanguages={fixedLanguages}
 								onAppReady={() => setStartWebsocket(true)}
 								onLogout={() => setDisconnectWebsocket(true)}
 							/>

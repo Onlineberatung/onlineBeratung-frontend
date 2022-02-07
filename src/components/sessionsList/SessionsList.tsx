@@ -28,7 +28,8 @@ import {
 	StoppedGroupChatContext,
 	UserDataInterface,
 	getUnreadMyMessages,
-	UpdateSessionListContext
+	UpdateSessionListContext,
+	isAnonymousSession
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
@@ -60,7 +61,13 @@ interface GetSessionsListDataInterface {
 	signal?: AbortSignal;
 }
 
-export const SessionsList: React.FC = () => {
+interface SessionsListProps {
+	defaultLanguage: string;
+}
+
+export const SessionsList: React.FC<SessionsListProps> = ({
+	defaultLanguage
+}) => {
 	const location = useLocation();
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
@@ -407,11 +414,21 @@ export const SessionsList: React.FC = () => {
 				setSessionsData({
 					mySessions: response.sessions
 				});
+				const firstSession = response.sessions[0].session;
 				if (
 					response.sessions.length === 1 &&
-					response.sessions[0].session?.status === 0
+					firstSession?.status === 0
 				) {
 					history.push(`/sessions/user/view/write`);
+				} else if (
+					response.sessions.length === 1 &&
+					isAnonymousSession(firstSession) &&
+					hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+				) {
+					setIsLoading(false);
+					history.push(
+						`/sessions/user/view/${firstSession.groupId}/${firstSession.id}`
+					);
 				} else {
 					setIsLoading(false);
 					if (newRegisteredSessionId && redirectToEnquiry) {
@@ -644,6 +661,11 @@ export const SessionsList: React.FC = () => {
 										key={index}
 										type={type}
 										id={getChatItemForSession(item).id}
+										language={
+											item.session.language
+												? item.session.language
+												: defaultLanguage
+										}
 									/>
 							  ))
 							: !activeCreateChat && (

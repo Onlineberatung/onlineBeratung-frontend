@@ -13,13 +13,15 @@ interface registrationResponse {
 export const apiRegistrationNewConsultingTypes = async (
 	consultingType: number,
 	agencyId: number,
-	postcode: number
+	postcode: string,
+	consultantId?: string
 ): Promise<registrationResponse> => {
 	const url = config.endpoints.registerAskerNewConsultingType;
 	const data = JSON.stringify({
-		postcode: postcode,
-		agencyId: agencyId,
-		consultingType: consultingType
+		postcode,
+		agencyId,
+		consultingType,
+		consultantId
 	});
 
 	return fetchData({
@@ -27,6 +29,10 @@ export const apiRegistrationNewConsultingTypes = async (
 		method: FETCH_METHODS.POST,
 		rcValidation: true,
 		bodyData: data,
-		responseHandling: [FETCH_SUCCESS.CONTENT, FETCH_ERRORS.CATCH_ALL]
+		responseHandling: [
+			FETCH_SUCCESS.CONTENT,
+			FETCH_ERRORS.CATCH_ALL,
+			FETCH_ERRORS.CONFLICT_WITH_RESPONSE
+		]
 	});
 };

@@ -1,7 +1,7 @@
 const twoFactorAuth = {
 	'title': '2-Faktor-Authentifizierung',
 	'subtitle':
-		'Nutzen Sie eine weitere App für die Anmeldung mit Ihrem Diakonie Konto. Dadurch ist Ihr Konto sicherer vor einem möglichen unbefugtem Zugriff.',
+		'Nutzen Sie eine weitere App für die Anmeldung mit Ihrem Caritas Konto. Dadurch ist Ihr Konto sicherer vor einem möglichen unbefugtem Zugriff.',
 	'switch.active.label': '2-Faktor-Authentifizierung aktiviert',
 	'switch.deactive.label': '2-Faktor-Authentifizierung deaktiviert',
 	'activate.step1.title': 'Installieren Sie sich die App',

@@ -13,6 +13,7 @@ export interface ListItemInterface {
 	session?: SessionItemInterface;
 	chat?: GroupChatItemInterface;
 	user?: SessionUserInterface;
+	language?: string;
 }
 
 export interface SessionConsultantInterface {
@@ -44,6 +45,7 @@ export interface SessionItemInterface {
 	isPeerChat: boolean;
 	isTeamSession: boolean;
 	videoCallMessageDTO: VideoCallMessageDTO;
+	language?: string;
 }
 
 export interface GroupChatItemInterface {

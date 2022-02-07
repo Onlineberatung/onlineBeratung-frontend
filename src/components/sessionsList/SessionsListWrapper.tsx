@@ -17,7 +17,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
 
-export const SessionsListWrapper = () => {
+interface SessionsListProps {
+	fixedLanguages: string[];
+}
+
+export const SessionsListWrapper: React.FC<SessionsListProps> = ({
+	fixedLanguages
+}) => {
 	const type = getTypeOfLocation();
 	const { userData } = useContext(UserDataContext);
 	const [sessionListTab] = useState(
@@ -41,7 +47,7 @@ export const SessionsListWrapper = () => {
 						{translate('sessionList.user.headline')}
 					</h2>
 				</div>
-				<SessionsList />
+				<SessionsList defaultLanguage={fixedLanguages[0]} />
 			</div>
 		);
 	}
@@ -99,7 +105,7 @@ export const SessionsListWrapper = () => {
 					<div className="sessionMenuPlaceholder"></div>
 				)}
 			</div>
-			<SessionsList />
+			<SessionsList defaultLanguage={fixedLanguages[0]} />
 		</div>
 	);
 };

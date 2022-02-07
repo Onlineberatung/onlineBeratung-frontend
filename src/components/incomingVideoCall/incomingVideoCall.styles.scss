@@ -1,15 +1,9 @@
 $userIconSize: 62px;
 
 .incomingVideoCall {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-	padding: $grid-base-two;
-	border-radius: 4px;
-	background-color: rgba(120, 115, 120, 0.95);
-	backdrop-filter: blur(2px);
-	animation: flyIn 0.3s ease forwards;
+	&.notification {
+		align-items: center;
+	}
 
 	&__description {
 		color: $white;
@@ -43,17 +37,6 @@ $userIconSize: 62px;
 		.button__wrapper:not(:last-of-type) {
 			margin-right: $grid-base-two;
 		}
-	}
-}
-
-@keyframes flyIn {
-	0% {
-		opacity: 0.8;
-		transform: translateX(32px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateX(0);
 	}
 }
 

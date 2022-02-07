@@ -15,7 +15,9 @@ import { BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
 import {
 	ActiveSessionGroupIdContext,
-	AcceptedGroupIdContext
+	AcceptedGroupIdContext,
+	getActiveSession,
+	SessionsDataContext
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { ReactComponent as EnvelopeCheckIcon } from '../../resources/img/illustrations/envelope-check.svg';
@@ -23,13 +25,23 @@ import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations
 import './enquiry.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
+import { EnquiryLanguageSelection } from './EnquiryLanguageSelection';
 
-export const WriteEnquiry = () => {
+interface WriteEnquiryProps {
+	fixedLanguages: string[];
+}
+
+export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
+	fixedLanguages
+}) => {
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
+	const { sessionsData } = useContext(SessionsDataContext);
+	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	let [overlayActive, setOverlayActive] = useState(false);
 	const [sessionId, setSessionId] = useState<number | null>(null);
 	const [groupId, setGroupId] = useState<string | null>(null);
+	const [selectedLanguage, setSelectedLanguage] = useState(fixedLanguages[0]);
 
 	useEffect(() => {
 		if (activeSessionGroupId) {
@@ -110,6 +122,10 @@ export const WriteEnquiry = () => {
 		setOverlayActive(true);
 	}, []);
 
+	const isUnassignedSession =
+		(activeSession && !activeSession?.consultant) ||
+		(!activeSession && !sessionsData?.mySessions?.[0]?.consultant);
+
 	return (
 		<div className="enquiry__wrapper">
 			<div className="enquiry__infoWrapper">
@@ -130,12 +146,20 @@ export const WriteEnquiry = () => {
 						type="standard"
 						className="enquiry__facts"
 					/>
+					{isUnassignedSession && (
+						<EnquiryLanguageSelection
+							className="enquiry__languageSelection"
+							fixedLanguages={fixedLanguages}
+							handleSelection={setSelectedLanguage}
+						/>
+					)}
 				</div>
 			</div>
 			<MessageSubmitInterfaceComponent
 				handleSendButton={handleSendButton}
 				placeholder={translate('enquiry.write.input.placeholder')}
 				type={SESSION_LIST_TYPES.ENQUIRY}
+				language={selectedLanguage}
 			/>
 			{overlayActive ? (
 				<OverlayWrapper>

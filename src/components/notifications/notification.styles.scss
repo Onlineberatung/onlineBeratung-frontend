@@ -1,0 +1,80 @@
+.notification {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	width: 100%;
+	padding: $grid-base-two;
+	border-radius: 4px;
+	background-color: rgba(120, 115, 120, 0.95);
+	backdrop-filter: blur(2px);
+	animation: flyIn 0.3s ease forwards;
+
+	&__header {
+		display: flex;
+		width: 100%;
+		margin-bottom: 6px;
+	}
+
+	&__title {
+		flex: 1;
+		min-height: 24px;
+		line-height: 24px;
+		font-size: $font-size-h5;
+		font-weight: $font-weight-bold;
+	}
+
+	&__icon {
+		flex: 0 24px;
+		height: 24px;
+		text-align: center;
+		border-radius: 50%;
+		margin-right: 12px;
+
+		svg {
+			width: 14px;
+			height: 14px;
+		}
+	}
+
+	&__text {
+		font-size: $font-size-tertiary;
+	}
+
+	&--info,
+	&--warning,
+	&--error,
+	&--success {
+		color: $white;
+		text-align: left;
+	}
+
+	&--info &__icon {
+		svg {
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+	&--success &__icon {
+		background: $form-success;
+	}
+
+	&--error &__icon {
+		background: $form-error;
+	}
+
+	&--warning &__icon {
+		background: $form-medium;
+	}
+}
+
+@keyframes flyIn {
+	0% {
+		opacity: 0.8;
+		transform: translateX(32px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
