@@ -142,16 +142,6 @@ $waiting-room-subline-opacity: 1 !default;
 		}
 	}
 
-	&__redirectButton {
-		display: flex;
-		justify-content: center;
-		margin-top: $grid-base-three;
-
-		@include breakpoint($fromLarge) {
-			justify-content: start;
-		}
-	}
-
 	&__waitingIllustration {
 		.steam {
 			opacity: 0;

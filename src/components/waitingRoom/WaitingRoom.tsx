@@ -280,19 +280,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 									'anonymous.waitingroom.redirect.subline'
 								)}
 							/>
-							<div className="waitingRoom__redirectButton">
-								<a href={registrationUrl}>
-									<Button
-										item={{
-											label: translate(
-												'anonymous.waitingroom.redirect.button'
-											),
-											type: 'TERTIARY'
-										}}
-										isLink={true}
-									/>
-								</a>
-							</div>
 						</div>
 					</div>
 				</>
