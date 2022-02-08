@@ -91,7 +91,7 @@ $buttonHeight: 50px;
 			border: 2px solid var(--skin-color-primary-hover, $hover-primary);
 			background: linear-gradient(
 				to right,
-				$button-auto-close-color 50%,
+				var(--skin-color-primary-hover, $button-auto-close-color) 50%,
 				var(--skin-color-primary-hover, $hover-primary) 50%
 			);
 			background-size: 200% 100%;
