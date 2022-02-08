@@ -27,12 +27,13 @@ export const LoginLoader = ({
 	legalComponent,
 	stageComponent
 }: LoginLoaderProps) => {
-	const [isValidResort, setIsValidResort] = useState<boolean>();
+	const [isValidConsultingType, setIsValidConsultingType] =
+		useState<boolean>();
 	const { consultingTypeSlug } = useParams();
 
 	useEffect(() => {
 		if (consultingTypeSlug === 'login') {
-			setIsValidResort(true);
+			setIsValidConsultingType(true);
 			return;
 		}
 
@@ -42,12 +43,12 @@ export const LoginLoader = ({
 		}
 
 		apiGetConsultingType({ consultingTypeSlug }).then((result) => {
-			if (result) setIsValidResort(true);
+			if (result) setIsValidConsultingType(true);
 			else handleUnmatch();
 		});
 	}, [consultingTypeSlug, handleUnmatch]);
 
-	if (isValidResort) {
+	if (isValidConsultingType) {
 		return (
 			<Login
 				legalComponent={legalComponent}

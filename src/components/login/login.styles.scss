@@ -1,5 +1,26 @@
 $spacingWithIcon: 52px;
 
+.login {
+	&__tenantRegistration {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		top: $grid-base-six;
+		left: 0;
+		right: 0;
+
+		@media (min-width: $fromLarge) {
+			left: auto;
+			right: $grid-base-seven;
+		}
+	}
+
+	&__tenantRegistrationLink {
+		margin-left: $grid-base;
+	}
+}
+
 .loginForm {
 	display: flex;
 	justify-content: center;

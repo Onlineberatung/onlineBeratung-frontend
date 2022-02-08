@@ -35,6 +35,7 @@ export const Login = ({
 	stageComponent: Stage
 }: LoginProps) => {
 	const { tenant } = useContext(TenantContext);
+	const hasTenant = tenant != null;
 
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -211,7 +212,7 @@ export const Login = ({
 						buttonHandle={handleLogin}
 						disabled={isButtonDisabled}
 					/>
-					{!tenant && (
+					{!hasTenant && (
 						<div className="loginForm__register">
 							<Text
 								text={translate(
@@ -225,10 +226,7 @@ export const Login = ({
 							/>
 							<a
 								className="loginForm__register__link"
-								href={
-									config.urls
-										.loginRedirectToRegistrationOverview
-								}
+								href={config.urls.toRegistration}
 								target="_self"
 							>
 								{translate('login.register.linkLabel')}
@@ -237,6 +235,27 @@ export const Login = ({
 					)}
 				</div>
 			</StageLayout>
+			{hasTenant && (
+				<div className="login__tenantRegistration">
+					<Text
+						text={translate('login.register.infoText.title')}
+						type={'infoSmall'}
+					/>
+					<a
+						className="login__tenantRegistrationLink"
+						href={config.urls.toRegistration}
+						target="_self"
+					>
+						<Button
+							item={{
+								label: translate('login.register.linkLabel'),
+								type: 'TERTIARY'
+							}}
+							isLink
+						/>
+					</a>
+				</div>
+			)}
 		</>
 	);
 };
