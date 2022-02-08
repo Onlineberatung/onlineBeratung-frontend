@@ -61,7 +61,7 @@ $buttonHeight: 50px;
 
 		&:hover {
 			background-color: var(--skin-color-primary-hover, $hover-primary);
-			color: white;
+			color: var(--text-color-contrast-switch, $white);
 			border-color: var(--skin-color-primary-hover, $hover-primary);
 		}
 	}
