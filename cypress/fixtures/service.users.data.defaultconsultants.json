@@ -1,0 +1,38 @@
+{
+	"userId": "consultant1",
+	"userName": "consultant1",
+	"firstName": "firstName",
+	"lastName": "lastName",
+	"email": "con@sulta.nt",
+	"absenceMessage": null,
+	"agencies": [
+		{
+			"id": 1,
+			"name": "name",
+			"postcode": "12345",
+			"city": "city",
+			"description": "description",
+			"teamAgency": true,
+			"offline": false,
+			"consultingType": 0
+		}
+	],
+	"grantedAuthorities": ["AUTHORIZATION_CONSULTANT_DEFAULT"],
+	"hasAnonymousConversations": true,
+	"consultingTypes": null,
+	"formalLanguage": true,
+	"absent": false,
+	"inTeamAgency": true,
+	"hasArchive": true,
+
+	"twoFactorAuth": {
+		"isEnabled": true,
+		"isActive": false,
+		"secret": "OM3Cy9gns9cuzr0eKlE6xPch5haAQco4",
+		"qrCode": "iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2AQAAAADNaUdlAAACyUlEQVR4Xu2XsW4jMQwF1emX1UmdflnFAboZbrI+b5HqRCCAFcOIOTJAkI+P67J/PH/KM/J+PvwZeT8f/oy8n1/BRyl1rrpX6Xv0VUerexpM4tMXf6OPzqU6SuMLEc/ho05O5MZ780I1mMn3Xp0ijbrIrrSezAdJ1dXpSqdNq0cwi/u6BFIRSzXTK5jDQ5/P89Tv8/xH7lnFcw1GX61/hVM4kTmXs2lSqBR50Kq7P8c52VCRbYda0OtOGieAKXW1scyVIWmI9a7PYU5iplan5tA0CZ2KqmVxquN82CLbQ3Fs03jp8yxfhnBEDSpA81a75+M497PyWKJQZ9WyehYvZKMpV+/iFSjWTfGtz9MchcZWiCAKiUqNEGgONztHYnuBIjkmhNL4oDjWY2qMNiqyW7d+D3PCTWn2kIoVKo7p7U+nOf/NeAcxm1V59P3yp9Ncg9YYNARQ8WWZehZ3OfaYyFhQ9EqHkqRwd5Oe1BiNkEcUzGxzOKKYfmIo2BFRH1LkG0lcJ9KV+5c2vFDVShIf16ORTSGx5e8TnpIQTBKPoVSitiZKhTX84w+n+bArfflYRFo8IcZDAkVL4mboeuASe1Kz9LJZ53ASoShTfYLUqS0y1Rwe7QAsU6zqkusjCpTDKUlXIHgUlSp2Z5hiGicxVwSLyielsAhXdhb3BhtSa3BC7dWM9ZTD/UkWHk19vKhIGRkqlsP1ohLTwWbQI/xco2Ip3MxIR2tQo44JbXrp4zRfuhF3MIXtruISVdp3fY5zcuruZCrkpigOaNzO4VqBD4WGi/VxRynUJO4ZmIIXHAztql4TksJHpIIum2NCHIOIDZ3EJy/28nZIolIt/lE0ORw3IDdb4qn+XIjsEjkTijoZTM3B/MKeMvlySiyK3SFINIvHFXeiGHO4ymWBUjiNgY3LpVSpvxB8WE/iP5wPf0bez4c/I+/n1/O/KyA14WDUS9cAAAAASUVORK5CYII="
+	},
+
+	"groupChat": {
+		"isGroupChat": true
+	}
+}

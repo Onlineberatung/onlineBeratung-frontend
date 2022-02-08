@@ -31,7 +31,11 @@ declare global {
 	namespace Cypress {
 		interface Chainable {
 			caritasMockedLogin(
-				args?: CaritasMockedLoginArgs
+				args?: CaritasMockedLoginArgs,
+				testCredentials?: {
+					testUsername: string;
+					testPassword: string;
+				}
 			): Chainable<Element>;
 		}
 	}
@@ -39,7 +43,9 @@ declare global {
 
 Cypress.Commands.add(
 	'caritasMockedLogin',
-	(args: CaritasMockedLoginArgs = {}) => {
+	(args: CaritasMockedLoginArgs = {}, testCredentials = {}) => {
+		const { testUsername = 'username', testPassword = 'password' } =
+			testCredentials;
 		mockWebSocket();
 
 		cy.fixture('auth.token').then((auth) =>
@@ -89,12 +95,14 @@ Cypress.Commands.add(
 		}
 
 		if (args.type === 'consultant') {
-			cy.fixture('service.users.data.consultants').then((userData) => {
-				cy.intercept('GET', config.endpoints.userData, {
-					...userData,
-					...args.userData
-				});
-			});
+			cy.fixture('service.users.data.defaultconsultants').then(
+				(userData) => {
+					cy.intercept('GET', config.endpoints.userData, {
+						...userData,
+						...args.userData
+					});
+				}
+			);
 
 			if (!args.sessionsCallback) {
 				sessions = args.sessions || [
@@ -184,8 +192,8 @@ Cypress.Commands.add(
 		cy.visit('/login');
 
 		cy.get('.loginForm');
-		cy.get('#username').type('username', { force: true });
-		cy.get('#passwordInput').type('password', {
+		cy.get('#username').type(testUsername, { force: true });
+		cy.get('#passwordInput').type(testPassword, {
 			force: true
 		});
 		cy.get('.button__primary').click();
