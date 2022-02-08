@@ -3,9 +3,9 @@ import { Header } from '../header/Header';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import './waitingRoom.styles';
-import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/willkommen.svg';
+import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
-import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/ooh.svg';
+import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
 import { translate } from '../../utils/translate';
 import { useContext, useEffect, useState } from 'react';
 import {

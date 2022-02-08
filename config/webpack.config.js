@@ -638,6 +638,16 @@ module.exports = function (webpackEnv) {
 				filename: 'beratung-hilfe.html'
 			}),
 			new HtmlWebpackPlugin({
+				title: 'Beratung & Hilfe',
+				templateParameters: {
+					type: 'error',
+					errorType: '400'
+				},
+				template: 'src/pages/app.html',
+				chunks: ['error'],
+				filename: 'error.400.html'
+			}),
+			new HtmlWebpackPlugin({
 				title: 'Error Page 401',
 				templateParameters: {
 					type: 'error',

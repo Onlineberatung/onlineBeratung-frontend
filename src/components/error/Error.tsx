@@ -1,9 +1,10 @@
 import '../../polyfill';
 import React from 'react';
 import clsx from 'clsx';
-import { ReactComponent as Icon401 } from '../../resources/img/illustrations/kein-zutritt.svg';
-import { ReactComponent as Icon404 } from '../../resources/img/illustrations/ooh.svg';
-import { ReactComponent as Icon500 } from '../../resources/img/illustrations/gleich-zurueck.svg';
+import { ReactComponent as Icon400 } from '../../resources/img/illustrations/bad-request.svg';
+import { ReactComponent as Icon401 } from '../../resources/img/illustrations/unauthorized.svg';
+import { ReactComponent as Icon404 } from '../../resources/img/illustrations/not-found.svg';
+import { ReactComponent as Icon500 } from '../../resources/img/illustrations/internal-server-error.svg';
 import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
@@ -25,6 +26,10 @@ export const Error = () => {
 	let Icon;
 	let type;
 	switch (statusCode) {
+		case '400':
+			Icon = Icon400;
+			type = 'error';
+			break;
 		case '401':
 			Icon = Icon401;
 			type = 'warning';
@@ -63,14 +68,16 @@ export const Error = () => {
 							)
 						}}
 					/>
-					<Button
-						className="errorPage__button"
-						buttonHandle={buttonHandle}
-						item={{
-							type: BUTTON_TYPES.PRIMARY,
-							label: translate('error.login')
-						}}
-					/>
+					{statusCode !== '400' && (
+						<Button
+							className="errorPage__button"
+							buttonHandle={buttonHandle}
+							item={{
+								type: BUTTON_TYPES.PRIMARY,
+								label: translate('error.login')
+							}}
+						/>
+					)}
 				</div>
 			</div>
 		</div>

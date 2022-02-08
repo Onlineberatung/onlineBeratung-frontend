@@ -29,7 +29,7 @@ import {
 	ConsultingTypeInterface
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
-import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
+import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './registrationForm.styles';
