@@ -18,8 +18,8 @@ html {
 
 :root {
 	--skin-color-default: #{$body-font-color};
-	--skin-color-link-dark: #{$body-font-color};
-	--skin-color-link-light: #{$white};
+	--skin-color-primary-foreground-dark: #{$body-font-color};
+	--skin-color-primary-foreground-light: #{$white};
 }
 
 body {

@@ -6,7 +6,7 @@
 	}
 
 	&__linkLabel {
-		color: var(--skin-color-link-dark, $primary);
+		color: $link-color;
 	}
 
 	&__separator {

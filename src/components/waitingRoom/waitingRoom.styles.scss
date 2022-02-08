@@ -2,7 +2,6 @@ $waiting-room-illustration-width: 65% !default;
 $waiting-room-illustration-background: $illustration-background-neutral !default;
 $waiting-room-page-background: $background-light !default;
 $waiting-room-subline-opacity: 1 !default;
-$waiting-room-text-decoration: none !default;
 
 .waitingRoom {
 	display: flex;
@@ -50,11 +49,12 @@ $waiting-room-text-decoration: none !default;
 		}
 
 		a {
-			color: var(--skin-color-primary, $primary);
-			text-decoration: $waiting-room-text-decoration;
+			color: $link-color;
+			text-decoration: $link-text-decoration;
+			font-weight: $link-font-weight;
 
 			&:hover {
-				color: var(--skin-color-primary-hover, $hover-primary);
+				color: $link-color-hover;
 			}
 		}
 	}
