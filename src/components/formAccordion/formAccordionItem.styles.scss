@@ -60,8 +60,13 @@ $form-accordion-item-input-margin-left: 0 !default;
 		margin-bottom: $grid-base-three;
 
 		.text,
+		ul,
 		.button__wrapper {
 			margin-left: $registration-form-margin-left;
+		}
+
+		ul .text {
+			margin-left: 0;
 		}
 
 		.inputField {
