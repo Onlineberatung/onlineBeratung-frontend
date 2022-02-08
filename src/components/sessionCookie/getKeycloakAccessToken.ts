@@ -1,4 +1,4 @@
-import { FETCH_ERRORS } from '../../api';
+import { FetchErrorWithOptions, FETCH_ERRORS } from '../../api';
 import { config } from '../../resources/scripts/config';
 import { LoginData } from '../registration/autoLogin';
 
@@ -29,7 +29,12 @@ export const getKeycloakAccessToken = (
 					const data = response.json();
 					resolve(data);
 				} else if (response.status === 400) {
-					reject(new Error(FETCH_ERRORS.BAD_REQUEST));
+					// TODO READ TYPE OF 2FA AND PASS TO ERROR
+					reject(
+						new FetchErrorWithOptions(FETCH_ERRORS.BAD_REQUEST, {
+							twoFactorType: 'email'
+						})
+					);
 				} else if (response.status === 401) {
 					reject(new Error(FETCH_ERRORS.UNAUTHORIZED));
 				}

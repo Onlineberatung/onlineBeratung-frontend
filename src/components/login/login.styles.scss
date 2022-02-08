@@ -29,6 +29,11 @@ $spacingWithIcon: 52px;
 		}
 	}
 
+	&__otpEmailResend {
+		display: inline-block;
+		margin-bottom: $grid-base-three;
+	}
+
 	&__error {
 		color: $form-error;
 		max-width: 245px;

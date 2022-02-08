@@ -114,6 +114,8 @@ export const Login = ({
 	const [registerOverlayActive, setRegisterOverlayActive] = useState(false);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);
 
+	const [twoFactorType, setTwoFactorType] = useState('app');
+
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
 		class: 'login',
@@ -136,8 +138,10 @@ export const Login = ({
 	const otpInputItem: InputFieldItem = {
 		content: otp,
 		id: 'otp',
-		infoText: translate('login.warning.failed.otp.missing'),
-		label: translate('twoFactorAuth.activate.step3.input.label'),
+		infoText: translate(
+			`login.warning.failed.${twoFactorType}.otp.missing`
+		),
+		label: translate('twoFactorAuth.activate.otp.input.label'),
 		name: 'otp',
 		type: 'text',
 		icon: <VerifiedIcon />,
@@ -307,6 +311,8 @@ export const Login = ({
 							translate('login.warning.failed.unauthorized')
 						);
 					} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+						if (error.options.twoFactorType)
+							setTwoFactorType(error.options.twoFactorType);
 						setIsOtpRequired(true);
 					}
 				})
@@ -379,6 +385,16 @@ export const Login = ({
 						inputHandle={handleOtpChange}
 						keyUpHandle={handleKeyUp}
 					/>
+					{twoFactorType === 'email' && (
+						<a
+							href={'TODO'}
+							target="_blank"
+							rel="noreferrer"
+							className="loginForm__otpEmailResend"
+						>
+							{translate('login.resend.otp.email.label')}
+						</a>
+					)}
 				</div>
 				{showLoginError && (
 					<Text
