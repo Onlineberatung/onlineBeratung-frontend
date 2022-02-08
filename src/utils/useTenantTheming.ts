@@ -93,8 +93,8 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 	// or icons are used on top of the primary color.
 	const textColorContrastSwitch =
 		primaryHSL.l < contrastThreshold
-			? 'var(--skin-color-link-light)'
-			: 'var(--skin-color-link-dark)';
+			? 'var(--skin-color-primary-foreground-light)'
+			: 'var(--skin-color-primary-foreground-dark)';
 
 	document.head.insertAdjacentHTML(
 		'beforeend',

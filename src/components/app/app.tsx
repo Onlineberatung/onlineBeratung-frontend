@@ -13,6 +13,7 @@ import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { TenantThemingLoader } from './TenantThemingLoader';
 
 export const history = createBrowserHistory();
 
@@ -67,6 +68,7 @@ export const App = ({
 		<ErrorBoundary>
 			<Router history={history}>
 				<ContextProvider>
+					<TenantThemingLoader />
 					{startWebsocket && (
 						<WebsocketHandler disconnect={disconnectWebsocket} />
 					)}
