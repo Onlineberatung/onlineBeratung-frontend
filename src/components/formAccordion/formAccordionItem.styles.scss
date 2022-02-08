@@ -1,6 +1,7 @@
 $form-accordion-item-title-color: $secondary !default;
 $form-accordion-title-font-weight: $font-weight-medium !default;
 $form-accordion-item-input-margin-right: $grid-base-four !default;
+$form-accordion-item-input-margin-left: 0 !default;
 
 .formAccordionItem {
 	width: 100%;
@@ -66,6 +67,7 @@ $form-accordion-item-input-margin-right: $grid-base-four !default;
 		.inputField {
 			margin-top: $grid-base-three;
 			margin-right: $form-accordion-item-input-margin-right;
+			margin-left: $form-accordion-item-input-margin-left;
 			max-width: 360px;
 		}
 	}

@@ -118,10 +118,10 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 			adjust: 90
 		})};
 		--skin-color-link: ${
-			primaryHSL.l < contrastThreshold
+			primaryHSL.l > contrastThreshold
 				? 'var(--skin-color-primary-foreground-dark)'
 				: primaryColor
-		}
+		};
 		--text-color-contrast-switch: ${textColorContrastSwitch};
 		}
 		</style>`
