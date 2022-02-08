@@ -8,14 +8,9 @@ import {
 } from 'react';
 import { Routing } from './Routing';
 import { config } from '../../resources/scripts/config';
-import {
-	setValueInCookie,
-	getValueFromCookie
-} from '../sessionCookie/accessSessionCookie';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	UserDataContext,
-	AuthDataContext,
-	AuthDataInterface,
 	NotificationsContext,
 	hasUserAuthority,
 	AUTHORITIES,
@@ -52,8 +47,6 @@ export const AuthenticatedApp = ({
 	fixedLanguages
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
-	const { setAuthData } = useContext(AuthDataContext);
-	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [appReady, setAppReady] = useState<boolean>(false);
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
@@ -70,37 +63,28 @@ export const AuthenticatedApp = ({
 		}
 	}, [userData]);
 
-	if (!authDataRequested) {
-		setAuthDataRequested(true);
-		const currentAuthData: AuthDataInterface = {
-			keycloakRefreshToken: getValueFromCookie('refreshToken'),
-			keycloakToken: getValueFromCookie('keycloak'),
-			rocketchatToken: getValueFromCookie('rc_token'),
-			rocketchatUserId: getValueFromCookie('rc_uid')
-		};
-		setAuthData(currentAuthData);
-	}
-
-	if (!userDataRequested) {
-		setUserDataRequested(true);
-		handleTokenRefresh().then(() => {
-			Promise.all([apiGetUserData(), apiGetConsultingTypes()])
-				.then(([userProfileData, consultingTypes]) => {
-					// set informal / formal cookie depending on the given userdata
-					setValueInCookie(
-						'useInformal',
-						!userProfileData.formalLanguage ? '1' : ''
-					);
-					setUserData(userProfileData);
-					setConsultingTypes(consultingTypes);
-					setAppReady(true);
-				})
-				.catch((error) => {
-					window.location.href = config.urls.toEntry;
-					console.log(error);
-				});
-		});
-	}
+	useEffect(() => {
+		if (!userDataRequested) {
+			setUserDataRequested(true);
+			handleTokenRefresh().then(() => {
+				Promise.all([apiGetUserData(), apiGetConsultingTypes()])
+					.then(([userProfileData, consultingTypes]) => {
+						// set informal / formal cookie depending on the given userdata
+						setValueInCookie(
+							'useInformal',
+							!userProfileData.formalLanguage ? '1' : ''
+						);
+						setUserData(userProfileData);
+						setConsultingTypes(consultingTypes);
+						setAppReady(true);
+					})
+					.catch((error) => {
+						window.location.href = config.urls.toEntry;
+						console.log(error);
+					});
+			});
+		}
+	}, [userDataRequested, setUserData, setConsultingTypes]);
 
 	useEffect(() => {
 		onAppReady();

@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { apiAgencyLanguages } from '../../api/apiAgencyLanguages';
-import {
-	ActiveSessionGroupIdContext,
-	getActiveSession,
-	SessionsDataContext
-} from '../../globalState';
+import { getActiveSession, SessionsDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 
@@ -19,9 +16,7 @@ interface EnquiryLanguageSelectionProps {
 export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 	({ className = '', fixedLanguages, handleSelection }) => {
 		const { sessionsData } = useContext(SessionsDataContext);
-		const { activeSessionGroupId } = useContext(
-			ActiveSessionGroupIdContext
-		);
+		const { sessionId: sessionIdFromParam } = useParams();
 
 		const [selectedLanguage, setSelectedLanguage] = useState(
 			fixedLanguages[0]
@@ -32,13 +27,18 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			// async wrapper
 			const getLanguagesFromApi = async () => {
 				const activeSession = getActiveSession(
-					activeSessionGroupId,
+					sessionIdFromParam,
 					sessionsData
 				);
 
+				let agencyId = null;
 				if (activeSession) {
-					const agencyId = activeSession.agency.id;
+					agencyId = activeSession.agency.id;
+				} else if (sessionsData?.mySessions.length === 1) {
+					agencyId = sessionsData.mySessions[0].agency.id;
+				}
 
+				if (agencyId) {
 					const response = await apiAgencyLanguages(agencyId).catch(
 						() => {
 							/* intentional, falls back to fixed languages */
@@ -52,7 +52,7 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			};
 
 			getLanguagesFromApi();
-		}, [sessionsData, activeSessionGroupId]);
+		}, [sessionsData, sessionIdFromParam]);
 
 		const selectLanguage = (isoCode) => {
 			setSelectedLanguage(isoCode);

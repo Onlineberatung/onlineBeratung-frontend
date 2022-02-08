@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {
 	typeIsSession,
 	typeIsTeamSession,
@@ -13,7 +14,6 @@ import {
 	hasUserAuthority
 } from '../../globalState';
 import { SessionsList } from './SessionsList';
-import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
 

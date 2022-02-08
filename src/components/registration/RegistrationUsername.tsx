@@ -9,7 +9,10 @@ import {
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import {
 	AccordionItemValidity,
-	MIN_USERNAME_LENGTH
+	MIN_USERNAME_LENGTH,
+	VALIDITY_INITIAL,
+	VALIDITY_INVALID,
+	VALIDITY_VALID
 } from './registrationHelpers';
 import { Text } from '../text/Text';
 
@@ -19,27 +22,32 @@ interface RegistrationUsernameProps {
 	onValidityChange: Function;
 }
 
-export const RegistrationUsername = (props: RegistrationUsernameProps) => {
+export const RegistrationUsername = ({
+	isUsernameAlreadyInUse,
+	onUsernameChange,
+	onValidityChange
+}: RegistrationUsernameProps) => {
 	const [username, setUsername] = useState<string>('');
-	const [isValid, setIsValid] = useState<AccordionItemValidity>('initial');
+	const [isValid, setIsValid] =
+		useState<AccordionItemValidity>(VALIDITY_INITIAL);
 	const [labelContent, setLabelContent] = useState<string>(null);
 	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
 
 	useEffect(() => {
-		if (props.isUsernameAlreadyInUse) {
-			setIsValid('invalid');
-			setLabelState('invalid');
+		if (isUsernameAlreadyInUse) {
+			setIsValid(VALIDITY_INVALID);
+			setLabelState(VALIDITY_INVALID);
 			setLabelContent(translate('registration.user.unavailable'));
 		}
-	}, [props.isUsernameAlreadyInUse]);
+	}, [isUsernameAlreadyInUse]);
 
 	useEffect(() => {
-		props.onUsernameChange(username);
-	}, [username, props]);
+		onUsernameChange(username);
+	}, [username]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		props.onValidityChange(isValid);
-	}, [isValid, props]);
+		onValidityChange(isValid);
+	}, [isValid]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const inputItemUsername: InputFieldItem = {
 		content: username,
@@ -61,15 +69,15 @@ export const RegistrationUsername = (props: RegistrationUsernameProps) => {
 
 	const validateUsername = (username) => {
 		if (username.length >= MIN_USERNAME_LENGTH) {
-			setIsValid('valid');
-			setLabelState('valid');
+			setIsValid(VALIDITY_VALID);
+			setLabelState(VALIDITY_VALID);
 			setLabelContent(translate('registration.user.suitable'));
 		} else if (username.length > 0) {
-			setIsValid('invalid');
-			setLabelState('invalid');
+			setIsValid(VALIDITY_INVALID);
+			setLabelState(VALIDITY_INVALID);
 			setLabelContent(translate('registration.user.unsuitable'));
 		} else {
-			setIsValid('initial');
+			setIsValid(VALIDITY_INITIAL);
 			setLabelState(null);
 			setLabelContent(null);
 		}
