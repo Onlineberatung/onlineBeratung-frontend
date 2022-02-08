@@ -88,14 +88,23 @@ const hasJsxRuntime = (() => {
 
 const localAliases = (paths) =>
 	paths
-		.map((localPath) => [
-			path.resolve(__dirname, `../${localPath}`),
-			path.resolve(process.cwd(), `./${localPath}`)
-		])
-		.reduce((aliases, [requestedPath, resolvedPath]) => {
-			aliases[requestedPath] = resolvedPath;
-			return aliases;
-		}, {});
+		// Remove paths which are not overridden
+		.filter((localPath) => {
+			const fullPath = path.resolve(process.cwd(), `./${localPath}`);
+			try {
+				fs.statSync(fullPath);
+				return true;
+			} catch (error) {
+				return false;
+			}
+		})
+		.map(
+			(localPath) =>
+				new webpack.NormalModuleReplacementPlugin(
+					new RegExp(localPath),
+					path.resolve(process.cwd(), `./${localPath}`)
+				)
+		);
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -350,15 +359,7 @@ module.exports = function (webpackEnv) {
 					'react-dom$': 'react-dom/profiling',
 					'scheduler/tracing': 'scheduler/tracing-profiling'
 				}),
-				...(modules.webpackAliases || {}),
-
-				// When this project is used as a library, resolve these files from the consuming project.
-				// This enables configuration without having to adjust source files.
-				...localAliases([
-					'src/resources/scripts/config',
-					'src/resources/scripts/i18n/defaultLocale',
-					'src/resources/scripts/i18n/informalLocale'
-				])
+				...(modules.webpackAliases || {})
 			},
 			plugins: [
 				// Prevents users from importing files from outside of src/ (or node_modules/).
@@ -843,7 +844,27 @@ module.exports = function (webpackEnv) {
 							})
 						}
 					}
-				})
+				}),
+			...localAliases([
+				'src/resources/scripts/config.ts',
+				'src/resources/scripts/i18n/defaultLocale.ts',
+				'src/resources/scripts/i18n/informalLocale.ts',
+				'src/resources/img/illustrations/answer.svg',
+				'src/resources/img/illustrations/arrow.svg',
+				'src/resources/img/illustrations/bad-request.svg',
+				'src/resources/img/illustrations/baustelle.svg',
+				'src/resources/img/illustrations/check.svg',
+				'src/resources/img/illustrations/consultant.svg',
+				'src/resources/img/illustrations/envelope-check.svg',
+				'src/resources/img/illustrations/envelope-new.svg',
+				'src/resources/img/illustrations/internal-server-error.svg',
+				'src/resources/img/illustrations/not-found.svg',
+				'src/resources/img/illustrations/unauthorized.svg',
+				'src/resources/img/illustrations/waiting.svg',
+				'src/resources/img/illustrations/waving.svg',
+				'src/resources/img/illustrations/welcome.svg',
+				'src/resources/img/illustrations/x.svg'
+			])
 		].filter(Boolean),
 		// Turn off performance processing because we utilize
 		// our own hints via the FileSizeReporter
