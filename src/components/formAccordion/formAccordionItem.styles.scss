@@ -1,3 +1,7 @@
+$form-accordion-item-title-color: $secondary !default;
+$form-accordion-title-font-weight: $font-weight-medium !default;
+$form-accordion-item-input-margin-right: $grid-base-four !default;
+
 .formAccordionItem {
 	width: 100%;
 	border-bottom: 1px solid $black-25-opacity;
@@ -30,7 +34,7 @@
 		font-size: $font-size-h5;
 		font-weight: $font-weight-regular;
 		line-height: $line-height-primary;
-		color: var(--skin-color-secondary, $secondary);
+		color: $form-accordion-item-title-color;
 		text-align: left;
 	}
 
@@ -54,9 +58,14 @@
 		display: none;
 		margin-bottom: $grid-base-three;
 
+		.text,
+		.button__wrapper {
+			margin-left: $registration-form-margin-left;
+		}
+
 		.inputField {
 			margin-top: $grid-base-three;
-			margin-right: $grid-base-four;
+			margin-right: $form-accordion-item-input-margin-right;
 			max-width: 360px;
 		}
 	}
@@ -72,13 +81,13 @@
 
 	&--active & {
 		&__index {
-			background-color: $form-accordion-index-background-active;
+			background: $form-accordion-index-background-active;
 			border: none;
 			color: $form-accordion-index-color-active;
 		}
 
 		&__title {
-			font-weight: $font-weight-medium;
+			font-weight: $form-accordion-title-font-weight;
 		}
 
 		&__content {
