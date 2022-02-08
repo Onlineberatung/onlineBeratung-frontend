@@ -15,24 +15,25 @@ export const apiPutTwoFactorAuthApp = async (body: {
 	});
 };
 
-export const apiGetTwoFactorAuthEmail = async (mail: string): Promise<any> => {
-	const url = config.endpoints.twoFactorAuthEmail + '?email=' + mail;
+export const apiPutTwoFactorAuthEmail = async (email: string): Promise<any> => {
+	const url = config.endpoints.twoFactorAuthEmail;
 
 	return fetchData({
 		url: url,
-		method: FETCH_METHODS.GET,
+		method: FETCH_METHODS.PUT,
+		bodyData: JSON.stringify({ email }),
 		responseHandling: [FETCH_ERRORS.BAD_REQUEST]
 	});
 };
 
-export const apiGetTwoFactorAuthEmailWithCode = async (
+export const apiPostTwoFactorAuthEmailWithCode = async (
 	code: string
 ): Promise<any> => {
-	const url = config.endpoints.twoFactorAuthEmail + '/' + code;
+	const url = config.endpoints.twoFactorAuthEmail + '/validate/' + code;
 
 	return fetchData({
 		url: url,
-		method: FETCH_METHODS.GET,
+		method: FETCH_METHODS.POST,
 		responseHandling: [FETCH_ERRORS.BAD_REQUEST]
 	});
 };

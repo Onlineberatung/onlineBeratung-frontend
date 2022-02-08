@@ -23,8 +23,8 @@ import { ReactComponent as UrlIcon } from '../../resources/img/icons/url.svg';
 import { ReactComponent as CheckIcon } from '../../resources/img/icons/checkmark.svg';
 import {
 	apiDeleteTwoFactorAuth,
-	apiGetTwoFactorAuthEmail,
-	apiGetTwoFactorAuthEmailWithCode,
+	apiPutTwoFactorAuthEmail,
+	apiPostTwoFactorAuthEmailWithCode,
 	apiGetUserData,
 	apiPutTwoFactorAuthApp,
 	FETCH_ERRORS
@@ -141,7 +141,7 @@ export const TwoFactorAuth = () => {
 			};
 		}
 		if (twoFactorType === TWO_FACTOR_TYPES.MAIL) {
-			apiCall = apiGetTwoFactorAuthEmailWithCode;
+			apiCall = apiPostTwoFactorAuthEmailWithCode;
 			apiData = otp;
 		}
 
@@ -492,7 +492,7 @@ export const TwoFactorAuth = () => {
 	};
 
 	const sendEmailActivationCode = async (triggerNextStep) => {
-		await apiGetTwoFactorAuthEmail(email)
+		await apiPutTwoFactorAuthEmail(email)
 			.then(() => {
 				triggerNextStep();
 			})
@@ -520,7 +520,7 @@ export const TwoFactorAuth = () => {
 					type: BUTTON_TYPES.SECONDARY
 				},
 				{
-					disabled: !(emailLabelState === 'valid'),
+					disabled: !userData.email && !(emailLabelState === 'valid'),
 					label: translate('twoFactorAuth.overlayButton.next'),
 					function: OVERLAY_FUNCTIONS.NEXT_STEP,
 					type: BUTTON_TYPES.PRIMARY
