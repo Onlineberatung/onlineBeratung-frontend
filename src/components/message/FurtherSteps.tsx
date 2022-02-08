@@ -24,16 +24,11 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
 import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
-import {
-	ActiveSessionGroupIdContext,
-	getActiveSession,
-	ConsultingTypeInterface,
-	SessionsDataContext,
-	UserDataContext
-} from '../../globalState';
+import { ConsultingTypeInterface, UserDataContext } from '../../globalState';
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
 import { isVoluntaryInfoSet } from './messageHelpers';
 import { getChatItemForSession } from '../session/sessionHelpers';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 const addEmailButton: ButtonItem = {
 	label: translate('furtherSteps.emailNotification.button'),
@@ -48,9 +43,7 @@ interface FurtherStepsProps {
 }
 
 export const FurtherSteps = (props: FurtherStepsProps) => {
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);

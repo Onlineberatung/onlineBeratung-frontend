@@ -6,9 +6,6 @@ import {
 	getAddictiveDrugsString
 } from '../../utils/translate';
 import {
-	SessionsDataContext,
-	ActiveSessionGroupIdContext,
-	getActiveSession,
 	getContact,
 	isAnonymousSession,
 	useConsultingType
@@ -19,11 +16,10 @@ import {
 	getUserDataTranslateBase
 } from '../profile/profileHelpers';
 import { Text } from '../text/Text';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 export const AskerInfoData = () => {
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 
 	const consultingType = useConsultingType(

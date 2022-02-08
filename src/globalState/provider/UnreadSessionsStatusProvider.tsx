@@ -1,17 +1,29 @@
 import * as React from 'react';
-import { createContext, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useState } from 'react';
 
-export let UnreadSessionsStatus: string;
+type UnreadSessionsStatusType = {
+	mySessions: number;
+	newDirectMessage: boolean;
+	resetedAnimations: boolean;
+	initialAnimation: boolean;
+};
 
-export const UnreadSessionsStatusContext = createContext<any>(null);
+type UnreadSessionsStatusContextType = {
+	unreadSessionsStatus: UnreadSessionsStatusType;
+	setUnreadSessionsStatus: Dispatch<SetStateAction<UnreadSessionsStatusType>>;
+};
+
+export const UnreadSessionsStatusContext =
+	createContext<UnreadSessionsStatusContextType | null>(null);
 
 export function UnreadSessionsStatusProvider(props) {
-	const [unreadSessionsStatus, setUnreadSessionsStatus] = useState({
-		mySessions: 0,
-		newDirectMessage: false,
-		resetedAnimations: true,
-		initialAnimation: true
-	});
+	const [unreadSessionsStatus, setUnreadSessionsStatus] =
+		useState<UnreadSessionsStatusType>({
+			mySessions: 0,
+			newDirectMessage: false,
+			resetedAnimations: true,
+			initialAnimation: true
+		});
 
 	return (
 		<UnreadSessionsStatusContext.Provider

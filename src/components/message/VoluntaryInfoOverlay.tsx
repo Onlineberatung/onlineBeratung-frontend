@@ -16,11 +16,7 @@ import { SelectDropdown } from '../select/SelectDropdown';
 import { TagSelect } from '../tagSelect/TagSelect';
 import { ReactComponent as SuccessIllustration } from '../../resources/img/illustrations/check.svg';
 import { apiPutSessionData } from '../../api';
-import {
-	ActiveSessionGroupIdContext,
-	getActiveSession,
-	SessionsDataContext
-} from '../../globalState';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 interface VoluntaryInfoOverlayProps {
 	voluntaryComponents: any[];
@@ -28,9 +24,7 @@ interface VoluntaryInfoOverlayProps {
 }
 
 export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [valuesOfGeneratedInputs, setValuesOfGeneratedInputs] =
 		useState<GeneratedInputs | null>(null);

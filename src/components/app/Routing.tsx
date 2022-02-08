@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ComponentType, useContext, useEffect, useMemo } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import {
 	RouterConfigUser,
 	RouterConfigConsultant,
@@ -87,60 +87,67 @@ export const Routing = (props: routingProps) => {
 			<section className="contentWrapper">
 				<Header />
 				<div className="contentWrapper__list">
-					{routerConfig.listRoutes.map(
-						(route: any): JSX.Element => (
-							<Route
-								key={`list-${route.path}`}
-								path={route.path}
-								render={(componentProps) => (
-									<route.component
-										{...componentProps}
-										{...props}
-									/>
-								)}
-							/>
-						)
-					)}
+					<Switch>
+						{routerConfig.listRoutes.map(
+							(route: any): JSX.Element => (
+								<Route
+									key={`list-${route.path}`}
+									path={route.path}
+									render={(componentProps) => (
+										<route.component
+											{...componentProps}
+											{...props}
+										/>
+									)}
+								/>
+							)
+						)}
+					</Switch>
 				</div>
 				<div className="contentWrapper__detail">
-					{routerConfig.detailRoutes.map(
-						(route: any): JSX.Element => (
-							<Route
-								exact
-								key={`detail-${route.path}`}
-								path={route.path}
-								render={(componentProps) => (
-									<route.component
-										{...componentProps}
-										{...props}
-										type={route.type || null}
-									/>
-								)}
-							/>
-						)
-					)}
+					<Switch>
+						{routerConfig.detailRoutes.map(
+							(route: any): JSX.Element => (
+								<Route
+									exact
+									key={`detail-${route.path}`}
+									path={route.path}
+									render={(componentProps) => (
+										<route.component
+											{...componentProps}
+											{...props}
+											type={route.type || null}
+										/>
+									)}
+								/>
+							)
+						)}
+					</Switch>
 
 					{((hasUserProfileRoutes) => {
 						if (hasUserProfileRoutes) {
 							return (
 								<div className="contentWrapper__userProfile">
-									{routerConfig.userProfileRoutes.map(
-										(route: any): JSX.Element => (
-											<Route
-												exact
-												key={`userProfile-${route.path}`}
-												path={route.path}
-												render={(props) => (
-													<route.component
-														{...props}
-														type={
-															route.type || null
-														}
-													/>
-												)}
-											/>
-										)
-									)}
+									<Switch>
+										{routerConfig.userProfileRoutes.map(
+											(route: any): JSX.Element => (
+												<Route
+													exact
+													key={`userProfile-${route.path}`}
+													path={route.path}
+													render={(props) => (
+														<route.component
+															{...props}
+															type={
+																route.type ||
+																null
+															}
+														/>
+													)}
+												/>
+											)
+										)}
+									</Switch>
 								</div>
 							);
 						}
@@ -148,21 +155,23 @@ export const Routing = (props: routingProps) => {
 				</div>
 
 				<div className="contentWrapper__profile">
-					{routerConfig.profileRoutes?.map(
-						(route: any): JSX.Element => (
-							<Route
-								exact
-								key={`profile-${route.path}`}
-								path={route.path}
-								render={() => (
-									<route.component
-										{...props}
-										type={route.type || null}
-									/>
-								)}
-							/>
-						)
-					)}
+					<Switch>
+						{routerConfig.profileRoutes?.map(
+							(route: any): JSX.Element => (
+								<Route
+									exact
+									key={`profile-${route.path}`}
+									path={route.path}
+									render={() => (
+										<route.component
+											{...props}
+											type={route.type || null}
+										/>
+									)}
+								/>
+							)
+						)}
+					</Switch>
 				</div>
 			</section>
 			{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (

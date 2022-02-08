@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useState, useEffect, useMemo } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import {
 	typeIsTeamSession,
 	typeIsEnquiry,
@@ -16,20 +16,19 @@ import { translate } from '../../utils/translate';
 import {
 	SessionsDataContext,
 	ListItemInterface,
-	ActiveSessionGroupIdContext,
 	UserDataContext,
 	AcceptedGroupIdContext,
 	getSessionsDataKeyForSessionType,
 	getActiveSession,
 	UnreadSessionsStatusContext,
 	AUTHORITIES,
-	ACTIVE_SESSION,
 	hasUserAuthority,
 	StoppedGroupChatContext,
 	UserDataInterface,
 	getUnreadMyMessages,
 	UpdateSessionListContext,
-	isAnonymousSession
+	isAnonymousSession,
+	STATUS_EMPTY
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
@@ -68,11 +67,9 @@ interface SessionsListProps {
 export const SessionsList: React.FC<SessionsListProps> = ({
 	defaultLanguage
 }) => {
+	const { rcGroupId: groupIdFromParam } = useParams();
 	const location = useLocation();
 	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
-	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
-		ActiveSessionGroupIdContext
-	);
 	const sessionsContext = useContext(SessionsDataContext);
 	const { sessionsData, setSessionsData } = sessionsContext;
 	const { filterStatus, setFilterStatus } = useContext(FilterStatusContext);
@@ -118,13 +115,11 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
-			resetActiveSession();
 			fetchAskerData(acceptedGroupId, true);
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const activeCreateChat =
-		activeSessionGroupId === ACTIVE_SESSION.CREATE_CHAT;
+	const activeCreateChat = groupIdFromParam === 'createGroupChat';
 
 	/* eslint-disable */
 	useEffect(() => {
@@ -134,8 +129,8 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 		) {
 			fetchAskerData(acceptedGroupId);
 			setAcceptedGroupId(null);
-			setActiveSessionGroupId(null);
 		}
+
 		if (
 			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) &&
@@ -143,7 +138,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 		) {
 			if (activeCreateChat) {
 				setIsActiveSessionCreateChat(true);
-			} else if (!activeSessionGroupId && isActiveSessionCreateChat) {
+			} else if (!groupIdFromParam && isActiveSessionCreateChat) {
 				mobileListView();
 				setIsActiveSessionCreateChat(false);
 				getSessionsListData().catch(() => {});
@@ -321,12 +316,6 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 		}
 	};
 
-	const resetActiveSession = () => {
-		if (window.location.href.indexOf(activeSessionGroupId) === -1) {
-			setActiveSessionGroupId(null);
-		}
-	};
-
 	const showFilter =
 		!typeIsEnquiry(type) &&
 		sessionListTab !== SESSION_LIST_TAB.ARCHIVE &&
@@ -344,7 +333,6 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 		increaseOffset,
 		signal
 	}: GetSessionsListDataInterface = {}): Promise<any> => {
-		resetActiveSession();
 		if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
@@ -417,7 +405,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 				const firstSession = response.sessions[0].session;
 				if (
 					response.sessions.length === 1 &&
-					firstSession?.status === 0
+					firstSession?.status === STATUS_EMPTY
 				) {
 					history.push(`/sessions/user/view/write`);
 				} else if (
@@ -432,8 +420,9 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 				} else {
 					setIsLoading(false);
 					if (newRegisteredSessionId && redirectToEnquiry) {
-						setActiveSessionGroupId(newRegisteredSessionId);
-						history.push(`/sessions/user/view/write`);
+						history.push(
+							`/sessions/user/view/write/${newRegisteredSessionId}`
+						);
 						apiGetUserData()
 							.then((userProfileData: UserDataInterface) => {
 								setUserData(userProfileData);
@@ -475,7 +464,6 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 	const handleSelect = (selectedOption) => {
 		setCurrentOffset(0);
 		setHasNoSessions(false);
-		setActiveSessionGroupId(null);
 		setFilterStatus(selectedOption.value);
 		history.push(getSessionListPathForLocation());
 	};

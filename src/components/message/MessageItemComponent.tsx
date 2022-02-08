@@ -4,16 +4,15 @@ import sanitizeHtml from 'sanitize-html';
 import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
 import {
 	UserDataContext,
-	ActiveSessionGroupIdContext,
-	SessionsDataContext,
-	getActiveSession,
 	hasUserAuthority,
 	AUTHORITIES,
 	ConsultingTypeInterface
 } from '../../globalState';
 import {
 	SESSION_LIST_TYPES,
-	getChatItemForSession
+	getChatItemForSession,
+	isSessionChat,
+	isGroupChat
 } from '../session/sessionHelpers';
 import { ForwardMessage } from './ForwardMessage';
 import { MessageMetaData } from './MessageMetaData';
@@ -34,6 +33,7 @@ import { isVoluntaryInfoSet } from './messageHelpers';
 import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
 import './message.styles';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -99,12 +99,9 @@ export const MessageItemComponent = ({
 	file,
 	isNotRead
 }: MessageItemComponentProps) => {
+	const activeSession = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-
 	const [renderedMessage, setRenderedMessage] = useState<string | null>(null);
 	useEffect((): void => {
 		const rawMessageObject = markdownToDraft(
@@ -173,13 +170,7 @@ export const MessageItemComponent = ({
 
 	const isUserMessage = () =>
 		userId === askerRcId ||
-		(chatItem?.moderators && !chatItem?.moderators?.includes(userId));
-	const showForwardMessage = () =>
-		hasRenderedMessage &&
-		activeSession?.type !== SESSION_LIST_TYPES.ENQUIRY &&
-		chatItem?.feedbackGroupId &&
-		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
-		!activeSession?.isFeedbackSession;
+		(isGroupChat(chatItem) && !chatItem.moderators?.includes(userId));
 
 	const videoCallMessage: VideoCallMessageDTO = alias?.videoCallMessageDTO;
 	const isFurtherStepsMessage =
@@ -270,16 +261,25 @@ export const MessageItemComponent = ({
 								message={renderedMessage}
 							/>
 						)}
-						{showForwardMessage() && (
-							<ForwardMessage
-								right={isMyMessage}
-								message={message}
-								messageTime={messageTime}
-								askerRcId={askerRcId}
-								groupId={chatItem.feedbackGroupId}
-								username={username}
-							/>
-						)}
+						{hasRenderedMessage &&
+							hasUserAuthority(
+								AUTHORITIES.USE_FEEDBACK,
+								userData
+							) &&
+							activeSession?.type !==
+								SESSION_LIST_TYPES.ENQUIRY &&
+							isSessionChat(chatItem) &&
+							chatItem.feedbackGroupId &&
+							!activeSession?.isFeedbackSession && (
+								<ForwardMessage
+									right={isMyMessage}
+									message={message}
+									messageTime={messageTime}
+									askerRcId={askerRcId}
+									groupId={chatItem.feedbackGroupId}
+									username={username}
+								/>
+							)}
 					</div>
 				</>
 			);
