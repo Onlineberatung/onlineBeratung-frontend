@@ -64,8 +64,7 @@ export const config = {
 		userSessionsListView: '/sessions/user/view'
 	},
 	urls: {
-		loginRedirectToRegistrationOverview:
-			'https://www.caritas.de/onlineberatung',
+		toRegistration: 'https://www.caritas.de/onlineberatung',
 		toLogin: '/login',
 		toEntry: '/',
 		redirectToApp: '/' + APP_PATH,

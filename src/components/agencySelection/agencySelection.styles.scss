@@ -40,7 +40,7 @@ $infoIconSize: 16px;
 		text-align: left;
 
 		h3 {
-			color: var(--skin-color-secondary, $secondary);
+			color: $secondary;
 			font-size: $font-size-primary;
 			line-height: $line-height-primary;
 			text-align: left;
