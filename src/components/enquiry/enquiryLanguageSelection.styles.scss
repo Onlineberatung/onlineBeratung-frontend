@@ -1,10 +1,14 @@
 .enquiryLanguageSelection {
-	margin-top: 32px;
+	margin-top: $grid-base;
 	overflow: hidden;
 	width: 100%;
 
+	@include breakpoint($fromMedium) {
+		margin-top: $grid-base-three;
+	}
+
 	@include breakpoint($fromLarge) {
-		margin-top: 48px;
+		margin-top: $grid-base-six;
 	}
 
 	&__tabs {

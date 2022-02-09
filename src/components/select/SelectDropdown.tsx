@@ -124,26 +124,37 @@ const colourStyles = {
 			? {
 					...styles,
 					...common,
-					backgroundColor: 'rgba(0,0,0,0.05) !important'
+					'border': '1px solid rgba(0,0,0,0.2) !important',
+					'backgroundColor': 'transparent !important',
+					'&:hover': {
+						'border': '1px solid rgba(0,0,0,0.2) !important',
+						'backgroundColor': 'transparent !important',
+						'& > .select__input__multi-value__label': {
+							color: 'rgba(0,0,0,0.8) !important'
+						}
+					}
 			  } // important is needed for fixed option to overwrite color from scss
 			: { ...styles, ...common, border: '1px solid transparent' };
 	},
 	multiValueLabel: (styles, state) => {
 		const common = {
-			paddingLeft: '12px',
-			paddingRight: '12px',
-			paddingTop: '4px',
-			paddingBottom: '4px'
+			paddingLeft: '11px',
+			paddingRight: '11px',
+			paddingTop: '3px',
+			paddingBottom: '3px'
 		};
 		return state.data.isFixed
-			? { ...styles, ...common, color: 'rgba(0,0,0,0.2) !important' } // important is needed for fixed option to overwrite color from scss
-			: {
+			? {
 					...styles,
 					...common,
-					paddingRight: '4px',
-					paddingTop: '3px',
-					paddingBottom: '3px',
-					paddingLeft: '11px'
+					'color': 'rgba(0,0,0,0.8) !important',
+					'&:hover': {
+						color: 'rgba(0,0,0,0.8) !important'
+					}
+			  } // important is needed for fixed option to overwrite color from scss
+			: {
+					...styles,
+					...common
 			  };
 	},
 	multiValueRemove: (styles, state) => {
