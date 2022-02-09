@@ -1,4 +1,6 @@
 const furtherSteps = {
+	'consultant.info':
+		'Der_die Ratsuchende wurde folgendermaßen über die nächsten Schritte informiert.',
 	'headline': 'So geht es weiter:',
 	'step1.info': 'Wir haben Ihre Nachricht erhalten.',
 	'step2.info': 'Jetzt finden wir eine_n passende_n Berater_in für Sie.',
