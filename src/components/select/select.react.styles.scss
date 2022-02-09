@@ -59,6 +59,7 @@ $inputHeight: 50px;
 		&__multi-value {
 			// The `!important` annotation is relevant to not be overridden by inline styles.
 			border-radius: $tab-border-radius !important;
+			border-color: $primary !important;
 
 			&__remove {
 				color: $primary;
