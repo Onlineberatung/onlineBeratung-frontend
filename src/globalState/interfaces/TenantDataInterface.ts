@@ -9,7 +9,9 @@ export interface TenantDataInterface {
 		secondaryColor: string;
 	};
 	content: {
-		impressum: string;
+		imprint: string;
+		privacy: string;
+		termsAndConditions: string;
 		claim: string;
 	};
 }
