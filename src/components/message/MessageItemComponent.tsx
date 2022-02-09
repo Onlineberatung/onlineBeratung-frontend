@@ -286,12 +286,7 @@ export const MessageItemComponent = ({
 		}
 	};
 
-	if (
-		isFurtherStepsMessage &&
-		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
-	) {
-		return null;
-	} else if (isUpdateSessionDataMessage && !showAddVoluntaryInfo) {
+	if (isUpdateSessionDataMessage && !showAddVoluntaryInfo) {
 		return null;
 	}
 

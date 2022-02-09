@@ -24,7 +24,12 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
 import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
-import { ConsultingTypeInterface, UserDataContext } from '../../globalState';
+import {
+	AUTHORITIES,
+	ConsultingTypeInterface,
+	hasUserAuthority,
+	UserDataContext
+} from '../../globalState';
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
 import { isVoluntaryInfoSet } from './messageHelpers';
 import { getChatItemForSession } from '../session/sessionHelpers';
@@ -60,11 +65,14 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	const chatItem = getChatItemForSession(activeSession);
 
 	useEffect(() => {
-		const sessionData =
-			userData.consultingTypes[props.consultingType].sessionData;
-		setShowAddVoluntaryInfo(
-			!isVoluntaryInfoSet(sessionData, props.resortData)
-		);
+		console.log(userData.consultingTypes);
+		if (userData.consultingTypes) {
+			const sessionData =
+				userData.consultingTypes[props.consultingType].sessionData;
+			setShowAddVoluntaryInfo(
+				!isVoluntaryInfoSet(sessionData, props.resortData)
+			);
+		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const emailInputItem: InputFieldItem = {
@@ -182,10 +190,22 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	};
 
 	const showAddEmail = !userData.email;
+	const isConsultant = hasUserAuthority(
+		AUTHORITIES.CONSULTANT_DEFAULT,
+		userData
+	);
+
 	return (
 		<div className="furtherSteps">
 			{!props.onlyShowVoluntaryInfo && (
 				<>
+					{isConsultant && (
+						<Text
+							className="furtherSteps__consultantHint"
+							text={translate('furtherSteps.consultant.info')}
+							type="infoLargeStandard"
+						/>
+					)}
 					<Headline
 						semanticLevel="4"
 						text={translate('furtherSteps.headline')}
@@ -228,7 +248,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 							/>
 						</li>
 					</ul>
-					{showAddEmail && (
+					{!isConsultant && showAddEmail && (
 						<>
 							<Headline
 								semanticLevel="5"
@@ -263,7 +283,8 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 					)}
 				</>
 			)}
-			{props.resortData?.voluntaryComponents &&
+			{!isConsultant &&
+				props.resortData?.voluntaryComponents &&
 				props.resortData.voluntaryComponents.length > 0 &&
 				showAddVoluntaryInfo && (
 					<>
