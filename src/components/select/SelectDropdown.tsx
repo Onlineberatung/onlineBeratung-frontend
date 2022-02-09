@@ -154,7 +154,8 @@ const colourStyles = {
 			  } // important is needed for fixed option to overwrite color from scss
 			: {
 					...styles,
-					...common
+					...common,
+					paddingRight: '4px'
 			  };
 	},
 	multiValueRemove: (styles, state) => {
