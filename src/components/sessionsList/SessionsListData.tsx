@@ -76,6 +76,7 @@ export const getConsultantSessions = (
 						  }
 						: { enquiries: fetchedSessions }
 					: null;
+
 			const teamSessionsList =
 				fetchedSessions && typeIsTeamSession(type)
 					? increaseOffset
@@ -89,6 +90,7 @@ export const getConsultantSessions = (
 						  }
 						: { teamSessions: fetchedSessions }
 					: null;
+
 			apiGetConsultantSessionList({
 				type: SESSION_LIST_TYPES.MY_SESSION,
 				filter: 'all',
