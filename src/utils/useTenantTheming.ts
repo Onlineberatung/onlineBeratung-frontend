@@ -146,6 +146,7 @@ const getOrCreateHeadNode = (
 				node.setAttribute(key, value);
 			});
 		}
+		document.head.appendChild(node);
 	}
 
 	return node;
