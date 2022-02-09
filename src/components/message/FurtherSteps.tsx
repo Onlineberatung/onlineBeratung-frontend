@@ -65,7 +65,6 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	const chatItem = getChatItemForSession(activeSession);
 
 	useEffect(() => {
-		console.log(userData.consultingTypes);
 		if (userData.consultingTypes) {
 			const sessionData =
 				userData.consultingTypes[props.consultingType].sessionData;
