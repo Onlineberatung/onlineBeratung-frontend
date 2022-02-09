@@ -10,6 +10,8 @@ export interface TenantDataInterface {
 	};
 	content: {
 		impressum: string;
+		privacy: string;
+		termsAndConditions: string;
 		claim: string;
 	};
 }
