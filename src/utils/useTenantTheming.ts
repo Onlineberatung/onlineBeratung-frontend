@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { apiGetTenantTheming } from '../api/apiGetTenantTheming';
 import { TenantContext } from '../globalState';
+import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 import { config } from '../resources/scripts/config';
 import getLocationVariables from './getLocationVariables';
 
@@ -128,6 +129,68 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 	);
 };
 
+const getOrCreateHeadNode = (
+	tagName: string,
+	attributes?: Record<string, string>
+) => {
+	let selector = tagName;
+	if (attributes) {
+		selector += '[';
+		selector += Object.entries(attributes)
+			.map(([key, value]) => `${key}="${value}"`)
+			.join(' ');
+		selector += ']';
+	}
+
+	let node = document.querySelector(selector);
+	if (!node) {
+		node = document.createElement(tagName);
+		if (attributes) {
+			Object.entries(attributes).forEach(([key, value]) => {
+				node.setAttribute(key, value);
+			});
+		}
+		document.head.appendChild(node);
+	}
+
+	return node;
+};
+
+const applyTheming = (tenant: TenantDataInterface) => {
+	if (tenant.theming) {
+		injectCss(tenant.theming);
+
+		getOrCreateHeadNode('meta', { name: 'theme-color' }).setAttribute(
+			'content',
+			tenant.theming.primaryColor
+		);
+
+		if (tenant.theming.favicon) {
+			getOrCreateHeadNode('link', { rel: 'icon' }).setAttribute(
+				'href',
+				tenant.theming.favicon
+			);
+		}
+	}
+
+	if (tenant.name) {
+		getOrCreateHeadNode('title').textContent = tenant.name;
+		getOrCreateHeadNode('meta', { property: 'og:title' }).setAttribute(
+			'content',
+			tenant.name
+		);
+	}
+	if (tenant.content?.claim) {
+		getOrCreateHeadNode('meta', { name: 'description' }).setAttribute(
+			'content',
+			tenant.content.claim
+		);
+		getOrCreateHeadNode('meta', {
+			property: 'og:description'
+		}).setAttribute('content', tenant.content.claim);
+	}
+};
+
 const useTenantTheming = () => {
 	const tenantContext = useContext(TenantContext);
 	const { subdomain } = getLocationVariables();
@@ -143,10 +206,7 @@ const useTenantTheming = () => {
 
 		apiGetTenantTheming({ subdomain })
 			.then((tenant) => {
-				if (tenant?.theming) {
-					injectCss(tenant.theming);
-				}
-
+				applyTheming(tenant);
 				tenantContext?.setTenant(tenant);
 			})
 			.catch((error) => {
