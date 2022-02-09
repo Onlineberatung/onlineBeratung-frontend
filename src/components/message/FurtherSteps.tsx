@@ -282,8 +282,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 					)}
 				</>
 			)}
-			{!isConsultant &&
-				props.resortData?.voluntaryComponents &&
+			{props.resortData?.voluntaryComponents &&
 				props.resortData.voluntaryComponents.length > 0 &&
 				showAddVoluntaryInfo && (
 					<>
