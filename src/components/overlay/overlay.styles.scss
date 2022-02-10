@@ -1,5 +1,5 @@
 $iconSizeXS: 24px;
-$stepsBreakpoint: 400px;
+$stepsBreakpoint: 560px;
 $illustrationSize: 120px;
 $illustrationSizeLarge: 80px;
 $iconSize: 56px;
@@ -46,8 +46,12 @@ $iconSizeLarge: 48px;
 		border-radius: 4px;
 		text-align: $overlay-text-align;
 		margin: auto;
-		padding: $grid-base-six $grid-base-three;
+		padding: $grid-base-eight $grid-base-three $grid-base-six;
 		overflow: scroll;
+
+		@include breakpoint($fromMedium) {
+			padding: $grid-base-six $grid-base-three;
+		}
 
 		@include breakpoint($fromLarge) {
 			width: 100%;
@@ -111,7 +115,7 @@ $iconSizeLarge: 48px;
 				content: '';
 				border-top: 1px solid $form-disabled;
 				margin: $iconSizeXS $grid-base $iconSizeXS;
-				width: 40px;
+				width: 30px;
 
 				@include breakpoint($stepsBreakpoint) {
 					margin: $iconSizeXS -14px $iconSizeXS;

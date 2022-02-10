@@ -3,7 +3,10 @@ const twoFactorAuthInformal = {
 		'Nutze eine weitere App für die Anmeldung mit Deinem Caritas Konto. Dadurch ist Dein Konto sicherer vor einem möglichen unbefugtem Zugriff.',
 	'activate.step1.title': 'Wähle eine Methode aus',
 	'activate.step1.copy':
-		'Hier steht ein toller Erklärungstext... lorem ipsum....',
+		'Möchtest Du Dein Konto mit einer App oder mit Deiner E-Mail Adresse zusätzlich schützen?',
+	'activate.email.step3.copy.1': 'Wir haben Dir gerade eine E-Mail an',
+	'activate.email.step3.copy.2':
+		'geschickt. Bitte gib den Code aus der E-Mail hier ein.',
 	'activate.app.step2.title': 'Installiere Dir die App',
 	'activate.app.step2.copy':
 		'Installiere Dir FreeOTP oder Google Authentificator auf Deinem Smartphone oder Tablet. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
@@ -17,7 +20,9 @@ const twoFactorAuthInformal = {
 	'activate.app.step4.copy':
 		'Gib den Einmal-Code ein, der von der App generiert wird und klicke auf „Speichern“, um die Einrichtung abzuschließen.',
 	'activate.app.step4.input.label.error':
-		'Die Authentifizierung fehlgeschlagen. Bitte wiederhole den Vorgang.'
+		'Die Authentifizierung fehlgeschlagen. Bitte wiederhole den Vorgang.',
+	'activate.email.input.info':
+		'Du kannst nur eine E-Mail Adresse bei uns hinterlegen. Falls Du die E-Mail Adresse hier änderst, erhältst Du auf diese E-Mail Adresse zukünftig auch die Benachrichtigungen.'
 };
 
 export default twoFactorAuthInformal;

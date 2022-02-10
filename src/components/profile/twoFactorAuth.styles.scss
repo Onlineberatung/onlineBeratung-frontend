@@ -108,16 +108,49 @@
 	}
 
 	&__selectType {
-		margin: $grid-base-two;
+		margin-top: $grid-base-three;
 		width: 100%;
+	}
+
+	&__radioWrapper {
+		margin-top: $grid-base-two;
 		display: flex;
-		justify-content: space-around;
+		max-width: 360px;
+
+		.radioButton {
+			min-height: auto;
+			margin-left: 0;
+		}
+		.radioButton__contentWrapper {
+			align-items: center;
+		}
+	}
+
+	&__emailCode {
+		text-align: left;
+
+		p {
+			margin: 0;
+			font-size: 14px;
+			font-weight: bold;
+		}
 
 		button {
-			&.is-active {
-				background-color: $background-accent;
-				color: $primary;
-			}
+			border: none;
+			background-color: transparent;
+			padding: 0;
+			font-size: 14px;
+			text-decoration: underline;
+			color: $primary;
+		}
+	}
+
+	&__emailConfirmation {
+		svg {
+			max-width: 240px;
+		}
+		.headline {
+			text-align: center;
 		}
 	}
 }

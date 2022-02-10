@@ -21,6 +21,7 @@ import { ReactComponent as DownloadIcon } from '../../resources/img/icons/downlo
 import { ReactComponent as AddIcon } from '../../resources/img/icons/add.svg';
 import { ReactComponent as UrlIcon } from '../../resources/img/icons/url.svg';
 import { ReactComponent as CheckIcon } from '../../resources/img/icons/checkmark.svg';
+import { ReactComponent as IlluCheck } from '../../resources/img/illustrations/check.svg';
 import {
 	apiDeleteTwoFactorAuth,
 	apiPutTwoFactorAuthEmail,
@@ -31,11 +32,15 @@ import {
 } from '../../api';
 import './twoFactorAuth.styles';
 import { isStringValidEmail } from '../registration/registrationHelpers';
+import { LockIcon } from '../../resources/img/icons';
+import { RadioButton } from '../radioButton/RadioButton';
+import { Tooltip } from '../tooltip/Tooltip';
+import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
 
 export const OTP_LENGTH = 6;
 
 export const TWO_FACTOR_TYPES = {
-	MAIL: 'MAIL',
+	EMAIL: 'EMAIL',
 	APP: 'APP',
 	NONE: 'NONE'
 };
@@ -88,7 +93,7 @@ export const TwoFactorAuth = () => {
 		setOtpLabel(defaultOtpLabel);
 		setOtpLabelState(null);
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
-		setTwoFactorType('');
+		setTwoFactorType(TWO_FACTOR_TYPES.NONE);
 	};
 
 	const otpInputItem: InputFieldItem = {
@@ -140,7 +145,7 @@ export const TwoFactorAuth = () => {
 				initialCode: otp
 			};
 		}
-		if (twoFactorType === TWO_FACTOR_TYPES.MAIL) {
+		if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
 			apiCall = apiPostTwoFactorAuthEmailWithCode;
 			apiData = otp;
 		}
@@ -152,7 +157,9 @@ export const TwoFactorAuth = () => {
 			setOtpInputInfo('');
 			apiCall(apiData)
 				.then(() => {
-					setOverlayActive(false);
+					if (twoFactorType === TWO_FACTOR_TYPES.APP) {
+						setOverlayActive(false);
+					}
 					setIsRequestInProgress(false);
 					updateUserData();
 				})
@@ -177,32 +184,44 @@ export const TwoFactorAuth = () => {
 	const selectTwoFactorTypeButtons = (): JSX.Element => {
 		return (
 			<div className="twoFactorAuth__selectType">
-				{/* TODO Change Button */}
-				<button
-					className={
-						twoFactorType === TWO_FACTOR_TYPES.MAIL
-							? 'is-active'
-							: ''
-					}
-					onClick={() => {
-						setTwoFactorType(TWO_FACTOR_TYPES.MAIL);
-					}}
-				>
-					<AddIcon />{' '}
-					{translate('twoFactorAuth.activate.step1.email')}{' '}
-				</button>
-				<button
-					className={
-						twoFactorType === TWO_FACTOR_TYPES.APP
-							? 'is-active'
-							: ''
-					}
-					onClick={() => {
-						setTwoFactorType(TWO_FACTOR_TYPES.APP);
-					}}
-				>
-					<AddIcon /> {translate('twoFactorAuth.activate.step1.app')}
-				</button>
+				<div className="twoFactorAuth__radioWrapper">
+					<RadioButton
+						checked={twoFactorType === TWO_FACTOR_TYPES.APP}
+						handleRadioButton={() => {
+							setTwoFactorType(TWO_FACTOR_TYPES.APP);
+						}}
+						label={translate(
+							'twoFactorAuth.activate.radio.label.app'
+						)}
+						inputId="radio_2fa_app"
+						name="radio_2fa"
+						type="default"
+						value={TWO_FACTOR_TYPES.APP}
+					></RadioButton>
+					<Tooltip icon="info">
+						{translate('twoFactorAuth.activate.radio.tooltip.app')}
+					</Tooltip>
+				</div>
+				<div className="twoFactorAuth__radioWrapper">
+					<RadioButton
+						checked={twoFactorType === TWO_FACTOR_TYPES.EMAIL}
+						handleRadioButton={() => {
+							setTwoFactorType(TWO_FACTOR_TYPES.EMAIL);
+						}}
+						label={translate(
+							'twoFactorAuth.activate.radio.label.email'
+						)}
+						inputId="radio_2fa_email"
+						name="radio_2fa"
+						type="default"
+						value={TWO_FACTOR_TYPES.EMAIL}
+					></RadioButton>
+					<Tooltip icon="info">
+						{translate(
+							'twoFactorAuth.activate.radio.tooltip.email'
+						)}
+					</Tooltip>
+				</div>
 			</div>
 		);
 	};
@@ -212,7 +231,7 @@ export const TwoFactorAuth = () => {
 			headline: translate('twoFactorAuth.activate.step1.title'),
 			copy: translate('twoFactorAuth.activate.step1.copy'),
 			step: {
-				icon: AddIcon,
+				icon: LockIcon,
 				label: translate(
 					'twoFactorAuth.activate.step1.visualisation.label'
 				)
@@ -235,6 +254,14 @@ export const TwoFactorAuth = () => {
 				icon: AddIcon,
 				label: translate(
 					'twoFactorAuth.activate.skeleton.step2.visualisation.label'
+				)
+			}
+		},
+		{
+			step: {
+				icon: UrlIcon,
+				label: translate(
+					'twoFactorAuth.activate.skeleton.step3.visualisation.label'
 				)
 			}
 		},
@@ -469,23 +496,18 @@ export const TwoFactorAuth = () => {
 
 	const emailSelection = (): JSX.Element => {
 		return (
-			<div className="twoFactorAuth__mailSelection">
-				{userData.email ? (
-					<>
-						<p>Deine Mail {userData.email}</p>
-						<p>Da schicken wir eine Mail hin.</p>
-					</>
-				) : (
-					<>
-						<p>Keine E-Mail hinterlegt.</p>
-						<p>
-							Bitte eine eingeben:{' '}
-							<InputField
-								item={emailInputItem}
-								inputHandle={(e) => handleEmailChange(e)}
-							/>
-						</p>
-					</>
+			<div className="twoFactorAuth__emailSelection">
+				<InputField
+					item={emailInputItem}
+					inputHandle={(e) => handleEmailChange(e)}
+				/>
+				{userData.email && (
+					<Text
+						type="infoSmall"
+						text={translate(
+							'twoFactorAuth.activate.email.input.info'
+						)}
+					/>
 				)}
 			</div>
 		);
@@ -499,6 +521,29 @@ export const TwoFactorAuth = () => {
 			.catch((e) => {
 				// TODO ADD ERROR HANDLING
 			});
+	};
+
+	const emailCodeInput = (): JSX.Element => {
+		return (
+			<div className="twoFactorAuth__emailCode">
+				<InputField item={otpInputItem} inputHandle={handleOtpChange} />
+				<TwoFactorAuthResendMail
+					resendHandler={sendEmailActivationCode}
+				/>
+			</div>
+		);
+	};
+
+	const emailConfirmation = (): JSX.Element => {
+		return (
+			<div className="twoFactorAuth__emailConfirmation">
+				<IlluCheck />
+				<Headline
+					text={translate('twoFactorAuth.activate.email.step4.title')}
+					semanticLevel="3"
+				/>
+			</div>
+		);
 	};
 
 	const twoFactorAuthStepsOverlayMail: OverlayItem[] = [
@@ -515,42 +560,59 @@ export const TwoFactorAuth = () => {
 			handleNextStep: sendEmailActivationCode,
 			buttonSet: [
 				{
-					label: translate('twoFactorAuth.overlayButton.back'),
-					function: OVERLAY_FUNCTIONS.PREV_STEP,
-					type: BUTTON_TYPES.SECONDARY
-				},
-				{
 					disabled: !userData.email && !(emailLabelState === 'valid'),
 					label: translate('twoFactorAuth.overlayButton.next'),
 					function: OVERLAY_FUNCTIONS.NEXT_STEP,
 					type: BUTTON_TYPES.PRIMARY
+				},
+				{
+					label: translate('twoFactorAuth.overlayButton.back'),
+					function: OVERLAY_FUNCTIONS.PREV_STEP,
+					type: BUTTON_TYPES.SECONDARY
 				}
 			]
 		},
 		{
 			headline: translate('twoFactorAuth.activate.email.step3.title'),
-			copy: translate('twoFactorAuth.activate.email.step3.copy'),
-
-			nestedComponent: (
-				<InputField item={otpInputItem} inputHandle={handleOtpChange} />
-			),
+			copy: `${translate(
+				'twoFactorAuth.activate.email.step3.copy.1'
+			)} <strong>${email}</strong> ${translate(
+				'twoFactorAuth.activate.email.step3.copy.2'
+			)}`,
+			nestedComponent: emailCodeInput(),
 			buttonSet: [
+				{
+					disabled: otpLabelState !== 'valid',
+					label: translate('twoFactorAuth.overlayButton.confirm'),
+					type: BUTTON_TYPES.PRIMARY
+				},
 				{
 					label: translate('twoFactorAuth.overlayButton.back'),
 					function: OVERLAY_FUNCTIONS.PREV_STEP,
 					type: BUTTON_TYPES.SECONDARY
-				},
-				{
-					disabled: otpLabelState !== 'valid',
-					label: translate('twoFactorAuth.overlayButton.save'),
-					type: BUTTON_TYPES.PRIMARY
 				}
 			],
 			handleOverlay: activateTwoFactorAuthByType,
 			step: {
-				icon: CheckIcon,
+				icon: UrlIcon,
 				label: translate(
 					'twoFactorAuth.activate.email.step3.visualisation.label'
+				)
+			}
+		},
+		{
+			nestedComponent: emailConfirmation(),
+			buttonSet: [
+				{
+					label: translate('twoFactorAuth.overlayButton.close'),
+					function: OVERLAY_FUNCTIONS.CLOSE_SUCCESS,
+					type: BUTTON_TYPES.AUTO_CLOSE
+				}
+			],
+			step: {
+				icon: CheckIcon,
+				label: translate(
+					'twoFactorAuth.activate.email.step4.visualisation.label'
 				)
 			}
 		}
@@ -564,7 +626,7 @@ export const TwoFactorAuth = () => {
 
 	const setOverlayByType = () => {
 		switch (twoFactorType) {
-			case TWO_FACTOR_TYPES.MAIL:
+			case TWO_FACTOR_TYPES.EMAIL:
 				setOverlayItems([
 					...twoFactorAuthStepsOverlayStart,
 					...twoFactorAuthStepsOverlayMail
@@ -623,6 +685,12 @@ export const TwoFactorAuth = () => {
 					type="standard"
 				/>
 			</label>
+			{isSwitchChecked && ( // TODO
+				<p>
+					<strong>Ihr 2. Faktor:</strong>{' '}
+					{userData.twoFactorAuth.type} {userData.email}
+				</p>
+			)}
 			{overlayActive ? (
 				<OverlayWrapper>
 					<Overlay

@@ -1,24 +1,33 @@
 const twoFactorAuth = {
 	'title': '2-Faktor-Authentifizierung',
 	'subtitle':
-		'Nutzen Sie eine weitere App für die Anmeldung mit Ihrem Caritas Konto. Dadurch ist Ihr Konto sicherer vor einem möglichen unbefugtem Zugriff.',
+		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online Bratung',
 	'switch.active.label': '2-Faktor-Authentifizierung aktiviert',
 	'switch.deactive.label': '2-Faktor-Authentifizierung deaktiviert',
 	'activate.step1.email': 'Per E-Mail',
 	'activate.step1.app': 'Mit Authencator Application',
-	'activate.step1.title': 'Wählen Sie eine Methode aus',
+	'activate.step1.title': '2. Faktor wählen',
 	'activate.step1.copy':
-		'Hier steht ein toller Erklärungstext... lorem ipsum....',
+		'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail Adresse zusätzlich schützen?',
 	'activate.step1.visualisation.label': 'Auswahl',
-	'activate.skeleton.step2.visualisation.label': '...',
-	'activate.skeleton.step3.visualisation.label': '...',
+	'activate.radio.label.app': 'App',
+	'activate.radio.label.email': 'E-Mail-Adresse',
+	'activate.radio.tooltip.app': 'App Tooltip', // TODO
+	'activate.radio.tooltip.email': 'E-Mail-Adresse Tooltip', // TODO
+	'activate.skeleton.step2.visualisation.label': '...', // TODO
+	'activate.skeleton.step3.visualisation.label': '...', // TODO
 	'activate.skeleton.step4.visualisation.label': 'Bestätigung',
-	'activate.email.step2.title': 'E-Mail Step 2', // TODO
-	'activate.email.step2.copy': 'Copy Step 2', // TODO
-	'activate.email.step2.visualisation.label': 'Label Step 2', // TODO
-	'activate.email.step3.title': 'E-Mail Step 3', // TODO
-	'activate.email.step3.copy': 'Copy Step 3', // TODO
-	'activate.email.step3.visualisation.label': 'Bestätigung',
+	'activate.email.step2.title': 'E-Mail Adresse angeben',
+	'activate.email.step2.copy': 'Bitte geben Sie hier Ihre E-Mail Adresse an.',
+	'activate.email.step2.visualisation.label': 'Eingabe', // TODO
+	'activate.email.step3.title': 'E-Mail Adresse bestätigen',
+	'activate.email.step3.copy.1': 'Wir haben Ihnen gerade eine E-Mail an',
+	'activate.email.step3.copy.2':
+		'geschickt. Bitte geben Sie den Code aus der E-Mail hier ein.',
+	'activate.email.step3.visualisation.label': 'Verknüpfung',
+	'activate.email.step4.title':
+		'E-Mail Authentifizierung erfolgreich eingerichtet.',
+	'activate.email.step4.visualisation.label': 'Bestätigung',
 	'activate.app.step2.title': 'Installieren Sie sich die App',
 	'activate.app.step2.copy':
 		'Installieren Sie sich FreeOTP oder Google Authentificator auf Ihrem Smartphone oder Tablet. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
@@ -55,9 +64,16 @@ const twoFactorAuth = {
 	'overlayButton.next': 'Weiter',
 	'overlayButton.back': 'Zurück',
 	'overlayButton.save': 'Speichern',
-	'activate.email.input.label': 'E-Mail-Adresse',
-	'activate.email.input.valid': 'E-Mail-Adresse',
-	'activate.email.input.invalid': 'E-Mail-Adresse ungültig'
+	'overlayButton.close': 'Schliessen',
+	'overlayButton.confirm': 'Bestätigen',
+	'activate.email.input.label': 'E-Mail Adresse angeben',
+	'activate.email.input.valid': 'E-Mail Adresse angeben',
+	'activate.email.input.invalid': 'E-Mail-Adresse ungültig',
+	'activate.email.input.info':
+		'Sie können nur eine E-Mail Adresse bei uns hinterlegen. Falls Sie die E-Mail Adresse hier ändern, erhalten Sie auf diese E-Mail Adresse zukünftig auch die Benachrichtigungen.',
+	'activate.email.resend.hint': 'Es hat nicht funktioniert?',
+	'activate.email.resend.new': 'Neuen Code senden',
+	'activate.email.resend.sent': 'Neuer Code gesendet'
 };
 
 export default twoFactorAuth;

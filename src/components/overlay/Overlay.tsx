@@ -107,6 +107,11 @@ export const Overlay = (props: {
 			props.handleOverlay(buttonFunction);
 		} else if (activeOverlay.handleOverlay) {
 			activeOverlay.handleOverlay(buttonFunction);
+		} else if (
+			buttonFunction === OVERLAY_FUNCTIONS.CLOSE ||
+			buttonFunction === OVERLAY_FUNCTIONS.CLOSE_SUCCESS
+		) {
+			props.handleOverlayClose();
 		}
 	};
 
