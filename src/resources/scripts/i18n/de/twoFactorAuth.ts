@@ -71,7 +71,9 @@ const twoFactorAuth = {
 	'activate.email.input.invalid': 'E-Mail-Adresse ungültig',
 	'activate.email.input.info':
 		'Sie können nur eine E-Mail Adresse bei uns hinterlegen. Falls Sie die E-Mail Adresse hier ändern, erhalten Sie auf diese E-Mail Adresse zukünftig auch die Benachrichtigungen.',
-	'activate.email.resend.hint': 'Es hat nicht funktioniert?',
+	'activate.email.resend.hint':
+		'Wir haben Ihnen einen Code an Ihre E-Mail Adresse geschickt. Bitte geben Sie den Code ein.',
+	'activate.email.resend.headline': 'Es hat nicht funktioniert?',
 	'activate.email.resend.new': 'Neuen Code senden',
 	'activate.email.resend.sent': 'Neuer Code gesendet'
 };

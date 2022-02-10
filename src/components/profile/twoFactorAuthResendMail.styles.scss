@@ -1,0 +1,17 @@
+.twoFactorAuthResendMail {
+	text-align: left;
+
+	.bold {
+		margin: 0;
+		font-weight: bold;
+	}
+
+	button {
+		border: none;
+		background-color: transparent;
+		padding: 0;
+		font-size: 14px;
+		text-decoration: underline;
+		color: $primary;
+	}
+}

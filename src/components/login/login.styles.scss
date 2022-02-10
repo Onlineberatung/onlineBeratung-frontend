@@ -66,4 +66,13 @@ $spacingWithIcon: 52px;
 			margin-top: $grid-base-two;
 		}
 	}
+
+	&__emailHint {
+		width: 280px;
+		margin-bottom: $grid-base-three;
+
+		@include breakpoint($fromLarge) {
+			width: 320px;
+		}
+	}
 }

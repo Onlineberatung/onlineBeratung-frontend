@@ -25,7 +25,7 @@ import {
 	apiRegistrationNewConsultingTypes,
 	FETCH_ERRORS
 } from '../../api';
-import { OTP_LENGTH } from '../profile/TwoFactorAuth';
+import { OTP_LENGTH, TWO_FACTOR_TYPES } from '../profile/TwoFactorAuth';
 import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
@@ -55,6 +55,7 @@ import {
 	UserDataInterface
 } from '../../globalState';
 import { history } from '../app/app';
+import { TwoFactorAuthResendMail } from '../profile/TwoFactorAuthResendMail';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -114,7 +115,7 @@ export const Login = ({
 	const [registerOverlayActive, setRegisterOverlayActive] = useState(false);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);
 
-	const [twoFactorType, setTwoFactorType] = useState('app');
+	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.EMAIL);
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -138,9 +139,10 @@ export const Login = ({
 	const otpInputItem: InputFieldItem = {
 		content: otp,
 		id: 'otp',
-		infoText: translate(
-			`login.warning.failed.${twoFactorType}.otp.missing`
-		),
+		infoText:
+			twoFactorType === TWO_FACTOR_TYPES.APP
+				? translate(`login.warning.failed.app.otp.missing`)
+				: '',
 		label: translate('twoFactorAuth.activate.otp.input.label'),
 		name: 'otp',
 		type: 'text',
@@ -377,23 +379,29 @@ export const Login = ({
 				/>
 				<div
 					className={clsx('loginForm__otp', {
-						'loginForm__otp--active': isOtpRequired
+						'loginForm__otp--active': true
 					})}
 				>
+					{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
+						<Text
+							className="loginForm__emailHint"
+							text={translate(
+								'twoFactorAuth.activate.email.resend.hint'
+							)}
+							type="infoLargeAlternative"
+						/>
+					)}
 					<InputField
 						item={otpInputItem}
 						inputHandle={handleOtpChange}
 						keyUpHandle={handleKeyUp}
 					/>
-					{twoFactorType === 'email' && (
-						<a
-							href={'TODO'}
-							target="_blank"
-							rel="noreferrer"
-							className="loginForm__otpEmailResend"
-						>
-							{translate('login.resend.otp.email.label')}
-						</a>
+					{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
+						<TwoFactorAuthResendMail
+							resendHandler={() => {
+								/* TODO */
+							}}
+						/>
 					)}
 				</div>
 				{showLoginError && (
@@ -403,14 +411,16 @@ export const Login = ({
 						className="loginForm__error"
 					/>
 				)}
-				<a
-					href={config.endpoints.loginResetPasswordLink}
-					target="_blank"
-					rel="noreferrer"
-					className="loginForm__passwordReset"
-				>
-					{translate('login.resetPasswort.label')}
-				</a>
+				{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
+					<a
+						href={config.endpoints.loginResetPasswordLink}
+						target="_blank"
+						rel="noreferrer"
+						className="loginForm__passwordReset"
+					>
+						{translate('login.resetPasswort.label')}
+					</a>
+				)}
 
 				<Button
 					item={loginButton}
