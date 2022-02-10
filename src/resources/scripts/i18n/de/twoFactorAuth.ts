@@ -12,14 +12,13 @@ const twoFactorAuth = {
 	'activate.step1.visualisation.label': 'Auswahl',
 	'activate.radio.label.app': 'App',
 	'activate.radio.label.email': 'E-Mail-Adresse',
-	'activate.radio.tooltip.app': 'App Tooltip', // TODO
-	'activate.radio.tooltip.email': 'E-Mail-Adresse Tooltip', // TODO
-	'activate.skeleton.step2.visualisation.label': '...', // TODO
-	'activate.skeleton.step3.visualisation.label': '...', // TODO
-	'activate.skeleton.step4.visualisation.label': 'Bestätigung',
+	'activate.radio.tooltip.app':
+		'Installieren Sie sich die App. Die App generiert Ihnen einen Code den Sie bei der Anmeldung eingeben müssen.',
+	'activate.radio.tooltip.email':
+		'Sie erhalten bei der Anmeldung eine E-mail mit einem Code. Diesen Code müssen Sie dann eingeben.',
 	'activate.email.step2.title': 'E-Mail Adresse angeben',
 	'activate.email.step2.copy': 'Bitte geben Sie hier Ihre E-Mail Adresse an.',
-	'activate.email.step2.visualisation.label': 'Eingabe', // TODO
+	'activate.email.step2.visualisation.label': 'Angabe',
 	'activate.email.step3.title': 'E-Mail Adresse bestätigen',
 	'activate.email.step3.copy.1': 'Wir haben Ihnen gerade eine E-Mail an',
 	'activate.email.step3.copy.2':

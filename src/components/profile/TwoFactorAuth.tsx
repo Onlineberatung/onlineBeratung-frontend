@@ -32,7 +32,7 @@ import {
 } from '../../api';
 import './twoFactorAuth.styles';
 import { isStringValidEmail } from '../registration/registrationHelpers';
-import { LockIcon } from '../../resources/img/icons';
+import { LockIcon, PenIcon } from '../../resources/img/icons';
 import { RadioButton } from '../radioButton/RadioButton';
 import { Tooltip } from '../tooltip/Tooltip';
 import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
@@ -60,7 +60,7 @@ export const TwoFactorAuth = () => {
 		useState<boolean>(false);
 
 	const [twoFactorType, setTwoFactorType] = useState<string>(
-		TWO_FACTOR_TYPES.NONE
+		TWO_FACTOR_TYPES.APP
 	);
 
 	const updateUserData = () => {
@@ -245,33 +245,6 @@ export const TwoFactorAuth = () => {
 					type: BUTTON_TYPES.PRIMARY
 				}
 			]
-		}
-	];
-
-	const twoFactorAuthStepsSkeletons: OverlayItem[] = [
-		{
-			step: {
-				icon: AddIcon,
-				label: translate(
-					'twoFactorAuth.activate.skeleton.step2.visualisation.label'
-				)
-			}
-		},
-		{
-			step: {
-				icon: UrlIcon,
-				label: translate(
-					'twoFactorAuth.activate.skeleton.step3.visualisation.label'
-				)
-			}
-		},
-		{
-			step: {
-				icon: CheckIcon,
-				label: translate(
-					'twoFactorAuth.activate.skeleton.step4.visualisation.label'
-				)
-			}
 		}
 	];
 
@@ -551,7 +524,7 @@ export const TwoFactorAuth = () => {
 			headline: translate('twoFactorAuth.activate.email.step2.title'),
 			copy: translate('twoFactorAuth.activate.email.step2.copy'),
 			step: {
-				icon: AddIcon,
+				icon: PenIcon,
 				label: translate(
 					'twoFactorAuth.activate.email.step2.visualisation.label'
 				)
@@ -560,15 +533,15 @@ export const TwoFactorAuth = () => {
 			handleNextStep: sendEmailActivationCode,
 			buttonSet: [
 				{
+					label: translate('twoFactorAuth.overlayButton.back'),
+					function: OVERLAY_FUNCTIONS.PREV_STEP,
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
 					disabled: !userData.email && !(emailLabelState === 'valid'),
 					label: translate('twoFactorAuth.overlayButton.next'),
 					function: OVERLAY_FUNCTIONS.NEXT_STEP,
 					type: BUTTON_TYPES.PRIMARY
-				},
-				{
-					label: translate('twoFactorAuth.overlayButton.back'),
-					function: OVERLAY_FUNCTIONS.PREV_STEP,
-					type: BUTTON_TYPES.SECONDARY
 				}
 			]
 		},
@@ -582,14 +555,14 @@ export const TwoFactorAuth = () => {
 			nestedComponent: emailCodeInput(),
 			buttonSet: [
 				{
-					disabled: otpLabelState !== 'valid',
-					label: translate('twoFactorAuth.overlayButton.confirm'),
-					type: BUTTON_TYPES.PRIMARY
-				},
-				{
 					label: translate('twoFactorAuth.overlayButton.back'),
 					function: OVERLAY_FUNCTIONS.PREV_STEP,
 					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					disabled: otpLabelState !== 'valid',
+					label: translate('twoFactorAuth.overlayButton.confirm'),
+					type: BUTTON_TYPES.PRIMARY
 				}
 			],
 			handleOverlay: activateTwoFactorAuthByType,
@@ -620,8 +593,7 @@ export const TwoFactorAuth = () => {
 
 	/* GENERAL */
 	const [overlayItems, setOverlayItems] = useState<OverlayItem[]>([
-		...twoFactorAuthStepsOverlayStart,
-		...twoFactorAuthStepsSkeletons
+		...twoFactorAuthStepsOverlayStart
 	]);
 
 	const setOverlayByType = () => {
@@ -639,10 +611,7 @@ export const TwoFactorAuth = () => {
 				]);
 				return;
 			default:
-				setOverlayItems([
-					...twoFactorAuthStepsOverlayStart,
-					...twoFactorAuthStepsSkeletons
-				]);
+				setOverlayItems([...twoFactorAuthStepsOverlayStart]);
 		}
 	};
 
