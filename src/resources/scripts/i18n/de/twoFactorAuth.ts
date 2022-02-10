@@ -74,7 +74,17 @@ const twoFactorAuth = {
 		'Wir haben Ihnen einen Code an Ihre E-Mail Adresse geschickt. Bitte geben Sie den Code ein.',
 	'activate.email.resend.headline': 'Es hat nicht funktioniert?',
 	'activate.email.resend.new': 'Neuen Code senden',
-	'activate.email.resend.sent': 'Neuer Code gesendet'
+	'activate.email.resend.sent': 'Neuer Code gesendet',
+	'email.change.confirmOverlay.title': 'E-Mail Adresse bearbeiten',
+	'email.change.confirmOverlay.copy.1':
+		'Sie nutzen diese E-Mail Adresse als 2. Faktor für eine sichere Anmeldung.',
+	'email.change.confirmOverlay.copy.2':
+		'Deaktivieren Sie die 2 Faktor Authentifizierung um die E-Mail-Adresse zu bearbeiten.',
+	'email.change.confirmOverlay.button.confirm':
+		'Authentifizierung deaktivieren',
+	'email.change.confirmOverlay.button.deny': 'Abbrechen',
+	'email.delete.confirmOverlay.copy':
+		'wird die 2 Faktor Authentifizierung deaktiviert.'
 };
 
 export default twoFactorAuth;

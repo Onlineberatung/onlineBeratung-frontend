@@ -26,7 +26,8 @@ export const OVERLAY_FUNCTIONS = {
 	PREV_STEP: 'PREV_STEP',
 	DELETE_SESSION: 'DELETE_SESSION',
 	FINISH_ANONYMOUS_CONVERSATION: 'FINISH_ANONYMOUS_CONVERSATION',
-	ARCHIVE: 'ARCHIVE'
+	ARCHIVE: 'ARCHIVE',
+	CONFIRM_EDIT: 'CONFIRM_EDIT'
 };
 
 export const OVERLAY_RESET_TIME = 10000;
@@ -107,11 +108,6 @@ export const Overlay = (props: {
 			props.handleOverlay(buttonFunction);
 		} else if (activeOverlay.handleOverlay) {
 			activeOverlay.handleOverlay(buttonFunction);
-		} else if (
-			buttonFunction === OVERLAY_FUNCTIONS.CLOSE ||
-			buttonFunction === OVERLAY_FUNCTIONS.CLOSE_SUCCESS
-		) {
-			props.handleOverlayClose();
 		}
 	};
 

@@ -582,6 +582,7 @@ export const TwoFactorAuth = () => {
 					type: BUTTON_TYPES.AUTO_CLOSE
 				}
 			],
+			handleOverlay: handleOverlayClose,
 			step: {
 				icon: CheckIcon,
 				label: translate(
