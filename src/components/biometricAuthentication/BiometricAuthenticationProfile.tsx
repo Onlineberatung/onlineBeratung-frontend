@@ -21,6 +21,7 @@ import {
 	checkForBiometricAvailability,
 	checkForExistingCredentials
 } from '../../utils/biometricAuthenticationHelpers';
+import '../profile/twoFactorAuth.styles';
 
 export const BiometricAuthenticationProfile = (props: {
 	activateBiometricAuthTimer: Function;
@@ -46,7 +47,7 @@ export const BiometricAuthenticationProfile = (props: {
 		);
 	};
 
-	//Set credentials on currently used device
+	// Set credentials on currently used device
 	const functionSetCredentials = () => {
 		NativeBiometric.setCredentials({
 			username: userData.userName,
@@ -55,7 +56,7 @@ export const BiometricAuthenticationProfile = (props: {
 		}).then(props.activateBiometricAuthTimer(true));
 	};
 
-	//Delete credentials on currently used device
+	// Delete credentials on currently used device
 	const functionDeleteCredentials = () => {
 		NativeBiometric.deleteCredentials({
 			server: apiUrl
@@ -73,11 +74,9 @@ export const BiometricAuthenticationProfile = (props: {
 	};
 
 	const getClassNames = (valid) => {
-		let classNames = ['passwordReset__input'];
-		if (valid) {
-			classNames.push('passwordReset__input--green');
-		} else if (valid === false) {
-			classNames.push('passwordReset__input--red');
+		let classNames = [];
+		if (valid === false) {
+			classNames.push('biometricAuth__password--error');
 		}
 		return classNames.join(' ');
 	};
@@ -101,7 +100,7 @@ export const BiometricAuthenticationProfile = (props: {
 			.catch((error) => {
 				setIsPasswordValid(false);
 				setIsSwitchChecked(false);
-				setPasswordErrorMessage('Ihr Passwort ist nicht korrekt'); //TO DO: Wording
+				setPasswordErrorMessage('Ihr Passwort ist nicht korrekt'); // TO DO: Wording
 			});
 	};
 
@@ -120,18 +119,18 @@ export const BiometricAuthenticationProfile = (props: {
 		id: 'bioAuthPassword',
 		type: 'password',
 		name: 'bioAuthPassword',
-		label: 'Passwort zur Bestätigung', //TO DO: Wording
+		label: 'Passwort zur Bestätigung', // TO DO: Wording
 		class: getClassNames(isPasswordValid),
 		infoText: passwordErrorMessage,
 		content: password
 	};
 
 	const overlaySuccess: OverlayItem = {
-		headline: 'Biometric Authentication wurde aktiviert', //TO DO: Wording
+		headline: 'Biometric Authentication wurde aktiviert', // TO DO: Wording
 		svg: CheckIllustration,
 		buttonSet: [
 			{
-				label: 'Fertig', //TO DO: Wording
+				label: 'Fertig', // TO DO: Wording
 				function: OVERLAY_FUNCTIONS.CLOSE,
 				type: BUTTON_TYPES.AUTO_CLOSE
 			}
@@ -139,9 +138,9 @@ export const BiometricAuthenticationProfile = (props: {
 	};
 
 	const overlayConfirm: OverlayItem = {
-		headline: 'Bestätigung', //TO DO: Wording
+		headline: 'Bestätigung', // TO DO: Wording
 		headlineStyleLevel: '1',
-		copy: 'Um Biometric Authentication aktivieren zu können, müssen Sie sich hier einmalig mit ihrem Kennwort authentifizieren', //TO DO: Wording
+		copy: 'Um Biometric Authentication aktivieren zu können, müssen Sie sich hier einmalig mit ihrem Kennwort authentifizieren', // TO DO: Wording
 		nestedComponent: (
 			<InputField
 				item={bioAuthPasswordItem}
@@ -150,12 +149,12 @@ export const BiometricAuthenticationProfile = (props: {
 		),
 		buttonSet: [
 			{
-				label: 'Biometric Authentication aktivieren', //TO DO: Wording
+				label: 'Biometric Authentication aktivieren', // TO DO: Wording
 				type: BUTTON_TYPES.PRIMARY,
 				disabled: password.length === 0
 			},
 			{
-				label: 'Zurück', //TO DO: Wording
+				label: 'Zurück', // TO DO: Wording
 				function: OVERLAY_FUNCTIONS.CLOSE,
 				type: BUTTON_TYPES.SECONDARY
 			}
@@ -172,12 +171,12 @@ export const BiometricAuthenticationProfile = (props: {
 				<Headline text={'Biometric Authentication'} semanticLevel="5" />
 				<Text
 					text={
-						'Mit Hilfe dieser Funktion können Sie sich mit FingerID oder FaceID bei Ihrer Caritas App anmelden.' //TO DO: Wording
+						'Mit Hilfe dieser Funktion können Sie sich mit FingerID oder FaceID bei Ihrer Caritas App anmelden.' // TO DO: Wording
 					}
 					type="infoLargeAlternative"
 				/>
 			</div>
-			<label className="bioAuth__switch">
+			<label className="twoFactorAuth__switch">
 				<Switch
 					onChange={handleSwitchChange}
 					checked={isSwitchChecked}
@@ -194,8 +193,8 @@ export const BiometricAuthenticationProfile = (props: {
 				<Text
 					text={
 						isSwitchChecked
-							? 'Biometric Authentication aktiviert' //TO DO: Wording
-							: 'Biometric Authentication deaktiviert' //TO DO: Wording
+							? 'Biometric Authentication aktiviert' // TO DO: Wording
+							: 'Biometric Authentication deaktiviert' // TO DO: Wording
 					}
 					type="standard"
 				/>
