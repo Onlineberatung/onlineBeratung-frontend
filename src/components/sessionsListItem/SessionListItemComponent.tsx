@@ -44,12 +44,12 @@ import { SessionListItemAttachment } from './SessionListItemAttachment';
 interface SessionListItemProps {
 	type: SESSION_LIST_TYPES;
 	id: number;
-	language: string;
+	defaultLanguage: string;
 }
 
 export const SessionListItemComponent = ({
 	id,
-	language
+	defaultLanguage
 }: SessionListItemProps) => {
 	const { sessionId, rcGroupId: groupIdFromParam } = useParams();
 	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
@@ -68,6 +68,10 @@ export const SessionListItemComponent = ({
 		getSessionsDataKeyForSessionType(type)
 	].find((session) => id === getChatItemForSession(session).id);
 	const listItem = getChatItemForSession(currentSessionData);
+
+	const language =
+		(isSessionChat(listItem) && listItem?.language) || defaultLanguage;
+
 	const isLiveChatFinished = isSessionChat(listItem)
 		? listItem.status === STATUS_FINISHED
 		: false;
