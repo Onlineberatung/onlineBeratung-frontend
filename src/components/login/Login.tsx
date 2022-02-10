@@ -115,7 +115,7 @@ export const Login = ({
 	const [registerOverlayActive, setRegisterOverlayActive] = useState(false);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);
 
-	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.EMAIL);
+	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -379,7 +379,7 @@ export const Login = ({
 				/>
 				<div
 					className={clsx('loginForm__otp', {
-						'loginForm__otp--active': true
+						'loginForm__otp--active': isOtpRequired
 					})}
 				>
 					{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
