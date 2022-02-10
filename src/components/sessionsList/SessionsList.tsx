@@ -668,11 +668,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 										key={index}
 										type={type}
 										id={getChatItemForSession(item).id}
-										language={
-											item.session.language
-												? item.session.language
-												: defaultLanguage
-										}
+										defaultLanguage={defaultLanguage}
 									/>
 							  ))
 							: !activeCreateChat && (
