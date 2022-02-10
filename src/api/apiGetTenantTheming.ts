@@ -1,6 +1,6 @@
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
-import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 import { config } from '../resources/scripts/config';
+import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 
 export const apiGetTenantTheming = async (params: {
 	subdomain: string;

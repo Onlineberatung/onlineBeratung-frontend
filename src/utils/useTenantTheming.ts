@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { apiGetTenantTheming } from '../api/apiGetTenantTheming';
-import { TenantContext } from '../globalState';
+import { TenantContext } from '../globalState/provider/TenantProvider';
 import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 import { config } from '../resources/scripts/config';
 import getLocationVariables from './getLocationVariables';
