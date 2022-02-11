@@ -96,7 +96,7 @@ export const emitStompDirectMessage = ({
 	// TODO: wait for the app to process the messages. this should not
 	// arbitrarily wait for the message to get processed but use some reliable
 	// indication from the app instead
-	return cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
+	return cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
 };
 
 export const emitStompVideoCallRequest = () => {
@@ -109,5 +109,5 @@ export const emitStompVideoCallRequest = () => {
 	// TODO: wait for the app to process the messages. this should not
 	// arbitrarily wait for the message to get processed but use some reliable
 	// indication from the app instead
-	return cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
+	return cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
 };

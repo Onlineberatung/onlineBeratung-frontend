@@ -1,9 +1,42 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import update from 'immutability-helper';
 import { SOCKET_COLLECTION } from '../api';
 import { decodeUsername, encodeUsername } from './encryptionHelpers';
 
 const TYPING_TIMEOUT_MS = 4000;
 const TYPING_TRIGGER_MS = 1000;
+
+const ACTION_TYPING = 'typing';
+const ACTION_SET = 'set';
+
+type actionTyping = {
+	type: typeof ACTION_TYPING;
+	username: string;
+	isTyping: boolean;
+};
+
+type actionSet = {
+	type: typeof ACTION_SET;
+	users: string[];
+};
+
+function reducer(state, action: actionTyping | actionSet) {
+	switch (action.type) {
+		case ACTION_TYPING:
+			if (action.isTyping && !state.includes(action.username)) {
+				return update(state, { $push: [action.username] });
+			} else if (!action.isTyping && state.includes(action.username)) {
+				return update(state, {
+					$splice: [[state.indexOf(action.username), 1]]
+				});
+			}
+			return state;
+		case ACTION_SET:
+			return action.users;
+		default:
+			throw new Error();
+	}
+}
 
 /**
  * Subscribe to existing rocket.chat socket
@@ -16,7 +49,7 @@ const TYPING_TRIGGER_MS = 1000;
 export default function useTyping(groupId, userName) {
 	const typingTimeout = useRef(null);
 	const lastTypingTrigger = useRef(0);
-	const [typingUsers, setTypingUsers] = useState([]);
+	const [typingUsers, dispatchTypingUsers] = useReducer(reducer, []);
 	const [subscribed, setSubscribed] = useState(false);
 
 	useEffect(() => {
@@ -25,7 +58,10 @@ export default function useTyping(groupId, userName) {
 				window.clearTimeout(typingTimeout.current);
 				typingTimeout.current = null;
 			}
-			setTypingUsers([]);
+			dispatchTypingUsers({
+				type: ACTION_SET,
+				users: []
+			});
 		};
 	}, [groupId, userName]);
 
@@ -35,18 +71,18 @@ export default function useTyping(groupId, userName) {
 	 */
 	const handleTypingResponse = useCallback(
 		([encUsername, isTyping]) => {
-			const users = [...typingUsers];
 			const typingUsername = decodeUsername(encUsername);
 			if (typingUsername === userName) {
 				return;
-			} else if (isTyping && !typingUsers.includes(typingUsername)) {
-				users.push(typingUsername);
-			} else if (!isTyping && typingUsers.includes(typingUsername)) {
-				users.splice(typingUsers.indexOf(typingUsername), 1);
 			}
-			setTypingUsers(users);
+
+			dispatchTypingUsers({
+				type: ACTION_TYPING,
+				username: typingUsername,
+				isTyping
+			});
 		},
-		[typingUsers, userName]
+		[userName]
 	);
 
 	/**

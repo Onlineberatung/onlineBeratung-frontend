@@ -193,6 +193,6 @@ Cypress.Commands.add(
 		// TODO: give initial app code a chance to run, this should not
 		// arbitrarly wait but instead the DOM should have some indication
 		// somewhere that the app finished doing all initial work
-		return cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
+		return cy.wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
 	}
 );
