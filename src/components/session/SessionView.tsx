@@ -56,14 +56,11 @@ import {
 import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
-import { decodeUsername, encodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import './session.styles';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-
-let typingTimeout;
-const TYPING_TIMEOUT_MS = 4000;
+import useTyping from '../../utils/useTyping';
 
 interface RouterProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
@@ -84,20 +81,21 @@ export const SessionView = (props: RouterProps) => {
 
 	const [activeSession, setActiveSession] = useState(null);
 	const [chatItem, setChatItem] = useState(null);
-	const [isTypingActive, setIsTypingActive] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [messagesItem, setMessagesItem] = useState(null);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [loadedMessages, setLoadedMessages] = useState(null);
-	const [typingUsers, setTypingUsers] = useState([]);
-	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
-	const [typingStatusSent, setTypingStatusSent] = useState(false);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
 	const [isLiveChatFinished, setIsLiveChatFinished] = useState(false);
 
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
+
+	const { subscribeTyping, handleTyping, typingUsers } = useTyping(
+		groupIdFromParam,
+		userData.userName
+	);
 
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
@@ -116,27 +114,6 @@ export const SessionView = (props: RouterProps) => {
 			setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
 		});
 	}, [fetchSessionMessages, setUpdateSessionList]);
-
-	const handleTypingResponse = useCallback(
-		(data) => {
-			setCurrentlyTypingUsers([]);
-			const username = decodeUsername(data[0]);
-			const isTyping = data[1];
-			let users = typingUsers;
-			if (isTyping && !typingUsers.includes(username)) {
-				users.push(username);
-			} else {
-				const index = typingUsers.indexOf(username);
-				if (index !== -1) {
-					users.splice(index, 1);
-				} else {
-					users = [];
-				}
-			}
-			setCurrentlyTypingUsers(users);
-		},
-		[typingUsers]
-	);
 
 	const groupChatStoppedOverlay: OverlayItem = useMemo(
 		() => ({
@@ -228,38 +205,36 @@ export const SessionView = (props: RouterProps) => {
 		]
 	);
 
-	const connectSocket = useCallback(() => {
-		window['socket'].connect();
-		window['socket'].addSubscription(
-			SOCKET_COLLECTION.ROOM_MESSAGES,
-			[groupIdFromParam, false],
-			handleRoomMessage
-		);
-		if (isTypingActive) {
+	const connectSocket = useCallback(
+		(isGroupOrLiveChat) => {
+			window['socket'].connect();
+
 			window['socket'].addSubscription(
-				SOCKET_COLLECTION.NOTIFY_USER,
-				[
-					getValueFromCookie('rc_uid') + '/subscriptions-changed',
-					false
-				],
-				handleGroupChatStopped
+				SOCKET_COLLECTION.ROOM_MESSAGES,
+				[groupIdFromParam, false],
+				handleRoomMessage
 			);
-			window['socket'].addSubscription(
-				SOCKET_COLLECTION.NOTIFY_ROOM,
-				[
-					`${groupIdFromParam}/typing`,
-					{ useCollection: false, args: [] }
-				],
-				(data) => handleTypingResponse(data)
-			);
-		}
-	}, [
-		groupIdFromParam,
-		handleGroupChatStopped,
-		handleRoomMessage,
-		handleTypingResponse,
-		isTypingActive
-	]);
+
+			if (isGroupOrLiveChat) {
+				subscribeTyping();
+
+				window['socket'].addSubscription(
+					SOCKET_COLLECTION.NOTIFY_USER,
+					[
+						getValueFromCookie('rc_uid') + '/subscriptions-changed',
+						false
+					],
+					handleGroupChatStopped
+				);
+			}
+		},
+		[
+			groupIdFromParam,
+			handleGroupChatStopped,
+			handleRoomMessage,
+			subscribeTyping
+		]
+	);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -277,12 +252,10 @@ export const SessionView = (props: RouterProps) => {
 
 		setActiveSession(activeSession);
 		setChatItem(chatItem);
-		setIsTypingActive(isGroupChat(chatItem) || isLiveChat(chatItem));
 		setIsLiveChatFinished(
 			isSessionChat(chatItem) && chatItem?.status === STATUS_FINISHED
 		);
 
-		typingTimeout = null;
 		const isEnquiry =
 			isSessionChat(chatItem) && chatItem?.status === STATUS_ENQUIRY;
 		const isCurrentAnonymousEnquiry =
@@ -304,7 +277,9 @@ export const SessionView = (props: RouterProps) => {
 			fetchSessionMessages()
 				.then(() => {
 					setSessionToRead();
-					connectSocket();
+					connectSocket(
+						isGroupChat(chatItem) || isLiveChat(chatItem)
+					);
 				})
 				.finally(() => {
 					setIsLoading(false);
@@ -315,16 +290,6 @@ export const SessionView = (props: RouterProps) => {
 			};
 		}
 	}, [groupIdFromParam, sessionsData, userData]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		setTypingUsers(currentlyTypingUsers);
-	}, [currentlyTypingUsers]);
-
-	useEffect(() => {
-		if (typingStatusSent) {
-			setTypingTimeout();
-		}
-	}, [typingStatusSent]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (loadedMessages) {
@@ -339,36 +304,6 @@ export const SessionView = (props: RouterProps) => {
 			setRedirectToSessionsList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
-		}
-	};
-
-	const setTypingTimeout = () => {
-		return (typingTimeout = setTimeout(() => {
-			window['socket'].sendTypingState(SOCKET_COLLECTION.NOTIFY_ROOM, [
-				`${groupIdFromParam}/typing`,
-				encodeUsername(userData.userName).toLowerCase(),
-				false
-			]);
-			setTypingStatusSent(false);
-		}, TYPING_TIMEOUT_MS));
-	};
-
-	const handleTyping = () => {
-		if (isTypingActive && window['socket']) {
-			if (!typingStatusSent) {
-				window['socket'].sendTypingState(
-					SOCKET_COLLECTION.NOTIFY_ROOM,
-					[
-						`${groupIdFromParam}/typing`,
-						encodeUsername(userData.userName).toLowerCase(),
-						true
-					]
-				);
-				setTypingStatusSent(true);
-			} else {
-				window.clearTimeout(typingTimeout);
-				setTypingTimeout();
-			}
 		}
 	};
 

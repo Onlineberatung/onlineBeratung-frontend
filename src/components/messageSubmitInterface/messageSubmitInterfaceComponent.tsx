@@ -171,6 +171,7 @@ export const MessageSubmitInterfaceComponent = (
 	const isLiveChatFinished =
 		isSessionChat(chatItem) && chatItem.status === STATUS_FINISHED;
 	const [activeInfo, setActiveInfo] = useState(null);
+	const [draftLoaded, setDraftLoaded] = useState(false);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
 		null
 	);
@@ -225,6 +226,9 @@ export const MessageSubmitInterfaceComponent = (
 				if (error.message !== FETCH_ERRORS.EMPTY) {
 					console.error('Loading Draft Message: ', error);
 				}
+			})
+			.finally(() => {
+				setDraftLoaded(true);
 			});
 
 		return () => {
@@ -336,13 +340,12 @@ export const MessageSubmitInterfaceComponent = (
 
 	const handleEditorChange = (currentEditorState) => {
 		if (
-			isTypingActive &&
+			draftLoaded &&
 			currentEditorState.getCurrentContent() !==
-				editorState.getCurrentContent()
+				editorState.getCurrentContent() &&
+			props.isTyping
 		) {
-			if (props.isTyping) {
-				props.isTyping();
-			}
+			props.isTyping(!currentEditorState.getCurrentContent().hasText());
 		}
 		setEditorState(currentEditorState);
 		currentDraftMessageRef.current =

@@ -57,7 +57,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 
 interface SessionItemProps {
 	isAnonymousEnquiry?: boolean;
-	isTyping: Function;
+	isTyping?: Function;
 	messages?: MessageItem[];
 	typingUsers: string[];
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -461,7 +461,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						))) && (
 					<MessageSubmitInterfaceComponent
 						handleSendButton={() => {}}
-						isTyping={() => props.isTyping()}
+						isTyping={props.isTyping}
 						className={clsx(
 							'session__submit-interface',
 							!isScrolledToBottom &&
