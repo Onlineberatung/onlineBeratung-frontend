@@ -289,7 +289,7 @@ export const SessionView = (props: RouterProps) => {
 				setStoppedGroupChat(false);
 			};
 		}
-	}, [groupIdFromParam, sessionsData, userData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [groupIdFromParam, userData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (loadedMessages) {

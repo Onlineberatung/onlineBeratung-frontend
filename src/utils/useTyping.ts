@@ -3,6 +3,7 @@ import { SOCKET_COLLECTION } from '../api';
 import { decodeUsername, encodeUsername } from './encryptionHelpers';
 
 const TYPING_TIMEOUT_MS = 4000;
+const TYPING_TRIGGER_MS = 1000;
 
 /**
  * Subscribe to existing rocket.chat socket
@@ -14,6 +15,7 @@ const TYPING_TIMEOUT_MS = 4000;
  */
 export default function useTyping(groupId, userName) {
 	const typingTimeout = useRef(null);
+	const lastTypingTrigger = useRef(0);
 	const [typingUsers, setTypingUsers] = useState([]);
 	const [subscribed, setSubscribed] = useState(false);
 
@@ -34,15 +36,17 @@ export default function useTyping(groupId, userName) {
 	const handleTypingResponse = useCallback(
 		([encUsername, isTyping]) => {
 			const users = [...typingUsers];
-			const username = decodeUsername(encUsername);
-			if (isTyping && !typingUsers.includes(username)) {
-				users.push(username);
-			} else if (!isTyping && typingUsers.includes(username)) {
-				users.splice(typingUsers.indexOf(username), 1);
+			const typingUsername = decodeUsername(encUsername);
+			if (typingUsername === userName) {
+				return;
+			} else if (isTyping && !typingUsers.includes(typingUsername)) {
+				users.push(typingUsername);
+			} else if (!isTyping && typingUsers.includes(typingUsername)) {
+				users.splice(typingUsers.indexOf(typingUsername), 1);
 			}
 			setTypingUsers(users);
 		},
-		[typingUsers]
+		[typingUsers, userName]
 	);
 
 	/**
@@ -76,14 +80,18 @@ export default function useTyping(groupId, userName) {
 					typingTimeout.current = null;
 				}
 
-				window['socket'].sendTypingState(
-					SOCKET_COLLECTION.NOTIFY_ROOM,
-					[
-						`${groupId}/typing`,
-						encodeUsername(userName).toLowerCase(),
-						true
-					]
-				);
+				const now = Date.now();
+				if (lastTypingTrigger.current + TYPING_TRIGGER_MS < now) {
+					window['socket'].sendTypingState(
+						SOCKET_COLLECTION.NOTIFY_ROOM,
+						[
+							`${groupId}/typing`,
+							encodeUsername(userName).toLowerCase(),
+							true
+						]
+					);
+					lastTypingTrigger.current = now;
+				}
 
 				const cancelTyping = () => {
 					window['socket'].sendTypingState(
@@ -95,10 +103,14 @@ export default function useTyping(groupId, userName) {
 						]
 					);
 					typingTimeout.current = null;
+					lastTypingTrigger.current = 0;
 				};
 
 				if (isCleared) {
-					cancelTyping();
+					// Small timeout on clear to be sure its the last event
+					typingTimeout.current = setTimeout(() => {
+						cancelTyping();
+					}, 250);
 				} else {
 					typingTimeout.current = setTimeout(() => {
 						cancelTyping();
