@@ -82,7 +82,6 @@ export default function useTyping(groupId, userName) {
 
 				const now = Date.now();
 				if (lastTypingTrigger.current + TYPING_TRIGGER_MS < now) {
-					console.log('TRIGGER');
 					window['socket'].sendTypingState(
 						SOCKET_COLLECTION.NOTIFY_ROOM,
 						[
@@ -92,8 +91,6 @@ export default function useTyping(groupId, userName) {
 						]
 					);
 					lastTypingTrigger.current = now;
-				} else {
-					console.log('SKIP TRIGGER');
 				}
 
 				const cancelTyping = () => {
@@ -110,7 +107,10 @@ export default function useTyping(groupId, userName) {
 				};
 
 				if (isCleared) {
-					cancelTyping();
+					// Small timeout on clear to be sure its the last event
+					typingTimeout.current = setTimeout(() => {
+						cancelTyping();
+					}, 250);
 				} else {
 					typingTimeout.current = setTimeout(() => {
 						cancelTyping();
