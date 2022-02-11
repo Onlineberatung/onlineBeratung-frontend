@@ -1,52 +1,34 @@
-import { config } from '../../src/resources/scripts/config';
+import {
+	closeWebSocketServer,
+	mockWebSocket,
+	startWebSocketServer
+} from '../support/websocket';
 import {
 	generateMultipleAskerSessions,
 	generateMultipleConsultantSessions
 } from '../support/sessions';
-import { emitStompVideoCallRequest } from '../support/websocket';
+import { USER_CONSULTANT } from '../support/commands/login';
+import { config } from '../../src/resources/scripts/config';
 
 describe('Video calls', () => {
+	before(() => {
+		startWebSocketServer();
+	});
+
+	after(() => {
+		closeWebSocketServer();
+	});
+
 	beforeEach(() => {
-		cy.fixture('service.consultingtypes.addiction.json').then(
-			(addictionConsultingType) => {
-				cy.fixture('service.consultingtypes.u25.json').then(
-					(u25ConsultingType) =>
-						cy.intercept(
-							`${config.endpoints.consultingTypeServiceBase}/basic`,
-							[addictionConsultingType, u25ConsultingType]
-						)
-				);
-			}
-		);
+		cy.mockApi();
+		mockWebSocket();
 	});
 
-	describe('Consultant', () => {
-		describe('Start a new video call', () => {
-			//TODO: reimplement on videocall release
-			it.skip('should show video call buttons in session header', () => {
-				const sessions = generateMultipleConsultantSessions(2);
-				cy.caritasMockedLogin({
-					type: 'consultant',
-					sessions
-				});
-
-				cy.get('a[href="/sessions/consultant/sessionView"]').click();
-				cy.get('[data-cy=sessions-list-items-wrapper]').click();
-
-				cy.get('[data-cy=session-header-video-call-buttons]').should(
-					'exist'
-				);
-			});
-		});
-	});
-
-	describe('Asker', () => {
+	describe.skip('Asker', () => {
 		it('should not show buttons to start a new video call in session header', () => {
-			const sessions = generateMultipleAskerSessions(2);
-			cy.caritasMockedLogin({
-				type: 'asker',
-				sessions
-			});
+			generateMultipleAskerSessions(2);
+			cy.fastLogin();
+			cy.wait('@consultingTypeServiceBaseBasic');
 
 			cy.get('a[href="/sessions/user/view"]').click();
 			cy.get('[data-cy=sessions-list-items-wrapper]').click();
@@ -58,19 +40,20 @@ describe('Video calls', () => {
 
 		describe('Incoming video call notifications', () => {
 			it('should show no notifications when no notifications exist', () => {
-				cy.caritasMockedLogin();
+				cy.fastLogin();
+				cy.wait('@consultingTypeServiceBaseBasic');
 
 				cy.get('[data-cy=notifications]').should('be.empty');
 			});
 
 			it('should show an incoming video call', () => {
-				const sessions = generateMultipleConsultantSessions(2);
-				cy.caritasMockedLogin({
-					type: 'asker',
-					sessions
-				}).then(() => {
-					emitStompVideoCallRequest();
-				});
+				generateMultipleConsultantSessions(2);
+				cy.fastLogin();
+				cy.wait('@consultingTypeServiceBaseBasic');
+
+				cy.get('.cy-socket-connected-stomp');
+				cy.waitForSubscriptions(['/user/events']);
+				cy.emitVideoCallRequest();
 
 				cy.get('[data-cy=notifications]').should('exist');
 				cy.get('[data-cy=incoming-video-call]').should('exist');
@@ -82,13 +65,13 @@ describe('Video calls', () => {
 
 			it('should show all incoming video calls', () => {
 				const amountOfIncomingCalls = 3;
-				const sessions = generateMultipleConsultantSessions(2);
-				cy.caritasMockedLogin({
-					type: 'asker',
-					sessions
-				}).then(() => {
-					emitStompVideoCallRequest();
-				});
+				generateMultipleConsultantSessions(2);
+				cy.fastLogin();
+				cy.wait('@consultingTypeServiceBaseBasic');
+
+				cy.get('.cy-socket-connected-stomp');
+				cy.waitForSubscriptions(['/user/events']);
+				cy.emitVideoCallRequest();
 
 				cy.get('[data-cy=notifications]').should('exist');
 				cy.get('[data-cy=incoming-video-call]').should('exist');
@@ -97,7 +80,7 @@ describe('Video calls', () => {
 					1
 				);
 				for (let i = 0; i < amountOfIncomingCalls - 1; i++) {
-					emitStompVideoCallRequest();
+					cy.emitVideoCallRequest();
 				}
 				cy.get('[data-cy=incoming-video-call]').should(
 					'have.length',
@@ -106,34 +89,41 @@ describe('Video calls', () => {
 			});
 
 			it('should remove incoming call when call is answered', () => {
-				const sessions = generateMultipleConsultantSessions(2);
-				cy.caritasMockedLogin({
-					type: 'asker',
-					sessions
-				}).then(() => {
-					emitStompVideoCallRequest();
-					emitStompVideoCallRequest();
-				});
+				generateMultipleConsultantSessions(2);
+				cy.fastLogin();
+				cy.wait('@consultingTypeServiceBaseBasic');
+
+				cy.get('.cy-socket-connected-stomp');
+				cy.waitForSubscriptions(['/user/events']);
+				cy.emitVideoCallRequest();
+				cy.emitVideoCallRequest();
 
 				cy.get('[data-cy=incoming-video-call]').should(
 					'have.length',
 					2
 				);
+
+				cy.window().then((window) => {
+					cy.stub(window, 'open').as('windowOpen');
+				});
+
 				cy.get('[data-cy=answer-incoming-video-call]').first().click();
 				cy.get('[data-cy=incoming-video-call]').should(
 					'have.length',
 					1
 				);
+
+				cy.get('@windowOpen').should('be.called');
 			});
 
 			it('should remove incoming call when call is rejected', () => {
-				const sessions = generateMultipleConsultantSessions(2);
-				cy.caritasMockedLogin({
-					type: 'asker',
-					sessions
-				}).then(() => {
-					emitStompVideoCallRequest();
-				});
+				generateMultipleConsultantSessions(2);
+				cy.fastLogin();
+				cy.wait('@consultingTypeServiceBaseBasic');
+
+				cy.get('.cy-socket-connected-stomp');
+				cy.waitForSubscriptions(['/user/events']);
+				cy.emitVideoCallRequest();
 
 				cy.get('[data-cy=incoming-video-call]').should(
 					'have.length',
@@ -148,13 +138,13 @@ describe('Video calls', () => {
 
 			describe('Playing of ringtone', () => {
 				it('should play on any incoming video call', () => {
-					const sessions = generateMultipleConsultantSessions(2);
-					cy.caritasMockedLogin({
-						type: 'asker',
-						sessions
-					}).then(() => {
-						emitStompVideoCallRequest();
-					});
+					generateMultipleConsultantSessions(2);
+					cy.fastLogin();
+					cy.wait('@consultingTypeServiceBaseBasic');
+
+					cy.get('.cy-socket-connected-stomp');
+					cy.waitForSubscriptions(['/user/events']);
+					cy.emitVideoCallRequest();
 
 					cy.get('[data-cy=incoming-video-call]').should(
 						'have.length',
@@ -166,13 +156,13 @@ describe('Video calls', () => {
 				});
 
 				it('should stop playing if last incoming call gets rejected', () => {
-					const sessions = generateMultipleConsultantSessions(2);
-					cy.caritasMockedLogin({
-						type: 'asker',
-						sessions
-					}).then(() => {
-						emitStompVideoCallRequest();
-					});
+					generateMultipleConsultantSessions(2);
+					cy.fastLogin();
+					cy.wait('@consultingTypeServiceBaseBasic');
+
+					cy.get('.cy-socket-connected-stomp');
+					cy.waitForSubscriptions(['/user/events']);
+					cy.emitVideoCallRequest();
 
 					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
@@ -184,32 +174,38 @@ describe('Video calls', () => {
 				});
 
 				it('should stop playing if last incoming call gets answered', () => {
-					const sessions = generateMultipleConsultantSessions(2);
-					cy.caritasMockedLogin({
-						type: 'asker',
-						sessions
-					}).then(() => {
-						emitStompVideoCallRequest();
-					});
+					generateMultipleConsultantSessions(2);
+					cy.fastLogin();
+					cy.wait('@consultingTypeServiceBaseBasic');
+
+					cy.get('.cy-socket-connected-stomp');
+					cy.waitForSubscriptions(['/user/events']);
+					cy.emitVideoCallRequest();
 
 					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
 					);
+					cy.window().then((window) => {
+						cy.stub(window, 'open').as('windowOpen');
+					});
+
 					cy.get('[data-cy=answer-incoming-video-call]').click();
 					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'not.exist'
 					);
+
+					cy.get('@windowOpen').should('be.called');
 				});
 
 				it('should keep playing if at least one incoming call remains after rejecting a call', () => {
-					const sessions = generateMultipleConsultantSessions(2);
-					cy.caritasMockedLogin({
-						type: 'asker',
-						sessions
-					}).then(() => {
-						emitStompVideoCallRequest();
-						emitStompVideoCallRequest();
-					});
+					generateMultipleConsultantSessions(2);
+					cy.fastLogin();
+					cy.wait('@consultingTypeServiceBaseBasic');
+
+					cy.get('.cy-socket-connected-stomp');
+					cy.waitForSubscriptions(['/user/events']);
+					cy.emitVideoCallRequest();
+					cy.emitVideoCallRequest();
 
 					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
@@ -227,18 +223,23 @@ describe('Video calls', () => {
 				});
 
 				it('should keep playing if at least one incoming call remains after answering a call', () => {
-					const sessions = generateMultipleConsultantSessions(2);
-					cy.caritasMockedLogin({
-						type: 'asker',
-						sessions
-					}).then(() => {
-						emitStompVideoCallRequest();
-						emitStompVideoCallRequest();
-					});
+					generateMultipleConsultantSessions(2);
+					cy.fastLogin();
+					cy.wait('@consultingTypeServiceBaseBasic');
+
+					cy.get('.cy-socket-connected-stomp');
+					cy.waitForSubscriptions(['/user/events']);
+					cy.emitVideoCallRequest();
+					cy.emitVideoCallRequest();
 
 					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
 					);
+
+					cy.window().then((window) => {
+						cy.stub(window, 'open').as('windowOpen');
+					});
+
 					cy.get('[data-cy=answer-incoming-video-call]')
 						.first()
 						.click();
@@ -249,7 +250,31 @@ describe('Video calls', () => {
 					cy.get('[data-cy=incoming-video-call-audio]').should(
 						'exist'
 					);
+
+					cy.get('@windowOpen').should('be.called');
 				});
+			});
+		});
+	});
+
+	describe.skip('Consultant', () => {
+		describe('Start a new video call', () => {
+			it('should show video call buttons in session header', () => {
+				generateMultipleConsultantSessions(2);
+				cy.willReturn('userData', {
+					isVideoCallAllowed: true
+				});
+
+				cy.fastLogin({
+					username: USER_CONSULTANT
+				});
+
+				cy.get('a[href="/sessions/consultant/sessionView"]').click();
+				cy.get('[data-cy=sessions-list-items-wrapper]').click();
+
+				cy.get('[data-cy=session-header-video-call-buttons]').should(
+					'exist'
+				);
 			});
 		});
 	});
