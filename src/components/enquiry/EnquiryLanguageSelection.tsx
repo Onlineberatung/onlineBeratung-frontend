@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiAgencyLanguages } from '../../api/apiAgencyLanguages';
 import { getActiveSession, SessionsDataContext } from '../../globalState';
+import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
+import { isUniqueLanguage } from '../profile/profileHelpers';
 
 import './enquiryLanguageSelection.styles';
 
@@ -46,13 +48,25 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 					);
 
 					if (response) {
-						setLanguages(response.languages);
+						const sortedResponseLanguages = response.languages.sort(
+							(a, b) => {
+								return (
+									languageIsoCodesSortedByName.indexOf(a) -
+									languageIsoCodesSortedByName.indexOf(b)
+								);
+							}
+						);
+						const sortedLanguages = [
+							...fixedLanguages,
+							...sortedResponseLanguages
+						].filter(isUniqueLanguage);
+						setLanguages(sortedLanguages);
 					}
 				}
 			};
 
 			getLanguagesFromApi();
-		}, [sessionsData, sessionIdFromParam]);
+		}, [sessionsData, sessionIdFromParam, fixedLanguages]);
 
 		const selectLanguage = (isoCode) => {
 			setSelectedLanguage(isoCode);

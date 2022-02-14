@@ -139,32 +139,36 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 
 	return (
 		<div className="enquiry__wrapper">
-			<div className="enquiry__infoWrapper">
-				<WelcomeIcon className="enquiry__image" />
-				<div className="enquiry__text">
-					<Headline
-						semanticLevel="3"
-						text={translate('enquiry.write.infotext.headline')}
-						className="enquiry__infotextHeadline"
-					/>
-					<Headline
-						semanticLevel="4"
-						styleLevel="5"
-						text={translate('enquiry.write.infotext.copy')}
-					/>
-					<Text
-						text={translate('enquiry.write.infotext.copy.facts')}
-						type="standard"
-						className="enquiry__facts"
-					/>
-					{isUnassignedSession && (
-						<EnquiryLanguageSelection
-							className="enquiry__languageSelection"
-							fixedLanguages={fixedLanguages}
-							handleSelection={setSelectedLanguage}
+			<div className="enquiry__contentWrapper">
+				<div className="enquiry__infoWrapper">
+					<div className="enquiry__text">
+						<Headline
+							semanticLevel="3"
+							text={translate('enquiry.write.infotext.headline')}
+							className="enquiry__infotextHeadline"
 						/>
-					)}
+						<Headline
+							semanticLevel="4"
+							styleLevel="5"
+							text={translate('enquiry.write.infotext.copy')}
+						/>
+						<Text
+							text={translate(
+								'enquiry.write.infotext.copy.facts'
+							)}
+							type="standard"
+							className="enquiry__facts"
+						/>
+					</div>
+					<WelcomeIcon className="enquiry__image" />
 				</div>
+				{isUnassignedSession && (
+					<EnquiryLanguageSelection
+						className="enquiry__languageSelection"
+						fixedLanguages={fixedLanguages}
+						handleSelection={setSelectedLanguage}
+					/>
+				)}
 			</div>
 			<MessageSubmitInterfaceComponent
 				handleSendButton={handleSendButton}
