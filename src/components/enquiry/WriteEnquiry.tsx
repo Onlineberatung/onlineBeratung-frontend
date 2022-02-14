@@ -52,7 +52,7 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 			sessionsData
 		);
 		setActiveSession(activeSession);
-	}, [sessionIdFromParam, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [sessionIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (sessionIdFromParam) {
