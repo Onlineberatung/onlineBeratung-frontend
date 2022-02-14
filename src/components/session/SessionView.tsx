@@ -110,10 +110,14 @@ export const SessionView = (props: RouterProps) => {
 	}, [groupIdFromParam]);
 
 	const handleRoomMessage = useCallback(() => {
-		fetchSessionMessages().finally(() => {
-			setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
-		});
-	}, [fetchSessionMessages, setUpdateSessionList]);
+		fetchSessionMessages()
+			.then(() => {
+				setSessionToRead();
+			})
+			.finally(() => {
+				setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+			});
+	}, [fetchSessionMessages, setUpdateSessionList]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const groupChatStoppedOverlay: OverlayItem = useMemo(
 		() => ({

@@ -14,6 +14,7 @@ import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
+import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 
 export const history = createBrowserHistory();
 
@@ -75,76 +76,83 @@ export const App = ({
 	return (
 		<ErrorBoundary>
 			<Router history={history}>
-				<ContextProvider>
-					{startWebsocket && (
-						<WebsocketHandler disconnect={disconnectWebsocket} />
-					)}
-					<Switch>
-						{extraRoutes}
+				<FixedLanguagesContext.Provider value={fixedLanguages}>
+					<ContextProvider>
+						{startWebsocket && (
+							<WebsocketHandler
+								disconnect={disconnectWebsocket}
+							/>
+						)}
+						<Switch>
+							{extraRoutes}
 
-						{!hasUnmatchedRegistrationConsultingType &&
-							!hasUnmatchedRegistrationConsultant && (
-								<Route
-									path={[
-										'/registration',
-										'/:consultingTypeSlug/registration'
-									]}
-								>
-									<Registration
-										handleUnmatchConsultingType={() =>
-											setHasUnmatchedRegistrationConsultingType(
+							{!hasUnmatchedRegistrationConsultingType &&
+								!hasUnmatchedRegistrationConsultant && (
+									<Route
+										path={[
+											'/registration',
+											'/:consultingTypeSlug/registration'
+										]}
+									>
+										<Registration
+											handleUnmatchConsultingType={() =>
+												setHasUnmatchedRegistrationConsultingType(
+													true
+												)
+											}
+											handleUnmatchConsultant={() => {
+												setHasUnmatchedRegistrationConsultant(
+													true
+												);
+											}}
+											legalComponent={legalComponent}
+											stageComponent={stageComponent}
+										/>
+									</Route>
+								)}
+
+							{!hasUnmatchedAnonymousConversation && (
+								<Route path="/:consultingTypeSlug/warteraum">
+									<WaitingRoomLoader
+										handleUnmatch={() =>
+											setHasUnmatchedAnonymousConversation(
 												true
 											)
 										}
-										handleUnmatchConsultant={() => {
-											setHasUnmatchedRegistrationConsultant(
-												true
-											);
-										}}
-										legalComponent={legalComponent}
-										stageComponent={stageComponent}
-										fixedLanguages={fixedLanguages}
+										onAnonymousRegistration={() =>
+											setStartWebsocket(true)
+										}
 									/>
 								</Route>
 							)}
-
-						{!hasUnmatchedAnonymousConversation && (
-							<Route path="/:consultingTypeSlug/warteraum">
-								<WaitingRoomLoader
-									handleUnmatch={() =>
-										setHasUnmatchedAnonymousConversation(
-											true
-										)
-									}
-									onAnonymousRegistration={() =>
-										setStartWebsocket(true)
-									}
-								/>
-							</Route>
-						)}
-						{!hasUnmatchedLoginConsultingType && (
-							<Route path={['/login', '/:consultingTypeSlug']}>
-								<LoginLoader
-									handleUnmatch={() =>
-										setHasUnmatchedLoginConsultingType(true)
-									}
+							{!hasUnmatchedLoginConsultingType && (
+								<Route
+									path={['/login', '/:consultingTypeSlug']}
+								>
+									<LoginLoader
+										handleUnmatch={() =>
+											setHasUnmatchedLoginConsultingType(
+												true
+											)
+										}
+										legalComponent={legalComponent}
+										stageComponent={stageComponent}
+									/>
+								</Route>
+							)}
+							{isInitiallyLoaded && (
+								<AuthenticatedApp
 									legalComponent={legalComponent}
-									stageComponent={stageComponent}
-									fixedLanguages={fixedLanguages}
+									spokenLanguages={spokenLanguages}
+									onAppReady={() => setStartWebsocket(true)}
+									onLogout={() =>
+										setDisconnectWebsocket(true)
+									}
 								/>
-							</Route>
-						)}
-						{isInitiallyLoaded && (
-							<AuthenticatedApp
-								legalComponent={legalComponent}
-								spokenLanguages={spokenLanguages}
-								fixedLanguages={fixedLanguages}
-								onAppReady={() => setStartWebsocket(true)}
-								onLogout={() => setDisconnectWebsocket(true)}
-							/>
-						)}
-					</Switch>
-				</ContextProvider>
+							)}
+						</Switch>
+					</ContextProvider>
+				</FixedLanguagesContext.Provider>
 			</Router>
 		</ErrorBoundary>
 	);

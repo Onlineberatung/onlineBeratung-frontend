@@ -19,15 +19,13 @@ interface RegistrationProps {
 	handleUnmatchConsultant: Function;
 	stageComponent: ComponentType<StageProps>;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
-	fixedLanguages: string[];
 }
 
 export const Registration = ({
 	handleUnmatchConsultingType,
 	handleUnmatchConsultant,
 	legalComponent,
-	stageComponent: Stage,
-	fixedLanguages
+	stageComponent: Stage
 }: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
 	const agencyId = getUrlParameter('aid');
@@ -173,7 +171,6 @@ export const Registration = ({
 						agency={agency}
 						consultant={consultant}
 						legalComponent={legalComponent}
-						fixedLanguages={fixedLanguages}
 					/>
 				))}
 		</StageLayout>

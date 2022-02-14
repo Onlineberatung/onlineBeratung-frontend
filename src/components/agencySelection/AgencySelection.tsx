@@ -36,7 +36,6 @@ export interface AgencySelectionProps {
 	isProfileView?: boolean;
 	agencySelectionNote?: string;
 	initialPostcode?: string;
-	fixedLanguages: string[];
 	hideExternalAgencies?: boolean;
 }
 
@@ -344,9 +343,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											/>
 											<AgencyLanguages
 												agencyId={agency.id}
-												fixedLanguages={
-													props.fixedLanguages
-												}
 											/>
 										</div>
 									)
@@ -361,7 +357,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					prefix={translate('registration.agency.preselected.prefix')}
 					agencyData={preselectedAgency}
 					isProfileView={props.isProfileView}
-					fixedLanguages={props.fixedLanguages}
 				/>
 			)}
 		</div>
