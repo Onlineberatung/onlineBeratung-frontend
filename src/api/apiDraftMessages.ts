@@ -2,7 +2,7 @@ import { config } from '../resources/scripts/config';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 
 export const apiPostDraftMessage = async (
-	rcGroupId: string,
+	rcGroupIdOrSessionId: string | number,
 	messageData: string
 ): Promise<void> => {
 	const url = config.endpoints.draftMessages;
@@ -13,7 +13,7 @@ export const apiPostDraftMessage = async (
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.POST,
-		headersData: { rcGroupId: rcGroupId },
+		headersData: { rcGroupId: rcGroupIdOrSessionId },
 		bodyData: message
 	});
 };
@@ -23,14 +23,14 @@ interface draftMessage {
 }
 
 export const apiGetDraftMessage = async (
-	rcGroupId: string
+	rcGroupIdOrSessionId: string | number
 ): Promise<draftMessage> => {
 	const url = config.endpoints.draftMessages;
 
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.GET,
-		headersData: { rcGroupId: rcGroupId },
+		headersData: { rcGroupId: rcGroupIdOrSessionId },
 		responseHandling: [FETCH_ERRORS.EMPTY]
 	});
 };

@@ -1,74 +1,75 @@
 import * as React from 'react';
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
-	typeIsEnquiry,
-	isGroupChatForSessionItem,
 	getChatItemForSession,
+	getSessionListPathForLocation,
+	isGroupChat,
+	isLiveChat,
+	isSessionChat,
 	SESSION_LIST_TYPES,
-	getSessionListPathForLocation
+	typeIsEnquiry
 } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { translate } from '../../utils/translate';
 import { UserDataContext } from '../../globalState/provider/UserDataProvider';
 import {
-	getActiveSession,
+	AUTHORITIES,
 	getContact,
-	hasUserAuthority,
-	isAnonymousSession,
-	AUTHORITIES
+	hasUserAuthority
 } from '../../globalState/helpers/stateHelpers';
 import {
 	AcceptedGroupIdContext,
-	ActiveSessionGroupIdContext,
-	SessionsDataContext
+	SessionsDataContext,
+	STATUS_ARCHIVED,
+	STATUS_FINISHED
 } from '../../globalState';
 import {
+	apiGetDraftMessage,
+	apiPostDraftMessage,
+	apiPutDearchive,
 	apiSendEnquiry,
 	apiSendMessage,
 	apiUploadAttachment,
-	apiPostDraftMessage,
-	apiGetDraftMessage,
-	FETCH_ERRORS,
-	apiPutDearchive
+	FETCH_ERRORS
 } from '../../api';
 import {
 	MessageSubmitInfo,
 	MessageSubmitInfoInterface
 } from './MessageSubmitInfo';
 import {
-	isJPEGAttachment,
-	isPNGAttachment,
-	isPDFAttachment,
-	isDOCXAttachment,
+	ATTACHMENT_MAX_SIZE_IN_MB,
 	getAttachmentSizeMBForKB,
-	isXLSXAttachment,
-	ATTACHMENT_MAX_SIZE_IN_MB
+	isDOCXAttachment,
+	isJPEGAttachment,
+	isPDFAttachment,
+	isPNGAttachment,
+	isXLSXAttachment
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
 import {
-	EditorState,
-	RichUtils,
-	DraftHandleValue,
+	convertFromRaw,
 	convertToRaw,
-	convertFromRaw
+	DraftHandleValue,
+	EditorState,
+	RichUtils
 } from 'draft-js';
 import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
 import {
-	ItalicButton,
 	BoldButton,
+	ItalicButton,
 	UnorderedListButton
 } from 'draft-js-buttons';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import {
 	emojiPickerCustomClasses,
-	toolbarCustomClasses,
+	escapeMarkdownChars,
 	handleEditorBeforeInput,
 	handleEditorPastedText,
-	escapeMarkdownChars
+	toolbarCustomClasses
 } from './richtextHelpers';
 import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
 import { ReactComponent as FileDocIcon } from '../../resources/img/icons/file-doc.svg';
@@ -85,6 +86,7 @@ import './messageSubmitInterface.yellowTheme.styles';
 import clsx from 'clsx';
 import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -148,6 +150,8 @@ export interface MessageSubmitInterfaceComponentProps {
 	showMonitoringButton?: Function;
 	type: SESSION_LIST_TYPES;
 	typingUsers?: string[];
+	sessionIdFromParam?: number;
+	groupIdFromParam?: string;
 	language?: string;
 }
 
@@ -161,14 +165,13 @@ export const MessageSubmitInterfaceComponent = (
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const chatItem = getChatItemForSession(activeSession);
-	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const isLiveChat = isAnonymousSession(activeSession?.session);
-	const isTypingActive = isGroupChat || isLiveChat;
-	const isLiveChatFinished = chatItem?.status === 3;
+	const isTypingActive = isGroupChat(chatItem) || isLiveChat(chatItem);
+	const isLiveChatFinished =
+		isSessionChat(chatItem) && chatItem.status === STATUS_FINISHED;
 	const [activeInfo, setActiveInfo] = useState(null);
+	const [draftLoaded, setDraftLoaded] = useState(false);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
 		null
 	);
@@ -200,11 +203,10 @@ export const MessageSubmitInterfaceComponent = (
 
 	const isConsultantAbsent =
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-		activeSession &&
-		activeSession.consultant &&
-		activeSession.consultant.absent;
+		activeSession?.consultant?.absent;
 
-	const isSessionArchived = activeSession?.session?.status === 4;
+	const isSessionArchived =
+		activeSession?.session?.status === STATUS_ARCHIVED;
 
 	useEffect(() => {
 		if (
@@ -216,7 +218,7 @@ export const MessageSubmitInterfaceComponent = (
 			setActiveInfo(INFO_TYPES.ABSENT);
 		}
 
-		apiGetDraftMessage(activeSessionGroupId)
+		apiGetDraftMessage(props.sessionIdFromParam || props.groupIdFromParam)
 			.then((response) => {
 				setEditorWithMarkdownString(response.message);
 			})
@@ -224,6 +226,9 @@ export const MessageSubmitInterfaceComponent = (
 				if (error.message !== FETCH_ERRORS.EMPTY) {
 					console.error('Loading Draft Message: ', error);
 				}
+			})
+			.finally(() => {
+				setDraftLoaded(true);
 			});
 
 		return () => {
@@ -235,8 +240,11 @@ export const MessageSubmitInterfaceComponent = (
 					requestFeedbackCheckboxCallback &&
 					requestFeedbackCheckboxCallback.checked
 						? activeSession.session.feedbackGroupId
-						: activeSessionGroupId;
-				apiPostDraftMessage(groupId, currentDraftMessageRef.current);
+						: props.sessionIdFromParam || props.groupIdFromParam;
+				apiPostDraftMessage(
+					groupId,
+					currentDraftMessageRef.current
+				).then();
 			}
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -256,7 +264,7 @@ export const MessageSubmitInterfaceComponent = (
 			const groupId =
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.session.feedbackGroupId
-					: activeSessionGroupId;
+					: props.sessionIdFromParam || props.groupIdFromParam;
 			apiPostDraftMessage(groupId, debouncedDraftMessage);
 		}
 	}, [debouncedDraftMessage]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -332,13 +340,12 @@ export const MessageSubmitInterfaceComponent = (
 
 	const handleEditorChange = (currentEditorState) => {
 		if (
-			isTypingActive &&
+			draftLoaded &&
 			currentEditorState.getCurrentContent() !==
-				editorState.getCurrentContent()
+				editorState.getCurrentContent() &&
+			props.isTyping
 		) {
-			if (props.isTyping) {
-				props.isTyping();
-			}
+			props.isTyping(!currentEditorState.getCurrentContent().hasText());
 		}
 		setEditorState(currentEditorState);
 		currentDraftMessageRef.current =
@@ -494,7 +501,10 @@ export const MessageSubmitInterfaceComponent = (
 						mobileListView();
 						history.push(getSessionListPathForLocation());
 						if (window.innerWidth >= 900) {
-							setAcceptedGroupId(activeSessionGroupId);
+							setAcceptedGroupId(
+								props.sessionIdFromParam ||
+									props.groupIdFromParam
+							);
 						}
 					}
 				})
@@ -519,8 +529,8 @@ export const MessageSubmitInterfaceComponent = (
 			typeIsEnquiry(props.type) &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
-			const enquirySessionId = activeSessionGroupId
-				? activeSessionGroupId
+			const enquirySessionId = props.sessionIdFromParam
+				? props.sessionIdFromParam
 				: sessionsData.mySessions[0].session.id;
 			apiSendEnquiry(
 				enquirySessionId,
@@ -540,9 +550,9 @@ export const MessageSubmitInterfaceComponent = (
 				(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
 			const sendToRoomWithId = sendToFeedbackEndpoint
 				? activeSession?.session.feedbackGroupId
-				: activeSessionGroupId;
+				: props.sessionIdFromParam || props.groupIdFromParam;
 			const getSendMailNotificationStatus = () =>
-				!isGroupChat && !isLiveChat;
+				!isGroupChat(chatItem) && !isLiveChat(chatItem);
 
 			if (attachment) {
 				setAttachmentUpload(

@@ -59,6 +59,7 @@
 		"hi-base32": "0.5.1",
 		"html-webpack-plugin": "4.5.1",
 		"identity-obj-proxy": "3.0.0",
+		"immutability-helper": "^3.1.1",
 		"js-autocomplete": "^1.0.4",
 		"markdown-draft-js": "2.2.1",
 		"mini-css-extract-plugin": "1.6.0",

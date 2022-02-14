@@ -5,6 +5,10 @@
 	border: 2px dashed $form-input-border;
 	border-radius: 0 12px 12px;
 
+	&__consultantHint {
+		margin-bottom: $grid-base-two;
+	}
+
 	* + .headline--5 {
 		margin-top: $grid-base-four;
 	}

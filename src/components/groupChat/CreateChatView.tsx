@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { useEffect, useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
-	ActiveSessionGroupIdContext,
-	ACTIVE_SESSION,
 	AcceptedGroupIdContext,
-	getActiveSession,
 	SessionsDataContext,
-	getSessionsDataWithChangedValue
+	getSessionsDataWithChangedValue,
+	GroupChatItemInterface,
+	ActiveSessionType,
+	getActiveSession
 } from '../../globalState';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
@@ -52,15 +52,14 @@ import './createChat.styles';
 registerLocale('de', de);
 
 export const CreateGroupChatView = (props) => {
-	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
-		ActiveSessionGroupIdContext
-	);
+	const { rcGroupId: groupIdFromParam } = useParams();
+
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
 	const [selectedChatTopic, setSelectedChatTopic] = useState('');
 	const [selectedDate, setSelectedDate] = useState('');
 	const [selectedTime, setSelectedTime] = useState('');
-	const [selectedDuration, setSelectedDuration] = useState('');
+	const [selectedDuration, setSelectedDuration] = useState(null);
 	const [selectedRepetitive, setSelectedRepetitive] = useState(false);
 	const [isCreateButtonDisabled, setIsCreateButtonDisabled] = useState(true);
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
@@ -73,8 +72,13 @@ export const CreateGroupChatView = (props) => {
 	const [isTimeInputFocused, setIsTimeInputFocus] = useState(false);
 	const [groupIdToRedirect, setGroupIdToRedirect] = useState(null);
 	const [isEditGroupChatMode, setIsEditGroupChatMode] = useState(false);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const chatItem = getChatItemForSession(activeSession);
+
+	const [activeSession, setActiveSession] =
+		useState<ActiveSessionType | null>(null);
+	const [chatItem, setChatItem] = useState<GroupChatItemInterface | null>(
+		null
+	);
+
 	const prevPathIsGroupChatInfo =
 		props.location.state && props.location.state.prevIsInfoPage;
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
@@ -86,6 +90,15 @@ export const CreateGroupChatView = (props) => {
 
 	useEffect(() => {
 		mobileDetailView();
+
+		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+		const chatItem = getChatItemForSession(
+			activeSession
+		) as GroupChatItemInterface;
+
+		setActiveSession(activeSession);
+		setChatItem(chatItem);
+
 		if (props.location.state && props.location.state.isEditMode) {
 			const selectedTime = getChatDate(
 				chatItem.startDate,
@@ -97,10 +110,8 @@ export const CreateGroupChatView = (props) => {
 			handleTimePicker(selectedTime);
 			setSelectedDuration(chatItem.duration);
 			setSelectedRepetitive(chatItem.repetitive);
-		} else {
-			setActiveSessionGroupId(ACTIVE_SESSION.CREATE_CHAT);
 		}
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [groupIdFromParam, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(
 		() => {
@@ -145,8 +156,6 @@ export const CreateGroupChatView = (props) => {
 						chatItem.id
 				  }${getSessionListTab()}`;
 			history.push(redirectPath);
-		} else {
-			setActiveSessionGroupId(null);
 		}
 	};
 
@@ -202,7 +211,11 @@ export const CreateGroupChatView = (props) => {
 
 	const getOptionOfSelectedDuration = () => {
 		return durationSelectOptionsSet.filter(
-			(option) => option.value === (selectedDuration.toString() as string)
+			(option) =>
+				option.value ===
+				(selectedDuration
+					? (selectedDuration.toString() as string)
+					: '')
 		)[0];
 	};
 

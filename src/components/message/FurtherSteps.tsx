@@ -25,15 +25,15 @@ import {
 } from '../overlay/Overlay';
 import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
 import {
-	ActiveSessionGroupIdContext,
-	getActiveSession,
+	AUTHORITIES,
 	ConsultingTypeInterface,
-	SessionsDataContext,
+	hasUserAuthority,
 	UserDataContext
 } from '../../globalState';
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
 import { isVoluntaryInfoSet } from './messageHelpers';
 import { getChatItemForSession } from '../session/sessionHelpers';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 const addEmailButton: ButtonItem = {
 	label: translate('furtherSteps.emailNotification.button'),
@@ -48,9 +48,7 @@ interface FurtherStepsProps {
 }
 
 export const FurtherSteps = (props: FurtherStepsProps) => {
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -67,11 +65,13 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	const chatItem = getChatItemForSession(activeSession);
 
 	useEffect(() => {
-		const sessionData =
-			userData.consultingTypes[props.consultingType].sessionData;
-		setShowAddVoluntaryInfo(
-			!isVoluntaryInfoSet(sessionData, props.resortData)
-		);
+		if (userData.consultingTypes) {
+			const sessionData =
+				userData.consultingTypes[props.consultingType].sessionData;
+			setShowAddVoluntaryInfo(
+				!isVoluntaryInfoSet(sessionData, props.resortData)
+			);
+		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const emailInputItem: InputFieldItem = {
@@ -189,10 +189,22 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	};
 
 	const showAddEmail = !userData.email;
+	const isConsultant = hasUserAuthority(
+		AUTHORITIES.CONSULTANT_DEFAULT,
+		userData
+	);
+
 	return (
 		<div className="furtherSteps">
 			{!props.onlyShowVoluntaryInfo && (
 				<>
+					{isConsultant && (
+						<Text
+							className="furtherSteps__consultantHint"
+							text={translate('furtherSteps.consultant.info')}
+							type="infoLargeStandard"
+						/>
+					)}
 					<Headline
 						semanticLevel="4"
 						text={translate('furtherSteps.headline')}
@@ -235,7 +247,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 							/>
 						</li>
 					</ul>
-					{showAddEmail && (
+					{!isConsultant && showAddEmail && (
 						<>
 							<Headline
 								semanticLevel="5"
