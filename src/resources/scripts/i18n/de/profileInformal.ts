@@ -23,7 +23,7 @@ const profileInformal = {
 	'data.registerError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.',
 	'data.personal.registrationLink.tooltip':
-		'Teile Deinen Kontakt-Link mit jemanden, damit diese Person eine Onlineberatung mit Dir starten kann.',
+		'Teile Deinen persönlichen Kontakt-Link mit jemanden, damit diese Person eine Onlineberatung direkt mit Dir starten kann.',
 	'externalRegistration.headline':
 		'Deine gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung',
 	'externalRegistration.copy.start': 'Möchtest Du für „',

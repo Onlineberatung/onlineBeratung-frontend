@@ -53,8 +53,7 @@ const profile = {
 	'data.personal.registrationLink.notification.text':
 		'Der Link wurde erfolgreich in die Zwischenablage kopiert!',
 	'data.personal.registrationLink.tooltip':
-		'Teilen Sie Ihren Kontakt-Link mit jemanden, damit diese Person eine Onlineberatung mit Ihnen starten kann.',
-
+		'Teilen Sie Ihren persönlichen Kontakt-Link mit jemanden, damit diese Person eine Onlineberatung direkt mit Ihnen starten kann.',
 	'data.register.headline':
 		'Benötigen Sie auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Sie gerne.',
 	'data.register.consultingTypeSelect.label': 'Themenfelder',
