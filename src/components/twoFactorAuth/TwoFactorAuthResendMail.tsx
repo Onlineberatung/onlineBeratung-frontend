@@ -21,7 +21,7 @@ export const TwoFactorAuthResendMail: React.FC<TwoFactorAuthResendMailProps> =
 					type="infoLargeStandard"
 				/>
 				{isCodeSent ? (
-					<p>
+					<p className="text text__infoLargeStandard">
 						<CheckmarkIcon />{' '}
 						{translate('twoFactorAuth.activate.email.resend.sent')}
 					</p>

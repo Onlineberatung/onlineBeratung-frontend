@@ -135,7 +135,11 @@ export const TwoFactorAuth = () => {
 		setOtp(event.target.value);
 	};
 
-	const activateTwoFactorAuthByType = () => {
+	const activateTwoFactorAuthByType = (triggerNextStep) => {
+		//TODO testing only
+		triggerNextStep();
+		return;
+
 		let apiCall, apiData;
 
 		if (twoFactorType === TWO_FACTOR_TYPES.APP) {
@@ -159,6 +163,9 @@ export const TwoFactorAuth = () => {
 				.then(() => {
 					if (twoFactorType === TWO_FACTOR_TYPES.APP) {
 						setOverlayActive(false);
+					}
+					if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
+						triggerNextStep();
 					}
 					setIsRequestInProgress(false);
 					updateUserData();
@@ -487,6 +494,10 @@ export const TwoFactorAuth = () => {
 	};
 
 	const sendEmailActivationCode = async (triggerNextStep) => {
+		// TODO TESTING ONLY
+		triggerNextStep();
+		return;
+
 		await apiPutTwoFactorAuthEmail(email)
 			.then(() => {
 				triggerNextStep();
@@ -562,10 +573,11 @@ export const TwoFactorAuth = () => {
 				{
 					disabled: otpLabelState !== 'valid',
 					label: translate('twoFactorAuth.overlayButton.confirm'),
+					function: OVERLAY_FUNCTIONS.NEXT_STEP,
 					type: BUTTON_TYPES.PRIMARY
 				}
 			],
-			handleOverlay: activateTwoFactorAuthByType,
+			handleNextStep: activateTwoFactorAuthByType,
 			step: {
 				icon: UrlIcon,
 				label: translate(
@@ -655,10 +667,17 @@ export const TwoFactorAuth = () => {
 					type="standard"
 				/>
 			</label>
-			{isSwitchChecked && ( // TODO
+			{isSwitchChecked && userData.twoFactorAuth.type && (
 				<p>
-					<strong>Ihr 2. Faktor:</strong>{' '}
-					{userData.twoFactorAuth.type} {userData.email}
+					<strong>
+						{translate('twoFactorAuth.switch.type.label')}
+					</strong>{' '}
+					{translate(
+						`twoFactorAuth.switch.type.${userData.twoFactorAuth.type}`
+					)}{' '}
+					{userData.twoFactorAuth.type === TWO_FACTOR_TYPES.EMAIL
+						? `(${userData.email})`
+						: ''}
 				</p>
 			)}
 			{overlayActive ? (

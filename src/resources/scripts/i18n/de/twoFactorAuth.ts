@@ -84,7 +84,15 @@ const twoFactorAuth = {
 		'Authentifizierung deaktivieren',
 	'email.change.confirmOverlay.button.deny': 'Abbrechen',
 	'email.delete.confirmOverlay.copy':
-		'wird die 2 Faktor Authentifizierung deaktiviert.'
+		'wird die 2 Faktor Authentifizierung deaktiviert.',
+	'switch.type.label': 'Ihr 2. Faktor',
+	'switch.type.email': 'E-Mail',
+	'switch.type.app': 'App',
+	'nag.title': 'Schützen Sie Ihr Konto',
+	'nag.copy':
+		'Sichern Sie Ihr Konto vor einem möglichen unbefugtem Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online Beratung.',
+	'nag.button.later': 'Später erinnern',
+	'nag.button.protect': 'Jetzt schützen'
 };
 
 export default twoFactorAuth;

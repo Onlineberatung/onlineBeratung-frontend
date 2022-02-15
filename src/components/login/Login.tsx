@@ -25,7 +25,7 @@ import {
 	apiRegistrationNewConsultingTypes,
 	FETCH_ERRORS
 } from '../../api';
-import { OTP_LENGTH, TWO_FACTOR_TYPES } from '../profile/TwoFactorAuth';
+import { OTP_LENGTH, TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
@@ -55,7 +55,7 @@ import {
 	UserDataInterface
 } from '../../globalState';
 import { history } from '../app/app';
-import { TwoFactorAuthResendMail } from '../profile/TwoFactorAuthResendMail';
+import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),

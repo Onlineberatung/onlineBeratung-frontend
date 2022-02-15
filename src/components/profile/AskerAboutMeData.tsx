@@ -21,7 +21,7 @@ import {
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { apiDeleteEmail } from '../../api/apiDeleteEmail';
-import { TWO_FACTOR_TYPES } from './TwoFactorAuth';
+import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 
 const cancelEditButton: ButtonItem = {
 	label: 'abbrechen',

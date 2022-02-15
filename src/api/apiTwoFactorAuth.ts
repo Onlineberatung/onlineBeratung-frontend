@@ -26,6 +26,19 @@ export const apiPutTwoFactorAuthEmail = async (email: string): Promise<any> => {
 	});
 };
 
+export const apiPutTwoFactorAuthHint = async (
+	isShown: boolean
+): Promise<any> => {
+	const url = config.endpoints.twoFactorAuthHint;
+
+	return fetchData({
+		url: url,
+		method: FETCH_METHODS.PUT,
+		bodyData: JSON.stringify({ hint2fa: isShown }),
+		responseHandling: [FETCH_ERRORS.BAD_REQUEST]
+	});
+};
+
 export const apiPostTwoFactorAuthEmailWithCode = async (
 	code: string
 ): Promise<any> => {

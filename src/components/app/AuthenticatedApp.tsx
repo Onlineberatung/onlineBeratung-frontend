@@ -30,6 +30,9 @@ import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './authenticatedApp.styles';
 import './navigation.styles';
 import { requestPermissions } from '../../utils/notificationHelpers';
+import { Overlay, OverlayWrapper } from '../overlay/Overlay';
+import { translate } from '../../utils/translate';
+import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -112,6 +115,7 @@ export const AuthenticatedApp = ({
 				{notifications && (
 					<Notifications notifications={notifications} />
 				)}
+				<TwoFactorNag />
 			</>
 		);
 	}

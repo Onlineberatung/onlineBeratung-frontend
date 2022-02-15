@@ -23,7 +23,7 @@ import { DeleteAccount } from './DeleteAccount';
 import { AbsenceFormular } from '../absenceFormular/AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { Text } from '../text/Text';
-import { TwoFactorAuth } from './TwoFactorAuth';
+import { TwoFactorAuth } from '../twoFactorAuth/TwoFactorAuth';
 import { ConsultantStatistics } from './ConsultantStatistics';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './profile.styles';
