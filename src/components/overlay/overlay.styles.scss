@@ -46,7 +46,7 @@ $iconSizeLarge: 48px;
 		border-radius: 4px;
 		text-align: $overlay-text-align;
 		margin: auto;
-		padding: $grid-base-eight $grid-base-three $grid-base-six;
+		padding: $grid-base-ten $grid-base-three $grid-base-six;
 		overflow: scroll;
 
 		@include breakpoint($fromMedium) {
@@ -115,7 +115,7 @@ $iconSizeLarge: 48px;
 				content: '';
 				border-top: 1px solid $form-disabled;
 				margin: $iconSizeXS $grid-base $iconSizeXS;
-				width: 30px;
+				width: 25px;
 
 				@include breakpoint($stepsBreakpoint) {
 					margin: $iconSizeXS -14px $iconSizeXS;
@@ -281,7 +281,12 @@ $iconSizeLarge: 48px;
 
 	&--stepped &__nestedComponent {
 		.inputField {
+			max-width: 400px;
 			margin: $overlay-stepped-input-field-margin;
+			@include breakpoint($fromSmall) {
+				max-width: 325px;
+				margin: $overlay-stepped-input-field-margin;
+			}
 		}
 	}
 

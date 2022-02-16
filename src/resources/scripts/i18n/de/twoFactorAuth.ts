@@ -59,7 +59,7 @@ const twoFactorAuth = {
 	'activate.otp.input.label': 'Einmal-Code',
 	'activate.otp.input.label.short': 'Der eingegebene Code ist zu kurz.',
 	'activate.otp.input.label.error':
-		'Die Authentifizierung fehlgeschlagen. Bitte wiederholen Sie den Vorgang.',
+		'Die Authentifizierung ist fehlgeschlagen. Bitte wiederholen Sie den Vorgang.',
 	'overlayButton.next': 'Weiter',
 	'overlayButton.back': 'Zurück',
 	'overlayButton.save': 'Speichern',
@@ -86,8 +86,8 @@ const twoFactorAuth = {
 	'email.delete.confirmOverlay.copy':
 		'wird die 2 Faktor Authentifizierung deaktiviert.',
 	'switch.type.label': 'Ihr 2. Faktor',
-	'switch.type.email': 'E-Mail',
-	'switch.type.app': 'App',
+	'switch.type.EMAIL': 'E-Mail',
+	'switch.type.APP': 'App',
 	'nag.title': 'Schützen Sie Ihr Konto',
 	'nag.copy':
 		'Sichern Sie Ihr Konto vor einem möglichen unbefugtem Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online Beratung.',

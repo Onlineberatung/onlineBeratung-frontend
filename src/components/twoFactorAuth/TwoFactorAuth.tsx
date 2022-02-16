@@ -36,13 +36,14 @@ import { LockIcon, PenIcon } from '../../resources/img/icons';
 import { RadioButton } from '../radioButton/RadioButton';
 import { Tooltip } from '../tooltip/Tooltip';
 import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
+import { history } from '../app/app';
 
 export const OTP_LENGTH = 6;
 
 export const TWO_FACTOR_TYPES = {
 	EMAIL: 'EMAIL',
 	APP: 'APP',
-	NONE: 'NONE'
+	NONE: ''
 };
 
 export const TwoFactorAuth = () => {
@@ -62,6 +63,12 @@ export const TwoFactorAuth = () => {
 	const [twoFactorType, setTwoFactorType] = useState<string>(
 		TWO_FACTOR_TYPES.APP
 	);
+
+	useEffect(() => {
+		if (history.location.openTwoFactor) {
+			setOverlayActive(true);
+		}
+	}, []);
 
 	const updateUserData = () => {
 		apiGetUserData()
@@ -146,7 +153,7 @@ export const TwoFactorAuth = () => {
 			apiCall = apiPutTwoFactorAuthApp;
 			apiData = {
 				secret: userData.twoFactorAuth.secret,
-				initialCode: otp
+				otp
 			};
 		}
 		if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
@@ -165,7 +172,7 @@ export const TwoFactorAuth = () => {
 						setOverlayActive(false);
 					}
 					if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
-						triggerNextStep();
+						if (triggerNextStep) triggerNextStep();
 					}
 					setIsRequestInProgress(false);
 					updateUserData();
@@ -493,18 +500,14 @@ export const TwoFactorAuth = () => {
 		);
 	};
 
-	const sendEmailActivationCode = async (triggerNextStep) => {
-		// TODO TESTING ONLY
+	const sendEmailActivationCode = (triggerNextStep) => {
+		// TODO Testing
 		triggerNextStep();
 		return;
 
-		await apiPutTwoFactorAuthEmail(email)
-			.then(() => {
-				triggerNextStep();
-			})
-			.catch((e) => {
-				// TODO ADD ERROR HANDLING
-			});
+		apiPutTwoFactorAuthEmail(email).then(() => {
+			if (triggerNextStep) triggerNextStep();
+		});
 	};
 
 	const emailCodeInput = (): JSX.Element => {

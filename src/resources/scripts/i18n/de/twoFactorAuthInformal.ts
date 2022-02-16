@@ -24,9 +24,12 @@ const twoFactorAuthInformal = {
 	'activate.app.step4.copy':
 		'Gib den Einmal-Code ein, der von der App generiert wird und klicke auf „Speichern“, um die Einrichtung abzuschließen.',
 	'activate.app.step4.input.label.error':
-		'Die Authentifizierung fehlgeschlagen. Bitte wiederhole den Vorgang.',
+		'Die Authentifizierung ist fehlgeschlagen. Bitte wiederhole den Vorgang.',
 	'activate.email.input.info':
-		'Du kannst nur eine E-Mail Adresse bei uns hinterlegen. Falls Du die E-Mail Adresse hier änderst, erhältst Du auf diese E-Mail Adresse zukünftig auch die Benachrichtigungen.'
+		'Du kannst nur eine E-Mail Adresse bei uns hinterlegen. Falls Du die E-Mail Adresse hier änderst, erhältst Du auf diese E-Mail Adresse zukünftig auch die Benachrichtigungen.',
+	'nag.title': 'Schütze Dein Konto',
+	'nag.copy':
+		'Sichere Dein Konto vor einem möglichen unbefugtem Zugriff. Nutze einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online Beratung.'
 };
 
 export default twoFactorAuthInformal;

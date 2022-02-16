@@ -5,15 +5,20 @@ import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { history } from '../app/app';
 import { apiPutTwoFactorAuthHint } from '../../api';
+import './twoFactorNag.styles';
 
 interface TwoFactorNagProps {}
 
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const { userData } = useContext(UserDataContext);
-	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(true);
+	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
 
 	useEffect(() => {
-		if (userData.twoFactorAuth.hint2fa) {
+		if (
+			userData.twoFactorAuth.isEnabled &&
+			!userData.twoFactorAuth.isActive &&
+			userData.twoFactorAuth.hint2fa
+		) {
 			setIsShownTwoFactorNag(true);
 		}
 	}, [userData]);
@@ -27,10 +32,10 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			history.push({
-				pathname: '/profile'
+				pathname: '/profile',
+				openTwoFactor: true
 			});
 			setIsShownTwoFactorNag(false);
-			// TODO Trigger 2FA Overlay ???
 		}
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setIsShownTwoFactorNag(false);
