@@ -22,7 +22,6 @@ import {
 	UnreadSessionsStatusContext,
 	AUTHORITIES,
 	hasUserAuthority,
-	StoppedGroupChatContext,
 	UserDataInterface,
 	getUnreadMyMessages,
 	UpdateSessionListContext,
@@ -99,12 +98,10 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 	const { updateSessionList, setUpdateSessionList } = useContext(
 		UpdateSessionListContext
 	);
+	const [isSessionListUpdating, setIsSessionListUpdating] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [isActiveSessionCreateChat, setIsActiveSessionCreateChat] =
 		useState(false);
-	const { stoppedGroupChat, setStoppedGroupChat } = useContext(
-		StoppedGroupChatContext
-	);
 
 	let type = getTypeOfLocation();
 
@@ -117,7 +114,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
-			fetchAskerData(acceptedGroupId, true);
+			fetchAskerData(acceptedGroupId, true).catch(() => {});
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -129,7 +126,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			acceptedGroupId
 		) {
-			fetchAskerData(acceptedGroupId);
+			fetchAskerData(acceptedGroupId).catch(() => {});
 			setAcceptedGroupId(null);
 		}
 
@@ -229,7 +226,9 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 			) {
-				fetchAskerData();
+				fetchAskerData().finally(() => {
+					setIsSessionListUpdating(false);
+				});
 			} else if (
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 			) {
@@ -238,34 +237,18 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 				 * currently if list has loaded more than SESSION_COUNT items and
 				 * chat item to be refreshed is item 4 it will not refresh
 				 */
-				getSessionsListData().catch(() => {});
+				getSessionsListData().finally(() => {
+					setIsSessionListUpdating(false);
+				});
 			}
 		};
 
-		if (updateSessionList) {
+		if (updateSessionList && !isSessionListUpdating) {
+			setIsSessionListUpdating(true);
 			refreshSessionList();
 		}
 		setUpdateSessionList(null);
 	}, [updateSessionList, userData]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		if (stoppedGroupChat) {
-			if (
-				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
-			) {
-				/**
-				 * ToDo: Only works if the stopped group chat is in current offset
-				 * currently if list has loaded more than SESSION_COUNT items and
-				 * group chat was item 4 it will not refresh
-				 */
-				getSessionsListData().catch(() => {});
-			} else {
-				fetchAskerData();
-			}
-			setStoppedGroupChat(false);
-		}
-	}, [stoppedGroupChat]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const fetchSessionsForAcceptedGroupId = (increasedOffset?: number) => {
 		const updatedOffset = increasedOffset ?? currentOffset;
@@ -416,7 +399,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 		newRegisteredSessionId: number | string = null,
 		redirectToEnquiry: boolean = false
 	) => {
-		apiGetAskerSessionList()
+		return apiGetAskerSessionList()
 			.then((response) => {
 				setSessionsData({
 					mySessions: response.sessions
