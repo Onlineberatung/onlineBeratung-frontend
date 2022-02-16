@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { useContext, useState, useEffect, useMemo } from 'react';
+import { useContext, useState, useEffect, useMemo, createRef } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import {
 	typeIsTeamSession,
 	typeIsEnquiry,
-	SESSION_LIST_TYPES,
 	getTypeOfLocation,
 	typeIsSession,
 	getChatItemForSession,
@@ -57,6 +56,7 @@ import clsx from 'clsx';
 
 interface GetSessionsListDataInterface {
 	increaseOffset?: boolean;
+	resetOffset?: boolean;
 	signal?: AbortSignal;
 }
 
@@ -69,15 +69,17 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 }) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 	const location = useLocation();
-	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
+	const listRef = createRef<HTMLDivElement>();
 	const sessionsContext = useContext(SessionsDataContext);
 	const { sessionsData, setSessionsData } = sessionsContext;
 	const { filterStatus, setFilterStatus } = useContext(FilterStatusContext);
 	const currentFilter = useMemo(() => filterStatus, [filterStatus]);
+
 	const [sessionListTab, setSessionListTab] = useState(
 		new URLSearchParams(location.search).get('sessionListTab')
 	);
 	const currentTab = useMemo(() => sessionListTab, [sessionListTab]);
+
 	const [hasNoSessions, setHasNoSessions] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [abortController, setAbortController] =
@@ -158,6 +160,11 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 			if (acceptedGroupId !== ACCEPTED_GROUP_CLOSE) {
 				fetchSessionsForAcceptedGroupId();
 			} else if (acceptedGroupId === ACCEPTED_GROUP_CLOSE) {
+				/**
+				 * ToDo: Only works if the closed group chat is in current offset
+				 * currently if list has loaded more than SESSION_COUNT items and
+				 * group chat was item 4 it will not refresh
+				 */
 				getSessionsListData()
 					.then(() => {
 						setAcceptedGroupId(null);
@@ -181,7 +188,10 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 
 			const controller = new AbortController();
 			setAbortController(controller);
-			getSessionsListData({ signal: controller.signal }).catch(() => {});
+			getSessionsListData({
+				resetOffset: true,
+				signal: controller.signal
+			}).catch(() => {});
 		}
 	}, [currentFilter, currentTab]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -214,9 +224,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 	}, [sessionsData, updateSessionList]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		const refreshSessionList = async (
-			sessionListType: SESSION_LIST_TYPES
-		) => {
+		const refreshSessionList = () => {
 			if (
 				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
@@ -225,12 +233,17 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 			} else if (
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 			) {
-				getSessionsListData();
+				/**
+				 * ToDo: Only works if the chat which has to be refreshed is in current offset
+				 * currently if list has loaded more than SESSION_COUNT items and
+				 * chat item to be refreshed is item 4 it will not refresh
+				 */
+				getSessionsListData().catch(() => {});
 			}
 		};
 
 		if (updateSessionList) {
-			refreshSessionList(updateSessionList);
+			refreshSessionList();
 		}
 		setUpdateSessionList(null);
 	}, [updateSessionList, userData]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -241,6 +254,11 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 			) {
+				/**
+				 * ToDo: Only works if the stopped group chat is in current offset
+				 * currently if list has loaded more than SESSION_COUNT items and
+				 * group chat was item 4 it will not refresh
+				 */
 				getSessionsListData().catch(() => {});
 			} else {
 				fetchAskerData();
@@ -331,6 +349,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 
 	const getSessionsListData = ({
 		increaseOffset,
+		resetOffset,
 		signal
 	}: GetSessionsListDataInterface = {}): Promise<any> => {
 		if (
@@ -341,7 +360,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 		}
 		setIsRequestInProgress(true);
 
-		let useOffset = currentOffset;
+		let useOffset = resetOffset ? 0 : currentOffset;
 		if (increaseOffset) {
 			setLoadingWithOffset(true);
 			useOffset = currentOffset + SESSION_COUNT;
@@ -649,11 +668,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 										key={index}
 										type={type}
 										id={getChatItemForSession(item).id}
-										language={
-											item.session.language
-												? item.session.language
-												: defaultLanguage
-										}
+										defaultLanguage={defaultLanguage}
 									/>
 							  ))
 							: !activeCreateChat && (

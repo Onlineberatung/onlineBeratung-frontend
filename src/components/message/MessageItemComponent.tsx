@@ -6,7 +6,8 @@ import {
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	ConsultingTypeInterface
+	ConsultingTypeInterface,
+	STATUS_ARCHIVED
 } from '../../globalState';
 import {
 	SESSION_LIST_TYPES,
@@ -270,7 +271,8 @@ export const MessageItemComponent = ({
 								SESSION_LIST_TYPES.ENQUIRY &&
 							isSessionChat(chatItem) &&
 							chatItem.feedbackGroupId &&
-							!activeSession?.isFeedbackSession && (
+							!activeSession?.isFeedbackSession &&
+							chatItem.status !== STATUS_ARCHIVED && (
 								<ForwardMessage
 									right={isMyMessage}
 									message={message}
@@ -286,12 +288,7 @@ export const MessageItemComponent = ({
 		}
 	};
 
-	if (
-		isFurtherStepsMessage &&
-		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
-	) {
-		return null;
-	} else if (isUpdateSessionDataMessage && !showAddVoluntaryInfo) {
+	if (isUpdateSessionDataMessage && !showAddVoluntaryInfo) {
 		return null;
 	}
 

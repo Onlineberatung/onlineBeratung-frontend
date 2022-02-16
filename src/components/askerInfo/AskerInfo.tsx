@@ -49,7 +49,7 @@ export const AskerInfo = () => {
 		setActiveSession(activeSession);
 		setChatItem(getChatItemForSession(activeSession));
 		setIsPeerChat(activeSession?.session?.isPeerChat);
-	}, [groupIdFromParam, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const isSessionAssignAvailable = () =>
 		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&

@@ -27,18 +27,14 @@ import './enquiry.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { EnquiryLanguageSelection } from './EnquiryLanguageSelection';
+import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 
-interface WriteEnquiryProps {
-	fixedLanguages: string[];
-}
-
-export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
-	fixedLanguages
-}) => {
+export const WriteEnquiry: React.FC = () => {
 	const { sessionId: sessionIdFromParam } = useParams();
 
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { sessionsData } = useContext(SessionsDataContext);
+	const fixedLanguages = useContext(FixedLanguagesContext);
 
 	const [activeSession, setActiveSession] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
@@ -52,7 +48,7 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 			sessionsData
 		);
 		setActiveSession(activeSession);
-	}, [sessionIdFromParam, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [sessionIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (sessionIdFromParam) {
@@ -139,32 +135,35 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 
 	return (
 		<div className="enquiry__wrapper">
-			<div className="enquiry__infoWrapper">
-				<WelcomeIcon className="enquiry__image" />
-				<div className="enquiry__text">
-					<Headline
-						semanticLevel="3"
-						text={translate('enquiry.write.infotext.headline')}
-						className="enquiry__infotextHeadline"
-					/>
-					<Headline
-						semanticLevel="4"
-						styleLevel="5"
-						text={translate('enquiry.write.infotext.copy')}
-					/>
-					<Text
-						text={translate('enquiry.write.infotext.copy.facts')}
-						type="standard"
-						className="enquiry__facts"
-					/>
-					{isUnassignedSession && (
-						<EnquiryLanguageSelection
-							className="enquiry__languageSelection"
-							fixedLanguages={fixedLanguages}
-							handleSelection={setSelectedLanguage}
+			<div className="enquiry__contentWrapper">
+				<div className="enquiry__infoWrapper">
+					<div className="enquiry__text">
+						<Headline
+							semanticLevel="3"
+							text={translate('enquiry.write.infotext.headline')}
+							className="enquiry__infotextHeadline"
 						/>
-					)}
+						<Headline
+							semanticLevel="4"
+							styleLevel="5"
+							text={translate('enquiry.write.infotext.copy')}
+						/>
+						<Text
+							text={translate(
+								'enquiry.write.infotext.copy.facts'
+							)}
+							type="standard"
+							className="enquiry__facts"
+						/>
+					</div>
+					<WelcomeIcon className="enquiry__image" />
 				</div>
+				{isUnassignedSession && (
+					<EnquiryLanguageSelection
+						className="enquiry__languageSelection"
+						handleSelection={setSelectedLanguage}
+					/>
+				)}
 			</div>
 			<MessageSubmitInterfaceComponent
 				handleSendButton={handleSendButton}

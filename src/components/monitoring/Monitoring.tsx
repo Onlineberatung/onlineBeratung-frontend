@@ -51,7 +51,7 @@ export const Monitoring = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [groupIdFromParam, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleChange = (key, parentKey) => {
 		const checkObj = (obj, k, prevk) => {

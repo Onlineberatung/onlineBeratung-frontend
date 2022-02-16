@@ -269,6 +269,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 		.public-DraftEditorPlaceholder-root {
 			position: absolute;
 			color: $light-grey;
+			max-width: calc(100% - #{$grid-base-six});
 		}
 
 		&__attachmentSelect {
