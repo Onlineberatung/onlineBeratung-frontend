@@ -112,7 +112,7 @@ export const SessionView = (props: RouterProps) => {
 	const handleRoomMessage = useCallback(() => {
 		fetchSessionMessages()
 			.then(() => {
-				setSessionToRead();
+				setSessionToRead(true);
 			})
 			.finally(() => {
 				setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
