@@ -200,7 +200,7 @@ $icon-size-small: 16px;
 				height: $icon-size-small;
 
 				* {
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 				}
 			}
 		}
@@ -212,7 +212,7 @@ $icon-size-small: 16px;
 		height: $icon-size-small;
 
 		* {
-			fill: $secondary;
+			fill: var(--skin-color-secondary-contrast-safe, $secondary);
 		}
 	}
 

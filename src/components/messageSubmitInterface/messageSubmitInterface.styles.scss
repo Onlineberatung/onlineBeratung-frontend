@@ -321,7 +321,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 				height: $attachmentIconSize;
 
 				* {
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 				}
 			}
 

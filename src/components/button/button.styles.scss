@@ -214,19 +214,19 @@ $buttonHeight: 50px;
 		}
 
 		&--yellow {
-			color: $secondary;
+			color: var(--skin-color-secondary-contrast-safe, $secondary);
 			background-color: $yellow-3;
 			border: none;
 
 			svg {
-				fill: $secondary;
+				fill: var(--skin-color-secondary-contrast-safe, $secondary);
 			}
 
 			&:hover {
 				background-color: $yellow-4;
 
 				svg {
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 				}
 			}
 		}

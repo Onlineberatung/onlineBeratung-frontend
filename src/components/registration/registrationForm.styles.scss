@@ -37,7 +37,7 @@ $registration-form-headline-margin-bottom: 24px;
 
 	&__overline {
 		display: $registration-form-overline-display;
-		color: $secondary;
+		color: var(--skin-color-secondary-contrast-safe, $secondary);
 		font-weight: $font-weight-regular;
 		margin: 0;
 		font-size: $font-size-primary;

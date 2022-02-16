@@ -385,9 +385,12 @@ $maxFormElementWidth: 320px;
 				svg {
 					width: $iconSize;
 					height: $iconSize;
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 					svg path {
-						fill: $secondary;
+						fill: var(
+							--skin-color-secondary-contrast-safe,
+							$secondary
+						);
 					}
 
 					&:hover {

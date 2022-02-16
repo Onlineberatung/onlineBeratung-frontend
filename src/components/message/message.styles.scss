@@ -222,7 +222,10 @@ $message-lineheight: 21px;
 					height: $icon-size;
 					margin-right: $grid-base;
 					* {
-						fill: $secondary;
+						fill: var(
+							--skin-color-secondary-contrast-safe,
+							$secondary
+						);
 					}
 				}
 			}
@@ -427,7 +430,7 @@ $message-lineheight: 21px;
 		padding-bottom: 2px;
 
 		* {
-			fill: $secondary;
+			fill: var(--skin-color-secondary-contrast-safe, $secondary);
 		}
 	}
 
