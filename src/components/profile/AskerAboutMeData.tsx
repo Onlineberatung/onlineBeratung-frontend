@@ -209,16 +209,35 @@ export const AskerAboutMeData = () => {
 		setOverlay(overlayConfirm);
 	};
 
+	const getUserDataWith2FADisabled = useCallback(() => {
+		const data = {
+			...userData,
+			twoFactorAuth: {
+				...userData.twoFactorAuth,
+				type: null,
+				isActive: false
+			}
+		};
+		return data;
+	}, [userData]);
+
 	const handleDeleteEmail = useCallback(() => {
 		if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			apiDeleteEmail()
 				.then((response) => {
 					setIsRequestInProgress(false);
-					setUserData({
-						...userData,
-						email: null
-					});
+					if (isEmail2faActive) {
+						setUserData({
+							...getUserDataWith2FADisabled(),
+							email: null
+						});
+					} else {
+						setUserData({
+							...userData,
+							email: null
+						});
+					}
 					setEmail(null);
 					setOverlay(overlaySuccess);
 				})
@@ -231,23 +250,41 @@ export const AskerAboutMeData = () => {
 		overlayError,
 		isRequestInProgress,
 		setUserData,
-		userData
+		userData,
+		getUserDataWith2FADisabled,
+		isEmail2faActive
 	]);
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		switch (buttonFunction) {
 			case OVERLAY_FUNCTIONS.CONFIRM_EDIT:
-				apiDeleteTwoFactorAuth().then(() => {
+				const handleConfirm = () => {
 					setIsEmailDisabled(false);
 					setOverlay(null);
-				});
+				};
+				if (isEmail2faActive) {
+					apiDeleteTwoFactorAuth().then(() => {
+						handleConfirm();
+						setUserData({
+							...getUserDataWith2FADisabled()
+						});
+					});
+				} else {
+					handleConfirm();
+				}
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
 			case OVERLAY_FUNCTIONS.CLOSE_SUCCESS:
 				setOverlay(null);
 				break;
 			case OVERLAY_FUNCTIONS.DELETE_EMAIL:
-				handleDeleteEmail();
+				if (isEmail2faActive) {
+					apiDeleteTwoFactorAuth().then(() => {
+						handleDeleteEmail();
+					});
+				} else {
+					handleDeleteEmail();
+				}
 				break;
 		}
 	};

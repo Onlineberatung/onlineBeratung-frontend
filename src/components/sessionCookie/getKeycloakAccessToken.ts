@@ -29,12 +29,16 @@ export const getKeycloakAccessToken = (
 					const data = response.json();
 					resolve(data);
 				} else if (response.status === 400) {
-					// TODO READ TYPE OF 2FA AND PASS TO ERROR
-					reject(
-						new FetchErrorWithOptions(FETCH_ERRORS.BAD_REQUEST, {
-							twoFactorType: 'email'
-						})
-					);
+					response.json().then((data) => {
+						reject(
+							new FetchErrorWithOptions(
+								FETCH_ERRORS.BAD_REQUEST,
+								{
+									data
+								}
+							)
+						);
+					});
 				} else if (response.status === 401) {
 					reject(new Error(FETCH_ERRORS.UNAUTHORIZED));
 				}

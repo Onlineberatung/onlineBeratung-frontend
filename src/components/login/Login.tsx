@@ -298,29 +298,33 @@ export const Login = ({
 		]
 	);
 
+	const tryLoginWithoutOtp = () => {
+		setIsRequestInProgress(true);
+		autoLogin({
+			username: username,
+			password: password,
+			redirect: !consultant
+		})
+			.then(postLogin)
+			.catch((error) => {
+				if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
+					setShowLoginError(
+						translate('login.warning.failed.unauthorized')
+					);
+				} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+					if (error.options.data.otpType)
+						setTwoFactorType(error.options.data.otpType);
+					setIsOtpRequired(true);
+				}
+			})
+			.finally(() => {
+				setIsRequestInProgress(false);
+			});
+	};
+
 	const handleLogin = () => {
 		if (!isRequestInProgress && !isOtpRequired && username && password) {
-			setIsRequestInProgress(true);
-			autoLogin({
-				username: username,
-				password: password,
-				redirect: !consultant
-			})
-				.then(postLogin)
-				.catch((error) => {
-					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
-						setShowLoginError(
-							translate('login.warning.failed.unauthorized')
-						);
-					} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
-						if (error.options.twoFactorType)
-							setTwoFactorType(error.options.twoFactorType);
-						setIsOtpRequired(true);
-					}
-				})
-				.finally(() => {
-					setIsRequestInProgress(false);
-				});
+			tryLoginWithoutOtp();
 		} else if (
 			!isRequestInProgress &&
 			isOtpRequired &&
@@ -398,8 +402,9 @@ export const Login = ({
 					/>
 					{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
 						<TwoFactorAuthResendMail
-							resendHandler={() => {
-								/* TODO */
+							resendHandler={(callback) => {
+								tryLoginWithoutOtp();
+								callback();
 							}}
 						/>
 					)}

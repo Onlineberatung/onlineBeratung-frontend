@@ -70,6 +70,10 @@ export const TwoFactorAuth = () => {
 		}
 	}, []);
 
+	useEffect(() => {
+		setIsSwitchChecked(userData.twoFactorAuth.isActive);
+	}, [userData]);
+
 	const updateUserData = () => {
 		apiGetUserData()
 			.then((newUserData: UserDataInterface) => {
@@ -100,7 +104,7 @@ export const TwoFactorAuth = () => {
 		setOtpLabel(defaultOtpLabel);
 		setOtpLabelState(null);
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
-		setTwoFactorType(TWO_FACTOR_TYPES.NONE);
+		setTwoFactorType(userData.twoFactorAuth.type || TWO_FACTOR_TYPES.NONE);
 	};
 
 	const otpInputItem: InputFieldItem = {
@@ -143,10 +147,6 @@ export const TwoFactorAuth = () => {
 	};
 
 	const activateTwoFactorAuthByType = (triggerNextStep) => {
-		//TODO testing only
-		triggerNextStep();
-		return;
-
 		let apiCall, apiData;
 
 		if (twoFactorType === TWO_FACTOR_TYPES.APP) {
@@ -501,10 +501,6 @@ export const TwoFactorAuth = () => {
 	};
 
 	const sendEmailActivationCode = (triggerNextStep) => {
-		// TODO Testing
-		triggerNextStep();
-		return;
-
 		apiPutTwoFactorAuthEmail(email).then(() => {
 			if (triggerNextStep) triggerNextStep();
 		});
@@ -633,7 +629,7 @@ export const TwoFactorAuth = () => {
 
 	useEffect(() => {
 		setOverlayByType();
-	}, [twoFactorType, email, otp, otpLabel, otpLabelState]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [twoFactorType, email, otp, otpLabel, otpLabelState, userData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className="twoFactorAuth">
