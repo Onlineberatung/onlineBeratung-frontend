@@ -9,10 +9,10 @@ import { Text } from '../text/Text';
 
 import './profile.styles';
 import { isUniqueLanguage } from './profileHelpers';
+import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 
 interface ConsultantSpokenLanguagesProps {
 	spokenLanguages: string[];
-	fixedLanguages: string[];
 }
 
 const cancelEditButton: ButtonItem = {
@@ -26,8 +26,10 @@ const saveEditButton: ButtonItem = {
 };
 
 export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps> =
-	({ spokenLanguages, fixedLanguages }) => {
+	({ spokenLanguages }) => {
 		const { userData, setUserData } = useContext(UserDataContext);
+		const fixedLanguages = useContext(FixedLanguagesContext);
+
 		const [hasError, setHasError] = useState(false);
 		const [selectedLanguages, setSelectedLanguages] =
 			useState(fixedLanguages);

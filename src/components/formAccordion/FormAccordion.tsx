@@ -37,7 +37,6 @@ interface FormAccordionProps {
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
 	initialPostcode?: string;
-	fixedLanguages: string[];
 }
 
 export const FormAccordion = ({
@@ -49,8 +48,7 @@ export const FormAccordion = ({
 	onValidation,
 	additionalStepsData,
 	registrationNotes,
-	initialPostcode,
-	fixedLanguages
+	initialPostcode
 }: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
 	const [agency, setAgency] = useState<AgencyDataInterface>();
@@ -180,7 +178,6 @@ export const FormAccordion = ({
 						onValidityChange={(validity) =>
 							handleValidity('agency', validity)
 						}
-						fixedLanguages={fixedLanguages}
 					/>
 				),
 				isValid: validity.agency
@@ -205,7 +202,6 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('agency', validity)
 					}
-					fixedLanguages={fixedLanguages}
 					agencySelectionNote={registrationNotes?.agencySelection}
 				/>
 			),

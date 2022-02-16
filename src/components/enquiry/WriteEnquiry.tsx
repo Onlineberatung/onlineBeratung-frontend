@@ -27,18 +27,14 @@ import './enquiry.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { EnquiryLanguageSelection } from './EnquiryLanguageSelection';
+import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 
-interface WriteEnquiryProps {
-	fixedLanguages: string[];
-}
-
-export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
-	fixedLanguages
-}) => {
+export const WriteEnquiry: React.FC = () => {
 	const { sessionId: sessionIdFromParam } = useParams();
 
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { sessionsData } = useContext(SessionsDataContext);
+	const fixedLanguages = useContext(FixedLanguagesContext);
 
 	const [activeSession, setActiveSession] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
@@ -52,7 +48,7 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 			sessionsData
 		);
 		setActiveSession(activeSession);
-	}, [sessionIdFromParam, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [sessionIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (sessionIdFromParam) {
@@ -165,7 +161,6 @@ export const WriteEnquiry: React.FC<WriteEnquiryProps> = ({
 				{isUnassignedSession && (
 					<EnquiryLanguageSelection
 						className="enquiry__languageSelection"
-						fixedLanguages={fixedLanguages}
 						handleSelection={setSelectedLanguage}
 					/>
 				)}

@@ -29,7 +29,6 @@ export interface ConsultingTypeAgencySelectionProps {
 	agency?: any;
 	preselectedConsultingType?: ConsultingTypeInterface;
 	preselectedAgency?: any;
-	fixedLanguages: string[];
 }
 
 export const useConsultingTypeAgencySelection = (
@@ -98,8 +97,7 @@ export const ConsultingTypeAgencySelection = ({
 	onValidityChange,
 	agency,
 	preselectedConsultingType,
-	preselectedAgency,
-	fixedLanguages
+	preselectedAgency
 }: ConsultingTypeAgencySelectionProps) => {
 	const [selectedConsultingTypeOption, setSelectedConsultingTypeOption] =
 		useState<SelectOption>(null);
@@ -199,7 +197,6 @@ export const ConsultingTypeAgencySelection = ({
 						agencies={agencyOptions}
 						onChange={onChange}
 						selectedAgency={agency}
-						fixedLanguages={fixedLanguages}
 					/>
 				</div>
 			)}
@@ -211,14 +208,12 @@ type AgencySelectionProps = {
 	agencies: AgencyDataInterface[];
 	selectedAgency?: AgencyDataInterface;
 	onChange: Function;
-	fixedLanguages: string[];
 };
 
 const AgencySelection = ({
 	agencies,
 	onChange,
-	selectedAgency,
-	fixedLanguages
+	selectedAgency
 }: AgencySelectionProps) => {
 	return (
 		<div>
@@ -239,10 +234,7 @@ const AgencySelection = ({
 						label={agency.name}
 					/>
 					<AgencyInfo agency={agency} />
-					<AgencyLanguages
-						agencyId={agency.id}
-						fixedLanguages={fixedLanguages}
-					/>
+					<AgencyLanguages agencyId={agency.id} />
 				</div>
 			))}
 		</div>

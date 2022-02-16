@@ -36,7 +36,6 @@ import { Tooltip } from '../tooltip/Tooltip';
 interface ProfileProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	spokenLanguages: string[];
-	fixedLanguages: string[];
 }
 
 export const Profile = (props: ProfileProps) => {
@@ -158,7 +157,6 @@ export const Profile = (props: ProfileProps) => {
 							<ConsultantStatistics />
 							<ConsultantSpokenLanguages
 								spokenLanguages={props.spokenLanguages}
-								fixedLanguages={props.fixedLanguages}
 							/>
 							<ConsultantPrivateData />
 							<ConsultantPublicData />
@@ -170,11 +168,7 @@ export const Profile = (props: ProfileProps) => {
 							{consultingTypeSelectOptionsSet(
 								userData,
 								consultingTypes
-							).length > 0 && (
-								<AskerRegistration
-									fixedLanguages={props.fixedLanguages}
-								/>
-							)}
+							).length > 0 && <AskerRegistration />}
 						</div>
 					)}
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (

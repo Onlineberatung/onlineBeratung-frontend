@@ -20,14 +20,12 @@ export interface LoginLoaderProps {
 	handleUnmatch: () => void;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	stageComponent: ComponentType<StageProps>;
-	fixedLanguages: string[];
 }
 
 export const LoginLoader = ({
 	handleUnmatch,
 	legalComponent,
-	stageComponent,
-	fixedLanguages
+	stageComponent
 }: LoginLoaderProps) => {
 	const [isValidResort, setIsValidResort] = useState<boolean>();
 	const { consultingTypeSlug } = useParams();
@@ -54,7 +52,6 @@ export const LoginLoader = ({
 			<Login
 				legalComponent={legalComponent}
 				stageComponent={stageComponent}
-				fixedLanguages={fixedLanguages}
 			/>
 		);
 	} else {

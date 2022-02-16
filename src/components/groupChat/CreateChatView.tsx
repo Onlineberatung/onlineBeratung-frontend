@@ -111,7 +111,7 @@ export const CreateGroupChatView = (props) => {
 			setSelectedDuration(chatItem.duration);
 			setSelectedRepetitive(chatItem.repetitive);
 		}
-	}, [groupIdFromParam, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(
 		() => {
