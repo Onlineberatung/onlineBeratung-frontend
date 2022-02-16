@@ -82,6 +82,7 @@ export const SessionView = (props: RouterProps) => {
 	const [activeSession, setActiveSession] = useState(null);
 	const [chatItem, setChatItem] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
+	const [hasNewRoomMessage, setHasNewRoomMessage] = useState(false);
 	const [messagesItem, setMessagesItem] = useState(null);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
@@ -109,15 +110,18 @@ export const SessionView = (props: RouterProps) => {
 			.catch((error) => null);
 	}, [groupIdFromParam]);
 
-	const handleRoomMessage = useCallback(() => {
-		fetchSessionMessages()
-			.then(() => {
-				setSessionToRead(true);
-			})
-			.finally(() => {
-				setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
-			});
-	}, [fetchSessionMessages, setUpdateSessionList]); // eslint-disable-line react-hooks/exhaustive-deps
+	useEffect(() => {
+		if (hasNewRoomMessage) {
+			setHasNewRoomMessage(false);
+			fetchSessionMessages()
+				.then(() => {
+					setSessionToRead(true);
+				})
+				.finally(() => {
+					setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+				});
+		}
+	}, [hasNewRoomMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const groupChatStoppedOverlay: OverlayItem = useMemo(
 		() => ({
@@ -216,7 +220,7 @@ export const SessionView = (props: RouterProps) => {
 			window['socket'].addSubscription(
 				SOCKET_COLLECTION.ROOM_MESSAGES,
 				[groupIdFromParam, false],
-				handleRoomMessage
+				() => setHasNewRoomMessage(true)
 			);
 
 			if (isGroupOrLiveChat) {
@@ -232,12 +236,7 @@ export const SessionView = (props: RouterProps) => {
 				);
 			}
 		},
-		[
-			groupIdFromParam,
-			handleGroupChatStopped,
-			handleRoomMessage,
-			subscribeTyping
-		]
+		[groupIdFromParam, handleGroupChatStopped, subscribeTyping]
 	);
 
 	useEffect(() => {
