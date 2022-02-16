@@ -1,4 +1,5 @@
 $spacingWithIcon: 52px;
+$link-hover-text-decoration: $link-text-decoration !default;
 
 .login {
 	&__tenantRegistration {
@@ -78,6 +79,10 @@ $spacingWithIcon: 52px;
 		transform: $login-icon-transform;
 		text-decoration: $link-text-decoration;
 		font-weight: $link-font-weight;
+
+		&:hover {
+			text-decoration: $link-hover-text-decoration;
+		}
 	}
 
 	&__register {
