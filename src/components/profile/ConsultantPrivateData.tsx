@@ -37,10 +37,12 @@ export const ConsultantPrivateData = () => {
 	const [lastName, setLastName] = useState<string>();
 	const [overlayActive, setOverlayActive] = useState(false);
 
+	const isEmail2faActive =
+		userData.twoFactorAuth?.isActive &&
+		userData.twoFactorAuth?.type === TWO_FACTOR_TYPES.EMAIL;
+
 	const isEmailEditedAndEmail2faActive =
-		userData.email !== email &&
-		userData.twoFactorAuth.isActive &&
-		userData.twoFactorAuth.type === TWO_FACTOR_TYPES.EMAIL;
+		userData.email !== email && isEmail2faActive;
 
 	useEffect(() => {
 		if (email && firstName && lastName) {
@@ -61,6 +63,9 @@ export const ConsultantPrivateData = () => {
 	};
 
 	const handleSaveEditButton = () => {
+		if (isEmailEditedAndEmail2faActive) {
+			setOverlayActive(true);
+		}
 		if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			apiPutConsultantData({
@@ -125,6 +130,7 @@ export const ConsultantPrivateData = () => {
 		switch (buttonFunction) {
 			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayActive(false);
+				setIsEditDisabled(true);
 				break;
 			case OVERLAY_FUNCTIONS.CONFIRM_EDIT:
 				apiDeleteTwoFactorAuth().then(() => {
@@ -164,11 +170,9 @@ export const ConsultantPrivateData = () => {
 				onValueIsValid={handleEmailChange}
 				isEmailAlreadyInUse={isEmailNotAvailable}
 				onBeforeRemoveButtonClick={() =>
-					isEmailEditedAndEmail2faActive && setOverlayActive(true)
+					isEmail2faActive && setOverlayActive(true)
 				}
-				onSingleFocus={() =>
-					isEmailEditedAndEmail2faActive && setOverlayActive(true)
-				}
+				onSingleFocus={() => isEmail2faActive && setOverlayActive(true)}
 			/>
 			<EditableData
 				label={translate('profile.data.firstName')}

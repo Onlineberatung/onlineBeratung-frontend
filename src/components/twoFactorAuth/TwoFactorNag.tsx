@@ -15,9 +15,9 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 
 	useEffect(() => {
 		if (
-			userData.twoFactorAuth.isEnabled &&
-			!userData.twoFactorAuth.isActive &&
-			userData.twoFactorAuth.isToEncourage
+			userData.twoFactorAuth?.isEnabled &&
+			!userData.twoFactorAuth?.isActive &&
+			userData.twoFactorAuth?.isToEncourage
 		) {
 			setIsShownTwoFactorNag(true);
 		}

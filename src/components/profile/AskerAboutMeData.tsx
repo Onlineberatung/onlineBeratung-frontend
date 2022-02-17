@@ -46,8 +46,8 @@ export const AskerAboutMeData = () => {
 	const updateUserData = useUpdateUserData();
 
 	const isEmail2faActive =
-		userData.twoFactorAuth.isActive &&
-		userData.twoFactorAuth.type === TWO_FACTOR_TYPES.EMAIL;
+		userData.twoFactorAuth?.isActive &&
+		userData.twoFactorAuth?.type === TWO_FACTOR_TYPES.EMAIL;
 
 	const overlay2faEmailEdit: OverlayItem = useMemo(
 		() => ({
