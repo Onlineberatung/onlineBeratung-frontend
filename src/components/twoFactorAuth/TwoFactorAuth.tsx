@@ -95,10 +95,11 @@ export const TwoFactorAuth = () => {
 	const handleOverlayClose = () => {
 		setOverlayActive(false);
 		setOtp('');
+		setEmail('');
 		setOtpLabel(defaultOtpLabel);
 		setOtpLabelState(null);
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
-		setTwoFactorType(userData.twoFactorAuth.type || TWO_FACTOR_TYPES.NONE);
+		setTwoFactorType(userData.twoFactorAuth.type || TWO_FACTOR_TYPES.APP);
 	};
 
 	const otpInputItem: InputFieldItem = {
