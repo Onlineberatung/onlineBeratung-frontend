@@ -40,7 +40,7 @@ describe('profile', () => {
 		cy.caritasMockedLogin();
 		cy.visit('/beratung-hilfe.html', {
 			onBeforeLoad(window) {
-				cy.spy(window, 'open').as('windowOpen');
+				cy.stub(window, 'open').as('windowOpen');
 			}
 		});
 		cy.contains('Profil').click();

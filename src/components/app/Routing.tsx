@@ -90,17 +90,10 @@ export const Routing = (props: routingProps) => {
 						{routerConfig.listRoutes.map(
 							(route: any): JSX.Element => (
 								<Route
+									exact={route.exact ?? true}
 									key={`list-${route.path}`}
 									path={route.path}
 									component={route.component}
-									/*
-									render={(componentProps) => (
-										<route.component
-											{...componentProps}
-											{...props}
-										/>
-									)}
-									 */
 								/>
 							)
 						)}
@@ -111,7 +104,7 @@ export const Routing = (props: routingProps) => {
 						{routerConfig.detailRoutes.map(
 							(route: any): JSX.Element => (
 								<Route
-									exact
+									exact={route.exact ?? true}
 									key={`detail-${route.path}`}
 									path={route.path}
 									render={(componentProps) => (
@@ -134,7 +127,7 @@ export const Routing = (props: routingProps) => {
 										{routerConfig.userProfileRoutes.map(
 											(route: any): JSX.Element => (
 												<Route
-													exact
+													exact={route.exact ?? true}
 													key={`userProfile-${route.path}`}
 													path={route.path}
 													render={(props) => (
@@ -161,7 +154,7 @@ export const Routing = (props: routingProps) => {
 						{routerConfig.profileRoutes?.map(
 							(route: any): JSX.Element => (
 								<Route
-									exact
+									exact={route.exact ?? true}
 									key={`profile-${route.path}`}
 									path={route.path}
 									render={() => (

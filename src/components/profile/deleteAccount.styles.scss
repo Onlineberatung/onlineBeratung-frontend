@@ -3,6 +3,10 @@
 	justify-content: center;
 	width: 100%;
 
+	@include breakpoint($fromLarge) {
+		padding-top: $grid-base-four;
+	}
+
 	&__overlay {
 		&__content .text {
 			margin-top: $grid-base-three;
