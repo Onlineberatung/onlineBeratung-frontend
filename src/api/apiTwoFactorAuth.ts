@@ -26,15 +26,15 @@ export const apiPutTwoFactorAuthEmail = async (email: string): Promise<any> => {
 	});
 };
 
-export const apiPutTwoFactorAuthHint = async (
-	isShown: boolean
+export const apiPatchTwoFactorAuthEncourage = async (
+	isToEncourage: boolean
 ): Promise<any> => {
-	const url = config.endpoints.twoFactorAuthHint;
+	const url = config.endpoints.userData;
 
 	return fetchData({
 		url: url,
-		method: FETCH_METHODS.PUT,
-		bodyData: JSON.stringify({ hint2fa: isShown }),
+		method: FETCH_METHODS.PATCH,
+		bodyData: JSON.stringify({ encourage2fa: isToEncourage }),
 		responseHandling: [FETCH_ERRORS.BAD_REQUEST]
 	});
 };

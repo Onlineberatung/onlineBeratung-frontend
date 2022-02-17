@@ -4,7 +4,7 @@ import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { history } from '../app/app';
-import { apiPutTwoFactorAuthHint } from '../../api';
+import { apiPatchTwoFactorAuthEncourage } from '../../api';
 import './twoFactorNag.styles';
 
 interface TwoFactorNagProps {}
@@ -17,16 +17,20 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		if (
 			userData.twoFactorAuth.isEnabled &&
 			!userData.twoFactorAuth.isActive &&
-			userData.twoFactorAuth.hint2fa
+			userData.twoFactorAuth.isToEncourage
 		) {
 			setIsShownTwoFactorNag(true);
 		}
 	}, [userData]);
 
 	const closeTwoFactorNag = async () => {
-		await apiPutTwoFactorAuthHint(false).then(() => {
-			setIsShownTwoFactorNag(false);
-		});
+		await apiPatchTwoFactorAuthEncourage(false)
+			.then(() => {
+				setIsShownTwoFactorNag(false);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {

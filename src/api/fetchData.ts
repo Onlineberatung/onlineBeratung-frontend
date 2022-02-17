@@ -14,7 +14,8 @@ export const FETCH_METHODS = {
 	DELETE: 'DELETE',
 	GET: 'GET',
 	POST: 'POST',
-	PUT: 'PUT'
+	PUT: 'PUT',
+	PATCH: 'PATCH'
 };
 
 export const FETCH_ERRORS = {
