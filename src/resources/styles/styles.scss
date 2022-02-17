@@ -4,6 +4,12 @@
 @import 'layout';
 @import 'ieBanner';
 @import 'types';
+@import 'flex';
+@import 'text';
+@import 'colors';
+@import 'padding';
+@import 'margin';
+@import 'icon';
 
 @if mixin-exists(setup-fonts) {
 	@include setup-fonts();

@@ -13,7 +13,7 @@ import {
 	FETCH_ERRORS,
 	X_REASON
 } from '../../api';
-import { TWO_FACTOR_TYPES } from '../twoFactorAuth//TwoFactorAuth';
+import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 
 const cancelEditButton: ButtonItem = {

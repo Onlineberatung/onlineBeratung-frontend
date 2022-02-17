@@ -1,0 +1,30 @@
+.link_menu {
+	&__group {
+		.title {
+			color: $primary;
+			margin-bottom: 16px;
+			margin-top: $grid-base-five;
+		}
+
+		&:first-child .title {
+			margin-top: $grid-base;
+		}
+	}
+
+	&__item {
+		margin-bottom: 8px;
+
+		a {
+			position: relative;
+			color: rgba(0, 0, 0, 0.8);
+			width: 100%;
+			border-radius: 4px;
+			border: 1px solid #ffffff;
+			box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.05);
+			display: flex;
+			justify-content: space-between;
+			padding: $grid-base-two;
+			background: rgba(255, 255, 255, 0.7);
+		}
+	}
+}

@@ -11,6 +11,7 @@ import {
 	getAddictiveDrugsTranslatable,
 	getUserDataTranslateBase
 } from './profileHelpers';
+import { Headline } from '../headline/Headline';
 
 export const AskerConsultingTypeData = () => {
 	const { userData } = useContext(UserDataContext);
@@ -29,16 +30,19 @@ export const AskerConsultingTypeData = () => {
 					resort.isRegistered &&
 					resort.agency && (
 						<div className="profile__data__itemWrapper" key={index}>
-							<Text
-								text={
-									consultingTypes.find(
-										(cur) =>
-											cur.id ===
-											resort.agency.consultingType
-									)?.titles.default
-								}
-								type="divider"
-							/>
+							<div className="profile__content__title">
+								<Headline
+									className="pr--3"
+									text={
+										consultingTypes.find(
+											(cur) =>
+												cur.id ===
+												resort.agency.consultingType
+										)?.titles.default
+									}
+									semanticLevel="5"
+								/>
+							</div>
 							{resort.sessionData &&
 								Object.keys(resort.sessionData).map(
 									(item, itemIndex) => (

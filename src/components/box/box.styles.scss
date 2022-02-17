@@ -1,0 +1,14 @@
+.box {
+	background: rgba(255, 255, 255, 0.7);
+	padding: $grid-base-two;
+	margin-bottom: $grid-base;
+	border-radius: 8px;
+
+	@include breakpoint($fromMedium) {
+		padding: $grid-base-three;
+		margin-bottom: $grid-base-three;
+	}
+
+	&__content {
+	}
+}

@@ -23,6 +23,7 @@ import { ReactComponent as XIllustration } from '../../resources/img/illustratio
 import { apiDeleteEmail } from '../../api/apiDeleteEmail';
 import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import useUpdateUserData from '../../utils/useUpdateUserData';
+import { Headline } from '../headline/Headline';
 
 const cancelEditButton: ButtonItem = {
 	label: 'abbrechen',
@@ -263,7 +264,13 @@ export const AskerAboutMeData = () => {
 
 	return (
 		<div>
-			<Text text={translate('profile.data.title')} type="divider" />
+			<div className="profile__content__title">
+				<Headline
+					className="pr--3"
+					text={translate('profile.data.title')}
+					semanticLevel="5"
+				/>
+			</div>
 			<EditableData
 				label={translate('profile.data.userName')}
 				initialValue={userData.userName}
