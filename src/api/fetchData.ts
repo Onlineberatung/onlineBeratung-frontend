@@ -114,16 +114,7 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 
 		fetch(req)
 			.then((response) => {
-				if (
-					response.status === 200 ||
-					response.status === 201 ||
-					response.status === 204
-				) {
-					if (props.responseHandling?.includes(FETCH_ERRORS.EMPTY)) {
-						// treat 204 no content as an error
-						reject(new Error(FETCH_ERRORS.EMPTY));
-						return;
-					}
+				if (response.status === 200 || response.status === 201) {
 					const data =
 						props.method === FETCH_METHODS.GET ||
 						(props.responseHandling &&
@@ -133,6 +124,13 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 							? response.json()
 							: response;
 					resolve(data);
+				} else if (response.status === 204) {
+					if (props.responseHandling?.includes(FETCH_ERRORS.EMPTY)) {
+						// treat 204 no content as an error with this response handling type
+						reject(new Error(FETCH_ERRORS.EMPTY));
+					} else {
+						resolve({});
+					}
 				} else if (props.responseHandling) {
 					if (
 						response.status === 400 &&
