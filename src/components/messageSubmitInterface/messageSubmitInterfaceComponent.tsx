@@ -161,7 +161,6 @@ export const MessageSubmitInterfaceComponent = (
 	const textareaRef = React.useRef<HTMLDivElement>(null);
 	const featureWrapperRef = React.useRef<HTMLDivElement>(null);
 	const attachmentInputRef = React.useRef<HTMLInputElement>(null);
-	let editorRef: PluginsEditor;
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const { sessionsData } = useContext(SessionsDataContext);
@@ -814,9 +813,6 @@ export const MessageSubmitInterfaceComponent = (
 												setEditorState(newEditorState);
 											}
 											return 'handled';
-										}}
-										ref={(element) => {
-											editorRef = element;
 										}}
 										plugins={[
 											linkifyPlugin,
