@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { UserDataContext, UserDataInterface } from '../../globalState';
+import { UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -26,7 +26,6 @@ import {
 	apiDeleteTwoFactorAuth,
 	apiPutTwoFactorAuthEmail,
 	apiPostTwoFactorAuthEmailWithCode,
-	apiGetUserData,
 	apiPutTwoFactorAuthApp,
 	FETCH_ERRORS
 } from '../../api';
@@ -37,6 +36,7 @@ import { RadioButton } from '../radioButton/RadioButton';
 import { Tooltip } from '../tooltip/Tooltip';
 import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
 import { history } from '../app/app';
+import useUpdateUserData from '../../utils/useUpdateUserData';
 
 export const OTP_LENGTH = 6;
 
@@ -47,7 +47,7 @@ export const TWO_FACTOR_TYPES = {
 };
 
 export const TwoFactorAuth = () => {
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData } = useContext(UserDataContext);
 	const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(
 		userData.twoFactorAuth.isActive
 	);
@@ -59,6 +59,8 @@ export const TwoFactorAuth = () => {
 	const [otpInputInfo, setOtpInputInfo] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
+
+	const updateUserData = useUpdateUserData();
 
 	const [twoFactorType, setTwoFactorType] = useState<string>(
 		TWO_FACTOR_TYPES.APP
@@ -73,14 +75,6 @@ export const TwoFactorAuth = () => {
 	useEffect(() => {
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
 	}, [userData]);
-
-	const updateUserData = () => {
-		apiGetUserData()
-			.then((newUserData: UserDataInterface) => {
-				setUserData(newUserData);
-			})
-			.catch((error) => console.log(error));
-	};
 
 	const handleSwitchChange = () => {
 		if (!isSwitchChecked) {
