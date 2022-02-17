@@ -157,8 +157,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	useEffect(() => {
 		let isCanceled = false;
 		apiGetConsultingType({
-			consultingTypeId:
-				getChatItemForSession(activeSession)?.consultingType
+			consultingTypeId: chatItem?.consultingType
 		}).then((response) => {
 			if (isCanceled) return;
 			setResortData(response);
@@ -166,7 +165,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		return () => {
 			isCanceled = true;
 		};
-	}, [chatItem]); // eslint-disable-line
+	}, [chatItem?.consultingType]);
 
 	const getPlaceholder = () => {
 		if (isGroupChat) {

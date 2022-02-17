@@ -4,12 +4,12 @@ import {
 	UserDataContext,
 	SessionsDataContext,
 	getSessionsDataWithChangedValue,
-	StoppedGroupChatContext,
 	hasUserAuthority,
 	AUTHORITIES,
 	AcceptedGroupIdContext,
 	useConsultingType,
-	GroupChatItemInterface
+	GroupChatItemInterface,
+	UpdateSessionListContext
 } from '../../globalState';
 import { mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
@@ -59,7 +59,7 @@ export const JoinGroupChatView = ({
 	const activeSession = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
-	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
+	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
@@ -183,7 +183,7 @@ export const JoinGroupChatView = ({
 			setOverlayActive(false);
 			setOverlayItem({});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
-			setStoppedGroupChat(true);
+			setUpdateSessionList(true);
 			setRedirectToSessionsList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
