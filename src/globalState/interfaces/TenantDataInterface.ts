@@ -8,7 +8,7 @@ export interface TenantDataInterface {
 		secondaryColor: string;
 	};
 	content: {
-		imprint: string;
+		impressum: string;
 		privacy: string;
 		termsAndConditions: string;
 		claim: string;
