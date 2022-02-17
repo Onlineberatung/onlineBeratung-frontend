@@ -28,6 +28,10 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
+*[role='button'] {
+	cursor: pointer;
+}
+
 .layout {
 	&--default {
 		margin: 0;

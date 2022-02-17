@@ -2,7 +2,11 @@ import * as React from 'react';
 import { useEffect, useContext, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { translate } from '../../utils/translate';
-import { mobileDetailView, mobileListView } from '../app/navigationHandler';
+import {
+	desktopView,
+	mobileDetailView,
+	mobileListView
+} from '../app/navigationHandler';
 import {
 	AcceptedGroupIdContext,
 	SessionsDataContext,
@@ -48,6 +52,7 @@ import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left
 import 'react-datepicker/src/stylesheets/datepicker.scss';
 import '../datepicker/datepicker.styles';
 import './createChat.styles';
+import { useResponsive } from '../../hooks/useResponsive';
 
 registerLocale('de', de);
 
@@ -88,9 +93,18 @@ export const CreateGroupChatView = (props) => {
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
+	const { fromL } = useResponsive();
 	useEffect(() => {
-		mobileDetailView();
+		if (!fromL) {
+			mobileDetailView();
+			return () => {
+				mobileListView();
+			};
+		}
+		desktopView();
+	}, [fromL]);
 
+	useEffect(() => {
 		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
 		const chatItem = getChatItemForSession(
 			activeSession
@@ -146,7 +160,6 @@ export const CreateGroupChatView = (props) => {
 	/* eslint-enable */
 
 	const handleBackButton = () => {
-		mobileListView();
 		if (isEditGroupChatMode) {
 			const redirectPath = prevPathIsGroupChatInfo
 				? `${getSessionListPathForLocation()}/${chatItem.groupId}/${
