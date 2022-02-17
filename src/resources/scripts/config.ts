@@ -58,6 +58,7 @@ export const config = {
 		startVideoCall: apiUrl + '/service/videocalls/new',
 		teamSessionsBase:
 			apiUrl + '/service/conversations/consultants/teamsessions/',
+		tenantServiceBase: apiUrl + '/service/tenant',
 		twoFactorAuth: apiUrl + '/service/users/twoFactorAuth',
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
