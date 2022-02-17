@@ -1,0 +1,28 @@
+.icn {
+	border-radius: 50%;
+
+	&--xs {
+		width: $font-size-secondary;
+		height: $font-size-secondary;
+	}
+
+	&--s {
+		width: $font-size-tertiary;
+		height: $font-size-tertiary;
+	}
+
+	&--m {
+		width: $font-size-primary;
+		height: $font-size-primary;
+	}
+
+	&--l {
+		width: 18px;
+		height: 18px;
+	}
+
+	&--xl {
+		width: 20px;
+		height: 20px;
+	}
+}

@@ -1,6 +1,4 @@
 $tooltipWidth: 266px;
-$iconSizeSmall: 16px;
-$iconSizeDefault: 24px;
 
 .tooltip {
 	position: relative;
@@ -10,24 +8,8 @@ $iconSizeDefault: 24px;
 		display: inline-block;
 		z-index: 3;
 
-		* {
-			cursor: pointer;
-		}
-
 		svg {
 			display: block;
-		}
-
-		&,
-		& svg {
-			width: $iconSizeDefault;
-			height: $iconSizeDefault;
-		}
-
-		&--size-small,
-		&--size-small svg {
-			width: $iconSizeSmall;
-			height: $iconSizeSmall;
 		}
 	}
 
@@ -123,30 +105,14 @@ $iconSizeDefault: 24px;
 		&--position-left {
 			&:after,
 			&:before {
-				right: 10px;
+				right: 6px;
 			}
 		}
 
 		&--position-right {
 			&:after,
 			&:before {
-				left: 10px;
-			}
-		}
-	}
-
-	&--bottom &__trigger--size-small + &__content {
-		&--position-left {
-			&:after,
-			&:before {
-				right: 7px;
-			}
-		}
-
-		&--position-right {
-			&:after,
-			&:before {
-				left: 7px;
+				left: 6px;
 			}
 		}
 	}
@@ -177,31 +143,14 @@ $iconSizeDefault: 24px;
 		&--position-top {
 			&:after,
 			&:before {
-				bottom: 10px;
+				bottom: 6px;
 			}
 		}
 
 		&--position-bottom {
 			&:after,
 			&:before {
-				top: 10px;
-			}
-		}
-	}
-
-	&--left &__trigger--size-small + &__content,
-	&--right &__trigger--size-small + &__content {
-		&--position-top {
-			&:after,
-			&:before {
-				bottom: 7px;
-			}
-		}
-
-		&--position-bottom {
-			&:after,
-			&:before {
-				top: 7px;
+				top: 6px;
 			}
 		}
 	}

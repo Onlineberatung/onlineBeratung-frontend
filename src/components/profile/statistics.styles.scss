@@ -23,16 +23,14 @@
 
 	&__visuals__wrapper {
 		display: flex;
-		margin: $grid-base-four 0;
+		margin: $grid-base-four 0 0;
+		justify-content: center;
 	}
 
 	&__visualization {
 		display: flex;
 		flex-direction: column;
-
-		&:first-of-type {
-			margin-right: $grid-base-five;
-		}
+		align-items: center;
 
 		span {
 			display: flex;

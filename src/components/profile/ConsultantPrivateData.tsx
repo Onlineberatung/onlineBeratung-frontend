@@ -13,7 +13,7 @@ import {
 	FETCH_ERRORS,
 	X_REASON
 } from '../../api';
-import { TWO_FACTOR_TYPES } from '../twoFactorAuth//TwoFactorAuth';
+import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 
 const cancelEditButton: ButtonItem = {
@@ -143,24 +143,28 @@ export const ConsultantPrivateData = () => {
 	return (
 		<div>
 			<div className="profile__content__title">
-				<Headline
-					text={translate('profile.data.title.private')}
-					semanticLevel="5"
-				/>
+				<div className="flex flex--jc-sb">
+					<Headline
+						text={translate('profile.data.title.private')}
+						semanticLevel="5"
+					/>
+					{isEditDisabled && (
+						<span
+							role="button"
+							className="primary"
+							onClick={() => {
+								setIsEditDisabled(false);
+							}}
+						>
+							<PenIcon />
+						</span>
+					)}
+				</div>
 				<Text
 					text={translate('profile.data.info.private')}
-					type="infoLargeAlternative"
+					type="standard"
+					className="tertiary"
 				/>
-				{isEditDisabled && (
-					<span
-						className="editableData__inputButton editableData__inputButton--edit"
-						onClick={() => {
-							setIsEditDisabled(false);
-						}}
-					>
-						<PenIcon />
-					</span>
-				)}
 			</div>
 			<EditableData
 				label={emailLabel}
