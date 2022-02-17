@@ -107,6 +107,15 @@ $fromLarge: 900px;
 $fromXLarge: 1200px;
 $fromXXLarge: 1600px;
 
+$breakpoints: (
+	'xs': null,
+	's': $fromSmall,
+	'm': $fromMedium,
+	'l': $fromLarge,
+	'xl': $fromXLarge,
+	'xxl': $fromXXLarge
+);
+
 //biotope breakpoints
 $xsmall: 320px;
 $large: 1280px;

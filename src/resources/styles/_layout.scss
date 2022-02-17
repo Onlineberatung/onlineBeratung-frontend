@@ -28,6 +28,14 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
+*[role='button'] {
+	cursor: pointer;
+
+	&:hover {
+		color: $hover-primary;
+	}
+}
+
 .layout {
 	&--default {
 		margin: 0;
