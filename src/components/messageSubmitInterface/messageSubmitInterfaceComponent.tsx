@@ -465,10 +465,6 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
-	const handleTextareaClick = (e) => {
-		editorRef.focus();
-	};
-
 	const getTypedMarkdownMessage = (currentEditorState?: EditorState) => {
 		const contentState = currentEditorState
 			? currentEditorState.getCurrentContent()
@@ -791,7 +787,6 @@ export const MessageSubmitInterfaceComponent = (
 									onKeyUp={resizeTextarea}
 									onFocus={toggleAbsentMessage}
 									onBlur={toggleAbsentMessage}
-									onClick={handleTextareaClick}
 								>
 									<PluginsEditor
 										editorState={editorState}
