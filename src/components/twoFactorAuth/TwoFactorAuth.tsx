@@ -27,7 +27,8 @@ import {
 	apiPutTwoFactorAuthEmail,
 	apiPostTwoFactorAuthEmailWithCode,
 	apiPutTwoFactorAuthApp,
-	FETCH_ERRORS
+	FETCH_ERRORS,
+	apiPatchTwoFactorAuthEncourage
 } from '../../api';
 import './twoFactorAuth.styles';
 import { isStringValidEmail } from '../registration/registrationHelpers';
@@ -167,6 +168,7 @@ export const TwoFactorAuth = () => {
 						setOverlayActive(false);
 					}
 					if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
+						apiPatchTwoFactorAuthEncourage(false);
 						if (triggerNextStep) triggerNextStep();
 					}
 					setIsRequestInProgress(false);
