@@ -3,12 +3,8 @@
 		display: flex;
 		width: 100%;
 		flex-direction: column;
-		align-items: center;
+		align-items: flex-start;
 		padding-right: 0;
-
-		@include breakpoint($fromLarge) {
-			align-items: flex-start;
-		}
 
 		&__innerWrapper {
 			width: 100%;
@@ -22,10 +18,19 @@
 		.absence__link {
 			font-weight: $font-weight-bold;
 			text-transform: uppercase;
-			cursor: pointer;
 			color: $primary;
 			text-decoration: none;
 			transition: all 0.6s ease;
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
+			text-align: center;
+
+			@include breakpoint($fromLarge) {
+				margin-left: 0;
+				margin-right: 0;
+				text-align: right;
+			}
 
 			&:hover {
 				color: $hover-primary;
@@ -35,8 +40,8 @@
 	}
 
 	.inputField {
-		max-width: 500px;
-		margin-top: $grid-base-two;
+		width: 100%;
+		margin: $grid-base-two 0;
 	}
 
 	.formWrapper {

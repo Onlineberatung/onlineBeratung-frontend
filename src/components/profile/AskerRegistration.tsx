@@ -200,7 +200,17 @@ export const AskerRegistration: React.FC = () => {
 					/>
 				</div>
 			) : (
-				<SelectDropdown {...consultingTypesDropdown} />
+				<div className="askerRegistration__consultingTypeWrapper">
+					<SelectDropdown {...consultingTypesDropdown} />
+					<Text
+						className="askerRegistration__consultingModeInfo"
+						labelType={LABEL_TYPES.NOTICE}
+						text={translate(
+							'profile.data.register.consultingModeInfo.singleChats'
+						)}
+						type="infoSmall"
+					/>
+				</div>
 			)}
 			{selectedConsultingType && (
 				<AgencySelection

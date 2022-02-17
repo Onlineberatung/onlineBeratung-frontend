@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
 import { InputFieldItem, InputField } from '../inputField/InputField';
 import { translate } from '../../utils/translate';
@@ -15,16 +15,15 @@ import { UserDataContext } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import './absenceFormular.styles';
 import { Headline } from '../headline/Headline';
+import Switch from 'react-switch';
+import { Text } from '../text/Text';
 
 export const AbsenceFormular = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
-	const [savedAbsence, setSavedAbsence] = useState(true);
-	const [currentAbsentState, setCurrentAbsentState] = useState(
-		userData.absent
-	);
-	const [currentAbsenceMessage, setCurrentAbsenceMessage] = useState(
-		userData.absenceMessage
-	);
+
+	const [isAbsent, setIsAbsent] = useState(userData.absent);
+	const [absentMessage, setAbsentMessage] = useState(userData.absenceMessage);
+
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
@@ -40,42 +39,24 @@ export const AbsenceFormular = () => {
 		]
 	};
 
-	const handleButtonClick = () => {
-		const absenceCheckbox = document.getElementById(
-			'isAbsent'
-		) as HTMLInputElement;
-		const absenceMessageInput = document.getElementById(
-			'absence'
-		) as HTMLInputElement;
-
-		if (!absenceCheckbox.checked) {
-			absenceMessageInput.value = '';
-			absenceMessageInput.setAttribute('value', '');
+	useEffect(() => {
+		if (!isAbsent) {
+			setAbsentMessage(null);
 		}
+	}, [isAbsent]);
 
-		sendAbsence();
-		setCurrentAbsentState(userData.absent);
-	};
+	useEffect(() => {
+		setIsAbsent(userData.absent);
+		setAbsentMessage(userData.absenceMessage);
+	}, [userData]);
 
-	const sendAbsence = () => {
+	const handleButtonClick = () => {
 		if (isRequestInProgress) {
 			return null;
 		}
 		setIsRequestInProgress(true);
 
-		const absenceCheckbox = document.getElementById(
-			'isAbsent'
-		) as HTMLInputElement;
-		const absenceMessageInput = document.getElementById(
-			'absence'
-		) as HTMLInputElement;
-		const absenceMessageInputVal: string = absenceMessageInput.value;
-		let absenceCheckboxBool: boolean;
-		absenceCheckbox.checked
-			? (absenceCheckboxBool = true)
-			: (absenceCheckboxBool = false);
-
-		apiSetAbsence(absenceCheckboxBool, absenceMessageInputVal)
+		apiSetAbsence(isAbsent, absentMessage)
 			.then(() => {
 				setOverlayActive(true);
 				setIsRequestInProgress(false);
@@ -86,40 +67,13 @@ export const AbsenceFormular = () => {
 			});
 	};
 
-	const handleCheckboxClick = () => {
-		const absenceCheckbox = document.getElementById(
-			'isAbsent'
-		) as HTMLInputElement;
-		setCurrentAbsentState(absenceCheckbox.checked);
-		setSavedAbsence(false);
-	};
-
 	const handleOverlayAction = (buttonFunction: string) => {
 		setOverlayActive(false);
-		const absenceCheckbox = (
-			document.getElementById('isAbsent') as HTMLInputElement
-		)?.checked;
-		const absenceMessageInput = (
-			document.getElementById('absence') as HTMLInputElement
-		)?.value;
-		setSavedAbsence(true);
 		setUserData({
 			...userData,
-			absent: absenceCheckbox,
-			absenceMessage: absenceCheckbox ? absenceMessageInput : null
+			absent: isAbsent,
+			absenceMessage: isAbsent ? absentMessage : null
 		});
-	};
-
-	const handleInputChange = (event) => {
-		setCurrentAbsenceMessage(event.target.value);
-	};
-
-	const checkboxItem: CheckboxItem = {
-		inputId: 'isAbsent',
-		name: 'isAbsent',
-		labelId: 'isAbsentLabel',
-		label: translate('absence.checkbox.label'),
-		checked: currentAbsentState
 	};
 
 	const inputItem: InputFieldItem = {
@@ -128,8 +82,7 @@ export const AbsenceFormular = () => {
 		id: 'absence',
 		type: 'text',
 		label: translate('profile.functions.absenceLabel'),
-		infoText: translate('absence.input.infoText'),
-		content: currentAbsenceMessage
+		content: absentMessage
 	};
 
 	return (
@@ -141,26 +94,51 @@ export const AbsenceFormular = () => {
 				/>
 			</div>
 			<div className="generalInformation">
-				<Checkbox
-					item={checkboxItem}
-					checkboxHandle={handleCheckboxClick}
-				/>
-				{!savedAbsence || userData.absent ? (
-					<div
-						id="absenceInnerWrapper"
-						className="generalInformation__innerWrapper"
-					>
+				<div className="flex">
+					<Switch
+						className="mr--1"
+						onChange={() => setIsAbsent(!isAbsent)}
+						checked={isAbsent}
+						uncheckedIcon={false}
+						checkedIcon={false}
+						width={48}
+						height={26}
+						onColor="#0dcd21"
+						offColor="#8C878C"
+						boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+						handleDiameter={27}
+						activeBoxShadow="none"
+					/>
+					<Text
+						text={translate('absence.checkbox.label')}
+						type="standard"
+					/>
+				</div>
+				{isAbsent && (
+					<>
 						<InputField
 							item={inputItem}
-							inputHandle={handleInputChange}
+							inputHandle={({ target: { value } }) =>
+								setAbsentMessage(value)
+							}
 						/>
+						<Text
+							text={translate('absence.input.infoText')}
+							type="standard"
+							className="tertiary"
+						/>
+					</>
+				)}
+				{(isAbsent !== userData.absent ||
+					absentMessage !== userData.absenceMessage) && (
+					<div className="w--100 mt--2">
 						<span
 							onClick={handleButtonClick}
 							id="absenceButton"
 							role="button"
 							className="absence__link"
 						>
-							{currentAbsentState
+							{userData.absent && isAbsent
 								? translate(
 										'profile.functions.absenceButtonChange'
 								  )
@@ -169,7 +147,7 @@ export const AbsenceFormular = () => {
 								  )}
 						</span>
 					</div>
-				) : null}
+				)}
 			</div>
 			{overlayActive ? (
 				<OverlayWrapper>

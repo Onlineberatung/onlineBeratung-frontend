@@ -2,11 +2,44 @@ $doubleNavHeight: 192px;
 $doubleNavHeightSmall: 168px;
 $imprintHeight: 40px;
 $iconSize: 24px;
-$profileIconSize: 72px;
+$profileIconSize: 40px;
 $groupChatIconSize: 40px;
 $maxFormElementWidth: 320px;
+$inputMaxWidth: 500px;
 
 .profile {
+	&__header &__nav {
+		line-height: 40px;
+
+		& > * {
+			padding: 0 15px;
+		}
+
+		a {
+			height: 100%;
+			display: inline-flex;
+			align-items: center;
+			color: $light-grey-hover;
+			font-weight: $font-weight-medium;
+			border-bottom: 4px solid transparent;
+
+			&.active {
+				color: $primary;
+				border-color: $primary;
+			}
+
+			&:hover {
+				color: $hover-primary;
+			}
+		}
+
+		.title {
+			font-size: 20px;
+			font-weight: $font-weight-medium;
+			width: 100%;
+		}
+	}
+
 	&__wrapper {
 		display: flex;
 		flex-direction: column;
@@ -22,7 +55,6 @@ $maxFormElementWidth: 320px;
 		flex-direction: column;
 		align-items: center;
 		padding: $grid-base-three $grid-base-two;
-		background-color: $background-lighter;
 		z-index: 20;
 
 		@include breakpoint($fromMedium) {
@@ -69,11 +101,6 @@ $maxFormElementWidth: 320px;
 		}
 
 		&__actions {
-			position: absolute;
-			right: 0;
-			top: 15px;
-			display: flex;
-
 			& > * {
 				margin-right: 10px;
 
@@ -86,10 +113,6 @@ $maxFormElementWidth: 320px;
 		&__logout {
 			cursor: pointer;
 
-			@include breakpoint($fromLarge) {
-				display: none;
-			}
-
 			svg {
 				width: $iconSize;
 				height: $iconSize;
@@ -97,12 +120,7 @@ $maxFormElementWidth: 320px;
 		}
 
 		&__personal_link {
-			display: none;
 			align-items: center;
-
-			@include breakpoint($fromLarge) {
-				display: flex;
-			}
 
 			& > span {
 				border: 2px solid;
@@ -121,13 +139,11 @@ $maxFormElementWidth: 320px;
 		display: flex;
 		flex-direction: column;
 		margin: $grid-base-twelve 0 $grid-base-nine;
-		background-color: $background-light;
 		overflow-x: auto;
 
 		@include breakpoint($fromLarge) {
 			height: calc(100vh - #{$doubleNavHeight - #{$imprintHeight}});
 			margin: 0;
-			background-color: $background-lighter;
 		}
 
 		&__stopButton {
@@ -148,27 +164,6 @@ $maxFormElementWidth: 320px;
 		@include breakpoint($fromMedium) {
 			padding: 0 $grid-base-three $grid-base;
 		}
-
-		&__personal_link {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding-left: 34px;
-
-			@include breakpoint($fromLarge) {
-				display: none;
-			}
-
-			& > span {
-				border: 2px solid;
-				padding: 5px;
-				cursor: pointer;
-			}
-
-			.tooltip {
-				margin-left: 10px;
-			}
-		}
 	}
 
 	&__icon {
@@ -176,7 +171,7 @@ $maxFormElementWidth: 320px;
 		border-radius: 50%;
 		width: $profileIconSize;
 		height: $profileIconSize;
-		margin: 0 auto $grid-base-two;
+		margin-right: 13px;
 		position: relative;
 		display: flex;
 
@@ -210,51 +205,20 @@ $maxFormElementWidth: 320px;
 		display: inline-block;
 		padding: 0 $grid-base-two $grid-base-ten;
 		height: auto;
+		width: 100%;
+
+		&:after {
+			display: block;
+			content: '';
+			clear: both;
+		}
 
 		@include breakpoint($fromMedium) {
 			padding: 0 $grid-base-three $grid-base-ten;
 		}
 
 		@include breakpoint($fromLarge) {
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap;
 			padding: 0 $grid-base-three $grid-base-eight;
-		}
-
-		&__item {
-			flex: 1;
-
-			&:first-of-type {
-				padding-right: 0;
-
-				@include breakpoint($fromLarge) {
-					padding-right: $grid-base-three;
-				}
-			}
-
-			&:last-of-type {
-				padding-left: 0;
-				margin-top: $grid-base-six;
-
-				@include breakpoint($fromLarge) {
-					padding-left: $grid-base-three;
-					margin-top: 0;
-				}
-			}
-
-			&:only-child {
-				padding: 0;
-			}
-
-			.inputField {
-				max-width: 320px;
-				margin: 0 auto $grid-base-three;
-
-				@include breakpoint($fromLarge) {
-					margin: 0 0 $grid-base-three;
-				}
-			}
 		}
 
 		.text__divider {
@@ -265,7 +229,6 @@ $maxFormElementWidth: 320px;
 		&__title {
 			position: relative;
 			margin-bottom: $grid-base-three;
-			text-align: center;
 
 			@include breakpoint($fromLarge) {
 				text-align: left;
@@ -286,6 +249,47 @@ $maxFormElementWidth: 320px;
 
 		.editableData {
 			margin-top: 12px;
+
+			@include breakpoint($fromLarge) {
+				max-width: $inputMaxWidth;
+			}
+		}
+	}
+
+	&__item {
+		width: 100%;
+
+		@include breakpoint($fromLarge) {
+			width: calc(50% - #{$grid-base-three / 2});
+
+			&.odd {
+				float: left;
+				margin-right: $grid-base-three / 2;
+			}
+
+			&.even {
+				float: right;
+				margin-left: $grid-base-three / 2;
+			}
+
+			&.full {
+				clear: both;
+				width: 100%;
+			}
+		}
+
+		.inputField {
+			margin: 0 auto $grid-base-three;
+
+			@include breakpoint($fromLarge) {
+				max-width: $inputMaxWidth;
+				margin: 0 0 $grid-base-three;
+			}
+		}
+
+		.title {
+			color: $primary;
+			margin-bottom: $grid-base-two;
 		}
 	}
 
@@ -330,9 +334,21 @@ $maxFormElementWidth: 320px;
 			margin-top: 12px;
 			border-bottom: 1px solid $line-grey;
 
+			@include breakpoint($fromLarge) {
+				max-width: $inputMaxWidth;
+			}
+
+			&.full {
+				max-width: none;
+			}
+
 			&Wrapper {
 				.text__divider {
 					margin: $grid-base-four 0 $grid-base-two;
+				}
+
+				&:first-child .text__divider {
+					margin-top: 0;
 				}
 			}
 		}
@@ -355,16 +371,6 @@ $maxFormElementWidth: 320px;
 		&__divider {
 			color: $black-25-opacity;
 			margin: 0 5px;
-		}
-
-		&__copy_registration_link {
-			cursor: pointer;
-			color: $primary;
-
-			.copy {
-				width: 16px;
-				height: 16px;
-			}
 		}
 	}
 
@@ -475,84 +481,21 @@ $maxFormElementWidth: 320px;
 				}
 			}
 		}
-	}
-}
 
-.monitoring {
-	&__data {
-		display: flex;
+		&__icon {
+			margin: 0 auto $grid-base-two;
+			width: 72px;
+			height: 72px;
 
-		.profile__data__content {
-			flex-grow: 1;
-			align-self: center;
-		}
-
-		.profile__data__icon {
-			flex-grow: 0;
-			align-self: center;
-			cursor: pointer;
-			margin-bottom: 6px;
-
-			&:hover {
-				svg * {
-					fill: $primary;
-				}
-			}
-		}
-
-		.monitoringItem {
-			margin: 0;
-			padding: 0;
-		}
-	}
-}
-
-.askerRegistration {
-	margin-top: $grid-base-six;
-	&__headline {
-		margin: 0 auto;
-	}
-
-	&__consultingTypeWrapper {
-		max-width: $maxFormElementWidth;
-		margin: 0 auto;
-		@include breakpoint($fromLarge) {
-			margin: 0;
-		}
-	}
-
-	&__consultingModeInfo {
-		margin: 0 0 $grid-base-four;
-	}
-
-	.select__wrapper {
-		padding: 0;
-		margin: $grid-base-three auto;
-
-		@include breakpoint($fromLarge) {
-			margin: $grid-base-three 0;
-		}
-	}
-
-	.button {
-		&__wrapper {
-			width: $maxFormElementWidth;
-			margin: 0 auto $grid-base-four;
-			@include breakpoint($fromLarge) {
-				margin: 0;
-			}
-		}
-
-		&__item {
-			padding: 0;
-			text-align: center;
-			width: 100%;
-			@include breakpoint($fromLarge) {
-				text-align: left;
+			&--user {
+				width: 72px;
+				height: 72px;
 			}
 		}
 	}
 }
 
-@import './statistics.styles.scss';
-@import './spokenlanguages.styles.scss';
+@import './monitoring.styles';
+@import './askerRegistration.styles';
+@import './statistics.styles';
+@import './spokenlanguages.styles';

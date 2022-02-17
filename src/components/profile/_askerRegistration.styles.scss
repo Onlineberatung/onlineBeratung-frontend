@@ -1,0 +1,36 @@
+.askerRegistration {
+	&__consultingModeInfo {
+		margin: 0 0 $grid-base-four;
+	}
+
+	.select__wrapper {
+		padding: 0;
+		margin: $grid-base-three 0;
+		max-width: none;
+
+		@include breakpoint($fromLarge) {
+			max-width: $max-input-width;
+		}
+	}
+
+	.button {
+		&__wrapper {
+			text-align: center;
+			margin-bottom: $grid-base-four;
+
+			@include breakpoint($fromLarge) {
+				text-align: right;
+				margin: 0;
+			}
+		}
+
+		&__item {
+			padding: 0;
+			text-align: center;
+			max-width: none;
+			@include breakpoint($fromLarge) {
+				text-align: right;
+			}
+		}
+	}
+}
