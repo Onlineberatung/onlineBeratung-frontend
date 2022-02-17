@@ -105,10 +105,22 @@ export const SessionView = (props: RouterProps) => {
 			.catch((error) => null);
 	}, [groupIdFromParam]);
 
+	/**
+	 * ToDo: roomMessageBounce is just a temporary fix because currently
+	 * every message gets marked but on every changed message we are loading all
+	 * messages. Maybe in future we will only update single message as it changes
+	 */
+	const roomMessageBounce = useRef(null);
 	const handleRoomMessage = useCallback(() => {
-		fetchSessionMessages().finally(() => {
-			setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
-		});
+		if (roomMessageBounce.current) {
+			clearTimeout(roomMessageBounce.current);
+		}
+		roomMessageBounce.current = setTimeout(() => {
+			roomMessageBounce.current = null;
+			fetchSessionMessages().finally(() => {
+				setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+			});
+		}, 500);
 	}, [fetchSessionMessages, setUpdateSessionList]);
 
 	const groupChatStoppedOverlay: OverlayItem = useMemo(
