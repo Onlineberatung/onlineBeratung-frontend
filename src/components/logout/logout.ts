@@ -1,6 +1,7 @@
+import { apiKeycloakLogout } from '../../api/apiLogoutKeycloak';
+import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
 import { config } from '../../resources/scripts/config';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
-import { apiRocketchatLogout, apiKeycloakLogout } from '../../api';
 import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
 
 let isRequestInProgress = false;

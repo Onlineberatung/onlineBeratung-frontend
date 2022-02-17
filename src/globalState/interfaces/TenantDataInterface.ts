@@ -1,7 +1,6 @@
 export interface TenantDataInterface {
 	id: number | null;
 	name: string;
-	subdomain: string;
 	theming: {
 		logo: string;
 		favicon: string;
@@ -9,7 +8,7 @@ export interface TenantDataInterface {
 		secondaryColor: string;
 	};
 	content: {
-		imprint: string;
+		impressum: string;
 		privacy: string;
 		termsAndConditions: string;
 		claim: string;
