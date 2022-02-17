@@ -51,6 +51,7 @@ export const RouterConfigUser = (): any => {
 		profileRoutes: [
 			{
 				path: '/profile',
+				exact: false,
 				component: Profile
 			}
 		]
@@ -144,6 +145,7 @@ export const RouterConfigConsultant = (): any => {
 		profileRoutes: [
 			{
 				path: '/profile',
+				exact: false,
 				component: Profile
 			}
 		]
@@ -271,6 +273,7 @@ export const RouterConfigTeamConsultant = (): any => {
 		profileRoutes: [
 			{
 				path: '/profile',
+				exact: false,
 				component: Profile
 			}
 		]

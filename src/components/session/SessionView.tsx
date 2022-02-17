@@ -28,7 +28,11 @@ import {
 	UpdateSessionListContext,
 	UserDataContext
 } from '../../globalState';
-import { mobileDetailView, mobileListView } from '../app/navigationHandler';
+import {
+	desktopView,
+	mobileDetailView,
+	mobileListView
+} from '../app/navigationHandler';
 import {
 	apiGetSessionData,
 	apiSetSessionRead,
@@ -64,6 +68,7 @@ import './session.styles';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import useTyping from '../../utils/useTyping';
+import { useResponsive } from '../../hooks/useResponsive';
 
 interface RouterProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
@@ -262,7 +267,21 @@ export const SessionView = (props: RouterProps) => {
 	);
 
 	useEffect(() => {
-		mobileDetailView();
+		setIsLoading(true);
+	}, [groupIdFromParam]);
+
+	const { fromL } = useResponsive();
+	useEffect(() => {
+		if (!fromL) {
+			mobileDetailView();
+			return () => {
+				mobileListView();
+			};
+		}
+		desktopView();
+	}, [fromL]);
+
+	useEffect(() => {
 		setAcceptedGroupId(null);
 
 		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
@@ -354,7 +373,6 @@ export const SessionView = (props: RouterProps) => {
 	}
 
 	if (redirectToSessionsList) {
-		mobileListView();
 		history.push(
 			getSessionListPathForLocation() +
 				(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
