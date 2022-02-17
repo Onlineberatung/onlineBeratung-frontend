@@ -2,7 +2,7 @@ const profile = {
 	'noContent': 'Keine Angabe',
 	'header.title': 'Profil',
 	'functions.title': 'Funktionen',
-	'functions.absenceTitle': 'Abwesenheit',
+	'functions.absenceTitle': 'Meine Abwesenheit',
 	'functions.absenceLabel': 'Hinterlegen Sie eine Abwesenheitsnachricht',
 	'functions.absenceButtonSave': 'Speichern',
 	'functions.absenceButtonChange': 'Ändern',
@@ -20,7 +20,7 @@ const profile = {
 	'functions.passwordResetNotSame': 'Ihr Passwort ist nicht identisch.',
 	'functions.passwordResetOldIncorrect': 'Ihr Passwort ist nicht korrekt.',
 	'functions.passwordResetInstructions':
-		'Ihr Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 9 Zeichen',
+		'<span class="text--bold">Ihr Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:</span><ul class="pl--2 my--1"><li>Groß-/Kleinschreibung</li><li>mind. eine Zahl</li><li>mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...)</li><li>mind. 9 Zeichen</li></ul>',
 	'functions.passwordReset.overlay.headline':
 		'Sie haben Ihr Passwort erfolgreich geändert. Sie werden nun zum Login weitergeleitet.',
 	'functions.passwordReset.overlay.buttonLabel': 'Zum Login',
@@ -29,7 +29,7 @@ const profile = {
 	'data.title': 'Über mich',
 	'data.title.private': 'Private Daten',
 	'data.info.private': 'Diese Daten können die Ratsuchenden nicht einsehen.',
-	'data.title.public': 'Öffentliche Daten',
+	'data.title.information': 'Profil Informationen',
 	'data.info.public': 'Diese Daten werden den Ratsuchenden angezeigt.',
 	'data.edit.button.cancel': 'Abbrechen',
 	'data.edit.button.save': 'Speichern',
@@ -37,6 +37,7 @@ const profile = {
 	'data.firstName': 'Vorname',
 	'data.lastName': 'Nachname',
 	'data.email': 'E-Mail-Adresse',
+	'data.title.agencies': 'Meine Beratungsstellen',
 	'data.agency': 'Beratungsstelle',
 
 	'data.agency.registrationLink.title':
@@ -79,10 +80,20 @@ const profile = {
 	'externalRegistration.cancel': 'Abbrechen',
 	'footer.imprint': 'Impressum',
 	'footer.dataprotection': 'Datenschutz',
+
+	'routes.general': 'Allgemeines',
+	'routes.general.public': 'Öffentliche Daten',
+	'routes.general.privat': 'Private Daten',
+	'routes.activities': 'Meine Aktivitäten',
+	'routes.activities.statistics': 'Meine Statistik',
+	'routes.activities.absence': 'Meine Abwesenheit',
+	'routes.security': 'Sicherheit',
+	'routes.security.changePassword': 'Passwort ändern',
+	'routes.security.2fa': '2-Faktor-Authentifizierung',
+
 	'spokenLanguages.title': 'Meine Sprachen',
 	'spokenLanguages.info':
 		'Wählen Sie die Sprache(n) aus, in der Sie die Ratsuchenden beraten können. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.',
-	'spokenLanguages.prefix': 'Sprach&shy;auswahl',
 	'statistics.title': 'Meine Statistik',
 	'statistics.period.prefix': 'Ihre Zahlen des',
 	'statistics.period.lastMonth': 'letzten Monats',

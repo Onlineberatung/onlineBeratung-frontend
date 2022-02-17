@@ -37,7 +37,7 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			history.push({
-				pathname: '/profile',
+				pathname: '/profile/sicherheit/2fa',
 				openTwoFactor: true
 			});
 			setIsShownTwoFactorNag(false);
