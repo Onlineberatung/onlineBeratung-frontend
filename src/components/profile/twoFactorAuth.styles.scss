@@ -1,3 +1,5 @@
+$two-factor-auth-overlay-buttons-margin-right: auto !default;
+
 .twoFactorAuth {
 	&__switch {
 		display: flex;
@@ -17,6 +19,7 @@
 		.overlay__buttons {
 			align-self: flex-end;
 			margin-top: auto;
+			margin-right: $two-factor-auth-overlay-buttons-margin-right;
 		}
 
 		.button__wrapper {
@@ -56,13 +59,14 @@
 			justify-items: start;
 			cursor: pointer;
 			margin-top: $grid-base-two;
+			color: var(--skin-color-link, $primary);
 
 			.text {
-				color: $primary;
+				color: var(--skin-color-link, $primary);
 				margin: auto 0 auto $grid-base;
 
 				&:hover {
-					color: $hover-primary;
+					color: var(--skin-color-link, $hover-primary);
 				}
 			}
 		}
@@ -72,12 +76,13 @@
 		.text__divider {
 			text-transform: uppercase;
 			display: flex;
-			color: $primary;
+			color: var(--skin-color-secondary-contrast-safe, $primary);
 
 			&::before,
 			&::after {
 				content: '';
-				border-top: 1px solid $primary;
+				border-top: 1px solid
+					var(--skin-color-secondary-contrast-safe, $primary);
 				width: max-content;
 				margin: auto $grid-base;
 				flex-grow: 1;

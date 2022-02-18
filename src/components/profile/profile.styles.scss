@@ -5,6 +5,7 @@ $iconSize: 24px;
 $profileIconSize: 72px;
 $groupChatIconSize: 40px;
 $maxFormElementWidth: 320px;
+$profile-imprint-background-color-desktop: $background-light !default;
 
 .profile {
 	&__wrapper {
@@ -324,7 +325,7 @@ $maxFormElementWidth: 320px;
 			justify-content: flex-start;
 			width: 100%;
 			margin-bottom: unset;
-			background-color: $background-light;
+			background-color: $profile-imprint-background-color-desktop;
 		}
 
 		&__item {

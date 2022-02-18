@@ -135,7 +135,7 @@ $overlay-icon-size-large: 48px !default;
 
 		&--active {
 			.overlay__stepIcon {
-				background-color: $primary;
+				background-color: var(--skin-color-primary, $primary);
 			}
 
 			svg {
@@ -161,7 +161,7 @@ $overlay-icon-size-large: 48px !default;
 	&__stepIcon {
 		width: calc(#{$overlay-icon-size-xs} * 2);
 		height: calc(#{$overlay-icon-size-xs} * 2);
-		border: 1px solid $primary;
+		border: 1px solid var(--skin-color-primary, $primary);
 		border-radius: $overlay-icon-size-xs;
 		display: flex;
 		justify-content: center;
