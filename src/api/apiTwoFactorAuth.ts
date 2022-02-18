@@ -5,7 +5,7 @@ export const apiPutTwoFactorAuthApp = async (body: {
 	secret: string;
 	otp: string;
 }): Promise<any> => {
-	const url = config.endpoints.twoFactorAuth;
+	const url = config.endpoints.twoFactorAuthApp;
 
 	return fetchData({
 		url: url,
