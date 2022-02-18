@@ -93,7 +93,7 @@ $overlay-icon-size-large: 48px !default;
 		margin: 0 auto 36px;
 
 		.text {
-			color: $primary;
+			color: var(--skin-color-link, $primary);
 			text-transform: uppercase;
 			display: none;
 
@@ -123,7 +123,7 @@ $overlay-icon-size-large: 48px !default;
 		svg {
 			width: $overlay-icon-size-xs;
 			height: $overlay-icon-size-xs;
-			fill: $primary;
+			fill: var(--skin-color-primary, $primary);
 		}
 
 		.text {
