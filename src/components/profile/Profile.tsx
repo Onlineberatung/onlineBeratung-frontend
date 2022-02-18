@@ -111,17 +111,7 @@ export const Profile = (props: ProfileProps) => {
 						) && <AbsenceFormular />}
 						<PasswordReset />
 
-						{(hasUserAuthority(
-							AUTHORITIES.CONSULTANT_DEFAULT,
-							userData
-						) ||
-							hasUserAuthority(
-								AUTHORITIES.ASKER_DEFAULT,
-								userData
-							)) &&
-							userData.twoFactorAuth?.isEnabled && (
-								<TwoFactorAuth />
-							)}
+						{userData.twoFactorAuth?.isEnabled && <TwoFactorAuth />}
 					</div>
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,
