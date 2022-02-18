@@ -4,6 +4,7 @@ $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 $textareaHeight: 72px;
 $sessionHeaderHeight: 85px;
 $unreadButtonSize: 18px;
+$session-scroll-to-bottom-radius: $button-border-radius !default;
 
 .session,
 .enquiry__wrapper {

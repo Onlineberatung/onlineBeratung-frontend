@@ -97,6 +97,13 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 			? 'var(--skin-color-primary-foreground-light)'
 			: 'var(--skin-color-primary-foreground-dark)';
 
+	// Intended to be used as the foreground color when text
+	// or icons are used on top of the secondary color.
+	const textColorSecondaryContrastSwitch =
+		secondaryHSL.l < contrastThreshold
+			? 'var(--skin-color-primary-foreground-light)'
+			: 'var(--skin-color-primary-foreground-dark)';
+
 	const secondaryColorContrastSafe =
 		secondaryHSL.l < contrastThreshold
 			? secondaryColor
@@ -130,6 +137,7 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 				: primaryColor
 		};
 		--text-color-contrast-switch: ${textColorContrastSwitch};
+		--text-color-secondary-contrast-switch: ${textColorSecondaryContrastSwitch};
 		}
 		</style>`
 	);

@@ -37,7 +37,7 @@
 		font-weight: $text-divider-font-weight;
 		text-transform: $text-divider-text-transform;
 		line-height: $line-height-secondary;
-		color: $text-divider-color;
+		color: var(--skin-color-secondary-contrast-safe, $text-divider-color);
 		letter-spacing: $text-divider-letter-spacing;
 	}
 
