@@ -9,6 +9,8 @@ const userProfile = {
 	'data.state': 'Bundesland',
 	'monitoring.title': 'Monitoring',
 	'reassign.title': 'Zuordnung',
+	'reassign.description':
+		'Wenn sich ein anderer Berater um diesen Ratsuchenden kümmern soll, können sie den Ratsuchenden inkl. der bisherigen Unterhaltung weiterleiten.',
 	'monitoring.buttonLabel': 'Jetzt dokumentieren'
 };
 
