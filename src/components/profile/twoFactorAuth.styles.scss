@@ -19,11 +19,24 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 		.overlay__buttons {
 			align-self: flex-end;
 			margin-top: auto;
-			margin-right: $two-factor-auth-overlay-buttons-margin-right;
+
+			@include breakpoint($fromMedium) {
+				display: flex;
+				justify-content: space-between;
+				width: 100%;
+			}
+		}
+
+		@include breakpoint($fromMedium) {
+			.overlay__buttons .button__wrapper {
+				width: calc(50% - #{$grid-base-two});
+			}
 		}
 
 		.button__wrapper {
 			margin-top: $grid-base-three;
+			margin-left: auto;
+			margin-right: $two-factor-auth-overlay-buttons-margin-right;
 		}
 
 		.inputField__infoText {
@@ -88,14 +101,25 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 				flex-grow: 1;
 			}
 		}
+
+		@include breakpoint($fromMedium) {
+			display: flex;
+			margin-top: $grid-base-three;
+
+			.twoFactorAuth__qrCode,
+			.twoFactorAuth__key {
+				width: 50%;
+				flex-shrink: 0;
+			}
+
+			.text__divider {
+				display: none;
+			}
+		}
 	}
 
 	&__qrCode {
 		display: flex;
-
-		.text {
-			margin: auto 0;
-		}
 
 		img {
 			width: $two-factor-qr-code-width;
@@ -104,9 +128,22 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 		& + .text__divider {
 			margin: 12px 0 24px;
 		}
+
+		@include breakpoint($fromMedium) {
+			flex-direction: column;
+		}
+	}
+
+	&__qrCodeImage {
+		margin: auto;
 	}
 
 	&__key {
+		@include breakpoint($fromMedium) {
+			border-left: 2px solid var(--skin-color-primary, $primary);
+			padding-left: $grid-base-two;
+		}
+
 		.text + .text {
 			font-weight: $font-weight-bold;
 		}
