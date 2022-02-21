@@ -1,6 +1,7 @@
 $icon-size: 24px;
 $icon-size-small: 16px;
 $message-lineheight: 21px;
+$message-attachment-color: $secondary !default;
 
 .messageItem {
 	margin-bottom: $grid-base-two;
@@ -117,7 +118,8 @@ $message-lineheight: 21px;
 		&::after {
 			content: '';
 			display: inline-block;
-			border-top: 1px solid $text-divider-color;
+			border-top: 1px solid
+				var(--skin-color-secondary-contrast-safe, $text-divider-color);
 			width: $grid-base-three;
 			vertical-align: middle;
 			margin: 0 $grid-base;
@@ -194,9 +196,15 @@ $message-lineheight: 21px;
 			align-items: center;
 			background-color: $dark-grey;
 			border-radius: $icon-size;
-			color: var(--skin-color-secondary, $secondary);
+			color: $message-attachment-color;
 			padding: 6px $grid-base-three 5px 12px;
 			max-width: 350px;
+
+			&__icon svg {
+				* {
+					fill: $message-attachment-color;
+				}
+			}
 
 			&__download {
 				display: flex;
@@ -206,8 +214,16 @@ $message-lineheight: 21px;
 
 				p {
 					margin: 0;
-					color: var(--skin-color-secondary, $secondary);
+					color: var(--text-color-contrast-switch, $secondary);
 					line-height: $icon-size;
+				}
+
+				&:hover p {
+					color: var(--text-color-contrast-switch, $primary);
+				}
+
+				svg * {
+					fill: var(--text-color-contrast-switch, $primary);
 				}
 			}
 
@@ -221,22 +237,6 @@ $message-lineheight: 21px;
 					width: $icon-size;
 					height: $icon-size;
 					margin-right: $grid-base;
-					* {
-						fill: $secondary;
-					}
-				}
-			}
-
-			&__download {
-				&:hover {
-					p {
-						color: var(--skin-color-primary, $primary);
-					}
-					svg {
-						* {
-							fill: var(--skin-color-primary, $primary);
-						}
-					}
 				}
 			}
 
@@ -427,7 +427,7 @@ $message-lineheight: 21px;
 		padding-bottom: 2px;
 
 		* {
-			fill: $secondary;
+			fill: var(--skin-color-secondary-contrast-safe, $secondary);
 		}
 	}
 

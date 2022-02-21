@@ -78,7 +78,7 @@ $tabBarHeightDesktop: 53px;
 
 			* {
 				transition: fill 0.6s ease;
-				fill: $secondary;
+				fill: var(--skin-color-secondary-contrast-safe, $secondary);
 			}
 		}
 

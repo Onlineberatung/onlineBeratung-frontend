@@ -54,7 +54,7 @@ _:-ms-fullscreen,
 			right: $grid-base-two;
 			path {
 				transition: fill 500ms ease;
-				fill: $secondary;
+				fill: var(--skin-color-secondary-contrast-safe, $secondary);
 			}
 		}
 		&:hover {

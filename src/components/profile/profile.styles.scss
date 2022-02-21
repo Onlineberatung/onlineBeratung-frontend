@@ -5,6 +5,10 @@ $iconSize: 24px;
 $profileIconSize: 72px;
 $groupChatIconSize: 40px;
 $maxFormElementWidth: 320px;
+$profile-imprint-background-color-desktop: $background-light !default;
+$profile-content-wrapper-detail-button-text-align: center !default;
+$profile-select-margin-left: auto !default;
+$profile-select-padding-left: $grid-base-three !default;
 
 .profile {
 	&__wrapper {
@@ -235,6 +239,11 @@ $maxFormElementWidth: 320px;
 		.editableData {
 			margin-top: 12px;
 		}
+
+		.select__wrapper {
+			margin-left: $profile-select-margin-left;
+			padding-left: $profile-select-padding-left;
+		}
 	}
 
 	&__security {
@@ -324,7 +333,7 @@ $maxFormElementWidth: 320px;
 			justify-content: flex-start;
 			width: 100%;
 			margin-bottom: unset;
-			background-color: $background-light;
+			background-color: $profile-imprint-background-color-desktop;
 		}
 
 		&__item {
@@ -354,7 +363,7 @@ $maxFormElementWidth: 320px;
 			}
 
 			.button__wrapper {
-				text-align: center;
+				text-align: $profile-content-wrapper-detail-button-text-align;
 			}
 		}
 
@@ -385,9 +394,12 @@ $maxFormElementWidth: 320px;
 				svg {
 					width: $iconSize;
 					height: $iconSize;
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 					svg path {
-						fill: $secondary;
+						fill: var(
+							--skin-color-secondary-contrast-safe,
+							$secondary
+						);
 					}
 
 					&:hover {

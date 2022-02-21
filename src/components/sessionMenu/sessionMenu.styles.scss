@@ -1,3 +1,4 @@
+$session-menu-border: 1px solid $form-disabled !default;
 $iconSize: 20px;
 
 .sessionMenu {
@@ -67,7 +68,7 @@ $iconSize: 20px;
 		box-sizing: border-box;
 		background: $white;
 		width: 230px;
-		border: 1px solid $form-disabled;
+		border: $session-menu-border;
 		@include rounded-drop-shadow;
 		z-index: 1;
 
@@ -86,7 +87,10 @@ $iconSize: 20px;
 
 		.legalInformationLinks--menu {
 			display: block;
-			border-top: 1px solid $line-grey;
+
+			&:not(:first-child) {
+				border-top: 1px solid $line-grey;
+			}
 
 			a {
 				background-color: $white;

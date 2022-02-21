@@ -1,4 +1,7 @@
-$form-accordion-item-title-color: $secondary !default;
+$form-accordion-item-title-color: var(
+	--skin-color-secondary-contrast-safe,
+	$secondary
+) !default;
 $form-accordion-title-font-weight: $font-weight-medium !default;
 $form-accordion-item-input-margin-right: $grid-base-four !default;
 $form-accordion-item-input-margin-left: 0 !default;

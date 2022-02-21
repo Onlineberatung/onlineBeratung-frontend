@@ -75,12 +75,13 @@ const colourStyles = {
 	menuList: (styles) => ({
 		...styles,
 		padding: '0',
-		border: '1px solid #C4BFC4',
+		border: undefined,
 		borderRadius: '4px',
-		boxShadow: '0 3px 0 1px rgba(0, 0, 0, 0.1)'
+		boxShadow: undefined
 	}),
 	menu: (styles, { menuPlacement }) => ({
 		...styles,
+		'boxShadow': undefined,
 		'marginBottom': menuPlacement === 'top' ? '16px' : '0',
 		'marginTop': menuPlacement === 'top' ? '0' : '16px',
 		'&:after, &:before': {
@@ -97,6 +98,7 @@ const colourStyles = {
 			zIndex: 2
 		},
 		'&:before': {
+			left: '50%',
 			borderTop:
 				menuPlacement === 'top' ? '10px solid rgba(0,0,0,0.1)' : 'none',
 			borderBottom:
