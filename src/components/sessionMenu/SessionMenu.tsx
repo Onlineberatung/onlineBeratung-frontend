@@ -289,24 +289,24 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	//rotate icon to vertical only if EVERY item in flyout
 	//list item icons only shown on outside
 
-	const baseUrl = `${getSessionListPathForLocation()}/:groupId/:id/:optionalParam?/:extraPath?${getSessionListTab()}`;
+	const baseUrl = `${getSessionListPathForLocation()}/:groupId/:id/:subRoute?/:extraPath?${getSessionListTab()}`;
 
 	const groupChatInfoLink = generatePath(baseUrl, {
 		...chatItem,
-		extraPath: 'groupChatInfo'
+		subRoute: 'groupChatInfo'
 	});
 	const editGroupChatSettingsLink = generatePath(baseUrl, {
 		...chatItem,
-		extraPath: 'editGroupChat'
+		subRoute: 'editGroupChat'
 	});
 	const monitoringPath = generatePath(baseUrl, {
 		...chatItem,
-		optionalParam: 'userProfile',
+		subRoute: 'userProfile',
 		extraPath: 'monitoring'
 	});
 	const userProfileLink = generatePath(baseUrl, {
 		...chatItem,
-		extraPath: 'userProfile'
+		subRoute: 'userProfile'
 	});
 
 	if (redirectToSessionsList) {
