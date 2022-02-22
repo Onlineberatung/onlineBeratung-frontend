@@ -10,37 +10,39 @@ import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import {
+	AcceptedGroupIdContext,
 	ActiveSessionGroupIdContext,
+	AUTHORITIES,
 	getActiveSession,
-	SessionsDataContext,
-	UserDataContext,
-	StoppedGroupChatContext,
 	hasUserAuthority,
 	isAnonymousSession,
-	AUTHORITIES,
-	useConsultingType,
+	NOTIFICATION_TYPE_WARNING,
+	NotificationsContext,
+	SessionsDataContext,
+	StoppedGroupChatContext,
 	UpdateSessionListContext,
-	AcceptedGroupIdContext
+	useConsultingType,
+	UserDataContext
 } from '../../globalState';
 import {
-	typeIsEnquiry,
 	getChatItemForSession,
-	isGroupChatForSessionItem,
 	getSessionListPathForLocation,
 	getTypeOfLocation,
-	typeIsTeamSession,
-	SESSION_LIST_TAB
+	isGroupChatForSessionItem,
+	SESSION_LIST_TAB,
+	typeIsEnquiry,
+	typeIsTeamSession
 } from '../session/sessionHelpers';
-import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayWrapper } from '../overlay/Overlay';
 import {
-	stopGroupChatSecurityOverlayItem,
-	stopGroupChatSuccessOverlayItem,
-	leaveGroupChatSecurityOverlayItem,
-	groupChatErrorOverlayItem,
-	leaveGroupChatSuccessOverlayItem,
+	archiveSessionSuccessOverlayItem,
 	finishAnonymousChatSecurityOverlayItem,
 	finishAnonymousChatSuccessOverlayItem,
-	archiveSessionSuccessOverlayItem,
+	groupChatErrorOverlayItem,
+	leaveGroupChatSecurityOverlayItem,
+	leaveGroupChatSuccessOverlayItem,
+	stopGroupChatSecurityOverlayItem,
+	stopGroupChatSuccessOverlayItem,
 	videoCallErrorOverlayItem
 } from './sessionMenuHelpers';
 import {
@@ -63,7 +65,7 @@ import { ReactComponent as MenuHorizontalIcon } from '../../resources/img/icons/
 import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/stack-vertical.svg';
 import '../sessionHeader/sessionHeader.styles';
 import './sessionMenu.styles';
-import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import {
@@ -75,6 +77,8 @@ import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { history } from '../app/app';
 import DeleteSession from '../session/DeleteSession';
 import { Tooltip } from '../tooltip/Tooltip';
+import { decodeUsername } from '../../utils/encryptionHelpers';
+import { deviceType } from 'react-device-detect';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -88,6 +92,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
 		ActiveSessionGroupIdContext
 	);
+	const { addNotification } = useContext(NotificationsContext);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
@@ -380,6 +385,32 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			});
 	};
 
+	const test1 = () => {
+		addNotification({
+			notificationType: 'call',
+			videoCall: {
+				rcGroupId: 'asdf',
+				initiatorRcUserId: '',
+				initiatorUsername: 'test',
+				videoCallUrl: '...'
+			}
+		});
+	};
+
+	const test2 = () => {
+		addNotification({
+			notificationType: NOTIFICATION_TYPE_WARNING,
+			id: 'asdf123',
+			title: translate('videoCall.incomingCall.unsupported.description', {
+				username: '<span>Hans Peter</span>'
+			}),
+			text: translate(
+				`videoCall.incomingCall.unsupported.hint.${deviceType}`
+			),
+			closeable: true
+		});
+	};
+
 	return (
 		<div className="sessionMenu__wrapper">
 			{isLiveChat &&
@@ -400,6 +431,9 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					className="sessionMenu__videoCallButtons"
 					data-cy="session-header-video-call-buttons"
 				>
+					<Button buttonHandle={test1} item={buttonStartCall} />
+					<Button buttonHandle={test2} item={buttonStartCall} />
+
 					{supportsE2EEncryptionVideoCall() ? (
 						<>
 							<Button
@@ -429,11 +463,13 @@ export const SessionMenu = (props: SessionMenuProps) => {
 										'videoCall.overlay.unsupported.headline'
 									)}
 								</h5>
-								<p>
-									{translate(
-										'videoCall.overlay.unsupported.copy'
-									)}
-								</p>
+								<p
+									dangerouslySetInnerHTML={{
+										__html: translate(
+											`videoCall.overlay.unsupported.copy.${deviceType}`
+										)
+									}}
+								></p>
 							</Tooltip>
 							<Tooltip
 								trigger={
@@ -451,11 +487,13 @@ export const SessionMenu = (props: SessionMenuProps) => {
 										'videoCall.overlay.unsupported.headline'
 									)}
 								</h5>
-								<p>
-									{translate(
-										'videoCall.overlay.unsupported.copy'
-									)}
-								</p>
+								<p
+									dangerouslySetInnerHTML={{
+										__html: translate(
+											`videoCall.overlay.unsupported.copy.${deviceType}`
+										)
+									}}
+								></p>
 							</Tooltip>
 						</>
 					)}

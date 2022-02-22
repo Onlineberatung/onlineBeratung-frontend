@@ -5,21 +5,26 @@ const videoCall = {
 	'button.startVideoCall': 'Videoanruf starten',
 	'button.answerVideoCall': 'Videoanruf annehmen',
 	'incomingCall.description': 'ruft an...',
-	'incomingCall.unsupported.description': 'versucht Sie anzurufen ...',
-	'incomingCall.unsupported.hint':
-		'Ihr Browser unterstützt leider keine Ende-zu-Ende Verschlüsselung. Bitte wechseln Sie zu einem der Browser Google Chrome oder Microsoft Edge (Browser auf Basis der Chromium Engine), um den Anruf annehmen zu können.',
+	'incomingCall.unsupported.description':
+		'%username% versucht Sie anzurufen ...',
+	'incomingCall.unsupported.hint.browser':
+		'Ihr Browser unterstützt leider keine Ende-zu-Ende Verschlüsselung. Bitte wechseln Sie zu einem der Browser <a href="https://www.google.de/chrome/" target="_blank">Google Chrome</a> oder <a href="https://www.microsoft.com/de-de/edge" target="_blank">Microsoft Edge</a>, um den Anruf annehmen zu können.',
 	'incomingCall.unsupported.hint.mobile':
-		'Ihr Browser unterstützt leider keine Ende-zu-Ende Verschlüsselung. Sie können den Anruf in der Jitsi App annehmen oder Ihren Browser zu einem der Browser Google Chrome oder Microsoft Edge (Browser auf Basis der Chromium Engine) wechseln.',
+		'Ihr Browser unterstützt leider keine Ende-zu-Ende Verschlüsselung. Sie können den Anruf in der <a href="org.jitsi.meet://beratung.caritas.de">Jitsi App</a> annehmen oder Ihren Browser zu einem der Browser <a href="googlechrome://navigate?url=https://beratung.cartias.de" target="_blank">Google Chrome</a> oder <a href="microsoft-edge://beratung.cartias.de/" target="_blank">Microsoft Edge</a> wechseln.',
+	'incomingCall.unsupported.hint.tablet':
+		'Ihr Browser unterstützt leider keine Ende-zu-Ende Verschlüsselung. Sie können den Anruf in der <a href="org.jitsi.meet://beratung.caritas.de">Jitsi App</a> annehmen oder Ihren Browser zu einem der Browser <a href="googlechrome://navigate?url=https://beratung.cartias.de" target="_blank">Google Chrome</a> oder <a href="microsoft-edge://beratung.cartias.de/" target="_blank">Microsoft Edge</a> wechseln.',
 	'incomingCall.ignored': 'hat versucht Sie zu erreichen.',
 	'incomingCall.rejected.prefix': 'Sie haben versucht',
 	'incomingCall.rejected.suffix': 'zu erreichen.',
 	'incomingCall.rejected.teamconsultant.prefix': 'hat versucht',
 	'overlay.unsupported.headline':
 		'Ihr Browser unterstützt leider keine Ende-zu-Ende Verschlüsselung',
-	'overlay.unsupported.copy':
-		'Bitte wechseln Sie zu einem der Browser Google Chrome oder Microsoft Edge (Browser auf Basis der Chromium Engine), um die maximale Sicherheit zu ermöglichen und diese Funktion nutzen zu können.',
+	'overlay.unsupported.copy.browser':
+		'Bitte wechseln Sie zu einem der Browser <a href="https://www.google.de/chrome/" target="_blank">Google Chrome</a> oder <a href="https://www.microsoft.com/de-de/edge" target="_blank">Microsoft Edge</a>, um die maximale Sicherheit zu ermöglichen und diese Funktion nutzen zu können.',
 	'overlay.unsupported.copy.mobile':
-		'Bitte nutzen Sie die Jitsi App oder wechseln Sie zu einem der Browser Google Chrome oder Microsoft Edge (Browser auf Basis der Chromium Engine), um die maximale Sicherheit zu ermöglichen und diese Funktion nutzen zu können.',
+		'Bitte nutzen Sie die <a href="org.jitsi.meet://beratung.caritas.de">Jitsi App</a> oder wechseln Sie zu einem der Browser <a href="googlechrome://navigate?url=https://beratung.cartias.de" target="_blank">Google Chrome</a> oder <a href="microsoft-edge://beratung.cartias.de/" target="_blank">Microsoft Edge</a>, um die maximale Sicherheit zu ermöglichen und diese Funktion nutzen zu können.',
+	'overlay.unsupported.copy.tablet':
+		'Bitte nutzen Sie die <a href="org.jitsi.meet://beratung.caritas.de">Jitsi App</a> oder wechseln Sie zu einem der Browser <a href="googlechrome://navigate?url=https://beratung.cartias.de" target="_blank">Google Chrome</a> oder <a href="microsoft-edge://beratung.cartias.de/" target="_blank">Microsoft Edge</a>, um die maximale Sicherheit zu ermöglichen und diese Funktion nutzen zu können.',
 	'overlay.unsupported.button.close': 'Schließen',
 	'overlay.unsupported.button.app': 'Zur App'
 };

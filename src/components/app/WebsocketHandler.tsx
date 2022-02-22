@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { config } from '../../resources/scripts/config';
+import { useContext, useEffect, useState } from 'react';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
+import { config } from '../../resources/scripts/config';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import {
 	NOTIFICATION_TYPE_CALL,
@@ -14,6 +14,7 @@ import {
 	AnonymousEnquiryAcceptedContext,
 	AUTHORITIES,
 	hasUserAuthority,
+	NOTIFICATION_TYPE_WARNING,
 	NotificationsContext,
 	UnreadSessionsStatusContext,
 	UpdateSessionListContext,
@@ -26,6 +27,10 @@ import {
 } from '../session/sessionHelpers';
 import { sendNotification } from '../../utils/notificationHelpers';
 import { history } from '../app/app';
+import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
+import { decodeUsername } from '../../utils/encryptionHelpers';
+import { apiRejectVideoCall } from '../../api';
+import { deviceType } from 'react-device-detect';
 
 interface WebsocketHandlerProps {
 	disconnect: boolean;
@@ -146,11 +151,38 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 
 	useEffect(() => {
 		if (newStompVideoCallRequest) {
-			addNotification({
-				id: newStompVideoCallRequest.rcGroupId,
-				notificationType: NOTIFICATION_TYPE_CALL,
-				videoCall: newStompVideoCallRequest
-			});
+			if (supportsE2EEncryptionVideoCall()) {
+				addNotification({
+					id: newStompVideoCallRequest.rcGroupId,
+					notificationType: NOTIFICATION_TYPE_CALL,
+					videoCall: newStompVideoCallRequest
+				});
+			} else {
+				const decodedUsername = decodeUsername(
+					newStompVideoCallRequest.initiatorUsername
+				);
+				addNotification({
+					notificationType: NOTIFICATION_TYPE_WARNING,
+					id: newStompVideoCallRequest.rcGroupId,
+					title: translate(
+						'videoCall.incomingCall.unsupported.description',
+						{
+							username: decodedUsername
+						}
+					),
+					text: translate(
+						`videoCall.incomingCall.unsupported.hint.${deviceType}`
+					),
+					closeable: true,
+					onClose: () => {
+						apiRejectVideoCall(
+							decodedUsername,
+							newStompVideoCallRequest.rcGroupId,
+							newStompVideoCallRequest.initiatorRcUserId
+						).then();
+					}
+				});
+			}
 		}
 	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
 
