@@ -23,7 +23,6 @@ import {
 	GroupChatItemInterface,
 	hasUserAuthority,
 	STATUS_FINISHED,
-	StoppedGroupChatContext,
 	UpdateSessionListContext,
 	useConsultingType,
 	UserDataContext
@@ -90,7 +89,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
-	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const activeSession = useContext(ActiveSessionContext);
 	const chatItem = getChatItemForSession(activeSession);
@@ -228,7 +226,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			setRedirectToSessionsList(true);
-			setStoppedGroupChat(true);
+			setUpdateSessionList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
 		} else if (
@@ -289,23 +287,24 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	//rotate icon to vertical only if EVERY item in flyout
 	//list item icons only shown on outside
 
-	const baseUrl = `${getSessionListPathForLocation()}/:groupId/:id/:extraPath?${getSessionListTab()}`;
+	const baseUrl = `${getSessionListPathForLocation()}/:groupId/:id/:subRoute?/:extraPath?${getSessionListTab()}`;
 
 	const groupChatInfoLink = generatePath(baseUrl, {
 		...chatItem,
-		extraPath: 'groupChatInfo'
+		subRoute: 'groupChatInfo'
 	});
 	const editGroupChatSettingsLink = generatePath(baseUrl, {
 		...chatItem,
-		extraPath: 'editGroupChat'
+		subRoute: 'editGroupChat'
 	});
 	const monitoringPath = generatePath(baseUrl, {
 		...chatItem,
+		subRoute: 'userProfile',
 		extraPath: 'monitoring'
 	});
 	const userProfileLink = generatePath(baseUrl, {
 		...chatItem,
-		extraPath: 'userProfile'
+		subRoute: 'userProfile'
 	});
 
 	if (redirectToSessionsList) {

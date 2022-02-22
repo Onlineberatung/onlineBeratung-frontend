@@ -103,7 +103,9 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 				newDirectMessage: true,
 				resetedAnimations: unreadSessionsStatus.mySessions === 0
 			});
+
 			setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+
 			setNewStompDirectMessage(false);
 
 			sendNotification(translate('notifications.message.new'), {
