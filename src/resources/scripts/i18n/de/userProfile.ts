@@ -10,7 +10,7 @@ const userProfile = {
 	'monitoring.title': 'Monitoring',
 	'reassign.title': 'Zuordnung',
 	'reassign.description':
-		'Wenn sich ein anderer Berater um diesen Ratsuchenden kümmern soll, können sie den Ratsuchenden inkl. der bisherigen Unterhaltung weiterleiten.',
+		'Wenn sich jemand anderes um diese Person kümmern soll, können Sie die bisherige Unterhaltung übergeben.',
 	'monitoring.buttonLabel': 'Jetzt dokumentieren'
 };
 
