@@ -12,6 +12,7 @@ import {
 } from '../../globalState';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import { Text } from '../text/Text';
+import './askerInfoAssign.styles';
 
 export const AskerInfoAssign = () => {
 	const { sessionsData } = useContext(SessionsDataContext);
@@ -27,6 +28,11 @@ export const AskerInfoAssign = () => {
 				<Text
 					text={translate('userProfile.reassign.title')}
 					type="divider"
+				/>
+				<Text
+					className="asker-info-assign__description"
+					text={translate('userProfile.reassign.description')}
+					type="infoSmall"
 				/>
 				<SessionAssign
 					value={

@@ -22,10 +22,9 @@ const twoFactorAuth = {
 	'activate.step1.download.apple': 'Download im Apple App Store',
 	'activate.step2.title': 'Verknüpfen Sie die App und Ihren Account',
 	'activate.step2.copy':
-		'Sie haben zwei Möglichkeiten die App mit Ihrem Account zu verknüpfen:',
+		'Öffnen Sie die App. Sie haben zwei Möglichkeiten die App mit Ihrem Account zu verknüpfen:',
 	'activate.step2.visualisation.label': 'Verknüpfung',
-	'activate.step2.connect.qrCode':
-		'Öffnen Sie die App und scannen Sie den folgenden QR-Code:',
+	'activate.step2.connect.qrCode': 'Scannen Sie den folgenden QR-Code:',
 	'activate.step2.connect.divider': 'oder',
 	'activate.step2.connect.key':
 		'Geben Sie den folgenden 32-stelligen Schlüssel ein:',
