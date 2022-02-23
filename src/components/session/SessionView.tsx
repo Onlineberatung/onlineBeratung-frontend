@@ -41,7 +41,9 @@ import {
 	prepareMessages,
 	SESSION_LIST_TYPES,
 	typeIsEnquiry,
-	isLiveChat
+	isLiveChat,
+	SESSION_LIST_TAB,
+	typeIsTeamSession
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -86,6 +88,8 @@ export const SessionView = (props: RouterProps) => {
 	const [loadedMessages, setLoadedMessages] = useState(null);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
 
+	const type = getTypeOfLocation();
+
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
 	const { subscribeTyping, handleTyping, typingUsers } = useTyping(
@@ -118,10 +122,15 @@ export const SessionView = (props: RouterProps) => {
 		roomMessageBounce.current = setTimeout(() => {
 			roomMessageBounce.current = null;
 			fetchSessionMessages().finally(() => {
-				setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+				if (
+					!typeIsTeamSession(type) &&
+					sessionListTab !== SESSION_LIST_TAB.ARCHIVE
+				) {
+					setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+				}
 			});
 		}, 500);
-	}, [fetchSessionMessages, setUpdateSessionList]);
+	}, [fetchSessionMessages, type, sessionListTab, setUpdateSessionList]);
 
 	const groupChatStoppedOverlay: OverlayItem = useMemo(
 		() => ({
@@ -184,7 +193,12 @@ export const SessionView = (props: RouterProps) => {
 
 				if (!isCurrentSessionRead) {
 					apiSetSessionRead(groupId).finally(() => {
-						setUpdateSessionList(true);
+						if (
+							!typeIsTeamSession(type) &&
+							sessionListTab !== SESSION_LIST_TAB.ARCHIVE
+						) {
+							setUpdateSessionList(true);
+						}
 					});
 
 					const newMySessionsCount = Math.max(

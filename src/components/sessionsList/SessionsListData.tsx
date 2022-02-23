@@ -17,12 +17,18 @@ interface GetSessionsProps {
 	useFilter: string;
 	sessionListTab?: string;
 	signal?: AbortSignal;
+	count?: number;
 }
 
-export const getConsultantSessions = (
-	props: GetSessionsProps
-): Promise<any> => {
-	const { context, type, offset, useFilter, sessionListTab } = props;
+export const getConsultantSessions = ({
+	context,
+	type,
+	offset,
+	useFilter,
+	sessionListTab,
+	signal,
+	count
+}: GetSessionsProps): Promise<any> => {
 	const { sessionsData, setSessionsData } = context;
 	const isOffsetIncreased = Boolean(offset);
 
@@ -123,7 +129,8 @@ export const getConsultantSessions = (
 			filter: useFilter,
 			offset: offset,
 			sessionListTab: sessionListTab,
-			...(props.signal && { signal: props.signal })
+			...(signal && { signal }),
+			...(count && { count })
 		})
 			.then((sessionList: ListItemsResponseInterface) => {
 				const fetchedSessions: ListItemInterface[] =
