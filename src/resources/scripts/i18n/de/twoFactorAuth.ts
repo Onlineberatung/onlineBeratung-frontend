@@ -8,7 +8,7 @@ const twoFactorAuth = {
 	'activate.step1.app': 'Mit Authenticator Application',
 	'activate.step1.title': '2. Faktor wählen',
 	'activate.step1.copy':
-		'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail Adresse zusätzlich schützen?',
+		'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail-Adresse zusätzlich schützen?',
 	'activate.step1.visualisation.label': 'Auswahl',
 	'activate.radio.label.app': 'App',
 	'activate.radio.label.email': 'E-Mail-Adresse',
@@ -16,10 +16,10 @@ const twoFactorAuth = {
 		'Installieren Sie sich die App. Die App generiert Ihnen einen Code den Sie bei der Anmeldung eingeben müssen.',
 	'activate.radio.tooltip.email':
 		'Sie erhalten bei der Anmeldung eine E-Mail mit einem Code. Diesen Code müssen Sie dann eingeben.',
-	'activate.email.step2.title': 'E-Mail Adresse angeben',
-	'activate.email.step2.copy': 'Bitte geben Sie hier Ihre E-Mail Adresse an.',
+	'activate.email.step2.title': 'E-Mail-Adresse angeben',
+	'activate.email.step2.copy': 'Bitte geben Sie hier Ihre E-Mail-Adresse an.',
 	'activate.email.step2.visualisation.label': 'Angabe',
-	'activate.email.step3.title': 'E-Mail Adresse bestätigen',
+	'activate.email.step3.title': 'E-Mail-Adresse bestätigen',
 	'activate.email.step3.copy.1': 'Wir haben Ihnen gerade eine E-Mail an',
 	'activate.email.step3.copy.2':
 		'geschickt. Bitte geben Sie den Code aus der E-Mail hier ein.',
