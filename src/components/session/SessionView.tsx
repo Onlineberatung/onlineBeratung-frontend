@@ -183,7 +183,9 @@ export const SessionView = (props: RouterProps) => {
 						: chatItem.groupId;
 
 				if (!isCurrentSessionRead) {
-					apiSetSessionRead(groupId).then();
+					apiSetSessionRead(groupId).finally(() => {
+						setUpdateSessionList(true);
+					});
 
 					const newMySessionsCount = Math.max(
 						unreadSessionsStatus.mySessions - 1,
@@ -197,7 +199,7 @@ export const SessionView = (props: RouterProps) => {
 				}
 			}
 		},
-		[activeSession] // eslint-disable-line react-hooks/exhaustive-deps
+		[activeSession, readonly] // eslint-disable-line react-hooks/exhaustive-deps
 	);
 
 	const connectSocket = useCallback(
@@ -230,6 +232,17 @@ export const SessionView = (props: RouterProps) => {
 			handleRoomMessage
 		]
 	);
+
+	useEffect(() => {
+		mobileDetailView();
+		setAcceptedGroupId(null);
+
+		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+		const chatItem = getChatItemForSession(activeSession);
+
+		setActiveSession(activeSession);
+		setChatItem(chatItem);
+	}, [groupIdFromParam, sessionsData, setAcceptedGroupId]);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -273,17 +286,6 @@ export const SessionView = (props: RouterProps) => {
 			};
 		}
 	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		mobileDetailView();
-		setAcceptedGroupId(null);
-
-		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
-		const chatItem = getChatItemForSession(activeSession);
-
-		setActiveSession(activeSession);
-		setChatItem(chatItem);
-	}, [groupIdFromParam, sessionsData, setAcceptedGroupId]);
 
 	useEffect(() => {
 		if (loadedMessages) {
