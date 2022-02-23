@@ -9,6 +9,7 @@ import { ListItemsResponseInterface } from '../globalState';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 
 export const INITIAL_FILTER: string = 'all';
+export const FILTER_FEEDBACK: string = 'feedback';
 export const INITIAL_OFFSET: number = 0;
 export const SESSION_COUNT: number = 15;
 export const TIMEOUT: number = 10000;
