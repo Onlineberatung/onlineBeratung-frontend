@@ -13,7 +13,6 @@ export * from './provider/ConsultingTypesProvider';
 export * from './provider/FilterStatusProvider';
 export * from './provider/NotificationsProvider';
 export * from './provider/SessionsDataProvider';
-export * from './provider/StoppedGroupChatProvider';
 export * from './provider/UnreadSessionsStatusProvider';
 export * from './provider/UpdateSessionListProvider';
 export * from './provider/UserDataProvider';
