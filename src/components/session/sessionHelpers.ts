@@ -3,6 +3,10 @@ import {
 	ListItemInterface,
 	LiveChatInterface,
 	REGISTRATION_TYPE_ANONYMOUS,
+	SESSION_DATA_KEY_ENQUIRIES,
+	SESSION_DATA_KEY_MY_SESSIONS,
+	SESSION_DATA_KEY_TEAM_SESSIONS,
+	SessionDataKeys,
 	SessionItemInterface
 } from '../../globalState/interfaces/SessionsDataInterface';
 
@@ -30,6 +34,19 @@ export const CHAT_TYPES: ChatTypes[] = [
 	CHAT_TYPE_GROUP_CHAT,
 	CHAT_TYPE_SINGLE_CHAT
 ];
+
+export const getSessionDataKeyForSessionListType = (
+	type: SESSION_LIST_TYPES
+): SessionDataKeys => {
+	switch (type) {
+		case SESSION_LIST_TYPES.ENQUIRY:
+			return SESSION_DATA_KEY_ENQUIRIES;
+		case SESSION_LIST_TYPES.TEAMSESSION:
+			return SESSION_DATA_KEY_TEAM_SESSIONS;
+		case SESSION_LIST_TYPES.MY_SESSION:
+			return SESSION_DATA_KEY_MY_SESSIONS;
+	}
+};
 
 export const getChatTypeForListItem = (
 	listItem?: ListItemInterface

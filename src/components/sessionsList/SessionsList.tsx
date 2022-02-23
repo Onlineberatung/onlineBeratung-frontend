@@ -37,7 +37,8 @@ import {
 	SESSION_COUNT,
 	apiGetAskerSessionList,
 	apiGetUserData,
-	FETCH_ERRORS
+	FETCH_ERRORS,
+	FILTER_FEEDBACK
 } from '../../api';
 import { getConsultantSessions } from './SessionsListData';
 import { Button } from '../button/Button';
@@ -54,8 +55,8 @@ import { Text } from '../text/Text';
 import clsx from 'clsx';
 
 interface GetSessionsListDataInterface {
-	increaseOffset?: boolean;
-	resetOffset?: boolean;
+	offset: number;
+	count: number;
 	signal?: AbortSignal;
 }
 
@@ -114,7 +115,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
-			fetchAskerData(acceptedGroupId, true).catch(() => {});
+			fetchAskerData(acceptedGroupId, true).catch(() => {}); // Intentionally empty to prevent json parse errors
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -126,7 +127,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			acceptedGroupId
 		) {
-			fetchAskerData(acceptedGroupId).catch(() => {});
+			fetchAskerData(acceptedGroupId).catch(() => {}); // Intentionally empty to prevent json parse errors
 			setAcceptedGroupId(null);
 		}
 
@@ -140,7 +141,10 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 			} else if (!groupIdFromParam && isActiveSessionCreateChat) {
 				mobileListView();
 				setIsActiveSessionCreateChat(false);
-				getSessionsListData().catch(() => {});
+				getSessionsListData({
+					offset: 0,
+					count: currentOffset + SESSION_COUNT
+				}).catch(() => {}); // Intentionally empty to prevent json parse errors
 			}
 		}
 	});
@@ -155,18 +159,23 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 			setIsRequestInProgress(true);
 			setCurrentOffset(0);
 			if (acceptedGroupId !== ACCEPTED_GROUP_CLOSE) {
+				/*
+				If accepted group isset load sessions until accepted group
+				id is found in list
+				 */
 				fetchSessionsForAcceptedGroupId();
 			} else if (acceptedGroupId === ACCEPTED_GROUP_CLOSE) {
-				/**
-				 * ToDo: Only works if the closed group chat is in current offset
-				 * currently if list has loaded more than SESSION_COUNT items and
-				 * group chat was item 4 it will not refresh
+				/*
+				If group is closed update the whole loaded list of sessions
 				 */
-				getSessionsListData()
+				getSessionsListData({
+					offset: 0,
+					count: currentOffset + SESSION_COUNT
+				})
 					.then(() => {
 						setAcceptedGroupId(null);
 					})
-					.catch(() => {});
+					.catch(() => {}); // Intentionally empty to prevent json parse errors
 			}
 		}
 	}, [acceptedGroupId]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -186,9 +195,10 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 			const controller = new AbortController();
 			setAbortController(controller);
 			getSessionsListData({
-				resetOffset: true,
+				offset: 0,
+				count: SESSION_COUNT,
 				signal: controller.signal
-			}).catch(() => {});
+			}).catch(() => {}); // Intentionally empty to prevent json parse errors
 		}
 	}, [currentFilter, currentTab]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -232,14 +242,14 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 			} else if (
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 			) {
-				/**
-				 * ToDo: Only works if the chat which has to be refreshed is in current offset
-				 * currently if list has loaded more than SESSION_COUNT items and
-				 * chat item to be refreshed is item 4 it will not refresh
-				 */
-				getSessionsListData().finally(() => {
-					setIsSessionListUpdating(false);
-				});
+				getSessionsListData({
+					offset: 0,
+					count: currentOffset + SESSION_COUNT
+				})
+					.catch(() => {}) // Intentionally empty to prevent json parse errors
+					.finally(() => {
+						setIsSessionListUpdating(false);
+					});
 			}
 		};
 
@@ -275,7 +285,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 					);
 				}
 			})
-			.catch(() => {})
+			.catch(() => {}) // Intentionally empty to prevent json parse errors
 			.finally(() => {
 				setIsLoading(false);
 				setLoadingWithOffset(false);
@@ -330,11 +340,17 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 	const getFilterToUse = (): string =>
 		showFilter ? filterStatus : INITIAL_FILTER;
 
+	/*
+	ToDo: if count > SESSION_COUNT sessions should be loaded in junks
+	 because it will be a performance issue if to many sessions are loaded.
+	 Currently its not possible because getConsultantSessions will already
+	 update the sessions which will trigger unexpected effects
+	 */
 	const getSessionsListData = ({
-		increaseOffset,
-		resetOffset,
+		offset,
+		count,
 		signal
-	}: GetSessionsListDataInterface = {}): Promise<any> => {
+	}: GetSessionsListDataInterface): Promise<any> => {
 		if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
@@ -343,23 +359,19 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 		}
 		setIsRequestInProgress(true);
 
-		let useOffset = resetOffset ? 0 : currentOffset;
-		if (increaseOffset) {
-			setLoadingWithOffset(true);
-			useOffset = currentOffset + SESSION_COUNT;
-		}
 		return new Promise((resolve, reject) => {
 			getConsultantSessions({
 				context: sessionsContext,
 				type: type,
-				offset: useOffset,
+				offset,
+				count,
 				useFilter: getFilterToUse(),
 				sessionListTab: sessionListTab,
-				...(signal && { signal: signal })
+				...(signal && { signal })
 			})
-				.then(({ sessions, total, count }) => {
+				.then(({ sessions, total }) => {
 					setTotalItems(total);
-					setCurrentOffset(useOffset);
+					setCurrentOffset(offset + count - SESSION_COUNT);
 					setIsLoading(false);
 					setHasNoSessions(false);
 					resolve(sessions);
@@ -367,7 +379,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 				.catch((error) => {
 					if (
 						error.message === FETCH_ERRORS.EMPTY &&
-						increaseOffset
+						currentOffset < count - SESSION_COUNT
 					) {
 						setIsLoading(false);
 						setIsReloadButtonVisible(true);
@@ -458,7 +470,11 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 				!isReloadButtonVisible &&
 				!isRequestInProgress
 			) {
-				getSessionsListData({ increaseOffset: true });
+				setLoadingWithOffset(true);
+				getSessionsListData({
+					offset: currentOffset + SESSION_COUNT,
+					count: SESSION_COUNT
+				}).catch(() => {}); // Intentionally empty to prevent json parse errors
 			}
 		}
 	};
@@ -472,12 +488,15 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 
 	const handleReloadButton = () => {
 		setIsReloadButtonVisible(false);
-		getSessionsListData().catch(() => {});
+		getSessionsListData({
+			offset: 0,
+			count: currentOffset + SESSION_COUNT
+		}).catch(() => {}); // Intentionally empty to prevent json parse errors
 	};
 
 	const selectedOptionsSet = [
 		{
-			value: 'feedback',
+			value: FILTER_FEEDBACK,
 			label: hasUserAuthority(
 				AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 				userData
