@@ -15,13 +15,16 @@ import { SessionItemComponent } from './SessionItemComponent';
 import {
 	AcceptedGroupIdContext,
 	AUTHORITIES,
+	FilterStatusContext,
 	getActiveSession,
 	hasUserAuthority,
 	REGISTRATION_TYPE_ANONYMOUS,
 	SessionsDataContext,
+	SessionsDataInterface,
 	STATUS_ENQUIRY,
 	STATUS_FINISHED,
 	UnreadSessionsStatusContext,
+	UPDATE_SESSION_CHAT_ITEM,
 	UpdateSessionListContext,
 	UserDataContext
 } from '../../globalState';
@@ -29,19 +32,21 @@ import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
 	apiGetSessionData,
 	apiSetSessionRead,
+	FILTER_FEEDBACK,
 	rocketChatSocket,
 	SOCKET_COLLECTION
 } from '../../api';
 import {
 	getChatItemForSession,
+	getSessionDataKeyForSessionListType,
 	getSessionListPathForLocation,
 	getTypeOfLocation,
 	isGroupChat,
+	isLiveChat,
 	isSessionChat,
 	prepareMessages,
 	SESSION_LIST_TYPES,
-	typeIsEnquiry,
-	isLiveChat
+	typeIsEnquiry
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -67,13 +72,15 @@ interface RouterProps {
 export const SessionView = (props: RouterProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
-	const { sessionsData } = useContext(SessionsDataContext);
+	const { sessionsData, dispatchSessionsData } =
+		useContext(SessionsDataContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { userData } = useContext(UserDataContext);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
+	const { filterStatus } = useContext(FilterStatusContext);
 
 	const [activeSession, setActiveSession] = useState(null);
 	const [chatItem, setChatItem] = useState(null);
@@ -85,6 +92,8 @@ export const SessionView = (props: RouterProps) => {
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [loadedMessages, setLoadedMessages] = useState(null);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
+
+	const type = getTypeOfLocation();
 
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
@@ -118,10 +127,14 @@ export const SessionView = (props: RouterProps) => {
 		roomMessageBounce.current = setTimeout(() => {
 			roomMessageBounce.current = null;
 			fetchSessionMessages().finally(() => {
-				setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+				// ToDo: Never update session list if filtered for feedback
+				// because api will not return read feedback messages currenlty
+				if (filterStatus !== FILTER_FEEDBACK) {
+					setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+				}
 			});
 		}, 500);
-	}, [fetchSessionMessages, setUpdateSessionList]);
+	}, [fetchSessionMessages, filterStatus, setUpdateSessionList]);
 
 	const groupChatStoppedOverlay: OverlayItem = useMemo(
 		() => ({
@@ -184,7 +197,22 @@ export const SessionView = (props: RouterProps) => {
 
 				if (!isCurrentSessionRead) {
 					apiSetSessionRead(groupId).finally(() => {
-						setUpdateSessionList(true);
+						if (filterStatus === FILTER_FEEDBACK) {
+							const key = activeSession?.isFeedbackSession
+								? 'feedbackRead'
+								: 'messagesRead';
+
+							dispatchSessionsData({
+								type: UPDATE_SESSION_CHAT_ITEM,
+								key: getSessionDataKeyForSessionListType(type),
+								groupId: chatItem.groupId,
+								data: {
+									[key]: true
+								} as SessionsDataInterface
+							});
+						} else {
+							setUpdateSessionList(true);
+						}
 					});
 
 					const newMySessionsCount = Math.max(
