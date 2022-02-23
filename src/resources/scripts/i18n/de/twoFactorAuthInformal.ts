@@ -7,7 +7,7 @@ const twoFactorAuthInformal = {
 		'Du erhälst bei der Anmeldung eine E-mail mit einem Code. Diesen Code musst Du dann eingeben.',
 	'activate.step1.title': 'Wähle eine Methode aus',
 	'activate.step1.copy':
-		'Möchtest Du Dein Konto mit einer App oder mit Deiner E-Mail Adresse zusätzlich schützen?',
+		'Möchtest Du Dein Konto mit einer App oder mit Deiner E-Mail-Adresse zusätzlich schützen?',
 	'activate.email.step3.copy.1': 'Wir haben Dir gerade eine E-Mail an',
 	'activate.email.step3.copy.2':
 		'geschickt. Bitte gib den Code aus der E-Mail hier ein.',
@@ -26,10 +26,10 @@ const twoFactorAuthInformal = {
 	'activate.app.step4.input.label.error':
 		'Die Authentifizierung ist fehlgeschlagen. Bitte wiederhole den Vorgang.',
 	'activate.email.input.info':
-		'Du kannst nur eine E-Mail Adresse bei uns hinterlegen. Falls Du die E-Mail Adresse hier änderst, erhältst Du auf diese E-Mail Adresse zukünftig auch die Benachrichtigungen.',
+		'Du kannst nur eine E-Mail-Adresse bei uns hinterlegen. Falls Du die E-Mail-Adresse hier änderst, erhältst Du auf diese E-Mail-Adresse zukünftig auch die Benachrichtigungen.',
 	'nag.title': 'Schütze Dein Konto',
 	'nag.copy':
-		'Sichere Dein Konto vor einem möglichen unbefugtem Zugriff. Nutze einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online Beratung.'
+		'Sichere Dein Konto vor einem möglichen unbefugtem Zugriff. Nutze einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung.'
 };
 
 export default twoFactorAuthInformal;

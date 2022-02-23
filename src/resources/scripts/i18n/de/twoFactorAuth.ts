@@ -1,11 +1,11 @@
 const twoFactorAuth = {
 	'title': '2-Faktor-Authentifizierung',
 	'subtitle':
-		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online Bratung',
+		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung',
 	'switch.active.label': '2-Faktor-Authentifizierung aktiviert',
 	'switch.deactive.label': '2-Faktor-Authentifizierung deaktiviert',
 	'activate.step1.email': 'Per E-Mail',
-	'activate.step1.app': 'Mit Authencator Application',
+	'activate.step1.app': 'Mit Authenticator Application',
 	'activate.step1.title': '2. Faktor wählen',
 	'activate.step1.copy':
 		'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail Adresse zusätzlich schützen?',
@@ -15,7 +15,7 @@ const twoFactorAuth = {
 	'activate.radio.tooltip.app':
 		'Installieren Sie sich die App. Die App generiert Ihnen einen Code den Sie bei der Anmeldung eingeben müssen.',
 	'activate.radio.tooltip.email':
-		'Sie erhalten bei der Anmeldung eine E-mail mit einem Code. Diesen Code müssen Sie dann eingeben.',
+		'Sie erhalten bei der Anmeldung eine E-Mail mit einem Code. Diesen Code müssen Sie dann eingeben.',
 	'activate.email.step2.title': 'E-Mail Adresse angeben',
 	'activate.email.step2.copy': 'Bitte geben Sie hier Ihre E-Mail Adresse an.',
 	'activate.email.step2.visualisation.label': 'Angabe',
@@ -65,26 +65,26 @@ const twoFactorAuth = {
 	'overlayButton.save': 'Speichern',
 	'overlayButton.close': 'Schliessen',
 	'overlayButton.confirm': 'Bestätigen',
-	'activate.email.input.label': 'E-Mail Adresse angeben',
-	'activate.email.input.valid': 'E-Mail Adresse angeben',
+	'activate.email.input.label': 'E-Mail-Adresse angeben',
+	'activate.email.input.valid': 'E-Mail-Adresse angeben',
 	'activate.email.input.invalid': 'E-Mail-Adresse ungültig',
 	'activate.email.input.info':
-		'Sie können nur eine E-Mail Adresse bei uns hinterlegen. Falls Sie die E-Mail Adresse hier ändern, erhalten Sie auf diese E-Mail Adresse zukünftig auch die Benachrichtigungen.',
+		'Sie können nur eine E-Mail-Adresse bei uns hinterlegen. Falls Sie die E-Mail-Adresse hier ändern, erhalten Sie auf diese E-Mail-Adresse zukünftig auch die Benachrichtigungen.',
 	'activate.email.resend.hint':
-		'Wir haben Ihnen einen Code an Ihre E-Mail Adresse geschickt. Bitte geben Sie den Code ein.',
+		'Wir haben Ihnen einen Code an Ihre E-Mail-Adresse geschickt. Bitte geben Sie den Code ein.',
 	'activate.email.resend.headline': 'Es hat nicht funktioniert?',
 	'activate.email.resend.new': 'Neuen Code senden',
 	'activate.email.resend.sent': 'Neuer Code gesendet',
-	'email.change.confirmOverlay.title': 'E-Mail Adresse bearbeiten',
+	'email.change.confirmOverlay.title': 'E-Mail-Adresse bearbeiten',
 	'email.change.confirmOverlay.copy.1':
-		'Sie nutzen diese E-Mail Adresse als 2. Faktor für eine sichere Anmeldung.',
+		'Sie nutzen diese E-Mail-Adresse als 2. Faktor für eine sichere Anmeldung.',
 	'email.change.confirmOverlay.copy.2':
-		'Deaktivieren Sie die 2 Faktor Authentifizierung um die E-Mail-Adresse zu bearbeiten.',
+		'Deaktivieren Sie die 2-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.',
 	'email.change.confirmOverlay.button.confirm':
 		'Authentifizierung deaktivieren',
 	'email.change.confirmOverlay.button.deny': 'Abbrechen',
 	'email.delete.confirmOverlay.copy':
-		'wird die 2 Faktor Authentifizierung deaktiviert.',
+		'wird die 2-Faktor-Authentifizierung deaktiviert.',
 	'switch.type.label': 'Ihr 2. Faktor',
 	'switch.type.EMAIL': 'E-Mail',
 	'switch.type.APP': 'App',
