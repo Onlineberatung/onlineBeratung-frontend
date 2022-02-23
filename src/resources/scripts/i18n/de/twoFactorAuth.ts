@@ -90,7 +90,7 @@ const twoFactorAuth = {
 	'switch.type.APP': 'App',
 	'nag.title': 'Schützen Sie Ihr Konto',
 	'nag.copy':
-		'Sichern Sie Ihr Konto vor einem möglichen unbefugtem Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online Beratung.',
+		'Sichern Sie Ihr Konto vor einem möglichen unbefugtem Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung.',
 	'nag.button.later': 'Später erinnern',
 	'nag.button.protect': 'Jetzt schützen'
 };
