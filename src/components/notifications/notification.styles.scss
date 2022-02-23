@@ -16,6 +16,7 @@
 	}
 
 	&__close {
+		color: $white;
 		svg {
 			width: 14px;
 			height: 14px;
@@ -45,8 +46,15 @@
 
 	&__text {
 		font-size: $font-size-tertiary;
+
+		a,
+		a:hover {
+			color: $white;
+			text-decoration: underline;
+		}
 	}
 
+	&--none,
 	&--info,
 	&--warning,
 	&--error,

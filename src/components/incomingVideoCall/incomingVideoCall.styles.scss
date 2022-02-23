@@ -15,6 +15,12 @@ $userIconSize: 62px;
 	&__hint {
 		margin-top: 10px;
 		font-size: $font-size-tertiary;
+
+		a,
+		a:hover {
+			color: $white;
+			text-decoration: underline;
+		}
 	}
 
 	&__username,
@@ -28,7 +34,7 @@ $userIconSize: 62px;
 		justify-content: center;
 		width: $userIconSize;
 		height: $userIconSize;
-		margin-top: $grid-base;
+		margin: $grid-base auto 0;
 		background-color: #524b52;
 		border: 3px solid $white-50-opacity;
 		color: $white-50-opacity;
@@ -42,6 +48,40 @@ $userIconSize: 62px;
 
 		.button__wrapper:not(:last-of-type) {
 			margin-right: $grid-base-two;
+		}
+	}
+}
+
+.unsupported {
+	.incomingVideoCall {
+		&__user {
+			order: 1;
+		}
+		&__description {
+			order: 2;
+		}
+		&__hint {
+			order: 3;
+		}
+		&__buttons {
+			flex-direction: column;
+			order: 4;
+
+			.button__wrapper {
+				margin: 0;
+			}
+
+			button {
+				width: 100%;
+				justify-content: flex-start;
+				padding: 0 14px;
+				margin-bottom: 12px;
+
+				svg {
+					height: $grid-base-two;
+					width: $grid-base-two;
+				}
+			}
 		}
 	}
 }

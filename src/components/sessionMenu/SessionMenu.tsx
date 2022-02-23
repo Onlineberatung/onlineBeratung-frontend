@@ -16,6 +16,7 @@ import {
 	getActiveSession,
 	hasUserAuthority,
 	isAnonymousSession,
+	NOTIFICATION_TYPE_NONE,
 	NOTIFICATION_TYPE_WARNING,
 	NotificationsContext,
 	SessionsDataContext,
@@ -77,7 +78,6 @@ import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { history } from '../app/app';
 import DeleteSession from '../session/DeleteSession';
 import { Tooltip } from '../tooltip/Tooltip';
-import { decodeUsername } from '../../utils/encryptionHelpers';
 import { deviceType } from 'react-device-detect';
 
 export interface SessionMenuProps {
@@ -92,7 +92,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
 		ActiveSessionGroupIdContext
 	);
-	const { addNotification } = useContext(NotificationsContext);
 	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
@@ -385,32 +384,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			});
 	};
 
-	const test1 = () => {
-		addNotification({
-			notificationType: 'call',
-			videoCall: {
-				rcGroupId: 'asdf',
-				initiatorRcUserId: '',
-				initiatorUsername: 'test',
-				videoCallUrl: '...'
-			}
-		});
-	};
-
-	const test2 = () => {
-		addNotification({
-			notificationType: NOTIFICATION_TYPE_WARNING,
-			id: 'asdf123',
-			title: translate('videoCall.incomingCall.unsupported.description', {
-				username: '<span>Hans Peter</span>'
-			}),
-			text: translate(
-				`videoCall.incomingCall.unsupported.hint.${deviceType}`
-			),
-			closeable: true
-		});
-	};
-
 	return (
 		<div className="sessionMenu__wrapper">
 			{isLiveChat &&
@@ -431,9 +404,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					className="sessionMenu__videoCallButtons"
 					data-cy="session-header-video-call-buttons"
 				>
-					<Button buttonHandle={test1} item={buttonStartCall} />
-					<Button buttonHandle={test2} item={buttonStartCall} />
-
 					{supportsE2EEncryptionVideoCall() ? (
 						<>
 							<Button
@@ -591,10 +561,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					)}
 				{hasVideoCallFeatures() && (
 					<div
-						className={`sessionMenu__item sessionMenu__item--mobile ${
-							!supportsE2EEncryptionVideoCall() &&
-							'sessionMenu__item--disabled'
-						}`}
+						className="sessionMenu__item sessionMenu__item--mobile"
 						onClick={() => handleStartVideoCall(true)}
 					>
 						{translate('videoCall.button.startVideoCall')}
@@ -602,10 +569,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				)}
 				{hasVideoCallFeatures() && (
 					<div
-						className={`sessionMenu__item sessionMenu__item--mobile ${
-							!supportsE2EEncryptionVideoCall() &&
-							'sessionMenu__item--disabled'
-						}`}
+						className="sessionMenu__item sessionMenu__item--mobile"
 						onClick={() => handleStartVideoCall()}
 					>
 						{translate('videoCall.button.startCall')}

@@ -1,10 +1,10 @@
+import { deviceType, isAndroid, isIOS } from 'react-device-detect';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { ReactComponent as WavingIllustration } from '../../resources/img/illustrations/waving.svg';
-import { isMobile } from 'react-device-detect';
 
 export const stopGroupChatSecurityOverlayItem: OverlayItem = {
 	svg: XIllustration,
@@ -145,16 +145,14 @@ export const videoCallErrorOverlayItem = (
 	svg: XIllustration,
 	illustrationBackground: 'neutral',
 	headline: translate('videoCall.overlay.unsupported.headline'),
-	copy: isMobile
-		? translate('videoCall.overlay.unsupported.copy.mobile')
-		: translate('videoCall.overlay.unsupported.copy'),
+	copy: translate(`videoCall.overlay.unsupported.copy.${deviceType}`),
 	buttonSet: [
 		{
 			label: translate('videoCall.overlay.unsupported.button.close'),
 			function: OVERLAY_FUNCTIONS.CLOSE,
 			type: BUTTON_TYPES.SECONDARY
 		},
-		isMobile && {
+		(isAndroid || isIOS) && {
 			label: translate('videoCall.overlay.unsupported.button.app'),
 			function: 'START_JITSI',
 			functionArgs: { isVideoActivated },

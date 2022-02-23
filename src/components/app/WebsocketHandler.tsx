@@ -14,7 +14,6 @@ import {
 	AnonymousEnquiryAcceptedContext,
 	AUTHORITIES,
 	hasUserAuthority,
-	NOTIFICATION_TYPE_WARNING,
 	NotificationsContext,
 	UnreadSessionsStatusContext,
 	UpdateSessionListContext,
@@ -27,10 +26,6 @@ import {
 } from '../session/sessionHelpers';
 import { sendNotification } from '../../utils/notificationHelpers';
 import { history } from '../app/app';
-import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
-import { decodeUsername } from '../../utils/encryptionHelpers';
-import { apiRejectVideoCall } from '../../api';
-import { deviceType } from 'react-device-detect';
 
 interface WebsocketHandlerProps {
 	disconnect: boolean;
@@ -151,38 +146,11 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 
 	useEffect(() => {
 		if (newStompVideoCallRequest) {
-			if (supportsE2EEncryptionVideoCall()) {
-				addNotification({
-					id: newStompVideoCallRequest.rcGroupId,
-					notificationType: NOTIFICATION_TYPE_CALL,
-					videoCall: newStompVideoCallRequest
-				});
-			} else {
-				const decodedUsername = decodeUsername(
-					newStompVideoCallRequest.initiatorUsername
-				);
-				addNotification({
-					notificationType: NOTIFICATION_TYPE_WARNING,
-					id: newStompVideoCallRequest.rcGroupId,
-					title: translate(
-						'videoCall.incomingCall.unsupported.description',
-						{
-							username: decodedUsername
-						}
-					),
-					text: translate(
-						`videoCall.incomingCall.unsupported.hint.${deviceType}`
-					),
-					closeable: true,
-					onClose: () => {
-						apiRejectVideoCall(
-							decodedUsername,
-							newStompVideoCallRequest.rcGroupId,
-							newStompVideoCallRequest.initiatorRcUserId
-						).then();
-					}
-				});
-			}
+			addNotification({
+				id: newStompVideoCallRequest.rcGroupId,
+				notificationType: NOTIFICATION_TYPE_CALL,
+				videoCall: newStompVideoCallRequest
+			});
 		}
 	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
 

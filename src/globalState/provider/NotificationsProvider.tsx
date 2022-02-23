@@ -50,7 +50,7 @@ export type NotificationDefaultType = NotificationType & {
 		| NotificationTypeSuccess
 		| NotificationTypeWarning
 		| NotificationTypeNone;
-	title: string;
+	title: ReactNode;
 	text: ReactNode;
 	closeable?: boolean;
 	onClose?: (notification: NotificationDefaultType) => void;
