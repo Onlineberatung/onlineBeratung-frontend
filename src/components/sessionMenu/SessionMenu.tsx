@@ -23,7 +23,6 @@ import {
 	GroupChatItemInterface,
 	hasUserAuthority,
 	STATUS_FINISHED,
-	StoppedGroupChatContext,
 	UpdateSessionListContext,
 	useConsultingType,
 	UserDataContext
@@ -90,7 +89,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
-	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const activeSession = useContext(ActiveSessionContext);
 	const chatItem = getChatItemForSession(activeSession);
@@ -228,7 +226,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			setRedirectToSessionsList(true);
-			setStoppedGroupChat(true);
+			setUpdateSessionList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
 		} else if (

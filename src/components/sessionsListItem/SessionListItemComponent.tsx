@@ -82,10 +82,8 @@ export const SessionListItemComponent = ({
 	);
 
 	useEffect(() => {
-		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
-
-		setActiveSession(activeSession);
-	}, [groupIdFromParam, listItem.id, listItem.messagesRead, sessionsData]);
+		setActiveSession(getActiveSession(groupIdFromParam, sessionsData));
+	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	if (listItem.lastMessage) {
 		const rawMessageObject = markdownToDraft(listItem.lastMessage);

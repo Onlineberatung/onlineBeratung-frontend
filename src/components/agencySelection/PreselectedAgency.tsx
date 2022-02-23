@@ -10,7 +10,6 @@ export interface PreselectedAgencyProps {
 	prefix: string;
 	agencyData: AgencyDataInterface;
 	isProfileView?: boolean;
-	fixedLanguages: string[];
 }
 
 export const PreselectedAgency = (props: PreselectedAgencyProps) => (
@@ -24,10 +23,7 @@ export const PreselectedAgency = (props: PreselectedAgencyProps) => (
 			/>
 		</div>
 		<div>
-			<AgencyLanguages
-				fixedLanguages={props.fixedLanguages}
-				agencyId={props.agencyData.id}
-			/>
+			<AgencyLanguages agencyId={props.agencyData.id} />
 		</div>
 	</div>
 );

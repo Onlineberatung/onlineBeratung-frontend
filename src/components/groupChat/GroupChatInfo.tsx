@@ -9,11 +9,11 @@ import {
 } from 'react-router-dom';
 import {
 	UserDataContext,
-	StoppedGroupChatContext,
 	GroupChatItemInterface,
 	getActiveSession,
 	SessionsDataContext,
-	ActiveSessionType
+	ActiveSessionType,
+	UpdateSessionListContext
 } from '../../globalState';
 import {
 	getChatItemForSession,
@@ -55,7 +55,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
+	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const [subscriberList, setSubscriberList] = useState(null);
 	const [activeSession, setActiveSession] =
 		useState<ActiveSessionType | null>(null);
@@ -124,7 +124,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			setRedirectToSessionsList(true);
-			setStoppedGroupChat(true);
+			setUpdateSessionList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
 		}

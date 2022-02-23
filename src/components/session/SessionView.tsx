@@ -21,9 +21,7 @@ import {
 	SessionsDataContext,
 	STATUS_ENQUIRY,
 	STATUS_FINISHED,
-	StoppedGroupChatContext,
 	UnreadSessionsStatusContext,
-	UPDATE_SESSION_CHAT_ITEM,
 	UpdateSessionListContext,
 	UserDataContext
 } from '../../globalState';
@@ -69,26 +67,24 @@ interface RouterProps {
 export const SessionView = (props: RouterProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
-	const { sessionsData, dispatchSessionsData } =
-		useContext(SessionsDataContext);
+	const { sessionsData } = useContext(SessionsDataContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const { userData } = useContext(UserDataContext);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
-	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 
 	const [activeSession, setActiveSession] = useState(null);
 	const [chatItem, setChatItem] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
+	const [readonly, setReadonly] = useState(true);
 	const [messagesItem, setMessagesItem] = useState(null);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [loadedMessages, setLoadedMessages] = useState(null);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
-	const [isLiveChatFinished, setIsLiveChatFinished] = useState(false);
 
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
@@ -109,10 +105,22 @@ export const SessionView = (props: RouterProps) => {
 			.catch((error) => null);
 	}, [groupIdFromParam]);
 
+	/**
+	 * ToDo: roomMessageBounce is just a temporary fix because currently
+	 * every message gets marked but on every changed message we are loading all
+	 * messages. Maybe in future we will only update single message as it changes
+	 */
+	const roomMessageBounce = useRef(null);
 	const handleRoomMessage = useCallback(() => {
-		fetchSessionMessages().finally(() => {
-			setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
-		});
+		if (roomMessageBounce.current) {
+			clearTimeout(roomMessageBounce.current);
+		}
+		roomMessageBounce.current = setTimeout(() => {
+			roomMessageBounce.current = null;
+			fetchSessionMessages().finally(() => {
+				setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+			});
+		}, 500);
 	}, [fetchSessionMessages, setUpdateSessionList]);
 
 	const groupChatStoppedOverlay: OverlayItem = useMemo(
@@ -150,37 +158,34 @@ export const SessionView = (props: RouterProps) => {
 		[groupChatStoppedOverlay]
 	);
 
-	useEffect(() => {
-		if (!activeSession || !chatItem) {
-			return;
-		}
-
-		dispatchSessionsData({
-			type: UPDATE_SESSION_CHAT_ITEM,
-			key: activeSession.key,
-			groupId: chatItem.groupId,
-			data: {
-				[activeSession.isFeedbackSession
-					? 'feedbackRead'
-					: 'messagesRead']: true
+	useEffect(
+		() => {
+			if (readonly || !activeSession) {
+				return;
 			}
-		});
-	}, [activeSession, chatItem, dispatchSessionsData]);
 
-	const setSessionToRead = useCallback(
-		(newMessageFromSocket: boolean = false) => {
+			const chatItem = getChatItemForSession(activeSession);
+			const isLiveChatFinished =
+				isSessionChat(chatItem) && chatItem?.status === STATUS_FINISHED;
+
 			if (
-				activeSession &&
-				(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
-					!isLiveChatFinished)
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
+				!isLiveChatFinished
 			) {
 				const isCurrentSessionRead =
 					activeSession.isFeedbackSession && isSessionChat(chatItem)
 						? chatItem.feedbackRead
 						: chatItem.messagesRead;
 
-				if (!isCurrentSessionRead || newMessageFromSocket) {
-					apiSetSessionRead(groupIdFromParam).then();
+				const groupId =
+					activeSession.isFeedbackSession && isSessionChat(chatItem)
+						? chatItem.feedbackGroupId
+						: chatItem.groupId;
+
+				if (!isCurrentSessionRead) {
+					apiSetSessionRead(groupId).finally(() => {
+						setUpdateSessionList(true);
+					});
 
 					const newMySessionsCount = Math.max(
 						unreadSessionsStatus.mySessions - 1,
@@ -194,15 +199,7 @@ export const SessionView = (props: RouterProps) => {
 				}
 			}
 		},
-		[
-			activeSession,
-			chatItem,
-			groupIdFromParam,
-			isLiveChatFinished,
-			setUnreadSessionsStatus,
-			unreadSessionsStatus,
-			userData
-		]
+		[activeSession, readonly] // eslint-disable-line react-hooks/exhaustive-deps
 	);
 
 	const connectSocket = useCallback(
@@ -231,14 +228,10 @@ export const SessionView = (props: RouterProps) => {
 		[
 			groupIdFromParam,
 			handleGroupChatStopped,
-			handleRoomMessage,
-			subscribeTyping
+			subscribeTyping,
+			handleRoomMessage
 		]
 	);
-
-	useEffect(() => {
-		setIsLoading(true);
-	}, [groupIdFromParam]);
 
 	useEffect(() => {
 		mobileDetailView();
@@ -246,16 +239,20 @@ export const SessionView = (props: RouterProps) => {
 
 		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
 		const chatItem = getChatItemForSession(activeSession);
-		const isConsultantEnquiry =
-			typeIsEnquiry(getTypeOfLocation()) &&
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 
 		setActiveSession(activeSession);
 		setChatItem(chatItem);
-		setIsLiveChatFinished(
-			isSessionChat(chatItem) && chatItem?.status === STATUS_FINISHED
-		);
+	}, [groupIdFromParam, sessionsData, setAcceptedGroupId]);
 
+	useEffect(() => {
+		setIsLoading(true);
+
+		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+		const chatItem = getChatItemForSession(activeSession);
+
+		const isConsultantEnquiry =
+			typeIsEnquiry(getTypeOfLocation()) &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 		const isEnquiry =
 			isSessionChat(chatItem) && chatItem?.status === STATUS_ENQUIRY;
 		const isCurrentAnonymousEnquiry =
@@ -273,10 +270,10 @@ export const SessionView = (props: RouterProps) => {
 				setIsLoading(false);
 			});
 		} else {
+			setReadonly(false);
 			window['socket'] = new rocketChatSocket();
 			fetchSessionMessages()
 				.then(() => {
-					setSessionToRead();
 					connectSocket(
 						isGroupChat(chatItem) || isLiveChat(chatItem)
 					);
@@ -286,10 +283,9 @@ export const SessionView = (props: RouterProps) => {
 				});
 			return () => {
 				window['socket'].close();
-				setStoppedGroupChat(false);
 			};
 		}
-	}, [groupIdFromParam, userData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (loadedMessages) {
@@ -300,7 +296,7 @@ export const SessionView = (props: RouterProps) => {
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
-			setStoppedGroupChat(true);
+			setUpdateSessionList(true);
 			setRedirectToSessionsList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();

@@ -16,15 +16,11 @@ import {
 import { SessionsList } from './SessionsList';
 import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
+import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 
-interface SessionsListProps {
-	fixedLanguages: string[];
-}
-
-export const SessionsListWrapper: React.FC<SessionsListProps> = ({
-	fixedLanguages
-}) => {
+export const SessionsListWrapper: React.FC = () => {
 	const type = getTypeOfLocation();
+	const fixedLanguages = useContext(FixedLanguagesContext);
 	const { userData } = useContext(UserDataContext);
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
