@@ -60,6 +60,13 @@ export const TwoFactorAuth = () => {
 	const [otpInputInfo, setOtpInputInfo] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
+	const [email, setEmail] = useState<string>(userData.email);
+	const [hasEmailDuplicateError, setHasEmailDuplicateError] = useState(false);
+	const [emailLabel, setEmailLabel] = useState<string>(
+		translate('twoFactorAuth.activate.email.input.label')
+	);
+	const [emailLabelState, setEmailLabelState] =
+		useState<InputFieldLabelState>();
 
 	const updateUserData = useUpdateUserData();
 
@@ -96,7 +103,10 @@ export const TwoFactorAuth = () => {
 	const handleOverlayClose = () => {
 		setOverlayActive(false);
 		setOtp('');
-		setEmail('');
+		setEmail(userData.email || '');
+		setEmailLabel(translate('twoFactorAuth.activate.email.input.label'));
+		setEmailLabelState(userData.email ? 'valid' : null);
+		setHasEmailDuplicateError(false);
 		setOtpLabel(defaultOtpLabel);
 		setOtpLabelState(null);
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
@@ -433,15 +443,9 @@ export const TwoFactorAuth = () => {
 	];
 
 	/* E-MAIL */
-	const [email, setEmail] = useState<string>(userData.email);
-	const [emailLabel, setEmailLabel] = useState<string>(
-		translate('twoFactorAuth.activate.email.input.label')
-	);
-	const [emailLabelState, setEmailLabelState] =
-		useState<InputFieldLabelState>();
 
 	const validateEmail = (
-		email
+		email: string
 	): { validity: InputFieldLabelState; label: string } => {
 		if (email.length > 0 && isStringValidEmail(email)) {
 			return {
@@ -485,6 +489,14 @@ export const TwoFactorAuth = () => {
 					item={emailInputItem}
 					inputHandle={(e) => handleEmailChange(e)}
 				/>
+				{hasEmailDuplicateError && (
+					<Text
+						type="infoSmall"
+						text={translate(
+							'twoFactorAuth.activate.email.input.duplicate.info'
+						)}
+					/>
+				)}
 				{userData.email && (
 					<Text
 						type="infoSmall"
@@ -498,9 +510,22 @@ export const TwoFactorAuth = () => {
 	};
 
 	const sendEmailActivationCode = (triggerNextStep) => {
-		apiPutTwoFactorAuthEmail(email).then(() => {
-			if (triggerNextStep) triggerNextStep();
-		});
+		apiPutTwoFactorAuthEmail(email)
+			.then(() => {
+				if (triggerNextStep) triggerNextStep();
+				setHasEmailDuplicateError(false);
+			})
+			.catch((error) => {
+				if (error.message === FETCH_ERRORS.PRECONDITION_FAILED) {
+					setEmailLabelState('invalid');
+					setEmailLabel(
+						translate(
+							'twoFactorAuth.activate.email.input.duplicate'
+						)
+					);
+					setHasEmailDuplicateError(true);
+				}
+			});
 	};
 
 	const emailCodeInput = (): JSX.Element => {
@@ -626,7 +651,17 @@ export const TwoFactorAuth = () => {
 
 	useEffect(() => {
 		setOverlayByType();
-	}, [twoFactorType, email, otp, otpLabel, otpLabelState, userData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [
+		twoFactorType,
+		email,
+		otp,
+		otpLabel,
+		otpLabelState,
+		userData,
+		email,
+		emailLabel,
+		hasEmailDuplicateError
+	]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className="twoFactorAuth">

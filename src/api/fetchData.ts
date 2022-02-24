@@ -29,6 +29,7 @@ export const FETCH_ERRORS = {
 	NO_MATCH: 'NO_MATCH',
 	TIMEOUT: 'TIMEOUT',
 	UNAUTHORIZED: 'UNAUTHORIZED',
+	PRECONDITION_FAILED: 'PRECONDITION FAILED',
 	X_REASON: 'X-Reason'
 };
 
@@ -175,6 +176,13 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 								? response
 								: new Error(FETCH_ERRORS.CATCH_ALL)
 						);
+					} else if (
+						response.status === 412 &&
+						props.responseHandling.includes(
+							FETCH_ERRORS.PRECONDITION_FAILED
+						)
+					) {
+						reject(new Error(FETCH_ERRORS.PRECONDITION_FAILED));
 					} else if (response.status === 401) {
 						logout(true, config.urls.toLogin);
 					}

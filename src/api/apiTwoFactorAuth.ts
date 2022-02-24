@@ -22,7 +22,10 @@ export const apiPutTwoFactorAuthEmail = async (email: string): Promise<any> => {
 		url: url,
 		method: FETCH_METHODS.PUT,
 		bodyData: JSON.stringify({ email }),
-		responseHandling: [FETCH_ERRORS.BAD_REQUEST]
+		responseHandling: [
+			FETCH_ERRORS.BAD_REQUEST,
+			FETCH_ERRORS.PRECONDITION_FAILED
+		]
 	});
 };
 

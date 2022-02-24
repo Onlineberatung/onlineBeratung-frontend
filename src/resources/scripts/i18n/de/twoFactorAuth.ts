@@ -68,6 +68,9 @@ const twoFactorAuth = {
 	'activate.email.input.label': 'E-Mail-Adresse angeben',
 	'activate.email.input.valid': 'E-Mail-Adresse angeben',
 	'activate.email.input.invalid': 'E-Mail-Adresse ungültig',
+	'activate.email.input.duplicate': 'E-Mail-Adresse wird bereits verwendet',
+	'activate.email.input.duplicate.info':
+		'Diese E-Mail-Adresse wird bereits von einer anderen Person verwendet. Bitte geben Sie eine andere E-Mail-Adresse an. Oder nutzen Sie die App als 2. Faktor.',
 	'activate.email.input.info':
 		'Sie können nur eine E-Mail-Adresse bei uns hinterlegen. Falls Sie die E-Mail-Adresse hier ändern, erhalten Sie auf diese E-Mail-Adresse zukünftig auch die Benachrichtigungen.',
 	'activate.email.resend.hint':
