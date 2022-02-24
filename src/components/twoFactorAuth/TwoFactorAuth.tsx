@@ -474,7 +474,9 @@ export const TwoFactorAuth = () => {
 
 	const emailInputItem: InputFieldItem = {
 		id: 'email2FA',
-		infoText: '',
+		infoText: hasEmailDuplicateError
+			? translate('twoFactorAuth.activate.email.input.duplicate.info')
+			: '',
 		label: emailLabel,
 		name: 'email2FA',
 		type: 'text',
@@ -489,17 +491,9 @@ export const TwoFactorAuth = () => {
 					item={emailInputItem}
 					inputHandle={(e) => handleEmailChange(e)}
 				/>
-				{hasEmailDuplicateError && (
-					<Text
-						type="infoSmall"
-						text={translate(
-							'twoFactorAuth.activate.email.input.duplicate.info'
-						)}
-					/>
-				)}
 				{userData.email && (
 					<Text
-						type="infoSmall"
+						type="infoLargeStandard"
 						text={translate(
 							'twoFactorAuth.activate.email.input.info'
 						)}
@@ -648,22 +642,21 @@ export const TwoFactorAuth = () => {
 				setOverlayItems([...twoFactorAuthStepsOverlayStart]);
 		}
 	};
-	/* eslint-disable react-hooks/exhaustive-deps */
 	/* we use eslint disable here because of high complexity when using useCallback, etc. */
 	useEffect(() => {
 		setOverlayByType();
 	}, [
-		twoFactorType,
-		email,
-		otp,
-		otpLabel,
-		otpLabelState,
-		userData,
-		email,
-		emailLabel,
-		hasEmailDuplicateError
+		// eslint-disable-line react-hooks/exhaustive-deps
+		twoFactorType, // eslint-disable-line react-hooks/exhaustive-deps
+		email, // eslint-disable-line react-hooks/exhaustive-deps
+		otp, // eslint-disable-line react-hooks/exhaustive-deps
+		otpLabel, // eslint-disable-line react-hooks/exhaustive-deps
+		otpLabelState, // eslint-disable-line react-hooks/exhaustive-deps
+		userData, // eslint-disable-line react-hooks/exhaustive-deps
+		email, // eslint-disable-line react-hooks/exhaustive-deps
+		emailLabel, // eslint-disable-line react-hooks/exhaustive-deps
+		hasEmailDuplicateError // eslint-disable-line react-hooks/exhaustive-deps
 	]);
-	/* eslint-enable */
 
 	return (
 		<div className="twoFactorAuth">

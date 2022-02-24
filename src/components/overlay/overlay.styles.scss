@@ -258,6 +258,10 @@ $iconSizeLarge: 48px;
 	.text {
 		margin-top: $grid-base-two;
 		text-align: $overlay-text-align;
+
+		&.inputField__infoText {
+			margin-top: $grid-base;
+		}
 	}
 
 	&__nestedComponent {

@@ -25,7 +25,7 @@ const twoFactorAuth = {
 		'geschickt. Bitte geben Sie den Code aus der E-Mail hier ein.',
 	'activate.email.step3.visualisation.label': 'Verknüpfung',
 	'activate.email.step4.title':
-		'E-Mail Authentifizierung erfolgreich eingerichtet.',
+		'E-Mail-Authentifizierung erfolgreich eingerichtet.',
 	'activate.email.step4.visualisation.label': 'Bestätigung',
 	'activate.app.step2.title': 'Installieren Sie sich die App',
 	'activate.app.step2.copy':
