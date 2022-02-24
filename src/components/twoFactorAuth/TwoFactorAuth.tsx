@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useCallback, useMemo } from 'react';
 import { UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
@@ -82,7 +82,7 @@ export const TwoFactorAuth = () => {
 
 	useEffect(() => {
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
-	}, [userData]);
+	}, [userData.twoFactorAuth.isActive]);
 
 	const handleSwitchChange = () => {
 		if (!isSwitchChecked) {
@@ -100,7 +100,7 @@ export const TwoFactorAuth = () => {
 		}
 	};
 
-	const handleOverlayClose = () => {
+	const handleOverlayClose = useCallback(() => {
 		setOverlayActive(false);
 		setOtp('');
 		setEmail(userData.email || '');
@@ -111,18 +111,26 @@ export const TwoFactorAuth = () => {
 		setOtpLabelState(null);
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
 		setTwoFactorType(userData.twoFactorAuth.type || TWO_FACTOR_TYPES.APP);
-	};
+	}, [
+		defaultOtpLabel,
+		userData.email,
+		userData.twoFactorAuth.isActive,
+		userData.twoFactorAuth.type
+	]);
 
-	const otpInputItem: InputFieldItem = {
-		content: otp,
-		id: 'otp',
-		infoText: otpInputInfo,
-		label: otpLabel,
-		name: 'otp',
-		type: 'text',
-		labelState: otpLabelState,
-		maxLength: OTP_LENGTH
-	};
+	const otpInputItem: InputFieldItem = useMemo(
+		() => ({
+			content: otp,
+			id: 'otp',
+			infoText: otpInputInfo,
+			label: otpLabel,
+			name: 'otp',
+			type: 'text',
+			labelState: otpLabelState,
+			maxLength: OTP_LENGTH
+		}),
+		[otp, otpInputInfo, otpLabel, otpLabelState]
+	);
 
 	const validateOtp = (
 		totp
@@ -145,64 +153,74 @@ export const TwoFactorAuth = () => {
 		}
 	};
 
-	const handleOtpChange = (event) => {
+	const handleOtpChange = useCallback((event) => {
 		const validityData = validateOtp(event.target.value);
 		setOtpLabelState(validityData.validity);
 		setOtpLabel(validityData.label);
 		setOtp(event.target.value);
-	};
+	}, []);
 
-	const activateTwoFactorAuthByType = (triggerNextStep) => {
-		let apiCall, apiData;
+	const activateTwoFactorAuthByType = useCallback(
+		(triggerNextStep) => {
+			let apiCall, apiData;
 
-		if (twoFactorType === TWO_FACTOR_TYPES.APP) {
-			apiCall = apiPutTwoFactorAuthApp;
-			apiData = {
-				secret: userData.twoFactorAuth.secret,
-				otp
-			};
-		}
-		if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
-			apiCall = apiPostTwoFactorAuthEmailWithCode;
-			apiData = otp;
-		}
+			if (twoFactorType === TWO_FACTOR_TYPES.APP) {
+				apiCall = apiPutTwoFactorAuthApp;
+				apiData = {
+					secret: userData.twoFactorAuth.secret,
+					otp
+				};
+			}
+			if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
+				apiCall = apiPostTwoFactorAuthEmailWithCode;
+				apiData = otp;
+			}
 
-		if (twoFactorType === TWO_FACTOR_TYPES.NONE) return;
+			if (twoFactorType === TWO_FACTOR_TYPES.NONE) return;
 
-		if (!isRequestInProgress) {
-			setIsRequestInProgress(true);
-			setOtpInputInfo('');
-			apiCall(apiData)
-				.then(() => {
-					if (twoFactorType === TWO_FACTOR_TYPES.APP) {
-						setOverlayActive(false);
-					}
-					if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
-						apiPatchTwoFactorAuthEncourage(false);
-						if (triggerNextStep) triggerNextStep();
-					}
-					setIsRequestInProgress(false);
-					updateUserData();
-				})
-				.catch((error) => {
-					if (error.message === FETCH_ERRORS.BAD_REQUEST) {
-						setOtpLabel(defaultOtpLabel);
-						setOtpInputInfo(
-							translate(
-								'twoFactorAuth.activate.otp.input.label.error'
-							)
-						);
-						setOtpLabelState('invalid');
+			if (!isRequestInProgress) {
+				setIsRequestInProgress(true);
+				setOtpInputInfo('');
+				apiCall(apiData)
+					.then(() => {
+						if (twoFactorType === TWO_FACTOR_TYPES.APP) {
+							setOverlayActive(false);
+						}
+						if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
+							apiPatchTwoFactorAuthEncourage(false);
+							if (triggerNextStep) triggerNextStep();
+						}
 						setIsRequestInProgress(false);
-						setIsSwitchChecked(false);
-					}
-				});
-		}
-	};
+						updateUserData();
+					})
+					.catch((error) => {
+						if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+							setOtpLabel(defaultOtpLabel);
+							setOtpInputInfo(
+								translate(
+									'twoFactorAuth.activate.otp.input.label.error'
+								)
+							);
+							setOtpLabelState('invalid');
+							setIsRequestInProgress(false);
+							setIsSwitchChecked(false);
+						}
+					});
+			}
+		},
+		[
+			defaultOtpLabel,
+			isRequestInProgress,
+			otp,
+			twoFactorType,
+			updateUserData,
+			userData.twoFactorAuth.secret
+		]
+	);
 
 	/* ENTRY */
 
-	const selectTwoFactorTypeButtons = (): JSX.Element => {
+	const selectTwoFactorTypeButtons = useCallback((): JSX.Element => {
 		return (
 			<div className="twoFactorAuth__selectType">
 				<div className="twoFactorAuth__radioWrapper">
@@ -245,29 +263,32 @@ export const TwoFactorAuth = () => {
 				</div>
 			</div>
 		);
-	};
+	}, [twoFactorType]);
 
-	const twoFactorAuthStepsOverlayStart: OverlayItem[] = [
-		{
-			headline: translate('twoFactorAuth.activate.step1.title'),
-			copy: translate('twoFactorAuth.activate.step1.copy'),
-			step: {
-				icon: LockIcon,
-				label: translate(
-					'twoFactorAuth.activate.step1.visualisation.label'
-				)
-			},
-			nestedComponent: selectTwoFactorTypeButtons(),
-			buttonSet: [
-				{
-					disabled: twoFactorType === TWO_FACTOR_TYPES.NONE,
-					label: translate('twoFactorAuth.overlayButton.next'),
-					function: OVERLAY_FUNCTIONS.NEXT_STEP,
-					type: BUTTON_TYPES.PRIMARY
-				}
-			]
-		}
-	];
+	const twoFactorAuthStepsOverlayStart: OverlayItem[] = useMemo(
+		() => [
+			{
+				headline: translate('twoFactorAuth.activate.step1.title'),
+				copy: translate('twoFactorAuth.activate.step1.copy'),
+				step: {
+					icon: LockIcon,
+					label: translate(
+						'twoFactorAuth.activate.step1.visualisation.label'
+					)
+				},
+				nestedComponent: selectTwoFactorTypeButtons(),
+				buttonSet: [
+					{
+						disabled: twoFactorType === TWO_FACTOR_TYPES.NONE,
+						label: translate('twoFactorAuth.overlayButton.next'),
+						function: OVERLAY_FUNCTIONS.NEXT_STEP,
+						type: BUTTON_TYPES.PRIMARY
+					}
+				]
+			}
+		],
+		[selectTwoFactorTypeButtons, twoFactorType]
+	);
 
 	/* APP */
 	const getAuthenticatorTools = (): JSX.Element => {
@@ -330,7 +351,7 @@ export const TwoFactorAuth = () => {
 		);
 	};
 
-	const connectAuthAccount = (): JSX.Element => {
+	const connectAuthAccount = useCallback((): JSX.Element => {
 		return (
 			<div className="twoFactorAuth__connect">
 				<div className="twoFactorAuth__qrCode">
@@ -365,82 +386,94 @@ export const TwoFactorAuth = () => {
 				</div>
 			</div>
 		);
-	};
+	}, [userData.twoFactorAuth.secret, userData.twoFactorAuth.qrCode]);
 
-	const twoFactorAuthStepsOverlayApp: OverlayItem[] = [
-		{
-			headline: translate('twoFactorAuth.activate.app.step2.title'),
-			copy: translate('twoFactorAuth.activate.app.step2.copy'),
-			nestedComponent: getAuthenticatorTools(),
-			buttonSet: [
-				{
-					label: translate('twoFactorAuth.overlayButton.back'),
-					function: OVERLAY_FUNCTIONS.PREV_STEP,
-					type: BUTTON_TYPES.SECONDARY
-				},
-				{
-					label: translate('twoFactorAuth.overlayButton.next'),
-					function: OVERLAY_FUNCTIONS.NEXT_STEP,
-					type: BUTTON_TYPES.PRIMARY
+	const twoFactorAuthStepsOverlayApp: OverlayItem[] = useMemo(
+		() => [
+			{
+				headline: translate('twoFactorAuth.activate.app.step2.title'),
+				copy: translate('twoFactorAuth.activate.app.step2.copy'),
+				nestedComponent: getAuthenticatorTools(),
+				buttonSet: [
+					{
+						label: translate('twoFactorAuth.overlayButton.back'),
+						function: OVERLAY_FUNCTIONS.PREV_STEP,
+						type: BUTTON_TYPES.SECONDARY
+					},
+					{
+						label: translate('twoFactorAuth.overlayButton.next'),
+						function: OVERLAY_FUNCTIONS.NEXT_STEP,
+						type: BUTTON_TYPES.PRIMARY
+					}
+				],
+				step: {
+					icon: AddIcon,
+					label: translate(
+						'twoFactorAuth.activate.app.step2.visualisation.label'
+					)
 				}
-			],
-			step: {
-				icon: AddIcon,
-				label: translate(
-					'twoFactorAuth.activate.app.step2.visualisation.label'
-				)
-			}
-		},
-		{
-			headline: translate('twoFactorAuth.activate.app.step3.title'),
-			copy: translate('twoFactorAuth.activate.app.step3.copy'),
-			nestedComponent: connectAuthAccount(),
-			buttonSet: [
-				{
-					label: translate('twoFactorAuth.overlayButton.back'),
-					function: OVERLAY_FUNCTIONS.PREV_STEP,
-					type: BUTTON_TYPES.SECONDARY
-				},
-				{
-					label: translate('twoFactorAuth.overlayButton.next'),
-					function: OVERLAY_FUNCTIONS.NEXT_STEP,
-					type: BUTTON_TYPES.PRIMARY
+			},
+			{
+				headline: translate('twoFactorAuth.activate.app.step3.title'),
+				copy: translate('twoFactorAuth.activate.app.step3.copy'),
+				nestedComponent: connectAuthAccount(),
+				buttonSet: [
+					{
+						label: translate('twoFactorAuth.overlayButton.back'),
+						function: OVERLAY_FUNCTIONS.PREV_STEP,
+						type: BUTTON_TYPES.SECONDARY
+					},
+					{
+						label: translate('twoFactorAuth.overlayButton.next'),
+						function: OVERLAY_FUNCTIONS.NEXT_STEP,
+						type: BUTTON_TYPES.PRIMARY
+					}
+				],
+				step: {
+					icon: UrlIcon,
+					label: translate(
+						'twoFactorAuth.activate.app.step3.visualisation.label'
+					)
 				}
-			],
-			step: {
-				icon: UrlIcon,
-				label: translate(
-					'twoFactorAuth.activate.app.step3.visualisation.label'
-				)
-			}
-		},
-		{
-			headline: translate('twoFactorAuth.activate.app.step4.title'),
-			copy: translate('twoFactorAuth.activate.app.step4.copy'),
-			nestedComponent: (
-				<InputField item={otpInputItem} inputHandle={handleOtpChange} />
-			),
-			buttonSet: [
-				{
-					label: translate('twoFactorAuth.overlayButton.back'),
-					function: OVERLAY_FUNCTIONS.PREV_STEP,
-					type: BUTTON_TYPES.SECONDARY
-				},
-				{
-					disabled: otpLabelState !== 'valid',
-					label: translate('twoFactorAuth.overlayButton.save'),
-					type: BUTTON_TYPES.PRIMARY
+			},
+			{
+				headline: translate('twoFactorAuth.activate.app.step4.title'),
+				copy: translate('twoFactorAuth.activate.app.step4.copy'),
+				nestedComponent: (
+					<InputField
+						item={otpInputItem}
+						inputHandle={handleOtpChange}
+					/>
+				),
+				buttonSet: [
+					{
+						label: translate('twoFactorAuth.overlayButton.back'),
+						function: OVERLAY_FUNCTIONS.PREV_STEP,
+						type: BUTTON_TYPES.SECONDARY
+					},
+					{
+						disabled: otpLabelState !== 'valid',
+						label: translate('twoFactorAuth.overlayButton.save'),
+						type: BUTTON_TYPES.PRIMARY
+					}
+				],
+				handleOverlay: activateTwoFactorAuthByType,
+				step: {
+					icon: CheckIcon,
+					label: translate(
+						'twoFactorAuth.activate.app.step4.visualisation.label'
+					)
 				}
-			],
-			handleOverlay: activateTwoFactorAuthByType,
-			step: {
-				icon: CheckIcon,
-				label: translate(
-					'twoFactorAuth.activate.app.step4.visualisation.label'
-				)
 			}
-		}
-	];
+		],
+		[
+			activateTwoFactorAuthByType,
+			connectAuthAccount,
+			handleOtpChange,
+			otpInputItem,
+			otpLabelState
+		]
+	);
 
 	/* E-MAIL */
 
@@ -465,26 +498,29 @@ export const TwoFactorAuth = () => {
 		}
 	};
 
-	const handleEmailChange = (event) => {
+	const handleEmailChange = useCallback((event) => {
 		const validityData = validateEmail(event.target.value);
 		setEmailLabelState(validityData.validity);
 		setEmailLabel(validityData.label);
 		setEmail(event.target.value);
-	};
+	}, []);
 
-	const emailInputItem: InputFieldItem = {
-		id: 'email2FA',
-		infoText: hasDuplicateError
-			? translate('twoFactorAuth.activate.email.input.duplicate.info')
-			: '',
-		label: emailLabel,
-		name: 'email2FA',
-		type: 'text',
-		labelState: emailLabelState,
-		content: email
-	};
+	const emailInputItem: InputFieldItem = useMemo(
+		() => ({
+			id: 'email2FA',
+			infoText: hasDuplicateError
+				? translate('twoFactorAuth.activate.email.input.duplicate.info')
+				: '',
+			label: emailLabel,
+			name: 'email2FA',
+			type: 'text',
+			labelState: emailLabelState,
+			content: email
+		}),
+		[email, emailLabel, emailLabelState, hasDuplicateError]
+	);
 
-	const emailSelection = (): JSX.Element => {
+	const emailSelection = useCallback((): JSX.Element => {
 		return (
 			<div className="twoFactorAuth__emailSelection">
 				<InputField
@@ -501,28 +537,31 @@ export const TwoFactorAuth = () => {
 				)}
 			</div>
 		);
-	};
+	}, [emailInputItem, handleEmailChange, userData.email]);
 
-	const sendEmailActivationCode = (triggerNextStep) => {
-		apiPutTwoFactorAuthEmail(email)
-			.then(() => {
-				if (triggerNextStep) triggerNextStep();
-				setHasDuplicateError(false);
-			})
-			.catch((error) => {
-				if (error.message === FETCH_ERRORS.PRECONDITION_FAILED) {
-					setEmailLabelState('invalid');
-					setEmailLabel(
-						translate(
-							'twoFactorAuth.activate.email.input.duplicate'
-						)
-					);
-					setHasDuplicateError(true);
-				}
-			});
-	};
+	const sendEmailActivationCode = useCallback(
+		(triggerNextStep) => {
+			apiPutTwoFactorAuthEmail(email)
+				.then(() => {
+					if (triggerNextStep) triggerNextStep();
+					setHasDuplicateError(false);
+				})
+				.catch((error) => {
+					if (error.message === FETCH_ERRORS.PRECONDITION_FAILED) {
+						setEmailLabelState('invalid');
+						setEmailLabel(
+							translate(
+								'twoFactorAuth.activate.email.input.duplicate'
+							)
+						);
+						setHasDuplicateError(true);
+					}
+				});
+		},
+		[email]
+	);
 
-	const emailCodeInput = (): JSX.Element => {
+	const emailCodeInput = useCallback((): JSX.Element => {
 		return (
 			<div className="twoFactorAuth__emailCode">
 				<InputField item={otpInputItem} inputHandle={handleOtpChange} />
@@ -531,7 +570,7 @@ export const TwoFactorAuth = () => {
 				/>
 			</div>
 		);
-	};
+	}, [handleOtpChange, otpInputItem, sendEmailActivationCode]);
 
 	const emailConfirmation = (): JSX.Element => {
 		return (
@@ -545,86 +584,100 @@ export const TwoFactorAuth = () => {
 		);
 	};
 
-	const twoFactorAuthStepsOverlayMail: OverlayItem[] = [
-		{
-			headline: translate('twoFactorAuth.activate.email.step2.title'),
-			copy: translate('twoFactorAuth.activate.email.step2.copy'),
-			step: {
-				icon: PenIcon,
-				label: translate(
-					'twoFactorAuth.activate.email.step2.visualisation.label'
-				)
+	const twoFactorAuthStepsOverlayMail: OverlayItem[] = useMemo(
+		() => [
+			{
+				headline: translate('twoFactorAuth.activate.email.step2.title'),
+				copy: translate('twoFactorAuth.activate.email.step2.copy'),
+				step: {
+					icon: PenIcon,
+					label: translate(
+						'twoFactorAuth.activate.email.step2.visualisation.label'
+					)
+				},
+				nestedComponent: emailSelection(),
+				handleNextStep: sendEmailActivationCode,
+				buttonSet: [
+					{
+						label: translate('twoFactorAuth.overlayButton.back'),
+						function: OVERLAY_FUNCTIONS.PREV_STEP,
+						type: BUTTON_TYPES.SECONDARY
+					},
+					{
+						disabled:
+							!userData.email && !(emailLabelState === 'valid'),
+						label: translate('twoFactorAuth.overlayButton.next'),
+						function: OVERLAY_FUNCTIONS.NEXT_STEP,
+						type: BUTTON_TYPES.PRIMARY
+					}
+				]
 			},
-			nestedComponent: emailSelection(),
-			handleNextStep: sendEmailActivationCode,
-			buttonSet: [
-				{
-					label: translate('twoFactorAuth.overlayButton.back'),
-					function: OVERLAY_FUNCTIONS.PREV_STEP,
-					type: BUTTON_TYPES.SECONDARY
-				},
-				{
-					disabled: !userData.email && !(emailLabelState === 'valid'),
-					label: translate('twoFactorAuth.overlayButton.next'),
-					function: OVERLAY_FUNCTIONS.NEXT_STEP,
-					type: BUTTON_TYPES.PRIMARY
+			{
+				headline: translate('twoFactorAuth.activate.email.step3.title'),
+				copy: `${translate(
+					'twoFactorAuth.activate.email.step3.copy.1'
+				)} <strong>${email}</strong> ${translate(
+					'twoFactorAuth.activate.email.step3.copy.2'
+				)}`,
+				nestedComponent: emailCodeInput(),
+				buttonSet: [
+					{
+						label: translate('twoFactorAuth.overlayButton.back'),
+						function: OVERLAY_FUNCTIONS.PREV_STEP,
+						type: BUTTON_TYPES.SECONDARY
+					},
+					{
+						disabled: otpLabelState !== 'valid',
+						label: translate('twoFactorAuth.overlayButton.confirm'),
+						function: OVERLAY_FUNCTIONS.NEXT_STEP,
+						type: BUTTON_TYPES.PRIMARY
+					}
+				],
+				handleNextStep: activateTwoFactorAuthByType,
+				step: {
+					icon: UrlIcon,
+					label: translate(
+						'twoFactorAuth.activate.email.step3.visualisation.label'
+					)
 				}
-			]
-		},
-		{
-			headline: translate('twoFactorAuth.activate.email.step3.title'),
-			copy: `${translate(
-				'twoFactorAuth.activate.email.step3.copy.1'
-			)} <strong>${email}</strong> ${translate(
-				'twoFactorAuth.activate.email.step3.copy.2'
-			)}`,
-			nestedComponent: emailCodeInput(),
-			buttonSet: [
-				{
-					label: translate('twoFactorAuth.overlayButton.back'),
-					function: OVERLAY_FUNCTIONS.PREV_STEP,
-					type: BUTTON_TYPES.SECONDARY
-				},
-				{
-					disabled: otpLabelState !== 'valid',
-					label: translate('twoFactorAuth.overlayButton.confirm'),
-					function: OVERLAY_FUNCTIONS.NEXT_STEP,
-					type: BUTTON_TYPES.PRIMARY
+			},
+			{
+				nestedComponent: emailConfirmation(),
+				buttonSet: [
+					{
+						label: translate('twoFactorAuth.overlayButton.close'),
+						function: OVERLAY_FUNCTIONS.CLOSE_SUCCESS,
+						type: BUTTON_TYPES.AUTO_CLOSE
+					}
+				],
+				handleOverlay: handleOverlayClose,
+				step: {
+					icon: CheckIcon,
+					label: translate(
+						'twoFactorAuth.activate.email.step4.visualisation.label'
+					)
 				}
-			],
-			handleNextStep: activateTwoFactorAuthByType,
-			step: {
-				icon: UrlIcon,
-				label: translate(
-					'twoFactorAuth.activate.email.step3.visualisation.label'
-				)
 			}
-		},
-		{
-			nestedComponent: emailConfirmation(),
-			buttonSet: [
-				{
-					label: translate('twoFactorAuth.overlayButton.close'),
-					function: OVERLAY_FUNCTIONS.CLOSE_SUCCESS,
-					type: BUTTON_TYPES.AUTO_CLOSE
-				}
-			],
-			handleOverlay: handleOverlayClose,
-			step: {
-				icon: CheckIcon,
-				label: translate(
-					'twoFactorAuth.activate.email.step4.visualisation.label'
-				)
-			}
-		}
-	];
+		],
+		[
+			activateTwoFactorAuthByType,
+			email,
+			emailCodeInput,
+			emailLabelState,
+			emailSelection,
+			handleOverlayClose,
+			otpLabelState,
+			sendEmailActivationCode,
+			userData.email
+		]
+	);
 
 	/* GENERAL */
 	const [overlayItems, setOverlayItems] = useState<OverlayItem[]>([
 		...twoFactorAuthStepsOverlayStart
 	]);
 
-	const setOverlayByType = () => {
+	const setOverlayByType = useCallback(() => {
 		switch (twoFactorType) {
 			case TWO_FACTOR_TYPES.EMAIL:
 				setOverlayItems([
@@ -641,21 +694,16 @@ export const TwoFactorAuth = () => {
 			default:
 				setOverlayItems([...twoFactorAuthStepsOverlayStart]);
 		}
-	};
-	/* we use eslint disable here because of high complexity when using useCallback, etc. */
-	useEffect(() => {
-		setOverlayByType();
 	}, [
 		twoFactorType,
-		email,
-		otp,
-		otpLabel,
-		otpLabelState,
-		userData,
-		email,
-		emailLabel,
-		hasDuplicateError
-	]); // eslint-disable-line react-hooks/exhaustive-deps
+		twoFactorAuthStepsOverlayStart,
+		twoFactorAuthStepsOverlayApp,
+		twoFactorAuthStepsOverlayMail
+	]);
+
+	useEffect(() => {
+		setOverlayByType();
+	}, [setOverlayByType]);
 
 	return (
 		<div className="twoFactorAuth">
