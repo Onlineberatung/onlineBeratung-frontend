@@ -61,7 +61,7 @@ export const TwoFactorAuth = () => {
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
 	const [email, setEmail] = useState<string>(userData.email);
-	const [hasEmailDuplicateError, setHasEmailDuplicateError] = useState(false);
+	const [hasDuplicateError, setHasDuplicateError] = useState(false);
 	const [emailLabel, setEmailLabel] = useState<string>(
 		translate('twoFactorAuth.activate.email.input.label')
 	);
@@ -106,7 +106,7 @@ export const TwoFactorAuth = () => {
 		setEmail(userData.email || '');
 		setEmailLabel(translate('twoFactorAuth.activate.email.input.label'));
 		setEmailLabelState(userData.email ? 'valid' : null);
-		setHasEmailDuplicateError(false);
+		setHasDuplicateError(false);
 		setOtpLabel(defaultOtpLabel);
 		setOtpLabelState(null);
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
@@ -474,7 +474,7 @@ export const TwoFactorAuth = () => {
 
 	const emailInputItem: InputFieldItem = {
 		id: 'email2FA',
-		infoText: hasEmailDuplicateError
+		infoText: hasDuplicateError
 			? translate('twoFactorAuth.activate.email.input.duplicate.info')
 			: '',
 		label: emailLabel,
@@ -507,7 +507,7 @@ export const TwoFactorAuth = () => {
 		apiPutTwoFactorAuthEmail(email)
 			.then(() => {
 				if (triggerNextStep) triggerNextStep();
-				setHasEmailDuplicateError(false);
+				setHasDuplicateError(false);
 			})
 			.catch((error) => {
 				if (error.message === FETCH_ERRORS.PRECONDITION_FAILED) {
@@ -517,7 +517,7 @@ export const TwoFactorAuth = () => {
 							'twoFactorAuth.activate.email.input.duplicate'
 						)
 					);
-					setHasEmailDuplicateError(true);
+					setHasDuplicateError(true);
 				}
 			});
 	};
@@ -646,17 +646,16 @@ export const TwoFactorAuth = () => {
 	useEffect(() => {
 		setOverlayByType();
 	}, [
-		// eslint-disable-line react-hooks/exhaustive-deps
-		twoFactorType, // eslint-disable-line react-hooks/exhaustive-deps
-		email, // eslint-disable-line react-hooks/exhaustive-deps
-		otp, // eslint-disable-line react-hooks/exhaustive-deps
-		otpLabel, // eslint-disable-line react-hooks/exhaustive-deps
-		otpLabelState, // eslint-disable-line react-hooks/exhaustive-deps
-		userData, // eslint-disable-line react-hooks/exhaustive-deps
-		email, // eslint-disable-line react-hooks/exhaustive-deps
-		emailLabel, // eslint-disable-line react-hooks/exhaustive-deps
-		hasEmailDuplicateError // eslint-disable-line react-hooks/exhaustive-deps
-	]);
+		twoFactorType,
+		email,
+		otp,
+		otpLabel,
+		otpLabelState,
+		userData,
+		email,
+		emailLabel,
+		hasDuplicateError
+	]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className="twoFactorAuth">
