@@ -2,7 +2,7 @@ const twoFactorAuthInformal = {
 	'subtitle':
 		'Nutze eine weitere App für die Anmeldung mit Deinem Caritas Konto. Dadurch ist Dein Konto sicherer vor einem möglichen unbefugtem Zugriff.',
 	'activate.radio.tooltip.app':
-		'Installiere Dir die App.<br/>Die App generiert Dir einen Code den Du bei der Anmeldung eingeben musst.',
+		'Installiere Dir die App. Die App generiert Dir einen Code den Du bei der Anmeldung eingeben musst.',
 	'activate.radio.tooltip.email':
 		'Du erhälst bei der Anmeldung eine E-mail mit einem Code. Diesen Code musst Du dann eingeben.',
 	'activate.step1.title': 'Wähle eine Methode aus',

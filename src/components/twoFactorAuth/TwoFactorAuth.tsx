@@ -648,12 +648,11 @@ export const TwoFactorAuth = () => {
 				setOverlayItems([...twoFactorAuthStepsOverlayStart]);
 		}
 	};
-
+	/* eslint-disable react-hooks/exhaustive-deps */
+	/* we use eslint disable here because of high complexity when using useCallback, etc. */
 	useEffect(() => {
 		setOverlayByType();
-		// we use eslint disable here because of high complexity when using useCallback, etc.
 	}, [
-		// eslint-disable-line react-hooks/exhaustive-deps
 		twoFactorType,
 		email,
 		otp,
@@ -664,6 +663,7 @@ export const TwoFactorAuth = () => {
 		emailLabel,
 		hasEmailDuplicateError
 	]);
+	/* eslint-enable */
 
 	return (
 		<div className="twoFactorAuth">
