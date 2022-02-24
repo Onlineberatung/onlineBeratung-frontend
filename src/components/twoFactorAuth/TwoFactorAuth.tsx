@@ -662,6 +662,7 @@ export const TwoFactorAuth = () => {
 		emailLabel,
 		hasEmailDuplicateError
 	]); // eslint-disable-line react-hooks/exhaustive-deps
+	// we use eslint disable here because of high complexity when using useCallback, etc.
 
 	return (
 		<div className="twoFactorAuth">
