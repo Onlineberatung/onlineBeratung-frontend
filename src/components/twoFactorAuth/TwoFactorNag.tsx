@@ -17,7 +17,8 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		if (
 			userData.twoFactorAuth?.isEnabled &&
 			!userData.twoFactorAuth?.isActive &&
-			userData.twoFactorAuth?.isToEncourage
+			userData.twoFactorAuth?.isToEncourage &&
+			history.location.from !== 'registration'
 		) {
 			setIsShownTwoFactorNag(true);
 		}

@@ -222,7 +222,10 @@ export const Login = ({
 						}
 
 						if (!response.rcGroupId || !response.sessionId) {
-							history.push(config.endpoints.userSessionsListView);
+							history.push(
+								config.endpoints.userSessionsListView,
+								{ from: 'registration' }
+							);
 							return;
 						}
 
@@ -230,7 +233,8 @@ export const Login = ({
 							generatePath(
 								`${config.endpoints.userSessionsListView}/:rcGroupId/:sessionId`,
 								response
-							)
+							),
+							{ from: 'registration' }
 						);
 					});
 			}
@@ -399,6 +403,7 @@ export const Login = ({
 						/>
 					)}
 				</div>
+
 				{showLoginError && (
 					<Text
 						text={showLoginError}
@@ -406,6 +411,7 @@ export const Login = ({
 						className="loginForm__error"
 					/>
 				)}
+
 				{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
 					<a
 						href={config.endpoints.loginResetPasswordLink}
