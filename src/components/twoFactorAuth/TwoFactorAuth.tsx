@@ -82,7 +82,16 @@ export const TwoFactorAuth = () => {
 
 	useEffect(() => {
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
-	}, [userData.twoFactorAuth.isActive]);
+		setEmail(userData.email || '');
+		setEmailLabel(translate('twoFactorAuth.activate.email.input.label'));
+		setEmailLabelState(userData.email ? 'valid' : null);
+		setTwoFactorType(userData.twoFactorAuth.type || TWO_FACTOR_TYPES.APP);
+		setIsSwitchChecked(userData.twoFactorAuth.isActive);
+	}, [
+		userData.twoFactorAuth.isActive,
+		userData.email,
+		userData.twoFactorAuth.type
+	]);
 
 	const handleSwitchChange = () => {
 		if (!isSwitchChecked) {
@@ -99,13 +108,20 @@ export const TwoFactorAuth = () => {
 				});
 		}
 	};
+	const handleOverlayCloseSuccess = useCallback(() => {
+		setOverlayActive(false);
+		setOtp('');
+		setHasDuplicateError(false);
+		setOtpLabel(defaultOtpLabel);
+		setOtpLabelState(null);
+	}, [defaultOtpLabel]);
 
 	const handleOverlayClose = useCallback(() => {
 		setOverlayActive(false);
 		setOtp('');
 		setEmail(userData.email || '');
 		setEmailLabel(translate('twoFactorAuth.activate.email.input.label'));
-		setEmailLabelState(userData.email ? 'valid' : null);
+		setEmailLabelState(null);
 		setHasDuplicateError(false);
 		setOtpLabel(defaultOtpLabel);
 		setOtpLabelState(null);
@@ -650,7 +666,7 @@ export const TwoFactorAuth = () => {
 						type: BUTTON_TYPES.AUTO_CLOSE
 					}
 				],
-				handleOverlay: handleOverlayClose,
+				handleOverlay: handleOverlayCloseSuccess,
 				step: {
 					icon: CheckIcon,
 					label: translate(
@@ -665,7 +681,7 @@ export const TwoFactorAuth = () => {
 			emailCodeInput,
 			emailLabelState,
 			emailSelection,
-			handleOverlayClose,
+			handleOverlayCloseSuccess,
 			otpLabelState,
 			sendEmailActivationCode,
 			userData.email
