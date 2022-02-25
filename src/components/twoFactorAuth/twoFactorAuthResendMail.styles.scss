@@ -26,5 +26,10 @@
 		font-size: 14px;
 		text-decoration: underline;
 		color: $primary;
+		cursor: pointer;
+
+		&:hover {
+			color: $hover-primary;
+		}
 	}
 }
