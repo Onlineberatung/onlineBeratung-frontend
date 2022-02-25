@@ -116,7 +116,7 @@
 					left: -16px;
 					z-index: 1;
 					border-bottom: 1px solid transparent;
-					color: var(--skin-color-primary, $primary);
+					color: var(--skin-color-primary-contrast-safe, $primary);
 				}
 			}
 		}
@@ -144,7 +144,7 @@
 				left: -16px;
 				z-index: 1;
 				border-bottom: 1px solid transparent;
-				color: var(--skin-color-primary, $primary);
+				color: var(--skin-color-primary-contrast-safe, $primary);
 			}
 		}
 

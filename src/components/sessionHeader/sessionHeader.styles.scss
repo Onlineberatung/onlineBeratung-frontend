@@ -168,7 +168,10 @@ $iconSize: 24px;
 			}
 
 			&--red {
-				color: var(--skin-color-primary, $primary) !important;
+				color: var(
+					--skin-color-primary-contrast-safe,
+					$primary
+				) !important;
 				text-transform: uppercase;
 			}
 

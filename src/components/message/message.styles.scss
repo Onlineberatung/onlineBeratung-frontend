@@ -28,7 +28,7 @@ $message-attachment-color: $secondary !default;
 		text-decoration: underline;
 
 		&:hover {
-			color: var(--skin-color-primary, $primary);
+			color: var(--skin-color-primary-contrast-safe, $primary);
 			transition: unset;
 		}
 
@@ -127,7 +127,7 @@ $message-attachment-color: $secondary !default;
 		}
 
 		&--lastRead {
-			color: var(--skin-color-primary, $primary);
+			color: var(--skin-color-primary-contrast-safe, $primary);
 
 			&::before,
 			&::after {

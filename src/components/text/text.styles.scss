@@ -52,7 +52,7 @@
 		}
 
 		&--notice {
-			color: var(--skin-color-primary, $primary);
+			color: var(--skin-color-primary-contrast-safe, $primary);
 		}
 	}
 

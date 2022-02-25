@@ -72,14 +72,17 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 			justify-items: start;
 			cursor: pointer;
 			margin-top: $grid-base-two;
-			color: var(--skin-color-link, $primary);
+			color: var(--skin-color-primary-contrast-safe, $primary);
 
 			.text {
-				color: var(--skin-color-link, $primary);
+				color: var(--skin-color-primary-contrast-safe, $primary);
 				margin: auto 0 auto $grid-base;
 
 				&:hover {
-					color: var(--skin-color-link, $hover-primary);
+					color: var(
+						--skin-color-primary-contrast-safe,
+						$hover-primary
+					);
 				}
 			}
 		}

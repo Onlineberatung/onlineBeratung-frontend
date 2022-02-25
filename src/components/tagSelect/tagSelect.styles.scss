@@ -12,7 +12,7 @@
 		transition: all ease 0.5s;
 
 		&:hover + .tagSelect__label {
-			color: var(--skin-color-primary, $primary);
+			color: var(--skin-color-primary-contrast-safe, $primary);
 			background-color: $background-accent;
 		}
 
@@ -24,7 +24,7 @@
 		}
 
 		&:checked + .tagSelect__label {
-			color: var(--skin-color-primary, $primary);
+			color: var(--skin-color-primary-contrast-safe, $primary);
 			background-color: $hover-select;
 		}
 	}
@@ -42,7 +42,7 @@
 		transition: all ease 0.5s;
 
 		&:hover {
-			color: var(--skin-color-primary, $primary);
+			color: var(--skin-color-primary-contrast-safe, $primary);
 			background-color: $hover-select;
 		}
 
