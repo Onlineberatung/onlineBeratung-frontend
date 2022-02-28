@@ -9,6 +9,7 @@ $profile-imprint-background-color-desktop: $background-light !default;
 $profile-content-wrapper-detail-button-text-align: center !default;
 $profile-select-margin-left: auto !default;
 $profile-select-padding-left: $grid-base-three !default;
+$profile-title-mobile-text-align: center !default;
 
 .profile {
 	&__wrapper {
@@ -217,7 +218,7 @@ $profile-select-padding-left: $grid-base-three !default;
 		&__title {
 			position: relative;
 			margin-bottom: $grid-base-three;
-			text-align: center;
+			text-align: $profile-title-mobile-text-align;
 
 			@include breakpoint($fromLarge) {
 				text-align: left;
