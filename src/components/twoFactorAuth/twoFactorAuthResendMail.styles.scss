@@ -32,4 +32,8 @@
 			color: $hover-primary;
 		}
 	}
+
+	.text + .text {
+		margin-top: 3px;
+	}
 }

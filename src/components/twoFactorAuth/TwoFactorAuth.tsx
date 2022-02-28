@@ -545,7 +545,7 @@ export const TwoFactorAuth = () => {
 				/>
 				{userData.email && (
 					<Text
-						type="infoLargeStandard"
+						type="infoLargeAlternative"
 						text={translate(
 							'twoFactorAuth.activate.email.input.info'
 						)}
