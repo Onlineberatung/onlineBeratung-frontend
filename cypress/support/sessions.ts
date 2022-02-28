@@ -136,7 +136,7 @@ export const sessionsReply = ({
 	const _offset = offset || 0;
 	const _count = count || 15;
 	return {
-		sessions: sessions.slice(_offset, _offset + _count),
+		sessions: sessions.slice(_offset, _count),
 		offset: _offset,
 		count: _count,
 		total: total || sessions.length
