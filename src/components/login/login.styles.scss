@@ -1,4 +1,26 @@
 $spacingWithIcon: 52px;
+$link-hover-text-decoration: $link-text-decoration !default;
+
+.login {
+	&__tenantRegistration {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		top: $grid-base-six;
+		left: 0;
+		right: 0;
+
+		@media (min-width: $fromLarge) {
+			left: auto;
+			right: $grid-base-seven;
+		}
+	}
+
+	&__tenantRegistrationLink {
+		margin-left: $grid-base;
+	}
+}
 
 .loginForm {
 	display: flex;
@@ -17,6 +39,22 @@ $spacingWithIcon: 52px;
 		}
 	}
 
+	&__headline {
+		transform: $login-icon-transform;
+	}
+
+	&__otp {
+		max-height: 0;
+		overflow: hidden;
+		-webkit-transition: max-height 0.8s;
+		-moz-transition: max-height 0.8s;
+		transition: max-height 0.8s;
+
+		&--active {
+			max-height: 250px;
+		}
+	}
+
 	&__error {
 		color: $form-error;
 		max-width: 245px;
@@ -27,10 +65,29 @@ $spacingWithIcon: 52px;
 	.button__item {
 		width: $login-button-width;
 		margin-top: $grid-base-five;
+		transform: $login-icon-transform;
+		background-color: var(--skin-color-primary, $primary);
+		color: var(--text-color-contrast-switch, $white);
+
+		@media (min-width: $fromLarge) {
+			width: $login-button-width-large;
+		}
+	}
+
+	&__passwordReset {
+		color: $link-color;
+		transform: $login-icon-transform;
+		text-decoration: $link-text-decoration;
+		font-weight: $link-font-weight;
+
+		&:hover {
+			text-decoration: $link-hover-text-decoration;
+		}
 	}
 
 	&__register {
 		margin-top: $grid-base-five;
+		transform: $login-icon-transform;
 
 		& > .text {
 			position: relative;

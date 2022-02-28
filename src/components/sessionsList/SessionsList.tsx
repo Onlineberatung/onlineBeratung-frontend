@@ -4,7 +4,6 @@ import { useLocation, Link } from 'react-router-dom';
 import {
 	typeIsTeamSession,
 	typeIsEnquiry,
-	SESSION_LIST_TYPES,
 	getTypeOfLocation,
 	typeIsSession,
 	getChatItemForSession,
@@ -69,6 +68,7 @@ export const SessionsList: React.FC = () => {
 	const sessionsContext = useContext(SessionsDataContext);
 	const { sessionsData, setSessionsData } = sessionsContext;
 	const { filterStatus, setFilterStatus } = useContext(FilterStatusContext);
+
 	const currentFilter = useMemo(() => filterStatus, [filterStatus]);
 	const [sessionListTab, setSessionListTab] = useState(
 		new URLSearchParams(location.search).get('sessionListTab')
@@ -212,9 +212,7 @@ export const SessionsList: React.FC = () => {
 	}, [sessionsData, updateSessionList]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		const refreshSessionList = async (
-			sessionListType: SESSION_LIST_TYPES
-		) => {
+		const refreshSessionList = async () => {
 			if (
 				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
@@ -228,7 +226,7 @@ export const SessionsList: React.FC = () => {
 		};
 
 		if (updateSessionList) {
-			refreshSessionList(updateSessionList);
+			refreshSessionList();
 		}
 		setUpdateSessionList(null);
 	}, [updateSessionList, userData]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -360,7 +358,7 @@ export const SessionsList: React.FC = () => {
 				sessionListTab: sessionListTab,
 				...(signal && { signal: signal })
 			})
-				.then(({ sessions, total, count }) => {
+				.then(({ sessions, total }) => {
 					setTotalItems(total);
 					setCurrentOffset(useOffset);
 					setIsLoading(false);

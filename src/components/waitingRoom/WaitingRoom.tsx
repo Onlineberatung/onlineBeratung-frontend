@@ -3,12 +3,11 @@ import { Header } from '../header/Header';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import './waitingRoom.styles';
-import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/willkommen.svg';
+import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
-import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/ooh.svg';
+import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
 import { translate } from '../../utils/translate';
 import { useContext, useEffect, useState } from 'react';
-import { uiUrl } from '../../resources/scripts/config';
 import {
 	AnonymousRegistrationResponse,
 	apiPostAnonymousRegistration
@@ -62,7 +61,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		websocketConnectionDeactivated,
 		setWebsocketConnectionDeactivated
 	} = useContext(WebsocketConnectionDeactivatedContext);
-	const registrationUrl = `${uiUrl}/${props.consultingTypeSlug}/registration`;
+	const registrationUrl = `/${props.consultingTypeSlug}/registration`;
 
 	useEffect(() => {
 		const registeredUsername = getValueFromCookie('registeredUsername');
@@ -281,19 +280,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 									'anonymous.waitingroom.redirect.subline'
 								)}
 							/>
-							<div className="waitingRoom__redirectButton">
-								<a href={registrationUrl}>
-									<Button
-										item={{
-											label: translate(
-												'anonymous.waitingroom.redirect.button'
-											),
-											type: 'TERTIARY'
-										}}
-										isLink={true}
-									/>
-								</a>
-							</div>
 						</div>
 					</div>
 				</>

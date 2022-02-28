@@ -1,7 +1,9 @@
-$illustrationSize: 120px;
-$illustrationSizeLarge: 80px;
-$iconSize: 56px;
-$iconSizeLarge: 48px;
+$overlay-icon-size-xs: 24px !default;
+$overlay-steps-breakpoint: 400px !default;
+$overlay-illustration-size: 120px !default;
+$overlay-illustration-size-large: 80px !default;
+$overlay-icon-size: 56px !default;
+$overlay-icon-size-large: 48px !default;
 
 .overlay {
 	display: flex;
@@ -35,6 +37,7 @@ $iconSizeLarge: 48px;
 
 	&__content {
 		display: flex;
+		position: relative;
 		flex-direction: column;
 		width: 100vw;
 		height: 100vh;
@@ -44,13 +47,14 @@ $iconSizeLarge: 48px;
 		text-align: $overlay-text-align;
 		margin: auto;
 		padding: $grid-base-six $grid-base-three;
-		overflow: visible;
+		overflow: scroll;
 
 		@include breakpoint($fromLarge) {
 			width: 100%;
 			height: auto;
 			max-width: 720px;
 			padding: $grid-base-six;
+			overflow: visible;
 		}
 
 		animation: fadeIn linear 0.8s;
@@ -71,11 +75,118 @@ $iconSizeLarge: 48px;
 		}
 	}
 
+	&__closeIcon {
+		position: absolute;
+		top: 18px;
+		right: 18px;
+		cursor: pointer;
+
+		@include breakpoint($overlay-steps-breakpoint) {
+			top: 24px;
+			right: 24px;
+		}
+	}
+
+	&__steps {
+		display: flex;
+		flex-direction: row;
+		margin: 0 auto 36px;
+
+		.text {
+			color: var(--skin-color-primary-contrast-safe, $primary);
+			text-transform: uppercase;
+			display: none;
+
+			@include breakpoint($overlay-steps-breakpoint) {
+				display: block;
+			}
+		}
+	}
+
+	&__step {
+		display: flex;
+
+		&:not(:first-of-type) {
+			&::before {
+				content: '';
+				border-top: 1px solid $form-disabled;
+				margin: $overlay-icon-size-xs $grid-base $overlay-icon-size-xs;
+				width: 40px;
+
+				@include breakpoint($overlay-steps-breakpoint) {
+					margin: $overlay-icon-size-xs -14px $overlay-icon-size-xs;
+					width: 60px;
+				}
+			}
+		}
+
+		svg {
+			width: $overlay-icon-size-xs;
+			height: $overlay-icon-size-xs;
+			fill: var(--skin-color-primary, $primary);
+		}
+
+		.text {
+			margin-top: $grid-base;
+			text-align: center;
+			min-width: 104px;
+			max-width: 110px;
+		}
+
+		&--active {
+			.overlay__stepIcon {
+				background-color: var(--skin-color-primary, $primary);
+			}
+
+			svg {
+				fill: $white;
+			}
+		}
+
+		&--disabled {
+			.overlay__stepIcon {
+				border-color: $form-disabled;
+			}
+
+			.text {
+				color: $form-disabled;
+			}
+
+			svg {
+				fill: $form-disabled;
+			}
+		}
+	}
+
+	&__stepIcon {
+		width: calc(#{$overlay-icon-size-xs} * 2);
+		height: calc(#{$overlay-icon-size-xs} * 2);
+		border: 1px solid var(--skin-color-primary, $primary);
+		border-radius: $overlay-icon-size-xs;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__stepContent {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	&__stepHeadline {
+		font-weight: $font-weight-regular;
+
+		&--prefix {
+			font-weight: $font-weight-bold;
+		}
+	}
+
 	&__illustrationWrapper {
 		margin-bottom: $grid-base;
 
 		@include breakpoint($fromLarge) {
-			$size: $illustrationSizeLarge + $grid-base * 2;
+			$size: $overlay-illustration-size-large + $grid-base * 2;
 
 			display: inline-block;
 			background-color: $white;
@@ -93,27 +204,27 @@ $iconSizeLarge: 48px;
 		display: flex;
 		justify-content: center;
 		align-self: center;
-		height: $illustrationSize;
-		width: $illustrationSize;
+		height: $overlay-illustration-size;
+		width: $overlay-illustration-size;
 		margin-bottom: $grid-base-four;
 		margin-left: auto;
 		margin-right: auto;
 		background-color: $illustration-background-info;
-		border-radius: $illustrationSize / 2;
+		border-radius: $overlay-illustration-size / 2;
 
 		@include breakpoint($fromLarge) {
-			height: $illustrationSizeLarge;
-			width: $illustrationSizeLarge;
+			height: $overlay-illustration-size-large;
+			width: $overlay-illustration-size-large;
 		}
 
 		& > svg {
-			width: $iconSize;
-			height: $iconSize;
+			width: $overlay-icon-size;
+			height: $overlay-icon-size;
 			align-self: center;
 
 			@include breakpoint($fromLarge) {
-				width: $iconSizeLarge;
-				height: $iconSizeLarge;
+				width: $overlay-icon-size-large;
+				height: $overlay-icon-size-large;
 			}
 		}
 
@@ -141,20 +252,31 @@ $iconSizeLarge: 48px;
 
 	&__nestedComponent {
 		.inputField {
-			margin: $grid-base-three auto;
+			margin: $overlay-input-field-margin;
 			max-width: 325px;
 		}
 	}
 
+	&--stepped {
+		.text,
+		.headline {
+			text-align: $overlay-stepped-text-align;
+		}
+	}
+
+	&--stepped &__nestedComponent {
+		.inputField {
+			margin: $overlay-stepped-input-field-margin;
+		}
+	}
+
 	&__buttons {
-		$gap: $grid-base;
-		margin-top: $grid-base-two;
-		margin-left: -$gap;
+		margin: $overlay-button-margin;
 
 		> * {
 			display: inline-block;
-			margin-top: $gap;
-			margin-left: $gap;
+			margin-top: $grid-base;
+			margin-left: $grid-base;
 		}
 	}
 

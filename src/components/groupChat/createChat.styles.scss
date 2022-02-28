@@ -52,15 +52,15 @@ $inputSpacing: 32px;
 			svg {
 				width: $iconSize;
 				height: $iconSize;
-				fill: $secondary;
+				fill: var(--skin-color-secondary-contrast-safe, $secondary);
 				svg path {
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 				}
 
 				&:hover {
-					fill: $primary;
+					fill: var(--skin-color-primary, $primary);
 					svg path {
-						fill: $primary;
+						fill: var(--skin-color-primary, $primary);
 					}
 				}
 			}

@@ -128,7 +128,7 @@ describe('Sessions', () => {
 				cy.get('.sessionsListItem').should('exist');
 
 				cy.get('.sessionsList__scrollContainer').scrollTo('bottom');
-				cy.get('#loginRoot').should('exist');
+				cy.get('.loginForm').should('exist');
 			});
 		});
 	});

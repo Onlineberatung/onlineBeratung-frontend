@@ -6,13 +6,13 @@
 	&__standard {
 		font-size: $font-size-primary;
 		line-height: $line-height-primary;
-		color: $secondary;
+		color: $text-color-standard;
 	}
 
 	&__infoLargeStandard {
 		font-size: $font-size-tertiary;
 		line-height: 19px;
-		color: $secondary;
+		color: $text-color-info-large-standard;
 	}
 
 	&__infoLargeAlternative {
@@ -34,10 +34,10 @@
 	&__divider {
 		font-family: $font-family-divider;
 		font-size: $font-size-secondary;
-		font-weight: $text-divier-font-weight;
-		text-transform: $text-divier-text-transform;
+		font-weight: $text-divider-font-weight;
+		text-transform: $text-divider-text-transform;
 		line-height: $line-height-secondary;
-		color: $text-divider-color;
+		color: var(--skin-color-secondary-contrast-safe, $text-divider-color);
 		letter-spacing: $text-divider-letter-spacing;
 	}
 
@@ -52,7 +52,7 @@
 		}
 
 		&--notice {
-			color: $primary;
+			color: var(--skin-color-primary-contrast-safe, $primary);
 		}
 	}
 

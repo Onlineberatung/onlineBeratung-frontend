@@ -1,8 +1,14 @@
+$waiting-room-illustration-width: 65% !default;
+$waiting-room-illustration-background: $illustration-background-neutral !default;
+$waiting-room-page-background: $background-light !default;
+$waiting-room-subline-opacity: 1 !default;
+$link-text-decoration-hover: $link-text-decoration !default;
+
 .waitingRoom {
 	display: flex;
 	justify-content: center;
 	min-height: 100vh;
-	background-color: $background-light;
+	background-color: $waiting-room-page-background;
 
 	.header {
 		display: none;
@@ -42,6 +48,17 @@
 		.text + .text {
 			margin-top: $grid-base-three;
 		}
+
+		a {
+			color: $link-color;
+			text-decoration: $link-text-decoration;
+			font-weight: $link-font-weight;
+
+			&:hover {
+				color: $link-color-hover;
+				text-decoration: $link-text-decoration-hover;
+			}
+		}
 	}
 
 	&__headline {
@@ -56,6 +73,7 @@
 		font-family: $font-family-sans-serif;
 		font-weight: $font-weight-regular;
 		margin-top: $grid-base-two;
+		opacity: $waiting-room-subline-opacity;
 	}
 
 	&__illustration {
@@ -68,15 +86,15 @@
 		margin: 0 auto;
 
 		svg {
-			width: 65%;
-			height: 65%;
+			width: $waiting-room-illustration-width;
+			height: $waiting-room-illustration-width;
 			z-index: 2;
 		}
 
 		&::after {
 			content: '';
 			position: absolute;
-			background-color: $illustration-background-neutral;
+			background-color: $waiting-room-illustration-background;
 			height: 100%;
 			width: 100%;
 			border-radius: 100%;
@@ -123,16 +141,6 @@
 		&--loading {
 			color: $tertiary;
 			font-weight: $font-weight-regular;
-		}
-	}
-
-	&__redirectButton {
-		display: flex;
-		justify-content: center;
-		margin-top: $grid-base-three;
-
-		@include breakpoint($fromLarge) {
-			justify-content: start;
 		}
 	}
 

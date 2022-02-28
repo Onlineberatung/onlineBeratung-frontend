@@ -1,17 +1,16 @@
+import { FETCH_ERRORS } from '../../api';
 import { config } from '../../resources/scripts/config';
 import { LoginData } from '../registration/autoLogin';
 
 export const getKeycloakAccessToken = (
 	username: string,
-	password: string
+	password: string,
+	otp?: string
 ): Promise<LoginData> =>
 	new Promise((resolve, reject) => {
-		const data =
-			'username=' +
-			username +
-			'&password=' +
-			password +
-			'&client_id=app&grant_type=password';
+		const data = `username=${username}&password=${password}${
+			otp ? `&otp=${otp}` : ``
+		}&client_id=app&grant_type=password`;
 		const url = config.endpoints.keycloakAccessToken;
 
 		const req = new Request(url, {
@@ -29,8 +28,10 @@ export const getKeycloakAccessToken = (
 				if (response.status === 200) {
 					const data = response.json();
 					resolve(data);
-				} else if (response.status === 400 || response.status === 401) {
-					reject(new Error('keycloakLogin'));
+				} else if (response.status === 400) {
+					reject(new Error(FETCH_ERRORS.BAD_REQUEST));
+				} else if (response.status === 401) {
+					reject(new Error(FETCH_ERRORS.UNAUTHORIZED));
 				}
 			})
 			.catch((error) => {

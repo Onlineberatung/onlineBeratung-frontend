@@ -5,6 +5,10 @@ $iconSize: 24px;
 $profileIconSize: 72px;
 $groupChatIconSize: 40px;
 $maxFormElementWidth: 320px;
+$profile-imprint-background-color-desktop: $background-light !default;
+$profile-content-wrapper-detail-button-text-align: center !default;
+$profile-select-margin-left: auto !default;
+$profile-select-padding-left: $grid-base-three !default;
 
 .profile {
 	&__wrapper {
@@ -235,6 +239,11 @@ $maxFormElementWidth: 320px;
 		.editableData {
 			margin-top: 12px;
 		}
+
+		.select__wrapper {
+			margin-left: $profile-select-margin-left;
+			padding-left: $profile-select-padding-left;
+		}
 	}
 
 	&__security {
@@ -308,7 +317,7 @@ $maxFormElementWidth: 320px;
 		justify-content: center;
 		margin-top: auto;
 		padding: 2px $grid-base-two;
-		background-color: $dark-grey;
+		background-color: $profile-imprint-background-color-mobile;
 		margin-bottom: $grid-base-nine;
 		width: 100%;
 
@@ -317,25 +326,25 @@ $maxFormElementWidth: 320px;
 		}
 
 		@include breakpoint($fromLarge) {
+			min-height: $imprintHeight;
+			position: absolute;
+			bottom: 0;
 			justify-content: flex-start;
 			width: 100%;
 			margin-bottom: unset;
-			background-color: $background-light;
-			position: absolute;
-			min-height: $imprintHeight;
+			background-color: $profile-imprint-background-color-desktop;
 			z-index: 100;
-			bottom: 0;
 		}
 
 		&__item {
-			color: $secondary;
+			color: var(--skin-color-default, $secondary);
 
 			&:not(:first-child) {
 				margin-left: 20px;
 			}
 
 			&:hover {
-				color: $primary;
+				color: var(--skin-color-default, $primary);
 			}
 		}
 	}
@@ -354,7 +363,7 @@ $maxFormElementWidth: 320px;
 			}
 
 			.button__wrapper {
-				text-align: center;
+				text-align: $profile-content-wrapper-detail-button-text-align;
 			}
 		}
 
@@ -385,15 +394,18 @@ $maxFormElementWidth: 320px;
 				svg {
 					width: $iconSize;
 					height: $iconSize;
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 					svg path {
-						fill: $secondary;
+						fill: var(
+							--skin-color-secondary-contrast-safe,
+							$secondary
+						);
 					}
 
 					&:hover {
-						fill: $primary;
+						fill: var(--skin-color-primary, $primary);
 						svg path {
-							fill: $primary;
+							fill: var(--skin-color-primary, $primary);
 						}
 					}
 				}
@@ -428,7 +440,7 @@ $maxFormElementWidth: 320px;
 
 			&:hover {
 				svg * {
-					fill: $primary;
+					fill: var(--skin-color-primary, $primary);
 				}
 			}
 		}

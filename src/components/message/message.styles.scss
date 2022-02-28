@@ -1,6 +1,7 @@
 $icon-size: 24px;
 $icon-size-small: 16px;
 $message-lineheight: 21px;
+$message-attachment-color: $secondary !default;
 
 .messageItem {
 	margin-bottom: $grid-base-two;
@@ -27,7 +28,7 @@ $message-lineheight: 21px;
 		text-decoration: underline;
 
 		&:hover {
-			color: $primary;
+			color: var(--skin-color-primary-contrast-safe, $primary);
 			transition: unset;
 		}
 
@@ -106,14 +107,8 @@ $message-lineheight: 21px;
 		display: flex;
 		align-items: center;
 		width: 200px;
-		font-family: $font-family-divider;
-		font-size: $font-size-secondary;
-		line-height: $line-height-secondary;
 		text-align: center;
 		margin: $grid-base-four auto $grid-base-two;
-		color: $message-item-divider-color;
-		font-weight: $message-item-divider-font-weight;
-		letter-spacing: $message-item-divider-letter-spacing;
 
 		@include breakpoint($fromLarge) {
 			width: 280px;
@@ -123,7 +118,8 @@ $message-lineheight: 21px;
 		&::after {
 			content: '';
 			display: inline-block;
-			border-top: 1px solid $message-item-divider-line-color;
+			border-top: 1px solid
+				var(--skin-color-secondary-contrast-safe, $text-divider-color);
 			width: $grid-base-three;
 			vertical-align: middle;
 			margin: 0 $grid-base;
@@ -131,11 +127,11 @@ $message-lineheight: 21px;
 		}
 
 		&--lastRead {
-			color: $primary;
+			color: var(--skin-color-primary-contrast-safe, $primary);
 
 			&::before,
 			&::after {
-				border-top: 1px solid $primary;
+				border-top: 1px solid var(--skin-color-primary, $primary);
 			}
 		}
 
@@ -145,7 +141,7 @@ $message-lineheight: 21px;
 	}
 
 	&__message {
-		color: $secondary;
+		color: var(--skin-color-default, $secondary);
 		line-height: $message-lineheight;
 		background-color: $white;
 		border-radius: 0 12px 12px;
@@ -200,9 +196,15 @@ $message-lineheight: 21px;
 			align-items: center;
 			background-color: $dark-grey;
 			border-radius: $icon-size;
-			color: $secondary;
+			color: $message-attachment-color;
 			padding: 6px $grid-base-three 5px 12px;
 			max-width: 350px;
+
+			&__icon svg {
+				* {
+					fill: $message-attachment-color;
+				}
+			}
 
 			&__download {
 				display: flex;
@@ -212,8 +214,16 @@ $message-lineheight: 21px;
 
 				p {
 					margin: 0;
-					color: $secondary;
+					color: var(--text-color-contrast-switch, $secondary);
 					line-height: $icon-size;
+				}
+
+				&:hover p {
+					color: var(--text-color-contrast-switch, $primary);
+				}
+
+				svg * {
+					fill: var(--text-color-contrast-switch, $primary);
 				}
 			}
 
@@ -227,22 +237,6 @@ $message-lineheight: 21px;
 					width: $icon-size;
 					height: $icon-size;
 					margin-right: $grid-base;
-					* {
-						fill: $secondary;
-					}
-				}
-			}
-
-			&__download {
-				&:hover {
-					p {
-						color: $primary;
-					}
-					svg {
-						* {
-							fill: $primary;
-						}
-					}
 				}
 			}
 
@@ -254,29 +248,30 @@ $message-lineheight: 21px;
 		}
 
 		&--myMessage {
-			color: $white;
-			background-color: $message-background;
+			color: var(--text-color-contrast-switch, $white);
+			background-color: var(--skin-color-primary, $message-background);
 
 			.messageItem__message__attachment {
 				background-color: $white;
 
 				&__download {
 					svg * {
-						fill: $white;
+						fill: var(--text-color-contrast-switch, $white);
 					}
 
 					svg {
 						&:hover {
 							* {
-								fill: $white;
+								fill: var(--text-color-contrast-switch, $white);
 							}
 						}
 					}
 
 					p {
-						color: $white;
+						color: var(--text-color-contrast-switch, $white);
+
 						&:hover {
-							color: $white;
+							color: var(--text-color-contrast-switch, $white);
 						}
 					}
 				}
@@ -284,7 +279,7 @@ $message-lineheight: 21px;
 
 			a,
 			a:hover {
-				color: $white;
+				color: var(--text-color-contrast-switch, $white);
 			}
 		}
 
@@ -301,10 +296,10 @@ $message-lineheight: 21px;
 		cursor: pointer;
 
 		svg {
-			fill: $secondary;
+			fill: var(--skin-color-secondary, $secondary);
 
-			path: {
-				fill: $secondary;
+			path {
+				fill: var(--skin-color-secondary, $secondary);
 			}
 
 			&.forward {
@@ -320,7 +315,7 @@ $message-lineheight: 21px;
 			}
 
 			&:hover path {
-				fill: $primary;
+				fill: var(--skin-color-primary, $primary);
 			}
 
 			&.success {
@@ -432,7 +427,7 @@ $message-lineheight: 21px;
 		padding-bottom: 2px;
 
 		* {
-			fill: $secondary;
+			fill: var(--skin-color-secondary-contrast-safe, $secondary);
 		}
 	}
 

@@ -17,7 +17,7 @@
 	}
 
 	&__sectionTitle {
-		color: $secondary;
+		color: var(--skin-color-secondary, $secondary);
 		text-align: center;
 		margin-bottom: $grid-base-five;
 	}
@@ -56,11 +56,11 @@
 		}
 
 		.monitoringAccordion__checkIcon {
-			align-self: right;
+			align-self: flex-end;
 			flex-shrink: 0;
 
 			* {
-				fill: $primary;
+				fill: var(--skin-color-primary, $primary);
 			}
 		}
 
@@ -74,7 +74,7 @@
 			}
 
 			svg * {
-				fill: $primary;
+				fill: var(--skin-color-primary, $primary);
 			}
 		}
 
@@ -108,12 +108,15 @@
 					position: absolute;
 					width: calc(100% + 32px);
 					height: 100%;
-					background-color: rgba($primary, 0.05);
+					background-color: rgba(
+						var(--skin-color-primary, $primary),
+						0.05
+					);
 					top: 0;
 					left: -16px;
 					z-index: 1;
 					border-bottom: 1px solid transparent;
-					color: $primary;
+					color: var(--skin-color-primary-contrast-safe, $primary);
 				}
 			}
 		}
@@ -133,12 +136,15 @@
 				position: absolute;
 				width: calc(100% + 32px);
 				height: 100%;
-				background-color: rgba($primary, 0.05);
+				background-color: rgba(
+					var(--skin-color-primary, $primary),
+					0.05
+				);
 				top: 0;
 				left: -16px;
 				z-index: 1;
 				border-bottom: 1px solid transparent;
-				color: $primary;
+				color: var(--skin-color-primary-contrast-safe, $primary);
 			}
 		}
 

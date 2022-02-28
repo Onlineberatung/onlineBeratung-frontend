@@ -9,6 +9,8 @@ const userProfile = {
 	'data.state': 'Bundesland',
 	'monitoring.title': 'Monitoring',
 	'reassign.title': 'Zuordnung',
+	'reassign.description':
+		'Wenn sich jemand anderes um diese Person kümmern soll, können Sie die bisherige Unterhaltung übergeben.',
 	'monitoring.buttonLabel': 'Jetzt dokumentieren'
 };
 

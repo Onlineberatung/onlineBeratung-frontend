@@ -1,3 +1,6 @@
+$registration-form-overline-display: block !default;
+$registration-form-headline-margin-bottom: 24px;
+
 .registrationForm {
 	margin: 120px 0;
 	max-width: $registration-form-max-width;
@@ -24,13 +27,24 @@
 
 	&__submit {
 		margin-top: $grid-base-four;
+		margin-left: $registration-form-margin-left;
+	}
+
+	&__overline,
+	&__headline {
+		margin-left: $registration-form-margin-left;
 	}
 
 	&__overline {
-		color: $secondary;
+		display: $registration-form-overline-display;
+		color: var(--skin-color-secondary-contrast-safe, $secondary);
 		font-weight: $font-weight-regular;
 		margin: 0;
 		font-size: $font-size-primary;
+	}
+
+	&__headline {
+		margin-bottom: $registration-form-headline-margin-bottom;
 	}
 
 	&__passwordNote {

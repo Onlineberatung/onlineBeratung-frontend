@@ -181,9 +181,9 @@ Cypress.Commands.add(
 
 		cy.intercept('POST', config.endpoints.rejectVideoCall, {});
 
-		cy.visit('login.html');
+		cy.visit('/login');
 
-		cy.get('#loginRoot');
+		cy.get('.loginForm');
 		cy.get('#username').type('username', { force: true });
 		cy.get('#passwordInput').type('password', {
 			force: true

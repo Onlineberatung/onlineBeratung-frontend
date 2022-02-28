@@ -4,7 +4,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
 .navigation {
 	&__wrapper {
-		background-color: $primary;
+		background-color: var(--skin-color-primary, $primary);
 
 		&--mobileHidden {
 			display: none !important;
@@ -48,7 +48,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		height: $grid-base-five;
 		width: $grid-base-five;
 		margin: 0;
-		color: $white;
+		color: var(--text-color-contrast-switch, $white);
 		text-align: center;
 		text-decoration: none;
 
@@ -76,7 +76,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		}
 
 		&__count {
-			color: $primary;
+			color: var(--skin-color-primary-contrast-safe, $primary);
 			background-color: $white;
 			opacity: 0.7;
 			transition: opacity 0.6s ease;
@@ -134,7 +134,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
 		&:hover,
 		&--active {
-			color: $white;
+			color: var(--text-color-contrast-switch, $white);
 
 			.navigation__title {
 				opacity: 1;

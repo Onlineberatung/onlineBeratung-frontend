@@ -14,9 +14,20 @@ $checkbox-size: 24px;
 
 	&__label {
 		cursor: pointer;
-		color: $secondary;
+		color: var(--skin-color-default, $secondary);
 		margin: 0 0 0 12px;
 		line-height: 24px;
+
+		&--complex {
+			.text:first-of-type,
+			div {
+				float: left;
+			}
+
+			div {
+				margin: 0 3px;
+			}
+		}
 	}
 
 	&__input {
@@ -47,10 +58,12 @@ $checkbox-size: 24px;
 	}
 
 	&__icon {
-		color: $primary;
+		color: var(--skin-color-default, $primary);
 		left: 0;
 		padding: 2px;
 		position: absolute;
+		top: -1px;
+		left: 0;
 		z-index: 0;
 	}
 }
