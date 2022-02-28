@@ -69,7 +69,7 @@ export const App = ({
 			if (!canGoBack) {
 				CapacitorApp.exitApp();
 			} else {
-				window.history.back();
+				history.goBack();
 			}
 		});
 	}, []);

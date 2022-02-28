@@ -10,11 +10,13 @@ android {
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
     implementation project(':capacitor-app')
-    implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-native-biometric')
-
+    implementation "com.wonderpush:wonderpush-android-sdk:4.1.3"
+    implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
+    implementation "com.wonderpush:wonderpush-android-sdk-fcm:1.0.5"
 }
-
+apply from: "../../node_modules/wonderpush-cordova-sdk/build-extras.gradle"
+apply from: "../../node_modules/wonderpush-cordova-sdk-fcm/build-extras.gradle"
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()

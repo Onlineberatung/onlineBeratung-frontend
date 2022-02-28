@@ -14,7 +14,6 @@
 		"@capacitor/app": "^1.1.0",
 		"@capacitor/core": "^3.3.1",
 		"@capacitor/ios": "^3.3.1",
-		"@capacitor/push-notifications": "^1.0.9",
 		"@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
 		"@stomp/stompjs": "6.1.0",
 		"@svgr/webpack": "5.5.0",
@@ -107,6 +106,8 @@
 		"webpack-dev-server": "3.11.2",
 		"webpack-manifest-plugin": "3.1.1",
 		"whatwg-fetch": "^3.6.2",
+		"wonderpush-cordova-sdk": "^3.0.16",
+		"wonderpush-cordova-sdk-fcm": "^1.0.6",
 		"workbox-webpack-plugin": "^6.2.4"
 	},
 	"devDependencies": {

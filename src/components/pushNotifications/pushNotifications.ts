@@ -1,58 +1,28 @@
-import { PushNotifications } from '@capacitor/push-notifications';
-import { Capacitor } from '@capacitor/core';
+import { useEffect, useState } from 'react';
+import WonderPush from 'wonderpush-cordova-sdk';
 import { history } from '../app/app';
 
-export const registerPushNotifications = () => {
-	if (Capacitor.getPlatform() !== 'web') {
-		registerNotifications();
-		addNotifactionsListeners();
-	}
-};
+export const RegisterPushNotifications = () => {
+	const [notificationData, setNotificationData] = useState<string>(null);
 
-const registerNotifications = async () => {
-	let permStatus = await PushNotifications.checkPermissions();
+	useEffect(() => {
+		WonderPush.subscribeToNotifications();
+		document.addEventListener(
+			'wonderpush.registeredCallback',
+			function (event: any) {
+				if (event.method === 'openChat') {
+					setNotificationData(event.arg);
+				}
+			},
+			false
+		);
+	}, []);
 
-	if (permStatus.receive === 'prompt') {
-		permStatus = await PushNotifications.requestPermissions();
-	}
-
-	if (permStatus.receive !== 'granted') {
-		throw new Error('User denied permissions!');
-	}
-
-	await PushNotifications.register();
-};
-
-const addNotifactionsListeners = async () => {
-	await PushNotifications.addListener('registration', (token) => {
-		console.info('Registration token: ', token.value);
-	});
-
-	await PushNotifications.addListener('registrationError', (err) => {
-		console.error('Registration error: ', err.error);
-	});
-
-	await PushNotifications.addListener(
-		'pushNotificationReceived',
-		(notification) => {
-			console.log('Push notification received: ', notification);
-			alert(notification.title);
+	useEffect(() => {
+		if (notificationData) {
+			history.push(notificationData);
 		}
-	);
+	}, [notificationData]);
 
-	await PushNotifications.addListener(
-		'pushNotificationActionPerformed',
-		(notification) => {
-			if (notification.notification.data.path) {
-				history.push(notification.notification.data.path);
-			} else {
-				// remove, only for test notifications
-				history.push(
-					`/sessions/consultant/sessionView/upc6HWovEvXLXYtMQ/1645`
-				);
-			}
-
-			console.log('Push notification action performed', notification);
-		}
-	);
+	return null;
 };

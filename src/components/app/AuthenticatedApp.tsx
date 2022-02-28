@@ -40,7 +40,8 @@ import {
 	checkForBiometricAvailability,
 	checkForExistingCredentials
 } from '../../utils/biometricAuthenticationHelpers';
-import { registerPushNotifications } from '../pushNotifications/pushNotifications';
+import { RegisterPushNotifications } from '../pushNotifications/pushNotifications';
+import { Capacitor } from '@capacitor/core';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -123,9 +124,6 @@ export const AuthenticatedApp = ({
 
 	useEffect(() => {
 		onAppReady();
-		if (appReady) {
-			registerPushNotifications();
-		}
 	}, [appReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleLogout = useCallback(() => {
@@ -151,6 +149,11 @@ export const AuthenticatedApp = ({
 				/>
 				{notifications && (
 					<Notifications notifications={notifications} />
+				)}
+				{Capacitor.getPlatform() !== 'web' ? (
+					<RegisterPushNotifications />
+				) : (
+					''
 				)}
 			</>
 		);

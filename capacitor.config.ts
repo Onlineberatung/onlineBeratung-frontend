@@ -9,9 +9,6 @@ const config: CapacitorConfig = {
 		SplashScreen: {
 			launchShowDuration: 0,
 			androidScaleType: 'CENTER_CROP'
-		},
-		PushNotifications: {
-			presentationOptions: ['badge', 'sound', 'alert']
 		}
 	},
 	server: {
