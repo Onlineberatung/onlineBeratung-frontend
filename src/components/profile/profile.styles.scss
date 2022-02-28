@@ -213,11 +213,6 @@ $maxFormElementWidth: 320px;
 		&__title {
 			position: relative;
 			margin-bottom: $grid-base-three;
-			text-align: center;
-
-			@include breakpoint($fromLarge) {
-				text-align: left;
-			}
 
 			.text {
 				margin-top: $grid-base;
