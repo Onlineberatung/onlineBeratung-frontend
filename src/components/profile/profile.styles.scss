@@ -93,7 +93,7 @@ $profile-select-padding-left: $grid-base-three !default;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		margin: $grid-base-twelve 0 $grid-base-nine;
+		margin: $grid-base-twelve 0 0 0;
 		background-color: $background-light;
 		overflow-x: auto;
 
@@ -316,24 +316,24 @@ $profile-select-padding-left: $grid-base-three !default;
 		align-items: center;
 		justify-content: center;
 		margin-top: auto;
-		padding: 0 $grid-base-two;
+		padding: 2px $grid-base-two;
 		background-color: $profile-imprint-background-color-mobile;
-		min-height: $imprintHeight;
-		position: absolute;
-		bottom: 0;
 		margin-bottom: $grid-base-nine;
 		width: 100%;
-		z-index: 100;
 
 		@include breakpoint($fromMedium) {
-			padding: 0 $grid-base-three;
+			padding: 2px $grid-base-three;
 		}
 
 		@include breakpoint($fromLarge) {
+			min-height: $imprintHeight;
+			position: absolute;
+			bottom: 0;
 			justify-content: flex-start;
 			width: 100%;
 			margin-bottom: unset;
 			background-color: $profile-imprint-background-color-desktop;
+			z-index: 100;
 		}
 
 		&__item {
