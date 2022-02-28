@@ -109,6 +109,11 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 			? secondaryColor
 			: 'var(--skin-color-default)';
 
+	const primaryColorContrastSafe =
+		primaryHSL.l > contrastThreshold
+			? 'var(--skin-color-primary-foreground-dark)'
+			: primaryColor;
+
 	document.head.insertAdjacentHTML(
 		'beforeend',
 		`<style>
@@ -131,11 +136,7 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 			adjust: 90
 		})};
 		--skin-color-secondary-contrast-safe: ${secondaryColorContrastSafe};
-		--skin-color-link: ${
-			primaryHSL.l > contrastThreshold
-				? 'var(--skin-color-primary-foreground-dark)'
-				: primaryColor
-		};
+		--skin-color-primary-contrast-safe: ${primaryColorContrastSafe};
 		--text-color-contrast-switch: ${textColorContrastSwitch};
 		--text-color-secondary-contrast-switch: ${textColorSecondaryContrastSwitch};
 		}

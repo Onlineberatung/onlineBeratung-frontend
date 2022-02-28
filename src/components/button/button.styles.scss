@@ -109,7 +109,7 @@ $buttonHeight: 50px;
 	}
 
 	&__link {
-		color: var(--skin-color-link, $primary);
+		color: var(--skin-color-primary-contrast-safe, $primary);
 		background: none;
 		height: 21px;
 
@@ -118,10 +118,10 @@ $buttonHeight: 50px;
 		}
 
 		&:not([disabled]):hover {
-			color: var(--skin-color-link, $hover-primary);
+			color: var(--skin-color-primary-contrast-safe, $hover-primary);
 
 			svg * {
-				fill: var(--skin-color-link, $hover-primary);
+				fill: var(--skin-color-primary-contrast-safe, $hover-primary);
 			}
 		}
 

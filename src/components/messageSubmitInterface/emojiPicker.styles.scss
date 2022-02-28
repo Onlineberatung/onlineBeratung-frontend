@@ -179,7 +179,7 @@ $emoji-popover-height: 433px;
 		outline: none;
 	}
 	.emoji__selectPopover__navEntry--active {
-		color: var(--skin-color-primary, $primary);
+		color: var(--skin-color-primary-contrast-safe, $primary);
 	}
 	.emoji__selectPopover__scrollbar {
 		position: absolute;

@@ -93,7 +93,7 @@ $overlay-icon-size-large: 48px !default;
 		margin: 0 auto 36px;
 
 		.text {
-			color: var(--skin-color-link, $primary);
+			color: var(--skin-color-primary-contrast-safe, $primary);
 			text-transform: uppercase;
 			display: none;
 
