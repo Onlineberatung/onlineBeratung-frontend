@@ -89,7 +89,7 @@ $maxFormElementWidth: 320px;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		margin: $grid-base-twelve 0 $grid-base-nine;
+		margin: $grid-base-twelve 0;
 		background-color: $background-light;
 		overflow-x: auto;
 
@@ -307,17 +307,13 @@ $maxFormElementWidth: 320px;
 		align-items: center;
 		justify-content: center;
 		margin-top: auto;
-		padding: 0 $grid-base-two;
+		padding: 2px $grid-base-two;
 		background-color: $dark-grey;
-		min-height: $imprintHeight;
-		position: absolute;
-		bottom: 0;
 		margin-bottom: $grid-base-nine;
 		width: 100%;
-		z-index: 100;
 
 		@include breakpoint($fromMedium) {
-			padding: 0 $grid-base-three;
+			padding: 2px $grid-base-three;
 		}
 
 		@include breakpoint($fromLarge) {
@@ -325,6 +321,10 @@ $maxFormElementWidth: 320px;
 			width: 100%;
 			margin-bottom: unset;
 			background-color: $background-light;
+			position: absolute;
+			min-height: $imprintHeight;
+			z-index: 100;
+			bottom: 0;
 		}
 
 		&__item {
