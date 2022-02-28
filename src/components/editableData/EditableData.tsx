@@ -20,6 +20,8 @@ export interface EditableDataProps {
 	isEmailAlreadyInUse?: boolean;
 	isSingleClearable?: boolean;
 	onSingleClear?: Function;
+	onSingleFocus?: Function;
+	onBeforeRemoveButtonClick?: (callback) => void;
 }
 
 export const EditableData = ({
@@ -32,7 +34,9 @@ export const EditableData = ({
 	onSingleEditActive,
 	onSingleClear,
 	label: initialLabel,
-	type
+	type,
+	onSingleFocus,
+	onBeforeRemoveButtonClick
 }: EditableDataProps) => {
 	const [inputValue, setInputValue] = useState<string>(initialValue ?? '');
 	const [isValid, setIsValid] = useState<boolean>(true);
@@ -80,6 +84,7 @@ export const EditableData = ({
 
 	const handleFocus = (event) => {
 		event.target.select();
+		if (onSingleFocus) onSingleFocus();
 	};
 
 	const handleInputValueChange = (event) => {
@@ -104,9 +109,16 @@ export const EditableData = ({
 	};
 
 	const handleRemoveButtonClick = () => {
-		setInputValue('');
-		setIsValid(false);
-		inputFieldRef.current.focus();
+		const clearInput = () => {
+			setInputValue('');
+			setIsValid(false);
+			inputFieldRef.current.focus();
+		};
+		if (onBeforeRemoveButtonClick) {
+			onBeforeRemoveButtonClick(clearInput);
+		} else {
+			clearInput();
+		}
 	};
 
 	return (

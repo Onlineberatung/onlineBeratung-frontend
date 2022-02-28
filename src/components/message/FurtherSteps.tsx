@@ -34,9 +34,15 @@ import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
 import { isVoluntaryInfoSet } from './messageHelpers';
 import { getChatItemForSession } from '../session/sessionHelpers';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { history } from '../app/app';
 
 const addEmailButton: ButtonItem = {
 	label: translate('furtherSteps.emailNotification.button'),
+	type: BUTTON_TYPES.LINK
+};
+
+const add2faButton: ButtonItem = {
+	label: translate('furtherSteps.twoFactorAuth.button'),
 	type: BUTTON_TYPES.LINK
 };
 
@@ -63,6 +69,8 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
 	const chatItem = getChatItemForSession(activeSession);
+	const is2faEnabledAndNotActive =
+		userData.twoFactorAuth?.isEnabled && !userData.twoFactorAuth?.isActive;
 
 	useEffect(() => {
 		if (userData.consultingTypes) {
@@ -194,6 +202,13 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 		userData
 	);
 
+	const redirectTo2FA = () => {
+		history.push({
+			pathname: '/profile',
+			openTwoFactor: true
+		});
+	};
+
 	return (
 		<div className="furtherSteps">
 			{!props.onlyShowVoluntaryInfo && (
@@ -278,6 +293,27 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 									/>
 								</OverlayWrapper>
 							)}
+						</>
+					)}
+					{!isConsultant && is2faEnabledAndNotActive && (
+						<>
+							<Headline
+								semanticLevel="5"
+								text={translate(
+									'furtherSteps.twoFactorAuth.headline'
+								)}
+							/>
+							<Text
+								type="standard"
+								text={translate(
+									'furtherSteps.twoFactorAuth.infoText'
+								)}
+								className="furtherSteps__infoText"
+							/>
+							<Button
+								item={add2faButton}
+								buttonHandle={redirectTo2FA}
+							/>
 						</>
 					)}
 				</>
