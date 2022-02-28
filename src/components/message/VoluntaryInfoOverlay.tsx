@@ -161,7 +161,7 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 					'furtherSteps.voluntaryInfo.overlay.button2.label'
 				),
 				function: OVERLAY_FUNCTIONS.CLOSE,
-				type: BUTTON_TYPES.LINK
+				type: BUTTON_TYPES.SECONDARY
 			}
 		],
 		headline: translate('furtherSteps.voluntaryInfo.overlay.headline'),

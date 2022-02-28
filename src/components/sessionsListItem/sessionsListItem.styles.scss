@@ -3,7 +3,7 @@ $icon-size-small: 16px;
 
 .sessionsListItem {
 	display: flex;
-	color: $secondary;
+	color: $body-font-color;
 	margin-bottom: 3px;
 	transition: all 0.6s ease;
 	animation: appearSessionListItem 300ms ease forwards;
@@ -88,7 +88,7 @@ $icon-size-small: 16px;
 
 	&__row {
 		display: flex;
-		color: $secondary;
+		color: var(--skin-color-default, $secondary);
 		&:first-child {
 			justify-content: space-between;
 			color: $tertiary;
@@ -124,7 +124,6 @@ $icon-size-small: 16px;
 		min-width: 100px;
 		text-align: right;
 		align-self: flex-end;
-		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
@@ -138,11 +137,11 @@ $icon-size-small: 16px;
 		display: inline-block;
 		word-break: keep-all;
 		cursor: pointer;
-		color: $secondary;
+		color: var(--skin-color-secondary, $secondary);
 		transition: background-color 0.5s ease-out;
 
 		&:hover {
-			color: $secondary;
+			color: var(--skin-color-secondary, $secondary);
 			background-color: $yellow-4;
 		}
 	}
@@ -181,7 +180,7 @@ $icon-size-small: 16px;
 		background-color: $upload-progress;
 		display: inline-block;
 		word-break: keep-all;
-		color: $secondary;
+		color: var(--skin-color-secondary, $secondary);
 		align-self: flex-end;
 		margin: 5px 0 auto;
 	}
@@ -201,7 +200,7 @@ $icon-size-small: 16px;
 				height: $icon-size-small;
 
 				* {
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 				}
 			}
 		}
@@ -213,7 +212,7 @@ $icon-size-small: 16px;
 		height: $icon-size-small;
 
 		* {
-			fill: $secondary;
+			fill: var(--skin-color-secondary-contrast-safe, $secondary);
 		}
 	}
 
@@ -251,7 +250,7 @@ $icon-size-small: 16px;
 
 		@keyframes pulse {
 			0% {
-				background-position: 0% 0%;
+				background-position: 0;
 			}
 			100% {
 				background-position: -135% 0%;

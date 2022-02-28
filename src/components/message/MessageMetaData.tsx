@@ -34,7 +34,7 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 		if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) ||
-			activeSession.isFeedbackSession ||
+			activeSession?.isFeedbackSession ||
 			props.isReadStatusDisabled
 		) {
 			return null;

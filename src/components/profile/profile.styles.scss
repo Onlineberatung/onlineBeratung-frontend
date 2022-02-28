@@ -5,6 +5,10 @@ $iconSize: 24px;
 $profileIconSize: 72px;
 $groupChatIconSize: 40px;
 $maxFormElementWidth: 320px;
+$profile-imprint-background-color-desktop: $background-light !default;
+$profile-content-wrapper-detail-button-text-align: center !default;
+$profile-select-margin-left: auto !default;
+$profile-select-padding-left: $grid-base-three !default;
 
 .profile {
 	&__wrapper {
@@ -89,7 +93,7 @@ $maxFormElementWidth: 320px;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		margin: $grid-base-twelve 0 $grid-base-nine;
+		margin: $grid-base-twelve 0 0 0;
 		background-color: $background-light;
 		overflow-x: auto;
 
@@ -230,6 +234,11 @@ $maxFormElementWidth: 320px;
 		.editableData {
 			margin-top: 12px;
 		}
+
+		.select__wrapper {
+			margin-left: $profile-select-margin-left;
+			padding-left: $profile-select-padding-left;
+		}
 	}
 
 	&__security {
@@ -302,35 +311,35 @@ $maxFormElementWidth: 320px;
 		align-items: center;
 		justify-content: center;
 		margin-top: auto;
-		padding: 0 $grid-base-two;
-		background-color: $dark-grey;
-		min-height: $imprintHeight;
-		position: absolute;
-		bottom: 0;
+		padding: 2px $grid-base-two;
+		background-color: $profile-imprint-background-color-mobile;
 		margin-bottom: $grid-base-nine;
 		width: 100%;
-		z-index: 100;
 
 		@include breakpoint($fromMedium) {
-			padding: 0 $grid-base-three;
+			padding: 2px $grid-base-three;
 		}
 
 		@include breakpoint($fromLarge) {
+			min-height: $imprintHeight;
+			position: absolute;
+			bottom: 0;
 			justify-content: flex-start;
 			width: 100%;
 			margin-bottom: unset;
-			background-color: $background-light;
+			background-color: $profile-imprint-background-color-desktop;
+			z-index: 100;
 		}
 
 		&__item {
-			color: $secondary;
+			color: var(--skin-color-default, $secondary);
 
 			&:not(:first-child) {
 				margin-left: 20px;
 			}
 
 			&:hover {
-				color: $primary;
+				color: var(--skin-color-default, $primary);
 			}
 		}
 	}
@@ -349,7 +358,7 @@ $maxFormElementWidth: 320px;
 			}
 
 			.button__wrapper {
-				text-align: center;
+				text-align: $profile-content-wrapper-detail-button-text-align;
 			}
 		}
 
@@ -380,15 +389,18 @@ $maxFormElementWidth: 320px;
 				svg {
 					width: $iconSize;
 					height: $iconSize;
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 					svg path {
-						fill: $secondary;
+						fill: var(
+							--skin-color-secondary-contrast-safe,
+							$secondary
+						);
 					}
 
 					&:hover {
-						fill: $primary;
+						fill: var(--skin-color-primary, $primary);
 						svg path {
-							fill: $primary;
+							fill: var(--skin-color-primary, $primary);
 						}
 					}
 				}
@@ -423,7 +435,7 @@ $maxFormElementWidth: 320px;
 
 			&:hover {
 				svg * {
-					fill: $primary;
+					fill: var(--skin-color-primary, $primary);
 				}
 			}
 		}

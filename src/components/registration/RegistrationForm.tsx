@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ComponentType } from 'react';
 import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
@@ -29,12 +29,14 @@ import {
 	ConsultingTypeInterface
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
-import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
+import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 import { getUrlParameter } from '../../utils/getUrlParameter';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './registrationForm.styles';
 
 interface RegistrationFormProps {
 	consultingType: ConsultingTypeInterface;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
 interface FormAccordionData {
@@ -46,7 +48,10 @@ interface FormAccordionData {
 	age?: string;
 }
 
-export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
+export const RegistrationForm = ({
+	consultingType,
+	legalComponent: LegalComponent
+}: RegistrationFormProps) => {
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>();
 	const [preselectedAgencyData, setPreselectedAgencyData] =
@@ -119,7 +124,13 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 		name: 'dataProtectionCheckbox',
 		labelId: 'dataProtectionLabel',
 		label: translate('registration.dataProtection.label'),
-		checked: isDataProtectionSelected
+		checked: isDataProtectionSelected,
+		complexLabel: {
+			prefix: translate('registration.dataProtection.label.prefix'),
+			suffix: translate('registration.dataProtection.label.suffix'),
+			component: LegalComponent,
+			attributes: { textStyle: 'standard', hideImprint: true }
+		}
 	};
 
 	const overlayItemRegistrationSuccess: OverlayItem = {
@@ -196,7 +207,7 @@ export const RegistrationForm = ({ consultingType }: RegistrationFormProps) => {
 					}
 					additionalStepsData={consultingType.requiredComponents}
 					registrationNotes={consultingType.registration.notes}
-				></FormAccordion>
+				/>
 
 				{preselectedAgencyData &&
 					consultingType.registration.autoSelectPostcode && (

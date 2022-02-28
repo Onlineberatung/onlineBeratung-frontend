@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import sanitizeHtml from 'sanitize-html';
 import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
 import {
 	UserDataContext,
@@ -23,14 +24,16 @@ import { stateToHTML } from 'draft-js-export-html';
 import { convertFromRaw, ContentState } from 'draft-js';
 import {
 	markdownToDraftDefaultOptions,
+	sanitizeHtmlDefaultOptions,
 	urlifyLinksInText
 } from '../messageSubmitInterface/richtextHelpers';
 import { VideoCallMessage } from './VideoCallMessage';
 import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
-import './message.styles';
 import { isVoluntaryInfoSet } from './messageHelpers';
+import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
+import './message.styles';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -113,7 +116,10 @@ export const MessageItemComponent = ({
 
 		setRenderedMessage(
 			contentStateMessage.hasText()
-				? urlifyLinksInText(stateToHTML(contentStateMessage))
+				? sanitizeHtml(
+						urlifyLinksInText(stateToHTML(contentStateMessage)),
+						sanitizeHtmlDefaultOptions
+				  )
 				: ''
 		);
 	}, [message]);
@@ -135,9 +141,14 @@ export const MessageItemComponent = ({
 		if (messageDate) {
 			return (
 				<div className="messageItem__divider">
-					{typeof messageDate === 'number'
-						? getPrettyDateFromMessageDate(messageDate)
-						: messageDate}
+					<Text
+						text={
+							typeof messageDate === 'number'
+								? getPrettyDateFromMessageDate(messageDate)
+								: messageDate
+						}
+						type="divider"
+					/>
 				</div>
 			);
 		}
@@ -165,10 +176,10 @@ export const MessageItemComponent = ({
 		(chatItem?.moderators && !chatItem?.moderators?.includes(userId));
 	const showForwardMessage = () =>
 		hasRenderedMessage &&
-		activeSession.type !== SESSION_LIST_TYPES.ENQUIRY &&
-		chatItem.feedbackGroupId &&
+		activeSession?.type !== SESSION_LIST_TYPES.ENQUIRY &&
+		chatItem?.feedbackGroupId &&
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
-		!activeSession.isFeedbackSession;
+		!activeSession?.isFeedbackSession;
 
 	const videoCallMessage: VideoCallMessageDTO = alias?.videoCallMessageDTO;
 	const isFurtherStepsMessage =
@@ -253,7 +264,7 @@ export const MessageItemComponent = ({
 									hasRenderedMessage={hasRenderedMessage}
 								/>
 							))}
-						{activeSession.isFeedbackSession && (
+						{activeSession?.isFeedbackSession && (
 							<CopyMessage
 								right={isMyMessage}
 								message={renderedMessage}

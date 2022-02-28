@@ -1,4 +1,13 @@
-import { DraftHandleValue } from 'draft-js';
+import {
+	ContentState,
+	convertToRaw,
+	convertFromHTML,
+	DraftHandleValue,
+	Modifier,
+	SelectionState,
+	EditorState
+} from 'draft-js';
+import sanitizeHtml from 'sanitize-html';
 
 export const emojiPickerCustomClasses = {
 	emojiSelect: 'emoji__select',
@@ -56,16 +65,29 @@ export const handleEditorBeforeInput = (editorState): DraftHandleValue => {
 };
 
 export const handleEditorPastedText = (
-	editorState,
-	pastedText
-): DraftHandleValue => {
+	editorState: EditorState,
+	text: string,
+	html?: string
+): EditorState => {
+	const pastedContent = html ?? text;
 	const currentContent = editorState.getCurrentContent();
 	const currentContentLength = currentContent.getPlainText('').length;
 
-	if (currentContentLength + pastedText.length > INPUT_MAX_LENGTH) {
-		return 'handled';
+	if (currentContentLength + text.length > INPUT_MAX_LENGTH) {
+		return null;
 	} else {
-		return 'not-handled';
+		const { contentBlocks, entityMap } = convertFromHTML(
+			sanitizeHtml(pastedContent, sanitizeHtmlPasteOptions)
+		);
+		const contentState = Modifier.replaceWithFragment(
+			editorState.getCurrentContent(),
+			editorState.getSelection(),
+			ContentState.createFromBlockArray(
+				contentBlocks,
+				entityMap
+			).getBlockMap()
+		);
+		return EditorState.push(editorState, contentState, 'insert-fragment');
 	}
 };
 
@@ -95,7 +117,6 @@ export const markdownToDraftDefaultOptions = {
 			inline: [
 				'autolink',
 				'backticks',
-				'escape',
 				'htmltag',
 				'links',
 				'newline',
@@ -103,4 +124,42 @@ export const markdownToDraftDefaultOptions = {
 			]
 		}
 	}
+};
+
+export const sanitizeHtmlPasteOptions = {
+	allowedTags: ['em', 'p', 'div', 'b', 'i', 'ol', 'ul', 'li', 'strong', 'br']
+};
+
+export const sanitizeHtmlDefaultOptions = {
+	allowedTags: [...sanitizeHtmlPasteOptions.allowedTags, 'a'],
+	allowedAttributes: sanitizeHtml.defaults.allowedAttributes
+};
+
+/**
+ * Escape markdown characters typed by the user
+ * @param contentState
+ */
+export const escapeMarkdownChars = (contentState: ContentState) => {
+	let newContentState = contentState;
+	const rawDraftObject = convertToRaw(contentState);
+
+	rawDraftObject.blocks.forEach((block) => {
+		const selectionState = SelectionState.createEmpty(block.key);
+		let counter = 0;
+		newContentState = [...block.text].reduce(
+			(contentState, char, charIndex) => {
+				if (['*', '_', '~', '`'].indexOf(char) < 0) return contentState;
+
+				const selection = selectionState.merge({
+					focusOffset: charIndex + counter,
+					anchorOffset: charIndex + counter
+				});
+				counter++;
+				return Modifier.insertText(contentState, selection, '\\');
+			},
+			newContentState
+		);
+	});
+
+	return newContentState;
 };

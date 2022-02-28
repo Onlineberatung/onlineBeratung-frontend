@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { ComponentType, useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import {
 	translate,
@@ -38,6 +38,7 @@ import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
+import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: {
@@ -46,6 +47,7 @@ export interface SessionHeaderProps {
 		username: string;
 	};
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
@@ -57,7 +59,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const chatItem = getChatItemForSession(activeSession);
-	const consultingType = useConsultingType(chatItem.consultingType);
+	const consultingType = useConsultingType(chatItem?.consultingType);
 
 	const username = getContact(activeSession).username;
 	const userSessionData = getContact(activeSession).sessionData;
@@ -180,6 +182,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							props.hasUserInitiatedStopOrLeaveRequest
 						}
 						isAskerInfoAvailable={isAskerInfoAvailable()}
+						legalComponent={props.legalComponent}
 					/>
 				</div>
 				<div className="sessionInfo__metaInfo">
@@ -290,6 +293,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
 					isAskerInfoAvailable={isAskerInfoAvailable()}
+					legalComponent={props.legalComponent}
 				/>
 			</div>
 			{!activeSession?.isTeamSession ||

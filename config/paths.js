@@ -7,7 +7,7 @@ const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
 const appDirectory = fs.realpathSync(process.cwd());
-const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -16,47 +16,49 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 // We can't use a relative path in HTML because we don't want to load something
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
 const publicUrlOrPath = getPublicUrlOrPath(
-  process.env.NODE_ENV === 'development',
-  require(resolveApp('package.json')).homepage,
-  process.env.PUBLIC_URL
+	process.env.NODE_ENV === 'development',
+	require(resolveApp('package.json')).homepage,
+	process.env.PUBLIC_URL
 );
 
+const buildPath = process.env.BUILD_PATH || 'build';
+
 const moduleFileExtensions = [
-  'web.mjs',
-  'mjs',
-  'web.js',
-  'js',
-  'web.ts',
-  'ts',
-  'web.tsx',
-  'tsx',
-  'json',
-  'web.jsx',
-  'jsx',
-  'scss'
+	'web.mjs',
+	'mjs',
+	'web.js',
+	'js',
+	'web.ts',
+	'ts',
+	'web.tsx',
+	'tsx',
+	'json',
+	'web.jsx',
+	'jsx',
+	'scss'
 ];
 
 // Resolve file paths in the same order as webpack
 const resolveModule = (resolveFn, filePath) => {
-  const extension = moduleFileExtensions.find(extension =>
-    fs.existsSync(resolveFn(`${filePath}.${extension}`))
-  );
+	const extension = moduleFileExtensions.find((extension) =>
+		fs.existsSync(resolveFn(`${filePath}.${extension}`))
+	);
 
-  if (extension) {
-    return resolveFn(`${filePath}.${extension}`);
-  }
-  return resolveFn(`${filePath}.js`);
+	if (extension) {
+		return resolveFn(`${filePath}.${extension}`);
+	}
+
+	return resolveFn(`${filePath}.js`);
 };
 
 // config after eject: we're in ./config/
 module.exports = {
 	dotenv: resolveApp('.env'),
 	appPath: resolveApp('.'),
-	appBuild: resolveApp('build'),
+	appBuild: resolveApp(buildPath),
 	appPublic: resolveApp('public'),
 	appEntryPoints: {
 		app: resolveModule(resolveApp, 'src/initApp'),
-		login: resolveModule(resolveApp, 'src/initLogin'),
 		error: resolveModule(resolveApp, 'src/initError')
 	},
 	appPackageJson: resolveApp('package.json'),
@@ -67,10 +69,10 @@ module.exports = {
 	testsSetup: resolveModule(resolveApp, 'src/setupTests'),
 	proxySetup: resolveApp('src/setupProxy.js'),
 	appNodeModules: resolveApp('node_modules'),
+	appWebpackCache: resolveApp('node_modules/.cache'),
+	appTsBuildInfoFile: resolveApp('node_modules/.cache/tsconfig.tsbuildinfo'),
 	swSrc: resolveModule(resolveApp, 'src/service-worker'),
-	publicUrlOrPath,
+	publicUrlOrPath
 };
-
-
 
 module.exports.moduleFileExtensions = moduleFileExtensions;

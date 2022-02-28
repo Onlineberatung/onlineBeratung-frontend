@@ -17,7 +17,7 @@ export interface SelectDropdownItem {
 	className?: string;
 	id: string;
 	selectedOptions: SelectOption[];
-	selectInputLabel: string;
+	selectInputLabel?: string;
 	handleDropdownSelect: Function;
 	useIconOption?: boolean;
 	isSearchable?: boolean;
@@ -75,12 +75,13 @@ const colourStyles = {
 	menuList: (styles) => ({
 		...styles,
 		padding: '0',
-		border: '1px solid #C4BFC4',
+		border: undefined,
 		borderRadius: '4px',
-		boxShadow: '0 3px 0 1px rgba(0, 0, 0, 0.1)'
+		boxShadow: undefined
 	}),
 	menu: (styles, { menuPlacement }) => ({
 		...styles,
+		'boxShadow': undefined,
 		'marginBottom': menuPlacement === 'top' ? '16px' : '0',
 		'marginTop': menuPlacement === 'top' ? '0' : '16px',
 		'&:after, &:before': {
@@ -97,6 +98,7 @@ const colourStyles = {
 			zIndex: 2
 		},
 		'&:before': {
+			left: '50%',
 			borderTop:
 				menuPlacement === 'top' ? '10px solid rgba(0,0,0,0.1)' : 'none',
 			borderBottom:
@@ -149,7 +151,9 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 						? IconOption
 						: components.Option,
 					DropdownIndicator: IconDropdown,
-					ValueContainer: CustomValueContainer,
+					ValueContainer: props.selectInputLabel
+						? CustomValueContainer
+						: components.ValueContainer,
 					IndicatorSeparator: !props.isSearchable
 						? () => null
 						: components.IndicatorSeparator

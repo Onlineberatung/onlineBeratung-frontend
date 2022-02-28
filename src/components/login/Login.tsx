@@ -2,15 +2,21 @@ import '../../polyfill';
 import * as React from 'react';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import { ComponentType, useState, useEffect } from 'react';
+import { ComponentType, useState, useEffect, useContext } from 'react';
 import { config } from '../../resources/scripts/config';
 import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
 import { autoLogin } from '../registration/autoLogin';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
+import { ReactComponent as VerifiedIcon } from '../../resources/img/icons/verified.svg';
 import { StageProps } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
+import { FETCH_ERRORS } from '../../api';
+import { OTP_LENGTH } from '../profile/TwoFactorAuth';
+import clsx from 'clsx';
+import { LegalInformationLinksProps } from './LegalInformationLinks';
+import { TenantContext } from '../../globalState';
 import '../../resources/styles/styles';
 import './login.styles';
 
@@ -20,26 +26,44 @@ const loginButton: ButtonItem = {
 };
 
 interface LoginProps {
+	legalComponent: ComponentType<LegalInformationLinksProps>;
 	stageComponent: ComponentType<StageProps>;
 }
 
-export const Login = ({ stageComponent: Stage }: LoginProps) => {
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [isButtonDisabled, setIsButtonDisabled] = useState(
+export const Login = ({
+	legalComponent,
+	stageComponent: Stage
+}: LoginProps) => {
+	const { tenant } = useContext(TenantContext);
+	const hasTenant = tenant != null;
+
+	const [username, setUsername] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(
 		username.length > 0 && password.length > 0
 	);
-	const [showLoginError, setShowLoginError] = useState(false);
-	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const [otp, setOtp] = useState<string>('');
+	const [isOtpRequired, setIsOtpRequired] = useState<boolean>(false);
+	const [showLoginError, setShowLoginError] = useState<string>('');
+	const [isRequestInProgress, setIsRequestInProgress] =
+		useState<boolean>(false);
 
 	useEffect(() => {
-		setShowLoginError(false);
-		if (username && password) {
+		setShowLoginError('');
+		if (
+			(!isOtpRequired && username && password) ||
+			(isOtpRequired && username && password && otp)
+		) {
 			setIsButtonDisabled(false);
 		} else {
 			setIsButtonDisabled(true);
 		}
-	}, [username, password]);
+	}, [username, password, otp, isOtpRequired]);
+
+	useEffect(() => {
+		setOtp('');
+		setIsOtpRequired(false);
+	}, [username]);
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -60,6 +84,17 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		icon: <LockIcon />
 	};
 
+	const otpInputItem: InputFieldItem = {
+		content: otp,
+		id: 'otp',
+		infoText: translate('login.warning.failed.otp.missing'),
+		label: translate('twoFactorAuth.activate.step3.input.label'),
+		name: 'otp',
+		type: 'text',
+		icon: <VerifiedIcon />,
+		maxLength: OTP_LENGTH
+	};
+
 	const handleUsernameChange = (event) => {
 		setUsername(event.target.value);
 	};
@@ -68,15 +103,54 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		setPassword(event.target.value);
 	};
 
-	const handleLoginError = () => {
-		setShowLoginError(true);
-		setIsRequestInProgress(false);
+	const handleOtpChange = (event) => {
+		setOtp(event.target.value);
 	};
 
 	const handleLogin = () => {
-		if (!isRequestInProgress && username && password) {
+		if (!isRequestInProgress && !isOtpRequired && username && password) {
 			setIsRequestInProgress(true);
-			autoLogin({ username, password, redirect: true, handleLoginError });
+			autoLogin({
+				username: username,
+				password: password,
+				redirect: true
+			})
+				.catch((error) => {
+					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
+						setShowLoginError(
+							translate('login.warning.failed.unauthorized')
+						);
+					} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+						setIsOtpRequired(true);
+					}
+				})
+				.finally(() => {
+					setIsRequestInProgress(false);
+				});
+		} else if (
+			!isRequestInProgress &&
+			isOtpRequired &&
+			username &&
+			password &&
+			otp
+		) {
+			setIsRequestInProgress(true);
+			autoLogin({
+				username,
+				password,
+				redirect: true,
+				otp
+			})
+				.catch((error) => {
+					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
+						setShowLoginError(
+							translate('login.warning.failed.unauthorized.otp')
+						);
+					}
+				})
+				.finally(() => {
+					setIsRequestInProgress(false);
+				});
 		}
 	};
 
@@ -87,59 +161,101 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	};
 
 	return (
-		<StageLayout stage={<Stage hasAnimation />} showLegalLinks>
-			<div className="loginForm">
-				<div className="loginForm__headline">
-					<h1>{translate('login.headline')}</h1>
-				</div>
-				<InputField
-					item={inputItemUsername}
-					inputHandle={handleUsernameChange}
-					keyUpHandle={handleKeyUp}
-				/>
-				<InputField
-					item={inputItemPassword}
-					inputHandle={handlePasswordChange}
-					keyUpHandle={handleKeyUp}
-				/>
-				{showLoginError ? (
-					<Text
-						text={translate('login.warning.failed')}
-						type="infoSmall"
-						className="loginForm__error"
+		<>
+			<StageLayout
+				legalComponent={legalComponent}
+				stage={<Stage hasAnimation />}
+				showLegalLinks
+			>
+				<div className="loginForm">
+					<div className="loginForm__headline">
+						<h1>{translate('login.headline')}</h1>
+					</div>
+					<InputField
+						item={inputItemUsername}
+						inputHandle={handleUsernameChange}
+						keyUpHandle={handleKeyUp}
 					/>
-				) : null}
-				<a
-					href={config.endpoints.loginResetPasswordLink}
-					target="_blank"
-					rel="noreferrer"
-					className="loginForm__passwordReset"
-				>
-					{translate('login.resetPasswort.label')}
-				</a>
-				<Button
-					item={loginButton}
-					buttonHandle={handleLogin}
-					disabled={isButtonDisabled}
-				/>
-				<div className="loginForm__register">
+					<InputField
+						item={inputItemPassword}
+						inputHandle={handlePasswordChange}
+						keyUpHandle={handleKeyUp}
+					/>
+					<div
+						className={clsx('loginForm__otp', {
+							'loginForm__otp--active': isOtpRequired
+						})}
+					>
+						<InputField
+							item={otpInputItem}
+							inputHandle={handleOtpChange}
+							keyUpHandle={handleKeyUp}
+						/>
+					</div>
+					{showLoginError && (
+						<Text
+							text={showLoginError}
+							type="infoSmall"
+							className="loginForm__error"
+						/>
+					)}
+					<a
+						href={config.endpoints.loginResetPasswordLink}
+						target="_blank"
+						rel="noreferrer"
+						className="loginForm__passwordReset"
+					>
+						{translate('login.resetPasswort.label')}
+					</a>
+					<Button
+						item={loginButton}
+						buttonHandle={handleLogin}
+						disabled={isButtonDisabled}
+					/>
+					{!hasTenant && (
+						<div className="loginForm__register">
+							<Text
+								text={translate(
+									'login.register.infoText.title'
+								)}
+								type={'infoSmall'}
+							/>
+							<Text
+								text={translate('login.register.infoText.copy')}
+								type={'infoSmall'}
+							/>
+							<a
+								className="loginForm__register__link"
+								href={config.urls.toRegistration}
+								target="_self"
+							>
+								{translate('login.register.linkLabel')}
+							</a>
+						</div>
+					)}
+				</div>
+			</StageLayout>
+			{hasTenant && (
+				<div className="login__tenantRegistration">
 					<Text
 						text={translate('login.register.infoText.title')}
 						type={'infoSmall'}
 					/>
-					<Text
-						text={translate('login.register.infoText.copy')}
-						type={'infoSmall'}
-					/>
 					<a
-						className="loginForm__register__link"
-						href={config.urls.loginRedirectToRegistrationOverview}
+						className="login__tenantRegistrationLink"
+						href={config.urls.toRegistration}
 						target="_self"
 					>
-						{translate('login.register.linkLabel')}
+						<Button
+							item={{
+								label: translate('login.register.linkLabel'),
+								type: 'TERTIARY'
+							}}
+							isLink
+						/>
 					</a>
 				</div>
-			</div>
-		</StageLayout>
+			)}
+		</>
 	);
 };

@@ -8,7 +8,7 @@
 		background: none;
 		border: none;
 		border-bottom: 1px solid $line-grey;
-		color: $secondary;
+		color: var(--skin-color-default, $secondary);
 
 		&--empty {
 			color: $tertiary;
@@ -18,17 +18,17 @@
 		&:disabled {
 			cursor: default;
 			opacity: 1;
-			-webkit-text-fill-color: $secondary;
+			-webkit-text-fill-color: var(--skin-color-default, $secondary);
 		}
 
 		&:focus-visible,
 		&:focus {
-			border-bottom: 1px solid $primary;
+			border-bottom: 1px solid var(--skin-color-default, $primary);
 			outline: none;
 		}
 
 		&::selection {
-			background: rgba($primary, 0.1);
+			background: rgba(var(--skin-color-default, $primary), 0.1);
 		}
 	}
 
@@ -47,7 +47,7 @@
 		svg {
 			height: 14px;
 			width: 14px;
-			fill: $secondary;
+			fill: var(--skin-color-secondary-contrast-safe, $secondary);
 		}
 
 		&--edit {
@@ -73,7 +73,7 @@
 
 	&__label--invalid {
 		.text {
-			color: $primary;
+			color: var(--skin-color-default, $form-error);
 		}
 	}
 

@@ -192,6 +192,7 @@ $backgroundCircleSize: 1800px;
 			background-color: $light-brown;
 		}
 
+		/* stylelint-disable-next-line selector-id-pattern, selector-max-id */
 		#Fill-1 {
 			fill: $white;
 		}

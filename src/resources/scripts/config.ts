@@ -4,10 +4,10 @@ export const apiUrlEnv: string = process.env.REACT_APP_API_URL;
 export const apiUrl = process.env.REACT_APP_API_URL
 	? 'https://' + apiUrlEnv
 	: '';
-export const uiUrl = process.env.REACT_APP_UI_URL || '';
 export const APP_PATH = 'app';
 
 export const config = {
+	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
 		agencyServiceBase: apiUrl + '/service/agencies',
@@ -20,10 +20,13 @@ export const config = {
 			apiUrl + '/service/conversations/consultants/enquiries/',
 		consultantSessions:
 			apiUrl + '/service/users/sessions/consultants?status=2&',
+		consultantStatistics: apiUrl + '/service/statistics/consultant',
 		consultantTeamSessions: apiUrl + '/service/users/sessions/teams?',
+		consultingTypeServiceBase: apiUrl + '/service/consultingtypes',
 		deleteAskerAccount: apiUrl + '/service/users/account',
 		draftMessages: apiUrl + '/service/messages/draft',
 		email: apiUrl + '/service/users/email',
+		error: apiUrl + '/service/logstash',
 		forwardMessage: apiUrl + '/service/messages/forward',
 		groupChatBase: apiUrl + '/service/users/chat/',
 		keycloakAccessToken:
@@ -41,6 +44,8 @@ export const config = {
 			apiUrl + '/service/conversations/consultants/mymessages/',
 		passwordReset: apiUrl + '/service/users/password/change',
 		rejectVideoCall: apiUrl + '/service/videocalls/reject',
+		registerAnonymousAsker:
+			apiUrl + '/service/conversations/askers/anonymous/new',
 		registerAsker: apiUrl + '/service/users/askers/new',
 		registerAskerNewConsultingType:
 			apiUrl + '/service/users/askers/consultingType/new',
@@ -53,34 +58,25 @@ export const config = {
 		startVideoCall: apiUrl + '/service/videocalls/new',
 		teamSessionsBase:
 			apiUrl + '/service/conversations/consultants/teamsessions/',
-		consultingTypeServiceBase: apiUrl + '/service/consultingtypes',
+		tenantServiceBase: apiUrl + '/service/tenant',
+		twoFactorAuth: apiUrl + '/service/users/twoFactorAuth',
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
-		userSessionsListView: '/sessions/user/view',
-		registerAnonymousAsker:
-			apiUrl + '/service/conversations/askers/anonymous/new'
+		userSessionsListView: '/sessions/user/view'
 	},
 	urls: {
-		loginRedirectToRegistrationOverview:
-			'https://www.caritas.de/onlineberatung',
-		toLogin: uiUrl + '/',
-		redirectToApp: uiUrl + '/' + APP_PATH,
+		toRegistration: 'https://www.caritas.de/onlineberatung',
+		toLogin: '/login',
+		toEntry: '/',
+		redirectToApp: '/' + APP_PATH,
 		home: 'https://www.caritas.de',
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
-		error500: uiUrl + '/error.500.html',
-		error401: uiUrl + '/error.401.html',
-		error404: uiUrl + '/error.404.html',
-		registrationDisabilityPostcodeFallback:
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/behinderung-und-psychische-erkrankung/adressen',
-		registrationMigrationPostcodeFallback:
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/migration/adressen',
-		registrationHospicePostcodeFallback:
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/hospiz-palliativ/adressen',
-		registrationMenPostcodeFallback:
-			'https://www.skmev.de/beratung-hilfe/jungen-und-maennerarbeit/'
+		error500: '/error.500.html',
+		error401: '/error.401.html',
+		error404: '/error.404.html'
 	}
 };
