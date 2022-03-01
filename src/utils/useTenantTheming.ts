@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { apiGetTenantTheming } from '../api/apiGetTenantTheming';
-import { TenantContext } from '../globalState/provider/TenantProvider';
+import { TenantContext } from '../globalState';
 import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 import { config } from '../resources/scripts/config';
 import getLocationVariables from './getLocationVariables';
+import decode from './decodeImageFiles';
 
 const RGBToHSL = (r, g, b) => {
 	// Make r, g, and b fractions of 1
@@ -221,8 +222,13 @@ const useTenantTheming = () => {
 
 		apiGetTenantTheming({ subdomain })
 			.then((tenant) => {
-				applyTheming(tenant);
-				tenantContext?.setTenant(tenant);
+				// ToDo: See VIC-428 + VIC-427
+				const decodedTenant = { ...tenant };
+				decodedTenant.theming.logo = decode(tenant.theming.logo);
+				decodedTenant.theming.favicon = decode(tenant.theming.favicon);
+
+				applyTheming(decodedTenant);
+				tenantContext?.setTenant(decodedTenant);
 			})
 			.catch((error) => {
 				console.log('Theme could not be loaded', error);
