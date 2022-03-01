@@ -70,6 +70,7 @@ $iconSize: 20px;
 		width: 230px;
 		border: $session-menu-border;
 		@include rounded-drop-shadow;
+		overflow: hidden;
 		z-index: 1;
 
 		a {
@@ -85,12 +86,26 @@ $iconSize: 20px;
 			transition-duration: 0.25s;
 		}
 
+		// The border above the legal links should only be shown when:
+		// a) On mobile, when there are menu items preceding the legal link
+		// b) On desktop, when there are non-mobile menu items preceding the legal links
+		@mixin legal-links-border {
+			border-top: 1px solid $line-grey;
+		}
+		.legalInformationLinks--menu:not(:first-child) {
+			@media (max-width: $fromLarge) {
+				@include legal-links-border;
+			}
+		}
+		.sessionMenu__item:not(.sessionMenu__item--mobile)
+			~ .legalInformationLinks--menu {
+			@include breakpoint($fromLarge) {
+				@include legal-links-border;
+			}
+		}
+
 		.legalInformationLinks--menu {
 			display: block;
-
-			&:not(:first-child) {
-				border-top: 1px solid $line-grey;
-			}
 
 			a {
 				background-color: $white;
@@ -146,14 +161,14 @@ $iconSize: 20px;
 
 		:hover {
 			cursor: pointer;
-			color: var(--skin-color-primary-hover, $hover-primary);
+			color: var(--skin-color-primary-contrast-safe, $hover-primary);
 
 			p {
-				color: var(--skin-color-primary-hover, $hover-primary);
+				color: var(--skin-color-primary-contrast-safe, $hover-primary);
 			}
 
 			svg * {
-				fill: var(--skin-color-primary-hover, $hover-primary);
+				fill: var(--skin-color-primary-contrast-safe, $hover-primary);
 			}
 		}
 	}
