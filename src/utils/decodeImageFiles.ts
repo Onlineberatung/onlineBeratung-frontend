@@ -1,11 +1,13 @@
-/* decode JSON.stringified Base64 images with special chars
- * due settings in Backend all base64 encoded image are delivered with  encoded spezial chars like "&#43;" for "+"
- * here we just decode this "back to normal"
+/**
+ * Image base64 data is currently stored with HTML encoding in the backend upon saving.
+ * E.g. "+" is encoded with "&#43;" and needs to be decoded appropriately.
+ * See https://en.wikipedia.org/wiki/Character_encodings_in_HTML#HTML_character_references
  */
 const decode = (input: string) => {
-	return input.replace(/&#(\d+);/g, (match, dec) => {
-		return String.fromCharCode(dec);
-	});
+	// Inspired by https://stackoverflow.com/a/9609450/343045
+	const node = document.createElement('div');
+	node.innerHTML = input;
+	return node.textContent;
 };
 
 export default decode;
