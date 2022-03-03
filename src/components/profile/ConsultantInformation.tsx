@@ -15,6 +15,7 @@ import { Text } from '../text/Text';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { config } from '../../resources/scripts/config';
 import { Tooltip } from '../tooltip/Tooltip';
+import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 
 export const ConsultantInformation = () => {
 	const { userData } = useContext(UserDataContext);
@@ -95,6 +96,10 @@ const PersonalRegistrationLink = ({
 				<CopyIcon className={`copy icn--s`} />{' '}
 				{translate('profile.data.personal.registrationLink.text')}
 			</span>
+			<GenerateQrCode
+				url={`${config.urls.registration}?cid=${cid}`}
+				filename={translate('qrCode.download.filename.personal')}
+			/>
 			<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
 				<Tooltip trigger={<InfoIcon className="icn icn--xl" />}>
 					{translate(

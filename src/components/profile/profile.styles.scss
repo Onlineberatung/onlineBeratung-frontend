@@ -164,6 +164,15 @@ $inputMaxWidth: 500px;
 		@include breakpoint($fromMedium) {
 			padding: 0 $grid-base-three $grid-base;
 		}
+
+		&__personal_link {
+			& > span {
+				margin-right: $grid-base-two;
+			}
+			.generateQrCode {
+				margin-right: $grid-base-two;
+			}
+		}
 	}
 
 	&__icon {
