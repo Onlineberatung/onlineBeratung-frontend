@@ -15,6 +15,7 @@ import ErrorBoundary from './ErrorBoundary';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { Help } from '../help/Help';
 
 export const history = createBrowserHistory();
 
@@ -85,6 +86,10 @@ export const App = ({
 						)}
 						<Switch>
 							{extraRoutes}
+
+							<Route path="/help">
+								<Help />
+							</Route>
 
 							{!hasUnmatchedRegistrationConsultingType &&
 								!hasUnmatchedRegistrationConsultant && (
