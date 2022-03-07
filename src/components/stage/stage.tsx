@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Spinner } from '../spinner/Spinner';
 import { useContext } from 'react';
@@ -25,15 +25,20 @@ export const Stage = ({
 	hasAnimation,
 	isReady = true
 }: StageProps) => {
+	const rootNodeRef = useRef();
 	const { tenant } = useContext(TenantContext);
 	const [isAnimationDone, setIsAnimationDone] = useState(false);
 
-	function onAnimationEnd() {
-		setIsAnimationDone(true);
+	function onAnimationEnd(event) {
+		// Ignore animations of children
+		if (event.target === rootNodeRef.current) {
+			setIsAnimationDone(true);
+		}
 	}
 
 	return (
 		<div
+			ref={rootNodeRef}
 			onAnimationEnd={onAnimationEnd}
 			id="loginLogoWrapper"
 			className={clsx(className, 'stage', {
