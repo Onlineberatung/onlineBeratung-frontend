@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
 import { Spinner } from '../spinner/Spinner';
 import { useContext } from 'react';
@@ -25,11 +26,19 @@ export const Stage = ({
 	isReady = true
 }: StageProps) => {
 	const { tenant } = useContext(TenantContext);
+	const [isAnimationDone, setIsAnimationDone] = useState(false);
+
+	function onAnimationEnd() {
+		setIsAnimationDone(true);
+	}
+
 	return (
 		<div
+			onAnimationEnd={onAnimationEnd}
 			id="loginLogoWrapper"
 			className={clsx(className, 'stage', {
 				'stage--animated': hasAnimation,
+				'stage--animation-done': isAnimationDone,
 				'stage--ready': isReady
 			})}
 		>
