@@ -13,7 +13,7 @@ export const apiPostRegistration = (
 	handleSuccessfulRegistration: Function,
 	handleRegistrationConflictError: Function
 ) => {
-	removeAllCookies();
+	removeAllCookies(['useInformal']);
 	if (isRequestInProgress) {
 		return null;
 	}
