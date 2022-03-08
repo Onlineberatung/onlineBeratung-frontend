@@ -24,7 +24,8 @@ import {
 	typeIsEnquiry,
 	isGroupChat,
 	isLiveChat,
-	isSessionChat
+	isSessionChat,
+	isUserModerator
 } from '../session/sessionHelpers';
 import { SessionMenu } from '../sessionMenu/SessionMenu';
 import {
@@ -39,6 +40,9 @@ import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { SessionBanAsker } from './SessionBanAsker';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
@@ -98,9 +102,13 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		if (!isSubscriberFlyoutOpen) {
 			apiGetGroupMembers(activeSession.chat.id)
 				.then((response) => {
-					const subscribers = response.members.map(
-						(member) => member.username
-					);
+					const subscribers = response.members.map((member) => ({
+						isModerator: isUserModerator({
+							chatItem: activeSession.chat,
+							rcUserId: member._id
+						}),
+						...member
+					}));
 					setSubscriberList(subscribers);
 					setIsSubscriberFlyoutOpen(true);
 				})
@@ -124,6 +132,11 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 			setIsSubscriberFlyoutOpen(false);
 		}
 	};
+
+	const isCurrentUserModerator = isUserModerator({
+		chatItem: activeSession?.chat,
+		rcUserId: getValueFromCookie('rc_uid')
+	});
 
 	const isAskerInfoAvailable = () =>
 		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -193,7 +206,27 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 										{subscriberList.map(
 											(subscriber, index) => (
 												<li key={index}>
-													{decodeUsername(subscriber)}
+													{decodeUsername(
+														subscriber.username
+													)}
+													{isCurrentUserModerator &&
+														!subscriber.isModerator && (
+															<FlyoutMenu>
+																<SessionBanAsker
+																	rcUserId={
+																		subscriber._id
+																	}
+																	chatId={
+																		activeSession
+																			?.chat
+																			?.id
+																	}
+																	rcToken={getValueFromCookie(
+																		'rc_token'
+																	)}
+																/>
+															</FlyoutMenu>
+														)}
 												</li>
 											)
 										)}

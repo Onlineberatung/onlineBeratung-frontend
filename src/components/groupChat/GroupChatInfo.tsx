@@ -17,7 +17,8 @@ import {
 } from '../../globalState';
 import {
 	getChatItemForSession,
-	getSessionListPathForLocation
+	getSessionListPathForLocation,
+	isUserModerator
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -43,6 +44,9 @@ import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left
 import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
 import '../profile/profile.styles';
 import { Text } from '../text/Text';
+import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
+import { SessionBanAsker } from '../sessionHeader/SessionBanAsker';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
@@ -86,16 +90,20 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 		if (chatItem?.active) {
 			apiGetGroupMembers(chatItem.id)
 				.then((response) => {
-					const subscribers = response.members.map(
-						(member) => member.username
-					);
+					const subscribers = response.members.map((member) => ({
+						isModerator: isUserModerator({
+							chatItem: activeSession.chat,
+							rcUserId: member._id
+						}),
+						...member
+					}));
 					setSubscriberList(subscribers);
 				})
 				.catch((error) => {
 					console.log('error', error);
 				});
 		}
-	}, [groupIdFromParam, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [groupIdFromParam, sessionsData]);
 
 	const handleStopGroupChatButton = () => {
 		setOverlayItem(stopGroupChatSecurityOverlayItem);
@@ -171,6 +179,11 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 		);
 	}
 
+	const isCurrentUserModerator = isUserModerator({
+		chatItem: activeSession?.chat,
+		rcUserId: getValueFromCookie('rc_uid')
+	});
+
 	return (
 		<div className="profile__wrapper">
 			<div className="profile__header">
@@ -226,7 +239,24 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 									key={index}
 								>
 									<p className="profile__data__content">
-										{decodeUsername(subscriber)}
+										{decodeUsername(subscriber.username)}
+										{isCurrentUserModerator &&
+											!subscriber.isModerator && (
+												<FlyoutMenu>
+													<SessionBanAsker
+														rcUserId={
+															subscriber._id
+														}
+														chatId={
+															activeSession?.chat
+																?.id
+														}
+														rcToken={getValueFromCookie(
+															'rc_token'
+														)}
+													/>
+												</FlyoutMenu>
+											)}
 									</p>
 								</div>
 							))

@@ -64,7 +64,9 @@ export const config = {
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
-		consultantsLanguages: apiUrl + '/service/users/consultants/languages'
+		consultantsLanguages: apiUrl + '/service/users/consultants/languages',
+		banAsker: (rcUserId, chatId) =>
+			apiUrl + `/users/${rcUserId}/chat/${chatId}/ban`
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:
