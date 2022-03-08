@@ -4,7 +4,7 @@ import { TenantContext } from '../globalState';
 import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 import { config } from '../resources/scripts/config';
 import getLocationVariables from './getLocationVariables';
-import decode from './decodeImageFiles';
+import decodeHTML from './decodeHTML';
 
 const RGBToHSL = (r, g, b) => {
 	// Make r, g, and b fractions of 1
@@ -224,8 +224,12 @@ const useTenantTheming = () => {
 			.then((tenant) => {
 				// ToDo: See VIC-428 + VIC-427
 				const decodedTenant = { ...tenant };
-				decodedTenant.theming.logo = decode(tenant.theming.logo);
-				decodedTenant.theming.favicon = decode(tenant.theming.favicon);
+				decodedTenant.theming.logo = decodeHTML(tenant.theming.logo);
+				decodedTenant.theming.favicon = decodeHTML(
+					tenant.theming.favicon
+				);
+				decodedTenant.content.claim = decodeHTML(tenant.content.claim);
+				decodedTenant.name = decodeHTML(tenant.name);
 
 				applyTheming(decodedTenant);
 				tenantContext?.setTenant(decodedTenant);
