@@ -29,8 +29,7 @@ export const removeAllCookies = (allowlist = []) => {
 		const name = c.trim().split('=')[0];
 		if (allowlist.includes(name)) return;
 
-		const value =
-			name + '=;' + 'path=/; expires=Thu, 27 May 1992 08:32:00 MET;';
+		const value = name + '=;path=/; expires=Thu, 27 May 1992 08:32:00 MET;';
 		document.cookie = value;
 	});
 };
