@@ -11,6 +11,7 @@ $profile-legal-link-color: $primary !default;
 $profile-select-margin-left: auto !default;
 $profile-select-padding-left: $grid-base-three !default;
 $profile-title-mobile-text-align: center !default;
+$profile-footer-justify-content: center !default;
 
 .profile {
 	&__wrapper {
@@ -314,11 +315,12 @@ $profile-title-mobile-text-align: center !default;
 
 	&__footer {
 		display: flex;
+		flex-wrap: wrap;
 		flex-direction: row;
 		align-items: center;
-		justify-content: center;
+		justify-content: $profile-footer-justify-content;
 		margin-top: auto;
-		padding: 0 $grid-base-two;
+		padding: $grid-base $grid-base-two;
 		background-color: $profile-imprint-background-color-mobile;
 		margin-bottom: $grid-base-nine;
 		width: 100%;
@@ -340,7 +342,7 @@ $profile-title-mobile-text-align: center !default;
 
 		&__item {
 			display: inline-block;
-			padding: 12px 0;
+			padding: 4px 0;
 			color: $profile-legal-link-color;
 			text-transform: $legal-information-links-text-transform;
 			font-weight: $legal-information-links-font-weight;
