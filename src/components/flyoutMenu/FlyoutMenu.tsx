@@ -8,7 +8,7 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({ children }) => {
 	const [flyoutShown, setFlyoutShown] = useState(false);
 
 	const handleFlyout = useCallback(() => {
-		// TODO detect available space
+		// TODO detect available space (?)
 		setFlyoutShown(!flyoutShown);
 	}, [flyoutShown]);
 
@@ -30,13 +30,15 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({ children }) => {
 				<MenuHorizontalIcon />
 			</button>
 
-			{flyoutShown && (
-				<div className="flyoutMenu__content">
-					{React.Children.map(children, (child) => (
-						<div className="flyoutMenu__item">{child}</div>
-					))}
-				</div>
-			)}
+			<div
+				className={`flyoutMenu__content ${
+					flyoutShown ? 'flyoutMenu__content--shown' : ''
+				}`}
+			>
+				{React.Children.map(children, (child) => (
+					<div className="flyoutMenu__item">{child}</div>
+				))}
+			</div>
 		</div>
 	);
 };

@@ -215,6 +215,9 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 														!subscriber.isModerator && (
 															<FlyoutMenu>
 																<BanUser
+																	userName={decodeUsername(
+																		subscriber.username
+																	)}
 																	rcUserId={
 																		subscriber._id
 																	}

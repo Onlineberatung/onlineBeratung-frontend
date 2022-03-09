@@ -13,4 +13,12 @@
 		background-color: $hover-select;
 		color: $hover-primary;
 	}
+
+	&__overlay {
+		.headline {
+			span {
+				color: $message-name-user;
+			}
+		}
+	}
 }

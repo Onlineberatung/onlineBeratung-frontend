@@ -1,6 +1,4 @@
 .flyoutMenu {
-	position: relative;
-
 	&__trigger {
 		background-color: transparent;
 		border: none;
@@ -22,7 +20,15 @@
 		position: absolute;
 		z-index: 2;
 		border: 1px solid $line-grey;
-		border-radius: 4px;
-		box-shadow: 0 3px 0 1px rgba(0, 0, 0, 0.1);
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.25s ease, visibility 0.25s ease;
+		@include rounded-drop-shadow;
+
+		&--shown {
+			opacity: 1;
+			visibility: visible;
+			transition-duration: 0.25s;
+		}
 	}
 }

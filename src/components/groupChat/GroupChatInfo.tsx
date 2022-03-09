@@ -244,6 +244,9 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 											!subscriber.isModerator && (
 												<FlyoutMenu>
 													<BanUser
+														userName={decodeUsername(
+															subscriber.username
+														)}
 														rcUserId={
 															subscriber._id
 														}

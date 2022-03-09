@@ -75,6 +75,7 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 					{currentUserIsModerator && !subscriberIsModerator && (
 						<FlyoutMenu>
 							<BanUser
+								userName={props.username}
 								rcUserId={props.userId}
 								chatId={activeSession?.chat?.id}
 							/>
