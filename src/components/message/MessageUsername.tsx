@@ -13,8 +13,8 @@ import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/ar
 import { ForwardMessageDTO } from './MessageItemComponent';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
-import { SessionBanAsker } from '../sessionHeader/SessionBanAsker';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { BanUser } from '../banUser/BanUser';
 
 interface MessageUsernameProps {
 	alias?: ForwardMessageDTO;
@@ -74,7 +74,7 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 					{getUsernameWithPrefix()}
 					{currentUserIsModerator && !subscriberIsModerator && (
 						<FlyoutMenu>
-							<SessionBanAsker
+							<BanUser
 								rcUserId={props.userId}
 								chatId={activeSession?.chat?.id}
 								rcToken={getValueFromCookie('rc_token')}

@@ -65,7 +65,7 @@ export const config = {
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
 		consultantsLanguages: apiUrl + '/service/users/consultants/languages',
-		banAsker: (rcUserId, chatId) =>
+		banUser: (rcUserId, chatId) =>
 			apiUrl + `/users/${rcUserId}/chat/${chatId}/ban`
 	},
 	urls: {

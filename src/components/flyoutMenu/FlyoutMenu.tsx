@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { MenuHorizontalIcon } from '../../resources/img/icons';
+import './flyoutMenu.styles.scss';
 
 interface FlyoutMenuProps {}
 
@@ -7,6 +8,7 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({ children }) => {
 	const [flyoutShown, setFlyoutShown] = useState(false);
 
 	const handleFlyout = useCallback(() => {
+		// TODO detect available space
 		setFlyoutShown(!flyoutShown);
 	}, [flyoutShown]);
 
@@ -29,7 +31,11 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({ children }) => {
 			</button>
 
 			{flyoutShown && (
-				<div className="flyoutMenu__content">{children}</div>
+				<div className="flyoutMenu__content">
+					{React.Children.map(children, (child) => (
+						<div className="flyoutMenu__item">{child}</div>
+					))}
+				</div>
 			)}
 		</div>
 	);

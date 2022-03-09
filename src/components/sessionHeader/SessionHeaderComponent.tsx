@@ -40,9 +40,9 @@ import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { SessionBanAsker } from './SessionBanAsker';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
+import { BanUser } from '../banUser/BanUser';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
@@ -206,13 +206,15 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 										{subscriberList.map(
 											(subscriber, index) => (
 												<li key={index}>
-													{decodeUsername(
-														subscriber.username
-													)}
+													<span>
+														{decodeUsername(
+															subscriber.username
+														)}
+													</span>
 													{isCurrentUserModerator &&
 														!subscriber.isModerator && (
 															<FlyoutMenu>
-																<SessionBanAsker
+																<BanUser
 																	rcUserId={
 																		subscriber._id
 																	}

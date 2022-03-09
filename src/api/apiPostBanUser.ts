@@ -1,12 +1,8 @@
 import { config } from '../resources/scripts/config';
 import { FETCH_METHODS, fetchData } from './fetchData';
 
-export const apiPostAskerBan = ({
-	rcUserId,
-	chatId,
-	rcToken
-}): Promise<any> => {
-	const url = config.endpoints.banAsker(rcUserId, chatId);
+export const apiPostBanUser = ({ rcUserId, chatId, rcToken }): Promise<any> => {
+	const url = config.endpoints.banUser(rcUserId, chatId);
 
 	return fetchData({
 		url: url,

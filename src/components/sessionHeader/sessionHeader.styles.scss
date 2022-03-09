@@ -223,8 +223,17 @@ $iconSize: 24px;
 				font-size: $font-size-primary;
 				line-height: $line-height-primary;
 				color: $secondary;
-				text-overflow: ellipsis;
-				overflow: hidden;
+
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				max-width: 300px;
+
+				span {
+					text-overflow: ellipsis;
+					overflow: hidden;
+					margin-right: $grid-base-two;
+				}
 			}
 
 			&:before {

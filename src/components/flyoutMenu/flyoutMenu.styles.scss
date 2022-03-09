@@ -1,0 +1,28 @@
+.flyoutMenu {
+	position: relative;
+
+	&__trigger {
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		color: $secondary;
+
+		&:hover {
+			color: $primary;
+		}
+
+		svg {
+			width: 1.25em;
+			height: 1.25em;
+		}
+	}
+
+	&__content {
+		position: absolute;
+		z-index: 2;
+		border: 1px solid $line-grey;
+		border-radius: 4px;
+		box-shadow: 0 3px 0 1px rgba(0, 0, 0, 0.1);
+	}
+}

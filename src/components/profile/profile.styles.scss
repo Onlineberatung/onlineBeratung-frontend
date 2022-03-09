@@ -350,6 +350,12 @@ $maxFormElementWidth: 320px;
 			&--empty {
 				color: $tertiary;
 			}
+
+			&--subscriber {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
 		}
 
 		&__divider {

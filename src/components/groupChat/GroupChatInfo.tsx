@@ -45,8 +45,8 @@ import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speec
 import '../profile/profile.styles';
 import { Text } from '../text/Text';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
-import { SessionBanAsker } from '../sessionHeader/SessionBanAsker';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { BanUser } from '../banUser/BanUser';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
@@ -238,12 +238,12 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 									className="profile__data__item"
 									key={index}
 								>
-									<p className="profile__data__content">
+									<p className="profile__data__content profile__data__content--subscriber">
 										{decodeUsername(subscriber.username)}
 										{isCurrentUserModerator &&
 											!subscriber.isModerator && (
 												<FlyoutMenu>
-													<SessionBanAsker
+													<BanUser
 														rcUserId={
 															subscriber._id
 														}
