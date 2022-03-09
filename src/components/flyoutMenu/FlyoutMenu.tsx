@@ -10,7 +10,7 @@ interface FlyoutMenuProps {
 export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
 	children,
 	isOpen,
-	handleClose
+	handleClose = () => {}
 }) => {
 	const [flyoutShown, setFlyoutShown] = useState(false);
 
