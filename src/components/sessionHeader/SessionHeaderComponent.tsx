@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentType, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import {
 	translate,
@@ -16,7 +16,8 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	isAnonymousSession,
-	useConsultingType
+	useConsultingType,
+	LegalLinkInterface
 } from '../../globalState';
 import { useLocation, Link } from 'react-router-dom';
 import {
@@ -38,7 +39,6 @@ import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: {
@@ -47,7 +47,7 @@ export interface SessionHeaderProps {
 		username: string;
 	};
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
@@ -182,7 +182,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							props.hasUserInitiatedStopOrLeaveRequest
 						}
 						isAskerInfoAvailable={isAskerInfoAvailable()}
-						legalComponent={props.legalComponent}
+						legalLinks={props.legalLinks}
 					/>
 				</div>
 				<div className="sessionInfo__metaInfo">
@@ -293,7 +293,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
 					isAskerInfoAvailable={isAskerInfoAvailable()}
-					legalComponent={props.legalComponent}
+					legalLinks={props.legalLinks}
 				/>
 			</div>
 			{!activeSession?.isTeamSession ||

@@ -17,17 +17,6 @@ $checkbox-size: 24px;
 		color: var(--skin-color-default, $secondary);
 		margin: 0 0 0 12px;
 		line-height: 24px;
-
-		&--complex {
-			.text:first-of-type,
-			div {
-				float: left;
-			}
-
-			div {
-				margin: 0 3px;
-			}
-		}
 	}
 
 	&__input {

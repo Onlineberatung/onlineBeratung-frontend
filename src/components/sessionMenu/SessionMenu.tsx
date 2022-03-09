@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-	ComponentType,
-	useCallback,
-	useContext,
-	useEffect,
-	useState
-} from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
 import { Link, Redirect, useLocation } from 'react-router-dom';
@@ -20,7 +14,8 @@ import {
 	AUTHORITIES,
 	useConsultingType,
 	UpdateSessionListContext,
-	AcceptedGroupIdContext
+	AcceptedGroupIdContext,
+	LegalLinkInterface
 } from '../../globalState';
 import {
 	typeIsEnquiry,
@@ -67,14 +62,14 @@ import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { history } from '../app/app';
 import DeleteSession from '../session/DeleteSession';
+import { Text } from '../text/Text';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 	isAskerInfoAvailable: boolean;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
@@ -596,11 +591,16 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					</Link>
 				) : null}
 
-				<props.legalComponent
-					className="legalInformationLinks--menu"
-					showDivider={false}
-					textStyle={'infoLargeStandard'}
-				/>
+				<div className="legalInformationLinks--menu">
+					{props.legalLinks.map((legalLink) => (
+						<a href={legalLink.url} key={legalLink.url}>
+							<Text
+								type="infoLargeAlternative"
+								text={legalLink.label}
+							/>
+						</a>
+					))}
+				</div>
 			</div>
 			{overlayActive ? (
 				<OverlayWrapper>

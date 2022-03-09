@@ -6,23 +6,22 @@ import { ComponentType, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
-import { ConsultingTypeInterface } from '../../globalState';
+import { ConsultingTypeInterface, LegalLinkInterface } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
 import { apiGetConsultingType } from '../../api';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 interface RegistrationProps {
 	handleUnmatch: Function;
 	stageComponent: ComponentType<StageProps>;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const Registration = ({
 	handleUnmatch,
-	legalComponent,
+	legalLinks,
 	stageComponent: Stage
 }: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
@@ -86,7 +85,7 @@ export const Registration = ({
 
 	return (
 		<StageLayout
-			legalComponent={legalComponent}
+			legalLinks={legalLinks}
 			showLegalLinks={true}
 			showLoginLink={!showWelcomeScreen}
 			stage={<Stage hasAnimation isReady={consultingType != null} />}
@@ -103,7 +102,7 @@ export const Registration = ({
 				) : (
 					<RegistrationForm
 						consultingType={consultingType}
-						legalComponent={legalComponent}
+						legalLinks={legalLinks}
 					/>
 				))}
 		</StageLayout>

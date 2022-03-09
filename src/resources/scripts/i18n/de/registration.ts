@@ -70,9 +70,8 @@ const registration = {
 	'state.options.14': 'Sachsen-Anhalt',
 	'state.options.15': 'Schleswig-Holstein',
 	'state.options.16': 'Thüringen',
-	'dataProtection.label':
-		'Ich habe die <a href="https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz" target="_blank">Datenschutzerklärung</a> zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
-	'dataProtection.label.prefix': 'Ich habe die  ',
+	'dataProtection.label.prefix': 'Ich habe die ',
+	'dataProtection.label.and': ' und ',
 	'dataProtection.label.suffix':
 		' zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 	'submitButton.label': 'Registrieren',

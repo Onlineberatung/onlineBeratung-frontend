@@ -12,21 +12,21 @@ import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { TenantThemingLoader } from './TenantThemingLoader';
+import { LegalLinkInterface } from '../../globalState';
 
 export const history = createBrowserHistory();
 
 interface AppProps {
 	stageComponent: ComponentType<StageProps>;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 	entryPoint: string;
 	extraRoutes?: ReactNode;
 }
 
 export const App = ({
 	stageComponent,
-	legalComponent,
+	legalLinks,
 	entryPoint,
 	extraRoutes
 }: AppProps) => {
@@ -82,7 +82,7 @@ export const App = ({
 											true
 										)
 									}
-									legalComponent={legalComponent}
+									legalLinks={legalLinks}
 									stageComponent={stageComponent}
 								/>
 							</Route>
@@ -90,6 +90,7 @@ export const App = ({
 						{!hasUnmatchedAnonymousConversation && (
 							<Route path="/:consultingTypeSlug/warteraum">
 								<WaitingRoomLoader
+									legalLinks={legalLinks}
 									handleUnmatch={() =>
 										setHasUnmatchedAnonymousConversation(
 											true
@@ -107,14 +108,14 @@ export const App = ({
 									handleUnmatch={() =>
 										setHasUnmatchedLoginConsultingType(true)
 									}
-									legalComponent={legalComponent}
+									legalLinks={legalLinks}
 									stageComponent={stageComponent}
 								/>
 							</Route>
 						)}
 						{isInitiallyLoaded && (
 							<AuthenticatedApp
-								legalComponent={legalComponent}
+								legalLinks={legalLinks}
 								onAppReady={() => setStartWebsocket(true)}
 								onLogout={() => setDisconnectWebsocket(true)}
 							/>

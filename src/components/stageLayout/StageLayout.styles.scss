@@ -63,6 +63,7 @@
 	}
 
 	&__legalLinks {
+		display: flex;
 		position: absolute;
 		bottom: $grid-base-four;
 		left: $legal-information-links-left-default;
@@ -74,5 +75,14 @@
 		@include breakpoint($fromLarge) {
 			left: $legal-information-links-left-large;
 		}
+	}
+
+	&__legalLinksItem {
+		color: $link-color;
+	}
+
+	&__legalLinksSeparator {
+		display: inline-block;
+		margin: 0 $grid-base;
 	}
 }

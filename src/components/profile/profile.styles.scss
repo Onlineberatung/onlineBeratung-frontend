@@ -317,13 +317,13 @@ $profile-title-mobile-text-align: center !default;
 		align-items: center;
 		justify-content: center;
 		margin-top: auto;
-		padding: 2px $grid-base-two;
+		padding: 0 $grid-base-two;
 		background-color: $profile-imprint-background-color-mobile;
 		margin-bottom: $grid-base-nine;
 		width: 100%;
 
 		@include breakpoint($fromMedium) {
-			padding: 2px $grid-base-three;
+			padding: 0 $grid-base-three;
 		}
 
 		@include breakpoint($fromLarge) {
@@ -338,15 +338,18 @@ $profile-title-mobile-text-align: center !default;
 		}
 
 		&__item {
-			color: var(--skin-color-default, $secondary);
-
-			&:not(:first-child) {
-				margin-left: 20px;
-			}
+			display: inline-block;
+			padding: 12px 0;
+			color: var(--skin-color-primary-contrast-safe, $primary);
 
 			&:hover {
-				color: var(--skin-color-default, $primary);
+				color: var(--skin-color-primary-contrast-safe, $hover-primary);
 			}
+		}
+
+		&__separator {
+			display: inline-block;
+			margin: 0 8px;
 		}
 	}
 }

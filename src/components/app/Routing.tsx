@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentType, useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { Route } from 'react-router-dom';
 import {
 	RouterConfigUser,
@@ -14,18 +14,18 @@ import {
 	SessionsDataContext,
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	LegalLinkInterface
 } from '../../globalState';
 import { history } from './app';
 import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import { NavigationBar } from './NavigationBar';
 import { Header } from '../header/Header';
 import { FinishedAnonymousConversationHandler } from './FinishedAnonymousConversationHandler';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 interface routingProps {
 	logout?: Function;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const Routing = (props: routingProps) => {

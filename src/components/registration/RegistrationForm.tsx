@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, ComponentType } from 'react';
+import { useState, useEffect } from 'react';
 import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
@@ -26,17 +26,17 @@ import { isNumber } from '../../utils/isNumber';
 import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import {
 	AgencyDataInterface,
-	ConsultingTypeInterface
+	ConsultingTypeInterface,
+	LegalLinkInterface
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 import { getUrlParameter } from '../../utils/getUrlParameter';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './registrationForm.styles';
 
 interface RegistrationFormProps {
 	consultingType: ConsultingTypeInterface;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 interface FormAccordionData {
@@ -50,7 +50,7 @@ interface FormAccordionData {
 
 export const RegistrationForm = ({
 	consultingType,
-	legalComponent: LegalComponent
+	legalLinks
 }: RegistrationFormProps) => {
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>();
@@ -123,14 +123,25 @@ export const RegistrationForm = ({
 		inputId: 'dataProtectionCheckbox',
 		name: 'dataProtectionCheckbox',
 		labelId: 'dataProtectionLabel',
-		label: translate('registration.dataProtection.label'),
 		checked: isDataProtectionSelected,
-		complexLabel: {
-			prefix: translate('registration.dataProtection.label.prefix'),
-			suffix: translate('registration.dataProtection.label.suffix'),
-			component: LegalComponent,
-			attributes: { textStyle: 'standard', hideImprint: true }
-		}
+		label: [
+			translate('registration.dataProtection.label.prefix'),
+			legalLinks
+				.filter((legalLink) => legalLink.registration)
+				.map(
+					(legalLink, index, { length }) =>
+						(index > 0
+							? index < length - 1
+								? ', '
+								: translate(
+										'registration.dataProtection.label.and'
+								  )
+							: '') +
+						`<a target="_blank" href="${legalLink.url}">${legalLink.label}</a>`
+				)
+				.join(''),
+			translate('registration.dataProtection.label.suffix')
+		].join(' ')
 	};
 
 	const overlayItemRegistrationSuccess: OverlayItem = {

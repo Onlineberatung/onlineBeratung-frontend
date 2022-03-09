@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-	ComponentType,
-	useCallback,
-	useContext,
-	useEffect,
-	useState
-} from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Routing } from './Routing';
 import { config } from '../../resources/scripts/config';
 import {
@@ -20,7 +14,8 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	SessionsDataContext,
-	ConsultingTypesContext
+	ConsultingTypesContext,
+	LegalLinkInterface
 } from '../../globalState';
 import {
 	apiFinishAnonymousConversation,
@@ -31,20 +26,19 @@ import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
 import { Notifications } from '../notifications/Notifications';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './authenticatedApp.styles';
 import './navigation.styles';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
 	onLogout: Function;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const AuthenticatedApp = ({
 	onLogout,
 	onAppReady,
-	legalComponent
+	legalLinks
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { setAuthData } = useContext(AuthDataContext);
@@ -105,10 +99,7 @@ export const AuthenticatedApp = ({
 	if (appReady) {
 		return (
 			<>
-				<Routing
-					logout={handleLogout}
-					legalComponent={legalComponent}
-				/>
+				<Routing logout={handleLogout} legalLinks={legalLinks} />
 				{notifications && (
 					<Notifications notifications={notifications} />
 				)}
