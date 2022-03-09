@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { apiPostBanUser } from '../../api/apiPostBanUser';
+import { translate } from '../../utils/translate';
 import { Overlay, OverlayItem, OverlayWrapper } from '../overlay/Overlay';
 import './banUser.styles.scss';
 import { banSuccessOverlay } from './banUserHelper';
@@ -28,7 +29,7 @@ export const BanUser: React.FC<BanUserProps> = ({
 	return (
 		<>
 			<button className="banUser" onClick={banUser}>
-				Bannen {/* TODO i18n */}
+				{translate('banUser.ban.trigger')}
 			</button>
 			{overlayActive && (
 				<OverlayWrapper>
