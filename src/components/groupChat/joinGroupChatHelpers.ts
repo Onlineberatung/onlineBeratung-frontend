@@ -43,3 +43,10 @@ export const joinGroupChatClosedErrorOverlay: OverlayItem = {
 		}
 	]
 };
+
+export const bannedUserOverlay: OverlayItem = {
+	svg: XIcon,
+	illustrationBackground: 'large',
+	headline: 'Sie wurden gebannt.', // TODO
+	copy: 'Sie haben gegen unsere Spielregeln im Chat verstoßen. Unsere Spielregeln stehen finden Sie immer auf der ersten Seite des Chats. Wenn Sie sich an die Regeln halten, heißt Sie Ihr_e Moderator_in wieder herzlich Willkommen.' // TODO
+};

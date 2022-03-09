@@ -33,7 +33,8 @@ import {
 	startButtonItem,
 	joinButtonItem,
 	startJoinGroupChatErrorOverlay,
-	joinGroupChatClosedErrorOverlay
+	joinGroupChatClosedErrorOverlay,
+	bannedUserOverlay
 } from './joinGroupChatHelpers';
 import { Button } from '../button/Button';
 import { logout } from '../logout/logout';
@@ -44,6 +45,7 @@ import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 
 interface JoinGroupChatViewProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
@@ -65,6 +67,9 @@ export const JoinGroupChatView = ({
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const consultingType = useConsultingType(chatItem.consultingType);
+	const [bannedUsers, setBannedUsers] = useState<string[]>([
+		'd8sPLGcyjzeY2kopg'
+	]); // TODO REMOVE DEBUGGING
 
 	const [buttonItem, setButtonItem] = useState(joinButtonItem);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -109,6 +114,9 @@ export const JoinGroupChatView = ({
 		) {
 			apiGetGroupChatInfo(chatItem.id)
 				.then((response: groupChatInfoData) => {
+					if (response.bannedUsers) {
+						setBannedUsers(response.bannedUsers);
+					}
 					if (chatItem.active !== response.active) {
 						let changedSessionsData =
 							getSessionsDataWithChangedValue(
@@ -138,7 +146,17 @@ export const JoinGroupChatView = ({
 		}
 	};
 
+	const handleOverlayClose = () => {
+		setOverlayActive(false);
+	};
+
 	const handleButtonClick = () => {
+		if (bannedUsers.includes(getValueFromCookie('rc_uid'))) {
+			// TODO OPEN OVERLAY
+			setOverlayItem(bannedUserOverlay);
+			setOverlayActive(true);
+			return null;
+		}
 		if (isRequestInProgress) {
 			return null;
 		}
@@ -237,6 +255,7 @@ export const JoinGroupChatView = ({
 					<Overlay
 						item={overlayItem}
 						handleOverlay={handleOverlayAction}
+						handleOverlayClose={handleOverlayClose}
 					/>
 				</OverlayWrapper>
 			)}
