@@ -64,6 +64,7 @@
 
 	&__legalLinks {
 		display: flex;
+		flex-wrap: wrap;
 		position: absolute;
 		bottom: $grid-base-four;
 		left: $legal-information-links-left-default;
