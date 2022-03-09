@@ -66,7 +66,7 @@ export const config = {
 		userSessionsListView: '/sessions/user/view',
 		consultantsLanguages: apiUrl + '/service/users/consultants/languages',
 		banUser: (rcUserId, chatId) =>
-			apiUrl + `/users/${rcUserId}/chat/${chatId}/ban`
+			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:

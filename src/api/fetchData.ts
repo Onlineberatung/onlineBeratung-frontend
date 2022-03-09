@@ -80,7 +80,8 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 		const rcHeaders = props.rcValidation
 			? {
 					rcToken: getValueFromCookie('rc_token'),
-					rcUserId: getValueFromCookie('rc_uid')
+					rcUserId: getValueFromCookie('rc_uid'),
+					chatConsultantToken: getValueFromCookie('rc_token') // TODO REMOVE DEBUGGING
 			  }
 			: null;
 
