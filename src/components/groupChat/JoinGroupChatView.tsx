@@ -33,8 +33,7 @@ import {
 	startButtonItem,
 	joinButtonItem,
 	startJoinGroupChatErrorOverlay,
-	joinGroupChatClosedErrorOverlay,
-	bannedUserOverlay
+	joinGroupChatClosedErrorOverlay
 } from './joinGroupChatHelpers';
 import { Button } from '../button/Button';
 import { logout } from '../logout/logout';
@@ -46,6 +45,7 @@ import { Text } from '../text/Text';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { bannedUserOverlay } from '../banUser/banUserHelper';
 
 interface JoinGroupChatViewProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
@@ -152,7 +152,6 @@ export const JoinGroupChatView = ({
 
 	const handleButtonClick = () => {
 		if (bannedUsers.includes(getValueFromCookie('rc_uid'))) {
-			// TODO OPEN OVERLAY
 			setOverlayItem(bannedUserOverlay);
 			setOverlayActive(true);
 			return null;
