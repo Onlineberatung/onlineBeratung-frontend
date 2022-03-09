@@ -223,7 +223,8 @@ const useTenantTheming = () => {
 		apiGetTenantTheming({ subdomain })
 			.then((tenant) => {
 				// ToDo: See VIC-428 + VIC-427
-				const decodedTenant = { ...tenant };
+				const decodedTenant = JSON.parse(JSON.stringify(tenant));
+
 				decodedTenant.theming.logo = decodeHTML(tenant.theming.logo);
 				decodedTenant.theming.favicon = decodeHTML(
 					tenant.theming.favicon

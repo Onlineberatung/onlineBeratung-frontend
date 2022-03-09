@@ -1,5 +1,5 @@
 /**
- * Image base64 data, claim + Co is currently stored with HTML encoding in the backend upon saving.
+ * All data within the tenant service is currently stored with HTML encoding in the backend upon saving.
  * E.g. "+" is encoded with "&#43;" and needs to be decoded appropriately.
  * See https://en.wikipedia.org/wiki/Character_encodings_in_HTML#HTML_character_references
  */
