@@ -32,3 +32,11 @@
 		}
 	}
 }
+
+.has-flyout {
+	&:hover {
+		.flyoutMenu__trigger {
+			color: $primary;
+		}
+	}
+}

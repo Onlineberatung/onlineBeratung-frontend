@@ -55,6 +55,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	const { userData } = useContext(UserDataContext);
 	const chatItem = getChatItemForSession(activeSession);
 	const consultingType = useConsultingType(chatItem?.consultingType);
+	const [flyoutOpenId, setFlyoutOpenId] = useState('');
 
 	const username = getContact(activeSession).username;
 	const userSessionData = getContact(activeSession).sessionData;
@@ -129,6 +130,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 			!flyoutElement.contains(event.target) &&
 			event.target.id !== 'subscriberButton'
 		) {
+			setFlyoutOpenId('');
 			setIsSubscriberFlyoutOpen(false);
 		}
 	};
@@ -205,7 +207,20 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 									<ul>
 										{subscriberList.map(
 											(subscriber, index) => (
-												<li key={index}>
+												<li
+													className={
+														isCurrentUserModerator &&
+														!subscriber.isModerator
+															? 'has-flyout'
+															: ''
+													}
+													key={index}
+													onClick={() => {
+														setFlyoutOpenId(
+															subscriber._id
+														);
+													}}
+												>
 													<span>
 														{decodeUsername(
 															subscriber.username
@@ -213,7 +228,17 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 													</span>
 													{isCurrentUserModerator &&
 														!subscriber.isModerator && (
-															<FlyoutMenu>
+															<FlyoutMenu
+																isOpen={
+																	flyoutOpenId ===
+																	subscriber._id
+																}
+																handleClose={() => {
+																	setFlyoutOpenId(
+																		null
+																	);
+																}}
+															>
 																<BanUser
 																	userName={decodeUsername(
 																		subscriber.username

@@ -2,15 +2,30 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { MenuHorizontalIcon } from '../../resources/img/icons';
 import './flyoutMenu.styles.scss';
 
-interface FlyoutMenuProps {}
+interface FlyoutMenuProps {
+	isOpen?: boolean;
+	handleClose?: () => void;
+}
 
-export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({ children }) => {
+export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
+	children,
+	isOpen,
+	handleClose
+}) => {
 	const [flyoutShown, setFlyoutShown] = useState(false);
 
+	// TODO detect available space (?)
+
 	const handleFlyout = useCallback(() => {
-		// TODO detect available space (?)
 		setFlyoutShown(!flyoutShown);
-	}, [flyoutShown]);
+		if (!flyoutShown) {
+			handleClose();
+		}
+	}, [flyoutShown, handleClose]);
+
+	useEffect(() => {
+		setFlyoutShown(isOpen);
+	}, [isOpen]);
 
 	useEffect(() => {
 		if (flyoutShown) {

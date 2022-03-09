@@ -234,6 +234,15 @@ $iconSize: 24px;
 					overflow: hidden;
 					margin-right: $grid-base-two;
 				}
+
+				&.has-flyout {
+					cursor: pointer;
+
+					&:hover {
+						background-color: $hover-select;
+						color: $hover-primary;
+					}
+				}
 			}
 
 			&:before {
