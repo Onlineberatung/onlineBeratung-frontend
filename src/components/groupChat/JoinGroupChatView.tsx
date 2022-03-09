@@ -69,7 +69,7 @@ export const JoinGroupChatView = ({
 	const consultingType = useConsultingType(chatItem.consultingType);
 	const [bannedUsers, setBannedUsers] = useState<string[]>([
 		'd8sPLGcyjzeY2kopg'
-	]); // TODO REMOVE DEBUGGING
+	]); // TODO ALEX REMOVE DEBUGGING
 
 	const [buttonItem, setButtonItem] = useState(joinButtonItem);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);

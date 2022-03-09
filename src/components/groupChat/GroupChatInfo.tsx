@@ -242,7 +242,13 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 										{decodeUsername(subscriber.username)}
 										{isCurrentUserModerator &&
 											!subscriber.isModerator && (
-												<FlyoutMenu>
+												<FlyoutMenu
+													position={
+														window.innerWidth <= 900
+															? 'left'
+															: 'right'
+													}
+												>
 													<BanUser
 														userName={decodeUsername(
 															subscriber.username

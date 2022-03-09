@@ -5,16 +5,16 @@ import './flyoutMenu.styles.scss';
 interface FlyoutMenuProps {
 	isOpen?: boolean;
 	handleClose?: () => void;
+	position?: 'right' | 'left';
 }
 
 export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
 	children,
 	isOpen,
-	handleClose = () => {}
+	handleClose = () => {},
+	position = 'left'
 }) => {
 	const [flyoutShown, setFlyoutShown] = useState(false);
-
-	// TODO detect available space (?)
 
 	const handleFlyout = useCallback(() => {
 		setFlyoutShown(!flyoutShown);
@@ -40,7 +40,7 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
 	}, [flyoutShown, handleFlyout]);
 
 	return (
-		<div className="flyoutMenu">
+		<div className={`flyoutMenu flyoutMenu--${position}`}>
 			<button onClick={handleFlyout} className="flyoutMenu__trigger">
 				<MenuHorizontalIcon />
 			</button>

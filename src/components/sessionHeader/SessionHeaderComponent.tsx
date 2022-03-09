@@ -229,6 +229,12 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 													{isCurrentUserModerator &&
 														!subscriber.isModerator && (
 															<FlyoutMenu
+																position={
+																	window.innerWidth <=
+																	900
+																		? 'left'
+																		: 'right'
+																}
 																isOpen={
 																	flyoutOpenId ===
 																	subscriber._id

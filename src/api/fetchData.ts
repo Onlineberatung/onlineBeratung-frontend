@@ -81,7 +81,7 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 			? {
 					rcToken: getValueFromCookie('rc_token'),
 					rcUserId: getValueFromCookie('rc_uid'),
-					chatConsultantToken: getValueFromCookie('rc_token') // TODO REMOVE DEBUGGING
+					chatConsultantToken: getValueFromCookie('rc_token') // TODO ALEX REMOVE DEBUGGING
 			  }
 			: null;
 

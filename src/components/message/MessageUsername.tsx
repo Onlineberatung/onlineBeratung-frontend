@@ -73,7 +73,7 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 				>
 					{getUsernameWithPrefix()}
 					{currentUserIsModerator && !subscriberIsModerator && (
-						<FlyoutMenu>
+						<FlyoutMenu position="right">
 							<BanUser
 								userName={props.username}
 								rcUserId={props.userId}

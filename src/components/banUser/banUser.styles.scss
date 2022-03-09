@@ -1,5 +1,8 @@
 .banUser {
-	padding: $grid-base $grid-base-two;
+	padding: 14px $grid-base-two;
+	font-size: $font-size-primary;
+	line-height: $line-height-primary;
+
 	background-color: transparent;
 	border: none;
 	cursor: pointer;

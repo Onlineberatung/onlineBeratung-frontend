@@ -237,6 +237,7 @@ $iconSize: 24px;
 
 				&.has-flyout {
 					cursor: pointer;
+					transition: all 0.3s ease;
 
 					&:hover {
 						background-color: $hover-select;
