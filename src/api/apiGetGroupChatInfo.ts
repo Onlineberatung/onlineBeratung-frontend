@@ -1,3 +1,4 @@
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { config } from '../resources/scripts/config';
 import {
 	fetchData,
@@ -10,12 +11,17 @@ export interface groupChatInfoData {
 	active: boolean;
 	groupId: string;
 	id: number;
+	bannedUsers?: string[];
 }
 
 export const apiGetGroupChatInfo = async (
 	groupChatId: number
 ): Promise<groupChatInfoData> => {
-	const url = config.endpoints.groupChatBase + groupChatId;
+	const rcToken = getValueFromCookie('rc_token');
+	let url = config.endpoints.groupChatBase + groupChatId;
+	if (rcToken) {
+		url = url + '?chatUserToken=' + rcToken;
+	}
 
 	return fetchData({
 		url: url,

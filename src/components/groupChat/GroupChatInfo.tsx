@@ -251,9 +251,6 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 															activeSession?.chat
 																?.id
 														}
-														rcToken={getValueFromCookie(
-															'rc_token'
-														)}
 													/>
 												</FlyoutMenu>
 											)}

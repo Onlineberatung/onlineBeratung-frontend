@@ -223,9 +223,6 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 																			?.chat
 																			?.id
 																	}
-																	rcToken={getValueFromCookie(
-																		'rc_token'
-																	)}
 																/>
 															</FlyoutMenu>
 														)}

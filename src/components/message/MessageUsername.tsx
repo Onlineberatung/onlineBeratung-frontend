@@ -77,7 +77,6 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 							<BanUser
 								rcUserId={props.userId}
 								chatId={activeSession?.chat?.id}
-								rcToken={getValueFromCookie('rc_token')}
 							/>
 						</FlyoutMenu>
 					)}

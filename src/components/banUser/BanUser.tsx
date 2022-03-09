@@ -4,17 +4,12 @@ import './banUser.styles.scss';
 
 interface BanUserProps {
 	rcUserId: string;
-	rcToken: string;
 	chatId: number;
 }
 
-export const BanUser: React.FC<BanUserProps> = ({
-	rcUserId,
-	chatId,
-	rcToken
-}) => {
+export const BanUser: React.FC<BanUserProps> = ({ rcUserId, chatId }) => {
 	const banUser = () => {
-		apiPostBanUser({ rcUserId, chatId, rcToken });
+		apiPostBanUser({ rcUserId, chatId });
 	};
 
 	return (
