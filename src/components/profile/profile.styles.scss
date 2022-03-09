@@ -7,6 +7,7 @@ $groupChatIconSize: 40px;
 $maxFormElementWidth: 320px;
 $profile-imprint-background-color-desktop: $background-light !default;
 $profile-content-wrapper-detail-button-text-align: center !default;
+$profile-legal-link-color: $primary !default;
 $profile-select-margin-left: auto !default;
 $profile-select-padding-left: $grid-base-three !default;
 $profile-title-mobile-text-align: center !default;
@@ -340,11 +341,9 @@ $profile-title-mobile-text-align: center !default;
 		&__item {
 			display: inline-block;
 			padding: 12px 0;
-			color: var(--skin-color-primary-contrast-safe, $primary);
-
-			&:hover {
-				color: var(--skin-color-primary-contrast-safe, $hover-primary);
-			}
+			color: $profile-legal-link-color;
+			text-transform: $legal-information-links-text-transform;
+			font-weight: $legal-information-links-font-weight;
 		}
 
 		&__separator {

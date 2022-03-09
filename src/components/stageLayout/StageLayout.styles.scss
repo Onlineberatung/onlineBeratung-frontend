@@ -79,6 +79,8 @@
 
 	&__legalLinksItem {
 		color: $link-color;
+		text-transform: $legal-information-links-text-transform;
+		font-weight: $legal-information-links-font-weight;
 	}
 
 	&__legalLinksSeparator {
