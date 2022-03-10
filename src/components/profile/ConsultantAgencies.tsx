@@ -32,18 +32,20 @@ export const ConsultantAgencies = () => {
 						<>
 							{i !== 0 && <hr />}
 							<div
-								className="profile__data__content flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
+								className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
 								key={i}
 							>
 								{item.name}
-								<div className="flex mt--2 mt-l--0 flex--fd-row flex-l--fd-column flex-xl--fd-row">
+								<div className="flex mt--2 mt-xl--0 flex--fd-row flex-xl--fd-column ml-xl--2">
 									<AgencyRegistrationLink agency={item} />
-									<GenerateQrCode
-										url={`${config.urls.registration}?aid=${item.id}`}
-										filename={translate(
-											'qrCode.download.filename.agency'
-										)}
-									/>
+									<div className="mt-xl--1">
+										<GenerateQrCode
+											url={`${config.urls.registration}?aid=${item.id}`}
+											filename={translate(
+												'qrCode.download.filename.agency'
+											)}
+										/>
+									</div>
 								</div>
 							</div>
 						</>

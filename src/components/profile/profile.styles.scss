@@ -369,6 +369,16 @@ $inputMaxWidth: 500px;
 			&--empty {
 				color: $tertiary;
 			}
+
+			&--agencies {
+				border-bottom: 1px solid $line-grey;
+				padding-bottom: $grid-base-two;
+
+				&:last-child {
+					border: none;
+					padding-bottom: 0;
+				}
+			}
 		}
 
 		&__divider {

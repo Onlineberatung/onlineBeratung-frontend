@@ -84,28 +84,32 @@ const PersonalRegistrationLink = ({
 	}, [cid, addNotification]);
 
 	return (
-		<div className={`flex ${className}`}>
-			<span
-				role="button"
-				className="text--right text--nowrap mr--1 flex__col--no-grow flex-xl__col--grow text--tertiary primary"
-				onClick={copyRegistrationLink}
-				title={translate(
-					'profile.data.personal.registrationLink.title'
-				)}
-			>
-				<CopyIcon className={`copy icn--s`} />{' '}
-				{translate('profile.data.personal.registrationLink.text')}
-			</span>
-			<GenerateQrCode
-				url={`${config.urls.registration}?cid=${cid}`}
-				filename={translate('qrCode.download.filename.personal')}
-			/>
-			<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
-				<Tooltip trigger={<InfoIcon className="icn icn--xl" />}>
-					{translate(
-						'profile.data.personal.registrationLink.tooltip'
+		<div className={`flex flex--wrap flex-xl--nowrap ${className}`}>
+			<div className="mb--1 mb-l--0">
+				<GenerateQrCode
+					url={`${config.urls.registration}?cid=${cid}`}
+					filename={translate('qrCode.download.filename.personal')}
+				/>
+			</div>
+			<div className="flex flex--ai-fs">
+				<span
+					role="button"
+					className="text--right text--nowrap mr--1 flex__col--no-grow flex-xl__col--grow text--tertiary primary"
+					onClick={copyRegistrationLink}
+					title={translate(
+						'profile.data.personal.registrationLink.title'
 					)}
-				</Tooltip>
+				>
+					<CopyIcon className={`copy icn--s`} />{' '}
+					{translate('profile.data.personal.registrationLink.text')}
+				</span>
+				<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
+					<Tooltip trigger={<InfoIcon className="icn icn--xl" />}>
+						{translate(
+							'profile.data.personal.registrationLink.tooltip'
+						)}
+					</Tooltip>
+				</div>
 			</div>
 		</div>
 	);
