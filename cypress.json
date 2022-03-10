@@ -3,5 +3,8 @@
 	"pluginsFile": false,
 	"chromeWebSecurity": false,
 	"viewportWidth": 1200,
-	"viewportHeight": 800
+	"viewportHeight": 800,
+	"retries": {
+		"runMode": 2
+	}
 }
