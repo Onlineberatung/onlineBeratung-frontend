@@ -158,7 +158,8 @@ export interface MessageSubmitInterfaceComponentProps {
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
-	const textareaRef = React.useRef<HTMLDivElement>(null);
+	const textareaInputRef = React.useRef<HTMLDivElement>(null);
+	const inputWrapperRef = React.useRef<HTMLSpanElement>(null);
 	const featureWrapperRef = React.useRef<HTMLDivElement>(null);
 	const attachmentInputRef = React.useRef<HTMLInputElement>(null);
 	const { userData } = useContext(UserDataContext);
@@ -361,80 +362,71 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const resizeTextarea = () => {
-		const textarea: any = textareaRef.current;
+		const textInput: any = textareaInputRef.current;
+		const realTextHeight = document.querySelector(
+			'.public-DraftEditor-content > div'
+		)?.scrollHeight;
 		const featureWrapper: any = featureWrapperRef.current;
 
-		resetTextareaSize(textarea);
+		resetTextareaSize();
 
-		let maxHeight;
+		// default values
+		let textareaMaxHeight;
 		if (window.innerWidth <= 900) {
-			maxHeight = 118;
+			textareaMaxHeight = 118;
 		} else {
-			maxHeight = 218;
+			textareaMaxHeight = 218;
 		}
+		const richtextHeight = 38;
+		const fileHeight = 48;
+		// calculate inputHeight
+		let textHeight = realTextHeight;
+		// let textHeight = textInput?.scrollHeight;
+		let textInputMaxHeight = isRichtextActive
+			? textareaMaxHeight - richtextHeight
+			: textareaMaxHeight;
+		textInputMaxHeight = attachmentSelected
+			? textInputMaxHeight - fileHeight
+			: textInputMaxHeight;
+		const currentInputHeight =
+			textHeight > textInputMaxHeight ? textInputMaxHeight : textHeight;
+		// add general styles
+		const currentOverflow =
+			textHeight <= textareaMaxHeight
+				? 'overflow-y: hidden;'
+				: 'overflow-y: scroll;';
+		const textInputMarginTop = isRichtextActive
+			? `margin-top: ${richtextHeight}px;`
+			: '';
+		const textInputMarginBottom = attachmentSelected
+			? `margin-bottom: ${fileHeight}px;`
+			: '';
+		let textInputStyles = `min-height: ${currentInputHeight}px; ${currentOverflow} ${textInputMarginTop} ${textInputMarginBottom}`;
+		textInputStyles = isRichtextActive
+			? textInputStyles +
+			  `border-top: none; border-top-right-radius: 0; box-shadow: none;`
+			: textInputStyles;
+		textInputStyles = attachmentSelected
+			? textInputStyles +
+			  `border-bottom: none; border-bottom-right-radius: 0;`
+			: textInputStyles;
+		// set styles
+		textInput?.setAttribute('style', textInputStyles);
+		const inputWrapper: any = inputWrapperRef.current;
+		const featureWrapperHeight = inputWrapper?.clientHeight;
+		console.log(
+			'featureWrapper',
+			featureWrapperHeight,
+			textHeight,
+			currentInputHeight,
+			textInputMaxHeight
+		);
+		featureWrapper?.setAttribute(
+			'style',
+			'min-height: ' + featureWrapperHeight + 'px;'
+		);
 
-		const fileHeight = 44;
-		const richtextHeight = 37;
-
-		let textHeight = textarea?.scrollHeight;
-		textHeight = attachmentSelected ? textHeight + fileHeight : textHeight;
-		textHeight = isRichtextActive
-			? textHeight + richtextHeight
-			: textHeight;
-
-		if (textHeight <= maxHeight) {
-			textarea?.setAttribute(
-				'style',
-				'min-height: ' + textHeight + 'px;' + ' overflow-y: hidden;' // eslint-disable-line
-			);
-			attachmentSelected
-				? textarea?.setAttribute(
-						'style',
-						'min-height: ' +
-							textHeight +
-							'px; padding-bottom: ' +
-							fileHeight +
-							'px; overflow-y: hidden;'
-				  )
-				: textarea?.setAttribute(
-						'style',
-						'min-height: ' +
-							textHeight +
-							'px;' +
-							' overflow-y: hidden;'
-				  );
-			featureWrapper?.setAttribute(
-				'style',
-				'min-height: ' + textHeight + 'px;'
-			);
-		} else {
-			textarea?.setAttribute(
-				'style',
-				'min-height: ' + maxHeight + 'px;' + ' overflow-y: scroll;' // eslint-disable-line
-			);
-			attachmentSelected
-				? textarea?.setAttribute(
-						'style',
-						'min-height: ' +
-							maxHeight +
-							'px; padding-bottom: ' +
-							fileHeight +
-							'px; overflow-y: scroll;'
-				  )
-				: textarea?.setAttribute(
-						'style',
-						'min-height: ' +
-							maxHeight +
-							'px;' +
-							' overflow-y: scroll;'
-				  );
-			featureWrapper?.setAttribute(
-				'style',
-				'min-height: ' + maxHeight + 'px;'
-			);
-		}
-
-		const textareaContainer = textarea?.closest('.textarea');
+		const textareaContainer = textInput?.closest('.textarea');
 		const textareaContainerHeight = textareaContainer?.offsetHeight;
 		const scrollButton = textareaContainer
 			?.closest('.session')
@@ -444,14 +436,14 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
-	const resetTextareaSize = (textarea) => {
+	const resetTextareaSize = () => {
+		const textareaInput: any = textareaInputRef.current;
 		const featureWrapper: any = featureWrapperRef.current;
-
 		if (window.innerWidth <= 900) {
-			textarea?.setAttribute('style', 'min-height: 87px;');
+			textareaInput?.setAttribute('style', 'min-height: 87px;');
 			featureWrapper?.setAttribute('style', 'min-height: 87px;');
 		} else {
-			textarea?.setAttribute('style', 'min-height: 106px;');
+			textareaInput?.setAttribute('style', 'min-height: 106px;');
 			featureWrapper?.setAttribute('style', 'min-height: 106px;');
 		}
 	};
@@ -750,100 +742,92 @@ export const MessageSubmitInterfaceComponent = (
 							: 'textarea'
 					}
 				>
-					<span className="textarea__outerWrapper">
-						{hasRequestFeedbackCheckbox && (
-							<Checkbox
-								className="textarea__checkbox"
-								item={checkboxItem}
-								checkboxHandle={handleCheckboxClick}
-							/>
-						)}
-						<div className="textarea__wrapper">
-							<span
-								ref={featureWrapperRef}
-								className="textarea__featureWrapper"
-							>
-								<span className="textarea__richtextToggle">
-									<RichtextToggleIcon
-										width="20"
-										height="20"
-										onClick={() =>
-											setIsRichtextActive(
-												!isRichtextActive
-											)
-										}
-									/>
-								</span>
-								<EmojiSelect />
+					{hasRequestFeedbackCheckbox && (
+						<Checkbox
+							className="textarea__checkbox"
+							item={checkboxItem}
+							checkboxHandle={handleCheckboxClick}
+						/>
+					)}
+					<div className="textarea__wrapper">
+						<div
+							ref={featureWrapperRef}
+							className="textarea__featureWrapper"
+						>
+							<span className="textarea__richtextToggle">
+								<RichtextToggleIcon
+									width="20"
+									height="20"
+									onClick={() =>
+										setIsRichtextActive(!isRichtextActive)
+									}
+								/>
 							</span>
-							<span className="textarea__inputWrapper">
-								<div
-									className={clsx('textarea__input', {
-										'textarea__input--activeRichtext':
-											isRichtextActive
-									})}
-									ref={textareaRef}
-									onKeyUp={resizeTextarea}
-									onFocus={toggleAbsentMessage}
-									onBlur={toggleAbsentMessage}
-								>
-									<PluginsEditor
-										editorState={editorState}
-										onChange={handleEditorChange}
-										handleKeyCommand={
-											handleEditorKeyCommand
-										}
-										placeholder={placeholder}
-										stripPastedStyles={true}
-										spellCheck={true}
-										handleBeforeInput={() =>
-											handleEditorBeforeInput(editorState)
-										}
-										handlePastedText={(
-											text: string,
-											html?: string
-										): DraftHandleValue => {
-											const newEditorState =
-												handleEditorPastedText(
-													editorState,
-													text,
-													html
-												);
-											if (newEditorState) {
-												setEditorState(newEditorState);
-											}
-											return 'handled';
-										}}
-										plugins={[
-											linkifyPlugin,
-											staticToolbarPlugin,
-											emojiPlugin
-										]}
-									/>
-									<Toolbar>
-										{(externalProps) => (
-											<div className="textarea__toolbar__buttonWrapper">
-												<BoldButton
-													{...externalProps}
-												/>
-												<ItalicButton
-													{...externalProps}
-												/>
-												<UnorderedListButton
-													{...externalProps}
-												/>
-											</div>
-										)}
-									</Toolbar>
-								</div>
-								{hasUploadFunctionality &&
-									(!attachmentSelected ? (
-										<span className="textarea__attachmentSelect">
-											<ClipIcon
-												onClick={handleAttachmentSelect}
+							<EmojiSelect />
+						</div>
+						<span
+							className="textarea__inputWrapper"
+							ref={inputWrapperRef}
+						>
+							<div
+								className="textarea__input"
+								ref={textareaInputRef}
+								onKeyUp={resizeTextarea}
+								onFocus={toggleAbsentMessage}
+								onBlur={toggleAbsentMessage}
+							>
+								<Toolbar>
+									{(externalProps) => (
+										<div className="textarea__toolbar__buttonWrapper">
+											<BoldButton {...externalProps} />
+											<ItalicButton {...externalProps} />
+											<UnorderedListButton
+												{...externalProps}
 											/>
-										</span>
-									) : (
+										</div>
+									)}
+								</Toolbar>
+								<PluginsEditor
+									editorState={editorState}
+									onChange={handleEditorChange}
+									handleKeyCommand={handleEditorKeyCommand}
+									placeholder={placeholder}
+									stripPastedStyles={true}
+									spellCheck={true}
+									handleBeforeInput={() =>
+										handleEditorBeforeInput(editorState)
+									}
+									handlePastedText={(
+										text: string,
+										html?: string
+									): DraftHandleValue => {
+										const newEditorState =
+											handleEditorPastedText(
+												editorState,
+												text,
+												html
+											);
+										if (newEditorState) {
+											setEditorState(newEditorState);
+										}
+										return 'handled';
+									}}
+									plugins={[
+										linkifyPlugin,
+										staticToolbarPlugin,
+										emojiPlugin
+									]}
+								/>
+							</div>
+							{hasUploadFunctionality &&
+								(!attachmentSelected ? (
+									<span className="textarea__attachmentSelect">
+										<ClipIcon
+											onClick={handleAttachmentSelect}
+										/>
+									</span>
+								) : (
+									<div className="textarea__attachmentWrapper">
 										<span className="textarea__attachmentSelected">
 											<span className="textarea__attachmentSelected__progress"></span>
 											<span className="textarea__attachmentSelected__labelWrapper">
@@ -862,29 +846,27 @@ export const MessageSubmitInterfaceComponent = (
 												</span>
 											</span>
 										</span>
-									))}
-							</span>
-							<SendMessageButton
-								handleSendButton={(event) =>
-									handleButtonClick(event)
-								}
-								clicked={isRequestInProgress}
-								deactivated={uploadProgress}
-							/>
-						</div>
-					</span>
-					{hasUploadFunctionality && (
-						<span>
-							<input
-								ref={attachmentInputRef}
-								onChange={handleAttachmentChange}
-								className="textarea__attachmentInput"
-								type="file"
-								id="dataUpload"
-								name="dataUpload"
-								accept="image/jpeg, image/png, .pdf, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-							/>
+									</div>
+								))}
 						</span>
+						<SendMessageButton
+							handleSendButton={(event) =>
+								handleButtonClick(event)
+							}
+							clicked={isRequestInProgress}
+							deactivated={uploadProgress}
+						/>
+					</div>
+					{hasUploadFunctionality && (
+						<input
+							ref={attachmentInputRef}
+							onChange={handleAttachmentChange}
+							className="textarea__attachmentInput"
+							type="file"
+							id="dataUpload"
+							name="dataUpload"
+							accept="image/jpeg, image/png, .pdf, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+						/>
 					)}
 				</form>
 			)}
