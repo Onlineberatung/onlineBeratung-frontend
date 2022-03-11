@@ -343,9 +343,9 @@ $profile-footer-justify-content: center !default;
 		&__item {
 			display: inline-block;
 			padding: 4px 0;
-			color: $profile-legal-link-color;
-			text-transform: $legal-information-links-text-transform;
-			font-weight: $legal-information-links-font-weight;
+			color: rgba($black, 0.6);
+			text-transform: uppercase;
+			font-weight: $font-weight-medium;
 		}
 
 		&__separator {
