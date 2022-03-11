@@ -46,9 +46,11 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 			position: relative;
 			display: flex;
 			max-height: 118px;
+			min-height: 88px;
 
 			@include breakpoint($fromLarge) {
 				max-height: 218px;
+				min-height: 106px;
 			}
 		}
 
@@ -159,14 +161,13 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 			flex-direction: column;
 			justify-content: flex-end;
 			align-items: center;
-			align-self: flex-end;
 			width: $sendInputHeight;
-			height: $sendInputHeight;
 			padding-left: 7px;
-			background: $white;
 			border-radius: $sendInputHeight/2 0 0 $sendInputHeight/2;
+			background: $white;
 			border: $inputBorder;
 			box-shadow: $inputBoxShadow;
+			position: relative;
 		}
 
 		&__richtextToggle {

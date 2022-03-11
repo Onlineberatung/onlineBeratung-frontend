@@ -160,7 +160,6 @@ export const MessageSubmitInterfaceComponent = (
 ) => {
 	const textareaInputRef = React.useRef<HTMLDivElement>(null);
 	const inputWrapperRef = React.useRef<HTMLSpanElement>(null);
-	const featureWrapperRef = React.useRef<HTMLDivElement>(null);
 	const attachmentInputRef = React.useRef<HTMLInputElement>(null);
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
@@ -363,13 +362,6 @@ export const MessageSubmitInterfaceComponent = (
 
 	const resizeTextarea = () => {
 		const textInput: any = textareaInputRef.current;
-		const realTextHeight = document.querySelector(
-			'.public-DraftEditor-content > div'
-		)?.scrollHeight;
-		const featureWrapper: any = featureWrapperRef.current;
-
-		resetTextareaSize();
-
 		// default values
 		let textareaMaxHeight;
 		if (window.innerWidth <= 900) {
@@ -379,9 +371,11 @@ export const MessageSubmitInterfaceComponent = (
 		}
 		const richtextHeight = 38;
 		const fileHeight = 48;
+
 		// calculate inputHeight
-		let textHeight = realTextHeight;
-		// let textHeight = textInput?.scrollHeight;
+		const textHeight = document.querySelector(
+			'.public-DraftEditor-content > div'
+		)?.scrollHeight;
 		let textInputMaxHeight = isRichtextActive
 			? textareaMaxHeight - richtextHeight
 			: textareaMaxHeight;
@@ -390,7 +384,8 @@ export const MessageSubmitInterfaceComponent = (
 			: textInputMaxHeight;
 		const currentInputHeight =
 			textHeight > textInputMaxHeight ? textInputMaxHeight : textHeight;
-		// add general styles
+
+		// add input styles
 		const currentOverflow =
 			textHeight <= textareaMaxHeight
 				? 'overflow-y: hidden;'
@@ -410,21 +405,7 @@ export const MessageSubmitInterfaceComponent = (
 			? textInputStyles +
 			  `border-bottom: none; border-bottom-right-radius: 0;`
 			: textInputStyles;
-		// set styles
 		textInput?.setAttribute('style', textInputStyles);
-		const inputWrapper: any = inputWrapperRef.current;
-		const featureWrapperHeight = inputWrapper?.clientHeight;
-		console.log(
-			'featureWrapper',
-			featureWrapperHeight,
-			textHeight,
-			currentInputHeight,
-			textInputMaxHeight
-		);
-		featureWrapper?.setAttribute(
-			'style',
-			'min-height: ' + featureWrapperHeight + 'px;'
-		);
 
 		const textareaContainer = textInput?.closest('.textarea');
 		const textareaContainerHeight = textareaContainer?.offsetHeight;
@@ -433,18 +414,6 @@ export const MessageSubmitInterfaceComponent = (
 			?.getElementsByClassName('session__scrollToBottom')[0];
 		if (scrollButton) {
 			scrollButton.style.bottom = textareaContainerHeight + 24 + 'px';
-		}
-	};
-
-	const resetTextareaSize = () => {
-		const textareaInput: any = textareaInputRef.current;
-		const featureWrapper: any = featureWrapperRef.current;
-		if (window.innerWidth <= 900) {
-			textareaInput?.setAttribute('style', 'min-height: 87px;');
-			featureWrapper?.setAttribute('style', 'min-height: 87px;');
-		} else {
-			textareaInput?.setAttribute('style', 'min-height: 106px;');
-			featureWrapper?.setAttribute('style', 'min-height: 106px;');
 		}
 	};
 
@@ -750,10 +719,7 @@ export const MessageSubmitInterfaceComponent = (
 						/>
 					)}
 					<div className="textarea__wrapper">
-						<div
-							ref={featureWrapperRef}
-							className="textarea__featureWrapper"
-						>
+						<span className="textarea__featureWrapper">
 							<span className="textarea__richtextToggle">
 								<RichtextToggleIcon
 									width="20"
@@ -764,7 +730,7 @@ export const MessageSubmitInterfaceComponent = (
 								/>
 							</span>
 							<EmojiSelect />
-						</div>
+						</span>
 						<span
 							className="textarea__inputWrapper"
 							ref={inputWrapperRef}
@@ -772,7 +738,7 @@ export const MessageSubmitInterfaceComponent = (
 							<div
 								className="textarea__input"
 								ref={textareaInputRef}
-								onKeyUp={resizeTextarea}
+								onKeyUp={() => resizeTextarea()}
 								onFocus={toggleAbsentMessage}
 								onBlur={toggleAbsentMessage}
 							>
