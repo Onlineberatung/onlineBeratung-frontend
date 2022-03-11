@@ -91,7 +91,7 @@
 
 			@for $i from 1 through 20 {
 				&--#{$i * 5}p {
-					flex-basis: $i * 5%;
+					flex: 0 0 $i * 5%;
 				}
 			}
 

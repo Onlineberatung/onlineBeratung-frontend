@@ -6,15 +6,6 @@
 		align-items: flex-start;
 		padding-right: 0;
 
-		&__innerWrapper {
-			width: 100%;
-			text-align: center;
-
-			@include breakpoint($fromLarge) {
-				text-align: left;
-			}
-		}
-
 		.absence__link {
 			font-weight: $font-weight-bold;
 			text-transform: uppercase;
@@ -36,28 +27,6 @@
 				color: $hover-primary;
 				transition: all 0.3s ease;
 			}
-		}
-	}
-
-	.inputField {
-		width: 100%;
-		margin: $grid-base-two 0;
-	}
-
-	.formWrapper {
-		&__inputWrapper {
-			max-width: 500px;
-			text-align: center;
-			margin: 0 auto;
-
-			@include breakpoint($fromLarge) {
-				text-align: left;
-				margin: 0;
-			}
-		}
-
-		&__infoText {
-			max-width: none;
 		}
 	}
 }

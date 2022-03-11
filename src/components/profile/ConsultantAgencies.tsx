@@ -28,15 +28,18 @@ export const ConsultantAgencies = () => {
 			<div className="profile__data__item full">
 				{userData.agencies.map((item, i) => {
 					return (
-						<div
-							className="profile__data__content flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
-							key={i}
-						>
-							{item.name}
-							<div className="flex mt--2 mt-l--0 flex--fd-row flex-l--fd-column flex-xl--fd-row">
-								<AgencyRegistrationLink agency={item} />
+						<>
+							{i !== 0 && <hr />}
+							<div
+								className="profile__data__content flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
+								key={i}
+							>
+								{item.name}
+								<div className="flex mt--2 mt-l--0 flex--fd-row flex-l--fd-column flex-xl--fd-row">
+									<AgencyRegistrationLink agency={item} />
+								</div>
 							</div>
-						</div>
+						</>
 					);
 				})}
 			</div>

@@ -213,8 +213,8 @@ export const PasswordReset = () => {
 			</div>
 			<div className="generalInformation">
 				<div className="flex">
-					<div className="flex__col--50p">
-						<div className="pr--1">
+					<div className="flex__col--1 flex-xl__col--50p">
+						<div className="pr-xl--1">
 							<InputField
 								item={inputOldPassword}
 								inputHandle={handleInputOldChange}
@@ -232,9 +232,9 @@ export const PasswordReset = () => {
 					}}
 				></div>
 
-				<div className="flex flex--fd-column flex-l--fd-row">
+				<div className="flex flex--fd-column flex-xl--fd-row">
 					<div className="flex__col">
-						<div className="pr--1">
+						<div className="pr-xl--1">
 							<InputField
 								item={inputNewPassword}
 								inputHandle={handleInputNewChange}
@@ -242,7 +242,7 @@ export const PasswordReset = () => {
 						</div>
 					</div>
 					<div className="flex__col">
-						<div className="pl--1">
+						<div className="pl-xl--1">
 							<InputField
 								item={inputConfirmPassword}
 								inputHandle={handleInputConfirmChange}

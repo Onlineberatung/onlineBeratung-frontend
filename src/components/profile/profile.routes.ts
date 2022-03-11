@@ -8,7 +8,7 @@ import { AskerRegistration } from './AskerRegistration';
 import { ConsultantPrivateData } from './ConsultantPrivateData';
 import { AskerAboutMeData } from './AskerAboutMeData';
 import { ConsultantStatistics } from './ConsultantStatistics';
-import { AbsenceFormular } from '../absenceFormular/AbsenceFormular';
+import { AbsenceFormular } from './AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { TwoFactorAuth } from '../twoFactorAuth/TwoFactorAuth';
 import { DeleteAccount } from './DeleteAccount';

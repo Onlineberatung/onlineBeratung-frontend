@@ -87,7 +87,7 @@ export const AskerRegistration: React.FC = () => {
 		),
 		useIconOption: false,
 		isSearchable: false,
-		menuPlacement: 'top',
+		menuPlacement: 'bottom',
 		defaultValue: getOptionOfSelectedConsultingType()
 	};
 

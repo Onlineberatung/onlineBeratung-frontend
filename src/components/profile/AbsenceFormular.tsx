@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
-import { InputFieldItem, InputField } from '../inputField/InputField';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { apiSetAbsence } from '../../api';
 import { BUTTON_TYPES } from '../button/Button';
@@ -16,13 +15,13 @@ import './absenceFormular.styles';
 import { Headline } from '../headline/Headline';
 import Switch from 'react-switch';
 import { Text } from '../text/Text';
+import { Textarea } from '../form/textarea';
 
 export const AbsenceFormular = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 
 	const [isAbsent, setIsAbsent] = useState(userData.absent);
 	const [absentMessage, setAbsentMessage] = useState(userData.absenceMessage);
-
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
@@ -38,18 +37,7 @@ export const AbsenceFormular = () => {
 		]
 	};
 
-	useEffect(() => {
-		if (!isAbsent) {
-			setAbsentMessage(null);
-		}
-	}, [isAbsent]);
-
-	useEffect(() => {
-		setIsAbsent(userData.absent);
-		setAbsentMessage(userData.absenceMessage);
-	}, [userData]);
-
-	const handleButtonClick = () => {
+	const saveAbsence = useCallback(() => {
 		if (isRequestInProgress) {
 			return null;
 		}
@@ -64,24 +52,29 @@ export const AbsenceFormular = () => {
 				console.log(error);
 				setIsRequestInProgress(false);
 			});
-	};
+	}, [absentMessage, isAbsent, isRequestInProgress]);
 
-	const handleOverlayAction = (buttonFunction: string) => {
+	useEffect(
+		() => {
+			if (!isAbsent && isAbsent !== userData.absent) {
+				saveAbsence();
+			}
+		},
+		[isAbsent, userData.absent] // eslint-disable-line react-hooks/exhaustive-deps
+	);
+
+	useEffect(() => {
+		setIsAbsent(userData.absent);
+		setAbsentMessage(userData.absenceMessage);
+	}, [userData]);
+
+	const handleOverlayAction = () => {
 		setOverlayActive(false);
 		setUserData({
 			...userData,
 			absent: isAbsent,
-			absenceMessage: isAbsent ? absentMessage : null
+			absenceMessage: absentMessage
 		});
-	};
-
-	const inputItem: InputFieldItem = {
-		name: 'absence',
-		class: 'absence__fieldGroup__input',
-		id: 'absence',
-		type: 'text',
-		label: translate('profile.functions.absenceLabel'),
-		content: absentMessage
 	};
 
 	return (
@@ -115,11 +108,14 @@ export const AbsenceFormular = () => {
 				</div>
 				{isAbsent && (
 					<>
-						<InputField
-							item={inputItem}
-							inputHandle={({ target: { value } }) =>
+						<Textarea
+							value={absentMessage}
+							onChange={({ target: { value } }) =>
 								setAbsentMessage(value)
 							}
+							placeholder={translate(
+								'profile.functions.absenceLabel'
+							)}
 						/>
 						<Text
 							text={translate('absence.input.infoText')}
@@ -128,25 +124,26 @@ export const AbsenceFormular = () => {
 						/>
 					</>
 				)}
-				{(isAbsent !== userData.absent ||
-					absentMessage !== userData.absenceMessage) && (
-					<div className="w--100 mt--2">
-						<span
-							onClick={handleButtonClick}
-							id="absenceButton"
-							role="button"
-							className="absence__link"
-						>
-							{userData.absent && isAbsent
-								? translate(
-										'profile.functions.absenceButtonChange'
-								  )
-								: translate(
-										'profile.functions.absenceButtonSave'
-								  )}
-						</span>
-					</div>
-				)}
+				{isAbsent &&
+					(isAbsent !== userData.absent ||
+						absentMessage !== userData.absenceMessage) && (
+						<div className="w--100 mt--2">
+							<span
+								onClick={saveAbsence}
+								id="absenceButton"
+								role="button"
+								className="absence__link"
+							>
+								{userData.absent && isAbsent
+									? translate(
+											'profile.functions.absenceButtonChange'
+									  )
+									: translate(
+											'profile.functions.absenceButtonSave'
+									  )}
+							</span>
+						</div>
+					)}
 			</div>
 			{overlayActive ? (
 				<OverlayWrapper>

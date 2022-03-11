@@ -139,7 +139,7 @@ $inputMaxWidth: 500px;
 		display: flex;
 		flex-direction: column;
 		margin: $grid-base-twelve 0 $grid-base-nine;
-		overflow-x: auto;
+		overflow-x: hidden;
 
 		@include breakpoint($fromLarge) {
 			height: calc(100vh - #{$doubleNavHeight - #{$imprintHeight}});
@@ -205,7 +205,8 @@ $inputMaxWidth: 500px;
 		display: inline-block;
 		padding: 0 $grid-base-two $grid-base-ten;
 		height: auto;
-		width: 100%;
+		width: calc(100% + 24px);
+		margin: 0 -12px;
 
 		&:after {
 			display: block;
@@ -260,17 +261,9 @@ $inputMaxWidth: 500px;
 		width: 100%;
 
 		@include breakpoint($fromLarge) {
-			width: calc(50% - #{$grid-base-three / 2});
-
-			&.odd {
-				float: left;
-				margin-right: $grid-base-three / 2;
-			}
-
-			&.even {
-				float: right;
-				margin-left: $grid-base-three / 2;
-			}
+			width: calc(50% - #{$grid-base-three});
+			float: left;
+			margin: 0 $grid-base-three / 2;
 
 			&.full {
 				clear: both;
@@ -416,6 +409,24 @@ $inputMaxWidth: 500px;
 
 .contentWrapper__detail {
 	.profile {
+		&__content {
+			display: flex;
+			flex-direction: row;
+
+			&__item {
+				flex: 1;
+				padding: 0 $grid-base-three;
+
+				&:first-child {
+					padding-left: 0;
+				}
+
+				&:last-child {
+					padding-right: 0;
+				}
+			}
+		}
+
 		&__wrapper {
 			background-color: $background-light;
 			height: 100vh;
