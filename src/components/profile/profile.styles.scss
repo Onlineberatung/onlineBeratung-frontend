@@ -19,7 +19,7 @@ $inputMaxWidth: 500px;
 			height: 100%;
 			display: inline-flex;
 			align-items: center;
-			color: $light-grey-hover;
+			color: $form-active;
 			font-weight: $font-weight-medium;
 			border-bottom: 4px solid transparent;
 
@@ -240,14 +240,6 @@ $inputMaxWidth: 500px;
 			}
 		}
 
-		.deleteAccount {
-			margin-top: $grid-base-five;
-
-			@include breakpoint($fromLarge) {
-				margin-top: $grid-base-eight;
-			}
-		}
-
 		.editableData {
 			margin-top: 12px;
 
@@ -262,8 +254,17 @@ $inputMaxWidth: 500px;
 
 		@include breakpoint($fromLarge) {
 			width: calc(50% - #{$grid-base-three});
-			float: left;
 			margin: 0 $grid-base-three / 2;
+			float: left;
+
+			&.left {
+				clear: left;
+			}
+
+			&.right {
+				clear: right;
+				float: right;
+			}
 
 			&.full {
 				clear: both;

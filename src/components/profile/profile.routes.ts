@@ -27,11 +27,15 @@ export interface TabType {
 	elements: (TabGroups | SingleComponentType)[];
 }
 
+export const COLUMN_LEFT = 0;
+export const COLUMN_RIGHT = 1;
+
 export type SingleComponentType = {
 	condition?: (userData, consultingTypes) => boolean;
 	component: any;
 	boxed?: boolean;
 	order?: number;
+	column?: typeof COLUMN_LEFT | typeof COLUMN_RIGHT;
 	fullWidth?: boolean;
 };
 
@@ -52,7 +56,8 @@ const routes: TabsType = [
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
 							),
-						component: ConsultantInformation
+						component: ConsultantInformation,
+						column: COLUMN_LEFT
 					},
 					{
 						condition: (userData) =>
@@ -60,7 +65,8 @@ const routes: TabsType = [
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
 							),
-						component: ConsultantSpokenLanguages
+						component: ConsultantSpokenLanguages,
+						column: COLUMN_RIGHT
 					},
 					{
 						condition: (userData) =>
@@ -68,7 +74,8 @@ const routes: TabsType = [
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
 							),
-						component: ConsultantAgencies
+						component: ConsultantAgencies,
+						column: COLUMN_LEFT
 					},
 					{
 						condition: (userData) =>
@@ -78,7 +85,8 @@ const routes: TabsType = [
 							),
 						component: AskerConsultingTypeData,
 						boxed: false,
-						order: 2
+						order: 2,
+						column: COLUMN_RIGHT
 					},
 					{
 						condition: (userData, consultingTypes) =>
@@ -91,7 +99,8 @@ const routes: TabsType = [
 								consultingTypes
 							).length > 0,
 						component: AskerRegistration,
-						order: 3
+						order: 3,
+						column: COLUMN_RIGHT
 					}
 				]
 			},
@@ -105,7 +114,8 @@ const routes: TabsType = [
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
 							),
-						component: ConsultantPrivateData
+						component: ConsultantPrivateData,
+						column: COLUMN_RIGHT
 					},
 					{
 						condition: (userData) =>
@@ -114,7 +124,8 @@ const routes: TabsType = [
 								userData
 							),
 						component: AskerAboutMeData,
-						order: 1
+						order: 1,
+						column: COLUMN_LEFT
 					}
 				]
 			}
@@ -131,7 +142,8 @@ const routes: TabsType = [
 				url: '/statistik',
 				elements: [
 					{
-						component: ConsultantStatistics
+						component: ConsultantStatistics,
+						column: COLUMN_LEFT
 					}
 				]
 			},
@@ -140,7 +152,8 @@ const routes: TabsType = [
 				url: '/abwesenheit',
 				elements: [
 					{
-						component: AbsenceFormular
+						component: AbsenceFormular,
+						column: COLUMN_RIGHT
 					}
 				]
 			}
@@ -155,7 +168,8 @@ const routes: TabsType = [
 				url: '/passwort',
 				elements: [
 					{
-						component: PasswordReset
+						component: PasswordReset,
+						column: COLUMN_LEFT
 					}
 				]
 			},
@@ -166,7 +180,8 @@ const routes: TabsType = [
 					{
 						condition: (userData) =>
 							userData.twoFactorAuth?.isEnabled,
-						component: TwoFactorAuth
+						component: TwoFactorAuth,
+						column: COLUMN_RIGHT
 					}
 				]
 			},

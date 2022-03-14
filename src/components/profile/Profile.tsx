@@ -16,13 +16,18 @@ import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg'
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './profile.styles';
-import profileRoutes from './profile.routes';
+import profileRoutes, {
+	COLUMN_LEFT,
+	SingleComponentType,
+	TabGroups,
+	TabType
+} from './profile.routes';
 import {
+	Link,
+	NavLink,
+	Redirect,
 	Route,
 	Switch,
-	NavLink,
-	Link,
-	Redirect,
 	useLocation
 } from 'react-router-dom';
 import { Box } from '../box/Box';
@@ -36,7 +41,6 @@ import {
 	LinkMenuGroupType,
 	LinkMenuItemType
 } from '../mobile/linkMenu/LinkMenu';
-import { SingleComponentType, TabGroups, TabType } from './profile.routes';
 
 interface ProfileProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
@@ -176,7 +180,7 @@ export const Profile = (props: ProfileProps) => {
 		<div className="profile__wrapper" ref={scrollContainer}>
 			<div className="profile__header">
 				<div className="profile__header__wrapper flex flex--jc-sb flex-l--fd-column flex-xl--fd-row">
-					<div className="flex__col--no-grow flex flex__col--25p flex--ai-c">
+					<div className="flex flex__col--10p flex--ai-c">
 						{fromL || !subpage ? (
 							<>
 								<div className="profile__icon flex__col--no-grow">
@@ -197,7 +201,7 @@ export const Profile = (props: ProfileProps) => {
 							</Link>
 						)}
 					</div>
-					<div className="profile__nav flex flex--jc-c flex--ai-s flex__col--50p">
+					<div className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex__col--80p">
 						{fromL ? (
 							profileRoutes
 								.filter((tab) =>
@@ -223,7 +227,7 @@ export const Profile = (props: ProfileProps) => {
 							</div>
 						)}
 					</div>
-					<div className="profile__header__actions flex__col--25p flex flex--ai-c flex--jc-fe">
+					<div className="profile__header__actions flex__col--10p flex flex--ai-c flex--jc-fe">
 						{!fromL && !subpage && (
 							<div
 								onClick={handleLogout}
@@ -384,7 +388,11 @@ const ProfileItem = ({
 }) => (
 	<div
 		className={`profile__item ${
-			element.fullWidth ? 'full' : index % 2 === 0 ? 'odd' : 'even'
+			element.fullWidth
+				? 'full'
+				: element.column === COLUMN_LEFT
+				? 'left'
+				: 'right'
 		}`}
 	>
 		{element.boxed === false ? (
