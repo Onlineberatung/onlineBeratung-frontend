@@ -204,7 +204,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 
 	const redirectTo2FA = () => {
 		history.push({
-			pathname: '/profile',
+			pathname: '/profile/sicherheit/2fa',
 			openTwoFactor: true
 		});
 	};

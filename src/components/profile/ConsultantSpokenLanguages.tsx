@@ -99,49 +99,42 @@ export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps>
 
 					<Text
 						text={translate('profile.spokenLanguages.info')}
-						type="infoLargeAlternative"
+						type="standard"
+						className="tertiary"
 					/>
 				</div>
 				<div className="spokenLanguages__languageSelect">
-					<Text
-						text={translate('profile.spokenLanguages.prefix')}
-						type="infoLargeAlternative"
+					<SelectDropdown
+						handleDropdownSelect={selectHandler}
+						id="spoken-languages-select"
+						menuPlacement="bottom"
+						selectedOptions={languageOptions}
+						isClearable={false}
+						isSearchable
+						isMulti
+						hasError={hasError}
+						errorMessage={translate(
+							'profile.functions.spokenLanguages.saveError'
+						)}
+						defaultValue={languageOptions.filter(
+							(option) =>
+								selectedLanguages.indexOf(option.value) !== -1
+						)}
 					/>
 
-					<div>
-						<SelectDropdown
-							handleDropdownSelect={selectHandler}
-							id="spoken-languages-select"
-							menuPlacement="bottom"
-							selectedOptions={languageOptions}
-							isClearable={false}
-							isSearchable
-							isMulti
-							hasError={hasError}
-							errorMessage={translate(
-								'profile.functions.spokenLanguages.saveError'
-							)}
-							defaultValue={languageOptions.filter(
-								(option) =>
-									selectedLanguages.indexOf(option.value) !==
-									-1
-							)}
-						/>
-
-						{JSON.stringify(previousLanguages) !==
-							JSON.stringify(selectedLanguages) && (
-							<div className="spokenLanguages__buttons">
-								<Button
-									item={cancelEditButton}
-									buttonHandle={cancelHandler}
-								/>
-								<Button
-									item={saveEditButton}
-									buttonHandle={saveHandler}
-								/>
-							</div>
-						)}
-					</div>
+					{JSON.stringify(previousLanguages) !==
+						JSON.stringify(selectedLanguages) && (
+						<div className="spokenLanguages__buttons">
+							<Button
+								item={cancelEditButton}
+								buttonHandle={cancelHandler}
+							/>
+							<Button
+								item={saveEditButton}
+								buttonHandle={saveHandler}
+							/>
+						</div>
+					)}
 				</div>
 			</div>
 		);

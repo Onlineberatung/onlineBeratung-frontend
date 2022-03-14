@@ -31,7 +31,8 @@ export const RouterConfigUser = (): any => {
 		listRoutes: [
 			{
 				path: '/sessions/user/view/:rcGroupId?/:sessionId?',
-				component: SessionsListWrapper
+				component: SessionsListWrapper,
+				exact: false
 			}
 		],
 		detailRoutes: [
@@ -51,6 +52,7 @@ export const RouterConfigUser = (): any => {
 		profileRoutes: [
 			{
 				path: '/profile',
+				exact: false,
 				component: Profile
 			}
 		]
@@ -87,12 +89,14 @@ export const RouterConfigConsultant = (): any => {
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
-				type: SESSION_LIST_TYPES.ENQUIRY
+				type: SESSION_LIST_TYPES.ENQUIRY,
+				exact: false
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
-				type: SESSION_LIST_TYPES.MY_SESSION
+				type: SESSION_LIST_TYPES.MY_SESSION,
+				exact: false
 			}
 		],
 		detailRoutes: [
@@ -144,6 +148,7 @@ export const RouterConfigConsultant = (): any => {
 		profileRoutes: [
 			{
 				path: '/profile',
+				exact: false,
 				component: Profile
 			}
 		]
@@ -188,17 +193,20 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
-				type: SESSION_LIST_TYPES.ENQUIRY
+				type: SESSION_LIST_TYPES.ENQUIRY,
+				exact: false
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
-				type: SESSION_LIST_TYPES.MY_SESSION
+				type: SESSION_LIST_TYPES.MY_SESSION,
+				exact: false
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
-				type: SESSION_LIST_TYPES.TEAMSESSION
+				type: SESSION_LIST_TYPES.TEAMSESSION,
+				exact: false
 			}
 		],
 		detailRoutes: [
@@ -271,6 +279,7 @@ export const RouterConfigTeamConsultant = (): any => {
 		profileRoutes: [
 			{
 				path: '/profile',
+				exact: false,
 				component: Profile
 			}
 		]
@@ -306,7 +315,8 @@ export const RouterConfigAnonymousAsker = (): any => {
 		listRoutes: [
 			{
 				path: '/sessions/user/view/:rcGroupId?/:sessionId?',
-				component: SessionsListWrapper
+				component: SessionsListWrapper,
+				exact: false
 			}
 		],
 		detailRoutes: [

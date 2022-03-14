@@ -20,7 +20,11 @@ import {
 	SessionsDataContext
 } from '../../globalState';
 
-import { mobileDetailView, mobileListView } from '../app/navigationHandler';
+import {
+	desktopView,
+	mobileDetailView,
+	mobileListView
+} from '../app/navigationHandler';
 import { ReactComponent as EnvelopeCheckIcon } from '../../resources/img/illustrations/envelope-check.svg';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
 import './enquiry.styles';
@@ -28,6 +32,7 @@ import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { EnquiryLanguageSelection } from './EnquiryLanguageSelection';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { useResponsive } from '../../hooks/useResponsive';
 
 export const WriteEnquiry: React.FC = () => {
 	const { sessionId: sessionIdFromParam } = useParams();
@@ -50,16 +55,20 @@ export const WriteEnquiry: React.FC = () => {
 		setActiveSession(activeSession);
 	}, [sessionIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
+	const { fromL } = useResponsive();
 	useEffect(() => {
 		if (sessionIdFromParam) {
-			mobileDetailView();
-			return () => {
-				mobileListView();
-			};
+			if (!fromL) {
+				mobileDetailView();
+				return () => {
+					mobileListView();
+				};
+			}
+			desktopView();
 		} else {
 			deactivateListView();
 		}
-	}, [sessionIdFromParam]);
+	}, [fromL, sessionIdFromParam]);
 
 	const handleOverlayAction = (buttonFunction: string): void => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {

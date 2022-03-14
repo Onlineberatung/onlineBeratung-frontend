@@ -8,6 +8,7 @@ import { ReactComponent as ArrowUpIcon } from '../../resources/img/icons/arrow-u
 import { Text } from '../text/Text';
 import './select.react.styles';
 import './select.styles';
+import { isMobile } from 'react-device-detect';
 
 export interface SelectOption {
 	value: string;
@@ -84,6 +85,7 @@ const colourStyles = {
 	},
 	menuList: (styles) => ({
 		...styles,
+		...(isMobile && { maxHeight: '150px' }),
 		padding: '0',
 		border: '1px solid #C4BFC4',
 		borderRadius: '4px',
