@@ -442,7 +442,7 @@ export const MessageSubmitInterfaceComponent = (
 		setEditorState(EditorState.createWithContent(draftContent));
 	};
 
-	const handleButtonClick = (event) => {
+	const handleButtonClick = () => {
 		if (uploadProgress || isRequestInProgress) {
 			return null;
 		}
@@ -816,9 +816,7 @@ export const MessageSubmitInterfaceComponent = (
 								))}
 						</span>
 						<SendMessageButton
-							handleSendButton={(event) =>
-								handleButtonClick(event)
-							}
+							handleSendButton={handleButtonClick}
 							clicked={isRequestInProgress}
 							deactivated={uploadProgress}
 						/>
