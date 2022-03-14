@@ -166,9 +166,7 @@ $inputMaxWidth: 500px;
 		}
 
 		&__personal_link {
-			& > span {
-				margin-right: $grid-base-two;
-			}
+			& > span,
 			.generateQrCode {
 				margin-right: $grid-base-two;
 			}
