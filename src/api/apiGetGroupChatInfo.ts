@@ -1,4 +1,3 @@
-import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { config } from '../resources/scripts/config';
 import {
 	fetchData,
@@ -17,15 +16,12 @@ export interface groupChatInfoData {
 export const apiGetGroupChatInfo = async (
 	groupChatId: number
 ): Promise<groupChatInfoData> => {
-	const rcToken = getValueFromCookie('rc_token');
 	let url = config.endpoints.groupChatBase + groupChatId;
-	if (rcToken) {
-		url = url + '?chatUserToken=' + rcToken;
-	}
 
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.GET,
-		responseHandling: [FETCH_SUCCESS.CONTENT, FETCH_ERRORS.NO_MATCH]
+		responseHandling: [FETCH_SUCCESS.CONTENT, FETCH_ERRORS.NO_MATCH],
+		rcValidation: true
 	});
 };
