@@ -25,7 +25,7 @@ import {
 	apiRegistrationNewConsultingTypes,
 	FETCH_ERRORS
 } from '../../api';
-import { OTP_LENGTH } from '../profile/TwoFactorAuth';
+import { OTP_LENGTH, TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import clsx from 'clsx';
 import '../../resources/styles/styles';
 import './login.styles';
@@ -55,6 +55,7 @@ import {
 	UserDataInterface
 } from '../../globalState';
 import { history } from '../app/app';
+import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -112,6 +113,8 @@ export const Login = ({
 	const [registerOverlayActive, setRegisterOverlayActive] = useState(false);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);
 
+	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
+
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
 		class: 'login',
@@ -134,8 +137,11 @@ export const Login = ({
 	const otpInputItem: InputFieldItem = {
 		content: otp,
 		id: 'otp',
-		infoText: translate('login.warning.failed.otp.missing'),
-		label: translate('twoFactorAuth.activate.step3.input.label'),
+		infoText:
+			twoFactorType === TWO_FACTOR_TYPES.APP
+				? translate(`login.warning.failed.app.otp.missing`)
+				: '',
+		label: translate('twoFactorAuth.activate.otp.input.label'),
 		name: 'otp',
 		type: 'text',
 		icon: <VerifiedIcon />,
@@ -216,7 +222,10 @@ export const Login = ({
 						}
 
 						if (!response.rcGroupId || !response.sessionId) {
-							history.push(config.endpoints.userSessionsListView);
+							history.push(
+								config.endpoints.userSessionsListView,
+								{ from: 'registration' }
+							);
 							return;
 						}
 
@@ -224,7 +233,8 @@ export const Login = ({
 							generatePath(
 								`${config.endpoints.userSessionsListView}/:rcGroupId/:sessionId`,
 								response
-							)
+							),
+							{ from: 'registration' }
 						);
 					});
 			}
@@ -282,27 +292,33 @@ export const Login = ({
 		]
 	);
 
+	const tryLoginWithoutOtp = () => {
+		setIsRequestInProgress(true);
+		autoLogin({
+			username: username,
+			password: password,
+			redirect: !consultant
+		})
+			.then(postLogin)
+			.catch((error) => {
+				if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
+					setShowLoginError(
+						translate('login.warning.failed.unauthorized')
+					);
+				} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+					if (error.options.data.otpType)
+						setTwoFactorType(error.options.data.otpType);
+					setIsOtpRequired(true);
+				}
+			})
+			.finally(() => {
+				setIsRequestInProgress(false);
+			});
+	};
+
 	const handleLogin = () => {
 		if (!isRequestInProgress && !isOtpRequired && username && password) {
-			setIsRequestInProgress(true);
-			autoLogin({
-				username: username,
-				password: password,
-				redirect: !consultant
-			})
-				.then(postLogin)
-				.catch((error) => {
-					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
-						setShowLoginError(
-							translate('login.warning.failed.unauthorized')
-						);
-					} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
-						setIsOtpRequired(true);
-					}
-				})
-				.finally(() => {
-					setIsRequestInProgress(false);
-				});
+			tryLoginWithoutOtp();
 		} else if (
 			!isRequestInProgress &&
 			isOtpRequired &&
@@ -364,12 +380,30 @@ export const Login = ({
 						'loginForm__otp--active': isOtpRequired
 					})}
 				>
+					{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
+						<Text
+							className="loginForm__emailHint"
+							text={translate(
+								'twoFactorAuth.activate.email.resend.hint'
+							)}
+							type="infoLargeAlternative"
+						/>
+					)}
 					<InputField
 						item={otpInputItem}
 						inputHandle={handleOtpChange}
 						keyUpHandle={handleKeyUp}
 					/>
+					{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
+						<TwoFactorAuthResendMail
+							resendHandler={(callback) => {
+								tryLoginWithoutOtp();
+								callback();
+							}}
+						/>
+					)}
 				</div>
+
 				{showLoginError && (
 					<Text
 						text={showLoginError}
@@ -377,14 +411,17 @@ export const Login = ({
 						className="loginForm__error"
 					/>
 				)}
-				<a
-					href={config.endpoints.loginResetPasswordLink}
-					target="_blank"
-					rel="noreferrer"
-					className="loginForm__passwordReset"
-				>
-					{translate('login.resetPasswort.label')}
-				</a>
+
+				{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
+					<a
+						href={config.endpoints.loginResetPasswordLink}
+						target="_blank"
+						rel="noreferrer"
+						className="loginForm__passwordReset"
+					>
+						{translate('login.resetPasswort.label')}
+					</a>
+				)}
 
 				<Button
 					item={loginButton}

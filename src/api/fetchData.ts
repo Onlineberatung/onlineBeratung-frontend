@@ -14,7 +14,8 @@ export const FETCH_METHODS = {
 	DELETE: 'DELETE',
 	GET: 'GET',
 	POST: 'POST',
-	PUT: 'PUT'
+	PUT: 'PUT',
+	PATCH: 'PATCH'
 };
 
 export const FETCH_ERRORS = {
@@ -28,6 +29,7 @@ export const FETCH_ERRORS = {
 	NO_MATCH: 'NO_MATCH',
 	TIMEOUT: 'TIMEOUT',
 	UNAUTHORIZED: 'UNAUTHORIZED',
+	PRECONDITION_FAILED: 'PRECONDITION FAILED',
 	X_REASON: 'X-Reason'
 };
 
@@ -39,6 +41,18 @@ export const X_REASON = {
 export const FETCH_SUCCESS = {
 	CONTENT: 'CONTENT'
 };
+
+export class FetchErrorWithOptions extends Error {
+	options = {};
+
+	constructor(message: string, options: {}) {
+		super(message);
+
+		this.options = { ...options };
+		// Set the prototype explicitly.
+		Object.setPrototypeOf(this, FetchErrorWithOptions.prototype);
+	}
+}
 
 interface FetchDataProps {
 	url: string;
@@ -111,13 +125,15 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 							? response.json()
 							: response;
 					resolve(data);
+				} else if (response.status === 204) {
+					if (props.responseHandling?.includes(FETCH_ERRORS.EMPTY)) {
+						// treat 204 no content as an error with this response handling type
+						reject(new Error(FETCH_ERRORS.EMPTY));
+					} else {
+						resolve({});
+					}
 				} else if (props.responseHandling) {
 					if (
-						response.status === 204 &&
-						props.responseHandling.includes(FETCH_ERRORS.EMPTY)
-					) {
-						reject(new Error(FETCH_ERRORS.EMPTY));
-					} else if (
 						response.status === 400 &&
 						props.responseHandling.includes(
 							FETCH_ERRORS.BAD_REQUEST
@@ -160,6 +176,13 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 								? response
 								: new Error(FETCH_ERRORS.CATCH_ALL)
 						);
+					} else if (
+						response.status === 412 &&
+						props.responseHandling.includes(
+							FETCH_ERRORS.PRECONDITION_FAILED
+						)
+					) {
+						reject(new Error(FETCH_ERRORS.PRECONDITION_FAILED));
 					} else if (response.status === 401) {
 						logout(true, config.urls.toLogin);
 					}

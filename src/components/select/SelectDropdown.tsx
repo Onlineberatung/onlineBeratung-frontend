@@ -8,6 +8,7 @@ import { ReactComponent as ArrowUpIcon } from '../../resources/img/icons/arrow-u
 import { Text } from '../text/Text';
 import './select.react.styles';
 import './select.styles';
+import { useResponsive } from '../../hooks/useResponsive';
 
 export interface SelectOption {
 	value: string;
@@ -32,7 +33,7 @@ export interface SelectDropdownItem {
 	errorMessage?: string;
 }
 
-const colourStyles = {
+const colourStyles = (fromL) => ({
 	control: (styles, { isFocused, hasValue }) => {
 		return {
 			...styles,
@@ -84,6 +85,7 @@ const colourStyles = {
 	},
 	menuList: (styles) => ({
 		...styles,
+		...(!fromL && { maxHeight: '150px' }),
 		padding: '0',
 		border: '1px solid #C4BFC4',
 		borderRadius: '4px',
@@ -178,9 +180,11 @@ const colourStyles = {
 			display: 'none'
 		};
 	}
-};
+});
 
 export const SelectDropdown = (props: SelectDropdownItem) => {
+	const { fromL } = useResponsive();
+
 	const IconOption = (props) => (
 		<components.Option {...props} className="select__option">
 			<span className="select__option__icon">{props.data.iconLabel}</span>
@@ -249,7 +253,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				isClearable={props.isClearable}
 				isSearchable={props.isSearchable}
 				isMulti={props.isMulti}
-				styles={colourStyles}
+				styles={colourStyles(fromL)}
 			/>
 			{props.hasError && (
 				<div className="select__error">

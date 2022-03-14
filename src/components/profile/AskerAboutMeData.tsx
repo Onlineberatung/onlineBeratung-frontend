@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { useCallback, useContext, useMemo, useState } from 'react';
-import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
+import {
+	apiDeleteTwoFactorAuth,
+	apiPutEmail,
+	FETCH_ERRORS,
+	X_REASON
+} from '../../api';
 import { useConsultingTypes, UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -16,6 +21,9 @@ import {
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { apiDeleteEmail } from '../../api/apiDeleteEmail';
+import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
+import useUpdateUserData from '../../utils/useUpdateUserData';
+import { Headline } from '../headline/Headline';
 
 const cancelEditButton: ButtonItem = {
 	label: 'abbrechen',
@@ -36,6 +44,52 @@ export const AskerAboutMeData = () => {
 		useState<boolean>(false);
 	const consultingTypes = useConsultingTypes();
 	const showEmail = hasAskerEmailFeatures(userData, consultingTypes);
+	const updateUserData = useUpdateUserData();
+
+	const isEmail2faActive =
+		userData.twoFactorAuth?.isActive &&
+		userData.twoFactorAuth?.type === TWO_FACTOR_TYPES.EMAIL;
+
+	const overlay2faEmailEdit: OverlayItem = useMemo(
+		() => ({
+			headline: translate(
+				'twoFactorAuth.email.change.confirmOverlay.title'
+			),
+			nestedComponent: (
+				<>
+					<Text
+						text={translate(
+							'twoFactorAuth.email.change.confirmOverlay.copy.1'
+						)}
+						type="infoLargeStandard"
+					/>
+					<Text
+						text={translate(
+							'twoFactorAuth.email.change.confirmOverlay.copy.2'
+						)}
+						type="infoLargeStandard"
+					/>
+				</>
+			),
+			buttonSet: [
+				{
+					label: translate(
+						'twoFactorAuth.email.change.confirmOverlay.button.deny'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate(
+						'twoFactorAuth.email.change.confirmOverlay.button.confirm'
+					),
+					function: OVERLAY_FUNCTIONS.CONFIRM_EDIT,
+					type: BUTTON_TYPES.PRIMARY
+				}
+			]
+		}),
+		[]
+	);
 
 	const overlaySuccess: OverlayItem = useMemo(
 		() => ({
@@ -71,6 +125,13 @@ export const AskerAboutMeData = () => {
 							'profile.unsetEmail.confirmOverlay.benefit.2'
 						)}
 					</li>
+					{isEmail2faActive && (
+						<li>
+							{translate(
+								'twoFactorAuth.email.delete.confirmOverlay.copy'
+							)}
+						</li>
+					)}
 				</ul>
 			),
 			buttonSet: [
@@ -90,7 +151,7 @@ export const AskerAboutMeData = () => {
 				}
 			]
 		}),
-		[]
+		[isEmail2faActive]
 	);
 
 	const overlayError: OverlayItem = useMemo(
@@ -120,7 +181,9 @@ export const AskerAboutMeData = () => {
 	};
 
 	const handleSaveEditButton = () => {
-		if (!isRequestInProgress) {
+		if (isEmail2faActive) {
+			setOverlay(overlay2faEmailEdit);
+		} else if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			apiPutEmail(email)
 				.then((response) => {
@@ -157,10 +220,7 @@ export const AskerAboutMeData = () => {
 			apiDeleteEmail()
 				.then((response) => {
 					setIsRequestInProgress(false);
-					setUserData({
-						...userData,
-						email: null
-					});
+					updateUserData();
 					setEmail(null);
 					setOverlay(overlaySuccess);
 				})
@@ -168,29 +228,49 @@ export const AskerAboutMeData = () => {
 					setOverlay(overlayError);
 				});
 		}
-	}, [
-		overlaySuccess,
-		overlayError,
-		isRequestInProgress,
-		setUserData,
-		userData
-	]);
+	}, [overlaySuccess, overlayError, isRequestInProgress, updateUserData]);
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		switch (buttonFunction) {
+			case OVERLAY_FUNCTIONS.CONFIRM_EDIT:
+				const handleConfirm = () => {
+					setIsEmailDisabled(false);
+					setOverlay(null);
+				};
+				if (isEmail2faActive) {
+					apiDeleteTwoFactorAuth().then(() => {
+						handleConfirm();
+						updateUserData();
+					});
+				} else {
+					handleConfirm();
+				}
+				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
 			case OVERLAY_FUNCTIONS.CLOSE_SUCCESS:
 				setOverlay(null);
 				break;
 			case OVERLAY_FUNCTIONS.DELETE_EMAIL:
-				handleDeleteEmail();
+				if (isEmail2faActive) {
+					apiDeleteTwoFactorAuth().then(() => {
+						handleDeleteEmail();
+					});
+				} else {
+					handleDeleteEmail();
+				}
 				break;
 		}
 	};
 
 	return (
 		<div>
-			<Text text={translate('profile.data.title')} type="divider" />
+			<div className="profile__content__title">
+				<Headline
+					className="pr--3"
+					text={translate('profile.data.title')}
+					semanticLevel="5"
+				/>
+			</div>
 			<EditableData
 				label={translate('profile.data.userName')}
 				initialValue={userData.userName}
@@ -204,7 +284,13 @@ export const AskerAboutMeData = () => {
 					initialValue={userData.email}
 					isDisabled={isEmailDisabled}
 					isSingleEdit
-					onSingleEditActive={() => setIsEmailDisabled(false)}
+					onSingleEditActive={() => {
+						if (isEmail2faActive) {
+							setOverlay(overlay2faEmailEdit);
+						} else {
+							setIsEmailDisabled(false);
+						}
+					}}
 					isSingleClearable={true}
 					onSingleClear={handleSingleClear}
 					onValueIsValid={handleEmailChange}

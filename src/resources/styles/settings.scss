@@ -107,6 +107,15 @@ $fromLarge: 900px;
 $fromXLarge: 1200px;
 $fromXXLarge: 1600px;
 
+$breakpoints: (
+	'xs': null,
+	's': $fromSmall,
+	'm': $fromMedium,
+	'l': $fromLarge,
+	'xl': $fromXLarge,
+	'xxl': $fromXXLarge
+);
+
 //biotope breakpoints
 $xsmall: 320px;
 $large: 1280px;
@@ -225,5 +234,7 @@ $tab-background-border-color-selected: $primary;
 $tab-color: $tertiary;
 $tab-color-hover: rgba(0, 0, 0, 0.8);
 $tab-color-selected: $primary;
+$overlay-radio-outline: 1px solid #8c878c;
+$overlay-radio-radius: 25px;
 $header-height: $grid-base-twelve;
 $message-wrapper-height: 109px;

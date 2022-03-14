@@ -8,7 +8,7 @@ const profileInformal = {
 	'functions.passwordResetNotSame': 'Dein Passwort ist nicht identisch.',
 	'functions.passwordResetOldIncorrect': 'Dein Passwort ist nicht korrekt.',
 	'functions.passwordResetInstructions':
-		'Dein Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 9 Zeichen',
+		'<span class="text--bold">Dein Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:</span><ul class="pl--2 my--1"><li>Groß-/Kleinschreibung</li><li>mind. eine Zahl</li><li>mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...)</li><li>mind. 9 Zeichen</li></ul>',
 	'functions.passwordReset.overlay.headline':
 		'Du hast Dein Passwort erfolgreich geändert. Du wirst nun zum Login weitergeleitet.',
 	'functions.spokenLanguages.saveError':

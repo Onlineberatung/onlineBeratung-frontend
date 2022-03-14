@@ -1,0 +1,20 @@
+.f {
+	&--left,
+	&--right,
+	&--clear {
+		display: block;
+		content: '';
+	}
+
+	&--clear:after {
+		clear: both;
+	}
+
+	&--left {
+		float: left;
+	}
+
+	&--right {
+		float: right;
+	}
+}

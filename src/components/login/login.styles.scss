@@ -29,6 +29,11 @@ $spacingWithIcon: 52px;
 		}
 	}
 
+	&__otpEmailResend {
+		display: inline-block;
+		margin-bottom: $grid-base-three;
+	}
+
 	&__error {
 		color: $form-error;
 		max-width: 245px;
@@ -60,5 +65,18 @@ $spacingWithIcon: 52px;
 			text-transform: uppercase;
 			margin-top: $grid-base-two;
 		}
+	}
+
+	&__emailHint {
+		width: 280px;
+		margin-bottom: $grid-base-three;
+
+		@include breakpoint($fromLarge) {
+			width: 320px;
+		}
+	}
+
+	.twoFactorAuthResendMail {
+		margin-bottom: $grid-base-two;
 	}
 }

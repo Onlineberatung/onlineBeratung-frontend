@@ -1,5 +1,5 @@
 $iconSizeXS: 24px;
-$stepsBreakpoint: 400px;
+$stepsBreakpoint: 560px;
 $illustrationSize: 120px;
 $illustrationSizeLarge: 80px;
 $iconSize: 56px;
@@ -46,15 +46,18 @@ $iconSizeLarge: 48px;
 		border-radius: 4px;
 		text-align: $overlay-text-align;
 		margin: auto;
-		padding: $grid-base-six $grid-base-three;
+		padding: $grid-base-ten $grid-base-three $grid-base-six;
 		overflow: scroll;
+
+		@include breakpoint($fromMedium) {
+			padding: $grid-base-six $grid-base-three;
+		}
 
 		@include breakpoint($fromLarge) {
 			width: 100%;
 			height: auto;
 			max-width: 720px;
 			padding: $grid-base-six;
-			overflow: visible;
 		}
 
 		animation: fadeIn linear 0.8s;
@@ -111,7 +114,7 @@ $iconSizeLarge: 48px;
 				content: '';
 				border-top: 1px solid $form-disabled;
 				margin: $iconSizeXS $grid-base $iconSizeXS;
-				width: 40px;
+				width: 25px;
 
 				@include breakpoint($stepsBreakpoint) {
 					margin: $iconSizeXS -14px $iconSizeXS;
@@ -172,6 +175,12 @@ $iconSizeLarge: 48px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+
+		.text {
+			.overlay--stepped & {
+				text-align: center;
+			}
+		}
 	}
 
 	&__stepHeadline {
@@ -191,12 +200,14 @@ $iconSizeLarge: 48px;
 			display: inline-block;
 			background-color: $white;
 			margin-top: ((-$size / 2) - $grid-base-six);
-			margin-left: auto;
-			margin-right: auto;
 			width: $size;
 			height: $size;
 			padding: $grid-base;
 			border-radius: 50%;
+
+			position: fixed;
+			left: 50%;
+			transform: translateX(-50%);
 		}
 	}
 
@@ -248,6 +259,10 @@ $iconSizeLarge: 48px;
 	.text {
 		margin-top: $grid-base-two;
 		text-align: $overlay-text-align;
+
+		&.inputField__infoText {
+			margin-top: $grid-base;
+		}
 	}
 
 	&__nestedComponent {
@@ -271,7 +286,12 @@ $iconSizeLarge: 48px;
 
 	&--stepped &__nestedComponent {
 		.inputField {
+			max-width: 400px;
 			margin: $overlay-stepped-input-field-margin;
+			@include breakpoint($fromSmall) {
+				max-width: 325px;
+				margin: $overlay-stepped-input-field-margin;
+			}
 		}
 	}
 
