@@ -205,7 +205,7 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 		}
 
 		&__toolbar {
-			width: calc(100% - #{1px});
+			width: calc(100% - 1px);
 			background-color: white;
 			display: none;
 			position: absolute;
