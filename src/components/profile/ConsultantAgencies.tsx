@@ -36,9 +36,9 @@ export const ConsultantAgencies = () => {
 								key={i}
 							>
 								{item.name}
-								<div className="flex mt--2 mt-xl--0 flex--fd-row flex-xl--fd-column ml-xl--2">
+								<div className="flex mt--2 flex--fd-row flex-l--fd-column mt-l--0 flex-xl--fd-row ml-xl--2">
 									<AgencyRegistrationLink agency={item} />
-									<div className="mt-xl--1">
+									<div className="mt-l--1 mt-xl--0">
 										<GenerateQrCode
 											url={`${config.urls.registration}?aid=${item.id}`}
 											filename={translate(

@@ -23,7 +23,7 @@ export const ConsultantInformation = () => {
 	return (
 		<div>
 			<div className="profile__content__title">
-				<div className="flex flex--fd-column flex--jc-fs flex-s--fd-row flex-s--jc-sb flex-l--fd-column flex-l--jc-fs flex-xl--fd-row flex-xl--jc-sb">
+				<div className="flex flex--fd-column flex--jc-fs flex-l--fd-column flex-l--jc-fs flex-xl--fd-row flex-xl--jc-sb">
 					<Headline
 						className="pr--3"
 						text={translate('profile.data.title.information')}
