@@ -1,74 +1,75 @@
 import * as React from 'react';
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
-	typeIsEnquiry,
-	isGroupChatForSessionItem,
 	getChatItemForSession,
+	getSessionListPathForLocation,
+	isGroupChat,
+	isLiveChat,
+	isSessionChat,
 	SESSION_LIST_TYPES,
-	getSessionListPathForLocation
+	typeIsEnquiry
 } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { translate } from '../../utils/translate';
 import { UserDataContext } from '../../globalState/provider/UserDataProvider';
 import {
-	getActiveSession,
+	AUTHORITIES,
 	getContact,
-	hasUserAuthority,
-	isAnonymousSession,
-	AUTHORITIES
+	hasUserAuthority
 } from '../../globalState/helpers/stateHelpers';
 import {
 	AcceptedGroupIdContext,
-	ActiveSessionGroupIdContext,
-	SessionsDataContext
+	SessionsDataContext,
+	STATUS_ARCHIVED,
+	STATUS_FINISHED
 } from '../../globalState';
 import {
+	apiGetDraftMessage,
+	apiPostDraftMessage,
+	apiPutDearchive,
 	apiSendEnquiry,
 	apiSendMessage,
 	apiUploadAttachment,
-	apiPostDraftMessage,
-	apiGetDraftMessage,
-	FETCH_ERRORS,
-	apiPutDearchive
+	FETCH_ERRORS
 } from '../../api';
 import {
 	MessageSubmitInfo,
 	MessageSubmitInfoInterface
 } from './MessageSubmitInfo';
 import {
-	isJPEGAttachment,
-	isPNGAttachment,
-	isPDFAttachment,
-	isDOCXAttachment,
+	ATTACHMENT_MAX_SIZE_IN_MB,
 	getAttachmentSizeMBForKB,
-	isXLSXAttachment,
-	ATTACHMENT_MAX_SIZE_IN_MB
+	isDOCXAttachment,
+	isJPEGAttachment,
+	isPDFAttachment,
+	isPNGAttachment,
+	isXLSXAttachment
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
 import {
-	EditorState,
-	RichUtils,
-	DraftHandleValue,
+	convertFromRaw,
 	convertToRaw,
-	convertFromRaw
+	DraftHandleValue,
+	EditorState,
+	RichUtils
 } from 'draft-js';
 import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
 import {
-	ItalicButton,
 	BoldButton,
+	ItalicButton,
 	UnorderedListButton
 } from 'draft-js-buttons';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import {
 	emojiPickerCustomClasses,
-	toolbarCustomClasses,
+	escapeMarkdownChars,
 	handleEditorBeforeInput,
 	handleEditorPastedText,
-	escapeMarkdownChars
+	toolbarCustomClasses
 } from './richtextHelpers';
 import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
 import { ReactComponent as FileDocIcon } from '../../resources/img/icons/file-doc.svg';
@@ -85,6 +86,7 @@ import './messageSubmitInterface.yellowTheme.styles';
 import clsx from 'clsx';
 import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -148,25 +150,27 @@ export interface MessageSubmitInterfaceComponentProps {
 	showMonitoringButton?: Function;
 	type: SESSION_LIST_TYPES;
 	typingUsers?: string[];
+	sessionIdFromParam?: number;
+	groupIdFromParam?: string;
+	language?: string;
 }
 
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
-	const textareaRef = React.useRef<HTMLDivElement>(null);
-	const featureWrapperRef = React.useRef<HTMLDivElement>(null);
+	const textareaInputRef = React.useRef<HTMLDivElement>(null);
+	const inputWrapperRef = React.useRef<HTMLSpanElement>(null);
 	const attachmentInputRef = React.useRef<HTMLInputElement>(null);
-	let editorRef: PluginsEditor;
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const chatItem = getChatItemForSession(activeSession);
-	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const isLiveChat = isAnonymousSession(activeSession?.session);
-	const isLiveChatFinished = chatItem?.status === 3;
+	const isTypingActive = isGroupChat(chatItem) || isLiveChat(chatItem);
+	const isLiveChatFinished =
+		isSessionChat(chatItem) && chatItem.status === STATUS_FINISHED;
 	const [activeInfo, setActiveInfo] = useState(null);
+	const [draftLoaded, setDraftLoaded] = useState(false);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
 		null
 	);
@@ -198,11 +202,10 @@ export const MessageSubmitInterfaceComponent = (
 
 	const isConsultantAbsent =
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-		activeSession &&
-		activeSession.consultant &&
-		activeSession.consultant.absent;
+		activeSession?.consultant?.absent;
 
-	const isSessionArchived = activeSession?.session?.status === 4;
+	const isSessionArchived =
+		activeSession?.session?.status === STATUS_ARCHIVED;
 
 	useEffect(() => {
 		if (
@@ -214,7 +217,7 @@ export const MessageSubmitInterfaceComponent = (
 			setActiveInfo(INFO_TYPES.ABSENT);
 		}
 
-		apiGetDraftMessage(activeSessionGroupId)
+		apiGetDraftMessage(props.sessionIdFromParam || props.groupIdFromParam)
 			.then((response) => {
 				setEditorWithMarkdownString(response.message);
 			})
@@ -222,6 +225,9 @@ export const MessageSubmitInterfaceComponent = (
 				if (error.message !== FETCH_ERRORS.EMPTY) {
 					console.error('Loading Draft Message: ', error);
 				}
+			})
+			.finally(() => {
+				setDraftLoaded(true);
 			});
 
 		return () => {
@@ -233,8 +239,11 @@ export const MessageSubmitInterfaceComponent = (
 					requestFeedbackCheckboxCallback &&
 					requestFeedbackCheckboxCallback.checked
 						? activeSession.session.feedbackGroupId
-						: activeSessionGroupId;
-				apiPostDraftMessage(groupId, currentDraftMessageRef.current);
+						: props.sessionIdFromParam || props.groupIdFromParam;
+				apiPostDraftMessage(
+					groupId,
+					currentDraftMessageRef.current
+				).then();
 			}
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -254,7 +263,7 @@ export const MessageSubmitInterfaceComponent = (
 			const groupId =
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.session.feedbackGroupId
-					: activeSessionGroupId;
+					: props.sessionIdFromParam || props.groupIdFromParam;
 			apiPostDraftMessage(groupId, debouncedDraftMessage);
 		}
 	}, [debouncedDraftMessage]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -330,13 +339,12 @@ export const MessageSubmitInterfaceComponent = (
 
 	const handleEditorChange = (currentEditorState) => {
 		if (
-			isGroupChat &&
+			draftLoaded &&
 			currentEditorState.getCurrentContent() !==
-				editorState.getCurrentContent()
+				editorState.getCurrentContent() &&
+			props.isTyping
 		) {
-			if (props.isTyping) {
-				props.isTyping();
-			}
+			props.isTyping(!currentEditorState.getCurrentContent().hasText());
 		}
 		setEditorState(currentEditorState);
 		currentDraftMessageRef.current =
@@ -353,80 +361,53 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const resizeTextarea = () => {
-		const textarea: any = textareaRef.current;
-		const featureWrapper: any = featureWrapperRef.current;
-
-		resetTextareaSize(textarea);
-
-		let maxHeight;
+		const textInput: any = textareaInputRef.current;
+		// default values
+		let textareaMaxHeight;
 		if (window.innerWidth <= 900) {
-			maxHeight = 118;
+			textareaMaxHeight = 118;
 		} else {
-			maxHeight = 218;
+			textareaMaxHeight = 218;
 		}
+		const richtextHeight = 38;
+		const fileHeight = 48;
 
-		const fileHeight = 44;
-		const richtextHeight = 37;
+		// calculate inputHeight
+		const textHeight = document.querySelector(
+			'.public-DraftEditor-content > div'
+		)?.scrollHeight;
+		let textInputMaxHeight = isRichtextActive
+			? textareaMaxHeight - richtextHeight
+			: textareaMaxHeight;
+		textInputMaxHeight = attachmentSelected
+			? textInputMaxHeight - fileHeight
+			: textInputMaxHeight;
+		const currentInputHeight =
+			textHeight > textInputMaxHeight ? textInputMaxHeight : textHeight;
 
-		let textHeight = textarea?.scrollHeight;
-		textHeight = attachmentSelected ? textHeight + fileHeight : textHeight;
-		textHeight = isRichtextActive
-			? textHeight + richtextHeight
-			: textHeight;
+		// add input styles
+		const currentOverflow =
+			textHeight <= textareaMaxHeight
+				? 'overflow-y: hidden;'
+				: 'overflow-y: scroll;';
+		const textInputMarginTop = isRichtextActive
+			? `margin-top: ${richtextHeight}px;`
+			: '';
+		const textInputMarginBottom = attachmentSelected
+			? `margin-bottom: ${fileHeight}px;`
+			: '';
+		let textInputStyles = `min-height: ${currentInputHeight}px; ${currentOverflow} ${textInputMarginTop} ${textInputMarginBottom}`;
+		textInputStyles = isRichtextActive
+			? textInputStyles +
+			  `border-top: none; border-top-right-radius: 0; box-shadow: none;`
+			: textInputStyles;
+		textInputStyles = attachmentSelected
+			? textInputStyles +
+			  `border-bottom: none; border-bottom-right-radius: 0;`
+			: textInputStyles;
+		textInput?.setAttribute('style', textInputStyles);
 
-		if (textHeight <= maxHeight) {
-			textarea?.setAttribute(
-				'style',
-				'min-height: ' + textHeight + 'px;' + ' overflow-y: hidden;' // eslint-disable-line
-			);
-			attachmentSelected
-				? textarea?.setAttribute(
-						'style',
-						'min-height: ' +
-							textHeight +
-							'px; padding-bottom: ' +
-							fileHeight +
-							'px; overflow-y: hidden;'
-				  )
-				: textarea?.setAttribute(
-						'style',
-						'min-height: ' +
-							textHeight +
-							'px;' +
-							' overflow-y: hidden;'
-				  );
-			featureWrapper?.setAttribute(
-				'style',
-				'min-height: ' + textHeight + 'px;'
-			);
-		} else {
-			textarea?.setAttribute(
-				'style',
-				'min-height: ' + maxHeight + 'px;' + ' overflow-y: scroll;' // eslint-disable-line
-			);
-			attachmentSelected
-				? textarea?.setAttribute(
-						'style',
-						'min-height: ' +
-							maxHeight +
-							'px; padding-bottom: ' +
-							fileHeight +
-							'px; overflow-y: scroll;'
-				  )
-				: textarea?.setAttribute(
-						'style',
-						'min-height: ' +
-							maxHeight +
-							'px;' +
-							' overflow-y: scroll;'
-				  );
-			featureWrapper?.setAttribute(
-				'style',
-				'min-height: ' + maxHeight + 'px;'
-			);
-		}
-
-		const textareaContainer = textarea?.closest('.textarea');
+		const textareaContainer = textInput?.closest('.textarea');
 		const textareaContainerHeight = textareaContainer?.offsetHeight;
 		const scrollButton = textareaContainer
 			?.closest('.session')
@@ -436,28 +417,12 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
-	const resetTextareaSize = (textarea) => {
-		const featureWrapper: any = featureWrapperRef.current;
-
-		if (window.innerWidth <= 900) {
-			textarea?.setAttribute('style', 'min-height: 87px;');
-			featureWrapper?.setAttribute('style', 'min-height: 87px;');
-		} else {
-			textarea?.setAttribute('style', 'min-height: 106px;');
-			featureWrapper?.setAttribute('style', 'min-height: 106px;');
-		}
-	};
-
 	const toggleAbsentMessage = () => {
 		//TODO: not react way: use state and based on that set a class
 		const infoWrapper = document.querySelector('.messageSubmitInfoWrapper');
 		if (infoWrapper) {
 			infoWrapper.classList.toggle('messageSubmitInfoWrapper--hidden');
 		}
-	};
-
-	const handleTextareaClick = (e) => {
-		editorRef.focus();
 	};
 
 	const getTypedMarkdownMessage = (currentEditorState?: EditorState) => {
@@ -477,7 +442,7 @@ export const MessageSubmitInterfaceComponent = (
 		setEditorState(EditorState.createWithContent(draftContent));
 	};
 
-	const handleButtonClick = (event) => {
+	const handleButtonClick = () => {
 		if (uploadProgress || isRequestInProgress) {
 			return null;
 		}
@@ -492,7 +457,10 @@ export const MessageSubmitInterfaceComponent = (
 						mobileListView();
 						history.push(getSessionListPathForLocation());
 						if (window.innerWidth >= 900) {
-							setAcceptedGroupId(activeSessionGroupId);
+							setAcceptedGroupId(
+								props.sessionIdFromParam ||
+									props.groupIdFromParam
+							);
 						}
 					}
 				})
@@ -517,10 +485,14 @@ export const MessageSubmitInterfaceComponent = (
 			typeIsEnquiry(props.type) &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
-			const enquirySessionId = activeSessionGroupId
-				? activeSessionGroupId
+			const enquirySessionId = props.sessionIdFromParam
+				? props.sessionIdFromParam
 				: sessionsData.mySessions[0].session.id;
-			apiSendEnquiry(enquirySessionId, getTypedMarkdownMessage())
+			apiSendEnquiry(
+				enquirySessionId,
+				getTypedMarkdownMessage(),
+				props.language
+			)
 				.then((response) => {
 					setEditorState(EditorState.createEmpty());
 					props.handleSendButton(response);
@@ -534,9 +506,9 @@ export const MessageSubmitInterfaceComponent = (
 				(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
 			const sendToRoomWithId = sendToFeedbackEndpoint
 				? activeSession?.session.feedbackGroupId
-				: activeSessionGroupId;
+				: props.sessionIdFromParam || props.groupIdFromParam;
 			const getSendMailNotificationStatus = () =>
-				!isGroupChat && !isLiveChat;
+				!isGroupChat(chatItem) && !isLiveChat(chatItem);
 
 			if (attachment) {
 				setAttachmentUpload(
@@ -719,10 +691,10 @@ export const MessageSubmitInterfaceComponent = (
 			className={clsx(
 				props.className,
 				'messageSubmit__wrapper',
-				isGroupChat && 'messageSubmit__wrapper--withTyping'
+				isTypingActive && 'messageSubmit__wrapper--withTyping'
 			)}
 		>
-			{isGroupChat && (
+			{isTypingActive && (
 				<TypingIndicator
 					disabled={
 						!(props.typingUsers && props.typingUsers.length > 0)
@@ -739,104 +711,89 @@ export const MessageSubmitInterfaceComponent = (
 							: 'textarea'
 					}
 				>
-					<span className="textarea__outerWrapper">
-						{hasRequestFeedbackCheckbox && (
-							<Checkbox
-								className="textarea__checkbox"
-								item={checkboxItem}
-								checkboxHandle={handleCheckboxClick}
-							/>
-						)}
-						<div className="textarea__wrapper">
-							<span
-								ref={featureWrapperRef}
-								className="textarea__featureWrapper"
-							>
-								<span className="textarea__richtextToggle">
-									<RichtextToggleIcon
-										width="20"
-										height="20"
-										onClick={() =>
-											setIsRichtextActive(
-												!isRichtextActive
-											)
-										}
-									/>
-								</span>
-								<EmojiSelect />
+					{hasRequestFeedbackCheckbox && (
+						<Checkbox
+							className="textarea__checkbox"
+							item={checkboxItem}
+							checkboxHandle={handleCheckboxClick}
+						/>
+					)}
+					<div className="textarea__wrapper">
+						<span className="textarea__featureWrapper">
+							<span className="textarea__richtextToggle">
+								<RichtextToggleIcon
+									width="20"
+									height="20"
+									onClick={() =>
+										setIsRichtextActive(!isRichtextActive)
+									}
+								/>
 							</span>
-							<span className="textarea__inputWrapper">
-								<div
-									className={clsx('textarea__input', {
-										'textarea__input--activeRichtext':
-											isRichtextActive
-									})}
-									ref={textareaRef}
-									onKeyUp={resizeTextarea}
-									onFocus={toggleAbsentMessage}
-									onBlur={toggleAbsentMessage}
-									onClick={handleTextareaClick}
-								>
-									<PluginsEditor
-										editorState={editorState}
-										onChange={handleEditorChange}
-										handleKeyCommand={
-											handleEditorKeyCommand
-										}
-										placeholder={placeholder}
-										stripPastedStyles={true}
-										spellCheck={true}
-										handleBeforeInput={() =>
-											handleEditorBeforeInput(editorState)
-										}
-										handlePastedText={(
-											text: string,
-											html?: string
-										): DraftHandleValue => {
-											const newEditorState =
-												handleEditorPastedText(
-													editorState,
-													text,
-													html
-												);
-											if (newEditorState) {
-												setEditorState(newEditorState);
-											}
-											return 'handled';
-										}}
-										ref={(element) => {
-											editorRef = element;
-										}}
-										plugins={[
-											linkifyPlugin,
-											staticToolbarPlugin,
-											emojiPlugin
-										]}
-									/>
-									<Toolbar>
-										{(externalProps) => (
-											<div className="textarea__toolbar__buttonWrapper">
-												<BoldButton
-													{...externalProps}
-												/>
-												<ItalicButton
-													{...externalProps}
-												/>
-												<UnorderedListButton
-													{...externalProps}
-												/>
-											</div>
-										)}
-									</Toolbar>
-								</div>
-								{hasUploadFunctionality &&
-									(!attachmentSelected ? (
-										<span className="textarea__attachmentSelect">
-											<ClipIcon
-												onClick={handleAttachmentSelect}
+							<EmojiSelect />
+						</span>
+						<span
+							className="textarea__inputWrapper"
+							ref={inputWrapperRef}
+						>
+							<div
+								className="textarea__input"
+								ref={textareaInputRef}
+								onKeyUp={() => resizeTextarea()}
+								onFocus={toggleAbsentMessage}
+								onBlur={toggleAbsentMessage}
+							>
+								<Toolbar>
+									{(externalProps) => (
+										<div className="textarea__toolbar__buttonWrapper">
+											<BoldButton {...externalProps} />
+											<ItalicButton {...externalProps} />
+											<UnorderedListButton
+												{...externalProps}
 											/>
-										</span>
-									) : (
+										</div>
+									)}
+								</Toolbar>
+								<PluginsEditor
+									editorState={editorState}
+									onChange={handleEditorChange}
+									handleKeyCommand={handleEditorKeyCommand}
+									placeholder={placeholder}
+									stripPastedStyles={true}
+									spellCheck={true}
+									handleBeforeInput={() =>
+										handleEditorBeforeInput(editorState)
+									}
+									handlePastedText={(
+										text: string,
+										html?: string
+									): DraftHandleValue => {
+										const newEditorState =
+											handleEditorPastedText(
+												editorState,
+												text,
+												html
+											);
+										if (newEditorState) {
+											setEditorState(newEditorState);
+										}
+										return 'handled';
+									}}
+									plugins={[
+										linkifyPlugin,
+										staticToolbarPlugin,
+										emojiPlugin
+									]}
+								/>
+							</div>
+							{hasUploadFunctionality &&
+								(!attachmentSelected ? (
+									<span className="textarea__attachmentSelect">
+										<ClipIcon
+											onClick={handleAttachmentSelect}
+										/>
+									</span>
+								) : (
+									<div className="textarea__attachmentWrapper">
 										<span className="textarea__attachmentSelected">
 											<span className="textarea__attachmentSelected__progress"></span>
 											<span className="textarea__attachmentSelected__labelWrapper">
@@ -855,29 +812,25 @@ export const MessageSubmitInterfaceComponent = (
 												</span>
 											</span>
 										</span>
-									))}
-							</span>
-							<SendMessageButton
-								handleSendButton={(event) =>
-									handleButtonClick(event)
-								}
-								clicked={isRequestInProgress}
-								deactivated={uploadProgress}
-							/>
-						</div>
-					</span>
-					{hasUploadFunctionality && (
-						<span>
-							<input
-								ref={attachmentInputRef}
-								onChange={handleAttachmentChange}
-								className="textarea__attachmentInput"
-								type="file"
-								id="dataUpload"
-								name="dataUpload"
-								accept="image/jpeg, image/png, .pdf, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-							/>
+									</div>
+								))}
 						</span>
+						<SendMessageButton
+							handleSendButton={handleButtonClick}
+							clicked={isRequestInProgress}
+							deactivated={uploadProgress}
+						/>
+					</div>
+					{hasUploadFunctionality && (
+						<input
+							ref={attachmentInputRef}
+							onChange={handleAttachmentChange}
+							className="textarea__attachmentInput"
+							type="file"
+							id="dataUpload"
+							name="dataUpload"
+							accept="image/jpeg, image/png, .pdf, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+						/>
 					)}
 				</form>
 			)}

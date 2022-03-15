@@ -55,6 +55,11 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		}
 	}
 
+	&__otpEmailResend {
+		display: inline-block;
+		margin-bottom: $grid-base-three;
+	}
+
 	&__error {
 		color: $form-error;
 		max-width: 245px;
@@ -105,5 +110,18 @@ $link-hover-text-decoration: $link-text-decoration !default;
 			text-transform: uppercase;
 			margin-top: $grid-base-two;
 		}
+	}
+
+	&__emailHint {
+		width: 280px;
+		margin-bottom: $grid-base-three;
+
+		@include breakpoint($fromLarge) {
+			width: 320px;
+		}
+	}
+
+	.twoFactorAuthResendMail {
+		margin-bottom: $grid-base-two;
 	}
 }

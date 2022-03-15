@@ -72,7 +72,9 @@ $form-accordion-item-input-margin-left: 0 !default;
 			margin-left: 0;
 		}
 
-		.inputField {
+		.inputField,
+		.consultingTypeSelection__possibleConsultingTypes .select__wrapper,
+		.consultingTypeSelection__possibleConsultingTypes + .agencySelection {
 			margin-top: $grid-base-three;
 			margin-right: $form-accordion-item-input-margin-right;
 			margin-left: $form-accordion-item-input-margin-left;

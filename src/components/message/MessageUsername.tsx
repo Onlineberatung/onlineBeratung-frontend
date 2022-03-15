@@ -1,7 +1,4 @@
-import {
-	SESSION_LIST_TYPES,
-	getChatItemForSession
-} from '../session/sessionHelpers';
+import { getChatItemForSession, isGroupChat } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import * as React from 'react';
 import { useContext } from 'react';
@@ -9,13 +6,9 @@ import {
 	getPrettyDateFromMessageDate,
 	formatToHHMM
 } from '../../utils/dateHelpers';
-import {
-	SessionsDataContext,
-	ActiveSessionGroupIdContext,
-	getActiveSession
-} from '../../globalState';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
 import { ForwardMessageDTO } from './MessageItemComponent';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 interface MessageUsernameProps {
 	alias?: ForwardMessageDTO;
@@ -27,9 +20,7 @@ interface MessageUsernameProps {
 }
 
 export const MessageUsername = (props: MessageUsernameProps) => {
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const chatItem = getChatItemForSession(activeSession);
 
 	const forwardedLabel = () => {
@@ -44,7 +35,9 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 	};
 
 	const userIsModerator = () =>
-		chatItem.moderators && chatItem.moderators.includes(props.userId);
+		isGroupChat(chatItem) &&
+		chatItem.moderators &&
+		chatItem.moderators.includes(props.userId);
 	const getUsernameWithPrefix = () => {
 		if (props.isMyMessage) {
 			return translate('message.isMyMessage.name');
@@ -63,25 +56,17 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 
 	return (
 		<>
-			{!props.alias &&
-			props.username &&
-			chatItem?.type !== SESSION_LIST_TYPES.ENQUIRY ? (
+			{!props.alias && props.username && (
 				<div
 					className={`messageItem__username messageItem__username--${props.type}`}
 				>
 					{getUsernameWithPrefix()}
 				</div>
-			) : (
-				''
 			)}
 
 			{props.alias ? (
 				<div className="messageItem__username messageItem__username--forwarded">
-					<ArrowForwardIcon
-						width="16"
-						height="16"
-						viewBox="0 0 24 19"
-					/>
+					<ArrowForwardIcon />
 					{forwardedLabel()}
 				</div>
 			) : (

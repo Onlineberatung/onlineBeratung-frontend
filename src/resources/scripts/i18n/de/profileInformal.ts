@@ -8,9 +8,11 @@ const profileInformal = {
 	'functions.passwordResetNotSame': 'Dein Passwort ist nicht identisch.',
 	'functions.passwordResetOldIncorrect': 'Dein Passwort ist nicht korrekt.',
 	'functions.passwordResetInstructions':
-		'Dein Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 9 Zeichen',
+		'<span class="text--bold">Dein Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:</span><ul class="pl--2 my--1"><li>Groß-/Kleinschreibung</li><li>mind. eine Zahl</li><li>mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...)</li><li>mind. 9 Zeichen</li></ul>',
 	'functions.passwordReset.overlay.headline':
 		'Du hast Dein Passwort erfolgreich geändert. Du wirst nun zum Login weitergeleitet.',
+	'functions.spokenLanguages.saveError':
+		'Beim Speichern ist ein Problem aufgetaucht. Bitte versuche es erneut.',
 	'data.register.headline':
 		'Benötigst Du auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Dich gerne.',
 	'data.register.selectAgencyInfo': 'Bitte wähle eine Beratungsstelle aus.',
@@ -20,15 +22,17 @@ const profileInformal = {
 		'Du hast Dich erfolgreich für ein neues Themenfeld registriert.',
 	'data.registerError.overlay.headline':
 		'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.',
+	'data.personal.registrationLink.tooltip':
+		'Teile Deinen persönlichen Kontakt-Link mit jemanden, damit diese Person eine Onlineberatung direkt mit Dir starten kann.',
 	'externalRegistration.headline':
 		'Deine gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung',
 	'externalRegistration.copy.start': 'Möchtest Du für „',
 	'externalRegistration.copy.end':
-		'“ zu der anderen Anwendung wechseln und dich dort registrieren? Deine bisherigen Beratungs- und Hilfethemen findest Du weiterhin hier.',
+		'“ zu der anderen Anwendung wechseln und Dich dort registrieren? Deine bisherigen Beratungs- und Hilfethemen findest Du weiterhin hier.',
 	'statistics.period.prefix': 'Deine Zahlen des',
 	'statistics.period.display.suffix': ' hast Du:',
 	'statistics.complete.title':
-		'Deine Statistik über Deinen gesamten Beratungszeitraum kannst Du hier herunterladen:'
+		'Deine Statistik über Deinen gewählten Beratungszeitraum kannst Du hier herunterladen:'
 };
 
 export default profileInformal;

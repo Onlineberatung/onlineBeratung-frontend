@@ -192,6 +192,11 @@ $icon-size-small: 16px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 
+		& > span {
+			display: inline-block;
+			font-weight: $font-weight-bold;
+		}
+
 		&__attachment {
 			margin-right: $grid-base;
 

@@ -8,14 +8,9 @@ import {
 } from 'react';
 import { Routing } from './Routing';
 import { config } from '../../resources/scripts/config';
-import {
-	setValueInCookie,
-	getValueFromCookie
-} from '../sessionCookie/accessSessionCookie';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	UserDataContext,
-	AuthDataContext,
-	AuthDataInterface,
 	NotificationsContext,
 	hasUserAuthority,
 	AUTHORITIES,
@@ -34,21 +29,23 @@ import { Notifications } from '../notifications/Notifications';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './authenticatedApp.styles';
 import './navigation.styles';
+import { requestPermissions } from '../../utils/notificationHelpers';
+import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
 	onLogout: Function;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	spokenLanguages: string[];
 }
 
 export const AuthenticatedApp = ({
 	onLogout,
 	onAppReady,
-	legalComponent
+	legalComponent,
+	spokenLanguages
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
-	const { setAuthData } = useContext(AuthDataContext);
-	const [authDataRequested, setAuthDataRequested] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [appReady, setAppReady] = useState<boolean>(false);
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
@@ -56,37 +53,37 @@ export const AuthenticatedApp = ({
 	const { sessionsData } = useContext(SessionsDataContext);
 	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
 
-	if (!authDataRequested) {
-		setAuthDataRequested(true);
-		const currentAuthData: AuthDataInterface = {
-			keycloakRefreshToken: getValueFromCookie('refreshToken'),
-			keycloakToken: getValueFromCookie('keycloak'),
-			rocketchatToken: getValueFromCookie('rc_token'),
-			rocketchatUserId: getValueFromCookie('rc_uid')
-		};
-		setAuthData(currentAuthData);
-	}
+	useEffect(() => {
+		if (
+			userData &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+		) {
+			requestPermissions();
+		}
+	}, [userData]);
 
-	if (!userDataRequested) {
-		setUserDataRequested(true);
-		handleTokenRefresh().then(() => {
-			Promise.all([apiGetUserData(), apiGetConsultingTypes()])
-				.then(([userProfileData, consultingTypes]) => {
-					// set informal / formal cookie depending on the given userdata
-					setValueInCookie(
-						'useInformal',
-						!userProfileData.formalLanguage ? '1' : ''
-					);
-					setUserData(userProfileData);
-					setConsultingTypes(consultingTypes);
-					setAppReady(true);
-				})
-				.catch((error) => {
-					window.location.href = config.urls.toEntry;
-					console.log(error);
-				});
-		});
-	}
+	useEffect(() => {
+		if (!userDataRequested) {
+			setUserDataRequested(true);
+			handleTokenRefresh().then(() => {
+				Promise.all([apiGetUserData(), apiGetConsultingTypes()])
+					.then(([userProfileData, consultingTypes]) => {
+						// set informal / formal cookie depending on the given userdata
+						setValueInCookie(
+							'useInformal',
+							!userProfileData.formalLanguage ? '1' : ''
+						);
+						setUserData(userProfileData);
+						setConsultingTypes(consultingTypes);
+						setAppReady(true);
+					})
+					.catch((error) => {
+						window.location.href = config.urls.toEntry;
+						console.log(error);
+					});
+			});
+		}
+	}, [userDataRequested, setUserData, setConsultingTypes]);
 
 	useEffect(() => {
 		onAppReady();
@@ -108,10 +105,12 @@ export const AuthenticatedApp = ({
 				<Routing
 					logout={handleLogout}
 					legalComponent={legalComponent}
+					spokenLanguages={spokenLanguages}
 				/>
 				{notifications && (
 					<Notifications notifications={notifications} />
 				)}
+				<TwoFactorNag />
 			</>
 		);
 	}

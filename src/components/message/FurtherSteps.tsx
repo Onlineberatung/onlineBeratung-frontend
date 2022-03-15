@@ -25,18 +25,24 @@ import {
 } from '../overlay/Overlay';
 import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
 import {
-	ActiveSessionGroupIdContext,
-	getActiveSession,
+	AUTHORITIES,
 	ConsultingTypeInterface,
-	SessionsDataContext,
+	hasUserAuthority,
 	UserDataContext
 } from '../../globalState';
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
 import { isVoluntaryInfoSet } from './messageHelpers';
 import { getChatItemForSession } from '../session/sessionHelpers';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { history } from '../app/app';
 
 const addEmailButton: ButtonItem = {
 	label: translate('furtherSteps.emailNotification.button'),
+	type: BUTTON_TYPES.LINK
+};
+
+const add2faButton: ButtonItem = {
+	label: translate('furtherSteps.twoFactorAuth.button'),
 	type: BUTTON_TYPES.LINK
 };
 
@@ -48,9 +54,7 @@ interface FurtherStepsProps {
 }
 
 export const FurtherSteps = (props: FurtherStepsProps) => {
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -65,13 +69,17 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
 	const chatItem = getChatItemForSession(activeSession);
+	const is2faEnabledAndNotActive =
+		userData.twoFactorAuth?.isEnabled && !userData.twoFactorAuth?.isActive;
 
 	useEffect(() => {
-		const sessionData =
-			userData.consultingTypes[props.consultingType].sessionData;
-		setShowAddVoluntaryInfo(
-			!isVoluntaryInfoSet(sessionData, props.resortData)
-		);
+		if (userData.consultingTypes) {
+			const sessionData =
+				userData.consultingTypes[props.consultingType].sessionData;
+			setShowAddVoluntaryInfo(
+				!isVoluntaryInfoSet(sessionData, props.resortData)
+			);
+		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const emailInputItem: InputFieldItem = {
@@ -189,10 +197,29 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	};
 
 	const showAddEmail = !userData.email;
+	const isConsultant = hasUserAuthority(
+		AUTHORITIES.CONSULTANT_DEFAULT,
+		userData
+	);
+
+	const redirectTo2FA = () => {
+		history.push({
+			pathname: '/profile/sicherheit/2fa',
+			openTwoFactor: true
+		});
+	};
+
 	return (
 		<div className="furtherSteps">
 			{!props.onlyShowVoluntaryInfo && (
 				<>
+					{isConsultant && (
+						<Text
+							className="furtherSteps__consultantHint"
+							text={translate('furtherSteps.consultant.info')}
+							type="infoLargeStandard"
+						/>
+					)}
 					<Headline
 						semanticLevel="4"
 						text={translate('furtherSteps.headline')}
@@ -235,7 +262,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 							/>
 						</li>
 					</ul>
-					{showAddEmail && (
+					{!isConsultant && showAddEmail && (
 						<>
 							<Headline
 								semanticLevel="5"
@@ -266,6 +293,27 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 									/>
 								</OverlayWrapper>
 							)}
+						</>
+					)}
+					{!isConsultant && is2faEnabledAndNotActive && (
+						<>
+							<Headline
+								semanticLevel="5"
+								text={translate(
+									'furtherSteps.twoFactorAuth.headline'
+								)}
+							/>
+							<Text
+								type="standard"
+								text={translate(
+									'furtherSteps.twoFactorAuth.infoText'
+								)}
+								className="furtherSteps__infoText"
+							/>
+							<Button
+								item={add2faButton}
+								buttonHandle={redirectTo2FA}
+							/>
 						</>
 					)}
 				</>

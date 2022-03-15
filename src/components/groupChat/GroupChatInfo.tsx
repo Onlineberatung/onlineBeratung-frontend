@@ -1,17 +1,24 @@
 import * as React from 'react';
 import { useEffect, useContext, useState } from 'react';
 import {
+	Link,
+	Redirect,
+	useLocation,
+	useParams,
+	RouteComponentProps
+} from 'react-router-dom';
+import {
 	UserDataContext,
-	ActiveSessionGroupIdContext,
+	GroupChatItemInterface,
 	getActiveSession,
 	SessionsDataContext,
-	StoppedGroupChatContext
+	ActiveSessionType,
+	UpdateSessionListContext
 } from '../../globalState';
 import {
 	getChatItemForSession,
 	getSessionListPathForLocation
 } from '../session/sessionHelpers';
-import { Link, Redirect, useLocation } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import {
@@ -30,12 +37,17 @@ import {
 	stopGroupChatSuccessOverlayItem
 } from '../sessionMenu/sessionMenuHelpers';
 import { logout } from '../logout/logout';
-import { mobileListView, mobileDetailView } from '../app/navigationHandler';
+import {
+	mobileListView,
+	mobileDetailView,
+	desktopView
+} from '../app/navigationHandler';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
 import '../profile/profile.styles';
 import { Text } from '../text/Text';
+import { useResponsive } from '../../hooks/useResponsive';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
@@ -43,18 +55,20 @@ const stopChatButtonSet: ButtonItem = {
 	type: BUTTON_TYPES.PRIMARY
 };
 
-export const GroupChatInfo = () => {
+export const GroupChatInfo = (props: RouteComponentProps) => {
+	const { rcGroupId: groupIdFromParam } = useParams();
+
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
-		ActiveSessionGroupIdContext
-	);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const [subscriberList, setSubscriberList] = useState(null);
-	const chatItem = getChatItemForSession(activeSession);
+	const [activeSession, setActiveSession] =
+		useState<ActiveSessionType | null>(null);
+	const [chatItem, setChatItem] = useState<GroupChatItemInterface | null>(
+		null
+	);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
-	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [sessionListTab] = useState(
@@ -63,12 +77,39 @@ export const GroupChatInfo = () => {
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
+	const { fromL } = useResponsive();
 	useEffect(() => {
-		mobileDetailView();
-		if (chatItem.active) {
-			getSubscriberList();
+		if (!fromL) {
+			mobileDetailView();
+			return () => {
+				mobileListView();
+			};
 		}
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+		desktopView();
+	}, [fromL]);
+
+	useEffect(() => {
+		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+		const chatItem = getChatItemForSession(
+			activeSession
+		) as GroupChatItemInterface;
+
+		setActiveSession(activeSession);
+		setChatItem(chatItem);
+
+		if (chatItem?.active) {
+			apiGetGroupMembers(chatItem.id)
+				.then((response) => {
+					const subscribers = response.members.map(
+						(member) => member.username
+					);
+					setSubscriberList(subscribers);
+				})
+				.catch((error) => {
+					console.log('error', error);
+				});
+		}
+	}, [groupIdFromParam, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleStopGroupChatButton = () => {
 		setOverlayItem(stopGroupChatSecurityOverlayItem);
@@ -97,29 +138,19 @@ export const GroupChatInfo = () => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			setRedirectToSessionsList(true);
-			setStoppedGroupChat(true);
+			setUpdateSessionList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
 		}
-	};
-
-	const getSubscriberList = () => {
-		apiGetGroupMembers(chatItem.id)
-			.then((response) => {
-				const subscribers = response.members.map(
-					(member) => member.username
-				);
-				setSubscriberList(subscribers);
-			})
-			.catch((error) => {
-				console.log('error', error);
-			});
 	};
 
 	const getDurationTranslation = () =>
 		durationSelectOptionsSet.filter(
 			(item) => parseInt(item.value) === chatItem.duration
 		)[0].label;
+
+	if (!chatItem) return null;
+
 	const preparedSettings: Array<{ label; value }> = [
 		{
 			label: translate('groupChat.info.settings.topic'),
@@ -146,8 +177,6 @@ export const GroupChatInfo = () => {
 	];
 
 	if (redirectToSessionsList) {
-		mobileListView();
-		setActiveSessionGroupId(null);
 		return (
 			<Redirect
 				to={getSessionListPathForLocation() + getSessionListTab()}

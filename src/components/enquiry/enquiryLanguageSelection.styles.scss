@@ -1,0 +1,50 @@
+.enquiryLanguageSelection {
+	margin-top: $grid-base;
+	overflow: hidden;
+	width: 100%;
+
+	@include breakpoint($fromMedium) {
+		margin-top: $grid-base-three;
+	}
+
+	@include breakpoint($fromLarge) {
+		margin-top: $grid-base-six;
+	}
+
+	&__tabs {
+		margin: 12px -4px 0;
+	}
+
+	&__tab {
+		font-size: $font-size-tertiary;
+		color: $tab-color;
+		display: inline-block;
+		padding: 8px 12px;
+		background: $tab-background-color;
+		border-radius: $tab-border-radius;
+		white-space: nowrap;
+		margin: 4px;
+		cursor: pointer;
+
+		@media not all and (hover: none) {
+			&:hover {
+				background-color: $tab-background-color-hover;
+				color: $tab-color-hover;
+			}
+		}
+
+		&--selected {
+			border: 1px solid $tab-background-border-color-selected;
+			padding: 7px 11px;
+			background-color: $tab-background-color-selected;
+			color: $tab-color-selected;
+
+			@media not all and (hover: none) {
+				&:hover {
+					background-color: $tab-background-color-selected;
+					color: $tab-color-selected;
+				}
+			}
+		}
+	}
+}

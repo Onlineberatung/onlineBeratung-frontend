@@ -8,6 +8,9 @@ const furtherStepsInformal = {
 	'email.overlay.input.invalid': 'Deine E-Mail-Adresse ist nicht gültig.',
 	'email.success.overlay.headline':
 		'Deine E-Mail-Adresse wurde erfolgreich gespeichert.',
+	'twoFactorAuth.headline': 'Der Schutz Deiner Daten ist uns wichtig',
+	'twoFactorAuth.infoText':
+		'Sichere Dein Konto vor einem möglichen unbefugten Zugriff. Nutze einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung.',
 	'voluntaryInfo.headline': 'Wir wollen Dich bestmöglichst beraten',
 	'voluntaryInfo.infoText':
 		'Dabei hilft es uns, wenn Du weitere freiwillige Angaben zu Dir und Deinem Anliegen machst.',

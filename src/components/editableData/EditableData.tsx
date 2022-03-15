@@ -3,6 +3,7 @@ import './editableData.styles';
 import { Text } from '../text/Text';
 import clsx from 'clsx';
 import { ReactComponent as CrossMarkIcon } from '../../resources/img/icons/x.svg';
+import { ReactComponent as DeleteIcon } from '../../resources/img/icons/delete.svg';
 import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { useEffect, useState } from 'react';
 import { isStringValidEmail } from '../registration/registrationHelpers';
@@ -17,56 +18,80 @@ export interface EditableDataProps {
 	onSingleEditActive?: Function;
 	onValueIsValid?: Function;
 	isEmailAlreadyInUse?: boolean;
+	isSingleClearable?: boolean;
+	onSingleClear?: Function;
+	onSingleFocus?: Function;
+	onBeforeRemoveButtonClick?: (callback) => void;
 }
 
-export const EditableData = (props: EditableDataProps) => {
-	const inputFieldRef = React.useRef<HTMLInputElement>(null);
-	const getInitialValue = props.initialValue
-		? props.initialValue
-		: translate('profile.noContent');
-	const [inputValue, setInputValue] = useState<string>();
+export const EditableData = ({
+	isDisabled,
+	isSingleEdit,
+	isSingleClearable,
+	initialValue,
+	onValueIsValid,
+	isEmailAlreadyInUse,
+	onSingleEditActive,
+	onSingleClear,
+	label: initialLabel,
+	type,
+	onSingleFocus,
+	onBeforeRemoveButtonClick
+}: EditableDataProps) => {
+	const [inputValue, setInputValue] = useState<string>(initialValue ?? '');
 	const [isValid, setIsValid] = useState<boolean>(true);
 	const [label, setLabel] = useState<string>();
+	const inputFieldRef = React.useRef<HTMLInputElement>(null);
+
+	const handleSingleEditActive = () => {
+		setInputValue(initialValue ?? '');
+		onSingleEditActive();
+	};
 
 	useEffect(() => {
-		if (!props.isDisabled) {
-			inputFieldRef.current.value = !props.initialValue
-				? ''
-				: getInitialValue;
+		if (!isDisabled) {
+			if (!isSingleEdit) {
+				return;
+			}
 			inputFieldRef.current.focus();
 			inputFieldRef.current.select();
-		} else if (props.isDisabled) {
-			inputFieldRef.current.value = getInitialValue;
-			setIsValid(true);
-			setLabel(props.label);
-			setInputValue(props.initialValue);
+			return;
 		}
-	}, [props.isDisabled]); // eslint-disable-line react-hooks/exhaustive-deps
+
+		setInputValue(initialValue ?? translate('profile.noContent'));
+		setIsValid(true);
+		setLabel(initialLabel);
+	}, [isDisabled, initialLabel, initialValue, isSingleEdit]);
 
 	useEffect(() => {
-		if (isValid && props.onValueIsValid) {
-			props.onValueIsValid(inputValue);
-		} else if (!isValid && props.onValueIsValid) {
-			props.onValueIsValid(null);
+		if (!onValueIsValid) {
+			return;
 		}
-	}, [inputValue]); // eslint-disable-line react-hooks/exhaustive-deps
+
+		if (isValid) {
+			onValueIsValid(inputValue);
+		} else if (!isValid) {
+			onValueIsValid(null);
+		}
+	}, [inputValue, isValid, onValueIsValid]);
 
 	useEffect(() => {
-		if (props.isEmailAlreadyInUse) {
+		if (isEmailAlreadyInUse) {
 			setIsValid(false);
 			setLabel(translate('furtherSteps.email.overlay.input.unavailable'));
 		}
-	}, [props.isEmailAlreadyInUse]);
+	}, [isEmailAlreadyInUse]);
 
 	const handleFocus = (event) => {
 		event.target.select();
+		if (onSingleFocus) onSingleFocus();
 	};
 
 	const handleInputValueChange = (event) => {
-		const value = event.target.value;
+		const { value } = event.target;
 		setInputValue(value);
 
-		if (props.type === 'email') {
+		if (type === 'email') {
 			handleEmailValidation(value);
 		} else {
 			setIsValid(value.length > 0);
@@ -76,7 +101,7 @@ export const EditableData = (props: EditableDataProps) => {
 	const handleEmailValidation = (email) => {
 		if (email.length > 0 && isStringValidEmail(email)) {
 			setIsValid(true);
-			setLabel(props.label);
+			setLabel(initialLabel);
 		} else {
 			setIsValid(false);
 			setLabel(translate('furtherSteps.email.overlay.input.invalid'));
@@ -84,13 +109,16 @@ export const EditableData = (props: EditableDataProps) => {
 	};
 
 	const handleRemoveButtonClick = () => {
-		setInputValue('');
-		setIsValid(false);
-		inputFieldRef.current.focus();
-	};
-
-	const handleSingleEditButton = () => {
-		props.onSingleEditActive();
+		const clearInput = () => {
+			setInputValue('');
+			setIsValid(false);
+			inputFieldRef.current.focus();
+		};
+		if (onBeforeRemoveButtonClick) {
+			onBeforeRemoveButtonClick(clearInput);
+		} else {
+			clearInput();
+		}
 	};
 
 	return (
@@ -99,25 +127,24 @@ export const EditableData = (props: EditableDataProps) => {
 				className={clsx({
 					'editableData__label--invalid': !isValid
 				})}
-				htmlFor={props.label}
+				htmlFor={initialLabel}
 			>
 				<Text text={label} type="infoSmall" />
 			</label>
 			<input
 				className={clsx('editableData__input', {
-					'editableData__input--empty':
-						!props.initialValue && props.isDisabled
+					'editableData__input--empty': !initialValue && isDisabled
 				})}
 				ref={inputFieldRef}
-				type={props.type}
+				type={type}
 				onFocus={handleFocus}
-				id={props.label}
-				name={props.label}
+				id={initialLabel}
+				name={initialLabel}
 				value={inputValue}
 				onChange={handleInputValueChange}
-				disabled={props.isDisabled}
+				disabled={isDisabled}
 			/>
-			{!props.isDisabled && (
+			{!isDisabled && (
 				<span
 					className="editableData__inputButton editableData__inputButton--remove"
 					onClick={handleRemoveButtonClick}
@@ -125,13 +152,23 @@ export const EditableData = (props: EditableDataProps) => {
 					<CrossMarkIcon />
 				</span>
 			)}
-			{props.isSingleEdit && props.isDisabled && (
-				<span
-					className="editableData__inputButton editableData__inputButton--singleEdit"
-					onClick={handleSingleEditButton}
-				>
-					<PenIcon />
-				</span>
+			{isSingleEdit && isDisabled && (
+				<div className="editableData__inputButtonGroup">
+					{isSingleClearable && initialValue && (
+						<span
+							className="editableData__inputButton editableData__inputButton--singleClear"
+							onClick={() => onSingleClear()}
+						>
+							<DeleteIcon />
+						</span>
+					)}
+					<span
+						className="editableData__inputButton editableData__inputButton--singleEdit"
+						onClick={() => handleSingleEditActive()}
+					>
+						<PenIcon />
+					</span>
+				</div>
 			)}
 		</div>
 	);

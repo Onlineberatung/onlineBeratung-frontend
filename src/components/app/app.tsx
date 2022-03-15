@@ -13,6 +13,8 @@ import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
+import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
 
 export const history = createBrowserHistory();
@@ -22,13 +24,17 @@ interface AppProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	entryPoint: string;
 	extraRoutes?: ReactNode;
+	spokenLanguages?: string[];
+	fixedLanguages?: string[];
 }
 
 export const App = ({
 	stageComponent,
 	legalComponent,
 	entryPoint,
-	extraRoutes
+	extraRoutes,
+	spokenLanguages = languageIsoCodesSortedByName,
+	fixedLanguages = ['de']
 }: AppProps) => {
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
@@ -45,6 +51,10 @@ export const App = ({
 	const [
 		hasUnmatchedRegistrationConsultingType,
 		setHasUnmatchedRegistrationConsultingType
+	] = useState(false);
+	const [
+		hasUnmatchedRegistrationConsultant,
+		setHasUnmatchedRegistrationConsultant
 	] = useState(false);
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
@@ -67,60 +77,84 @@ export const App = ({
 	return (
 		<ErrorBoundary>
 			<Router history={history}>
-				<ContextProvider>
-					<TenantThemingLoader />
-					{startWebsocket && (
-						<WebsocketHandler disconnect={disconnectWebsocket} />
-					)}
-					<Switch>
-						{extraRoutes}
-						{!hasUnmatchedRegistrationConsultingType && (
-							<Route path="/:consultingTypeSlug/registration">
-								<Registration
-									handleUnmatch={() =>
-										setHasUnmatchedRegistrationConsultingType(
-											true
-										)
-									}
-									legalComponent={legalComponent}
-									stageComponent={stageComponent}
-								/>
-							</Route>
-						)}
-						{!hasUnmatchedAnonymousConversation && (
-							<Route path="/:consultingTypeSlug/warteraum">
-								<WaitingRoomLoader
-									handleUnmatch={() =>
-										setHasUnmatchedAnonymousConversation(
-											true
-										)
-									}
-									onAnonymousRegistration={() =>
-										setStartWebsocket(true)
-									}
-								/>
-							</Route>
-						)}
-						{!hasUnmatchedLoginConsultingType && (
-							<Route path={['/:consultingTypeSlug', '/login']}>
-								<LoginLoader
-									handleUnmatch={() =>
-										setHasUnmatchedLoginConsultingType(true)
-									}
-									legalComponent={legalComponent}
-									stageComponent={stageComponent}
-								/>
-							</Route>
-						)}
-						{isInitiallyLoaded && (
-							<AuthenticatedApp
-								legalComponent={legalComponent}
-								onAppReady={() => setStartWebsocket(true)}
-								onLogout={() => setDisconnectWebsocket(true)}
+				<FixedLanguagesContext.Provider value={fixedLanguages}>
+					<ContextProvider>
+						<TenantThemingLoader />
+						{startWebsocket && (
+							<WebsocketHandler
+								disconnect={disconnectWebsocket}
 							/>
 						)}
-					</Switch>
-				</ContextProvider>
+						<Switch>
+							{extraRoutes}
+
+							{!hasUnmatchedRegistrationConsultingType &&
+								!hasUnmatchedRegistrationConsultant && (
+									<Route
+										path={[
+											'/registration',
+											'/:consultingTypeSlug/registration'
+										]}
+									>
+										<Registration
+											handleUnmatchConsultingType={() =>
+												setHasUnmatchedRegistrationConsultingType(
+													true
+												)
+											}
+											handleUnmatchConsultant={() => {
+												setHasUnmatchedRegistrationConsultant(
+													true
+												);
+											}}
+											legalComponent={legalComponent}
+											stageComponent={stageComponent}
+										/>
+									</Route>
+								)}
+
+							{!hasUnmatchedAnonymousConversation && (
+								<Route path="/:consultingTypeSlug/warteraum">
+									<WaitingRoomLoader
+										handleUnmatch={() =>
+											setHasUnmatchedAnonymousConversation(
+												true
+											)
+										}
+										onAnonymousRegistration={() =>
+											setStartWebsocket(true)
+										}
+									/>
+								</Route>
+							)}
+							{!hasUnmatchedLoginConsultingType && (
+								<Route
+									path={['/login', '/:consultingTypeSlug']}
+								>
+									<LoginLoader
+										handleUnmatch={() =>
+											setHasUnmatchedLoginConsultingType(
+												true
+											)
+										}
+										legalComponent={legalComponent}
+										stageComponent={stageComponent}
+									/>
+								</Route>
+							)}
+							{isInitiallyLoaded && (
+								<AuthenticatedApp
+									legalComponent={legalComponent}
+									spokenLanguages={spokenLanguages}
+									onAppReady={() => setStartWebsocket(true)}
+									onLogout={() =>
+										setDisconnectWebsocket(true)
+									}
+								/>
+							)}
+						</Switch>
+					</ContextProvider>
+				</FixedLanguagesContext.Provider>
 			</Router>
 		</ErrorBoundary>
 	);

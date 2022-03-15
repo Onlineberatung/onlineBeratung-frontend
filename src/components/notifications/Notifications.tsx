@@ -1,34 +1,38 @@
 import * as React from 'react';
-import {
-	IncomingVideoCall,
-	IncomingVideoCallProps
-} from '../incomingVideoCall/IncomingVideoCall';
+import { isNotificationTypeCall } from '../incomingVideoCall/IncomingVideoCall';
 import './notifications.styles';
 import incomingCallRingtone from '../../resources/audio/incomingCall.mp3';
 
-interface NotificationsProps {
-	notifications: IncomingVideoCallProps[];
-}
+import { NotificationType } from '../../globalState';
+import { Notification } from './Notification';
+
+type NotificationsProps = {
+	notifications: NotificationType[];
+};
 
 export const Notifications = (props: NotificationsProps) => {
 	const hasIncomingVideoCall: boolean = props.notifications.some(
-		(notification) => notification['notificationType'] === 'call'
+		isNotificationTypeCall
 	);
 
 	return (
 		<div className="notifications" data-cy="notifications">
 			{props.notifications.map(
-				(notification: IncomingVideoCallProps, index) => {
-					return (
-						notification.notificationType === 'call' && (
-							<IncomingVideoCall {...notification} key={index} />
-						)
-					);
-				}
+				(notification: NotificationType, index) => (
+					<Notification
+						notification={notification}
+						key={notification.id}
+					/>
+				)
 			)}
 			{hasIncomingVideoCall && (
 				<audio loop autoPlay data-cy="incoming-video-call-audio">
-					<source src={incomingCallRingtone}></source>
+					<source
+						src={
+							process.env.AUDIO_FILE_INCOMING_CALL ??
+							incomingCallRingtone
+						}
+					></source>
 				</audio>
 			)}
 		</div>

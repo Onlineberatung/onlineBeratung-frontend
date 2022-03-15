@@ -59,13 +59,17 @@ export const config = {
 		teamSessionsBase:
 			apiUrl + '/service/conversations/consultants/teamsessions/',
 		tenantServiceBase: apiUrl + '/service/tenant',
-		twoFactorAuth: apiUrl + '/service/users/twoFactorAuth',
+		twoFactorAuth: apiUrl + '/service/users/2fa',
+		twoFactorAuthApp: apiUrl + '/service/users/2fa/app',
+		twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
-		userSessionsListView: '/sessions/user/view'
+		userSessionsListView: '/sessions/user/view',
+		consultantsLanguages: apiUrl + '/service/users/consultants/languages'
 	},
 	urls: {
 		toRegistration: 'https://www.caritas.de/onlineberatung',
+		registration: '/registration',
 		toLogin: '/login',
 		toEntry: '/',
 		redirectToApp: '/' + APP_PATH,
@@ -78,5 +82,6 @@ export const config = {
 		error500: '/error.500.html',
 		error401: '/error.401.html',
 		error404: '/error.404.html'
-	}
+	},
+	postcodeFallbackUrl: '{url}'
 };

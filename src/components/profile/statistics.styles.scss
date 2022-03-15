@@ -1,29 +1,36 @@
 .statistics {
 	&__periodSelect {
-		display: flex;
 		margin-bottom: 18px;
+
+		@include breakpoint($fromMedium) {
+			display: flex;
+		}
 
 		> p {
 			margin: auto 0;
 		}
 
 		.select__wrapper {
+			max-width: #{$max-input-width + $grid-base-three + $grid-base-three};
 			margin: 0;
+			padding: 0;
+
+			@include breakpoint($fromMedium) {
+				padding: 0 $grid-base-three;
+			}
 		}
 	}
 
 	&__visuals__wrapper {
 		display: flex;
-		margin: $grid-base-four 0;
+		margin: $grid-base-four 0 0;
+		justify-content: center;
 	}
 
 	&__visualization {
 		display: flex;
 		flex-direction: column;
-
-		&:first-of-type {
-			margin-right: $grid-base-five;
-		}
+		align-items: center;
 
 		span {
 			display: flex;
