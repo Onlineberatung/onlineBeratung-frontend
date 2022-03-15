@@ -48,6 +48,7 @@ export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	isJoinGroupChatView?: boolean;
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
@@ -187,13 +188,16 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						}
 						isAskerInfoAvailable={isAskerInfoAvailable()}
 						legalComponent={props.legalComponent}
+						isJoinGroupChatView={props.isJoinGroupChatView}
 					/>
 				</div>
 				<div className="sessionInfo__metaInfo">
 					<div className="sessionInfo__metaInfo__content">
 						{getGroupChatDate(chatItem, true)}
 					</div>
-					{activeSession.chat.active && chatItem.subscribed ? (
+					{activeSession.chat.active &&
+					chatItem.subscribed &&
+					!props.isJoinGroupChatView ? (
 						<div
 							className="sessionInfo__metaInfo__content sessionInfo__metaInfo__content--clickable"
 							id="subscriberButton"

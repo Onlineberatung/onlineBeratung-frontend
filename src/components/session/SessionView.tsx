@@ -30,6 +30,7 @@ import {
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
+	apiGetGroupChatInfo,
 	apiGetSessionData,
 	apiSetSessionRead,
 	FILTER_FEEDBACK,
@@ -64,6 +65,7 @@ import './session.styles';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import useTyping from '../../utils/useTyping';
+import { decodeUsername } from '../../utils/encryptionHelpers';
 
 interface RouterProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
@@ -92,6 +94,8 @@ export const SessionView = (props: RouterProps) => {
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [loadedMessages, setLoadedMessages] = useState(null);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
+	const [forceBannedOverlay, setForceBannedOverlay] = useState(false);
+	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
 
 	const type = getTypeOfLocation();
 
@@ -114,27 +118,63 @@ export const SessionView = (props: RouterProps) => {
 			.catch((error) => null);
 	}, [groupIdFromParam]);
 
+	const checkMutedUserForThisSession = useCallback(() => {
+		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+		const chatItem = getChatItemForSession(activeSession);
+
+		if (chatItem) {
+			apiGetGroupChatInfo(chatItem?.id).then((response) => {
+				if (response.bannedUsers) {
+					const decryptedBannedUsers =
+						response.bannedUsers.map(decodeUsername);
+					setBannedUsers(decryptedBannedUsers);
+					if (decryptedBannedUsers.includes(userData.userName)) {
+						setForceBannedOverlay(true);
+					}
+				} else {
+					setBannedUsers([]);
+				}
+			});
+		}
+	}, [groupIdFromParam, sessionsData, userData.userName]);
+
 	/**
 	 * ToDo: roomMessageBounce is just a temporary fix because currently
 	 * every message gets marked but on every changed message we are loading all
 	 * messages. Maybe in future we will only update single message as it changes
 	 */
 	const roomMessageBounce = useRef(null);
-	const handleRoomMessage = useCallback(() => {
-		if (roomMessageBounce.current) {
-			clearTimeout(roomMessageBounce.current);
-		}
-		roomMessageBounce.current = setTimeout(() => {
-			roomMessageBounce.current = null;
-			fetchSessionMessages().finally(() => {
-				// ToDo: Never update session list if filtered for feedback
-				// because api will not return read feedback messages currenlty
-				if (filterStatus !== FILTER_FEEDBACK) {
-					setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
-				}
-			});
-		}, 500);
-	}, [fetchSessionMessages, filterStatus, setUpdateSessionList]);
+	const handleRoomMessage = useCallback(
+		(message) => {
+			if (
+				message &&
+				message.userMuted &&
+				message.userMuted === userData.userName
+			) {
+				checkMutedUserForThisSession();
+			}
+			if (roomMessageBounce.current) {
+				clearTimeout(roomMessageBounce.current);
+			}
+			roomMessageBounce.current = setTimeout(() => {
+				roomMessageBounce.current = null;
+				fetchSessionMessages().finally(() => {
+					// ToDo: Never update session list if filtered for feedback
+					// because api will not return read feedback messages currenlty
+					if (filterStatus !== FILTER_FEEDBACK) {
+						setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+					}
+				});
+			}, 500);
+		},
+		[
+			fetchSessionMessages,
+			filterStatus,
+			setUpdateSessionList,
+			userData.userName,
+			checkMutedUserForThisSession
+		]
+	);
 
 	const groupChatStoppedOverlay: OverlayItem = useMemo(
 		() => ({
@@ -274,6 +314,7 @@ export const SessionView = (props: RouterProps) => {
 
 	useEffect(() => {
 		setIsLoading(true);
+		setForceBannedOverlay(false);
 
 		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
 		const chatItem = getChatItemForSession(activeSession);
@@ -342,12 +383,19 @@ export const SessionView = (props: RouterProps) => {
 		return null;
 	}
 
-	if (isGroupChat(chatItem) && !chatItem.subscribed) {
+	const currentUserIsBanned = bannedUsers.includes(userData.userName);
+
+	if (
+		isGroupChat(chatItem) &&
+		(!chatItem.subscribed || currentUserIsBanned)
+	) {
 		return (
 			<ActiveSessionContext.Provider value={activeSession}>
 				<JoinGroupChatView
 					legalComponent={props.legalComponent}
 					chatItem={chatItem}
+					forceBannedOverlay={forceBannedOverlay}
+					bannedUsers={bannedUsers}
 				/>
 			</ActiveSessionContext.Provider>
 		);

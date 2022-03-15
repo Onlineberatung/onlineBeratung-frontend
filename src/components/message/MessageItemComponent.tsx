@@ -38,6 +38,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
+	USER_MUTED = 'USER_MUTED',
 	FORWARD = 'FORWARD',
 	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL',
@@ -181,8 +182,12 @@ export const MessageItemComponent = ({
 	const isVideoCallMessage = alias?.messageType === MessageType.VIDEOCALL;
 	const isFinishedConversationMessage =
 		alias?.messageType === MessageType.FINISHED_CONVERSATION;
+	const isUserMutedMessage = alias?.messageType === MessageType.USER_MUTED;
 
 	const messageContent = (): JSX.Element => {
+		if (isUserMutedMessage) {
+			return <></>;
+		}
 		if (isFurtherStepsMessage) {
 			return (
 				<FurtherSteps
