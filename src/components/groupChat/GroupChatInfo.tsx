@@ -28,7 +28,12 @@ import {
 	Overlay,
 	OverlayItem
 } from '../overlay/Overlay';
-import { apiGetGroupMembers, apiPutGroupChat, GROUP_CHAT_API } from '../../api';
+import {
+	apiGetGroupChatInfo,
+	apiGetGroupMembers,
+	apiPutGroupChat,
+	GROUP_CHAT_API
+} from '../../api';
 import { isGroupChatOwner } from './groupChatHelpers';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { durationSelectOptionsSet } from './createChatHelpers';
@@ -75,6 +80,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 	);
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
+	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
 
 	useEffect(() => {
 		mobileDetailView();
@@ -102,6 +108,15 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 				.catch((error) => {
 					console.log('error', error);
 				});
+			apiGetGroupChatInfo(chatItem?.id).then((response) => {
+				if (response.bannedUsers) {
+					const decryptedBannedUsers =
+						response.bannedUsers.map(decodeUsername);
+					setBannedUsers(decryptedBannedUsers);
+				} else {
+					setBannedUsers([]);
+				}
+			});
 		}
 	}, [groupIdFromParam, sessionsData]);
 
@@ -241,6 +256,9 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 									<p className="profile__data__content profile__data__content--subscriber">
 										{decodeUsername(subscriber.username)}
 										{isCurrentUserModerator &&
+											!bannedUsers.includes(
+												subscriber.username
+											) &&
 											!subscriber.isModerator && (
 												<FlyoutMenu
 													position={
@@ -263,6 +281,10 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 													/>
 												</FlyoutMenu>
 											)}
+										{isCurrentUserModerator &&
+											bannedUsers.includes(
+												subscriber.username
+											) && <span>BANNED</span>}
 									</p>
 								</div>
 							))
