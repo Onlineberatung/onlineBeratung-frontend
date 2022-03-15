@@ -89,7 +89,7 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 	// make HSL colors over RGB from hex
 	const primaryHSL = hexToRGB(primaryColor);
 	const secondaryHSL = hexToRGB(secondaryColor);
-	const contrastThreshold = 40;
+	const contrastThreshold = 60;
 
 	// Intended to be used as the foreground color when text
 	// or icons are used on top of the primary color.
