@@ -1,0 +1,47 @@
+.help {
+	padding: $grid-base-five;
+
+	& > * {
+		max-width: 500px;
+	}
+
+	.headline {
+		margin-bottom: $grid-base;
+	}
+
+	&__browser {
+		margin-top: $grid-base-three;
+		display: flex;
+
+		& > div {
+			&:first-child {
+				margin-right: $grid-base-four;
+			}
+
+			img {
+				margin-right: $grid-base-two;
+			}
+		}
+	}
+
+	&__mid,
+	&__bottom {
+		margin-top: $grid-base-six;
+	}
+
+	ol {
+		margin-left: 0;
+		padding: 0;
+
+		list-style-position: outside;
+
+		li {
+			margin-left: $grid-base-two;
+			padding-left: $grid-base;
+		}
+
+		li + li {
+			margin-top: $grid-base;
+		}
+	}
+}

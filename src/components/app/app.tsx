@@ -88,7 +88,10 @@ export const App = ({
 							{extraRoutes}
 
 							<Route path="/help">
-								<Help />
+								<Help
+									legalComponent={legalComponent}
+									stageComponent={stageComponent}
+								/>
 							</Route>
 
 							{!hasUnmatchedRegistrationConsultingType &&
