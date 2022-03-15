@@ -62,6 +62,7 @@ interface SessionItemProps {
 	typingUsers: string[];
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	bannedUsers: string[];
 }
 
 let initMessageCount: number;
@@ -349,6 +350,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					props.hasUserInitiatedStopOrLeaveRequest
 				}
 				legalComponent={props.legalComponent}
+				bannedUsers={props.bannedUsers}
 			/>
 
 			{!isAnonymousEnquiry && (

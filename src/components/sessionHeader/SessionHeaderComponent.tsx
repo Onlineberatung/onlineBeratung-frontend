@@ -49,6 +49,7 @@ export interface SessionHeaderProps {
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
 	isJoinGroupChatView?: boolean;
+	bannedUsers: string[];
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
@@ -214,6 +215,9 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 												<li
 													className={
 														isCurrentUserModerator &&
+														!props.bannedUsers.includes(
+															subscriber.username
+														) &&
 														!subscriber.isModerator
 															? 'has-flyout'
 															: ''
@@ -231,6 +235,9 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 														)}
 													</span>
 													{isCurrentUserModerator &&
+														!props.bannedUsers.includes(
+															subscriber.username
+														) &&
 														!subscriber.isModerator && (
 															<FlyoutMenu
 																position={
@@ -264,6 +271,11 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 																/>
 															</FlyoutMenu>
 														)}
+													{isCurrentUserModerator &&
+														props.bannedUsers.includes(
+															subscriber.username
+														) &&
+														'BANNED'}
 												</li>
 											)
 										)}

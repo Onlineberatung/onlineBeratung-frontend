@@ -226,6 +226,7 @@ export const JoinGroupChatView = ({
 			<SessionHeaderComponent
 				legalComponent={legalComponent}
 				isJoinGroupChatView={true}
+				bannedUsers={bannedUsers}
 			/>
 			<div className="joinChat__content session__content">
 				<Headline

@@ -119,24 +119,33 @@ export const SessionView = (props: RouterProps) => {
 	}, [groupIdFromParam]);
 
 	const checkMutedUserForThisSession = useCallback(() => {
-		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
-		const chatItem = getChatItemForSession(activeSession);
+		if (sessionsData && groupIdFromParam) {
+			const activeSession = getActiveSession(
+				groupIdFromParam,
+				sessionsData
+			);
+			const chatItem = getChatItemForSession(activeSession);
 
-		if (chatItem) {
-			apiGetGroupChatInfo(chatItem?.id).then((response) => {
-				if (response.bannedUsers) {
-					const decryptedBannedUsers =
-						response.bannedUsers.map(decodeUsername);
-					setBannedUsers(decryptedBannedUsers);
-					if (decryptedBannedUsers.includes(userData.userName)) {
-						setForceBannedOverlay(true);
+			if (chatItem) {
+				apiGetGroupChatInfo(chatItem?.id).then((response) => {
+					if (response.bannedUsers) {
+						const decryptedBannedUsers =
+							response.bannedUsers.map(decodeUsername);
+						setBannedUsers(decryptedBannedUsers);
+						if (decryptedBannedUsers.includes(userData.userName)) {
+							setForceBannedOverlay(true);
+						}
+					} else {
+						setBannedUsers([]);
 					}
-				} else {
-					setBannedUsers([]);
-				}
-			});
+				});
+			}
 		}
 	}, [groupIdFromParam, sessionsData, userData.userName]);
+
+	useEffect(() => {
+		checkMutedUserForThisSession();
+	}, [checkMutedUserForThisSession]);
 
 	/**
 	 * ToDo: roomMessageBounce is just a temporary fix because currently
@@ -146,11 +155,7 @@ export const SessionView = (props: RouterProps) => {
 	const roomMessageBounce = useRef(null);
 	const handleRoomMessage = useCallback(
 		(message) => {
-			if (
-				message &&
-				message.userMuted &&
-				message.userMuted === userData.userName
-			) {
+			if (message && message.userMuted) {
 				checkMutedUserForThisSession();
 			}
 			if (roomMessageBounce.current) {
@@ -171,7 +176,6 @@ export const SessionView = (props: RouterProps) => {
 			fetchSessionMessages,
 			filterStatus,
 			setUpdateSessionList,
-			userData.userName,
 			checkMutedUserForThisSession
 		]
 	);
@@ -425,6 +429,7 @@ export const SessionView = (props: RouterProps) => {
 					}
 					typingUsers={typingUsers}
 					legalComponent={props.legalComponent}
+					bannedUsers={bannedUsers}
 				/>
 				{isOverlayActive ? (
 					<OverlayWrapper>
