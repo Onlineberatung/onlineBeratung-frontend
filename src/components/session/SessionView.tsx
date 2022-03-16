@@ -131,19 +131,25 @@ export const SessionView = (props: RouterProps) => {
 			);
 			const chatItem = getChatItemForSession(activeSession);
 
-			if (chatItem) {
-				apiGetGroupChatInfo(chatItem?.id).then((response) => {
-					if (response.bannedUsers) {
-						const decryptedBannedUsers =
-							response.bannedUsers.map(decodeUsername);
-						setBannedUsers(decryptedBannedUsers);
-						if (decryptedBannedUsers.includes(userData.userName)) {
-							setForceBannedOverlay(true);
+			if (chatItem && isGroupChat(chatItem)) {
+				apiGetGroupChatInfo(chatItem?.id)
+					.then((response) => {
+						if (response.bannedUsers) {
+							const decryptedBannedUsers =
+								response.bannedUsers.map(decodeUsername);
+							setBannedUsers(decryptedBannedUsers);
+							if (
+								decryptedBannedUsers.includes(userData.userName)
+							) {
+								setForceBannedOverlay(true);
+							}
+						} else {
+							setBannedUsers([]);
 						}
-					} else {
+					})
+					.catch(() => {
 						setBannedUsers([]);
-					}
-				});
+					});
 			}
 		}
 	}, [groupIdFromParam, sessionsData, userData.userName]);
