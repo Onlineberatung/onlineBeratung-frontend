@@ -28,6 +28,7 @@ import twoFactorAuth from './de/twoFactorAuth';
 import typingIndicator from './de/typingIndicator';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
+import qrCode from './de/qrCode';
 
 const de = {
 	absence,
@@ -59,7 +60,8 @@ const de = {
 	typingIndicator,
 	user,
 	userProfile,
-	videoCall
+	videoCall,
+	qrCode
 };
 
 export default de;
