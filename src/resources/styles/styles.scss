@@ -3,7 +3,20 @@
 
 @import 'layout';
 @import 'ieBanner';
+@import 'display';
 @import 'types';
+@import 'flex';
+@import 'float';
+@import 'text';
+@import 'colors';
+@import 'padding';
+@import 'margin';
+@import 'border';
+@import 'icon';
+
+.w--100 {
+	width: 100%;
+}
 
 @if mixin-exists(setup-fonts) {
 	@include setup-fonts();

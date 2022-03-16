@@ -43,7 +43,11 @@ import {
 	stopGroupChatSuccessOverlayItem
 } from '../sessionMenu/sessionMenuHelpers';
 import { logout } from '../logout/logout';
-import { mobileListView, mobileDetailView } from '../app/navigationHandler';
+import {
+	mobileListView,
+	mobileDetailView,
+	desktopView
+} from '../app/navigationHandler';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
@@ -52,6 +56,7 @@ import { Text } from '../text/Text';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { BanUser } from '../banUser/BanUser';
+import { useResponsive } from '../../hooks/useResponsive';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
@@ -82,9 +87,18 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
 
+	const { fromL } = useResponsive();
 	useEffect(() => {
-		mobileDetailView();
+		if (!fromL) {
+			mobileDetailView();
+			return () => {
+				mobileListView();
+			};
+		}
+		desktopView();
+	}, [fromL]);
 
+	useEffect(() => {
 		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
 		const chatItem = getChatItemForSession(
 			activeSession
@@ -186,7 +200,6 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 	];
 
 	if (redirectToSessionsList) {
-		mobileListView();
 		return (
 			<Redirect
 				to={getSessionListPathForLocation() + getSessionListTab()}
