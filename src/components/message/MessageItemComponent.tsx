@@ -185,9 +185,6 @@ export const MessageItemComponent = ({
 	const isUserMutedMessage = alias?.messageType === MessageType.USER_MUTED;
 
 	const messageContent = (): JSX.Element => {
-		if (isUserMutedMessage) {
-			return <></>;
-		}
 		if (isFurtherStepsMessage) {
 			return (
 				<FurtherSteps
@@ -292,6 +289,8 @@ export const MessageItemComponent = ({
 			);
 		}
 	};
+
+	if (isUserMutedMessage) return null;
 
 	if (isUpdateSessionDataMessage && !showAddVoluntaryInfo) {
 		return null;
