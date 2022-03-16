@@ -51,7 +51,7 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 	const qrCodeNested = (): JSX.Element => {
 		return (
 			<div className="generateQrCode__overlayContent">
-				<img alt="QR Code" src={qr} />
+				<img alt={translate('qrCode.overlay.image.alt')} src={qr} />
 				<Headline
 					semanticLevel="3"
 					text={translate('qrCode.overlay.headline')}
