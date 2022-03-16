@@ -93,21 +93,6 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 	// The level AA WCAG scrore requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (at least 18pt) or bold text.
 	const contrastThreshold = 4.5;
 
-	if (primaryColor) {
-		console.log(
-			contrast.ratio('#fff', primaryColor),
-			contrastThreshold,
-			contrast.ratio('#fff', primaryColor) > contrastThreshold
-		);
-	}
-	if (secondaryColor) {
-		console.log(
-			contrast.ratio('#fff', secondaryColor),
-			contrastThreshold,
-			contrast.ratio('#fff', secondaryColor) > contrastThreshold
-		);
-	}
-
 	// Intended to be used as the foreground color when text
 	// or icons are used on top of the primary color.
 	const textColorContrastSwitch =
