@@ -93,38 +93,44 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 	// The level AA WCAG scrore requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (at least 18pt) or bold text.
 	const contrastThreshold = 4.5;
 
-	console.log(
-		contrast.ratio('#fff', primaryColor),
-		contrastThreshold,
-		contrast.ratio('#fff', primaryColor) > contrastThreshold
-	);
-	console.log(
-		contrast.ratio('#fff', secondaryColor),
-		contrastThreshold,
-		contrast.ratio('#fff', secondaryColor) > contrastThreshold
-	);
+	if (primaryColor) {
+		console.log(
+			contrast.ratio('#fff', primaryColor),
+			contrastThreshold,
+			contrast.ratio('#fff', primaryColor) > contrastThreshold
+		);
+	}
+	if (secondaryColor) {
+		console.log(
+			contrast.ratio('#fff', secondaryColor),
+			contrastThreshold,
+			contrast.ratio('#fff', secondaryColor) > contrastThreshold
+		);
+	}
 
 	// Intended to be used as the foreground color when text
 	// or icons are used on top of the primary color.
 	const textColorContrastSwitch =
-		contrast.ratio('#fff', primaryColor) > contrastThreshold
+		primaryColor && contrast.ratio('#fff', primaryColor) > contrastThreshold
 			? 'var(--skin-color-primary-foreground-light)'
 			: 'var(--skin-color-primary-foreground-dark)';
 
 	// Intended to be used as the foreground color when text
 	// or icons are used on top of the secondary color.
 	const textColorSecondaryContrastSwitch =
+		secondaryColor &&
 		contrast.ratio('#fff', secondaryColor) > contrastThreshold
 			? 'var(--skin-color-primary-foreground-light)'
 			: 'var(--skin-color-primary-foreground-dark)';
 
 	const secondaryColorContrastSafe =
+		secondaryColor &&
 		contrast.ratio('#fff', secondaryColor) > contrastThreshold
 			? secondaryColor
 			: 'var(--skin-color-default)';
 
 	const primaryColorContrastSafe =
-		contrast.ratio('#fff', primaryColor) < contrastThreshold
+		primaryColor && contrast.ratio('#fff', primaryColor) < contrastThreshold
 			? 'var(--skin-color-primary-foreground-dark)'
 			: primaryColor;
 
@@ -134,6 +140,7 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 		:root {
 		--skin-color-primary: ${primaryColor};
 		--skin-color-primary-hover: ${
+			primaryColor &&
 			contrast.ratio('#fff', primaryColor) < contrastThreshold
 				? adjustHSLColor({
 						color: primaryHSL,
