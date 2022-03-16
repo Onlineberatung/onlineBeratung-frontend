@@ -48,7 +48,7 @@ import {
 	mobileDetailView,
 	desktopView
 } from '../app/navigationHandler';
-import { decodeUsername, encodeUsername } from '../../utils/encryptionHelpers';
+import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
 import '../profile/profile.styles';
