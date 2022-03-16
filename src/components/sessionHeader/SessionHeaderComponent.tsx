@@ -224,9 +224,15 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 													}
 													key={index}
 													onClick={() => {
-														setFlyoutOpenId(
-															subscriber._id
-														);
+														if (
+															!props.bannedUsers.includes(
+																subscriber.username
+															)
+														) {
+															setFlyoutOpenId(
+																subscriber._id
+															);
+														}
 													}}
 												>
 													<span>
@@ -235,11 +241,11 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 														)}
 													</span>
 													{isCurrentUserModerator &&
-														!props.bannedUsers.includes(
-															subscriber.username
-														) &&
 														!subscriber.isModerator && (
 															<FlyoutMenu
+																isHidden={props.bannedUsers.includes(
+																	subscriber.username
+																)}
 																position={
 																	window.innerWidth <=
 																	900

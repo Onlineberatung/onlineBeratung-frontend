@@ -6,12 +6,14 @@ interface FlyoutMenuProps {
 	isOpen?: boolean;
 	handleClose?: () => void;
 	position?: 'right' | 'left';
+	isHidden?: boolean;
 }
 
 export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
 	children,
 	isOpen,
 	handleClose = () => {},
+	isHidden,
 	position = 'left'
 }) => {
 	const [flyoutShown, setFlyoutShown] = useState(false);
@@ -40,7 +42,11 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
 	}, [flyoutShown, handleFlyout]);
 
 	return (
-		<div className={`flyoutMenu flyoutMenu--${position}`}>
+		<div
+			className={`flyoutMenu flyoutMenu--${position} ${
+				isHidden ? 'flyoutMenu--hidden' : ''
+			}`}
+		>
 			<button onClick={handleFlyout} className="flyoutMenu__trigger">
 				<MenuHorizontalIcon />
 			</button>

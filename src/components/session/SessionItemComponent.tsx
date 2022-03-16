@@ -373,6 +373,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 									isOnlyEnquiry={isOnlyEnquiry}
 									isMyMessage={isMyMessage(message.userId)}
 									resortData={resortData}
+									bannedUsers={props.bannedUsers}
 									{...message}
 								/>
 								{index === messages.length - 1 &&

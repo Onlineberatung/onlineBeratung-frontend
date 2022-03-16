@@ -39,6 +39,10 @@
 			transform: translateX(calc(-100% + 20px));
 		}
 	}
+
+	&--hidden {
+		visibility: hidden;
+	}
 }
 
 .has-flyout {

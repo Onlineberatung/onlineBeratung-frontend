@@ -85,6 +85,7 @@ interface MessageItemComponentProps extends MessageItem {
 	type: SESSION_LIST_TYPES;
 	clientName: string;
 	resortData: ConsultingTypeInterface;
+	bannedUsers: string[];
 }
 
 export const MessageItemComponent = ({
@@ -99,7 +100,8 @@ export const MessageItemComponent = ({
 	askerRcId,
 	attachments,
 	file,
-	isNotRead
+	isNotRead,
+	bannedUsers
 }: MessageItemComponentProps) => {
 	const activeSession = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -233,6 +235,7 @@ export const MessageItemComponent = ({
 						type={getUsernameType()}
 						userId={userId}
 						username={username}
+						isUserBanned={bannedUsers.includes(username)}
 					/>
 
 					<div

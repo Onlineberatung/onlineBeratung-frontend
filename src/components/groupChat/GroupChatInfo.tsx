@@ -269,11 +269,11 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 									<p className="profile__data__content profile__data__content--subscriber">
 										{decodeUsername(subscriber.username)}
 										{isCurrentUserModerator &&
-											!bannedUsers.includes(
-												subscriber.username
-											) &&
 											!subscriber.isModerator && (
 												<FlyoutMenu
+													isHidden={bannedUsers.includes(
+														subscriber.username
+													)}
 													position={
 														window.innerWidth <= 900
 															? 'left'

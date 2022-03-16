@@ -23,6 +23,7 @@ interface MessageUsernameProps {
 	type: 'forwarded' | 'user' | 'consultant' | 'self' | 'system';
 	userId: string;
 	username: string;
+	isUserBanned?: boolean;
 }
 
 export const MessageUsername = (props: MessageUsernameProps) => {
@@ -73,7 +74,10 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 				>
 					{getUsernameWithPrefix()}
 					{currentUserIsModerator && !subscriberIsModerator && (
-						<FlyoutMenu position="right">
+						<FlyoutMenu
+							position="right"
+							isHidden={props.isUserBanned}
+						>
 							<BanUser
 								userName={props.username}
 								rcUserId={props.userId}
