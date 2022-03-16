@@ -3,17 +3,6 @@
 		max-width: 600px;
 	}
 
-	&__languageSelect {
-		@include breakpoint($fromMedium) {
-			display: flex;
-		}
-
-		& > p {
-			margin: 14px 0 auto;
-			min-width: 80px;
-		}
-	}
-
 	&__buttons {
 		display: flex;
 		margin: 10px 0;
@@ -32,12 +21,10 @@
 	.select__wrapper {
 		margin: 0;
 		padding: 0;
-		max-width: 600px;
+		max-width: none;
 
 		@include breakpoint($fromMedium) {
-			padding-left: $grid-base-three;
-			min-width: #{$max-input-width + $grid-base-three};
-			max-width: 470px;
+			width: 100%;
 		}
 
 		.select__input__control {

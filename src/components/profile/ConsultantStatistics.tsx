@@ -201,17 +201,18 @@ export const ConsultantStatistics = () => {
 				/>
 				<SelectDropdown {...selectDropdown} />
 			</div>
-			<div>
+			<div className="b--1 p--3 mb--4">
 				<Text
 					text={`${translate(
 						'profile.statistics.period.display.prefix'
 					)}${periodDisplay}${translate(
 						'profile.statistics.period.display.suffix'
 					)}`}
-					type="infoLargeAlternative"
+					className="text--center text--bold"
+					type="standard"
 				/>
 				<div className="statistics__visuals__wrapper">
-					<div className="statistics__visualization">
+					<div className="statistics__visualization text--center br--1 pr--4">
 						<span>
 							<PersonsIcon />
 							<p>
@@ -226,7 +227,7 @@ export const ConsultantStatistics = () => {
 							type="standard"
 						/>
 					</div>
-					<div className="statistics__visualization">
+					<div className="statistics__visualization pl--4">
 						<span>
 							<SpeechBubbleIcon />
 							<p>

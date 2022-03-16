@@ -58,7 +58,6 @@ $iconSizeLarge: 48px;
 			height: auto;
 			max-width: 720px;
 			padding: $grid-base-six;
-			overflow: visible;
 		}
 
 		animation: fadeIn linear 0.8s;
@@ -201,12 +200,14 @@ $iconSizeLarge: 48px;
 			display: inline-block;
 			background-color: $white;
 			margin-top: ((-$size / 2) - $grid-base-six);
-			margin-left: auto;
-			margin-right: auto;
 			width: $size;
 			height: $size;
 			padding: $grid-base;
 			border-radius: 50%;
+
+			position: fixed;
+			left: 50%;
+			transform: translateX(-50%);
 		}
 	}
 

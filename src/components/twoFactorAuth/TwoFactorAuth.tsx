@@ -22,6 +22,7 @@ import { ReactComponent as AddIcon } from '../../resources/img/icons/add.svg';
 import { ReactComponent as UrlIcon } from '../../resources/img/icons/url.svg';
 import { ReactComponent as CheckIcon } from '../../resources/img/icons/checkmark.svg';
 import { ReactComponent as IlluCheck } from '../../resources/img/illustrations/check.svg';
+import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import {
 	apiDeleteTwoFactorAuth,
 	apiPutTwoFactorAuthEmail,
@@ -253,7 +254,7 @@ export const TwoFactorAuth = () => {
 						type="default"
 						value={TWO_FACTOR_TYPES.APP}
 					></RadioButton>
-					<Tooltip icon="info">
+					<Tooltip trigger={<InfoIcon />}>
 						{translate('twoFactorAuth.activate.radio.tooltip.app')}
 					</Tooltip>
 				</div>
@@ -271,7 +272,7 @@ export const TwoFactorAuth = () => {
 						type="default"
 						value={TWO_FACTOR_TYPES.EMAIL}
 					></RadioButton>
-					<Tooltip icon="info">
+					<Tooltip trigger={<InfoIcon />}>
 						{translate(
 							'twoFactorAuth.activate.radio.tooltip.email'
 						)}
@@ -729,8 +730,9 @@ export const TwoFactorAuth = () => {
 					semanticLevel="5"
 				/>
 				<Text
+					className="tertiary"
 					text={translate('twoFactorAuth.subtitle')}
-					type="infoLargeAlternative"
+					type="standard"
 				/>
 			</div>
 			<label className="twoFactorAuth__switch">

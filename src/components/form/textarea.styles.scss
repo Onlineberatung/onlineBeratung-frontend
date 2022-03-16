@@ -1,0 +1,59 @@
+.textarea {
+	position: relative;
+
+	&,
+	&__wrapper,
+	textarea {
+		width: 100%;
+	}
+
+	&__wrapper {
+		margin: $grid-base-two 0;
+	}
+
+	textarea {
+		min-height: 100px;
+		padding: 19px $grid-base-three 0;
+		color: $form-secondary;
+		border: 1px solid $form-primary;
+		border-radius: $input-field-border-radius;
+		outline: 0;
+		box-shadow: $input-field-box-shadow;
+
+		&:hover {
+			border: 1px solid $form-active;
+		}
+
+		&:focus {
+			border: 2px solid $form-active;
+		}
+
+		&:-ms-input-placeholder {
+			color: transparent;
+		}
+
+		&::-webkit-input-placeholder {
+			color: transparent;
+		}
+
+		&::-moz-placeholder {
+			color: transparent;
+		}
+
+		&:focus + label,
+		&:not(:placeholder-shown) + label {
+			font-size: 12px;
+			top: 3px;
+			transition: font-size 0.5s, top 0.5s;
+		}
+	}
+
+	label {
+		width: calc(100% - #{$grid-base-three * 2});
+		position: absolute;
+		top: 15px;
+		left: $grid-base-three;
+		transition: font-size 0.5s, top 0.5s;
+		color: $tertiary;
+	}
+}
