@@ -1,7 +1,7 @@
 .link_menu {
 	&__group {
 		.title {
-			color: $primary;
+			color: var(--skin-color-primary-contrast-safe, $primary);
 			margin-bottom: 16px;
 			margin-top: $grid-base-five;
 			font-family: $font-family-divider;

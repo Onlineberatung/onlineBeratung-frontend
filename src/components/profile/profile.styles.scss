@@ -14,8 +14,6 @@ $inputMaxWidth: 500px;
 
 $profile-imprint-background-color-desktop: $background-light !default;
 $profile-content-wrapper-detail-button-text-align: center !default;
-$profile-select-margin-left: auto !default;
-$profile-select-padding-left: $grid-base-three !default;
 
 .profile {
 	&__header &__nav {
@@ -34,7 +32,7 @@ $profile-select-padding-left: $grid-base-three !default;
 			border-bottom: 4px solid transparent;
 
 			&.active {
-				color: $primary;
+				color: var(--skin-color-primary-contrast-safe, $primary);
 				border-color: $primary;
 			}
 
@@ -256,11 +254,6 @@ $profile-select-padding-left: $grid-base-three !default;
 			@include breakpoint($fromLarge) {
 				max-width: $inputMaxWidth;
 			}
-		}
-
-		.select__wrapper {
-			margin-left: $profile-select-margin-left;
-			padding-left: $profile-select-padding-left;
 		}
 	}
 

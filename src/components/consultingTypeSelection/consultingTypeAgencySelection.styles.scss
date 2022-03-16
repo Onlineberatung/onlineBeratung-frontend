@@ -49,7 +49,7 @@ $infoIconSize: 16px;
 
 		&--warning {
 			.text__infoLargeAlternative {
-				color: $primary;
+				color: var(--skin-color-primary-contrast-safe, $primary);
 			}
 
 			a {
