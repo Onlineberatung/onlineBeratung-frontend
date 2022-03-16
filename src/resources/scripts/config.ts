@@ -5,6 +5,7 @@ export const apiUrl = process.env.REACT_APP_API_URL
 	? 'https://' + apiUrlEnv
 	: '';
 export const APP_PATH = 'app';
+const uiUrl = window.location.origin;
 
 export const config = {
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
@@ -69,19 +70,19 @@ export const config = {
 	},
 	urls: {
 		toRegistration: 'https://www.caritas.de/onlineberatung',
-		registration: '/registration',
-		toLogin: '/login',
-		toEntry: '/',
-		redirectToApp: '/' + APP_PATH,
+		registration: uiUrl + '/registration',
+		toLogin: uiUrl + '/login',
+		toEntry: uiUrl + '/',
+		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
-		error500: '/error.500.html',
-		error401: '/error.401.html',
-		error404: '/error.404.html'
+		error500: uiUrl + '/error.500.html',
+		error401: uiUrl + '/error.401.html',
+		error404: uiUrl + '/error.404.html'
 	},
 	postcodeFallbackUrl: '{url}'
 };
