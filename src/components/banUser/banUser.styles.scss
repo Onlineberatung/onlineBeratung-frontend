@@ -25,3 +25,11 @@
 		}
 	}
 }
+
+.banUserFlag {
+	font-size: 10px;
+	background-color: $yellow-2;
+	border-radius: 10px;
+	padding: 0px 10px;
+	margin: 0 !important; // override local styles
+}

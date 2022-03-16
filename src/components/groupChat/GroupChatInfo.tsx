@@ -48,7 +48,7 @@ import {
 	mobileDetailView,
 	desktopView
 } from '../app/navigationHandler';
-import { decodeUsername } from '../../utils/encryptionHelpers';
+import { decodeUsername, encodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
 import '../profile/profile.styles';
@@ -291,13 +291,27 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 															activeSession?.chat
 																?.id
 														}
+														handleUserBan={(
+															username
+														) => {
+															setBannedUsers([
+																...bannedUsers,
+																username
+															]);
+														}}
 													/>
 												</FlyoutMenu>
 											)}
 										{isCurrentUserModerator &&
 											bannedUsers.includes(
 												subscriber.username
-											) && <span>BANNED</span>}
+											) && (
+												<span className="banUserFlag">
+													{translate(
+														'banUser.is.banned'
+													)}
+												</span>
+											)}
 									</p>
 								</div>
 							))

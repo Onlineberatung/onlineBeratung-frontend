@@ -280,8 +280,13 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 													{isCurrentUserModerator &&
 														props.bannedUsers.includes(
 															subscriber.username
-														) &&
-														'BANNED'}
+														) && (
+															<span className="banUserFlag">
+																{translate(
+																	'banUser.is.banned'
+																)}
+															</span>
+														)}
 												</li>
 											)
 										)}

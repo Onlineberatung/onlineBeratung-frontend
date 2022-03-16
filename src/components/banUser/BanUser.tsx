@@ -9,12 +9,14 @@ interface BanUserProps {
 	rcUserId: string;
 	userName: string;
 	chatId: number;
+	handleUserBan?: (username: string) => void;
 }
 
 export const BanUser: React.FC<BanUserProps> = ({
 	rcUserId,
 	chatId,
-	userName
+	userName,
+	handleUserBan
 }) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>();
@@ -23,6 +25,7 @@ export const BanUser: React.FC<BanUserProps> = ({
 		apiPostBanUser({ rcUserId, chatId }).then(() => {
 			setOverlayItem(banSuccessOverlay(userName));
 			setOverlayActive(true);
+			if (handleUserBan) handleUserBan(userName);
 		});
 	};
 
