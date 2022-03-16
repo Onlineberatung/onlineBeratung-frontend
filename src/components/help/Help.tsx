@@ -5,80 +5,81 @@ import { ReactComponent as NewWindowIcon } from '../../resources/img/icons/new-w
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
 import './help.styles.scss';
+import { translate } from '../../utils/translate';
 
 interface HelpProps {}
 export const Help: React.FC<HelpProps> = () => {
 	return (
 		<div className="help">
 			<div className="help__top">
-				<Headline text="Video-Call" semanticLevel="5" />
+				<Headline
+					text={translate('help.videoCall.headline')}
+					semanticLevel="5"
+				/>
 				<Text
-					text="Um einen Video-Call starten zu können, müssen Sie sich über Google Chrome oder Microsoft Edge bei der Online-Beratung anmelden. Somit kann der Video-Call Ende-zu-Ende verschlüsselt werden und Sie können starten"
+					text={translate('help.videoCall.intro')}
 					type="standard"
 					className="tertiary"
 				/>
 				<div className="help__browser">
 					<div>
-						<img src={ChromeLogo} alt="Google Chrome" />
+						<img
+							src={ChromeLogo}
+							alt={translate('help.googleChrome')}
+						/>
 						<a
 							href="https://www.google.com/chrome/"
 							target="_blank"
 							rel="noreferrer"
 						>
-							<NewWindowIcon /> Google Chrome
+							<NewWindowIcon /> {translate('help.googleChrome')}
 						</a>
 					</div>
 					<div>
-						<img src={EdgeLogo} alt="Microsoft Edge" />
+						<img src={EdgeLogo} alt={translate('help.msEdge')} />
 						<a
 							href="https://www.microsoft.com/edge"
 							target="_blank"
 							rel="noreferrer"
 						>
-							<NewWindowIcon /> Microsoft Edge
+							<NewWindowIcon /> {translate('help.msEdge')}
 						</a>
 					</div>
 				</div>
 			</div>
 			<div className="help__mid">
 				<Headline
-					text="Schritt für Schritt Anleitung"
+					text={translate('help.videoCall.steps')}
 					semanticLevel="5"
 				/>
 				<ol className="tertiary">
 					<li>
-						Folgen Sie dem Link zu{' '}
+						{translate('help.videoCall.steps.1.1')}
 						<a
 							href="https://www.google.com/chrome/"
 							target="_blank"
 							rel="noreferrer"
 						>
-							Google Chrome
-						</a>{' '}
-						oder{' '}
+							{translate('help.googleChrome')}
+						</a>
+						{translate('help.videoCall.steps.1.2')}
 						<a
 							href="https://www.microsoft.com/edge"
 							target="_blank"
 							rel="noreferrer"
 						>
-							Microsoft Edge
+							{translate('help.msEdge')}
 						</a>
 						.
 					</li>
+					<li>{translate('help.videoCall.steps.2')}</li>
+					<li>{translate('help.videoCall.steps.3')}</li>
 					<li>
-						Laden Sie sich Chrome oder Edge herunter. Dafür brauchen
-						Sie möglicherweise die Unterstützung Ihrer EDV.
+						{translate('help.videoCall.steps.4')}
+						{/* TODO */}
 					</li>
-					<li>
-						Installieren Sie Chrome oder Edge auf Ihrem
-						PC/Laptop/Tablet/ Smartphone.
-					</li>
-					<li>
-						Öffnen Sie nun über Chrome oder Edge die
-						Online-Beratung. {/* TODO */}
-					</li>
-					<li>Melden Sie sich bei der Online-Beratung an.</li>
-					<li>Nun können Sie den Video-Call starten.</li>
+					<li>{translate('help.videoCall.steps.5')}</li>
+					<li>{translate('help.videoCall.steps.6')}</li>
 				</ol>
 			</div>
 			<div className="help__bottom">
@@ -88,11 +89,11 @@ export const Help: React.FC<HelpProps> = () => {
 				/>
 				<ol className="tertiary">
 					<li>
-						Öffnen Sie nun über Chrome oder Edge die
-						Online-Beratung. {/* TODO */}
+						{translate('help.videoCall.steps.4')}
+						{/* TODO */}
 					</li>
-					<li>Melden Sie sich bei der Online-Beratung an.</li>
-					<li>Nun können Sie den Video-Call starten.</li>
+					<li>{translate('help.videoCall.steps.5')}</li>
+					<li>{translate('help.videoCall.steps.6')}</li>
 				</ol>
 			</div>
 		</div>
