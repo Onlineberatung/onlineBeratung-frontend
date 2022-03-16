@@ -1,21 +1,13 @@
-import React, { ComponentType } from 'react';
+import React from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { ReactComponent as NewWindowIcon } from '../../resources/img/icons/new-window.svg';
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
-import { StageProps } from '../stage/stage';
 import './help.styles.scss';
 
-interface HelpProps {
-	legalComponent: ComponentType<LegalInformationLinksProps>;
-	stageComponent: ComponentType<StageProps>;
-}
-export const Help: React.FC<HelpProps> = ({
-	legalComponent,
-	stageComponent: Stage
-}) => {
+interface HelpProps {}
+export const Help: React.FC<HelpProps> = () => {
 	return (
 		<div className="help">
 			<div className="help__top">
@@ -23,6 +15,7 @@ export const Help: React.FC<HelpProps> = ({
 				<Text
 					text="Um einen Video-Call starten zu können, müssen Sie sich über Google Chrome oder Microsoft Edge bei der Online-Beratung anmelden. Somit kann der Video-Call Ende-zu-Ende verschlüsselt werden und Sie können starten"
 					type="standard"
+					className="tertiary"
 				/>
 				<div className="help__browser">
 					<div>
@@ -52,7 +45,7 @@ export const Help: React.FC<HelpProps> = ({
 					text="Schritt für Schritt Anleitung"
 					semanticLevel="5"
 				/>
-				<ol>
+				<ol className="tertiary">
 					<li>
 						Folgen Sie dem Link zu{' '}
 						<a
@@ -93,7 +86,7 @@ export const Help: React.FC<HelpProps> = ({
 					text="Sie haben bereits Google Chrome oder Microsoft Edge?"
 					semanticLevel="5"
 				/>
-				<ol>
+				<ol className="tertiary">
 					<li>
 						Öffnen Sie nun über Chrome oder Edge die
 						Online-Beratung. {/* TODO */}
