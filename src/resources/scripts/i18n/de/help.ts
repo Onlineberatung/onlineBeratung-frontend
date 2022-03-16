@@ -14,7 +14,11 @@ const help = {
 	'videoCall.steps.4':
 		'Öffnen Sie nun über Chrome oder Edge die Online-Beratung.',
 	'videoCall.steps.5': 'Melden Sie sich bei der Online-Beratung an.',
-	'videoCall.steps.6': 'Nun können Sie den Video-Call starten.'
+	'videoCall.steps.6': 'Nun können Sie den Video-Call starten.',
+	'videoCall.loginLink.title': 'Link in Zwischenablage kopieren',
+	'videoCall.loginLink.text': 'Link kopieren',
+	'videoCall.loginLink.notification.title': 'Link kopiert',
+	'videoCall.loginLink.notification.text': 'Link in Zwischenablage kopiert!'
 };
 
 export default help;

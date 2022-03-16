@@ -1,14 +1,33 @@
-import React from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { ReactComponent as NewWindowIcon } from '../../resources/img/icons/new-window.svg';
+import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
+import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
 import './help.styles.scss';
 import { translate } from '../../utils/translate';
+import { copyTextToClipboard } from '../../utils/clipboardHelpers';
+import { config } from '../../resources/scripts/config';
+import {
+	NotificationsContext,
+	NOTIFICATION_TYPE_INFO
+} from '../../globalState';
 
 interface HelpProps {}
 export const Help: React.FC<HelpProps> = () => {
+	const { addNotification } = useContext(NotificationsContext);
+
+	const copyLoginLink = useCallback(async () => {
+		await copyTextToClipboard(`${config.urls.toLogin}`, () => {
+			addNotification({
+				notificationType: NOTIFICATION_TYPE_INFO,
+				title: translate('help.videoCall.loginLink.notification.title'),
+				text: translate('help.videoCall.loginLink.notification.text')
+			});
+		});
+	}, [addNotification]);
+
 	return (
 		<div className="help">
 			<div className="help__top">
@@ -32,7 +51,7 @@ export const Help: React.FC<HelpProps> = () => {
 							target="_blank"
 							rel="noreferrer"
 						>
-							<NewWindowIcon /> {translate('help.googleChrome')}
+							<NewWindow /> {translate('help.googleChrome')}
 						</a>
 					</div>
 					<div>
@@ -42,7 +61,7 @@ export const Help: React.FC<HelpProps> = () => {
 							target="_blank"
 							rel="noreferrer"
 						>
-							<NewWindowIcon /> {translate('help.msEdge')}
+							<NewWindow /> {translate('help.msEdge')}
 						</a>
 					</div>
 				</div>
@@ -76,7 +95,15 @@ export const Help: React.FC<HelpProps> = () => {
 					<li>{translate('help.videoCall.steps.3')}</li>
 					<li>
 						{translate('help.videoCall.steps.4')}
-						{/* TODO */}
+						<span
+							className="help__copyLink"
+							role="button"
+							onClick={copyLoginLink}
+							title={translate('help.videoCall.loginLink.title')}
+						>
+							<CopyIcon className={`copy icn--s`} />{' '}
+							{translate('help.videoCall.loginLink.text')}
+						</span>
 					</li>
 					<li>{translate('help.videoCall.steps.5')}</li>
 					<li>{translate('help.videoCall.steps.6')}</li>
@@ -90,7 +117,15 @@ export const Help: React.FC<HelpProps> = () => {
 				<ol className="tertiary">
 					<li>
 						{translate('help.videoCall.steps.4')}
-						{/* TODO */}
+						<span
+							className="help__copyLink"
+							role="button"
+							onClick={copyLoginLink}
+							title={translate('help.videoCall.loginLink.title')}
+						>
+							<CopyIcon className={`copy icn--s`} />{' '}
+							{translate('help.videoCall.loginLink.text')}
+						</span>
 					</li>
 					<li>{translate('help.videoCall.steps.5')}</li>
 					<li>{translate('help.videoCall.steps.6')}</li>

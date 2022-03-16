@@ -12,12 +12,24 @@
 		display: flex;
 
 		& > div {
+			display: inline-flex;
+			align-items: center;
+
 			&:first-child {
 				margin-right: $grid-base-four;
 			}
 
 			img {
 				margin-right: $grid-base-two;
+			}
+
+			a {
+				display: inline-flex;
+				align-items: center;
+			}
+
+			svg {
+				margin-right: $grid-base;
 			}
 		}
 	}
@@ -41,5 +53,10 @@
 		li + li {
 			margin-top: $grid-base;
 		}
+	}
+
+	&__copyLink {
+		display: block;
+		color: $primary;
 	}
 }
