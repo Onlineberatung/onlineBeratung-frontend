@@ -25,14 +25,10 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 	const generateQrCodeRef = useRef();
 
 	useEffect(() => {
-		const codeColor = getComputedStyle(
-			generateQrCodeRef.current
-		).getPropertyValue('--code-color');
-
 		QRCode.toDataURL(url, {
 			errorCorrectionLevel: 'L',
 			color: {
-				dark: codeColor.trim(),
+				dark: '#00000099',
 				light: '#ffffff00'
 			}
 		}).then((url) => {
