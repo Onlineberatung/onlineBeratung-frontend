@@ -1,5 +1,6 @@
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { apiUrlEnv } from '../resources/scripts/config';
+import { decodeUsername } from '../utils/encryptionHelpers';
 
 const SOCKET_STATUS = {
 	CONNECTING: 0,
@@ -174,7 +175,16 @@ export class rocketChatSocket {
 					response.fields.args[1].u._id === this.rcUid;
 				const userTyping =
 					response.collection === SOCKET_COLLECTION.NOTIFY_ROOM;
-				if (newMessage && callbackRoom && !isTechnicalMessage) {
+
+				const userMuted =
+					response.collection === SOCKET_COLLECTION.ROOM_MESSAGES &&
+					response.fields.args &&
+					response.fields.args[0].t === 'user-muted';
+				if (userMuted) {
+					callbackRoom({
+						userMuted: decodeUsername(response.fields.args[0].msg)
+					});
+				} else if (newMessage && callbackRoom && !isTechnicalMessage) {
 					callbackRoom();
 				} else if (roomClosed && callbackUser) {
 					callbackUser();

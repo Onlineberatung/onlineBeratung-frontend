@@ -3,6 +3,7 @@ import absence from './de/absence';
 import anonymous from './de/anonymous';
 import archive from './de/archive';
 import attachments from './de/attachments';
+import banUser from './de/banUser';
 import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
 import deleteAccount from './de/deleteAccount';
@@ -37,6 +38,7 @@ const de = {
 	app,
 	archive,
 	attachments,
+	banUser,
 	chatFlyout,
 	consultant,
 	deleteAccount,
