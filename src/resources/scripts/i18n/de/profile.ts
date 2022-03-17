@@ -90,6 +90,8 @@ const profile = {
 	'routes.security': 'Sicherheit',
 	'routes.security.changePassword': 'Passwort ändern',
 	'routes.security.2fa': '2-Faktor-Authentifizierung',
+	'routes.help': 'Hilfe',
+	'routes.help.videoCall': 'Video-Call',
 
 	'spokenLanguages.title': 'Meine Sprachen',
 	'spokenLanguages.info':
