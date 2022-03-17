@@ -88,7 +88,7 @@ const PersonalRegistrationLink = ({
 			<div className="mb--1 mb-l--0">
 				<GenerateQrCode
 					url={`${config.urls.registration}?cid=${cid}`}
-					filename={translate('qrCode.download.filename.personal')}
+					type="personal"
 				/>
 			</div>
 			<div className="flex flex--ai-fs">

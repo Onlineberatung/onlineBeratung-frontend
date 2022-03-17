@@ -29,26 +29,22 @@ export const ConsultantAgencies = () => {
 			<div className="profile__data__item full">
 				{userData.agencies.map((item, i) => {
 					return (
-						<>
-							{i !== 0 && <hr />}
-							<div
-								className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
-								key={i}
-							>
-								{item.name}
-								<div className="flex mt--2 flex--fd-row flex-l--fd-column mt-l--0 flex-xl--fd-row ml-xl--2">
-									<AgencyRegistrationLink agency={item} />
-									<div className="mt-l--1 mt-xl--0">
-										<GenerateQrCode
-											url={`${config.urls.registration}?aid=${item.id}`}
-											filename={translate(
-												'qrCode.download.filename.agency'
-											)}
-										/>
-									</div>
+						<div
+							className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
+							key={i}
+						>
+							{item.name}
+							<div className="flex mt--2 flex--fd-row flex-l--fd-column mt-l--0 flex-xl--fd-row ml-xl--2">
+								<AgencyRegistrationLink agency={item} />
+								<div className="mt-l--1 mt-xl--0">
+									<GenerateQrCode
+										url={`${config.urls.registration}?aid=${item.id}`}
+										agency={item.name}
+										type="agency"
+									/>
 								</div>
 							</div>
-						</>
+						</div>
 					);
 				})}
 			</div>
