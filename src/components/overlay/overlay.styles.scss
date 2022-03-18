@@ -47,7 +47,7 @@ $iconSizeLarge: 48px;
 		text-align: $overlay-text-align;
 		margin: auto;
 		padding: $grid-base-ten $grid-base-three $grid-base-six;
-		overflow: scroll;
+		overflow: auto;
 
 		@include breakpoint($fromMedium) {
 			padding: $grid-base-six $grid-base-three;
