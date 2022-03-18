@@ -94,7 +94,7 @@ export const JoinGroupChatView = ({
 			!chatItem.subscribed
 		) {
 			setButtonItem(joinButtonItem);
-			if (!chatItem.active) {
+			if (!chatItem.active || bannedUsers.includes(userData.username)) {
 				setIsButtonDisabled(true);
 			} else {
 				setIsButtonDisabled(false);
@@ -106,6 +106,12 @@ export const JoinGroupChatView = ({
 			window.clearTimeout(timeoutId);
 		};
 	}, [activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (bannedUsers.includes(userData.userName)) {
+			setIsButtonDisabled(true);
+		}
+	}, [bannedUsers, userData.userName]);
 
 	const updateGroupChatInfo = () => {
 		if (
