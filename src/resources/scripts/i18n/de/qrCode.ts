@@ -4,7 +4,7 @@ const qrCode = {
 	'link.text': 'QR-Code anzeigen',
 	'personal.overlay.headline': 'Ihr persönlicher QR-Code',
 	'personal.overlay.info':
-		'Wenn Sie Ihren QR-Code mit jemandem teilen, kann diese Person ihn mit seiner Handykamera scannen, um mit Ihnen direkt Kontakt aufzunehmen. Alternativ können Sie den Code auch für später herunterladen.',
+		'Wenn Sie Ihren QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um mit Ihnen direkt Kontakt aufzunehmen. Alternativ können Sie den Code auch herunterladen.',
 	'agency.overlay.headline': 'Beratungsstellen QR-Code',
 	'agency.overlay.info.1':
 		'Wenn Sie den QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um sich direkt bei der Beratungsstelle',
