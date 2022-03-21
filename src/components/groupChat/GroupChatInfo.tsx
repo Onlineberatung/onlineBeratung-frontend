@@ -57,6 +57,7 @@ import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { BanUser } from '../banUser/BanUser';
 import { useResponsive } from '../../hooks/useResponsive';
+import { Tag } from '../tag/Tag';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
@@ -266,7 +267,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 									className="profile__data__item"
 									key={index}
 								>
-									<p className="profile__data__content profile__data__content--subscriber">
+									<div className="profile__data__content profile__data__content--subscriber">
 										{decodeUsername(subscriber.username)}
 										{isCurrentUserModerator &&
 											!subscriber.isModerator && (
@@ -306,13 +307,15 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 											bannedUsers.includes(
 												subscriber.username
 											) && (
-												<span className="banUserFlag">
-													{translate(
+												<Tag
+													className="bannedUserTag"
+													color="yellow"
+													text={translate(
 														'banUser.is.banned'
 													)}
-												</span>
+												/>
 											)}
-									</p>
+									</div>
 								</div>
 							))
 						) : (

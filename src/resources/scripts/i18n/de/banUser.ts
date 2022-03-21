@@ -2,7 +2,7 @@ const banUser = {
 	'ban.trigger': 'Bannen',
 	'ban.info.1': 'Sie haben ',
 	'ban.info.2': ' gebannt.',
-	'is.banned': ' gebannt',
+	'is.banned': ' Gebannt',
 	'ban.overlay.close': ' Hinweis schliessen',
 	'banned.headline': 'Sie wurden gebannt.',
 	'banned.info':

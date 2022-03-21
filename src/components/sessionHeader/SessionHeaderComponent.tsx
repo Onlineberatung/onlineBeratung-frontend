@@ -43,6 +43,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { BanUser } from '../banUser/BanUser';
+import { Tag } from '../tag/Tag';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
@@ -281,11 +282,13 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 														props.bannedUsers.includes(
 															subscriber.username
 														) && (
-															<span className="banUserFlag">
-																{translate(
+															<Tag
+																className="bannedUserTag"
+																color="yellow"
+																text={translate(
 																	'banUser.is.banned'
 																)}
-															</span>
+															/>
 														)}
 												</li>
 											)
