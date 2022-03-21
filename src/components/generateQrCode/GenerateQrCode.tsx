@@ -27,6 +27,7 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 	useEffect(() => {
 		QRCode.toDataURL(url, {
 			errorCorrectionLevel: 'L',
+			width: 360,
 			color: {
 				dark: '#00000099',
 				light: '#ffffff00'
@@ -37,6 +38,7 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 
 		QRCode.toDataURL(url, {
 			errorCorrectionLevel: 'L',
+			width: 360,
 			color: {
 				dark: '#000000',
 				light: '#ffffff00'
