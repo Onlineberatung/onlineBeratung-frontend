@@ -172,6 +172,13 @@ $profile-content-wrapper-detail-button-text-align: center !default;
 		@include breakpoint($fromMedium) {
 			padding: 0 $grid-base-three $grid-base;
 		}
+
+		&__personal_link {
+			& > span,
+			.generateQrCode {
+				margin-right: $grid-base-two;
+			}
+		}
 	}
 
 	&__icon {
@@ -368,6 +375,21 @@ $profile-content-wrapper-detail-button-text-align: center !default;
 			&--empty {
 				color: $tertiary;
 			}
+
+			&--agencies {
+				border-bottom: 1px solid $line-grey;
+				padding-bottom: $grid-base-two;
+
+				&:last-child {
+					border: none;
+					padding-bottom: 0;
+				}
+			}
+		}
+
+		&__divider {
+			color: $black-25-opacity;
+			margin: 0 5px;
 		}
 
 		&__divider {
