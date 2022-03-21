@@ -5,9 +5,9 @@ import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	NOTIFICATION_TYPE_INFO,
 	NotificationsContext,
-	UserDataContext
+	UserDataContext,
+	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
@@ -71,7 +71,7 @@ const PersonalRegistrationLink = ({
 			`${config.urls.registration}?cid=${cid}`,
 			() => {
 				addNotification({
-					notificationType: NOTIFICATION_TYPE_INFO,
+					notificationType: NOTIFICATION_TYPE_SUCCESS,
 					title: translate(
 						'profile.data.personal.registrationLink.notification.title'
 					),
