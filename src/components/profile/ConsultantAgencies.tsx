@@ -10,6 +10,7 @@ import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { config } from '../../resources/scripts/config';
+import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 
 export const ConsultantAgencies = () => {
 	const { userData } = useContext(UserDataContext);
@@ -31,12 +32,20 @@ export const ConsultantAgencies = () => {
 						<>
 							{i !== 0 && <hr />}
 							<div
-								className="profile__data__content flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
+								className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
 								key={i}
 							>
 								{item.name}
-								<div className="flex mt--2 mt-l--0 flex--fd-row flex-l--fd-column flex-xl--fd-row">
+								<div className="flex mt--2 flex--fd-row flex-l--fd-column mt-l--0 flex-xl--fd-row ml-xl--2">
 									<AgencyRegistrationLink agency={item} />
+									<div className="mt-l--1 mt-xl--0">
+										<GenerateQrCode
+											url={`${config.urls.registration}?aid=${item.id}`}
+											filename={translate(
+												'qrCode.download.filename.agency'
+											)}
+										/>
+									</div>
 								</div>
 							</div>
 						</>
@@ -73,7 +82,7 @@ const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 
 	return (
 		<span
-			className="profile__data__copy_registration_link text--nowrap text--tertiary primary"
+			className="profile__data__copy_registration_link text--nowrap text--tertiary primary mr--2"
 			role="button"
 			onClick={copyRegistrationLink}
 			title={translate('profile.data.agency.registrationLink.title')}

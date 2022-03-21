@@ -212,7 +212,10 @@ export const Profile = (props: ProfileProps) => {
 									)
 								)
 								.map((tab) => (
-									<div className="text--nowrap flex__col--no-grow">
+									<div
+										key={tab.url}
+										className="text--nowrap flex__col--no-grow"
+									>
 										<NavLink
 											to={`/profile${tab.url}`}
 											activeClassName="active"
@@ -285,6 +288,7 @@ export const Profile = (props: ProfileProps) => {
 												)
 												.map((element, i) => (
 													<ProfileItem
+														key={i}
 														element={element}
 														index={i}
 														spokenLanguages={
@@ -424,6 +428,7 @@ const ProfileGroup = ({
 				.sort((a, b) => (a?.order || 99) - (b?.order || 99))
 				.map((element, i) => (
 					<ProfileItem
+						key={i}
 						element={element}
 						spokenLanguages={spokenLanguages}
 						index={i}

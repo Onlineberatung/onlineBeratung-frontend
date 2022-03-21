@@ -70,8 +70,8 @@ export const config = {
 	},
 	urls: {
 		toRegistration: 'https://www.caritas.de/onlineberatung',
-		registration: uiUrl + '/registration',
 		toLogin: uiUrl + '/login',
+		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
