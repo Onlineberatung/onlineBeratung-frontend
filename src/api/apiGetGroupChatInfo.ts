@@ -16,7 +16,7 @@ export interface groupChatInfoData {
 export const apiGetGroupChatInfo = async (
 	groupChatId: number
 ): Promise<groupChatInfoData> => {
-	let url = config.endpoints.groupChatBase + groupChatId;
+	const url = config.endpoints.groupChatBase + groupChatId;
 
 	return fetchData({
 		url: url,
