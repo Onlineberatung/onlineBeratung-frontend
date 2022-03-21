@@ -180,7 +180,7 @@ export const Profile = (props: ProfileProps) => {
 		<div className="profile__wrapper" ref={scrollContainer}>
 			<div className="profile__header">
 				<div className="profile__header__wrapper flex flex--jc-sb flex-l--fd-column flex-xl--fd-row">
-					<div className="flex flex__col--10p flex--ai-c">
+					<div className="flex flex__col--20p flex--ai-c">
 						{fromL || !subpage ? (
 							<>
 								<div className="profile__icon flex__col--no-grow">
@@ -201,7 +201,7 @@ export const Profile = (props: ProfileProps) => {
 							</Link>
 						)}
 					</div>
-					<div className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex__col--80p">
+					<div className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex__col--60p">
 						{fromL ? (
 							profileRoutes
 								.filter((tab) =>
@@ -227,7 +227,7 @@ export const Profile = (props: ProfileProps) => {
 							</div>
 						)}
 					</div>
-					<div className="profile__header__actions flex__col--10p flex flex--ai-c flex--jc-fe">
+					<div className="profile__header__actions flex__col--20p flex flex--ai-c flex--jc-fe">
 						{!fromL && !subpage && (
 							<div
 								onClick={handleLogout}

@@ -11,7 +11,7 @@ import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { config } from '../../resources/scripts/config';
 import {
 	NotificationsContext,
-	NOTIFICATION_TYPE_INFO
+	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
 
 interface HelpProps {}
@@ -21,7 +21,7 @@ export const Help: React.FC<HelpProps> = () => {
 	const copyLoginLink = useCallback(async () => {
 		await copyTextToClipboard(`${config.urls.toLogin}`, () => {
 			addNotification({
-				notificationType: NOTIFICATION_TYPE_INFO,
+				notificationType: NOTIFICATION_TYPE_SUCCESS,
 				title: translate('help.videoCall.loginLink.notification.title'),
 				text: translate('help.videoCall.loginLink.notification.text')
 			});
