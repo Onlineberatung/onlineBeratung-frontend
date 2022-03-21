@@ -20,6 +20,7 @@
 			}
 
 			img {
+				width: $grid-base-four;
 				margin-right: $grid-base-two;
 			}
 
@@ -30,6 +31,16 @@
 
 			svg {
 				margin-right: $grid-base;
+			}
+		}
+
+		&--asker {
+			margin-top: $grid-base-two;
+			margin-bottom: $grid-base-two;
+			flex-direction: column;
+
+			& > div + div {
+				margin-top: $grid-base;
 			}
 		}
 	}
