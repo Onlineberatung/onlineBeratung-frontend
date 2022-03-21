@@ -249,7 +249,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 																)}
 																position={
 																	window.innerWidth <=
-																	900
+																	520
 																		? 'left'
 																		: 'right'
 																}
