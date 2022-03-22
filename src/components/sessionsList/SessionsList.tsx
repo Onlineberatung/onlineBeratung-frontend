@@ -518,7 +518,7 @@ export const SessionsList: React.FC = () => {
 						{showEnquiryTabs && (
 							<>
 								<Link
-									className={clsx('walkthrough_step.0', {
+									className={clsx('walkthrough_step_0', {
 										'sessionsList__tabs--active ':
 											!sessionListTab
 									})}
@@ -532,7 +532,7 @@ export const SessionsList: React.FC = () => {
 									/>
 								</Link>
 								<Link
-									className={clsx('walkthrough_step.1', {
+									className={clsx('walkthrough_step_1', {
 										'sessionsList__tabs--active':
 											sessionListTab ===
 											SESSION_LIST_TAB.ANONYMOUS

@@ -63,7 +63,7 @@ export const NavigationBar = (props: NavigationBarProps) => {
 				{props.routerConfig.navigation.map((item, index) => (
 					<Link
 						key={index}
-						className={`navigation__item walkthrough_step.${
+						className={`navigation__item walkthrough_step_${
 							index + 2
 						} ${
 							location.pathname.indexOf(item.to) !== -1
