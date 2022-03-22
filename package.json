@@ -62,6 +62,7 @@
 		"fastestsmallesttextencoderdecoder": "^1.0.22",
 		"file-loader": "^6.2.0",
 		"fs-extra": "^10.0.0",
+		"get-contrast": "^3.0.0",
 		"hi-base32": "0.5.1",
 		"html-webpack-plugin": "^5.5.0",
 		"identity-obj-proxy": "^3.0.0",
