@@ -68,7 +68,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	useEffect(() => {
 		const registeredUsername = getValueFromCookie('registeredUsername');
-		const sessionId = sessionStorage.getItem('sessionId');
+		const sessionId = getValueFromCookie('anonymousSessionId');
 
 		// handle a refresh as registered user and not initialize a new user
 		if (registeredUsername && getValueFromCookie('keycloak') && sessionId) {
@@ -97,7 +97,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			setOverlayItem(rejectionOverlayItem);
 			setIsOverlayActive(true);
 			removeAllCookies();
-			sessionStorage.removeItem('sessionId');
 			setAnonymousConversationFinished(null);
 		}
 	}, [anonymousConversationFinished, setAnonymousConversationFinished]);
@@ -146,6 +145,10 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					setValueInCookie('registeredUsername', decodedUsername);
 					setValueInCookie('rc_token', response.rcToken);
 					setValueInCookie('rc_uid', response.rcUserId);
+					setValueInCookie(
+						'anonymousSessionId',
+						`${response.sessionId}`
+					);
 
 					setTokens(
 						response.accessToken,
@@ -154,10 +157,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 						response.refreshExpiresIn
 					);
 
-					sessionStorage.setItem(
-						'sessionId',
-						`${response.sessionId}`
-					);
 					setSessionId(response.sessionId);
 
 					handleTokenRefresh();

@@ -252,6 +252,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				.catch((error) => {
 					console.error(error);
 					setIsRequestInProgress(false);
+					setOverlayActive(false);
+					setOverlayItem(null);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_URL) {
 			window.location.href = config.urls.finishedAnonymousChatRedirect;
