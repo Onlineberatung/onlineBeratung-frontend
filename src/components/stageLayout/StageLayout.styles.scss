@@ -17,12 +17,12 @@
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
-		min-height: 100vh;
 		width: unset;
 		left: unset;
-		padding: 0 $grid-base-two;
+		padding: $grid-base-six $grid-base-two 0;
 
 		@include breakpoint($fromMedium) {
+			min-height: 100vh;
 			padding: 0 $grid-base-five;
 		}
 
@@ -63,11 +63,11 @@
 	}
 
 	&__legalLinks {
-		position: absolute;
+		margin: $grid-base-six 0 $grid-base-four 0;
 		bottom: $grid-base-four;
-		left: $legal-information-links-left-default;
 
 		@include breakpoint($fromMedium) {
+			position: absolute;
 			left: $legal-information-links-left-medium;
 		}
 
