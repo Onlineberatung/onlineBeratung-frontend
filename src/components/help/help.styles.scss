@@ -8,12 +8,14 @@
 	}
 
 	&__browser {
-		margin-top: $grid-base-three;
+		margin-top: $grid-base-two;
 		display: flex;
+		flex-wrap: wrap;
 
 		& > div {
 			display: inline-flex;
 			align-items: center;
+			margin-top: $grid-base;
 
 			&:first-child {
 				margin-right: $grid-base-four;
@@ -35,13 +37,7 @@
 		}
 
 		&--asker {
-			margin-top: $grid-base-two;
-			margin-bottom: $grid-base-two;
-			flex-direction: column;
-
-			& > div + div {
-				margin-top: $grid-base;
-			}
+			margin: $grid-base 0 $grid-base-two;
 		}
 	}
 
