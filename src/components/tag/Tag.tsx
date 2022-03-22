@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export interface TagProps {
 	text: string;
-	color: 'yellow' | 'green';
+	color: 'yellow' | 'green' | 'red';
 	link?: string;
 	className?: string;
 }
