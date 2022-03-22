@@ -3,17 +3,17 @@ $link-hover-text-decoration: $link-text-decoration !default;
 
 .login {
 	&__tenantRegistration {
-		position: absolute;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		top: $grid-base-six;
-		left: 0;
-		right: 0;
+		padding: $grid-base-four 0;
 
-		@media (min-width: $fromLarge) {
+		@media (min-width: $fromMedium) {
+			position: absolute;
+			top: $grid-base-six;
 			left: auto;
 			right: $grid-base-seven;
+			padding: 0;
 		}
 	}
 
