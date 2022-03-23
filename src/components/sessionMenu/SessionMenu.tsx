@@ -83,6 +83,7 @@ export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 	isAskerInfoAvailable: boolean;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	isJoinGroupChatView?: boolean;
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
@@ -414,6 +415,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					groupChatInfoLink={groupChatInfoLink}
 					handleLeaveGroupChat={handleLeaveGroupChat}
 					handleStopGroupChat={handleStopGroupChat}
+					isJoinGroupChatView={props.isJoinGroupChatView}
 				/>
 			)}
 
@@ -567,7 +569,8 @@ const SessionMenuGroup = ({
 	groupChatInfoLink,
 	editGroupChatSettingsLink,
 	handleStopGroupChat,
-	handleLeaveGroupChat
+	handleLeaveGroupChat,
+	isJoinGroupChatView = false
 }: {
 	chatItem: GroupChatItemInterface;
 	activeSession: ActiveSessionType;
@@ -575,12 +578,13 @@ const SessionMenuGroup = ({
 	editGroupChatSettingsLink: string;
 	handleStopGroupChat: MouseEventHandler;
 	handleLeaveGroupChat: MouseEventHandler;
+	isJoinGroupChatView?: boolean;
 }) => {
 	const { userData } = useContext(UserDataContext);
 
 	return (
 		<>
-			{chatItem?.subscribed && (
+			{chatItem?.subscribed && !isJoinGroupChatView && (
 				<span
 					onClick={handleLeaveGroupChat}
 					className="sessionMenu__item--desktop sessionMenu__button"

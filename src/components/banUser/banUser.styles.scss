@@ -1,0 +1,31 @@
+.banUser {
+	padding: 14px $grid-base-two;
+	font-size: $font-size-primary;
+	line-height: $line-height-primary;
+
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+
+	background-color: #fff;
+	transition: all 0.3s ease;
+	color: $secondary;
+	white-space: nowrap;
+
+	&:hover {
+		background-color: $hover-select;
+		color: $hover-primary;
+	}
+
+	&__overlay {
+		.headline {
+			span {
+				color: $message-name-user;
+			}
+		}
+	}
+}
+
+.bannedUserTag {
+	margin: 0 !important; // override local styles
+}
