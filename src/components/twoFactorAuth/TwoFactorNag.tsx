@@ -12,17 +12,18 @@ interface TwoFactorNagProps {}
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const { userData } = useContext(UserDataContext);
 	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
+	const [forceHideTwoFactorNag, setForceHideTwoFactorNag] = useState(false);
 
 	useEffect(() => {
 		if (
 			userData.twoFactorAuth?.isEnabled &&
 			!userData.twoFactorAuth?.isActive &&
 			userData.twoFactorAuth?.isToEncourage &&
-			history.location.from !== 'registration'
+			!forceHideTwoFactorNag
 		) {
 			setIsShownTwoFactorNag(true);
 		}
-	}, [userData]);
+	}, [userData, forceHideTwoFactorNag]);
 
 	const closeTwoFactorNag = async () => {
 		await apiPatchTwoFactorAuthEncourage(false)
@@ -40,9 +41,11 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 				pathname: '/profile/sicherheit/2fa',
 				openTwoFactor: true
 			});
+			setForceHideTwoFactorNag(true);
 			setIsShownTwoFactorNag(false);
 		}
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
+			setForceHideTwoFactorNag(true);
 			setIsShownTwoFactorNag(false);
 		}
 	};
