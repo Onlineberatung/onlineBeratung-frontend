@@ -433,23 +433,27 @@ export const Login = ({
 						buttonHandle={handleLogin}
 						disabled={isButtonDisabled}
 					/>
-					<div className="loginForm__register">
-						<Text
-							text={translate('login.register.infoText.title')}
-							type={'infoSmall'}
-						/>
-						<Text
-							text={translate('login.register.infoText.copy')}
-							type={'infoSmall'}
-						/>
-						<a
-							className="loginForm__register__link"
-							href={config.urls.toRegistration}
-							target="_self"
-						>
-							{translate('login.register.linkLabel')}
-						</a>
-					</div>
+					{!hasTenant && (
+						<div className="loginForm__register">
+							<Text
+								text={translate(
+									'login.register.infoText.title'
+								)}
+								type={'infoSmall'}
+							/>
+							<Text
+								text={translate('login.register.infoText.copy')}
+								type={'infoSmall'}
+							/>
+							<a
+								className="loginForm__register__link"
+								href={config.urls.toRegistration}
+								target="_self"
+							>
+								{translate('login.register.linkLabel')}
+							</a>
+						</div>
+					)}
 				</div>
 				{registerOverlayActive && (
 					<OverlayWrapper>
