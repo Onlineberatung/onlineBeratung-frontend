@@ -60,26 +60,41 @@ $inputHeight: 50px;
 		&__multi-value {
 			// The `!important` annotation is relevant to not be overridden by inline styles.
 			border-radius: $tab-border-radius !important;
-			border-color: $primary !important;
+			border-color: var(
+				--skin-color-primary-contrast-safe,
+				$primary
+			) !important;
 			background-color: $tab-background-color-selected !important;
 
 			&:hover {
 				// The `!important` annotation is relevant to not be overridden by inline styles.
-				border-color: $hover-primary !important;
+				border-color: var(
+					--skin-color-primary-contrast-safe,
+					$hover-primary
+				) !important;
 				background-color: $tab-background-color-selected-hover !important;
 
 				.select__input__multi-value__label,
 				.select__input__multi-value__remove {
-					color: $hover-primary !important;
+					color: var(
+						--skin-color-primary-contrast-safe,
+						$hover-primary
+					) !important;
 				}
 			}
 
 			&__label {
-				color: $primary !important;
+				color: var(
+					--skin-color-primary-contrast-safe,
+					$primary
+				) !important;
 			}
 
 			&__remove {
-				color: $primary !important;
+				color: var(
+					--skin-color-primary-contrast-safe,
+					$primary
+				) !important;
 			}
 		}
 

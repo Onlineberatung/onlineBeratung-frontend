@@ -33,11 +33,11 @@ $profile-content-wrapper-detail-button-text-align: center !default;
 
 			&.active {
 				color: var(--skin-color-primary-contrast-safe, $primary);
-				border-color: $primary;
+				border-color: var(--skin-color-primary-contrast-safe, $primary);
 			}
 
 			&:hover {
-				color: $hover-primary;
+				color: var(--skin-color-primary-contrast-safe, $hover-primary);
 			}
 		}
 
@@ -290,7 +290,7 @@ $profile-content-wrapper-detail-button-text-align: center !default;
 		}
 
 		.title {
-			color: $primary;
+			color: var(--skin-color-primary-contrast-safe, $primary);
 			margin-bottom: $grid-base-two;
 		}
 	}
