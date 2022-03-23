@@ -206,8 +206,6 @@ $overlay-illustration-size-large: 80px !default;
 			height: $size;
 			padding: $grid-base;
 			border-radius: 50%;
-
-			position: fixed;
 			left: 50%;
 			transform: translateX(-50%);
 		}
