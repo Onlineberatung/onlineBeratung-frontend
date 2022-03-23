@@ -368,6 +368,13 @@ $inputMaxWidth: 500px;
 				color: $tertiary;
 			}
 
+			&--subscriber {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				position: relative;
+			}
+
 			&--agencies {
 				border-bottom: 1px solid $line-grey;
 				padding-bottom: $grid-base-two;

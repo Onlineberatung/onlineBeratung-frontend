@@ -9,13 +9,15 @@ import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 
 interface GenerateQrCodeProps {
-	filename?: string;
 	url: string;
+	type: 'personal' | 'agency';
+	agency?: string;
 }
 
 export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
-	filename = 'qrCode',
-	url
+	type,
+	url,
+	agency
 }) => {
 	const [qr, setQr] = useState('');
 	const [qrDownload, setQrDownload] = useState('');
@@ -23,14 +25,11 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 	const generateQrCodeRef = useRef();
 
 	useEffect(() => {
-		const codeColor = getComputedStyle(
-			generateQrCodeRef.current
-		).getPropertyValue('--code-color');
-
 		QRCode.toDataURL(url, {
 			errorCorrectionLevel: 'L',
+			width: 360,
 			color: {
-				dark: codeColor.trim(),
+				dark: '#00000099',
 				light: '#ffffff00'
 			}
 		}).then((url) => {
@@ -39,6 +38,7 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 
 		QRCode.toDataURL(url, {
 			errorCorrectionLevel: 'L',
+			width: 360,
 			color: {
 				dark: '#000000',
 				light: '#ffffff00'
@@ -51,15 +51,35 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 	const qrCodeNested = (): JSX.Element => {
 		return (
 			<div className="generateQrCode__overlayContent">
-				<img alt="QR Code" src={qr} />
+				<img alt={translate('qrCode.overlay.image.alt')} src={qr} />
 				<Headline
 					semanticLevel="3"
-					text={translate('qrCode.overlay.headline')}
+					text={translate(`qrCode.${type}.overlay.headline`)}
 				/>
-				<Text text={translate('qrCode.overlay.info')} type="standard" />
-				<a download={filename + '.png'} href={qrDownload}>
+				{type === 'personal' && (
+					<Text
+						text={translate(`qrCode.personal.overlay.info`)}
+						type="standard"
+					/>
+				)}
+				{type === 'agency' && (
+					<Text
+						text={`${translate(
+							`qrCode.agency.overlay.info.1`
+						)} ${agency} ${translate(
+							`qrCode.agency.overlay.info.2`
+						)}`}
+						type="standard"
+					/>
+				)}
+				<a
+					download={
+						translate(`qrCode.download.filename.${type}`) + '.png'
+					}
+					href={qrDownload}
+				>
 					<DownloadIcon />
-					{translate('qrCode.overlay.download')}
+					{translate(`qrCode.overlay.download`)}
 				</a>
 			</div>
 		);

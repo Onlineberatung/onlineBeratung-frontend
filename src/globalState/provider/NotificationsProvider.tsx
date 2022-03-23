@@ -14,6 +14,9 @@ import {
 
 export const NOTIFICATION_DEFAULT_TIMEOUT = 3000;
 
+export const NOTIFICATION_TYPE_NONE = 'none';
+export type NotificationTypeNone = typeof NOTIFICATION_TYPE_NONE;
+
 export const NOTIFICATION_TYPE_INFO = 'info';
 export type NotificationTypeInfo = typeof NOTIFICATION_TYPE_INFO;
 
@@ -31,7 +34,8 @@ export type NotificationTypes =
 	| NotificationTypeError
 	| NotificationTypeInfo
 	| NotificationTypeWarning
-	| NotificationTypeSuccess;
+	| NotificationTypeSuccess
+	| NotificationTypeNone;
 
 export type NotificationType = {
 	id?: string | number;
@@ -44,9 +48,12 @@ export type NotificationDefaultType = NotificationType & {
 		| NotificationTypeInfo
 		| NotificationTypeError
 		| NotificationTypeSuccess
-		| NotificationTypeWarning;
-	title: string;
-	text: string | ReactNode;
+		| NotificationTypeWarning
+		| NotificationTypeNone;
+	title: ReactNode;
+	text: ReactNode;
+	closeable?: boolean;
+	onClose?: (notification: NotificationDefaultType) => void;
 };
 
 type NotificationsContextProps = {

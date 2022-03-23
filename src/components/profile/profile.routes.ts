@@ -13,6 +13,7 @@ import { AbsenceFormular } from './AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { TwoFactorAuth } from '../twoFactorAuth/TwoFactorAuth';
 import { DeleteAccount } from './DeleteAccount';
+import { Help } from '../help/Help';
 
 export interface TabGroups {
 	title: string;
@@ -193,6 +194,22 @@ const routes: TabsType = [
 				boxed: false,
 				order: 99,
 				fullWidth: true
+			}
+		]
+	},
+	{
+		title: translate('profile.routes.help'),
+		url: '/hilfe',
+		elements: [
+			{
+				title: translate('profile.routes.help.videoCall'),
+				url: '/videoCall',
+				elements: [
+					{
+						component: Help,
+						column: COLUMN_LEFT
+					}
+				]
 			}
 		]
 	}

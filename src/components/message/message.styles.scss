@@ -54,6 +54,8 @@ $message-lineheight: 21px;
 	}
 	&__username {
 		text-align: left;
+		display: flex;
+		align-items: center;
 
 		&--self {
 			color: $message-name-self;
@@ -83,6 +85,10 @@ $message-lineheight: 21px;
 					fill: $yellow-6;
 				}
 			}
+		}
+
+		.flyoutMenu {
+			margin-left: $grid-base;
 		}
 	}
 

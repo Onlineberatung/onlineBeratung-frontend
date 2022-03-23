@@ -5,9 +5,9 @@ import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	NOTIFICATION_TYPE_INFO,
 	NotificationsContext,
-	UserDataContext
+	UserDataContext,
+	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
@@ -23,7 +23,7 @@ export const ConsultantInformation = () => {
 	return (
 		<div>
 			<div className="profile__content__title">
-				<div className="flex flex--fd-column flex--jc-fs flex-l--fd-column flex-l--jc-fs flex-xl--fd-row flex-xl--jc-sb">
+				<div className="flex flex--fd-column flex--jc-fs flex-l--fd-column flex-l--jc-fs flex-xl--fd-row flex-xl--jc-sb flex-xl--wrap">
 					<Headline
 						className="pr--3"
 						text={translate('profile.data.title.information')}
@@ -71,7 +71,7 @@ const PersonalRegistrationLink = ({
 			`${config.urls.registration}?cid=${cid}`,
 			() => {
 				addNotification({
-					notificationType: NOTIFICATION_TYPE_INFO,
+					notificationType: NOTIFICATION_TYPE_SUCCESS,
 					title: translate(
 						'profile.data.personal.registrationLink.notification.title'
 					),
@@ -88,7 +88,7 @@ const PersonalRegistrationLink = ({
 			<div className="mb--1 mb-l--0">
 				<GenerateQrCode
 					url={`${config.urls.registration}?cid=${cid}`}
-					filename={translate('qrCode.download.filename.personal')}
+					type="personal"
 				/>
 			</div>
 			<div className="flex flex--ai-fs">
