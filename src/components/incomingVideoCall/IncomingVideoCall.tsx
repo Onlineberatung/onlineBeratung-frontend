@@ -15,6 +15,7 @@ import { apiRejectVideoCall } from '../../api';
 import './incomingVideoCall.styles';
 import { isMobile } from 'react-device-detect';
 import { ReactComponent as CloseIcon } from '../../resources/img/icons/x.svg';
+import { history } from '../app/app';
 
 export interface VideoCallRequestProps {
 	rcGroupId: string;
@@ -146,8 +147,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 					<div className="mt--2">
 						<button
 							onClick={() =>
-								(window.location.href =
-									'/profile/hilfe/videoCall')
+								history.push('/profile/hilfe/videoCall')
 							}
 							className="px--2 text--bold"
 							type="button"
