@@ -81,33 +81,6 @@ $userIconSize: 62px;
 				margin-right: 0;
 			}
 		}
-
-		button {
-			height: $grid-base-six;
-			min-width: $grid-base-six;
-
-			svg {
-				height: 46%;
-				width: 46%;
-			}
-		}
-	}
-}
-
-.unsupported {
-	.incomingVideoCall {
-		&__user {
-			order: 1;
-		}
-		&__description {
-			order: 2;
-		}
-		&__hint {
-			order: 3;
-		}
-		&__buttons {
-			order: 4;
-		}
 	}
 }
 

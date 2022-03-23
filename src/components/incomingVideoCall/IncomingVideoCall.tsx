@@ -146,7 +146,8 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 					<div className="mt--2">
 						<button
 							onClick={() =>
-								(window.location.href = '/hilfe/videoCall')
+								(window.location.href =
+									'/profile/hilfe/videoCall')
 							}
 							className="px--2 text--bold"
 							type="button"

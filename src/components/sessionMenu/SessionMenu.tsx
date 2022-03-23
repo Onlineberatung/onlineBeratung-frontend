@@ -278,7 +278,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === 'GOTO_MANUAL') {
-			window.location.href = '/hilfe/videoCall';
+			window.location.href = '/profile/hilfe/videoCall';
 		}
 	};
 
