@@ -278,7 +278,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					setIsRequestInProgress(false);
 				});
 		} else if (buttonFunction === 'GOTO_MANUAL') {
-			window.location.href = '/help/videoCall';
+			window.location.href = '/hilfe/videoCall';
 		}
 	};
 
@@ -354,7 +354,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		consultingType.isVideoCallAllowed;
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
-		if (!supportsE2EEncryptionVideoCall()) {
+		if (!supportsE2EEncryptionVideoCall(userData.e2eEncryptionEnabled)) {
 			setOverlayItem(videoCallErrorOverlayItem);
 			setOverlayActive(true);
 			return;
@@ -365,7 +365,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			.then((response) => {
 				videoCallWindow.location.href = getVideoCallUrl(
 					response.moderatorVideoCallUrl,
-					isVideoActivated
+					isVideoActivated,
+					userData.e2eEncryptionEnabled ?? false
 				);
 				videoCallWindow.focus();
 			})

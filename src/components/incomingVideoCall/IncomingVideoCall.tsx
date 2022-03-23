@@ -101,28 +101,24 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 
 	return (
 		<div
-			className={`notification incomingVideoCall ${
-				!supportsE2EEncryptionVideoCall() && 'unsupported'
-			}`}
+			className={`notification incomingVideoCall`}
 			data-cy="incoming-video-call"
 		>
-			{!supportsE2EEncryptionVideoCall() && (
-				<div className="notification__header">
-					<div className="notification__title">
-						<div className="incomingVideoCall__user">
-							{getInitials(decodedUsername)}
-						</div>
+			<div className="notification__header">
+				<div className="notification__title">
+					<div className="incomingVideoCall__user">
+						{getInitials(decodedUsername)}
 					</div>
-					{!isMobile && (
-						<div
-							className="notification__close"
-							onClick={handleRejectVideoCall}
-						>
-							<CloseIcon />
-						</div>
-					)}
 				</div>
-			)}
+				{!supportsE2EEncryptionVideoCall() && !isMobile && (
+					<div
+						className="notification__close"
+						onClick={handleRejectVideoCall}
+					>
+						<CloseIcon />
+					</div>
+				)}
+			</div>
 
 			<p className="incomingVideoCall__description">
 				{supportsE2EEncryptionVideoCall() ? (
@@ -144,20 +140,15 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 				)}
 			</p>
 
-			{supportsE2EEncryptionVideoCall() && (
-				<div className="incomingVideoCall__user">
-					{getInitials(decodedUsername)}
-				</div>
-			)}
-
 			{!supportsE2EEncryptionVideoCall() && (
 				<div className="incomingVideoCall__hint">
 					{translate(`videoCall.incomingCall.unsupported.hint`)}
 					<div className="mt--2">
 						<button
 							onClick={() =>
-								(window.location.href = '/help/videoCall')
+								(window.location.href = '/hilfe/videoCall')
 							}
+							className="px--2 text--bold"
 							type="button"
 						>
 							{translate(
@@ -168,7 +159,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 				</div>
 			)}
 
-			<div className="incomingVideoCall__buttons">
+			<div className="incomingVideoCall__buttons mt--2 py--3">
 				<Button
 					buttonHandle={() => handleAnswerVideoCall(true)}
 					item={buttonAnswerVideoCall}

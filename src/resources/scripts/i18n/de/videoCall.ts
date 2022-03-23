@@ -7,7 +7,7 @@ const videoCall = {
 	'incomingCall.description': 'ruft an...',
 	'incomingCall.unsupported.description': 'Video-Call von %username%',
 	'incomingCall.unsupported.hint':
-		'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Bitte folgen Sie der Hilfe um Ende-zu-Ende verschlüsselt zu telefonieren.',
+		'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Jedoch ist der Video-Call transportverschlüsselt. Bitte folgen Sie der Hilfe, um Ende-zu-Ende verschlüsselt zu telefonieren.',
 	'incomingCall.unsupported.button': 'Hilfe öffnen',
 	'incomingCall.ignored': 'hat versucht Sie zu erreichen.',
 	'incomingCall.rejected.prefix': 'Sie haben versucht',

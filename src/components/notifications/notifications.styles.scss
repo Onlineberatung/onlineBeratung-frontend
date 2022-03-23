@@ -10,6 +10,7 @@
 
 	@include breakpoint($fromMedium) {
 		width: 300px;
+		left: auto;
 		right: $grid-base-three;
 		top: $grid-base-three;
 	}

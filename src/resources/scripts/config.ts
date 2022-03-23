@@ -87,7 +87,6 @@ export const config = {
 	},
 	postcodeFallbackUrl: '{url}',
 	jitsi: {
-		enableE2EE: true, // Enable check for e2ee support in jitsi
 		/**
 		 * Enable WebRTC Encoded Transform as an alternative to insertable streams.
 		 * NOTE: Currently the only browser supporting this is Safari / WebKit, behind a flag.

@@ -1,6 +1,6 @@
 const videoCallInformal = {
 	'incomingCall.unsupported.hint':
-		'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Bitte folge der Hilfe um Ende-zu-Ende verschlüsselt zu telefonieren.',
+		'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Jedoch ist der Video-Call transportverschlüsselt. Bitte folge der Hilfe, um Ende-zu-Ende verschlüsselt zu telefonieren.',
 	'incomingCall.ignored': 'hat versucht Dich zu erreichen.',
 	'incomingCall.rejected.prefix': 'Du hast versucht',
 	'overlay.unsupported.copy':

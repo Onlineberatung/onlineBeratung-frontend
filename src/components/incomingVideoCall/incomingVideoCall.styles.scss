@@ -3,6 +3,10 @@ $userIconSize: 62px;
 .incomingVideoCall {
 	&.notification {
 		align-items: center;
+
+		.notification__header {
+			margin-bottom: 24px;
+		}
 	}
 
 	&__description,
@@ -54,14 +58,28 @@ $userIconSize: 62px;
 	&__buttons {
 		display: flex;
 		justify-content: center;
-		margin-top: $grid-base-two;
 		margin-bottom: $grid-base-two * -1;
-		padding: $grid-base-two 0;
 		background: rgba(0, 0, 0, 0.4);
 		width: calc(100% + #{$grid-base-four});
 
-		.button__wrapper:not(:last-of-type) {
+		button {
+			height: $grid-base-six;
+			min-width: $grid-base-six;
 			margin-right: $grid-base-two;
+			border-radius: 50%;
+
+			svg {
+				height: 46%;
+				width: 46%;
+			}
+		}
+
+		.button__wrapper {
+			flex: 0;
+
+			&:last-child button {
+				margin-right: 0;
+			}
 		}
 
 		button {
