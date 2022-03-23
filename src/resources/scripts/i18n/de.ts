@@ -12,6 +12,7 @@ import enquiry from './de/enquiry';
 import error from './de/error';
 import furtherSteps from './de/furtherSteps';
 import groupChat from './de/groupChat';
+import help from './de/help';
 import languages from './de/languages';
 import login from './de/login';
 import message from './de/message';
@@ -46,6 +47,7 @@ const de = {
 	error,
 	furtherSteps,
 	groupChat,
+	help,
 	languages,
 	login,
 	message,
