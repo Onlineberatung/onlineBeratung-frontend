@@ -46,7 +46,7 @@ hr {
 	cursor: pointer;
 
 	&:hover {
-		color: $hover-primary;
+		color: var(--skin-color-primary-contrast-safe, $hover-primary);
 	}
 }
 
