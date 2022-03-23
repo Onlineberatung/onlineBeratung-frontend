@@ -309,7 +309,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 											) && (
 												<Tag
 													className="bannedUserTag"
-													color="yellow"
+													color="red"
 													text={translate(
 														'banUser.is.banned'
 													)}

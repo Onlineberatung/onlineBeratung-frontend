@@ -249,7 +249,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 																)}
 																position={
 																	window.innerWidth <=
-																	900
+																	520
 																		? 'left'
 																		: 'right'
 																}
@@ -284,7 +284,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 														) && (
 															<Tag
 																className="bannedUserTag"
-																color="yellow"
+																color="red"
 																text={translate(
 																	'banUser.is.banned'
 																)}
