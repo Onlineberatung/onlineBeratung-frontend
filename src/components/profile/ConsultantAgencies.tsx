@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useCallback, useContext } from 'react';
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import {
-	NOTIFICATION_TYPE_INFO,
 	NotificationsContext,
-	UserDataContext
+	UserDataContext,
+	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
@@ -29,26 +29,24 @@ export const ConsultantAgencies = () => {
 			<div className="profile__data__item full">
 				{userData.agencies.map((item, i) => {
 					return (
-						<>
-							{i !== 0 && <hr />}
-							<div
-								className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
-								key={i}
-							>
-								{item.name}
-								<div className="flex mt--2 flex--fd-row flex-l--fd-column mt-l--0 flex-xl--fd-row ml-xl--2">
+						<div
+							className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
+							key={i}
+						>
+							{item.name}
+							<div className="flex flex--fd-row mt--1 flex-l--fd-column mt-l--0 ml-l--2 flex--ai-c flex-l--ai-fs">
+								<div>
+									<GenerateQrCode
+										url={`${config.urls.registration}?aid=${item.id}`}
+										agency={item.name}
+										type="agency"
+									/>
+								</div>
+								<div className="ml--2 mt-l--1 ml-l--0">
 									<AgencyRegistrationLink agency={item} />
-									<div className="mt-l--1 mt-xl--0">
-										<GenerateQrCode
-											url={`${config.urls.registration}?aid=${item.id}`}
-											filename={translate(
-												'qrCode.download.filename.agency'
-											)}
-										/>
-									</div>
 								</div>
 							</div>
-						</>
+						</div>
 					);
 				})}
 			</div>
@@ -68,7 +66,8 @@ const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 			`${config.urls.registration}?aid=${agency.id}`,
 			() => {
 				addNotification({
-					notificationType: NOTIFICATION_TYPE_INFO,
+					notificationType: NOTIFICATION_TYPE_SUCCESS,
+
 					title: translate(
 						'profile.data.agency.registrationLink.notification.title'
 					),
