@@ -130,7 +130,8 @@ export const Overlay = (props: {
 			className={clsx(
 				props.className,
 				'overlay',
-				props.items?.length > 0 ? 'overlay--stepped' : ''
+				props.items?.length > 0 && 'overlay--stepped',
+				activeOverlay.svg && 'overlay--illustration'
 			)}
 		>
 			<div className="overlay__background"></div>
