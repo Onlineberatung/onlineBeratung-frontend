@@ -150,7 +150,7 @@
 		"test": "concurrently --kill-others --success first \"cross-env BROWSER=none API_URL_FOR_LOCAL_DEVELOPMENT=test PORT=9001 node scripts/start.js\" \"wait-on http://localhost:9001 && cypress run\"",
 		"release": "standard-version",
 		"serve": "serve build",
-		"lint": "npm run lint:ts && npm run lint:scss",
+		"lint": "npm run lint:scripts && npm run lint:style",
 		"lint:scripts": "eslint src && tsc",
 		"lint:style": "stylelint src/**/*.scss",
 		"dev": "run-s dev:cy",
