@@ -37,7 +37,7 @@ export interface OverlayItem {
 	copy?: string;
 	headline?: string;
 	headlineStyleLevel?: HeadlineLevel;
-	illustrationBackground?: 'error' | 'neutral' | 'info';
+	illustrationBackground?: 'error' | 'neutral' | 'info' | 'large';
 	nestedComponent?: React.ReactNode;
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
@@ -175,17 +175,11 @@ export const Overlay = (props: {
 				{activeOverlay.svg && (
 					<div className="overlay__illustrationWrapper">
 						<span
-							className={clsx('overlay__illustration', {
-								'overlay__illustration--error':
-									activeOverlay.illustrationBackground ===
-									'error',
-								'overlay__illustration--info':
-									activeOverlay.illustrationBackground ===
-									'info',
-								'overlay__illustration--neutral':
-									activeOverlay.illustrationBackground ===
-									'neutral'
-							})}
+							className={`overlay__illustration ${
+								activeOverlay.illustrationBackground
+									? `overlay__illustration--${activeOverlay.illustrationBackground}`
+									: ''
+							}`}
 						>
 							<Illustration />
 						</span>

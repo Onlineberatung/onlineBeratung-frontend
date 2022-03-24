@@ -3,7 +3,8 @@ $overlay-steps-breakpoint: 560px !default;
 $overlay-icon-size: 56px !default;
 $overlay-icon-size-large: 48px !default;
 $overlay-illustration-size: 120px !default;
-$overlay-illustration-size-large: 80px !default;
+$overlay-illustration-size-from-large: 80px !default;
+$overlay-illustration-size-large: 160px;
 
 .overlay {
 	display: flex;
@@ -47,7 +48,7 @@ $overlay-illustration-size-large: 80px !default;
 		text-align: $overlay-text-align;
 		margin: auto;
 		padding: $grid-base-ten $grid-base-three $grid-base-six;
-		overflow: scroll;
+		overflow: auto;
 
 		@include breakpoint($fromMedium) {
 			padding: $grid-base-six $grid-base-three;
@@ -195,7 +196,7 @@ $overlay-illustration-size-large: 80px !default;
 		margin-bottom: $grid-base;
 
 		@include breakpoint($fromLarge) {
-			$size: $overlay-illustration-size-large + $grid-base * 2;
+			$size: $overlay-illustration-size-from-large + $grid-base * 2;
 
 			position: absolute;
 			display: inline-block;
@@ -223,8 +224,8 @@ $overlay-illustration-size-large: 80px !default;
 		border-radius: $overlay-illustration-size / 2;
 
 		@include breakpoint($fromLarge) {
-			height: $overlay-illustration-size-large;
-			width: $overlay-illustration-size-large;
+			height: $overlay-illustration-size-from-large;
+			width: $overlay-illustration-size-from-large;
 		}
 
 		& > svg {
@@ -248,6 +249,28 @@ $overlay-illustration-size-large: 80px !default;
 
 		&--info {
 			background-color: $illustration-background-info;
+		}
+
+		&--large {
+			background-color: #fff;
+			height: $overlay-illustration-size-large;
+			width: $overlay-illustration-size-large;
+
+			@include breakpoint($fromLarge) {
+				width: $overlay-illustration-size-from-large;
+				height: $overlay-illustration-size-from-large;
+			}
+
+			& > svg {
+				width: $overlay-illustration-size-large;
+				height: $overlay-illustration-size-large;
+				align-self: center;
+
+				@include breakpoint($fromLarge) {
+					width: $overlay-illustration-size-from-large;
+					height: $overlay-illustration-size-from-large;
+				}
+			}
 		}
 	}
 
@@ -280,7 +303,8 @@ $overlay-illustration-size-large: 80px !default;
 		padding-top: ($overlay-illustration-size / 2) + $grid-base;
 
 		@include breakpoint($fromLarge) {
-			padding-top: ($overlay-illustration-size-large / 2) + $grid-base;
+			padding-top: ($overlay-illustration-size-from-large / 2) +
+				$grid-base;
 		}
 	}
 
