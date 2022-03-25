@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-	ComponentType,
-	useContext,
-	useEffect,
-	useMemo,
-	useRef,
-	useState
-} from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { history } from '../app/app';
 import { useLocation } from 'react-router-dom';
 import { Loading } from '../app/Loading';
@@ -22,7 +15,8 @@ import {
 	UpdateSessionListContext,
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	LegalLinkInterface
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import {
@@ -53,16 +47,15 @@ import { BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
 import { encodeUsername, decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import './session.styles';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { RouteComponentProps } from 'react-router-dom';
+import './session.styles';
 
 let typingTimeout;
 const TYPING_TIMEOUT_MS = 4000;
 
 interface RouterProps {
 	rcGroupId: string;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const SessionView = (props: RouteComponentProps<RouterProps>) => {
@@ -341,7 +334,7 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 	}
 
 	if (isGroupChat && !chatItem.subscribed) {
-		return <JoinGroupChatView legalComponent={props.legalComponent} />;
+		return <JoinGroupChatView legalLinks={props.legalLinks} />;
 	}
 
 	if (redirectToSessionsList) {
@@ -366,7 +359,7 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 					messagesItem ? prepareMessages(messagesItem.messages) : null
 				}
 				typingUsers={typingUsers}
-				legalComponent={props.legalComponent}
+				legalLinks={props.legalLinks}
 			/>
 			{isOverlayActive ? (
 				<OverlayWrapper>

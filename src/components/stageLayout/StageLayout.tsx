@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { Children, ReactNode, ReactElement, ComponentType } from 'react';
+import { Children, ReactNode, ReactElement } from 'react';
 import { config } from '../../resources/scripts/config';
 import { translate } from '../../utils/translate';
 import { Button } from '../button/Button';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
+import { LegalLinkInterface } from '../../globalState';
 
 interface StageLayoutProps {
 	className?: string;
 	children: ReactNode;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 	stage: ReactNode;
 	showLegalLinks?: boolean;
 	showLoginLink?: boolean;
@@ -23,7 +23,7 @@ export const StageLayout = ({
 	stage,
 	showLegalLinks,
 	showLoginLink,
-	legalComponent: LegalComponent
+	legalLinks
 }: StageLayoutProps) => {
 	return (
 		<div className={clsx('stageLayout', className)}>
@@ -33,7 +33,26 @@ export const StageLayout = ({
 			<div className="stageLayout__content">
 				{children}
 				{showLegalLinks && (
-					<LegalComponent className="stageLayout__legalLinks" />
+					<div className="stageLayout__legalLinks">
+						{legalLinks.map((legalLink, index) => (
+							<>
+								{index > 0 && (
+									<Text
+										type="infoSmall"
+										className="stageLayout__legalLinksSeparator"
+										text=" | "
+									/>
+								)}
+								<a key={legalLink.url} href={legalLink.url}>
+									<Text
+										className="stageLayout__legalLinksItem"
+										type="infoSmall"
+										text={legalLink.label}
+									/>
+								</a>
+							</>
+						))}
+					</div>
 				)}
 			</div>
 			{showLoginLink && (

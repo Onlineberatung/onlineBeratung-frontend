@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { ComponentType, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { translate } from '../../utils/translate';
 import { logout } from '../logout/logout';
 import {
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	useConsultingTypes
+	useConsultingTypes,
+	LegalLinkInterface
 } from '../../globalState';
 import { ConsultantPrivateData } from './ConsultantPrivateData';
 import { ConsultantPublicData } from './ConsultantPublicData';
@@ -23,11 +24,10 @@ import { PasswordReset } from '../passwordReset/PasswordReset';
 import { Text } from '../text/Text';
 import { TwoFactorAuth } from './TwoFactorAuth';
 import { ConsultantStatistics } from './ConsultantStatistics';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './profile.styles';
 
 interface ProfileProps {
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const Profile = (props: ProfileProps) => {
@@ -143,7 +143,24 @@ export const Profile = (props: ProfileProps) => {
 					)}
 				</div>
 				<div className="profile__footer">
-					<props.legalComponent textStyle={'standard'} />
+					{props.legalLinks.map((legalLink, index) => (
+						<>
+							{index > 0 && (
+								<Text
+									type="infoSmall"
+									className="profile__footer__separator"
+									text=" | "
+								/>
+							)}
+							<a key={legalLink.url} href={legalLink.url}>
+								<Text
+									className="profile__footer__item"
+									type="infoSmall"
+									text={legalLink.label}
+								/>
+							</a>
+						</>
+					))}
 				</div>
 			</div>
 		</div>

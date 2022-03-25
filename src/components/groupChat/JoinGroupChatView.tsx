@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useContext, useState, ComponentType } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import {
 	UserDataContext,
 	ActiveSessionGroupIdContext,
@@ -10,7 +10,8 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	AcceptedGroupIdContext,
-	useConsultingType
+	useConsultingType,
+	LegalLinkInterface
 } from '../../globalState';
 import { mobileDetailView, mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
@@ -46,10 +47,9 @@ import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 interface JoinGroupChatViewProps {
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
@@ -208,7 +208,7 @@ export const JoinGroupChatView = (props: JoinGroupChatViewProps) => {
 
 	return (
 		<div className="session joinChat">
-			<SessionHeaderComponent legalComponent={props.legalComponent} />
+			<SessionHeaderComponent legalLinks={props.legalLinks} />
 			<div className="joinChat__content session__content">
 				<Headline
 					text={translate('groupChat.join.content.headline')}

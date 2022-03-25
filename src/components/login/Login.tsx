@@ -15,8 +15,7 @@ import { StageLayout } from '../stageLayout/StageLayout';
 import { FETCH_ERRORS } from '../../api';
 import { OTP_LENGTH } from '../profile/TwoFactorAuth';
 import clsx from 'clsx';
-import { LegalInformationLinksProps } from './LegalInformationLinks';
-import { TenantContext } from '../../globalState';
+import { LegalLinkInterface, TenantContext } from '../../globalState';
 import '../../resources/styles/styles';
 import './login.styles';
 
@@ -26,14 +25,11 @@ const loginButton: ButtonItem = {
 };
 
 interface LoginProps {
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 	stageComponent: ComponentType<StageProps>;
 }
 
-export const Login = ({
-	legalComponent,
-	stageComponent: Stage
-}: LoginProps) => {
+export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const { tenant } = useContext(TenantContext);
 	const hasTenant = tenant != null;
 
@@ -163,7 +159,7 @@ export const Login = ({
 	return (
 		<>
 			<StageLayout
-				legalComponent={legalComponent}
+				legalLinks={legalLinks}
 				stage={<Stage hasAnimation />}
 				showLegalLinks
 			>

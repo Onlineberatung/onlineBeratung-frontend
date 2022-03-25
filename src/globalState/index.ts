@@ -4,6 +4,7 @@ export * from './interfaces/AuthDataInterface';
 export * from './interfaces/SessionsDataInterface';
 export * from './interfaces/UserDataInterface';
 export * from './interfaces/ConsultingTypeInterface';
+export * from './interfaces/LegalLinkInterface';
 
 export * from './provider/AcceptedGroupIdProvider';
 export * from './provider/ActiveSessionGroupIdProvider';
