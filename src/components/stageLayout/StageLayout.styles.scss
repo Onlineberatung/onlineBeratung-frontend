@@ -68,6 +68,7 @@
 		margin: $grid-base-six 0 $grid-base-four 0;
 
 		@include breakpoint($fromMedium) {
+			margin: 0;
 			position: absolute;
 			bottom: $grid-base-four;
 			left: $legal-information-links-left-medium;
