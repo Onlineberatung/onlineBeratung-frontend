@@ -4,7 +4,8 @@ import { TenantContext } from '../globalState';
 import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 import { config } from '../resources/scripts/config';
 import getLocationVariables from './getLocationVariables';
-import decode from './decodeImageFiles';
+import decodeHTML from './decodeHTML';
+import contrast from 'get-contrast';
 
 const RGBToHSL = (r, g, b) => {
 	// Make r, g, and b fractions of 1
@@ -89,29 +90,32 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 	// make HSL colors over RGB from hex
 	const primaryHSL = hexToRGB(primaryColor);
 	const secondaryHSL = hexToRGB(secondaryColor);
-	const contrastThreshold = 40;
+	// The level AA WCAG scrore requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (at least 18pt) or bold text.
+	const contrastThreshold = 4.5;
 
 	// Intended to be used as the foreground color when text
 	// or icons are used on top of the primary color.
 	const textColorContrastSwitch =
-		primaryHSL.l < contrastThreshold
+		primaryColor && contrast.ratio('#fff', primaryColor) > contrastThreshold
 			? 'var(--skin-color-primary-foreground-light)'
 			: 'var(--skin-color-primary-foreground-dark)';
 
 	// Intended to be used as the foreground color when text
 	// or icons are used on top of the secondary color.
 	const textColorSecondaryContrastSwitch =
-		secondaryHSL.l < contrastThreshold
+		secondaryColor &&
+		contrast.ratio('#fff', secondaryColor) > contrastThreshold
 			? 'var(--skin-color-primary-foreground-light)'
 			: 'var(--skin-color-primary-foreground-dark)';
 
 	const secondaryColorContrastSafe =
-		secondaryHSL.l < contrastThreshold
+		secondaryColor &&
+		contrast.ratio('#fff', secondaryColor) > contrastThreshold
 			? secondaryColor
 			: 'var(--skin-color-default)';
 
 	const primaryColorContrastSafe =
-		primaryHSL.l > contrastThreshold
+		primaryColor && contrast.ratio('#fff', primaryColor) < contrastThreshold
 			? 'var(--skin-color-primary-foreground-dark)'
 			: primaryColor;
 
@@ -121,7 +125,8 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 		:root {
 		--skin-color-primary: ${primaryColor};
 		--skin-color-primary-hover: ${
-			primaryHSL.l < contrastThreshold
+			primaryColor &&
+			contrast.ratio('#fff', primaryColor) < contrastThreshold
 				? adjustHSLColor({
 						color: primaryHSL,
 						adjust: primaryHSL.l + 10
@@ -223,9 +228,14 @@ const useTenantTheming = () => {
 		apiGetTenantTheming({ subdomain })
 			.then((tenant) => {
 				// ToDo: See VIC-428 + VIC-427
-				const decodedTenant = { ...tenant };
-				decodedTenant.theming.logo = decode(tenant.theming.logo);
-				decodedTenant.theming.favicon = decode(tenant.theming.favicon);
+				const decodedTenant = JSON.parse(JSON.stringify(tenant));
+
+				decodedTenant.theming.logo = decodeHTML(tenant.theming.logo);
+				decodedTenant.theming.favicon = decodeHTML(
+					tenant.theming.favicon
+				);
+				decodedTenant.content.claim = decodeHTML(tenant.content.claim);
+				decodedTenant.name = decodeHTML(tenant.name);
 
 				applyTheming(decodedTenant);
 				tenantContext?.setTenant(decodedTenant);
