@@ -145,7 +145,8 @@
 		"dev:cy:wait-and-open:wait-on-cra": "wait-on http://localhost:9000",
 		"dev:cy:wait-and-open:open": "cross-env NODE_ENV=development cypress open",
 		"dtsgen": "ts-node dtsgen.ts",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"syncApp": "npx cap sync"
 	},
 	"eslintConfig": {
 		"extends": [

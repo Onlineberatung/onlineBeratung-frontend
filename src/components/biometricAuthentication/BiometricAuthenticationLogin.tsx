@@ -13,6 +13,8 @@ export const BiometricAuthenticationLogin = () => {
 	const isBiometricDialogOpen = useRef<boolean>(false);
 	const [isAnimated, setIsAnimated] = useState<boolean>(false);
 
+	// If the user closes the app in the login area during the authentication process, this is perceived as an error in the checkIdentity method.
+	// If thats the case, the implementation in the Effect Hook allows the user to authenticate again with their biometrics when reopening the app - although the verifyIdentity method failed previously
 	useEffect(() => {
 		if (isAppActive && !isBiometricDialogOpen.current) {
 			isBiometricDialogOpen.current = true;
@@ -37,11 +39,11 @@ export const BiometricAuthenticationLogin = () => {
 
 	const handleCredentials = (hasCredentialsSet: Boolean) => {
 		if (hasCredentialsSet) {
-			//if the stage hasn't already been animated, the authenticationProcess Function will be executed after 3.5 sec - wait until the stage was animated
+			// If the stage hasn't already been animated, the authenticationProcess function will be executed after 3.5 sec - it will wait until the stage was animated
 			if (isBiometricDialogOpen.current === true && !isAnimated) {
 				setTimeout(authenticationProcess, 3500);
 			} else {
-				//if the stage has already been animated, the authenticationProcess Function will be executed immediately after opening the app
+				// If the stage has already been animated, the authenticationProcess function will be executed immediately after the app has been opened
 				authenticationProcess();
 			}
 		}
@@ -52,6 +54,12 @@ export const BiometricAuthenticationLogin = () => {
 	};
 
 	const authenticationProcess = () => {
+		//ios
+		//error.code 15: Closing the app during the authentication process
+
+		//android
+		//error.code 0: Active cancellation of the authentication process by the user
+		//error.code 0: Closing the app during the authentication process
 		checkIdentity((error) => {
 			if (error.code === '15' || error.code === '0') {
 				isBiometricDialogOpen.current = false;

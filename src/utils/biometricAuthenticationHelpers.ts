@@ -5,7 +5,7 @@ import {
 } from 'capacitor-native-biometric';
 import { apiUrl } from '../resources/scripts/config';
 
-//checks if the currently used device provides the biometric authentication function
+// Checks if the currently used device provides the biometric authentication function
 export const checkForBiometricAvailability = (
 	handleAvailableBiometrics: Function,
 	handleUnavailableBiometrics?: Function,
@@ -28,8 +28,8 @@ export const checkForBiometricAvailability = (
 		});
 };
 
-//checks whether the user has already activated the biometric authentication function in his profile on the currently used device.
-//If this is the case, the credentials are saved on the device. (setCredentials)
+// Checks whether the user has already activated the biometric authentication function in his profile on the currently used device.
+// If this is the case, the credentials have already been saved on the device. (setCredentials)
 export const checkForExistingCredentials = (
 	handleCredentials: Function,
 	handleCredentialsError?: Function
@@ -51,7 +51,7 @@ export const checkForExistingCredentials = (
 		});
 };
 
-//checks if the user can authenticate with a fingerprint or FaceID stored on the currently used device
+// Prompts the user to authenticate using fingerprint or FaceID and checks if the authentication is successful.
 export const checkIdentity = (
 	handleCheckIdentityCancel: Function,
 	handleCheckIdentitySuccess?: Function,
@@ -66,10 +66,10 @@ export const checkIdentity = (
 					addBlurEffect();
 				}
 				NativeBiometric.verifyIdentity({
-					reason: 'For easy log in',
-					title: 'Log in',
-					subtitle: 'Maybe add subtitle here?',
-					description: 'Maybe a description too?'
+					reason: 'For easy log in', // TODO: Wording
+					title: 'Log in', // TODO: Wording
+					subtitle: 'Maybe add subtitle here?', // TODO: Wording
+					description: 'Maybe a description too?' // TODO: Wording
 				}).then(
 					() => {
 						if (handleCheckIdentitySuccess) {
