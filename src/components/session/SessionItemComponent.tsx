@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useContext, useEffect, useMemo, ComponentType } from 'react';
+import { useState, useContext, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import {
@@ -40,7 +40,8 @@ import {
 	AUTHORITIES,
 	ConsultingTypeInterface,
 	UpdateSessionListContext,
-	SessionItemInterface
+	SessionItemInterface,
+	LegalLinkInterface
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
@@ -52,7 +53,6 @@ import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons
 import smoothScroll from './smoothScrollHelper';
 import { Headline } from '../headline/Headline';
 import { history } from '../app/app';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 interface SessionItemProps {
@@ -61,7 +61,7 @@ interface SessionItemProps {
 	messages?: MessageItem[];
 	typingUsers: string[];
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 let initMessageCount: number;
@@ -348,7 +348,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				hasUserInitiatedStopOrLeaveRequest={
 					props.hasUserInitiatedStopOrLeaveRequest
 				}
-				legalComponent={props.legalComponent}
+				legalLinks={props.legalLinks}
 			/>
 
 			{!isAnonymousEnquiry && (

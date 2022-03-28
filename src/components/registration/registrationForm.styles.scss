@@ -23,6 +23,17 @@ $registration-form-headline-margin-bottom: 24px;
 		.checkbox__label {
 			line-height: $line-height-primary;
 		}
+
+		a {
+			color: $link-color;
+			text-decoration: $link-text-decoration;
+			font-weight: $link-font-weight;
+
+			&:hover {
+				color: $link-color-hover;
+				text-decoration: $link-text-decoration-hover;
+			}
+		}
 	}
 
 	&__submit {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentType, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import clsx from 'clsx';
 import {
@@ -14,7 +14,8 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	useConsultingType,
-	SessionConsultantInterface
+	SessionConsultantInterface,
+	LegalLinkInterface
 } from '../../globalState';
 import {
 	getViewPathForType,
@@ -35,15 +36,14 @@ import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { apiGetGroupMembers } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
@@ -171,7 +171,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							props.hasUserInitiatedStopOrLeaveRequest
 						}
 						isAskerInfoAvailable={isAskerInfoAvailable()}
-						legalComponent={props.legalComponent}
+						legalLinks={props.legalLinks}
 					/>
 				</div>
 				<div className="sessionInfo__metaInfo">
@@ -278,7 +278,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
 					isAskerInfoAvailable={isAskerInfoAvailable()}
-					legalComponent={props.legalComponent}
+					legalLinks={props.legalLinks}
 				/>
 			</div>
 

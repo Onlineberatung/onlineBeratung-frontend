@@ -5,10 +5,10 @@ import { StageProps } from '../stage/stage';
 import { ComponentType, useEffect, useState } from 'react';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
+import { LegalLinkInterface } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
 import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
 import { translate } from '../../utils/translate';
@@ -18,13 +18,13 @@ interface RegistrationProps {
 	handleUnmatchConsultingType: Function;
 	handleUnmatchConsultant: Function;
 	stageComponent: ComponentType<StageProps>;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const Registration = ({
 	handleUnmatchConsultingType,
 	handleUnmatchConsultant,
-	legalComponent,
+	legalLinks,
 	stageComponent: Stage
 }: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
@@ -146,7 +146,7 @@ export const Registration = ({
 
 	return (
 		<StageLayout
-			legalComponent={legalComponent}
+			legalLinks={legalLinks}
 			showLegalLinks={true}
 			showLoginLink={!showWelcomeScreen}
 			stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
@@ -170,7 +170,7 @@ export const Registration = ({
 						consultingType={consultingType}
 						agency={agency}
 						consultant={consultant}
-						legalComponent={legalComponent}
+						legalLinks={legalLinks}
 					/>
 				))}
 		</StageLayout>

@@ -14,6 +14,7 @@ $inputMaxWidth: 500px;
 
 $profile-imprint-background-color-desktop: $background-light !default;
 $profile-content-wrapper-detail-button-text-align: center !default;
+$profile-footer-justify-content: center !default;
 
 .profile {
 	&__header &__nav {
@@ -378,17 +379,18 @@ $profile-content-wrapper-detail-button-text-align: center !default;
 
 	&__footer {
 		display: flex;
+		flex-wrap: wrap;
 		flex-direction: row;
 		align-items: center;
-		justify-content: center;
+		justify-content: $profile-footer-justify-content;
 		margin-top: auto;
-		padding: 2px $grid-base-two;
+		padding: $grid-base $grid-base-two;
 		background-color: $profile-imprint-background-color-mobile;
 		margin-bottom: $grid-base-nine;
 		width: 100%;
 
 		@include breakpoint($fromMedium) {
-			padding: 2px $grid-base-three;
+			padding: 0 $grid-base-three;
 		}
 
 		@include breakpoint($fromLarge) {
@@ -403,15 +405,16 @@ $profile-content-wrapper-detail-button-text-align: center !default;
 		}
 
 		&__item {
-			color: var(--skin-color-default, $secondary);
+			display: inline-block;
+			padding: 4px 0;
+			color: rgba($black, 0.6);
+			text-transform: uppercase;
+			font-weight: $font-weight-bold;
+		}
 
-			&:not(:first-child) {
-				margin-left: 20px;
-			}
-
-			&:hover {
-				color: var(--skin-color-default, $primary);
-			}
+		&__separator {
+			display: inline-block;
+			margin: 0 8px;
 		}
 	}
 }

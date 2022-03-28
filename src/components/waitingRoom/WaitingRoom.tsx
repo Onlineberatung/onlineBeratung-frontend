@@ -29,6 +29,7 @@ import {
 import {
 	AnonymousConversationFinishedContext,
 	AnonymousEnquiryAcceptedContext,
+	LegalLinkInterface,
 	WebsocketConnectionDeactivatedContext
 } from '../../globalState';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
@@ -42,6 +43,7 @@ import { handleTokenRefresh, setTokens } from '../auth/auth';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
+	legalLinks: Array<LegalLinkInterface>;
 	onAnonymousRegistration: Function;
 }
 
@@ -201,9 +203,30 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 						/>
 						<Text
 							type="standard"
-							text={translate(
-								'registration.dataProtection.label'
-							)}
+							text={[
+								translate(
+									'registration.dataProtection.label.prefix'
+								),
+								props.legalLinks
+									.filter(
+										(legalLink) => legalLink.registration
+									)
+									.map(
+										(legalLink, index, { length }) =>
+											(index > 0
+												? index < length - 1
+													? ', '
+													: translate(
+															'registration.dataProtection.label.and'
+													  )
+												: '') +
+											`<a target="_blank" href="${legalLink.url}">${legalLink.label}</a>`
+									)
+									.join(''),
+								translate(
+									'registration.dataProtection.label.suffix'
+								)
+							].join(' ')}
 						/>
 						<Button
 							className="waitingRoom__button"

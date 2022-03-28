@@ -63,16 +63,30 @@
 	}
 
 	&__legalLinks {
+		display: flex;
+		flex-wrap: wrap;
 		margin: $grid-base-six 0 $grid-base-four 0;
-		bottom: $grid-base-four;
 
 		@include breakpoint($fromMedium) {
+			margin: 0;
 			position: absolute;
+			bottom: $grid-base-four;
 			left: $legal-information-links-left-medium;
 		}
 
 		@include breakpoint($fromXLarge) {
 			left: $legal-information-links-left-large;
 		}
+	}
+
+	&__legalLinksItem {
+		color: rgba($black, 0.6);
+		text-transform: uppercase;
+		font-weight: $font-weight-bold;
+	}
+
+	&__legalLinksSeparator {
+		display: inline-block;
+		margin: 0 $grid-base;
 	}
 }
