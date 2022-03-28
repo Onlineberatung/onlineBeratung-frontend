@@ -7,10 +7,11 @@ import { ReactComponent as WelcomeIllustration } from '../../resources/img/illus
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
 import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/ooh.svg';
 import { translate } from '../../utils/translate';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useCallback } from 'react';
 import { uiUrl } from '../../resources/scripts/config';
 import {
 	AnonymousRegistrationResponse,
+	apiFinishAnonymousConversation,
 	apiPostAnonymousRegistration
 } from '../../api';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -63,12 +64,15 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		setWebsocketConnectionDeactivated
 	} = useContext(WebsocketConnectionDeactivatedContext);
 	const registrationUrl = `${uiUrl}/${props.consultingTypeSlug}/registration`;
+	const [sessionId, setSessionId] = useState<number>();
 
 	useEffect(() => {
 		const registeredUsername = getValueFromCookie('registeredUsername');
+		const sessionId = getValueFromCookie('anonymousSessionId');
 
 		// handle a refresh as registered user and not initialize a new user
-		if (registeredUsername && getValueFromCookie('keycloak')) {
+		if (registeredUsername && getValueFromCookie('keycloak') && sessionId) {
+			setSessionId(Number(sessionId));
 			setIsDataProtectionViewActive(false);
 			setUsername(registeredUsername);
 			handleTokenRefresh();
@@ -106,16 +110,16 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	const getUsernameText = () => {
 		return `
-		 ${translate('anonymous.waitingroom.username')} 
-		 <span class="waitingRoom__username">
-		 	${
-				username
-					? username
-					: `<span class="waitingRoom__username--loading">${translate(
-							'anonymous.waitingroom.username.loading'
-					  )}</span>`
-			}
-		 </span>
+		${translate('anonymous.waitingroom.username')} 
+		<span class="waitingRoom__username">
+		${
+			username
+				? username
+				: `<span class="waitingRoom__username--loading">${translate(
+						'anonymous.waitingroom.username.loading'
+				  )}</span>`
+		}
+		</span>
 		`;
 	};
 
@@ -141,12 +145,20 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					setValueInCookie('registeredUsername', decodedUsername);
 					setValueInCookie('rc_token', response.rcToken);
 					setValueInCookie('rc_uid', response.rcUserId);
+					setValueInCookie(
+						'anonymousSessionId',
+						`${response.sessionId}`
+					);
+
 					setTokens(
 						response.accessToken,
 						response.expiresIn,
 						response.refreshToken,
 						response.refreshExpiresIn
 					);
+
+					setSessionId(response.sessionId);
+
 					handleTokenRefresh();
 					props.onAnonymousRegistration();
 				})
@@ -171,6 +183,13 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			window.location.href = registrationUrl;
 		}
 	};
+
+	const removeAnonymousSession = useCallback(() => {
+		apiFinishAnonymousConversation(sessionId).then(() => {
+			removeAllCookies();
+			history.push(`/${props.consultingTypeSlug}/registration`);
+		});
+	}, [sessionId, props.consultingTypeSlug]);
 
 	const getContent = () => {
 		if (isDataProtectionViewActive) {
@@ -282,17 +301,16 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 								)}
 							/>
 							<div className="waitingRoom__redirectButton">
-								<a href={registrationUrl}>
-									<Button
-										item={{
-											label: translate(
-												'anonymous.waitingroom.redirect.button'
-											),
-											type: 'TERTIARY'
-										}}
-										isLink={true}
-									/>
-								</a>
+								<Button
+									buttonHandle={removeAnonymousSession}
+									item={{
+										label: translate(
+											'anonymous.waitingroom.redirect.button'
+										),
+										type: 'TERTIARY'
+									}}
+									isLink={true}
+								/>
 							</div>
 						</div>
 					</div>

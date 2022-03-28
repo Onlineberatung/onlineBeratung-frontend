@@ -164,6 +164,13 @@ $inputMaxWidth: 500px;
 		@include breakpoint($fromMedium) {
 			padding: 0 $grid-base-three $grid-base;
 		}
+
+		&__personal_link {
+			& > span,
+			.generateQrCode {
+				margin-right: $grid-base-two;
+			}
+		}
 	}
 
 	&__icon {
@@ -359,6 +366,23 @@ $inputMaxWidth: 500px;
 
 			&--empty {
 				color: $tertiary;
+			}
+
+			&--subscriber {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				position: relative;
+			}
+
+			&--agencies {
+				border-bottom: 1px solid $line-grey;
+				padding-bottom: $grid-base-two;
+
+				&:last-child {
+					border: none;
+					padding-bottom: 0;
+				}
 			}
 		}
 

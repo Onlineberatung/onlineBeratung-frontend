@@ -47,7 +47,8 @@ import {
 	leaveGroupChatSecurityOverlayItem,
 	leaveGroupChatSuccessOverlayItem,
 	stopGroupChatSecurityOverlayItem,
-	stopGroupChatSuccessOverlayItem
+	stopGroupChatSuccessOverlayItem,
+	videoCallErrorOverlayItem
 } from './sessionMenuHelpers';
 import {
 	apiFinishAnonymousConversation,
@@ -72,7 +73,10 @@ import './sessionMenu.styles';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import { getVideoCallUrl } from '../../utils/videoCallHelpers';
+import {
+	getVideoCallUrl,
+	supportsE2EEncryptionVideoCall
+} from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { history } from '../app/app';
@@ -83,6 +87,7 @@ export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 	isAskerInfoAvailable: boolean;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	isJoinGroupChatView?: boolean;
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
@@ -252,6 +257,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				.catch((error) => {
 					console.error(error);
 					setIsRequestInProgress(false);
+					setOverlayActive(false);
+					setOverlayItem(null);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_URL) {
 			window.location.href = config.urls.finishedAnonymousChatRedirect;
@@ -270,6 +277,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					setOverlayItem(null);
 					setIsRequestInProgress(false);
 				});
+		} else if (buttonFunction === 'GOTO_MANUAL') {
+			history.push('/profile/hilfe/videoCall');
 		}
 	};
 
@@ -345,12 +354,19 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		consultingType.isVideoCallAllowed;
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
+		if (!supportsE2EEncryptionVideoCall(userData.e2eEncryptionEnabled)) {
+			setOverlayItem(videoCallErrorOverlayItem);
+			setOverlayActive(true);
+			return;
+		}
+
 		const videoCallWindow = window.open('', '_blank');
 		apiStartVideoCall(chatItem?.id)
 			.then((response) => {
 				videoCallWindow.location.href = getVideoCallUrl(
 					response.moderatorVideoCallUrl,
-					isVideoActivated
+					isVideoActivated,
+					userData.e2eEncryptionEnabled ?? false
 				);
 				videoCallWindow.focus();
 			})
@@ -414,6 +430,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					groupChatInfoLink={groupChatInfoLink}
 					handleLeaveGroupChat={handleLeaveGroupChat}
 					handleStopGroupChat={handleStopGroupChat}
+					isJoinGroupChatView={props.isJoinGroupChatView}
 				/>
 			)}
 
@@ -567,7 +584,8 @@ const SessionMenuGroup = ({
 	groupChatInfoLink,
 	editGroupChatSettingsLink,
 	handleStopGroupChat,
-	handleLeaveGroupChat
+	handleLeaveGroupChat,
+	isJoinGroupChatView = false
 }: {
 	chatItem: GroupChatItemInterface;
 	activeSession: ActiveSessionType;
@@ -575,12 +593,13 @@ const SessionMenuGroup = ({
 	editGroupChatSettingsLink: string;
 	handleStopGroupChat: MouseEventHandler;
 	handleLeaveGroupChat: MouseEventHandler;
+	isJoinGroupChatView?: boolean;
 }) => {
 	const { userData } = useContext(UserDataContext);
 
 	return (
 		<>
-			{chatItem?.subscribed && (
+			{chatItem?.subscribed && !isJoinGroupChatView && (
 				<span
 					onClick={handleLeaveGroupChat}
 					className="sessionMenu__item--desktop sessionMenu__button"

@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 
 export interface TagProps {
 	text: string;
-	color: 'yellow' | 'green';
+	color: 'yellow' | 'green' | 'red';
 	link?: string;
+	className?: string;
 }
 
 const ConditionalWrapper = ({ condition, wrapper, children }) =>
@@ -28,7 +29,7 @@ export const Tag = (props: TagProps) => {
 			<span
 				className={`tag tag--${props.color} ${
 					props.link ? 'tag--clickable' : ''
-				}`}
+				} ${props.className ? props.className : ''}`}
 			>
 				{props.text}
 			</span>

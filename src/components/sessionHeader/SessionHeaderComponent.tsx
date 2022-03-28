@@ -24,7 +24,8 @@ import {
 	typeIsEnquiry,
 	isGroupChat,
 	isLiveChat,
-	isSessionChat
+	isSessionChat,
+	isUserModerator
 } from '../session/sessionHelpers';
 import { SessionMenu } from '../sessionMenu/SessionMenu';
 import {
@@ -39,11 +40,17 @@ import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
+import { BanUser } from '../banUser/BanUser';
+import { Tag } from '../tag/Tag';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
 	legalComponent: ComponentType<LegalInformationLinksProps>;
+	isJoinGroupChatView?: boolean;
+	bannedUsers: string[];
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
@@ -51,6 +58,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	const { userData } = useContext(UserDataContext);
 	const chatItem = getChatItemForSession(activeSession);
 	const consultingType = useConsultingType(chatItem?.consultingType);
+	const [flyoutOpenId, setFlyoutOpenId] = useState('');
 
 	const username = getContact(activeSession).username;
 	const userSessionData = getContact(activeSession).sessionData;
@@ -98,9 +106,13 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		if (!isSubscriberFlyoutOpen) {
 			apiGetGroupMembers(activeSession.chat.id)
 				.then((response) => {
-					const subscribers = response.members.map(
-						(member) => member.username
-					);
+					const subscribers = response.members.map((member) => ({
+						isModerator: isUserModerator({
+							chatItem: activeSession.chat,
+							rcUserId: member._id
+						}),
+						...member
+					}));
 					setSubscriberList(subscribers);
 					setIsSubscriberFlyoutOpen(true);
 				})
@@ -121,9 +133,15 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 			!flyoutElement.contains(event.target) &&
 			event.target.id !== 'subscriberButton'
 		) {
+			setFlyoutOpenId('');
 			setIsSubscriberFlyoutOpen(false);
 		}
 	};
+
+	const isCurrentUserModerator = isUserModerator({
+		chatItem: activeSession?.chat,
+		rcUserId: getValueFromCookie('rc_uid')
+	});
 
 	const isAskerInfoAvailable = () =>
 		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -172,13 +190,16 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						}
 						isAskerInfoAvailable={isAskerInfoAvailable()}
 						legalComponent={props.legalComponent}
+						isJoinGroupChatView={props.isJoinGroupChatView}
 					/>
 				</div>
 				<div className="sessionInfo__metaInfo">
 					<div className="sessionInfo__metaInfo__content">
 						{getGroupChatDate(chatItem, true)}
 					</div>
-					{activeSession.chat.active && chatItem.subscribed ? (
+					{activeSession.chat.active &&
+					chatItem.subscribed &&
+					!props.isJoinGroupChatView ? (
 						<div
 							className="sessionInfo__metaInfo__content sessionInfo__metaInfo__content--clickable"
 							id="subscriberButton"
@@ -192,8 +213,83 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 									<ul>
 										{subscriberList.map(
 											(subscriber, index) => (
-												<li key={index}>
-													{decodeUsername(subscriber)}
+												<li
+													className={
+														isCurrentUserModerator &&
+														!props.bannedUsers.includes(
+															subscriber.username
+														) &&
+														!subscriber.isModerator
+															? 'has-flyout'
+															: ''
+													}
+													key={index}
+													onClick={() => {
+														if (
+															!props.bannedUsers.includes(
+																subscriber.username
+															)
+														) {
+															setFlyoutOpenId(
+																subscriber._id
+															);
+														}
+													}}
+												>
+													<span>
+														{decodeUsername(
+															subscriber.username
+														)}
+													</span>
+													{isCurrentUserModerator &&
+														!subscriber.isModerator && (
+															<FlyoutMenu
+																isHidden={props.bannedUsers.includes(
+																	subscriber.username
+																)}
+																position={
+																	window.innerWidth <=
+																	520
+																		? 'left'
+																		: 'right'
+																}
+																isOpen={
+																	flyoutOpenId ===
+																	subscriber._id
+																}
+																handleClose={() => {
+																	setFlyoutOpenId(
+																		null
+																	);
+																}}
+															>
+																<BanUser
+																	userName={decodeUsername(
+																		subscriber.username
+																	)}
+																	rcUserId={
+																		subscriber._id
+																	}
+																	chatId={
+																		activeSession
+																			?.chat
+																			?.id
+																	}
+																/>
+															</FlyoutMenu>
+														)}
+													{isCurrentUserModerator &&
+														props.bannedUsers.includes(
+															subscriber.username
+														) && (
+															<Tag
+																className="bannedUserTag"
+																color="red"
+																text={translate(
+																	'banUser.is.banned'
+																)}
+															/>
+														)}
 												</li>
 											)
 										)}

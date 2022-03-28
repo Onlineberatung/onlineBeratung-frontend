@@ -3,6 +3,7 @@ import absence from './de/absence';
 import anonymous from './de/anonymous';
 import archive from './de/archive';
 import attachments from './de/attachments';
+import banUser from './de/banUser';
 import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
 import deleteAccount from './de/deleteAccount';
@@ -11,6 +12,7 @@ import enquiry from './de/enquiry';
 import error from './de/error';
 import furtherSteps from './de/furtherSteps';
 import groupChat from './de/groupChat';
+import help from './de/help';
 import languages from './de/languages';
 import login from './de/login';
 import message from './de/message';
@@ -28,6 +30,7 @@ import twoFactorAuth from './de/twoFactorAuth';
 import typingIndicator from './de/typingIndicator';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
+import qrCode from './de/qrCode';
 
 const de = {
 	absence,
@@ -35,6 +38,7 @@ const de = {
 	app,
 	archive,
 	attachments,
+	banUser,
 	chatFlyout,
 	consultant,
 	deleteAccount,
@@ -43,6 +47,7 @@ const de = {
 	error,
 	furtherSteps,
 	groupChat,
+	help,
 	languages,
 	login,
 	message,
@@ -59,7 +64,8 @@ const de = {
 	typingIndicator,
 	user,
 	userProfile,
-	videoCall
+	videoCall,
+	qrCode
 };
 
 export default de;
