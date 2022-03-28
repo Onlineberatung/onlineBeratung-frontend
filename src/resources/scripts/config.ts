@@ -85,5 +85,14 @@ export const config = {
 		error401: uiUrl + '/error.401.html',
 		error404: uiUrl + '/error.404.html'
 	},
-	postcodeFallbackUrl: '{url}'
+	postcodeFallbackUrl: '{url}',
+	jitsi: {
+		/**
+		 * Enable WebRTC Encoded Transform as an alternative to insertable streams.
+		 * NOTE: Currently the only browser supporting this is Safari / WebKit, behind a flag.
+		 * This must be enabled in jitsi too. (Config value is named equal)
+		 * https://github.com/jitsi/lib-jitsi-meet/blob/afc006e99a42439c305c20faab50a1f786254676/modules/browser/BrowserCapabilities.js#L259
+		 */
+		enableEncodedTransformSupport: false
+	}
 };

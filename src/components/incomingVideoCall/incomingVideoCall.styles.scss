@@ -3,12 +3,37 @@ $userIconSize: 62px;
 .incomingVideoCall {
 	&.notification {
 		align-items: center;
+
+		.notification__header {
+			margin-bottom: $grid-base-three;
+		}
 	}
 
-	&__description {
+	&__description,
+	&__hint {
 		color: $white;
 		margin: 0;
 		text-align: center;
+	}
+
+	&__hint {
+		margin-top: $grid-base;
+		font-size: $font-size-tertiary;
+
+		a,
+		a:hover {
+			color: $white;
+			text-decoration: underline;
+		}
+
+		button {
+			font-size: 14px;
+			height: $grid-base-four;
+			color: #fff;
+			border: 2px solid #fff;
+			background: none;
+			border-radius: $grid-base-two;
+		}
 	}
 
 	&__username,
@@ -22,7 +47,7 @@ $userIconSize: 62px;
 		justify-content: center;
 		width: $userIconSize;
 		height: $userIconSize;
-		margin-top: $grid-base;
+		margin: $grid-base auto 0;
 		background-color: #524b52;
 		border: 3px solid $white-50-opacity;
 		color: $white-50-opacity;
@@ -32,10 +57,29 @@ $userIconSize: 62px;
 
 	&__buttons {
 		display: flex;
-		margin-top: $grid-base-two;
+		justify-content: center;
+		margin-bottom: $grid-base-two * -1;
+		background: rgba(0, 0, 0, 0.4);
+		width: calc(100% + #{$grid-base-four});
 
-		.button__wrapper:not(:last-of-type) {
+		button {
+			height: $grid-base-six;
+			min-width: $grid-base-six;
 			margin-right: $grid-base-two;
+			border-radius: 50%;
+
+			svg {
+				height: 46%;
+				width: 46%;
+			}
+		}
+
+		.button__wrapper {
+			flex: 0;
+
+			&:last-child button {
+				margin-right: 0;
+			}
 		}
 	}
 }

@@ -46,6 +46,10 @@ $tooltipWidth: 266px;
 		&:after {
 			z-index: 1;
 		}
+
+		a {
+			text-decoration: underline;
+		}
 	}
 
 	&--top &__content {
