@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-	ComponentType,
 	MouseEventHandler,
 	useCallback,
 	useContext,
@@ -25,7 +24,8 @@ import {
 	STATUS_FINISHED,
 	UpdateSessionListContext,
 	useConsultingType,
-	UserDataContext
+	UserDataContext,
+	LegalLinkInterface
 } from '../../globalState';
 import {
 	getChatItemForSession,
@@ -74,15 +74,15 @@ import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { history } from '../app/app';
 import DeleteSession from '../session/DeleteSession';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { Text } from '../text/Text';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 	isAskerInfoAvailable: boolean;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 	isJoinGroupChatView?: boolean;
 }
 
@@ -547,11 +547,16 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					/>
 				)}
 
-				<props.legalComponent
-					className="legalInformationLinks--menu"
-					showDivider={false}
-					textStyle={'infoLargeStandard'}
-				/>
+				<div className="legalInformationLinks--menu">
+					{props.legalLinks.map((legalLink) => (
+						<a href={legalLink.url} key={legalLink.url}>
+							<Text
+								type="infoLargeAlternative"
+								text={legalLink.label}
+							/>
+						</a>
+					))}
+				</div>
 			</div>
 			{overlayActive && (
 				<OverlayWrapper>
