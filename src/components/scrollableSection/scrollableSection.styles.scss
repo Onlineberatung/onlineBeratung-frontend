@@ -1,0 +1,8 @@
+.scrollableSection {
+	height: 100%;
+
+	&__body {
+		overflow-y: auto;
+		max-height: 100vh;
+	}
+}

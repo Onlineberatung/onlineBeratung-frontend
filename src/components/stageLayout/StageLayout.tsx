@@ -37,7 +37,7 @@ export const StageLayout = ({
 				{showLegalLinks && (
 					<div className="stageLayout__legalLinks">
 						{legalLinks.map((legalLink, index) => (
-							<>
+							<React.Fragment key={legalLink.url}>
 								{index > 0 && (
 									<Text
 										type="infoSmall"
@@ -57,7 +57,7 @@ export const StageLayout = ({
 										text={legalLink.label}
 									/>
 								</a>
-							</>
+							</React.Fragment>
 						))}
 					</div>
 				)}
