@@ -4,27 +4,58 @@ export const MILLISECONDS_PER_SECOND = 1000;
 export const MILLISECONDS_PER_MINUTE = 60 * MILLISECONDS_PER_SECOND;
 export const MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
 
-export const formatToDDMMYYYY = (unixDate: number) => {
+export const formatToDDMMYYYY = (
+	unixDate: number,
+	twoDigits: boolean = false
+) => {
 	const date = new Date(unixDate);
-	const day = date.getDate();
-	const month = date.getMonth() + 1;
-	const year = date.getFullYear();
 
-	return day + '.' + month + '.' + year;
+	return date.toLocaleDateString('de-DE', {
+		day: twoDigits ? '2-digit' : 'numeric',
+		month: twoDigits ? '2-digit' : 'numeric',
+		year: 'numeric'
+	});
 };
 
-const printPrettyDate = (messageDate: number) => {
-	const date = formatToDDMMYYYY(messageDate);
+const printPrettyDate = (
+	messageDate: number,
+	showDayOfTheWeek: boolean = false,
+	twoDigits: boolean = false
+) => {
+	const date = formatToDDMMYYYY(messageDate, twoDigits);
+
 	const currentDate = new Date();
-	const currentDateStr = formatToDDMMYYYY(currentDate.getTime());
+	const currentDateStr = currentDate.toLocaleDateString('de-DE', {
+		day: twoDigits ? '2-digit' : 'numeric',
+		month: twoDigits ? '2-digit' : 'numeric',
+		year: 'numeric'
+	});
 
 	const yesterday = new Date(currentDate.setDate(currentDate.getDate() - 1));
-	const yesterdayStr = yesterday.toLocaleDateString();
+	const yesterdayStr = yesterday.toLocaleDateString('de-DE', {
+		day: twoDigits ? '2-digit' : 'numeric',
+		month: twoDigits ? '2-digit' : 'numeric',
+		year: 'numeric'
+	});
 
 	const dayBeforeYesterday = new Date(
 		currentDate.setDate(currentDate.getDate() - 1)
 	);
-	const dayBeforeYesterdayStr = dayBeforeYesterday.toLocaleDateString();
+	const dayBeforeYesterdayStr = dayBeforeYesterday.toLocaleDateString(
+		'de-DE',
+		{
+			day: twoDigits ? '2-digit' : 'numeric',
+			month: twoDigits ? '2-digit' : 'numeric',
+			year: 'numeric'
+		}
+	);
+
+	const tomorrow = new Date(currentDate.setDate(currentDate.getDate() + 3));
+	const tomorrowStr = tomorrow.toLocaleDateString('de-DE', {
+		day: twoDigits ? '2-digit' : 'numeric',
+		month: twoDigits ? '2-digit' : 'numeric',
+		year: 'numeric'
+	});
 
 	if (date === currentDateStr) {
 		return translate('message.today');
@@ -32,16 +63,22 @@ const printPrettyDate = (messageDate: number) => {
 		return translate('message.yesterday');
 	} else if (date === dayBeforeYesterdayStr) {
 		return translate('message.dayBeforeYesterday');
+	} else if (date === tomorrowStr) {
+		return translate('message.tomorrow');
+	} else if (showDayOfTheWeek) {
+		const dayDate = new Date(messageDate);
+		return translate(`date.day.${dayDate.getDay()}`) + ', ' + date;
 	} else {
 		return date;
 	}
 };
 
-export const getPrettyDateFromMessageDate = (messageDate: number) => {
-	let messageDateFormated = messageDate * 1000;
-	let prettyDate = printPrettyDate(messageDateFormated);
-
-	return prettyDate;
+export const getPrettyDateFromMessageDate = (
+	messageDate: number,
+	showDayOfTheWeek: boolean = false,
+	twoDigits: boolean = false
+) => {
+	return printPrettyDate(messageDate * 1000, showDayOfTheWeek, twoDigits);
 };
 
 export const formatToHHMM = (timestamp: string) => {
@@ -71,4 +108,14 @@ export const prettyPrintTimeDifference = (t1: number, t2: number): string => {
 
 export const convertISO8601ToMSSinceEpoch = (iso8601Date) => {
 	return new Date(iso8601Date).getTime();
+};
+
+export const dateToLocalISO = (date: Date) => {
+	return `${date.getFullYear()}-${(date.getMonth() + 101)
+		.toString()
+		.substr(1)}-${(date.getDate() + 100).toString().substr(1)} ${(
+		date.getHours() + 100
+	)
+		.toString()
+		.substr(1)}:${(date.getMinutes() + 100).toString().substr(1)}`;
 };

@@ -2,6 +2,9 @@
 	&--bold {
 		font-weight: bold;
 	}
+	&--uppercase {
+		text-transform: uppercase;
+	}
 
 	&--nowrap {
 		white-space: nowrap;

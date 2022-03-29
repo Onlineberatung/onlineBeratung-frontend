@@ -88,7 +88,9 @@ const PersonalRegistrationLink = ({
 			<div className="mb--1 mb-l--0">
 				<GenerateQrCode
 					url={`${config.urls.registration}?cid=${cid}`}
-					type="personal"
+					filename={'kontaktlink'}
+					headline={translate(`qrCode.personal.overlay.headline`)}
+					text={translate(`qrCode.personal.overlay.info`)}
 				/>
 			</div>
 			<div className="flex flex--ai-fs">
