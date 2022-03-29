@@ -383,7 +383,7 @@ export const Profile = (props: ProfileProps) => {
 
 				<div className="profile__footer">
 					{props.legalLinks.map((legalLink, index) => (
-						<>
+						<React.Fragment key={legalLink.url}>
 							{index > 0 && (
 								<Text
 									type="infoSmall"
@@ -403,7 +403,7 @@ export const Profile = (props: ProfileProps) => {
 									text={legalLink.label}
 								/>
 							</a>
-						</>
+						</React.Fragment>
 					))}
 				</div>
 			</div>
