@@ -6,9 +6,12 @@ import './textarea.styles';
 export interface TextareaProps
 	extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
-export const Textarea = (props: TextareaProps) => {
-	const { onChange, placeholder, id: customId, ...attrs } = props;
-
+export const Textarea = ({
+	onChange,
+	placeholder,
+	id: customId,
+	...attrs
+}: TextareaProps) => {
 	const id = customId ?? uuid();
 
 	const handleChange = useCallback(
@@ -31,6 +34,12 @@ export const Textarea = (props: TextareaProps) => {
 				/>
 				{placeholder && <label htmlFor={id}>{placeholder}</label>}
 			</div>
+			{attrs.maxLength && (
+				<div className="textarea__letters">
+					{(attrs?.value?.toString() ?? '').length} /{' '}
+					{attrs.maxLength}
+				</div>
+			)}
 		</div>
 	);
 };

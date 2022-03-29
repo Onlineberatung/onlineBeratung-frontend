@@ -170,7 +170,7 @@ Cypress.Commands.add('mockApi', () => {
 
 	cy.intercept('POST', config.endpoints.rocketchatLogout, {}).as('apiLogout');
 
-	cy.intercept(`${config.endpoints.liveservice}/*`, {
+	cy.intercept(`${config.endpoints.liveservice}/**/*`, {
 		entropy: -1197552011,
 		origins: ['*:*'],
 		cookie_needed: false,
@@ -264,6 +264,18 @@ Cypress.Commands.add(
 				cy.setCookie('rc_uid', res.data.userId);
 			}
 		});
+
+		const tomorrow = new Date();
+		tomorrow.setDate(tomorrow.getDate() + 1);
+
+		window.localStorage.setItem(
+			'auth.access_token_valid_until',
+			tomorrow.getTime().toString()
+		);
+		window.localStorage.setItem(
+			'auth.refresh_token_valid_until',
+			tomorrow.getTime().toString()
+		);
 
 		cy.visit('/app');
 		cy.wait('@usersData');

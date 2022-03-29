@@ -4,8 +4,10 @@ import anonymous from './de/anonymous';
 import archive from './de/archive';
 import attachments from './de/attachments';
 import banUser from './de/banUser';
+import appointments from './de/appointments';
 import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
+import date from './de/date';
 import deleteAccount from './de/deleteAccount';
 import deleteSession from './de/deleteSession';
 import enquiry from './de/enquiry';
@@ -30,6 +32,7 @@ import twoFactorAuth from './de/twoFactorAuth';
 import typingIndicator from './de/typingIndicator';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
+import videoConference from './de/videoConference';
 import qrCode from './de/qrCode';
 
 const de = {
@@ -39,8 +42,10 @@ const de = {
 	archive,
 	attachments,
 	banUser,
+	appointments,
 	chatFlyout,
 	consultant,
+	date,
 	deleteAccount,
 	deleteSession,
 	enquiry,
@@ -65,6 +70,7 @@ const de = {
 	user,
 	userProfile,
 	videoCall,
+	videoConference,
 	qrCode
 };
 

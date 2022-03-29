@@ -5,7 +5,6 @@ import {
 } from '../support/websocket';
 import attachmentsI18n from '../../src/resources/scripts/i18n/de/attachments';
 import attachmentsInformalI18n from '../../src/resources/scripts/i18n/de/attachmentsInformal';
-import { config } from '../../src/resources/scripts/config';
 import { SOCKET_COLLECTION } from '../../src/api';
 
 describe('Messages', () => {
