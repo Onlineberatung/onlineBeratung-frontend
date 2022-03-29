@@ -14,6 +14,7 @@ import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/sp
 import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
+import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
 import clsx from 'clsx';
 
 export interface NavigationBarProps {
@@ -90,6 +91,9 @@ export const NavigationBar = (props: NavigationBarProps) => {
 								),
 								'person': (
 									<PersonIcon className="navigation__icon" />
+								),
+								'calendar': (
+									<CalendarIcon className="navigation__icon" />
 								)
 							}[item.icon]
 						}

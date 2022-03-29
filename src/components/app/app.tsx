@@ -16,6 +16,7 @@ import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/la
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
 import { LegalLinkInterface } from '../../globalState';
+import VideoConference from '../videoConference/VideoConference';
 
 export const history = createBrowserHistory();
 
@@ -143,6 +144,12 @@ export const App = ({
 									/>
 								</Route>
 							)}
+							<Route
+								path={'/videoberatung/:appointmentId/:status?'}
+								exact
+							>
+								<VideoConference legalLinks={legalLinks} />
+							</Route>
 							{isInitiallyLoaded && (
 								<AuthenticatedApp
 									legalLinks={legalLinks}

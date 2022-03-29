@@ -19,6 +19,8 @@ export const config = {
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
 		agencyServiceBase: apiUrl + '/service/agencies',
+		appointmentsServiceBase: apiUrl + '/service/appointments',
+		videocallServiceBase: apiUrl + '/service/videocalls',
 		anonymousAskerBase: apiUrl + '/service/conversations/askers/anonymous/',
 		anonymousBase: apiUrl + '/service/conversations/anonymous/',
 		askerSessions: apiUrl + '/service/users/sessions/askers',
@@ -84,6 +86,8 @@ export const config = {
 		toEntry: uiUrl + '/',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
+		videoConference: uiUrl + '/videoberatung',
+		consultantVideoConference: uiUrl + '/consultant/videoberatung',
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		imprint: 'https://www.caritas.de/impressum',

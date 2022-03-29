@@ -77,6 +77,17 @@ export const Routing = (props: routingProps) => {
 
 	return (
 		<Switch>
+			{(routerConfig.plainRoutes ?? []).map(
+				(route: any): JSX.Element => (
+					<Route
+						exact={route.exact ?? true}
+						key={`plain-${route.path}`}
+						path={route.path}
+					>
+						<route.component legalLinks={props.legalLinks} />
+					</Route>
+				)
+			)}
 			<Route path={allRoutes()}>
 				<div className="app__wrapper">
 					<NavigationBar

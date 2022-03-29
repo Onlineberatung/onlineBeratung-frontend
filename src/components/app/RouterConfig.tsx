@@ -8,6 +8,8 @@ import { Profile } from '../profile/Profile';
 import { SessionViewEmpty } from '../session/SessionViewEmpty';
 import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
+import { Appointments } from '../appointment/Appointments';
+import VideoConference from '../videoConference/VideoConference';
 
 export const RouterConfigUser = (): any => {
 	return {
@@ -61,6 +63,13 @@ export const RouterConfigUser = (): any => {
 
 export const RouterConfigConsultant = (): any => {
 	return {
+		plainRoutes: [
+			{
+				path: '/consultant/videoberatung/:appointmentId',
+				exact: true,
+				component: VideoConference
+			}
+		],
 		navigation: [
 			{
 				to: '/sessions/consultant/sessionPreview',
@@ -82,6 +91,13 @@ export const RouterConfigConsultant = (): any => {
 				icon: 'person',
 				titleKeys: {
 					large: 'navigation.profile'
+				}
+			},
+			{
+				to: '/termine',
+				icon: 'calendar',
+				titleKeys: {
+					large: 'navigation.appointments'
 				}
 			}
 		],
@@ -150,6 +166,11 @@ export const RouterConfigConsultant = (): any => {
 				path: '/profile',
 				exact: false,
 				component: Profile
+			},
+			{
+				path: '/termine',
+				exact: false,
+				component: Appointments
 			}
 		]
 	};
@@ -186,6 +207,13 @@ export const RouterConfigTeamConsultant = (): any => {
 				icon: 'person',
 				titleKeys: {
 					large: 'navigation.profile'
+				}
+			},
+			{
+				to: '/termine',
+				icon: 'calendar',
+				titleKeys: {
+					large: 'navigation.appointments'
 				}
 			}
 		],
@@ -281,6 +309,11 @@ export const RouterConfigTeamConsultant = (): any => {
 				path: '/profile',
 				exact: false,
 				component: Profile
+			},
+			{
+				path: '/termine',
+				exact: false,
+				component: Appointments
 			}
 		]
 	};
