@@ -139,9 +139,7 @@ export const sanitizeHtmlExtendedPasteOptions = {
 		'h4',
 		'h5',
 		'h6',
-		'a',
-		'pre',
-		'code'
+		'a'
 	]
 };
 
