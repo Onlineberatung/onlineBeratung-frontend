@@ -70,11 +70,12 @@ interface FetchDataProps {
 export const fetchData = (props: FetchDataProps): Promise<any> =>
 	new Promise((resolve, reject) => {
 		const accessToken = getValueFromCookie('keycloak');
-		const authorization = !props.skipAuth
-			? {
-					Authorization: `Bearer ${accessToken}`
-			  }
-			: null;
+		const authorization =
+			!props.skipAuth && accessToken
+				? {
+						Authorization: `Bearer ${accessToken}`
+				  }
+				: null;
 
 		const csrfToken = generateCsrfToken();
 

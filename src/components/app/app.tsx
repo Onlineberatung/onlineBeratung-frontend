@@ -16,6 +16,8 @@ import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/la
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
 import { LegalLinkInterface } from '../../globalState';
+import VideoConference from '../videoConference/VideoConference';
+import { config } from '../../resources/scripts/config';
 
 export const history = createBrowserHistory();
 
@@ -143,6 +145,9 @@ export const App = ({
 									/>
 								</Route>
 							)}
+							<Route path={config.urls.videoConference} exact>
+								<VideoConference legalLinks={legalLinks} />
+							</Route>
 							{isInitiallyLoaded && (
 								<AuthenticatedApp
 									legalLinks={legalLinks}
