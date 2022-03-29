@@ -166,6 +166,12 @@ export const ConsultantPrivateData = () => {
 					className="tertiary"
 				/>
 			</div>
+			<div className="profile__data__item">
+				<p className="profile__data__label">
+					{translate('profile.data.userName')}
+				</p>
+				<p className="profile__data__content">{userData.userName}</p>
+			</div>
 			<EditableData
 				label={emailLabel}
 				type="email"
