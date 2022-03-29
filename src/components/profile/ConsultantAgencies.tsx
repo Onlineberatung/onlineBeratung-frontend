@@ -38,8 +38,16 @@ export const ConsultantAgencies = () => {
 								<div>
 									<GenerateQrCode
 										url={`${config.urls.registration}?aid=${item.id}`}
-										agency={item.name}
-										type="agency"
+										filename={'beratungsstelle'}
+										headline={translate(
+											`qrCode.agency.overlay.headline`
+										)}
+										text={translate(
+											`qrCode.agency.overlay.info`,
+											{
+												agency: item.name
+											}
+										)}
 									/>
 								</div>
 								<div className="ml--2 mt-l--1 ml-l--0">

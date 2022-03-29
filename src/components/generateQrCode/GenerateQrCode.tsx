@@ -10,14 +10,16 @@ import { Text } from '../text/Text';
 
 interface GenerateQrCodeProps {
 	url: string;
-	type: 'personal' | 'agency';
-	agency?: string;
+	headline: string;
+	text?: string;
+	filename: string;
 }
 
 export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
-	type,
 	url,
-	agency
+	headline,
+	text,
+	filename
 }) => {
 	const [qr, setQr] = useState('');
 	const [qrDownload, setQrDownload] = useState('');
@@ -52,29 +54,13 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 		return (
 			<div className="generateQrCode__overlayContent">
 				<img alt={translate('qrCode.overlay.image.alt')} src={qr} />
-				<Headline
-					semanticLevel="3"
-					text={translate(`qrCode.${type}.overlay.headline`)}
-				/>
-				{type === 'personal' && (
-					<Text
-						text={translate(`qrCode.personal.overlay.info`)}
-						type="standard"
-					/>
-				)}
-				{type === 'agency' && (
-					<Text
-						text={`${translate(
-							`qrCode.agency.overlay.info.1`
-						)} ${agency} ${translate(
-							`qrCode.agency.overlay.info.2`
-						)}`}
-						type="standard"
-					/>
-				)}
+				<Headline semanticLevel="3" text={headline} />
+				{text && <Text text={text} type="standard" />}
 				<a
 					download={
-						translate(`qrCode.download.filename.${type}`) + '.png'
+						translate(`qrCode.download.filename`, {
+							filename
+						}) + '.png'
 					}
 					href={qrDownload}
 				>

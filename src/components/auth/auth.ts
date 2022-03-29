@@ -84,8 +84,8 @@ const startTimers = ({
 	}
 };
 
-export const handleTokenRefresh = (): Promise<void> => {
-	return new Promise((resolve) => {
+export const handleTokenRefresh = (redirect: boolean = true): Promise<void> => {
+	return new Promise((resolve, reject) => {
 		const currentTime = new Date().getTime();
 		const tokenExpiry = getTokenExpiryFromLocalStorage();
 		const accessTokenValidInMs =
@@ -96,8 +96,8 @@ export const handleTokenRefresh = (): Promise<void> => {
 
 		if (refreshTokenValidInMs <= 0 && accessTokenValidInMs <= 0) {
 			// access token and refresh token no longer valid, logout
-			logout(true, config.urls.toLogin);
-			resolve();
+			logout(redirect, config.urls.toLogin);
+			reject();
 		} else if (accessTokenValidInMs <= 0) {
 			// access token no longer valid but refresh token still valid, refresh tokens
 			refreshTokens().then(() => {
