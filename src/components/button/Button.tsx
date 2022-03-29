@@ -27,7 +27,8 @@ export interface ButtonItem {
 		| 'red'
 		| 'yellow'
 		| 'grey'
-		| 'alternate';
+		| 'alternate'
+		| 'secondary';
 	title?: string;
 	type: string;
 }

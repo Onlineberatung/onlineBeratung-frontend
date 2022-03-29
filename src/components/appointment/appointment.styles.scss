@@ -1,0 +1,38 @@
+.appointment {
+	&__actions {
+		svg {
+			width: 20px;
+			height: 20px;
+			path {
+				fill: $primary;
+			}
+		}
+	}
+
+	&__description {
+		@include breakpoint($fromLarge) {
+			max-width: 500px;
+		}
+	}
+
+	&__divider,
+	&__date {
+		font-family: $font-family-divider;
+	}
+
+	&__date {
+		color: $primary;
+		font-size: 12px;
+		line-height: 18px;
+		font-style: normal;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+
+		span {
+			font-size: 28px;
+			letter-spacing: normal;
+			line-height: 30px;
+		}
+	}
+}
