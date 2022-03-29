@@ -212,7 +212,10 @@ export const Profile = (props: ProfileProps) => {
 									)
 								)
 								.map((tab) => (
-									<div className="text--nowrap flex__col--no-grow">
+									<div
+										className="text--nowrap flex__col--no-grow"
+										key={tab.url}
+									>
 										<NavLink
 											to={`/profile${tab.url}`}
 											activeClassName="active"
