@@ -6,7 +6,6 @@ import {
 } from '../sessions';
 import { config } from '../../../src/resources/scripts/config';
 import {
-	askerSessions,
 	getAskerSessions,
 	setAskerSessions,
 	updateAskerSession
@@ -60,13 +59,16 @@ Cypress.Commands.add('mockApi', () => {
 			defaultReturns['consultingTypes'].push(consultingType);
 		}
 	);
-
 	cy.fixture('service.consultingtypes.addiction.json').then(
 		(consultingType) => {
 			defaultReturns['consultingTypes'].push(consultingType);
 		}
 	);
-
+	cy.fixture('service.consultingtypes.pregnancy.json').then(
+		(consultingType) => {
+			defaultReturns['consultingTypes'].push(consultingType);
+		}
+	);
 	cy.fixture('service.consultingtypes.u25.json').then((consultingType) => {
 		defaultReturns['consultingTypes'].push(consultingType);
 	});
@@ -86,12 +88,13 @@ Cypress.Commands.add('mockApi', () => {
 		defaultReturns['auth'] = auth;
 	});
 
-	cy.fixture('service.users.data.consultants').then((userData) => {
-		defaultReturns['userData'][USER_CONSULTANT] = userData;
-
-		cy.fixture('service.users.data.askers').then((userData) => {
-			defaultReturns['userData'][USER_ASKER] = userData;
+	cy.fixture('service.users.data.consultants').then((usersData) => {
+		usersData.forEach((userData) => {
+			defaultReturns['userData'][userData.userId] = userData;
 		});
+	});
+	cy.fixture('service.users.data.askers').then((userData) => {
+		defaultReturns['userData'][USER_ASKER] = userData;
 	});
 
 	cy.intercept('GET', `${config.endpoints.consultantSessions}*`, (req) => {
@@ -178,9 +181,11 @@ Cypress.Commands.add('mockApi', () => {
 
 	cy.intercept('POST', config.endpoints.startVideoCall, {
 		fixture: 'service.videocalls.new'
-	});
+	}).as('startVideoCall');
 
-	cy.intercept('POST', config.endpoints.rejectVideoCall, {});
+	cy.intercept('POST', config.endpoints.rejectVideoCall, {}).as(
+		'rejectVideoCall'
+	);
 
 	cy.intercept('POST', config.endpoints.attachmentUpload, (req) =>
 		req.reply({

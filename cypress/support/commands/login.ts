@@ -3,9 +3,10 @@ import { CyHttpMessages, RouteHandler } from 'cypress/types/net-stubbing';
 
 export const USER_ASKER = 'asker';
 export const USER_CONSULTANT = 'consultant';
+export const USER_VIDEO = 'video';
 
 export interface LoginArgs {
-	username?: typeof USER_ASKER | typeof USER_CONSULTANT;
+	username?: typeof USER_ASKER | typeof USER_CONSULTANT | typeof USER_VIDEO;
 	auth?: {
 		expires_in?: number;
 		refresh_expires_in?: number;
