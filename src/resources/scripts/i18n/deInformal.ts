@@ -4,6 +4,8 @@ import archive from './de/archive';
 import archiveInformal from './de/archiveInformal';
 import attachments from './de/attachments';
 import attachmentsInformal from './de/attachmentsInformal';
+import appointments from './de/appointments';
+import appointmentsInformal from './de/appointmentsInformal';
 import deleteAccount from './de/deleteAccount';
 import deleteAccountInformal from './de/deleteAccountInformal';
 import deleteSession from './de/deleteSession';
@@ -30,6 +32,8 @@ import twoFactorAuth from './de/twoFactorAuth';
 import twoFactorAuthInformal from './de/twoFactorAuthInformal';
 import videoCall from './de/videoCall';
 import videoCallInformal from './de/videoCallInformal';
+import videoConference from './de/videoConference';
+import videoConferenceInformal from './de/videoConferenceInformal';
 import de from './de';
 
 const informalLocale = {
@@ -37,6 +41,7 @@ const informalLocale = {
 	absence: { ...absence, ...absenceInformal },
 	archive: { ...archive, ...archiveInformal },
 	attachments: { ...attachments, ...attachmentsInformal },
+	appointments: { ...appointments, ...appointmentsInformal },
 	deleteAccount: { ...deleteAccount, ...deleteAccountInformal },
 	deleteSession: { ...deleteSession, ...deleteSessionInformal },
 	groupChat: { ...groupChat, ...groupChatInformal },
@@ -49,7 +54,8 @@ const informalLocale = {
 	sessionList: { ...sessionList, ...sessionListInformal },
 	statusOverlay: { ...statusOverlay, ...statusOverlayInformal },
 	twoFactorAuth: { ...twoFactorAuth, ...twoFactorAuthInformal },
-	videoCall: { ...videoCall, ...videoCallInformal }
+	videoCall: { ...videoCall, ...videoCallInformal },
+	videoConference: { ...videoConference, ...videoConferenceInformal }
 };
 
 export default informalLocale;
