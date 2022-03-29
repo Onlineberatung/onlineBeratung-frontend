@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useState, useEffect } from 'react';
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import {
@@ -16,9 +16,56 @@ import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { config } from '../../resources/scripts/config';
 import { Tooltip } from '../tooltip/Tooltip';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
+import { PenIcon } from '../../resources/img/icons';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { EditableData } from '../editableData/EditableData';
+import useUpdateUserData from '../../utils/useUpdateUserData';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
 
 export const ConsultantInformation = () => {
 	const { userData } = useContext(UserDataContext);
+	const updateUserData = useUpdateUserData();
+	const [isEditEnabled, setIsEditEnabled] = useState(false);
+	const [isSaveDisabled, setIsSaveDisabled] = useState(false);
+	const [editedDisplayName, setEditedDisplayName] = useState('');
+
+	const cancelEditButton: ButtonItem = {
+		label: translate('profile.data.edit.button.cancel'),
+		type: BUTTON_TYPES.LINK
+	};
+
+	const saveEditButton: ButtonItem = {
+		disabled: isSaveDisabled,
+		label: translate('profile.data.edit.button.save'),
+		type: BUTTON_TYPES.LINK
+	};
+
+	const handleValidDisplayName = (displayName) => {
+		setEditedDisplayName(displayName);
+	};
+
+	const handleCancelEditButton = () => {
+		setIsEditEnabled(false);
+	};
+
+	const handleSaveEditButton = () => {
+		apiPatchUserData({ displayName: editedDisplayName }).then(() => {
+			setIsEditEnabled(true);
+			updateUserData();
+		});
+	};
+
+	useEffect(() => {
+		setEditedDisplayName(userData.displayName);
+	}, [userData.displayName]);
+
+	useEffect(() => {
+		if (editedDisplayName) {
+			setIsSaveDisabled(false);
+		} else {
+			setIsSaveDisabled(true);
+		}
+	}, [editedDisplayName]);
 
 	return (
 		<div>
@@ -29,28 +76,51 @@ export const ConsultantInformation = () => {
 						text={translate('profile.data.title.information')}
 						semanticLevel="5"
 					/>
-					{hasUserAuthority(
-						AUTHORITIES.CONSULTANT_DEFAULT,
-						userData
-					) && (
-						<PersonalRegistrationLink
-							cid={userData.userId}
-							className="profile__user__personal_link mt-l--1 mb-l--1 mt-xl--0 mb-xl--0"
-						/>
+					{!isEditEnabled && (
+						<span
+							role="button"
+							className="primary"
+							onClick={() => {
+								setIsEditEnabled(true);
+							}}
+						>
+							<PenIcon />
+						</span>
 					)}
 				</div>
+				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
+					<PersonalRegistrationLink
+						cid={userData.userId}
+						className="profile__user__personal_link mt-l--1 mb-l--1 mt-xl--0 mb-xl--0"
+					/>
+				)}
+			</div>
+			<div>
 				<Text
 					text={translate('profile.data.info.public')}
 					type="standard"
 					className="tertiary"
 				/>
 			</div>
-			<div className="profile__data__item">
-				<p className="profile__data__label">
-					{translate('profile.data.userName')}
-				</p>
-				<p className="profile__data__content">{userData.userName}</p>
-			</div>
+			<EditableData
+				label={translate('profile.data.displayName')}
+				type="text"
+				initialValue={userData.displayName}
+				isDisabled={!isEditEnabled}
+				onValueIsValid={handleValidDisplayName}
+			/>
+			{isEditEnabled && (
+				<div className="editableData__buttonSet editableData__buttonSet--edit">
+					<Button
+						item={cancelEditButton}
+						buttonHandle={handleCancelEditButton}
+					/>
+					<Button
+						item={saveEditButton}
+						buttonHandle={handleSaveEditButton}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };
