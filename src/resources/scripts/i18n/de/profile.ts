@@ -2,7 +2,7 @@ const profile = {
 	'noContent': 'Keine Angabe',
 	'header.title': 'Profil',
 	'functions.title': 'Funktionen',
-	'functions.absenceTitle': 'Abwesenheit',
+	'functions.absenceTitle': 'Meine Abwesenheit',
 	'functions.absenceLabel': 'Hinterlegen Sie eine Abwesenheitsnachricht',
 	'functions.absenceButtonSave': 'Speichern',
 	'functions.absenceButtonChange': 'Ändern',
@@ -20,14 +20,16 @@ const profile = {
 	'functions.passwordResetNotSame': 'Ihr Passwort ist nicht identisch.',
 	'functions.passwordResetOldIncorrect': 'Ihr Passwort ist nicht korrekt.',
 	'functions.passwordResetInstructions':
-		'Ihr Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:<br class="empty-line"> - Groß-/Kleinschreibung <br> - mind. eine Zahl <br> - mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...) <br> - mind. 9 Zeichen',
+		'<span class="text--bold">Ihr Passwort muss folgende Kriterien erfüllen, um eine geschützte Beratung zu garantieren:</span><ul class="pl--2 my--1"><li>Groß-/Kleinschreibung</li><li>mind. eine Zahl</li><li>mind. ein Sonderzeichen (z.B.: ?, !, +, #, &, ...)</li><li>mind. 9 Zeichen</li></ul>',
 	'functions.passwordReset.overlay.headline':
 		'Sie haben Ihr Passwort erfolgreich geändert. Sie werden nun zum Login weitergeleitet.',
 	'functions.passwordReset.overlay.buttonLabel': 'Zum Login',
+	'functions.spokenLanguages.saveError':
+		'Beim Speichern ist ein Problem aufgetaucht. Bitte versuchen Sie es erneut.',
 	'data.title': 'Über mich',
 	'data.title.private': 'Private Daten',
 	'data.info.private': 'Diese Daten können die Ratsuchenden nicht einsehen.',
-	'data.title.public': 'Öffentliche Daten',
+	'data.title.information': 'Profil Informationen',
 	'data.info.public': 'Diese Daten werden den Ratsuchenden angezeigt.',
 	'data.edit.button.cancel': 'Abbrechen',
 	'data.edit.button.save': 'Speichern',
@@ -35,7 +37,24 @@ const profile = {
 	'data.firstName': 'Vorname',
 	'data.lastName': 'Nachname',
 	'data.email': 'E-Mail-Adresse',
+	'data.title.agencies': 'Meine Beratungsstellen',
 	'data.agency': 'Beratungsstelle',
+
+	'data.agency.registrationLink.title':
+		'Registrierungslink zur Beratungsstelle in Zwischenablage kopieren',
+	'data.agency.registrationLink.text': 'Link kopieren',
+	'data.agency.registrationLink.notification.title': 'Link kopiert',
+	'data.agency.registrationLink.notification.text':
+		'Registrierungslink zur Beratungsstelle in Zwischenablage kopiert!',
+
+	'data.personal.registrationLink.title':
+		'Kontakt-Link in Zwischenablage kopieren',
+	'data.personal.registrationLink.text': 'Kontakt-Link kopieren',
+	'data.personal.registrationLink.notification.title': 'Link kopiert',
+	'data.personal.registrationLink.notification.text':
+		'Der Link wurde erfolgreich in die Zwischenablage kopiert!',
+	'data.personal.registrationLink.tooltip':
+		'Teilen Sie Ihren persönlichen Kontakt-Link mit jemanden, damit diese Person eine Onlineberatung direkt mit Ihnen starten kann.',
 	'data.register.headline':
 		'Benötigen Sie auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Sie gerne.',
 	'data.register.consultingTypeSelect.label': 'Themenfelder',
@@ -56,11 +75,25 @@ const profile = {
 		'Ihre gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung',
 	'externalRegistration.copy.start': 'Möchten Sie für „',
 	'externalRegistration.copy.end':
-		'“ zu der anderen Anwendung wechseln und sich dort registrieren? Ihre bisherigen Beratungs- und Hilfethemen finden Sie weiterhin hier.',
+		'“ zu der anderen Anwendung wechseln und sich dort registrieren?',
 	'externalRegistration.submit': 'Jetzt wechseln',
 	'externalRegistration.cancel': 'Abbrechen',
 	'footer.imprint': 'Impressum',
 	'footer.dataprotection': 'Datenschutz',
+
+	'routes.general': 'Allgemeines',
+	'routes.general.public': 'Öffentliche Daten',
+	'routes.general.privat': 'Private Daten',
+	'routes.activities': 'Meine Aktivitäten',
+	'routes.activities.statistics': 'Meine Statistik',
+	'routes.activities.absence': 'Meine Abwesenheit',
+	'routes.security': 'Sicherheit',
+	'routes.security.changePassword': 'Passwort ändern',
+	'routes.security.2fa': '2-Faktor-Authentifizierung',
+
+	'spokenLanguages.title': 'Meine Sprachen',
+	'spokenLanguages.info':
+		'Wählen Sie die Sprache(n) aus, in der Sie die Ratsuchenden beraten können. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.',
 	'statistics.title': 'Meine Statistik',
 	'statistics.period.prefix': 'Ihre Zahlen des',
 	'statistics.period.lastMonth': 'letzten Monats',
@@ -71,15 +104,30 @@ const profile = {
 	'statistics.period.display.prefix': 'Im Zeitraum vom ',
 	'statistics.period.display.suffix': ' haben Sie:',
 	'statistics.complete.title':
-		'Ihre Statistik über Ihren gesamten Beratungszeitraum können Sie hier herunterladen:',
-	'statistics.complete.filename': 'Gesamtstatistik Online-Beratung.csv',
+		'Ihre Statistik über Ihren gewählten Beratungszeitraum können Sie hier herunterladen:',
+	'statistics.complete.filename': 'Statistik Online-Beratung',
 	'statistics.complete.download.label': 'Download Excel Datei',
 	'statistics.csvHeader.numberOfAssignedSessions': 'Beratungen angenommen',
 	'statistics.csvHeader.numberOfSentMessages': 'Nachrichten geschrieben',
 	'statistics.csvHeader.numberOfSessionsWhereConsultantWasActive':
 		'Aktive Beratungen',
 	'statistics.csvHeader.videoCallDuration':
-		'Dauer von Videoanrufen in Minuten'
+		'Dauer von Videoanrufen in Minuten:Sekunden',
+	'unsetEmail.confirmOverlay.headline':
+		'Möchten Sie Ihre E-Mail-Adresse wirklich löschen?',
+	'unsetEmail.confirmOverlay.copy': 'Wenn Sie ihre E-Mail-Adresse löschen:',
+	'unsetEmail.confirmOverlay.benefit.1':
+		'erhalten Sie keine E-Mail-Benachrichtigung, wenn Ihre Berater_in Ihnen geschrieben hat',
+	'unsetEmail.confirmOverlay.benefit.2':
+		'können Sie Ihr Passwort nicht zurücksetzen, falls Sie es vergessen haben.',
+	'unsetEmail.confirmOverlay.button.confirm': 'Löschen',
+	'unsetEmail.confirmOverlay.button.deny': 'Abbrechen',
+	'unsetEmail.errorOverlay.headline':
+		'Ups! Wir konnten die E-Mail-Adresse gerade nicht löschen. Bitte versuchen Sie es noch einmal.',
+	'unsetEmail.errorOverlay.button': 'ok',
+	'unsetEmail.successOverlay.headline':
+		'Sie haben Ihre E-Mail-Adresse erfolgreich gelöscht.',
+	'unsetEmail.successOverlay.button': 'ok'
 };
 
 export default profile;

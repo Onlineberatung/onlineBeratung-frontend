@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useContext, useState, useEffect, useMemo } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useContext, useState, useEffect, useMemo, createRef } from 'react';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import {
 	typeIsTeamSession,
 	typeIsEnquiry,
@@ -15,19 +15,18 @@ import { translate } from '../../utils/translate';
 import {
 	SessionsDataContext,
 	ListItemInterface,
-	ActiveSessionGroupIdContext,
 	UserDataContext,
 	AcceptedGroupIdContext,
 	getSessionsDataKeyForSessionType,
 	getActiveSession,
 	UnreadSessionsStatusContext,
 	AUTHORITIES,
-	ACTIVE_SESSION,
 	hasUserAuthority,
-	StoppedGroupChatContext,
 	UserDataInterface,
 	getUnreadMyMessages,
-	UpdateSessionListContext
+	UpdateSessionListContext,
+	isAnonymousSession,
+	STATUS_EMPTY
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
@@ -38,7 +37,8 @@ import {
 	SESSION_COUNT,
 	apiGetAskerSessionList,
 	apiGetUserData,
-	FETCH_ERRORS
+	FETCH_ERRORS,
+	FILTER_FEEDBACK
 } from '../../api';
 import { getConsultantSessions } from './SessionsListData';
 import { Button } from '../button/Button';
@@ -55,25 +55,31 @@ import { Text } from '../text/Text';
 import clsx from 'clsx';
 
 interface GetSessionsListDataInterface {
-	increaseOffset?: boolean;
+	offset: number;
+	count: number;
 	signal?: AbortSignal;
 }
 
-export const SessionsList: React.FC = () => {
+interface SessionsListProps {
+	defaultLanguage: string;
+}
+
+export const SessionsList: React.FC<SessionsListProps> = ({
+	defaultLanguage
+}) => {
+	const { rcGroupId: groupIdFromParam } = useParams();
 	const location = useLocation();
-	let listRef: React.RefObject<HTMLDivElement> = React.createRef();
-	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
-		ActiveSessionGroupIdContext
-	);
+	const listRef = createRef<HTMLDivElement>();
 	const sessionsContext = useContext(SessionsDataContext);
 	const { sessionsData, setSessionsData } = sessionsContext;
 	const { filterStatus, setFilterStatus } = useContext(FilterStatusContext);
-
 	const currentFilter = useMemo(() => filterStatus, [filterStatus]);
+
 	const [sessionListTab, setSessionListTab] = useState(
 		new URLSearchParams(location.search).get('sessionListTab')
 	);
 	const currentTab = useMemo(() => sessionListTab, [sessionListTab]);
+
 	const [hasNoSessions, setHasNoSessions] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [abortController, setAbortController] =
@@ -93,12 +99,10 @@ export const SessionsList: React.FC = () => {
 	const { updateSessionList, setUpdateSessionList } = useContext(
 		UpdateSessionListContext
 	);
+	const [isSessionListUpdating, setIsSessionListUpdating] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [isActiveSessionCreateChat, setIsActiveSessionCreateChat] =
 		useState(false);
-	const { stoppedGroupChat, setStoppedGroupChat } = useContext(
-		StoppedGroupChatContext
-	);
 
 	let type = getTypeOfLocation();
 
@@ -111,13 +115,11 @@ export const SessionsList: React.FC = () => {
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
-			resetActiveSession();
-			fetchAskerData(acceptedGroupId, true);
+			fetchAskerData(acceptedGroupId, true).catch(() => {}); // Intentionally empty to prevent json parse errors
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const activeCreateChat =
-		activeSessionGroupId === ACTIVE_SESSION.CREATE_CHAT;
+	const activeCreateChat = groupIdFromParam === 'createGroupChat';
 
 	/* eslint-disable */
 	useEffect(() => {
@@ -125,10 +127,10 @@ export const SessionsList: React.FC = () => {
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			acceptedGroupId
 		) {
-			fetchAskerData(acceptedGroupId);
+			fetchAskerData(acceptedGroupId).catch(() => {}); // Intentionally empty to prevent json parse errors
 			setAcceptedGroupId(null);
-			setActiveSessionGroupId(null);
 		}
+
 		if (
 			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 			!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) &&
@@ -136,10 +138,13 @@ export const SessionsList: React.FC = () => {
 		) {
 			if (activeCreateChat) {
 				setIsActiveSessionCreateChat(true);
-			} else if (!activeSessionGroupId && isActiveSessionCreateChat) {
+			} else if (!groupIdFromParam && isActiveSessionCreateChat) {
 				mobileListView();
 				setIsActiveSessionCreateChat(false);
-				getSessionsListData().catch(() => {});
+				getSessionsListData({
+					offset: 0,
+					count: currentOffset + SESSION_COUNT
+				}).catch(() => {}); // Intentionally empty to prevent json parse errors
 			}
 		}
 	});
@@ -154,13 +159,23 @@ export const SessionsList: React.FC = () => {
 			setIsRequestInProgress(true);
 			setCurrentOffset(0);
 			if (acceptedGroupId !== ACCEPTED_GROUP_CLOSE) {
+				/*
+				If accepted group isset load sessions until accepted group
+				id is found in list
+				 */
 				fetchSessionsForAcceptedGroupId();
 			} else if (acceptedGroupId === ACCEPTED_GROUP_CLOSE) {
-				getSessionsListData()
+				/*
+				If group is closed update the whole loaded list of sessions
+				 */
+				getSessionsListData({
+					offset: 0,
+					count: currentOffset + SESSION_COUNT
+				})
 					.then(() => {
 						setAcceptedGroupId(null);
 					})
-					.catch(() => {});
+					.catch(() => {}); // Intentionally empty to prevent json parse errors
 			}
 		}
 	}, [acceptedGroupId]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -179,7 +194,11 @@ export const SessionsList: React.FC = () => {
 
 			const controller = new AbortController();
 			setAbortController(controller);
-			getSessionsListData({ signal: controller.signal }).catch(() => {});
+			getSessionsListData({
+				offset: 0,
+				count: SESSION_COUNT,
+				signal: controller.signal
+			}).catch(() => {}); // Intentionally empty to prevent json parse errors
 		}
 	}, [currentFilter, currentTab]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -212,38 +231,34 @@ export const SessionsList: React.FC = () => {
 	}, [sessionsData, updateSessionList]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		const refreshSessionList = async () => {
+		const refreshSessionList = () => {
 			if (
 				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 			) {
-				fetchAskerData();
+				fetchAskerData().finally(() => {
+					setIsSessionListUpdating(false);
+				});
 			} else if (
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 			) {
-				getSessionsListData();
+				getSessionsListData({
+					offset: 0,
+					count: currentOffset + SESSION_COUNT
+				})
+					.catch(() => {}) // Intentionally empty to prevent json parse errors
+					.finally(() => {
+						setIsSessionListUpdating(false);
+					});
 			}
 		};
 
-		if (updateSessionList) {
+		if (updateSessionList && !isSessionListUpdating) {
+			setIsSessionListUpdating(true);
 			refreshSessionList();
 		}
 		setUpdateSessionList(null);
 	}, [updateSessionList, userData]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		if (stoppedGroupChat) {
-			if (
-				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				!hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
-			) {
-				getSessionsListData().catch(() => {});
-			} else {
-				fetchAskerData();
-			}
-			setStoppedGroupChat(false);
-		}
-	}, [stoppedGroupChat]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const fetchSessionsForAcceptedGroupId = (increasedOffset?: number) => {
 		const updatedOffset = increasedOffset ?? currentOffset;
@@ -270,7 +285,7 @@ export const SessionsList: React.FC = () => {
 					);
 				}
 			})
-			.catch(() => {})
+			.catch(() => {}) // Intentionally empty to prevent json parse errors
 			.finally(() => {
 				setIsLoading(false);
 				setLoadingWithOffset(false);
@@ -312,12 +327,6 @@ export const SessionsList: React.FC = () => {
 		}
 	};
 
-	const resetActiveSession = () => {
-		if (window.location.href.indexOf(activeSessionGroupId) === -1) {
-			setActiveSessionGroupId(null);
-		}
-	};
-
 	const showFilter =
 		!typeIsEnquiry(type) &&
 		sessionListTab !== SESSION_LIST_TAB.ARCHIVE &&
@@ -331,11 +340,17 @@ export const SessionsList: React.FC = () => {
 	const getFilterToUse = (): string =>
 		showFilter ? filterStatus : INITIAL_FILTER;
 
+	/*
+	ToDo: if count > SESSION_COUNT sessions should be loaded in junks
+	 because it will be a performance issue if to many sessions are loaded.
+	 Currently its not possible because getConsultantSessions will already
+	 update the sessions which will trigger unexpected effects
+	 */
 	const getSessionsListData = ({
-		increaseOffset,
+		offset,
+		count,
 		signal
-	}: GetSessionsListDataInterface = {}): Promise<any> => {
-		resetActiveSession();
+	}: GetSessionsListDataInterface): Promise<any> => {
 		if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
@@ -344,23 +359,19 @@ export const SessionsList: React.FC = () => {
 		}
 		setIsRequestInProgress(true);
 
-		let useOffset = currentOffset;
-		if (increaseOffset) {
-			setLoadingWithOffset(true);
-			useOffset = currentOffset + SESSION_COUNT;
-		}
 		return new Promise((resolve, reject) => {
 			getConsultantSessions({
 				context: sessionsContext,
 				type: type,
-				offset: useOffset,
+				offset,
+				count,
 				useFilter: getFilterToUse(),
 				sessionListTab: sessionListTab,
-				...(signal && { signal: signal })
+				...(signal && { signal })
 			})
 				.then(({ sessions, total }) => {
 					setTotalItems(total);
-					setCurrentOffset(useOffset);
+					setCurrentOffset(offset + count - SESSION_COUNT);
 					setIsLoading(false);
 					setHasNoSessions(false);
 					resolve(sessions);
@@ -368,7 +379,7 @@ export const SessionsList: React.FC = () => {
 				.catch((error) => {
 					if (
 						error.message === FETCH_ERRORS.EMPTY &&
-						increaseOffset
+						currentOffset < count - SESSION_COUNT
 					) {
 						setIsLoading(false);
 						setIsReloadButtonVisible(true);
@@ -400,21 +411,32 @@ export const SessionsList: React.FC = () => {
 		newRegisteredSessionId: number | string = null,
 		redirectToEnquiry: boolean = false
 	) => {
-		apiGetAskerSessionList()
+		return apiGetAskerSessionList()
 			.then((response) => {
 				setSessionsData({
 					mySessions: response.sessions
 				});
+				const firstSession = response.sessions[0].session;
 				if (
 					response.sessions.length === 1 &&
-					response.sessions[0].session?.status === 0
+					firstSession?.status === STATUS_EMPTY
 				) {
 					history.push(`/sessions/user/view/write`);
+				} else if (
+					response.sessions.length === 1 &&
+					isAnonymousSession(firstSession) &&
+					hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+				) {
+					setIsLoading(false);
+					history.push(
+						`/sessions/user/view/${firstSession.groupId}/${firstSession.id}`
+					);
 				} else {
 					setIsLoading(false);
 					if (newRegisteredSessionId && redirectToEnquiry) {
-						setActiveSessionGroupId(newRegisteredSessionId);
-						history.push(`/sessions/user/view/write`);
+						history.push(
+							`/sessions/user/view/write/${newRegisteredSessionId}`
+						);
 						apiGetUserData()
 							.then((userProfileData: UserDataInterface) => {
 								setUserData(userProfileData);
@@ -448,7 +470,11 @@ export const SessionsList: React.FC = () => {
 				!isReloadButtonVisible &&
 				!isRequestInProgress
 			) {
-				getSessionsListData({ increaseOffset: true });
+				setLoadingWithOffset(true);
+				getSessionsListData({
+					offset: currentOffset + SESSION_COUNT,
+					count: SESSION_COUNT
+				}).catch(() => {}); // Intentionally empty to prevent json parse errors
 			}
 		}
 	};
@@ -456,19 +482,21 @@ export const SessionsList: React.FC = () => {
 	const handleSelect = (selectedOption) => {
 		setCurrentOffset(0);
 		setHasNoSessions(false);
-		setActiveSessionGroupId(null);
 		setFilterStatus(selectedOption.value);
 		history.push(getSessionListPathForLocation());
 	};
 
 	const handleReloadButton = () => {
 		setIsReloadButtonVisible(false);
-		getSessionsListData().catch(() => {});
+		getSessionsListData({
+			offset: 0,
+			count: currentOffset + SESSION_COUNT
+		}).catch(() => {}); // Intentionally empty to prevent json parse errors
 	};
 
 	const selectedOptionsSet = [
 		{
-			value: 'feedback',
+			value: FILTER_FEEDBACK,
 			label: hasUserAuthority(
 				AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 				userData
@@ -642,6 +670,7 @@ export const SessionsList: React.FC = () => {
 										key={index}
 										type={type}
 										id={getChatItemForSession(item).id}
+										defaultLanguage={defaultLanguage}
 									/>
 							  ))
 							: !activeCreateChat && (

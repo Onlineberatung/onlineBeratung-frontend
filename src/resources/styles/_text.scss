@@ -1,0 +1,31 @@
+.text {
+	&--bold {
+		font-weight: bold;
+	}
+
+	&--nowrap {
+		white-space: nowrap;
+	}
+
+	&--left {
+		text-align: left;
+	}
+	&--center {
+		text-align: center;
+	}
+	&--right {
+		text-align: right;
+	}
+
+	&--primary {
+		font-size: $font-size-primary;
+		line-height: $line-height-primary;
+	}
+	&--secondary {
+		font-size: $font-size-secondary;
+		line-height: $line-height-secondary;
+	}
+	&--tertiary {
+		font-size: $font-size-tertiary;
+	}
+}

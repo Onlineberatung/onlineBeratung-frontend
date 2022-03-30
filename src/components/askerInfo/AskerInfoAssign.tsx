@@ -2,9 +2,6 @@ import * as React from 'react';
 import { useContext } from 'react';
 import { translate } from '../../utils/translate';
 import {
-	getActiveSession,
-	SessionsDataContext,
-	ActiveSessionGroupIdContext,
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES,
@@ -12,12 +9,10 @@ import {
 } from '../../globalState';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import { Text } from '../text/Text';
-import './askerInfoAssign.styles';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 export const AskerInfoAssign = () => {
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const { userData } = useContext(UserDataContext);
 

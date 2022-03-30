@@ -39,7 +39,7 @@ h5 {
 
 /* Global link styles */
 a {
-	color: $primary;
+	color: var(--skin-color-primary-contrast-safe, $primary);
 	text-decoration: none;
 	transition: all 0.6s ease;
 

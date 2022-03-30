@@ -6,11 +6,12 @@ import {
 	handleNumericTranslation,
 	translate
 } from '../../utils/translate';
-import { Text } from '../text/Text';
 import {
 	getAddictiveDrugsTranslatable,
 	getUserDataTranslateBase
 } from './profileHelpers';
+import { Headline } from '../headline/Headline';
+import { Box } from '../box/Box';
 
 export const AskerConsultingTypeData = () => {
 	const { userData } = useContext(UserDataContext);
@@ -28,80 +29,90 @@ export const AskerConsultingTypeData = () => {
 				(resort, index) =>
 					resort.isRegistered &&
 					resort.agency && (
-						<div className="profile__data__itemWrapper" key={index}>
-							<Text
-								text={
-									consultingTypes.find(
-										(cur) =>
-											cur.id ===
-											resort.agency.consultingType
-									)?.titles.default
-								}
-								type="divider"
-							/>
-							{resort.sessionData &&
-								Object.keys(resort.sessionData).map(
-									(item, itemIndex) => (
-										<div
-											className="profile__data__item"
-											key={itemIndex}
-										>
-											<p className="profile__data__label">
-												{translate(
-													'userProfile.data.' + item
-												)}
-											</p>
-											<p
-												className={
-													resort.sessionData[item]
-														? `profile__data__content`
-														: `profile__data__content profile__data__content--empty`
-												}
+						<Box>
+							<div
+								className="profile__data__itemWrapper"
+								key={index}
+							>
+								<div className="profile__content__title">
+									<Headline
+										className="pr--3"
+										text={
+											consultingTypes.find(
+												(cur) =>
+													cur.id ===
+													resort.agency.consultingType
+											)?.titles.default
+										}
+										semanticLevel="5"
+									/>
+								</div>
+								{resort.sessionData &&
+									Object.keys(resort.sessionData).map(
+										(item, itemIndex) => (
+											<div
+												className="profile__data__item"
+												key={itemIndex}
 											>
-												{resort.sessionData[item]
-													? item === 'addictiveDrugs'
-														? getAddictiveDrugsString(
-																getAddictiveDrugsTranslatable(
+												<p className="profile__data__label">
+													{translate(
+														'userProfile.data.' +
+															item
+													)}
+												</p>
+												<p
+													className={
+														resort.sessionData[item]
+															? `profile__data__content`
+															: `profile__data__content profile__data__content--empty`
+													}
+												>
+													{resort.sessionData[item]
+														? item ===
+														  'addictiveDrugs'
+															? getAddictiveDrugsString(
+																	getAddictiveDrugsTranslatable(
+																		resort
+																			.sessionData[
+																			item
+																		]
+																	)
+															  )
+															: handleNumericTranslation(
+																	getUserDataTranslateBase(
+																		parseInt(
+																			resort
+																				.agency
+																				.consultingType
+																		)
+																	),
+																	item,
 																	resort
 																		.sessionData[
 																		item
 																	]
-																)
-														  )
-														: handleNumericTranslation(
-																getUserDataTranslateBase(
-																	parseInt(
-																		resort
-																			.agency
-																			.consultingType
-																	)
-																),
-																item,
-																resort
-																	.sessionData[
-																	item
-																]
-														  )
-													: translate(
-															'profile.noContent'
-													  )}
-											</p>
-										</div>
-									)
-								)}
-							<div className="profile__data__item">
-								<p className="profile__data__label">
-									{translate('profile.data.agency')}
-								</p>
-								<p className="profile__data__content">
-									{resort.agency.name} <br />
-									{resort.agency.postcode}
-									{resort.agency.city
-										? ' ' + resort.agency.city
-										: ''}
-								</p>
+															  )
+														: translate(
+																'profile.noContent'
+														  )}
+												</p>
+											</div>
+										)
+									)}
+								<div className="profile__data__item">
+									<p className="profile__data__label">
+										{translate('profile.data.agency')}
+									</p>
+									<p className="profile__data__content">
+										{resort.agency.name} <br />
+										{resort.agency.postcode}
+										{resort.agency.city
+											? ' ' + resort.agency.city
+											: ''}
+									</p>
+								</div>
 							</div>
-						</div>
+						</Box>
 					)
 			)}
 		</>

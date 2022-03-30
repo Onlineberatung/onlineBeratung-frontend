@@ -16,6 +16,8 @@ import groupChat from './de/groupChat';
 import groupChatInformal from './de/groupChatInformal';
 import profile from './de/profile';
 import profileInformal from './de/profileInformal';
+import notifications from './de/notifications';
+import notificationsInformal from './de/notificationsInformal';
 import registration from './de/registration';
 import registrationInformal from './de/registrationInformal';
 import session from './de/session';
@@ -41,6 +43,7 @@ const informalLocale = {
 	enquiry: { ...enquiry, ...enquiryInformal },
 	furtherSteps: { ...furtherSteps, ...furtherStepsInformal },
 	profile: { ...profile, ...profileInformal },
+	notifications: { ...notifications, ...notificationsInformal },
 	registration: { ...registration, ...registrationInformal },
 	session: { ...session, ...sessionInformal },
 	sessionList: { ...sessionList, ...sessionListInformal },

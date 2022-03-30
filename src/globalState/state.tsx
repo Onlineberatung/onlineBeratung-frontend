@@ -1,16 +1,13 @@
 import * as React from 'react';
 import {
 	AcceptedGroupIdProvider,
-	ActiveSessionGroupIdProvider,
 	AnonymousConversationFinishedProvider,
 	AnonymousEnquiryAcceptedProvider,
-	AuthDataProvider,
 	ConsultantListProvider,
 	ConsultingTypesProvider,
 	FilterStatusProvider,
 	NotificationsProvider,
 	SessionsDataProvider,
-	StoppedGroupChatProvider,
 	UnreadSessionsStatusProvider,
 	UpdateSessionListProvider,
 	UserDataProvider,
@@ -33,16 +30,13 @@ function ContextProvider({ children }) {
 		<ProviderComposer
 			contexts={[
 				<AcceptedGroupIdProvider />,
-				<ActiveSessionGroupIdProvider />,
 				<AnonymousConversationFinishedProvider />,
 				<AnonymousEnquiryAcceptedProvider />,
-				<AuthDataProvider />,
 				<ConsultantListProvider />,
 				<ConsultingTypesProvider />,
 				<FilterStatusProvider />,
 				<NotificationsProvider />,
 				<SessionsDataProvider />,
-				<StoppedGroupChatProvider />,
 				<UnreadSessionsStatusProvider />,
 				<UpdateSessionListProvider />,
 				<UserDataProvider />,

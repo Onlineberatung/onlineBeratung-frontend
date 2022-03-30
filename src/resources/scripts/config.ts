@@ -5,6 +5,7 @@ export const apiUrl = process.env.REACT_APP_API_URL
 	? 'https://' + apiUrlEnv
 	: '';
 export const APP_PATH = 'app';
+const uiUrl = window.location.origin;
 
 export const config = {
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
@@ -59,24 +60,29 @@ export const config = {
 		teamSessionsBase:
 			apiUrl + '/service/conversations/consultants/teamsessions/',
 		tenantServiceBase: apiUrl + '/service/tenant',
-		twoFactorAuth: apiUrl + '/service/users/twoFactorAuth',
+		twoFactorAuth: apiUrl + '/service/users/2fa',
+		twoFactorAuthApp: apiUrl + '/service/users/2fa/app',
+		twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
-		userSessionsListView: '/sessions/user/view'
+		userSessionsListView: '/sessions/user/view',
+		consultantsLanguages: apiUrl + '/service/users/consultants/languages'
 	},
 	urls: {
 		toRegistration: 'https://www.caritas.de/onlineberatung',
-		toLogin: '/login',
-		toEntry: '/',
-		redirectToApp: '/' + APP_PATH,
+		registration: uiUrl + '/registration',
+		toLogin: uiUrl + '/login',
+		toEntry: uiUrl + '/',
+		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
-		error500: '/error.500.html',
-		error401: '/error.401.html',
-		error404: '/error.404.html'
-	}
+		error500: uiUrl + '/error.500.html',
+		error401: uiUrl + '/error.401.html',
+		error404: uiUrl + '/error.404.html'
+	},
+	postcodeFallbackUrl: '{url}'
 };

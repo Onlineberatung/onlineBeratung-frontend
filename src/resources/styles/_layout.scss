@@ -35,6 +35,21 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
+hr {
+	width: 100%;
+	border-bottom: 0;
+	border-color: rgba(0, 0, 0, 0.2);
+	margin: 0 0 $grid-base-two;
+}
+
+*[role='button'] {
+	cursor: pointer;
+
+	&:hover {
+		color: var(--skin-color-primary-contrast-safe, $hover-primary);
+	}
+}
+
 .layout {
 	&--default {
 		margin: 0;

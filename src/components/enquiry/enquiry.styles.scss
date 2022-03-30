@@ -1,6 +1,6 @@
-$enquiryImageSize: 170px;
-$enquiryImageWrapperSize: 280px;
-$backgroundCircleSize: 1800px;
+$enquiry-image-size: 200px !default;
+$enquiry-image-size-large: 220px !default;
+$background-circle-size: 1800px !default;
 
 .enquiry {
 	&__wrapper {
@@ -19,8 +19,8 @@ $backgroundCircleSize: 1800px;
 			&::after {
 				content: '';
 				position: absolute;
-				width: $backgroundCircleSize;
-				height: $backgroundCircleSize;
+				width: $background-circle-size;
+				height: $background-circle-size;
 				right: calc(100vw * 0.3);
 				border-radius: 100%;
 				background-color: $enquiry-circle-background;
@@ -60,38 +60,43 @@ $backgroundCircleSize: 1800px;
 		}
 	}
 
-	&__infoWrapper {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		margin: $grid-base-twelve $grid-base-two 109px;
-		overflow-y: auto;
-		max-width: 350px;
+	&__contentWrapper {
+		padding: $grid-base-six $grid-base-two $grid-base-twelve;
+		overflow: auto;
+		margin-top: $header-height;
+		margin-bottom: $message-wrapper-height;
+		position: relative;
 		z-index: 2;
 
+		@include breakpoint($fromMedium) {
+			padding: $grid-base-six $grid-base-three $grid-base-six;
+		}
+
 		@include breakpoint($fromLarge) {
-			max-width: none;
-			width: 100%;
-			flex-wrap: nowrap;
-			align-items: center;
-			margin: 0;
-			padding: 0 60px;
+			margin: 0 $grid-base-three;
+			padding: 0;
+			max-width: 900px;
+		}
+	}
+
+	&__infoWrapper {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+
+		@include breakpoint($fromLarge) {
+			flex-direction: row;
 		}
 	}
 
 	&__image {
-		width: $enquiryImageSize;
-		height: $enquiryImageSize;
-		margin-bottom: $grid-base-seven;
-		display: none;
-
-		@include breakpoint($fromSmall) {
-			display: block;
-		}
+		width: $enquiry-image-size;
+		height: $enquiry-image-size;
+		display: block;
 
 		@include breakpoint($fromLarge) {
-			width: 100%;
-			height: 100%;
+			width: $enquiry-image-size-large;
+			height: $enquiry-image-size-large;
 			max-width: 300px;
 			order: 2;
 			margin-bottom: 0;
@@ -121,7 +126,9 @@ $backgroundCircleSize: 1800px;
 
 	&__text {
 		@include breakpoint($fromLarge) {
-			max-width: 500px;
+			max-width: 600px;
+			max-height: 100%;
+			overflow: auto;
 			order: 1;
 
 			animation: fadeIn ease-out 1s;

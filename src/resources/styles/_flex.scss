@@ -1,0 +1,117 @@
+@mixin flex-wrapper($key, $breakpoint) {
+	$bpKey: if($breakpoint == null, '', '-#{$key}');
+
+	@if not $breakpoint {
+		@include flex($bpKey);
+	} @else {
+		@media screen and (min-width: $breakpoint) {
+			@include flex($bpKey);
+		}
+	}
+}
+
+@mixin flex($bpKey) {
+	.flex {
+		display: flex;
+
+		&--inline {
+			display: inline-flex;
+		}
+
+		&#{$bpKey}--wrap {
+			flex-wrap: wrap;
+		}
+
+		&#{$bpKey}--nowrap {
+			flex-wrap: nowrap;
+		}
+
+		&#{$bpKey}--fd {
+			&-row {
+				flex-direction: row;
+			}
+			&-row-reverse {
+				flex-direction: row-reverse;
+			}
+			&-column {
+				flex-direction: column;
+			}
+			&-column-reverse {
+				flex-direction: column-reverse;
+			}
+		}
+
+		&#{$bpKey}--jc {
+			&-c {
+				justify-content: center;
+			}
+			&-fe {
+				justify-content: flex-end;
+			}
+			&-fs {
+				justify-content: flex-start;
+			}
+			&-sa {
+				justify-content: space-around;
+			}
+			&-sb {
+				justify-content: space-between;
+			}
+			&-se {
+				justify-content: space-evenly;
+			}
+			&-s {
+				justify-content: stretch;
+			}
+		}
+
+		&#{$bpKey}--ai {
+			&-c {
+				align-items: center;
+			}
+			&-fe {
+				align-items: flex-end;
+			}
+			&-fs {
+				align-items: flex-start;
+			}
+			&-s {
+				align-items: stretch;
+			}
+		}
+
+		& > &#{$bpKey}__col {
+			flex: 1;
+
+			@for $i from 0 through 24 {
+				&--#{$i} {
+					flex: $i;
+				}
+			}
+
+			@for $i from 1 through 20 {
+				&--#{$i * 5}p {
+					flex: 0 0 $i * 5%;
+				}
+			}
+
+			&--no-grow {
+				flex-grow: 0;
+			}
+			&--grow {
+				flex-grow: 1;
+			}
+
+			&--no-shrink {
+				flex-shrink: 0;
+			}
+			&--shrink {
+				flex-shrink: 1;
+			}
+		}
+	}
+}
+
+@each $key, $breakpoint in $breakpoints {
+	@include flex-wrapper($key, $breakpoint);
+}

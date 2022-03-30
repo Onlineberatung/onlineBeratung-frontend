@@ -13,7 +13,12 @@ import {
 	passwordCriteria,
 	validatePasswordCriteria
 } from '../../utils/validateInputValue';
-import { AccordionItemValidity } from './registrationHelpers';
+import {
+	AccordionItemValidity,
+	VALIDITY_INITIAL,
+	VALIDITY_INVALID,
+	VALIDITY_VALID
+} from './registrationHelpers';
 import './registrationPassword.styles';
 
 interface RegistrationPasswordProps {
@@ -22,8 +27,13 @@ interface RegistrationPasswordProps {
 	passwordNote: string;
 }
 
-export const RegistrationPassword = (props: RegistrationPasswordProps) => {
-	const [isValid, setIsValid] = useState<AccordionItemValidity>('initial');
+export const RegistrationPassword = ({
+	onPasswordChange,
+	onValidityChange,
+	passwordNote
+}: RegistrationPasswordProps) => {
+	const [isValid, setIsValid] =
+		useState<AccordionItemValidity>(VALIDITY_INITIAL);
 	const [password, setPassword] = useState<string>('');
 	const [passwordLabel, setPasswordLabel] = useState<string>(null);
 	const [passwordLabelState, setPasswordLabelState] =
@@ -44,10 +54,10 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 			).every((criteria) => criteria);
 
 			if (password.length >= 1 && !areAllCriteriaValid) {
-				setPasswordLabelState('invalid');
+				setPasswordLabelState(VALIDITY_INVALID);
 				setPasswordLabel(translate('registration.password.insecure'));
 			} else if (password.length >= 1) {
-				setPasswordLabelState('valid');
+				setPasswordLabelState(VALIDITY_VALID);
 				setPasswordLabel(translate('registration.password.secure'));
 			} else {
 				setPasswordLabelState(null);
@@ -59,12 +69,12 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 	useEffect(() => {
 		let passwordFits = inputValuesFit(passwordConfirmation, password);
 		if (passwordConfirmation.length >= 1 && !passwordFits) {
-			setPasswordConfirmationLabelState('invalid');
+			setPasswordConfirmationLabelState(VALIDITY_INVALID);
 			setPasswordConfirmationLabel(
 				translate('registration.password.notSame')
 			);
 		} else if (passwordConfirmation.length >= 1) {
-			setPasswordConfirmationLabelState('valid');
+			setPasswordConfirmationLabelState(VALIDITY_VALID);
 			setPasswordConfirmationLabel(
 				translate('registration.password.same')
 			);
@@ -75,23 +85,23 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 	}, [passwordConfirmation, password]);
 
 	useEffect(() => {
-		props.onValidityChange(isValid);
-	}, [isValid, props]);
+		onValidityChange(isValid);
+	}, [isValid]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		props.onPasswordChange(password);
-	}, [password, props]);
+		onPasswordChange(password);
+	}, [password]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (
-			passwordLabelState === 'valid' &&
-			passwordConfirmationLabelState === 'valid'
+			passwordLabelState === VALIDITY_VALID &&
+			passwordConfirmationLabelState === VALIDITY_VALID
 		) {
-			setIsValid('valid');
+			setIsValid(VALIDITY_VALID);
 		} else if (!passwordLabelState && !passwordConfirmationLabelState) {
-			setIsValid('initial');
+			setIsValid(VALIDITY_INITIAL);
 		} else {
-			setIsValid('invalid');
+			setIsValid(VALIDITY_INVALID);
 		}
 	}, [passwordLabelState, passwordConfirmationLabelState]);
 
@@ -182,11 +192,11 @@ export const RegistrationPassword = (props: RegistrationPasswordProps) => {
 				item={inputItemPasswordConfirmation}
 				inputHandle={(e) => setPasswordConfirmation(e.target.value)}
 			/>
-			{props.passwordNote && (
+			{passwordNote && (
 				<div data-cy="registration-password-note">
 					<Text
 						className="registrationPassword__note"
-						text={props.passwordNote}
+						text={passwordNote}
 						type="infoLargeAlternative"
 						labelType={LABEL_TYPES.NOTICE}
 					/>

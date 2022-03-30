@@ -15,6 +15,7 @@ interface StageLayoutProps {
 	stage: ReactNode;
 	showLegalLinks?: boolean;
 	showLoginLink?: boolean;
+	loginParams?: string;
 }
 
 export const StageLayout = ({
@@ -23,6 +24,7 @@ export const StageLayout = ({
 	stage,
 	showLegalLinks,
 	showLoginLink,
+	loginParams,
 	legalLinks
 }: StageLayoutProps) => {
 	return (
@@ -63,7 +65,11 @@ export const StageLayout = ({
 						className="stageLayout__toLogin__text"
 					/>
 					<div className="stageLayout__toLogin__button">
-						<a href={config.urls.toLogin}>
+						<a
+							href={`${config.urls.toLogin}${
+								loginParams ? `?${loginParams}` : ''
+							}`}
+						>
 							<Button
 								item={{
 									label: translate(

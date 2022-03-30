@@ -18,9 +18,6 @@ import {
 } from '../../api';
 import {
 	UserDataInterface,
-	SessionsDataContext,
-	ActiveSessionGroupIdContext,
-	getActiveSession,
 	UserDataContext,
 	ConsultantListContext,
 	AcceptedGroupIdContext
@@ -32,6 +29,7 @@ import {
 } from '../select/SelectDropdown';
 import { getSessionListPathForLocation } from '../session/sessionHelpers';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 export interface Consultant {
@@ -41,11 +39,7 @@ export interface Consultant {
 }
 
 export const SessionAssign = (props: { value?: string }) => {
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
-		ActiveSessionGroupIdContext
-	);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
@@ -129,10 +123,7 @@ export const SessionAssign = (props: { value?: string }) => {
 	};
 
 	const handleDatalistSelect = (selectedOption) => {
-		apiSessionAssign(
-			parseInt(activeSession.session.id),
-			selectedOption.value
-		)
+		apiSessionAssign(activeSession.session.id, selectedOption.value)
 			.then(() => {
 				if (userData) {
 					initOverlays(selectedOption, userData);
@@ -155,7 +146,6 @@ export const SessionAssign = (props: { value?: string }) => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		setOverlayActive(false);
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setActiveSessionGroupId(null);
 			setAcceptedGroupId(ACCEPTED_GROUP_CLOSE);
 			history.push(getSessionListPathForLocation() + getSessionListTab());
 		} else {

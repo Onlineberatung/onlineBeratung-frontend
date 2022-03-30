@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useContext, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
@@ -14,33 +15,60 @@ import {
 import { BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
 import {
-	ActiveSessionGroupIdContext,
-	AcceptedGroupIdContext
+	AcceptedGroupIdContext,
+	getActiveSession,
+	SessionsDataContext
 } from '../../globalState';
-import { mobileDetailView, mobileListView } from '../app/navigationHandler';
+
+import {
+	desktopView,
+	mobileDetailView,
+	mobileListView
+} from '../app/navigationHandler';
 import { ReactComponent as EnvelopeCheckIcon } from '../../resources/img/illustrations/envelope-check.svg';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 import './enquiry.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
+import { EnquiryLanguageSelection } from './EnquiryLanguageSelection';
+import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { useResponsive } from '../../hooks/useResponsive';
 
-export const WriteEnquiry = () => {
+export const WriteEnquiry: React.FC = () => {
+	const { sessionId: sessionIdFromParam } = useParams();
+
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	let [overlayActive, setOverlayActive] = useState(false);
+	const { sessionsData } = useContext(SessionsDataContext);
+	const fixedLanguages = useContext(FixedLanguagesContext);
+
+	const [activeSession, setActiveSession] = useState(null);
+	const [overlayActive, setOverlayActive] = useState(false);
 	const [sessionId, setSessionId] = useState<number | null>(null);
 	const [groupId, setGroupId] = useState<string | null>(null);
+	const [selectedLanguage, setSelectedLanguage] = useState(fixedLanguages[0]);
 
 	useEffect(() => {
-		if (activeSessionGroupId) {
-			mobileDetailView();
-			return () => {
-				mobileListView();
-			};
+		const activeSession = getActiveSession(
+			sessionIdFromParam,
+			sessionsData
+		);
+		setActiveSession(activeSession);
+	}, [sessionIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	const { fromL } = useResponsive();
+	useEffect(() => {
+		if (sessionIdFromParam) {
+			if (!fromL) {
+				mobileDetailView();
+				return () => {
+					mobileListView();
+				};
+			}
+			desktopView();
 		} else {
 			deactivateListView();
 		}
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [fromL, sessionIdFromParam]);
 
 	const handleOverlayAction = (buttonFunction: string): void => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
@@ -110,32 +138,49 @@ export const WriteEnquiry = () => {
 		setOverlayActive(true);
 	}, []);
 
+	const isUnassignedSession =
+		(activeSession && !activeSession?.consultant) ||
+		(!activeSession && !sessionsData?.mySessions?.[0]?.consultant);
+
 	return (
 		<div className="enquiry__wrapper">
-			<div className="enquiry__infoWrapper">
-				<WelcomeIcon className="enquiry__image" />
-				<div className="enquiry__text">
-					<Headline
-						semanticLevel="3"
-						text={translate('enquiry.write.infotext.headline')}
-						className="enquiry__infotextHeadline"
-					/>
-					<Headline
-						semanticLevel="4"
-						styleLevel="5"
-						text={translate('enquiry.write.infotext.copy')}
-					/>
-					<Text
-						text={translate('enquiry.write.infotext.copy.facts')}
-						type="standard"
-						className="enquiry__facts"
-					/>
+			<div className="enquiry__contentWrapper">
+				<div className="enquiry__infoWrapper">
+					<div className="enquiry__text">
+						<Headline
+							semanticLevel="3"
+							text={translate('enquiry.write.infotext.headline')}
+							className="enquiry__infotextHeadline"
+						/>
+						<Headline
+							semanticLevel="4"
+							styleLevel="5"
+							text={translate('enquiry.write.infotext.copy')}
+						/>
+						<Text
+							text={translate(
+								'enquiry.write.infotext.copy.facts'
+							)}
+							type="standard"
+							className="enquiry__facts"
+						/>
+					</div>
+					<WelcomeIcon className="enquiry__image" />
 				</div>
+				{isUnassignedSession && (
+					<EnquiryLanguageSelection
+						className="enquiry__languageSelection"
+						handleSelection={setSelectedLanguage}
+					/>
+				)}
 			</div>
 			<MessageSubmitInterfaceComponent
 				handleSendButton={handleSendButton}
 				placeholder={translate('enquiry.write.input.placeholder')}
 				type={SESSION_LIST_TYPES.ENQUIRY}
+				sessionIdFromParam={sessionIdFromParam}
+				groupIdFromParam={null}
+				language={selectedLanguage}
 			/>
 			{overlayActive ? (
 				<OverlayWrapper>

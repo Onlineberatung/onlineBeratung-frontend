@@ -1,9 +1,9 @@
 $overlay-icon-size-xs: 24px !default;
-$overlay-steps-breakpoint: 400px !default;
-$overlay-illustration-size: 120px !default;
-$overlay-illustration-size-large: 80px !default;
+$overlay-steps-breakpoint: 560px !default;
 $overlay-icon-size: 56px !default;
 $overlay-icon-size-large: 48px !default;
+$overlay-illustration-size: 120px !default;
+$overlay-illustration-size-large: 80px !default;
 
 .overlay {
 	display: flex;
@@ -46,8 +46,12 @@ $overlay-icon-size-large: 48px !default;
 		border-radius: 4px;
 		text-align: $overlay-text-align;
 		margin: auto;
-		padding: $grid-base-six $grid-base-three;
+		padding: $grid-base-ten $grid-base-three $grid-base-six;
 		overflow: scroll;
+
+		@include breakpoint($fromMedium) {
+			padding: $grid-base-six $grid-base-three;
+		}
 
 		@include breakpoint($fromLarge) {
 			width: 100%;
@@ -111,7 +115,7 @@ $overlay-icon-size-large: 48px !default;
 				content: '';
 				border-top: 1px solid $form-disabled;
 				margin: $overlay-icon-size-xs $grid-base $overlay-icon-size-xs;
-				width: 40px;
+				width: 25px;
 
 				@include breakpoint($overlay-steps-breakpoint) {
 					margin: $overlay-icon-size-xs -14px $overlay-icon-size-xs;
@@ -172,6 +176,12 @@ $overlay-icon-size-large: 48px !default;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+
+		.text {
+			.overlay--stepped & {
+				text-align: center;
+			}
+		}
 	}
 
 	&__stepHeadline {
@@ -188,15 +198,16 @@ $overlay-icon-size-large: 48px !default;
 		@include breakpoint($fromLarge) {
 			$size: $overlay-illustration-size-large + $grid-base * 2;
 
+			position: absolute;
 			display: inline-block;
 			background-color: $white;
-			margin-top: ((-$size / 2) - $grid-base-six);
-			margin-left: auto;
-			margin-right: auto;
+			top: -$size / 2;
 			width: $size;
 			height: $size;
 			padding: $grid-base;
 			border-radius: 50%;
+			left: 50%;
+			transform: translateX(-50%);
 		}
 	}
 
@@ -248,12 +259,29 @@ $overlay-icon-size-large: 48px !default;
 	.text {
 		margin-top: $grid-base-two;
 		text-align: $overlay-text-align;
+
+		&.inputField__infoText {
+			margin-top: $grid-base;
+		}
 	}
 
 	&__nestedComponent {
 		.inputField {
 			margin: $overlay-input-field-margin;
 			max-width: 325px;
+		}
+
+		ul li,
+		ol li {
+			text-align: $overlay-list-align;
+		}
+	}
+
+	&--illustration .overlay__content {
+		padding-top: ($overlay-illustration-size / 2) + $grid-base;
+
+		@include breakpoint($fromLarge) {
+			padding-top: ($overlay-illustration-size-large / 2) + $grid-base;
 		}
 	}
 
@@ -266,7 +294,12 @@ $overlay-icon-size-large: 48px !default;
 
 	&--stepped &__nestedComponent {
 		.inputField {
+			max-width: 400px;
 			margin: $overlay-stepped-input-field-margin;
+
+			@include breakpoint($fromSmall) {
+				max-width: 325px;
+			}
 		}
 	}
 

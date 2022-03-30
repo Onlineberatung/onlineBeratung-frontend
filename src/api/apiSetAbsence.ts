@@ -8,7 +8,7 @@ export const apiSetAbsence = async (
 	const url = config.endpoints.setAbsence;
 	const absenceData = JSON.stringify({
 		absent: absentBoolVal,
-		message: absentBoolVal ? message : null
+		message: message ?? null
 	});
 
 	return fetchData({
