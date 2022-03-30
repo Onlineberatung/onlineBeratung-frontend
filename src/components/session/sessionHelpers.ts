@@ -16,6 +16,7 @@ import {
 	getPrettyDateFromMessageDate
 } from '../../utils/dateHelpers';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { decodeUsername } from '../../utils/encryptionHelpers';
 
 export enum SESSION_LIST_TYPES {
 	ENQUIRY = 'ENQUIRY',
@@ -201,7 +202,7 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 			message: message.msg,
 			messageDate: lastDateStr,
 			messageTime: date.toString(),
-			username: message.u.username,
+			displayedName: prepareDisplayedName(message.u),
 			userId: message.u._id,
 			isNotRead: message.unread,
 			alias: message.alias,
@@ -209,6 +210,15 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 			file: message.file
 		};
 	});
+};
+
+export const prepareDisplayedName = (userObject) => {
+	if (`${userObject.username}`.toLowerCase() === 'system')
+		return userObject.username;
+	if (userObject.name === null) return userObject.username;
+	if (userObject.name !== null) return decodeUsername(userObject.name);
+
+	return userObject.username;
 };
 
 export const isMyMessage = (id: string): boolean =>
