@@ -16,6 +16,9 @@ export const generateConsultantSession = ({
 		status = 2;
 	}
 
+	const sessionId = Math.random();
+	const rcGroupId = uuid();
+
 	const sessionData: SessionUserDataInterface = {
 		addictiveDrugs: null,
 		age: null,
@@ -25,12 +28,12 @@ export const generateConsultantSession = ({
 
 	return {
 		session: {
-			id: 1,
+			id: sessionId,
 			agencyId: 1,
 			consultingType: 0,
 			status,
 			postcode: '12345',
-			groupId: 'groupId',
+			groupId: rcGroupId,
 			feedbackGroupId: null,
 			askerRcId: 'askerRcId',
 			lastMessage: 'lastMessage',
