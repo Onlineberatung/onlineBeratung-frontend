@@ -50,7 +50,7 @@ export const ConsultantInformation = () => {
 
 	const handleSaveEditButton = () => {
 		apiPatchUserData({ displayName: editedDisplayName }).then(() => {
-			setIsEditEnabled(true);
+			setIsEditEnabled(false);
 			updateUserData();
 		});
 	};
@@ -105,7 +105,7 @@ export const ConsultantInformation = () => {
 			<EditableData
 				label={translate('profile.data.displayName')}
 				type="text"
-				initialValue={userData.displayName}
+				initialValue={userData.displayName || userData.userName}
 				isDisabled={!isEditEnabled}
 				onValueIsValid={handleValidDisplayName}
 			/>
