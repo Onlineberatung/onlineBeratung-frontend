@@ -28,6 +28,7 @@ export const ConsultantInformation = () => {
 	const [isEditEnabled, setIsEditEnabled] = useState(false);
 	const [isSaveDisabled, setIsSaveDisabled] = useState(false);
 	const [editedDisplayName, setEditedDisplayName] = useState('');
+	const [initialDisplayName, setInitialDisplayName] = useState('');
 
 	const cancelEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.cancel'),
@@ -49,15 +50,16 @@ export const ConsultantInformation = () => {
 	};
 
 	const handleSaveEditButton = () => {
-		apiPatchUserData({ displayName: editedDisplayName }).then(() => {
-			setIsEditEnabled(false);
-			updateUserData();
-		});
+		apiPatchUserData({ displayName: editedDisplayName })
+			.then(() => {
+				updateUserData();
+				setInitialDisplayName(editedDisplayName);
+				setIsEditEnabled(false);
+			})
+			.catch(() => {
+				setIsEditEnabled(false);
+			});
 	};
-
-	useEffect(() => {
-		setEditedDisplayName(userData.displayName);
-	}, [userData.displayName]);
 
 	useEffect(() => {
 		if (editedDisplayName) {
@@ -67,10 +69,15 @@ export const ConsultantInformation = () => {
 		}
 	}, [editedDisplayName]);
 
+	useEffect(() => {
+		setInitialDisplayName(userData.displayName || userData.userName);
+		setEditedDisplayName(userData.displayName);
+	}, [userData.displayName, userData.userName]);
+
 	return (
 		<div>
 			<div className="profile__content__title">
-				<div className="flex flex--fd-column flex--jc-fs flex-l--fd-column flex-l--jc-fs flex-xl--fd-row flex-xl--jc-sb flex-xl--wrap">
+				<div className="flex flex--fd-row flex--jc-sb">
 					<Headline
 						className="pr--3"
 						text={translate('profile.data.title.information')}
@@ -91,7 +98,7 @@ export const ConsultantInformation = () => {
 				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
 					<PersonalRegistrationLink
 						cid={userData.userId}
-						className="profile__user__personal_link mt-l--1 mb-l--1 mt-xl--0 mb-xl--0"
+						className="profile__user__personal_link mt--1 mb--1"
 					/>
 				)}
 			</div>
@@ -105,7 +112,7 @@ export const ConsultantInformation = () => {
 			<EditableData
 				label={translate('profile.data.displayName')}
 				type="text"
-				initialValue={userData.displayName || userData.userName}
+				initialValue={initialDisplayName}
 				isDisabled={!isEditEnabled}
 				onValueIsValid={handleValidDisplayName}
 			/>
@@ -161,18 +168,18 @@ const PersonalRegistrationLink = ({
 					type="personal"
 				/>
 			</div>
-			<div className="flex flex--ai-fs">
-				<span
-					role="button"
-					className="text--right text--nowrap mr--1 flex__col--no-grow flex-xl__col--grow text--tertiary primary"
-					onClick={copyRegistrationLink}
-					title={translate(
-						'profile.data.personal.registrationLink.title'
-					)}
-				>
-					<CopyIcon className={`copy icn--s`} />{' '}
-					{translate('profile.data.personal.registrationLink.text')}
-				</span>
+			<span
+				role="button"
+				className="text--right text--nowrap mr--1 text--tertiary primary"
+				onClick={copyRegistrationLink}
+				title={translate(
+					'profile.data.personal.registrationLink.title'
+				)}
+			>
+				<CopyIcon className={`copy icn--s`} />{' '}
+				{translate('profile.data.personal.registrationLink.text')}
+			</span>
+			<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
 				<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
 					<Tooltip trigger={<InfoIcon className="icn icn--xl" />}>
 						{translate(

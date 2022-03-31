@@ -4,7 +4,7 @@ import { fetchData, FETCH_METHODS } from './fetchData';
 export const apiForwardMessage = async (
 	messageData: string,
 	messageDate: string,
-	username: string,
+	displayName: string,
 	userId: string,
 	rcGroupId: string
 ): Promise<any> => {
@@ -13,7 +13,7 @@ export const apiForwardMessage = async (
 	const data = JSON.stringify({
 		message: messageData,
 		timestamp: messageDate,
-		username: username,
+		username: displayName, // TODO change to displayName if message service is adjusted
 		rcUserId: userId
 	});
 

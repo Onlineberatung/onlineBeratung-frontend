@@ -108,7 +108,7 @@ export const SessionView = (props: RouterProps) => {
 
 	const { subscribeTyping, handleTyping, typingUsers } = useTyping(
 		groupIdFromParam,
-		userData.userName
+		userData.userName // TODO: can not be changed to displayName, since websocket event only has username
 	);
 
 	const [sessionListTab] = useState(

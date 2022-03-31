@@ -202,7 +202,7 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 			message: message.msg,
 			messageDate: lastDateStr,
 			messageTime: date.toString(),
-			displayedName: prepareDisplayedName(message.u),
+			displayName: selectDisplayName(message.u),
 			userId: message.u._id,
 			isNotRead: message.unread,
 			alias: message.alias,
@@ -212,7 +212,7 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 	});
 };
 
-export const prepareDisplayedName = (userObject) => {
+export const selectDisplayName = (userObject) => {
 	if (`${userObject.username}`.toLowerCase() === 'system')
 		return userObject.username;
 	if (userObject.name === null) return userObject.username;
