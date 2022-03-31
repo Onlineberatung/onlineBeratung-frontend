@@ -92,6 +92,7 @@
 		"sockjs-client": "1.5.1",
 		"stacktrace-js": "^2.0.2",
 		"style-loader": "2.0.0",
+		"styled-components": "^5.3.5",
 		"terser-webpack-plugin": "4.2.3",
 		"ts-pnp": "1.2.0",
 		"typescript": "^4.3.4",
@@ -110,6 +111,12 @@
 		"@commitlint/cli": "13.0.0",
 		"@commitlint/config-conventional": "13.0.0",
 		"@dtsgenerator/replace-namespace": "^1.4.1",
+		"@storybook/addon-actions": "^6.4.19",
+		"@storybook/addon-essentials": "^6.4.19",
+		"@storybook/addon-interactions": "^6.4.19",
+		"@storybook/addon-links": "^6.4.19",
+		"@storybook/react": "^6.4.19",
+		"@storybook/testing-library": "0.0.9",
 		"@types/prettier": "^2.3.0",
 		"breakpoint-sass": "2.7.1",
 		"concurrently": "^6.2.0",
@@ -142,7 +149,9 @@
 		"dev:cy:wait-and-open:wait-on-cra": "wait-on http://localhost:9001",
 		"dev:cy:wait-and-open:open": "cross-env NODE_ENV=development cypress open",
 		"dtsgen": "ts-node dtsgen.ts",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"storybook": "start-storybook -p 6006",
+		"build-storybook": "build-storybook"
 	},
 	"eslintConfig": {
 		"extends": [
