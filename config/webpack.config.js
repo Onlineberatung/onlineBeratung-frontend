@@ -457,7 +457,7 @@ module.exports = function (webpackEnv) {
 							include: [
 								paths.appSrc,
 								path.resolve(
-									'node_modules/@virtualidentityag/vi-saas-frontend'
+									'node_modules/@caritasdeutschland/caritas-onlineberatung-frontend'
 								)
 							],
 							loader: require.resolve('babel-loader'),
