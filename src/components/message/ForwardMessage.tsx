@@ -9,7 +9,7 @@ interface ForwardMessageProps {
 	right: Boolean;
 	message: string;
 	messageTime: string;
-	username: string;
+	displayName: string;
 	askerRcId: string;
 	groupId: string;
 }
@@ -27,7 +27,7 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 		apiForwardMessage(
 			props.message,
 			props.messageTime,
-			props.username,
+			props.displayName,
 			props.askerRcId,
 			props.groupId
 		).then(() => {

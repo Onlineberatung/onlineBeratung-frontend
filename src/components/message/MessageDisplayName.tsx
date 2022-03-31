@@ -10,16 +10,16 @@ import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/ar
 import { ForwardMessageDTO } from './MessageItemComponent';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
-interface MessageUsernameProps {
+interface MessageDisplayNameProps {
 	alias?: ForwardMessageDTO;
 	isUser: Boolean;
 	isMyMessage: Boolean;
 	type: 'forwarded' | 'user' | 'consultant' | 'self' | 'system';
 	userId: string;
-	username: string;
+	displayName: string;
 }
 
-export const MessageUsername = (props: MessageUsernameProps) => {
+export const MessageDisplayName = (props: MessageDisplayNameProps) => {
 	const activeSession = useContext(ActiveSessionContext);
 	const chatItem = getChatItemForSession(activeSession);
 
@@ -28,7 +28,7 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 			Math.round(props.alias.timestamp / 1000)
 		);
 		return translate('message.forwardedLabel')(
-			props.alias.username,
+			props.alias.username, // TODO change to displayName if message service is adjusted
 			date,
 			formatToHHMM(props.alias.timestamp)
 		);
@@ -45,18 +45,18 @@ export const MessageUsername = (props: MessageUsernameProps) => {
 			(!props.isMyMessage && props.isUser) ||
 			(!userIsModerator() && props.isUser)
 		) {
-			return props.username;
+			return props.displayName;
 		} else {
 			return userIsModerator()
 				? translate('session.groupChat.consultant.prefix') +
-						props.username
-				: translate('session.consultant.prefix') + props.username;
+						props.displayName
+				: translate('session.consultant.prefix') + props.displayName;
 		}
 	};
 
 	return (
 		<>
-			{!props.alias && props.username && (
+			{!props.alias && props.displayName && (
 				<div
 					className={`messageItem__username messageItem__username--${props.type}`}
 				>

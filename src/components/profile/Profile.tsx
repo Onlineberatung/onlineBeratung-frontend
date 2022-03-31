@@ -176,6 +176,20 @@ export const Profile = (props: ProfileProps) => {
 		logout();
 	};
 
+	const isConsultant = hasUserAuthority(
+		AUTHORITIES.CONSULTANT_DEFAULT,
+		userData
+	);
+
+	let headline = userData.userName;
+
+	if (isConsultant) {
+		// 'firstName lastName' before displayName
+		if (userData.firstName || userData.lastName)
+			headline = `${userData.firstName} ${userData.lastName}`;
+		else if (userData.displayName) headline = userData.displayName;
+	}
+
 	return (
 		<div className="profile__wrapper" ref={scrollContainer}>
 			<div className="profile__header">
@@ -186,14 +200,7 @@ export const Profile = (props: ProfileProps) => {
 								<div className="profile__icon flex__col--no-grow">
 									<PersonIcon className="profile__icon--user" />
 								</div>
-								<h3 className="text--nowrap">
-									{hasUserAuthority(
-										AUTHORITIES.CONSULTANT_DEFAULT,
-										userData
-									)
-										? `${userData.firstName} ${userData.lastName}`
-										: userData.userName}
-								</h3>
+								<h3 className="text--nowrap">{headline}</h3>
 							</>
 						) : (
 							<Link to={`/profile`}>
