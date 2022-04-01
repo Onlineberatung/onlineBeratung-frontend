@@ -268,7 +268,13 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 									key={index}
 								>
 									<div className="profile__data__content profile__data__content--subscriber">
-										{decodeUsername(subscriber.username)}
+										{subscriber.displayName
+											? decodeUsername(
+													subscriber.displayName
+											  )
+											: decodeUsername(
+													subscriber.username
+											  )}
 										{isCurrentUserModerator &&
 											!subscriber.isModerator && (
 												<FlyoutMenu

@@ -99,6 +99,12 @@ export const SessionListItemComponent = ({
 		currentSessionData.session &&
 		currentSessionData.session.status === STATUS_ENQUIRY;
 
+	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
+	const isAnonymous = hasUserAuthority(
+		AUTHORITIES.ANONYMOUS_DEFAULT,
+		userData
+	);
+
 	if (!sessionsData) {
 		return null;
 	}
@@ -233,6 +239,24 @@ export const SessionListItemComponent = ({
 	const feedbackPath = `${getSessionListPathForLocation()}/${
 		listItem.feedbackGroupId
 	}/${listItem.id}${getSessionListTab()}`;
+
+	const hasConsultantData = !!currentSessionData.consultant;
+	let sessionTopic = '';
+
+	if (isAsker || isAnonymous) {
+		if (hasConsultantData) {
+			sessionTopic =
+				currentSessionData.consultant.displayName ||
+				currentSessionData.consultant.username;
+		} else if (isCurrentSessionNewEnquiry) {
+			sessionTopic = translate('sessionList.user.writeEnquiry');
+		} else {
+			sessionTopic = translate('sessionList.user.consultantUnknown');
+		}
+	} else {
+		sessionTopic = currentSessionData.user.username;
+	}
+
 	return (
 		<div
 			onClick={handleOnClick}
@@ -262,10 +286,7 @@ export const SessionListItemComponent = ({
 						<div className="sessionsListItem__consultingType">
 							{consultingType.titles.default}{' '}
 							{listItem.consultingType !== 1 &&
-							!hasUserAuthority(
-								AUTHORITIES.ASKER_DEFAULT,
-								userData
-							) &&
+							!isAsker &&
 							!isLiveChat(listItem)
 								? '/ ' + listItem.postcode
 								: null}
@@ -290,22 +311,7 @@ export const SessionListItemComponent = ({
 								: `sessionsListItem__username`
 						}
 					>
-						{hasUserAuthority(
-							AUTHORITIES.ASKER_DEFAULT,
-							userData
-						) ||
-						hasUserAuthority(
-							AUTHORITIES.ANONYMOUS_DEFAULT,
-							userData
-						)
-							? currentSessionData.consultant
-								? currentSessionData.consultant.username
-								: isCurrentSessionNewEnquiry
-								? translate('sessionList.user.writeEnquiry')
-								: translate(
-										'sessionList.user.consultantUnknown'
-								  )
-							: currentSessionData.user.username}
+						{sessionTopic}
 					</div>
 				</div>
 				<div className="sessionsListItem__row">
@@ -342,7 +348,7 @@ export const SessionListItemComponent = ({
 							listItemAskerRcId={listItem.askerRcId}
 						/>
 					)}
-					{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+					{!isAsker &&
 						!typeIsEnquiry(type) &&
 						!listItem.feedbackRead &&
 						!isLiveChat(listItem) &&
