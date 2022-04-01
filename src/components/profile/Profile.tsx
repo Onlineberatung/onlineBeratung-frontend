@@ -295,6 +295,7 @@ export const Profile = (props: ProfileProps) => {
 												)
 												.map((element, i) => (
 													<ProfileItem
+														key={i}
 														element={element}
 														index={i}
 														spokenLanguages={

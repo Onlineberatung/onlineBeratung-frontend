@@ -98,7 +98,7 @@ export const ConsultantInformation = () => {
 				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
 					<PersonalRegistrationLink
 						cid={userData.userId}
-						className="profile__user__personal_link mt--1 mb--1"
+						className="profile__user__personal_link mb--1"
 					/>
 				)}
 			</div>
@@ -161,31 +161,35 @@ const PersonalRegistrationLink = ({
 	}, [cid, addNotification]);
 
 	return (
-		<div className={`flex flex--wrap flex-xl--nowrap ${className}`}>
-			<div className="mb--1 mb-l--0">
+		<div
+			className={`flex flex--wrap flex--ai-c flex-xl--nowrap ${className}`}
+		>
+			<div className="mt--1">
 				<GenerateQrCode
 					url={`${config.urls.registration}?cid=${cid}`}
 					type="personal"
 				/>
 			</div>
-			<span
-				role="button"
-				className="text--right text--nowrap mr--1 text--tertiary primary"
-				onClick={copyRegistrationLink}
-				title={translate(
-					'profile.data.personal.registrationLink.title'
-				)}
-			>
-				<CopyIcon className={`copy icn--s`} />{' '}
-				{translate('profile.data.personal.registrationLink.text')}
-			</span>
-			<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
+			<div className="flex flex--ai-c flex--nowrap mt--1">
+				<span
+					role="button"
+					className="text--right text--nowrap mr--1 text--tertiary primary"
+					onClick={copyRegistrationLink}
+					title={translate(
+						'profile.data.personal.registrationLink.title'
+					)}
+				>
+					<CopyIcon className={`copy icn--s`} />{' '}
+					{translate('profile.data.personal.registrationLink.text')}
+				</span>
 				<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
-					<Tooltip trigger={<InfoIcon className="icn icn--xl" />}>
-						{translate(
-							'profile.data.personal.registrationLink.tooltip'
-						)}
-					</Tooltip>
+					<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
+						<Tooltip trigger={<InfoIcon className="icn icn--xl" />}>
+							{translate(
+								'profile.data.personal.registrationLink.tooltip'
+							)}
+						</Tooltip>
+					</div>
 				</div>
 			</div>
 		</div>
