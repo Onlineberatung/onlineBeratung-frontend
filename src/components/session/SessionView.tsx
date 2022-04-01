@@ -106,9 +106,12 @@ export const SessionView = (props: RouterProps) => {
 
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
+	const displayName = userData.displayName || userData.userName;
+
 	const { subscribeTyping, handleTyping, typingUsers } = useTyping(
 		groupIdFromParam,
-		userData.userName // TODO: can not be changed to displayName, since websocket event only has username
+		userData.userName,
+		displayName
 	);
 
 	const [sessionListTab] = useState(

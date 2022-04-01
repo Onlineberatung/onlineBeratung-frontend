@@ -42,11 +42,12 @@ function reducer(state, action: actionTyping | actionSet) {
  * Subscribe to existing rocket.chat socket
  * to send and receive typing status messages
  * and get a list of "... is typing" users
- *
- * @param groupId string
- * @param userName string
  */
-export default function useTyping(groupId, userName) {
+export default function useTyping(
+	groupId: string,
+	userName: string,
+	displayName: string
+) {
 	const typingTimeout = useRef(null);
 	const lastTypingTrigger = useRef(0);
 	const [typingUsers, dispatchTypingUsers] = useReducer(reducer, []);
@@ -70,9 +71,10 @@ export default function useTyping(groupId, userName) {
 	 * maintenance a list of (not) typing users
 	 */
 	const handleTypingResponse = useCallback(
-		([encUsername, isTyping]) => {
-			const typingUsername = decodeUsername(encUsername);
-			if (typingUsername === userName) {
+		([encUsername, isTyping, encDisplayName]) => {
+			const typingUsername = decodeUsername(encDisplayName);
+
+			if (typingUsername === displayName) {
 				return;
 			}
 
@@ -82,7 +84,7 @@ export default function useTyping(groupId, userName) {
 				isTyping
 			});
 		},
-		[userName]
+		[displayName]
 	);
 
 	/**
@@ -123,7 +125,8 @@ export default function useTyping(groupId, userName) {
 						[
 							`${groupId}/typing`,
 							encodeUsername(userName).toLowerCase(),
-							true
+							true,
+							encodeUsername(displayName)
 						]
 					);
 					lastTypingTrigger.current = now;
@@ -135,7 +138,8 @@ export default function useTyping(groupId, userName) {
 						[
 							`${groupId}/typing`,
 							encodeUsername(userName).toLowerCase(),
-							false
+							false,
+							encodeUsername(displayName)
 						]
 					);
 					typingTimeout.current = null;
@@ -154,7 +158,7 @@ export default function useTyping(groupId, userName) {
 				}
 			}
 		},
-		[groupId, subscribed, userName]
+		[groupId, subscribed, userName, displayName]
 	);
 
 	return { subscribeTyping, handleTyping, typingUsers };

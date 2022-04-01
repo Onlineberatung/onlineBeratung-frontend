@@ -202,6 +202,7 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 			message: message.msg,
 			messageDate: lastDateStr,
 			messageTime: date.toString(),
+			username: message.u.username,
 			displayName: selectDisplayName(message.u),
 			userId: message.u._id,
 			isNotRead: message.unread,
