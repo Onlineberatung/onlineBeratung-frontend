@@ -74,6 +74,8 @@ export const ConsultantInformation = () => {
 		setEditedDisplayName(userData.displayName);
 	}, [userData.displayName, userData.userName]);
 
+	const isDisplayNameFeatureEnabled = userData?.isDisplayNameEditable;
+
 	return (
 		<div>
 			<div className="profile__content__title">
@@ -83,7 +85,7 @@ export const ConsultantInformation = () => {
 						text={translate('profile.data.title.information')}
 						semanticLevel="5"
 					/>
-					{!isEditEnabled && (
+					{isDisplayNameFeatureEnabled && !isEditEnabled && (
 						<span
 							role="button"
 							className="primary"
@@ -113,10 +115,10 @@ export const ConsultantInformation = () => {
 				label={translate('profile.data.displayName')}
 				type="text"
 				initialValue={initialDisplayName}
-				isDisabled={!isEditEnabled}
+				isDisabled={!isDisplayNameFeatureEnabled || !isEditEnabled}
 				onValueIsValid={handleValidDisplayName}
 			/>
-			{isEditEnabled && (
+			{isDisplayNameFeatureEnabled && isEditEnabled && (
 				<div className="editableData__buttonSet editableData__buttonSet--edit">
 					<Button
 						item={cancelEditButton}
