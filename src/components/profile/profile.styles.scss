@@ -12,7 +12,6 @@ $groupChatIconSize: 40px;
 $maxFormElementWidth: 320px;
 $inputMaxWidth: 500px;
 
-$profile-imprint-background-color-desktop: $background-light !default;
 $profile-content-wrapper-detail-button-text-align: center !default;
 $profile-footer-justify-content: center !default;
 
@@ -52,7 +51,7 @@ $profile-footer-justify-content: center !default;
 	&__wrapper {
 		display: flex;
 		flex-direction: column;
-		background-color: $background-lighter;
+		background-color: $background-light;
 		height: 100%;
 	}
 
@@ -414,7 +413,7 @@ $profile-footer-justify-content: center !default;
 		justify-content: $profile-footer-justify-content;
 		margin-top: auto;
 		padding: $grid-base $grid-base-two;
-		background-color: $profile-imprint-background-color-mobile;
+		background-color: $profile-imprint-background-color;
 		margin-bottom: $grid-base-nine;
 		width: 100%;
 
@@ -429,7 +428,6 @@ $profile-footer-justify-content: center !default;
 			justify-content: flex-start;
 			width: 100%;
 			margin-bottom: unset;
-			background-color: $profile-imprint-background-color-desktop;
 			z-index: 100;
 		}
 
