@@ -213,3 +213,8 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 
 export const isMyMessage = (id: string): boolean =>
 	id === getValueFromCookie('rc_uid');
+
+export const isUserModerator = ({ chatItem, rcUserId }) =>
+	isGroupChat(chatItem) &&
+	chatItem.moderators &&
+	chatItem.moderators.includes(rcUserId);

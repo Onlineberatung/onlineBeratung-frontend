@@ -38,6 +38,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
+	USER_MUTED = 'USER_MUTED',
 	FORWARD = 'FORWARD',
 	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL',
@@ -84,6 +85,7 @@ interface MessageItemComponentProps extends MessageItem {
 	type: SESSION_LIST_TYPES;
 	clientName: string;
 	resortData: ConsultingTypeInterface;
+	bannedUsers: string[];
 }
 
 export const MessageItemComponent = ({
@@ -98,7 +100,8 @@ export const MessageItemComponent = ({
 	askerRcId,
 	attachments,
 	file,
-	isNotRead
+	isNotRead,
+	bannedUsers
 }: MessageItemComponentProps) => {
 	const activeSession = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -181,6 +184,7 @@ export const MessageItemComponent = ({
 	const isVideoCallMessage = alias?.messageType === MessageType.VIDEOCALL;
 	const isFinishedConversationMessage =
 		alias?.messageType === MessageType.FINISHED_CONVERSATION;
+	const isUserMutedMessage = alias?.messageType === MessageType.USER_MUTED;
 
 	const messageContent = (): JSX.Element => {
 		if (isFurtherStepsMessage) {
@@ -231,6 +235,7 @@ export const MessageItemComponent = ({
 						type={getUsernameType()}
 						userId={userId}
 						username={username}
+						isUserBanned={bannedUsers.includes(username)}
 					/>
 
 					<div
@@ -287,6 +292,8 @@ export const MessageItemComponent = ({
 			);
 		}
 	};
+
+	if (isUserMutedMessage) return null;
 
 	if (isUpdateSessionDataMessage && !showAddVoluntaryInfo) {
 		return null;

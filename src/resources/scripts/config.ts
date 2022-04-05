@@ -1,9 +1,16 @@
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
+
 export const apiUrlEnv: string = process.env.REACT_APP_API_URL;
-export const apiUrl = process.env.REACT_APP_API_URL
-	? 'https://' + apiUrlEnv
-	: '';
+
+export let apiUrl = '';
+if (apiUrlEnv) {
+	apiUrl = apiUrlEnv;
+	if (!apiUrl.startsWith('http://') && !apiUrl.startsWith('https://')) {
+		apiUrl = 'https://' + apiUrl;
+	}
+}
+
 export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
 export const APP_PATH = 'app';
 
@@ -64,7 +71,9 @@ export const config = {
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
-		consultantsLanguages: apiUrl + '/service/users/consultants/languages'
+		consultantsLanguages: apiUrl + '/service/users/consultants/languages',
+		banUser: (rcUserId, chatId) =>
+			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`
 	},
 	urls: {
 		loginRedirectToRegistrationOverview:
@@ -83,5 +92,14 @@ export const config = {
 		error401: uiUrl + '/error.401.html',
 		error404: uiUrl + '/error.404.html'
 	},
-	postcodeFallbackUrl: '{url}'
+	postcodeFallbackUrl: '{url}',
+	jitsi: {
+		/**
+		 * Enable WebRTC Encoded Transform as an alternative to insertable streams.
+		 * NOTE: Currently the only browser supporting this is Safari / WebKit, behind a flag.
+		 * This must be enabled in jitsi too. (Config value is named equal)
+		 * https://github.com/jitsi/lib-jitsi-meet/blob/afc006e99a42439c305c20faab50a1f786254676/modules/browser/BrowserCapabilities.js#L259
+		 */
+		enableEncodedTransformSupport: false
+	}
 };

@@ -2,12 +2,15 @@
 	position: fixed;
 	display: flex;
 	flex-direction: column;
-	width: 300px;
+	width: calc(100% - #{$grid-base-four});
 	z-index: 500;
+	left: $grid-base-two;
 	right: $grid-base-two;
 	top: $grid-base-two;
 
 	@include breakpoint($fromMedium) {
+		width: 300px;
+		left: auto;
 		right: $grid-base-three;
 		top: $grid-base-three;
 	}

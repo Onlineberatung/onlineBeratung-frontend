@@ -2,18 +2,7 @@ import { config } from '../../src/resources/scripts/config';
 
 describe('profile', () => {
 	beforeEach(() => {
-		cy.fixture('service.consultingtypes.addiction.json').then(
-			(addictionConsultingType) => {
-				cy.fixture('service.consultingtypes.u25.json').then(
-					(u25ConsultingType) => {
-						cy.intercept(
-							`${config.endpoints.consultingTypeServiceBase}/basic`,
-							[addictionConsultingType, u25ConsultingType]
-						);
-					}
-				);
-			}
-		);
+		cy.mockApi();
 	});
 
 	it('can register for a new consulting type with an external agency', () => {
@@ -37,7 +26,8 @@ describe('profile', () => {
 			]
 		);
 
-		cy.caritasMockedLogin();
+		cy.fastLogin();
+
 		cy.visit('/beratung-hilfe.html', {
 			onBeforeLoad(window) {
 				cy.stub(window, 'open').as('windowOpen');
@@ -91,7 +81,8 @@ describe('profile', () => {
 			status: 'CREATED'
 		});
 
-		cy.caritasMockedLogin();
+		cy.fastLogin();
+
 		cy.contains('Profil').click();
 
 		cy.get('#consultingTypeSelect').click();

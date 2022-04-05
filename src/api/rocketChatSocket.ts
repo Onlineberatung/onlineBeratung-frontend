@@ -1,5 +1,6 @@
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
-import { apiUrlEnv } from '../resources/scripts/config';
+import { decodeUsername } from '../utils/encryptionHelpers';
+import { apiUrl } from '../resources/scripts/config';
 
 const SOCKET_STATUS = {
 	CONNECTING: 0,
@@ -27,16 +28,19 @@ export class rocketChatSocket {
 
 	private getEndpoint() {
 		const host = window.location.hostname;
-		return apiUrlEnv
-			? `wss://${apiUrlEnv}/websocket`
-			: `wss://${host}/websocket`;
+		if (apiUrl) {
+			return `${apiUrl
+				.replace('http://', 'ws://')
+				.replace('https://', 'wss://')}/websocket`;
+		}
+		return `wss://${host}/websocket`;
 	}
 
 	public connect() {
 		const rcAuthToken = getValueFromCookie('rc_token');
 		this.rcWebsocket = new WebSocket(this.getEndpoint());
 
-		this.rcWebsocket.onopen = () => {
+		this.rcWebsocket.addEventListener('open', () => {
 			if (this.rcWebsocket?.readyState === SOCKET_STATUS.OPEN) {
 				// connect
 				this.rcWebsocket.send(
@@ -56,7 +60,7 @@ export class rocketChatSocket {
 					})
 				);
 			}
-		};
+		});
 
 		this.rcWebsocket.onmessage = (event) => {
 			if (
@@ -174,7 +178,16 @@ export class rocketChatSocket {
 					response.fields.args[1].u._id === this.rcUid;
 				const userTyping =
 					response.collection === SOCKET_COLLECTION.NOTIFY_ROOM;
-				if (newMessage && callbackRoom && !isTechnicalMessage) {
+
+				const userMuted =
+					response.collection === SOCKET_COLLECTION.ROOM_MESSAGES &&
+					response.fields.args &&
+					response.fields.args[0].t === 'user-muted';
+				if (userMuted) {
+					callbackRoom({
+						userMuted: decodeUsername(response.fields.args[0].msg)
+					});
+				} else if (newMessage && callbackRoom && !isTechnicalMessage) {
 					callbackRoom();
 				} else if (roomClosed && callbackUser) {
 					callbackUser();
