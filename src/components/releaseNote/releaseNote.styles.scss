@@ -1,9 +1,52 @@
 .releaseNote {
 	.overlay__content {
-		max-width: 1200px;
+		text-align: left;
+
+		.text {
+			text-align: left;
+		}
+	}
+
+	&__header {
+		margin-bottom: $grid-base-two;
+
+		.headline {
+			margin-bottom: $grid-base;
+		}
+		.text {
+			margin-top: $grid-base;
+		}
+	}
+
+	&__content {
+		max-height: calc(100vh - 520px);
+		overflow: auto;
+
+		@include breakpoint($fromMedium) {
+			max-height: calc(100vh - 490px);
+		}
+
+		@include breakpoint($fromLarge) {
+			max-height: calc(100vh - 420px);
+		}
+	}
+
+	&__footer {
+		display: flex;
+		justify-content: flex-start;
+		margin-top: $grid-base-three;
 	}
 
 	&__text {
 		text-align: left;
+
+		ul,
+		ol {
+			padding: 0 0 0 $grid-base-two;
+		}
+
+		li {
+			margin: $grid-base 0;
+		}
 	}
 }

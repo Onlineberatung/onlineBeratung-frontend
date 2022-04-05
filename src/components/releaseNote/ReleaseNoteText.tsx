@@ -7,6 +7,7 @@ import {
 	urlifyLinksInText
 } from '../messageSubmitInterface/richtextHelpers';
 import { stateToHTML } from 'draft-js-export-html';
+import { uiUrl } from '../../resources/scripts/config';
 
 interface ReleaseNoteTextProps {
 	version: string;
@@ -18,7 +19,7 @@ export const ReleaseNoteText: React.FC<ReleaseNoteTextProps> = ({
 	const [releaseNoteText, setReleaseNoteText] = useState('');
 
 	const getMarkdown = async () => {
-		const markdownFile = await fetch(`releases/v${version}.md`);
+		const markdownFile = await fetch(`${uiUrl}/releases/v${version}.md`);
 		const markdownText = await markdownFile.text();
 
 		const rawMarkdownToDraftObject = markdownToDraft(markdownText);

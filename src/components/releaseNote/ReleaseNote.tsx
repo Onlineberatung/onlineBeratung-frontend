@@ -4,14 +4,20 @@ import { version } from '../../../package.json';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { ReleaseNoteText } from './ReleaseNoteText';
+import { Headline } from '../headline/Headline';
+import { ReactComponent as newIllustration } from '../../resources/img/illustrations/new.svg';
 
 import './releaseNote.styles.scss';
+import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
+import { Text } from '../text/Text';
+import { translate } from '../../utils/translate';
 
 interface ReleaseNoteProps {}
 
 export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const [showReleaseNote, setShowRelaseNote] = useState(false);
 	const [hasSeenReleaseNote, setHasSeenReleaseNote] = useState(false);
+	const [checkboxChecked, setCheckboxChecked] = useState(false);
 
 	const closeReleaseNote = () => {
 		setShowRelaseNote(false);
@@ -24,7 +30,16 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	};
 
 	const changeHasSeenReleaseNote = (event) => {
+		setCheckboxChecked(event.target.checked);
 		localStorage.setItem(`v${version}`, `${event.target.checked}`);
+	};
+
+	const checkboxItem: CheckboxItem = {
+		checked: checkboxChecked,
+		inputId: 'seen',
+		label: translate('releaseNote.content.checkbox'),
+		labelId: 'seen_label',
+		name: 'seen'
 	};
 
 	useEffect(() => {
@@ -49,23 +64,40 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 				handleOverlayClose={closeReleaseNote}
 				handleOverlay={handleOverlayAction}
 				item={{
+					illustrationBackground: 'neutral',
+					svg: newIllustration,
 					nestedComponent: (
-						<div className="releaseNote__content">
-							<label>
-								GESEHEN
-								<input
-									type="checkbox"
-									onChange={changeHasSeenReleaseNote}
+						<>
+							<div className="releaseNote__header">
+								<Headline
+									text={translate(
+										'releaseNote.content.headline'
+									)}
+									semanticLevel="2"
 								/>
-							</label>
-							<ReleaseNoteText version={version} />
-						</div>
+								<Text
+									text={translate(
+										'releaseNote.content.intro'
+									)}
+									type="standard"
+								/>
+							</div>
+							<div className="releaseNote__content">
+								<ReleaseNoteText version={version} />
+							</div>
+							<div className="releaseNote__footer">
+								<Checkbox
+									checkboxHandle={changeHasSeenReleaseNote}
+									item={checkboxItem}
+								/>
+							</div>
+						</>
 					),
 					buttonSet: [
 						{
-							label: 'LABEL CLOSE',
+							label: translate('releaseNote.overlay.close'),
 							function: OVERLAY_FUNCTIONS.CLOSE,
-							type: BUTTON_TYPES.SECONDARY
+							type: BUTTON_TYPES.PRIMARY
 						}
 					]
 				}}
