@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentType, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import clsx from 'clsx';
 import {
@@ -14,7 +14,8 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	useConsultingType,
-	SessionConsultantInterface
+	SessionConsultantInterface,
+	LegalLinkInterface
 } from '../../globalState';
 import {
 	getViewPathForType,
@@ -36,19 +37,18 @@ import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { apiGetGroupMembers } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
-import './sessionHeader.styles';
-import './sessionHeader.yellowTheme.styles';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { BanUser } from '../banUser/BanUser';
 import { Tag } from '../tag/Tag';
+import './sessionHeader.styles';
+import './sessionHeader.yellowTheme.styles';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 	isJoinGroupChatView?: boolean;
 	bannedUsers: string[];
 }
@@ -189,7 +189,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							props.hasUserInitiatedStopOrLeaveRequest
 						}
 						isAskerInfoAvailable={isAskerInfoAvailable()}
-						legalComponent={props.legalComponent}
+						legalLinks={props.legalLinks}
 						isJoinGroupChatView={props.isJoinGroupChatView}
 					/>
 				</div>
@@ -374,7 +374,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
 					isAskerInfoAvailable={isAskerInfoAvailable()}
-					legalComponent={props.legalComponent}
+					legalLinks={props.legalLinks}
 				/>
 			</div>
 

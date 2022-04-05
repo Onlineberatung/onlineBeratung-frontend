@@ -1,11 +1,13 @@
 $attachmentIconSize: 20px;
 $sendIconSize: 24px;
-$inputShadowColor: rgba(0, 0, 0, 0.1);
+$message-submit-interface-textarea-shadow-color: rgba(0, 0, 0, 0.1) !default;
+$message-submit-interface-textarea-box-shadow: inset 0 2px 0 0
+	$message-submit-interface-textarea-shadow-color !default;
 $navWidth: $grid-base-twelve;
 $contentWidthSmall: 100vw;
 $contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 $inputBorder: 1px solid $form-input-border;
-$inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
+$inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color;
 
 .session,
 .enquiry__wrapper {
@@ -58,10 +60,11 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 			line-height: 19px;
 			width: 100%;
 			border: $inputBorder;
-			border-radius: 0 $grid-base-three $grid-base-three 0;
+			border-radius: 0 $enquiry-input-border-radius
+				$enquiry-input-border-radius 0;
 			background-color: $white;
 			box-sizing: border-box;
-			box-shadow: $inputBoxShadow;
+			box-shadow: $message-submit-interface-textarea-box-shadow;
 
 			&::placeholder,
 			&:-ms-input-placeholder {
@@ -75,8 +78,8 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 			height: $grid-base-six;
 			border-radius: $grid-base-three;
 			cursor: pointer;
-			background-color: $primary;
-			margin: 0 0 4px 4px;
+			background-color: var(--skin-color-primary, $primary);
+			margin: 0 0 4px 14px;
 			align-self: flex-end;
 			transition: background-color 0.6s ease;
 			overflow: hidden;
@@ -84,7 +87,10 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 				transform: translate(0);
 			}
 			&:hover {
-				background-color: $hover-primary;
+				background-color: var(
+					--skin-color-primary-hover,
+					$hover-primary
+				);
 			}
 			&--clicked {
 				svg {
@@ -144,7 +150,7 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 			margin: 12px 0 0 14px;
 
 			rect {
-				fill: $white;
+				fill: var(--text-color-contrast-switch, $white);
 			}
 
 			&--active {
@@ -163,10 +169,11 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 			align-items: center;
 			width: $sendInputHeight;
 			padding-left: 7px;
-			border-radius: $sendInputHeight/2 0 0 $sendInputHeight/2;
+			border-radius: $enquiry-input-border-radius 0 0
+				$enquiry-input-border-radius;
 			background: $white;
 			border: $inputBorder;
-			box-shadow: $inputBoxShadow;
+			box-shadow: $message-submit-interface-textarea-box-shadow;
 			position: relative;
 		}
 
@@ -192,14 +199,14 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 
 				&:hover {
 					* {
-						fill: $primary;
+						fill: var(--skin-color-primary, $primary);
 					}
 				}
 			}
 
 			&--active {
 				svg * {
-					fill: $primary;
+					fill: var(--skin-color-primary, $primary);
 				}
 			}
 		}
@@ -213,7 +220,8 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 			border-radius: 0 24px 0 0;
 			border-top: $inputBorder;
 			border-right: $inputBorder;
-			box-shadow: inset 0 2px 0 0 $inputShadowColor;
+			box-shadow: inset 0 2px 0 0
+				$message-submit-interface-textarea-shadow-color;
 			padding: $grid-base;
 			z-index: 10;
 
@@ -251,7 +259,7 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 
 				&--active {
 					svg * {
-						color: $primary;
+						color: var(--skin-color-primary, $primary);
 					}
 				}
 			}
@@ -279,7 +287,7 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 			&:hover {
 				svg {
 					* {
-						fill: $primary;
+						fill: var(--skin-color-primary, $primary);
 					}
 				}
 			}
@@ -315,7 +323,7 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 				height: $attachmentIconSize;
 
 				* {
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 				}
 			}
 
@@ -375,7 +383,7 @@ $inputBoxShadow: inset 0 2px 0 0 $inputShadowColor;
 		}
 		.public-DraftEditorPlaceholder-root {
 			position: absolute;
-			color: $light-grey;
+			color: $message-submit-interface-textarea-placeholder-color;
 			max-width: calc(100% - #{$grid-base-six});
 			z-index: 1;
 		}

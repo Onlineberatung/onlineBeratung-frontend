@@ -25,7 +25,7 @@
 		padding: 0;
 		font-size: 14px;
 		text-decoration: underline;
-		color: $primary;
+		color: var(--skin-color-primary-contrast-safe, $primary);
 		cursor: pointer;
 
 		&:hover {

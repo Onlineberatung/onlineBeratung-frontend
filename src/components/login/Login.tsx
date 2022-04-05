@@ -27,9 +27,9 @@ import {
 } from '../../api';
 import { OTP_LENGTH, TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import clsx from 'clsx';
+import { LegalLinkInterface, TenantContext } from '../../globalState';
 import '../../resources/styles/styles';
 import './login.styles';
-import { LegalInformationLinksProps } from './LegalInformationLinks';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
@@ -43,7 +43,7 @@ import {
 	OverlayItem,
 	OverlayWrapper
 } from '../overlay/Overlay';
-import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/willkommen.svg';
+import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 import {
 	VALIDITY_INITIAL,
 	VALIDITY_VALID
@@ -63,14 +63,14 @@ const loginButton: ButtonItem = {
 };
 
 interface LoginProps {
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 	stageComponent: ComponentType<StageProps>;
 }
 
-export const Login = ({
-	legalComponent,
-	stageComponent: Stage
-}: LoginProps) => {
+export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
+	const { tenant } = useContext(TenantContext);
+	const hasTenant = tenant != null;
+
 	const consultantId = getUrlParameter('cid');
 	const {
 		agency: preselectedAgency,
@@ -356,104 +356,131 @@ export const Login = ({
 	const isFirstVisit = useIsFirstVisit();
 
 	return (
-		<StageLayout
-			legalComponent={legalComponent}
-			stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
-			showLegalLinks
-		>
-			<div className="loginForm">
-				<div className="loginForm__headline">
-					<h1>{translate('login.headline')}</h1>
-				</div>
-				<InputField
-					item={inputItemUsername}
-					inputHandle={handleUsernameChange}
-					keyUpHandle={handleKeyUp}
-				/>
-				<InputField
-					item={inputItemPassword}
-					inputHandle={handlePasswordChange}
-					keyUpHandle={handleKeyUp}
-				/>
-				<div
-					className={clsx('loginForm__otp', {
-						'loginForm__otp--active': isOtpRequired
-					})}
-				>
-					{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
-						<Text
-							className="loginForm__emailHint"
-							text={translate(
-								'twoFactorAuth.activate.email.resend.hint'
-							)}
-							type="infoLargeAlternative"
-						/>
-					)}
+		<>
+			<StageLayout
+				legalLinks={legalLinks}
+				stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
+				showLegalLinks
+			>
+				<div className="loginForm">
+					<div className="loginForm__headline">
+						<h1>{translate('login.headline')}</h1>
+					</div>
 					<InputField
-						item={otpInputItem}
-						inputHandle={handleOtpChange}
+						item={inputItemUsername}
+						inputHandle={handleUsernameChange}
 						keyUpHandle={handleKeyUp}
 					/>
-					{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
-						<TwoFactorAuthResendMail
-							resendHandler={(callback) => {
-								tryLoginWithoutOtp();
-								callback();
-							}}
+					<InputField
+						item={inputItemPassword}
+						inputHandle={handlePasswordChange}
+						keyUpHandle={handleKeyUp}
+					/>
+					<div
+						className={clsx('loginForm__otp', {
+							'loginForm__otp--active': isOtpRequired
+						})}
+					>
+						{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
+							<Text
+								className="loginForm__emailHint"
+								text={translate(
+									'twoFactorAuth.activate.email.resend.hint'
+								)}
+								type="infoLargeAlternative"
+							/>
+						)}
+						<InputField
+							item={otpInputItem}
+							inputHandle={handleOtpChange}
+							keyUpHandle={handleKeyUp}
+						/>
+						{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
+							<TwoFactorAuthResendMail
+								resendHandler={(callback) => {
+									tryLoginWithoutOtp();
+									callback();
+								}}
+							/>
+						)}
+					</div>
+
+					{showLoginError && (
+						<Text
+							text={showLoginError}
+							type="infoSmall"
+							className="loginForm__error"
 						/>
 					)}
-				</div>
 
-				{showLoginError && (
-					<Text
-						text={showLoginError}
-						type="infoSmall"
-						className="loginForm__error"
+					{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
+						<a
+							href={config.endpoints.loginResetPasswordLink}
+							target="_blank"
+							rel="noreferrer"
+							className="loginForm__passwordReset"
+						>
+							{translate('login.resetPasswort.label')}
+						</a>
+					)}
+
+					<Button
+						item={loginButton}
+						buttonHandle={handleLogin}
+						disabled={isButtonDisabled}
 					/>
+					{!hasTenant && (
+						<div className="loginForm__register">
+							<Text
+								text={translate(
+									'login.register.infoText.title'
+								)}
+								type={'infoSmall'}
+							/>
+							<Text
+								text={translate('login.register.infoText.copy')}
+								type={'infoSmall'}
+							/>
+							<a
+								className="loginForm__register__link"
+								href={config.urls.toRegistration}
+								target="_self"
+							>
+								{translate('login.register.linkLabel')}
+							</a>
+						</div>
+					)}
+				</div>
+				{registerOverlayActive && (
+					<OverlayWrapper>
+						<Overlay
+							item={registerOverlay}
+							handleOverlay={handleOverlayAction}
+						/>
+					</OverlayWrapper>
 				)}
-
-				{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
-					<a
-						href={config.endpoints.loginResetPasswordLink}
-						target="_blank"
-						rel="noreferrer"
-						className="loginForm__passwordReset"
-					>
-						{translate('login.resetPasswort.label')}
-					</a>
-				)}
-
-				<Button
-					item={loginButton}
-					buttonHandle={handleLogin}
-					disabled={isButtonDisabled}
-				/>
-				<div className="loginForm__register">
+			</StageLayout>
+			{hasTenant && (
+				<div className="login__tenantRegistration">
 					<Text
 						text={translate('login.register.infoText.title')}
 						type={'infoSmall'}
 					/>
-					<Text
-						text={translate('login.register.infoText.copy')}
-						type={'infoSmall'}
-					/>
 					<a
-						className="loginForm__register__link"
-						href={config.urls.loginRedirectToRegistrationOverview}
+						className="login__tenantRegistrationLink"
+						href={config.urls.toRegistration}
 						target="_self"
 					>
-						{translate('login.register.linkLabel')}
+						<Button
+							item={{
+								label: translate('login.register.linkLabel'),
+								type: 'TERTIARY'
+							}}
+							isLink
+						/>
 					</a>
 				</div>
-			</div>
-			{registerOverlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={registerOverlay}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
 			)}
-		</StageLayout>
+		</>
 	);
 };

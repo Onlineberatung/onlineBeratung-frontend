@@ -40,6 +40,7 @@ import './sessionsListItem.styles';
 import { Tag } from '../tag/Tag';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
+import clsx from 'clsx';
 
 interface SessionListItemProps {
 	type: SESSION_LIST_TYPES;
@@ -68,6 +69,10 @@ export const SessionListItemComponent = ({
 		getSessionsDataKeyForSessionType(type)
 	].find((session) => id === getChatItemForSession(session).id);
 	const listItem = getChatItemForSession(currentSessionData);
+
+	const isFeedbackChat =
+		'feedbackGroupId' in listItem &&
+		listItem.feedbackGroupId === groupIdFromParam;
 
 	const language =
 		(isSessionChat(listItem) && listItem?.language) || defaultLanguage;
@@ -168,20 +173,22 @@ export const SessionListItemComponent = ({
 		return (
 			<div
 				onClick={handleOnClick}
-				className={
-					activeSession && activeSession.chat?.id === listItem.id
-						? `sessionsListItem sessionsListItem--active`
-						: `sessionsListItem`
-				}
+				className={clsx(
+					'sessionsListItem',
+					activeSession &&
+						activeSession.chat?.id === listItem.id &&
+						'sessionsListItem--active'
+				)}
 				data-group-id={listItem.groupId ? listItem.groupId : ''}
 				data-cy="session-list-item"
 			>
 				<div
-					className={
-						activeSession && activeSession.chat?.id === listItem.id
-							? `sessionsListItem__content sessionsListItem__content--active`
-							: `sessionsListItem__content`
-					}
+					className={clsx(
+						'sessionsListItem__content',
+						activeSession &&
+							activeSession.chat?.id === listItem.id &&
+							'sessionsListItem__content--active'
+					)}
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
@@ -196,11 +203,11 @@ export const SessionListItemComponent = ({
 							<Icon />
 						</div>
 						<div
-							className={
-								listItem.messagesRead
-									? `sessionsListItem__username sessionsListItem__username--readLabel`
-									: `sessionsListItem__username`
-							}
+							className={clsx(
+								'sessionsListItem__username',
+								listItem.messagesRead &&
+									'sessionsListItem__username--readLabel'
+							)}
 						>
 							{listItem.topic}
 						</div>
@@ -236,12 +243,14 @@ export const SessionListItemComponent = ({
 	return (
 		<div
 			onClick={handleOnClick}
-			className={
-				(activeSession && activeSession.session?.id === listItem?.id) ||
-				sessionIdFromParam === listItem.id
-					? `sessionsListItem sessionsListItem--active`
-					: `sessionsListItem`
-			}
+			className={clsx(
+				`sessionsListItem`,
+				((activeSession &&
+					activeSession.session?.id === listItem?.id) ||
+					sessionIdFromParam === listItem.id) &&
+					`sessionsListItem--active`,
+				isFeedbackChat && 'sessionsListItem--yellowTheme'
+			)}
 			data-group-id={listItem.groupId}
 			data-cy="session-list-item"
 		>
@@ -284,11 +293,11 @@ export const SessionListItemComponent = ({
 						<Icon />
 					</div>
 					<div
-						className={
-							listItem.messagesRead
-								? `sessionsListItem__username sessionsListItem__username--readLabel`
-								: `sessionsListItem__username`
-						}
+						className={clsx(
+							'sessionsListItem__username',
+							listItem.messagesRead &&
+								'sessionsListItem__username--readLabel'
+						)}
 					>
 						{hasUserAuthority(
 							AUTHORITIES.ASKER_DEFAULT,
@@ -325,7 +334,7 @@ export const SessionListItemComponent = ({
 						</div>
 					) : (
 						(isCurrentSessionNewEnquiry ||
-							isLiveChat(listItem)) && <span></span>
+							isLiveChat(listItem)) && <span />
 					)}
 					{listItem.attachment && (
 						<SessionListItemAttachment

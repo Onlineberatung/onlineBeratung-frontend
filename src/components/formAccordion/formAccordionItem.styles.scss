@@ -1,3 +1,11 @@
+$form-accordion-item-title-color: var(
+	--skin-color-secondary-contrast-safe,
+	$secondary
+) !default;
+$form-accordion-title-font-weight: $font-weight-medium !default;
+$form-accordion-item-input-margin-right: $grid-base-four !default;
+$form-accordion-item-input-margin-left: 0 !default;
+
 .formAccordionItem {
 	width: 100%;
 	border-bottom: 1px solid $black-25-opacity;
@@ -30,7 +38,7 @@
 		font-size: $font-size-h5;
 		font-weight: $font-weight-regular;
 		line-height: $line-height-primary;
-		color: $secondary;
+		color: $form-accordion-item-title-color;
 		text-align: left;
 	}
 
@@ -54,11 +62,22 @@
 		display: none;
 		margin-bottom: $grid-base-three;
 
+		.text,
+		ul,
+		.button__wrapper {
+			margin-left: $registration-form-margin-left;
+		}
+
+		ul .text {
+			margin-left: 0;
+		}
+
 		.inputField,
 		.consultingTypeSelection__possibleConsultingTypes .select__wrapper,
 		.consultingTypeSelection__possibleConsultingTypes + .agencySelection {
 			margin-top: $grid-base-three;
-			margin-right: $grid-base-four;
+			margin-right: $form-accordion-item-input-margin-right;
+			margin-left: $form-accordion-item-input-margin-left;
 			max-width: 360px;
 		}
 	}
@@ -74,13 +93,13 @@
 
 	&--active & {
 		&__index {
-			background-color: $form-accordion-index-background-active;
+			background: $form-accordion-index-background-active;
 			border: none;
 			color: $form-accordion-index-color-active;
 		}
 
 		&__title {
-			font-weight: $font-weight-medium;
+			font-weight: $form-accordion-title-font-weight;
 		}
 
 		&__content {

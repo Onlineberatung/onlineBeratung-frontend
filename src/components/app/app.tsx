@@ -12,15 +12,16 @@ import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { TenantThemingLoader } from './TenantThemingLoader';
+import { LegalLinkInterface } from '../../globalState';
 
 export const history = createBrowserHistory();
 
 interface AppProps {
 	stageComponent: ComponentType<StageProps>;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 	entryPoint: string;
 	extraRoutes?: ReactNode;
 	spokenLanguages?: string[];
@@ -29,7 +30,7 @@ interface AppProps {
 
 export const App = ({
 	stageComponent,
-	legalComponent,
+	legalLinks,
 	entryPoint,
 	extraRoutes,
 	spokenLanguages = languageIsoCodesSortedByName,
@@ -78,6 +79,7 @@ export const App = ({
 			<Router history={history}>
 				<FixedLanguagesContext.Provider value={fixedLanguages}>
 					<ContextProvider>
+						<TenantThemingLoader />
 						{startWebsocket && (
 							<WebsocketHandler
 								disconnect={disconnectWebsocket}
@@ -105,7 +107,7 @@ export const App = ({
 													true
 												);
 											}}
-											legalComponent={legalComponent}
+											legalLinks={legalLinks}
 											stageComponent={stageComponent}
 										/>
 									</Route>
@@ -114,6 +116,7 @@ export const App = ({
 							{!hasUnmatchedAnonymousConversation && (
 								<Route path="/:consultingTypeSlug/warteraum">
 									<WaitingRoomLoader
+										legalLinks={legalLinks}
 										handleUnmatch={() =>
 											setHasUnmatchedAnonymousConversation(
 												true
@@ -135,14 +138,14 @@ export const App = ({
 												true
 											)
 										}
-										legalComponent={legalComponent}
+										legalLinks={legalLinks}
 										stageComponent={stageComponent}
 									/>
 								</Route>
 							)}
 							{isInitiallyLoaded && (
 								<AuthenticatedApp
-									legalComponent={legalComponent}
+									legalLinks={legalLinks}
 									spokenLanguages={spokenLanguages}
 									onAppReady={() => setStartWebsocket(true)}
 									onLogout={() =>

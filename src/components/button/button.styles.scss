@@ -22,27 +22,27 @@ $buttonHeight: 50px;
 	}
 
 	&__primary {
-		color: $white;
-		background: $primary;
+		color: var(--text-color-contrast-switch, $white);
+		background: var(--skin-color-primary, $primary);
 		box-shadow: $button-box-shadow-default;
 		transition: all 0.6s ease;
 
 		&:hover {
-			background-color: $hover-primary;
+			background-color: var(--skin-color-primary-hover, $hover-primary);
 			transition: all 0.3s ease;
 		}
 	}
 
 	&__secondary {
-		color: $primary;
+		color: var(--skin-color-default, $primary);
 		background-color: transparent;
-		border: 3px solid $primary;
+		border: 3px solid var(--skin-color-default, $primary);
 		transition: all 0.6s ease;
 
 		&:hover {
 			color: $white;
-			border-color: $hover-primary;
-			background-color: $hover-primary;
+			border-color: var(--skin-color-default, $hover-primary);
+			background-color: var(--skin-color-default, $hover-primary);
 			transition: all 0.3s ease;
 		}
 	}
@@ -60,20 +60,20 @@ $buttonHeight: 50px;
 		text-transform: none;
 
 		&:hover {
-			background-color: $hover-primary;
-			color: white;
-			border-color: $hover-primary;
+			background-color: var(--skin-color-primary-hover, $hover-primary);
+			color: var(--text-color-contrast-switch, $white);
+			border-color: var(--skin-color-primary-hover, $hover-primary);
 		}
 	}
 
 	&__autoClose {
-		color: $white;
-		border: 2px solid $primary;
+		color: var(--text-color-contrast-switch, $white);
+		border: 2px solid var(--skin-color-primary, $primary);
 		box-shadow: $button-box-shadow-default;
 		background: linear-gradient(
 			to right,
-			$button-auto-close-color 50%,
-			$primary 50%
+			var(--skin-color-primary-hover, $button-auto-close-color) 50%,
+			var(--skin-color-primary, $primary) 50%
 		);
 		background-size: 200% 100%;
 
@@ -88,11 +88,11 @@ $buttonHeight: 50px;
 		}
 
 		&:hover {
-			border: 2px solid $hover-primary;
+			border: 2px solid var(--skin-color-primary-hover, $hover-primary);
 			background: linear-gradient(
 				to right,
-				$button-auto-close-color 50%,
-				$hover-primary 50%
+				var(--skin-color-primary-hover, $button-auto-close-color) 50%,
+				var(--skin-color-primary-hover, $hover-primary) 50%
 			);
 			background-size: 200% 100%;
 
@@ -109,7 +109,7 @@ $buttonHeight: 50px;
 	}
 
 	&__link {
-		color: $primary;
+		color: var(--skin-color-primary-contrast-safe, $primary);
 		background: none;
 		height: 21px;
 
@@ -118,10 +118,10 @@ $buttonHeight: 50px;
 		}
 
 		&:not([disabled]):hover {
-			color: $hover-primary;
+			color: var(--skin-color-primary-contrast-safe, $hover-primary);
 
 			svg * {
-				fill: $hover-primary;
+				fill: var(--skin-color-primary-contrast-safe, $hover-primary);
 			}
 		}
 
@@ -150,7 +150,10 @@ $buttonHeight: 50px;
 			background-color: $white;
 
 			svg {
-				fill: $button-small-icon-background-color-default;
+				fill: var(
+					--text-color-secondary-contrast-switch,
+					$button-small-icon-background-color-default
+				);
 			}
 		}
 
@@ -214,32 +217,35 @@ $buttonHeight: 50px;
 		}
 
 		&--yellow {
-			color: $secondary;
+			color: var(--skin-color-secondary-contrast-safe, $secondary);
 			background-color: $yellow-3;
 			border: none;
 
 			svg {
-				fill: $secondary;
+				fill: var(--skin-color-secondary-contrast-safe, $secondary);
 			}
 
 			&:hover {
 				background-color: $yellow-4;
 
 				svg {
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 				}
 			}
 		}
 
 		&--alternate {
-			background-color: $button-small-icon-alternate-background-color;
+			background-color: var(
+				--skin-color-secondary,
+				$button-small-icon-alternate-background-color
+			);
 			box-shadow: $button-box-shadow-grey;
 			border: none;
 
 			&:hover {
-				background-color: darken(
-					$button-small-icon-alternate-background-color,
-					7%
+				background-color: var(
+					--skin-color-secondary,
+					darken($button-small-icon-alternate-background-color, 7%)
 				);
 
 				svg {

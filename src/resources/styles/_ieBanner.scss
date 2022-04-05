@@ -1,12 +1,14 @@
+/* stylelint-disable-next-line selector-type-no-unknown, selector-no-vendor-prefix */
 _:-ms-fullscreen,
 :root .ieBanner[style] {
+	/* stylelint-disable-next-line declaration-no-important */
 	display: block !important;
 }
 
 .ieBanner {
 	display: none;
 	background: $form-medium;
-	color: $secondary;
+	color: var(--skin-color-secondary, $secondary);
 	text-align: left;
 	font-size: $font-size-primary;
 	line-height: $line-height-primary;
@@ -52,7 +54,7 @@ _:-ms-fullscreen,
 			right: $grid-base-two;
 			path {
 				transition: fill 500ms ease;
-				fill: $secondary;
+				fill: var(--skin-color-secondary-contrast-safe, $secondary);
 			}
 		}
 		&:hover {
