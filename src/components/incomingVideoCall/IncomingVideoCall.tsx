@@ -6,10 +6,16 @@ import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera
 import { translate } from '../../utils/translate';
 import { useContext } from 'react';
 import { NotificationType, NotificationsContext } from '../../globalState';
-import { getVideoCallUrl } from '../../utils/videoCallHelpers';
+import {
+	getVideoCallUrl,
+	supportsE2EEncryptionVideoCall
+} from '../../utils/videoCallHelpers';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { apiRejectVideoCall } from '../../api';
 import './incomingVideoCall.styles';
+import { isMobile } from 'react-device-detect';
+import { ReactComponent as CloseIcon } from '../../resources/img/icons/x.svg';
+import { history } from '../app/app';
 
 export interface VideoCallRequestProps {
 	rcGroupId: string;
@@ -96,19 +102,65 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 
 	return (
 		<div
-			className="notification incomingVideoCall"
+			className={`notification incomingVideoCall`}
 			data-cy="incoming-video-call"
 		>
-			<p className="incomingVideoCall__description">
-				<span className="incomingVideoCall__username">
-					{decodedUsername}
-				</span>{' '}
-				{translate('videoCall.incomingCall.description')}
-			</p>
-			<div className="incomingVideoCall__user">
-				{getInitials(decodedUsername)}
+			<div className="notification__header">
+				<div className="notification__title">
+					<div className="incomingVideoCall__user">
+						{getInitials(decodedUsername)}
+					</div>
+				</div>
+				{!supportsE2EEncryptionVideoCall() && !isMobile && (
+					<div
+						className="notification__close"
+						onClick={handleRejectVideoCall}
+					>
+						<CloseIcon />
+					</div>
+				)}
 			</div>
-			<div className="incomingVideoCall__buttons">
+
+			<p className="incomingVideoCall__description">
+				{supportsE2EEncryptionVideoCall() ? (
+					<>
+						<span className="incomingVideoCall__username">
+							{decodedUsername}
+						</span>{' '}
+						{translate('videoCall.incomingCall.description')}
+					</>
+				) : (
+					<span className="incomingVideoCall__username">
+						{translate(
+							'videoCall.incomingCall.unsupported.description',
+							{
+								username: decodedUsername
+							}
+						)}
+					</span>
+				)}
+			</p>
+
+			{!supportsE2EEncryptionVideoCall() && (
+				<div className="incomingVideoCall__hint">
+					{translate(`videoCall.incomingCall.unsupported.hint`)}
+					<div className="mt--2">
+						<button
+							onClick={() =>
+								history.push('/profile/hilfe/videoCall')
+							}
+							className="px--2 text--bold"
+							type="button"
+						>
+							{translate(
+								`videoCall.incomingCall.unsupported.button`
+							)}
+						</button>
+					</div>
+				</div>
+			)}
+
+			<div className="incomingVideoCall__buttons mt--2 py--3">
 				<Button
 					buttonHandle={() => handleAnswerVideoCall(true)}
 					item={buttonAnswerVideoCall}

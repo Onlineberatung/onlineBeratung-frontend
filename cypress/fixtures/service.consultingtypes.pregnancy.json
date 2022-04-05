@@ -1,0 +1,202 @@
+{
+	"id": 2,
+	"titles": {
+		"default": "Schwangerschaft",
+		"short": "Schwanger",
+		"long": "Schwangerschaft",
+		"welcome": "Willkommen bei der Schwangerschaft!",
+		"registrationDropdown": "Schwangerschaft"
+	},
+	"urls": {},
+	"registration": {
+		"minPostcodeSize": 5,
+		"autoSelectAgency": false,
+		"autoSelectPostcode": false,
+		"notes": {},
+		"mandatoryFields": {
+			"age": false,
+			"state": false
+		}
+	},
+	"isSubsequentRegistrationAllowed": true,
+	"isAnonymousConversationAllowed": true,
+	"isVideoCallAllowed": true,
+	"isSetEmailAllowed": true,
+	"slug": "suchtberatung",
+	"languageFormal": true,
+	"lockedAgencies": false,
+	"excludeNonMainConsultantsFromTeamSessions": false,
+	"whiteSpot": {
+		"whiteSpotAgencyAssigned": true,
+		"whiteSpotAgencyId": 100
+	},
+	"groupChat": {
+		"isGroupChat": false,
+		"groupChatRules": []
+	},
+	"consultantBoundedToConsultingType": false,
+	"welcomeMessage": {
+		"sendWelcomeMessage": false
+	},
+	"sendFurtherStepsMessage": true,
+	"sendSaveSessionDataMessage": true,
+	"sessionDataInitializing": {
+		"addictiveDrugs": true,
+		"age": true,
+		"gender": true,
+		"relation": true,
+		"state": false
+	},
+	"monitoring": {
+		"initializeMonitoring": true,
+		"monitoringTemplateFile": "addiction.json"
+	},
+	"initializeFeedbackChat": false,
+	"roles": {
+		"consultant": {
+			"main": ["consultant"],
+			"peer": ["consultant"]
+		}
+	},
+	"notifications": {
+		"teamSessions": {
+			"newMessage": {
+				"allTeamConsultants": false
+			}
+		}
+	},
+	"showAskerProfile": true,
+	"voluntaryComponents": [
+		{
+			"componentType": "RadioButton",
+			"headline": "Hintergrund",
+			"name": "relation",
+			"radioButtons": [
+				{
+					"inputId": "affected",
+					"label": "Betroffen",
+					"checked": false
+				},
+				{
+					"inputId": "relative",
+					"label": "Angehörig",
+					"checked": false
+				},
+				{
+					"inputId": "otherType",
+					"label": "Anderes",
+					"checked": false
+				}
+			]
+		},
+		{
+			"componentType": "TagSelect",
+			"headline": "Suchtmittel",
+			"name": "addictiveDrugs",
+			"tagSelects": [
+				{
+					"id": "alcohol",
+					"label": "Alkohol"
+				},
+				{
+					"id": "drugs",
+					"label": "Drogen"
+				},
+				{
+					"id": "legalHighs",
+					"label": "Legal Highs"
+				},
+				{
+					"id": "tabacco",
+					"label": "Tabak"
+				},
+				{
+					"id": "medication",
+					"label": "Medikamente"
+				},
+				{
+					"id": "gambling",
+					"label": "Glücksspiel"
+				},
+				{
+					"id": "internetUse",
+					"label": "Internet/Computer"
+				},
+				{
+					"id": "eatingDisorder",
+					"label": "Essstörungen"
+				},
+				{
+					"id": "otherDrug",
+					"label": "Andere"
+				}
+			]
+		},
+		{
+			"componentType": "SelectDropdown",
+			"headline": "Alter",
+			"name": "age",
+			"item": {
+				"id": "ageSelect",
+				"selectedOptions": [
+					{
+						"value": "0",
+						"label": "0-17"
+					},
+					{
+						"value": "1",
+						"label": "18-20"
+					},
+					{
+						"value": "2",
+						"label": "21-30"
+					},
+					{
+						"value": "3",
+						"label": "31-40"
+					},
+					{
+						"value": "4",
+						"label": "41-59"
+					},
+					{
+						"value": "5",
+						"label": "60+"
+					}
+				],
+				"selectInputLabel": "Alter auswählen",
+				"useIconOption": false,
+				"isSearchable": false,
+				"menuPlacement": "bottom"
+			}
+		},
+		{
+			"componentType": "RadioButton",
+			"headline": "Geschlecht",
+			"name": "gender",
+			"radioButtons": [
+				{
+					"inputId": "female",
+					"label": "Weiblich",
+					"checked": false
+				},
+				{
+					"inputId": "male",
+					"label": "Männlich",
+					"checked": false
+				},
+				{
+					"inputId": "diverseGender",
+					"label": "Divers",
+					"checked": false
+				}
+			]
+		}
+	],
+	"welcomeScreen": {
+		"anonymous": {
+			"title": "Anonym und kostenfrei",
+			"text": "Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+		}
+	}
+}

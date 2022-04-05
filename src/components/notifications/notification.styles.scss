@@ -15,6 +15,14 @@
 		margin-bottom: 6px;
 	}
 
+	&__close {
+		color: $white;
+		svg {
+			width: 14px;
+			height: 14px;
+		}
+	}
+
 	&__title {
 		flex: 1;
 		min-height: 24px;
@@ -38,8 +46,15 @@
 
 	&__text {
 		font-size: $font-size-tertiary;
+
+		a,
+		a:hover {
+			color: $white;
+			text-decoration: underline;
+		}
 	}
 
+	&--none,
 	&--info,
 	&--warning,
 	&--error,
