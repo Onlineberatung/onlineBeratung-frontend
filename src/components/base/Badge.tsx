@@ -17,27 +17,27 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 
 const StyledBadge = styled.span`
 	${({ theme }) => `
-		border: ${theme.badge.border.style};
-		border-radius: ${theme.badge.border.radius};
-		font-family: ${theme.font.primary};
+		font-family: ${theme.badge.fontFamily};
 		font-weight: ${theme.badge.fontWeight};
 		font-size: ${theme.badge.fontSize};
 		line-height: ${theme.badge.lineHeight};
 		padding: ${theme.badge.padding};
+		border: ${theme.badge.border.style};
+		border-radius: ${theme.badge.border.radius};
 		
 		&.active {
 			color: ${theme.colors.white};
-			background-color: ${theme.colors.green};
+			background-color: ${theme.colors.backgroundActive};
 		}
 
 		&.feedback {
-			color: ${theme.colors.black};
-			background-color: ${theme.colors.yellow};
+			color: ${theme.colors.feedback};
+			background-color: ${theme.colors.backgroundFeedback};
 		}
 
 		&.banned {
 			color: ${theme.colors.white};
-			background-color: ${theme.colors.red};
+			background-color: ${theme.colors.backgroundBanned};
 		}
 	`}
 `;
@@ -47,23 +47,22 @@ StyledBadge.defaultProps = {
 	theme: {
 		colors: {
 			white: '#FFFFFF',
-			black: 'rgba(0, 0, 0, 0.8)',
-			red: '#FF0000',
-			yellow: '#FFDCA3',
-			green: ' #4FCC5C'
-		},
-		font: {
-			primary: 'Roboto, sans-serif'
+			feedback: '#000000DE',
+			backgroundBanned: '#FF0000',
+			backgroundFeedback: '#FFDCA3',
+			backgroundActive: ' #4FCC5C'
 		},
 		badge: {
-			border: {
-				radius: '30px',
-				style: 'none'
-			},
+			fontFamily: 'Roboto, sans-serif',
 			fontWeight: '400',
 			fontSize: '12px',
 			lineHeight: '16px',
-			padding: '0px 8px'
+			padding: '0px 8px',
+
+			border: {
+				radius: '30px',
+				style: 'none'
+			}
 		}
 	}
 };
