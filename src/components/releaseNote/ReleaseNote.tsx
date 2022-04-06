@@ -3,14 +3,19 @@ import React, { useEffect, useState } from 'react';
 import packageInfo from '../../../package.json';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
-import { ReleaseNoteText } from './ReleaseNoteText';
+import { markdownToDraft } from 'markdown-draft-js';
 import { Headline } from '../headline/Headline';
 import { ReactComponent as newIllustration } from '../../resources/img/illustrations/new.svg';
-
-import './releaseNote.styles.scss';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
+import { uiUrl } from '../../resources/scripts/config';
+import { convertFromRaw } from 'draft-js';
+import sanitizeHtml from 'sanitize-html';
+import { sanitizeHtmlExtendedOptions } from '../messageSubmitInterface/richtextHelpers';
+import { stateToHTML } from 'draft-js-export-html';
+
+import './releaseNote.styles.scss';
 
 interface ReleaseNoteProps {}
 
@@ -18,6 +23,30 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const [showReleaseNote, setShowRelaseNote] = useState(false);
 	const [hasSeenReleaseNote, setHasSeenReleaseNote] = useState(false);
 	const [checkboxChecked, setCheckboxChecked] = useState(false);
+	const [releaseNoteText, setReleaseNoteText] = useState('');
+
+	const getMarkdown = async () => {
+		const response = await fetch(
+			`${uiUrl}/releases/v${packageInfo.version}.md`
+		);
+
+		if (response.ok) {
+			const markdownText = await response.text();
+
+			const rawMarkdownToDraftObject = markdownToDraft(markdownText);
+			const convertedMarkdownObject = convertFromRaw(
+				rawMarkdownToDraftObject
+			);
+
+			const sanitizedText = sanitizeHtml(
+				stateToHTML(convertedMarkdownObject),
+				sanitizeHtmlExtendedOptions
+			);
+
+			setShowRelaseNote(true);
+			setReleaseNoteText(sanitizedText);
+		}
+	};
 
 	const closeReleaseNote = () => {
 		setShowRelaseNote(false);
@@ -55,11 +84,13 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		if (hasSeenReleaseNote) {
 			setShowRelaseNote(false);
 		} else {
-			setShowRelaseNote(true);
+			getMarkdown();
 		}
 	}, [hasSeenReleaseNote]);
 
-	if (!showReleaseNote) return <></>;
+	console.log(showReleaseNote);
+
+	if (!showReleaseNote || hasSeenReleaseNote) return <></>;
 
 	return (
 		<OverlayWrapper>
@@ -87,9 +118,14 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 								/>
 							</div>
 							<div className="releaseNote__content">
-								<ReleaseNoteText
-									version={packageInfo.version}
-								/>
+								{releaseNoteText.length > 0 && (
+									<div
+										className="releaseNote__text"
+										dangerouslySetInnerHTML={{
+											__html: releaseNoteText
+										}}
+									></div>
+								)}
 							</div>
 							<div className="releaseNote__footer">
 								<Checkbox
