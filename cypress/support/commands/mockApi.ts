@@ -245,8 +245,6 @@ Cypress.Commands.add('mockApi', () => {
 			]);
 		}
 	).as('consultingTypeServiceBaseBasic');
-
-	cy.intercept('GET', '/releases/*', { statusCode: 404 });
 });
 
 Cypress.Commands.add(

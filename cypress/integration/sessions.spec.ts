@@ -26,6 +26,7 @@ describe('Sessions', () => {
 
 	beforeEach(() => {
 		cy.mockApi();
+		cy.intercept('GET', '/releases/*', { statusCode: 404 });
 		mockWebSocket();
 	});
 

@@ -19,6 +19,7 @@ describe('Video calls', () => {
 	});
 
 	beforeEach(() => {
+		cy.intercept('GET', '/releases/*', { statusCode: 404 });
 		cy.mockApi();
 		mockWebSocket();
 	});
