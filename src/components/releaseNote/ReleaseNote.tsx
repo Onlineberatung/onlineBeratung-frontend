@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { version } from '../../../package.json';
+import packageInfo from '../../../package.json';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { ReleaseNoteText } from './ReleaseNoteText';
@@ -31,7 +31,10 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 
 	const changeHasSeenReleaseNote = (event) => {
 		setCheckboxChecked(event.target.checked);
-		localStorage.setItem(`v${version}`, `${event.target.checked}`);
+		localStorage.setItem(
+			`v${packageInfo.version}`,
+			`${event.target.checked}`
+		);
 	};
 
 	const checkboxItem: CheckboxItem = {
@@ -43,7 +46,8 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	};
 
 	useEffect(() => {
-		const versionSeen = localStorage.getItem(`v${version}`) === 'true';
+		const versionSeen =
+			localStorage.getItem(`v${packageInfo.version}`) === 'true';
 		if (versionSeen) setHasSeenReleaseNote(true);
 	}, []);
 
@@ -73,7 +77,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 									text={translate(
 										'releaseNote.content.headline'
 									)}
-									semanticLevel="2"
+									semanticLevel="3"
 								/>
 								<Text
 									text={translate(
@@ -83,7 +87,9 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 								/>
 							</div>
 							<div className="releaseNote__content">
-								<ReleaseNoteText version={version} />
+								<ReleaseNoteText
+									version={packageInfo.version}
+								/>
 							</div>
 							<div className="releaseNote__footer">
 								<Checkbox
