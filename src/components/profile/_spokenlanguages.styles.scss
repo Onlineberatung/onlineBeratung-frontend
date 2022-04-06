@@ -1,0 +1,44 @@
+.spokenLanguages {
+	.text {
+		max-width: 600px;
+	}
+
+	&__buttons {
+		display: flex;
+		margin: 10px 0;
+		justify-content: flex-end;
+
+		button {
+			min-width: unset;
+			padding: 0;
+		}
+
+		.button__wrapper + .button__wrapper {
+			margin-left: $grid-base-three;
+		}
+	}
+
+	.select__wrapper {
+		margin: 0;
+		padding: 0;
+		max-width: none;
+
+		@include breakpoint($fromMedium) {
+			width: 100%;
+		}
+
+		.select__input__control {
+			height: auto;
+			padding-top: 3px;
+			padding-bottom: 3px;
+		}
+
+		.select__input__indicators {
+			align-items: flex-start;
+		}
+
+		.select__input__indicator {
+			margin-top: 2px;
+		}
+	}
+}

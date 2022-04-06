@@ -1,0 +1,11 @@
+.primary {
+	color: var(--skin-color-primary-contrast-safe, $primary);
+}
+
+.secondary {
+	color: $secondary;
+}
+
+.tertiary {
+	color: $tertiary;
+}

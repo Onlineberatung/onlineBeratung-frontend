@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, ComponentType } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
@@ -8,13 +8,10 @@ import {
 	apiPostRegistration,
 	FETCH_ERRORS,
 	apiAgencySelection,
-	apiGetAgencyById
+	X_REASON
 } from '../../api';
 import { config } from '../../resources/scripts/config';
-import {
-	DEFAULT_POSTCODE,
-	redirectToRegistrationWithoutAid
-} from './prefillPostcode';
+import { DEFAULT_POSTCODE } from './prefillPostcode';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -22,62 +19,73 @@ import {
 	OverlayItem
 } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
-import { isNumber } from '../../utils/isNumber';
 import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import {
 	AgencyDataInterface,
-	ConsultingTypeInterface
+	ConsultantDataInterface,
+	ConsultingTypeInterface,
+	LegalLinkInterface
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 import { getUrlParameter } from '../../utils/getUrlParameter';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './registrationForm.styles';
+import {
+	getErrorCaseForStatus,
+	redirectToErrorPage
+} from '../error/errorHandling';
 
 interface RegistrationFormProps {
-	consultingType: ConsultingTypeInterface;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	consultingType?: ConsultingTypeInterface;
+	agency?: AgencyDataInterface;
+	consultant?: ConsultantDataInterface;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 interface FormAccordionData {
-	username: string;
-	password: string;
-	agencyId: string;
-	postcode: string;
+	username?: string;
+	password?: string;
+	agencyId?: number;
+	postcode?: string;
 	state?: string;
 	age?: string;
+	consultingTypeId?: number;
 }
 
 export const RegistrationForm = ({
 	consultingType,
-	legalComponent: LegalComponent
+	agency,
+	legalLinks,
+	consultant
 }: RegistrationFormProps) => {
 	const [formAccordionData, setFormAccordionData] =
-		useState<FormAccordionData>();
+		useState<FormAccordionData>({});
+	const [formAccordionValid, setFormAccordionValid] = useState(false);
 	const [preselectedAgencyData, setPreselectedAgencyData] =
-		useState<AgencyDataInterface | null>(null);
+		useState<AgencyDataInterface | null>(agency);
 	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] =
 		useState<boolean>(false);
 	const [isDataProtectionSelected, setIsDataProtectionSelected] =
 		useState(false);
 	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 	const [overlayActive, setOverlayActive] = useState(false);
+
 	const [initialPostcode, setInitialPostcode] = useState('');
 
-	const prefillPostcode = () => {
+	useEffect(() => {
 		const postcodeParameter = getUrlParameter('postcode');
-		const aidParameter = getUrlParameter('aid');
-		const agencyId = isNumber(aidParameter) ? aidParameter : null;
-
-		if (agencyId) {
-			getAgencyDataById(agencyId);
-		}
-
 		if (postcodeParameter) {
 			setInitialPostcode(postcodeParameter);
 		}
 
-		if (consultingType.registration.autoSelectAgency) {
+		if (consultingType) {
+			setFormAccordionData({
+				...formAccordionData,
+				consultingTypeId: consultingType.id
+			});
+		}
+
+		if (consultingType?.registration.autoSelectAgency) {
 			apiAgencySelection({
 				postcode: postcodeParameter || DEFAULT_POSTCODE,
 				consultingType: consultingType.id
@@ -90,47 +98,39 @@ export const RegistrationForm = ({
 					console.log(error);
 				});
 		}
-	};
-
-	const getAgencyDataById = (agencyId) => {
-		apiGetAgencyById(agencyId)
-			.then((response) => {
-				const agencyData = response[0];
-				agencyData.consultingType === consultingType.id
-					? setPreselectedAgencyData(agencyData)
-					: redirectToRegistrationWithoutAid();
-			})
-			.catch((error) => {
-				if (error.message === FETCH_ERRORS.NO_MATCH) {
-					redirectToRegistrationWithoutAid();
-				}
-			});
-	};
-
-	useEffect(() => {
-		prefillPostcode();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (!!(formAccordionData && isDataProtectionSelected)) {
+		if (!!(formAccordionValid && isDataProtectionSelected)) {
 			setIsSubmitButtonDisabled(false);
 		} else {
 			setIsSubmitButtonDisabled(true);
 		}
-	}, [formAccordionData, isDataProtectionSelected]);
+	}, [formAccordionValid, isDataProtectionSelected]);
 
 	const checkboxItemDataProtection: CheckboxItem = {
 		inputId: 'dataProtectionCheckbox',
 		name: 'dataProtectionCheckbox',
 		labelId: 'dataProtectionLabel',
-		label: translate('registration.dataProtection.label'),
 		checked: isDataProtectionSelected,
-		complexLabel: {
-			prefix: translate('registration.dataProtection.label.prefix'),
-			suffix: translate('registration.dataProtection.label.suffix'),
-			component: LegalComponent,
-			attributes: { textStyle: 'standard', hideImprint: true }
-		}
+		label: [
+			translate('registration.dataProtection.label.prefix'),
+			legalLinks
+				.filter((legalLink) => legalLink.registration)
+				.map(
+					(legalLink, index, { length }) =>
+						(index > 0
+							? index < length - 1
+								? ', '
+								: translate(
+										'registration.dataProtection.label.and'
+								  )
+							: '') +
+						`<a target="_blank" href="${legalLink.url}">${legalLink.label}</a>`
+				)
+				.join(''),
+			translate('registration.dataProtection.label.suffix')
+		].join(' ')
 	};
 
 	const overlayItemRegistrationSuccess: OverlayItem = {
@@ -152,65 +152,88 @@ export const RegistrationForm = ({
 		}
 	};
 
-	const handleRegistrationError = (response: XMLHttpRequest) => {
-		const error = response.getResponseHeader(FETCH_ERRORS.X_REASON);
-		if (error && error === 'USERNAME_NOT_AVAILABLE') {
-			setIsUsernameAlreadyInUse(true);
-			setIsSubmitButtonDisabled(true);
-			window.scrollTo({ top: 0 });
-		}
-	};
-
 	const handleSubmitButtonClick = () => {
 		setIsUsernameAlreadyInUse(false);
+		setIsSubmitButtonDisabled(true);
 
 		const registrationData = {
 			username: formAccordionData.username,
 			password: encodeURIComponent(formAccordionData.password),
-			agencyId: formAccordionData.agencyId,
+			agencyId: formAccordionData.agencyId?.toString(),
 			postcode: formAccordionData.postcode,
-			consultingType: consultingType.id.toString(),
+			consultingType: formAccordionData.consultingTypeId?.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
 			...(formAccordionData.state && { state: formAccordionData.state }),
-			...(formAccordionData.age && { age: formAccordionData.age })
+			...(formAccordionData.age && { age: formAccordionData.age }),
+			...(consultant && { consultantId: consultant.consultantId })
 		};
 
-		apiPostRegistration(
-			config.endpoints.registerAsker,
-			registrationData,
-			() => setOverlayActive(true),
-			(response) => handleRegistrationError(response)
-		);
+		apiPostRegistration(config.endpoints.registerAsker, registrationData)
+			.then((res) => {
+				return setOverlayActive(true);
+			})
+			.catch((errorRes) => {
+				if (
+					errorRes.status === 409 &&
+					errorRes.headers?.get(FETCH_ERRORS.X_REASON) ===
+						X_REASON.USERNAME_NOT_AVAILABLE
+				) {
+					setIsUsernameAlreadyInUse(true);
+					setIsSubmitButtonDisabled(true);
+					window.scrollTo({ top: 0 });
+					return;
+				}
+
+				const error = getErrorCaseForStatus(errorRes.status);
+				redirectToErrorPage(error);
+			});
 	};
+
+	const handleChange = useCallback(
+		(data) => {
+			setFormAccordionData({
+				...formAccordionData,
+				...data
+			});
+		},
+		[formAccordionData]
+	);
 
 	return (
 		<>
 			<form
 				className="registrationForm"
 				id="registrationForm"
-				data-consultingtype={consultingType.id}
+				data-consultingtype={consultingType?.id}
 			>
 				<h3 className="registrationForm__overline">
-					{consultingType.titles.long}
+					{consultingType
+						? consultingType.titles.long
+						: translate('registration.overline')}
 				</h3>
 				<h2 className="registrationForm__headline">
 					{translate('registration.headline')}
 				</h2>
+				{consultant && (
+					<p>{translate('registration.teaser.consultant')}</p>
+				)}
 
-				<FormAccordion
-					consultingType={consultingType}
-					isUsernameAlreadyInUse={isUsernameAlreadyInUse}
-					preselectedAgencyData={preselectedAgencyData}
-					initialPostcode={initialPostcode}
-					handleFormAccordionData={(formData) =>
-						setFormAccordionData(formData)
-					}
-					additionalStepsData={consultingType.requiredComponents}
-					registrationNotes={consultingType.registration.notes}
-				/>
+				{(consultingType || consultant) && (
+					<FormAccordion
+						consultingType={consultingType}
+						isUsernameAlreadyInUse={isUsernameAlreadyInUse}
+						preselectedAgencyData={preselectedAgencyData}
+						initialPostcode={initialPostcode}
+						onChange={handleChange}
+						additionalStepsData={consultingType?.requiredComponents}
+						registrationNotes={consultingType?.registration.notes}
+						consultant={consultant}
+						onValidation={setFormAccordionValid}
+					/>
+				)}
 
 				{preselectedAgencyData &&
-					consultingType.registration.autoSelectPostcode && (
+					consultingType?.registration.autoSelectPostcode && (
 						<PreselectedAgency
 							prefix={translate(
 								'registration.agency.preselected.prefix'

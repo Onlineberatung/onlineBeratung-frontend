@@ -3,7 +3,7 @@ import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiSendMessage = async (
 	messageData: string,
-	rcGroupId: string,
+	rcGroupIdOrSessionId: string | number,
 	isFeedback: boolean,
 	sendMailNotification: boolean
 ): Promise<any> => {
@@ -11,8 +11,8 @@ export const apiSendMessage = async (
 		? config.endpoints.sendMessageToFeedback
 		: config.endpoints.sendMessage;
 	const activeGroupId = isFeedback
-		? { rcFeedbackGroupId: rcGroupId }
-		: { rcGroupId: rcGroupId };
+		? { rcFeedbackGroupId: rcGroupIdOrSessionId }
+		: { rcGroupId: rcGroupIdOrSessionId };
 	const message = JSON.stringify({
 		message: messageData.trim(),
 		sendNotification: sendMailNotification

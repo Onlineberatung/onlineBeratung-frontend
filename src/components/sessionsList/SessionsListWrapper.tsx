@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {
 	typeIsSession,
 	typeIsTeamSession,
@@ -13,12 +14,13 @@ import {
 	hasUserAuthority
 } from '../../globalState';
 import { SessionsList } from './SessionsList';
-import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
+import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 
-export const SessionsListWrapper = () => {
+export const SessionsListWrapper: React.FC = () => {
 	const type = getTypeOfLocation();
+	const fixedLanguages = useContext(FixedLanguagesContext);
 	const { userData } = useContext(UserDataContext);
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
@@ -41,7 +43,7 @@ export const SessionsListWrapper = () => {
 						{translate('sessionList.user.headline')}
 					</h2>
 				</div>
-				<SessionsList />
+				<SessionsList defaultLanguage={fixedLanguages[0]} />
 			</div>
 		);
 	}
@@ -99,7 +101,7 @@ export const SessionsListWrapper = () => {
 					<div className="sessionMenuPlaceholder"></div>
 				)}
 			</div>
-			<SessionsList />
+			<SessionsList defaultLanguage={fixedLanguages[0]} />
 		</div>
 	);
 };

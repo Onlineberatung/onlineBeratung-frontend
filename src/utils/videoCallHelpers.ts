@@ -1,7 +1,5 @@
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 
-export type NotificationType = 'call';
-
 export const getVideoCallUrl = (
 	url: string,
 	isVideoActivated: boolean = false

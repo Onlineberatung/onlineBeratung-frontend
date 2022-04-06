@@ -7,7 +7,7 @@ export interface RadioButtonItem {
 	inputId: string;
 	label: string;
 	name: string;
-	type: 'default' | 'box';
+	type: 'default' | 'box' | 'smaller';
 	value: string;
 }
 

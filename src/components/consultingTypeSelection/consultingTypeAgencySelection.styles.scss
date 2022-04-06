@@ -1,0 +1,95 @@
+$maxFormElementWidth: 320px;
+$infoIconSize: 16px;
+
+.agencySelection {
+	position: relative;
+	animation: fadeIn linear 0.2s;
+	margin: 0 auto $grid-base-four;
+
+	&__intro {
+		> .text__infoLargeAlternative {
+			font-weight: $font-weight-medium;
+		}
+
+		&__content {
+			margin-top: $grid-base;
+
+			ul {
+				margin: 0;
+				padding-left: 15px;
+				font-size: $font-size-tertiary;
+				color: $tertiary;
+			}
+
+			li {
+				padding: 2px 0;
+			}
+		}
+	}
+
+	.inputField {
+		margin-top: $grid-base-three;
+	}
+
+	&__note {
+		margin-top: $grid-base-three;
+	}
+
+	&__proposedAgencies {
+		margin-top: 28px;
+		text-align: left;
+
+		h3 {
+			color: var(--skin-color-secondary-contrast-safe, $secondary);
+			font-size: $font-size-primary;
+			line-height: $line-height-primary;
+			text-align: left;
+			margin-bottom: 12px;
+		}
+
+		&--warning {
+			.text__infoLargeAlternative {
+				color: var(--skin-color-primary-contrast-safe, $primary);
+			}
+
+			a {
+				display: block;
+				font-size: $font-size-tertiary;
+				line-height: 19px;
+				text-decoration: underline;
+				transition: all 0.6s ease;
+			}
+		}
+	}
+
+	&__proposedAgency {
+		display: flex;
+		position: relative;
+		padding: 12px 0;
+
+		.radioButton {
+			min-height: unset;
+		}
+
+		&:not(:last-of-type) {
+			border-bottom: 1px solid $black-10-opacity;
+		}
+	}
+
+	h5 {
+		margin-bottom: 12px;
+	}
+
+	&__consultingModeInfo {
+		animation: fadeIn linear 0.2s;
+		font-size: $font-size-secondary;
+		line-height: 1.3333em;
+		max-width: $maxFormElementWidth;
+		margin: 0 auto $grid-base-four;
+
+		@include breakpoint($fromLarge) {
+			margin: 0 0 $grid-base-four;
+			text-align: left;
+		}
+	}
+}

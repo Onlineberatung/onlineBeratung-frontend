@@ -1,12 +1,7 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import { translate } from '../../utils/translate';
-import {
-	SessionsDataContext,
-	ActiveSessionGroupIdContext,
-	getActiveSession
-} from '../../globalState';
 import { getSessionListPathForLocation } from '../session/sessionHelpers';
 import { Checkbox } from '../checkbox/Checkbox';
 import { Button } from '../button/Button';
@@ -17,24 +12,38 @@ import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/check
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import './monitoring.styles';
 import '../profile/profile.styles';
+import {
+	ActiveSessionType,
+	getActiveSession,
+	SessionsDataContext
+} from '../../globalState';
+import { Loading } from '../app/Loading';
 
 export const Monitoring = () => {
+	const { rcGroupId: groupIdFromParam } = useParams();
+
 	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+
+	const [activeSession, setActiveSession] =
+		useState<ActiveSessionType | null>(null);
+	const [resort, setResort] = useState(null);
 	const [accordionOpened, setAccordionOpened] = useState<any[]>([]);
 	const [monitoringData, setMonitoringData] = useState({});
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
+
 	let backLinkRef: React.RefObject<Link> = React.createRef();
 
-	const resort =
-		activeSession.session.consultingType === 0
-			? 'monitoringAddiction'
-			: 'monitoringU25';
-
 	useEffect(() => {
+		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+		setActiveSession(activeSession);
+		setResort(
+			activeSession?.session?.consultingType === 0
+				? 'monitoringAddiction'
+				: 'monitoringU25'
+		);
+
 		apiGetMonitoring(activeSession.session.id)
 			.then((monitoringData) => {
 				setMonitoringData(monitoringData);
@@ -42,7 +51,7 @@ export const Monitoring = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleChange = (key, parentKey) => {
 		const checkObj = (obj, k, prevk) => {
@@ -205,6 +214,10 @@ export const Monitoring = () => {
 		};
 		return iterate();
 	};
+
+	if (!activeSession) {
+		return <Loading></Loading>;
+	}
 
 	return (
 		<div className="profile__wrapper">

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-	ComponentType,
+	MouseEventHandler,
 	useCallback,
 	useContext,
 	useEffect,
@@ -8,39 +8,46 @@ import {
 } from 'react';
 import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
-import { Link, Redirect, useLocation } from 'react-router-dom';
 import {
-	ActiveSessionGroupIdContext,
-	getActiveSession,
-	SessionsDataContext,
-	UserDataContext,
-	StoppedGroupChatContext,
-	hasUserAuthority,
-	isAnonymousSession,
+	generatePath,
+	Link,
+	Redirect,
+	useLocation,
+	useParams
+} from 'react-router-dom';
+import {
+	AcceptedGroupIdContext,
+	ActiveSessionType,
 	AUTHORITIES,
-	useConsultingType,
+	GroupChatItemInterface,
+	hasUserAuthority,
+	STATUS_FINISHED,
 	UpdateSessionListContext,
-	AcceptedGroupIdContext
+	useConsultingType,
+	UserDataContext,
+	LegalLinkInterface
 } from '../../globalState';
 import {
-	typeIsEnquiry,
 	getChatItemForSession,
-	isGroupChatForSessionItem,
 	getSessionListPathForLocation,
 	getTypeOfLocation,
-	typeIsTeamSession,
-	SESSION_LIST_TAB
+	isGroupChat,
+	isLiveChat,
+	isSessionChat,
+	SESSION_LIST_TAB,
+	typeIsEnquiry,
+	typeIsTeamSession
 } from '../session/sessionHelpers';
-import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayWrapper } from '../overlay/Overlay';
 import {
-	stopGroupChatSecurityOverlayItem,
-	stopGroupChatSuccessOverlayItem,
-	leaveGroupChatSecurityOverlayItem,
-	groupChatErrorOverlayItem,
-	leaveGroupChatSuccessOverlayItem,
+	archiveSessionSuccessOverlayItem,
 	finishAnonymousChatSecurityOverlayItem,
 	finishAnonymousChatSuccessOverlayItem,
-	archiveSessionSuccessOverlayItem
+	groupChatErrorOverlayItem,
+	leaveGroupChatSecurityOverlayItem,
+	leaveGroupChatSuccessOverlayItem,
+	stopGroupChatSecurityOverlayItem,
+	stopGroupChatSuccessOverlayItem
 } from './sessionMenuHelpers';
 import {
 	apiFinishAnonymousConversation,
@@ -62,35 +69,30 @@ import { ReactComponent as MenuHorizontalIcon } from '../../resources/img/icons/
 import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/stack-vertical.svg';
 import '../sessionHeader/sessionHeader.styles';
 import './sessionMenu.styles';
-import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { getVideoCallUrl } from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { history } from '../app/app';
 import DeleteSession from '../session/DeleteSession';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { Text } from '../text/Text';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 	isAskerInfoAvailable: boolean;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
+	const { rcGroupId: groupIdFromParam } = useParams();
+
 	const { userData } = useContext(UserDataContext);
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
-		ActiveSessionGroupIdContext
-	);
-	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const chatItem = getChatItemForSession(activeSession);
 	const consultingType = useConsultingType(chatItem.consultingType);
-	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const isLiveChat = isAnonymousSession(activeSession?.session);
-	const isLiveChatFinished = chatItem?.status === 3;
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
@@ -133,9 +135,10 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	};
 
 	const handleStopGroupChat = () => {
-		stopGroupChatSecurityOverlayItem.copy = chatItem?.repetitive
-			? translate('groupChat.stopChat.securityOverlay.copyRepeat')
-			: translate('groupChat.stopChat.securityOverlay.copySingle');
+		stopGroupChatSecurityOverlayItem.copy =
+			isGroupChat(chatItem) && chatItem?.repetitive
+				? translate('groupChat.stopChat.securityOverlay.copyRepeat')
+				: translate('groupChat.stopChat.securityOverlay.copySingle');
 		setOverlayItem(stopGroupChatSecurityOverlayItem);
 		setOverlayActive(true);
 	};
@@ -171,7 +174,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				mobileListView();
 				history.push(getSessionListPathForLocation());
 				if (window.innerWidth >= 900) {
-					setAcceptedGroupId(activeSessionGroupId);
+					setAcceptedGroupId(groupIdFromParam);
 				}
 			})
 			.catch((error) => {
@@ -223,7 +226,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			setRedirectToSessionsList(true);
-			setStoppedGroupChat(true);
+			setUpdateSessionList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
 		} else if (
@@ -258,7 +261,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					mobileListView();
 					history.push(getSessionListPathForLocation());
 					setUpdateSessionList(getTypeOfLocation());
-					setActiveSessionGroupId(null);
 				})
 				.catch((error) => {
 					console.error(error);
@@ -285,25 +287,28 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	//rotate icon to vertical only if EVERY item in flyout
 	//list item icons only shown on outside
 
-	const feedbackPath = `${getSessionListPathForLocation()}/${
-		chatItem?.feedbackGroupId
-	}/${chatItem?.id}${getSessionListTab()}`;
-	const monitoringPath = `${getSessionListPathForLocation()}/${
-		chatItem?.groupId
-	}/${chatItem?.id}/userProfile/monitoring${getSessionListTab()}`;
-	const userProfileLink = `${getSessionListPathForLocation()}/${
-		chatItem?.groupId
-	}/${chatItem?.id}/userProfile${getSessionListTab()}`;
-	const groupChatInfoLink = `${getSessionListPathForLocation()}/${
-		chatItem?.groupId
-	}/${chatItem?.id}/groupChatInfo${getSessionListTab()}`;
-	const editGroupChatSettingsLink = `${getSessionListPathForLocation()}/${
-		chatItem?.groupId
-	}/${chatItem?.id}/editGroupChat${getSessionListTab()}`;
+	const baseUrl = `${getSessionListPathForLocation()}/:groupId/:id/:subRoute?/:extraPath?${getSessionListTab()}`;
+
+	const groupChatInfoLink = generatePath(baseUrl, {
+		...chatItem,
+		subRoute: 'groupChatInfo'
+	});
+	const editGroupChatSettingsLink = generatePath(baseUrl, {
+		...chatItem,
+		subRoute: 'editGroupChat'
+	});
+	const monitoringPath = generatePath(baseUrl, {
+		...chatItem,
+		subRoute: 'userProfile',
+		extraPath: 'monitoring'
+	});
+	const userProfileLink = generatePath(baseUrl, {
+		...chatItem,
+		subRoute: 'userProfile'
+	});
 
 	if (redirectToSessionsList) {
 		mobileListView();
-		setActiveSessionGroupId(null);
 		return (
 			<Redirect
 				to={getSessionListPathForLocation() + getSessionListTab()}
@@ -334,8 +339,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const hasVideoCallFeatures = () =>
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-		!isGroupChat &&
-		!isLiveChat &&
+		isSessionChat(chatItem) &&
+		!isLiveChat(chatItem) &&
 		!typeIsEnquiry(getTypeOfLocation()) &&
 		consultingType.isVideoCallAllowed;
 
@@ -356,8 +361,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	return (
 		<div className="sessionMenu__wrapper">
-			{isLiveChat &&
-				!isLiveChatFinished &&
+			{isLiveChat(chatItem) &&
+				chatItem.status !== STATUS_FINISHED &&
 				!typeIsEnquiry(getTypeOfLocation()) && (
 					<span
 						onClick={handleFinishAnonymousChat}
@@ -369,6 +374,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						</span>
 					</span>
 				)}
+
 			{hasVideoCallFeatures() && (
 				<div
 					className="sessionMenu__videoCallButtons"
@@ -384,69 +390,32 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					/>
 				</div>
 			)}
+
 			{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-			!typeIsEnquiry(getTypeOfLocation()) &&
-			chatItem?.feedbackGroupId ? (
-				<Link to={feedbackPath} className="sessionInfo__feedbackButton">
-					<Button item={buttonFeedback} isLink={true} />
-				</Link>
-			) : null}
+				!typeIsEnquiry(getTypeOfLocation()) &&
+				isSessionChat(chatItem) &&
+				chatItem?.feedbackGroupId && (
+					<Link
+						to={generatePath(baseUrl, {
+							...chatItem,
+							groupId: chatItem.feedbackGroupId
+						})}
+						className="sessionInfo__feedbackButton"
+					>
+						<Button item={buttonFeedback} isLink={true} />
+					</Link>
+				)}
 
-			{isGroupChat && chatItem?.subscribed ? (
-				<span
-					onClick={handleLeaveGroupChat}
-					className="sessionMenu__item--desktop sessionMenu__button"
-				>
-					<span className="sessionMenu__icon">
-						<LeaveChatIcon />
-						{translate('chatFlyout.leaveGroupChat')}
-					</span>
-				</span>
-			) : null}
-
-			{isGroupChat &&
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
-				<Link
-					to={groupChatInfoLink}
-					className="sessionMenu__item--desktop sessionMenu__button"
-				>
-					<span className="sessionMenu__icon">
-						<GroupChatInfoIcon />
-						{translate('chatFlyout.groupChatInfo')}
-					</span>
-				</Link>
-			) : null}
-
-			{isGroupChat &&
-			chatItem?.subscribed &&
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
-				<span
-					onClick={handleStopGroupChat}
-					className="sessionMenu__item--desktop sessionMenu__button"
-				>
-					<span className="sessionMenu__icon">
-						<StopGroupChatIcon />
-						{translate('chatFlyout.stopGroupChat')}
-					</span>
-				</span>
-			) : null}
-
-			{isGroupChat &&
-			isGroupChatOwner(activeSession, userData) &&
-			!activeSession.chat.active ? (
-				<Link
-					to={{
-						pathname: editGroupChatSettingsLink,
-						state: { isEditMode: true, prevIsInfoPage: false }
-					}}
-					className="sessionMenu__item--desktop sessionMenu__button"
-				>
-					<span className="sessionMenu__icon">
-						<EditGroupChatIcon />
-						{translate('chatFlyout.editGroupChat')}
-					</span>
-				</Link>
-			) : null}
+			{isGroupChat(chatItem) && (
+				<SessionMenuGroup
+					chatItem={chatItem}
+					activeSession={activeSession}
+					editGroupChatSettingsLink={editGroupChatSettingsLink}
+					groupChatInfoLink={groupChatInfoLink}
+					handleLeaveGroupChat={handleLeaveGroupChat}
+					handleStopGroupChat={handleStopGroupChat}
+				/>
+			)}
 
 			<span
 				id="iconH"
@@ -464,8 +433,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			</span>
 
 			<div id="flyout" className="sessionMenu__content">
-				{isLiveChat &&
-					!isLiveChatFinished &&
+				{isLiveChat(chatItem) &&
+					chatItem.status !== STATUS_FINISHED &&
 					!typeIsEnquiry(getTypeOfLocation()) && (
 						<div
 							className="sessionMenu__item sessionMenu__item--mobile"
@@ -475,63 +444,69 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						</div>
 					)}
 				{hasVideoCallFeatures() && (
-					<div
-						className="sessionMenu__item sessionMenu__item--mobile"
-						onClick={() => handleStartVideoCall(true)}
-					>
-						{translate('videoCall.button.startVideoCall')}
-					</div>
+					<>
+						<div
+							className="sessionMenu__item sessionMenu__item--mobile"
+							onClick={() => handleStartVideoCall(true)}
+						>
+							{translate('videoCall.button.startVideoCall')}
+						</div>
+						<div
+							className="sessionMenu__item sessionMenu__item--mobile"
+							onClick={() => handleStartVideoCall()}
+						>
+							{translate('videoCall.button.startCall')}
+						</div>
+					</>
 				)}
-				{hasVideoCallFeatures() && (
-					<div
-						className="sessionMenu__item sessionMenu__item--mobile"
-						onClick={() => handleStartVideoCall()}
-					>
-						{translate('videoCall.button.startCall')}
-					</div>
-				)}
+
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				chatItem?.feedbackGroupId ? (
-					<Link
-						className="sessionMenu__item sessionMenu__item--mobile"
-						to={feedbackPath}
-					>
-						{translate('chatFlyout.feedback')}
-					</Link>
-				) : null}
-				{props.isAskerInfoAvailable ? (
+					isSessionChat(chatItem) &&
+					chatItem?.feedbackGroupId && (
+						<Link
+							className="sessionMenu__item sessionMenu__item--mobile"
+							to={generatePath(baseUrl, {
+								...chatItem,
+								groupId: chatItem.feedbackGroupId
+							})}
+						>
+							{translate('chatFlyout.feedback')}
+						</Link>
+					)}
+
+				{props.isAskerInfoAvailable && (
 					<Link className="sessionMenu__item" to={userProfileLink}>
 						{translate('chatFlyout.askerProfil')}
 					</Link>
-				) : null}
+				)}
+
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 					!typeIsEnquiry(getTypeOfLocation()) &&
-					!isLiveChat &&
-					!isGroupChat &&
-					sessionListTab !== SESSION_LIST_TAB.ARCHIVE && (
-						<div
-							onClick={handleArchiveSession}
-							className="sessionMenu__item"
-						>
-							{translate('chatFlyout.archive')}
-						</div>
+					isSessionChat(chatItem) &&
+					!isLiveChat(chatItem) && (
+						<>
+							{sessionListTab !== SESSION_LIST_TAB.ARCHIVE ? (
+								<div
+									onClick={handleArchiveSession}
+									className="sessionMenu__item"
+								>
+									{translate('chatFlyout.archive')}
+								</div>
+							) : (
+								<div
+									onClick={handleDearchiveSession}
+									className="sessionMenu__item"
+								>
+									{translate('chatFlyout.dearchive')}
+								</div>
+							)}
+						</>
 					)}
-				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-					!typeIsEnquiry(getTypeOfLocation()) &&
-					!isLiveChat &&
-					!isGroupChat &&
-					sessionListTab === SESSION_LIST_TAB.ARCHIVE && (
-						<div
-							onClick={handleDearchiveSession}
-							className="sessionMenu__item"
-						>
-							{translate('chatFlyout.dearchive')}
-						</div>
-					)}
+
 				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 					!typeIsEnquiry(getTypeOfLocation()) &&
-					!isLiveChat &&
-					!isGroupChat && (
+					isSessionChat(chatItem) &&
+					!isLiveChat(chatItem) && (
 						<DeleteSession
 							chatId={chatItem.id}
 							onSuccess={onSuccessDeleteSession}
@@ -546,70 +521,182 @@ export const SessionMenu = (props: SessionMenuProps) => {
 							)}
 						</DeleteSession>
 					)}
+
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				chatItem?.monitoring &&
-				!isLiveChat &&
-				!typeIsEnquiry(getTypeOfLocation()) ? (
-					<Link className="sessionMenu__item" to={monitoringPath}>
-						{translate('chatFlyout.documentation')}
-					</Link>
-				) : null}
+					!typeIsEnquiry(getTypeOfLocation()) &&
+					isSessionChat(chatItem) &&
+					!isLiveChat(chatItem) &&
+					chatItem?.monitoring && (
+						<Link className="sessionMenu__item" to={monitoringPath}>
+							{translate('chatFlyout.documentation')}
+						</Link>
+					)}
 
-				{isGroupChat && chatItem?.subscribed ? (
-					<div
-						onClick={handleLeaveGroupChat}
-						className="sessionMenu__item sessionMenu__item--mobile"
-					>
-						{translate('chatFlyout.leaveGroupChat')}
-					</div>
-				) : null}
-				{isGroupChat &&
-				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
-					<Link
-						to={groupChatInfoLink}
-						className="sessionMenu__item sessionMenu__item--mobile"
-					>
-						{translate('chatFlyout.groupChatInfo')}
-					</Link>
-				) : null}
-				{isGroupChat &&
-				chatItem?.subscribed &&
-				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
-					<div
-						onClick={handleStopGroupChat}
-						className="sessionMenu__item sessionMenu__item--mobile"
-					>
-						{translate('chatFlyout.stopGroupChat')}
-					</div>
-				) : null}
-				{isGroupChat &&
-				isGroupChatOwner(activeSession, userData) &&
-				!activeSession.chat.active ? (
-					<Link
-						to={{
-							pathname: editGroupChatSettingsLink,
-							state: { isEditMode: true, prevIsInfoPage: false }
-						}}
-						className="sessionMenu__item sessionMenu__item--mobile"
-					>
-						{translate('chatFlyout.editGroupChat')}
-					</Link>
-				) : null}
+				{isGroupChat(chatItem) && (
+					<SessionMenuFlyoutGroup
+						chatItem={chatItem}
+						activeSession={activeSession}
+						editGroupChatSettingsLink={editGroupChatSettingsLink}
+						groupChatInfoLink={groupChatInfoLink}
+						handleLeaveGroupChat={handleLeaveGroupChat}
+						handleStopGroupChat={handleStopGroupChat}
+					/>
+				)}
 
-				<props.legalComponent
-					className="legalInformationLinks--menu"
-					showDivider={false}
-					textStyle={'infoLargeStandard'}
-				/>
+				<div className="legalInformationLinks--menu">
+					{props.legalLinks.map((legalLink) => (
+						<a href={legalLink.url} key={legalLink.url}>
+							<Text
+								type="infoLargeAlternative"
+								text={legalLink.label}
+							/>
+						</a>
+					))}
+				</div>
 			</div>
-			{overlayActive ? (
+			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>
-			) : null}
+			)}
 		</div>
+	);
+};
+
+const SessionMenuGroup = ({
+	chatItem,
+	activeSession,
+	groupChatInfoLink,
+	editGroupChatSettingsLink,
+	handleStopGroupChat,
+	handleLeaveGroupChat
+}: {
+	chatItem: GroupChatItemInterface;
+	activeSession: ActiveSessionType;
+	groupChatInfoLink: string;
+	editGroupChatSettingsLink: string;
+	handleStopGroupChat: MouseEventHandler;
+	handleLeaveGroupChat: MouseEventHandler;
+}) => {
+	const { userData } = useContext(UserDataContext);
+
+	return (
+		<>
+			{chatItem?.subscribed && (
+				<span
+					onClick={handleLeaveGroupChat}
+					className="sessionMenu__item--desktop sessionMenu__button"
+				>
+					<span className="sessionMenu__icon">
+						<LeaveChatIcon />
+						{translate('chatFlyout.leaveGroupChat')}
+					</span>
+				</span>
+			)}
+
+			{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
+				<Link
+					to={groupChatInfoLink}
+					className="sessionMenu__item--desktop sessionMenu__button"
+				>
+					<span className="sessionMenu__icon">
+						<GroupChatInfoIcon />
+						{translate('chatFlyout.groupChatInfo')}
+					</span>
+				</Link>
+			)}
+			{chatItem?.subscribed &&
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
+					<span
+						onClick={handleStopGroupChat}
+						className="sessionMenu__item--desktop sessionMenu__button"
+					>
+						<span className="sessionMenu__icon">
+							<StopGroupChatIcon />
+							{translate('chatFlyout.stopGroupChat')}
+						</span>
+					</span>
+				)}
+
+			{isGroupChatOwner(activeSession, userData) && !chatItem.active && (
+				<Link
+					to={{
+						pathname: editGroupChatSettingsLink,
+						state: { isEditMode: true, prevIsInfoPage: false }
+					}}
+					className="sessionMenu__item--desktop sessionMenu__button"
+				>
+					<span className="sessionMenu__icon">
+						<EditGroupChatIcon />
+						{translate('chatFlyout.editGroupChat')}
+					</span>
+				</Link>
+			)}
+		</>
+	);
+};
+
+const SessionMenuFlyoutGroup = ({
+	chatItem,
+	activeSession,
+	groupChatInfoLink,
+	editGroupChatSettingsLink,
+	handleLeaveGroupChat,
+	handleStopGroupChat
+}: {
+	chatItem: GroupChatItemInterface;
+	activeSession: ActiveSessionType;
+	groupChatInfoLink: string;
+	editGroupChatSettingsLink: string;
+	handleStopGroupChat: MouseEventHandler;
+	handleLeaveGroupChat: MouseEventHandler;
+}) => {
+	const { userData } = useContext(UserDataContext);
+
+	return (
+		<>
+			{chatItem?.subscribed && (
+				<div
+					onClick={handleLeaveGroupChat}
+					className="sessionMenu__item sessionMenu__item--mobile"
+				>
+					{translate('chatFlyout.leaveGroupChat')}
+				</div>
+			)}
+			{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
+				<Link
+					to={groupChatInfoLink}
+					className="sessionMenu__item sessionMenu__item--mobile"
+				>
+					{translate('chatFlyout.groupChatInfo')}
+				</Link>
+			)}
+			{chatItem?.subscribed &&
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
+					<div
+						onClick={handleStopGroupChat}
+						className="sessionMenu__item sessionMenu__item--mobile"
+					>
+						{translate('chatFlyout.stopGroupChat')}
+					</div>
+				)}
+			{isGroupChatOwner(activeSession, userData) && !chatItem.active && (
+				<Link
+					to={{
+						pathname: editGroupChatSettingsLink,
+						state: {
+							isEditMode: true,
+							prevIsInfoPage: false
+						}
+					}}
+					className="sessionMenu__item sessionMenu__item--mobile"
+				>
+					{translate('chatFlyout.editGroupChat')}
+				</Link>
+			)}
+		</>
 	);
 };

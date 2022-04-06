@@ -19,6 +19,11 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 		.overlay__buttons {
 			align-self: flex-end;
 			margin-top: auto;
+			width: 100%;
+
+			@include breakpoint($fromSmall) {
+				width: auto;
+			}
 
 			@include breakpoint($fromMedium) {
 				display: flex;
@@ -37,6 +42,11 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 			margin-top: $grid-base-three;
 			margin-left: auto;
 			margin-right: $two-factor-auth-overlay-buttons-margin-right;
+		}
+		.button__wrapper + .button__wrapper {
+			@include breakpoint($fromSmall) {
+				margin-left: $grid-base-two;
+			}
 		}
 
 		.inputField__infoText {
@@ -149,6 +159,58 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 
 		.text + .text {
 			font-weight: $font-weight-bold;
+		}
+	}
+
+	&__selectType {
+		margin-top: $grid-base-three;
+		width: 100%;
+
+		@include breakpoint($fromSmall) {
+			display: flex;
+		}
+	}
+
+	&__radioWrapper {
+		margin-top: $grid-base-two;
+		display: flex;
+		align-items: center;
+
+		border: $overlay-radio-outline;
+		border-radius: $overlay-radio-radius;
+		padding: 0 10px;
+
+		width: 100%;
+
+		.radioButton {
+			min-height: auto;
+			margin-left: 0;
+
+			label {
+				padding-top: 13px;
+				padding-bottom: 13px;
+			}
+		}
+
+		.radioButton__contentWrapper {
+			align-items: center;
+		}
+
+		@include breakpoint($fromSmall) {
+			margin: 0 $grid-base 0 0;
+
+			& + .twoFactorAuth__radioWrapper {
+				margin: 0 0 0 $grid-base;
+			}
+		}
+	}
+
+	&__emailConfirmation {
+		svg {
+			max-width: 240px;
+		}
+		.headline {
+			text-align: center;
 		}
 	}
 }

@@ -1,0 +1,57 @@
+@mixin border-wrapper($key, $breakpoint) {
+	$bpKey: if($breakpoint == null, '', '-#{$key}');
+
+	@if not $breakpoint {
+		@include border($bpKey);
+	} @else {
+		@media screen and (min-width: $breakpoint) {
+			@include border($bpKey);
+		}
+	}
+}
+
+@mixin border($bpKey) {
+	@for $i from 0 through 3 {
+		.b#{$bpKey}--#{$i},
+		.by#{$bpKey}--#{$i},
+		.bx#{$bpKey}--#{$i},
+		.bt#{$bpKey}--#{$i},
+		.br#{$bpKey}--#{$i},
+		.bb#{$bpKey}--#{$i},
+		.bl#{$bpKey}--#{$i} {
+			border-color: rgba(0, 0, 0, 0.1);
+		}
+
+		.b#{$bpKey}--#{$i},
+		.by#{$bpKey}--#{$i},
+		.bt#{$bpKey}--#{$i} {
+			border-top-style: solid;
+			border-top-width: $i * 1px;
+		}
+
+		.b#{$bpKey}--#{$i},
+		.bx#{$bpKey}--#{$i},
+		.br#{$bpKey}--#{$i} {
+			border-right-style: solid;
+			border-right-width: $i * 1px;
+		}
+
+		.b#{$bpKey}--#{$i},
+		.by#{$bpKey}--#{$i},
+		.bb#{$bpKey}--#{$i} {
+			border-bottom-style: solid;
+			border-bottom-width: $i * 1px;
+		}
+
+		.b#{$bpKey}--#{$i},
+		.bx#{$bpKey}--#{$i},
+		.bl#{$bpKey}--#{$i} {
+			border-left-style: solid;
+			border-left-width: $i * 1px;
+		}
+	}
+}
+
+@each $key, $breakpoint in $breakpoints {
+	@include border-wrapper($key, $breakpoint);
+}

@@ -48,26 +48,26 @@ $infoIconSize: 16px;
 		}
 
 		&--warning {
-			.text__infoSmall {
-				color: var(--skin-color-primary-contrast-safe, $primary);
+			p {
+				margin-bottom: 20px;
 			}
 
 			a {
 				display: block;
-				font-size: $font-size-secondary;
-				line-height: $line-height-secondary;
 				text-decoration: underline;
-				transition: all 0.6s ease;
 			}
 		}
 	}
 
 	&__proposedAgency {
 		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
 		position: relative;
 		padding: 12px 0;
 
 		.radioButton {
+			flex-basis: calc(100% - #{$infoIconSize + 1px});
 			min-height: unset;
 		}
 

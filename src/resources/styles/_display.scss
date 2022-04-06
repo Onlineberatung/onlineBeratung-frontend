@@ -1,0 +1,29 @@
+@mixin display-wrapper($key, $breakpoint) {
+	$bpKey: if($breakpoint == null, '', '-#{$key}');
+
+	@if not $breakpoint {
+		@include display($bpKey);
+	} @else {
+		@media screen and (min-width: $breakpoint) {
+			@include display($bpKey);
+		}
+	}
+}
+
+$displayOptions: (
+	'n': 'none',
+	'b': 'block',
+	'f': 'flex'
+);
+
+@mixin display($bpKey) {
+	@each $key, $displayOption in $displayOptions {
+		.d#{$bpKey}--#{$key} {
+			display: $displayOption;
+		}
+	}
+}
+
+@each $key, $breakpoint in $breakpoints {
+	@include display-wrapper($key, $breakpoint);
+}

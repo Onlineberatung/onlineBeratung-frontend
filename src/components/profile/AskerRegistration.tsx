@@ -38,7 +38,7 @@ import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
 import { AskerRegistrationExternalAgencyOverlay } from './AskerRegistrationExternalAgencyOverlay';
 
-export const AskerRegistration = () => {
+export const AskerRegistration: React.FC = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingTypeId, setSelectedConsultingTypeId] =
@@ -87,7 +87,7 @@ export const AskerRegistration = () => {
 		),
 		useIconOption: false,
 		isSearchable: false,
-		menuPlacement: 'top',
+		menuPlacement: 'bottom',
 		defaultValue: getOptionOfSelectedConsultingType()
 	};
 
@@ -200,13 +200,22 @@ export const AskerRegistration = () => {
 					/>
 				</div>
 			) : (
-				<SelectDropdown {...consultingTypesDropdown} />
+				<div className="askerRegistration__consultingTypeWrapper">
+					<SelectDropdown {...consultingTypesDropdown} />
+					<Text
+						className="askerRegistration__consultingModeInfo"
+						labelType={LABEL_TYPES.NOTICE}
+						text={translate(
+							'profile.data.register.consultingModeInfo.singleChats'
+						)}
+						type="infoSmall"
+					/>
+				</div>
 			)}
 			{selectedConsultingType && (
 				<AgencySelection
 					consultingType={selectedConsultingType}
 					onAgencyChange={(agency) => setSelectedAgency(agency)}
-					userData={userData}
 					isProfileView={true}
 					agencySelectionNote={
 						selectedConsultingType?.registration?.notes

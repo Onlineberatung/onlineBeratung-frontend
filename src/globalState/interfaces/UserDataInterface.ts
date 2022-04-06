@@ -1,7 +1,9 @@
+import { ConsultingTypeInterface } from './ConsultingTypeInterface';
+
 export interface UserDataInterface {
 	absenceMessage?: string;
 	absent: boolean;
-	agencies: [AgencyDataInterface];
+	agencies: AgencyDataInterface[];
 	consultingTypes?: [
 		{ [consultingType: number]: ConsultingTypeDataInterface }
 	];
@@ -15,7 +17,16 @@ export interface UserDataInterface {
 	userId: string;
 	userName: string;
 	twoFactorAuth?: TwoFactorAuthInterface;
+	languages?: string[];
 	isWalkThroughEnabled?: boolean;
+}
+
+export interface ConsultantDataInterface
+	extends Omit<UserDataInterface, 'userId'> {
+	consultantId: string;
+	agencies: (AgencyDataInterface & {
+		consultingTypeRel?: ConsultingTypeInterface;
+	})[];
 }
 
 export interface AgencyDataInterface {
@@ -42,4 +53,8 @@ export interface TwoFactorAuthInterface {
 	isActive: boolean;
 	secret: string;
 	qrCode: string;
+}
+
+export interface AgencyLanguagesInterface {
+	languages: string[];
 }

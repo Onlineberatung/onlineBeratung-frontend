@@ -90,10 +90,9 @@ export const PasswordReset = () => {
 		type: 'password',
 		label: translate('profile.functions.passwordResetNewLabel'),
 		infoText:
-			(newPasswordErrorMessage || newPasswordSuccessMessage
+			newPasswordErrorMessage || newPasswordSuccessMessage
 				? `${newPasswordErrorMessage} ${newPasswordSuccessMessage}<br>`
-				: '') +
-			translate('profile.functions.passwordResetInstructions'),
+				: '',
 		content: newPassword
 	};
 
@@ -208,28 +207,50 @@ export const PasswordReset = () => {
 				/>
 				<Text
 					text={translate('profile.functions.passwordResetSubtitle')}
-					type="infoLargeAlternative"
+					type="standard"
+					className="tertiary"
 				/>
 			</div>
 			<div className="generalInformation">
-				<div className="generalInformation__innerWrapper">
-					<InputField
-						item={inputOldPassword}
-						inputHandle={handleInputOldChange}
-					/>
+				<div className="flex">
+					<div className="flex__col--1 flex-xl__col--50p">
+						<div className="pr-xl--1">
+							<InputField
+								item={inputOldPassword}
+								inputHandle={handleInputOldChange}
+							/>
+						</div>
+					</div>
 				</div>
-				<div className="generalInformation__innerWrapper">
-					<InputField
-						item={inputNewPassword}
-						inputHandle={handleInputNewChange}
-					/>
+
+				<div
+					className="text--tertiary tertiary pb--1"
+					dangerouslySetInnerHTML={{
+						__html: translate(
+							'profile.functions.passwordResetInstructions'
+						)
+					}}
+				></div>
+
+				<div className="flex flex--fd-column flex-xl--fd-row">
+					<div className="flex__col">
+						<div className="pr-xl--1">
+							<InputField
+								item={inputNewPassword}
+								inputHandle={handleInputNewChange}
+							/>
+						</div>
+					</div>
+					<div className="flex__col">
+						<div className="pl-xl--1">
+							<InputField
+								item={inputConfirmPassword}
+								inputHandle={handleInputConfirmChange}
+							/>
+						</div>
+					</div>
 				</div>
-				<div className="generalInformation__innerWrapper">
-					<InputField
-						item={inputConfirmPassword}
-						inputHandle={handleInputConfirmChange}
-					/>
-				</div>
+
 				<div className="button__wrapper">
 					<span
 						onClick={handleSubmit}

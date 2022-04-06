@@ -12,34 +12,38 @@ import { Text } from '../text/Text';
 import { ReactComponent as PersonsIcon } from '../../resources/img/icons/persons.svg';
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
-import { getValidDateFormatForSelectedDate } from '../groupChat/createChatHelpers';
 import { CSVLink } from 'react-csv';
 import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
 import './statistics.styles';
 import './profile.styles';
 
+const statisticsPeriodOptionCurrentMonth = 'currentMonth';
+const statisticsPeriodOptionLastMonth = 'lastMonth';
+const statisticsPeriodOptionCurrentYear = 'currentYear';
+const statisticsPeriodOptionLastYear = 'lastYear';
+
 type statisticOptions =
-	| 'lastMonth'
-	| 'currentMonth'
-	| 'currentYear'
-	| 'lastYear';
+	| typeof statisticsPeriodOptionCurrentMonth
+	| typeof statisticsPeriodOptionLastMonth
+	| typeof statisticsPeriodOptionCurrentYear
+	| typeof statisticsPeriodOptionLastYear;
 
 const statisticsPeriodOptions: { value: statisticOptions; label: string }[] = [
 	{
-		value: 'lastMonth',
-		label: translate('profile.statistics.period.lastMonth')
-	},
-	{
-		value: 'currentMonth',
+		value: statisticsPeriodOptionCurrentMonth,
 		label: translate('profile.statistics.period.currentMonth')
 	},
 	{
-		value: 'currentYear',
+		value: statisticsPeriodOptionLastMonth,
+		label: translate('profile.statistics.period.lastMonth')
+	},
+	{
+		value: statisticsPeriodOptionCurrentYear,
 		label: translate('profile.statistics.period.currentYear')
 	},
 	{
-		value: 'lastYear',
+		value: statisticsPeriodOptionLastYear,
 		label: translate('profile.statistics.period.lastYear')
 	}
 ];
@@ -99,20 +103,15 @@ const csvHeaders = [
 export const ConsultantStatistics = () => {
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
-	const [statisticsPeriod, setStatisticsPeriod] =
-		useState<statisticOptions>('lastMonth');
+	const [statisticsPeriod, setStatisticsPeriod] = useState<statisticOptions>(
+		statisticsPeriodOptionCurrentMonth
+	);
 	const [periodDisplay, setPeriodDisplay] = useState<string>(
 		translate('profile.statistics.period.display.default')
 	);
 	const [selectedStatistics, setSelectedStatistics] =
 		useState<ConsultantStatisticsDTO>(null);
 	const [csvData, setCsvData] = useState([]);
-
-	useEffect(() => {
-		//fetch complete statistics to deliver csv download
-		const currentDate = getValidDateFormatForSelectedDate(new Date());
-		getConsultantStatistics('1970-01-01', currentDate, true);
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (statisticsPeriod) {
@@ -130,7 +129,8 @@ export const ConsultantStatistics = () => {
 
 	const preSelectedOption = statisticsPeriod
 		? getPeriodOptions()
-		: statisticsPeriodOptions[1];
+		: statisticsPeriodOptions[0];
+
 	const selectDropdown: SelectDropdownItem = {
 		id: 'statisticsSelect',
 		selectedOptions: statisticsPeriodOptions,
@@ -142,44 +142,42 @@ export const ConsultantStatistics = () => {
 		defaultValue: preSelectedOption
 	};
 
-	const getConsultantStatistics = (
-		startDate: string,
-		endDate: string,
-		generatePdf: boolean = false
-	) => {
+	const getConsultantStatistics = (startDate: string, endDate: string) => {
 		if (isRequestInProgress) {
 			return null;
 		}
 		setIsRequestInProgress(true);
 		apiGetConsultantStatistics({ startDate, endDate })
 			.then((response: ConsultantStatisticsDTO) => {
-				if (generatePdf) {
-					const videoCallDurationInMinutes =
-						response.videoCallDuration / 60;
-					const data = [
-						{
-							numberOfAssignedSessions:
-								response.numberOfAssignedSessions,
-							numberOfSentMessages: response.numberOfSentMessages,
-							numberOfSessionsWhereConsultantWasActive:
-								response.numberOfSessionsWhereConsultantWasActive,
-							videoCallDuration:
-								videoCallDurationInMinutes === 0
-									? 0
-									: videoCallDurationInMinutes.toFixed(2)
-						}
-					];
-					setCsvData(data);
-				} else {
-					setSelectedStatistics(response);
-					const startDateString = formatToDDMMYYYY(
-						Date.parse(response.startDate)
-					);
-					const endDateString = formatToDDMMYYYY(
-						Date.parse(response.endDate)
-					);
-					setPeriodDisplay(`${startDateString} - ${endDateString}`);
-				}
+				const videoCallDurationMinutes = Math.floor(
+					response.videoCallDuration / 60
+				);
+				const videoCallDurationSeconds =
+					response.videoCallDuration % 60;
+				const data = [
+					{
+						numberOfAssignedSessions:
+							response.numberOfAssignedSessions,
+						numberOfSentMessages: response.numberOfSentMessages,
+						numberOfSessionsWhereConsultantWasActive:
+							response.numberOfSessionsWhereConsultantWasActive,
+						videoCallDuration:
+							videoCallDurationMinutes +
+							':' +
+							videoCallDurationSeconds
+					}
+				];
+
+				setCsvData(data);
+
+				setSelectedStatistics(response);
+				const startDateString = formatToDDMMYYYY(
+					Date.parse(response.startDate)
+				);
+				const endDateString = formatToDDMMYYYY(
+					Date.parse(response.endDate)
+				);
+				setPeriodDisplay(`${startDateString} - ${endDateString}`);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -204,17 +202,18 @@ export const ConsultantStatistics = () => {
 				/>
 				<SelectDropdown {...selectDropdown} />
 			</div>
-			<div>
+			<div className="b--1 p--3 mb--4">
 				<Text
 					text={`${translate(
 						'profile.statistics.period.display.prefix'
 					)}${periodDisplay}${translate(
 						'profile.statistics.period.display.suffix'
 					)}`}
-					type="infoLargeAlternative"
+					className="text--center text--bold"
+					type="standard"
 				/>
 				<div className="statistics__visuals__wrapper">
-					<div className="statistics__visualization">
+					<div className="statistics__visualization text--center br--1 pr--4">
 						<span>
 							<PersonsIcon />
 							<p>
@@ -229,7 +228,7 @@ export const ConsultantStatistics = () => {
 							type="standard"
 						/>
 					</div>
-					<div className="statistics__visualization">
+					<div className="statistics__visualization pl--4">
 						<span>
 							<SpeechBubbleIcon />
 							<p>
@@ -255,9 +254,9 @@ export const ConsultantStatistics = () => {
 						separator={';'}
 						headers={csvHeaders}
 						data={csvData}
-						filename={translate(
+						filename={`${translate(
 							'profile.statistics.complete.filename'
-						)}
+						)} - ${periodDisplay}.csv`}
 					>
 						<DownloadIcon />
 						{translate(

@@ -1,0 +1,43 @@
+@mixin padding-wrapper($key, $breakpoint) {
+	$bpKey: if($breakpoint == null, '', '-#{$key}');
+
+	@if not $breakpoint {
+		@include padding($bpKey);
+	} @else {
+		@media screen and (min-width: $breakpoint) {
+			@include padding($bpKey);
+		}
+	}
+}
+
+@mixin padding($bpKey) {
+	@for $i from 0 through 12 {
+		.p#{$bpKey}--#{$i},
+		.py#{$bpKey}--#{$i},
+		.pt#{$bpKey}--#{$i} {
+			padding-top: $i * $grid-base;
+		}
+
+		.p#{$bpKey}--#{$i},
+		.px#{$bpKey}--#{$i},
+		.pr#{$bpKey}--#{$i} {
+			padding-right: $i * $grid-base;
+		}
+
+		.p#{$bpKey}--#{$i},
+		.py#{$bpKey}--#{$i},
+		.pb#{$bpKey}--#{$i} {
+			padding-bottom: $i * $grid-base;
+		}
+
+		.p#{$bpKey}--#{$i},
+		.px#{$bpKey}--#{$i},
+		.pl#{$bpKey}--#{$i} {
+			padding-left: $i * $grid-base;
+		}
+	}
+}
+
+@each $key, $breakpoint in $breakpoints {
+	@include padding-wrapper($key, $breakpoint);
+}

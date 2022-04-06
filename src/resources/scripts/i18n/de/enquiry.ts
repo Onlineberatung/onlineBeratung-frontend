@@ -18,7 +18,9 @@ const enquiry = {
 	'write.overlayHeadline': 'Vielen Dank für Ihre Nachricht!',
 	'write.overlayCopy':
 		'Innerhalb von zwei Werktagen erhalten Sie eine Antwort von uns.',
-	'write.overlay.button': 'Zur Nachricht'
+	'write.overlay.button': 'Zur Nachricht',
+	'language.selection.headline':
+		'Bitte wählen Sie die Sprache, in der Sie beraten werden wollen.'
 };
 
 export default enquiry;

@@ -21,11 +21,13 @@ export const OVERLAY_FUNCTIONS = {
 	STOP_GROUP_CHAT: 'STOP_GROUP_CHAT',
 	LEAVE_GROUP_CHAT: 'LEAVE_GROUP_CHAT',
 	DELETE_ACCOUNT: 'DELETE_ACCOUNT',
+	DELETE_EMAIL: 'DELETE_EMAIL',
 	NEXT_STEP: 'NEXT_STEP',
 	PREV_STEP: 'PREV_STEP',
 	DELETE_SESSION: 'DELETE_SESSION',
 	FINISH_ANONYMOUS_CONVERSATION: 'FINISH_ANONYMOUS_CONVERSATION',
-	ARCHIVE: 'ARCHIVE'
+	ARCHIVE: 'ARCHIVE',
+	CONFIRM_EDIT: 'CONFIRM_EDIT'
 };
 
 export const OVERLAY_RESET_TIME = 10000;
@@ -40,6 +42,7 @@ export interface OverlayItem {
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
 	>;
+	handleNextStep?: (callback: Function) => void;
 	handleOverlay?: Function;
 	step?: {
 		icon: React.FunctionComponent<
@@ -92,7 +95,13 @@ export const Overlay = (props: {
 
 	const handleButtonClick = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.NEXT_STEP) {
-			setActiveStep(activeStep + 1);
+			if (activeOverlay.handleNextStep) {
+				activeOverlay.handleNextStep(() => {
+					setActiveStep(activeStep + 1);
+				});
+			} else {
+				setActiveStep(activeStep + 1);
+			}
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.PREV_STEP) {
 			setActiveStep(activeStep - 1);
 		} else if (props.item && props.handleOverlay) {
@@ -121,7 +130,8 @@ export const Overlay = (props: {
 			className={clsx(
 				props.className,
 				'overlay',
-				props.items?.length > 0 ? 'overlay--stepped' : ''
+				props.items?.length > 0 && 'overlay--stepped',
+				activeOverlay.svg && 'overlay--illustration'
 			)}
 		>
 			<div className="overlay__background"></div>
@@ -200,6 +210,7 @@ export const Overlay = (props: {
 					<div className="overlay__buttons">
 						{activeOverlay.buttonSet?.map((item, i) => (
 							<Button
+								disabled={item.disabled}
 								item={item}
 								key={`${i}-${item.type}`}
 								buttonHandle={handleButtonClick}

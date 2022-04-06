@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useState, useContext, useEffect, useMemo, ComponentType } from 'react';
+import { useState, useContext, useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import {
 	typeIsEnquiry,
@@ -31,7 +32,6 @@ import {
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import {
 	SessionsDataContext,
-	getActiveSession,
 	UserDataContext,
 	getContact,
 	AcceptedGroupIdContext,
@@ -39,7 +39,9 @@ import {
 	isAnonymousSession,
 	AUTHORITIES,
 	ConsultingTypeInterface,
-	UpdateSessionListContext
+	UpdateSessionListContext,
+	SessionItemInterface,
+	LegalLinkInterface
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
@@ -51,33 +53,33 @@ import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons
 import smoothScroll from './smoothScrollHelper';
 import { Headline } from '../headline/Headline';
 import { history } from '../app/app';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 interface SessionItemProps {
-	currentGroupId: string;
 	isAnonymousEnquiry?: boolean;
-	isTyping: Function;
+	isTyping?: Function;
 	messages?: MessageItem[];
 	typingUsers: string[];
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
+	const { rcGroupId: groupIdFromParam } = useParams();
+
+	const activeSession = useContext(ActiveSessionContext);
 	let { sessionsData, setSessionsData } = useContext(SessionsDataContext);
-	const activeSession = useMemo(
-		() => getActiveSession(props.currentGroupId, sessionsData),
-		[props.currentGroupId] // eslint-disable-line react-hooks/exhaustive-deps
-	);
 	const { userData } = useContext(UserDataContext);
 	const [monitoringButtonVisible, setMonitoringButtonVisible] =
 		useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [currentGroupId, setCurrentGroupId] = useState(null);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-	const chatItem = getChatItemForSession(activeSession);
+	const chatItem = getChatItemForSession(
+		activeSession
+	) as SessionItemInterface;
 	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -155,8 +157,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	useEffect(() => {
 		let isCanceled = false;
 		apiGetConsultingType({
-			consultingTypeId:
-				getChatItemForSession(activeSession)?.consultingType
+			consultingTypeId: chatItem?.consultingType
 		}).then((response) => {
 			if (isCanceled) return;
 			setResortData(response);
@@ -164,9 +165,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		return () => {
 			isCanceled = true;
 		};
-	}, [chatItem]); // eslint-disable-line
-
-	if (!activeSession) return null;
+	}, [chatItem?.consultingType]);
 
 	const getPlaceholder = () => {
 		if (isGroupChat) {
@@ -214,7 +213,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			case OVERLAY_FUNCTIONS.REDIRECT:
 				setOverlayItem(null);
 				setIsRequestInProgress(false);
-				setCurrentGroupId('');
 				setAcceptedGroupId(currentGroupId);
 				setSessionsData({ ...sessionsData, enquiries: [] });
 				history.push(`/sessions/consultant/sessionView/`);
@@ -345,12 +343,12 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				consultantAbsent={
 					activeSession.consultant && activeSession.consultant.absent
 						? activeSession.consultant
-						: false
+						: null
 				}
 				hasUserInitiatedStopOrLeaveRequest={
 					props.hasUserInitiatedStopOrLeaveRequest
 				}
-				legalComponent={props.legalComponent}
+				legalLinks={props.legalLinks}
 			/>
 
 			{!isAnonymousEnquiry && (
@@ -462,7 +460,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						))) && (
 					<MessageSubmitInterfaceComponent
 						handleSendButton={() => {}}
-						isTyping={() => props.isTyping()}
+						isTyping={props.isTyping}
 						className={clsx(
 							'session__submit-interface',
 							!isScrolledToBottom &&
@@ -474,6 +472,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						}}
 						type={getTypeOfLocation()}
 						typingUsers={props.typingUsers}
+						groupIdFromParam={groupIdFromParam}
 					/>
 				)}
 			{overlayItem && (

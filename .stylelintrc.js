@@ -59,6 +59,7 @@ module.exports = {
 		'value-keyword-case': null, // Requires e.g. "robotoslab" instead of "RobotoSlab"
 		'scss/operator-no-unspaced': null, // Has false positives
 		'scss/dollar-variable-empty-line-before': null,
+		'scss/at-import-partial-extension': null, // We use the `.styles.scss` extension
 
 		// Too much effort to change
 		'selector-class-pattern': null,

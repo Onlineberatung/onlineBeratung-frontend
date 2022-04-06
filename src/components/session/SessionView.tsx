@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-	ComponentType,
+	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
@@ -8,265 +8,160 @@ import {
 	useState
 } from 'react';
 import { history } from '../app/app';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
-	SessionsDataContext,
-	ActiveSessionGroupIdContext,
-	getActiveSession,
-	UnreadSessionsStatusContext,
-	getSessionsDataWithChangedValue,
-	StoppedGroupChatContext,
 	AcceptedGroupIdContext,
+	FilterStatusContext,
+	getActiveSession,
+	REGISTRATION_TYPE_ANONYMOUS,
+	SessionsDataContext,
+	SessionsDataInterface,
+	STATUS_ENQUIRY,
+	STATUS_FINISHED,
+	UnreadSessionsStatusContext,
+	UPDATE_SESSION_CHAT_ITEM,
 	UpdateSessionListContext,
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	LegalLinkInterface
 } from '../../globalState';
-import { mobileDetailView, mobileListView } from '../app/navigationHandler';
+import {
+	desktopView,
+	mobileDetailView,
+	mobileListView
+} from '../app/navigationHandler';
 import {
 	apiGetSessionData,
 	apiSetSessionRead,
-	SOCKET_COLLECTION,
-	rocketChatSocket
+	FILTER_FEEDBACK,
+	rocketChatSocket,
+	SOCKET_COLLECTION
 } from '../../api';
 import {
-	getSessionListPathForLocation,
 	getChatItemForSession,
-	isGroupChatForSessionItem,
-	prepareMessages,
+	getSessionDataKeyForSessionListType,
+	getSessionListPathForLocation,
 	getTypeOfLocation,
-	typeIsEnquiry,
-	SESSION_LIST_TYPES
+	isGroupChat,
+	isLiveChat,
+	isSessionChat,
+	prepareMessages,
+	SESSION_LIST_TYPES,
+	typeIsEnquiry
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import {
-	OverlayWrapper,
 	Overlay,
+	OVERLAY_FUNCTIONS,
 	OverlayItem,
-	OVERLAY_FUNCTIONS
+	OverlayWrapper
 } from '../overlay/Overlay';
 import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
-import { encodeUsername, decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import useTyping from '../../utils/useTyping';
+import { useResponsive } from '../../hooks/useResponsive';
 import './session.styles';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
-import { RouteComponentProps } from 'react-router-dom';
-
-let typingTimeout;
-const TYPING_TIMEOUT_MS = 4000;
 
 interface RouterProps {
 	rcGroupId: string;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
-export const SessionView = (props: RouteComponentProps<RouterProps>) => {
-	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
+export const SessionView = (props: RouterProps) => {
+	const { rcGroupId: groupIdFromParam } = useParams();
+
+	const { sessionsData, dispatchSessionsData } =
+		useContext(SessionsDataContext);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-	const { setActiveSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const groupIdFromParam: string = props.match.params.rcGroupId;
-	setActiveSessionGroupId(groupIdFromParam);
-	const activeSession = useMemo(
-		() => getActiveSession(groupIdFromParam, sessionsData),
-		[groupIdFromParam] // eslint-disable-line react-hooks/exhaustive-deps
-	);
-	const chatItem = getChatItemForSession(activeSession);
-	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const groupId = activeSession?.isFeedbackSession
-		? chatItem?.feedbackGroupId
-		: chatItem?.groupId;
-	const [isLoading, setIsLoading] = useState(true);
-	const [messagesItem, setMessagesItem] = useState(null);
+	const { userData } = useContext(UserDataContext);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
-	const { setStoppedGroupChat } = useContext(StoppedGroupChatContext);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
+	const { filterStatus } = useContext(FilterStatusContext);
+
+	const [activeSession, setActiveSession] = useState(null);
+	const [chatItem, setChatItem] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
+	const [readonly, setReadonly] = useState(true);
+	const [messagesItem, setMessagesItem] = useState(null);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [loadedMessages, setLoadedMessages] = useState(null);
-	const { userData } = useContext(UserDataContext);
-	const [typingUsers, setTypingUsers] = useState([]);
-	const [currentlyTypingUsers, setCurrentlyTypingUsers] = useState([]);
-	const [typingStatusSent, setTypingStatusSent] = useState(false);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
-	const isLiveChatFinished = chatItem?.status === 3;
+
+	const type = getTypeOfLocation();
+
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
-	const isEnquiry = typeIsEnquiry(getTypeOfLocation());
-	const isConsultantEnquiry =
-		isEnquiry && hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+
+	const { subscribeTyping, handleTyping, typingUsers } = useTyping(
+		groupIdFromParam,
+		userData.userName
+	);
+
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
 
-	const setSessionToRead = (newMessageFromSocket: boolean = false) => {
-		if (
-			activeSession &&
-			(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
-				!isLiveChatFinished)
-		) {
-			const isCurrentSessionRead = activeSession.isFeedbackSession
-				? chatItem.feedbackRead
-				: chatItem.messagesRead;
-			if (!isCurrentSessionRead || newMessageFromSocket) {
-				apiSetSessionRead(groupId);
-				activeSession.isFeedbackSession
-					? (chatItem.feedbackRead = true)
-					: (chatItem.messagesRead = true);
-
-				const changedSessionsData = getSessionsDataWithChangedValue(
-					sessionsData,
-					activeSession,
-					'messagesRead',
-					true
-				);
-				setSessionsData(changedSessionsData);
-
-				const newMySessionsCount = Math.max(
-					unreadSessionsStatus.mySessions - 1,
-					0
-				);
-				setUnreadSessionsStatus({
-					...unreadSessionsStatus,
-					mySessions: newMySessionsCount,
-					resetedAnimations: newMySessionsCount === 0
-				});
-			}
-		}
-	};
-
-	const fetchSessionMessages = (isSocketConnected: boolean = false) => {
-		const rcGroupId = props.match.params.rcGroupId;
-		apiGetSessionData(rcGroupId)
+	const fetchSessionMessages = useCallback(() => {
+		return apiGetSessionData(groupIdFromParam)
 			.then((messagesData) => {
 				setLoadedMessages(messagesData);
-				setIsLoading(false);
-
-				if (!isSocketConnected && !isConsultantEnquiry) {
-					setSessionToRead();
-					window['socket'].connect();
-					window['socket'].addSubscription(
-						SOCKET_COLLECTION.ROOM_MESSAGES,
-						[groupId, false],
-						handleRoomMessage
-					);
-					if (isGroupChat) {
-						window['socket'].addSubscription(
-							SOCKET_COLLECTION.NOTIFY_USER,
-							[
-								getValueFromCookie('rc_uid') +
-									'/subscriptions-changed',
-								false
-							],
-							handleGroupChatStopped
-						);
-						window['socket'].addSubscription(
-							SOCKET_COLLECTION.NOTIFY_ROOM,
-							[
-								`${groupId}/typing`,
-								{ useCollection: false, args: [] }
-							],
-							(data) => handleTypingResponse(data)
-						);
-					}
-				}
 			})
 			.catch((error) => null);
-	};
+	}, [groupIdFromParam]);
 
-	const handleRoomMessage = () => {
-		fetchSessionMessages(true);
-		setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
-	};
-
-	useEffect(() => {
-		setIsLoading(true);
-		mobileDetailView();
-		setAcceptedGroupId(null);
-		typingTimeout = null;
-		const isEnquiry = chatItem?.status === 1;
-		const isCurrentAnonymousEnquiry =
-			isEnquiry && chatItem?.registrationType === 'ANONYMOUS';
-		if (isGroupChat && !chatItem.subscribed) {
-			setIsLoading(false);
-		} else if (isCurrentAnonymousEnquiry) {
-			setIsLoading(false);
-			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
-		} else if (isConsultantEnquiry) {
-			fetchSessionMessages();
-		} else {
-			window['socket'] = new rocketChatSocket();
-			fetchSessionMessages();
-			return () => {
-				window['socket'].close();
-				setStoppedGroupChat(false);
-			};
+	/**
+	 * ToDo: roomMessageBounce is just a temporary fix because currently
+	 * every message gets marked but on every changed message we are loading all
+	 * messages. Maybe in future we will only update single message as it changes
+	 */
+	const roomMessageBounce = useRef(null);
+	const handleRoomMessage = useCallback(() => {
+		if (roomMessageBounce.current) {
+			clearTimeout(roomMessageBounce.current);
 		}
-	}, [activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
+		roomMessageBounce.current = setTimeout(() => {
+			roomMessageBounce.current = null;
+			fetchSessionMessages().finally(() => {
+				// ToDo: Never update session list if filtered for feedback
+				// because api will not return read feedback messages currenlty
+				if (filterStatus !== FILTER_FEEDBACK) {
+					setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+				}
+			});
+		}, 500);
+	}, [fetchSessionMessages, filterStatus, setUpdateSessionList]);
 
-	useEffect(() => {
-		if (sessionsData) {
-			const currentSession = getActiveSession(
-				groupIdFromParam,
-				sessionsData
-			);
-			const currentChatItem = getChatItemForSession(currentSession);
-			const currentSessionRead = currentSession?.isFeedbackSession
-				? currentChatItem?.feedbackRead
-				: currentChatItem?.messagesRead;
-			if (!currentSessionRead) {
-				setSessionToRead(true);
-			}
-		}
-	}, [sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+	const groupChatStoppedOverlay: OverlayItem = useMemo(
+		() => ({
+			svg: CheckIcon,
+			headline: translate('groupChat.stopped.overlay.headline'),
+			buttonSet: [
+				{
+					label: translate('groupChat.stopped.overlay.button1Label'),
+					function: OVERLAY_FUNCTIONS.REDIRECT,
+					type: BUTTON_TYPES.PRIMARY
+				},
+				{
+					label: translate('groupChat.stopped.overlay.button2Label'),
+					function: OVERLAY_FUNCTIONS.LOGOUT,
+					type: BUTTON_TYPES.SECONDARY
+				}
+			]
+		}),
+		[]
+	);
 
-	useEffect(() => {
-		setTypingUsers(currentlyTypingUsers);
-	}, [currentlyTypingUsers]);
-
-	useEffect(() => {
-		if (typingStatusSent) {
-			setTypingTimeout();
-		}
-	}, [typingStatusSent]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		if (loadedMessages) {
-			setMessagesItem(loadedMessages);
-			setLoadedMessages(null);
-		}
-	}, [loadedMessages]);
-
-	if (!sessionsData) return null;
-	if (!activeSession) {
-		history.push(getSessionListPathForLocation());
-		return null;
-	}
-
-	const groupChatStoppedOverlay: OverlayItem = {
-		svg: CheckIcon,
-		headline: translate('groupChat.stopped.overlay.headline'),
-		buttonSet: [
-			{
-				label: translate('groupChat.stopped.overlay.button1Label'),
-				function: OVERLAY_FUNCTIONS.REDIRECT,
-				type: BUTTON_TYPES.PRIMARY
-			},
-			{
-				label: translate('groupChat.stopped.overlay.button2Label'),
-				function: OVERLAY_FUNCTIONS.LOGOUT,
-				type: BUTTON_TYPES.SECONDARY
-			}
-		]
-	};
-
-	const handleGroupChatStopped =
+	const handleGroupChatStopped = useCallback(
 		(hasUserInitiatedStopOrLeaveRequest) => () => {
 			// If the user has initiated the stop or leave request, he/she is already
 			// shown an appropriate overlay during the process via the SessionMenu component.
@@ -277,76 +172,207 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 				setOverlayItem(groupChatStoppedOverlay);
 				setIsOverlayActive(true);
 			}
-		};
+		},
+		[groupChatStoppedOverlay]
+	);
+
+	useEffect(
+		() => {
+			if (readonly || !activeSession) {
+				return;
+			}
+
+			const chatItem = getChatItemForSession(activeSession);
+			const isLiveChatFinished =
+				isSessionChat(chatItem) && chatItem?.status === STATUS_FINISHED;
+
+			if (
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
+				!isLiveChatFinished
+			) {
+				const isCurrentSessionRead =
+					activeSession.isFeedbackSession && isSessionChat(chatItem)
+						? chatItem.feedbackRead
+						: chatItem.messagesRead;
+
+				const groupId =
+					activeSession.isFeedbackSession && isSessionChat(chatItem)
+						? chatItem.feedbackGroupId
+						: chatItem.groupId;
+
+				if (!isCurrentSessionRead) {
+					apiSetSessionRead(groupId).finally(() => {
+						if (filterStatus === FILTER_FEEDBACK) {
+							const key = activeSession?.isFeedbackSession
+								? 'feedbackRead'
+								: 'messagesRead';
+
+							dispatchSessionsData({
+								type: UPDATE_SESSION_CHAT_ITEM,
+								key: getSessionDataKeyForSessionListType(type),
+								groupId: chatItem.groupId,
+								data: {
+									[key]: true
+								} as SessionsDataInterface
+							});
+						} else {
+							setUpdateSessionList(true);
+						}
+					});
+
+					const newMySessionsCount = Math.max(
+						unreadSessionsStatus.mySessions - 1,
+						0
+					);
+					setUnreadSessionsStatus({
+						...unreadSessionsStatus,
+						mySessions: newMySessionsCount,
+						resetedAnimations: newMySessionsCount === 0
+					});
+				}
+			}
+		},
+		[activeSession, readonly] // eslint-disable-line react-hooks/exhaustive-deps
+	);
+
+	const connectSocket = useCallback(
+		(isGroupOrLiveChat) => {
+			window['socket'].connect();
+
+			window['socket'].addSubscription(
+				SOCKET_COLLECTION.ROOM_MESSAGES,
+				[groupIdFromParam, false],
+				handleRoomMessage
+			);
+
+			if (isGroupOrLiveChat) {
+				subscribeTyping();
+
+				window['socket'].addSubscription(
+					SOCKET_COLLECTION.NOTIFY_USER,
+					[
+						getValueFromCookie('rc_uid') + '/subscriptions-changed',
+						false
+					],
+					handleGroupChatStopped
+				);
+			}
+		},
+		[
+			groupIdFromParam,
+			handleGroupChatStopped,
+			subscribeTyping,
+			handleRoomMessage
+		]
+	);
+
+	useEffect(() => {
+		setIsLoading(true);
+	}, [groupIdFromParam]);
+
+	const { fromL } = useResponsive();
+	useEffect(() => {
+		if (!fromL) {
+			mobileDetailView();
+			return () => {
+				mobileListView();
+			};
+		}
+		desktopView();
+	}, [fromL]);
+
+	useEffect(() => {
+		setAcceptedGroupId(null);
+
+		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+		const chatItem = getChatItemForSession(activeSession);
+
+		setActiveSession(activeSession);
+		setChatItem(chatItem);
+	}, [groupIdFromParam, sessionsData, setAcceptedGroupId]);
+
+	useEffect(() => {
+		setIsLoading(true);
+
+		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+		const chatItem = getChatItemForSession(activeSession);
+
+		const isConsultantEnquiry =
+			typeIsEnquiry(getTypeOfLocation()) &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+		const isEnquiry =
+			isSessionChat(chatItem) && chatItem?.status === STATUS_ENQUIRY;
+		const isCurrentAnonymousEnquiry =
+			isEnquiry &&
+			isSessionChat(chatItem) &&
+			chatItem?.registrationType === REGISTRATION_TYPE_ANONYMOUS;
+
+		if (isGroupChat(chatItem) && !chatItem.subscribed) {
+			setIsLoading(false);
+		} else if (isCurrentAnonymousEnquiry) {
+			setIsLoading(false);
+			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
+		} else if (isConsultantEnquiry) {
+			fetchSessionMessages().finally(() => {
+				setIsLoading(false);
+			});
+		} else {
+			setReadonly(false);
+			window['socket'] = new rocketChatSocket();
+			fetchSessionMessages()
+				.then(() => {
+					connectSocket(
+						isGroupChat(chatItem) || isLiveChat(chatItem)
+					);
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
+			return () => {
+				window['socket'].close();
+			};
+		}
+	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (loadedMessages) {
+			setMessagesItem(loadedMessages);
+			setLoadedMessages(null);
+		}
+	}, [loadedMessages]);
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
-			setStoppedGroupChat(true);
+			setUpdateSessionList(true);
 			setRedirectToSessionsList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
 		}
 	};
 
-	const setTypingTimeout = () => {
-		return (typingTimeout = setTimeout(() => {
-			window['socket'].sendTypingState(SOCKET_COLLECTION.NOTIFY_ROOM, [
-				`${groupId}/typing`,
-				encodeUsername(userData.userName).toLowerCase(),
-				false
-			]);
-			setTypingStatusSent(false);
-		}, TYPING_TIMEOUT_MS));
-	};
-
-	const handleTyping = () => {
-		if (isGroupChat && window['socket']) {
-			if (!typingStatusSent) {
-				window['socket'].sendTypingState(
-					SOCKET_COLLECTION.NOTIFY_ROOM,
-					[
-						`${groupId}/typing`,
-						encodeUsername(userData.userName).toLowerCase(),
-						true
-					]
-				);
-				setTypingStatusSent(true);
-			} else {
-				window.clearTimeout(typingTimeout);
-				setTypingTimeout();
-			}
-		}
-	};
-
-	const handleTypingResponse = (data) => {
-		setCurrentlyTypingUsers([]);
-		const username = decodeUsername(data[0]);
-		const isTyping = data[1];
-		let users = typingUsers;
-		if (isTyping && !typingUsers.includes(username)) {
-			users.push(username);
-		} else {
-			const index = typingUsers.indexOf(username);
-			if (index !== -1) {
-				users.splice(index, 1);
-			} else {
-				users = [];
-			}
-		}
-		setCurrentlyTypingUsers(users);
-	};
-
 	if (isLoading) {
 		return <Loading />;
 	}
 
-	if (isGroupChat && !chatItem.subscribed) {
-		return <JoinGroupChatView legalComponent={props.legalComponent} />;
+	if (!sessionsData) return null;
+
+	if (!activeSession) {
+		history.push(getSessionListPathForLocation());
+		return null;
+	}
+
+	if (isGroupChat(chatItem) && !chatItem.subscribed) {
+		return (
+			<ActiveSessionContext.Provider value={activeSession}>
+				<JoinGroupChatView
+					chatItem={chatItem}
+					legalLinks={props.legalLinks}
+				/>
+			</ActiveSessionContext.Provider>
+		);
 	}
 
 	if (redirectToSessionsList) {
-		mobileListView();
-		setActiveSessionGroupId(null);
 		history.push(
 			getSessionListPathForLocation() +
 				(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
@@ -354,28 +380,31 @@ export const SessionView = (props: RouteComponentProps<RouterProps>) => {
 	}
 
 	return (
-		<div className="session__wrapper">
-			<SessionItemComponent
-				currentGroupId={groupIdFromParam}
-				hasUserInitiatedStopOrLeaveRequest={
-					hasUserInitiatedStopOrLeaveRequest
-				}
-				isAnonymousEnquiry={isAnonymousEnquiry}
-				isTyping={handleTyping}
-				messages={
-					messagesItem ? prepareMessages(messagesItem.messages) : null
-				}
-				typingUsers={typingUsers}
-				legalComponent={props.legalComponent}
-			/>
-			{isOverlayActive ? (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
-			) : null}
-		</div>
+		<ActiveSessionContext.Provider value={activeSession}>
+			<div className="session__wrapper">
+				<SessionItemComponent
+					hasUserInitiatedStopOrLeaveRequest={
+						hasUserInitiatedStopOrLeaveRequest
+					}
+					isAnonymousEnquiry={isAnonymousEnquiry}
+					isTyping={handleTyping}
+					messages={
+						messagesItem
+							? prepareMessages(messagesItem.messages)
+							: null
+					}
+					typingUsers={typingUsers}
+					legalLinks={props.legalLinks}
+				/>
+				{isOverlayActive ? (
+					<OverlayWrapper>
+						<Overlay
+							item={overlayItem}
+							handleOverlay={handleOverlayAction}
+						/>
+					</OverlayWrapper>
+				) : null}
+			</div>
+		</ActiveSessionContext.Provider>
 	);
 };

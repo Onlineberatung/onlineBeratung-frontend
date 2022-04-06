@@ -7,7 +7,14 @@ import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { EditableData } from '../editableData/EditableData';
-import { apiPutConsultantData, FETCH_ERRORS, X_REASON } from '../../api';
+import {
+	apiDeleteTwoFactorAuth,
+	apiPutConsultantData,
+	FETCH_ERRORS,
+	X_REASON
+} from '../../api';
+import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
+import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 
 const cancelEditButton: ButtonItem = {
 	label: translate('profile.data.edit.button.cancel'),
@@ -28,6 +35,14 @@ export const ConsultantPrivateData = () => {
 		useState<boolean>(false);
 	const [firstName, setFirstName] = useState<string>();
 	const [lastName, setLastName] = useState<string>();
+	const [overlayActive, setOverlayActive] = useState(false);
+
+	const isEmail2faActive =
+		userData.twoFactorAuth?.isActive &&
+		userData.twoFactorAuth?.type === TWO_FACTOR_TYPES.EMAIL;
+
+	const isEmailEditedAndEmail2faActive =
+		userData.email !== email && isEmail2faActive;
 
 	useEffect(() => {
 		if (email && firstName && lastName) {
@@ -48,12 +63,16 @@ export const ConsultantPrivateData = () => {
 	};
 
 	const handleSaveEditButton = () => {
+		if (isEmailEditedAndEmail2faActive) {
+			setOverlayActive(true);
+		}
 		if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			apiPutConsultantData({
 				email: email.trim(),
 				firstname: firstName.trim(),
-				lastname: lastName.trim()
+				lastname: lastName.trim(),
+				languages: userData.languages
 			})
 				.then((response) => {
 					setIsRequestInProgress(false);
@@ -81,25 +100,71 @@ export const ConsultantPrivateData = () => {
 		setIsEmailNotAvailable(false);
 	};
 
+	const emailOverlay = () => {
+		return (
+			<div className="profile__emailOverlay">
+				<Headline
+					text={translate(
+						'twoFactorAuth.email.change.confirmOverlay.title'
+					)}
+					semanticLevel="2"
+				/>
+
+				<Text
+					text={translate(
+						'twoFactorAuth.email.change.confirmOverlay.copy.1'
+					)}
+					type="infoLargeStandard"
+				/>
+				<Text
+					text={translate(
+						'twoFactorAuth.email.change.confirmOverlay.copy.2'
+					)}
+					type="infoLargeStandard"
+				/>
+			</div>
+		);
+	};
+
+	const handleOverlayAction = (buttonFunction: string) => {
+		switch (buttonFunction) {
+			case OVERLAY_FUNCTIONS.CLOSE:
+				setOverlayActive(false);
+				setIsEditDisabled(true);
+				break;
+			case OVERLAY_FUNCTIONS.CONFIRM_EDIT:
+				apiDeleteTwoFactorAuth().then(() => {
+					setOverlayActive(false);
+				});
+				break;
+		}
+	};
+
 	return (
 		<div>
 			<div className="profile__content__title">
-				<Headline
-					text={translate('profile.data.title.private')}
-					semanticLevel="5"
-				/>
+				<div className="flex flex--jc-sb">
+					<Headline
+						text={translate('profile.data.title.private')}
+						semanticLevel="5"
+					/>
+					{isEditDisabled && (
+						<span
+							role="button"
+							className="primary"
+							onClick={() => {
+								setIsEditDisabled(false);
+							}}
+						>
+							<PenIcon />
+						</span>
+					)}
+				</div>
 				<Text
 					text={translate('profile.data.info.private')}
-					type="infoLargeAlternative"
+					type="standard"
+					className="tertiary"
 				/>
-				{isEditDisabled && (
-					<span
-						className="editableData__inputButton editableData__inputButton--edit"
-						onClick={() => setIsEditDisabled(false)}
-					>
-						<PenIcon />
-					</span>
-				)}
 			</div>
 			<EditableData
 				label={emailLabel}
@@ -108,6 +173,10 @@ export const ConsultantPrivateData = () => {
 				isDisabled={isEditDisabled}
 				onValueIsValid={handleEmailChange}
 				isEmailAlreadyInUse={isEmailNotAvailable}
+				onBeforeRemoveButtonClick={() =>
+					isEmail2faActive && setOverlayActive(true)
+				}
+				onSingleFocus={() => isEmail2faActive && setOverlayActive(true)}
 			/>
 			<EditableData
 				label={translate('profile.data.firstName')}
@@ -143,6 +212,35 @@ export const ConsultantPrivateData = () => {
 					/>
 				</div>
 			)}
+			{overlayActive ? (
+				<OverlayWrapper>
+					<Overlay
+						items={[
+							{
+								nestedComponent: emailOverlay(),
+								buttonSet: [
+									{
+										type: BUTTON_TYPES.SECONDARY,
+										function: OVERLAY_FUNCTIONS.CLOSE,
+										label: translate(
+											'twoFactorAuth.email.change.confirmOverlay.button.deny'
+										)
+									},
+									{
+										type: BUTTON_TYPES.PRIMARY,
+										function:
+											OVERLAY_FUNCTIONS.CONFIRM_EDIT,
+										label: translate(
+											'twoFactorAuth.email.change.confirmOverlay.button.confirm'
+										)
+									}
+								],
+								handleOverlay: handleOverlayAction
+							}
+						]}
+					/>
+				</OverlayWrapper>
+			) : null}
 		</div>
 	);
 };

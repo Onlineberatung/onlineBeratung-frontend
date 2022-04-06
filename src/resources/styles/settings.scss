@@ -107,6 +107,15 @@ $fromLarge: 900px;
 $fromXLarge: 1200px;
 $fromXXLarge: 1600px;
 
+$breakpoints: (
+	'xs': null,
+	's': $fromSmall,
+	'm': $fromMedium,
+	'l': $fromLarge,
+	'xl': $fromXLarge,
+	'xxl': $fromXXLarge
+);
+
 //biotope breakpoints
 $xsmall: 320px;
 $large: 1280px;
@@ -184,6 +193,7 @@ $legal-information-links-left-large: auto;
 $link-color: $primary;
 $link-color-hover: $hover-primary;
 $link-text-decoration: none;
+$link-text-decoration-hover: $link-text-decoration !default;
 $link-font-weight: inherit;
 $login-align-items: center;
 $login-icon-transform: none;
@@ -197,6 +207,7 @@ $message-submit-interface-textarea-background-color: $dark-grey;
 $message-submit-interface-textarea-background-color-yellow: $yellow-3;
 $message-submit-interface-textarea-placeholder-color: $light-grey;
 $overlay-text-align: center;
+$overlay-list-align: left;
 $overlay-input-field-margin: $grid-base-three auto;
 $overlay-button-margin: $grid-base-two auto 0 -$grid-base;
 $overlay-stepped-text-align: left;
@@ -228,3 +239,19 @@ $text-divider-font-weight: $font-weight-regular;
 $text-divider-text-transform: none;
 $upload-progress: #80dd92;
 $welcome-screen-icon-background: $background-accent;
+$notice-background: transparent;
+$notice-border: 1px solid rgba(0, 0, 0, 0.2);
+$notice-padding: $grid-base-two;
+$tab-border-radius: 25px;
+$tab-background-color: rgba(0, 0, 0, 0.05);
+$tab-background-color-hover: rgba(0, 0, 0, 0.2);
+$tab-background-color-selected: rgba($primary, 0.2);
+$tab-background-color-selected-hover: rgba($hover-primary, 0.2);
+$tab-background-border-color-selected: $primary;
+$tab-color: $tertiary;
+$tab-color-hover: rgba(0, 0, 0, 0.8);
+$tab-color-selected: $primary;
+$overlay-radio-outline: 1px solid #8c878c;
+$overlay-radio-radius: 25px;
+$header-height: $grid-base-twelve;
+$message-wrapper-height: 109px;

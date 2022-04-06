@@ -1,109 +1,176 @@
 import '../../polyfill';
 import * as React from 'react';
-import { StageProps } from '../stage/stage';
 import { useParams } from 'react-router-dom';
+import { StageProps } from '../stage/stage';
 import { ComponentType, useEffect, useState } from 'react';
-import { translate } from '../../utils/translate';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
-import { ConsultingTypeInterface } from '../../globalState';
+import { LegalLinkInterface } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
-import { apiGetConsultingType } from '../../api';
-import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import useIsFirstVisit from '../../utils/useIsFirstVisit';
+import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
+import { translate } from '../../utils/translate';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 
 interface RegistrationProps {
-	handleUnmatch: Function;
+	handleUnmatchConsultingType: Function;
+	handleUnmatchConsultant: Function;
 	stageComponent: ComponentType<StageProps>;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const Registration = ({
-	handleUnmatch,
-	legalComponent,
+	handleUnmatchConsultingType,
+	handleUnmatchConsultant,
+	legalLinks,
 	stageComponent: Stage
 }: RegistrationProps) => {
 	const { consultingTypeSlug } = useParams();
+	const agencyId = getUrlParameter('aid');
+	const consultantId = getUrlParameter('cid');
 	const postcodeParameter = getUrlParameter('postcode');
+
+	const loginParams = Object.entries({
+		cid: consultantId,
+		aid: agencyId
+	})
+		.filter(([, value]) => value)
+		.map(([key, value]) => `${key}=${value}`)
+		.join('&');
+
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(
 		!postcodeParameter
 	);
-	const [consultingType, setConsultingType] = useState<
-		ConsultingTypeInterface | undefined
-	>();
+
+	const [isReady, setIsReady] = useState(false);
 
 	const handleForwardToRegistration = () => {
 		setShowWelcomeScreen(false);
 		window.scrollTo({ top: 0 });
 	};
 
+	const { agency, consultingType, consultant, loaded } = useUrlParamsLoader();
+
 	useEffect(() => {
-		if (!consultingTypeSlug) {
-			console.error('No `consultingTypeSlug` found in URL.');
+		if (!loaded) {
 			return;
 		}
 
-		apiGetConsultingType({ consultingTypeSlug })
-			.then((result) => {
-				if (!result) {
-					console.error(
-						`Unknown consulting type with slug ${consultingTypeSlug}`
+		if (!consultingType && !agency && !consultant) {
+			console.error(
+				'No `consultingType`, `consultant` or `agency` found in URL.'
+			);
+			return;
+		}
+
+		try {
+			if (consultantId) {
+				if (!consultant) {
+					handleUnmatchConsultant();
+					throw new Error(
+						`Unknown consultant with id ${consultantId}`
 					);
-					handleUnmatch();
-					return;
+				}
+
+				// If all consultant agencies are informal then use informal
+				const isInformal = consultant.agencies.every(
+					(agency) => !agency.consultingTypeRel.languageFormal
+				);
+				setValueInCookie('useInformal', isInformal ? '1' : '');
+
+				// If consultant has only one consulting type set document title
+				const hasUniqueConsultingType =
+					consultant.agencies.reduce(
+						(acc: number[], { consultingType }) => {
+							if (acc.indexOf(consultingType) < 0) {
+								acc.push(consultingType);
+							}
+							return acc;
+						},
+						[]
+					).length > 1;
+
+				if (hasUniqueConsultingType) {
+					document.title = `${translate(
+						'registration.title.start'
+					)} ${consultant.agencies[0].consultingTypeRel.titles.long}`;
+				}
+			} else {
+				if (!consultingType) {
+					handleUnmatchConsultingType();
+					throw new Error(
+						agency
+							? `Unknown consulting type with agency ${agency.name}`
+							: `Unknown consulting type with slug ${consultingTypeSlug}`
+					);
+				}
+
+				if (
+					consultingType.urls?.requiredAidMissingRedirectUrl &&
+					!agency
+				) {
+					window.location.href =
+						consultingType.urls?.requiredAidMissingRedirectUrl;
+					throw new Error(`Consulting type requires matching aid`);
 				}
 
 				// SET FORMAL/INFORMAL COOKIE
 				setValueInCookie(
 					'useInformal',
-					result.languageFormal ? '' : '1'
+					consultingType.languageFormal ? '' : '1'
 				);
 
-				setConsultingType(result);
-
 				document.title = `${translate('registration.title.start')} ${
-					result.titles.long
+					consultingType.titles.long
 				}`;
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	}, [consultingTypeSlug, handleUnmatch]);
-
-	useEffect(() => {
-		if (!consultingType) return;
-
-		if (
-			consultingType.urls?.requiredAidMissingRedirectUrl &&
-			!getUrlParameter('aid')
-		) {
-			window.location.href =
-				consultingType.urls?.requiredAidMissingRedirectUrl;
+			}
+			setIsReady(true);
+		} catch (error) {
+			console.log(error);
+			return;
 		}
-	}, [consultingType]);
+	}, [
+		consultingType,
+		agency,
+		consultant,
+		loaded,
+		consultantId,
+		handleUnmatchConsultant,
+		handleUnmatchConsultingType,
+		consultingTypeSlug
+	]);
+
+	const isFirstVisit = useIsFirstVisit();
 
 	return (
 		<StageLayout
-			legalComponent={legalComponent}
+			legalLinks={legalLinks}
 			showLegalLinks={true}
 			showLoginLink={!showWelcomeScreen}
-			stage={<Stage hasAnimation isReady={consultingType != null} />}
+			stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
+			loginParams={loginParams}
 		>
-			{consultingType != null &&
+			{isReady &&
 				(showWelcomeScreen ? (
 					<WelcomeScreen
-						title={consultingType.titles.welcome}
+						title={
+							consultingType?.titles.welcome ||
+							translate('registration.overline')
+						}
 						handleForwardToRegistration={
 							handleForwardToRegistration
 						}
-						welcomeScreenConfig={consultingType.welcomeScreen}
+						loginParams={loginParams}
+						welcomeScreenConfig={consultingType?.welcomeScreen}
 					/>
 				) : (
 					<RegistrationForm
 						consultingType={consultingType}
-						legalComponent={legalComponent}
+						agency={agency}
+						consultant={consultant}
+						legalLinks={legalLinks}
 					/>
 				))}
 		</StageLayout>

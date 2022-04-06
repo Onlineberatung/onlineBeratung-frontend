@@ -1,0 +1,39 @@
+.twoFactorAuthResendMail {
+	text-align: left;
+
+	.bold {
+		margin: 0;
+		font-weight: bold;
+	}
+
+	.text {
+		margin: 0;
+		display: flex;
+		align-items: center;
+	}
+
+	svg {
+		color: $form-success;
+		width: 16px;
+		height: 16px;
+		margin-right: 4px;
+	}
+
+	button {
+		border: none;
+		background-color: transparent;
+		padding: 0;
+		font-size: 14px;
+		text-decoration: underline;
+		color: var(--skin-color-primary-contrast-safe, $primary);
+		cursor: pointer;
+
+		&:hover {
+			color: $hover-primary;
+		}
+	}
+
+	.text + .text {
+		margin-top: 3px;
+	}
+}

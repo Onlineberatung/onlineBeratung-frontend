@@ -4,8 +4,9 @@ import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { useContext, useEffect, useState } from 'react';
+import { translate } from '../../utils/translate';
 import {
-	IncomingVideoCallProps,
+	NOTIFICATION_TYPE_CALL,
 	VideoCallRequestProps
 } from '../incomingVideoCall/IncomingVideoCall';
 import {
@@ -19,7 +20,12 @@ import {
 	UserDataContext,
 	WebsocketConnectionDeactivatedContext
 } from '../../globalState';
-import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
+import {
+	SESSION_LIST_TAB,
+	SESSION_LIST_TYPES
+} from '../session/sessionHelpers';
+import { sendNotification } from '../../utils/notificationHelpers';
+import { history } from '../app/app';
 
 interface WebsocketHandlerProps {
 	disconnect: boolean;
@@ -39,8 +45,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		UnreadSessionsStatusContext
 	);
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
-	const { notifications, setNotifications } =
-		useContext(NotificationsContext);
+	const { addNotification } = useContext(NotificationsContext);
 	const { setAnonymousEnquiryAccepted } = useContext(
 		AnonymousEnquiryAcceptedContext
 	);
@@ -98,8 +103,18 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 				newDirectMessage: true,
 				resetedAnimations: unreadSessionsStatus.mySessions === 0
 			});
+
 			setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+
 			setNewStompDirectMessage(false);
+
+			sendNotification(translate('notifications.message.new'), {
+				onclick: () => {
+					history.push(
+						`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`
+					);
+				}
+			});
 		}
 	}, [newStompDirectMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -107,6 +122,15 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		if (newStompAnonymousEnquiry) {
 			setUpdateSessionList(SESSION_LIST_TYPES.ENQUIRY);
 			setNewStompAnonymousEnquiry(false);
+
+			sendNotification(translate('notifications.enquiry.new'), {
+				showAlways: true,
+				onclick: () => {
+					history.push(
+						`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`
+					);
+				}
+			});
 		}
 	}, [newStompAnonymousEnquiry]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -124,18 +148,11 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 
 	useEffect(() => {
 		if (newStompVideoCallRequest) {
-			const requestedRoomAlreadyHasActiveVideoCall = notifications.some(
-				(notification) =>
-					notification.videoCall.rcGroupId ===
-					newStompVideoCallRequest.rcGroupId
-			);
-			if (!requestedRoomAlreadyHasActiveVideoCall) {
-				const newNotification: IncomingVideoCallProps = {
-					notificationType: 'call',
-					videoCall: newStompVideoCallRequest
-				};
-				setNotifications([...notifications, newNotification]);
-			}
+			addNotification({
+				id: newStompVideoCallRequest.rcGroupId,
+				notificationType: NOTIFICATION_TYPE_CALL,
+				videoCall: newStompVideoCallRequest
+			});
 		}
 	}, [newStompVideoCallRequest]); // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -5,7 +5,7 @@ import { apiGetConsultingType } from '../../api';
 import { Login } from '../login/Login';
 import { StageProps } from '../stage/stage';
 import { APP_PATH } from '../../resources/scripts/config';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { LegalLinkInterface } from '../../globalState';
 
 // Avoid matching strings like "beratung-hilfe.html"
 // where we already know it's not a consulting type.
@@ -18,13 +18,13 @@ const isValidConsultingTypeSlug = (slug: string): boolean => {
 
 export interface LoginLoaderProps {
 	handleUnmatch: () => void;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 	stageComponent: ComponentType<StageProps>;
 }
 
 export const LoginLoader = ({
 	handleUnmatch,
-	legalComponent,
+	legalLinks,
 	stageComponent
 }: LoginLoaderProps) => {
 	const [isValidConsultingType, setIsValidConsultingType] =
@@ -32,7 +32,7 @@ export const LoginLoader = ({
 	const { consultingTypeSlug } = useParams();
 
 	useEffect(() => {
-		if (consultingTypeSlug === 'login') {
+		if (!consultingTypeSlug) {
 			setIsValidConsultingType(true);
 			return;
 		}
@@ -50,10 +50,7 @@ export const LoginLoader = ({
 
 	if (isValidConsultingType) {
 		return (
-			<Login
-				legalComponent={legalComponent}
-				stageComponent={stageComponent}
-			/>
+			<Login legalLinks={legalLinks} stageComponent={stageComponent} />
 		);
 	} else {
 		return null;

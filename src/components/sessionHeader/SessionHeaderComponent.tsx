@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ComponentType, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import clsx from 'clsx';
 import {
 	translate,
@@ -9,23 +10,22 @@ import {
 import { mobileListView } from '../app/navigationHandler';
 import {
 	UserDataContext,
-	SessionsDataContext,
-	ActiveSessionGroupIdContext,
-	getActiveSession,
 	getContact,
 	AUTHORITIES,
 	hasUserAuthority,
-	isAnonymousSession,
-	useConsultingType
+	useConsultingType,
+	SessionConsultantInterface,
+	LegalLinkInterface
 } from '../../globalState';
-import { useLocation, Link } from 'react-router-dom';
 import {
 	getViewPathForType,
 	getChatItemForSession,
-	isGroupChatForSessionItem,
 	getTypeOfLocation,
 	getSessionListPathForLocation,
-	typeIsEnquiry
+	typeIsEnquiry,
+	isGroupChat,
+	isLiveChat,
+	isSessionChat
 } from '../session/sessionHelpers';
 import { SessionMenu } from '../sessionMenu/SessionMenu';
 import {
@@ -36,28 +36,19 @@ import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { apiGetGroupMembers } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 
 export interface SessionHeaderProps {
-	consultantAbsent?: {
-		absenceMessage: string;
-		absent: boolean;
-		username: string;
-	};
+	consultantAbsent?: SessionConsultantInterface;
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
+	const activeSession = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId, setActiveSessionGroupId } = useContext(
-		ActiveSessionGroupIdContext
-	);
-	let activeSession = getActiveSession(activeSessionGroupId, sessionsData);
-	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const chatItem = getChatItemForSession(activeSession);
 	const consultingType = useConsultingType(chatItem?.consultingType);
 
@@ -66,7 +57,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	const preparedUserSessionData =
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 		userSessionData &&
-		!isLiveChat
+		!isLiveChat(chatItem)
 			? convertUserDataObjectToArray(userSessionData)
 			: null;
 	const addictiveDrugs =
@@ -101,7 +92,6 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 
 	const handleBackButton = () => {
 		mobileListView();
-		setActiveSessionGroupId(null);
 	};
 
 	const handleFlyout = (e) => {
@@ -135,17 +125,16 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		}
 	};
 
-	const isGroupChat = isGroupChatForSessionItem(activeSession);
 	const isAskerInfoAvailable = () =>
 		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 		consultingType.showAskerProfile &&
-		!isLiveChat &&
-		!isGroupChat &&
+		isSessionChat(chatItem) &&
+		!isLiveChat(chatItem) &&
 		((typeIsEnquiry(sessionListType) &&
 			Object.entries(userSessionData).length !== 0) ||
 			!typeIsEnquiry(sessionListType));
 
-	if (isGroupChat) {
+	if (isGroupChat(chatItem)) {
 		return (
 			<div className="sessionInfo">
 				<div className="sessionInfo__headerWrapper">
@@ -182,7 +171,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							props.hasUserInitiatedStopOrLeaveRequest
 						}
 						isAskerInfoAvailable={isAskerInfoAvailable()}
-						legalComponent={props.legalComponent}
+						legalLinks={props.legalLinks}
 					/>
 				</div>
 				<div className="sessionInfo__metaInfo">
@@ -264,13 +253,9 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							!isAskerInfoAvailable()
 					})}
 				>
-					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
-						<h3>
-							{activeSession?.isTeamSession
-								? translate('sessionList.teamsession')
-								: username}
-						</h3>
-					) : null}
+					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (
+						<h3>{username}</h3>
+					)}
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,
 						userData
@@ -293,11 +278,12 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
 					isAskerInfoAvailable={isAskerInfoAvailable()}
-					legalComponent={props.legalComponent}
+					legalLinks={props.legalLinks}
 				/>
 			</div>
-			{!activeSession?.isTeamSession ||
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ? (
+
+			{(hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) && (
 				<div className="sessionInfo__metaInfo">
 					{!activeSession?.agency ? (
 						<div className="sessionInfo__metaInfo__content">
@@ -324,62 +310,19 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 								) : null
 						  )
 						: null}
-					{activeSession?.agency && activeSession?.agency.name ? (
+					{activeSession?.agency && activeSession?.agency.name && (
 						<div className="sessionInfo__metaInfo__content">
 							{' '}
 							{activeSession.agency.name}{' '}
 						</div>
-					) : null}
-					{activeSession?.agency ? (
+					)}
+					{activeSession?.agency && (
 						<div className="sessionInfo__metaInfo__content">
 							{translate('consultant.jobTitle')}
 						</div>
-					) : null}
+					)}
 				</div>
-			) : null}
-
-			{activeSession?.isTeamSession &&
-			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
-				<div className="sessionInfo__metaInfo">
-					<div className="sessionInfo__metaInfo__content">
-						{username}
-						{getContact(activeSession).consultantAbsent.absent ? (
-							<span>
-								{translate(
-									'session.teamConsultant.isAbsentPrefix'
-								)}
-								<span className="sessionInfo__metaInfo__content--red">
-									{translate(
-										'session.teamConsultant.isAbsent'
-									)}
-								</span>
-							</span>
-						) : username ===
-						  translate('sessionList.user.consultantUnknown') ? (
-							''
-						) : (
-							translate('session.header.consultants.suffix')
-						)}
-					</div>
-				</div>
-			) : null}
-
-			{!activeSession?.isTeamSession &&
-			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ? (
-				<div className="sessionInfo__metaInfo">
-					<div
-						className={
-							props.consultantAbsent?.absent
-								? `sessionInfo__metaInfo__content sessionInfo__metaInfo__content--red`
-								: `sessionInfo__metaInfo__content`
-						}
-					>
-						{getContact(activeSession).consultantAbsent?.absent
-							? translate('session.consultant.isAbsent')
-							: null}
-					</div>
-				</div>
-			) : null}
+			)}
 		</div>
 	);
 };

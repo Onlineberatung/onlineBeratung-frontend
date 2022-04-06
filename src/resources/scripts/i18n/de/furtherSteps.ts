@@ -1,4 +1,6 @@
 const furtherSteps = {
+	'consultant.info':
+		'Der_die Ratsuchende wurde folgendermaßen über die nächsten Schritte informiert.',
 	'headline': 'So geht es weiter:',
 	'step1.info': 'Wir haben Ihre Nachricht erhalten.',
 	'step2.info': 'Jetzt finden wir eine_n passende_n Berater_in für Sie.',
@@ -8,6 +10,10 @@ const furtherSteps = {
 	'emailNotification.infoText':
 		'Wenn Sie Ihre E-Mail-Adresse angeben (freiwillig)<br><ul><li>erhalten Sie eine E-Mail-Benachrichtigung, wenn Ihre Berater_in Ihnen geschrieben hat</li><li>können Sie Ihr Passwort zurücksetzen, falls Sie es vergessen haben.</li></ul>Ihre E-Mail-Adresse kann von den Berater_innen nicht eingesehen werden.',
 	'emailNotification.button': 'E-Mail-Adresse angeben',
+	'twoFactorAuth.headline': 'Der Schutz Ihrer Daten ist uns wichtig',
+	'twoFactorAuth.infoText':
+		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung.',
+	'twoFactorAuth.button': 'Konto schützen',
 	'email.overlay.headline': 'E-Mail-Adresse angeben',
 	'email.overlay.input.label': 'E-Mail',
 	'email.overlay.input.valid': 'Ihre E-Mail-Adresse ist gültig.',

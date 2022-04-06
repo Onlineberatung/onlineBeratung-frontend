@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import './formAccordion.styles';
 import {
 	RequiredComponentsInterface,
 	RegistrationNotesInterface,
-	ConsultingTypeInterface
+	ConsultingTypeInterface,
+	ConsultantDataInterface,
+	AgencyDataInterface
 } from '../../globalState';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { AgencySelection } from '../agencySelection/AgencySelection';
@@ -16,165 +18,217 @@ import { RegistrationState } from '../registration/RegistrationState';
 import { RegistrationPassword } from '../registration/RegistrationPassword';
 import {
 	AccordionItemValidity,
-	stateData
+	stateData,
+	VALIDITY_INITIAL,
+	VALIDITY_VALID
 } from '../registration/registrationHelpers';
+import {
+	ConsultingTypeAgencySelection,
+	useConsultingTypeAgencySelection
+} from '../consultingTypeSelection/ConsultingTypeAgencySelection';
 
 interface FormAccordionProps {
-	consultingType: ConsultingTypeInterface;
+	consultingType?: ConsultingTypeInterface;
+	consultant?: ConsultantDataInterface;
 	isUsernameAlreadyInUse: boolean;
 	preselectedAgencyData: any;
-	handleFormAccordionData: Function;
+	onChange: Function;
+	onValidation: Function;
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
 	initialPostcode?: string;
 }
 
-export const FormAccordion = (props: FormAccordionProps) => {
+export const FormAccordion = ({
+	consultingType,
+	consultant,
+	isUsernameAlreadyInUse,
+	preselectedAgencyData,
+	onChange,
+	onValidation,
+	additionalStepsData,
+	registrationNotes,
+	initialPostcode
+}: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
-	const [usernameValidity, setUsernameValidity] =
-		useState<AccordionItemValidity>('initial');
-	const [username, setUsername] = useState<string>();
-	const [passwordValidity, setPasswordValidity] =
-		useState<AccordionItemValidity>('initial');
-	const [password, setPassword] = useState<string>();
-	const [selectedAgencyValidity, setSelectedAgencyValidity] =
-		useState<AccordionItemValidity>('initial');
-	const [agency, setAgency] = useState<{ id; postcode }>();
-	const [stateValidity, setStateValidity] =
-		useState<AccordionItemValidity>('initial');
-	const [state, setState] = useState<string>();
-	const [ageValidity, setAgeValidity] =
-		useState<AccordionItemValidity>('initial');
-	const [age, setAge] = useState<string>();
+	const [agency, setAgency] = useState<AgencyDataInterface>();
+
+	const [validity, setValidity] = useState({
+		username: VALIDITY_INITIAL,
+		password: VALIDITY_INITIAL,
+		state: additionalStepsData?.state?.isEnabled
+			? VALIDITY_INITIAL
+			: VALIDITY_VALID,
+		age: additionalStepsData?.age?.isEnabled
+			? VALIDITY_INITIAL
+			: VALIDITY_VALID,
+		agency: VALIDITY_INITIAL
+	});
 
 	useEffect(() => {
 		if (
-			props.consultingType.registration.autoSelectPostcode &&
-			props.preselectedAgencyData
+			consultingType?.registration.autoSelectPostcode &&
+			preselectedAgencyData
 		) {
-			setSelectedAgencyValidity('valid');
-			setAgency({
-				id: props.preselectedAgencyData.id,
-				postcode: props.preselectedAgencyData.postcode
-			});
+			handleValidity('agency', VALIDITY_VALID);
+			setAgency(preselectedAgencyData);
 		}
-	}, [props.preselectedAgencyData]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(
-		() => {
-			if (
-				usernameValidity === 'valid' &&
-				passwordValidity === 'valid' &&
-				selectedAgencyValidity === 'valid' &&
-				(stateValidity === 'valid' ||
-					!props.additionalStepsData?.state) &&
-				(ageValidity === 'valid' || !props.additionalStepsData?.age)
-			) {
-				props.handleFormAccordionData({
-					username: username,
-					password: password,
-					agencyId: agency?.id.toString(),
-					postcode: agency?.postcode,
-					...(state && { state: state }),
-					...(age && { age: age })
-				});
-			} else {
-				props.handleFormAccordionData(null);
-			}
-		},
-		/* eslint-disable */
-		[
-			usernameValidity,
-			selectedAgencyValidity,
-			passwordValidity,
-			stateValidity,
-			ageValidity,
-			username,
-			agency,
-			password,
-			state,
-			age
-		]
-	);
-	/* eslint-enable */
+	}, [preselectedAgencyData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (props.isUsernameAlreadyInUse) {
+		onChange({
+			agencyId: agency?.id,
+			consultingTypeId: agency?.consultingType,
+			postcode: agency?.postcode
+		});
+	}, [agency]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		onValidation(
+			Object.values(validity).every(
+				(validity) => validity === VALIDITY_VALID
+			)
+		);
+	}, [validity]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	const handleValidity = useCallback(
+		(key, value) => {
+			setValidity({
+				...validity,
+				[key]: value
+			});
+		},
+		[validity]
+	);
+
+	useEffect(() => {
+		if (isUsernameAlreadyInUse) {
 			setActiveItem(1);
 		}
-	}, [props.isUsernameAlreadyInUse]);
+	}, [isUsernameAlreadyInUse]);
 
 	const accordionItemData = [
 		{
 			title: translate('registration.username.headline'),
 			nestedComponent: (
 				<RegistrationUsername
-					isUsernameAlreadyInUse={props.isUsernameAlreadyInUse}
-					onUsernameChange={(username) => setUsername(username)}
+					isUsernameAlreadyInUse={isUsernameAlreadyInUse}
+					onUsernameChange={(username) => onChange({ username })}
 					onValidityChange={(validity) =>
-						setUsernameValidity(validity)
+						handleValidity('username', validity)
 					}
 				/>
 			),
-			isValid: usernameValidity
+			isValid: validity.username
 		},
 		{
 			title: translate('registration.password.headline'),
 			nestedComponent: (
 				<RegistrationPassword
-					onPasswordChange={(password) => setPassword(password)}
+					onPasswordChange={(password) => onChange({ password })}
 					onValidityChange={(validity) =>
-						setPasswordValidity(validity)
+						handleValidity('password', validity)
 					}
-					passwordNote={props.registrationNotes?.password}
+					passwordNote={registrationNotes?.password}
 				/>
 			),
-			isValid: passwordValidity
+			isValid: validity.password
 		}
 	];
 
-	if (!props.consultingType.registration.autoSelectPostcode) {
+	const {
+		agencies: possibleAgencies,
+		consultingTypes: possibleConsultingTypes
+	} = useConsultingTypeAgencySelection(
+		consultant,
+		consultingType,
+		preselectedAgencyData
+	);
+
+	useEffect(() => {
+		// If only one agency and one consultingType possible then choose it because selection is not shown
+		if (
+			consultant &&
+			possibleAgencies.length === 1 &&
+			possibleConsultingTypes.length === 1
+		) {
+			setAgency(possibleAgencies[0]);
+			handleValidity('agency', VALIDITY_VALID);
+		}
+	}, [consultant, possibleAgencies, possibleConsultingTypes]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	if (consultant) {
+		if (possibleAgencies.length > 1 || possibleConsultingTypes.length > 1) {
+			accordionItemData.push({
+				title:
+					possibleConsultingTypes.length > 1
+						? translate(
+								'registration.consultingTypeAgencySelection.consultingType.headline'
+						  )
+						: translate(
+								'registration.consultingTypeAgencySelection.agency.headline'
+						  ),
+				nestedComponent: (
+					<ConsultingTypeAgencySelection
+						consultant={consultant}
+						agency={agency}
+						preselectedConsultingType={consultingType}
+						preselectedAgency={preselectedAgencyData}
+						onChange={setAgency}
+						onValidityChange={(validity) =>
+							handleValidity('agency', validity)
+						}
+					/>
+				),
+				isValid: validity.agency
+			});
+		}
+	} else if (
+		consultingType &&
+		!consultingType.registration.autoSelectPostcode
+	) {
 		accordionItemData.push({
-			title: props.preselectedAgencyData
+			title: preselectedAgencyData
 				? translate('registration.agencyPreselected.headline')
 				: translate('registration.agencySelection.headline'),
 			nestedComponent: (
 				<AgencySelection
-					consultingType={props.consultingType}
+					consultingType={consultingType}
 					icon={<PinIcon />}
-					initialPostcode={props.initialPostcode}
-					preselectedAgency={props.preselectedAgencyData}
+					initialPostcode={initialPostcode}
+					preselectedAgency={preselectedAgencyData}
 					onAgencyChange={(agency) => setAgency(agency)}
+					hideExternalAgencies
 					onValidityChange={(validity) =>
-						setSelectedAgencyValidity(validity)
+						handleValidity('agency', validity)
 					}
-					agencySelectionNote={
-						props.registrationNotes?.agencySelection
-					}
+					agencySelectionNote={registrationNotes?.agencySelection}
 				/>
 			),
-			isValid: selectedAgencyValidity
+			isValid: validity.agency
 		});
 	}
 
-	if (props.additionalStepsData?.age?.isEnabled) {
+	if (additionalStepsData?.age?.isEnabled) {
 		accordionItemData.push({
 			title: translate('registration.age.headline'),
 			nestedComponent: (
 				<RegistrationAge
 					dropdownSelectData={{
 						label: translate('registration.age.dropdown'),
-						options: props.additionalStepsData.age.options
+						options: additionalStepsData.age.options
 					}}
-					onAgeChange={(age) => setAge(age)}
-					onValidityChange={(validity) => setAgeValidity(validity)}
+					onAgeChange={(age) => onChange({ age })}
+					onValidityChange={(validity) =>
+						handleValidity('age', validity)
+					}
 				/>
 			),
-			isValid: ageValidity
+			isValid: validity.age
 		});
 	}
 
-	if (props.additionalStepsData?.state?.isEnabled) {
+	if (additionalStepsData?.state?.isEnabled) {
 		accordionItemData.push({
 			title: translate('registration.state.headline'),
 			nestedComponent: (
@@ -183,11 +237,13 @@ export const FormAccordion = (props: FormAccordionProps) => {
 						label: translate('registration.state.dropdown'),
 						options: stateData
 					}}
-					onStateChange={(state) => setState(state)}
-					onValidityChange={(validity) => setStateValidity(validity)}
+					onStateChange={(state) => onChange({ state })}
+					onValidityChange={(validity) =>
+						handleValidity('state', validity)
+					}
 				/>
 			),
-			isValid: stateValidity
+			isValid: validity.state
 		});
 	}
 
@@ -209,7 +265,7 @@ export const FormAccordion = (props: FormAccordionProps) => {
 						nestedComponent={accordionItem.nestedComponent}
 						key={i}
 						isValid={accordionItem.isValid as AccordionItemValidity}
-					></FormAccordionItem>
+					/>
 				);
 			})}
 		</div>

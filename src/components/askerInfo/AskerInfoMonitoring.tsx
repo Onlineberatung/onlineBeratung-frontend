@@ -12,15 +12,11 @@ import {
 	typeIsEnquiry,
 	getSessionListPathForLocation
 } from '../session/sessionHelpers';
-import {
-	getActiveSession,
-	SessionsDataContext,
-	ActiveSessionGroupIdContext
-} from '../../globalState';
 import { Link, useLocation } from 'react-router-dom';
 import { apiGetMonitoring } from '../../api';
 import { ReactComponent as EditIcon } from '../../resources/img/icons/pen.svg';
 import { Text } from '../text/Text';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 const buttonSet: ButtonItem = {
 	label: translate('userProfile.monitoring.buttonLabel'),
@@ -29,9 +25,7 @@ const buttonSet: ButtonItem = {
 };
 
 export const AskerInfoMonitoring = () => {
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { activeSessionGroupId } = useContext(ActiveSessionGroupIdContext);
-	const activeSession = getActiveSession(activeSessionGroupId, sessionsData);
+	const activeSession = useContext(ActiveSessionContext);
 	const [monitoringData, setMonitoringData] = useState({});
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
