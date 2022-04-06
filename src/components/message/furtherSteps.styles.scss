@@ -1,3 +1,5 @@
+$further-steps-illustration-height-large: 75px !default;
+
 .furtherSteps {
 	text-align: left;
 	padding: $grid-base-two $grid-base-two $grid-base-four;
@@ -31,20 +33,8 @@
 		align-items: center;
 		margin-top: $grid-base;
 
-		&:first-child {
-			margin-top: $grid-base-two;
-
-			svg {
-				height: 36px;
-			}
-		}
-
-		&:nth-child(3) svg {
+		svg {
 			height: 35px;
-		}
-
-		&:last-child svg {
-			height: 28px;
 		}
 	}
 
@@ -106,20 +96,12 @@
 			flex: 1;
 			margin-top: 0;
 
+			svg {
+				height: $further-steps-illustration-height-large;
+			}
+
 			&:first-child {
 				margin-top: 0;
-
-				svg {
-					height: 75px;
-				}
-			}
-
-			&:nth-child(3) svg {
-				height: 76px;
-			}
-
-			&:last-child svg {
-				height: 60px;
 			}
 		}
 

@@ -12,6 +12,10 @@ $breakpointFlyoutPosition: 1140px;
 			height: $infoIconSize;
 			cursor: pointer;
 		}
+
+		.agencyInfo .text {
+			margin-left: 0;
+		}
 	}
 
 	position: absolute;

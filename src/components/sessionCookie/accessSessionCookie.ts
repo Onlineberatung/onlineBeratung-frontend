@@ -24,11 +24,12 @@ export const getValueFromCookie = (targetValue: string) => {
 	return '';
 };
 
-export const removeAllCookies = () => {
+export const removeAllCookies = (allowlist = []) => {
 	document.cookie.split(';').forEach(function (c) {
-		document.cookie =
-			c.trim().split('=')[0] +
-			'=;' +
-			'path=/; expires=Thu, 27 May 1992 08:32:00 MET;';
+		const name = c.trim().split('=')[0];
+		if (allowlist.includes(name)) return;
+
+		const value = name + '=;path=/; expires=Thu, 27 May 1992 08:32:00 MET;';
+		document.cookie = value;
 	});
 };

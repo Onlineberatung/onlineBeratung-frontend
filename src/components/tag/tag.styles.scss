@@ -4,7 +4,7 @@
 	align-items: center;
 	height: 18px;
 	padding: 0 $grid-base;
-	color: $secondary;
+	color: var(--text-color-contrast-switch, $secondary);
 	font-size: 12px;
 	border-radius: 8px;
 	word-break: keep-all;
@@ -15,7 +15,7 @@
 	}
 
 	&--green {
-		background-color: $upload-progress;
+		background-color: var(--skin-color-primary, $upload-progress);
 	}
 
 	&--red {

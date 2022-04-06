@@ -3,15 +3,13 @@ import { Header } from '../header/Header';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import './waitingRoom.styles';
-import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/willkommen.svg';
+import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
-import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/ooh.svg';
+import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
 import { translate } from '../../utils/translate';
-import { useContext, useEffect, useState, useCallback } from 'react';
-import { uiUrl } from '../../resources/scripts/config';
+import { useContext, useEffect, useState } from 'react';
 import {
 	AnonymousRegistrationResponse,
-	apiFinishAnonymousConversation,
 	apiPostAnonymousRegistration
 } from '../../api';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -31,6 +29,7 @@ import {
 import {
 	AnonymousConversationFinishedContext,
 	AnonymousEnquiryAcceptedContext,
+	LegalLinkInterface,
 	WebsocketConnectionDeactivatedContext
 } from '../../globalState';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
@@ -44,6 +43,7 @@ import { handleTokenRefresh, setTokens } from '../auth/auth';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
+	legalLinks: Array<LegalLinkInterface>;
 	onAnonymousRegistration: Function;
 }
 
@@ -63,8 +63,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		websocketConnectionDeactivated,
 		setWebsocketConnectionDeactivated
 	} = useContext(WebsocketConnectionDeactivatedContext);
-	const registrationUrl = `${uiUrl}/${props.consultingTypeSlug}/registration`;
-	const [sessionId, setSessionId] = useState<number>();
+	const registrationUrl = `/${props.consultingTypeSlug}/registration`;
 
 	useEffect(() => {
 		const registeredUsername = getValueFromCookie('registeredUsername');
@@ -72,7 +71,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 		// handle a refresh as registered user and not initialize a new user
 		if (registeredUsername && getValueFromCookie('keycloak') && sessionId) {
-			setSessionId(Number(sessionId));
 			setIsDataProtectionViewActive(false);
 			setUsername(registeredUsername);
 			handleTokenRefresh();
@@ -157,8 +155,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 						response.refreshExpiresIn
 					);
 
-					setSessionId(response.sessionId);
-
 					handleTokenRefresh();
 					props.onAnonymousRegistration();
 				})
@@ -183,13 +179,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			window.location.href = registrationUrl;
 		}
 	};
-
-	const removeAnonymousSession = useCallback(() => {
-		apiFinishAnonymousConversation(sessionId).then(() => {
-			removeAllCookies();
-			history.push(`/${props.consultingTypeSlug}/registration`);
-		});
-	}, [sessionId, props.consultingTypeSlug]);
 
 	const getContent = () => {
 		if (isDataProtectionViewActive) {
@@ -221,9 +210,30 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 						/>
 						<Text
 							type="standard"
-							text={translate(
-								'registration.dataProtection.label'
-							)}
+							text={[
+								translate(
+									'registration.dataProtection.label.prefix'
+								),
+								props.legalLinks
+									.filter(
+										(legalLink) => legalLink.registration
+									)
+									.map(
+										(legalLink, index, { length }) =>
+											(index > 0
+												? index < length - 1
+													? ', '
+													: translate(
+															'registration.dataProtection.label.and'
+													  )
+												: '') +
+											`<a target="_blank" href="${legalLink.url}">${legalLink.label}</a>`
+									)
+									.join(''),
+								translate(
+									'registration.dataProtection.label.suffix'
+								)
+							].join(' ')}
 						/>
 						<Button
 							className="waitingRoom__button"
@@ -300,18 +310,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 									'anonymous.waitingroom.redirect.subline'
 								)}
 							/>
-							<div className="waitingRoom__redirectButton">
-								<Button
-									buttonHandle={removeAnonymousSession}
-									item={{
-										label: translate(
-											'anonymous.waitingroom.redirect.button'
-										),
-										type: 'TERTIARY'
-									}}
-									isLink={true}
-								/>
-							</div>
 						</div>
 					</div>
 				</>

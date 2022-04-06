@@ -34,7 +34,7 @@ $iconSize: 24px;
 			flex: 1;
 			text-align: center;
 			margin-left: -36px;
-			cursor: initial;
+			cursor: auto;
 
 			@include breakpoint($fromLarge) {
 				text-align: left;
@@ -61,17 +61,17 @@ $iconSize: 24px;
 		svg {
 			width: $iconSize;
 			height: $iconSize;
-			fill: $secondary;
+			fill: var(--skin-color-default, $secondary);
 
 			svg path {
-				fill: $secondary;
+				fill: var(--skin-color-default, $secondary);
 			}
 
 			&:hover {
-				fill: $primary;
+				fill: var(--skin-color-default, $primary);
 
 				svg path {
-					fill: $primary;
+					fill: var(--skin-color-default, $primary);
 				}
 			}
 		}
@@ -96,9 +96,12 @@ $iconSize: 24px;
 		&--deactivate {
 			cursor: unset;
 		}
+		a {
+			text-decoration: none;
+		}
 
 		h3 {
-			color: $secondary;
+			color: var(--skin-color-default, $secondary);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -106,10 +109,10 @@ $iconSize: 24px;
 
 		&--groupChat {
 			a {
-				color: $secondary;
+				color: var(--skin-color-secondary, $secondary);
 
 				&:hover {
-					color: $secondary;
+					color: var(--skin-color-secondary, $secondary);
 				}
 			}
 		}
@@ -165,7 +168,10 @@ $iconSize: 24px;
 			}
 
 			&--red {
-				color: $primary !important;
+				color: var(
+					--skin-color-primary-contrast-safe,
+					$primary
+				) !important;
 				text-transform: uppercase;
 			}
 
@@ -222,8 +228,9 @@ $iconSize: 24px;
 				padding: 14px $grid-base-two;
 				font-size: $font-size-primary;
 				line-height: $line-height-primary;
-				color: $secondary;
-
+				color: var(--skin-color-secondary, $secondary);
+				text-overflow: ellipsis;
+				overflow: hidden;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
@@ -269,7 +276,6 @@ $iconSize: 24px;
 				border-left: 10px solid transparent;
 				border-right: 10px solid transparent;
 				margin-left: -10px;
-				-webkit-transform: rotate(180deg);
 				transform: rotate(180deg);
 
 				@include breakpoint($fromSmall) {

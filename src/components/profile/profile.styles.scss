@@ -1,3 +1,8 @@
+@import './monitoring.styles';
+@import './askerRegistration.styles';
+@import './statistics.styles';
+@import './spokenlanguages.styles';
+
 $doubleNavHeight: 192px;
 $doubleNavHeightSmall: 168px;
 $imprintHeight: 40px;
@@ -6,6 +11,10 @@ $profileIconSize: 40px;
 $groupChatIconSize: 40px;
 $maxFormElementWidth: 320px;
 $inputMaxWidth: 500px;
+
+$profile-imprint-background-color-desktop: $background-light !default;
+$profile-content-wrapper-detail-button-text-align: center !default;
+$profile-footer-justify-content: center !default;
 
 .profile {
 	&__header &__nav {
@@ -24,12 +33,12 @@ $inputMaxWidth: 500px;
 			border-bottom: 4px solid transparent;
 
 			&.active {
-				color: $primary;
-				border-color: $primary;
+				color: var(--skin-color-primary-contrast-safe, $primary);
+				border-color: var(--skin-color-primary-contrast-safe, $primary);
 			}
 
 			&:hover {
-				color: $hover-primary;
+				color: var(--skin-color-primary-contrast-safe, $hover-primary);
 			}
 		}
 
@@ -138,7 +147,7 @@ $inputMaxWidth: 500px;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		margin: $grid-base-twelve 0 $grid-base-nine;
+		margin: $grid-base-twelve 0 0 0;
 		overflow-x: hidden;
 
 		@include breakpoint($fromLarge) {
@@ -289,7 +298,7 @@ $inputMaxWidth: 500px;
 		}
 
 		.title {
-			color: $primary;
+			color: var(--skin-color-primary-contrast-safe, $primary);
 			margin-bottom: $grid-base-two;
 		}
 	}
@@ -390,44 +399,51 @@ $inputMaxWidth: 500px;
 			color: $black-25-opacity;
 			margin: 0 5px;
 		}
+
+		&__divider {
+			color: $black-25-opacity;
+			margin: 0 5px;
+		}
 	}
 
 	&__footer {
 		display: flex;
+		flex-wrap: wrap;
 		flex-direction: row;
 		align-items: center;
-		justify-content: center;
+		justify-content: $profile-footer-justify-content;
 		margin-top: auto;
-		padding: 0 $grid-base-two;
+		padding: $grid-base $grid-base-two;
 		background-color: $profile-imprint-background-color-mobile;
-		min-height: $imprintHeight;
-		position: absolute;
-		bottom: 0;
 		margin-bottom: $grid-base-nine;
 		width: 100%;
-		z-index: 100;
 
 		@include breakpoint($fromMedium) {
 			padding: 0 $grid-base-three;
 		}
 
 		@include breakpoint($fromLarge) {
+			min-height: $imprintHeight;
+			position: absolute;
+			bottom: 0;
 			justify-content: flex-start;
 			width: 100%;
 			margin-bottom: unset;
-			background-color: $background-light;
+			background-color: $profile-imprint-background-color-desktop;
+			z-index: 100;
 		}
 
 		&__item {
-			color: $secondary;
+			display: inline-block;
+			padding: 4px 0;
+			color: rgba($black, 0.6);
+			text-transform: uppercase;
+			font-weight: $font-weight-bold;
+		}
 
-			&:not(:first-child) {
-				margin-left: 20px;
-			}
-
-			&:hover {
-				color: $primary;
-			}
+		&__separator {
+			display: inline-block;
+			margin: 0 8px;
 		}
 	}
 }
@@ -463,7 +479,7 @@ $inputMaxWidth: 500px;
 			}
 
 			.button__wrapper {
-				text-align: center;
+				text-align: $profile-content-wrapper-detail-button-text-align;
 			}
 		}
 
@@ -494,15 +510,20 @@ $inputMaxWidth: 500px;
 				svg {
 					width: $iconSize;
 					height: $iconSize;
-					fill: $secondary;
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
+
 					svg path {
-						fill: $secondary;
+						fill: var(
+							--skin-color-secondary-contrast-safe,
+							$secondary
+						);
 					}
 
 					&:hover {
-						fill: $primary;
+						fill: var(--skin-color-primary, $primary);
+
 						svg path {
-							fill: $primary;
+							fill: var(--skin-color-primary, $primary);
 						}
 					}
 				}
@@ -530,8 +551,3 @@ $inputMaxWidth: 500px;
 		}
 	}
 }
-
-@import './monitoring.styles';
-@import './askerRegistration.styles';
-@import './statistics.styles';
-@import './spokenlanguages.styles';
