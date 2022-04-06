@@ -1,21 +1,45 @@
 import { Steps } from 'intro.js-react';
 import * as React from 'react';
-import { useState } from 'react';
+import { useContext } from 'react';
 import stepsData from './steps';
-import { config } from '../../resources/scripts/config';
+
 import 'intro.js/introjs.css';
+import './walkthrough.styles.scss';
+import { translate } from '../../utils/translate';
+import { UserDataContext } from '../../globalState';
+import { apiPatchConsultantData } from '../../api';
+import { config } from '../../resources/scripts/config';
 
 export const Walkthrough = () => {
-	const [stepsEnabled, setStepsEnabled] = useState(config.enableWalkthrough);
+	const { userData, setUserData } = useContext(UserDataContext);
 
 	return (
 		<Steps
-			enabled={stepsEnabled}
+			enabled={userData.isWalkThroughEnabled && config.enableWalkthrough}
 			onExit={() => {
-				setStepsEnabled(!stepsEnabled);
+				apiPatchConsultantData({
+					walkThroughEnabled: !userData.isWalkThroughEnabled
+				})
+					.then(() => {
+						setUserData({
+							...userData,
+							isWalkThroughEnabled: !userData.isWalkThroughEnabled
+						});
+					})
+					.catch(() => {
+						// don't know what to do then :O)
+					});
 			}}
 			steps={stepsData}
 			initialStep={0}
+			options={{
+				nextLabel: translate('walkthrough.step.next'),
+				prevLabel: translate('walkthrough.step.prev'),
+				doneLabel: translate('walkthrough.step.done'),
+				showProgress: false,
+				showBullets: true,
+				showStepNumbers: false
+			}}
 		/>
 	);
 };

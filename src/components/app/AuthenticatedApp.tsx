@@ -78,13 +78,6 @@ export const AuthenticatedApp = ({
 						!userProfileData.formalLanguage ? '1' : ''
 					);
 					setUserData(userProfileData);
-					setValueInCookie(
-						'enableWalkthrough',
-						config.enableWalkthrough &&
-							getValueFromCookie('enableWalkthrough') !== 'false'
-							? 'true'
-							: 'false'
-					);
 					setConsultingTypes(consultingTypes);
 					setAppReady(true);
 				})

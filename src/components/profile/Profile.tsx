@@ -25,6 +25,8 @@ import { TwoFactorAuth } from './TwoFactorAuth';
 import { ConsultantStatistics } from './ConsultantStatistics';
 import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './profile.styles';
+import { config } from '../../resources/scripts/config';
+import { EnableWalkthrough } from './EnableWalkthrough';
 
 interface ProfileProps {
 	legalComponent: ComponentType<LegalInformationLinksProps>;
@@ -114,6 +116,7 @@ export const Profile = (props: ProfileProps) => {
 							userData.twoFactorAuth?.isEnabled && (
 								<TwoFactorAuth />
 							)}
+						{config.enableWalkthrough && <EnableWalkthrough />}
 					</div>
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,

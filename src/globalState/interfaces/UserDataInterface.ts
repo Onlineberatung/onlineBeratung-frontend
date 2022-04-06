@@ -15,6 +15,7 @@ export interface UserDataInterface {
 	userId: string;
 	userName: string;
 	twoFactorAuth?: TwoFactorAuthInterface;
+	isWalkThroughEnabled?: boolean;
 }
 
 export interface AgencyDataInterface {

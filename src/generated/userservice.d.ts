@@ -573,6 +573,23 @@ declare namespace UserService {
 			 */
 			email: string; // email
 		}
+		export interface PatchConsultantDTO {
+			/**
+			 * example:
+			 * false
+			 */
+			encourage2fa?: boolean;
+			/**
+			 * example:
+			 * Mustermann
+			 */
+			displayName?: string;
+			/**
+			 * example:
+			 * false
+			 */
+			walkThroughEnabled?: boolean;
+		}
 		export interface UserChatDTO {
 			/**
 			 * example:
