@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-	ComponentType,
-	useCallback,
-	useContext,
-	useEffect,
-	useState
-} from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Routing } from './Routing';
 import { config } from '../../resources/scripts/config';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
@@ -15,7 +9,8 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	SessionsDataContext,
-	ConsultingTypesContext
+	ConsultingTypesContext,
+	LegalLinkInterface
 } from '../../globalState';
 import {
 	apiFinishAnonymousConversation,
@@ -26,7 +21,6 @@ import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
 import { Notifications } from '../notifications/Notifications';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import './authenticatedApp.styles';
 import './navigation.styles';
 import { requestPermissions } from '../../utils/notificationHelpers';
@@ -36,15 +30,15 @@ import { ReleaseNote } from '../releaseNote/ReleaseNote';
 interface AuthenticatedAppProps {
 	onAppReady: Function;
 	onLogout: Function;
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 	spokenLanguages: string[];
 }
 
 export const AuthenticatedApp = ({
 	onLogout,
 	onAppReady,
-	legalComponent,
-	spokenLanguages
+	spokenLanguages,
+	legalLinks
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -109,7 +103,7 @@ export const AuthenticatedApp = ({
 			<>
 				<Routing
 					logout={handleLogout}
-					legalComponent={legalComponent}
+					legalLinks={legalLinks}
 					spokenLanguages={spokenLanguages}
 				/>
 				{notifications && (

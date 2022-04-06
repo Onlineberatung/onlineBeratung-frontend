@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-	ComponentType,
 	useCallback,
 	useContext,
 	useEffect,
@@ -14,10 +13,8 @@ import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
 	AcceptedGroupIdContext,
-	AUTHORITIES,
 	FilterStatusContext,
 	getActiveSession,
-	hasUserAuthority,
 	REGISTRATION_TYPE_ANONYMOUS,
 	SessionsDataContext,
 	SessionsDataInterface,
@@ -26,7 +23,10 @@ import {
 	UnreadSessionsStatusContext,
 	UPDATE_SESSION_CHAT_ITEM,
 	UpdateSessionListContext,
-	UserDataContext
+	UserDataContext,
+	hasUserAuthority,
+	AUTHORITIES,
+	LegalLinkInterface
 } from '../../globalState';
 import {
 	desktopView,
@@ -65,15 +65,15 @@ import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import './session.styles';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import useTyping from '../../utils/useTyping';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { useResponsive } from '../../hooks/useResponsive';
+import './session.styles';
 
 interface RouterProps {
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	rcGroupId: string;
+	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const SessionView = (props: RouterProps) => {
@@ -421,10 +421,10 @@ export const SessionView = (props: RouterProps) => {
 		return (
 			<ActiveSessionContext.Provider value={activeSession}>
 				<JoinGroupChatView
-					legalComponent={props.legalComponent}
 					chatItem={chatItem}
 					forceBannedOverlay={forceBannedOverlay}
 					bannedUsers={bannedUsers}
+					legalLinks={props.legalLinks}
 				/>
 			</ActiveSessionContext.Provider>
 		);
@@ -452,7 +452,7 @@ export const SessionView = (props: RouterProps) => {
 							: null
 					}
 					typingUsers={typingUsers}
-					legalComponent={props.legalComponent}
+					legalLinks={props.legalLinks}
 					bannedUsers={bannedUsers}
 				/>
 				{isOverlayActive ? (

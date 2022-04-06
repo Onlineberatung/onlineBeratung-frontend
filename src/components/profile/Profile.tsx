@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { ComponentType, useContext, useEffect, useRef, useState } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 import { logout } from '../logout/logout';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
 	useConsultingTypes,
-	UserDataContext
+	UserDataContext,
+	LegalLinkInterface
 } from '../../globalState';
 import {
 	setProfileWrapperActive,
@@ -14,7 +15,7 @@ import {
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
-import { LegalInformationLinksProps } from '../login/LegalInformationLinks';
+import { Text } from '../text/Text';
 import './profile.styles';
 import profileRoutes, {
 	COLUMN_LEFT,
@@ -43,7 +44,7 @@ import {
 } from '../mobile/linkMenu/LinkMenu';
 
 interface ProfileProps {
-	legalComponent: ComponentType<LegalInformationLinksProps>;
+	legalLinks: Array<LegalLinkInterface>;
 	spokenLanguages: string[];
 }
 
@@ -212,7 +213,10 @@ export const Profile = (props: ProfileProps) => {
 									)
 								)
 								.map((tab) => (
-									<div className="text--nowrap flex__col--no-grow">
+									<div
+										key={tab.url}
+										className="text--nowrap flex__col--no-grow"
+									>
 										<NavLink
 											to={`/profile${tab.url}`}
 											activeClassName="active"
@@ -285,6 +289,7 @@ export const Profile = (props: ProfileProps) => {
 												)
 												.map((element, i) => (
 													<ProfileItem
+														key={i}
 														element={element}
 														index={i}
 														spokenLanguages={
@@ -370,7 +375,24 @@ export const Profile = (props: ProfileProps) => {
 				</div>
 
 				<div className="profile__footer">
-					<props.legalComponent textStyle={'standard'} />
+					{props.legalLinks.map((legalLink, index) => (
+						<>
+							{index > 0 && (
+								<Text
+									type="infoSmall"
+									className="profile__footer__separator"
+									text=" | "
+								/>
+							)}
+							<a key={legalLink.url} href={legalLink.url}>
+								<Text
+									className="profile__footer__item"
+									type="infoSmall"
+									text={legalLink.label}
+								/>
+							</a>
+						</>
+					))}
 				</div>
 			</div>
 		</div>
@@ -424,6 +446,7 @@ const ProfileGroup = ({
 				.sort((a, b) => (a?.order || 99) - (b?.order || 99))
 				.map((element, i) => (
 					<ProfileItem
+						key={i}
 						element={element}
 						spokenLanguages={spokenLanguages}
 						index={i}

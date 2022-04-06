@@ -24,6 +24,11 @@ export const AskerInfoAssign = () => {
 					text={translate('userProfile.reassign.title')}
 					type="divider"
 				/>
+				<Text
+					className="asker-info-assign__description"
+					text={translate('userProfile.reassign.description')}
+					type="infoSmall"
+				/>
 				<SessionAssign
 					value={
 						activeSession.consultant

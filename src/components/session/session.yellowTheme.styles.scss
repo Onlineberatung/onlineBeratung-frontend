@@ -1,6 +1,15 @@
 .session--yellowTheme {
-	background-color: $yellow-2;
+	background-color: var(--skin-color-secondary-light, $yellow-2);
 	.session__content {
-		background-color: $yellow-2;
+		background-color: var(--skin-color-secondary-light, $yellow-2);
+	}
+}
+
+.sessionsListItem--yellowTheme {
+	.sessionsListItem__content {
+		background-color: var(--skin-color-secondary-light, $yellow-2);
+	}
+	&:after {
+		background-color: var(--skin-color-secondary-light, $yellow-2);
 	}
 }

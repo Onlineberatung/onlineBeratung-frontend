@@ -1,7 +1,7 @@
-@mixin margin_wrapper($key, $breakpoint) {
+@mixin margin-wrapper($key, $breakpoint) {
 	$bpKey: if($breakpoint == null, '', '-#{$key}');
 
-	@if $breakpoint == null {
+	@if not $breakpoint {
 		@include margin($bpKey);
 	} @else {
 		@media screen and (min-width: $breakpoint) {
@@ -10,7 +10,7 @@
 	}
 }
 
-@mixin margin_variant($bpKey, $key, $value) {
+@mixin margin-variant($bpKey, $key, $value) {
 	.m#{$bpKey}--#{$key},
 	.my#{$bpKey}--#{$key},
 	.mt#{$bpKey}--#{$key} {
@@ -37,14 +37,14 @@
 }
 
 @mixin margin($bpKey) {
-	@include margin_variant($bpKey, 'auto', 'auto');
+	@include margin-variant($bpKey, 'auto', 'auto');
 
 	@for $i from 0 through 12 {
-		@include margin_variant($bpKey, $i, $i * $grid-base);
-		@include margin_variant($bpKey, '-#{$i}', $i * -$grid-base);
+		@include margin-variant($bpKey, $i, $i * $grid-base);
+		@include margin-variant($bpKey, '-#{$i}', $i * -$grid-base);
 	}
 }
 
 @each $key, $breakpoint in $breakpoints {
-	@include margin_wrapper($key, $breakpoint);
+	@include margin-wrapper($key, $breakpoint);
 }

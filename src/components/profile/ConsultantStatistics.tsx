@@ -15,6 +15,7 @@ import { ReactComponent as DownloadIcon } from '../../resources/img/icons/downlo
 import { CSVLink } from 'react-csv';
 import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
+import './statistics.styles';
 import './profile.styles';
 
 const statisticsPeriodOptionCurrentMonth = 'currentMonth';

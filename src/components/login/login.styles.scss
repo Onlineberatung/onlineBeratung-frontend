@@ -1,4 +1,26 @@
 $spacingWithIcon: 52px;
+$link-hover-text-decoration: $link-text-decoration !default;
+
+.login {
+	&__tenantRegistration {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: $grid-base-four 0;
+
+		@media (min-width: $fromMedium) {
+			position: absolute;
+			top: $grid-base-six;
+			left: auto;
+			right: $grid-base-seven;
+			padding: 0;
+		}
+	}
+
+	&__tenantRegistrationLink {
+		margin-left: $grid-base;
+	}
+}
 
 .loginForm {
 	display: flex;
@@ -15,6 +37,10 @@ $spacingWithIcon: 52px;
 		@include breakpoint($fromLarge) {
 			width: 320px;
 		}
+	}
+
+	&__headline {
+		transform: $login-icon-transform;
 	}
 
 	&__otp {
@@ -44,10 +70,29 @@ $spacingWithIcon: 52px;
 	.button__item {
 		width: $login-button-width;
 		margin-top: $grid-base-five;
+		transform: $login-icon-transform;
+		background-color: var(--skin-color-primary, $primary);
+		color: var(--text-color-contrast-switch, $white);
+
+		@media (min-width: $fromLarge) {
+			width: $login-button-width-large;
+		}
+	}
+
+	&__passwordReset {
+		color: $link-color;
+		transform: $login-icon-transform;
+		text-decoration: $link-text-decoration;
+		font-weight: $link-font-weight;
+
+		&:hover {
+			text-decoration: $link-hover-text-decoration;
+		}
 	}
 
 	&__register {
 		margin-top: $grid-base-five;
+		transform: $login-icon-transform;
 
 		& > .text {
 			position: relative;

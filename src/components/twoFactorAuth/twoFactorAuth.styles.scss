@@ -1,3 +1,5 @@
+$two-factor-auth-overlay-buttons-margin-right: auto !default;
+
 .twoFactorAuth {
 	&__switch {
 		display: flex;
@@ -22,11 +24,24 @@
 			@include breakpoint($fromSmall) {
 				width: auto;
 			}
+
+			@include breakpoint($fromMedium) {
+				display: flex;
+				justify-content: space-between;
+				width: 100%;
+			}
+		}
+
+		@include breakpoint($fromMedium) {
+			.overlay__buttons .button__wrapper {
+				width: calc(50% - #{$grid-base-two});
+			}
 		}
 
 		.button__wrapper {
 			margin-top: $grid-base-three;
-			margin-left: 0;
+			margin-left: auto;
+			margin-right: $two-factor-auth-overlay-buttons-margin-right;
 		}
 		.button__wrapper + .button__wrapper {
 			@include breakpoint($fromSmall) {
@@ -67,13 +82,17 @@
 			justify-items: start;
 			cursor: pointer;
 			margin-top: $grid-base-two;
+			color: var(--skin-color-primary-contrast-safe, $primary);
 
 			.text {
-				color: $primary;
+				color: var(--skin-color-primary-contrast-safe, $primary);
 				margin: auto 0 auto $grid-base;
 
 				&:hover {
-					color: $hover-primary;
+					color: var(
+						--skin-color-primary-contrast-safe,
+						$hover-primary
+					);
 				}
 			}
 		}
@@ -83,25 +102,37 @@
 		.text__divider {
 			text-transform: uppercase;
 			display: flex;
-			color: $primary;
+			color: var(--skin-color-secondary-contrast-safe, $primary);
 
 			&::before,
 			&::after {
 				content: '';
-				border-top: 1px solid $primary;
+				border-top: 1px solid
+					var(--skin-color-secondary-contrast-safe, $primary);
 				width: max-content;
 				margin: auto $grid-base;
 				flex-grow: 1;
+			}
+		}
+
+		@include breakpoint($fromMedium) {
+			display: flex;
+			margin-top: $grid-base-three;
+
+			.twoFactorAuth__qrCode,
+			.twoFactorAuth__key {
+				width: 50%;
+				flex-shrink: 0;
+			}
+
+			.text__divider {
+				display: none;
 			}
 		}
 	}
 
 	&__qrCode {
 		display: flex;
-
-		.text {
-			margin: auto 0;
-		}
 
 		img {
 			width: $two-factor-qr-code-width;
@@ -110,9 +141,22 @@
 		& + .text__divider {
 			margin: 12px 0 24px;
 		}
+
+		@include breakpoint($fromMedium) {
+			flex-direction: column;
+		}
+	}
+
+	&__qrCodeImage {
+		margin: auto;
 	}
 
 	&__key {
+		@include breakpoint($fromMedium) {
+			border-left: 2px solid var(--skin-color-primary, $primary);
+			padding-left: $grid-base-two;
+		}
+
 		.text + .text {
 			font-weight: $font-weight-bold;
 		}

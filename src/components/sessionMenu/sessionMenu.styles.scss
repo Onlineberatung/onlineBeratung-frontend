@@ -1,3 +1,4 @@
+$session-menu-border: 1px solid $form-disabled !default;
 $iconSize: 20px;
 
 .sessionMenu {
@@ -6,7 +7,7 @@ $iconSize: 20px;
 		flex-direction: row;
 
 		a {
-			color: $secondary;
+			color: var(--skin-color-default, $secondary);
 		}
 
 		.button__wrapper {
@@ -45,7 +46,7 @@ $iconSize: 20px;
 			height: $iconSize;
 
 			&:hover {
-				fill: $primary;
+				fill: var(--skin-color-default, $primary);
 				svg path {
 					fill: $font-size-secondary;
 				}
@@ -66,9 +67,10 @@ $iconSize: 20px;
 		transition: opacity 0.25s ease, visibility 0.25s ease;
 		box-sizing: border-box;
 		background: $white;
-		width: 192px;
-		border: 1px solid $form-disabled;
+		width: 230px;
+		border: $session-menu-border;
 		@include rounded-drop-shadow;
+		overflow: hidden;
 		z-index: 1;
 
 		a {
@@ -84,9 +86,26 @@ $iconSize: 20px;
 			transition-duration: 0.25s;
 		}
 
+		// The border above the legal links should only be shown when:
+		// a) On mobile, when there are menu items preceding the legal link
+		// b) On desktop, when there are non-mobile menu items preceding the legal links
+		@mixin legal-links-border {
+			border-top: 1px solid $line-grey;
+		}
+		.legalInformationLinks--menu:not(:first-child) {
+			@media (max-width: $fromLarge) {
+				@include legal-links-border;
+			}
+		}
+		.sessionMenu__item:not(.sessionMenu__item--mobile)
+			~ .legalInformationLinks--menu {
+			@include breakpoint($fromLarge) {
+				@include legal-links-border;
+			}
+		}
+
 		.legalInformationLinks--menu {
 			display: block;
-			border-top: 1px solid $line-grey;
 
 			a {
 				background-color: $white;
@@ -96,8 +115,9 @@ $iconSize: 20px;
 
 				&:hover {
 					background-color: $hover-select;
+
 					p {
-						color: $primary !important;
+						color: $session-menu-legal-links-color !important;
 					}
 				}
 			}
@@ -110,7 +130,7 @@ $iconSize: 20px;
 		cursor: pointer;
 
 		&:hover {
-			color: $primary;
+			color: var(--skin-color-default, $primary);
 			background-color: $hover-select;
 		}
 
@@ -150,14 +170,14 @@ $iconSize: 20px;
 
 		:hover {
 			cursor: pointer;
-			color: $hover-primary;
+			color: var(--skin-color-primary-contrast-safe, $hover-primary);
 
 			p {
-				color: $hover-primary;
+				color: var(--skin-color-primary-contrast-safe, $hover-primary);
 			}
 
 			svg * {
-				fill: $hover-primary;
+				fill: var(--skin-color-primary-contrast-safe, $hover-primary);
 			}
 		}
 	}

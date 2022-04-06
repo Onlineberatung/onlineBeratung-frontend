@@ -3,7 +3,7 @@ import { removeAllCookies } from '../components/sessionCookie/accessSessionCooki
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from './fetchData';
 
 export const apiPostRegistration = (url: string, data: {}): Promise<any> => {
-	removeAllCookies();
+	removeAllCookies(['useInformal']);
 
 	return fetchData({
 		url: url,

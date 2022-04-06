@@ -1,7 +1,6 @@
-$enquiryImageSize: 200px;
-$enquiryImageSizeLarge: 220px;
-$enquiryImageWrapperSize: 280px;
-$backgroundCircleSize: 1800px;
+$enquiry-image-size: 200px !default;
+$enquiry-image-size-large: 220px !default;
+$background-circle-size: 1800px !default;
 
 .enquiry {
 	&__wrapper {
@@ -20,8 +19,8 @@ $backgroundCircleSize: 1800px;
 			&::after {
 				content: '';
 				position: absolute;
-				width: $backgroundCircleSize;
-				height: $backgroundCircleSize;
+				width: $background-circle-size;
+				height: $background-circle-size;
 				right: calc(100vw * 0.3);
 				border-radius: 100%;
 				background-color: $enquiry-circle-background;
@@ -91,13 +90,13 @@ $backgroundCircleSize: 1800px;
 	}
 
 	&__image {
-		width: $enquiryImageSize;
-		height: $enquiryImageSize;
+		width: $enquiry-image-size;
+		height: $enquiry-image-size;
 		display: block;
 
 		@include breakpoint($fromLarge) {
-			width: $enquiryImageSizeLarge;
-			height: $enquiryImageSizeLarge;
+			width: $enquiry-image-size-large;
+			height: $enquiry-image-size-large;
 			max-width: 300px;
 			order: 2;
 			margin-bottom: 0;
@@ -200,6 +199,7 @@ $backgroundCircleSize: 1800px;
 			background-color: $light-brown;
 		}
 
+		/* stylelint-disable-next-line selector-id-pattern, selector-max-id */
 		#Fill-1 {
 			fill: $white;
 		}

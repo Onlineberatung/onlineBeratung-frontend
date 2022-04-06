@@ -15,6 +15,7 @@ export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
 export const APP_PATH = 'app';
 
 export const config = {
+	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
 		agencyServiceBase: apiUrl + '/service/agencies',
@@ -65,6 +66,7 @@ export const config = {
 		startVideoCall: apiUrl + '/service/videocalls/new',
 		teamSessionsBase:
 			apiUrl + '/service/conversations/consultants/teamsessions/',
+		tenantServiceBase: apiUrl + '/service/tenant',
 		twoFactorAuth: apiUrl + '/service/users/2fa',
 		twoFactorAuthApp: apiUrl + '/service/users/2fa/app',
 		twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
@@ -76,8 +78,7 @@ export const config = {
 			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`
 	},
 	urls: {
-		loginRedirectToRegistrationOverview:
-			'https://www.caritas.de/onlineberatung',
+		toRegistration: 'https://www.caritas.de/onlineberatung',
 		toLogin: uiUrl + '/login',
 		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',
