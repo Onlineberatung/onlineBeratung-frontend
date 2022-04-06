@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
 import sanitizeHtml from 'sanitize-html';
-import {
-	sanitizeHtmlExtendedOptions,
-	urlifyLinksInText
-} from '../messageSubmitInterface/richtextHelpers';
+import { sanitizeHtmlExtendedOptions } from '../messageSubmitInterface/richtextHelpers';
 import { stateToHTML } from 'draft-js-export-html';
 import { uiUrl } from '../../resources/scripts/config';
 
@@ -28,7 +25,7 @@ export const ReleaseNoteText: React.FC<ReleaseNoteTextProps> = ({
 		);
 
 		const sanitizedText = sanitizeHtml(
-			urlifyLinksInText(stateToHTML(convertedMarkdownObject)),
+			stateToHTML(convertedMarkdownObject),
 			sanitizeHtmlExtendedOptions
 		);
 
