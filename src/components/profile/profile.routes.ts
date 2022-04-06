@@ -13,6 +13,8 @@ import { AbsenceFormular } from './AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { TwoFactorAuth } from '../twoFactorAuth/TwoFactorAuth';
 import { DeleteAccount } from './DeleteAccount';
+import { EnableWalkthrough } from './EnableWalkthrough';
+import { config } from '../../resources/scripts/config';
 
 export interface TabGroups {
 	title: string;
@@ -76,6 +78,11 @@ const routes: TabsType = [
 								userData
 							),
 						component: ConsultantAgencies,
+						column: COLUMN_LEFT
+					},
+					{
+						condition: () => config.enableWalkthrough,
+						component: EnableWalkthrough,
 						column: COLUMN_LEFT
 					},
 					{

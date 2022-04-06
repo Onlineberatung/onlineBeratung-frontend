@@ -42,8 +42,6 @@ import {
 	LinkMenuGroupType,
 	LinkMenuItemType
 } from '../mobile/linkMenu/LinkMenu';
-import { config } from '../../resources/scripts/config';
-import { EnableWalkthrough } from './EnableWalkthrough';
 
 interface ProfileProps {
 	legalLinks: Array<LegalLinkInterface>;
@@ -399,8 +397,7 @@ export const Profile = (props: ProfileProps) => {
 
 const ProfileItem = ({
 	element,
-	spokenLanguages,
-	index
+	spokenLanguages
 }: {
 	element: SingleComponentType;
 	spokenLanguages: string[];

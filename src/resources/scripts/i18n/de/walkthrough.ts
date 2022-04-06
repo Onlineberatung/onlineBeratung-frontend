@@ -1,4 +1,8 @@
 const walkthrough = {
+	'title': 'Rundgang',
+	'subtitle':
+		'Um Ihnen die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Sie vorbereitet. <br /> Sie können ihn jederzeit abbrechen oder in ihrem Profil erneut starten',
+	'step.1.title': 'Erstanfragen',
 	'switch.active.label': 'Rundgang aktiv',
 	'switch.deactive.label': 'Rundgang aktiviert',
 	'step.next': 'Weiter',
@@ -9,7 +13,6 @@ const walkthrough = {
 	'step.0.title': 'Rundgang',
 	'step.0':
 		'Um Ihnen die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Sie vorbereitet. <br /> Sie können ihn jederzeit abbrechen oder in ihrem Profil erneut starten',
-	'step.1.title': 'Erstanfragen',
 	'step.1':
 		'Hier finden Sie eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Ihr gesamtes Team hat Zugriff auf diese Übersicht.\n' +
 		'Die ältesten Anfragen stehen oben, die neuesten ganz unten, damit Sie die zuerst eingegangenen leichter finden können.\n' +
