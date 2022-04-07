@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, ReactElement } from 'react';
 import styled from 'styled-components';
 
 export const SIZE_DEFAULT = 'default';
@@ -15,7 +15,7 @@ export type SIZE =
 interface FiltertagProps extends HTMLAttributes<HTMLDivElement> {
 	size?: SIZE;
 	label?: string;
-	icon?: any; //TODO
+	icon?: ReactElement;
 }
 
 const StyledFiltertag = styled.div`
@@ -73,8 +73,12 @@ const StyledFiltertag = styled.div`
     }
 
     svg {
-        fill: ${theme.colors.removeable};
-        margin: 0px 0px 0px 8px;
+		height: 16px;
+		width: 16px;
+		margin: 0px 0px 0px 8px;
+		path {
+        	fill: ${theme.colors.removeable};
+		}
     }
 	`}
 `;
@@ -114,9 +118,6 @@ StyledFiltertag.defaultProps = {
 	}
 };
 
-/**
- * Primary UI component for user interaction
- */
 export const Filtertag = ({
 	size = SIZE_DEFAULT,
 	label,

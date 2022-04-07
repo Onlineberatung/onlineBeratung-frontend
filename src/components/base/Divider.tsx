@@ -38,12 +38,12 @@ const StyledDivider = styled.div`
         }
 
         &:before {
-            margin-right: ${theme.divider.margin};
+            margin: 0 ${theme.divider.margin} 0 0;
         }
 
 
         &:after {
-            margin-left: ${theme.divider.margin};
+            margin: 0 0 0 ${theme.divider.margin};
         }
 
         &.primary {
