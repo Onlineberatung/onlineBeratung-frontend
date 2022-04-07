@@ -17,7 +17,6 @@ const Template: ComponentStory<typeof Divider> = (args) => (
 	<Divider {...args} />
 );
 
-//Strukturansicht in Storybook
 export const Primary = Template.bind({});
 Primary.args = {
 	size: SIZE_PRIMARY

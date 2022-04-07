@@ -15,7 +15,6 @@ export default {
 
 const Template: ComponentStory<typeof Badge> = (args) => <Badge {...args} />;
 
-//Strukturansicht in Storybook
 export const Active = Template.bind({});
 Active.args = {
 	size: SIZE_ACTIVE,
