@@ -110,7 +110,7 @@ export const AuthenticatedApp = ({
 					<Notifications notifications={notifications} />
 				)}
 				<TwoFactorNag />
- 				{isConsultant && <ReleaseNote />}
+				{isConsultant && <ReleaseNote />}
 			</>
 		);
 	}
