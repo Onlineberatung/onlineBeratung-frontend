@@ -8,10 +8,10 @@ const profile = {
 	'functions.absenceButtonChange': 'Ändern',
 	'functions.securityTitle': 'Sicherheit',
 	'functions.securityButton': 'Passwort ändern',
-	'functions.passwordResetTitle': 'Passwort ändern',
+	'functions.passwordResetTitle': 'Passwort',
 	'functions.passwordResetSubtitle':
-		'Nach erfolgreicher Änderung des Passwortes werden Sie automatisch ausgeloggt und zum Login weitergeleitet.',
-	'functions.passwordResetOldLabel': 'Altes Passwort',
+		'Wenn Sie möchten, können Sie hier Ihr Passwort ändern. Geben Sie erst Ihr aktuelles Passwort ein, um ein Neues festzulegen.',
+	'functions.passwordResetOldLabel': 'Aktuelles Passwort',
 	'functions.passwordResetNewLabel': 'Neues Passwort',
 	'functions.passwordResetConfirmLabel': 'Neues Passwort bestätigen',
 	'functions.passwordResetSecure': 'Ihr Passwort ist sicher.',

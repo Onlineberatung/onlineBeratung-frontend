@@ -25,7 +25,7 @@ import './authenticatedApp.styles';
 import './navigation.styles';
 import { requestPermissions } from '../../utils/notificationHelpers';
 import { ReleaseNote } from '../releaseNote/ReleaseNote';
-// import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
+import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -109,9 +109,8 @@ export const AuthenticatedApp = ({
 				{notifications && (
 					<Notifications notifications={notifications} />
 				)}
-				{/* <TwoFactorNag /> */}{' '}
-				{/* temporarily disabled as per COBH-4265 */}
-				{isConsultant && <ReleaseNote />}
+				<TwoFactorNag />
+ 				{isConsultant && <ReleaseNote />}
 			</>
 		);
 	}
