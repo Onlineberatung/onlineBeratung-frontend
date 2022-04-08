@@ -222,10 +222,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 						}
 
 						if (!response.rcGroupId || !response.sessionId) {
-							history.push(
-								config.endpoints.userSessionsListView,
-								{ from: 'registration' }
-							);
+							history.push(config.endpoints.userSessionsListView);
 							return;
 						}
 
@@ -233,8 +230,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 							generatePath(
 								`${config.endpoints.userSessionsListView}/:rcGroupId/:sessionId`,
 								response
-							),
-							{ from: 'registration' }
+							)
 						);
 					});
 			}

@@ -1,7 +1,7 @@
 const profileInformal = {
 	'functions.absenceLabel': 'Hinterlege eine Abwesenheitsnachricht',
 	'functions.passwordResetSubtitle':
-		'Nach erfolgreicher Änderung des Passwortes wirst Du automatisch ausgeloggt und zum Login weitergeleitet.',
+		'Wenn Du möchtest, kannst Du hier Dein Passwort ändern. Gebe erst Dein aktuelles Passwort ein, um ein Neues festzulegen.',
 	'functions.passwordResetSecure': 'Dein Passwort ist sicher.',
 	'functions.passwordResetInsecure': 'Dein Passwort ist nicht sicher.',
 	'functions.passwordResetSame': 'Dein Passwort ist identisch.',
