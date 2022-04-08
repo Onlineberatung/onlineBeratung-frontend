@@ -1,6 +1,6 @@
 {
-	"short_name": "Caritas Online-Beratung",
-	"name": "Caritas Online-Beratung – Online. Anonym. Sicher.",
+	"short_name": "Online-Beratung",
+	"name": "Online-Beratung – Online. Anonym. Sicher.",
 	"icons": [
 		{
 			"src": "favicon.ico",
@@ -18,8 +18,10 @@
 			"sizes": "512x512"
 		}
 	],
-	"start_url": ".",
-	"display": "standalone",
+	"display": "fullscreen",
+	"scope": "/",
+	"start_url": "/",
 	"theme_color": "#cc1e1c",
-	"background_color": "#ffffff"
+	"background_color": "#ffffff",
+	"prefer_related_applications": false
 }

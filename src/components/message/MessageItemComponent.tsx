@@ -35,6 +35,7 @@ import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { MessageToSpeech } from './MessageToSpeech';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -263,6 +264,12 @@ export const MessageItemComponent = ({
 							))}
 						{activeSession?.isFeedbackSession && (
 							<CopyMessage
+								right={isMyMessage}
+								message={renderedMessage}
+							/>
+						)}
+						{!activeSession?.isFeedbackSession && (
+							<MessageToSpeech
 								right={isMyMessage}
 								message={renderedMessage}
 							/>

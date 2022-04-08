@@ -22,7 +22,7 @@
 		"downlevelIteration": true,
 		"typeRoots": ["node_modules/@types"]
 	},
-	"include": ["src"],
+	"include": ["src", "public/service-worker.js"],
 	"ts-node": {
 		"compilerOptions": {
 			"module": "commonjs"
