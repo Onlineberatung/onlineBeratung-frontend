@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { ReactComponent as PlayIcon } from '../../resources/img/icons/speech-bubble.svg';
 
