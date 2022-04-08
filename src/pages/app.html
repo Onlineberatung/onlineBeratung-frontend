@@ -54,7 +54,7 @@
 		<script>
 			if ('serviceWorker' in navigator) {
 				console.log('serviceWorker in navigator');
-				navigator.serviceWorker.register('/service-worker.js');
+				navigator.serviceWorker.register('%PUBLIC_URL%/service-worker.js');
 			}
 
 			function hideIEBanner(e) {
