@@ -150,7 +150,10 @@ export const sanitizeHtmlDefaultOptions = {
 
 export const sanitizeHtmlExtendedOptions = {
 	allowedTags: [...sanitizeHtmlExtendedPasteOptions.allowedTags],
-	allowedAttributes: sanitizeHtml.defaults.allowedAttributes
+	allowedAttributes: sanitizeHtml.defaults.allowedAttributes,
+	transformTags: {
+		a: sanitizeHtml.simpleTransform('a', { target: '_blank' })
+	}
 };
 
 /**

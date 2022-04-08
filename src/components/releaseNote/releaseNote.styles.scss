@@ -13,7 +13,7 @@
 
 		&::after {
 			display: block;
-			width: 100%;
+			width: calc(100% - 20px);
 			height: $grid-base-two;
 			background: linear-gradient(
 				180deg,
@@ -48,7 +48,7 @@
 
 		&::before {
 			display: block;
-			width: 100%;
+			width: calc(100% - 20px);
 			height: $grid-base-two;
 			background: linear-gradient(
 				0deg,
@@ -63,6 +63,7 @@
 
 	&__text {
 		text-align: left;
+		padding-right: 20px;
 
 		*:first-child {
 			margin-top: 0;
