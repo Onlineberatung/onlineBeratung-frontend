@@ -24,6 +24,7 @@ import { Notifications } from '../notifications/Notifications';
 import './authenticatedApp.styles';
 import './navigation.styles';
 import { requestPermissions } from '../../utils/notificationHelpers';
+import { ReleaseNote } from '../releaseNote/ReleaseNote';
 import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 
 interface AuthenticatedAppProps {
@@ -41,10 +42,13 @@ export const AuthenticatedApp = ({
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
-	const [appReady, setAppReady] = useState<boolean>(false);
-	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { notifications } = useContext(NotificationsContext);
 	const { sessionsData } = useContext(SessionsDataContext);
+
+	const [appReady, setAppReady] = useState<boolean>(false);
+	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
+	const [isConsultant, setIsConsultant] = useState<boolean>(false);
+
 	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
 
 	useEffect(() => {
@@ -52,6 +56,7 @@ export const AuthenticatedApp = ({
 			userData &&
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 		) {
+			setIsConsultant(true);
 			requestPermissions();
 		}
 	}, [userData]);
@@ -105,6 +110,7 @@ export const AuthenticatedApp = ({
 					<Notifications notifications={notifications} />
 				)}
 				<TwoFactorNag />
+				{isConsultant && <ReleaseNote />}
 			</>
 		);
 	}

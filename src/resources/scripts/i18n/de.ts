@@ -31,6 +31,7 @@ import typingIndicator from './de/typingIndicator';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
 import qrCode from './de/qrCode';
+import releaseNote from './de/releaseNote';
 
 const de = {
 	absence,
@@ -65,7 +66,8 @@ const de = {
 	user,
 	userProfile,
 	videoCall,
-	qrCode
+	qrCode,
+	releaseNote
 };
 
 export default de;
