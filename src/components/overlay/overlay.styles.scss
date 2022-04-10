@@ -15,6 +15,7 @@ $overlay-illustration-size-large: 160px;
 	top: 0;
 	left: 0;
 	z-index: 20;
+	overflow-y: scroll;
 
 	&__background {
 		position: fixed;
@@ -36,19 +37,32 @@ $overlay-illustration-size-large: 160px;
 		}
 	}
 
+	&__wrapper {
+		width: 100vw;
+		height: 100vh;
+		margin: auto;
+		background: $white;
+
+		@include breakpoint($fromLarge) {
+			background: none;
+			height: auto;
+			max-width: 720px;
+			padding: $grid-base-four 0;
+		}
+	}
+
 	&__content {
 		display: flex;
 		position: relative;
 		flex-direction: column;
 		width: 100vw;
-		height: 100vh;
+		height: auto;
 		max-width: none;
 		background-color: $white;
 		border-radius: 4px;
 		text-align: $overlay-text-align;
 		margin: auto;
 		padding: $grid-base-ten $grid-base-three $grid-base-six;
-		overflow: auto;
 
 		@include breakpoint($fromMedium) {
 			padding: $grid-base-six $grid-base-three;
@@ -299,12 +313,21 @@ $overlay-illustration-size-large: 160px;
 		}
 	}
 
-	&--illustration .overlay__content {
-		padding-top: ($overlay-illustration-size / 2) + $grid-base;
+	&--illustration {
+		.overlay__wrapper {
+			@include breakpoint($fromLarge) {
+				padding-top: ($overlay-illustration-size-from-large / 2) +
+					$grid-base-four;
+			}
+		}
 
-		@include breakpoint($fromLarge) {
-			padding-top: ($overlay-illustration-size-from-large / 2) +
-				$grid-base;
+		.overlay__content {
+			padding-top: ($overlay-illustration-size / 2) + $grid-base;
+
+			@include breakpoint($fromLarge) {
+				padding-top: ($overlay-illustration-size-from-large / 2) +
+					$grid-base;
+			}
 		}
 	}
 

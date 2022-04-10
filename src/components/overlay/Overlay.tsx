@@ -135,83 +135,86 @@ export const Overlay = (props: {
 			)}
 		>
 			<div className="overlay__background"></div>
-			<div className="overlay__content">
-				{props.handleOverlayClose && (
-					<XIcon
-						className="overlay__closeIcon"
-						onClick={(e) => props.handleOverlayClose(e)}
-					/>
-				)}
-				{props.items?.some((item) => item.step) && (
-					<div className="overlay__steps">
-						{props.items.map((item, i) => {
-							if (item.step) {
-								const StepIcon = item.step?.icon;
-								return (
-									<div
-										className={clsx('overlay__step', {
-											'overlay__step--active':
-												i === activeStep,
-											'overlay__step--disabled':
-												i > activeStep
-										})}
-										key={i}
-									>
-										<div className="overlay__stepContent">
-											<div className="overlay__stepIcon">
-												<StepIcon />
+			<div className="overlay__wrapper">
+				<div className="overlay__content">
+					{props.handleOverlayClose && (
+						<XIcon
+							className="overlay__closeIcon"
+							onClick={(e) => props.handleOverlayClose(e)}
+						/>
+					)}
+					{props.items?.some((item) => item.step) && (
+						<div className="overlay__steps">
+							{props.items.map((item, i) => {
+								if (item.step) {
+									const StepIcon = item.step?.icon;
+									return (
+										<div
+											className={clsx('overlay__step', {
+												'overlay__step--active':
+													i === activeStep,
+												'overlay__step--disabled':
+													i > activeStep
+											})}
+											key={i}
+										>
+											<div className="overlay__stepContent">
+												<div className="overlay__stepIcon">
+													<StepIcon />
+												</div>
+												<Text
+													text={item.step.label}
+													type="divider"
+												/>
 											</div>
-											<Text
-												text={item.step.label}
-												type="divider"
-											/>
 										</div>
-									</div>
-								);
-							} else return null;
-						})}
-					</div>
-				)}
-				{activeOverlay.svg && (
-					<div className="overlay__illustrationWrapper">
-						<span
-							className={`overlay__illustration ${
-								activeOverlay.illustrationBackground
-									? `overlay__illustration--${activeOverlay.illustrationBackground}`
-									: ''
-							}`}
-						>
-							<Illustration />
-						</span>
-					</div>
-				)}
-				{activeOverlay.headline && (
-					<Headline
-						semanticLevel="3"
-						text={getOverlayHeadline()}
-						styleLevel={activeOverlay.headlineStyleLevel}
-					/>
-				)}
-				{activeOverlay.copy && (
-					<Text text={activeOverlay.copy} type="standard" />
-				)}
-				{activeOverlay.nestedComponent && (
-					<div className="overlay__nestedComponent">
-						{activeOverlay.nestedComponent}
-					</div>
-				)}
-				{activeOverlay.buttonSet && activeOverlay.buttonSet.length > 0 && (
-					<div className="overlay__buttons">
-						{activeOverlay.buttonSet?.map((item, i) => (
-							<Button
-								disabled={item.disabled}
-								item={item}
-								key={`${i}-${item.type}`}
-								buttonHandle={handleButtonClick}
-							/>
-						))}
-					</div>
-				)}
+									);
+								} else return null;
+							})}
+						</div>
+					)}
+					{activeOverlay.svg && (
+						<div className="overlay__illustrationWrapper">
+							<span
+								className={`overlay__illustration ${
+									activeOverlay.illustrationBackground
+										? `overlay__illustration--${activeOverlay.illustrationBackground}`
+										: ''
+								}`}
+							>
+								<Illustration />
+							</span>
+						</div>
+					)}
+					{activeOverlay.headline && (
+						<Headline
+							semanticLevel="3"
+							text={getOverlayHeadline()}
+							styleLevel={activeOverlay.headlineStyleLevel}
+						/>
+					)}
+					{activeOverlay.copy && (
+						<Text text={activeOverlay.copy} type="standard" />
+					)}
+					{activeOverlay.nestedComponent && (
+						<div className="overlay__nestedComponent">
+							{activeOverlay.nestedComponent}
+						</div>
+					)}
+					{activeOverlay.buttonSet &&
+						activeOverlay.buttonSet.length > 0 && (
+							<div className="overlay__buttons">
+								{activeOverlay.buttonSet?.map((item, i) => (
+									<Button
+										disabled={item.disabled}
+										item={item}
+										key={`${i}-${item.type}`}
+										buttonHandle={handleButtonClick}
+									/>
+								))}
+							</div>
+						)}
+				</div>
 			</div>
 		</div>
 	);
