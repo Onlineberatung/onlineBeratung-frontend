@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useMemo } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import {
 	RouterConfigUser,
 	RouterConfigConsultant,
@@ -56,15 +56,6 @@ export const Routing = (props: routingProps) => {
 		return RouterConfigUser();
 	}, [userData]);
 
-	useEffect(() => {
-		history.push(
-			'/sessions/' +
-				(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
-					? 'consultant/sessionPreview'
-					: 'user/view')
-		);
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
-
 	// Redirect anonymous live chat users to their one and only session
 	useEffect(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
@@ -76,105 +67,136 @@ export const Routing = (props: routingProps) => {
 		}
 	}, [sessionGroupId, sessionId, userData]);
 
+	const allRoutes = () =>
+		[
+			...(routerConfig.listRoutes || []),
+			...(routerConfig.detailRoutes || []),
+			...(routerConfig.userProfileRoutes || []),
+			...(routerConfig.profileRoutes || [])
+		].map((route) => route.path, []);
+
 	return (
-		<div className="app__wrapper">
-			<NavigationBar
-				routerConfig={routerConfig}
-				handleLogout={() => props.logout()}
-			/>
+		<Switch>
+			<Route path={allRoutes()}>
+				<div className="app__wrapper">
+					<NavigationBar
+						routerConfig={routerConfig}
+						handleLogout={() => props.logout()}
+					/>
 
-			<section className="contentWrapper">
-				<Header />
-				<div className="contentWrapper__list">
-					<Switch>
-						{routerConfig.listRoutes.map(
-							(route: any): JSX.Element => (
-								<Route
-									exact={route.exact ?? true}
-									key={`list-${route.path}`}
-									path={route.path}
-									component={route.component}
-								/>
-							)
-						)}
-					</Switch>
-				</div>
-				<div className="contentWrapper__detail">
-					<Switch>
-						{routerConfig.detailRoutes.map(
-							(route: any): JSX.Element => (
-								<Route
-									exact={route.exact ?? true}
-									key={`detail-${route.path}`}
-									path={route.path}
-									render={(componentProps) => (
-										<route.component
-											{...componentProps}
-											{...props}
-											type={route.type || null}
+					<section className="contentWrapper">
+						<Header />
+						<div className="contentWrapper__list">
+							<Switch>
+								{routerConfig.listRoutes.map(
+									(route: any): JSX.Element => (
+										<Route
+											exact={route.exact ?? true}
+											key={`list-${route.path}`}
+											path={route.path}
+											component={route.component}
 										/>
-									)}
-								/>
-							)
-						)}
-					</Switch>
-
-					{((hasUserProfileRoutes) => {
-						if (hasUserProfileRoutes) {
-							return (
-								<div className="contentWrapper__userProfile">
-									<Switch>
-										{routerConfig.userProfileRoutes.map(
-											(route: any): JSX.Element => (
-												<Route
-													exact={route.exact ?? true}
-													key={`userProfile-${route.path}`}
-													path={route.path}
-													render={(props) => (
-														<route.component
-															{...props}
-															type={
-																route.type ||
-																null
-															}
-														/>
-													)}
+									)
+								)}
+							</Switch>
+						</div>
+						<div className="contentWrapper__detail">
+							<Switch>
+								{routerConfig.detailRoutes.map(
+									(route: any): JSX.Element => (
+										<Route
+											exact={route.exact ?? true}
+											key={`detail-${route.path}`}
+											path={route.path}
+											render={(componentProps) => (
+												<route.component
+													{...componentProps}
+													{...props}
+													type={route.type || null}
 												/>
-											)
-										)}
-									</Switch>
-								</div>
-							);
-						}
-					})(typeof routerConfig.userProfileRoutes !== 'undefined')}
-				</div>
-
-				<div className="contentWrapper__profile">
-					<Switch>
-						{routerConfig.profileRoutes?.map(
-							(route: any): JSX.Element => (
-								<Route
-									exact={route.exact ?? true}
-									key={`profile-${route.path}`}
-									path={route.path}
-									render={() => (
-										<route.component
-											{...props}
-											type={route.type || null}
+											)}
 										/>
-									)}
-								/>
-							)
-						)}
-					</Switch>
+									)
+								)}
+							</Switch>
+
+							{((hasUserProfileRoutes) => {
+								if (hasUserProfileRoutes) {
+									return (
+										<div className="contentWrapper__userProfile">
+											<Switch>
+												{routerConfig.userProfileRoutes.map(
+													(
+														route: any
+													): JSX.Element => (
+														<Route
+															exact={
+																route.exact ??
+																true
+															}
+															key={`userProfile-${route.path}`}
+															path={route.path}
+															render={(props) => (
+																<route.component
+																	{...props}
+																	type={
+																		route.type ||
+																		null
+																	}
+																/>
+															)}
+														/>
+													)
+												)}
+											</Switch>
+										</div>
+									);
+								}
+							})(
+								typeof routerConfig.userProfileRoutes !==
+									'undefined'
+							)}
+						</div>
+
+						<div className="contentWrapper__profile">
+							<Switch>
+								{routerConfig.profileRoutes?.map(
+									(route: any): JSX.Element => (
+										<Route
+											exact={route.exact ?? true}
+											key={`profile-${route.path}`}
+											path={route.path}
+											render={() => (
+												<route.component
+													{...props}
+													type={route.type || null}
+												/>
+											)}
+										/>
+									)
+								)}
+							</Switch>
+						</div>
+					</section>
+					{hasUserAuthority(
+						AUTHORITIES.CONSULTANT_DEFAULT,
+						userData
+					) && <AbsenceHandler />}
+					{hasUserAuthority(
+						AUTHORITIES.ANONYMOUS_DEFAULT,
+						userData
+					) && <FinishedAnonymousConversationHandler />}
 				</div>
-			</section>
-			{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
-				<AbsenceHandler />
-			)}
-			{hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) && (
-				<FinishedAnonymousConversationHandler />
-			)}
-		</div>
+			</Route>
+			<Redirect
+				from="*"
+				to={
+					'/sessions/' +
+					(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+						? 'consultant/sessionPreview'
+						: 'user/view')
+				}
+			/>
+		</Switch>
 	);
 };

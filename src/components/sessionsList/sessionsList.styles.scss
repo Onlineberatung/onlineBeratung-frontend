@@ -19,7 +19,6 @@ $tabBarHeightDesktop: 53px;
 			display: flex;
 			flex-direction: column;
 			height: 100%;
-			background-color: $sessions-list-background-color-primary;
 		}
 
 		.col {
@@ -36,7 +35,7 @@ $tabBarHeightDesktop: 53px;
 		flex-direction: row;
 		justify-content: space-between;
 		padding: $grid-base-three $grid-base-two;
-		background-color: $sessions-list-background-color-primary;
+		background-color: $sessions-list-background-color-secondary;
 		z-index: 15;
 
 		@include breakpoint($fromMedium) {
@@ -108,7 +107,6 @@ $tabBarHeightDesktop: 53px;
 
 		@include breakpoint($fromLarge) {
 			top: $grid-base-ten;
-			background-color: $sessions-list-background-color-primary;
 		}
 
 		.select__wrapper {
@@ -167,7 +165,7 @@ $tabBarHeightDesktop: 53px;
 
 		@include breakpoint($fromLarge) {
 			padding: 0 $grid-base-three $grid-base-three;
-			background-color: $sessions-list-background-color-primary;
+			background-color: $sessions-list-background-color-secondary;
 		}
 
 		a {

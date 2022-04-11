@@ -2,11 +2,7 @@
 	background: rgba(255, 255, 255, 0.7);
 	padding: $grid-base-two;
 	margin-bottom: $grid-base;
-	border-radius: 8px;
-
-	box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.05);
-	-webkit-box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.05);
-	-moz-box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.05);
+	border-radius: $box-border-radius;
 
 	@include breakpoint($fromMedium) {
 		padding: $grid-base-three;
