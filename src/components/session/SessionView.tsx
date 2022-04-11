@@ -106,9 +106,12 @@ export const SessionView = (props: RouterProps) => {
 
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
+	const displayName = userData.displayName || userData.userName;
+
 	const { subscribeTyping, handleTyping, typingUsers } = useTyping(
 		groupIdFromParam,
-		userData.userName
+		userData.userName,
+		displayName
 	);
 
 	const [sessionListTab] = useState(
