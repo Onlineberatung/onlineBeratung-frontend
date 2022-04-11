@@ -25,7 +25,7 @@ const profileInformal = {
 	'data.personal.registrationLink.tooltip':
 		'Teile Deinen persönlichen Kontakt-Link mit jemanden, damit diese Person eine Onlineberatung direkt mit Dir starten kann.',
 	'data.info.public':
-		'Mit dem Anzeigenamen erscheinst du bei den Ratsuchenden.',
+		'Mit dem Anzeigenamen erscheinst Du bei den Ratsuchenden.',
 	'externalRegistration.headline':
 		'Deine gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung',
 	'externalRegistration.copy.start': 'Möchtest Du für „',
