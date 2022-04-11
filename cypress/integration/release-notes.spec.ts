@@ -10,7 +10,12 @@ describe('release-note', () => {
 	});
 
 	it('should show the release note overlay immediately but not after reload', () => {
-		cy.intercept('GET', '/releases/*', { fixture: 'releaseNote.md' });
+		cy.fixture('releaseNote.md').then((content) => {
+			cy.willReturn('releases', {
+				body: content,
+				statusCode: 200
+			});
+		});
 
 		cy.fastLogin({
 			username: USER_CONSULTANT
@@ -32,7 +37,12 @@ describe('release-note', () => {
 	});
 
 	it('should show the release note overlay immediately and after reload', () => {
-		cy.intercept('GET', '/releases/*', { fixture: 'releaseNote.md' });
+		cy.fixture('releaseNote.md').then((content) => {
+			cy.willReturn('releases', {
+				body: content,
+				statusCode: 200
+			});
+		});
 
 		cy.fastLogin({
 			username: USER_CONSULTANT
@@ -53,8 +63,6 @@ describe('release-note', () => {
 	});
 
 	it('should not show the release note overlay if there is no file', () => {
-		cy.intercept('GET', '/releases/*', { statusCode: 404 });
-
 		cy.fastLogin({
 			username: USER_CONSULTANT
 		});

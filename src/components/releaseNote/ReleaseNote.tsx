@@ -9,7 +9,7 @@ import { ReactComponent as newIllustration } from '../../resources/img/illustrat
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
-import { uiUrl } from '../../resources/scripts/config';
+import { config } from '../../resources/scripts/config';
 import { convertFromRaw } from 'draft-js';
 import sanitizeHtml from 'sanitize-html';
 import { sanitizeHtmlExtendedOptions } from '../messageSubmitInterface/richtextHelpers';
@@ -27,7 +27,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 
 	const getMarkdown = async () => {
 		const response = await fetch(
-			`${uiUrl}/releases/v${packageInfo.version}.md`
+			`${config.urls.releases}/v${packageInfo.version}.md`
 		);
 
 		if (response.ok) {
@@ -88,9 +88,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		}
 	}, [hasSeenReleaseNote]);
 
-	console.log(showReleaseNote);
-
-	if (!showReleaseNote || hasSeenReleaseNote) return <></>;
+	if (!showReleaseNote || hasSeenReleaseNote) return null;
 
 	return (
 		<OverlayWrapper>
