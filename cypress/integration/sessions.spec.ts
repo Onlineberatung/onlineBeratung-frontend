@@ -12,7 +12,6 @@ import {
 	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
 	SCROLL_PAGINATE_THRESHOLD
 } from '../../src/components/sessionsList/sessionsListConfig';
-import { config } from '../../src/resources/scripts/config';
 import { USER_CONSULTANT } from '../support/commands/login';
 
 describe('Sessions', () => {

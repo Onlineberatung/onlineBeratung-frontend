@@ -212,14 +212,15 @@ $overlay-illustration-size-large: 160px;
 		@include breakpoint($fromLarge) {
 			$size: $overlay-illustration-size-from-large + $grid-base * 2;
 
-			position: absolute;
 			display: inline-block;
 			background-color: $white;
-			top: -$size / 2;
+			margin-top: ((-$size / 2) - $grid-base-six);
 			width: $size;
 			height: $size;
 			padding: $grid-base;
 			border-radius: 50%;
+
+			position: fixed;
 			left: 50%;
 			transform: translateX(-50%);
 		}

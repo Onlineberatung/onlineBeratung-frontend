@@ -24,7 +24,8 @@ import { Notifications } from '../notifications/Notifications';
 import './authenticatedApp.styles';
 import './navigation.styles';
 import { requestPermissions } from '../../utils/notificationHelpers';
-// import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
+import { ReleaseNote } from '../releaseNote/ReleaseNote';
+import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -46,6 +47,8 @@ export const AuthenticatedApp = ({
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { notifications } = useContext(NotificationsContext);
 	const { sessionsData } = useContext(SessionsDataContext);
+	const [isConsultant, setIsConsultant] = useState<boolean>(false);
+
 	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
 
 	useEffect(() => {
@@ -53,6 +56,7 @@ export const AuthenticatedApp = ({
 			userData &&
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 		) {
+			setIsConsultant(true);
 			requestPermissions();
 		}
 	}, [userData]);
@@ -109,8 +113,8 @@ export const AuthenticatedApp = ({
 				{notifications && (
 					<Notifications notifications={notifications} />
 				)}
-				{/* <TwoFactorNag /> */}{' '}
-				{/* temporarily disabled as per COBH-4265 */}
+				<TwoFactorNag />
+				{isConsultant && <ReleaseNote />}
 			</>
 		);
 	} else if (loading) {

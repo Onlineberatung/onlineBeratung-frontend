@@ -34,6 +34,7 @@ import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
 import videoConference from './de/videoConference';
 import qrCode from './de/qrCode';
+import releaseNote from './de/releaseNote';
 
 const de = {
 	absence,
@@ -71,7 +72,8 @@ const de = {
 	userProfile,
 	videoCall,
 	videoConference,
-	qrCode
+	qrCode,
+	releaseNote
 };
 
 export default de;

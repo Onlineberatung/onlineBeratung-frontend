@@ -10,5 +10,6 @@ COPY robots.txt /usr/share/nginx/html/
 COPY public /usr/share/nginx/html/public
 COPY src /usr/share/nginx/html/src
 COPY static /usr/share/nginx/html/static
+COPY releases /usr/share/nginx/html/releases
 COPY under-construction.html /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
