@@ -45,7 +45,12 @@ export const StageLayout = ({
 										text=" | "
 									/>
 								)}
-								<a key={legalLink.url} href={legalLink.url}>
+								<a
+									key={legalLink.url}
+									href={legalLink.url}
+									target="_blank"
+									rel="noreferrer"
+								>
 									<Text
 										className="stageLayout__legalLinksItem"
 										type="infoSmall"
