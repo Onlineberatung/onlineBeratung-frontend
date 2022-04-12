@@ -384,7 +384,11 @@ export const Profile = (props: ProfileProps) => {
 									text=" | "
 								/>
 							)}
-							<a key={legalLink.url} href={legalLink.url}>
+							<a
+								key={legalLink.url}
+								href={legalLink.url}
+								target={legalLink.target || '_self'}
+							>
 								<Text
 									className="profile__footer__item"
 									type="infoSmall"

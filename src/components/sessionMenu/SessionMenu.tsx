@@ -562,7 +562,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 				<div className="legalInformationLinks--menu">
 					{props.legalLinks.map((legalLink) => (
-						<a href={legalLink.url} key={legalLink.url}>
+						<a
+							href={legalLink.url}
+							key={legalLink.url}
+							target={legalLink.target || '_self'}
+						>
 							<Text
 								type="infoLargeAlternative"
 								text={legalLink.label}
