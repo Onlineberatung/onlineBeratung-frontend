@@ -11,7 +11,10 @@ import {
 
 export default {
 	title: 'Base/Link',
-	component: Link
+	component: Link,
+	argTypes: {
+		icon: { table: { disable: true } }
+	}
 } as ComponentMeta<typeof Link>;
 
 const Template: ComponentStory<typeof Link> = (args) => <Link {...args} />;

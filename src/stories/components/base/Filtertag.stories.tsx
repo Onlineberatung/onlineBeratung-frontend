@@ -12,7 +12,10 @@ import {
 
 export default {
 	title: 'Base/Filtertag',
-	component: Filtertag
+	component: Filtertag,
+	argTypes: {
+		icon: { table: { disable: true } }
+	}
 } as ComponentMeta<typeof Filtertag>;
 
 const Template: ComponentStory<typeof Filtertag> = (args) => (

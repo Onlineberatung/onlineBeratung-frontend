@@ -4,7 +4,10 @@ import { Accordion } from '../../../components/base/Accordion';
 
 export default {
 	title: 'Base/Accordion',
-	component: Accordion
+	component: Accordion,
+	argTypes: {
+		icon: { table: { disable: true } }
+	}
 } as ComponentMeta<typeof Accordion>;
 
 const Template: ComponentStory<typeof Accordion> = (args) => (
