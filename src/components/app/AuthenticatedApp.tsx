@@ -24,8 +24,6 @@ import { Notifications } from '../notifications/Notifications';
 import './authenticatedApp.styles';
 import './navigation.styles';
 import { requestPermissions } from '../../utils/notificationHelpers';
-import { ReleaseNote } from '../releaseNote/ReleaseNote';
-import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -47,7 +45,6 @@ export const AuthenticatedApp = ({
 
 	const [appReady, setAppReady] = useState<boolean>(false);
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
-	const [isConsultant, setIsConsultant] = useState<boolean>(false);
 
 	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
 
@@ -56,7 +53,6 @@ export const AuthenticatedApp = ({
 			userData &&
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 		) {
-			setIsConsultant(true);
 			requestPermissions();
 		}
 	}, [userData]);
@@ -109,8 +105,6 @@ export const AuthenticatedApp = ({
 				{notifications && (
 					<Notifications notifications={notifications} />
 				)}
-				<TwoFactorNag />
-				{isConsultant && <ReleaseNote />}
 			</>
 		);
 	}
