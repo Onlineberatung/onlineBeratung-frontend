@@ -238,7 +238,6 @@ $iconSize: 24px;
 				span {
 					text-overflow: ellipsis;
 					overflow: hidden;
-					margin-right: $grid-base-two;
 				}
 
 				&.has-flyout {
@@ -248,6 +247,10 @@ $iconSize: 24px;
 					&:hover {
 						background-color: $hover-select;
 						color: $hover-primary;
+					}
+
+					span {
+						margin-right: $grid-base-two;
 					}
 				}
 			}

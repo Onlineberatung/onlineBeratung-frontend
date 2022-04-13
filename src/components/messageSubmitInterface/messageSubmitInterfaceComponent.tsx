@@ -630,9 +630,10 @@ export const MessageSubmitInterfaceComponent = (
 		if (activeInfo === INFO_TYPES.ABSENT) {
 			infoData = {
 				isInfo: true,
-				infoHeadline:
-					translate('consultant.absent.message') +
-					getContact(activeSession).username,
+				infoHeadline: `${translate('consultant.absent.message')} ${
+					getContact(activeSession).displayName ||
+					getContact(activeSession).username
+				}`,
 				infoMessage: activeSession.consultant.absenceMessage
 			};
 		} else if (activeInfo === INFO_TYPES.ATTACHMENT_SIZE_ERROR) {

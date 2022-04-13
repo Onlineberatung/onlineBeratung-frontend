@@ -30,10 +30,12 @@ const profile = {
 	'data.title.private': 'Private Daten',
 	'data.info.private': 'Diese Daten können die Ratsuchenden nicht einsehen.',
 	'data.title.information': 'Profil Informationen',
-	'data.info.public': 'Diese Daten werden den Ratsuchenden angezeigt.',
+	'data.info.public':
+		'Mit dem Anzeigenamen erscheinen Sie bei den Ratsuchenden.',
 	'data.edit.button.cancel': 'Abbrechen',
 	'data.edit.button.save': 'Speichern',
 	'data.userName': 'Benutzername',
+	'data.displayName': 'Anzeigename',
 	'data.firstName': 'Vorname',
 	'data.lastName': 'Nachname',
 	'data.email': 'E-Mail-Adresse',

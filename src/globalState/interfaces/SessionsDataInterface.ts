@@ -30,6 +30,7 @@ export interface ListItemInterface {
 export interface SessionConsultantInterface {
 	absent: boolean;
 	absenceMessage: boolean;
+	displayName?: string;
 	username: string;
 	firstName?: string;
 	lastName?: string;

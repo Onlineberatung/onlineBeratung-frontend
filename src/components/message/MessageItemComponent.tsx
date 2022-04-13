@@ -18,7 +18,7 @@ import {
 import { ForwardMessage } from './ForwardMessage';
 import { MessageMetaData } from './MessageMetaData';
 import { CopyMessage } from './CopyMessage';
-import { MessageUsername } from './MessageUsername';
+import { MessageDisplayName } from './MessageDisplayName';
 import { markdownToDraft } from 'markdown-draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import { convertFromRaw, ContentState } from 'draft-js';
@@ -49,7 +49,7 @@ export interface ForwardMessageDTO {
 	message: string;
 	rcUserId: string;
 	timestamp: any;
-	username: string;
+	username: string; // TODO change to displayName if message service is adjusted
 }
 
 export interface VideoCallMessageDTO {
@@ -62,6 +62,7 @@ export interface MessageItem {
 	message: string;
 	messageDate: string | number;
 	messageTime: string;
+	displayName: string;
 	username: string;
 	askerRcId?: string;
 	userId: string;
@@ -96,6 +97,7 @@ export const MessageItemComponent = ({
 	messageTime,
 	resortData,
 	isMyMessage,
+	displayName,
 	username,
 	askerRcId,
 	attachments,
@@ -163,7 +165,7 @@ export const MessageItemComponent = ({
 		if (alias?.forwardMessageDTO) {
 			return 'forwarded';
 		}
-		if (username === 'system') {
+		if (displayName === 'system') {
 			return 'system';
 		}
 		if (isUserMessage()) {
@@ -220,6 +222,7 @@ export const MessageItemComponent = ({
 					videoCallMessage={videoCallMessage}
 					activeSessionUsername={
 						activeSession.user?.username ||
+						activeSession.consultant?.displayName ||
 						activeSession.consultant?.username
 					}
 					activeSessionAskerRcId={activeSession.session.askerRcId}
@@ -228,7 +231,7 @@ export const MessageItemComponent = ({
 		} else {
 			return (
 				<>
-					<MessageUsername
+					<MessageDisplayName
 						alias={alias?.forwardMessageDTO}
 						isMyMessage={isMyMessage}
 						isUser={isUserMessage()}
@@ -236,6 +239,7 @@ export const MessageItemComponent = ({
 						userId={userId}
 						username={username}
 						isUserBanned={bannedUsers.includes(username)}
+						displayName={displayName}
 					/>
 
 					<div
@@ -284,7 +288,7 @@ export const MessageItemComponent = ({
 									messageTime={messageTime}
 									askerRcId={askerRcId}
 									groupId={chatItem.feedbackGroupId}
-									username={username}
+									displayName={displayName}
 								/>
 							)}
 					</div>

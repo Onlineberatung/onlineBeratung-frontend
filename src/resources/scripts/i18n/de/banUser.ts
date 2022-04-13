@@ -6,7 +6,7 @@ const banUser = {
 	'ban.overlay.close': ' Hinweis schliessen',
 	'banned.headline': 'Sie wurden gebannt.',
 	'banned.info':
-		'Sie haben gegen unsere Spielregeln im Chat verstoßen.<br/><br/>Unsere Spielregeln stehen immer auf der ersten Seite des Chats. Wenn Sie sich an die Regeln halten, heißt Sie Ihr_e Moderator_in wieder herzlich Willkommen.'
+		'Wir haben Sie gebeten, die Chat-Regeln einzuhalten.<br/><br/>Weil Sie heute die Chat-Regeln wiederholt nicht eingehalten haben, haben wir Sie für den heutigen Chat ausgeschlossen.<br/><br/>Machen Sie sich mit den Chat-Regeln vertraut!</br></br>Wenn Sie bereit sind, die Chat-Regeln einzuhalten, sind Sie ab morgen wieder im Chat willkommen!'
 };
 
 export default banUser;

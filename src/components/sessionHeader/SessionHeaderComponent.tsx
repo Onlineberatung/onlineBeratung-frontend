@@ -61,6 +61,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	const [flyoutOpenId, setFlyoutOpenId] = useState('');
 
 	const username = getContact(activeSession).username;
+	const displayName = getContact(activeSession).displayName;
 	const userSessionData = getContact(activeSession).sessionData;
 	const preparedUserSessionData =
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
@@ -237,9 +238,13 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 													}}
 												>
 													<span>
-														{decodeUsername(
-															subscriber.username
-														)}
+														{subscriber.displayName
+															? decodeUsername(
+																	subscriber.displayName
+															  )
+															: decodeUsername(
+																	subscriber.username
+															  )}
 													</span>
 													{isCurrentUserModerator &&
 														!subscriber.isModerator && (
@@ -350,7 +355,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					})}
 				>
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (
-						<h3>{username}</h3>
+						<h3>{displayName || displayName}</h3>
 					)}
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,
@@ -367,7 +372,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					{hasUserAuthority(
 						AUTHORITIES.ANONYMOUS_DEFAULT,
 						userData
-					) && <h3>{username}</h3>}
+					) && <h3>{displayName || username}</h3>}
 				</div>
 				<SessionMenu
 					hasUserInitiatedStopOrLeaveRequest={

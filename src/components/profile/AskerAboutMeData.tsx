@@ -26,7 +26,7 @@ import useUpdateUserData from '../../utils/useUpdateUserData';
 import { Headline } from '../headline/Headline';
 
 const cancelEditButton: ButtonItem = {
-	label: 'abbrechen',
+	label: translate('profile.data.edit.button.cancel'),
 	type: BUTTON_TYPES.LINK
 };
 
@@ -176,7 +176,7 @@ export const AskerAboutMeData = () => {
 
 	const saveEditButton: ButtonItem = {
 		disabled: !email,
-		label: 'speichern',
+		label: translate('profile.data.edit.button.save'),
 		type: BUTTON_TYPES.LINK
 	};
 
