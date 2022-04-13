@@ -7,6 +7,7 @@ export const apiGetUserData = async (): Promise<UserDataInterface> => {
 
 	return fetchData({
 		url: url,
+		rcValidation: true,
 		method: FETCH_METHODS.GET
 	});
 };
