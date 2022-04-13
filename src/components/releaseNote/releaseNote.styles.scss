@@ -10,20 +10,6 @@
 	&__header {
 		margin-bottom: $grid-base;
 		position: relative;
-
-		&::after {
-			display: block;
-			width: calc(100% - 20px);
-			height: $grid-base-two;
-			background: linear-gradient(
-				180deg,
-				rgba(255, 255, 255, 1) 15%,
-				rgba(255, 255, 255, 0) 100%
-			);
-			bottom: -1 * $grid-base-three;
-			content: '';
-			position: absolute;
-		}
 	}
 
 	&__content {
@@ -43,22 +29,8 @@
 	&__footer {
 		display: flex;
 		justify-content: flex-start;
-		margin-top: $grid-base;
+		margin-top: $grid-base-three;
 		position: relative;
-
-		&::before {
-			display: block;
-			width: calc(100% - 20px);
-			height: $grid-base-two;
-			background: linear-gradient(
-				0deg,
-				rgba(255, 255, 255, 1) 15%,
-				rgba(255, 255, 255, 0) 100%
-			);
-			top: -1 * $grid-base-three;
-			content: '';
-			position: absolute;
-		}
 	}
 
 	&__text {
