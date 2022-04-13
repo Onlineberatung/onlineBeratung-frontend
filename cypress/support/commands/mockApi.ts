@@ -15,7 +15,7 @@ import {
 	setConsultantSessions,
 	updateConsultantSession
 } from './consultantSessions';
-import { LoginArgs, USER_ASKER, USER_CONSULTANT } from './login';
+import { LoginArgs, USER_ASKER } from './login';
 import { deepMerge } from '../helpers';
 import { decodeUsername } from '../../../src/utils/encryptionHelpers';
 import { getMessages, setMessages } from './messages';
@@ -27,7 +27,10 @@ const defaultReturns = {
 		statusCode: 201
 	},
 	userData: {},
-	consultingTypes: []
+	consultingTypes: [],
+	releases: {
+		statusCode: 404
+	}
 };
 
 Cypress.Commands.add('willReturn', (name: string, data: any) => {
@@ -245,6 +248,13 @@ Cypress.Commands.add('mockApi', () => {
 			]);
 		}
 	).as('consultingTypeServiceBaseBasic');
+
+	cy.intercept('GET', '/releases/*', (req) => {
+		req.reply({
+			...defaultReturns['releases'],
+			...(overrides['releases'] || {})
+		});
+	}).as('releases');
 });
 
 Cypress.Commands.add(
