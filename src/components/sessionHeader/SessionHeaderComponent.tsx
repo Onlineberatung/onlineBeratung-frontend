@@ -355,7 +355,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					})}
 				>
 					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (
-						<h3>{displayName || displayName}</h3>
+						<h3>{displayName || username}</h3>
 					)}
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,
