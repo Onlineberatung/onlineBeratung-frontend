@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, useEffect } from 'react';
 import styled from 'styled-components';
 
 export const SIZE_PRIMARY = 'primary';
@@ -37,15 +37,6 @@ const StyledDivider = styled.div`
             width: ${theme.divider.width};
         }
 
-        &:before {
-            margin: 0 ${theme.divider.margin} 0 0;
-        }
-
-
-        &:after {
-            margin: 0 0 0 ${theme.divider.margin};
-        }
-
         &.primary {
             &:before,
             &:after {
@@ -69,6 +60,10 @@ const StyledDivider = styled.div`
                 border-color: ${theme.colors.primary};
             }
         }
+
+		.spacer {
+			margin: 0 ${theme.divider.margin} 0 ${theme.divider.margin}
+		}
 	`}
 `;
 
@@ -106,13 +101,22 @@ export const Divider = ({
 	className,
 	...props
 }: DividerProps) => {
+	useEffect(() => {
+		let labelSpan = document.getElementsByClassName('label')[0];
+		if (label.length > 0) {
+			labelSpan.classList.add('spacer');
+		} else {
+			labelSpan.classList.remove('spacer');
+		}
+	}, [label]);
+
 	return (
 		<StyledDivider
 			type="divider"
 			className={`${className} ${size}`}
 			{...props}
 		>
-			{label && label}
+			<span className="label">{label && label}</span>
 		</StyledDivider>
 	);
 };
