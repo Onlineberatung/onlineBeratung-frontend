@@ -1,7 +1,7 @@
 const walkthrough = {
 	'title': 'Rundgang',
 	'subtitle':
-		'Um Ihnen die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Sie vorbereitet. <br /> Sie können ihn jederzeit abbrechen oder in ihrem Profil erneut starten',
+		'Um Ihnen die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Sie vorbereitet. <br /> Sie können ihn jederzeit abbrechen oder in Ihrem Profil erneut starten',
 	'step.1.title': 'Erstanfragen',
 	'switch.active.label': 'Rundgang aktiv',
 	'switch.deactive.label': 'Rundgang aktiviert',
@@ -16,20 +16,20 @@ const walkthrough = {
 	'step.1':
 		'Hier finden Sie eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Ihr gesamtes Team hat Zugriff auf diese Übersicht.\n' +
 		'Die ältesten Anfragen stehen oben, die neuesten ganz unten, damit Sie die zuerst eingegangenen leichter finden können.\n' +
-		"In dem Moment, in dem Sie auf 'Anfrage Annehmen' klicken, wird die Anfrage sofort in Ihren Bereich 'Meine Nachrichten' verschoben und die anderen Berater sehen sie nicht mehr.",
+		"In dem Moment, in dem Sie auf 'Anfrage Annehmen' klicken, wird die Anfrage sofort in Ihren Bereich 'Meine Nachrichten' verschoben und die anderen Berater_innen sehen sie nicht mehr.",
 	'step.2.title': 'Erstanfragen',
 	'step.2':
-		'Von hier aus können Sie einen Chat mit einem Ratsuchenden beginnen, der sich gerade im Warteraum befindet. Die Ratsuchende werden mit einem anonymen Namen gekennzeichnet, ' +
+		'Von hier aus können Sie einen Chat mit einem/einer Ratsuchenden beginnen, der/die sich gerade im Warteraum befindet. Die Ratsuchenden werden mit einem anonymen Namen gekennzeichnet, ' +
 		'wie zum Beispiel "Ratsuchende_r 11". Wenn Sie den Chat starten möchten, klicken Sie auf "Chat starten" und Sie können das Gespräch unter der Rubrik "Meine Nachrichten" fortsetzen.',
 	'step.3.title': 'Live-Chat-Anfragen',
 	'step.3':
 		'In diesem Bereich finden Sie alle Anfragen, die Sie angenommen haben. \n' +
-		'Die Aufträge, die Sie zuletzt bearbeitet haben, stehen ganz oben.\n' +
-		'Falls die Ratsuchenden gerade im Warteraum online sind, sehen Sie das Label "Aktiv" direkt neben ihrem Namen.',
+		'Der Nachrichtenverlauf, der zuletzt bearbeitet wurde, steht ganz oben.\n' +
+		'Falls der/die Ratsuchende gerade im Warteraum online ist, sehen Sie das Label "Aktiv" direkt neben dem Namen.',
 	'step.4.title': 'Meine Nachrichten',
 	'step.4':
-		'Damit Sie nicht durch nicht aktive Unterhaltungen abgelenkt werden, können Sie einige der Unterhaltungen archivieren. Sie werden dann nicht gelöscht, sondern nur in diese Registerkarte ' +
-		'"Archiv" verschoben. Jedes Mal, wenn Sie oder der Ratsuchende etwas in eine archivierte Unterhaltung schreiben, ' +
+		'Damit Sie nicht durch nicht aktive Unterhaltungen abgelenkt werden, können Sie einige der Unterhaltungen archivieren. Sie werden dann nicht gelöscht, sondern nur in die Registerkarte ' +
+		'"Archiv" verschoben. Jedes Mal, wenn Sie oder der/die Ratsuchende etwas in eine archivierte Unterhaltung schreiben, ' +
 		'wird dieser Nachrichtenverlauf wieder in die Liste der Ratsuchenden eingeordnet.',
 	'step.5.title': 'Peer-Beratungen',
 	'step.5':
