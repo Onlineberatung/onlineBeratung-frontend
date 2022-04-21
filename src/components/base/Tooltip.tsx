@@ -55,7 +55,7 @@ const StyledTooltip = styled.div`
 		}
 
 		&:hover {
-			cursor: grab;
+			cursor: pointer;
 			path {
 				fill: ${theme.colors.hover};
 			}

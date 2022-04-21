@@ -133,7 +133,7 @@ StyledProgressbarVertical.defaultProps = {
 		},
 		progressbarVertical: {
 			width: '450px',
-			hoverCursor: 'grab',
+			hoverCursor: 'pointer',
 			border: '1px solid',
 			boxSizing: 'border-box',
 
