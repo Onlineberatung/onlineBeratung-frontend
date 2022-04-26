@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactElement, useEffect, useRef } from 'react';
+import React, { HTMLAttributes, ReactElement } from 'react';
 import styled from 'styled-components';
 
 export const TYPE_INFO = 'info';
