@@ -301,6 +301,7 @@ describe('videoconference', () => {
 						);
 
 						cy.appointments({ status: 'started' }, 0);
+						cy.wait(150); // eslint-disable-line cypress/no-unnecessary-waiting
 						cy.tick(2000);
 						cy.wait('@appointment_get');
 
@@ -308,6 +309,7 @@ describe('videoconference', () => {
 						cy.get('[data-cy="jitsi-meeting"]').should('exist');
 
 						cy.appointments({ status: 'paused' }, 0);
+						cy.wait(150); // eslint-disable-line cypress/no-unnecessary-waiting
 						cy.tick(2000);
 						cy.wait('@appointment_get');
 
@@ -317,6 +319,7 @@ describe('videoconference', () => {
 						);
 
 						cy.appointments({ status: 'started' }, 0);
+						cy.wait(150); // eslint-disable-line cypress/no-unnecessary-waiting
 						cy.tick(2000);
 						cy.wait('@appointment_get');
 

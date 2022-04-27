@@ -9,19 +9,28 @@ on:
             - 'dockerImage.v.*'
 
 jobs:
-    build:
-        name: Build & Release
+    install:
+        name: Install
         if: "!contains(github.event.head_commit.author, 'action@github.com')"
         runs-on: ubuntu-latest
         steps:
             - name: set env
               run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
-            - uses: actions/checkout@v2.3.4
-            - uses: actions/setup-node@v2.1.5
+            - name: Setup Node
+              uses: actions/setup-node@v2.1.5
               with:
                   node-version: 14.18.3
                   registry-url: 'https://npm.pkg.github.com'
-            - run: npm i
+            - uses: actions/checkout@v2.3.4
+            - uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-build-npm-${{ hashFiles('**/package-lock.json') }}
+            - name: Install
+              uses: cypress-io/github-action@v2
+              with:
+                  build: npm run build
+                  runTests: false
             - name: Run linters
               uses: wearerequired/lint-action@v1
               with:
@@ -33,12 +42,97 @@ jobs:
                   stylelint_dir: ./src
                   stylelint_extensions: scss
                   prettier: true
-            - name: test and build
-              run: |
-                  echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
-                  echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
-                  npm run test
-                  npm run build
+            - name: Save Cypress artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                  name: build
+                  if-no-files-found: error
+                  path: build
+    test:
+        name: Test
+        if: "!contains(github.event.head_commit.author, 'action@github.com')"
+        runs-on: ubuntu-latest
+        needs: install
+        strategy:
+            fail-fast: false
+            matrix:
+                specCollection: [1, 2, 3]
+                include:
+                    - specCollection: 1
+                      specs: |
+                          cypress/integration/registration.spec.ts
+                          cypress/integration/sessions.spec.ts
+                          cypress/integration/appointments.spec.ts
+                          cypress/integration/error.spec.ts
+                          cypress/integration/under-construction.spec.ts
+                    - specCollection: 2
+                      specs: |
+                          cypress/integration/tokens.spec.ts
+                          cypress/integration/profile.spec.ts
+                          cypress/integration/release-notes.spec.ts
+                          cypress/integration/login.spec.ts
+                          cypress/integration/video-calls.spec.ts
+                          cypress/integration/messages.spec.ts
+                    - specCollection: 3
+                      specs: |
+                          cypress/integration/videoconference.spec.ts
+        steps:
+            - name: set env
+              run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
+            - name: Setup Node
+              uses: actions/setup-node@v2.1.5
+              with:
+                  node-version: 14.18.3
+                  registry-url: 'https://npm.pkg.github.com'
+            - uses: actions/checkout@v2.3.4
+            - uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-build-npm-${{ hashFiles('**/package-lock.json') }}
+            - name: Download Cypress artifacts
+              uses: actions/download-artifact@v2
+              with:
+                  name: build
+                  path: build
+            - name: Cypress run
+              uses: cypress-io/github-action@v2
+              with:
+                  spec: ${{ matrix.specs }}
+                  start: npm run serve -- -p 9001
+                  wait-on: 'http://localhost:9001'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  BROWSER: none
+                  REACT_APP_UI_URL: http://localhost:9001
+                  REACT_APP_API_URL: http://localhost:9001
+            - uses: actions/upload-artifact@v2
+              if: failure()
+              with:
+                  name: cypress-videos
+                  path: cypress/videos/
+    release:
+        name: Release
+        if: "!contains(github.event.head_commit.author, 'action@github.com')"
+        runs-on: ubuntu-latest
+        needs: test
+        steps:
+            - name: set env
+              run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
+            - name: Setup Node
+              uses: actions/setup-node@v2.1.5
+              with:
+                  node-version: 14.18.3
+                  registry-url: 'https://npm.pkg.github.com'
+            - uses: actions/checkout@v2.3.4
+            - uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-build-npm-${{ hashFiles('**/package-lock.json') }}
+            - name: Download Cypress artifacts
+              uses: actions/download-artifact@v2
+              with:
+                  name: build
+                  path: build
             - name: Bump version
               if: startsWith(env.BRANCH,'release') == true
               run: |
@@ -58,8 +152,5 @@ jobs:
                   branch: ${{env.BRANCH}}
                   force: true
                   tags: true
-            - uses: actions/upload-artifact@v2
-              if: failure()
-              with:
-                  name: cypress-videos
-                  path: cypress/videos/
+            #- name: Upload coverage to Codecov
+            #  uses: codecov/codecov-action@v2
