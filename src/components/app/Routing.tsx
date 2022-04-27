@@ -15,7 +15,8 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	SessionsDataContext,
-	LegalLinkInterface
+	LegalLinkInterface,
+	ConsultingTypesContext
 } from '../../globalState';
 import { history } from './app';
 import { NavigationBar } from './NavigationBar';
@@ -33,6 +34,7 @@ interface routingProps {
 export const Routing = (props: routingProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { sessionsData } = useContext(SessionsDataContext);
+	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const sessionGroupId = sessionsData?.mySessions?.[0]?.session?.groupId;
 	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
 
@@ -79,6 +81,23 @@ export const Routing = (props: routingProps) => {
 
 	return (
 		<Switch>
+			{routerConfig.plainRoutes
+				?.filter(
+					(route: any) =>
+						!route.condition ||
+						route.condition(userData, consultingTypes)
+				)
+				.map(
+					(route: any): JSX.Element => (
+						<Route
+							exact={route.exact ?? true}
+							key={`plain-${route.path}`}
+							path={route.path}
+						>
+							<route.component legalLinks={props.legalLinks} />
+						</Route>
+					)
+				)}
 			<Route path={allRoutes()}>
 				<div className="app__wrapper">
 					<NavigationBar
@@ -162,21 +181,32 @@ export const Routing = (props: routingProps) => {
 
 						<div className="contentWrapper__profile">
 							<Switch>
-								{routerConfig.profileRoutes?.map(
-									(route: any): JSX.Element => (
-										<Route
-											exact={route.exact ?? true}
-											key={`profile-${route.path}`}
-											path={route.path}
-											render={() => (
-												<route.component
-													{...props}
-													type={route.type || null}
-												/>
-											)}
-										/>
+								{routerConfig.profileRoutes
+									?.filter(
+										(route: any) =>
+											!route.condition ||
+											route.condition(
+												userData,
+												consultingTypes
+											)
 									)
-								)}
+									.map(
+										(route: any): JSX.Element => (
+											<Route
+												exact={route.exact ?? true}
+												key={`profile-${route.path}`}
+												path={route.path}
+												render={() => (
+													<route.component
+														{...props}
+														type={
+															route.type || null
+														}
+													/>
+												)}
+											/>
+										)
+									)}
 							</Switch>
 						</div>
 					</section>
