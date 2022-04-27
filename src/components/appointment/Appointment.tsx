@@ -111,6 +111,7 @@ export const Appointment = ({
 						`${uiUrl}${generatePath(
 							config.urls.consultantVideoConference,
 							{
+								type: 'app',
 								appointmentId: appointment.id
 							}
 						)}`
@@ -224,6 +225,7 @@ export const Appointment = ({
 								{`${uiUrl}${generatePath(
 									config.urls.videoConference,
 									{
+										type: 'app',
 										appointmentId: appointment.id
 									}
 								)}`}
@@ -235,6 +237,7 @@ export const Appointment = ({
 										url={`${uiUrl}${generatePath(
 											config.urls.videoConference,
 											{
+												type: 'app',
 												appointmentId: appointment.id
 											}
 										)}`}
@@ -326,6 +329,7 @@ const CopyAppointmentLink = ({ appointment }: CopyAppointmentLinkProps) => {
 	const copyRegistrationLink = useCallback(async () => {
 		await copyTextToClipboard(
 			`${uiUrl}${generatePath(config.urls.videoConference, {
+				type: 'app',
 				appointmentId: appointment.id
 			})}`,
 			() => {

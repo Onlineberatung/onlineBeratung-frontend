@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams, generatePath } from 'react-router-dom';
 import { JitsiMeeting } from '@jitsi/react-sdk';
+import IJitsiMeetExternalApi from '@jitsi/react-sdk/lib/types/IJitsiMeetExternalApi';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
@@ -20,12 +21,8 @@ import { Loading } from '../app/Loading';
 import { WaitingRoom } from './WaitingRoom';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useUnload } from '../../hooks/useUnload';
-import IJitsiMeetExternalApi from '@jitsi/react-sdk/lib/types/IJitsiMeetExternalApi';
 import { config, uiUrl } from '../../resources/scripts/config';
 
-/*
-ToDo: This logic is just temporary. It should be finalised in with the next upcoming tickets.
- */
 const VideoConference = ({
 	legalLinks
 }: {
@@ -61,6 +58,17 @@ const VideoConference = ({
 
 	const [startWatcher, stopWatcher, isWatcherRunning] =
 		useWatcher(loadAppointment);
+
+	const startAppointment = useCallback(() => {
+		if (isModerator() && appointment.status !== STATUS_STARTED) {
+			appointmentService
+				.putAppointment(appointmentId, {
+					...appointment,
+					status: STATUS_STARTED
+				})
+				.then();
+		}
+	}, [appointment, appointmentId, isModerator]);
 
 	const pauseAppointment = useCallback(() => {
 		if (isModerator()) {
@@ -112,17 +120,9 @@ const VideoConference = ({
 
 	useEffect(() => {
 		if (externalApi) {
-			// Set appointment started after jitsi has finished initialization and meeting is ready
-			if (isModerator() && appointment.status !== STATUS_STARTED) {
-				appointmentService
-					.putAppointment(appointmentId, {
-						...appointment,
-						status: STATUS_STARTED
-					})
-					.then();
-			}
-
 			if (isModerator()) {
+				// Set appointment started after jitsi has finished initialization and meeting is ready
+				externalApi.on('videoConferenceJoined', startAppointment);
 				externalApi.on('readyToClose', pauseAppointment);
 			}
 		}
@@ -136,6 +136,7 @@ const VideoConference = ({
 		externalApi,
 		isModerator,
 		appointmentId,
+		startAppointment,
 		pauseAppointment
 	]);
 
@@ -143,38 +144,27 @@ const VideoConference = ({
 		return <Loading />;
 	}
 
-	if (!appointment) {
-		// Has been ended or paused
-		return (
-			<WaitingRoom
-				confirmed={true}
-				setConfirmed={setConfirmed}
-				status={appointment.status}
-				legalLinks={legalLinks}
-			/>
-		);
-	}
-
-	if (!confirmed) {
+	if (
+		!appointment ||
+		!confirmed ||
+		(!isModerator() && appointment?.status !== STATUS_STARTED)
+	) {
+		// Appointment not exists
 		// DataProtection not confirmed
-		return (
-			<WaitingRoom
-				confirmed={confirmed}
-				setConfirmed={setConfirmed}
-				status={appointment.status}
-				legalLinks={legalLinks}
-			/>
-		);
-	}
-
-	if (!isModerator() && appointment.status !== STATUS_STARTED) {
 		// Waiting for appointment to get started
 		return (
 			<WaitingRoom
 				confirmed={confirmed}
 				setConfirmed={setConfirmed}
+				status={appointment?.status}
 				legalLinks={legalLinks}
-				status={appointment.status}
+				{...(!appointment
+					? {
+							error: isModerator()
+								? 'videoConference.waitingroom.errorPage.consultant.description'
+								: 'videoConference.waitingroom.errorPage.description'
+					  }
+					: {})}
 			/>
 		);
 	}
@@ -192,6 +182,7 @@ const VideoConference = ({
 					shareableUrl: `${uiUrl}${generatePath(
 						config.urls.videoConference,
 						{
+							type: 'app',
 							appointmentId: appointment.id
 						}
 					)}`

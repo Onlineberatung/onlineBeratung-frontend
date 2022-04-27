@@ -86,8 +86,9 @@ export const config = {
 		toEntry: uiUrl + '/',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
-		videoConference: '/videoberatung/:appointmentId/:status?',
-		consultantVideoConference: '/consultant/videoberatung/:appointmentId',
+		videoConference: '/videoberatung/:type/:appointmentId',
+		consultantVideoConference:
+			'/consultant/videoberatung/:type/:appointmentId',
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		imprint: 'https://www.caritas.de/impressum',

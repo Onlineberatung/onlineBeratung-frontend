@@ -12,11 +12,13 @@ import {
 	STATUS_STARTED
 } from '../../globalState/interfaces/AppointmentsDataInterface';
 import { PausedOrFinished } from './WaitingRoom/PausedOrFinished';
+import { Error } from './WaitingRoom/Error';
 
 export interface WaitingRoomProps {
 	confirmed: boolean;
 	setConfirmed: Function;
 	legalLinks: Array<LegalLinkInterface>;
+	error?: string;
 	status:
 		| typeof STATUS_STARTED
 		| typeof STATUS_CREATED
@@ -27,7 +29,8 @@ export const WaitingRoom = ({
 	confirmed,
 	setConfirmed,
 	legalLinks,
-	status
+	status,
+	error
 }: WaitingRoomProps) => {
 	useEffect(() => {
 		document.title = `${translate(
@@ -41,7 +44,9 @@ export const WaitingRoom = ({
 	};
 
 	const getContent = () => {
-		if (!confirmed) {
+		if (error) {
+			return <Error description={error} />;
+		} else if (!confirmed) {
 			return (
 				<Welcome
 					onClick={handleConfirmButton}
