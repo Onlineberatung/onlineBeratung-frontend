@@ -19,6 +19,8 @@ import { LoginArgs, USER_ASKER } from './login';
 import { deepMerge } from '../helpers';
 import { decodeUsername } from '../../../src/utils/encryptionHelpers';
 import { getMessages, setMessages } from './messages';
+import apiAppointments from './api/appointments';
+import apiVideocalls from './api/videocalls';
 
 let overrides = {};
 
@@ -217,9 +219,9 @@ Cypress.Commands.add('mockApi', () => {
 			const slug = new URL(req.url).pathname.split('/')[4];
 
 			req.reply({
-				...defaultReturns['consultingTypes'].find(
+				...(defaultReturns['consultingTypes'].find(
 					(consultingType) => consultingType.slug === slug
-				),
+				) || {}),
 				...(overrides['consultingType'] || {})
 			});
 		}
@@ -231,9 +233,9 @@ Cypress.Commands.add('mockApi', () => {
 			const id = parseInt(new URL(req.url).pathname.split('/')[3]);
 
 			req.reply({
-				...defaultReturns['consultingTypes'].find(
+				...(defaultReturns['consultingTypes'].find(
 					(consultingType) => consultingType.id === id
-				),
+				) || {}),
 				...(overrides['consultingType'] || {})
 			});
 		}
@@ -255,6 +257,9 @@ Cypress.Commands.add('mockApi', () => {
 			...(overrides['releases'] || {})
 		});
 	}).as('releases');
+
+	apiAppointments(cy);
+	apiVideocalls(cy);
 });
 
 Cypress.Commands.add(

@@ -6,12 +6,17 @@ import './commands/mockApi';
 import './commands/socket';
 
 import { LoginArgs } from './commands/login';
+import { AppointmentsDataInterface } from '../../src/globalState/interfaces/AppointmentsDataInterface';
 
 declare global {
 	namespace Cypress {
 		interface Chainable {
 			login(args?: LoginArgs): Chainable<Element>;
 			fastLogin(args?: LoginArgs): Chainable<Element>;
+			appointments(
+				args?: Partial<AppointmentsDataInterface>,
+				index?: number
+			): Chainable<Element>;
 			askerSession(
 				args?: { [key: string]: any },
 				index?: number

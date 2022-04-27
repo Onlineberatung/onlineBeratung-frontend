@@ -1,8 +1,22 @@
 import { config } from '../../src/resources/scripts/config';
+import {
+	closeWebSocketServer,
+	mockWebSocket,
+	startWebSocketServer
+} from '../support/websocket';
 
 describe('profile', () => {
+	before(() => {
+		startWebSocketServer();
+	});
+
+	after(() => {
+		closeWebSocketServer();
+	});
+
 	beforeEach(() => {
 		cy.mockApi();
+		mockWebSocket();
 	});
 
 	it('can register for a new consulting type with an external agency', () => {

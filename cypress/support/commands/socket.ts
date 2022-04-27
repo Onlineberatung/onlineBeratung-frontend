@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { Server } from 'mock-socket';
+import { ExtendedClient } from '../websocket';
 
 const waitForSubscriptions = (getSubscriptions, events: string[]) => {
 	let subscribed = true;
@@ -35,7 +36,7 @@ Cypress.Commands.add('emitDirectMessage', (index?: number) => {
 					const subscriptions = getSubscriptions();
 					mockSocketServer()
 						.clients()
-						.forEach((client) => {
+						.forEach((client: ExtendedClient) => {
 							if (client.type === 'Stomp') {
 								client.send(
 									`a["MESSAGE\\ndestination:/user/events\\ncontent-type:application/json\\nsubscription:sub-0\\nmessage-id:${uuid()}\\ncontent-length:29\\n\\n{\\"eventType\\":\\"directMessage\\"}\\u0000"]`
@@ -69,7 +70,7 @@ Cypress.Commands.add('emitVideoCallRequest', () => {
 		cy.get<() => Server>('@mockSocketServer').then((mockSocketServer) => {
 			mockSocketServer()
 				.clients()
-				.forEach((client) => {
+				.forEach((client: ExtendedClient) => {
 					if (client.type === 'Stomp') {
 						client.send(
 							`a["MESSAGE\\ndestination:/user/events\\ncontent-type:application/json\\nsubscription:sub-0\\nmessage-id::${uuid()}\\ncontent-length:260\\n\\n{\\"eventType\\":\\"videoCallRequest\\",\\"eventContent\\":{\\"videoCallUrl\\":\\"https://localhost:8443/5db43632-8283-445b-9f20-4d69954727bf\\",\\"initiatorUsername\\":\\"enc.ouzdk3lbnfxa....\\",\\"initiatorRcUserId\\":\\"WXR5RAwbotmd4NPer\\",\\"rcGroupId\\":\\"${uuid()}\\"}}\\u0000"]`

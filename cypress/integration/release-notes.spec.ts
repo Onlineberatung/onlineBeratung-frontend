@@ -1,8 +1,22 @@
 import { USER_CONSULTANT } from '../support/commands/login';
+import {
+	closeWebSocketServer,
+	mockWebSocket,
+	startWebSocketServer
+} from '../support/websocket';
 
 describe('release-note', () => {
+	before(() => {
+		startWebSocketServer();
+	});
+
+	after(() => {
+		closeWebSocketServer();
+	});
+
 	beforeEach(() => {
 		cy.mockApi();
+		mockWebSocket();
 	});
 
 	afterEach(() => {
