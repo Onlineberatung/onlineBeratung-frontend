@@ -1,4 +1,9 @@
 import { config } from '../../src/resources/scripts/config';
+import {
+	closeWebSocketServer,
+	mockWebSocket,
+	startWebSocketServer
+} from '../support/websocket';
 
 const checkForGenericRegistrationElements = () => {
 	cy.get('#loginLogoWrapper').should('exist');
@@ -16,8 +21,17 @@ const checkForGenericRegistrationElements = () => {
 let agencies = [];
 
 describe('registration', () => {
+	before(() => {
+		startWebSocketServer();
+	});
+
+	after(() => {
+		closeWebSocketServer();
+	});
+
 	beforeEach(() => {
 		cy.mockApi();
+		mockWebSocket();
 	});
 
 	describe('addiction', () => {

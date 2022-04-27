@@ -102,6 +102,7 @@ const VideoConference = ({
 					setAppointment(appointment);
 					setVideoCallJwtData(videoCallJwtData);
 				})
+				.catch((e) => console.error(e))
 				.finally(() => setReady(true));
 		}
 	}, [appointmentId, initialized]);
@@ -120,6 +121,9 @@ const VideoConference = ({
 
 	useEffect(() => {
 		if (externalApi) {
+			// Set the externalApi to window object so we could emit from cypress
+			(window as any).externalApi = externalApi;
+
 			if (isModerator()) {
 				// Set appointment started after jitsi has finished initialization and meeting is ready
 				externalApi.on('videoConferenceJoined', startAppointment);
@@ -170,7 +174,7 @@ const VideoConference = ({
 	}
 
 	return (
-		<div>
+		<div data-cy="jitsi-meeting">
 			<JitsiMeeting
 				domain={videoCallJwtData.domain.replace('https://', '')}
 				jwt={videoCallJwtData.jwt}

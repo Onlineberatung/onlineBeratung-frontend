@@ -1,6 +1,21 @@
+import {
+	closeWebSocketServer,
+	mockWebSocket,
+	startWebSocketServer
+} from '../support/websocket';
+
 describe('Login', () => {
+	before(() => {
+		startWebSocketServer();
+	});
+
+	after(() => {
+		closeWebSocketServer();
+	});
+
 	beforeEach(() => {
 		cy.mockApi();
+		mockWebSocket();
 	});
 
 	it('should be able to login', () => {

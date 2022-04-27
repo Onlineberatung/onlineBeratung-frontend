@@ -14,6 +14,8 @@ type OnlineMeeting = Omit<AppointmentsDataInterface, 'datetime'> & {
 	datetime?: Date;
 };
 
+export const DEFAULT_MEETING_TIME = 8;
+
 export const OnlineMeetingForm = ({
 	onChange,
 	onlineMeeting: initialOnlineMeeting
@@ -60,7 +62,7 @@ export const OnlineMeetingForm = ({
 								onChange={(date) => {
 									const dateTime = new Date(date.getTime());
 									if (!onlineMeeting.datetime) {
-										dateTime.setHours(8);
+										dateTime.setHours(DEFAULT_MEETING_TIME);
 									}
 									handleChange('datetime', dateTime);
 								}}

@@ -221,7 +221,10 @@ export const Appointment = ({
 
 					<div className="flex flex--fd-column flex-l--fd-row">
 						<div className="flex__col--1">
-							<div className="mb--1 tertiary text--tertiary">
+							<div
+								className="mb--1 tertiary text--tertiary"
+								data-cy="appointment_url"
+							>
 								{`${uiUrl}${generatePath(
 									config.urls.videoConference,
 									{
@@ -232,7 +235,10 @@ export const Appointment = ({
 							</div>
 
 							<div className="flex">
-								<div className="mr--2">
+								<div
+									className="mr--2"
+									data-cy="appointment_qr_code"
+								>
 									<GenerateQrCode
 										url={`${uiUrl}${generatePath(
 											config.urls.videoConference,
@@ -250,14 +256,17 @@ export const Appointment = ({
 										filename={`video-call-${appointment.id}`}
 									/>
 								</div>
-								<div>
+								<div data-cy="appointment_link">
 									<CopyAppointmentLink
 										appointment={appointment}
 									/>
 								</div>
 							</div>
 						</div>
-						<div className="flex__col--0 flex flex--ai-fe mt--3 mt-l--0">
+						<div
+							className="flex__col--0 flex flex--ai-fe mt--3 mt-l--0"
+							data-cy="appointment_start"
+						>
 							<Button
 								className="text--nowrap"
 								buttonHandle={() => {

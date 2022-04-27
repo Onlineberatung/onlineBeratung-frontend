@@ -1,4 +1,4 @@
-import { WebSocket, Server } from 'mock-socket';
+import { WebSocket, Server, Client } from 'mock-socket';
 
 declare global {
 	interface Window {
@@ -6,6 +6,9 @@ declare global {
 		mockStompSocket: WebSocket;
 		mockRocketChatServer: Server;
 		mockRocketChatSocket: WebSocket;
+		clipboardData: any;
+		externalApi: any;
+		JitsiMeetExternalAPI: any;
 	}
 }
 
@@ -16,6 +19,10 @@ export const closeWebSocketServer = () => {
 		mockSocketServer.close();
 		mockSocketServer = null;
 	}
+};
+
+export type ExtendedClient = Client & {
+	type?: 'Stomp' | 'RC';
 };
 
 let subscriptions = {};
@@ -31,7 +38,7 @@ export const startWebSocketServer = () => {
 		mock: true
 	});
 
-	mockSocketServer.on('connection', (socket) => {
+	mockSocketServer.on('connection', (socket: ExtendedClient) => {
 		const pathname = new URL(socket.url).searchParams.get('pathname');
 
 		if (pathname.startsWith('/service/live')) {
@@ -54,6 +61,10 @@ export const startWebSocketServer = () => {
 		} else {
 			socket.type = 'RC';
 			socket.on('message', (message) => {
+				if (typeof message !== 'string') {
+					return;
+				}
+
 				const parsedMessage = JSON.parse(message);
 				if (
 					parsedMessage.msg === 'method' &&
