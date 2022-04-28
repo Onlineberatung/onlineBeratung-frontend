@@ -43,19 +43,21 @@ const twoFactorAuth = {
 		'https://apps.apple.com/de/app/google-authenticator/id388497605',
 	'activate.app.step2.download.google': 'Download im Google Play Store',
 	'activate.app.step2.download.apple': 'Download im Apple App Store',
-	'activate.app.step3.title': 'Verknüpfen Sie die App und Ihren Account',
+	'activate.app.step3.title': 'Fügen Sie die Online-Beratung zur App hinzu',
 	'activate.app.step3.copy':
-		'Sie haben zwei Möglichkeiten die App mit Ihrem Account zu verknüpfen:',
-	'activate.app.step3.visualisation.label': 'Verknüpfung',
+		'Sie haben zwei Möglichkeiten die Online-Beratung zur App hinzuzufügen:',
+	'activate.app.step3.visualisation.label': 'Hinzufügen',
 	'activate.app.step3.connect.qrCode':
 		'Öffnen Sie die App und scannen Sie den folgenden QR-Code:',
 	'activate.app.step3.connect.divider': 'oder',
 	'activate.app.step3.connect.key':
-		'Geben Sie den folgenden 32-stelligen Schlüssel ein:',
+		'Öffnen Sie die App und geben Sie den folgenden 32-stelligen Schlüssel ein:',
 	'activate.app.step4.title': 'Einmal-Code eingeben',
 	'activate.app.step4.copy':
 		'Geben Sie den Einmal-Code ein, der von der App generiert wird und klicken Sie auf „Speichern“, um die Einrichtung abzuschließen.',
-	'activate.app.step4.visualisation.label': 'Bestätigung',
+	'activate.app.step4.visualisation.label': 'Verknüpfung',
+	'activate.app.step5.title': 'App-Verknüpfung erfolgreich eingerichtet.',
+	'activate.app.step5.visualisation.label': 'Bestätigung',
 	'activate.otp.input.label': 'Einmal-Code',
 	'activate.otp.input.label.short': 'Der eingegebene Code ist zu kurz.',
 	'activate.otp.input.label.error':

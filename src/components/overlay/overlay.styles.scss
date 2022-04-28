@@ -1,5 +1,6 @@
 $overlay-icon-size-xs: 24px !default;
-$overlay-steps-breakpoint: 560px !default;
+$overlay-steps-breakpoint-small: 560px !default;
+$overlay-steps-breakpoint-large: 768px !default;
 $overlay-icon-size: 56px !default;
 $overlay-icon-size-large: 48px !default;
 $overlay-illustration-size: 120px !default;
@@ -99,7 +100,7 @@ $overlay-illustration-size-large: 160px;
 		right: 18px;
 		cursor: pointer;
 
-		@include breakpoint($overlay-steps-breakpoint) {
+		@include breakpoint($overlay-steps-breakpoint-small) {
 			top: 24px;
 			right: 24px;
 		}
@@ -115,7 +116,7 @@ $overlay-illustration-size-large: 160px;
 			text-transform: uppercase;
 			display: none;
 
-			@include breakpoint($overlay-steps-breakpoint) {
+			@include breakpoint($overlay-steps-breakpoint-small) {
 				display: block;
 			}
 		}
@@ -128,12 +129,17 @@ $overlay-illustration-size-large: 160px;
 			&::before {
 				content: '';
 				border-top: 1px solid $form-disabled;
-				margin: $overlay-icon-size-xs $grid-base $overlay-icon-size-xs;
-				width: 25px;
+				margin: $overlay-icon-size-xs 6px $overlay-icon-size-xs;
+				width: 10px;
 
-				@include breakpoint($overlay-steps-breakpoint) {
+				@include breakpoint($overlay-steps-breakpoint-small) {
 					margin: $overlay-icon-size-xs -14px $overlay-icon-size-xs;
-					width: 60px;
+					width: 25px;
+				}
+
+				@include breakpoint($overlay-steps-breakpoint-large) {
+					margin: $overlay-icon-size-xs -14px $overlay-icon-size-xs;
+					width: 50px;
 				}
 			}
 		}
