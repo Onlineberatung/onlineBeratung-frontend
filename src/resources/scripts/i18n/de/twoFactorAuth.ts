@@ -43,9 +43,9 @@ const twoFactorAuth = {
 		'https://apps.apple.com/de/app/google-authenticator/id388497605',
 	'activate.app.step2.download.google': 'Download im Google Play Store',
 	'activate.app.step2.download.apple': 'Download im Apple App Store',
-	'activate.app.step3.title': 'Fügen Sie die Online Beratung zur App hinzu',
+	'activate.app.step3.title': 'Fügen Sie die Online-Beratung zur App hinzu',
 	'activate.app.step3.copy':
-		'Sie haben zwei Möglichkeiten die Online Beratung zur App hinzuzufügen:',
+		'Sie haben zwei Möglichkeiten die Online-Beratung zur App hinzuzufügen:',
 	'activate.app.step3.visualisation.label': 'Hinzufügen',
 	'activate.app.step3.connect.qrCode':
 		'Öffnen Sie die App und scannen Sie den folgenden QR-Code:',

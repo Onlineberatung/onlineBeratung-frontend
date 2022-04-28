@@ -19,7 +19,7 @@ import {
 } from '../inputField/InputField';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 import { ReactComponent as AddIcon } from '../../resources/img/icons/add.svg';
-import { ReactComponent as AddModeratorIcon } from '../../resources/img/icons/add-moderator.svg';
+import { ReactComponent as AddShieldIcon } from '../../resources/img/icons/add-shield.svg';
 import { ReactComponent as UrlIcon } from '../../resources/img/icons/url.svg';
 import { ReactComponent as CheckIcon } from '../../resources/img/icons/checkmark.svg';
 import { ReactComponent as IlluCheck } from '../../resources/img/illustrations/check.svg';
@@ -457,7 +457,7 @@ export const TwoFactorAuth = () => {
 					}
 				],
 				step: {
-					icon: AddModeratorIcon,
+					icon: AddShieldIcon,
 					label: translate(
 						'twoFactorAuth.activate.app.step3.visualisation.label'
 					)

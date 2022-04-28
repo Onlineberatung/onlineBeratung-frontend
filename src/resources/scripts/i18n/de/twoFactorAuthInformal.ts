@@ -14,9 +14,9 @@ const twoFactorAuthInformal = {
 	'activate.app.step2.title': 'Installiere Dir die App',
 	'activate.app.step2.copy':
 		'Installiere Dir FreeOTP oder Google Authentificator auf Deinem Smartphone oder Tablet. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
-	'activate.app.step3.title': 'Für die Online Beratung zur App hinzu',
+	'activate.app.step3.title': 'Für die Online-Beratung zur App hinzu',
 	'activate.app.step3.copy':
-		'Du hast zwei Möglichkeiten die Online Beratung zur App hinzuzufügen:',
+		'Du hast zwei Möglichkeiten die Online-Beratung zur App hinzuzufügen:',
 	'activate.app.step3.visualisation.label': 'Hinzufügen',
 	'activate.app.step3.connect.qrCode':
 		'Öffne die App und scanne den folgenden QR-Code:',
