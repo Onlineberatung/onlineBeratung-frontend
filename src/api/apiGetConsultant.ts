@@ -40,11 +40,12 @@ export const apiGetConsultant = async (
 		if (consultingTypeDetail === 'basic') {
 			return apiGetConsultingTypes().then((consultingTypes) => {
 				const mappedUserAgencies = user.agencies.map((agency) => {
+					const consultingTypeRel = consultingTypes.filter(
+						(type) => type.id === agency.consultingType
+					)[0];
 					return {
 						...agency,
-						consultingTypeRel: {
-							...consultingTypes[agency.consultingType]
-						}
+						consultingTypeRel: { ...consultingTypeRel }
 					};
 				});
 
