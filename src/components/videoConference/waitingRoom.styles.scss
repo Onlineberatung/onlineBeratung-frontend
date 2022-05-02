@@ -1,4 +1,4 @@
-.waitingRoom {
+.videoConference .waitingRoom {
 	display: flex;
 	justify-content: center;
 	min-height: 100vh;
@@ -41,6 +41,10 @@
 
 		.text + .text {
 			margin-top: $grid-base-three;
+		}
+
+		a {
+			font-weight: bold !important;
 		}
 	}
 
