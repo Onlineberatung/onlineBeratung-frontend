@@ -2,7 +2,7 @@ const videoCoferenceInformal = {
 	'waitingroom.dataProtection.subline':
 		'Bitte bestätige unsere Datenschutzbestimmungen.',
 	'waitingroom.dataProtection.description':
-		'Danach dürfen unsere Berater_innen einen Chat mit Dir starten.',
+		'Danach dürfen unsere Berater_innen einen Video-Call mit Dir starten.',
 	'waitingroom.headline': 'Bitte habe etwas Geduld',
 	'waitingroom.subline':
 		'Der Video-Call hat noch nicht begonnen. Du wirst weitergeleitet sobald Dein_e Berater_in den Video-Call startet.',

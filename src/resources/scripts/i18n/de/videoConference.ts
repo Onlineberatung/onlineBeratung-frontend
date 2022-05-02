@@ -4,7 +4,7 @@ const videoCoference = {
 	'waitingroom.dataProtection.subline':
 		'Bitte bestätigen Sie unsere Datenschutzbestimmungen.',
 	'waitingroom.dataProtection.description':
-		'Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.',
+		'Danach dürfen unsere Berater_innen einen Video-Call mit Ihnen starten.',
 	'waitingroom.dataProtection.label':
 		'Ich habe die %legal_links% zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 	'waitingroom.dataProtection.label.and': 'und',
