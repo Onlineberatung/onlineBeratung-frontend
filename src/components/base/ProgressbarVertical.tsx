@@ -75,19 +75,6 @@ const StyledProgressbarVertical = styled.div`
 		width: ${theme.progressbarVertical.width};
 	}
 
-	&.default {
-		.progressbarVertical--header {
-			&:hover {
-				cursor:  ${theme.progressbarVertical.hoverCursor};
-				font-weight: ${theme.font.fontWeightBold};
-				& div {
-					border-color: ${theme.colors.hover};
-					color: ${theme.colors.hover};
-				}
-			}
-		}
-	}
-
 	&.active {
 		.progressbarVertical--header {
 			& div {
@@ -108,6 +95,16 @@ const StyledProgressbarVertical = styled.div`
 				border-color: ${theme.colors.primary};
 				color: ${theme.colors.primary};
 			}
+
+			&:hover {
+				cursor:  ${theme.progressbarVertical.hoverCursor};
+				font-weight: ${theme.font.fontWeightBold};
+				& div {
+					border-color: ${theme.colors.hover};
+					color: ${theme.colors.hover};
+				}
+			}
+		}
 	}
 	`}
 `;
