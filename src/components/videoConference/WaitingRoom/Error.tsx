@@ -6,10 +6,13 @@ import { Button, BUTTON_TYPES, ButtonItem } from '../../button/Button';
 import * as React from 'react';
 
 type ErrorProps = {
-	description?: string;
+	error?: {
+		title: string;
+		description?: string;
+	};
 };
 
-export const Error = ({ description }: ErrorProps) => {
+export const Error = ({ error }: ErrorProps) => {
 	const reloadButton: ButtonItem = {
 		label: translate('videoConference.waitingroom.errorPage.button'),
 		type: BUTTON_TYPES.PRIMARY
@@ -28,12 +31,10 @@ export const Error = ({ description }: ErrorProps) => {
 				<Headline
 					className="waitingRoom__headline"
 					semanticLevel="1"
-					text={translate(
-						'videoConference.waitingroom.errorPage.headline'
-					)}
+					text={translate(error.title)}
 				/>
-				{description && (
-					<Text type="standard" text={translate(description)} />
+				{error.description && (
+					<Text type="standard" text={translate(error.description)} />
 				)}
 				<Button
 					className="waitingRoom__button"

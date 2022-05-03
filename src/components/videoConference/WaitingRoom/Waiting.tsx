@@ -2,6 +2,7 @@ import { ReactComponent as WaitingIllustration } from '../../../resources/img/il
 import { Headline } from '../../headline/Headline';
 import { translate } from '../../../utils/translate';
 import * as React from 'react';
+import { Text } from '../../text/Text';
 
 export const Waiting = () => {
 	return (
@@ -15,9 +16,8 @@ export const Waiting = () => {
 					semanticLevel="1"
 					text={translate('videoConference.waitingroom.headline')}
 				/>
-				<Headline
-					className="waitingRoom__subline"
-					semanticLevel="3"
+				<Text
+					type="standard"
 					text={translate('videoConference.waitingroom.subline')}
 				/>
 			</div>
