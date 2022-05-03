@@ -13,8 +13,8 @@ const StyledCheckbox = styled.div`
 	${({ theme }) => `
 		font-family: ${theme.font.fontFamily};
 		font-weight: ${theme.font.fontWeight};
-		font-size: ${theme.font.fontSizeLarge};
-		line-height: ${theme.font.lineHeightLarge};
+		font-size: ${theme.font.fontSize};
+		line-height: ${theme.font.lineHeight};
 
 		.container {
 			display: flex;
@@ -134,8 +134,8 @@ StyledCheckbox.defaultProps = {
 		font: {
 			fontFamily: 'Roboto, sans-serif',
 			fontWeight: '400',
-			fontSizeLarge: '16px',
-			lineHeightLarge: '150%'
+			fontSize: '16px',
+			lineHeight: '150%'
 		},
 
 		checkbox: {
