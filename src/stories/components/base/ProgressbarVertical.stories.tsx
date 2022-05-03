@@ -2,9 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import {
 	ProgressbarVertical,
-	STATUS_DEFAULT,
-	STATUS_ACTIVE,
-	STATUS_DONE
+	STATUS_DEFAULT
 } from '../../../components/base/ProgressbarVertical';
 
 export default {
@@ -25,23 +23,5 @@ Default.args = {
 	label: 'Lorem Ipsum',
 	number: 1,
 	placeholderLabel: 'Placeholder',
-	button: 'Bestätigen'
-};
-
-export const Active = Template.bind({});
-Active.args = {
-	status: STATUS_ACTIVE,
-	label: 'Lorem Ipsum',
-	number: 1,
-	placeholderLabel: 'Placeholder',
-	button: 'Bestätigen'
-};
-
-export const Done = Template.bind({});
-Done.args = {
-	status: STATUS_DONE,
-	label: 'Lorem Ipsum',
-	number: 1,
-	placeholderLabel: 'Placeholder',
-	button: 'Bestätigen'
+	buttonLabel: 'Bestätigen'
 };

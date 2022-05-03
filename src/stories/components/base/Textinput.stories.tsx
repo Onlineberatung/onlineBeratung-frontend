@@ -29,8 +29,8 @@ const Template: ComponentStory<typeof Textinput> = (args) => (
 	<Textinput {...args} />
 );
 
-export const Active = Template.bind({});
-Active.args = {
+export const Default = Template.bind({});
+Default.args = {
 	inputText: 'Placeholder Text',
 	label: 'Label',
 	helperText: 'Helper text',

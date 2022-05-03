@@ -17,10 +17,17 @@ const Template: ComponentStory<typeof OptionsMenu> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-	label1: 'Menue item 1',
-	label2: 'Menue item 2',
-	label3: 'Menue item 3',
-	label4: 'Menue item 4',
+	label1: 'Label 1',
+	label11: 'Label 1.1',
+	label12: 'Label 1.2',
+	label13: 'Label 1.3',
+	label2: 'Label 2',
+	label21: 'Label 2.1',
+	label22: 'Label 2.2',
+	label3: 'Label 3',
+	label31: 'Label 3.1',
+	label4: 'Label 4',
+	label41: 'Label 4.1',
 	icon: (
 		<svg
 			width="16"

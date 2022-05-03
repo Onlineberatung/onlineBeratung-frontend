@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useEffect } from 'react';
+import React, { HTMLAttributes, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 export const SIZE_PRIMARY = 'primary';
@@ -27,6 +27,8 @@ const StyledDivider = styled.div`
         line-height: ${theme.font.lineHeight};
         letter-spacing: ${theme.font.letterSpacing};
         text-transform: ${theme.font.textTransform};
+
+		color: ${theme.colors.darkGrey};
         
         &:before,
         &:after {
@@ -35,24 +37,9 @@ const StyledDivider = styled.div`
             border-top: ${theme.divider.border};
             height: ${theme.divider.height};
             width: ${theme.divider.width};
+			border-color: ${theme.colors.lightGrey};
         }
 
-        &.primary {
-            &:before,
-            &:after {
-                border-color: ${theme.colors.lightGrey};
-                margin: 0;
-            }
-        }
-        
-        &.secondary {
-            color: ${theme.colors.darkGrey};
-        	&:before,
-            &:after {
-                border-color: ${theme.colors.lightGrey};
-            }
-        }
-        
         &.tertiary {
             color: ${theme.colors.primary};
         	&:before,
@@ -75,7 +62,7 @@ StyledDivider.defaultProps = {
 			darkGrey: '#00000099'
 		},
 		font: {
-			fontFamily: 'RobotoSlab', //TODO
+			fontFamily: 'Roboto Slab, serif',
 			fontStyle: 'normal',
 			fontSize: '12px',
 			fontWeight: '500',
@@ -92,23 +79,29 @@ StyledDivider.defaultProps = {
 	}
 };
 
-/**
- * Primary UI component for user interaction
- */
 export const Divider = ({
 	size = SIZE_PRIMARY,
 	label,
 	className,
 	...props
 }: DividerProps) => {
+	const labelRef = useRef(null);
+
 	useEffect(() => {
-		let labelSpan = document.getElementsByClassName('label')[0];
-		if (label.length > 0) {
-			labelSpan.classList.add('spacer');
-		} else {
-			labelSpan.classList.remove('spacer');
-		}
+		labelRef.current.innerHTML.length > 0
+			? labelRef.current.classList.add('spacer')
+			: labelRef.current.classList.remove('spacer');
 	}, [label]);
+
+	useEffect(() => {
+		if (size != SIZE_PRIMARY) {
+			labelRef.current.innerHTML = 'Label';
+			labelRef.current.classList.add('spacer');
+		} else {
+			labelRef.current.innerHTML = '';
+			labelRef.current.classList.remove('spacer');
+		}
+	}, [size]);
 
 	return (
 		<StyledDivider
@@ -116,7 +109,16 @@ export const Divider = ({
 			className={`${className} ${size}`}
 			{...props}
 		>
-			<span className="label">{label && label}</span>
+			<link rel="preconnect" href="https://fonts.googleapis.com"></link>
+			<link rel="preconnect" href="https://fonts.gstatic.com"></link>
+			<link
+				href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap"
+				rel="stylesheet"
+			></link>
+
+			<span className="label" ref={labelRef}>
+				{label && label}
+			</span>
 		</StyledDivider>
 	);
 };

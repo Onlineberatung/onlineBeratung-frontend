@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactElement, useEffect } from 'react';
+import React, { HTMLAttributes, ReactElement, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 interface TextinputProps extends HTMLAttributes<HTMLDivElement> {
@@ -279,16 +279,12 @@ export const Textinput = ({
 	className,
 	...props
 }: TextinputProps) => {
-	useEffect(() => {
-		let input = document.getElementsByClassName(
-			'textInput--input-text'
-		)[0] as HTMLInputElement;
+	const textInputRef = useRef(null);
 
-		if (variant == 'disabled') {
-			input.setAttribute('disabled', 'true');
-		} else {
-			input.removeAttribute('disabled');
-		}
+	useEffect(() => {
+		variant == 'disabled'
+			? textInputRef.current.setAttribute('disabled', 'true')
+			: textInputRef.current.removeAttribute('disabled');
 	}, [variant]);
 
 	return (
@@ -312,6 +308,7 @@ export const Textinput = ({
 						<input
 							type={password && password}
 							className="textInput--input-text"
+							ref={textInputRef}
 							placeholder={inputText && inputText}
 						/>
 					</div>

@@ -1,20 +1,20 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-// import { CloseCircle } from '../../../resources/img/icons';
 
 import {
 	Filtertag,
-	SIZE_DEFAULT,
-	SIZE_SELECTED,
-	SIZE_REMOVEABLE,
-	SIZE_READONLY
+	VARIANT_DEFAULT,
+	VARIANT_SELECTED,
+	VARIANT_REMOVEABLE,
+	VARIANT_READONLY
 } from '../../../components/base/Filtertag';
 
 export default {
 	title: 'Base/Filtertag',
 	component: Filtertag,
 	argTypes: {
-		icon: { table: { disable: true } }
+		icon: { table: { disable: true } },
+		variant: { table: { disable: true } }
 	}
 } as ComponentMeta<typeof Filtertag>;
 
@@ -24,21 +24,20 @@ const Template: ComponentStory<typeof Filtertag> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-	size: SIZE_DEFAULT,
+	variant: VARIANT_DEFAULT,
 	label: 'Lorem ipsum'
 };
 
 export const Selected = Template.bind({});
 Selected.args = {
-	size: SIZE_SELECTED,
+	variant: VARIANT_SELECTED,
 	label: 'Lorem ipsum'
 };
 
 export const Removeable = Template.bind({});
 Removeable.args = {
-	size: SIZE_REMOVEABLE,
+	variant: VARIANT_REMOVEABLE,
 	label: 'Lorem ipsum',
-	// icon: <CloseCircle />, //TODO
 	icon: (
 		<svg
 			width="20"
@@ -58,6 +57,6 @@ Removeable.args = {
 
 export const Readonly = Template.bind({});
 Readonly.args = {
-	size: SIZE_READONLY,
+	variant: VARIANT_READONLY,
 	label: 'Lorem ipsum'
 };

@@ -13,7 +13,8 @@ export default {
 	title: 'Base/Link',
 	component: Link,
 	argTypes: {
-		icon: { table: { disable: true } }
+		icon: { table: { disable: true } },
+		size: { table: { disable: true } }
 	}
 } as ComponentMeta<typeof Link>;
 

@@ -1,19 +1,19 @@
 import React, { HTMLAttributes, ReactElement } from 'react';
 import styled from 'styled-components';
 
-export const SIZE_DEFAULT = 'default';
-export const SIZE_SELECTED = 'selected';
-export const SIZE_REMOVEABLE = 'removeable';
-export const SIZE_READONLY = 'readOnly';
+export const VARIANT_DEFAULT = 'default';
+export const VARIANT_SELECTED = 'selected';
+export const VARIANT_REMOVEABLE = 'removeable';
+export const VARIANT_READONLY = 'readOnly';
 
-export type SIZE =
-	| typeof SIZE_DEFAULT
-	| typeof SIZE_SELECTED
-	| typeof SIZE_REMOVEABLE
-	| typeof SIZE_READONLY;
+export type VARIANT =
+	| typeof VARIANT_DEFAULT
+	| typeof VARIANT_SELECTED
+	| typeof VARIANT_REMOVEABLE
+	| typeof VARIANT_READONLY;
 
 interface FiltertagProps extends HTMLAttributes<HTMLDivElement> {
-	size?: SIZE;
+	variant?: VARIANT;
 	label?: string;
 	icon?: ReactElement;
 }
@@ -119,7 +119,7 @@ StyledFiltertag.defaultProps = {
 };
 
 export const Filtertag = ({
-	size = SIZE_DEFAULT,
+	variant = VARIANT_DEFAULT,
 	label,
 	icon,
 	className,
@@ -128,7 +128,7 @@ export const Filtertag = ({
 	return (
 		<StyledFiltertag
 			type="filtertag"
-			className={`${className} ${size}`}
+			className={`${className} ${variant}`}
 			{...props}
 		>
 			{label && label} {icon && icon}

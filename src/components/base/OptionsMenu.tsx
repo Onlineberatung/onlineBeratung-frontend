@@ -1,11 +1,18 @@
-import React, { HTMLAttributes, ReactElement } from 'react';
+import React, { HTMLAttributes, ReactElement, useRef } from 'react';
 import styled from 'styled-components';
 
 interface OptionsMenuProps extends HTMLAttributes<HTMLDivElement> {
-	label1: string;
-	label2: string;
-	label3: string;
-	label4: string;
+	label1?: string;
+	label11?: string;
+	label12?: string;
+	label13?: string;
+	label2?: string;
+	label21?: string;
+	label22?: string;
+	label3?: string;
+	label31?: string;
+	label4?: string;
+	label41?: string;
 	icon: ReactElement;
 }
 
@@ -139,13 +146,22 @@ StyledOptionsMenu.defaultProps = {
  */
 export const OptionsMenu = ({
 	label1,
+	label11,
+	label12,
+	label13,
 	label2,
+	label21,
+	label22,
 	label3,
+	label31,
 	label4,
+	label41,
 	icon,
 	className,
 	...props
 }: OptionsMenuProps) => {
+	const optionsMenuRef = useRef(null);
+
 	const setListItemActive = (x) => {
 		let listItems = document.getElementsByClassName(
 			'optionsMenu--listItem-firstLevel'
@@ -165,15 +181,13 @@ export const OptionsMenu = ({
 
 	window.addEventListener('click', function (e) {
 		const target = e.target as Element;
-		let optionsDefault = document.getElementById('root').children[0];
 		let listItems = document.getElementsByClassName(
 			'optionsMenu--listItem-firstLevel'
 		);
 		let secondLevelMenu = document.getElementsByClassName(
 			'optionsMenu--listItem-secondLevel'
 		);
-
-		if (!optionsDefault.contains(target)) {
+		if (!optionsMenuRef.current.contains(target)) {
 			for (let i = 0; i < listItems.length; i++) {
 				listItems[i].classList.remove('active');
 				secondLevelMenu[i].classList.remove('visible');
@@ -186,6 +200,7 @@ export const OptionsMenu = ({
 			type="optionsMenu"
 			className={`${className}`}
 			{...props}
+			ref={optionsMenuRef}
 		>
 			<div
 				onClick={() => setListItemActive(0)}
@@ -198,17 +213,17 @@ export const OptionsMenu = ({
 
 				<div className="optionsMenu--listItem-secondLevel">
 					<div className="optionsMenu--listItem">
-						{label1 && label1}
+						{label11 && label11}
 						{icon && icon}
 					</div>
 
 					<div className="optionsMenu--listItem">
-						{label2 && label2}
+						{label12 && label12}
 						{icon && icon}
 					</div>
 
 					<div className="optionsMenu--listItem">
-						{label3 && label3}
+						{label13 && label13}
 						{icon && icon}
 					</div>
 				</div>
@@ -225,12 +240,12 @@ export const OptionsMenu = ({
 
 				<div className="optionsMenu--listItem-secondLevel">
 					<div className="optionsMenu--listItem">
-						{label1 && label1}
+						{label21 && label21}
 						{icon && icon}
 					</div>
 
 					<div className="optionsMenu--listItem">
-						{label2 && label2}
+						{label22 && label22}
 						{icon && icon}
 					</div>
 				</div>
@@ -247,7 +262,7 @@ export const OptionsMenu = ({
 
 				<div className="optionsMenu--listItem-secondLevel">
 					<div className="optionsMenu--listItem">
-						{label1 && label1}
+						{label31 && label31}
 						{icon && icon}
 					</div>
 				</div>
@@ -264,7 +279,7 @@ export const OptionsMenu = ({
 
 				<div className="optionsMenu--listItem-secondLevel">
 					<div className="optionsMenu--listItem">
-						{label1 && label1}
+						{label41 && label41}
 						{icon && icon}
 					</div>
 				</div>

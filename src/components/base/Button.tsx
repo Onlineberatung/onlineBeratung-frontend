@@ -62,8 +62,6 @@ const StyledButton = styled.button`
 				}
 			}
 
-			
-
 			&:disabled,
 	 		&:disabled:hover {
 				border-color: transparent;
@@ -351,7 +349,7 @@ const StyledButton = styled.button`
 			border-radius: ${theme.button.scrollTop.borderRadius};
 			border: ${theme.button.scrollTop.border};
 			padding: ${theme.button.scrollTop.padding};
-			background: ${theme.colors.hoverPrimary};
+			background: ${theme.colors.black};
 			box-shadow: none;
 			
 			svg {
@@ -363,8 +361,8 @@ const StyledButton = styled.button`
 				}
 			}
 
-			&:disabled {
-				background: ${theme.colors.black};
+			&:hover {
+				background: ${theme.colors.hoverPrimary};
 			}
 		}
 

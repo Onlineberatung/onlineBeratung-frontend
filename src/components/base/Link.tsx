@@ -23,32 +23,35 @@ const StyledLink = styled.a`
     font-weight: ${theme.link.fontWeight};
     line-height: ${theme.link.lineHeight};
 
-	svg {
-		height: 16px;
-		width: 16px;
-		path {
-			fill: ${theme.colors.primary};
+	&:hover {
+		color: ${theme.colors.hover};
+		.icon {
+			svg {
+				path {
+					fill: ${theme.colors.hover}
+				}
+			}
 		}
 	}
 
-	span {
+	.icon {
 		position: relative;
 		top: 2px;
 		margin: 0 4px 0 0;
-	}
-
-	&:hover {
-		color: ${theme.colors.hover};
 
 		svg {
-			fill: ${theme.colors.hover}
+			height: 13.5px;
+			width: 13.5px;
+			path {
+				fill: ${theme.colors.primary};
+			}
 		}
 	}
 
 	&.small {
 		font-size: ${theme.link.fontSizeSmall};
 
-		span {
+		.icon {
 			top:3px;
 		}
 	}
@@ -66,7 +69,7 @@ StyledLink.defaultProps = {
 			fontSize: '16px',
 			fontSizeSmall: '14px',
 			fontWeight: '400',
-			lineHeight: '24px',
+			lineHeight: '150%x',
 			textDecoration: 'underline'
 		}
 	}
@@ -87,7 +90,7 @@ export const Link = ({
 			className={`${className} ${size}`}
 			{...props}
 		>
-			<span>{icon && icon}</span>
+			<span className="icon">{icon && icon}</span>
 			{label && label}
 		</StyledLink>
 	);

@@ -1,17 +1,17 @@
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-export const SIZE_ACTIVE = 'active';
-export const SIZE_FEEDBACK = 'feedback';
-export const SIZE_BANNED = 'banned';
+export const VARIANT_ACTIVE = 'active';
+export const VARIANT_FEEDBACK = 'feedback';
+export const VARIANT_BANNED = 'banned';
 
-export type SIZES =
-	| typeof SIZE_ACTIVE
-	| typeof SIZE_FEEDBACK
-	| typeof SIZE_BANNED;
+export type VARIANTS =
+	| typeof VARIANT_ACTIVE
+	| typeof VARIANT_FEEDBACK
+	| typeof VARIANT_BANNED;
 
 interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
-	size?: SIZES;
+	variant?: VARIANTS;
 	label?: string;
 }
 
@@ -42,7 +42,6 @@ const StyledBadge = styled.span`
 	`}
 `;
 
-// We are passing a default theme for Buttons that arent wrapped in the ThemeProvider
 StyledBadge.defaultProps = {
 	theme: {
 		colors: {
@@ -67,17 +66,18 @@ StyledBadge.defaultProps = {
 	}
 };
 
-/**
- * Primary UI component for user interaction
- */
 export const Badge = ({
-	size = SIZE_ACTIVE,
+	variant = VARIANT_ACTIVE,
 	label,
 	className,
 	...props
 }: BadgeProps) => {
 	return (
-		<StyledBadge type="badge" className={`${className} ${size}`} {...props}>
+		<StyledBadge
+			type="badge"
+			className={`${className} ${variant}`}
+			{...props}
+		>
 			{label && label}
 		</StyledBadge>
 	);

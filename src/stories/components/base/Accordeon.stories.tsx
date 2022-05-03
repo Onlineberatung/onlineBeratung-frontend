@@ -6,7 +6,8 @@ export default {
 	title: 'Base/Accordeon',
 	component: Accordeon,
 	argTypes: {
-		icon: { table: { disable: true } }
+		icon: { table: { disable: true } },
+		withIcon: { control: 'boolean' }
 	}
 } as ComponentMeta<typeof Accordeon>;
 
@@ -16,11 +17,6 @@ const Template: ComponentStory<typeof Accordeon> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-	label: 'Title'
-};
-
-export const Icon = Template.bind({});
-Icon.args = {
 	label: 'Title',
 	icon: (
 		<svg

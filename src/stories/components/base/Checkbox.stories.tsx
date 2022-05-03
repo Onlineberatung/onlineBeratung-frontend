@@ -16,8 +16,8 @@ const Template: ComponentStory<typeof Checkbox> = (args) => (
 	<Checkbox {...args} />
 );
 
-export const Active = Template.bind({});
-Active.args = {
+export const Default = Template.bind({});
+Default.args = {
 	label: 'Placeholder Text',
 	helperText: 'Helper Text',
 	icon: (

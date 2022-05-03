@@ -14,7 +14,7 @@ interface ProgressbarVerticalProps extends HTMLAttributes<HTMLDivElement> {
 	status?: STATUS;
 	label?: string;
 	number?: number;
-	button?: string;
+	buttonLabel?: string;
 	placeholderLabel?: string;
 }
 
@@ -157,7 +157,7 @@ export const ProgressbarVertical = ({
 	status = STATUS_DEFAULT,
 	label,
 	number,
-	button,
+	buttonLabel,
 	placeholderLabel,
 	className,
 	...props
@@ -180,7 +180,7 @@ export const ProgressbarVertical = ({
 			</div>
 
 			<div className="progressbarVertical--button">
-				{button && button}
+				{buttonLabel && buttonLabel}
 			</div>
 		</StyledProgressbarVertical>
 	);

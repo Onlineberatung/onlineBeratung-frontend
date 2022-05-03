@@ -1,9 +1,10 @@
-import React, { HTMLAttributes, ReactElement } from 'react';
+import React, { HTMLAttributes, ReactElement, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 interface AccordeonProps extends HTMLAttributes<HTMLDivElement> {
 	label?: string;
 	icon?: ReactElement;
+	withIcon?: boolean;
 }
 
 const StyledAccordeon = styled.div`
@@ -51,21 +52,18 @@ const StyledAccordeon = styled.div`
             path {
                 fill: ${theme.colors.darkGrey};
             }
+
+			&--up {
+				display: none;
+			}
         }
 
         .accordeon--content {
+			display: none;
             background: ${theme.colors.backgroundGrey};
             width: 100%;
             height: 81px;
             margin: -6px 0 16px 0;
-        }
-
-        .inactive {
-            display: none;
-        }
-
-        .active {
-            display: block;
         }
 	`}
 `;
@@ -94,42 +92,51 @@ StyledAccordeon.defaultProps = {
 export const Accordeon = ({
 	label,
 	icon,
+	withIcon = false,
 	className,
 	...props
 }: AccordeonProps) => {
-	const expandAccordeon = () => {
-		let accordeonContent =
-			document.getElementsByClassName('accordeon--content')[0];
-		let arrowUp = document.getElementById('arrow-up');
-		let arrowDown = document.getElementById('arrow-down');
+	const arrowUpRef = useRef(null);
+	const arrowDownRef = useRef(null);
+	const accordeonContentRef = useRef(null);
+	const iconRef = useRef(null);
 
-		if (accordeonContent.classList.contains('inactive')) {
-			arrowDown.style.display = 'none';
-			arrowUp.style.display = 'inline';
-			accordeonContent.classList.remove('inactive');
-			accordeonContent.classList.add('active');
+	let contentVisible = false;
+
+	const expandAccordeon = () => {
+		if (!contentVisible) {
+			arrowDownRef.current.style.display = 'none';
+			arrowUpRef.current.style.display = 'inline';
+			accordeonContentRef.current.style.display = 'block';
 		} else {
-			arrowDown.style.display = 'inline';
-			arrowUp.style.display = 'none';
-			accordeonContent.classList.remove('active');
-			accordeonContent.classList.add('inactive');
+			arrowDownRef.current.style.display = 'inline';
+			arrowUpRef.current.style.display = 'none';
+			accordeonContentRef.current.style.display = 'none';
 		}
+		contentVisible = !contentVisible;
 	};
+
+	useEffect(() => {
+		let visibility;
+		withIcon ? (visibility = 'block') : (visibility = 'none');
+		iconRef.current.style.display = visibility;
+	}, [withIcon]);
 
 	return (
 		<StyledAccordeon
 			type="accordeon"
-			className={`${className}`}
+			className={`${className} ${withIcon && 'withIcon'}`}
 			onClick={expandAccordeon}
 			{...props}
 		>
 			<span className="label">{label && label}</span>
 
 			<div className="icon--container">
-				{icon && icon}
+				<span ref={iconRef}>{icon && icon}</span>
 				<svg
 					id="arrow-down"
 					className="arrow"
+					ref={arrowDownRef}
 					width="20"
 					height="12"
 					viewBox="0 0 20 12"
@@ -144,7 +151,8 @@ export const Accordeon = ({
 				</svg>
 				<svg
 					id="arrow-up"
-					className="arrow inactive"
+					className="arrow arrow--up"
+					ref={arrowUpRef}
 					width="20"
 					height="12"
 					viewBox="0 0 20 12"
@@ -159,7 +167,7 @@ export const Accordeon = ({
 				</svg>
 			</div>
 
-			<div className="accordeon--content inactive"></div>
+			<div className="accordeon--content" ref={accordeonContentRef}></div>
 		</StyledAccordeon>
 	);
 };

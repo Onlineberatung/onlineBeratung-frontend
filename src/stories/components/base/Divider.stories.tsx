@@ -17,19 +17,8 @@ const Template: ComponentStory<typeof Divider> = (args) => (
 	<Divider {...args} />
 );
 
-export const Primary = Template.bind({});
-Primary.args = {
-	size: SIZE_PRIMARY
-};
-
-export const Secondary = Template.bind({});
-Secondary.args = {
-	size: SIZE_SECONDARY,
-	label: 'Label'
-};
-
-export const Tertiary = Template.bind({});
-Tertiary.args = {
-	size: SIZE_TERTIARY,
-	label: 'Label'
+export const Default = Template.bind({});
+Default.args = {
+	size: SIZE_PRIMARY,
+	label: ''
 };

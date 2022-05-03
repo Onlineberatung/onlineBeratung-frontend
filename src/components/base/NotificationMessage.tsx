@@ -88,11 +88,18 @@ const StyledNotificationMessage = styled.div`
                     fill: ${theme.colors.lightGrey};
                 }
             }
-
+			
             &-text {
-                margin-left: ${theme.notification.message.textfield.text.marginLeft};
+				all: ${theme.notification.message.textfield.text.all};
+				position: ${theme.notification.message.textfield.text.position};
+				left: ${theme.notification.message.textfield.text.left};
+				overflow: ${theme.notification.message.textfield.text.overflow};
+				color: ${theme.colors.black};
                 max-width: ${theme.notification.message.textfield.text.maxWidth};
-                overflow-wrap: ${theme.notification.message.textfield.text.overflowWrap};
+				width: ${theme.notification.message.textfield.text.maxWidth};
+				&::placeholder {
+					color: ${theme.colors.lightGrey};
+				}
             }
         }
 
@@ -133,6 +140,7 @@ StyledNotificationMessage.defaultProps = {
 	theme: {
 		colors: {
 			white: '#FFFFFF',
+			black: '#000000DE',
 			background: '#00000099',
 			primary: '#CC1E1C',
 			lightGrey: '#00000066'
@@ -203,7 +211,10 @@ StyledNotificationMessage.defaultProps = {
 					text: {
 						marginLeft: '22px',
 						maxWidth: '265px',
-						overflowWrap: 'break-word'
+						all: 'unset',
+						position: 'absolute',
+						left: '56px',
+						overflow: 'hidden'
 					}
 				},
 
@@ -229,7 +240,7 @@ StyledNotificationMessage.defaultProps = {
 					bottom: '0',
 					width: '0',
 					borderLeft: '2px solid #00000033',
-					left: '47px',
+					left: '45px',
 					margin: '0 7px 0 0'
 				}
 			}
@@ -269,9 +280,10 @@ export const NotificationMessage = ({
 				<div className="notification--message-textfield">
 					{smileyIcon && smileyIcon}
 					<div className="notification--message-seperator"></div>
-					<div className="notification--message-textfield-text">
-						{label && label}
-					</div>
+					<input
+						className="notification--message-textfield-text"
+						placeholder={label && label}
+					/>
 				</div>
 				<div className="notification--message-sendIcon">
 					{sendIcon && sendIcon}
