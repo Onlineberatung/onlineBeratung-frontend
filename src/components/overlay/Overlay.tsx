@@ -63,6 +63,7 @@ export const Overlay = (props: {
 	handleOverlay?: Function;
 	handleOverlayClose?: Function;
 	items?: OverlayItem[];
+	showHeadlinePrefix?: boolean;
 }) => {
 	const [activeStep, setActiveStep] = useState<number>(0);
 	const [activeOverlay, setActiveOverlay] = useState<OverlayItem>(
@@ -115,9 +116,16 @@ export const Overlay = (props: {
 		if (props.items?.some((item) => item.step)) {
 			return `
 				<span class="overlay__stepHeadline">
-					<span class="overlay__stepHeadline--prefix">
-						${activeStep + 1}${translate('overlay.step.headline.prefix')}
-					</span>
+					${
+						props.showHeadlinePrefix ? (
+							<span className="overlay__stepHeadline--prefix">
+								${activeStep + 1}$
+								{translate('overlay.step.headline.prefix')}
+							</span>
+						) : (
+							''
+						)
+					}
 					${activeOverlay.headline}
 				</span>
 				`;
