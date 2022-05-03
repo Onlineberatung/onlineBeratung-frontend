@@ -1,23 +1,23 @@
 import React, { HTMLAttributes, ReactElement } from 'react';
 import styled from 'styled-components';
 
-interface AccordionProps extends HTMLAttributes<HTMLDivElement> {
+interface AccordeonProps extends HTMLAttributes<HTMLDivElement> {
 	label?: string;
 	icon?: ReactElement;
 }
 
-const StyledAccordion = styled.div`
+const StyledAccordeon = styled.div`
 	${({ theme }) => `
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-        font-family: ${theme.accordion.fontFamily};
-        font-weight: ${theme.accordion.fontWeight};
-        font-size: ${theme.accordion.fontSize};
-        line-height: ${theme.accordion.lineHeight};
+        font-family: ${theme.accordeon.fontFamily};
+        font-weight: ${theme.accordeon.fontWeight};
+        font-size: ${theme.accordeon.fontSize};
+        line-height: ${theme.accordeon.lineHeight};
         color: ${theme.colors.darkGrey};
-        border-bottom: ${theme.accordion.borderBottom} ${theme.colors.lightGrey};
-        width: ${theme.accordion.width};
+        border-bottom: ${theme.accordeon.borderBottom} ${theme.colors.lightGrey};
+        width: ${theme.accordeon.width};
 
         &:hover {
             color: ${theme.colors.hover};
@@ -28,7 +28,7 @@ const StyledAccordion = styled.div`
         }
 
         .label {
-            padding-bottom: ${theme.accordion.paddingBottom};
+            padding-bottom: ${theme.accordeon.paddingBottom};
         }
 
         .icon--container {
@@ -53,7 +53,7 @@ const StyledAccordion = styled.div`
             }
         }
 
-        .accordion--content {
+        .accordeon--content {
             background: ${theme.colors.backgroundGrey};
             width: 100%;
             height: 81px;
@@ -70,7 +70,7 @@ const StyledAccordion = styled.div`
 	`}
 `;
 
-StyledAccordion.defaultProps = {
+StyledAccordeon.defaultProps = {
 	theme: {
 		colors: {
 			darkGrey: '#000000DE',
@@ -79,7 +79,7 @@ StyledAccordion.defaultProps = {
 			hover: '#A31816',
 			green: '#4FCC5C'
 		},
-		accordion: {
+		accordeon: {
 			fontFamily: 'Roboto, sans-serif',
 			fontWeight: '700',
 			fontSize: '16px',
@@ -91,36 +91,36 @@ StyledAccordion.defaultProps = {
 	}
 };
 
-export const Accordion = ({
+export const Accordeon = ({
 	label,
 	icon,
 	className,
 	...props
-}: AccordionProps) => {
-	const expandAccordion = () => {
-		let accordionContent =
-			document.getElementsByClassName('accordion--content')[0];
+}: AccordeonProps) => {
+	const expandAccordeon = () => {
+		let accordeonContent =
+			document.getElementsByClassName('accordeon--content')[0];
 		let arrowUp = document.getElementById('arrow-up');
 		let arrowDown = document.getElementById('arrow-down');
 
-		if (accordionContent.classList.contains('inactive')) {
+		if (accordeonContent.classList.contains('inactive')) {
 			arrowDown.style.display = 'none';
 			arrowUp.style.display = 'inline';
-			accordionContent.classList.remove('inactive');
-			accordionContent.classList.add('active');
+			accordeonContent.classList.remove('inactive');
+			accordeonContent.classList.add('active');
 		} else {
 			arrowDown.style.display = 'inline';
 			arrowUp.style.display = 'none';
-			accordionContent.classList.remove('active');
-			accordionContent.classList.add('inactive');
+			accordeonContent.classList.remove('active');
+			accordeonContent.classList.add('inactive');
 		}
 	};
 
 	return (
-		<StyledAccordion
-			type="accordion"
+		<StyledAccordeon
+			type="accordeon"
 			className={`${className}`}
-			onClick={expandAccordion}
+			onClick={expandAccordeon}
 			{...props}
 		>
 			<span className="label">{label && label}</span>
@@ -159,7 +159,7 @@ export const Accordion = ({
 				</svg>
 			</div>
 
-			<div className="accordion--content inactive"></div>
-		</StyledAccordion>
+			<div className="accordeon--content inactive"></div>
+		</StyledAccordeon>
 	);
 };

@@ -1,17 +1,17 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Accordion } from '../../../components/base/Accordion';
+import { Accordeon } from '../../../components/base/Accordeon';
 
 export default {
-	title: 'Base/Accordion',
-	component: Accordion,
+	title: 'Base/Accordeon',
+	component: Accordeon,
 	argTypes: {
 		icon: { table: { disable: true } }
 	}
-} as ComponentMeta<typeof Accordion>;
+} as ComponentMeta<typeof Accordeon>;
 
-const Template: ComponentStory<typeof Accordion> = (args) => (
-	<Accordion {...args} />
+const Template: ComponentStory<typeof Accordeon> = (args) => (
+	<Accordeon {...args} />
 );
 
 export const Default = Template.bind({});
