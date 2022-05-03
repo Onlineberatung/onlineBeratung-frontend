@@ -18,7 +18,10 @@ export interface WaitingRoomProps {
 	confirmed: boolean;
 	setConfirmed: Function;
 	legalLinks: Array<LegalLinkInterface>;
-	error?: string;
+	error?: {
+		title: string;
+		description?: string;
+	};
 	status:
 		| typeof STATUS_STARTED
 		| typeof STATUS_CREATED
@@ -45,7 +48,7 @@ export const WaitingRoom = ({
 
 	const getContent = () => {
 		if (error) {
-			return <Error description={error} />;
+			return <Error error={error} />;
 		} else if (!confirmed) {
 			return (
 				<Welcome

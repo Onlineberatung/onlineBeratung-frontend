@@ -33,6 +33,7 @@ const VideoConference = ({
 	const [externalApi, setExternalApi] = useState<IJitsiMeetExternalApi>(null);
 	const [initialized, setInitialized] = useState(false);
 	const [ready, setReady] = useState(false);
+	const [rejected, setRejected] = useState(false);
 	const [confirmed, setConfirmed] = useState(status === 'confirmed');
 	const [appointment, setAppointment] =
 		useState<AppointmentsDataInterface>(null);
@@ -81,6 +82,12 @@ const VideoConference = ({
 		}
 	}, [appointment, appointmentId, isModerator]);
 
+	const handleJitsiError = useCallback((e) => {
+		if (e.error.name === 'conference.connectionError.accessDenied') {
+			setRejected(true);
+		}
+	}, []);
+
 	useUnload(pauseAppointment, true);
 
 	useEffect(() => {
@@ -128,11 +135,18 @@ const VideoConference = ({
 				// Set appointment started after jitsi has finished initialization and meeting is ready
 				externalApi.on('videoConferenceJoined', startAppointment);
 				externalApi.on('readyToClose', pauseAppointment);
+			} else {
+				externalApi.on('errorOccurred', handleJitsiError);
 			}
 		}
 		return () => {
-			if (externalApi && isModerator()) {
-				externalApi.off('readyToClose', pauseAppointment);
+			if (externalApi) {
+				if (isModerator()) {
+					externalApi.off('videoConferenceJoined', startAppointment);
+					externalApi.off('readyToClose', pauseAppointment);
+				} else {
+					externalApi.off('errorOccurred', handleJitsiError);
+				}
 			}
 		};
 	}, [
@@ -141,8 +155,32 @@ const VideoConference = ({
 		isModerator,
 		appointmentId,
 		startAppointment,
-		pauseAppointment
+		pauseAppointment,
+		handleJitsiError
 	]);
+
+	const getError = useCallback(() => {
+		if (!appointment) {
+			return {
+				error: {
+					title: 'videoConference.waitingroom.errorPage.headline',
+					description: isModerator()
+						? 'videoConference.waitingroom.errorPage.consultant.description'
+						: 'videoConference.waitingroom.errorPage.description'
+				}
+			};
+		} else if (rejected) {
+			return {
+				error: {
+					title: 'videoConference.waitingroom.errorPage.rejected.headline',
+					description:
+						'videoConference.waitingroom.errorPage.rejected.description'
+				}
+			};
+		}
+
+		return {};
+	}, [appointment, isModerator, rejected]);
 
 	if (!ready) {
 		return <Loading />;
@@ -151,25 +189,22 @@ const VideoConference = ({
 	if (
 		!appointment ||
 		!confirmed ||
+		rejected ||
 		(!isModerator() && appointment?.status !== STATUS_STARTED)
 	) {
 		// Appointment not exists
 		// DataProtection not confirmed
 		// Waiting for appointment to get started
 		return (
-			<WaitingRoom
-				confirmed={confirmed}
-				setConfirmed={setConfirmed}
-				status={appointment?.status}
-				legalLinks={legalLinks}
-				{...(!appointment
-					? {
-							error: isModerator()
-								? 'videoConference.waitingroom.errorPage.consultant.description'
-								: 'videoConference.waitingroom.errorPage.description'
-					  }
-					: {})}
-			/>
+			<div className="videoConference">
+				<WaitingRoom
+					confirmed={confirmed}
+					setConfirmed={setConfirmed}
+					status={appointment?.status}
+					legalLinks={legalLinks}
+					{...getError()}
+				/>
+			</div>
 		);
 	}
 

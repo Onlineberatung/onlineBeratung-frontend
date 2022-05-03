@@ -4,7 +4,7 @@ const videoCoference = {
 	'waitingroom.dataProtection.subline':
 		'Bitte bestätigen Sie unsere Datenschutzbestimmungen.',
 	'waitingroom.dataProtection.description':
-		'Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.',
+		'Danach dürfen unsere Berater_innen einen Video-Call mit Ihnen starten.',
 	'waitingroom.dataProtection.label':
 		'Ich habe die %legal_links% zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 	'waitingroom.dataProtection.label.and': 'und',
@@ -20,6 +20,9 @@ const videoCoference = {
 		'Zu Ihrem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde. Sollten Sie weiterhin Probleme haben fragen Sie bitte Ihre_n Berater_in.',
 	'waitingroom.errorPage.consultant.description':
 		'Zu Ihrem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde.',
+	'waitingroom.errorPage.rejected.headline': 'Sie wurden abgelehnt',
+	'waitingroom.errorPage.rejected.description':
+		'Leider können Sie an diesem Video-Call nicht teilnehmen, da Ihr_e Berater_in Sie abgelehnt hat.',
 	'waitingroom.errorPage.button': 'Neu laden'
 };
 
