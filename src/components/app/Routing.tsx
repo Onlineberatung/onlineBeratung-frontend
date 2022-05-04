@@ -22,7 +22,6 @@ import { history } from './app';
 import { NavigationBar } from './NavigationBar';
 import { Header } from '../header/Header';
 import { FinishedAnonymousConversationHandler } from './FinishedAnonymousConversationHandler';
-import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 import { ReleaseNote } from '../releaseNote/ReleaseNote';
 
 interface routingProps {
@@ -218,7 +217,6 @@ export const Routing = (props: routingProps) => {
 						AUTHORITIES.ANONYMOUS_DEFAULT,
 						userData
 					) && <FinishedAnonymousConversationHandler />}
-					<TwoFactorNag />
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,
 						userData
