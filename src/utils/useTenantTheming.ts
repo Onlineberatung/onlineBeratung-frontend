@@ -89,6 +89,12 @@ const adjustHSLColor = ({
 const injectCss = ({ primaryColor, secondaryColor }) => {
 	// make HSL colors over RGB from hex
 	const primaryHSL = hexToRGB(primaryColor);
+
+	// if secondaryColor is not hex, change it to null
+	if (!secondaryColor.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)) {
+		return (secondaryColor = null);
+	}
+
 	const secondaryHSL = hexToRGB(secondaryColor);
 	// The level AA WCAG scrore requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (at least 18pt) or bold text.
 	const contrastThreshold = 4.5;
