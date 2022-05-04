@@ -92,12 +92,7 @@ const twoFactorAuth = {
 		'wird die 2-Faktor-Authentifizierung deaktiviert.',
 	'switch.type.label': 'Ihr 2. Faktor',
 	'switch.type.EMAIL': 'E-Mail',
-	'switch.type.APP': 'App',
-	'nag.title': 'Schützen Sie Ihr Konto',
-	'nag.copy':
-		'Sichern Sie Ihr Konto vor einem möglichen unbefugtem Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung.',
-	'nag.button.later': 'Später erinnern',
-	'nag.button.protect': 'Jetzt schützen'
+	'switch.type.APP': 'App'
 };
 
 export default twoFactorAuth;
