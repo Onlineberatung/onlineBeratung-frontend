@@ -1,0 +1,15 @@
+{
+	"public": "build",
+	"cleanUrls": false,
+	"trailingSlash": false,
+	"rewrites": [
+		{ "source": "/error.401.html", "destination": "/error.401.html" },
+		{ "source": "/error.404.html", "destination": "/error.401.html" },
+		{ "source": "/error.500.html", "destination": "/error.401.html" },
+		{
+			"source": "/under-construction.html",
+			"destination": "/under-construction.html"
+		},
+		{ "source": "/**", "destination": "/beratung-hilfe.html" }
+	]
+}

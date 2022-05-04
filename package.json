@@ -27,6 +27,7 @@
 		"@typescript-eslint/parser": "^4.28.0",
 		"babel-eslint": "^10.1.0",
 		"babel-loader": "^8.2.3",
+		"babel-plugin-istanbul": "^6.1.1",
 		"babel-plugin-named-asset-import": "^0.3.8",
 		"babel-preset-react-app": "^10.0.1",
 		"bfj": "^7.0.2",
@@ -121,6 +122,7 @@
 		"@biotope/quality-gate": "^2.0.0-rc.5",
 		"@commitlint/cli": "13.0.0",
 		"@commitlint/config-conventional": "13.0.0",
+		"@cypress/code-coverage": "^3.9.12",
 		"@dtsgenerator/replace-namespace": "^1.5.1",
 		"@types/prettier": "^2.3.0",
 		"breakpoint-sass": "2.7.1",
@@ -149,8 +151,9 @@
 		"start": "node scripts/start.js",
 		"build": "node scripts/build.js",
 		"test": "cross-env BROWSER=none REACT_APP_UI_URL=http://localhost:9001 REACT_APP_API_URL=http://localhost:9001 HTTPS=0 PORT=9001 WDS_SOCKET_PORT=9001 concurrently --kill-others --success first \"node scripts/start.js\" \"wait-on http://localhost:9001 && cypress run\"",
+		"test:build": "cross-env BROWSER=none REACT_APP_UI_URL=http://localhost:9001 REACT_APP_API_URL=http://localhost:9001 concurrently --kill-others --success first \"npm run serve -- -p 9001\" \"wait-on http://localhost:9001 && cypress test\"",
 		"release": "standard-version",
-		"serve": "serve build",
+		"serve": "serve",
 		"lint": "npm run lint:scripts && npm run lint:style",
 		"lint:scripts": "eslint src && tsc",
 		"lint:style": "stylelint src/**/*.scss",
@@ -202,6 +205,9 @@
 	"babel": {
 		"presets": [
 			"react-app"
+		],
+		"plugins": [
+			"istanbul"
 		]
 	},
 	"config": {
