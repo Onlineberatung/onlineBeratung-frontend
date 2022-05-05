@@ -8,14 +8,10 @@ import {
 	AUTHORITIES,
 	ConsultingTypeInterface,
 	STATUS_ARCHIVED,
-	E2EEContext
+	E2EEContext,
+	SessionTypeContext
 } from '../../globalState';
-import {
-	SESSION_LIST_TYPES,
-	getChatItemForSession,
-	isSessionChat,
-	isGroupChat
-} from '../session/sessionHelpers';
+import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import { ForwardMessage } from './ForwardMessage';
 import { MessageMetaData } from './MessageMetaData';
 import { CopyMessage } from './CopyMessage';
@@ -118,6 +114,8 @@ export const MessageItemComponent = ({
 }: MessageItemComponentProps) => {
 	const activeSession = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
+	const { type } = useContext(SessionTypeContext);
+
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
 	const [renderedMessage, setRenderedMessage] = useState<string | null>(null);
 	const [decryptedMessage, setDecryptedMessage] = useState<string | null>(
@@ -158,12 +156,12 @@ export const MessageItemComponent = ({
 	}, [decryptedMessage]);
 
 	const hasRenderedMessage = renderedMessage && renderedMessage.length > 0;
-	const chatItem = getChatItemForSession(activeSession);
 
 	useEffect(() => {
 		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			const sessionData =
-				userData.consultingTypes[chatItem.consultingType]?.sessionData;
+				userData.consultingTypes[activeSession.item.consultingType]
+					?.sessionData;
 			setShowAddVoluntaryInfo(
 				!isVoluntaryInfoSet(sessionData, resortData)
 			);
@@ -206,7 +204,8 @@ export const MessageItemComponent = ({
 
 	const isUserMessage = () =>
 		userId === askerRcId ||
-		(isGroupChat(chatItem) && !chatItem.moderators?.includes(userId));
+		(activeSession.isGroup &&
+			!activeSession.item.moderators?.includes(userId));
 
 	const videoCallMessage: VideoCallMessageDTO = alias?.videoCallMessageDTO;
 	const isFurtherStepsMessage =
@@ -227,7 +226,7 @@ export const MessageItemComponent = ({
 			case isFurtherStepsMessage:
 				return (
 					<FurtherSteps
-						consultingType={chatItem.consultingType}
+						consultingType={activeSession.item.consultingType}
 						resortData={resortData}
 					/>
 				);
@@ -238,7 +237,7 @@ export const MessageItemComponent = ({
 						handleVoluntaryInfoSet={() =>
 							setShowAddVoluntaryInfo(false)
 						}
-						consultingType={chatItem.consultingType}
+						consultingType={activeSession.item.consultingType}
 						resortData={resortData}
 					/>
 				);
@@ -260,7 +259,7 @@ export const MessageItemComponent = ({
 							activeSession.consultant?.displayName ||
 							activeSession.consultant?.username
 						}
-						activeSessionAskerRcId={activeSession.session.askerRcId}
+						activeSessionAskerRcId={activeSession.item.askerRcId}
 					/>
 				);
 			default:
@@ -300,7 +299,7 @@ export const MessageItemComponent = ({
 										hasRenderedMessage={hasRenderedMessage}
 									/>
 								))}
-							{activeSession?.isFeedbackSession && (
+							{activeSession.isFeedback && (
 								<CopyMessage
 									right={isMyMessage}
 									message={renderedMessage}
@@ -311,18 +310,20 @@ export const MessageItemComponent = ({
 									AUTHORITIES.USE_FEEDBACK,
 									userData
 								) &&
-								activeSession?.type !==
-									SESSION_LIST_TYPES.ENQUIRY &&
-								isSessionChat(chatItem) &&
-								chatItem.feedbackGroupId &&
-								!activeSession?.isFeedbackSession &&
-								chatItem.status !== STATUS_ARCHIVED && (
+								type !== SESSION_LIST_TYPES.ENQUIRY &&
+								activeSession.isSession &&
+								activeSession.item.feedbackGroupId &&
+								!activeSession.isFeedback &&
+								activeSession.item.status !==
+									STATUS_ARCHIVED && (
 									<ForwardMessage
 										right={isMyMessage}
 										message={decryptedMessage}
 										messageTime={messageTime}
 										askerRcId={askerRcId}
-										groupId={chatItem.feedbackGroupId}
+										groupId={
+											activeSession.item.feedbackGroupId
+										}
 										displayName={displayName}
 									/>
 								)}

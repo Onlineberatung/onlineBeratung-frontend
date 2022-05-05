@@ -40,7 +40,7 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 	const { key, keyID, encrypted, sessionKeyExportedString } = useE2EE(
 		props.groupId
 	);
-	const { refresh, isE2eeEnabled } = useContext(E2EEContext);
+	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const encryptRoom = useCallback(
 		async (groupKeyID, sessionGroupKeyExportedString) => {
@@ -108,10 +108,9 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 				}
 
 				console.log('Start writing encrypted messages!');
-				refresh();
 			}
 		},
-		[refresh, props.groupId, encrypted, isE2eeEnabled]
+		[props.groupId, encrypted, isE2eeEnabled]
 	);
 
 	const forwardMessage = useCallback(async () => {

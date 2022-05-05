@@ -1,34 +1,55 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
-	UnreadSessionsStatusContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	ConsultingTypesContext
+	ConsultingTypesContext,
+	SessionsDataContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
-import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
-import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
-import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
-import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
-import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
 import clsx from 'clsx';
+import { RocketChatUnreadContext } from '../../globalState/provider/RocketChatUnreadProvider';
+import { apiFinishAnonymousConversation } from '../../api';
 
 export interface NavigationBarProps {
-	handleLogout: any;
+	onLogout: any;
 	routerConfig: any;
 }
 
-export const NavigationBar = (props: NavigationBarProps) => {
+export const NavigationBar = ({
+	onLogout,
+	routerConfig
+}: NavigationBarProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
-	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
-		UnreadSessionsStatusContext
-	);
+	const { sessions } = useContext(SessionsDataContext);
+
+	const sessionId = sessions?.[0]?.session?.id;
+
+	const {
+		sessions: unreadSessions,
+		group: unreadGroup
+		/*
+		livechat: unreadLivechat,
+		archiv: unreadArchiv,
+		feedback: unreadFeedback,
+		enquiry: unreadEnquiry
+		 */
+	} = useContext(RocketChatUnreadContext);
+
+	const handleLogout = useCallback(() => {
+		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
+			apiFinishAnonymousConversation(sessionId).catch((error) => {
+				console.error(error);
+			});
+		}
+		onLogout();
+	}, [onLogout, sessionId, userData]);
+
 	const location = useLocation();
 	const [animateNavIcon, setAnimateNavIcon] = useState(false);
 
@@ -36,34 +57,32 @@ export const NavigationBar = (props: NavigationBarProps) => {
 		initNavigationHandler();
 	}, []);
 
+	const animateNavIconTimeoutRef = useRef(null);
 	useEffect(() => {
-		if (
-			unreadSessionsStatus.newDirectMessage ||
-			(unreadSessionsStatus.mySessions > 0 &&
-				unreadSessionsStatus.initialAnimation)
-		) {
-			if (unreadSessionsStatus.initialAnimation) {
-				setUnreadSessionsStatus({
-					...unreadSessionsStatus,
-					initialAnimation: false
-				});
-			}
-			setAnimateNavIcon(true);
-			setTimeout(() => {
-				setAnimateNavIcon(false);
-			}, 1000);
+		if (animateNavIconTimeoutRef.current) {
+			return;
 		}
-	}, [unreadSessionsStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const pathsToShowUnreadMessageNotification = [
-		'/sessions/consultant/sessionView',
-		'/sessions/user/view'
-	];
+		if (unreadSessions.length + unreadGroup.length > 0) {
+			setAnimateNavIcon(true);
+		}
+
+		animateNavIconTimeoutRef.current = setTimeout(() => {
+			setAnimateNavIcon(false);
+			animateNavIconTimeoutRef.current = null;
+		}, 1000);
+	}, [unreadSessions, unreadGroup]);
+
+	const pathsToShowUnreadMessageNotification = {
+		'/sessions/consultant/sessionView':
+			unreadSessions.length + unreadGroup.length,
+		'/sessions/user/view': unreadSessions.length + unreadGroup.length
+	};
 
 	return (
 		<div className="navigation__wrapper">
 			<div className="navigation__itemContainer">
-				{props.routerConfig.navigation
+				{routerConfig.navigation
 					.filter(
 						(item: any) =>
 							!item.condition ||
@@ -73,38 +92,18 @@ export const NavigationBar = (props: NavigationBarProps) => {
 						<Link
 							key={index}
 							className={`navigation__item ${
-								location.pathname.indexOf(item.to) !== -1
-									? 'navigation__item--active'
-									: ''
+								location.pathname.indexOf(item.to) !== -1 &&
+								'navigation__item--active'
 							} ${
 								animateNavIcon &&
-								pathsToShowUnreadMessageNotification.includes(
-									item.to
-								)
-									? 'navigation__item__count--active'
-									: ''
+								Object.keys(
+									pathsToShowUnreadMessageNotification
+								).includes(item.to) &&
+								'navigation__item__count--active'
 							}`}
 							to={item.to}
 						>
-							{
-								{
-									'inbox': (
-										<InboxIcon className="navigation__icon" />
-									),
-									'speech-bubbles': (
-										<SpeechBubbleIcon className="navigation__icon" />
-									),
-									'speech-bubbles-team': (
-										<SpeechBubbleTeamIcon className="navigation__icon" />
-									),
-									'person': (
-										<PersonIcon className="navigation__icon" />
-									),
-									'calendar': (
-										<CalendarIcon className="navigation__icon" />
-									)
-								}[item.icon]
-							}
+							{item?.icon}
 							{(({ large }) => {
 								return (
 									<>
@@ -114,33 +113,19 @@ export const NavigationBar = (props: NavigationBarProps) => {
 									</>
 								);
 							})(item.titleKeys)}
-							{((to) => {
-								if (
-									pathsToShowUnreadMessageNotification.includes(
-										to
-									) &&
-									(unreadSessionsStatus.newDirectMessage ||
-										unreadSessionsStatus.mySessions > 0)
-								) {
-									return (
-										<span
-											className={`navigation__item__count ${
-												unreadSessionsStatus.resetedAnimations
-													? 'navigation__item__count--initial'
-													: `${
-															animateNavIcon
-																? 'navigation__item__count--reanimate'
-																: ''
-													  }`
-											}`}
-										></span>
-									);
-								}
-							})(item.to)}
+							{Object.keys(
+								pathsToShowUnreadMessageNotification
+							).includes(item.to) &&
+								pathsToShowUnreadMessageNotification[item.to] >
+									0 && (
+									<NavigationUnreadIndicator
+										animate={animateNavIcon}
+									/>
+								)}
 						</Link>
 					))}
 				<div
-					onClick={props.handleLogout}
+					onClick={handleLogout}
 					className={clsx(
 						'navigation__item navigation__item__logout',
 						{
@@ -159,5 +144,26 @@ export const NavigationBar = (props: NavigationBarProps) => {
 				</div>
 			</div>
 		</div>
+	);
+};
+
+const NavigationUnreadIndicator = ({ animate }: { animate: boolean }) => {
+	const [visible, setVisible] = useState(false);
+
+	useEffect(() => {
+		// After first render wait for initial animation
+		setTimeout(() => {
+			setVisible(true);
+		}, 1000);
+	}, []);
+
+	return (
+		<span
+			className={`navigation__item__count ${
+				!visible
+					? 'navigation__item__count--initial'
+					: `${animate && 'navigation__item__count--reanimate'}`
+			}`}
+		></span>
 	);
 };

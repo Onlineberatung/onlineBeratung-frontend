@@ -1,16 +1,19 @@
 import { UserDataInterface } from '../interfaces/UserDataInterface';
 import {
+	GroupChatItemInterface,
 	ListItemInterface,
 	REGISTRATION_TYPE_ANONYMOUS,
 	SESSION_DATA_KEY_ENQUIRIES,
 	SESSION_DATA_KEY_MY_SESSIONS,
 	SESSION_DATA_KEY_TEAM_SESSIONS,
-	SessionDataKeys,
 	SessionItemInterface,
-	SessionsDataInterface
+	STATUS_ARCHIVED,
+	STATUS_EMPTY,
+	STATUS_ENQUIRY
 } from '../interfaces/SessionsDataInterface';
 import {
 	CHAT_TYPE_GROUP_CHAT,
+	CHAT_TYPE_SINGLE_CHAT,
 	getChatItemForSession,
 	getChatTypeForListItem,
 	isSessionChat,
@@ -18,69 +21,89 @@ import {
 } from '../../components/session/sessionHelpers';
 import { translate } from '../../utils/translate';
 
-export type ActiveSessionType = ListItemInterface & {
-	type: SESSION_LIST_TYPES;
-	key: SessionDataKeys;
-	isFeedbackSession?: boolean;
+export type ExtendedSessionInterface = Omit<
+	ListItemInterface,
+	'session' | 'chat'
+> & {
+	item?: Partial<SessionItemInterface> & Partial<GroupChatItemInterface>;
+	rid: string;
+	type: typeof CHAT_TYPE_GROUP_CHAT | typeof CHAT_TYPE_SINGLE_CHAT;
+	isGroup?: boolean;
+	isSession?: boolean;
+	isLive?: boolean;
+	isFeedback?: boolean;
+	isEnquiry?: boolean;
+	isEmptyEnquiry?: boolean;
+	isArchive?: boolean;
 };
 
-export const getActiveSession = (
-	sessionGroupId?: string,
-	sessionsData?: SessionsDataInterface
-): ActiveSessionType | null => {
-	if (!sessionsData || !sessionGroupId) {
-		return null;
-	}
+export type ActiveSessionType = ListItemInterface & {
+	isGroup?: boolean;
+	isLive?: boolean;
+	isFeedback?: boolean;
+	isEnquiry?: boolean;
+	item?: () => SessionItemInterface | GroupChatItemInterface;
+};
 
-	const getTypeByKey = (key) => {
-		switch (key) {
-			case SESSION_DATA_KEY_ENQUIRIES:
-				return SESSION_LIST_TYPES.ENQUIRY;
-			case SESSION_DATA_KEY_MY_SESSIONS:
-				return SESSION_LIST_TYPES.MY_SESSION;
-			case SESSION_DATA_KEY_TEAM_SESSIONS:
-				return SESSION_LIST_TYPES.TEAMSESSION;
-		}
-		return null;
+export const buildExtendedSession = (
+	session: ListItemInterface,
+	sessionGroupId?: string
+): ExtendedSessionInterface => {
+	const { chat: groupChat, session: sessionChat, ...sessionProps } = session;
+	let rid = sessionChat?.groupId ?? null;
+
+	if (groupChat) {
+		rid = groupChat.groupId;
+	} else if (
+		sessionGroupId &&
+		sessionChat?.feedbackGroupId === sessionGroupId
+	) {
+		rid = sessionChat.feedbackGroupId;
+	}
+	return {
+		...sessionProps,
+		item: groupChat ?? sessionChat,
+		type: groupChat ? CHAT_TYPE_GROUP_CHAT : CHAT_TYPE_SINGLE_CHAT,
+		isGroup: !!groupChat,
+		isSession:
+			sessionChat &&
+			sessionChat?.registrationType !== REGISTRATION_TYPE_ANONYMOUS,
+		isFeedback:
+			sessionGroupId && sessionChat?.feedbackGroupId === sessionGroupId,
+		isLive: sessionChat?.registrationType === REGISTRATION_TYPE_ANONYMOUS,
+		isEnquiry:
+			sessionChat &&
+			[STATUS_EMPTY, STATUS_ENQUIRY].indexOf(sessionChat.status) >= 0,
+		isEmptyEnquiry: sessionChat && sessionChat.status === STATUS_EMPTY,
+		isArchive: sessionChat && sessionChat.status === STATUS_ARCHIVED,
+		rid
 	};
+};
 
-	for (const key in sessionsData) {
-		if (sessionsData.hasOwnProperty(key)) {
-			sessionsData[key] = sessionsData[key].map(
-				(value: ListItemInterface): ActiveSessionType => ({
-					...value,
-					type: getTypeByKey(key),
-					key: key as SessionDataKeys
-				})
-			);
-		}
+export const getExtendedSession = (
+	sessionGroupId?: string,
+	sessions?: ListItemInterface[]
+): ExtendedSessionInterface | null => {
+	if (!sessions || !sessionGroupId) {
+		return null;
 	}
 
-	const allSessions = Object.keys(sessionsData)
-		.map((e): ActiveSessionType[] => sessionsData[e])
-		.reduce((a, b) => [...a, ...b]);
-
-	const resultSession = allSessions.find((sessionItem) => {
+	const session: ListItemInterface = sessions.find((sessionItem) => {
 		const chatItem = getChatItemForSession(sessionItem);
 		return (
 			(chatItem.groupId && chatItem.groupId === sessionGroupId) ||
 			(isSessionChat(chatItem) &&
-				chatItem.feedbackGroupId &&
-				chatItem.feedbackGroupId === sessionGroupId) ||
-			(chatItem.id && chatItem.id.toString() === sessionGroupId)
+				chatItem?.feedbackGroupId === sessionGroupId) ||
+			chatItem?.id?.toString() === sessionGroupId
 		);
 	});
 
-	if (resultSession) {
-		const chatType = getChatTypeForListItem(resultSession);
-		if (chatType !== CHAT_TYPE_GROUP_CHAT) {
-			resultSession.isFeedbackSession =
-				resultSession.session.feedbackGroupId === sessionGroupId;
-		}
-		return resultSession;
+	// Extend the ActiveSessionType
+	if (!session) {
+		return null;
 	}
 
-	return null;
+	return buildExtendedSession(session, sessionGroupId);
 };
 
 export const getContact = (activeSession: ListItemInterface): any => {

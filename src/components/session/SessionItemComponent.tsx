@@ -11,14 +11,12 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import CryptoJS from 'crypto-js';
 import {
-	getChatItemForSession,
 	getTypeOfLocation,
 	getViewPathForType,
-	isGroupChatForSessionItem,
-	isMyMessage,
+	typeIsEnquiry,
 	scrollToEnd,
-	SESSION_LIST_TYPES,
-	typeIsEnquiry
+	isMyMessage,
+	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import {
 	MessageItem,
@@ -41,18 +39,14 @@ import {
 } from '../overlay/Overlay';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import {
-	AcceptedGroupIdContext,
 	AUTHORITIES,
 	ConsultingTypeInterface,
 	getContact,
 	hasUserAuthority,
-	isAnonymousSession,
 	LegalLinkInterface,
-	SessionItemInterface,
-	E2EEContext,
-	SessionsDataContext,
-	UpdateSessionListContext,
-	UserDataContext
+	UserDataContext,
+	SessionTypeContext,
+	E2EEContext
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
@@ -97,18 +91,12 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const activeSession = useContext(ActiveSessionContext);
-	let { sessionsData, setSessionsData } = useContext(SessionsDataContext);
 	const { userData } = useContext(UserDataContext);
+	const { type } = useContext(SessionTypeContext);
+
 	const [monitoringButtonVisible, setMonitoringButtonVisible] =
 		useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
-	const [currentGroupId, setCurrentGroupId] = useState(null);
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-	const chatItem = getChatItemForSession(
-		activeSession
-	) as SessionItemInterface;
-	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [initialScrollCompleted, setInitialScrollCompleted] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
@@ -120,7 +108,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const dragCancelRef = useRef<NodeJS.Timeout>();
 	const [newMessages, setNewMessages] = useState(0);
 	const [headerRef, headerBounds] = useMeasure();
-	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
@@ -132,7 +119,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	/* E2EE */
 	const { encrypted, key, keyID, sessionKeyExportedString } =
 		useE2EE(groupIdFromParam);
-	const { refresh, isE2eeEnabled } = useContext(E2EEContext);
+	const { isE2eeEnabled } = useContext(E2EEContext);
 	const [groupKey, setGroupKey] = useState(null);
 	const [groupKeyID, setGroupKeyID] = useState(null);
 	const [sessionGroupKeyExportedString, setSessionGroupKeyExportedString] =
@@ -232,13 +219,11 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			}
 
 			console.log('Start writing encrypted messages!');
-			refresh();
 		}
 	}, [
 		encrypted,
 		groupIdFromParam,
 		groupKeyID,
-		refresh,
 		sessionGroupKeyExportedString,
 		isE2eeEnabled
 	]);
@@ -326,7 +311,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	useEffect(() => {
 		let isCanceled = false;
 		apiGetConsultingType({
-			consultingTypeId: chatItem?.consultingType
+			consultingTypeId: activeSession.item.consultingType
 		}).then((response) => {
 			if (isCanceled) return;
 			setResortData(response);
@@ -334,21 +319,21 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		return () => {
 			isCanceled = true;
 		};
-	}, [chatItem?.consultingType]);
+	}, [activeSession.item.consultingType]);
 
 	const getPlaceholder = () => {
-		if (isGroupChat) {
+		if (activeSession.isGroup) {
 			return translate('enquiry.write.input.placeholder.groupChat');
 		} else if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			return translate('enquiry.write.input.placeholder');
 		} else if (
 			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
-			activeSession.isFeedbackSession
+			activeSession.isFeedback
 		) {
 			return translate('enquiry.write.input.placeholder.feedback.main');
 		} else if (
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-			activeSession.isFeedbackSession
+			activeSession.isFeedback
 		) {
 			return translate('enquiry.write.input.placeholder.feedback.peer');
 		} else if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
@@ -366,7 +351,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		apiEnquiryAcceptance(sessionId, isAnonymousEnquiry)
 			.then(() => {
 				setOverlayItem(enquirySuccessfullyAcceptedOverlayItem);
-				setCurrentGroupId(sessionGroupId);
 			})
 			.catch((error) => {
 				if (error.message === FETCH_ERRORS.CONFLICT) {
@@ -382,13 +366,13 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			case OVERLAY_FUNCTIONS.REDIRECT:
 				setOverlayItem(null);
 				setIsRequestInProgress(false);
-				setAcceptedGroupId(currentGroupId);
-				setSessionsData({ ...sessionsData, enquiries: [] });
+				//setAcceptedGroupId(currentGroupId);
+				//setSessionsData({ ...sessionsData, enquiries: [] });
 				history.push(`/sessions/consultant/sessionView/`);
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayItem(null);
-				setUpdateSessionList(SESSION_LIST_TYPES.ENQUIRY);
+				//setUpdateSessionList(SESSION_LIST_TYPES.ENQUIRY);
 				history.push(
 					`/sessions/consultant/sessionPreview${getSessionListTab()}`
 				);
@@ -450,7 +434,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	};
 
-	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
+	const isOnlyEnquiry = type === SESSION_LIST_TYPES.ENQUIRY;
 
 	const buttonItem: ButtonItem = {
 		label: isAnonymousEnquiry
@@ -530,7 +514,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	return (
 		<div
 			className={
-				activeSession.isFeedbackSession
+				activeSession.isFeedback
 					? `session session--yellowTheme`
 					: `session`
 			}
@@ -571,7 +555,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 										clientName={
 											getContact(activeSession).username
 										}
-										askerRcId={chatItem.askerRcId}
+										askerRcId={activeSession.item.askerRcId}
 										type={getTypeOfLocation()}
 										isOnlyEnquiry={isOnlyEnquiry}
 										isMyMessage={isMyMessage(
@@ -624,17 +608,17 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				</div>
 			)}
 
-			{chatItem.monitoring &&
+			{activeSession.item.monitoring &&
 				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				!activeSession.isFeedbackSession &&
-				!typeIsEnquiry(getTypeOfLocation()) &&
+				(activeSession.isGroup || !activeSession.isFeedback) &&
+				type !== SESSION_LIST_TYPES.ENQUIRY &&
 				monitoringButtonVisible &&
-				!isLiveChat && (
+				!activeSession.isLive && (
 					<Link
 						to={`/sessions/consultant/${getViewPathForType(
 							getTypeOfLocation()
-						)}/${chatItem.groupId}/${
-							chatItem.id
+						)}/${activeSession.item.groupId}/${
+							activeSession.item.id
 						}/userProfile/monitoring${getSessionListTab()}`}
 					>
 						<div className="monitoringButton">
@@ -645,7 +629,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 			{typeIsEnquiry(getTypeOfLocation()) ? (
 				<div className="session__acceptance messageItem">
-					{!isLiveChat &&
+					{!activeSession.isLive &&
 					hasUserAuthority(
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 						userData
@@ -655,7 +639,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						<Button
 							item={buttonItem}
 							buttonHandle={() =>
-								handleButtonClick(chatItem.id, chatItem.groupId)
+								handleButtonClick(
+									activeSession.item.id,
+									activeSession.item.groupId
+								)
 							}
 						/>
 					)}
@@ -663,12 +650,11 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			) : null}
 
 			{!isAnonymousEnquiry &&
-				(!typeIsEnquiry(getTypeOfLocation()) ||
-					(typeIsEnquiry(getTypeOfLocation()) &&
-						hasUserAuthority(
-							AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
-							userData
-						))) && (
+				(type !== SESSION_LIST_TYPES.ENQUIRY ||
+					hasUserAuthority(
+						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
+						userData
+					)) && (
 					<MessageSubmitInterfaceComponent
 						handleSendButton={handleSendButton}
 						isTyping={props.isTyping}

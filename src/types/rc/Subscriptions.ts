@@ -1,4 +1,7 @@
-export type SubscriptionType = {
+import { IUser } from './User';
+
+export interface ISubscriptions {
+	_id: string;
 	E2EKey?: string;
 	t: 'd' | 'c' | 'p' | 'l';
 	ts: {
@@ -9,10 +12,7 @@ export type SubscriptionType = {
 	};
 	name: string;
 	rid: string;
-	u: {
-		_id: string;
-		username: string;
-	};
+	u: IUser;
 	open: boolean;
 	alert: boolean;
 	roles?: any;
@@ -23,7 +23,6 @@ export type SubscriptionType = {
 	_updatedAt: {
 		$date: number;
 	};
-	_id: string;
 	lr: {
 		$date: number;
 	};
@@ -33,4 +32,4 @@ export type SubscriptionType = {
 	userMentions: number;
 	groupMentions: number;
 	prid: string;
-};
+}

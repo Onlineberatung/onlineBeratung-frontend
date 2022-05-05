@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState, useCallback } from 'react';
 import {
 	Link,
 	Redirect,
@@ -9,14 +9,11 @@ import {
 } from 'react-router-dom';
 import {
 	UserDataContext,
-	GroupChatItemInterface,
-	getActiveSession,
 	SessionsDataContext,
-	ActiveSessionType,
-	UpdateSessionListContext
+	ExtendedSessionInterface,
+	getExtendedSession
 } from '../../globalState';
 import {
-	getChatItemForSession,
 	getSessionListPathForLocation,
 	isUserModerator
 } from '../session/sessionHelpers';
@@ -69,14 +66,10 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
-	const { sessionsData } = useContext(SessionsDataContext);
-	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
+	const { sessions, ready } = useContext(SessionsDataContext);
 	const [subscriberList, setSubscriberList] = useState(null);
 	const [activeSession, setActiveSession] =
-		useState<ActiveSessionType | null>(null);
-	const [chatItem, setChatItem] = useState<GroupChatItemInterface | null>(
-		null
-	);
+		useState<ExtendedSessionInterface | null>(null);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
@@ -100,20 +93,24 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 	}, [fromL]);
 
 	useEffect(() => {
-		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
-		const chatItem = getChatItemForSession(
-			activeSession
-		) as GroupChatItemInterface;
+		if (!ready) {
+			return;
+		}
+
+		const activeSession = getExtendedSession(groupIdFromParam, sessions);
+		if (!activeSession) {
+			// ToDo: Handle error
+			return;
+		}
 
 		setActiveSession(activeSession);
-		setChatItem(chatItem);
 
-		if (chatItem?.active) {
-			apiGetGroupMembers(chatItem.id)
+		if (activeSession.item.active) {
+			apiGetGroupMembers(activeSession.item.id)
 				.then((response) => {
 					const subscribers = response.members.map((member) => ({
 						isModerator: isUserModerator({
-							chatItem: activeSession.chat,
+							chatItem: activeSession.item,
 							rcUserId: member._id
 						}),
 						...member
@@ -123,7 +120,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 				.catch((error) => {
 					console.log('error', error);
 				});
-			apiGetGroupChatInfo(chatItem?.id).then((response) => {
+			apiGetGroupChatInfo(activeSession.item.id).then((response) => {
 				if (response.bannedUsers) {
 					const decryptedBannedUsers =
 						response.bannedUsers.map(decodeUsername);
@@ -133,7 +130,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 				}
 			});
 		}
-	}, [groupIdFromParam, sessionsData]);
+	}, [groupIdFromParam, ready, sessions]);
 
 	const handleStopGroupChatButton = () => {
 		setOverlayItem(stopGroupChatSecurityOverlayItem);
@@ -150,7 +147,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 			setOverlayItem({});
 			setIsRequestInProgress(false);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.STOP_GROUP_CHAT) {
-			apiPutGroupChat(chatItem.id, GROUP_CHAT_API.STOP)
+			apiPutGroupChat(activeSession.item.id, GROUP_CHAT_API.STOP)
 				.then(() => {
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
 				})
@@ -162,31 +159,34 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			setRedirectToSessionsList(true);
-			setUpdateSessionList(true);
+			//setUpdateSessionList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
 		}
 	};
 
-	const getDurationTranslation = () =>
-		durationSelectOptionsSet.filter(
-			(item) => parseInt(item.value) === chatItem.duration
-		)[0].label;
+	const getDurationTranslation = useCallback(
+		() =>
+			durationSelectOptionsSet.filter(
+				(item) => parseInt(item.value) === activeSession.item.duration
+			)[0].label,
+		[activeSession?.item.duration]
+	);
 
-	if (!chatItem) return null;
+	if (!activeSession) return null;
 
 	const preparedSettings: Array<{ label; value }> = [
 		{
 			label: translate('groupChat.info.settings.topic'),
-			value: chatItem.topic
+			value: activeSession.item.topic
 		},
 		{
 			label: translate('groupChat.info.settings.startDate'),
-			value: getGroupChatDate(chatItem, false, true)
+			value: getGroupChatDate(activeSession.item, false, true)
 		},
 		{
 			label: translate('groupChat.info.settings.startTime'),
-			value: getGroupChatDate(chatItem, false, false, true)
+			value: getGroupChatDate(activeSession.item, false, false, true)
 		},
 		{
 			label: translate('groupChat.info.settings.duration'),
@@ -194,7 +194,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 		},
 		{
 			label: translate('groupChat.info.settings.repetition'),
-			value: chatItem.repetitive
+			value: activeSession.item.repetitive
 				? translate('groupChat.info.settings.repetition.weekly')
 				: translate('groupChat.info.settings.repetition.single')
 		}
@@ -209,7 +209,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 	}
 
 	const isCurrentUserModerator = isUserModerator({
-		chatItem: activeSession?.chat,
+		chatItem: activeSession.item,
 		rcUserId: getValueFromCookie('rc_uid')
 	});
 
@@ -219,8 +219,8 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 				<div className="profile__header__wrapper">
 					<Link
 						to={`${getSessionListPathForLocation()}/${
-							chatItem.groupId
-						}/${chatItem.id}${getSessionListTab()}`}
+							activeSession.item.groupId
+						}/${activeSession.item.id}${getSessionListTab()}`}
 						className="profile__header__backButton"
 					>
 						<BackIcon />
@@ -231,7 +231,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 				</div>
 				<div className="profile__header__metaInfo">
 					<p className="profile__header__username profile__header__username--withBackButton">
-						{chatItem.topic}
+						{activeSession.item.topic}
 					</p>
 				</div>
 			</div>
@@ -239,13 +239,13 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 				<div className="profile__user">
 					<div className="profile__icon">
 						<GroupChatIcon className="profile__icon--chatInfo" />
-						{chatItem.active ? (
+						{activeSession.item.active ? (
 							<span className="profile__icon--active"></span>
 						) : null}
 					</div>
-					<h2>{chatItem.topic}</h2>
+					<h2>{activeSession.item.topic}</h2>
 				</div>
-				{chatItem.active && chatItem.subscribed ? (
+				{activeSession.item.active && activeSession.item.subscribed ? (
 					<div className="profile__innerWrapper__stopButton">
 						<Button
 							item={stopChatButtonSet}
@@ -295,8 +295,8 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 															subscriber._id
 														}
 														chatId={
-															activeSession?.chat
-																?.id
+															activeSession.item
+																.id
 														}
 														handleUserBan={(
 															username
@@ -351,14 +351,14 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 							</div>
 						))}
 						{isGroupChatOwner(activeSession, userData) &&
-						!chatItem.active ? (
+						!activeSession.item.active ? (
 							<Link
 								className="profile__innerWrapper__editButton"
 								to={{
 									pathname: `${getSessionListPathForLocation()}/${
-										chatItem.groupId
+										activeSession.item.groupId
 									}/${
-										chatItem.id
+										activeSession.item.id
 									}/editGroupChat${getSessionListTab()}`,
 									state: {
 										isEditMode: true,

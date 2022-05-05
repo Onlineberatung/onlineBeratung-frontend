@@ -7,6 +7,7 @@ import {
 	encryptForParticipant,
 	importGroupKey
 } from '../utils/encryptionHelpers';
+import { RocketChatSubscriptionsContext } from '../globalState/provider/RocketChatSubscriptionsProvider';
 
 export type e2eeParams = {
 	key?: CryptoKey;
@@ -20,11 +21,8 @@ export interface UseE2EEParams extends e2eeParams {
 }
 
 export const useE2EE = (rid: string): UseE2EEParams => {
-	const {
-		subscriptions,
-		rooms,
-		key: e2eePrivateKey
-	} = useContext(E2EEContext);
+	const { key: e2eePrivateKey } = useContext(E2EEContext);
+	const { subscriptions, rooms } = useContext(RocketChatSubscriptionsContext);
 	const [key, setKey] = useState(null);
 	const [keyID, setKeyID] = useState(null);
 	const [encrypted, setEncrypted] = useState(false);

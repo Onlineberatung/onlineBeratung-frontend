@@ -1,24 +1,19 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import { AskerInfoMonitoring } from './AskerInfoMonitoring';
 import {
-	typeIsSession,
-	typeIsTeamSession,
 	getSessionListPathForLocation,
-	typeIsEnquiry,
-	getTypeOfLocation,
-	isLiveChat,
-	isGroupChat,
-	getChatItemForSession
+	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import {
-	UserDataContext,
-	hasUserAuthority,
 	AUTHORITIES,
-	getActiveSession,
-	SessionsDataContext
+	getExtendedSession,
+	hasUserAuthority,
+	SessionsDataContext,
+	SessionTypeContext,
+	UserDataContext
 } from '../../globalState';
 import { Loading } from '../app/Loading';
 import { AskerInfoData } from './AskerInfoData';
@@ -33,45 +28,60 @@ export const AskerInfo = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
-	const { sessionsData } = useContext(SessionsDataContext);
+	const { sessions, ready } = useContext(SessionsDataContext);
+	const { type } = useContext(SessionTypeContext);
 
 	const [activeSession, setActiveSession] = useState(null);
-	const [chatItem, setChatItem] = useState(null);
 	const [isPeerChat, setIsPeerChat] = useState(false);
 
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
-	const sessionListType = getTypeOfLocation();
 
 	useEffect(() => {
-		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
-		setActiveSession(activeSession);
-		setChatItem(getChatItemForSession(activeSession));
-		setIsPeerChat(activeSession?.session?.isPeerChat);
-	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
+		if (!ready) {
+			return;
+		}
 
-	const isSessionAssignAvailable = () =>
-		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-		!isLiveChat(chatItem) &&
-		!isGroupChat(chatItem) &&
-		((typeIsEnquiry(sessionListType) &&
-			hasUserAuthority(
-				AUTHORITIES.ASSIGN_CONSULTANT_TO_ENQUIRY,
-				userData
-			) &&
-			isPeerChat) ||
-			(!typeIsEnquiry(sessionListType) &&
-				((isPeerChat &&
-					hasUserAuthority(
-						AUTHORITIES.ASSIGN_CONSULTANT_TO_PEER_SESSION,
-						userData
-					)) ||
-					(!isPeerChat &&
+		const activeSession = getExtendedSession(groupIdFromParam, sessions);
+		if (!activeSession) {
+			// ToDo: Handle error
+			return;
+		}
+		setActiveSession(activeSession);
+		setIsPeerChat(activeSession.item.isPeerChat);
+	}, [groupIdFromParam, ready, sessions]);
+
+	const isSessionAssignAvailable = useCallback(
+		() =>
+			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+			!activeSession.isLive &&
+			!activeSession.isGroup &&
+			((type === SESSION_LIST_TYPES.ENQUIRY &&
+				hasUserAuthority(
+					AUTHORITIES.ASSIGN_CONSULTANT_TO_ENQUIRY,
+					userData
+				) &&
+				isPeerChat) ||
+				(type !== SESSION_LIST_TYPES.ENQUIRY &&
+					((isPeerChat &&
 						hasUserAuthority(
-							AUTHORITIES.ASSIGN_CONSULTANT_TO_SESSION,
+							AUTHORITIES.ASSIGN_CONSULTANT_TO_PEER_SESSION,
 							userData
-						)))));
+						)) ||
+						(!isPeerChat &&
+							hasUserAuthority(
+								AUTHORITIES.ASSIGN_CONSULTANT_TO_SESSION,
+								userData
+							))))),
+		[
+			activeSession.isGroup,
+			activeSession.isLive,
+			isPeerChat,
+			type,
+			userData
+		]
+	);
 
 	if (!activeSession) {
 		return <Loading></Loading>;
@@ -84,8 +94,8 @@ export const AskerInfo = () => {
 					<div className="profile__header__wrapper">
 						<Link
 							to={`${getSessionListPathForLocation()}/${
-								activeSession.session.groupId
-							}/${activeSession.session.id}${
+								activeSession.item.groupId
+							}/${activeSession.item.id}${
 								sessionListTab
 									? `?sessionListTab=${sessionListTab}`
 									: ''
@@ -115,9 +125,9 @@ export const AskerInfo = () => {
 						<div>
 							<AskerInfoData />
 						</div>
-						{activeSession.session.monitoring &&
-							(typeIsSession(activeSession.type) ||
-								typeIsTeamSession(activeSession.type)) && (
+						{activeSession.item.monitoring &&
+							(type === SESSION_LIST_TYPES.MY_SESSION ||
+								type === SESSION_LIST_TYPES.TEAMSESSION) && (
 								<div>
 									<AskerInfoMonitoring />
 								</div>

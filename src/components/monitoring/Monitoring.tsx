@@ -13,8 +13,8 @@ import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left
 import './monitoring.styles';
 import '../profile/profile.styles';
 import {
-	ActiveSessionType,
-	getActiveSession,
+	ExtendedSessionInterface,
+	getExtendedSession,
 	SessionsDataContext
 } from '../../globalState';
 import { Loading } from '../app/Loading';
@@ -22,10 +22,10 @@ import { Loading } from '../app/Loading';
 export const Monitoring = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
-	const { sessionsData } = useContext(SessionsDataContext);
+	const { sessions, ready } = useContext(SessionsDataContext);
 
 	const [activeSession, setActiveSession] =
-		useState<ActiveSessionType | null>(null);
+		useState<ExtendedSessionInterface | null>(null);
 	const [resort, setResort] = useState(null);
 	const [accordionOpened, setAccordionOpened] = useState<any[]>([]);
 	const [monitoringData, setMonitoringData] = useState({});
@@ -36,22 +36,29 @@ export const Monitoring = () => {
 	let backLinkRef: React.RefObject<Link> = React.createRef();
 
 	useEffect(() => {
-		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
+		if (!ready) {
+			return;
+		}
+
+		const activeSession = getExtendedSession(groupIdFromParam, sessions);
+		if (!activeSession) {
+			// ToDo: Handle error
+			return;
+		}
+
 		setActiveSession(activeSession);
 		setResort(
-			activeSession?.session?.consultingType === 0
+			activeSession.item?.consultingType === 0
 				? 'monitoringAddiction'
 				: 'monitoringU25'
 		);
 
-		apiGetMonitoring(activeSession.session.id)
-			.then((monitoringData) => {
-				setMonitoringData(monitoringData);
-			})
+		apiGetMonitoring(activeSession.item.id)
+			.then(setMonitoringData)
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [groupIdFromParam, ready, sessions]);
 
 	const handleChange = (key, parentKey) => {
 		const checkObj = (obj, k, prevk) => {
@@ -104,7 +111,7 @@ export const Monitoring = () => {
 	};
 
 	const handleSubmit = () => {
-		apiUpdateMonitoring(activeSession.session.id, monitoringData)
+		apiUpdateMonitoring(activeSession.item.id, monitoringData)
 			.then((response) => {
 				backLinkRef.current.click();
 			})
@@ -226,8 +233,8 @@ export const Monitoring = () => {
 					<Link
 						ref={backLinkRef}
 						to={`${getSessionListPathForLocation()}/${
-							activeSession.session.groupId
-						}/${activeSession.session.id}/userProfile${
+							activeSession.item.groupId
+						}/${activeSession.item.id}/userProfile${
 							sessionListTab
 								? `?sessionListTab=${sessionListTab}`
 								: ''

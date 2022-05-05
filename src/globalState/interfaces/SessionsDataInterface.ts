@@ -21,7 +21,7 @@ export type SessionsDataInterface = {
 export interface ListItemInterface {
 	agency?: AgencyDataInterface;
 	consultant?: SessionConsultantInterface;
-	session?: SessionItemInterface | LiveChatInterface;
+	session?: SessionItemInterface;
 	chat?: GroupChatItemInterface;
 	user?: SessionUserInterface;
 	language?: string;
@@ -90,10 +90,6 @@ export interface SessionItemInterface {
 	videoCallMessageDTO: VideoCallMessageDTO;
 	language?: string;
 	isFeedbackSession: boolean;
-}
-
-export interface LiveChatInterface extends SessionItemInterface {
-	registrationType: registrationTypeAnonymous;
 }
 
 export interface GroupChatItemInterface {

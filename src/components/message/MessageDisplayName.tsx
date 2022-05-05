@@ -1,7 +1,4 @@
-import {
-	getChatItemForSession,
-	isUserModerator
-} from '../session/sessionHelpers';
+import { isUserModerator } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import * as React from 'react';
 import { useContext } from 'react';
@@ -29,7 +26,6 @@ interface MessageDisplayNameProps {
 
 export const MessageDisplayName = (props: MessageDisplayNameProps) => {
 	const activeSession = useContext(ActiveSessionContext);
-	const chatItem = getChatItemForSession(activeSession);
 
 	const forwardedLabel = () => {
 		const date = getPrettyDateFromMessageDate(
@@ -43,11 +39,11 @@ export const MessageDisplayName = (props: MessageDisplayNameProps) => {
 	};
 
 	const subscriberIsModerator = isUserModerator({
-		chatItem,
+		chatItem: activeSession.item,
 		rcUserId: props.userId
 	});
 	const currentUserIsModerator = isUserModerator({
-		chatItem,
+		chatItem: activeSession.item,
 		rcUserId: getValueFromCookie('rc_uid')
 	});
 
@@ -82,7 +78,7 @@ export const MessageDisplayName = (props: MessageDisplayNameProps) => {
 							<BanUser
 								userName={props.username}
 								rcUserId={props.userId}
-								chatId={activeSession?.chat?.id}
+								chatId={activeSession.item.id}
 							/>
 						</FlyoutMenu>
 					)}

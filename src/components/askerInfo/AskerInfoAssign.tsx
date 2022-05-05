@@ -4,8 +4,7 @@ import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES,
-	isAnonymousSession
+	AUTHORITIES
 } from '../../globalState';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import { Text } from '../text/Text';
@@ -13,11 +12,10 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 
 export const AskerInfoAssign = () => {
 	const activeSession = useContext(ActiveSessionContext);
-	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const { userData } = useContext(UserDataContext);
 
 	return (
-		!isLiveChat &&
+		!activeSession.isLive &&
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
 			<>
 				<Text

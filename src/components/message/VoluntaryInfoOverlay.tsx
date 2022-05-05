@@ -194,7 +194,7 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 			};
 
 			apiPutSessionData(
-				activeSession.session.id,
+				activeSession.item.id,
 				generatedRegistrationDataSet
 			)
 				.then(() => {

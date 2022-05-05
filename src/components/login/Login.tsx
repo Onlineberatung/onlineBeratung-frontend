@@ -49,7 +49,6 @@ import {
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import {
-	AcceptedGroupIdContext,
 	AUTHORITIES,
 	hasUserAuthority,
 	UserDataInterface
@@ -89,8 +88,6 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const [showLoginError, setShowLoginError] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
-
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
 	useEffect(() => {
 		setShowLoginError('');
@@ -215,12 +212,6 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 							return redirectToApp();
 						}
 
-						if (response.rcGroupId) {
-							setAcceptedGroupId(response.rcGroupId);
-						} else if (response.sessionId) {
-							setAcceptedGroupId(response.sessionId);
-						}
-
 						if (!response.rcGroupId || !response.sessionId) {
 							history.push(config.endpoints.userSessionsListView);
 							return;
@@ -235,7 +226,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					});
 			}
 		},
-		[consultantId, setAcceptedGroupId, validity]
+		[consultantId, validity]
 	);
 
 	const handleOverlayAction = useCallback(

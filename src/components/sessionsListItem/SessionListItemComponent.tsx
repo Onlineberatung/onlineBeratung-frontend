@@ -3,34 +3,24 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import {
-	MILLISECONDS_PER_SECOND,
 	convertISO8601ToMSSinceEpoch,
 	getPrettyDateFromMessageDate,
+	MILLISECONDS_PER_SECOND,
 	prettyPrintTimeDifference
 } from '../../utils/dateHelpers';
 import {
-	typeIsTeamSession,
-	getTypeOfLocation,
 	getSessionListPathForLocation,
-	typeIsEnquiry,
-	getChatItemForSession,
-	SESSION_LIST_TYPES,
-	isSessionChat,
-	isGroupChat,
-	isLiveChat
+	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import {
-	SessionsDataContext,
-	UserDataContext,
-	getSessionsDataKeyForSessionType,
-	hasUserAuthority,
 	AUTHORITIES,
-	useConsultingType,
-	getActiveSession,
+	ExtendedSessionInterface,
+	hasUserAuthority,
+	SessionTypeContext,
 	STATUS_FINISHED,
-	STATUS_EMPTY,
-	STATUS_ENQUIRY
+	useConsultingType,
+	UserDataContext
 } from '../../globalState';
 import { history } from '../app/app';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
@@ -46,12 +36,12 @@ import { useE2EE } from '../../hooks/useE2EE';
 
 interface SessionListItemProps {
 	type: SESSION_LIST_TYPES;
-	id: number;
+	session: ExtendedSessionInterface;
 	defaultLanguage: string;
 }
 
 export const SessionListItemComponent = ({
-	id,
+	session,
 	defaultLanguage
 }: SessionListItemProps) => {
 	const { sessionId, rcGroupId: groupIdFromParam } = useParams();
@@ -62,62 +52,42 @@ export const SessionListItemComponent = ({
 	);
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
-	const { sessionsData } = useContext(SessionsDataContext);
-	const [activeSession, setActiveSession] = useState(null);
 	const { userData } = useContext(UserDataContext);
-	const type = getTypeOfLocation();
+	const { type } = useContext(SessionTypeContext);
 
-	const currentSessionData = sessionsData[
-		getSessionsDataKeyForSessionType(type)
-	].find((session) => id === getChatItemForSession(session).id);
-	const listItem = getChatItemForSession(currentSessionData);
+	// Is List Item active
+	const isChatActive =
+		session.rid === groupIdFromParam ||
+		session.item.id === sessionIdFromParam;
 
-	const isFeedbackChat =
-		'feedbackGroupId' in listItem &&
-		listItem.feedbackGroupId === groupIdFromParam;
+	const language = session.item.language || defaultLanguage;
+	const consultingType = useConsultingType(session.item.consultingType);
 
-	const language =
-		(isSessionChat(listItem) && listItem?.language) || defaultLanguage;
-
-	const isLiveChatFinished = isSessionChat(listItem)
-		? listItem.status === STATUS_FINISHED
-		: false;
-	const consultingType = useConsultingType(listItem.consultingType);
-	const sessionConsultingType = useConsultingType(
-		currentSessionData.session?.consultingType
-	);
-
-	useEffect(() => {
-		setActiveSession(getActiveSession(groupIdFromParam, sessionsData));
-	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	const { key, keyID, encrypted } = useE2EE(listItem.groupId);
+	const { key, keyID, encrypted } = useE2EE(session.item.groupId);
 	const [plainTextLastMessage, setPlainTextLastMessage] = useState(null);
 
 	useEffect(() => {
-		if (!listItem.e2eLastMessage) {
+		if (!session.item.e2eLastMessage) {
 			return;
 		}
 		decryptText(
-			listItem.e2eLastMessage.msg,
+			session.item.e2eLastMessage.msg,
 			keyID,
 			key,
 			encrypted,
-			listItem.e2eLastMessage.t === 'e2e'
+			session.item.e2eLastMessage.t === 'e2e'
 		).then((message) => {
 			const rawMessageObject = markdownToDraft(message);
 			const contentStateMessage = convertFromRaw(rawMessageObject);
 			setPlainTextLastMessage(contentStateMessage.getPlainText());
 		});
-	}, [key, keyID, encrypted, listItem.groupId, listItem.e2eLastMessage]);
-
-	const isCurrentSessionNewEnquiry =
-		currentSessionData.session &&
-		currentSessionData.session.status === STATUS_EMPTY;
-
-	const isCurrentSessionFirstContactMessage =
-		currentSessionData.session &&
-		currentSessionData.session.status === STATUS_ENQUIRY;
+	}, [
+		key,
+		keyID,
+		encrypted,
+		session.item.groupId,
+		session.item.e2eLastMessage
+	]);
 
 	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
 	const isAnonymous = hasUserAuthority(
@@ -125,37 +95,33 @@ export const SessionListItemComponent = ({
 		userData
 	);
 
-	if (!sessionsData) {
-		return null;
-	}
-
-	if (!currentSessionData) {
+	if (!session) {
 		return null;
 	}
 
 	const handleOnClick = () => {
-		if (listItem.groupId && listItem.id) {
+		if (session.item.groupId && session.item.id) {
 			history.push(
-				`${getSessionListPathForLocation()}/${listItem.groupId}/${
-					listItem.id
+				`${getSessionListPathForLocation()}/${session.item.groupId}/${
+					session.item.id
 				}${getSessionListTab()}`
 			);
 		} else if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-			isCurrentSessionNewEnquiry
+			session.isEmptyEnquiry
 		) {
-			history.push(`/sessions/user/view/write/${listItem.id}`);
+			history.push(`/sessions/user/view/write/${session.item.id}`);
 		}
 	};
 
 	const iconVariant = () => {
-		if (isGroupChat(listItem)) {
+		if (session.isGroup) {
 			return LIST_ICONS.IS_GROUP_CHAT;
-		} else if (isLiveChat(listItem)) {
+		} else if (session.isLive) {
 			return LIST_ICONS.IS_LIVE_CHAT;
-		} else if (isCurrentSessionNewEnquiry) {
+		} else if (session.isEmptyEnquiry) {
 			return LIST_ICONS.IS_NEW_ENQUIRY;
-		} else if (listItem.messagesRead) {
+		} else if (session.item.messagesRead) {
 			return LIST_ICONS.IS_READ;
 		} else {
 			return LIST_ICONS.IS_UNREAD;
@@ -180,14 +146,15 @@ export const SessionListItemComponent = ({
 			  );
 	};
 
-	if (sessionConsultingType?.groupChat.isGroupChat) {
+	// Hide sessions if consultingType has been switched to group chat.
+	// ToDo: What is with vice versa?
+	if (session.isSession && consultingType?.groupChat.isGroupChat) {
 		return null;
 	}
 
-	if (isGroupChat(listItem)) {
+	if (session.isGroup) {
 		const isMyChat = () =>
-			currentSessionData.consultant &&
-			userData.userId === currentSessionData.consultant.id;
+			session.consultant && userData.userId === session.consultant.id;
 		const defaultSubjectText = isMyChat()
 			? translate('groupChat.listItem.subjectEmpty.self')
 			: translate('groupChat.listItem.subjectEmpty.other');
@@ -196,19 +163,15 @@ export const SessionListItemComponent = ({
 				onClick={handleOnClick}
 				className={clsx(
 					'sessionsListItem',
-					activeSession &&
-						activeSession.chat?.id === listItem.id &&
-						'sessionsListItem--active'
+					isChatActive && 'sessionsListItem--active'
 				)}
-				data-group-id={listItem.groupId ? listItem.groupId : ''}
+				data-group-id={session.rid ? session.rid : ''}
 				data-cy="session-list-item"
 			>
 				<div
 					className={clsx(
 						'sessionsListItem__content',
-						activeSession &&
-							activeSession.chat?.id === listItem.id &&
-							'sessionsListItem__content--active'
+						isChatActive && 'sessionsListItem__content--active'
 					)}
 				>
 					<div className="sessionsListItem__row">
@@ -216,7 +179,7 @@ export const SessionListItemComponent = ({
 							{consultingType.titles.default}
 						</div>
 						<div className="sessionsListItem__date">
-							{getGroupChatDate(listItem)}
+							{getGroupChatDate(session.item)}
 						</div>
 					</div>
 					<div className="sessionsListItem__row">
@@ -226,11 +189,11 @@ export const SessionListItemComponent = ({
 						<div
 							className={clsx(
 								'sessionsListItem__username',
-								listItem.messagesRead &&
+								session.item.messagesRead &&
 									'sessionsListItem__username--readLabel'
 							)}
 						>
-							{listItem.topic}
+							{session.item.topic}
 						</div>
 					</div>
 					<div className="sessionsListItem__row">
@@ -239,12 +202,12 @@ export const SessionListItemComponent = ({
 								? plainTextLastMessage
 								: defaultSubjectText}
 						</div>
-						{listItem.attachment && (
+						{session.item.attachment && (
 							<SessionListItemAttachment
-								attachment={listItem.attachment}
+								attachment={session.item.attachment}
 							/>
 						)}
-						{listItem.active && (
+						{session.item.active && (
 							<Tag
 								text={translate(
 									'groupChat.listItem.activeLabel'
@@ -259,24 +222,23 @@ export const SessionListItemComponent = ({
 	}
 
 	const feedbackPath = `${getSessionListPathForLocation()}/${
-		listItem.feedbackGroupId
-	}/${listItem.id}${getSessionListTab()}`;
+		session.item.feedbackGroupId
+	}/${session.item.id}${getSessionListTab()}`;
 
-	const hasConsultantData = !!currentSessionData.consultant;
+	const hasConsultantData = !!session.consultant;
 	let sessionTopic = '';
 
 	if (isAsker || isAnonymous) {
 		if (hasConsultantData) {
 			sessionTopic =
-				currentSessionData.consultant.displayName ||
-				currentSessionData.consultant.username;
-		} else if (isCurrentSessionNewEnquiry) {
+				session.consultant.displayName || session.consultant.username;
+		} else if (session.isEmptyEnquiry) {
 			sessionTopic = translate('sessionList.user.writeEnquiry');
 		} else {
 			sessionTopic = translate('sessionList.user.consultantUnknown');
 		}
 	} else {
-		sessionTopic = currentSessionData.user.username;
+		sessionTopic = session.user.username;
 	}
 
 	return (
@@ -284,43 +246,40 @@ export const SessionListItemComponent = ({
 			onClick={handleOnClick}
 			className={clsx(
 				`sessionsListItem`,
-				((activeSession &&
-					activeSession.session?.id === listItem?.id) ||
-					sessionIdFromParam === listItem.id) &&
-					`sessionsListItem--active`,
-				isFeedbackChat && 'sessionsListItem--yellowTheme'
+				isChatActive && `sessionsListItem--active`,
+				session.isFeedback && 'sessionsListItem--yellowTheme'
 			)}
-			data-group-id={listItem.groupId}
+			data-group-id={session.item.groupId}
 			data-cy="session-list-item"
 		>
 			<div className="sessionsListItem__content">
 				<div className="sessionsListItem__row">
-					{typeIsTeamSession(type) &&
+					{type === SESSION_LIST_TYPES.TEAMSESSION &&
 					hasUserAuthority(
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 						userData
 					) &&
-					currentSessionData.consultant ? (
+					session.consultant ? (
 						<div className="sessionsListItem__consultingType">
 							{translate('sessionList.user.peer')}:{' '}
-							{currentSessionData.consultant.firstName}{' '}
-							{currentSessionData.consultant.lastName}
+							{session.consultant.firstName}{' '}
+							{session.consultant.lastName}
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
 							{consultingType.titles.default}{' '}
-							{listItem.consultingType !== 1 &&
+							{session.item.consultingType !== 1 &&
 							!isAsker &&
-							!isLiveChat(listItem)
-								? '/ ' + listItem.postcode
+							!session.isLive
+								? '/ ' + session.item.postcode
 								: null}
 						</div>
 					)}
 					<div className="sessionsListItem__date">
 						{prettyPrintDate(
-							listItem.messageDate,
-							listItem.createDate,
-							isLiveChat(listItem)
+							session.item.messageDate,
+							session.item.createDate,
+							session.isLive
 						)}
 					</div>
 				</div>
@@ -331,7 +290,7 @@ export const SessionListItemComponent = ({
 					<div
 						className={clsx(
 							'sessionsListItem__username',
-							listItem.messagesRead &&
+							session.item.messagesRead &&
 								'sessionsListItem__username--readLabel'
 						)}
 					>
@@ -341,7 +300,9 @@ export const SessionListItemComponent = ({
 				<div className="sessionsListItem__row">
 					{plainTextLastMessage ? (
 						<div className="sessionsListItem__subject">
-							{isCurrentSessionFirstContactMessage && language ? (
+							{session.isEnquiry &&
+							!session.isEmptyEnquiry &&
+							language ? (
 								<>
 									<span>
 										{/* we need a &nbsp; here, to ensure correct spacing for long messages */}
@@ -354,43 +315,37 @@ export const SessionListItemComponent = ({
 							)}
 						</div>
 					) : (
-						(isCurrentSessionNewEnquiry ||
-							isLiveChat(listItem)) && <span />
+						(session.isEmptyEnquiry || session.isLive) && <span />
 					)}
-					{listItem.attachment && (
+					{session.item.attachment && (
 						<SessionListItemAttachment
-							attachment={listItem.attachment}
+							attachment={session.item.attachment}
 						/>
 					)}
-					{listItem.videoCallMessageDTO && (
+					{session.item.videoCallMessageDTO && (
 						<SessionListItemVideoCall
-							videoCallMessage={listItem.videoCallMessageDTO}
+							videoCallMessage={session.item.videoCallMessageDTO}
 							listItemUsername={
-								currentSessionData.user?.username ||
-								currentSessionData.consultant?.username
+								session.user?.username ||
+								session.consultant?.username
 							}
-							listItemAskerRcId={listItem.askerRcId}
+							listItemAskerRcId={session.item.askerRcId}
 						/>
 					)}
 					{!isAsker &&
-						!typeIsEnquiry(type) &&
-						!listItem.feedbackRead &&
-						!isLiveChat(listItem) &&
-						!(
-							activeSession &&
-							activeSession.isFeedbackSession &&
-							activeSession.session.feedbackGroupId ===
-								listItem.feedbackGroupId
-						) && (
+						type !== SESSION_LIST_TYPES.ENQUIRY &&
+						!session.isLive &&
+						!session.item.feedbackRead &&
+						!session.isFeedback && (
 							<Tag
 								color="yellow"
 								text={translate('chatFlyout.feedback')}
 								link={feedbackPath}
 							/>
 						)}
-					{isLiveChat(listItem) &&
-						!typeIsEnquiry(type) &&
-						!isLiveChatFinished && (
+					{session.isLive &&
+						session.item.status !== STATUS_FINISHED &&
+						type !== SESSION_LIST_TYPES.ENQUIRY && (
 							<Tag
 								text={translate(
 									'anonymous.listItem.activeLabel'

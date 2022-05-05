@@ -1,13 +1,15 @@
 import {
 	GroupChatItemInterface,
 	ListItemInterface,
-	LiveChatInterface,
 	REGISTRATION_TYPE_ANONYMOUS,
 	SESSION_DATA_KEY_ENQUIRIES,
 	SESSION_DATA_KEY_MY_SESSIONS,
 	SESSION_DATA_KEY_TEAM_SESSIONS,
 	SessionDataKeys,
-	SessionItemInterface
+	SessionItemInterface,
+	STATUS_ARCHIVED,
+	STATUS_EMPTY,
+	STATUS_ENQUIRY
 } from '../../globalState/interfaces/SessionsDataInterface';
 
 import { MessageItem } from '../message/MessageItemComponent';
@@ -36,6 +38,45 @@ export const CHAT_TYPES: ChatTypes[] = [
 	CHAT_TYPE_SINGLE_CHAT
 ];
 
+export const SESSION_TYPE_ENQUIRY = 'enquiry';
+export const SESSION_TYPE_LIVECHAT = 'livechat';
+export const SESSION_TYPE_ARCHIVED = 'archived';
+export const SESSION_TYPE_FEEDBACK = 'feedback';
+export const SESSION_TYPE_GROUP = 'group';
+export const SESSION_TYPE_SESSION = 'session';
+
+export type SESSION_TYPES =
+	| typeof SESSION_TYPE_LIVECHAT
+	| typeof SESSION_TYPE_ENQUIRY
+	| typeof SESSION_TYPE_ARCHIVED
+	| typeof SESSION_TYPE_FEEDBACK
+	| typeof SESSION_TYPE_GROUP
+	| typeof SESSION_TYPE_SESSION;
+
+export const getSessionType = (
+	session: ListItemInterface,
+	rid: string
+): SESSION_TYPES => {
+	const chatItem = getChatItemForSession(session);
+	switch (!isGroupChat(chatItem) && chatItem.status) {
+		case STATUS_ENQUIRY:
+		case STATUS_EMPTY:
+			if (isLiveChat(chatItem)) {
+				return SESSION_TYPE_LIVECHAT;
+			}
+			return SESSION_TYPE_ENQUIRY;
+		case STATUS_ARCHIVED:
+			return SESSION_TYPE_ARCHIVED;
+	}
+
+	if (!isGroupChat(chatItem) && chatItem?.feedbackGroupId === rid) {
+		return SESSION_TYPE_FEEDBACK;
+	} else if (isGroupChat(chatItem)) {
+		return SESSION_TYPE_GROUP;
+	}
+	return SESSION_TYPE_SESSION;
+};
+
 export const getSessionDataKeyForSessionListType = (
 	type: SESSION_LIST_TYPES
 ): SessionDataKeys => {
@@ -55,14 +96,14 @@ export const getChatTypeForListItem = (
 	listItem && listItem.chat ? CHAT_TYPE_GROUP_CHAT : CHAT_TYPE_SINGLE_CHAT;
 
 export const isSessionChat = (
-	chatItem: SessionItemInterface | GroupChatItemInterface | LiveChatInterface
-): chatItem is SessionItemInterface | LiveChatInterface => {
+	chatItem: SessionItemInterface | GroupChatItemInterface
+): chatItem is SessionItemInterface => {
 	return chatItem && 'feedbackGroupId' in chatItem;
 };
 
 export const isLiveChat = (
-	chatItem: SessionItemInterface | GroupChatItemInterface | LiveChatInterface
-): chatItem is LiveChatInterface => {
+	chatItem: SessionItemInterface | GroupChatItemInterface
+): chatItem is SessionItemInterface => {
 	return (
 		isSessionChat(chatItem) &&
 		chatItem.registrationType === REGISTRATION_TYPE_ANONYMOUS
@@ -70,26 +111,25 @@ export const isLiveChat = (
 };
 
 export const isGroupChat = (
-	chatItem: SessionItemInterface | GroupChatItemInterface | LiveChatInterface
+	chatItem: SessionItemInterface | GroupChatItemInterface
 ): chatItem is GroupChatItemInterface => {
-	return chatItem && !('feedbackGroupId' in chatItem);
+	return (
+		(chatItem as GroupChatItemInterface) && !('feedbackGroupId' in chatItem)
+	);
 };
 
 export const getChatItemForSession = (
 	sessionItem?: ListItemInterface
-): GroupChatItemInterface | SessionItemInterface | LiveChatInterface | null => {
+): GroupChatItemInterface | SessionItemInterface | null => {
 	if (!sessionItem) {
 		return null;
 	}
 	const chatType = getChatTypeForListItem(sessionItem);
-	return sessionItem[chatType];
+	if (chatType === CHAT_TYPE_GROUP_CHAT) {
+		return sessionItem[chatType] as GroupChatItemInterface;
+	}
+	return sessionItem[chatType] as SessionItemInterface;
 };
-
-export const isGroupChatForSessionItem = (sessionItem: ListItemInterface) => {
-	return getChatTypeForListItem(sessionItem) === CHAT_TYPE_GROUP_CHAT;
-};
-
-export const getGroupIdFromSessionItem = (item: any) => item.messages[0].rid;
 
 export const typeIsSession = (type: SESSION_LIST_TYPES) =>
 	type === SESSION_LIST_TYPES.MY_SESSION;
@@ -98,14 +138,15 @@ export const typeIsTeamSession = (type: SESSION_LIST_TYPES) =>
 export const typeIsEnquiry = (type: SESSION_LIST_TYPES) =>
 	type === SESSION_LIST_TYPES.ENQUIRY;
 
-export const SESSION_LIST_TAB = {
-	ANONYMOUS: 'anonymous',
-	REGISTERED: 'registered',
-	ARCHIVE: 'archive'
-};
+export const SESSION_LIST_TAB_ANONYMOUS = 'anonymous';
+export const SESSION_LIST_TAB_ARCHIVE = 'archive';
+
+export type SESSION_LIST_TAB =
+	| typeof SESSION_LIST_TAB_ANONYMOUS
+	| typeof SESSION_LIST_TAB_ARCHIVE;
 
 export const isAnonymousSessionListTab = (currentTab: string): boolean =>
-	currentTab === SESSION_LIST_TAB.ANONYMOUS;
+	currentTab === SESSION_LIST_TAB_ANONYMOUS;
 
 export const getViewPathForType = (type: SESSION_LIST_TYPES) => {
 	if (type === SESSION_LIST_TYPES.ENQUIRY) {

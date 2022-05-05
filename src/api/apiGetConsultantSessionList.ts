@@ -1,6 +1,7 @@
 import { config } from '../resources/scripts/config';
 import {
-	SESSION_LIST_TAB,
+	SESSION_LIST_TAB_ANONYMOUS,
+	SESSION_LIST_TAB_ARCHIVE,
 	SESSION_LIST_TYPES,
 	typeIsSession,
 	typeIsTeamSession
@@ -16,7 +17,7 @@ export const TIMEOUT: number = 10000;
 
 export interface ApiGetConsultantSessionListInterface {
 	type: SESSION_LIST_TYPES;
-	filter?: string;
+	filter?: typeof INITIAL_FILTER | typeof FILTER_FEEDBACK;
 	offset?: number;
 	sessionListTab?: string;
 	count?: number;
@@ -35,21 +36,21 @@ export const apiGetConsultantSessionList = async ({
 	let url: string;
 	if (isTeamSession) {
 		url = `${
-			sessionListTab === SESSION_LIST_TAB.ARCHIVE
-				? `${config.endpoints.teamSessionsBase}${SESSION_LIST_TAB.ARCHIVE}?`
+			sessionListTab === SESSION_LIST_TAB_ARCHIVE
+				? `${config.endpoints.teamSessionsBase}${SESSION_LIST_TAB_ARCHIVE}?`
 				: `${config.endpoints.consultantTeamSessions}`
 		}`;
 	} else if (!isTeamSession && typeIsSession(type)) {
 		url = `${
-			sessionListTab === SESSION_LIST_TAB.ARCHIVE
-				? `${config.endpoints.myMessagesBase}${SESSION_LIST_TAB.ARCHIVE}?`
+			sessionListTab === SESSION_LIST_TAB_ARCHIVE
+				? `${config.endpoints.myMessagesBase}${SESSION_LIST_TAB_ARCHIVE}?`
 				: `${config.endpoints.consultantSessions}`
 		}`;
 	} else {
 		url = `${config.endpoints.consultantEnquiriesBase}${
-			sessionListTab && sessionListTab === SESSION_LIST_TAB.ANONYMOUS
-				? `${SESSION_LIST_TAB.ANONYMOUS}`
-				: `${SESSION_LIST_TAB.REGISTERED}`
+			sessionListTab && sessionListTab === SESSION_LIST_TAB_ANONYMOUS
+				? `${SESSION_LIST_TAB_ANONYMOUS}`
+				: 'registered'
 		}?`;
 	}
 	url = url + `count=${count}&filter=${filter}&offset=${offset}`;

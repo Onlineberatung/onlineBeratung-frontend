@@ -16,11 +16,13 @@ import {
 import { BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
 import {
-	AcceptedGroupIdContext,
-	E2EEContext,
-	getActiveSession,
-	SessionsDataContext
+	SessionsDataContext,
+	buildExtendedSession,
+	getExtendedSession,
+	STATUS_EMPTY,
+	E2EEContext
 } from '../../globalState';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 import {
 	desktopView,
@@ -48,12 +50,12 @@ import {
 	ALIAS_MESSAGE_TYPES,
 	apiSendAliasMessage
 } from '../../api/apiSendAliasMessage';
+import { Loading } from '../app/Loading';
 
 export const WriteEnquiry: React.FC = () => {
 	const { sessionId: sessionIdFromParam } = useParams();
 
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-	const { sessionsData } = useContext(SessionsDataContext);
+	const { sessions, ready } = useContext(SessionsDataContext);
 	const fixedLanguages = useContext(FixedLanguagesContext);
 
 	const [activeSession, setActiveSession] = useState(null);
@@ -61,8 +63,10 @@ export const WriteEnquiry: React.FC = () => {
 	const [sessionId, setSessionId] = useState<number | null>(null);
 	const [groupId, setGroupId] = useState<string | null>(null);
 	const [selectedLanguage, setSelectedLanguage] = useState(fixedLanguages[0]);
+	const [isFirstEnquiry, setIsFirstEnquiry] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
-	const { refresh, isE2eeEnabled } = useContext(E2EEContext);
+	const { isE2eeEnabled } = useContext(E2EEContext);
 	const [keyID, setKeyID] = useState(null);
 	const [key, setKey] = useState(null);
 	const [sessionKeyExportedString, setSessionKeyExportedString] =
@@ -82,16 +86,34 @@ export const WriteEnquiry: React.FC = () => {
 	}, [isE2eeEnabled]);
 
 	useEffect(() => {
-		const activeSession = getActiveSession(
-			sessionIdFromParam,
-			sessionsData
-		);
+		if (!ready) {
+			return;
+		}
+
+		let activeSession;
+		if (
+			!sessionIdFromParam &&
+			sessions.length === 1 &&
+			sessions[0]?.session?.status === STATUS_EMPTY
+		) {
+			setIsFirstEnquiry(true);
+			activeSession = buildExtendedSession(sessions[0]);
+		} else {
+			activeSession = getExtendedSession(sessionIdFromParam, sessions);
+		}
+
+		if (!activeSession) {
+			// ToDo: Handle error
+			return;
+		}
+
 		setActiveSession(activeSession);
-	}, [sessionIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
+		setIsLoading(false);
+	}, [ready, sessionIdFromParam, sessions]);
 
 	const { fromL } = useResponsive();
 	useEffect(() => {
-		if (sessionIdFromParam) {
+		if (!isFirstEnquiry) {
 			if (!fromL) {
 				mobileDetailView();
 				return () => {
@@ -102,12 +124,11 @@ export const WriteEnquiry: React.FC = () => {
 		} else {
 			deactivateListView();
 		}
-	}, [fromL, sessionIdFromParam]);
+	}, [fromL, isFirstEnquiry]);
 
 	const handleOverlayAction = (buttonFunction: string): void => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			activateListView();
-			setAcceptedGroupId(groupId);
 			history.push({
 				pathname: `${config.endpoints.userSessionsListView}/${groupId}/${sessionId}`
 			});
@@ -232,19 +253,22 @@ export const WriteEnquiry: React.FC = () => {
 				}
 
 				console.log('Start writing encrypted messages!');
-				refresh();
 			}
 
 			setSessionId(response.sessionId);
 			setGroupId(response.rcGroupId);
 			setOverlayActive(true);
 		},
-		[keyID, refresh, sessionKeyExportedString, isE2eeEnabled]
+		[keyID, sessionKeyExportedString, isE2eeEnabled]
 	);
 
 	const isUnassignedSession =
 		(activeSession && !activeSession?.consultant) ||
-		(!activeSession && !sessionsData?.mySessions?.[0]?.consultant);
+		(!activeSession && !sessions?.[0]?.consultant);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<div className="enquiry__wrapper">
@@ -278,28 +302,30 @@ export const WriteEnquiry: React.FC = () => {
 					/>
 				)}
 			</div>
-			<MessageSubmitInterfaceComponent
-				handleSendButton={handleSendButton}
-				placeholder={translate('enquiry.write.input.placeholder')}
-				type={SESSION_LIST_TYPES.ENQUIRY}
-				sessionIdFromParam={sessionIdFromParam}
-				groupIdFromParam={null}
-				language={selectedLanguage}
-				E2EEParams={{
-					keyID: keyID,
-					key: key,
-					sessionKeyExportedString: sessionKeyExportedString,
-					encrypted: !!keyID
-				}}
-			/>
-			{overlayActive ? (
+			<ActiveSessionContext.Provider value={activeSession}>
+				<MessageSubmitInterfaceComponent
+					handleSendButton={handleSendButton}
+					placeholder={translate('enquiry.write.input.placeholder')}
+					type={SESSION_LIST_TYPES.ENQUIRY}
+					sessionIdFromParam={sessionIdFromParam}
+					groupIdFromParam={null}
+					language={selectedLanguage}
+					E2EEParams={{
+						keyID: keyID,
+						key: key,
+						sessionKeyExportedString: sessionKeyExportedString,
+						encrypted: !!keyID
+					}}
+				/>
+			</ActiveSessionContext.Provider>
+			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>
-			) : null}
+			)}
 		</div>
 	);
 };

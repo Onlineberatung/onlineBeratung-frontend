@@ -5,23 +5,30 @@ import {
 	typeIsSession,
 	typeIsTeamSession,
 	typeIsEnquiry,
-	getTypeOfLocation
+	SESSION_TYPES
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
 	AUTHORITIES,
-	hasUserAuthority
+	hasUserAuthority,
+	SessionTypeContext
 } from '../../globalState';
 import { SessionsList } from './SessionsList';
 import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 
-export const SessionsListWrapper: React.FC = () => {
-	const type = getTypeOfLocation();
+interface SessionsListWrapperProps {
+	sessionTypes: SESSION_TYPES;
+}
+
+export const SessionsListWrapper = ({
+	sessionTypes
+}: SessionsListWrapperProps) => {
 	const fixedLanguages = useContext(FixedLanguagesContext);
 	const { userData } = useContext(UserDataContext);
+	const { type } = useContext(SessionTypeContext);
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
@@ -43,7 +50,10 @@ export const SessionsListWrapper: React.FC = () => {
 						{translate('sessionList.user.headline')}
 					</h2>
 				</div>
-				<SessionsList defaultLanguage={fixedLanguages[0]} />
+				<SessionsList
+					defaultLanguage={fixedLanguages[0]}
+					sessionTypes={sessionTypes}
+				/>
 			</div>
 		);
 	}
@@ -101,7 +111,10 @@ export const SessionsListWrapper: React.FC = () => {
 					<div className="sessionMenuPlaceholder"></div>
 				)}
 			</div>
-			<SessionsList defaultLanguage={fixedLanguages[0]} />
+			<SessionsList
+				defaultLanguage={fixedLanguages[0]}
+				sessionTypes={sessionTypes}
+			/>
 		</div>
 	);
 };

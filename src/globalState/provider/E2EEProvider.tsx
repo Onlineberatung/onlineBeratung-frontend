@@ -1,39 +1,30 @@
 import * as React from 'react';
-import { createContext, useState, useEffect, useCallback } from 'react';
+import {
+	createContext,
+	useState,
+	useEffect,
+	useCallback,
+	useContext
+} from 'react';
 import { importRSAKey } from '../../utils/encryptionHelpers';
-import { apiRocketChatSubscriptionsGet } from '../../api/apiRocketChatSubscriptionsGet';
-import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
-import { SubscriptionType } from '../../types/rc/SubscriptionType';
-
-type RoomE2EDataType = {
-	key?: CryptoKey;
-	keyID?: string;
-	sessionKeyExportedString?: string;
-};
-
-type DecryptedSubscriptionType = SubscriptionType & {
-	E2EKeyDecrypted?: RoomE2EDataType;
-};
+import {
+	RocketChatPublicSettingsContext,
+	SETTING_E2E_ENABLE
+} from './RocketChatPublicSettingsProvider';
 
 interface E2EEContextProps {
 	key: string;
-	subscriptions: SubscriptionType[];
-	rooms: any[];
-	refresh: () => void;
 	reloadPrivateKey: () => void;
 	isE2eeEnabled: boolean;
-	setIsE2eeEnabled: (isE2eeEnabled: boolean) => void;
 }
 
 export const E2EEContext = createContext<E2EEContextProps>(null);
 
 export function E2EEProvider(props) {
 	const [key, setKey] = useState(null);
-	const [subscriptions, setSubscriptions] = useState<
-		DecryptedSubscriptionType[]
-	>([]);
-	const [rooms, setRooms] = useState<any[]>([]);
 	const [isE2eeEnabled, setIsE2eeEnabled] = useState(false);
+
+	const { getSetting } = useContext(RocketChatPublicSettingsContext);
 
 	const reloadPrivateKey = useCallback(() => {
 		const privateKey = sessionStorage.getItem('private_key');
@@ -47,39 +38,12 @@ export function E2EEProvider(props) {
 		reloadPrivateKey();
 	}, [reloadPrivateKey]);
 
-	// ToDo: Refresh could later be replace by socket event subscription changed
-	// ToDo: Remember last update and use "since" parameter to get only changed rooms on refresh
-	const refresh = useCallback(() => {
-		apiRocketChatSubscriptionsGet().then(({ update }) => {
-			setSubscriptions(update);
-		});
-
-		apiRocketChatRoomsGet().then(({ update }) => {
-			setRooms(update);
-		});
-	}, []);
-
 	useEffect(() => {
-		refresh();
-	}, [refresh]);
-
-	useEffect(() => {
-		// TODO get setting from RC Socket
-		setIsE2eeEnabled(true);
-	}, []);
+		setIsE2eeEnabled(!!getSetting(SETTING_E2E_ENABLE)?.value);
+	}, [getSetting]);
 
 	return (
-		<E2EEContext.Provider
-			value={{
-				isE2eeEnabled,
-				setIsE2eeEnabled,
-				key,
-				subscriptions,
-				rooms,
-				refresh,
-				reloadPrivateKey
-			}}
-		>
+		<E2EEContext.Provider value={{ key, reloadPrivateKey, isE2eeEnabled }}>
 			{props.children}
 		</E2EEContext.Provider>
 	);

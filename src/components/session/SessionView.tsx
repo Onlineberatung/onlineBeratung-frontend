@@ -12,21 +12,17 @@ import { useLocation, useParams } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
-	AcceptedGroupIdContext,
-	FilterStatusContext,
-	getActiveSession,
-	REGISTRATION_TYPE_ANONYMOUS,
-	SessionsDataContext,
-	SessionsDataInterface,
-	STATUS_ENQUIRY,
-	STATUS_FINISHED,
-	UnreadSessionsStatusContext,
-	UPDATE_SESSION_CHAT_ITEM,
-	UpdateSessionListContext,
-	UserDataContext,
-	hasUserAuthority,
 	AUTHORITIES,
+	ExtendedSessionInterface,
+	getExtendedSession,
+	hasUserAuthority,
 	LegalLinkInterface,
+	REGISTRATION_TYPE_ANONYMOUS,
+	RocketChatContext,
+	SessionsDataContext,
+	SessionTypeContext,
+	STATUS_FINISHED,
+	UserDataContext,
 	E2EEContext
 } from '../../globalState';
 import {
@@ -37,22 +33,12 @@ import {
 import {
 	apiGetGroupChatInfo,
 	apiGetSessionData,
-	apiSetSessionRead,
-	FILTER_FEEDBACK,
-	rocketChatSocket,
-	SOCKET_COLLECTION
+	apiSetSessionRead
 } from '../../api';
 import {
-	getChatItemForSession,
-	getSessionDataKeyForSessionListType,
 	getSessionListPathForLocation,
-	getTypeOfLocation,
-	isGroupChat,
-	isLiveChat,
-	isSessionChat,
 	prepareMessages,
-	SESSION_LIST_TYPES,
-	typeIsEnquiry
+	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -72,6 +58,13 @@ import { decodeUsername } from '../../utils/encryptionHelpers';
 import { useResponsive } from '../../hooks/useResponsive';
 import './session.styles';
 import { useE2EE } from '../../hooks/useE2EE';
+import {
+	EVENT_SUBSCRIPTIONS_CHANGED,
+	SUB_STREAM_NOTIFY_USER,
+	SUB_STREAM_ROOM_MESSAGES
+} from '../app/RocketChat';
+import useUpdatingRef from '../../hooks/useUpdatingRef';
+import useDebounceCallback from '../../hooks/useDebounceCallback';
 
 interface RouterProps {
 	rcGroupId: string;
@@ -81,24 +74,18 @@ interface RouterProps {
 export const SessionView = (props: RouterProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
-	const { sessionsData, dispatchSessionsData } =
-		useContext(SessionsDataContext);
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
+	const { sessions, ready } = useContext(SessionsDataContext);
+	const { type } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
-	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
-		UnreadSessionsStatusContext
-	);
-	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
-	const { filterStatus } = useContext(FilterStatusContext);
+	const { subscribe, unsubscribe } = useContext(RocketChatContext);
 
-	const [activeSession, setActiveSession] = useState(null);
-	const [chatItem, setChatItem] = useState(null);
+	const [activeSession, setActiveSession] =
+		useState<ExtendedSessionInterface>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [readonly, setReadonly] = useState(true);
 	const [messagesItem, setMessagesItem] = useState(null);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
-	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [loadedMessages, setLoadedMessages] = useState(null);
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
 	const [forceBannedOverlay, setForceBannedOverlay] = useState(false);
@@ -107,60 +94,47 @@ export const SessionView = (props: RouterProps) => {
 	const { addNewUsersToEncryptedRoom } = useE2EE(groupIdFromParam);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
-	const type = getTypeOfLocation();
-
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
 	const displayName = userData.displayName || userData.userName;
 
-	const { subscribeTyping, handleTyping, typingUsers } = useTyping(
-		groupIdFromParam,
-		userData.userName,
-		displayName
-	);
+	const { subscribeTyping, unsubscribeTyping, handleTyping, typingUsers } =
+		useTyping(groupIdFromParam, userData.userName, displayName);
 
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
 
 	const fetchSessionMessages = useCallback(() => {
-		return apiGetSessionData(groupIdFromParam)
-			.then((messagesData) => {
-				setLoadedMessages(messagesData);
-			})
-			.catch((error) => null);
+		return apiGetSessionData(groupIdFromParam).then((messagesData) => {
+			setLoadedMessages(messagesData);
+		});
 	}, [groupIdFromParam]);
 
 	const checkMutedUserForThisSession = useCallback(() => {
-		if (sessionsData && groupIdFromParam) {
-			const activeSession = getActiveSession(
-				groupIdFromParam,
-				sessionsData
-			);
-			const chatItem = getChatItemForSession(activeSession);
-
-			if (chatItem && isGroupChat(chatItem)) {
-				apiGetGroupChatInfo(chatItem?.id)
-					.then((response) => {
-						if (response.bannedUsers) {
-							const decryptedBannedUsers =
-								response.bannedUsers.map(decodeUsername);
-							setBannedUsers(decryptedBannedUsers);
-							if (
-								decryptedBannedUsers.includes(userData.userName)
-							) {
-								setForceBannedOverlay(true);
-							}
-						} else {
-							setBannedUsers([]);
-						}
-					})
-					.catch(() => {
-						setBannedUsers([]);
-					});
-			}
+		if (!activeSession) {
+			return;
 		}
-	}, [groupIdFromParam, sessionsData, userData.userName]);
+
+		if (activeSession.isGroup) {
+			apiGetGroupChatInfo(activeSession.item.id)
+				.then((response) => {
+					if (response.bannedUsers) {
+						const decryptedBannedUsers =
+							response.bannedUsers.map(decodeUsername);
+						setBannedUsers(decryptedBannedUsers);
+						if (decryptedBannedUsers.includes(userData.userName)) {
+							setForceBannedOverlay(true);
+						}
+					} else {
+						setBannedUsers([]);
+					}
+				})
+				.catch(() => {
+					setBannedUsers([]);
+				});
+		}
+	}, [activeSession, userData.userName]);
 
 	useEffect(() => {
 		checkMutedUserForThisSession();
@@ -171,39 +145,40 @@ export const SessionView = (props: RouterProps) => {
 	 * every message gets marked but on every changed message we are loading all
 	 * messages. Maybe in future we will only update single message as it changes
 	 */
-	const roomMessageBounce = useRef(null);
 	const handleRoomMessage = useCallback(
-		async (message) => {
-			if (message && message.userMuted) {
-				checkMutedUserForThisSession();
-			}
-			if (message && message.userAdded) {
-				if (isE2eeEnabled) {
-					addNewUsersToEncryptedRoom();
-				}
-			}
-			if (roomMessageBounce.current) {
-				clearTimeout(roomMessageBounce.current);
-			}
-			roomMessageBounce.current = setTimeout(() => {
-				roomMessageBounce.current = null;
-				fetchSessionMessages().finally(() => {
-					// ToDo: Never update session list if filtered for feedback
-					// because api will not return read feedback messages currenlty
-					if (filterStatus !== FILTER_FEEDBACK) {
-						setUpdateSessionList(SESSION_LIST_TYPES.MY_SESSION);
+		(args) => {
+			if (args.length === 0) return;
+
+			args
+				// Map collected from debounce callback
+				.map(([[message]]) => message)
+				.filter(
+					(message) =>
+						message.u?.username !== 'rocket-chat-technical-user'
+				)
+				.forEach((message) => {
+					if (message.t === 'user-muted') {
+						checkMutedUserForThisSession();
+						return;
 					}
+					if (message.t === 'user-added' && isE2eeEnabled) {
+						addNewUsersToEncryptedRoom();
+					}
+
+					fetchSessionMessages().then();
 				});
-			}, 500);
 		},
+
 		[
 			fetchSessionMessages,
-			filterStatus,
-			setUpdateSessionList,
 			checkMutedUserForThisSession,
 			addNewUsersToEncryptedRoom,
 			isE2eeEnabled
 		]
+	);
+
+	const onDebounceMessage = useUpdatingRef(
+		useDebounceCallback(handleRoomMessage, 500, true)
 	);
 
 	const groupChatStoppedOverlay: OverlayItem = useMemo(
@@ -226,19 +201,28 @@ export const SessionView = (props: RouterProps) => {
 		[]
 	);
 
-	const handleGroupChatStopped = useCallback(
-		(hasUserInitiatedStopOrLeaveRequest) => () => {
-			// If the user has initiated the stop or leave request, he/she is already
-			// shown an appropriate overlay during the process via the SessionMenu component.
-			// Thus, there is no need for an additional notification.
-			if (hasUserInitiatedStopOrLeaveRequest.current) {
-				hasUserInitiatedStopOrLeaveRequest.current = false;
-			} else {
-				setOverlayItem(groupChatStoppedOverlay);
-				setIsOverlayActive(true);
-			}
-		},
-		[groupChatStoppedOverlay]
+	const handleGroupChatStopped = useUpdatingRef(
+		useCallback(
+			([event, subscription]) =>
+				() => {
+					console.log('Never exec');
+					if (
+						event === 'removed' &&
+						subscription.u._id === getValueFromCookie('rc_uid')
+					) {
+						// If the user has initiated the stop or leave request, he/she is already
+						// shown an appropriate overlay during the process via the SessionMenu component.
+						// Thus, there is no need for an additional notification.
+						if (hasUserInitiatedStopOrLeaveRequest.current) {
+							hasUserInitiatedStopOrLeaveRequest.current = false;
+						} else {
+							setOverlayItem(groupChatStoppedOverlay);
+							setIsOverlayActive(true);
+						}
+					}
+				},
+			[groupChatStoppedOverlay]
+		)
 	);
 
 	useEffect(
@@ -247,54 +231,23 @@ export const SessionView = (props: RouterProps) => {
 				return;
 			}
 
-			const chatItem = getChatItemForSession(activeSession);
 			const isLiveChatFinished =
-				isSessionChat(chatItem) && chatItem?.status === STATUS_FINISHED;
+				activeSession.isLive &&
+				activeSession.item.status === STATUS_FINISHED;
 
 			if (
-				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
-				!isLiveChatFinished
+				!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+				isLiveChatFinished
 			) {
-				const isCurrentSessionRead =
-					activeSession.isFeedbackSession && isSessionChat(chatItem)
-						? chatItem.feedbackRead
-						: chatItem.messagesRead;
+				return;
+			}
 
-				const groupId =
-					activeSession.isFeedbackSession && isSessionChat(chatItem)
-						? chatItem.feedbackGroupId
-						: chatItem.groupId;
+			const isCurrentSessionRead = activeSession.isFeedback
+				? activeSession.item.feedbackRead
+				: activeSession.item.messagesRead;
 
-				if (!isCurrentSessionRead) {
-					apiSetSessionRead(groupId).finally(() => {
-						if (filterStatus === FILTER_FEEDBACK) {
-							const key = activeSession?.isFeedbackSession
-								? 'feedbackRead'
-								: 'messagesRead';
-
-							dispatchSessionsData({
-								type: UPDATE_SESSION_CHAT_ITEM,
-								key: getSessionDataKeyForSessionListType(type),
-								groupId: chatItem.groupId,
-								data: {
-									[key]: true
-								} as SessionsDataInterface
-							});
-						} else {
-							setUpdateSessionList(true);
-						}
-					});
-
-					const newMySessionsCount = Math.max(
-						unreadSessionsStatus.mySessions - 1,
-						0
-					);
-					setUnreadSessionsStatus({
-						...unreadSessionsStatus,
-						mySessions: newMySessionsCount,
-						resetedAnimations: newMySessionsCount === 0
-					});
-				}
+			if (!isCurrentSessionRead) {
+				apiSetSessionRead(activeSession.rid).then();
 			}
 		},
 		[activeSession, readonly] // eslint-disable-line react-hooks/exhaustive-deps
@@ -303,47 +256,18 @@ export const SessionView = (props: RouterProps) => {
 	useEffect(() => {
 		// make sure that the active session has an active chat, user is subscribed and the id matches the url param
 		if (
-			activeSession?.chat?.active &&
-			activeSession?.chat?.subscribed &&
-			groupIdFromParam === activeSession?.chat?.groupId
+			activeSession?.item?.active &&
+			activeSession?.item?.subscribed &&
+			groupIdFromParam === activeSession?.item?.groupId
 		) {
 			addNewUsersToEncryptedRoom();
 		}
 	}, [groupIdFromParam, activeSession, addNewUsersToEncryptedRoom]);
 
-	const connectSocket = useCallback(
-		(isGroupOrLiveChat) => {
-			window['socket'].connect();
-
-			window['socket'].addSubscription(
-				SOCKET_COLLECTION.ROOM_MESSAGES,
-				[groupIdFromParam, false],
-				handleRoomMessage
-			);
-
-			if (isGroupOrLiveChat) {
-				subscribeTyping();
-
-				window['socket'].addSubscription(
-					SOCKET_COLLECTION.NOTIFY_USER,
-					[
-						getValueFromCookie('rc_uid') + '/subscriptions-changed',
-						false
-					],
-					handleGroupChatStopped
-				);
-			}
-		},
-		[
-			groupIdFromParam,
-			handleGroupChatStopped,
-			subscribeTyping,
-			handleRoomMessage
-		]
-	);
-
 	useEffect(() => {
+		setActiveSession(null);
 		setIsLoading(true);
+		setForceBannedOverlay(false);
 	}, [groupIdFromParam]);
 
 	const { fromL } = useResponsive();
@@ -358,33 +282,40 @@ export const SessionView = (props: RouterProps) => {
 	}, [fromL]);
 
 	useEffect(() => {
-		setAcceptedGroupId(null);
+		// Wait for session list to be loaded
+		if (!ready) {
+			return;
+		}
 
-		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
-		const chatItem = getChatItemForSession(activeSession);
+		// Check if current session view session could be found in session list
+		const activeSession = getExtendedSession(groupIdFromParam, sessions);
+		if (!activeSession) {
+			// Return to session list
+			history.push(
+				getSessionListPathForLocation() +
+					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+			);
+			return;
+		}
 
 		setActiveSession(activeSession);
-		setChatItem(chatItem);
-	}, [groupIdFromParam, sessionsData, setAcceptedGroupId]);
+	}, [groupIdFromParam, ready, sessionListTab, sessions]);
 
 	useEffect(() => {
-		setIsLoading(true);
-		setForceBannedOverlay(false);
-
-		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
-		const chatItem = getChatItemForSession(activeSession);
+		if (!activeSession) {
+			return;
+		}
 
 		const isConsultantEnquiry =
-			typeIsEnquiry(getTypeOfLocation()) &&
+			type === SESSION_LIST_TYPES.ENQUIRY &&
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 		const isEnquiry =
-			isSessionChat(chatItem) && chatItem?.status === STATUS_ENQUIRY;
+			activeSession.isEnquiry && !activeSession.isEmptyEnquiry;
 		const isCurrentAnonymousEnquiry =
 			isEnquiry &&
-			isSessionChat(chatItem) &&
-			chatItem?.registrationType === REGISTRATION_TYPE_ANONYMOUS;
+			activeSession.item.registrationType === REGISTRATION_TYPE_ANONYMOUS;
 
-		if (isGroupChat(chatItem) && !chatItem.subscribed) {
+		if (activeSession.isGroup && !activeSession.item.subscribed) {
 			setIsLoading(false);
 		} else if (isCurrentAnonymousEnquiry) {
 			setIsLoading(false);
@@ -395,21 +326,66 @@ export const SessionView = (props: RouterProps) => {
 			});
 		} else {
 			setReadonly(false);
-			window['socket'] = new rocketChatSocket();
 			fetchSessionMessages()
 				.then(() => {
-					connectSocket(
-						isGroupChat(chatItem) || isLiveChat(chatItem)
+					subscribe(
+						{
+							name: SUB_STREAM_ROOM_MESSAGES,
+							roomId: groupIdFromParam
+						},
+						onDebounceMessage
 					);
+
+					if (activeSession.isGroup || activeSession.isLive) {
+						subscribeTyping();
+						subscribe(
+							{
+								name: SUB_STREAM_NOTIFY_USER,
+								event: EVENT_SUBSCRIPTIONS_CHANGED,
+								userId: getValueFromCookie('rc_uid')
+							},
+							handleGroupChatStopped
+						);
+					}
 				})
 				.finally(() => {
 					setIsLoading(false);
 				});
 			return () => {
-				window['socket'].close();
+				unsubscribe(
+					{
+						name: SUB_STREAM_ROOM_MESSAGES,
+						roomId: groupIdFromParam
+					},
+					onDebounceMessage
+				);
+
+				if (activeSession.isGroup || activeSession.isLive) {
+					unsubscribeTyping();
+					unsubscribe(
+						{
+							name: SUB_STREAM_NOTIFY_USER,
+							event: EVENT_SUBSCRIPTIONS_CHANGED,
+							userId: getValueFromCookie('rc_uid')
+						},
+						handleGroupChatStopped
+					);
+				}
 			};
 		}
-	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [
+		activeSession,
+		fetchSessionMessages,
+		groupIdFromParam,
+		handleGroupChatStopped,
+		onDebounceMessage,
+		subscribe,
+		subscribeTyping,
+		type,
+		unsubscribe,
+		unsubscribeTyping,
+		userData
+	]);
 
 	useEffect(() => {
 		if (loadedMessages) {
@@ -420,8 +396,10 @@ export const SessionView = (props: RouterProps) => {
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
-			setUpdateSessionList(true);
-			setRedirectToSessionsList(true);
+			history.push(
+				getSessionListPathForLocation() +
+					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+			);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
 		}
@@ -431,35 +409,20 @@ export const SessionView = (props: RouterProps) => {
 		return <Loading />;
 	}
 
-	if (!sessionsData) return null;
-
-	if (!activeSession) {
-		history.push(getSessionListPathForLocation());
-		return null;
-	}
-
 	const currentUserIsBanned = bannedUsers.includes(userData.userName);
 
 	if (
-		isGroupChat(chatItem) &&
-		(!chatItem.subscribed || currentUserIsBanned)
+		activeSession.isGroup &&
+		(!activeSession.item.subscribed || currentUserIsBanned)
 	) {
 		return (
 			<ActiveSessionContext.Provider value={activeSession}>
 				<JoinGroupChatView
-					chatItem={chatItem}
 					forceBannedOverlay={forceBannedOverlay}
 					bannedUsers={bannedUsers}
 					legalLinks={props.legalLinks}
 				/>
 			</ActiveSessionContext.Provider>
-		);
-	}
-
-	if (redirectToSessionsList) {
-		history.push(
-			getSessionListPathForLocation() +
-				(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
 		);
 	}
 

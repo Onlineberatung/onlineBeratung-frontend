@@ -2,11 +2,7 @@ import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
-	getChatItemForSession,
 	getSessionListPathForLocation,
-	isGroupChat,
-	isLiveChat,
-	isSessionChat,
 	SESSION_LIST_TYPES,
 	typeIsEnquiry
 } from '../session/sessionHelpers';
@@ -19,8 +15,7 @@ import {
 	hasUserAuthority
 } from '../../globalState/helpers/stateHelpers';
 import {
-	AcceptedGroupIdContext,
-	SessionsDataContext,
+	SessionTypeContext,
 	STATUS_ARCHIVED,
 	STATUS_FINISHED,
 	E2EEContext
@@ -185,12 +180,12 @@ export const MessageSubmitInterfaceComponent = (
 	const attachmentInputRef = React.useRef<HTMLInputElement>(null);
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
-	const { sessionsData } = useContext(SessionsDataContext);
 	const activeSession = useContext(ActiveSessionContext);
-	const chatItem = getChatItemForSession(activeSession);
-	const isTypingActive = isGroupChat(chatItem) || isLiveChat(chatItem);
+	const { type } = useContext(SessionTypeContext);
+
+	const isTypingActive = activeSession.isGroup || activeSession.isLive;
 	const isLiveChatFinished =
-		isSessionChat(chatItem) && chatItem.status === STATUS_FINISHED;
+		activeSession.isLive && activeSession.item.status === STATUS_FINISHED;
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [draftLoaded, setDraftLoaded] = useState(false);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
@@ -208,8 +203,7 @@ export const MessageSubmitInterfaceComponent = (
 		currentDraftMessageRef.current,
 		SAVE_DRAFT_TIMEOUT
 	);
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-	const { refresh, isE2eeEnabled } = useContext(E2EEContext);
+	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -225,10 +219,9 @@ export const MessageSubmitInterfaceComponent = (
 
 	const isConsultantAbsent =
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-		activeSession?.consultant?.absent;
+		activeSession.consultant?.absent;
 
-	const isSessionArchived =
-		activeSession?.session?.status === STATUS_ARCHIVED;
+	const isSessionArchived = activeSession.item.status === STATUS_ARCHIVED;
 
 	useEffect(() => {
 		if (
@@ -268,7 +261,7 @@ export const MessageSubmitInterfaceComponent = (
 			.finally(() => {
 				setDraftLoaded(true);
 			});
-		refresh();
+
 		return () => {
 			if (currentDraftMessageRef.current && !isLiveChatFinished) {
 				const requestFeedbackCheckboxCallback = document.getElementById(
@@ -277,7 +270,7 @@ export const MessageSubmitInterfaceComponent = (
 				const groupId =
 					requestFeedbackCheckboxCallback &&
 					requestFeedbackCheckboxCallback.checked
-						? activeSession.session.feedbackGroupId
+						? activeSession.item.feedbackGroupId
 						: props.sessionIdFromParam || props.groupIdFromParam;
 
 				if (props.E2EEParams.encrypted) {
@@ -320,7 +313,7 @@ export const MessageSubmitInterfaceComponent = (
 		) {
 			const groupId =
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
-					? activeSession.session.feedbackGroupId
+					? activeSession.item.feedbackGroupId
 					: props.sessionIdFromParam || props.groupIdFromParam;
 			if (props.E2EEParams.encrypted) {
 				encryptText(
@@ -545,19 +538,21 @@ export const MessageSubmitInterfaceComponent = (
 		}
 
 		if (isSessionArchived) {
-			apiPutDearchive(chatItem.id)
+			apiPutDearchive(activeSession.item.id)
 				.then(() => {
 					sendMessage();
 					if (
 						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 					) {
-						mobileListView();
-						history.push(getSessionListPathForLocation());
 						if (window.innerWidth >= 900) {
-							setAcceptedGroupId(
-								props.sessionIdFromParam ||
-									props.groupIdFromParam
+							history.push(
+								`${getSessionListPathForLocation()}/${
+									activeSession.item.groupId
+								}/${activeSession.item.id}}`
 							);
+						} else {
+							mobileListView();
+							history.push(getSessionListPathForLocation());
 						}
 					}
 				})
@@ -597,14 +592,11 @@ export const MessageSubmitInterfaceComponent = (
 				: null;
 
 		if (
-			typeIsEnquiry(props.type) &&
+			type === SESSION_LIST_TYPES.ENQUIRY &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
-			const enquirySessionId = props.sessionIdFromParam
-				? props.sessionIdFromParam
-				: sessionsData.mySessions[0].session.id;
 			apiSendEnquiry(
-				enquirySessionId,
+				activeSession.item.id,
 				encryptedMessage,
 				unencryptedMessage,
 				props.language
@@ -618,13 +610,13 @@ export const MessageSubmitInterfaceComponent = (
 				});
 		} else {
 			const sendToFeedbackEndpoint =
-				activeSession?.isFeedbackSession ||
+				(!activeSession.isGroup && activeSession.isFeedback) ||
 				(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
 			const sendToRoomWithId = sendToFeedbackEndpoint
-				? activeSession?.session.feedbackGroupId
+				? activeSession.item.feedbackGroupId
 				: props.sessionIdFromParam || props.groupIdFromParam;
 			const getSendMailNotificationStatus = () =>
-				!isGroupChat(chatItem) && !isLiveChat(chatItem);
+				!activeSession.isGroup && !activeSession.isLive;
 
 			if (attachment) {
 				setAttachmentUpload(
@@ -822,8 +814,9 @@ export const MessageSubmitInterfaceComponent = (
 	const hasRequestFeedbackCheckbox =
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
 		!hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
-		activeSession.session.feedbackGroupId &&
-		!activeSession?.isFeedbackSession;
+		activeSession.item.feedbackGroupId &&
+		(activeSession.isGroup || !activeSession.isFeedback);
+
 	return (
 		<div
 			className={clsx(

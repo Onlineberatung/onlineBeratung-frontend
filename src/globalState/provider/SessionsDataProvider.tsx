@@ -1,88 +1,111 @@
 import * as React from 'react';
 import { createContext, Dispatch, useReducer } from 'react';
-import update from 'immutability-helper';
-import {
-	GroupChatItemInterface,
-	SessionDataKeys,
-	SessionsDataInterface
-} from '../interfaces/SessionsDataInterface';
-import { CHAT_TYPES } from '../../components/session/sessionHelpers';
-import { ActiveSessionType } from '../helpers/stateHelpers';
+import { ListItemInterface } from '../interfaces/SessionsDataInterface';
+import { getChatItemForSession } from '../../components/session/sessionHelpers';
 
 type SessionsDataContextInterface = {
-	sessionsData: SessionsDataInterface;
-	setSessionsData: Function;
-	dispatchSessionsData: Dispatch<ActionTypes>;
+	sessions: ListItemInterface[];
+	ready: boolean;
+	dispatch: Dispatch<ActionTypes>;
 };
 
 export const SessionsDataContext =
 	createContext<SessionsDataContextInterface | null>(null);
 
-const initialState: SessionsDataInterface = null;
+const initialState: Omit<SessionsDataContextInterface, 'dispatch'> = {
+	ready: false,
+	sessions: []
+};
+export const SET_READY = 'SET_READY';
 export const SET_SESSIONS = 'SET_SESSIONS';
-export const UPDATE_SESSION = 'UPDATE_SESSION';
-export const UPDATE_SESSION_CHAT_ITEM = 'UPDATE_SESSION_CHAT_ITEM';
+export const UPDATE_SESSIONS = 'UPDATE_SESSIONS';
+export const REMOVE_SESSIONS = 'REMOVE_SESSIONS';
+
+type SetReadyType = {
+	type: typeof SET_READY;
+	ready: boolean;
+};
 
 type SetSessionsActionType = {
 	type: typeof SET_SESSIONS;
-	data: SessionsDataInterface;
+	sessions: ListItemInterface[];
+	ready?: boolean;
 };
 
-type UpdateSessionType = {
-	type: typeof UPDATE_SESSION;
-	key: SessionDataKeys;
-	data: Partial<ActiveSessionType>;
+type UpdateSessionsActionType = {
+	type: typeof UPDATE_SESSIONS;
+	sessions: ListItemInterface[];
+	ready?: boolean;
 };
 
-type UpdateSessionChatItem = {
-	type: typeof UPDATE_SESSION_CHAT_ITEM;
-	data: Partial<SessionsDataInterface | GroupChatItemInterface>;
-	key: SessionDataKeys;
-	groupId?: string;
+type RemoveSessionsActionType = {
+	type: typeof REMOVE_SESSIONS;
+	ids: string[] | number[];
+	ready?: boolean;
 };
 
 type ActionTypes =
+	| SetReadyType
 	| SetSessionsActionType
-	| UpdateSessionType
-	| UpdateSessionChatItem;
+	| UpdateSessionsActionType
+	| RemoveSessionsActionType;
 
-function reducer(state: SessionsDataInterface, action: ActionTypes) {
+function reducer(
+	state: Omit<SessionsDataContextInterface, 'dispatch'>,
+	action: ActionTypes
+) {
 	switch (action.type) {
+		case SET_READY:
+			return {
+				ready: action.ready,
+				sessions: state.sessions
+			};
 		case SET_SESSIONS:
-			return action.data;
-		case UPDATE_SESSION: {
-			const { key, data } = action;
+			return {
+				ready: action.ready ?? state.ready,
+				sessions: action.sessions
+			};
+		case UPDATE_SESSIONS: {
+			const { sessions } = action;
+			const newSessions = [...state.sessions];
+			sessions.forEach((s) => {
+				const newChatItem = getChatItemForSession(s);
+				const index = newSessions.findIndex((s) => {
+					const chatItem = getChatItemForSession(s);
+					return chatItem.id === newChatItem.id;
+				});
 
-			return update(state, {
-				[key]: {
-					$merge: {
-						...data
-					}
+				if (index < 0) {
+					newSessions.push(s);
+				} else {
+					// ToDo: Just quickfix. Returned session is not always the full session currenlty
+					newSessions.splice(index, 1, s);
 				}
 			});
+
+			return {
+				ready: action.ready ?? state.ready,
+				sessions: newSessions
+			};
 		}
-		case UPDATE_SESSION_CHAT_ITEM: {
-			const { key, groupId, data } = action;
+		case REMOVE_SESSIONS: {
+			const { ids } = action;
+			const newSessions = [...state.sessions];
+			ids.forEach((id) => {
+				const index = newSessions.findIndex((s) => {
+					const chatItem = getChatItemForSession(s);
+					return chatItem.id === id || chatItem.groupId === id;
+				});
 
-			for (const index in state[key]) {
-				for (const chatType of CHAT_TYPES) {
-					if (state[key][index][chatType]?.groupId === groupId) {
-						return update(state, {
-							[key]: {
-								[index]: {
-									[chatType]: {
-										$merge: {
-											...data
-										}
-									}
-								}
-							}
-						});
-					}
+				if (index >= 0) {
+					newSessions.splice(index, 1);
 				}
-			}
+			});
 
-			return state;
+			return {
+				ready: action.ready ?? state.ready,
+				sessions: newSessions
+			};
 		}
 		default:
 			throw new Error();
@@ -90,18 +113,15 @@ function reducer(state: SessionsDataInterface, action: ActionTypes) {
 }
 
 export function SessionsDataProvider(props) {
-	const [sessionsData, dispatchSessionsData] = useReducer(
-		reducer,
-		initialState
-	);
-
-	const setSessionsData = (data) => {
-		dispatchSessionsData({ type: SET_SESSIONS, data: data });
-	};
+	const [sessionsState, dispatch] = useReducer(reducer, initialState);
 
 	return (
 		<SessionsDataContext.Provider
-			value={{ sessionsData, setSessionsData, dispatchSessionsData }}
+			value={{
+				sessions: sessionsState.sessions,
+				ready: sessionsState.ready,
+				dispatch
+			}}
 		>
 			{props.children}
 		</SessionsDataContext.Provider>
