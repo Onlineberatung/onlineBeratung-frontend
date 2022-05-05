@@ -89,17 +89,7 @@ const adjustHSLColor = ({
 const injectCss = ({ primaryColor, secondaryColor }) => {
 	// make HSL colors over RGB from hex
 	const primaryHSL = hexToRGB(primaryColor);
-
-	// if secondaryColor is not hex, change it to null
-	const isHexColor = (color) => {
-		if (color.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)) {
-			return color;
-		} else {
-			return null;
-		}
-	};
-
-	const secondaryHSL = hexToRGB(isHexColor(secondaryColor));
+	const secondaryHSL = secondaryColor && hexToRGB(secondaryColor);
 	// The level AA WCAG scrore requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (at least 18pt) or bold text.
 	const contrastThreshold = 4.5;
 
@@ -146,12 +136,16 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 						adjust: primaryHSL.l - 1
 				  }) // darker
 		};
-		--skin-color-secondary: ${secondaryColor};
-		--skin-color-secondary-light: ${adjustHSLColor({
-			color: secondaryHSL,
-			adjust: 90
-		})};
-		--skin-color-secondary-contrast-safe: ${secondaryColorContrastSafe};
+		--skin-color-secondary: ${secondaryColor || ''};
+		--skin-color-secondary-light: ${
+			secondaryHSL
+				? adjustHSLColor({
+						color: secondaryHSL,
+						adjust: 90
+				  })
+				: ''
+		};
+		--skin-color-secondary-contrast-safe: ${secondaryColorContrastSafe || ''};
 		--skin-color-primary-contrast-safe: ${primaryColorContrastSafe};
 		--text-color-contrast-switch: ${textColorContrastSwitch};
 		--text-color-secondary-contrast-switch: ${textColorSecondaryContrastSwitch};
