@@ -79,7 +79,7 @@ Cypress.Commands.add('mockApi', () => {
 	});
 
 	cy.fixture('api.v1.login').then((data) => {
-		cy.intercept('POST', config.endpoints.rocketchatAccessToken, (req) => {
+		cy.intercept('POST', config.endpoints.rc.accessToken, (req) => {
 			username = decodeUsername(req.body.username);
 			req.reply(
 				deepMerge(data, {
@@ -148,7 +148,7 @@ Cypress.Commands.add('mockApi', () => {
 		);
 	}).as('messages');
 
-	cy.intercept('POST', config.endpoints.messageRead, (req) => {
+	cy.intercept('POST', config.endpoints.rc.subscriptions.read, (req) => {
 		getAskerSessions().forEach((session, index) => {
 			if (session.session.groupId === req.body.rid) {
 				updateAskerSession({ session: { messagesRead: true } }, index);
@@ -173,7 +173,7 @@ Cypress.Commands.add('mockApi', () => {
 
 	cy.intercept('POST', config.endpoints.keycloakLogout, {}).as('authLogout');
 
-	cy.intercept('POST', config.endpoints.rocketchatLogout, {}).as('apiLogout');
+	cy.intercept('POST', config.endpoints.rc.logout, {}).as('apiLogout');
 
 	cy.intercept(`${config.endpoints.liveservice}/**/*`, {
 		entropy: -1197552011,

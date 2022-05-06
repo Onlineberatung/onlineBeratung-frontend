@@ -48,7 +48,6 @@ export const config = {
 		liveservice: apiUrl + '/service/live',
 		loginResetPasswordLink:
 			'/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
-		messageRead: apiUrl + '/api/v1/subscriptions.read',
 		messages: apiUrl + '/service/messages',
 		myMessagesBase:
 			apiUrl + '/service/conversations/consultants/mymessages/',
@@ -59,8 +58,19 @@ export const config = {
 		registerAsker: apiUrl + '/service/users/askers/new',
 		registerAskerNewConsultingType:
 			apiUrl + '/service/users/askers/consultingType/new',
-		rocketchatAccessToken: apiUrl + '/api/v1/login',
-		rocketchatLogout: apiUrl + '/api/v1/logout',
+		rc: {
+			accessToken: apiUrl + '/api/v1/login',
+			logout: apiUrl + '/api/v1/logout',
+			subscriptions: {
+				get: apiUrl + '/api/v1/subscriptions.get',
+				read: apiUrl + '/api/v1/subscriptions.read'
+			},
+			e2ee: {
+				fetchMyKeys: apiUrl + '/api/v1/e2e.fetchMyKeys',
+				setUserPublicAndPrivateKeys:
+					apiUrl + '/api/v1/e2e.setUserPublicAndPrivateKeys'
+			}
+		},
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
 		sessionBase: apiUrl + '/service/users/sessions',
