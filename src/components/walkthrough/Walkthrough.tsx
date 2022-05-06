@@ -33,6 +33,7 @@ export const Walkthrough = () => {
 			steps={stepsData}
 			initialStep={0}
 			options={{
+				hidePrev: true,
 				nextLabel: translate('walkthrough.step.next'),
 				prevLabel: translate('walkthrough.step.prev'),
 				doneLabel: translate('walkthrough.step.done'),
