@@ -64,7 +64,7 @@ export const NavigationBar = (props: NavigationBarProps) => {
 					<Link
 						key={index}
 						className={`navigation__item walkthrough_step_${
-							index + 2
+							index + 3
 						} ${
 							location.pathname.indexOf(item.to) !== -1
 								? 'navigation__item--active'
