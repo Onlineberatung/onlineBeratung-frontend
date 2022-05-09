@@ -546,13 +546,14 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 						{showEnquiryTabs && (
 							<>
 								<Link
-									className={clsx('walkthrough_step_1', {
+									className={clsx({
 										'sessionsList__tabs--active ':
 											!sessionListTab
 									})}
 									to={'/sessions/consultant/sessionPreview'}
 								>
 									<Text
+										className={clsx('walkthrough_step_1')}
 										text={translate(
 											'sessionList.preview.registered.tab'
 										)}
@@ -560,7 +561,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 									/>
 								</Link>
 								<Link
-									className={clsx('walkthrough_step_2', {
+									className={clsx({
 										'sessionsList__tabs--active':
 											sessionListTab ===
 											SESSION_LIST_TAB.ANONYMOUS
@@ -568,6 +569,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 									to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
 								>
 									<Text
+										className={clsx('walkthrough_step_2')}
 										text={translate(
 											'sessionList.preview.anonymous.tab'
 										)}
