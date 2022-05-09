@@ -7,6 +7,11 @@ const stepsData = [
 		intro: translate('walkthrough.step.0')
 	},
 	{
+		title: translate('walkthrough.step.3.title'),
+		element: '.walkthrough_step_3',
+		intro: translate('walkthrough.step.3')
+	},
+	{
 		title: translate('walkthrough.step.1.title'),
 		element: '.walkthrough_step_1',
 		intro: translate('walkthrough.step.1')
@@ -15,11 +20,6 @@ const stepsData = [
 		title: translate('walkthrough.step.2.title'),
 		element: '.walkthrough_step_2',
 		intro: translate('walkthrough.step.2')
-	},
-	{
-		title: translate('walkthrough.step.3.title'),
-		element: '.walkthrough_step_3',
-		intro: translate('walkthrough.step.3')
 	},
 	{
 		title: translate('walkthrough.step.4.title'),

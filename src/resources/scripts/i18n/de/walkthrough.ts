@@ -26,7 +26,6 @@ const walkthrough = {
 		'Hier finden Sie eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Ihr gesamtes Team hat Zugriff auf diese Übersicht.\n' +
 		'Die ältesten Anfragen stehen oben, die neuesten ganz unten, damit Sie die zuerst eingegangenen leichter finden können.\n' +
 		"In dem Moment, in dem Sie auf 'Anfrage Annehmen' klicken, wird die Anfrage sofort in Ihren Bereich 'Meine Nachrichten' verschoben und die anderen Berater_innen sehen sie nicht mehr.",
-
 	'step.4.title': 'Meine Nachrichten',
 	'step.4':
 		'Damit Sie nicht durch nicht aktive Unterhaltungen abgelenkt werden, können Sie einige der Unterhaltungen archivieren. Sie werden dann nicht gelöscht, sondern nur in die Registerkarte ' +
