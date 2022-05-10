@@ -19,17 +19,17 @@ interface ReadOnlyProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledReadOnly = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.fontFamily};
-		font-weight: ${theme.font.fontWeight};
+		font-family: ${theme.font.family};
+		font-weight: ${theme.font.weight};
 
 		position: relative;
 		width: ${theme.readOnly.width};
-		border-bottom: ${theme.readOnly.border} ${theme.colors.underline};
+		border-bottom: ${theme.border.style} ${theme.colors.underline};
 
 		.readOnly {
 			&--inputField {
 				all: unset;
-				font-size: ${theme.font.fontSize};
+				font-size: ${theme.font.size};
 				line-height: ${theme.font.lineHeight};
 				margin: ${theme.readOnly.margin};
 				width: ${theme.readOnly.width};
@@ -41,7 +41,7 @@ const StyledReadOnly = styled.div`
 			}
 
 			&--title {
-				font-size: ${theme.font.fontSizeSmall};
+				font-size: ${theme.font.sizeSmall};
 				line-height: ${theme.font.lineHeightSmall};
 				color: ${theme.colors.title};
 			}
@@ -51,7 +51,7 @@ const StyledReadOnly = styled.div`
 				position: ${theme.readOnly.helperText.position};
 				top: ${theme.readOnly.helperText.top};
 	
-				font-size: ${theme.font.fontSizeSmall};
+				font-size: ${theme.font.sizeSmall};
 				line-height: ${theme.font.lineHeightSmall};
 				color: ${theme.colors.error};
 			}
@@ -69,16 +69,16 @@ const StyledReadOnly = styled.div`
 
 		&.active {
 			:hover {
-				border-bottom: ${theme.readOnly.border} ${theme.colors.black};
+				border-bottom: ${theme.border.style} ${theme.colors.black};
 			}
 
 			&:focus-within {
-				border-bottom: ${theme.readOnly.borderBold} ${theme.colors.black};
+				border-bottom: ${theme.border.styleBold} ${theme.colors.black};
 			}
 		}
 
 		&.error {
-			border-bottom: ${theme.readOnly.borderBold} ${theme.colors.error};
+			border-bottom: ${theme.border.styleBold} ${theme.colors.error};
 
 			.readOnly--helperText {
 				display: block;
@@ -98,17 +98,20 @@ StyledReadOnly.defaultProps = {
 		},
 
 		font: {
-			fontFamily: 'Roboto, sans-serif',
-			fontWeight: '400',
-			fontSize: '16px',
-			fontSizeSmall: '12px',
+			family: 'Roboto, sans-serif',
+			weight: '400',
+			size: '16px',
+			sizeSmall: '12px',
 			lineHeight: '150%',
 			lineHeightSmall: '133%'
 		},
 
+		border: {
+			style: '1px solid',
+			styleBold: '2px solid'
+		},
+
 		readOnly: {
-			border: '1px solid',
-			borderBold: '2px solid',
 			width: '294px',
 			margin: '4px 0 4px 0',
 
