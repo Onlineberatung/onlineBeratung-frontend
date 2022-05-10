@@ -18,23 +18,22 @@ interface OptionsMenuProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledOptionsMenu = styled.div`
 	${({ theme }) => `
-		z-index: 300;
-
-		font-family: ${theme.font.fontFamily};
-		font-weight: ${theme.font.fontWeight};
-		font-size: ${theme.font.fontSize};
+		font-family: ${theme.font.family};
+		font-weight: ${theme.font.weight};
+		font-size: ${theme.font.size};
 		line-height: ${theme.font.lineHeight};
+
+		position: relative;
+		width: ${theme.optionsMenu.width};
+		
+		border: ${theme.border.style};
+		border-radius: ${theme.border.radius};
+		border-color: ${theme.colors.grey};
+		box-shadow: ${theme.border.boxShadow} ${theme.colors.shadow};
+		box-sizing: ${theme.border.boxSizing};
 
 		color: ${theme.colors.black};
 		background-color: ${theme.colors.white};
-
-		border: ${theme.optionsMenu.border.style};
-		border-radius: ${theme.optionsMenu.border.radius};
-		border-color: ${theme.colors.grey};
-		box-shadow: ${theme.optionsMenu.border.boxShadow} ${theme.colors.shadow};
-		box-sizing: ${theme.optionsMenu.border.boxSizing};
-
-		width: ${theme.optionsMenu.width};
 
 		.optionsMenu--container {
 			position: relative;
@@ -45,7 +44,7 @@ const StyledOptionsMenu = styled.div`
 			align-items: center;
 			justify-content: space-between;
 			padding: ${theme.optionsMenu.padding};
-			border-radius: ${theme.optionsMenu.border.radius};
+			border-radius: ${theme.border.radius};
 
 			path {
 				height: ${theme.optionsMenu.icon.height};
@@ -63,7 +62,7 @@ const StyledOptionsMenu = styled.div`
 		}
 
 		.optionsMenu--listItem-secondLevel {
-			z-index: 301;
+			z-index: 302;
 
 			display: none;
 
@@ -72,11 +71,11 @@ const StyledOptionsMenu = styled.div`
 			top: ${theme.optionsMenu.secondLevel.position.top};
 			width: ${theme.optionsMenu.width};
 		
-			border: ${theme.optionsMenu.border.style};
-			border-radius: ${theme.optionsMenu.border.radius};
+			border: ${theme.border.style};
+			border-radius: ${theme.border.radius};
 			border-color: ${theme.colors.grey};
-			box-sizing: ${theme.optionsMenu.border.boxSizing};
-			box-shadow: ${theme.optionsMenu.border.boxShadow} ${theme.colors.shadow};
+			box-sizing: ${theme.border.boxSizing};
+			box-shadow: ${theme.border.boxShadow} ${theme.colors.shadow};
 
 			background-color: ${theme.colors.white};
 				
@@ -97,10 +96,28 @@ const StyledOptionsMenu = styled.div`
 		.visible {
 			display: block;
 		}
+
+		&:before {
+			z-index: 298;
+			content: '';
+			border: 8px solid;
+			border-color: transparent transparent ${theme.colors.grey}; transparent;
+			position: absolute;
+			top: -17px;
+			left: 90px;
+		}
+
+		.optionsMenu--triangle {
+			z-index: 299;
+			position: absolute;
+			top: -14px;
+			left: 91px;
+			border: 7px solid;
+			border-color: transparent transparent white transparent;
+		}	
 	`}
 `;
 
-// We are passing a default theme for Buttons that arent wrapped in the ThemeProvider
 StyledOptionsMenu.defaultProps = {
 	theme: {
 		colors: {
@@ -111,39 +128,40 @@ StyledOptionsMenu.defaultProps = {
 			red: '#A31816',
 			shadow: '0000001A'
 		},
+
 		font: {
-			fontFamily: 'Roboto, sans-serif',
-			fontWeight: '400',
-			fontSize: '16px',
+			family: 'Roboto, sans-serif',
+			weight: '400',
+			size: '16px',
 			lineHeight: '24px'
 		},
+
+		border: {
+			style: '1px solid',
+			radius: '4px',
+			boxSizing: 'border-box',
+			boxShadow: '0px 3px 0px 1px'
+		},
+
 		optionsMenu: {
-			border: {
-				style: '1px solid',
-				radius: '4px',
-				boxSizing: 'border-box',
-				boxShadow: '0px 3px 0px 1px'
-			},
+			width: '192px',
+			padding: '12px 16px 12px 16px',
+
 			icon: {
 				height: '4px',
 				width: '16px'
 			},
+
 			secondLevel: {
 				position: {
 					left: '154px',
 					top: '36px'
 				}
-			},
-
-			width: '192px',
-			padding: '12px 16px 12px 16px'
+			}
 		}
 	}
 };
 
-/**
- * Primary UI component for user interaction
- */
 export const OptionsMenu = ({
 	label1,
 	label11,
@@ -187,7 +205,7 @@ export const OptionsMenu = ({
 		let secondLevelMenu = document.getElementsByClassName(
 			'optionsMenu--listItem-secondLevel'
 		);
-		if (!optionsMenuRef.current.contains(target)) {
+		if (optionsMenuRef.current.contains(target) == false) {
 			for (let i = 0; i < listItems.length; i++) {
 				listItems[i].classList.remove('active');
 				secondLevelMenu[i].classList.remove('visible');
@@ -202,6 +220,7 @@ export const OptionsMenu = ({
 			{...props}
 			ref={optionsMenuRef}
 		>
+			<span className="optionsMenu--triangle"></span>
 			<div
 				onClick={() => setListItemActive(0)}
 				className="optionsMenu--container"
