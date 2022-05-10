@@ -21,51 +21,54 @@ interface NotificationTextProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledNotificationText = styled.div`
 	${({ theme }) => `
-    height: ${theme.notification.height};
-    width: ${theme.notification.width};
-    border-radius: ${theme.notification.borderRadius};
-    padding: ${theme.notification.padding};
-    color: ${theme.colors.white};
-    background: ${theme.colors.background};
+		font-family: ${theme.font.family};
+		font-weight: ${theme.font.weight};
+		font-size: ${theme.font.sizeSmall};
+		line-height: ${theme.font.lineHeightSmall};
 
-    font-family: ${theme.notification.font.fontFamily};
-    font-weight: ${theme.notification.font.fontWeight};
-    font-size: ${theme.notification.font.fontSize};
-    line-height: ${theme.notification.font.lineHeight};
+		height: ${theme.notification.height};
+		width: ${theme.notification.width};
 
-    .notification--headline { 
-        font-weight: ${theme.notification.font.headline.fontWeight};
-        font-size: ${theme.notification.font.headline.fontSize};
-        line-height: ${theme.notification.font.headline.lineHeight};
-        position: relative;
-        bottom: 5px;
-    }
+		border-radius: ${theme.border.radius};
+		padding: ${theme.notification.padding};
 
-   .notification--text {
-       margin: ${theme.notification.spacer} 0 0 0;
-   }
+		color: ${theme.colors.white};
+		background: ${theme.colors.background};
 
-    svg {
-        width: ${theme.notification.svg.width};
-        height: ${theme.notification.svg.height};
-        margin: 0 ${theme.notification.spacer} 0 0;
-    }
 
-    &.info path {
-        fill: ${theme.colors.white};
-    }
+		.notification--headline { 
+			font-weight: ${theme.font.weightBold};
+			font-size: ${theme.font.size};
+			line-height: ${theme.font.lineHeight};
+			position: relative;
+			bottom: 5px;
+		}
 
-    &.success path {
-        fill: ${theme.colors.success};
-    }
+		.notification--text {
+			margin: ${theme.notification.spacer} 0 0 0;
+		}
 
-    &.warning path {
-        fill: ${theme.colors.warning};
-    }
+		svg {
+			width: ${theme.notification.svg.width};
+			height: ${theme.notification.svg.height};
+			margin: 0 ${theme.notification.spacer} 0 0;
+		}
 
-    &.error path {
-        fill: ${theme.colors.error};
-    }
+		&.info path {
+			fill: ${theme.colors.white};
+		}
+
+		&.success path {
+			fill: ${theme.colors.success};
+		}
+
+		&.warning path {
+			fill: ${theme.colors.warning};
+		}
+
+		&.error path {
+			fill: ${theme.colors.error};
+		}
 	`}
 `;
 
@@ -79,24 +82,26 @@ StyledNotificationText.defaultProps = {
 			error: '#FF0000'
 		},
 
+		font: {
+			family: 'Roboto, sans-serif',
+			weight: '400',
+			weightBold: '700',
+			size: '16px',
+			sizeSmall: '14px',
+			lineHeight: '143%',
+			lineHeightSmall: '131%'
+		},
+
+		border: {
+			radius: '4px'
+		},
+
 		notification: {
 			padding: '16px',
 			spacer: '8px',
 			width: '320px',
 			height: 'max-content',
-			borderRadius: '4px',
-			font: {
-				fontFamily: 'Roboto, sans-serif',
-				fontWeight: '400',
-				fontSize: '14px',
-				lineHeight: '143%',
 
-				headline: {
-					fontWeight: '700',
-					fontSize: '16px',
-					lineHeight: '131%'
-				}
-			},
 			svg: {
 				height: '24px',
 				width: '24px'
