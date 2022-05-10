@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactElement, useEffect, useRef } from 'react';
+import React, { HTMLAttributes, ReactElement } from 'react';
 import styled from 'styled-components';
 
 export const TYPE_DEFAULT = 'default';
@@ -21,20 +21,23 @@ interface NotificationVideoProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledNotificationVideo = styled.div`
 	${({ theme }) => `
+    font-family: ${theme.font.family};
+    font-weight: ${theme.font.weight};
+    font-size: ${theme.font.size};
+    line-height: ${theme.font.lineHeight};
+
     display: flex;
-    position: relative;
     flex-direction: column;
     align-items: center;
+
+    position: relative;
     width: ${theme.notification.width};
-    border-radius: ${theme.notification.borderRadius};
+
+    border-radius: ${theme.border.radius};
 
     color: ${theme.colors.white};
     background: ${theme.colors.backgroundLightGrey};
 
-    font-family: ${theme.notification.font.fontFamily};
-    font-weight: ${theme.notification.font.fontWeight};
-    font-size: ${theme.notification.font.fontSize};
-    line-height: ${theme.notification.font.lineHeight};
 
     &.default {
         .notification--optionBar {
@@ -80,12 +83,12 @@ const StyledNotificationVideo = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 10px solid ${theme.colors.initialsBulse};
-        border-radius: 50%;
+        border: ${theme.border.styleBold}; ${theme.colors.initialsBulse};
+        border-radius: ${theme.border.radiusCircle};
 
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 130%;
+        font-weight: ${theme.font.sizeMedium};
+        font-size: ${theme.font.sizeLarge};
+        line-height: ${theme.font.lineHeightSmall};
 
         background-color: ${theme.colors.initialsBackground};
         color: ${theme.colors.initialsFont};
@@ -96,12 +99,12 @@ const StyledNotificationVideo = styled.div`
     }
 
     .notification--title {
-        font-weight: ${theme.notification.font.fontWeight};
-        font-size: 16px;
+        font-weight: ${theme.font.weight};
+        font-size: ${theme.font.sizeMedium};
         line-height: 131%;
 
         &-userName {
-            font-weight: ${theme.notification.font.fontWeightBold};
+            font-weight: ${theme.font.weightBold};
         }
     }
 
@@ -111,14 +114,13 @@ const StyledNotificationVideo = styled.div`
         justify-content: center;
         width: 100%;
         background-color: ${theme.colors.backgroundDarkGrey};
-        border-bottom-left-radius: ${theme.notification.borderRadius};
-        border-bottom-right-radius: ${theme.notification.borderRadius};
-        
+        border-bottom-left-radius: ${theme.border.radius};
+        border-bottom-right-radius: ${theme.border.radius};
     }
 
     .notification--adviceLabel {
         align-self: center;
-        font-weight: ${theme.notification.font.fontWeightBold};
+        font-weight: ${theme.font.weightBold};
     }
 
     .notification--phoneIcons {
@@ -129,7 +131,7 @@ const StyledNotificationVideo = styled.div`
         .icon {
             display:flex;
             justify-content: center;
-            border-radius: 50%;
+            border-radius: ${theme.border.radiusCircle};
             background-color: ${theme.colors.acceptGreen};
             height: 48px;
             width: 48px;
@@ -171,21 +173,28 @@ StyledNotificationVideo.defaultProps = {
 			acceptGreen: '#4FCC5C',
 			rejectRed: '#FF0000'
 		},
+
+		font: {
+			family: 'Roboto, sans-serif',
+			weight: '400',
+			weightMedium: '500',
+			weightBold: '700',
+			size: '14px',
+			sizeMedium: '16px',
+			sizeLarge: '20px',
+			lineHeight: '143%',
+			lineHeightSmall: '130%'
+		},
+
+		border: {
+			styleBold: '10px solid',
+			radius: '4px',
+			radiusCircle: '50%'
+		},
+
 		notification: {
 			width: '320px',
-			borderRadius: '4px',
-			font: {
-				fontFamily: 'Roboto, sans-serif',
-				fontWeight: '400',
-				fontWeightBold: '700',
-				fontSize: '14px',
-				lineHeight: '143%',
-				headline: {
-					fontWeight: '',
-					fontSize: '',
-					lineHeight: ''
-				}
-			},
+
 			svg: {
 				height: '24px',
 				width: '24px'
