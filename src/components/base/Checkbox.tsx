@@ -1,4 +1,10 @@
-import React, { HTMLAttributes, ReactElement, useEffect, useRef } from 'react';
+import React, {
+	HTMLAttributes,
+	ReactElement,
+	useEffect,
+	useRef,
+	useState
+} from 'react';
 import styled from 'styled-components';
 
 interface CheckboxProps extends HTMLAttributes<HTMLDivElement> {
@@ -11,9 +17,9 @@ interface CheckboxProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledCheckbox = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.fontFamily};
-		font-weight: ${theme.font.fontWeight};
-		font-size: ${theme.font.fontSize};
+		font-family: ${theme.font.family};
+		font-weight: ${theme.font.weight};
+		font-size: ${theme.font.size};
 		line-height: ${theme.font.lineHeight};
 
 		.container {
@@ -25,8 +31,8 @@ const StyledCheckbox = styled.div`
 		.helperText {
 			display: none;
 			margin-left: 36px;
-			font-size: ${theme.checkbox.helperText.fontSize};
-			line-height: ${theme.checkbox.helperText.lineHeight};
+			font-size: ${theme.font.sizeSmall};
+			line-height: ${theme.font.lineHeightSmall};
 			color: ${theme.colors.error};
 		}
 
@@ -51,9 +57,9 @@ const StyledCheckbox = styled.div`
 				height: ${theme.checkbox.height};
 				width: ${theme.checkbox.width};
 				margin: 0;
-				border: ${theme.checkbox.border} ${theme.colors.default};
-				border-radius: ${theme.checkbox.borderRadius};
-				box-shadow: ${theme.checkbox.BoxShadow};
+				border: ${theme.border.style} ${theme.colors.default};
+				border-radius: ${theme.border.radius};
+				box-shadow: ${theme.checkbox.boxShadow};
 				background: ${theme.colors.white};
 				box-sizing: ${theme.checkbox.boxSizing};
 			}
@@ -80,7 +86,7 @@ const StyledCheckbox = styled.div`
 		}
 
 		.isChecked  {
-			border: ${theme.checkbox.borderBold} ${theme.colors.black} !important;
+			border: ${theme.border.styleBold} ${theme.colors.black} !important;
 		}
 	
 		&.disabled {
@@ -132,26 +138,27 @@ StyledCheckbox.defaultProps = {
 		},
 
 		font: {
-			fontFamily: 'Roboto, sans-serif',
-			fontWeight: '400',
-			fontSize: '16px',
-			lineHeight: '150%'
+			family: 'Roboto, sans-serif',
+			weight: '400',
+			size: '16px',
+			sizeSmall: '12px',
+			lineHeight: '150%',
+			lineHeightSmall: '133%'
+		},
+
+		border: {
+			radius: '4px',
+			style: '1px solid',
+			styleBold: '2px solid'
 		},
 
 		checkbox: {
 			height: '24px',
 			width: '24px',
-			borderRadius: '4px',
+
 			boxShadow: 'inset 0px 2px 0px 1px rgba(0, 0, 0, 0.1)',
 			boxSizing: 'border-box',
 			spacer: '0 12px 0 0',
-			border: '1px solid',
-			borderBold: '2px solid',
-
-			helperText: {
-				fontSize: '12px',
-				lineHeight: '133%'
-			},
 
 			icon: {
 				height: '20px',
@@ -174,18 +181,20 @@ export const Checkbox = ({
 	const checkboxIconRef = useRef(null);
 	const helperTextRef = useRef(null);
 
-	let isChecked = false;
+	const [isChecked, setIsChecked] = useState(false);
 
 	useEffect(() => {
 		if (!disabled) {
-			let visibility;
-			error ? (visibility = 'block') : (visibility = 'none');
-			helperTextRef.current.style.display = visibility;
+			error
+				? (helperTextRef.current.style.display = 'block')
+				: (helperTextRef.current.style.display = 'none');
 		}
 	}, [error]);
 
 	useEffect(() => {
-		if (disabled) {
+		if (disabled == false && error == true) {
+			helperTextRef.current.style.display = 'block';
+		} else {
 			checkboxInputRef.current.classList.remove('isChecked');
 			checkboxIconRef.current.style.display = 'none';
 			helperTextRef.current.style.display = 'none';
@@ -193,7 +202,10 @@ export const Checkbox = ({
 	}, [disabled]);
 
 	let checkEffect = () => {
-		isChecked = !isChecked;
+		setIsChecked(!isChecked);
+	};
+
+	useEffect(() => {
 		if (!disabled) {
 			if (isChecked) {
 				checkboxInputRef.current.classList.add('isChecked');
@@ -203,7 +215,7 @@ export const Checkbox = ({
 				checkboxIconRef.current.style.display = 'none';
 			}
 		}
-	};
+	}, [isChecked]);
 
 	return (
 		<StyledCheckbox
