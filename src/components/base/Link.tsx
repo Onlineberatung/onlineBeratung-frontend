@@ -16,12 +16,14 @@ interface LinkProps extends HTMLAttributes<HTMLAnchorElement> {
 
 const StyledLink = styled.a`
 	${({ theme }) => `
+	font-family: ${theme.font.family};
+    font-size: ${theme.font.size};
+    font-weight: ${theme.font.weight};
+    line-height: ${theme.font.lineHeight};
+	text-decoration-line: ${theme.font.textDecoration};
+
 	color: ${theme.colors.primary};
-	text-decoration-line: ${theme.link.textDecoration};
-	font-family: ${theme.link.fontFamily};
-    font-size: ${theme.link.fontSize};
-    font-weight: ${theme.link.fontWeight};
-    line-height: ${theme.link.lineHeight};
+	
 
 	&:hover {
 		color: ${theme.colors.hover};
@@ -49,7 +51,7 @@ const StyledLink = styled.a`
 	}
 
 	&.small {
-		font-size: ${theme.link.fontSizeSmall};
+		font-size: ${theme.font.sizeSmall};
 
 		.icon {
 			top:3px;
@@ -64,12 +66,13 @@ StyledLink.defaultProps = {
 			primary: '#CC1E1C',
 			hover: '#A31816'
 		},
-		link: {
-			fontFamily: 'Roboto, sans-serif',
-			fontSize: '16px',
-			fontSizeSmall: '14px',
-			fontWeight: '400',
-			lineHeight: '150%x',
+
+		font: {
+			family: 'Roboto, sans-serif',
+			size: '16px',
+			sizeSmall: '14px',
+			weight: '400',
+			lineHeight: '150%',
 			textDecoration: 'underline'
 		}
 	}
