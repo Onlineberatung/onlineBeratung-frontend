@@ -19,15 +19,15 @@ const StyledNotificationMessage = styled.div`
 
     width: ${theme.notification.width};
     padding: ${theme.notification.padding};
-    border-radius: ${theme.notification.border.radius};
+    border-radius: ${theme.border.radius};
     
     background: ${theme.colors.background};
     color: ${theme.colors.white};
    
-    font-family: ${theme.notification.font.fontFamily};
-    font-weight: ${theme.notification.font.fontWeight};
-    font-size: ${theme.notification.font.fontSize};
-    line-height: ${theme.notification.font.lineHeight};
+    font-family: ${theme.font.family};
+    font-weight: ${theme.font.weight};
+    font-size: ${theme.font.sizeSmall};
+    line-height: ${theme.font.lineHeightSmall};
 
     svg {
         path {
@@ -38,9 +38,9 @@ const StyledNotificationMessage = styled.div`
     .notification--header {
         display: ${theme.notification.header.display};
         align-items: ${theme.notification.header.alignItems};
-        font-weight: ${theme.notification.header.fontWeight};
-        font-size: ${theme.notification.header.fontSize};
-        line-height: ${theme.notification.header.lineHeight};
+        font-weight: ${theme.font.weightBold};
+        font-size: ${theme.font.size};
+        line-height: ${theme.font.lineHeight};
         margin: ${theme.notification.header.margin};
 
         svg {
@@ -68,15 +68,15 @@ const StyledNotificationMessage = styled.div`
         display: ${theme.notification.message.display};
         position: ${theme.notification.message.position};
         margin: ${theme.notification.message.margin};
-        font-size: ${theme.notification.message.fontSize};
+        font-size: ${theme.font.size};
 
         &-textfield {
             display: ${theme.notification.message.textfield.display};
             background: ${theme.colors.white};
             color: ${theme.colors.lightGrey};
             width: ${theme.notification.message.textfield.width};
-            border: ${theme.notification.message.textfield.border};
-            border-radius: ${theme.notification.message.textfield.borderRadius};
+            border: ${theme.border.style} #DCD9DC;
+            border-radius: ${theme.border.radiusSmall};
             box-shadow: ${theme.notification.message.textfield.boxShadow};
             padding: ${theme.notification.message.textfield.padding};
 
@@ -110,7 +110,7 @@ const StyledNotificationMessage = styled.div`
             height: ${theme.notification.message.sendIcon.height};
             width: ${theme.notification.message.sendIcon.width};
             background: ${theme.colors.primary};
-            border-radius: ${theme.notification.message.sendIcon.borderRadius};
+            border-radius: ${theme.border.radiusCircle};
             margin: ${theme.notification.message.sendIcon.margin};
             box-shadow: ${theme.notification.message.sendIcon.boxShadow};
 
@@ -128,7 +128,7 @@ const StyledNotificationMessage = styled.div`
             top: ${theme.notification.message.seperator.top};
             bottom: ${theme.notification.message.seperator.bottom};
             width: ${theme.notification.message.seperator.width};
-            border-left: ${theme.notification.message.seperator.borderLeft};
+            border-left: ${theme.border.styleBold} #00000033;
             left: ${theme.notification.message.seperator.left};
             margin: ${theme.notification.message.seperator.margin};
         }
@@ -145,23 +145,31 @@ StyledNotificationMessage.defaultProps = {
 			primary: '#CC1E1C',
 			lightGrey: '#00000066'
 		},
+
+		font: {
+			family: 'Roboto, sans-serif',
+			weight: '400',
+			size: '16px',
+			sizeSmall: '14px',
+			lineHeight: '21px',
+			lineHeightSmall: '20px',
+			weightBold: '700'
+		},
+
+		border: {
+			style: '1px solid',
+			styleBold: '2px solid',
+			radius: '24px',
+			radiusSmall: '12px',
+			radiusCircle: '50%'
+		},
+
 		notification: {
 			display: 'flex',
 			flexDirection: 'column',
 			position: 'relative',
 			width: '400px',
 			padding: '19px 16px 24px 16px',
-
-			font: {
-				fontFamily: 'Roboto, sans-serif',
-				fontWeight: '400',
-				fontSize: '14px',
-				lineHeight: '20px'
-			},
-
-			border: {
-				radius: '24px'
-			},
 
 			header: {
 				display: 'flex',
@@ -193,13 +201,10 @@ StyledNotificationMessage.defaultProps = {
 				display: 'flex',
 				position: 'relative',
 				margin: '24px 0 0 0',
-				fontSize: '16px',
 
 				textfield: {
 					display: 'flex',
 					width: '308px',
-					border: '1px solid #DCD9DC',
-					borderRadius: '12px',
 					boxShadow: 'inset 0px 2px 0px 1px rgba(0, 0, 0, 0.05)',
 					padding: '13px 14px 13px 12px',
 
@@ -224,7 +229,6 @@ StyledNotificationMessage.defaultProps = {
 					alignItems: 'center',
 					height: '48px',
 					width: '48px',
-					borderRadius: '50%',
 					margin: '0 0 0 12px',
 					boxShadow: '0px 3px 0px rgba(0, 0, 0, 0.1)',
 
@@ -239,7 +243,6 @@ StyledNotificationMessage.defaultProps = {
 					top: '0',
 					bottom: '0',
 					width: '0',
-					borderLeft: '2px solid #00000033',
 					left: '45px',
 					margin: '0 7px 0 0'
 				}
