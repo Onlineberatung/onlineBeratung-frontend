@@ -1,4 +1,3 @@
-import { NONAME } from 'dns';
 import React, { HTMLAttributes, ReactElement, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
@@ -31,21 +30,24 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
 
 const StyledButton = styled.button`
 	${({ theme }) => `
+		font-size: ${theme.font.size};
+		line-height: ${theme.font.lineHeight};
+		font-weight: ${theme.font.weight};
+
+		border: ${theme.border.style} ${theme.colors.primary};
+		border-radius: ${theme.border.radius};
 		box-shadow: ${theme.button.boxShadow.default};
+
 		color: ${theme.colors.primary};
 		background-color: ${theme.colors.white};
-		border: ${theme.button.border.style} ${theme.colors.primary};
-		border-radius: ${theme.button.border.radius};
-		font-size: ${theme.button.fontSize};
-		line-height: ${theme.button.lineHeight};
-		font-weight: ${theme.button.fontWeight};
+		
 		padding: ${theme.button.padding};
 		
 		&.primary {
 			display: flex;
 			align-items: center;
 			height: 48px;
-			line-height: 21px;
+			line-height: ${theme.font.lineHeight};
 
 			padding: 12px 24px;
 			color: ${theme.colors.white};
@@ -119,13 +121,12 @@ const StyledButton = styled.button`
 			display: flex;
 			align-items: center;
 			height: 48px;
-			line-height: 21px;
 
 			padding: 12px 24px;
 			color: ${theme.colors.primary};
 			background-color: ${theme.colors.white};
 			text-transform: uppercase;
-			line-height: 20px;
+			line-height: ${theme.font.lineHeight};
 
 			svg {
 				margin: 0 8px 0 0;
@@ -201,7 +202,6 @@ const StyledButton = styled.button`
 			display: flex;
 			align-items: center;
 			height: 51px;
-			line-height: 21px;
 			border: none;
 			box-shadow: none;
 			background: none;
@@ -209,7 +209,7 @@ const StyledButton = styled.button`
 			padding: 15.5px 0px 2px 14.5;
 			color: ${theme.colors.primary};
 			text-transform: uppercase;
-			line-height: 20px;
+			line-height: ${theme.font.lineHeight};
 
 			svg {
 				margin: 0 8px 0 0;
@@ -315,7 +315,7 @@ const StyledButton = styled.button`
 			border: ${theme.button.icon.border};
 			padding: ${theme.button.icon.padding};
 			background: ${theme.colors.secondary};
-			box-shadow: ${theme.button.boxShadow.icon};
+			box-shadow: ${theme.button.icon.boxShadow};
 
 			svg {
 				width: ${theme.button.icon.svg.width};
@@ -372,10 +372,10 @@ const StyledButton = styled.button`
 			width: ${theme.button.feedback.width};
 			height: ${theme.button.feedback.height};
 			padding: ${theme.button.feedback.padding};
-			font-weight: ${theme.button.fontWeight};
-			font-size: ${theme.button.feedback.fontSize};
-			line-height: ${theme.button.feedback.lineHeight};
-			border-radius: ${theme.button.border.radius};
+			font-weight: ${theme.font.weight};
+			font-size: ${theme.font.size};
+			line-height: ${theme.font.lineHeight};
+			border-radius: ${theme.border.radius};
 			border: ${theme.button.feedback.border};
 			background: ${theme.colors.feedback};
 			color: ${theme.colors.black};
@@ -397,8 +397,8 @@ const StyledButton = styled.button`
 			border-color: ${theme.colors.black};
 			color: ${theme.colors.black};
 			padding: ${theme.button.small.padding};
-			font-size: ${theme.button.small.fontSize};
-			line-height: ${theme.button.small.lineHeight};
+			font-size: ${theme.font.sizeSmall};
+			line-height: ${theme.font.lineHeight};
 
 			&:hover {
 				border-color: ${theme.colors.hoverPrimary};
@@ -422,33 +422,39 @@ StyledButton.defaultProps = {
 			hoverFeedback: '#FEBD50',
 			black: '#000000DE'
 		},
+
+		font: {
+			size: '16px',
+			sizeSmall: '14px',
+			weight: '700',
+			lineHeight: '20px'
+		},
+
+		border: {
+			radius: '24px',
+			style: '3px solid'
+		},
+
 		button: {
-			boxShadow: {
-				default: '0px 6px 0px rgba(0, 0, 0, 0.1)',
-				icon: '0px 3px 0px rgba(0, 0, 0, 0.1)'
-			},
-			border: {
-				radius: '24px',
-				style: '3px solid'
-			},
-			fontSize: '16px',
-			fontWeight: '700',
-			lineHeight: '20px',
 			padding: '8px 24px',
 			disabled: 'rgba(0, 0, 0, 0.2)',
+			boxShadow: '0px 6px 0px rgba(0, 0, 0, 0.1)',
+
 			primary: {
 				disabled: 'rgba(0, 0, 0, 0.12)'
 			},
-			secondary: {},
+
 			loading: {
 				color: '#E07876'
 			},
+
 			icon: {
 				height: '48px',
 				width: '48px',
 				borderRadius: '50%',
 				border: 'none',
 				padding: '0',
+				boxShadow: '0px 3px 0px rgba(0, 0, 0, 0.1)',
 				svg: {
 					height: '19.5px',
 					width: '17px'
@@ -458,6 +464,7 @@ StyledButton.defaultProps = {
 					boxShadow: 'none'
 				}
 			},
+
 			scrollTop: {
 				height: '32px',
 				width: '32px',
@@ -470,10 +477,9 @@ StyledButton.defaultProps = {
 					width: '16px'
 				}
 			},
+
 			feedback: {
 				padding: '6px 12px 6px 12px',
-				fontSize: '14px',
-				lineHeight: '20px',
 				height: '32px',
 				width: 'max-content',
 				boxShadow: 'none',
@@ -484,10 +490,9 @@ StyledButton.defaultProps = {
 					margin: '0 6px 0 0'
 				}
 			},
+
 			small: {
-				padding: '6px 16px',
-				fontSize: '14px',
-				lineHeight: '20px'
+				padding: '6px 16px'
 			}
 		}
 	}
