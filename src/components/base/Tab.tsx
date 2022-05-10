@@ -28,34 +28,36 @@ interface TabProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledTab = styled.div`
 	${({ theme }) => `
-    display: flex;
-    justify-content: center;
+		font-family: ${theme.font.family};
+		font-size: ${theme.font.size};
+		font-weight: ${theme.font.weight};
+		line-height: ${theme.font.lineHeight};
+	
+		display: flex;
+		justify-content: center;
 
-	color: ${theme.colors.inactive};
-    
-	font-family: ${theme.tab.fontFamily};
-    font-size: ${theme.tab.fontSize};
-    font-weight: ${theme.tab.fontWeight};
-    line-height: ${theme.tab.lineHeight};
-  
-    .active {
-        color: ${theme.colors.active};
-        border-bottom: 4px solid ${theme.colors.active};
-    }
+		color: ${theme.colors.inactive};
 
-    .spacing {
-        margin: 0 ${theme.tab.marginRight} 0 0;
-    }
+		cursor: pointer;
+		
+		.active {
+			color: ${theme.colors.active};
+			border-bottom: 4px solid ${theme.colors.active};
+		}
 
-    & div {
-        padding-bottom: 4px;
-        
-        &:not(.active) {
-            &:hover {
-                color: ${theme.colors.hover};
-            }
-        }
-    }
+		.spacing {
+			margin: 0 ${theme.tab.marginRight} 0 0;
+		}
+
+		& div {
+			padding-bottom: 4px;
+			
+			&:not(.active) {
+				&:hover {
+					color: ${theme.colors.hover};
+				}
+			}
+		}
 	`}
 `;
 
@@ -66,11 +68,15 @@ StyledTab.defaultProps = {
 			hover: '#A31816',
 			inactive: '#00000066'
 		},
+
+		font: {
+			family: 'Roboto, sans-serif',
+			size: '16px',
+			weight: '700',
+			lineHeight: '21px'
+		},
+
 		tab: {
-			fontFamily: 'Roboto, sans-serif',
-			fontSize: '16px',
-			fontWeight: '700',
-			lineHeight: '21px',
 			marginRight: '32px'
 		}
 	}
