@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactElement } from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 export const STATUS_DEFAULT = 'default';
@@ -20,10 +20,10 @@ interface ProgressbarVerticalProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledProgressbarVertical = styled.div`
 	${({ theme }) => `
-	font-family: ${theme.font.fontFamily};
-	font-weight: ${theme.font.fontWeightLight};
-	font-size: ${theme.font.fontSizeLarge};
-	line-height: ${theme.font.fontHeight};
+	font-family: ${theme.font.family};
+	font-weight: ${theme.font.weight};
+	font-size: ${theme.font.size};
+	line-height: ${theme.font.lineHeight};
 	
 	.progressbarVertical--header {
 		& div {
@@ -43,14 +43,14 @@ const StyledProgressbarVertical = styled.div`
 			background-color: ${theme.colors.white};
 			color: ${theme.colors.grey};
 
-			font-weight: ${theme.font.fontWeightBold};;
+			font-weight: ${theme.font.weightBold};;
 		}
 	}
 
 	.progressbarVertical--placeholder {
 		background-color: ${theme.colors.lightGrey};
 		color: ${theme.colors.grey};
-		font-size: ${theme.font.fontSizeSmall};
+		font-size: ${theme.font.sizeSmall};
 		margin: ${theme.progressbarVertical.placeholder.margin};
 		padding: ${theme.progressbarVertical.placeholder.padding};
 		text-align: center;
@@ -59,7 +59,7 @@ const StyledProgressbarVertical = styled.div`
 
 	.progressbarVertical--button {
 		color: ${theme.colors.primary};
-		font-weight: ${theme.font.fontWeightBold};
+		font-weight: ${theme.font.weightBold};
 		line-height: 21px;
 		text-transform: ${theme.font.textTransform};
 
@@ -84,7 +84,7 @@ const StyledProgressbarVertical = styled.div`
 			}
 
 			& span {
-				font-weight: ${theme.font.fontWeightBold};
+				font-weight: ${theme.font.weightBold};
 			}
 		}
 	}
@@ -98,7 +98,7 @@ const StyledProgressbarVertical = styled.div`
 
 			&:hover {
 				cursor:  ${theme.progressbarVertical.hoverCursor};
-				font-weight: ${theme.font.fontWeightBold};
+				font-weight: ${theme.font.weightBold};
 				& div {
 					border-color: ${theme.colors.hover};
 					color: ${theme.colors.hover};
@@ -119,15 +119,17 @@ StyledProgressbarVertical.defaultProps = {
 			white: '#FFFFFF',
 			verticalStepper: '#00000033'
 		},
+
 		font: {
-			fontFamily: 'Roboto, sans-serif',
-			fontWeightLight: '400',
-			fontWeightBold: '700',
-			fontSizeLarge: '16px',
-			fontSizeSmall: '12px',
+			family: 'Roboto, sans-serif',
+			weight: '400',
+			weightBold: '700',
+			size: '16px',
+			sizeSmall: '12px',
 			lineHeight: '24px',
 			textTransform: 'uppercase'
 		},
+
 		progressbarVertical: {
 			width: '450px',
 			hoverCursor: 'pointer',
