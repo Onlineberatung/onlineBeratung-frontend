@@ -14,13 +14,14 @@ interface ProgressbarProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledProgressbar = styled.div`
 	${({ theme }) => `
+		font-family: ${theme.font.family};
+		font-weight: ${theme.font.weight};
+		font-size: ${theme.font.size};
+		line-height: ${theme.font.lineHeight};
+		letter-spacing: ${theme.font.letterSpacing};
+		text-transform: ${theme.font.textTransform};
+
 		display: flex;
-		font-family: ${theme.progressbar.font.fontFamily};
-		font-weight: ${theme.progressbar.font.fontWeight};
-		font-size: ${theme.progressbar.font.fontSize};
-		line-height: ${theme.progressbar.font.lineHeight};
-		letter-spacing: ${theme.progressbar.font.letterSpacing};
-		text-transform: ${theme.progressbar.font.textTransform};
 		
 		.progressbar--progress-container {
 			display: flex;
@@ -40,7 +41,7 @@ const StyledProgressbar = styled.div`
 				height: 0px;
 				width: ${theme.progressbar.seperator.width};
 				margin: calc(${theme.progressbar.iconHeight} / 2) ${theme.progressbar.seperator.spacing} 0 ${theme.progressbar.seperator.spacing};
-				border-bottom: ${theme.progressbar.border} ${theme.colors.grey};
+				border-bottom: ${theme.border.style} ${theme.colors.grey};
 			}
 
 			.progressbar--progress {
@@ -55,8 +56,8 @@ const StyledProgressbar = styled.div`
 					box-sizing: ${theme.progressbar.boxSizing};
 					height: ${theme.progressbar.iconHeight};
 					width: ${theme.progressbar.iconWidth};
-					border-radius: ${theme.progressbar.borderRadius};
-					border: 1px solid ${theme.colors.grey};
+					border-radius: ${theme.border.radius};
+					border: ${theme.border.style} ${theme.colors.grey};
 					margin-bottom: 8px;
 					
 					& path {
@@ -119,25 +120,31 @@ StyledProgressbar.defaultProps = {
 			hover: '#A31816',
 			white: '#FFFFFF'
 		},
+
+		font: {
+			family: '"Roboto Slab", serif',
+			weight: '500',
+			size: '12px',
+			lineHeight: '16px',
+			letterSpacing: '1.5px',
+			textTransform: 'uppercase'
+		},
+
+		border: {
+			style: '1px solid',
+			radius: '50%'
+		},
+
 		progressbar: {
-			font: {
-				fontFamily: '"Roboto Slab", serif',
-				fontWeight: '500',
-				fontSize: '12px',
-				lineHeight: '16px',
-				letterSpacing: '1.5px',
-				textTransform: 'uppercase'
-			},
-			seperator: {
-				width: '45px',
-				spacing: '8.5px'
-			},
 			align: 'center',
 			iconHeight: '48px',
 			iconWidth: '48px',
 			boxSizing: 'border-box,',
-			borderRadius: '50%',
-			border: '1px solid'
+
+			seperator: {
+				width: '45px',
+				spacing: '8.5px'
+			}
 		}
 	}
 };
