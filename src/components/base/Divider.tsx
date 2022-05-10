@@ -17,24 +17,24 @@ interface DividerProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledDivider = styled.div`
 	${({ theme }) => `
-        display: flex;
-        align-items: center;
-        
-        font-family: ${theme.font.fontFamily};
-        font-style: ${theme.font.fontStyle};
-        font-size: ${theme.font.fontSize};
-        font-weight: ${theme.font.fontWeight};
-        line-height: ${theme.font.lineHeight};
-        letter-spacing: ${theme.font.letterSpacing};
-        text-transform: ${theme.font.textTransform};
-
+		font-family: ${theme.font.family};
+		font-style: ${theme.font.style};
+		font-size: ${theme.font.size};
+		font-weight: ${theme.font.weight};
+		line-height: ${theme.font.lineHeight};
+		letter-spacing: ${theme.font.letterSpacing};
+		text-transform: ${theme.font.textTransform};
+	
+		display: flex;
+		align-items: center;
+		
 		color: ${theme.colors.darkGrey};
         
         &:before,
         &:after {
             content: '';
 		    text-align: center;
-            border-top: ${theme.divider.border};
+            border-top: ${theme.border.style};
             height: ${theme.divider.height};
             width: ${theme.divider.width};
 			border-color: ${theme.colors.lightGrey};
@@ -49,7 +49,7 @@ const StyledDivider = styled.div`
         }
 
 		.spacer {
-			margin: 0 ${theme.divider.margin} 0 ${theme.divider.margin}
+			margin: ${theme.divider.margin};
 		}
 	`}
 `;
@@ -61,20 +61,25 @@ StyledDivider.defaultProps = {
 			lightGrey: '#00000033',
 			darkGrey: '#00000099'
 		},
+
 		font: {
-			fontFamily: 'Roboto Slab, serif',
-			fontStyle: 'normal',
-			fontSize: '12px',
-			fontWeight: '500',
+			family: 'Roboto Slab, serif',
+			style: 'normal',
+			size: '12px',
+			weight: '500',
 			lineHeight: '16px',
 			letterSpacing: '1.5px',
 			textTransform: 'uppercase'
 		},
+
+		border: {
+			style: '1px solid'
+		},
+
 		divider: {
-			border: '1px solid',
 			width: '220px',
 			height: '0px',
-			margin: '12px'
+			margin: '0 12px 0 12px'
 		}
 	}
 };

@@ -1,12 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import {
-	Divider,
-	SIZE_PRIMARY,
-	SIZE_SECONDARY,
-	SIZE_TERTIARY
-} from '../../../components/base/Divider';
+import { Divider, SIZE_PRIMARY } from '../../../components/base/Divider';
 
 export default {
 	title: 'Base/Divider',
