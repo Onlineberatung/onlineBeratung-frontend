@@ -20,17 +20,20 @@ interface FiltertagProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledFiltertag = styled.div`
 	${({ theme }) => `
+    font-family: ${theme.font.family};
+    font-size: ${theme.font.size};
+    font-weight: ${theme.font.weight};
+    line-height: ${theme.font.lineHeight};
+
     display: flex;
-    justify-content: ${theme.filtertag.justifyContent};
-    align-items: ${theme.filtertag.alignItems};
+    justify-content: center;
+    align-items: center;
+
     width: max-content;
     height: max-content;
-    border-radius: ${theme.filtertag.border.radius};
+
+    border-radius: ${theme.border.radius};
     padding: ${theme.filtertag.padding};
-    font-family: ${theme.filtertag.fontFamily};
-    font-size: ${theme.filtertag.fontSize};
-    font-weight: ${theme.filtertag.fontWeight};
-    line-height: ${theme.filtertag.lineHeight};
 
     &.default {
         color: ${theme.colors.default};
@@ -46,13 +49,13 @@ const StyledFiltertag = styled.div`
     &.selected {
         color: ${theme.colors.removeable};
         background-color: ${theme.colors.backgroundRemoveable};
-        border: 1px solid ${theme.colors.borderRemoveable}
+        border: ${theme.border.style} ${theme.colors.borderRemoveable}
     }
 
     &.removeable {
         color: ${theme.colors.removeable};
         background-color: ${theme.colors.backgroundRemoveable};
-        border: 1px solid ${theme.colors.borderRemoveable};
+        border: ${theme.border.style} ${theme.colors.borderRemoveable};
 
         &:hover {
             color: ${theme.colors.removeableHover};
@@ -69,7 +72,7 @@ const StyledFiltertag = styled.div`
     &.readOnly {
         color: ${theme.colors.readOnly};
         background-color: ${theme.colors.backgroundReadOnly};
-        border: 1px solid ${theme.colors.borderReadOnly}
+        border: ${theme.border.style} ${theme.colors.borderReadOnly}
     }
 
     svg {
@@ -100,20 +103,23 @@ StyledFiltertag.defaultProps = {
 			removeableHover: '#A31816',
 			defaultHover: '#000000DE'
 		},
+
+		font: {
+			family: 'Roboto, sans-serif',
+			size: '14px',
+			weight: '400',
+			lineHeight: '20px'
+		},
+
+		border: {
+			style: '1px solid',
+			radius: '24px'
+		},
+
 		filtertag: {
-			fontFamily: 'Roboto, sans-serif',
-			fontSize: '14px',
-			fontWeight: '400',
-			lineHeight: '20px',
 			width: '106px',
 			height: '32px',
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			padding: '6px 12px',
-			border: {
-				radius: '24px'
-			}
+			padding: '6px 12px'
 		}
 	}
 };
