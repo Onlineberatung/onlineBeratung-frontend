@@ -18,9 +18,9 @@ interface RadiobuttonProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledRadiobutton = styled.div`
 	${({ theme }) => `
-	font-family: ${theme.font.fontFamily};
-	font-weight: ${theme.font.fontWeight};
-	font-size: ${theme.font.fontSize};
+	font-family: ${theme.font.family};
+	font-weight: ${theme.font.weight};
+	font-size: ${theme.font.size};
 	line-height: ${theme.font.lineHeight};
 
 	position: relative;
@@ -29,12 +29,12 @@ const StyledRadiobutton = styled.div`
 		&--contentWrapper {
 			display: flex;
 			align-items: center;
-			box-sizing: border-box;
+			box-sizing: ${theme.border.boxSizing};
 		}
 	
 		&--input {
 			appearance: none;
-			border: ${theme.radioButton.border} ${theme.colors.default};
+			border: ${theme.border.style} ${theme.colors.default};
 			border-radius: 50%;
 			box-shadow: 0px 2px 0px 1px ${theme.colors.shadow} inset;
 			flex: 0 0 auto;
@@ -44,16 +44,16 @@ const StyledRadiobutton = styled.div`
 	
 			&:checked {
 				background-color: ${theme.colors.black};
-				border: 2px solid ${theme.colors.black};
+				border: ${theme.border.styleBold} ${theme.colors.black};
 				box-shadow: inset 0 0 0 4px white;
 
 				&:hover {
-					border: 2px solid ${theme.colors.black};
+					border: ${theme.border.styleBold} ${theme.colors.black};
 				}
 			}
 	
 			&:hover {
-				border: ${theme.radioButton.border} ${theme.colors.black};
+				border: ${theme.border.style} ${theme.colors.black};
 			}
 		}
 
@@ -67,8 +67,8 @@ const StyledRadiobutton = styled.div`
 		top: 25px;
 		left: 36px;
 		display: none;
-		font-size: ${theme.radioButton.helperText.fontSize};
-		line-height: ${theme.radioButton.helperText.lineHeight};
+		font-size: ${theme.font.sizeSmall};
+		line-height: ${theme.font.lineHeightSmall};
 		color: ${theme.colors.error};
 
 		&--position-contained {
@@ -100,8 +100,8 @@ const StyledRadiobutton = styled.div`
 	}
 
 	.contained {
-		border: ${theme.radioButton.border} ${theme.colors.disabled};
-		border-radius: ${theme.radioButton.contained.borderRadius};
+		border: ${theme.border.style} ${theme.colors.disabled};
+		border-radius: ${theme.border.radius};
 		padding: ${theme.radioButton.contained.padding};
 		width: max-content;
 	}	
@@ -120,21 +120,25 @@ StyledRadiobutton.defaultProps = {
 		},
 
 		font: {
-			fontFamily: 'Roboto, sans-serif',
-			fontWeight: '400',
-			fontSize: '16px',
-			lineHeight: '150%'
+			family: 'Roboto, sans-serif',
+			weight: '400',
+			size: '16px',
+			sizeSmall: '12px',
+			lineHeight: '150%',
+			lineHeightSmall: '133%'
+		},
+
+		border: {
+			style: '1px solid',
+			styleBold: '2px solid',
+			radius: '24px',
+			boxSizing: 'border-box'
 		},
 
 		radioButton: {
 			height: '24px',
 			width: '24px',
-			borderRadius: '4px',
-			boxShadow: 'inset 0px 2px 0px 1px rgba(0, 0, 0, 0.1)',
-			boxSizing: 'border-box',
 			spacer: '0 12px 0 0',
-			border: '1px solid',
-			borderBold: '2px solid',
 
 			helperText: {
 				fontSize: '12px',
@@ -147,7 +151,6 @@ StyledRadiobutton.defaultProps = {
 			},
 
 			contained: {
-				borderRadius: '24px',
 				padding: '12px 16px'
 			}
 		}
@@ -164,16 +167,24 @@ export const Radiobutton = ({
 	className,
 	...props
 }: RadiobuttonProps) => {
-	const [isChecked, setIsChecked] = useState(false);
-	let radioButtonRef = useRef(null);
+	const radioButtonRef = useRef(null);
 	const helperTextRef = useRef(null);
 
+	let [isChecked, setIsChecked] = useState(false);
+
 	let handleRadioButton = () => {
-		isChecked
-			? (radioButtonRef.current.checked = false)
-			: (radioButtonRef.current.checked = true);
-		setIsChecked(!isChecked);
+		if (disabled == false) {
+			setIsChecked(!isChecked);
+		}
 	};
+
+	useEffect(() => {
+		if (disabled == false) {
+			isChecked
+				? (radioButtonRef.current.checked = true)
+				: (radioButtonRef.current.checked = false);
+		}
+	}, [isChecked]);
 
 	useEffect(() => {
 		if (!disabled) {
@@ -184,12 +195,14 @@ export const Radiobutton = ({
 	}, [error]);
 
 	useEffect(() => {
-		if (disabled) {
-			radioButtonRef.current.disabled = true;
-			helperTextRef.current.style.display = 'none';
-			if (isChecked) radioButtonRef.current.checked = false;
+		if (disabled == false && error == true) {
+			radioButtonRef.current.removeAttribute('disabled');
+			helperTextRef.current.style.display = 'block';
 		} else {
-			radioButtonRef.current.disabled = false;
+			radioButtonRef.current.setAttribute('disabled', true);
+			setIsChecked(false);
+			helperTextRef.current.style.display = 'none';
+			radioButtonRef.current.checked = false;
 		}
 	}, [disabled]);
 
