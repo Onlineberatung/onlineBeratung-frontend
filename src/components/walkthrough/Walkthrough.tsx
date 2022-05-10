@@ -41,6 +41,12 @@ export const Walkthrough = () => {
 				showBullets: true,
 				showStepNumbers: false
 			}}
+			onChange={function (nextStepIndex) {
+				let element: HTMLElement = document.querySelector(
+					`.walkthrough_step_${nextStepIndex}`
+				);
+				element?.click();
+			}}
 		/>
 	);
 };
