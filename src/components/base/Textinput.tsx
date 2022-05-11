@@ -5,7 +5,7 @@ interface TextinputProps extends HTMLAttributes<HTMLDivElement> {
 	inputText?: string;
 	label?: string;
 	helperText?: string;
-	password?: string;
+	type?: string;
 	lockIcon?: ReactElement;
 	eyeIcon?: ReactElement;
 	variant?: string;
@@ -14,10 +14,10 @@ interface TextinputProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledTextinput = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.fontFamily};
-		font-weight: ${theme.font.fontWeight};
-		font-size: ${theme.font.fontSizeLarge};
-		line-height: ${theme.font.lineHeightLarge};
+		font-family: ${theme.font.family};
+		font-weight: ${theme.font.weight};
+		font-size: ${theme.font.size};
+		line-height: ${theme.font.lineHeight};
 
 		.textInput {
 			&--container {
@@ -37,7 +37,7 @@ const StyledTextinput = styled.div`
 
 			&--helperText {
 				display: none;
-				font-size: ${theme.font.fontSizeSmall};
+				font-size: ${theme.font.sizeSmall};
 				margin: ${theme.textinput.helperText.marginWithoutIcon};
 			}
 
@@ -52,14 +52,14 @@ const StyledTextinput = styled.div`
 					width: ${theme.textinput.width};
 					padding: ${theme.textinput.padding};
 
-					border: ${theme.textinput.border.style};
-					border-radius: ${theme.textinput.border.radius};
-					box-shadow: ${theme.textinput.border.boxShadow} ${theme.colors.shadow};
-					box-sizing: ${theme.textinput.border.boxSizing};
+					border: ${theme.border.style};
+					border-radius: ${theme.border.radius};
+					box-shadow: ${theme.border.boxShadow} ${theme.colors.shadow};
+					box-sizing: ${theme.border.boxSizing};
 				}
 
 				&-label {
-					font-size: ${theme.font.fontSizeSmall};
+					font-size: ${theme.font.sizeSmall};
 					line-height: ${theme.font.lineHeightSmall};
 					color: ${theme.colors.label};
 				}
@@ -108,13 +108,13 @@ const StyledTextinput = styled.div`
 
 		&.selected {
 			.textInput--input-container {
-				border: ${theme.textinput.border.styleBold} ${theme.colors.black};
+				border: ${theme.border.styleBold} ${theme.colors.black};
 			}
 		}
 
 		&.activated {
 			.textInput--input-container {
-				border: ${theme.textinput.border.style} ${theme.colors.black};
+				border: ${theme.border.style} ${theme.colors.black};
 			}
 		}
 
@@ -126,7 +126,7 @@ const StyledTextinput = styled.div`
 				}
 
 				&--input-container {
-					border: ${theme.textinput.border.styleBold} ${theme.colors.success};
+					border: ${theme.border.styleBold} ${theme.colors.success};
 				}
 			}
 		}
@@ -139,7 +139,7 @@ const StyledTextinput = styled.div`
 				}
 
 				&--input-container {
-					border: ${theme.textinput.border.styleBold} ${theme.colors.warning};
+					border: ${theme.border.styleBold} ${theme.colors.warning};
 				}
 			}
 		}
@@ -152,7 +152,7 @@ const StyledTextinput = styled.div`
 				}
 
 				&--input-container {
-					border: ${theme.textinput.border.styleBold} ${theme.colors.error};
+					border: ${theme.border.styleBold} ${theme.colors.error};
 				}
 			}
 		}
@@ -218,26 +218,26 @@ StyledTextinput.defaultProps = {
 		},
 
 		font: {
-			fontFamily: 'Roboto, sans-serif',
-			fontWeight: '400',
-			fontSizeLarge: '16px',
-			fontSizeSmall: '12px',
-			lineHeightLarge: '150%',
+			family: 'Roboto, sans-serif',
+			weight: '400',
+			size: '16px',
+			sizeSmall: '12px',
+			lineHeight: '150%',
 			lineHeightSmall: '133%'
+		},
+
+		border: {
+			radius: '4px',
+			style: '1px solid',
+			styleBold: '2px solid',
+			boxShadow: 'inset 0px 2px 0px 1px',
+			boxSizing: 'border-box'
 		},
 
 		textinput: {
 			height: '48px',
 			width: '197px',
 			padding: '0px 12px 0px 16px',
-
-			border: {
-				radius: '4px',
-				style: '1px solid',
-				styleBold: '2px solid',
-				boxShadow: 'inset 0px 2px 0px 1px',
-				boxSizing: 'border-box'
-			},
 
 			lockIcon: {
 				margin: '0 12px 0 0',
@@ -271,7 +271,7 @@ export const Textinput = ({
 	inputText,
 	label,
 	helperText,
-	password = 'text',
+	type = 'text',
 	lockIcon,
 	eyeIcon,
 	variant = 'default',
@@ -287,6 +287,14 @@ export const Textinput = ({
 			: textInputRef.current.removeAttribute('disabled');
 	}, [variant]);
 
+	let switchPasswordVisibility = () => {
+		if (type == 'password') {
+			textInputRef.current.type == 'password'
+				? (textInputRef.current.type = 'text')
+				: (textInputRef.current.type = 'password');
+		}
+	};
+
 	return (
 		<StyledTextinput
 			type="textinput"
@@ -295,33 +303,32 @@ export const Textinput = ({
 		>
 			<div className="textInput--container">
 				<div className="textInput--lockIcon">
-					{' '}
-					{lockIcon && lockIcon}{' '}
+					{lockIcon && lockIcon}
 				</div>
 
 				<div className="textInput--input-container">
 					<div>
 						<div className="textInput--input-label">
-							{' '}
-							{label && label}{' '}
+							{label && label}
 						</div>
 						<input
-							type={password && password}
+							type={type && type}
 							className="textInput--input-text"
 							ref={textInputRef}
 							placeholder={inputText && inputText}
 						/>
 					</div>
-					<div className="textInput--input-eyeIcon">
-						{' '}
-						{eyeIcon && eyeIcon}{' '}
+					<div
+						className="textInput--input-eyeIcon"
+						onClick={() => switchPasswordVisibility()}
+					>
+						{eyeIcon && eyeIcon}
 					</div>
 				</div>
 			</div>
 
 			<span className="textInput--helperText">
-				{' '}
-				{helperText && helperText}{' '}
+				{helperText && helperText}
 			</span>
 		</StyledTextinput>
 	);

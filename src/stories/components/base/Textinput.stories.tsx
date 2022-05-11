@@ -6,7 +6,7 @@ export default {
 	title: 'Base/Textinput',
 	component: Textinput,
 	argTypes: {
-		password: { options: ['text', 'password'], control: { type: 'radio' } },
+		type: { options: ['text', 'password'], control: { type: 'radio' } },
 		variant: {
 			options: [
 				'disabled',
