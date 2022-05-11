@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useEffect, useRef } from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 export const STATUS_DEFAULT = 'default';
@@ -58,9 +58,15 @@ const StyledReadOnly = styled.div`
 		}
 
 		&.default {
+			:hover {
+				border-bottom: ${theme.border.style} ${theme.colors.black};
+			}
+
+			&:focus-within {
+				border-bottom: ${theme.border.styleBold} ${theme.colors.black};
+			}
+
 			.readOnly--inputField {
-				color: ${theme.colors.default};
-				
 				&::placeholder {
 					color: ${theme.colors.default};
 				}
@@ -131,14 +137,6 @@ export const ReadOnly = ({
 	className,
 	...props
 }: ReadOnlyProps) => {
-	let inputRef = useRef(null);
-
-	useEffect(() => {
-		status == 'default'
-			? (inputRef.current.disabled = true)
-			: (inputRef.current.disabled = false);
-	}, [status]);
-
 	return (
 		<StyledReadOnly
 			type="readOnly"
@@ -149,7 +147,6 @@ export const ReadOnly = ({
 			<input
 				type="text"
 				className="readOnly--inputField"
-				ref={inputRef}
 				placeholder={text && text}
 			/>
 			<div className="readOnly--helperText">
