@@ -282,13 +282,16 @@ export const Textinput = ({
 	const textInputRef = useRef(null);
 
 	useEffect(() => {
-		variant == 'disabled'
-			? textInputRef.current.setAttribute('disabled', 'true')
-			: textInputRef.current.removeAttribute('disabled');
+		if (variant == 'disabled') {
+			textInputRef.current.setAttribute('disabled', 'true');
+			textInputRef.current.value = '';
+		} else {
+			textInputRef.current.removeAttribute('disabled');
+		}
 	}, [variant]);
 
 	let switchPasswordVisibility = () => {
-		if (type == 'password') {
+		if (type == 'password' && variant != 'disabled') {
 			textInputRef.current.type == 'password'
 				? (textInputRef.current.type = 'text')
 				: (textInputRef.current.type = 'password');
