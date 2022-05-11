@@ -196,6 +196,7 @@ export const Checkbox = ({
 			helperTextRef.current.style.display = 'block';
 		} else {
 			checkboxInputRef.current.classList.remove('isChecked');
+			setIsChecked(false);
 			checkboxIconRef.current.style.display = 'none';
 			helperTextRef.current.style.display = 'none';
 		}

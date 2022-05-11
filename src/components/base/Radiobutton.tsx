@@ -173,9 +173,7 @@ export const Radiobutton = ({
 	let [isChecked, setIsChecked] = useState(false);
 
 	let handleRadioButton = () => {
-		if (disabled == false) {
-			setIsChecked(!isChecked);
-		}
+		setIsChecked(!isChecked);
 	};
 
 	useEffect(() => {
@@ -198,6 +196,8 @@ export const Radiobutton = ({
 		if (disabled == false && error == true) {
 			radioButtonRef.current.removeAttribute('disabled');
 			helperTextRef.current.style.display = 'block';
+		} else if (disabled == false) {
+			radioButtonRef.current.removeAttribute('disabled');
 		} else {
 			radioButtonRef.current.setAttribute('disabled', true);
 			setIsChecked(false);
