@@ -8,9 +8,9 @@ interface ToggleProps extends HTMLAttributes<HTMLSpanElement> {
 
 const StyledToggle = styled.span`
 	${({ theme }) => `
-		font-family: ${theme.font.fontFamily};
-		font-weight: ${theme.font.fontWeight};
-		font-size: ${theme.font.fontSize};
+		font-family: ${theme.font.family};
+		font-weight: ${theme.font.weight};
+		font-size: ${theme.font.size};
 		line-height: ${theme.font.lineHeight};
 
 		.toggle {
@@ -32,9 +32,9 @@ StyledToggle.defaultProps = {
 		},
 
 		font: {
-			fontFamily: 'Roboto, sans-serif',
-			fontWeight: '400',
-			fontSize: '16px',
+			family: 'Roboto, sans-serif',
+			weight: '400',
+			size: '16px',
 			lineHeight: '131%'
 		},
 
