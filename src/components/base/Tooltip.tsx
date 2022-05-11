@@ -8,15 +8,16 @@ interface TooltipProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledTooltip = styled.div`
 	${({ theme }) => `
+	font-family: ${theme.font.family};
+	font-size: ${theme.font.size};
+	font-weight: ${theme.font.weight};
+	line-height: ${theme.font.lineHeight};
+
 	position: relative;
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-
-	font-family: ${theme.tooltip.font.fontFamily};
-	font-size: ${theme.tooltip.font.fontSize};
-	font-weight: ${theme.tooltip.font.fontWeight};
-	line-height: ${theme.tooltip.font.lineHeight};
 
 	.tooltip--infoText-container {
 		display: none;
@@ -26,9 +27,9 @@ const StyledTooltip = styled.div`
 	}
 	
 	.tooltip--infoText {
-		border: ${theme.tooltip.border} ${theme.colors.border};
-		border-radius: ${theme.tooltip.borderRadius};
-		box-shadow: ${theme.tooltip.boxShadow} ${theme.colors.shadow};
+		border: ${theme.border.style} ${theme.colors.border};
+		border-radius: ${theme.border.radius};
+		box-shadow: ${theme.border.boxShadow} ${theme.colors.shadow};
 		padding: ${theme.tooltip.padding};
 	}
 
@@ -43,7 +44,7 @@ const StyledTooltip = styled.div`
 		z-index: 301;
 		position: absolute;
 		top:21px;
-		border: 8px solid;
+		border: 9px solid;
 		border-color: transparent transparent white transparent;
 	}
 
@@ -76,20 +77,24 @@ StyledTooltip.defaultProps = {
 			border: '#E7E3E1',
 			shadow: '#0000001A'
 		},
+
+		font: {
+			family: 'Roboto, sans-serif',
+			size: '16px',
+			weight: '400',
+			lineHeight: '24px'
+		},
+
+		border: {
+			style: '1px solid',
+			radius: '4px',
+			boxShadow: '0px 3px 0px 0px'
+		},
+
 		tooltip: {
 			width: '270px',
-			border: '1px solid',
-			borderRadius: '4px',
-			boxShadow: '0px 3px 0px 0px',
 			padding: '17px 24px',
 			margin: '8px 0 0 0',
-
-			font: {
-				fontFamily: 'Roboto, sans-serif',
-				fontSize: '16px',
-				fontWeight: '400',
-				lineHeight: '24px'
-			},
 
 			svg: {
 				height: '20px',
