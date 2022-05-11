@@ -18,7 +18,8 @@ export default {
 	argTypes: {
 		disabled: { type: 'boolean' },
 		inverted: { type: 'boolean' },
-		icon: { table: { disable: true } }
+		icon: { table: { disable: true } },
+		size: { table: { disable: true } }
 	}
 } as ComponentMeta<typeof Button>;
 
