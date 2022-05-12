@@ -37,7 +37,7 @@ const walkthrough = {
 	'step.6.title': 'Profil',
 	'step.6':
 		'Im Profilbereich können Sie persönliche und öffentliche Informationen verwalten, die Abwesenheitsnachricht während Ihres Urlaubs aktivieren, ' +
-		'Ihr Passwort ändern und viele andere Funktionen (wie die Einrichtung der 2-Faktor-Authentifizierung) nutzen'
+		'Ihr Passwort ändern und viele andere Funktionen (wie die Einrichtung der 2-Faktor-Authentifizierung) nutzen.'
 };
 
 export default walkthrough;

@@ -18,7 +18,7 @@ const walkthroughInformal = {
 		'In diesem Bereich kannst Du alle aktiven Beratungen, die jemand in deinem Team gerade bearbeitet, einsehen und zu ihnen beitragen.',
 	'step.5':
 		'Im Profilbereich kannst Du persönliche und öffentliche Informationen verwalten, die Abwesenheitsnachricht während Deines Urlaubs aktivieren, ' +
-		'Dein Passwort ändern und viele andere Funktionen (wie die Einrichtung der 2-Faktor-Authentifizierung) nutzen'
+		'Dein Passwort ändern und viele andere Funktionen (wie die Einrichtung der 2-Faktor-Authentifizierung) nutzen.'
 };
 
 export default walkthroughInformal;

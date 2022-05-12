@@ -54,6 +54,8 @@
 
 	&-tooltip-title {
 		font-size: $font-size-h3;
+		font-weight: 500;
+		margin: 20px 0 0 0;
 	}
 
 	&-tooltiptext {
@@ -62,21 +64,19 @@
 	}
 
 	&-skipbutton {
+		content: url('../../resources/img/icons/x.svg');
+		position: relative;
+		top: -12px;
+		width: 24px;
 		box-sizing: content-box;
 		color: #000;
-		float: none;
-		font-size: 40px;
-		cursor: pointer;
-		font-weight: 400;
-		line-height: normal;
-		text-align: right;
 		padding: 0;
+		float: none;
 	}
 
 	&-tooltipbuttons {
 		padding: 0 25px 15px;
-		display: flex;
-		flex-direction: row;
+		display: block;
 		justify-content: space-between;
 		border: none;
 		grid-area: actionButtons;
@@ -102,18 +102,22 @@
 	}
 
 	&-nextbutton:after {
-		content: '\203A';
-		margin-left: 15px;
-		font-size: 32px;
-		position: relative;
-		top: 2px;
+		background-image: url('../../resources/img/icons/arrow-right.svg');
+		background-size: 16px 16px;
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		content: '';
+		margin: 0px 0px -2px 10px;
 	}
 
 	&-prevbutton:before {
-		content: '\2039';
-		margin-right: 15px;
-		font-size: 32px;
-		position: relative;
-		top: 2px;
+		background-image: url('../../resources/img/icons/arrow-left.svg');
+		background-size: 16px 16px;
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		content: '';
+		margin: 0px 10px -2px 0px;
 	}
 }
