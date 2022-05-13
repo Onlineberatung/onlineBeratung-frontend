@@ -43,7 +43,9 @@ export const Walkthrough = () => {
 			}}
 			onChange={function (nextStepIndex) {
 				let element: HTMLElement = document.querySelector(
-					`.walkthrough_step_${nextStepIndex}`
+					nextStepIndex < 4
+						? '.walkthrough_step_3'
+						: `.walkthrough_step_${nextStepIndex}`
 				);
 				element?.click();
 			}}

@@ -1,7 +1,7 @@
 const walkthrough = {
 	'title': 'Rundgang',
 	'subtitle':
-		'Um Ihnen die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Sie vorbereitet. <br /> Sie können ihn jederzeit abbrechen oder in Ihrem Profil erneut starten',
+		'Um Ihnen die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Sie vorbereitet. <br /> Sie können ihn jederzeit abbrechen oder in Ihrem Profil erneut starten.',
 	'switch.active.label': 'Rundgang aktiv',
 	'switch.deactive.label': 'Rundgang aktiviert',
 	'step.next': 'Weiter',
@@ -11,7 +11,7 @@ const walkthrough = {
 	'step.of': 'von',
 	'step.0.title': 'Rundgang',
 	'step.0':
-		'Um Ihnen die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Sie vorbereitet. <br /> Sie können ihn jederzeit abbrechen oder in ihrem Profil erneut starten',
+		'Um Ihnen die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Sie vorbereitet. <br /> Sie können ihn jederzeit abbrechen oder in ihrem Profil erneut starten.',
 	'step.1.title': 'Erstanfragen',
 	'step.1':
 		'Von hier aus können Sie einen Chat mit einem/einer Ratsuchenden beginnen, der/die sich gerade im Warteraum befindet. Die Ratsuchenden werden mit einem anonymen Namen gekennzeichnet, ' +
