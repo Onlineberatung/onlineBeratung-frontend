@@ -229,6 +229,10 @@ module.exports = function (webpackEnv) {
 		mode: isEnvProduction
 			? 'production'
 			: isEnvDevelopment && 'development',
+		// TODO: remove once Webpack 5's team addresses https://github.com/webpack/webpack/issues/15431#issuecomment-1048832781
+		watchOptions: {
+			aggregateTimeout: 500
+		},
 		// Stop compilation early in production
 		bail: isEnvProduction,
 		devtool: isEnvProduction
