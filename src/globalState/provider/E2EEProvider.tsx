@@ -1,57 +1,9 @@
 import * as React from 'react';
-import {
-	createContext,
-	useState,
-	useContext,
-	useEffect,
-	useCallback
-} from 'react';
-import {
-	decryptRSA,
-	importAESKey,
-	importRSAKey,
-	toString
-} from '../../utils/encryptionHelpers';
+import { createContext, useState, useEffect, useCallback } from 'react';
+import { importRSAKey } from '../../utils/encryptionHelpers';
 import { apiRocketChatSubscriptionsGet } from '../../api/apiRocketChatSubscriptionsGet';
 import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
-
-// RC Response Type
-type SubscriptionType = {
-	E2EKey?: string;
-	t: 'd' | 'c' | 'p' | 'l';
-	ts: {
-		$date: number;
-	};
-	ls: {
-		$date: number;
-	};
-	name: string;
-	rid: string;
-	u: {
-		_id: string;
-		username: string;
-	};
-	open: boolean;
-	alert: boolean;
-	roles?: any;
-	unread: number;
-	tunread?: number;
-	tunreadGroup?: number;
-	tunreadUser?: number;
-	_updatedAt: {
-		$date: number;
-	};
-	_id: string;
-	lr: {
-		$date: number;
-	};
-	hideUnreadStatus: boolean;
-	teamMain: boolean;
-	teamId: string;
-	userMentions: number;
-	groupMentions: number;
-	prid: string;
-};
+import { SubscriptionType } from '../../types/rc/SubscriptionType';
 
 type RoomE2EDataType = {
 	key?: CryptoKey;
@@ -68,6 +20,7 @@ export const E2EEContext = createContext<{
 	subscriptions: SubscriptionType[];
 	rooms: any[];
 	refresh: () => void;
+	reloadPrivateKey: () => void;
 }>(null);
 
 export function E2EEProvider(props) {
@@ -77,7 +30,7 @@ export function E2EEProvider(props) {
 	>([]);
 	const [rooms, setRooms] = useState<any[]>([]);
 
-	useEffect(() => {
+	const reloadPrivateKey = useCallback(() => {
 		const privateKey = sessionStorage.getItem('private_key');
 		if (!privateKey) {
 			return;
@@ -85,8 +38,12 @@ export function E2EEProvider(props) {
 		importRSAKey(JSON.parse(privateKey), ['decrypt']).then(setKey);
 	}, []);
 
+	useEffect(() => {
+		reloadPrivateKey();
+	}, [reloadPrivateKey]);
+
 	// ToDo: Refresh could later be replace by socket event subscription changed
-	// ToDo: Remember last update and use "since" parameter to get only new rooms on refresh
+	// ToDo: Remember last update and use "since" parameter to get only changed rooms on refresh
 	const refresh = useCallback(() => {
 		apiRocketChatSubscriptionsGet().then(({ update }) => {
 			setSubscriptions(update);
@@ -102,7 +59,9 @@ export function E2EEProvider(props) {
 	}, [refresh]);
 
 	return (
-		<E2EEContext.Provider value={{ key, subscriptions, rooms, refresh }}>
+		<E2EEContext.Provider
+			value={{ key, subscriptions, rooms, refresh, reloadPrivateKey }}
+		>
 			{props.children}
 		</E2EEContext.Provider>
 	);

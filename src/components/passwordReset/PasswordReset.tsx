@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { apiUpdatePassword } from '../../api';
@@ -20,8 +20,24 @@ import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/c
 import './passwordReset.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
+import { E2EEContext, UserDataContext } from '../../globalState';
+import {
+	createAndLoadKeys,
+	encodePrivateKey,
+	getMasterKey,
+	reEncryptMyRoomKeys
+} from '../../utils/encryptionHelpers';
+import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 
 export const PasswordReset = () => {
+	const {
+		subscriptions,
+		rooms,
+		key: e2eePrivateKey,
+		reloadPrivateKey
+	} = useContext(E2EEContext);
+	const { userData } = useContext(UserDataContext);
+
 	const [oldPassword, setOldPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -176,11 +192,40 @@ export const PasswordReset = () => {
 		if (isRequestInProgress) {
 			return null;
 		}
+
 		if (isValid) {
 			setIsRequestInProgress(true);
 			setOldPasswordErrorMessage('');
+
 			apiUpdatePassword(oldPassword, newPassword)
+				// Generate new private/public keypair
+				.then(createAndLoadKeys)
+				// Reencrypt all subscription keys with new keypair
+				.then(() =>
+					reEncryptMyRoomKeys(
+						subscriptions,
+						rooms,
+						userData.rcUid,
+						e2eePrivateKey
+					)
+				)
+				.then(() => getMasterKey(userData.rcUid, newPassword))
+				// encode private key form keypair
+				.then((masterKey) =>
+					encodePrivateKey(
+						sessionStorage.getItem('private_key'),
+						masterKey
+					)
+				)
+				// Update keypair in rocket.chat
+				.then((encPrivateKey) =>
+					apiRocketChatSetUserKeys(
+						sessionStorage.getItem('public_key'),
+						encPrivateKey
+					)
+				)
 				.then(() => {
+					reloadPrivateKey();
 					setOverlayActive(true);
 					setIsRequestInProgress(false);
 					logout(false, config.urls.toLogin);

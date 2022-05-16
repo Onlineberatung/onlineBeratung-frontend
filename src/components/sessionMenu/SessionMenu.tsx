@@ -88,6 +88,7 @@ import { Text } from '../text/Text';
 import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
 import { apiRocketChatGetUsersOfRoomWithoutKey } from '../../api/apiRocketChatGetUsersOfRoomWithoutKey';
 import {
+	createGroupKey,
 	decodeUsername,
 	encryptForParticipant,
 	encryptRSA,
@@ -103,7 +104,6 @@ import { apiRocketChatRoomsInfo } from '../../api/apiRocketChatRoomsInfo';
 import { apiRocketChatSetRoomKeyID } from '../../api/apiRocketChatSetRoomKeyID';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 import { useE2EE } from '../../hooks/useE2EE';
-import { apiRocketChatUsersInfo } from '../../api/apiRocketChatUsersInfo';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -111,34 +111,6 @@ export interface SessionMenuProps {
 	legalLinks: Array<LegalLinkInterface>;
 	isJoinGroupChatView?: boolean;
 }
-
-const createGroupKey = (): Promise<{
-	key: CryptoKey;
-	keyID: string;
-	sessionKeyExportedString: string;
-}> =>
-	new Promise(async (resolve, reject) => {
-		console.log('Creating room key');
-		// Create group key
-		let key;
-		try {
-			key = await generateAESKey();
-		} catch (error) {
-			console.error('Error generating group key: ', error);
-			throw error;
-		}
-
-		try {
-			const sessionKeyExported = await exportJWKKey(key);
-			const sessionKeyExportedString = JSON.stringify(sessionKeyExported);
-			const keyID = btoa(sessionKeyExportedString).slice(0, 12);
-
-			resolve({ key, keyID, sessionKeyExportedString });
-		} catch (error) {
-			console.error('Error exporting group key: ', error);
-			throw error;
-		}
-	});
 
 export const SessionMenu = (props: SessionMenuProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();

@@ -1,6 +1,6 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { E2EEContext } from '../globalState';
-import { decryptRSA, importAESKey, toString } from '../utils/encryptionHelpers';
+import { importGroupKey } from '../utils/encryptionHelpers';
 
 type useE2EEType = {
 	key?: CryptoKey;
@@ -8,41 +8,6 @@ type useE2EEType = {
 	sessionKeyExportedString?: string;
 	encrypted?: boolean;
 };
-
-const importGroupKey = (groupKey, e2eePrivateKey): Promise<useE2EEType> =>
-	new Promise(async (resolve, reject) => {
-		// Get existing group key
-		// const keyID = groupKey.slice(0, 12);
-		groupKey = groupKey.slice(12);
-		groupKey = atob(groupKey);
-		groupKey = Uint8Array.from(Object.values(JSON.parse(groupKey)));
-
-		// Decrypt obtained encrypted session key
-		let sessionKeyExportedString;
-		try {
-			const decryptedKey = await decryptRSA(e2eePrivateKey, groupKey);
-			sessionKeyExportedString = toString(decryptedKey);
-		} catch (error) {
-			console.error('Error decrypting group key: ', error);
-			reject(error);
-			return;
-		}
-
-		const keyID = btoa(sessionKeyExportedString).slice(0, 12);
-
-		// Import session key for use.
-		try {
-			const key = await importAESKey(
-				JSON.parse(sessionKeyExportedString)
-			);
-			// Key has been obtained. E2E is now in session.
-			resolve({ key, keyID, sessionKeyExportedString });
-		} catch (error) {
-			console.error('Error decrypting group key: ', error);
-			reject(error);
-			return;
-		}
-	});
 
 export const useE2EE = (rid: string): useE2EEType => {
 	const {

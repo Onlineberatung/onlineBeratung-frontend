@@ -1,5 +1,7 @@
 import { encode, decode } from 'hi-base32';
 import ByteBuffer from 'bytebuffer';
+import CryptoJS from 'crypto-js';
+import { apiRocketChatUpdateGroupKey } from '../api/apiRocketChatUpdateGroupKey';
 const StaticArrayBufferProto = ArrayBuffer.prototype;
 
 // encoding helper
@@ -304,3 +306,173 @@ export const encryptForParticipant = (
 			return console.error('Error encrypting user key: ', error);
 		}
 	});
+
+export type GroupKeyType = {
+	key: CryptoKey;
+	keyID: string;
+	sessionKeyExportedString: string;
+};
+
+export const createGroupKey = (): Promise<GroupKeyType> =>
+	new Promise(async (resolve, reject) => {
+		console.log('Creating room key');
+		// Create group key
+		let key;
+		try {
+			key = await generateAESKey();
+		} catch (error) {
+			console.error('Error generating group key: ', error);
+			throw error;
+		}
+
+		try {
+			const sessionKeyExported = await exportJWKKey(key);
+			const sessionKeyExportedString = JSON.stringify(sessionKeyExported);
+			const keyID = btoa(sessionKeyExportedString).slice(0, 12);
+
+			resolve({ key, keyID, sessionKeyExportedString });
+		} catch (error) {
+			console.error('Error exporting group key: ', error);
+			throw error;
+		}
+	});
+
+export const importGroupKey = (
+	groupKey,
+	e2eePrivateKey
+): Promise<GroupKeyType> =>
+	new Promise(async (resolve, reject) => {
+		// Get existing group key
+		// const keyID = groupKey.slice(0, 12);
+		groupKey = groupKey.slice(12);
+		groupKey = atob(groupKey);
+		groupKey = Uint8Array.from(Object.values(JSON.parse(groupKey)));
+
+		// Decrypt obtained encrypted session key
+		let sessionKeyExportedString;
+		try {
+			const decryptedKey = await decryptRSA(e2eePrivateKey, groupKey);
+			sessionKeyExportedString = toString(decryptedKey);
+		} catch (error) {
+			console.error('Error decrypting group key: ', error);
+			reject(error);
+			return;
+		}
+
+		const keyID = btoa(sessionKeyExportedString).slice(0, 12);
+
+		// Import session key for use.
+		try {
+			const key = await importAESKey(
+				JSON.parse(sessionKeyExportedString)
+			);
+			// Key has been obtained. E2E is now in session.
+			resolve({ key, keyID, sessionKeyExportedString });
+		} catch (error) {
+			console.error('Error decrypting group key: ', error);
+			reject(error);
+			return;
+		}
+	});
+
+export const reEncryptMyRoomKeys = async (
+	rooms,
+	subscriptions,
+	rcUserId,
+	oldPrivateKey
+) => {
+	return await Promise.all(
+		subscriptions.map(async (subscription) => {
+			const room = rooms.find((room) => room._id === subscription.rid);
+
+			if (!room?.e2eKeyId || !subscription?.E2EKey) {
+				return null;
+			}
+
+			const { key } = await importGroupKey(
+				subscription.E2EKey,
+				oldPrivateKey
+			);
+
+			return encryptForParticipant(
+				sessionStorage.getItem('public_key'),
+				room.e2eKeyId,
+				key
+			).then((userKey) => {
+				console.log('Update Group Key', rcUserId, room._id, userKey);
+				return apiRocketChatUpdateGroupKey(
+					rcUserId,
+					room._id,
+					userKey
+				).then((res) => {
+					console.log('User Room Key updated for user ', rcUserId);
+				});
+			});
+		})
+	);
+};
+
+export const encodePrivateKey = async (privateKey, masterKey) => {
+	const vector = crypto.getRandomValues(new Uint8Array(16));
+	try {
+		const encodedPrivateKey = await encryptAES(
+			vector,
+			masterKey,
+			toArrayBuffer(privateKey)
+		);
+
+		return JSON.stringify(
+			joinVectorAndEcryptedData(vector, encodedPrivateKey)
+		);
+	} catch (error) {
+		throw new Error('Error encrypting encodedPrivateKey: ' + error);
+	}
+};
+
+export const decodePrivateKey = async (privateKey, masterKey) => {
+	const [vector, cipherText] = splitVectorAndEcryptedData(
+		Uint8Array.from(Object.values(JSON.parse(privateKey)))
+	);
+
+	try {
+		return toString(await decryptAES(vector, masterKey, cipherText));
+	} catch (error) {
+		throw new Error('E2E -> Error decrypting private key');
+	}
+};
+
+export const loadKeys = async (private_key, public_key) => {
+	sessionStorage.setItem('public_key', public_key);
+	try {
+		const key = await importRSAKey(JSON.parse(private_key), ['decrypt']);
+		sessionStorage.setItem('private_key', private_key);
+		return key;
+	} catch (error) {
+		throw new Error('Error importing private key: ' + error);
+	}
+};
+
+export const createAndLoadKeys = async () => {
+	let key;
+	try {
+		key = await generateRSAKey();
+	} catch (error) {
+		throw new Error('Error generating key: ' + error);
+	}
+
+	try {
+		const publicKey = await exportJWKKey(key.publicKey);
+		sessionStorage.setItem('public_key', JSON.stringify(publicKey));
+	} catch (error) {
+		throw new Error('Error exporting public key: ' + error);
+	}
+
+	try {
+		const privateKey = await exportJWKKey(key.privateKey);
+		sessionStorage.setItem('private_key', JSON.stringify(privateKey));
+	} catch (error) {
+		throw new Error('Error exporting private key: ' + error);
+	}
+
+	return key;
+};

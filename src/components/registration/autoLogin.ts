@@ -17,7 +17,11 @@ import {
 	toArrayBuffer,
 	getMasterKey,
 	getTmpMasterKey,
-	encryptForParticipant
+	encryptForParticipant,
+	createAndLoadKeys,
+	encodePrivateKey,
+	decodePrivateKey,
+	loadKeys
 } from '../../utils/encryptionHelpers';
 import { setTokens } from '../auth/auth';
 import { FETCH_ERRORS } from '../../api';
@@ -151,6 +155,7 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 						return null;
 					}
 
+					// Substring(16) because of 'tmp.' prefix
 					const roomKeyEncrypted = subscription.E2EKey.substring(16);
 					const bytes = CryptoJS.AES.decrypt(
 						roomKeyEncrypted,
@@ -198,68 +203,3 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 
 		resolve(undefined);
 	});
-
-const encodePrivateKey = async (privateKey, masterKey) => {
-	const vector = crypto.getRandomValues(new Uint8Array(16));
-	try {
-		const encodedPrivateKey = await encryptAES(
-			vector,
-			masterKey,
-			toArrayBuffer(privateKey)
-		);
-
-		return JSON.stringify(
-			joinVectorAndEcryptedData(vector, encodedPrivateKey)
-		);
-	} catch (error) {
-		throw new Error('Error encrypting encodedPrivateKey: ' + error);
-	}
-};
-
-const decodePrivateKey = async (privateKey, masterKey) => {
-	const [vector, cipherText] = splitVectorAndEcryptedData(
-		Uint8Array.from(Object.values(JSON.parse(privateKey)))
-	);
-
-	try {
-		return toString(await decryptAES(vector, masterKey, cipherText));
-	} catch (error) {
-		throw new Error('E2E -> Error decrypting private key');
-	}
-};
-
-const loadKeys = async (private_key, public_key) => {
-	sessionStorage.setItem('public_key', public_key);
-	try {
-		const key = await importRSAKey(JSON.parse(private_key), ['decrypt']);
-		sessionStorage.setItem('private_key', private_key);
-		return key;
-	} catch (error) {
-		throw new Error('Error importing private key: ' + error);
-	}
-};
-
-const createAndLoadKeys = async () => {
-	let key;
-	try {
-		key = await generateRSAKey();
-	} catch (error) {
-		throw new Error('Error generating key: ' + error);
-	}
-
-	try {
-		const publicKey = await exportJWKKey(key.publicKey);
-		sessionStorage.setItem('public_key', JSON.stringify(publicKey));
-	} catch (error) {
-		throw new Error('Error exporting public key: ' + error);
-	}
-
-	try {
-		const privateKey = await exportJWKKey(key.privateKey);
-		sessionStorage.setItem('private_key', JSON.stringify(privateKey));
-	} catch (error) {
-		throw new Error('Error exporting private key: ' + error);
-	}
-
-	return key;
-};
