@@ -208,7 +208,9 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 			isNotRead: message.unread,
 			alias: message.alias,
 			attachments: message.attachments,
-			file: message.file
+			file: message.file,
+			t: message.t,
+			rid: message.rid
 		};
 	});
 };

@@ -4,6 +4,8 @@ import { apiForwardMessage } from '../../api';
 import { translate } from '../../utils/translate';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
+import { encryptText } from '../../utils/encryptionHelpers';
+import { useE2EE } from '../../hooks/useE2EE';
 
 interface ForwardMessageProps {
 	right: Boolean;
@@ -18,14 +20,22 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 	const [messageForwarded, setMessageForwarded] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
-	const forwardMessage = () => {
+	const { key, keyID, encrypted } = useE2EE(props.groupId);
+
+	const forwardMessage = async () => {
 		if (isRequestInProgress) {
 			return null;
 		}
+
+		if (encrypted && !keyID) {
+			console.error("Can't send message without key");
+			return null;
+		}
+
 		setIsRequestInProgress(true);
 
 		apiForwardMessage(
-			props.message,
+			await encryptText(props.message, keyID, key),
 			props.messageTime,
 			props.displayName,
 			props.askerRcId,

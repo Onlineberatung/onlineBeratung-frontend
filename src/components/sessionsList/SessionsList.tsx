@@ -26,7 +26,8 @@ import {
 	getUnreadMyMessages,
 	UpdateSessionListContext,
 	isAnonymousSession,
-	STATUS_EMPTY
+	STATUS_EMPTY,
+	E2EEContext
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
@@ -73,6 +74,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 	const sessionsContext = useContext(SessionsDataContext);
 	const { sessionsData, setSessionsData } = sessionsContext;
 	const { filterStatus, setFilterStatus } = useContext(FilterStatusContext);
+	const { refresh } = useContext(E2EEContext);
 	const currentFilter = useMemo(() => filterStatus, [filterStatus]);
 
 	const [sessionListTab, setSessionListTab] = useState(
@@ -256,9 +258,10 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 		if (updateSessionList && !isSessionListUpdating) {
 			setIsSessionListUpdating(true);
 			refreshSessionList();
+			refresh();
 		}
 		setUpdateSessionList(null);
-	}, [updateSessionList, userData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [updateSessionList, userData, refresh]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const fetchSessionsForAcceptedGroupId = (increasedOffset?: number) => {
 		const updatedOffset = increasedOffset ?? currentOffset;

@@ -6,6 +6,7 @@ import {
 	useEffect,
 	useState
 } from 'react';
+import CryptoJS from 'crypto-js';
 import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
 import {
@@ -25,7 +26,8 @@ import {
 	UpdateSessionListContext,
 	useConsultingType,
 	UserDataContext,
-	LegalLinkInterface
+	LegalLinkInterface,
+	E2EEContext
 } from '../../globalState';
 import {
 	getChatItemForSession,
@@ -73,6 +75,7 @@ import './sessionMenu.styles';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
+import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import {
 	getVideoCallUrl,
 	supportsE2EEncryptionVideoCall
@@ -82,6 +85,25 @@ import { history } from '../app/app';
 import DeleteSession from '../session/DeleteSession';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Text } from '../text/Text';
+import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
+import { apiRocketChatGetUsersOfRoomWithoutKey } from '../../api/apiRocketChatGetUsersOfRoomWithoutKey';
+import {
+	decodeUsername,
+	encryptForParticipant,
+	encryptRSA,
+	exportJWKKey,
+	generateAESKey,
+	getMasterKey,
+	getTmpMasterKey,
+	importRSAKey,
+	toArrayBuffer
+} from '../../utils/encryptionHelpers';
+import { apiRocketChatSubscriptionsGetOne } from '../../api/apiRocketChatSubscriptionsGetOne';
+import { apiRocketChatRoomsInfo } from '../../api/apiRocketChatRoomsInfo';
+import { apiRocketChatSetRoomKeyID } from '../../api/apiRocketChatSetRoomKeyID';
+import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
+import { useE2EE } from '../../hooks/useE2EE';
+import { apiRocketChatUsersInfo } from '../../api/apiRocketChatUsersInfo';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -89,6 +111,34 @@ export interface SessionMenuProps {
 	legalLinks: Array<LegalLinkInterface>;
 	isJoinGroupChatView?: boolean;
 }
+
+const createGroupKey = (): Promise<{
+	key: CryptoKey;
+	keyID: string;
+	sessionKeyExportedString: string;
+}> =>
+	new Promise(async (resolve, reject) => {
+		console.log('Creating room key');
+		// Create group key
+		let key;
+		try {
+			key = await generateAESKey();
+		} catch (error) {
+			console.error('Error generating group key: ', error);
+			throw error;
+		}
+
+		try {
+			const sessionKeyExported = await exportJWKKey(key);
+			const sessionKeyExportedString = JSON.stringify(sessionKeyExported);
+			const keyID = btoa(sessionKeyExportedString).slice(0, 12);
+
+			resolve({ key, keyID, sessionKeyExportedString });
+		} catch (error) {
+			console.error('Error exporting group key: ', error);
+			throw error;
+		}
+	});
 
 export const SessionMenu = (props: SessionMenuProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
@@ -102,6 +152,105 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+
+	/** E2EE Start */
+	const { subscriptions, rooms, refresh } = useContext(E2EEContext);
+	const { encrypted } = useE2EE(groupIdFromParam);
+	const hasE2EEFeatureEnabled = () =>
+		localStorage.getItem('e2eeFeatureEnabled') ?? false;
+
+	const buttonEncryptRoom: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		title: 'Encrypt',
+		smallIconBackgroundColor: encrypted ? 'green' : 'red',
+		icon: <LockIcon />,
+		disabled: false
+	};
+
+	const handleEncryptRoom = useCallback(async () => {
+		if (encrypted) {
+			console.log('Room already encrpted');
+			return;
+		}
+
+		const subscription = subscriptions.find(
+			(subscription) => subscription.rid === groupIdFromParam
+		);
+		const room = rooms.find((room) => room._id === groupIdFromParam);
+
+		if (!subscription || !room) {
+			console.error('Subscription/Room to encrypt not found!');
+			return;
+		}
+
+		if (room.e2eKeyId && !subscription.E2EKey) {
+			// ToDo: Implement logic that someone else needs to encrypt the key for you
+			console.error('Room already encrypted but you got no key!');
+			return;
+		} else if (room.e2eKeyId) {
+			console.log('Room already encrypted!');
+			return;
+		}
+
+		const { keyID, sessionKeyExportedString } = await createGroupKey();
+		const { members } = await apiRocketChatGroupMembers(groupIdFromParam);
+		const { users } = await apiRocketChatGetUsersOfRoomWithoutKey(
+			groupIdFromParam
+		);
+
+		await Promise.all(
+			members
+				// Filter system user and users with unencrypted username (Maybe more system users)
+				.filter(
+					(member) =>
+						member.username !== 'System' &&
+						member.username.indexOf('enc.') === 0
+				)
+				.map(async (member) => {
+					const user = users.find((user) => user._id === member._id);
+					// If user has no public_key encrypt with tmpMasterKey
+					const tmpMasterKey = await getTmpMasterKey(member._id);
+					let userKey;
+					if (user) {
+						userKey = await encryptForParticipant(
+							user.e2e.public_key,
+							keyID,
+							sessionKeyExportedString
+						);
+					} else {
+						userKey =
+							'tmp.' +
+							keyID +
+							CryptoJS.AES.encrypt(
+								sessionKeyExportedString,
+								tmpMasterKey
+							);
+					}
+
+					return apiRocketChatUpdateGroupKey(
+						member._id,
+						groupIdFromParam,
+						userKey
+					);
+				})
+		);
+
+		// Set Room Key ID at the very end because if something failed before it will still be repairable
+		// After room key is set the room is encrypted and the room key could not be set again.
+		console.log('Set Room Key ID', keyID);
+		try {
+			await apiRocketChatSetRoomKeyID(groupIdFromParam, keyID);
+		} catch (e) {
+			console.error(e);
+			return;
+		}
+
+		console.log('Start writing encrypted messages!');
+		refresh();
+		return;
+	}, [encrypted, groupIdFromParam, refresh, rooms, subscriptions]);
+	/** E2EE End */
+
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
@@ -110,6 +259,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
 	useEffect(() => {
+		apiRocketChatGroupMembers(groupIdFromParam).then(({ members }) => {
+			members.forEach((member) => {
+				console.log(member._id, decodeUsername(member.username));
+			});
+		});
+
 		document.addEventListener('mousedown', (e) => handleClick(e));
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -391,19 +546,29 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					</span>
 				)}
 
-			{hasVideoCallFeatures() && (
+			{(hasVideoCallFeatures() || hasE2EEFeatureEnabled()) && (
 				<div
 					className="sessionMenu__videoCallButtons"
 					data-cy="session-header-video-call-buttons"
 				>
-					<Button
-						buttonHandle={() => handleStartVideoCall(true)}
-						item={buttonStartVideoCall}
-					/>
-					<Button
-						buttonHandle={() => handleStartVideoCall()}
-						item={buttonStartCall}
-					/>
+					{hasVideoCallFeatures() && (
+						<>
+							<Button
+								buttonHandle={() => handleStartVideoCall(true)}
+								item={buttonStartVideoCall}
+							/>
+							<Button
+								buttonHandle={() => handleStartVideoCall()}
+								item={buttonStartCall}
+							/>
+						</>
+					)}
+					{hasE2EEFeatureEnabled() && (
+						<Button
+							buttonHandle={() => handleEncryptRoom()}
+							item={buttonEncryptRoom}
+						/>
+					)}
 				</div>
 			)}
 

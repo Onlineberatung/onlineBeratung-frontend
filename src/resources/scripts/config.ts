@@ -63,12 +63,29 @@ export const config = {
 			logout: apiUrl + '/api/v1/logout',
 			subscriptions: {
 				get: apiUrl + '/api/v1/subscriptions.get',
-				read: apiUrl + '/api/v1/subscriptions.read'
+				read: apiUrl + '/api/v1/subscriptions.read',
+				getOne: apiUrl + '/api/v1/subscriptions.getOne'
+			},
+			rooms: {
+				get: apiUrl + '/api/v1/rooms.get',
+				info: apiUrl + '/api/v1/rooms.info'
+			},
+			users: {
+				info: apiUrl + '/api/v1/users.info'
+			},
+			groups: {
+				members: apiUrl + '/api/v1/groups.members'
 			},
 			e2ee: {
 				fetchMyKeys: apiUrl + '/api/v1/e2e.fetchMyKeys',
+				getUsersOfRoomWithoutKey:
+					apiUrl + '/api/v1/e2e.getUsersOfRoomWithoutKey',
+				// Resets all e2ee keys for user
+				resetOwnE2EKey: apiUrl + '/api/v1/e2e.resetOwnE2EKey',
+				setRoomKeyID: apiUrl + '/api/v1/e2e.setRoomKeyID',
 				setUserPublicAndPrivateKeys:
-					apiUrl + '/api/v1/e2e.setUserPublicAndPrivateKeys'
+					apiUrl + '/api/v1/e2e.setUserPublicAndPrivateKeys',
+				updateGroupKey: apiUrl + '/api/v1/e2e.updateGroupKey'
 			}
 		},
 		sendMessage: apiUrl + '/service/messages/new',

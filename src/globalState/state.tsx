@@ -12,7 +12,8 @@ import {
 	UpdateSessionListProvider,
 	UserDataProvider,
 	WebsocketConnectionDeactivatedProvider,
-	TenantProvider
+	TenantProvider,
+	E2EEProvider
 } from '.';
 
 function ProviderComposer({ contexts, children }) {

@@ -87,6 +87,8 @@ import clsx from 'clsx';
 import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { decryptText, encryptText } from '../../utils/encryptionHelpers';
+import { useE2EE } from '../../hooks/useE2EE';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -155,6 +157,22 @@ export interface MessageSubmitInterfaceComponentProps {
 	language?: string;
 }
 
+const encryptAttachment = (attachment, keyID, key) => {
+	if (!keyID) {
+		return attachment;
+	}
+
+	/* ToDo: Currently attachments should not be E2E encrypted.
+	In my opinion its required because this could be private pictures or medical documents
+	or anything else but it should be tbd because there are some points which
+	have to be changed to get it working.
+	- Encrypt will happen in frontend so backend could not do any spam protection anymore
+	- Download logic need to download the document first and decrypt it
+	- Some better spam protection in frontend?
+	 */
+	return attachment;
+};
+
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
@@ -188,6 +206,12 @@ export const MessageSubmitInterfaceComponent = (
 	);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
+	/** E2EE Start */
+	const { key, keyID, encrypted } = useE2EE(
+		props.sessionIdFromParam?.toString() || props.groupIdFromParam
+	);
+	/** E2EE End */
+
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
 	) as HTMLInputElement;
@@ -218,8 +242,11 @@ export const MessageSubmitInterfaceComponent = (
 		}
 
 		apiGetDraftMessage(props.sessionIdFromParam || props.groupIdFromParam)
-			.then((response) => {
-				setEditorWithMarkdownString(response.message);
+			.then((response) =>
+				decryptText(response.message, keyID, key, true, true, 'enc.')
+			)
+			.then((message) => {
+				setEditorWithMarkdownString(message);
 			})
 			.catch((error) => {
 				if (error.message !== FETCH_ERRORS.EMPTY) {
@@ -240,10 +267,14 @@ export const MessageSubmitInterfaceComponent = (
 					requestFeedbackCheckboxCallback.checked
 						? activeSession.session.feedbackGroupId
 						: props.sessionIdFromParam || props.groupIdFromParam;
-				apiPostDraftMessage(
-					groupId,
-					currentDraftMessageRef.current
-				).then();
+				encryptText(
+					currentDraftMessageRef.current,
+					keyID,
+					key,
+					'enc.'
+				).then((message) => {
+					apiPostDraftMessage(groupId, message).then();
+				});
 			}
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -264,7 +295,12 @@ export const MessageSubmitInterfaceComponent = (
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.session.feedbackGroupId
 					: props.sessionIdFromParam || props.groupIdFromParam;
-			apiPostDraftMessage(groupId, debouncedDraftMessage);
+
+			encryptText(debouncedDraftMessage, keyID, key, 'enc.').then(
+				(message) => {
+					apiPostDraftMessage(groupId, message).then();
+				}
+			);
 		}
 	}, [debouncedDraftMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -472,9 +508,14 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
-	const sendMessage = () => {
+	const sendMessage = async () => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const attachment = attachmentInput && attachmentInput.files[0];
+		if (encrypted && !keyID) {
+			console.error("Can't send message without key");
+			return;
+		}
+
 		if (getTypedMarkdownMessage() || attachment) {
 			setIsRequestInProgress(true);
 		} else {
@@ -490,7 +531,7 @@ export const MessageSubmitInterfaceComponent = (
 				: sessionsData.mySessions[0].session.id;
 			apiSendEnquiry(
 				enquirySessionId,
-				getTypedMarkdownMessage(),
+				await encryptText(getTypedMarkdownMessage(), keyID, key),
 				props.language
 			)
 				.then((response) => {
@@ -513,8 +554,12 @@ export const MessageSubmitInterfaceComponent = (
 			if (attachment) {
 				setAttachmentUpload(
 					apiUploadAttachment(
-						getTypedMarkdownMessage(),
-						attachment,
+						await encryptText(
+							getTypedMarkdownMessage(),
+							keyID,
+							key
+						),
+						encryptAttachment(attachment, keyID, key),
 						sendToRoomWithId,
 						sendToFeedbackEndpoint,
 						getSendMailNotificationStatus(),
@@ -525,7 +570,11 @@ export const MessageSubmitInterfaceComponent = (
 			} else {
 				if (getTypedMarkdownMessage()) {
 					apiSendMessage(
-						getTypedMarkdownMessage(),
+						await encryptText(
+							getTypedMarkdownMessage(),
+							keyID,
+							key
+						),
 						sendToRoomWithId,
 						sendToFeedbackEndpoint,
 						getSendMailNotificationStatus()

@@ -1,3 +1,4 @@
+import CryptoJS from 'crypto-js';
 import { getKeycloakAccessToken } from '../sessionCookie/getKeycloakAccessToken';
 import { getRocketchatAccessToken } from '../sessionCookie/getRocketchatAccessToken';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
@@ -5,23 +6,26 @@ import { config } from '../../resources/scripts/config';
 import { generateCsrfToken } from '../../utils/generateCsrfToken';
 import {
 	decryptAES,
-	deriveKey,
 	encodeUsername,
 	encryptAES,
 	exportJWKKey,
 	generateRSAKey,
 	toString,
-	importRawKey,
 	importRSAKey,
 	joinVectorAndEcryptedData,
 	splitVectorAndEcryptedData,
-	toArrayBuffer
+	toArrayBuffer,
+	getMasterKey,
+	getTmpMasterKey,
+	encryptForParticipant
 } from '../../utils/encryptionHelpers';
 import { setTokens } from '../auth/auth';
 import { FETCH_ERRORS } from '../../api';
 import { apiRocketChatFetchMyKeys } from '../../api/apiRocketChatFetchMyKeys';
 import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { apiRocketChatSubscriptionsGet } from '../../api/apiRocketChatSubscriptionsGet';
+import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
+import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 
 export interface LoginData {
 	data: {
@@ -111,32 +115,6 @@ export const redirectToApp = () => {
 	window.location.href = config.urls.redirectToApp;
 };
 
-const getMasterKey = async (rcUserId, password) => {
-	if (!('TextEncoder' in window))
-		alert('Sorry, this browser does not support TextEncoder...');
-
-	if (password == null) {
-		throw new Error('Password required');
-	}
-
-	// First, create a PBKDF2 "key" containing the password
-	let baseKey;
-	try {
-		baseKey = await importRawKey(toArrayBuffer(password));
-	} catch (error) {
-		throw new Error(
-			'Error creating a key based on user password: ' + error
-		);
-	}
-
-	// Derive a key from the password
-	try {
-		return await deriveKey(toArrayBuffer(rcUserId), baseKey);
-	} catch (error) {
-		throw new Error('Error deriving baseKey: ' + error);
-	}
-};
-
 const handleE2EESetup = (password, rcUserId): Promise<any> =>
 	new Promise(async (resolve, reject) => {
 		const masterKey = await getMasterKey(rcUserId, password);
@@ -144,12 +122,7 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 		const { private_key: apiPrivateKey, public_key: publicKey } =
 			await apiRocketChatFetchMyKeys();
 
-		let isDefaultPrivateKey = false;
-		if (apiPrivateKey && apiPrivateKey.indexOf('temp.') === 0) {
-			isDefaultPrivateKey = true;
-		}
-
-		if (!apiPrivateKey || isDefaultPrivateKey) {
+		if (!apiPrivateKey) {
 			const key = await createAndLoadKeys();
 			await apiRocketChatSetUserKeys(
 				sessionStorage.getItem('public_key'),
@@ -159,9 +132,56 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 				)
 			);
 
-			if (isDefaultPrivateKey) {
-				// ToDo: Send request to backend to reencrypt all my room keys with new public key from RC
-			}
+			// Reencrypt existing tmp keys with new generated public_key
+			// ToDo: Send request to backend to reencrypt all my room keys with new public key from RC
+			const { update: subscriptions } =
+				await apiRocketChatSubscriptionsGet();
+			const { update: rooms } = await apiRocketChatRoomsGet();
+			await Promise.all(
+				subscriptions.map(async (subscription) => {
+					const room = rooms.find(
+						(room) => room._id === subscription.rid
+					);
+
+					if (
+						!room?.e2eKeyId ||
+						!subscription?.E2EKey ||
+						subscription.E2EKey.indexOf('tmp.') !== 0
+					) {
+						return null;
+					}
+
+					const roomKeyEncrypted = subscription.E2EKey.substring(16);
+					const bytes = CryptoJS.AES.decrypt(
+						roomKeyEncrypted,
+						await getTmpMasterKey(rcUserId)
+					);
+					const roomKey = bytes.toString(CryptoJS.enc.Utf8);
+
+					return encryptForParticipant(
+						sessionStorage.getItem('public_key'),
+						room.e2eKeyId,
+						roomKey
+					).then((userKey) => {
+						console.log(
+							'Update Group Key',
+							rcUserId,
+							room._id,
+							userKey
+						);
+						return apiRocketChatUpdateGroupKey(
+							rcUserId,
+							room._id,
+							userKey
+						).then((res) => {
+							console.log(
+								'User Room Key updated for user ',
+								rcUserId
+							);
+						});
+					});
+				})
+			);
 		} else {
 			try {
 				const privateKey = await decodePrivateKey(

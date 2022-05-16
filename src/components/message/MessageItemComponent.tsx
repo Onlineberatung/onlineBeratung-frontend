@@ -7,7 +7,8 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	ConsultingTypeInterface,
-	STATUS_ARCHIVED
+	STATUS_ARCHIVED,
+	E2EEContext
 } from '../../globalState';
 import {
 	SESSION_LIST_TYPES,
@@ -35,6 +36,8 @@ import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { decryptText } from '../../utils/encryptionHelpers';
+import { useE2EE } from '../../hooks/useE2EE';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -78,6 +81,8 @@ export interface MessageItem {
 	};
 	attachments?: MessageService.Schemas.AttachmentDTO[];
 	file?: MessageService.Schemas.FileDTO;
+	t: null | 'e2e';
+	rid: string;
 }
 
 interface MessageItemComponentProps extends MessageItem {
@@ -103,15 +108,29 @@ export const MessageItemComponent = ({
 	attachments,
 	file,
 	isNotRead,
-	bannedUsers
+	bannedUsers,
+	t,
+	rid
 }: MessageItemComponentProps) => {
 	const activeSession = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
 	const [renderedMessage, setRenderedMessage] = useState<string | null>(null);
+	const [decryptedMessage, setDecryptedMessage] = useState<string | null>(
+		null
+	);
+
+	const { key, keyID, encrypted } = useE2EE(rid);
+
+	useEffect((): void => {
+		decryptText(message, keyID, key, encrypted, t === 'e2e').then(
+			setDecryptedMessage
+		);
+	}, [key, keyID, encrypted, message, t]);
+
 	useEffect((): void => {
 		const rawMessageObject = markdownToDraft(
-			message,
+			decryptedMessage,
 			markdownToDraftDefaultOptions
 		);
 		const contentStateMessage: ContentState =
@@ -125,7 +144,7 @@ export const MessageItemComponent = ({
 				  )
 				: ''
 		);
-	}, [message]);
+	}, [decryptedMessage]);
 
 	const hasRenderedMessage = renderedMessage && renderedMessage.length > 0;
 	const chatItem = getChatItemForSession(activeSession);
@@ -284,7 +303,7 @@ export const MessageItemComponent = ({
 							chatItem.status !== STATUS_ARCHIVED && (
 								<ForwardMessage
 									right={isMyMessage}
-									message={message}
+									message={decryptedMessage}
 									messageTime={messageTime}
 									askerRcId={askerRcId}
 									groupId={chatItem.feedbackGroupId}

@@ -30,7 +30,8 @@ import {
 	getActiveSession,
 	STATUS_FINISHED,
 	STATUS_EMPTY,
-	STATUS_ENQUIRY
+	STATUS_ENQUIRY,
+	E2EEContext
 } from '../../globalState';
 import { history } from '../app/app';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
@@ -41,6 +42,8 @@ import { Tag } from '../tag/Tag';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
 import clsx from 'clsx';
+import { decryptText } from '../../utils/encryptionHelpers';
+import { useE2EE } from '../../hooks/useE2EE';
 
 interface SessionListItemProps {
 	type: SESSION_LIST_TYPES;
@@ -80,7 +83,6 @@ export const SessionListItemComponent = ({
 	const isLiveChatFinished = isSessionChat(listItem)
 		? listItem.status === STATUS_FINISHED
 		: false;
-	let plainTextLastMessage = '';
 	const consultingType = useConsultingType(listItem.consultingType);
 	const sessionConsultingType = useConsultingType(
 		currentSessionData.session?.consultingType
@@ -90,11 +92,21 @@ export const SessionListItemComponent = ({
 		setActiveSession(getActiveSession(groupIdFromParam, sessionsData));
 	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	if (listItem.lastMessage) {
-		const rawMessageObject = markdownToDraft(listItem.lastMessage);
-		const contentStateMessage = convertFromRaw(rawMessageObject);
-		plainTextLastMessage = contentStateMessage.getPlainText();
-	}
+	const { key, keyID, encrypted } = useE2EE(listItem.groupId);
+	const [plainTextLastMessage, setPlainTextLastMessage] = useState(null);
+	useEffect(() => {
+		if (!listItem.lastMessage) {
+			return;
+		}
+		// ToDo: read messageEncrypted from listItem.lastMessage.t and check if equal e2e
+		decryptText(listItem.lastMessage, keyID, key, encrypted, true).then(
+			(message) => {
+				const rawMessageObject = markdownToDraft(message);
+				const contentStateMessage = convertFromRaw(rawMessageObject);
+				setPlainTextLastMessage(contentStateMessage.getPlainText());
+			}
+		);
+	}, [key, keyID, encrypted, listItem.groupId, listItem.lastMessage]);
 
 	const isCurrentSessionNewEnquiry =
 		currentSessionData.session &&
@@ -324,7 +336,7 @@ export const SessionListItemComponent = ({
 					</div>
 				</div>
 				<div className="sessionsListItem__row">
-					{listItem.lastMessage ? (
+					{plainTextLastMessage ? (
 						<div className="sessionsListItem__subject">
 							{isCurrentSessionFirstContactMessage && language ? (
 								<>

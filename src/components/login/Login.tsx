@@ -423,7 +423,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					<Button
 						item={loginButton}
 						buttonHandle={handleLogin}
-						disabled={isButtonDisabled}
+						disabled={isButtonDisabled || isRequestInProgress}
 					/>
 					{!hasTenant && (
 						<div className="loginForm__register">
