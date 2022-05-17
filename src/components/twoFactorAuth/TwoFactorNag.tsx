@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
@@ -10,8 +10,11 @@ import './twoFactorNag.styles';
 interface TwoFactorNagProps {}
 
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
-	const { userData } = useContext(UserDataContext);
-	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
+	const { userData, setUserData } = useContext(UserDataContext);
+
+	const {
+		twoFactorAuth: { isShown: isShownTwoFactorNag }
+	} = userData;
 
 	useEffect(() => {
 		if (
@@ -20,30 +23,51 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			userData.twoFactorAuth?.isToEncourage &&
 			history.location.from !== 'registration'
 		) {
-			setIsShownTwoFactorNag(true);
+			setIsTwoFactorNagShown(true);
 		}
-	}, [userData]);
+	}, [
+		userData.twoFactorAuth.isEnabled,
+		userData.twoFactorAuth.isActive,
+		userData.twoFactorAuth.isToEncourage
+	]);
+
+	const setIsTwoFactorNagShown = (bool) => {
+		setUserData({
+			...userData,
+			twoFactorAuth: {
+				...userData.twoFactorAuth,
+				isShown: bool
+			}
+		});
+	};
 
 	const closeTwoFactorNag = async () => {
 		await apiPatchTwoFactorAuthEncourage(false)
 			.then(() => {
-				setIsShownTwoFactorNag(false);
+				setUserData({
+					...userData,
+					twoFactorAuth: {
+						...userData.twoFactorAuth,
+						isToEncourage: false,
+						isShown: false
+					}
+				});
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	};
 
-	const handleOverlayAction = (buttonFunction: string) => {
+	const handleOverlayAction = async (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			history.push({
 				pathname: '/profile/sicherheit/2fa',
 				openTwoFactor: true
 			});
-			setIsShownTwoFactorNag(false);
+			await closeTwoFactorNag();
 		}
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setIsShownTwoFactorNag(false);
+			setIsTwoFactorNagShown(false);
 		}
 	};
 

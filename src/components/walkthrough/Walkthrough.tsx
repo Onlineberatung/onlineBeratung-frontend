@@ -14,10 +14,16 @@ import peerStepsData from './peerSteps';
 
 export const Walkthrough = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
-
+	const {
+		twoFactorAuth: { isShown: isShownTwoFactorNag }
+	} = userData;
 	return (
 		<Steps
-			enabled={userData.isWalkThroughEnabled && config.enableWalkthrough}
+			enabled={
+				userData.isWalkThroughEnabled &&
+				config.enableWalkthrough &&
+				!isShownTwoFactorNag
+			}
 			onExit={() => {
 				apiPatchConsultantData({
 					walkThroughEnabled: !userData.isWalkThroughEnabled
