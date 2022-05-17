@@ -70,6 +70,7 @@ import useTyping from '../../utils/useTyping';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { useResponsive } from '../../hooks/useResponsive';
 import './session.styles';
+import { useE2EE } from '../../hooks/useE2EE';
 
 interface RouterProps {
 	rcGroupId: string;
@@ -101,6 +102,7 @@ export const SessionView = (props: RouterProps) => {
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
 	const [forceBannedOverlay, setForceBannedOverlay] = useState(false);
 	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
+	const { addNewUsersToEncryptedRoom } = useE2EE(groupIdFromParam);
 
 	const type = getTypeOfLocation();
 
@@ -168,9 +170,13 @@ export const SessionView = (props: RouterProps) => {
 	 */
 	const roomMessageBounce = useRef(null);
 	const handleRoomMessage = useCallback(
-		(message) => {
+		async (message) => {
 			if (message && message.userMuted) {
 				checkMutedUserForThisSession();
+			}
+			if (message && message.userAdded) {
+				// ! TODO ALEX MOVE TO HELPER ???
+				addNewUsersToEncryptedRoom();
 			}
 			if (roomMessageBounce.current) {
 				clearTimeout(roomMessageBounce.current);
@@ -190,7 +196,8 @@ export const SessionView = (props: RouterProps) => {
 			fetchSessionMessages,
 			filterStatus,
 			setUpdateSessionList,
-			checkMutedUserForThisSession
+			checkMutedUserForThisSession,
+			addNewUsersToEncryptedRoom
 		]
 	);
 

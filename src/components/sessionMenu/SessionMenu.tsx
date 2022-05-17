@@ -230,22 +230,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
-	useEffect(() => {
-		apiRocketChatGroupMembers(groupIdFromParam).then(({ members }) => {
-			members.forEach((member) => {
-				console.log(member._id, decodeUsername(member.username));
-			});
-		});
-
-		document.addEventListener('mousedown', (e) => handleClick(e));
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
-
 	const handleFlyout = () => {
 		const dropdown = document.querySelector('.sessionMenu__content');
 		dropdown.classList.toggle('sessionMenu__content--open');
 	};
 
-	const handleClick = (e) => {
+	const handleClick = useCallback((e) => {
 		const menuIconH = document.getElementById('iconH');
 		const menuIconV = document.getElementById('iconV');
 		const flyoutMenu = document.getElementById('flyout');
@@ -264,7 +254,22 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				}
 			}
 		}
-	};
+	}, []);
+
+	useEffect(() => {
+		document.addEventListener('mousedown', (e) => handleClick(e));
+
+		if (!activeSession.chat?.active) {
+			// do not get group members for a chat that has not been started
+			return;
+		}
+
+		apiRocketChatGroupMembers(groupIdFromParam).then(({ members }) => {
+			members.forEach((member) => {
+				console.log(member._id, decodeUsername(member.username));
+			});
+		});
+	}, [groupIdFromParam, handleClick, activeSession]);
 
 	const handleStopGroupChat = () => {
 		stopGroupChatSecurityOverlayItem.copy =
