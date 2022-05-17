@@ -54,6 +54,7 @@ import smoothScroll from './smoothScrollHelper';
 import { Headline } from '../headline/Headline';
 import { history } from '../app/app';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { useE2EE } from '../../hooks/useE2EE';
 
 interface SessionItemProps {
 	isAnonymousEnquiry?: boolean;
@@ -97,6 +98,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	const { isAnonymousEnquiry } = props;
+
+	const E2EEParams = useE2EE(groupIdFromParam);
 
 	const resetUnreadCount = () => {
 		if (!isAnonymousEnquiry) {
@@ -476,6 +479,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						type={getTypeOfLocation()}
 						typingUsers={props.typingUsers}
 						groupIdFromParam={groupIdFromParam}
+						E2EEParams={E2EEParams}
 					/>
 				)}
 			{overlayItem && (

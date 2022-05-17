@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { E2EEContext } from '../globalState';
 import { importGroupKey } from '../utils/encryptionHelpers';
 
-type useE2EEType = {
+export type useE2EEType = {
 	key?: CryptoKey;
 	keyID?: string;
 	sessionKeyExportedString?: string;

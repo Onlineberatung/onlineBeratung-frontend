@@ -88,7 +88,7 @@ import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
-import { useE2EE } from '../../hooks/useE2EE';
+import { useE2EE, useE2EEType } from '../../hooks/useE2EE';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -155,6 +155,7 @@ export interface MessageSubmitInterfaceComponentProps {
 	sessionIdFromParam?: number;
 	groupIdFromParam?: string;
 	language?: string;
+	E2EEParams?: useE2EEType;
 }
 
 const encryptAttachment = (attachment, keyID, key) => {
@@ -206,12 +207,6 @@ export const MessageSubmitInterfaceComponent = (
 	);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
-	/** E2EE Start */
-	const { key, keyID, encrypted } = useE2EE(
-		props.sessionIdFromParam?.toString() || props.groupIdFromParam
-	);
-	/** E2EE End */
-
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
 	) as HTMLInputElement;
@@ -243,7 +238,14 @@ export const MessageSubmitInterfaceComponent = (
 
 		apiGetDraftMessage(props.sessionIdFromParam || props.groupIdFromParam)
 			.then((response) =>
-				decryptText(response.message, keyID, key, true, true, 'enc.')
+				decryptText(
+					response.message,
+					props.E2EEParams.keyID,
+					props.E2EEParams.key,
+					true,
+					true,
+					'enc.'
+				)
 			)
 			.then((message) => {
 				setEditorWithMarkdownString(message);
@@ -269,8 +271,8 @@ export const MessageSubmitInterfaceComponent = (
 						: props.sessionIdFromParam || props.groupIdFromParam;
 				encryptText(
 					currentDraftMessageRef.current,
-					keyID,
-					key,
+					props.E2EEParams.keyID,
+					props.E2EEParams.key,
 					'enc.'
 				).then((message) => {
 					apiPostDraftMessage(groupId, message).then();
@@ -296,11 +298,14 @@ export const MessageSubmitInterfaceComponent = (
 					? activeSession.session.feedbackGroupId
 					: props.sessionIdFromParam || props.groupIdFromParam;
 
-			encryptText(debouncedDraftMessage, keyID, key, 'enc.').then(
-				(message) => {
-					apiPostDraftMessage(groupId, message).then();
-				}
-			);
+			encryptText(
+				debouncedDraftMessage,
+				props.E2EEParams.keyID,
+				props.E2EEParams.key,
+				'enc.'
+			).then((message) => {
+				apiPostDraftMessage(groupId, message).then();
+			});
 		}
 	}, [debouncedDraftMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -511,7 +516,7 @@ export const MessageSubmitInterfaceComponent = (
 	const sendMessage = async () => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const attachment = attachmentInput && attachmentInput.files[0];
-		if (encrypted && !keyID) {
+		if (props.E2EEParams.encrypted && !props.E2EEParams.keyID) {
 			console.error("Can't send message without key");
 			return;
 		}
@@ -531,7 +536,11 @@ export const MessageSubmitInterfaceComponent = (
 				: sessionsData.mySessions[0].session.id;
 			apiSendEnquiry(
 				enquirySessionId,
-				await encryptText(getTypedMarkdownMessage(), keyID, key),
+				await encryptText(
+					getTypedMarkdownMessage(),
+					props.E2EEParams.keyID,
+					props.E2EEParams.key
+				),
 				props.language
 			)
 				.then((response) => {
@@ -556,10 +565,14 @@ export const MessageSubmitInterfaceComponent = (
 					apiUploadAttachment(
 						await encryptText(
 							getTypedMarkdownMessage(),
-							keyID,
-							key
+							props.E2EEParams.keyID,
+							props.E2EEParams.key
 						),
-						encryptAttachment(attachment, keyID, key),
+						encryptAttachment(
+							attachment,
+							props.E2EEParams.keyID,
+							props.E2EEParams.key
+						),
 						sendToRoomWithId,
 						sendToFeedbackEndpoint,
 						getSendMailNotificationStatus(),
@@ -572,8 +585,8 @@ export const MessageSubmitInterfaceComponent = (
 					apiSendMessage(
 						await encryptText(
 							getTypedMarkdownMessage(),
-							keyID,
-							key
+							props.E2EEParams.keyID,
+							props.E2EEParams.key
 						),
 						sendToRoomWithId,
 						sendToFeedbackEndpoint,
