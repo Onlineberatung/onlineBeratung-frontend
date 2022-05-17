@@ -20,7 +20,7 @@ import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/c
 import './passwordReset.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { E2EEContext, UserDataContext } from '../../globalState';
+import { E2EEContext } from '../../globalState';
 import {
 	createAndLoadKeys,
 	encodePrivateKey,
@@ -28,6 +28,7 @@ import {
 	reEncryptMyRoomKeys
 } from '../../utils/encryptionHelpers';
 import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 
 export const PasswordReset = () => {
 	const {
@@ -36,7 +37,7 @@ export const PasswordReset = () => {
 		key: e2eePrivateKey,
 		reloadPrivateKey
 	} = useContext(E2EEContext);
-	const { userData } = useContext(UserDataContext);
+	const rcUid = getValueFromCookie('rc_uid');
 
 	const [oldPassword, setOldPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
@@ -203,13 +204,13 @@ export const PasswordReset = () => {
 				// Reencrypt all subscription keys with new keypair
 				.then(() =>
 					reEncryptMyRoomKeys(
-						subscriptions,
 						rooms,
-						userData.rcUid,
+						subscriptions,
+						rcUid,
 						e2eePrivateKey
 					)
 				)
-				.then(() => getMasterKey(userData.rcUid, newPassword))
+				.then(() => getMasterKey(rcUid, newPassword))
 				// encode private key form keypair
 				.then((masterKey) =>
 					encodePrivateKey(

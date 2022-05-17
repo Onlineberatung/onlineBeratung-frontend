@@ -284,12 +284,13 @@ export const encryptForParticipant = (
 	keyID,
 	sessionKeyExportedString
 ): Promise<string> =>
-	new Promise(async (resolve) => {
+	new Promise(async (resolve, reject) => {
 		let userKey;
 		try {
 			userKey = await importRSAKey(JSON.parse(public_key), ['encrypt']);
 		} catch (error) {
-			return console.error('Error importing user key: ', error);
+			console.error('Error importing user key: ', error);
+			return reject(error);
 		}
 
 		// Encrypt session key for this user with his/her public key
@@ -303,7 +304,8 @@ export const encryptForParticipant = (
 				keyID + btoa(JSON.stringify(new Uint8Array(encryptedUserKey)))
 			);
 		} catch (error) {
-			return console.error('Error encrypting user key: ', error);
+			console.error('Error encrypting user key: ', error);
+			return reject(error);
 		}
 	});
 
@@ -381,7 +383,7 @@ export const reEncryptMyRoomKeys = async (
 	rcUserId,
 	oldPrivateKey
 ) => {
-	return await Promise.all(
+	return Promise.all(
 		subscriptions.map(async (subscription) => {
 			const room = rooms.find((room) => room._id === subscription.rid);
 
@@ -389,25 +391,19 @@ export const reEncryptMyRoomKeys = async (
 				return null;
 			}
 
-			const { key } = await importGroupKey(
+			const { sessionKeyExportedString } = await importGroupKey(
 				subscription.E2EKey,
 				oldPrivateKey
 			);
 
-			return encryptForParticipant(
+			const userKey = await encryptForParticipant(
 				sessionStorage.getItem('public_key'),
 				room.e2eKeyId,
-				key
-			).then((userKey) => {
-				console.log('Update Group Key', rcUserId, room._id, userKey);
-				return apiRocketChatUpdateGroupKey(
-					rcUserId,
-					room._id,
-					userKey
-				).then((res) => {
-					console.log('User Room Key updated for user ', rcUserId);
-				});
-			});
+				sessionKeyExportedString
+			);
+
+			console.log('Update Group Key', rcUserId, room._id, userKey);
+			return apiRocketChatUpdateGroupKey(rcUserId, room._id, userKey);
 		})
 	);
 };
