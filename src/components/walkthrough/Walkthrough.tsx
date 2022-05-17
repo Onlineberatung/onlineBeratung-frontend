@@ -1,7 +1,6 @@
 import { Steps } from 'intro.js-react';
 import * as React from 'react';
 import { useContext } from 'react';
-import stepsData from './steps';
 
 import 'intro.js/introjs.css';
 import './walkthrough.styles.scss';
@@ -9,6 +8,9 @@ import { translate } from '../../utils/translate';
 import { UserDataContext } from '../../globalState';
 import { apiPatchConsultantData } from '../../api';
 import { config } from '../../resources/scripts/config';
+
+import stepsData from './steps';
+import peerStepsData from './peerSteps';
 
 export const Walkthrough = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -30,7 +32,12 @@ export const Walkthrough = () => {
 						// don't know what to do then :O)
 					});
 			}}
-			steps={stepsData}
+			steps={
+				!userData.userRoles.includes('main-consultant') &&
+				userData.userRoles.includes('peer-consultant')
+					? peerStepsData
+					: stepsData
+			}
 			initialStep={0}
 			options={{
 				hidePrev: true,
