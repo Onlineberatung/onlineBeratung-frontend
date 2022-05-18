@@ -1,6 +1,5 @@
 import { encode, decode } from 'hi-base32';
 import ByteBuffer from 'bytebuffer';
-import CryptoJS from 'crypto-js';
 import { apiRocketChatUpdateGroupKey } from '../api/apiRocketChatUpdateGroupKey';
 const StaticArrayBufferProto = ArrayBuffer.prototype;
 

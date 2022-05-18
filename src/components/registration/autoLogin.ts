@@ -5,16 +5,7 @@ import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { config } from '../../resources/scripts/config';
 import { generateCsrfToken } from '../../utils/generateCsrfToken';
 import {
-	decryptAES,
 	encodeUsername,
-	encryptAES,
-	exportJWKKey,
-	generateRSAKey,
-	toString,
-	importRSAKey,
-	joinVectorAndEcryptedData,
-	splitVectorAndEcryptedData,
-	toArrayBuffer,
 	getMasterKey,
 	getTmpMasterKey,
 	encryptForParticipant,
@@ -127,7 +118,7 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 			await apiRocketChatFetchMyKeys();
 
 		if (!apiPrivateKey) {
-			const key = await createAndLoadKeys();
+			await createAndLoadKeys();
 			await apiRocketChatSetUserKeys(
 				sessionStorage.getItem('public_key'),
 				await encodePrivateKey(
@@ -193,7 +184,7 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 					apiPrivateKey,
 					masterKey
 				);
-				const key = await loadKeys(privateKey, publicKey);
+				await loadKeys(privateKey, publicKey);
 			} catch (error) {
 				throw new Error(
 					"Wasn't possible to decode your encryption key to be imported."
