@@ -7,8 +7,7 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	ConsultingTypeInterface,
-	STATUS_ARCHIVED,
-	E2EEContext
+	STATUS_ARCHIVED
 } from '../../globalState';
 import {
 	SESSION_LIST_TYPES,

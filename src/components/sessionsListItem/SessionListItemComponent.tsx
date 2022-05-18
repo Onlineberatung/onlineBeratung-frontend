@@ -30,8 +30,7 @@ import {
 	getActiveSession,
 	STATUS_FINISHED,
 	STATUS_EMPTY,
-	STATUS_ENQUIRY,
-	E2EEContext
+	STATUS_ENQUIRY
 } from '../../globalState';
 import { history } from '../app/app';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
