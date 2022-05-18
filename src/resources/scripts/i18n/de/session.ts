@@ -24,8 +24,7 @@ const session = {
 		'Legen Sie die Datei hier ab, um sie hochzuladen.',
 	'dragAndDrop.explanation.outsideDropArea':
 		'Ziehen Sie die Datei in das Feld, um sie hochzuladen.',
-	'dragAndDrop.restrictions':
-		'.jpeg, .png, .pdf, .docx, .xlsx bis maximal 5MB'
+	'dragAndDrop.restrictions': '.jpg, .png, .pdf, .docx, .xlsx bis maximal 5MB'
 };
 
 export default session;
