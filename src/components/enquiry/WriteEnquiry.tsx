@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
+import CryptoJS from 'crypto-js';
 
 import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
@@ -16,6 +17,7 @@ import { BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
 import {
 	AcceptedGroupIdContext,
+	E2EEContext,
 	getActiveSession,
 	SessionsDataContext
 } from '../../globalState';
@@ -33,6 +35,15 @@ import { Text } from '../text/Text';
 import { EnquiryLanguageSelection } from './EnquiryLanguageSelection';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { useResponsive } from '../../hooks/useResponsive';
+import {
+	createGroupKey,
+	encryptForParticipant,
+	getTmpMasterKey
+} from '../../utils/encryptionHelpers';
+import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
+import { apiRocketChatGetUsersOfRoomWithoutKey } from '../../api/apiRocketChatGetUsersOfRoomWithoutKey';
+import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
+import { apiRocketChatSetRoomKeyID } from '../../api/apiRocketChatSetRoomKeyID';
 
 export const WriteEnquiry: React.FC = () => {
 	const { sessionId: sessionIdFromParam } = useParams();
@@ -46,6 +57,27 @@ export const WriteEnquiry: React.FC = () => {
 	const [sessionId, setSessionId] = useState<number | null>(null);
 	const [groupId, setGroupId] = useState<string | null>(null);
 	const [selectedLanguage, setSelectedLanguage] = useState(fixedLanguages[0]);
+
+	const { refresh } = useContext(E2EEContext);
+	const hasE2EEFeatureEnabled = () =>
+		localStorage.getItem('e2eeFeatureEnabled') ?? false;
+	const [keyID, setKeyID] = useState(null);
+	const [key, setKey] = useState(null);
+	const [sessionKeyExportedString, setSessionKeyExportedString] =
+		useState(null);
+
+	useEffect(() => {
+		if (!hasE2EEFeatureEnabled) {
+			return;
+		}
+
+		createGroupKey().then(({ keyID, key, sessionKeyExportedString }) => {
+			console.log(key, keyID, sessionKeyExportedString);
+			setKeyID(keyID);
+			setKey(key);
+			setSessionKeyExportedString(sessionKeyExportedString);
+		});
+	}, []);
 
 	useEffect(() => {
 		const activeSession = getActiveSession(
@@ -132,11 +164,77 @@ export const WriteEnquiry: React.FC = () => {
 		]
 	};
 
-	const handleSendButton = useCallback((response) => {
-		setSessionId(response.sessionId);
-		setGroupId(response.rcGroupId);
-		setOverlayActive(true);
-	}, []);
+	const handleSendButton = useCallback(
+		async (response) => {
+			if (hasE2EEFeatureEnabled) {
+				const { members } = await apiRocketChatGroupMembers(
+					response.rcGroupId
+				);
+				const { users } = await apiRocketChatGetUsersOfRoomWithoutKey(
+					response.rcGroupId
+				);
+
+				await Promise.all(
+					members
+						// Filter system user and users with unencrypted username (Maybe more system users)
+						.filter(
+							(member) =>
+								member.username !== 'System' &&
+								member.username.indexOf('enc.') === 0
+						)
+						.map(async (member) => {
+							const user = users.find(
+								(user) => user._id === member._id
+							);
+							// If user has no public_key encrypt with tmpMasterKey
+							const tmpMasterKey = await getTmpMasterKey(
+								member._id
+							);
+							let userKey;
+							if (user) {
+								userKey = await encryptForParticipant(
+									user.e2e.public_key,
+									keyID,
+									sessionKeyExportedString
+								);
+							} else {
+								userKey =
+									'tmp.' +
+									keyID +
+									CryptoJS.AES.encrypt(
+										sessionKeyExportedString,
+										tmpMasterKey
+									);
+							}
+
+							return apiRocketChatUpdateGroupKey(
+								member._id,
+								response.rcGroupId,
+								userKey
+							);
+						})
+				);
+
+				// Set Room Key ID at the very end because if something failed before it will still be repairable
+				// After room key is set the room is encrypted and the room key could not be set again.
+				console.log('Set Room Key ID', keyID);
+				try {
+					await apiRocketChatSetRoomKeyID(response.rcGroupId, keyID);
+				} catch (e) {
+					console.error(e);
+					return;
+				}
+
+				console.log('Start writing encrypted messages!');
+				refresh();
+			}
+
+			setSessionId(response.sessionId);
+			setGroupId(response.rcGroupId);
+			setOverlayActive(true);
+		},
+		[keyID, refresh, sessionKeyExportedString]
+	);
 
 	const isUnassignedSession =
 		(activeSession && !activeSession?.consultant) ||
@@ -181,6 +279,12 @@ export const WriteEnquiry: React.FC = () => {
 				sessionIdFromParam={sessionIdFromParam}
 				groupIdFromParam={null}
 				language={selectedLanguage}
+				E2EEParams={{
+					keyID: keyID,
+					key: key,
+					sessionKeyExportedString: sessionKeyExportedString,
+					encrypted: !!keyID
+				}}
 			/>
 			{overlayActive ? (
 				<OverlayWrapper>

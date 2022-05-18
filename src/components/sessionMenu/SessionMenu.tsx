@@ -91,16 +91,8 @@ import {
 	createGroupKey,
 	decodeUsername,
 	encryptForParticipant,
-	encryptRSA,
-	exportJWKKey,
-	generateAESKey,
-	getMasterKey,
-	getTmpMasterKey,
-	importRSAKey,
-	toArrayBuffer
+	getTmpMasterKey
 } from '../../utils/encryptionHelpers';
-import { apiRocketChatSubscriptionsGetOne } from '../../api/apiRocketChatSubscriptionsGetOne';
-import { apiRocketChatRoomsInfo } from '../../api/apiRocketChatRoomsInfo';
 import { apiRocketChatSetRoomKeyID } from '../../api/apiRocketChatSetRoomKeyID';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 import { useE2EE } from '../../hooks/useE2EE';

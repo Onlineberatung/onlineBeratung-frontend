@@ -8,7 +8,7 @@ import {
 	importGroupKey
 } from '../utils/encryptionHelpers';
 
-type useE2EEType = {
+export type useE2EEType = {
 	key?: CryptoKey;
 	keyID?: string;
 	sessionKeyExportedString?: string;
