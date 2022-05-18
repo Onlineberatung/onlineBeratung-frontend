@@ -175,7 +175,6 @@ export const SessionView = (props: RouterProps) => {
 				checkMutedUserForThisSession();
 			}
 			if (message && message.userAdded) {
-				// ! TODO ALEX MOVE TO HELPER ???
 				addNewUsersToEncryptedRoom();
 			}
 			if (roomMessageBounce.current) {
@@ -294,6 +293,17 @@ export const SessionView = (props: RouterProps) => {
 		},
 		[activeSession, readonly] // eslint-disable-line react-hooks/exhaustive-deps
 	);
+
+	useEffect(() => {
+		// make sure that the active session has an active chat, user is subscribed and the id matches the url param
+		if (
+			activeSession?.chat?.active &&
+			activeSession?.chat?.subscribed &&
+			groupIdFromParam === activeSession?.chat?.groupId
+		) {
+			addNewUsersToEncryptedRoom();
+		}
+	}, [groupIdFromParam, activeSession, addNewUsersToEncryptedRoom]);
 
 	const connectSocket = useCallback(
 		(isGroupOrLiveChat) => {

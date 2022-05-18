@@ -218,8 +218,11 @@ export const decryptText = async (
 		return message;
 	}
 
-	if (!roomKeyID || !groupKey) {
-		return 'Nachricht verschlüsselt';
+	if (!roomKeyID) {
+		return 'Nachricht verschlüsselt - keine roomKeyID';
+	}
+	if (!groupKey) {
+		return 'Nachricht verschlüsselt - kein groupKey';
 	}
 
 	const keyID = message.slice(encPrefix.length, 12);
@@ -239,7 +242,7 @@ export const decryptText = async (
 		return new TextDecoder('UTF-8').decode(result);
 	} catch (error) {
 		console.error('Error decrypting message: ', error, encMessage);
-		return 'Nachricht verschlüsselt';
+		return 'Nachricht verschlüsselt - Fehler beim entschlüsseln';
 	}
 };
 

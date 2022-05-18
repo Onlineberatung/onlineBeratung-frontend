@@ -259,16 +259,18 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	useEffect(() => {
 		document.addEventListener('mousedown', (e) => handleClick(e));
 
-		if (!activeSession.chat?.active) {
-			// do not get group members for a chat that has not been started
+		if (!activeSession.chat?.active || !activeSession.chat?.subscribed) {
+			// do not get group members for a chat that has not been started and user is not subscribed
 			return;
 		}
-
-		apiRocketChatGroupMembers(groupIdFromParam).then(({ members }) => {
-			members.forEach((member) => {
-				console.log(member._id, decodeUsername(member.username));
+		// also make sure that the active session matches the url param
+		if (groupIdFromParam === activeSession?.chat?.groupId) {
+			apiRocketChatGroupMembers(groupIdFromParam).then(({ members }) => {
+				members.forEach((member) => {
+					console.log(member._id, decodeUsername(member.username));
+				});
 			});
-		});
+		}
 	}, [groupIdFromParam, handleClick, activeSession]);
 
 	const handleStopGroupChat = () => {
