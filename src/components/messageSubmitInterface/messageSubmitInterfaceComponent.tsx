@@ -153,6 +153,7 @@ export interface MessageSubmitInterfaceComponentProps {
 	sessionIdFromParam?: number;
 	groupIdFromParam?: string;
 	language?: string;
+	preselectedFile?: File;
 }
 
 export const MessageSubmitInterfaceComponent = (
@@ -247,6 +248,11 @@ export const MessageSubmitInterfaceComponent = (
 			}
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (!props.preselectedFile) return;
+		handlePreselectedAttachmentChange();
+	}, [props.preselectedFile]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (isLiveChatFinished) {
@@ -474,7 +480,8 @@ export const MessageSubmitInterfaceComponent = (
 
 	const sendMessage = () => {
 		const attachmentInput: any = attachmentInputRef.current;
-		const attachment = attachmentInput && attachmentInput.files[0];
+		const selectedFile = attachmentInput && attachmentInput.files[0];
+		const attachment = props.preselectedFile || selectedFile;
 		if (getTypedMarkdownMessage() || attachment) {
 			setIsRequestInProgress(true);
 		} else {
@@ -585,6 +592,14 @@ export const MessageSubmitInterfaceComponent = (
 	const handleAttachmentChange = () => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const attachment = attachmentInput.files[0];
+		const attachmentSizeMB = getAttachmentSizeMBForKB(attachment.size);
+		attachmentSizeMB > ATTACHMENT_MAX_SIZE_IN_MB
+			? handleLargeAttachments()
+			: displayAttachmentToUpload(attachment);
+	};
+
+	const handlePreselectedAttachmentChange = () => {
+		const attachment = props.preselectedFile;
 		const attachmentSizeMB = getAttachmentSizeMBForKB(attachment.size);
 		attachmentSizeMB > ATTACHMENT_MAX_SIZE_IN_MB
 			? handleLargeAttachments()
