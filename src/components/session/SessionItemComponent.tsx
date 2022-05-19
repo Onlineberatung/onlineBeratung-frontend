@@ -358,9 +358,17 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	};
 
 	const enableDraggingOnWindow = () => {
-		window.ondragover = () => {
+		window.ondragover = (ev: any) => {
 			setIsDragging(true);
 			cancelDraggingOnOutsideWindow();
+
+			const isOutsideDropZone =
+				!ev.target.classList.contains('dragAndDropArea');
+			if (isOutsideDropZone) {
+				ev.preventDefault();
+				ev.dataTransfer.dropEffect = 'none';
+				ev.dataTransfer.effectAllowed = 'none';
+			}
 		};
 		window.ondragleave = () => onDragLeave();
 		window.ondragend = window.ondrop = () => setIsDragging(false);
