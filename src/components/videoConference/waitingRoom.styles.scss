@@ -99,15 +99,15 @@
 			justify-content: left;
 			height: 560px;
 
-			&::after {
-				height: 400%;
-				width: 300%;
-				left: -1200px;
-			}
+			// &::after {
+			// 	height: 400%;
+			// 	width: 300%;
+			// 	left: -1200px;
+			// }
 
-			svg {
-				margin-left: -$grid-base-six;
-			}
+			// svg {
+			// 	margin-left: -$grid-base-six;
+			// }
 		}
 	}
 
