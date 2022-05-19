@@ -104,7 +104,7 @@ export const JoinGroupChatView = ({
 	// create the groupkeys once, if e2ee feature is enabled
 	useEffect(() => {
 		if (
-			!hasE2EEFeatureEnabled ||
+			!hasE2EEFeatureEnabled() ||
 			encrypted ||
 			activeSession?.chat?.active
 		) {
@@ -131,7 +131,7 @@ export const JoinGroupChatView = ({
 
 	const handleEncryptRoom = useCallback(async () => {
 		if (
-			!hasE2EEFeatureEnabled ||
+			!hasE2EEFeatureEnabled() ||
 			encrypted ||
 			activeSession?.chat?.active
 		) {

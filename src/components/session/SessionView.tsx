@@ -103,6 +103,8 @@ export const SessionView = (props: RouterProps) => {
 	const [forceBannedOverlay, setForceBannedOverlay] = useState(false);
 	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
 	const { addNewUsersToEncryptedRoom } = useE2EE(groupIdFromParam);
+	const hasE2EEFeatureEnabled = () =>
+		localStorage.getItem('e2eeFeatureEnabled') ?? false;
 
 	const type = getTypeOfLocation();
 
@@ -175,7 +177,9 @@ export const SessionView = (props: RouterProps) => {
 				checkMutedUserForThisSession();
 			}
 			if (message && message.userAdded) {
-				addNewUsersToEncryptedRoom();
+				if (hasE2EEFeatureEnabled()) {
+					addNewUsersToEncryptedRoom();
+				}
 			}
 			if (roomMessageBounce.current) {
 				clearTimeout(roomMessageBounce.current);

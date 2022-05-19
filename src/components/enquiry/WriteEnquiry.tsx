@@ -67,7 +67,7 @@ export const WriteEnquiry: React.FC = () => {
 		useState(null);
 
 	useEffect(() => {
-		if (!hasE2EEFeatureEnabled) {
+		if (!hasE2EEFeatureEnabled()) {
 			return;
 		}
 
@@ -166,7 +166,7 @@ export const WriteEnquiry: React.FC = () => {
 
 	const handleSendButton = useCallback(
 		async (response) => {
-			if (hasE2EEFeatureEnabled) {
+			if (hasE2EEFeatureEnabled()) {
 				const { members } = await apiRocketChatGroupMembers(
 					response.rcGroupId
 				);
