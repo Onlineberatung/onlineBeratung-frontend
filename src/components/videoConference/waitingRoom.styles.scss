@@ -2,6 +2,7 @@
 	display: flex;
 	justify-content: center;
 	min-height: 100vh;
+	overflow: hidden;
 	background-color: $background-light;
 
 	.header {
@@ -96,7 +97,6 @@
 		@include breakpoint($fromXLarge) {
 			margin-right: $grid-base-ten;
 			flex: 0 0 560px;
-			justify-content: left;
 			height: 560px;
 
 			&::after {
@@ -105,10 +105,9 @@
 				left: -1200px;
 			}
 
-			// svg {
-			// 	margin-left: -$grid-base-six;
-			// }
-			// test
+			svg {
+				margin-left: -$grid-base-six;
+			}
 		}
 	}
 
