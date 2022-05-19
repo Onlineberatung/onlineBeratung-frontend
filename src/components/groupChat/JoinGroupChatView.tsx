@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState, useCallback } from 'react';
 import {
 	UserDataContext,
 	SessionsDataContext,
@@ -10,7 +10,8 @@ import {
 	useConsultingType,
 	GroupChatItemInterface,
 	UpdateSessionListContext,
-	LegalLinkInterface
+	LegalLinkInterface,
+	E2EEContext
 } from '../../globalState';
 import { mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
@@ -45,6 +46,14 @@ import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { bannedUserOverlay } from '../banUser/banUserHelper';
+import { useE2EE } from '../../hooks/useE2EE';
+import {
+	createGroupKey,
+	encryptForParticipant
+} from '../../utils/encryptionHelpers';
+import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
+import { apiRocketChatSetRoomKeyID } from '../../api/apiRocketChatSetRoomKeyID';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 
 interface JoinGroupChatViewProps {
 	chatItem: GroupChatItemInterface;
@@ -82,6 +91,85 @@ export const JoinGroupChatView = ({
 	);
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
+
+	/* E2EE START */
+	const hasE2EEFeatureEnabled = () =>
+		localStorage.getItem('e2eeFeatureEnabled') ?? false;
+	const [groupKeyID, setGroupKeyID] = useState(null);
+	const [sessionGroupKeyExportedString, setSessionGroupKeyExportedString] =
+		useState(null);
+	const { refresh } = useContext(E2EEContext);
+	const { encrypted } = useE2EE(groupIdFromParam);
+
+	// create the groupkeys once, if e2ee feature is enabled
+	useEffect(() => {
+		if (
+			!hasE2EEFeatureEnabled ||
+			encrypted ||
+			activeSession?.chat?.active
+		) {
+			console.log('room already encrypted');
+			return;
+		}
+
+		createGroupKey().then(
+			({
+				keyID: groupKeyID,
+				key: groupKey,
+				sessionKeyExportedString: sessionGroupKeyExportedString
+			}) => {
+				console.log(
+					groupKey,
+					groupKeyID,
+					sessionGroupKeyExportedString
+				);
+				setGroupKeyID(groupKeyID);
+				setSessionGroupKeyExportedString(sessionGroupKeyExportedString);
+			}
+		);
+	}, [encrypted, activeSession]);
+
+	const handleEncryptRoom = useCallback(async () => {
+		if (
+			!hasE2EEFeatureEnabled ||
+			encrypted ||
+			activeSession?.chat?.active
+		) {
+			console.log('room already encrypted');
+			return;
+		}
+
+		const rcUserId = getValueFromCookie('rc_uid');
+
+		const userKey = await encryptForParticipant(
+			sessionStorage.getItem('public_key'),
+			groupKeyID,
+			sessionGroupKeyExportedString
+		);
+
+		await apiRocketChatUpdateGroupKey(rcUserId, groupIdFromParam, userKey);
+
+		// Set Room Key ID at the very end because if something failed before it will still be repairable
+		// After room key is set the room is encrypted and the room key could not be set again.
+		try {
+			await apiRocketChatSetRoomKeyID(groupIdFromParam, groupKeyID);
+		} catch (e) {
+			console.error(e);
+			return;
+		}
+
+		console.log('Start writing encrypted messages!');
+		refresh();
+	}, [
+		encrypted,
+		groupKeyID,
+		sessionGroupKeyExportedString,
+		groupIdFromParam,
+		refresh,
+		activeSession
+	]);
+
+	/* E2EE END */
 
 	useEffect(() => {
 		if (
@@ -169,7 +257,9 @@ export const JoinGroupChatView = ({
 				? GROUP_CHAT_API.START
 				: GROUP_CHAT_API.JOIN;
 		apiPutGroupChat(chatItem.id, groupChatApiCall)
-			.then(() => {
+			.then(async () => {
+				await handleEncryptRoom();
+
 				if (
 					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 				) {
@@ -188,6 +278,7 @@ export const JoinGroupChatView = ({
 					setSessionsData(changedSessionsData);
 				}
 				setAcceptedGroupId(chatItem.groupId);
+
 				history.push(
 					getSessionListPathForLocation() + getSessionListTab()
 				);
