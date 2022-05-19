@@ -7,7 +7,7 @@ $waiting-room-subline-opacity: 1 !default;
 	display: flex;
 	justify-content: center;
 	min-height: 100vh;
-	// overflow: hidden;
+	overflow: hidden;
 	background-color: $waiting-room-page-background;
 
 	.header {
@@ -51,13 +51,7 @@ $waiting-room-subline-opacity: 1 !default;
 
 		a {
 			color: $link-color;
-			text-decoration: $link-text-decoration;
-			font-weight: $link-font-weight;
-
-			&:hover {
-				color: $link-color-hover;
-				text-decoration: $link-text-decoration-hover;
-			}
+			text-decoration: underline;
 		}
 	}
 
@@ -72,7 +66,7 @@ $waiting-room-subline-opacity: 1 !default;
 	&__subline {
 		font-family: $font-family-sans-serif;
 		font-weight: $font-weight-regular;
-		// font-size: $font-size-h4;
+		font-size: $font-size-h4;
 		margin-top: $grid-base-two;
 		opacity: $waiting-room-subline-opacity;
 	}
@@ -95,7 +89,7 @@ $waiting-room-subline-opacity: 1 !default;
 		&::after {
 			content: '';
 			position: absolute;
-			background-color: $waiting-room-illustration-background;
+			background-color: $tab-background-color;
 			height: 100%;
 			width: 100%;
 			border-radius: 100%;
@@ -110,18 +104,18 @@ $waiting-room-subline-opacity: 1 !default;
 		@include breakpoint($fromXLarge) {
 			margin-right: $grid-base-ten;
 			flex: 0 0 560px;
-			// justify-content: left;
+			justify-content: left;
 			height: 560px;
 
-			// &::after {
-			// 	height: 400%;
-			// 	width: 300%;
-			// 	left: -1200px;
-			// }
+			&::after {
+				height: 400%;
+				width: 300%;
+				left: -1200px;
+			}
 
-			// svg {
-			// 	margin-left: -$grid-base-six;
-			// }
+			svg {
+				margin-left: -$grid-base-six;
+			}
 		}
 	}
 
@@ -145,14 +139,28 @@ $waiting-room-subline-opacity: 1 !default;
 
 	&__user,
 	&__redirect {
-		margin-top: $grid-base-four;
-
 		.text:first-of-type {
 			font-weight: $font-weight-medium;
 		}
 
 		.text + .text {
 			margin-top: $grid-base;
+		}
+	}
+
+	&__redirect {
+		border: $notice-border;
+		border-radius: 4px;
+		padding: $grid-base-two;
+		margin-top: $grid-base-six;
+
+		.text {
+			margin-top: 0;
+			font-size: $font-size-tertiary;
+		}
+
+		& .text:last-child {
+			color: rgba(0, 0, 0, 0.6);
 		}
 	}
 
