@@ -59,7 +59,7 @@
 	&__subline {
 		font-family: $font-family-sans-serif;
 		font-weight: $font-weight-regular;
-		font-size: $font-size-h4;
+		// font-size: $font-size-h4;
 		margin-top: $grid-base-two;
 	}
 
@@ -81,7 +81,7 @@
 		&::after {
 			content: '';
 			position: absolute;
-			background-color: $tab-background-color;
+			background-color: $illustration-background-neutral;
 			height: 100%;
 			width: 100%;
 			border-radius: 100%;
@@ -96,7 +96,7 @@
 		@include breakpoint($fromXLarge) {
 			margin-right: $grid-base-ten;
 			flex: 0 0 560px;
-			justify-content: left;
+			// justify-content: left;
 			height: 560px;
 
 			// &::after {
