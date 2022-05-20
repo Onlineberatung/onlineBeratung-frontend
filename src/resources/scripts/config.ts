@@ -9,6 +9,7 @@ const uiUrl = window.location.origin;
 
 export const config = {
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
+	enableWalkthrough: false, // Feature flag to enable walkthrough
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
 		agencyServiceBase: apiUrl + '/service/agencies',

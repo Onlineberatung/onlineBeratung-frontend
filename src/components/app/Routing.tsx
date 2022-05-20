@@ -22,6 +22,8 @@ import { NavigationBar } from './NavigationBar';
 import { Header } from '../header/Header';
 import { FinishedAnonymousConversationHandler } from './FinishedAnonymousConversationHandler';
 
+import { Walkthrough } from '../walkthrough/Walkthrough';
+
 interface routingProps {
 	logout?: Function;
 	legalLinks: Array<LegalLinkInterface>;
@@ -77,104 +79,112 @@ export const Routing = (props: routingProps) => {
 	}, [sessionGroupId, sessionId, userData]);
 
 	return (
-		<div className="app__wrapper">
-			<NavigationBar
-				routerConfig={routerConfig}
-				handleLogout={() => props.logout()}
-			/>
+		<>
+			<Walkthrough />
+			<div className="app__wrapper">
+				<NavigationBar
+					routerConfig={routerConfig}
+					handleLogout={() => props.logout()}
+				/>
 
-			<section className="contentWrapper">
-				<Header />
-				<div className="contentWrapper__list">
-					<Switch>
-						{routerConfig.listRoutes.map(
-							(route: any): JSX.Element => (
-								<Route
-									exact={route.exact ?? true}
-									key={`list-${route.path}`}
-									path={route.path}
-									component={route.component}
-								/>
-							)
-						)}
-					</Switch>
-				</div>
-				<div className="contentWrapper__detail">
-					<Switch>
-						{routerConfig.detailRoutes.map(
-							(route: any): JSX.Element => (
-								<Route
-									exact={route.exact ?? true}
-									key={`detail-${route.path}`}
-									path={route.path}
-									render={(componentProps) => (
-										<route.component
-											{...componentProps}
-											{...props}
-											type={route.type || null}
-										/>
-									)}
-								/>
-							)
-						)}
-					</Switch>
-
-					{((hasUserProfileRoutes) => {
-						if (hasUserProfileRoutes) {
-							return (
-								<div className="contentWrapper__userProfile">
-									<Switch>
-										{routerConfig.userProfileRoutes.map(
-											(route: any): JSX.Element => (
-												<Route
-													exact={route.exact ?? true}
-													key={`userProfile-${route.path}`}
-													path={route.path}
-													render={(props) => (
-														<route.component
-															{...props}
-															type={
-																route.type ||
-																null
-															}
-														/>
-													)}
-												/>
-											)
+				<section className="contentWrapper">
+					<Header />
+					<div className="contentWrapper__list">
+						<Switch>
+							{routerConfig.listRoutes.map(
+								(route: any): JSX.Element => (
+									<Route
+										exact={route.exact ?? true}
+										key={`list-${route.path}`}
+										path={route.path}
+										component={route.component}
+									/>
+								)
+							)}
+						</Switch>
+					</div>
+					<div className="contentWrapper__detail">
+						<Switch>
+							{routerConfig.detailRoutes.map(
+								(route: any): JSX.Element => (
+									<Route
+										exact={route.exact ?? true}
+										key={`detail-${route.path}`}
+										path={route.path}
+										render={(componentProps) => (
+											<route.component
+												{...componentProps}
+												{...props}
+												type={route.type || null}
+											/>
 										)}
-									</Switch>
-								</div>
-							);
-						}
-					})(typeof routerConfig.userProfileRoutes !== 'undefined')}
-				</div>
+									/>
+								)
+							)}
+						</Switch>
 
-				<div className="contentWrapper__profile">
-					<Switch>
-						{routerConfig.profileRoutes?.map(
-							(route: any): JSX.Element => (
-								<Route
-									exact={route.exact ?? true}
-									key={`profile-${route.path}`}
-									path={route.path}
-									render={() => (
-										<route.component
-											{...props}
-											type={route.type || null}
-										/>
-									)}
-								/>
-							)
+						{((hasUserProfileRoutes) => {
+							if (hasUserProfileRoutes) {
+								return (
+									<div className="contentWrapper__userProfile">
+										<Switch>
+											{routerConfig.userProfileRoutes.map(
+												(route: any): JSX.Element => (
+													<Route
+														exact={
+															route.exact ?? true
+														}
+														key={`userProfile-${route.path}`}
+														path={route.path}
+														render={(props) => (
+															<route.component
+																{...props}
+																type={
+																	route.type ||
+																	null
+																}
+															/>
+														)}
+													/>
+												)
+											)}
+										</Switch>
+									</div>
+								);
+							}
+						})(
+							typeof routerConfig.userProfileRoutes !==
+								'undefined'
 						)}
-					</Switch>
-				</div>
-			</section>
-			{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
-				<AbsenceHandler />
-			)}
-			{hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) && (
-				<FinishedAnonymousConversationHandler />
-			)}
-		</div>
+					</div>
+
+					<div className="contentWrapper__profile">
+						<Switch>
+							{routerConfig.profileRoutes?.map(
+								(route: any): JSX.Element => (
+									<Route
+										exact={route.exact ?? true}
+										key={`profile-${route.path}`}
+										path={route.path}
+										render={() => (
+											<route.component
+												{...props}
+												type={route.type || null}
+											/>
+										)}
+									/>
+								)
+							)}
+						</Switch>
+					</div>
+				</section>
+				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
+					<AbsenceHandler />
+				)}
+				{hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) && (
+					<FinishedAnonymousConversationHandler />
+				)}
+			</div>
+		</>
 	);
 };

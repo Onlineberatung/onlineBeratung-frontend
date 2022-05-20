@@ -63,7 +63,9 @@ export const NavigationBar = (props: NavigationBarProps) => {
 				{props.routerConfig.navigation.map((item, index) => (
 					<Link
 						key={index}
-						className={`navigation__item ${
+						className={`navigation__item walkthrough_step_${
+							index + 3
+						} ${
 							location.pathname.indexOf(item.to) !== -1
 								? 'navigation__item--active'
 								: ''
@@ -121,7 +123,7 @@ export const NavigationBar = (props: NavigationBarProps) => {
 															: ''
 												  }`
 										}`}
-									></span>
+									/>
 								);
 							}
 						})(item.to)}

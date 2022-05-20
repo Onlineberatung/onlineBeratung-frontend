@@ -397,8 +397,7 @@ export const Profile = (props: ProfileProps) => {
 
 const ProfileItem = ({
 	element,
-	spokenLanguages,
-	index
+	spokenLanguages
 }: {
 	element: SingleComponentType;
 	spokenLanguages: string[];

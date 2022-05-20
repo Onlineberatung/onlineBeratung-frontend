@@ -29,7 +29,7 @@ import {
 	STATUS_EMPTY
 } from '../../globalState';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
-import { FilterStatusContext } from '../../globalState/provider/FilterStatusProvider';
+import { FilterStatusContext } from '../../globalState';
 import { SessionListItemComponent } from '../sessionsListItem/SessionListItemComponent';
 import { SessionsListSkeleton } from '../sessionsListItem/SessionsListItemSkeleton';
 import {
@@ -542,80 +542,86 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 		<div className="sessionsList__innerWrapper">
 			{(showFilter || showEnquiryTabs || showSessionListTabs) && (
 				<div className="sessionsList__functionalityWrapper">
-					{showEnquiryTabs && (
-						<div className="sessionsList__tabs">
-							<Link
-								className={clsx({
-									'sessionsList__tabs--active':
-										!sessionListTab
-								})}
-								to={'/sessions/consultant/sessionPreview'}
-							>
-								<Text
-									text={translate(
-										'sessionList.preview.registered.tab'
-									)}
-									type="standard"
-								/>
-							</Link>
-							<Link
-								className={clsx({
-									'sessionsList__tabs--active':
-										sessionListTab ===
-										SESSION_LIST_TAB.ANONYMOUS
-								})}
-								to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
-							>
-								<Text
-									text={translate(
-										'sessionList.preview.anonymous.tab'
-									)}
-									type="standard"
-								/>
-							</Link>
-						</div>
-					)}
-					{showSessionListTabs && (
-						<div className="sessionsList__tabs">
-							<Link
-								className={clsx({
-									'sessionsList__tabs--active':
-										!sessionListTab
-								})}
-								to={`/sessions/consultant/${
-									typeIsTeamSession(getTypeOfLocation())
-										? 'teamSessionView'
-										: 'sessionView'
-								}`}
-							>
-								<Text
-									text={translate(
-										'sessionList.view.asker.tab'
-									)}
-									type="standard"
-								/>
-							</Link>
-							<Link
-								className={clsx({
-									'sessionsList__tabs--active':
-										sessionListTab ===
+					<div className="sessionsList__tabs">
+						{showEnquiryTabs && (
+							<>
+								<Link
+									className={clsx({
+										'sessionsList__tabs--active ':
+											!sessionListTab
+									})}
+									to={'/sessions/consultant/sessionPreview'}
+								>
+									<Text
+										className={clsx('walkthrough_step_1')}
+										text={translate(
+											'sessionList.preview.registered.tab'
+										)}
+										type="standard"
+									/>
+								</Link>
+								<Link
+									className={clsx({
+										'sessionsList__tabs--active':
+											sessionListTab ===
+											SESSION_LIST_TAB.ANONYMOUS
+									})}
+									to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB.ANONYMOUS}`}
+								>
+									<Text
+										className={clsx('walkthrough_step_2')}
+										text={translate(
+											'sessionList.preview.anonymous.tab'
+										)}
+										type="standard"
+									/>
+								</Link>
+							</>
+						)}
+						{showSessionListTabs && (
+							<>
+								<Link
+									className={clsx({
+										'sessionsList__tabs--active':
+											!sessionListTab
+									})}
+									to={`/sessions/consultant/${
+										typeIsTeamSession(getTypeOfLocation())
+											? 'teamSessionView'
+											: 'sessionView'
+									}`}
+								>
+									<Text
+										text={translate(
+											'sessionList.view.asker.tab'
+										)}
+										type="standard"
+									/>
+								</Link>
+								<Link
+									className={clsx({
+										'sessionsList__tabs--active':
+											sessionListTab ===
+											SESSION_LIST_TAB.ARCHIVE
+									})}
+									to={`/sessions/consultant/${
+										typeIsTeamSession(getTypeOfLocation())
+											? 'teamSessionView'
+											: 'sessionView'
+									}?sessionListTab=${
 										SESSION_LIST_TAB.ARCHIVE
-								})}
-								to={`/sessions/consultant/${
-									typeIsTeamSession(getTypeOfLocation())
-										? 'teamSessionView'
-										: 'sessionView'
-								}?sessionListTab=${SESSION_LIST_TAB.ARCHIVE}`}
-							>
-								<Text
-									text={translate(
-										'sessionList.view.archive.tab'
-									)}
-									type="standard"
-								/>
-							</Link>
-						</div>
-					)}
+									}`}
+								>
+									<Text
+										text={translate(
+											'sessionList.view.archive.tab'
+										)}
+										type="standard"
+									/>
+								</Link>
+							</>
+						)}
+					</div>
 					{showFilter && (
 						<div className="sessionsList__selectWrapper">
 							<SelectDropdown {...selectDropdown} />

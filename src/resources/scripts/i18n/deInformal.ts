@@ -31,6 +31,8 @@ import twoFactorAuthInformal from './de/twoFactorAuthInformal';
 import videoCall from './de/videoCall';
 import videoCallInformal from './de/videoCallInformal';
 import de from './de';
+import walkthrough from './de/walkthrough';
+import walkthroughInformal from './de/walkthroughInformal';
 
 const informalLocale = {
 	...de,
@@ -49,7 +51,8 @@ const informalLocale = {
 	sessionList: { ...sessionList, ...sessionListInformal },
 	statusOverlay: { ...statusOverlay, ...statusOverlayInformal },
 	twoFactorAuth: { ...twoFactorAuth, ...twoFactorAuthInformal },
-	videoCall: { ...videoCall, ...videoCallInformal }
+	videoCall: { ...videoCall, ...videoCallInformal },
+	walkthrough: { ...walkthrough, walkthroughInformal }
 };
 
 export default informalLocale;

@@ -18,6 +18,7 @@ export interface UserDataInterface {
 	userName: string;
 	twoFactorAuth?: TwoFactorAuthInterface;
 	languages?: string[];
+	isWalkThroughEnabled?: boolean;
 }
 
 export interface ConsultantDataInterface
