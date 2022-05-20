@@ -117,9 +117,26 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	};
 
 	useEffect(() => {
+		const enableDraggingOnWindow = () => {
+			window.ondragover = (ev: any) => {
+				setIsDragging(true);
+				cancelDraggingOnOutsideWindow();
+
+				const isOutsideDropZone =
+					!ev.target.classList.contains('dragAndDropArea');
+				if (isOutsideDropZone) {
+					ev.preventDefault();
+					ev.dataTransfer.dropEffect = 'none';
+					ev.dataTransfer.effectAllowed = 'none';
+				}
+			};
+			window.ondragleave = () => onDragLeave();
+			window.ondragend = window.ondrop = () => setIsDragging(false);
+		};
+
 		enableDraggingOnWindow();
 		return () => disableDraggingOnWindow();
-	}, []); // eslint-disable-line
+	}, []);
 
 	useEffect(() => {
 		if (scrollContainerRef.current) {
@@ -355,23 +372,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		dragCancelRef.current = setTimeout(() => {
 			setIsDragging(false);
 		}, 300);
-	};
-
-	const enableDraggingOnWindow = () => {
-		window.ondragover = (ev: any) => {
-			setIsDragging(true);
-			cancelDraggingOnOutsideWindow();
-
-			const isOutsideDropZone =
-				!ev.target.classList.contains('dragAndDropArea');
-			if (isOutsideDropZone) {
-				ev.preventDefault();
-				ev.dataTransfer.dropEffect = 'none';
-				ev.dataTransfer.effectAllowed = 'none';
-			}
-		};
-		window.ondragleave = () => onDragLeave();
-		window.ondragend = window.ondrop = () => setIsDragging(false);
 	};
 
 	const disableDraggingOnWindow = () => {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
 	getChatItemForSession,
@@ -248,11 +248,6 @@ export const MessageSubmitInterfaceComponent = (
 			}
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		if (!props.preselectedFile) return;
-		handlePreselectedAttachmentChange();
-	}, [props.preselectedFile]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (isLiveChatFinished) {
@@ -589,23 +584,6 @@ export const MessageSubmitInterfaceComponent = (
 		attachmentInput.click();
 	};
 
-	const handleAttachmentChange = () => {
-		const attachmentInput: any = attachmentInputRef.current;
-		const attachment = attachmentInput.files[0];
-		const attachmentSizeMB = getAttachmentSizeMBForKB(attachment.size);
-		attachmentSizeMB > ATTACHMENT_MAX_SIZE_IN_MB
-			? handleLargeAttachments()
-			: displayAttachmentToUpload(attachment);
-	};
-
-	const handlePreselectedAttachmentChange = () => {
-		const attachment = props.preselectedFile;
-		const attachmentSizeMB = getAttachmentSizeMBForKB(attachment.size);
-		attachmentSizeMB > ATTACHMENT_MAX_SIZE_IN_MB
-			? handleLargeAttachments()
-			: displayAttachmentToUpload(attachment);
-	};
-
 	const displayAttachmentToUpload = (attachment: File) => {
 		setAttachmentSelected(attachment);
 		setActiveInfo('');
@@ -615,6 +593,28 @@ export const MessageSubmitInterfaceComponent = (
 		removeSelectedAttachment();
 		setActiveInfo(INFO_TYPES.ATTACHMENT_SIZE_ERROR);
 	};
+
+	const handleAttachmentChange = () => {
+		const attachmentInput: any = attachmentInputRef.current;
+		const attachment = attachmentInput.files[0];
+		const attachmentSizeMB = getAttachmentSizeMBForKB(attachment.size);
+		attachmentSizeMB > ATTACHMENT_MAX_SIZE_IN_MB
+			? handleLargeAttachments()
+			: displayAttachmentToUpload(attachment);
+	};
+
+	const handlePreselectedAttachmentChange = useCallback(() => {
+		const attachment = props.preselectedFile;
+		const attachmentSizeMB = getAttachmentSizeMBForKB(attachment.size);
+		attachmentSizeMB > ATTACHMENT_MAX_SIZE_IN_MB
+			? handleLargeAttachments()
+			: displayAttachmentToUpload(attachment);
+	}, [handleLargeAttachments, props.preselectedFile]);
+
+	useEffect(() => {
+		if (!props.preselectedFile) return;
+		handlePreselectedAttachmentChange();
+	}, [handlePreselectedAttachmentChange, props.preselectedFile]);
 
 	const removeSelectedAttachment = () => {
 		const attachmentInput: any = attachmentInputRef.current;
