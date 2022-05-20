@@ -29,7 +29,7 @@
 		justify-content: center;
 		align-items: center;
 		pointer-events: none;
-		border-radius: 15px;
+		border-radius: $drag-and-drop-area-border-radius;
 		font-family: $font-family-sans-serif;
 		transition: all 0.3s ease;
 
