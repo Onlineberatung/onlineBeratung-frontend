@@ -27,6 +27,12 @@
 			margin-top: $grid-base-twelve;
 		}
 
+		@include breakpoint($fromXLarge) {
+			& div:last-child {
+				z-index: 301;
+			}
+		}
+
 		.text,
 		.headline {
 			text-align: center;
@@ -100,14 +106,15 @@
 			height: 560px;
 
 			&::after {
-				height: 400%;
-				width: 300%;
+				height: 400% !important;
+				width: 300% !important;
 				left: -1200px;
+				z-index: 300;
 			}
 
-			// svg {
-			// 	margin-left: -$grid-base-six;
-			// }
+			svg {
+				margin-left: -$grid-base-six;
+			}
 		}
 	}
 
