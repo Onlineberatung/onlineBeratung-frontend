@@ -12,9 +12,9 @@ interface TwoFactorNagProps {}
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 
-	const {
+	/* const {
 		twoFactorAuth: { isShown: isShownTwoFactorNag }
-	} = userData;
+	} = userData; */
 
 	useEffect(() => {
 		if (
@@ -71,7 +71,8 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		}
 	};
 
-	if (!isShownTwoFactorNag) return <></>;
+	if (userData && userData.twoFactorAuth && !userData.twoFactorAuth.isShown)
+		return <></>;
 
 	return (
 		<OverlayWrapper>
