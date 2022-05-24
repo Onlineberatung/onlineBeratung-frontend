@@ -12,10 +12,6 @@ interface TwoFactorNagProps {}
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 
-	/* const {
-		twoFactorAuth: { isShown: isShownTwoFactorNag }
-	} = userData; */
-
 	useEffect(() => {
 		if (
 			userData.twoFactorAuth?.isEnabled &&
@@ -26,9 +22,9 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			setIsTwoFactorNagShown(true);
 		}
 	}, [
-		userData.twoFactorAuth.isEnabled,
-		userData.twoFactorAuth.isActive,
-		userData.twoFactorAuth.isToEncourage
+		userData.twoFactorAuth?.isEnabled,
+		userData.twoFactorAuth?.isActive,
+		userData.twoFactorAuth?.isToEncourage
 	]);
 
 	const setIsTwoFactorNagShown = (bool) => {
@@ -71,8 +67,7 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		}
 	};
 
-	if (userData && userData.twoFactorAuth && !userData.twoFactorAuth.isShown)
-		return <></>;
+	if (!userData.twoFactorAuth?.isShown) return <></>;
 
 	return (
 		<OverlayWrapper>

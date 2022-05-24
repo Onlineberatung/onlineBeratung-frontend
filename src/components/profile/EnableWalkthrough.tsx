@@ -12,7 +12,7 @@ export const EnableWalkthrough = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { isWalkThroughEnabled } = userData;
 	return (
-		!userData.userRoles.includes('user') && (
+		!userData.userRoles?.includes('user') && (
 			<div className="twoFactorAuth">
 				<div className="profile__content__title">
 					<Headline

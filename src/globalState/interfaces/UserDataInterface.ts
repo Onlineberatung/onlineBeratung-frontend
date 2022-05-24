@@ -53,7 +53,7 @@ export interface TwoFactorAuthInterface {
 	isActive: boolean;
 	secret: string;
 	qrCode: string;
-	// isShown: boolean;
+	isShown: boolean;
 }
 
 export interface AgencyLanguagesInterface {
