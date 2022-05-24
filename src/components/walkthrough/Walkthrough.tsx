@@ -14,15 +14,13 @@ import peerStepsData from './peerSteps';
 
 export const Walkthrough = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
-	const {
-		twoFactorAuth: { isShown: isShownTwoFactorNag }
-	} = userData;
+
 	return (
 		<Steps
 			enabled={
 				userData.isWalkThroughEnabled &&
 				config.enableWalkthrough &&
-				!isShownTwoFactorNag
+				!userData.twoFactorAuth.isShown
 			}
 			onExit={() => {
 				apiPatchConsultantData({
@@ -39,8 +37,10 @@ export const Walkthrough = () => {
 					});
 			}}
 			steps={
-				!userData.userRoles.includes('main-consultant') &&
-				userData.userRoles.includes('peer-consultant')
+				userData &&
+				userData.userRoles &&
+				!userData.userRoles?.includes('main-consultant') &&
+				userData.userRoles?.includes('peer-consultant')
 					? peerStepsData
 					: stepsData
 			}
