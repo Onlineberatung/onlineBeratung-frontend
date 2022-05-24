@@ -21,6 +21,7 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		) {
 			setIsTwoFactorNagShown(true);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
 		userData.twoFactorAuth?.isEnabled,
 		userData.twoFactorAuth?.isActive,
