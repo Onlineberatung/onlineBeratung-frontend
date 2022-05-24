@@ -8,6 +8,7 @@
 		display: none;
 		position: absolute;
 		top: 0;
+		z-index: 301;
 
 		@include breakpoint($fromLarge) {
 			display: flex;
@@ -100,6 +101,7 @@
 			height: 560px;
 
 			&::after {
+				z-index: 300;
 				height: 400%;
 				width: 300%;
 				left: -1200px;
