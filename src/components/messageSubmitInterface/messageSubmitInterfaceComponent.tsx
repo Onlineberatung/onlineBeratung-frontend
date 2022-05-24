@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import {
 	getChatItemForSession,
@@ -153,6 +153,7 @@ export interface MessageSubmitInterfaceComponentProps {
 	sessionIdFromParam?: number;
 	groupIdFromParam?: string;
 	language?: string;
+	preselectedFile?: File;
 }
 
 export const MessageSubmitInterfaceComponent = (
@@ -474,7 +475,8 @@ export const MessageSubmitInterfaceComponent = (
 
 	const sendMessage = () => {
 		const attachmentInput: any = attachmentInputRef.current;
-		const attachment = attachmentInput && attachmentInput.files[0];
+		const selectedFile = attachmentInput && attachmentInput.files[0];
+		const attachment = props.preselectedFile || selectedFile;
 		if (getTypedMarkdownMessage() || attachment) {
 			setIsRequestInProgress(true);
 		} else {
@@ -582,6 +584,16 @@ export const MessageSubmitInterfaceComponent = (
 		attachmentInput.click();
 	};
 
+	const displayAttachmentToUpload = (attachment: File) => {
+		setAttachmentSelected(attachment);
+		setActiveInfo('');
+	};
+
+	const handleLargeAttachments = useCallback(() => {
+		removeSelectedAttachment();
+		setActiveInfo(INFO_TYPES.ATTACHMENT_SIZE_ERROR);
+	}, []);
+
 	const handleAttachmentChange = () => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const attachment = attachmentInput.files[0];
@@ -591,15 +603,18 @@ export const MessageSubmitInterfaceComponent = (
 			: displayAttachmentToUpload(attachment);
 	};
 
-	const displayAttachmentToUpload = (attachment: File) => {
-		setAttachmentSelected(attachment);
-		setActiveInfo('');
-	};
+	const handlePreselectedAttachmentChange = useCallback(() => {
+		const attachment = props.preselectedFile;
+		const attachmentSizeMB = getAttachmentSizeMBForKB(attachment.size);
+		attachmentSizeMB > ATTACHMENT_MAX_SIZE_IN_MB
+			? handleLargeAttachments()
+			: displayAttachmentToUpload(attachment);
+	}, [handleLargeAttachments, props.preselectedFile]);
 
-	const handleLargeAttachments = () => {
-		removeSelectedAttachment();
-		setActiveInfo(INFO_TYPES.ATTACHMENT_SIZE_ERROR);
-	};
+	useEffect(() => {
+		if (!props.preselectedFile) return;
+		handlePreselectedAttachmentChange();
+	}, [handlePreselectedAttachmentChange, props.preselectedFile]);
 
 	const removeSelectedAttachment = () => {
 		const attachmentInput: any = attachmentInputRef.current;
