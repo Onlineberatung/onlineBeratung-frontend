@@ -7,7 +7,8 @@ const nodeEnv: string = process.env.NODE_ENV as string;
 const isLocalDevelopment = nodeEnv === 'development';
 
 export const apiUploadAttachment = (
-	messageData: string,
+	encryptedMessageData: string,
+	unencryptedMessageData: string,
 	attachment: File,
 	rcGroupIdOrSessionId: string | number,
 	isFeedback: boolean,
@@ -26,7 +27,9 @@ export const apiUploadAttachment = (
 
 	let data = new FormData();
 	data.append('file', attachment);
-	data.append('msg', messageData.trim());
+	data.append('msg', encryptedMessageData.trim());
+	data.append('org', unencryptedMessageData.trim());
+	data.append('t', 'e2e');
 	data.append('sendNotification', sendMailNotification.toString());
 
 	const xhr = new XMLHttpRequest();

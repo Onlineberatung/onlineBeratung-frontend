@@ -2,7 +2,8 @@ import { config } from '../resources/scripts/config';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiSendMessage = async (
-	messageData: string,
+	encryptedMessageData: string,
+	unencryptedMessageData: string,
 	rcGroupIdOrSessionId: string | number,
 	isFeedback: boolean,
 	sendMailNotification: boolean
@@ -14,7 +15,9 @@ export const apiSendMessage = async (
 		? { rcFeedbackGroupId: rcGroupIdOrSessionId }
 		: { rcGroupId: rcGroupIdOrSessionId };
 	const message = JSON.stringify({
-		message: messageData.trim(),
+		message: encryptedMessageData,
+		org: unencryptedMessageData,
+		t: 'e2e',
 		sendNotification: sendMailNotification
 	});
 

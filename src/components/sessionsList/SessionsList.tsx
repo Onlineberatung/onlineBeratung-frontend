@@ -668,9 +668,9 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 						!hasNoSessions
 							? sessionsData[
 									getSessionsDataKeyForSessionType(type)
-							  ].map((item: ListItemInterface, index) => (
+							  ].map((item: ListItemInterface) => (
 									<SessionListItemComponent
-										key={index}
+										key={getChatItemForSession(item).id}
 										type={type}
 										id={getChatItemForSession(item).id}
 										defaultLanguage={defaultLanguage}

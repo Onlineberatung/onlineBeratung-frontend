@@ -67,6 +67,10 @@ export interface SessionItemInterface {
 	feedbackRead?: boolean;
 	groupId: string;
 	id: number;
+	e2eLastMessage: {
+		t: string;
+		msg: string;
+	};
 	lastMessage?: string;
 	messageDate: number;
 	createDate: string;
@@ -100,6 +104,10 @@ export interface GroupChatItemInterface {
 	groupId: string;
 	id: number;
 	lastMessage: string;
+	e2eLastMessage: {
+		t: string;
+		msg: string;
+	};
 	messageDate: number;
 	messagesRead: boolean;
 	moderators: string[];

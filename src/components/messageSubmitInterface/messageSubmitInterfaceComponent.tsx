@@ -527,6 +527,13 @@ export const MessageSubmitInterfaceComponent = (
 			return null;
 		}
 
+		const unencryptedMessage = getTypedMarkdownMessage().trim();
+		const encryptedMessage = await encryptText(
+			getTypedMarkdownMessage().trim(),
+			props.E2EEParams.keyID,
+			props.E2EEParams.key
+		);
+
 		if (
 			typeIsEnquiry(props.type) &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
@@ -536,11 +543,8 @@ export const MessageSubmitInterfaceComponent = (
 				: sessionsData.mySessions[0].session.id;
 			apiSendEnquiry(
 				enquirySessionId,
-				await encryptText(
-					getTypedMarkdownMessage(),
-					props.E2EEParams.keyID,
-					props.E2EEParams.key
-				),
+				encryptedMessage,
+				unencryptedMessage,
 				props.language
 			)
 				.then((response) => {
@@ -563,11 +567,8 @@ export const MessageSubmitInterfaceComponent = (
 			if (attachment) {
 				setAttachmentUpload(
 					apiUploadAttachment(
-						await encryptText(
-							getTypedMarkdownMessage(),
-							props.E2EEParams.keyID,
-							props.E2EEParams.key
-						),
+						encryptedMessage,
+						unencryptedMessage,
 						encryptAttachment(
 							attachment,
 							props.E2EEParams.keyID,
@@ -583,11 +584,8 @@ export const MessageSubmitInterfaceComponent = (
 			} else {
 				if (getTypedMarkdownMessage()) {
 					apiSendMessage(
-						await encryptText(
-							getTypedMarkdownMessage(),
-							props.E2EEParams.keyID,
-							props.E2EEParams.key
-						),
+						encryptedMessage,
+						unencryptedMessage,
 						sendToRoomWithId,
 						sendToFeedbackEndpoint,
 						getSendMailNotificationStatus()

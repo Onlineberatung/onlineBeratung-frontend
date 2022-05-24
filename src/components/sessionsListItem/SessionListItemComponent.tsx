@@ -93,19 +93,23 @@ export const SessionListItemComponent = ({
 
 	const { key, keyID, encrypted } = useE2EE(listItem.groupId);
 	const [plainTextLastMessage, setPlainTextLastMessage] = useState(null);
+
 	useEffect(() => {
-		if (!listItem.lastMessage) {
+		if (!listItem.e2eLastMessage) {
 			return;
 		}
-		// ToDo: read messageEncrypted from listItem.lastMessage.t and check if equal e2e
-		decryptText(listItem.lastMessage, keyID, key, encrypted, true).then(
-			(message) => {
-				const rawMessageObject = markdownToDraft(message);
-				const contentStateMessage = convertFromRaw(rawMessageObject);
-				setPlainTextLastMessage(contentStateMessage.getPlainText());
-			}
-		);
-	}, [key, keyID, encrypted, listItem.groupId, listItem.lastMessage]);
+		decryptText(
+			listItem.e2eLastMessage.msg,
+			keyID,
+			key,
+			encrypted,
+			listItem.e2eLastMessage.t === 'e2e'
+		).then((message) => {
+			const rawMessageObject = markdownToDraft(message);
+			const contentStateMessage = convertFromRaw(rawMessageObject);
+			setPlainTextLastMessage(contentStateMessage.getPlainText());
+		});
+	}, [key, keyID, encrypted, listItem.groupId, listItem.e2eLastMessage]);
 
 	const isCurrentSessionNewEnquiry =
 		currentSessionData.session &&
@@ -231,7 +235,7 @@ export const SessionListItemComponent = ({
 					</div>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__subject">
-							{listItem.lastMessage
+							{plainTextLastMessage
 								? plainTextLastMessage
 								: defaultSubjectText}
 						</div>

@@ -206,9 +206,6 @@ export const decryptText = async (
 	messageEncrypted,
 	encPrefix: string = ''
 ) => {
-	//ToDo: Just temporary fix as long as e2e is not set on message
-	messageEncrypted = true;
-
 	if (
 		!roomEncrypted ||
 		!messageEncrypted ||
@@ -226,9 +223,7 @@ export const decryptText = async (
 
 	const keyID = message.slice(encPrefix.length, 12);
 	if (keyID !== roomKeyID) {
-		//console.error('Error decrypting message: RoomKeyID does not match!');
-		//ToDo: Just temporary fix as long as e2e is not set on message
-		return message;
+		return 'Nachricht verschlüsselt - falscher roomKey';
 	}
 
 	const encMessage = message.slice(12 + encPrefix.length);
@@ -331,6 +326,7 @@ export const createGroupKey = (): Promise<GroupKeyType> =>
 
 		try {
 			const sessionKeyExported = await exportJWKKey(key);
+			// TODO MAYBE replace with sessionKeyExported.k
 			const sessionKeyExportedString = JSON.stringify(sessionKeyExported);
 			const keyID = btoa(sessionKeyExportedString).slice(0, 12);
 
@@ -363,6 +359,7 @@ export const importGroupKey = (
 			return;
 		}
 
+		// TODO MAYBE change to JSON.parse(sessionKeyExportedString).k
 		const keyID = btoa(sessionKeyExportedString).slice(0, 12);
 
 		// Import session key for use.
