@@ -1,7 +1,8 @@
-.videoConference .waitingRoom {
+.videoConferenceWaitingRoom {
 	display: flex;
 	justify-content: center;
 	min-height: 100vh;
+	overflow: hidden;
 	background-color: $background-light;
 
 	.header {
