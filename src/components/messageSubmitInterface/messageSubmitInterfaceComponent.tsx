@@ -589,10 +589,10 @@ export const MessageSubmitInterfaceComponent = (
 		setActiveInfo('');
 	};
 
-	const handleLargeAttachments = () => {
+	const handleLargeAttachments = useCallback(() => {
 		removeSelectedAttachment();
 		setActiveInfo(INFO_TYPES.ATTACHMENT_SIZE_ERROR);
-	};
+	}, []);
 
 	const handleAttachmentChange = () => {
 		const attachmentInput: any = attachmentInputRef.current;
