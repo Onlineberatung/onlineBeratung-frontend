@@ -16,6 +16,7 @@ import { Error } from './WaitingRoom/Error';
 
 export interface WaitingRoomProps {
 	confirmed: boolean;
+	otherClass?: string;
 	setConfirmed: Function;
 	legalLinks: Array<LegalLinkInterface>;
 	error?: {
@@ -29,6 +30,7 @@ export interface WaitingRoomProps {
 }
 
 export const WaitingRoom = ({
+	otherClass,
 	confirmed,
 	setConfirmed,
 	legalLinks,
@@ -65,7 +67,7 @@ export const WaitingRoom = ({
 
 	return (
 		<>
-			<div className="waitingRoom">
+			<div className={otherClass ? otherClass : 'waitingRoom'}>
 				<Header />
 				<div className="waitingRoom__contentWrapper">
 					{getContent()}
