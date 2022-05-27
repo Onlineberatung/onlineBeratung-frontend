@@ -23,8 +23,8 @@ import { Text } from '../text/Text';
 import { E2EEContext } from '../../globalState';
 import {
 	createAndLoadKeys,
-	encodePrivateKey,
-	getMasterKey,
+	encryptPrivateKey,
+	deriveMasterKeyFromPassword,
 	reEncryptMyRoomKeys
 } from '../../utils/encryptionHelpers';
 import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
@@ -210,10 +210,10 @@ export const PasswordReset = () => {
 						e2eePrivateKey
 					)
 				)
-				.then(() => getMasterKey(rcUid, newPassword))
+				.then(() => deriveMasterKeyFromPassword(rcUid, newPassword))
 				// encode private key form keypair
 				.then((masterKey) =>
-					encodePrivateKey(
+					encryptPrivateKey(
 						sessionStorage.getItem('private_key'),
 						masterKey
 					)

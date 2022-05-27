@@ -250,7 +250,7 @@ export const getTmpMasterKey = async (uid) => {
 	return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 };
 
-export const getMasterKey = async (rcUserId, password) => {
+export const deriveMasterKeyFromPassword = async (rcUserId, password) => {
 	if (!('TextEncoder' in window))
 		alert('Sorry, this browser does not support TextEncoder...');
 
@@ -407,7 +407,7 @@ export const reEncryptMyRoomKeys = async (
 	);
 };
 
-export const encodePrivateKey = async (privateKey, masterKey) => {
+export const encryptPrivateKey = async (privateKey, masterKey) => {
 	const vector = crypto.getRandomValues(new Uint8Array(16));
 	try {
 		const encodedPrivateKey = await encryptAES(
@@ -424,7 +424,7 @@ export const encodePrivateKey = async (privateKey, masterKey) => {
 	}
 };
 
-export const decodePrivateKey = async (privateKey, masterKey) => {
+export const decryptPrivateKey = async (privateKey, masterKey) => {
 	const [vector, cipherText] = splitVectorAndEcryptedData(
 		Uint8Array.from(Object.values(JSON.parse(privateKey)))
 	);
