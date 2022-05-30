@@ -88,7 +88,7 @@ import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
-import { useE2EEType } from '../../hooks/useE2EE';
+import { e2eeParams } from '../../hooks/useE2EE';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -155,7 +155,7 @@ export interface MessageSubmitInterfaceComponentProps {
 	sessionIdFromParam?: number;
 	groupIdFromParam?: string;
 	language?: string;
-	E2EEParams?: useE2EEType;
+	E2EEParams?: e2eeParams;
 }
 
 const encryptAttachment = (attachment, keyID, key) => {
@@ -352,6 +352,7 @@ export const MessageSubmitInterfaceComponent = (
 	useEffect(() => {
 		if (uploadOnLoadHandling) {
 			if (uploadOnLoadHandling.status === 201) {
+				props.handleSendButton();
 				handleMessageSendSuccess();
 				cleanupAttachment();
 			} else if (uploadOnLoadHandling.status === 413) {
@@ -591,6 +592,7 @@ export const MessageSubmitInterfaceComponent = (
 						getSendMailNotificationStatus()
 					)
 						.then(() => {
+							props.handleSendButton();
 							handleMessageSendSuccess();
 						})
 						.catch((error) => {

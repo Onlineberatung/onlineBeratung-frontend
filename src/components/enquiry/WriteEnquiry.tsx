@@ -44,6 +44,10 @@ import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
 import { apiRocketChatGetUsersOfRoomWithoutKey } from '../../api/apiRocketChatGetUsersOfRoomWithoutKey';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 import { apiRocketChatSetRoomKeyID } from '../../api/apiRocketChatSetRoomKeyID';
+import {
+	ALIAS_MESSAGE_TYPES,
+	apiSendAliasMessage
+} from '../../api/apiSendAliasMessage';
 
 export const WriteEnquiry: React.FC = () => {
 	const { sessionId: sessionIdFromParam } = useParams();
@@ -220,6 +224,10 @@ export const WriteEnquiry: React.FC = () => {
 				console.log('Set Room Key ID', keyID);
 				try {
 					await apiRocketChatSetRoomKeyID(response.rcGroupId, keyID);
+					await apiSendAliasMessage({
+						rcGroupId: response.rcGroupId,
+						type: ALIAS_MESSAGE_TYPES.E2EE_ACTIVATED
+					});
 				} catch (e) {
 					console.error(e);
 					return;

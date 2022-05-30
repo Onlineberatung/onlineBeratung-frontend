@@ -96,6 +96,10 @@ import {
 import { apiRocketChatSetRoomKeyID } from '../../api/apiRocketChatSetRoomKeyID';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 import { useE2EE } from '../../hooks/useE2EE';
+import {
+	ALIAS_MESSAGE_TYPES,
+	apiSendAliasMessage
+} from '../../api/apiSendAliasMessage';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -123,6 +127,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const hasE2EEFeatureEnabled = () =>
 		localStorage.getItem('e2eeFeatureEnabled') ?? false;
 
+	// TODO REMOVE THE BUTTON AND MOVE IT TO MESSAGE SENDING
 	const buttonEncryptRoom: ButtonItem = {
 		type: BUTTON_TYPES.SMALL_ICON,
 		title: 'Encrypt',
@@ -204,6 +209,10 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		console.log('Set Room Key ID', keyID);
 		try {
 			await apiRocketChatSetRoomKeyID(groupIdFromParam, keyID);
+			await apiSendAliasMessage({
+				rcGroupId: groupIdFromParam,
+				type: ALIAS_MESSAGE_TYPES.E2EE_ACTIVATED
+			});
 		} catch (e) {
 			console.error(e);
 			return;
@@ -211,7 +220,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 		console.log('Start writing encrypted messages!');
 		refresh();
-		return;
 	}, [encrypted, groupIdFromParam, refresh, rooms, subscriptions]);
 	/** E2EE End */
 

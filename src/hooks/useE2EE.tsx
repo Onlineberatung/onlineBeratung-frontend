@@ -8,15 +8,18 @@ import {
 	importGroupKey
 } from '../utils/encryptionHelpers';
 
-export type useE2EEType = {
+export type e2eeParams = {
 	key?: CryptoKey;
 	keyID?: string;
 	sessionKeyExportedString?: string;
 	encrypted?: boolean;
-	addNewUsersToEncryptedRoom?: any;
 };
 
-export const useE2EE = (rid: string): useE2EEType => {
+export interface UseE2EEParams extends e2eeParams {
+	addNewUsersToEncryptedRoom?: any;
+}
+
+export const useE2EE = (rid: string): UseE2EEParams => {
 	const {
 		subscriptions,
 		rooms,
@@ -119,6 +122,11 @@ export const useE2EE = (rid: string): useE2EEType => {
 		const room = rooms.find((room) => room._id === rid);
 
 		if (!room?.e2eKeyId) {
+			// not encrypted -> reset
+			setEncrypted(false);
+			setKey(null);
+			setKeyID(null);
+			setSessionKeyExportedString(null);
 			return;
 		}
 

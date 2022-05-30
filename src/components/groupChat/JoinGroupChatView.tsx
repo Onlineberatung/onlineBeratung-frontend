@@ -54,6 +54,10 @@ import {
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 import { apiRocketChatSetRoomKeyID } from '../../api/apiRocketChatSetRoomKeyID';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import {
+	ALIAS_MESSAGE_TYPES,
+	apiSendAliasMessage
+} from '../../api/apiSendAliasMessage';
 
 interface JoinGroupChatViewProps {
 	chatItem: GroupChatItemInterface;
@@ -103,6 +107,7 @@ export const JoinGroupChatView = ({
 
 	// create the groupkeys once, if e2ee feature is enabled
 	useEffect(() => {
+		console.log(activeSession);
 		if (
 			!hasE2EEFeatureEnabled() ||
 			encrypted ||
@@ -153,6 +158,10 @@ export const JoinGroupChatView = ({
 		// After room key is set the room is encrypted and the room key could not be set again.
 		try {
 			await apiRocketChatSetRoomKeyID(groupIdFromParam, groupKeyID);
+			await apiSendAliasMessage({
+				rcGroupId: groupIdFromParam,
+				type: ALIAS_MESSAGE_TYPES.E2EE_ACTIVATED
+			});
 		} catch (e) {
 			console.error(e);
 			return;

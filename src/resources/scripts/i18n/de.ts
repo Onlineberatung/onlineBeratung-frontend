@@ -35,6 +35,7 @@ import videoCall from './de/videoCall';
 import videoConference from './de/videoConference';
 import qrCode from './de/qrCode';
 import releaseNote from './de/releaseNote';
+import e2ee from './de/e2ee';
 
 const de = {
 	absence,
@@ -73,7 +74,8 @@ const de = {
 	videoCall,
 	videoConference,
 	qrCode,
-	releaseNote
+	releaseNote,
+	e2ee
 };
 
 export default de;

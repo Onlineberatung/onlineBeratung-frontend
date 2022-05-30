@@ -90,6 +90,7 @@ export const config = {
 		},
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
+		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		sessionBase: apiUrl + '/service/users/sessions',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
 		startVideoCall: apiUrl + '/service/videocalls/new',

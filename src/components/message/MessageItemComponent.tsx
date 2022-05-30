@@ -37,6 +37,7 @@ import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
+import { E2EEActivatedMessage } from './E2EEActivatedMessage';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -44,7 +45,8 @@ enum MessageType {
 	FORWARD = 'FORWARD',
 	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL',
-	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION'
+	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
+	E2EE_ACTIVATED = 'E2EE_ACTIVATED'
 }
 
 export interface ForwardMessageDTO {
@@ -205,113 +207,118 @@ export const MessageItemComponent = ({
 	const isFinishedConversationMessage =
 		alias?.messageType === MessageType.FINISHED_CONVERSATION;
 	const isUserMutedMessage = alias?.messageType === MessageType.USER_MUTED;
+	const isE2EEActivatedMessage =
+		alias?.messageType === MessageType.E2EE_ACTIVATED;
 
 	const messageContent = (): JSX.Element => {
-		if (isFurtherStepsMessage) {
-			return (
-				<FurtherSteps
-					consultingType={chatItem.consultingType}
-					resortData={resortData}
-				/>
-			);
-		} else if (isUpdateSessionDataMessage) {
-			return (
-				<FurtherSteps
-					onlyShowVoluntaryInfo={true}
-					handleVoluntaryInfoSet={() =>
-						setShowAddVoluntaryInfo(false)
-					}
-					consultingType={chatItem.consultingType}
-					resortData={resortData}
-				/>
-			);
-		} else if (isFinishedConversationMessage) {
-			return (
-				<span className="messageItem__message--system">
-					{translate('anonymous.session.systemMessage.chatFinished')}
-				</span>
-			);
-		} else if (
-			isVideoCallMessage &&
-			videoCallMessage.eventType === 'IGNORED_CALL'
-		) {
-			return (
-				<VideoCallMessage
-					videoCallMessage={videoCallMessage}
-					activeSessionUsername={
-						activeSession.user?.username ||
-						activeSession.consultant?.displayName ||
-						activeSession.consultant?.username
-					}
-					activeSessionAskerRcId={activeSession.session.askerRcId}
-				/>
-			);
-		} else {
-			return (
-				<>
-					<MessageDisplayName
-						alias={alias?.forwardMessageDTO}
-						isMyMessage={isMyMessage}
-						isUser={isUserMessage()}
-						type={getUsernameType()}
-						userId={userId}
-						username={username}
-						isUserBanned={bannedUsers.includes(username)}
-						displayName={displayName}
+		switch (true) {
+			case isE2EEActivatedMessage:
+				return <E2EEActivatedMessage />;
+			case isFurtherStepsMessage:
+				return (
+					<FurtherSteps
+						consultingType={chatItem.consultingType}
+						resortData={resortData}
 					/>
-
-					<div
-						className={
-							isMyMessage && !alias
-								? `messageItem__message messageItem__message--myMessage`
-								: alias
-								? `messageItem__message messageItem__message--forwarded`
-								: `messageItem__message`
+				);
+			case isUpdateSessionDataMessage:
+				return (
+					<FurtherSteps
+						onlyShowVoluntaryInfo={true}
+						handleVoluntaryInfoSet={() =>
+							setShowAddVoluntaryInfo(false)
 						}
-					>
-						<span
-							dangerouslySetInnerHTML={{
-								__html: renderedMessage
-							}}
-						/>
-						{attachments &&
-							attachments.map((attachment, key) => (
-								<MessageAttachment
-									key={key}
-									attachment={attachment}
-									file={file}
-									hasRenderedMessage={hasRenderedMessage}
-								/>
-							))}
-						{activeSession?.isFeedbackSession && (
-							<CopyMessage
-								right={isMyMessage}
-								message={renderedMessage}
-							/>
+						consultingType={chatItem.consultingType}
+						resortData={resortData}
+					/>
+				);
+			case isFinishedConversationMessage:
+				return (
+					<span className="messageItem__message--system">
+						{translate(
+							'anonymous.session.systemMessage.chatFinished'
 						)}
-						{hasRenderedMessage &&
-							hasUserAuthority(
-								AUTHORITIES.USE_FEEDBACK,
-								userData
-							) &&
-							activeSession?.type !==
-								SESSION_LIST_TYPES.ENQUIRY &&
-							isSessionChat(chatItem) &&
-							chatItem.feedbackGroupId &&
-							!activeSession?.isFeedbackSession &&
-							chatItem.status !== STATUS_ARCHIVED && (
-								<ForwardMessage
+					</span>
+				);
+			case isVideoCallMessage &&
+				videoCallMessage.eventType === 'IGNORED_CALL':
+				return (
+					<VideoCallMessage
+						videoCallMessage={videoCallMessage}
+						activeSessionUsername={
+							activeSession.user?.username ||
+							activeSession.consultant?.displayName ||
+							activeSession.consultant?.username
+						}
+						activeSessionAskerRcId={activeSession.session.askerRcId}
+					/>
+				);
+			default:
+				return (
+					<>
+						<MessageDisplayName
+							alias={alias?.forwardMessageDTO}
+							isMyMessage={isMyMessage}
+							isUser={isUserMessage()}
+							type={getUsernameType()}
+							userId={userId}
+							username={username}
+							isUserBanned={bannedUsers.includes(username)}
+							displayName={displayName}
+						/>
+
+						<div
+							className={
+								isMyMessage && !alias
+									? `messageItem__message messageItem__message--myMessage`
+									: alias
+									? `messageItem__message messageItem__message--forwarded`
+									: `messageItem__message`
+							}
+						>
+							<span
+								dangerouslySetInnerHTML={{
+									__html: renderedMessage
+								}}
+							/>
+							{attachments &&
+								attachments.map((attachment, key) => (
+									<MessageAttachment
+										key={key}
+										attachment={attachment}
+										file={file}
+										hasRenderedMessage={hasRenderedMessage}
+									/>
+								))}
+							{activeSession?.isFeedbackSession && (
+								<CopyMessage
 									right={isMyMessage}
-									message={decryptedMessage}
-									messageTime={messageTime}
-									askerRcId={askerRcId}
-									groupId={chatItem.feedbackGroupId}
-									displayName={displayName}
+									message={renderedMessage}
 								/>
 							)}
-					</div>
-				</>
-			);
+							{hasRenderedMessage &&
+								hasUserAuthority(
+									AUTHORITIES.USE_FEEDBACK,
+									userData
+								) &&
+								activeSession?.type !==
+									SESSION_LIST_TYPES.ENQUIRY &&
+								isSessionChat(chatItem) &&
+								chatItem.feedbackGroupId &&
+								!activeSession?.isFeedbackSession &&
+								chatItem.status !== STATUS_ARCHIVED && (
+									<ForwardMessage
+										right={isMyMessage}
+										message={decryptedMessage}
+										messageTime={messageTime}
+										askerRcId={askerRcId}
+										groupId={chatItem.feedbackGroupId}
+										displayName={displayName}
+									/>
+								)}
+						</div>
+					</>
+				);
 		}
 	};
 
@@ -333,6 +340,11 @@ export const MessageItemComponent = ({
 					messageItem__messageWrap
 					${isMyMessage ? 'messageItem__messageWrap--right' : ''}
 					${isFurtherStepsMessage ? 'messageItem__messageWrap--furtherSteps' : ''}
+					${
+						isE2EEActivatedMessage
+							? 'messageItem__messageWrap--e2eeActivatedMessage'
+							: ''
+					}
 				`}
 			>
 				{messageContent()}
