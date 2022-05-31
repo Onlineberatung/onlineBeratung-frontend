@@ -28,5 +28,22 @@
 				transition: all 0.3s ease;
 			}
 		}
+
+		> p {
+			margin-bottom: 19px;
+		}
+
+		.mobile {
+			padding-top: 40px;
+		}
+
+		.disabled {
+			background-color: $white;
+			border: 1px solid rgba(0, 0, 0, 0.12);
+		}
+
+		.textarea__wrapper {
+			margin: 0;
+		}
 	}
 }
