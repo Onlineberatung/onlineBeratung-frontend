@@ -449,6 +449,8 @@ export const loadKeys = async (private_key, public_key) => {
 
 export const createAndLoadKeys = async () => {
 	let key;
+	let privateKey;
+	let publicKey;
 	try {
 		key = await generateRSAKey();
 	} catch (error) {
@@ -456,18 +458,21 @@ export const createAndLoadKeys = async () => {
 	}
 
 	try {
-		const publicKey = await exportJWKKey(key.publicKey);
+		publicKey = await exportJWKKey(key.publicKey);
 		sessionStorage.setItem('public_key', JSON.stringify(publicKey));
 	} catch (error) {
 		throw new Error('Error exporting public key: ' + error);
 	}
 
 	try {
-		const privateKey = await exportJWKKey(key.privateKey);
+		privateKey = await exportJWKKey(key.privateKey);
 		sessionStorage.setItem('private_key', JSON.stringify(privateKey));
 	} catch (error) {
 		throw new Error('Error exporting private key: ' + error);
 	}
 
-	return key;
+	return {
+		publicKey: JSON.stringify(publicKey),
+		privateKey: JSON.stringify(privateKey)
+	};
 };

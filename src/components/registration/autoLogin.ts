@@ -116,11 +116,17 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 		// masterkey
 		const masterKey = await deriveMasterKeyFromPassword(rcUserId, password);
 
-		// get key pair from rc
-		const { private_key: encryptedPrivateKey, public_key: publicKey } =
-			await apiRocketChatFetchMyKeys();
-
 		let privateKey;
+		let publicKey;
+
+		// get key pair from rc
+		const {
+			private_key: encryptedPrivateKey,
+			public_key: storedPublicKey
+		} = await apiRocketChatFetchMyKeys();
+
+		// use stored public key if available
+		if (storedPublicKey) publicKey = storedPublicKey;
 
 		// try to decrypt the private key
 		if (encryptedPrivateKey) {
@@ -137,34 +143,35 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 			}
 		}
 
-		// no key pair or tmp.key pair
+		// no key pair
 		if (!encryptedPrivateKey) {
 			// create a new key pair
-			await createAndLoadKeys();
+			const { publicKey: pub, privateKey: priv } =
+				await createAndLoadKeys();
+			publicKey = pub;
+			privateKey = priv;
 			// store with rocket chat and in session
 			try {
 				await apiRocketChatSetUserKeys(
-					sessionStorage.getItem('public_key'),
-					await encryptPrivateKey(
-						sessionStorage.getItem('private_key'),
-						masterKey
-					)
+					publicKey,
+					await encryptPrivateKey(privateKey, masterKey)
 				);
 			} catch {
 				console.log('Error saving keys in rocket chat.');
 			}
-
-			// update all existing subscriptions via backend logic
-			try {
-				// BE call
-				const keyString = JSON.parse(publicKey).n;
-				await apiUpdateUserE2EKeys(keyString);
-			} catch (e) {
-				console.log('Update E2E Keys in BE failed, trying FE');
-				// FE Fallback
-				updateUserE2EKeysFallback(rcUserId);
-			}
 		}
+
+		// update all existing subscriptions via backend logic
+		try {
+			// BE call
+			const keyString = JSON.parse(publicKey).n;
+			await apiUpdateUserE2EKeys(keyString);
+		} catch (e) {
+			console.log('Update E2E Keys in BE failed, trying FE');
+			// FE Fallback
+			updateUserE2EKeysFallback(rcUserId);
+		}
+
 		resolve(undefined);
 	});
 
