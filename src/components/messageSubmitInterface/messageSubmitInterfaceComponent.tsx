@@ -144,7 +144,7 @@ const SAVE_DRAFT_TIMEOUT = 10000;
 
 export interface MessageSubmitInterfaceComponentProps {
 	className?: string;
-	handleSendButton: Function;
+	handleSendButton?: Function;
 	isTyping?: Function;
 	placeholder: string;
 	showMonitoringButton?: Function;
@@ -154,6 +154,7 @@ export interface MessageSubmitInterfaceComponentProps {
 	groupIdFromParam?: string;
 	language?: string;
 	preselectedFile?: File;
+	handleMessageSendSuccess?: Function;
 }
 
 export const MessageSubmitInterfaceComponent = (
@@ -497,7 +498,7 @@ export const MessageSubmitInterfaceComponent = (
 			)
 				.then((response) => {
 					setEditorState(EditorState.createEmpty());
-					props.handleSendButton(response);
+					props.handleSendButton?.(response);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -544,6 +545,7 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const handleMessageSendSuccess = () => {
+		props.handleMessageSendSuccess?.();
 		if (props.showMonitoringButton) {
 			props.showMonitoringButton();
 		}

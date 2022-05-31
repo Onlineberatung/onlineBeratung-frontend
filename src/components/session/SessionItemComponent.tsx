@@ -387,6 +387,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		onDragLeave();
 	};
 
+	const handleMessageSendSuccess = () => setDraggedFile(null);
+
 	return (
 		<div
 			className={
@@ -530,7 +532,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							userData
 						))) && (
 					<MessageSubmitInterfaceComponent
-						handleSendButton={() => {}}
 						isTyping={props.isTyping}
 						className={clsx(
 							'session__submit-interface',
@@ -545,6 +546,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						typingUsers={props.typingUsers}
 						groupIdFromParam={groupIdFromParam}
 						preselectedFile={draggedFile}
+						handleMessageSendSuccess={handleMessageSendSuccess}
 					/>
 				)}
 			<DragAndDropArea
