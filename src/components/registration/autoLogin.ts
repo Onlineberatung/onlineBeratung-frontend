@@ -118,12 +118,18 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 			'raw',
 			masterKey
 		);
-		const persistedExportedKeyJson = localStorage.getItem('mk_raw');
-		const persistedExportedKey = persistedExportedKeyJson
-			? (JSON.parse(persistedExportedKeyJson) as ArrayBuffer)
+
+		const currentExportedKeyBase64 = btoa(
+			String.fromCharCode(...new Uint8Array(currentExportedKey))
+		);
+
+		console.log('current exported key', currentExportedKey);
+		const persistedExportedKeyBase64 = localStorage.getItem('mk_raw');
+		const persistedExportedKey = persistedExportedKeyBase64
+			? (JSON.parse(atob(persistedExportedKeyBase64)) as ArrayBuffer)
 			: null;
 
-		if (!persistedExportedKeyJson) {
+		if (!persistedExportedKeyBase64) {
 			// first login
 		} else if (currentExportedKey !== persistedExportedKey) {
 			// password has changed
@@ -139,7 +145,7 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 		}
 
 		// write current exported masterkey
-		localStorage.setItem('mk_raw', JSON.stringify(currentExportedKey));
+		localStorage.setItem('mk_raw', currentExportedKeyBase64);
 
 		let privateKey;
 		let publicKey;
