@@ -111,7 +111,7 @@ export const redirectToApp = () => {
 	window.location.href = config.urls.redirectToApp;
 };
 
-const handleE2EESetup = (password, rcUserId): Promise<any> =>
+const handleE2EESetup = (password: string, rcUserId: string): Promise<any> =>
 	new Promise(async (resolve, reject) => {
 		const masterKey = await deriveMasterKeyFromPassword(rcUserId, password);
 		const currentExportedKey = await crypto.subtle.exportKey(
@@ -123,7 +123,7 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 			String.fromCharCode(...new Uint8Array(currentExportedKey))
 		);
 
-		console.log('current exported key', currentExportedKey);
+		const persistedUserId = localStorage.getItem('userId');
 		const persistedExportedKeyBase64 = localStorage.getItem('mk_raw');
 		const persistedExportedKey = persistedExportedKeyBase64
 			? (JSON.parse(atob(persistedExportedKeyBase64)) as ArrayBuffer)
@@ -145,6 +145,7 @@ const handleE2EESetup = (password, rcUserId): Promise<any> =>
 		}
 
 		// write current exported masterkey
+		localStorage.setItem('userId', rcUserId);
 		localStorage.setItem('mk_raw', currentExportedKeyBase64);
 
 		let privateKey;
