@@ -1,6 +1,6 @@
 const consultant = {
 	'jobTitle': 'Berater_in',
-	'absent.message': 'Abwesenheitsnachricht von '
+	'absent.message': ' ist abwesend'
 };
 
 export default consultant;

@@ -4,6 +4,8 @@ const profile = {
 	'functions.title': 'Funktionen',
 	'functions.absenceTitle': 'Meine Abwesenheit',
 	'functions.absenceLabel': 'Hinterlegen Sie eine Abwesenheitsnachricht',
+	'functions.absenceActivatedLabel':
+		'Deaktivieren Sie Ihre Abwesenheit, um eine Nachricht zu hinterlegen oder sie zu bearbeiten.',
 	'functions.absenceButtonSave': 'Speichern',
 	'functions.absenceButtonChange': 'Ändern',
 	'functions.securityTitle': 'Sicherheit',
