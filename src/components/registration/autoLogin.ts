@@ -6,14 +6,14 @@ import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { config } from '../../resources/scripts/config';
 import { generateCsrfToken } from '../../utils/generateCsrfToken';
 import {
-	encodeUsername,
-	deriveMasterKeyFromPassword,
 	createAndLoadKeys,
-	encryptPrivateKey,
 	decryptPrivateKey,
-	loadKeys,
+	deriveMasterKeyFromPassword,
+	encodeUsername,
+	encryptForParticipant,
+	encryptPrivateKey,
 	getTmpMasterKey,
-	encryptForParticipant
+	loadKeys
 } from '../../utils/encryptionHelpers';
 import { setTokens } from '../auth/auth';
 import { apiUpdateUserE2EKeys, FETCH_ERRORS } from '../../api';
@@ -113,8 +113,33 @@ export const redirectToApp = () => {
 
 const handleE2EESetup = (password, rcUserId): Promise<any> =>
 	new Promise(async (resolve, reject) => {
-		// masterkey
 		const masterKey = await deriveMasterKeyFromPassword(rcUserId, password);
+		const currentExportedKey = await crypto.subtle.exportKey(
+			'raw',
+			masterKey
+		);
+		const persistedExportedKeyJson = localStorage.getItem('mk_raw');
+		const persistedExportedKey = persistedExportedKeyJson
+			? (JSON.parse(persistedExportedKeyJson) as ArrayBuffer)
+			: null;
+
+		if (!persistedExportedKeyJson) {
+			// first login
+		} else if (currentExportedKey !== persistedExportedKey) {
+			// password has changed
+			const oldMasterKey = await crypto.subtle.importKey(
+				'raw',
+				persistedExportedKey,
+				'PBKDF2',
+				true,
+				['encrypt', 'decrypt']
+			);
+
+			// TODO rocketchat encrypt/decrypt
+		}
+
+		// write current exported masterkey
+		localStorage.setItem('mk_raw', JSON.stringify(currentExportedKey));
 
 		let privateKey;
 		let publicKey;
