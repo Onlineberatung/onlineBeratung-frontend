@@ -6,9 +6,11 @@ import { generateCsrfToken } from '../utils/generateCsrfToken';
 const nodeEnv: string = process.env.NODE_ENV as string;
 const isLocalDevelopment = nodeEnv === 'development';
 
+// message can not be send encrypted,
+// since we can not set the t:e2e param in rocket.chat
 export const apiUploadAttachment = (
-	encryptedMessageData: string,
-	unencryptedMessageData: string,
+	encryptedMessage: string,
+	unencryptedMessage: string,
 	attachment: File,
 	rcGroupIdOrSessionId: string | number,
 	isFeedback: boolean,
@@ -27,9 +29,6 @@ export const apiUploadAttachment = (
 
 	let data = new FormData();
 	data.append('file', attachment);
-	data.append('msg', encryptedMessageData.trim());
-	data.append('org', unencryptedMessageData.trim());
-	data.append('t', 'e2e');
 	data.append('sendNotification', sendMailNotification.toString());
 
 	const xhr = new XMLHttpRequest();
@@ -41,7 +40,15 @@ export const apiUploadAttachment = (
 	};
 
 	xhr.onload = (e) => {
-		onLoadHandling(e.target);
+		// pass the message and group/session id to the onload handler
+		// so we can do something with it, after upload is completed
+		onLoadHandling({
+			target: e.target,
+			isFeedback,
+			encryptedMessage,
+			unencryptedMessage,
+			rcGroupIdOrSessionId
+		});
 	};
 
 	xhr.open(FETCH_METHODS.POST, url, true);

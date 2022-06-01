@@ -349,19 +349,36 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	}, [uploadProgress]);
 
+	const finishSendingAttachment = () => {
+		props.handleSendButton();
+		handleMessageSendSuccess();
+		cleanupAttachment();
+	};
+
 	useEffect(() => {
-		if (uploadOnLoadHandling) {
-			if (uploadOnLoadHandling.status === 201) {
-				props.handleSendButton();
-				handleMessageSendSuccess();
-				cleanupAttachment();
-			} else if (uploadOnLoadHandling.status === 413) {
+		if (uploadOnLoadHandling && uploadOnLoadHandling.target) {
+			if (uploadOnLoadHandling.target.status === 201) {
+				if (uploadOnLoadHandling.encryptedMessage) {
+					// send the message for the uploaded file seperately
+					apiSendMessage(
+						uploadOnLoadHandling.encryptedMessage,
+						uploadOnLoadHandling.unencryptedMessage,
+						uploadOnLoadHandling.rcGroupIdOrSessionId,
+						uploadOnLoadHandling.isFeedback,
+						false // do not send email notification, since this was already done for the attachment
+					).then(() => {
+						finishSendingAttachment();
+					});
+				} else {
+					finishSendingAttachment();
+				}
+			} else if (uploadOnLoadHandling.target.status === 413) {
 				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_SIZE_ERROR);
-			} else if (uploadOnLoadHandling.status === 415) {
+			} else if (uploadOnLoadHandling.target.status === 415) {
 				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_FORMAT_ERROR);
 			} else if (
-				uploadOnLoadHandling.status === 403 &&
-				uploadOnLoadHandling.getResponseHeader('X-Reason') ===
+				uploadOnLoadHandling.target.status === 403 &&
+				uploadOnLoadHandling.target.getResponseHeader('X-Reason') ===
 					'QUOTA_REACHED'
 			) {
 				handleAttachmentUploadError(
@@ -529,11 +546,15 @@ export const MessageSubmitInterfaceComponent = (
 		}
 
 		const unencryptedMessage = getTypedMarkdownMessage().trim();
-		const encryptedMessage = await encryptText(
-			getTypedMarkdownMessage().trim(),
-			props.E2EEParams.keyID,
-			props.E2EEParams.key
-		);
+		const encryptedMessage =
+			getTypedMarkdownMessage().trim() &&
+			getTypedMarkdownMessage().trim().length > 0
+				? await encryptText(
+						getTypedMarkdownMessage().trim(),
+						props.E2EEParams.keyID,
+						props.E2EEParams.key
+				  )
+				: null;
 
 		if (
 			typeIsEnquiry(props.type) &&
