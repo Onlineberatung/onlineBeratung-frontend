@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { apiUpdatePassword } from '../../api';
@@ -20,23 +20,14 @@ import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/c
 import './passwordReset.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { E2EEContext } from '../../globalState';
 import {
-	createAndLoadKeys,
 	encryptPrivateKey,
-	deriveMasterKeyFromPassword,
-	reEncryptMyRoomKeys
+	deriveMasterKeyFromPassword
 } from '../../utils/encryptionHelpers';
 import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 
 export const PasswordReset = () => {
-	const {
-		subscriptions,
-		rooms,
-		key: e2eePrivateKey,
-		reloadPrivateKey
-	} = useContext(E2EEContext);
 	const rcUid = getValueFromCookie('rc_uid');
 
 	const [oldPassword, setOldPassword] = useState('');
@@ -52,9 +43,13 @@ export const PasswordReset = () => {
 		useState('');
 	const [confirmPasswordSuccessMessage, setConfirmPasswordSuccessMessage] =
 		useState('');
+	const [hasMasterKeyError, setHasMasterKeyError] = useState(false);
 
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+
+	const hasE2EEFeatureEnabled = () =>
+		localStorage.getItem('e2eeFeatureEnabled') ?? false;
 
 	const overlayItem: OverlayItem = {
 		svg: CheckIcon,
@@ -131,6 +126,7 @@ export const PasswordReset = () => {
 
 	const handleInputOldChange = (event) => {
 		setOldPasswordErrorMessage('');
+		setHasMasterKeyError(false);
 		setOldPassword(event.target.value);
 	};
 
@@ -157,9 +153,11 @@ export const PasswordReset = () => {
 				translate('profile.functions.passwordResetSecure')
 			);
 			setNewPasswordErrorMessage('');
+			setHasMasterKeyError(false);
 		} else {
 			setNewPasswordSuccessMessage('');
 			setNewPasswordErrorMessage('');
+			setHasMasterKeyError(false);
 		}
 	};
 
@@ -195,43 +193,52 @@ export const PasswordReset = () => {
 		}
 
 		if (isValid) {
+			setHasMasterKeyError(false);
 			setIsRequestInProgress(true);
 			setOldPasswordErrorMessage('');
 
 			apiUpdatePassword(oldPassword, newPassword)
-				// Generate new private/public keypair
-				.then(createAndLoadKeys)
-				// Reencrypt all subscription keys with new keypair
-				.then(() =>
-					reEncryptMyRoomKeys(
-						rooms,
-						subscriptions,
-						rcUid,
-						e2eePrivateKey
-					)
-				)
-				.then(() => deriveMasterKeyFromPassword(rcUid, newPassword))
-				// encode private key form keypair
-				.then((masterKey) =>
-					encryptPrivateKey(
-						sessionStorage.getItem('private_key'),
-						masterKey
-					)
-				)
-				// Update keypair in rocket.chat
-				.then((encPrivateKey) =>
-					apiRocketChatSetUserKeys(
-						sessionStorage.getItem('public_key'),
-						encPrivateKey
-					)
-				)
-				.then(() => {
-					reloadPrivateKey();
-					setOverlayActive(true);
-					setIsRequestInProgress(false);
-					logout(false, config.urls.toLogin);
+				.then(async () => {
+					try {
+						if (hasE2EEFeatureEnabled()) {
+							// create new masterkey from newPassword
+							const newMasterKey =
+								await deriveMasterKeyFromPassword(
+									rcUid,
+									newPassword
+								);
+							// encrypt private key with new masterkey
+							const encryptedPrivateKey = await encryptPrivateKey(
+								sessionStorage.getItem('private_key'),
+								newMasterKey
+							);
+							// save with rocket chat
+							await apiRocketChatSetUserKeys(
+								sessionStorage.getItem('public_key'),
+								encryptedPrivateKey
+							);
+						}
+						// TODO Update masterkey in localstorage same logic as autoLogin
+
+						setOverlayActive(true);
+						setIsRequestInProgress(false);
+						logout(false, config.urls.toLogin);
+					} catch (e) {
+						if (hasE2EEFeatureEnabled()) {
+							// rechange password to the old password
+							await apiUpdatePassword(
+								newPassword,
+								oldPassword
+							).catch(() => {
+								// if an error happens here we keep the newPassword but don't upgrade the masterKey
+								// and hope it works next login attempt
+							});
+							setHasMasterKeyError(true);
+						}
+					}
 				})
 				.catch(() => {
+					// error handling for password update error
 					setOldPasswordErrorMessage(
 						translate('profile.functions.passwordResetOldIncorrect')
 					);
@@ -296,6 +303,12 @@ export const PasswordReset = () => {
 						</div>
 					</div>
 				</div>
+
+				{hasE2EEFeatureEnabled() && hasMasterKeyError && (
+					<div className="passwordReset__error">
+						{translate('profile.functions.masterKey.saveError')}
+					</div>
+				)}
 
 				<div className="button__wrapper">
 					<span
