@@ -1,5 +1,7 @@
 const profileInformal = {
 	'functions.absenceLabel': 'Hinterlege eine Abwesenheitsnachricht',
+	'functions.absenceActivatedLabel':
+		'Deaktiviere Deine Abwesenheit, um eine Nachricht zu hinterlegen oder sie zu bearbeiten.',
 	'functions.passwordResetSubtitle':
 		'Wenn Du möchtest, kannst Du hier Dein Passwort ändern. Gebe erst Dein aktuelles Passwort ein, um ein Neues festzulegen.',
 	'functions.passwordResetSecure': 'Dein Passwort ist sicher.',
