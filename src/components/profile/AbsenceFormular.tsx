@@ -16,7 +16,6 @@ import { Headline } from '../headline/Headline';
 import Switch from 'react-switch';
 import { Text } from '../text/Text';
 import { Textarea } from '../form/textarea';
-import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import { isMobile } from 'react-device-detect';
 
 export const AbsenceFormular = () => {
