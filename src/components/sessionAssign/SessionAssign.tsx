@@ -14,7 +14,8 @@ import {
 	apiGetUserData,
 	apiGetAgencyConsultantList,
 	apiSessionAssign,
-	FETCH_ERRORS
+	FETCH_ERRORS,
+	apiDeleteUserFromRoom
 } from '../../api';
 import {
 	UserDataInterface,
@@ -30,6 +31,7 @@ import {
 import { getSessionListPathForLocation } from '../session/sessionHelpers';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { useE2EE } from '../../hooks/useE2EE';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 export interface Consultant {
@@ -53,6 +55,12 @@ export const SessionAssign = (props: { value?: string }) => {
 	);
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
+
+	const { addNewUsersToEncryptedRoom } = useE2EE(
+		activeSession.session.groupId
+	);
+	const hasE2EEFeatureEnabled = () =>
+		localStorage.getItem('e2eeFeatureEnabled') ?? false;
 
 	useEffect(() => {
 		const agencyId = activeSession.session.agencyId.toString();
@@ -122,14 +130,30 @@ export const SessionAssign = (props: { value?: string }) => {
 		setOverlayItem(overlay);
 	};
 
+	const handleE2EEAssign = async (sessionId, userId) => {
+		if (hasE2EEFeatureEnabled()) {
+			try {
+				await addNewUsersToEncryptedRoom();
+				await apiDeleteUserFromRoom(sessionId, userId);
+			} catch (e) {
+				console.log('error encrypting new user key');
+			}
+		}
+	};
+
 	const handleDatalistSelect = (selectedOption) => {
 		apiSessionAssign(activeSession.session.id, selectedOption.value)
-			.then(() => {
+			.then(async () => {
 				if (userData) {
 					initOverlays(selectedOption, userData);
+					handleE2EEAssign(activeSession.session.id, userData.userId);
 				} else {
 					apiGetUserData()
 						.then((profileData: UserDataInterface) => {
+							handleE2EEAssign(
+								activeSession.session.id,
+								profileData.userId
+							);
 							setUserData(profileData);
 							initOverlays(selectedOption, profileData);
 						})

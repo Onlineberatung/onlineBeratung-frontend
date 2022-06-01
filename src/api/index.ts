@@ -43,3 +43,4 @@ export * from './fetchData';
 export * from './fetchRCData';
 export * from './rocketChatSocket';
 export * from './apiUpdateUserE2EKeys';
+export * from './apiDeleteUserFromRoom';
