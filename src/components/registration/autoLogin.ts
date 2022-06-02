@@ -13,7 +13,10 @@ import {
 	encryptForParticipant,
 	encryptPrivateKey,
 	getTmpMasterKey,
-	loadKeys
+	importRawEncryptionKey,
+	loadKeys,
+	readMasterKeyFromLocalStorage,
+	writeMasterKeyToLocalStorage
 } from '../../utils/encryptionHelpers';
 import { setTokens } from '../auth/auth';
 import { apiUpdateUserE2EKeys, FETCH_ERRORS } from '../../api';
@@ -22,20 +25,6 @@ import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { apiRocketChatSubscriptionsGet } from '../../api/apiRocketChatSubscriptionsGet';
 import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
-import * as localforage from 'localforage';
-
-localforage.config({
-	driver: localforage.INDEXEDDB, // Force WebSQL; same as using setDriver()
-	name: 'OBI',
-	version: 1.0,
-	size: 4980736, // Size of database, in bytes. WebSQL-only for now.
-	storeName: 'keyvaluepairs', // Should be alphanumeric, with underscores.
-	description: 'some description'
-});
-
-const store = localforage.createInstance({
-	name: 'db'
-});
 
 export interface LoginData {
 	data: {
@@ -128,27 +117,6 @@ export const redirectToApp = () => {
 const handleE2EESetup = (password: string, rcUserId: string): Promise<any> => {
 	return new Promise(async (resolve, reject) => {
 		let masterKey = await deriveMasterKeyFromPassword(rcUserId, password);
-		const currentArrayBuffer = await crypto.subtle.exportKey(
-			'raw',
-			masterKey
-		);
-		// masterKey = await importRawKey(currentArrayBuffer); // don't get it.. why does this not work?
-		const currentUint8Array = new Uint8Array(currentArrayBuffer);
-		const persistedUint8Array = await store.getItem<Uint8Array>(
-			'mk_' + rcUserId
-		);
-
-		if (!persistedUint8Array) {
-			// first login
-		} else if (!uint8ArrayEqual(currentUint8Array, persistedUint8Array)) {
-			console.log('password has changed');
-			// TODO rocketchat encrypt/decrypt
-		} else {
-			console.log('password *not* has changed, continue');
-		}
-
-		// write current exported master key
-		await store.setItem('mk_' + rcUserId, currentUint8Array);
 
 		let privateKey;
 		let publicKey;
@@ -170,10 +138,38 @@ const handleE2EESetup = (password: string, rcUserId: string): Promise<any> => {
 					masterKey
 				);
 				await loadKeys(privateKey, publicKey);
+				await writeMasterKeyToLocalStorage(masterKey, rcUserId);
 			} catch (error) {
-				throw new Error(
-					"Wasn't possible to decrypt your encryption key to be imported."
+				const persistedArrayBuffer =
+					await readMasterKeyFromLocalStorage(rcUserId);
+
+				if (!persistedArrayBuffer) {
+					// TODO device changed, application storage deleted, etc.
+					console.error(
+						'unhandled case: not master key buffer was persisted'
+					);
+				}
+
+				const persistedMasterKey = await importRawEncryptionKey(
+					persistedArrayBuffer
 				);
+
+				privateKey = await decryptPrivateKey(
+					encryptedPrivateKey,
+					persistedMasterKey
+				);
+				await loadKeys(privateKey, publicKey);
+
+				try {
+					await apiRocketChatSetUserKeys(
+						publicKey,
+						await encryptPrivateKey(privateKey, masterKey)
+					);
+
+					await writeMasterKeyToLocalStorage(masterKey, rcUserId);
+				} catch {
+					console.log('Error saving keys in rocket chat.');
+				}
 			}
 		}
 
@@ -209,20 +205,6 @@ const handleE2EESetup = (password: string, rcUserId: string): Promise<any> => {
 		resolve(undefined);
 	});
 };
-
-const uint8ArrayEqual = (a: Uint8Array, b: Uint8Array) => {
-	if (a === b) return true;
-	if (a.length !== b.length) return false;
-	var i = a.length;
-	while (i--) {
-		if (a[i] !== b[i]) return false;
-	}
-
-	return true;
-};
-
-const typedArrayToBuffer = (array: Uint8Array): ArrayBuffer =>
-	array.buffer.slice(array.byteOffset, array.byteLength + array.byteOffset);
 
 const updateUserE2EKeysFallback = async (rcUserId) => {
 	const { update: subscriptions } = await apiRocketChatSubscriptionsGet();
@@ -264,38 +246,3 @@ const updateUserE2EKeysFallback = async (rcUserId) => {
 		})
 	);
 };
-
-// const keyString = new TextDecoder().decode(
-// 	new Uint8Array(currentArrayBuffer)
-// );
-// const currentExportedKeyBase64 = btoa(encodeURI(keyString));
-//
-// console.log('currentExportedKeyBase64', currentExportedKeyBase64);
-
-// const currentExportedKeyBase64 = btoa(
-// 	String.fromCharCode(...new Uint8Array(currentExportedKey))
-// );
-// const persistedExportedKeyBase64 = localStorage.getItem(
-// 	'mk_' + rcUserId
-// );
-// const persistedExportedKey = persistedExportedKeyBase64
-// 	? (JSON.parse(atob(persistedExportedKeyBase64)) as ArrayBuffer)
-// 	: null;
-
-// console.log(
-// 	'persistedExportedKeyBase64',
-// 	atob(persistedExportedKeyBase64)
-// );
-
-// const persistedExportedKey = new TextEncoder().encode(
-// 	decodeURI(atob(persistedExportedKeyBase64))
-// );
-//
-// var buffer = new ArrayBuffer(
-// 	persistedExportedKey.byteLength - persistedExportedKey.byteOffset
-// );
-// persistedExportedKey.forEach((value, index) => {
-// 	buffer[index] = value;
-// });
-//
-// console.log(new Uint8Array(currentArrayBuffer), persistedExportedKey);

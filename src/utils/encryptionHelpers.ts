@@ -36,6 +36,13 @@ export function toArrayBuffer(thing: any): ArrayBuffer {
 	return ByteBuffer.wrap(thing, 'binary').toArrayBuffer();
 }
 
+export function typedArrayToBuffer(array: Uint8Array): ArrayBuffer {
+	return array.buffer.slice(
+		array.byteOffset,
+		array.byteLength + array.byteOffset
+	);
+}
+
 export const generateRSAKey = async (): Promise<CryptoKeyPair> => {
 	return crypto.subtle.generateKey(
 		{
@@ -63,6 +70,16 @@ export async function importRawKey(
 		{ name: 'PBKDF2' },
 		false,
 		keyUsages
+	);
+}
+
+export async function importRawEncryptionKey(keyData: BufferSource) {
+	return await crypto.subtle.importKey(
+		'raw',
+		keyData,
+		{ name: 'AES-CBC', length: 256 },
+		true,
+		['encrypt', 'decrypt']
 	);
 }
 
@@ -425,14 +442,14 @@ export const encryptPrivateKey = async (privateKey, masterKey) => {
 };
 
 export const decryptPrivateKey = async (privateKey, masterKey) => {
-	const [vector, cipherText] = splitVectorAndEcryptedData(
-		Uint8Array.from(Object.values(JSON.parse(privateKey)))
-	);
-
 	try {
+		const [vector, cipherText] = splitVectorAndEcryptedData(
+			Uint8Array.from(Object.values(JSON.parse(privateKey)))
+		);
+
 		return toString(await decryptAES(vector, masterKey, cipherText));
 	} catch (error) {
-		throw new Error('E2E -> Error decrypting private key');
+		throw new Error('E2E -> Error decrypting private key: ' + error);
 	}
 };
 
