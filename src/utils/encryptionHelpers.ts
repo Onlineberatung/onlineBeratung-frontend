@@ -476,3 +476,19 @@ export const createAndLoadKeys = async () => {
 		privateKey: JSON.stringify(privateKey)
 	};
 };
+
+export const writeMasterKeyToLocalStorage = async (
+	masterKey: CryptoKey,
+	userId: string
+) => {
+	const currentArrayBuffer = await crypto.subtle.exportKey('raw', masterKey);
+	const currentUint8Array = Array.from(new Uint8Array(currentArrayBuffer));
+	localStorage.setItem('mk_' + userId, JSON.stringify(currentUint8Array));
+};
+
+export const readMasterKeyFromLocalStorage = (userId: string) => {
+	const persistedUint8ArrayString = localStorage.getItem('mk_' + userId);
+	if (!persistedUint8ArrayString) return null;
+	const persistedArray = JSON.parse(persistedUint8ArrayString);
+	return typedArrayToBuffer(new Uint8Array(persistedArray));
+};
