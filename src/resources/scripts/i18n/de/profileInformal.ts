@@ -36,7 +36,8 @@ const profileInformal = {
 	'statistics.period.prefix': 'Deine Zahlen des',
 	'statistics.period.display.suffix': ' hast Du:',
 	'statistics.complete.title':
-		'Deine Statistik über Deinen gewählten Beratungszeitraum kannst Du hier herunterladen:'
+		'Deine Statistik über Deinen gewählten Beratungszeitraum kannst Du hier herunterladen:',
+	'notifications.subtitle': 'Wir benachrichtigen Dich, wenn Du:'
 };
 
 export default profileInformal;
