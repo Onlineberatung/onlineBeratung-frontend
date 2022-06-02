@@ -81,7 +81,11 @@ const routes: TabsType = [
 						column: COLUMN_LEFT
 					},
 					{
-						condition: () => config.enableWalkthrough,
+						condition: (userData) =>
+							hasUserAuthority(
+								AUTHORITIES.CONSULTANT_DEFAULT,
+								userData
+							) && config.enableWalkthrough,
 						component: EnableWalkthrough,
 						column: COLUMN_LEFT
 					},
