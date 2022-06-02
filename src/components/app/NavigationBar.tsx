@@ -63,9 +63,7 @@ export const NavigationBar = (props: NavigationBarProps) => {
 				{props.routerConfig.navigation.map((item, index) => (
 					<Link
 						key={index}
-						className={`navigation__item walkthrough_step_${
-							index + 3
-						} ${
+						className={`navigation__item ${
 							location.pathname.indexOf(item.to) !== -1
 								? 'navigation__item--active'
 								: ''
@@ -82,16 +80,16 @@ export const NavigationBar = (props: NavigationBarProps) => {
 						{
 							{
 								'inbox': (
-									<InboxIcon className="navigation__icon" />
+									<InboxIcon className="navigation__icon walkthrough_step_1" />
 								),
 								'speech-bubbles': (
-									<SpeechBubbleIcon className="navigation__icon" />
+									<SpeechBubbleIcon className="navigation__icon walkthrough_step_3" />
 								),
 								'speech-bubbles-team': (
-									<SpeechBubbleTeamIcon className="navigation__icon" />
+									<SpeechBubbleTeamIcon className="navigation__icon walkthrough_step_5" />
 								),
 								'person': (
-									<PersonIcon className="navigation__icon" />
+									<PersonIcon className="navigation__icon walkthrough_step_6" />
 								)
 							}[item.icon]
 						}

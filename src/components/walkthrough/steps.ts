@@ -4,12 +4,8 @@ import { translate } from '../../utils/translate';
 const stepsData = [
 	{
 		title: translate('walkthrough.step.0.title'),
+		element: '.walkthrough_step_0',
 		intro: translate('walkthrough.step.0')
-	},
-	{
-		title: translate('walkthrough.step.3.title'),
-		element: '.walkthrough_step_3',
-		intro: translate('walkthrough.step.3')
 	},
 	{
 		title: translate('walkthrough.step.1.title'),
@@ -20,6 +16,11 @@ const stepsData = [
 		title: translate('walkthrough.step.2.title'),
 		element: '.walkthrough_step_2',
 		intro: translate('walkthrough.step.2')
+	},
+	{
+		title: translate('walkthrough.step.3.title'),
+		element: '.walkthrough_step_3',
+		intro: translate('walkthrough.step.3')
 	},
 	{
 		title: translate('walkthrough.step.4.title'),

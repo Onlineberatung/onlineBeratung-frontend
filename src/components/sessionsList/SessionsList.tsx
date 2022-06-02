@@ -553,7 +553,6 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 									to={'/sessions/consultant/sessionPreview'}
 								>
 									<Text
-										className={clsx('walkthrough_step_1')}
 										text={translate(
 											'sessionList.preview.registered.tab'
 										)}
@@ -613,6 +612,7 @@ export const SessionsList: React.FC<SessionsListProps> = ({
 									}`}
 								>
 									<Text
+										className={clsx('walkthrough_step_4')}
 										text={translate(
 											'sessionList.view.archive.tab'
 										)}

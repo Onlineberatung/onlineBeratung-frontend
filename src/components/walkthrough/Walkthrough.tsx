@@ -10,7 +10,6 @@ import { apiPatchConsultantData } from '../../api';
 import { config } from '../../resources/scripts/config';
 
 import stepsData from './steps';
-import peerStepsData from './peerSteps';
 
 export const Walkthrough = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -36,14 +35,7 @@ export const Walkthrough = () => {
 						// don't know what to do then :O)
 					});
 			}}
-			steps={
-				userData &&
-				userData.userRoles &&
-				!userData.userRoles?.includes('main-consultant') &&
-				userData.userRoles?.includes('peer-consultant')
-					? peerStepsData
-					: stepsData
-			}
+			steps={stepsData}
 			initialStep={0}
 			options={{
 				hidePrev: true,
@@ -55,12 +47,51 @@ export const Walkthrough = () => {
 				showStepNumbers: false
 			}}
 			onChange={function (nextStepIndex) {
-				let element: HTMLElement = document.querySelector(
-					nextStepIndex < 4
-						? '.walkthrough_step_3'
-						: `.walkthrough_step_${nextStepIndex}`
-				);
-				element?.click();
+				switch (nextStepIndex) {
+					case 0:
+						break;
+					case 1:
+						let erstanfragenElement: HTMLElement =
+							document.querySelector(
+								"a[href='/sessions/consultant/sessionPreview']"
+							);
+
+						erstanfragenElement?.click();
+						break;
+					case 2:
+						let liveChatElement: HTMLElement =
+							document.querySelector(
+								"a[href='/sessions/consultant/sessionPreview?sessionListTab=anonymous']"
+							);
+						liveChatElement?.click();
+						break;
+					case 3:
+						let myMessagesElement: HTMLElement =
+							document.querySelector(
+								"a[href='/sessions/consultant/sessionView']"
+							);
+						myMessagesElement?.click();
+						break;
+					case 4:
+						let archiveElement: HTMLElement =
+							document.querySelector(
+								"a[href='/sessions/consultant/sessionView?sessionListTab=archive']"
+							);
+						archiveElement?.click();
+						break;
+					case 5:
+						let teamBeratungElement: HTMLElement =
+							document.querySelector(
+								"a[href='/sessions/consultant/teamSessionView']"
+							);
+						teamBeratungElement?.click();
+						break;
+					case 6:
+						let profileElement: HTMLElement =
+							document.querySelector("a[href='/profile']");
+						profileElement?.click();
+						break;
+				}
 			}}
 		/>
 	);
