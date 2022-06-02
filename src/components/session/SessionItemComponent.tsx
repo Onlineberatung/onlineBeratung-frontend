@@ -1,22 +1,31 @@
 import * as React from 'react';
-import { useState, useContext, useEffect, useMemo, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import {
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useRef,
+	useState
+} from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import CryptoJS from 'crypto-js';
 import {
-	typeIsEnquiry,
-	getViewPathForType,
 	getChatItemForSession,
 	getTypeOfLocation,
+	getViewPathForType,
 	isGroupChatForSessionItem,
-	scrollToEnd,
 	isMyMessage,
-	SESSION_LIST_TYPES
+	scrollToEnd,
+	SESSION_LIST_TYPES,
+	typeIsEnquiry
 } from './sessionHelpers';
-import { MessageItem } from '../message/MessageItemComponent';
+import {
+	MessageItem,
+	MessageItemComponent
+} from '../message/MessageItemComponent';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { translate } from '../../utils/translate';
-import { MessageItemComponent } from '../message/MessageItemComponent';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import {
@@ -32,22 +41,21 @@ import {
 } from '../overlay/Overlay';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import {
-	SessionsDataContext,
-	UserDataContext,
-	getContact,
 	AcceptedGroupIdContext,
-	hasUserAuthority,
-	isAnonymousSession,
 	AUTHORITIES,
 	ConsultingTypeInterface,
-	UpdateSessionListContext,
-	SessionItemInterface,
+	getContact,
+	hasUserAuthority,
+	isAnonymousSession,
 	LegalLinkInterface,
-	E2EEContext
+	SessionItemInterface,
+	E2EEContext,
+	SessionsDataContext,
+	UpdateSessionListContext,
+	UserDataContext
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
-import { Link, useLocation } from 'react-router-dom';
 import './session.styles';
 import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
@@ -70,6 +78,8 @@ import {
 	ALIAS_MESSAGE_TYPES,
 	apiSendAliasMessage
 } from '../../api/apiSendAliasMessage';
+import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
+import useMeasure from 'react-use-measure';
 
 interface SessionItemProps {
 	isAnonymousEnquiry?: boolean;
@@ -104,7 +114,12 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
+	const [draggedFile, setDraggedFile] = useState<File | null>(null);
+	const [isDragOverDropArea, setDragOverDropArea] = useState(false);
+	const [isDragging, setIsDragging] = useState(false);
+	const dragCancelRef = useRef<NodeJS.Timeout>();
 	const [newMessages, setNewMessages] = useState(0);
+	const [headerRef, headerBounds] = useMeasure();
 	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
@@ -230,6 +245,28 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				.forEach((e) => e.remove());
 		}
 	};
+
+	useEffect(() => {
+		const enableDraggingOnWindow = () => {
+			window.ondragover = (ev: any) => {
+				setIsDragging(true);
+				cancelDraggingOnOutsideWindow();
+
+				const isOutsideDropZone =
+					!ev.target.classList.contains('dragAndDropArea');
+				if (isOutsideDropZone) {
+					ev.preventDefault();
+					ev.dataTransfer.dropEffect = 'none';
+					ev.dataTransfer.effectAllowed = 'none';
+				}
+			};
+			window.ondragleave = () => onDragLeave();
+			window.ondragend = window.ondrop = () => setIsDragging(false);
+		};
+
+		enableDraggingOnWindow();
+		return () => disableDraggingOnWindow();
+	}, []);
 
 	useEffect(() => {
 		if (scrollContainerRef.current) {
@@ -455,6 +492,33 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		smallIconBackgroundColor: 'alternate'
 	};
 
+	// cancels dragging automatically if user drags outside the
+	// browser window (there is no build-in mechanic for that)
+	const cancelDraggingOnOutsideWindow = () => {
+		if (dragCancelRef.current) {
+			clearTimeout(dragCancelRef.current);
+		}
+
+		dragCancelRef.current = setTimeout(() => {
+			setIsDragging(false);
+		}, 300);
+	};
+
+	const disableDraggingOnWindow = () => {
+		setIsDragging(false);
+		window.ondrag = undefined;
+	};
+
+	const onDragEnter = () => setDragOverDropArea(true);
+	const onDragLeave = () => setDragOverDropArea(false);
+
+	const onFileDragged = (file: File) => {
+		setDraggedFile(file);
+		onDragLeave();
+	};
+
+	const handleMessageSendSuccess = () => setDraggedFile(null);
+
 	return (
 		<div
 			className={
@@ -463,65 +527,78 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					: `session`
 			}
 		>
-			<SessionHeaderComponent
-				consultantAbsent={
-					activeSession.consultant && activeSession.consultant.absent
-						? activeSession.consultant
-						: null
-				}
-				hasUserInitiatedStopOrLeaveRequest={
-					props.hasUserInitiatedStopOrLeaveRequest
-				}
-				legalLinks={props.legalLinks}
-				bannedUsers={props.bannedUsers}
-			/>
+			<div ref={headerRef}>
+				<SessionHeaderComponent
+					consultantAbsent={
+						activeSession.consultant &&
+						activeSession.consultant.absent
+							? activeSession.consultant
+							: null
+					}
+					hasUserInitiatedStopOrLeaveRequest={
+						props.hasUserInitiatedStopOrLeaveRequest
+					}
+					legalLinks={props.legalLinks}
+					bannedUsers={props.bannedUsers}
+				/>
+			</div>
 
 			{!isAnonymousEnquiry && (
 				<div
 					id="session-scroll-container"
-					className="session__content"
+					className={clsx(
+						'session__content',
+						isDragging && 'drag-in-progress'
+					)}
 					ref={scrollContainerRef}
 					onScroll={(e) => handleScroll(e)}
+					onDragEnter={onDragEnter}
 				>
-					{messages &&
-						resortData &&
-						messages.map((message: MessageItem, index) => (
-							<React.Fragment key={index}>
-								<MessageItemComponent
-									clientName={
-										getContact(activeSession).username
-									}
-									askerRcId={chatItem.askerRcId}
-									type={getTypeOfLocation()}
-									isOnlyEnquiry={isOnlyEnquiry}
-									isMyMessage={isMyMessage(message.userId)}
-									resortData={resortData}
-									bannedUsers={props.bannedUsers}
-									{...message}
-								/>
-								{index === messages.length - 1 &&
-									enableInitialScroll()}
-							</React.Fragment>
-						))}
-					<div
-						className={`session__scrollToBottom ${
-							isScrolledToBottom
-								? 'session__scrollToBottom--disabled'
-								: ''
-						}`}
-					>
-						{newMessages > 0 && (
-							<span className="session__unreadCount">
-								{newMessages > 99
-									? translate('session.unreadCount.maxValue')
-									: newMessages}
-							</span>
-						)}
-						<Button
-							item={scrollBottomButtonItem}
-							isLink={false}
-							buttonHandle={handleScrollToBottomButtonClick}
-						/>
+					<div className={'message-holder'}>
+						{messages &&
+							resortData &&
+							messages.map((message: MessageItem, index) => (
+								<React.Fragment key={index}>
+									<MessageItemComponent
+										clientName={
+											getContact(activeSession).username
+										}
+										askerRcId={chatItem.askerRcId}
+										type={getTypeOfLocation()}
+										isOnlyEnquiry={isOnlyEnquiry}
+										isMyMessage={isMyMessage(
+											message.userId
+										)}
+										resortData={resortData}
+										bannedUsers={props.bannedUsers}
+										{...message}
+									/>
+									{index === messages.length - 1 &&
+										enableInitialScroll()}
+								</React.Fragment>
+							))}
+						<div
+							className={`session__scrollToBottom ${
+								isScrolledToBottom
+									? 'session__scrollToBottom--disabled'
+									: ''
+							}`}
+						>
+							{newMessages > 0 && (
+								<span className="session__unreadCount">
+									{newMessages > 99
+										? translate(
+												'session.unreadCount.maxValue'
+										  )
+										: newMessages}
+								</span>
+							)}
+							<Button
+								item={scrollBottomButtonItem}
+								isLink={false}
+								buttonHandle={handleScrollToBottomButtonClick}
+							/>
+						</div>
 					</div>
 				</div>
 			)}
@@ -606,8 +683,17 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							sessionKeyExportedString:
 								sessionGroupKeyExportedString
 						}}
+						preselectedFile={draggedFile}
+						handleMessageSendSuccess={handleMessageSendSuccess}
 					/>
 				)}
+			<DragAndDropArea
+				onFileDragged={onFileDragged}
+				isDragging={isDragging}
+				canDrop={isDragOverDropArea}
+				onDragLeave={onDragLeave}
+				styleOverride={{ top: headerBounds.height + 'px' }}
+			/>
 			{overlayItem && (
 				<OverlayWrapper>
 					<Overlay

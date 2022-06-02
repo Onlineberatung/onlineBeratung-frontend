@@ -23,7 +23,8 @@
 		"consultingTypes": null,
 		"formalLanguage": true,
 		"absent": false,
-		"inTeamAgency": true
+		"inTeamAgency": true,
+		"languages": []
 	},
 	{
 		"userId": "video",

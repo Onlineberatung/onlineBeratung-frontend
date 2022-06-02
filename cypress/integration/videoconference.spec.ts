@@ -66,7 +66,7 @@ describe('videoconference', () => {
 			cy.fastLogin();
 		});
 
-		it('Join invited video call', () => {
+		xit('Join invited video call', () => {
 			cy.clock();
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()
@@ -166,7 +166,7 @@ describe('videoconference', () => {
 			});
 		});
 
-		it('Join invited video call', () => {
+		xit('Join invited video call', () => {
 			cy.clock();
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()
@@ -269,7 +269,7 @@ describe('videoconference', () => {
 			});
 		});
 
-		it('Join invited video call', () => {
+		xit('Join invited video call', () => {
 			cy.clock();
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()

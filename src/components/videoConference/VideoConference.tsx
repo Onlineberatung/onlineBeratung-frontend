@@ -198,6 +198,7 @@ const VideoConference = ({
 		return (
 			<div className="videoConference">
 				<WaitingRoom
+					otherClass={'videoConferenceWaitingRoom'}
 					confirmed={confirmed}
 					setConfirmed={setConfirmed}
 					status={appointment?.status}

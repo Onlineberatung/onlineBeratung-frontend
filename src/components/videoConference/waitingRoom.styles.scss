@@ -1,13 +1,15 @@
-.videoConference .waitingRoom {
+.videoConferenceWaitingRoom {
 	display: flex;
 	justify-content: center;
 	min-height: 100vh;
+	overflow: hidden;
 	background-color: $background-light;
 
 	.header {
 		display: none;
 		position: absolute;
 		top: 0;
+		z-index: 301;
 
 		@include breakpoint($fromLarge) {
 			display: flex;
@@ -59,6 +61,7 @@
 	&__subline {
 		font-family: $font-family-sans-serif;
 		font-weight: $font-weight-regular;
+		font-size: $font-size-h4;
 		margin-top: $grid-base-two;
 	}
 
@@ -80,7 +83,7 @@
 		&::after {
 			content: '';
 			position: absolute;
-			background-color: $illustration-background-neutral;
+			background-color: $tab-background-color;
 			height: 100%;
 			width: 100%;
 			border-radius: 100%;
@@ -95,7 +98,19 @@
 		@include breakpoint($fromXLarge) {
 			margin-right: $grid-base-ten;
 			flex: 0 0 560px;
+			justify-content: left;
 			height: 560px;
+
+			&::after {
+				z-index: 300;
+				height: 400%;
+				width: 300%;
+				left: -1200px;
+			}
+
+			svg {
+				margin-left: -$grid-base-six;
+			}
 		}
 	}
 
