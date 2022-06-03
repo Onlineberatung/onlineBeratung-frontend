@@ -1,6 +1,7 @@
 import { Steps } from 'intro.js-react';
 import * as React from 'react';
 import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import 'intro.js/introjs.css';
 import './walkthrough.styles.scss';
@@ -12,10 +13,26 @@ import { config } from '../../resources/scripts/config';
 import stepsData from './steps';
 
 export const Walkthrough = () => {
+	const ref = React.useRef<any>();
 	const { userData, setUserData } = useContext(UserDataContext);
+	const history = useHistory();
+
+	// Hacky way of refetch the elements after the page is changed
+	const onChangeStep = React.useCallback(() => {
+		ref.current.props.steps.forEach((step, key) => {
+			if (step.element) {
+				ref.current.introJs._introItems[key].element =
+					document.querySelector(step.element);
+				ref.current.introJs._introItems[key].position = step.position
+					? step.position
+					: 'bottom';
+			}
+		});
+	}, [ref]);
 
 	return (
 		<Steps
+			ref={ref}
 			enabled={
 				userData.isWalkThroughEnabled &&
 				config.enableWalkthrough &&
@@ -46,51 +63,10 @@ export const Walkthrough = () => {
 				showBullets: true,
 				showStepNumbers: false
 			}}
-			onChange={function (nextStepIndex) {
-				switch (nextStepIndex) {
-					case 0:
-						break;
-					case 1:
-						let erstanfragenElement: HTMLElement =
-							document.querySelector(
-								"a[href='/sessions/consultant/sessionPreview']"
-							);
-
-						erstanfragenElement?.click();
-						break;
-					case 2:
-						let liveChatElement: HTMLElement =
-							document.querySelector(
-								"a[href='/sessions/consultant/sessionPreview?sessionListTab=anonymous']"
-							);
-						liveChatElement?.click();
-						break;
-					case 3:
-						let myMessagesElement: HTMLElement =
-							document.querySelector(
-								"a[href='/sessions/consultant/sessionView']"
-							);
-						myMessagesElement?.click();
-						break;
-					case 4:
-						let archiveElement: HTMLElement =
-							document.querySelector(
-								"a[href='/sessions/consultant/sessionView?sessionListTab=archive']"
-							);
-						archiveElement?.click();
-						break;
-					case 5:
-						let teamBeratungElement: HTMLElement =
-							document.querySelector(
-								"a[href='/sessions/consultant/teamSessionView']"
-							);
-						teamBeratungElement?.click();
-						break;
-					case 6:
-						let profileElement: HTMLElement =
-							document.querySelector("a[href='/profile']");
-						profileElement?.click();
-						break;
+			onBeforeChange={(nextStepIndex) => {
+				if (stepsData[nextStepIndex].path) {
+					history.push(stepsData[nextStepIndex].path);
+					onChangeStep();
 				}
 			}}
 		/>

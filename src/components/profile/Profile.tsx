@@ -213,7 +213,10 @@ export const Profile = (props: ProfileProps) => {
 									)
 								)
 								.map((tab) => (
-									<div className="text--nowrap flex__col--no-grow">
+									<div
+										className="text--nowrap flex__col--no-grow"
+										key={tab.url}
+									>
 										<NavLink
 											to={`/profile${tab.url}`}
 											activeClassName="active"
@@ -375,6 +378,7 @@ export const Profile = (props: ProfileProps) => {
 						<>
 							{index > 0 && (
 								<Text
+									key={`separator-${index}`}
 									type="infoSmall"
 									className="profile__footer__separator"
 									text=" | "
@@ -444,6 +448,7 @@ const ProfileGroup = ({
 						element={element}
 						spokenLanguages={spokenLanguages}
 						index={i}
+						key={i}
 					/>
 				))}
 		</>
