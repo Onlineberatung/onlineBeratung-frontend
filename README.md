@@ -1,4 +1,4 @@
-# caritas-onlineBeratung-frontend
+# onlineBeratung-frontend
 
 The frontend app for the Caritas Online Beratung.
 
