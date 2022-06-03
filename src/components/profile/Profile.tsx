@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef, useContext, useEffect } from 'react';
+import { useState, useRef, useContext, useEffect, Fragment } from 'react';
 import { logout } from '../logout/logout';
 import {
 	AUTHORITIES,
@@ -375,10 +375,9 @@ export const Profile = (props: ProfileProps) => {
 
 				<div className="profile__footer">
 					{props.legalLinks.map((legalLink, index) => (
-						<>
+						<Fragment key={`separator-${index}`}>
 							{index > 0 && (
 								<Text
-									key={`separator-${index}`}
 									type="infoSmall"
 									className="profile__footer__separator"
 									text=" | "
@@ -391,7 +390,7 @@ export const Profile = (props: ProfileProps) => {
 									text={legalLink.label}
 								/>
 							</a>
-						</>
+						</Fragment>
 					))}
 				</div>
 			</div>
