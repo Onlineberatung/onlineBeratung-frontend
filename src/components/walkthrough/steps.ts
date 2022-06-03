@@ -1,7 +1,15 @@
+import { Step } from 'intro.js-react';
 import { translate } from '../../utils/translate';
 
+interface StepsData {
+	title: string;
+	element: string;
+	intro: string;
+	path?: string;
+}
+
 // images, etc. can be included via "<div className="hasBackgroundImage"><div>My Text</div> in the intro section
-const stepsData = [
+const stepsData: StepsData[] = [
 	{
 		title: translate('walkthrough.step.0.title'),
 		element: '.walkthrough_step_0',
