@@ -1,6 +1,6 @@
 import { Steps } from 'intro.js-react';
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import 'intro.js/introjs.css';
@@ -13,12 +13,11 @@ import { config } from '../../resources/scripts/config';
 import stepsData from './steps';
 
 export const Walkthrough = () => {
-	const ref = React.useRef<any>();
+	const ref = useRef<any>();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const history = useHistory();
 
-	// Hacky way of refetch the elements after the page is changed
-	const onChangeStep = React.useCallback(() => {
+	const onChangeStep = useCallback(() => {
 		ref.current.props.steps.forEach((step, key) => {
 			if (step.element) {
 				ref.current.introJs._introItems[key].element =

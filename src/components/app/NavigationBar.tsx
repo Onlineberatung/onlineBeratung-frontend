@@ -57,13 +57,28 @@ export const NavigationBar = (props: NavigationBarProps) => {
 		'/sessions/user/view'
 	];
 
+	const handleWalkthroughSteps = (index) => {
+		switch (index) {
+			case 0:
+				return 1;
+			case 1:
+				return 3;
+			case 2:
+				return 5;
+			case 3:
+				return 6;
+		}
+	};
+
 	return (
 		<div className="navigation__wrapper">
 			<div className="navigation__itemContainer">
 				{props.routerConfig.navigation.map((item, index) => (
 					<Link
 						key={index}
-						className={`navigation__item ${
+						className={`navigation__item walkthrough_step_${handleWalkthroughSteps(
+							index
+						)} ${
 							location.pathname.indexOf(item.to) !== -1
 								? 'navigation__item--active'
 								: ''
@@ -80,16 +95,16 @@ export const NavigationBar = (props: NavigationBarProps) => {
 						{
 							{
 								'inbox': (
-									<InboxIcon className="navigation__icon walkthrough_step_1" />
+									<InboxIcon className="navigation__icon" />
 								),
 								'speech-bubbles': (
-									<SpeechBubbleIcon className="navigation__icon walkthrough_step_3" />
+									<SpeechBubbleIcon className="navigation__icon" />
 								),
 								'speech-bubbles-team': (
-									<SpeechBubbleTeamIcon className="navigation__icon walkthrough_step_5" />
+									<SpeechBubbleTeamIcon className="navigation__icon" />
 								),
 								'person': (
-									<PersonIcon className="navigation__icon walkthrough_step_6" />
+									<PersonIcon className="navigation__icon" />
 								)
 							}[item.icon]
 						}
