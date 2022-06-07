@@ -3,7 +3,7 @@
 	justify-content: center;
 	min-height: 100vh;
 	overflow: hidden;
-	background-color: $background-light;
+	background-color: $background-lighter;
 
 	.header {
 		display: none;
@@ -115,12 +115,8 @@
 	}
 
 	&__button {
-		text-align: center;
+		text-align: left;
 		margin-top: $grid-base-four;
-
-		@include breakpoint($fromLarge) {
-			text-align: left;
-		}
 	}
 
 	&__user,
