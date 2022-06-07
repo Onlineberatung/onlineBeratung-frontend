@@ -25,6 +25,7 @@ import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { apiRocketChatSubscriptionsGet } from '../../api/apiRocketChatSubscriptionsGet';
 import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
+import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
 
 export interface LoginData {
 	data: {
@@ -167,6 +168,7 @@ const handleE2EESetup = (password: string, rcUserId: string): Promise<any> => {
 					);
 
 					await writeMasterKeyToLocalStorage(masterKey, rcUserId);
+					await apiRocketChatResetE2EKey();
 				} catch {
 					console.log('Error saving keys in rocket chat.');
 				}

@@ -80,8 +80,7 @@ export const config = {
 				fetchMyKeys: apiUrl + '/api/v1/e2e.fetchMyKeys',
 				getUsersOfRoomWithoutKey:
 					apiUrl + '/api/v1/e2e.getUsersOfRoomWithoutKey',
-				// Resets all e2ee keys for user
-				resetOwnE2EKey: apiUrl + '/api/v1/e2e.resetOwnE2EKey',
+				resetE2EKey: apiUrl + '/api/v1/users.resetE2EKey',
 				setRoomKeyID: apiUrl + '/api/v1/e2e.setRoomKeyID',
 				setUserPublicAndPrivateKeys:
 					apiUrl + '/api/v1/e2e.setUserPublicAndPrivateKeys',
