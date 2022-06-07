@@ -71,7 +71,8 @@ export const config = {
 				info: apiUrl + '/api/v1/rooms.info'
 			},
 			users: {
-				info: apiUrl + '/api/v1/users.info'
+				info: apiUrl + '/api/v1/users.info',
+				resetE2EKey: apiUrl + '/api/v1/users.resetE2EKey'
 			},
 			groups: {
 				members: apiUrl + '/api/v1/groups.members'
@@ -80,7 +81,6 @@ export const config = {
 				fetchMyKeys: apiUrl + '/api/v1/e2e.fetchMyKeys',
 				getUsersOfRoomWithoutKey:
 					apiUrl + '/api/v1/e2e.getUsersOfRoomWithoutKey',
-				resetE2EKey: apiUrl + '/api/v1/users.resetE2EKey',
 				setRoomKeyID: apiUrl + '/api/v1/e2e.setRoomKeyID',
 				setUserPublicAndPrivateKeys:
 					apiUrl + '/api/v1/e2e.setUserPublicAndPrivateKeys',
