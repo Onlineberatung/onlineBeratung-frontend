@@ -1,4 +1,3 @@
-import { Step } from 'intro.js-react';
 import { translate } from '../../utils/translate';
 
 interface StepsData {
