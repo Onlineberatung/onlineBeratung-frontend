@@ -268,7 +268,7 @@ export const MessageSubmitInterfaceComponent = (
 			.finally(() => {
 				setDraftLoaded(true);
 			});
-
+		refresh();
 		return () => {
 			if (currentDraftMessageRef.current && !isLiveChatFinished) {
 				const requestFeedbackCheckboxCallback = document.getElementById(
