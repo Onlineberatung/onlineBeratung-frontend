@@ -200,6 +200,7 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 
 		return {
 			message: message.msg,
+			org: message.org,
 			messageDate: lastDateStr,
 			messageTime: date.toString(),
 			username: message.u.username,

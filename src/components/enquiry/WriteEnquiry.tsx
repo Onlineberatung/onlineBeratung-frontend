@@ -62,16 +62,14 @@ export const WriteEnquiry: React.FC = () => {
 	const [groupId, setGroupId] = useState<string | null>(null);
 	const [selectedLanguage, setSelectedLanguage] = useState(fixedLanguages[0]);
 
-	const { refresh } = useContext(E2EEContext);
-	const hasE2EEFeatureEnabled = () =>
-		localStorage.getItem('e2eeFeatureEnabled') ?? false;
+	const { refresh, isE2eeEnabled } = useContext(E2EEContext);
 	const [keyID, setKeyID] = useState(null);
 	const [key, setKey] = useState(null);
 	const [sessionKeyExportedString, setSessionKeyExportedString] =
 		useState(null);
 
 	useEffect(() => {
-		if (!hasE2EEFeatureEnabled()) {
+		if (!isE2eeEnabled) {
 			return;
 		}
 
@@ -81,7 +79,7 @@ export const WriteEnquiry: React.FC = () => {
 			setKey(key);
 			setSessionKeyExportedString(sessionKeyExportedString);
 		});
-	}, []);
+	}, [isE2eeEnabled]);
 
 	useEffect(() => {
 		const activeSession = getActiveSession(
@@ -170,7 +168,7 @@ export const WriteEnquiry: React.FC = () => {
 
 	const handleSendButton = useCallback(
 		async (response) => {
-			if (hasE2EEFeatureEnabled()) {
+			if (isE2eeEnabled) {
 				const { members } = await apiRocketChatGroupMembers(
 					response.rcGroupId
 				);
@@ -241,7 +239,7 @@ export const WriteEnquiry: React.FC = () => {
 			setGroupId(response.rcGroupId);
 			setOverlayActive(true);
 		},
-		[keyID, refresh, sessionKeyExportedString]
+		[keyID, refresh, sessionKeyExportedString, isE2eeEnabled]
 	);
 
 	const isUnassignedSession =

@@ -97,22 +97,16 @@ export const JoinGroupChatView = ({
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	/* E2EE START */
-	const hasE2EEFeatureEnabled = () =>
-		localStorage.getItem('e2eeFeatureEnabled') ?? false;
 	const [groupKeyID, setGroupKeyID] = useState(null);
 	const [sessionGroupKeyExportedString, setSessionGroupKeyExportedString] =
 		useState(null);
-	const { refresh } = useContext(E2EEContext);
+	const { refresh, isE2eeEnabled } = useContext(E2EEContext);
 	const { encrypted } = useE2EE(groupIdFromParam);
 
 	// create the groupkeys once, if e2ee feature is enabled
 	useEffect(() => {
 		console.log(activeSession);
-		if (
-			!hasE2EEFeatureEnabled() ||
-			encrypted ||
-			activeSession?.chat?.active
-		) {
+		if (!isE2eeEnabled || encrypted || activeSession?.chat?.active) {
 			console.log('room already encrypted');
 			return;
 		}
@@ -132,14 +126,10 @@ export const JoinGroupChatView = ({
 				setSessionGroupKeyExportedString(sessionGroupKeyExportedString);
 			}
 		);
-	}, [encrypted, activeSession]);
+	}, [encrypted, activeSession, isE2eeEnabled]);
 
 	const handleEncryptRoom = useCallback(async () => {
-		if (
-			!hasE2EEFeatureEnabled() ||
-			encrypted ||
-			activeSession?.chat?.active
-		) {
+		if (!isE2eeEnabled || encrypted || activeSession?.chat?.active) {
 			console.log('room already encrypted');
 			return;
 		}
@@ -175,7 +165,8 @@ export const JoinGroupChatView = ({
 		sessionGroupKeyExportedString,
 		groupIdFromParam,
 		refresh,
-		activeSession
+		activeSession,
+		isE2eeEnabled
 	]);
 
 	/* E2EE END */

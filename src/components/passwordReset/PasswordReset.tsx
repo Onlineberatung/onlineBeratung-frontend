@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { apiUpdatePassword } from '../../api';
@@ -26,6 +26,7 @@ import {
 } from '../../utils/encryptionHelpers';
 import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { E2EEContext } from '../../globalState';
 
 export const PasswordReset = () => {
 	const rcUid = getValueFromCookie('rc_uid');
@@ -48,8 +49,7 @@ export const PasswordReset = () => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
-	const hasE2EEFeatureEnabled = () =>
-		localStorage.getItem('e2eeFeatureEnabled') ?? false;
+	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const overlayItem: OverlayItem = {
 		svg: CheckIcon,
@@ -200,7 +200,7 @@ export const PasswordReset = () => {
 			apiUpdatePassword(oldPassword, newPassword)
 				.then(async () => {
 					try {
-						if (hasE2EEFeatureEnabled()) {
+						if (isE2eeEnabled) {
 							// create new masterkey from newPassword
 							const newMasterKey =
 								await deriveMasterKeyFromPassword(
@@ -224,7 +224,7 @@ export const PasswordReset = () => {
 						setIsRequestInProgress(false);
 						logout(false, config.urls.toLogin);
 					} catch (e) {
-						if (hasE2EEFeatureEnabled()) {
+						if (isE2eeEnabled) {
 							// rechange password to the old password
 							await apiUpdatePassword(
 								newPassword,
@@ -304,7 +304,7 @@ export const PasswordReset = () => {
 					</div>
 				</div>
 
-				{hasE2EEFeatureEnabled() && hasMasterKeyError && (
+				{isE2eeEnabled && hasMasterKeyError && (
 					<div className="passwordReset__error">
 						{translate('profile.functions.masterKey.saveError')}
 					</div>

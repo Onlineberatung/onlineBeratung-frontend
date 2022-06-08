@@ -26,7 +26,8 @@ import {
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	LegalLinkInterface
+	LegalLinkInterface,
+	E2EEContext
 } from '../../globalState';
 import {
 	desktopView,
@@ -102,9 +103,9 @@ export const SessionView = (props: RouterProps) => {
 	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
 	const [forceBannedOverlay, setForceBannedOverlay] = useState(false);
 	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
+
 	const { addNewUsersToEncryptedRoom } = useE2EE(groupIdFromParam);
-	const hasE2EEFeatureEnabled = () =>
-		localStorage.getItem('e2eeFeatureEnabled') ?? false;
+	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const type = getTypeOfLocation();
 
@@ -177,7 +178,7 @@ export const SessionView = (props: RouterProps) => {
 				checkMutedUserForThisSession();
 			}
 			if (message && message.userAdded) {
-				if (hasE2EEFeatureEnabled()) {
+				if (isE2eeEnabled) {
 					addNewUsersToEncryptedRoom();
 				}
 			}
@@ -200,7 +201,8 @@ export const SessionView = (props: RouterProps) => {
 			filterStatus,
 			setUpdateSessionList,
 			checkMutedUserForThisSession,
-			addNewUsersToEncryptedRoom
+			addNewUsersToEncryptedRoom,
+			isE2eeEnabled
 		]
 	);
 

@@ -15,13 +15,17 @@ type DecryptedSubscriptionType = SubscriptionType & {
 	E2EKeyDecrypted?: RoomE2EDataType;
 };
 
-export const E2EEContext = createContext<{
+interface E2EEContextProps {
 	key: string;
 	subscriptions: SubscriptionType[];
 	rooms: any[];
 	refresh: () => void;
 	reloadPrivateKey: () => void;
-}>(null);
+	isE2eeEnabled: boolean;
+	setIsE2eeEnabled: (isE2eeEnabled: boolean) => void;
+}
+
+export const E2EEContext = createContext<E2EEContextProps>(null);
 
 export function E2EEProvider(props) {
 	const [key, setKey] = useState(null);
@@ -29,6 +33,7 @@ export function E2EEProvider(props) {
 		DecryptedSubscriptionType[]
 	>([]);
 	const [rooms, setRooms] = useState<any[]>([]);
+	const [isE2eeEnabled, setIsE2eeEnabled] = useState(false);
 
 	const reloadPrivateKey = useCallback(() => {
 		const privateKey = sessionStorage.getItem('private_key');
@@ -58,9 +63,22 @@ export function E2EEProvider(props) {
 		refresh();
 	}, [refresh]);
 
+	useEffect(() => {
+		// TODO get setting from RC Socket
+		setIsE2eeEnabled(true);
+	}, []);
+
 	return (
 		<E2EEContext.Provider
-			value={{ key, subscriptions, rooms, refresh, reloadPrivateKey }}
+			value={{
+				isE2eeEnabled,
+				setIsE2eeEnabled,
+				key,
+				subscriptions,
+				rooms,
+				refresh,
+				reloadPrivateKey
+			}}
 		>
 			{props.children}
 		</E2EEContext.Provider>
