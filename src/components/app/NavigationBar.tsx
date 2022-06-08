@@ -57,15 +57,28 @@ export const NavigationBar = (props: NavigationBarProps) => {
 		'/sessions/user/view'
 	];
 
+	const resolveClassnameForWalkthrough = (index) => {
+		switch (index) {
+			case 0:
+				return 'walkthrough_step_1';
+			case 1:
+				return 'walkthrough_step_3';
+			case 2:
+				return 'walkthrough_step_5';
+			case 3:
+				return 'walkthrough_step_6';
+		}
+	};
+
 	return (
 		<div className="navigation__wrapper">
 			<div className="navigation__itemContainer">
 				{props.routerConfig.navigation.map((item, index) => (
 					<Link
 						key={index}
-						className={`navigation__item walkthrough_step_${
-							index + 3
-						} ${
+						className={`navigation__item ${resolveClassnameForWalkthrough(
+							index
+						)} ${
 							location.pathname.indexOf(item.to) !== -1
 								? 'navigation__item--active'
 								: ''

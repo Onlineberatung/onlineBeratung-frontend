@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef, useContext, useEffect } from 'react';
+import { useState, useRef, useContext, useEffect, Fragment } from 'react';
 import { logout } from '../logout/logout';
 import {
 	AUTHORITIES,
@@ -213,7 +213,10 @@ export const Profile = (props: ProfileProps) => {
 									)
 								)
 								.map((tab) => (
-									<div className="text--nowrap flex__col--no-grow">
+									<div
+										className="text--nowrap flex__col--no-grow"
+										key={tab.url}
+									>
 										<NavLink
 											to={`/profile${tab.url}`}
 											activeClassName="active"
@@ -372,7 +375,7 @@ export const Profile = (props: ProfileProps) => {
 
 				<div className="profile__footer">
 					{props.legalLinks.map((legalLink, index) => (
-						<>
+						<Fragment key={`separator-${index}`}>
 							{index > 0 && (
 								<Text
 									type="infoSmall"
@@ -387,7 +390,7 @@ export const Profile = (props: ProfileProps) => {
 									text={legalLink.label}
 								/>
 							</a>
-						</>
+						</Fragment>
 					))}
 				</div>
 			</div>
@@ -444,6 +447,7 @@ const ProfileGroup = ({
 						element={element}
 						spokenLanguages={spokenLanguages}
 						index={i}
+						key={i}
 					/>
 				))}
 		</>

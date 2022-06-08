@@ -1,6 +1,7 @@
 import { Steps } from 'intro.js-react';
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useCallback, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import 'intro.js/introjs.css';
 import './walkthrough.styles.scss';
@@ -10,13 +11,27 @@ import { apiPatchConsultantData } from '../../api';
 import { config } from '../../resources/scripts/config';
 
 import stepsData from './steps';
-import peerStepsData from './peerSteps';
 
 export const Walkthrough = () => {
+	const ref = useRef<any>();
 	const { userData, setUserData } = useContext(UserDataContext);
+	const history = useHistory();
+
+	const onChangeStep = useCallback(() => {
+		ref.current.props.steps.forEach((step, key) => {
+			if (step.element) {
+				ref.current.introJs._introItems[key].element =
+					document.querySelector(step.element);
+				ref.current.introJs._introItems[key].position = step.position
+					? step.position
+					: 'bottom';
+			}
+		});
+	}, [ref]);
 
 	return (
 		<Steps
+			ref={ref}
 			enabled={
 				userData.isWalkThroughEnabled &&
 				config.enableWalkthrough &&
@@ -36,14 +51,7 @@ export const Walkthrough = () => {
 						// don't know what to do then :O)
 					});
 			}}
-			steps={
-				userData &&
-				userData.userRoles &&
-				!userData.userRoles?.includes('main-consultant') &&
-				userData.userRoles?.includes('peer-consultant')
-					? peerStepsData
-					: stepsData
-			}
+			steps={stepsData}
 			initialStep={0}
 			options={{
 				hidePrev: true,
@@ -54,13 +62,11 @@ export const Walkthrough = () => {
 				showBullets: true,
 				showStepNumbers: false
 			}}
-			onChange={function (nextStepIndex) {
-				let element: HTMLElement = document.querySelector(
-					nextStepIndex < 4
-						? '.walkthrough_step_3'
-						: `.walkthrough_step_${nextStepIndex}`
-				);
-				element?.click();
+			onBeforeChange={(nextStepIndex) => {
+				if (stepsData[nextStepIndex].path) {
+					history.push(stepsData[nextStepIndex].path);
+					onChangeStep();
+				}
 			}}
 		/>
 	);
