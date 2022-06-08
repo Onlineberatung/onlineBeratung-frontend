@@ -4,12 +4,14 @@ import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 export const apiPostDraftMessage = async (
 	rcGroupIdOrSessionId: string | number,
 	messageData: string,
-	encryptType: string
+	encryptType: string,
+	org: string
 ): Promise<void> => {
 	const url = config.endpoints.draftMessages;
 	const message = JSON.stringify({
 		message: messageData,
-		t: encryptType
+		t: encryptType,
+		org
 	});
 	return fetchData({
 		url: url,
@@ -22,6 +24,7 @@ export const apiPostDraftMessage = async (
 interface draftMessage {
 	message: string;
 	t: string;
+	org: string;
 }
 
 export const apiGetDraftMessage = async (

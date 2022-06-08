@@ -22,7 +22,8 @@ import {
 	AcceptedGroupIdContext,
 	SessionsDataContext,
 	STATUS_ARCHIVED,
-	STATUS_FINISHED
+	STATUS_FINISHED,
+	E2EEContext
 } from '../../globalState';
 import {
 	apiGetDraftMessage,
@@ -208,6 +209,7 @@ export const MessageSubmitInterfaceComponent = (
 		SAVE_DRAFT_TIMEOUT
 	);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
+	const { refresh, isE2eeEnabled } = useContext(E2EEContext);
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -241,16 +243,20 @@ export const MessageSubmitInterfaceComponent = (
 
 	useEffect(() => {
 		apiGetDraftMessage(props.sessionIdFromParam || props.groupIdFromParam)
-			.then((response) =>
-				decryptText(
-					response.message,
-					props.E2EEParams.keyID,
-					props.E2EEParams.key,
-					props.E2EEParams.encrypted,
-					response.t === 'e2e',
-					'enc.'
-				)
-			)
+			.then((response) => {
+				if (isE2eeEnabled) {
+					return decryptText(
+						response.message,
+						props.E2EEParams.keyID,
+						props.E2EEParams.key,
+						props.E2EEParams.encrypted,
+						response.t === 'e2e',
+						'enc.'
+					);
+				} else {
+					return response.org;
+				}
+			})
 			.then((message) => {
 				setEditorWithMarkdownString(message);
 			})
@@ -281,13 +287,19 @@ export const MessageSubmitInterfaceComponent = (
 						props.E2EEParams.key,
 						'enc.'
 					).then((message) => {
-						apiPostDraftMessage(groupId, message, 'e2e').then();
+						apiPostDraftMessage(
+							groupId,
+							message,
+							'e2e',
+							currentDraftMessageRef.current
+						).then();
 					});
 				} else {
 					apiPostDraftMessage(
 						groupId,
 						currentDraftMessageRef.current,
-						''
+						'',
+						currentDraftMessageRef.current
 					).then();
 				}
 			}
@@ -317,10 +329,20 @@ export const MessageSubmitInterfaceComponent = (
 					props.E2EEParams.key,
 					'enc.'
 				).then((message) => {
-					apiPostDraftMessage(groupId, message, 'e2e').then();
+					apiPostDraftMessage(
+						groupId,
+						message,
+						'e2e',
+						debouncedDraftMessage
+					).then();
 				});
 			} else {
-				apiPostDraftMessage(groupId, debouncedDraftMessage, '').then();
+				apiPostDraftMessage(
+					groupId,
+					debouncedDraftMessage,
+					'',
+					debouncedDraftMessage
+				).then();
 			}
 		}
 	}, [debouncedDraftMessage]); // eslint-disable-line react-hooks/exhaustive-deps
