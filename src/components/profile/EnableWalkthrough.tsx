@@ -35,8 +35,8 @@ export const EnableWalkthrough = () => {
 									isWalkThroughEnabled: !isWalkThroughEnabled
 								});
 							})
-							.catch(() => {
-								// don't know what to do then :O)
+							.catch((err) => {
+								console.log(err);
 							});
 					}}
 					checked={userData.isWalkThroughEnabled}
