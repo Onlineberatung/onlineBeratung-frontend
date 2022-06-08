@@ -132,22 +132,22 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	/* E2EE */
 	const { encrypted, key, keyID, sessionKeyExportedString } =
 		useE2EE(groupIdFromParam);
-	const { refresh } = useContext(E2EEContext);
+	const { refresh, isE2eeEnabled } = useContext(E2EEContext);
 	const [groupKey, setGroupKey] = useState(null);
 	const [groupKeyID, setGroupKeyID] = useState(null);
 	const [sessionGroupKeyExportedString, setSessionGroupKeyExportedString] =
 		useState(null);
 
-	const hasE2EEFeatureEnabled = () =>
-		localStorage.getItem('e2eeFeatureEnabled') ?? false;
-
 	// group Key generation if needed
 	useEffect(() => {
+		if (!isE2eeEnabled) {
+			return;
+		}
 		if (!activeSession) {
 			console.log('no active session');
 			return;
 		}
-		if (!hasE2EEFeatureEnabled() || encrypted) {
+		if (encrypted) {
 			setGroupKey(key);
 			setGroupKeyID(keyID);
 			setSessionGroupKeyExportedString(sessionKeyExportedString);
@@ -160,10 +160,17 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			setGroupKeyID(keyID);
 			setSessionGroupKeyExportedString(sessionKeyExportedString);
 		});
-	}, [encrypted, activeSession, key, keyID, sessionKeyExportedString]);
+	}, [
+		encrypted,
+		activeSession,
+		key,
+		keyID,
+		sessionKeyExportedString,
+		isE2eeEnabled
+	]);
 
 	const handleSendButton = useCallback(async () => {
-		if (hasE2EEFeatureEnabled() && !encrypted) {
+		if (isE2eeEnabled && !encrypted) {
 			const { members } = await apiRocketChatGroupMembers(
 				groupIdFromParam
 			);
@@ -232,7 +239,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		groupIdFromParam,
 		groupKeyID,
 		refresh,
-		sessionGroupKeyExportedString
+		sessionGroupKeyExportedString,
+		isE2eeEnabled
 	]);
 	/** END E2EE */
 

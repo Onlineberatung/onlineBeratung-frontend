@@ -21,7 +21,8 @@ import {
 	UserDataInterface,
 	UserDataContext,
 	ConsultantListContext,
-	AcceptedGroupIdContext
+	AcceptedGroupIdContext,
+	E2EEContext
 } from '../../globalState';
 import {
 	SelectDropdownItem,
@@ -53,14 +54,15 @@ export const SessionAssign = (props: { value?: string }) => {
 	const [sessionListTab] = useState(
 		new URLSearchParams(useLocation().search).get('sessionListTab')
 	);
+
+	const { isE2eeEnabled } = useContext(E2EEContext);
+
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(
 		activeSession.session.groupId
 	);
-	const hasE2EEFeatureEnabled = () =>
-		localStorage.getItem('e2eeFeatureEnabled') ?? false;
 
 	useEffect(() => {
 		const agencyId = activeSession.session.agencyId.toString();
@@ -131,7 +133,7 @@ export const SessionAssign = (props: { value?: string }) => {
 	};
 
 	const handleE2EEAssign = async (sessionId, userId) => {
-		if (hasE2EEFeatureEnabled()) {
+		if (isE2eeEnabled) {
 			try {
 				await addNewUsersToEncryptedRoom();
 				await apiDeleteUserFromRoom(sessionId, userId);

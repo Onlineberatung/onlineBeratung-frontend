@@ -240,6 +240,7 @@ export const decryptText = async (
 
 	const keyID = message.slice(encPrefix.length, 12 + encPrefix.length);
 	if (keyID !== roomKeyID) {
+		// throw new Error('error while encrypting'); // TODO? Fallback in case encryption fails?
 		return 'Nachricht verschlüsselt - falscher roomKey';
 	}
 

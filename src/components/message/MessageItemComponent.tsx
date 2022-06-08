@@ -7,7 +7,8 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	ConsultingTypeInterface,
-	STATUS_ARCHIVED
+	STATUS_ARCHIVED,
+	E2EEContext
 } from '../../globalState';
 import {
 	SESSION_LIST_TYPES,
@@ -64,6 +65,7 @@ export interface VideoCallMessageDTO {
 export interface MessageItem {
 	id?: number;
 	message: string;
+	org: string;
 	messageDate: string | number;
 	messageTime: string;
 	displayName: string;
@@ -99,6 +101,7 @@ export const MessageItemComponent = ({
 	alias,
 	userId,
 	message,
+	org,
 	messageDate,
 	messageTime,
 	resortData,
@@ -122,12 +125,19 @@ export const MessageItemComponent = ({
 	);
 
 	const { key, keyID, encrypted } = useE2EE(rid);
+	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	useEffect((): void => {
-		decryptText(message, keyID, key, encrypted, t === 'e2e').then(
-			setDecryptedMessage
-		);
-	}, [key, keyID, encrypted, message, t]);
+		if (isE2eeEnabled) {
+			decryptText(message, keyID, key, encrypted, t === 'e2e')
+				.then(setDecryptedMessage)
+				.catch((_e) => {
+					// setDecryptedMessage(org) // TODO? Fallback in case decryption fails
+				});
+		} else {
+			setDecryptedMessage(org);
+		}
+	}, [key, keyID, encrypted, message, org, t, isE2eeEnabled]);
 
 	useEffect((): void => {
 		const rawMessageObject = markdownToDraft(

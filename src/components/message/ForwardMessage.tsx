@@ -40,14 +40,11 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 	const { key, keyID, encrypted, sessionKeyExportedString } = useE2EE(
 		props.groupId
 	);
-	const { refresh } = useContext(E2EEContext);
-
-	const hasE2EEFeatureEnabled = () =>
-		localStorage.getItem('e2eeFeatureEnabled') ?? false;
+	const { refresh, isE2eeEnabled } = useContext(E2EEContext);
 
 	const encryptRoom = useCallback(
 		async (groupKeyID, sessionGroupKeyExportedString) => {
-			if (hasE2EEFeatureEnabled() && !encrypted) {
+			if (isE2eeEnabled && !encrypted) {
 				const { members } = await apiRocketChatGroupMembers(
 					props.groupId
 				);
@@ -114,7 +111,7 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 				refresh();
 			}
 		},
-		[refresh, props.groupId, encrypted]
+		[refresh, props.groupId, encrypted, isE2eeEnabled]
 	);
 
 	const forwardMessage = useCallback(async () => {
