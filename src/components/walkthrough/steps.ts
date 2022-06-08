@@ -2,7 +2,7 @@ import { translate } from '../../utils/translate';
 
 interface StepsData {
 	title: string;
-	element: string;
+	element?: string;
 	intro: string;
 	path?: string;
 }
@@ -11,7 +11,6 @@ interface StepsData {
 const stepsData: StepsData[] = [
 	{
 		title: translate('walkthrough.step.0.title'),
-		element: '.walkthrough_step_0',
 		intro: translate('walkthrough.step.0')
 	},
 	{
