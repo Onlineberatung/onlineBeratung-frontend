@@ -237,15 +237,17 @@ export const MessageSubmitInterfaceComponent = (
 		} else if (isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
 		}
+	}, [isConsultantAbsent, isSessionArchived, userData]);
 
+	useEffect(() => {
 		apiGetDraftMessage(props.sessionIdFromParam || props.groupIdFromParam)
 			.then((response) =>
 				decryptText(
 					response.message,
 					props.E2EEParams.keyID,
 					props.E2EEParams.key,
-					true,
-					true,
+					props.E2EEParams.encrypted,
+					response.t === 'e2e',
 					'enc.'
 				)
 			)
@@ -271,17 +273,26 @@ export const MessageSubmitInterfaceComponent = (
 					requestFeedbackCheckboxCallback.checked
 						? activeSession.session.feedbackGroupId
 						: props.sessionIdFromParam || props.groupIdFromParam;
-				encryptText(
-					currentDraftMessageRef.current,
-					props.E2EEParams.keyID,
-					props.E2EEParams.key,
-					'enc.'
-				).then((message) => {
-					apiPostDraftMessage(groupId, message).then();
-				});
+
+				if (props.E2EEParams.encrypted) {
+					encryptText(
+						currentDraftMessageRef.current,
+						props.E2EEParams.keyID,
+						props.E2EEParams.key,
+						'enc.'
+					).then((message) => {
+						apiPostDraftMessage(groupId, message, 'e2e').then();
+					});
+				} else {
+					apiPostDraftMessage(
+						groupId,
+						currentDraftMessageRef.current,
+						''
+					).then();
+				}
 			}
 		};
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [currentDraftMessageRef, props.E2EEParams.keyID]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (isLiveChatFinished) {
@@ -299,15 +310,18 @@ export const MessageSubmitInterfaceComponent = (
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.session.feedbackGroupId
 					: props.sessionIdFromParam || props.groupIdFromParam;
-
-			encryptText(
-				debouncedDraftMessage,
-				props.E2EEParams.keyID,
-				props.E2EEParams.key,
-				'enc.'
-			).then((message) => {
-				apiPostDraftMessage(groupId, message).then();
-			});
+			if (props.E2EEParams.encrypted) {
+				encryptText(
+					debouncedDraftMessage,
+					props.E2EEParams.keyID,
+					props.E2EEParams.key,
+					'enc.'
+				).then((message) => {
+					apiPostDraftMessage(groupId, message, 'e2e').then();
+				});
+			} else {
+				apiPostDraftMessage(groupId, debouncedDraftMessage, '').then();
+			}
 		}
 	}, [debouncedDraftMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 

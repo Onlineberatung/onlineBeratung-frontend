@@ -3,13 +3,14 @@ import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 
 export const apiPostDraftMessage = async (
 	rcGroupIdOrSessionId: string | number,
-	messageData: string
+	messageData: string,
+	encryptType: string
 ): Promise<void> => {
 	const url = config.endpoints.draftMessages;
 	const message = JSON.stringify({
-		message: messageData
+		message: messageData,
+		t: encryptType
 	});
-
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.POST,
@@ -20,13 +21,13 @@ export const apiPostDraftMessage = async (
 
 interface draftMessage {
 	message: string;
+	t: string;
 }
 
 export const apiGetDraftMessage = async (
 	rcGroupIdOrSessionId: string | number
 ): Promise<draftMessage> => {
 	const url = config.endpoints.draftMessages;
-
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.GET,
