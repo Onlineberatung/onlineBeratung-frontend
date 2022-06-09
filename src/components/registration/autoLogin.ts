@@ -115,7 +115,10 @@ export const redirectToApp = () => {
 	window.location.href = config.urls.redirectToApp;
 };
 
-const handleE2EESetup = (password: string, rcUserId: string): Promise<any> => {
+export const handleE2EESetup = (
+	password: string,
+	rcUserId: string
+): Promise<any> => {
 	return new Promise(async (resolve, reject) => {
 		let masterKey = await deriveMasterKeyFromPassword(rcUserId, password);
 
@@ -168,7 +171,7 @@ const handleE2EESetup = (password: string, rcUserId: string): Promise<any> => {
 					);
 
 					await writeMasterKeyToLocalStorage(masterKey, rcUserId);
-					await apiRocketChatResetE2EKey();
+					// await apiRocketChatResetE2EKey();
 				} catch {
 					console.log('Error saving keys in rocket chat.');
 				}
