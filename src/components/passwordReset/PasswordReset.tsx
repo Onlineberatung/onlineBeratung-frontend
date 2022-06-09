@@ -209,12 +209,12 @@ export const PasswordReset = () => {
 								);
 							// encrypt private key with new masterkey
 							const encryptedPrivateKey = await encryptPrivateKey(
-								sessionStorage.getItem('private_key'),
+								getValueFromCookie('private_key'),
 								newMasterKey
 							);
 							// save with rocket chat
 							await apiRocketChatSetUserKeys(
-								sessionStorage.getItem('public_key'),
+								getValueFromCookie('public_key'),
 								encryptedPrivateKey
 							);
 						}
