@@ -238,7 +238,7 @@ export const decryptText = async (
 		return 'Nachricht verschlüsselt - kein groupKey';
 	}
 
-	const keyID = message.slice(encPrefix.length, 12);
+	const keyID = message.slice(encPrefix.length, 12 + encPrefix.length);
 	if (keyID !== roomKeyID) {
 		// throw new Error('error while encrypting'); // TODO? Fallback in case encryption fails?
 		return 'Nachricht verschlüsselt - falscher roomKey';

@@ -22,7 +22,8 @@ import {
 	AcceptedGroupIdContext,
 	SessionsDataContext,
 	STATUS_ARCHIVED,
-	STATUS_FINISHED
+	STATUS_FINISHED,
+	E2EEContext
 } from '../../globalState';
 import {
 	apiGetDraftMessage,
@@ -208,6 +209,7 @@ export const MessageSubmitInterfaceComponent = (
 		SAVE_DRAFT_TIMEOUT
 	);
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
+	const { refresh, isE2eeEnabled } = useContext(E2EEContext);
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -237,18 +239,24 @@ export const MessageSubmitInterfaceComponent = (
 		} else if (isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
 		}
+	}, [isConsultantAbsent, isSessionArchived, userData]);
 
+	useEffect(() => {
 		apiGetDraftMessage(props.sessionIdFromParam || props.groupIdFromParam)
-			.then((response) =>
-				decryptText(
-					response.message,
-					props.E2EEParams.keyID,
-					props.E2EEParams.key,
-					true,
-					true,
-					'enc.'
-				)
-			)
+			.then((response) => {
+				if (isE2eeEnabled) {
+					return decryptText(
+						response.message,
+						props.E2EEParams.keyID,
+						props.E2EEParams.key,
+						props.E2EEParams.encrypted,
+						response.t === 'e2e',
+						'enc.'
+					);
+				} else {
+					return response.org;
+				}
+			})
 			.then((message) => {
 				setEditorWithMarkdownString(message);
 			})
@@ -260,7 +268,7 @@ export const MessageSubmitInterfaceComponent = (
 			.finally(() => {
 				setDraftLoaded(true);
 			});
-
+		refresh();
 		return () => {
 			if (currentDraftMessageRef.current && !isLiveChatFinished) {
 				const requestFeedbackCheckboxCallback = document.getElementById(
@@ -271,17 +279,32 @@ export const MessageSubmitInterfaceComponent = (
 					requestFeedbackCheckboxCallback.checked
 						? activeSession.session.feedbackGroupId
 						: props.sessionIdFromParam || props.groupIdFromParam;
-				encryptText(
-					currentDraftMessageRef.current,
-					props.E2EEParams.keyID,
-					props.E2EEParams.key,
-					'enc.'
-				).then((message) => {
-					apiPostDraftMessage(groupId, message).then();
-				});
+
+				if (props.E2EEParams.encrypted) {
+					encryptText(
+						currentDraftMessageRef.current,
+						props.E2EEParams.keyID,
+						props.E2EEParams.key,
+						'enc.'
+					).then((message) => {
+						apiPostDraftMessage(
+							groupId,
+							message,
+							'e2e',
+							currentDraftMessageRef.current
+						).then();
+					});
+				} else {
+					apiPostDraftMessage(
+						groupId,
+						currentDraftMessageRef.current,
+						'',
+						currentDraftMessageRef.current
+					).then();
+				}
 			}
 		};
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [currentDraftMessageRef, props.E2EEParams.keyID]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (isLiveChatFinished) {
@@ -299,15 +322,28 @@ export const MessageSubmitInterfaceComponent = (
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.session.feedbackGroupId
 					: props.sessionIdFromParam || props.groupIdFromParam;
-
-			encryptText(
-				debouncedDraftMessage,
-				props.E2EEParams.keyID,
-				props.E2EEParams.key,
-				'enc.'
-			).then((message) => {
-				apiPostDraftMessage(groupId, message).then();
-			});
+			if (props.E2EEParams.encrypted) {
+				encryptText(
+					debouncedDraftMessage,
+					props.E2EEParams.keyID,
+					props.E2EEParams.key,
+					'enc.'
+				).then((message) => {
+					apiPostDraftMessage(
+						groupId,
+						message,
+						'e2e',
+						debouncedDraftMessage
+					).then();
+				});
+			} else {
+				apiPostDraftMessage(
+					groupId,
+					debouncedDraftMessage,
+					'',
+					debouncedDraftMessage
+				).then();
+			}
 		}
 	}, [debouncedDraftMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
