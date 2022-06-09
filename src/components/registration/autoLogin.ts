@@ -168,7 +168,7 @@ const handleE2EESetup = (password: string, rcUserId: string): Promise<any> => {
 					);
 
 					await writeMasterKeyToLocalStorage(masterKey, rcUserId);
-					await apiRocketChatResetE2EKey();
+					// await apiRocketChatResetE2EKey();
 				} catch {
 					console.log('Error saving keys in rocket chat.');
 				}
