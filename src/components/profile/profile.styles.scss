@@ -220,8 +220,7 @@ $profile-footer-justify-content: center !default;
 		display: inline-block;
 		padding: 0 $grid-base-two $grid-base-ten;
 		height: auto;
-		width: calc(100% + 24px);
-		margin: 0 -12px;
+		width: 100%;
 
 		&:after {
 			display: block;

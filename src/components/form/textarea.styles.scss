@@ -17,7 +17,7 @@
 
 	textarea {
 		min-height: 100px;
-		padding: 19px $grid-base-three 0;
+		padding: $grid-base-three $grid-base-three 0;
 		color: $form-secondary;
 		border: 1px solid $form-primary;
 		border-radius: $input-field-border-radius;
