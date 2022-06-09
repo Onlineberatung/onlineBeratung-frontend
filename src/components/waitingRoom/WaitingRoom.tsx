@@ -128,7 +128,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const getUsernameText = () => {
 		return `
 		${translate('anonymous.waitingroom.username')} 
-		<span class="waitingRoom__username">
+		<div class="waitingRoom__username">
 		${
 			username
 				? username
@@ -136,7 +136,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 						'anonymous.waitingroom.username.loading'
 				  )}</span>`
 		}
-		</span>
+		</div>
 		`;
 	};
 
