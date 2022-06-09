@@ -25,7 +25,7 @@ import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { apiRocketChatSubscriptionsGet } from '../../api/apiRocketChatSubscriptionsGet';
 import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
-import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
+// import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
 
 export interface LoginData {
 	data: {
