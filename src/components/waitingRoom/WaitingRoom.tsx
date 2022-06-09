@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Header } from '../header/Header';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
+import { v4 as uuid } from 'uuid';
 import './waitingRoom.styles';
 import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
@@ -39,6 +40,7 @@ import {
 	rejectionOverlayItem
 } from './waitingRoomHelpers';
 import { handleTokenRefresh, setTokens } from '../auth/auth';
+import { handleE2EESetup } from '../registration/autoLogin';
 
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
@@ -65,6 +67,23 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	} = useContext(WebsocketConnectionDeactivatedContext);
 	const registrationUrl = `/${props.consultingTypeSlug}/registration`;
 
+	const getPseudoPasswordForUser = (rc_uid) => {
+		let pseudoPassword = localStorage.getItem(`pseudoPassword_${rc_uid}`);
+		if (!pseudoPassword) {
+			pseudoPassword = uuid();
+			localStorage.setItem(`pseudoPassword_${rc_uid}`, pseudoPassword);
+		}
+		return pseudoPassword;
+	};
+
+	const afterRegistrationHandler = () => {
+		const rc_uid = getValueFromCookie('rc_uid');
+		const pseuodPassword = getPseudoPasswordForUser(rc_uid);
+		handleE2EESetup(pseuodPassword, rc_uid);
+
+		props.onAnonymousRegistration();
+	};
+
 	useEffect(() => {
 		const registeredUsername = getValueFromCookie('registeredUsername');
 		const sessionId = getValueFromCookie('anonymousSessionId');
@@ -74,7 +93,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			setIsDataProtectionViewActive(false);
 			setUsername(registeredUsername);
 			handleTokenRefresh();
-			props.onAnonymousRegistration();
+			afterRegistrationHandler();
 		}
 
 		document.title = `${translate(
@@ -156,7 +175,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					);
 
 					handleTokenRefresh();
-					props.onAnonymousRegistration();
+					afterRegistrationHandler();
 				})
 				.catch((err) => {
 					console.log(err);

@@ -169,7 +169,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		isE2eeEnabled
 	]);
 
-	const handleSendButton = useCallback(async () => {
+	const handleEncryptRoom = useCallback(async () => {
 		if (isE2eeEnabled && !encrypted) {
 			const { members } = await apiRocketChatGroupMembers(
 				groupIdFromParam
@@ -242,6 +242,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		sessionGroupKeyExportedString,
 		isE2eeEnabled
 	]);
+
 	/** END E2EE */
 
 	const resetUnreadCount = () => {
@@ -364,7 +365,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		setIsRequestInProgress(true);
 
 		apiEnquiryAcceptance(sessionId, isAnonymousEnquiry)
-			.then(() => {
+			.then(async () => {
+				await handleEncryptRoom();
 				setOverlayItem(enquirySuccessfullyAcceptedOverlayItem);
 				setCurrentGroupId(sessionGroupId);
 			})
@@ -670,7 +672,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							userData
 						))) && (
 					<MessageSubmitInterfaceComponent
-						handleSendButton={handleSendButton}
+						handleSendButton={handleEncryptRoom}
 						isTyping={props.isTyping}
 						className={clsx(
 							'session__submit-interface',

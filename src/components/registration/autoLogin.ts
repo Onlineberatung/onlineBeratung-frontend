@@ -115,7 +115,10 @@ export const redirectToApp = () => {
 	window.location.href = config.urls.redirectToApp;
 };
 
-const handleE2EESetup = (password: string, rcUserId: string): Promise<any> => {
+export const handleE2EESetup = (
+	password: string,
+	rcUserId: string
+): Promise<any> => {
 	return new Promise(async (resolve, reject) => {
 		let masterKey = await deriveMasterKeyFromPassword(rcUserId, password);
 
