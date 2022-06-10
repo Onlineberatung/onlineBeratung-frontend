@@ -1,0 +1,7 @@
+version: '1'
+rules:
+    - base: develop
+      upstream: Onlineberatung:develop # Required. Can be a branch in the same forked repo.
+      mergeMethod: squash # Optional, one of [none, merge, squash, rebase, hardreset], Default: none.
+label: ':arrow_heading_down: pull' # Optional
+conflictLabel: 'merge-conflict' # Optional, on merge conflict assign a custom label, Default: merge-conflict
