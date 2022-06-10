@@ -1,8 +1,5 @@
 version: '1'
 rules:
-    - base: master
-      upstream: Onlineberatung:master
-      mergeMethod: squash
     - base: develop
       upstream: Onlineberatung:develop
       mergeMethod: squash
