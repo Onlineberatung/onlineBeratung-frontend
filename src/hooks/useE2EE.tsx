@@ -33,21 +33,22 @@ export const useE2EE = (rid: string): UseE2EEParams => {
 	const sessionKeyExportedStringRef = useRef(null);
 
 	// If hook is used search for members without key and set it
-	/*
-	ToDo: This is currenlty not working as fallback because room keys could not be resettet currenlty so there will never be users without keys
-	useEffect(() => {
+	const UpdateRoomKeysIfNecessary = useCallback(async () => {
 		if (!keyID || !sessionKeyExportedString || !rid) {
 			return;
 		}
 
-		apiRocketChatGetUsersOfRoomWithoutKey(rid).then(({ users }) =>
-			Promise.all(
+		const { members } = await apiRocketChatGroupMembers(rid);
+		apiRocketChatGetUsersOfRoomWithoutKey(rid).then(({ users }) => {
+			return Promise.all(
 				users
-					.filter(
-						(member) =>
-							member.username !== 'System' &&
-							member.username.indexOf('enc.') === 0
-					)
+					.filter((user) => {
+						const member = members.find((m) => m._id === user._id);
+						return (
+							member?.username !== 'System' &&
+							member?.username.indexOf('enc.') === 0
+						);
+					})
 					.map(async (user) => {
 						const userKey = await encryptForParticipant(
 							user.e2e.public_key,
@@ -61,10 +62,13 @@ export const useE2EE = (rid: string): UseE2EEParams => {
 							userKey
 						);
 					})
-			)
-		);
+			);
+		});
 	}, [keyID, rid, sessionKeyExportedString]);
-	 */
+
+	useEffect(() => {
+		UpdateRoomKeysIfNecessary();
+	}, [UpdateRoomKeysIfNecessary, keyID, rid, sessionKeyExportedString]);
 
 	const addNewUsersToEncryptedRoom = useCallback(async () => {
 		const { members } = await apiRocketChatGroupMembers(rid);

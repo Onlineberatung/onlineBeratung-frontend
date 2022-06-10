@@ -25,7 +25,7 @@ import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { apiRocketChatSubscriptionsGet } from '../../api/apiRocketChatSubscriptionsGet';
 import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
-// import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
+import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
 
 export interface LoginData {
 	data: {
@@ -38,13 +38,15 @@ export interface LoginData {
 	refresh_expires_in?: number;
 }
 
-export const autoLogin = (autoLoginProps: {
+interface AutoLoginProps {
 	username: string;
 	password: string;
 	redirect: boolean;
 	otp?: string;
 	useOldUser?: boolean;
-}): Promise<any> =>
+}
+
+export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 	new Promise((resolve, reject) => {
 		const userHash = autoLoginProps.useOldUser
 			? autoLoginProps.username
@@ -78,7 +80,8 @@ export const autoLogin = (autoLoginProps: {
 						// e2ee
 						await handleE2EESetup(
 							autoLoginProps.password,
-							data.userId
+							data.userId,
+							autoLoginProps
 						);
 
 						if (autoLoginProps.redirect) {
@@ -117,7 +120,8 @@ export const redirectToApp = () => {
 
 export const handleE2EESetup = (
 	password: string,
-	rcUserId: string
+	rcUserId: string,
+	autoLoginProps?: AutoLoginProps
 ): Promise<any> => {
 	return new Promise(async (resolve, reject) => {
 		let masterKey = await deriveMasterKeyFromPassword(rcUserId, password);
@@ -148,32 +152,36 @@ export const handleE2EESetup = (
 					await readMasterKeyFromLocalStorage(rcUserId);
 
 				if (!persistedArrayBuffer) {
-					// TODO device changed, application storage deleted, etc.
-					console.error(
-						'unhandled case: not master key buffer was persisted'
-					);
-				}
-
-				const persistedMasterKey = await importRawEncryptionKey(
-					persistedArrayBuffer
-				);
-
-				privateKey = await decryptPrivateKey(
-					encryptedPrivateKey,
-					persistedMasterKey
-				);
-				await loadKeys(privateKey, publicKey);
-
-				try {
-					await apiRocketChatSetUserKeys(
-						publicKey,
-						await encryptPrivateKey(privateKey, masterKey)
+					console.error('master key not persisted - reset e2e key');
+					await apiRocketChatResetE2EKey();
+					if (!autoLoginProps) {
+						console.error('could not re-login after e2e key reset');
+					} else {
+						await writeMasterKeyToLocalStorage(masterKey, rcUserId);
+						await autoLogin(autoLoginProps);
+						return;
+					}
+				} else {
+					const persistedMasterKey = await importRawEncryptionKey(
+						persistedArrayBuffer
 					);
 
-					await writeMasterKeyToLocalStorage(masterKey, rcUserId);
-					// await apiRocketChatResetE2EKey();
-				} catch {
-					console.log('Error saving keys in rocket chat.');
+					privateKey = await decryptPrivateKey(
+						encryptedPrivateKey,
+						persistedMasterKey
+					);
+					await loadKeys(privateKey, publicKey);
+
+					try {
+						await apiRocketChatSetUserKeys(
+							publicKey,
+							await encryptPrivateKey(privateKey, masterKey)
+						);
+
+						await writeMasterKeyToLocalStorage(masterKey, rcUserId);
+					} catch {
+						console.log('Error saving keys in rocket chat.');
+					}
 				}
 			}
 		}
