@@ -168,4 +168,37 @@ describe('profile', () => {
 			);
 		});
 	});
+
+	describe('consultant email notification', () => {
+		beforeEach(() => {
+			cy.fastLogin({
+				username: USER_CONSULTANT
+			});
+		});
+
+		it('deactivate and activate email notification consultant', () => {
+			cy.contains('Profil').should('exist').click();
+			cy.contains('Benachrichtigungen').should('exist').click();
+			cy.contains('E-Mail Benachrichtigung');
+			cy.get('.notifivations .mr--1 input').should(
+				'have.attr',
+				'aria-checked',
+				'true'
+			);
+
+			cy.get('.notifivations .mr--1').click();
+			cy.get('.notifivations .mr--1 input').should(
+				'have.attr',
+				'aria-checked',
+				'false'
+			);
+
+			cy.get('.notifivations .mr--1').click();
+			cy.get('.notifivations .mr--1 input').should(
+				'have.attr',
+				'aria-checked',
+				'true'
+			);
+		});
+	});
 });

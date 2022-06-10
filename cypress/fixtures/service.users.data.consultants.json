@@ -24,7 +24,13 @@
 		"formalLanguage": true,
 		"absent": false,
 		"inTeamAgency": true,
-		"languages": []
+		"languages": [],
+		"emailToggles": [
+			{
+				"name": "DAILY_ENQUIRY",
+				"state": true
+			}
+		]
 	},
 	{
 		"userId": "video",
