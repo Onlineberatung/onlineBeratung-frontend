@@ -84,7 +84,7 @@ import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
-import { e2eeParams } from '../../hooks/useE2EE';
+import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -204,6 +204,9 @@ export const MessageSubmitInterfaceComponent = (
 		SAVE_DRAFT_TIMEOUT
 	);
 	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { keyID: feedbackChatKeyId, key: feedbackChatKey } = useE2EE(
+		activeSession.item.feedbackGroupId
+	);
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -580,14 +583,22 @@ export const MessageSubmitInterfaceComponent = (
 			return null;
 		}
 
+		const sendToFeedbackEndpoint =
+			(!activeSession.isGroup && activeSession.isFeedback) ||
+			(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
+
 		const unencryptedMessage = getTypedMarkdownMessage().trim();
 		const encryptedMessage =
 			getTypedMarkdownMessage().trim() &&
 			getTypedMarkdownMessage().trim().length > 0
 				? await encryptText(
 						getTypedMarkdownMessage().trim(),
-						props.E2EEParams.keyID,
-						props.E2EEParams.key
+						sendToFeedbackEndpoint
+							? feedbackChatKeyId
+							: props.E2EEParams.keyID,
+						sendToFeedbackEndpoint
+							? feedbackChatKey
+							: props.E2EEParams.key
 				  )
 				: null;
 
@@ -609,9 +620,6 @@ export const MessageSubmitInterfaceComponent = (
 					console.log(error);
 				});
 		} else {
-			const sendToFeedbackEndpoint =
-				(!activeSession.isGroup && activeSession.isFeedback) ||
-				(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
 			const sendToRoomWithId = sendToFeedbackEndpoint
 				? activeSession.item.feedbackGroupId
 				: props.sessionIdFromParam || props.groupIdFromParam;
