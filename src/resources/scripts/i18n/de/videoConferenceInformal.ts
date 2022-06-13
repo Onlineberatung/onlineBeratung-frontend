@@ -14,7 +14,7 @@ const videoCoferenceInformal = {
 		'Zu Deinem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde.',
 	'waitingroom.errorPage.rejected.headline': 'Du wurdest abgelehnt',
 	'waitingroom.errorPage.rejected.description':
-		'Leider kannst Du an diesem Video-Call nicht teilnehmen, da Dein_e Berater_in Dich abgelehnt hat.'
+		'Du wurdest nicht zugelassen. Leider kannst Du an diesem Video-Call nicht teilnehmen, da Dein_e Berater_in Dich nicht zugelassen hat.'
 };
 
 export default videoCoferenceInformal;
