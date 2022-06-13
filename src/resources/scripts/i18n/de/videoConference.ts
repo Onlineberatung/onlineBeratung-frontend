@@ -22,7 +22,7 @@ const videoCoference = {
 		'Zu Ihrem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde.',
 	'waitingroom.errorPage.rejected.headline': 'Sie wurden abgelehnt',
 	'waitingroom.errorPage.rejected.description':
-		'Sie wurden nicht zugelassen. Leider können Sie an diesem Video-Call nicht teilnehmen, da Ihr:e Berater:in Sie nicht zugelassen hat.',
+		'Sie wurden nicht zugelassen. Leider können Sie an diesem Video-Call nicht teilnehmen, da Ihr_e Berater_in Sie nicht zugelassen hat.',
 	'waitingroom.errorPage.button': 'Neu laden'
 };
 
