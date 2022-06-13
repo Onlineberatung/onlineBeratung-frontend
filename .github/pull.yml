@@ -1,0 +1,7 @@
+version: '1'
+rules:
+    - base: develop
+      upstream: Onlineberatung:develop
+      mergeMethod: squash
+label: ':arrow_heading_down: pull'
+conflictLabel: 'merge-conflict'
