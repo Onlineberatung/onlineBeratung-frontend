@@ -4,7 +4,7 @@ const appointments = {
 	'showLess': 'Weniger anzeigen',
 	'notification.saved.title': 'Der Termin wurde erfolgreich gespeichert.',
 	'noAppointments': 'Aktuell gibt es keine Termine',
-	'onlineMeeting.start': 'Videocall starten',
+	'onlineMeeting.start': 'Video-Call starten',
 	'onlineMeeting.overlay.add.headline': 'Neuer Video-Call',
 	'onlineMeeting.overlay.edit.headline': 'Video-Call bearbeiten',
 	'onlineMeeting.overlay.add.button.cancel': 'Abbruch',
