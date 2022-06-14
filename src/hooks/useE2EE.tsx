@@ -33,7 +33,7 @@ export const useE2EE = (rid: string): UseE2EEParams => {
 	const sessionKeyExportedStringRef = useRef(null);
 
 	// If hook is used search for members without key and set it
-	const UpdateRoomKeysIfNecessary = useCallback(async () => {
+	const updateRoomKeysIfNecessary = useCallback(async () => {
 		if (!keyID || !sessionKeyExportedString || !rid) {
 			return;
 		}
@@ -67,8 +67,8 @@ export const useE2EE = (rid: string): UseE2EEParams => {
 	}, [keyID, rid, sessionKeyExportedString]);
 
 	useEffect(() => {
-		UpdateRoomKeysIfNecessary();
-	}, [UpdateRoomKeysIfNecessary, keyID, rid, sessionKeyExportedString]);
+		updateRoomKeysIfNecessary();
+	}, [updateRoomKeysIfNecessary, keyID, rid, sessionKeyExportedString]);
 
 	const addNewUsersToEncryptedRoom = useCallback(async () => {
 		const { members } = await apiRocketChatGroupMembers(rid);
