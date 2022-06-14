@@ -1,10 +1,6 @@
 import { encode, decode } from 'hi-base32';
 import ByteBuffer from 'bytebuffer';
 import { apiRocketChatUpdateGroupKey } from '../api/apiRocketChatUpdateGroupKey';
-import {
-	getValueFromCookie,
-	setValueInCookie
-} from '../components/sessionCookie/accessSessionCookie';
 const StaticArrayBufferProto = ArrayBuffer.prototype;
 
 // encoding helper
@@ -418,7 +414,7 @@ export const reEncryptMyRoomKeys = async (
 			);
 
 			const userKey = await encryptForParticipant(
-				getValueFromCookie('public_key'),
+				sessionStorage.getItem('public_key'),
 				room.e2eKeyId,
 				sessionKeyExportedString
 			);
@@ -459,10 +455,10 @@ export const decryptPrivateKey = async (privateKey, masterKey) => {
 };
 
 export const loadKeys = async (private_key, public_key) => {
-	setValueInCookie('public_key', public_key);
+	sessionStorage.setItem('public_key', public_key);
 	try {
 		const key = await importRSAKey(JSON.parse(private_key), ['decrypt']);
-		setValueInCookie('private_key', private_key);
+		sessionStorage.setItem('private_key', private_key);
 		return key;
 	} catch (error) {
 		throw new Error('Error importing private key: ' + error);
@@ -481,14 +477,14 @@ export const createAndLoadKeys = async () => {
 
 	try {
 		publicKey = await exportJWKKey(key.publicKey);
-		setValueInCookie('public_key', JSON.stringify(publicKey));
+		sessionStorage.setItem('public_key', JSON.stringify(publicKey));
 	} catch (error) {
 		throw new Error('Error exporting public key: ' + error);
 	}
 
 	try {
 		privateKey = await exportJWKKey(key.privateKey);
-		setValueInCookie('private_key', JSON.stringify(privateKey));
+		sessionStorage.setItem('private_key', JSON.stringify(privateKey));
 	} catch (error) {
 		throw new Error('Error exporting private key: ' + error);
 	}

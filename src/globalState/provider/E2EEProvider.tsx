@@ -6,7 +6,6 @@ import {
 	useCallback,
 	useContext
 } from 'react';
-import { getValueFromCookie } from '../../components/sessionCookie/accessSessionCookie';
 import { importRSAKey } from '../../utils/encryptionHelpers';
 import {
 	RocketChatPublicSettingsContext,
@@ -28,7 +27,7 @@ export function E2EEProvider(props) {
 	const { getSetting } = useContext(RocketChatPublicSettingsContext);
 
 	const reloadPrivateKey = useCallback(() => {
-		const privateKey = getValueFromCookie('private_key');
+		const privateKey = sessionStorage.getItem('private_key');
 		if (!privateKey) {
 			return;
 		}

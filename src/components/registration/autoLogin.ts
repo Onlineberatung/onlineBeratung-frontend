@@ -2,10 +2,7 @@ import CryptoJS from 'crypto-js';
 
 import { getKeycloakAccessToken } from '../sessionCookie/getKeycloakAccessToken';
 import { getRocketchatAccessToken } from '../sessionCookie/getRocketchatAccessToken';
-import {
-	getValueFromCookie,
-	setValueInCookie
-} from '../sessionCookie/accessSessionCookie';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { config } from '../../resources/scripts/config';
 import { generateCsrfToken } from '../../utils/generateCsrfToken';
 import {
@@ -246,7 +243,7 @@ const updateUserE2EKeysFallback = async (rcUserId) => {
 			const roomKey = bytes.toString(CryptoJS.enc.Utf8);
 
 			return encryptForParticipant(
-				getValueFromCookie('public_key'),
+				sessionStorage.getItem('public_key'),
 				room.e2eKeyId,
 				roomKey
 			).then((userKey) => {
