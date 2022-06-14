@@ -17,12 +17,20 @@
 
 	textarea {
 		min-height: 100px;
-		padding: 19px $grid-base-three 0;
+		padding: $grid-base-four $grid-base-three 0;
 		color: $form-secondary;
 		border: 1px solid $form-primary;
 		border-radius: $input-field-border-radius;
 		outline: 0;
 		box-shadow: $input-field-box-shadow;
+
+		@media (max-width: 1320px) and (min-width: 900px) {
+			padding: $grid-base-six $grid-base-three 0;
+		}
+
+		@media (max-width: 612px) {
+			padding: $grid-base-six $grid-base-three 0;
+		}
 
 		&:hover {
 			border: 1px solid $form-active;
@@ -49,6 +57,8 @@
 			font-size: 12px;
 			top: 3px;
 			transition: font-size 0.5s, top 0.5s;
+			line-height: $grid-base-two;
+			padding-top: $grid-base;
 		}
 	}
 

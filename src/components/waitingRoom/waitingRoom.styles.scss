@@ -1,6 +1,6 @@
 $waiting-room-illustration-width: 65% !default;
 $waiting-room-illustration-background: $illustration-background-neutral !default;
-$waiting-room-page-background: $background-light !default;
+$waiting-room-page-background: $background-lighter !default;
 $waiting-room-subline-opacity: 1 !default;
 
 .waitingRoom {
@@ -35,10 +35,12 @@ $waiting-room-subline-opacity: 1 !default;
 
 		.text,
 		.headline {
-			text-align: center;
+			text-align: left;
+			margin-left: $grid-base-six;
+			margin-right: $grid-base-six;
 
 			@include breakpoint($fromLarge) {
-				text-align: left;
+				margin-left: 0;
 			}
 		}
 
@@ -58,9 +60,11 @@ $waiting-room-subline-opacity: 1 !default;
 
 	&__headline {
 		margin: $grid-base-three 0 0;
+		font-size: 32px;
 
 		@include breakpoint($fromLarge) {
 			margin: 0;
+			font-size: $font-size-h1;
 		}
 	}
 
@@ -84,7 +88,7 @@ $waiting-room-subline-opacity: 1 !default;
 		svg {
 			width: $waiting-room-illustration-width;
 			height: $waiting-room-illustration-width;
-			z-index: 2;
+			z-index: 300;
 		}
 
 		&::after {
@@ -122,11 +126,12 @@ $waiting-room-subline-opacity: 1 !default;
 	}
 
 	&__button {
-		text-align: center;
+		text-align: left;
 		margin-top: $grid-base-four;
+		margin-left: $grid-base-six;
 
 		@include breakpoint($fromLarge) {
-			text-align: left;
+			margin-left: 0;
 		}
 	}
 
@@ -155,23 +160,34 @@ $waiting-room-subline-opacity: 1 !default;
 		border-radius: 4px;
 		padding: $grid-base-two;
 		margin-top: $grid-base-six;
+		margin-left: $grid-base-six;
+		margin-right: $grid-base-six;
 
 		.text {
-			margin-top: 0;
-			font-size: $font-size-tertiary;
+			margin: 0;
+			font-size: $font-size-primary;
 		}
 
 		& .text:last-child {
 			color: rgba(0, 0, 0, 0.6);
 		}
+
+		@include breakpoint($fromLarge) {
+			margin-left: 0;
+		}
 	}
 
 	&__username {
 		color: $form-success;
+		margin-top: $grid-base;
 
 		&--loading {
 			color: $tertiary;
 			font-weight: $font-weight-regular;
+		}
+
+		@include breakpoint($fromMedium) {
+			display: inline;
 		}
 	}
 
