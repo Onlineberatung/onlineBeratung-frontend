@@ -183,13 +183,6 @@ describe('profile', () => {
 			cy.get('.notifivations .mr--1 input').should(
 				'have.attr',
 				'aria-checked',
-				'true'
-			);
-
-			cy.get('.notifivations .mr--1').click();
-			cy.get('.notifivations .mr--1 input').should(
-				'have.attr',
-				'aria-checked',
 				'false'
 			);
 
@@ -198,6 +191,13 @@ describe('profile', () => {
 				'have.attr',
 				'aria-checked',
 				'true'
+			);
+
+			cy.get('.notifivations .mr--1').click();
+			cy.get('.notifivations .mr--1 input').should(
+				'have.attr',
+				'aria-checked',
+				'false'
 			);
 		});
 	});
