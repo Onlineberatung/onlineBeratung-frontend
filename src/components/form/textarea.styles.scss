@@ -52,7 +52,7 @@
 		}
 	}
 
-	label {
+	label:not(#requestFeedbackLabel) {
 		width: calc(100% - #{$grid-base-three * 2});
 		position: absolute;
 		top: 15px;

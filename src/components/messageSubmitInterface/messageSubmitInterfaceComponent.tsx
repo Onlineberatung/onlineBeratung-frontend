@@ -84,7 +84,7 @@ import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
-import { e2eeParams } from '../../hooks/useE2EE';
+import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -204,6 +204,9 @@ export const MessageSubmitInterfaceComponent = (
 		SAVE_DRAFT_TIMEOUT
 	);
 	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { keyID: feedbackChatKeyId, key: feedbackChatKey } = useE2EE(
+		activeSession.item.feedbackGroupId
+	);
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -540,7 +543,7 @@ export const MessageSubmitInterfaceComponent = (
 		if (isSessionArchived) {
 			apiPutDearchive(activeSession.item.id)
 				.then(() => {
-					sendMessage();
+					prepareAndSendMessage();
 					if (
 						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 					) {
@@ -560,11 +563,83 @@ export const MessageSubmitInterfaceComponent = (
 					console.error(error);
 				});
 		} else {
-			sendMessage();
+			prepareAndSendMessage();
 		}
 	};
 
-	const sendMessage = async () => {
+	const sendEnquiry = (encryptedMessage, unencryptedMessage) => {
+		apiSendEnquiry(
+			activeSession.item.id,
+			encryptedMessage,
+			unencryptedMessage,
+			props.language
+		)
+			.then((response) => {
+				setEditorState(EditorState.createEmpty());
+				props.handleSendButton?.(response);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	const sendMessage = (
+		sendToFeedbackEndpoint,
+		encryptedMessage,
+		unencryptedMessage,
+		attachment
+	) => {
+		const sendToRoomWithId = sendToFeedbackEndpoint
+			? activeSession.item.feedbackGroupId
+			: props.sessionIdFromParam || props.groupIdFromParam;
+		const getSendMailNotificationStatus = () =>
+			!activeSession.isGroup && !activeSession.isLive;
+
+		if (attachment) {
+			setAttachmentUpload(
+				apiUploadAttachment(
+					encryptedMessage,
+					unencryptedMessage,
+					encryptAttachment(
+						attachment,
+						props.E2EEParams.keyID,
+						props.E2EEParams.key
+					),
+					sendToRoomWithId,
+					sendToFeedbackEndpoint,
+					getSendMailNotificationStatus(),
+					setUploadProgress,
+					setUploadOnLoadHandling
+				)
+			);
+		} else {
+			if (getTypedMarkdownMessage()) {
+				apiSendMessage(
+					encryptedMessage,
+					unencryptedMessage,
+					sendToRoomWithId,
+					sendToFeedbackEndpoint,
+					getSendMailNotificationStatus()
+				)
+					.then(() => {
+						props.handleSendButton();
+						handleMessageSendSuccess();
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			}
+		}
+	};
+
+	const isFeedbackMessage = () => {
+		return (
+			(!activeSession.isGroup && activeSession.isFeedback) ||
+			(requestFeedbackCheckbox && requestFeedbackCheckbox.checked)
+		);
+	};
+
+	const prepareAndSendMessage = async () => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const selectedFile = attachmentInput && attachmentInput.files[0];
 		const attachment = props.preselectedFile || selectedFile;
@@ -580,14 +655,23 @@ export const MessageSubmitInterfaceComponent = (
 			return null;
 		}
 
+		const sendToFeedbackEndpoint = isFeedbackMessage();
+
+		const keyId = sendToFeedbackEndpoint
+			? feedbackChatKeyId
+			: props.E2EEParams.keyID;
+		const key = sendToFeedbackEndpoint
+			? feedbackChatKey
+			: props.E2EEParams.key;
+
 		const unencryptedMessage = getTypedMarkdownMessage().trim();
 		const encryptedMessage =
 			getTypedMarkdownMessage().trim() &&
 			getTypedMarkdownMessage().trim().length > 0
 				? await encryptText(
 						getTypedMarkdownMessage().trim(),
-						props.E2EEParams.keyID,
-						props.E2EEParams.key
+						keyId,
+						key
 				  )
 				: null;
 
@@ -595,64 +679,14 @@ export const MessageSubmitInterfaceComponent = (
 			type === SESSION_LIST_TYPES.ENQUIRY &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
-			apiSendEnquiry(
-				activeSession.item.id,
+			sendEnquiry(encryptedMessage, unencryptedMessage);
+		} else {
+			sendMessage(
+				sendToFeedbackEndpoint,
 				encryptedMessage,
 				unencryptedMessage,
-				props.language
-			)
-				.then((response) => {
-					setEditorState(EditorState.createEmpty());
-					props.handleSendButton?.(response);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		} else {
-			const sendToFeedbackEndpoint =
-				(!activeSession.isGroup && activeSession.isFeedback) ||
-				(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
-			const sendToRoomWithId = sendToFeedbackEndpoint
-				? activeSession.item.feedbackGroupId
-				: props.sessionIdFromParam || props.groupIdFromParam;
-			const getSendMailNotificationStatus = () =>
-				!activeSession.isGroup && !activeSession.isLive;
-
-			if (attachment) {
-				setAttachmentUpload(
-					apiUploadAttachment(
-						encryptedMessage,
-						unencryptedMessage,
-						encryptAttachment(
-							attachment,
-							props.E2EEParams.keyID,
-							props.E2EEParams.key
-						),
-						sendToRoomWithId,
-						sendToFeedbackEndpoint,
-						getSendMailNotificationStatus(),
-						setUploadProgress,
-						setUploadOnLoadHandling
-					)
-				);
-			} else {
-				if (getTypedMarkdownMessage()) {
-					apiSendMessage(
-						encryptedMessage,
-						unencryptedMessage,
-						sendToRoomWithId,
-						sendToFeedbackEndpoint,
-						getSendMailNotificationStatus()
-					)
-						.then(() => {
-							props.handleSendButton();
-							handleMessageSendSuccess();
-						})
-						.catch((error) => {
-							console.log(error);
-						});
-				}
-			}
+				attachment
+			);
 		}
 	};
 
