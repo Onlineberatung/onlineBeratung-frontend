@@ -68,10 +68,10 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const registrationUrl = `/${props.consultingTypeSlug}/registration`;
 
 	const getPseudoPasswordForUser = (rc_uid) => {
-		let pseudoPassword = getValueFromCookie(`pseudoPassword_${rc_uid}`);
+		let pseudoPassword = localStorage.getItem(`pseudoPassword_${rc_uid}`);
 		if (!pseudoPassword) {
 			pseudoPassword = uuid();
-			setValueInCookie(`pseudoPassword_${rc_uid}`, pseudoPassword);
+			localStorage.setItem(`pseudoPassword_${rc_uid}`, pseudoPassword);
 		}
 		return pseudoPassword;
 	};
