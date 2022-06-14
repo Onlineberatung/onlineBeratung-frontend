@@ -29,6 +29,14 @@
 			{
 				"name": "DAILY_ENQUIRY",
 				"state": true
+			},
+			{
+				"name": "NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER",
+				"state": true
+			},
+			{
+				"name": "NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER",
+				"state": true
 			}
 		]
 	},

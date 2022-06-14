@@ -177,27 +177,44 @@ describe('profile', () => {
 		});
 
 		it('deactivate and activate email notification consultant', () => {
+			cy.intercept(config.endpoints.userData, {
+				emailToggles: [
+					{
+						name: 'DAILY_ENQUIRY',
+						state: true
+					},
+					{
+						name: 'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
+						state: false
+					},
+					{
+						name: 'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER',
+						state: false
+					}
+				]
+			});
+
 			cy.contains('Profil').should('exist').click();
 			cy.contains('Benachrichtigungen').should('exist').click();
 			cy.contains('E-Mail Benachrichtigung');
-			cy.get('.notifivations .mr--1 input').should(
-				'have.attr',
-				'aria-checked',
-				'false'
-			);
-
-			cy.get('.notifivations .mr--1').click();
-			cy.get('.notifivations .mr--1 input').should(
+			cy.get('.notifications__content .mr--1 input').should(
 				'have.attr',
 				'aria-checked',
 				'true'
 			);
 
-			cy.get('.notifivations .mr--1').click();
-			cy.get('.notifivations .mr--1 input').should(
+			cy.get('.notifications__content .mr--1').click();
+			cy.get('.notifications__content .mr--1 input').should(
 				'have.attr',
 				'aria-checked',
 				'false'
+			);
+
+			cy.get('.notifications__content .mr--1').click();
+			cy.get('.notifications__content .mr--1 input').should(
+				'have.attr',
+				'aria-checked',
+				'true'
 			);
 		});
 	});
