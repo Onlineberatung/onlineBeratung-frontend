@@ -126,7 +126,7 @@ export const JoinGroupChatView = ({
 		const rcUserId = getValueFromCookie('rc_uid');
 
 		const userKey = await encryptForParticipant(
-			sessionStorage.getItem('public_key'),
+			getValueFromCookie('public_key'),
 			groupKeyID,
 			sessionGroupKeyExportedString
 		);
