@@ -30,7 +30,7 @@ const twoFactorAuthInformal = {
 	'activate.email.input.info':
 		'Du kannst nur eine E-Mail-Adresse bei uns hinterlegen. Falls Du die E-Mail-Adresse hier änderst, erhältst Du auf diese E-Mail-Adresse zukünftig auch die Benachrichtigungen.',
 	'activate.email.input.duplicate.info':
-		'Diese E-Mail-Adresse wird bereits von einer anderen Person verwendet. Bitte gib eine andere E-Mail-Adresse an. Oder nutze die App als 2. Faktor.'
+		'Diese E-Mail-Adresse wird bereits von einer anderen Person verwendet. Bitte gib eine andere E-Mail-Adresse an. Oder nutze die App als zweiter Faktor.'
 };
 
 export default twoFactorAuthInformal;
