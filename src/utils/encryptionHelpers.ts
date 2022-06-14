@@ -5,6 +5,7 @@ import {
 	getValueFromCookie,
 	setValueInCookie
 } from '../components/sessionCookie/accessSessionCookie';
+import { translate } from './translate';
 const StaticArrayBufferProto = ArrayBuffer.prototype;
 
 // encoding helper
@@ -221,12 +222,18 @@ export const encryptText = async (
 
 export const decryptText = async (
 	message,
-	roomKeyID,
+	groupKeyID,
 	groupKey,
 	roomEncrypted,
 	messageEncrypted,
 	encPrefix: string = ''
 ) => {
+	if (!roomEncrypted && messageEncrypted) {
+		console.log('room not encrypted, but message');
+		return translate('e2ee.message.encrypted');
+	}
+
+	// no encryption
 	if (
 		!roomEncrypted ||
 		!messageEncrypted ||
@@ -235,17 +242,20 @@ export const decryptText = async (
 		return message;
 	}
 
-	if (!roomKeyID) {
-		return 'Nachricht verschlüsselt - keine roomKeyID';
+	if (!groupKeyID) {
+		console.log('no groupKey id');
+		return translate('e2ee.message.encrypted');
 	}
+
 	if (!groupKey) {
-		return 'Nachricht verschlüsselt - kein groupKey';
+		console.log('no groupKey');
+		return translate('e2ee.message.encrypted');
 	}
 
 	const keyID = message.slice(encPrefix.length, 12 + encPrefix.length);
-	if (keyID !== roomKeyID) {
-		// throw new Error('error while encrypting'); // TODO? Fallback in case encryption fails?
-		return 'Nachricht verschlüsselt - falscher roomKey';
+	if (keyID !== groupKeyID) {
+		console.log('groupKey does not match');
+		return translate('e2ee.message.encrypted');
 	}
 
 	const encMessage = message.slice(12 + encPrefix.length);
@@ -258,7 +268,7 @@ export const decryptText = async (
 		return new TextDecoder('UTF-8').decode(result);
 	} catch (error) {
 		console.error('Error decrypting message: ', error, encMessage);
-		return 'Nachricht verschlüsselt - Fehler beim entschlüsseln';
+		return translate('e2ee.message.encrypted');
 	}
 };
 
