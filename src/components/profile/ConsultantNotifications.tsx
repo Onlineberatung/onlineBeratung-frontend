@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -9,14 +9,27 @@ import { apiPatchUserData } from '../../api/apiPatchUserData';
 
 export const ConsultantNotifications = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
+	const [isActivated, setIsActivated] = useState(false);
 
-	const toogleSwitch = (name) => {
+	useEffect(() => {
+		userData.emailToggles.forEach((toggle) => {
+			if (toggle.name === 'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER') {
+				setIsActivated(toggle.state);
+			}
+		});
+	}, [userData.emailToggles]);
+
+	const toogleSwitch = () => {
 		const updatedUserData = { ...userData };
 		updatedUserData.emailToggles.forEach((toggle) => {
-			if (toggle.name === name) {
+			if (
+				toggle.name === 'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER' ||
+				toggle.name === 'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER'
+			) {
 				toggle.state = !toggle.state;
 			}
 		});
+		setIsActivated(!isActivated);
 		setUserData(updatedUserData);
 		apiPatchUserData(updatedUserData);
 	};
@@ -34,29 +47,28 @@ export const ConsultantNotifications = () => {
 					className="tertiary"
 				/>
 			</div>
-			{userData.emailToggles.length > 0 &&
-				userData.emailToggles.map((toggle) => (
-					<div className="flex">
-						<Switch
-							className="mr--1"
-							onChange={() => toogleSwitch(toggle.name)}
-							checked={toggle.state}
-							uncheckedIcon={false}
-							checkedIcon={false}
-							width={48}
-							height={26}
-							onColor="#0dcd21"
-							offColor="#8C878C"
-							boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-							handleDiameter={27}
-							activeBoxShadow="none"
-						/>
-						<Text
-							text={translate('profile.notifications.label')}
-							type="standard"
-						/>
-					</div>
-				))}
+			{userData.emailToggles.length > 0 && (
+				<div className="flex">
+					<Switch
+						className="mr--1"
+						onChange={() => toogleSwitch()}
+						checked={isActivated}
+						uncheckedIcon={false}
+						checkedIcon={false}
+						width={48}
+						height={26}
+						onColor="#0dcd21"
+						offColor="#8C878C"
+						boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+						handleDiameter={27}
+						activeBoxShadow="none"
+					/>
+					<Text
+						text={translate('profile.notifications.label')}
+						type="standard"
+					/>
+				</div>
+			)}
 		</div>
 	);
 };
