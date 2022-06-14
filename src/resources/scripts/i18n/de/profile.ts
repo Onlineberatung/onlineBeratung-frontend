@@ -31,7 +31,7 @@ const profile = {
 	'data.title': 'Über mich',
 	'data.title.private': 'Private Daten',
 	'data.info.private': 'Diese Daten können die Ratsuchenden nicht einsehen.',
-	'data.title.information': 'Profil Informationen',
+	'data.title.information': 'Kontaktdaten',
 	'data.info.public':
 		'Mit dem Anzeigenamen erscheinen Sie bei den Ratsuchenden.',
 	'data.edit.button.cancel': 'Abbrechen',
@@ -118,7 +118,7 @@ const profile = {
 	'statistics.csvHeader.numberOfSessionsWhereConsultantWasActive':
 		'Aktive Beratungen',
 	'statistics.csvHeader.videoCallDuration':
-		'Dauer von Videoanrufen in Minuten:Sekunden',
+		'Dauer von Video-Calls in Minuten:Sekunden',
 	'unsetEmail.confirmOverlay.headline':
 		'Möchten Sie Ihre E-Mail-Adresse wirklich löschen?',
 	'unsetEmail.confirmOverlay.copy': 'Wenn Sie ihre E-Mail-Adresse löschen:',

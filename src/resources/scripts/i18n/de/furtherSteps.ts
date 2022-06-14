@@ -12,7 +12,7 @@ const furtherSteps = {
 	'emailNotification.button': 'E-Mail-Adresse angeben',
 	'twoFactorAuth.headline': 'Der Schutz Ihrer Daten ist uns wichtig',
 	'twoFactorAuth.infoText':
-		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung.',
+		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung.',
 	'twoFactorAuth.button': 'Konto schützen',
 	'email.overlay.headline': 'E-Mail-Adresse angeben',
 	'email.overlay.input.label': 'E-Mail',
