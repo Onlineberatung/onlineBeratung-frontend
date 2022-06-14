@@ -5,7 +5,8 @@ import {
 	typeIsSession,
 	typeIsTeamSession,
 	typeIsEnquiry,
-	SESSION_TYPES
+	SESSION_TYPES,
+	SESSION_LIST_TAB
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import {
@@ -18,6 +19,7 @@ import { SessionsList } from './SessionsList';
 import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 interface SessionsListWrapperProps {
 	sessionTypes: SESSION_TYPES;
@@ -29,9 +31,7 @@ export const SessionsListWrapper = ({
 	const fixedLanguages = useContext(FixedLanguagesContext);
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	if (
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||

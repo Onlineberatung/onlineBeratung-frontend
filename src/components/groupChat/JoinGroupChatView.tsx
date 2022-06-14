@@ -12,7 +12,10 @@ import {
 } from '../../globalState';
 import { mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
-import { getSessionListPathForLocation } from '../session/sessionHelpers';
+import {
+	getSessionListPathForLocation,
+	SESSION_LIST_TAB
+} from '../session/sessionHelpers';
 import {
 	apiPutGroupChat,
 	apiGetGroupChatInfo,
@@ -54,7 +57,7 @@ import {
 	apiSendAliasMessage
 } from '../../api/apiSendAliasMessage';
 import { useWatcher } from '../../hooks/useWatcher';
-import { apiGetSessionRooms } from '../../api/apiGetSessionRooms';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 interface JoinGroupChatViewProps {
 	forceBannedOverlay?: boolean;
@@ -67,9 +70,9 @@ export const JoinGroupChatView = ({
 	forceBannedOverlay = false,
 	bannedUsers = []
 }: JoinGroupChatViewProps) => {
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession, reloadActiveSession } =
+		useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
-	const { dispatch } = useContext(SessionsDataContext);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
@@ -80,9 +83,7 @@ export const JoinGroupChatView = ({
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
@@ -161,14 +162,7 @@ export const JoinGroupChatView = ({
 		return apiGetGroupChatInfo(activeSession.item.id)
 			.then((res) => {
 				if (activeSession.item.active !== res.active) {
-					apiGetSessionRooms([activeSession.rid]).then(
-						({ sessions }) => {
-							dispatch({
-								type: UPDATE_SESSIONS,
-								sessions: sessions
-							});
-						}
-					);
+					reloadActiveSession();
 				}
 			})
 			.catch((error) => {
@@ -177,7 +171,7 @@ export const JoinGroupChatView = ({
 					setOverlayActive(true);
 				}
 			});
-	}, [activeSession, dispatch]);
+	}, [activeSession.item.active, activeSession.item.id, reloadActiveSession]);
 
 	const [startWatcher, stopWatcher, isWatcherRunning] = useWatcher(
 		updateGroupChatInfo,
@@ -185,8 +179,8 @@ export const JoinGroupChatView = ({
 	);
 
 	useEffect(() => {
-		if (consultingType.groupChat.isGroupChat) {
-			//startWatcher();
+		if (!isWatcherRunning) {
+			startWatcher();
 		}
 
 		return () => {

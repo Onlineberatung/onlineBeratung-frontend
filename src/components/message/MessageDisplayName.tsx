@@ -25,7 +25,7 @@ interface MessageDisplayNameProps {
 }
 
 export const MessageDisplayName = (props: MessageDisplayNameProps) => {
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 
 	const forwardedLabel = () => {
 		const date = getPrettyDateFromMessageDate(

@@ -67,6 +67,7 @@ import {
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { apiGetSessionRooms } from '../../api/apiGetSessionRooms';
 import { useWatcher } from '../../hooks/useWatcher';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -82,7 +83,6 @@ export const SessionsList = ({
 	const initialId = useUpdatingRef(groupIdFromParam || sessionIdFromParam);
 
 	const rcUid = useRef(getValueFromCookie('rc_uid'));
-	const location = useLocation();
 	const listRef = createRef<HTMLDivElement>();
 
 	const { sessions, dispatch } = useContext(SessionsDataContext);
@@ -97,25 +97,7 @@ export const SessionsList = ({
 		typeof INITIAL_FILTER | typeof FILTER_FEEDBACK
 	>(INITIAL_FILTER);
 
-	const [sessionListTab, setSessionListTab] = useState<SESSION_LIST_TAB>(
-		new URLSearchParams(location.search).get(
-			'sessionListTab'
-		) as SESSION_LIST_TAB
-	);
-
-	useEffect(() => {
-		setSessionListTab((sessionListTab) => {
-			const newSessionListTab = new URLSearchParams(location.search).get(
-				'sessionListTab'
-			) as SESSION_LIST_TAB;
-
-			if (sessionListTab === newSessionListTab) {
-				return sessionListTab;
-			}
-
-			return newSessionListTab;
-		});
-	}, [location]);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	const [isLoading, setIsLoading] = useState(true);
 	const { userData } = useContext(UserDataContext);
@@ -389,10 +371,12 @@ export const SessionsList = ({
 					} else {
 						// Keep last event because insert/update is equal
 						// only removed is different
-						acc.splice(index, 1, room);
+						acc.splice(index, 1, [event, room]);
 					}
 					return acc;
 				}, []);
+
+			if (roomEvents.length === 0) return;
 
 			handleRIDs(roomEvents.map(([, room]) => room._id));
 		},
@@ -417,10 +401,12 @@ export const SessionsList = ({
 					} else {
 						// Keep last event because insert/update is equal
 						// only removed is different
-						acc.splice(index, 1, subscription);
+						acc.splice(index, 1, [event, subscription]);
 					}
 					return acc;
 				}, []);
+
+			if (subscriptionEvents.length === 0) return;
 
 			handleRIDs(
 				subscriptionEvents.map(([, subscription]) => subscription.rid)
@@ -768,7 +754,6 @@ export const SessionsList = ({
 											groupIdFromParam
 										).item.id
 									}
-									type={type}
 									session={buildExtendedSession(
 										item,
 										groupIdFromParam
@@ -826,7 +811,7 @@ const useGroupWatcher = (isLoading: boolean) => {
 
 	const refreshInactiveGroupSessions = useCallback(() => {
 		const inactiveGroupSessionIds = sessions
-			.filter((s) => !!s.chat && !s.chat.active)
+			.filter((s) => !!s.chat && !s.chat.subscribed)
 			.map((s) => s.chat.groupId);
 
 		if (inactiveGroupSessionIds.length <= 0) {
@@ -837,7 +822,9 @@ const useGroupWatcher = (isLoading: boolean) => {
 			({ sessions }) => {
 				dispatch({
 					type: UPDATE_SESSIONS,
-					sessions: sessions.filter((s) => !!s.chat && s.chat.active)
+					sessions: sessions.filter(
+						(s) => !!s.chat && s.chat.subscribed
+					)
 				});
 			}
 		);

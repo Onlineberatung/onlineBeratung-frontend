@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import { translate } from '../../utils/translate';
-import { getSessionListPathForLocation } from '../session/sessionHelpers';
+import {
+	getSessionListPathForLocation,
+	SESSION_LIST_TAB
+} from '../session/sessionHelpers';
 import { Checkbox } from '../checkbox/Checkbox';
 import { Button } from '../button/Button';
 import { apiUpdateMonitoring, apiGetMonitoring } from '../../api';
@@ -12,26 +15,20 @@ import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/check
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import './monitoring.styles';
 import '../profile/profile.styles';
-import {
-	ExtendedSessionInterface,
-	getExtendedSession,
-	SessionsDataContext
-} from '../../globalState';
+import { history } from '../app/app';
 import { Loading } from '../app/Loading';
+import { useSession } from '../../hooks/useSession';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 export const Monitoring = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
-	const { sessions, ready } = useContext(SessionsDataContext);
+	const { session: activeSession, ready } = useSession(groupIdFromParam);
 
-	const [activeSession, setActiveSession] =
-		useState<ExtendedSessionInterface | null>(null);
 	const [resort, setResort] = useState(null);
 	const [accordionOpened, setAccordionOpened] = useState<any[]>([]);
 	const [monitoringData, setMonitoringData] = useState({});
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	let backLinkRef: React.RefObject<Link> = React.createRef();
 
@@ -40,13 +37,14 @@ export const Monitoring = () => {
 			return;
 		}
 
-		const activeSession = getExtendedSession(groupIdFromParam, sessions);
 		if (!activeSession) {
-			// ToDo: Handle error
+			history.push(
+				getSessionListPathForLocation() +
+					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+			);
 			return;
 		}
 
-		setActiveSession(activeSession);
 		setResort(
 			activeSession.item?.consultingType === 0
 				? 'monitoringAddiction'
@@ -58,7 +56,7 @@ export const Monitoring = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [groupIdFromParam, ready, sessions]);
+	}, [activeSession, groupIdFromParam, ready, sessionListTab]);
 
 	const handleChange = (key, parentKey) => {
 		const checkObj = (obj, k, prevk) => {

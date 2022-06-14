@@ -1,21 +1,12 @@
 import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
-import {
-	Link,
-	Redirect,
-	useLocation,
-	useParams,
-	RouteComponentProps
-} from 'react-router-dom';
-import {
-	UserDataContext,
-	SessionsDataContext,
-	ExtendedSessionInterface,
-	getExtendedSession
-} from '../../globalState';
+import { Link, Redirect, useParams } from 'react-router-dom';
+import { UserDataContext } from '../../globalState';
+import { history } from '../app/app';
 import {
 	getSessionListPathForLocation,
-	isUserModerator
+	isUserModerator,
+	SESSION_LIST_TAB
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -55,6 +46,8 @@ import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { BanUser } from '../banUser/BanUser';
 import { useResponsive } from '../../hooks/useResponsive';
 import { Tag } from '../tag/Tag';
+import { useSession } from '../../hooks/useSession';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
@@ -62,24 +55,23 @@ const stopChatButtonSet: ButtonItem = {
 	type: BUTTON_TYPES.PRIMARY
 };
 
-export const GroupChatInfo = (props: RouteComponentProps) => {
+export const GroupChatInfo = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
-	const { sessions, ready } = useContext(SessionsDataContext);
+
 	const [subscriberList, setSubscriberList] = useState(null);
-	const [activeSession, setActiveSession] =
-		useState<ExtendedSessionInterface | null>(null);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
+
+	const { session: activeSession, ready } = useSession(groupIdFromParam);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
+
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
-	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
 
 	const { fromL } = useResponsive();
 	useEffect(() => {
@@ -97,13 +89,13 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 			return;
 		}
 
-		const activeSession = getExtendedSession(groupIdFromParam, sessions);
 		if (!activeSession) {
-			// ToDo: Handle error
+			history.push(
+				getSessionListPathForLocation() +
+					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+			);
 			return;
 		}
-
-		setActiveSession(activeSession);
 
 		if (activeSession.item.active) {
 			apiGetGroupMembers(activeSession.item.id)
@@ -130,7 +122,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 				}
 			});
 		}
-	}, [groupIdFromParam, ready, sessions]);
+	}, [activeSession, groupIdFromParam, ready, sessionListTab]);
 
 	const handleStopGroupChatButton = () => {
 		setOverlayItem(stopGroupChatSecurityOverlayItem);

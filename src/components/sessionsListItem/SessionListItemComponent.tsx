@@ -10,6 +10,7 @@ import {
 } from '../../utils/dateHelpers';
 import {
 	getSessionListPathForLocation,
+	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
@@ -33,9 +34,9 @@ import { SessionListItemAttachment } from './SessionListItemAttachment';
 import clsx from 'clsx';
 import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 interface SessionListItemProps {
-	type: SESSION_LIST_TYPES;
 	session: ExtendedSessionInterface;
 	defaultLanguage: string;
 }
@@ -47,9 +48,7 @@ export const SessionListItemComponent = ({
 	const { sessionId, rcGroupId: groupIdFromParam } = useParams();
 	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
 
-	const sessionListTab = new URLSearchParams(useLocation().search).get(
-		'sessionListTab'
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { userData } = useContext(UserDataContext);

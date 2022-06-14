@@ -180,7 +180,7 @@ export const MessageSubmitInterfaceComponent = (
 	const attachmentInputRef = React.useRef<HTMLInputElement>(null);
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const { type } = useContext(SessionTypeContext);
 
 	const isTypingActive = activeSession.isGroup || activeSession.isLive;
