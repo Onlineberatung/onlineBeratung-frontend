@@ -6,7 +6,7 @@ import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { config } from '../../resources/scripts/config';
 import { generateCsrfToken } from '../../utils/generateCsrfToken';
 import {
-	createAndLoadKeys,
+	createAndStoreKeys,
 	decryptPrivateKey,
 	deriveMasterKeyFromPassword,
 	encodeUsername,
@@ -14,7 +14,7 @@ import {
 	encryptPrivateKey,
 	getTmpMasterKey,
 	importRawEncryptionKey,
-	loadKeys,
+	storeKeys,
 	readMasterKeyFromLocalStorage,
 	writeMasterKeyToLocalStorage
 } from '../../utils/encryptionHelpers';
@@ -145,11 +145,11 @@ export const handleE2EESetup = (
 					encryptedPrivateKey,
 					masterKey
 				);
-				await loadKeys(privateKey, publicKey);
+				storeKeys(privateKey, publicKey);
 				await writeMasterKeyToLocalStorage(masterKey, rcUserId);
 			} catch (error) {
 				const persistedArrayBuffer =
-					await readMasterKeyFromLocalStorage(rcUserId);
+					readMasterKeyFromLocalStorage(rcUserId);
 
 				if (!persistedArrayBuffer) {
 					console.error('master key not persisted - reset e2e key');
@@ -170,7 +170,7 @@ export const handleE2EESetup = (
 						encryptedPrivateKey,
 						persistedMasterKey
 					);
-					await loadKeys(privateKey, publicKey);
+					storeKeys(privateKey, publicKey);
 
 					try {
 						await apiRocketChatSetUserKeys(
@@ -190,7 +190,7 @@ export const handleE2EESetup = (
 		if (!encryptedPrivateKey) {
 			// create a new key pair
 			const { publicKey: pub, privateKey: priv } =
-				await createAndLoadKeys();
+				await createAndStoreKeys();
 			publicKey = pub;
 			privateKey = priv;
 			// store with rocket chat and in session
