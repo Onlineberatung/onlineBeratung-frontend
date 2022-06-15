@@ -199,22 +199,19 @@ describe('profile', () => {
 			cy.contains('E-Mail Benachrichtigung');
 			cy.get('.notifications__content .mr--1 input').should(
 				'have.attr',
-				'aria-checked',
-				'true'
+				'aria-checked'
+			);
+
+			cy.get('.notifications__content .mr--1').click();
+			cy.get('.notifications__content .mr--1 input').should(
+				'not.have.attr',
+				'aria-checked'
 			);
 
 			cy.get('.notifications__content .mr--1').click();
 			cy.get('.notifications__content .mr--1 input').should(
 				'have.attr',
-				'aria-checked',
-				'false'
-			);
-
-			cy.get('.notifications__content .mr--1').click();
-			cy.get('.notifications__content .mr--1 input').should(
-				'have.attr',
-				'aria-checked',
-				'true'
+				'aria-checked'
 			);
 		});
 	});

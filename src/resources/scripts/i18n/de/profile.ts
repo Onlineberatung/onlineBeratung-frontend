@@ -138,7 +138,7 @@ const profile = {
 	'unsetEmail.successOverlay.button': 'ok',
 	'notifications.title': 'E-Mail Benachrichtigung',
 	'notifications.subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
-	'notifications.label':
+	'notifications.follow.up.email.label':
 		'Nachricht von einem_r angenommenen Ratsuchenden erhalten'
 };
 

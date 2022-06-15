@@ -1,39 +1,27 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import Switch from 'react-switch';
 import { UserDataContext } from '../../globalState';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
+import { emails } from '../../resources/scripts/config';
 
 export const ConsultantNotifications = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
-	const [isFollowUpMessagesActivated, setIsFollowUpMessagesActivated] =
-		useState(false);
 
-	useEffect(() => {
-		userData.emailToggles.forEach((toggle) => {
-			if (toggle.name === 'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER') {
-				setIsFollowUpMessagesActivated(toggle.state);
-			}
-		});
-	}, [userData.emailToggles]);
-
-	const toogleSwitch = () => {
+	const toogleSwitch = (types) => {
 		const updatedUserData = { ...userData };
-		updatedUserData.emailToggles.forEach((toggle) => {
-			if (
-				toggle.name === 'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER' ||
-				toggle.name === 'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER'
-			) {
-				toggle.state = !toggle.state;
-			}
+		types.forEach((type) => {
+			updatedUserData.emailToggles.forEach((toggle) => {
+				if (toggle.name === type) {
+					toggle.state = !toggle.state;
+				}
+			});
 		});
-
 		apiPatchUserData(updatedUserData)
 			.then(() => {
-				setIsFollowUpMessagesActivated(!isFollowUpMessagesActivated);
 				setUserData(updatedUserData);
 			})
 			.catch((error) => {
@@ -43,25 +31,29 @@ export const ConsultantNotifications = () => {
 
 	return (
 		<div className="notifications__content">
-			{userData.emailToggles.length > 0 && (
-				<>
-					<div className="profile__content__title">
-						<Headline
-							text={translate('profile.notifications.title')}
-							semanticLevel="5"
-						/>
-						<Text
-							text={translate('profile.notifications.subtitle')}
-							type="standard"
-							className="tertiary"
-						/>
-					</div>
-
-					<div className="flex">
+			<div className="profile__content__title">
+				<Headline
+					text={translate('profile.notifications.title')}
+					semanticLevel="5"
+				/>
+				<Text
+					text={translate('profile.notifications.subtitle')}
+					type="standard"
+					className="tertiary"
+				/>
+			</div>
+			{emails.notifications.map((notification, index) => {
+				return (
+					<div className="flex" key={index}>
 						<Switch
 							className="mr--1"
-							onChange={() => toogleSwitch()}
-							checked={isFollowUpMessagesActivated}
+							onChange={() => toogleSwitch(notification.types)}
+							checked={userData.emailToggles.find((toggle) => {
+								if (toggle.name === notification.types[0]) {
+									return toggle.state;
+								}
+								return false;
+							})}
 							uncheckedIcon={false}
 							checkedIcon={false}
 							width={48}
@@ -72,13 +64,10 @@ export const ConsultantNotifications = () => {
 							handleDiameter={27}
 							activeBoxShadow="none"
 						/>
-						<Text
-							text={translate('profile.notifications.label')}
-							type="standard"
-						/>
+						<Text text={notification.label} type="standard" />
 					</div>
-				</>
-			)}
+				);
+			})}
 		</div>
 	);
 };
