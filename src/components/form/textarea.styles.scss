@@ -24,14 +24,6 @@
 		outline: 0;
 		box-shadow: $input-field-box-shadow;
 
-		@media (max-width: 1320px) and (min-width: 900px) {
-			padding: $grid-base-six $grid-base-three 0;
-		}
-
-		@media (max-width: 612px) {
-			padding: $grid-base-six $grid-base-three 0;
-		}
-
 		&:hover {
 			border: 1px solid $form-active;
 		}
