@@ -12,6 +12,11 @@ const session = {
 		'Sie haben die Beratung erfolgreich angenommen. Sie wurde in Meine Nachrichten verschoben.',
 	'assignSelf.button1.label': 'Antworten',
 	'assignSelf.button2.label': 'Schließen',
+	'assignSelf.overlay.headline': 'Beratung zuweisen',
+	'assignSelf.overlay.subtitle':
+		'Möchten Sie diese Beratung wirklich zuweisen?',
+	'assignSelf.overlay.button.cancel': 'Abbruch',
+	'assignSelf.overlay.button.assign': 'Zuweisen',
 	'consultant.prefix': 'Berater_in - ',
 	'divider.lastRead': 'Zuletzt gelesen',
 	'empty': 'Bitte wählen Sie eine Nachricht aus.',
