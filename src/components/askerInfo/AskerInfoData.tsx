@@ -15,7 +15,7 @@ import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 export const AskerInfoData = () => {
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 

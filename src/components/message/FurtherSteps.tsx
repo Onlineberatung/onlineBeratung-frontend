@@ -54,7 +54,7 @@ interface FurtherStepsProps {
 }
 
 export const FurtherSteps = (props: FurtherStepsProps) => {
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);

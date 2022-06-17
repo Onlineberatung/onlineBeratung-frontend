@@ -250,7 +250,7 @@ export function RocketChatProvider(props) {
 					msg: MSG_METHOD,
 					method: method,
 					id: uuid(),
-					...(params ? params : {})
+					...(params ? { params } : {})
 				},
 				resultListener
 			);

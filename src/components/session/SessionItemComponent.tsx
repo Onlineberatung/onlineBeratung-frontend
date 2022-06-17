@@ -16,7 +16,8 @@ import {
 	typeIsEnquiry,
 	scrollToEnd,
 	isMyMessage,
-	SESSION_LIST_TYPES
+	SESSION_LIST_TYPES,
+	SESSION_LIST_TAB
 } from './sessionHelpers';
 import {
 	MessageItem,
@@ -74,6 +75,7 @@ import {
 } from '../../api/apiSendAliasMessage';
 import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 interface SessionItemProps {
 	isAnonymousEnquiry?: boolean;
@@ -90,7 +92,7 @@ let initMessageCount: number;
 export const SessionItemComponent = (props: SessionItemProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
 
@@ -108,9 +110,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const dragCancelRef = useRef<NodeJS.Timeout>();
 	const [newMessages, setNewMessages] = useState(0);
 	const [headerRef, headerBounds] = useMeasure();
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 

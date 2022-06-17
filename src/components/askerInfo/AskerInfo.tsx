@@ -1,20 +1,20 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import { AskerInfoMonitoring } from './AskerInfoMonitoring';
 import {
 	getSessionListPathForLocation,
+	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import {
 	AUTHORITIES,
-	getExtendedSession,
 	hasUserAuthority,
-	SessionsDataContext,
 	SessionTypeContext,
 	UserDataContext
 } from '../../globalState';
+import { history } from '../app/app';
 import { Loading } from '../app/Loading';
 import { AskerInfoData } from './AskerInfoData';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
@@ -23,34 +23,35 @@ import { AskerInfoAssign } from './AskerInfoAssign';
 import '../profile/profile.styles';
 import './askerInfo.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { useSearchParam } from '../../hooks/useSearchParams';
+import { useSession } from '../../hooks/useSession';
 
 export const AskerInfo = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
-	const { sessions, ready } = useContext(SessionsDataContext);
 	const { type } = useContext(SessionTypeContext);
 
-	const [activeSession, setActiveSession] = useState(null);
+	const { session: activeSession, ready } = useSession(groupIdFromParam);
 	const [isPeerChat, setIsPeerChat] = useState(false);
 
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	useEffect(() => {
 		if (!ready) {
 			return;
 		}
 
-		const activeSession = getExtendedSession(groupIdFromParam, sessions);
 		if (!activeSession) {
-			// ToDo: Handle error
+			history.push(
+				getSessionListPathForLocation() +
+					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+			);
 			return;
 		}
-		setActiveSession(activeSession);
+
 		setIsPeerChat(activeSession.item.isPeerChat);
-	}, [groupIdFromParam, ready, sessions]);
+	}, [activeSession, groupIdFromParam, ready, sessionListTab]);
 
 	const isSessionAssignAvailable = useCallback(
 		() =>
@@ -74,13 +75,7 @@ export const AskerInfo = () => {
 								AUTHORITIES.ASSIGN_CONSULTANT_TO_SESSION,
 								userData
 							))))),
-		[
-			activeSession.isGroup,
-			activeSession.isLive,
-			isPeerChat,
-			type,
-			userData
-		]
+		[activeSession, isPeerChat, type, userData]
 	);
 
 	if (!activeSession) {
@@ -88,7 +83,7 @@ export const AskerInfo = () => {
 	}
 
 	return (
-		<ActiveSessionContext.Provider value={activeSession}>
+		<ActiveSessionContext.Provider value={{ activeSession }}>
 			<div className="profile__wrapper">
 				<div className="profile__header">
 					<div className="profile__header__wrapper">

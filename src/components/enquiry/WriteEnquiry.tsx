@@ -302,7 +302,7 @@ export const WriteEnquiry: React.FC = () => {
 					/>
 				)}
 			</div>
-			<ActiveSessionContext.Provider value={activeSession}>
+			<ActiveSessionContext.Provider value={{ activeSession }}>
 				<MessageSubmitInterfaceComponent
 					handleSendButton={handleSendButton}
 					placeholder={translate('enquiry.write.input.placeholder')}
