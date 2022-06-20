@@ -32,6 +32,12 @@ const defaultReturns = {
 	consultingTypes: [],
 	releases: {
 		statusCode: 404
+	},
+	sessionRooms: {
+		statusCode: 200,
+		body: {
+			sessions: []
+		}
 	}
 };
 
@@ -87,6 +93,10 @@ Cypress.Commands.add('mockApi', () => {
 				})
 			);
 		});
+	});
+
+	cy.fixture('service.users.sessions.room.json').then((session) => {
+		defaultReturns['sessionRooms'].body.sessions.push(session);
 	});
 
 	cy.fixture('auth.token').then((auth) => {
@@ -283,6 +293,22 @@ Cypress.Commands.add('mockApi', () => {
 			success: true
 		});
 	}).as('resetE2EKey');
+
+	cy.intercept('PUT', '/service/users/chat/e2e', {
+		statusCode: 200
+	});
+
+	cy.intercept('GET', config.endpoints.sessionRooms, (req) => {
+		const data = { ...defaultReturns['sessionRooms'] };
+		data.body.sessions[0].session = {
+			...data.body.sessions[0].session,
+			...overrides['sessionRooms']
+		};
+
+		console.log(overrides['sessionRooms']);
+
+		req.reply(data);
+	}).as('sessionRooms');
 });
 
 Cypress.Commands.add(
