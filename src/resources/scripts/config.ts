@@ -1,3 +1,5 @@
+import { translate } from '../../utils/translate';
+
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 
@@ -109,4 +111,16 @@ export const config = {
 		 */
 		enableEncodedTransformSupport: false
 	}
+};
+
+export const emails = {
+	notifications: [
+		{
+			label: translate('profile.notifications.follow.up.email.label'),
+			types: [
+				'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
+				'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER'
+			]
+		}
+	]
 };
