@@ -19,7 +19,7 @@ interface MessageMetaDataProps {
 
 export const MessageMetaData = (props: MessageMetaDataProps) => {
 	const { userData } = useContext(UserDataContext);
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 
 	const isReadStatus = () => {
 		if (

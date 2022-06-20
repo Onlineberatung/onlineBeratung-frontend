@@ -27,6 +27,7 @@ import {
 } from '../../globalState';
 import {
 	getSessionListPathForLocation,
+	SESSION_LIST_TAB,
 	SESSION_LIST_TAB_ARCHIVE,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
@@ -76,6 +77,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { Text } from '../text/Text';
 import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
 import { decodeUsername } from '../../utils/encryptionHelpers';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -89,45 +91,39 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 
 	const [overlayItem, setOverlayItem] = useState(null);
+	const [flyoutOpen, setFlyoutOpen] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
-	const handleFlyout = () => {
-		const dropdown = document.querySelector('.sessionMenu__content');
-		dropdown.classList.toggle('sessionMenu__content--open');
-	};
+	const handleClick = useCallback(
+		(e) => {
+			const menuIconH = document.getElementById('iconH');
+			const menuIconV = document.getElementById('iconV');
+			const flyoutMenu = document.getElementById('flyout');
 
-	const handleClick = useCallback((e) => {
-		const menuIconH = document.getElementById('iconH');
-		const menuIconV = document.getElementById('iconV');
-		const flyoutMenu = document.getElementById('flyout');
-
-		const dropdown = document.querySelector('.sessionMenu__content');
-		if (
-			dropdown &&
-			dropdown.classList.contains('sessionMenu__content--open')
-		) {
-			if (
-				!menuIconH.contains(e.target) &&
-				!menuIconV.contains(e.target)
-			) {
-				if (flyoutMenu && !flyoutMenu.contains(e.target)) {
-					handleFlyout();
+			const dropdown = document.querySelector('.sessionMenu__content');
+			if (dropdown && flyoutOpen) {
+				if (
+					!menuIconH.contains(e.target) &&
+					!menuIconV.contains(e.target)
+				) {
+					if (flyoutMenu && !flyoutMenu.contains(e.target)) {
+						setFlyoutOpen(!flyoutOpen);
+					}
 				}
 			}
-		}
-	}, []);
+		},
+		[flyoutOpen]
+	);
 
 	useEffect(() => {
 		document.addEventListener('mousedown', (e) => handleClick(e));
@@ -184,17 +180,19 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const handleDearchiveSession = () => {
 		apiPutDearchive(activeSession.item.id)
 			.then(() => {
-				if (window.innerWidth >= 900) {
-					console.log('DEARCHIVE');
-					history.push(
-						`${getSessionListPathForLocation()}/${
-							activeSession.item.groupId
-						}/${activeSession.item.id}}`
-					);
-				} else {
-					mobileListView();
-					history.push(getSessionListPathForLocation());
-				}
+				setTimeout(() => {
+					if (window.innerWidth >= 900) {
+						history.push(
+							`${getSessionListPathForLocation()}/${
+								activeSession.item.groupId
+							}/${activeSession.item.id}}`
+						);
+					} else {
+						mobileListView();
+						history.push(getSessionListPathForLocation());
+					}
+					setFlyoutOpen(false);
+				}, 500);
 			})
 			.catch((error) => {
 				console.error(error);
@@ -289,6 +287,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					setOverlayActive(false);
 					setOverlayItem(null);
 					setIsRequestInProgress(false);
+					setFlyoutOpen(false);
 				});
 		} else if (buttonFunction === 'GOTO_MANUAL') {
 			history.push('/profile/hilfe/videoCall');
@@ -446,20 +445,25 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 			<span
 				id="iconH"
-				onClick={handleFlyout}
+				onClick={() => setFlyoutOpen(!flyoutOpen)}
 				className="sessionMenu__icon sessionMenu__icon--desktop"
 			>
 				<MenuHorizontalIcon />
 			</span>
 			<span
 				id="iconV"
-				onClick={handleFlyout}
+				onClick={() => setFlyoutOpen(!flyoutOpen)}
 				className="sessionMenu__icon sessionMenu__icon--mobile"
 			>
 				<MenuVerticalIcon />
 			</span>
 
-			<div id="flyout" className="sessionMenu__content">
+			<div
+				id="flyout"
+				className={`sessionMenu__content ${
+					flyoutOpen && 'sessionMenu__content--open'
+				}`}
+			>
 				{activeSession.isLive &&
 					activeSession.item.status !== STATUS_FINISHED &&
 					type !== SESSION_LIST_TYPES.ENQUIRY && (

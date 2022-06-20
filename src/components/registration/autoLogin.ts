@@ -212,7 +212,7 @@ export const handleE2EESetup = (
 		} catch (e) {
 			console.log('Update E2E Keys in BE failed, trying FE');
 			// FE Fallback
-			updateUserE2EKeysFallback(rcUserId);
+			await updateUserE2EKeysFallback(rcUserId);
 		}
 
 		resolve(undefined);

@@ -22,7 +22,8 @@ import {
 	getTypeOfLocation,
 	getSessionListPathForLocation,
 	typeIsEnquiry,
-	isUserModerator
+	isUserModerator,
+	SESSION_LIST_TAB
 } from '../session/sessionHelpers';
 import { SessionMenu } from '../sessionMenu/SessionMenu';
 import {
@@ -40,6 +41,7 @@ import { BanUser } from '../banUser/BanUser';
 import { Tag } from '../tag/Tag';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
@@ -50,7 +52,7 @@ export interface SessionHeaderProps {
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 	const [flyoutOpenId, setFlyoutOpenId] = useState('');
@@ -76,9 +78,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 
 	const [isSubscriberFlyoutOpen, setIsSubscriberFlyoutOpen] = useState(false);
 	const [subscriberList, setSubscriberList] = useState([]);
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const sessionListType = getTypeOfLocation();

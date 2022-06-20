@@ -210,19 +210,23 @@ export const RouterConfigConsultant = (): any => {
 		userProfileRoutes: [
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/userProfile',
-				component: AskerInfo
+				component: AskerInfo,
+				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile',
-				component: AskerInfo
+				component: AskerInfo,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring
+				component: Monitoring,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
-				component: GroupChatInfo
+				component: GroupChatInfo,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			}
 		],
 		profileRoutes: [
@@ -369,31 +373,38 @@ export const RouterConfigTeamConsultant = (): any => {
 		userProfileRoutes: [
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/userProfile',
-				component: AskerInfo
+				component: AskerInfo,
+				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile',
-				component: AskerInfo
+				component: AskerInfo,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring
+				component: Monitoring,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
-				component: GroupChatInfo
+				component: GroupChatInfo,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile',
-				component: AskerInfo
+				component: AskerInfo,
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring
+				component: Monitoring,
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/groupChatInfo',
-				component: GroupChatInfo
+				component: GroupChatInfo,
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			}
 		],
 		profileRoutes: [

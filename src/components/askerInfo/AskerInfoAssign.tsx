@@ -11,7 +11,7 @@ import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 export const AskerInfoAssign = () => {
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 
 	return (

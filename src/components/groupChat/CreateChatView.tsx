@@ -40,7 +40,10 @@ import {
 	chatLinkData,
 	apiUpdateGroupChat
 } from '../../api';
-import { getSessionListPathForLocation } from '../session/sessionHelpers';
+import {
+	getSessionListPathForLocation,
+	SESSION_LIST_TAB
+} from '../session/sessionHelpers';
 import { getChatDate } from '../session/sessionDateHelpers';
 import { updateChatSuccessOverlayItem } from './groupChatHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
@@ -49,6 +52,7 @@ import '../datepicker/datepicker.styles';
 import './createChat.styles';
 import { useResponsive } from '../../hooks/useResponsive';
 import { apiGetSessionRooms } from '../../api/apiGetSessionRooms';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 registerLocale('de', de);
 
@@ -78,9 +82,8 @@ export const CreateGroupChatView = (props) => {
 	const prevPathIsGroupChatInfo =
 		props.location.state && props.location.state.prevIsInfoPage;
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
+
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 

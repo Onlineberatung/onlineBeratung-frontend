@@ -1,5 +1,7 @@
 import { createContext } from 'react';
 import { ExtendedSessionInterface } from '..';
 
-export const ActiveSessionContext =
-	createContext<ExtendedSessionInterface | null>(null);
+export const ActiveSessionContext = createContext<{
+	activeSession: ExtendedSessionInterface | null;
+	reloadActiveSession?: () => void;
+}>(null);

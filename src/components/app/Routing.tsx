@@ -181,13 +181,20 @@ export const Routing = (props: RoutingProps) => {
 																		render={(
 																			props
 																		) => (
-																			<route.component
-																				{...props}
+																			<SessionTypeProvider
 																				type={
 																					route.type ||
 																					null
 																				}
-																			/>
+																			>
+																				<route.component
+																					{...props}
+																					type={
+																						route.type ||
+																						null
+																					}
+																				/>
+																			</SessionTypeProvider>
 																		)}
 																	/>
 																)

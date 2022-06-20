@@ -10,6 +10,7 @@ import {
 } from '../monitoring/MonitoringHelper';
 import {
 	getSessionListPathForLocation,
+	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import { Link, useLocation } from 'react-router-dom';
@@ -18,6 +19,7 @@ import { ReactComponent as EditIcon } from '../../resources/img/icons/pen.svg';
 import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { SessionTypeContext } from '../../globalState';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 const buttonSet: ButtonItem = {
 	label: translate('userProfile.monitoring.buttonLabel'),
@@ -26,12 +28,10 @@ const buttonSet: ButtonItem = {
 };
 
 export const AskerInfoMonitoring = () => {
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const { type } = useContext(SessionTypeContext);
 	const [monitoringData, setMonitoringData] = useState({});
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	useEffect(() => {
 		apiGetMonitoring(activeSession.item.id)

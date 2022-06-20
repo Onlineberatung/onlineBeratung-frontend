@@ -28,10 +28,14 @@ import {
 	SelectDropdown,
 	SelectOption
 } from '../select/SelectDropdown';
-import { getSessionListPathForLocation } from '../session/sessionHelpers';
+import {
+	getSessionListPathForLocation,
+	SESSION_LIST_TAB
+} from '../session/sessionHelpers';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 export interface Consultant {
@@ -41,16 +45,14 @@ export interface Consultant {
 }
 
 export const SessionAssign = (props: { value?: string }) => {
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { consultantList, setConsultantList } = useContext(
 		ConsultantListContext
 	);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState({});
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 

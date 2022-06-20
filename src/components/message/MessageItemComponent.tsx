@@ -112,7 +112,7 @@ export const MessageItemComponent = ({
 	t,
 	rid
 }: MessageItemComponentProps) => {
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
 
