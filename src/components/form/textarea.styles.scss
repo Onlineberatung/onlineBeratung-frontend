@@ -17,7 +17,7 @@
 
 	textarea {
 		min-height: 100px;
-		padding: $grid-base-three $grid-base-three 0;
+		padding: $grid-base-four $grid-base-three 0;
 		color: $form-secondary;
 		border: 1px solid $form-primary;
 		border-radius: $input-field-border-radius;
@@ -49,6 +49,8 @@
 			font-size: 12px;
 			top: 3px;
 			transition: font-size 0.5s, top 0.5s;
+			line-height: $grid-base-two;
+			padding-top: $grid-base;
 		}
 	}
 
