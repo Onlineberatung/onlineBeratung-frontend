@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"@babel/core": "^7.16.7",
+		"@calcom/embed-snippet": "^1.0.1",
 		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
 		"@stomp/stompjs": "6.1.0",
 		"@svgr/webpack": "^6.2.0",
