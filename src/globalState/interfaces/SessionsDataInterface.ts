@@ -72,6 +72,7 @@ export interface SessionItemInterface {
 		msg: string;
 	};
 	lastMessage?: string;
+	lastMessageType?: string;
 	messageDate: number;
 	createDate: string;
 	messagesRead: boolean;
@@ -100,6 +101,7 @@ export interface GroupChatItemInterface {
 	groupId: string;
 	id: number;
 	lastMessage: string;
+	lastMessageType?: string;
 	e2eLastMessage: {
 		t: string;
 		msg: string;

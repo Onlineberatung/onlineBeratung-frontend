@@ -35,6 +35,7 @@ import clsx from 'clsx';
 import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { SessionListItemLastMessage } from './SessionListItemLastMessage';
 
 interface SessionListItemProps {
 	session: ExtendedSessionInterface;
@@ -196,11 +197,13 @@ export const SessionListItemComponent = ({
 						</div>
 					</div>
 					<div className="sessionsListItem__row">
-						<div className="sessionsListItem__subject">
-							{plainTextLastMessage
-								? plainTextLastMessage
-								: defaultSubjectText}
-						</div>
+						<SessionListItemLastMessage
+							lastMessage={
+								plainTextLastMessage
+									? plainTextLastMessage
+									: defaultSubjectText
+							}
+						/>
 						{session.item.attachment && (
 							<SessionListItemAttachment
 								attachment={session.item.attachment}
@@ -297,25 +300,17 @@ export const SessionListItemComponent = ({
 					</div>
 				</div>
 				<div className="sessionsListItem__row">
-					{plainTextLastMessage ? (
-						<div className="sessionsListItem__subject">
-							{session.isEnquiry &&
-							!session.isEmptyEnquiry &&
-							language ? (
-								<>
-									<span>
-										{/* we need a &nbsp; here, to ensure correct spacing for long messages */}
-										{language.toUpperCase()} |&nbsp;
-									</span>
-									{plainTextLastMessage}
-								</>
-							) : (
-								plainTextLastMessage
-							)}
-						</div>
-					) : (
-						(session.isEmptyEnquiry || session.isLive) && <span />
-					)}
+					<SessionListItemLastMessage
+						lastMessage={plainTextLastMessage}
+						lastMessageType={session.item.lastMessageType}
+						language={language}
+						showLanguage={
+							language &&
+							session.isEnquiry &&
+							!session.isEmptyEnquiry
+						}
+						showSpan={session.isEmptyEnquiry || session.isLive}
+					/>
 					{session.item.attachment && (
 						<SessionListItemAttachment
 							attachment={session.item.attachment}

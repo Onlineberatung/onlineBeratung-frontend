@@ -1,3 +1,5 @@
+import { translate } from '../../utils/translate';
+
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 
@@ -138,4 +140,9 @@ export const config = {
 		 */
 		enableEncodedTransformSupport: false
 	}
+};
+
+export const ALIAS_LAST_MESSAGES = {
+	E2EE_ACTIVATED: translate('aliases.lastMessage.e2ee_activated'),
+	FURTHER_STEPS: translate('aliases.lastMessage.further_steps')
 };
