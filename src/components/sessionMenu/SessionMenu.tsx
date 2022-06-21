@@ -8,13 +8,7 @@ import {
 } from 'react';
 import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
-import {
-	generatePath,
-	Link,
-	Redirect,
-	useLocation,
-	useParams
-} from 'react-router-dom';
+import { generatePath, Link, Redirect, useParams } from 'react-router-dom';
 import {
 	AUTHORITIES,
 	ExtendedSessionInterface,

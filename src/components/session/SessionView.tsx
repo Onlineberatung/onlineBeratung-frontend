@@ -382,7 +382,8 @@ export const SessionView = (props: RouterProps) => {
 		unsubscribe,
 		subscribeTyping,
 		unsubscribeTyping,
-		userData
+		userData,
+		isLoading
 	]);
 
 	const handleOverlayAction = (buttonFunction: string) => {

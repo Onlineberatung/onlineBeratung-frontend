@@ -13,7 +13,7 @@ import {
 	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { apiGetMonitoring } from '../../api';
 import { ReactComponent as EditIcon } from '../../resources/img/icons/pen.svg';
 import { Text } from '../text/Text';
