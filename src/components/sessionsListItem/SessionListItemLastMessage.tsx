@@ -1,5 +1,6 @@
 import React from 'react';
 import { ALIAS_LAST_MESSAGES } from '../../resources/scripts/config';
+import { translate } from '../../utils/translate';
 
 interface SessionListItemLastMessageProps {
 	showSpan?: boolean;
@@ -32,7 +33,7 @@ export const SessionListItemLastMessage: React.FC<SessionListItemLastMessageProp
 				}`}
 			>
 				{showLanguage && language && languageAddOn}
-				{aliasMessage ? aliasMessage : lastMessage}
+				{aliasMessage ? translate(aliasMessage) : lastMessage}
 			</div>
 		);
 	};
