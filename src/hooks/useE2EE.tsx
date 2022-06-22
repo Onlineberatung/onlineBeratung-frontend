@@ -32,45 +32,11 @@ export const useE2EE = (rid: string): UseE2EEParams => {
 	const keyIdRef = useRef(null);
 	const sessionKeyExportedStringRef = useRef(null);
 
-	// If hook is used search for members without key and set it
-	const updateRoomKeysIfNecessary = useCallback(async () => {
+	const addNewUsersToEncryptedRoom = useCallback(async () => {
 		if (!keyID || !sessionKeyExportedString || !rid) {
 			return;
 		}
 
-		const { members } = await apiRocketChatGroupMembers(rid);
-		apiRocketChatGetUsersOfRoomWithoutKey(rid).then(({ users }) => {
-			return Promise.all(
-				users
-					.filter((user) => {
-						const member = members.find((m) => m._id === user._id);
-						return (
-							member?.username !== 'System' &&
-							member?.username.indexOf('enc.') === 0
-						);
-					})
-					.map(async (user) => {
-						const userKey = await encryptForParticipant(
-							user.e2e.public_key,
-							keyID,
-							sessionKeyExportedString
-						);
-
-						return apiRocketChatUpdateGroupKey(
-							user._id,
-							rid,
-							userKey
-						);
-					})
-			);
-		});
-	}, [keyID, rid, sessionKeyExportedString]);
-
-	useEffect(() => {
-		updateRoomKeysIfNecessary();
-	}, [updateRoomKeysIfNecessary, keyID, rid, sessionKeyExportedString]);
-
-	const addNewUsersToEncryptedRoom = useCallback(async () => {
 		const { members } = await apiRocketChatGroupMembers(rid);
 		const filteredMembers = members
 			// Filter system user and users with unencrypted username (Maybe more system users)
@@ -81,36 +47,33 @@ export const useE2EE = (rid: string): UseE2EEParams => {
 			);
 
 		const { users } = await apiRocketChatGetUsersOfRoomWithoutKey(rid);
+		if (!users) return;
 
-		if (users) {
-			await Promise.all(
-				users.map(async (user) => {
-					// only check in filtered members for the user
-					if (
-						filteredMembers.filter(
-							(member) => member._id === user._id
-						).length !== 1
-					)
-						return;
+		await Promise.all(
+			users.map(async (user) => {
+				// only check in filtered members for the user
+				if (
+					filteredMembers.filter((member) => member._id === user._id)
+						.length !== 1
+				) {
+					return;
+				}
 
-					let userKey;
+				// console.log(keyID, sessionKeyExportedString);
+				const userKey = await encryptForParticipant(
+					user.e2e.public_key,
+					keyID,
+					sessionKeyExportedString
+				);
 
-					console.log(
-						keyIdRef.current,
-						sessionKeyExportedStringRef.current
-					);
+				return apiRocketChatUpdateGroupKey(user._id, rid, userKey);
+			})
+		);
+	}, [keyID, rid, sessionKeyExportedString]);
 
-					userKey = await encryptForParticipant(
-						user.e2e.public_key,
-						keyIdRef.current,
-						sessionKeyExportedStringRef.current
-					);
-
-					return apiRocketChatUpdateGroupKey(user._id, rid, userKey);
-				})
-			);
-		}
-	}, [rid]);
+	useEffect(() => {
+		addNewUsersToEncryptedRoom();
+	}, [addNewUsersToEncryptedRoom, keyID, rid, sessionKeyExportedString]);
 
 	useEffect(() => {
 		keyIdRef.current = keyID;
