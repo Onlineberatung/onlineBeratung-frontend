@@ -1,6 +1,7 @@
 export interface TenantDataInterface {
 	id: number | null;
 	name: string;
+	mainTopicEnabled: boolean;
 	theming: {
 		logo: string;
 		favicon: string;
