@@ -83,7 +83,8 @@ export const config = {
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		error500: uiUrl + '/error.500.html',
 		error401: uiUrl + '/error.401.html',
-		error404: uiUrl + '/error.404.html'
+		error404: uiUrl + '/error.404.html',
+		calComDevServer: 'https://calcom-develop.suchtberatung.digital/'
 	},
 	postcodeFallbackUrl: '{url}'
 };

@@ -8,6 +8,7 @@ import { Profile } from '../profile/Profile';
 import { SessionViewEmpty } from '../session/SessionViewEmpty';
 import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
+import { Booking } from '../booking/booking';
 
 export const RouterConfigUser = (): any => {
 	return {
@@ -54,6 +55,12 @@ export const RouterConfigUser = (): any => {
 				path: '/profile',
 				exact: false,
 				component: Profile
+			}
+		],
+		callRoutes: [
+			{
+				path: '/booking',
+				component: Booking
 			}
 		]
 	};
@@ -150,6 +157,12 @@ export const RouterConfigConsultant = (): any => {
 				path: '/profile',
 				exact: false,
 				component: Profile
+			}
+		],
+		callRoutes: [
+			{
+				path: '/booking',
+				component: Booking
 			}
 		]
 	};
@@ -281,6 +294,12 @@ export const RouterConfigTeamConsultant = (): any => {
 				path: '/profile',
 				exact: false,
 				component: Profile
+			}
+		],
+		callRoutes: [
+			{
+				path: '/booking',
+				component: Booking
 			}
 		]
 	};

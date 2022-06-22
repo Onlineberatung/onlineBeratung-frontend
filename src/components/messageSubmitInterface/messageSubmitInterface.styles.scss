@@ -37,10 +37,34 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 		}
 
 		&__wrapper {
-			display: flex;
-			max-width: $fromLarge;
-			flex-direction: row;
-			margin: 0 auto;
+			display: grid;
+			grid-template-columns: 100%;
+			align-items: center;
+			justify-content: center;
+
+			&--booking {
+				grid-template-columns: 50% 50%;
+			}
+
+			&-send-message {
+				display: flex;
+				max-width: $fromLarge;
+				flex-direction: row;
+				position: relative;
+				left: 50%;
+				transform: translateX(-50%);
+			}
+
+			&-booking {
+				margin: 0 auto;
+				text-align: center;
+				display: grid;
+				align-content: center;
+
+				&-headline {
+					margin-bottom: 1rem;
+				}
+			}
 		}
 
 		&__inputWrapper {

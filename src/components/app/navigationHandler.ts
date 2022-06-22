@@ -83,3 +83,27 @@ export const setProfileWrapperActive = () => {
 		.querySelector('.contentWrapper__profile')
 		?.setAttribute('style', 'display: block');
 };
+
+export const setBookingWrapperInactive = () => {
+	document
+		.querySelector('.contentWrapper__list')
+		?.setAttribute('style', 'display: block');
+	document
+		.querySelector('.contentWrapper__detail')
+		?.setAttribute('style', 'display: block');
+	document
+		.querySelector('.contentWrapper__profile')
+		?.setAttribute('style', 'display: none');
+};
+
+export const setBookingWrapperActive = () => {
+	document
+		.querySelector('.contentWrapper__list')
+		?.setAttribute('style', 'display: none');
+	document
+		.querySelector('.contentWrapper__detail')
+		?.setAttribute('style', 'display: block');
+	document
+		.querySelector('.contentWrapper__profile')
+		?.setAttribute('style', 'display: none');
+};

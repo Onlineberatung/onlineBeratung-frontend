@@ -185,10 +185,12 @@ export const MessageItemComponent = ({
 	const messageContent = (): JSX.Element => {
 		if (isFurtherStepsMessage) {
 			return (
-				<FurtherSteps
-					consultingType={chatItem.consultingType}
-					resortData={resortData}
-				/>
+				<>
+					<FurtherSteps
+						consultingType={chatItem.consultingType}
+						resortData={resortData}
+					/>
+				</>
 			);
 		} else if (isUpdateSessionDataMessage) {
 			return (

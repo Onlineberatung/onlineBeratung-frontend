@@ -122,6 +122,24 @@ export const Routing = (props: routingProps) => {
 								)
 							)}
 						</Switch>
+						<Switch>
+							{routerConfig.callRoutes.map(
+								(route: any): JSX.Element => (
+									<Route
+										exact={route.exact ?? true}
+										key={`detail-${route.path}`}
+										path={route.path}
+										render={(componentProps) => (
+											<route.component
+												{...componentProps}
+												{...props}
+												type={route.type || null}
+											/>
+										)}
+									/>
+								)
+							)}
+						</Switch>
 
 						{((hasUserProfileRoutes) => {
 							if (hasUserProfileRoutes) {
