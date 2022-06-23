@@ -1,3 +1,5 @@
+import { translate } from '../../utils/translate';
+
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 
@@ -143,4 +145,16 @@ export const config = {
 export const ALIAS_LAST_MESSAGES = {
 	E2EE_ACTIVATED: 'aliases.lastMessage.e2ee_activated',
 	FURTHER_STEPS: 'aliases.lastMessage.further_steps'
+};
+
+export const emails = {
+	notifications: [
+		{
+			label: translate('profile.notifications.follow.up.email.label'),
+			types: [
+				'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
+				'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER'
+			]
+		}
+	]
 };

@@ -93,6 +93,8 @@ const profile = {
 	'routes.activities': 'Meine Aktivitäten',
 	'routes.activities.statistics': 'Meine Statistik',
 	'routes.activities.absence': 'Meine Abwesenheit',
+	'routes.notifications': 'Benachrichtigungen',
+	'routes.notifications.email': 'E-Mail Benachrichtigung',
 	'routes.security': 'Sicherheit',
 	'routes.security.changePassword': 'Passwort ändern',
 	'routes.security.2fa': '2-Faktor-Authentifizierung',
@@ -135,7 +137,11 @@ const profile = {
 	'unsetEmail.errorOverlay.button': 'ok',
 	'unsetEmail.successOverlay.headline':
 		'Sie haben Ihre E-Mail-Adresse erfolgreich gelöscht.',
-	'unsetEmail.successOverlay.button': 'ok'
+	'unsetEmail.successOverlay.button': 'ok',
+	'notifications.title': 'E-Mail Benachrichtigung',
+	'notifications.subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
+	'notifications.follow.up.email.label':
+		'Nachricht von einem_r angenommenen Ratsuchenden erhalten'
 };
 
 export default profile;
