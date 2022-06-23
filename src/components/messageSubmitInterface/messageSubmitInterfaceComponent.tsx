@@ -149,8 +149,6 @@ export interface MessageSubmitInterfaceComponentProps {
 	showMonitoringButton?: Function;
 	type: SESSION_LIST_TYPES;
 	typingUsers?: string[];
-	sessionIdFromParam?: number;
-	groupIdFromParam?: string;
 	language?: string;
 	E2EEParams?: e2eeParams;
 	preselectedFile?: File;
@@ -209,6 +207,9 @@ export const MessageSubmitInterfaceComponent = (
 		activeSession.item.feedbackGroupId
 	);
 
+	const groupIdOrSessionId =
+		activeSession.item.groupId || activeSession.item.id;
+
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
 	) as HTMLInputElement;
@@ -239,7 +240,7 @@ export const MessageSubmitInterfaceComponent = (
 	}, [isConsultantAbsent, isSessionArchived, userData]);
 
 	useEffect(() => {
-		apiGetDraftMessage(activeSession.item.id)
+		apiGetDraftMessage(groupIdOrSessionId)
 			.then((response) => {
 				if (isE2eeEnabled) {
 					return decryptText(
@@ -275,7 +276,7 @@ export const MessageSubmitInterfaceComponent = (
 					requestFeedbackCheckboxCallback &&
 					requestFeedbackCheckboxCallback.checked
 						? activeSession.item.feedbackGroupId
-						: activeSession.item.id;
+						: groupIdOrSessionId;
 
 				if (props.E2EEParams.encrypted) {
 					encryptText(
@@ -318,7 +319,7 @@ export const MessageSubmitInterfaceComponent = (
 			const groupId =
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.item.feedbackGroupId
-					: activeSession.item.id;
+					: groupIdOrSessionId;
 			if (props.E2EEParams.encrypted) {
 				encryptText(
 					debouncedDraftMessage,
@@ -592,7 +593,7 @@ export const MessageSubmitInterfaceComponent = (
 	) => {
 		const sendToRoomWithId = sendToFeedbackEndpoint
 			? activeSession.item.feedbackGroupId
-			: activeSession.item.id;
+			: groupIdOrSessionId;
 		const getSendMailNotificationStatus = () =>
 			!activeSession.isGroup && !activeSession.isLive;
 
