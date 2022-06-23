@@ -85,6 +85,7 @@ import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
+import useTyping from '../../utils/useTyping';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -238,7 +239,7 @@ export const MessageSubmitInterfaceComponent = (
 	}, [isConsultantAbsent, isSessionArchived, userData]);
 
 	useEffect(() => {
-		apiGetDraftMessage(props.sessionIdFromParam || props.groupIdFromParam)
+		apiGetDraftMessage(activeSession.item.id)
 			.then((response) => {
 				if (isE2eeEnabled) {
 					return decryptText(
@@ -274,7 +275,7 @@ export const MessageSubmitInterfaceComponent = (
 					requestFeedbackCheckboxCallback &&
 					requestFeedbackCheckboxCallback.checked
 						? activeSession.item.feedbackGroupId
-						: props.sessionIdFromParam || props.groupIdFromParam;
+						: activeSession.item.id;
 
 				if (props.E2EEParams.encrypted) {
 					encryptText(
@@ -317,7 +318,7 @@ export const MessageSubmitInterfaceComponent = (
 			const groupId =
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.item.feedbackGroupId
-					: props.sessionIdFromParam || props.groupIdFromParam;
+					: activeSession.item.id;
 			if (props.E2EEParams.encrypted) {
 				encryptText(
 					debouncedDraftMessage,
@@ -591,7 +592,7 @@ export const MessageSubmitInterfaceComponent = (
 	) => {
 		const sendToRoomWithId = sendToFeedbackEndpoint
 			? activeSession.item.feedbackGroupId
-			: props.sessionIdFromParam || props.groupIdFromParam;
+			: activeSession.item.id;
 		const getSendMailNotificationStatus = () =>
 			!activeSession.isGroup && !activeSession.isLive;
 

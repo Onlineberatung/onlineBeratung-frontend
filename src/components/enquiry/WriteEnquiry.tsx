@@ -86,6 +86,7 @@ export const WriteEnquiry: React.FC = () => {
 	}, [isE2eeEnabled]);
 
 	useEffect(() => {
+		// ToDo: Change logic to make writeEnquiry standalone component and get session from api when api endpoint with sessionId Param is finished
 		if (!ready) {
 			return;
 		}
@@ -307,8 +308,6 @@ export const WriteEnquiry: React.FC = () => {
 					handleSendButton={handleSendButton}
 					placeholder={translate('enquiry.write.input.placeholder')}
 					type={SESSION_LIST_TYPES.ENQUIRY}
-					sessionIdFromParam={sessionIdFromParam}
-					groupIdFromParam={null}
 					language={selectedLanguage}
 					E2EEParams={{
 						keyID: keyID,
