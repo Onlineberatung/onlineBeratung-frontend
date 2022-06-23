@@ -35,13 +35,15 @@ import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { history } from '../app/app';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
 	FORWARD = 'FORWARD',
 	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL',
-	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION'
+	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
+	FINISHED_BOOKING = 'FINISHED_BOOKING'
 }
 
 export interface ForwardMessageDTO {
@@ -181,16 +183,18 @@ export const MessageItemComponent = ({
 	const isVideoCallMessage = alias?.messageType === MessageType.VIDEOCALL;
 	const isFinishedConversationMessage =
 		alias?.messageType === MessageType.FINISHED_CONVERSATION;
+	// const isFinishedBooking =
+	// 	alias?.messageType === MessageType.FINISHED_BOOKING;
+	const isFinishedBooking = history.location.state?.data;
 
 	const messageContent = (): JSX.Element => {
+		debugger;
 		if (isFurtherStepsMessage) {
 			return (
-				<>
-					<FurtherSteps
-						consultingType={chatItem.consultingType}
-						resortData={resortData}
-					/>
-				</>
+				<FurtherSteps
+					consultingType={chatItem.consultingType}
+					resortData={resortData}
+				/>
 			);
 		} else if (isUpdateSessionDataMessage) {
 			return (
@@ -221,6 +225,16 @@ export const MessageItemComponent = ({
 						activeSession.consultant?.username
 					}
 					activeSessionAskerRcId={activeSession.session.askerRcId}
+				/>
+			);
+		} else if (isFinishedBooking) {
+			return (
+				<iframe
+					className="booking-confirmation"
+					src={history.location.state?.data}
+					scrolling="no"
+					frameBorder="no"
+					title="booking-confirmation"
 				/>
 			);
 		} else {

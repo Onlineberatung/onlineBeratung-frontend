@@ -545,6 +545,7 @@ export const MessageSubmitInterfaceComponent = (
 				);
 			} else {
 				if (getTypedMarkdownMessage()) {
+					debugger;
 					apiSendMessage(
 						getTypedMarkdownMessage(),
 						sendToRoomWithId,
@@ -703,7 +704,8 @@ export const MessageSubmitInterfaceComponent = (
 		history.push({
 			pathname: '/booking',
 			state: {
-				data: `${rcGroupId}/${sessionId}`
+				rcGroupId: rcGroupId,
+				sessionId: sessionId
 			}
 		});
 	};
@@ -722,10 +724,6 @@ export const MessageSubmitInterfaceComponent = (
 		label: translate('message.submit.booking.buttonLabel'),
 		type: BUTTON_TYPES.PRIMARY
 	};
-
-	useEffect(() => {
-		console.log('booking', history.location.state?.data);
-	}, []);
 
 	return (
 		<div

@@ -336,6 +336,7 @@ export const SessionView = (props: RouterProps) => {
 
 	useEffect(() => {
 		if (loadedMessages) {
+			debugger;
 			setMessagesItem(loadedMessages);
 			setLoadedMessages(null);
 		}
