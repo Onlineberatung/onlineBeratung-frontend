@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import {
 	convertISO8601ToMSSinceEpoch,

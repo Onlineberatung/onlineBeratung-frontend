@@ -15,7 +15,6 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	LegalLinkInterface,
-	REGISTRATION_TYPE_ANONYMOUS,
 	RocketChatContext,
 	SessionTypeContext,
 	STATUS_FINISHED,

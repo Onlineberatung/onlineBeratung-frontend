@@ -85,7 +85,6 @@ import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
-import useTyping from '../../utils/useTyping';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
