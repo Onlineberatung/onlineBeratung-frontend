@@ -32,12 +32,13 @@ export const NavigationBar = ({
 
 	const {
 		sessions: unreadSessions,
-		group: unreadGroup
+		group: unreadGroup,
+		enquiry: unreadEnquiry,
+		livechat: unreadLivechat
 		/*
-		livechat: unreadLivechat,
 		archiv: unreadArchiv,
 		feedback: unreadFeedback,
-		enquiry: unreadEnquiry
+		
 		 */
 	} = useContext(RocketChatUnreadContext);
 
@@ -76,7 +77,9 @@ export const NavigationBar = ({
 	const pathsToShowUnreadMessageNotification = {
 		'/sessions/consultant/sessionView':
 			unreadSessions.length + unreadGroup.length,
-		'/sessions/user/view': unreadSessions.length + unreadGroup.length
+		'/sessions/user/view': unreadSessions.length + unreadGroup.length,
+		'/sessions/consultant/sessionPreview':
+			unreadEnquiry.length + unreadLivechat.length
 	};
 
 	return (

@@ -148,8 +148,6 @@ export interface MessageSubmitInterfaceComponentProps {
 	showMonitoringButton?: Function;
 	type: SESSION_LIST_TYPES;
 	typingUsers?: string[];
-	sessionIdFromParam?: number;
-	groupIdFromParam?: string;
 	language?: string;
 	E2EEParams?: e2eeParams;
 	preselectedFile?: File;
@@ -183,9 +181,6 @@ export const MessageSubmitInterfaceComponent = (
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { type } = useContext(SessionTypeContext);
 
-	const isTypingActive = activeSession.isGroup || activeSession.isLive;
-	const isLiveChatFinished =
-		activeSession.isLive && activeSession.item.status === STATUS_FINISHED;
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [draftLoaded, setDraftLoaded] = useState(false);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
@@ -208,6 +203,9 @@ export const MessageSubmitInterfaceComponent = (
 		activeSession.item.feedbackGroupId
 	);
 
+	const groupIdOrSessionId =
+		activeSession.item.groupId || activeSession.item.id;
+
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
 	) as HTMLInputElement;
@@ -220,11 +218,32 @@ export const MessageSubmitInterfaceComponent = (
 		checked: requestFeedbackCheckbox?.checked || false
 	};
 
-	const isConsultantAbsent =
+	const [isConsultantAbsent, setIsConsultantAbsent] = useState(
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-		activeSession.consultant?.absent;
+			activeSession.consultant?.absent
+	);
+	const [isSessionArchived, setIsSessionArchived] = useState(
+		activeSession.item.status === STATUS_ARCHIVED
+	);
+	const [isTypingActive, setIsTypingActive] = useState(
+		activeSession.isGroup || activeSession.isLive
+	);
+	const [isLiveChatFinished, setIsLiveChatFinished] = useState(
+		activeSession.isLive && activeSession.item.status === STATUS_FINISHED
+	);
 
-	const isSessionArchived = activeSession.item.status === STATUS_ARCHIVED;
+	useEffect(() => {
+		setIsConsultantAbsent(
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+				activeSession.consultant?.absent
+		);
+		setIsSessionArchived(activeSession.item.status === STATUS_ARCHIVED);
+		setIsTypingActive(activeSession.isGroup || activeSession.isLive);
+		setIsLiveChatFinished(
+			activeSession.isLive &&
+				activeSession.item.status === STATUS_FINISHED
+		);
+	}, [activeSession, userData]);
 
 	useEffect(() => {
 		if (
@@ -234,11 +253,15 @@ export const MessageSubmitInterfaceComponent = (
 			setActiveInfo(INFO_TYPES.ARCHIVED);
 		} else if (isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
+		} else if (isLiveChatFinished) {
+			setActiveInfo(INFO_TYPES.FINISHED_CONVERSATION);
+		} else {
+			setActiveInfo(null);
 		}
-	}, [isConsultantAbsent, isSessionArchived, userData]);
+	}, [isConsultantAbsent, isLiveChatFinished, isSessionArchived, userData]);
 
 	useEffect(() => {
-		apiGetDraftMessage(props.sessionIdFromParam || props.groupIdFromParam)
+		apiGetDraftMessage(groupIdOrSessionId)
 			.then((response) => {
 				if (isE2eeEnabled) {
 					return decryptText(
@@ -274,7 +297,7 @@ export const MessageSubmitInterfaceComponent = (
 					requestFeedbackCheckboxCallback &&
 					requestFeedbackCheckboxCallback.checked
 						? activeSession.item.feedbackGroupId
-						: props.sessionIdFromParam || props.groupIdFromParam;
+						: groupIdOrSessionId;
 
 				if (props.E2EEParams.encrypted) {
 					encryptText(
@@ -317,7 +340,7 @@ export const MessageSubmitInterfaceComponent = (
 			const groupId =
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.item.feedbackGroupId
-					: props.sessionIdFromParam || props.groupIdFromParam;
+					: groupIdOrSessionId;
 			if (props.E2EEParams.encrypted) {
 				encryptText(
 					debouncedDraftMessage,
@@ -591,7 +614,7 @@ export const MessageSubmitInterfaceComponent = (
 	) => {
 		const sendToRoomWithId = sendToFeedbackEndpoint
 			? activeSession.item.feedbackGroupId
-			: props.sessionIdFromParam || props.groupIdFromParam;
+			: groupIdOrSessionId;
 		const getSendMailNotificationStatus = () =>
 			!activeSession.isGroup && !activeSession.isLive;
 

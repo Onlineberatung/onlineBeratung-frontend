@@ -61,7 +61,7 @@ export default function useTyping(
 	userName: string,
 	displayName: string
 ) {
-	const { sendMethod, subscribe, unsubscribe, rcWebsocket } =
+	const { sendMethod, subscribe, unsubscribe, ready } =
 		useContext(RocketChatContext);
 
 	const typingTimeout = useRef(null);
@@ -110,7 +110,7 @@ export default function useTyping(
 	 * (not) typing messages
 	 */
 	const subscribeTyping = useCallback(() => {
-		if (rcWebsocket) {
+		if (ready) {
 			subscribe(
 				{
 					name: SUB_STREAM_NOTIFY_ROOM,
@@ -122,14 +122,14 @@ export default function useTyping(
 			);
 			setSubscribed(true);
 		}
-	}, [groupId, handleTypingResponse, rcWebsocket, subscribe]);
+	}, [groupId, handleTypingResponse, ready, subscribe]);
 
 	/**
 	 * UnSubscribe to rocket.chat socket message of typing to receive
 	 * (not) typing messages
 	 */
 	const unsubscribeTyping = useCallback(() => {
-		if (rcWebsocket) {
+		if (ready) {
 			unsubscribe(
 				{
 					name: SUB_STREAM_NOTIFY_ROOM,
@@ -140,7 +140,7 @@ export default function useTyping(
 			);
 			setSubscribed(false);
 		}
-	}, [groupId, handleTypingResponse, rcWebsocket, unsubscribe]);
+	}, [groupId, handleTypingResponse, ready, unsubscribe]);
 
 	/**
 	 * Handle typing and send rocket.chat (not) typing message to
@@ -151,7 +151,7 @@ export default function useTyping(
 	 */
 	const handleTyping = useCallback(
 		(isCleared) => {
-			if (rcWebsocket && subscribed) {
+			if (ready && subscribed) {
 				// If typingTimeout already active reset it
 				if (typingTimeout.current) {
 					window.clearTimeout(typingTimeout.current);
@@ -192,7 +192,7 @@ export default function useTyping(
 				}
 			}
 		},
-		[rcWebsocket, subscribed, sendMethod, groupId, userName, displayName]
+		[ready, subscribed, sendMethod, groupId, userName, displayName]
 	);
 
 	return { subscribeTyping, unsubscribeTyping, handleTyping, typingUsers };
