@@ -388,7 +388,9 @@ export const SessionView = (props: RouterProps) => {
 	}
 
 	return (
-		<ActiveSessionContext.Provider value={{ activeSession }}>
+		<ActiveSessionContext.Provider
+			value={{ activeSession, reloadActiveSession }}
+		>
 			<div className="session__wrapper">
 				<SessionItemComponent
 					hasUserInitiatedStopOrLeaveRequest={
