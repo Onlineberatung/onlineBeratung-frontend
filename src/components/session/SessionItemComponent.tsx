@@ -78,7 +78,6 @@ import useMeasure from 'react-use-measure';
 import { useSearchParam } from '../../hooks/useSearchParams';
 
 interface SessionItemProps {
-	isAnonymousEnquiry?: boolean;
 	isTyping?: Function;
 	messages?: MessageItem[];
 	typingUsers: string[];
@@ -114,7 +113,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
-	const { isAnonymousEnquiry } = props;
+	const isAnonymousEnquiry =
+		activeSession?.isEnquiry &&
+		!activeSession?.isEmptyEnquiry &&
+		activeSession.isLive;
 
 	/* E2EE */
 	const { encrypted, key, keyID, sessionKeyExportedString } =
@@ -138,7 +140,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			setGroupKey(key);
 			setGroupKeyID(keyID);
 			setSessionGroupKeyExportedString(sessionKeyExportedString);
-			console.log('room already encrypted');
 			return;
 		}
 
@@ -671,7 +672,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						}}
 						type={getTypeOfLocation()}
 						typingUsers={props.typingUsers}
-						groupIdFromParam={groupIdFromParam}
 						E2EEParams={{
 							encrypted,
 							key: groupKey,

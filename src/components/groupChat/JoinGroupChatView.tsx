@@ -97,7 +97,6 @@ export const JoinGroupChatView = ({
 	// create the groupkeys once, if e2ee feature is enabled
 	useEffect(() => {
 		if (!isE2eeEnabled || encrypted || activeSession?.item?.active) {
-			console.log('room already encrypted');
 			return;
 		}
 
@@ -120,7 +119,6 @@ export const JoinGroupChatView = ({
 
 	const handleEncryptRoom = useCallback(async () => {
 		if (!isE2eeEnabled || encrypted || activeSession?.item?.active) {
-			console.log('room already encrypted');
 			return;
 		}
 
@@ -146,8 +144,6 @@ export const JoinGroupChatView = ({
 			console.error(e);
 			return;
 		}
-
-		console.log('Start writing encrypted messages!');
 	}, [
 		isE2eeEnabled,
 		encrypted,
@@ -235,9 +231,12 @@ export const JoinGroupChatView = ({
 				? GROUP_CHAT_API.START
 				: GROUP_CHAT_API.JOIN;
 		apiPutGroupChat(activeSession.item.id, groupChatApiCall)
-			.then(async () => {
-				await handleEncryptRoom();
-			})
+			.then(
+				() =>
+					groupChatApiCall === GROUP_CHAT_API.START &&
+					handleEncryptRoom()
+			)
+			.then(() => reloadActiveSession())
 			.catch(() => {
 				setOverlayItem(startJoinGroupChatErrorOverlay);
 				setOverlayActive(true);
