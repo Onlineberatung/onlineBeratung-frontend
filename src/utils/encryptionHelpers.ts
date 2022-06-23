@@ -1,6 +1,8 @@
 import { encode, decode } from 'hi-base32';
 import ByteBuffer from 'bytebuffer';
 import { apiRocketChatUpdateGroupKey } from '../api/apiRocketChatUpdateGroupKey';
+import { apiRocketChatFetchMyKeys } from '../api/apiRocketChatFetchMyKeys';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 const StaticArrayBufferProto = ArrayBuffer.prototype;
 
 // encoding helper
@@ -454,18 +456,12 @@ export const decryptPrivateKey = async (privateKey, masterKey) => {
 	}
 };
 
-export const loadKeys = async (private_key, public_key) => {
+export const storeKeys = (private_key, public_key) => {
 	sessionStorage.setItem('public_key', public_key);
-	try {
-		const key = await importRSAKey(JSON.parse(private_key), ['decrypt']);
-		sessionStorage.setItem('private_key', private_key);
-		return key;
-	} catch (error) {
-		throw new Error('Error importing private key: ' + error);
-	}
+	sessionStorage.setItem('private_key', private_key);
 };
 
-export const createAndLoadKeys = async () => {
+export const createAndStoreKeys = async () => {
 	let key;
 	let privateKey;
 	let publicKey;
@@ -509,4 +505,22 @@ export const readMasterKeyFromLocalStorage = (userId: string) => {
 	if (!persistedUint8ArrayString) return null;
 	const persistedArray = JSON.parse(persistedUint8ArrayString);
 	return typedArrayToBuffer(new Uint8Array(persistedArray));
+};
+
+export const loadKeysFromRocketChat = async () => {
+	const { private_key: encryptedPrivateKey, public_key: storedPublicKey } =
+		await apiRocketChatFetchMyKeys();
+
+	const rcUserId = getValueFromCookie('rc_uid');
+	const persistedArrayBuffer = readMasterKeyFromLocalStorage(rcUserId);
+
+	const persistedMasterKey = await importRawEncryptionKey(
+		persistedArrayBuffer
+	);
+
+	const privateKey = await decryptPrivateKey(
+		encryptedPrivateKey,
+		persistedMasterKey
+	);
+	storeKeys(privateKey, storedPublicKey);
 };
