@@ -6,8 +6,6 @@ import {
 	AUTHORITIES,
 	useConsultingType,
 	LegalLinkInterface,
-	UPDATE_SESSIONS,
-	SessionsDataContext,
 	E2EEContext
 } from '../../globalState';
 import { mobileListView } from '../app/navigationHandler';
@@ -37,7 +35,7 @@ import {
 } from './joinGroupChatHelpers';
 import { Button } from '../button/Button';
 import { logout } from '../logout/logout';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
 import { Headline } from '../headline/Headline';

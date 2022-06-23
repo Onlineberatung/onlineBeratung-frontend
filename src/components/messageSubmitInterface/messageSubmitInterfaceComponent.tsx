@@ -182,9 +182,6 @@ export const MessageSubmitInterfaceComponent = (
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { type } = useContext(SessionTypeContext);
 
-	const isTypingActive = activeSession.isGroup || activeSession.isLive;
-	const isLiveChatFinished =
-		activeSession.isLive && activeSession.item.status === STATUS_FINISHED;
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [draftLoaded, setDraftLoaded] = useState(false);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
@@ -222,11 +219,32 @@ export const MessageSubmitInterfaceComponent = (
 		checked: requestFeedbackCheckbox?.checked || false
 	};
 
-	const isConsultantAbsent =
+	const [isConsultantAbsent, setIsConsultantAbsent] = useState(
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-		activeSession.consultant?.absent;
+			activeSession.consultant?.absent
+	);
+	const [isSessionArchived, setIsSessionArchived] = useState(
+		activeSession.item.status === STATUS_ARCHIVED
+	);
+	const [isTypingActive, setIsTypingActive] = useState(
+		activeSession.isGroup || activeSession.isLive
+	);
+	const [isLiveChatFinished, setIsLiveChatFinished] = useState(
+		activeSession.isLive && activeSession.item.status === STATUS_FINISHED
+	);
 
-	const isSessionArchived = activeSession.item.status === STATUS_ARCHIVED;
+	useEffect(() => {
+		setIsConsultantAbsent(
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+				activeSession.consultant?.absent
+		);
+		setIsSessionArchived(activeSession.item.status === STATUS_ARCHIVED);
+		setIsTypingActive(activeSession.isGroup || activeSession.isLive);
+		setIsLiveChatFinished(
+			activeSession.isLive &&
+				activeSession.item.status === STATUS_FINISHED
+		);
+	}, [activeSession, userData]);
 
 	useEffect(() => {
 		if (
@@ -236,8 +254,12 @@ export const MessageSubmitInterfaceComponent = (
 			setActiveInfo(INFO_TYPES.ARCHIVED);
 		} else if (isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
+		} else if (isLiveChatFinished) {
+			setActiveInfo(INFO_TYPES.FINISHED_CONVERSATION);
+		} else {
+			setActiveInfo(null);
 		}
-	}, [isConsultantAbsent, isSessionArchived, userData]);
+	}, [isConsultantAbsent, isLiveChatFinished, isSessionArchived, userData]);
 
 	useEffect(() => {
 		apiGetDraftMessage(groupIdOrSessionId)

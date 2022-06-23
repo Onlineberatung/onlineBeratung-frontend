@@ -91,7 +91,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
-	const { activeSession } = useContext(ActiveSessionContext);
+	const { activeSession, reloadActiveSession } =
+		useContext(ActiveSessionContext);
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 
 	const [overlayItem, setOverlayItem] = useState(null);
@@ -180,6 +181,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const handleDearchiveSession = () => {
 		apiPutDearchive(activeSession.item.id)
 			.then(() => {
+				reloadActiveSession();
 				setTimeout(() => {
 					if (window.innerWidth >= 900) {
 						history.push(
