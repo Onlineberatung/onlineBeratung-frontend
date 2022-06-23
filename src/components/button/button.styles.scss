@@ -270,4 +270,9 @@ $buttonHeight: 50px;
 	&__icon {
 		margin-bottom: 4px;
 	}
+
+	&__custom-icon {
+		display: inline-block;
+		transform: scale(0.5);
+	}
 }

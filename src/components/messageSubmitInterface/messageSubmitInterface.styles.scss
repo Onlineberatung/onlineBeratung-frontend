@@ -42,10 +42,6 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			align-items: center;
 			justify-content: center;
 
-			&--booking {
-				grid-template-columns: 50% 50%;
-			}
-
 			&-send-message {
 				display: flex;
 				max-width: $fromLarge;
@@ -60,9 +56,44 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 				text-align: center;
 				display: grid;
 				align-content: center;
+				width: 100%;
 
 				&-headline {
-					margin-bottom: 1rem;
+					margin: 0.75rem auto 1.25rem;
+					position: relative;
+					width: 100%;
+					max-width: 900px;
+
+					&::before {
+						content: '';
+						display: block;
+						height: 1px;
+						left: 3px;
+						right: 64px;
+						top: 50%;
+						position: absolute;
+						background-color: $line-grey;
+						z-index: -2;
+					}
+
+					&::after {
+						content: '';
+						display: block;
+						height: 10px;
+						width: 300px;
+						left: 50%;
+						top: 50%;
+						transform: translate(-50%, -50%);
+						position: absolute;
+						background-color: $dark-grey;
+						z-index: -1;
+					}
+				}
+
+				button {
+					display: flex;
+					align-items: center;
+					margin: 0 auto;
 				}
 			}
 		}

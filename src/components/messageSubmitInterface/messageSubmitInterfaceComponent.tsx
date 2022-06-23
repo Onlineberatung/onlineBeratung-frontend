@@ -80,6 +80,7 @@ import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xl
 import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
 import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
 import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
+import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month.svg';
 import useDebouncedValue from '../../utils/useDebouncedValue';
 import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
@@ -545,7 +546,6 @@ export const MessageSubmitInterfaceComponent = (
 				);
 			} else {
 				if (getTypedMarkdownMessage()) {
-					debugger;
 					apiSendMessage(
 						getTypedMarkdownMessage(),
 						sendToRoomWithId,
@@ -888,6 +888,7 @@ export const MessageSubmitInterfaceComponent = (
 									item={buttonSet}
 									isLink={true}
 									buttonHandle={handleBookingButton}
+									customIcon={<CalendarMonthIcon />}
 								/>
 							</div>
 						)}

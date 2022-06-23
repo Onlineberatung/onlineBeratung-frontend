@@ -188,7 +188,6 @@ export const MessageItemComponent = ({
 	const isFinishedBooking = history.location.state?.data;
 
 	const messageContent = (): JSX.Element => {
-		debugger;
 		if (isFurtherStepsMessage) {
 			return (
 				<FurtherSteps

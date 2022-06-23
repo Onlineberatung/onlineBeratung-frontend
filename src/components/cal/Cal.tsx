@@ -43,6 +43,45 @@ export default function Cal({
 			calLink,
 			config
 		});
+		Cal('ui', {
+			styles: {
+				// body: {
+				// 	'background': 'red',
+				// 	'background-color': 'red'
+				// },
+				eventTypeListItem: {
+					background: 'red',
+					color: 'white',
+					backgroundColor: 'red',
+					marginBottom: '100px'
+				},
+				// enabledDateButton: {
+				// 	background: 'red',
+				// 	color: 'white',
+				// 	backgroundColor: 'red'
+				// },
+				// disabledDateButton: {
+				// 	background: 'red',
+				// 	color: 'white',
+				// 	backgroundColor: 'red'
+				// },
+				// availabilityDatePicker: {
+				// 	background: 'red',
+				// 	color: 'white',
+				// 	backgroundColor: 'red'
+				// },
+				branding: {
+					brandColor: '#7fdfc4'
+					// lightColor: 'orange',
+					// lighterColor: 'grey',
+					// lightestColor: 'green',
+					// highlightColor: 'yellow'
+					// darkColor: 'blue',
+					// darkerColor: 'blue',
+					// medianColor: 'blue'
+				}
+			}
+		});
 		Cal('on', {
 			action: 'bookingSuccessful',
 			callback: (e) => {

@@ -18,7 +18,8 @@ export const Booking = () => {
 
 	return (
 		<Cal
-			calLink="andre-soares"
+			calLink="team/team-b"
+			// calLink="andre-soares"
 			calOrigin={config.urls.calComDevServer}
 			config={{
 				name: 'John Doe',
