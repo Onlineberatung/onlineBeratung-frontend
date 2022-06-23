@@ -49,26 +49,31 @@ export const useE2EE = (rid: string): UseE2EEParams => {
 		const { users } = await apiRocketChatGetUsersOfRoomWithoutKey(rid);
 		if (!users) return;
 
-		await Promise.all(
-			users.map(async (user) => {
-				// only check in filtered members for the user
-				if (
-					filteredMembers.filter((member) => member._id === user._id)
-						.length !== 1
-				) {
-					return;
-				}
+		try {
+			await Promise.all(
+				users.map(async (user) => {
+					// only check in filtered members for the user
+					if (
+						filteredMembers.filter(
+							(member) => member._id === user._id
+						).length !== 1
+					) {
+						return;
+					}
 
-				// console.log(keyID, sessionKeyExportedString);
-				const userKey = await encryptForParticipant(
-					user.e2e.public_key,
-					keyID,
-					sessionKeyExportedString
-				);
+					// console.log(keyID, sessionKeyExportedString);
+					const userKey = await encryptForParticipant(
+						user.e2e.public_key,
+						keyID,
+						sessionKeyExportedString
+					);
 
-				return apiRocketChatUpdateGroupKey(user._id, rid, userKey);
-			})
-		);
+					return apiRocketChatUpdateGroupKey(user._id, rid, userKey);
+				})
+			);
+		} catch (e) {
+			console.error('error while trying to update group key');
+		}
 	}, [keyID, rid, sessionKeyExportedString]);
 
 	useEffect(() => {
