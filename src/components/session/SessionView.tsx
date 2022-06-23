@@ -146,14 +146,15 @@ export const SessionView = (props: RouterProps) => {
 	}, [activeSession, readActiveSession, readonly, userData]);
 
 	const checkMutedUserForThisSession = useCallback(() => {
+		setForceBannedOverlay(false);
 		if (activeSession?.isGroup) {
 			apiGetGroupChatInfo(activeSession.item.id)
 				.then((response) => {
 					if (response.bannedUsers) {
-						const decryptedBannedUsers =
+						const decodedBannedUsers =
 							response.bannedUsers.map(decodeUsername);
-						setBannedUsers(decryptedBannedUsers);
-						if (decryptedBannedUsers.includes(userData.userName)) {
+						setBannedUsers(decodedBannedUsers);
+						if (decodedBannedUsers.includes(userData.userName)) {
 							setForceBannedOverlay(true);
 						}
 					} else {
@@ -186,17 +187,13 @@ export const SessionView = (props: RouterProps) => {
 			args
 				// Map collected from debounce callback
 				.map(([[message]]) => message)
-				.filter(
-					(message) =>
-						message.u?.username !== 'rocket-chat-technical-user'
-				)
 				.forEach((message) => {
 					if (message.t === 'user-muted') {
 						checkMutedUserForThisSession();
 						return;
 					}
 
-					if (message.t === 'user-added' && isE2eeEnabled) {
+					if (message.t === 'au' && isE2eeEnabled) {
 						addNewUsersToEncryptedRoom();
 						return;
 					}
@@ -282,13 +279,8 @@ export const SessionView = (props: RouterProps) => {
 					setReadonly(false);
 				}
 
-				if (
-					activeSession.item.active &&
-					activeSession.item.subscribed
-				) {
-					console.log(activeSession.rid);
-					addNewUsersToEncryptedRoom();
-				}
+				// check if any user needs to be added when opening session view
+				addNewUsersToEncryptedRoom();
 
 				fetchSessionMessages()
 					.then(() => {

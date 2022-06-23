@@ -101,14 +101,8 @@ export const JoinGroupChatView = ({
 		createGroupKey().then(
 			({
 				keyID: groupKeyID,
-				key: groupKey,
 				sessionKeyExportedString: sessionGroupKeyExportedString
 			}) => {
-				console.log(
-					groupKey,
-					groupKeyID,
-					sessionGroupKeyExportedString
-				);
 				setGroupKeyID(groupKeyID);
 				setSessionGroupKeyExportedString(sessionGroupKeyExportedString);
 			}

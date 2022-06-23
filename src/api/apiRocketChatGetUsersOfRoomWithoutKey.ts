@@ -9,5 +9,5 @@ export const apiRocketChatGetUsersOfRoomWithoutKey = async (
 ): Promise<any> => {
 	const url = `${config.endpoints.rc.e2ee.getUsersOfRoomWithoutKey}?rid=${rid}`;
 
-	return fetchRCData(url, 'GET');
+	return fetchRCData(url, 'GET', null, true);
 };

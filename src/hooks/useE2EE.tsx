@@ -32,29 +32,42 @@ export const useE2EE = (rid: string): UseE2EEParams => {
 	const keyIdRef = useRef(null);
 	const sessionKeyExportedStringRef = useRef(null);
 
-	// If hook is used search for members without key and set it
-	const updateRoomKeysIfNecessary = useCallback(async () => {
-		if (!keyID || !sessionKeyExportedString || !rid) {
-			return;
-		}
+	const addNewUsersToEncryptedRoom = useCallback(async () => {
+		try {
+			const { users } = await apiRocketChatGetUsersOfRoomWithoutKey(rid);
 
-		// ToDo: We need try catch because the hook will already been called but the rid could be changed (Finished group chats)
-		const { members } = await apiRocketChatGroupMembers(rid);
-		apiRocketChatGetUsersOfRoomWithoutKey(rid).then(({ users }) => {
-			return Promise.all(
-				users
-					.filter((user) => {
-						const member = members.find((m) => m._id === user._id);
-						return (
-							member?.username !== 'System' &&
-							member?.username.indexOf('enc.') === 0
-						);
-					})
-					.map(async (user) => {
-						const userKey = await encryptForParticipant(
+			// we can stop this request if there are only system and technical user without keys
+			if (users.length <= 2) {
+				return;
+			}
+
+			const { members } = await apiRocketChatGroupMembers(rid);
+
+			const filteredMembers = members
+				// Filter system user and users with unencrypted username (Maybe more system users)
+				.filter(
+					(member) =>
+						member.username !== 'System' &&
+						member.username.indexOf('enc.') === 0
+				);
+
+			if (users) {
+				await Promise.all(
+					users.map(async (user) => {
+						// only check in filtered members for the user
+						if (
+							filteredMembers.filter(
+								(member) => member._id === user._id
+							).length !== 1
+						)
+							return;
+
+						let userKey;
+
+						userKey = await encryptForParticipant(
 							user.e2e.public_key,
-							keyID,
-							sessionKeyExportedString
+							keyIdRef.current,
+							sessionKeyExportedStringRef.current
 						);
 
 						return apiRocketChatUpdateGroupKey(
@@ -63,49 +76,10 @@ export const useE2EE = (rid: string): UseE2EEParams => {
 							userKey
 						);
 					})
-			);
-		});
-	}, [keyID, rid, sessionKeyExportedString]);
-
-	useEffect(() => {
-		updateRoomKeysIfNecessary();
-	}, [updateRoomKeysIfNecessary, keyID, rid, sessionKeyExportedString]);
-
-	const addNewUsersToEncryptedRoom = useCallback(async () => {
-		// ToDo: We need try catch because the hook will already been called but the rid could be changed (Finished group chats)
-		const { members } = await apiRocketChatGroupMembers(rid);
-		const filteredMembers = members
-			// Filter system user and users with unencrypted username (Maybe more system users)
-			.filter(
-				(member) =>
-					member.username !== 'System' &&
-					member.username.indexOf('enc.') === 0
-			);
-
-		const { users } = await apiRocketChatGetUsersOfRoomWithoutKey(rid);
-
-		if (users) {
-			await Promise.all(
-				users.map(async (user) => {
-					// only check in filtered members for the user
-					if (
-						filteredMembers.filter(
-							(member) => member._id === user._id
-						).length !== 1
-					)
-						return;
-
-					let userKey;
-
-					userKey = await encryptForParticipant(
-						user.e2e.public_key,
-						keyIdRef.current,
-						sessionKeyExportedStringRef.current
-					);
-
-					return apiRocketChatUpdateGroupKey(user._id, rid, userKey);
-				})
-			);
+				);
+			}
+		} catch (e) {
+			// no error handling // intentional
 		}
 	}, [rid]);
 
