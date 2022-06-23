@@ -139,3 +139,8 @@ export const config = {
 		enableEncodedTransformSupport: false
 	}
 };
+
+export const ALIAS_LAST_MESSAGES = {
+	E2EE_ACTIVATED: 'aliases.lastMessage.e2ee_activated',
+	FURTHER_STEPS: 'aliases.lastMessage.further_steps'
+};
