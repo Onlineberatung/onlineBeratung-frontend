@@ -65,7 +65,7 @@ import {
 	SUB_STREAM_NOTIFY_USER
 } from '../app/RocketChat';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import { apiGetSessionRooms } from '../../api/apiGetSessionRooms';
+import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 
@@ -300,7 +300,7 @@ export const SessionsList = ({
 			Promise.all(
 				rids.map((rid) => {
 					// Get session from api
-					return apiGetSessionRooms([rid])
+					return apiGetSessionRoomsByGroupIds([rid])
 						.then(({ sessions }) => {
 							const session = sessions[0];
 
@@ -818,7 +818,7 @@ const useGroupWatcher = (isLoading: boolean) => {
 			return;
 		}
 
-		return apiGetSessionRooms(inactiveGroupSessionIds).then(
+		return apiGetSessionRoomsByGroupIds(inactiveGroupSessionIds).then(
 			({ sessions }) => {
 				dispatch({
 					type: UPDATE_SESSIONS,

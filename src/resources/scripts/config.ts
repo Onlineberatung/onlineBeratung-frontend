@@ -92,6 +92,7 @@ export const config = {
 		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		sessionBase: apiUrl + '/service/users/sessions',
 		sessionRooms: apiUrl + '/service/users/sessions/room',
+		chatRoom: apiUrl + '/service/users/chat/room',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
 		startVideoCall: apiUrl + '/service/videocalls/new',
 		teamSessionsBase:

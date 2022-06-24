@@ -14,8 +14,10 @@ import {
 	ExtendedSessionInterface,
 	hasUserAuthority,
 	LegalLinkInterface,
+	SessionsDataContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
+	UPDATE_SESSIONS,
 	useConsultingType,
 	UserDataContext
 } from '../../globalState';
@@ -72,6 +74,7 @@ import { Text } from '../text/Text';
 import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -85,6 +88,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
+	const { dispatch } = useContext(SessionsDataContext);
+
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
 	const consultingType = useConsultingType(activeSession.item.consultingType);
@@ -213,6 +218,14 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 			apiPutGroupChat(activeSession.item.id, GROUP_CHAT_API.STOP)
 				.then(() => {
+					apiGetChatRoomById(activeSession.item.id).then(
+						({ sessions }) => {
+							dispatch({
+								type: UPDATE_SESSIONS,
+								sessions: sessions
+							});
+						}
+					);
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
 				})
 				.catch(() => {
@@ -228,6 +241,14 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 			apiPutGroupChat(activeSession.item.id, GROUP_CHAT_API.LEAVE)
 				.then((response) => {
+					apiGetChatRoomById(activeSession.item.id).then(
+						({ sessions }) => {
+							dispatch({
+								type: UPDATE_SESSIONS,
+								sessions: sessions
+							});
+						}
+					);
 					setOverlayItem(leaveGroupChatSuccessOverlayItem);
 				})
 				.catch((error) => {

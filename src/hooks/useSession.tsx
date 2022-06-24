@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { apiGetSessionRooms } from '../api/apiGetSessionRooms';
+import { apiGetSessionRoomsByGroupIds } from '../api/apiGetSessionRooms';
 import { buildExtendedSession, ExtendedSessionInterface } from '../globalState';
 import { apiSetSessionRead } from '../api';
 
@@ -15,7 +15,7 @@ export const useSession = (
 	const [session, setSession] = useState(null);
 
 	const loadSession = useCallback(() => {
-		apiGetSessionRooms([rid])
+		apiGetSessionRoomsByGroupIds([rid])
 			.then(({ sessions: [activeSession] }) => {
 				if (activeSession) {
 					setSession(buildExtendedSession(activeSession, rid));

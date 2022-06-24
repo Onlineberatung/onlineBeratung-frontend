@@ -15,7 +15,7 @@ import {
 } from '../../components/app/RocketChat';
 import { RocketChatContext } from './RocketChatProvider';
 import { getValueFromCookie } from '../../components/sessionCookie/accessSessionCookie';
-import { apiGetSessionRooms } from '../../api/apiGetSessionRooms';
+import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import {
 	getChatItemForSession,
 	getSessionType,
@@ -147,7 +147,7 @@ export function RocketChatUnreadProvider({
 				return;
 			}
 
-			apiGetSessionRooms(messages.map((m) => m.rid)).then(
+			apiGetSessionRoomsByGroupIds(messages.map((m) => m.rid)).then(
 				({ sessions }) => {
 					handleSessions(sessions, messages);
 				}
@@ -192,11 +192,11 @@ export function RocketChatUnreadProvider({
 			return;
 		}
 
-		apiGetSessionRooms(unreadSubscriptions.map((s) => s.rid)).then(
-			({ sessions }) => {
-				handleSessions(sessions, unreadSubscriptions);
-			}
-		);
+		apiGetSessionRoomsByGroupIds(
+			unreadSubscriptions.map((s) => s.rid)
+		).then(({ sessions }) => {
+			handleSessions(sessions, unreadSubscriptions);
+		});
 	}, [subscriptions, rooms, handleSessions, initialized]);
 
 	return (
