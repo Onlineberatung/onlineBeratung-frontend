@@ -30,17 +30,9 @@ export const NavigationBar = ({
 
 	const sessionId = sessions?.[0]?.session?.id;
 
-	const {
-		sessions: unreadSessions,
-		group: unreadGroup,
-		enquiry: unreadEnquiry,
-		livechat: unreadLivechat
-		/*
-		archiv: unreadArchiv,
-		feedback: unreadFeedback,
-		
-		 */
-	} = useContext(RocketChatUnreadContext);
+	const { sessions: unreadSessions, group: unreadGroup } = useContext(
+		RocketChatUnreadContext
+	);
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
@@ -77,9 +69,7 @@ export const NavigationBar = ({
 	const pathsToShowUnreadMessageNotification = {
 		'/sessions/consultant/sessionView':
 			unreadSessions.length + unreadGroup.length,
-		'/sessions/user/view': unreadSessions.length + unreadGroup.length,
-		'/sessions/consultant/sessionPreview':
-			unreadEnquiry.length + unreadLivechat.length
+		'/sessions/user/view': unreadSessions.length + unreadGroup.length
 	};
 
 	return (
