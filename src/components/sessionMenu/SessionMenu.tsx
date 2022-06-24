@@ -131,7 +131,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		if (groupIdFromParam === activeSession?.item?.groupId) {
 			apiRocketChatGroupMembers(groupIdFromParam).then(({ members }) => {
 				members.forEach((member) => {
-					console.log(member._id, decodeUsername(member.username));
+					//console.log(member._id, decodeUsername(member.username));
 				});
 			});
 		}

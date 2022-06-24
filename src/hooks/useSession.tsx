@@ -44,7 +44,6 @@ export const useSession = (
 		loadSession();
 
 		return () => {
-			console.log('UNSET SESSION');
 			setReady(false);
 			setSession(null);
 		};

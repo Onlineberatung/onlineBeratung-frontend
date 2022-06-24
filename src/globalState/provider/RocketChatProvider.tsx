@@ -219,6 +219,7 @@ export function RocketChatProvider(props) {
 			params: SUBSCRIPTION_PARAMS = false
 		) => {
 			const id = getSubscriptionId(subscription);
+			console.log('RC: Subscribe', id);
 
 			addSubscription(id, subscriber);
 
