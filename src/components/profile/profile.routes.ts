@@ -14,6 +14,7 @@ import { PasswordReset } from '../passwordReset/PasswordReset';
 import { TwoFactorAuth } from '../twoFactorAuth/TwoFactorAuth';
 import { DeleteAccount } from './DeleteAccount';
 import { Help } from '../help/Help';
+import { ConsultantNotifications } from './ConsultantNotifications';
 
 export interface TabGroups {
 	title: string;
@@ -156,6 +157,24 @@ const routes: TabsType = [
 					{
 						component: AbsenceFormular,
 						column: COLUMN_RIGHT
+					}
+				]
+			}
+		]
+	},
+	{
+		title: translate('profile.routes.notifications'),
+		url: '/benachrichtigungen',
+		condition: (userData) =>
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
+		elements: [
+			{
+				title: translate('profile.routes.notifications.email'),
+				url: '/email',
+				elements: [
+					{
+						component: ConsultantNotifications,
+						column: COLUMN_LEFT
 					}
 				]
 			}
