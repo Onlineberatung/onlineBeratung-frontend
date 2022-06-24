@@ -1,7 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { apiGetSessionRoomsByGroupIds } from '../api/apiGetSessionRooms';
-import { buildExtendedSession, ExtendedSessionInterface } from '../globalState';
+import {
+	buildExtendedSession,
+	ExtendedSessionInterface,
+	ListItemInterface
+} from '../globalState';
 import { apiSetSessionRead } from '../api';
+import { apiGetChatRoomById } from '../api/apiGetChatRoomById';
 
 export const useSession = (
 	rid: string
@@ -12,7 +17,14 @@ export const useSession = (
 	ready: boolean;
 } => {
 	const [ready, setReady] = useState(false);
-	const [session, setSession] = useState(null);
+	const [session, setSession] = useState<ExtendedSessionInterface>(null);
+	const repetitiveId = useRef(null);
+
+	useEffect(() => {
+		repetitiveId.current = session?.item?.repetitive
+			? session.item.id
+			: null;
+	}, [session]);
 
 	const loadSession = useCallback(() => {
 		apiGetSessionRoomsByGroupIds([rid])
@@ -20,6 +32,16 @@ export const useSession = (
 				if (activeSession) {
 					setSession(buildExtendedSession(activeSession, rid));
 				}
+			})
+			.catch(() => {
+				if (repetitiveId.current) {
+					return apiGetChatRoomById(repetitiveId.current).then(
+						({ sessions: [session] }) => {
+							setSession(buildExtendedSession(session, rid));
+						}
+					);
+				}
+				setSession(null);
 			})
 			.finally(() => {
 				setReady(true);

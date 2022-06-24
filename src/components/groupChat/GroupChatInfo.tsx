@@ -148,14 +148,6 @@ export const GroupChatInfo = () => {
 			apiPutGroupChat(activeSession.item.id, GROUP_CHAT_API.STOP)
 				.then(() => {
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
-					apiGetChatRoomById(activeSession.item.id).then(
-						({ sessions }) => {
-							dispatch({
-								type: UPDATE_SESSIONS,
-								sessions: sessions
-							});
-						}
-					);
 				})
 				.catch(() => {
 					setOverlayItem(groupChatErrorOverlayItem);

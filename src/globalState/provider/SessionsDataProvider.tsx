@@ -78,7 +78,6 @@ function reducer(
 				if (index < 0) {
 					newSessions.push(s);
 				} else {
-					// ToDo: Just quickfix. Returned session is not always the full session currenlty
 					newSessions.splice(index, 1, s);
 				}
 			});

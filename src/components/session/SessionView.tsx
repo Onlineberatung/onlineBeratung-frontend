@@ -67,10 +67,12 @@ interface RouterProps {
 }
 
 export const SessionView = (props: RouterProps) => {
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
+		useParams();
 
 	const { type } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
+	const { ready: rcReady } = useContext(RocketChatContext);
 	const { subscribe, unsubscribe } = useContext(RocketChatContext);
 
 	const subscribed = useRef(false);
@@ -83,13 +85,14 @@ export const SessionView = (props: RouterProps) => {
 
 	const {
 		session: activeSession,
-		ready,
+		ready: activeSessionReady,
 		reload: reloadActiveSession,
 		read: readActiveSession
 	} = useSession(groupIdFromParam);
 	const { addNewUsersToEncryptedRoom } = useE2EE(groupIdFromParam);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
+	const abortController = useRef<AbortController>(null);
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
 	const displayName = userData.displayName || userData.userName;
@@ -111,7 +114,16 @@ export const SessionView = (props: RouterProps) => {
 	}, [fromL]);
 
 	const fetchSessionMessages = useCallback(() => {
-		return apiGetSessionData(activeSession.rid).then((messagesData) => {
+		if (abortController.current) {
+			abortController.current.abort();
+		}
+
+		abortController.current = new AbortController();
+
+		return apiGetSessionData(
+			activeSession.rid,
+			abortController.current.signal
+		).then((messagesData) => {
 			setMessagesItem(messagesData);
 		});
 	}, [activeSession]);
@@ -253,12 +265,66 @@ export const SessionView = (props: RouterProps) => {
 	}, [setSessionRead]);
 
 	useEffect(() => {
-		if (ready && !activeSession) {
+		const unmount = () => {
+			if (abortController.current) {
+				abortController.current.abort();
+				abortController.current = null;
+			}
+
+			setReadonly(true);
+			setMessagesItem(null);
+
+			if (subscribed.current && activeSession) {
+				subscribed.current = false;
+
+				unsubscribe(
+					{
+						name: SUB_STREAM_ROOM_MESSAGES,
+						roomId: activeSession.rid
+					},
+					onDebounceMessage
+				);
+
+				if (activeSession.isGroup || activeSession.isLive) {
+					unsubscribeTyping();
+					unsubscribe(
+						{
+							name: SUB_STREAM_NOTIFY_USER,
+							event: EVENT_SUBSCRIPTIONS_CHANGED,
+							userId: getValueFromCookie('rc_uid')
+						},
+						handleGroupChatStopped
+					);
+				}
+			}
+		};
+
+		if (!rcReady) {
+			return;
+		}
+
+		if (activeSessionReady && !activeSession) {
 			history.push(
 				getSessionListPathForLocation() +
 					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
 			);
-		} else if (ready) {
+		} else if (activeSessionReady) {
+			if (
+				activeSession.item.groupId !== groupIdFromParam &&
+				activeSession.item.id.toString() === sessionIdFromParam
+			) {
+				history.push(
+					`${getSessionListPathForLocation()}/${
+						activeSession.item.groupId
+					}/${activeSession.item.id}${
+						sessionListTab
+							? `?sessionListTab=${sessionListTab}`
+							: ''
+					}`
+				);
+				return unmount;
+			}
+
 			const isConsultantEnquiry =
 				type === SESSION_LIST_TYPES.ENQUIRY &&
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
@@ -271,7 +337,7 @@ export const SessionView = (props: RouterProps) => {
 				bannedUsers.includes(userData.userName) ||
 				subscribed.current
 			) {
-				return;
+				return unmount;
 			}
 
 			subscribed.current = true;
@@ -310,34 +376,11 @@ export const SessionView = (props: RouterProps) => {
 		} else {
 			setReadonly(true);
 			setMessagesItem(null);
-			subscribed.current = false;
 		}
 
-		return () => {
-			if (subscribed.current && activeSession) {
-				unsubscribe(
-					{
-						name: SUB_STREAM_ROOM_MESSAGES,
-						roomId: activeSession.rid
-					},
-					onDebounceMessage
-				);
-
-				if (activeSession.isGroup || activeSession.isLive) {
-					unsubscribeTyping();
-					unsubscribe(
-						{
-							name: SUB_STREAM_NOTIFY_USER,
-							event: EVENT_SUBSCRIPTIONS_CHANGED,
-							userId: getValueFromCookie('rc_uid')
-						},
-						handleGroupChatStopped
-					);
-				}
-			}
-		};
+		return unmount;
 	}, [
-		ready,
+		activeSessionReady,
 		activeSession,
 		unsubscribe,
 		onDebounceMessage,
@@ -350,7 +393,10 @@ export const SessionView = (props: RouterProps) => {
 		fetchSessionMessages,
 		subscribe,
 		subscribeTyping,
-		bannedUsers
+		bannedUsers,
+		groupIdFromParam,
+		rcReady,
+		sessionIdFromParam
 	]);
 
 	const handleOverlayAction = (buttonFunction: string) => {
