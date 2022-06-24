@@ -188,9 +188,11 @@ export const SessionView = (props: RouterProps) => {
 						return;
 					}
 
-					fetchSessionMessages().then(() => {
-						setSessionRead();
-					});
+					if (message.u?.username !== 'rocket-chat-technical-user') {
+						fetchSessionMessages().then(() => {
+							setSessionRead();
+						});
+					}
 				});
 		},
 
