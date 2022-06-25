@@ -218,14 +218,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 			apiPutGroupChat(activeSession.item.id, GROUP_CHAT_API.STOP)
 				.then(() => {
-					apiGetChatRoomById(activeSession.item.id).then(
-						({ sessions }) => {
-							dispatch({
-								type: UPDATE_SESSIONS,
-								sessions: sessions
-							});
-						}
-					);
 					setOverlayItem(stopGroupChatSuccessOverlayItem);
 				})
 				.catch(() => {
@@ -240,15 +232,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			props.hasUserInitiatedStopOrLeaveRequest.current = true;
 
 			apiPutGroupChat(activeSession.item.id, GROUP_CHAT_API.LEAVE)
-				.then((response) => {
-					apiGetChatRoomById(activeSession.item.id).then(
-						({ sessions }) => {
-							dispatch({
-								type: UPDATE_SESSIONS,
-								sessions: sessions
-							});
-						}
-					);
+				.then(() => {
 					setOverlayItem(leaveGroupChatSuccessOverlayItem);
 				})
 				.catch((error) => {

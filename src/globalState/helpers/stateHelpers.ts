@@ -34,6 +34,7 @@ export type ExtendedSessionInterface = Omit<
 	isFeedback?: boolean;
 	isEnquiry?: boolean;
 	isEmptyEnquiry?: boolean;
+	isNonEmptyEnquiry?: boolean;
 	isArchive?: boolean;
 };
 
@@ -75,6 +76,7 @@ export const buildExtendedSession = (
 			sessionChat &&
 			[STATUS_EMPTY, STATUS_ENQUIRY].indexOf(sessionChat.status) >= 0,
 		isEmptyEnquiry: sessionChat && sessionChat.status === STATUS_EMPTY,
+		isNonEmptyEnquiry: sessionChat && sessionChat.status === STATUS_ENQUIRY,
 		isArchive: sessionChat && sessionChat.status === STATUS_ARCHIVED,
 		rid
 	};
