@@ -232,6 +232,7 @@ export const RegistrationForm = ({
 						registrationNotes={consultingType?.registration.notes}
 						consultant={consultant}
 						onValidation={setFormAccordionValid}
+						mainTopicId={formAccordionData.mainTopicId}
 					/>
 				)}
 

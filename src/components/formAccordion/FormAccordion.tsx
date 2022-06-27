@@ -39,6 +39,7 @@ interface FormAccordionProps {
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
 	initialPostcode?: string;
+	mainTopicId?: number;
 }
 
 export const FormAccordion = ({
@@ -50,7 +51,8 @@ export const FormAccordion = ({
 	onValidation,
 	additionalStepsData,
 	registrationNotes,
-	initialPostcode
+	initialPostcode,
+	mainTopicId
 }: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
 	const [agency, setAgency] = useState<AgencyDataInterface>();
@@ -65,7 +67,7 @@ export const FormAccordion = ({
 		age: additionalStepsData?.age?.isEnabled
 			? VALIDITY_INITIAL
 			: VALIDITY_VALID,
-		mainTopic: tenantData?.mainTopicEnabled
+		mainTopic: tenantData?.settings?.topicsInRegistrationEnabled
 			? VALIDITY_INITIAL
 			: VALIDITY_VALID,
 		agency: VALIDITY_INITIAL
@@ -142,7 +144,7 @@ export const FormAccordion = ({
 		}
 	];
 
-	if (tenantData?.mainTopicEnabled) {
+	if (tenantData?.settings?.topicsInRegistrationEnabled) {
 		accordionItemData.push({
 			title: translate('registration.mainTopic.headline'),
 			nestedComponent: (
@@ -223,6 +225,7 @@ export const FormAccordion = ({
 						handleValidity('agency', validity)
 					}
 					agencySelectionNote={registrationNotes?.agencySelection}
+					mainTopicId={mainTopicId}
 				/>
 			),
 			isValid: validity.agency

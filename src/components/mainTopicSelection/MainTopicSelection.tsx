@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useEffect, useState } from 'react';
-import styles from './MainTopicSelection.module.scss';
+import './MainTopicSelection.styles';
 import { translate } from '../../utils/translate';
 import { apiGetTopicsData } from '../../api/apiGetTopicsData';
 import { RadioButton } from '../radioButton/RadioButton';
@@ -39,14 +39,14 @@ export const MainTopicSelection = ({
 	);
 
 	return (
-		<div className={styles.mainTopicSelection}>
-			<h3 className={styles.info}>
+		<div className="mainTopicSelection">
+			<h3 className="mainTopicSelection__info">
 				{translate('registration.mainTopic.subline')}
 			</h3>
 			{topics.map((t) => (
-				<div className={styles.topic} key={t.id}>
+				<div className="mainTopicSelection__topic" key={t.id}>
 					<RadioButton
-						className={styles.radioButton}
+						className="mainTopicSelection__radioButton"
 						name="topicSelection"
 						type="smaller"
 						handleRadioButton={() => onChangeInput(t.id.toString())}
