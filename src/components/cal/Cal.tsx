@@ -5,6 +5,7 @@ import './cal.styles';
 import { history } from '../app/app';
 import { apiAppointmentSuccessfullySet } from '../../api/apiAppointmentSuccessfullySet';
 import { UserDataContext } from '../../globalState';
+import { translate } from '../../utils/translate';
 
 export default function Cal({
 	calLink,
@@ -47,40 +48,14 @@ export default function Cal({
 		});
 		Cal('ui', {
 			styles: {
-				// body: {
-				// 	'background': 'red',
-				// 	'background-color': 'red'
-				// },
 				eventTypeListItem: {
 					background: 'red',
 					color: 'white',
 					backgroundColor: 'red',
 					marginBottom: '100px'
 				},
-				// enabledDateButton: {
-				// 	background: 'red',
-				// 	color: 'white',
-				// 	backgroundColor: 'red'
-				// },
-				// disabledDateButton: {
-				// 	background: 'red',
-				// 	color: 'white',
-				// 	backgroundColor: 'red'
-				// },
-				// availabilityDatePicker: {
-				// 	background: 'red',
-				// 	color: 'white',
-				// 	backgroundColor: 'red'
-				// },
 				branding: {
 					brandColor: '#7fdfc4'
-					// lightColor: 'orange',
-					// lighterColor: 'grey',
-					// lightestColor: 'green',
-					// highlightColor: 'yellow'
-					// darkColor: 'blue',
-					// darkerColor: 'blue',
-					// medianColor: 'blue'
 				}
 			}
 		});
@@ -94,9 +69,14 @@ export default function Cal({
 					title: data.eventType.title,
 					user: userData.userName,
 					counselor: data.organizer.name,
-					date: date
+					date: date,
+					duration: data.duration,
+					location: `${data.eventType.title} ${translate(
+						'message.appointmentSet.between'
+					)} ${data.eventType.team.name} ${translate(
+						'message.appointmentSet.and'
+					)} ${data.organizer.name}`
 				};
-
 				apiAppointmentSuccessfullySet(
 					JSON.stringify(appointmentData),
 					rcGroupId

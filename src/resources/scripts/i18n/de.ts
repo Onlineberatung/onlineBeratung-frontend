@@ -5,6 +5,7 @@ import archive from './de/archive';
 import attachments from './de/attachments';
 import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
+import dates from './de/dates';
 import deleteAccount from './de/deleteAccount';
 import deleteSession from './de/deleteSession';
 import enquiry from './de/enquiry';
@@ -38,6 +39,7 @@ const de = {
 	attachments,
 	chatFlyout,
 	consultant,
+	dates,
 	deleteAccount,
 	deleteSession,
 	enquiry,

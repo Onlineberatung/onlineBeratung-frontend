@@ -35,7 +35,7 @@ import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { history } from '../app/app';
+import { Appointment } from './Appointment';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -226,7 +226,7 @@ export const MessageItemComponent = ({
 				/>
 			);
 		} else if (isAppointmentSet) {
-			return <span>{alias.content}</span>;
+			return <Appointment data={alias.content} />;
 		} else {
 			return (
 				<>

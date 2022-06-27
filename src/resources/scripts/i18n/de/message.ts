@@ -9,7 +9,12 @@ const message = {
 	'copy.title': 'Nachricht in Zwischenablage kopieren',
 	'write.peer.checkbox.label': 'Feedback anfordern',
 	'submit.booking.headline': 'Oder vereinbare jetzt einen Termin',
-	'submit.booking.buttonLabel': 'Termin zur Beratung vereinbaren'
+	'submit.booking.buttonLabel': 'Termin zur Beratung vereinbaren',
+	'appointmentSet.title': 'Ihr Termin wurde erstellt',
+	'appointmentSet.addToCalendar': 'Zum Kalender hinzufügen',
+	'appointmentSet.cancel': 'Termin absagen',
+	'appointmentSet.between': 'zwischen',
+	'appointmentSet.and': 'und'
 };
 
 export default message;
