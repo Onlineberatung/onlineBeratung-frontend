@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
-import {
-	SessionsDataContext,
-	UPDATE_SESSIONS,
-	UserDataContext
-} from '../../globalState';
+import { UserDataContext } from '../../globalState';
 import { history } from '../app/app';
 import {
 	getSessionListPathForLocation,
@@ -52,7 +48,6 @@ import { useResponsive } from '../../hooks/useResponsive';
 import { Tag } from '../tag/Tag';
 import { useSession } from '../../hooks/useSession';
 import { useSearchParam } from '../../hooks/useSearchParams';
-import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
@@ -64,7 +59,6 @@ export const GroupChatInfo = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
-	const { dispatch } = useContext(SessionsDataContext);
 
 	const [subscriberList, setSubscriberList] = useState(null);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
@@ -128,7 +122,7 @@ export const GroupChatInfo = () => {
 				}
 			});
 		}
-	}, [activeSession, groupIdFromParam, ready, sessionListTab]);
+	}, [activeSession, ready, sessionListTab]);
 
 	const handleStopGroupChatButton = () => {
 		setOverlayItem(stopGroupChatSecurityOverlayItem);

@@ -70,6 +70,8 @@ export const SessionView = (props: RouterProps) => {
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
 		useParams();
 
+	const currentGroupId = useUpdatingRef(groupIdFromParam);
+
 	const { type } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
 	const { ready: rcReady } = useContext(RocketChatContext);
@@ -89,7 +91,7 @@ export const SessionView = (props: RouterProps) => {
 		reload: reloadActiveSession,
 		read: readActiveSession
 	} = useSession(groupIdFromParam);
-	const { addNewUsersToEncryptedRoom } = useE2EE(groupIdFromParam);
+	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const abortController = useRef<AbortController>(null);
@@ -98,7 +100,7 @@ export const SessionView = (props: RouterProps) => {
 	const displayName = userData.displayName || userData.userName;
 
 	const { subscribeTyping, unsubscribeTyping, handleTyping, typingUsers } =
-		useTyping(groupIdFromParam, userData.userName, displayName);
+		useTyping(activeSession?.rid, userData.userName, displayName);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
@@ -310,13 +312,14 @@ export const SessionView = (props: RouterProps) => {
 			);
 		} else if (activeSessionReady) {
 			if (
-				activeSession.item.groupId !== groupIdFromParam &&
+				activeSession.rid !== currentGroupId.current &&
 				activeSession.item.id.toString() === sessionIdFromParam
 			) {
+				console.log(activeSession.rid, currentGroupId.current);
 				history.push(
-					`${getSessionListPathForLocation()}/${
-						activeSession.item.groupId
-					}/${activeSession.item.id}${
+					`${getSessionListPathForLocation()}/${activeSession.rid}/${
+						activeSession.item.id
+					}${
 						sessionListTab
 							? `?sessionListTab=${sessionListTab}`
 							: ''
@@ -394,9 +397,9 @@ export const SessionView = (props: RouterProps) => {
 		subscribe,
 		subscribeTyping,
 		bannedUsers,
-		groupIdFromParam,
 		rcReady,
-		sessionIdFromParam
+		sessionIdFromParam,
+		currentGroupId
 	]);
 
 	const handleOverlayAction = (buttonFunction: string) => {

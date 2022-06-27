@@ -3,7 +3,8 @@ import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { ListItemInterface } from '../globalState';
 
 export const apiGetSessionRoomsByGroupIds = async (
-	rcGroupIds: string[]
+	rcGroupIds: string[],
+	signal?: AbortSignal
 ): Promise<{ sessions: ListItemInterface[] }> => {
 	const url = `${config.endpoints.sessionRooms}?rcGroupIds=${rcGroupIds.join(
 		','
@@ -13,12 +14,14 @@ export const apiGetSessionRoomsByGroupIds = async (
 		url: url,
 		method: FETCH_METHODS.GET,
 		rcValidation: true,
-		responseHandling: [FETCH_ERRORS.EMPTY]
+		responseHandling: [FETCH_ERRORS.EMPTY],
+		...(signal && { signal: signal })
 	});
 };
 
 export const apiGetSessionRoomBySessionId = async (
-	sessionId: number
+	sessionId: number,
+	signal?: AbortSignal
 ): Promise<{ sessions: ListItemInterface[] }> => {
 	const url = `${config.endpoints.sessionRooms}/${sessionId}`;
 
@@ -26,6 +29,7 @@ export const apiGetSessionRoomBySessionId = async (
 		url: url,
 		method: FETCH_METHODS.GET,
 		rcValidation: true,
-		responseHandling: [FETCH_ERRORS.EMPTY]
+		responseHandling: [FETCH_ERRORS.EMPTY],
+		...(signal && { signal: signal })
 	});
 };

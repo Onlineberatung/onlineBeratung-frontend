@@ -51,7 +51,7 @@ export const AskerInfo = () => {
 		}
 
 		setIsPeerChat(activeSession.item.isPeerChat);
-	}, [activeSession, groupIdFromParam, ready, sessionListTab]);
+	}, [activeSession, ready, sessionListTab]);
 
 	const isSessionAssignAvailable = useCallback(
 		() =>

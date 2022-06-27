@@ -174,7 +174,6 @@ export function RocketChatProvider(props) {
 	const unsubscribe = useCallback(
 		(subscription: SUBSCRIPTIONS, subscriber: MutableRefObject<any>) => {
 			const id = getSubscriptionId(subscription);
-			console.log('RC: Unsubscribe', id);
 
 			// If no subscriber is available
 			if (!subscriptions.current?.[id]) {
@@ -219,7 +218,6 @@ export function RocketChatProvider(props) {
 			params: SUBSCRIPTION_PARAMS = false
 		) => {
 			const id = getSubscriptionId(subscription);
-			console.log('RC: Subscribe', id);
 
 			addSubscription(id, subscriber);
 
@@ -270,8 +268,6 @@ export function RocketChatProvider(props) {
 			],
 			[LISTENER_CONNECTED]: [
 				() => {
-					console.log('RC: Connected');
-					console.log('RC: Login');
 					// login
 					send(
 						{
@@ -281,17 +277,12 @@ export function RocketChatProvider(props) {
 							params: [{ resume: rcAuthToken.current }]
 						},
 						() => {
-							console.log('RC: Logged in');
 							setReady(true);
 						}
 					);
 				}
 			],
-			[LISTENER_ADDED]: [
-				(res) => {
-					console.log('Added', res);
-				}
-			],
+			[LISTENER_ADDED]: [() => {}],
 			[LISTENER_CHANGED]: [
 				(res) => {
 					(
@@ -339,9 +330,7 @@ export function RocketChatProvider(props) {
 			}
 		};
 
-		rcWebsocket.current.onclose = () => {
-			console.log('RC: Connection closed');
-		};
+		rcWebsocket.current.onclose = () => {};
 
 		rcWebsocket.current.onerror = (event) => {
 			rcWebsocketTimeout.current = window.setTimeout(() => {
@@ -353,7 +342,6 @@ export function RocketChatProvider(props) {
 
 	useEffect(() => {
 		if (!rcWebsocket.current) {
-			console.log('RC: Connect');
 			connect();
 		}
 
