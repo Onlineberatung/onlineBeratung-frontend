@@ -399,7 +399,7 @@ export const SessionsList = ({
 				.filter(([, room]) => room._id !== 'GENERAL')
 				// Reduce all room events of the same room to a single roomEvent
 				.reduce((acc, [event, room]) => {
-					const index = acc.findIndex(([, r]) => r.rid === room._id);
+					const index = acc.findIndex(([, r]) => r._id === room._id);
 					if (index < 0) {
 						acc.push([event, room]);
 					} else {
