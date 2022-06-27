@@ -1,0 +1,38 @@
+{
+	"session": {
+		"id": 9876,
+		"agencyId": 875,
+		"consultingType": 2,
+		"status": 2,
+		"postcode": "79100",
+		"language": "de",
+		"groupId": "someGroupId",
+		"feedbackGroupId": null,
+		"isPeerChat": false,
+		"askerRcId": "askerRcId",
+		"e2eLastMessage": null,
+		"lastMessage": "null",
+		"messageDate": 1656072442,
+		"messagesRead": true,
+		"feedbackRead": true,
+		"isTeamSession": false,
+		"monitoring": false,
+		"registrationType": "REGISTERED",
+		"createDate": "2022-06-15T08:09:18Z",
+		"attachment": null,
+		"videoCallMessageDTO": null
+	},
+	"chat": null,
+	"user": {
+		"username": "username",
+		"sessionData": {}
+	},
+	"consultant": {
+		"firstName": "firstName",
+		"lastName": "lastName",
+		"id": "12345-54321-asdf-fdsa",
+		"absent": false
+	},
+	"agency": null,
+	"latestMessage": "1970-01-01T01:00:00.000+01:00"
+}
