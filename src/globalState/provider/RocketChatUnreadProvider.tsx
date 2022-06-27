@@ -25,13 +25,15 @@ import {
 	SESSION_TYPE_FEEDBACK,
 	SESSION_TYPE_GROUP,
 	SESSION_TYPE_LIVECHAT,
-	SESSION_TYPE_SESSION
+	SESSION_TYPE_SESSION,
+	SESSION_TYPE_TEAMSESSION
 } from '../../components/session/sessionHelpers';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
 import useUpdatingRef from '../../hooks/useUpdatingRef';
 
 type UnreadStatusContextProps = {
 	sessions: string[];
+	teamsessions: string[];
 	feedback: string[];
 	enquiry: string[];
 	livechat: string[];
@@ -45,6 +47,7 @@ const initialData = {
 	archiv: [],
 	feedback: [],
 	sessions: [],
+	teamsessions: [],
 	group: []
 };
 
@@ -119,6 +122,8 @@ export function RocketChatUnreadProvider({
 					case SESSION_TYPE_SESSION:
 						newUnreadStatus.sessions.push(rcData.rid);
 						break;
+					case SESSION_TYPE_TEAMSESSION:
+						newUnreadStatus.teamsessions.push(rcData.rid);
 				}
 			});
 

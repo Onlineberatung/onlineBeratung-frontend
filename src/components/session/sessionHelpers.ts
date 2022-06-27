@@ -44,6 +44,7 @@ export const SESSION_TYPE_ARCHIVED = 'archived';
 export const SESSION_TYPE_FEEDBACK = 'feedback';
 export const SESSION_TYPE_GROUP = 'group';
 export const SESSION_TYPE_SESSION = 'session';
+export const SESSION_TYPE_TEAMSESSION = 'teamsession';
 
 export type SESSION_TYPES =
 	| typeof SESSION_TYPE_LIVECHAT
@@ -51,7 +52,8 @@ export type SESSION_TYPES =
 	| typeof SESSION_TYPE_ARCHIVED
 	| typeof SESSION_TYPE_FEEDBACK
 	| typeof SESSION_TYPE_GROUP
-	| typeof SESSION_TYPE_SESSION;
+	| typeof SESSION_TYPE_SESSION
+	| typeof SESSION_TYPE_TEAMSESSION;
 
 export const getSessionType = (
 	session: ListItemInterface,
@@ -74,6 +76,11 @@ export const getSessionType = (
 	} else if (isGroupChat(chatItem)) {
 		return SESSION_TYPE_GROUP;
 	}
+
+	if (isTeamSession(chatItem)) {
+		return SESSION_TYPE_TEAMSESSION;
+	}
+
 	return SESSION_TYPE_SESSION;
 };
 
@@ -116,6 +123,12 @@ export const isGroupChat = (
 	return (
 		(chatItem as GroupChatItemInterface) && !('feedbackGroupId' in chatItem)
 	);
+};
+
+export const isTeamSession = (
+	sessionItem: SessionItemInterface
+): sessionItem is SessionItemInterface => {
+	return sessionItem && sessionItem.isTeamSession;
 };
 
 export const getChatItemForSession = (
