@@ -3,7 +3,8 @@ import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { ListItemInterface } from '../globalState';
 
 export const apiGetChatRoomById = async (
-	chatId: number
+	chatId: number,
+	signal?: AbortSignal
 ): Promise<{ sessions: ListItemInterface[] }> => {
 	const url = `${config.endpoints.chatRoom}/${chatId}`;
 
@@ -11,6 +12,7 @@ export const apiGetChatRoomById = async (
 		url: url,
 		method: FETCH_METHODS.GET,
 		rcValidation: true,
-		responseHandling: [FETCH_ERRORS.EMPTY]
+		responseHandling: [FETCH_ERRORS.EMPTY],
+		...(signal && { signal: signal })
 	});
 };

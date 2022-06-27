@@ -14,10 +14,8 @@ import {
 	ExtendedSessionInterface,
 	hasUserAuthority,
 	LegalLinkInterface,
-	SessionsDataContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
-	UPDATE_SESSIONS,
 	useConsultingType,
 	UserDataContext
 } from '../../globalState';
@@ -72,9 +70,7 @@ import DeleteSession from '../session/DeleteSession';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Text } from '../text/Text';
 import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
-import { decodeUsername } from '../../utils/encryptionHelpers';
 import { useSearchParam } from '../../hooks/useSearchParams';
-import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -88,7 +84,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
-	const { dispatch } = useContext(SessionsDataContext);
 
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);

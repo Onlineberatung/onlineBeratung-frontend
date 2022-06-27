@@ -20,7 +20,7 @@ export interface UseE2EEParams extends e2eeParams {
 	addNewUsersToEncryptedRoom?: any;
 }
 
-export const useE2EE = (rid: string): UseE2EEParams => {
+export const useE2EE = (rid: string | null): UseE2EEParams => {
 	const { key: e2eePrivateKey } = useContext(E2EEContext);
 	const { subscriptions, rooms } = useContext(RocketChatSubscriptionsContext);
 	const [key, setKey] = useState(null);
@@ -92,6 +92,10 @@ export const useE2EE = (rid: string): UseE2EEParams => {
 	}, [sessionKeyExportedString]);
 
 	useEffect(() => {
+		if (!rid) {
+			return;
+		}
+
 		const room = rooms.find((room) => room._id === rid);
 
 		if (!room?.e2eKeyId) {

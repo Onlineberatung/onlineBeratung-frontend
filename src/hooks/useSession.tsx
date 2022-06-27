@@ -1,15 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { apiGetSessionRoomsByGroupIds } from '../api/apiGetSessionRooms';
 import {
-	buildExtendedSession,
-	ExtendedSessionInterface,
-	ListItemInterface
-} from '../globalState';
-import { apiSetSessionRead } from '../api';
+	apiGetSessionRoomBySessionId,
+	apiGetSessionRoomsByGroupIds
+} from '../api/apiGetSessionRooms';
+import { buildExtendedSession, ExtendedSessionInterface } from '../globalState';
+import { apiSetSessionRead, FETCH_ERRORS } from '../api';
 import { apiGetChatRoomById } from '../api/apiGetChatRoomById';
 
 export const useSession = (
-	rid: string
+	rid: string | null,
+	sessionId?: number,
+	chatId?: number
 ): {
 	session: ExtendedSessionInterface;
 	reload: () => void;
@@ -19,6 +20,7 @@ export const useSession = (
 	const [ready, setReady] = useState(false);
 	const [session, setSession] = useState<ExtendedSessionInterface>(null);
 	const repetitiveId = useRef(null);
+	const abortController = useRef<AbortController>(null);
 
 	useEffect(() => {
 		repetitiveId.current = session?.item?.repetitive
@@ -27,26 +29,59 @@ export const useSession = (
 	}, [session]);
 
 	const loadSession = useCallback(() => {
-		apiGetSessionRoomsByGroupIds([rid])
+		if (abortController.current) {
+			abortController.current.abort();
+		}
+
+		abortController.current = new AbortController();
+
+		let promise;
+
+		if (!rid && !sessionId && !chatId) {
+			return;
+		}
+
+		if (chatId) {
+			promise = apiGetChatRoomById(
+				chatId,
+				abortController.current.signal
+			);
+		} else if (sessionId) {
+			promise = apiGetSessionRoomBySessionId(
+				sessionId,
+				abortController.current.signal
+			);
+		} else {
+			promise = apiGetSessionRoomsByGroupIds(
+				[rid],
+				abortController.current.signal
+			);
+		}
+
+		promise
 			.then(({ sessions: [activeSession] }) => {
 				if (activeSession) {
 					setSession(buildExtendedSession(activeSession, rid));
 				}
+				setReady(true);
 			})
-			.catch(() => {
+			.catch((e) => {
+				if (e.message === FETCH_ERRORS.ABORT) {
+					return;
+				}
+
 				if (repetitiveId.current) {
 					return apiGetChatRoomById(repetitiveId.current).then(
 						({ sessions: [session] }) => {
 							setSession(buildExtendedSession(session, rid));
+							setReady(true);
 						}
 					);
 				}
 				setSession(null);
-			})
-			.finally(() => {
 				setReady(true);
 			});
-	}, [rid]);
+	}, [chatId, sessionId, rid]);
 
 	const readSession = useCallback(() => {
 		if (!session) {
@@ -68,6 +103,10 @@ export const useSession = (
 		return () => {
 			setReady(false);
 			setSession(null);
+			if (abortController.current) {
+				abortController.current.abort();
+				abortController.current = null;
+			}
 		};
 	}, [loadSession]);
 
