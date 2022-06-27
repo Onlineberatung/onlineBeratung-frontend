@@ -1,5 +1,8 @@
 const e2ee = {
-	hint: 'Ihre Nachrichten sind Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform.'
+	'message.encryption': 'Nachsricht verschlüselt',
+	'message.encryption.error':
+		'Nachricht verschlüsselt - Fehler beim Entschlüsseln',
+	'hint': 'Ihre Nachrichten sind Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform.'
 };
 
 export default e2ee;
