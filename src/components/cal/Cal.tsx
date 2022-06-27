@@ -1,10 +1,10 @@
 /* eslint-disable prefer-const */
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import useEmbed from './useEmbed';
 import './cal.styles';
 import { history } from '../app/app';
-import { config as calComUrl } from '../../resources/scripts/config';
-import { apiSendMessage } from '../../api';
+import { apiAppointmentSuccessfullySet } from '../../api/apiAppointmentSuccessfullySet';
+import { UserDataContext } from '../../globalState';
 
 export default function Cal({
 	calLink,
@@ -17,6 +17,8 @@ export default function Cal({
 	config?: any;
 	embedJsUrl?: string;
 }) {
+	const { userData } = useContext(UserDataContext);
+
 	if (!calLink) {
 		throw new Error('calLink is required');
 	}
@@ -86,29 +88,27 @@ export default function Cal({
 			action: 'bookingSuccessful',
 			callback: (e) => {
 				const { data, type, namespace } = e.detail;
-				const fakeData = `https://calcom-develop.suchtberatung.digital/success?date=2022-06-24T09%3A30%3A00%2B01%3A00
-				&type=11
-				&name=example+name
-				&bookingId=29`;
-				apiSendMessage(fakeData, rcGroupId, null, true)
+				const eventType = data.eventType.id;
+				const date = data.date;
+				const appointmentData = {
+					title: data.eventType.title,
+					user: userData.userName,
+					counselor: data.organizer.name,
+					date: date
+				};
+
+				apiAppointmentSuccessfullySet(
+					JSON.stringify(appointmentData),
+					rcGroupId
+				)
 					.then(() => {
 						history.push({
-							pathname: `/sessions/user/view/${rcGroupId}/${sessionId}`,
-							state: {
-								data: fakeData
-							}
+							pathname: `/sessions/user/view/${rcGroupId}/${sessionId}`
 						});
 					})
 					.catch((error) => {
 						console.log(error);
 					});
-
-				// `data` is properties for the event.
-				// `type` is the name of the action(You can also call it type of the action.) This would be same as "ANY_ACTION_NAME" except when ANY_ACTION_NAME="*" which listens to all the events.
-				// `namespace` tells you the Cal namespace for which the event is fired/
-
-				// const { data, type, namespace } = e.detail;
-				console.log(e.detail);
 			}
 		});
 		(window as any).Call = Cal;

@@ -43,7 +43,7 @@ enum MessageType {
 	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL',
 	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
-	FINISHED_BOOKING = 'FINISHED_BOOKING'
+	APPOINTMENT_SET = 'APPOINTMENT_SET'
 }
 
 export interface ForwardMessageDTO {
@@ -75,6 +75,7 @@ export interface MessageItem {
 		forwardMessageDTO?: ForwardMessageDTO;
 		videoCallMessageDTO?: VideoCallMessageDTO;
 		messageType: MessageType;
+		content?: string;
 	};
 	attachments?: MessageService.Schemas.AttachmentDTO[];
 	file?: MessageService.Schemas.FileDTO;
@@ -183,9 +184,7 @@ export const MessageItemComponent = ({
 	const isVideoCallMessage = alias?.messageType === MessageType.VIDEOCALL;
 	const isFinishedConversationMessage =
 		alias?.messageType === MessageType.FINISHED_CONVERSATION;
-	// const isFinishedBooking =
-	// 	alias?.messageType === MessageType.FINISHED_BOOKING;
-	const isFinishedBooking = history.location.state?.data;
+	const isAppointmentSet = alias?.messageType === MessageType.APPOINTMENT_SET;
 
 	const messageContent = (): JSX.Element => {
 		if (isFurtherStepsMessage) {
@@ -226,16 +225,8 @@ export const MessageItemComponent = ({
 					activeSessionAskerRcId={activeSession.session.askerRcId}
 				/>
 			);
-		} else if (isFinishedBooking) {
-			return (
-				<iframe
-					className="booking-confirmation"
-					src={history.location.state?.data}
-					scrolling="no"
-					frameBorder="no"
-					title="booking-confirmation"
-				/>
-			);
+		} else if (isAppointmentSet) {
+			return <span>{alias.content}</span>;
 		} else {
 			return (
 				<>

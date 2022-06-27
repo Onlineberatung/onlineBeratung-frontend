@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { config } from '../../resources/scripts/config';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
 import Cal from '../cal/Cal';
+import { UserDataContext } from '../../globalState';
 
 export const Booking = () => {
 	useEffect(() => {
@@ -16,14 +17,16 @@ export const Booking = () => {
 		};
 	}, []);
 
+	const { userData } = useContext(UserDataContext);
+
 	return (
 		<Cal
 			calLink="team/team-b"
 			// calLink="andre-soares"
 			calOrigin={config.urls.calComDevServer}
 			config={{
-				name: 'John Doe',
-				email: 'andre.soares@virtual-identity.com',
+				name: userData.userName,
+				email: userData.userName,
 				theme: 'light'
 			}}
 		/>

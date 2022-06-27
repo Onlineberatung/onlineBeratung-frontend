@@ -67,7 +67,9 @@ export const config = {
 		userData: apiUrl + '/service/users/data',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
-		consultantsLanguages: apiUrl + '/service/users/consultants/languages'
+		consultantsLanguages: apiUrl + '/service/users/consultants/languages',
+		setAppointmentSuccessMessage:
+			apiUrl + '/service/messages/aliasWithContent/new'
 	},
 	urls: {
 		toRegistration: 'https://www.caritas.de/onlineberatung',
