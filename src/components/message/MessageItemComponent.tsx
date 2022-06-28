@@ -35,8 +35,9 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
+import clsx from 'clsx';
 
-enum MessageType {
+export enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
 	USER_MUTED = 'USER_MUTED',
 	FORWARD = 'FORWARD',
@@ -59,6 +60,7 @@ export interface VideoCallMessageDTO {
 	initiatorRcUserId: string;
 	initiatorUserName: string;
 }
+
 export interface MessageItem {
 	id?: number;
 	message: string;
@@ -265,6 +267,36 @@ export const MessageItemComponent = ({
 						activeSessionAskerRcId={activeSession.item.askerRcId}
 					/>
 				);
+			case isMasterKeyLostMessage:
+				return (
+					<>
+						<MessageDisplayName
+							isMyMessage={isMyMessage}
+							isUser={isUserMessage()}
+							type={getUsernameType()}
+							userId={userId}
+							username={username}
+							isUserBanned={bannedUsers.includes(username)}
+							displayName={displayName}
+						/>
+
+						<div
+							className={clsx(
+								'messageItem__message',
+								isMyMessage && 'messageItem__message--myMessage'
+							)}
+						>
+							<span
+								dangerouslySetInnerHTML={{
+									__html: translate(
+										'session.encrypted.notice.send.info'
+									)
+								}}
+							/>
+						</div>
+					</>
+				);
+
 			default:
 				return (
 					<>

@@ -14,6 +14,9 @@ export type e2eeParams = {
 	keyID?: string;
 	sessionKeyExportedString?: string;
 	encrypted?: boolean;
+	masterKeyLost?: boolean;
+	canSendMasterKeyLostMessage?: boolean;
+	sendMessageLostInfo?: Function;
 };
 
 export interface UseE2EEParams extends e2eeParams {
