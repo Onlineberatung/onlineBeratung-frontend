@@ -47,7 +47,7 @@
 		&:focus + label,
 		&:not(:placeholder-shown) + label {
 			font-size: 12px;
-			top: 3px;
+			top: 2px;
 			transition: font-size 0.5s, top 0.5s;
 			line-height: $grid-base-two;
 			padding-top: $grid-base;
@@ -62,5 +62,6 @@
 		transition: font-size 0.5s, top 0.5s;
 		color: $tertiary;
 		text-align: left;
+		background-color: white;
 	}
 }
