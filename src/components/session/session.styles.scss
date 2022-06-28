@@ -16,6 +16,10 @@ $session-scroll-to-bottom-radius: $button-border-radius !default;
 	background-color: $session-background-color;
 	overflow: hidden;
 
+	.session__content.drag-in-progress * {
+		pointer-events: none;
+	}
+
 	@include breakpoint($fromLarge) {
 		width: 100%;
 	}

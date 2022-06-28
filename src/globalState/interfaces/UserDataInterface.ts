@@ -16,6 +16,7 @@ export interface UserDataInterface {
 	lastName?: string;
 	userId: string;
 	userName: string;
+	e2eEncryptionEnabled: boolean;
 	twoFactorAuth?: TwoFactorAuthInterface;
 	languages?: string[];
 	isWalkThroughEnabled?: boolean;

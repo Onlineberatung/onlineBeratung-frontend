@@ -19,7 +19,12 @@ const session = {
 	'groupChat.consultant.prefix': 'Moderator_in - ',
 	'monitoring.buttonLabel': 'Jetzt dokumentieren',
 	'u25.assignment.placeholder': 'Beratung zuweisen',
-	'unreadCount.maxValue': '99+'
+	'unreadCount.maxValue': '99+',
+	'dragAndDrop.explanation.insideDropArea':
+		'Legen Sie die Datei hier ab, um sie hochzuladen.',
+	'dragAndDrop.explanation.outsideDropArea':
+		'Ziehen Sie die Datei in das Feld, um sie hochzuladen.',
+	'dragAndDrop.restrictions': '.jpg, .png, .pdf, .docx, .xlsx bis maximal 5MB'
 };
 
 export default session;

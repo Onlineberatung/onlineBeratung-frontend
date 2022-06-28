@@ -16,6 +16,7 @@ import {
 	getPrettyDateFromMessageDate
 } from '../../utils/dateHelpers';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { decodeUsername } from '../../utils/encryptionHelpers';
 
 export enum SESSION_LIST_TYPES {
 	ENQUIRY = 'ENQUIRY',
@@ -202,6 +203,7 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 			messageDate: lastDateStr,
 			messageTime: date.toString(),
 			username: message.u.username,
+			displayName: selectDisplayName(message.u),
 			userId: message.u._id,
 			isNotRead: message.unread,
 			alias: message.alias,
@@ -211,5 +213,19 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 	});
 };
 
+export const selectDisplayName = (userObject) => {
+	if (`${userObject.username}`.toLowerCase() === 'system')
+		return userObject.username;
+	if (userObject.name === null) return userObject.username;
+	if (userObject.name !== null) return decodeUsername(userObject.name);
+
+	return userObject.username;
+};
+
 export const isMyMessage = (id: string): boolean =>
 	id === getValueFromCookie('rc_uid');
+
+export const isUserModerator = ({ chatItem, rcUserId }) =>
+	isGroupChat(chatItem) &&
+	chatItem.moderators &&
+	chatItem.moderators.includes(rcUserId);

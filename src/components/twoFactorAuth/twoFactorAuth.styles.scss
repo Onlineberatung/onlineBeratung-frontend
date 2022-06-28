@@ -102,37 +102,22 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 		.text__divider {
 			text-transform: uppercase;
 			display: flex;
-			color: var(--skin-color-secondary-contrast-safe, $primary);
+			color: var(--skin-color-secondary-contrast-safe, $secondary);
 
 			&::before,
 			&::after {
 				content: '';
-				border-top: 1px solid
-					var(--skin-color-secondary-contrast-safe, $primary);
+				border-top: 1px solid rgba(0, 0, 0, 0.2);
 				width: max-content;
 				margin: auto $grid-base;
 				flex-grow: 1;
-			}
-		}
-
-		@include breakpoint($fromMedium) {
-			display: flex;
-			margin-top: $grid-base-three;
-
-			.twoFactorAuth__qrCode,
-			.twoFactorAuth__key {
-				width: 50%;
-				flex-shrink: 0;
-			}
-
-			.text__divider {
-				display: none;
 			}
 		}
 	}
 
 	&__qrCode {
 		display: flex;
+		align-items: center;
 
 		img {
 			width: $two-factor-qr-code-width;
@@ -141,10 +126,6 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 		& + .text__divider {
 			margin: 12px 0 24px;
 		}
-
-		@include breakpoint($fromMedium) {
-			flex-direction: column;
-		}
 	}
 
 	&__qrCodeImage {
@@ -152,11 +133,6 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 	}
 
 	&__key {
-		@include breakpoint($fromMedium) {
-			border-left: 2px solid var(--skin-color-primary, $primary);
-			padding-left: $grid-base-two;
-		}
-
 		.text + .text {
 			font-weight: $font-weight-bold;
 		}
@@ -205,6 +181,7 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 		}
 	}
 
+	&__appConfirmation,
 	&__emailConfirmation {
 		svg {
 			max-width: 240px;

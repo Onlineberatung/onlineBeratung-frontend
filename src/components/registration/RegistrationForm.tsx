@@ -46,10 +46,12 @@ interface FormAccordionData {
 	username?: string;
 	password?: string;
 	agencyId?: number;
+	mainTopicId?: number;
 	postcode?: string;
 	state?: string;
 	age?: string;
 	consultingTypeId?: number;
+	mainTopic?: string;
 }
 
 export const RegistrationForm = ({
@@ -160,6 +162,7 @@ export const RegistrationForm = ({
 			username: formAccordionData.username,
 			password: encodeURIComponent(formAccordionData.password),
 			agencyId: formAccordionData.agencyId?.toString(),
+			mainTopicId: formAccordionData.mainTopicId?.toString(),
 			postcode: formAccordionData.postcode,
 			consultingType: formAccordionData.consultingTypeId?.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
@@ -229,6 +232,7 @@ export const RegistrationForm = ({
 						registrationNotes={consultingType?.registration.notes}
 						consultant={consultant}
 						onValidation={setFormAccordionValid}
+						mainTopicId={formAccordionData.mainTopicId}
 					/>
 				)}
 

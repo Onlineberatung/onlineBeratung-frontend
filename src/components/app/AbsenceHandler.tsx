@@ -74,13 +74,13 @@ export const AbsenceHandler = () => {
 			setOverlayActive(false);
 		}
 		if (buttonFunction === OVERLAY_FUNCTIONS.DEACTIVATE_ABSENCE) {
-			apiSetAbsence(false, '')
+			apiSetAbsence(false, userData.absenceMessage)
 				.then(() => {
 					setOverlayItem(absenceChangedOverlayItem);
 					setUserData({
 						...userData,
 						absent: false,
-						absenceMessage: null
+						absenceMessage: userData.absenceMessage
 					});
 				})
 				.catch((error) => {

@@ -9,6 +9,7 @@ import {
 import { apiGetAgencyById, apiGetConsultingType } from '../api';
 import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';
+import { config } from '../resources/scripts/config';
 
 export default function useUrlParamsLoader() {
 	const { consultingTypeSlug } = useParams();
@@ -32,7 +33,16 @@ export default function useUrlParamsLoader() {
 				}
 
 				if (consultantId) {
-					setConsultant(await apiGetConsultant(consultantId, true));
+					const consultant = await apiGetConsultant(
+						consultantId,
+						true,
+						'basic'
+					).catch(() => {
+						// consultant not found -> goto registration
+						document.location.href = config.urls.toRegistration;
+					});
+
+					if (consultant) setConsultant(consultant);
 				}
 
 				if (consultingTypeSlug || agency) {

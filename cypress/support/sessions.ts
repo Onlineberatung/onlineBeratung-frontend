@@ -3,9 +3,11 @@ import { SESSION_LIST_TYPES } from '../../src/components/session/sessionHelpers'
 import { SessionUserDataInterface } from '../../src/globalState';
 
 export const generateConsultantSession = ({
-	type
+	type,
+	messagesRead
 }: {
 	type?: SESSION_LIST_TYPES;
+	messagesRead?: boolean;
 } = {}): UserService.Schemas.ConsultantSessionResponseDTO => {
 	let status;
 	if (type === SESSION_LIST_TYPES.ENQUIRY) {
@@ -13,6 +15,9 @@ export const generateConsultantSession = ({
 	} else {
 		status = 2;
 	}
+
+	const sessionId = Math.random();
+	const rcGroupId = uuid();
 
 	const sessionData: SessionUserDataInterface = {
 		addictiveDrugs: null,
@@ -23,21 +28,22 @@ export const generateConsultantSession = ({
 
 	return {
 		session: {
-			id: 1,
+			id: sessionId,
 			agencyId: 1,
 			consultingType: 0,
 			status,
 			postcode: '12345',
-			groupId: 'groupId',
+			groupId: rcGroupId,
 			feedbackGroupId: null,
 			askerRcId: 'askerRcId',
 			lastMessage: 'lastMessage',
 			messageDate: 1606900238,
-			messagesRead: true,
+			messagesRead: messagesRead === undefined ? true : messagesRead,
 			feedbackRead: true,
 			isTeamSession: true,
 			monitoring: true,
-			attachment: null
+			attachment: null,
+			registrationType: 'REGISTERED'
 		},
 		chat: null,
 		user: {
@@ -54,15 +60,10 @@ export const generateConsultantSession = ({
 	};
 };
 
-export const generateMultipleConsultantSessions = (
-	amount: number
-): UserService.Schemas.ConsultantSessionResponseDTO[] => {
-	const sessions: UserService.Schemas.ConsultantSessionResponseDTO[] = [];
+export const generateMultipleConsultantSessions = (amount: number): void => {
 	for (let i = 0; i < amount; i++) {
-		sessions.push(generateConsultantSession());
+		cy.consultantSession();
 	}
-
-	return sessions;
 };
 
 export const generateAskerSession = ({
@@ -72,7 +73,7 @@ export const generateAskerSession = ({
 	messagesRead?: boolean;
 	isTeamSession?: boolean;
 } = {}): UserService.Schemas.UserSessionResponseDTO => {
-	const sessionId = uuid();
+	const sessionId = Math.random();
 	const rcGroupId = uuid();
 
 	return {
@@ -91,7 +92,8 @@ export const generateAskerSession = ({
 			feedbackRead: null,
 			isTeamSession: isTeamSession === undefined ? true : isTeamSession,
 			monitoring: true,
-			attachment: null
+			attachment: null,
+			registrationType: 'REGISTERED'
 		},
 		chat: null,
 		agency: {
@@ -111,15 +113,10 @@ export const generateAskerSession = ({
 	};
 };
 
-export const generateMultipleAskerSessions = (
-	amount: number
-): UserService.Schemas.UserSessionResponseDTO[] => {
-	const sessions: UserService.Schemas.UserSessionResponseDTO[] = [];
+export const generateMultipleAskerSessions = (amount: number): void => {
 	for (let i = 0; i < amount; i++) {
-		sessions.push(generateAskerSession());
+		cy.askerSession();
 	}
-
-	return sessions;
 };
 
 export const sessionsReply = ({
@@ -187,10 +184,10 @@ export const generateMessagesReply = (
 ): MessageService.Schemas.MessageStreamDTO => {
 	return {
 		messages,
-		count: messages.length.toString(),
-		offset: '0',
-		total: messages.length.toString(),
-		success: 'true',
+		count: messages.length,
+		offset: 0,
+		total: messages.length,
+		success: true,
 		cleaned: null
 	};
 };

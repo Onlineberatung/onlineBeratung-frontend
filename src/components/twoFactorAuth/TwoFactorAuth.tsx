@@ -19,6 +19,7 @@ import {
 } from '../inputField/InputField';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 import { ReactComponent as AddIcon } from '../../resources/img/icons/add.svg';
+import { ReactComponent as AddShieldIcon } from '../../resources/img/icons/add-shield.svg';
 import { ReactComponent as UrlIcon } from '../../resources/img/icons/url.svg';
 import { ReactComponent as CheckIcon } from '../../resources/img/icons/checkmark.svg';
 import { ReactComponent as IlluCheck } from '../../resources/img/illustrations/check.svg';
@@ -200,13 +201,9 @@ export const TwoFactorAuth = () => {
 				setOtpInputInfo('');
 				apiCall(apiData)
 					.then(() => {
-						if (twoFactorType === TWO_FACTOR_TYPES.APP) {
-							setOverlayActive(false);
-						}
-						if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
-							apiPatchTwoFactorAuthEncourage(false);
-							if (triggerNextStep) triggerNextStep();
-						}
+						apiPatchTwoFactorAuthEncourage(false);
+						if (triggerNextStep) triggerNextStep();
+
 						setIsRequestInProgress(false);
 						updateUserData();
 					})
@@ -406,6 +403,18 @@ export const TwoFactorAuth = () => {
 		);
 	}, [userData.twoFactorAuth.secret, userData.twoFactorAuth.qrCode]);
 
+	const appConfirmation = (): JSX.Element => {
+		return (
+			<div className="twoFactorAuth__appConfirmation">
+				<IlluCheck />
+				<Headline
+					text={translate('twoFactorAuth.activate.app.step5.title')}
+					semanticLevel="3"
+				/>
+			</div>
+		);
+	};
+
 	const twoFactorAuthStepsOverlayApp: OverlayItem[] = useMemo(
 		() => [
 			{
@@ -448,7 +457,7 @@ export const TwoFactorAuth = () => {
 					}
 				],
 				step: {
-					icon: UrlIcon,
+					icon: AddShieldIcon,
 					label: translate(
 						'twoFactorAuth.activate.app.step3.visualisation.label'
 					)
@@ -471,15 +480,33 @@ export const TwoFactorAuth = () => {
 					},
 					{
 						disabled: otpLabelState !== 'valid',
-						label: translate('twoFactorAuth.overlayButton.save'),
+						label: translate('twoFactorAuth.overlayButton.confirm'),
+						function: OVERLAY_FUNCTIONS.NEXT_STEP,
 						type: BUTTON_TYPES.PRIMARY
 					}
 				],
-				handleOverlay: activateTwoFactorAuthByType,
+				handleNextStep: activateTwoFactorAuthByType,
+				step: {
+					icon: UrlIcon,
+					label: translate(
+						'twoFactorAuth.activate.app.step4.visualisation.label'
+					)
+				}
+			},
+			{
+				nestedComponent: appConfirmation(),
+				buttonSet: [
+					{
+						label: translate('twoFactorAuth.overlayButton.close'),
+						function: OVERLAY_FUNCTIONS.CLOSE_SUCCESS,
+						type: BUTTON_TYPES.AUTO_CLOSE
+					}
+				],
+				handleOverlay: handleOverlayCloseSuccess,
 				step: {
 					icon: CheckIcon,
 					label: translate(
-						'twoFactorAuth.activate.app.step4.visualisation.label'
+						'twoFactorAuth.activate.app.step5.visualisation.label'
 					)
 				}
 			}
@@ -488,6 +515,7 @@ export const TwoFactorAuth = () => {
 			activateTwoFactorAuthByType,
 			connectAuthAccount,
 			handleOtpChange,
+			handleOverlayCloseSuccess,
 			otpInputItem,
 			otpLabelState
 		]

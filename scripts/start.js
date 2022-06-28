@@ -1,10 +1,8 @@
-'use strict';
-
 // Set REACT_APP_API_URL and REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY for local development against a server
 const dotenv = require('dotenv');
 const dotenvExpand = require('dotenv-expand').expand;
 dotenvExpand(dotenv.config());
-process.env.REACT_APP_API_URL = process.env.API_URL_FOR_LOCAL_DEVELOPMENT;
+
 process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY =
 	process.env.CSRF_WHITELIST_HEADER_FOR_LOCAL_DEVELOPMENT;
 

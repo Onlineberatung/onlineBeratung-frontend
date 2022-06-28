@@ -1,0 +1,48 @@
+.appointments {
+	background-color: $background-lighter;
+
+	.scrollableSection {
+		&__header,
+		&__body > div {
+			@include breakpoint($fromLarge) {
+				width: 75%;
+				margin: auto;
+			}
+		}
+
+		&__footer {
+			background-color: $dark-grey;
+			@include breakpoint($fromLarge) {
+				background-color: $background-light;
+			}
+
+			& > div {
+				height: 40px;
+			}
+		}
+	}
+
+	&__headline {
+		display: inline-flex;
+		align-self: center;
+		@include breakpoint($fromLarge) {
+			justify-content: center;
+		}
+	}
+
+	&__actions {
+		button {
+			padding: 0;
+			min-width: 50px;
+		}
+	}
+}
+
+.onlineMeetingForm {
+	.inputField {
+		max-width: none;
+	}
+	.formWrapper .react-datepicker__input-container {
+		width: 100%;
+	}
+}

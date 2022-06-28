@@ -28,5 +28,18 @@
 				transition: all 0.3s ease;
 			}
 		}
+
+		> p {
+			margin-bottom: $grid-base-three;
+		}
+
+		.disabled {
+			background-color: $white;
+			border: 1px solid $black-10-opacity;
+		}
+
+		.textarea__wrapper {
+			margin: 0;
+		}
 	}
 }

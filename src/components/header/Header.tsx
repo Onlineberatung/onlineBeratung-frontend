@@ -16,7 +16,7 @@ export const Header = () => {
 			/>
 			<Text
 				type="standard"
-				text={tenant?.content.claim || translate('app.claim')}
+				text={tenant?.content?.claim || translate('app.claim')}
 			/>
 		</header>
 	);

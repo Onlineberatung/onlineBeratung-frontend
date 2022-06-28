@@ -4,18 +4,26 @@ import informalLocale from '../resources/scripts/i18n/informalLocale';
 
 export const getTranslation = (
 	translatable: string,
-	informal: boolean = false
+	informal: boolean = false,
+	tokens?: { [key: string]: string }
 ): any => {
-	let config = translatable.split('.')[0];
-	return (informal ? informalLocale : defaultLocale)[config][
-		translatable.split('.').slice(1).join('.')
+	let [config, ...keys] = translatable.split('.');
+	const text = (informal ? informalLocale : defaultLocale)[config][
+		keys.join('.')
 	];
+	return Object.keys(tokens ?? {}).reduce(
+		(acc, token) => acc.replace(`%${token}%`, tokens[token]),
+		text
+	);
 };
 
-export const translate = (translatable: string): any => {
+export const translate = (
+	translatable: string,
+	tokens?: { [key: string]: string }
+): any => {
 	let informal = Boolean(getValueFromCookie('useInformal'));
 	return (
-		getTranslation(translatable, informal) ||
+		getTranslation(translatable, informal, tokens) ||
 		'[NO TRANSLATION FOR ' + translatable + ']'
 	);
 };

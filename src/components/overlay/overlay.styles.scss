@@ -1,9 +1,11 @@
 $overlay-icon-size-xs: 24px !default;
-$overlay-steps-breakpoint: 560px !default;
+$overlay-steps-breakpoint-small: 560px !default;
+$overlay-steps-breakpoint-large: 768px !default;
 $overlay-icon-size: 56px !default;
 $overlay-icon-size-large: 48px !default;
 $overlay-illustration-size: 120px !default;
-$overlay-illustration-size-large: 80px !default;
+$overlay-illustration-size-from-large: 80px !default;
+$overlay-illustration-size-large: 160px;
 
 .overlay {
 	display: flex;
@@ -14,6 +16,7 @@ $overlay-illustration-size-large: 80px !default;
 	top: 0;
 	left: 0;
 	z-index: 20;
+	overflow-y: scroll;
 
 	&__background {
 		position: fixed;
@@ -35,19 +38,32 @@ $overlay-illustration-size-large: 80px !default;
 		}
 	}
 
+	&__wrapper {
+		width: 100vw;
+		height: 100vh;
+		margin: auto;
+		background: $white;
+
+		@include breakpoint($fromLarge) {
+			background: none;
+			height: auto;
+			max-width: 720px;
+			padding: $grid-base-four 0;
+		}
+	}
+
 	&__content {
 		display: flex;
 		position: relative;
 		flex-direction: column;
 		width: 100vw;
-		height: 100vh;
+		height: auto;
 		max-width: none;
 		background-color: $white;
 		border-radius: 4px;
 		text-align: $overlay-text-align;
 		margin: auto;
 		padding: $grid-base-ten $grid-base-three $grid-base-six;
-		overflow: scroll;
 
 		@include breakpoint($fromMedium) {
 			padding: $grid-base-six $grid-base-three;
@@ -58,7 +74,6 @@ $overlay-illustration-size-large: 80px !default;
 			height: auto;
 			max-width: 720px;
 			padding: $grid-base-six;
-			overflow: visible;
 		}
 
 		animation: fadeIn linear 0.8s;
@@ -85,7 +100,7 @@ $overlay-illustration-size-large: 80px !default;
 		right: 18px;
 		cursor: pointer;
 
-		@include breakpoint($overlay-steps-breakpoint) {
+		@include breakpoint($overlay-steps-breakpoint-small) {
 			top: 24px;
 			right: 24px;
 		}
@@ -101,7 +116,7 @@ $overlay-illustration-size-large: 80px !default;
 			text-transform: uppercase;
 			display: none;
 
-			@include breakpoint($overlay-steps-breakpoint) {
+			@include breakpoint($overlay-steps-breakpoint-small) {
 				display: block;
 			}
 		}
@@ -114,12 +129,17 @@ $overlay-illustration-size-large: 80px !default;
 			&::before {
 				content: '';
 				border-top: 1px solid $form-disabled;
-				margin: $overlay-icon-size-xs $grid-base $overlay-icon-size-xs;
-				width: 25px;
+				margin: $overlay-icon-size-xs 6px $overlay-icon-size-xs;
+				width: 10px;
 
-				@include breakpoint($overlay-steps-breakpoint) {
+				@include breakpoint($overlay-steps-breakpoint-small) {
 					margin: $overlay-icon-size-xs -14px $overlay-icon-size-xs;
-					width: 60px;
+					width: 25px;
+				}
+
+				@include breakpoint($overlay-steps-breakpoint-large) {
+					margin: $overlay-icon-size-xs -14px $overlay-icon-size-xs;
+					width: 50px;
 				}
 			}
 		}
@@ -185,7 +205,7 @@ $overlay-illustration-size-large: 80px !default;
 	}
 
 	&__stepHeadline {
-		font-weight: $font-weight-regular;
+		font-weight: $font-weight-medium;
 
 		&--prefix {
 			font-weight: $font-weight-bold;
@@ -196,16 +216,17 @@ $overlay-illustration-size-large: 80px !default;
 		margin-bottom: $grid-base;
 
 		@include breakpoint($fromLarge) {
-			$size: $overlay-illustration-size-large + $grid-base * 2;
+			$size: $overlay-illustration-size-from-large + $grid-base * 2;
 
-			position: absolute;
 			display: inline-block;
 			background-color: $white;
-			top: -$size / 2;
+			margin-top: ((-$size / 2) - $grid-base-six);
 			width: $size;
 			height: $size;
 			padding: $grid-base;
 			border-radius: 50%;
+
+			position: fixed;
 			left: 50%;
 			transform: translateX(-50%);
 		}
@@ -224,8 +245,8 @@ $overlay-illustration-size-large: 80px !default;
 		border-radius: $overlay-illustration-size / 2;
 
 		@include breakpoint($fromLarge) {
-			height: $overlay-illustration-size-large;
-			width: $overlay-illustration-size-large;
+			height: $overlay-illustration-size-from-large;
+			width: $overlay-illustration-size-from-large;
 		}
 
 		& > svg {
@@ -249,6 +270,28 @@ $overlay-illustration-size-large: 80px !default;
 
 		&--info {
 			background-color: $illustration-background-info;
+		}
+
+		&--large {
+			background-color: #fff;
+			height: $overlay-illustration-size-large;
+			width: $overlay-illustration-size-large;
+
+			@include breakpoint($fromLarge) {
+				width: $overlay-illustration-size-from-large;
+				height: $overlay-illustration-size-from-large;
+			}
+
+			& > svg {
+				width: $overlay-illustration-size-large;
+				height: $overlay-illustration-size-large;
+				align-self: center;
+
+				@include breakpoint($fromLarge) {
+					width: $overlay-illustration-size-from-large;
+					height: $overlay-illustration-size-from-large;
+				}
+			}
 		}
 	}
 
@@ -277,11 +320,21 @@ $overlay-illustration-size-large: 80px !default;
 		}
 	}
 
-	&--illustration .overlay__content {
-		padding-top: ($overlay-illustration-size / 2) + $grid-base;
+	&--illustration {
+		.overlay__wrapper {
+			@include breakpoint($fromLarge) {
+				padding-top: ($overlay-illustration-size-from-large / 2) +
+					$grid-base-four;
+			}
+		}
 
-		@include breakpoint($fromLarge) {
-			padding-top: ($overlay-illustration-size-large / 2) + $grid-base;
+		.overlay__content {
+			padding-top: ($overlay-illustration-size / 2) + $grid-base;
+
+			@include breakpoint($fromLarge) {
+				padding-top: ($overlay-illustration-size-from-large / 2) +
+					$grid-base;
+			}
 		}
 	}
 
