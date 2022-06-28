@@ -1,7 +1,7 @@
 {
 	"name": "@virtualidentityag/vi-saas-frontend",
 	"title": "Caritas Online-Beratung",
-	"version": "2.9.14",
+	"version": "2.9.14.VIC-786",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/virtualidentityag/vi-saas-frontend.git"
