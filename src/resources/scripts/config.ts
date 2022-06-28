@@ -56,6 +56,7 @@ export const config = {
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
 		sessionBase: apiUrl + '/service/users/sessions',
+		appointmentBase: apiUrl + '/service/appointments/sessions',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
 		startVideoCall: apiUrl + '/service/videocalls/new',
 		teamSessionsBase:

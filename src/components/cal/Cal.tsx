@@ -4,8 +4,9 @@ import useEmbed from './useEmbed';
 import './cal.styles';
 import { history } from '../app/app';
 import { apiAppointmentSuccessfullySet } from '../../api/apiAppointmentSuccessfullySet';
-import { UserDataContext } from '../../globalState';
+import { SessionsDataContext, UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
+import { useParams } from 'react-router-dom';
 
 export default function Cal({
 	calLink,
@@ -19,6 +20,9 @@ export default function Cal({
 	embedJsUrl?: string;
 }) {
 	const { userData } = useContext(UserDataContext);
+	const { sessionId: sessionIdFromParam } = useParams();
+	const { sessionsData, dispatchSessionsData } =
+		useContext(SessionsDataContext);
 
 	if (!calLink) {
 		throw new Error('calLink is required');
@@ -26,7 +30,6 @@ export default function Cal({
 	const initializedRef = useRef(false);
 	const Cal = useEmbed(embedJsUrl);
 	const ref = useRef<HTMLDivElement>(null);
-	const { rcGroupId, sessionId } = history.location.state;
 
 	useEffect(() => {
 		if (!Cal || initializedRef.current) {
@@ -67,8 +70,8 @@ export default function Cal({
 				const date = data.date;
 				const appointmentData = {
 					title: data.eventType.title,
-					user: userData.userName,
-					counselor: data.organizer.name,
+					userName: userData.userName,
+					counselor: data.organizer.email,
 					date: date,
 					duration: data.duration,
 					location: `${data.eventType.title} ${translate(
@@ -77,13 +80,13 @@ export default function Cal({
 						'message.appointmentSet.and'
 					)} ${data.organizer.name}`
 				};
-				apiAppointmentSuccessfullySet(
-					JSON.stringify(appointmentData),
-					rcGroupId
-				)
+
+				//todo: we are currently handling only initial appointment
+				const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
+				apiAppointmentSuccessfullySet(appointmentData, sessionId)
 					.then(() => {
 						history.push({
-							pathname: `/sessions/user/view/${rcGroupId}/${sessionId}`
+							pathname: `/sessions/user/view`
 						});
 					})
 					.catch((error) => {
