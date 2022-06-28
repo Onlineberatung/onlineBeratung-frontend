@@ -366,6 +366,9 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				videoCallWindow.location.href = getVideoCallUrl(
 					response.moderatorVideoCallUrl,
 					isVideoActivated,
+					userData.displayName
+						? userData.displayName
+						: userData.userName,
 					userData.e2eEncryptionEnabled ?? false
 				);
 				videoCallWindow.focus();

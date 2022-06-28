@@ -211,23 +211,50 @@ const VideoConference = ({
 
 	return (
 		<div data-cy="jitsi-meeting">
-			<JitsiMeeting
-				domain={videoCallJwtData.domain.replace('https://', '')}
-				jwt={videoCallJwtData.jwt}
-				roomName={appointment.id}
-				getIFrameRef={(node) => (node.style.height = '100vh')}
-				onApiReady={setExternalApi}
-				interfaceConfigOverwrite={{
-					SHOW_PROMOTIONAL_CLOSE_PAGE: false,
-					shareableUrl: `${uiUrl}${generatePath(
-						config.urls.videoConference,
-						{
-							type: 'app',
-							appointmentId: appointment.id
-						}
-					)}`
-				}}
-			/>
+			{userData && (
+				<JitsiMeeting
+					domain={videoCallJwtData.domain.replace('https://', '')}
+					jwt={videoCallJwtData.jwt}
+					roomName={appointment.id}
+					getIFrameRef={(node) => (node.style.height = '100vh')}
+					onApiReady={setExternalApi}
+					interfaceConfigOverwrite={{
+						SHOW_PROMOTIONAL_CLOSE_PAGE: false,
+						shareableUrl: `${uiUrl}${generatePath(
+							config.urls.videoConference,
+							{
+								type: 'app',
+								appointmentId: appointment.id
+							}
+						)}`
+					}}
+					userInfo={{
+						displayName: userData.displayName
+							? userData.displayName
+							: userData.userName,
+						email: ''
+					}}
+				/>
+			)}
+			{!userData && (
+				<JitsiMeeting
+					domain={videoCallJwtData.domain.replace('https://', '')}
+					jwt={videoCallJwtData.jwt}
+					roomName={appointment.id}
+					getIFrameRef={(node) => (node.style.height = '100vh')}
+					onApiReady={setExternalApi}
+					interfaceConfigOverwrite={{
+						SHOW_PROMOTIONAL_CLOSE_PAGE: false,
+						shareableUrl: `${uiUrl}${generatePath(
+							config.urls.videoConference,
+							{
+								type: 'app',
+								appointmentId: appointment.id
+							}
+						)}`
+					}}
+				/>
+			)}
 		</div>
 	);
 };
