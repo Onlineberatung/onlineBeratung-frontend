@@ -94,6 +94,7 @@ export const config = {
 		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		sessionBase: apiUrl + '/service/users/sessions',
 		sessionRooms: apiUrl + '/service/users/sessions/room',
+		chatRoom: apiUrl + '/service/users/chat/room',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
 		startVideoCall: apiUrl + '/service/videocalls/new',
 		teamSessionsBase:
@@ -141,6 +142,11 @@ export const config = {
 		 */
 		enableEncodedTransformSupport: false
 	}
+};
+
+export const ALIAS_LAST_MESSAGES = {
+	E2EE_ACTIVATED: 'aliases.lastMessage.e2ee_activated',
+	FURTHER_STEPS: 'aliases.lastMessage.further_steps'
 };
 
 export const emails = {

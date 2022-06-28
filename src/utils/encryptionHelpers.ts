@@ -1,6 +1,9 @@
 import { encode, decode } from 'hi-base32';
 import ByteBuffer from 'bytebuffer';
 import { apiRocketChatUpdateGroupKey } from '../api/apiRocketChatUpdateGroupKey';
+import { apiRocketChatFetchMyKeys } from '../api/apiRocketChatFetchMyKeys';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { translate } from './translate';
 const StaticArrayBufferProto = ArrayBuffer.prototype;
 
 // encoding helper
@@ -232,16 +235,16 @@ export const decryptText = async (
 	}
 
 	if (!roomKeyID) {
-		return 'Nachricht verschlüsselt - keine roomKeyID';
+		return translate('e2ee.message.encryption');
 	}
 	if (!groupKey) {
-		return 'Nachricht verschlüsselt - kein groupKey';
+		return translate('e2ee.message.encryption');
 	}
 
 	const keyID = message.slice(encPrefix.length, 12 + encPrefix.length);
 	if (keyID !== roomKeyID) {
-		// throw new Error('error while encrypting'); // TODO? Fallback in case encryption fails?
-		return 'Nachricht verschlüsselt - falscher roomKey';
+		console.error('wrong room key', message);
+		return translate('e2ee.message.encryption.error');
 	}
 
 	const encMessage = message.slice(12 + encPrefix.length);
@@ -254,7 +257,7 @@ export const decryptText = async (
 		return new TextDecoder('UTF-8').decode(result);
 	} catch (error) {
 		console.error('Error decrypting message: ', error, encMessage);
-		return 'Nachricht verschlüsselt - Fehler beim entschlüsseln';
+		return translate('e2ee.message.encryption.error', message);
 	}
 };
 
@@ -454,18 +457,12 @@ export const decryptPrivateKey = async (privateKey, masterKey) => {
 	}
 };
 
-export const loadKeys = async (private_key, public_key) => {
+export const storeKeys = (private_key, public_key) => {
 	sessionStorage.setItem('public_key', public_key);
-	try {
-		const key = await importRSAKey(JSON.parse(private_key), ['decrypt']);
-		sessionStorage.setItem('private_key', private_key);
-		return key;
-	} catch (error) {
-		throw new Error('Error importing private key: ' + error);
-	}
+	sessionStorage.setItem('private_key', private_key);
 };
 
-export const createAndLoadKeys = async () => {
+export const createAndStoreKeys = async () => {
 	let key;
 	let privateKey;
 	let publicKey;
@@ -509,4 +506,22 @@ export const readMasterKeyFromLocalStorage = (userId: string) => {
 	if (!persistedUint8ArrayString) return null;
 	const persistedArray = JSON.parse(persistedUint8ArrayString);
 	return typedArrayToBuffer(new Uint8Array(persistedArray));
+};
+
+export const loadKeysFromRocketChat = async () => {
+	const { private_key: encryptedPrivateKey, public_key: storedPublicKey } =
+		await apiRocketChatFetchMyKeys();
+
+	const rcUserId = getValueFromCookie('rc_uid');
+	const persistedArrayBuffer = readMasterKeyFromLocalStorage(rcUserId);
+
+	const persistedMasterKey = await importRawEncryptionKey(
+		persistedArrayBuffer
+	);
+
+	const privateKey = await decryptPrivateKey(
+		encryptedPrivateKey,
+		persistedMasterKey
+	);
+	storeKeys(privateKey, storedPublicKey);
 };

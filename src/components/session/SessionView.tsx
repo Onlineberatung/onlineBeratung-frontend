@@ -15,7 +15,6 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	LegalLinkInterface,
-	REGISTRATION_TYPE_ANONYMOUS,
 	RocketChatContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
@@ -27,11 +26,7 @@ import {
 	mobileDetailView,
 	mobileListView
 } from '../app/navigationHandler';
-import {
-	apiGetGroupChatInfo,
-	apiGetSessionData,
-	apiSetSessionRead
-} from '../../api';
+import { apiGetGroupChatInfo, apiGetSessionData } from '../../api';
 import {
 	getSessionListPathForLocation,
 	prepareMessages,
@@ -72,66 +67,98 @@ interface RouterProps {
 }
 
 export const SessionView = (props: RouterProps) => {
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
+		useParams();
+
+	const currentGroupId = useUpdatingRef(groupIdFromParam);
 
 	const { type } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
+	const { ready: rcReady } = useContext(RocketChatContext);
 	const { subscribe, unsubscribe } = useContext(RocketChatContext);
 
-	const [isLoading, setIsLoading] = useState(true);
+	const subscribed = useRef(false);
 	const [readonly, setReadonly] = useState(true);
 	const [messagesItem, setMessagesItem] = useState(null);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState(null);
-	const [isAnonymousEnquiry, setIsAnonymousEnquiry] = useState(false);
 	const [forceBannedOverlay, setForceBannedOverlay] = useState(false);
 	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
 
 	const {
 		session: activeSession,
-		ready,
-		reload: reloadActiveSession
+		ready: activeSessionReady,
+		reload: reloadActiveSession,
+		read: readActiveSession
 	} = useSession(groupIdFromParam);
-	const { addNewUsersToEncryptedRoom } = useE2EE(groupIdFromParam);
+	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
+	const abortController = useRef<AbortController>(null);
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
 	const displayName = userData.displayName || userData.userName;
 
 	const { subscribeTyping, unsubscribeTyping, handleTyping, typingUsers } =
-		useTyping(groupIdFromParam, userData.userName, displayName);
+		useTyping(activeSession?.rid, userData.userName, displayName);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
+	const { fromL } = useResponsive();
 	useEffect(() => {
-		if (ready && !activeSession) {
-			history.push(
-				getSessionListPathForLocation() +
-					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
-			);
+		if (!fromL) {
+			mobileDetailView();
+			return () => {
+				mobileListView();
+			};
 		}
-	}, [ready, activeSession, sessionListTab]);
+		desktopView();
+	}, [fromL]);
 
 	const fetchSessionMessages = useCallback(() => {
-		return apiGetSessionData(activeSession.rid).then((messagesData) => {
+		if (abortController.current) {
+			abortController.current.abort();
+		}
+
+		abortController.current = new AbortController();
+
+		return apiGetSessionData(
+			activeSession.rid,
+			abortController.current.signal
+		).then((messagesData) => {
 			setMessagesItem(messagesData);
 		});
 	}, [activeSession]);
 
-	const checkMutedUserForThisSession = useCallback(() => {
-		if (!activeSession) {
+	const setSessionRead = useCallback(() => {
+		if (readonly || !activeSession) {
 			return;
 		}
 
-		if (activeSession.isGroup) {
+		const isLiveChatFinished =
+			activeSession.isLive &&
+			activeSession.item.status === STATUS_FINISHED;
+
+		if (
+			!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+			isLiveChatFinished
+		) {
+			return;
+		}
+
+		readActiveSession();
+	}, [activeSession, readActiveSession, readonly, userData]);
+
+	const checkMutedUserForThisSession = useCallback(() => {
+		setForceBannedOverlay(false);
+		if (activeSession?.isGroup) {
 			apiGetGroupChatInfo(activeSession.item.id)
 				.then((response) => {
 					if (response.bannedUsers) {
-						const decryptedBannedUsers =
+						const decodedBannedUsers =
 							response.bannedUsers.map(decodeUsername);
-						setBannedUsers(decryptedBannedUsers);
-						if (decryptedBannedUsers.includes(userData.userName)) {
+						setBannedUsers(decodedBannedUsers);
+						if (decodedBannedUsers.includes(userData.userName)) {
 							setForceBannedOverlay(true);
 						}
 					} else {
@@ -146,6 +173,10 @@ export const SessionView = (props: RouterProps) => {
 
 	useEffect(() => {
 		checkMutedUserForThisSession();
+
+		return () => {
+			setBannedUsers([]);
+		};
 	}, [checkMutedUserForThisSession]);
 
 	/**
@@ -160,28 +191,31 @@ export const SessionView = (props: RouterProps) => {
 			args
 				// Map collected from debounce callback
 				.map(([[message]]) => message)
-				.filter(
-					(message) =>
-						message.u?.username !== 'rocket-chat-technical-user'
-				)
 				.forEach((message) => {
 					if (message.t === 'user-muted') {
 						checkMutedUserForThisSession();
 						return;
 					}
-					if (message.t === 'user-added' && isE2eeEnabled) {
+
+					if (message.t === 'au' && isE2eeEnabled) {
 						addNewUsersToEncryptedRoom();
+						return;
 					}
 
-					fetchSessionMessages().then();
+					if (message.u?.username !== 'rocket-chat-technical-user') {
+						fetchSessionMessages().then(() => {
+							setSessionRead();
+						});
+					}
 				});
 		},
 
 		[
+			isE2eeEnabled,
 			fetchSessionMessages,
 			checkMutedUserForThisSession,
 			addNewUsersToEncryptedRoom,
-			isE2eeEnabled
+			setSessionRead
 		]
 	);
 
@@ -211,142 +245,40 @@ export const SessionView = (props: RouterProps) => {
 
 	const handleGroupChatStopped = useUpdatingRef(
 		useCallback(
-			([event, subscription]) =>
-				() => {
-					console.log('Never exec');
-					if (
-						event === 'removed' &&
-						subscription.u._id === getValueFromCookie('rc_uid')
-					) {
-						// If the user has initiated the stop or leave request, he/she is already
-						// shown an appropriate overlay during the process via the SessionMenu component.
-						// Thus, there is no need for an additional notification.
-						if (hasUserInitiatedStopOrLeaveRequest.current) {
-							hasUserInitiatedStopOrLeaveRequest.current = false;
-						} else {
-							setOverlayItem(groupChatStoppedOverlay);
-							setIsOverlayActive(true);
-						}
+			([event]) => {
+				if (event === 'removed') {
+					// If the user has initiated the stop or leave request, he/she is already
+					// shown an appropriate overlay during the process via the SessionMenu component.
+					// Thus, there is no need for an additional notification.
+					if (hasUserInitiatedStopOrLeaveRequest.current) {
+						hasUserInitiatedStopOrLeaveRequest.current = false;
+					} else {
+						setOverlayItem(groupChatStoppedOverlay);
+						setIsOverlayActive(true);
 					}
-				},
+				}
+			},
 			[groupChatStoppedOverlay]
 		)
 	);
 
-	useEffect(
-		() => {
-			if (readonly || !activeSession || isLoading) {
-				return;
-			}
-
-			const isLiveChatFinished =
-				activeSession.isLive &&
-				activeSession.item.status === STATUS_FINISHED;
-
-			if (
-				!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-				isLiveChatFinished
-			) {
-				return;
-			}
-
-			const isCurrentSessionRead = activeSession.isFeedback
-				? activeSession.item.feedbackRead
-				: activeSession.item.messagesRead;
-
-			if (!isCurrentSessionRead) {
-				apiSetSessionRead(activeSession.rid).then();
-			}
-		},
-		[activeSession, readonly] // eslint-disable-line react-hooks/exhaustive-deps
-	);
+	useEffect(() => {
+		setSessionRead();
+	}, [setSessionRead]);
 
 	useEffect(() => {
-		// make sure that the active session has an active chat, user is subscribed and the id matches the url param
-		if (isLoading || !activeSession) {
-			return;
-		}
+		const unmount = () => {
+			if (abortController.current) {
+				abortController.current.abort();
+				abortController.current = null;
+			}
 
-		if (
-			activeSession.item.active &&
-			activeSession.item.subscribed &&
-			groupIdFromParam === activeSession.item.groupId
-		) {
-			addNewUsersToEncryptedRoom();
-		}
-	}, [
-		groupIdFromParam,
-		activeSession,
-		addNewUsersToEncryptedRoom,
-		isLoading
-	]);
+			setReadonly(true);
+			setMessagesItem(null);
 
-	const { fromL } = useResponsive();
-	useEffect(() => {
-		if (!fromL) {
-			mobileDetailView();
-			return () => {
-				mobileListView();
-			};
-		}
-		desktopView();
-	}, [fromL]);
+			if (subscribed.current && activeSession) {
+				subscribed.current = false;
 
-	useEffect(() => {
-		if (!activeSession || !isLoading) {
-			return;
-		}
-
-		const isConsultantEnquiry =
-			type === SESSION_LIST_TYPES.ENQUIRY &&
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
-		const isEnquiry =
-			activeSession.isEnquiry && !activeSession.isEmptyEnquiry;
-		const isCurrentAnonymousEnquiry =
-			isEnquiry &&
-			activeSession.item.registrationType === REGISTRATION_TYPE_ANONYMOUS;
-
-		console.log(activeSession);
-		if (activeSession.isGroup && !activeSession.item.subscribed) {
-			console.log('FALSE');
-			setIsLoading(false);
-		} else if (isCurrentAnonymousEnquiry) {
-			setIsLoading(false);
-			setIsAnonymousEnquiry(isCurrentAnonymousEnquiry);
-		} else if (isConsultantEnquiry) {
-			fetchSessionMessages().finally(() => {
-				setIsLoading(false);
-			});
-		} else {
-			setReadonly(false);
-			fetchSessionMessages()
-				.then(() => {
-					subscribe(
-						{
-							name: SUB_STREAM_ROOM_MESSAGES,
-							roomId: activeSession.rid
-						},
-						onDebounceMessage
-					);
-
-					if (activeSession.isGroup || activeSession.isLive) {
-						subscribeTyping();
-						subscribe(
-							{
-								name: SUB_STREAM_NOTIFY_USER,
-								event: EVENT_SUBSCRIPTIONS_CHANGED,
-								userId: getValueFromCookie('rc_uid')
-							},
-							handleGroupChatStopped
-						);
-					}
-				})
-				.finally(() => {
-					setIsLoading(false);
-				});
-
-			return () => {
-				setIsLoading(true);
 				unsubscribe(
 					{
 						name: SUB_STREAM_ROOM_MESSAGES,
@@ -366,23 +298,108 @@ export const SessionView = (props: RouterProps) => {
 						handleGroupChatStopped
 					);
 				}
-			};
+			}
+		};
+
+		if (!rcReady) {
+			return;
 		}
 
-		return () => {
-			setIsLoading(true);
-		};
+		if (activeSessionReady && !activeSession) {
+			history.push(
+				getSessionListPathForLocation() +
+					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+			);
+		} else if (activeSessionReady) {
+			if (
+				activeSession.rid !== currentGroupId.current &&
+				activeSession.item.id.toString() === sessionIdFromParam
+			) {
+				console.log(activeSession.rid, currentGroupId.current);
+				history.push(
+					`${getSessionListPathForLocation()}/${activeSession.rid}/${
+						activeSession.item.id
+					}${
+						sessionListTab
+							? `?sessionListTab=${sessionListTab}`
+							: ''
+					}`
+				);
+				return unmount;
+			}
+
+			const isConsultantEnquiry =
+				type === SESSION_LIST_TYPES.ENQUIRY &&
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+
+			if (
+				(activeSession.isGroup && !activeSession.item.subscribed) ||
+				(activeSession.isEnquiry &&
+					!activeSession.isEmptyEnquiry &&
+					activeSession.isLive) ||
+				bannedUsers.includes(userData.userName) ||
+				subscribed.current
+			) {
+				return unmount;
+			}
+
+			subscribed.current = true;
+
+			if (!isConsultantEnquiry) {
+				setReadonly(false);
+			}
+
+			// check if any user needs to be added when opening session view
+			addNewUsersToEncryptedRoom();
+
+			fetchSessionMessages().then(() => {
+				subscribe(
+					{
+						name: SUB_STREAM_ROOM_MESSAGES,
+						roomId: activeSession.rid
+					},
+					onDebounceMessage
+				);
+
+				if (
+					!isConsultantEnquiry &&
+					(activeSession.isGroup || activeSession.isLive)
+				) {
+					subscribeTyping();
+					subscribe(
+						{
+							name: SUB_STREAM_NOTIFY_USER,
+							event: EVENT_SUBSCRIPTIONS_CHANGED,
+							userId: getValueFromCookie('rc_uid')
+						},
+						handleGroupChatStopped
+					);
+				}
+			});
+		} else {
+			setReadonly(true);
+			setMessagesItem(null);
+		}
+
+		return unmount;
 	}, [
+		activeSessionReady,
 		activeSession,
-		fetchSessionMessages,
-		handleGroupChatStopped,
-		onDebounceMessage,
-		type,
-		subscribe,
 		unsubscribe,
-		subscribeTyping,
+		onDebounceMessage,
 		unsubscribeTyping,
-		userData
+		handleGroupChatStopped,
+		sessionListTab,
+		type,
+		userData,
+		addNewUsersToEncryptedRoom,
+		fetchSessionMessages,
+		subscribe,
+		subscribeTyping,
+		bannedUsers,
+		rcReady,
+		sessionIdFromParam,
+		currentGroupId
 	]);
 
 	const handleOverlayAction = (buttonFunction: string) => {
@@ -396,7 +413,7 @@ export const SessionView = (props: RouterProps) => {
 		}
 	};
 
-	if (isLoading || !activeSession) {
+	if (!activeSession) {
 		return <Loading />;
 	}
 
@@ -420,20 +437,21 @@ export const SessionView = (props: RouterProps) => {
 	}
 
 	return (
-		<ActiveSessionContext.Provider value={{ activeSession }}>
+		<ActiveSessionContext.Provider
+			value={{ activeSession, reloadActiveSession }}
+		>
 			<div className="session__wrapper">
 				<SessionItemComponent
 					hasUserInitiatedStopOrLeaveRequest={
 						hasUserInitiatedStopOrLeaveRequest
 					}
-					isAnonymousEnquiry={isAnonymousEnquiry}
 					isTyping={handleTyping}
+					typingUsers={typingUsers}
 					messages={
 						messagesItem
 							? prepareMessages(messagesItem.messages)
 							: null
 					}
-					typingUsers={typingUsers}
 					legalLinks={props.legalLinks}
 					bannedUsers={bannedUsers}
 				/>

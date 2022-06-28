@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useLocation, useParams, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import {
 	getSessionListPathForLocation,
@@ -56,7 +56,7 @@ export const Monitoring = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [activeSession, groupIdFromParam, ready, sessionListTab]);
+	}, [activeSession, ready, sessionListTab]);
 
 	const handleChange = (key, parentKey) => {
 		const checkObj = (obj, k, prevk) => {

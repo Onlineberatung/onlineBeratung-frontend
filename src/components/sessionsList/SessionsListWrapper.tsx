@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useContext, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import {
 	typeIsSession,
 	typeIsTeamSession,

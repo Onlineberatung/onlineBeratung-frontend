@@ -36,6 +36,7 @@ import videoConference from './de/videoConference';
 import qrCode from './de/qrCode';
 import releaseNote from './de/releaseNote';
 import e2ee from './de/e2ee';
+import aliases from './de/aliases';
 
 const de = {
 	absence,
@@ -75,7 +76,8 @@ const de = {
 	videoConference,
 	qrCode,
 	releaseNote,
-	e2ee
+	e2ee,
+	aliases
 };
 
 export default de;

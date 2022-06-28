@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-	AcceptedGroupIdProvider,
 	AnonymousConversationFinishedProvider,
 	AnonymousEnquiryAcceptedProvider,
 	ConsultantListProvider,
@@ -27,7 +26,6 @@ function ContextProvider({ children }) {
 	return (
 		<ProviderComposer
 			contexts={[
-				<AcceptedGroupIdProvider />,
 				<AnonymousConversationFinishedProvider />,
 				<AnonymousEnquiryAcceptedProvider />,
 				<ConsultantListProvider />,

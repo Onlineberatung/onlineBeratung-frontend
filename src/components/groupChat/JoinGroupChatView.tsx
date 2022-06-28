@@ -6,8 +6,6 @@ import {
 	AUTHORITIES,
 	useConsultingType,
 	LegalLinkInterface,
-	UPDATE_SESSIONS,
-	SessionsDataContext,
 	E2EEContext
 } from '../../globalState';
 import { mobileListView } from '../app/navigationHandler';
@@ -37,7 +35,7 @@ import {
 } from './joinGroupChatHelpers';
 import { Button } from '../button/Button';
 import { logout } from '../logout/logout';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
 import { Headline } from '../headline/Headline';
@@ -97,21 +95,14 @@ export const JoinGroupChatView = ({
 	// create the groupkeys once, if e2ee feature is enabled
 	useEffect(() => {
 		if (!isE2eeEnabled || encrypted || activeSession?.item?.active) {
-			console.log('room already encrypted');
 			return;
 		}
 
 		createGroupKey().then(
 			({
 				keyID: groupKeyID,
-				key: groupKey,
 				sessionKeyExportedString: sessionGroupKeyExportedString
 			}) => {
-				console.log(
-					groupKey,
-					groupKeyID,
-					sessionGroupKeyExportedString
-				);
 				setGroupKeyID(groupKeyID);
 				setSessionGroupKeyExportedString(sessionGroupKeyExportedString);
 			}
@@ -120,7 +111,6 @@ export const JoinGroupChatView = ({
 
 	const handleEncryptRoom = useCallback(async () => {
 		if (!isE2eeEnabled || encrypted || activeSession?.item?.active) {
-			console.log('room already encrypted');
 			return;
 		}
 
@@ -146,8 +136,6 @@ export const JoinGroupChatView = ({
 			console.error(e);
 			return;
 		}
-
-		console.log('Start writing encrypted messages!');
 	}, [
 		isE2eeEnabled,
 		encrypted,
@@ -235,9 +223,12 @@ export const JoinGroupChatView = ({
 				? GROUP_CHAT_API.START
 				: GROUP_CHAT_API.JOIN;
 		apiPutGroupChat(activeSession.item.id, groupChatApiCall)
-			.then(async () => {
-				await handleEncryptRoom();
-			})
+			.then(
+				() =>
+					groupChatApiCall === GROUP_CHAT_API.START &&
+					handleEncryptRoom()
+			)
+			.then(() => reloadActiveSession())
 			.catch(() => {
 				setOverlayItem(startJoinGroupChatErrorOverlay);
 				setOverlayActive(true);

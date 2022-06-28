@@ -122,7 +122,7 @@ export const GroupChatInfo = () => {
 				}
 			});
 		}
-	}, [activeSession, groupIdFromParam, ready, sessionListTab]);
+	}, [activeSession, ready, sessionListTab]);
 
 	const handleStopGroupChatButton = () => {
 		setOverlayItem(stopGroupChatSecurityOverlayItem);
@@ -151,7 +151,6 @@ export const GroupChatInfo = () => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			setRedirectToSessionsList(true);
-			//setUpdateSessionList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
 		}

@@ -16,9 +16,7 @@ import {
 import { BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
 import {
-	SessionsDataContext,
 	buildExtendedSession,
-	getExtendedSession,
 	STATUS_EMPTY,
 	E2EEContext
 } from '../../globalState';
@@ -51,11 +49,12 @@ import {
 	apiSendAliasMessage
 } from '../../api/apiSendAliasMessage';
 import { Loading } from '../app/Loading';
+import { useSession } from '../../hooks/useSession';
+import { apiGetAskerSessionList } from '../../api';
 
 export const WriteEnquiry: React.FC = () => {
 	const { sessionId: sessionIdFromParam } = useParams();
 
-	const { sessions, ready } = useContext(SessionsDataContext);
 	const fixedLanguages = useContext(FixedLanguagesContext);
 
 	const [activeSession, setActiveSession] = useState(null);
@@ -72,13 +71,17 @@ export const WriteEnquiry: React.FC = () => {
 	const [sessionKeyExportedString, setSessionKeyExportedString] =
 		useState(null);
 
+	const { session, ready: sessionReady } = useSession(
+		null,
+		sessionIdFromParam
+	);
+
 	useEffect(() => {
 		if (!isE2eeEnabled) {
 			return;
 		}
 
 		createGroupKey().then(({ keyID, key, sessionKeyExportedString }) => {
-			console.log(key, keyID, sessionKeyExportedString);
 			setKeyID(keyID);
 			setKey(key);
 			setSessionKeyExportedString(sessionKeyExportedString);
@@ -86,30 +89,28 @@ export const WriteEnquiry: React.FC = () => {
 	}, [isE2eeEnabled]);
 
 	useEffect(() => {
-		if (!ready) {
+		if (!sessionReady && sessionIdFromParam) {
 			return;
 		}
 
-		let activeSession;
-		if (
-			!sessionIdFromParam &&
-			sessions.length === 1 &&
-			sessions[0]?.session?.status === STATUS_EMPTY
-		) {
-			setIsFirstEnquiry(true);
-			activeSession = buildExtendedSession(sessions[0]);
+		if (!session) {
+			apiGetAskerSessionList().then(({ sessions }) => {
+				if (
+					sessions.length === 1 &&
+					sessions[0]?.session?.status === STATUS_EMPTY
+				) {
+					setIsFirstEnquiry(true);
+					setActiveSession(buildExtendedSession(sessions[0]));
+					setIsLoading(false);
+					return;
+				}
+			});
 		} else {
-			activeSession = getExtendedSession(sessionIdFromParam, sessions);
-		}
-
-		if (!activeSession) {
-			// ToDo: Handle error
+			setActiveSession(session);
+			setIsLoading(false);
 			return;
 		}
-
-		setActiveSession(activeSession);
-		setIsLoading(false);
-	}, [ready, sessionIdFromParam, sessions]);
+	}, [sessionReady, sessionIdFromParam, session]);
 
 	const { fromL } = useResponsive();
 	useEffect(() => {
@@ -240,7 +241,6 @@ export const WriteEnquiry: React.FC = () => {
 
 				// Set Room Key ID at the very end because if something failed before it will still be repairable
 				// After room key is set the room is encrypted and the room key could not be set again.
-				console.log('Set Room Key ID', keyID);
 				try {
 					await apiRocketChatSetRoomKeyID(response.rcGroupId, keyID);
 					await apiSendAliasMessage({
@@ -251,8 +251,6 @@ export const WriteEnquiry: React.FC = () => {
 					console.error(e);
 					return;
 				}
-
-				console.log('Start writing encrypted messages!');
 			}
 
 			setSessionId(response.sessionId);
@@ -262,13 +260,11 @@ export const WriteEnquiry: React.FC = () => {
 		[keyID, sessionKeyExportedString, isE2eeEnabled]
 	);
 
-	const isUnassignedSession =
-		(activeSession && !activeSession?.consultant) ||
-		(!activeSession && !sessions?.[0]?.consultant);
-
 	if (isLoading) {
 		return <Loading />;
 	}
+
+	const isUnassignedSession = activeSession && !activeSession?.consultant;
 
 	return (
 		<div className="enquiry__wrapper">
@@ -307,8 +303,6 @@ export const WriteEnquiry: React.FC = () => {
 					handleSendButton={handleSendButton}
 					placeholder={translate('enquiry.write.input.placeholder')}
 					type={SESSION_LIST_TYPES.ENQUIRY}
-					sessionIdFromParam={sessionIdFromParam}
-					groupIdFromParam={null}
 					language={selectedLanguage}
 					E2EEParams={{
 						keyID: keyID,

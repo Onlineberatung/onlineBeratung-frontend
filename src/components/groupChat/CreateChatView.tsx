@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import {
 	desktopView,
@@ -51,7 +51,7 @@ import 'react-datepicker/src/stylesheets/datepicker.scss';
 import '../datepicker/datepicker.styles';
 import './createChat.styles';
 import { useResponsive } from '../../hooks/useResponsive';
-import { apiGetSessionRooms } from '../../api/apiGetSessionRooms';
+import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useSearchParam } from '../../hooks/useSearchParams';
 
 registerLocale('de', de);
@@ -301,18 +301,20 @@ export const CreateGroupChatView = (props) => {
 		setIsRequestInProgress(true);
 		apiCreateGroupChat(createChatDataItem)
 			.then((response: chatLinkData) => {
-				apiGetSessionRooms([response.groupId]).then(({ sessions }) => {
-					dispatch({
-						type: UPDATE_SESSIONS,
-						sessions: sessions
-					});
+				apiGetSessionRoomsByGroupIds([response.groupId]).then(
+					({ sessions }) => {
+						dispatch({
+							type: UPDATE_SESSIONS,
+							sessions: sessions
+						});
 
-					setActiveSession(
-						getExtendedSession(response.groupId, sessions)
-					);
-					setOverlayItem(createChatSuccessOverlayItem);
-					setOverlayActive(true);
-				});
+						setActiveSession(
+							getExtendedSession(response.groupId, sessions)
+						);
+						setOverlayItem(createChatSuccessOverlayItem);
+						setOverlayActive(true);
+					}
+				);
 			})
 			.catch((error) => {
 				setOverlayItem(createChatErrorOverlayItem);
@@ -327,15 +329,17 @@ export const CreateGroupChatView = (props) => {
 		setIsRequestInProgress(true);
 		apiUpdateGroupChat(activeSession.item.id, createChatDataItem)
 			.then((response: chatLinkData) => {
-				apiGetSessionRooms([response.groupId]).then(({ sessions }) => {
-					dispatch({
-						type: UPDATE_SESSIONS,
-						sessions: sessions
-					});
+				apiGetSessionRoomsByGroupIds([response.groupId]).then(
+					({ sessions }) => {
+						dispatch({
+							type: UPDATE_SESSIONS,
+							sessions: sessions
+						});
 
-					setOverlayItem(updateChatSuccessOverlayItem);
-					setOverlayActive(true);
-				});
+						setOverlayItem(updateChatSuccessOverlayItem);
+						setOverlayActive(true);
+					}
+				);
 			})
 			.catch((error) => {
 				console.error(error);

@@ -8,13 +8,7 @@ import {
 } from 'react';
 import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
-import {
-	generatePath,
-	Link,
-	Redirect,
-	useLocation,
-	useParams
-} from 'react-router-dom';
+import { generatePath, Link, Redirect, useParams } from 'react-router-dom';
 import {
 	AUTHORITIES,
 	ExtendedSessionInterface,
@@ -76,7 +70,6 @@ import DeleteSession from '../session/DeleteSession';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Text } from '../text/Text';
 import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
-import { decodeUsername } from '../../utils/encryptionHelpers';
 import { useSearchParam } from '../../hooks/useSearchParams';
 
 export interface SessionMenuProps {
@@ -91,7 +84,9 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
-	const { activeSession } = useContext(ActiveSessionContext);
+
+	const { activeSession, reloadActiveSession } =
+		useContext(ActiveSessionContext);
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 
 	const [overlayItem, setOverlayItem] = useState(null);
@@ -136,7 +131,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		if (groupIdFromParam === activeSession?.item?.groupId) {
 			apiRocketChatGroupMembers(groupIdFromParam).then(({ members }) => {
 				members.forEach((member) => {
-					console.log(member._id, decodeUsername(member.username));
+					//console.log(member._id, decodeUsername(member.username));
 				});
 			});
 		}
@@ -180,6 +175,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const handleDearchiveSession = () => {
 		apiPutDearchive(activeSession.item.id)
 			.then(() => {
+				reloadActiveSession();
 				setTimeout(() => {
 					if (window.innerWidth >= 900) {
 						history.push(
@@ -231,7 +227,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			props.hasUserInitiatedStopOrLeaveRequest.current = true;
 
 			apiPutGroupChat(activeSession.item.id, GROUP_CHAT_API.LEAVE)
-				.then((response) => {
+				.then(() => {
 					setOverlayItem(leaveGroupChatSuccessOverlayItem);
 				})
 				.catch((error) => {
