@@ -12,15 +12,16 @@ import clsx from 'clsx';
 import {
 	getTypeOfLocation,
 	getViewPathForType,
-	typeIsEnquiry,
-	scrollToEnd,
 	isMyMessage,
 	SESSION_LIST_TYPES,
-	SESSION_LIST_TAB
+	SESSION_LIST_TAB,
+	scrollToEnd,
+	typeIsEnquiry
 } from './sessionHelpers';
 import {
 	MessageItem,
-	MessageItemComponent
+	MessageItemComponent,
+	MessageType
 } from '../message/MessageItemComponent';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { translate } from '../../utils/translate';
@@ -41,12 +42,12 @@ import { SessionAssign } from '../sessionAssign/SessionAssign';
 import {
 	AUTHORITIES,
 	ConsultingTypeInterface,
+	E2EEContext,
 	getContact,
 	hasUserAuthority,
 	LegalLinkInterface,
-	UserDataContext,
 	SessionTypeContext,
-	E2EEContext
+	UserDataContext
 } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
@@ -450,6 +451,49 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 	const handleMessageSendSuccess = () => setDraggedFile(null);
 
+	const sendMessageLostInfo = async () => {
+		await apiSendAliasMessage({
+			rcGroupId: groupIdFromParam,
+			type: ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST
+		});
+	};
+
+	const canDecrypted = useCallback(() => {
+		return keyID !== null;
+	}, [keyID]);
+
+	const canSendInfo = useCallback(() => {
+		const messages = props?.messages?.slice().reverse();
+		const lastE2EEMessageIndex = messages.findIndex(
+			(value) =>
+				value.alias?.messageType.toString() ===
+				ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST
+		);
+
+		const lastOwnMessageIndex = messages.findIndex((value) =>
+			isMyMessage(value.userId)
+		);
+
+		return lastE2EEMessageIndex > lastOwnMessageIndex && !canDecrypted();
+	}, [canDecrypted, props?.messages]);
+
+	const buildMasterKeyLostMessage = (message: MessageItem) => {
+		return (
+			<MessageItemComponent
+				{...message}
+				clientName={'Client'}
+				type={getTypeOfLocation()}
+				isOnlyEnquiry={isOnlyEnquiry}
+				isMyMessage={keyID === null}
+				resortData={resortData}
+				bannedUsers={props.bannedUsers}
+				username={'Username'} // fixme
+				userId={'UserId'} // fixme
+				displayName={'Displayname'} // fixme
+			/>
+		);
+	};
+
 	return (
 		<div
 			className={
@@ -490,20 +534,30 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							resortData &&
 							messages.map((message: MessageItem, index) => (
 								<React.Fragment key={index}>
-									<MessageItemComponent
-										clientName={
-											getContact(activeSession).username
-										}
-										askerRcId={activeSession.item.askerRcId}
-										type={getTypeOfLocation()}
-										isOnlyEnquiry={isOnlyEnquiry}
-										isMyMessage={isMyMessage(
-											message.userId
-										)}
-										resortData={resortData}
-										bannedUsers={props.bannedUsers}
-										{...message}
-									/>
+									{message.alias?.messageType ===
+									MessageType.MASTER_KEY_LOST ? (
+										<>
+											{buildMasterKeyLostMessage(message)}
+										</>
+									) : (
+										<MessageItemComponent
+											clientName={
+												getContact(activeSession)
+													.username
+											}
+											askerRcId={
+												activeSession.item.askerRcId
+											}
+											type={getTypeOfLocation()}
+											isOnlyEnquiry={isOnlyEnquiry}
+											isMyMessage={isMyMessage(
+												message.userId
+											)}
+											resortData={resortData}
+											bannedUsers={props.bannedUsers}
+											{...message}
+										/>
+									)}
 									{index === messages.length - 1 &&
 										enableInitialScroll()}
 								</React.Fragment>
@@ -613,19 +667,24 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							key: groupKey,
 							keyID: groupKeyID,
 							sessionKeyExportedString:
-								sessionGroupKeyExportedString
+								sessionGroupKeyExportedString,
+							masterKeyLost: !canDecrypted(),
+							canSendMasterKeyLostMessage: canSendInfo(),
+							sendMessageLostInfo
 						}}
 						preselectedFile={draggedFile}
 						handleMessageSendSuccess={handleMessageSendSuccess}
 					/>
 				)}
-			<DragAndDropArea
-				onFileDragged={onFileDragged}
-				isDragging={isDragging}
-				canDrop={isDragOverDropArea}
-				onDragLeave={onDragLeave}
-				styleOverride={{ top: headerBounds.height + 'px' }}
-			/>
+			{keyID && (
+				<DragAndDropArea
+					onFileDragged={onFileDragged}
+					isDragging={isDragging}
+					canDrop={isDragOverDropArea}
+					onDragLeave={onDragLeave}
+					styleOverride={{ top: headerBounds.height + 'px' }}
+				/>
+			)}
 			{overlayItem && (
 				<OverlayWrapper>
 					<Overlay

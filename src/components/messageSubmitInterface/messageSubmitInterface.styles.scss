@@ -83,20 +83,24 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			align-self: flex-end;
 			transition: background-color 0.6s ease;
 			overflow: hidden;
+
 			svg {
 				transform: translate(0);
 			}
+
 			&:hover {
 				background-color: var(
 					--skin-color-primary-hover,
 					$hover-primary
 				);
 			}
+
 			&--clicked {
 				svg {
 					animation: sendButton 1s ease forwards;
 				}
 			}
+
 			@keyframes sendButtonHover {
 				0% {
 					transform: translate(0);
@@ -382,15 +386,62 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			position: relative;
 			z-index: 1;
 		}
+
 		.public-DraftEditorPlaceholder-root {
 			position: absolute;
 			color: $message-submit-interface-textarea-placeholder-color;
 			max-width: calc(100% - #{$grid-base-six});
 			z-index: 1;
 		}
+
 		.public-DraftEditor-content,
 		.public-DraftEditorPlaceholder-root {
 			padding: 14px $grid-base-five 14px $grid-base;
+		}
+	}
+}
+
+.messageSubmit__wrapper.disabled {
+	pointer-events: none;
+
+	.encryption-notice-info-wrapper > * {
+		pointer-events: all;
+		//background-color: #e7e3e1;
+		padding: 12px 16px;
+		background-color: rgba(0, 0, 0, 0.05);
+	}
+
+	.public-DraftEditor-content {
+		background-color: #f0eeed;
+	}
+
+	.textarea {
+		&__featureWrapper {
+			background-color: #f0eeed;
+			box-shadow: none;
+		}
+
+		&__iconWrapper {
+			background-color: #cac8c6;
+		}
+
+		&__attachmentSelect,
+		&__richtextToggle,
+		.emoji__selectButton {
+			svg {
+				* {
+					fill: #cac8c6;
+				}
+			}
+		}
+	}
+
+	&.canSendMasterKeyLostMessage {
+		.textarea {
+			&__iconWrapper {
+				background-color: var(--skin-color-primary, $primary);
+				pointer-events: all;
+			}
 		}
 	}
 }

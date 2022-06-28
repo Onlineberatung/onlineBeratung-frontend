@@ -87,6 +87,14 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
 import { encryptRoom } from '../../utils/e2eeHelper';
+import {
+	Overlay,
+	OVERLAY_FUNCTIONS,
+	OverlayItem,
+	OverlayWrapper
+} from '../overlay/Overlay';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { BUTTON_TYPES } from '../button/Button';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -182,6 +190,7 @@ export const MessageSubmitInterfaceComponent = (
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { type } = useContext(SessionTypeContext);
+	const displayName = getContact(activeSession).displayName;
 
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [draftLoaded, setDraftLoaded] = useState(false);
@@ -195,6 +204,7 @@ export const MessageSubmitInterfaceComponent = (
 		useState<XMLHttpRequest | null>(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
+	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const currentDraftMessageRef = useRef<string>();
 	const debouncedDraftMessage = useDebouncedValue(
 		currentDraftMessageRef.current,
@@ -577,6 +587,14 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const handleButtonClick = () => {
+		if (
+			props.E2EEParams.masterKeyLost &&
+			props.E2EEParams?.sendMessageLostInfo
+		) {
+			props.E2EEParams.sendMessageLostInfo();
+			return;
+		}
+
 		if (uploadProgress || isRequestInProgress) {
 			return null;
 		}
@@ -906,14 +924,65 @@ export const MessageSubmitInterfaceComponent = (
 		activeSession.item.feedbackGroupId &&
 		(activeSession.isGroup || !activeSession.isFeedback);
 
+	const onReadMoreAboutEncryptedChatClick = () => {
+		const readMoreAboutEncryptedChatOverlay: OverlayItem = {
+			headline: translate('session.encrypted.overlay.headline'),
+			buttonSet: [
+				{
+					label: translate('session.encrypted.overlay.button'),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.PRIMARY
+				}
+			],
+			copy:
+				translate('session.encrypted.overlay.text.first') +
+				displayName +
+				translate('session.encrypted.overlay.text.second')
+		};
+
+		setOverlayItem(readMoreAboutEncryptedChatOverlay);
+	};
+
+	const handleOverlayAction = () => setOverlayItem(null);
+
 	return (
 		<div
 			className={clsx(
 				props.className,
 				'messageSubmit__wrapper',
-				isTypingActive && 'messageSubmit__wrapper--withTyping'
+				isTypingActive && 'messageSubmit__wrapper--withTyping',
+				props.E2EEParams.masterKeyLost && 'disabled',
+				props.E2EEParams.canSendMasterKeyLostMessage &&
+					'canSendMasterKeyLostMessage'
 			)}
 		>
+			{props.E2EEParams.masterKeyLost && (
+				<div className="encryption-notice-info-wrapper">
+					<div className="info">
+						{props.E2EEParams.canSendMasterKeyLostMessage ? (
+							<>
+								{translate(
+									'session.encrypted.notice.send.first'
+								)}
+								{displayName}
+								{translate(
+									'session.encrypted.notice.send.second'
+								)}
+							</>
+						) : (
+							<>
+								{translate('session.encrypted.notice.first')}
+								{displayName}
+								{translate('session.encrypted.notice.second')}
+							</>
+						)}
+
+						<a onClick={onReadMoreAboutEncryptedChatClick}>
+							{translate('session.encrypted.notice.more')}
+						</a>
+					</div>
+				</div>
+			)}
 			{isTypingActive && (
 				<TypingIndicator
 					disabled={
@@ -1053,6 +1122,14 @@ export const MessageSubmitInterfaceComponent = (
 						/>
 					)}
 				</form>
+			)}
+			{props.E2EEParams.masterKeyLost && overlayItem && (
+				<OverlayWrapper>
+					<Overlay
+						item={overlayItem}
+						handleOverlay={handleOverlayAction}
+					/>
+				</OverlayWrapper>
 			)}
 		</div>
 	);
