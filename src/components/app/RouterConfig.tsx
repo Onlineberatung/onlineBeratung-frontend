@@ -9,6 +9,7 @@ import { SessionViewEmpty } from '../session/SessionViewEmpty';
 import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
 import { Booking } from '../booking/booking';
+import { BookingCancelation } from '../booking/bookingCancelation';
 
 export const RouterConfigUser = (): any => {
 	return {
@@ -61,6 +62,10 @@ export const RouterConfigUser = (): any => {
 			{
 				path: '/booking',
 				component: Booking
+			},
+			{
+				path: '/booking/cancelation',
+				component: BookingCancelation
 			}
 		]
 	};
@@ -163,6 +168,10 @@ export const RouterConfigConsultant = (): any => {
 			{
 				path: '/booking',
 				component: Booking
+			},
+			{
+				path: '/booking/cancelation',
+				component: BookingCancelation
 			}
 		]
 	};
@@ -300,6 +309,10 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				path: '/booking',
 				component: Booking
+			},
+			{
+				path: '/booking/cancelation',
+				component: BookingCancelation
 			}
 		]
 	};

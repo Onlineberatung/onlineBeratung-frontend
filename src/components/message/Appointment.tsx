@@ -13,6 +13,7 @@ import {
 	getMonthFromString,
 	getWeekDayFromPrefix
 } from '../../utils/dateHelpers';
+import { history } from '../app/app';
 
 interface AppointmentData {
 	title: string;
@@ -74,7 +75,7 @@ export const Appointment = (param: { data: string }) => {
 	};
 
 	const handleCancelAppointment = () => {
-		console.log('handleCancelAppointment');
+		history.push('/booking/cancelation');
 	};
 
 	return (
