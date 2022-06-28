@@ -62,8 +62,7 @@ export default function Cal({
 		Cal('on', {
 			action: 'bookingSuccessful',
 			callback: (e) => {
-				const { data, type, namespace } = e.detail;
-				const eventType = data.eventType.id;
+				const { data } = e.detail;
 				const date = data.date;
 				const appointmentData = {
 					title: data.eventType.title,
