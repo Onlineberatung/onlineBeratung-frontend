@@ -65,8 +65,7 @@ export default function Cal({
 		Cal('on', {
 			action: 'bookingSuccessful',
 			callback: (e) => {
-				const { data, type, namespace } = e.detail;
-				const eventType = data.eventType.id;
+				const { data } = e.detail;
 				const date = data.date;
 				const appointmentData = {
 					title: data.eventType.title,
@@ -95,7 +94,7 @@ export default function Cal({
 			}
 		});
 		(window as any).Call = Cal;
-	}, [Cal, calLink, config, calOrigin]);
+	}, [Cal, calLink, config, calOrigin]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	if (!Cal) {
 		return <div>Loading {calLink}</div>;

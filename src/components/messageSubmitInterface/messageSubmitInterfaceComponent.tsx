@@ -869,11 +869,24 @@ export const MessageSubmitInterfaceComponent = (
 										</div>
 									))}
 							</span>
-							<SendMessageButton
-								handleSendButton={handleButtonClick}
-								clicked={isRequestInProgress}
-								deactivated={uploadProgress}
-							/>
+							<div className="textarea__buttons">
+								<SendMessageButton
+									handleSendButton={handleButtonClick}
+									clicked={isRequestInProgress}
+									deactivated={uploadProgress}
+								/>
+								{!consultant && (
+									<span
+										onClick={handleBookingButton}
+										className="textarea__iconBooking"
+										title={translate(
+											'enquiry.write.input.button.title'
+										)}
+									>
+										<CalendarMonthIcon />
+									</span>
+								)}
+							</div>
 						</div>
 						{consultant && (
 							<div className="textarea__wrapper-booking">

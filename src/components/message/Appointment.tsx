@@ -13,6 +13,7 @@ import {
 	getMonthFromString,
 	getWeekDayFromPrefix
 } from '../../utils/dateHelpers';
+import { history } from '../app/app';
 
 interface AppointmentData {
 	title: string;
@@ -36,67 +37,111 @@ export const Appointment = (param: { data: string }) => {
 		`${startingTimeStampDate}`
 	)} - ${formatToHHMM(`${finishingHour}`)}`;
 
-	const handleICSAppointment = () => {
-		console.log('handleICSAppointment');
+	const handleICSAppointment = (appointmentInfo: AppointmentData) => {
+		const [, day, month, year, startHour] = appointmentInfo.date.split(' ');
+		const [hour, min, sec] = startHour.split(':');
+		const icsMSG =
+			'BEGIN:VCALENDAR\n' +
+			'VERSION:2.0\n' +
+			'CALSCALE:GREGORIAN\n' +
+			'PRODID:adamgibbons/ics\n' +
+			'METHOD:PUBLISH\n' +
+			'X-PUBLISHED-TTL:PT1H\n' +
+			'BEGIN:VEVENT\n' +
+			'SUMMARY:' +
+			appointmentInfo.location +
+			'\n' +
+			'DTSTART:' +
+			year +
+			getMonthFromString(month) +
+			day +
+			'T' +
+			hour +
+			min +
+			sec +
+			'Z\n' +
+			'DURATION:PT' +
+			appointmentInfo.duration +
+			'M\n' +
+			'END:VEVENT\n' +
+			'END:VCALENDAR\n';
+
+		downloadICSFile(appointmentInfo.location, icsMSG);
 	};
 
 	const handleCancelAppointment = () => {
-		console.log('handleCancelAppointment');
+		history.push('/booking/cancelation');
+	};
+
+	const downloadICSFile = (filename: string, icsMSG: string) => {
+		const link = document.createElement('a');
+		link.download = `${filename}.ics`;
+		link.href = `data:text/calendar;",${escape(icsMSG)}`;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
 	};
 
 	return (
-		<div className="appointmentSet">
-			<div className="appointmentSet--flex">
-				<CalendarCheckIcon />
-				<Headline
-					semanticLevel="5"
-					text={translate('message.appointmentSet.title')}
-					className="appointmentSet__title"
-				/>
+		<React.Fragment>
+			<Text
+				type="infoSmall"
+				text={translate('message.appointmentSet.confirmation')}
+				className="appointmentSet__confirmation appointmentSet--blue"
+			/>
+			<div className="appointmentSet">
+				<div className="appointmentSet--flex">
+					<CalendarCheckIcon />
+					<Headline
+						semanticLevel="5"
+						text={translate('message.appointmentSet.title')}
+						className="appointmentSet__title"
+					/>
+				</div>
+				<div className="appointmentSet--flex">
+					<Text
+						type="standard"
+						text={appointmentDate}
+						className="appointmentSet__date"
+					/>
+					<Text
+						type="standard"
+						text={appointmentHours}
+						className="appointmentSet__time"
+					/>
+				</div>
+				<div className="appointmentSet--flex">
+					<VideoCalIcon />
+					<Text
+						type="infoLargeAlternative"
+						text={'Videoberatung'}
+						className="appointmentSet__video"
+					/>
+				</div>
+				<Text type="standard" text={parsedData.location} />
+				<div
+					className="appointmentSet--flex appointmentSet--pointer"
+					onClick={handleICSAppointment.bind(this, parsedData)}
+				>
+					<CalendarICSIcon />
+					<Text
+						type="standard"
+						text={translate('message.appointmentSet.addToCalendar')}
+						className="appointmentSet__ics appointmentSet--blue"
+					/>
+				</div>
+				<div
+					className="appointmentSet--flex appointmentSet--pointer"
+					onClick={handleCancelAppointment}
+				>
+					<CalendarCancelIcon />
+					<Text
+						type="standard"
+						text={translate('message.appointmentSet.cancel')}
+						className="appointmentSet__cancel appointmentSet--blue"
+					/>
+				</div>
 			</div>
-			<div className="appointmentSet--flex">
-				<Text
-					type="standard"
-					text={appointmentDate}
-					className="appointmentSet__date"
-				/>
-				<Text
-					type="standard"
-					text={appointmentHours}
-					className="appointmentSet__time"
-				/>
-			</div>
-			<div className="appointmentSet--flex">
-				<VideoCalIcon />
-				<Text
-					type="infoLargeAlternative"
-					text={'Videoberatung'}
-					className="appointmentSet__video"
-				/>
-			</div>
-			<Text type="standard" text={parsedData.location} />
-			<div
-				className="appointmentSet--flex appointmentSet--pointer"
-				onClick={handleICSAppointment}
-			>
-				<CalendarICSIcon />
-				<Text
-					type="standard"
-					text={translate('message.appointmentSet.addToCalendar')}
-					className="appointmentSet__ics"
-				/>
-			</div>
-			<div
-				className="appointmentSet--flex appointmentSet--pointer"
-				onClick={handleCancelAppointment}
-			>
-				<CalendarCancelIcon />
-				<Text
-					type="standard"
-					text={translate('message.appointmentSet.cancel')}
-					className="appointmentSet__cancel"
-				/>
-			</div>
-		</div>
+		</React.Fragment>
 	);
 };
