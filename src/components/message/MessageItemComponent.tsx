@@ -43,7 +43,8 @@ enum MessageType {
 	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL',
 	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
-	E2EE_ACTIVATED = 'E2EE_ACTIVATED'
+	E2EE_ACTIVATED = 'E2EE_ACTIVATED',
+	MASTER_KEY_LOST = 'MASTER_KEY_LOST'
 }
 
 export interface ForwardMessageDTO {
@@ -218,6 +219,8 @@ export const MessageItemComponent = ({
 	const isUserMutedMessage = alias?.messageType === MessageType.USER_MUTED;
 	const isE2EEActivatedMessage =
 		alias?.messageType === MessageType.E2EE_ACTIVATED;
+	const isMasterKeyLostMessage =
+		alias?.messageType === MessageType.MASTER_KEY_LOST;
 
 	const messageContent = (): JSX.Element => {
 		switch (true) {
