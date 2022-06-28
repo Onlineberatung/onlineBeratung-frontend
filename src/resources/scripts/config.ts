@@ -75,6 +75,7 @@ export const config = {
 		twoFactorAuthApp: apiUrl + '/service/users/2fa/app',
 		twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
 		userData: apiUrl + '/service/users/data',
+		topicsData: apiUrl + '/service/topic/public/',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
 		consultantsLanguages: apiUrl + '/service/users/consultants/languages',
