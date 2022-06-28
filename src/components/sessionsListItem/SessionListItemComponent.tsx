@@ -30,7 +30,8 @@ import {
 	getActiveSession,
 	STATUS_FINISHED,
 	STATUS_EMPTY,
-	STATUS_ENQUIRY
+	STATUS_ENQUIRY,
+	TenantContext
 } from '../../globalState';
 import { history } from '../app/app';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
@@ -61,6 +62,7 @@ export const SessionListItemComponent = ({
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { sessionsData } = useContext(SessionsDataContext);
+	const { tenant } = useContext(TenantContext);
 	const [activeSession, setActiveSession] = useState(null);
 	const { userData } = useContext(UserDataContext);
 	const type = getTypeOfLocation();
@@ -299,6 +301,16 @@ export const SessionListItemComponent = ({
 							!isLiveChat(listItem)
 								? '/ ' + listItem.postcode
 								: null}
+						</div>
+					)}
+					{listItem?.topic?.id && (
+						<div
+							className="sessionsListItem__topic"
+							style={{
+								backgroundColor: tenant?.theming?.primaryColor
+							}}
+						>
+							{listItem?.topic?.name}
 						</div>
 					)}
 					<div className="sessionsListItem__date">
