@@ -680,12 +680,14 @@ export const MessageSubmitInterfaceComponent = (
 
 		const sendToFeedbackEndpoint = isFeedbackMessage();
 
-		const keyId = sendToFeedbackEndpoint
-			? feedbackChatKeyId
-			: props.E2EEParams.keyID;
-		const key = sendToFeedbackEndpoint
-			? feedbackChatKey
-			: props.E2EEParams.key;
+		const keyId =
+			sendToFeedbackEndpoint && feedbackChatKeyId
+				? feedbackChatKeyId
+				: props.E2EEParams.keyID;
+		const key =
+			sendToFeedbackEndpoint && feedbackChatKey
+				? feedbackChatKey
+				: props.E2EEParams.key;
 
 		const unencryptedMessage = getTypedMarkdownMessage().trim();
 		const encryptedMessage =

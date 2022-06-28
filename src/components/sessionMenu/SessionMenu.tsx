@@ -70,7 +70,6 @@ import DeleteSession from '../session/DeleteSession';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Text } from '../text/Text';
 import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
-import { decodeUsername } from '../../utils/encryptionHelpers';
 import { useSearchParam } from '../../hooks/useSearchParams';
 
 export interface SessionMenuProps {
@@ -85,6 +84,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
+
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
 	const consultingType = useConsultingType(activeSession.item.consultingType);
@@ -131,7 +131,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		if (groupIdFromParam === activeSession?.item?.groupId) {
 			apiRocketChatGroupMembers(groupIdFromParam).then(({ members }) => {
 				members.forEach((member) => {
-					console.log(member._id, decodeUsername(member.username));
+					//console.log(member._id, decodeUsername(member.username));
 				});
 			});
 		}
@@ -227,7 +227,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			props.hasUserInitiatedStopOrLeaveRequest.current = true;
 
 			apiPutGroupChat(activeSession.item.id, GROUP_CHAT_API.LEAVE)
-				.then((response) => {
+				.then(() => {
 					setOverlayItem(leaveGroupChatSuccessOverlayItem);
 				})
 				.catch((error) => {

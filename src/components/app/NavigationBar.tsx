@@ -33,13 +33,7 @@ export const NavigationBar = ({
 	const {
 		sessions: unreadSessions,
 		group: unreadGroup,
-		enquiry: unreadEnquiry,
-		livechat: unreadLivechat
-		/*
-		archiv: unreadArchiv,
-		feedback: unreadFeedback,
-		
-		 */
+		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
 
 	const handleLogout = useCallback(() => {
@@ -64,7 +58,12 @@ export const NavigationBar = ({
 			return;
 		}
 
-		if (unreadSessions.length + unreadGroup.length > 0) {
+		if (
+			unreadSessions.length +
+				unreadGroup.length +
+				unreadTeamSessions.length >
+			0
+		) {
 			setAnimateNavIcon(true);
 		}
 
@@ -72,14 +71,13 @@ export const NavigationBar = ({
 			setAnimateNavIcon(false);
 			animateNavIconTimeoutRef.current = null;
 		}, 1000);
-	}, [unreadSessions, unreadGroup]);
+	}, [unreadSessions, unreadGroup, unreadTeamSessions]);
 
 	const pathsToShowUnreadMessageNotification = {
 		'/sessions/consultant/sessionView':
 			unreadSessions.length + unreadGroup.length,
 		'/sessions/user/view': unreadSessions.length + unreadGroup.length,
-		'/sessions/consultant/sessionPreview':
-			unreadEnquiry.length + unreadLivechat.length
+		'/sessions/consultant/teamSessionView': unreadTeamSessions.length
 	};
 
 	return (

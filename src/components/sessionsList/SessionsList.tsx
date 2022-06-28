@@ -65,9 +65,10 @@ import {
 	SUB_STREAM_NOTIFY_USER
 } from '../app/RocketChat';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import { apiGetSessionRooms } from '../../api/apiGetSessionRooms';
+import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -293,6 +294,7 @@ export const SessionsList = ({
 
 	const handleRIDs = useCallback(
 		(rids: string[]) => {
+			const loadedSessions = sessions;
 			/*
 			Always try to get each subscription from the backend because closed
 			group chats still in sessions but removed in rocket.chat
@@ -300,11 +302,18 @@ export const SessionsList = ({
 			Promise.all(
 				rids.map((rid) => {
 					// Get session from api
-					return apiGetSessionRooms([rid])
+					return apiGetSessionRoomsByGroupIds([rid])
 						.then(({ sessions }) => {
 							const session = sessions[0];
 
 							if (!session) {
+								const loadedSession = loadedSessions.find(
+									(s) => s?.chat?.groupId === rid
+								);
+								// If repetitive group chat reload it by id because groupId has changed
+								if (loadedSession?.chat?.repetitive) {
+									return ['reload', loadedSession.chat.id];
+								}
 								return ['removed', rid];
 							}
 
@@ -325,12 +334,19 @@ export const SessionsList = ({
 							return ['insert', session];
 						})
 						.catch(() => {
+							const loadedSession = loadedSessions.find(
+								(s) => s?.chat?.groupId === rid
+							);
+							// If repetitive group chat reload it by id because groupId has changed
+							if (loadedSession?.chat?.repetitive) {
+								return ['reload', loadedSession.chat.id];
+							}
 							return ['removed', rid];
 						});
 				})
 			).then((sessions) => {
 				const updatedSessions = sessions
-					.filter(([event]) => event !== 'removed')
+					.filter(([event]) => event === 'insert')
 					.map(([, s]) => s);
 
 				if (updatedSessions.length > 0) {
@@ -350,9 +366,27 @@ export const SessionsList = ({
 						ids: removedSessions as string[]
 					});
 				}
+
+				const reloadedSessions = sessions
+					.filter(([event]) => event === 'reload')
+					.map(([, id]) => id as number);
+
+				if (reloadedSessions.length > 0) {
+					Promise.all(
+						reloadedSessions.map((id) => apiGetChatRoomById(id))
+					).then((sessions) => {
+						dispatch({
+							type: UPDATE_SESSIONS,
+							sessions: sessions.reduce<ListItemInterface[]>(
+								(acc, { sessions }) => acc.concat(sessions),
+								[]
+							)
+						});
+					});
+				}
 			});
 		},
-		[dispatch, sessionListTab, sessionTypes]
+		[dispatch, sessionListTab, sessionTypes, sessions]
 	);
 
 	const onRoomsChanged = useCallback(
@@ -365,7 +399,7 @@ export const SessionsList = ({
 				.filter(([, room]) => room._id !== 'GENERAL')
 				// Reduce all room events of the same room to a single roomEvent
 				.reduce((acc, [event, room]) => {
-					const index = acc.findIndex(([, r]) => r.rid === room._id);
+					const index = acc.findIndex(([, r]) => r._id === room._id);
 					if (index < 0) {
 						acc.push([event, room]);
 					} else {
@@ -809,26 +843,76 @@ Watch for inactive groups because there is no api endpoint
 const useGroupWatcher = (isLoading: boolean) => {
 	const { sessions, dispatch } = useContext(SessionsDataContext);
 
-	const refreshInactiveGroupSessions = useCallback(() => {
-		const inactiveGroupSessionIds = sessions
-			.filter((s) => !!s.chat && !s.chat.subscribed)
-			.map((s) => s.chat.groupId);
+	const hasSessionChanged = useCallback(
+		(newSession) => {
+			const oldSession = sessions.find(
+				(s) => s.chat?.id === newSession.chat.id
+			);
+			return (
+				!oldSession ||
+				oldSession.chat.subscribed !== newSession.chat.subscribed ||
+				oldSession.chat.active !== newSession.chat.active
+			);
+		},
+		[sessions]
+	);
 
-		if (inactiveGroupSessionIds.length <= 0) {
+	const refreshInactiveGroupSessions = useCallback(() => {
+		const inactiveGroupSessions = sessions.filter(
+			(s) => !!s.chat && !s.chat.subscribed
+		);
+
+		if (inactiveGroupSessions.length <= 0) {
 			return;
 		}
 
-		return apiGetSessionRooms(inactiveGroupSessionIds).then(
-			({ sessions }) => {
-				dispatch({
-					type: UPDATE_SESSIONS,
-					sessions: sessions.filter(
-						(s) => !!s.chat && s.chat.subscribed
+		return apiGetSessionRoomsByGroupIds(
+			inactiveGroupSessions.map((s) => s.chat.groupId)
+		).then(({ sessions }) => {
+			// Update sessions which still exists in rocket.chat
+			dispatch({
+				type: UPDATE_SESSIONS,
+				sessions: sessions.filter(hasSessionChanged)
+			});
+
+			// Remove sessions which not exists in rocket.chat anymore and not repetitive chats
+			const removedGroupSessions = inactiveGroupSessions.filter(
+				(inactiveGroupSession) =>
+					!sessions.find(
+						(s) =>
+							s.chat.groupId === inactiveGroupSession.chat.groupId
 					)
+			);
+			if (removedGroupSessions.length > 0) {
+				dispatch({
+					type: REMOVE_SESSIONS,
+					ids: removedGroupSessions
+						.filter((s) => !s.chat.repetitive)
+						.map((s) => s.chat.groupId)
 				});
 			}
-		);
-	}, [dispatch, sessions]);
+
+			// Update repetitive chats by id because groupId has changed
+			const repetitiveGroupSessions = removedGroupSessions.filter(
+				(s) => s.chat.repetitive
+			);
+			if (repetitiveGroupSessions.length > 0) {
+				Promise.all(
+					repetitiveGroupSessions.map((s) =>
+						apiGetChatRoomById(s.chat.id)
+					)
+				).then((sessions) => {
+					dispatch({
+						type: UPDATE_SESSIONS,
+						sessions: sessions.reduce<ListItemInterface[]>(
+							(acc, { sessions }) => acc.concat(sessions),
+							[]
+						)
+					});
+				});
+			}
+		});
+	}, [dispatch, hasSessionChanged, sessions]);
 
 	const [startWatcher, stopWatcher, isWatcherRunning] = useWatcher(
 		refreshInactiveGroupSessions,

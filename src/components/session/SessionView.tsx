@@ -67,13 +67,17 @@ interface RouterProps {
 }
 
 export const SessionView = (props: RouterProps) => {
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
+		useParams();
+
+	const currentGroupId = useUpdatingRef(groupIdFromParam);
 
 	const { type } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
+	const { ready: rcReady } = useContext(RocketChatContext);
 	const { subscribe, unsubscribe } = useContext(RocketChatContext);
 
-	const initialized = useRef(false);
+	const subscribed = useRef(false);
 	const [readonly, setReadonly] = useState(true);
 	const [messagesItem, setMessagesItem] = useState(null);
 	const [isOverlayActive, setIsOverlayActive] = useState(false);
@@ -83,19 +87,20 @@ export const SessionView = (props: RouterProps) => {
 
 	const {
 		session: activeSession,
-		ready,
+		ready: activeSessionReady,
 		reload: reloadActiveSession,
 		read: readActiveSession
 	} = useSession(groupIdFromParam);
-	const { addNewUsersToEncryptedRoom } = useE2EE(groupIdFromParam);
+	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
+	const abortController = useRef<AbortController>(null);
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
 	const displayName = userData.displayName || userData.userName;
 
 	const { subscribeTyping, unsubscribeTyping, handleTyping, typingUsers } =
-		useTyping(groupIdFromParam, userData.userName, displayName);
+		useTyping(activeSession?.rid, userData.userName, displayName);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
@@ -110,17 +115,17 @@ export const SessionView = (props: RouterProps) => {
 		desktopView();
 	}, [fromL]);
 
-	useEffect(() => {
-		if (ready && !activeSession) {
-			history.push(
-				getSessionListPathForLocation() +
-					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
-			);
-		}
-	}, [ready, activeSession, sessionListTab]);
-
 	const fetchSessionMessages = useCallback(() => {
-		return apiGetSessionData(activeSession.rid).then((messagesData) => {
+		if (abortController.current) {
+			abortController.current.abort();
+		}
+
+		abortController.current = new AbortController();
+
+		return apiGetSessionData(
+			activeSession.rid,
+			abortController.current.signal
+		).then((messagesData) => {
 			setMessagesItem(messagesData);
 		});
 	}, [activeSession]);
@@ -197,9 +202,11 @@ export const SessionView = (props: RouterProps) => {
 						return;
 					}
 
-					fetchSessionMessages().then(() => {
-						setSessionRead();
-					});
+					if (message.u?.username !== 'rocket-chat-technical-user') {
+						fetchSessionMessages().then(() => {
+							setSessionRead();
+						});
+					}
 				});
 		},
 
@@ -260,60 +267,18 @@ export const SessionView = (props: RouterProps) => {
 	}, [setSessionRead]);
 
 	useEffect(() => {
-		if (activeSession && !initialized.current) {
-			const isConsultantEnquiry =
-				type === SESSION_LIST_TYPES.ENQUIRY &&
-				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
-
-			const isEnquiry =
-				activeSession.isEnquiry && !activeSession.isEmptyEnquiry;
-
-			if (
-				(activeSession.isGroup && !activeSession.item.subscribed) ||
-				(isEnquiry && activeSession.isLive)
-			) {
-				initialized.current = true;
-			} else {
-				if (!isConsultantEnquiry) {
-					setReadonly(false);
-				}
-
-				// check if any user needs to be added when opening session view
-				addNewUsersToEncryptedRoom();
-
-				fetchSessionMessages()
-					.then(() => {
-						subscribe(
-							{
-								name: SUB_STREAM_ROOM_MESSAGES,
-								roomId: activeSession.rid
-							},
-							onDebounceMessage
-						);
-
-						if (
-							!isConsultantEnquiry &&
-							(activeSession.isGroup || activeSession.isLive)
-						) {
-							subscribeTyping();
-							subscribe(
-								{
-									name: SUB_STREAM_NOTIFY_USER,
-									event: EVENT_SUBSCRIPTIONS_CHANGED,
-									userId: getValueFromCookie('rc_uid')
-								},
-								handleGroupChatStopped
-							);
-						}
-					})
-					.finally(() => {
-						initialized.current = true;
-					});
+		const unmount = () => {
+			if (abortController.current) {
+				abortController.current.abort();
+				abortController.current = null;
 			}
-		}
 
-		return () => {
-			if (activeSession) {
+			setReadonly(true);
+			setMessagesItem(null);
+
+			if (subscribed.current && activeSession) {
+				subscribed.current = false;
+
 				unsubscribe(
 					{
 						name: SUB_STREAM_ROOM_MESSAGES,
@@ -334,23 +299,107 @@ export const SessionView = (props: RouterProps) => {
 					);
 				}
 			}
+		};
 
+		if (!rcReady) {
+			return;
+		}
+
+		if (activeSessionReady && !activeSession) {
+			history.push(
+				getSessionListPathForLocation() +
+					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+			);
+		} else if (activeSessionReady) {
+			if (
+				activeSession.rid !== currentGroupId.current &&
+				activeSession.item.id.toString() === sessionIdFromParam
+			) {
+				console.log(activeSession.rid, currentGroupId.current);
+				history.push(
+					`${getSessionListPathForLocation()}/${activeSession.rid}/${
+						activeSession.item.id
+					}${
+						sessionListTab
+							? `?sessionListTab=${sessionListTab}`
+							: ''
+					}`
+				);
+				return unmount;
+			}
+
+			const isConsultantEnquiry =
+				type === SESSION_LIST_TYPES.ENQUIRY &&
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
+
+			if (
+				(activeSession.isGroup && !activeSession.item.subscribed) ||
+				(activeSession.isEnquiry &&
+					!activeSession.isEmptyEnquiry &&
+					activeSession.isLive) ||
+				bannedUsers.includes(userData.userName) ||
+				subscribed.current
+			) {
+				return unmount;
+			}
+
+			subscribed.current = true;
+
+			if (!isConsultantEnquiry) {
+				setReadonly(false);
+			}
+
+			// check if any user needs to be added when opening session view
+			addNewUsersToEncryptedRoom();
+
+			fetchSessionMessages().then(() => {
+				subscribe(
+					{
+						name: SUB_STREAM_ROOM_MESSAGES,
+						roomId: activeSession.rid
+					},
+					onDebounceMessage
+				);
+
+				if (
+					!isConsultantEnquiry &&
+					(activeSession.isGroup || activeSession.isLive)
+				) {
+					subscribeTyping();
+					subscribe(
+						{
+							name: SUB_STREAM_NOTIFY_USER,
+							event: EVENT_SUBSCRIPTIONS_CHANGED,
+							userId: getValueFromCookie('rc_uid')
+						},
+						handleGroupChatStopped
+					);
+				}
+			});
+		} else {
 			setReadonly(true);
 			setMessagesItem(null);
-			initialized.current = false;
-		};
+		}
+
+		return unmount;
 	}, [
+		activeSessionReady,
 		activeSession,
-		fetchSessionMessages,
-		handleGroupChatStopped,
-		onDebounceMessage,
-		type,
-		subscribe,
 		unsubscribe,
-		subscribeTyping,
+		onDebounceMessage,
 		unsubscribeTyping,
+		handleGroupChatStopped,
+		sessionListTab,
+		type,
 		userData,
-		addNewUsersToEncryptedRoom
+		addNewUsersToEncryptedRoom,
+		fetchSessionMessages,
+		subscribe,
+		subscribeTyping,
+		bannedUsers,
+		rcReady,
+		sessionIdFromParam,
+		currentGroupId
 	]);
 
 	const handleOverlayAction = (buttonFunction: string) => {
@@ -388,7 +437,9 @@ export const SessionView = (props: RouterProps) => {
 	}
 
 	return (
-		<ActiveSessionContext.Provider value={{ activeSession }}>
+		<ActiveSessionContext.Provider
+			value={{ activeSession, reloadActiveSession }}
+		>
 			<div className="session__wrapper">
 				<SessionItemComponent
 					hasUserInitiatedStopOrLeaveRequest={
