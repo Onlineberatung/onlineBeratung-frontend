@@ -15,6 +15,10 @@
 		margin-left: 0.5rem;
 	}
 
+	&__confirmation {
+		margin-bottom: 8px;
+	}
+
 	&__date {
 		font-size: $font-size-h4;
 		line-height: $line-height-quaternary;
@@ -38,5 +42,9 @@
 
 	&--pointer {
 		cursor: pointer;
+	}
+
+	&--blue {
+		color: #2e3975;
 	}
 }

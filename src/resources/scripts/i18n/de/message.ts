@@ -12,6 +12,7 @@ const message = {
 	'submit.booking.buttonLabel': 'Termin zur Beratung vereinbaren',
 	'appointmentSet.title': 'Ihr Termin wurde erstellt',
 	'appointmentSet.addToCalendar': 'Zum Kalender hinzufügen',
+	'appointmentSet.confirmation': 'Terminbestätigung',
 	'appointmentSet.cancel': 'Termin absagen',
 	'appointmentSet.between': 'zwischen',
 	'appointmentSet.and': 'und'

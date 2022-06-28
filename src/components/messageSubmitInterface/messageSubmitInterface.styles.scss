@@ -416,6 +416,36 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 				display: inline-block;
 			}
 		}
+
+		&__iconBooking {
+			width: $grid-base-six;
+			height: $grid-base-six;
+			border-radius: $grid-base-three;
+			cursor: pointer;
+			border: 1px solid var(--skin-color-primary, $primary);
+			margin: 0 0 4px 14px;
+			align-self: flex-end;
+			background-color: $white;
+			transition: background-color 0.6s ease;
+			overflow: hidden;
+			&:hover {
+				background-color: $background-light;
+			}
+
+			svg {
+				transform: scale(0.5);
+				fill: $primary;
+				position: relative;
+				left: -1px;
+			}
+		}
+
+		&__buttons {
+			display: flex;
+			flex-direction: column-reverse;
+			position: relative;
+			bottom: -6px;
+		}
 	}
 
 	a {
