@@ -6,7 +6,6 @@ import { history } from '../app/app';
 import { apiAppointmentSuccessfullySet } from '../../api/apiAppointmentSuccessfullySet';
 import { SessionsDataContext, UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
-import { useParams } from 'react-router-dom';
 
 export default function Cal({
 	calLink,
@@ -20,9 +19,7 @@ export default function Cal({
 	embedJsUrl?: string;
 }) {
 	const { userData } = useContext(UserDataContext);
-	const { sessionId: sessionIdFromParam } = useParams();
-	const { sessionsData, dispatchSessionsData } =
-		useContext(SessionsDataContext);
+	const { sessionsData } = useContext(SessionsDataContext);
 
 	if (!calLink) {
 		throw new Error('calLink is required');
