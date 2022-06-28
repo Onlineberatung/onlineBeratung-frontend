@@ -104,6 +104,7 @@ export const config = {
 		twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
 		userData: apiUrl + '/service/users/data',
 		userUpdateE2EKey: apiUrl + '/service/users/chat/e2e',
+		topicsData: apiUrl + '/service/topic/public/',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
 		consultantsLanguages: apiUrl + '/service/users/consultants/languages',
