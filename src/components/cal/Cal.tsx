@@ -91,7 +91,7 @@ export default function Cal({
 			}
 		});
 		(window as any).Call = Cal;
-	}, [Cal, calLink, config, calOrigin]);
+	}, [Cal, calLink, config, calOrigin]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	if (!Cal) {
 		return <div>Loading {calLink}</div>;
