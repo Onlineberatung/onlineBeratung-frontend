@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import CryptoJS from 'crypto-js';
 
 import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
@@ -35,22 +34,12 @@ import { Text } from '../text/Text';
 import { EnquiryLanguageSelection } from './EnquiryLanguageSelection';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { useResponsive } from '../../hooks/useResponsive';
-import {
-	createGroupKey,
-	encryptForParticipant,
-	getTmpMasterKey
-} from '../../utils/encryptionHelpers';
-import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
-import { apiRocketChatGetUsersOfRoomWithoutKey } from '../../api/apiRocketChatGetUsersOfRoomWithoutKey';
-import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
-import { apiRocketChatSetRoomKeyID } from '../../api/apiRocketChatSetRoomKeyID';
-import {
-	ALIAS_MESSAGE_TYPES,
-	apiSendAliasMessage
-} from '../../api/apiSendAliasMessage';
+import { createGroupKey } from '../../utils/encryptionHelpers';
+
 import { Loading } from '../app/Loading';
 import { useSession } from '../../hooks/useSession';
 import { apiGetAskerSessionList } from '../../api';
+import { encryptRoom } from '../../utils/e2eeHelper';
 
 export const WriteEnquiry: React.FC = () => {
 	const { sessionId: sessionIdFromParam } = useParams();
@@ -190,68 +179,13 @@ export const WriteEnquiry: React.FC = () => {
 
 	const handleSendButton = useCallback(
 		async (response) => {
-			if (isE2eeEnabled) {
-				const { members } = await apiRocketChatGroupMembers(
-					response.rcGroupId
-				);
-				const { users } = await apiRocketChatGetUsersOfRoomWithoutKey(
-					response.rcGroupId
-				);
-
-				await Promise.all(
-					members
-						// Filter system user and users with unencrypted username (Maybe more system users)
-						.filter(
-							(member) =>
-								member.username !== 'System' &&
-								member.username.indexOf('enc.') === 0
-						)
-						.map(async (member) => {
-							const user = users.find(
-								(user) => user._id === member._id
-							);
-							// If user has no public_key encrypt with tmpMasterKey
-							const tmpMasterKey = await getTmpMasterKey(
-								member._id
-							);
-							let userKey;
-							if (user) {
-								userKey = await encryptForParticipant(
-									user.e2e.public_key,
-									keyID,
-									sessionKeyExportedString
-								);
-							} else {
-								userKey =
-									'tmp.' +
-									keyID +
-									CryptoJS.AES.encrypt(
-										sessionKeyExportedString,
-										tmpMasterKey
-									);
-							}
-
-							return apiRocketChatUpdateGroupKey(
-								member._id,
-								response.rcGroupId,
-								userKey
-							);
-						})
-				);
-
-				// Set Room Key ID at the very end because if something failed before it will still be repairable
-				// After room key is set the room is encrypted and the room key could not be set again.
-				try {
-					await apiRocketChatSetRoomKeyID(response.rcGroupId, keyID);
-					await apiSendAliasMessage({
-						rcGroupId: response.rcGroupId,
-						type: ALIAS_MESSAGE_TYPES.E2EE_ACTIVATED
-					});
-				} catch (e) {
-					console.error(e);
-					return;
-				}
-			}
+			await encryptRoom({
+				keyId: keyID,
+				isE2eeEnabled,
+				isRoomAlreadyEncrypted: false,
+				rcGroupId: response.rcGroupId,
+				sessionKeyExportedString
+			});
 
 			setSessionId(response.sessionId);
 			setGroupId(response.rcGroupId);

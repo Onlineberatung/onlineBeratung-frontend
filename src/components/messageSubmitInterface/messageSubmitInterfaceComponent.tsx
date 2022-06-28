@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+
 import { SendMessageButton } from './SendMessageButton';
 import {
 	getSessionListPathForLocation,
@@ -85,6 +86,7 @@ import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
+import { encryptRoom } from '../../utils/e2eeHelper';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -199,9 +201,12 @@ export const MessageSubmitInterfaceComponent = (
 		SAVE_DRAFT_TIMEOUT
 	);
 	const { isE2eeEnabled } = useContext(E2EEContext);
-	const { keyID: feedbackChatKeyId, key: feedbackChatKey } = useE2EE(
-		activeSession.item.feedbackGroupId
-	);
+	const {
+		keyID: feedbackChatKeyId,
+		key: feedbackChatKey,
+		encrypted: feedbackEncrypted,
+		sessionKeyExportedString: feedbackChatSessionKeyExportedString
+	} = useE2EE(activeSession.item.feedbackGroupId);
 
 	const groupIdOrSessionId =
 		activeSession.item.groupId || activeSession.item.id;
@@ -217,6 +222,19 @@ export const MessageSubmitInterfaceComponent = (
 		label: translate('message.write.peer.checkbox.label'),
 		checked: requestFeedbackCheckbox?.checked || false
 	};
+
+	const encryptFeedbackRoom = useCallback(
+		async (keyId, sessionKeyExportedString) => {
+			await encryptRoom({
+				keyId,
+				isE2eeEnabled,
+				isRoomAlreadyEncrypted: feedbackEncrypted,
+				rcGroupId: activeSession.item.feedbackGroupId,
+				sessionKeyExportedString
+			});
+		},
+		[activeSession.item.feedbackGroupId, feedbackEncrypted, isE2eeEnabled]
+	);
 
 	const [isConsultantAbsent, setIsConsultantAbsent] = useState(
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -655,10 +673,14 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
+	const isFeedbackRequestChecked = () => {
+		return requestFeedbackCheckbox && requestFeedbackCheckbox.checked;
+	};
+
 	const isFeedbackMessage = () => {
 		return (
 			(!activeSession.isGroup && activeSession.isFeedback) ||
-			(requestFeedbackCheckbox && requestFeedbackCheckbox.checked)
+			isFeedbackRequestChecked()
 		);
 	};
 
@@ -688,6 +710,10 @@ export const MessageSubmitInterfaceComponent = (
 			sendToFeedbackEndpoint && feedbackChatKey
 				? feedbackChatKey
 				: props.E2EEParams.key;
+		const sessionKeyExportedString =
+			sendToFeedbackEndpoint && feedbackChatSessionKeyExportedString
+				? feedbackChatSessionKeyExportedString
+				: props.E2EEParams.sessionKeyExportedString;
 
 		const unencryptedMessage = getTypedMarkdownMessage().trim();
 		const encryptedMessage =
@@ -712,6 +738,10 @@ export const MessageSubmitInterfaceComponent = (
 				unencryptedMessage,
 				attachment
 			);
+
+			if (isFeedbackRequestChecked()) {
+				encryptFeedbackRoom(keyId, sessionKeyExportedString);
+			}
 		}
 	};
 

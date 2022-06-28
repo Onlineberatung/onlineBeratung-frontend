@@ -313,7 +313,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						to={{
 							pathname: `${getSessionListPathForLocation()}/${
 								activeSession.item.groupId
-							}/${activeSession.item.id}}`,
+							}/${activeSession.item.id}`,
 							search: getSessionListTab()
 						}}
 						className="sessionInfo__feedbackBackButton"

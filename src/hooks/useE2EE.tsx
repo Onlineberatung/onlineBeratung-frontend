@@ -18,6 +18,7 @@ export type e2eeParams = {
 
 export interface UseE2EEParams extends e2eeParams {
 	addNewUsersToEncryptedRoom?: any;
+	ready: boolean;
 }
 
 export const useE2EE = (rid: string | null): UseE2EEParams => {
@@ -28,6 +29,7 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 	const [encrypted, setEncrypted] = useState(false);
 	const [sessionKeyExportedString, setSessionKeyExportedString] =
 		useState(null);
+	const [ready, setReady] = useState(false);
 
 	const keyIdRef = useRef(null);
 	const sessionKeyExportedStringRef = useRef(null);
@@ -93,6 +95,7 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 
 	useEffect(() => {
 		if (!rid) {
+			setReady(true);
 			return;
 		}
 
@@ -104,6 +107,7 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 			setKey(null);
 			setKeyID(null);
 			setSessionKeyExportedString(null);
+			setReady(true);
 			return;
 		}
 
@@ -112,11 +116,13 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 		const subscription = subscriptions.find((s) => s.rid === rid);
 
 		if (!subscription?.E2EKey) {
+			setReady(true);
 			return;
 		}
 
 		// Prevent multiple decryptions
 		if (keyID) {
+			setReady(true);
 			return;
 		}
 
@@ -125,15 +131,27 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 				setKey(key);
 				setKeyID(keyID);
 				setSessionKeyExportedString(sessionKeyExportedString);
+				setReady(true);
 			}
 		);
 	}, [e2eePrivateKey, keyID, rid, rooms, subscriptions]);
+
+	useEffect(() => {
+		return () => {
+			setEncrypted(false);
+			setKey(null);
+			setKeyID(null);
+			setSessionKeyExportedString(null);
+			setReady(false);
+		};
+	}, [rid]);
 
 	return {
 		key,
 		keyID,
 		encrypted,
 		sessionKeyExportedString,
-		addNewUsersToEncryptedRoom
+		addNewUsersToEncryptedRoom,
+		ready
 	};
 };
