@@ -66,16 +66,20 @@ export const Appointment = (param: { data: string }) => {
 			'END:VEVENT\n' +
 			'END:VCALENDAR\n';
 
-		const link = document.createElement('a');
-		link.download = `${appointmentInfo.location}.ics`;
-		link.href = `data:text/calendar;",${escape(icsMSG)}`;
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
+		downloadICSFile(appointmentInfo.location, icsMSG);
 	};
 
 	const handleCancelAppointment = () => {
 		history.push('/booking/cancelation');
+	};
+
+	const downloadICSFile = (filename: string, icsMSG: string) => {
+		const link = document.createElement('a');
+		link.download = `${filename}.ics`;
+		link.href = `data:text/calendar;",${escape(icsMSG)}`;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
 	};
 
 	return (
