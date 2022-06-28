@@ -1,0 +1,27 @@
+.mainTopicSelection {
+	position: relative;
+	animation: fadeIn linear 0.2s;
+	margin: 0 44px $grid-base-four;
+
+	&__info {
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 19px;
+		color: rgba(0, 0, 0, 0.6);
+		text-align: left;
+	}
+
+	&__topic {
+		display: flex;
+		position: relative;
+		padding: 12px 0;
+	}
+
+	&__radioButton {
+		min-height: 25px;
+
+		.radioButton__contentWrapper {
+			align-items: center;
+		}
+	}
+}
