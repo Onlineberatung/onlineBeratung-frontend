@@ -11,7 +11,19 @@ const sessionInformal = {
 	'dragAndDrop.explanation.insideDropArea':
 		'Lege die Datei hier ab, um sie hochzuladen.',
 	'dragAndDrop.explanation.outsideDropArea':
-		'Ziehe die Datei in das Feld, um sie hochzuladen.'
+		'Ziehe die Datei in das Feld, um sie hochzuladen.',
+	'encrypted.notice.send.first':
+		'Sende die untenstehende Nachricht und benachrichtige ',
+	'encrypted.notice.send.second':
+		', dass du aus technischen Gründen keine Nachrichten lesen kannst.',
+	'encrypted.notice.first':
+		'Aus technischen Gründen kannst du keine Nachrichten lesen und schreiben. Wenn ',
+	'encrypted.notice.second':
+		' den Chat öffnet, kannst du die Nachrichten wieder lesen und neue Nachrichten schreiben.',
+	'encrypted.overlay.text.first':
+		'Deine Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform. <br/><br/>Da du dein Passwort zurückgesetzt hast, sind die Nachrichten für dich momentan nicht lesbar. Sobald ',
+	'encrypted.overlay.text.second':
+		' den Chat öffnet, kannst du die Nachrichten wieder lesen und auch schreiben.'
 };
 
 export default sessionInformal;
