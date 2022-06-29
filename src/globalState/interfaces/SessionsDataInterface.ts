@@ -58,6 +58,12 @@ type registrationTypeAnonymous = typeof REGISTRATION_TYPE_ANONYMOUS;
 export const REGISTRATION_TYPE_REGISTERED = 'REGISTERED';
 type registrationTypeRegistered = typeof REGISTRATION_TYPE_REGISTERED;
 
+export interface TopicSessionInterface {
+	id: number;
+	name: string;
+	description: string;
+}
+
 export interface SessionItemInterface {
 	agencyId: number;
 	askerRcId: string;
@@ -91,6 +97,7 @@ export interface SessionItemInterface {
 	videoCallMessageDTO: VideoCallMessageDTO;
 	language?: string;
 	isFeedbackSession: boolean;
+	topic: TopicSessionInterface;
 }
 
 export interface GroupChatItemInterface {
