@@ -4,7 +4,7 @@
 	"version": "2.9.14",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/caritasdeutschland/caritas-onlineberatung-frontend.git"
+		"url": "https://github.com/virtualidentityag/vi-saas-frontend.git"
 	},
 	"main": "index.ts",
 	"bin": "cli.js",
