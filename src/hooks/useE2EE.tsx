@@ -16,7 +16,7 @@ export type e2eeParams = {
 	encrypted?: boolean;
 	masterKeyLost?: boolean;
 	canSendMasterKeyLostMessage?: boolean;
-	sendMessageLostInfo?: Function;
+	sendMessageLostInfo?: () => Promise<void>;
 };
 
 export interface UseE2EEParams extends e2eeParams {

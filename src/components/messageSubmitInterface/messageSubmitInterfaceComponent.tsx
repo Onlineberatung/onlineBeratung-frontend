@@ -93,7 +93,6 @@ import {
 	OverlayItem,
 	OverlayWrapper
 } from '../overlay/Overlay';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { BUTTON_TYPES } from '../button/Button';
 
 //Linkify Plugin
@@ -589,9 +588,11 @@ export const MessageSubmitInterfaceComponent = (
 	const handleButtonClick = () => {
 		if (
 			props.E2EEParams.masterKeyLost &&
-			props.E2EEParams?.sendMessageLostInfo
+			props.E2EEParams.sendMessageLostInfo
 		) {
-			props.E2EEParams.sendMessageLostInfo();
+			props.E2EEParams.sendMessageLostInfo().then(() => {
+				setEditorWithMarkdownString('');
+			});
 			return;
 		}
 
@@ -944,6 +945,14 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const handleOverlayAction = () => setOverlayItem(null);
+
+	useEffect(() => {
+		if (props.E2EEParams?.canSendMasterKeyLostMessage) {
+			setEditorWithMarkdownString(
+				translate('session.encrypted.notice.send.info')
+			);
+		}
+	}, [props.E2EEParams?.canSendMasterKeyLostMessage]);
 
 	return (
 		<div

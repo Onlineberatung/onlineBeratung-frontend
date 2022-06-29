@@ -65,6 +65,10 @@ import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { encryptRoom } from '../../utils/e2eeHelper';
+import {
+	ALIAS_MESSAGE_TYPES,
+	apiSendAliasMessage
+} from '../../api/apiSendAliasMessage';
 
 interface SessionItemProps {
 	isTyping?: Function;
@@ -81,6 +85,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { activeSession } = useContext(ActiveSessionContext);
+	const { username, displayName } = getContact(activeSession);
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
 
@@ -458,11 +463,13 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		});
 	};
 
-	const canDecrypted = useCallback(() => {
-		return keyID !== null;
-	}, [keyID]);
+	const canDecrypted = keyID !== null;
 
-	const canSendInfo = useCallback(() => {
+	// const canDecrypted = useCallback(() => {
+	// 	return keyID !== null;
+	// }, [keyID]);
+
+	const canSendMasterKeyLostMessage = useCallback(() => {
 		const messages = props?.messages?.slice().reverse();
 		const lastE2EEMessageIndex = messages.findIndex(
 			(value) =>
@@ -474,22 +481,21 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			isMyMessage(value.userId)
 		);
 
-		return lastE2EEMessageIndex > lastOwnMessageIndex && !canDecrypted();
+		return lastE2EEMessageIndex > lastOwnMessageIndex && !canDecrypted;
 	}, [canDecrypted, props?.messages]);
 
 	const buildMasterKeyLostMessage = (message: MessageItem) => {
 		return (
 			<MessageItemComponent
 				{...message}
-				clientName={'Client'}
+				username={username}
+				clientName={username}
 				type={getTypeOfLocation()}
 				isOnlyEnquiry={isOnlyEnquiry}
-				isMyMessage={keyID === null}
+				isMyMessage={!canDecrypted}
 				resortData={resortData}
 				bannedUsers={props.bannedUsers}
-				username={'Username'} // fixme
-				userId={'UserId'} // fixme
-				displayName={'Displayname'} // fixme
+				displayName={displayName}
 			/>
 		);
 	};
@@ -668,15 +674,16 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							keyID: groupKeyID,
 							sessionKeyExportedString:
 								sessionGroupKeyExportedString,
-							masterKeyLost: !canDecrypted(),
-							canSendMasterKeyLostMessage: canSendInfo(),
+							masterKeyLost: !canDecrypted,
+							canSendMasterKeyLostMessage:
+								canSendMasterKeyLostMessage(),
 							sendMessageLostInfo
 						}}
 						preselectedFile={draggedFile}
 						handleMessageSendSuccess={handleMessageSendSuccess}
 					/>
 				)}
-			{keyID && (
+			{canDecrypted && (
 				<DragAndDropArea
 					onFileDragged={onFileDragged}
 					isDragging={isDragging}

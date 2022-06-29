@@ -406,23 +406,22 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 
 	.encryption-notice-info-wrapper > * {
 		pointer-events: all;
-		//background-color: #e7e3e1;
 		padding: 12px 16px;
-		background-color: rgba(0, 0, 0, 0.05);
+		background-color: $message-submit-interface-encryption-notice-info-wrapper-disabled;
 	}
 
 	.public-DraftEditor-content {
-		background-color: #f0eeed;
+		background-color: $message-submit-interface-textarea-background-color-disabled;
 	}
 
 	.textarea {
 		&__featureWrapper {
-			background-color: #f0eeed;
+			background-color: $message-submit-interface-textarea-background-color-disabled;
 			box-shadow: none;
 		}
 
 		&__iconWrapper {
-			background-color: #cac8c6;
+			background-color: $message-submit-interface-icon-disabled;
 		}
 
 		&__attachmentSelect,
@@ -430,7 +429,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 		.emoji__selectButton {
 			svg {
 				* {
-					fill: #cac8c6;
+					fill: $message-submit-interface-icon-disabled;
 				}
 			}
 		}

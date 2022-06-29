@@ -206,6 +206,14 @@ $message-background: #d64b49;
 $message-submit-interface-textarea-background-color: $dark-grey;
 $message-submit-interface-textarea-background-color-yellow: $yellow-3;
 $message-submit-interface-textarea-placeholder-color: $light-grey;
+$message-submit-interface-icon-disabled: #cac8c6;
+$message-submit-interface-textarea-background-color-disabled: #f0eeed;
+$message-submit-interface-encryption-notice-info-wrapper-disabled: rgba(
+	0,
+	0,
+	0,
+	0.05
+);
 $overlay-text-align: center;
 $overlay-list-align: left;
 $overlay-input-field-margin: $grid-base-three auto;
