@@ -1,6 +1,6 @@
 {
-	"baseUrl": "http://localhost:9000",
-	"pluginsFile": false,
+	"baseUrl": "http://localhost:9001",
+	"pluginsFile": "cypress/plugins/index.js",
 	"chromeWebSecurity": false,
 	"viewportWidth": 1200,
 	"viewportHeight": 800,

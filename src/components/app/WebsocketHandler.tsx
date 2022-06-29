@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { config } from '../../resources/scripts/config';
+import { useContext, useEffect, useState } from 'react';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
+import { config } from '../../resources/scripts/config';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import {
 	NOTIFICATION_TYPE_CALL,
@@ -58,8 +58,9 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const stompClient = Stomp.over(function () {
 		return new SockJS(config.endpoints.liveservice);
 	});
+
 	let reconnectAttemptCount = 0;
-	const RECONNECT_ATTEMPT_LIMIT = 10;
+	const RECONNECT_ATTEMPT_LIMIT = 2;
 	const RECONNECT_DELAY = 5000;
 
 	// DEV-NOTE: comment next line to activate debug mode (stomp logging) for development
@@ -77,6 +78,8 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 				setWebsocketConnectionDeactivated(true);
 			}
 		};
+
+		stompClient.onConnect = () => {};
 
 		stompConnect();
 
@@ -159,7 +162,6 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const stompConnect = () => {
 		stompClient.reconnect_delay = RECONNECT_DELAY;
 		stompClient.connect({}, (frame) => {
-			console.log('Connected: ' + frame);
 			reconnectAttemptCount = 0;
 			stompClient.subscribe('/user/events', function (message) {
 				const stompMessageBody = JSON.parse(message.body);

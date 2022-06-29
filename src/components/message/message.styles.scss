@@ -55,6 +55,8 @@ $message-attachment-color: $secondary !default;
 	}
 	&__username {
 		text-align: left;
+		display: flex;
+		align-items: center;
 
 		&--self {
 			color: $message-name-self;
@@ -84,6 +86,10 @@ $message-attachment-color: $secondary !default;
 					fill: $yellow-6;
 				}
 			}
+		}
+
+		.flyoutMenu {
+			margin-left: $grid-base;
 		}
 	}
 

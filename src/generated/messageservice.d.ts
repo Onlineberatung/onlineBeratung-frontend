@@ -116,6 +116,11 @@ declare namespace MessageService {
 		}
 		export interface MessageStreamDTO {
 			messages: MessagesDTO[];
+			count: number;
+			offset: number;
+			total: number;
+			success: boolean;
+			cleaned: null;
 		}
 		export type MessageType =
 			| 'FINISHED_CONVERSATION'

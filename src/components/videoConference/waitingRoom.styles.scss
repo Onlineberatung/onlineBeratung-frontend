@@ -1,0 +1,215 @@
+.videoConferenceWaitingRoom {
+	display: flex;
+	justify-content: center;
+	min-height: 100vh;
+	overflow: hidden;
+	background-color: $background-lighter;
+
+	.header {
+		display: none;
+		position: absolute;
+		top: 0;
+		z-index: 301;
+
+		@include breakpoint($fromLarge) {
+			display: flex;
+		}
+	}
+
+	&__contentWrapper {
+		padding: $grid-base-five $grid-base-two;
+		width: 100%;
+		max-width: 1370px;
+
+		@include breakpoint($fromLarge) {
+			display: flex;
+			align-items: center;
+			padding: $grid-base-five;
+			margin-top: $grid-base-twelve;
+		}
+
+		.text,
+		.headline {
+			text-align: center;
+
+			@include breakpoint($fromLarge) {
+				text-align: left;
+			}
+		}
+
+		.text {
+			margin-top: $grid-base-four;
+		}
+
+		.text + .text {
+			margin-top: $grid-base-three;
+		}
+
+		a {
+			font-weight: bold !important;
+		}
+	}
+
+	&__headline {
+		margin: $grid-base-three 0 0;
+
+		@include breakpoint($fromLarge) {
+			margin: 0;
+		}
+	}
+
+	&__subline {
+		font-family: $font-family-sans-serif;
+		font-weight: $font-weight-regular;
+		font-size: $font-size-h4;
+		margin-top: $grid-base-two;
+	}
+
+	&__illustration {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		height: 187px;
+		width: 187px;
+		margin: 0 auto;
+
+		svg {
+			width: 65%;
+			height: 65%;
+			z-index: 2;
+		}
+
+		&::after {
+			content: '';
+			position: absolute;
+			background-color: $tab-background-color;
+			height: 100%;
+			width: 100%;
+			border-radius: 100%;
+		}
+
+		@include breakpoint($fromLarge) {
+			margin: 0 $grid-base-five 0;
+			flex: 0 0 320px;
+			height: 320px;
+		}
+
+		@include breakpoint($fromXLarge) {
+			margin-right: $grid-base-ten;
+			flex: 0 0 560px;
+			justify-content: left;
+			height: 560px;
+
+			&::after {
+				z-index: 300;
+				height: 400%;
+				width: 300%;
+				left: -1200px;
+			}
+
+			svg {
+				margin-left: -$grid-base-six;
+			}
+		}
+	}
+
+	&__button {
+		text-align: left;
+		margin-top: $grid-base-four;
+	}
+
+	&__user,
+	&__redirect {
+		margin-top: $grid-base-four;
+
+		.text:first-of-type {
+			font-weight: $font-weight-medium;
+		}
+
+		.text + .text {
+			margin-top: $grid-base;
+		}
+	}
+
+	&__username {
+		color: $form-success;
+
+		&--loading {
+			color: $tertiary;
+			font-weight: $font-weight-regular;
+		}
+	}
+
+	&__redirectButton {
+		display: flex;
+		justify-content: center;
+		margin-top: $grid-base-three;
+
+		@include breakpoint($fromLarge) {
+			justify-content: start;
+		}
+	}
+
+	&__waitingIllustration {
+		.steam {
+			opacity: 0;
+			animation-duration: 4s;
+			animation-iteration-count: infinite;
+
+			&--1 {
+				animation-name: fadeSteam;
+				transform: translateY(4px);
+			}
+
+			&--2 {
+				animation-name: fadeSteam;
+				transform: translateY(1px);
+				animation-delay: 0.6s;
+			}
+
+			&--3 {
+				animation-name: fadeSteam;
+				transform: translateY(0);
+				animation-delay: 1s;
+			}
+		}
+
+		.foot {
+			transform-origin: 20px 71px;
+			animation-name: moveFoot;
+			animation-duration: 5s;
+			animation-iteration-count: infinite;
+			animation-timing-function: ease-in-out;
+		}
+	}
+}
+
+@keyframes fadeSteam {
+	from {
+		opacity: 0;
+	}
+
+	25% {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+}
+
+@keyframes moveFoot {
+	from {
+		transform: rotate(-10deg);
+	}
+
+	50% {
+		transform: rotate(20deg);
+	}
+
+	to {
+		transform: rotate(-10deg);
+	}
+}

@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { Redirect } from 'react-router-dom';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Routing } from './Routing';
-import { config } from '../../resources/scripts/config';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	UserDataContext,
@@ -24,7 +24,6 @@ import { Notifications } from '../notifications/Notifications';
 import './authenticatedApp.styles';
 import './navigation.styles';
 import { requestPermissions } from '../../utils/notificationHelpers';
-import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -41,10 +40,14 @@ export const AuthenticatedApp = ({
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
+
 	const [appReady, setAppReady] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(true);
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
+
 	const { notifications } = useContext(NotificationsContext);
 	const { sessionsData } = useContext(SessionsDataContext);
+
 	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
 
 	useEffect(() => {
@@ -59,23 +62,27 @@ export const AuthenticatedApp = ({
 	useEffect(() => {
 		if (!userDataRequested) {
 			setUserDataRequested(true);
-			handleTokenRefresh().then(() => {
-				Promise.all([apiGetUserData(), apiGetConsultingTypes()])
-					.then(([userProfileData, consultingTypes]) => {
-						// set informal / formal cookie depending on the given userdata
-						setValueInCookie(
-							'useInformal',
-							!userProfileData.formalLanguage ? '1' : ''
-						);
-						setUserData(userProfileData);
-						setConsultingTypes(consultingTypes);
-						setAppReady(true);
-					})
-					.catch((error) => {
-						window.location.href = config.urls.toEntry;
-						console.log(error);
-					});
-			});
+			handleTokenRefresh(false)
+				.then(() => {
+					Promise.all([apiGetUserData(), apiGetConsultingTypes()])
+						.then(([userProfileData, consultingTypes]) => {
+							// set informal / formal cookie depending on the given userdata
+							setValueInCookie(
+								'useInformal',
+								!userProfileData.formalLanguage ? '1' : ''
+							);
+							setUserData(userProfileData);
+							setConsultingTypes(consultingTypes);
+							setAppReady(true);
+						})
+						.catch((error) => {
+							setLoading(false);
+							console.log(error);
+						});
+				})
+				.catch(() => {
+					setLoading(false);
+				});
 		}
 	}, [userDataRequested, setUserData, setConsultingTypes]);
 
@@ -104,10 +111,11 @@ export const AuthenticatedApp = ({
 				{notifications && (
 					<Notifications notifications={notifications} />
 				)}
-				<TwoFactorNag />
 			</>
 		);
+	} else if (loading) {
+		return <Loading />;
 	}
 
-	return <Loading />;
+	return <Redirect to="/login" />;
 };

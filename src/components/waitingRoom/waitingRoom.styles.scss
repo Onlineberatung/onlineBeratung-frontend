@@ -1,15 +1,17 @@
 $waiting-room-illustration-width: 65% !default;
 $waiting-room-illustration-background: $illustration-background-neutral !default;
-$waiting-room-page-background: $background-light !default;
+$waiting-room-page-background: $background-lighter !default;
 $waiting-room-subline-opacity: 1 !default;
 
 .waitingRoom {
 	display: flex;
 	justify-content: center;
 	min-height: 100vh;
+	overflow: hidden;
 	background-color: $waiting-room-page-background;
 
 	.header {
+		z-index: 301;
 		display: none;
 		position: absolute;
 		top: 0;
@@ -33,10 +35,12 @@ $waiting-room-subline-opacity: 1 !default;
 
 		.text,
 		.headline {
-			text-align: center;
+			text-align: left;
+			margin-left: $grid-base-six;
+			margin-right: $grid-base-six;
 
 			@include breakpoint($fromLarge) {
-				text-align: left;
+				margin-left: 0;
 			}
 		}
 
@@ -50,27 +54,24 @@ $waiting-room-subline-opacity: 1 !default;
 
 		a {
 			color: $link-color;
-			text-decoration: $link-text-decoration;
-			font-weight: $link-font-weight;
-
-			&:hover {
-				color: $link-color-hover;
-				text-decoration: $link-text-decoration-hover;
-			}
+			text-decoration: underline;
 		}
 	}
 
 	&__headline {
 		margin: $grid-base-three 0 0;
+		font-size: 32px;
 
 		@include breakpoint($fromLarge) {
 			margin: 0;
+			font-size: $font-size-h1;
 		}
 	}
 
 	&__subline {
 		font-family: $font-family-sans-serif;
 		font-weight: $font-weight-regular;
+		font-size: $font-size-h4;
 		margin-top: $grid-base-two;
 		opacity: $waiting-room-subline-opacity;
 	}
@@ -87,13 +88,13 @@ $waiting-room-subline-opacity: 1 !default;
 		svg {
 			width: $waiting-room-illustration-width;
 			height: $waiting-room-illustration-width;
-			z-index: 2;
+			z-index: 300;
 		}
 
 		&::after {
 			content: '';
 			position: absolute;
-			background-color: $waiting-room-illustration-background;
+			background-color: $tab-background-color;
 			height: 100%;
 			width: 100%;
 			border-radius: 100%;
@@ -108,23 +109,43 @@ $waiting-room-subline-opacity: 1 !default;
 		@include breakpoint($fromXLarge) {
 			margin-right: $grid-base-ten;
 			flex: 0 0 560px;
+			justify-content: left;
 			height: 560px;
+
+			&::after {
+				z-index: 300;
+				height: 400%;
+				width: 300%;
+				left: -1200px;
+			}
+
+			svg {
+				margin-left: -$grid-base-six;
+			}
 		}
 	}
 
 	&__button {
-		text-align: center;
+		text-align: left;
 		margin-top: $grid-base-four;
+		margin-left: $grid-base-six;
 
 		@include breakpoint($fromLarge) {
-			text-align: left;
+			margin-left: 0;
+		}
+	}
+
+	&__user {
+		margin-top: $grid-base-five;
+
+		.text:first-child {
+			font-size: $font-size-h4;
+			margin-bottom: $grid-base-two;
 		}
 	}
 
 	&__user,
 	&__redirect {
-		margin-top: $grid-base-four;
-
 		.text:first-of-type {
 			font-weight: $font-weight-medium;
 		}
@@ -134,12 +155,39 @@ $waiting-room-subline-opacity: 1 !default;
 		}
 	}
 
+	&__redirect {
+		border: $notice-border;
+		border-radius: 4px;
+		padding: $grid-base-two;
+		margin-top: $grid-base-six;
+		margin-left: $grid-base-six;
+		margin-right: $grid-base-six;
+
+		.text {
+			margin: 0;
+			font-size: $font-size-primary;
+		}
+
+		& .text:last-child {
+			color: rgba(0, 0, 0, 0.6);
+		}
+
+		@include breakpoint($fromLarge) {
+			margin-left: 0;
+		}
+	}
+
 	&__username {
 		color: $form-success;
+		margin-top: $grid-base;
 
 		&--loading {
 			color: $tertiary;
 			font-weight: $font-weight-regular;
+		}
+
+		@include breakpoint($fromMedium) {
+			display: inline;
 		}
 	}
 

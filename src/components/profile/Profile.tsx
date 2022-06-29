@@ -177,24 +177,31 @@ export const Profile = (props: ProfileProps) => {
 		logout();
 	};
 
+	const isConsultant = hasUserAuthority(
+		AUTHORITIES.CONSULTANT_DEFAULT,
+		userData
+	);
+
+	let headline = userData.userName;
+
+	if (isConsultant) {
+		// 'firstName lastName' before displayName
+		if (userData.firstName || userData.lastName)
+			headline = `${userData.firstName} ${userData.lastName}`;
+		else if (userData.displayName) headline = userData.displayName;
+	}
+
 	return (
 		<div className="profile__wrapper" ref={scrollContainer}>
 			<div className="profile__header">
 				<div className="profile__header__wrapper flex flex--jc-sb flex-l--fd-column flex-xl--fd-row">
-					<div className="flex flex__col--10p flex--ai-c">
+					<div className="flex flex__col--25p flex--ai-c">
 						{fromL || !subpage ? (
 							<>
 								<div className="profile__icon flex__col--no-grow">
 									<PersonIcon className="profile__icon--user" />
 								</div>
-								<h3 className="text--nowrap">
-									{hasUserAuthority(
-										AUTHORITIES.CONSULTANT_DEFAULT,
-										userData
-									)
-										? `${userData.firstName} ${userData.lastName}`
-										: userData.userName}
-								</h3>
+								<h3 className="text--nowrap">{headline}</h3>
 							</>
 						) : (
 							<Link to={`/profile`}>
@@ -202,7 +209,7 @@ export const Profile = (props: ProfileProps) => {
 							</Link>
 						)}
 					</div>
-					<div className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex__col--80p">
+					<div className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex__col--50p">
 						{fromL ? (
 							profileRoutes
 								.filter((tab) =>
@@ -214,8 +221,8 @@ export const Profile = (props: ProfileProps) => {
 								)
 								.map((tab) => (
 									<div
-										className="text--nowrap flex__col--no-grow"
 										key={tab.url}
+										className="text--nowrap flex__col--no-grow"
 									>
 										<NavLink
 											to={`/profile${tab.url}`}
@@ -231,7 +238,7 @@ export const Profile = (props: ProfileProps) => {
 							</div>
 						)}
 					</div>
-					<div className="profile__header__actions flex__col--10p flex flex--ai-c flex--jc-fe">
+					<div className="profile__header__actions flex__col--25p flex flex--ai-c flex--jc-fe">
 						{!fromL && !subpage && (
 							<div
 								onClick={handleLogout}
@@ -289,6 +296,7 @@ export const Profile = (props: ProfileProps) => {
 												)
 												.map((element, i) => (
 													<ProfileItem
+														key={i}
 														element={element}
 														index={i}
 														spokenLanguages={
@@ -375,7 +383,7 @@ export const Profile = (props: ProfileProps) => {
 
 				<div className="profile__footer">
 					{props.legalLinks.map((legalLink, index) => (
-						<Fragment key={`separator-${index}`}>
+						<Fragment key={legalLink.url}>
 							{index > 0 && (
 								<Text
 									type="infoSmall"
@@ -383,7 +391,12 @@ export const Profile = (props: ProfileProps) => {
 									text=" | "
 								/>
 							)}
-							<a key={legalLink.url} href={legalLink.url}>
+							<a
+								key={legalLink.url}
+								href={legalLink.url}
+								target="_blank"
+								rel="noreferrer"
+							>
 								<Text
 									className="profile__footer__item"
 									type="infoSmall"
@@ -444,10 +457,10 @@ const ProfileGroup = ({
 				.sort((a, b) => (a?.order || 99) - (b?.order || 99))
 				.map((element, i) => (
 					<ProfileItem
+						key={i}
 						element={element}
 						spokenLanguages={spokenLanguages}
 						index={i}
-						key={i}
 					/>
 				))}
 		</>

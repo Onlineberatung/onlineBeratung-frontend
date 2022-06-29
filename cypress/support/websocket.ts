@@ -1,5 +1,4 @@
-import { v4 as uuid } from 'uuid';
-import { WebSocket, Server } from 'mock-socket';
+import { WebSocket, Server, Client } from 'mock-socket';
 
 declare global {
 	interface Window {
@@ -7,107 +6,139 @@ declare global {
 		mockStompSocket: WebSocket;
 		mockRocketChatServer: Server;
 		mockRocketChatSocket: WebSocket;
+		clipboardData: any;
+		externalApi: any;
+		JitsiMeetExternalAPI: any;
 	}
 }
 
-const mocks: { [key: string]: { server: Server; websocket: WebSocket } } = {};
+let mockSocketServer = null;
 
-const cleanupMock = (url: string) => {
-	if (mocks[url]) {
-		mocks[url].websocket.close();
-		mocks[url].server.stop();
-		delete mocks[url];
+export const closeWebSocketServer = () => {
+	if (mockSocketServer) {
+		mockSocketServer.close();
+		mockSocketServer = null;
 	}
 };
 
-const createMock = (url: string) => {
-	cleanupMock(url);
-	const server = new Server(url);
-	const websocket = new WebSocket(url);
-	mocks[url] = { server, websocket };
-
-	return mocks[url];
+export type ExtendedClient = Client & {
+	type?: 'Stomp' | 'RC';
 };
 
-export const mockWebSocket = () => {
-	cy.on('window:before:load', (win) => {
-		const winWebSocket = win.WebSocket;
-		cy.stub(win, 'WebSocket').callsFake((url) => {
-			// TODO: "/service/live" & "/websocket" should be synced with config, but the
-			// config hardcodes the http protocol in development
-			if (new URL(url).pathname.startsWith('/service/live')) {
-				// stomp mock
-				const { server, websocket } = createMock(url);
+let subscriptions = {};
 
-				win.mockStompServer = server;
-				win.mockStompServer.on('connection', (socket) => {
-					win.mockStompSocket = socket;
+export const startWebSocketServer = () => {
+	closeWebSocketServer();
 
-					socket.on('message', (message) => {
-						const parsedMessage = JSON.parse(
-							message.toString()
-						)[0].split('\n');
+	const mockStompURL = Cypress.env('CYPRESS_WS_URL')
+		.replace('http://', 'ws://')
+		.replace('https://', 'wss://');
 
-						if (parsedMessage[0] === 'CONNECT') {
-							socket.send(
-								'a["CONNECTED\\nversion:1.2\\nheart-beat:1200000,1200000\\n\\n\\u0000"]'
-							);
-						}
-					});
-
-					socket.send('o');
-				});
-
-				return websocket;
-			} else if (new URL(url).pathname.startsWith('/websocket')) {
-				// rocketchat mock
-				const { server, websocket } = createMock(url);
-
-				win.mockRocketChatServer = server;
-				win.mockRocketChatServer.on('connection', (socket) => {
-					win.mockRocketChatSocket = socket;
-				});
-
-				return websocket;
-			} else {
-				return new winWebSocket(url);
-			}
-		});
+	mockSocketServer = new Server(mockStompURL, {
+		mock: true
 	});
 
-	cy.on('window:before:unload', () => {
-		for (const url in mocks) {
-			cleanupMock(url);
+	mockSocketServer.on('connection', (socket: ExtendedClient) => {
+		const pathname = new URL(socket.url).searchParams.get('pathname');
+
+		if (pathname.startsWith('/service/live')) {
+			socket.type = 'Stomp';
+			socket.on('message', (message) => {
+				const parsedMessage = JSON.parse(message.toString())[0].split(
+					'\n'
+				);
+
+				if (parsedMessage[0] === 'CONNECT') {
+					socket.send(
+						'a["CONNECTED\\nversion:1.2\\nheart-beat:1200000,1200000\\n\\n\\u0000"]'
+					);
+				} else if (parsedMessage[0] === 'SUBSCRIBE') {
+					subscriptions[parsedMessage[2].split(':')[1]] = null;
+				}
+			});
+
+			socket.send('o');
+		} else {
+			socket.type = 'RC';
+			socket.on('message', (message) => {
+				if (typeof message !== 'string') {
+					return;
+				}
+
+				const parsedMessage = JSON.parse(message);
+				if (
+					parsedMessage.msg === 'method' &&
+					parsedMessage.method === 'login'
+				) {
+					socket.send(
+						JSON.stringify({
+							id: parsedMessage.id,
+							msg: 'result'
+						})
+					);
+				} else if (
+					parsedMessage.msg === 'sub' &&
+					parsedMessage.name === 'stream-room-messages'
+				) {
+					subscriptions[parsedMessage.name] = parsedMessage.params;
+				}
+			});
 		}
 	});
 };
 
-export const emitStompDirectMessage = ({
-	messageId
-}: { messageId?: string } = {}) => {
-	cy.window().then((win) => {
-		win.mockStompSocket.send(
-			`a["MESSAGE\\ndestination:/user/events\\ncontent-type:application/json\\nsubscription:sub-0\\nmessage-id:${
-				messageId || uuid()
-			}\\ncontent-length:29\\n\\n{\\"eventType\\":\\"directMessage\\"}\\u0000"]`
-		);
+export const mockWebSocket = () => {
+	cy.wrap({
+		get: () => subscriptions,
+		set: (subs) => (subscriptions = subs)
+	}).as('mockSocketServerSubscriptions');
+
+	cy.wrap(() => mockSocketServer).as('mockSocketServer');
+
+	cy.on('window:before:load', (win) => {
+		const originWebsocket = win.WebSocket;
+		cy.stub(win, 'WebSocket').callsFake((url) => {
+			const pathname = new URL(url).pathname;
+			let name = null;
+			if (pathname.startsWith('/service/live')) {
+				name = 'stomp';
+			} else if (pathname.startsWith('/websocket')) {
+				name = 'rc';
+			}
+
+			if (name) {
+				const socket = new WebSocket(
+					Cypress.env('CYPRESS_WS_URL')
+						.replace('http://', 'ws://')
+						.replace('https://', 'wss://') +
+						'?pathname=' +
+						pathname
+				);
+
+				socket.addEventListener('open', () => {
+					if (socket?.readyState === 1) {
+						win.document
+							.getElementsByTagName('body')[0]
+							.classList.add(`cy-socket-connected-${name}`);
+					}
+				});
+
+				socket.onclose = () => {
+					win.document
+						.getElementsByTagName('body')[0]
+						.classList.remove(`cy-socket-connected-${name}`);
+				};
+
+				socket.onerror = () => {
+					win.document
+						.getElementsByTagName('body')[0]
+						.classList.remove(`cy-socket-connected-${name}`);
+				};
+
+				return socket;
+			}
+			//WDS_SOCKET_PORT
+			return new originWebsocket(url);
+		});
 	});
-
-	// TODO: wait for the app to process the messages. this should not
-	// arbitrarily wait for the message to get processed but use some reliable
-	// indication from the app instead
-	return cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
-};
-
-export const emitStompVideoCallRequest = () => {
-	cy.window().then((win) => {
-		win.mockStompSocket.send(
-			`a["MESSAGE\\ndestination:/user/events\\ncontent-type:application/json\\nsubscription:sub-0\\nmessage-id::${uuid()}\\ncontent-length:260\\n\\n{\\"eventType\\":\\"videoCallRequest\\",\\"eventContent\\":{\\"videoCallUrl\\":\\"https://localhost:8443/5db43632-8283-445b-9f20-4d69954727bf\\",\\"initiatorUsername\\":\\"enc.ouzdk3lbnfxa....\\",\\"initiatorRcUserId\\":\\"WXR5RAwbotmd4NPer\\",\\"rcGroupId\\":\\"${uuid()}\\"}}\\u0000"]`
-		);
-	});
-
-	// TODO: wait for the app to process the messages. this should not
-	// arbitrarily wait for the message to get processed but use some reliable
-	// indication from the app instead
-	return cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
 };

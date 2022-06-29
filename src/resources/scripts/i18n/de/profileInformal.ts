@@ -1,7 +1,9 @@
 const profileInformal = {
 	'functions.absenceLabel': 'Hinterlege eine Abwesenheitsnachricht',
+	'functions.absenceActivatedLabel':
+		'Deaktiviere Deine Abwesenheit, um eine Nachricht zu hinterlegen oder sie zu bearbeiten.',
 	'functions.passwordResetSubtitle':
-		'Nach erfolgreicher Änderung des Passwortes wirst Du automatisch ausgeloggt und zum Login weitergeleitet.',
+		'Wenn Du möchtest, kannst Du hier Dein Passwort ändern. Gebe erst Dein aktuelles Passwort ein, um ein Neues festzulegen.',
 	'functions.passwordResetSecure': 'Dein Passwort ist sicher.',
 	'functions.passwordResetInsecure': 'Dein Passwort ist nicht sicher.',
 	'functions.passwordResetSame': 'Dein Passwort ist identisch.',
@@ -24,6 +26,8 @@ const profileInformal = {
 		'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.',
 	'data.personal.registrationLink.tooltip':
 		'Teile Deinen persönlichen Kontakt-Link mit jemanden, damit diese Person eine Onlineberatung direkt mit Dir starten kann.',
+	'data.info.public':
+		'Mit dem Anzeigenamen erscheinst Du bei den Ratsuchenden.',
 	'externalRegistration.headline':
 		'Deine gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung',
 	'externalRegistration.copy.start': 'Möchtest Du für „',
@@ -32,7 +36,10 @@ const profileInformal = {
 	'statistics.period.prefix': 'Deine Zahlen des',
 	'statistics.period.display.suffix': ' hast Du:',
 	'statistics.complete.title':
-		'Deine Statistik über Deinen gewählten Beratungszeitraum kannst Du hier herunterladen:'
+		'Deine Statistik über Deinen gewählten Beratungszeitraum kannst Du hier herunterladen:',
+	'notifications.subtitle': 'Wir benachrichtigen Dich, wenn Du:',
+	'notifications.follow.up.email.label':
+		'eine Nachricht von einem_r angenommenen Ratsuchenden erhalten hast'
 };
 
 export default profileInformal;

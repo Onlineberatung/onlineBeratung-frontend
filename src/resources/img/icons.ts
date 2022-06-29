@@ -53,3 +53,4 @@ export { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icon
 export { ReactComponent as StopGroupChatIcon } from '../../resources/img/icons/x.svg';
 export { ReactComponent as ValidIcon } from '../../resources/img/icons/checkmark.svg';
 export { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
+export { ReactComponent as AddShieldIcon } from '../../resources/img/icons/add-shield.svg';

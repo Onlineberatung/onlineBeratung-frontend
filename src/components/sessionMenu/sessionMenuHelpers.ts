@@ -137,3 +137,22 @@ export const archiveSessionSuccessOverlayItem: OverlayItem = {
 		}
 	]
 };
+
+export const videoCallErrorOverlayItem: OverlayItem = {
+	svg: XIllustration,
+	illustrationBackground: 'neutral',
+	headline: translate('videoCall.overlay.unsupported.headline'),
+	copy: translate(`videoCall.overlay.unsupported.copy`),
+	buttonSet: [
+		{
+			label: translate('videoCall.overlay.unsupported.button.close'),
+			function: OVERLAY_FUNCTIONS.CLOSE,
+			type: BUTTON_TYPES.SECONDARY
+		},
+		{
+			label: translate('videoCall.overlay.unsupported.button.manual'),
+			function: 'GOTO_MANUAL',
+			type: BUTTON_TYPES.PRIMARY
+		}
+	]
+};

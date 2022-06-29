@@ -15,6 +15,8 @@ import { TwoFactorAuth } from '../twoFactorAuth/TwoFactorAuth';
 import { DeleteAccount } from './DeleteAccount';
 import { EnableWalkthrough } from './EnableWalkthrough';
 import { config } from '../../resources/scripts/config';
+import { Help } from '../help/Help';
+import { ConsultantNotifications } from './ConsultantNotifications';
 
 export interface TabGroups {
 	title: string;
@@ -172,6 +174,24 @@ const routes: TabsType = [
 		]
 	},
 	{
+		title: translate('profile.routes.notifications'),
+		url: '/benachrichtigungen',
+		condition: (userData) =>
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
+		elements: [
+			{
+				title: translate('profile.routes.notifications.email'),
+				url: '/email',
+				elements: [
+					{
+						component: ConsultantNotifications,
+						column: COLUMN_LEFT
+					}
+				]
+			}
+		]
+	},
+	{
 		title: translate('profile.routes.security'),
 		url: '/sicherheit',
 		elements: [
@@ -204,6 +224,22 @@ const routes: TabsType = [
 				boxed: false,
 				order: 99,
 				fullWidth: true
+			}
+		]
+	},
+	{
+		title: translate('profile.routes.help'),
+		url: '/hilfe',
+		elements: [
+			{
+				title: translate('profile.routes.help.videoCall'),
+				url: '/videoCall',
+				elements: [
+					{
+						component: Help,
+						column: COLUMN_LEFT
+					}
+				]
 			}
 		]
 	}

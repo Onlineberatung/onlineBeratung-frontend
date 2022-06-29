@@ -71,8 +71,6 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		width: $login-button-width;
 		margin-top: $grid-base-five;
 		transform: $login-icon-transform;
-		background-color: var(--skin-color-primary, $primary);
-		color: var(--text-color-contrast-switch, $white);
 
 		@media (min-width: $fromLarge) {
 			width: $login-button-width-large;

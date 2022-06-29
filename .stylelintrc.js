@@ -60,6 +60,7 @@ module.exports = {
 		'scss/operator-no-unspaced': null, // Has false positives
 		'scss/dollar-variable-empty-line-before': null,
 		'scss/at-import-partial-extension': null, // We use the `.styles.scss` extension
+		'scss/operator-no-newline-after': null, // Conflicts with prettier
 
 		// Too much effort to change
 		'selector-class-pattern': null,

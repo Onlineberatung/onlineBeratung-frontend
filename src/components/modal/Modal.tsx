@@ -4,7 +4,7 @@ import './modal.styles.scss';
 
 interface ModalProps {
 	className?: string;
-	children?: React.ReactNode;
+	children: React.ReactNode;
 }
 
 export const Modal = ({ className, children }: ModalProps) => {

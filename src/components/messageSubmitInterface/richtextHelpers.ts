@@ -130,9 +130,30 @@ export const sanitizeHtmlPasteOptions = {
 	allowedTags: ['em', 'p', 'div', 'b', 'i', 'ol', 'ul', 'li', 'strong', 'br']
 };
 
+export const sanitizeHtmlExtendedPasteOptions = {
+	allowedTags: [
+		...sanitizeHtmlPasteOptions.allowedTags,
+		'h1',
+		'h2',
+		'h3',
+		'h4',
+		'h5',
+		'h6',
+		'a'
+	]
+};
+
 export const sanitizeHtmlDefaultOptions = {
 	allowedTags: [...sanitizeHtmlPasteOptions.allowedTags, 'a'],
 	allowedAttributes: sanitizeHtml.defaults.allowedAttributes
+};
+
+export const sanitizeHtmlExtendedOptions = {
+	allowedTags: [...sanitizeHtmlExtendedPasteOptions.allowedTags],
+	allowedAttributes: sanitizeHtml.defaults.allowedAttributes,
+	transformTags: {
+		a: sanitizeHtml.simpleTransform('a', { target: '_blank' })
+	}
 };
 
 /**

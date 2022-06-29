@@ -1,26 +1,69 @@
-{
-	"userId": "consultant1",
-	"userName": "consultant1",
-	"firstName": "firstName",
-	"lastName": "lastName",
-	"email": "con@sulta.nt",
-	"absenceMessage": null,
-	"agencies": [
-		{
-			"id": 1,
-			"name": "name",
-			"postcode": "12345",
-			"city": "city",
-			"description": "description",
-			"teamAgency": true,
-			"offline": false,
-			"consultingType": 0
-		}
-	],
-	"grantedAuthorities": ["AUTHORIZATION_CONSULTANT_DEFAULT"],
-	"hasAnonymousConversations": false,
-	"consultingTypes": null,
-	"formalLanguage": true,
-	"absent": false,
-	"inTeamAgency": true
-}
+[
+	{
+		"userId": "consultant",
+		"userName": "consultant1",
+		"firstName": "firstName",
+		"lastName": "lastName",
+		"email": "con@sulta.nt",
+		"absenceMessage": null,
+		"agencies": [
+			{
+				"id": 1,
+				"name": "name",
+				"postcode": "12345",
+				"city": "city",
+				"description": "description",
+				"teamAgency": true,
+				"offline": false,
+				"consultingType": 0
+			}
+		],
+		"grantedAuthorities": ["AUTHORIZATION_CONSULTANT_DEFAULT"],
+		"hasAnonymousConversations": false,
+		"consultingTypes": null,
+		"formalLanguage": true,
+		"absent": false,
+		"inTeamAgency": true,
+		"languages": [],
+		"emailToggles": [
+			{
+				"name": "DAILY_ENQUIRY",
+				"state": true
+			},
+			{
+				"name": "NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER",
+				"state": true
+			},
+			{
+				"name": "NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER",
+				"state": true
+			}
+		]
+	},
+	{
+		"userId": "video",
+		"userName": "video-user",
+		"firstName": "Video",
+		"lastName": "User",
+		"email": "video@sulta.nt",
+		"absenceMessage": null,
+		"agencies": [
+			{
+				"id": 2,
+				"name": "name",
+				"postcode": "12345",
+				"city": "city",
+				"description": "description",
+				"teamAgency": true,
+				"offline": false,
+				"consultingType": 2
+			}
+		],
+		"grantedAuthorities": ["AUTHORIZATION_CONSULTANT_DEFAULT"],
+		"hasAnonymousConversations": false,
+		"consultingTypes": null,
+		"formalLanguage": true,
+		"absent": false,
+		"inTeamAgency": true
+	}
+]

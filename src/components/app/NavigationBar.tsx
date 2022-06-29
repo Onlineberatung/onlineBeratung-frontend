@@ -6,7 +6,8 @@ import {
 	UserDataContext,
 	UnreadSessionsStatusContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	ConsultingTypesContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
@@ -14,6 +15,7 @@ import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/sp
 import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
+import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
 import clsx from 'clsx';
 
 export interface NavigationBarProps {
@@ -23,6 +25,7 @@ export interface NavigationBarProps {
 
 export const NavigationBar = (props: NavigationBarProps) => {
 	const { userData } = useContext(UserDataContext);
+	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
 	);
@@ -73,76 +76,84 @@ export const NavigationBar = (props: NavigationBarProps) => {
 	return (
 		<div className="navigation__wrapper">
 			<div className="navigation__itemContainer">
-				{props.routerConfig.navigation.map((item, index) => (
-					<Link
-						key={index}
-						className={`navigation__item ${resolveClassnameForWalkthrough(
-							index
-						)} ${
-							location.pathname.indexOf(item.to) !== -1
-								? 'navigation__item--active'
-								: ''
-						} ${
-							animateNavIcon &&
-							pathsToShowUnreadMessageNotification.includes(
-								item.to
-							)
-								? 'navigation__item__count--active'
-								: ''
-						}`}
-						to={item.to}
-					>
-						{
-							{
-								'inbox': (
-									<InboxIcon className="navigation__icon" />
-								),
-								'speech-bubbles': (
-									<SpeechBubbleIcon className="navigation__icon" />
-								),
-								'speech-bubbles-team': (
-									<SpeechBubbleTeamIcon className="navigation__icon" />
-								),
-								'person': (
-									<PersonIcon className="navigation__icon" />
-								)
-							}[item.icon]
-						}
-						{(({ large }) => {
-							return (
-								<>
-									<span className="navigation__title">
-										{translate(large)}
-									</span>
-								</>
-							);
-						})(item.titleKeys)}
-						{((to) => {
-							if (
+				{props.routerConfig.navigation
+					.filter(
+						(item: any) =>
+							!item.condition ||
+							item.condition(userData, consultingTypes)
+					)
+					.map((item, index) => (
+						<Link
+							key={index}
+							className={`navigation__item ${resolveClassnameForWalkthrough(
+								index
+							)} ${
+								location.pathname.indexOf(item.to) !== -1
+									? 'navigation__item--active'
+									: ''
+							} ${
+								animateNavIcon &&
 								pathsToShowUnreadMessageNotification.includes(
-									to
-								) &&
-								(unreadSessionsStatus.newDirectMessage ||
-									unreadSessionsStatus.mySessions > 0)
-							) {
-								return (
-									<span
-										className={`navigation__item__count ${
-											unreadSessionsStatus.resetedAnimations
-												? 'navigation__item__count--initial'
-												: `${
-														animateNavIcon
-															? 'navigation__item__count--reanimate'
-															: ''
-												  }`
-										}`}
-									/>
-								);
+									item.to
+								)
+									? 'navigation__item__count--active'
+									: ''
+							}`}
+							to={item.to}
+						>
+							{
+								{
+									'inbox': (
+										<InboxIcon className="navigation__icon" />
+									),
+									'speech-bubbles': (
+										<SpeechBubbleIcon className="navigation__icon" />
+									),
+									'speech-bubbles-team': (
+										<SpeechBubbleTeamIcon className="navigation__icon" />
+									),
+									'person': (
+										<PersonIcon className="navigation__icon" />
+									),
+									'calendar': (
+										<CalendarIcon className="navigation__icon" />
+									)
+								}[item.icon]
 							}
-						})(item.to)}
-					</Link>
-				))}
-
+							{(({ large }) => {
+								return (
+									<>
+										<span className="navigation__title">
+											{translate(large)}
+										</span>
+									</>
+								);
+							})(item.titleKeys)}
+							{((to) => {
+								if (
+									pathsToShowUnreadMessageNotification.includes(
+										to
+									) &&
+									(unreadSessionsStatus.newDirectMessage ||
+										unreadSessionsStatus.mySessions > 0)
+								) {
+									return (
+										<span
+											className={`navigation__item__count ${
+												unreadSessionsStatus.resetedAnimations
+													? 'navigation__item__count--initial'
+													: `${
+															animateNavIcon
+																? 'navigation__item__count--reanimate'
+																: ''
+													  }`
+											}`}
+										></span>
+									);
+								}
+							})(item.to)}
+						</Link>
+					))}
 				<div
 					onClick={props.handleLogout}
 					className={clsx(

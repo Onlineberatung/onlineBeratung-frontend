@@ -30,7 +30,8 @@ import {
 	getActiveSession,
 	STATUS_FINISHED,
 	STATUS_EMPTY,
-	STATUS_ENQUIRY
+	STATUS_ENQUIRY,
+	TenantContext
 } from '../../globalState';
 import { history } from '../app/app';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
@@ -61,6 +62,7 @@ export const SessionListItemComponent = ({
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { sessionsData } = useContext(SessionsDataContext);
+	const { tenant } = useContext(TenantContext);
 	const [activeSession, setActiveSession] = useState(null);
 	const { userData } = useContext(UserDataContext);
 	const type = getTypeOfLocation();
@@ -103,6 +105,12 @@ export const SessionListItemComponent = ({
 	const isCurrentSessionFirstContactMessage =
 		currentSessionData.session &&
 		currentSessionData.session.status === STATUS_ENQUIRY;
+
+	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
+	const isAnonymous = hasUserAuthority(
+		AUTHORITIES.ANONYMOUS_DEFAULT,
+		userData
+	);
 
 	if (!sessionsData) {
 		return null;
@@ -240,6 +248,24 @@ export const SessionListItemComponent = ({
 	const feedbackPath = `${getSessionListPathForLocation()}/${
 		listItem.feedbackGroupId
 	}/${listItem.id}${getSessionListTab()}`;
+
+	const hasConsultantData = !!currentSessionData.consultant;
+	let sessionTopic = '';
+
+	if (isAsker || isAnonymous) {
+		if (hasConsultantData) {
+			sessionTopic =
+				currentSessionData.consultant.displayName ||
+				currentSessionData.consultant.username;
+		} else if (isCurrentSessionNewEnquiry) {
+			sessionTopic = translate('sessionList.user.writeEnquiry');
+		} else {
+			sessionTopic = translate('sessionList.user.consultantUnknown');
+		}
+	} else {
+		sessionTopic = currentSessionData.user.username;
+	}
+
 	return (
 		<div
 			onClick={handleOnClick}
@@ -271,13 +297,20 @@ export const SessionListItemComponent = ({
 						<div className="sessionsListItem__consultingType">
 							{consultingType.titles.default}{' '}
 							{listItem.consultingType !== 1 &&
-							!hasUserAuthority(
-								AUTHORITIES.ASKER_DEFAULT,
-								userData
-							) &&
+							!isAsker &&
 							!isLiveChat(listItem)
 								? '/ ' + listItem.postcode
 								: null}
+						</div>
+					)}
+					{listItem?.topic?.id && (
+						<div
+							className="sessionsListItem__topic"
+							style={{
+								backgroundColor: tenant?.theming?.primaryColor
+							}}
+						>
+							{listItem?.topic?.name}
 						</div>
 					)}
 					<div className="sessionsListItem__date">
@@ -299,22 +332,7 @@ export const SessionListItemComponent = ({
 								'sessionsListItem__username--readLabel'
 						)}
 					>
-						{hasUserAuthority(
-							AUTHORITIES.ASKER_DEFAULT,
-							userData
-						) ||
-						hasUserAuthority(
-							AUTHORITIES.ANONYMOUS_DEFAULT,
-							userData
-						)
-							? currentSessionData.consultant
-								? currentSessionData.consultant.username
-								: isCurrentSessionNewEnquiry
-								? translate('sessionList.user.writeEnquiry')
-								: translate(
-										'sessionList.user.consultantUnknown'
-								  )
-							: currentSessionData.user.username}
+						{sessionTopic}
 					</div>
 				</div>
 				<div className="sessionsListItem__row">
@@ -351,7 +369,7 @@ export const SessionListItemComponent = ({
 							listItemAskerRcId={listItem.askerRcId}
 						/>
 					)}
-					{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+					{!isAsker &&
 						!typeIsEnquiry(type) &&
 						!listItem.feedbackRead &&
 						!isLiveChat(listItem) &&

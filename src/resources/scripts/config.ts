@@ -1,11 +1,20 @@
+import { translate } from '../../utils/translate';
+
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
+
 export const apiUrlEnv: string = process.env.REACT_APP_API_URL;
-export const apiUrl = process.env.REACT_APP_API_URL
-	? 'https://' + apiUrlEnv
-	: '';
+
+export let apiUrl = '';
+if (apiUrlEnv) {
+	apiUrl = apiUrlEnv;
+	if (!apiUrl.startsWith('http://') && !apiUrl.startsWith('https://')) {
+		apiUrl = 'https://' + apiUrl;
+	}
+}
+
+export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
 export const APP_PATH = 'app';
-const uiUrl = window.location.origin;
 
 export const config = {
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
@@ -13,6 +22,8 @@ export const config = {
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
 		agencyServiceBase: apiUrl + '/service/agencies',
+		appointmentsServiceBase: apiUrl + '/service/appointments',
+		videocallServiceBase: apiUrl + '/service/videocalls',
 		anonymousAskerBase: apiUrl + '/service/conversations/askers/anonymous/',
 		anonymousBase: apiUrl + '/service/conversations/anonymous/',
 		askerSessions: apiUrl + '/service/users/sessions/askers',
@@ -65,17 +76,23 @@ export const config = {
 		twoFactorAuthApp: apiUrl + '/service/users/2fa/app',
 		twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
 		userData: apiUrl + '/service/users/data',
+		topicsData: apiUrl + '/service/topic/public/',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userSessionsListView: '/sessions/user/view',
-		consultantsLanguages: apiUrl + '/service/users/consultants/languages'
+		consultantsLanguages: apiUrl + '/service/users/consultants/languages',
+		banUser: (rcUserId, chatId) =>
+			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`
 	},
 	urls: {
 		toRegistration: 'https://www.caritas.de/onlineberatung',
-		registration: uiUrl + '/registration',
 		toLogin: uiUrl + '/login',
+		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		home: 'https://www.caritas.de',
+		videoConference: '/videoberatung/:type/:appointmentId',
+		consultantVideoConference:
+			'/consultant/videoberatung/:type/:appointmentId',
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		imprint: 'https://www.caritas.de/impressum',
@@ -83,7 +100,29 @@ export const config = {
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		error500: uiUrl + '/error.500.html',
 		error401: uiUrl + '/error.401.html',
-		error404: uiUrl + '/error.404.html'
+		error404: uiUrl + '/error.404.html',
+		releases: uiUrl + '/releases'
 	},
-	postcodeFallbackUrl: '{url}'
+	postcodeFallbackUrl: '{url}',
+	jitsi: {
+		/**
+		 * Enable WebRTC Encoded Transform as an alternative to insertable streams.
+		 * NOTE: Currently the only browser supporting this is Safari / WebKit, behind a flag.
+		 * This must be enabled in jitsi too. (Config value is named equal)
+		 * https://github.com/jitsi/lib-jitsi-meet/blob/afc006e99a42439c305c20faab50a1f786254676/modules/browser/BrowserCapabilities.js#L259
+		 */
+		enableEncodedTransformSupport: false
+	}
+};
+
+export const emails = {
+	notifications: [
+		{
+			label: translate('profile.notifications.follow.up.email.label'),
+			types: [
+				'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
+				'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER'
+			]
+		}
+	]
 };

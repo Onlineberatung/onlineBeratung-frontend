@@ -1,0 +1,110 @@
+.releaseNote {
+	.overlay__content {
+		text-align: left;
+
+		.text {
+			text-align: left;
+		}
+	}
+
+	&__header {
+		margin-bottom: $grid-base;
+		position: relative;
+	}
+
+	&__content {
+		padding: $grid-base-two 0;
+		max-height: calc(100vh - 520px);
+		overflow: auto;
+
+		@include breakpoint($fromMedium) {
+			max-height: calc(100vh - 490px);
+		}
+
+		@include breakpoint($fromLarge) {
+			max-height: calc(100vh - 420px);
+		}
+	}
+
+	&__footer {
+		display: flex;
+		justify-content: flex-start;
+		margin-top: $grid-base-three;
+		position: relative;
+	}
+
+	&__text {
+		text-align: left;
+		padding-right: 20px;
+
+		& > *:first-child {
+			margin-top: 0;
+		}
+
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			margin-top: 1.5em;
+			margin-bottom: 0.5em;
+		}
+
+		h1 + p,
+		h2 + p,
+		h3 + p,
+		h4 + p,
+		h5 + p,
+		h6 + p {
+			margin-top: 0;
+		}
+
+		p {
+			margin-top: $grid-base-three;
+			margin-bottom: 0;
+
+			color: $tertiary;
+		}
+
+		strong,
+		em {
+			color: $text-color-standard;
+		}
+
+		& > ul,
+		& > ol {
+			margin-top: $grid-base-three;
+			margin-bottom: 0;
+
+			padding: 0 0 0 $grid-base-two;
+			color: $tertiary;
+		}
+
+		li {
+			margin: $grid-base 0;
+		}
+
+		a {
+			white-space: nowrap;
+			display: inline-block;
+
+			&::before {
+				width: 17px;
+				height: 17px;
+				position: relative;
+				top: 2px;
+				display: inline-block;
+				background-color: currentColor;
+				content: '';
+
+				mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 17 16'%3E%3Cpath d='M4.85 1.684a1.19 1.19 0 0 0 0 1.684L9.481 8 4.85 12.634a1.19 1.19 0 0 0 0 1.683 1.19 1.19 0 0 0 1.684 0l5.48-5.48a1.19 1.19 0 0 0 0-1.684l-5.48-5.48a1.2 1.2 0 0 0-1.684.011Z'/%3E%3C/svg%3E");
+				-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 17 16'%3E%3Cpath d='M4.85 1.684a1.19 1.19 0 0 0 0 1.684L9.481 8 4.85 12.634a1.19 1.19 0 0 0 0 1.683 1.19 1.19 0 0 0 1.684 0l5.48-5.48a1.19 1.19 0 0 0 0-1.684l-5.48-5.48a1.2 1.2 0 0 0-1.684.011Z'/%3E%3C/svg%3E");
+				mask-repeat: no-repeat;
+				-webkit-mask-repeat: no-repeat;
+				mask-position: center;
+				-webkit-mask-position: center;
+			}
+		}
+	}
+}
