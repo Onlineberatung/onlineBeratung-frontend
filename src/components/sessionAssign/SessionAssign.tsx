@@ -8,7 +8,6 @@ import {
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { translate } from '../../utils/translate';
-import { history } from '../app/app';
 import {
 	apiGetUserData,
 	apiGetAgencyConsultantList,
@@ -27,14 +26,9 @@ import {
 	SelectDropdown,
 	SelectOption
 } from '../select/SelectDropdown';
-import {
-	getSessionListPathForLocation,
-	SESSION_LIST_TAB
-} from '../session/sessionHelpers';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
-import { useSearchParam } from '../../hooks/useSearchParams';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 export interface Consultant {
@@ -51,12 +45,9 @@ export const SessionAssign = (props: { value?: string }) => {
 	);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState({});
-	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
+	const [selectedOption, setSelectedOption] = useState();
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
-
-	const getSessionListTab = () =>
-		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession.item.groupId);
 
@@ -88,7 +79,7 @@ export const SessionAssign = (props: { value?: string }) => {
 		return availableConsultants;
 	};
 
-	const initOverlays = (selectedOption, profileData) => {
+	const initOverlays = (profileData) => {
 		const currentUserId = profileData.userId;
 
 		const assignOtherOverlay: OverlayItem = {
@@ -121,7 +112,7 @@ export const SessionAssign = (props: { value?: string }) => {
 		};
 
 		const overlay =
-			currentUserId === selectedOption.value
+			currentUserId === selectedOption
 				? assignSelfOverlay
 				: assignOtherOverlay;
 		setOverlayActive(true);
@@ -139,42 +130,63 @@ export const SessionAssign = (props: { value?: string }) => {
 		}
 	};
 
+	const assignSession: OverlayItem = {
+		headline: translate('session.assignSelf.overlay.headline'),
+		copy: translate('session.assignSelf.overlay.subtitle'),
+		buttonSet: [
+			{
+				label: translate('session.assignSelf.overlay.button.cancel'),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.SECONDARY
+			},
+			{
+				label: translate('session.assignSelf.overlay.button.assign'),
+				function: 'ASSIGN',
+				type: BUTTON_TYPES.PRIMARY
+			}
+		]
+	};
+
 	const handleDatalistSelect = (selectedOption) => {
-		apiSessionAssign(activeSession.item.id, selectedOption.value)
-			.then(() => {
-				if (userData) {
-					initOverlays(selectedOption, userData);
-					handleE2EEAssign(activeSession.item.id, userData.userId);
-				} else {
-					apiGetUserData()
-						.then((profileData: UserDataInterface) => {
-							handleE2EEAssign(
-								activeSession.item.id,
-								profileData.userId
-							);
-							setUserData(profileData);
-							initOverlays(selectedOption, profileData);
-						})
-						.catch((error) => console.log(error));
-				}
-			})
-			.catch((error) => {
-				if (error === FETCH_ERRORS.CONFLICT) {
-					return null;
-				} else console.log(error);
-			});
+		setOverlayItem(assignSession);
+		setOverlayActive(true);
+		setSelectedOption(selectedOption.value);
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
-		setOverlayActive(false);
-		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			history.push(getSessionListPathForLocation() + getSessionListTab());
-		} else {
-			history.push(
-				`/sessions/consultant/sessionView/${
-					activeSession.item.groupId
-				}/${activeSession.item.id}${getSessionListTab()}`
-			);
+		switch (buttonFunction) {
+			case 'ASSIGN':
+				apiSessionAssign(activeSession.item.id, selectedOption)
+					.then(() => {
+						if (userData) {
+							initOverlays(userData);
+							handleE2EEAssign(
+								activeSession.item.id,
+								userData.userId
+							);
+						} else {
+							apiGetUserData()
+								.then((profileData: UserDataInterface) => {
+									handleE2EEAssign(
+										activeSession.item.id,
+										profileData.userId
+									);
+									setUserData(profileData);
+									initOverlays(profileData);
+								})
+								.catch((error) => console.log(error));
+						}
+					})
+					.catch((error) => {
+						if (error === FETCH_ERRORS.CONFLICT) {
+							return null;
+						} else console.log(error);
+					});
+				break;
+			case OVERLAY_FUNCTIONS.CLOSE:
+				setOverlayItem(null);
+				setOverlayActive(false);
+				break;
 		}
 	};
 

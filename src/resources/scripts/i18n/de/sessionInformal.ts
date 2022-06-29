@@ -6,6 +6,8 @@ const sessionInformal = {
 		'Du hast die Beratung erfolgreich zugewiesen.',
 	'assignSelf.overlayHeadline':
 		'Du hast die Beratung erfolgreich angenommen. Sie wurde in Meine Nachrichten verschoben.',
+	'assignSelf.overlay.subtitle':
+		'Möchtest Du diese Beratung wirklich zuweisen?',
 	'dragAndDrop.explanation.insideDropArea':
 		'Lege die Datei hier ab, um sie hochzuladen.',
 	'dragAndDrop.explanation.outsideDropArea':

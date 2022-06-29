@@ -38,7 +38,8 @@ const defaultReturns = {
 		body: {
 			sessions: []
 		}
-	}
+	},
+	agencyConsultants: []
 };
 
 Cypress.Commands.add('willReturn', (name: string, data: any) => {
@@ -97,6 +98,10 @@ Cypress.Commands.add('mockApi', () => {
 
 	cy.fixture('service.users.sessions.room.json').then((session) => {
 		defaultReturns['sessionRooms'].body.sessions.push(session);
+	});
+
+	cy.fixture('service.agency.consultants.json').then((agencyConsultants) => {
+		defaultReturns['agencyConsultants'].push(agencyConsultants);
 	});
 
 	cy.fixture('auth.token').then((auth) => {
@@ -222,6 +227,13 @@ Cypress.Commands.add('mockApi', () => {
 			...(overrides['userData'] || {})
 		});
 	}).as('usersData');
+
+	cy.intercept('GET', config.endpoints.agencyConsultants, (req) => {
+		req.reply(
+			...defaultReturns['agencyConsultants'],
+			...(overrides['agencyConsultants'] || [])
+		);
+	}).as('agencyConsultants');
 
 	cy.intercept(
 		`${config.endpoints.consultingTypeServiceBase}/byslug/*/full`,
