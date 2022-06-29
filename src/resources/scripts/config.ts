@@ -1,5 +1,3 @@
-import { translate } from '../../utils/translate';
-
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 
