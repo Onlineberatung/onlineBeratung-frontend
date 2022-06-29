@@ -75,7 +75,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					const response = await apiAgencySelection({
 						postcode: DEFAULT_POSTCODE,
 						consultingType: props.consultingType.id,
-						mainTopicId: props?.mainTopicId
+						topicId: props?.mainTopicId
 					});
 
 					const defaultAgency = response[0];
@@ -129,7 +129,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							await apiAgencySelection({
 								postcode: selectedPostcode,
 								consultingType: props.consultingType.id,
-								mainTopicId: props?.mainTopicId
+								topicId: props?.mainTopicId
 							})
 						).filter(
 							(agency) =>
