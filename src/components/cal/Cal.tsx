@@ -79,7 +79,17 @@ export default function Cal({
 
 				//todo: we are currently handling only initial appointment
 				const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
-				apiAppointmentSuccessfullySet(appointmentData, sessionId)
+
+				let isInitialMessage =
+					sessionsData?.mySessions?.[0]?.consultant == null;
+				let groupId = sessionsData?.mySessions?.[0]?.session.groupId;
+
+				apiAppointmentSuccessfullySet(
+					appointmentData,
+					sessionId,
+					isInitialMessage,
+					groupId
+				)
 					.then(() => {
 						history.push({
 							pathname: `/sessions/user/view`

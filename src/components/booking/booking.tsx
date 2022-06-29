@@ -25,7 +25,7 @@ export const Booking = () => {
 			calOrigin={config.urls.calComDevServer}
 			config={{
 				name: userData.userName,
-				email: userData.userName,
+				email: userData.userName + '@email.com',
 				theme: 'light'
 			}}
 		/>
