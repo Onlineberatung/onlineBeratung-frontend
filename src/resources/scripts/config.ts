@@ -117,7 +117,7 @@ export const config = {
 export const emails = {
 	notifications: [
 		{
-			label: translate('profile.notifications.follow.up.email.label'),
+			label: 'profile.notifications.follow.up.email.label',
 			types: [
 				'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
 				'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER'
