@@ -29,7 +29,18 @@ const session = {
 		'Legen Sie die Datei hier ab, um sie hochzuladen.',
 	'dragAndDrop.explanation.outsideDropArea':
 		'Ziehen Sie die Datei in das Feld, um sie hochzuladen.',
-	'dragAndDrop.restrictions': '.jpg, .png, .pdf, .docx, .xlsx bis maximal 5MB'
+	'dragAndDrop.restrictions':
+		'.jpg, .png, .pdf, .docx, .xlsx bis maximal 5MB',
+	'redirect.system.message.redirect.title_first': ' möchte Sie an ',
+	'redirect.system.message.redirect.title_second': ' übergeben.',
+	'redirect.system.message.redirect.description_first':
+		' kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich. ',
+	'redirect.system.message.redirect.description_second':
+		' hat keinen Zugriff mehr auf die Nachrichten.',
+	'redirect.system.message.redirect.question':
+		'Stimmen Sie der Übergabe zu?.',
+	'redirect.system.message.redirect.accept': 'Akzeptieren',
+	'redirect.system.message.redirect.decline': 'Ablehnen'
 };
 
 export default session;
