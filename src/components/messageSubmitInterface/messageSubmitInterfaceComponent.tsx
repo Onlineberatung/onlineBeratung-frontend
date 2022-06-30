@@ -346,9 +346,7 @@ export const MessageSubmitInterfaceComponent = (
 		) {
 			apiGetUserData().then((response) => {
 				const { appointmentFeatureEnabled } = response;
-				if (!appointmentFeatureEnabled) {
-					setAppointmentFeatureEnabled(true);
-				}
+				setAppointmentFeatureEnabled(appointmentFeatureEnabled);
 			});
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps

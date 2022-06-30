@@ -67,7 +67,7 @@ export default function Cal({
 				const appointmentData = {
 					title: data.eventType.title,
 					userName: userData.userName,
-					counselor: data.organizer.email,
+					counselorEmail: data.organizer.email,
 					date: date,
 					duration: data.duration,
 					location: `${data.eventType.title} ${translate(
