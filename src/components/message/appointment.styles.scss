@@ -1,5 +1,4 @@
 .appointmentSet {
-	max-width: 500px;
 	background-color: $white;
 	border: 2px dashed $form-input-border;
 	border-radius: 0 12px 12px;
@@ -7,6 +6,11 @@
 	margin-bottom: 12px;
 	display: grid;
 	row-gap: 0.75rem;
+	width: 306px;
+
+	@include breakpoint($fromLarge) {
+		width: 500px;
+	}
 
 	&__title,
 	&__video,
@@ -35,6 +39,10 @@
 		margin-left: 0.5rem;
 	}
 
+	&__summary {
+		margin: 0.75rem 0;
+	}
+
 	&--flex {
 		display: flex;
 		align-items: center;
@@ -44,7 +52,7 @@
 		cursor: pointer;
 	}
 
-	&--blue {
-		color: #2e3975;
+	&--primary {
+		color: $primary;
 	}
 }
