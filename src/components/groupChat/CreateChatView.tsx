@@ -116,7 +116,7 @@ export const CreateGroupChatView = (props) => {
 				activeSession.item.startTime
 			);
 			setIsEditGroupChatMode(true);
-			setSelectedChatTopic(activeSession.item.topic);
+			setSelectedChatTopic(activeSession.item.topic as string);
 			handleDatePicker(new Date(activeSession.item.startDate));
 			handleTimePicker(selectedTime);
 			setSelectedDuration(activeSession.item.duration);

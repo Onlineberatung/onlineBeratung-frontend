@@ -9,7 +9,8 @@ import {
 	SessionItemInterface,
 	STATUS_ARCHIVED,
 	STATUS_EMPTY,
-	STATUS_ENQUIRY
+	STATUS_ENQUIRY,
+	TopicSessionInterface
 } from '../interfaces/SessionsDataInterface';
 import {
 	CHAT_TYPE_GROUP_CHAT,
@@ -25,7 +26,10 @@ export type ExtendedSessionInterface = Omit<
 	ListItemInterface,
 	'session' | 'chat'
 > & {
-	item?: Partial<SessionItemInterface> & Partial<GroupChatItemInterface>;
+	item?: Partial<Omit<SessionItemInterface, 'topic'>> &
+		Partial<Omit<GroupChatItemInterface, 'topic'>> & {
+			topic: string | TopicSessionInterface;
+		};
 	rid: string;
 	type: typeof CHAT_TYPE_GROUP_CHAT | typeof CHAT_TYPE_SINGLE_CHAT;
 	isGroup?: boolean;
@@ -36,14 +40,6 @@ export type ExtendedSessionInterface = Omit<
 	isEmptyEnquiry?: boolean;
 	isNonEmptyEnquiry?: boolean;
 	isArchive?: boolean;
-};
-
-export type ActiveSessionType = ListItemInterface & {
-	isGroup?: boolean;
-	isLive?: boolean;
-	isFeedback?: boolean;
-	isEnquiry?: boolean;
-	item?: () => SessionItemInterface | GroupChatItemInterface;
 };
 
 export const buildExtendedSession = (
@@ -167,29 +163,6 @@ export const AUTHORITIES = {
 	VIEW_AGENCY_CONSULTANTS: 'AUTHORIZATION_VIEW_AGENCY_CONSULTANTS',
 	VIEW_ALL_FEEDBACK_SESSIONS: 'AUTHORIZATION_VIEW_ALL_FEEDBACK_SESSIONS',
 	VIEW_ALL_PEER_SESSIONS: 'AUTHORIZATION_VIEW_ALL_PEER_SESSIONS'
-};
-
-/**
- * @deprecated Use SessionContext dispatching
- */
-export const getSessionsDataWithChangedValue = (
-	sessionsData,
-	activeSession,
-	key,
-	value
-) => {
-	let sesData = sessionsData,
-		type = getSessionsDataKeyForSessionType(activeSession.type);
-	const activeChatItem = getChatItemForSession(activeSession);
-	sesData[type] = sessionsData[type].map((session) => {
-		const currentChatItem = getChatItemForSession(session);
-		if (currentChatItem.groupId === activeChatItem.groupId) {
-			currentChatItem[key] = value;
-		}
-		return session;
-	});
-
-	return sesData;
 };
 
 export const isAnonymousSession = (
