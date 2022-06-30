@@ -3,7 +3,7 @@ import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiGetCalComTeamById = async (
 	agencyId: number
-): Promise<string> => {
+): Promise<{ meetlingLink: string }> => {
 	const url =
 		config.endpoints.calcomServiceBase + agencyId + '/initialMeetingLink';
 

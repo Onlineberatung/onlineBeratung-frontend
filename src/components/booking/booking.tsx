@@ -25,7 +25,7 @@ export const Booking = () => {
 	useEffect(() => {
 		const agencyId = sessionsData?.mySessions?.[0]?.agency?.id;
 		apiGetCalComTeamById(agencyId).then((resp) => {
-			const team = resp
+			const team = resp.meetlingLink
 				.split('https://calcom-develop.suchtberatung.digital/')
 				.pop();
 			setTeam(team);
