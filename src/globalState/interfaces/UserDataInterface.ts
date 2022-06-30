@@ -7,6 +7,7 @@ export interface UserDataInterface {
 	consultingTypes?: [
 		{ [consultingType: number]: ConsultingTypeDataInterface }
 	];
+	appointmentFeatureEnabled?: boolean;
 	email?: string;
 	firstName?: string;
 	formalLanguage: boolean;

@@ -11,6 +11,7 @@ export * from './apiGetConsultantSessionList';
 export * from './apiGetConsultantStatistics';
 export * from './apiGetConsultingType';
 export * from './apiGetConsultingTypes';
+export * from './apiGetCalComTeam';
 export * from './apiGetGroupChatInfo';
 export * from './apiGetGroupMembers';
 export * from './apiGetMonitoring';

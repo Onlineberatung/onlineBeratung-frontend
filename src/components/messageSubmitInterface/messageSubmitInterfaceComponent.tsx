@@ -25,8 +25,8 @@ import {
 	STATUS_FINISHED
 } from '../../globalState';
 import {
-	apiGetAskerSessionList,
 	apiGetDraftMessage,
+	apiGetUserData,
 	apiPostDraftMessage,
 	apiPutDearchive,
 	apiSendEnquiry,
@@ -212,7 +212,8 @@ export const MessageSubmitInterfaceComponent = (
 	const isSessionArchived =
 		activeSession?.session?.status === STATUS_ARCHIVED;
 
-	const [consultant, setConsultant] = useState(false);
+	const [appointmentFeatureEnabled, setAppointmentFeatureEnabled] =
+		useState(false);
 
 	useEffect(() => {
 		if (
@@ -343,10 +344,10 @@ export const MessageSubmitInterfaceComponent = (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
-			apiGetAskerSessionList().then((response) => {
-				const { consultant } = response.sessions[0];
-				if (!consultant) {
-					setConsultant(true);
+			apiGetUserData().then((response) => {
+				const { appointmentFeatureEnabled } = response;
+				if (!appointmentFeatureEnabled) {
+					setAppointmentFeatureEnabled(true);
 				}
 			});
 		}
@@ -759,7 +760,9 @@ export const MessageSubmitInterfaceComponent = (
 					)}
 					<div
 						className={`textarea__wrapper ${
-							consultant ? 'textarea__wrapper--booking' : ''
+							appointmentFeatureEnabled
+								? 'textarea__wrapper--booking'
+								: ''
 						}`}
 					>
 						<div className="textarea__wrapper-send-message">
@@ -875,7 +878,7 @@ export const MessageSubmitInterfaceComponent = (
 									clicked={isRequestInProgress}
 									deactivated={uploadProgress}
 								/>
-								{!consultant && (
+								{!appointmentFeatureEnabled && (
 									<span
 										onClick={handleBookingButton}
 										className="textarea__iconBooking"
@@ -888,7 +891,7 @@ export const MessageSubmitInterfaceComponent = (
 								)}
 							</div>
 						</div>
-						{consultant && (
+						{appointmentFeatureEnabled && (
 							<div className="textarea__wrapper-booking">
 								<Headline
 									semanticLevel="5"

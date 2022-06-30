@@ -25,6 +25,7 @@ export const config = {
 		consultantStatistics: apiUrl + '/service/statistics/consultant',
 		consultantTeamSessions: apiUrl + '/service/users/sessions/teams?',
 		consultingTypeServiceBase: apiUrl + '/service/consultingtypes',
+		calcomServiceBase: apiUrl + '/service/agency/',
 		deleteAskerAccount: apiUrl + '/service/users/account',
 		draftMessages: apiUrl + '/service/messages/draft',
 		email: apiUrl + '/service/users/email',
