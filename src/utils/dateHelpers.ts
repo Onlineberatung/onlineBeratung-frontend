@@ -5,8 +5,8 @@ export const MILLISECONDS_PER_MINUTE = 60 * MILLISECONDS_PER_SECOND;
 export const MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
 
 export const formatToDDMMYYYY = (
-		unixDate: number,
-		twoDigits: boolean = false
+	unixDate: number,
+	twoDigits: boolean = false
 ) => {
 	const date = new Date(unixDate);
 
@@ -18,9 +18,9 @@ export const formatToDDMMYYYY = (
 };
 
 const printPrettyDate = (
-		messageDate: number,
-		showDayOfTheWeek: boolean = false,
-		twoDigits: boolean = false
+	messageDate: number,
+	showDayOfTheWeek: boolean = false,
+	twoDigits: boolean = false
 ) => {
 	const date = formatToDDMMYYYY(messageDate, twoDigits);
 
@@ -39,15 +39,15 @@ const printPrettyDate = (
 	});
 
 	const dayBeforeYesterday = new Date(
-			currentDate.setDate(currentDate.getDate() - 1)
+		currentDate.setDate(currentDate.getDate() - 1)
 	);
 	const dayBeforeYesterdayStr = dayBeforeYesterday.toLocaleDateString(
-			'de-DE',
-			{
-				day: twoDigits ? '2-digit' : 'numeric',
-				month: twoDigits ? '2-digit' : 'numeric',
-				year: 'numeric'
-			}
+		'de-DE',
+		{
+			day: twoDigits ? '2-digit' : 'numeric',
+			month: twoDigits ? '2-digit' : 'numeric',
+			year: 'numeric'
+		}
 	);
 
 	const tomorrow = new Date(currentDate.setDate(currentDate.getDate() + 3));
@@ -74,9 +74,9 @@ const printPrettyDate = (
 };
 
 export const getPrettyDateFromMessageDate = (
-		messageDate: number,
-		showDayOfTheWeek: boolean = false,
-		twoDigits: boolean = false
+	messageDate: number,
+	showDayOfTheWeek: boolean = false,
+	twoDigits: boolean = false
 ) => {
 	return printPrettyDate(messageDate * 1000, showDayOfTheWeek, twoDigits);
 };
@@ -97,13 +97,13 @@ export const prettyPrintTimeDifference = (t1: number, t2: number): string => {
 	const deltaT = t2 - t1;
 	const hours = Math.trunc(deltaT / MILLISECONDS_PER_HOUR);
 	const minutes = Math.trunc(
-			(deltaT % MILLISECONDS_PER_HOUR) / MILLISECONDS_PER_MINUTE
+		(deltaT % MILLISECONDS_PER_HOUR) / MILLISECONDS_PER_MINUTE
 	);
 
 	// TODO: Revise hard-coded locale once internationalization is implemented
 	return hours === 0 && minutes === 0
-			? 'jetzt'
-			: `vor ${hours ? `${hours} h ` : ''}${minutes} min`;
+		? 'jetzt'
+		: `vor ${hours ? `${hours} h ` : ''}${minutes} min`;
 };
 
 export const convertISO8601ToMSSinceEpoch = (iso8601Date) => {
@@ -112,12 +112,12 @@ export const convertISO8601ToMSSinceEpoch = (iso8601Date) => {
 
 export const dateToLocalISO = (date: Date) => {
 	return `${date.getFullYear()}-${(date.getMonth() + 101)
-	.toString()
-	.substring(1)}-${(date.getDate() + 100).toString().substring(1)} ${(
-			date.getHours() + 100
+		.toString()
+		.substring(1)}-${(date.getDate() + 100).toString().substring(1)} ${(
+		date.getHours() + 100
 	)
-	.toString()
-	.substring(1)}:${(date.getMinutes() + 100).toString().substring(1)}`;
+		.toString()
+		.substring(1)}:${(date.getMinutes() + 100).toString().substring(1)}`;
 };
 
 export const getMonthFromString = (month: string) => {
