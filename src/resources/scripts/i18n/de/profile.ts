@@ -141,7 +141,7 @@ const profile = {
 	'notifications.title': 'E-Mail Benachrichtigung',
 	'notifications.subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
 	'notifications.follow.up.email.label':
-		'eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben'
+		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.'
 };
 
 export default profile;
