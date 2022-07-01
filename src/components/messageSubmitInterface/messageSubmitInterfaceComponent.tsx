@@ -25,6 +25,7 @@ import {
 	STATUS_FINISHED
 } from '../../globalState';
 import {
+	apiGetAskerSessionList,
 	apiGetDraftMessage,
 	apiGetUserData,
 	apiPostDraftMessage,
@@ -212,6 +213,7 @@ export const MessageSubmitInterfaceComponent = (
 	const isSessionArchived =
 		activeSession?.session?.status === STATUS_ARCHIVED;
 
+	const [consultant, setConsultant] = useState(false);
 	const [appointmentFeatureEnabled, setAppointmentFeatureEnabled] =
 		useState(false);
 
@@ -344,6 +346,15 @@ export const MessageSubmitInterfaceComponent = (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
+			apiGetAskerSessionList().then((response) => {
+				const { consultant } = response.sessions[0];
+				if (!consultant) {
+					setConsultant(true);
+				}
+			});
+
+			//TODO: fix this. there is no need for one additional call to server since we already have the
+			// data on frontend
 			apiGetUserData().then((response) => {
 				const { appointmentFeatureEnabled } = response;
 				setAppointmentFeatureEnabled(appointmentFeatureEnabled);
@@ -876,7 +887,7 @@ export const MessageSubmitInterfaceComponent = (
 									clicked={isRequestInProgress}
 									deactivated={uploadProgress}
 								/>
-								{!appointmentFeatureEnabled && (
+								{!consultant && appointmentFeatureEnabled && (
 									<span
 										onClick={handleBookingButton}
 										className="textarea__iconBooking"
@@ -889,7 +900,7 @@ export const MessageSubmitInterfaceComponent = (
 								)}
 							</div>
 						</div>
-						{appointmentFeatureEnabled && (
+						{consultant && appointmentFeatureEnabled && (
 							<div className="textarea__wrapper-booking">
 								<Headline
 									semanticLevel="5"
