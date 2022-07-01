@@ -133,7 +133,8 @@ export const MessageItemComponent = ({
 					// setDecryptedMessage(org) // TODO? Fallback in case decryption fails
 				});
 		} else {
-			setDecryptedMessage(org);
+			const messageToDisplay = org || message;
+			setDecryptedMessage(messageToDisplay);
 		}
 	}, [key, keyID, encrypted, message, org, t, isE2eeEnabled]);
 

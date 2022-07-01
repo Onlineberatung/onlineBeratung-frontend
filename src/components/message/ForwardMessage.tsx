@@ -79,7 +79,8 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 			props.messageTime,
 			props.displayName,
 			props.askerRcId,
-			props.groupId
+			props.groupId,
+			isE2eeEnabled
 		).then(() => {
 			encryptForwardRoom(groupKeyID, sessionGroupKeyExportedString);
 			setMessageForwarded(true);
@@ -89,6 +90,7 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 			}, 3000);
 		});
 	}, [
+		isE2eeEnabled,
 		encryptForwardRoom,
 		encrypted,
 		key,
