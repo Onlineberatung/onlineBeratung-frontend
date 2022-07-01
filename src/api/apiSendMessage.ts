@@ -6,7 +6,8 @@ export const apiSendMessage = async (
 	unencryptedMessageData: string,
 	rcGroupIdOrSessionId: string | number,
 	isFeedback: boolean,
-	sendMailNotification: boolean
+	sendMailNotification: boolean,
+	isEncrypted: boolean
 ): Promise<any> => {
 	const url = isFeedback
 		? config.endpoints.sendMessageToFeedback
@@ -17,7 +18,7 @@ export const apiSendMessage = async (
 	const message = JSON.stringify({
 		message: encryptedMessageData,
 		org: unencryptedMessageData,
-		t: 'e2e',
+		t: isEncrypted ? 'e2e' : '',
 		sendNotification: sendMailNotification
 	});
 

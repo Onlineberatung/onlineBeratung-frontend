@@ -5,13 +5,14 @@ export const apiSendEnquiry = async (
 	sessionId: number,
 	encryptedMessageData: string,
 	unencryptedMessageData: string,
+	isEncrypted: boolean,
 	language?: string
 ): Promise<any> => {
 	const url = `${config.endpoints.sessionBase}/${sessionId}/enquiry/new`;
 	const data: any = {
 		message: encryptedMessageData,
 		org: unencryptedMessageData,
-		t: 'e2e',
+		t: isEncrypted ? 'e2e' : '',
 		sendNotification: true
 	};
 	if (language) {
