@@ -32,6 +32,7 @@ import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/c
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
+
 export interface Consultant {
 	consultantId: string;
 	firstName: string;
@@ -56,17 +57,16 @@ export const SessionAssign = (props: { value?: string }) => {
 
 	useEffect(() => {
 		const agencyId = activeSession.session.agencyId.toString();
-		if (consultantList && consultantList.length <= 0) {
-			apiGetAgencyConsultantList(agencyId)
-				.then((response) => {
-					const consultants =
-						prepareConsultantDataForSelect(response);
-					setConsultantList(consultants);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}
+		// if (consultantList && consultantList.length <= 0) {
+		apiGetAgencyConsultantList(agencyId)
+			.then((response) => {
+				const consultants = prepareConsultantDataForSelect(response);
+				setConsultantList(consultants);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		// }
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const prepareConsultantDataForSelect = (consultants: Consultant[]) => {
@@ -83,18 +83,50 @@ export const SessionAssign = (props: { value?: string }) => {
 	};
 
 	const initOverlays = (selectedOption, profileData) => {
-		const currentUserId = profileData.userId;
+		// fixme move into on button accept
+		// apiSessionAssign(activeSession.session.id, selectedOption.value)
+		// 	.then(() => {
+		// 		if (userData) {
+		// 			initOverlays(selectedOption, userData);
+		// 		} else {
+		// 			apiGetUserData()
+		// 				.then((profileData: UserDataInterface) => {
+		// 					setUserData(profileData);
+		// 					initOverlays(selectedOption, profileData);
+		// 				})
+		// 				.catch((error) => console.log(error));
+		// 		}
+		// 	})
+		// 	.catch((error) => {
+		// 		if (error === FETCH_ERRORS.CONFLICT) {
+		// 			return null;
+		// 		} else console.log(error);
+		// 	});
 
+		const currentUserId = profileData.userId;
 		const assignOtherOverlay: OverlayItem = {
-			svg: CheckIcon,
-			headline: translate('session.assignOther.overlayHeadline'),
+			headline: translate('session.assignOther.buttonLabel.headline'), // fixme put label
 			buttonSet: [
 				{
-					label: translate('session.assignOther.buttonLabel'),
+					label: translate('session.assignOther.buttonLabel.abort'),
 					function: OVERLAY_FUNCTIONS.CLOSE,
-					type: BUTTON_TYPES.AUTO_CLOSE
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate('session.assignOther.buttonLabel.assign'),
+					function: OVERLAY_FUNCTIONS.REASSIGN,
+					// functionArgs: {
+					// 	oldConsultant: currentUserId,
+					// 	newConsultant: selectedOption.value
+					// },
+					type: BUTTON_TYPES.PRIMARY
 				}
-			]
+			],
+			handleOverlay: (buttonFunction: string) => {
+				if (buttonFunction === OVERLAY_FUNCTIONS.REASSIGN) {
+					// todo send alias message
+				}
+			}
 		};
 
 		const assignSelfOverlay: OverlayItem = {
@@ -123,24 +155,16 @@ export const SessionAssign = (props: { value?: string }) => {
 	};
 
 	const handleDatalistSelect = (selectedOption) => {
-		apiSessionAssign(activeSession.session.id, selectedOption.value)
-			.then(() => {
-				if (userData) {
-					initOverlays(selectedOption, userData);
-				} else {
-					apiGetUserData()
-						.then((profileData: UserDataInterface) => {
-							setUserData(profileData);
-							initOverlays(selectedOption, profileData);
-						})
-						.catch((error) => console.log(error));
-				}
-			})
-			.catch((error) => {
-				if (error === FETCH_ERRORS.CONFLICT) {
-					return null;
-				} else console.log(error);
-			});
+		if (userData) {
+			initOverlays(selectedOption, userData);
+		} else {
+			apiGetUserData()
+				.then((profileData: UserDataInterface) => {
+					setUserData(profileData);
+					initOverlays(selectedOption, profileData);
+				})
+				.catch((error) => console.log(error));
+		}
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
