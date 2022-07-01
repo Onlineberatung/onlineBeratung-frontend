@@ -26,11 +26,15 @@ import {
 	SelectDropdown,
 	SelectOption
 } from '../select/SelectDropdown';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
+import {
+	ALIAS_MESSAGE_TYPES,
+	apiSendAliasMessage
+} from '../../api/apiSendAliasMessage';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
+
 export interface Consultant {
 	consultantId: string;
 	firstName: string;
@@ -45,7 +49,7 @@ export const SessionAssign = (props: { value?: string }) => {
 	);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState({});
-	const [selectedOption, setSelectedOption] = useState();
+	const [selectedOption, setSelectedOption] = useState(null);
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
@@ -79,42 +83,69 @@ export const SessionAssign = (props: { value?: string }) => {
 		return availableConsultants;
 	};
 
-	const initOverlays = (profileData) => {
+	const initOverlays = (profileData, selected) => {
+		apiGetUserData()
+			.then((profileData: UserDataInterface) => {
+				console.log('XXX', profileData);
+			})
+			.catch((error) => console.log(error));
+
 		const currentUserId = profileData.userId;
+		if (selected?.value === currentUserId) return;
 
-		const assignOtherOverlay: OverlayItem = {
-			svg: CheckIcon,
-			headline: translate('session.assignOther.overlayHeadline'),
+		const client = activeSession.user.username;
+		const newConsultant = selected.label;
+		console.log('init', client, newConsultant);
+
+		// todo when to use?
+		const assignSession: OverlayItem = {
+			headline: translate('session.assignSelf.overlay.headline'),
+			copy: translate('session.assignSelf.overlay.subtitle'),
 			buttonSet: [
 				{
-					label: translate('session.assignOther.buttonLabel'),
-					function: OVERLAY_FUNCTIONS.CLOSE,
-					type: BUTTON_TYPES.AUTO_CLOSE
-				}
-			]
-		};
-
-		const assignSelfOverlay: OverlayItem = {
-			svg: CheckIcon,
-			headline: translate('session.assignSelf.overlayHeadline'),
-			buttonSet: [
-				{
-					label: translate('session.assignSelf.button1.label'),
-					function: OVERLAY_FUNCTIONS.REDIRECT,
-					type: BUTTON_TYPES.PRIMARY
-				},
-				{
-					label: translate('session.assignSelf.button2.label'),
+					label: translate(
+						'session.assignSelf.overlay.button.cancel'
+					),
 					function: OVERLAY_FUNCTIONS.CLOSE,
 					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate(
+						'session.assignSelf.overlay.button.assign'
+					),
+					function: OVERLAY_FUNCTIONS.ASSIGN,
+					type: BUTTON_TYPES.PRIMARY
 				}
 			]
 		};
 
-		const overlay =
-			currentUserId === selectedOption
-				? assignSelfOverlay
-				: assignOtherOverlay;
+		const reassignSession: OverlayItem = {
+			headline: translate('session.assignOther.overlay.headline', {
+				client,
+				newConsultant
+			}),
+			copy: translate('session.assignOther.overlay.subtitle', {
+				newConsultant
+			}),
+			buttonSet: [
+				{
+					label: translate(
+						'session.assignSelf.overlay.button.cancel'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate(
+						'session.assignSelf.overlay.button.assign'
+					),
+					function: OVERLAY_FUNCTIONS.REASSIGN,
+					type: BUTTON_TYPES.PRIMARY
+				}
+			]
+		};
+
+		const overlay = reassignSession;
 		setOverlayActive(true);
 		setOverlayItem(overlay);
 	};
@@ -130,36 +161,18 @@ export const SessionAssign = (props: { value?: string }) => {
 		}
 	};
 
-	const assignSession: OverlayItem = {
-		headline: translate('session.assignSelf.overlay.headline'),
-		copy: translate('session.assignSelf.overlay.subtitle'),
-		buttonSet: [
-			{
-				label: translate('session.assignSelf.overlay.button.cancel'),
-				function: OVERLAY_FUNCTIONS.CLOSE,
-				type: BUTTON_TYPES.SECONDARY
-			},
-			{
-				label: translate('session.assignSelf.overlay.button.assign'),
-				function: 'ASSIGN',
-				type: BUTTON_TYPES.PRIMARY
-			}
-		]
-	};
-
 	const handleDatalistSelect = (selectedOption) => {
-		setOverlayItem(assignSession);
-		setOverlayActive(true);
-		setSelectedOption(selectedOption.value);
+		setSelectedOption(selectedOption);
+		initOverlays(userData, selectedOption);
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		switch (buttonFunction) {
-			case 'ASSIGN':
-				apiSessionAssign(activeSession.item.id, selectedOption)
+			case OVERLAY_FUNCTIONS.ASSIGN:
+				apiSessionAssign(activeSession.item.id, selectedOption.value)
 					.then(() => {
 						if (userData) {
-							initOverlays(userData);
+							initOverlays(userData, selectedOption);
 							handleE2EEAssign(
 								activeSession.item.id,
 								userData.userId
@@ -172,7 +185,7 @@ export const SessionAssign = (props: { value?: string }) => {
 										profileData.userId
 									);
 									setUserData(profileData);
-									initOverlays(profileData);
+									initOverlays(profileData, selectedOption);
 								})
 								.catch((error) => console.log(error));
 						}
@@ -182,6 +195,15 @@ export const SessionAssign = (props: { value?: string }) => {
 							return null;
 						} else console.log(error);
 					});
+				break;
+			case OVERLAY_FUNCTIONS.REASSIGN:
+				console.log('call reassign');
+				// todo send params new consultant
+				// see https://github.com/Onlineberatung/onlineBeratung-messageService/blob/develop/api/messageservice.yaml
+				apiSendAliasMessage({
+					rcGroupId: activeSession.rid,
+					type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT
+				});
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayItem(null);

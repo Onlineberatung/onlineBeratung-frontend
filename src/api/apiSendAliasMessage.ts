@@ -9,12 +9,15 @@ export enum ALIAS_MESSAGE_TYPES {
 	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL',
 	USER_MUTED = 'USER_MUTED',
-	USER_UNMUTED = 'USER_UNMUTED'
+	USER_UNMUTED = 'USER_UNMUTED',
+	REASSIGN_CONSULTANT = 'REASSIGN_CONSULTANT'
 }
 
 interface AliasMessageParams {
 	rcGroupId: string;
 	type: ALIAS_MESSAGE_TYPES;
+	// todo add dynamic params for reassign
+	// @see https://github.com/Onlineberatung/onlineBeratung-messageService/blob/develop/api/messageservice.yaml
 }
 
 export const apiSendAliasMessage = async ({

@@ -5,7 +5,10 @@ const session = {
 	'anonymous.takenByOtherConsultant.overlayHeadline':
 		'Diese Erstanfrage wurde bereits von einem anderen Berater angenommen.',
 	'anonymous.takenByOtherConsultant.buttonLabel': 'Schließen',
-	'assignOther.overlayHeadline': 'Möchten Sie %client%, zuweisen?',
+	'assignOther.overlay.headline':
+		'Möchten Sie %client%, %newConsultant% zuweisen?',
+	'assignOther.overlay.subtitle':
+		'%newConsultant% ist somit für den Ratsuchenden verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugiff mehr auf die Nachrichten.',
 	'assignOther.buttonLabel.abort': 'Abbrechen',
 	'assignOther.buttonLabel.assign': 'Zuweisen',
 	'assignSelf.overlayHeadline':
