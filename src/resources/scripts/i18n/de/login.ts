@@ -7,9 +7,9 @@ const login = {
 	'warning.failed.unauthorized.otp':
 		'Ihre Zugangsdaten sind nicht korrekt. Bitte versuchen Sie es erneut.',
 	'warning.failed.app.otp.missing':
-		'Bitte geben Sie den Code aus Ihrer App für die 2-Faktor-Authentifizierung ein.',
+		'Bitte geben Sie den Code aus Ihrer App für die Zwei-Faktor-Authentifizierung ein.',
 	'warning.failed.email.otp.missing':
-		'Bitte geben Sie den Code aus Ihrer E-Mail für die 2-Faktor-Authentifizierung ein.',
+		'Bitte geben Sie den Code aus Ihrer E-Mail für die Zwei-Faktor-Authentifizierung ein.',
 	'resend.otp.email.label': 'Einmal-Code erneut senden',
 	'button.label': 'Anmelden',
 	'resetPasswort.label': 'Passwort vergessen?',
