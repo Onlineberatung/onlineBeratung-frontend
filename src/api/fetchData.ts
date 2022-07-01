@@ -20,6 +20,7 @@ export const FETCH_METHODS = {
 
 export const FETCH_ERRORS = {
 	ABORT: 'ABORT',
+	ABORTED: 'ABORTED',
 	BAD_REQUEST: 'BAD_REQUEST',
 	CATCH_ALL: 'CATCH_ALL',
 	CATCH_ALL_WITH_RESPONSE: 'CATCH_ALL_WITH_RESPONSE',
@@ -69,11 +70,12 @@ interface FetchDataProps {
 export const fetchData = (props: FetchDataProps): Promise<any> =>
 	new Promise((resolve, reject) => {
 		const accessToken = getValueFromCookie('keycloak');
-		const authorization = !props.skipAuth
-			? {
-					Authorization: `Bearer ${accessToken}`
-			  }
-			: null;
+		const authorization =
+			!props.skipAuth && accessToken
+				? {
+						Authorization: `Bearer ${accessToken}`
+				  }
+				: null;
 
 		const csrfToken = generateCsrfToken();
 
@@ -183,6 +185,11 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 						)
 					) {
 						reject(new Error(FETCH_ERRORS.PRECONDITION_FAILED));
+					} else if (
+						response.status === 500 &&
+						props.responseHandling.includes(FETCH_ERRORS.ABORTED)
+					) {
+						reject(new Error(FETCH_ERRORS.ABORTED));
 					} else if (response.status === 401) {
 						logout(true, config.urls.toLogin);
 					}

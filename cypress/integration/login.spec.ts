@@ -1,8 +1,25 @@
-import { config } from '../../src/resources/scripts/config';
+import {
+	closeWebSocketServer,
+	mockWebSocket,
+	startWebSocketServer
+} from '../support/websocket';
 
 describe('Login', () => {
+	before(() => {
+		startWebSocketServer();
+	});
+
+	after(() => {
+		closeWebSocketServer();
+	});
+
+	beforeEach(() => {
+		cy.mockApi();
+		mockWebSocket();
+	});
+
 	it('should be able to login', () => {
-		cy.caritasMockedLogin();
+		cy.login();
 
 		cy.get('#appRoot').should('exist');
 	});
@@ -23,14 +40,6 @@ describe('Login', () => {
 	});
 
 	it('displays the login for resorts', () => {
-		cy.fixture('service.consultingtypes.addiction.json').then(
-			(addictionConsultingType) => {
-				cy.intercept(
-					`${config.endpoints.consultingTypeServiceBase}/byslug/suchtberatung/full`,
-					addictionConsultingType
-				);
-			}
-		);
 		cy.visit('/suchtberatung');
 		cy.contains('Login');
 	});

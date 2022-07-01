@@ -8,8 +8,24 @@ import { Profile } from '../profile/Profile';
 import { SessionViewEmpty } from '../session/SessionViewEmpty';
 import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
+import { Appointments } from '../appointment/Appointments';
+import VideoConference from '../videoConference/VideoConference';
+import { config } from '../../resources/scripts/config';
+import { AUTHORITIES, hasUserAuthority } from '../../globalState';
 import { Booking } from '../booking/booking';
 import { BookingCancelation } from '../booking/bookingCancelation';
+
+const hasVideoCallFeature = (userData, consultingTypes) =>
+	userData &&
+	hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+	userData.agencies.some(
+		(agency) =>
+			!!(consultingTypes || []).find(
+				(consultingType) =>
+					consultingType.id === agency.consultingType &&
+					consultingType.isVideoCallAllowed
+			)
+	);
 
 export const RouterConfigUser = (): any => {
 	return {
@@ -73,6 +89,14 @@ export const RouterConfigUser = (): any => {
 
 export const RouterConfigConsultant = (): any => {
 	return {
+		plainRoutes: [
+			{
+				condition: hasVideoCallFeature,
+				path: config.urls.consultantVideoConference,
+				exact: true,
+				component: VideoConference
+			}
+		],
 		navigation: [
 			{
 				to: '/sessions/consultant/sessionPreview',
@@ -87,6 +111,14 @@ export const RouterConfigConsultant = (): any => {
 				titleKeys: {
 					large: 'navigation.consultant.sessions',
 					small: 'navigation.consultant.sessions.small'
+				}
+			},
+			{
+				condition: hasVideoCallFeature,
+				to: '/termine',
+				icon: 'calendar',
+				titleKeys: {
+					large: 'navigation.appointments'
 				}
 			},
 			{
@@ -162,6 +194,12 @@ export const RouterConfigConsultant = (): any => {
 				path: '/profile',
 				exact: false,
 				component: Profile
+			},
+			{
+				condition: hasVideoCallFeature,
+				path: '/termine',
+				exact: false,
+				component: Appointments
 			}
 		],
 		callRoutes: [
@@ -179,6 +217,14 @@ export const RouterConfigConsultant = (): any => {
 
 export const RouterConfigTeamConsultant = (): any => {
 	return {
+		plainRoutes: [
+			{
+				condition: hasVideoCallFeature,
+				path: config.urls.consultantVideoConference,
+				exact: true,
+				component: VideoConference
+			}
+		],
 		navigation: [
 			{
 				to: '/sessions/consultant/sessionPreview',
@@ -201,6 +247,14 @@ export const RouterConfigTeamConsultant = (): any => {
 				titleKeys: {
 					large: 'navigation.consultant.teamsessions',
 					small: 'navigation.consultant.teamsessions.small'
+				}
+			},
+			{
+				condition: hasVideoCallFeature,
+				to: '/termine',
+				icon: 'calendar',
+				titleKeys: {
+					large: 'navigation.appointments'
 				}
 			},
 			{
@@ -303,6 +357,12 @@ export const RouterConfigTeamConsultant = (): any => {
 				path: '/profile',
 				exact: false,
 				component: Profile
+			},
+			{
+				condition: hasVideoCallFeature,
+				path: '/termine',
+				exact: false,
+				component: Appointments
 			}
 		],
 		callRoutes: [
@@ -319,8 +379,7 @@ export const RouterConfigTeamConsultant = (): any => {
 };
 
 export const RouterConfigPeerConsultant = (): any => {
-	let config = RouterConfigConsultant();
-	return config;
+	return RouterConfigConsultant();
 };
 
 export const RouterConfigMainConsultant = (): any => {

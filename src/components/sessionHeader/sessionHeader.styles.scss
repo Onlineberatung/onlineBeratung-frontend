@@ -231,6 +231,28 @@ $iconSize: 24px;
 				color: var(--skin-color-secondary, $secondary);
 				text-overflow: ellipsis;
 				overflow: hidden;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				span {
+					text-overflow: ellipsis;
+					overflow: hidden;
+				}
+
+				&.has-flyout {
+					cursor: pointer;
+					transition: all 0.3s ease;
+
+					&:hover {
+						background-color: $hover-select;
+						color: $hover-primary;
+					}
+
+					span {
+						margin-right: $grid-base-two;
+					}
+				}
 			}
 
 			&:before {

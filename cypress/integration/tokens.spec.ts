@@ -1,6 +1,11 @@
 import { RENEW_BEFORE_EXPIRY_IN_MS } from '../../src/components/auth/auth';
 import { getTokenExpiryFromLocalStorage } from '../../src/components/sessionCookie/accessSessionLocalStorage';
 import { config } from '../../src/resources/scripts/config';
+import {
+	closeWebSocketServer,
+	mockWebSocket,
+	startWebSocketServer
+} from '../support/websocket';
 
 const waitForTokenProcessing = () => {
 	// TODO: don't arbitrarily wait for token to be processed, find some
@@ -11,26 +16,27 @@ const waitForTokenProcessing = () => {
 
 describe('Keycloak Tokens', () => {
 	let authTokenJson;
+	before(() => {
+		startWebSocketServer();
+	});
+
+	after(() => {
+		closeWebSocketServer();
+	});
+
 	beforeEach(() => {
+		cy.mockApi();
+
 		cy.fixture('auth.token.json').then((fixture) => {
 			authTokenJson = fixture;
 		});
-
-		cy.fixture('service.consultingtypes.addiction.json').then(
-			(addictionConsultingType) => {
-				cy.fixture('service.consultingtypes.u25.json').then(
-					(u25ConsultingType) =>
-						cy.intercept(
-							`${config.endpoints.consultingTypeServiceBase}/basic`,
-							[addictionConsultingType, u25ConsultingType]
-						)
-				);
-			}
-		);
+		mockWebSocket();
 	});
 
 	it('should get and store tokens and expiry time on login', () => {
-		cy.caritasMockedLogin();
+		cy.login();
+		cy.wait('@askerSessions');
+		cy.wait('@usersData');
 
 		cy.get('#appRoot').then(() => {
 			cy.getCookie('keycloak').should('exist');
@@ -44,7 +50,9 @@ describe('Keycloak Tokens', () => {
 
 	it('should keep refreshing access token before it expires', () => {
 		cy.clock();
-		cy.caritasMockedLogin();
+		cy.login();
+		cy.wait('@askerSessions');
+		cy.wait('@usersData');
 
 		for (let check = 0; check < 3; check++) {
 			waitForTokenProcessing();
@@ -61,13 +69,12 @@ describe('Keycloak Tokens', () => {
 	});
 
 	it('should refresh the access token if its expired when loading the app', () => {
-		cy.intercept(
-			`${config.endpoints.consultingTypeServiceBase}/byslug/sessions/full`,
-			{ statusCode: 404 }
-		);
+		cy.willReturn('consultingType', { statusCode: 404 });
 
 		cy.clock();
-		cy.caritasMockedLogin();
+		cy.login();
+		cy.wait('@askerSessions');
+		cy.wait('@usersData');
 
 		cy.clock().then((clock) => {
 			clock.restore();
@@ -88,7 +95,9 @@ describe('Keycloak Tokens', () => {
 
 	it.skip('should logout if refresh token is already expired when loading the app', () => {
 		cy.clock();
-		cy.caritasMockedLogin();
+		cy.login();
+		cy.wait('@askerSessions');
+		cy.wait('@usersData');
 
 		cy.clock().then((clock) => {
 			clock.restore();
@@ -105,7 +114,10 @@ describe('Keycloak Tokens', () => {
 	//TODO: inspect this test, as there seems to be a race condition
 	it.skip('should logout if refresh token is expired while the app is loaded', () => {
 		cy.clock();
-		cy.caritasMockedLogin();
+		cy.login();
+		cy.wait('@askerSessions');
+		cy.wait('@usersData');
+
 		waitForTokenProcessing();
 
 		cy.tick(authTokenJson.refresh_expires_in * 1000 + 1);
@@ -117,9 +129,11 @@ describe('Keycloak Tokens', () => {
 
 	it('should not logout if refresh token is expired but access token is still valid', () => {
 		cy.clock();
-		cy.caritasMockedLogin({
+		cy.login({
 			auth: { expires_in: 1800, refresh_expires_in: 600 }
 		});
+		cy.wait('@askerSessions');
+		cy.wait('@usersData');
 
 		waitForTokenProcessing();
 		cy.tick(600 * 1000);
@@ -133,9 +147,11 @@ describe('Keycloak Tokens', () => {
 		const refreshExpiresIn = 600;
 
 		cy.clock();
-		cy.caritasMockedLogin({
+		cy.login({
 			auth: { expires_in: 1800, refresh_expires_in: refreshExpiresIn }
 		});
+		cy.wait('@askerSessions');
+		cy.wait('@usersData');
 
 		cy.clock().then((clock) => {
 			clock.restore();

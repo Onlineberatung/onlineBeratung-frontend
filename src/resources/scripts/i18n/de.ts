@@ -3,8 +3,11 @@ import absence from './de/absence';
 import anonymous from './de/anonymous';
 import archive from './de/archive';
 import attachments from './de/attachments';
+import banUser from './de/banUser';
+import appointments from './de/appointments';
 import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
+import date from './de/date';
 import dates from './de/dates';
 import deleteAccount from './de/deleteAccount';
 import deleteSession from './de/deleteSession';
@@ -12,6 +15,7 @@ import enquiry from './de/enquiry';
 import error from './de/error';
 import furtherSteps from './de/furtherSteps';
 import groupChat from './de/groupChat';
+import help from './de/help';
 import languages from './de/languages';
 import login from './de/login';
 import message from './de/message';
@@ -29,7 +33,10 @@ import twoFactorAuth from './de/twoFactorAuth';
 import typingIndicator from './de/typingIndicator';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
+import videoConference from './de/videoConference';
 import walkthrough from './de/walkthrough';
+import qrCode from './de/qrCode';
+import releaseNote from './de/releaseNote';
 
 const de = {
 	absence,
@@ -37,8 +44,11 @@ const de = {
 	app,
 	archive,
 	attachments,
+	banUser,
+	appointments,
 	chatFlyout,
 	consultant,
+	date,
 	dates,
 	deleteAccount,
 	deleteSession,
@@ -46,6 +56,7 @@ const de = {
 	error,
 	furtherSteps,
 	groupChat,
+	help,
 	languages,
 	login,
 	message,
@@ -63,6 +74,9 @@ const de = {
 	user,
 	userProfile,
 	videoCall,
+	videoConference,
+	qrCode,
+	releaseNote,
 	walkthrough
 };
 

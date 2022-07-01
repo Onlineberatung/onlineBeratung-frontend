@@ -18,7 +18,7 @@ import {
 import { ForwardMessage } from './ForwardMessage';
 import { MessageMetaData } from './MessageMetaData';
 import { CopyMessage } from './CopyMessage';
-import { MessageUsername } from './MessageUsername';
+import { MessageDisplayName } from './MessageDisplayName';
 import { markdownToDraft } from 'markdown-draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import { convertFromRaw, ContentState } from 'draft-js';
@@ -39,6 +39,7 @@ import { Appointment } from './Appointment';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
+	USER_MUTED = 'USER_MUTED',
 	FORWARD = 'FORWARD',
 	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL',
@@ -50,7 +51,7 @@ export interface ForwardMessageDTO {
 	message: string;
 	rcUserId: string;
 	timestamp: any;
-	username: string;
+	username: string; // TODO change to displayName if message service is adjusted
 }
 
 export interface VideoCallMessageDTO {
@@ -63,6 +64,7 @@ export interface MessageItem {
 	message: string;
 	messageDate: string | number;
 	messageTime: string;
+	displayName: string;
 	username: string;
 	askerRcId?: string;
 	userId: string;
@@ -87,6 +89,7 @@ interface MessageItemComponentProps extends MessageItem {
 	type: SESSION_LIST_TYPES;
 	clientName: string;
 	resortData: ConsultingTypeInterface;
+	bannedUsers: string[];
 }
 
 export const MessageItemComponent = ({
@@ -97,11 +100,13 @@ export const MessageItemComponent = ({
 	messageTime,
 	resortData,
 	isMyMessage,
+	displayName,
 	username,
 	askerRcId,
 	attachments,
 	file,
-	isNotRead
+	isNotRead,
+	bannedUsers
 }: MessageItemComponentProps) => {
 	const activeSession = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -163,7 +168,7 @@ export const MessageItemComponent = ({
 		if (alias?.forwardMessageDTO) {
 			return 'forwarded';
 		}
-		if (username === 'system') {
+		if (displayName === 'system') {
 			return 'system';
 		}
 		if (isUserMessage()) {
@@ -184,6 +189,7 @@ export const MessageItemComponent = ({
 	const isVideoCallMessage = alias?.messageType === MessageType.VIDEOCALL;
 	const isFinishedConversationMessage =
 		alias?.messageType === MessageType.FINISHED_CONVERSATION;
+	const isUserMutedMessage = alias?.messageType === MessageType.USER_MUTED;
 	const isAppointmentSet = alias?.messageType === MessageType.APPOINTMENT_SET;
 
 	const messageContent = (): JSX.Element => {
@@ -220,6 +226,7 @@ export const MessageItemComponent = ({
 					videoCallMessage={videoCallMessage}
 					activeSessionUsername={
 						activeSession.user?.username ||
+						activeSession.consultant?.displayName ||
 						activeSession.consultant?.username
 					}
 					activeSessionAskerRcId={activeSession.session.askerRcId}
@@ -230,13 +237,15 @@ export const MessageItemComponent = ({
 		} else {
 			return (
 				<>
-					<MessageUsername
+					<MessageDisplayName
 						alias={alias?.forwardMessageDTO}
 						isMyMessage={isMyMessage}
 						isUser={isUserMessage()}
 						type={getUsernameType()}
 						userId={userId}
 						username={username}
+						isUserBanned={bannedUsers.includes(username)}
+						displayName={displayName}
 					/>
 
 					<div
@@ -285,7 +294,7 @@ export const MessageItemComponent = ({
 									messageTime={messageTime}
 									askerRcId={askerRcId}
 									groupId={chatItem.feedbackGroupId}
-									username={username}
+									displayName={displayName}
 								/>
 							)}
 					</div>
@@ -293,6 +302,8 @@ export const MessageItemComponent = ({
 			);
 		}
 	};
+
+	if (isUserMutedMessage) return null;
 
 	if (isUpdateSessionDataMessage && !showAddVoluntaryInfo) {
 		return null;

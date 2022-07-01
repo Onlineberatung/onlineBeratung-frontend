@@ -67,9 +67,10 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	useEffect(() => {
 		const registeredUsername = getValueFromCookie('registeredUsername');
+		const sessionId = getValueFromCookie('anonymousSessionId');
 
 		// handle a refresh as registered user and not initialize a new user
-		if (registeredUsername && getValueFromCookie('keycloak')) {
+		if (registeredUsername && getValueFromCookie('keycloak') && sessionId) {
 			setIsDataProtectionViewActive(false);
 			setUsername(registeredUsername);
 			handleTokenRefresh();
@@ -107,16 +108,16 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	const getUsernameText = () => {
 		return `
-		 ${translate('anonymous.waitingroom.username')} 
-		 <span class="waitingRoom__username">
-		 	${
-				username
-					? username
-					: `<span class="waitingRoom__username--loading">${translate(
-							'anonymous.waitingroom.username.loading'
-					  )}</span>`
-			}
-		 </span>
+		${translate('anonymous.waitingroom.username')} 
+		<div class="waitingRoom__username">
+		${
+			username
+				? username
+				: `<span class="waitingRoom__username--loading">${translate(
+						'anonymous.waitingroom.username.loading'
+				  )}</span>`
+		}
+		</div>
 		`;
 	};
 
@@ -142,12 +143,18 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					setValueInCookie('registeredUsername', decodedUsername);
 					setValueInCookie('rc_token', response.rcToken);
 					setValueInCookie('rc_uid', response.rcUserId);
+					setValueInCookie(
+						'anonymousSessionId',
+						`${response.sessionId}`
+					);
+
 					setTokens(
 						response.accessToken,
 						response.expiresIn,
 						response.refreshToken,
 						response.refreshExpiresIn
 					);
+
 					handleTokenRefresh();
 					props.onAnonymousRegistration();
 				})

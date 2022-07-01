@@ -9,6 +9,6 @@ export const apiFinishAnonymousConversation = async (
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.PUT,
-		responseHandling: [FETCH_ERRORS.CONFLICT]
+		responseHandling: [FETCH_ERRORS.CONFLICT, FETCH_ERRORS.ABORTED]
 	});
 };

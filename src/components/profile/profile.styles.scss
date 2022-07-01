@@ -12,7 +12,6 @@ $groupChatIconSize: 40px;
 $maxFormElementWidth: 320px;
 $inputMaxWidth: 500px;
 
-$profile-imprint-background-color-desktop: $background-light !default;
 $profile-content-wrapper-detail-button-text-align: center !default;
 $profile-footer-justify-content: center !default;
 
@@ -52,7 +51,7 @@ $profile-footer-justify-content: center !default;
 	&__wrapper {
 		display: flex;
 		flex-direction: column;
-		background-color: $background-lighter;
+		background-color: $background-light;
 		height: 100%;
 	}
 
@@ -173,6 +172,13 @@ $profile-footer-justify-content: center !default;
 		@include breakpoint($fromMedium) {
 			padding: 0 $grid-base-three $grid-base;
 		}
+
+		&__personal_link {
+			& > span,
+			.generateQrCode {
+				margin-right: $grid-base-two;
+			}
+		}
 	}
 
 	&__icon {
@@ -214,8 +220,7 @@ $profile-footer-justify-content: center !default;
 		display: inline-block;
 		padding: 0 $grid-base-two $grid-base-ten;
 		height: auto;
-		width: calc(100% + 24px);
-		margin: 0 -12px;
+		width: 100%;
 
 		&:after {
 			display: block;
@@ -369,6 +374,28 @@ $profile-footer-justify-content: center !default;
 			&--empty {
 				color: $tertiary;
 			}
+
+			&--subscriber {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				position: relative;
+			}
+
+			&--agencies {
+				border-bottom: 1px solid $line-grey;
+				padding-bottom: $grid-base-two;
+
+				&:last-child {
+					border: none;
+					padding-bottom: 0;
+				}
+			}
+		}
+
+		&__divider {
+			color: $black-25-opacity;
+			margin: 0 5px;
 		}
 
 		&__divider {
@@ -385,7 +412,7 @@ $profile-footer-justify-content: center !default;
 		justify-content: $profile-footer-justify-content;
 		margin-top: auto;
 		padding: $grid-base $grid-base-two;
-		background-color: $profile-imprint-background-color-mobile;
+		background-color: $profile-imprint-background-color;
 		margin-bottom: $grid-base-nine;
 		width: 100%;
 
@@ -400,7 +427,6 @@ $profile-footer-justify-content: center !default;
 			justify-content: flex-start;
 			width: 100%;
 			margin-bottom: unset;
-			background-color: $profile-imprint-background-color-desktop;
 			z-index: 100;
 		}
 

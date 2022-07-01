@@ -152,6 +152,15 @@ $iconSize: 20px;
 				margin-right: $grid-base-three;
 			}
 		}
+
+		&--disabled {
+			color: $form-disabled;
+
+			&:hover {
+				color: $form-primary;
+				background-color: $black-10-opacity;
+			}
+		}
 	}
 
 	&__button {

@@ -18,6 +18,11 @@
 		background-color: var(--skin-color-primary, $upload-progress);
 	}
 
+	&--red {
+		background-color: #ff0000;
+		color: white;
+	}
+
 	&--clickable {
 		transition: background-color 0.5s ease-out;
 

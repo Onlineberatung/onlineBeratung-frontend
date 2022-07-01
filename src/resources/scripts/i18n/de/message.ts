@@ -2,6 +2,7 @@ const message = {
 	'today': 'Heute',
 	'isMyMessage.name': 'Ich',
 	'yesterday': 'Gestern',
+	'tomorrow': 'Morgen',
 	'dayBeforeYesterday': 'Vorgestern',
 	'forwardedLabel': (...replacements) =>
 		`Weitergeleitete Nachricht von ${replacements[0]}, ${replacements[1]} um ${replacements[2]}`,

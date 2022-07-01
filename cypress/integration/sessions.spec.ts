@@ -1,57 +1,59 @@
 import {
+	closeWebSocketServer,
+	startWebSocketServer,
+	mockWebSocket
+} from '../support/websocket';
+import {
 	generateMultipleAskerSessions,
-	generateMultipleConsultantSessions,
-	sessionsReply
+	generateMultipleConsultantSessions
 } from '../support/sessions';
 import sessionListI18n from '../../src/resources/scripts/i18n/de/sessionList';
 import {
 	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
 	SCROLL_PAGINATE_THRESHOLD
 } from '../../src/components/sessionsList/sessionsListConfig';
-import { config } from '../../src/resources/scripts/config';
+import { USER_CONSULTANT } from '../support/commands/login';
 
 describe('Sessions', () => {
+	before(() => {
+		startWebSocketServer();
+	});
+
+	after(() => {
+		closeWebSocketServer();
+	});
+
 	beforeEach(() => {
-		cy.fixture('service.consultingtypes.addiction.json').then(
-			(addictionConsultingType) => {
-				cy.fixture('service.consultingtypes.u25.json').then(
-					(u25ConsultingType) =>
-						cy.intercept(
-							`${config.endpoints.consultingTypeServiceBase}/basic`,
-							[addictionConsultingType, u25ConsultingType]
-						)
-				);
-			}
-		);
+		cy.mockApi();
+		mockWebSocket();
 	});
 
 	describe('Consultant', () => {
 		it('should list my sessions', () => {
-			const amountOfSessions = 3;
-			const sessions =
-				generateMultipleConsultantSessions(amountOfSessions);
-			cy.caritasMockedLogin({
-				type: 'consultant',
-				sessions
+			generateMultipleConsultantSessions(3);
+
+			cy.fastLogin({
+				username: USER_CONSULTANT
 			});
+			cy.wait('@consultingTypeServiceBaseBasic');
 
 			cy.get('a[href="/sessions/consultant/sessionView"]').click();
-			cy.get('.sessionsListItem').should('have.length', amountOfSessions);
+			cy.get('.sessionsListItem').should('have.length', 6);
 		});
 
 		it('should fetch next batch of sessions if scroll threshold is reached', () => {
-			const amountOfSessions = 100;
-			const sessions =
-				generateMultipleConsultantSessions(amountOfSessions);
+			generateMultipleConsultantSessions(100);
 
-			cy.caritasMockedLogin({
-				type: 'consultant',
-				sessions
+			cy.fastLogin({
+				username: USER_CONSULTANT
 			});
+			cy.wait('@consultingTypeServiceBaseBasic');
 
 			cy.get('a[href="/sessions/consultant/sessionView"]').click();
 			cy.get('.sessionsListItem').should('exist');
-			cy.wait('@consultantSessionsRequest');
+			cy.wait('@consultantSessions');
+
+			cy.get('.sessionsListItem').should('have.length', 15);
 
 			cy.get('.sessionsList__scrollContainer').then(
 				([scrollContainer]) => {
@@ -69,22 +71,22 @@ describe('Sessions', () => {
 				}
 			);
 
-			cy.wait('@consultantSessionsRequest');
+			cy.wait('@consultantSessions');
 		});
 
 		it('should not fetch next batch of sessions if scroll threshold is not reached', () => {
-			const amountOfSessions = 100;
-			const sessions =
-				generateMultipleConsultantSessions(amountOfSessions);
+			generateMultipleConsultantSessions(100);
 
-			cy.caritasMockedLogin({
-				type: 'consultant',
-				sessions
+			cy.fastLogin({
+				username: USER_CONSULTANT
 			});
+			cy.wait('@consultingTypeServiceBaseBasic');
 
 			cy.get('a[href="/sessions/consultant/sessionView"]').click();
-			cy.wait('@consultantSessionsRequest');
 			cy.get('.sessionsListItem').should('exist');
+			cy.wait('@consultantSessions');
+
+			cy.get('.sessionsListItem').should('have.length', 15);
 
 			cy.get('.sessionsList__scrollContainer').then(
 				([scrollContainer]) => {
@@ -107,27 +109,20 @@ describe('Sessions', () => {
 
 		describe('Access Token expires while logged in', () => {
 			it('should logout if trying to paginate sessions', () => {
-				const amountOfSessions = 100;
-				const sessions =
-					generateMultipleConsultantSessions(amountOfSessions);
+				generateMultipleConsultantSessions(15);
 
-				cy.caritasMockedLogin({
-					type: 'consultant',
-					sessions,
-					sessionsCallback: (req) => {
-						const url = new URL(req.url);
-						if (parseInt(url.searchParams.get('offset')) > 0) {
-							req.reply(401);
-						} else {
-							req.reply(sessionsReply({ sessions }));
-						}
-					}
+				cy.fastLogin({
+					username: USER_CONSULTANT
 				});
+				cy.wait('@consultingTypeServiceBaseBasic');
 
 				cy.get('a[href="/sessions/consultant/sessionView"]').click();
 				cy.get('.sessionsListItem').should('exist');
 
+				cy.willReturn('consultantSessions', 401);
+
 				cy.get('.sessionsList__scrollContainer').scrollTo('bottom');
+				cy.wait('@consultantSessions');
 				cy.get('.loginForm').should('exist');
 			});
 		});
@@ -135,20 +130,17 @@ describe('Sessions', () => {
 
 	describe('Asker', () => {
 		it('should list my sessions', () => {
-			const amountOfSessions = 3;
-			const sessions = generateMultipleAskerSessions(amountOfSessions);
-			cy.caritasMockedLogin({
-				type: 'asker',
-				sessions
-			});
+			generateMultipleAskerSessions(3);
+			cy.fastLogin();
+			cy.wait('@consultingTypeServiceBaseBasic');
 
-			cy.get('.sessionsListItem').should('have.length', amountOfSessions);
+			cy.get('.sessionsListItem').should('have.length', 4);
 		});
 
 		it('should show a header with headline', () => {
-			cy.caritasMockedLogin({
-				type: 'asker'
-			});
+			cy.fastLogin();
+			cy.wait('@consultingTypeServiceBaseBasic');
+
 			cy.get('[data-cy=session-list-header]').should('exist');
 			cy.get('[data-cy=session-list-headline]').contains(
 				sessionListI18n['view.headline']
@@ -157,27 +149,25 @@ describe('Sessions', () => {
 
 		describe('welcome illustration', () => {
 			it('should show until given session item limit is reached', () => {
-				const amountOfSessions = MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION;
-				const sessions =
-					generateMultipleAskerSessions(amountOfSessions);
-				cy.caritasMockedLogin({
-					type: 'asker',
-					sessions
-				});
+				// MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION minus 1 because on session is already added
+				generateMultipleAskerSessions(
+					MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION - 1
+				);
+				cy.fastLogin();
+				cy.wait('@consultingTypeServiceBaseBasic');
+
 				cy.get('[data-cy=session-list-welcome-illustration]').should(
 					'exist'
 				);
 			});
 
 			it('should not show when given session item limit is reached', () => {
-				const amountOfSessions =
-					MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION + 1;
-				const sessions =
-					generateMultipleAskerSessions(amountOfSessions);
-				cy.caritasMockedLogin({
-					type: 'asker',
-					sessions
-				});
+				generateMultipleAskerSessions(
+					MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION
+				);
+				cy.fastLogin();
+				cy.wait('@consultingTypeServiceBaseBasic');
+
 				cy.get('[data-cy=session-list-welcome-illustration]').should(
 					'not.exist'
 				);

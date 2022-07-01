@@ -44,15 +44,20 @@ import './joinChat.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { bannedUserOverlay } from '../banUser/banUserHelper';
 
 interface JoinGroupChatViewProps {
 	chatItem: GroupChatItemInterface;
+	forceBannedOverlay?: boolean;
+	bannedUsers?: string[];
 	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const JoinGroupChatView = ({
 	legalLinks,
-	chatItem
+	chatItem,
+	forceBannedOverlay = false,
+	bannedUsers = []
 }: JoinGroupChatViewProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
@@ -89,7 +94,7 @@ export const JoinGroupChatView = ({
 			!chatItem.subscribed
 		) {
 			setButtonItem(joinButtonItem);
-			if (!chatItem.active) {
+			if (!chatItem.active || bannedUsers.includes(userData.username)) {
 				setIsButtonDisabled(true);
 			} else {
 				setIsButtonDisabled(false);
@@ -101,6 +106,12 @@ export const JoinGroupChatView = ({
 			window.clearTimeout(timeoutId);
 		};
 	}, [activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (bannedUsers.includes(userData.userName)) {
+			setIsButtonDisabled(true);
+		}
+	}, [bannedUsers, userData.userName]);
 
 	const updateGroupChatInfo = () => {
 		if (
@@ -138,7 +149,16 @@ export const JoinGroupChatView = ({
 		}
 	};
 
+	const handleOverlayClose = () => {
+		setOverlayActive(false);
+	};
+
 	const handleButtonClick = () => {
+		if (bannedUsers.includes(userData.userName)) {
+			setOverlayItem(bannedUserOverlay);
+			setOverlayActive(true);
+			return null;
+		}
 		if (isRequestInProgress) {
 			return null;
 		}
@@ -191,6 +211,13 @@ export const JoinGroupChatView = ({
 		setIsRequestInProgress(false);
 	};
 
+	useEffect(() => {
+		if (forceBannedOverlay) {
+			setOverlayItem(bannedUserOverlay);
+			setOverlayActive(true);
+		}
+	}, [forceBannedOverlay]);
+
 	if (redirectToSessionsList) {
 		mobileListView();
 		return (
@@ -202,7 +229,11 @@ export const JoinGroupChatView = ({
 
 	return (
 		<div className="session joinChat">
-			<SessionHeaderComponent legalLinks={legalLinks} />
+			<SessionHeaderComponent
+				legalLinks={legalLinks}
+				isJoinGroupChatView={true}
+				bannedUsers={bannedUsers}
+			/>
 			<div className="joinChat__content session__content">
 				<Headline
 					text={translate('groupChat.join.content.headline')}
@@ -237,6 +268,7 @@ export const JoinGroupChatView = ({
 					<Overlay
 						item={overlayItem}
 						handleOverlay={handleOverlayAction}
+						handleOverlayClose={handleOverlayClose}
 					/>
 				</OverlayWrapper>
 			)}

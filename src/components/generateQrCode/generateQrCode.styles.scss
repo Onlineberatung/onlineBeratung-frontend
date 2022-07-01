@@ -1,0 +1,56 @@
+.generateQrCode {
+	button {
+		white-space: nowrap;
+		border: none;
+		background-color: transparent;
+		color: $primary;
+		font-size: $font-size-tertiary;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		padding: 0;
+
+		&:hover {
+			color: $hover-primary;
+		}
+
+		svg {
+			margin-right: 4px;
+		}
+	}
+
+	&__overlay {
+		text-align: center;
+
+		&Content {
+			padding: $grid-base-two 0;
+
+			img {
+				width: 100%;
+				height: 100%;
+
+				max-width: 180px;
+				max-height: 180px;
+			}
+
+			h3 {
+				margin-top: $grid-base;
+			}
+
+			.text {
+				max-width: 500px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			a {
+				display: inline-block;
+				margin-top: $grid-base-two;
+
+				svg {
+					margin-right: $grid-base;
+				}
+			}
+		}
+	}
+}

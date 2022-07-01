@@ -11,9 +11,9 @@
 }
 
 $displayOptions: (
-	'n': 'none',
-	'b': 'block',
-	'f': 'flex'
+	'n': none,
+	'b': block,
+	'f': flex
 );
 
 @mixin display($bpKey) {

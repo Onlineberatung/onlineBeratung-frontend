@@ -14,12 +14,12 @@ const RGBToHSL = (r, g, b) => {
 	b /= 255;
 
 	// Find greatest and smallest channel values
-	let cmin = Math.min(r, g, b),
-		cmax = Math.max(r, g, b),
-		delta = cmax - cmin,
-		h,
-		s,
-		l;
+	const cmin = Math.min(r, g, b);
+	const cmax = Math.max(r, g, b);
+	const delta = cmax - cmin;
+	let h;
+	let s;
+	let l;
 
 	// Calculate hue
 	// No difference
@@ -50,9 +50,9 @@ const RGBToHSL = (r, g, b) => {
 };
 
 const hexToRGB = (hex) => {
-	let r = '0',
-		g = '0',
-		b = '0';
+	let r = '0';
+	let g = '0';
+	let b = '0';
 
 	// 3 digits
 	if (hex.length === 4) {
@@ -225,7 +225,10 @@ const useTenantTheming = () => {
 
 	useEffect(() => {
 		if (!subdomain || !config.enableTenantTheming) {
-			setIsLoadingTenant(false);
+			apiGetTenantTheming({ subdomain }).then(({ settings }) => {
+				tenantContext?.setTenant({ settings } as any);
+				setIsLoadingTenant(false);
+			});
 			return;
 		}
 

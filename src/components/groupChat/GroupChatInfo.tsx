@@ -17,7 +17,8 @@ import {
 } from '../../globalState';
 import {
 	getChatItemForSession,
-	getSessionListPathForLocation
+	getSessionListPathForLocation,
+	isUserModerator
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -27,7 +28,12 @@ import {
 	Overlay,
 	OverlayItem
 } from '../overlay/Overlay';
-import { apiGetGroupMembers, apiPutGroupChat, GROUP_CHAT_API } from '../../api';
+import {
+	apiGetGroupChatInfo,
+	apiGetGroupMembers,
+	apiPutGroupChat,
+	GROUP_CHAT_API
+} from '../../api';
 import { isGroupChatOwner } from './groupChatHelpers';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { durationSelectOptionsSet } from './createChatHelpers';
@@ -47,7 +53,11 @@ import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left
 import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
 import '../profile/profile.styles';
 import { Text } from '../text/Text';
+import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { BanUser } from '../banUser/BanUser';
 import { useResponsive } from '../../hooks/useResponsive';
+import { Tag } from '../tag/Tag';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
@@ -76,6 +86,7 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 	);
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
+	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
 
 	const { fromL } = useResponsive();
 	useEffect(() => {
@@ -100,16 +111,29 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 		if (chatItem?.active) {
 			apiGetGroupMembers(chatItem.id)
 				.then((response) => {
-					const subscribers = response.members.map(
-						(member) => member.username
-					);
+					const subscribers = response.members.map((member) => ({
+						isModerator: isUserModerator({
+							chatItem: activeSession.chat,
+							rcUserId: member._id
+						}),
+						...member
+					}));
 					setSubscriberList(subscribers);
 				})
 				.catch((error) => {
 					console.log('error', error);
 				});
+			apiGetGroupChatInfo(chatItem?.id).then((response) => {
+				if (response.bannedUsers) {
+					const decryptedBannedUsers =
+						response.bannedUsers.map(decodeUsername);
+					setBannedUsers(decryptedBannedUsers);
+				} else {
+					setBannedUsers([]);
+				}
+			});
 		}
-	}, [groupIdFromParam, sessionsData]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [groupIdFromParam, sessionsData]);
 
 	const handleStopGroupChatButton = () => {
 		setOverlayItem(stopGroupChatSecurityOverlayItem);
@@ -184,6 +208,11 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 		);
 	}
 
+	const isCurrentUserModerator = isUserModerator({
+		chatItem: activeSession?.chat,
+		rcUserId: getValueFromCookie('rc_uid')
+	});
+
 	return (
 		<div className="profile__wrapper">
 			<div className="profile__header">
@@ -238,9 +267,61 @@ export const GroupChatInfo = (props: RouteComponentProps) => {
 									className="profile__data__item"
 									key={index}
 								>
-									<p className="profile__data__content">
-										{decodeUsername(subscriber)}
-									</p>
+									<div className="profile__data__content profile__data__content--subscriber">
+										{subscriber.displayName
+											? decodeUsername(
+													subscriber.displayName
+											  )
+											: decodeUsername(
+													subscriber.username
+											  )}
+										{isCurrentUserModerator &&
+											!subscriber.isModerator && (
+												<FlyoutMenu
+													isHidden={bannedUsers.includes(
+														subscriber.username
+													)}
+													position={
+														window.innerWidth <= 900
+															? 'left'
+															: 'right'
+													}
+												>
+													<BanUser
+														userName={decodeUsername(
+															subscriber.username
+														)}
+														rcUserId={
+															subscriber._id
+														}
+														chatId={
+															activeSession?.chat
+																?.id
+														}
+														handleUserBan={(
+															username
+														) => {
+															setBannedUsers([
+																...bannedUsers,
+																username
+															]);
+														}}
+													/>
+												</FlyoutMenu>
+											)}
+										{isCurrentUserModerator &&
+											bannedUsers.includes(
+												subscriber.username
+											) && (
+												<Tag
+													className="bannedUserTag"
+													color="red"
+													text={translate(
+														'banUser.is.banned'
+													)}
+												/>
+											)}
+									</div>
 								</div>
 							))
 						) : (

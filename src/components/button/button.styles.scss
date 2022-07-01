@@ -253,6 +253,27 @@ $buttonHeight: 50px;
 				}
 			}
 		}
+
+		&--secondary {
+			border-width: 2px;
+			background-color: $white;
+			color: $secondary;
+			border-color: $secondary;
+
+			svg {
+				fill: $secondary;
+			}
+
+			&:hover {
+				background-color: $hover-primary;
+				border-color: $hover-primary;
+				color: $white;
+
+				svg {
+					fill: $white;
+				}
+			}
+		}
 	}
 
 	&__item--disabled {

@@ -30,6 +30,7 @@ export interface ListItemInterface {
 export interface SessionConsultantInterface {
 	absent: boolean;
 	absenceMessage: boolean;
+	displayName?: string;
 	username: string;
 	firstName?: string;
 	lastName?: string;
@@ -56,6 +57,12 @@ type registrationTypeAnonymous = typeof REGISTRATION_TYPE_ANONYMOUS;
 
 export const REGISTRATION_TYPE_REGISTERED = 'REGISTERED';
 type registrationTypeRegistered = typeof REGISTRATION_TYPE_REGISTERED;
+
+export interface TopicSessionInterface {
+	id: number;
+	name: string;
+	description: string;
+}
 
 export interface SessionItemInterface {
 	agencyId: number;
@@ -85,6 +92,7 @@ export interface SessionItemInterface {
 	videoCallMessageDTO: VideoCallMessageDTO;
 	language?: string;
 	isFeedbackSession: boolean;
+	topic: TopicSessionInterface;
 }
 
 export interface LiveChatInterface extends SessionItemInterface {

@@ -1,0 +1,55 @@
+.flyoutMenu {
+	&__trigger {
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		color: $secondary;
+
+		&:hover {
+			color: $hover-primary;
+		}
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+
+	&__content {
+		position: absolute;
+		z-index: 2;
+		border: 1px solid $line-grey;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.25s ease, visibility 0.25s ease;
+		font-size: $font-size-primary;
+		line-height: $line-height-primary;
+		@include rounded-drop-shadow;
+
+		&--shown {
+			opacity: 1;
+			visibility: visible;
+			transition-duration: 0.25s;
+		}
+	}
+
+	&--left {
+		.flyoutMenu__content {
+			transform: translateX(calc(-100% + 20px));
+		}
+	}
+
+	&--hidden {
+		visibility: hidden;
+		width: 0px;
+	}
+}
+
+.has-flyout {
+	&:hover {
+		.flyoutMenu__trigger {
+			color: $hover-primary;
+		}
+	}
+}

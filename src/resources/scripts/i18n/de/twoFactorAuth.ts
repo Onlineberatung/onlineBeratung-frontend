@@ -1,12 +1,12 @@
 const twoFactorAuth = {
 	'title': '2-Faktor-Authentifizierung',
 	'subtitle':
-		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung',
+		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung',
 	'switch.active.label': '2-Faktor-Authentifizierung aktiviert',
 	'switch.deactive.label': '2-Faktor-Authentifizierung deaktiviert',
 	'activate.step1.email': 'Per E-Mail',
 	'activate.step1.app': 'Mit Authenticator Application',
-	'activate.step1.title': '2. Faktor wählen',
+	'activate.step1.title': 'Zweiter Faktor wählen',
 	'activate.step1.copy':
 		'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail-Adresse zusätzlich schützen?',
 	'activate.step1.visualisation.label': 'Auswahl',
@@ -43,19 +43,21 @@ const twoFactorAuth = {
 		'https://apps.apple.com/de/app/google-authenticator/id388497605',
 	'activate.app.step2.download.google': 'Download im Google Play Store',
 	'activate.app.step2.download.apple': 'Download im Apple App Store',
-	'activate.app.step3.title': 'Verknüpfen Sie die App und Ihren Account',
+	'activate.app.step3.title': 'Fügen Sie die Online-Beratung zur App hinzu',
 	'activate.app.step3.copy':
-		'Sie haben zwei Möglichkeiten die App mit Ihrem Account zu verknüpfen:',
-	'activate.app.step3.visualisation.label': 'Verknüpfung',
+		'Sie haben zwei Möglichkeiten die Online-Beratung zur App hinzuzufügen:',
+	'activate.app.step3.visualisation.label': 'Hinzufügen',
 	'activate.app.step3.connect.qrCode':
 		'Öffnen Sie die App und scannen Sie den folgenden QR-Code:',
 	'activate.app.step3.connect.divider': 'oder',
 	'activate.app.step3.connect.key':
-		'Geben Sie den folgenden 32-stelligen Schlüssel ein:',
+		'Öffnen Sie die App und geben Sie den folgenden 32-stelligen Schlüssel ein:',
 	'activate.app.step4.title': 'Einmal-Code eingeben',
 	'activate.app.step4.copy':
 		'Geben Sie den Einmal-Code ein, der von der App generiert wird und klicken Sie auf „Speichern“, um die Einrichtung abzuschließen.',
-	'activate.app.step4.visualisation.label': 'Bestätigung',
+	'activate.app.step4.visualisation.label': 'Verknüpfung',
+	'activate.app.step5.title': 'App-Verknüpfung erfolgreich eingerichtet.',
+	'activate.app.step5.visualisation.label': 'Bestätigung',
 	'activate.otp.input.label': 'Einmal-Code',
 	'activate.otp.input.label.short': 'Der eingegebene Code ist zu kurz.',
 	'activate.otp.input.label.error':
@@ -70,7 +72,7 @@ const twoFactorAuth = {
 	'activate.email.input.invalid': 'E-Mail-Adresse ungültig',
 	'activate.email.input.duplicate': 'E-Mail-Adresse wird bereits verwendet',
 	'activate.email.input.duplicate.info':
-		'Diese E-Mail-Adresse wird bereits von einer anderen Person verwendet. Bitte geben Sie eine andere E-Mail-Adresse an. Oder nutzen Sie die App als 2. Faktor.',
+		'Diese E-Mail-Adresse wird bereits von einer anderen Person verwendet. Bitte geben Sie eine andere E-Mail-Adresse an. Oder nutzen Sie die App als zweiten Faktor.',
 	'activate.email.input.info':
 		'Sie können nur eine E-Mail-Adresse bei uns hinterlegen. Falls Sie die E-Mail-Adresse hier ändern, erhalten Sie auf diese E-Mail-Adresse zukünftig auch die Benachrichtigungen.',
 	'activate.email.resend.hint':
@@ -80,7 +82,7 @@ const twoFactorAuth = {
 	'activate.email.resend.sent': 'Neuer Code gesendet',
 	'email.change.confirmOverlay.title': 'E-Mail-Adresse bearbeiten',
 	'email.change.confirmOverlay.copy.1':
-		'Sie nutzen diese E-Mail-Adresse als 2. Faktor für eine sichere Anmeldung.',
+		'Sie nutzen diese E-Mail-Adresse als zweiten Faktor für eine sichere Anmeldung.',
 	'email.change.confirmOverlay.copy.2':
 		'Deaktivieren Sie die 2-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.',
 	'email.change.confirmOverlay.button.confirm':
@@ -88,14 +90,9 @@ const twoFactorAuth = {
 	'email.change.confirmOverlay.button.deny': 'Abbrechen',
 	'email.delete.confirmOverlay.copy':
 		'wird die 2-Faktor-Authentifizierung deaktiviert.',
-	'switch.type.label': 'Ihr 2. Faktor',
+	'switch.type.label': 'Ihr zweiter Faktor',
 	'switch.type.EMAIL': 'E-Mail',
-	'switch.type.APP': 'App',
-	'nag.title': 'Schützen Sie Ihr Konto',
-	'nag.copy':
-		'Sichern Sie Ihr Konto vor einem möglichen unbefugtem Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung.',
-	'nag.button.later': 'Später erinnern',
-	'nag.button.protect': 'Jetzt schützen'
+	'switch.type.APP': 'App'
 };
 
 export default twoFactorAuth;

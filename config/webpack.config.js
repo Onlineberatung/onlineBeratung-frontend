@@ -229,6 +229,9 @@ module.exports = function (webpackEnv) {
 		mode: isEnvProduction
 			? 'production'
 			: isEnvDevelopment && 'development',
+		watchOptions: {
+			aggregateTimeout: 500
+		},
 		// Stop compilation early in production
 		bail: isEnvProduction,
 		devtool: isEnvProduction

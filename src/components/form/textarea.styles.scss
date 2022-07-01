@@ -11,9 +11,13 @@
 		margin: $grid-base-two 0;
 	}
 
+	&__letters {
+		text-align: right;
+	}
+
 	textarea {
 		min-height: 100px;
-		padding: 19px $grid-base-three 0;
+		padding: $grid-base-four $grid-base-three 0;
 		color: $form-secondary;
 		border: 1px solid $form-primary;
 		border-radius: $input-field-border-radius;
@@ -43,17 +47,20 @@
 		&:focus + label,
 		&:not(:placeholder-shown) + label {
 			font-size: 12px;
-			top: 3px;
+			top: 2px;
 			transition: font-size 0.5s, top 0.5s;
+			line-height: $grid-base-two;
+			padding-top: $grid-base;
 		}
 	}
 
 	label {
 		width: calc(100% - #{$grid-base-three * 2});
 		position: absolute;
-		top: 15px;
 		left: $grid-base-three;
 		transition: font-size 0.5s, top 0.5s;
 		color: $tertiary;
+		text-align: left;
+		background-color: white;
 	}
 }
