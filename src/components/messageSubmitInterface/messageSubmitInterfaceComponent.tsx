@@ -190,6 +190,7 @@ export const MessageSubmitInterfaceComponent = (
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { type } = useContext(SessionTypeContext);
 	const displayName = getContact(activeSession).displayName;
+	const userName = getContact(activeSession).username;
 
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [draftLoaded, setDraftLoaded] = useState(false);
@@ -945,7 +946,9 @@ export const MessageSubmitInterfaceComponent = (
 			],
 			copy:
 				translate('session.encrypted.overlay.text.first') +
-				displayName +
+				(displayName ||
+					userName ||
+					translate('session.encrypted.consultant')) +
 				translate('session.encrypted.overlay.text.second')
 		};
 
@@ -981,7 +984,9 @@ export const MessageSubmitInterfaceComponent = (
 								{translate(
 									'session.encrypted.notice.send.first'
 								)}
-								{displayName}
+								{displayName ||
+									userName ||
+									translate('session.encrypted.consultant')}
 								{translate(
 									'session.encrypted.notice.send.second'
 								)}
@@ -989,7 +994,9 @@ export const MessageSubmitInterfaceComponent = (
 						) : (
 							<>
 								{translate('session.encrypted.notice.first')}
-								{displayName}
+								{displayName ||
+									userName ||
+									translate('session.encrypted.consultant')}
 								{translate('session.encrypted.notice.second')}
 							</>
 						)}

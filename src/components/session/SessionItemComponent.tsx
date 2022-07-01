@@ -463,26 +463,23 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		});
 	};
 
-	const canDecrypted = keyID !== null;
-
-	// const canDecrypted = useCallback(() => {
-	// 	return keyID !== null;
-	// }, [keyID]);
+	const isAbleToDecrypt = !isE2eeEnabled || keyID !== null;
 
 	const canSendMasterKeyLostMessage = useCallback(() => {
-		const messages = props?.messages?.slice().reverse();
-		const lastE2EEMessageIndex = messages.findIndex(
+		if (!props?.messages) return false;
+		const currentMessages = props?.messages?.slice().reverse();
+		const lastE2EEMessageIndex = currentMessages.findIndex(
 			(value) =>
 				value.alias?.messageType.toString() ===
 				ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST
 		);
 
-		const lastOwnMessageIndex = messages.findIndex((value) =>
+		const lastOwnMessageIndex = currentMessages.findIndex((value) =>
 			isMyMessage(value.userId)
 		);
 
-		return lastE2EEMessageIndex > lastOwnMessageIndex && !canDecrypted;
-	}, [canDecrypted, props?.messages]);
+		return lastE2EEMessageIndex > lastOwnMessageIndex && !isAbleToDecrypt;
+	}, [isAbleToDecrypt, props?.messages]);
 
 	const buildMasterKeyLostMessage = (message: MessageItem) => {
 		return (
@@ -492,7 +489,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				clientName={username}
 				type={getTypeOfLocation()}
 				isOnlyEnquiry={isOnlyEnquiry}
-				isMyMessage={!canDecrypted}
+				isMyMessage={!isAbleToDecrypt}
 				resortData={resortData}
 				bannedUsers={props.bannedUsers}
 				displayName={displayName}
@@ -674,7 +671,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							keyID: groupKeyID,
 							sessionKeyExportedString:
 								sessionGroupKeyExportedString,
-							masterKeyLost: !canDecrypted,
+							masterKeyLost: !isAbleToDecrypt,
 							canSendMasterKeyLostMessage:
 								canSendMasterKeyLostMessage(),
 							sendMessageLostInfo
@@ -683,7 +680,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						handleMessageSendSuccess={handleMessageSendSuccess}
 					/>
 				)}
-			{canDecrypted && (
+			{isAbleToDecrypt && (
 				<DragAndDropArea
 					onFileDragged={onFileDragged}
 					isDragging={isDragging}

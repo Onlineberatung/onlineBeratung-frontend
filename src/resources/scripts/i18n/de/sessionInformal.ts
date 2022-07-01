@@ -23,7 +23,8 @@ const sessionInformal = {
 	'encrypted.overlay.text.first':
 		'Deine Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform. <br/><br/>Da du dein Passwort zurückgesetzt hast, sind die Nachrichten für dich momentan nicht lesbar. Sobald ',
 	'encrypted.overlay.text.second':
-		' den Chat öffnet, kannst du die Nachrichten wieder lesen und auch schreiben.'
+		' den Chat öffnet, kannst du die Nachrichten wieder lesen und auch schreiben.',
+	'encrypted.consultant': 'ein_e Berater_in'
 };
 
 export default sessionInformal;
