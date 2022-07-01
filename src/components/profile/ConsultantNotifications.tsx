@@ -64,7 +64,10 @@ export const ConsultantNotifications = () => {
 							handleDiameter={27}
 							activeBoxShadow="none"
 						/>
-						<Text text={notification.label} type="standard" />
+						<Text
+							text={translate(notification.label)}
+							type="standard"
+						/>
 					</div>
 				);
 			})}

@@ -16,6 +16,7 @@ import {
 import { translate } from '../../utils/translate';
 import {
 	AUTHORITIES,
+	E2EEContext,
 	ExtendedSessionInterface,
 	hasUserAuthority,
 	SessionTypeContext,
@@ -54,6 +55,7 @@ export const SessionListItemComponent = ({
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
+	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	// Is List Item active
 	const isChatActive =
@@ -67,26 +69,41 @@ export const SessionListItemComponent = ({
 	const [plainTextLastMessage, setPlainTextLastMessage] = useState(null);
 
 	useEffect(() => {
-		if (!session.item.e2eLastMessage) {
-			return;
+		if (isE2eeEnabled) {
+			if (!session.item.e2eLastMessage) return;
+			decryptText(
+				session.item.e2eLastMessage.msg,
+				keyID,
+				key,
+				encrypted,
+				session.item.e2eLastMessage.t === 'e2e'
+			).then((message) => {
+				const rawMessageObject = markdownToDraft(message);
+				const contentStateMessage = convertFromRaw(rawMessageObject);
+				setPlainTextLastMessage(contentStateMessage.getPlainText());
+			});
+		} else {
+			if (
+				session.item.e2eLastMessage &&
+				session.item.e2eLastMessage.t === 'e2e'
+			) {
+				setPlainTextLastMessage(translate('e2ee.message.encryption'));
+			} else {
+				const rawMessageObject = markdownToDraft(
+					session.item.lastMessage
+				);
+				const contentStateMessage = convertFromRaw(rawMessageObject);
+				setPlainTextLastMessage(contentStateMessage.getPlainText());
+			}
 		}
-		decryptText(
-			session.item.e2eLastMessage.msg,
-			keyID,
-			key,
-			encrypted,
-			session.item.e2eLastMessage.t === 'e2e'
-		).then((message) => {
-			const rawMessageObject = markdownToDraft(message);
-			const contentStateMessage = convertFromRaw(rawMessageObject);
-			setPlainTextLastMessage(contentStateMessage.getPlainText());
-		});
 	}, [
+		isE2eeEnabled,
 		key,
 		keyID,
 		encrypted,
 		session.item.groupId,
-		session.item.e2eLastMessage
+		session.item.e2eLastMessage,
+		session.item.lastMessage
 	]);
 
 	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);

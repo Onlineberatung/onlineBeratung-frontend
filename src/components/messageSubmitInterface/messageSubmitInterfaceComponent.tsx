@@ -300,7 +300,7 @@ export const MessageSubmitInterfaceComponent = (
 						'enc.'
 					);
 				} else {
-					return response.org;
+					return response.org || response.message;
 				}
 			})
 			.then((message) => {
@@ -326,7 +326,7 @@ export const MessageSubmitInterfaceComponent = (
 						? activeSession.item.feedbackGroupId
 						: groupIdOrSessionId;
 
-				if (props.E2EEParams.encrypted) {
+				if (isE2eeEnabled && props.E2EEParams.encrypted) {
 					encryptText(
 						currentDraftMessageRef.current,
 						props.E2EEParams.keyID,
@@ -350,7 +350,7 @@ export const MessageSubmitInterfaceComponent = (
 				}
 			}
 		};
-	}, [currentDraftMessageRef, props.E2EEParams.keyID]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [currentDraftMessageRef, props.E2EEParams.keyID, isE2eeEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (isLiveChatFinished) {
@@ -368,7 +368,7 @@ export const MessageSubmitInterfaceComponent = (
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.item.feedbackGroupId
 					: groupIdOrSessionId;
-			if (props.E2EEParams.encrypted) {
+			if (isE2eeEnabled && props.E2EEParams.encrypted) {
 				encryptText(
 					debouncedDraftMessage,
 					props.E2EEParams.keyID,
@@ -391,7 +391,7 @@ export const MessageSubmitInterfaceComponent = (
 				).then();
 			}
 		}
-	}, [debouncedDraftMessage]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [debouncedDraftMessage, isE2eeEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (!activeInfo && isConsultantAbsent) {
@@ -449,7 +449,8 @@ export const MessageSubmitInterfaceComponent = (
 						uploadOnLoadHandling.unencryptedMessage,
 						uploadOnLoadHandling.rcGroupIdOrSessionId,
 						uploadOnLoadHandling.isFeedback,
-						false // do not send email notification, since this was already done for the attachment
+						false, // do not send email notification, since this was already done for the attachment
+						isE2eeEnabled
 					).then(() => {
 						finishSendingAttachment();
 					});
@@ -632,6 +633,7 @@ export const MessageSubmitInterfaceComponent = (
 			activeSession.item.id,
 			encryptedMessage,
 			unencryptedMessage,
+			isE2eeEnabled,
 			props.language
 		)
 			.then((response) => {
@@ -679,7 +681,8 @@ export const MessageSubmitInterfaceComponent = (
 					unencryptedMessage,
 					sendToRoomWithId,
 					sendToFeedbackEndpoint,
-					getSendMailNotificationStatus()
+					getSendMailNotificationStatus(),
+					isE2eeEnabled
 				)
 					.then(() => {
 						props.handleSendButton();
@@ -708,7 +711,11 @@ export const MessageSubmitInterfaceComponent = (
 		const selectedFile = attachmentInput && attachmentInput.files[0];
 		const attachment = props.preselectedFile || selectedFile;
 
-		if (props.E2EEParams.encrypted && !props.E2EEParams.keyID) {
+		if (
+			isE2eeEnabled &&
+			props.E2EEParams.encrypted &&
+			!props.E2EEParams.keyID
+		) {
 			console.error("Can't send message without key");
 			return;
 		}
@@ -737,13 +744,14 @@ export const MessageSubmitInterfaceComponent = (
 		const unencryptedMessage = getTypedMarkdownMessage().trim();
 		const encryptedMessage =
 			getTypedMarkdownMessage().trim() &&
-			getTypedMarkdownMessage().trim().length > 0
+			getTypedMarkdownMessage().trim().length > 0 &&
+			isE2eeEnabled
 				? await encryptText(
 						getTypedMarkdownMessage().trim(),
 						keyId,
 						key
 				  )
-				: null;
+				: getTypedMarkdownMessage().trim();
 
 		if (
 			type === SESSION_LIST_TYPES.ENQUIRY &&
