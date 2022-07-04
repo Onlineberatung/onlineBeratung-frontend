@@ -355,12 +355,8 @@ export const MessageSubmitInterfaceComponent = (
 				}
 			});
 
-			//TODO: fix this. there is no need for one additional call to server since we already have the
-			// data on frontend
-			apiGetUserData().then((response) => {
-				const { appointmentFeatureEnabled } = response;
-				setAppointmentFeatureEnabled(appointmentFeatureEnabled);
-			});
+			const { appointmentFeatureEnabled } = userData;
+			setAppointmentFeatureEnabled(appointmentFeatureEnabled);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
