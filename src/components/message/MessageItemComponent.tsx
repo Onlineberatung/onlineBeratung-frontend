@@ -35,6 +35,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
+import { ReassignRequestMessage } from './ReassignMessage';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -43,7 +44,8 @@ enum MessageType {
 	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL',
 	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
-	E2EE_ACTIVATED = 'E2EE_ACTIVATED'
+	E2EE_ACTIVATED = 'E2EE_ACTIVATED',
+	REASSIGN_CONSULTANT = 'REASSIGN_CONSULTANT'
 }
 
 export interface ForwardMessageDTO {
@@ -58,6 +60,7 @@ export interface VideoCallMessageDTO {
 	initiatorRcUserId: string;
 	initiatorUserName: string;
 }
+
 export interface MessageItem {
 	id?: number;
 	message: string;
@@ -218,11 +221,24 @@ export const MessageItemComponent = ({
 	const isUserMutedMessage = alias?.messageType === MessageType.USER_MUTED;
 	const isE2EEActivatedMessage =
 		alias?.messageType === MessageType.E2EE_ACTIVATED;
+	const isReassignmentMessage =
+		alias?.messageType === MessageType.REASSIGN_CONSULTANT;
 
 	const messageContent = (): JSX.Element => {
 		switch (true) {
 			case isE2EEActivatedMessage:
 				return <E2EEActivatedMessage />;
+			// TODO handle all cases woth params
+			// https://github.com/Onlineberatung/onlineBeratung-messageService/blob/develop/api/messageservice.yaml
+			// case isReassignmentMessage:
+			// 	switch (*reassignmentStatus*){
+			// 		case *REQUESTED* : return (
+			// 		<ReassignRequestMessage
+			// 			oldConsultantName={"foo"}
+			// 			newConsultantName={"bar"}
+			// 			onClick={"baz"}/>
+			// 	)
+			// 	}
 			case isFurtherStepsMessage:
 				return (
 					<FurtherSteps
