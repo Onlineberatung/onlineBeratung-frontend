@@ -26,6 +26,10 @@ export const config = {
 		videocallServiceBase: apiUrl + '/service/videocalls',
 		anonymousAskerBase: apiUrl + '/service/conversations/askers/anonymous/',
 		anonymousBase: apiUrl + '/service/conversations/anonymous/',
+		appointmentBase: apiUrl + '/service/appointments/sessions',
+		appointmentBaseNew: (sessionId: number) =>
+			apiUrl + `/service/appointments/sessions/${sessionId}/enquiry/new`,
+		appointmentServiceBase: apiUrl + '/service/agency/',
 		askerSessions: apiUrl + '/service/users/sessions/askers',
 		attachmentUpload: apiUrl + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
@@ -36,7 +40,6 @@ export const config = {
 		consultantStatistics: apiUrl + '/service/statistics/consultant',
 		consultantTeamSessions: apiUrl + '/service/users/sessions/teams?',
 		consultingTypeServiceBase: apiUrl + '/service/consultingtypes',
-		calcomServiceBase: apiUrl + '/service/agency/',
 		deleteAskerAccount: apiUrl + '/service/users/account',
 		draftMessages: apiUrl + '/service/messages/draft',
 		email: apiUrl + '/service/users/email',
@@ -68,7 +71,6 @@ export const config = {
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
 		sessionBase: apiUrl + '/service/users/sessions',
-		appointmentBase: apiUrl + '/service/appointments/sessions',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
 		startVideoCall: apiUrl + '/service/videocalls/new',
 		teamSessionsBase:
@@ -106,7 +108,8 @@ export const config = {
 		error401: uiUrl + '/error.401.html',
 		error404: uiUrl + '/error.404.html',
 		releases: uiUrl + '/releases',
-		calComDevServer: 'https://calcom-develop.suchtberatung.digital'
+		appointmentServiceDevServer:
+			'https://calcom-develop.suchtberatung.digital'
 	},
 	postcodeFallbackUrl: '{url}',
 	jitsi: {

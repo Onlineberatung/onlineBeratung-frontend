@@ -7,7 +7,7 @@ import {
 } from '../app/navigationHandler';
 import Cal from '../cal/Cal';
 import { SessionsDataContext, UserDataContext } from '../../globalState';
-import { apiGetCalComTeamById } from '../../api';
+import { apiAppointmentServiceTeamById } from '../../api';
 
 export const Booking = () => {
 	useEffect(() => {
@@ -24,7 +24,7 @@ export const Booking = () => {
 
 	useEffect(() => {
 		const agencyId = sessionsData?.mySessions?.[0]?.agency?.id;
-		apiGetCalComTeamById(agencyId).then((resp) => {
+		apiAppointmentServiceTeamById(agencyId).then((resp) => {
 			const team = resp.meetlingLink
 				.split('https://calcom-develop.suchtberatung.digital/')
 				.pop();
@@ -38,7 +38,7 @@ export const Booking = () => {
 			{team && (
 				<Cal
 					calLink={team}
-					calOrigin={config.urls.calComDevServer}
+					calOrigin={config.urls.appointmentServiceDevServer}
 					config={{
 						name: userData.userName,
 						email: userData.userName + '@email.com',

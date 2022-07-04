@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import useEmbed from './useEmbed';
 import './cal.styles';
 import { history } from '../app/app';
-import { apiAppointmentSuccessfullySet } from '../../api/apiAppointmentSuccessfullySet';
+import { apiAppointmentServiceSet } from '../../api/apiAppointmentServiceSet';
 import { SessionsDataContext, UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 
@@ -84,7 +84,7 @@ export default function Cal({
 					sessionsData?.mySessions?.[0]?.consultant == null;
 				let groupId = sessionsData?.mySessions?.[0]?.session.groupId;
 
-				apiAppointmentSuccessfullySet(
+				apiAppointmentServiceSet(
 					appointmentData,
 					sessionId,
 					isInitialMessage,

@@ -78,7 +78,7 @@ export const Routing = (props: routingProps) => {
 			...(routerConfig.detailRoutes || []),
 			...(routerConfig.userProfileRoutes || []),
 			...(routerConfig.profileRoutes || []),
-			...(routerConfig.callRoutes || [])
+			...(routerConfig.appointmentRoutes || [])
 		].map((route) => route.path, []);
 
 	return (
@@ -144,7 +144,7 @@ export const Routing = (props: routingProps) => {
 								)}
 							</Switch>
 							<Switch>
-								{routerConfig.callRoutes.map(
+								{routerConfig.appointmentRoutes.map(
 									(route: any): JSX.Element => (
 										<Route
 											exact={route.exact ?? true}

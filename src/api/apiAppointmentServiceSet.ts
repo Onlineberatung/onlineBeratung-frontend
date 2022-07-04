@@ -1,7 +1,7 @@
 import { config } from '../resources/scripts/config';
 import { FETCH_METHODS, fetchData } from './fetchData';
 
-export const apiAppointmentSuccessfullySet = async (
+export const apiAppointmentServiceSet = async (
 	content: object,
 	sessionId: number,
 	isInitialMessage: boolean,
@@ -12,9 +12,9 @@ export const apiAppointmentSuccessfullySet = async (
 		messageType: 'APPOINTMENT_SET'
 	};
 	if (isInitialMessage) {
-		const url = `${config.endpoints.appointmentBase}/${sessionId}/enquiry/new`;
+		const url = config.endpoints.appointmentBaseNew(sessionId);
 		return fetchData({
-			url: url,
+			url,
 			rcValidation: true,
 			method: FETCH_METHODS.POST,
 			bodyData: JSON.stringify(appointmentSuccessfullySetMessage)
@@ -27,7 +27,7 @@ export const apiAppointmentSuccessfullySet = async (
 
 		const url = config.endpoints.setAppointmentSuccessMessage;
 		return fetchData({
-			url: url,
+			url,
 			headersData: { rcGroupId: rcGroupId },
 			rcValidation: true,
 			method: FETCH_METHODS.POST,

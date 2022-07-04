@@ -191,26 +191,6 @@ export const SessionListItemComponent = ({
 				data-group-id={listItem.groupId ? listItem.groupId : ''}
 				data-cy="session-list-item"
 			>
-				<Cal
-					calLink="carlossoares"
-					config={{
-						name: 'John Doe',
-						email: 'carlos.soares.ext@virtual-identity.com',
-						notes: 'Test Meeting',
-						guests: ['carlos.soares.ext@virtual-identity.com'],
-						theme: 'dark',
-						styles: {
-							body: {
-								'backgroundColor': 'red',
-								'background-color': 'red'
-							}
-							// eventTypeListItem?: Pick<CSSProperties, "background" | "color" | "backgroundColor">;
-							// enabledDateButton?: Pick<CSSProperties, "background" | "color" | "backgroundColor">;
-							// disabledDateButton?: Pick<CSSProperties, "background" | "color" | "backgroundColor">;
-							// availabilityDatePicker?: Pick<CSSProperties, "background" | "color" | "backgroundColor">;
-						}
-					}}
-				/>
 				<div
 					className={clsx(
 						'sessionsListItem__content',

@@ -748,7 +748,7 @@ export const MessageSubmitInterfaceComponent = (
 		activeSession.session.feedbackGroupId &&
 		!activeSession?.isFeedbackSession;
 
-	const buttonSet: ButtonItem = {
+	const bookingButton: ButtonItem = {
 		label: translate('message.submit.booking.buttonLabel'),
 		type: BUTTON_TYPES.PRIMARY
 	};
@@ -928,7 +928,7 @@ export const MessageSubmitInterfaceComponent = (
 									className="textarea__wrapper-booking-headline"
 								/>
 								<Button
-									item={buttonSet}
+									item={bookingButton}
 									isLink={true}
 									buttonHandle={handleBookingButton}
 									customIcon={<CalendarMonthIcon />}

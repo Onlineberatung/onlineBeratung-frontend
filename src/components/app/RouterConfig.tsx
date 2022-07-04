@@ -74,7 +74,7 @@ export const RouterConfigUser = (): any => {
 				component: Profile
 			}
 		],
-		callRoutes: [
+		appointmentRoutes: [
 			{
 				path: '/booking',
 				component: Booking
@@ -202,7 +202,7 @@ export const RouterConfigConsultant = (): any => {
 				component: Appointments
 			}
 		],
-		callRoutes: [
+		appointmentRoutes: [
 			{
 				path: '/booking',
 				component: Booking
@@ -365,7 +365,7 @@ export const RouterConfigTeamConsultant = (): any => {
 				component: Appointments
 			}
 		],
-		callRoutes: [
+		appointmentRoutes: [
 			{
 				path: '/booking',
 				component: Booking
