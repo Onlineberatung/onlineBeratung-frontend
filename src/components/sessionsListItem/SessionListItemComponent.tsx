@@ -42,7 +42,6 @@ import { Tag } from '../tag/Tag';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
 import clsx from 'clsx';
-import Cal from '../cal/Cal';
 
 interface SessionListItemProps {
 	type: SESSION_LIST_TYPES;

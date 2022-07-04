@@ -27,7 +27,6 @@ import {
 import {
 	apiGetAskerSessionList,
 	apiGetDraftMessage,
-	apiGetUserData,
 	apiPostDraftMessage,
 	apiPutDearchive,
 	apiSendEnquiry,
