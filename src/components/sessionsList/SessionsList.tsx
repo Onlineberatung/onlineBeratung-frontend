@@ -643,7 +643,7 @@ export const SessionsList = ({
 					if (sessionA.item.createDate === sessionB.item.createDate) {
 						return 0;
 					}
-					return sessionA.item.createDate > sessionB.item.createDate
+					return sessionA.item.createDate < sessionB.item.createDate
 						? -1
 						: 1;
 				case SESSION_LIST_TYPES.MY_SESSION:

@@ -16,7 +16,8 @@ import {
 	scrollToEnd,
 	isMyMessage,
 	SESSION_LIST_TYPES,
-	SESSION_LIST_TAB
+	SESSION_LIST_TAB,
+	getSessionListPathForLocation
 } from './sessionHelpers';
 import {
 	MessageItem,
@@ -305,13 +306,16 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			case OVERLAY_FUNCTIONS.REDIRECT:
 				setOverlayItem(null);
 				setIsRequestInProgress(false);
-				//setAcceptedGroupId(currentGroupId);
-				//setSessionsData({ ...sessionsData, enquiries: [] });
+				if (activeSession.item.id && activeSession.item.groupId) {
+					history.push(
+						`/sessions/consultant/sessionView/${activeSession.item.groupId}/${activeSession.item.id}`
+					);
+					return;
+				}
 				history.push(`/sessions/consultant/sessionView/`);
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayItem(null);
-				//setUpdateSessionList(SESSION_LIST_TYPES.ENQUIRY);
 				history.push(
 					`/sessions/consultant/sessionPreview${getSessionListTab()}`
 				);

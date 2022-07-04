@@ -315,7 +315,6 @@ export const SessionView = (props: RouterProps) => {
 				activeSession.rid !== currentGroupId.current &&
 				activeSession.item.id.toString() === sessionIdFromParam
 			) {
-				console.log(activeSession.rid, currentGroupId.current);
 				history.push(
 					`${getSessionListPathForLocation()}/${activeSession.rid}/${
 						activeSession.item.id
