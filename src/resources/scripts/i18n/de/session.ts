@@ -34,16 +34,26 @@ const session = {
 		'Ziehen Sie die Datei in das Feld, um sie hochzuladen.',
 	'dragAndDrop.restrictions':
 		'.jpg, .png, .pdf, .docx, .xlsx bis maximal 5MB',
-	'redirect.system.message.redirect.title_first': ' möchte Sie an ',
-	'redirect.system.message.redirect.title_second': ' übergeben.',
-	'redirect.system.message.redirect.description_first':
-		' kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich. ',
-	'redirect.system.message.redirect.description_second':
-		' hat keinen Zugriff mehr auf die Nachrichten.',
-	'redirect.system.message.redirect.question':
+	'reassign.system.message.reassign.title':
+		'%oldConsultant% möchte Sie an %newConsultant% übergeben.',
+	'reassign.system.message.reassign.description':
+		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich. %newConsultant% hat keinen Zugriff mehr auf die Nachrichten.',
+	'reassign.system.message.reassign.question':
 		'Stimmen Sie der Übergabe zu?.',
-	'redirect.system.message.redirect.accept': 'Akzeptieren',
-	'redirect.system.message.redirect.decline': 'Ablehnen'
+	'reassign.system.message.reassign.accept': 'Akzeptieren',
+	'reassign.system.message.reassign.decline': 'Ablehnen',
+	'reassign.system.message.reassign.sent.title':
+		'Anfrage zur Zuweisung versendet',
+	'reassign.system.message.reassign.sent.description':
+		'Sobald %client% der Zuweisung zustimmt, wird %client% an %newConsultant% mit dem kompletten Nachrichtenverlauf übergeben.',
+	'reassign.system.message.reassign.accepted.title':
+		'%client% hat der Zuweisung zugestimmt.',
+	'reassign.system.message.reassign.accepted.description':
+		'%newConsultant% ist nun für %client% verantwortlich. Sie haben keinen Zugriff mehr auf die künftigen Nachrichten.',
+	'reassign.system.message.reassign.declined.title':
+		'%client% hat die Zuweisung abgelehnt.',
+	'reassign.system.message.reassign.declined.description':
+		'Sie sind weiterhin für %client% verantwortlich.'
 };
 
 export default session;
