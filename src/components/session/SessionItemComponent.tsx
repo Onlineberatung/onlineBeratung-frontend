@@ -16,8 +16,7 @@ import {
 	scrollToEnd,
 	isMyMessage,
 	SESSION_LIST_TYPES,
-	SESSION_LIST_TAB,
-	getSessionListPathForLocation
+	SESSION_LIST_TAB
 } from './sessionHelpers';
 import {
 	MessageItem,

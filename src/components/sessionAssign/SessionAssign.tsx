@@ -9,14 +9,12 @@ import {
 import { BUTTON_TYPES } from '../button/Button';
 import { translate } from '../../utils/translate';
 import {
-	apiGetUserData,
 	apiGetAgencyConsultantList,
 	apiSessionAssign,
 	FETCH_ERRORS,
 	apiDeleteUserFromRoom
 } from '../../api';
 import {
-	UserDataInterface,
 	UserDataContext,
 	ConsultantListContext,
 	E2EEContext
@@ -40,7 +38,7 @@ export interface Consultant {
 
 export const SessionAssign = (props: { value?: string }) => {
 	const { activeSession } = useContext(ActiveSessionContext);
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData } = useContext(UserDataContext);
 	const { consultantList, setConsultantList } = useContext(
 		ConsultantListContext
 	);
