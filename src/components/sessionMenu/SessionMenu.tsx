@@ -368,11 +368,17 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		}
 
 		const videoCallWindow = window.open('', '_blank');
-		apiStartVideoCall(activeSession.item.id)
+		apiStartVideoCall(
+			activeSession.item.id,
+			userData.displayName ? userData.displayName : userData.userName
+		)
 			.then((response) => {
 				videoCallWindow.location.href = getVideoCallUrl(
 					response.moderatorVideoCallUrl,
 					isVideoActivated,
+					userData.displayName
+						? userData.displayName
+						: userData.userName,
 					userData.e2eEncryptionEnabled ?? false
 				);
 				videoCallWindow.focus();
