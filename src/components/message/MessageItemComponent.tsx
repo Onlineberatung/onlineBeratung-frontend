@@ -35,7 +35,13 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
-import { ReassignRequestMessage } from './ReassignMessage';
+import {
+	ReassignRequestAcceptedMessage,
+	ReassignRequestDeclinedMessage,
+	ReassignRequestMessage,
+	ReassignRequestSentMessage
+} from './ReassignMessage';
+import { ConsultantReassignment } from '../../api/apiSendAliasMessage';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -230,15 +236,70 @@ export const MessageItemComponent = ({
 				return <E2EEActivatedMessage />;
 			// TODO handle all cases woth params
 			// https://github.com/Onlineberatung/onlineBeratung-messageService/blob/develop/api/messageservice.yaml
-			// case isReassignmentMessage:
-			// 	switch (*reassignmentStatus*){
-			// 		case *REQUESTED* : return (
-			// 		<ReassignRequestMessage
-			// 			oldConsultantName={"foo"}
-			// 			newConsultantName={"bar"}
-			// 			onClick={"baz"}/>
-			// 	)
-			// 	}
+			case isReassignmentMessage:
+				if (message) {
+					const messageArgs: ConsultantReassignment = JSON.parse(
+						message.replaceAll('&quot;', '"')
+					);
+					console.log('test2', messageArgs);
+
+					console.log('isReassignmentMessage', isReassignmentMessage);
+					switch (messageArgs.status) {
+						case 'REQUESTED':
+							console.log('userId', userId);
+							console.log('askerRcId', askerRcId);
+							if (askerRcId === userId) {
+								return (
+									<ReassignRequestMessage
+										oldConsultantName={'foo'}
+										newConsultantName={'bar'}
+										onClick={() => {}}
+									/>
+								);
+							} else {
+								return (
+									<ReassignRequestSentMessage
+										oldConsultantName={'foo'}
+										newConsultantName={'bar'}
+										clientName={'test'}
+									/>
+								);
+							}
+						case 'CONFIRMED':
+							return (
+								<ReassignRequestAcceptedMessage
+									clientName={'foo'}
+									newConsultantName={'bar'}
+								/>
+							);
+						case 'REJECTED':
+							return (
+								<ReassignRequestDeclinedMessage
+									clientName={'foo'}
+								/>
+							);
+					}
+					// console.log('alias', alias);
+					//
+					console.log('message', message);
+
+					// console.log('displayName', displayName);
+					// console.log('userName', username);
+					// console.log('userId', userId);
+					// console.log('askerRcId', askerRcId);
+					// console.log('org', org);
+					// console.log('messageDate', messageDate);
+					// console.log('messageTime', messageTime);
+					// console.log('resortData', resortData);
+					// console.log('isMyMessage', isMyMessage);
+					// console.log('attachments', attachments);
+					// console.log('file', file);
+					// console.log('isNotRead', isNotRead);
+					// console.log('bannedUsers', bannedUsers);
+					// console.log('t', t);
+					// console.log('rid', rid);
+				}
+				return;
 			case isFurtherStepsMessage:
 				return (
 					<FurtherSteps

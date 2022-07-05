@@ -70,11 +70,17 @@ export const ReassignRequestSentMessage: React.FC<{
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
 				<h5>
-					{translate('reassign.system.message.reassign.sent.title')}
+					{translate(
+						'session.reassign.system.message.reassign.sent.title',
+						{
+							newConsultant: props.newConsultantName,
+							oldConsultant: props.oldConsultantName
+						}
+					)}
 				</h5>
 				<span className="description">
 					{translate(
-						'reassign.system.message.reassign.sent.description',
+						'session.reassign.system.message.reassign.sent.description',
 						{
 							client: props.clientName,
 							newConsultant: props.newConsultantName

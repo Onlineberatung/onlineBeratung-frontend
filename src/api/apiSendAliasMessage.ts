@@ -12,18 +12,30 @@ export enum ALIAS_MESSAGE_TYPES {
 	USER_UNMUTED = 'USER_UNMUTED',
 	REASSIGN_CONSULTANT = 'REASSIGN_CONSULTANT'
 }
+export interface ConsultantReassignment {
+	toConsultantId: string;
+	status: ReassignStatus;
+}
 
+export enum ReassignStatus {
+	REQUESTED = 'REQUESTED',
+	CONFIRMED = 'CONFIRMED',
+	REJECTED = 'REJECTED'
+}
 interface AliasMessageParams {
 	rcGroupId: string;
 	type: ALIAS_MESSAGE_TYPES;
+	args?: ConsultantReassignment;
 	// todo add dynamic params for reassign
 	// @see https://github.com/Onlineberatung/onlineBeratung-messageService/blob/develop/api/messageservice.yaml
 }
 
 export const apiSendAliasMessage = async ({
 	rcGroupId,
-	type
+	type,
+	args
 }: AliasMessageParams): Promise<any> => {
+	console.log('args', args);
 	const url = `${config.endpoints.sendAliasMessage}`;
 
 	return fetchData({
@@ -32,7 +44,8 @@ export const apiSendAliasMessage = async ({
 		method: FETCH_METHODS.POST,
 		rcValidation: true,
 		bodyData: JSON.stringify({
-			messageType: type
+			messageType: type,
+			args: args
 		})
 	});
 };

@@ -30,7 +30,8 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { useE2EE } from '../../hooks/useE2EE';
 import {
 	ALIAS_MESSAGE_TYPES,
-	apiSendAliasMessage
+	apiSendAliasMessage,
+	ReassignStatus
 } from '../../api/apiSendAliasMessage';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
@@ -50,6 +51,7 @@ export const SessionAssign = (props: { value?: string }) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState({});
 	const [selectedOption, setSelectedOption] = useState(null);
+	const [newConsultantId, setNewConsultantId] = useState(null);
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
@@ -95,6 +97,8 @@ export const SessionAssign = (props: { value?: string }) => {
 
 		const client = activeSession.user.username;
 		const newConsultant = selected.label;
+		setNewConsultantId(selected.value);
+		console.log('selected', selected);
 		console.log('init', client, newConsultant);
 
 		// todo when to use?
@@ -200,9 +204,14 @@ export const SessionAssign = (props: { value?: string }) => {
 				console.log('call reassign');
 				// todo send params new consultant
 				// see https://github.com/Onlineberatung/onlineBeratung-messageService/blob/develop/api/messageservice.yaml
+				console.log('newConsultantId', newConsultantId);
 				apiSendAliasMessage({
 					rcGroupId: activeSession.rid,
-					type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT
+					type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT,
+					args: {
+						toConsultantId: newConsultantId,
+						status: ReassignStatus.REQUESTED
+					}
 				});
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
