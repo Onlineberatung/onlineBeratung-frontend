@@ -34,6 +34,7 @@ export interface AgencySelectionProps {
 	onValidityChange?: Function;
 	preselectedAgency?: AgencyDataInterface;
 	isProfileView?: boolean;
+	mainTopicId?: number;
 	agencySelectionNote?: string;
 	initialPostcode?: string;
 	hideExternalAgencies?: boolean;
@@ -73,7 +74,8 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				if (autoSelectAgency) {
 					const response = await apiAgencySelection({
 						postcode: DEFAULT_POSTCODE,
-						consultingType: props.consultingType.id
+						consultingType: props.consultingType.id,
+						topicId: props?.mainTopicId
 					});
 
 					const defaultAgency = response[0];
@@ -88,7 +90,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [autoSelectAgency, props.consultingType.id]);
+	}, [autoSelectAgency, props.consultingType.id, props?.mainTopicId]);
 
 	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
@@ -126,7 +128,8 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						const agencies = (
 							await apiAgencySelection({
 								postcode: selectedPostcode,
-								consultingType: props.consultingType.id
+								consultingType: props.consultingType.id,
+								topicId: props?.mainTopicId
 							})
 						).filter(
 							(agency) =>
@@ -166,7 +169,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selectedPostcode, props.consultingType.id]);
+	}, [selectedPostcode, props.consultingType.id, props?.mainTopicId]);
 
 	const postcodeInputItem: InputFieldItem = {
 		name: 'postcode',
