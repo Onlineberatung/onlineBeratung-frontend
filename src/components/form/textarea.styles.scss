@@ -24,14 +24,6 @@
 		outline: 0;
 		box-shadow: $input-field-box-shadow;
 
-		@media (max-width: 1320px) and (min-width: 900px) {
-			padding: $grid-base-six $grid-base-three 0;
-		}
-
-		@media (max-width: 612px) {
-			padding: $grid-base-six $grid-base-three 0;
-		}
-
 		&:hover {
 			border: 1px solid $form-active;
 		}
@@ -55,7 +47,7 @@
 		&:focus + label,
 		&:not(:placeholder-shown) + label {
 			font-size: 12px;
-			top: 3px;
+			top: 2px;
 			transition: font-size 0.5s, top 0.5s;
 			line-height: $grid-base-two;
 			padding-top: $grid-base;
@@ -65,10 +57,10 @@
 	label {
 		width: calc(100% - #{$grid-base-three * 2});
 		position: absolute;
-		top: 15px;
 		left: $grid-base-three;
 		transition: font-size 0.5s, top 0.5s;
 		color: $tertiary;
 		text-align: left;
+		background-color: white;
 	}
 }

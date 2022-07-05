@@ -2,11 +2,13 @@ import { config } from '../resources/scripts/config';
 import { fetchData, FETCH_METHODS, FETCH_SUCCESS } from './fetchData';
 
 export const apiStartVideoCall = async (
-	sessionId: number
+	sessionId: number,
+	initiatorDisplayName: string
 ): Promise<{ moderatorVideoCallUrl: string }> => {
 	const url = config.endpoints.startVideoCall;
 	const videoCallData = JSON.stringify({
-		sessionId: sessionId
+		sessionId: sessionId,
+		initiatorDisplayName: initiatorDisplayName
 	});
 
 	return fetchData({
