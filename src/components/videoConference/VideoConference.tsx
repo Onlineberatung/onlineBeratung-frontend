@@ -227,6 +227,16 @@ const VideoConference = ({
 						}
 					)}`
 				}}
+				{...(userData
+					? {
+							userInfo: {
+								displayName: userData.displayName
+									? userData.displayName
+									: userData.userName,
+								email: ''
+							}
+					  }
+					: {})}
 			/>
 		</div>
 	);
