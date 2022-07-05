@@ -37,7 +37,7 @@ const session = {
 	'reassign.system.message.reassign.title':
 		'%oldConsultant% möchte Sie an %newConsultant% übergeben.',
 	'reassign.system.message.reassign.description':
-		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich. %newConsultant% hat keinen Zugriff mehr auf die Nachrichten.',
+		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich. %oldConsultant% hat keinen Zugriff mehr auf die Nachrichten.',
 	'reassign.system.message.reassign.question':
 		'Stimmen Sie der Übergabe zu?.',
 	'reassign.system.message.reassign.accept': 'Akzeptieren',
@@ -45,7 +45,7 @@ const session = {
 	'reassign.system.message.reassign.sent.title':
 		'Anfrage zur Zuweisung versendet',
 	'reassign.system.message.reassign.sent.description':
-		'Sobald %client% der Zuweisung zustimmt, wird %client% an %newConsultant% mit dem kompletten Nachrichtenverlauf übergeben.',
+		'Sobald %client1% der Zuweisung zustimmt, wird %client2% an %newConsultant% mit dem kompletten Nachrichtenverlauf übergeben.',
 	'reassign.system.message.reassign.accepted.title':
 		'%client% hat der Zuweisung zugestimmt.',
 	'reassign.system.message.reassign.accepted.description':

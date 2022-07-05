@@ -41,7 +41,12 @@ import {
 	ReassignRequestMessage,
 	ReassignRequestSentMessage
 } from './ReassignMessage';
-import { ConsultantReassignment } from '../../api/apiSendAliasMessage';
+import {
+	ALIAS_MESSAGE_TYPES,
+	apiSendAliasMessage,
+	ConsultantReassignment,
+	ReassignStatus
+} from '../../api/apiSendAliasMessage';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -134,6 +139,8 @@ export const MessageItemComponent = ({
 	const { key, keyID, encrypted } = useE2EE(rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
+	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
+
 	useEffect((): void => {
 		if (isE2eeEnabled) {
 			decryptText(message, keyID, key, encrypted, t === 'e2e')
@@ -211,6 +218,22 @@ export const MessageItemComponent = ({
 		return 'consultant';
 	};
 
+	const clickReassignRequestMessage = (accepted, toConsultantId) => {
+		let reassignStatus = ReassignStatus.REJECTED;
+		if (accepted) {
+			reassignStatus = ReassignStatus.CONFIRMED;
+		}
+		//TODO update instead of add new message
+		apiSendAliasMessage({
+			rcGroupId: activeSession.rid,
+			type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT,
+			args: {
+				toConsultantId: toConsultantId,
+				status: reassignStatus
+			}
+		});
+	};
+
 	const isUserMessage = () =>
 		userId === askerRcId ||
 		(activeSession.isGroup &&
@@ -241,63 +264,72 @@ export const MessageItemComponent = ({
 					const messageArgs: ConsultantReassignment = JSON.parse(
 						message.replaceAll('&quot;', '"')
 					);
-					console.log('test2', messageArgs);
-
-					console.log('isReassignmentMessage', isReassignmentMessage);
 					switch (messageArgs.status) {
 						case 'REQUESTED':
-							console.log('userId', userId);
-							console.log('askerRcId', askerRcId);
-							if (askerRcId === userId) {
+							if (isAsker) {
 								return (
 									<ReassignRequestMessage
-										oldConsultantName={'foo'}
-										newConsultantName={'bar'}
-										onClick={() => {}}
+										oldConsultantName={
+											activeSession.consultant.displayName
+												? activeSession.consultant
+														.displayName
+												: activeSession.consultant
+														.username
+										}
+										newConsultantName={
+											messageArgs.toConsultantId //TODO show display name or user name
+										}
+										onClick={(accepted) =>
+											clickReassignRequestMessage(
+												accepted,
+												messageArgs.toConsultantId
+											)
+										}
 									/>
 								);
 							} else {
 								return (
 									<ReassignRequestSentMessage
-										oldConsultantName={'foo'}
-										newConsultantName={'bar'}
-										clientName={'test'}
+										oldConsultantName={
+											activeSession.consultant.displayName
+												? activeSession.consultant
+														.displayName
+												: activeSession.consultant
+														.username
+										}
+										newConsultantName={
+											messageArgs.toConsultantId //TODO show display name or user name
+										}
+										clientName={activeSession.user.username}
 									/>
 								);
 							}
 						case 'CONFIRMED':
-							return (
-								<ReassignRequestAcceptedMessage
-									clientName={'foo'}
-									newConsultantName={'bar'}
-								/>
-							);
-						case 'REJECTED':
-							return (
-								<ReassignRequestDeclinedMessage
-									clientName={'foo'}
-								/>
-							);
-					}
-					// console.log('alias', alias);
-					//
-					console.log('message', message);
+							//TODO add new consultant systemmessage
+							if (isAsker) {
+								return <></>; //TODO add asker systemmessage
+							} else {
+								return (
+									<ReassignRequestAcceptedMessage
+										clientName={activeSession.user.username}
+										newConsultantName={
+											messageArgs.toConsultantId //TODO show display name or user name
+										}
+									/>
+								);
+							}
 
-					// console.log('displayName', displayName);
-					// console.log('userName', username);
-					// console.log('userId', userId);
-					// console.log('askerRcId', askerRcId);
-					// console.log('org', org);
-					// console.log('messageDate', messageDate);
-					// console.log('messageTime', messageTime);
-					// console.log('resortData', resortData);
-					// console.log('isMyMessage', isMyMessage);
-					// console.log('attachments', attachments);
-					// console.log('file', file);
-					// console.log('isNotRead', isNotRead);
-					// console.log('bannedUsers', bannedUsers);
-					// console.log('t', t);
-					// console.log('rid', rid);
+						case 'REJECTED':
+							if (isAsker) {
+								return <></>; //TODO add asker systemmessage
+							} else {
+								return (
+									<ReassignRequestDeclinedMessage
+										clientName={activeSession.user.username}
+									/>
+								);
+							}
+					}
 				}
 				return;
 			case isFurtherStepsMessage:

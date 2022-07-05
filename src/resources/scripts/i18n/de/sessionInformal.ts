@@ -17,7 +17,7 @@ const sessionInformal = {
 	'reassign.system.message.reassign.title':
 		'%oldConsultant% möchte dich an %newConsultant% übergeben.',
 	'reassign.system.message.reassign.description':
-		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für dich verantwortlich. %newConsultant% hat keinen Zugriff mehr auf die Nachrichten.',
+		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für dich verantwortlich. %oldConsultant% hat keinen Zugriff mehr auf die Nachrichten.',
 	'reassign.system.message.reassign.question': 'Stimmst du der Übergabe zu?.',
 	'reassign.system.message.reassign.accepted.description':
 		'%newConsultant% ist nun für %client% verantwortlich. Du hast keinen Zugriff mehr auf die künftigen Nachrichten.',

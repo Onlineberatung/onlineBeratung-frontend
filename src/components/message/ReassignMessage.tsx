@@ -82,7 +82,8 @@ export const ReassignRequestSentMessage: React.FC<{
 					{translate(
 						'session.reassign.system.message.reassign.sent.description',
 						{
-							client: props.clientName,
+							client1: props.clientName,
+							client2: props.clientName,
 							newConsultant: props.newConsultantName
 						}
 					)}
