@@ -6,7 +6,8 @@ import {
 	RegistrationNotesInterface,
 	ConsultingTypeInterface,
 	ConsultantDataInterface,
-	AgencyDataInterface
+	AgencyDataInterface,
+	useTenant
 } from '../../globalState';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { AgencySelection } from '../agencySelection/AgencySelection';
@@ -26,6 +27,7 @@ import {
 	ConsultingTypeAgencySelection,
 	useConsultingTypeAgencySelection
 } from '../consultingTypeSelection/ConsultingTypeAgencySelection';
+import { MainTopicSelection } from '../mainTopicSelection/MainTopicSelection';
 
 interface FormAccordionProps {
 	consultingType?: ConsultingTypeInterface;
@@ -37,6 +39,7 @@ interface FormAccordionProps {
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
 	initialPostcode?: string;
+	mainTopicId?: number;
 }
 
 export const FormAccordion = ({
@@ -48,10 +51,12 @@ export const FormAccordion = ({
 	onValidation,
 	additionalStepsData,
 	registrationNotes,
-	initialPostcode
+	initialPostcode,
+	mainTopicId
 }: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
 	const [agency, setAgency] = useState<AgencyDataInterface>();
+	const tenantData = useTenant();
 
 	const [validity, setValidity] = useState({
 		username: VALIDITY_INITIAL,
@@ -60,6 +65,9 @@ export const FormAccordion = ({
 			? VALIDITY_INITIAL
 			: VALIDITY_VALID,
 		age: additionalStepsData?.age?.isEnabled
+			? VALIDITY_INITIAL
+			: VALIDITY_VALID,
+		mainTopic: tenantData?.settings?.topicsInRegistrationEnabled
 			? VALIDITY_INITIAL
 			: VALIDITY_VALID,
 		agency: VALIDITY_INITIAL
@@ -136,6 +144,20 @@ export const FormAccordion = ({
 		}
 	];
 
+	if (tenantData?.settings?.topicsInRegistrationEnabled) {
+		accordionItemData.push({
+			title: translate('registration.mainTopic.headline'),
+			nestedComponent: (
+				<MainTopicSelection
+					name="mainTopic"
+					onChange={(mainTopicId) => onChange({ mainTopicId })}
+					onValidityChange={handleValidity}
+				/>
+			),
+			isValid: validity.mainTopic
+		});
+	}
+
 	const {
 		agencies: possibleAgencies,
 		consultingTypes: possibleConsultingTypes
@@ -203,6 +225,7 @@ export const FormAccordion = ({
 						handleValidity('agency', validity)
 					}
 					agencySelectionNote={registrationNotes?.agencySelection}
+					mainTopicId={mainTopicId}
 				/>
 			),
 			isValid: validity.agency

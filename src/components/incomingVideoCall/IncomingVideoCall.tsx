@@ -77,7 +77,11 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 
 	const handleAnswerVideoCall = (isVideoActivated: boolean = false) => {
 		window.open(
-			getVideoCallUrl(props.videoCall.videoCallUrl, isVideoActivated)
+			getVideoCallUrl(
+				props.videoCall.videoCallUrl,
+				isVideoActivated,
+				decodedUsername
+			)
 		);
 		removeIncomingVideoCallNotification();
 	};
