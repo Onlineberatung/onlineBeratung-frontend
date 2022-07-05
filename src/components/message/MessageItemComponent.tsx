@@ -287,13 +287,11 @@ export const MessageItemComponent = ({
 								isMyMessage && 'messageItem__message--myMessage'
 							)}
 						>
-							<span
-								dangerouslySetInnerHTML={{
-									__html: translate(
-										'session.encrypted.notice.send.info'
-									)
-								}}
-							/>
+							<span>
+								{translate(
+									'session.encrypted.notice.send.info'
+								)}
+							</span>
 						</div>
 					</>
 				);
