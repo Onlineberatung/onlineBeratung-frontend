@@ -25,9 +25,12 @@ export const config = {
 		askerSessions: apiUrl + '/service/users/sessions/askers',
 		attachmentUpload: apiUrl + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
-		banUser: (rcUserId, chatId) => apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
-		consultantEnquiriesBase: apiUrl + '/service/conversations/consultants/enquiries/',
-		consultantSessions: apiUrl + '/service/users/sessions/consultants?status=2&',
+		banUser: (rcUserId, chatId) =>
+			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
+		consultantEnquiriesBase:
+			apiUrl + '/service/conversations/consultants/enquiries/',
+		consultantSessions:
+			apiUrl + '/service/users/sessions/consultants?status=2&',
 		consultantStatistics: apiUrl + '/service/statistics/consultant',
 		consultantTeamSessions: apiUrl + '/service/users/sessions/teams?',
 		consultantsLanguages: apiUrl + '/service/users/consultants/languages',
@@ -38,17 +41,25 @@ export const config = {
 		error: apiUrl + '/service/logstash',
 		forwardMessage: apiUrl + '/service/messages/forward',
 		groupChatBase: apiUrl + '/service/users/chat/',
-		keycloakAccessToken: apiUrl + '/auth/realms/caritas-online-beratung/protocol/openid-connect/token',
-		keycloakLogout: apiUrl + '/auth/realms/caritas-online-beratung/protocol/openid-connect/logout',
+		keycloakAccessToken:
+			apiUrl +
+			'/auth/realms/caritas-online-beratung/protocol/openid-connect/token',
+		keycloakLogout:
+			apiUrl +
+			'/auth/realms/caritas-online-beratung/protocol/openid-connect/logout',
 		liveservice: apiUrl + '/service/live',
-		loginResetPasswordLink: '/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
+		loginResetPasswordLink:
+			'/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
 		messageRead: apiUrl + '/api/v1/subscriptions.read',
 		messages: apiUrl + '/service/messages',
-		myMessagesBase: apiUrl + '/service/conversations/consultants/mymessages/',
+		myMessagesBase:
+			apiUrl + '/service/conversations/consultants/mymessages/',
 		passwordReset: apiUrl + '/service/users/password/change',
-		registerAnonymousAsker: apiUrl + '/service/conversations/askers/anonymous/new',
+		registerAnonymousAsker:
+			apiUrl + '/service/conversations/askers/anonymous/new',
 		registerAsker: apiUrl + '/service/users/askers/new',
-		registerAskerNewConsultingType: apiUrl + '/service/users/askers/consultingType/new',
+		registerAskerNewConsultingType:
+			apiUrl + '/service/users/askers/consultingType/new',
 		rejectVideoCall: apiUrl + '/service/videocalls/reject',
 		rocketchatAccessToken: apiUrl + '/api/v1/login',
 		rocketchatLogout: apiUrl + '/api/v1/logout',
@@ -57,7 +68,8 @@ export const config = {
 		sessionBase: apiUrl + '/service/users/sessions',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
 		startVideoCall: apiUrl + '/service/videocalls/new',
-		teamSessionsBase: apiUrl + '/service/conversations/consultants/teamsessions/',
+		teamSessionsBase:
+			apiUrl + '/service/conversations/consultants/teamsessions/',
 		tenantServiceBase: apiUrl + '/service/tenant',
 		topicsData: apiUrl + '/service/topic/public/',
 		twoFactorAuth: apiUrl + '/service/users/2fa',
@@ -66,24 +78,27 @@ export const config = {
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userData: apiUrl + '/service/users/data',
 		userSessionsListView: '/sessions/user/view',
-		videocallServiceBase: apiUrl + '/service/videocalls',
+		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
 	urls: {
-		consultantVideoConference: '/consultant/videoberatung/:type/:appointmentId',
+		consultantVideoConference:
+			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',
 		error404: uiUrl + '/error.404.html',
 		error500: uiUrl + '/error.500.html',
-		finishedAnonymousChatRedirect: 'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
+		finishedAnonymousChatRedirect:
+			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		home: 'https://www.caritas.de',
 		imprint: 'https://www.caritas.de/impressum',
-		privacy: 'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
+		privacy:
+			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
 		releases: uiUrl + '/releases',
 		toEntry: uiUrl + '/',
 		toLogin: uiUrl + '/login',
 		toRegistration: 'https://www.caritas.de/onlineberatung',
-		videoConference: '/videoberatung/:type/:appointmentId',
+		videoConference: '/videoberatung/:type/:appointmentId'
 	},
 	postcodeFallbackUrl: '{url}',
 	jitsi: {
