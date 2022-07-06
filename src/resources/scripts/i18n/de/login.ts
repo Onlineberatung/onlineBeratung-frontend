@@ -24,7 +24,7 @@ const login = {
 	'password.reset.warn.overlay.title':
 		'Durch das Zurücksetzten des Passworts kann der Zugriff auf Ihre Nachrichten eventuell nicht mehr gewährleistet werden.',
 	'password.reset.warn.overlay.description':
-		'Möchten Sie das Passwort dennoch zurücksetzten?',
+		'Möchten Sie das Passwort dennoch zurücksetzen?',
 	'password.reset.warn.overlay.button.accept': 'Ja, zurücksetzen',
 	'password.reset.warn.overlay.button.cancel': 'Zurück zum Login'
 };

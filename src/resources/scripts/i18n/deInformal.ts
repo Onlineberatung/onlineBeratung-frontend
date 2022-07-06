@@ -39,6 +39,8 @@ import e2eeInformal from './de/e2eeInformal';
 import aliases from './de/aliases';
 import aliasesInformal from './de/aliasesInformal';
 import de from './de';
+import login from './de/login';
+import loginInformal from './de/loginInformal';
 
 const informalLocale = {
 	...de,
@@ -51,6 +53,7 @@ const informalLocale = {
 	groupChat: { ...groupChat, ...groupChatInformal },
 	enquiry: { ...enquiry, ...enquiryInformal },
 	furtherSteps: { ...furtherSteps, ...furtherStepsInformal },
+	login: { ...login, ...loginInformal },
 	profile: { ...profile, ...profileInformal },
 	notifications: { ...notifications, ...notificationsInformal },
 	registration: { ...registration, ...registrationInformal },
