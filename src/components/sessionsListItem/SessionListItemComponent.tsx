@@ -9,7 +9,6 @@ import {
 	prettyPrintTimeDifference
 } from '../../utils/dateHelpers';
 import {
-	getSessionListPathForLocation,
 	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
@@ -54,7 +53,7 @@ export const SessionListItemComponent = ({
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { userData } = useContext(UserDataContext);
-	const { type } = useContext(SessionTypeContext);
+	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	// Is List Item active
@@ -119,7 +118,7 @@ export const SessionListItemComponent = ({
 	const handleOnClick = () => {
 		if (session.item.groupId && session.item.id) {
 			history.push(
-				`${getSessionListPathForLocation()}/${session.item.groupId}/${
+				`${listPath}/${session.item.groupId}/${
 					session.item.id
 				}${getSessionListTab()}`
 			);
@@ -240,9 +239,9 @@ export const SessionListItemComponent = ({
 		);
 	}
 
-	const feedbackPath = `${getSessionListPathForLocation()}/${
-		session.item.feedbackGroupId
-	}/${session.item.id}${getSessionListTab()}`;
+	const feedbackPath = `${listPath}/${session.item.feedbackGroupId}/${
+		session.item.id
+	}${getSessionListTab()}`;
 
 	const hasConsultantData = !!session.consultant;
 	let sessionTopic = '';

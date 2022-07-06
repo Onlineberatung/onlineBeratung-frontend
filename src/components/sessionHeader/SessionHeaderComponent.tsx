@@ -3,27 +3,26 @@ import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import {
-	translate,
+	getAddictiveDrugsString,
 	handleNumericTranslation,
-	getAddictiveDrugsString
+	translate
 } from '../../utils/translate';
 import { mobileListView } from '../app/navigationHandler';
 import {
-	UserDataContext,
-	getContact,
 	AUTHORITIES,
+	getContact,
 	hasUserAuthority,
-	useConsultingType,
+	LegalLinkInterface,
 	SessionConsultantInterface,
-	LegalLinkInterface
+	SessionTypeContext,
+	useConsultingType,
+	UserDataContext
 } from '../../globalState';
 import {
 	getViewPathForType,
-	getTypeOfLocation,
-	getSessionListPathForLocation,
-	typeIsEnquiry,
 	isUserModerator,
-	SESSION_LIST_TAB
+	SESSION_LIST_TAB,
+	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import { SessionMenu } from '../sessionMenu/SessionMenu';
 import {
@@ -81,7 +80,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
-	const sessionListType = getTypeOfLocation();
+	const { type, path: listPath } = useContext(SessionTypeContext);
 
 	useEffect(() => {
 		if (isSubscriberFlyoutOpen) {
@@ -91,7 +90,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		}
 	}, [isSubscriberFlyoutOpen]);
 
-	const sessionView = getViewPathForType(getTypeOfLocation());
+	const sessionView = getViewPathForType(type);
 	const userProfileLink = `/sessions/consultant/${sessionView}/${
 		activeSession.item.groupId
 	}/${activeSession.item.id}/userProfile${getSessionListTab()}`;
@@ -146,19 +145,16 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		consultingType.showAskerProfile &&
 		activeSession.isSession &&
 		!activeSession.isLive &&
-		((typeIsEnquiry(sessionListType) &&
+		((type === SESSION_LIST_TYPES.ENQUIRY &&
 			Object.entries(userSessionData).length !== 0) ||
-			!typeIsEnquiry(sessionListType));
+			SESSION_LIST_TYPES.ENQUIRY !== type);
 
 	if (activeSession.isGroup) {
 		return (
 			<div className="sessionInfo">
 				<div className="sessionInfo__headerWrapper">
 					<Link
-						to={
-							getSessionListPathForLocation() +
-							getSessionListTab()
-						}
+						to={listPath + getSessionListTab()}
 						onClick={handleBackButton}
 						className="sessionInfo__backButton"
 					>
@@ -311,9 +307,8 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				<div className="sessionInfo__feedbackHeaderWrapper">
 					<Link
 						to={{
-							pathname: `${getSessionListPathForLocation()}/${
-								activeSession.item.groupId
-							}/${activeSession.item.id}`,
+							pathname: `${listPath}/${activeSession.item.groupId}
+							/${activeSession.item.id}`,
 							search: getSessionListTab()
 						}}
 						className="sessionInfo__feedbackBackButton"
@@ -339,7 +334,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		<div className="sessionInfo">
 			<div className="sessionInfo__headerWrapper">
 				<Link
-					to={getSessionListPathForLocation() + getSessionListTab()}
+					to={listPath + getSessionListTab()}
 					onClick={handleBackButton}
 					className="sessionInfo__backButton"
 				>

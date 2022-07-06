@@ -4,7 +4,6 @@ import { Link, useParams } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import { AskerInfoMonitoring } from './AskerInfoMonitoring';
 import {
-	getSessionListPathForLocation,
 	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
@@ -30,7 +29,7 @@ export const AskerInfo = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
-	const { type } = useContext(SessionTypeContext);
+	const { type, path: listPath } = useContext(SessionTypeContext);
 
 	const { session: activeSession, ready } = useSession(groupIdFromParam);
 	const [isPeerChat, setIsPeerChat] = useState(false);
@@ -44,14 +43,14 @@ export const AskerInfo = () => {
 
 		if (!activeSession) {
 			history.push(
-				getSessionListPathForLocation() +
+				listPath +
 					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
 			);
 			return;
 		}
 
 		setIsPeerChat(activeSession.item.isPeerChat);
-	}, [activeSession, ready, sessionListTab]);
+	}, [activeSession, listPath, ready, sessionListTab]);
 
 	const isSessionAssignAvailable = useCallback(
 		() =>
@@ -88,9 +87,9 @@ export const AskerInfo = () => {
 				<div className="profile__header">
 					<div className="profile__header__wrapper">
 						<Link
-							to={`${getSessionListPathForLocation()}/${
-								activeSession.item.groupId
-							}/${activeSession.item.id}${
+							to={`${listPath}/${activeSession.item.groupId}/${
+								activeSession.item.id
+							}${
 								sessionListTab
 									? `?sessionListTab=${sessionListTab}`
 									: ''

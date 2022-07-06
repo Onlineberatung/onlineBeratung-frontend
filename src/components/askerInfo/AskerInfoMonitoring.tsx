@@ -9,7 +9,6 @@ import {
 	hasMonitoringData
 } from '../monitoring/MonitoringHelper';
 import {
-	getSessionListPathForLocation,
 	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
@@ -29,7 +28,7 @@ const buttonSet: ButtonItem = {
 
 export const AskerInfoMonitoring = () => {
 	const { activeSession } = useContext(ActiveSessionContext);
-	const { type } = useContext(SessionTypeContext);
+	const { type, path: listPath } = useContext(SessionTypeContext);
 	const [monitoringData, setMonitoringData] = useState({});
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
@@ -51,9 +50,9 @@ export const AskerInfoMonitoring = () => {
 		activeSession.item.consultingType === 0
 			? 'monitoringAddiction'
 			: 'monitoringU25';
-	const monitoringLink = `${getSessionListPathForLocation()}/${
-		activeSession.item.groupId
-	}/${activeSession.item.id}/userProfile/monitoring${
+	const monitoringLink = `${listPath}/${activeSession.item.groupId}/${
+		activeSession.item.id
+	}/userProfile/monitoring${
 		sessionListTab ? `?sessionListTab=${sessionListTab}` : ''
 	}`;
 

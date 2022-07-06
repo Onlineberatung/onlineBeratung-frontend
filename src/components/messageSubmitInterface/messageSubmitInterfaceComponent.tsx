@@ -2,11 +2,7 @@ import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 import { SendMessageButton } from './SendMessageButton';
-import {
-	getSessionListPathForLocation,
-	SESSION_LIST_TYPES,
-	typeIsEnquiry
-} from '../session/sessionHelpers';
+import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { translate } from '../../utils/translate';
 import { UserDataContext } from '../../globalState/provider/UserDataProvider';
@@ -16,10 +12,10 @@ import {
 	hasUserAuthority
 } from '../../globalState/helpers/stateHelpers';
 import {
+	E2EEContext,
 	SessionTypeContext,
 	STATUS_ARCHIVED,
-	STATUS_FINISHED,
-	E2EEContext
+	STATUS_FINISHED
 } from '../../globalState';
 import {
 	apiGetDraftMessage,
@@ -148,7 +144,6 @@ export interface MessageSubmitInterfaceComponentProps {
 	isTyping?: Function;
 	placeholder: string;
 	showMonitoringButton?: Function;
-	type: SESSION_LIST_TYPES;
 	typingUsers?: string[];
 	language?: string;
 	E2EEParams?: e2eeParams;
@@ -181,7 +176,7 @@ export const MessageSubmitInterfaceComponent = (
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const { activeSession } = useContext(ActiveSessionContext);
-	const { type } = useContext(SessionTypeContext);
+	const { type, path: listPath } = useContext(SessionTypeContext);
 
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [draftLoaded, setDraftLoaded] = useState(false);
@@ -591,13 +586,11 @@ export const MessageSubmitInterfaceComponent = (
 					) {
 						if (window.innerWidth >= 900) {
 							history.push(
-								`${getSessionListPathForLocation()}/${
-									activeSession.item.groupId
-								}/${activeSession.item.id}}`
+								`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}}`
 							);
 						} else {
 							mobileListView();
-							history.push(getSessionListPathForLocation());
+							history.push(listPath);
 						}
 					}
 				})
@@ -905,8 +898,8 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const hasUploadFunctionality =
-		!typeIsEnquiry(props.type) ||
-		(typeIsEnquiry(props.type) &&
+		type !== SESSION_LIST_TYPES.ENQUIRY ||
+		(type === SESSION_LIST_TYPES.ENQUIRY &&
 			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData));
 	const hasRequestFeedbackCheckbox =
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&

@@ -20,7 +20,6 @@ import {
 	UserDataContext
 } from '../../globalState';
 import {
-	getSessionListPathForLocation,
 	SESSION_LIST_TAB,
 	SESSION_LIST_TAB_ARCHIVE,
 	SESSION_LIST_TYPES
@@ -83,7 +82,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
-	const { type } = useContext(SessionTypeContext);
+	const { type, path: listPath } = useContext(SessionTypeContext);
 
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
@@ -179,13 +178,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				setTimeout(() => {
 					if (window.innerWidth >= 900) {
 						history.push(
-							`${getSessionListPathForLocation()}/${
-								activeSession.item.groupId
-							}/${activeSession.item.id}}`
+							`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}}`
 						);
 					} else {
 						mobileListView();
-						history.push(getSessionListPathForLocation());
+						history.push(listPath);
 					}
 					setFlyoutOpen(false);
 				}, 500);
@@ -274,7 +271,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			apiPutArchive(activeSession.item.id)
 				.then(() => {
 					mobileListView();
-					history.push(getSessionListPathForLocation());
+					history.push(listPath);
 				})
 				.catch((error) => {
 					console.error(error);
@@ -303,7 +300,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	//rotate icon to vertical only if EVERY item in flyout
 	//list item icons only shown on outside
 
-	const baseUrl = `${getSessionListPathForLocation()}/:groupId/:id/:subRoute?/:extraPath?${getSessionListTab()}`;
+	const baseUrl = `${listPath}/:groupId/:id/:subRoute?/:extraPath?${getSessionListTab()}`;
 
 	const groupChatInfoLink = generatePath(baseUrl, {
 		...activeSession.item,
@@ -325,11 +322,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	if (redirectToSessionsList) {
 		mobileListView();
-		return (
-			<Redirect
-				to={getSessionListPathForLocation() + getSessionListTab()}
-			/>
-		);
+		return <Redirect to={listPath + getSessionListTab()} />;
 	}
 
 	const buttonStartCall: ButtonItem = {

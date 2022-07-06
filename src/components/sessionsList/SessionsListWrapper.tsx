@@ -2,18 +2,16 @@ import * as React from 'react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import {
-	typeIsSession,
-	typeIsTeamSession,
-	typeIsEnquiry,
-	SESSION_TYPES,
-	SESSION_LIST_TAB
+	SESSION_LIST_TAB,
+	SESSION_LIST_TYPES,
+	SESSION_TYPES
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import {
-	UserDataContext,
 	AUTHORITIES,
 	hasUserAuthority,
-	SessionTypeContext
+	SessionTypeContext,
+	UserDataContext
 } from '../../globalState';
 import { SessionsList } from './SessionsList';
 import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
@@ -65,28 +63,28 @@ export const SessionsListWrapper = ({
 					className="sessionsList__headline"
 					data-cy="session-list-headline"
 				>
-					{typeIsSession(type)
+					{type === SESSION_LIST_TYPES.MY_SESSION
 						? translate('sessionList.view.headline')
 						: null}
-					{typeIsTeamSession(type) &&
+					{type === SESSION_LIST_TYPES.TEAMSESSION &&
 					!hasUserAuthority(
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 						userData
 					)
 						? translate('navigation.consultant.teamsessions')
 						: null}
-					{typeIsTeamSession(type) &&
+					{type === SESSION_LIST_TYPES.TEAMSESSION &&
 					hasUserAuthority(
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 						userData
 					)
 						? translate('sessionList.peersessions.headline')
 						: null}
-					{typeIsEnquiry(type)
+					{type === SESSION_LIST_TYPES.ENQUIRY
 						? translate('sessionList.preview.headline')
 						: null}
 				</h2>
-				{typeIsSession(type) &&
+				{type === SESSION_LIST_TYPES.MY_SESSION &&
 				hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData) ? (
 					<Link
 						className="sessionsList__createChatLink"

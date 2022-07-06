@@ -10,9 +10,7 @@ import {
 import { Link, useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import {
-	getTypeOfLocation,
 	getViewPathForType,
-	typeIsEnquiry,
 	scrollToEnd,
 	isMyMessage,
 	SESSION_LIST_TYPES,
@@ -492,19 +490,20 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						{messages &&
 							resortData &&
 							messages.map((message: MessageItem, index) => (
-								<React.Fragment key={index}>
+								<React.Fragment key={`${message.id}-${index}`}>
 									<MessageItemComponent
 										clientName={
 											getContact(activeSession).username
 										}
 										askerRcId={activeSession.item.askerRcId}
-										type={getTypeOfLocation()}
 										isOnlyEnquiry={isOnlyEnquiry}
 										isMyMessage={isMyMessage(
 											message.userId
 										)}
 										resortData={resortData}
-										bannedUsers={props.bannedUsers}
+										isUserBanned={props.bannedUsers.includes(
+											message.username
+										)}
 										{...message}
 									/>
 									{index === messages.length - 1 &&
@@ -557,9 +556,9 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				monitoringButtonVisible &&
 				!activeSession.isLive && (
 					<Link
-						to={`/sessions/consultant/${getViewPathForType(
-							getTypeOfLocation()
-						)}/${activeSession.item.groupId}/${
+						to={`/sessions/consultant/${getViewPathForType(type)}/${
+							activeSession.item.groupId
+						}/${
 							activeSession.item.id
 						}/userProfile/monitoring${getSessionListTab()}`}
 					>
@@ -569,7 +568,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					</Link>
 				)}
 
-			{typeIsEnquiry(getTypeOfLocation()) ? (
+			{type === SESSION_LIST_TYPES.ENQUIRY ? (
 				<div className="session__acceptance messageItem">
 					{!activeSession.isLive &&
 					hasUserAuthority(
@@ -609,7 +608,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						showMonitoringButton={() => {
 							setMonitoringButtonVisible(true);
 						}}
-						type={getTypeOfLocation()}
 						typingUsers={props.typingUsers}
 						E2EEParams={{
 							encrypted,
