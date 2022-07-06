@@ -15,14 +15,22 @@ const sessionInformal = {
 	'dragAndDrop.explanation.outsideDropArea':
 		'Ziehe die Datei in das Feld, um sie hochzuladen.',
 	'reassign.system.message.reassign.title':
-		'%oldConsultant% möchte dich an %newConsultant% übergeben.',
+		'%oldConsultant% möchte Dich an %newConsultant% übergeben.',
 	'reassign.system.message.reassign.description':
-		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für dich verantwortlich. %oldConsultant% hat keinen Zugriff mehr auf die Nachrichten.',
-	'reassign.system.message.reassign.question': 'Stimmst du der Übergabe zu?.',
+		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für Dich verantwortlich. %oldConsultant% hat keinen Zugriff mehr auf die Nachrichten.',
+	'reassign.system.message.reassign.question': 'Stimmst Du der Übergabe zu?.',
 	'reassign.system.message.reassign.accepted.description':
 		'%newConsultant% ist nun für %client% verantwortlich. Du hast keinen Zugriff mehr auf die künftigen Nachrichten.',
 	'reassign.system.message.reassign.declined.description':
-		'Du bist weiterhin für %client% verantwortlich.'
+		'Du bist weiterhin für %client% verantwortlich.',
+	'reassign.system.message.reassign.accepted.consultant.title':
+		'%newConsultant% kümmert sich nun um Dich und Deine Anliegen.',
+	'reassign.system.message.reassign.accepted.new.consultant.description':
+		'Wir haben %newConsultant1% benachrichtigt. Du kannst nun Nachrichten an %newConsultant2% schicken.',
+	'reassign.system.message.reassign.accepted.old.consultant.description':
+		'Wir haben %newConsultant% benachrichtigt. %oldConsultant% ist nicht mehr für Dich zuständig.',
+	'reassign.system.message.reassign.declined.old.consultant.title':
+		'%oldConsultant% kümmert sich weiterhin um Dich und Deine Anliegen.'
 };
 
 export default sessionInformal;

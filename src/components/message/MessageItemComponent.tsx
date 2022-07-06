@@ -138,8 +138,9 @@ export const MessageItemComponent = ({
 
 	const { key, keyID, encrypted } = useE2EE(rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
-
 	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
+
+	const [newConsultantName, setNewConsultantName] = useState('');
 
 	useEffect((): void => {
 		if (isE2eeEnabled) {
@@ -257,8 +258,6 @@ export const MessageItemComponent = ({
 		switch (true) {
 			case isE2EEActivatedMessage:
 				return <E2EEActivatedMessage />;
-			// TODO handle all cases woth params
-			// https://github.com/Onlineberatung/onlineBeratung-messageService/blob/develop/api/messageservice.yaml
 			case isReassignmentMessage:
 				if (message) {
 					const messageArgs: ConsultantReassignment = JSON.parse(
@@ -274,11 +273,9 @@ export const MessageItemComponent = ({
 												? activeSession.consultant
 														.displayName
 												: activeSession.consultant
-														.username
+														?.username
 										}
-										newConsultantName={
-											messageArgs.toConsultantId //TODO show display name or user name
-										}
+										newConsultantName={newConsultantName} //TODO show display name or user name
 										onClick={(accepted) =>
 											clickReassignRequestMessage(
 												accepted,
@@ -295,40 +292,40 @@ export const MessageItemComponent = ({
 												? activeSession.consultant
 														.displayName
 												: activeSession.consultant
-														.username
+														?.username
 										}
 										newConsultantName={
 											messageArgs.toConsultantId //TODO show display name or user name
 										}
-										clientName={activeSession.user.username}
+										clientName={
+											activeSession.user?.username
+										}
 									/>
 								);
 							}
 						case 'CONFIRMED':
-							//TODO add new consultant systemmessage
-							if (isAsker) {
-								return <></>; //TODO add asker systemmessage
-							} else {
-								return (
-									<ReassignRequestAcceptedMessage
-										clientName={activeSession.user.username}
-										newConsultantName={
-											messageArgs.toConsultantId //TODO show display name or user name
-										}
-									/>
-								);
-							}
-
+							return (
+								<ReassignRequestAcceptedMessage
+									isAsker
+									clientName={activeSession.user?.username}
+									newConsultantName={
+										messageArgs.toConsultantId //TODO show display name or user name
+									}
+								/>
+							);
 						case 'REJECTED':
-							if (isAsker) {
-								return <></>; //TODO add asker systemmessage
-							} else {
-								return (
-									<ReassignRequestDeclinedMessage
-										clientName={activeSession.user.username}
-									/>
-								);
-							}
+							return (
+								<ReassignRequestDeclinedMessage
+									isAsker
+									clientName={activeSession.user?.username}
+									oldConsultantName={
+										activeSession.consultant.displayName
+											? activeSession.consultant
+													.displayName
+											: activeSession.consultant?.username
+									}
+								/>
+							);
 					}
 				}
 				return;

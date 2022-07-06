@@ -53,7 +53,15 @@ const session = {
 	'reassign.system.message.reassign.declined.title':
 		'%client% hat die Zuweisung abgelehnt.',
 	'reassign.system.message.reassign.declined.description':
-		'Sie sind weiterhin für %client% verantwortlich.'
+		'Sie sind weiterhin für %client% verantwortlich.',
+	'reassign.system.message.reassign.accepted.consultant.title':
+		'%newConsultant% kümmert sich nun um Sie und Ihre Anliegen.',
+	'reassign.system.message.reassign.accepted.new.consultant.description':
+		'Wir haben %newConsultant1% benachrichtigt. Sie können nun Nachrichten an %newConsultant2% schicken.',
+	'reassign.system.message.reassign.accepted.old.consultant.description':
+		'Wir haben %newConsultant% benachrichtigt. %oldConsultant% ist nicht mehr für Sie zuständig.',
+	'reassign.system.message.reassign.declined.old.consultant.title':
+		'%oldConsultant% kümmert sich weiterhin um Sie und Ihre Anliegen.'
 };
 
 export default session;

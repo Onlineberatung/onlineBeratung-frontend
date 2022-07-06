@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 
 import './reassignRequestMessage.styles';
@@ -9,6 +9,24 @@ export const ReassignRequestMessage: React.FC<{
 	newConsultantName: string;
 	onClick: (accepted: boolean) => void;
 }> = (props) => {
+	// const [];
+	// const init = (async () => {
+	// 	return await props.newConsultantName;
+	// })();
+	// const [newConsultantNameG, setNewConsultantNameG] = useState()
+	// const getName = async () => {
+	// 	if(typeof newConsultantNameG === "string"){
+	// 		setNewConsultantNameG(newConsultantNameG)
+	// 		return
+	// 	}else{
+	// 	const name = await props.newConsultantName?.()
+	// 	}
+	//
+	// }
+	// useEffect(() => {
+	// 	getName()
+	// }, [newConsultantNameG])
+
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
@@ -96,54 +114,96 @@ export const ReassignRequestSentMessage: React.FC<{
 export const ReassignRequestAcceptedMessage: React.FC<{
 	clientName: string;
 	newConsultantName: string;
+	isAsker: boolean;
 }> = (props) => {
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
-				<h5>
-					{translate(
-						'session.reassign.system.message.reassign.accepted.title',
-						{
-							client: props.clientName
-						}
-					)}
-				</h5>
-				<span className="description">
-					{translate(
-						'session.reassign.system.message.reassign.accepted.description',
-						{
-							client: props.clientName,
-							newConsultant: props.newConsultantName
-						}
-					)}
-				</span>
+				{props.isAsker ? (
+					<>
+						<h5>
+							{translate(
+								'session.reassign.system.message.reassign.accepted.consultant.title',
+								{
+									newConsultant: props.newConsultantName
+								}
+							)}
+						</h5>
+						<span className="description">
+							{translate(
+								'session.reassign.system.message.reassign.accepted.new.consultant.description',
+								{
+									newConsultant1: props.newConsultantName,
+									newConsultant2: props.newConsultantName
+								}
+							)}
+						</span>
+					</>
+				) : (
+					<>
+						<h5>
+							{translate(
+								'session.reassign.system.message.reassign.accepted.title',
+								{
+									client: props.clientName
+								}
+							)}
+						</h5>
+						<span className="description">
+							{translate(
+								'session.reassign.system.message.reassign.accepted.description',
+								{
+									client: props.clientName,
+									newConsultant: props.newConsultantName
+								}
+							)}
+						</span>
+					</>
+				)}
 			</div>
 		</div>
 	);
 };
 
 export const ReassignRequestDeclinedMessage: React.FC<{
+	isAsker: boolean;
 	clientName: string;
+	oldConsultantName: string;
 }> = (props) => {
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
-				<h5>
-					{translate(
-						'session.reassign.system.message.reassign.declined.title',
-						{
-							client: props.clientName
-						}
-					)}
-				</h5>
-				<span className="description">
-					{translate(
-						'session.reassign.system.message.reassign.declined.description',
-						{
-							client: props.clientName
-						}
-					)}
-				</span>
+				{props.isAsker ? (
+					<>
+						<h5>
+							{translate(
+								'session.reassign.system.message.reassign.declined.old.consultant.title',
+								{
+									oldConsultant: props.oldConsultantName
+								}
+							)}
+						</h5>
+					</>
+				) : (
+					<>
+						<h5>
+							{translate(
+								'session.reassign.system.message.reassign.declined.title',
+								{
+									client: props.clientName
+								}
+							)}
+						</h5>
+						<span className="description">
+							{translate(
+								'session.reassign.system.message.reassign.declined.description',
+								{
+									client: props.clientName
+								}
+							)}
+						</span>
+					</>
+				)}
 			</div>
 		</div>
 	);
