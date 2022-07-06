@@ -42,11 +42,10 @@ import {
 	ReassignRequestSentMessage
 } from './ReassignMessage';
 import {
-	ALIAS_MESSAGE_TYPES,
-	apiSendAliasMessage,
 	ConsultantReassignment,
 	ReassignStatus
 } from '../../api/apiSendAliasMessage';
+import { apiPatchMessage } from '../../api/apiPatchMessage';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -73,7 +72,7 @@ export interface VideoCallMessageDTO {
 }
 
 export interface MessageItem {
-	id?: number;
+	_id: string;
 	message: string;
 	org: string;
 	messageDate: string | number;
@@ -108,6 +107,7 @@ interface MessageItemComponentProps extends MessageItem {
 }
 
 export const MessageItemComponent = ({
+	_id,
 	alias,
 	userId,
 	message,
@@ -223,15 +223,11 @@ export const MessageItemComponent = ({
 		if (accepted) {
 			reassignStatus = ReassignStatus.CONFIRMED;
 		}
-		//TODO update instead of add new message
-		apiSendAliasMessage({
-			rcGroupId: activeSession.rid,
-			type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT,
-			args: {
-				toConsultantId: toConsultantId,
-				status: reassignStatus
-			}
+
+		apiPatchMessage(toConsultantId, reassignStatus, _id).catch((error) => {
+			console.log(error);
 		});
+		//TODO accepted -> reassign to new consultant
 	};
 
 	const isUserMessage = () =>
@@ -264,6 +260,11 @@ export const MessageItemComponent = ({
 					const messageArgs: ConsultantReassignment = JSON.parse(
 						message.replaceAll('&quot;', '"')
 					);
+					// console.log('activeSession', activeSession);
+					// console.log('t', t);
+					//console.log('message', message);
+					console.log('id', _id);
+
 					switch (messageArgs.status) {
 						case 'REQUESTED':
 							if (isAsker) {

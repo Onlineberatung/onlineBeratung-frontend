@@ -90,6 +90,7 @@ export const config = {
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
 		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
+		updateMessage: apiUrl + '/service/messages/',
 		sessionBase: apiUrl + '/service/users/sessions',
 		sessionRooms: apiUrl + '/service/users/sessions/room',
 		chatRoom: apiUrl + '/service/users/chat/room',
