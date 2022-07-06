@@ -87,8 +87,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
-	console.log('props', props);
-	console.log('props.messages', props.messages);
 	const [initialScrollCompleted, setInitialScrollCompleted] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
