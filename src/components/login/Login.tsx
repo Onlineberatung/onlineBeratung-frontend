@@ -55,6 +55,7 @@ import {
 } from '../../globalState';
 import { history } from '../app/app';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
+import { apiRocketChatSettings } from '../../api/apiRocketChatSettings';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -88,6 +89,11 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const [showLoginError, setShowLoginError] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
+	const [rcE2eEnabled, setRcE2eEnabled] = useState(false);
+
+	useEffect(() => {
+		getRcSettingsE2eEnabled();
+	}, []);
 
 	useEffect(() => {
 		setShowLoginError('');
@@ -382,6 +388,27 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		);
 	};
 
+	const getRcSettingsE2eEnabled = async () => {
+		try {
+			const data = await apiRocketChatSettings(['E2E_Enable']);
+			const e2eEnableSettings = data.settings.find(
+				(value) => value._id === 'E2E_Enable'
+			);
+			if (!e2eEnableSettings) {
+				console.error('error could not find rc settings: E2E_Enable');
+				return;
+			}
+			setRcE2eEnabled(e2eEnableSettings.value);
+		} catch (e) {
+			console.error('error fetching rocket chat settings');
+		}
+	};
+
+	const onPasswordResetClick = () => {
+		if (rcE2eEnabled) setPwResetOverlayActive(true);
+		else openPasswordResetTab();
+	};
+
 	return (
 		<>
 			<StageLayout
@@ -442,7 +469,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 
 					{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
 						<span
-							onClick={() => setPwResetOverlayActive(true)}
+							onClick={onPasswordResetClick}
 							className="loginForm__passwordReset"
 						>
 							{translate('login.resetPasswort.label')}
