@@ -32,7 +32,7 @@ const session = {
 	'dragAndDrop.restrictions':
 		'.jpg, .png, .pdf, .docx, .xlsx bis maximal 5MB',
 	'encrypted.notice.send.info':
-		'Ich kann unsere Nachrichten aus technischen Gründen nicht mehr lesen.',
+		'Ich kann unsere Nachrichten aus technischen Gr&uuml;nden nicht mehr lesen.',
 	'encrypted.notice.send.first':
 		'Senden Sie die untenstehende Nachricht und benachrichtigen Sie ',
 	'encrypted.notice.send.second':

@@ -15,15 +15,15 @@ const sessionInformal = {
 	'encrypted.notice.send.first':
 		'Sende die untenstehende Nachricht und benachrichtige ',
 	'encrypted.notice.send.second':
-		', dass du aus technischen Gründen keine Nachrichten lesen kannst.',
+		', dass Du aus technischen Gründen keine Nachrichten lesen kannst.',
 	'encrypted.notice.first':
-		'Aus technischen Gründen kannst du keine Nachrichten lesen und schreiben. Wenn ',
+		'Aus technischen Gründen kannst Du keine Nachrichten lesen und schreiben. Wenn ',
 	'encrypted.notice.second':
-		' den Chat öffnet, kannst du die Nachrichten wieder lesen und neue Nachrichten schreiben.',
+		' den Chat öffnet, kannst Du die Nachrichten wieder lesen und neue Nachrichten schreiben.',
 	'encrypted.overlay.text.first':
-		'Deine Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform. <br/><br/>Da du dein Passwort zurückgesetzt hast, sind die Nachrichten für dich momentan nicht lesbar. Sobald ',
+		'Deine Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform. <br/><br/>Da Du dein Passwort zurückgesetzt hast, sind die Nachrichten für dich momentan nicht lesbar. Sobald ',
 	'encrypted.overlay.text.second':
-		' den Chat öffnet, kannst du die Nachrichten wieder lesen und auch schreiben.',
+		' den Chat öffnet, kannst Du die Nachrichten wieder lesen und auch schreiben.',
 	'encrypted.consultant': 'ein_e Berater_in'
 };
 
