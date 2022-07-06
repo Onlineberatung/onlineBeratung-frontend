@@ -215,7 +215,8 @@ export const MessageSubmitInterfaceComponent = (
 		keyID: feedbackChatKeyId,
 		key: feedbackChatKey,
 		encrypted: feedbackEncrypted,
-		sessionKeyExportedString: feedbackChatSessionKeyExportedString
+		sessionKeyExportedString: feedbackChatSessionKeyExportedString,
+		ready: e2eeReady
 	} = useE2EE(activeSession.item.feedbackGroupId);
 
 	const groupIdOrSessionId =
@@ -590,11 +591,10 @@ export const MessageSubmitInterfaceComponent = (
 	const handleButtonClick = () => {
 		if (
 			props.E2EEParams.masterKeyLost &&
-			props.E2EEParams.sendMessageLostInfo
+			props.E2EEParams.canSendMasterKeyLostMessage
 		) {
-			props.E2EEParams.sendMessageLostInfo().then(() => {
-				setEditorWithMarkdownString('');
-			});
+			const msg = getTypedMarkdownMessage().trim();
+			sendMessage(false, msg, msg, null, false);
 			return;
 		}
 
@@ -650,7 +650,8 @@ export const MessageSubmitInterfaceComponent = (
 		sendToFeedbackEndpoint,
 		encryptedMessage,
 		unencryptedMessage,
-		attachment
+		attachment,
+		useE2EE
 	) => {
 		const sendToRoomWithId = sendToFeedbackEndpoint
 			? activeSession.item.feedbackGroupId
@@ -683,7 +684,7 @@ export const MessageSubmitInterfaceComponent = (
 					sendToRoomWithId,
 					sendToFeedbackEndpoint,
 					getSendMailNotificationStatus(),
-					isE2eeEnabled
+					isE2eeEnabled && useE2EE
 				)
 					.then(() => {
 						props.handleSendButton();
@@ -764,7 +765,8 @@ export const MessageSubmitInterfaceComponent = (
 				sendToFeedbackEndpoint,
 				encryptedMessage,
 				unencryptedMessage,
-				attachment
+				attachment,
+				true
 			);
 
 			if (isFeedbackRequestChecked()) {
@@ -958,12 +960,20 @@ export const MessageSubmitInterfaceComponent = (
 	const handleOverlayAction = () => setOverlayItem(null);
 
 	useEffect(() => {
-		if (props.E2EEParams?.canSendMasterKeyLostMessage) {
+		if (
+			props.E2EEParams.masterKeyLost &&
+			props.E2EEParams?.canSendMasterKeyLostMessage &&
+			e2eeReady
+		) {
 			setEditorWithMarkdownString(
 				translate('session.encrypted.notice.send.info')
 			);
 		}
-	}, [props.E2EEParams?.canSendMasterKeyLostMessage]);
+	}, [
+		e2eeReady,
+		props.E2EEParams?.canSendMasterKeyLostMessage,
+		props.E2EEParams.masterKeyLost
+	]);
 
 	return (
 		<div

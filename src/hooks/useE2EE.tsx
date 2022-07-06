@@ -16,7 +16,6 @@ export type e2eeParams = {
 	encrypted?: boolean;
 	masterKeyLost?: boolean;
 	canSendMasterKeyLostMessage?: boolean;
-	sendMessageLostInfo?: () => Promise<void>;
 };
 
 export interface UseE2EEParams extends e2eeParams {
@@ -42,7 +41,7 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 			const { users } = await apiRocketChatGetUsersOfRoomWithoutKey(rid);
 
 			// we can stop this request if there are only system and technical user without keys
-			if (users.length <= 2) {
+			if (users.length <= 1) {
 				return;
 			}
 
@@ -64,8 +63,9 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 							filteredMembers.filter(
 								(member) => member._id === user._id
 							).length !== 1
-						)
+						) {
 							return;
+						}
 
 						let userKey;
 

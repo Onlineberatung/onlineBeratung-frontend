@@ -103,6 +103,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const dragCancelRef = useRef<NodeJS.Timeout>();
 	const [newMessages, setNewMessages] = useState(0);
 	const [headerRef, headerBounds] = useMeasure();
+	const [isAbleToDecrypt, setIsAbleToDecrypt] = useState(true);
+	const decryptTimeoutRef = useRef<NodeJS.Timeout>();
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
@@ -456,46 +458,34 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 	const handleMessageSendSuccess = () => setDraggedFile(null);
 
-	const sendMessageLostInfo = async () => {
-		await apiSendAliasMessage({
-			rcGroupId: groupIdFromParam,
-			type: ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST
-		});
-	};
-
-	const isAbleToDecrypt = !isE2eeEnabled || keyID !== null;
+	useEffect(() => {
+		clearTimeout(decryptTimeoutRef.current);
+		decryptTimeoutRef.current = setTimeout(() => {
+			if (ready) {
+				if ((isE2eeEnabled && keyID === null) || !isE2eeEnabled) {
+					setIsAbleToDecrypt(false);
+				} else if (isE2eeEnabled && keyID !== null) {
+					setIsAbleToDecrypt(true);
+				}
+			}
+		}, 1500);
+	}, [isE2eeEnabled, keyID, ready]);
 
 	const canSendMasterKeyLostMessage = useCallback(() => {
 		if (!props?.messages) return false;
 		const currentMessages = props?.messages?.slice().reverse();
-		const lastE2EEMessageIndex = currentMessages.findIndex(
+		const myLastMasterKeyLostMessageIndex = currentMessages.findIndex(
 			(value) =>
-				value.alias?.messageType.toString() ===
-				ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST
+				isMyMessage(value.userId) &&
+				value.message ===
+					translate('session.encrypted.notice.send.info')
 		);
-
-		const lastOwnMessageIndex = currentMessages.findIndex((value) =>
+		if (myLastMasterKeyLostMessageIndex === -1) return true;
+		const myLastMessageIndex = currentMessages.findIndex((value) =>
 			isMyMessage(value.userId)
 		);
-
-		return lastE2EEMessageIndex > lastOwnMessageIndex && !isAbleToDecrypt;
-	}, [isAbleToDecrypt, props?.messages]);
-
-	const buildMasterKeyLostMessage = (message: MessageItem) => {
-		return (
-			<MessageItemComponent
-				{...message}
-				username={username}
-				clientName={username}
-				type={getTypeOfLocation()}
-				isOnlyEnquiry={isOnlyEnquiry}
-				isMyMessage={!isAbleToDecrypt}
-				resortData={resortData}
-				bannedUsers={props.bannedUsers}
-				displayName={displayName}
-			/>
-		);
-	};
+		return myLastMessageIndex < myLastMasterKeyLostMessageIndex;
+	}, [props?.messages]);
 
 	return (
 		<div
@@ -537,30 +527,20 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							resortData &&
 							messages.map((message: MessageItem, index) => (
 								<React.Fragment key={index}>
-									{message.alias?.messageType ===
-									MessageType.MASTER_KEY_LOST ? (
-										<>
-											{buildMasterKeyLostMessage(message)}
-										</>
-									) : (
-										<MessageItemComponent
-											clientName={
-												getContact(activeSession)
-													.username
-											}
-											askerRcId={
-												activeSession.item.askerRcId
-											}
-											type={getTypeOfLocation()}
-											isOnlyEnquiry={isOnlyEnquiry}
-											isMyMessage={isMyMessage(
-												message.userId
-											)}
-											resortData={resortData}
-											bannedUsers={props.bannedUsers}
-											{...message}
-										/>
-									)}
+									<MessageItemComponent
+										clientName={
+											getContact(activeSession).username
+										}
+										askerRcId={activeSession.item.askerRcId}
+										type={getTypeOfLocation()}
+										isOnlyEnquiry={isOnlyEnquiry}
+										isMyMessage={isMyMessage(
+											message.userId
+										)}
+										resortData={resortData}
+										bannedUsers={props.bannedUsers}
+										{...message}
+									/>
 									{index === messages.length - 1 &&
 										enableInitialScroll()}
 								</React.Fragment>
@@ -673,8 +653,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 								sessionGroupKeyExportedString,
 							masterKeyLost: !isAbleToDecrypt,
 							canSendMasterKeyLostMessage:
-								canSendMasterKeyLostMessage(),
-							sendMessageLostInfo
+								canSendMasterKeyLostMessage()
 						}}
 						preselectedFile={draggedFile}
 						handleMessageSendSuccess={handleMessageSendSuccess}
