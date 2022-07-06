@@ -14,7 +14,7 @@ export const apiGetSessionRoomsByGroupIds = async (
 		url: url,
 		method: FETCH_METHODS.GET,
 		rcValidation: true,
-		responseHandling: [FETCH_ERRORS.EMPTY],
+		responseHandling: [FETCH_ERRORS.EMPTY, FETCH_ERRORS.CATCH_ALL],
 		...(signal && { signal: signal })
 	});
 };

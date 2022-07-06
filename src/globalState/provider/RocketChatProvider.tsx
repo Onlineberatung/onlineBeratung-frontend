@@ -58,6 +58,7 @@ type RocketChatContextProps = {
 		params: any,
 		resultListener?: (res) => void
 	) => void;
+	close: () => void;
 	rcWebsocket: WebSocket | null;
 };
 
@@ -364,6 +365,7 @@ export function RocketChatProvider(props) {
 				sendMethod,
 				listen,
 				ready,
+				close,
 				rcWebsocket: rcWebsocket.current
 			}}
 		>

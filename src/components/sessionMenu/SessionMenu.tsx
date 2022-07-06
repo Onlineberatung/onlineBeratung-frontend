@@ -14,6 +14,7 @@ import {
 	ExtendedSessionInterface,
 	hasUserAuthority,
 	LegalLinkInterface,
+	RocketChatContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
 	useConsultingType,
@@ -83,6 +84,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
+	const { close: closeWebsocket } = useContext(RocketChatContext);
 
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
@@ -252,6 +254,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 							userData
 						)
 					) {
+						closeWebsocket();
 						removeAllCookies();
 						setOverlayItem(finishAnonymousChatSuccessOverlayItem);
 					} else {
