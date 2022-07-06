@@ -18,10 +18,15 @@ const login = {
 	'register.linkLabel': 'Zur Übersicht',
 	'legal.infoText.impressum': 'Impressum',
 	'legal.infoText.dataprotection': 'Datenschutzerklärung',
-
 	'consultant.overlay.success.headline': 'Herzlich willkommen',
 	'consultant.overlay.success.button': 'Weiter',
-	'consultant.overlay.cancel.button': 'Zur Übersicht'
+	'consultant.overlay.cancel.button': 'Zur Übersicht',
+	'password.reset.warn.overlay.title':
+		'Durch das Zurücksetzten des Passworts kann der Zugriff auf Ihre Nachrichten eventuell nicht mehr gewährleistet werden.',
+	'password.reset.warn.overlay.description':
+		'Möchten Sie das Passwort dennoch zurücksetzten?',
+	'password.reset.warn.overlay.button.accept': 'Ja, zurücksetzen',
+	'password.reset.warn.overlay.button.cancel': 'Zurück zum Login'
 };
 
 export default login;

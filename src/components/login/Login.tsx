@@ -111,6 +111,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);
 
 	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
+	const isFirstVisit = useIsFirstVisit();
+	const [pwResetOverlayActive, setPwResetOverlayActive] = useState(false);
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -240,6 +242,14 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		[agency, handleRegistration]
 	);
 
+	const handlePwOverlayReset = useCallback((buttonFunction: string) => {
+		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
+			openPasswordResetTab();
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
+			setPwResetOverlayActive(false);
+		}
+	}, []);
+
 	useEffect(() => {
 		if (
 			possibleAgencies.length === 1 &&
@@ -340,7 +350,37 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		}
 	};
 
-	const isFirstVisit = useIsFirstVisit();
+	const pwResetOverlay: OverlayItem = useMemo(
+		() => ({
+			headline: translate('login.password.reset.warn.overlay.title'),
+			copy: translate('login.password.reset.warn.overlay.description'),
+			buttonSet: [
+				{
+					label: translate(
+						'login.password.reset.warn.overlay.button.accept'
+					),
+					function: OVERLAY_FUNCTIONS.REDIRECT,
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate(
+						'login.password.reset.warn.overlay.button.cancel'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.PRIMARY
+				}
+			]
+		}),
+		[]
+	);
+
+	const openPasswordResetTab = () => {
+		window.open(
+			config.endpoints.loginResetPasswordLink,
+			'_blank',
+			'noreferrer'
+		);
+	};
 
 	return (
 		<>
@@ -401,14 +441,12 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					)}
 
 					{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
-						<a
-							href={config.endpoints.loginResetPasswordLink}
-							target="_blank"
-							rel="noreferrer"
+						<span
+							onClick={() => setPwResetOverlayActive(true)}
 							className="loginForm__passwordReset"
 						>
 							{translate('login.resetPasswort.label')}
-						</a>
+						</span>
 					)}
 
 					<Button
@@ -467,6 +505,17 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 						/>
 					</a>
 				</div>
+			)}
+			{pwResetOverlayActive && (
+				<OverlayWrapper>
+					<Overlay
+						item={pwResetOverlay}
+						handleOverlayClose={() =>
+							setPwResetOverlayActive(false)
+						}
+						handleOverlay={handlePwOverlayReset}
+					/>
+				</OverlayWrapper>
 			)}
 		</>
 	);
