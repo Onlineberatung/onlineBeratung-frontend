@@ -1,18 +1,18 @@
 import '../../polyfill';
 import * as React from 'react';
+import {
+	ComponentType,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState
+} from 'react';
 import { generatePath } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import {
-	ComponentType,
-	useState,
-	useEffect,
-	useCallback,
-	useMemo,
-	useContext
-} from 'react';
 import { config } from '../../resources/scripts/config';
-import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { autoLogin, redirectToApp } from '../registration/autoLogin';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
@@ -27,7 +27,13 @@ import {
 } from '../../api';
 import { OTP_LENGTH, TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import clsx from 'clsx';
-import { LegalLinkInterface, TenantContext } from '../../globalState';
+import {
+	AUTHORITIES,
+	hasUserAuthority,
+	LegalLinkInterface,
+	TenantContext,
+	UserDataInterface
+} from '../../globalState';
 import '../../resources/styles/styles';
 import './login.styles';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
@@ -48,14 +54,12 @@ import {
 	VALIDITY_INITIAL,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
-import {
-	AUTHORITIES,
-	hasUserAuthority,
-	UserDataInterface
-} from '../../globalState';
 import { history } from '../app/app';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
-import { apiRocketChatSettings } from '../../api/apiRocketChatSettings';
+import {
+	RocketChatGlobalSettingsContext,
+	SETTING_E2E_ENABLE
+} from '../../globalState';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -69,6 +73,8 @@ interface LoginProps {
 
 export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const { tenant } = useContext(TenantContext);
+	const { isSettingEnabled } = useContext(RocketChatGlobalSettingsContext);
+
 	const hasTenant = tenant != null;
 
 	const consultantId = getUrlParameter('cid');
@@ -89,11 +95,6 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const [showLoginError, setShowLoginError] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
-	const [rcE2eEnabled, setRcE2eEnabled] = useState(false);
-
-	useEffect(() => {
-		getRcSettingsE2eEnabled();
-	}, []);
 
 	useEffect(() => {
 		setShowLoginError('');
@@ -388,25 +389,10 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		);
 	};
 
-	const getRcSettingsE2eEnabled = async () => {
-		try {
-			const data = await apiRocketChatSettings(['E2E_Enable']);
-			const e2eEnableSettings = data.settings.find(
-				(value) => value._id === 'E2E_Enable'
-			);
-			if (!e2eEnableSettings) {
-				console.error('error could not find rc settings: E2E_Enable');
-				return;
-			}
-			setRcE2eEnabled(e2eEnableSettings.value);
-		} catch (e) {
-			console.error('error fetching rocket chat settings');
-		}
-	};
-
 	const onPasswordResetClick = () => {
-		if (rcE2eEnabled) setPwResetOverlayActive(true);
-		else openPasswordResetTab();
+		if (isSettingEnabled(SETTING_E2E_ENABLE)) {
+			setPwResetOverlayActive(true);
+		} else openPasswordResetTab();
 	};
 
 	return (
