@@ -23,6 +23,7 @@ $white-50-opacity: rgba(255, 255, 255, 0.5);
 $black: #000;
 $black-25-opacity: rgba(0, 0, 0, 0.25);
 $black-10-opacity: rgba(0, 0, 0, 0.1);
+$black-05-opacity: rgba(0, 0, 0, 0.5);
 $primary: #cc1e1c;
 $secondary: #3f373f;
 $tertiary: rgba($black, 0.6);
@@ -208,12 +209,7 @@ $message-submit-interface-textarea-background-color-yellow: $yellow-3;
 $message-submit-interface-textarea-placeholder-color: $light-grey;
 $message-submit-interface-icon-disabled: #cac8c6;
 $message-submit-interface-textarea-background-color-disabled: #f0eeed;
-$message-submit-interface-encryption-notice-info-wrapper-disabled: rgba(
-	0,
-	0,
-	0,
-	0.05
-);
+$message-submit-interface-encryption-notice-info-wrapper-disabled: $black-05-opacity;
 $overlay-text-align: center;
 $overlay-list-align: left;
 $overlay-input-field-margin: $grid-base-three auto;
@@ -252,7 +248,7 @@ $notice-background: transparent;
 $notice-border: 1px solid rgba(0, 0, 0, 0.2);
 $notice-padding: $grid-base-two;
 $tab-border-radius: 25px;
-$tab-background-color: rgba(0, 0, 0, 0.05);
+$tab-background-color: $black-05-opacity;
 $tab-background-color-hover: rgba(0, 0, 0, 0.2);
 $tab-background-color-selected: rgba($primary, 0.2);
 $tab-background-color-selected-hover: rgba($hover-primary, 0.2);
