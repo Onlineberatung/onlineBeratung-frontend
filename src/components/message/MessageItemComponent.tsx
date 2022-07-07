@@ -35,7 +35,6 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
-import clsx from 'clsx';
 
 export enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -267,30 +266,7 @@ export const MessageItemComponent = ({
 				);
 			case isMasterKeyLostMessage:
 				return (
-					<>
-						<MessageDisplayName
-							isMyMessage={isMyMessage}
-							isUser={isUserMessage()}
-							type={getUsernameType()}
-							userId={userId}
-							username={username}
-							isUserBanned={bannedUsers.includes(username)}
-							displayName={displayName}
-						/>
-
-						<div
-							className={clsx(
-								'messageItem__message',
-								isMyMessage && 'messageItem__message--myMessage'
-							)}
-						>
-							<span>
-								{translate(
-									'session.encrypted.notice.send.info'
-								)}
-							</span>
-						</div>
-					</>
+					<></> // was replaced by unencrypted user message
 				);
 
 			default:
