@@ -9,7 +9,6 @@ import {
 } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
-	getSessionListPathForLocation,
 	getSessionType,
 	SESSION_LIST_TAB,
 	SESSION_LIST_TAB_ANONYMOUS,
@@ -87,7 +86,7 @@ export const SessionsList = ({
 	const listRef = createRef<HTMLDivElement>();
 
 	const { sessions, dispatch } = useContext(SessionsDataContext);
-	const { type } = useContext(SessionTypeContext);
+	const { type, path: listPath } = useContext(SessionTypeContext);
 
 	const {
 		subscribe,
@@ -581,7 +580,7 @@ export const SessionsList = ({
 	const handleSelect = (selectedOption) => {
 		setCurrentOffset(0);
 		setFilter(selectedOption.value);
-		history.push(getSessionListPathForLocation());
+		history.push(listPath);
 	};
 
 	const handleReloadButton = useCallback(() => {
@@ -643,7 +642,7 @@ export const SessionsList = ({
 					if (sessionA.item.createDate === sessionB.item.createDate) {
 						return 0;
 					}
-					return sessionA.item.createDate > sessionB.item.createDate
+					return sessionA.item.createDate < sessionB.item.createDate
 						? -1
 						: 1;
 				case SESSION_LIST_TYPES.MY_SESSION:

@@ -10,18 +10,15 @@ import {
 import { Link, useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import {
-	getTypeOfLocation,
 	getViewPathForType,
+	scrollToEnd,
 	isMyMessage,
 	SESSION_LIST_TYPES,
-	SESSION_LIST_TAB,
-	scrollToEnd,
-	typeIsEnquiry
+	SESSION_LIST_TAB
 } from './sessionHelpers';
 import {
 	MessageItem,
-	MessageItemComponent,
-	MessageType
+	MessageItemComponent
 } from '../message/MessageItemComponent';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { translate } from '../../utils/translate';
@@ -65,10 +62,6 @@ import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { encryptRoom } from '../../utils/e2eeHelper';
-import {
-	ALIAS_MESSAGE_TYPES,
-	apiSendAliasMessage
-} from '../../api/apiSendAliasMessage';
 
 interface SessionItemProps {
 	isTyping?: Function;
@@ -313,13 +306,16 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			case OVERLAY_FUNCTIONS.REDIRECT:
 				setOverlayItem(null);
 				setIsRequestInProgress(false);
-				//setAcceptedGroupId(currentGroupId);
-				//setSessionsData({ ...sessionsData, enquiries: [] });
+				if (activeSession.item.id && activeSession.item.groupId) {
+					history.push(
+						`/sessions/consultant/sessionView/${activeSession.item.groupId}/${activeSession.item.id}`
+					);
+					return;
+				}
 				history.push(`/sessions/consultant/sessionView/`);
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayItem(null);
-				//setUpdateSessionList(SESSION_LIST_TYPES.ENQUIRY);
 				history.push(
 					`/sessions/consultant/sessionPreview${getSessionListTab()}`
 				);
@@ -526,19 +522,20 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						{messages &&
 							resortData &&
 							messages.map((message: MessageItem, index) => (
-								<React.Fragment key={index}>
+								<React.Fragment key={`${message.id}-${index}`}>
 									<MessageItemComponent
 										clientName={
 											getContact(activeSession).username
 										}
 										askerRcId={activeSession.item.askerRcId}
-										type={getTypeOfLocation()}
 										isOnlyEnquiry={isOnlyEnquiry}
 										isMyMessage={isMyMessage(
 											message.userId
 										)}
 										resortData={resortData}
-										bannedUsers={props.bannedUsers}
+										isUserBanned={props.bannedUsers.includes(
+											message.username
+										)}
 										{...message}
 									/>
 									{index === messages.length - 1 &&
@@ -591,9 +588,9 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				monitoringButtonVisible &&
 				!activeSession.isLive && (
 					<Link
-						to={`/sessions/consultant/${getViewPathForType(
-							getTypeOfLocation()
-						)}/${activeSession.item.groupId}/${
+						to={`/sessions/consultant/${getViewPathForType(type)}/${
+							activeSession.item.groupId
+						}/${
 							activeSession.item.id
 						}/userProfile/monitoring${getSessionListTab()}`}
 					>
@@ -603,7 +600,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					</Link>
 				)}
 
-			{typeIsEnquiry(getTypeOfLocation()) ? (
+			{type === SESSION_LIST_TYPES.ENQUIRY ? (
 				<div className="session__acceptance messageItem">
 					{!activeSession.isLive &&
 					hasUserAuthority(
@@ -643,7 +640,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						showMonitoringButton={() => {
 							setMonitoringButtonVisible(true);
 						}}
-						type={getTypeOfLocation()}
 						typingUsers={props.typingUsers}
 						E2EEParams={{
 							encrypted,

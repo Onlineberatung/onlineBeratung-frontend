@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { translate } from '../../utils/translate';
-import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import {
 	OverlayItem,
 	OVERLAY_FUNCTIONS,
@@ -236,7 +235,6 @@ export const WriteEnquiry: React.FC = () => {
 				<MessageSubmitInterfaceComponent
 					handleSendButton={handleSendButton}
 					placeholder={translate('enquiry.write.input.placeholder')}
-					type={SESSION_LIST_TYPES.ENQUIRY}
 					language={selectedLanguage}
 					E2EEParams={{
 						keyID: keyID,

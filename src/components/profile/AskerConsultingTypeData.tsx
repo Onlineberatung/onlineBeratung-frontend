@@ -29,7 +29,7 @@ export const AskerConsultingTypeData = () => {
 				(resort, index) =>
 					resort.isRegistered &&
 					resort.agency && (
-						<Box>
+						<Box key={index}>
 							<div
 								className="profile__data__itemWrapper"
 								key={index}

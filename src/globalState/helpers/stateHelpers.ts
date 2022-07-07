@@ -70,7 +70,7 @@ export const buildExtendedSession = (
 		isLive: sessionChat?.registrationType === REGISTRATION_TYPE_ANONYMOUS,
 		isEnquiry:
 			sessionChat &&
-			[STATUS_EMPTY, STATUS_ENQUIRY].indexOf(sessionChat.status) >= 0,
+			[STATUS_EMPTY, STATUS_ENQUIRY].includes(sessionChat.status),
 		isEmptyEnquiry: sessionChat && sessionChat.status === STATUS_EMPTY,
 		isNonEmptyEnquiry: sessionChat && sessionChat.status === STATUS_ENQUIRY,
 		isArchive: sessionChat && sessionChat.status === STATUS_ARCHIVED,

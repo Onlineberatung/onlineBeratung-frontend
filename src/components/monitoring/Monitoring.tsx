@@ -1,11 +1,8 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { translate } from '../../utils/translate';
-import {
-	getSessionListPathForLocation,
-	SESSION_LIST_TAB
-} from '../session/sessionHelpers';
+import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { Checkbox } from '../checkbox/Checkbox';
 import { Button } from '../button/Button';
 import { apiUpdateMonitoring, apiGetMonitoring } from '../../api';
@@ -19,6 +16,7 @@ import { history } from '../app/app';
 import { Loading } from '../app/Loading';
 import { useSession } from '../../hooks/useSession';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { SessionTypeContext } from '../../globalState';
 
 export const Monitoring = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
@@ -28,6 +26,7 @@ export const Monitoring = () => {
 	const [resort, setResort] = useState(null);
 	const [accordionOpened, setAccordionOpened] = useState<any[]>([]);
 	const [monitoringData, setMonitoringData] = useState({});
+	const { path: listPath } = useContext(SessionTypeContext);
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	let backLinkRef: React.RefObject<Link> = React.createRef();
@@ -39,7 +38,7 @@ export const Monitoring = () => {
 
 		if (!activeSession) {
 			history.push(
-				getSessionListPathForLocation() +
+				listPath +
 					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
 			);
 			return;
@@ -56,7 +55,7 @@ export const Monitoring = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [activeSession, ready, sessionListTab]);
+	}, [activeSession, listPath, ready, sessionListTab]);
 
 	const handleChange = (key, parentKey) => {
 		const checkObj = (obj, k, prevk) => {
@@ -230,9 +229,9 @@ export const Monitoring = () => {
 				<div className="profile__header__wrapper">
 					<Link
 						ref={backLinkRef}
-						to={`${getSessionListPathForLocation()}/${
-							activeSession.item.groupId
-						}/${activeSession.item.id}/userProfile${
+						to={`${listPath}/${activeSession.item.groupId}/${
+							activeSession.item.id
+						}/userProfile${
 							sessionListTab
 								? `?sessionListTab=${sessionListTab}`
 								: ''

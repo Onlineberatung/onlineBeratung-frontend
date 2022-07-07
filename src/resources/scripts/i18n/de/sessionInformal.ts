@@ -2,6 +2,8 @@ const sessionInformal = {
 	'empty': 'Bitte wähle eine Nachricht aus.',
 	'acceptance.overlayHeadline':
 		'Du hast die Erstanfrage erfolgreich angenommen und findest diese nun unter „Meine Nachrichten“.',
+	'alreadyAssigned.overlay.headline':
+		'Du hast diese Beratung bereits zugewiesen.',
 	'assignOther.overlayHeadline':
 		'Du hast die Beratung erfolgreich zugewiesen.',
 	'assignSelf.overlayHeadline':

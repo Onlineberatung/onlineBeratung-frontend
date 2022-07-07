@@ -9,7 +9,7 @@ import {
 } from '../support/sessions';
 import { USER_VIDEO } from '../support/commands/login';
 
-describe('Video calls', () => {
+xdescribe('Video calls', () => {
 	before(() => {
 		startWebSocketServer();
 	});

@@ -60,7 +60,6 @@ export interface VideoCallMessageDTO {
 	initiatorRcUserId: string;
 	initiatorUserName: string;
 }
-
 export interface MessageItem {
 	id?: number;
 	message: string;
@@ -90,10 +89,9 @@ export interface MessageItem {
 interface MessageItemComponentProps extends MessageItem {
 	isOnlyEnquiry?: boolean;
 	isMyMessage: boolean;
-	type: SESSION_LIST_TYPES;
 	clientName: string;
 	resortData: ConsultingTypeInterface;
-	bannedUsers: string[];
+	isUserBanned: boolean;
 }
 
 export const MessageItemComponent = ({
@@ -111,7 +109,7 @@ export const MessageItemComponent = ({
 	attachments,
 	file,
 	isNotRead,
-	bannedUsers,
+	isUserBanned,
 	t,
 	rid
 }: MessageItemComponentProps) => {
@@ -136,8 +134,7 @@ export const MessageItemComponent = ({
 					// setDecryptedMessage(org) // TODO? Fallback in case decryption fails
 				});
 		} else {
-			const messageToDisplay = org || message;
-			setDecryptedMessage(messageToDisplay);
+			setDecryptedMessage(org || message);
 		}
 	}, [key, keyID, encrypted, message, org, t, isE2eeEnabled]);
 
@@ -306,7 +303,7 @@ export const MessageItemComponent = ({
 							type={getUsernameType()}
 							userId={userId}
 							username={username}
-							isUserBanned={bannedUsers.includes(username)}
+							isUserBanned={isUserBanned}
 							displayName={displayName}
 						/>
 

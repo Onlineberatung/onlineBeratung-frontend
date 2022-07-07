@@ -27,6 +27,7 @@ export const config = {
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
 		banUser: (rcUserId, chatId) =>
 			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
+		chatRoom: apiUrl + '/service/users/chat/room',
 		consultantEnquiriesBase:
 			apiUrl + '/service/conversations/consultants/enquiries/',
 		consultantSessions:
@@ -55,6 +56,35 @@ export const config = {
 		myMessagesBase:
 			apiUrl + '/service/conversations/consultants/mymessages/',
 		passwordReset: apiUrl + '/service/users/password/change',
+		rc: {
+			accessToken: apiUrl + '/api/v1/login',
+			logout: apiUrl + '/api/v1/logout',
+			subscriptions: {
+				get: apiUrl + '/api/v1/subscriptions.get',
+				read: apiUrl + '/api/v1/subscriptions.read',
+				getOne: apiUrl + '/api/v1/subscriptions.getOne'
+			},
+			rooms: {
+				get: apiUrl + '/api/v1/rooms.get',
+				info: apiUrl + '/api/v1/rooms.info'
+			},
+			users: {
+				info: apiUrl + '/api/v1/users.info',
+				resetE2EKey: apiUrl + '/api/v1/users.resetE2EKey'
+			},
+			groups: {
+				members: apiUrl + '/api/v1/groups.members'
+			},
+			e2ee: {
+				fetchMyKeys: apiUrl + '/api/v1/e2e.fetchMyKeys',
+				getUsersOfRoomWithoutKey:
+					apiUrl + '/api/v1/e2e.getUsersOfRoomWithoutKey',
+				setRoomKeyID: apiUrl + '/api/v1/e2e.setRoomKeyID',
+				setUserPublicAndPrivateKeys:
+					apiUrl + '/api/v1/e2e.setUserPublicAndPrivateKeys',
+				updateGroupKey: apiUrl + '/api/v1/e2e.updateGroupKey'
+			}
+		},
 		registerAnonymousAsker:
 			apiUrl + '/service/conversations/askers/anonymous/new',
 		registerAsker: apiUrl + '/service/users/askers/new',
@@ -63,9 +93,11 @@ export const config = {
 		rejectVideoCall: apiUrl + '/service/videocalls/reject',
 		rocketchatAccessToken: apiUrl + '/api/v1/login',
 		rocketchatLogout: apiUrl + '/api/v1/logout',
+		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
 		sessionBase: apiUrl + '/service/users/sessions',
+		sessionRooms: apiUrl + '/service/users/sessions/room',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
 		startVideoCall: apiUrl + '/service/videocalls/new',
 		teamSessionsBase:
@@ -78,6 +110,7 @@ export const config = {
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userData: apiUrl + '/service/users/data',
 		userSessionsListView: '/sessions/user/view',
+		userUpdateE2EKey: apiUrl + '/service/users/chat/e2e',
 		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
 	urls: {
@@ -121,4 +154,9 @@ export const config = {
 			}
 		]
 	}
+};
+
+export const ALIAS_LAST_MESSAGES = {
+	E2EE_ACTIVATED: 'aliases.lastMessage.e2ee_activated',
+	FURTHER_STEPS: 'aliases.lastMessage.further_steps'
 };
