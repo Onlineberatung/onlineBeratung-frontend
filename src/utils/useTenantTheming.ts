@@ -221,10 +221,7 @@ const useTenantTheming = () => {
 
 	useEffect(() => {
 		if (!subdomain || !config.enableTenantTheming) {
-			apiGetTenantTheming({ subdomain }).then(({ settings }) => {
-				tenantContext?.setTenant({ settings } as any);
-				setIsLoadingTenant(false);
-			});
+			setIsLoadingTenant(false);
 			return;
 		}
 
