@@ -939,12 +939,12 @@ export const MessageSubmitInterfaceComponent = (
 					type: BUTTON_TYPES.PRIMARY
 				}
 			],
-			copy:
-				translate('session.encrypted.overlay.text.first') +
-				(displayName ||
+			copy: translate('session.encrypted.overlay.text', {
+				consultant:
+					displayName ||
 					userName ||
-					translate('session.encrypted.consultant')) +
-				translate('session.encrypted.overlay.text.second')
+					translate('session.encrypted.consultant')
+			})
 		};
 
 		setOverlayItem(readMoreAboutEncryptedChatOverlay);
@@ -984,23 +984,25 @@ export const MessageSubmitInterfaceComponent = (
 					<div className="info">
 						{props.E2EEParams.canSendMasterKeyLostMessage ? (
 							<>
-								{translate(
-									'session.encrypted.notice.send.first'
-								)}
-								{displayName ||
-									userName ||
-									translate('session.encrypted.consultant')}
-								{translate(
-									'session.encrypted.notice.send.second'
-								)}
+								{translate('session.encrypted.notice.send', {
+									consultant:
+										displayName ||
+										userName ||
+										translate(
+											'session.encrypted.consultant'
+										)
+								})}
 							</>
 						) : (
 							<>
-								{translate('session.encrypted.notice.first')}
-								{displayName ||
-									userName ||
-									translate('session.encrypted.consultant')}
-								{translate('session.encrypted.notice.second')}
+								{translate('session.encrypted.notice', {
+									consultant:
+										displayName ||
+										userName ||
+										translate(
+											'session.encrypted.consultant'
+										)
+								})}
 							</>
 						)}
 

@@ -14,18 +14,12 @@ const sessionInformal = {
 		'Lege die Datei hier ab, um sie hochzuladen.',
 	'dragAndDrop.explanation.outsideDropArea':
 		'Ziehe die Datei in das Feld, um sie hochzuladen.',
-	'encrypted.notice.send.first':
-		'Sende die untenstehende Nachricht und benachrichtige ',
-	'encrypted.notice.send.second':
-		', dass Du aus technischen Gründen keine Nachrichten lesen kannst.',
-	'encrypted.notice.first':
-		'Aus technischen Gründen kannst Du keine Nachrichten lesen und schreiben. Wenn ',
-	'encrypted.notice.second':
-		' den Chat öffnet, kannst Du die Nachrichten wieder lesen und neue Nachrichten schreiben.',
-	'encrypted.overlay.text.first':
-		'Deine Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform. <br/><br/>Da Du dein Passwort zurückgesetzt hast, sind die Nachrichten für dich momentan nicht lesbar. Sobald ',
-	'encrypted.overlay.text.second':
-		' den Chat öffnet, kannst Du die Nachrichten wieder lesen und auch schreiben.',
+	'encrypted.notice.send':
+		'Sende die untenstehende Nachricht und benachrichtige %consultant%, dass Du aus technischen Gründen keine Nachrichten lesen kannst.',
+	'encrypted.notice':
+		'Aus technischen Gründen kannst Du keine Nachrichten lesen und schreiben. Wenn %consultant% den Chat öffnet, kannst Du die Nachrichten wieder lesen und neue Nachrichten schreiben.',
+	'encrypted.overlay.text':
+		'Deine Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform. <br/><br/>Da Du Dein Passwort zurückgesetzt hast, sind die Nachrichten für Dich momentan nicht lesbar. Sobald %consultant% den Chat öffnet, kannst Du die Nachrichten wieder lesen und auch schreiben.',
 	'encrypted.consultant': 'ein_e Berater_in'
 };
 

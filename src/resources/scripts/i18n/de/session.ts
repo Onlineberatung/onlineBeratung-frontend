@@ -37,21 +37,15 @@ const session = {
 		'.jpg, .png, .pdf, .docx, .xlsx bis maximal 5MB',
 	'encrypted.notice.send.info':
 		'Ich kann unsere Nachrichten aus technischen Gr&uuml;nden nicht mehr lesen.',
-	'encrypted.notice.send.first':
-		'Senden Sie die untenstehende Nachricht und benachrichtigen Sie ',
-	'encrypted.notice.send.second':
-		', dass Sie aus technischen Gründen keine Nachrichten lesen können.',
-	'encrypted.notice.first':
-		'Aus technischen Gründen können Sie keine Nachrichten lesen und schreiben. Wenn ',
-	'encrypted.notice.second':
-		' den Chat öffnet, können Sie die Nachrichten wieder lesen und neue Nachrichten schreiben.',
+	'encrypted.notice.send':
+		'Senden Sie die untenstehende Nachricht und benachrichtigen Sie %consultant%, dass Sie aus technischen Gründen keine Nachrichten lesen können.',
+	'encrypted.notice':
+		'Aus technischen Gründen können Sie keine Nachrichten lesen und schreiben. Wenn %consultant%  den Chat öffnet, können Sie die Nachrichten wieder lesen und neue Nachrichten schreiben.',
 	'encrypted.notice.more': ' Mehr erfahren',
 	'encrypted.overlay.headline': 'Ende-zu-Ende Verschlüsselung',
-	'encrypted.overlay.text.first':
-		'Ihre Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform. <br/><br/>Da Sie Ihr Passwort zurückgesetzt haben, sind die Nachrichten für Sie momentan nicht lesbar. Sobald ',
-	'encrypted.overlay.text.second':
-		' den Chat öffnet, können Sie die Nachrichten wieder lesen und auch schreiben.',
-	'encrypted.overlay.button': 'Schliessen',
+	'encrypted.overlay.text':
+		'Ihre Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform. <br/><br/>Da Sie Ihr Passwort zurückgesetzt haben, sind die Nachrichten für Sie momentan nicht lesbar. Sobald %consultant% den Chat öffnet, können Sie die Nachrichten wieder lesen und auch schreiben.',
+	'encrypted.overlay.button': 'Schließen',
 	'encrypted.consultant': 'ein_e Berater_in'
 };
 
