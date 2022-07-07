@@ -256,7 +256,7 @@ export const MessageSubmitInterfaceComponent = (
 			activeSession.isLive &&
 				activeSession.item.status === STATUS_FINISHED
 		);
-	}, [activeSession, userData]);
+	}, [activeSession, activeSession.item.status, userData]);
 
 	useEffect(() => {
 		if (
