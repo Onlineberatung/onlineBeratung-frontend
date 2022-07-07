@@ -1,13 +1,9 @@
 import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
-import { UserDataContext } from '../../globalState';
+import { SessionTypeContext, UserDataContext } from '../../globalState';
 import { history } from '../app/app';
-import {
-	getSessionListPathForLocation,
-	isUserModerator,
-	SESSION_LIST_TAB
-} from '../session/sessionHelpers';
+import { isUserModerator, SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import {
@@ -59,6 +55,7 @@ export const GroupChatInfo = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
+	const { path: listPath } = useContext(SessionTypeContext);
 
 	const [subscriberList, setSubscriberList] = useState(null);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
@@ -91,7 +88,7 @@ export const GroupChatInfo = () => {
 
 		if (!activeSession) {
 			history.push(
-				getSessionListPathForLocation() +
+				listPath +
 					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
 			);
 			return;
@@ -122,7 +119,7 @@ export const GroupChatInfo = () => {
 				}
 			});
 		}
-	}, [activeSession, ready, sessionListTab]);
+	}, [activeSession, listPath, ready, sessionListTab]);
 
 	const handleStopGroupChatButton = () => {
 		setOverlayItem(stopGroupChatSecurityOverlayItem);
@@ -192,11 +189,7 @@ export const GroupChatInfo = () => {
 	];
 
 	if (redirectToSessionsList) {
-		return (
-			<Redirect
-				to={getSessionListPathForLocation() + getSessionListTab()}
-			/>
-		);
+		return <Redirect to={listPath + getSessionListTab()} />;
 	}
 
 	const isCurrentUserModerator = isUserModerator({
@@ -209,9 +202,9 @@ export const GroupChatInfo = () => {
 			<div className="profile__header">
 				<div className="profile__header__wrapper">
 					<Link
-						to={`${getSessionListPathForLocation()}/${
-							activeSession.item.groupId
-						}/${activeSession.item.id}${getSessionListTab()}`}
+						to={`${listPath}/${activeSession.item.groupId}/${
+							activeSession.item.id
+						}${getSessionListTab()}`}
 						className="profile__header__backButton"
 					>
 						<BackIcon />
@@ -346,7 +339,7 @@ export const GroupChatInfo = () => {
 							<Link
 								className="profile__innerWrapper__editButton"
 								to={{
-									pathname: `${getSessionListPathForLocation()}/${
+									pathname: `${listPath}/${
 										activeSession.item.groupId
 									}/${
 										activeSession.item.id

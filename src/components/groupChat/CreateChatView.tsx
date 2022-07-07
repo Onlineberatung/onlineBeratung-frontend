@@ -11,7 +11,8 @@ import {
 	SessionsDataContext,
 	ExtendedSessionInterface,
 	getExtendedSession,
-	UPDATE_SESSIONS
+	UPDATE_SESSIONS,
+	SessionTypeContext
 } from '../../globalState';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
@@ -40,10 +41,7 @@ import {
 	chatLinkData,
 	apiUpdateGroupChat
 } from '../../api';
-import {
-	getSessionListPathForLocation,
-	SESSION_LIST_TAB
-} from '../session/sessionHelpers';
+import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { getChatDate } from '../session/sessionDateHelpers';
 import { updateChatSuccessOverlayItem } from './groupChatHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
@@ -60,6 +58,7 @@ export const CreateGroupChatView = (props) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { sessions, ready, dispatch } = useContext(SessionsDataContext);
+	const { path: listPath } = useContext(SessionTypeContext);
 	const [selectedChatTopic, setSelectedChatTopic] = useState('');
 	const [selectedDate, setSelectedDate] = useState('');
 	const [selectedTime, setSelectedTime] = useState('');
@@ -185,9 +184,9 @@ export const CreateGroupChatView = (props) => {
 
 	const handleBackButton = () => {
 		if (isEditGroupChatMode) {
-			history.push(`${getSessionListPathForLocation()}/${
-				activeSession.item.groupId
-			}/${activeSession.item.id}
+			history.push(`${listPath}/${activeSession.item.groupId}/${
+				activeSession.item.id
+			}
 				${prevPathIsGroupChatInfo ? '/groupChatInfo' : ''}
 				${getSessionListTab()}`);
 		}
@@ -353,9 +352,9 @@ export const CreateGroupChatView = (props) => {
 				overlayItem === updateChatSuccessOverlayItem
 			) {
 				history.push(
-					`${getSessionListPathForLocation()}/${
-						activeSession.item.groupId
-					}/${activeSession.item.id}${
+					`${listPath}/${activeSession.item.groupId}/${
+						activeSession.item.id
+					}${
 						prevPathIsGroupChatInfo ? '/groupChatInfo' : ''
 					}${getSessionListTab()}`
 				);
