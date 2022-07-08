@@ -87,6 +87,9 @@ const registration = {
 	'state.options.14': 'Sachsen-Anhalt',
 	'state.options.15': 'Schleswig-Holstein',
 	'state.options.16': 'Thüringen',
+	'mainTopic.headline':
+		'Welches dieser Problemfelder ist für Sie aktuell am Wichtigsten?',
+	'mainTopic.subline': 'Welches Problem ist für Sie aktuell am wichtigsten?',
 	'dataProtection.label.prefix': 'Ich habe die ',
 	'dataProtection.label.and': ' und ',
 	'dataProtection.label.suffix':
