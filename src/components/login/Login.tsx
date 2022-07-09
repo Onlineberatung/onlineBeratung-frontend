@@ -73,7 +73,7 @@ interface LoginProps {
 
 export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const { tenant } = useContext(TenantContext);
-	const { isSettingEnabled } = useContext(RocketChatGlobalSettingsContext);
+	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
 
 	const hasTenant = tenant != null;
 
@@ -114,12 +114,12 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	}, [username]);
 
 	const [agency, setAgency] = useState(null);
-	const [registerOverlayActive, setRegisterOverlayActive] = useState(false);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);
+	const [registerOverlayActive, setRegisterOverlayActive] = useState(false);
+	const [pwResetOverlayActive, setPwResetOverlayActive] = useState(false);
 
 	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
 	const isFirstVisit = useIsFirstVisit();
-	const [pwResetOverlayActive, setPwResetOverlayActive] = useState(false);
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -390,9 +390,11 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	};
 
 	const onPasswordResetClick = () => {
-		if (isSettingEnabled(SETTING_E2E_ENABLE)) {
+		if (getSetting(SETTING_E2E_ENABLE)?.value) {
 			setPwResetOverlayActive(true);
-		} else openPasswordResetTab();
+		} else {
+			openPasswordResetTab();
+		}
 	};
 
 	return (
