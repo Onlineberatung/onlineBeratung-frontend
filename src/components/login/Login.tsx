@@ -56,10 +56,8 @@ import {
 } from '../registration/registrationHelpers';
 import { history } from '../app/app';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
-import {
-	RocketChatGlobalSettingsContext,
-	SETTING_E2E_ENABLE
-} from '../../globalState';
+import { RocketChatGlobalSettingsContext } from '../../globalState';
+import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
