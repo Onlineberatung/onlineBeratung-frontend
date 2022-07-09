@@ -251,7 +251,11 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 
 	const handlePwOverlayReset = useCallback((buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
-			openPasswordResetTab();
+			window.open(
+				config.endpoints.loginResetPasswordLink,
+				'_blank',
+				'noreferrer'
+			);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setPwResetOverlayActive(false);
 		}
@@ -381,19 +385,10 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		[]
 	);
 
-	const openPasswordResetTab = () => {
-		window.open(
-			config.endpoints.loginResetPasswordLink,
-			'_blank',
-			'noreferrer'
-		);
-	};
-
-	const onPasswordResetClick = () => {
+	const onPasswordResetClick = (e) => {
 		if (getSetting(SETTING_E2E_ENABLE)?.value) {
+			e.preventDefault();
 			setPwResetOverlayActive(true);
-		} else {
-			openPasswordResetTab();
 		}
 	};
 
@@ -456,12 +451,14 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					)}
 
 					{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
-						<span
+						<a
+							href={config.endpoints.loginResetPasswordLink}
+							target="_blank"
+							rel="noreferrer"
 							onClick={onPasswordResetClick}
-							className="loginForm__passwordReset"
 						>
 							{translate('login.resetPasswort.label')}
-						</span>
+						</a>
 					)}
 
 					<Button
