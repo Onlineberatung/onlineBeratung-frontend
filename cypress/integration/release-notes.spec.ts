@@ -27,7 +27,10 @@ describe('release-note', () => {
 		cy.fixture('releaseNote.md').then((content) => {
 			cy.willReturn('releases', {
 				body: content,
-				statusCode: 200
+				statusCode: 200,
+				headers: {
+					'Content-Type': 'text/markdown'
+				}
 			});
 		});
 
@@ -54,7 +57,10 @@ describe('release-note', () => {
 		cy.fixture('releaseNote.md').then((content) => {
 			cy.willReturn('releases', {
 				body: content,
-				statusCode: 200
+				statusCode: 200,
+				headers: {
+					'Content-Type': 'text/markdown'
+				}
 			});
 		});
 
@@ -77,6 +83,24 @@ describe('release-note', () => {
 	});
 
 	it('should not show the release note overlay if there is no file', () => {
+		cy.fastLogin({
+			username: USER_CONSULTANT
+		});
+		cy.wait('@consultingTypeServiceBaseBasic');
+
+		cy.get('.releaseNote').should('not.exist');
+	});
+
+	it("should not show the release note overlay if there isn't a markdown", () => {
+		cy.fixture('releaseNote.md').then((content) => {
+			cy.willReturn('releases', {
+				body: '<html></html>',
+				statusCode: 200,
+				headers: {
+					'Content-Type': 'text/text'
+				}
+			});
+		});
 		cy.fastLogin({
 			username: USER_CONSULTANT
 		});
