@@ -48,12 +48,6 @@ export default function Cal({
 		});
 		Cal('ui', {
 			styles: {
-				eventTypeListItem: {
-					background: 'red',
-					color: 'white',
-					backgroundColor: 'red',
-					marginBottom: '100px'
-				},
 				branding: {
 					brandColor: '#7fdfc4'
 				}

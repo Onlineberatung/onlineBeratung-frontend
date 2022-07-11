@@ -30,6 +30,11 @@ export const config = {
 		appointmentBaseNew: (sessionId: number) =>
 			apiUrl + `/service/appointments/sessions/${sessionId}/enquiry/new`,
 		appointmentServiceBase: apiUrl + '/service/agency/',
+		appointmentServiceMeetingLink: (agencyId: number) =>
+			apiUrl +
+			`/service/appointservice/agencies/${agencyId}/initialMeetingSlug`,
+		appointmentServiceEventTypes: (userId?: string) =>
+			apiUrl + `/service/appointservice/consultants/1/meetingSlug`,
 		askerSessions: apiUrl + '/service/users/sessions/askers',
 		attachmentUpload: apiUrl + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',

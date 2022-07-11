@@ -3,14 +3,22 @@ import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiAppointmentServiceTeamById = async (
 	agencyId: number
-): Promise<{ meetlingLink: string }> => {
-	const url =
-		config.endpoints.appointmentServiceBase +
-		agencyId +
-		'/initialMeetingLink';
+): Promise<{ slug: string }> => {
+	const url = config.endpoints.appointmentServiceMeetingLink(agencyId);
 
 	return fetchData({
-		url: url,
+		url,
+		method: FETCH_METHODS.GET
+	});
+};
+
+export const apiAppointmentServiceEventTypes = async (
+	userId: string
+): Promise<{ slug: string }> => {
+	const url = config.endpoints.appointmentServiceEventTypes(userId);
+
+	return fetchData({
+		url,
 		method: FETCH_METHODS.GET
 	});
 };

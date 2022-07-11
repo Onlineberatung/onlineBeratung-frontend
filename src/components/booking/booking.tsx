@@ -7,7 +7,10 @@ import {
 } from '../app/navigationHandler';
 import Cal from '../cal/Cal';
 import { SessionsDataContext, UserDataContext } from '../../globalState';
-import { apiAppointmentServiceTeamById } from '../../api';
+import {
+	apiAppointmentServiceEventTypes as apiAppointmentServiceEventTypeUser,
+	apiAppointmentServiceTeamById
+} from '../../api';
 
 export const Booking = () => {
 	useEffect(() => {
@@ -23,13 +26,16 @@ export const Booking = () => {
 	const [team, setTeam] = useState<string | null>(null);
 
 	useEffect(() => {
-		const agencyId = sessionsData?.mySessions?.[0]?.agency?.id;
-		apiAppointmentServiceTeamById(agencyId).then((resp) => {
-			const team = resp.meetlingLink
-				.split('https://calcom-develop.suchtberatung.digital/')
-				.pop();
-			setTeam(team);
-		});
+		if (sessionsData?.mySessions?.[0]?.consultant) {
+			apiAppointmentServiceEventTypeUser(userData.userId).then((resp) => {
+				setTeam(resp.slug);
+			});
+		} else {
+			const agencyId = sessionsData?.mySessions?.[0]?.agency?.id;
+			apiAppointmentServiceTeamById(agencyId).then((resp) => {
+				setTeam(`team/${resp.slug}`);
+			});
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [team]);
 
