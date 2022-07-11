@@ -20,10 +20,9 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 	const [settings, setSettings] = useState<ISetting[]>([]);
 
 	useEffect(() => {
-		apiRocketChatSettingsPublic(SETTINGS_TO_FETCH).then((res) => {
-			console.log(res);
-			setSettings(res.settings);
-		});
+		apiRocketChatSettingsPublic(SETTINGS_TO_FETCH).then((res) =>
+			setSettings(res.settings)
+		);
 	}, []);
 
 	const getSetting = useCallback(
