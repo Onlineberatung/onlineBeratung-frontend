@@ -69,7 +69,7 @@ export const SessionStream = ({
 	const [loading, setLoading] = useState(true);
 	const [overlayItem, setOverlayItem] = useState(null);
 
-	const { activeSession, readActiveSession } =
+	const { activeSession, readActiveSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
@@ -201,8 +201,11 @@ export const SessionStream = ({
 						setIsOverlayActive(true);
 					}
 				}
+				if (event === 'updated') {
+					reloadActiveSession();
+				}
 			},
-			[groupChatStoppedOverlay]
+			[groupChatStoppedOverlay, reloadActiveSession]
 		)
 	);
 
