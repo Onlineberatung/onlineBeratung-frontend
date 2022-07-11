@@ -20,6 +20,7 @@ import {
 import { history } from '../app/app';
 import { translate } from '../../utils/translate';
 import {
+	AnonymousConversationStartedContext,
 	AUTHORITIES,
 	buildExtendedSession,
 	getExtendedSession,
@@ -105,6 +106,8 @@ export const SessionsList = ({
 	const [totalItems, setTotalItems] = useState(0);
 	const [isReloadButtonVisible, setIsReloadButtonVisible] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+	const { anonymousConversationStarted, setAnonymousConversationStarted } =
+		useContext(AnonymousConversationStartedContext);
 
 	const abortController = useRef<AbortController>(null);
 
@@ -203,6 +206,7 @@ export const SessionsList = ({
 		setIsLoading(true);
 		setIsReloadButtonVisible(false);
 		setCurrentOffset(0);
+		setAnonymousConversationStarted(false);
 		if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
@@ -285,7 +289,9 @@ export const SessionsList = ({
 		getConsultantSessionList,
 		initialId,
 		scrollIntoView,
-		userData
+		userData,
+		anonymousConversationStarted,
+		setAnonymousConversationStarted
 	]);
 
 	// Refresh myself

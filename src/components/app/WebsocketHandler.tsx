@@ -11,6 +11,7 @@ import {
 } from '../incomingVideoCall/IncomingVideoCall';
 import {
 	AnonymousConversationFinishedContext,
+	AnonymousConversationStartedContext,
 	AnonymousEnquiryAcceptedContext,
 	NotificationsContext,
 	WebsocketConnectionDeactivatedContext
@@ -41,6 +42,9 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	);
 	const { setWebsocketConnectionDeactivated } = useContext(
 		WebsocketConnectionDeactivatedContext
+	);
+	const { setAnonymousConversationStarted } = useContext(
+		AnonymousConversationStartedContext
 	);
 	const stompClient = Stomp.over(function () {
 		return new SockJS(config.endpoints.liveservice);
@@ -104,6 +108,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		if (newStompAnonymousEnquiry) {
 			setNewStompAnonymousEnquiry(false);
 
+			setAnonymousConversationStarted(true);
 			sendNotification(translate('notifications.enquiry.new'), {
 				showAlways: true,
 				onclick: () => {

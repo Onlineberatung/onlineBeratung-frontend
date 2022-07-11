@@ -8,6 +8,7 @@ export * from './interfaces/LegalLinkInterface';
 
 export * from './provider/AnonymousConversationFinishedProvider';
 export * from './provider/AnonymousEnquiryAcceptedProvider';
+export * from './provider/AnonymousConversationStartedProvider';
 export * from './provider/ConsultantListProvider';
 export * from './provider/ConsultingTypesProvider';
 export * from './provider/E2EEProvider';

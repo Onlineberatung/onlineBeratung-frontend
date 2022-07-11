@@ -9,7 +9,8 @@ import {
 	UserDataProvider,
 	WebsocketConnectionDeactivatedProvider,
 	TenantProvider,
-	RocketChatGlobalSettingsProvider
+	RocketChatGlobalSettingsProvider,
+	AnonymousConversationStartedProvider
 } from '.';
 
 function ProviderComposer({ contexts, children }) {
@@ -28,6 +29,7 @@ function ContextProvider({ children }) {
 			contexts={[
 				<AnonymousConversationFinishedProvider />,
 				<AnonymousEnquiryAcceptedProvider />,
+				<AnonymousConversationStartedProvider />,
 				<ConsultantListProvider />,
 				<ConsultingTypesProvider />,
 				<NotificationsProvider />,
