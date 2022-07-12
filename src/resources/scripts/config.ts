@@ -15,6 +15,7 @@ export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
 export const APP_PATH = 'app';
 
 export const config = {
+	useTenantService: false,
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
