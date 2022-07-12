@@ -225,32 +225,36 @@ export const BookingEvents = () => {
 									type="standard"
 									className="bookingEvents__descriptionText"
 								/>
-								<div
-									className="bookingEvents__showMore bookingEvents--flex bookingEvents--pointer"
-									onClick={handleViewMore.bind(
-										this,
-										event.id
-									)}
-								>
-									{event.expanded ? (
-										<ArrowUpIcon />
-									) : (
-										<ArrowDownIcon />
-									)}
-									<Text
-										text={
-											event.expanded
-												? translate(
-														'booking.event.show.less'
-												  )
-												: translate(
-														'booking.event.show.more'
-												  )
-										}
-										type="standard"
-										className="bookingEvents--pointer bookingEvents--primary"
-									/>
-								</div>
+								{event.description.length > 105 ? (
+									<div
+										className="bookingEvents__showMore bookingEvents--flex bookingEvents--pointer"
+										onClick={handleViewMore.bind(
+											this,
+											event.id
+										)}
+									>
+										{event.expanded ? (
+											<ArrowUpIcon />
+										) : (
+											<ArrowDownIcon />
+										)}
+										<Text
+											text={
+												event.expanded
+													? translate(
+															'booking.event.show.less'
+													  )
+													: translate(
+															'booking.event.show.more'
+													  )
+											}
+											type="standard"
+											className="bookingEvents--pointer bookingEvents--primary"
+										/>
+									</div>
+								) : (
+									<div />
+								)}
 							</div>
 							<div className="bookingEvents__actions">
 								<div
