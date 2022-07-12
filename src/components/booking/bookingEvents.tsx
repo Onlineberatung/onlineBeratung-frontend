@@ -92,7 +92,12 @@ export const BookingEvents = () => {
 	) => {
 		const date = appointmentInfo.date.split(' ')[1];
 		const [day, month, year] = date.split('.');
-		const [startHour] = appointmentInfo.duration.split(' ');
+		const [startHour, , endHour] = appointmentInfo.duration.split(' ');
+		const timeStart = new Date('01/01/2007 ' + startHour);
+		const timeEnd = new Date('01/01/2007 ' + endHour);
+		const duration =
+			(Math.abs(timeEnd.getTime() - timeStart.getTime()) / (1000 * 60)) %
+			60;
 
 		const icsMSG =
 			'BEGIN:VCALENDAR\n' +
@@ -113,7 +118,9 @@ export const BookingEvents = () => {
 			'T' +
 			startHour.replace(':', '') +
 			'00\n' +
-			'DURATION:PT15M\n' +
+			'DURATION:PT' +
+			duration +
+			'M\n' +
 			'END:VEVENT\n' +
 			'END:VCALENDAR\n';
 
@@ -179,7 +186,7 @@ export const BookingEvents = () => {
 			const endTime = new Date(event.endTime);
 			const date = `${getWeekDayFromPrefix(
 				startTime.getDay()
-			)}, ${startTime.getDate()}.${startTime.getMonth()}.${startTime
+			)}, ${startTime.getDate()}.${startTime.getMonth() + 1}.${startTime
 				.getFullYear()
 				.toString()
 				.slice(-2)}`;
