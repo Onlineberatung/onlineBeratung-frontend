@@ -178,6 +178,7 @@ export const WriteEnquiry: React.FC = () => {
 
 	const handleSendButton = useCallback(
 		async (response) => {
+			// ToDo: encrypt room logic could be moved to messageSubmitInterfaceComponent.tsx (SessionItemCompoent.tsx & WriteEnquiry.tsx)
 			await encryptRoom({
 				keyId: keyID,
 				isE2eeEnabled,

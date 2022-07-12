@@ -224,32 +224,3 @@ export const isUserModerator = ({ chatItem, rcUserId }) =>
 	isGroupChat(chatItem) &&
 	chatItem.moderators &&
 	chatItem.moderators.includes(rcUserId);
-
-export const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = {
-	svg: CheckIcon,
-	headline: translate('session.acceptance.overlayHeadline'),
-	buttonSet: [
-		{
-			label: translate('session.acceptance.buttonLabel'),
-			function: OVERLAY_FUNCTIONS.REDIRECT,
-			type: BUTTON_TYPES.PRIMARY
-		}
-	]
-};
-
-export const enquiryTakenByOtherConsultantOverlayItem: OverlayItem = {
-	svg: XIcon,
-	headline: translate(
-		'session.anonymous.takenByOtherConsultant.overlayHeadline'
-	),
-	illustrationBackground: 'error',
-	buttonSet: [
-		{
-			label: translate(
-				'session.anonymous.takenByOtherConsultant.buttonLabel'
-			),
-			function: OVERLAY_FUNCTIONS.CLOSE,
-			type: BUTTON_TYPES.PRIMARY
-		}
-	]
-};

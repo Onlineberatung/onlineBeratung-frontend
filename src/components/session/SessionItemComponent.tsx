@@ -14,9 +14,7 @@ import {
 	scrollToEnd,
 	isMyMessage,
 	SESSION_LIST_TYPES,
-	SESSION_LIST_TAB,
-	enquiryTakenByOtherConsultantOverlayItem,
-	enquirySuccessfullyAcceptedOverlayItem
+	SESSION_LIST_TAB
 } from './sessionHelpers';
 import {
 	MessageItem,
@@ -26,18 +24,7 @@ import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messa
 import { translate } from '../../utils/translate';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import {
-	apiEnquiryAcceptance,
-	apiGetConsultingType,
-	FETCH_ERRORS
-} from '../../api';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
-import { SessionAssign } from '../sessionAssign/SessionAssign';
+import { apiGetConsultingType } from '../../api';
 import {
 	AUTHORITIES,
 	ConsultingTypeInterface,
@@ -53,7 +40,6 @@ import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import smoothScroll from './smoothScrollHelper';
-import { history } from '../app/app';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
 import { createGroupKey } from '../../utils/encryptionHelpers';
@@ -61,6 +47,7 @@ import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { encryptRoom } from '../../utils/e2eeHelper';
+import { AcceptAssign } from './AcceptAssign';
 
 interface SessionItemProps {
 	isTyping?: Function;
@@ -82,10 +69,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 	const [monitoringButtonVisible, setMonitoringButtonVisible] =
 		useState(false);
-	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [initialScrollCompleted, setInitialScrollCompleted] = useState(false);
-	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
 	const [draggedFile, setDraggedFile] = useState<File | null>(null);
@@ -142,6 +127,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	]);
 
 	const handleEncryptRoom = useCallback(async () => {
+		// ToDo: encrypt room logic could be moved to messageSubmitInterfaceComponent.tsx (SessionItemCompoent.tsx & WriteEnquiry.tsx)
 		encryptRoom({
 			keyId: groupKeyID,
 			isE2eeEnabled,
@@ -272,51 +258,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		return translate('enquiry.write.input.placeholder');
 	};
 
-	const handleButtonClick = (sessionId: any) => {
-		if (isRequestInProgress) {
-			return null;
-		}
-		setIsRequestInProgress(true);
-
-		apiEnquiryAcceptance(sessionId, false)
-			.then(async () => {
-				await handleEncryptRoom();
-				setOverlayItem(enquirySuccessfullyAcceptedOverlayItem);
-			})
-			.catch((error) => {
-				if (error.message === FETCH_ERRORS.CONFLICT) {
-					setOverlayItem(enquiryTakenByOtherConsultantOverlayItem);
-				} else {
-					console.log(error);
-				}
-			});
-	};
-
-	const handleOverlayAction = (buttonFunction: string) => {
-		switch (buttonFunction) {
-			case OVERLAY_FUNCTIONS.REDIRECT:
-				setOverlayItem(null);
-				setIsRequestInProgress(false);
-				if (activeSession.item.id && activeSession.item.groupId) {
-					history.push(
-						`/sessions/consultant/sessionView/${activeSession.item.groupId}/${activeSession.item.id}`
-					);
-					return;
-				}
-				history.push(`/sessions/consultant/sessionView/`);
-				break;
-			case OVERLAY_FUNCTIONS.CLOSE:
-				setOverlayItem(null);
-				history.push(
-					`/sessions/consultant/sessionPreview${getSessionListTab()}`
-				);
-				break;
-			default:
-			// Should never be executed as `handleOverlayAction` is only called
-			// with a non-null `overlayItem`
-		}
-	};
-
 	/* eslint-disable */
 	const handleScroll = useDebouncedCallback((e) => {
 		const scrollPosition = Math.round(
@@ -369,11 +310,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	};
 
 	const isOnlyEnquiry = type === SESSION_LIST_TYPES.ENQUIRY;
-
-	const buttonItem: ButtonItem = {
-		label: translate('enquiry.acceptButton'),
-		type: BUTTON_TYPES.PRIMARY
-	};
 
 	const monitoringButtonItem: ButtonItem = {
 		label: translate('session.monitoring.buttonLabel'),
@@ -512,24 +448,19 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					</Link>
 				)}
 
-			{type === SESSION_LIST_TYPES.ENQUIRY ? (
-				<div className="session__acceptance messageItem">
-					{!activeSession.isLive &&
-					hasUserAuthority(
-						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
-						userData
-					) ? (
-						<SessionAssign />
-					) : (
-						<Button
-							item={buttonItem}
-							buttonHandle={() =>
-								handleButtonClick(activeSession.item.id)
-							}
-						/>
-					)}
-				</div>
-			) : null}
+			{type === SESSION_LIST_TYPES.ENQUIRY && (
+				<AcceptAssign
+					assignable={
+						!activeSession.isLive &&
+						hasUserAuthority(
+							AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
+							userData
+						)
+					}
+					isAnonymous={false}
+					btnLabel={'enquiry.acceptButton'}
+				/>
+			)}
 
 			{(type !== SESSION_LIST_TYPES.ENQUIRY ||
 				hasUserAuthority(
@@ -566,14 +497,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				onDragLeave={onDragLeave}
 				styleOverride={{ top: headerBounds.height + 'px' }}
 			/>
-			{overlayItem && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
-			)}
 		</div>
 	);
 };
