@@ -48,14 +48,6 @@ export const BookingEvents = () => {
 		history.push('/booking');
 	};
 
-	const getMessageDate = () => {
-		return (
-			<div className="messageItem__divider">
-				<Text text={'Diese Woche'} type="divider" />
-			</div>
-		);
-	};
-
 	const fakeData: BookingEventsInterface[] = [
 		{
 			id: 1,
@@ -170,7 +162,6 @@ export const BookingEvents = () => {
 				</div>
 			</div>
 			<div className="bookingEvents__innerWrapper">
-				{getMessageDate()}
 				{bookingEvents?.map((event) => (
 					<Box key={event.id}>
 						<div className="bookingEvents__innerWrapper-event">
