@@ -119,7 +119,8 @@ export const SessionsList = ({
 	const getConsultantSessionList = useCallback(
 		(
 			offset: number,
-			initialID?: string
+			initialID?: string,
+			count?: number
 		): Promise<{ sessions: ListItemInterface[]; total: number }> => {
 			setIsRequestInProgress(true);
 
@@ -134,7 +135,7 @@ export const SessionsList = ({
 				filter,
 				offset,
 				sessionListTab: sessionListTab,
-				count: SESSION_COUNT,
+				count: count ?? SESSION_COUNT,
 				signal: abortController.current.signal
 			})
 				.then(({ sessions, total }) => {
@@ -171,6 +172,14 @@ export const SessionsList = ({
 				});
 		},
 		[filter, sessionListTab, type]
+	);
+
+	useLiveChatWatcher(
+		!isLoading &&
+			type === SESSION_LIST_TYPES.ENQUIRY &&
+			sessionListTab === SESSION_LIST_TAB_ANONYMOUS,
+		getConsultantSessionList,
+		currentOffset
 	);
 
 	const scrollIntoView = useCallback(() => {
@@ -842,6 +851,68 @@ export const SessionsList = ({
 	);
 };
 
+/*
+Watch for inactive groups because there is no api endpoint
+ */
+const useLiveChatWatcher = (
+	shouldStart: boolean,
+	loader: (
+		offset: number,
+		initialID?: string,
+		count?: number
+	) => Promise<any>,
+	offset: number
+) => {
+	const { sessions, dispatch } = useContext(SessionsDataContext);
+
+	const refreshLoader = useCallback((): Promise<any> => {
+		return loader(0, null, offset + SESSION_COUNT)
+			.then(({ sessions: newSessions }) => {
+				const removedSessionGroupIds = sessions
+					.filter(
+						(session) =>
+							!newSessions.find(
+								(newSession) =>
+									newSession.session.groupId ===
+									session.session.groupId
+							)
+					)
+					.map((session) => session.session.groupId);
+
+				if (removedSessionGroupIds.length > 0) {
+					dispatch({
+						type: REMOVE_SESSIONS,
+						ids: removedSessionGroupIds
+					});
+				}
+			})
+			.catch((e) => {
+				if (e.message === FETCH_ERRORS.EMPTY) {
+					dispatch({
+						type: SET_SESSIONS,
+						sessions: []
+					});
+				}
+			});
+	}, [dispatch, loader, offset, sessions]);
+
+	const [startWatcher, stopWatcher, isWatcherRunning] = useWatcher(
+		refreshLoader,
+		3000
+	);
+
+	useEffect(() => {
+		if (!isWatcherRunning && shouldStart) {
+			startWatcher();
+		}
+
+		return () => {
+			if (isWatcherRunning) {
+				stopWatcher();
+			}
+		};
+	}, [shouldStart, isWatcherRunning, startWatcher, stopWatcher]);
+};
 /*
 Watch for inactive groups because there is no api endpoint
  */

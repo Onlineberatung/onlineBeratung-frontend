@@ -15,6 +15,11 @@ import {
 } from '../../utils/dateHelpers';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { decodeUsername } from '../../utils/encryptionHelpers';
+import { OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { translate } from '../../utils/translate';
+import { BUTTON_TYPES } from '../button/Button';
+import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 
 export enum SESSION_LIST_TYPES {
 	ENQUIRY = 'ENQUIRY',
@@ -219,3 +224,32 @@ export const isUserModerator = ({ chatItem, rcUserId }) =>
 	isGroupChat(chatItem) &&
 	chatItem.moderators &&
 	chatItem.moderators.includes(rcUserId);
+
+export const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = {
+	svg: CheckIcon,
+	headline: translate('session.acceptance.overlayHeadline'),
+	buttonSet: [
+		{
+			label: translate('session.acceptance.buttonLabel'),
+			function: OVERLAY_FUNCTIONS.REDIRECT,
+			type: BUTTON_TYPES.PRIMARY
+		}
+	]
+};
+
+export const enquiryTakenByOtherConsultantOverlayItem: OverlayItem = {
+	svg: XIcon,
+	headline: translate(
+		'session.anonymous.takenByOtherConsultant.overlayHeadline'
+	),
+	illustrationBackground: 'error',
+	buttonSet: [
+		{
+			label: translate(
+				'session.anonymous.takenByOtherConsultant.buttonLabel'
+			),
+			function: OVERLAY_FUNCTIONS.CLOSE,
+			type: BUTTON_TYPES.PRIMARY
+		}
+	]
+};

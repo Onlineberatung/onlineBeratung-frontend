@@ -210,10 +210,7 @@ export const SessionStream = ({
 	);
 
 	useEffect(() => {
-		if (
-			(activeSession.isEnquiry && activeSession.isLive) ||
-			subscribed.current
-		) {
+		if (subscribed.current) {
 			setLoading(false);
 		} else {
 			subscribed.current = true;

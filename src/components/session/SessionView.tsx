@@ -25,6 +25,7 @@ import useUpdatingRef from '../../hooks/useUpdatingRef';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useSession } from '../../hooks/useSession';
 import { SessionStream } from './SessionStream';
+import { AcceptLiveChatView } from './AcceptLiveChatView';
 
 interface SessionViewProps {
 	legalLinks: Array<LegalLinkInterface>;
@@ -164,6 +165,23 @@ export const SessionView = ({ legalLinks }: SessionViewProps) => {
 					forceBannedOverlay={forceBannedOverlay}
 					bannedUsers={bannedUsers}
 					legalLinks={legalLinks}
+				/>
+			</ActiveSessionContext.Provider>
+		);
+	}
+
+	if (
+		activeSession?.isEnquiry &&
+		!activeSession?.isEmptyEnquiry &&
+		activeSession.isLive
+	) {
+		return (
+			<ActiveSessionContext.Provider
+				value={{ activeSession, reloadActiveSession }}
+			>
+				<AcceptLiveChatView
+					legalLinks={legalLinks}
+					bannedUsers={bannedUsers}
 				/>
 			</ActiveSessionContext.Provider>
 		);
