@@ -293,6 +293,11 @@ $buttonHeight: 50px;
 	}
 
 	&__custom-icon {
+		margin-right: 0.5rem;
+		display: inline-block;
+	}
+
+	&__custom-icon {
 		display: inline-block;
 		transform: scale(0.5);
 	}

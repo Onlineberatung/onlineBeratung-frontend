@@ -14,6 +14,8 @@ import { config } from '../../resources/scripts/config';
 import { AUTHORITIES, hasUserAuthority } from '../../globalState';
 import { Booking } from '../booking/booking';
 import { BookingCancelation } from '../booking/bookingCancelation';
+import { BookingEvents } from '../booking/bookingEvents';
+import { BookingReschedule } from '../booking/bookingReschedule';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -43,6 +45,13 @@ export const RouterConfigUser = (): any => {
 				icon: 'person',
 				titleKeys: {
 					large: 'navigation.profile'
+				}
+			},
+			{
+				to: '/booking/events',
+				icon: 'booking-events',
+				titleKeys: {
+					large: 'navigation.booking.events'
 				}
 			}
 		],
@@ -82,6 +91,14 @@ export const RouterConfigUser = (): any => {
 			{
 				path: '/booking/cancelation',
 				component: BookingCancelation
+			},
+			{
+				path: '/booking/reschedule',
+				component: BookingReschedule
+			},
+			{
+				path: '/booking/events',
+				component: BookingEvents
 			}
 		]
 	};
@@ -210,6 +227,14 @@ export const RouterConfigConsultant = (): any => {
 			{
 				path: '/booking/cancelation',
 				component: BookingCancelation
+			},
+			{
+				path: '/booking/reschedule',
+				component: BookingReschedule
+			},
+			{
+				path: '/booking/events',
+				component: BookingEvents
 			}
 		]
 	};
@@ -373,6 +398,14 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				path: '/booking/cancelation',
 				component: BookingCancelation
+			},
+			{
+				path: '/booking/reschedule',
+				component: BookingReschedule
+			},
+			{
+				path: '/booking/events',
+				component: BookingEvents
 			}
 		]
 	};
@@ -418,6 +451,14 @@ export const RouterConfigAnonymousAsker = (): any => {
 			{
 				path: '/sessions/user/view/',
 				component: SessionViewEmpty
+			},
+			{
+				path: '/booking/reschedule',
+				component: BookingReschedule
+			},
+			{
+				path: '/booking/events',
+				component: BookingEvents
 			}
 		]
 	};

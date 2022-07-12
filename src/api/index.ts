@@ -7,6 +7,7 @@ export * from './apiForwardMessage';
 export * from './apiGetAgencyConsultantList';
 export * from './apiGetAgencyId';
 export * from './apiGetAskerSessionList';
+export * from './apiGetCalComTeam';
 export * from './apiGetConsultantSessionList';
 export * from './apiGetConsultantStatistics';
 export * from './apiGetConsultingType';

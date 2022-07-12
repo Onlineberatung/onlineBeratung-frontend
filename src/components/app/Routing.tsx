@@ -230,6 +230,25 @@ export const Routing = (props: routingProps) => {
 									)}
 							</Switch>
 						</div>
+						<div className="contentWrapper__booking">
+							<Switch>
+								{routerConfig.appointmentRoutes?.map(
+									(route: any): JSX.Element => (
+										<Route
+											exact={route.exact ?? true}
+											key={`booking-${route.path}`}
+											path={route.path}
+											render={() => (
+												<route.component
+													{...props}
+													type={route.type || null}
+												/>
+											)}
+										/>
+									)
+								)}
+							</Switch>
+						</div>
 					</section>
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,

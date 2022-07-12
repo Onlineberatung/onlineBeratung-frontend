@@ -6,7 +6,7 @@ import {
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
 
-export const BookingCancelation = () => {
+export const BookingReschedule = () => {
 	useEffect(() => {
 		setBookingWrapperActive();
 
@@ -17,12 +17,12 @@ export const BookingCancelation = () => {
 
 	return (
 		<iframe
-			src={`${config.urls.appointmentServiceDevServer}/cancel/wX1FRw3E7SaFeQ8yFSDGQC`}
+			src={`${config.urls.appointmentServiceDevServer}/team/team-b/team-b-event?rescheduleUid=wX1FRw3E7SaFeQ8yFSDGQC`}
 			frameBorder={0}
 			scrolling="false"
 			width="100%"
 			height="100%"
-			title="booking-cancelation"
+			title="booking-reschedule"
 		/>
 	);
 };

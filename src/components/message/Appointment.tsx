@@ -14,6 +14,7 @@ import {
 	getWeekDayFromPrefix
 } from '../../utils/dateHelpers';
 import { history } from '../app/app';
+import { downloadICSFile } from '../../utils/downloadICSFile';
 
 interface AppointmentData {
 	title: string;
@@ -71,15 +72,6 @@ export const Appointment = (param: { data: string }) => {
 
 	const handleCancelAppointment = () => {
 		history.push('/booking/cancelation');
-	};
-
-	const downloadICSFile = (filename: string, icsMSG: string) => {
-		const link = document.createElement('a');
-		link.download = `${filename}.ics`;
-		link.href = `data:text/calendar;",${escape(icsMSG)}`;
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
 	};
 
 	return (

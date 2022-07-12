@@ -9,7 +9,8 @@ const navigation = {
 	'consultant.peersessions': 'Peer Beratungen',
 	'consultant.peersessions.small': 'Peer Ber.',
 	'profile': 'Profil',
-	'appointments': 'Video-Termine'
+	'appointments': 'Video-Termine',
+	'booking.events': 'Meine Termine'
 };
 
 export default navigation;
