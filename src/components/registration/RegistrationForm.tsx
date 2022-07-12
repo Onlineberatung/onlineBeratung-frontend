@@ -24,7 +24,8 @@ import {
 	AgencyDataInterface,
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
-	LegalLinkInterface
+	LegalLinkInterface,
+	useTenant
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
@@ -60,6 +61,7 @@ export const RegistrationForm = ({
 	legalLinks,
 	consultant
 }: RegistrationFormProps) => {
+	const tenantData = useTenant();
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
 	const [formAccordionValid, setFormAccordionValid] = useState(false);
@@ -87,7 +89,10 @@ export const RegistrationForm = ({
 			});
 		}
 
-		if (consultingType?.registration.autoSelectAgency) {
+		if (
+			consultingType?.registration.autoSelectAgency &&
+			!tenantData?.settings?.topicsInRegistrationEnabled
+		) {
 			apiAgencySelection({
 				postcode: postcodeParameter || DEFAULT_POSTCODE,
 				consultingType: consultingType.id
@@ -109,6 +114,30 @@ export const RegistrationForm = ({
 			setIsSubmitButtonDisabled(true);
 		}
 	}, [formAccordionValid, isDataProtectionSelected]);
+
+	useEffect(() => {
+		const shouldRequest =
+			consultingType?.registration.autoSelectPostcode &&
+			!!tenantData?.settings?.topicsInRegistrationEnabled;
+
+		if (shouldRequest) {
+			apiAgencySelection({
+				postcode: formAccordionData.postcode || DEFAULT_POSTCODE,
+				consultingType: consultingType.id,
+				topicId: formAccordionData.mainTopicId
+			})
+				.then((response) => {
+					const agencyData = response[0];
+					setPreselectedAgencyData(agencyData);
+				})
+				.catch(() => setPreselectedAgencyData(null));
+		}
+	}, [
+		consultingType,
+		formAccordionData.mainTopicId,
+		formAccordionData.postcode,
+		tenantData
+	]);
 
 	const checkboxItemDataProtection: CheckboxItem = {
 		inputId: 'dataProtectionCheckbox',
