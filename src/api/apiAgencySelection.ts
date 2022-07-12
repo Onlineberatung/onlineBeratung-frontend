@@ -9,6 +9,7 @@ export const apiAgencySelection = async (params: {
 	topicId?: number;
 }): Promise<Array<AgencyDataInterface> | null> => {
 	let queryStr = Object.keys(params)
+		.filter((key) => params[key] !== undefined)
 		.map((key) => key + '=' + params[key])
 		.join('&');
 	const url = config.endpoints.agencyServiceBase + '?' + queryStr;
