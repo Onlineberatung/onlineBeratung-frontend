@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { translate } from '../../utils/translate';
 import {
 	setBookingWrapperActive,
@@ -19,18 +19,24 @@ import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow
 import { Text } from '../text/Text';
 import { Box } from '../box/Box';
 import { downloadICSFile } from '../../utils/downloadICSFile';
+import { apiAppointmentsServiceBookingEventsByUserId } from '../../api/apiGetAppointmentsServiceBookingEventsByUserId';
+import { UserDataContext } from '../../globalState';
+import { BookingEventsInterface } from '../../globalState/interfaces/BookingDataInterface';
+import { getWeekDayFromPrefix } from '../../utils/dateHelpers';
 
-interface BookingEventsInterface {
+interface BookingEventsListInterface {
 	id: number;
+	uid: string;
 	date: string;
 	duration: string;
 	counselor: string;
 	description: string;
 	expanded: boolean;
+	// counselor: string;
+	// slug: string;
 }
 
 export const BookingEvents = () => {
-	debugger;
 	useEffect(() => {
 		setBookingWrapperActive();
 
@@ -38,6 +44,8 @@ export const BookingEvents = () => {
 			setBookingWrapperInactive();
 		};
 	}, []);
+
+	const { userData } = useContext(UserDataContext);
 
 	const buttonSetCancel: ButtonItem = {
 		label: translate('booking.schedule'),
@@ -48,42 +56,27 @@ export const BookingEvents = () => {
 		history.push('/booking');
 	};
 
-	const fakeData: BookingEventsInterface[] = [
+	const initialData: BookingEventsListInterface[] = [
 		{
 			id: 1,
-			date: 'Mittwoch, 29.06.22',
-			duration: '11:30 - 12:00',
-			counselor: 'Max Musrermann',
-			description:
-				'Vivamus a molestie ex, nec tincidunt diam. Quisque posuere lorem libero, ultrices cursus lorem rhoncus vitae. Fusce rutrum elementum imperdiet. Nulla pulvinar ex urna, sit amet rutrum risus mattis vitae. Morbi ac convallis quam. Fusce mollis laoreet dolor et blandit. Sed sem lorem, auctor tempus commodo a, semper ut felis. In hac habitasse platea dictumst. Proin bibendum, libero fringilla vestibulum malesuada, magna nibh mollis mi, eget gravida ante tortor vitae odio. Etiam imperdiet eros felis. In volutpat non turpis sit amet finibus. Donec facilisis nisi eu sem pharetra, vitae interdum massa suscipit. Aenean volutpat nulla eget ornare sodales. Quisque rhoncus euismod euismod. Phasellus at nibh in nisl fermentum pellentesque quis et neque.',
-			expanded: false
-		},
-		{
-			id: 2,
-			date: 'Freitag, 05.07.22',
-			duration: '11:30 - 12:00',
-			counselor: 'Max Musrermann',
-			description:
-				'Ihre Nachricht zum Termin Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim cididunt ut labore et dolcididunt ut labore et dol Aliquam sed justo convallis, lobortis ante vel, pellentesque lectus. Etiam semper ligula a tortor ornare, semper varius dui ullamcorper. Donec a viverra massa. Vestibulum malesuada sem sit amet orci efficitur, ac vestibulum nunc imperdiet. Ut rutrum egestas purus, ullamcorper ultrices dui maximus non. Proin maximus pulvinar mauris, tristique dapibus nunc dapibus sit amet. Suspendisse in vestibulum metus. Suspendisse luctus urna et nunc dictum, nec tempus sapien iaculis. Pellentesque velit nibh, ultricies nec nulla nec, sagittis cursus sem. Fusce ac leo eget odio sollicitudin pulvinar a in dui. Proin varius nulla varius, aliquam augue quis, pretium purus. Ut vehicula purus sit amet ligula efficitur, sit amet pulvinar metus aliquet.',
-			expanded: false
-		},
-		{
-			id: 3,
-			date: 'Donnerstag, 18.07.22',
-			duration: '11:30 - 12:00',
-			counselor: 'Max Musrermann',
-			description:
-				'Etiam dictum vel nunc ac bibendum. Nam suscipit mauris ex. Nullam ut elit ac magna tincidunt tempus a a ante. Suspendisse eget ligula varius, vulputate lorem nec, commodo velit. Quisque aliquam, magna non vestibulum convallis, justo lectus molestie massa, eu iaculis purus nibh et quam. Sed vitae neque eget magna accumsan pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum semper lacus accumsan tincidunt.',
-			expanded: false
+			date: '',
+			duration: '',
+			counselor: '',
+			description: '',
+			expanded: false,
+			uid: ''
 		}
 	];
 
-	const [bookingEvents, setbookingEvents] = useState<
+	const [bookingEventsApi, setbookingEventsApi] = useState<
 		BookingEventsInterface[] | null
-	>(fakeData);
+	>(null);
+
+	const [bookingEvents, setbookingEvents] =
+		useState<BookingEventsListInterface[]>(initialData);
 
 	const handleViewMore = (id: number) => {
-		let newArrayEvents: BookingEventsInterface[] = [];
+		let newArrayEvents: BookingEventsListInterface[] = [];
 		bookingEvents.forEach((event) => {
 			if (event.id === id) {
 				newArrayEvents.push({ ...event, expanded: !event.expanded });
@@ -94,7 +87,13 @@ export const BookingEvents = () => {
 		});
 	};
 
-	const handleICSAppointment = (appointmentInfo) => {
+	const handleICSAppointment = (
+		appointmentInfo: BookingEventsListInterface
+	) => {
+		const date = appointmentInfo.date.split(' ')[1];
+		const [day, month, year] = date.split('.');
+		const [startHour] = appointmentInfo.duration.split(' ');
+
 		const icsMSG =
 			'BEGIN:VCALENDAR\n' +
 			'VERSION:2.0\n' +
@@ -103,19 +102,25 @@ export const BookingEvents = () => {
 			'METHOD:PUBLISH\n' +
 			'X-PUBLISHED-TTL:PT1H\n' +
 			'BEGIN:VEVENT\n' +
-			'SUMMARY:Team B Event 2 zwischen Team B und Andre Soares\n' +
-			'DTSTART:20220704T080000Z\n' +
+			'SUMMARY:' +
+			appointmentInfo.description +
+			'\n' +
+			'DTSTART:' +
+			'20' +
+			addMissingZero(parseInt(year)) +
+			addMissingZero(parseInt(month)) +
+			day +
+			'T' +
+			startHour.replace(':', '') +
+			'00\n' +
 			'DURATION:PT15M\n' +
 			'END:VEVENT\n' +
 			'END:VCALENDAR\n';
 
-		downloadICSFile(
-			'Team B Event 2 zwischen Team B und Andre Soares',
-			icsMSG
-		);
+		downloadICSFile(appointmentInfo.description, icsMSG);
 	};
 
-	const icsComponent = (event: BookingEventsInterface) => {
+	const icsComponent = (event) => {
 		return (
 			<div
 				className="bookingEvents--flex"
@@ -131,13 +136,75 @@ export const BookingEvents = () => {
 		);
 	};
 
-	const handleCancelAppointment = () => {
-		history.push('/booking/cancelation');
+	const handleCancelAppointment = (event: BookingEventsListInterface) => {
+		history.push({
+			pathname: '/booking/cancelation',
+			state: { uid: event.uid }
+		});
 	};
 
-	const handleRescheduleAppointment = () => {
-		history.push('/booking/reschedule');
+	const handleRescheduleAppointment = (event: BookingEventsListInterface) => {
+		// TODO: add slug to the state, like this:
+		// history.push({
+		// 	pathname: '/booking/reschedule',
+		// 	state: { uid: event.uid, slug: event.slug }
+		// });
+		history.push({
+			pathname: '/booking/reschedule',
+			state: { uid: event.uid }
+		});
 	};
+
+	const addMissingZero = (value: number) => {
+		if (value < 10) {
+			return '0' + value;
+		} else {
+			return value;
+		}
+	};
+
+	useEffect(() => {
+		apiAppointmentsServiceBookingEventsByUserId(userData.userId).then(
+			(bookings) => {
+				setbookingEventsApi(bookings);
+			}
+		);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	useEffect(() => {
+		let bookingEvents: BookingEventsListInterface[] = [];
+		bookingEventsApi?.forEach((event: BookingEventsInterface) => {
+			const startTime = new Date(event.startTime);
+			const endTime = new Date(event.endTime);
+			const date = `${getWeekDayFromPrefix(
+				startTime.getDay()
+			)}, ${startTime.getDate()}.${startTime.getMonth()}.${startTime
+				.getFullYear()
+				.toString()
+				.slice(-2)}`;
+			const duration = `${addMissingZero(
+				startTime.getUTCHours()
+			)}:${addMissingZero(startTime.getUTCMinutes())} - ${addMissingZero(
+				endTime.getUTCHours()
+			)}:${addMissingZero(endTime.getUTCMinutes())}`;
+
+			// TODO: add counselor
+			bookingEvents.push({
+				id: event.id,
+				date,
+				duration,
+				counselor: 'Max Musrermann',
+				description: event.title,
+				expanded: false,
+				uid: event.uid
+				// counselor: event.counselor
+				// slug: event.slug
+			});
+		});
+		setbookingEvents(bookingEvents);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [bookingEventsApi]);
 
 	return (
 		<div className="bookingEvents__wrapper">
@@ -259,7 +326,10 @@ export const BookingEvents = () => {
 							<div className="bookingEvents__actions">
 								<div
 									className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
-									onClick={handleRescheduleAppointment}
+									onClick={handleRescheduleAppointment.bind(
+										this,
+										event
+									)}
 								>
 									<CalendarRescheduleIcon />
 									<Text
@@ -272,7 +342,10 @@ export const BookingEvents = () => {
 								</div>
 								<div
 									className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
-									onClick={handleCancelAppointment}
+									onClick={handleCancelAppointment.bind(
+										this,
+										event
+									)}
 								>
 									<CalendarCancelIcon />
 									<Text
@@ -287,6 +360,9 @@ export const BookingEvents = () => {
 						</div>
 					</Box>
 				))}
+				{bookingEvents.length === 0 && (
+					<h1>No booking appointments...</h1>
+				)}
 			</div>
 		</div>
 	);

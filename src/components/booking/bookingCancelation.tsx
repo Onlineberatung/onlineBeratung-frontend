@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { config } from '../../resources/scripts/config';
 import {
 	setBookingWrapperActive,
@@ -15,9 +16,11 @@ export const BookingCancelation = () => {
 		};
 	}, []);
 
+	const location = useLocation();
+
 	return (
 		<iframe
-			src={`${config.urls.appointmentServiceDevServer}/cancel/wX1FRw3E7SaFeQ8yFSDGQC`}
+			src={`${config.urls.appointmentServiceDevServer}/cancel/${location.state.uid}`}
 			frameBorder={0}
 			scrolling="false"
 			width="100%"

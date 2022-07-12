@@ -128,30 +128,37 @@ export const getMonthFromString = (month: string) => {
 	return -1;
 };
 
-export const getWeekDayFromPrefix = (weekday: string) => {
+export const getWeekDayFromPrefix = (weekday: string | number) => {
 	let weekDay = '';
 	switch (weekday) {
+		case 0:
+			weekDay = translate('dates.Sunday');
+			break;
 		case 'Mon,':
+		case 1:
 			weekDay = translate('dates.Monday');
 			break;
 		case 'Tue,':
+		case 2:
 			weekDay = translate('dates.Tuesday');
 			break;
 		case 'Wed,':
+		case 3:
 			weekDay = translate('dates.Wednesday');
 			break;
 		case 'Thu,':
+		case 4:
 			weekDay = translate('dates.Thursday');
 			break;
 		case 'Fri,':
+		case 5:
 			weekDay = translate('dates.Friday');
 			break;
 		case 'Sat,':
+		case 6:
 			weekDay = translate('dates.Saturday');
 			break;
 		case 'Sun,':
-			weekDay = translate('dates.Sunday');
-			break;
 	}
 	return weekDay;
 };

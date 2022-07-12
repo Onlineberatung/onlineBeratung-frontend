@@ -12,6 +12,8 @@ export * from './apiGetConsultantStatistics';
 export * from './apiGetConsultingType';
 export * from './apiGetConsultingTypes';
 export * from './apiGetAppointmentServiceTeam';
+export * from './apiGetApiAppointmentServiceEventTypes';
+export * from './apiGetAppointmentsServiceBookingEventsByUserId';
 export * from './apiGetGroupChatInfo';
 export * from './apiGetGroupMembers';
 export * from './apiGetMonitoring';

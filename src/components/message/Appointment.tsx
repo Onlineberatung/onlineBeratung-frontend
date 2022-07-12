@@ -70,7 +70,12 @@ export const Appointment = (param: { data: string }) => {
 		downloadICSFile(appointmentInfo.location, icsMSG);
 	};
 
-	const handleCancelAppointment = () => {
+	const handleCancelAppointment = (event) => {
+		// TODO: add uid to the state, like this:
+		// history.push({
+		// 	pathname: '/booking/cancelation',
+		// 	state: { uid: event.uid }
+		// });
 		history.push('/booking/cancelation');
 	};
 
@@ -128,7 +133,7 @@ export const Appointment = (param: { data: string }) => {
 				</div>
 				<div
 					className="appointmentSet--flex appointmentSet--pointer"
-					onClick={handleCancelAppointment}
+					onClick={handleCancelAppointment.bind(this, parsedData)}
 				>
 					<CalendarCancelIcon />
 					<Text

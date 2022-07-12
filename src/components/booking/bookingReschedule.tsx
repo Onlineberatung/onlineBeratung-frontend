@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { config } from '../../resources/scripts/config';
 import {
 	setBookingWrapperActive,
@@ -15,9 +16,12 @@ export const BookingReschedule = () => {
 		};
 	}, []);
 
+	const location = useLocation();
+
 	return (
+		// TODO: replace the slug for a dynamic one, something like: {`${config.urls.appointmentServiceDevServer}/${location.state.slug}?rescheduleUid=${location.state.uid}`}
 		<iframe
-			src={`${config.urls.appointmentServiceDevServer}/team/team-b/team-b-event?rescheduleUid=wX1FRw3E7SaFeQ8yFSDGQC`}
+			src={`${config.urls.appointmentServiceDevServer}/team/team-b/team-b-event?rescheduleUid=${location.state.uid}`}
 			frameBorder={0}
 			scrolling="false"
 			width="100%"

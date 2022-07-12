@@ -29,9 +29,11 @@ export const config = {
 		appointmentServiceMeetingLink: (agencyId: number) =>
 			apiUrl +
 			`/service/appointservice/agencies/${agencyId}/initialMeetingSlug`,
-		appointmentServiceEventTypes: (userId?: string) =>
+		appointmentServiceEventTypes: (userId: string) =>
 			apiUrl + `/service/appointservice/consultants/1/meetingSlug`,
 		appointmentsServiceBase: apiUrl + '/service/appointments',
+		appointmentsServiceBookingEventsByUserId: (userId: string) =>
+			apiUrl + `/service/appointservice/askers/${userId}/bookings`,
 		askerSessions: apiUrl + '/service/users/sessions/askers',
 		attachmentUpload: apiUrl + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',

@@ -8,8 +8,8 @@ import {
 import Cal from '../cal/Cal';
 import { SessionsDataContext, UserDataContext } from '../../globalState';
 import {
-	apiAppointmentServiceEventTypes as apiAppointmentServiceEventTypeUser,
-	apiAppointmentServiceTeamById
+	apiAppointmentServiceTeamById,
+	apiAppointmentServiceEventTypes
 } from '../../api';
 
 export const Booking = () => {
@@ -27,7 +27,7 @@ export const Booking = () => {
 
 	useEffect(() => {
 		if (sessionsData?.mySessions?.[0]?.consultant) {
-			apiAppointmentServiceEventTypeUser(userData.userId).then((resp) => {
+			apiAppointmentServiceEventTypes(userData.userId).then((resp) => {
 				setTeam(resp.slug);
 			});
 		} else {

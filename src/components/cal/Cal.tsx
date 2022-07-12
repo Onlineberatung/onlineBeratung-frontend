@@ -56,6 +56,7 @@ export default function Cal({
 		Cal('on', {
 			action: 'bookingSuccessful',
 			callback: (e) => {
+				// TODO: Add ui to the appointmentData
 				const { data } = e.detail;
 				const date = data.date;
 				const appointmentData = {
