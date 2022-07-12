@@ -15,11 +15,6 @@ import {
 } from '../../utils/dateHelpers';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { decodeUsername } from '../../utils/encryptionHelpers';
-import { OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import { translate } from '../../utils/translate';
-import { BUTTON_TYPES } from '../button/Button';
-import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 
 export enum SESSION_LIST_TYPES {
 	ENQUIRY = 'ENQUIRY',
