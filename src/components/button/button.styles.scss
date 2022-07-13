@@ -3,6 +3,12 @@ $buttonMaxWidth: 400px;
 $buttonHeight: 50px;
 
 .button {
+	&__wrapper {
+		&--inline {
+			display: inline-block;
+		}
+	}
+
 	&__item {
 		font-weight: $font-weight-bold;
 		appearance: none;
@@ -131,6 +137,15 @@ $buttonHeight: 50px;
 			&:hover {
 				background: none;
 			}
+		}
+
+		&--inline {
+			height: auto;
+			padding: 0;
+			text-align: left;
+			min-width: auto;
+			text-transform: none;
+			font-weight: normal;
 		}
 	}
 

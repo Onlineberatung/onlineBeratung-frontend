@@ -48,6 +48,7 @@ import useMeasure from 'react-use-measure';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { encryptRoom } from '../../utils/e2eeHelper';
 import { AcceptAssign } from './AcceptAssign';
+import { SubscriptionKeyLost } from './SubscriptionKeyLost';
 
 interface SessionItemProps {
 	isTyping?: Function;
@@ -78,14 +79,21 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const [isDragging, setIsDragging] = useState(false);
 	const dragCancelRef = useRef<NodeJS.Timeout>();
 	const [newMessages, setNewMessages] = useState(0);
+	const [canWriteMessage, setCanWriteMessage] = useState(false);
 	const [headerRef, headerBounds] = useMeasure();
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	/* E2EE */
-	const { encrypted, key, keyID, sessionKeyExportedString, ready } =
-		useE2EE(groupIdFromParam);
+	const {
+		encrypted,
+		key,
+		keyID,
+		sessionKeyExportedString,
+		ready,
+		subscriptionKeyLost
+	} = useE2EE(groupIdFromParam);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 	const [groupKey, setGroupKey] = useState(null);
 	const [groupKeyID, setGroupKeyID] = useState(null);
@@ -93,7 +101,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		useState(null);
 
 	// group Key generation if needed
-
 	useEffect(() => {
 		if (!isE2eeEnabled || !ready) {
 			return;
@@ -145,6 +152,17 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 	/** END E2EE */
 
+	useEffect(() => {
+		setCanWriteMessage(
+			(type !== SESSION_LIST_TYPES.ENQUIRY ||
+				hasUserAuthority(
+					AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
+					userData
+				)) &&
+				!subscriptionKeyLost
+		);
+	}, [subscriptionKeyLost, type, userData]);
+
 	const resetUnreadCount = () => {
 		setNewMessages(0);
 		initMessageCount = messages?.length;
@@ -171,9 +189,13 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			window.ondragend = window.ondrop = () => setIsDragging(false);
 		};
 
+		if (!canWriteMessage) {
+			return;
+		}
+
 		enableDraggingOnWindow();
 		return () => disableDraggingOnWindow();
-	}, []);
+	}, [canWriteMessage]);
 
 	useEffect(() => {
 		if (scrollContainerRef.current) {
@@ -462,41 +484,42 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				/>
 			)}
 
-			{(type !== SESSION_LIST_TYPES.ENQUIRY ||
-				hasUserAuthority(
-					AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
-					userData
-				)) && (
-				<MessageSubmitInterfaceComponent
-					handleSendButton={handleEncryptRoom}
-					isTyping={props.isTyping}
-					className={clsx(
-						'session__submit-interface',
-						!isScrolledToBottom &&
-							'session__submit-interface--scrolled-up'
-					)}
-					placeholder={getPlaceholder()}
-					showMonitoringButton={() => {
-						setMonitoringButtonVisible(true);
-					}}
-					typingUsers={props.typingUsers}
-					E2EEParams={{
-						encrypted,
-						key: groupKey,
-						keyID: groupKeyID,
-						sessionKeyExportedString: sessionGroupKeyExportedString
-					}}
-					preselectedFile={draggedFile}
-					handleMessageSendSuccess={handleMessageSendSuccess}
-				/>
+			{canWriteMessage && (
+				<>
+					<MessageSubmitInterfaceComponent
+						handleSendButton={handleEncryptRoom}
+						isTyping={props.isTyping}
+						className={clsx(
+							'session__submit-interface',
+							!isScrolledToBottom &&
+								'session__submit-interface--scrolled-up'
+						)}
+						placeholder={getPlaceholder()}
+						showMonitoringButton={() => {
+							setMonitoringButtonVisible(true);
+						}}
+						typingUsers={props.typingUsers}
+						E2EEParams={{
+							encrypted,
+							key: groupKey,
+							keyID: groupKeyID,
+							sessionKeyExportedString:
+								sessionGroupKeyExportedString
+						}}
+						preselectedFile={draggedFile}
+						handleMessageSendSuccess={handleMessageSendSuccess}
+					/>
+					<DragAndDropArea
+						onFileDragged={onFileDragged}
+						isDragging={isDragging}
+						canDrop={isDragOverDropArea}
+						onDragLeave={onDragLeave}
+						styleOverride={{ top: headerBounds.height + 'px' }}
+					/>
+				</>
 			)}
-			<DragAndDropArea
-				onFileDragged={onFileDragged}
-				isDragging={isDragging}
-				canDrop={isDragOverDropArea}
-				onDragLeave={onDragLeave}
-				styleOverride={{ top: headerBounds.height + 'px' }}
-			/>
+
+			{subscriptionKeyLost && <SubscriptionKeyLost />}
 		</div>
 	);
 };
