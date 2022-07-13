@@ -73,12 +73,14 @@ export const NavigationBar = ({
 		}, 1000);
 	}, [unreadSessions, unreadGroup, unreadTeamSessions]);
 
-	const pathsToShowUnreadMessageNotification = {
-		'/sessions/consultant/sessionView':
-			unreadSessions.length + unreadGroup.length,
-		'/sessions/user/view': unreadSessions.length + unreadGroup.length,
-		'/sessions/consultant/teamSessionView': unreadTeamSessions.length
-	};
+	const pathsToShowUnreadMessageNotification = useCallback(() => {
+		return {
+			'/sessions/consultant/sessionView':
+				unreadSessions.length + unreadGroup.length,
+			'/sessions/user/view': unreadSessions.length + unreadGroup.length,
+			'/sessions/consultant/teamSessionView': unreadTeamSessions.length
+		};
+	}, [unreadGroup.length, unreadSessions.length, unreadTeamSessions.length]);
 
 	return (
 		<div className="navigation__wrapper">
@@ -98,7 +100,7 @@ export const NavigationBar = ({
 							} ${
 								animateNavIcon &&
 								Object.keys(
-									pathsToShowUnreadMessageNotification
+									pathsToShowUnreadMessageNotification()
 								).includes(item.to) &&
 								'navigation__item__count--active'
 							}`}
@@ -115,10 +117,11 @@ export const NavigationBar = ({
 								);
 							})(item.titleKeys)}
 							{Object.keys(
-								pathsToShowUnreadMessageNotification
+								pathsToShowUnreadMessageNotification()
 							).includes(item.to) &&
-								pathsToShowUnreadMessageNotification[item.to] >
-									0 && (
+								pathsToShowUnreadMessageNotification()[
+									item.to
+								] > 0 && (
 									<NavigationUnreadIndicator
 										animate={animateNavIcon}
 									/>
