@@ -56,17 +56,6 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 				Promise.all(
 					releases.map((release) =>
 						fetch(`${config.urls.releases}/${release.file}`)
-							.then((res) => {
-								if (
-									res.ok &&
-									res.headers
-										.get('content-type')
-										?.match(/markdown/i)
-								) {
-									return res;
-								}
-								throw new Error('No markdown file');
-							})
 							.then((res) => res.text())
 							.then((markdown) => ({
 								...release,
