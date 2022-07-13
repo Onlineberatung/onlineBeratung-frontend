@@ -21,6 +21,7 @@ import {
 import useUpdatingRef from '../../hooks/useUpdatingRef';
 import { ISubscriptions } from '../../types/rc/Subscriptions';
 import { IRoom } from '../../types/rc/Room';
+import useDebounceCallback from '../../hooks/useDebounceCallback';
 
 type RocketChatSubscriptionsContextProps = {
 	subscriptions: any[];
@@ -48,57 +49,69 @@ export const RocketChatSubscriptionsProvider = ({
 	const [rooms, setRooms] = useState<IRoom[]>([]);
 
 	const roomsChanged = useUpdatingRef(
-		useCallback((args: ['inserted' | 'updated', any]) => {
-			const [status, data] = args;
-			setRooms((rooms) => {
-				const newRooms = [...rooms];
-				if (status === 'inserted') {
-					newRooms.push(data);
-				} else if (status === 'updated') {
-					const index = newRooms.findIndex(
-						(room) => room._id === data._id
-					);
-					if (index >= 0) {
-						newRooms.splice(index, 1, data);
-					}
-				} else if (status === 'removed') {
-					const index = newRooms.findIndex(
-						(room) => room._id === data._id
-					);
-					if (index >= 0) {
-						newRooms.splice(index, 1);
-					}
-				}
-				return newRooms;
-			});
-		}, [])
+		useDebounceCallback(
+			useCallback((args: [[['inserted' | 'updated', any]]]) => {
+				setRooms((rooms) => {
+					const newRooms = [...rooms];
+					args.forEach((room) => {
+						const [[status, data]] = room;
+						if (status === 'inserted') {
+							newRooms.push(data);
+						} else if (status === 'updated') {
+							const index = newRooms.findIndex(
+								(room) => room._id === data._id
+							);
+							if (index >= 0) {
+								newRooms.splice(index, 1, data);
+							}
+						} else if (status === 'removed') {
+							const index = newRooms.findIndex(
+								(room) => room._id === data._id
+							);
+							if (index >= 0) {
+								newRooms.splice(index, 1);
+							}
+						}
+					});
+					return newRooms;
+				});
+			}, []),
+			500,
+			true
+		)
 	);
 
 	const subscriptionsChanged = useUpdatingRef(
-		useCallback((args: ['inserted' | 'updated', any]) => {
-			const [status, data] = args;
-			setSubscriptions((subscriptions) => {
-				const newSubscriptions = [...subscriptions];
-				if (status === 'inserted') {
-					newSubscriptions.push(data);
-				} else if (status === 'updated') {
-					const index = newSubscriptions.findIndex(
-						(s) => s._id === data._id
-					);
-					if (index >= 0) {
-						newSubscriptions.splice(index, 1, data);
-					}
-				} else if (status === 'removed') {
-					const index = newSubscriptions.findIndex(
-						(s) => s._id === data._id
-					);
-					if (index >= 0) {
-						newSubscriptions.splice(index, 1);
-					}
-				}
-				return newSubscriptions;
-			});
-		}, [])
+		useDebounceCallback(
+			useCallback((args: [[['inserted' | 'updated', any]]]) => {
+				setSubscriptions((subscriptions) => {
+					const newSubscriptions = [...subscriptions];
+					args.forEach((subscription) => {
+						const [[status, data]] = subscription;
+						if (status === 'inserted') {
+							newSubscriptions.push(data);
+						} else if (status === 'updated') {
+							const index = newSubscriptions.findIndex(
+								(s) => s._id === data._id
+							);
+							if (index >= 0) {
+								newSubscriptions.splice(index, 1, data);
+							}
+						} else if (status === 'removed') {
+							const index = newSubscriptions.findIndex(
+								(s) => s._id === data._id
+							);
+							if (index >= 0) {
+								newSubscriptions.splice(index, 1);
+							}
+						}
+					});
+					return newSubscriptions;
+				});
+			}, []),
+			500,
+			true
+		)
 	);
 
 	const onNotificationRef = useUpdatingRef(

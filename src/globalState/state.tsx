@@ -4,12 +4,13 @@ import {
 	AnonymousEnquiryAcceptedProvider,
 	ConsultantListProvider,
 	ConsultingTypesProvider,
-	FilterStatusProvider,
 	NotificationsProvider,
 	UpdateSessionListProvider,
 	UserDataProvider,
 	WebsocketConnectionDeactivatedProvider,
-	TenantProvider
+	TenantProvider,
+	RocketChatGlobalSettingsProvider,
+	AnonymousConversationStartedProvider
 } from '.';
 
 function ProviderComposer({ contexts, children }) {
@@ -28,14 +29,15 @@ function ContextProvider({ children }) {
 			contexts={[
 				<AnonymousConversationFinishedProvider />,
 				<AnonymousEnquiryAcceptedProvider />,
+				<AnonymousConversationStartedProvider />,
 				<ConsultantListProvider />,
 				<ConsultingTypesProvider />,
-				<FilterStatusProvider />,
 				<NotificationsProvider />,
 				<UpdateSessionListProvider />,
 				<UserDataProvider />,
 				<WebsocketConnectionDeactivatedProvider />,
-				<TenantProvider />
+				<TenantProvider />,
+				<RocketChatGlobalSettingsProvider />
 			]}
 		>
 			{children}

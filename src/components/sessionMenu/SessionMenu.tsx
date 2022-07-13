@@ -260,7 +260,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					} else {
 						setOverlayActive(false);
 						setOverlayItem(null);
-						activeSession.item.status = STATUS_FINISHED;
 					}
 				})
 				.catch((error) => {

@@ -20,7 +20,7 @@ import {
 	UserDataContext,
 	E2EEContext
 } from '../../globalState';
-import { apiGetSessionData } from '../../api';
+import { apiGetSessionData, FETCH_ERRORS } from '../../api';
 import { prepareMessages, SESSION_LIST_TAB } from './sessionHelpers';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import {
@@ -69,7 +69,7 @@ export const SessionStream = ({
 	const [loading, setLoading] = useState(true);
 	const [overlayItem, setOverlayItem] = useState(null);
 
-	const { activeSession, readActiveSession } =
+	const { activeSession, readActiveSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
@@ -201,16 +201,16 @@ export const SessionStream = ({
 						setIsOverlayActive(true);
 					}
 				}
+				if (event === 'updated') {
+					reloadActiveSession();
+				}
 			},
-			[groupChatStoppedOverlay]
+			[groupChatStoppedOverlay, reloadActiveSession]
 		)
 	);
 
 	useEffect(() => {
-		if (
-			(activeSession.isEnquiry && activeSession.isLive) ||
-			subscribed.current
-		) {
+		if (subscribed.current) {
 			setLoading(false);
 		} else {
 			subscribed.current = true;
@@ -218,32 +218,38 @@ export const SessionStream = ({
 			// check if any user needs to be added when opening session view
 			addNewUsersToEncryptedRoom();
 
-			fetchSessionMessages().then(() => {
-				setSessionRead();
+			fetchSessionMessages()
+				.then(() => {
+					setSessionRead();
 
-				subscribe(
-					{
-						name: SUB_STREAM_ROOM_MESSAGES,
-						roomId: activeSession.rid
-					},
-					onDebounceMessage
-				);
-
-				if (activeSession.isGroup || activeSession.isLive) {
 					subscribe(
 						{
-							name: SUB_STREAM_NOTIFY_USER,
-							event: EVENT_SUBSCRIPTIONS_CHANGED,
-							userId: getValueFromCookie('rc_uid')
+							name: SUB_STREAM_ROOM_MESSAGES,
+							roomId: activeSession.rid
 						},
-						handleChatStopped
+						onDebounceMessage
 					);
 
-					subscribeTyping();
-				}
+					if (activeSession.isGroup || activeSession.isLive) {
+						subscribe(
+							{
+								name: SUB_STREAM_NOTIFY_USER,
+								event: EVENT_SUBSCRIPTIONS_CHANGED,
+								userId: getValueFromCookie('rc_uid')
+							},
+							handleChatStopped
+						);
 
-				setLoading(false);
-			});
+						subscribeTyping();
+					}
+
+					setLoading(false);
+				})
+				.catch((e) => {
+					if (e.message !== FETCH_ERRORS.ABORT) {
+						console.error('error fetchSessionMessages', e);
+					}
+				});
 		}
 
 		return () => {

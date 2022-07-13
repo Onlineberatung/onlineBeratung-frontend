@@ -31,7 +31,8 @@ import {
 	AnonymousConversationFinishedContext,
 	AnonymousEnquiryAcceptedContext,
 	LegalLinkInterface,
-	WebsocketConnectionDeactivatedContext
+	WebsocketConnectionDeactivatedContext,
+	AnonymousConversationStartedContext
 } from '../../globalState';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 import { history } from '../app/app';
@@ -41,7 +42,6 @@ import {
 } from './waitingRoomHelpers';
 import { handleTokenRefresh, setTokens } from '../auth/auth';
 import { handleE2EESetup } from '../registration/autoLogin';
-
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
@@ -65,6 +65,8 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		websocketConnectionDeactivated,
 		setWebsocketConnectionDeactivated
 	} = useContext(WebsocketConnectionDeactivatedContext);
+	const { anonymousConversationStarted, setAnonymousConversationStarted } =
+		useContext(AnonymousConversationStartedContext);
 	const registrationUrl = `/${props.consultingTypeSlug}/registration`;
 
 	const getPseudoPasswordForUser = (rc_uid) => {
@@ -108,6 +110,12 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			setAnonymousEnquiryAccepted(false);
 		}
 	}, [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted]);
+
+	useEffect(() => {
+		if (anonymousConversationStarted) {
+			setAnonymousConversationStarted(false);
+		}
+	}, [anonymousConversationStarted, setAnonymousConversationStarted]);
 
 	useEffect(() => {
 		if (anonymousConversationFinished === 'NEW') {

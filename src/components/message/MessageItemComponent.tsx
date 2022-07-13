@@ -35,16 +35,8 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
-
-enum MessageType {
-	FURTHER_STEPS = 'FURTHER_STEPS',
-	USER_MUTED = 'USER_MUTED',
-	FORWARD = 'FORWARD',
-	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
-	VIDEOCALL = 'VIDEOCALL',
-	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
-	E2EE_ACTIVATED = 'E2EE_ACTIVATED'
-}
+import { MasterKeyLostMessage } from './MasterKeyLostMessage';
+import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 
 export interface ForwardMessageDTO {
 	message: string;
@@ -76,7 +68,7 @@ export interface MessageItem {
 	alias?: {
 		forwardMessageDTO?: ForwardMessageDTO;
 		videoCallMessageDTO?: VideoCallMessageDTO;
-		messageType: MessageType;
+		messageType: ALIAS_MESSAGE_TYPES;
 	};
 	attachments?: MessageService.Schemas.AttachmentDTO[];
 	file?: MessageService.Schemas.FileDTO;
@@ -121,7 +113,7 @@ export const MessageItemComponent = ({
 		null
 	);
 
-	const { key, keyID, encrypted } = useE2EE(rid);
+	const { key, keyID, encrypted, subscriptionKeyLost } = useE2EE(rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	useEffect((): void => {
@@ -208,18 +200,30 @@ export const MessageItemComponent = ({
 
 	const videoCallMessage: VideoCallMessageDTO = alias?.videoCallMessageDTO;
 	const isFurtherStepsMessage =
-		alias?.messageType === MessageType.FURTHER_STEPS;
+		alias?.messageType === ALIAS_MESSAGE_TYPES.FURTHER_STEPS;
 	const isUpdateSessionDataMessage =
-		alias?.messageType === MessageType.UPDATE_SESSION_DATA;
-	const isVideoCallMessage = alias?.messageType === MessageType.VIDEOCALL;
+		alias?.messageType === ALIAS_MESSAGE_TYPES.UPDATE_SESSION_DATA;
+	const isVideoCallMessage =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.VIDEOCALL;
 	const isFinishedConversationMessage =
-		alias?.messageType === MessageType.FINISHED_CONVERSATION;
-	const isUserMutedMessage = alias?.messageType === MessageType.USER_MUTED;
+		alias?.messageType === ALIAS_MESSAGE_TYPES.FINISHED_CONVERSATION;
+	const isUserMutedMessage =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.USER_MUTED;
 	const isE2EEActivatedMessage =
-		alias?.messageType === MessageType.E2EE_ACTIVATED;
+		alias?.messageType === ALIAS_MESSAGE_TYPES.E2EE_ACTIVATED;
+	const isMasterKeyLostMessage =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST;
 
 	const messageContent = (): JSX.Element => {
 		switch (true) {
+			case isMasterKeyLostMessage:
+				return (
+					<div className="messageItem__message">
+						<MasterKeyLostMessage
+							subscriptionKeyLost={subscriptionKeyLost}
+						/>
+					</div>
+				);
 			case isE2EEActivatedMessage:
 				return <E2EEActivatedMessage />;
 			case isFurtherStepsMessage:

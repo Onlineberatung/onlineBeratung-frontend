@@ -59,23 +59,6 @@ export const config = {
 		passwordReset: apiUrl + '/service/users/password/change',
 		rc: {
 			accessToken: apiUrl + '/api/v1/login',
-			logout: apiUrl + '/api/v1/logout',
-			subscriptions: {
-				get: apiUrl + '/api/v1/subscriptions.get',
-				read: apiUrl + '/api/v1/subscriptions.read',
-				getOne: apiUrl + '/api/v1/subscriptions.getOne'
-			},
-			rooms: {
-				get: apiUrl + '/api/v1/rooms.get',
-				info: apiUrl + '/api/v1/rooms.info'
-			},
-			users: {
-				info: apiUrl + '/api/v1/users.info',
-				resetE2EKey: apiUrl + '/api/v1/users.resetE2EKey'
-			},
-			groups: {
-				members: apiUrl + '/api/v1/groups.members'
-			},
 			e2ee: {
 				fetchMyKeys: apiUrl + '/api/v1/e2e.fetchMyKeys',
 				getUsersOfRoomWithoutKey:
@@ -84,6 +67,26 @@ export const config = {
 				setUserPublicAndPrivateKeys:
 					apiUrl + '/api/v1/e2e.setUserPublicAndPrivateKeys',
 				updateGroupKey: apiUrl + '/api/v1/e2e.updateGroupKey'
+			},
+			groups: {
+				members: apiUrl + '/api/v1/groups.members'
+			},
+			logout: apiUrl + '/api/v1/logout',
+			rooms: {
+				get: apiUrl + '/api/v1/rooms.get',
+				info: apiUrl + '/api/v1/rooms.info'
+			},
+			settings: {
+				public: apiUrl + '/api/v1/settings.public'
+			},
+			subscriptions: {
+				get: apiUrl + '/api/v1/subscriptions.get',
+				read: apiUrl + '/api/v1/subscriptions.read',
+				getOne: apiUrl + '/api/v1/subscriptions.getOne'
+			},
+			users: {
+				info: apiUrl + '/api/v1/users.info',
+				resetE2EKey: apiUrl + '/api/v1/users.resetE2EKey'
 			}
 		},
 		registerAnonymousAsker:

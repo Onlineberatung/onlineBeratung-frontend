@@ -6,7 +6,8 @@ import {
 	SESSION_TYPE_FEEDBACK,
 	SESSION_TYPE_GROUP,
 	SESSION_TYPE_LIVECHAT,
-	SESSION_TYPE_SESSION
+	SESSION_TYPE_SESSION,
+	SESSION_TYPE_TEAMSESSION
 } from '../session/sessionHelpers';
 import { SessionView } from '../session/SessionView';
 import { WriteEnquiry } from '../enquiry/WriteEnquiry';
@@ -69,7 +70,8 @@ export const RouterConfigUser = (): any => {
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
 					SESSION_TYPE_LIVECHAT,
-					SESSION_TYPE_ENQUIRY
+					SESSION_TYPE_ENQUIRY,
+					SESSION_TYPE_TEAMSESSION
 				]
 			},
 			{
@@ -81,7 +83,8 @@ export const RouterConfigUser = (): any => {
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
 					SESSION_TYPE_LIVECHAT,
-					SESSION_TYPE_ENQUIRY
+					SESSION_TYPE_ENQUIRY,
+					SESSION_TYPE_TEAMSESSION
 				]
 			}
 		],
@@ -169,7 +172,8 @@ export const RouterConfigConsultant = (): any => {
 					SESSION_TYPE_SESSION,
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
-					SESSION_TYPE_FEEDBACK
+					SESSION_TYPE_FEEDBACK,
+					SESSION_TYPE_TEAMSESSION
 				],
 				type: SESSION_LIST_TYPES.MY_SESSION,
 				exact: false
@@ -310,7 +314,8 @@ export const RouterConfigTeamConsultant = (): any => {
 					SESSION_TYPE_SESSION,
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
-					SESSION_TYPE_FEEDBACK
+					SESSION_TYPE_FEEDBACK,
+					SESSION_TYPE_TEAMSESSION
 				],
 				type: SESSION_LIST_TYPES.MY_SESSION,
 				exact: false
@@ -322,7 +327,8 @@ export const RouterConfigTeamConsultant = (): any => {
 					SESSION_TYPE_SESSION,
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
-					SESSION_TYPE_FEEDBACK
+					SESSION_TYPE_FEEDBACK,
+					SESSION_TYPE_TEAMSESSION
 				],
 				type: SESSION_LIST_TYPES.TEAMSESSION,
 				exact: false
@@ -458,7 +464,8 @@ export const RouterConfigAnonymousAsker = (): any => {
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
 					SESSION_TYPE_LIVECHAT,
-					SESSION_TYPE_ENQUIRY
+					SESSION_TYPE_ENQUIRY,
+					SESSION_TYPE_TEAMSESSION
 				]
 			}
 		],

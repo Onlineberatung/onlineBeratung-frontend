@@ -29,7 +29,6 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { useE2EE } from '../../hooks/useE2EE';
 import { history } from '../app/app';
 
-export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 export interface Consultant {
 	consultantId: string;
 	firstName: string;
@@ -188,7 +187,7 @@ export const SessionAssign = (props: { value?: string }) => {
 	};
 
 	const handleDatalistSelect = (selectedOption) => {
-		if (userData.userId === activeSession.consultant.id) {
+		if (userData.userId === activeSession?.consultant?.id) {
 			setOverlayItem(alreadyAssignedSession);
 		} else {
 			setOverlayItem(assignSession);

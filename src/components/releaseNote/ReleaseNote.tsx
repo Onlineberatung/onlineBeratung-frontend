@@ -29,8 +29,11 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		const response = await fetch(
 			`${config.urls.releases}/v${packageInfo.version}.md`
 		);
+		const isMarkdown = response.headers
+			.get('content-type')
+			?.match(/markdown/i);
 
-		if (response.ok) {
+		if (response.ok && isMarkdown) {
 			const markdownText = await response.text();
 
 			const rawMarkdownToDraftObject = markdownToDraft(markdownText);

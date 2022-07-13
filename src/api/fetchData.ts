@@ -27,6 +27,7 @@ export const FETCH_ERRORS = {
 	CONFLICT: 'CONFLICT',
 	CONFLICT_WITH_RESPONSE: 'CONFLICT_WITH_RESPONSE',
 	EMPTY: 'EMPTY',
+	FORBIDDEN: 'FORBIDDEN',
 	NO_MATCH: 'NO_MATCH',
 	TIMEOUT: 'TIMEOUT',
 	UNAUTHORIZED: 'UNAUTHORIZED',
@@ -142,6 +143,11 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 						)
 					) {
 						reject(new Error(FETCH_ERRORS.BAD_REQUEST));
+					} else if (
+						response.status === 403 &&
+						props.responseHandling.includes(FETCH_ERRORS.FORBIDDEN)
+					) {
+						reject(new Error(FETCH_ERRORS.FORBIDDEN));
 					} else if (
 						response.status === 404 &&
 						props.responseHandling.includes(FETCH_ERRORS.NO_MATCH)

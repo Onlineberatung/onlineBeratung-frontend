@@ -180,7 +180,7 @@ export const handleE2EESetup = (
 
 						await writeMasterKeyToLocalStorage(masterKey, rcUserId);
 					} catch {
-						console.log('Error saving keys in rocket chat.');
+						console.error('Error saving keys in rocket chat.');
 					}
 				}
 			}
@@ -200,7 +200,7 @@ export const handleE2EESetup = (
 					await encryptPrivateKey(privateKey, masterKey)
 				);
 			} catch {
-				console.log('Error saving keys in rocket chat.');
+				console.error('Error saving keys in rocket chat.');
 			}
 		}
 
@@ -247,14 +247,7 @@ const updateUserE2EKeysFallback = async (rcUserId) => {
 				room.e2eKeyId,
 				roomKey
 			).then((userKey) => {
-				console.log('Update Group Key', rcUserId, room._id, userKey);
-				return apiRocketChatUpdateGroupKey(
-					rcUserId,
-					room._id,
-					userKey
-				).then((res) => {
-					console.log('User Room Key updated for user ', rcUserId);
-				});
+				return apiRocketChatUpdateGroupKey(rcUserId, room._id, userKey);
 			});
 		})
 	);

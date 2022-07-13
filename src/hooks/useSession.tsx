@@ -58,7 +58,7 @@ export const useSession = (
 			);
 		}
 
-		promise
+		return promise
 			.then(({ sessions: [activeSession] }) => {
 				if (activeSession) {
 					setSession(buildExtendedSession(activeSession, rid));
