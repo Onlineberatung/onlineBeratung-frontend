@@ -33,6 +33,9 @@ const defaultReturns = {
 	releases: {
 		statusCode: 404
 	},
+	releases_markup: {
+		statusCode: 404
+	},
 	sessionRooms: {
 		statusCode: 200,
 		body: {
@@ -273,12 +276,19 @@ Cypress.Commands.add('mockApi', () => {
 		}
 	).as('consultingTypeServiceBaseBasic');
 
-	cy.intercept('GET', '/releases/*', (req) => {
+	cy.intercept('GET', '/releases/*.json', (req) => {
 		req.reply({
 			...defaultReturns['releases'],
 			...(overrides['releases'] || {})
 		});
 	}).as('releases');
+
+	cy.intercept('GET', '/releases/*.md', (req) => {
+		req.reply({
+			...defaultReturns['releases_markup'],
+			...(overrides['releases_markup'] || {})
+		});
+	}).as('releases_markup');
 
 	apiAppointments(cy);
 	apiVideocalls(cy);
