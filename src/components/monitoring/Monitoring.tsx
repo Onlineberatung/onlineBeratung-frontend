@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useContext, useState, useEffect } from 'react';
-import { useLocation, useParams, Link } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { translate } from '../../utils/translate';
-import { getSessionListPathForLocation } from '../session/sessionHelpers';
+import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { Checkbox } from '../checkbox/Checkbox';
 import { Button } from '../button/Button';
 import { apiUpdateMonitoring, apiGetMonitoring } from '../../api';
@@ -12,46 +12,50 @@ import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/check
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import './monitoring.styles';
 import '../profile/profile.styles';
-import {
-	ActiveSessionType,
-	getActiveSession,
-	SessionsDataContext
-} from '../../globalState';
+import { history } from '../app/app';
 import { Loading } from '../app/Loading';
+import { useSession } from '../../hooks/useSession';
+import { useSearchParam } from '../../hooks/useSearchParams';
+import { SessionTypeContext } from '../../globalState';
 
 export const Monitoring = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
-	const { sessionsData } = useContext(SessionsDataContext);
+	const { session: activeSession, ready } = useSession(groupIdFromParam);
 
-	const [activeSession, setActiveSession] =
-		useState<ActiveSessionType | null>(null);
 	const [resort, setResort] = useState(null);
 	const [accordionOpened, setAccordionOpened] = useState<any[]>([]);
 	const [monitoringData, setMonitoringData] = useState({});
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const { path: listPath } = useContext(SessionTypeContext);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	let backLinkRef: React.RefObject<Link> = React.createRef();
 
 	useEffect(() => {
-		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
-		setActiveSession(activeSession);
+		if (!ready) {
+			return;
+		}
+
+		if (!activeSession) {
+			history.push(
+				listPath +
+					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+			);
+			return;
+		}
+
 		setResort(
-			activeSession?.session?.consultingType === 0
+			activeSession.item?.consultingType === 0
 				? 'monitoringAddiction'
 				: 'monitoringU25'
 		);
 
-		apiGetMonitoring(activeSession.session.id)
-			.then((monitoringData) => {
-				setMonitoringData(monitoringData);
-			})
+		apiGetMonitoring(activeSession.item.id)
+			.then(setMonitoringData)
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [activeSession, listPath, ready, sessionListTab]);
 
 	const handleChange = (key, parentKey) => {
 		const checkObj = (obj, k, prevk) => {
@@ -104,7 +108,7 @@ export const Monitoring = () => {
 	};
 
 	const handleSubmit = () => {
-		apiUpdateMonitoring(activeSession.session.id, monitoringData)
+		apiUpdateMonitoring(activeSession.item.id, monitoringData)
 			.then((response) => {
 				backLinkRef.current.click();
 			})
@@ -225,9 +229,9 @@ export const Monitoring = () => {
 				<div className="profile__header__wrapper">
 					<Link
 						ref={backLinkRef}
-						to={`${getSessionListPathForLocation()}/${
-							activeSession.session.groupId
-						}/${activeSession.session.id}/userProfile${
+						to={`${listPath}/${activeSession.item.groupId}/${
+							activeSession.item.id
+						}/userProfile${
 							sessionListTab
 								? `?sessionListTab=${sessionListTab}`
 								: ''

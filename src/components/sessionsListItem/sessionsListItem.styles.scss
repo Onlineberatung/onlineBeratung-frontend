@@ -202,8 +202,13 @@ $icon-size-small: 16px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 
+		&--aliasMessage {
+			font-style: italic !important;
+		}
+
 		& > span {
 			display: inline-block;
+			font-style: normal;
 			font-weight: $font-weight-bold;
 		}
 

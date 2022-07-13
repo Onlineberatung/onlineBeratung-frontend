@@ -15,6 +15,8 @@ const profileInformal = {
 		'Du hast Dein Passwort erfolgreich geändert. Du wirst nun zum Login weitergeleitet.',
 	'functions.spokenLanguages.saveError':
 		'Beim Speichern ist ein Problem aufgetaucht. Bitte versuche es erneut.',
+	'functions.masterKey.saveError':
+		'Beim Passwort Ändern ist ein Problem aufgetaucht. Bitte versuche es erneut.',
 	'data.register.headline':
 		'Benötigst Du auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Dich gerne.',
 	'data.register.selectAgencyInfo': 'Bitte wähle eine Beratungsstelle aus.',
@@ -39,7 +41,7 @@ const profileInformal = {
 		'Deine Statistik über Deinen gewählten Beratungszeitraum kannst Du hier herunterladen:',
 	'notifications.subtitle': 'Wir benachrichtigen Dich, wenn Du:',
 	'notifications.follow.up.email.label':
-		'eine Nachricht von einem_r angenommenen Ratsuchenden erhalten hast'
+		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten hast.'
 };
 
 export default profileInformal;

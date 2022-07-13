@@ -29,6 +29,32 @@ describe('Sessions', () => {
 	});
 
 	describe('Consultant', () => {
+		it.skip('should show confirmation forwarding the session', () => {
+			generateMultipleConsultantSessions(5);
+
+			cy.fastLogin({
+				username: USER_CONSULTANT
+			});
+			cy.wait('@consultingTypeServiceBaseBasic');
+
+			cy.get('a[href="/sessions/consultant/sessionView"]').click();
+			cy.get('.sessionsListItem').should('exist');
+			cy.wait('@consultantSessions');
+
+			cy.get('[data-cy=session-list-item]').first().click();
+			cy.wait('@consultingTypeServiceBaseFull');
+			cy.wait('@messages');
+
+			cy.get('#iconH').click();
+			cy.get('#flyout').should('be.visible');
+			cy.get('#flyout a').first().click();
+			cy.wait('@agencyConsultants');
+
+			cy.get('#assignSelect').click();
+			cy.get('#react-select-2-option-0').click();
+			cy.get('.overlay').should('exist');
+		});
+
 		it('should list my sessions', () => {
 			generateMultipleConsultantSessions(3);
 

@@ -183,7 +183,17 @@ export class rocketChatSocket {
 					response.collection === SOCKET_COLLECTION.ROOM_MESSAGES &&
 					response.fields.args &&
 					response.fields.args[0].t === 'user-muted';
-				if (userMuted) {
+
+				const userAdded =
+					response.collection === SOCKET_COLLECTION.ROOM_MESSAGES &&
+					response.fields.args &&
+					response.fields.args[0].t === 'au';
+
+				if (userAdded) {
+					callbackRoom({
+						userAdded: decodeUsername(response.fields.args[0].msg)
+					});
+				} else if (userMuted) {
 					callbackRoom({
 						userMuted: decodeUsername(response.fields.args[0].msg)
 					});
