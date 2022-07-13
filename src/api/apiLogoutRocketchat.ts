@@ -3,7 +3,7 @@ import { FETCH_METHODS } from './fetchData';
 import { fetchRCData } from './fetchRCData';
 
 export const apiRocketchatLogout = async (): Promise<any> => {
-	const url = config.endpoints.rocketchatLogout;
+	const url = config.endpoints.rc.logout;
 
 	return fetchRCData(url, FETCH_METHODS.POST);
 };

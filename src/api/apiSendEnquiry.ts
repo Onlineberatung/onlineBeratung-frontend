@@ -3,12 +3,16 @@ import { fetchData, FETCH_METHODS, FETCH_SUCCESS } from './fetchData';
 
 export const apiSendEnquiry = async (
 	sessionId: number,
-	messageData: string,
+	encryptedMessageData: string,
+	unencryptedMessageData: string,
+	isEncrypted: boolean,
 	language?: string
 ): Promise<any> => {
 	const url = `${config.endpoints.sessionBase}/${sessionId}/enquiry/new`;
 	const data: any = {
-		message: messageData,
+		message: encryptedMessageData,
+		org: unencryptedMessageData,
+		t: isEncrypted ? 'e2e' : '',
 		sendNotification: true
 	};
 	if (language) {

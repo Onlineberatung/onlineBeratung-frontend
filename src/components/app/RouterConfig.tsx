@@ -1,5 +1,14 @@
 import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
-import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
+import {
+	SESSION_LIST_TYPES,
+	SESSION_TYPE_ARCHIVED,
+	SESSION_TYPE_ENQUIRY,
+	SESSION_TYPE_FEEDBACK,
+	SESSION_TYPE_GROUP,
+	SESSION_TYPE_LIVECHAT,
+	SESSION_TYPE_SESSION,
+	SESSION_TYPE_TEAMSESSION
+} from '../session/sessionHelpers';
 import { SessionView } from '../session/SessionView';
 import { WriteEnquiry } from '../enquiry/WriteEnquiry';
 import { AskerInfo } from '../askerInfo/AskerInfo';
@@ -12,6 +21,13 @@ import { Appointments } from '../appointment/Appointments';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
 import { AUTHORITIES, hasUserAuthority } from '../../globalState';
+
+import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
+import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
+import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
+import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
+import * as React from 'react';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -30,7 +46,7 @@ export const RouterConfigUser = (): any => {
 		navigation: [
 			{
 				to: '/sessions/user/view',
-				icon: 'speech-bubbles',
+				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.asker.sessions',
 					small: 'navigation.asker.sessions.small'
@@ -38,7 +54,7 @@ export const RouterConfigUser = (): any => {
 			},
 			{
 				to: '/profile',
-				icon: 'person',
+				icon: <PersonIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.profile'
 				}
@@ -46,23 +62,47 @@ export const RouterConfigUser = (): any => {
 		],
 		listRoutes: [
 			{
+				path: '/sessions/user/view/write/:sessionId?',
+				component: SessionsListWrapper,
+				exact: false,
+				sessionTypes: [
+					SESSION_TYPE_SESSION,
+					SESSION_TYPE_ARCHIVED,
+					SESSION_TYPE_GROUP,
+					SESSION_TYPE_LIVECHAT,
+					SESSION_TYPE_ENQUIRY,
+					SESSION_TYPE_TEAMSESSION
+				]
+			},
+			{
 				path: '/sessions/user/view/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
-				exact: false
+				exact: false,
+				sessionTypes: [
+					SESSION_TYPE_SESSION,
+					SESSION_TYPE_ARCHIVED,
+					SESSION_TYPE_GROUP,
+					SESSION_TYPE_LIVECHAT,
+					SESSION_TYPE_ENQUIRY,
+					SESSION_TYPE_TEAMSESSION
+				]
 			}
 		],
 		detailRoutes: [
 			{
 				path: '/sessions/user/view/write/:sessionId?',
-				component: WriteEnquiry
+				component: WriteEnquiry,
+				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
 				path: '/sessions/user/view/:rcGroupId/:sessionId',
-				component: SessionView
+				component: SessionView,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/user/view/',
-				component: SessionViewEmpty
+				component: SessionViewEmpty,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			}
 		],
 		profileRoutes: [
@@ -88,14 +128,14 @@ export const RouterConfigConsultant = (): any => {
 		navigation: [
 			{
 				to: '/sessions/consultant/sessionPreview',
-				icon: 'inbox',
+				icon: <InboxIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.consultant.enquiries'
 				}
 			},
 			{
 				to: '/sessions/consultant/sessionView',
-				icon: 'speech-bubbles',
+				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.consultant.sessions',
 					small: 'navigation.consultant.sessions.small'
@@ -104,14 +144,14 @@ export const RouterConfigConsultant = (): any => {
 			{
 				condition: hasVideoCallFeature,
 				to: '/termine',
-				icon: 'calendar',
+				icon: <CalendarIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.appointments'
 				}
 			},
 			{
 				to: '/profile',
-				icon: 'person',
+				icon: <PersonIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.profile'
 				}
@@ -121,12 +161,20 @@ export const RouterConfigConsultant = (): any => {
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
+				sessionTypes: [SESSION_TYPE_ENQUIRY, SESSION_TYPE_LIVECHAT],
 				type: SESSION_LIST_TYPES.ENQUIRY,
 				exact: false
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
+				sessionTypes: [
+					SESSION_TYPE_SESSION,
+					SESSION_TYPE_ARCHIVED,
+					SESSION_TYPE_GROUP,
+					SESSION_TYPE_FEEDBACK,
+					SESSION_TYPE_TEAMSESSION
+				],
 				type: SESSION_LIST_TYPES.MY_SESSION,
 				exact: false
 			}
@@ -144,37 +192,45 @@ export const RouterConfigConsultant = (): any => {
 			},
 			{
 				path: '/sessions/consultant/sessionPreview/',
-				component: SessionViewEmpty
+				component: SessionViewEmpty,
+				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
 				path: '/sessions/consultant/sessionView/',
-				component: SessionViewEmpty
+				component: SessionViewEmpty,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/createGroupChat/',
-				component: CreateGroupChatView
+				component: CreateGroupChatView,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/editGroupChat',
-				component: CreateGroupChatView
+				component: CreateGroupChatView,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			}
 		],
 		userProfileRoutes: [
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/userProfile',
-				component: AskerInfo
+				component: AskerInfo,
+				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile',
-				component: AskerInfo
+				component: AskerInfo,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring
+				component: Monitoring,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
-				component: GroupChatInfo
+				component: GroupChatInfo,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			}
 		],
 		profileRoutes: [
@@ -206,14 +262,14 @@ export const RouterConfigTeamConsultant = (): any => {
 		navigation: [
 			{
 				to: '/sessions/consultant/sessionPreview',
-				icon: 'inbox',
+				icon: <InboxIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.consultant.enquiries'
 				}
 			},
 			{
 				to: '/sessions/consultant/sessionView',
-				icon: 'speech-bubbles',
+				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.consultant.sessions',
 					small: 'navigation.consultant.sessions.small'
@@ -221,7 +277,7 @@ export const RouterConfigTeamConsultant = (): any => {
 			},
 			{
 				to: '/sessions/consultant/teamSessionView',
-				icon: 'speech-bubbles-team',
+				icon: <SpeechBubbleTeamIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.consultant.teamsessions',
 					small: 'navigation.consultant.teamsessions.small'
@@ -230,14 +286,14 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				condition: hasVideoCallFeature,
 				to: '/termine',
-				icon: 'calendar',
+				icon: <CalendarIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.appointments'
 				}
 			},
 			{
 				to: '/profile',
-				icon: 'person',
+				icon: <PersonIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.profile'
 				}
@@ -247,18 +303,33 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
+				sessionTypes: [SESSION_TYPE_LIVECHAT, SESSION_TYPE_ENQUIRY],
 				type: SESSION_LIST_TYPES.ENQUIRY,
 				exact: false
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
+				sessionTypes: [
+					SESSION_TYPE_SESSION,
+					SESSION_TYPE_ARCHIVED,
+					SESSION_TYPE_GROUP,
+					SESSION_TYPE_FEEDBACK,
+					SESSION_TYPE_TEAMSESSION
+				],
 				type: SESSION_LIST_TYPES.MY_SESSION,
 				exact: false
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
+				sessionTypes: [
+					SESSION_TYPE_SESSION,
+					SESSION_TYPE_ARCHIVED,
+					SESSION_TYPE_GROUP,
+					SESSION_TYPE_FEEDBACK,
+					SESSION_TYPE_TEAMSESSION
+				],
 				type: SESSION_LIST_TYPES.TEAMSESSION,
 				exact: false
 			}
@@ -266,7 +337,8 @@ export const RouterConfigTeamConsultant = (): any => {
 		detailRoutes: [
 			{
 				path: '/sessions/consultant/sessionPreview/',
-				component: SessionViewEmpty
+				component: SessionViewEmpty,
+				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId',
@@ -275,7 +347,8 @@ export const RouterConfigTeamConsultant = (): any => {
 			},
 			{
 				path: '/sessions/consultant/sessionView/',
-				component: SessionViewEmpty
+				component: SessionViewEmpty,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/',
@@ -284,11 +357,13 @@ export const RouterConfigTeamConsultant = (): any => {
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/editGroupChat',
-				component: CreateGroupChatView
+				component: CreateGroupChatView,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/',
-				component: SessionViewEmpty
+				component: SessionViewEmpty,
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/',
@@ -297,37 +372,45 @@ export const RouterConfigTeamConsultant = (): any => {
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/editGroupChat',
-				component: CreateGroupChatView
+				component: CreateGroupChatView,
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			}
 		],
 		userProfileRoutes: [
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/userProfile',
-				component: AskerInfo
+				component: AskerInfo,
+				type: SESSION_LIST_TYPES.ENQUIRY
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile',
-				component: AskerInfo
+				component: AskerInfo,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring
+				component: Monitoring,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
-				component: GroupChatInfo
+				component: GroupChatInfo,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile',
-				component: AskerInfo
+				component: AskerInfo,
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring
+				component: Monitoring,
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			},
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/groupChatInfo',
-				component: GroupChatInfo
+				component: GroupChatInfo,
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			}
 		],
 		profileRoutes: [
@@ -364,7 +447,7 @@ export const RouterConfigAnonymousAsker = (): any => {
 		navigation: [
 			{
 				to: '/sessions/user/view',
-				icon: 'speech-bubbles',
+				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.asker.sessions',
 					small: 'navigation.asker.sessions.small'
@@ -375,17 +458,27 @@ export const RouterConfigAnonymousAsker = (): any => {
 			{
 				path: '/sessions/user/view/:rcGroupId?/:sessionId?',
 				component: SessionsListWrapper,
-				exact: false
+				exact: false,
+				sessionTypes: [
+					SESSION_TYPE_SESSION,
+					SESSION_TYPE_ARCHIVED,
+					SESSION_TYPE_GROUP,
+					SESSION_TYPE_LIVECHAT,
+					SESSION_TYPE_ENQUIRY,
+					SESSION_TYPE_TEAMSESSION
+				]
 			}
 		],
 		detailRoutes: [
 			{
 				path: '/sessions/user/view/:rcGroupId/:sessionId',
-				component: SessionView
+				component: SessionView,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
 				path: '/sessions/user/view/',
-				component: SessionViewEmpty
+				component: SessionViewEmpty,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			}
 		]
 	};

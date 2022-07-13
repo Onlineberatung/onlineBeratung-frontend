@@ -8,7 +8,7 @@ const qrCode = {
 	'agency.overlay.info':
 		'Wenn Sie den QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um sich direkt bei der Beratungsstelle %agency% zu registrieren. Alternativ können Sie den Code auch herunterladen.',
 	'overlay.download': 'QR-Code als .png herunterladen',
-	'overlay.close': 'Schliessen',
+	'overlay.close': 'Schließen',
 	'overlay.image.alt': 'QR-Code'
 };
 

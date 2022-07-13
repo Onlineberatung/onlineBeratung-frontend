@@ -1,16 +1,20 @@
 import * as React from 'react';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import {
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useRef,
+	useState
+} from 'react';
+import { Link, useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import {
-	getChatItemForSession,
-	getTypeOfLocation,
 	getViewPathForType,
-	isGroupChatForSessionItem,
-	isMyMessage,
 	scrollToEnd,
+	isMyMessage,
 	SESSION_LIST_TYPES,
-	typeIsEnquiry
+	SESSION_LIST_TAB
 } from './sessionHelpers';
 import {
 	MessageItem,
@@ -20,46 +24,33 @@ import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messa
 import { translate } from '../../utils/translate';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
+import { apiGetConsultingType } from '../../api';
 import {
-	apiEnquiryAcceptance,
-	apiGetConsultingType,
-	FETCH_ERRORS
-} from '../../api';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
-import { SessionAssign } from '../sessionAssign/SessionAssign';
-import {
-	AcceptedGroupIdContext,
 	AUTHORITIES,
 	ConsultingTypeInterface,
 	getContact,
 	hasUserAuthority,
-	isAnonymousSession,
 	LegalLinkInterface,
-	SessionItemInterface,
-	SessionsDataContext,
-	UpdateSessionListContext,
-	UserDataContext
+	UserDataContext,
+	SessionTypeContext,
+	E2EEContext
 } from '../../globalState';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 import './session.styles';
 import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import smoothScroll from './smoothScrollHelper';
-import { Headline } from '../headline/Headline';
-import { history } from '../app/app';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { useE2EE } from '../../hooks/useE2EE';
+import { createGroupKey } from '../../utils/encryptionHelpers';
 import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';
+import { useSearchParam } from '../../hooks/useSearchParams';
+import { encryptRoom } from '../../utils/e2eeHelper';
+import { AcceptAssign } from './AcceptAssign';
+import { SubscriptionKeyLost } from './SubscriptionKeyLost';
 
 interface SessionItemProps {
-	isAnonymousEnquiry?: boolean;
 	isTyping?: Function;
 	messages?: MessageItem[];
 	typingUsers: string[];
@@ -73,22 +64,14 @@ let initMessageCount: number;
 export const SessionItemComponent = (props: SessionItemProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
-	const activeSession = useContext(ActiveSessionContext);
-	let { sessionsData, setSessionsData } = useContext(SessionsDataContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
+	const { type } = useContext(SessionTypeContext);
+
 	const [monitoringButtonVisible, setMonitoringButtonVisible] =
 		useState(false);
-	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
-	const [currentGroupId, setCurrentGroupId] = useState(null);
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-	const chatItem = getChatItemForSession(
-		activeSession
-	) as SessionItemInterface;
-	const isGroupChat = isGroupChatForSessionItem(activeSession);
-	const isLiveChat = isAnonymousSession(activeSession?.session);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [initialScrollCompleted, setInitialScrollCompleted] = useState(false);
-	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
 	const [draggedFile, setDraggedFile] = useState<File | null>(null);
@@ -96,24 +79,96 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const [isDragging, setIsDragging] = useState(false);
 	const dragCancelRef = useRef<NodeJS.Timeout>();
 	const [newMessages, setNewMessages] = useState(0);
+	const [canWriteMessage, setCanWriteMessage] = useState(false);
 	const [headerRef, headerBounds] = useMeasure();
-	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
-	const { isAnonymousEnquiry } = props;
+	/* E2EE */
+	const {
+		encrypted,
+		key,
+		keyID,
+		sessionKeyExportedString,
+		ready,
+		subscriptionKeyLost
+	} = useE2EE(groupIdFromParam);
+	const { isE2eeEnabled } = useContext(E2EEContext);
+	const [groupKey, setGroupKey] = useState(null);
+	const [groupKeyID, setGroupKeyID] = useState(null);
+	const [sessionGroupKeyExportedString, setSessionGroupKeyExportedString] =
+		useState(null);
+
+	// group Key generation if needed
+	useEffect(() => {
+		if (!isE2eeEnabled || !ready) {
+			return;
+		}
+		if (!activeSession) {
+			console.log('no active session');
+			return;
+		}
+
+		if (encrypted) {
+			setGroupKey(key);
+			setGroupKeyID(keyID);
+			setSessionGroupKeyExportedString(sessionKeyExportedString);
+		} else {
+			createGroupKey().then(
+				({ keyID, key, sessionKeyExportedString }) => {
+					setGroupKey(key);
+					setGroupKeyID(keyID);
+					setSessionGroupKeyExportedString(sessionKeyExportedString);
+				}
+			);
+		}
+	}, [
+		encrypted,
+		activeSession,
+		key,
+		keyID,
+		sessionKeyExportedString,
+		isE2eeEnabled,
+		ready
+	]);
+
+	const handleEncryptRoom = useCallback(async () => {
+		// ToDo: encrypt room logic could be moved to messageSubmitInterfaceComponent.tsx (SessionItemCompoent.tsx & WriteEnquiry.tsx)
+		encryptRoom({
+			keyId: groupKeyID,
+			isE2eeEnabled,
+			isRoomAlreadyEncrypted: encrypted,
+			rcGroupId: groupIdFromParam,
+			sessionKeyExportedString: sessionGroupKeyExportedString
+		});
+	}, [
+		encrypted,
+		groupIdFromParam,
+		groupKeyID,
+		sessionGroupKeyExportedString,
+		isE2eeEnabled
+	]);
+
+	/** END E2EE */
+
+	useEffect(() => {
+		setCanWriteMessage(
+			(type !== SESSION_LIST_TYPES.ENQUIRY ||
+				hasUserAuthority(
+					AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
+					userData
+				)) &&
+				!subscriptionKeyLost
+		);
+	}, [subscriptionKeyLost, type, userData]);
 
 	const resetUnreadCount = () => {
-		if (!isAnonymousEnquiry) {
-			setNewMessages(0);
-			initMessageCount = messages?.length;
-			scrollContainerRef.current
-				.querySelectorAll('.messageItem__divider--lastRead')
-				.forEach((e) => e.remove());
-		}
+		setNewMessages(0);
+		initMessageCount = messages?.length;
+		scrollContainerRef.current
+			.querySelectorAll('.messageItem__divider--lastRead')
+			.forEach((e) => e.remove());
 	};
 
 	useEffect(() => {
@@ -134,9 +189,13 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			window.ondragend = window.ondrop = () => setIsDragging(false);
 		};
 
+		if (!canWriteMessage) {
+			return;
+		}
+
 		enableDraggingOnWindow();
 		return () => disableDraggingOnWindow();
-	}, []);
+	}, [canWriteMessage]);
 
 	useEffect(() => {
 		if (scrollContainerRef.current) {
@@ -145,36 +204,38 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	}, [scrollContainerRef]); // eslint-disable-line
 
 	useEffect(() => {
-		if (!isAnonymousEnquiry && messages) {
-			if (
-				initialScrollCompleted &&
-				isMyMessage(messages[messages.length - 1]?.userId)
-			) {
+		if (!messages) {
+			return;
+		}
+
+		if (
+			initialScrollCompleted &&
+			isMyMessage(messages[messages.length - 1]?.userId)
+		) {
+			resetUnreadCount();
+			scrollToEnd(0, true);
+		} else {
+			// if first unread message -> prepend element
+			if (newMessages === 0 && !isScrolledToBottom) {
+				const scrollContainer = scrollContainerRef.current;
+				const firstUnreadItem = Array.from(
+					scrollContainer.querySelectorAll('.messageItem')
+				).pop();
+				const lastReadDivider = document.createElement('div');
+				lastReadDivider.innerHTML = translate(
+					'session.divider.lastRead'
+				);
+				lastReadDivider.className =
+					'messageItem__divider messageItem__divider--lastRead';
+				firstUnreadItem.prepend(lastReadDivider);
+			}
+
+			if (isScrolledToBottom && initialScrollCompleted) {
 				resetUnreadCount();
 				scrollToEnd(0, true);
-			} else {
-				// if first unread message -> prepend element
-				if (newMessages === 0 && !isScrolledToBottom) {
-					const scrollContainer = scrollContainerRef.current;
-					const firstUnreadItem = Array.from(
-						scrollContainer.querySelectorAll('.messageItem')
-					).pop();
-					const lastReadDivider = document.createElement('div');
-					lastReadDivider.innerHTML = translate(
-						'session.divider.lastRead'
-					);
-					lastReadDivider.className =
-						'messageItem__divider messageItem__divider--lastRead';
-					firstUnreadItem.prepend(lastReadDivider);
-				}
-
-				if (isScrolledToBottom && initialScrollCompleted) {
-					resetUnreadCount();
-					scrollToEnd(0, true);
-				}
-
-				setNewMessages(messages.length - initMessageCount);
 			}
+
+			setNewMessages(messages.length - initMessageCount);
 		}
 	}, [messages?.length]); // eslint-disable-line
 
@@ -188,7 +249,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	useEffect(() => {
 		let isCanceled = false;
 		apiGetConsultingType({
-			consultingTypeId: chatItem?.consultingType
+			consultingTypeId: activeSession.item.consultingType
 		}).then((response) => {
 			if (isCanceled) return;
 			setResortData(response);
@@ -196,69 +257,27 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		return () => {
 			isCanceled = true;
 		};
-	}, [chatItem?.consultingType]);
+	}, [activeSession.item.consultingType]);
 
 	const getPlaceholder = () => {
-		if (isGroupChat) {
+		if (activeSession.isGroup) {
 			return translate('enquiry.write.input.placeholder.groupChat');
 		} else if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			return translate('enquiry.write.input.placeholder');
 		} else if (
 			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
-			activeSession.isFeedbackSession
+			activeSession.isFeedback
 		) {
 			return translate('enquiry.write.input.placeholder.feedback.main');
 		} else if (
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-			activeSession.isFeedbackSession
+			activeSession.isFeedback
 		) {
 			return translate('enquiry.write.input.placeholder.feedback.peer');
 		} else if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
 			return translate('enquiry.write.input.placeholder.consultant');
 		}
 		return translate('enquiry.write.input.placeholder');
-	};
-
-	const handleButtonClick = (sessionId: any, sessionGroupId: string) => {
-		if (isRequestInProgress) {
-			return null;
-		}
-		setIsRequestInProgress(true);
-
-		apiEnquiryAcceptance(sessionId, isAnonymousEnquiry)
-			.then(() => {
-				setOverlayItem(enquirySuccessfullyAcceptedOverlayItem);
-				setCurrentGroupId(sessionGroupId);
-			})
-			.catch((error) => {
-				if (error.message === FETCH_ERRORS.CONFLICT) {
-					setOverlayItem(enquiryTakenByOtherConsultantOverlayItem);
-				} else {
-					console.log(error);
-				}
-			});
-	};
-
-	const handleOverlayAction = (buttonFunction: string) => {
-		switch (buttonFunction) {
-			case OVERLAY_FUNCTIONS.REDIRECT:
-				setOverlayItem(null);
-				setIsRequestInProgress(false);
-				setAcceptedGroupId(currentGroupId);
-				setSessionsData({ ...sessionsData, enquiries: [] });
-				history.push(`/sessions/consultant/sessionView/`);
-				break;
-			case OVERLAY_FUNCTIONS.CLOSE:
-				setOverlayItem(null);
-				setUpdateSessionList(SESSION_LIST_TYPES.ENQUIRY);
-				history.push(
-					`/sessions/consultant/sessionPreview${getSessionListTab()}`
-				);
-				break;
-			default:
-			// Should never be executed as `handleOverlayAction` is only called
-			// with a non-null `overlayItem`
-		}
 	};
 
 	/* eslint-disable */
@@ -312,43 +331,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		}
 	};
 
-	const isOnlyEnquiry = typeIsEnquiry(getTypeOfLocation());
-
-	const buttonItem: ButtonItem = {
-		label: isAnonymousEnquiry
-			? translate('enquiry.acceptButton.anonymous')
-			: translate('enquiry.acceptButton'),
-		type: BUTTON_TYPES.PRIMARY
-	};
-
-	const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = {
-		svg: CheckIcon,
-		headline: translate('session.acceptance.overlayHeadline'),
-		buttonSet: [
-			{
-				label: translate('session.acceptance.buttonLabel'),
-				function: OVERLAY_FUNCTIONS.REDIRECT,
-				type: BUTTON_TYPES.PRIMARY
-			}
-		]
-	};
-
-	const enquiryTakenByOtherConsultantOverlayItem: OverlayItem = {
-		svg: XIcon,
-		headline: translate(
-			'session.anonymous.takenByOtherConsultant.overlayHeadline'
-		),
-		illustrationBackground: 'error',
-		buttonSet: [
-			{
-				label: translate(
-					'session.anonymous.takenByOtherConsultant.buttonLabel'
-				),
-				function: OVERLAY_FUNCTIONS.CLOSE,
-				type: BUTTON_TYPES.PRIMARY
-			}
-		]
-	};
+	const isOnlyEnquiry = type === SESSION_LIST_TYPES.ENQUIRY;
 
 	const monitoringButtonItem: ButtonItem = {
 		label: translate('session.monitoring.buttonLabel'),
@@ -392,7 +375,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	return (
 		<div
 			className={
-				activeSession.isFeedbackSession
+				activeSession.isFeedback
 					? `session session--yellowTheme`
 					: `session`
 			}
@@ -413,90 +396,72 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				/>
 			</div>
 
-			{!isAnonymousEnquiry && (
-				<div
-					id="session-scroll-container"
-					className={clsx(
-						'session__content',
-						isDragging && 'drag-in-progress'
-					)}
-					ref={scrollContainerRef}
-					onScroll={(e) => handleScroll(e)}
-					onDragEnter={onDragEnter}
-				>
-					<div className={'message-holder'}>
-						{messages &&
-							resortData &&
-							messages.map((message: MessageItem, index) => (
-								<React.Fragment key={index}>
-									<MessageItemComponent
-										clientName={
-											getContact(activeSession).username
-										}
-										askerRcId={chatItem.askerRcId}
-										type={getTypeOfLocation()}
-										isOnlyEnquiry={isOnlyEnquiry}
-										isMyMessage={isMyMessage(
-											message.userId
-										)}
-										resortData={resortData}
-										bannedUsers={props.bannedUsers}
-										{...message}
-									/>
-									{index === messages.length - 1 &&
-										enableInitialScroll()}
-								</React.Fragment>
-							))}
-						<div
-							className={`session__scrollToBottom ${
-								isScrolledToBottom
-									? 'session__scrollToBottom--disabled'
-									: ''
-							}`}
-						>
-							{newMessages > 0 && (
-								<span className="session__unreadCount">
-									{newMessages > 99
-										? translate(
-												'session.unreadCount.maxValue'
-										  )
-										: newMessages}
-								</span>
-							)}
-							<Button
-								item={scrollBottomButtonItem}
-								isLink={false}
-								buttonHandle={handleScrollToBottomButtonClick}
-							/>
-						</div>
+			<div
+				id="session-scroll-container"
+				className={clsx(
+					'session__content',
+					isDragging && 'drag-in-progress'
+				)}
+				ref={scrollContainerRef}
+				onScroll={(e) => handleScroll(e)}
+				onDragEnter={onDragEnter}
+			>
+				<div className={'message-holder'}>
+					{messages &&
+						resortData &&
+						messages.map((message: MessageItem, index) => (
+							<React.Fragment key={`${message.id}-${index}`}>
+								<MessageItemComponent
+									clientName={
+										getContact(activeSession).username
+									}
+									askerRcId={activeSession.item.askerRcId}
+									isOnlyEnquiry={isOnlyEnquiry}
+									isMyMessage={isMyMessage(message.userId)}
+									resortData={resortData}
+									isUserBanned={props.bannedUsers.includes(
+										message.username
+									)}
+									{...message}
+								/>
+								{index === messages.length - 1 &&
+									enableInitialScroll()}
+							</React.Fragment>
+						))}
+					<div
+						className={`session__scrollToBottom ${
+							isScrolledToBottom
+								? 'session__scrollToBottom--disabled'
+								: ''
+						}`}
+					>
+						{newMessages > 0 && (
+							<span className="session__unreadCount">
+								{newMessages > 99
+									? translate('session.unreadCount.maxValue')
+									: newMessages}
+							</span>
+						)}
+						<Button
+							item={scrollBottomButtonItem}
+							isLink={false}
+							buttonHandle={handleScrollToBottomButtonClick}
+						/>
 					</div>
 				</div>
-			)}
+			</div>
 
-			{isAnonymousEnquiry && (
-				<div className="session__content session__content--anonymousEnquiry">
-					<Headline
-						semanticLevel="3"
-						text={`${translate(
-							'enquiry.anonymous.infoLabel.start'
-						)}${getContact(activeSession).username}${translate(
-							'enquiry.anonymous.infoLabel.end'
-						)}`}
-					/>
-				</div>
-			)}
-
-			{chatItem.monitoring &&
+			{activeSession.item.monitoring &&
 				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				!activeSession.isFeedbackSession &&
-				!typeIsEnquiry(getTypeOfLocation()) &&
+				(activeSession.isGroup || !activeSession.isFeedback) &&
+				type !== SESSION_LIST_TYPES.ENQUIRY &&
 				monitoringButtonVisible &&
-				!isLiveChat && (
+				!activeSession.isLive && (
 					<Link
-						to={`/sessions/consultant/${getViewPathForType(
-							getTypeOfLocation()
-						)}/${chatItem.groupId}/${
-							chatItem.id
+						to={`/sessions/consultant/${getViewPathForType(type)}/${
+							activeSession.item.groupId
+						}/${
+							activeSession.item.id
 						}/userProfile/monitoring${getSessionListTab()}`}
 					>
 						<div className="monitoringButton">
@@ -505,33 +470,24 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					</Link>
 				)}
 
-			{typeIsEnquiry(getTypeOfLocation()) ? (
-				<div className="session__acceptance messageItem">
-					{!isLiveChat &&
-					hasUserAuthority(
-						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
-						userData
-					) ? (
-						<SessionAssign />
-					) : (
-						<Button
-							item={buttonItem}
-							buttonHandle={() =>
-								handleButtonClick(chatItem.id, chatItem.groupId)
-							}
-						/>
-					)}
-				</div>
-			) : null}
-
-			{!isAnonymousEnquiry &&
-				(!typeIsEnquiry(getTypeOfLocation()) ||
-					(typeIsEnquiry(getTypeOfLocation()) &&
+			{type === SESSION_LIST_TYPES.ENQUIRY && (
+				<AcceptAssign
+					assignable={
+						!activeSession.isLive &&
 						hasUserAuthority(
 							AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 							userData
-						))) && (
+						)
+					}
+					isAnonymous={false}
+					btnLabel={'enquiry.acceptButton'}
+				/>
+			)}
+
+			{canWriteMessage && (
+				<>
 					<MessageSubmitInterfaceComponent
+						handleSendButton={handleEncryptRoom}
 						isTyping={props.isTyping}
 						className={clsx(
 							'session__submit-interface',
@@ -542,28 +498,28 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						showMonitoringButton={() => {
 							setMonitoringButtonVisible(true);
 						}}
-						type={getTypeOfLocation()}
 						typingUsers={props.typingUsers}
-						groupIdFromParam={groupIdFromParam}
+						E2EEParams={{
+							encrypted,
+							key: groupKey,
+							keyID: groupKeyID,
+							sessionKeyExportedString:
+								sessionGroupKeyExportedString
+						}}
 						preselectedFile={draggedFile}
 						handleMessageSendSuccess={handleMessageSendSuccess}
 					/>
-				)}
-			<DragAndDropArea
-				onFileDragged={onFileDragged}
-				isDragging={isDragging}
-				canDrop={isDragOverDropArea}
-				onDragLeave={onDragLeave}
-				styleOverride={{ top: headerBounds.height + 'px' }}
-			/>
-			{overlayItem && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
+					<DragAndDropArea
+						onFileDragged={onFileDragged}
+						isDragging={isDragging}
+						canDrop={isDragOverDropArea}
+						onDragLeave={onDragLeave}
+						styleOverride={{ top: headerBounds.height + 'px' }}
 					/>
-				</OverlayWrapper>
+				</>
 			)}
+
+			{subscriptionKeyLost && <SubscriptionKeyLost />}
 		</div>
 	);
 };

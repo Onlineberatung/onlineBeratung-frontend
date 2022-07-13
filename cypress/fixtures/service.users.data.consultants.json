@@ -18,7 +18,11 @@
 				"consultingType": 0
 			}
 		],
-		"grantedAuthorities": ["AUTHORIZATION_CONSULTANT_DEFAULT"],
+		"grantedAuthorities": [
+			"AUTHORIZATION_CONSULTANT_DEFAULT",
+			"AUTHORIZATION_VIEW_AGENCY_CONSULTANTS",
+			"AUTHORIZATION_ASSIGN_CONSULTANT_TO_SESSION"
+		],
 		"hasAnonymousConversations": false,
 		"consultingTypes": null,
 		"formalLanguage": true,

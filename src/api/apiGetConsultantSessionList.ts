@@ -1,12 +1,11 @@
 import { config } from '../resources/scripts/config';
 import {
-	SESSION_LIST_TAB,
-	SESSION_LIST_TYPES,
-	typeIsSession,
-	typeIsTeamSession
+	SESSION_LIST_TAB_ANONYMOUS,
+	SESSION_LIST_TAB_ARCHIVE,
+	SESSION_LIST_TYPES
 } from '../components/session/sessionHelpers';
 import { ListItemsResponseInterface } from '../globalState';
-import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
+import { FETCH_ERRORS, FETCH_METHODS, fetchData } from './fetchData';
 
 export const INITIAL_FILTER: string = 'all';
 export const FILTER_FEEDBACK: string = 'feedback';
@@ -16,7 +15,7 @@ export const TIMEOUT: number = 10000;
 
 export interface ApiGetConsultantSessionListInterface {
 	type: SESSION_LIST_TYPES;
-	filter?: string;
+	filter?: typeof INITIAL_FILTER | typeof FILTER_FEEDBACK;
 	offset?: number;
 	sessionListTab?: string;
 	count?: number;
@@ -31,25 +30,25 @@ export const apiGetConsultantSessionList = async ({
 	count = SESSION_COUNT,
 	signal
 }: ApiGetConsultantSessionListInterface): Promise<ListItemsResponseInterface> => {
-	const isTeamSession: boolean = typeIsTeamSession(type);
+	const isTeamSession: boolean = type === SESSION_LIST_TYPES.TEAMSESSION;
 	let url: string;
 	if (isTeamSession) {
 		url = `${
-			sessionListTab === SESSION_LIST_TAB.ARCHIVE
-				? `${config.endpoints.teamSessionsBase}${SESSION_LIST_TAB.ARCHIVE}?`
+			sessionListTab === SESSION_LIST_TAB_ARCHIVE
+				? `${config.endpoints.teamSessionsBase}${SESSION_LIST_TAB_ARCHIVE}?`
 				: `${config.endpoints.consultantTeamSessions}`
 		}`;
-	} else if (!isTeamSession && typeIsSession(type)) {
+	} else if (type === SESSION_LIST_TYPES.MY_SESSION) {
 		url = `${
-			sessionListTab === SESSION_LIST_TAB.ARCHIVE
-				? `${config.endpoints.myMessagesBase}${SESSION_LIST_TAB.ARCHIVE}?`
+			sessionListTab === SESSION_LIST_TAB_ARCHIVE
+				? `${config.endpoints.myMessagesBase}${SESSION_LIST_TAB_ARCHIVE}?`
 				: `${config.endpoints.consultantSessions}`
 		}`;
 	} else {
 		url = `${config.endpoints.consultantEnquiriesBase}${
-			sessionListTab && sessionListTab === SESSION_LIST_TAB.ANONYMOUS
-				? `${SESSION_LIST_TAB.ANONYMOUS}`
-				: `${SESSION_LIST_TAB.REGISTERED}`
+			sessionListTab && sessionListTab === SESSION_LIST_TAB_ANONYMOUS
+				? `${SESSION_LIST_TAB_ANONYMOUS}`
+				: 'registered'
 		}?`;
 	}
 	url = url + `count=${count}&filter=${filter}&offset=${offset}`;

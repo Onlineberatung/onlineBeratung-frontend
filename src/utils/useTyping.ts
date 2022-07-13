@@ -1,7 +1,20 @@
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import {
+	useCallback,
+	useContext,
+	useEffect,
+	useReducer,
+	useRef,
+	useState
+} from 'react';
 import update from 'immutability-helper';
-import { SOCKET_COLLECTION } from '../api';
 import { decodeUsername, encodeUsername } from './encryptionHelpers';
+import {
+	EVENT_TYPING,
+	METHOD_STREAM_NOTIFY_ROOM,
+	SUB_STREAM_NOTIFY_ROOM
+} from '../components/app/RocketChat';
+import { RocketChatContext } from '../globalState/provider/RocketChatProvider';
+import useUpdatingRef from '../hooks/useUpdatingRef';
 
 const TYPING_TIMEOUT_MS = 4000;
 const TYPING_TRIGGER_MS = 1000;
@@ -48,6 +61,9 @@ export default function useTyping(
 	userName: string,
 	displayName: string
 ) {
+	const { sendMethod, subscribe, unsubscribe, ready } =
+		useContext(RocketChatContext);
+
 	const typingTimeout = useRef(null);
 	const lastTypingTrigger = useRef(0);
 	const [typingUsers, dispatchTypingUsers] = useReducer(reducer, []);
@@ -70,21 +86,23 @@ export default function useTyping(
 	 * handle rocket.chat typing message and
 	 * maintenance a list of (not) typing users
 	 */
-	const handleTypingResponse = useCallback(
-		([encUsername, isTyping, encDisplayName]) => {
-			const typingUsername = decodeUsername(encDisplayName);
+	const handleTypingResponse = useUpdatingRef(
+		useCallback(
+			([encUsername, isTyping, encDisplayName]) => {
+				const typingUsername = decodeUsername(encDisplayName);
 
-			if (typingUsername === displayName) {
-				return;
-			}
+				if (typingUsername === displayName) {
+					return;
+				}
 
-			dispatchTypingUsers({
-				type: ACTION_TYPING,
-				username: typingUsername,
-				isTyping
-			});
-		},
-		[displayName]
+				dispatchTypingUsers({
+					type: ACTION_TYPING,
+					username: typingUsername,
+					isTyping
+				});
+			},
+			[displayName]
+		)
 	);
 
 	/**
@@ -92,15 +110,37 @@ export default function useTyping(
 	 * (not) typing messages
 	 */
 	const subscribeTyping = useCallback(() => {
-		if (window['socket']) {
-			window['socket'].addSubscription(
-				SOCKET_COLLECTION.NOTIFY_ROOM,
-				[`${groupId}/typing`, { useCollection: false, args: [] }],
-				handleTypingResponse
+		if (ready) {
+			subscribe(
+				{
+					name: SUB_STREAM_NOTIFY_ROOM,
+					event: EVENT_TYPING,
+					roomId: groupId
+				},
+				handleTypingResponse,
+				{ useCollection: false, args: [] }
 			);
 			setSubscribed(true);
 		}
-	}, [groupId, handleTypingResponse]);
+	}, [groupId, handleTypingResponse, ready, subscribe]);
+
+	/**
+	 * UnSubscribe to rocket.chat socket message of typing to receive
+	 * (not) typing messages
+	 */
+	const unsubscribeTyping = useCallback(() => {
+		if (ready) {
+			unsubscribe(
+				{
+					name: SUB_STREAM_NOTIFY_ROOM,
+					event: EVENT_TYPING,
+					roomId: groupId
+				},
+				handleTypingResponse
+			);
+			setSubscribed(false);
+		}
+	}, [groupId, handleTypingResponse, ready, unsubscribe]);
 
 	/**
 	 * Handle typing and send rocket.chat (not) typing message to
@@ -111,7 +151,7 @@ export default function useTyping(
 	 */
 	const handleTyping = useCallback(
 		(isCleared) => {
-			if (window['socket'] && subscribed) {
+			if (ready && subscribed) {
 				// If typingTimeout already active reset it
 				if (typingTimeout.current) {
 					window.clearTimeout(typingTimeout.current);
@@ -120,28 +160,22 @@ export default function useTyping(
 
 				const now = Date.now();
 				if (lastTypingTrigger.current + TYPING_TRIGGER_MS < now) {
-					window['socket'].sendTypingState(
-						SOCKET_COLLECTION.NOTIFY_ROOM,
-						[
-							`${groupId}/typing`,
-							encodeUsername(userName).toLowerCase(),
-							true,
-							encodeUsername(displayName)
-						]
-					);
+					sendMethod(METHOD_STREAM_NOTIFY_ROOM, [
+						`${groupId}/${EVENT_TYPING}`,
+						encodeUsername(userName).toLowerCase(),
+						true,
+						encodeUsername(displayName)
+					]);
 					lastTypingTrigger.current = now;
 				}
 
 				const cancelTyping = () => {
-					window['socket'].sendTypingState(
-						SOCKET_COLLECTION.NOTIFY_ROOM,
-						[
-							`${groupId}/typing`,
-							encodeUsername(userName).toLowerCase(),
-							false,
-							encodeUsername(displayName)
-						]
-					);
+					sendMethod(METHOD_STREAM_NOTIFY_ROOM, [
+						`${groupId}/${EVENT_TYPING}`,
+						encodeUsername(userName).toLowerCase(),
+						false,
+						encodeUsername(displayName)
+					]);
 					typingTimeout.current = null;
 					lastTypingTrigger.current = 0;
 				};
@@ -158,8 +192,8 @@ export default function useTyping(
 				}
 			}
 		},
-		[groupId, subscribed, userName, displayName]
+		[ready, subscribed, sendMethod, groupId, userName, displayName]
 	);
 
-	return { subscribeTyping, handleTyping, typingUsers };
+	return { subscribeTyping, unsubscribeTyping, handleTyping, typingUsers };
 }

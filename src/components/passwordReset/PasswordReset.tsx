@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { apiUpdatePassword } from '../../api';
@@ -20,8 +20,17 @@ import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/c
 import './passwordReset.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
+import {
+	encryptPrivateKey,
+	deriveMasterKeyFromPassword
+} from '../../utils/encryptionHelpers';
+import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { E2EEContext } from '../../globalState';
 
 export const PasswordReset = () => {
+	const rcUid = getValueFromCookie('rc_uid');
+
 	const [oldPassword, setOldPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -35,9 +44,12 @@ export const PasswordReset = () => {
 		useState('');
 	const [confirmPasswordSuccessMessage, setConfirmPasswordSuccessMessage] =
 		useState('');
+	const [hasMasterKeyError, setHasMasterKeyError] = useState(false);
 
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+
+	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const overlayItem: OverlayItem = {
 		svg: CheckIcon,
@@ -114,6 +126,7 @@ export const PasswordReset = () => {
 
 	const handleInputOldChange = (event) => {
 		setOldPasswordErrorMessage('');
+		setHasMasterKeyError(false);
 		setOldPassword(event.target.value);
 	};
 
@@ -140,9 +153,11 @@ export const PasswordReset = () => {
 				translate('profile.functions.passwordResetSecure')
 			);
 			setNewPasswordErrorMessage('');
+			setHasMasterKeyError(false);
 		} else {
 			setNewPasswordSuccessMessage('');
 			setNewPasswordErrorMessage('');
+			setHasMasterKeyError(false);
 		}
 	};
 
@@ -176,16 +191,54 @@ export const PasswordReset = () => {
 		if (isRequestInProgress) {
 			return null;
 		}
+
 		if (isValid) {
+			setHasMasterKeyError(false);
 			setIsRequestInProgress(true);
 			setOldPasswordErrorMessage('');
+
 			apiUpdatePassword(oldPassword, newPassword)
-				.then(() => {
-					setOverlayActive(true);
-					setIsRequestInProgress(false);
-					logout(false, config.urls.toLogin);
+				.then(async () => {
+					try {
+						if (isE2eeEnabled) {
+							// create new masterkey from newPassword
+							const newMasterKey =
+								await deriveMasterKeyFromPassword(
+									rcUid,
+									newPassword
+								);
+							// encrypt private key with new masterkey
+							const encryptedPrivateKey = await encryptPrivateKey(
+								sessionStorage.getItem('private_key'),
+								newMasterKey
+							);
+							// save with rocket chat
+							await apiRocketChatSetUserKeys(
+								sessionStorage.getItem('public_key'),
+								encryptedPrivateKey
+							);
+						}
+						// TODO Update masterkey in localstorage same logic as autoLogin
+
+						setOverlayActive(true);
+						setIsRequestInProgress(false);
+						logout(false, config.urls.toLogin);
+					} catch (e) {
+						if (isE2eeEnabled) {
+							// rechange password to the old password
+							await apiUpdatePassword(
+								newPassword,
+								oldPassword
+							).catch(() => {
+								// if an error happens here we keep the newPassword but don't upgrade the masterKey
+								// and hope it works next login attempt
+							});
+							setHasMasterKeyError(true);
+						}
+					}
 				})
 				.catch(() => {
+					// error handling for password update error
 					setOldPasswordErrorMessage(
 						translate('profile.functions.passwordResetOldIncorrect')
 					);
@@ -250,6 +303,12 @@ export const PasswordReset = () => {
 						</div>
 					</div>
 				</div>
+
+				{isE2eeEnabled && hasMasterKeyError && (
+					<div className="passwordReset__error">
+						{translate('profile.functions.masterKey.saveError')}
+					</div>
+				)}
 
 				<div className="button__wrapper">
 					<span
