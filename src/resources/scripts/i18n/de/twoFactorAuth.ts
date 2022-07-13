@@ -65,7 +65,7 @@ const twoFactorAuth = {
 	'overlayButton.next': 'Weiter',
 	'overlayButton.back': 'Zurück',
 	'overlayButton.save': 'Speichern',
-	'overlayButton.close': 'Schliessen',
+	'overlayButton.close': 'Schließen',
 	'overlayButton.confirm': 'Bestätigen',
 	'activate.email.input.label': 'E-Mail-Adresse angeben',
 	'activate.email.input.valid': 'E-Mail-Adresse angeben',

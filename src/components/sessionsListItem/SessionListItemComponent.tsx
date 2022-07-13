@@ -36,6 +36,7 @@ import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SessionListItemLastMessage } from './SessionListItemLastMessage';
+import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 
 interface SessionListItemProps {
 	session: ExtendedSessionInterface;
@@ -64,7 +65,10 @@ export const SessionListItemComponent = ({
 	const language = session.item.language || defaultLanguage;
 	const consultingType = useConsultingType(session.item.consultingType);
 
-	const { key, keyID, encrypted } = useE2EE(session.item.groupId);
+	const { key, keyID, encrypted } = useE2EE(
+		session.item.groupId,
+		session.item.lastMessageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST
+	);
 	const [plainTextLastMessage, setPlainTextLastMessage] = useState(null);
 
 	useEffect(() => {

@@ -8,6 +8,7 @@ import {
 	importGroupKey
 } from '../utils/encryptionHelpers';
 import { RocketChatSubscriptionsContext } from '../globalState/provider/RocketChatSubscriptionsProvider';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 
 export type e2eeParams = {
 	key?: CryptoKey;
@@ -19,27 +20,30 @@ export type e2eeParams = {
 export interface UseE2EEParams extends e2eeParams {
 	addNewUsersToEncryptedRoom?: any;
 	ready: boolean;
+	subscriptionKeyLost: boolean;
 }
 
-export const useE2EE = (rid: string | null): UseE2EEParams => {
+export const useE2EE = (
+	rid: string | null,
+	triggerReEncrypt: boolean = false
+): UseE2EEParams => {
 	const { key: e2eePrivateKey } = useContext(E2EEContext);
 	const { subscriptions, rooms } = useContext(RocketChatSubscriptionsContext);
 	const [key, setKey] = useState(null);
 	const [keyID, setKeyID] = useState(null);
 	const [encrypted, setEncrypted] = useState(false);
+	const [subscriptionKeyLost, setSubscriptionKeyLost] = useState(false);
 	const [sessionKeyExportedString, setSessionKeyExportedString] =
 		useState(null);
 	const [ready, setReady] = useState(false);
+	const rcUid = getValueFromCookie('rc_uid');
 
 	const keyIdRef = useRef(null);
 	const sessionKeyExportedStringRef = useRef(null);
 
 	const addNewUsersToEncryptedRoom = useCallback(async () => {
 		try {
-			const { users } = await apiRocketChatGetUsersOfRoomWithoutKey(rid);
-
-			// we can stop this request if there are only system and technical user without keys
-			if (users.length <= 2) {
+			if (subscriptionKeyLost) {
 				return;
 			}
 
@@ -50,40 +54,44 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 				.filter(
 					(member) =>
 						member.username !== 'System' &&
-						member.username.indexOf('enc.') === 0
+						member.username.indexOf('enc.') === 0 &&
+						member._id !== rcUid
 				);
 
-			if (users) {
-				await Promise.all(
-					users.map(async (user) => {
-						// only check in filtered members for the user
-						if (
-							filteredMembers.filter(
-								(member) => member._id === user._id
-							).length !== 1
-						)
-							return;
-
-						let userKey;
-
-						userKey = await encryptForParticipant(
-							user.e2e.public_key,
-							keyIdRef.current,
-							sessionKeyExportedStringRef.current
-						);
-
-						return apiRocketChatUpdateGroupKey(
-							user._id,
-							rid,
-							userKey
-						);
-					})
-				);
+			if (filteredMembers.length <= 0) {
+				return;
 			}
+
+			const { users } = await apiRocketChatGetUsersOfRoomWithoutKey(rid);
+
+			if (users.length <= 0) {
+				return;
+			}
+
+			await Promise.all(
+				users.map(async (user) => {
+					// only check in filtered members for the user
+					if (
+						!filteredMembers.find(
+							(member) => member._id === user._id
+						)
+					) {
+						return;
+					}
+
+					const userKey = await encryptForParticipant(
+						user.e2e.public_key,
+						keyIdRef.current,
+						sessionKeyExportedStringRef.current
+					);
+
+					return apiRocketChatUpdateGroupKey(user._id, rid, userKey);
+				})
+			);
 		} catch (e) {
 			// no error handling // intentional
 		}
-	}, [rid]);
+	}, [rcUid, rid, subscriptionKeyLost]);
 
 	useEffect(() => {
 		keyIdRef.current = keyID;
@@ -92,6 +100,12 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 	useEffect(() => {
 		sessionKeyExportedStringRef.current = sessionKeyExportedString;
 	}, [sessionKeyExportedString]);
+
+	useEffect(() => {
+		if (triggerReEncrypt) {
+			addNewUsersToEncryptedRoom().then();
+		}
+	}, [addNewUsersToEncryptedRoom, triggerReEncrypt]);
 
 	useEffect(() => {
 		if (!rid) {
@@ -116,6 +130,7 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 		const subscription = subscriptions.find((s) => s.rid === rid);
 
 		if (!subscription?.E2EKey) {
+			setSubscriptionKeyLost(true);
 			setReady(true);
 			return;
 		}
@@ -134,11 +149,16 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 				setReady(true);
 			}
 		);
+
+		return () => {
+			setSubscriptionKeyLost(false);
+		};
 	}, [e2eePrivateKey, keyID, rid, rooms, subscriptions]);
 
 	useEffect(() => {
 		return () => {
 			setEncrypted(false);
+			setSubscriptionKeyLost(false);
 			setKey(null);
 			setKeyID(null);
 			setSessionKeyExportedString(null);
@@ -152,6 +172,7 @@ export const useE2EE = (rid: string | null): UseE2EEParams => {
 		encrypted,
 		sessionKeyExportedString,
 		addNewUsersToEncryptedRoom,
-		ready
+		ready,
+		subscriptionKeyLost
 	};
 };
