@@ -64,12 +64,12 @@ export default function Cal({
 					userName: userData.userName,
 					counselorEmail: data.organizer.email,
 					date: date,
-					duration: data.duration,
-					location: `${data.eventType.title} ${translate(
-						'message.appointmentSet.between'
-					)} ${data.eventType.team.name} ${translate(
-						'message.appointmentSet.and'
-					)} ${data.organizer.name}`
+					duration: data.duration
+					// location: `${data.eventType.title} ${translate(
+					// 	'message.appointmentSet.between'
+					// )} ${data.eventType.team.name} ${translate(
+					// 	'message.appointmentSet.and'
+					// )} ${data.organizer.name}`
 				};
 
 				//todo: we are currently handling only initial appointment

@@ -27,7 +27,9 @@ export const Booking = () => {
 
 	useEffect(() => {
 		if (sessionsData?.mySessions?.[0]?.consultant) {
-			apiAppointmentServiceEventTypes(userData.userId).then((resp) => {
+			apiAppointmentServiceEventTypes(
+				sessionsData?.mySessions?.[0]?.consultant.consultantId
+			).then((resp) => {
 				setTeam(resp.slug);
 			});
 		} else {
@@ -46,9 +48,10 @@ export const Booking = () => {
 					calLink={team}
 					calOrigin={config.urls.appointmentServiceDevServer}
 					config={{
-						name: userData.userName,
-						email: userData.userName + '@email.com',
-						theme: 'light'
+						'name': userData.userName,
+						'email': userData.userName + '@suchtberatung.digital',
+						'theme': 'light',
+						'metadata[user]': userData.userId
 					}}
 				/>
 			)}

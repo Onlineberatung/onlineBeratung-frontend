@@ -28,6 +28,7 @@ export interface ListItemInterface {
 }
 
 export interface SessionConsultantInterface {
+	consultantId: string;
 	absent: boolean;
 	absenceMessage: boolean;
 	displayName?: string;

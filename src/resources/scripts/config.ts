@@ -28,12 +28,15 @@ export const config = {
 		appointmentServiceBase: apiUrl + '/service/agency/',
 		appointmentServiceMeetingLink: (agencyId: number) =>
 			apiUrl +
-			`/service/appointservice/agencies/${agencyId}/initialMeetingSlug`,
+			`/service/appointservice/agencies/${agencyId}/initialMeetingSlugReal`,
 		appointmentServiceEventTypes: (userId: string) =>
-			apiUrl + `/service/appointservice/consultants/1/meetingSlug`,
+			apiUrl +
+			`/service/appointservice/consultants/${userId}/meetingSlug`,
 		appointmentsServiceBase: apiUrl + '/service/appointments',
 		appointmentsServiceBookingEventsByUserId: (userId: string) =>
 			apiUrl + `/service/appointservice/askers/${userId}/bookings`,
+		appointmentsServiceConsultantBookings: (userId: string) =>
+			apiUrl + `/service/appointservice/consultants/${userId}/bookings`,
 		askerSessions: apiUrl + '/service/users/sessions/askers',
 		attachmentUpload: apiUrl + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',

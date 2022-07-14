@@ -19,13 +19,19 @@ import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow
 import { Text } from '../text/Text';
 import { Box } from '../box/Box';
 import { downloadICSFile } from '../../utils/downloadICSFile';
-import { apiAppointmentsServiceBookingEventsByUserId } from '../../api/apiGetAppointmentsServiceBookingEventsByUserId';
-import { UserDataContext } from '../../globalState';
+import {
+	AUTHORITIES,
+	hasUserAuthority,
+	UserDataContext
+} from '../../globalState';
 import { BookingEventsInterface } from '../../globalState/interfaces/BookingDataInterface';
 import { getWeekDayFromPrefix } from '../../utils/dateHelpers';
+import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
+import { apiAppointmentsServiceBookingEventsByUserId } from '../../api';
 
 interface BookingEventsListInterface {
 	id: number;
+	rescheduleLink?: string;
 	uid: string;
 	date: string;
 	duration: string;
@@ -158,7 +164,7 @@ export const BookingEvents = () => {
 		// });
 		history.push({
 			pathname: '/booking/reschedule',
-			state: { uid: event.uid }
+			state: { rescheduleLink: event.rescheduleLink, bookingId: event.id }
 		});
 	};
 
@@ -171,11 +177,23 @@ export const BookingEvents = () => {
 	};
 
 	useEffect(() => {
-		apiAppointmentsServiceBookingEventsByUserId(userData.userId).then(
-			(bookings) => {
-				setbookingEventsApi(bookings);
-			}
+		const isConsultant = hasUserAuthority(
+			AUTHORITIES.CONSULTANT_DEFAULT,
+			userData
 		);
+
+		if (isConsultant) {
+			apiGetConsultantAppointments(userData.userId).then((bookings) => {
+				setbookingEventsApi(bookings);
+			});
+		} else {
+			apiAppointmentsServiceBookingEventsByUserId(userData.userId).then(
+				(bookings) => {
+					setbookingEventsApi(bookings);
+				}
+			);
+		}
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -204,7 +222,8 @@ export const BookingEvents = () => {
 				counselor: 'Max Musrermann',
 				description: event.title,
 				expanded: false,
-				uid: event.uid
+				uid: event.uid,
+				rescheduleLink: event.rescheduleLink
 				// counselor: event.counselor
 				// slug: event.slug
 			});
