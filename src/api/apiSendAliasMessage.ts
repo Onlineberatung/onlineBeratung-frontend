@@ -14,6 +14,9 @@ export enum ALIAS_MESSAGE_TYPES {
 }
 export interface ConsultantReassignment {
 	toConsultantId: string;
+	toConsultantName: string;
+	toAskerName: string;
+	fromConsultantName: string;
 	status: ReassignStatus;
 }
 

@@ -46,6 +46,7 @@ import {
 	ReassignStatus
 } from '../../api/apiSendAliasMessage';
 import { apiPatchMessage } from '../../api/apiPatchMessage';
+import { apiSessionAssign } from '../../api';
 
 enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -138,9 +139,6 @@ export const MessageItemComponent = ({
 
 	const { key, keyID, encrypted } = useE2EE(rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
-	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
-
-	const [newConsultantName, setNewConsultantName] = useState('');
 
 	useEffect((): void => {
 		if (isE2eeEnabled) {
@@ -220,15 +218,22 @@ export const MessageItemComponent = ({
 	};
 
 	const clickReassignRequestMessage = (accepted, toConsultantId) => {
-		let reassignStatus = ReassignStatus.REJECTED;
 		if (accepted) {
-			reassignStatus = ReassignStatus.CONFIRMED;
+			apiSessionAssign(activeSession.item.id, toConsultantId)
+				.then(() => {
+					apiPatchMessage(
+						toConsultantId,
+						ReassignStatus.CONFIRMED,
+						_id
+					).catch((error) => console.log(error));
+				})
+				.catch((error) => console.log(error));
+			return;
 		}
 
-		apiPatchMessage(toConsultantId, reassignStatus, _id).catch((error) => {
-			console.log(error);
-		});
-		//TODO accepted -> reassign to new consultant
+		apiPatchMessage(toConsultantId, ReassignStatus.REJECTED, _id).catch(
+			(error) => console.log(error)
+		);
 	};
 
 	const isUserMessage = () =>
@@ -256,75 +261,42 @@ export const MessageItemComponent = ({
 				return <E2EEActivatedMessage />;
 			case isReassignmentMessage:
 				if (message) {
-					const messageArgs: ConsultantReassignment = JSON.parse(
-						message.replaceAll('&quot;', '"')
+					const isAsker = hasUserAuthority(
+						AUTHORITIES.ASKER_DEFAULT,
+						userData
 					);
-					// console.log('activeSession', activeSession);
-					// console.log('t', t);
-					//console.log('message', message);
-					console.log('id', _id);
 
-					switch (messageArgs.status) {
-						case 'REQUESTED':
-							if (isAsker) {
-								return (
-									<ReassignRequestMessage
-										oldConsultantName={
-											activeSession.consultant.displayName
-												? activeSession.consultant
-														.displayName
-												: activeSession.consultant
-														?.username
-										}
-										newConsultantName={newConsultantName} //TODO show display name or user name
-										onClick={(accepted) =>
-											clickReassignRequestMessage(
-												accepted,
-												messageArgs.toConsultantId
-											)
-										}
-									/>
-								);
-							} else {
-								return (
-									<ReassignRequestSentMessage
-										oldConsultantName={
-											activeSession.consultant.displayName
-												? activeSession.consultant
-														.displayName
-												: activeSession.consultant
-														?.username
-										}
-										newConsultantName={
-											messageArgs.toConsultantId //TODO show display name or user name
-										}
-										clientName={
-											activeSession.user?.username
-										}
-									/>
-								);
-							}
-						case 'CONFIRMED':
-							return (
-								<ReassignRequestAcceptedMessage
-									isAsker
-									clientName={activeSession.user?.username}
-									newConsultantName={
-										messageArgs.toConsultantId //TODO show display name or user name
+					const reassignmentParams: ConsultantReassignment =
+						JSON.parse(message);
+					switch (reassignmentParams.status) {
+						case ReassignStatus.REQUESTED:
+							return isAsker ? (
+								<ReassignRequestMessage
+									{...reassignmentParams}
+									onClick={(accepted) =>
+										clickReassignRequestMessage(
+											accepted,
+											reassignmentParams.toConsultantId
+										)
 									}
 								/>
+							) : (
+								<ReassignRequestSentMessage
+									{...reassignmentParams}
+								/>
 							);
-						case 'REJECTED':
+						case ReassignStatus.CONFIRMED:
+							return (
+								<ReassignRequestAcceptedMessage
+									isAsker={isAsker}
+									{...reassignmentParams}
+								/>
+							);
+						case ReassignStatus.REJECTED:
 							return (
 								<ReassignRequestDeclinedMessage
-									isAsker
-									clientName={activeSession.user?.username}
-									oldConsultantName={
-										activeSession.consultant.displayName
-											? activeSession.consultant
-													.displayName
-											: activeSession.consultant?.username
-									}
+									isAsker={isAsker}
+									{...reassignmentParams}
 								/>
 							);
 					}

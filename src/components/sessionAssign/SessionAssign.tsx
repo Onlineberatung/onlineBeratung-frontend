@@ -1,29 +1,29 @@
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
-	OverlayWrapper,
 	Overlay,
+	OVERLAY_FUNCTIONS,
 	OverlayItem,
-	OVERLAY_FUNCTIONS
+	OverlayWrapper
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { translate } from '../../utils/translate';
 import {
-	apiGetUserData,
+	apiDeleteUserFromRoom,
 	apiGetAgencyConsultantList,
+	apiGetUserData,
 	apiSessionAssign,
-	FETCH_ERRORS,
-	apiDeleteUserFromRoom
+	FETCH_ERRORS
 } from '../../api';
 import {
-	UserDataInterface,
-	UserDataContext,
 	ConsultantListContext,
-	E2EEContext
+	E2EEContext,
+	UserDataContext,
+	UserDataInterface
 } from '../../globalState';
 import {
-	SelectDropdownItem,
 	SelectDropdown,
+	SelectDropdownItem,
 	SelectOption
 } from '../select/SelectDropdown';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
@@ -31,6 +31,7 @@ import { useE2EE } from '../../hooks/useE2EE';
 import {
 	ALIAS_MESSAGE_TYPES,
 	apiSendAliasMessage,
+	ConsultantReassignment,
 	ReassignStatus
 } from '../../api/apiSendAliasMessage';
 
@@ -51,7 +52,8 @@ export const SessionAssign = (props: { value?: string }) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState({});
 	const [selectedOption, setSelectedOption] = useState(null);
-	const [newConsultantId, setNewConsultantId] = useState(null);
+	const [reassignmentParams, setReassignmentParams] =
+		useState<ConsultantReassignment | null>(null);
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
@@ -97,31 +99,16 @@ export const SessionAssign = (props: { value?: string }) => {
 
 		const client = activeSession.user.username;
 		const newConsultant = selected.label;
-		setNewConsultantId(selected.value);
+		setReassignmentParams({
+			toConsultantId: selected.value,
+			toConsultantName: selected.label,
+			toAskerName: client,
+			fromConsultantName: profileData.displayName,
+			status: ReassignStatus.REQUESTED
+		});
+
 		console.log('selected', selected);
 		console.log('init', client, newConsultant);
-
-		// todo when to use?
-		const assignSession: OverlayItem = {
-			headline: translate('session.assignSelf.overlay.headline'),
-			copy: translate('session.assignSelf.overlay.subtitle'),
-			buttonSet: [
-				{
-					label: translate(
-						'session.assignSelf.overlay.button.cancel'
-					),
-					function: OVERLAY_FUNCTIONS.CLOSE,
-					type: BUTTON_TYPES.SECONDARY
-				},
-				{
-					label: translate(
-						'session.assignSelf.overlay.button.assign'
-					),
-					function: OVERLAY_FUNCTIONS.ASSIGN,
-					type: BUTTON_TYPES.PRIMARY
-				}
-			]
-		};
 
 		const reassignSession: OverlayItem = {
 			headline: translate('session.assignOther.overlay.headline', {
@@ -202,17 +189,13 @@ export const SessionAssign = (props: { value?: string }) => {
 				break;
 			case OVERLAY_FUNCTIONS.REASSIGN:
 				console.log('call reassign');
-				// todo send params new consultant
-				// see https://github.com/Onlineberatung/onlineBeratung-messageService/blob/develop/api/messageservice.yaml
-				console.log('newConsultantId', newConsultantId);
 				apiSendAliasMessage({
 					rcGroupId: activeSession.rid,
 					type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT,
-					args: {
-						toConsultantId: newConsultantId,
-						status: ReassignStatus.REQUESTED
-					}
+					args: reassignmentParams
 				});
+				setOverlayItem(null);
+				setOverlayActive(false);
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayItem(null);

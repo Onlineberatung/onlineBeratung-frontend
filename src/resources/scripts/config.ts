@@ -145,7 +145,13 @@ export const config = {
 
 export const ALIAS_LAST_MESSAGES = {
 	E2EE_ACTIVATED: 'aliases.lastMessage.e2ee_activated',
-	FURTHER_STEPS: 'aliases.lastMessage.further_steps'
+	FURTHER_STEPS: 'aliases.lastMessage.further_steps',
+	REASSIGN_CONSULTANT_REQUESTED:
+		'aliases.lastMessage.reassign_consultant.requested',
+	REASSIGN_CONSULTANT_CONFIRMED:
+		'aliases.lastMessage.reassign_consultant.confirmed',
+	REASSIGN_CONSULTANT_REJECTED:
+		'aliases.lastMessage.reassign_consultant.rejected'
 };
 
 export const emails = {

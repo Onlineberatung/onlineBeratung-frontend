@@ -5,28 +5,10 @@ import './reassignRequestMessage.styles';
 import { Button, BUTTON_TYPES } from '../button/Button';
 
 export const ReassignRequestMessage: React.FC<{
-	oldConsultantName: string;
-	newConsultantName: string;
+	fromConsultantName: string;
+	toConsultantName: string;
 	onClick: (accepted: boolean) => void;
 }> = (props) => {
-	// const [];
-	// const init = (async () => {
-	// 	return await props.newConsultantName;
-	// })();
-	// const [newConsultantNameG, setNewConsultantNameG] = useState()
-	// const getName = async () => {
-	// 	if(typeof newConsultantNameG === "string"){
-	// 		setNewConsultantNameG(newConsultantNameG)
-	// 		return
-	// 	}else{
-	// 	const name = await props.newConsultantName?.()
-	// 	}
-	//
-	// }
-	// useEffect(() => {
-	// 	getName()
-	// }, [newConsultantNameG])
-
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
@@ -34,8 +16,8 @@ export const ReassignRequestMessage: React.FC<{
 					{translate(
 						'session.reassign.system.message.reassign.title',
 						{
-							oldConsultant: props.oldConsultantName,
-							newConsultant: props.newConsultantName
+							oldConsultant: props.fromConsultantName,
+							newConsultant: props.toConsultantName
 						}
 					)}
 				</h5>
@@ -44,8 +26,8 @@ export const ReassignRequestMessage: React.FC<{
 					{translate(
 						'session.reassign.system.message.reassign.description',
 						{
-							oldConsultant: props.oldConsultantName,
-							newConsultant: props.newConsultantName
+							oldConsultant: props.fromConsultantName,
+							newConsultant: props.toConsultantName
 						}
 					)}
 				</span>
@@ -80,9 +62,9 @@ export const ReassignRequestMessage: React.FC<{
 };
 
 export const ReassignRequestSentMessage: React.FC<{
-	clientName: string;
-	oldConsultantName: string;
-	newConsultantName: string;
+	toAskerName: string;
+	fromConsultantName: string;
+	toConsultantName: string;
 }> = (props) => {
 	return (
 		<div className="reassignRequestMessage">
@@ -91,8 +73,8 @@ export const ReassignRequestSentMessage: React.FC<{
 					{translate(
 						'session.reassign.system.message.reassign.sent.title',
 						{
-							newConsultant: props.newConsultantName,
-							oldConsultant: props.oldConsultantName
+							newConsultant: props.toConsultantName,
+							oldConsultant: props.fromConsultantName
 						}
 					)}
 				</h5>
@@ -100,9 +82,9 @@ export const ReassignRequestSentMessage: React.FC<{
 					{translate(
 						'session.reassign.system.message.reassign.sent.description',
 						{
-							client1: props.clientName,
-							client2: props.clientName,
-							newConsultant: props.newConsultantName
+							client1: props.toAskerName,
+							client2: props.toAskerName,
+							newConsultant: props.toConsultantName
 						}
 					)}
 				</span>
@@ -112,8 +94,8 @@ export const ReassignRequestSentMessage: React.FC<{
 };
 
 export const ReassignRequestAcceptedMessage: React.FC<{
-	clientName: string;
-	newConsultantName: string;
+	toAskerName: string;
+	toConsultantName: string;
 	isAsker: boolean;
 }> = (props) => {
 	return (
@@ -125,7 +107,7 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 							{translate(
 								'session.reassign.system.message.reassign.accepted.consultant.title',
 								{
-									newConsultant: props.newConsultantName
+									newConsultant: props.toConsultantName
 								}
 							)}
 						</h5>
@@ -133,8 +115,8 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 							{translate(
 								'session.reassign.system.message.reassign.accepted.new.consultant.description',
 								{
-									newConsultant1: props.newConsultantName,
-									newConsultant2: props.newConsultantName
+									newConsultant1: props.toConsultantName,
+									newConsultant2: props.toConsultantName
 								}
 							)}
 						</span>
@@ -145,7 +127,7 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 							{translate(
 								'session.reassign.system.message.reassign.accepted.title',
 								{
-									client: props.clientName
+									client: props.toAskerName
 								}
 							)}
 						</h5>
@@ -153,8 +135,8 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 							{translate(
 								'session.reassign.system.message.reassign.accepted.description',
 								{
-									client: props.clientName,
-									newConsultant: props.newConsultantName
+									client: props.toAskerName,
+									newConsultant: props.toConsultantName
 								}
 							)}
 						</span>
@@ -167,30 +149,29 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 
 export const ReassignRequestDeclinedMessage: React.FC<{
 	isAsker: boolean;
-	clientName: string;
-	oldConsultantName: string;
+	toAskerName: string;
+	fromConsultantName: string;
 }> = (props) => {
+	console.log('isAsker', props.isAsker);
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
 				{props.isAsker ? (
-					<>
-						<h5>
-							{translate(
-								'session.reassign.system.message.reassign.declined.old.consultant.title',
-								{
-									oldConsultant: props.oldConsultantName
-								}
-							)}
-						</h5>
-					</>
+					<h5>
+						{translate(
+							'session.reassign.system.message.reassign.declined.old.consultant.title',
+							{
+								oldConsultant: props.fromConsultantName
+							}
+						)}
+					</h5>
 				) : (
 					<>
 						<h5>
 							{translate(
 								'session.reassign.system.message.reassign.declined.title',
 								{
-									client: props.clientName
+									client: props.toAskerName
 								}
 							)}
 						</h5>
@@ -198,7 +179,7 @@ export const ReassignRequestDeclinedMessage: React.FC<{
 							{translate(
 								'session.reassign.system.message.reassign.declined.description',
 								{
-									client: props.clientName
+									client: props.toAskerName
 								}
 							)}
 						</span>
