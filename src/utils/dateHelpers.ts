@@ -129,6 +129,7 @@ export const getMonthFromString = (month: string) => {
 };
 
 export const getWeekDayFromPrefix = (weekday: string | number) => {
+	//TODO: remove this function
 	let weekDay = '';
 	switch (weekday) {
 		case 0:

@@ -60,16 +60,16 @@ export default function Cal({
 				const { data } = e.detail;
 				const date = data.date;
 				const appointmentData = {
-					title: data.eventType.title,
+					// title: data.eventType.title,
 					userName: userData.userName,
 					counselorEmail: data.organizer.email,
 					date: date,
-					duration: data.duration
-					// location: `${data.eventType.title} ${translate(
-					// 	'message.appointmentSet.between'
-					// )} ${data.eventType.team.name} ${translate(
-					// 	'message.appointmentSet.and'
-					// )} ${data.organizer.name}`
+					duration: data.duration,
+					title: `${data.eventType.title} ${translate(
+						'message.appointmentSet.between'
+					)} ${data.eventType.team.name} ${translate(
+						'message.appointmentSet.and'
+					)} ${data.organizer.name}`
 				};
 
 				//todo: we are currently handling only initial appointment

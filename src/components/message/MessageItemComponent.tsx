@@ -37,14 +37,15 @@ import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Appointment } from './Appointment';
 
-enum MessageType {
+export enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
 	USER_MUTED = 'USER_MUTED',
 	FORWARD = 'FORWARD',
 	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
 	VIDEOCALL = 'VIDEOCALL',
 	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
-	APPOINTMENT_SET = 'APPOINTMENT_SET'
+	APPOINTMENT_SET = 'APPOINTMENT_SET',
+	APPOINTMENT_CANCELLED = 'APPOINTMENT_CANCELLED'
 }
 
 export interface ForwardMessageDTO {
@@ -190,7 +191,9 @@ export const MessageItemComponent = ({
 	const isFinishedConversationMessage =
 		alias?.messageType === MessageType.FINISHED_CONVERSATION;
 	const isUserMutedMessage = alias?.messageType === MessageType.USER_MUTED;
-	const isAppointmentSet = alias?.messageType === MessageType.APPOINTMENT_SET;
+	const isAppointmentSet =
+		alias?.messageType === MessageType.APPOINTMENT_SET ||
+		alias?.messageType === MessageType.APPOINTMENT_CANCELLED;
 
 	const messageContent = (): JSX.Element => {
 		if (isFurtherStepsMessage) {
@@ -233,7 +236,13 @@ export const MessageItemComponent = ({
 				/>
 			);
 		} else if (isAppointmentSet) {
-			return <Appointment data={alias.content} />;
+			// return (<div>{alias.content}</div>);
+			return (
+				<Appointment
+					data={alias.content}
+					messageType={alias.messageType}
+				/>
+			);
 		} else {
 			return (
 				<>

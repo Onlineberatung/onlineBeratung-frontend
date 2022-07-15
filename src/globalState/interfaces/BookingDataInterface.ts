@@ -7,6 +7,7 @@ export interface BookingEventsInterface {
 	uid: string;
 	userId: number;
 	rescheduleLink?: string;
+	consultantName?: string;
 	//counselor: string;
 	//slug: string;
 }

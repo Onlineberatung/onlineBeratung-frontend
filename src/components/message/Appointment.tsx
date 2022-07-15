@@ -10,11 +10,11 @@ import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-
 import {
 	addMinutesToDateTime,
 	formatToHHMM,
-	getMonthFromString,
-	getWeekDayFromPrefix
+	getMonthFromString
 } from '../../utils/dateHelpers';
 import { history } from '../app/app';
 import { downloadICSFile } from '../../utils/downloadICSFile';
+import { MessageType } from './MessageItemComponent';
 
 interface AppointmentData {
 	title: string;
@@ -25,15 +25,25 @@ interface AppointmentData {
 	location: string;
 }
 
-export const Appointment = (param: { data: string }) => {
+export const Appointment = (param: {
+	data: string;
+	messageType: MessageType;
+}) => {
 	const parsedData: AppointmentData = JSON.parse(param.data);
 	const duration = parsedData.duration;
 	const startingTimeStampDate = Date.parse(parsedData.date);
 	const finishingHour = addMinutesToDateTime(startingTimeStampDate, duration);
 	const [weekDay, day, month, year] = parsedData.date.split(' ');
-	const appointmentDate = `${getWeekDayFromPrefix(
-		weekDay
-	)}, ${day}.${getMonthFromString(month)}.${year.slice(-2)}`;
+
+	const appointmentDate = new Date(parsedData.date).toLocaleDateString(
+		'de-de',
+		{
+			weekday: 'long',
+			year: '2-digit',
+			month: '2-digit',
+			day: 'numeric'
+		}
+	);
 	const appointmentHours = `${formatToHHMM(
 		`${startingTimeStampDate}`
 	)} - ${formatToHHMM(`${finishingHour}`)}`;
@@ -79,19 +89,39 @@ export const Appointment = (param: { data: string }) => {
 		history.push('/booking/cancelation');
 	};
 
+	let appointmentTitle;
+	let appointmentIcon;
+	let appointmentComponentHeader;
+	let showAddToCallanderComponent;
+	if (param.messageType === MessageType.APPOINTMENT_SET) {
+		appointmentComponentHeader = translate(
+			'message.appointment.component.header.confirmation'
+		);
+		appointmentTitle = translate('message.appointmentSet.title');
+		appointmentIcon = <CalendarCheckIcon />;
+		showAddToCallanderComponent = true;
+	} else {
+		appointmentComponentHeader = translate(
+			'message.appointment.component.header.cancellation'
+		);
+		appointmentTitle = translate('message.appointmentCancelled.title');
+		appointmentIcon = <CalendarCancelIcon />;
+		showAddToCallanderComponent = false;
+	}
+
 	return (
 		<React.Fragment>
 			<Text
 				type="infoSmall"
-				text={translate('message.appointmentSet.confirmation')}
+				text={appointmentComponentHeader}
 				className="appointmentSet__confirmation appointmentSet--primary"
 			/>
 			<div className="appointmentSet">
 				<div className="appointmentSet--flex">
-					<CalendarCheckIcon />
+					{appointmentIcon}
 					<Headline
 						semanticLevel="5"
-						text={translate('message.appointmentSet.title')}
+						text={appointmentTitle}
 						className="appointmentSet__title"
 					/>
 				</div>
@@ -118,20 +148,25 @@ export const Appointment = (param: { data: string }) => {
 				<Text
 					type="standard"
 					className="appointmentSet__summary"
-					text={parsedData.location}
+					text={parsedData.title}
 				/>
+				{showAddToCallanderComponent && (
+					<div
+						className="appointmentSet--flex appointmentSet--pointer"
+						onClick={handleICSAppointment.bind(this, parsedData)}
+					>
+						<CalendarICSIcon />
+						<Text
+							type="standard"
+							text={translate(
+								'message.appointmentSet.addToCalendar'
+							)}
+							className="appointmentSet__ics appointmentSet--primary"
+						/>
+					</div>
+				)}
 				<div
-					className="appointmentSet--flex appointmentSet--pointer"
-					onClick={handleICSAppointment.bind(this, parsedData)}
-				>
-					<CalendarICSIcon />
-					<Text
-						type="standard"
-						text={translate('message.appointmentSet.addToCalendar')}
-						className="appointmentSet__ics appointmentSet--primary"
-					/>
-				</div>
-				<div
+					style={{ display: 'none' }}
 					className="appointmentSet--flex appointmentSet--pointer"
 					onClick={handleCancelAppointment.bind(this, parsedData)}
 				>

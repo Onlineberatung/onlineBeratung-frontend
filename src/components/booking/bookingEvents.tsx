@@ -219,7 +219,7 @@ export const BookingEvents = () => {
 				id: event.id,
 				date,
 				duration,
-				counselor: 'Max Musrermann',
+				counselor: event.consultantName,
 				description: event.title,
 				expanded: false,
 				uid: event.uid,
