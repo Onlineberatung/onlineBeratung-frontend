@@ -45,7 +45,8 @@ export enum MessageType {
 	VIDEOCALL = 'VIDEOCALL',
 	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
 	APPOINTMENT_SET = 'APPOINTMENT_SET',
-	APPOINTMENT_CANCELLED = 'APPOINTMENT_CANCELLED'
+	APPOINTMENT_CANCELLED = 'APPOINTMENT_CANCELLED',
+	APPOINTMENT_RESCHEDULED = 'APPOINTMENT_RESCHEDULED'
 }
 
 export interface ForwardMessageDTO {
@@ -193,6 +194,7 @@ export const MessageItemComponent = ({
 	const isUserMutedMessage = alias?.messageType === MessageType.USER_MUTED;
 	const isAppointmentSet =
 		alias?.messageType === MessageType.APPOINTMENT_SET ||
+		MessageType.APPOINTMENT_RESCHEDULED ||
 		alias?.messageType === MessageType.APPOINTMENT_CANCELLED;
 
 	const messageContent = (): JSX.Element => {

@@ -32,7 +32,8 @@ export const Appointment = (param: {
 	const parsedData: AppointmentData = JSON.parse(param.data);
 	const duration = parsedData.duration;
 	const startingTimeStampDate = Date.parse(parsedData.date);
-	const finishingHour = addMinutesToDateTime(startingTimeStampDate, duration);
+	const finishingHour = startingTimeStampDate + duration * 60 * 1000;
+	// const finishingHour = addMinutesToDateTime(startingTimeStampDate, duration);
 	const [weekDay, day, month, year] = parsedData.date.split(' ');
 
 	const appointmentDate = new Date(parsedData.date).toLocaleDateString(
@@ -98,6 +99,13 @@ export const Appointment = (param: {
 			'message.appointment.component.header.confirmation'
 		);
 		appointmentTitle = translate('message.appointmentSet.title');
+		appointmentIcon = <CalendarCheckIcon />;
+		showAddToCallanderComponent = true;
+	} else if (param.messageType === MessageType.APPOINTMENT_RESCHEDULED) {
+		appointmentComponentHeader = translate(
+			'message.appointment.component.header.change'
+		);
+		appointmentTitle = translate('message.appointmentRescheduled.title');
 		appointmentIcon = <CalendarCheckIcon />;
 		showAddToCallanderComponent = true;
 	} else {

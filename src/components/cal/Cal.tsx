@@ -56,6 +56,17 @@ export default function Cal({
 		Cal('on', {
 			action: 'bookingSuccessful',
 			callback: (e) => {
+				let isInitialMessage =
+					sessionsData?.mySessions?.[0]?.consultant == null;
+				let groupId = sessionsData?.mySessions?.[0]?.session.groupId;
+
+				if (!isInitialMessage) {
+					history.push({
+						pathname: `/sessions/user/view`
+					});
+					return;
+				}
+
 				// TODO: Add ui to the appointmentData
 				const { data } = e.detail;
 				const date = data.date;
@@ -69,15 +80,11 @@ export default function Cal({
 						'message.appointmentSet.between'
 					)} ${data.eventType.team.name} ${translate(
 						'message.appointmentSet.and'
-					)} ${data.organizer.name}`
+					)} ${userData.userName}`
 				};
 
 				//todo: we are currently handling only initial appointment
 				const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
-
-				let isInitialMessage =
-					sessionsData?.mySessions?.[0]?.consultant == null;
-				let groupId = sessionsData?.mySessions?.[0]?.session.groupId;
 
 				apiAppointmentServiceSet(
 					appointmentData,
