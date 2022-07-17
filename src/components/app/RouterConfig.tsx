@@ -144,6 +144,13 @@ export const RouterConfigConsultant = (): any => {
 				titleKeys: {
 					large: 'navigation.profile'
 				}
+			},
+			{
+				to: '/booking/events',
+				icon: 'booking-events',
+				titleKeys: {
+					large: 'navigation.booking.events'
+				}
 			}
 		],
 		listRoutes: [
@@ -280,6 +287,13 @@ export const RouterConfigTeamConsultant = (): any => {
 				icon: 'calendar',
 				titleKeys: {
 					large: 'navigation.appointments'
+				}
+			},
+			{
+				to: '/booking/events',
+				icon: 'booking-events',
+				titleKeys: {
+					large: 'navigation.booking.events'
 				}
 			},
 			{
