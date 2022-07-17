@@ -38,8 +38,6 @@ interface BookingEventsListInterface {
 	counselor: string;
 	description: string;
 	expanded: boolean;
-	// counselor: string;
-	// slug: string;
 }
 
 export const BookingEvents = () => {
@@ -318,7 +316,7 @@ export const BookingEvents = () => {
 									type="standard"
 									className="bookingEvents__descriptionText"
 								/>
-								{event.description.length > 105 ? (
+								{event.description.length > 5 ? (
 									<div
 										className="bookingEvents__showMore bookingEvents--flex bookingEvents--pointer"
 										onClick={handleViewMore.bind(
