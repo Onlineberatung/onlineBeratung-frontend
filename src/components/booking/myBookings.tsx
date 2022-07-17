@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { useEffect, useState, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
-import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import './bookingEvents.styles';
 import { history } from '../app/app';
@@ -29,18 +29,49 @@ import { getWeekDayFromPrefix } from '../../utils/dateHelpers';
 import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
 import { apiAppointmentsServiceBookingEventsByUserId } from '../../api';
 
-interface BookingEventsListInterface {
+interface BookingEventUiInterface {
 	id: number;
 	rescheduleLink?: string;
 	uid: string;
 	date: string;
 	duration: string;
 	counselor: string;
+	askerName: string;
 	description: string;
 	expanded: boolean;
 }
 
-export const BookingEvents = () => {
+function AppointmentWithComponent(params: { event: BookingEventUiInterface }) {
+	const { userData } = useContext(UserDataContext);
+	const isConsultant = hasUserAuthority(
+		AUTHORITIES.CONSULTANT_DEFAULT,
+		userData
+	);
+	return (
+		<>
+			<Text
+				text={translate(
+					isConsultant
+						? 'booking.event.asker'
+						: 'booking.event.your.counselor'
+				)}
+				type="standard"
+				className="bookingEvents__counselor bookingEvents--font-weight-bold"
+			/>
+			<Text
+				text={
+					isConsultant
+						? params.event.askerName
+						: params.event.counselor
+				}
+				type="standard"
+				className="bookingEvents__counselorName"
+			/>
+		</>
+	);
+}
+
+export const MyBookings = () => {
 	useEffect(() => {
 		setBookingWrapperActive();
 
@@ -50,8 +81,12 @@ export const BookingEvents = () => {
 	}, []);
 
 	const { userData } = useContext(UserDataContext);
+	const isConsultant = hasUserAuthority(
+		AUTHORITIES.CONSULTANT_DEFAULT,
+		userData
+	);
 
-	const buttonSetCancel: ButtonItem = {
+	const scheduleAppointmentButton: ButtonItem = {
 		label: translate('booking.schedule'),
 		type: BUTTON_TYPES.PRIMARY
 	};
@@ -60,12 +95,13 @@ export const BookingEvents = () => {
 		history.push('/booking');
 	};
 
-	const initialData: BookingEventsListInterface[] = [
+	const initialData: BookingEventUiInterface[] = [
 		{
 			id: 1,
 			date: '',
 			duration: '',
 			counselor: '',
+			askerName: '',
 			description: '',
 			expanded: false,
 			uid: ''
@@ -76,24 +112,22 @@ export const BookingEvents = () => {
 		BookingEventsInterface[] | null
 	>(null);
 
-	const [bookingEvents, setbookingEvents] =
-		useState<BookingEventsListInterface[]>(initialData);
+	const [myBookingsData, setMyBookingsData] =
+		useState<BookingEventUiInterface[]>(initialData);
 
 	const handleViewMore = (id: number) => {
-		let newArrayEvents: BookingEventsListInterface[] = [];
-		bookingEvents.forEach((event) => {
+		let newArrayEvents: BookingEventUiInterface[] = [];
+		myBookingsData.forEach((event) => {
 			if (event.id === id) {
 				newArrayEvents.push({ ...event, expanded: !event.expanded });
 			} else {
 				newArrayEvents.push(event);
 			}
-			setbookingEvents(newArrayEvents);
+			setMyBookingsData(newArrayEvents);
 		});
 	};
 
-	const handleICSAppointment = (
-		appointmentInfo: BookingEventsListInterface
-	) => {
+	const handleICSAppointment = (appointmentInfo: BookingEventUiInterface) => {
 		const date = appointmentInfo.date.split(' ')[1];
 		const [day, month, year] = date.split('.');
 		const [startHour, , endHour] = appointmentInfo.duration.split(' ');
@@ -147,19 +181,14 @@ export const BookingEvents = () => {
 		);
 	};
 
-	const handleCancelAppointment = (event: BookingEventsListInterface) => {
+	const handleCancelAppointment = (event: BookingEventUiInterface) => {
 		history.push({
 			pathname: '/booking/cancelation',
 			state: { uid: event.uid }
 		});
 	};
 
-	const handleRescheduleAppointment = (event: BookingEventsListInterface) => {
-		// TODO: add slug to the state, like this:
-		// history.push({
-		// 	pathname: '/booking/reschedule',
-		// 	state: { uid: event.uid, slug: event.slug }
-		// });
+	const handleRescheduleAppointment = (event: BookingEventUiInterface) => {
 		history.push({
 			pathname: '/booking/reschedule',
 			state: { rescheduleLink: event.rescheduleLink, bookingId: event.id }
@@ -175,11 +204,6 @@ export const BookingEvents = () => {
 	};
 
 	useEffect(() => {
-		const isConsultant = hasUserAuthority(
-			AUTHORITIES.CONSULTANT_DEFAULT,
-			userData
-		);
-
 		if (isConsultant) {
 			apiGetConsultantAppointments(userData.userId).then((bookings) => {
 				setbookingEventsApi(bookings);
@@ -196,7 +220,7 @@ export const BookingEvents = () => {
 	}, []);
 
 	useEffect(() => {
-		let bookingEvents: BookingEventsListInterface[] = [];
+		let bookingEvents: BookingEventUiInterface[] = [];
 		bookingEventsApi?.forEach((event: BookingEventsInterface) => {
 			const startTime = new Date(event.startTime);
 			const endTime = new Date(event.endTime);
@@ -217,8 +241,9 @@ export const BookingEvents = () => {
 				id: event.id,
 				date,
 				duration,
+				askerName: event.askerName,
 				counselor: event.consultantName,
-				description: event.title,
+				description: event.description,
 				expanded: false,
 				uid: event.uid,
 				rescheduleLink: event.rescheduleLink
@@ -226,7 +251,7 @@ export const BookingEvents = () => {
 				// slug: event.slug
 			});
 		});
-		setbookingEvents(bookingEvents);
+		setMyBookingsData(bookingEvents);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [bookingEventsApi]);
 
@@ -238,12 +263,14 @@ export const BookingEvents = () => {
 					semanticLevel="2"
 					className="bookingEvents__header--title"
 				/>
-				<Button
-					item={buttonSetCancel}
-					buttonHandle={handleBackButton}
-					customIcon={<CalendarMonthPlus />}
-					className="bookingEvents__headerButton"
-				/>
+				{!isConsultant && (
+					<Button
+						item={scheduleAppointmentButton}
+						buttonHandle={handleBackButton}
+						customIcon={<CalendarMonthPlus />}
+						className="bookingEvents__headerButton"
+					/>
+				)}
 				<div className="bookingEvents__calendar--mobile">
 					<CalendarMonthPlus />
 					<Text
@@ -253,7 +280,7 @@ export const BookingEvents = () => {
 				</div>
 			</div>
 			<div className="bookingEvents__innerWrapper">
-				{bookingEvents?.map((event) => (
+				{myBookingsData?.map((event) => (
 					<Box key={event.id}>
 						<div className="bookingEvents__innerWrapper-event">
 							<div className="bookingEvents__basicInformation">
@@ -273,18 +300,7 @@ export const BookingEvents = () => {
 									</div>
 								</div>
 								<div className="bookingEvents__group bookingEvents__counselorWrap">
-									<Text
-										text={translate(
-											'booking.event.your.counselor'
-										)}
-										type="standard"
-										className="bookingEvents__counselor bookingEvents--font-weight-bold"
-									/>
-									<Text
-										text={event.counselor}
-										type="standard"
-										className="bookingEvents__counselorName"
-									/>
+									<AppointmentWithComponent event={event} />
 									<div className="bookingEvents__video bookingEvents--flex">
 										<VideoCalIcon />
 										<Text
@@ -316,7 +332,8 @@ export const BookingEvents = () => {
 									type="standard"
 									className="bookingEvents__descriptionText"
 								/>
-								{event.description.length > 5 ? (
+								{event.description &&
+								event.description.length > 105 ? (
 									<div
 										className="bookingEvents__showMore bookingEvents--flex bookingEvents--pointer"
 										onClick={handleViewMore.bind(
@@ -384,9 +401,7 @@ export const BookingEvents = () => {
 						</div>
 					</Box>
 				))}
-				{bookingEvents.length === 0 && (
-					<h1>No booking appointments...</h1>
-				)}
+				{myBookingsData.length === 0 && <h1></h1>}
 			</div>
 		</div>
 	);

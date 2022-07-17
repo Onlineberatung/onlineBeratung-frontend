@@ -2,6 +2,7 @@ const booking = {
 	'schedule': 'Termin vereinbaren',
 	'mobile.calendar.label': 'Termin erstellen',
 	'event.your.counselor': 'Ihr Berater',
+	'event.asker': 'Ratsuchender',
 	'event.description': 'Ihre Nachricht zum Termin',
 	'event.show.more': 'Mehr anzeigen',
 	'event.show.less': 'Weniger anzeigen',

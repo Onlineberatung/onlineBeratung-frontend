@@ -14,7 +14,7 @@ import { config } from '../../resources/scripts/config';
 import { AUTHORITIES, hasUserAuthority } from '../../globalState';
 import { Booking } from '../booking/booking';
 import { BookingCancelation } from '../booking/bookingCancelation';
-import { BookingEvents } from '../booking/bookingEvents';
+import { MyBookings } from '../booking/myBookings';
 import { BookingReschedule } from '../booking/bookingReschedule';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
@@ -98,7 +98,7 @@ export const RouterConfigUser = (): any => {
 			},
 			{
 				path: '/booking/events',
-				component: BookingEvents
+				component: MyBookings
 			}
 		]
 	};
@@ -241,7 +241,7 @@ export const RouterConfigConsultant = (): any => {
 			},
 			{
 				path: '/booking/events',
-				component: BookingEvents
+				component: MyBookings
 			}
 		]
 	};
@@ -419,7 +419,7 @@ export const RouterConfigTeamConsultant = (): any => {
 			},
 			{
 				path: '/booking/events',
-				component: BookingEvents
+				component: MyBookings
 			}
 		]
 	};
@@ -472,7 +472,7 @@ export const RouterConfigAnonymousAsker = (): any => {
 			},
 			{
 				path: '/booking/events',
-				component: BookingEvents
+				component: MyBookings
 			}
 		]
 	};
