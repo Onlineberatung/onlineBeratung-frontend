@@ -36,6 +36,7 @@ interface BookingEventUiInterface {
 	date: string;
 	duration: string;
 	counselor: string;
+	askerId: string;
 	askerName: string;
 	description: string;
 	expanded: boolean;
@@ -102,6 +103,7 @@ export const MyBookings = () => {
 			duration: '',
 			counselor: '',
 			askerName: '',
+			askerId: '',
 			description: '',
 			expanded: false,
 			uid: ''
@@ -191,7 +193,11 @@ export const MyBookings = () => {
 	const handleRescheduleAppointment = (event: BookingEventUiInterface) => {
 		history.push({
 			pathname: '/booking/reschedule',
-			state: { rescheduleLink: event.rescheduleLink, bookingId: event.id }
+			state: {
+				rescheduleLink: event.rescheduleLink,
+				bookingId: event.id,
+				askerId: event.askerId
+			}
 		});
 	};
 
@@ -241,6 +247,7 @@ export const MyBookings = () => {
 				id: event.id,
 				date,
 				duration,
+				askerId: event.askerId,
 				askerName: event.askerName,
 				counselor: event.consultantName,
 				description: event.description,

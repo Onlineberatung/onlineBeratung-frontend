@@ -6,11 +6,18 @@ import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
-import { UserDataContext } from '../../globalState';
+import {
+	AUTHORITIES,
+	hasUserAuthority,
+	UserDataContext
+} from '../../globalState';
 
 export const BookingReschedule = () => {
 	const { userData } = useContext(UserDataContext);
-
+	const isConsultant = hasUserAuthority(
+		AUTHORITIES.CONSULTANT_DEFAULT,
+		userData
+	);
 	useEffect(() => {
 		setBookingWrapperActive();
 
@@ -21,9 +28,11 @@ export const BookingReschedule = () => {
 
 	const location = useLocation();
 
+	const userId = isConsultant ? location.state.askerId : userData.userId;
+
 	return (
 		<iframe
-			src={`${config.urls.appointmentServiceDevServer}${location.state.rescheduleLink}&metadata[bookingId]=${location.state.bookingId}&metadata[user]=${userData.userId}`}
+			src={`${config.urls.appointmentServiceDevServer}${location.state.rescheduleLink}&metadata[bookingId]=${location.state.bookingId}&metadata[user]=${userId}`}
 			frameBorder={0}
 			scrolling="false"
 			width="100%"
