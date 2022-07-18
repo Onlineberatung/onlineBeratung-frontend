@@ -116,11 +116,13 @@ export const RegistrationForm = ({
 	}, [formAccordionValid, isDataProtectionSelected]);
 
 	useEffect(() => {
-		const shouldRequest =
+		// When we require the topic to be selected and the autoSelectPostCode is enabled,
+		// we need to request the api to get the preselected agency
+		const shouldRequestAgencyWhenAutoSelectIsEnabled =
 			consultingType?.registration.autoSelectPostcode &&
 			!!tenantData?.settings?.topicsInRegistrationEnabled;
 
-		if (shouldRequest) {
+		if (shouldRequestAgencyWhenAutoSelectIsEnabled) {
 			apiAgencySelection({
 				postcode: formAccordionData.postcode || DEFAULT_POSTCODE,
 				consultingType: consultingType.id,
