@@ -89,9 +89,9 @@ const registration = {
 	'state.options.15': 'Schleswig-Holstein',
 	'state.options.16': 'Thüringen',
 	'mainTopic.headline':
-		'Welches dieser Problemfelder ist für Dich aktuell am Wichtigsten?',
+		'Welches dieser Problemfelder ist für Sie aktuell am Wichtigsten?',
 	'mainTopic.noTopics':
-		'Derzeit können leider keine Themen ausgewählt werden. Führe die Anmeldung im nächsten Schritt fort.',
+		'Derzeit können leider keine Themen ausgewählt werden. Führen Sie die Anmeldung im nächsten Schritt fort.',
 	'dataProtection.label.prefix': 'Ich habe die ',
 	'dataProtection.label.and': ' und ',
 	'dataProtection.label.suffix':
