@@ -61,7 +61,7 @@ export const Appointment = (param: {
 			'X-PUBLISHED-TTL:PT1H\n' +
 			'BEGIN:VEVENT\n' +
 			'SUMMARY:' +
-			appointmentInfo.location +
+			appointmentInfo.title +
 			'\n' +
 			'DTSTART:' +
 			year +
@@ -78,7 +78,7 @@ export const Appointment = (param: {
 			'END:VEVENT\n' +
 			'END:VCALENDAR\n';
 
-		downloadICSFile(appointmentInfo.location, icsMSG);
+		downloadICSFile(appointmentInfo.title, icsMSG);
 	};
 
 	const handleCancelAppointment = (event) => {

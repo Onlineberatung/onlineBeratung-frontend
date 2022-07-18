@@ -138,6 +138,9 @@ export const MyBookings = () => {
 		const duration =
 			(Math.abs(timeEnd.getTime() - timeStart.getTime()) / (1000 * 60)) %
 			60;
+		const title = appointmentInfo.description
+			? appointmentInfo.description
+			: 'Appointment';
 
 		const icsMSG =
 			'BEGIN:VCALENDAR\n' +
@@ -148,7 +151,7 @@ export const MyBookings = () => {
 			'X-PUBLISHED-TTL:PT1H\n' +
 			'BEGIN:VEVENT\n' +
 			'SUMMARY:' +
-			appointmentInfo.description +
+			title +
 			'\n' +
 			'DTSTART:' +
 			'20' +
@@ -164,7 +167,7 @@ export const MyBookings = () => {
 			'END:VEVENT\n' +
 			'END:VCALENDAR\n';
 
-		downloadICSFile(appointmentInfo.description, icsMSG);
+		downloadICSFile(title, icsMSG);
 	};
 
 	const icsComponent = (event) => {
