@@ -1,6 +1,8 @@
 import { createContext } from 'react';
-import { ActiveSessionType } from '..';
+import { ExtendedSessionInterface } from '..';
 
-export const ActiveSessionContext = createContext<ActiveSessionType | null>(
-	null
-);
+export const ActiveSessionContext = createContext<{
+	activeSession: ExtendedSessionInterface | null;
+	reloadActiveSession?: () => void;
+	readActiveSession?: () => void;
+}>(null);

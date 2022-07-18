@@ -34,6 +34,10 @@ import videoCall from './de/videoCall';
 import videoCallInformal from './de/videoCallInformal';
 import videoConference from './de/videoConference';
 import videoConferenceInformal from './de/videoConferenceInformal';
+import e2ee from './de/e2ee';
+import e2eeInformal from './de/e2eeInformal';
+import aliases from './de/aliases';
+import aliasesInformal from './de/aliasesInformal';
 import de from './de';
 import walkthrough from './de/walkthrough';
 import walkthroughInformal from './de/walkthroughInformal';
@@ -58,7 +62,9 @@ const informalLocale = {
 	twoFactorAuth: { ...twoFactorAuth, ...twoFactorAuthInformal },
 	videoCall: { ...videoCall, ...videoCallInformal },
 	videoConference: { ...videoConference, ...videoConferenceInformal },
-	walkthrough: { ...walkthrough, walkthroughInformal }
+	walkthrough: { ...walkthrough, walkthroughInformal },
+	e2ee: { ...e2ee, ...e2eeInformal },
+	aliases: { ...aliases, ...aliasesInformal }
 };
 
 export default informalLocale;

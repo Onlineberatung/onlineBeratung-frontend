@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useEffect, useContext, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useEffect, useContext, useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import {
 	desktopView,
@@ -8,12 +8,11 @@ import {
 	mobileListView
 } from '../app/navigationHandler';
 import {
-	AcceptedGroupIdContext,
 	SessionsDataContext,
-	getSessionsDataWithChangedValue,
-	GroupChatItemInterface,
-	ActiveSessionType,
-	getActiveSession
+	ExtendedSessionInterface,
+	getExtendedSession,
+	UPDATE_SESSIONS,
+	SessionTypeContext
 } from '../../globalState';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
@@ -42,10 +41,7 @@ import {
 	chatLinkData,
 	apiUpdateGroupChat
 } from '../../api';
-import {
-	getSessionListPathForLocation,
-	getChatItemForSession
-} from '../session/sessionHelpers';
+import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { getChatDate } from '../session/sessionDateHelpers';
 import { updateChatSuccessOverlayItem } from './groupChatHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
@@ -53,14 +49,16 @@ import 'react-datepicker/src/stylesheets/datepicker.scss';
 import '../datepicker/datepicker.styles';
 import './createChat.styles';
 import { useResponsive } from '../../hooks/useResponsive';
+import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 registerLocale('de', de);
 
 export const CreateGroupChatView = (props) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
+	const { sessions, ready, dispatch } = useContext(SessionsDataContext);
+	const { path: listPath } = useContext(SessionTypeContext);
 	const [selectedChatTopic, setSelectedChatTopic] = useState('');
 	const [selectedDate, setSelectedDate] = useState('');
 	const [selectedTime, setSelectedTime] = useState('');
@@ -75,21 +73,16 @@ export const CreateGroupChatView = (props) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isDateInputFocused, setIsDateInputFocus] = useState(false);
 	const [isTimeInputFocused, setIsTimeInputFocus] = useState(false);
-	const [groupIdToRedirect, setGroupIdToRedirect] = useState(null);
 	const [isEditGroupChatMode, setIsEditGroupChatMode] = useState(false);
 
 	const [activeSession, setActiveSession] =
-		useState<ActiveSessionType | null>(null);
-	const [chatItem, setChatItem] = useState<GroupChatItemInterface | null>(
-		null
-	);
+		useState<ExtendedSessionInterface | null>(null);
 
 	const prevPathIsGroupChatInfo =
 		props.location.state && props.location.state.prevIsInfoPage;
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
+
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
@@ -105,87 +98,98 @@ export const CreateGroupChatView = (props) => {
 	}, [fromL]);
 
 	useEffect(() => {
-		const activeSession = getActiveSession(groupIdFromParam, sessionsData);
-		const chatItem = getChatItemForSession(
-			activeSession
-		) as GroupChatItemInterface;
+		if (!ready) {
+			return;
+		}
+
+		const activeSession = getExtendedSession(groupIdFromParam, sessions);
+		if (!activeSession) {
+			return;
+		}
 
 		setActiveSession(activeSession);
-		setChatItem(chatItem);
 
 		if (props.location.state && props.location.state.isEditMode) {
 			const selectedTime = getChatDate(
-				chatItem.startDate,
-				chatItem.startTime
+				activeSession.item.startDate,
+				activeSession.item.startTime
 			);
 			setIsEditGroupChatMode(true);
-			setSelectedChatTopic(chatItem.topic);
-			handleDatePicker(new Date(chatItem.startDate));
+			setSelectedChatTopic(activeSession.item.topic as string);
+			handleDatePicker(new Date(activeSession.item.startDate));
 			handleTimePicker(selectedTime);
-			setSelectedDuration(chatItem.duration);
-			setSelectedRepetitive(chatItem.repetitive);
+			setSelectedDuration(activeSession.item.duration);
+			setSelectedRepetitive(activeSession.item.repetitive);
 		}
-	}, [groupIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [groupIdFromParam, props.location.state, ready, sessions]);
 
-	useEffect(
-		() => {
-			const isChatTopicValid =
-				selectedChatTopic &&
-				selectedChatTopic.length >= TOPIC_LENGTHS.MIN &&
-				selectedChatTopic.length < TOPIC_LENGTHS.MAX;
-			if (
-				isChatTopicValid &&
-				selectedDate &&
-				selectedTime &&
-				selectedDuration
-			) {
-				isEditGroupChatMode && arePrefilledValuesChanged()
-					? setIsSaveButtonDisabled(false)
-					: setIsSaveButtonDisabled(true);
-				setIsCreateButtonDisabled(false);
-			} else {
-				setIsCreateButtonDisabled(true);
-				setIsSaveButtonDisabled(true);
-			}
-		},
-		/* eslint-disable */
-		[
-			selectedChatTopic,
-			selectedDate,
-			selectedTime,
-			selectedDuration,
-			selectedRepetitive
-		]
-	);
-	/* eslint-enable */
-
-	const handleBackButton = () => {
-		if (isEditGroupChatMode) {
-			const redirectPath = prevPathIsGroupChatInfo
-				? `${getSessionListPathForLocation()}/${chatItem.groupId}/${
-						chatItem.id
-				  }/groupChatInfo${getSessionListTab()}`
-				: `${getSessionListPathForLocation()}/${chatItem.groupId}/${
-						chatItem.id
-				  }${getSessionListTab()}`;
-			history.push(redirectPath);
-		}
-	};
-
-	const arePrefilledValuesChanged = () => {
-		const prefillDate = new Date(chatItem.startDate);
+	const arePrefilledValuesChanged = useCallback(() => {
+		const prefillDate = new Date(activeSession.item.startDate);
 		const inputDate = new Date(selectedDate);
-		const prefillTime = getChatDate(chatItem.startDate, chatItem.startTime);
+		const prefillTime = getChatDate(
+			activeSession.item.startDate,
+			activeSession.item.startTime
+		);
 		const inputTime: Date = new Date(selectedTime);
 
 		return (
-			chatItem.topic !== selectedChatTopic ||
+			activeSession.item.topic !== selectedChatTopic ||
 			prefillDate.getTime() !== inputDate.getTime() ||
 			prefillTime.toLocaleTimeString() !==
 				inputTime.toLocaleTimeString() ||
-			parseInt(selectedDuration) !== chatItem.duration ||
-			selectedRepetitive !== chatItem.repetitive
+			parseInt(selectedDuration) !== activeSession.item.duration ||
+			selectedRepetitive !== activeSession.item.repetitive
 		);
+	}, [
+		activeSession?.item.duration,
+		activeSession?.item.repetitive,
+		activeSession?.item.startDate,
+		activeSession?.item.startTime,
+		activeSession?.item.topic,
+		selectedChatTopic,
+		selectedDate,
+		selectedDuration,
+		selectedRepetitive,
+		selectedTime
+	]);
+
+	useEffect(() => {
+		const isChatTopicValid =
+			selectedChatTopic &&
+			selectedChatTopic.length >= TOPIC_LENGTHS.MIN &&
+			selectedChatTopic.length < TOPIC_LENGTHS.MAX;
+		if (
+			isChatTopicValid &&
+			selectedDate &&
+			selectedTime &&
+			selectedDuration
+		) {
+			isEditGroupChatMode && arePrefilledValuesChanged()
+				? setIsSaveButtonDisabled(false)
+				: setIsSaveButtonDisabled(true);
+			setIsCreateButtonDisabled(false);
+		} else {
+			setIsCreateButtonDisabled(true);
+			setIsSaveButtonDisabled(true);
+		}
+	}, [
+		selectedChatTopic,
+		selectedDate,
+		selectedTime,
+		selectedDuration,
+		selectedRepetitive,
+		isEditGroupChatMode,
+		arePrefilledValuesChanged
+	]);
+
+	const handleBackButton = () => {
+		if (isEditGroupChatMode) {
+			history.push(`${listPath}/${activeSession.item.groupId}/${
+				activeSession.item.id
+			}
+				${prevPathIsGroupChatInfo ? '/groupChatInfo' : ''}
+				${getSessionListTab()}`);
+		}
 	};
 
 	const chatTopicInputItem: InputFieldItem = {
@@ -296,9 +300,20 @@ export const CreateGroupChatView = (props) => {
 		setIsRequestInProgress(true);
 		apiCreateGroupChat(createChatDataItem)
 			.then((response: chatLinkData) => {
-				setGroupIdToRedirect(response.groupId);
-				setOverlayItem(createChatSuccessOverlayItem);
-				setOverlayActive(true);
+				apiGetSessionRoomsByGroupIds([response.groupId]).then(
+					({ sessions }) => {
+						dispatch({
+							type: UPDATE_SESSIONS,
+							sessions: sessions
+						});
+
+						setActiveSession(
+							getExtendedSession(response.groupId, sessions)
+						);
+						setOverlayItem(createChatSuccessOverlayItem);
+						setOverlayActive(true);
+					}
+				);
 			})
 			.catch((error) => {
 				setOverlayItem(createChatErrorOverlayItem);
@@ -311,10 +326,19 @@ export const CreateGroupChatView = (props) => {
 			return null;
 		}
 		setIsRequestInProgress(true);
-		apiUpdateGroupChat(chatItem.id, createChatDataItem)
+		apiUpdateGroupChat(activeSession.item.id, createChatDataItem)
 			.then((response: chatLinkData) => {
-				setOverlayItem(updateChatSuccessOverlayItem);
-				setOverlayActive(true);
+				apiGetSessionRoomsByGroupIds([response.groupId]).then(
+					({ sessions }) => {
+						dispatch({
+							type: UPDATE_SESSIONS,
+							sessions: sessions
+						});
+
+						setOverlayItem(updateChatSuccessOverlayItem);
+						setOverlayActive(true);
+					}
+				);
 			})
 			.catch((error) => {
 				console.error(error);
@@ -327,55 +351,13 @@ export const CreateGroupChatView = (props) => {
 				overlayItem === createChatSuccessOverlayItem ||
 				overlayItem === updateChatSuccessOverlayItem
 			) {
-				if (isEditGroupChatMode) {
-					const redirectPath = prevPathIsGroupChatInfo
-						? `${getSessionListPathForLocation()}/${
-								chatItem.groupId
-						  }/${chatItem.id}/groupChatInfo${getSessionListTab()}`
-						: `${getSessionListPathForLocation()}/${
-								chatItem.groupId
-						  }/${chatItem.id}${getSessionListTab()}`;
-					let changedSessionsData = getSessionsDataWithChangedValue(
-						sessionsData,
-						activeSession,
-						'topic',
-						selectedChatTopic
-					);
-					changedSessionsData = getSessionsDataWithChangedValue(
-						sessionsData,
-						activeSession,
-						'startDate',
-						getValidDateFormatForSelectedDate(selectedDate)
-					);
-					changedSessionsData = getSessionsDataWithChangedValue(
-						sessionsData,
-						activeSession,
-						'startTime',
-						getValidTimeFormatForSelectedTime(selectedTime)
-					);
-					changedSessionsData = getSessionsDataWithChangedValue(
-						sessionsData,
-						activeSession,
-						'duration',
-						parseInt(selectedDuration)
-					);
-					changedSessionsData = getSessionsDataWithChangedValue(
-						sessionsData,
-						activeSession,
-						'repetitive',
-						selectedRepetitive
-					);
-					setSessionsData(changedSessionsData);
-					history.push({ pathname: redirectPath });
-				} else {
-					setAcceptedGroupId(groupIdToRedirect);
-					history.push({
-						pathname: `${
-							getSessionListPathForLocation() +
-							getSessionListTab()
-						}`
-					});
-				}
+				history.push(
+					`${listPath}/${activeSession.item.groupId}/${
+						activeSession.item.id
+					}${
+						prevPathIsGroupChatInfo ? '/groupChatInfo' : ''
+					}${getSessionListTab()}`
+				);
 			} else {
 				setOverlayActive(false);
 				setOverlayItem({});
@@ -400,7 +382,7 @@ export const CreateGroupChatView = (props) => {
 						</h3>
 					</div>
 					<p className="createChat__header__subtitle createChat__header__subtitle--withBackButton">
-						{chatItem.topic}
+						{activeSession.item.topic}
 					</p>
 				</div>
 			) : (
@@ -499,14 +481,14 @@ export const CreateGroupChatView = (props) => {
 					/>
 				)}
 			</form>
-			{overlayActive ? (
+			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>
-			) : null}
+			)}
 		</div>
 	);
 };

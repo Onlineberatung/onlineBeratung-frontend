@@ -1,0 +1,22 @@
+.e2eeActivatedMessage {
+	background-color: $background-color-e2ee-hint;
+	padding: $grid-base-two;
+	border: 1px solid $border-color-e2ee-hint;
+	border-radius: $border-radius-e2ee-hint;
+	display: flex;
+	align-items: flex-start;
+	font-size: $font-size-secondary;
+	line-height: $line-height-secondary;
+
+	svg {
+		flex-shrink: 0;
+		margin-right: $grid-base-two;
+		height: auto;
+		width: $grid-base-four;
+		fill: $border-color-e2ee-hint;
+	}
+
+	& + .messageItem__metaData {
+		display: none;
+	}
+}

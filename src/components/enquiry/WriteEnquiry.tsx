@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { translate } from '../../utils/translate';
-import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import {
 	OverlayItem,
 	OVERLAY_FUNCTIONS,
@@ -15,10 +14,11 @@ import {
 import { BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
 import {
-	AcceptedGroupIdContext,
-	getActiveSession,
-	SessionsDataContext
+	buildExtendedSession,
+	STATUS_EMPTY,
+	E2EEContext
 } from '../../globalState';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 import {
 	desktopView,
@@ -33,12 +33,16 @@ import { Text } from '../text/Text';
 import { EnquiryLanguageSelection } from './EnquiryLanguageSelection';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { useResponsive } from '../../hooks/useResponsive';
+import { createGroupKey } from '../../utils/encryptionHelpers';
+
+import { Loading } from '../app/Loading';
+import { useSession } from '../../hooks/useSession';
+import { apiGetAskerSessionList } from '../../api';
+import { encryptRoom } from '../../utils/e2eeHelper';
 
 export const WriteEnquiry: React.FC = () => {
 	const { sessionId: sessionIdFromParam } = useParams();
 
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-	const { sessionsData } = useContext(SessionsDataContext);
 	const fixedLanguages = useContext(FixedLanguagesContext);
 
 	const [activeSession, setActiveSession] = useState(null);
@@ -46,18 +50,59 @@ export const WriteEnquiry: React.FC = () => {
 	const [sessionId, setSessionId] = useState<number | null>(null);
 	const [groupId, setGroupId] = useState<string | null>(null);
 	const [selectedLanguage, setSelectedLanguage] = useState(fixedLanguages[0]);
+	const [isFirstEnquiry, setIsFirstEnquiry] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
+
+	const { isE2eeEnabled } = useContext(E2EEContext);
+	const [keyID, setKeyID] = useState(null);
+	const [key, setKey] = useState(null);
+	const [sessionKeyExportedString, setSessionKeyExportedString] =
+		useState(null);
+
+	const { session, ready: sessionReady } = useSession(
+		null,
+		sessionIdFromParam
+	);
 
 	useEffect(() => {
-		const activeSession = getActiveSession(
-			sessionIdFromParam,
-			sessionsData
-		);
-		setActiveSession(activeSession);
-	}, [sessionIdFromParam]); // eslint-disable-line react-hooks/exhaustive-deps
+		if (!isE2eeEnabled) {
+			return;
+		}
+
+		createGroupKey().then(({ keyID, key, sessionKeyExportedString }) => {
+			setKeyID(keyID);
+			setKey(key);
+			setSessionKeyExportedString(sessionKeyExportedString);
+		});
+	}, [isE2eeEnabled]);
+
+	useEffect(() => {
+		if (!sessionReady && sessionIdFromParam) {
+			return;
+		}
+
+		if (!session) {
+			apiGetAskerSessionList().then(({ sessions }) => {
+				if (
+					sessions.length === 1 &&
+					sessions[0]?.session?.status === STATUS_EMPTY
+				) {
+					setIsFirstEnquiry(true);
+					setActiveSession(buildExtendedSession(sessions[0]));
+					setIsLoading(false);
+					return;
+				}
+			});
+		} else {
+			setActiveSession(session);
+			setIsLoading(false);
+			return;
+		}
+	}, [sessionReady, sessionIdFromParam, session]);
 
 	const { fromL } = useResponsive();
 	useEffect(() => {
-		if (sessionIdFromParam) {
+		if (!isFirstEnquiry) {
 			if (!fromL) {
 				mobileDetailView();
 				return () => {
@@ -68,12 +113,11 @@ export const WriteEnquiry: React.FC = () => {
 		} else {
 			deactivateListView();
 		}
-	}, [fromL, sessionIdFromParam]);
+	}, [fromL, isFirstEnquiry]);
 
 	const handleOverlayAction = (buttonFunction: string): void => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			activateListView();
-			setAcceptedGroupId(groupId);
 			history.push({
 				pathname: `${config.endpoints.userSessionsListView}/${groupId}/${sessionId}`
 			});
@@ -132,15 +176,29 @@ export const WriteEnquiry: React.FC = () => {
 		]
 	};
 
-	const handleSendButton = useCallback((response) => {
-		setSessionId(response.sessionId);
-		setGroupId(response.rcGroupId);
-		setOverlayActive(true);
-	}, []);
+	const handleSendButton = useCallback(
+		async (response) => {
+			// ToDo: encrypt room logic could be moved to messageSubmitInterfaceComponent.tsx (SessionItemCompoent.tsx & WriteEnquiry.tsx)
+			await encryptRoom({
+				keyId: keyID,
+				isE2eeEnabled,
+				isRoomAlreadyEncrypted: false,
+				rcGroupId: response.rcGroupId,
+				sessionKeyExportedString
+			});
 
-	const isUnassignedSession =
-		(activeSession && !activeSession?.consultant) ||
-		(!activeSession && !sessionsData?.mySessions?.[0]?.consultant);
+			setSessionId(response.sessionId);
+			setGroupId(response.rcGroupId);
+			setOverlayActive(true);
+		},
+		[keyID, sessionKeyExportedString, isE2eeEnabled]
+	);
+
+	if (isLoading) {
+		return <Loading />;
+	}
+
+	const isUnassignedSession = activeSession && !activeSession?.consultant;
 
 	return (
 		<div className="enquiry__wrapper">
@@ -174,22 +232,27 @@ export const WriteEnquiry: React.FC = () => {
 					/>
 				)}
 			</div>
-			<MessageSubmitInterfaceComponent
-				handleSendButton={handleSendButton}
-				placeholder={translate('enquiry.write.input.placeholder')}
-				type={SESSION_LIST_TYPES.ENQUIRY}
-				sessionIdFromParam={sessionIdFromParam}
-				groupIdFromParam={null}
-				language={selectedLanguage}
-			/>
-			{overlayActive ? (
+			<ActiveSessionContext.Provider value={{ activeSession }}>
+				<MessageSubmitInterfaceComponent
+					handleSendButton={handleSendButton}
+					placeholder={translate('enquiry.write.input.placeholder')}
+					language={selectedLanguage}
+					E2EEParams={{
+						keyID: keyID,
+						key: key,
+						sessionKeyExportedString: sessionKeyExportedString,
+						encrypted: !!keyID
+					}}
+				/>
+			</ActiveSessionContext.Provider>
+			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>
-			) : null}
+			)}
 		</div>
 	);
 };

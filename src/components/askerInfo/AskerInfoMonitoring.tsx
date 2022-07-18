@@ -9,14 +9,16 @@ import {
 	hasMonitoringData
 } from '../monitoring/MonitoringHelper';
 import {
-	typeIsEnquiry,
-	getSessionListPathForLocation
+	SESSION_LIST_TAB,
+	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { apiGetMonitoring } from '../../api';
 import { ReactComponent as EditIcon } from '../../resources/img/icons/pen.svg';
 import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { SessionTypeContext } from '../../globalState';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 const buttonSet: ButtonItem = {
 	label: translate('userProfile.monitoring.buttonLabel'),
@@ -25,14 +27,13 @@ const buttonSet: ButtonItem = {
 };
 
 export const AskerInfoMonitoring = () => {
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
+	const { type, path: listPath } = useContext(SessionTypeContext);
 	const [monitoringData, setMonitoringData] = useState({});
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	useEffect(() => {
-		apiGetMonitoring(activeSession?.session.id)
+		apiGetMonitoring(activeSession.item.id)
 			.then((monitoringData) => {
 				setMonitoringData(monitoringData);
 			})
@@ -46,12 +47,12 @@ export const AskerInfoMonitoring = () => {
 	cleanMonitoringData = deleteKeyFromObject(cleanMonitoringData, 'meta');
 
 	const resort =
-		activeSession?.session.consultingType === 0
+		activeSession.item.consultingType === 0
 			? 'monitoringAddiction'
 			: 'monitoringU25';
-	const monitoringLink = `${getSessionListPathForLocation()}/${
-		activeSession?.session.groupId
-	}/${activeSession?.session.id}/userProfile/monitoring${
+	const monitoringLink = `${listPath}/${activeSession.item.groupId}/${
+		activeSession.item.id
+	}/userProfile/monitoring${
 		sessionListTab ? `?sessionListTab=${sessionListTab}` : ''
 	}`;
 
@@ -123,7 +124,7 @@ export const AskerInfoMonitoring = () => {
 					{renderMonitoringData(cleanMonitoringData, true)}
 				</div>
 			) : (
-				!typeIsEnquiry(activeSession.type) && (
+				type !== SESSION_LIST_TYPES.ENQUIRY && (
 					<Link to={monitoringLink}>
 						<Button item={buttonSet} isLink={true} />
 					</Link>
