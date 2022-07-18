@@ -39,6 +39,7 @@ interface BookingEventUiInterface {
 	askerId: string;
 	askerName: string;
 	description: string;
+	title: string;
 	expanded: boolean;
 }
 
@@ -106,7 +107,8 @@ export const MyBookings = () => {
 			askerId: '',
 			description: '',
 			expanded: false,
-			uid: ''
+			uid: '',
+			title: ''
 		}
 	];
 
@@ -138,9 +140,6 @@ export const MyBookings = () => {
 		const duration =
 			(Math.abs(timeEnd.getTime() - timeStart.getTime()) / (1000 * 60)) %
 			60;
-		const title = appointmentInfo.description
-			? appointmentInfo.description
-			: 'Appointment';
 
 		const icsMSG =
 			'BEGIN:VCALENDAR\n' +
@@ -151,7 +150,7 @@ export const MyBookings = () => {
 			'X-PUBLISHED-TTL:PT1H\n' +
 			'BEGIN:VEVENT\n' +
 			'SUMMARY:' +
-			title +
+			appointmentInfo.title +
 			'\n' +
 			'DTSTART:' +
 			'20' +
@@ -167,7 +166,7 @@ export const MyBookings = () => {
 			'END:VEVENT\n' +
 			'END:VCALENDAR\n';
 
-		downloadICSFile(title, icsMSG);
+		downloadICSFile(appointmentInfo.title, icsMSG);
 	};
 
 	const icsComponent = (event) => {
@@ -249,6 +248,7 @@ export const MyBookings = () => {
 			bookingEvents.push({
 				id: event.id,
 				date,
+				title: event.title,
 				duration,
 				askerId: event.askerId,
 				askerName: event.askerName,

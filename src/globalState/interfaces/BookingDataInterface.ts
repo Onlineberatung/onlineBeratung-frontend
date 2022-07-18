@@ -11,6 +11,7 @@ export interface BookingEventsInterface {
 	askerId?: string;
 	askerName?: string;
 	expanded: boolean;
+	title: string;
 	//counselor: string;
 	//slug: string;
 }
