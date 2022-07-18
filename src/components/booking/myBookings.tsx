@@ -411,7 +411,6 @@ export const MyBookings = () => {
 						</div>
 					</Box>
 				))}
-				{myBookingsData.length === 0 && <h1></h1>}
 			</div>
 		</div>
 	);

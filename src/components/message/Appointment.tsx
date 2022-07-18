@@ -7,11 +7,7 @@ import { ReactComponent as CalendarCheckIcon } from '../../resources/img/icons/c
 import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
 import { ReactComponent as CalendarICSIcon } from '../../resources/img/icons/calendar-ics.svg';
 import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-call.svg';
-import {
-	addMinutesToDateTime,
-	formatToHHMM,
-	getMonthFromString
-} from '../../utils/dateHelpers';
+import { formatToHHMM, getMonthFromString } from '../../utils/dateHelpers';
 import { history } from '../app/app';
 import { downloadICSFile } from '../../utils/downloadICSFile';
 import { MessageType } from './MessageItemComponent';
@@ -33,9 +29,6 @@ export const Appointment = (param: {
 	const duration = parsedData.duration;
 	const startingTimeStampDate = Date.parse(parsedData.date);
 	const finishingHour = startingTimeStampDate + duration * 60 * 1000;
-	// const finishingHour = addMinutesToDateTime(startingTimeStampDate, duration);
-	const [weekDay, day, month, year] = parsedData.date.split(' ');
-
 	const appointmentDate = new Date(parsedData.date).toLocaleDateString(
 		'de-de',
 		{
