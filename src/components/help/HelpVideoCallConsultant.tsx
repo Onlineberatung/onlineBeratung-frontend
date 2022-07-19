@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -6,7 +6,6 @@ import { ReactComponent as NewWindow } from '../../resources/img/icons/new-windo
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
-import { UserDataContext } from '../../globalState';
 
 interface HelpVideoCallConsultantProps {
 	copyLoginLink: Function;
@@ -14,28 +13,15 @@ interface HelpVideoCallConsultantProps {
 
 export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 	({ copyLoginLink }) => {
-		const { userData } = useContext(UserDataContext);
 		return (
 			<>
 				<div className="help__top">
 					<Headline
-						text={
-							userData.e2eEncryptionEnabled
-								? translate(
-										'help.videoCall.consultant.headline'
-								  )
-								: translate(
-										'help.videoCall.asker.steps.headline.1'
-								  )
-						}
+						text={translate('help.videoCall.consultant.headline')}
 						semanticLevel="5"
 					/>
 					<Text
-						text={
-							userData.e2eEncryptionEnabled
-								? translate('help.videoCall.consultant.intro')
-								: ''
-						}
+						text={translate('help.videoCall.consultant.intro')}
 						type="standard"
 						className="tertiary"
 					/>
