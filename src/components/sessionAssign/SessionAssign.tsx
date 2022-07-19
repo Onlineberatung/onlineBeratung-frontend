@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -9,29 +8,27 @@ import {
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { translate } from '../../utils/translate';
-import { history } from '../app/app';
 import {
-	apiGetUserData,
 	apiGetAgencyConsultantList,
 	apiSessionAssign,
-	FETCH_ERRORS
+	FETCH_ERRORS,
+	apiDeleteUserFromRoom
 } from '../../api';
 import {
-	UserDataInterface,
 	UserDataContext,
 	ConsultantListContext,
-	AcceptedGroupIdContext
+	E2EEContext
 } from '../../globalState';
 import {
 	SelectDropdownItem,
 	SelectDropdown,
 	SelectOption
 } from '../select/SelectDropdown';
-import { getSessionListPathForLocation } from '../session/sessionHelpers';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { useE2EE } from '../../hooks/useE2EE';
+import { history } from '../app/app';
 
-export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 export interface Consultant {
 	consultantId: string;
 	firstName: string;
@@ -39,23 +36,103 @@ export interface Consultant {
 }
 
 export const SessionAssign = (props: { value?: string }) => {
-	const activeSession = useContext(ActiveSessionContext);
-	const { userData, setUserData } = useContext(UserDataContext);
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-
+	const { activeSession } = useContext(ActiveSessionContext);
+	const { userData } = useContext(UserDataContext);
 	const { consultantList, setConsultantList } = useContext(
 		ConsultantListContext
 	);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState({});
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
+	const [selectedOption, setSelectedOption] = useState();
+
+	const { isE2eeEnabled } = useContext(E2EEContext);
+
+	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession.item.groupId);
+
+	const assignOtherOverlay: OverlayItem = useMemo(
+		() => ({
+			svg: CheckIcon,
+			headline: translate('session.assignOther.overlayHeadline'),
+			buttonSet: [
+				{
+					label: translate('session.assignOther.buttonLabel'),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.AUTO_CLOSE
+				}
+			]
+		}),
+		[]
 	);
-	const getSessionListTab = () =>
-		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
+
+	const assignSelfOverlay: OverlayItem = useMemo(
+		() => ({
+			svg: CheckIcon,
+			headline: translate('session.assignSelf.overlayHeadline'),
+			buttonSet: [
+				{
+					label: translate('session.assignSelf.button1.label'),
+					function: OVERLAY_FUNCTIONS.REDIRECT,
+					type: BUTTON_TYPES.PRIMARY
+				},
+				{
+					label: translate('session.assignSelf.button2.label'),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				}
+			]
+		}),
+		[]
+	);
+
+	const assignSession: OverlayItem = useMemo(
+		() => ({
+			headline: translate('session.assignSelf.overlay.headline'),
+			copy: translate('session.assignSelf.overlay.subtitle'),
+			buttonSet: [
+				{
+					label: translate(
+						'session.assignSelf.overlay.button.cancel'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate(
+						'session.assignSelf.overlay.button.assign'
+					),
+					function: 'ASSIGN',
+					type: BUTTON_TYPES.PRIMARY
+				}
+			]
+		}),
+		[]
+	);
+
+	const alreadyAssignedSession: OverlayItem = useMemo(
+		() => ({
+			headline: translate('session.alreadyAssigned.overlay.headline'),
+			buttonSet: [
+				{
+					label: translate(
+						'session.alreadyAssigned.overlay.button.cancel'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate(
+						'session.alreadyAssigned.overlay.button.redirect'
+					),
+					function: OVERLAY_FUNCTIONS.REDIRECT,
+					type: BUTTON_TYPES.PRIMARY
+				}
+			]
+		}),
+		[]
+	);
 
 	useEffect(() => {
-		const agencyId = activeSession.session.agencyId.toString();
+		const agencyId = activeSession.item.agencyId.toString();
 		if (consultantList && consultantList.length <= 0) {
 			apiGetAgencyConsultantList(agencyId)
 				.then((response) => {
@@ -82,77 +159,71 @@ export const SessionAssign = (props: { value?: string }) => {
 		return availableConsultants;
 	};
 
-	const initOverlays = (selectedOption, profileData) => {
-		const currentUserId = profileData.userId;
-
-		const assignOtherOverlay: OverlayItem = {
-			svg: CheckIcon,
-			headline: translate('session.assignOther.overlayHeadline'),
-			buttonSet: [
-				{
-					label: translate('session.assignOther.buttonLabel'),
-					function: OVERLAY_FUNCTIONS.CLOSE,
-					type: BUTTON_TYPES.AUTO_CLOSE
-				}
-			]
-		};
-
-		const assignSelfOverlay: OverlayItem = {
-			svg: CheckIcon,
-			headline: translate('session.assignSelf.overlayHeadline'),
-			buttonSet: [
-				{
-					label: translate('session.assignSelf.button1.label'),
-					function: OVERLAY_FUNCTIONS.REDIRECT,
-					type: BUTTON_TYPES.PRIMARY
-				},
-				{
-					label: translate('session.assignSelf.button2.label'),
-					function: OVERLAY_FUNCTIONS.CLOSE,
-					type: BUTTON_TYPES.SECONDARY
-				}
-			]
-		};
+	const initOverlays = useCallback(() => {
+		const currentUserId = userData.userId;
 
 		const overlay =
-			currentUserId === selectedOption.value
+			currentUserId === selectedOption
 				? assignSelfOverlay
 				: assignOtherOverlay;
 		setOverlayActive(true);
 		setOverlayItem(overlay);
+	}, [
+		assignOtherOverlay,
+		assignSelfOverlay,
+		selectedOption,
+		userData.userId
+	]);
+
+	const handleE2EEAssign = async (sessionId, userId) => {
+		if (isE2eeEnabled) {
+			try {
+				await addNewUsersToEncryptedRoom();
+				await apiDeleteUserFromRoom(sessionId, userId);
+			} catch (e) {
+				console.log('error encrypting new user key');
+			}
+		}
 	};
 
 	const handleDatalistSelect = (selectedOption) => {
-		apiSessionAssign(activeSession.session.id, selectedOption.value)
-			.then(() => {
-				if (userData) {
-					initOverlays(selectedOption, userData);
-				} else {
-					apiGetUserData()
-						.then((profileData: UserDataInterface) => {
-							setUserData(profileData);
-							initOverlays(selectedOption, profileData);
-						})
-						.catch((error) => console.log(error));
-				}
-			})
-			.catch((error) => {
-				if (error === FETCH_ERRORS.CONFLICT) {
-					return null;
-				} else console.log(error);
-			});
+		if (userData.userId === activeSession?.consultant?.id) {
+			setOverlayItem(alreadyAssignedSession);
+		} else {
+			setOverlayItem(assignSession);
+		}
+		setOverlayActive(true);
+		setSelectedOption(selectedOption.value);
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
-		setOverlayActive(false);
-		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setAcceptedGroupId(ACCEPTED_GROUP_CLOSE);
-			history.push(getSessionListPathForLocation() + getSessionListTab());
-		} else {
-			setAcceptedGroupId(activeSession.session.groupId);
-			history.push(
-				`/sessions/consultant/sessionView${getSessionListTab()}`
-			);
+		switch (buttonFunction) {
+			case 'ASSIGN':
+				apiSessionAssign(activeSession.item.id, selectedOption)
+					.then(() => {
+						initOverlays();
+						handleE2EEAssign(
+							activeSession.item.id,
+							userData.userId
+						);
+					})
+					.catch((error) => {
+						if (error === FETCH_ERRORS.CONFLICT) {
+							return null;
+						} else console.log(error);
+					});
+				break;
+			case OVERLAY_FUNCTIONS.REDIRECT:
+				setOverlayItem(null);
+				setOverlayActive(false);
+				history.push(
+					`/sessions/consultant/sessionView/${activeSession.item.groupId}/${activeSession.item.id}`
+				);
+				break;
+			case OVERLAY_FUNCTIONS.CLOSE:
+				setOverlayItem(null);
+				setOverlayActive(false);
+				break;
 		}
 	};
 
@@ -177,14 +248,14 @@ export const SessionAssign = (props: { value?: string }) => {
 	return (
 		<div className="assign__wrapper">
 			<SelectDropdown {...prepareSelectDropdown()} />
-			{overlayActive ? (
+			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>
-			) : null}
+			)}
 		</div>
 	);
 };

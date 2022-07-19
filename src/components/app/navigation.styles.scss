@@ -122,7 +122,6 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			}
 
 			@keyframes count {
-				0%,
 				100% {
 					transform: scale(1);
 				}

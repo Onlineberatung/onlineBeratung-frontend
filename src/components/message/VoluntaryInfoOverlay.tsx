@@ -24,7 +24,7 @@ interface VoluntaryInfoOverlayProps {
 }
 
 export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [valuesOfGeneratedInputs, setValuesOfGeneratedInputs] =
 		useState<GeneratedInputs | null>(null);
@@ -194,7 +194,7 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 			};
 
 			apiPutSessionData(
-				activeSession.session.id,
+				activeSession.item.id,
 				generatedRegistrationDataSet
 			)
 				.then(() => {

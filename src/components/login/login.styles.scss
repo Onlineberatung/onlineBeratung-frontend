@@ -85,6 +85,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 
 		&:hover {
 			text-decoration: $link-hover-text-decoration;
+			cursor: pointer;
 		}
 	}
 
