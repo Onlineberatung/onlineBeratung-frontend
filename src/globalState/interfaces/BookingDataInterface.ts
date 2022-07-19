@@ -12,6 +12,4 @@ export interface BookingEventsInterface {
 	askerName?: string;
 	expanded: boolean;
 	title: string;
-	//counselor: string;
-	//slug: string;
 }

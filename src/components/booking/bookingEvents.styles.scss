@@ -93,6 +93,29 @@ $imprintHeight: 40px;
 				grid-template-areas: 'basicInformation description actions';
 			}
 		}
+
+		&-no-bookings {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			height: calc(100vh - 275px);
+
+			@include breakpoint($fromLarge) {
+				height: calc(100vh - 300px);
+			}
+
+			&-title {
+				margin-bottom: 4rem;
+				color: $lighter-grey;
+			}
+
+			&-text {
+				margin-bottom: 1.5rem;
+				text-align: center;
+			}
+		}
 	}
 
 	&__basicInformation {

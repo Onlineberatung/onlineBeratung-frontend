@@ -22,12 +22,16 @@ import { downloadICSFile } from '../../utils/downloadICSFile';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
+	SessionsDataContext,
 	UserDataContext
 } from '../../globalState';
 import { BookingEventsInterface } from '../../globalState/interfaces/BookingDataInterface';
 import { getWeekDayFromPrefix } from '../../utils/dateHelpers';
 import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
-import { apiAppointmentsServiceBookingEventsByUserId } from '../../api';
+import {
+	apiAppointmentsServiceBookingEventsByUserId,
+	apiGetAskerSessionList
+} from '../../api';
 
 interface BookingEventUiInterface {
 	id: number;
@@ -83,6 +87,9 @@ export const MyBookings = () => {
 	}, []);
 
 	const { userData } = useContext(UserDataContext);
+	const sessionsContext = useContext(SessionsDataContext);
+	const { sessionsData, setSessionsData } = sessionsContext;
+
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
 		userData
@@ -211,6 +218,44 @@ export const MyBookings = () => {
 		}
 	};
 
+	const fetchAskerData = () => {
+		return apiGetAskerSessionList()
+			.then((response) => {
+				setSessionsData({
+					mySessions: response.sessions
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	const noBookings = () => {
+		return (
+			<Box>
+				<div className="bookingEvents__innerWrapper-no-bookings">
+					<Headline
+						className="bookingEvents__innerWrapper-no-bookings-title"
+						text={translate('booking.my.booking.title')}
+						semanticLevel="3"
+					/>
+					<Text
+						className="bookingEvents__innerWrapper-no-bookings-text"
+						text={`${translate('booking.my.booking.schedule')} <b>${
+							sessionsData?.mySessions[0].consultant.username
+						}</b>:`}
+						type="standard"
+					/>
+					<Button
+						item={scheduleAppointmentButton}
+						buttonHandle={handleBackButton}
+						customIcon={<CalendarMonthPlus />}
+					/>
+				</div>
+			</Box>
+		);
+	};
+
 	useEffect(() => {
 		if (isConsultant) {
 			apiGetConsultantAppointments(userData.userId).then((bookings) => {
@@ -223,6 +268,8 @@ export const MyBookings = () => {
 				}
 			);
 		}
+
+		fetchAskerData().catch(() => {}); // Intentionally empty to prevent json parse errors
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -244,7 +291,6 @@ export const MyBookings = () => {
 				endTime.getUTCHours()
 			)}:${addMissingZero(endTime.getUTCMinutes())}`;
 
-			// TODO: add counselor
 			bookingEvents.push({
 				id: event.id,
 				date,
@@ -257,8 +303,6 @@ export const MyBookings = () => {
 				expanded: false,
 				uid: event.uid,
 				rescheduleLink: event.rescheduleLink
-				// counselor: event.counselor
-				// slug: event.slug
 			});
 		});
 		setMyBookingsData(bookingEvents);
@@ -273,7 +317,7 @@ export const MyBookings = () => {
 					semanticLevel="2"
 					className="bookingEvents__header--title"
 				/>
-				{!isConsultant && (
+				{!isConsultant && myBookingsData.length > 0 && (
 					<Button
 						item={scheduleAppointmentButton}
 						buttonHandle={handleBackButton}
@@ -281,136 +325,144 @@ export const MyBookings = () => {
 						className="bookingEvents__headerButton"
 					/>
 				)}
-				<div className="bookingEvents__calendar--mobile">
-					<CalendarMonthPlus />
-					<Text
-						type="standard"
-						text={translate('booking.mobile.calendar.label')}
-					/>
-				</div>
+				{myBookingsData.length > 0 && (
+					<div className="bookingEvents__calendar--mobile">
+						<CalendarMonthPlus />
+						<Text
+							type="standard"
+							text={translate('booking.mobile.calendar.label')}
+						/>
+					</div>
+				)}
 			</div>
 			<div className="bookingEvents__innerWrapper">
-				{myBookingsData?.map((event) => (
-					<Box key={event.id}>
-						<div className="bookingEvents__innerWrapper-event">
-							<div className="bookingEvents__basicInformation">
-								<div className="bookingEvents__group">
-									<Headline
-										text={event.date}
-										semanticLevel="4"
-										className="bookingEvents__date"
-									></Headline>
-									<Headline
-										text={event.duration}
-										semanticLevel="5"
-										className="bookingEvents__duration"
-									></Headline>
-									<div className="bookingEvents__ics bookingEvents--flex bookingEvents--pointer">
-										{icsComponent(event)}
+				{myBookingsData.length === 0
+					? noBookings()
+					: myBookingsData?.map((event) => (
+							<Box key={event.id}>
+								<div className="bookingEvents__innerWrapper-event">
+									<div className="bookingEvents__basicInformation">
+										<div className="bookingEvents__group">
+											<Headline
+												text={event.date}
+												semanticLevel="4"
+												className="bookingEvents__date"
+											></Headline>
+											<Headline
+												text={event.duration}
+												semanticLevel="5"
+												className="bookingEvents__duration"
+											></Headline>
+											<div className="bookingEvents__ics bookingEvents--flex bookingEvents--pointer">
+												{icsComponent(event)}
+											</div>
+										</div>
+										<div className="bookingEvents__group bookingEvents__counselorWrap">
+											<AppointmentWithComponent
+												event={event}
+											/>
+											<div className="bookingEvents__video bookingEvents--flex">
+												<VideoCalIcon />
+												<Text
+													type="infoLargeAlternative"
+													text={'Videoberatung'}
+												/>
+											</div>
+										</div>
+										<div className="bookingEvents__group">
+											<div className="bookingEvents__ics--mobile bookingEvents--flex bookingEvents--pointer">
+												{icsComponent(event)}
+											</div>
+										</div>
 									</div>
-								</div>
-								<div className="bookingEvents__group bookingEvents__counselorWrap">
-									<AppointmentWithComponent event={event} />
-									<div className="bookingEvents__video bookingEvents--flex">
-										<VideoCalIcon />
-										<Text
-											type="infoLargeAlternative"
-											text={'Videoberatung'}
-										/>
-									</div>
-								</div>
-								<div className="bookingEvents__group">
-									<div className="bookingEvents__ics--mobile bookingEvents--flex bookingEvents--pointer">
-										{icsComponent(event)}
-									</div>
-								</div>
-							</div>
-							<div
-								className={`bookingEvents__description ${
-									event.expanded ? 'expanded' : 'shrinked'
-								}`}
-							>
-								<Text
-									text={translate(
-										'booking.event.description'
-									)}
-									type="standard"
-									className="bookingEvents--font-weight-bold"
-								/>
-								<Text
-									text={event.description}
-									type="standard"
-									className="bookingEvents__descriptionText"
-								/>
-								{event.description &&
-								event.description.length > 105 ? (
 									<div
-										className="bookingEvents__showMore bookingEvents--flex bookingEvents--pointer"
-										onClick={handleViewMore.bind(
-											this,
-											event.id
-										)}
+										className={`bookingEvents__description ${
+											event.expanded
+												? 'expanded'
+												: 'shrinked'
+										}`}
 									>
-										{event.expanded ? (
-											<ArrowUpIcon />
-										) : (
-											<ArrowDownIcon />
-										)}
 										<Text
-											text={
-												event.expanded
-													? translate(
-															'booking.event.show.less'
-													  )
-													: translate(
-															'booking.event.show.more'
-													  )
-											}
+											text={translate(
+												'booking.event.description'
+											)}
 											type="standard"
-											className="bookingEvents--pointer bookingEvents--primary"
+											className="bookingEvents--font-weight-bold"
 										/>
+										<Text
+											text={event.description}
+											type="standard"
+											className="bookingEvents__descriptionText"
+										/>
+										{event.description &&
+										event.description.length > 105 ? (
+											<div
+												className="bookingEvents__showMore bookingEvents--flex bookingEvents--pointer"
+												onClick={handleViewMore.bind(
+													this,
+													event.id
+												)}
+											>
+												{event.expanded ? (
+													<ArrowUpIcon />
+												) : (
+													<ArrowDownIcon />
+												)}
+												<Text
+													text={
+														event.expanded
+															? translate(
+																	'booking.event.show.less'
+															  )
+															: translate(
+																	'booking.event.show.more'
+															  )
+													}
+													type="standard"
+													className="bookingEvents--pointer bookingEvents--primary"
+												/>
+											</div>
+										) : (
+											<div />
+										)}
 									</div>
-								) : (
-									<div />
-								)}
-							</div>
-							<div className="bookingEvents__actions">
-								<div
-									className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
-									onClick={handleRescheduleAppointment.bind(
-										this,
-										event
-									)}
-								>
-									<CalendarRescheduleIcon />
-									<Text
-										type="standard"
-										text={translate(
-											'booking.event.booking.reschedule'
-										)}
-										className="bookingEvents--primary"
-									/>
+									<div className="bookingEvents__actions">
+										<div
+											className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
+											onClick={handleRescheduleAppointment.bind(
+												this,
+												event
+											)}
+										>
+											<CalendarRescheduleIcon />
+											<Text
+												type="standard"
+												text={translate(
+													'booking.event.booking.reschedule'
+												)}
+												className="bookingEvents--primary"
+											/>
+										</div>
+										<div
+											className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
+											onClick={handleCancelAppointment.bind(
+												this,
+												event
+											)}
+										>
+											<CalendarCancelIcon />
+											<Text
+												type="standard"
+												text={translate(
+													'booking.event.booking.cancel'
+												)}
+												className="bookingEvents--primary"
+											/>
+										</div>
+									</div>
 								</div>
-								<div
-									className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
-									onClick={handleCancelAppointment.bind(
-										this,
-										event
-									)}
-								>
-									<CalendarCancelIcon />
-									<Text
-										type="standard"
-										text={translate(
-											'booking.event.booking.cancel'
-										)}
-										className="bookingEvents--primary"
-									/>
-								</div>
-							</div>
-						</div>
-					</Box>
-				))}
+							</Box>
+					  ))}
 			</div>
 		</div>
 	);

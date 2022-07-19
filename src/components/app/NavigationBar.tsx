@@ -7,7 +7,8 @@ import {
 	UnreadSessionsStatusContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	ConsultingTypesContext
+	ConsultingTypesContext,
+	SessionsDataContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
@@ -26,6 +27,7 @@ export interface NavigationBarProps {
 
 export const NavigationBar = (props: NavigationBarProps) => {
 	const { userData } = useContext(UserDataContext);
+	const { sessionsData } = useContext(SessionsDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { unreadSessionsStatus, setUnreadSessionsStatus } = useContext(
 		UnreadSessionsStatusContext
@@ -81,7 +83,11 @@ export const NavigationBar = (props: NavigationBarProps) => {
 					.filter(
 						(item: any) =>
 							!item.condition ||
-							item.condition(userData, consultingTypes)
+							item.condition(
+								userData,
+								consultingTypes,
+								sessionsData
+							)
 					)
 					.map((item, index) => (
 						<Link

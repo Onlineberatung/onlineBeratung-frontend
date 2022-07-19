@@ -11,7 +11,13 @@ import { GroupChatInfo } from '../groupChat/GroupChatInfo';
 import { Appointments } from '../appointment/Appointments';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
-import { AUTHORITIES, hasUserAuthority } from '../../globalState';
+import {
+	AUTHORITIES,
+	ConsultingTypeBasicInterface,
+	hasUserAuthority,
+	SessionsDataInterface,
+	UserDataInterface
+} from '../../globalState';
 import { Booking } from '../booking/booking';
 import { BookingCancelation } from '../booking/bookingCancelation';
 import { MyBookings } from '../booking/myBookings';
@@ -28,6 +34,14 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 					consultingType.isVideoCallAllowed
 			)
 	);
+
+const hasConsultantAssigned = (
+	userData: UserDataInterface,
+	consultingTypes: Array<ConsultingTypeBasicInterface>,
+	sessionsData: SessionsDataInterface
+) => {
+	return !!sessionsData?.mySessions?.[0]?.consultant;
+};
 
 export const RouterConfigUser = (): any => {
 	return {
@@ -48,6 +62,7 @@ export const RouterConfigUser = (): any => {
 				}
 			},
 			{
+				condition: hasConsultantAssigned,
 				to: '/booking/events',
 				icon: 'booking-events',
 				titleKeys: {
@@ -146,6 +161,7 @@ export const RouterConfigConsultant = (): any => {
 				}
 			},
 			{
+				condition: hasConsultantAssigned,
 				to: '/booking/events',
 				icon: 'booking-events',
 				titleKeys: {
@@ -290,6 +306,7 @@ export const RouterConfigTeamConsultant = (): any => {
 				}
 			},
 			{
+				condition: hasConsultantAssigned,
 				to: '/booking/events',
 				icon: 'booking-events',
 				titleKeys: {

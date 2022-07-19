@@ -433,10 +433,11 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			}
 
 			svg {
-				transform: scale(0.5);
 				fill: $primary;
 				position: relative;
-				left: -1px;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
 			}
 		}
 
