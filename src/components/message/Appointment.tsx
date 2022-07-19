@@ -8,7 +8,6 @@ import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/
 import { ReactComponent as CalendarICSIcon } from '../../resources/img/icons/calendar-ics.svg';
 import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-call.svg';
 import { formatToHHMM, getMonthFromString } from '../../utils/dateHelpers';
-import { history } from '../app/app';
 import { downloadICSFile } from '../../utils/downloadICSFile';
 import { MessageType } from './MessageItemComponent';
 
@@ -42,6 +41,7 @@ export const Appointment = (param: {
 		`${startingTimeStampDate}`
 	)} - ${formatToHHMM(`${finishingHour}`)}`;
 
+	//TODO Andre: move this as agreed
 	const handleICSAppointment = (appointmentInfo: AppointmentData) => {
 		const [, day, month, year, startHour] = appointmentInfo.date.split(' ');
 		const [hour, min, sec] = startHour.split(':');
@@ -74,13 +74,10 @@ export const Appointment = (param: {
 		downloadICSFile(appointmentInfo.title, icsMSG);
 	};
 
-	const handleCancelAppointment = (event) => {
-		history.push('/booking/cancelation');
-	};
-
 	let appointmentTitle;
 	let appointmentIcon;
 	let appointmentComponentHeader;
+	//TODO Andre: change as agreed
 	let showAddToCallanderComponent;
 	if (param.messageType === MessageType.APPOINTMENT_SET) {
 		appointmentComponentHeader = translate(
@@ -161,18 +158,6 @@ export const Appointment = (param: {
 						/>
 					</div>
 				)}
-				<div
-					style={{ display: 'none' }}
-					className="appointmentSet--flex appointmentSet--pointer"
-					onClick={handleCancelAppointment.bind(this, parsedData)}
-				>
-					<CalendarCancelIcon />
-					<Text
-						type="standard"
-						text={translate('message.appointmentSet.cancel')}
-						className="appointmentSet__cancel appointmentSet--primary"
-					/>
-				</div>
 			</div>
 		</React.Fragment>
 	);

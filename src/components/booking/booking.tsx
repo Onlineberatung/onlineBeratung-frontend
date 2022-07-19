@@ -6,14 +6,24 @@ import {
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
 import Cal from '../cal/Cal';
-import { SessionsDataContext, UserDataContext } from '../../globalState';
 import {
-	apiAppointmentServiceTeamById,
-	apiAppointmentServiceEventTypes
-} from '../../api';
-import { getuserEmail } from '../../utils/getUserEmail';
+	SessionsDataContext,
+	UserDataContext,
+	UserDataInterface
+} from '../../globalState';
+import { getCounselorAppointmentLink, getTeamAppointmentLink } from '../../api';
+
+export const getUserEmail = (userData: UserDataInterface) => {
+	return userData.email
+		? userData.email
+		: userData.userName + '@suchtberatung.digital';
+};
 
 export const Booking = () => {
+	const { userData } = useContext(UserDataContext);
+	const { sessionsData } = useContext(SessionsDataContext);
+	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
+
 	useEffect(() => {
 		setBookingWrapperActive();
 
@@ -22,35 +32,37 @@ export const Booking = () => {
 		};
 	}, []);
 
-	const { userData } = useContext(UserDataContext);
-	const { sessionsData } = useContext(SessionsDataContext);
-	const [team, setTeam] = useState<string | null>(null);
+	const assignedConsultant = sessionsData?.mySessions?.[0].consultant;
+
+	const setCounselorLink = () => {
+		getCounselorAppointmentLink(assignedConsultant.consultantId).then(
+			(response) => {
+				setAppointmentLink(response.slug);
+			}
+		);
+	};
+
+	const setTeamLink = () => {
+		const agencyId = sessionsData?.mySessions?.[0]?.agency?.id;
+		getTeamAppointmentLink(agencyId).then((response) => {
+			setAppointmentLink(`team/${response.slug}`);
+		});
+	};
 
 	useEffect(() => {
-		if (sessionsData?.mySessions?.[0]?.consultant) {
-			apiAppointmentServiceEventTypes(
-				sessionsData?.mySessions?.[0]?.consultant.consultantId
-			).then((resp) => {
-				setTeam(resp.slug);
-			});
-		} else {
-			const agencyId = sessionsData?.mySessions?.[0]?.agency?.id;
-			apiAppointmentServiceTeamById(agencyId).then((resp) => {
-				setTeam(`team/${resp.slug}`);
-			});
-		}
+		assignedConsultant ? setCounselorLink() : setTeamLink();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [team]);
+	}, []);
 
 	return (
 		<React.Fragment>
-			{team && (
+			{appointmentLink && (
 				<Cal
-					calLink={team}
+					calLink={appointmentLink}
 					calOrigin={config.urls.appointmentServiceDevServer}
 					config={{
 						'name': userData.userName,
-						'email': getuserEmail(userData),
+						'email': getUserEmail(userData),
 						'theme': 'light',
 						'metadata[user]': userData.userId
 					}}

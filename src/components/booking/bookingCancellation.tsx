@@ -6,11 +6,8 @@ import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
-import { UserDataContext } from '../../globalState';
 
-export const BookingCancelation = () => {
-	const { userData } = useContext(UserDataContext);
-
+export const BookingCancellation = () => {
 	useEffect(() => {
 		setBookingWrapperActive();
 
@@ -23,12 +20,12 @@ export const BookingCancelation = () => {
 
 	return (
 		<iframe
-			src={`${config.urls.appointmentServiceDevServer}/cancel/${location.state.uid}?metadata[user]=${userData.userId}`}
+			src={`${config.urls.appointmentServiceDevServer}/cancel/${location.state.uid}`}
 			frameBorder={0}
 			scrolling="false"
 			width="100%"
 			height="100%"
-			title="booking-cancelation"
+			title="booking-cancellation"
 		/>
 	);
 };

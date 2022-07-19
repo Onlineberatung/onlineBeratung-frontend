@@ -46,7 +46,9 @@ interface BookingEventUiInterface {
 	expanded: boolean;
 }
 
-function AppointmentWithComponent(params: { event: BookingEventUiInterface }) {
+function BookingEventTableColumnAttendee(params: {
+	event: BookingEventUiInterface;
+}) {
 	const { userData } = useContext(UserDataContext);
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
@@ -76,7 +78,7 @@ function AppointmentWithComponent(params: { event: BookingEventUiInterface }) {
 	);
 }
 
-export const MyBookings = () => {
+export const BookingEvents = () => {
 	useEffect(() => {
 		setBookingWrapperActive();
 
@@ -99,44 +101,36 @@ export const MyBookings = () => {
 		type: BUTTON_TYPES.PRIMARY
 	};
 
+	//TODO Andre: what is this?
 	const handleBackButton = () => {
 		history.push('/booking');
 	};
 
-	const initialData: BookingEventUiInterface[] = [
-		{
-			id: 1,
-			date: '',
-			duration: '',
-			counselor: '',
-			askerName: '',
-			askerId: '',
-			description: '',
-			expanded: false,
-			uid: '',
-			title: ''
-		}
-	];
-
-	const [bookingEventsApi, setbookingEventsApi] = useState<
+	//TODO Andre: remove this
+	const [bookingEventsApi, setBookingEventsApi] = useState<
 		BookingEventsInterface[] | null
 	>(null);
 
-	const [myBookingsData, setMyBookingsData] =
-		useState<BookingEventUiInterface[]>(initialData);
+	const [bookingEventsData, setBookingEventsData] = useState<
+		BookingEventUiInterface[]
+	>([] as BookingEventUiInterface[]);
 
+	//TOOD Andre: move it to a separate component
 	const handleViewMore = (id: number) => {
 		let newArrayEvents: BookingEventUiInterface[] = [];
-		myBookingsData.forEach((event) => {
+		bookingEventsData.forEach((event) => {
 			if (event.id === id) {
 				newArrayEvents.push({ ...event, expanded: !event.expanded });
 			} else {
 				newArrayEvents.push(event);
 			}
-			setMyBookingsData(newArrayEvents);
+			setBookingEventsData(newArrayEvents);
 		});
 	};
 
+	//TODO Andre: make a utility function out of that
+	// define a new type for BookingEventUiInterface and the other object from message panel inside
+	// file that holds this utility function
 	const handleICSAppointment = (appointmentInfo: BookingEventUiInterface) => {
 		const date = appointmentInfo.date.split(' ')[1];
 		const [day, month, year] = date.split('.');
@@ -175,6 +169,8 @@ export const MyBookings = () => {
 		downloadICSFile(appointmentInfo.title, icsMSG);
 	};
 
+	//TODO Andre: make a reusable component out of it. in this case downloadICSFile.ts can be also part
+	// of this component
 	const icsComponent = (event) => {
 		return (
 			<div
@@ -191,6 +187,7 @@ export const MyBookings = () => {
 		);
 	};
 
+	//TODO Andre: canceltation vs cancellation
 	const handleCancelAppointment = (event: BookingEventUiInterface) => {
 		history.push({
 			pathname: '/booking/cancelation',
@@ -209,6 +206,7 @@ export const MyBookings = () => {
 		});
 	};
 
+	//TODO Andre: move it close to the code that does the transformation from response data to ui data
 	const addMissingZero = (value: number) => {
 		if (value < 10) {
 			return '0' + value;
@@ -217,6 +215,7 @@ export const MyBookings = () => {
 		}
 	};
 
+	//TODO Andre: think about non optimistic usecases :D
 	const fetchAskerData = () => {
 		return apiGetAskerSessionList()
 			.then((response) => {
@@ -225,6 +224,7 @@ export const MyBookings = () => {
 				});
 			})
 			.catch((error) => {
+				//TODO Andre: don't catch the error
 				console.log(error);
 			});
 	};
@@ -256,18 +256,23 @@ export const MyBookings = () => {
 	};
 
 	useEffect(() => {
+		//TODO Andre: check are we a consultant or asker
+		// based on that call this session endpoint. since we need it only in case of asker
+
 		if (isConsultant) {
 			apiGetConsultantAppointments(userData.userId).then((bookings) => {
-				setbookingEventsApi(bookings);
+				//TODO Andre: do the transformation here
+				setBookingEventsApi(bookings);
 			});
 		} else {
 			apiAppointmentsServiceBookingEventsByUserId(userData.userId).then(
 				(bookings) => {
-					setbookingEventsApi(bookings);
+					setBookingEventsApi(bookings);
 				}
 			);
 		}
 
+		//TODO Andre: replace this with impl.
 		fetchAskerData().catch(() => {}); // Intentionally empty to prevent json parse errors
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -304,7 +309,7 @@ export const MyBookings = () => {
 				rescheduleLink: event.rescheduleLink
 			});
 		});
-		setMyBookingsData(bookingEvents);
+		setBookingEventsData(bookingEvents);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [bookingEventsApi]);
 
@@ -316,7 +321,7 @@ export const MyBookings = () => {
 					semanticLevel="2"
 					className="bookingEvents__header--title"
 				/>
-				{!isConsultant && myBookingsData.length > 0 && (
+				{!isConsultant && bookingEventsData.length > 0 && (
 					<Button
 						item={scheduleAppointmentButton}
 						buttonHandle={handleBackButton}
@@ -324,7 +329,7 @@ export const MyBookings = () => {
 						className="bookingEvents__headerButton"
 					/>
 				)}
-				{myBookingsData.length > 0 && (
+				{bookingEventsData.length > 0 && (
 					<div className="bookingEvents__calendar--mobile">
 						<CalendarMonthPlusIcon />
 						<Text
@@ -335,9 +340,9 @@ export const MyBookings = () => {
 				)}
 			</div>
 			<div className="bookingEvents__innerWrapper">
-				{myBookingsData.length === 0
+				{bookingEventsData.length === 0
 					? noBookings()
-					: myBookingsData?.map((event) => (
+					: bookingEventsData?.map((event) => (
 							<Box key={event.id}>
 								<div className="bookingEvents__innerWrapper-event">
 									<div className="bookingEvents__basicInformation">
@@ -357,7 +362,7 @@ export const MyBookings = () => {
 											</div>
 										</div>
 										<div className="bookingEvents__group bookingEvents__counselorWrap">
-											<AppointmentWithComponent
+											<BookingEventTableColumnAttendee
 												event={event}
 											/>
 											<div className="bookingEvents__video bookingEvents--flex">

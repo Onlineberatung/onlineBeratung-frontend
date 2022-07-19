@@ -19,8 +19,8 @@ import {
 	UserDataInterface
 } from '../../globalState';
 import { Booking } from '../booking/booking';
-import { BookingCancelation } from '../booking/bookingCancelation';
-import { MyBookings } from '../booking/myBookings';
+import { BookingCancellation } from '../booking/bookingCancellation';
+import { BookingEvents } from '../booking/bookingEvents';
 import { BookingReschedule } from '../booking/bookingReschedule';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
@@ -35,12 +35,15 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 			)
 	);
 
-const hasConsultantAssigned = (
+const showAppointmentsMenuItem = (
 	userData: UserDataInterface,
 	consultingTypes: Array<ConsultingTypeBasicInterface>,
 	sessionsData: SessionsDataInterface
 ) => {
-	return !!sessionsData?.mySessions?.[0]?.consultant;
+	return (
+		userData.appointmentFeatureEnabled &&
+		!!sessionsData?.mySessions?.[0]?.consultant
+	);
 };
 
 const isVideoAppointmentsEnabled = (userData, consultingTypes) =>
@@ -66,7 +69,7 @@ export const RouterConfigUser = (): any => {
 				}
 			},
 			{
-				condition: hasConsultantAssigned,
+				condition: showAppointmentsMenuItem,
 				to: '/booking/events',
 				icon: 'booking-events',
 				titleKeys: {
@@ -109,7 +112,7 @@ export const RouterConfigUser = (): any => {
 			},
 			{
 				path: '/booking/cancelation',
-				component: BookingCancelation
+				component: BookingCancellation
 			},
 			{
 				path: '/booking/reschedule',
@@ -117,7 +120,7 @@ export const RouterConfigUser = (): any => {
 			},
 			{
 				path: '/booking/events',
-				component: MyBookings
+				component: BookingEvents
 			}
 		]
 	};
@@ -165,7 +168,7 @@ export const RouterConfigConsultant = (): any => {
 				}
 			},
 			{
-				condition: hasConsultantAssigned,
+				condition: showAppointmentsMenuItem,
 				to: '/booking/events',
 				icon: 'booking-events',
 				titleKeys: {
@@ -253,7 +256,7 @@ export const RouterConfigConsultant = (): any => {
 			},
 			{
 				path: '/booking/cancelation',
-				component: BookingCancelation
+				component: BookingCancellation
 			},
 			{
 				path: '/booking/reschedule',
@@ -261,7 +264,7 @@ export const RouterConfigConsultant = (): any => {
 			},
 			{
 				path: '/booking/events',
-				component: MyBookings
+				component: BookingEvents
 			}
 		]
 	};
@@ -310,7 +313,7 @@ export const RouterConfigTeamConsultant = (): any => {
 				}
 			},
 			{
-				condition: hasConsultantAssigned,
+				condition: showAppointmentsMenuItem,
 				to: '/booking/events',
 				icon: 'booking-events',
 				titleKeys: {
@@ -432,7 +435,7 @@ export const RouterConfigTeamConsultant = (): any => {
 			},
 			{
 				path: '/booking/cancelation',
-				component: BookingCancelation
+				component: BookingCancellation
 			},
 			{
 				path: '/booking/reschedule',
@@ -440,7 +443,7 @@ export const RouterConfigTeamConsultant = (): any => {
 			},
 			{
 				path: '/booking/events',
-				component: MyBookings
+				component: BookingEvents
 			}
 		]
 	};
@@ -493,7 +496,7 @@ export const RouterConfigAnonymousAsker = (): any => {
 			},
 			{
 				path: '/booking/events',
-				component: MyBookings
+				component: BookingEvents
 			}
 		]
 	};

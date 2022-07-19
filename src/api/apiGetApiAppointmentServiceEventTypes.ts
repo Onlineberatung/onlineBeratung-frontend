@@ -1,7 +1,7 @@
 import { config } from '../resources/scripts/config';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
-export const apiAppointmentServiceEventTypes = async (
+export const getCounselorAppointmentLink = async (
 	userId: string
 ): Promise<{ slug: string }> => {
 	const url = config.endpoints.appointmentServiceEventTypes(userId);

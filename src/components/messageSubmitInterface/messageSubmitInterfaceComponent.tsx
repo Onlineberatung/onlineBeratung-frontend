@@ -214,10 +214,7 @@ export const MessageSubmitInterfaceComponent = (
 	const isSessionArchived =
 		activeSession?.session?.status === STATUS_ARCHIVED;
 
-	const [consultant, setConsultant] = useState(false);
-
-	const [appointmentFeatureEnabled, setAppointmentFeatureEnabled] =
-		useState(false);
+	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
 
 	useEffect(() => {
 		if (
@@ -349,14 +346,12 @@ export const MessageSubmitInterfaceComponent = (
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
 			apiGetAskerSessionList().then((response) => {
+				const { appointmentFeatureEnabled } = userData;
 				const { consultant } = response.sessions[0];
-				if (!consultant) {
-					setConsultant(true);
+				if (consultant) {
+					setShowAppointmentButton(appointmentFeatureEnabled);
 				}
 			});
-
-			const { appointmentFeatureEnabled } = userData;
-			setAppointmentFeatureEnabled(appointmentFeatureEnabled);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -781,13 +776,7 @@ export const MessageSubmitInterfaceComponent = (
 							checkboxHandle={handleCheckboxClick}
 						/>
 					)}
-					<div
-						className={`textarea__wrapper ${
-							appointmentFeatureEnabled
-								? 'textarea__wrapper--booking'
-								: ''
-						}`}
-					>
+					<div className={'textarea__wrapper'}>
 						<div className="textarea__wrapper-send-message">
 							<span className="textarea__featureWrapper">
 								<span className="textarea__richtextToggle">
@@ -903,7 +892,7 @@ export const MessageSubmitInterfaceComponent = (
 								/>
 							</div>
 						</div>
-						{consultant && appointmentFeatureEnabled && (
+						{showAppointmentButton && (
 							<div className="textarea__wrapper-booking">
 								<Headline
 									semanticLevel="5"

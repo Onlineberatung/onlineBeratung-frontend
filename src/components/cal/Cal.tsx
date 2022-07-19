@@ -81,7 +81,6 @@ export default function Cal({
 					)} ${userData.userName}`
 				};
 
-				//todo: we are currently handling only initial appointment
 				const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
 
 				apiAppointmentServiceSet(

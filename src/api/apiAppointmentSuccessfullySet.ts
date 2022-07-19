@@ -1,6 +1,7 @@
 import { config } from '../resources/scripts/config';
 import { FETCH_METHODS, fetchData } from './fetchData';
 
+//TODO Andre: check do we need it
 export const apiAppointmentSuccessfullySet = async (
 	content: object,
 	sessionId: number,
