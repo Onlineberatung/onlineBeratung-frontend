@@ -214,6 +214,7 @@ export const MessageSubmitInterfaceComponent = (
 		inputId: 'requestFeedback',
 		name: 'requestFeedback',
 		labelId: 'requestFeedbackLabel',
+		labelClass: 'requestFeedbackLabel',
 		label: translate('message.write.peer.checkbox.label'),
 		checked: requestFeedbackCheckbox?.checked || false
 	};
