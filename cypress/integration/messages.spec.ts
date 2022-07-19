@@ -21,7 +21,7 @@ describe('Messages', () => {
 		mockWebSocket();
 	});
 
-	describe('Attachments', () => {
+	xdescribe('Attachments', () => {
 		it('should allow to send a message with attachment', () => {
 			cy.fastLogin();
 			cy.wait('@consultingTypeServiceBaseBasic');

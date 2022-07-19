@@ -7,7 +7,8 @@ export const apiForwardMessage = async (
 	messageDate: string,
 	displayName: string,
 	userId: string,
-	rcGroupId: string
+	rcGroupId: string,
+	isEncrypted: boolean
 ): Promise<any> => {
 	const url = config.endpoints.forwardMessage;
 	const headersData = { rcGroupId: rcGroupId };
@@ -17,7 +18,7 @@ export const apiForwardMessage = async (
 		timestamp: messageDate,
 		username: displayName, // TODO change to displayName if message service is adjusted
 		rcUserId: userId,
-		t: 'e2e'
+		t: isEncrypted ? 'e2e' : ''
 	});
 
 	return fetchData({

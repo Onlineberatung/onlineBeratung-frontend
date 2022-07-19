@@ -15,23 +15,27 @@ export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
 export const APP_PATH = 'app';
 
 export const config = {
+	useTenantService: false,
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
 		agencyServiceBase: apiUrl + '/service/agencies',
-		appointmentsServiceBase: apiUrl + '/service/appointments',
-		videocallServiceBase: apiUrl + '/service/videocalls',
 		anonymousAskerBase: apiUrl + '/service/conversations/askers/anonymous/',
 		anonymousBase: apiUrl + '/service/conversations/anonymous/',
+		appointmentsServiceBase: apiUrl + '/service/appointments',
 		askerSessions: apiUrl + '/service/users/sessions/askers',
 		attachmentUpload: apiUrl + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
+		banUser: (rcUserId, chatId) =>
+			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
+		chatRoom: apiUrl + '/service/users/chat/room',
 		consultantEnquiriesBase:
 			apiUrl + '/service/conversations/consultants/enquiries/',
 		consultantSessions:
 			apiUrl + '/service/users/sessions/consultants?status=2&',
 		consultantStatistics: apiUrl + '/service/statistics/consultant',
 		consultantTeamSessions: apiUrl + '/service/users/sessions/teams?',
+		consultantsLanguages: apiUrl + '/service/users/consultants/languages',
 		consultingTypeServiceBase: apiUrl + '/service/consultingtypes',
 		deleteAskerAccount: apiUrl + '/service/users/account',
 		draftMessages: apiUrl + '/service/messages/draft',
@@ -48,35 +52,13 @@ export const config = {
 		liveservice: apiUrl + '/service/live',
 		loginResetPasswordLink:
 			'/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
+		messageRead: apiUrl + '/api/v1/subscriptions.read',
 		messages: apiUrl + '/service/messages',
 		myMessagesBase:
 			apiUrl + '/service/conversations/consultants/mymessages/',
 		passwordReset: apiUrl + '/service/users/password/change',
-		rejectVideoCall: apiUrl + '/service/videocalls/reject',
-		registerAnonymousAsker:
-			apiUrl + '/service/conversations/askers/anonymous/new',
-		registerAsker: apiUrl + '/service/users/askers/new',
-		registerAskerNewConsultingType:
-			apiUrl + '/service/users/askers/consultingType/new',
 		rc: {
 			accessToken: apiUrl + '/api/v1/login',
-			logout: apiUrl + '/api/v1/logout',
-			subscriptions: {
-				get: apiUrl + '/api/v1/subscriptions.get',
-				read: apiUrl + '/api/v1/subscriptions.read',
-				getOne: apiUrl + '/api/v1/subscriptions.getOne'
-			},
-			rooms: {
-				get: apiUrl + '/api/v1/rooms.get',
-				info: apiUrl + '/api/v1/rooms.info'
-			},
-			users: {
-				info: apiUrl + '/api/v1/users.info',
-				resetE2EKey: apiUrl + '/api/v1/users.resetE2EKey'
-			},
-			groups: {
-				members: apiUrl + '/api/v1/groups.members'
-			},
 			e2ee: {
 				fetchMyKeys: apiUrl + '/api/v1/e2e.fetchMyKeys',
 				getUsersOfRoomWithoutKey:
@@ -85,51 +67,76 @@ export const config = {
 				setUserPublicAndPrivateKeys:
 					apiUrl + '/api/v1/e2e.setUserPublicAndPrivateKeys',
 				updateGroupKey: apiUrl + '/api/v1/e2e.updateGroupKey'
+			},
+			groups: {
+				members: apiUrl + '/api/v1/groups.members'
+			},
+			logout: apiUrl + '/api/v1/logout',
+			rooms: {
+				get: apiUrl + '/api/v1/rooms.get',
+				info: apiUrl + '/api/v1/rooms.info'
+			},
+			settings: {
+				public: apiUrl + '/api/v1/settings.public'
+			},
+			subscriptions: {
+				get: apiUrl + '/api/v1/subscriptions.get',
+				read: apiUrl + '/api/v1/subscriptions.read',
+				getOne: apiUrl + '/api/v1/subscriptions.getOne'
+			},
+			users: {
+				info: apiUrl + '/api/v1/users.info',
+				resetE2EKey: apiUrl + '/api/v1/users.resetE2EKey'
 			}
 		},
+		registerAnonymousAsker:
+			apiUrl + '/service/conversations/askers/anonymous/new',
+		registerAsker: apiUrl + '/service/users/askers/new',
+		registerAskerNewConsultingType:
+			apiUrl + '/service/users/askers/consultingType/new',
+		rejectVideoCall: apiUrl + '/service/videocalls/reject',
+		rocketchatAccessToken: apiUrl + '/api/v1/login',
+		rocketchatLogout: apiUrl + '/api/v1/logout',
+		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
-		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		updateMessage: apiUrl + '/service/messages/',
 		sessionBase: apiUrl + '/service/users/sessions',
 		sessionRooms: apiUrl + '/service/users/sessions/room',
-		chatRoom: apiUrl + '/service/users/chat/room',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
 		startVideoCall: apiUrl + '/service/videocalls/new',
 		teamSessionsBase:
 			apiUrl + '/service/conversations/consultants/teamsessions/',
 		tenantServiceBase: apiUrl + '/service/tenant',
+		topicsData: apiUrl + '/service/topic/public/',
 		twoFactorAuth: apiUrl + '/service/users/2fa',
 		twoFactorAuthApp: apiUrl + '/service/users/2fa/app',
 		twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
-		userData: apiUrl + '/service/users/data',
-		userUpdateE2EKey: apiUrl + '/service/users/chat/e2e',
-		topicsData: apiUrl + '/service/topic/public/',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
+		userData: apiUrl + '/service/users/data',
 		userSessionsListView: '/sessions/user/view',
-		consultantsLanguages: apiUrl + '/service/users/consultants/languages',
-		banUser: (rcUserId, chatId) =>
-			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`
+		userUpdateE2EKey: apiUrl + '/service/users/chat/e2e',
+		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
 	urls: {
-		toRegistration: 'https://www.caritas.de/onlineberatung',
-		toLogin: uiUrl + '/login',
-		registration: uiUrl + '/registration',
-		toEntry: uiUrl + '/',
-		redirectToApp: uiUrl + '/' + APP_PATH,
-		home: 'https://www.caritas.de',
-		videoConference: '/videoberatung/:type/:appointmentId',
 		consultantVideoConference:
 			'/consultant/videoberatung/:type/:appointmentId',
+		error401: uiUrl + '/error.401.html',
+		error404: uiUrl + '/error.404.html',
+		error500: uiUrl + '/error.500.html',
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
+		home: 'https://www.caritas.de',
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
-		error500: uiUrl + '/error.500.html',
-		error401: uiUrl + '/error.401.html',
-		error404: uiUrl + '/error.404.html',
-		releases: uiUrl + '/releases'
+		redirectToApp: uiUrl + '/' + APP_PATH,
+		registration: uiUrl + '/registration',
+		releases: uiUrl + '/releases',
+		toEntry: uiUrl + '/',
+		toLogin: uiUrl + '/login',
+		toRegistration: 'https://www.caritas.de/onlineberatung',
+		videoConference: '/videoberatung/:type/:appointmentId'
 	},
 	postcodeFallbackUrl: '{url}',
 	jitsi: {
@@ -140,6 +147,17 @@ export const config = {
 		 * https://github.com/jitsi/lib-jitsi-meet/blob/afc006e99a42439c305c20faab50a1f786254676/modules/browser/BrowserCapabilities.js#L259
 		 */
 		enableEncodedTransformSupport: false
+	},
+	emails: {
+		notifications: [
+			{
+				label: 'profile.notifications.follow.up.email.label',
+				types: [
+					'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
+					'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER'
+				]
+			}
+		]
 	}
 };
 
@@ -152,16 +170,4 @@ export const ALIAS_LAST_MESSAGES = {
 		'aliases.lastMessage.reassign_consultant.confirmed',
 	REASSIGN_CONSULTANT_REJECTED:
 		'aliases.lastMessage.reassign_consultant.rejected'
-};
-
-export const emails = {
-	notifications: [
-		{
-			label: 'profile.notifications.follow.up.email.label',
-			types: [
-				'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
-				'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER'
-			]
-		}
-	]
 };

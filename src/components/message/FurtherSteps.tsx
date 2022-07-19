@@ -32,7 +32,6 @@ import {
 } from '../../globalState';
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
 import { isVoluntaryInfoSet } from './messageHelpers';
-import { getChatItemForSession } from '../session/sessionHelpers';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { history } from '../app/app';
 
@@ -68,7 +67,6 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 		useState<InputFieldLabelState>();
 
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
-	const chatItem = getChatItemForSession(activeSession);
 	const is2faEnabledAndNotActive =
 		userData.twoFactorAuth?.isEnabled && !userData.twoFactorAuth?.isActive;
 
@@ -187,8 +185,9 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 
 	const handleVoluntarySuccess = (generatedRegistrationData) => {
 		let updatedUserData = userData;
-		updatedUserData.consultingTypes[chatItem.consultingType].sessionData =
-			generatedRegistrationData;
+		updatedUserData.consultingTypes[
+			activeSession.agency.consultingType
+		].sessionData = generatedRegistrationData;
 		setUserData(updatedUserData);
 		setShowAddVoluntaryInfo(false);
 		if (props.handleVoluntaryInfoSet) {

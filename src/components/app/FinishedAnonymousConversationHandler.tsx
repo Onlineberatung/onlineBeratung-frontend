@@ -7,7 +7,10 @@ import {
 import { BUTTON_TYPES } from '../button/Button';
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { AnonymousConversationFinishedContext } from '../../globalState';
+import {
+	AnonymousConversationFinishedContext,
+	RocketChatContext
+} from '../../globalState';
 import { translate } from '../../utils/translate';
 import { ReactComponent as WavingIllustration } from '../../resources/img/illustrations/waving.svg';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
@@ -17,14 +20,20 @@ export const FinishedAnonymousConversationHandler = () => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const { anonymousConversationFinished, setAnonymousConversationFinished } =
 		useContext(AnonymousConversationFinishedContext);
+	const { close: closeWebsocket } = useContext(RocketChatContext);
 
 	useEffect(() => {
 		if (anonymousConversationFinished === 'IN_PROGRESS') {
+			closeWebsocket();
 			setOverlayActive(true);
 			removeAllCookies();
 			setAnonymousConversationFinished(null);
 		}
-	}, [anonymousConversationFinished, setAnonymousConversationFinished]);
+	}, [
+		anonymousConversationFinished,
+		closeWebsocket,
+		setAnonymousConversationFinished
+	]);
 
 	const overlayItem: OverlayItem = {
 		svg: WavingIllustration,

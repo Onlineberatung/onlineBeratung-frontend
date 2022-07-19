@@ -6,6 +6,10 @@ const sessionInformal = {
 		'Möchtest Du %client%, %newConsultant% zuweisen?',
 	'assignOther.overlay.subtitle':
 		'%newConsultant% ist somit für den Ratsuchenden verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Du hast keinen Zugiff mehr auf die Nachrichten.',
+	'alreadyAssigned.overlay.headline':
+		'Du hast diese Beratung bereits zugewiesen.',
+	'assignOther.overlayHeadline':
+		'Du hast die Beratung erfolgreich zugewiesen.',
 	'assignSelf.overlayHeadline':
 		'Du hast die Beratung erfolgreich angenommen. Sie wurde in Meine Nachrichten verschoben.',
 	'assignSelf.overlay.subtitle':

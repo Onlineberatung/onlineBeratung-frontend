@@ -1,41 +1,33 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import {
+	OverlayWrapper,
 	Overlay,
-	OVERLAY_FUNCTIONS,
 	OverlayItem,
-	OverlayWrapper
+	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { translate } from '../../utils/translate';
 import {
-	apiDeleteUserFromRoom,
 	apiGetAgencyConsultantList,
-	apiGetUserData,
 	apiSessionAssign,
-	FETCH_ERRORS
+	FETCH_ERRORS,
+	apiDeleteUserFromRoom
 } from '../../api';
 import {
-	ConsultantListContext,
-	E2EEContext,
 	UserDataContext,
-	UserDataInterface
+	ConsultantListContext,
+	E2EEContext
 } from '../../globalState';
 import {
-	SelectDropdown,
 	SelectDropdownItem,
+	SelectDropdown,
 	SelectOption
 } from '../select/SelectDropdown';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
-import {
-	ALIAS_MESSAGE_TYPES,
-	apiSendAliasMessage,
-	ConsultantReassignment,
-	ReassignStatus
-} from '../../api/apiSendAliasMessage';
-
-export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
+import { history } from '../app/app';
 
 export interface Consultant {
 	consultantId: string;
@@ -45,19 +37,99 @@ export interface Consultant {
 
 export const SessionAssign = (props: { value?: string }) => {
 	const { activeSession } = useContext(ActiveSessionContext);
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData } = useContext(UserDataContext);
 	const { consultantList, setConsultantList } = useContext(
 		ConsultantListContext
 	);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState({});
-	const [selectedOption, setSelectedOption] = useState(null);
-	const [reassignmentParams, setReassignmentParams] =
-		useState<ConsultantReassignment | null>(null);
+	const [selectedOption, setSelectedOption] = useState();
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession.item.groupId);
+
+	const assignOtherOverlay: OverlayItem = useMemo(
+		() => ({
+			svg: CheckIcon,
+			headline: translate('session.assignOther.overlayHeadline'),
+			buttonSet: [
+				{
+					label: translate('session.assignOther.buttonLabel'),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.AUTO_CLOSE
+				}
+			]
+		}),
+		[]
+	);
+
+	const assignSelfOverlay: OverlayItem = useMemo(
+		() => ({
+			svg: CheckIcon,
+			headline: translate('session.assignSelf.overlayHeadline'),
+			buttonSet: [
+				{
+					label: translate('session.assignSelf.button1.label'),
+					function: OVERLAY_FUNCTIONS.REDIRECT,
+					type: BUTTON_TYPES.PRIMARY
+				},
+				{
+					label: translate('session.assignSelf.button2.label'),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				}
+			]
+		}),
+		[]
+	);
+
+	const assignSession: OverlayItem = useMemo(
+		() => ({
+			headline: translate('session.assignSelf.overlay.headline'),
+			copy: translate('session.assignSelf.overlay.subtitle'),
+			buttonSet: [
+				{
+					label: translate(
+						'session.assignSelf.overlay.button.cancel'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate(
+						'session.assignSelf.overlay.button.assign'
+					),
+					function: 'ASSIGN',
+					type: BUTTON_TYPES.PRIMARY
+				}
+			]
+		}),
+		[]
+	);
+
+	const alreadyAssignedSession: OverlayItem = useMemo(
+		() => ({
+			headline: translate('session.alreadyAssigned.overlay.headline'),
+			buttonSet: [
+				{
+					label: translate(
+						'session.alreadyAssigned.overlay.button.cancel'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate(
+						'session.alreadyAssigned.overlay.button.redirect'
+					),
+					function: OVERLAY_FUNCTIONS.REDIRECT,
+					type: BUTTON_TYPES.PRIMARY
+				}
+			]
+		}),
+		[]
+	);
 
 	useEffect(() => {
 		const agencyId = activeSession.item.agencyId.toString();
@@ -87,59 +159,21 @@ export const SessionAssign = (props: { value?: string }) => {
 		return availableConsultants;
 	};
 
-	const initOverlays = (profileData, selected) => {
-		apiGetUserData()
-			.then((profileData: UserDataInterface) => {
-				console.log('XXX', profileData);
-			})
-			.catch((error) => console.log(error));
+	const initOverlays = useCallback(() => {
+		const currentUserId = userData.userId;
 
-		const currentUserId = profileData.userId;
-		if (selected?.value === currentUserId) return;
-
-		const client = activeSession.user.username;
-		const newConsultant = selected.label;
-		setReassignmentParams({
-			toConsultantId: selected.value,
-			toConsultantName: selected.label,
-			toAskerName: client,
-			fromConsultantName: profileData.displayName,
-			status: ReassignStatus.REQUESTED
-		});
-
-		console.log('selected', selected);
-		console.log('init', client, newConsultant);
-
-		const reassignSession: OverlayItem = {
-			headline: translate('session.assignOther.overlay.headline', {
-				client,
-				newConsultant
-			}),
-			copy: translate('session.assignOther.overlay.subtitle', {
-				newConsultant
-			}),
-			buttonSet: [
-				{
-					label: translate(
-						'session.assignSelf.overlay.button.cancel'
-					),
-					function: OVERLAY_FUNCTIONS.CLOSE,
-					type: BUTTON_TYPES.SECONDARY
-				},
-				{
-					label: translate(
-						'session.assignSelf.overlay.button.assign'
-					),
-					function: OVERLAY_FUNCTIONS.REASSIGN,
-					type: BUTTON_TYPES.PRIMARY
-				}
-			]
-		};
-
-		const overlay = reassignSession;
+		const overlay =
+			currentUserId === selectedOption
+				? assignSelfOverlay
+				: assignOtherOverlay;
 		setOverlayActive(true);
 		setOverlayItem(overlay);
-	};
+	}, [
+		assignOtherOverlay,
+		assignSelfOverlay,
+		selectedOption,
+		userData.userId
+	]);
 
 	const handleE2EEAssign = async (sessionId, userId) => {
 		if (isE2eeEnabled) {
@@ -153,33 +187,25 @@ export const SessionAssign = (props: { value?: string }) => {
 	};
 
 	const handleDatalistSelect = (selectedOption) => {
-		setSelectedOption(selectedOption);
-		initOverlays(userData, selectedOption);
+		if (userData.userId === activeSession?.consultant?.id) {
+			setOverlayItem(alreadyAssignedSession);
+		} else {
+			setOverlayItem(assignSession);
+		}
+		setOverlayActive(true);
+		setSelectedOption(selectedOption.value);
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		switch (buttonFunction) {
-			case OVERLAY_FUNCTIONS.ASSIGN:
-				apiSessionAssign(activeSession.item.id, selectedOption.value)
+			case 'ASSIGN':
+				apiSessionAssign(activeSession.item.id, selectedOption)
 					.then(() => {
-						if (userData) {
-							initOverlays(userData, selectedOption);
-							handleE2EEAssign(
-								activeSession.item.id,
-								userData.userId
-							);
-						} else {
-							apiGetUserData()
-								.then((profileData: UserDataInterface) => {
-									handleE2EEAssign(
-										activeSession.item.id,
-										profileData.userId
-									);
-									setUserData(profileData);
-									initOverlays(profileData, selectedOption);
-								})
-								.catch((error) => console.log(error));
-						}
+						initOverlays();
+						handleE2EEAssign(
+							activeSession.item.id,
+							userData.userId
+						);
 					})
 					.catch((error) => {
 						if (error === FETCH_ERRORS.CONFLICT) {
@@ -187,15 +213,12 @@ export const SessionAssign = (props: { value?: string }) => {
 						} else console.log(error);
 					});
 				break;
-			case OVERLAY_FUNCTIONS.REASSIGN:
-				console.log('call reassign');
-				apiSendAliasMessage({
-					rcGroupId: activeSession.rid,
-					type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT,
-					args: reassignmentParams
-				});
+			case OVERLAY_FUNCTIONS.REDIRECT:
 				setOverlayItem(null);
 				setOverlayActive(false);
+				history.push(
+					`/sessions/consultant/sessionView/${activeSession.item.groupId}/${activeSession.item.id}`
+				);
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayItem(null);

@@ -9,13 +9,13 @@ import {
 	prettyPrintTimeDifference
 } from '../../utils/dateHelpers';
 import {
-	getSessionListPathForLocation,
 	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import {
 	AUTHORITIES,
+	E2EEContext,
 	ExtendedSessionInterface,
 	hasUserAuthority,
 	SessionTypeContext,
@@ -36,6 +36,7 @@ import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SessionListItemLastMessage } from './SessionListItemLastMessage';
+import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 
 interface SessionListItemProps {
 	session: ExtendedSessionInterface;
@@ -53,7 +54,8 @@ export const SessionListItemComponent = ({
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { userData } = useContext(UserDataContext);
-	const { type } = useContext(SessionTypeContext);
+	const { type, path: listPath } = useContext(SessionTypeContext);
+	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	// Is List Item active
 	const isChatActive =
@@ -63,30 +65,48 @@ export const SessionListItemComponent = ({
 	const language = session.item.language || defaultLanguage;
 	const consultingType = useConsultingType(session.item.consultingType);
 
-	const { key, keyID, encrypted } = useE2EE(session.item.groupId);
+	const { key, keyID, encrypted } = useE2EE(
+		session.item.groupId,
+		session.item.lastMessageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST
+	);
 	const [plainTextLastMessage, setPlainTextLastMessage] = useState(null);
 
 	useEffect(() => {
-		if (!session.item.e2eLastMessage) {
-			return;
+		if (isE2eeEnabled) {
+			if (!session.item.e2eLastMessage) return;
+			decryptText(
+				session.item.e2eLastMessage.msg,
+				keyID,
+				key,
+				encrypted,
+				session.item.e2eLastMessage.t === 'e2e'
+			).then((message) => {
+				const rawMessageObject = markdownToDraft(message);
+				const contentStateMessage = convertFromRaw(rawMessageObject);
+				setPlainTextLastMessage(contentStateMessage.getPlainText());
+			});
+		} else {
+			if (
+				session.item.e2eLastMessage &&
+				session.item.e2eLastMessage.t === 'e2e'
+			) {
+				setPlainTextLastMessage(translate('e2ee.message.encryption'));
+			} else {
+				const rawMessageObject = markdownToDraft(
+					session.item.lastMessage
+				);
+				const contentStateMessage = convertFromRaw(rawMessageObject);
+				setPlainTextLastMessage(contentStateMessage.getPlainText());
+			}
 		}
-		decryptText(
-			session.item.e2eLastMessage.msg,
-			keyID,
-			key,
-			encrypted,
-			session.item.e2eLastMessage.t === 'e2e'
-		).then((message) => {
-			const rawMessageObject = markdownToDraft(message);
-			const contentStateMessage = convertFromRaw(rawMessageObject);
-			setPlainTextLastMessage(contentStateMessage.getPlainText());
-		});
 	}, [
+		isE2eeEnabled,
 		key,
 		keyID,
 		encrypted,
 		session.item.groupId,
-		session.item.e2eLastMessage
+		session.item.e2eLastMessage,
+		session.item.lastMessage
 	]);
 
 	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
@@ -102,7 +122,7 @@ export const SessionListItemComponent = ({
 	const handleOnClick = () => {
 		if (session.item.groupId && session.item.id) {
 			history.push(
-				`${getSessionListPathForLocation()}/${session.item.groupId}/${
+				`${listPath}/${session.item.groupId}/${
 					session.item.id
 				}${getSessionListTab()}`
 			);
@@ -223,9 +243,9 @@ export const SessionListItemComponent = ({
 		);
 	}
 
-	const feedbackPath = `${getSessionListPathForLocation()}/${
-		session.item.feedbackGroupId
-	}/${session.item.id}${getSessionListTab()}`;
+	const feedbackPath = `${listPath}/${session.item.feedbackGroupId}/${
+		session.item.id
+	}${getSessionListTab()}`;
 
 	const hasConsultantData = !!session.consultant;
 	let sessionTopic = '';

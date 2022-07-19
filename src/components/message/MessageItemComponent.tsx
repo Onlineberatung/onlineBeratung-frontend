@@ -48,16 +48,8 @@ import {
 import { apiPatchMessage } from '../../api/apiPatchMessage';
 import { apiSessionAssign } from '../../api';
 
-enum MessageType {
-	FURTHER_STEPS = 'FURTHER_STEPS',
-	USER_MUTED = 'USER_MUTED',
-	FORWARD = 'FORWARD',
-	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
-	VIDEOCALL = 'VIDEOCALL',
-	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
-	E2EE_ACTIVATED = 'E2EE_ACTIVATED',
-	REASSIGN_CONSULTANT = 'REASSIGN_CONSULTANT'
-}
+import { MasterKeyLostMessage } from './MasterKeyLostMessage';
+import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 
 export interface ForwardMessageDTO {
 	message: string;
@@ -90,7 +82,7 @@ export interface MessageItem {
 	alias?: {
 		forwardMessageDTO?: ForwardMessageDTO;
 		videoCallMessageDTO?: VideoCallMessageDTO;
-		messageType: MessageType;
+		messageType: ALIAS_MESSAGE_TYPES;
 	};
 	attachments?: MessageService.Schemas.AttachmentDTO[];
 	file?: MessageService.Schemas.FileDTO;
@@ -101,10 +93,9 @@ export interface MessageItem {
 interface MessageItemComponentProps extends MessageItem {
 	isOnlyEnquiry?: boolean;
 	isMyMessage: boolean;
-	type: SESSION_LIST_TYPES;
 	clientName: string;
 	resortData: ConsultingTypeInterface;
-	bannedUsers: string[];
+	isUserBanned: boolean;
 }
 
 export const MessageItemComponent = ({
@@ -123,7 +114,7 @@ export const MessageItemComponent = ({
 	attachments,
 	file,
 	isNotRead,
-	bannedUsers,
+	isUserBanned,
 	t,
 	rid
 }: MessageItemComponentProps) => {
@@ -137,7 +128,7 @@ export const MessageItemComponent = ({
 		null
 	);
 
-	const { key, keyID, encrypted } = useE2EE(rid);
+	const { key, keyID, encrypted, subscriptionKeyLost } = useE2EE(rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	useEffect((): void => {
@@ -148,7 +139,7 @@ export const MessageItemComponent = ({
 					// setDecryptedMessage(org) // TODO? Fallback in case decryption fails
 				});
 		} else {
-			setDecryptedMessage(org);
+			setDecryptedMessage(org || message);
 		}
 	}, [key, keyID, encrypted, message, org, t, isE2eeEnabled]);
 
@@ -243,20 +234,32 @@ export const MessageItemComponent = ({
 
 	const videoCallMessage: VideoCallMessageDTO = alias?.videoCallMessageDTO;
 	const isFurtherStepsMessage =
-		alias?.messageType === MessageType.FURTHER_STEPS;
+		alias?.messageType === ALIAS_MESSAGE_TYPES.FURTHER_STEPS;
 	const isUpdateSessionDataMessage =
-		alias?.messageType === MessageType.UPDATE_SESSION_DATA;
-	const isVideoCallMessage = alias?.messageType === MessageType.VIDEOCALL;
+		alias?.messageType === ALIAS_MESSAGE_TYPES.UPDATE_SESSION_DATA;
+	const isVideoCallMessage =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.VIDEOCALL;
 	const isFinishedConversationMessage =
-		alias?.messageType === MessageType.FINISHED_CONVERSATION;
-	const isUserMutedMessage = alias?.messageType === MessageType.USER_MUTED;
+		alias?.messageType === ALIAS_MESSAGE_TYPES.FINISHED_CONVERSATION;
+	const isUserMutedMessage =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.USER_MUTED;
 	const isE2EEActivatedMessage =
-		alias?.messageType === MessageType.E2EE_ACTIVATED;
+		alias?.messageType === ALIAS_MESSAGE_TYPES.E2EE_ACTIVATED;
 	const isReassignmentMessage =
-		alias?.messageType === MessageType.REASSIGN_CONSULTANT;
+		alias?.messageType === ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT;
+	const isMasterKeyLostMessage =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST;
 
 	const messageContent = (): JSX.Element => {
 		switch (true) {
+			case isMasterKeyLostMessage:
+				return (
+					<div className="messageItem__message">
+						<MasterKeyLostMessage
+							subscriptionKeyLost={subscriptionKeyLost}
+						/>
+					</div>
+				);
 			case isE2EEActivatedMessage:
 				return <E2EEActivatedMessage />;
 			case isReassignmentMessage:
@@ -351,7 +354,7 @@ export const MessageItemComponent = ({
 							type={getUsernameType()}
 							userId={userId}
 							username={username}
-							isUserBanned={bannedUsers.includes(username)}
+							isUserBanned={isUserBanned}
 							displayName={displayName}
 						/>
 

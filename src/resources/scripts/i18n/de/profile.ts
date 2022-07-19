@@ -97,7 +97,7 @@ const profile = {
 	'routes.notifications.email': 'E-Mail Benachrichtigung',
 	'routes.security': 'Sicherheit',
 	'routes.security.changePassword': 'Passwort ändern',
-	'routes.security.2fa': '2-Faktor-Authentifizierung',
+	'routes.security.2fa': 'Zwei-Faktor-Authentifizierung',
 	'routes.help': 'Hilfe',
 	'routes.help.videoCall': 'Video-Call',
 
@@ -141,7 +141,7 @@ const profile = {
 	'notifications.title': 'E-Mail Benachrichtigung',
 	'notifications.subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
 	'notifications.follow.up.email.label':
-		'eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben'
+		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.'
 };
 
 export default profile;

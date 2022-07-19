@@ -29,7 +29,7 @@ describe('Sessions', () => {
 	});
 
 	describe('Consultant', () => {
-		it('should show confirmation forwarding the session', () => {
+		it.skip('should show confirmation forwarding the session', () => {
 			generateMultipleConsultantSessions(5);
 
 			cy.fastLogin({

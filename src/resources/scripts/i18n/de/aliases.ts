@@ -3,7 +3,8 @@ const aliases = {
 	'lastMessage.further_steps': 'So geht es weiter',
 	'lastMessage.reassign_consultant.confirmed': 'Zuweisung zugestimmt',
 	'lastMessage.reassign_consultant.rejected': 'Zuweisung abgelehnt',
-	'lastMessage.reassign_consultant.requested': 'Anfrage zur Zuweisung'
+	'lastMessage.reassign_consultant.requested': 'Anfrage zur Zuweisung',
+	'lastMessage.master_key_lost': ''
 };
 
 export default aliases;

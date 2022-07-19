@@ -2,10 +2,6 @@ import {
 	GroupChatItemInterface,
 	ListItemInterface,
 	REGISTRATION_TYPE_ANONYMOUS,
-	SESSION_DATA_KEY_ENQUIRIES,
-	SESSION_DATA_KEY_MY_SESSIONS,
-	SESSION_DATA_KEY_TEAM_SESSIONS,
-	SessionDataKeys,
 	SessionItemInterface,
 	STATUS_ARCHIVED,
 	STATUS_EMPTY,
@@ -32,11 +28,6 @@ export const CHAT_TYPE_SINGLE_CHAT = 'session';
 export type ChatTypes =
 	| typeof CHAT_TYPE_GROUP_CHAT
 	| typeof CHAT_TYPE_SINGLE_CHAT;
-
-export const CHAT_TYPES: ChatTypes[] = [
-	CHAT_TYPE_GROUP_CHAT,
-	CHAT_TYPE_SINGLE_CHAT
-];
 
 export const SESSION_TYPE_ENQUIRY = 'enquiry';
 export const SESSION_TYPE_LIVECHAT = 'livechat';
@@ -82,19 +73,6 @@ export const getSessionType = (
 	}
 
 	return SESSION_TYPE_SESSION;
-};
-
-export const getSessionDataKeyForSessionListType = (
-	type: SESSION_LIST_TYPES
-): SessionDataKeys => {
-	switch (type) {
-		case SESSION_LIST_TYPES.ENQUIRY:
-			return SESSION_DATA_KEY_ENQUIRIES;
-		case SESSION_LIST_TYPES.TEAMSESSION:
-			return SESSION_DATA_KEY_TEAM_SESSIONS;
-		case SESSION_LIST_TYPES.MY_SESSION:
-			return SESSION_DATA_KEY_MY_SESSIONS;
-	}
 };
 
 export const getChatTypeForListItem = (
@@ -144,22 +122,12 @@ export const getChatItemForSession = (
 	return sessionItem[chatType] as SessionItemInterface;
 };
 
-export const typeIsSession = (type: SESSION_LIST_TYPES) =>
-	type === SESSION_LIST_TYPES.MY_SESSION;
-export const typeIsTeamSession = (type: SESSION_LIST_TYPES) =>
-	type === SESSION_LIST_TYPES.TEAMSESSION;
-export const typeIsEnquiry = (type: SESSION_LIST_TYPES) =>
-	type === SESSION_LIST_TYPES.ENQUIRY;
-
 export const SESSION_LIST_TAB_ANONYMOUS = 'anonymous';
 export const SESSION_LIST_TAB_ARCHIVE = 'archive';
 
 export type SESSION_LIST_TAB =
 	| typeof SESSION_LIST_TAB_ANONYMOUS
 	| typeof SESSION_LIST_TAB_ARCHIVE;
-
-export const isAnonymousSessionListTab = (currentTab: string): boolean =>
-	currentTab === SESSION_LIST_TAB_ANONYMOUS;
 
 export const getViewPathForType = (type: SESSION_LIST_TYPES) => {
 	if (type === SESSION_LIST_TYPES.ENQUIRY) {
@@ -169,41 +137,6 @@ export const getViewPathForType = (type: SESSION_LIST_TYPES) => {
 	} else if (type === SESSION_LIST_TYPES.TEAMSESSION) {
 		return 'teamSessionView';
 	}
-};
-
-export const initialScrollDown = () => {
-	const session = document.querySelector('.session__content');
-	session.scrollTop = session.scrollHeight;
-};
-
-export const getTypeOfLocation = () => {
-	const type = ((path) => {
-		if (path.indexOf('sessionPreview') !== -1) {
-			return SESSION_LIST_TYPES.ENQUIRY;
-		} else if (path.indexOf('sessionView') !== -1) {
-			return SESSION_LIST_TYPES.MY_SESSION;
-		} else if (path.indexOf('teamSessionView') !== -1) {
-			return SESSION_LIST_TYPES.TEAMSESSION;
-		} else {
-			return null;
-		}
-	})(window.location.pathname);
-	return type;
-};
-
-export const getSessionListPathForLocation = () => {
-	const type = getTypeOfLocation();
-	let sessionListPath;
-	if (typeIsSession(type)) {
-		sessionListPath = 'consultant/sessionView';
-	} else if (typeIsTeamSession(type)) {
-		sessionListPath = 'consultant/teamSessionView';
-	} else if (typeIsEnquiry(type)) {
-		sessionListPath = 'consultant/sessionPreview';
-	} else {
-		sessionListPath = 'user/view';
-	}
-	return `/sessions/${sessionListPath}`;
 };
 
 export const scrollToEnd = (timeout: number, animation: boolean = false) => {

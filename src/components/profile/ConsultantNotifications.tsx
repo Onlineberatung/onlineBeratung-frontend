@@ -6,7 +6,7 @@ import { Text } from '../text/Text';
 import Switch from 'react-switch';
 import { UserDataContext } from '../../globalState';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
-import { emails } from '../../resources/scripts/config';
+import { config } from '../../resources/scripts/config';
 
 export const ConsultantNotifications = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -42,7 +42,7 @@ export const ConsultantNotifications = () => {
 					className="tertiary"
 				/>
 			</div>
-			{emails.notifications.map((notification, index) => {
+			{config.emails.notifications.map((notification, index) => {
 				return (
 					<div className="flex" key={index}>
 						<Switch

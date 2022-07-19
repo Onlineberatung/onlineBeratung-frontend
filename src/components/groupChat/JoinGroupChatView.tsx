@@ -6,14 +6,12 @@ import {
 	AUTHORITIES,
 	useConsultingType,
 	LegalLinkInterface,
-	E2EEContext
+	E2EEContext,
+	SessionTypeContext
 } from '../../globalState';
 import { mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
-import {
-	getSessionListPathForLocation,
-	SESSION_LIST_TAB
-} from '../session/sessionHelpers';
+import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import {
 	apiPutGroupChat,
 	apiGetGroupChatInfo,
@@ -77,19 +75,17 @@ export const JoinGroupChatView = ({
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 
 	const [buttonItem, setButtonItem] = useState(joinButtonItem);
-
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
+	const [groupKeyID, setGroupKeyID] = useState(null);
+	const [sessionGroupKeyExportedString, setSessionGroupKeyExportedString] =
+		useState(null);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
-	/* E2EE START */
-	const [groupKeyID, setGroupKeyID] = useState(null);
-	const [sessionGroupKeyExportedString, setSessionGroupKeyExportedString] =
-		useState(null);
 	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { path: listPath } = useContext(SessionTypeContext);
 	const { encrypted } = useE2EE(activeSession.rid);
 
 	// create the groupkeys once, if e2ee feature is enabled
@@ -256,11 +252,7 @@ export const JoinGroupChatView = ({
 
 	if (redirectToSessionsList) {
 		mobileListView();
-		return (
-			<Redirect
-				to={getSessionListPathForLocation() + getSessionListTab()}
-			/>
-		);
+		return <Redirect to={listPath + getSessionListTab()} />;
 	}
 
 	return (
