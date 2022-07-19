@@ -43,6 +43,10 @@ const hasConsultantAssigned = (
 	return !!sessionsData?.mySessions?.[0]?.consultant;
 };
 
+const isVideoAppointmentsEnabled = (userData, consultingTypes) =>
+	config.enableVideoAppointments &&
+	hasVideoCallFeature(userData, consultingTypes);
+
 export const RouterConfigUser = (): any => {
 	return {
 		navigation: [
@@ -146,7 +150,7 @@ export const RouterConfigConsultant = (): any => {
 				}
 			},
 			{
-				condition: hasVideoCallFeature,
+				condition: isVideoAppointmentsEnabled,
 				to: '/termine',
 				icon: 'calendar',
 				titleKeys: {
@@ -236,7 +240,7 @@ export const RouterConfigConsultant = (): any => {
 				component: Profile
 			},
 			{
-				condition: hasVideoCallFeature,
+				condition: isVideoAppointmentsEnabled,
 				path: '/termine',
 				exact: false,
 				component: Appointments
@@ -298,7 +302,7 @@ export const RouterConfigTeamConsultant = (): any => {
 				}
 			},
 			{
-				condition: hasVideoCallFeature,
+				condition: isVideoAppointmentsEnabled,
 				to: '/termine',
 				icon: 'calendar',
 				titleKeys: {
@@ -415,7 +419,7 @@ export const RouterConfigTeamConsultant = (): any => {
 				component: Profile
 			},
 			{
-				condition: hasVideoCallFeature,
+				condition: isVideoAppointmentsEnabled,
 				path: '/termine',
 				exact: false,
 				component: Appointments
