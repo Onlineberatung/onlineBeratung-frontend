@@ -83,3 +83,10 @@ export const setProfileWrapperActive = () => {
 		.querySelector('.contentWrapper__profile')
 		?.setAttribute('style', 'display: block');
 };
+
+export const mobileUserProfileView = () => {
+	if (window.innerWidth <= 900) {
+		const contentList = document.querySelector('.contentWrapper__list');
+		contentList?.classList.add('contentWrapper__list--smallInactive');
+	}
+};
