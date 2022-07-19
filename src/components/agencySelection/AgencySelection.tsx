@@ -38,6 +38,7 @@ export interface AgencySelectionProps {
 	agencySelectionNote?: string;
 	initialPostcode?: string;
 	hideExternalAgencies?: boolean;
+	keyDownHandle?: Function;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
@@ -271,6 +272,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					<InputField
 						item={postcodeInputItem}
 						inputHandle={(e) => handlePostcodeInput(e)}
+						keyDownHandle={(e) => props.keyDownHandle(e, false)}
 					></InputField>
 					{props.agencySelectionNote && (
 						<div data-cy="registration-agency-selection-note">

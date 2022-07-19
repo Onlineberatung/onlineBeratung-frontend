@@ -20,12 +20,14 @@ interface RegistrationUsernameProps {
 	isUsernameAlreadyInUse: boolean;
 	onUsernameChange: Function;
 	onValidityChange: Function;
+	keyDownHandle?: Function;
 }
 
 export const RegistrationUsername = ({
 	isUsernameAlreadyInUse,
 	onUsernameChange,
-	onValidityChange
+	onValidityChange,
+	keyDownHandle
 }: RegistrationUsernameProps) => {
 	const [username, setUsername] = useState<string>('');
 	const [isValid, setIsValid] =
@@ -92,6 +94,7 @@ export const RegistrationUsername = ({
 			<InputField
 				item={inputItemUsername}
 				inputHandle={handleUsernameChange}
+				keyDownHandle={keyDownHandle}
 			/>
 		</div>
 	);

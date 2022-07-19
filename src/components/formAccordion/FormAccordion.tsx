@@ -115,6 +115,24 @@ export const FormAccordion = ({
 		}
 	}, [isUsernameAlreadyInUse]);
 
+	const keyDownHandle = (e, isLastInput = true, isFirstInput = true) => {
+		if (
+			e.key === 'Tab' &&
+			!e.shiftKey &&
+			isLastInput &&
+			activeItem !== accordionItemData.length
+		) {
+			setActiveItem(activeItem + 1);
+		} else if (
+			e.key === 'Tab' &&
+			e.shiftKey &&
+			isFirstInput &&
+			activeItem !== 1
+		) {
+			setActiveItem(activeItem - 1);
+		}
+	};
+
 	const accordionItemData = [
 		{
 			title: translate('registration.username.headline'),
@@ -125,6 +143,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('username', validity)
 					}
+					keyDownHandle={keyDownHandle}
 				/>
 			),
 			isValid: validity.username
@@ -138,6 +157,7 @@ export const FormAccordion = ({
 						handleValidity('password', validity)
 					}
 					passwordNote={registrationNotes?.password}
+					keyDownHandle={keyDownHandle}
 				/>
 			),
 			isValid: validity.password
@@ -200,6 +220,7 @@ export const FormAccordion = ({
 						onValidityChange={(validity) =>
 							handleValidity('agency', validity)
 						}
+						keyDownHandle={keyDownHandle}
 					/>
 				),
 				isValid: validity.agency
@@ -226,6 +247,7 @@ export const FormAccordion = ({
 					}
 					agencySelectionNote={registrationNotes?.agencySelection}
 					mainTopicId={mainTopicId}
+					keyDownHandle={keyDownHandle}
 				/>
 			),
 			isValid: validity.agency
@@ -245,6 +267,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('age', validity)
 					}
+					keyDownHandle={keyDownHandle}
 				/>
 			),
 			isValid: validity.age
@@ -264,6 +287,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('state', validity)
 					}
+					keyDownHandle={keyDownHandle}
 				/>
 			),
 			isValid: validity.state
