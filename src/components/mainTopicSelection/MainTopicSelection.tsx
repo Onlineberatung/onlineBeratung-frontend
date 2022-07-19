@@ -40,9 +40,11 @@ export const MainTopicSelection = ({
 
 	return (
 		<div className="mainTopicSelection">
-			<h3 className="mainTopicSelection__info">
-				{translate('registration.mainTopic.subline')}
-			</h3>
+			{topics.length === 0 && (
+				<h3 className="mainTopicSelection__info">
+					{translate('registration.mainTopic.noTopics')}
+				</h3>
+			)}
 			{topics.map((t) => (
 				<div className="mainTopicSelection__topic" key={t.id}>
 					<RadioButton

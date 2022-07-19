@@ -41,7 +41,9 @@ const profileInformal = {
 		'Deine Statistik über Deinen gewählten Beratungszeitraum kannst Du hier herunterladen:',
 	'notifications.subtitle': 'Wir benachrichtigen Dich, wenn Du:',
 	'notifications.follow.up.email.label':
-		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten hast.'
+		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten hast.',
+	'spokenLanguages.info':
+		'Wähle die Sprache(n) aus, in der Du die Ratsuchenden beraten kannst. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.'
 };
 
 export default profileInformal;

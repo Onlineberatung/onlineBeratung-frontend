@@ -39,6 +39,8 @@ import e2eeInformal from './de/e2eeInformal';
 import aliases from './de/aliases';
 import aliasesInformal from './de/aliasesInformal';
 import de from './de';
+import help from './de/help';
+import helpInformal from './de/helpInformal';
 
 const informalLocale = {
 	...de,
@@ -61,7 +63,8 @@ const informalLocale = {
 	videoCall: { ...videoCall, ...videoCallInformal },
 	videoConference: { ...videoConference, ...videoConferenceInformal },
 	e2ee: { ...e2ee, ...e2eeInformal },
-	aliases: { ...aliases, ...aliasesInformal }
+	aliases: { ...aliases, ...aliasesInformal },
+	help: { ...help, ...helpInformal }
 };
 
 export default informalLocale;
