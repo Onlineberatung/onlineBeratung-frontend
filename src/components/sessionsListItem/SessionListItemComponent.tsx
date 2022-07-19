@@ -20,6 +20,8 @@ import {
 	hasUserAuthority,
 	SessionTypeContext,
 	STATUS_FINISHED,
+	TenantContext,
+	TopicSessionInterface,
 	useConsultingType,
 	UserDataContext
 } from '../../globalState';
@@ -56,6 +58,7 @@ export const SessionListItemComponent = ({
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { tenant } = useContext(TenantContext);
 
 	// Is List Item active
 	const isChatActive =
@@ -70,6 +73,7 @@ export const SessionListItemComponent = ({
 		session.item.lastMessageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST
 	);
 	const [plainTextLastMessage, setPlainTextLastMessage] = useState(null);
+	const topicSession = session.item?.topic as TopicSessionInterface;
 
 	useEffect(() => {
 		if (isE2eeEnabled) {
@@ -295,6 +299,16 @@ export const SessionListItemComponent = ({
 							!session.isLive
 								? '/ ' + session.item.postcode
 								: null}
+						</div>
+					)}
+					{topicSession?.id && topicSession.name && (
+						<div
+							className="sessionsListItem__topic"
+							style={{
+								backgroundColor: tenant?.theming?.primaryColor
+							}}
+						>
+							{topicSession?.name}
 						</div>
 					)}
 					<div className="sessionsListItem__date">
