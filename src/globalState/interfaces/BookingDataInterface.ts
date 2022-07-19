@@ -10,7 +10,5 @@ export interface BookingEventsInterface {
 	consultantName?: string;
 	askerId?: string;
 	askerName?: string;
-	//TODO Andre: should be removed
-	expanded: boolean;
 	title: string;
 }

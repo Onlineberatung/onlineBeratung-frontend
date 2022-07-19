@@ -12,13 +12,9 @@ import { history } from '../app/app';
 import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
 import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
 import { ReactComponent as CalendarRescheduleIcon } from '../../resources/img/icons/calendar-reschedule.svg';
-import { ReactComponent as CalendarICSIcon } from '../../resources/img/icons/calendar-ics.svg';
 import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-call.svg';
-import { ReactComponent as ArrowUpIcon } from '../../resources/img/icons/arrow-up.svg';
-import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down.svg';
 import { Text } from '../text/Text';
 import { Box } from '../box/Box';
-import { downloadICSFile } from '../../utils/downloadICSFile';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
@@ -28,9 +24,12 @@ import {
 import { BookingEventsInterface } from '../../globalState/interfaces/BookingDataInterface';
 import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
 import {
-	apiAppointmentsServiceBookingEventsByUserId,
+	apiAppointmentsServiceBookingEventsByAskerId,
 	apiGetAskerSessionList
 } from '../../api';
+import { BookingDescription } from './bookingDescription';
+import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
+import { addMissingZero } from '../../utils/dateHelpers';
 
 interface BookingEventUiInterface {
 	id: number;
@@ -101,96 +100,17 @@ export const BookingEvents = () => {
 		type: BUTTON_TYPES.PRIMARY
 	};
 
-	//TODO Andre: what is this?
-	const handleBackButton = () => {
+	const handleBookingButton = () => {
 		history.push('/booking');
 	};
-
-	//TODO Andre: remove this
-	const [bookingEventsApi, setBookingEventsApi] = useState<
-		BookingEventsInterface[] | null
-	>(null);
 
 	const [bookingEventsData, setBookingEventsData] = useState<
 		BookingEventUiInterface[]
 	>([] as BookingEventUiInterface[]);
 
-	//TOOD Andre: move it to a separate component
-	const handleViewMore = (id: number) => {
-		let newArrayEvents: BookingEventUiInterface[] = [];
-		bookingEventsData.forEach((event) => {
-			if (event.id === id) {
-				newArrayEvents.push({ ...event, expanded: !event.expanded });
-			} else {
-				newArrayEvents.push(event);
-			}
-			setBookingEventsData(newArrayEvents);
-		});
-	};
-
-	//TODO Andre: make a utility function out of that
-	// define a new type for BookingEventUiInterface and the other object from message panel inside
-	// file that holds this utility function
-	const handleICSAppointment = (appointmentInfo: BookingEventUiInterface) => {
-		const date = appointmentInfo.date.split(' ')[1];
-		const [day, month, year] = date.split('.');
-		const [startHour, , endHour] = appointmentInfo.duration.split(' ');
-		const timeStart = new Date('01/01/2007 ' + startHour);
-		const timeEnd = new Date('01/01/2007 ' + endHour);
-		const duration =
-			(Math.abs(timeEnd.getTime() - timeStart.getTime()) / (1000 * 60)) %
-			60;
-
-		const icsMSG =
-			'BEGIN:VCALENDAR\n' +
-			'VERSION:2.0\n' +
-			'CALSCALE:GREGORIAN\n' +
-			'PRODID:adamgibbons/ics\n' +
-			'METHOD:PUBLISH\n' +
-			'X-PUBLISHED-TTL:PT1H\n' +
-			'BEGIN:VEVENT\n' +
-			'SUMMARY:' +
-			appointmentInfo.title +
-			'\n' +
-			'DTSTART:' +
-			'20' +
-			addMissingZero(parseInt(year)) +
-			addMissingZero(parseInt(month)) +
-			day +
-			'T' +
-			startHour.replace(':', '') +
-			'00\n' +
-			'DURATION:PT' +
-			duration +
-			'M\n' +
-			'END:VEVENT\n' +
-			'END:VCALENDAR\n';
-
-		downloadICSFile(appointmentInfo.title, icsMSG);
-	};
-
-	//TODO Andre: make a reusable component out of it. in this case downloadICSFile.ts can be also part
-	// of this component
-	const icsComponent = (event) => {
-		return (
-			<div
-				className="bookingEvents--flex"
-				onClick={handleICSAppointment.bind(this, event)}
-			>
-				<CalendarICSIcon />
-				<Text
-					type="standard"
-					text={translate('message.appointmentSet.addToCalendar')}
-					className="bookingEvents--primary"
-				/>
-			</div>
-		);
-	};
-
-	//TODO Andre: canceltation vs cancellation
-	const handleCancelAppointment = (event: BookingEventUiInterface) => {
+	const handleCancellationAppointment = (event: BookingEventUiInterface) => {
 		history.push({
-			pathname: '/booking/cancelation',
+			pathname: '/booking/cancellation',
 			state: { uid: event.uid }
 		});
 	};
@@ -206,29 +126,6 @@ export const BookingEvents = () => {
 		});
 	};
 
-	//TODO Andre: move it close to the code that does the transformation from response data to ui data
-	const addMissingZero = (value: number) => {
-		if (value < 10) {
-			return '0' + value;
-		} else {
-			return value;
-		}
-	};
-
-	//TODO Andre: think about non optimistic usecases :D
-	const fetchAskerData = () => {
-		return apiGetAskerSessionList()
-			.then((response) => {
-				setSessionsData({
-					mySessions: response.sessions
-				});
-			})
-			.catch((error) => {
-				//TODO Andre: don't catch the error
-				console.log(error);
-			});
-	};
-
 	const noBookings = () => {
 		return (
 			<Box>
@@ -238,49 +135,53 @@ export const BookingEvents = () => {
 						text={translate('booking.my.booking.title')}
 						semanticLevel="3"
 					/>
-					<Text
-						className="bookingEvents__innerWrapper-no-bookings-text"
-						text={`${translate('booking.my.booking.schedule')} <b>${
-							sessionsData?.mySessions[0].consultant.username
-						}</b>:`}
-						type="standard"
-					/>
-					<Button
-						item={scheduleAppointmentButton}
-						buttonHandle={handleBackButton}
-						customIcon={<CalendarMonthPlusIcon />}
-					/>
+					{!isConsultant && (
+						<>
+							<Text
+								className="bookingEvents__innerWrapper-no-bookings-text"
+								text={`${translate(
+									'booking.my.booking.schedule'
+								)} <b>${
+									sessionsData?.mySessions[0].consultant
+										.username
+								}</b>:`}
+								type="standard"
+							/>
+							<Button
+								item={scheduleAppointmentButton}
+								buttonHandle={handleBookingButton}
+								customIcon={<CalendarMonthPlusIcon />}
+							/>
+						</>
+					)}
 				</div>
 			</Box>
 		);
 	};
 
 	useEffect(() => {
-		//TODO Andre: check are we a consultant or asker
-		// based on that call this session endpoint. since we need it only in case of asker
-
 		if (isConsultant) {
 			apiGetConsultantAppointments(userData.userId).then((bookings) => {
-				//TODO Andre: do the transformation here
-				setBookingEventsApi(bookings);
+				transformData(bookings);
 			});
 		} else {
-			apiAppointmentsServiceBookingEventsByUserId(userData.userId).then(
+			apiAppointmentsServiceBookingEventsByAskerId(userData.userId).then(
 				(bookings) => {
-					setBookingEventsApi(bookings);
+					transformData(bookings);
 				}
 			);
+			apiGetAskerSessionList().then((response) => {
+				setSessionsData({
+					mySessions: response.sessions
+				});
+			});
 		}
-
-		//TODO Andre: replace this with impl.
-		fetchAskerData().catch(() => {}); // Intentionally empty to prevent json parse errors
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	useEffect(() => {
+	const transformData = (bookings: BookingEventsInterface[]) => {
 		let bookingEvents: BookingEventUiInterface[] = [];
-		bookingEventsApi?.forEach((event: BookingEventsInterface) => {
+		bookings?.forEach((event: BookingEventsInterface) => {
 			const startTime = new Date(event.startTime);
 			const endTime = new Date(event.endTime);
 			const date = new Date(event.startTime).toLocaleDateString('de-de', {
@@ -310,8 +211,7 @@ export const BookingEvents = () => {
 			});
 		});
 		setBookingEventsData(bookingEvents);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [bookingEventsApi]);
+	};
 
 	return (
 		<div className="bookingEvents__wrapper">
@@ -324,7 +224,7 @@ export const BookingEvents = () => {
 				{!isConsultant && bookingEventsData.length > 0 && (
 					<Button
 						item={scheduleAppointmentButton}
-						buttonHandle={handleBackButton}
+						buttonHandle={handleBookingButton}
 						customIcon={<CalendarMonthPlusIcon />}
 						className="bookingEvents__headerButton"
 					/>
@@ -358,7 +258,11 @@ export const BookingEvents = () => {
 												className="bookingEvents__duration"
 											></Headline>
 											<div className="bookingEvents__ics bookingEvents--flex bookingEvents--pointer">
-												{icsComponent(event)}
+												<DownloadICSFile
+													date={event.date}
+													duration={event.duration}
+													title={event.title}
+												/>
 											</div>
 										</div>
 										<div className="bookingEvents__group bookingEvents__counselorWrap">
@@ -375,61 +279,17 @@ export const BookingEvents = () => {
 										</div>
 										<div className="bookingEvents__group">
 											<div className="bookingEvents__ics--mobile bookingEvents--flex bookingEvents--pointer">
-												{icsComponent(event)}
+												<DownloadICSFile
+													date={event.date}
+													duration={event.duration}
+													title={event.title}
+												/>
 											</div>
 										</div>
 									</div>
-									<div
-										className={`bookingEvents__description ${
-											event.expanded
-												? 'expanded'
-												: 'shrinked'
-										}`}
-									>
-										<Text
-											text={translate(
-												'booking.event.description'
-											)}
-											type="standard"
-											className="bookingEvents--font-weight-bold"
-										/>
-										<Text
-											text={event.description}
-											type="standard"
-											className="bookingEvents__descriptionText"
-										/>
-										{event.description &&
-										event.description.length > 105 ? (
-											<div
-												className="bookingEvents__showMore bookingEvents--flex bookingEvents--pointer"
-												onClick={handleViewMore.bind(
-													this,
-													event.id
-												)}
-											>
-												{event.expanded ? (
-													<ArrowUpIcon />
-												) : (
-													<ArrowDownIcon />
-												)}
-												<Text
-													text={
-														event.expanded
-															? translate(
-																	'booking.event.show.less'
-															  )
-															: translate(
-																	'booking.event.show.more'
-															  )
-													}
-													type="standard"
-													className="bookingEvents--pointer bookingEvents--primary"
-												/>
-											</div>
-										) : (
-											<div />
-										)}
-									</div>
+									<BookingDescription
+										description={event.description}
+									/>
 									<div className="bookingEvents__actions">
 										<div
 											className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
@@ -449,7 +309,7 @@ export const BookingEvents = () => {
 										</div>
 										<div
 											className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
-											onClick={handleCancelAppointment.bind(
+											onClick={handleCancellationAppointment.bind(
 												this,
 												event
 											)}

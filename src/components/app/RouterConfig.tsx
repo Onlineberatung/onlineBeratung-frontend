@@ -41,8 +41,9 @@ const showAppointmentsMenuItem = (
 	sessionsData: SessionsDataInterface
 ) => {
 	return (
-		userData.appointmentFeatureEnabled &&
-		!!sessionsData?.mySessions?.[0]?.consultant
+		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
+		(userData.appointmentFeatureEnabled &&
+			!!sessionsData?.mySessions?.[0]?.consultant)
 	);
 };
 
@@ -111,7 +112,7 @@ export const RouterConfigUser = (): any => {
 				component: Booking
 			},
 			{
-				path: '/booking/cancelation',
+				path: '/booking/cancellation',
 				component: BookingCancellation
 			},
 			{
@@ -255,7 +256,7 @@ export const RouterConfigConsultant = (): any => {
 				component: Booking
 			},
 			{
-				path: '/booking/cancelation',
+				path: '/booking/cancellation',
 				component: BookingCancellation
 			},
 			{
@@ -434,7 +435,7 @@ export const RouterConfigTeamConsultant = (): any => {
 				component: Booking
 			},
 			{
-				path: '/booking/cancelation',
+				path: '/booking/cancellation',
 				component: BookingCancellation
 			},
 			{

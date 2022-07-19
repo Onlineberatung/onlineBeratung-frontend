@@ -348,7 +348,7 @@ export const MessageSubmitInterfaceComponent = (
 			apiGetAskerSessionList().then((response) => {
 				const { appointmentFeatureEnabled } = userData;
 				const { consultant } = response.sessions[0];
-				if (consultant) {
+				if (!consultant) {
 					setShowAppointmentButton(appointmentFeatureEnabled);
 				}
 			});

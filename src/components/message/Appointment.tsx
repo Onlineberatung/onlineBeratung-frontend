@@ -5,11 +5,10 @@ import { Headline } from '../headline/Headline';
 import './appointment.styles';
 import { ReactComponent as CalendarCheckIcon } from '../../resources/img/icons/calendar-check.svg';
 import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
-import { ReactComponent as CalendarICSIcon } from '../../resources/img/icons/calendar-ics.svg';
 import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-call.svg';
-import { formatToHHMM, getMonthFromString } from '../../utils/dateHelpers';
-import { downloadICSFile } from '../../utils/downloadICSFile';
+import { formatToHHMM } from '../../utils/dateHelpers';
 import { MessageType } from './MessageItemComponent';
+import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
 
 interface AppointmentData {
 	title: string;
@@ -37,69 +36,36 @@ export const Appointment = (param: {
 			day: 'numeric'
 		}
 	);
+
 	const appointmentHours = `${formatToHHMM(
 		`${startingTimeStampDate}`
 	)} - ${formatToHHMM(`${finishingHour}`)}`;
 
-	//TODO Andre: move this as agreed
-	const handleICSAppointment = (appointmentInfo: AppointmentData) => {
-		const [, day, month, year, startHour] = appointmentInfo.date.split(' ');
-		const [hour, min, sec] = startHour.split(':');
-		const icsMSG =
-			'BEGIN:VCALENDAR\n' +
-			'VERSION:2.0\n' +
-			'CALSCALE:GREGORIAN\n' +
-			'PRODID:adamgibbons/ics\n' +
-			'METHOD:PUBLISH\n' +
-			'X-PUBLISHED-TTL:PT1H\n' +
-			'BEGIN:VEVENT\n' +
-			'SUMMARY:' +
-			appointmentInfo.title +
-			'\n' +
-			'DTSTART:' +
-			year +
-			getMonthFromString(month) +
-			day +
-			'T' +
-			hour +
-			min +
-			sec +
-			'Z\n' +
-			'DURATION:PT' +
-			appointmentInfo.duration +
-			'M\n' +
-			'END:VEVENT\n' +
-			'END:VCALENDAR\n';
-
-		downloadICSFile(appointmentInfo.title, icsMSG);
-	};
-
 	let appointmentTitle;
 	let appointmentIcon;
 	let appointmentComponentHeader;
-	//TODO Andre: change as agreed
-	let showAddToCallanderComponent;
+	let showAddToCalendarComponent;
 	if (param.messageType === MessageType.APPOINTMENT_SET) {
 		appointmentComponentHeader = translate(
 			'message.appointment.component.header.confirmation'
 		);
 		appointmentTitle = translate('message.appointmentSet.title');
 		appointmentIcon = <CalendarCheckIcon />;
-		showAddToCallanderComponent = true;
+		showAddToCalendarComponent = true;
 	} else if (param.messageType === MessageType.APPOINTMENT_RESCHEDULED) {
 		appointmentComponentHeader = translate(
 			'message.appointment.component.header.change'
 		);
 		appointmentTitle = translate('message.appointmentRescheduled.title');
 		appointmentIcon = <CalendarCheckIcon />;
-		showAddToCallanderComponent = true;
+		showAddToCalendarComponent = true;
 	} else {
 		appointmentComponentHeader = translate(
 			'message.appointment.component.header.cancellation'
 		);
 		appointmentTitle = translate('message.appointmentCancelled.title');
 		appointmentIcon = <CalendarCancelIcon />;
-		showAddToCallanderComponent = false;
+		showAddToCalendarComponent = false;
 	}
 
 	return (
@@ -138,25 +104,19 @@ export const Appointment = (param: {
 						className="appointmentSet__video"
 					/>
 				</div>
-				<Text
-					type="standard"
-					className="appointmentSet__summary"
-					text={parsedData.title}
-				/>
-				{showAddToCallanderComponent && (
-					<div
-						className="appointmentSet--flex appointmentSet--pointer"
-						onClick={handleICSAppointment.bind(this, parsedData)}
-					>
-						<CalendarICSIcon />
-						<Text
-							type="standard"
-							text={translate(
-								'message.appointmentSet.addToCalendar'
-							)}
-							className="appointmentSet__ics appointmentSet--primary"
-						/>
-					</div>
+				{parsedData.title && (
+					<Text
+						type="standard"
+						className="appointmentSet__summary"
+						text={parsedData.title}
+					/>
+				)}
+				{showAddToCalendarComponent && (
+					<DownloadICSFile
+						date={appointmentDate}
+						duration={appointmentHours}
+						title={parsedData.title}
+					/>
 				)}
 			</div>
 		</React.Fragment>

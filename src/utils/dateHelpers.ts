@@ -131,3 +131,11 @@ export const getMonthFromString = (month: string) => {
 export const addMinutesToDateTime = (date: number, addminutes: number) => {
 	return new Date(date).setMinutes(new Date(date).getMinutes() + addminutes);
 };
+
+export const addMissingZero = (value: number) => {
+	if (value < 10) {
+		return '0' + value;
+	} else {
+		return value;
+	}
+};
