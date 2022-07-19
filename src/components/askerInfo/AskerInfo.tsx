@@ -24,6 +24,12 @@ import './askerInfo.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useSession } from '../../hooks/useSession';
+import { useResponsive } from '../../hooks/useResponsive';
+import {
+	desktopView,
+	mobileListView,
+	mobileUserProfileView
+} from '../app/navigationHandler';
 
 export const AskerInfo = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
@@ -51,6 +57,17 @@ export const AskerInfo = () => {
 
 		setIsPeerChat(activeSession.item.isPeerChat);
 	}, [activeSession, listPath, ready, sessionListTab]);
+
+	const { fromL } = useResponsive();
+	useEffect(() => {
+		if (!fromL) {
+			mobileUserProfileView();
+			return () => {
+				mobileListView();
+			};
+		}
+		desktopView();
+	}, [fromL]);
 
 	const isSessionAssignAvailable = useCallback(
 		() =>

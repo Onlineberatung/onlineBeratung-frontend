@@ -41,6 +41,7 @@ export interface AgencySelectionProps {
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
+	const [isLoading, setIsLoading] = useState(false);
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState('');
 	const [proposedAgencies, setProposedAgencies] = useState<
 		AgencyDataInterface[] | null
@@ -122,6 +123,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		if (!autoSelectAgency && !preselectedAgency) {
 			(async () => {
 				try {
+					setIsLoading(true);
 					setSelectedAgency(null);
 					setPostcodeFallbackLink('');
 					if (validPostcode()) {
@@ -130,7 +132,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 								postcode: selectedPostcode,
 								consultingType: props.consultingType.id,
 								topicId: props?.mainTopicId
-							})
+							}).finally(() => setIsLoading(false))
 						).filter(
 							(agency) =>
 								!props.hideExternalAgencies || !agency.external
@@ -317,8 +319,15 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											)}
 										</a>
 									</Notice>
-								) : (
+								) : isLoading ? (
 									<Loading />
+								) : (
+									<Text
+										text={translate(
+											'registration.agencySelection.noAgencies'
+										)}
+										type="infoLargeAlternative"
+									/>
 								)
 							) : (
 								proposedAgencies?.map(
