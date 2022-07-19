@@ -25,6 +25,7 @@ import { Header } from '../header/Header';
 import { FinishedAnonymousConversationHandler } from './FinishedAnonymousConversationHandler';
 import { ReleaseNote } from '../releaseNote/ReleaseNote';
 import { NonPlainRoutesWrapper } from './NonPlainRoutesWrapper';
+import { Walkthrough } from '../walkthrough/Walkthrough';
 
 interface RoutingProps {
 	logout?: Function;
@@ -86,6 +87,7 @@ export const Routing = (props: RoutingProps) => {
 					)
 				)}
 			<Route path={allRoutes()}>
+				<Walkthrough />
 				<E2EEProvider>
 					<SessionsDataProvider>
 						<NonPlainRoutesWrapper
