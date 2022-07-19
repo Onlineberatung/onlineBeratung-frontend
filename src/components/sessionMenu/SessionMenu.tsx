@@ -52,6 +52,7 @@ import {
 } from './sessionMenuHelpers';
 import {
 	apiFinishAnonymousConversation,
+	apiGetAskerSessionList,
 	apiPutArchive,
 	apiPutDearchive,
 	apiPutGroupChat,
@@ -73,6 +74,7 @@ import './sessionMenu.styles';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
+import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
 import {
 	getVideoCallUrl,
 	supportsE2EEncryptionVideoCall
@@ -109,9 +111,39 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 
+	const [consultant, setConsultant] = useState(false);
+
+	const [appointmentFeatureEnabled, setAppointmentFeatureEnabled] =
+		useState(false);
+
 	useEffect(() => {
 		document.addEventListener('mousedown', (e) => handleClick(e));
+		if (
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+		) {
+			apiGetAskerSessionList().then((response) => {
+				const { consultant } = response.sessions[0];
+				if (!consultant) {
+					setConsultant(true);
+				}
+			});
+
+			const { appointmentFeatureEnabled } = userData;
+			setAppointmentFeatureEnabled(appointmentFeatureEnabled);
+		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	let { rcGroupId, sessionId } = useParams();
+	const handleBookingButton = () => {
+		history.push({
+			pathname: '/booking',
+			state: {
+				rcGroupId: rcGroupId,
+				sessionId: sessionId
+			}
+		});
+	};
 
 	const handleFlyout = () => {
 		const dropdown = document.querySelector('.sessionMenu__content');
@@ -438,6 +470,19 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					handleStopGroupChat={handleStopGroupChat}
 					isJoinGroupChatView={props.isJoinGroupChatView}
 				/>
+			)}
+
+			{!consultant && appointmentFeatureEnabled && (
+				<div
+					className="sessionMenu__icon sessionMenu__icon--booking"
+					onClick={handleBookingButton}
+				>
+					<CalendarMonthPlusIcon />
+					<Text
+						type="standard"
+						text={translate('booking.mobile.calendar.label')}
+					/>
+				</div>
 			)}
 
 			<span

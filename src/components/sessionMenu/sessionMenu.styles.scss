@@ -31,6 +31,35 @@ $iconSize: 20px;
 			display: none;
 		}
 
+		&--booking {
+			white-space: normal;
+			flex-direction: column;
+
+			@include breakpoint($fromLarge) {
+				margin-right: 1rem;
+				flex-direction: row;
+			}
+
+			p {
+				color: $primary;
+				text-align: center;
+
+				@include breakpoint($fromLarge) {
+					text-align: left;
+				}
+			}
+
+			svg {
+				@include breakpoint($fromLarge) {
+					margin-right: 0.5rem;
+				}
+
+				path {
+					fill: $primary;
+				}
+			}
+		}
+
 		@include breakpoint($fromLarge) {
 			&--mobile {
 				display: none;

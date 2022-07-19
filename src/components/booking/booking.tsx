@@ -11,6 +11,7 @@ import {
 	apiAppointmentServiceTeamById,
 	apiAppointmentServiceEventTypes
 } from '../../api';
+import { getuserEmail } from '../../utils/getUserEmail';
 
 export const Booking = () => {
 	useEffect(() => {
@@ -49,7 +50,7 @@ export const Booking = () => {
 					calOrigin={config.urls.appointmentServiceDevServer}
 					config={{
 						'name': userData.userName,
-						'email': userData.userName + '@suchtberatung.digital',
+						'email': getuserEmail(userData),
 						'theme': 'light',
 						'metadata[user]': userData.userId
 					}}

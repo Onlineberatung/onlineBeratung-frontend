@@ -9,7 +9,6 @@ import booking from './de/booking';
 import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
 import date from './de/date';
-import dates from './de/dates';
 import deleteAccount from './de/deleteAccount';
 import deleteSession from './de/deleteSession';
 import enquiry from './de/enquiry';
@@ -51,7 +50,6 @@ const de = {
 	chatFlyout,
 	consultant,
 	date,
-	dates,
 	deleteAccount,
 	deleteSession,
 	enquiry,

@@ -9,7 +9,7 @@ import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import './bookingEvents.styles';
 import { history } from '../app/app';
-import { ReactComponent as CalendarMonthPlus } from '../../resources/img/icons/calendar-plus.svg';
+import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
 import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
 import { ReactComponent as CalendarRescheduleIcon } from '../../resources/img/icons/calendar-reschedule.svg';
 import { ReactComponent as CalendarICSIcon } from '../../resources/img/icons/calendar-ics.svg';
@@ -26,7 +26,6 @@ import {
 	UserDataContext
 } from '../../globalState';
 import { BookingEventsInterface } from '../../globalState/interfaces/BookingDataInterface';
-import { getWeekDayFromPrefix } from '../../utils/dateHelpers';
 import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
 import {
 	apiAppointmentsServiceBookingEventsByUserId,
@@ -249,7 +248,7 @@ export const MyBookings = () => {
 					<Button
 						item={scheduleAppointmentButton}
 						buttonHandle={handleBackButton}
-						customIcon={<CalendarMonthPlus />}
+						customIcon={<CalendarMonthPlusIcon />}
 					/>
 				</div>
 			</Box>
@@ -279,12 +278,12 @@ export const MyBookings = () => {
 		bookingEventsApi?.forEach((event: BookingEventsInterface) => {
 			const startTime = new Date(event.startTime);
 			const endTime = new Date(event.endTime);
-			const date = `${getWeekDayFromPrefix(
-				startTime.getDay()
-			)}, ${startTime.getDate()}.${startTime.getMonth() + 1}.${startTime
-				.getFullYear()
-				.toString()
-				.slice(-2)}`;
+			const date = new Date(event.startTime).toLocaleDateString('de-de', {
+				weekday: 'long',
+				year: '2-digit',
+				month: '2-digit',
+				day: 'numeric'
+			});
 			const duration = `${addMissingZero(
 				startTime.getUTCHours()
 			)}:${addMissingZero(startTime.getUTCMinutes())} - ${addMissingZero(
@@ -321,13 +320,13 @@ export const MyBookings = () => {
 					<Button
 						item={scheduleAppointmentButton}
 						buttonHandle={handleBackButton}
-						customIcon={<CalendarMonthPlus />}
+						customIcon={<CalendarMonthPlusIcon />}
 						className="bookingEvents__headerButton"
 					/>
 				)}
 				{myBookingsData.length > 0 && (
 					<div className="bookingEvents__calendar--mobile">
-						<CalendarMonthPlus />
+						<CalendarMonthPlusIcon />
 						<Text
 							type="standard"
 							text={translate('booking.mobile.calendar.label')}

@@ -67,11 +67,9 @@ export default function Cal({
 					return;
 				}
 
-				// TODO: Add ui to the appointmentData
 				const { data } = e.detail;
 				const date = data.date;
 				const appointmentData = {
-					// title: data.eventType.title,
 					userName: userData.userName,
 					counselorEmail: data.organizer.email,
 					date: date,

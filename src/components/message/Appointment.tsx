@@ -75,11 +75,6 @@ export const Appointment = (param: {
 	};
 
 	const handleCancelAppointment = (event) => {
-		// TODO: add uid to the state, like this:
-		// history.push({
-		// 	pathname: '/booking/cancelation',
-		// 	state: { uid: event.uid }
-		// });
 		history.push('/booking/cancelation');
 	};
 

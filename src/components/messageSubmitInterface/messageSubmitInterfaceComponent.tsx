@@ -901,17 +901,6 @@ export const MessageSubmitInterfaceComponent = (
 									clicked={isRequestInProgress}
 									deactivated={uploadProgress}
 								/>
-								{!consultant && appointmentFeatureEnabled && (
-									<span
-										onClick={handleBookingButton}
-										className="textarea__iconBooking"
-										title={translate(
-											'enquiry.write.input.button.title'
-										)}
-									>
-										<CalendarMonthIcon />
-									</span>
-								)}
 							</div>
 						</div>
 						{consultant && appointmentFeatureEnabled && (
