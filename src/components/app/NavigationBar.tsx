@@ -33,7 +33,7 @@ export const NavigationBar = ({
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions } = useContext(SessionsDataContext);
-	const [sessionID, setSessionID] = useState(null);
+
 	const sessionId = sessions?.[0]?.session?.id;
 
 	const {
@@ -44,12 +44,12 @@ export const NavigationBar = ({
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
-			apiFinishAnonymousConversation(sessionID).catch((error) => {
+			apiFinishAnonymousConversation(sessionId).catch((error) => {
 				console.error(error);
 			});
 		}
 		onLogout();
-	}, [onLogout, sessionID, userData]);
+	}, [onLogout, sessionId, userData]);
 
 	const location = useLocation();
 	const [animateNavIcon, setAnimateNavIcon] = useState(false);
@@ -57,11 +57,6 @@ export const NavigationBar = ({
 	useEffect(() => {
 		initNavigationHandler();
 	}, []);
-
-	useEffect(() => {
-		debugger;
-		setSessionID(sessions?.[0]?.session?.id);
-	}, [sessions]);
 
 	const animateNavIconTimeoutRef = useRef(null);
 	useEffect(() => {
