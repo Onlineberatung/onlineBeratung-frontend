@@ -21,6 +21,7 @@ export interface UseE2EEParams extends e2eeParams {
 	addNewUsersToEncryptedRoom?: any;
 	ready: boolean;
 	subscriptionKeyLost: boolean;
+	roomNotFound: boolean;
 }
 
 export const useE2EE = (
@@ -33,6 +34,7 @@ export const useE2EE = (
 	const [keyID, setKeyID] = useState(null);
 	const [encrypted, setEncrypted] = useState(false);
 	const [subscriptionKeyLost, setSubscriptionKeyLost] = useState(false);
+	const [roomNotFound, setRoomNotFound] = useState(false);
 	const [sessionKeyExportedString, setSessionKeyExportedString] =
 		useState(null);
 	const [ready, setReady] = useState(false);
@@ -113,9 +115,15 @@ export const useE2EE = (
 			return;
 		}
 
-		const room = rooms.find((room) => room._id === rid);
+		const currentRoom = rooms.find((room) => room._id === rid);
 
-		if (!room?.e2eKeyId) {
+		if (!currentRoom) {
+			setRoomNotFound(true);
+			setReady(true);
+			return;
+		}
+
+		if (!currentRoom.e2eKeyId) {
 			// not encrypted -> reset
 			setEncrypted(false);
 			setKey(null);
@@ -152,6 +160,7 @@ export const useE2EE = (
 
 		return () => {
 			setSubscriptionKeyLost(false);
+			setRoomNotFound(false);
 		};
 	}, [e2eePrivateKey, keyID, rid, rooms, subscriptions]);
 
@@ -159,6 +168,7 @@ export const useE2EE = (
 		return () => {
 			setEncrypted(false);
 			setSubscriptionKeyLost(false);
+			setRoomNotFound(false);
 			setKey(null);
 			setKeyID(null);
 			setSessionKeyExportedString(null);
@@ -173,6 +183,7 @@ export const useE2EE = (
 		sessionKeyExportedString,
 		addNewUsersToEncryptedRoom,
 		ready,
-		subscriptionKeyLost
+		subscriptionKeyLost,
+		roomNotFound
 	};
 };
