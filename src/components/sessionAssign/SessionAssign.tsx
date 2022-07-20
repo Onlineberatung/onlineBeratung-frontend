@@ -17,7 +17,8 @@ import {
 import {
 	UserDataContext,
 	ConsultantListContext,
-	E2EEContext
+	E2EEContext,
+	SessionTypeContext
 } from '../../globalState';
 import {
 	SelectDropdownItem,
@@ -28,6 +29,8 @@ import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/c
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
 import { history } from '../app/app';
+import { useSearchParam } from '../../hooks/useSearchParams';
+import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 
 export interface Consultant {
 	consultantId: string;
@@ -38,6 +41,7 @@ export interface Consultant {
 export const SessionAssign = (props: { value?: string }) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
+	const { path: listPath } = useContext(SessionTypeContext);
 	const { consultantList, setConsultantList } = useContext(
 		ConsultantListContext
 	);
@@ -49,6 +53,10 @@ export const SessionAssign = (props: { value?: string }) => {
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession.item.groupId);
 
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
+
 	const assignOtherOverlay: OverlayItem = useMemo(
 		() => ({
 			svg: CheckIcon,
@@ -57,6 +65,9 @@ export const SessionAssign = (props: { value?: string }) => {
 				{
 					label: translate('session.assignOther.buttonLabel'),
 					function: OVERLAY_FUNCTIONS.CLOSE,
+					functionArgs: {
+						gotoOverview: true
+					},
 					type: BUTTON_TYPES.AUTO_CLOSE
 				}
 			]
@@ -160,10 +171,8 @@ export const SessionAssign = (props: { value?: string }) => {
 	};
 
 	const initOverlays = useCallback(() => {
-		const currentUserId = userData.userId;
-
 		const overlay =
-			currentUserId === selectedOption
+			userData.userId === selectedOption
 				? assignSelfOverlay
 				: assignOtherOverlay;
 		setOverlayActive(true);
@@ -187,7 +196,10 @@ export const SessionAssign = (props: { value?: string }) => {
 	};
 
 	const handleDatalistSelect = (selectedOption) => {
-		if (userData.userId === activeSession?.consultant?.id) {
+		if (
+			userData.userId === activeSession?.consultant?.id &&
+			userData.userId === selectedOption.value
+		) {
 			setOverlayItem(alreadyAssignedSession);
 		} else {
 			setOverlayItem(assignSession);
@@ -196,16 +208,20 @@ export const SessionAssign = (props: { value?: string }) => {
 		setSelectedOption(selectedOption.value);
 	};
 
-	const handleOverlayAction = (buttonFunction: string) => {
+	const handleOverlayAction = (
+		buttonFunction: string,
+		buttonArgs: { [key: string]: any }
+	) => {
 		switch (buttonFunction) {
 			case 'ASSIGN':
 				apiSessionAssign(activeSession.item.id, selectedOption)
 					.then(() => {
-						initOverlays();
 						handleE2EEAssign(
 							activeSession.item.id,
 							userData.userId
-						);
+						).then(() => {
+							initOverlays();
+						});
 					})
 					.catch((error) => {
 						if (error === FETCH_ERRORS.CONFLICT) {
@@ -221,6 +237,9 @@ export const SessionAssign = (props: { value?: string }) => {
 				);
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
+				if (buttonArgs?.gotoOverview) {
+					history.push(listPath + getSessionListTab());
+				}
 				setOverlayItem(null);
 				setOverlayActive(false);
 				break;
