@@ -113,3 +113,10 @@ export const setBookingWrapperActive = () => {
 		.querySelector('.contentWrapper__booking')
 		?.setAttribute('style', 'display: block');
 };
+
+export const mobileUserProfileView = () => {
+	if (window.innerWidth <= 900) {
+		const contentList = document.querySelector('.contentWrapper__list');
+		contentList?.classList.add('contentWrapper__list--smallInactive');
+	}
+};

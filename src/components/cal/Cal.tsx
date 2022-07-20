@@ -19,7 +19,7 @@ export default function Cal({
 	embedJsUrl?: string;
 }) {
 	const { userData } = useContext(UserDataContext);
-	const { sessionsData } = useContext(SessionsDataContext);
+	const { sessions } = useContext(SessionsDataContext);
 
 	if (!calLink) {
 		throw new Error('calLink is required');
@@ -57,8 +57,8 @@ export default function Cal({
 			action: 'bookingSuccessful',
 			callback: (e) => {
 				let isInitialMessage =
-					sessionsData?.mySessions?.[0]?.consultant == null;
-				let groupId = sessionsData?.mySessions?.[0]?.session.groupId;
+					sessions?.mySessions?.[0]?.consultant == null;
+				let groupId = sessions?.mySessions?.[0]?.session.groupId;
 
 				if (!isInitialMessage) {
 					history.push({
@@ -81,7 +81,7 @@ export default function Cal({
 					)} ${userData.userName}`
 				};
 
-				const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
+				const sessionId = sessions?.mySessions?.[0]?.session?.id;
 
 				apiAppointmentServiceSet(
 					appointmentData,

@@ -8,15 +8,11 @@ import {
 	NotificationsContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	SessionsDataContext,
 	ConsultingTypesContext,
-	LegalLinkInterface
+	LegalLinkInterface,
+	RocketChatProvider
 } from '../../globalState';
-import {
-	apiFinishAnonymousConversation,
-	apiGetConsultingTypes,
-	apiGetUserData
-} from '../../api';
+import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
@@ -24,6 +20,9 @@ import { Notifications } from '../notifications/Notifications';
 import './authenticatedApp.styles';
 import './navigation.styles';
 import { requestPermissions } from '../../utils/notificationHelpers';
+import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
+import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
+import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -46,9 +45,6 @@ export const AuthenticatedApp = ({
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 
 	const { notifications } = useContext(NotificationsContext);
-	const { sessionsData } = useContext(SessionsDataContext);
-
-	const sessionId = sessionsData?.mySessions?.[0]?.session?.id;
 
 	useEffect(() => {
 		if (
@@ -91,26 +87,31 @@ export const AuthenticatedApp = ({
 	}, [appReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleLogout = useCallback(() => {
-		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
-			apiFinishAnonymousConversation(sessionId).catch((error) => {
-				console.error(error);
-			});
-		}
 		onLogout();
 		logout();
-	}, [onLogout, sessionId, userData]);
+	}, [onLogout]);
 
 	if (appReady) {
 		return (
 			<>
-				<Routing
-					logout={handleLogout}
-					legalLinks={legalLinks}
-					spokenLanguages={spokenLanguages}
-				/>
-				{notifications && (
-					<Notifications notifications={notifications} />
-				)}
+				<RocketChatProvider>
+					<RocketChatPublicSettingsProvider>
+						<RocketChatSubscriptionsProvider>
+							<RocketChatUnreadProvider>
+								<Routing
+									logout={handleLogout}
+									legalLinks={legalLinks}
+									spokenLanguages={spokenLanguages}
+								/>
+								{notifications && (
+									<Notifications
+										notifications={notifications}
+									/>
+								)}
+							</RocketChatUnreadProvider>
+						</RocketChatSubscriptionsProvider>
+					</RocketChatPublicSettingsProvider>
+				</RocketChatProvider>
 			</>
 		);
 	} else if (loading) {

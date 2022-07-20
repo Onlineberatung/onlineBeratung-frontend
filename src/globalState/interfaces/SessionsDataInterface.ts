@@ -21,7 +21,7 @@ export type SessionsDataInterface = {
 export interface ListItemInterface {
 	agency?: AgencyDataInterface;
 	consultant?: SessionConsultantInterface;
-	session?: SessionItemInterface | LiveChatInterface;
+	session?: SessionItemInterface;
 	chat?: GroupChatItemInterface;
 	user?: SessionUserInterface;
 	language?: string;
@@ -74,7 +74,12 @@ export interface SessionItemInterface {
 	feedbackRead?: boolean;
 	groupId: string;
 	id: number;
+	e2eLastMessage: {
+		t: string;
+		msg: string;
+	};
 	lastMessage?: string;
+	lastMessageType?: string;
 	messageDate: number;
 	createDate: string;
 	messagesRead: boolean;
@@ -96,10 +101,6 @@ export interface SessionItemInterface {
 	topic: TopicSessionInterface;
 }
 
-export interface LiveChatInterface extends SessionItemInterface {
-	registrationType: registrationTypeAnonymous;
-}
-
 export interface GroupChatItemInterface {
 	active: boolean;
 	attachment: UserService.Schemas.SessionAttachmentDTO;
@@ -108,6 +109,11 @@ export interface GroupChatItemInterface {
 	groupId: string;
 	id: number;
 	lastMessage: string;
+	lastMessageType?: string;
+	e2eLastMessage: {
+		t: string;
+		msg: string;
+	};
 	messageDate: number;
 	messagesRead: boolean;
 	moderators: string[];

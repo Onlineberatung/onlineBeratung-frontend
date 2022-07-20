@@ -107,18 +107,21 @@ $message-attachment-color: $secondary !default;
 			max-width: 600px;
 			margin-right: 52px;
 		}
+
+		&--e2eeActivatedMessage {
+			display: block;
+			max-width: 520px;
+			margin: 0 auto;
+		}
 	}
 
 	&__divider {
 		display: flex;
 		align-items: center;
-		width: 200px;
+		width: 100%;
+		max-width: 520px;
 		text-align: center;
 		margin: $grid-base-four auto $grid-base-two;
-
-		@include breakpoint($fromLarge) {
-			width: 280px;
-		}
 
 		&::before,
 		&::after {

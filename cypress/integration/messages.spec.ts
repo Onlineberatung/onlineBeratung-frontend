@@ -21,7 +21,7 @@ describe('Messages', () => {
 		mockWebSocket();
 	});
 
-	describe('Attachments', () => {
+	xdescribe('Attachments', () => {
 		it('should allow to send a message with attachment', () => {
 			cy.fastLogin();
 			cy.wait('@consultingTypeServiceBaseBasic');
@@ -236,7 +236,7 @@ describe('Messages', () => {
 
 		describe('Unread messages already exist', () => {
 			describe('Initially loading the app', () => {
-				it('should animate the envelope and initial dot', () => {
+				it.skip('should animate the envelope and initial dot', () => {
 					cy.askerSession({ session: { messagesRead: false } }, 0);
 
 					cy.fastLogin();

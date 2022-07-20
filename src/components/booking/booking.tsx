@@ -21,7 +21,7 @@ export const getUserEmail = (userData: UserDataInterface) => {
 
 export const Booking = () => {
 	const { userData } = useContext(UserDataContext);
-	const { sessionsData } = useContext(SessionsDataContext);
+	const { sessions } = useContext(SessionsDataContext);
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -32,7 +32,7 @@ export const Booking = () => {
 		};
 	}, []);
 
-	const assignedConsultant = sessionsData?.mySessions?.[0].consultant;
+	const assignedConsultant = sessions?.mySessions?.[0].consultant;
 
 	const setCounselorLink = () => {
 		getCounselorAppointmentLink(assignedConsultant.consultantId).then(
@@ -43,7 +43,7 @@ export const Booking = () => {
 	};
 
 	const setTeamLink = () => {
-		const agencyId = sessionsData?.mySessions?.[0]?.agency?.id;
+		const agencyId = sessions?.mySessions?.[0]?.agency?.id;
 		getTeamAppointmentLink(agencyId).then((response) => {
 			setAppointmentLink(`team/${response.slug}`);
 		});

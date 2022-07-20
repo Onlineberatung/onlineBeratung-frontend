@@ -9,6 +9,7 @@ import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-
 import { formatToHHMM } from '../../utils/dateHelpers';
 import { MessageType } from './MessageItemComponent';
 import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
+import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 
 interface AppointmentData {
 	title: string;
@@ -21,7 +22,7 @@ interface AppointmentData {
 
 export const Appointment = (param: {
 	data: string;
-	messageType: MessageType;
+	messageType: ALIAS_MESSAGE_TYPES;
 }) => {
 	const parsedData: AppointmentData = JSON.parse(param.data);
 	const duration = parsedData.duration;
@@ -45,14 +46,16 @@ export const Appointment = (param: {
 	let appointmentIcon;
 	let appointmentComponentHeader;
 	let showAddToCalendarComponent;
-	if (param.messageType === MessageType.APPOINTMENT_SET) {
+	if (param.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_SET) {
 		appointmentComponentHeader = translate(
 			'message.appointment.component.header.confirmation'
 		);
 		appointmentTitle = translate('message.appointmentSet.title');
 		appointmentIcon = <CalendarCheckIcon />;
 		showAddToCalendarComponent = true;
-	} else if (param.messageType === MessageType.APPOINTMENT_RESCHEDULED) {
+	} else if (
+		param.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED
+	) {
 		appointmentComponentHeader = translate(
 			'message.appointment.component.header.change'
 		);

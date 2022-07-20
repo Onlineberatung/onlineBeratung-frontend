@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { translate } from '../../utils/translate';
+import { Text } from '../text/Text';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
 import { buttonItemSubmit } from './registrationHelpers';
@@ -24,7 +25,8 @@ import {
 	AgencyDataInterface,
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
-	LegalLinkInterface
+	LegalLinkInterface,
+	useTenant
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
@@ -60,6 +62,7 @@ export const RegistrationForm = ({
 	legalLinks,
 	consultant
 }: RegistrationFormProps) => {
+	const tenantData = useTenant();
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
 	const [formAccordionValid, setFormAccordionValid] = useState(false);
@@ -87,7 +90,10 @@ export const RegistrationForm = ({
 			});
 		}
 
-		if (consultingType?.registration.autoSelectAgency) {
+		if (
+			consultingType?.registration.autoSelectAgency &&
+			!tenantData?.settings?.topicsInRegistrationEnabled
+		) {
 			apiAgencySelection({
 				postcode: postcodeParameter || DEFAULT_POSTCODE,
 				consultingType: consultingType.id
@@ -109,6 +115,32 @@ export const RegistrationForm = ({
 			setIsSubmitButtonDisabled(true);
 		}
 	}, [formAccordionValid, isDataProtectionSelected]);
+
+	useEffect(() => {
+		// When we require the topic to be selected and the autoSelectPostCode is enabled,
+		// we need to request the api to get the preselected agency
+		const shouldRequestAgencyWhenAutoSelectIsEnabled =
+			consultingType?.registration.autoSelectPostcode &&
+			!!tenantData?.settings?.topicsInRegistrationEnabled;
+
+		if (shouldRequestAgencyWhenAutoSelectIsEnabled) {
+			apiAgencySelection({
+				postcode: formAccordionData.postcode || DEFAULT_POSTCODE,
+				consultingType: consultingType.id,
+				topicId: formAccordionData.mainTopicId
+			})
+				.then((response) => {
+					const agencyData = response[0];
+					setPreselectedAgencyData(agencyData);
+				})
+				.catch(() => setPreselectedAgencyData(null));
+		}
+	}, [
+		consultingType,
+		formAccordionData.mainTopicId,
+		formAccordionData.postcode,
+		tenantData
+	]);
 
 	const checkboxItemDataProtection: CheckboxItem = {
 		inputId: 'dataProtectionCheckbox',
@@ -244,6 +276,18 @@ export const RegistrationForm = ({
 							)}
 							agencyData={preselectedAgencyData}
 						/>
+					)}
+
+				{consultingType?.registration.autoSelectPostcode &&
+					!preselectedAgencyData && (
+						<div className="registrationForm__no-agency-found">
+							<Text
+								text={translate(
+									'registration.agencySelection.noAgencies'
+								)}
+								type="infoLargeAlternative"
+							/>
+						</div>
 					)}
 
 				<div className="registrationForm__dataProtection">

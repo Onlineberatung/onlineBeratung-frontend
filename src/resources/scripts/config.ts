@@ -15,6 +15,7 @@ export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
 export const APP_PATH = 'app';
 
 export const config = {
+	useTenantService: false,
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	enableVideoAppointments: true, // Feature flag to enable Video-Termine page
@@ -45,6 +46,7 @@ export const config = {
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
 		banUser: (rcUserId, chatId) =>
 			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
+		chatRoom: apiUrl + '/service/users/chat/room',
 		consultantEnquiriesBase:
 			apiUrl + '/service/conversations/consultants/enquiries/',
 		consultantSessions:
@@ -61,18 +63,50 @@ export const config = {
 		groupChatBase: apiUrl + '/service/users/chat/',
 		keycloakAccessToken:
 			apiUrl +
-			'/auth/realms/online-beratung/protocol/openid-connect/token',
+			'/auth/realms/caritas-online-beratung/protocol/openid-connect/token',
 		keycloakLogout:
 			apiUrl +
-			'/auth/realms/online-beratung/protocol/openid-connect/logout',
+			'/auth/realms/caritas-online-beratung/protocol/openid-connect/logout',
 		liveservice: apiUrl + '/service/live',
 		loginResetPasswordLink:
-			'/auth/realms/online-beratung/login-actions/reset-credentials?client_id=account',
+			'/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
 		messageRead: apiUrl + '/api/v1/subscriptions.read',
 		messages: apiUrl + '/service/messages',
 		myMessagesBase:
 			apiUrl + '/service/conversations/consultants/mymessages/',
 		passwordReset: apiUrl + '/service/users/password/change',
+		rc: {
+			accessToken: apiUrl + '/api/v1/login',
+			e2ee: {
+				fetchMyKeys: apiUrl + '/api/v1/e2e.fetchMyKeys',
+				getUsersOfRoomWithoutKey:
+					apiUrl + '/api/v1/e2e.getUsersOfRoomWithoutKey',
+				setRoomKeyID: apiUrl + '/api/v1/e2e.setRoomKeyID',
+				setUserPublicAndPrivateKeys:
+					apiUrl + '/api/v1/e2e.setUserPublicAndPrivateKeys',
+				updateGroupKey: apiUrl + '/api/v1/e2e.updateGroupKey'
+			},
+			groups: {
+				members: apiUrl + '/api/v1/groups.members'
+			},
+			logout: apiUrl + '/api/v1/logout',
+			rooms: {
+				get: apiUrl + '/api/v1/rooms.get',
+				info: apiUrl + '/api/v1/rooms.info'
+			},
+			settings: {
+				public: apiUrl + '/api/v1/settings.public'
+			},
+			subscriptions: {
+				get: apiUrl + '/api/v1/subscriptions.get',
+				read: apiUrl + '/api/v1/subscriptions.read',
+				getOne: apiUrl + '/api/v1/subscriptions.getOne'
+			},
+			users: {
+				info: apiUrl + '/api/v1/users.info',
+				resetE2EKey: apiUrl + '/api/v1/users.resetE2EKey'
+			}
+		},
 		registerAnonymousAsker:
 			apiUrl + '/service/conversations/askers/anonymous/new',
 		registerAsker: apiUrl + '/service/users/askers/new',
@@ -81,9 +115,11 @@ export const config = {
 		rejectVideoCall: apiUrl + '/service/videocalls/reject',
 		rocketchatAccessToken: apiUrl + '/api/v1/login',
 		rocketchatLogout: apiUrl + '/api/v1/logout',
+		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
 		sessionBase: apiUrl + '/service/users/sessions',
+		sessionRooms: apiUrl + '/service/users/sessions/room',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
 		startVideoCall: apiUrl + '/service/videocalls/new',
 		teamSessionsBase:
@@ -98,6 +134,7 @@ export const config = {
 		userSessionsListView: '/sessions/user/view',
 		setAppointmentSuccessMessage:
 			apiUrl + '/service/messages/aliasWithContent/new',
+		userUpdateE2EKey: apiUrl + '/service/users/chat/e2e',
 		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
 	urls: {
@@ -143,4 +180,9 @@ export const config = {
 			}
 		]
 	}
+};
+
+export const ALIAS_LAST_MESSAGES = {
+	E2EE_ACTIVATED: 'aliases.lastMessage.e2ee_activated',
+	FURTHER_STEPS: 'aliases.lastMessage.further_steps'
 };

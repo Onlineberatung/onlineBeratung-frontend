@@ -104,8 +104,8 @@ export const deleteKeyFromObject = (obj: any, searchKey: string) => {
 
 export const hasMonitoringData = (data: any) => {
 	if (data) {
-		var myStringObject = JSON.stringify(data);
-		var matches = myStringObject.match('true');
+		const myStringObject = JSON.stringify(data);
+		const matches = myStringObject.match('true');
 		if (matches) {
 			return true;
 		}

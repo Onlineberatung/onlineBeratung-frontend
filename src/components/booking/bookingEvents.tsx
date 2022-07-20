@@ -88,7 +88,7 @@ export const BookingEvents = () => {
 
 	const { userData } = useContext(UserDataContext);
 	const sessionsContext = useContext(SessionsDataContext);
-	const { sessionsData, setSessionsData } = sessionsContext;
+	const { sessions, setSessions } = sessionsContext;
 
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
@@ -142,8 +142,7 @@ export const BookingEvents = () => {
 								text={`${translate(
 									'booking.my.booking.schedule'
 								)} <b>${
-									sessionsData?.mySessions[0].consultant
-										.username
+									sessions?.mySessions[0].consultant.username
 								}</b>:`}
 								type="standard"
 							/>
@@ -171,7 +170,7 @@ export const BookingEvents = () => {
 				}
 			);
 			apiGetAskerSessionList().then((response) => {
-				setSessionsData({
+				setSessions({
 					mySessions: response.sessions
 				});
 			});

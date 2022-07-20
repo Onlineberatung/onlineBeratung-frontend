@@ -1,30 +1,35 @@
 import * as React from 'react';
-import { useContext, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import {
-	typeIsSession,
-	typeIsTeamSession,
-	typeIsEnquiry,
-	getTypeOfLocation
+	SESSION_LIST_TAB,
+	SESSION_LIST_TYPES,
+	SESSION_TYPES
 } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import {
-	UserDataContext,
 	AUTHORITIES,
-	hasUserAuthority
+	hasUserAuthority,
+	SessionTypeContext,
+	UserDataContext
 } from '../../globalState';
 import { SessionsList } from './SessionsList';
 import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
-export const SessionsListWrapper: React.FC = () => {
-	const type = getTypeOfLocation();
+interface SessionsListWrapperProps {
+	sessionTypes: SESSION_TYPES;
+}
+
+export const SessionsListWrapper = ({
+	sessionTypes
+}: SessionsListWrapperProps) => {
 	const fixedLanguages = useContext(FixedLanguagesContext);
 	const { userData } = useContext(UserDataContext);
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const { type } = useContext(SessionTypeContext);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	if (
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
@@ -43,7 +48,10 @@ export const SessionsListWrapper: React.FC = () => {
 						{translate('sessionList.user.headline')}
 					</h2>
 				</div>
-				<SessionsList defaultLanguage={fixedLanguages[0]} />
+				<SessionsList
+					defaultLanguage={fixedLanguages[0]}
+					sessionTypes={sessionTypes}
+				/>
 			</div>
 		);
 	}
@@ -55,28 +63,28 @@ export const SessionsListWrapper: React.FC = () => {
 					className="sessionsList__headline"
 					data-cy="session-list-headline"
 				>
-					{typeIsSession(type)
+					{type === SESSION_LIST_TYPES.MY_SESSION
 						? translate('sessionList.view.headline')
 						: null}
-					{typeIsTeamSession(type) &&
+					{type === SESSION_LIST_TYPES.TEAMSESSION &&
 					!hasUserAuthority(
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 						userData
 					)
 						? translate('navigation.consultant.teamsessions')
 						: null}
-					{typeIsTeamSession(type) &&
+					{type === SESSION_LIST_TYPES.TEAMSESSION &&
 					hasUserAuthority(
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 						userData
 					)
 						? translate('sessionList.peersessions.headline')
 						: null}
-					{typeIsEnquiry(type)
+					{type === SESSION_LIST_TYPES.ENQUIRY
 						? translate('sessionList.preview.headline')
 						: null}
 				</h2>
-				{typeIsSession(type) &&
+				{type === SESSION_LIST_TYPES.MY_SESSION &&
 				hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData) ? (
 					<Link
 						className="sessionsList__createChatLink"
@@ -101,7 +109,10 @@ export const SessionsListWrapper: React.FC = () => {
 					<div className="sessionMenuPlaceholder"></div>
 				)}
 			</div>
-			<SessionsList defaultLanguage={fixedLanguages[0]} />
+			<SessionsList
+				defaultLanguage={fixedLanguages[0]}
+				sessionTypes={sessionTypes}
+			/>
 		</div>
 	);
 };
