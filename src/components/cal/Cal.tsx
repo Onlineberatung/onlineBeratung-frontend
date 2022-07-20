@@ -56,9 +56,8 @@ export default function Cal({
 		Cal('on', {
 			action: 'bookingSuccessful',
 			callback: (e) => {
-				let isInitialMessage =
-					sessions?.mySessions?.[0]?.consultant == null;
-				let groupId = sessions?.mySessions?.[0]?.session.groupId;
+				let isInitialMessage = sessions?.[0]?.consultant == null;
+				let groupId = sessions?.[0]?.session.groupId;
 
 				if (!isInitialMessage) {
 					history.push({
@@ -81,7 +80,7 @@ export default function Cal({
 					)} ${userData.userName}`
 				};
 
-				const sessionId = sessions?.mySessions?.[0]?.session?.id;
+				const sessionId = sessions?.[0]?.session?.id;
 
 				apiAppointmentServiceSet(
 					appointmentData,

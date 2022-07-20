@@ -88,7 +88,8 @@ export const BookingEvents = () => {
 
 	const { userData } = useContext(UserDataContext);
 	const sessionsContext = useContext(SessionsDataContext);
-	const { sessions, setSessions } = sessionsContext;
+	//TODO: fix me
+	const { sessions } = sessionsContext;
 
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
@@ -142,7 +143,7 @@ export const BookingEvents = () => {
 								text={`${translate(
 									'booking.my.booking.schedule'
 								)} <b>${
-									sessions?.mySessions[0].consultant.username
+									sessions?.[0].consultant.username
 								}</b>:`}
 								type="standard"
 							/>
@@ -170,9 +171,10 @@ export const BookingEvents = () => {
 				}
 			);
 			apiGetAskerSessionList().then((response) => {
-				setSessions({
-					mySessions: response.sessions
-				});
+				//TODO:
+				// setSessions({
+				// 	mySessions: response.sessions
+				// });
 			});
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps

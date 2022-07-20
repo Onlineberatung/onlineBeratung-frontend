@@ -32,7 +32,7 @@ export const Booking = () => {
 		};
 	}, []);
 
-	const assignedConsultant = sessions?.mySessions?.[0].consultant;
+	const assignedConsultant = sessions?.[0].consultant;
 
 	const setCounselorLink = () => {
 		getCounselorAppointmentLink(assignedConsultant.consultantId).then(
@@ -43,7 +43,7 @@ export const Booking = () => {
 	};
 
 	const setTeamLink = () => {
-		const agencyId = sessions?.mySessions?.[0]?.agency?.id;
+		const agencyId = sessions?.[0]?.agency?.id;
 		getTeamAppointmentLink(agencyId).then((response) => {
 			setAppointmentLink(`team/${response.slug}`);
 		});

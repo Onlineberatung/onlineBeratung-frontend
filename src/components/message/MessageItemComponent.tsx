@@ -33,6 +33,11 @@ import { translate } from '../../utils/translate';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Appointment } from './Appointment';
+import { decryptText } from '../../utils/encryptionHelpers';
+import { useE2EE } from '../../hooks/useE2EE';
+import { E2EEActivatedMessage } from './E2EEActivatedMessage';
+import { MasterKeyLostMessage } from './MasterKeyLostMessage';
+import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 
 export enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -45,11 +50,6 @@ export enum MessageType {
 	APPOINTMENT_CANCELLED = 'APPOINTMENT_CANCELLED',
 	APPOINTMENT_RESCHEDULED = 'APPOINTMENT_RESCHEDULED'
 }
-import { decryptText } from '../../utils/encryptionHelpers';
-import { useE2EE } from '../../hooks/useE2EE';
-import { E2EEActivatedMessage } from './E2EEActivatedMessage';
-import { MasterKeyLostMessage } from './MasterKeyLostMessage';
-import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 
 export interface ForwardMessageDTO {
 	message: string;
