@@ -1,6 +1,6 @@
 const helpInformal = {
 	'videoCall.asker.steps.headline.2':
-		'Du hast bereits Google Chrome oder Microsoft Edge?',
+		'Hast Du bereits Google Chrome oder Microsoft Edge?',
 	'videoCall.asker.steps.1':
 		'Folge dem Link zu Google Chrome oder Microsoft Edge.',
 	'videoCall.asker.steps.2': 'Lade Dir sich Chrome oder Edge herunter.',
@@ -14,6 +14,7 @@ const helpInformal = {
 
 	'videoCall.consultant.intro':
 		'Um einen Video-Call starten zu können, musst Du Dich über Google Chrome oder Microsoft Edge bei der Online-Beratung anmelden. Somit kann der Video-Call Ende-zu-Ende verschlüsselt werden und Du kannst starten.',
+	'videoCall.consultant.steps.headline.1': 'So geht&#39;s',
 	'videoCall.consultant.steps.headline.2':
 		'Hast Du bereits Google Chrome oder Microsoft Edge?',
 	'videoCall.consultant.steps.1.1': 'Folge dem Link zu ',
@@ -24,7 +25,7 @@ const helpInformal = {
 	'videoCall.consultant.steps.4':
 		'Öffne nun über Chrome oder Edge die Online-Beratung.',
 	'videoCall.consultant.steps.5': 'Melde Dich bei der Online-Beratung an.',
-	'videoCall.consultant.steps.6': 'Nun kannst Du den Video-Call starten.'
+	'videoCall.consultant.steps.6': 'Starte den Video-Call.'
 };
 
 export default helpInformal;

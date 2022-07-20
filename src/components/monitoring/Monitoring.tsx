@@ -17,6 +17,12 @@ import { Loading } from '../app/Loading';
 import { useSession } from '../../hooks/useSession';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SessionTypeContext } from '../../globalState';
+import { useResponsive } from '../../hooks/useResponsive';
+import {
+	desktopView,
+	mobileListView,
+	mobileUserProfileView
+} from '../app/navigationHandler';
 
 export const Monitoring = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
@@ -56,6 +62,17 @@ export const Monitoring = () => {
 				console.log(error);
 			});
 	}, [activeSession, listPath, ready, sessionListTab]);
+
+	const { fromL } = useResponsive();
+	useEffect(() => {
+		if (!fromL) {
+			mobileUserProfileView();
+			return () => {
+				mobileListView();
+			};
+		}
+		desktopView();
+	}, [fromL]);
 
 	const handleChange = (key, parentKey) => {
 		const checkObj = (obj, k, prevk) => {

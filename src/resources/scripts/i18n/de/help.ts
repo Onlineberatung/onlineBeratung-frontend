@@ -3,7 +3,7 @@ const help = {
 	'msEdge': 'Microsoft Edge',
 
 	'videoCall.asker.steps.headline.1':
-		'Schritt für Schritt Anleitung: Video-Calls Ende-zu-Ende zu verschlüsseln',
+		'Video-Calls Ende-zu-Ende zu verschlüsseln',
 	'videoCall.asker.steps.headline.2':
 		'Sie haben bereits Google Chrome oder Microsoft Edge?',
 	'videoCall.asker.steps.1':
@@ -33,7 +33,7 @@ const help = {
 		'Öffnen Sie nun über Chrome oder Edge die Online-Beratung.',
 	'videoCall.consultant.steps.5':
 		'Melden Sie sich bei der Online-Beratung an.',
-	'videoCall.consultant.steps.6': 'Nun können Sie den Video-Call starten.',
+	'videoCall.consultant.steps.6': 'Starten Sie den Video-Call.',
 
 	'videoCall.loginLink.title': 'Link in Zwischenablage kopieren',
 	'videoCall.loginLink.text': 'Link kopieren',
