@@ -33,6 +33,7 @@ import typingIndicator from './de/typingIndicator';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
 import videoConference from './de/videoConference';
+import walkthrough from './de/walkthrough';
 import qrCode from './de/qrCode';
 import releaseNote from './de/releaseNote';
 import e2ee from './de/e2ee';
@@ -76,6 +77,7 @@ const de = {
 	videoConference,
 	qrCode,
 	releaseNote,
+	walkthrough,
 	e2ee,
 	aliases
 };

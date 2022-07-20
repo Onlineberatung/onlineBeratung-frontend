@@ -7,7 +7,7 @@ let command = process.argv[2];
 function throwUsageError(message) {
 	throw new Error(
 		(message ? message + '\n\n' : '') +
-			'Please call `caritas-onlineberatung-frontend` with one of the available commands:' +
+			'Please call `onlineberatung-frontend` with one of the available commands:' +
 			'\n - `start`: Start the development server' +
 			'\n - `build`: Build the app for production' +
 			'\n'

@@ -98,12 +98,14 @@
 				background-color: currentColor;
 				content: '';
 
+				/* stylelint-disable */
 				mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 17 16'%3E%3Cpath d='M4.85 1.684a1.19 1.19 0 0 0 0 1.684L9.481 8 4.85 12.634a1.19 1.19 0 0 0 0 1.683 1.19 1.19 0 0 0 1.684 0l5.48-5.48a1.19 1.19 0 0 0 0-1.684l-5.48-5.48a1.2 1.2 0 0 0-1.684.011Z'/%3E%3C/svg%3E");
 				-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 17 16'%3E%3Cpath d='M4.85 1.684a1.19 1.19 0 0 0 0 1.684L9.481 8 4.85 12.634a1.19 1.19 0 0 0 0 1.683 1.19 1.19 0 0 0 1.684 0l5.48-5.48a1.19 1.19 0 0 0 0-1.684l-5.48-5.48a1.2 1.2 0 0 0-1.684.011Z'/%3E%3C/svg%3E");
 				mask-repeat: no-repeat;
 				-webkit-mask-repeat: no-repeat;
 				mask-position: center;
 				-webkit-mask-position: center;
+				/* stylelint-enable */
 			}
 		}
 	}
