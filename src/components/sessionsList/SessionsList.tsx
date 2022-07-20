@@ -36,7 +36,7 @@ import {
 	UPDATE_SESSIONS,
 	UserDataContext
 } from '../../globalState';
-import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
+import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { SessionListItemComponent } from '../sessionsListItem/SessionListItemComponent';
 import { SessionsListSkeleton } from '../sessionsListItem/SessionsListItemSkeleton';
 import {
@@ -694,6 +694,7 @@ export const SessionsList = ({
 									type="standard"
 								/>
 							</Link>
+
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
@@ -703,6 +704,7 @@ export const SessionsList = ({
 								to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`}
 							>
 								<Text
+									className={clsx('walkthrough_step_2')}
 									text={translate(
 										'sessionList.preview.anonymous.tab'
 									)}
@@ -744,6 +746,7 @@ export const SessionsList = ({
 								}?sessionListTab=${SESSION_LIST_TAB_ARCHIVE}`}
 							>
 								<Text
+									className={clsx('walkthrough_step_4')}
 									text={translate(
 										'sessionList.view.archive.tab'
 									)}

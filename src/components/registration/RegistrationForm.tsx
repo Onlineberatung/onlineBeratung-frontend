@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { translate } from '../../utils/translate';
+import { Text } from '../text/Text';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
 import { buttonItemSubmit } from './registrationHelpers';
@@ -275,6 +276,18 @@ export const RegistrationForm = ({
 							)}
 							agencyData={preselectedAgencyData}
 						/>
+					)}
+
+				{consultingType?.registration.autoSelectPostcode &&
+					!preselectedAgencyData && (
+						<div className="registrationForm__no-agency-found">
+							<Text
+								text={translate(
+									'registration.agencySelection.noAgencies'
+								)}
+								type="infoLargeAlternative"
+							/>
+						</div>
 					)}
 
 				<div className="registrationForm__dataProtection">
