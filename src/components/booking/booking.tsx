@@ -6,11 +6,8 @@ import {
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
 import Cal from '../cal/Cal';
-import {
-	SessionsDataContext,
-	UserDataContext,
-	UserDataInterface
-} from '../../globalState';
+import { UserDataContext, UserDataInterface } from '../../globalState';
+import { useLocation } from 'react-router-dom';
 import { getCounselorAppointmentLink, getTeamAppointmentLink } from '../../api';
 
 export const getUserEmail = (userData: UserDataInterface) => {
@@ -21,8 +18,8 @@ export const getUserEmail = (userData: UserDataInterface) => {
 
 export const Booking = () => {
 	const { userData } = useContext(UserDataContext);
-	const { sessions } = useContext(SessionsDataContext);
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
+	const location = useLocation();
 
 	useEffect(() => {
 		setBookingWrapperActive();
@@ -31,19 +28,20 @@ export const Booking = () => {
 			setBookingWrapperInactive();
 		};
 	}, []);
-
-	const assignedConsultant = sessions?.[0].consultant;
+	const assignedConsultant = location.state.session.consultant;
 
 	const setCounselorLink = () => {
-		getCounselorAppointmentLink(assignedConsultant.consultantId).then(
-			(response) => {
-				setAppointmentLink(response.slug);
-			}
-		);
+		// getCounselorAppointmentLink(assignedConsultant.consultantId).then(
+		getCounselorAppointmentLink(
+			'a9227405-69c6-4184-9b5c-beeea5d3354a'
+		).then((response) => {
+			setAppointmentLink(response.slug);
+		});
 	};
 
 	const setTeamLink = () => {
-		const agencyId = sessions?.[0]?.agency?.id;
+		// const agencyId = assignedConsultant.state.consultant.agency.id;
+		const agencyId = 2;
 		getTeamAppointmentLink(agencyId).then((response) => {
 			setAppointmentLink(`team/${response.slug}`);
 		});

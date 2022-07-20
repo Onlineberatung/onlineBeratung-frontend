@@ -138,15 +138,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				});
 			});
 		}
-		if (!activeSession.item?.active || !activeSession.item?.subscribed) {
-			// do not get group members for a chat that has not been started and user is not subscribed
-			return;
-		}
 		if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
 			apiGetAskerSessionList().then((response) => {
+				debugger;
 				const { consultant } = response.sessions[0];
 				if (!consultant) {
 					setConsultant(true);
@@ -156,15 +153,22 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			const { appointmentFeatureEnabled } = userData;
 			setAppointmentFeatureEnabled(appointmentFeatureEnabled);
 		}
+		if (!activeSession.item?.active || !activeSession.item?.subscribed) {
+			// do not get group members for a chat that has not been started and user is not subscribed
+			return;
+		}
 	}, [groupIdFromParam, handleClick, activeSession]);
 
 	let { rcGroupId, sessionId } = useParams();
+
 	const handleBookingButton = () => {
+		debugger;
 		history.push({
 			pathname: '/booking',
 			state: {
 				rcGroupId: rcGroupId,
-				sessionId: sessionId
+				sessionId: sessionId,
+				session: activeSession
 			}
 		});
 	};
