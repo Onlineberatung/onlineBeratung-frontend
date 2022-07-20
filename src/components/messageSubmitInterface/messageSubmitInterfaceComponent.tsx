@@ -274,7 +274,7 @@ export const MessageSubmitInterfaceComponent = (
 	}, [isConsultantAbsent, isLiveChatFinished, isSessionArchived, userData]);
 
 	useEffect(() => {
-		apiGetDraftMessage(groupIdOrSessionId)
+		apiGetDraftMessage(activeSession.rid)
 			.then((response) => {
 				if (isE2eeEnabled) {
 					return decryptText(
@@ -310,7 +310,7 @@ export const MessageSubmitInterfaceComponent = (
 					requestFeedbackCheckboxCallback &&
 					requestFeedbackCheckboxCallback.checked
 						? activeSession.item.feedbackGroupId
-						: groupIdOrSessionId;
+						: activeSession.rid;
 
 				if (isE2eeEnabled && props.E2EEParams.encrypted) {
 					encryptText(
@@ -353,7 +353,8 @@ export const MessageSubmitInterfaceComponent = (
 			const groupId =
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
 					? activeSession.item.feedbackGroupId
-					: groupIdOrSessionId;
+					: activeSession.rid;
+
 			if (isE2eeEnabled && props.E2EEParams.encrypted) {
 				encryptText(
 					debouncedDraftMessage,
