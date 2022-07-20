@@ -19,6 +19,7 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	SessionsDataContext,
+	SET_SESSIONS,
 	UserDataContext
 } from '../../globalState';
 import { BookingEventsInterface } from '../../globalState/interfaces/BookingDataInterface';
@@ -87,9 +88,7 @@ export const BookingEvents = () => {
 	}, []);
 
 	const { userData } = useContext(UserDataContext);
-	const sessionsContext = useContext(SessionsDataContext);
-	//TODO: fix me
-	const { sessions } = sessionsContext;
+	const { sessions, dispatch } = useContext(SessionsDataContext);
 
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
@@ -142,9 +141,8 @@ export const BookingEvents = () => {
 								className="bookingEvents__innerWrapper-no-bookings-text"
 								text={`${translate(
 									'booking.my.booking.schedule'
-								)} <b>${
-									sessions?.[0].consultant.username
-								}</b>:`}
+								)} <b>
+								${sessions?.[0]?.consultant?.username}</b>:`}
 								type="standard"
 							/>
 							<Button
@@ -170,13 +168,14 @@ export const BookingEvents = () => {
 					transformData(bookings);
 				}
 			);
-			apiGetAskerSessionList().then((response) => {
-				//TODO:
-				// setSessions({
-				// 	mySessions: response.sessions
-				// });
-			});
 		}
+		apiGetAskerSessionList().then((response) => {
+			dispatch({
+				type: SET_SESSIONS,
+				ready: true,
+				sessions
+			});
+		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

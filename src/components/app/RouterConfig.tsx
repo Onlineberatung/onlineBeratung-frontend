@@ -37,6 +37,7 @@ import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/sp
 import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
+import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
@@ -58,8 +59,7 @@ const showAppointmentsMenuItem = (
 ) => {
 	return (
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
-		(userData.appointmentFeatureEnabled &&
-			!!sessionsData?.mySessions?.[0]?.consultant)
+		(userData.appointmentFeatureEnabled && !!sessionsData[0]?.consultant)
 	);
 };
 
@@ -88,7 +88,7 @@ export const RouterConfigUser = (): any => {
 			{
 				condition: showAppointmentsMenuItem,
 				to: '/booking/events',
-				icon: 'booking-events',
+				icon: <CalendarMonthIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.booking.events'
 				}
@@ -211,7 +211,7 @@ export const RouterConfigConsultant = (): any => {
 			{
 				condition: showAppointmentsMenuItem,
 				to: '/booking/events',
-				icon: 'booking-events',
+				icon: <CalendarMonthIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.booking.events'
 				}
@@ -372,7 +372,7 @@ export const RouterConfigTeamConsultant = (): any => {
 			{
 				condition: showAppointmentsMenuItem,
 				to: '/booking/events',
-				icon: 'booking-events',
+				icon: <CalendarMonthIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.booking.events'
 				}

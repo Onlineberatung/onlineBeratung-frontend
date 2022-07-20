@@ -6,7 +6,11 @@ import {
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
 import Cal from '../cal/Cal';
-import { UserDataContext, UserDataInterface } from '../../globalState';
+import {
+	SessionsDataContext,
+	UserDataContext,
+	UserDataInterface
+} from '../../globalState';
 import { useLocation } from 'react-router-dom';
 import { getCounselorAppointmentLink, getTeamAppointmentLink } from '../../api';
 
@@ -18,6 +22,7 @@ export const getUserEmail = (userData: UserDataInterface) => {
 
 export const Booking = () => {
 	const { userData } = useContext(UserDataContext);
+	const { sessions } = useContext(SessionsDataContext);
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
 	const location = useLocation();
 

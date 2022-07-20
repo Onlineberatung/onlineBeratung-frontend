@@ -143,7 +143,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
 			apiGetAskerSessionList().then((response) => {
-				debugger;
 				const { consultant } = response.sessions[0];
 				if (!consultant) {
 					setConsultant(true);
@@ -162,7 +161,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	let { rcGroupId, sessionId } = useParams();
 
 	const handleBookingButton = () => {
-		debugger;
 		history.push({
 			pathname: '/booking',
 			state: {

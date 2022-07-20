@@ -33,7 +33,7 @@ export const NavigationBar = ({
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions } = useContext(SessionsDataContext);
-
+	const [sessionID, setSessionID] = useState(null);
 	const sessionId = sessions?.[0]?.session?.id;
 
 	const {
@@ -44,12 +44,12 @@ export const NavigationBar = ({
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
-			apiFinishAnonymousConversation(sessionId).catch((error) => {
+			apiFinishAnonymousConversation(sessionID).catch((error) => {
 				console.error(error);
 			});
 		}
 		onLogout();
-	}, [onLogout, sessionId, userData]);
+	}, [onLogout, sessionID, userData]);
 
 	const location = useLocation();
 	const [animateNavIcon, setAnimateNavIcon] = useState(false);
@@ -57,6 +57,11 @@ export const NavigationBar = ({
 	useEffect(() => {
 		initNavigationHandler();
 	}, []);
+
+	useEffect(() => {
+		debugger;
+		setSessionID(sessions?.[0]?.session?.id);
+	}, [sessions]);
 
 	const animateNavIconTimeoutRef = useRef(null);
 	useEffect(() => {
@@ -125,7 +130,7 @@ export const NavigationBar = ({
 							}`}
 							to={item.to}
 						>
-							{
+							{/* {
 								{
 									'inbox': (
 										<InboxIcon className="navigation__icon" />
@@ -146,7 +151,7 @@ export const NavigationBar = ({
 										<CalendarMonthIcon className="navigation__icon" />
 									)
 								}[item.icon]
-							}
+							} */}
 							{item?.icon}
 							{(({ large }) => {
 								return (
