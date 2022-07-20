@@ -64,7 +64,9 @@ export const SubscriptionKeyLost = () => {
 									buttonHandle={handleButton}
 									item={{
 										type: BUTTON_TYPES.PRIMARY,
-										label: 'Benachrichtigung schicken'
+										label: translate(
+											'e2ee.subscriptionKeyLost.notice.link'
+										)
 									}}
 								/>
 							</div>

@@ -49,6 +49,7 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { encryptRoom } from '../../utils/e2eeHelper';
 import { AcceptAssign } from './AcceptAssign';
 import { SubscriptionKeyLost } from './SubscriptionKeyLost';
+import { RoomNotFound } from './RoomNotFound';
 
 interface SessionItemProps {
 	isTyping?: Function;
@@ -92,7 +93,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		keyID,
 		sessionKeyExportedString,
 		ready,
-		subscriptionKeyLost
+		subscriptionKeyLost,
+		roomNotFound
 	} = useE2EE(groupIdFromParam);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 	const [groupKey, setGroupKey] = useState(null);
@@ -159,9 +161,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 					userData
 				)) &&
-				!subscriptionKeyLost
+				!subscriptionKeyLost &&
+				!roomNotFound
 		);
-	}, [subscriptionKeyLost, type, userData]);
+	}, [subscriptionKeyLost, roomNotFound, type, userData]);
 
 	const resetUnreadCount = () => {
 		setNewMessages(0);
@@ -520,6 +523,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			)}
 
 			{subscriptionKeyLost && <SubscriptionKeyLost />}
+			{roomNotFound && <RoomNotFound />}
 		</div>
 	);
 };
