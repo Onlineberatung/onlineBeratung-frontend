@@ -2,7 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
 	AgencyDataInterface,
-	ConsultingTypeBasicInterface
+	ConsultingTypeBasicInterface,
+	useTenant
 } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
@@ -41,6 +42,7 @@ export interface AgencySelectionProps {
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
+	const tenantData = useTenant();
 	const [isLoading, setIsLoading] = useState(false);
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState('');
 	const [proposedAgencies, setProposedAgencies] = useState<
@@ -126,7 +128,12 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					setIsLoading(true);
 					setSelectedAgency(null);
 					setPostcodeFallbackLink('');
-					if (validPostcode()) {
+					const isValidInTopicRegistration =
+						(tenantData?.settings?.topicsInRegistrationEnabled &&
+							props.mainTopicId) ||
+						!tenantData?.settings?.topicsInRegistrationEnabled;
+
+					if (validPostcode() && isValidInTopicRegistration) {
 						const agencies = (
 							await apiAgencySelection({
 								postcode: selectedPostcode,
