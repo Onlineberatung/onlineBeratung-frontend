@@ -65,6 +65,7 @@
 		"eslint-webpack-plugin": "^2.5.4",
 		"fastestsmallesttextencoderdecoder": "^1.0.22",
 		"file-loader": "^6.2.0",
+		"focus-trap-react": "^9.0.2",
 		"fs-extra": "^10.0.0",
 		"get-contrast": "^3.0.0",
 		"hi-base32": "0.5.1",
