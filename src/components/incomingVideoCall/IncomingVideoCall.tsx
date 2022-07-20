@@ -5,7 +5,11 @@ import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-of
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { translate } from '../../utils/translate';
 import { useContext } from 'react';
-import { NotificationType, NotificationsContext } from '../../globalState';
+import {
+	NotificationType,
+	NotificationsContext,
+	UserDataContext
+} from '../../globalState';
 import {
 	getVideoCallUrl,
 	supportsE2EEncryptionVideoCall
@@ -72,6 +76,7 @@ const getInitials = (text: string) => {
 
 export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 	const { removeNotification } = useContext(NotificationsContext);
+	const { userData } = useContext(UserDataContext);
 
 	const decodedUsername = decodeUsername(props.videoCall.initiatorUsername);
 
@@ -80,7 +85,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 			getVideoCallUrl(
 				props.videoCall.videoCallUrl,
 				isVideoActivated,
-				decodedUsername
+				userData.userName
 			)
 		);
 		removeIncomingVideoCallNotification();
