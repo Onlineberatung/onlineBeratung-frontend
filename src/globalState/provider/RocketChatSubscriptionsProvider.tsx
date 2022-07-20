@@ -131,7 +131,7 @@ export const RocketChatSubscriptionsProvider = ({
 
 			// Get user rooms
 			sendMethod(METHOD_ROOMS_GET, [], (rooms) => {
-				setRooms(rooms);
+				setRooms(rooms ?? []);
 
 				subscribe(
 					{
@@ -145,7 +145,7 @@ export const RocketChatSubscriptionsProvider = ({
 
 			// Get user subscriptions
 			sendMethod(METHOD_SUBSCRIPTIONS_GET, [], (subscriptions) => {
-				setSubscriptions(subscriptions);
+				setSubscriptions(subscriptions ?? []);
 
 				subscribe(
 					{

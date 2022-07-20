@@ -58,7 +58,7 @@ export const Button = (props: ButtonProps) => {
 	const handleButtonTimer = () => {
 		if (item.type === BUTTON_TYPES.AUTO_CLOSE) {
 			timeoutID = window.setTimeout(() => {
-				props.buttonHandle(item.function);
+				props.buttonHandle(item.function, item.functionArgs);
 			}, OVERLAY_RESET_TIME);
 		}
 	};
