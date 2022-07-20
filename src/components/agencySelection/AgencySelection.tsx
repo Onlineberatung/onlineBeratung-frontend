@@ -128,12 +128,17 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					setIsLoading(true);
 					setSelectedAgency(null);
 					setPostcodeFallbackLink('');
-					const isValidInTopicRegistration =
+					// When we have the topics in in registration enabled to prevent for us doing the request
+					// we need to ensure that we've the mainTopicId is set
+					const isValidWhenTopicInRegistrationIsActive =
 						(tenantData?.settings?.topicsInRegistrationEnabled &&
 							props.mainTopicId) ||
 						!tenantData?.settings?.topicsInRegistrationEnabled;
 
-					if (validPostcode() && isValidInTopicRegistration) {
+					if (
+						validPostcode() &&
+						isValidWhenTopicInRegistrationIsActive
+					) {
 						const agencies = (
 							await apiAgencySelection({
 								postcode: selectedPostcode,
