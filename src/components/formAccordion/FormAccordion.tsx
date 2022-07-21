@@ -21,6 +21,7 @@ import {
 	AccordionItemValidity,
 	stateData,
 	VALIDITY_INITIAL,
+	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import {
@@ -99,15 +100,12 @@ export const FormAccordion = ({
 		);
 	}, [validity]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const handleValidity = useCallback(
-		(key, value) => {
-			setValidity({
-				...validity,
-				[key]: value
-			});
-		},
-		[validity]
-	);
+	const handleValidity = useCallback((key, value) => {
+		setValidity((prevState) => ({
+			...prevState,
+			[key]: value
+		}));
+	}, []);
 
 	useEffect(() => {
 		if (isUsernameAlreadyInUse) {
@@ -221,9 +219,16 @@ export const FormAccordion = ({
 					preselectedAgency={preselectedAgencyData}
 					onAgencyChange={(agency) => setAgency(agency)}
 					hideExternalAgencies
-					onValidityChange={(validity) =>
-						handleValidity('agency', validity)
-					}
+					onValidityChange={(validity) => {
+						if (
+							tenantData?.settings?.topicsInRegistrationEnabled &&
+							!mainTopicId &&
+							validity !== VALIDITY_INITIAL
+						) {
+							handleValidity('mainTopic', VALIDITY_INVALID);
+						}
+						handleValidity('agency', validity);
+					}}
 					agencySelectionNote={registrationNotes?.agencySelection}
 					mainTopicId={mainTopicId}
 				/>

@@ -94,7 +94,10 @@ export const Overlay = (props: {
 		}
 	}, [activeStep, props.items]);
 
-	const handleButtonClick = (buttonFunction: string) => {
+	const handleButtonClick = (
+		buttonFunction: string,
+		buttonArgs?: { [key: string]: any }
+	) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.NEXT_STEP) {
 			if (activeOverlay.handleNextStep) {
 				activeOverlay.handleNextStep(() => {
@@ -106,9 +109,9 @@ export const Overlay = (props: {
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.PREV_STEP) {
 			setActiveStep(activeStep - 1);
 		} else if (props.item && props.handleOverlay) {
-			props.handleOverlay(buttonFunction);
+			props.handleOverlay(buttonFunction, buttonArgs);
 		} else if (activeOverlay.handleOverlay) {
-			activeOverlay.handleOverlay(buttonFunction);
+			activeOverlay.handleOverlay(buttonFunction, buttonArgs);
 		}
 	};
 

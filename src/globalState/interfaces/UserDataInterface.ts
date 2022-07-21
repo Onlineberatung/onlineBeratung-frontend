@@ -19,6 +19,7 @@ export interface UserDataInterface {
 	e2eEncryptionEnabled: boolean;
 	twoFactorAuth?: TwoFactorAuthInterface;
 	languages?: string[];
+	isWalkThroughEnabled?: boolean;
 }
 
 export interface ConsultantDataInterface
@@ -53,6 +54,7 @@ export interface TwoFactorAuthInterface {
 	isActive: boolean;
 	secret: string;
 	qrCode: string;
+	isShown: boolean;
 }
 
 export interface AgencyLanguagesInterface {

@@ -13,6 +13,8 @@ import { AbsenceFormular } from './AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { TwoFactorAuth } from '../twoFactorAuth/TwoFactorAuth';
 import { DeleteAccount } from './DeleteAccount';
+import { EnableWalkthrough } from './EnableWalkthrough';
+import { config } from '../../resources/scripts/config';
 import { Help } from '../help/Help';
 import { ConsultantNotifications } from './ConsultantNotifications';
 
@@ -78,6 +80,15 @@ const routes: TabsType = [
 								userData
 							),
 						component: ConsultantAgencies,
+						column: COLUMN_LEFT
+					},
+					{
+						condition: (userData) =>
+							hasUserAuthority(
+								AUTHORITIES.CONSULTANT_DEFAULT,
+								userData
+							) && config.enableWalkthrough,
+						component: EnableWalkthrough,
 						column: COLUMN_LEFT
 					},
 					{
