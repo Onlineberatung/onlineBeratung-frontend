@@ -164,22 +164,15 @@ export const config = {
 	twofactor: {
 		messages: [
 			{
-				headline: 'twoFactorAuth.nag.title',
-				text: 'twoFactorAuth.nag.copy',
-				showClose: true
-			},
-			{
-				headline: '',
-				text: '',
-				hint: '',
+				title: 'twoFactorAuth.nag.obligatory.moment.title',
+				copy: 'twoFactorAuth.nag.obligatory.moment.copy',
 				startMessage: '22.07.2022',
 				dateTwoFactor: '30.07.2022',
 				showClose: true
 			},
 			{
-				headline: 'twoFactorAuth.nag.obligatory.title',
-				text: 'twoFactorAuth.nag.obligatory.copy',
-				hint: 'twoFactorAuth.nag.obligatory.hint',
+				title: 'twoFactorAuth.nag.obligatory.title',
+				copy: 'twoFactorAuth.nag.obligatory.copy',
 				startMessage: '30.07.2022',
 				showClose: false
 			}

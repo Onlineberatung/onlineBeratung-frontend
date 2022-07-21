@@ -97,7 +97,14 @@ const twoFactorAuth = {
 	'nag.copy':
 		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Bratung.',
 	'nag.button.later': 'Später Erinnern',
-	'nag.button.protect': 'Jetzt schützen'
+	'nag.button.protect': 'Jetzt schützen',
+	'nag.obligatory.moment.title':
+		'Schützen Sie Ihr Konto bis spätestens %date%',
+	'nag.obligatory.moment.copy':
+		'Sie müssen bis zum TT.MM.JJJJ einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Ihr Konto vor einem möglichen unbefugten Zugriff. <br><b>Achtung: Ohne einen zweiten Faktor dürfen  Sie nach dem TT.MM.JJJJ nicht mehr online beraten.</b>',
+	'nag.obligatory.title': 'Schützen Sie nun Ihr Konto',
+	'nag.obligatory.copy':
+		'Sie müssen jetzt einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt ihr Konto vor einem möglichen unbefugten Zugriff. <br><b>Ohne einen zweiten Faktor dürfen Sie nicht mehr online beraten.</b>'
 };
 
 export default twoFactorAuth;

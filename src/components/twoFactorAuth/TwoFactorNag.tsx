@@ -5,6 +5,7 @@ import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { history } from '../app/app';
 import './twoFactorNag.styles';
+import { config } from '../../resources/scripts/config';
 
 interface TwoFactorNagProps {}
 
@@ -12,15 +13,19 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const { userData } = useContext(UserDataContext);
 	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
 	const [forceHideTwoFactorNag, setForceHideTwoFactorNag] = useState(false);
+	const [message, setMessage] = useState({
+		title: 'twoFactorAuth.nag.title',
+		copy: 'twoFactorAuth.nag.copy'
+	});
 
 	useEffect(() => {
-		console.log('forceHideTwoFactorNag', forceHideTwoFactorNag);
 		if (
 			userData.twoFactorAuth?.isEnabled &&
 			!userData.twoFactorAuth?.isActive &&
 			!forceHideTwoFactorNag
 		) {
 			setIsShownTwoFactorNag(true);
+			//setMessage(config.twofactor.messages[0]);
 		}
 	}, [userData, forceHideTwoFactorNag]);
 
@@ -53,8 +58,8 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 				handleOverlayClose={closeTwoFactorNag}
 				handleOverlay={handleOverlayAction}
 				item={{
-					headline: translate('twoFactorAuth.nag.title'),
-					copy: translate('twoFactorAuth.nag.copy'),
+					headline: translate(message.title),
+					copy: translate(message.copy),
 					buttonSet: [
 						{
 							label: translate('twoFactorAuth.nag.button.later'),
