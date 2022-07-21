@@ -65,6 +65,12 @@ export const InputField = (props: InputFieldProps) => {
 		}
 	};
 
+	const keyDownHandle = (e) => {
+		if (props.keyDownHandle) {
+			props.keyDownHandle(e);
+		}
+	};
+
 	return (
 		<div
 			className={`inputField ${
@@ -89,7 +95,7 @@ export const InputField = (props: InputFieldProps) => {
 				disabled={inputItem.disabled}
 				autoComplete="off"
 				onKeyUp={handleKeyUp}
-				onKeyDown={(e) => props.keyDownHandle(e)}
+				onKeyDown={keyDownHandle}
 			/>
 			<label className="inputField__label" htmlFor={inputItem.id}>
 				{inputItem.label}
