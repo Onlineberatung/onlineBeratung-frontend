@@ -17,6 +17,9 @@ export const APP_PATH = 'app';
 export const config = {
 	useTenantService: false,
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
+	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
+	enableVideoAppointments: true, // Feature flag to enable Video-Termine page
+
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
 		agencyServiceBase: apiUrl + '/service/agencies',
@@ -45,13 +48,13 @@ export const config = {
 		groupChatBase: apiUrl + '/service/users/chat/',
 		keycloakAccessToken:
 			apiUrl +
-			'/auth/realms/caritas-online-beratung/protocol/openid-connect/token',
+			'/auth/realms/online-beratung/protocol/openid-connect/token',
 		keycloakLogout:
 			apiUrl +
-			'/auth/realms/caritas-online-beratung/protocol/openid-connect/logout',
+			'/auth/realms/online-beratung/protocol/openid-connect/logout',
 		liveservice: apiUrl + '/service/live',
 		loginResetPasswordLink:
-			'/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
+			'/auth/realms/online-beratung/login-actions/reset-credentials?client_id=account',
 		messageRead: apiUrl + '/api/v1/subscriptions.read',
 		messages: apiUrl + '/service/messages',
 		myMessagesBase:

@@ -24,6 +24,7 @@ export * from './apiPostRegistration';
 export * from './apiPutArchive';
 export * from './apiPutDearchive';
 export * from './apiPutGroupChat';
+export * from './apiPatchConsultantData';
 export * from './apiPutConsultantData';
 export * from './apiPutEmail';
 export * from './apiPutSessionData';
