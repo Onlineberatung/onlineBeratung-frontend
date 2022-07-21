@@ -12,14 +12,14 @@ interface RegistrationStateProps {
 	onStateChange: Function;
 	onValidityChange: Function;
 	dropdownSelectData: RegistrationDropdownSelectData;
-	keyDownHandle: Function;
+	onKeyDown: Function;
 }
 
 export const RegistrationState = ({
 	onStateChange,
 	onValidityChange,
 	dropdownSelectData,
-	keyDownHandle
+	onKeyDown
 }: RegistrationStateProps) => {
 	const [state, setState] = useState<string>();
 	const [isValid, setIsValid] =
@@ -52,10 +52,7 @@ export const RegistrationState = ({
 
 	return (
 		<div>
-			<SelectDropdown
-				{...stateSelectDropdown}
-				keyDownHandle={keyDownHandle}
-			/>
+			<SelectDropdown {...stateSelectDropdown} onKeyDown={onKeyDown} />
 		</div>
 	);
 };

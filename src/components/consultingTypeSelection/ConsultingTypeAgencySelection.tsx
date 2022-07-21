@@ -29,7 +29,7 @@ export interface ConsultingTypeAgencySelectionProps {
 	agency?: any;
 	preselectedConsultingType?: ConsultingTypeInterface;
 	preselectedAgency?: any;
-	keyDownHandle?: Function;
+	onKeyDown?: Function;
 }
 
 export const useConsultingTypeAgencySelection = (
@@ -99,7 +99,7 @@ export const ConsultingTypeAgencySelection = ({
 	agency,
 	preselectedConsultingType,
 	preselectedAgency,
-	keyDownHandle
+	onKeyDown
 }: ConsultingTypeAgencySelectionProps) => {
 	const [selectedConsultingTypeOption, setSelectedConsultingTypeOption] =
 		useState<SelectOption>(null);
@@ -183,7 +183,7 @@ export const ConsultingTypeAgencySelection = ({
 					/>
 					<SelectDropdown
 						{...consultingTypeSelect}
-						keyDownHandle={keyDownHandle}
+						onKeyDown={onKeyDown}
 					/>
 				</div>
 			)}
@@ -213,14 +213,14 @@ type AgencySelectionProps = {
 	agencies: AgencyDataInterface[];
 	selectedAgency?: AgencyDataInterface;
 	onChange: Function;
-	keyDownHandle?: Function;
+	onKeyDown?: Function;
 };
 
 const AgencySelection = ({
 	agencies,
 	onChange,
 	selectedAgency,
-	keyDownHandle
+	onKeyDown
 }: AgencySelectionProps) => {
 	return (
 		<div>
@@ -239,7 +239,7 @@ const AgencySelection = ({
 						}
 						inputId={agency.id.toString()}
 						label={agency.name}
-						keyDownHandle={keyDownHandle}
+						onKeyDown={onKeyDown}
 					/>
 					<AgencyInfo agency={agency} />
 					<AgencyLanguages agencyId={agency.id} />

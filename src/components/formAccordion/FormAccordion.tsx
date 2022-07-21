@@ -113,7 +113,7 @@ export const FormAccordion = ({
 		}
 	}, [isUsernameAlreadyInUse]);
 
-	const keyDownHandle = (e, isLastInput = true, isFirstInput = true) => {
+	const handleKeyDown = (e, isLastInput = true, isFirstInput = true) => {
 		if (
 			e.key === 'Tab' &&
 			!e.shiftKey &&
@@ -141,7 +141,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('username', validity)
 					}
-					keyDownHandle={keyDownHandle}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.username
@@ -155,7 +155,7 @@ export const FormAccordion = ({
 						handleValidity('password', validity)
 					}
 					passwordNote={registrationNotes?.password}
-					keyDownHandle={keyDownHandle}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.password
@@ -218,7 +218,7 @@ export const FormAccordion = ({
 						onValidityChange={(validity) =>
 							handleValidity('agency', validity)
 						}
-						keyDownHandle={keyDownHandle}
+						onKeyDown={handleKeyDown}
 					/>
 				),
 				isValid: validity.agency
@@ -252,7 +252,7 @@ export const FormAccordion = ({
 					}}
 					agencySelectionNote={registrationNotes?.agencySelection}
 					mainTopicId={mainTopicId}
-					keyDownHandle={keyDownHandle}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.agency
@@ -272,7 +272,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('age', validity)
 					}
-					keyDownHandle={keyDownHandle}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.age
@@ -292,7 +292,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('state', validity)
 					}
-					keyDownHandle={keyDownHandle}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.state

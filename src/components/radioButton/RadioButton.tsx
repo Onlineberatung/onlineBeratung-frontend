@@ -11,7 +11,7 @@ export interface RadioButtonItem {
 	type: 'default' | 'box' | 'smaller';
 	value: string;
 	className?: string;
-	keyDownHandle?: Function;
+	onKeyDown?: Function;
 }
 
 export const RadioButton = (props: RadioButtonItem) => {
@@ -32,7 +32,7 @@ export const RadioButton = (props: RadioButtonItem) => {
 					value={props.value}
 					defaultChecked={props.checked}
 					onKeyDown={(e) =>
-						props.keyDownHandle ? props.keyDownHandle(e) : ''
+						props.onKeyDown ? props.onKeyDown(e) : null
 					}
 				/>
 				<label className="radioButton__label" htmlFor={props.inputId}>

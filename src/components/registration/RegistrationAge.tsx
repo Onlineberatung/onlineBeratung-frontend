@@ -12,14 +12,14 @@ interface RegistrationAgeProps {
 	onAgeChange: Function;
 	onValidityChange: Function;
 	dropdownSelectData: RegistrationDropdownSelectData;
-	keyDownHandle: Function;
+	onKeyDown: Function;
 }
 
 export const RegistrationAge = ({
 	onValidityChange,
 	onAgeChange,
 	dropdownSelectData,
-	keyDownHandle
+	onKeyDown
 }: RegistrationAgeProps) => {
 	const [age, setAge] = useState<string>();
 	const [isValid, setIsValid] =
@@ -53,10 +53,7 @@ export const RegistrationAge = ({
 
 	return (
 		<div>
-			<SelectDropdown
-				{...ageSelectDropdown}
-				keyDownHandle={keyDownHandle}
-			/>
+			<SelectDropdown {...ageSelectDropdown} onKeyDown={onKeyDown} />
 		</div>
 	);
 };
