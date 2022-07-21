@@ -276,7 +276,10 @@ export const SessionsList = ({
 				abortController.current = null;
 			}
 
-			if (!showAppointmentsMenu(userData, sessions)) {
+			if (
+				sessions.length !== 0 &&
+				!showAppointmentsMenu(userData, sessions)
+			) {
 				dispatch({
 					type: SET_SESSIONS,
 					sessions: [],
