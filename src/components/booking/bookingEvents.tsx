@@ -173,7 +173,7 @@ export const BookingEvents = () => {
 			dispatch({
 				type: SET_SESSIONS,
 				ready: true,
-				sessions
+				sessions: response.sessions
 			});
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps

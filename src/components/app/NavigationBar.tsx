@@ -10,13 +10,7 @@ import {
 	SessionsDataContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
-import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
-import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
-import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
-import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
-import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
-import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import clsx from 'clsx';
 import { RocketChatUnreadContext } from '../../globalState/provider/RocketChatUnreadProvider';
 import { apiFinishAnonymousConversation } from '../../api';
@@ -33,8 +27,7 @@ export const NavigationBar = ({
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions } = useContext(SessionsDataContext);
-
-	const sessionId = sessions?.[0]?.session?.id;
+	const [sessionId, setSessionId] = useState(null);
 
 	const {
 		sessions: unreadSessions,
@@ -57,6 +50,10 @@ export const NavigationBar = ({
 	useEffect(() => {
 		initNavigationHandler();
 	}, []);
+
+	useEffect(() => {
+		setSessionId(sessions?.[0]?.session?.id);
+	}, [sessions]);
 
 	const animateNavIconTimeoutRef = useRef(null);
 	useEffect(() => {
@@ -125,28 +122,6 @@ export const NavigationBar = ({
 							}`}
 							to={item.to}
 						>
-							{/* {
-								{
-									'inbox': (
-										<InboxIcon className="navigation__icon" />
-									),
-									'speech-bubbles': (
-										<SpeechBubbleIcon className="navigation__icon" />
-									),
-									'speech-bubbles-team': (
-										<SpeechBubbleTeamIcon className="navigation__icon" />
-									),
-									'person': (
-										<PersonIcon className="navigation__icon" />
-									),
-									'calendar': (
-										<CalendarIcon className="navigation__icon" />
-									),
-									'booking-events': (
-										<CalendarMonthIcon className="navigation__icon" />
-									)
-								}[item.icon]
-							} */}
 							{item?.icon}
 							{(({ large }) => {
 								return (

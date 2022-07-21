@@ -924,7 +924,7 @@ export const MessageSubmitInterfaceComponent = (
 	let { rcGroupId, sessionId } = useParams();
 	const handleBookingButton = () => {
 		history.push({
-			pathname: '/booking',
+			pathname: '/booking/',
 			state: {
 				rcGroupId: rcGroupId,
 				sessionId: sessionId

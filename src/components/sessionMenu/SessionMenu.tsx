@@ -162,11 +162,10 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const handleBookingButton = () => {
 		history.push({
-			pathname: '/booking',
+			pathname: '/booking/',
 			state: {
 				rcGroupId: rcGroupId,
-				sessionId: sessionId,
-				session: activeSession
+				sessionId: sessionId
 			}
 		});
 	};

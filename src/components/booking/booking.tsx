@@ -8,11 +8,15 @@ import {
 import Cal from '../cal/Cal';
 import {
 	SessionsDataContext,
+	SET_SESSIONS,
 	UserDataContext,
 	UserDataInterface
 } from '../../globalState';
-import { useLocation } from 'react-router-dom';
-import { getCounselorAppointmentLink, getTeamAppointmentLink } from '../../api';
+import {
+	apiGetAskerSessionList,
+	getCounselorAppointmentLink,
+	getTeamAppointmentLink
+} from '../../api';
 
 export const getUserEmail = (userData: UserDataInterface) => {
 	return userData.email
@@ -22,9 +26,8 @@ export const getUserEmail = (userData: UserDataInterface) => {
 
 export const Booking = () => {
 	const { userData } = useContext(UserDataContext);
-	const { sessions } = useContext(SessionsDataContext);
+	const { sessions, dispatch } = useContext(SessionsDataContext);
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
-	const location = useLocation();
 
 	useEffect(() => {
 		setBookingWrapperActive();
@@ -33,27 +36,29 @@ export const Booking = () => {
 			setBookingWrapperInactive();
 		};
 	}, []);
-	const assignedConsultant = location.state.session.consultant;
-
-	const setCounselorLink = () => {
-		// getCounselorAppointmentLink(assignedConsultant.consultantId).then(
-		getCounselorAppointmentLink(
-			'a9227405-69c6-4184-9b5c-beeea5d3354a'
-		).then((response) => {
-			setAppointmentLink(response.slug);
-		});
-	};
-
-	const setTeamLink = () => {
-		// const agencyId = assignedConsultant.state.consultant.agency.id;
-		const agencyId = 2;
-		getTeamAppointmentLink(agencyId).then((response) => {
-			setAppointmentLink(`team/${response.slug}`);
-		});
-	};
 
 	useEffect(() => {
-		assignedConsultant ? setCounselorLink() : setTeamLink();
+		apiGetAskerSessionList().then((response) => {
+			dispatch({
+				type: SET_SESSIONS,
+				ready: true,
+				sessions: response.sessions
+			});
+
+			const consultant = sessions[0]?.consultant;
+			const agencyId = sessions[0]?.agency?.id;
+			if (consultant) {
+				getCounselorAppointmentLink(consultant?.consultantId).then(
+					(response) => {
+						setAppointmentLink(response.slug);
+					}
+				);
+			} else if (agencyId) {
+				getTeamAppointmentLink(agencyId).then((response) => {
+					setAppointmentLink(`team/${response.slug}`);
+				});
+			}
+		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

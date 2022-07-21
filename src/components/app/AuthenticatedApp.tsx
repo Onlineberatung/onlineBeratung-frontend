@@ -10,9 +10,15 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	LegalLinkInterface,
-	RocketChatProvider
+	RocketChatProvider,
+	SessionsDataContext,
+	SET_SESSIONS
 } from '../../globalState';
-import { apiGetConsultingTypes, apiGetUserData } from '../../api';
+import {
+	apiGetAskerSessionList,
+	apiGetConsultingTypes,
+	apiGetUserData
+} from '../../api';
 import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
@@ -45,6 +51,7 @@ export const AuthenticatedApp = ({
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 
 	const { notifications } = useContext(NotificationsContext);
+	const { sessions, dispatch } = useContext(SessionsDataContext);
 
 	useEffect(() => {
 		if (
@@ -60,17 +67,32 @@ export const AuthenticatedApp = ({
 			setUserDataRequested(true);
 			handleTokenRefresh(false)
 				.then(() => {
-					Promise.all([apiGetUserData(), apiGetConsultingTypes()])
-						.then(([userProfileData, consultingTypes]) => {
-							// set informal / formal cookie depending on the given userdata
-							setValueInCookie(
-								'useInformal',
-								!userProfileData.formalLanguage ? '1' : ''
-							);
-							setUserData(userProfileData);
-							setConsultingTypes(consultingTypes);
-							setAppReady(true);
-						})
+					Promise.all([
+						apiGetUserData(),
+						apiGetConsultingTypes(),
+						apiGetAskerSessionList()
+					])
+						.then(
+							([
+								userProfileData,
+								consultingTypes,
+								sessionsData
+							]) => {
+								// set informal / formal cookie depending on the given userdata
+								setValueInCookie(
+									'useInformal',
+									!userProfileData.formalLanguage ? '1' : ''
+								);
+								setUserData(userProfileData);
+								setConsultingTypes(consultingTypes);
+								setAppReady(true);
+								dispatch({
+									type: SET_SESSIONS,
+									ready: true,
+									sessions: sessionsData.sessions
+								});
+							}
+						)
 						.catch((error) => {
 							setLoading(false);
 							console.log(error);
