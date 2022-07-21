@@ -97,6 +97,7 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 	toAskerName: string;
 	toConsultantName: string;
 	isAsker: boolean;
+	fromConsultantName: string;
 }> = (props) => {
 	return (
 		<div className="reassignRequestMessage">
@@ -127,6 +128,7 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 							{translate(
 								'session.reassign.system.message.reassign.accepted.title',
 								{
+									oldConsultant: props.fromConsultantName,
 									client: props.toAskerName
 								}
 							)}
@@ -135,8 +137,7 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 							{translate(
 								'session.reassign.system.message.reassign.accepted.description',
 								{
-									client: props.toAskerName,
-									newConsultant: props.toConsultantName
+									client: props.toAskerName
 								}
 							)}
 						</span>

@@ -51,9 +51,9 @@ const session = {
 	'reassign.system.message.reassign.sent.description':
 		'Sobald %client1% der Zuweisung zustimmt, wird %client2% an %newConsultant% mit dem kompletten Nachrichtenverlauf übergeben.',
 	'reassign.system.message.reassign.accepted.title':
-		'%client% hat der Zuweisung zugestimmt.',
+		'%oldConsultant% hat Ihnen %client% übergeben.',
 	'reassign.system.message.reassign.accepted.description':
-		'%newConsultant% ist nun für %client% verantwortlich. Sie haben keinen Zugriff mehr auf die künftigen Nachrichten.',
+		'Sie sind nun für %client% verantwortlich.',
 	'reassign.system.message.reassign.declined.title':
 		'%client% hat die Zuweisung abgelehnt.',
 	'reassign.system.message.reassign.declined.description':

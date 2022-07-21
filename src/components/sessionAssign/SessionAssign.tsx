@@ -12,7 +12,8 @@ import {
 	apiGetAgencyConsultantList,
 	apiSessionAssign,
 	FETCH_ERRORS,
-	apiDeleteUserFromRoom
+	apiDeleteUserFromRoom,
+	Consultant
 } from '../../api';
 import {
 	UserDataContext,
@@ -31,12 +32,6 @@ import { useE2EE } from '../../hooks/useE2EE';
 import { history } from '../app/app';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
-
-export interface Consultant {
-	consultantId: string;
-	firstName: string;
-	lastName: string;
-}
 
 export const SessionAssign = (props: { value?: string }) => {
 	const { activeSession } = useContext(ActiveSessionContext);

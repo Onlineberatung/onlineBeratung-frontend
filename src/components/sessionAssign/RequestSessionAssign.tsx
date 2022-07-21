@@ -13,11 +13,13 @@ import {
 	apiGetAgencyConsultantList,
 	apiGetUserData,
 	apiSessionAssign,
+	Consultant,
 	FETCH_ERRORS
 } from '../../api';
 import {
 	ConsultantListContext,
 	E2EEContext,
+	SessionTypeContext,
 	UserDataContext,
 	UserDataInterface
 } from '../../globalState';
@@ -34,17 +36,14 @@ import {
 	ConsultantReassignment,
 	ReassignStatus
 } from '../../api/apiSendAliasMessage';
+import { decodeUsername } from '../../utils/encryptionHelpers';
+import { history } from '../app/app';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 
-export interface Consultant {
-	consultantId: string;
-	firstName: string;
-	lastName: string;
-}
-
 export const RequestSessionAssign = (props: { value?: string }) => {
 	const { activeSession } = useContext(ActiveSessionContext);
+	const { path: listPath } = useContext(SessionTypeContext);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { consultantList, setConsultantList } = useContext(
 		ConsultantListContext
@@ -79,7 +78,7 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 		consultants.forEach((item) => {
 			const consultant: SelectOption = {
 				value: item.consultantId,
-				label: item.firstName + ` ` + item.lastName, // TODO ALEX: use displayName if available, else use userName
+				label: item.displayName || decodeUsername(item.username),
 				iconLabel: item.firstName.charAt(0) + item.lastName.charAt(0)
 			};
 			availableConsultants.push(consultant);
@@ -188,7 +187,6 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 					});
 				break;
 			case OVERLAY_FUNCTIONS.REASSIGN:
-				console.log('call reassign');
 				apiSendAliasMessage({
 					rcGroupId: activeSession.rid,
 					type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT,
@@ -196,7 +194,10 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 				});
 				setOverlayItem(null);
 				setOverlayActive(false);
-				// TODO ALEX: back to session view
+
+				history.push(
+					`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}`
+				);
 				break;
 			case OVERLAY_FUNCTIONS.CLOSE:
 				setOverlayItem(null);
