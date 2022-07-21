@@ -40,7 +40,7 @@ import {
 	isXLSXAttachment
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
-import PluginsEditor from 'draft-js-plugins-editor';
+import PluginsEditor from '@draft-js-plugins/editor';
 import {
 	convertFromRaw,
 	convertToRaw,
@@ -49,14 +49,14 @@ import {
 	RichUtils
 } from 'draft-js';
 import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
-import createLinkifyPlugin from 'draft-js-linkify-plugin';
-import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
+import createLinkifyPlugin from '@draft-js-plugins/linkify';
+import createToolbarPlugin from '@draft-js-plugins/static-toolbar';
 import {
 	BoldButton,
 	ItalicButton,
 	UnorderedListButton
-} from 'draft-js-buttons';
-import createEmojiPlugin from 'draft-js-emoji-plugin';
+} from '@draft-js-plugins/buttons';
+import createEmojiPlugin from '@draft-js-plugins/emoji';
 import {
 	emojiPickerCustomClasses,
 	escapeMarkdownChars,

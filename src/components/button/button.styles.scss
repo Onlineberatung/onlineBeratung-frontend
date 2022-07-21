@@ -23,7 +23,8 @@ $buttonHeight: 50px;
 		border-radius: $button-border-radius;
 
 		&:focus {
-			outline: none;
+			outline: none !important;
+			border: 2px solid black;
 		}
 	}
 

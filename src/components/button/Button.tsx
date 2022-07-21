@@ -41,6 +41,7 @@ export interface ButtonProps {
 	item: ButtonItem;
 	testingAttribute?: string;
 	className?: string;
+	tabIndex?: number;
 }
 
 export const Button = (props: ButtonProps) => {
@@ -136,6 +137,7 @@ export const Button = (props: ButtonProps) => {
 					${props.disabled || props.item.disabled ? ' button__item--disabled' : ''}
 				`}
 				data-cy={props.testingAttribute}
+				tabIndex={props.tabIndex}
 			>
 				{item.id === 'reloadButton' && (
 					<ReloadIcon className="button__icon" />
