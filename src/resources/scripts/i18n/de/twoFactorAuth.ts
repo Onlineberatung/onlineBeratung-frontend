@@ -92,7 +92,12 @@ const twoFactorAuth = {
 		'wird die Zwei-Faktor-Authentifizierung deaktiviert.',
 	'switch.type.label': 'Ihr zweiter Faktor',
 	'switch.type.EMAIL': 'E-Mail',
-	'switch.type.APP': 'App'
+	'switch.type.APP': 'App',
+	'nag.title': 'Schützen Sie Ihr Konto',
+	'nag.copy':
+		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Bratung.',
+	'nag.button.later': 'Später Erinnern',
+	'nag.button.protect': 'Jetzt schützen'
 };
 
 export default twoFactorAuth;

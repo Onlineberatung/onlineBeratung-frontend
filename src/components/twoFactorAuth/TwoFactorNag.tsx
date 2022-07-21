@@ -1,74 +1,50 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { history } from '../app/app';
-import { apiPatchTwoFactorAuthEncourage } from '../../api';
 import './twoFactorNag.styles';
 
 interface TwoFactorNagProps {}
 
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData } = useContext(UserDataContext);
+	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
+	const [forceHideTwoFactorNag, setForceHideTwoFactorNag] = useState(false);
 
 	useEffect(() => {
+		console.log('forceHideTwoFactorNag', forceHideTwoFactorNag);
 		if (
 			userData.twoFactorAuth?.isEnabled &&
 			!userData.twoFactorAuth?.isActive &&
-			userData.twoFactorAuth?.isToEncourage &&
-			history.location.from !== 'registration'
+			!forceHideTwoFactorNag
 		) {
-			setIsTwoFactorNagShown(true);
+			setIsShownTwoFactorNag(true);
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [
-		userData.twoFactorAuth?.isEnabled,
-		userData.twoFactorAuth?.isActive,
-		userData.twoFactorAuth?.isToEncourage
-	]);
-
-	const setIsTwoFactorNagShown = (bool) => {
-		setUserData({
-			...userData,
-			twoFactorAuth: {
-				...userData.twoFactorAuth,
-				isShown: bool
-			}
-		});
-	};
+	}, [userData, forceHideTwoFactorNag]);
 
 	const closeTwoFactorNag = async () => {
-		await apiPatchTwoFactorAuthEncourage(false)
-			.then(() => {
-				setUserData({
-					...userData,
-					twoFactorAuth: {
-						...userData.twoFactorAuth,
-						isToEncourage: false,
-						isShown: false
-					}
-				});
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		setForceHideTwoFactorNag(true);
+		setIsShownTwoFactorNag(false);
 	};
 
-	const handleOverlayAction = async (buttonFunction: string) => {
+	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			history.push({
 				pathname: '/profile/sicherheit/2fa',
 				openTwoFactor: true
 			});
-			await closeTwoFactorNag();
+			setForceHideTwoFactorNag(true);
+			setIsShownTwoFactorNag(false);
 		}
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setIsTwoFactorNagShown(false);
+			setForceHideTwoFactorNag(true);
+			setIsShownTwoFactorNag(false);
 		}
 	};
 
-	if (!userData.twoFactorAuth?.isShown) return <></>;
+	if (!isShownTwoFactorNag) return <></>;
 
 	return (
 		<OverlayWrapper>
