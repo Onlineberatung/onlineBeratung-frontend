@@ -69,6 +69,7 @@ import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
+import { showAppointmentsMenu } from '../../utils/navigationHelpers';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -287,11 +288,13 @@ export const SessionsList = ({
 				abortController.current = null;
 			}
 
-			dispatch({
-				type: SET_SESSIONS,
-				sessions: [],
-				ready: false
-			});
+			if (!showAppointmentsMenu(userData, sessions)) {
+				dispatch({
+					type: SET_SESSIONS,
+					sessions: [],
+					ready: false
+				});
+			}
 		};
 	}, [
 		dispatch,

@@ -20,13 +20,7 @@ import { GroupChatInfo } from '../groupChat/GroupChatInfo';
 import { Appointments } from '../appointment/Appointments';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
-import {
-	AUTHORITIES,
-	ConsultingTypeBasicInterface,
-	hasUserAuthority,
-	SessionsDataInterface,
-	UserDataInterface
-} from '../../globalState';
+import { AUTHORITIES, hasUserAuthority } from '../../globalState';
 import { Booking } from '../booking/booking';
 import { BookingCancellation } from '../booking/bookingCancellation';
 import { BookingEvents } from '../booking/bookingEvents';
@@ -39,6 +33,7 @@ import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.s
 import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
 import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
+import { showAppointmentsMenu } from '../../utils/navigationHelpers';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -52,15 +47,8 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 			)
 	);
 
-const showAppointmentsMenuItem = (
-	userData: UserDataInterface,
-	consultingTypes: Array<ConsultingTypeBasicInterface>,
-	sessionsData: SessionsDataInterface
-) => {
-	return (
-		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
-		(userData.appointmentFeatureEnabled && !!sessionsData[0]?.consultant)
-	);
+const showAppointmentsMenuItem = (userData, consultingTypes, sessionsData) => {
+	return showAppointmentsMenu(userData, sessionsData);
 };
 
 const isVideoAppointmentsEnabled = (userData, consultingTypes) =>

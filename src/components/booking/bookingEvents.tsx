@@ -169,13 +169,6 @@ export const BookingEvents = () => {
 				}
 			);
 		}
-		apiGetAskerSessionList().then((response) => {
-			dispatch({
-				type: SET_SESSIONS,
-				ready: true,
-				sessions: response.sessions
-			});
-		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

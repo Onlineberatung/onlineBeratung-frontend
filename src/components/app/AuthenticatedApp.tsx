@@ -67,32 +67,17 @@ export const AuthenticatedApp = ({
 			setUserDataRequested(true);
 			handleTokenRefresh(false)
 				.then(() => {
-					Promise.all([
-						apiGetUserData(),
-						apiGetConsultingTypes(),
-						apiGetAskerSessionList()
-					])
-						.then(
-							([
-								userProfileData,
-								consultingTypes,
-								sessionsData
-							]) => {
-								// set informal / formal cookie depending on the given userdata
-								setValueInCookie(
-									'useInformal',
-									!userProfileData.formalLanguage ? '1' : ''
-								);
-								setUserData(userProfileData);
-								setConsultingTypes(consultingTypes);
-								setAppReady(true);
-								dispatch({
-									type: SET_SESSIONS,
-									ready: true,
-									sessions: sessionsData.sessions
-								});
-							}
-						)
+					Promise.all([apiGetUserData(), apiGetConsultingTypes()])
+						.then(([userProfileData, consultingTypes]) => {
+							// set informal / formal cookie depending on the given userdata
+							setValueInCookie(
+								'useInformal',
+								!userProfileData.formalLanguage ? '1' : ''
+							);
+							setUserData(userProfileData);
+							setConsultingTypes(consultingTypes);
+							setAppReady(true);
+						})
 						.catch((error) => {
 							setLoading(false);
 							console.log(error);

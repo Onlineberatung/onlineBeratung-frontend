@@ -7,13 +7,17 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	ConsultingTypesContext,
-	SessionsDataContext
+	SessionsDataContext,
+	SET_SESSIONS
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
 import clsx from 'clsx';
 import { RocketChatUnreadContext } from '../../globalState/provider/RocketChatUnreadProvider';
-import { apiFinishAnonymousConversation } from '../../api';
+import {
+	apiFinishAnonymousConversation,
+	apiGetAskerSessionList
+} from '../../api';
 
 export interface NavigationBarProps {
 	onLogout: any;
@@ -26,9 +30,12 @@ export const NavigationBar = ({
 }: NavigationBarProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
-	const { sessions } = useContext(SessionsDataContext);
+	const { sessions, dispatch } = useContext(SessionsDataContext);
 	const [sessionId, setSessionId] = useState(null);
-
+	const isConsultant = hasUserAuthority(
+		AUTHORITIES.CONSULTANT_DEFAULT,
+		userData
+	);
 	const {
 		sessions: unreadSessions,
 		group: unreadGroup,
@@ -52,8 +59,17 @@ export const NavigationBar = ({
 	}, []);
 
 	useEffect(() => {
-		setSessionId(sessions?.[0]?.session?.id);
-	}, [sessions]);
+		if (!isConsultant) {
+			apiGetAskerSessionList().then((sessionsData) => {
+				dispatch({
+					type: SET_SESSIONS,
+					ready: true,
+					sessions: sessionsData.sessions
+				});
+				setSessionId(sessionsData?.sessions?.[0]?.session?.id);
+			});
+		}
+	}, []);
 
 	const animateNavIconTimeoutRef = useRef(null);
 	useEffect(() => {
