@@ -21,7 +21,7 @@ export const getUserEmail = (userData: UserDataInterface) => {
 
 export const Booking = () => {
 	const { userData } = useContext(UserDataContext);
-	const { sessions, dispatch } = useContext(SessionsDataContext);
+	const { sessions } = useContext(SessionsDataContext);
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
 
 	useEffect(() => {

@@ -284,6 +284,7 @@ export const SessionsList = ({
 				});
 			}
 		};
+		/* eslint-disable */
 	}, [
 		dispatch,
 		getConsultantSessionList,
@@ -293,7 +294,7 @@ export const SessionsList = ({
 		anonymousConversationStarted,
 		setAnonymousConversationStarted
 	]);
-
+	/* eslint-enable */
 	// Refresh myself
 	const subscribed = useRef(false);
 

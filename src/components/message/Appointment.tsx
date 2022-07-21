@@ -7,7 +7,6 @@ import { ReactComponent as CalendarCheckIcon } from '../../resources/img/icons/c
 import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
 import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-call.svg';
 import { formatToHHMM } from '../../utils/dateHelpers';
-import { MessageType } from './MessageItemComponent';
 import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 

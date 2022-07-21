@@ -69,7 +69,7 @@ export const NavigationBar = ({
 				setSessionId(sessionsData?.sessions?.[0]?.session?.id);
 			});
 		}
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const animateNavIconTimeoutRef = useRef(null);
 	useEffect(() => {

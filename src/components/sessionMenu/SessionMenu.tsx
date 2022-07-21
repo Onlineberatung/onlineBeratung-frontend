@@ -155,7 +155,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			// do not get group members for a chat that has not been started and user is not subscribed
 			return;
 		}
-	}, [groupIdFromParam, handleClick, activeSession]);
+	}, [groupIdFromParam, handleClick, activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	let { rcGroupId, sessionId } = useParams();
 

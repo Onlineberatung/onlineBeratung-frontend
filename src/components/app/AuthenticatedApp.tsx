@@ -10,15 +10,9 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	LegalLinkInterface,
-	RocketChatProvider,
-	SessionsDataContext,
-	SET_SESSIONS
+	RocketChatProvider
 } from '../../globalState';
-import {
-	apiGetAskerSessionList,
-	apiGetConsultingTypes,
-	apiGetUserData
-} from '../../api';
+import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
