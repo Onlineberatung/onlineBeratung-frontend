@@ -257,7 +257,9 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				isSearchable={props.isSearchable}
 				isMulti={props.isMulti}
 				styles={colourStyles(fromL)}
-				onKeyDown={props.keyDownHandle}
+				onKeyDown={(e) =>
+					props.keyDownHandle ? props.keyDownHandle(e, false) : ''
+				}
 			/>
 			{props.hasError && (
 				<div className="select__error">

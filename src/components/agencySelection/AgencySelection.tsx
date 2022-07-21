@@ -274,7 +274,11 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					<InputField
 						item={postcodeInputItem}
 						inputHandle={(e) => handlePostcodeInput(e)}
-						keyDownHandle={(e) => props.keyDownHandle(e, false)}
+						keyDownHandle={(e) =>
+							props.keyDownHandle
+								? props.keyDownHandle(e, false)
+								: ''
+						}
 					></InputField>
 					{props.agencySelectionNote && (
 						<div data-cy="registration-agency-selection-note">
