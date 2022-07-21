@@ -2,7 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
 	AgencyDataInterface,
-	ConsultingTypeBasicInterface
+	ConsultingTypeBasicInterface,
+	useTenant
 } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
@@ -38,9 +39,11 @@ export interface AgencySelectionProps {
 	agencySelectionNote?: string;
 	initialPostcode?: string;
 	hideExternalAgencies?: boolean;
+	onKeyDown?: Function;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
+	const tenantData = useTenant();
 	const [isLoading, setIsLoading] = useState(false);
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState('');
 	const [proposedAgencies, setProposedAgencies] = useState<
@@ -126,7 +129,17 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					setIsLoading(true);
 					setSelectedAgency(null);
 					setPostcodeFallbackLink('');
-					if (validPostcode()) {
+					// When we have the topics in in registration enabled to prevent for us doing the request
+					// we need to ensure that we've the mainTopicId is set
+					const isValidWhenTopicInRegistrationIsActive =
+						(tenantData?.settings?.topicsInRegistrationEnabled &&
+							props.mainTopicId) ||
+						!tenantData?.settings?.topicsInRegistrationEnabled;
+
+					if (
+						validPostcode() &&
+						isValidWhenTopicInRegistrationIsActive
+					) {
 						const agencies = (
 							await apiAgencySelection({
 								postcode: selectedPostcode,
@@ -273,6 +286,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					<InputField
 						item={postcodeInputItem}
 						inputHandle={(e) => handlePostcodeInput(e)}
+						onKeyDown={(e) =>
+							props.onKeyDown ? props.onKeyDown(e, false) : null
+						}
 					></InputField>
 					{props.agencySelectionNote && (
 						<div data-cy="registration-agency-selection-note">

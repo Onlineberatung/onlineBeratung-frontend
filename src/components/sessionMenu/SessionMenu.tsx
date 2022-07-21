@@ -269,7 +269,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			setRedirectToSessionsList(true);
-			//setUpdateSessionList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
 		} else if (

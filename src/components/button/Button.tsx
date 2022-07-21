@@ -42,6 +42,7 @@ export interface ButtonProps {
 	testingAttribute?: string;
 	className?: string;
 	customIcon?: JSX.Element;
+	tabIndex?: number;
 }
 
 export const Button = (props: ButtonProps) => {
@@ -59,7 +60,7 @@ export const Button = (props: ButtonProps) => {
 	const handleButtonTimer = () => {
 		if (item.type === BUTTON_TYPES.AUTO_CLOSE) {
 			timeoutID = window.setTimeout(() => {
-				props.buttonHandle(item.function);
+				props.buttonHandle(item.function, item.functionArgs);
 			}, OVERLAY_RESET_TIME);
 		}
 	};
@@ -137,6 +138,7 @@ export const Button = (props: ButtonProps) => {
 					${props.disabled || props.item.disabled ? ' button__item--disabled' : ''}
 				`}
 				data-cy={props.testingAttribute}
+				tabIndex={props.tabIndex}
 			>
 				{props.customIcon && (
 					<div className="button__custom-icon">
