@@ -8,15 +8,10 @@ import {
 import Cal from '../cal/Cal';
 import {
 	SessionsDataContext,
-	SET_SESSIONS,
 	UserDataContext,
 	UserDataInterface
 } from '../../globalState';
-import {
-	apiGetAskerSessionList,
-	getCounselorAppointmentLink,
-	getTeamAppointmentLink
-} from '../../api';
+import { getCounselorAppointmentLink, getTeamAppointmentLink } from '../../api';
 
 export const getUserEmail = (userData: UserDataInterface) => {
 	return userData.email
@@ -26,7 +21,7 @@ export const getUserEmail = (userData: UserDataInterface) => {
 
 export const Booking = () => {
 	const { userData } = useContext(UserDataContext);
-	const { dispatch } = useContext(SessionsDataContext);
+	const { sessions, dispatch } = useContext(SessionsDataContext);
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -38,27 +33,19 @@ export const Booking = () => {
 	}, []);
 
 	useEffect(() => {
-		apiGetAskerSessionList().then((response) => {
-			dispatch({
-				type: SET_SESSIONS,
-				ready: true,
-				sessions: response.sessions
+		const consultant = sessions[0]?.consultant;
+		const agencyId = sessions[0]?.agency?.id;
+		if (consultant) {
+			getCounselorAppointmentLink(consultant?.consultantId).then(
+				(response) => {
+					setAppointmentLink(response.slug);
+				}
+			);
+		} else if (agencyId) {
+			getTeamAppointmentLink(agencyId).then((response) => {
+				setAppointmentLink(`team/${response.slug}`);
 			});
-
-			const consultant = response.sessions[0]?.consultant;
-			const agencyId = response.sessions[0]?.agency?.id;
-			if (consultant) {
-				getCounselorAppointmentLink(consultant?.consultantId).then(
-					(response) => {
-						setAppointmentLink(response.slug);
-					}
-				);
-			} else if (agencyId) {
-				getTeamAppointmentLink(agencyId).then((response) => {
-					setAppointmentLink(`team/${response.slug}`);
-				});
-			}
-		});
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

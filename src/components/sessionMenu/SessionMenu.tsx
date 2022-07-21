@@ -15,6 +15,7 @@ import {
 	hasUserAuthority,
 	LegalLinkInterface,
 	RocketChatContext,
+	SessionsDataContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
 	useConsultingType,
@@ -39,7 +40,6 @@ import {
 } from './sessionMenuHelpers';
 import {
 	apiFinishAnonymousConversation,
-	apiGetAskerSessionList,
 	apiPutArchive,
 	apiPutDearchive,
 	apiPutGroupChat,
@@ -87,6 +87,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { close: closeWebsocket } = useContext(RocketChatContext);
+	const { sessions } = useContext(SessionsDataContext);
 
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
@@ -142,12 +143,10 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
-			apiGetAskerSessionList().then((response) => {
-				const { consultant } = response.sessions[0];
-				if (!consultant) {
-					setConsultant(true);
-				}
-			});
+			const { consultant } = sessions[0];
+			if (!consultant) {
+				setConsultant(true);
+			}
 
 			const { appointmentFeatureEnabled } = userData;
 			setAppointmentFeatureEnabled(appointmentFeatureEnabled);

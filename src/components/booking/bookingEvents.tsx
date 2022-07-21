@@ -19,15 +19,11 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	SessionsDataContext,
-	SET_SESSIONS,
 	UserDataContext
 } from '../../globalState';
 import { BookingEventsInterface } from '../../globalState/interfaces/BookingDataInterface';
 import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
-import {
-	apiAppointmentsServiceBookingEventsByAskerId,
-	apiGetAskerSessionList
-} from '../../api';
+import { apiAppointmentsServiceBookingEventsByAskerId } from '../../api';
 import { BookingDescription } from './bookingDescription';
 import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
 import { addMissingZero } from '../../utils/dateHelpers';
@@ -88,7 +84,7 @@ export const BookingEvents = () => {
 	}, []);
 
 	const { userData } = useContext(UserDataContext);
-	const { sessions, dispatch } = useContext(SessionsDataContext);
+	const { sessions } = useContext(SessionsDataContext);
 
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,

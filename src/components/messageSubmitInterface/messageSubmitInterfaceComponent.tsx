@@ -13,12 +13,12 @@ import {
 } from '../../globalState/helpers/stateHelpers';
 import {
 	E2EEContext,
+	SessionsDataContext,
 	SessionTypeContext,
 	STATUS_ARCHIVED,
 	STATUS_FINISHED
 } from '../../globalState';
 import {
-	apiGetAskerSessionList,
 	apiGetDraftMessage,
 	apiPostDraftMessage,
 	apiPutDearchive,
@@ -182,7 +182,7 @@ export const MessageSubmitInterfaceComponent = (
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
-
+	const { sessions } = useContext(SessionsDataContext);
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [draftLoaded, setDraftLoaded] = useState(false);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
@@ -474,13 +474,10 @@ export const MessageSubmitInterfaceComponent = (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
-			apiGetAskerSessionList().then((response) => {
-				const { appointmentFeatureEnabled } = userData;
-				const { consultant } = response.sessions[0];
-				if (!consultant) {
-					setShowAppointmentButton(appointmentFeatureEnabled);
-				}
-			});
+			const { appointmentFeatureEnabled } = userData;
+			if (!sessions[0].consultant) {
+				setShowAppointmentButton(appointmentFeatureEnabled);
+			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

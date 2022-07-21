@@ -115,50 +115,56 @@ export const NavigationBar = ({
 	return (
 		<div className="navigation__wrapper">
 			<div className="navigation__itemContainer">
-				{routerConfig.navigation
-					.filter(
-						(item: any) =>
-							!item.condition ||
-							item.condition(userData, consultingTypes, sessions)
-					)
-					.map((item, index) => (
-						<Link
-							key={index}
-							className={`navigation__item ${resolveClassnameForWalkthrough(
-								index
-							)} ${
-								location.pathname.indexOf(item.to) !== -1 &&
-								'navigation__item--active'
-							} ${
-								animateNavIcon &&
-								Object.keys(
+				{sessions &&
+					routerConfig.navigation
+						.filter(
+							(item: any) =>
+								!item.condition ||
+								item.condition(
+									userData,
+									consultingTypes,
+									sessions
+								)
+						)
+						.map((item, index) => (
+							<Link
+								key={index}
+								className={`navigation__item ${resolveClassnameForWalkthrough(
+									index
+								)} ${
+									location.pathname.indexOf(item.to) !== -1 &&
+									'navigation__item--active'
+								} ${
+									animateNavIcon &&
+									Object.keys(
+										pathsToShowUnreadMessageNotification
+									).includes(item.to) &&
+									'navigation__item__count--active'
+								}`}
+								to={item.to}
+							>
+								{item?.icon}
+								{(({ large }) => {
+									return (
+										<>
+											<span className="navigation__title">
+												{translate(large)}
+											</span>
+										</>
+									);
+								})(item.titleKeys)}
+								{Object.keys(
 									pathsToShowUnreadMessageNotification
 								).includes(item.to) &&
-								'navigation__item__count--active'
-							}`}
-							to={item.to}
-						>
-							{item?.icon}
-							{(({ large }) => {
-								return (
-									<>
-										<span className="navigation__title">
-											{translate(large)}
-										</span>
-									</>
-								);
-							})(item.titleKeys)}
-							{Object.keys(
-								pathsToShowUnreadMessageNotification
-							).includes(item.to) &&
-								pathsToShowUnreadMessageNotification[item.to] >
-									0 && (
-									<NavigationUnreadIndicator
-										animate={animateNavIcon}
-									/>
-								)}
-						</Link>
-					))}
+									pathsToShowUnreadMessageNotification[
+										item.to
+									] > 0 && (
+										<NavigationUnreadIndicator
+											animate={animateNavIcon}
+										/>
+									)}
+							</Link>
+						))}
 				<div
 					onClick={handleLogout}
 					className={clsx(

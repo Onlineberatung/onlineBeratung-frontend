@@ -51,7 +51,6 @@ export const AuthenticatedApp = ({
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 
 	const { notifications } = useContext(NotificationsContext);
-	const { sessions, dispatch } = useContext(SessionsDataContext);
 
 	useEffect(() => {
 		if (
