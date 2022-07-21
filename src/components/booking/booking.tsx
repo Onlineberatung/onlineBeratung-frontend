@@ -26,7 +26,7 @@ export const getUserEmail = (userData: UserDataInterface) => {
 
 export const Booking = () => {
 	const { userData } = useContext(UserDataContext);
-	const { sessions, dispatch } = useContext(SessionsDataContext);
+	const { dispatch } = useContext(SessionsDataContext);
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -45,8 +45,8 @@ export const Booking = () => {
 				sessions: response.sessions
 			});
 
-			const consultant = sessions[0]?.consultant;
-			const agencyId = sessions[0]?.agency?.id;
+			const consultant = response.sessions[0]?.consultant;
+			const agencyId = response.sessions[0]?.agency?.id;
 			if (consultant) {
 				getCounselorAppointmentLink(consultant?.consultantId).then(
 					(response) => {
