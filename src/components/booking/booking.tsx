@@ -36,11 +36,10 @@ export const Booking = () => {
 		const consultant = sessions[0]?.consultant;
 		const agencyId = sessions[0]?.agency?.id;
 		if (consultant) {
-			getCounselorAppointmentLink(consultant?.consultantId).then(
-				(response) => {
-					setAppointmentLink(response.slug);
-				}
-			);
+			const consultantId = consultant?.consultantId || consultant?.id;
+			getCounselorAppointmentLink(consultantId).then((response) => {
+				setAppointmentLink(response.slug);
+			});
 		} else if (agencyId) {
 			getTeamAppointmentLink(agencyId).then((response) => {
 				setAppointmentLink(`team/${response.slug}`);

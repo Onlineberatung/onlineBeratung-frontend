@@ -84,7 +84,6 @@ import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
-import { useParams } from 'react-router-dom';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
 import { encryptRoom } from '../../utils/e2eeHelper';
@@ -919,13 +918,12 @@ export const MessageSubmitInterfaceComponent = (
 		return infoData;
 	};
 
-	let { rcGroupId, sessionId } = useParams();
 	const handleBookingButton = () => {
 		history.push({
 			pathname: '/booking/',
 			state: {
-				rcGroupId: rcGroupId,
-				sessionId: sessionId
+				sessionId: activeSession.item.id,
+				isInitialMessage: true
 			}
 		});
 	};

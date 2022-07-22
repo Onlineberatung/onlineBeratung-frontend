@@ -229,7 +229,7 @@ export const MessageItemComponent = ({
 		alias?.messageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST;
 	const isAppointmentSet =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_SET ||
-		MessageType.APPOINTMENT_RESCHEDULED ||
+		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED ||
 		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_CANCELLED;
 	const messageContent = (): JSX.Element => {
 		switch (true) {

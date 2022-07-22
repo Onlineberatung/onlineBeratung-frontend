@@ -1,10 +1,11 @@
 /* eslint-disable prefer-const */
 import React, { useContext, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import useEmbed from './useEmbed';
 import './cal.styles';
 import { history } from '../app/app';
 import { apiAppointmentServiceSet } from '../../api/apiAppointmentServiceSet';
-import { SessionsDataContext, UserDataContext } from '../../globalState';
+import { UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 
 export default function Cal({
@@ -19,7 +20,6 @@ export default function Cal({
 	embedJsUrl?: string;
 }) {
 	const { userData } = useContext(UserDataContext);
-	const { sessions } = useContext(SessionsDataContext);
 
 	if (!calLink) {
 		throw new Error('calLink is required');
@@ -27,6 +27,7 @@ export default function Cal({
 	const initializedRef = useRef(false);
 	const Cal = useEmbed(embedJsUrl);
 	const ref = useRef<HTMLDivElement>(null);
+	const location = useLocation();
 
 	useEffect(() => {
 		if (!Cal || initializedRef.current) {
@@ -56,8 +57,8 @@ export default function Cal({
 		Cal('on', {
 			action: 'bookingSuccessful',
 			callback: (e) => {
-				let isInitialMessage = sessions?.[0]?.consultant == null;
-				let groupId = sessions?.[0]?.session.groupId;
+				const sessionId = location.state.sessionId;
+				const isInitialMessage = location.state.isInitialMessage;
 
 				if (!isInitialMessage) {
 					history.push({
@@ -80,14 +81,7 @@ export default function Cal({
 					)} ${userData.userName}`
 				};
 
-				const sessionId = sessions?.[0]?.session?.id;
-
-				apiAppointmentServiceSet(
-					appointmentData,
-					sessionId,
-					isInitialMessage,
-					groupId
-				)
+				apiAppointmentServiceSet(appointmentData, sessionId)
 					.then(() => {
 						history.push({
 							pathname: `/sessions/user/view`

@@ -3,35 +3,17 @@ import { FETCH_METHODS, fetchData } from './fetchData';
 
 export const apiAppointmentServiceSet = async (
 	content: object,
-	sessionId: number,
-	isInitialMessage: boolean,
-	rcGroupId: string
+	sessionId: number
 ): Promise<void> => {
 	const appointmentSuccessfullySetMessage = {
 		...content,
 		messageType: 'APPOINTMENT_SET'
 	};
-	if (isInitialMessage) {
-		const url = config.endpoints.appointmentBaseNew(sessionId);
-		return fetchData({
-			url,
-			rcValidation: true,
-			method: FETCH_METHODS.POST,
-			bodyData: JSON.stringify(appointmentSuccessfullySetMessage)
-		});
-	} else {
-		const appointmentSuccessfullySetMessage = JSON.stringify({
-			content: JSON.stringify(content),
-			messageType: 'APPOINTMENT_SET'
-		});
-
-		const url = config.endpoints.setAppointmentSuccessMessage;
-		return fetchData({
-			url,
-			headersData: { rcGroupId: rcGroupId },
-			rcValidation: true,
-			method: FETCH_METHODS.POST,
-			bodyData: appointmentSuccessfullySetMessage
-		});
-	}
+	const url = config.endpoints.appointmentBaseNew(sessionId);
+	return fetchData({
+		url,
+		rcValidation: true,
+		method: FETCH_METHODS.POST,
+		bodyData: JSON.stringify(appointmentSuccessfullySetMessage)
+	});
 };

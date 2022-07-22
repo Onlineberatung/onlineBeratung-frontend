@@ -40,6 +40,7 @@ import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { SessionListItemComponent } from '../sessionsListItem/SessionListItemComponent';
 import { SessionsListSkeleton } from '../sessionsListItem/SessionsListItemSkeleton';
 import {
+	apiGetAskerSessionList,
 	apiGetConsultantSessionList,
 	FETCH_ERRORS,
 	FILTER_FEEDBACK,
@@ -221,21 +222,32 @@ export const SessionsList = ({
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
 			// Fetch asker data
-			if (
-				sessions.length === 1 &&
-				sessions[0]?.session?.status === STATUS_EMPTY
-			) {
-				history.push(`/sessions/user/view/write`);
-			} else if (
-				sessions.length === 1 &&
-				isAnonymousSession(sessions[0]?.session) &&
-				hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
-			) {
-				history.push(
-					`/sessions/user/view/${sessions[0]?.chat?.groupId}/${sessions[0]?.chat?.id}`
-				);
-			}
-			setIsLoading(false);
+			apiGetAskerSessionList()
+				.then(({ sessions }) => {
+					dispatch({
+						type: SET_SESSIONS,
+						ready: true,
+						sessions
+					});
+					if (
+						sessions.length === 1 &&
+						sessions[0]?.session?.status === STATUS_EMPTY
+					) {
+						history.push(`/sessions/user/view/write/`);
+					} else if (
+						sessions.length === 1 &&
+						isAnonymousSession(sessions[0]?.session) &&
+						hasUserAuthority(
+							AUTHORITIES.ANONYMOUS_DEFAULT,
+							userData
+						)
+					) {
+						history.push(
+							`/sessions/user/view/${sessions[0]?.chat?.groupId}/${sessions[0]?.chat?.id}`
+						);
+					}
+				})
+				.then(() => setIsLoading(false));
 		} else {
 			// Fetch consulting sessionsData
 			getConsultantSessionList(0, initialId.current)

@@ -157,14 +157,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		}
 	}, [groupIdFromParam, handleClick, activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	let { rcGroupId, sessionId } = useParams();
-
 	const handleBookingButton = () => {
 		history.push({
 			pathname: '/booking/',
 			state: {
-				rcGroupId: rcGroupId,
-				sessionId: sessionId
+				sessionId: activeSession.item.id,
+				isInitialMessage: false
 			}
 		});
 	};
