@@ -42,7 +42,7 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 	);
 
 const isVideoAppointmentsEnabled = (userData, consultingTypes) =>
-	config.enableVideoAppointments &&
+	!config.disableVideoAppointments &&
 	hasVideoCallFeature(userData, consultingTypes);
 
 export const RouterConfigUser = (): any => {
