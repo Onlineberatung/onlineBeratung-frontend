@@ -162,18 +162,17 @@ export const config = {
 		]
 	},
 	twofactor: {
+		startObligatoryHint: '22.07.2999',
+		dateTwoFactorObligatory: '23.08.2999',
 		messages: [
 			{
 				title: 'twoFactorAuth.nag.obligatory.moment.title',
 				copy: 'twoFactorAuth.nag.obligatory.moment.copy',
-				startMessage: '22.07.2022',
-				dateTwoFactor: '30.07.2022',
 				showClose: true
 			},
 			{
 				title: 'twoFactorAuth.nag.obligatory.title',
 				copy: 'twoFactorAuth.nag.obligatory.copy',
-				startMessage: '30.07.2022',
 				showClose: false
 			}
 		]

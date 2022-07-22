@@ -6,6 +6,7 @@ import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { history } from '../app/app';
 import './twoFactorNag.styles';
 import { config } from '../../resources/scripts/config';
+import moment from 'moment';
 
 interface TwoFactorNagProps {}
 
@@ -15,7 +16,8 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const [forceHideTwoFactorNag, setForceHideTwoFactorNag] = useState(false);
 	const [message, setMessage] = useState({
 		title: 'twoFactorAuth.nag.title',
-		copy: 'twoFactorAuth.nag.copy'
+		copy: 'twoFactorAuth.nag.copy',
+		showClose: true
 	});
 
 	useEffect(() => {
@@ -25,7 +27,27 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			!forceHideTwoFactorNag
 		) {
 			setIsShownTwoFactorNag(true);
-			//setMessage(config.twofactor.messages[0]);
+			//TODO sobald Zweifactor notwendig ist kann das raus und nur noch die Finale Form angezeigt werden
+			if (
+				moment().isSame(
+					moment(config.twofactor.startObligatoryHint, 'DD.MM.YYYY'),
+					'day'
+				)
+			) {
+				if (
+					moment().isSame(
+						moment(
+							config.twofactor.dateTwoFactorObligatory,
+							'DD.MM.YYYY'
+						),
+						'day'
+					)
+				) {
+					setMessage(config.twofactor.messages[1]);
+				} else {
+					setMessage(config.twofactor.messages[0]);
+				}
+			}
 		}
 	}, [userData, forceHideTwoFactorNag]);
 
@@ -55,11 +77,18 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		<OverlayWrapper>
 			<Overlay
 				className="twoFactorNag"
-				handleOverlayClose={closeTwoFactorNag}
+				handleOverlayClose={
+					message.showClose ? closeTwoFactorNag : null
+				}
 				handleOverlay={handleOverlayAction}
 				item={{
-					headline: translate(message.title),
-					copy: translate(message.copy),
+					headline: translate(message.title, {
+						date: config.twofactor.dateTwoFactorObligatory
+					}),
+					copy: translate(message.copy, {
+						date1: config.twofactor.dateTwoFactorObligatory,
+						date2: config.twofactor.dateTwoFactorObligatory
+					}),
 					buttonSet: [
 						{
 							label: translate('twoFactorAuth.nag.button.later'),
