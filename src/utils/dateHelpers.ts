@@ -120,18 +120,6 @@ export const dateToLocalISO = (date: Date) => {
 		.substring(1)}:${(date.getMinutes() + 100).toString().substring(1)}`;
 };
 
-export const getMonthFromString = (month: string) => {
-	const date = Date.parse(month + '1, 2012');
-	if (!isNaN(date)) {
-		return String(new Date(date).getMonth() + 1).padStart(2, '0');
-	}
-	return -1;
-};
-
-export const addMinutesToDateTime = (date: number, addminutes: number) => {
-	return new Date(date).setMinutes(new Date(date).getMinutes() + addminutes);
-};
-
 export const addMissingZero = (value: number) => {
 	if (value < 10) {
 		return '0' + value;
