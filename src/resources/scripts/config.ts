@@ -157,7 +157,7 @@ export const config = {
 		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',
 		toLogin: uiUrl + '/login',
-		toRegistration: uiUrl + '/beratung/registration',
+		toRegistration: 'https://www.caritas.de/onlineberatung',
 		videoConference: '/videoberatung/:type/:appointmentId'
 	},
 	postcodeFallbackUrl: '{url}',
