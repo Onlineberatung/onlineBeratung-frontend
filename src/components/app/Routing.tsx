@@ -237,39 +237,6 @@ export const Routing = (props: RoutingProps) => {
 									</Switch>
 								</div>
 
-								<div className="contentWrapper__profile">
-									<Switch>
-										{routerConfig.profileRoutes
-											?.filter(
-												(route: any) =>
-													!route.condition ||
-													route.condition(
-														userData,
-														consultingTypes
-													)
-											)
-											.map(
-												(route: any): JSX.Element => (
-													<Route
-														exact={
-															route.exact ?? true
-														}
-														key={`profile-${route.path}`}
-														path={route.path}
-														render={() => (
-															<route.component
-																{...props}
-																type={
-																	route.type ||
-																	null
-																}
-															/>
-														)}
-													/>
-												)
-											)}
-									</Switch>
-								</div>
 								<div className="contentWrapper__booking">
 									<Switch>
 										{routerConfig.appointmentRoutes?.map(

@@ -64,13 +64,13 @@ export const config = {
 		//TODO: fix this before merging back to open source
 		keycloakAccessToken:
 			apiUrl +
-			'/auth/realms/online-beratung/protocol/openid-connect/token',
+			'/auth/realms/caritas-online-beratung/protocol/openid-connect/token',
 		keycloakLogout:
 			apiUrl +
-			'/auth/realms/online-beratung/protocol/openid-connect/logout',
+			'/auth/realms/caritas-online-beratung/protocol/openid-connect/logout',
 		liveservice: apiUrl + '/service/live',
 		loginResetPasswordLink:
-			'/auth/realms/online-beratung/login-actions/reset-credentials?client_id=account',
+			'/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
 		messageRead: apiUrl + '/api/v1/subscriptions.read',
 		messages: apiUrl + '/service/messages',
 		myMessagesBase:
