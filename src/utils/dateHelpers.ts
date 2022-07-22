@@ -119,3 +119,11 @@ export const dateToLocalISO = (date: Date) => {
 		.toString()
 		.substring(1)}:${(date.getMinutes() + 100).toString().substring(1)}`;
 };
+
+export const addMissingZero = (value: number) => {
+	if (value < 10) {
+		return '0' + value;
+	} else {
+		return value;
+	}
+};
