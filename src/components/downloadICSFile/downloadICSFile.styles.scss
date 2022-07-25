@@ -1,0 +1,28 @@
+.downloadICSFile {
+	&--flex {
+		display: flex;
+	}
+
+	&--primary {
+		color: $primary;
+	}
+
+	&__icon {
+		&--mobile {
+			display: flex;
+			margin-top: 0.5rem;
+
+			@include breakpoint($fromLarge) {
+				display: none;
+			}
+
+			p {
+				margin-left: 0.5rem;
+			}
+		}
+	}
+
+	&__text {
+		margin-left: 0.5rem;
+	}
+}

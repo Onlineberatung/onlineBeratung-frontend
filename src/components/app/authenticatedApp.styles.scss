@@ -138,6 +138,19 @@ a {
 			}
 		}
 
+		&__booking {
+			display: none;
+			margin-top: 0;
+			width: 100vw;
+			transition: all 0.3s ease;
+			flex: 1;
+
+			@include breakpoint($fromLarge) {
+				width: $contentWidth;
+				margin-top: $headerHeight;
+			}
+		}
+
 		&__profile {
 			width: 100%;
 			display: none;

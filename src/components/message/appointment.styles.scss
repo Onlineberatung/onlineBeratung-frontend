@@ -1,0 +1,58 @@
+.appointmentSet {
+	background-color: $white;
+	border: 2px dashed $form-input-border;
+	border-radius: 0 12px 12px;
+	padding: $grid-base-two;
+	margin-bottom: 12px;
+	display: grid;
+	row-gap: 0.75rem;
+	width: 306px;
+
+	@include breakpoint($fromLarge) {
+		width: 500px;
+	}
+
+	&__title,
+	&__video,
+	&__cancel,
+	&__ics {
+		margin-left: 0.5rem;
+	}
+
+	&__confirmation {
+		margin-bottom: 8px;
+	}
+
+	&__date {
+		font-size: $font-size-h4;
+		line-height: $line-height-quaternary;
+		font-family: $font-family-sans-serif;
+		font-weight: $font-weight-medium;
+	}
+
+	&__time {
+		font-size: $font-size-h4;
+		line-height: $line-height-quaternary;
+		font-family: $font-family-sans-serif;
+		font-weight: $font-weight-medium;
+		color: $light-grey;
+		margin-left: 0.5rem;
+	}
+
+	&__summary {
+		margin: 0.75rem 0;
+	}
+
+	&--flex {
+		display: flex;
+		align-items: center;
+	}
+
+	&--pointer {
+		cursor: pointer;
+	}
+
+	&--primary {
+		color: var(--skin-color-primary, $primary);
+	}
+}

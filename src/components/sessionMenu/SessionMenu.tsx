@@ -15,6 +15,7 @@ import {
 	hasUserAuthority,
 	LegalLinkInterface,
 	RocketChatContext,
+	SessionsDataContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
 	useConsultingType,
@@ -60,6 +61,7 @@ import './sessionMenu.styles';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
+import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
 import {
 	getVideoCallUrl,
 	supportsE2EEncryptionVideoCall
@@ -85,6 +87,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { close: closeWebsocket } = useContext(RocketChatContext);
+	const { sessions } = useContext(SessionsDataContext);
 
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
@@ -121,13 +124,13 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		[flyoutOpen]
 	);
 
+	const [consultant, setConsultant] = useState(false);
+
+	const [appointmentFeatureEnabled, setAppointmentFeatureEnabled] =
+		useState(false);
+
 	useEffect(() => {
 		document.addEventListener('mousedown', (e) => handleClick(e));
-
-		if (!activeSession.item?.active || !activeSession.item?.subscribed) {
-			// do not get group members for a chat that has not been started and user is not subscribed
-			return;
-		}
 		// also make sure that the active session matches the url param
 		if (groupIdFromParam === activeSession?.item?.groupId) {
 			apiRocketChatGroupMembers(groupIdFromParam).then(({ members }) => {
@@ -136,7 +139,33 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				});
 			});
 		}
-	}, [groupIdFromParam, handleClick, activeSession]);
+		if (
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+		) {
+			const { consultant } = sessions[0];
+			if (!consultant) {
+				setConsultant(true);
+			}
+
+			const { appointmentFeatureEnabled } = userData;
+			setAppointmentFeatureEnabled(appointmentFeatureEnabled);
+		}
+		if (!activeSession.item?.active || !activeSession.item?.subscribed) {
+			// do not get group members for a chat that has not been started and user is not subscribed
+			return;
+		}
+	}, [groupIdFromParam, handleClick, activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	const handleBookingButton = () => {
+		history.push({
+			pathname: '/booking/',
+			state: {
+				sessionId: activeSession.item.id,
+				isInitialMessage: false
+			}
+		});
+	};
 
 	const handleStopGroupChat = () => {
 		stopGroupChatSecurityOverlayItem.copy =
@@ -438,6 +467,19 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					handleStopGroupChat={handleStopGroupChat}
 					isJoinGroupChatView={props.isJoinGroupChatView}
 				/>
+			)}
+
+			{!consultant && appointmentFeatureEnabled && (
+				<div
+					className="sessionMenu__icon sessionMenu__icon--booking"
+					onClick={handleBookingButton}
+				>
+					<CalendarMonthPlusIcon />
+					<Text
+						type="standard"
+						text={translate('booking.mobile.calendar.label')}
+					/>
+				</div>
 			)}
 
 			<span
