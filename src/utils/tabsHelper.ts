@@ -19,8 +19,8 @@ export const solveGroupConditions = (
 	...params
 ) => {
 	return solveCondition(element.condition, ...params) && isTabGroup(element)
-		? element.elements.some((element) =>
-				solveCondition(element.condition, ...params)
+		? element.elements.some((elem) =>
+				solveCondition(elem.condition, ...params)
 		  )
 		: true;
 };

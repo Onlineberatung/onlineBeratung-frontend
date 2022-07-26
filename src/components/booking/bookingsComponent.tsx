@@ -117,6 +117,12 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 	const BookingEventTableColumnAttendee = (params: {
 		event: BookingEventUiInterface;
 	}) => {
+		const showAskerName = params.event.askerName
+			? params.event.askerName
+			: '-';
+		const showCounselorName = params.event.counselor
+			? params.event.counselor
+			: '-';
 		return (
 			<>
 				<Text
@@ -129,15 +135,7 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 					className="bookingEvents__counselor bookingEvents--font-weight-bold"
 				/>
 				<Text
-					text={
-						isConsultant
-							? params.event.askerName
-								? params.event.askerName
-								: '-'
-							: params.event.counselor
-							? params.event.counselor
-							: '-'
-					}
+					text={isConsultant ? showAskerName : showCounselorName}
 					type="standard"
 					className="bookingEvents__counselorName"
 				/>
@@ -145,14 +143,20 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 		);
 	};
 
-	return (
-		<>
-			{isLoading ? (
-				<Loading />
-			) : bookingEventsData.length === 0 ? (
-				noBookings()
-			) : (
-				bookingEventsData?.map((event) => (
+	const bookingsToShow = () => {
+		return (
+			<>
+				{bookingEventsData.length === 0
+					? noBookings()
+					: bookingEvents()}
+			</>
+		);
+	};
+
+	const bookingEvents = () => {
+		return (
+			<>
+				{bookingEventsData?.map((event) => (
 					<Box key={event.id}>
 						<div
 							className={`bookingEvents__innerWrapper-event ${
@@ -250,8 +254,10 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 							</div>
 						</div>
 					</Box>
-				))
-			)}
-		</>
-	);
+				))}
+			</>
+		);
+	};
+
+	return <>{isLoading ? <Loading /> : bookingsToShow()}</>;
 };
