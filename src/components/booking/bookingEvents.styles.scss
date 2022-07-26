@@ -37,6 +37,40 @@ $imprintHeight: 40px;
 		}
 	}
 
+	&__nav {
+		display: flex;
+		align-items: center;
+		line-height: 40px;
+
+		& > * {
+			padding: 0 15px;
+		}
+
+		a {
+			height: 100%;
+			display: inline-flex;
+			align-items: center;
+			color: $form-active;
+			font-weight: $font-weight-medium;
+			border-bottom: 4px solid transparent;
+
+			&.active {
+				color: var(--skin-color-primary-contrast-safe, $primary);
+				border-color: var(--skin-color-primary-contrast-safe, $primary);
+			}
+
+			&:hover {
+				color: var(--skin-color-primary-contrast-safe, $hover-primary);
+			}
+		}
+
+		.title {
+			font-size: 20px;
+			font-weight: $font-weight-medium;
+			width: 100%;
+		}
+	}
+
 	&__headerButton {
 		display: none;
 

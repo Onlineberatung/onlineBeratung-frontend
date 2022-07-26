@@ -54,11 +54,11 @@ export const isTabGroup = (
 	return item.hasOwnProperty('elements');
 };
 
-const solveCondition = (condition, ...params) => {
+export const solveCondition = (condition, ...params) => {
 	return !condition || condition(...params);
 };
 
-const solveTabConditions = (tab: TabType, ...params) => {
+export const solveTabConditions = (tab: TabType, ...params) => {
 	return (
 		solveCondition(tab.condition, ...params) &&
 		tab.elements.some((element) => solveGroupConditions(element, ...params))

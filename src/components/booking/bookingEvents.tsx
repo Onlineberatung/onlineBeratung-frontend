@@ -10,23 +10,26 @@ import { Headline } from '../headline/Headline';
 import './bookingEvents.styles';
 import { history } from '../app/app';
 import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
-import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
-import { ReactComponent as CalendarRescheduleIcon } from '../../resources/img/icons/calendar-reschedule.svg';
-import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-call.svg';
 import { Text } from '../text/Text';
-import { Box } from '../box/Box';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	SessionsDataContext,
+	useConsultingTypes,
 	UserDataContext
 } from '../../globalState';
-import { BookingEventsInterface } from '../../globalState/interfaces/BookingDataInterface';
+import { BookingEventsInterface } from '../../globalState/interfaces/BookingsInterface';
+import { addMissingZero } from '../../utils/dateHelpers';
+import { SingleComponentType } from '../profile/profile.routes';
+import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
+import bookingRoutes from './booking.routes';
+import {
+	isTabGroup,
+	solveCondition,
+	solveTabConditions
+} from '../profile/Profile';
+import { BookingsStatus } from '../../utils/consultant';
 import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
 import { apiAppointmentsServiceBookingEventsByAskerId } from '../../api';
-import { BookingDescription } from './bookingDescription';
-import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
-import { addMissingZero } from '../../utils/dateHelpers';
 
 interface BookingEventUiInterface {
 	id: number;
@@ -42,38 +45,6 @@ interface BookingEventUiInterface {
 	expanded: boolean;
 }
 
-function BookingEventTableColumnAttendee(params: {
-	event: BookingEventUiInterface;
-}) {
-	const { userData } = useContext(UserDataContext);
-	const isConsultant = hasUserAuthority(
-		AUTHORITIES.CONSULTANT_DEFAULT,
-		userData
-	);
-	return (
-		<>
-			<Text
-				text={translate(
-					isConsultant
-						? 'booking.event.asker'
-						: 'booking.event.your.counselor'
-				)}
-				type="standard"
-				className="bookingEvents__counselor bookingEvents--font-weight-bold"
-			/>
-			<Text
-				text={
-					isConsultant
-						? params.event.askerName
-						: params.event.counselor
-				}
-				type="standard"
-				className="bookingEvents__counselorName"
-			/>
-		</>
-	);
-}
-
 export const BookingEvents = () => {
 	useEffect(() => {
 		setBookingWrapperActive();
@@ -84,7 +55,8 @@ export const BookingEvents = () => {
 	}, []);
 
 	const { userData } = useContext(UserDataContext);
-	const { sessions } = useContext(SessionsDataContext);
+
+	const consultingTypes = useConsultingTypes();
 
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
@@ -104,58 +76,12 @@ export const BookingEvents = () => {
 		BookingEventUiInterface[]
 	>([] as BookingEventUiInterface[]);
 
-	const handleCancellationAppointment = (event: BookingEventUiInterface) => {
-		history.push({
-			pathname: '/booking/cancellation',
-			state: { uid: event.uid }
-		});
-	};
-
-	const handleRescheduleAppointment = (event: BookingEventUiInterface) => {
-		history.push({
-			pathname: '/booking/reschedule',
-			state: {
-				rescheduleLink: event.rescheduleLink,
-				bookingId: event.id,
-				askerId: event.askerId
-			}
-		});
-	};
-
-	const noBookings = () => {
-		return (
-			<Box>
-				<div className="bookingEvents__innerWrapper-no-bookings">
-					<Headline
-						className="bookingEvents__innerWrapper-no-bookings-title"
-						text={translate('booking.my.booking.title')}
-						semanticLevel="3"
-					/>
-					{!isConsultant && (
-						<>
-							<Text
-								className="bookingEvents__innerWrapper-no-bookings-text"
-								text={`${translate(
-									'booking.my.booking.schedule'
-								)} <b>
-								${sessions?.[0]?.consultant?.username}</b>:`}
-								type="standard"
-							/>
-							<Button
-								item={scheduleAppointmentButton}
-								buttonHandle={handleBookingButton}
-								customIcon={<CalendarMonthPlusIcon />}
-							/>
-						</>
-					)}
-				</div>
-			</Box>
-		);
-	};
-
 	useEffect(() => {
 		if (isConsultant) {
-			apiGetConsultantAppointments(userData.userId).then((bookings) => {
+			apiGetConsultantAppointments(
+				userData.userId,
+				BookingsStatus.ACTIVE
+			).then((bookings) => {
 				transformData(bookings);
 			});
 		} else {
@@ -210,6 +136,26 @@ export const BookingEvents = () => {
 					semanticLevel="2"
 					className="bookingEvents__header--title"
 				/>
+				{isConsultant && (
+					<>
+						<div className="bookingEvents__nav">
+							{bookingRoutes.map((tab) => (
+								<div
+									key={tab.url}
+									className="text--nowrap flex__col--no-grow"
+								>
+									<NavLink
+										to={`/booking/events${tab.url}`}
+										activeClassName="active"
+									>
+										{tab.title}
+									</NavLink>
+								</div>
+							))}
+						</div>
+						<div />
+					</>
+				)}
 				{!isConsultant && bookingEventsData.length > 0 && (
 					<Button
 						item={scheduleAppointmentButton}
@@ -229,93 +175,45 @@ export const BookingEvents = () => {
 				)}
 			</div>
 			<div className="bookingEvents__innerWrapper">
-				{bookingEventsData.length === 0
-					? noBookings()
-					: bookingEventsData?.map((event) => (
-							<Box key={event.id}>
-								<div className="bookingEvents__innerWrapper-event">
-									<div className="bookingEvents__basicInformation">
-										<div className="bookingEvents__group">
-											<Headline
-												text={event.date}
-												semanticLevel="4"
-												className="bookingEvents__date"
-											></Headline>
-											<Headline
-												text={event.duration}
-												semanticLevel="5"
-												className="bookingEvents__duration"
-											></Headline>
-											<div className="bookingEvents__ics bookingEvents--flex bookingEvents--pointer">
-												<DownloadICSFile
-													date={event.date}
-													duration={event.duration}
-													title={event.title}
-												/>
-											</div>
-										</div>
-										<div className="bookingEvents__group bookingEvents__counselorWrap">
-											<BookingEventTableColumnAttendee
-												event={event}
-											/>
-											<div className="bookingEvents__video bookingEvents--flex">
-												<VideoCalIcon />
-												<Text
-													type="infoLargeAlternative"
-													text={'Videoberatung'}
-												/>
-											</div>
-										</div>
-										<div className="bookingEvents__group">
-											<div className="bookingEvents__ics--mobile bookingEvents--flex bookingEvents--pointer">
-												<DownloadICSFile
-													date={event.date}
-													duration={event.duration}
-													title={event.title}
-												/>
-											</div>
-										</div>
-									</div>
-									<BookingDescription
-										description={event.description}
-									/>
-									<div className="bookingEvents__actions">
-										<div
-											className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
-											onClick={handleRescheduleAppointment.bind(
-												this,
-												event
-											)}
-										>
-											<CalendarRescheduleIcon />
-											<Text
-												type="standard"
-												text={translate(
-													'booking.event.booking.reschedule'
-												)}
-												className="bookingEvents--primary"
-											/>
-										</div>
-										<div
-											className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
-											onClick={handleCancellationAppointment.bind(
-												this,
-												event
-											)}
-										>
-											<CalendarCancelIcon />
-											<Text
-												type="standard"
-												text={translate(
-													'booking.event.booking.cancel'
-												)}
-												className="bookingEvents--primary"
-											/>
-										</div>
-									</div>
+				<Switch>
+					{bookingRoutes
+						.filter((tab) =>
+							solveTabConditions(tab, userData, consultingTypes)
+						)
+						.map((tab) => (
+							<Route
+								path={`/booking/events${tab.url}`}
+								key={`/booking/events${tab.url}`}
+							>
+								<div className="booking__content">
+									{tab.elements
+										.reduce(
+											(
+												acc: SingleComponentType[],
+												element
+											) =>
+												acc.concat(
+													isTabGroup(element)
+														? element.elements
+														: element
+												),
+											[]
+										)
+										.filter((element) =>
+											solveCondition(
+												element.condition,
+												userData,
+												consultingTypes
+											)
+										)
+										.map((element) => (
+											<element.component />
+										))}
 								</div>
-							</Box>
-					  ))}
+							</Route>
+						))}
+					<Redirect to={`/booking/events${bookingRoutes[0].url}`} />
+				</Switch>
 			</div>
 		</div>
 	);

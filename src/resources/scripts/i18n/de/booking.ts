@@ -8,6 +8,9 @@ const booking = {
 	'event.show.less': 'Weniger anzeigen',
 	'event.booking.cancel': 'Termin absagen',
 	'event.booking.reschedule': 'Termin verschieben',
+	'event.tab.booked': 'Gebuchte Termine',
+	'event.tab.canceled': 'Storniert',
+	'event.tab.expired': 'Vergangen',
 	'my.booking.title': 'Aktuell sind keine Termine geplant.',
 	'my.booking.schedule': 'Vereinbaren Sie jetzt einen Termin mit'
 };
