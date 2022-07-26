@@ -52,6 +52,7 @@ export const BookingEventsExpired: React.FC = () => {
 				<BookingsComponent
 					bookingEventsData={bookingEventsData}
 					isLoading={isLoading}
+					bookingStatus={BookingsStatus.EXPIRED}
 				/>
 			)}
 		</>

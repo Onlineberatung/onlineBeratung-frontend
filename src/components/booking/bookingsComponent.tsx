@@ -25,47 +25,18 @@ import { BookingDescription } from './bookingDescription';
 import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
 import { Loading } from '../app/Loading';
 import { BookingEventUiInterface } from '../../globalState/interfaces/BookingsInterface';
-
-function BookingEventTableColumnAttendee(params: {
-	event: BookingEventUiInterface;
-}) {
-	const { userData } = useContext(UserDataContext);
-	const isConsultant = hasUserAuthority(
-		AUTHORITIES.CONSULTANT_DEFAULT,
-		userData
-	);
-	return (
-		<>
-			<Text
-				text={translate(
-					isConsultant
-						? 'booking.event.asker'
-						: 'booking.event.your.counselor'
-				)}
-				type="standard"
-				className="bookingEvents__counselor bookingEvents--font-weight-bold"
-			/>
-			<Text
-				text={
-					isConsultant
-						? params.event.askerName
-						: params.event.counselor
-				}
-				type="standard"
-				className="bookingEvents__counselorName"
-			/>
-		</>
-	);
-}
+import { BookingsStatus } from '../../utils/consultant';
 
 interface BookingsComponentProps {
 	bookingEventsData: BookingEventUiInterface[];
 	isLoading: boolean;
+	bookingStatus: BookingsStatus;
 }
 
 export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 	bookingEventsData,
-	isLoading
+	isLoading,
+	bookingStatus
 }) => {
 	useEffect(() => {
 		setBookingWrapperActive();
@@ -74,6 +45,8 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 			setBookingWrapperInactive();
 		};
 	}, []);
+
+	const activeBookings = bookingStatus === BookingsStatus.ACTIVE;
 
 	const { userData } = useContext(UserDataContext);
 	const { sessions } = useContext(SessionsDataContext);
@@ -141,6 +114,37 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 		);
 	};
 
+	const BookingEventTableColumnAttendee = (params: {
+		event: BookingEventUiInterface;
+	}) => {
+		return (
+			<>
+				<Text
+					text={translate(
+						isConsultant
+							? 'booking.event.asker'
+							: 'booking.event.your.counselor'
+					)}
+					type="standard"
+					className="bookingEvents__counselor bookingEvents--font-weight-bold"
+				/>
+				<Text
+					text={
+						isConsultant
+							? params.event.askerName
+								? params.event.askerName
+								: '-'
+							: params.event.counselor
+							? params.event.counselor
+							: '-'
+					}
+					type="standard"
+					className="bookingEvents__counselorName"
+				/>
+			</>
+		);
+	};
+
 	return (
 		<>
 			{isLoading ? (
@@ -150,7 +154,13 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 			) : (
 				bookingEventsData?.map((event) => (
 					<Box key={event.id}>
-						<div className="bookingEvents__innerWrapper-event">
+						<div
+							className={`bookingEvents__innerWrapper-event ${
+								bookingStatus !== BookingsStatus.ACTIVE
+									? 'bookingEvents__innerWrapper-no-actions'
+									: ''
+							}`}
+						>
 							<div className="bookingEvents__basicInformation">
 								<div className="bookingEvents__group">
 									<Headline
@@ -163,13 +173,15 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 										semanticLevel="5"
 										className="bookingEvents__duration"
 									></Headline>
-									<div className="bookingEvents__ics bookingEvents--flex bookingEvents--pointer">
-										<DownloadICSFile
-											date={event.date}
-											duration={event.duration}
-											title={event.title}
-										/>
-									</div>
+									{activeBookings && (
+										<div className="bookingEvents__ics bookingEvents--flex bookingEvents--pointer">
+											<DownloadICSFile
+												date={event.date}
+												duration={event.duration}
+												title={event.title}
+											/>
+										</div>
+									)}
 								</div>
 								<div className="bookingEvents__group bookingEvents__counselorWrap">
 									<BookingEventTableColumnAttendee
@@ -184,51 +196,57 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 									</div>
 								</div>
 								<div className="bookingEvents__group">
-									<div className="bookingEvents__ics--mobile bookingEvents--flex bookingEvents--pointer">
-										<DownloadICSFile
-											date={event.date}
-											duration={event.duration}
-											title={event.title}
-										/>
-									</div>
+									{activeBookings && (
+										<div className="bookingEvents__ics--mobile bookingEvents--flex bookingEvents--pointer">
+											<DownloadICSFile
+												date={event.date}
+												duration={event.duration}
+												title={event.title}
+											/>
+										</div>
+									)}
 								</div>
 							</div>
 							<BookingDescription
 								description={event.description}
 							/>
 							<div className="bookingEvents__actions">
-								<div
-									className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
-									onClick={handleRescheduleAppointment.bind(
-										this,
-										event
-									)}
-								>
-									<CalendarRescheduleIcon />
-									<Text
-										type="standard"
-										text={translate(
-											'booking.event.booking.reschedule'
-										)}
-										className="bookingEvents--primary"
-									/>
-								</div>
-								<div
-									className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
-									onClick={handleCancellationAppointment.bind(
-										this,
-										event
-									)}
-								>
-									<CalendarCancelIcon />
-									<Text
-										type="standard"
-										text={translate(
-											'booking.event.booking.cancel'
-										)}
-										className="bookingEvents--primary"
-									/>
-								</div>
+								{activeBookings && (
+									<>
+										<div
+											className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
+											onClick={handleRescheduleAppointment.bind(
+												this,
+												event
+											)}
+										>
+											<CalendarRescheduleIcon />
+											<Text
+												type="standard"
+												text={translate(
+													'booking.event.booking.reschedule'
+												)}
+												className="bookingEvents--primary"
+											/>
+										</div>
+										<div
+											className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer"
+											onClick={handleCancellationAppointment.bind(
+												this,
+												event
+											)}
+										>
+											<CalendarCancelIcon />
+											<Text
+												type="standard"
+												text={translate(
+													'booking.event.booking.cancel'
+												)}
+												className="bookingEvents--primary"
+											/>
+										</div>
+									</>
+								)}
 							</div>
 						</div>
 					</Box>

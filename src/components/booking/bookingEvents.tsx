@@ -17,8 +17,10 @@ import {
 	useConsultingTypes,
 	UserDataContext
 } from '../../globalState';
-import { BookingEventsInterface } from '../../globalState/interfaces/BookingsInterface';
-import { addMissingZero } from '../../utils/dateHelpers';
+import {
+	BookingEventsInterface,
+	BookingEventUiInterface
+} from '../../globalState/interfaces/BookingsInterface';
 import { SingleComponentType } from '../profile/profile.routes';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import bookingRoutes from './booking.routes';
@@ -30,20 +32,7 @@ import {
 	isTabGroup,
 	solveCondition
 } from '../../utils/tabsHelper';
-
-interface BookingEventUiInterface {
-	id: number;
-	rescheduleLink?: string;
-	uid: string;
-	date: string;
-	duration: string;
-	counselor: string;
-	askerId: string;
-	askerName: string;
-	description: string;
-	title: string;
-	expanded: boolean;
-}
+import { transformBookingData } from '../../utils/transformBookingData';
 
 export const BookingEvents = () => {
 	useEffect(() => {
@@ -95,42 +84,17 @@ export const BookingEvents = () => {
 	}, []);
 
 	const transformData = (bookings: BookingEventsInterface[]) => {
-		let bookingEvents: BookingEventUiInterface[] = [];
-		bookings?.forEach((event: BookingEventsInterface) => {
-			const startTime = new Date(event.startTime);
-			const endTime = new Date(event.endTime);
-			const date = new Date(event.startTime).toLocaleDateString('de-de', {
-				weekday: 'long',
-				year: '2-digit',
-				month: '2-digit',
-				day: 'numeric'
-			});
-			const duration = `${addMissingZero(
-				startTime.getUTCHours()
-			)}:${addMissingZero(startTime.getUTCMinutes())} - ${addMissingZero(
-				endTime.getUTCHours()
-			)}:${addMissingZero(endTime.getUTCMinutes())}`;
-
-			bookingEvents.push({
-				id: event.id,
-				date,
-				title: event.title,
-				duration,
-				askerId: event.askerId,
-				askerName: event.askerName,
-				counselor: event.consultantName,
-				description: event.description,
-				expanded: false,
-				uid: event.uid,
-				rescheduleLink: event.rescheduleLink
-			});
-		});
+		const bookingEvents = transformBookingData(bookings);
 		setBookingEventsData(bookingEvents);
 	};
 
 	return (
 		<div className="bookingEvents__wrapper">
-			<div className="bookingEvents__header">
+			<div
+				className={`bookingEvents__header ${
+					isConsultant ? 'bookingEvents__header-consultant' : ''
+				}`}
+			>
 				<Headline
 					text={translate('navigation.booking.events')}
 					semanticLevel="2"
@@ -164,7 +128,7 @@ export const BookingEvents = () => {
 						className="bookingEvents__headerButton"
 					/>
 				)}
-				{bookingEventsData.length > 0 && (
+				{!isConsultant && bookingEventsData.length > 0 && (
 					<div className="bookingEvents__calendar--mobile">
 						<CalendarMonthPlusIcon />
 						<Text

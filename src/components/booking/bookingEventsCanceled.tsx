@@ -51,6 +51,7 @@ export const BookingEventsCanceled: React.FC = () => {
 				<BookingsComponent
 					bookingEventsData={bookingEventsData}
 					isLoading={isLoading}
+					bookingStatus={BookingsStatus.CANCELLED}
 				/>
 			)}
 		</>

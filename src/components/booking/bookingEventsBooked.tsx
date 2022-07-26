@@ -76,6 +76,7 @@ export const BookingEventsBooked: React.FC = () => {
 				<BookingsComponent
 					bookingEventsData={bookingEventsData}
 					isLoading={isLoading}
+					bookingStatus={BookingsStatus.ACTIVE}
 				/>
 			)}
 		</>
