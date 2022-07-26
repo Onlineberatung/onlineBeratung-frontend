@@ -15,8 +15,8 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
 	const [forceHideTwoFactorNag, setForceHideTwoFactorNag] = useState(false);
 	const [message, setMessage] = useState({
-		title: 'twoFactorAuth.nag.title',
-		copy: 'twoFactorAuth.nag.copy',
+		title: 'twoFactorAuth.nag.obligatory.moment.title',
+		copy: 'twoFactorAuth.nag.obligatory.moment.copy',
 		showClose: true
 	});
 
