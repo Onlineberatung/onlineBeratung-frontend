@@ -22,14 +22,14 @@ import { addMissingZero } from '../../utils/dateHelpers';
 import { SingleComponentType } from '../profile/profile.routes';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import bookingRoutes from './booking.routes';
-import {
-	isTabGroup,
-	solveCondition,
-	solveTabConditions
-} from '../profile/Profile';
 import { BookingsStatus } from '../../utils/consultant';
 import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
 import { apiAppointmentsServiceBookingEventsByAskerId } from '../../api';
+import {
+	solveTabConditions,
+	isTabGroup,
+	solveCondition
+} from '../../utils/tabsHelper';
 
 interface BookingEventUiInterface {
 	id: number;
@@ -206,8 +206,8 @@ export const BookingEvents = () => {
 												consultingTypes
 											)
 										)
-										.map((element) => (
-											<element.component />
+										.map((element, i) => (
+											<element.component key={i} />
 										))}
 								</div>
 							</Route>
