@@ -5,6 +5,10 @@
 	margin-bottom: $grid-base-two;
 	max-width: 90%;
 
+	@include breakpoint($fromMedium) {
+		min-width: 460px;
+	}
+
 	.wrapper {
 		border: 1px dashed #000000;
 		border-radius: 4px;
@@ -14,6 +18,10 @@
 
 		h5 {
 			margin: $grid-base-two;
+		}
+
+		h5 + span.description {
+			margin-top: 0;
 		}
 
 		.description {

@@ -86,37 +86,58 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 		return availableConsultants;
 	};
 
-	const initOverlays = (profileData, selected) => {
-		apiGetUserData()
-			.then((profileData: UserDataInterface) => {
-				console.log('XXX', profileData);
-			})
-			.catch((error) => console.log(error));
-
-		const currentUserId = profileData.userId;
-		if (selected?.value === currentUserId) return;
+	const initOverlays = (selected, profileData) => {
+		if (selected?.value === activeSession?.consultant?.id) return;
+		const selectedConsultant = consultantList.filter(
+			(consultant) => consultant.value === activeSession?.consultant?.id
+		)[0];
+		const isTeamSession = activeSession?.item?.isTeamSession;
+		const isMyOwnSession = selected?.value === profileData.userId;
 
 		const client = activeSession.user.username;
 		const newConsultant = selected.label;
+		const toAskerName = client;
 		setReassignmentParams({
 			toConsultantId: selected.value,
 			toConsultantName: selected.label,
-			toAskerName: client,
-			fromConsultantName: profileData.displayName || profileData.userName,
+			toAskerName,
+			fromConsultantName: selectedConsultant.label,
 			status: ReassignStatus.REQUESTED
 		});
 
-		console.log('selected', selected);
-		console.log('init', client, newConsultant);
+		let overlayText = translate(
+			'session.assignOther.overlay.subtitle.noTeam',
+			{
+				newConsultant
+			}
+		);
+
+		if (isTeamSession && isMyOwnSession) {
+			overlayText = translate(
+				'session.assignOther.overlay.subtitle.team.self',
+				{
+					newConsultant,
+					toAskerName
+				}
+			);
+		}
+
+		if (isTeamSession && !isMyOwnSession) {
+			overlayText = translate(
+				'session.assignOther.overlay.subtitle.team.other',
+				{
+					newConsultant,
+					toAskerName
+				}
+			);
+		}
 
 		const reassignSession: OverlayItem = {
 			headline: translate('session.assignOther.overlay.headline', {
 				client,
 				newConsultant
 			}),
-			copy: translate('session.assignOther.overlay.subtitle', {
-				newConsultant
-			}),
+			copy: overlayText,
 			buttonSet: [
 				{
 					label: translate(
@@ -153,7 +174,7 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 
 	const handleDatalistSelect = (selectedOption) => {
 		setSelectedOption(selectedOption);
-		initOverlays(userData, selectedOption);
+		initOverlays(selectedOption, userData);
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
@@ -162,7 +183,7 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 				apiSessionAssign(activeSession.item.id, selectedOption.value)
 					.then(() => {
 						if (userData) {
-							initOverlays(userData, selectedOption);
+							initOverlays(selectedOption, userData);
 							handleE2EEAssign(
 								activeSession.item.id,
 								userData.userId
@@ -175,7 +196,7 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 										profileData.userId
 									);
 									setUserData(profileData);
-									initOverlays(profileData, selectedOption);
+									initOverlays(selectedOption, profileData);
 								})
 								.catch((error) => console.log(error));
 						}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { translate } from '../../utils/translate';
 
 import './reassignRequestMessage.styles';
@@ -7,6 +7,7 @@ import { Button, BUTTON_TYPES } from '../button/Button';
 export const ReassignRequestMessage: React.FC<{
 	fromConsultantName: string;
 	toConsultantName: string;
+	isTeamSession: boolean;
 	onClick: (accepted: boolean) => void;
 }> = (props) => {
 	return (
@@ -24,7 +25,9 @@ export const ReassignRequestMessage: React.FC<{
 
 				<span className="description">
 					{translate(
-						'session.reassign.system.message.reassign.description',
+						`session.reassign.system.message.reassign.description.${
+							props.isTeamSession ? 'team' : 'noTeam'
+						}`,
 						{
 							oldConsultant: props.fromConsultantName,
 							newConsultant: props.toConsultantName
@@ -65,7 +68,17 @@ export const ReassignRequestSentMessage: React.FC<{
 	toAskerName: string;
 	fromConsultantName: string;
 	toConsultantName: string;
+	isTeamSession: boolean;
+	isMySession: boolean;
 }> = (props) => {
+	let descriptionToTranslate =
+		'session.reassign.system.message.reassign.sent.description.noTeam';
+	if (props.isTeamSession && props.isMySession)
+		descriptionToTranslate =
+			'session.reassign.system.message.reassign.sent.description.team.self';
+	if (props.isTeamSession && !props.isMySession)
+		descriptionToTranslate =
+			'session.reassign.system.message.reassign.sent.description.team.other';
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
@@ -79,14 +92,11 @@ export const ReassignRequestSentMessage: React.FC<{
 					)}
 				</h5>
 				<span className="description">
-					{translate(
-						'session.reassign.system.message.reassign.sent.description',
-						{
-							client1: props.toAskerName,
-							client2: props.toAskerName,
-							newConsultant: props.toConsultantName
-						}
-					)}
+					{translate(descriptionToTranslate, {
+						client1: props.toAskerName,
+						client2: props.toAskerName,
+						newConsultant: props.toConsultantName
+					})}
 				</span>
 			</div>
 		</div>
@@ -98,7 +108,9 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 	toConsultantName: string;
 	isAsker: boolean;
 	fromConsultantName: string;
+	isMySession: boolean;
 }> = (props) => {
+	const forWhichConsultant = props.isMySession ? 'self' : 'other';
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
@@ -126,18 +138,20 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 					<>
 						<h5>
 							{translate(
-								'session.reassign.system.message.reassign.accepted.title',
+								`session.reassign.system.message.reassign.accepted.title.${forWhichConsultant}`,
 								{
 									oldConsultant: props.fromConsultantName,
+									newConsultant: props.toConsultantName,
 									client: props.toAskerName
 								}
 							)}
 						</h5>
 						<span className="description">
 							{translate(
-								'session.reassign.system.message.reassign.accepted.description',
+								`session.reassign.system.message.reassign.accepted.description.${forWhichConsultant}`,
 								{
-									client: props.toAskerName
+									client: props.toAskerName,
+									consultant: props.toConsultantName
 								}
 							)}
 						</span>
@@ -150,10 +164,11 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 
 export const ReassignRequestDeclinedMessage: React.FC<{
 	isAsker: boolean;
+	isMySession: boolean;
 	toAskerName: string;
 	fromConsultantName: string;
 }> = (props) => {
-	console.log('isAsker', props.isAsker);
+	const forWhichConsultant = props.isMySession ? 'self' : 'other';
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
@@ -178,9 +193,10 @@ export const ReassignRequestDeclinedMessage: React.FC<{
 						</h5>
 						<span className="description">
 							{translate(
-								'session.reassign.system.message.reassign.declined.description',
+								`session.reassign.system.message.reassign.declined.description.${forWhichConsultant}`,
 								{
-									client: props.toAskerName
+									client: props.toAskerName,
+									consultant: props.fromConsultantName
 								}
 							)}
 						</span>

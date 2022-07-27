@@ -167,5 +167,7 @@ export const config = {
 export const ALIAS_LAST_MESSAGES = {
 	E2EE_ACTIVATED: 'aliases.lastMessage.e2ee_activated',
 	FURTHER_STEPS: 'aliases.lastMessage.further_steps',
-	REASSIGN_CONSULTANT: 'aliases.lastMessage.reassign_consultant'
+	REASSIGN_CONSULTANT: 'aliases.lastMessage.reassign_consultant',
+	REASSIGN_CONSULTANT_RESET_LAST_MESSAGE:
+		'aliases.lastMessage.reassign_consultant_reset_last_message'
 };

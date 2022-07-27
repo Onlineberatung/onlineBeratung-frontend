@@ -4,7 +4,9 @@ const aliases = {
 	'lastMessage.reassign_consultant.CONFIRMED': 'neu zugewiesen',
 	'lastMessage.reassign_consultant.REJECTED': 'Zuweisung abgelehnt',
 	'lastMessage.reassign_consultant.REQUESTED': 'Anfrage zur Zuweisung',
-	'lastMessage.master_key_lost': ''
+	'lastMessage.master_key_lost': '',
+	// WORKAROUND for reassignment lastMessage bug
+	'lastMessage.reassign_consultant_reset_last_message': 'neu zugewiesen'
 };
 
 export default aliases;

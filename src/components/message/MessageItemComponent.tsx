@@ -42,6 +42,7 @@ import {
 	ReassignRequestSentMessage
 } from './ReassignMessage';
 import {
+	apiSendAliasMessage,
 	ConsultantReassignment,
 	ReassignStatus
 } from '../../api/apiSendAliasMessage';
@@ -216,15 +217,22 @@ export const MessageItemComponent = ({
 						toConsultantId,
 						ReassignStatus.CONFIRMED,
 						_id
-					).catch((error) => console.log(error));
+					)
+						.then(() => {
+							// WORKAROUND for an issue with reassignment and old users breaking the lastMessage for this session
+							apiSendAliasMessage({
+								rcGroupId: activeSession.rid,
+								type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT_RESET_LAST_MESSAGE
+							});
+						})
+						.catch((error) => console.log(error));
 				})
 				.catch((error) => console.log(error));
-			return;
+		} else {
+			apiPatchMessage(toConsultantId, ReassignStatus.REJECTED, _id).catch(
+				(error) => console.log(error)
+			);
 		}
-
-		apiPatchMessage(toConsultantId, ReassignStatus.REJECTED, _id).catch(
-			(error) => console.log(error)
-		);
 	};
 
 	const isUserMessage = () =>
@@ -249,6 +257,17 @@ export const MessageItemComponent = ({
 		alias?.messageType === ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT;
 	const isMasterKeyLostMessage =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST;
+
+	// WORKAROUND for reassignment last message bug
+	// don't show this message in the session view
+	if (
+		alias?.messageType ===
+		ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT_RESET_LAST_MESSAGE
+	)
+		return null;
+
+	const isTeamSession = activeSession?.item?.isTeamSession;
+	const isMySession = activeSession?.consultant?.id === userData?.userId;
 
 	const messageContent = (): JSX.Element => {
 		switch (true) {
@@ -276,6 +295,7 @@ export const MessageItemComponent = ({
 							return isAsker ? (
 								<ReassignRequestMessage
 									{...reassignmentParams}
+									isTeamSession={isTeamSession}
 									onClick={(accepted) =>
 										clickReassignRequestMessage(
 											accepted,
@@ -286,12 +306,15 @@ export const MessageItemComponent = ({
 							) : (
 								<ReassignRequestSentMessage
 									{...reassignmentParams}
+									isTeamSession={isTeamSession}
+									isMySession={isMySession}
 								/>
 							);
 						case ReassignStatus.CONFIRMED:
 							return (
 								<ReassignRequestAcceptedMessage
 									isAsker={isAsker}
+									isMySession={isMySession}
 									{...reassignmentParams}
 								/>
 							);
@@ -299,6 +322,7 @@ export const MessageItemComponent = ({
 							return (
 								<ReassignRequestDeclinedMessage
 									isAsker={isAsker}
+									isMySession={isMySession}
 									{...reassignmentParams}
 								/>
 							);
