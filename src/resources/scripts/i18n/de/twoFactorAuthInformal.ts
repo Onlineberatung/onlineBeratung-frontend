@@ -37,9 +37,9 @@ const twoFactorAuthInformal = {
 	'nag.obligatory.moment.title': 'Schütze Dein Konto bis spätestens %date%',
 	'nag.obligatory.moment.copy':
 		'Du musst bis zum %date1% einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Dein Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Achtung: Ohne einen zweiten Faktor darfst Du nach dem %date2% nicht mehr online beraten.</b>',
-	'nag.obligatory.title': 'Schütz nun Dein Konto',
+	'nag.obligatory.title': 'Schütze nun Dein Konto',
 	'nag.obligatory.copy':
-		'Du musst jetzt einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Dein Konto vor einem möglichen unbefugten Zugriff. <br><b>Ohne einen zweiten Faktor dürfst Du nicht mehr online beraten.</b>'
+		'Du musst jetzt einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Dein Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Ohne einen zweiten Faktor dürfst Du nicht mehr online beraten.</b>'
 };
 
 export default twoFactorAuthInformal;
