@@ -8,6 +8,16 @@ $headerHeight: $grid-base-twelve;
 
 a {
 	color: var(--skin-color-primary-contrast-safe, $primary);
+
+	&:focus {
+		outline: 2px solid #199fff;
+		outline-offset: 1px;
+		border-radius: 4px;
+	}
+
+	&:focus:not(:focus-visible) {
+		outline: none;
+	}
 }
 
 .app {

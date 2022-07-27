@@ -103,9 +103,10 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 						</li>
 						<li>
 							{translate('help.videoCall.consultant.steps.4')}
-							<span
-								className="help__copyLink"
-								role="button"
+							<button
+								className="help__copyLink button-as-link"
+								type="button"
+								tabIndex={0}
 								onClick={() => {
 									copyLoginLink();
 								}}
@@ -115,7 +116,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 							>
 								<CopyIcon className={`copy icn--s`} />{' '}
 								{translate('help.videoCall.loginLink.text')}
-							</span>
+							</button>
 						</li>
 						<li>
 							{translate('help.videoCall.consultant.steps.5')}
@@ -135,9 +136,10 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 					<ol className="tertiary">
 						<li>
 							{translate('help.videoCall.consultant.steps.4')}
-							<span
-								className="help__copyLink"
-								role="button"
+							<button
+								className="help__copyLink button-as-link"
+								type="button"
+								tabIndex={0}
 								onClick={() => {
 									copyLoginLink();
 								}}
@@ -147,7 +149,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 							>
 								<CopyIcon className={`copy icn--s`} />{' '}
 								{translate('help.videoCall.loginLink.text')}
-							</span>
+							</button>
 						</li>
 						<li>
 							{translate('help.videoCall.consultant.steps.5')}
