@@ -6,7 +6,6 @@ import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { history } from '../app/app';
 import './twoFactorNag.styles';
 import { config } from '../../resources/scripts/config';
-import moment from 'moment';
 
 interface TwoFactorNagProps {}
 
@@ -27,27 +26,12 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			!forceHideTwoFactorNag
 		) {
 			setIsShownTwoFactorNag(true);
-			//TODO sobald Zweifactor notwendig ist kann das raus und nur noch die Finale Form angezeigt werden
-			if (
-				moment().isSame(
-					moment(config.twofactor.startObligatoryHint, 'DD.MM.YYYY'),
-					'day'
-				)
-			) {
-				if (
-					moment().isSame(
-						moment(
-							config.twofactor.dateTwoFactorObligatory,
-							'DD.MM.YYYY'
-						),
-						'day'
-					)
-				) {
-					setMessage(config.twofactor.messages[1]);
-				} else {
-					setMessage(config.twofactor.messages[0]);
-				}
-			}
+
+			let todaysDate = new Date(Date.now()).toLocaleDateString('de-DE');
+
+			todaysDate >= config.twofactor.dateTwoFactorObligatory
+				? setMessage(config.twofactor.messages[1])
+				: setMessage(config.twofactor.messages[0]);
 		}
 	}, [userData, forceHideTwoFactorNag]);
 
@@ -89,20 +73,32 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 						date1: config.twofactor.dateTwoFactorObligatory,
 						date2: config.twofactor.dateTwoFactorObligatory
 					}),
-					buttonSet: [
-						{
-							label: translate('twoFactorAuth.nag.button.later'),
-							function: OVERLAY_FUNCTIONS.CLOSE,
-							type: BUTTON_TYPES.SECONDARY
-						},
-						{
-							label: translate(
-								'twoFactorAuth.nag.button.protect'
-							),
-							function: OVERLAY_FUNCTIONS.REDIRECT,
-							type: BUTTON_TYPES.PRIMARY
-						}
-					]
+					buttonSet: message.showClose
+						? [
+								{
+									label: translate(
+										'twoFactorAuth.nag.button.later'
+									),
+									function: OVERLAY_FUNCTIONS.CLOSE,
+									type: BUTTON_TYPES.SECONDARY
+								},
+								{
+									label: translate(
+										'twoFactorAuth.nag.button.protect'
+									),
+									function: OVERLAY_FUNCTIONS.REDIRECT,
+									type: BUTTON_TYPES.PRIMARY
+								}
+						  ]
+						: [
+								{
+									label: translate(
+										'twoFactorAuth.nag.button.protect'
+									),
+									function: OVERLAY_FUNCTIONS.REDIRECT,
+									type: BUTTON_TYPES.PRIMARY
+								}
+						  ]
 				}}
 			/>
 		</OverlayWrapper>
