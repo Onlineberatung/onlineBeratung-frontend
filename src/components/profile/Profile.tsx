@@ -17,11 +17,7 @@ import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg'
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { Text } from '../text/Text';
 import './profile.styles';
-import profileRoutes, {
-	COLUMN_LEFT,
-	SingleComponentType,
-	TabGroups
-} from './profile.routes';
+import profileRoutes from './profile.routes';
 import {
 	Link,
 	NavLink,
@@ -45,7 +41,10 @@ import {
 	solveTabConditions,
 	isTabGroup,
 	solveCondition,
-	solveGroupConditions
+	solveGroupConditions,
+	COLUMN_LEFT,
+	SingleComponentType,
+	TabGroups
 } from '../../utils/tabsHelper';
 
 interface ProfileProps {

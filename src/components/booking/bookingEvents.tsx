@@ -21,7 +21,6 @@ import {
 	BookingEventsInterface,
 	BookingEventUiInterface
 } from '../../globalState/interfaces/BookingsInterface';
-import { SingleComponentType } from '../profile/profile.routes';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import bookingRoutes from './booking.routes';
 import { BookingsStatus } from '../../utils/consultant';
@@ -30,7 +29,8 @@ import { apiAppointmentsServiceBookingEventsByAskerId } from '../../api';
 import {
 	solveTabConditions,
 	isTabGroup,
-	solveCondition
+	solveCondition,
+	SingleComponentType
 } from '../../utils/tabsHelper';
 import { transformBookingData } from '../../utils/transformBookingData';
 

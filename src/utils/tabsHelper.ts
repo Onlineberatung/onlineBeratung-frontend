@@ -1,15 +1,15 @@
-interface TabGroups {
-	title: string;
-	url: string;
-	condition?: (userData, consultingTypes) => boolean;
-	elements: SingleComponentType[];
-}
-
 interface TabType {
 	title: string;
 	url: string;
 	condition?: (userData, consultingTypes) => boolean;
 	elements: (TabGroups | SingleComponentType)[];
+}
+
+export interface TabGroups {
+	title: string;
+	url: string;
+	condition?: (userData, consultingTypes) => boolean;
+	elements: SingleComponentType[];
 }
 
 export const COLUMN_LEFT = 0;
