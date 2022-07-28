@@ -149,6 +149,7 @@ export const RouterConfigUser = (): any => {
 			},
 			{
 				path: '/booking/events',
+				exact: false,
 				component: BookingEvents
 			}
 		]
@@ -309,6 +310,7 @@ export const RouterConfigConsultant = (): any => {
 			},
 			{
 				path: '/booking/events',
+				exact: false,
 				component: BookingEvents
 			}
 		]
@@ -515,6 +517,7 @@ export const RouterConfigTeamConsultant = (): any => {
 			},
 			{
 				path: '/booking/events',
+				exact: false,
 				component: BookingEvents
 			}
 		]
@@ -578,6 +581,7 @@ export const RouterConfigAnonymousAsker = (): any => {
 			},
 			{
 				path: '/booking/events',
+				exact: false,
 				component: BookingEvents
 			}
 		]

@@ -17,34 +17,7 @@ import { EnableWalkthrough } from './EnableWalkthrough';
 import { config } from '../../resources/scripts/config';
 import { Help } from '../help/Help';
 import { ConsultantNotifications } from './ConsultantNotifications';
-
-export interface TabGroups {
-	title: string;
-	url: string;
-	condition?: (userData, consultingTypes) => boolean;
-	elements: SingleComponentType[];
-}
-
-export interface TabType {
-	title: string;
-	url: string;
-	condition?: (userData, consultingTypes) => boolean;
-	elements: (TabGroups | SingleComponentType)[];
-}
-
-export const COLUMN_LEFT = 0;
-export const COLUMN_RIGHT = 1;
-
-export type SingleComponentType = {
-	condition?: (userData, consultingTypes) => boolean;
-	component: any;
-	boxed?: boolean;
-	order?: number;
-	column?: typeof COLUMN_LEFT | typeof COLUMN_RIGHT;
-	fullWidth?: boolean;
-};
-
-export type TabsType = TabType[];
+import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 
 const routes: TabsType = [
 	{
