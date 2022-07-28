@@ -12,3 +12,17 @@ export interface BookingEventsInterface {
 	askerName?: string;
 	title: string;
 }
+
+export interface BookingEventUiInterface {
+	id: number;
+	rescheduleLink?: string;
+	uid: string;
+	date: string;
+	duration: string;
+	counselor: string;
+	askerId: string;
+	askerName: string;
+	description: string;
+	title: string;
+	expanded: boolean;
+}

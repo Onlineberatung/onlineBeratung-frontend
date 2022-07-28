@@ -4,7 +4,7 @@ import { fetchData, FETCH_METHODS } from './fetchData';
 export const getCounselorAppointmentLink = async (
 	userId: string
 ): Promise<{ slug: string }> => {
-	const url = config.endpoints.appointmentServiceEventTypes(userId);
+	const url = config.endpoints.counselorAppointmentLink(userId);
 
 	return fetchData({
 		url,

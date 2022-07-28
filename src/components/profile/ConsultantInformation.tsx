@@ -175,9 +175,10 @@ const PersonalRegistrationLink = ({
 				/>
 			</div>
 			<div className="flex flex--ai-c flex--nowrap mt--1">
-				<span
-					role="button"
-					className="text--right text--nowrap mr--1 text--tertiary primary"
+				<button
+					type="button"
+					className="text--right text--nowrap mr--1 text--tertiary primary button-as-link"
+					tabIndex={0}
 					onClick={copyRegistrationLink}
 					title={translate(
 						'profile.data.personal.registrationLink.title'
@@ -185,7 +186,7 @@ const PersonalRegistrationLink = ({
 				>
 					<CopyIcon className={`copy icn--s`} />{' '}
 					{translate('profile.data.personal.registrationLink.text')}
-				</span>
+				</button>
 				<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
 					<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
 						<Tooltip trigger={<InfoIcon className="icn icn--xl" />}>
