@@ -14,6 +14,7 @@ export const SessionListItemLastMessage: React.FC<SessionListItemLastMessageProp
 	({ showSpan, language, lastMessage, lastMessageType, showLanguage }) => {
 		// do not show anything
 		if (showSpan) return <span></span>;
+		if (!lastMessage && !lastMessageType) return null;
 
 		const languageAddOn = (
 			<span>
@@ -22,7 +23,18 @@ export const SessionListItemLastMessage: React.FC<SessionListItemLastMessageProp
 			</span>
 		);
 
-		const aliasMessage = ALIAS_LAST_MESSAGES[lastMessageType];
+		let aliasMessage = ALIAS_LAST_MESSAGES[lastMessageType];
+
+		// reassign_consultant alias can have multiple states
+		if (lastMessageType === 'REASSIGN_CONSULTANT') {
+			try {
+				if (JSON.parse(lastMessage)?.status) {
+					aliasMessage += `.${JSON.parse(lastMessage).status}`;
+				}
+			} catch {
+				// if no json -> do nothing
+			}
+		}
 
 		return (
 			<div
