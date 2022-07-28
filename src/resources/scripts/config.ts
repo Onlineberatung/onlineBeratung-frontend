@@ -184,6 +184,24 @@ export const config = {
 				]
 			}
 		]
+	},
+	twofactor: {
+		startObligatoryHint: new Date('7/26/2022').toLocaleDateString('de-DE'),
+		dateTwoFactorObligatory: new Date('9/30/2022').toLocaleDateString(
+			'de-DE'
+		),
+		messages: [
+			{
+				title: 'twoFactorAuth.nag.obligatory.moment.title',
+				copy: 'twoFactorAuth.nag.obligatory.moment.copy',
+				showClose: true
+			},
+			{
+				title: 'twoFactorAuth.nag.obligatory.title',
+				copy: 'twoFactorAuth.nag.obligatory.copy',
+				showClose: false
+			}
+		]
 	}
 };
 

@@ -25,6 +25,7 @@ import { FinishedAnonymousConversationHandler } from './FinishedAnonymousConvers
 import { ReleaseNote } from '../releaseNote/ReleaseNote';
 import { NonPlainRoutesWrapper } from './NonPlainRoutesWrapper';
 import { Walkthrough } from '../walkthrough/Walkthrough';
+import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 
 interface RoutingProps {
 	logout?: Function;
@@ -272,6 +273,10 @@ export const Routing = (props: RoutingProps) => {
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
 							) && <ReleaseNote />}
+							{hasUserAuthority(
+								AUTHORITIES.CONSULTANT_DEFAULT,
+								userData
+							) && <TwoFactorNag />}
 						</div>
 					</NonPlainRoutesWrapper>
 				</E2EEProvider>
