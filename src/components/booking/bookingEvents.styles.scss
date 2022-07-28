@@ -1,0 +1,263 @@
+$doubleNavHeight: 192px;
+$imprintHeight: 40px;
+
+.bookingEvents {
+	&--flex {
+		display: flex;
+	}
+
+	&--primary {
+		color: $primary;
+	}
+
+	&--font-weight-bold {
+		font-weight: $font-weight-bold;
+	}
+
+	&--align-items-center {
+		align-items: center;
+	}
+
+	&--pointer {
+		cursor: pointer;
+	}
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: $grid-base-three;
+
+		&--title {
+			margin-bottom: 0;
+		}
+
+		@include breakpoint($fromLarge) {
+			z-index: 20;
+		}
+	}
+
+	&__headerButton {
+		display: none;
+
+		@include breakpoint($fromLarge) {
+			display: block;
+		}
+	}
+
+	&__calendar--mobile {
+		display: block;
+		position: relative;
+		width: 70px;
+		margin: 0;
+		text-align: center;
+
+		p {
+			color: $primary;
+			text-align: center;
+			word-break: normal;
+		}
+
+		svg {
+			margin-bottom: 0.5rem;
+		}
+
+		path {
+			fill: $primary;
+		}
+
+		@include breakpoint($fromLarge) {
+			display: none;
+		}
+	}
+
+	&__innerWrapper {
+		display: flex;
+		flex-direction: column;
+		padding: 0 $grid-base-three;
+		overflow-x: hidden;
+		height: calc(100vh - #{$doubleNavHeight - #{$imprintHeight}});
+
+		&-event {
+			display: grid;
+			column-gap: 3rem;
+			row-gap: 1.5rem;
+			grid-template-areas:
+				'basicInformation'
+				'actions'
+				'description';
+
+			@include breakpoint($fromLarge) {
+				grid-template-columns: 2fr 2fr 1fr;
+				row-gap: 3rem;
+				grid-template-areas: 'basicInformation description actions';
+			}
+		}
+
+		&-no-bookings {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			height: calc(100vh - 275px);
+
+			@include breakpoint($fromLarge) {
+				height: calc(100vh - 300px);
+			}
+
+			&-title {
+				color: $lighter-grey;
+			}
+
+			&-text {
+				margin-top: 4rem;
+				margin-bottom: 1.5rem;
+				text-align: center;
+			}
+		}
+	}
+
+	&__basicInformation {
+		display: grid;
+		row-gap: 1rem;
+		grid-area: basicInformation;
+
+		@include breakpoint($fromLarge) {
+			grid-template-columns: 2fr 1fr;
+			max-height: 100px;
+		}
+
+		.bookingEvents__ics {
+			display: none;
+
+			@include breakpoint($fromLarge) {
+				display: flex;
+				position: relative;
+				top: 1.5rem;
+			}
+		}
+	}
+
+	&__description {
+		grid-area: description;
+		&.shrinked {
+			.bookingEvents__descriptionText {
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+			}
+		}
+	}
+
+	&__descriptionText {
+		margin: 0.25rem 0 0.5rem 0;
+	}
+
+	&__actions {
+		display: grid;
+		grid-auto-flow: row;
+		max-height: 100px;
+		grid-template-columns: 1fr;
+		row-gap: 1.5rem;
+		grid-area: actions;
+
+		@include breakpoint($fromLarge) {
+			grid-template-columns: none;
+			row-gap: 0;
+		}
+
+		p {
+			margin-left: 0.5rem;
+		}
+	}
+
+	&__counselorWrap {
+		display: grid;
+		grid-template-areas:
+			'video'
+			'counselor'
+			'counselorName';
+
+		@include breakpoint($fromLarge) {
+			grid-template-areas:
+				'counselor'
+				'counselorName'
+				'video';
+		}
+	}
+
+	&__counselorName {
+		margin-top: 0.25rem;
+		grid-area: counselorName;
+	}
+
+	&__counselor {
+		grid-area: counselor;
+	}
+
+	&__date {
+		margin-bottom: 0;
+	}
+
+	&__duration {
+		color: $light-grey;
+	}
+
+	&__video {
+		align-items: center;
+		grid-area: video;
+		margin-bottom: 1rem;
+
+		@include breakpoint($fromLarge) {
+			margin-top: 0.5rem;
+			margin-bottom: 0rem;
+		}
+
+		p {
+			margin-left: 0.5rem;
+		}
+	}
+
+	&__ics {
+		@include breakpoint($fromLarge) {
+			margin-top: 0.75rem;
+		}
+
+		p {
+			margin-left: 0.5rem;
+		}
+
+		&--mobile {
+			display: flex;
+			margin-top: 0.5rem;
+
+			@include breakpoint($fromLarge) {
+				display: none;
+			}
+
+			p {
+				margin-left: 0.5rem;
+			}
+		}
+	}
+
+	&__showMore {
+		display: flex;
+		align-items: center;
+
+		p {
+			margin-left: 0.5rem;
+		}
+
+		svg {
+			width: 18px;
+			height: 18px;
+			path {
+				fill: $primary;
+			}
+		}
+	}
+}
