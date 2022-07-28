@@ -1,3 +1,5 @@
+import { BookingsStatus } from '../../utils/consultant';
+
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 
@@ -32,15 +34,18 @@ export const config = {
 		appointmentServiceMeetingLink: (agencyId: number) =>
 			apiUrl +
 			`/service/appointservice/agencies/${agencyId}/initialMeetingSlugReal`,
-		//TODO Andre: rename it. consider that you have to change it also in the frontend-theme project
-		appointmentServiceEventTypes: (userId: string) =>
+		counselorAppointmentLink: (userId: string) =>
 			apiUrl +
 			`/service/appointservice/consultants/${userId}/meetingSlug`,
 		appointmentsServiceBase: apiUrl + '/service/appointments',
 		appointmentsServiceBookingEventsByUserId: (userId: string) =>
 			apiUrl + `/service/appointservice/askers/${userId}/bookings`,
-		appointmentsServiceConsultantBookings: (userId: string) =>
-			apiUrl + `/service/appointservice/consultants/${userId}/bookings`,
+		appointmentsServiceConsultantBookings: (
+			userId: string,
+			status: BookingsStatus
+		) =>
+			apiUrl +
+			`/service/appointservice/consultants/${userId}/bookings?status=${status}`,
 		askerSessions: apiUrl + '/service/users/sessions/askers',
 		attachmentUpload: apiUrl + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
@@ -61,16 +66,15 @@ export const config = {
 		error: apiUrl + '/service/logstash',
 		forwardMessage: apiUrl + '/service/messages/forward',
 		groupChatBase: apiUrl + '/service/users/chat/',
-		//TODO: fix this before merging back to open source
 		keycloakAccessToken:
 			apiUrl +
-			'/auth/realms/caritas-online-beratung/protocol/openid-connect/token',
+			'/auth/realms/online-beratung/protocol/openid-connect/token',
 		keycloakLogout:
 			apiUrl +
-			'/auth/realms/caritas-online-beratung/protocol/openid-connect/logout',
+			'/auth/realms/online-beratung/protocol/openid-connect/logout',
 		liveservice: apiUrl + '/service/live',
 		loginResetPasswordLink:
-			'/auth/realms/caritas-online-beratung/login-actions/reset-credentials?client_id=account',
+			'/auth/realms/online-beratung/login-actions/reset-credentials?client_id=account',
 		messageRead: apiUrl + '/api/v1/subscriptions.read',
 		messages: apiUrl + '/service/messages',
 		myMessagesBase:
@@ -178,6 +182,24 @@ export const config = {
 					'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
 					'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER'
 				]
+			}
+		]
+	},
+	twofactor: {
+		startObligatoryHint: new Date('7/26/2022').toLocaleDateString('de-DE'),
+		dateTwoFactorObligatory: new Date('9/30/2022').toLocaleDateString(
+			'de-DE'
+		),
+		messages: [
+			{
+				title: 'twoFactorAuth.nag.obligatory.moment.title',
+				copy: 'twoFactorAuth.nag.obligatory.moment.copy',
+				showClose: true
+			},
+			{
+				title: 'twoFactorAuth.nag.obligatory.title',
+				copy: 'twoFactorAuth.nag.obligatory.copy',
+				showClose: false
 			}
 		]
 	}

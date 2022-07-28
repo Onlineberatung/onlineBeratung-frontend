@@ -1,4 +1,4 @@
-import { BookingEventsInterface } from '../globalState/interfaces/BookingDataInterface';
+import { BookingEventsInterface } from '../globalState/interfaces/BookingsInterface';
 import { config } from '../resources/scripts/config';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
