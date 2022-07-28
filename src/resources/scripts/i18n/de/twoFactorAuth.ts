@@ -96,7 +96,7 @@ const twoFactorAuth = {
 	'nag.title': 'Schützen Sie Ihr Konto',
 	'nag.copy':
 		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Bratung.',
-	'nag.button.later': 'Später Erinnern',
+	'nag.button.later': 'Später erinnern',
 	'nag.button.protect': 'Jetzt schützen',
 	'nag.obligatory.moment.title':
 		'Schützen Sie Ihr Konto bis spätestens %date%',
