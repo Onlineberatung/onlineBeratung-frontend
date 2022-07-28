@@ -683,11 +683,15 @@ export const SessionsList = ({
 
 	const filterSessions = useCallback(
 		(session) => {
+			// do not filter chats
+			if (session?.chat) {
+				return true;
+			}
 			switch (type) {
-				// my sessions only with my user id as consultant
+				// filter my sessions only with my user id as consultant
 				case SESSION_LIST_TYPES.MY_SESSION:
 					return session?.consultant?.id === userData.userId;
-				// my teamsessions only without my user id as consultant
+				// filter teamsessions only without my user id as consultant
 				case SESSION_LIST_TYPES.TEAMSESSION:
 					return session?.consultant?.id !== userData.userId;
 				default:
