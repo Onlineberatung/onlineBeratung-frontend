@@ -1,6 +1,6 @@
 import { AUTHORITIES, hasUserAuthority } from '../../globalState';
 import { translate } from '../../utils/translate';
-import { TabsType } from '../profile/profile.routes';
+import { TabsType } from '../../utils/tabsHelper';
 import { BookingEventsBooked } from './bookingEventsBooked';
 import { BookingEventsCanceled } from './bookingEventsCanceled';
 import { BookingEventsExpired } from './bookingEventsExpired';

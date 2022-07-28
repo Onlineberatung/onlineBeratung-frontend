@@ -17,6 +17,7 @@ import { EnableWalkthrough } from './EnableWalkthrough';
 import { config } from '../../resources/scripts/config';
 import { Help } from '../help/Help';
 import { ConsultantNotifications } from './ConsultantNotifications';
+import { TabsType } from '../../utils/tabsHelper';
 
 export interface TabGroups {
 	title: string;
@@ -43,8 +44,6 @@ export type SingleComponentType = {
 	column?: typeof COLUMN_LEFT | typeof COLUMN_RIGHT;
 	fullWidth?: boolean;
 };
-
-export type TabsType = TabType[];
 
 const routes: TabsType = [
 	{

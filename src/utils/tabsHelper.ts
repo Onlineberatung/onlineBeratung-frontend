@@ -4,6 +4,8 @@ import {
 	TabType
 } from '../components/profile/profile.routes';
 
+export type TabsType = TabType[];
+
 export const isTabGroup = (
 	item: TabGroups | SingleComponentType
 ): item is TabGroups => {
