@@ -21,13 +21,19 @@ import { Appointments } from '../appointment/Appointments';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
 import { AUTHORITIES, hasUserAuthority } from '../../globalState';
+import { Booking } from '../booking/booking';
+import { BookingCancellation } from '../booking/bookingCancellation';
+import { BookingEvents } from '../booking/bookingEvents';
+import { BookingReschedule } from '../booking/bookingReschedule';
 
 import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
+import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
+import { showAppointmentsMenu } from '../../utils/navigationHelpers';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -41,8 +47,12 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 			)
 	);
 
+const showAppointmentsMenuItem = (userData, consultingTypes, sessionsData) => {
+	return showAppointmentsMenu(userData, sessionsData);
+};
+
 const isVideoAppointmentsEnabled = (userData, consultingTypes) =>
-	config.enableVideoAppointments &&
+	!config.disableVideoAppointments &&
 	hasVideoCallFeature(userData, consultingTypes);
 
 export const RouterConfigUser = (): any => {
@@ -61,6 +71,14 @@ export const RouterConfigUser = (): any => {
 				icon: <PersonIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.profile'
+				}
+			},
+			{
+				condition: showAppointmentsMenuItem,
+				to: '/booking/events',
+				icon: <CalendarMonthIcon className="navigation__icon" />,
+				titleKeys: {
+					large: 'navigation.booking.events'
 				}
 			}
 		],
@@ -115,6 +133,24 @@ export const RouterConfigUser = (): any => {
 				exact: false,
 				component: Profile
 			}
+		],
+		appointmentRoutes: [
+			{
+				path: '/booking',
+				component: Booking
+			},
+			{
+				path: '/booking/cancellation',
+				component: BookingCancellation
+			},
+			{
+				path: '/booking/reschedule',
+				component: BookingReschedule
+			},
+			{
+				path: '/booking/events',
+				component: BookingEvents
+			}
 		]
 	};
 };
@@ -158,6 +194,14 @@ export const RouterConfigConsultant = (): any => {
 				icon: <PersonIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.profile'
+				}
+			},
+			{
+				condition: showAppointmentsMenuItem,
+				to: '/booking/events',
+				icon: <CalendarMonthIcon className="navigation__icon" />,
+				titleKeys: {
+					large: 'navigation.booking.events'
 				}
 			}
 		],
@@ -249,6 +293,24 @@ export const RouterConfigConsultant = (): any => {
 				exact: false,
 				component: Appointments
 			}
+		],
+		appointmentRoutes: [
+			{
+				path: '/booking',
+				component: Booking
+			},
+			{
+				path: '/booking/cancellation',
+				component: BookingCancellation
+			},
+			{
+				path: '/booking/reschedule',
+				component: BookingReschedule
+			},
+			{
+				path: '/booking/events',
+				component: BookingEvents
+			}
 		]
 	};
 };
@@ -293,6 +355,14 @@ export const RouterConfigTeamConsultant = (): any => {
 				icon: <CalendarIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.appointments'
+				}
+			},
+			{
+				condition: showAppointmentsMenuItem,
+				to: '/booking/events',
+				icon: <CalendarMonthIcon className="navigation__icon" />,
+				titleKeys: {
+					large: 'navigation.booking.events'
 				}
 			},
 			{
@@ -429,6 +499,24 @@ export const RouterConfigTeamConsultant = (): any => {
 				exact: false,
 				component: Appointments
 			}
+		],
+		appointmentRoutes: [
+			{
+				path: '/booking',
+				component: Booking
+			},
+			{
+				path: '/booking/cancellation',
+				component: BookingCancellation
+			},
+			{
+				path: '/booking/reschedule',
+				component: BookingReschedule
+			},
+			{
+				path: '/booking/events',
+				component: BookingEvents
+			}
 		]
 	};
 };
@@ -483,6 +571,14 @@ export const RouterConfigAnonymousAsker = (): any => {
 				path: '/sessions/user/view/',
 				component: SessionViewEmpty,
 				type: SESSION_LIST_TYPES.MY_SESSION
+			},
+			{
+				path: '/booking/reschedule',
+				component: BookingReschedule
+			},
+			{
+				path: '/booking/events',
+				component: BookingEvents
 			}
 		]
 	};

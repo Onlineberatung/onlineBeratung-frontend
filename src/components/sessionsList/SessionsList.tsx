@@ -69,6 +69,7 @@ import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
+import { showAppointmentsMenu } from '../../utils/navigationHelpers';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -232,7 +233,7 @@ export const SessionsList = ({
 						sessions.length === 1 &&
 						sessions[0]?.session?.status === STATUS_EMPTY
 					) {
-						history.push(`/sessions/user/view/write`);
+						history.push(`/sessions/user/view/write/`);
 					} else if (
 						sessions.length === 1 &&
 						isAnonymousSession(sessions[0]?.session) &&
@@ -242,7 +243,7 @@ export const SessionsList = ({
 						)
 					) {
 						history.push(
-							`/sessions/user/view/${sessions[0].groupId}/${sessions[0].id}`
+							`/sessions/user/view/${sessions[0]?.chat?.groupId}/${sessions[0]?.chat?.id}`
 						);
 					}
 				})
@@ -287,12 +288,18 @@ export const SessionsList = ({
 				abortController.current = null;
 			}
 
-			dispatch({
-				type: SET_SESSIONS,
-				sessions: [],
-				ready: false
-			});
+			if (
+				sessions.length !== 0 &&
+				!showAppointmentsMenu(userData, sessions)
+			) {
+				dispatch({
+					type: SET_SESSIONS,
+					sessions: [],
+					ready: false
+				});
+			}
 		};
+		/* eslint-disable */
 	}, [
 		dispatch,
 		getConsultantSessionList,
@@ -302,7 +309,7 @@ export const SessionsList = ({
 		anonymousConversationStarted,
 		setAnonymousConversationStarted
 	]);
-
+	/* eslint-enable */
 	// Refresh myself
 	const subscribed = useRef(false);
 

@@ -31,6 +31,7 @@ export interface SelectDropdownItem {
 	defaultValue?: SelectOption | SelectOption[];
 	hasError?: boolean;
 	errorMessage?: string;
+	onKeyDown?: Function;
 }
 
 const colourStyles = (fromL) => ({
@@ -256,6 +257,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				isSearchable={props.isSearchable}
 				isMulti={props.isMulti}
 				styles={colourStyles(fromL)}
+				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
 			/>
 			{props.hasError && (
 				<div className="select__error">
