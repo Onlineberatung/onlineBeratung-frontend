@@ -1,6 +1,13 @@
 import { config } from '../resources/scripts/config';
-import { Consultant } from '../components/sessionAssign/SessionAssign';
 import { fetchData, FETCH_METHODS } from './fetchData';
+
+export interface Consultant {
+	consultantId: string;
+	firstName: string;
+	lastName: string;
+	displayName: string;
+	username: string;
+}
 
 export const apiGetAgencyConsultantList = async (
 	agencyId: string

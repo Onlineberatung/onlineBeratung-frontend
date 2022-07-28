@@ -9,7 +9,7 @@ export let apiUrl = '';
 if (apiUrlEnv) {
 	apiUrl = apiUrlEnv;
 	if (!apiUrl.startsWith('http://') && !apiUrl.startsWith('https://')) {
-		apiUrl = 'https://' + apiUrl;
+		apiUrl = 'http://' + apiUrl;
 	}
 }
 
@@ -123,6 +123,7 @@ export const config = {
 		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
+		updateMessage: apiUrl + '/service/messages/',
 		sessionBase: apiUrl + '/service/users/sessions',
 		sessionRooms: apiUrl + '/service/users/sessions/room',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
@@ -207,5 +208,8 @@ export const config = {
 
 export const ALIAS_LAST_MESSAGES = {
 	E2EE_ACTIVATED: 'aliases.lastMessage.e2ee_activated',
-	FURTHER_STEPS: 'aliases.lastMessage.further_steps'
+	FURTHER_STEPS: 'aliases.lastMessage.further_steps',
+	REASSIGN_CONSULTANT: 'aliases.lastMessage.reassign_consultant',
+	REASSIGN_CONSULTANT_RESET_LAST_MESSAGE:
+		'aliases.lastMessage.reassign_consultant_reset_last_message'
 };
