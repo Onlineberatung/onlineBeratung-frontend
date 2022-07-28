@@ -25,6 +25,7 @@ import notifications from './de/notifications';
 import overlay from './de/overlay';
 import profile from './de/profile';
 import registration from './de/registration';
+import registrationDigi from './de/registrationDigi';
 import session from './de/session';
 import user from './de/user';
 import sessionList from './de/sessionList';
@@ -68,6 +69,7 @@ const de = {
 	overlay,
 	profile,
 	registration,
+	registrationDigi,
 	session,
 	sessionList,
 	statusOverlay,
