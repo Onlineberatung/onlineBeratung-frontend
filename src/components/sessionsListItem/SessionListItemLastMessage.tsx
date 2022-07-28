@@ -14,7 +14,7 @@ export const SessionListItemLastMessage: React.FC<SessionListItemLastMessageProp
 	({ showSpan, language, lastMessage, lastMessageType, showLanguage }) => {
 		// do not show anything
 		if (showSpan) return <span></span>;
-		if (!lastMessage) return null;
+		if (!lastMessage && !lastMessageType) return null;
 
 		const languageAddOn = (
 			<span>

@@ -13,7 +13,6 @@ import {
 	apiGetAgencyConsultantList,
 	apiGetUserData,
 	apiSessionAssign,
-	Consultant,
 	FETCH_ERRORS
 } from '../../api';
 import {
@@ -23,11 +22,7 @@ import {
 	UserDataContext,
 	UserDataInterface
 } from '../../globalState';
-import {
-	SelectDropdown,
-	SelectDropdownItem,
-	SelectOption
-} from '../select/SelectDropdown';
+import { SelectDropdown } from '../select/SelectDropdown';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
 import {
@@ -36,8 +31,11 @@ import {
 	ConsultantReassignment,
 	ReassignStatus
 } from '../../api/apiSendAliasMessage';
-import { decodeUsername } from '../../utils/encryptionHelpers';
 import { history } from '../app/app';
+import {
+	prepareConsultantDataForSelect,
+	prepareSelectDropdown
+} from './sessionAssignHelper';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 
@@ -63,8 +61,10 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 		if (consultantList && consultantList.length <= 0) {
 			apiGetAgencyConsultantList(agencyId)
 				.then((response) => {
-					const consultants =
-						prepareConsultantDataForSelect(response);
+					const consultants = prepareConsultantDataForSelect(
+						response,
+						false
+					);
 					setConsultantList(consultants);
 				})
 				.catch((error) => {
@@ -72,19 +72,6 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 				});
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-	const prepareConsultantDataForSelect = (consultants: Consultant[]) => {
-		let availableConsultants = [];
-		consultants.forEach((item) => {
-			const consultant: SelectOption = {
-				value: item.consultantId,
-				label: item.displayName || decodeUsername(item.username),
-				iconLabel: item.firstName.charAt(0) + item.lastName.charAt(0)
-			};
-			availableConsultants.push(consultant);
-		});
-		return availableConsultants;
-	};
 
 	const initOverlays = (selected, profileData) => {
 		if (selected?.value === activeSession?.consultant?.id) return;
@@ -227,27 +214,15 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 		}
 	};
 
-	const prepareSelectDropdown = () => {
-		const selectDropdown: SelectDropdownItem = {
-			id: 'assignSelect',
-			selectedOptions: consultantList,
-			handleDropdownSelect: handleDatalistSelect,
-			selectInputLabel: translate('session.u25.assignment.placeholder'),
-			useIconOption: true,
-			isSearchable: true,
-			menuPlacement: 'top'
-		};
-		if (props.value) {
-			selectDropdown['defaultValue'] = consultantList.filter(
-				(option) => option.value === props.value
-			)[0];
-		}
-		return selectDropdown;
-	};
-
 	return (
 		<div className="assign__wrapper">
-			<SelectDropdown {...prepareSelectDropdown()} />
+			<SelectDropdown
+				{...prepareSelectDropdown({
+					consultantList,
+					handleDatalistSelect,
+					value: props.value
+				})}
+			/>
 			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay
