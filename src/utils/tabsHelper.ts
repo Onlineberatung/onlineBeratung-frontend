@@ -1,8 +1,28 @@
-import {
-	SingleComponentType,
-	TabGroups,
-	TabType
-} from '../components/profile/profile.routes';
+export interface TabGroups {
+	title: string;
+	url: string;
+	condition?: (userData, consultingTypes) => boolean;
+	elements: SingleComponentType[];
+}
+
+export interface TabType {
+	title: string;
+	url: string;
+	condition?: (userData, consultingTypes) => boolean;
+	elements: (TabGroups | SingleComponentType)[];
+}
+
+export const COLUMN_LEFT = 0;
+export const COLUMN_RIGHT = 1;
+
+export type SingleComponentType = {
+	condition?: (userData, consultingTypes) => boolean;
+	component: any;
+	boxed?: boolean;
+	order?: number;
+	column?: typeof COLUMN_LEFT | typeof COLUMN_RIGHT;
+	fullWidth?: boolean;
+};
 
 export type TabsType = TabType[];
 
