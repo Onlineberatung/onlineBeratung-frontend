@@ -20,14 +20,15 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	});
 
 	useEffect(() => {
+		let todaysDate = new Date(Date.now()).toLocaleDateString('de-DE');
+
 		if (
 			userData.twoFactorAuth?.isEnabled &&
 			!userData.twoFactorAuth?.isActive &&
-			!forceHideTwoFactorNag
+			!forceHideTwoFactorNag &&
+			todaysDate >= config.twofactor.startObligatoryHint
 		) {
 			setIsShownTwoFactorNag(true);
-
-			let todaysDate = new Date(Date.now()).toLocaleDateString('de-DE');
 
 			todaysDate >= config.twofactor.dateTwoFactorObligatory
 				? setMessage(config.twofactor.messages[1])

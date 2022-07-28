@@ -182,8 +182,8 @@ export const config = {
 		]
 	},
 	twofactor: {
-		startObligatoryHint: '22.07.2999',
-		dateTwoFactorObligatory: new Date('7/26/2022').toLocaleDateString(
+		startObligatoryHint: new Date('7/26/2022').toLocaleDateString('de-DE'),
+		dateTwoFactorObligatory: new Date('9/30/2022').toLocaleDateString(
 			'de-DE'
 		),
 		messages: [
