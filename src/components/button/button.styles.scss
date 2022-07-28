@@ -23,8 +23,12 @@ $buttonHeight: 50px;
 		border-radius: $button-border-radius;
 
 		&:focus {
-			outline: none !important;
-			border: 2px solid black;
+			outline: 2px solid #199fff;
+			outline-offset: 4px;
+		}
+
+		&:focus:not(:focus-visible) {
+			outline: none;
 		}
 	}
 
@@ -306,5 +310,14 @@ $buttonHeight: 50px;
 
 	&__icon {
 		margin-bottom: 4px;
+	}
+
+	&__custom-icon {
+		margin-right: 0.5rem;
+		display: inline-block;
+	}
+
+	&__custom-icon {
+		display: inline-block;
 	}
 }

@@ -32,11 +32,24 @@ import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { Appointment } from './Appointment';
 import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
 import { MasterKeyLostMessage } from './MasterKeyLostMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
+
+export enum MessageType {
+	FURTHER_STEPS = 'FURTHER_STEPS',
+	USER_MUTED = 'USER_MUTED',
+	FORWARD = 'FORWARD',
+	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
+	VIDEOCALL = 'VIDEOCALL',
+	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
+	APPOINTMENT_SET = 'APPOINTMENT_SET',
+	APPOINTMENT_CANCELLED = 'APPOINTMENT_CANCELLED',
+	APPOINTMENT_RESCHEDULED = 'APPOINTMENT_RESCHEDULED'
+}
 
 export interface ForwardMessageDTO {
 	message: string;
@@ -68,6 +81,7 @@ export interface MessageItem {
 	alias?: {
 		forwardMessageDTO?: ForwardMessageDTO;
 		videoCallMessageDTO?: VideoCallMessageDTO;
+		content?: string;
 		messageType: ALIAS_MESSAGE_TYPES;
 	};
 	attachments?: MessageService.Schemas.AttachmentDTO[];
@@ -213,7 +227,10 @@ export const MessageItemComponent = ({
 		alias?.messageType === ALIAS_MESSAGE_TYPES.E2EE_ACTIVATED;
 	const isMasterKeyLostMessage =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST;
-
+	const isAppointmentSet =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_SET ||
+		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED ||
+		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_CANCELLED;
 	const messageContent = (): JSX.Element => {
 		switch (true) {
 			case isMasterKeyLostMessage:
@@ -242,6 +259,13 @@ export const MessageItemComponent = ({
 						}
 						consultingType={activeSession.item.consultingType}
 						resortData={resortData}
+					/>
+				);
+			case isAppointmentSet:
+				return (
+					<Appointment
+						data={alias.content}
+						messageType={alias.messageType}
 					/>
 				);
 			case isFinishedConversationMessage:

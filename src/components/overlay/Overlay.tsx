@@ -138,7 +138,7 @@ export const Overlay = (props: {
 
 	const Illustration = activeOverlay.svg;
 	return (
-		<FocusTrap>
+		<FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
 			<div
 				className={clsx(
 					props.className,

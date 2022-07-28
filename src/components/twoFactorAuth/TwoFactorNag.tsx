@@ -1,98 +1,105 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { history } from '../app/app';
-import { apiPatchTwoFactorAuthEncourage } from '../../api';
 import './twoFactorNag.styles';
+import { config } from '../../resources/scripts/config';
 
 interface TwoFactorNagProps {}
 
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData } = useContext(UserDataContext);
+	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
+	const [forceHideTwoFactorNag, setForceHideTwoFactorNag] = useState(false);
+	const [message, setMessage] = useState({
+		title: 'twoFactorAuth.nag.obligatory.moment.title',
+		copy: 'twoFactorAuth.nag.obligatory.moment.copy',
+		showClose: true
+	});
 
 	useEffect(() => {
+		let todaysDate = new Date(Date.now()).toLocaleDateString('de-DE');
+
 		if (
 			userData.twoFactorAuth?.isEnabled &&
 			!userData.twoFactorAuth?.isActive &&
-			userData.twoFactorAuth?.isToEncourage &&
-			history.location.from !== 'registration'
+			!forceHideTwoFactorNag &&
+			todaysDate >= config.twofactor.startObligatoryHint
 		) {
-			setIsTwoFactorNagShown(true);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [
-		userData.twoFactorAuth?.isEnabled,
-		userData.twoFactorAuth?.isActive,
-		userData.twoFactorAuth?.isToEncourage
-	]);
+			setIsShownTwoFactorNag(true);
 
-	const setIsTwoFactorNagShown = (bool) => {
-		setUserData({
-			...userData,
-			twoFactorAuth: {
-				...userData.twoFactorAuth,
-				isShown: bool
-			}
-		});
-	};
+			todaysDate >= config.twofactor.dateTwoFactorObligatory
+				? setMessage(config.twofactor.messages[1])
+				: setMessage(config.twofactor.messages[0]);
+		}
+	}, [userData, forceHideTwoFactorNag]);
 
 	const closeTwoFactorNag = async () => {
-		await apiPatchTwoFactorAuthEncourage(false)
-			.then(() => {
-				setUserData({
-					...userData,
-					twoFactorAuth: {
-						...userData.twoFactorAuth,
-						isToEncourage: false,
-						isShown: false
-					}
-				});
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		setForceHideTwoFactorNag(true);
+		setIsShownTwoFactorNag(false);
 	};
 
-	const handleOverlayAction = async (buttonFunction: string) => {
+	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			history.push({
 				pathname: '/profile/sicherheit/2fa',
 				openTwoFactor: true
 			});
-			await closeTwoFactorNag();
+			setForceHideTwoFactorNag(true);
+			setIsShownTwoFactorNag(false);
 		}
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setIsTwoFactorNagShown(false);
+			setForceHideTwoFactorNag(true);
+			setIsShownTwoFactorNag(false);
 		}
 	};
 
-	if (!userData.twoFactorAuth?.isShown) return <></>;
+	if (!isShownTwoFactorNag) return <></>;
 
 	return (
 		<OverlayWrapper>
 			<Overlay
 				className="twoFactorNag"
-				handleOverlayClose={closeTwoFactorNag}
+				handleOverlayClose={
+					message.showClose ? closeTwoFactorNag : null
+				}
 				handleOverlay={handleOverlayAction}
 				item={{
-					headline: translate('twoFactorAuth.nag.title'),
-					copy: translate('twoFactorAuth.nag.copy'),
-					buttonSet: [
-						{
-							label: translate('twoFactorAuth.nag.button.later'),
-							function: OVERLAY_FUNCTIONS.CLOSE,
-							type: BUTTON_TYPES.SECONDARY
-						},
-						{
-							label: translate(
-								'twoFactorAuth.nag.button.protect'
-							),
-							function: OVERLAY_FUNCTIONS.REDIRECT,
-							type: BUTTON_TYPES.PRIMARY
-						}
-					]
+					headline: translate(message.title, {
+						date: config.twofactor.dateTwoFactorObligatory
+					}),
+					copy: translate(message.copy, {
+						date1: config.twofactor.dateTwoFactorObligatory,
+						date2: config.twofactor.dateTwoFactorObligatory
+					}),
+					buttonSet: message.showClose
+						? [
+								{
+									label: translate(
+										'twoFactorAuth.nag.button.later'
+									),
+									function: OVERLAY_FUNCTIONS.CLOSE,
+									type: BUTTON_TYPES.SECONDARY
+								},
+								{
+									label: translate(
+										'twoFactorAuth.nag.button.protect'
+									),
+									function: OVERLAY_FUNCTIONS.REDIRECT,
+									type: BUTTON_TYPES.PRIMARY
+								}
+						  ]
+						: [
+								{
+									label: translate(
+										'twoFactorAuth.nag.button.protect'
+									),
+									function: OVERLAY_FUNCTIONS.REDIRECT,
+									type: BUTTON_TYPES.PRIMARY
+								}
+						  ]
 				}}
 			/>
 		</OverlayWrapper>

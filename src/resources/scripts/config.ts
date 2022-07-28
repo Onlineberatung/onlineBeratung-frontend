@@ -1,3 +1,5 @@
+import { BookingsStatus } from '../../utils/consultant';
+
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 
@@ -25,7 +27,25 @@ export const config = {
 		agencyServiceBase: apiUrl + '/service/agencies',
 		anonymousAskerBase: apiUrl + '/service/conversations/askers/anonymous/',
 		anonymousBase: apiUrl + '/service/conversations/anonymous/',
+		appointmentBase: apiUrl + '/service/appointments/sessions',
+		appointmentBaseNew: (sessionId: number) =>
+			apiUrl + `/service/appointments/sessions/${sessionId}/enquiry/new`,
+		appointmentServiceBase: apiUrl + '/service/agency/',
+		appointmentServiceMeetingLink: (agencyId: number) =>
+			apiUrl +
+			`/service/appointservice/agencies/${agencyId}/initialMeetingSlugReal`,
+		counselorAppointmentLink: (userId: string) =>
+			apiUrl +
+			`/service/appointservice/consultants/${userId}/meetingSlug`,
 		appointmentsServiceBase: apiUrl + '/service/appointments',
+		appointmentsServiceBookingEventsByUserId: (userId: string) =>
+			apiUrl + `/service/appointservice/askers/${userId}/bookings`,
+		appointmentsServiceConsultantBookings: (
+			userId: string,
+			status: BookingsStatus
+		) =>
+			apiUrl +
+			`/service/appointservice/consultants/${userId}/bookings?status=${status}`,
 		askerSessions: apiUrl + '/service/users/sessions/askers',
 		attachmentUpload: apiUrl + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
@@ -117,6 +137,8 @@ export const config = {
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userData: apiUrl + '/service/users/data',
 		userSessionsListView: '/sessions/user/view',
+		setAppointmentSuccessMessage:
+			apiUrl + '/service/messages/aliasWithContent/new',
 		userUpdateE2EKey: apiUrl + '/service/users/chat/e2e',
 		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
@@ -132,9 +154,11 @@ export const config = {
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
+		releases: uiUrl + '/releases',
+		appointmentServiceDevServer:
+			'https://calcom-develop.suchtberatung.digital',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
-		releases: uiUrl + '/releases',
 		toEntry: uiUrl + '/',
 		toLogin: uiUrl + '/login',
 		toRegistration: 'https://www.caritas.de/onlineberatung',
@@ -158,6 +182,24 @@ export const config = {
 					'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
 					'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER'
 				]
+			}
+		]
+	},
+	twofactor: {
+		startObligatoryHint: new Date('7/26/2022').toLocaleDateString('de-DE'),
+		dateTwoFactorObligatory: new Date('9/30/2022').toLocaleDateString(
+			'de-DE'
+		),
+		messages: [
+			{
+				title: 'twoFactorAuth.nag.obligatory.moment.title',
+				copy: 'twoFactorAuth.nag.obligatory.moment.copy',
+				showClose: true
+			},
+			{
+				title: 'twoFactorAuth.nag.obligatory.title',
+				copy: 'twoFactorAuth.nag.obligatory.copy',
+				showClose: false
 			}
 		]
 	}

@@ -10,7 +10,8 @@ import {
 	WebsocketConnectionDeactivatedProvider,
 	TenantProvider,
 	RocketChatGlobalSettingsProvider,
-	AnonymousConversationStartedProvider
+	AnonymousConversationStartedProvider,
+	SessionsDataProvider
 } from '.';
 
 function ProviderComposer({ contexts, children }) {
@@ -37,6 +38,7 @@ function ContextProvider({ children }) {
 				<UserDataProvider />,
 				<WebsocketConnectionDeactivatedProvider />,
 				<TenantProvider />,
+				<SessionsDataProvider />,
 				<RocketChatGlobalSettingsProvider />
 			]}
 		>

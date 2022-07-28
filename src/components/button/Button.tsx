@@ -41,6 +41,7 @@ export interface ButtonProps {
 	item: ButtonItem;
 	testingAttribute?: string;
 	className?: string;
+	customIcon?: JSX.Element;
 	tabIndex?: number;
 }
 
@@ -139,6 +140,11 @@ export const Button = (props: ButtonProps) => {
 				data-cy={props.testingAttribute}
 				tabIndex={props.tabIndex}
 			>
+				{props.customIcon && (
+					<div className="button__custom-icon">
+						{props.customIcon}
+					</div>
+				)}
 				{item.id === 'reloadButton' && (
 					<ReloadIcon className="button__icon" />
 				)}

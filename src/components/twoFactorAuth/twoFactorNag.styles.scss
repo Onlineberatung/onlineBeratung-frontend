@@ -1,0 +1,16 @@
+.twoFactorNag {
+	z-index: 51;
+
+	.overlay__content {
+		justify-content: center;
+		text-align: left;
+
+		.text {
+			text-align: left;
+		}
+	}
+
+	.overlay__buttons {
+		margin-top: $grid-base-four;
+	}
+}
