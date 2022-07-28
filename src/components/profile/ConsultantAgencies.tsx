@@ -88,14 +88,15 @@ const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 	}, [agency, addNotification]);
 
 	return (
-		<span
-			className="profile__data__copy_registration_link text--nowrap text--tertiary primary mr--2"
-			role="button"
+		<button
+			className="profile__data__copy_registration_link text--nowrap text--tertiary primary mr--2 button-as-link"
+			type="button"
+			tabIndex={0}
 			onClick={copyRegistrationLink}
 			title={translate('profile.data.agency.registrationLink.title')}
 		>
 			<CopyIcon className={`copy icn--s`} />{' '}
 			{translate('profile.data.agency.registrationLink.text')}
-		</span>
+		</button>
 	);
 };
