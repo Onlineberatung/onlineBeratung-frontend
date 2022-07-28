@@ -133,7 +133,8 @@ export const MessageItemComponent = ({
 	t,
 	rid
 }: MessageItemComponentProps) => {
-	const { activeSession } = useContext(ActiveSessionContext);
+	const { activeSession, reloadActiveSession } =
+		useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
 
@@ -238,6 +239,7 @@ export const MessageItemComponent = ({
 								rcGroupId: activeSession.rid,
 								type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT_RESET_LAST_MESSAGE
 							});
+							reloadActiveSession();
 						})
 						.catch((error) => console.log(error));
 				})

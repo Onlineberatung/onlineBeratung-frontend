@@ -34,8 +34,6 @@ interface AliasMessageParams {
 	rcGroupId: string;
 	type: ALIAS_MESSAGE_TYPES;
 	args?: ConsultantReassignment;
-	// todo add dynamic params for reassign
-	// @see https://github.com/Onlineberatung/onlineBeratung-messageService/blob/develop/api/messageservice.yaml
 }
 
 export const apiSendAliasMessage = async ({
@@ -43,7 +41,6 @@ export const apiSendAliasMessage = async ({
 	type,
 	args
 }: AliasMessageParams): Promise<any> => {
-	console.log('args', args);
 	const url = `${config.endpoints.sendAliasMessage}`;
 
 	return fetchData({
