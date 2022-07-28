@@ -15,6 +15,22 @@ interface HelpVideoCallConsultantProps {
 export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 	({ copyLoginLink }) => {
 		const { userData } = useContext(UserDataContext);
+
+		const copyLink = (
+			<button
+				className="help__copyLink button-as-link"
+				type="button"
+				tabIndex={0}
+				onClick={() => {
+					copyLoginLink();
+				}}
+				title={translate('help.videoCall.loginLink.title')}
+			>
+				<CopyIcon className={`copy icn--s`} />{' '}
+				{translate('help.videoCall.loginLink.text')}
+			</button>
+		);
+
 		return (
 			<>
 				<div className="help__top">
@@ -103,20 +119,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 						</li>
 						<li>
 							{translate('help.videoCall.consultant.steps.4')}
-							<button
-								className="help__copyLink button-as-link"
-								type="button"
-								tabIndex={0}
-								onClick={() => {
-									copyLoginLink();
-								}}
-								title={translate(
-									'help.videoCall.loginLink.title'
-								)}
-							>
-								<CopyIcon className={`copy icn--s`} />{' '}
-								{translate('help.videoCall.loginLink.text')}
-							</button>
+							{copyLink}
 						</li>
 						<li>
 							{translate('help.videoCall.consultant.steps.5')}
@@ -136,20 +139,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 					<ol className="tertiary">
 						<li>
 							{translate('help.videoCall.consultant.steps.4')}
-							<button
-								className="help__copyLink button-as-link"
-								type="button"
-								tabIndex={0}
-								onClick={() => {
-									copyLoginLink();
-								}}
-								title={translate(
-									'help.videoCall.loginLink.title'
-								)}
-							>
-								<CopyIcon className={`copy icn--s`} />{' '}
-								{translate('help.videoCall.loginLink.text')}
-							</button>
+							{copyLink}
 						</li>
 						<li>
 							{translate('help.videoCall.consultant.steps.5')}
