@@ -37,10 +37,65 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 		}
 
 		&__wrapper {
-			display: flex;
-			max-width: $fromLarge;
-			flex-direction: row;
-			margin: 0 auto;
+			display: grid;
+			grid-template-columns: 100%;
+			align-items: center;
+			justify-content: center;
+
+			&-send-message {
+				display: flex;
+				max-width: $fromLarge;
+				flex-direction: row;
+				position: relative;
+				left: 50%;
+				transform: translateX(-50%);
+			}
+
+			&-booking {
+				margin: 0 auto;
+				text-align: center;
+				display: grid;
+				align-content: center;
+				width: 100%;
+
+				&-headline {
+					margin: 0.75rem auto 1.25rem;
+					position: relative;
+					width: 100%;
+					max-width: 900px;
+
+					&::before {
+						content: '';
+						display: block;
+						height: 1px;
+						left: 3px;
+						right: 64px;
+						top: 50%;
+						position: absolute;
+						background-color: $line-grey;
+						z-index: -2;
+					}
+
+					&::after {
+						content: '';
+						display: block;
+						height: 10px;
+						width: 300px;
+						left: 50%;
+						top: 50%;
+						transform: translate(-50%, -50%);
+						position: absolute;
+						background-color: $dark-grey;
+						z-index: -1;
+					}
+				}
+
+				button {
+					display: flex;
+					align-items: center;
+					margin: 0 auto;
+				}
+			}
 		}
 
 		&__inputWrapper {
@@ -361,6 +416,37 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 				margin-bottom: 48px;
 				display: inline-block;
 			}
+		}
+
+		&__iconBooking {
+			width: $grid-base-six;
+			height: $grid-base-six;
+			border-radius: $grid-base-three;
+			cursor: pointer;
+			border: 1px solid var(--skin-color-primary, $primary);
+			margin: 0 0 4px 14px;
+			align-self: flex-end;
+			background-color: $white;
+			transition: background-color 0.6s ease;
+			overflow: hidden;
+			&:hover {
+				background-color: $background-light;
+			}
+
+			svg {
+				fill: $primary;
+				position: relative;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+			}
+		}
+
+		&__buttons {
+			display: flex;
+			flex-direction: column-reverse;
+			position: relative;
+			bottom: -6px;
 		}
 	}
 

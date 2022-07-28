@@ -3,8 +3,9 @@ import absence from './de/absence';
 import anonymous from './de/anonymous';
 import archive from './de/archive';
 import attachments from './de/attachments';
-import banUser from './de/banUser';
 import appointments from './de/appointments';
+import banUser from './de/banUser';
+import booking from './de/booking';
 import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
 import date from './de/date';
@@ -46,6 +47,7 @@ const de = {
 	archive,
 	attachments,
 	banUser,
+	booking,
 	appointments,
 	chatFlyout,
 	consultant,

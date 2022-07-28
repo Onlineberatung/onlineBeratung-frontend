@@ -13,6 +13,7 @@ import {
 } from '../../globalState/helpers/stateHelpers';
 import {
 	E2EEContext,
+	SessionsDataContext,
 	SessionTypeContext,
 	STATUS_ARCHIVED,
 	STATUS_FINISHED
@@ -72,6 +73,7 @@ import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xl
 import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
 import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
 import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
+import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import useDebouncedValue from '../../utils/useDebouncedValue';
 import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
@@ -80,6 +82,8 @@ import clsx from 'clsx';
 import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { Headline } from '../headline/Headline';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
 import { encryptRoom } from '../../utils/e2eeHelper';
@@ -177,7 +181,7 @@ export const MessageSubmitInterfaceComponent = (
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
-
+	const { sessions } = useContext(SessionsDataContext);
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [draftLoaded, setDraftLoaded] = useState(false);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
@@ -258,6 +262,8 @@ export const MessageSubmitInterfaceComponent = (
 				activeSession.item.status === STATUS_FINISHED
 		);
 	}, [activeSession, activeSession.item.status, userData]);
+
+	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
 
 	useEffect(() => {
 		if (
@@ -462,6 +468,19 @@ export const MessageSubmitInterfaceComponent = (
 			}
 		}
 	}, [uploadOnLoadHandling]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+		) {
+			const { appointmentFeatureEnabled } = userData;
+			if (!sessions[0].consultant) {
+				setShowAppointmentButton(appointmentFeatureEnabled);
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const handleAttachmentUploadError = (infoType: string) => {
 		setActiveInfo(infoType);
@@ -899,6 +918,16 @@ export const MessageSubmitInterfaceComponent = (
 		return infoData;
 	};
 
+	const handleBookingButton = () => {
+		history.push({
+			pathname: '/booking/',
+			state: {
+				sessionId: activeSession.item.id,
+				isInitialMessage: true
+			}
+		});
+	};
+
 	const hasUploadFunctionality =
 		type !== SESSION_LIST_TYPES.ENQUIRY ||
 		(type === SESSION_LIST_TYPES.ENQUIRY &&
@@ -908,6 +937,11 @@ export const MessageSubmitInterfaceComponent = (
 		!hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
 		activeSession.item.feedbackGroupId &&
 		(activeSession.isGroup || !activeSession.isFeedback);
+
+	const bookingButton: ButtonItem = {
+		label: translate('message.submit.booking.buttonLabel'),
+		type: BUTTON_TYPES.PRIMARY
+	};
 
 	return (
 		<div
@@ -941,108 +975,139 @@ export const MessageSubmitInterfaceComponent = (
 							checkboxHandle={handleCheckboxClick}
 						/>
 					)}
-					<div className="textarea__wrapper">
-						<span className="textarea__featureWrapper">
-							<span className="textarea__richtextToggle">
-								<RichtextToggleIcon
-									width="20"
-									height="20"
-									onClick={() =>
-										setIsRichtextActive(!isRichtextActive)
-									}
-								/>
-							</span>
-							<EmojiSelect />
-						</span>
-						<span
-							className="textarea__inputWrapper"
-							ref={inputWrapperRef}
-						>
-							<div
-								className="textarea__input"
-								ref={textareaInputRef}
-								onKeyUp={() => resizeTextarea()}
-								onFocus={toggleAbsentMessage}
-								onBlur={toggleAbsentMessage}
-							>
-								<Toolbar>
-									{(externalProps) => (
-										<div className="textarea__toolbar__buttonWrapper">
-											<BoldButton {...externalProps} />
-											<ItalicButton {...externalProps} />
-											<UnorderedListButton
-												{...externalProps}
-											/>
-										</div>
-									)}
-								</Toolbar>
-								<PluginsEditor
-									editorState={editorState}
-									onChange={handleEditorChange}
-									handleKeyCommand={handleEditorKeyCommand}
-									placeholder={placeholder}
-									stripPastedStyles={true}
-									spellCheck={true}
-									handleBeforeInput={() =>
-										handleEditorBeforeInput(editorState)
-									}
-									handlePastedText={(
-										text: string,
-										html?: string
-									): DraftHandleValue => {
-										const newEditorState =
-											handleEditorPastedText(
-												editorState,
-												text,
-												html
-											);
-										if (newEditorState) {
-											setEditorState(newEditorState);
+					<div className={'textarea__wrapper'}>
+						<div className="textarea__wrapper-send-message">
+							<span className="textarea__featureWrapper">
+								<span className="textarea__richtextToggle">
+									<RichtextToggleIcon
+										width="20"
+										height="20"
+										onClick={() =>
+											setIsRichtextActive(
+												!isRichtextActive
+											)
 										}
-										return 'handled';
-									}}
-									plugins={[
-										linkifyPlugin,
-										staticToolbarPlugin,
-										emojiPlugin
-									]}
-								/>
-							</div>
-							{hasUploadFunctionality &&
-								(!attachmentSelected ? (
-									<span className="textarea__attachmentSelect">
-										<ClipIcon
-											onClick={handleAttachmentSelect}
-										/>
-									</span>
-								) : (
-									<div className="textarea__attachmentWrapper">
-										<span className="textarea__attachmentSelected">
-											<span className="textarea__attachmentSelected__progress"></span>
-											<span className="textarea__attachmentSelected__labelWrapper">
-												{getIconForAttachmentType(
-													attachmentSelected.type
-												)}
-												<p className="textarea__attachmentSelected__label">
-													{attachmentSelected.name}
-												</p>
-												<span className="textarea__attachmentSelected__remove">
-													<RemoveIcon
-														onClick={
-															handleAttachmentRemoval
+									/>
+								</span>
+								<EmojiSelect />
+							</span>
+							<span
+								className="textarea__inputWrapper"
+								ref={inputWrapperRef}
+							>
+								<div
+									className="textarea__input"
+									ref={textareaInputRef}
+									onKeyUp={() => resizeTextarea()}
+									onFocus={toggleAbsentMessage}
+									onBlur={toggleAbsentMessage}
+								>
+									<Toolbar>
+										{(externalProps) => (
+											<div className="textarea__toolbar__buttonWrapper">
+												<BoldButton
+													{...externalProps}
+												/>
+												<ItalicButton
+													{...externalProps}
+												/>
+												<UnorderedListButton
+													{...externalProps}
+												/>
+											</div>
+										)}
+									</Toolbar>
+									<PluginsEditor
+										editorState={editorState}
+										onChange={handleEditorChange}
+										handleKeyCommand={
+											handleEditorKeyCommand
+										}
+										placeholder={placeholder}
+										stripPastedStyles={true}
+										spellCheck={true}
+										handleBeforeInput={() =>
+											handleEditorBeforeInput(editorState)
+										}
+										handlePastedText={(
+											text: string,
+											html?: string
+										): DraftHandleValue => {
+											const newEditorState =
+												handleEditorPastedText(
+													editorState,
+													text,
+													html
+												);
+											if (newEditorState) {
+												setEditorState(newEditorState);
+											}
+											return 'handled';
+										}}
+										plugins={[
+											linkifyPlugin,
+											staticToolbarPlugin,
+											emojiPlugin
+										]}
+									/>
+								</div>
+								{hasUploadFunctionality &&
+									(!attachmentSelected ? (
+										<span className="textarea__attachmentSelect">
+											<ClipIcon
+												onClick={handleAttachmentSelect}
+											/>
+										</span>
+									) : (
+										<div className="textarea__attachmentWrapper">
+											<span className="textarea__attachmentSelected">
+												<span className="textarea__attachmentSelected__progress"></span>
+												<span className="textarea__attachmentSelected__labelWrapper">
+													{getIconForAttachmentType(
+														attachmentSelected.type
+													)}
+													<p className="textarea__attachmentSelected__label">
+														{
+															attachmentSelected.name
 														}
-													/>
+													</p>
+													<span className="textarea__attachmentSelected__remove">
+														<RemoveIcon
+															onClick={
+																handleAttachmentRemoval
+															}
+														/>
+													</span>
 												</span>
 											</span>
-										</span>
-									</div>
-								))}
-						</span>
-						<SendMessageButton
-							handleSendButton={handleButtonClick}
-							clicked={isRequestInProgress}
-							deactivated={uploadProgress}
-						/>
+										</div>
+									))}
+							</span>
+							<div className="textarea__buttons">
+								<SendMessageButton
+									handleSendButton={handleButtonClick}
+									clicked={isRequestInProgress}
+									deactivated={uploadProgress}
+								/>
+							</div>
+						</div>
+						{showAppointmentButton && (
+							<div className="textarea__wrapper-booking">
+								<Headline
+									semanticLevel="5"
+									text={translate(
+										'message.submit.booking.headline'
+									)}
+									className="textarea__wrapper-booking-headline"
+								/>
+								<Button
+									item={bookingButton}
+									isLink={true}
+									buttonHandle={handleBookingButton}
+									customIcon={<CalendarMonthIcon />}
+								/>
+							</div>
+						)}
 					</div>
 					{hasUploadFunctionality && (
 						<input
