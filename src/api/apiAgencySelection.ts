@@ -7,6 +7,8 @@ export const apiAgencySelection = async (params: {
 	postcode: string;
 	consultingType: number | undefined;
 	topicId?: number;
+	age?: number;
+	gender?: string;
 }): Promise<Array<AgencyDataInterface> | null> => {
 	let queryStr = Object.keys(params)
 		.filter((key) => params[key] !== undefined)

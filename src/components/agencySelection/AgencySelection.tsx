@@ -40,6 +40,8 @@ export interface AgencySelectionProps {
 	initialPostcode?: string;
 	hideExternalAgencies?: boolean;
 	onKeyDown?: Function;
+	age?: number;
+	gender?: string;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
@@ -79,7 +81,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					const response = await apiAgencySelection({
 						postcode: DEFAULT_POSTCODE,
 						consultingType: props.consultingType.id,
-						topicId: props?.mainTopicId
+						topicId: props?.mainTopicId,
+						age: props?.age,
+						gender: props?.gender
 					});
 
 					const defaultAgency = response[0];
@@ -144,7 +148,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							await apiAgencySelection({
 								postcode: selectedPostcode,
 								consultingType: props.consultingType.id,
-								topicId: props?.mainTopicId
+								topicId: props?.mainTopicId,
+								age: props?.age,
+								gender: props?.gender
 							}).finally(() => setIsLoading(false))
 						).filter(
 							(agency) =>
@@ -168,6 +174,8 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 								postcode: selectedPostcode
 							})
 						);
+					} else if (err.message === FETCH_ERRORS.EMPTY) {
+						setProposedAgencies(null);
 					}
 					return;
 				}
