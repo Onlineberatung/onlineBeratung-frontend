@@ -20,23 +20,17 @@ import {
 	E2EEContext,
 	SessionTypeContext
 } from '../../globalState';
-import {
-	SelectDropdownItem,
-	SelectDropdown,
-	SelectOption
-} from '../select/SelectDropdown';
+import { SelectDropdown } from '../select/SelectDropdown';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
 import { history } from '../app/app';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
-
-export interface Consultant {
-	consultantId: string;
-	firstName: string;
-	lastName: string;
-}
+import {
+	prepareConsultantDataForSelect,
+	prepareSelectDropdown
+} from './sessionAssignHelper';
 
 export const SessionAssign = (props: { value?: string }) => {
 	const { activeSession } = useContext(ActiveSessionContext);
@@ -157,19 +151,6 @@ export const SessionAssign = (props: { value?: string }) => {
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const prepareConsultantDataForSelect = (consultants: Consultant[]) => {
-		let availableConsultants = [];
-		consultants.forEach((item) => {
-			const consultant: SelectOption = {
-				value: item.consultantId,
-				label: item.firstName + ` ` + item.lastName,
-				iconLabel: item.firstName.charAt(0) + item.lastName.charAt(0)
-			};
-			availableConsultants.push(consultant);
-		});
-		return availableConsultants;
-	};
-
 	const initOverlays = useCallback(() => {
 		const overlay =
 			userData.userId === selectedOption
@@ -246,27 +227,15 @@ export const SessionAssign = (props: { value?: string }) => {
 		}
 	};
 
-	const prepareSelectDropdown = () => {
-		const selectDropdown: SelectDropdownItem = {
-			id: 'assignSelect',
-			selectedOptions: consultantList,
-			handleDropdownSelect: handleDatalistSelect,
-			selectInputLabel: translate('session.u25.assignment.placeholder'),
-			useIconOption: true,
-			isSearchable: true,
-			menuPlacement: 'top'
-		};
-		if (props.value) {
-			selectDropdown['defaultValue'] = consultantList.filter(
-				(option) => option.value === props.value
-			)[0];
-		}
-		return selectDropdown;
-	};
-
 	return (
 		<div className="assign__wrapper">
-			<SelectDropdown {...prepareSelectDropdown()} />
+			<SelectDropdown
+				{...prepareSelectDropdown({
+					consultantList,
+					handleDatalistSelect,
+					value: props.value
+				})}
+			/>
 			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay

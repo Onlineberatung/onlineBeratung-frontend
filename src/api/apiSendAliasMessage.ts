@@ -10,20 +10,36 @@ export enum ALIAS_MESSAGE_TYPES {
 	VIDEOCALL = 'VIDEOCALL',
 	USER_MUTED = 'USER_MUTED',
 	USER_UNMUTED = 'USER_UNMUTED',
+	REASSIGN_CONSULTANT = 'REASSIGN_CONSULTANT',
 	MASTER_KEY_LOST = 'MASTER_KEY_LOST',
+	REASSIGN_CONSULTANT_RESET_LAST_MESSAGE = 'REASSIGN_CONSULTANT_RESET_LAST_MESSAGE',
 	APPOINTMENT_SET = 'APPOINTMENT_SET',
 	APPOINTMENT_CANCELLED = 'APPOINTMENT_CANCELLED',
 	APPOINTMENT_RESCHEDULED = 'APPOINTMENT_RESCHEDULED'
 }
+export interface ConsultantReassignment {
+	toConsultantId: string;
+	toConsultantName: string;
+	toAskerName: string;
+	fromConsultantName: string;
+	status: ReassignStatus;
+}
 
+export enum ReassignStatus {
+	REQUESTED = 'REQUESTED',
+	CONFIRMED = 'CONFIRMED',
+	REJECTED = 'REJECTED'
+}
 interface AliasMessageParams {
 	rcGroupId: string;
 	type: ALIAS_MESSAGE_TYPES;
+	args?: ConsultantReassignment;
 }
 
 export const apiSendAliasMessage = async ({
 	rcGroupId,
-	type
+	type,
+	args
 }: AliasMessageParams): Promise<any> => {
 	const url = `${config.endpoints.sendAliasMessage}`;
 
@@ -33,7 +49,8 @@ export const apiSendAliasMessage = async ({
 		method: FETCH_METHODS.POST,
 		rcValidation: true,
 		bodyData: JSON.stringify({
-			messageType: type
+			messageType: type,
+			args: args
 		})
 	});
 };

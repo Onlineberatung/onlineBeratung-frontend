@@ -52,7 +52,7 @@ export const generateConsultantSession = ({
 			sessionData: sessionData as string
 		},
 		consultant: {
-			id: 'consultant1',
+			id: 'consultant',
 			firstName: 'firstName',
 			lastName: 'lastName'
 		},
