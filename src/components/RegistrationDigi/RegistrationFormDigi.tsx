@@ -53,7 +53,7 @@ export const RegistrationFormDigi = ({
 		'username': '',
 		'consultingTypeId': '',
 		'postCode': '',
-		'topicsOfInterest[]': []
+		'topicIds[]': []
 	} as any);
 
 	// When some that changes we check if the form is valid to enable/disable the submit button
@@ -83,8 +83,7 @@ export const RegistrationFormDigi = ({
 				termsAccepted: formValues.termsAccepted,
 				gender: formValues.gender,
 				age: Number(formValues.age),
-				topicsOfInterest:
-					formValues.formValues['topicsOfInterest[]'].map(Number),
+				topicIds: formValues['topicIds[]'].map(Number),
 				counsellingRelation: formValues.counsellingRelation
 			};
 			apiPostRegistration(config.endpoints.registerAsker, finalValues)
@@ -114,7 +113,7 @@ export const RegistrationFormDigi = ({
 			topics
 				.filter(
 					(topic) =>
-						(currentValues['topicsOfInterest[]'] || []).indexOf(
+						(currentValues['topicIds[]'] || []).indexOf(
 							topic.id
 						) !== -1
 				)
@@ -156,7 +155,7 @@ export const RegistrationFormDigi = ({
 						formFields={[
 							'age',
 							'gender',
-							'topicsOfInterest[]',
+							'topicIds[]',
 							'mainTopicId'
 						]}
 						errorOnTouchExtraFields={['username', 'password']}
@@ -169,7 +168,7 @@ export const RegistrationFormDigi = ({
 								formFields={['age', 'gender']}
 								errorOnTouchExtraFields={[
 									'counsellingRelation',
-									'topicsOfInterest[]',
+									'topicIds[]',
 									'mainTopicId'
 								]}
 							>
@@ -221,7 +220,7 @@ export const RegistrationFormDigi = ({
 								formFields={['reason']}
 								errorOnTouchExtraFields={[
 									'counsellingRelation',
-									'topicsOfInterest[]',
+									'topicIds[]',
 									'mainTopicId'
 								]}
 							>
@@ -242,14 +241,14 @@ export const RegistrationFormDigi = ({
 								title={translate(
 									'registrationDigi.topics.step.title'
 								)}
-								formFields={['topicsOfInterest[]']}
+								formFields={['topicIds[]']}
 							>
 								<div className="registrationFormDigi__InputTopicIdsContainer">
 									{topics?.map((topic) => (
 										<CheckboxGroupFormField
 											key={topic.id}
 											label={topic.name}
-											name="topicsOfInterest[]"
+											name="topicIds[]"
 											localValue={topic.id}
 										/>
 									))}
@@ -264,7 +263,7 @@ export const RegistrationFormDigi = ({
 							>
 								<RadioBoxGroup
 									name="mainTopicId"
-									dependencies={['topicsOfInterest[]']}
+									dependencies={['topicIds[]']}
 									options={mainTopicOptions}
 								/>
 								{mainTopicOptions.length === 0 && (
