@@ -9,6 +9,7 @@ export const BUTTON_TYPES = {
 	SECONDARY: 'SECONDARY',
 	TERTIARY: 'TERTIARY',
 	LINK: 'LINK',
+	LINK_INLINE: 'LINK_INLINE',
 	AUTO_CLOSE: 'AUTO_CLOSE',
 	SMALL_ICON: 'SMALL_ICON'
 };
@@ -40,6 +41,8 @@ export interface ButtonProps {
 	item: ButtonItem;
 	testingAttribute?: string;
 	className?: string;
+	customIcon?: JSX.Element;
+	tabIndex?: number;
 }
 
 export const Button = (props: ButtonProps) => {
@@ -57,7 +60,7 @@ export const Button = (props: ButtonProps) => {
 	const handleButtonTimer = () => {
 		if (item.type === BUTTON_TYPES.AUTO_CLOSE) {
 			timeoutID = window.setTimeout(() => {
-				props.buttonHandle(item.function);
+				props.buttonHandle(item.function, item.functionArgs);
 			}, OVERLAY_RESET_TIME);
 		}
 	};
@@ -75,7 +78,11 @@ export const Button = (props: ButtonProps) => {
 				className = 'button__tertiary';
 				break;
 			case BUTTON_TYPES.LINK:
+			case BUTTON_TYPES.LINK_INLINE:
 				className = 'button__link';
+				if (type === BUTTON_TYPES.LINK_INLINE) {
+					className += ' button__link--inline';
+				}
 				break;
 			case BUTTON_TYPES.AUTO_CLOSE:
 				className = 'button__autoClose';
@@ -103,8 +110,10 @@ export const Button = (props: ButtonProps) => {
 	return (
 		<div
 			className={`button__wrapper ${
-				props.className ? props.className : ''
-			}`}
+				item.type === BUTTON_TYPES.LINK_INLINE
+					? 'button__wrapper--inline'
+					: ''
+			} ${props.className ? props.className : ''}`}
 		>
 			<button
 				onClick={(event) => handleButtonClick(event)}
@@ -129,7 +138,13 @@ export const Button = (props: ButtonProps) => {
 					${props.disabled || props.item.disabled ? ' button__item--disabled' : ''}
 				`}
 				data-cy={props.testingAttribute}
+				tabIndex={props.tabIndex}
 			>
+				{props.customIcon && (
+					<div className="button__custom-icon">
+						{props.customIcon}
+					</div>
+				)}
 				{item.id === 'reloadButton' && (
 					<ReloadIcon className="button__icon" />
 				)}

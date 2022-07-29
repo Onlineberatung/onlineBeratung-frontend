@@ -74,6 +74,7 @@ export const StageLayout = ({
 							href={`${config.urls.toLogin}${
 								loginParams ? `?${loginParams}` : ''
 							}`}
+							tabIndex={-1}
 						>
 							<Button
 								item={{

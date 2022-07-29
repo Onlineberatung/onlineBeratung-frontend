@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -6,6 +6,7 @@ import { ReactComponent as NewWindow } from '../../resources/img/icons/new-windo
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
+import { UserDataContext } from '../../globalState';
 
 interface HelpVideoCallConsultantProps {
 	copyLoginLink: Function;
@@ -13,15 +14,44 @@ interface HelpVideoCallConsultantProps {
 
 export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 	({ copyLoginLink }) => {
+		const { userData } = useContext(UserDataContext);
+
+		const copyLink = (
+			<button
+				className="help__copyLink button-as-link"
+				type="button"
+				tabIndex={0}
+				onClick={() => {
+					copyLoginLink();
+				}}
+				title={translate('help.videoCall.loginLink.title')}
+			>
+				<CopyIcon className={`copy icn--s`} />{' '}
+				{translate('help.videoCall.loginLink.text')}
+			</button>
+		);
+
 		return (
 			<>
 				<div className="help__top">
 					<Headline
-						text={translate('help.videoCall.consultant.headline')}
+						text={
+							userData.e2eEncryptionEnabled
+								? translate(
+										'help.videoCall.consultant.headline'
+								  )
+								: translate(
+										'help.videoCall.asker.steps.headline.1'
+								  )
+						}
 						semanticLevel="5"
 					/>
 					<Text
-						text={translate('help.videoCall.consultant.intro')}
+						text={
+							userData.e2eEncryptionEnabled
+								? translate('help.videoCall.consultant.intro')
+								: ''
+						}
 						type="standard"
 						className="tertiary"
 					/>
@@ -89,19 +119,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 						</li>
 						<li>
 							{translate('help.videoCall.consultant.steps.4')}
-							<span
-								className="help__copyLink"
-								role="button"
-								onClick={() => {
-									copyLoginLink();
-								}}
-								title={translate(
-									'help.videoCall.loginLink.title'
-								)}
-							>
-								<CopyIcon className={`copy icn--s`} />{' '}
-								{translate('help.videoCall.loginLink.text')}
-							</span>
+							{copyLink}
 						</li>
 						<li>
 							{translate('help.videoCall.consultant.steps.5')}
@@ -121,19 +139,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 					<ol className="tertiary">
 						<li>
 							{translate('help.videoCall.consultant.steps.4')}
-							<span
-								className="help__copyLink"
-								role="button"
-								onClick={() => {
-									copyLoginLink();
-								}}
-								title={translate(
-									'help.videoCall.loginLink.title'
-								)}
-							>
-								<CopyIcon className={`copy icn--s`} />{' '}
-								{translate('help.videoCall.loginLink.text')}
-							</span>
+							{copyLink}
 						</li>
 						<li>
 							{translate('help.videoCall.consultant.steps.5')}

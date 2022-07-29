@@ -3,7 +3,6 @@ import { useContext, useState, useEffect } from 'react';
 import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
-	AcceptedGroupIdContext,
 	UserDataInterface,
 	useConsultingTypes,
 	useConsultingType
@@ -49,7 +48,7 @@ export const AskerRegistration: React.FC = () => {
 		useState<OverlayItem>(null);
 	const [externalAgencyOverlayActive, setExternalAgencyOverlayActive] =
 		useState(false);
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
+	const [sessionId, setSessionId] = useState(null);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const consultingTypes = useConsultingTypes();
 	const selectedConsultingType = useConsultingType(selectedConsultingTypeId);
@@ -122,7 +121,7 @@ export const AskerRegistration: React.FC = () => {
 							'profile.data.registerSuccess.overlay.button1Label.groupChats'
 						);
 					} else {
-						setAcceptedGroupId(response.sessionId);
+						setSessionId(response.sessionId);
 					}
 					setSuccessOverlayItem(overlayItem);
 					setSuccessOverlayActive(true);
@@ -147,8 +146,15 @@ export const AskerRegistration: React.FC = () => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			setProfileWrapperInactive();
 			mobileListView();
+			if (!sessionId) {
+				history.push({
+					pathname: `/sessions/user/view`
+				});
+				return;
+			}
+
 			history.push({
-				pathname: `/sessions/user/view`
+				pathname: `/sessions/user/view/write/${sessionId}`
 			});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setSuccessOverlayItem({});

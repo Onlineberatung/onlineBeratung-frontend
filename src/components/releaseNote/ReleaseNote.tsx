@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import packageInfo from '../../../package.json';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { markdownToDraft } from 'markdown-draft-js';
@@ -19,53 +18,94 @@ import './releaseNote.styles.scss';
 
 interface ReleaseNoteProps {}
 
+const MAX_CONCURRENT_RELEASE_NOTES = 3;
+const STORAGE_KEY = 'releaseNote';
+
+type TReleases = {
+	title?: string;
+	file: string;
+}[];
+
 export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const [showReleaseNote, setShowRelaseNote] = useState(false);
-	const [hasSeenReleaseNote, setHasSeenReleaseNote] = useState(false);
 	const [checkboxChecked, setCheckboxChecked] = useState(false);
 	const [releaseNoteText, setReleaseNoteText] = useState('');
+	const [latestReleaseNote, setLatestReleaseNote] = useState('');
 
-	const getMarkdown = async () => {
-		const response = await fetch(
-			`${config.urls.releases}/v${packageInfo.version}.md`
-		);
-		const isMarkdown = response.headers
-			.get('content-type')
-			?.match(/markdown/i);
+	const readReleaseNote = useMemo(
+		() => localStorage.getItem(STORAGE_KEY) ?? '0',
+		[]
+	);
 
-		if (response.ok && isMarkdown) {
-			const markdownText = await response.text();
+	useEffect(() => {
+		fetch(`${config.urls.releases}/releases.json`)
+			.then((res) => res.json())
+			.then((releases: TReleases) =>
+				Object.entries(releases)
+					.reverse()
+					.slice(MAX_CONCURRENT_RELEASE_NOTES * -3)
+					.filter(
+						([key]) => parseInt(key) > parseInt(readReleaseNote)
+					)
+					.map(([key, data]) => ({
+						...data,
+						key
+					}))
+			)
+			.then((releases) =>
+				Promise.all(
+					releases.map((release) =>
+						fetch(`${config.urls.releases}/${release.file}`)
+							.then((res) => res.text())
+							.then((markdown) => ({
+								...release,
+								markdown: markdown
+							}))
+							.catch(() => null)
+					)
+				)
+			)
+			.then((markdowns) => markdowns.filter(Boolean))
+			.then((markdowns) => {
+				if (markdowns.length <= 0) {
+					throw new Error('No release notes!');
+				}
 
-			const rawMarkdownToDraftObject = markdownToDraft(markdownText);
-			const convertedMarkdownObject = convertFromRaw(
-				rawMarkdownToDraftObject
-			);
+				const rawMarkdownToDraftObject = markdownToDraft(
+					markdowns
+						.map(
+							(m) =>
+								`${
+									markdowns.length > 1 && m.title
+										? `***${m.title}***\n\n`
+										: ''
+								}${m.markdown}`
+						)
+						.join('\n\n')
+				);
+				const convertedMarkdownObject = convertFromRaw(
+					rawMarkdownToDraftObject
+				);
 
-			const sanitizedText = sanitizeHtml(
-				stateToHTML(convertedMarkdownObject),
-				sanitizeHtmlExtendedOptions
-			);
+				const sanitizedText = sanitizeHtml(
+					stateToHTML(convertedMarkdownObject),
+					sanitizeHtmlExtendedOptions
+				);
 
-			setShowRelaseNote(true);
-			setReleaseNoteText(sanitizedText);
-		}
-	};
-
-	const closeReleaseNote = () => {
-		setShowRelaseNote(false);
-	};
-
-	const handleOverlayAction = (buttonFunction: string) => {
-		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setShowRelaseNote(false);
-		}
-	};
+				setLatestReleaseNote(markdowns[markdowns.length - 1].key);
+				setReleaseNoteText(sanitizedText);
+				setShowRelaseNote(true);
+			})
+			.catch(() => {
+				setShowRelaseNote(false);
+			});
+	}, [readReleaseNote]);
 
 	const changeHasSeenReleaseNote = (event) => {
 		setCheckboxChecked(event.target.checked);
 		localStorage.setItem(
-			`v${packageInfo.version}`,
-			`${event.target.checked}`
+			STORAGE_KEY,
+			`${event.target.checked ? latestReleaseNote : readReleaseNote}`
 		);
 	};
 
@@ -77,28 +117,14 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		name: 'seen'
 	};
 
-	useEffect(() => {
-		const versionSeen =
-			localStorage.getItem(`v${packageInfo.version}`) === 'true';
-		if (versionSeen) setHasSeenReleaseNote(true);
-	}, []);
-
-	useEffect(() => {
-		if (hasSeenReleaseNote) {
-			setShowRelaseNote(false);
-		} else {
-			getMarkdown();
-		}
-	}, [hasSeenReleaseNote]);
-
-	if (!showReleaseNote || hasSeenReleaseNote) return null;
+	if (!showReleaseNote) return null;
 
 	return (
 		<OverlayWrapper>
 			<Overlay
 				className="releaseNote"
-				handleOverlayClose={closeReleaseNote}
-				handleOverlay={handleOverlayAction}
+				handleOverlayClose={() => setShowRelaseNote(false)}
+				handleOverlay={() => setShowRelaseNote(false)}
 				item={{
 					illustrationBackground: 'neutral',
 					svg: newIllustration,

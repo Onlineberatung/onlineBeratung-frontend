@@ -21,6 +21,7 @@ import {
 	AccordionItemValidity,
 	stateData,
 	VALIDITY_INITIAL,
+	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import {
@@ -99,21 +100,36 @@ export const FormAccordion = ({
 		);
 	}, [validity]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const handleValidity = useCallback(
-		(key, value) => {
-			setValidity({
-				...validity,
-				[key]: value
-			});
-		},
-		[validity]
-	);
+	const handleValidity = useCallback((key, value) => {
+		setValidity((prevState) => ({
+			...prevState,
+			[key]: value
+		}));
+	}, []);
 
 	useEffect(() => {
 		if (isUsernameAlreadyInUse) {
 			setActiveItem(1);
 		}
 	}, [isUsernameAlreadyInUse]);
+
+	const handleKeyDown = (e, isLastInput = true, isFirstInput = true) => {
+		if (
+			e.key === 'Tab' &&
+			!e.shiftKey &&
+			isLastInput &&
+			activeItem !== accordionItemData.length
+		) {
+			setActiveItem(activeItem + 1);
+		} else if (
+			e.key === 'Tab' &&
+			e.shiftKey &&
+			isFirstInput &&
+			activeItem !== 1
+		) {
+			setActiveItem(activeItem - 1);
+		}
+	};
 
 	const accordionItemData = [
 		{
@@ -125,6 +141,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('username', validity)
 					}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.username
@@ -138,6 +155,7 @@ export const FormAccordion = ({
 						handleValidity('password', validity)
 					}
 					passwordNote={registrationNotes?.password}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.password
@@ -200,6 +218,7 @@ export const FormAccordion = ({
 						onValidityChange={(validity) =>
 							handleValidity('agency', validity)
 						}
+						onKeyDown={handleKeyDown}
 					/>
 				),
 				isValid: validity.agency
@@ -221,11 +240,19 @@ export const FormAccordion = ({
 					preselectedAgency={preselectedAgencyData}
 					onAgencyChange={(agency) => setAgency(agency)}
 					hideExternalAgencies
-					onValidityChange={(validity) =>
-						handleValidity('agency', validity)
-					}
+					onValidityChange={(validity) => {
+						if (
+							tenantData?.settings?.topicsInRegistrationEnabled &&
+							!mainTopicId &&
+							validity !== VALIDITY_INITIAL
+						) {
+							handleValidity('mainTopic', VALIDITY_INVALID);
+						}
+						handleValidity('agency', validity);
+					}}
 					agencySelectionNote={registrationNotes?.agencySelection}
 					mainTopicId={mainTopicId}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.agency
@@ -245,6 +272,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('age', validity)
 					}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.age
@@ -264,6 +292,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('state', validity)
 					}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.state

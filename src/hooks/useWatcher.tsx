@@ -16,7 +16,19 @@ export const useWatcher = (
 	const [isRunning, setIsRunning] = useState(false);
 
 	const watcher = useCallback(() => {
-		callback.current().finally(() => {
+		if (timerId.current) {
+			clearTimeout(timerId.current);
+			timerId.current = null;
+		}
+		const promise = callback.current();
+		if (!promise) {
+			timerId.current = setTimeout(
+				watcher,
+				intervall || DEFAULT_INTERVALL
+			);
+			return;
+		}
+		promise.finally(() => {
 			timerId.current = setTimeout(
 				watcher,
 				intervall || DEFAULT_INTERVALL

@@ -3,8 +3,9 @@ import absence from './de/absence';
 import anonymous from './de/anonymous';
 import archive from './de/archive';
 import attachments from './de/attachments';
-import banUser from './de/banUser';
 import appointments from './de/appointments';
+import banUser from './de/banUser';
+import booking from './de/booking';
 import chatFlyout from './de/chatFlyout';
 import consultant from './de/consultant';
 import date from './de/date';
@@ -33,8 +34,11 @@ import typingIndicator from './de/typingIndicator';
 import userProfile from './de/userProfile';
 import videoCall from './de/videoCall';
 import videoConference from './de/videoConference';
+import walkthrough from './de/walkthrough';
 import qrCode from './de/qrCode';
 import releaseNote from './de/releaseNote';
+import e2ee from './de/e2ee';
+import aliases from './de/aliases';
 
 const de = {
 	absence,
@@ -43,6 +47,7 @@ const de = {
 	archive,
 	attachments,
 	banUser,
+	booking,
 	appointments,
 	chatFlyout,
 	consultant,
@@ -73,7 +78,10 @@ const de = {
 	videoCall,
 	videoConference,
 	qrCode,
-	releaseNote
+	releaseNote,
+	walkthrough,
+	e2ee,
+	aliases
 };
 
 export default de;

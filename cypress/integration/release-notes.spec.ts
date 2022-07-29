@@ -24,8 +24,18 @@ describe('release-note', () => {
 	});
 
 	it('should show the release note overlay immediately but not after reload', () => {
-		cy.fixture('releaseNote.md').then((content) => {
+		cy.fixture('releases.json').then((content) => {
 			cy.willReturn('releases', {
+				body: content,
+				statusCode: 200,
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+		});
+
+		cy.fixture('releaseNote.md').then((content) => {
+			cy.willReturn('releases_markup', {
 				body: content,
 				statusCode: 200,
 				headers: {
@@ -38,6 +48,8 @@ describe('release-note', () => {
 			username: USER_CONSULTANT
 		});
 		cy.wait('@consultingTypeServiceBaseBasic');
+		cy.wait('@releases');
+		cy.wait('@releases_markup');
 
 		cy.get('.releaseNote').should('exist');
 
@@ -54,8 +66,18 @@ describe('release-note', () => {
 	});
 
 	it('should show the release note overlay immediately and after reload', () => {
-		cy.fixture('releaseNote.md').then((content) => {
+		cy.fixture('releases.json').then((content) => {
 			cy.willReturn('releases', {
+				body: content,
+				statusCode: 200,
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+		});
+
+		cy.fixture('releaseNote.md').then((content) => {
+			cy.willReturn('releases_markup', {
 				body: content,
 				statusCode: 200,
 				headers: {
@@ -68,6 +90,8 @@ describe('release-note', () => {
 			username: USER_CONSULTANT
 		});
 		cy.wait('@consultingTypeServiceBaseBasic');
+		cy.wait('@releases');
+		cy.wait('@releases_markup');
 
 		cy.get('.releaseNote').should('exist');
 
@@ -83,24 +107,6 @@ describe('release-note', () => {
 	});
 
 	it('should not show the release note overlay if there is no file', () => {
-		cy.fastLogin({
-			username: USER_CONSULTANT
-		});
-		cy.wait('@consultingTypeServiceBaseBasic');
-
-		cy.get('.releaseNote').should('not.exist');
-	});
-
-	it("should not show the release note overlay if there isn't a markdown", () => {
-		cy.fixture('releaseNote.md').then((content) => {
-			cy.willReturn('releases', {
-				body: '<html></html>',
-				statusCode: 200,
-				headers: {
-					'Content-Type': 'text/text'
-				}
-			});
-		});
 		cy.fastLogin({
 			username: USER_CONSULTANT
 		});

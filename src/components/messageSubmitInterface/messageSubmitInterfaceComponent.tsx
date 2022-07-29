@@ -1,15 +1,8 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+
 import { SendMessageButton } from './SendMessageButton';
-import {
-	getChatItemForSession,
-	getSessionListPathForLocation,
-	isGroupChat,
-	isLiveChat,
-	isSessionChat,
-	SESSION_LIST_TYPES,
-	typeIsEnquiry
-} from '../session/sessionHelpers';
+import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { translate } from '../../utils/translate';
 import { UserDataContext } from '../../globalState/provider/UserDataProvider';
@@ -19,8 +12,9 @@ import {
 	hasUserAuthority
 } from '../../globalState/helpers/stateHelpers';
 import {
-	AcceptedGroupIdContext,
+	E2EEContext,
 	SessionsDataContext,
+	SessionTypeContext,
 	STATUS_ARCHIVED,
 	STATUS_FINISHED
 } from '../../globalState';
@@ -47,7 +41,7 @@ import {
 	isXLSXAttachment
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
-import PluginsEditor from 'draft-js-plugins-editor';
+import PluginsEditor from '@draft-js-plugins/editor';
 import {
 	convertFromRaw,
 	convertToRaw,
@@ -56,14 +50,14 @@ import {
 	RichUtils
 } from 'draft-js';
 import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
-import createLinkifyPlugin from 'draft-js-linkify-plugin';
-import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
+import createLinkifyPlugin from '@draft-js-plugins/linkify';
+import createToolbarPlugin from '@draft-js-plugins/static-toolbar';
 import {
 	BoldButton,
 	ItalicButton,
 	UnorderedListButton
-} from 'draft-js-buttons';
-import createEmojiPlugin from 'draft-js-emoji-plugin';
+} from '@draft-js-plugins/buttons';
+import createEmojiPlugin from '@draft-js-plugins/emoji';
 import {
 	emojiPickerCustomClasses,
 	escapeMarkdownChars,
@@ -79,6 +73,7 @@ import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xl
 import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
 import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
 import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
+import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import useDebouncedValue from '../../utils/useDebouncedValue';
 import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
@@ -87,6 +82,11 @@ import clsx from 'clsx';
 import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { Headline } from '../headline/Headline';
+import { decryptText, encryptText } from '../../utils/encryptionHelpers';
+import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
+import { encryptRoom } from '../../utils/e2eeHelper';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -148,14 +148,28 @@ export interface MessageSubmitInterfaceComponentProps {
 	isTyping?: Function;
 	placeholder: string;
 	showMonitoringButton?: Function;
-	type: SESSION_LIST_TYPES;
 	typingUsers?: string[];
-	sessionIdFromParam?: number;
-	groupIdFromParam?: string;
 	language?: string;
+	E2EEParams?: e2eeParams;
 	preselectedFile?: File;
 	handleMessageSendSuccess?: Function;
 }
+
+const encryptAttachment = (attachment, keyID, key) => {
+	if (!keyID) {
+		return attachment;
+	}
+
+	/* ToDo: Currently attachments should not be E2E encrypted.
+	In my opinion its required because this could be private pictures or medical documents
+	or anything else but it should be tbd because there are some points which
+	have to be changed to get it working.
+	- Encrypt will happen in frontend so backend could not do any spam protection anymore
+	- Download logic need to download the document first and decrypt it
+	- Some better spam protection in frontend?
+	 */
+	return attachment;
+};
 
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
@@ -165,12 +179,9 @@ export const MessageSubmitInterfaceComponent = (
 	const attachmentInputRef = React.useRef<HTMLInputElement>(null);
 	const { userData } = useContext(UserDataContext);
 	const [placeholder, setPlaceholder] = useState(props.placeholder);
-	const { sessionsData } = useContext(SessionsDataContext);
-	const activeSession = useContext(ActiveSessionContext);
-	const chatItem = getChatItemForSession(activeSession);
-	const isTypingActive = isGroupChat(chatItem) || isLiveChat(chatItem);
-	const isLiveChatFinished =
-		isSessionChat(chatItem) && chatItem.status === STATUS_FINISHED;
+	const { activeSession } = useContext(ActiveSessionContext);
+	const { type, path: listPath } = useContext(SessionTypeContext);
+	const { sessions } = useContext(SessionsDataContext);
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [draftLoaded, setDraftLoaded] = useState(false);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
@@ -188,7 +199,16 @@ export const MessageSubmitInterfaceComponent = (
 		currentDraftMessageRef.current,
 		SAVE_DRAFT_TIMEOUT
 	);
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
+	const { isE2eeEnabled } = useContext(E2EEContext);
+	const {
+		keyID: feedbackChatKeyId,
+		key: feedbackChatKey,
+		encrypted: feedbackEncrypted,
+		sessionKeyExportedString: feedbackChatSessionKeyExportedString
+	} = useE2EE(activeSession.item.feedbackGroupId);
+
+	const groupIdOrSessionId =
+		activeSession.item.groupId || activeSession.item.id;
 
 	const requestFeedbackCheckbox = document.getElementById(
 		'requestFeedback'
@@ -198,16 +218,52 @@ export const MessageSubmitInterfaceComponent = (
 		inputId: 'requestFeedback',
 		name: 'requestFeedback',
 		labelId: 'requestFeedbackLabel',
+		labelClass: 'requestFeedbackLabel',
 		label: translate('message.write.peer.checkbox.label'),
 		checked: requestFeedbackCheckbox?.checked || false
 	};
 
-	const isConsultantAbsent =
-		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-		activeSession?.consultant?.absent;
+	const encryptFeedbackRoom = useCallback(
+		async (keyId, sessionKeyExportedString) => {
+			await encryptRoom({
+				keyId,
+				isE2eeEnabled,
+				isRoomAlreadyEncrypted: feedbackEncrypted,
+				rcGroupId: activeSession.item.feedbackGroupId,
+				sessionKeyExportedString
+			});
+		},
+		[activeSession.item.feedbackGroupId, feedbackEncrypted, isE2eeEnabled]
+	);
 
-	const isSessionArchived =
-		activeSession?.session?.status === STATUS_ARCHIVED;
+	const [isConsultantAbsent, setIsConsultantAbsent] = useState(
+		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+			activeSession.consultant?.absent
+	);
+	const [isSessionArchived, setIsSessionArchived] = useState(
+		activeSession.item.status === STATUS_ARCHIVED
+	);
+	const [isTypingActive, setIsTypingActive] = useState(
+		activeSession.isGroup || activeSession.isLive
+	);
+	const [isLiveChatFinished, setIsLiveChatFinished] = useState(
+		activeSession.isLive && activeSession.item.status === STATUS_FINISHED
+	);
+
+	useEffect(() => {
+		setIsConsultantAbsent(
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+				activeSession.consultant?.absent
+		);
+		setIsSessionArchived(activeSession.item.status === STATUS_ARCHIVED);
+		setIsTypingActive(activeSession.isGroup || activeSession.isLive);
+		setIsLiveChatFinished(
+			activeSession.isLive &&
+				activeSession.item.status === STATUS_FINISHED
+		);
+	}, [activeSession, activeSession.item.status, userData]);
+
+	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
 
 	useEffect(() => {
 		if (
@@ -217,11 +273,31 @@ export const MessageSubmitInterfaceComponent = (
 			setActiveInfo(INFO_TYPES.ARCHIVED);
 		} else if (isConsultantAbsent) {
 			setActiveInfo(INFO_TYPES.ABSENT);
+		} else if (isLiveChatFinished) {
+			setActiveInfo(INFO_TYPES.FINISHED_CONVERSATION);
+		} else {
+			setActiveInfo(null);
 		}
+	}, [isConsultantAbsent, isLiveChatFinished, isSessionArchived, userData]);
 
-		apiGetDraftMessage(props.sessionIdFromParam || props.groupIdFromParam)
+	useEffect(() => {
+		apiGetDraftMessage(activeSession.rid)
 			.then((response) => {
-				setEditorWithMarkdownString(response.message);
+				if (isE2eeEnabled) {
+					return decryptText(
+						response.message,
+						props.E2EEParams.keyID,
+						props.E2EEParams.key,
+						props.E2EEParams.encrypted,
+						response.t === 'e2e',
+						'enc.'
+					);
+				} else {
+					return response.org || response.message;
+				}
+			})
+			.then((message) => {
+				setEditorWithMarkdownString(message);
 			})
 			.catch((error) => {
 				if (error.message !== FETCH_ERRORS.EMPTY) {
@@ -240,15 +316,34 @@ export const MessageSubmitInterfaceComponent = (
 				const groupId =
 					requestFeedbackCheckboxCallback &&
 					requestFeedbackCheckboxCallback.checked
-						? activeSession.session.feedbackGroupId
-						: props.sessionIdFromParam || props.groupIdFromParam;
-				apiPostDraftMessage(
-					groupId,
-					currentDraftMessageRef.current
-				).then();
+						? activeSession.item.feedbackGroupId
+						: activeSession.rid;
+
+				if (isE2eeEnabled && props.E2EEParams.encrypted) {
+					encryptText(
+						currentDraftMessageRef.current,
+						props.E2EEParams.keyID,
+						props.E2EEParams.key,
+						'enc.'
+					).then((message) => {
+						apiPostDraftMessage(
+							groupId,
+							message,
+							'e2e',
+							currentDraftMessageRef.current
+						).then();
+					});
+				} else {
+					apiPostDraftMessage(
+						groupId,
+						currentDraftMessageRef.current,
+						'',
+						currentDraftMessageRef.current
+					).then();
+				}
 			}
 		};
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [currentDraftMessageRef, props.E2EEParams.keyID, isE2eeEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (isLiveChatFinished) {
@@ -264,11 +359,33 @@ export const MessageSubmitInterfaceComponent = (
 		) {
 			const groupId =
 				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
-					? activeSession.session.feedbackGroupId
-					: props.sessionIdFromParam || props.groupIdFromParam;
-			apiPostDraftMessage(groupId, debouncedDraftMessage);
+					? activeSession.item.feedbackGroupId
+					: activeSession.rid;
+
+			if (isE2eeEnabled && props.E2EEParams.encrypted) {
+				encryptText(
+					debouncedDraftMessage,
+					props.E2EEParams.keyID,
+					props.E2EEParams.key,
+					'enc.'
+				).then((message) => {
+					apiPostDraftMessage(
+						groupId,
+						message,
+						'e2e',
+						debouncedDraftMessage
+					).then();
+				});
+			} else {
+				apiPostDraftMessage(
+					groupId,
+					debouncedDraftMessage,
+					'',
+					debouncedDraftMessage
+				).then();
+			}
 		}
-	}, [debouncedDraftMessage]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [debouncedDraftMessage, isE2eeEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (!activeInfo && isConsultantAbsent) {
@@ -310,18 +427,37 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	}, [uploadProgress]);
 
+	const finishSendingAttachment = () => {
+		props.handleSendButton();
+		handleMessageSendSuccess();
+		cleanupAttachment();
+	};
+
 	useEffect(() => {
-		if (uploadOnLoadHandling) {
-			if (uploadOnLoadHandling.status === 201) {
-				handleMessageSendSuccess();
-				cleanupAttachment();
-			} else if (uploadOnLoadHandling.status === 413) {
+		if (uploadOnLoadHandling && uploadOnLoadHandling.target) {
+			if (uploadOnLoadHandling.target.status === 201) {
+				if (uploadOnLoadHandling.encryptedMessage) {
+					// send the message for the uploaded file seperately
+					apiSendMessage(
+						uploadOnLoadHandling.encryptedMessage,
+						uploadOnLoadHandling.unencryptedMessage,
+						uploadOnLoadHandling.rcGroupIdOrSessionId,
+						uploadOnLoadHandling.isFeedback,
+						false, // do not send email notification, since this was already done for the attachment
+						isE2eeEnabled
+					).then(() => {
+						finishSendingAttachment();
+					});
+				} else {
+					finishSendingAttachment();
+				}
+			} else if (uploadOnLoadHandling.target.status === 413) {
 				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_SIZE_ERROR);
-			} else if (uploadOnLoadHandling.status === 415) {
+			} else if (uploadOnLoadHandling.target.status === 415) {
 				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_FORMAT_ERROR);
 			} else if (
-				uploadOnLoadHandling.status === 403 &&
-				uploadOnLoadHandling.getResponseHeader('X-Reason') ===
+				uploadOnLoadHandling.target.status === 403 &&
+				uploadOnLoadHandling.target.getResponseHeader('X-Reason') ===
 					'QUOTA_REACHED'
 			) {
 				handleAttachmentUploadError(
@@ -332,6 +468,19 @@ export const MessageSubmitInterfaceComponent = (
 			}
 		}
 	}, [uploadOnLoadHandling]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
+		) {
+			const { appointmentFeatureEnabled } = userData;
+			if (!sessions[0].consultant) {
+				setShowAppointmentButton(appointmentFeatureEnabled);
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const handleAttachmentUploadError = (infoType: string) => {
 		setActiveInfo(infoType);
@@ -450,19 +599,19 @@ export const MessageSubmitInterfaceComponent = (
 		}
 
 		if (isSessionArchived) {
-			apiPutDearchive(chatItem.id)
+			apiPutDearchive(activeSession.item.id)
 				.then(() => {
-					sendMessage();
+					prepareAndSendMessage();
 					if (
 						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 					) {
-						mobileListView();
-						history.push(getSessionListPathForLocation());
 						if (window.innerWidth >= 900) {
-							setAcceptedGroupId(
-								props.sessionIdFromParam ||
-									props.groupIdFromParam
+							history.push(
+								`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}}`
 							);
+						} else {
+							mobileListView();
+							history.push(listPath);
 						}
 					}
 				})
@@ -470,76 +619,150 @@ export const MessageSubmitInterfaceComponent = (
 					console.error(error);
 				});
 		} else {
-			sendMessage();
+			prepareAndSendMessage();
 		}
 	};
 
-	const sendMessage = () => {
+	const sendEnquiry = (encryptedMessage, unencryptedMessage) => {
+		apiSendEnquiry(
+			activeSession.item.id,
+			encryptedMessage,
+			unencryptedMessage,
+			isE2eeEnabled,
+			props.language
+		)
+			.then((response) => {
+				setEditorState(EditorState.createEmpty());
+				props.handleSendButton?.(response);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	const sendMessage = (
+		sendToFeedbackEndpoint,
+		encryptedMessage,
+		unencryptedMessage,
+		attachment
+	) => {
+		const sendToRoomWithId = sendToFeedbackEndpoint
+			? activeSession.item.feedbackGroupId
+			: groupIdOrSessionId;
+		const getSendMailNotificationStatus = () =>
+			!activeSession.isGroup && !activeSession.isLive;
+
+		if (attachment) {
+			setAttachmentUpload(
+				apiUploadAttachment(
+					encryptedMessage,
+					unencryptedMessage,
+					encryptAttachment(
+						attachment,
+						props.E2EEParams.keyID,
+						props.E2EEParams.key
+					),
+					sendToRoomWithId,
+					sendToFeedbackEndpoint,
+					getSendMailNotificationStatus(),
+					setUploadProgress,
+					setUploadOnLoadHandling
+				)
+			);
+		} else {
+			if (getTypedMarkdownMessage()) {
+				apiSendMessage(
+					encryptedMessage,
+					unencryptedMessage,
+					sendToRoomWithId,
+					sendToFeedbackEndpoint,
+					getSendMailNotificationStatus(),
+					isE2eeEnabled
+				)
+					.then(() => {
+						props.handleSendButton();
+						handleMessageSendSuccess();
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			}
+		}
+	};
+
+	const isFeedbackRequestChecked = () => {
+		return requestFeedbackCheckbox && requestFeedbackCheckbox.checked;
+	};
+
+	const isFeedbackMessage = () => {
+		return (
+			(!activeSession.isGroup && activeSession.isFeedback) ||
+			isFeedbackRequestChecked()
+		);
+	};
+
+	const prepareAndSendMessage = async () => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const selectedFile = attachmentInput && attachmentInput.files[0];
 		const attachment = props.preselectedFile || selectedFile;
+
+		if (
+			isE2eeEnabled &&
+			props.E2EEParams.encrypted &&
+			!props.E2EEParams.keyID
+		) {
+			console.error("Can't send message without key");
+			return;
+		}
+
 		if (getTypedMarkdownMessage() || attachment) {
 			setIsRequestInProgress(true);
 		} else {
 			return null;
 		}
 
+		const sendToFeedbackEndpoint = isFeedbackMessage();
+
+		const keyId =
+			sendToFeedbackEndpoint && feedbackChatKeyId
+				? feedbackChatKeyId
+				: props.E2EEParams.keyID;
+		const key =
+			sendToFeedbackEndpoint && feedbackChatKey
+				? feedbackChatKey
+				: props.E2EEParams.key;
+		const sessionKeyExportedString =
+			sendToFeedbackEndpoint && feedbackChatSessionKeyExportedString
+				? feedbackChatSessionKeyExportedString
+				: props.E2EEParams.sessionKeyExportedString;
+
+		const unencryptedMessage = getTypedMarkdownMessage().trim();
+		const encryptedMessage =
+			getTypedMarkdownMessage().trim() &&
+			getTypedMarkdownMessage().trim().length > 0 &&
+			isE2eeEnabled
+				? await encryptText(
+						getTypedMarkdownMessage().trim(),
+						keyId,
+						key
+				  )
+				: getTypedMarkdownMessage().trim();
+
 		if (
-			typeIsEnquiry(props.type) &&
+			type === SESSION_LIST_TYPES.ENQUIRY &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
-			const enquirySessionId = props.sessionIdFromParam
-				? props.sessionIdFromParam
-				: sessionsData.mySessions[0].session.id;
-			apiSendEnquiry(
-				enquirySessionId,
-				getTypedMarkdownMessage(),
-				props.language
-			)
-				.then((response) => {
-					setEditorState(EditorState.createEmpty());
-					props.handleSendButton?.(response);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+			sendEnquiry(encryptedMessage, unencryptedMessage);
 		} else {
-			const sendToFeedbackEndpoint =
-				activeSession?.isFeedbackSession ||
-				(requestFeedbackCheckbox && requestFeedbackCheckbox.checked);
-			const sendToRoomWithId = sendToFeedbackEndpoint
-				? activeSession?.session.feedbackGroupId
-				: props.sessionIdFromParam || props.groupIdFromParam;
-			const getSendMailNotificationStatus = () =>
-				!isGroupChat(chatItem) && !isLiveChat(chatItem);
+			sendMessage(
+				sendToFeedbackEndpoint,
+				encryptedMessage,
+				unencryptedMessage,
+				attachment
+			);
 
-			if (attachment) {
-				setAttachmentUpload(
-					apiUploadAttachment(
-						getTypedMarkdownMessage(),
-						attachment,
-						sendToRoomWithId,
-						sendToFeedbackEndpoint,
-						getSendMailNotificationStatus(),
-						setUploadProgress,
-						setUploadOnLoadHandling
-					)
-				);
-			} else {
-				if (getTypedMarkdownMessage()) {
-					apiSendMessage(
-						getTypedMarkdownMessage(),
-						sendToRoomWithId,
-						sendToFeedbackEndpoint,
-						getSendMailNotificationStatus()
-					)
-						.then(() => {
-							handleMessageSendSuccess();
-						})
-						.catch((error) => {
-							console.log(error);
-						});
-				}
+			if (isFeedbackRequestChecked()) {
+				encryptFeedbackRoom(keyId, sessionKeyExportedString);
 			}
 		}
 	};
@@ -695,15 +918,31 @@ export const MessageSubmitInterfaceComponent = (
 		return infoData;
 	};
 
+	const handleBookingButton = () => {
+		history.push({
+			pathname: '/booking/',
+			state: {
+				sessionId: activeSession.item.id,
+				isInitialMessage: true
+			}
+		});
+	};
+
 	const hasUploadFunctionality =
-		!typeIsEnquiry(props.type) ||
-		(typeIsEnquiry(props.type) &&
+		type !== SESSION_LIST_TYPES.ENQUIRY ||
+		(type === SESSION_LIST_TYPES.ENQUIRY &&
 			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData));
 	const hasRequestFeedbackCheckbox =
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
 		!hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
-		activeSession.session.feedbackGroupId &&
-		!activeSession?.isFeedbackSession;
+		activeSession.item.feedbackGroupId &&
+		(activeSession.isGroup || !activeSession.isFeedback);
+
+	const bookingButton: ButtonItem = {
+		label: translate('message.submit.booking.buttonLabel'),
+		type: BUTTON_TYPES.PRIMARY
+	};
+
 	return (
 		<div
 			className={clsx(
@@ -736,108 +975,139 @@ export const MessageSubmitInterfaceComponent = (
 							checkboxHandle={handleCheckboxClick}
 						/>
 					)}
-					<div className="textarea__wrapper">
-						<span className="textarea__featureWrapper">
-							<span className="textarea__richtextToggle">
-								<RichtextToggleIcon
-									width="20"
-									height="20"
-									onClick={() =>
-										setIsRichtextActive(!isRichtextActive)
-									}
-								/>
-							</span>
-							<EmojiSelect />
-						</span>
-						<span
-							className="textarea__inputWrapper"
-							ref={inputWrapperRef}
-						>
-							<div
-								className="textarea__input"
-								ref={textareaInputRef}
-								onKeyUp={() => resizeTextarea()}
-								onFocus={toggleAbsentMessage}
-								onBlur={toggleAbsentMessage}
-							>
-								<Toolbar>
-									{(externalProps) => (
-										<div className="textarea__toolbar__buttonWrapper">
-											<BoldButton {...externalProps} />
-											<ItalicButton {...externalProps} />
-											<UnorderedListButton
-												{...externalProps}
-											/>
-										</div>
-									)}
-								</Toolbar>
-								<PluginsEditor
-									editorState={editorState}
-									onChange={handleEditorChange}
-									handleKeyCommand={handleEditorKeyCommand}
-									placeholder={placeholder}
-									stripPastedStyles={true}
-									spellCheck={true}
-									handleBeforeInput={() =>
-										handleEditorBeforeInput(editorState)
-									}
-									handlePastedText={(
-										text: string,
-										html?: string
-									): DraftHandleValue => {
-										const newEditorState =
-											handleEditorPastedText(
-												editorState,
-												text,
-												html
-											);
-										if (newEditorState) {
-											setEditorState(newEditorState);
+					<div className={'textarea__wrapper'}>
+						<div className="textarea__wrapper-send-message">
+							<span className="textarea__featureWrapper">
+								<span className="textarea__richtextToggle">
+									<RichtextToggleIcon
+										width="20"
+										height="20"
+										onClick={() =>
+											setIsRichtextActive(
+												!isRichtextActive
+											)
 										}
-										return 'handled';
-									}}
-									plugins={[
-										linkifyPlugin,
-										staticToolbarPlugin,
-										emojiPlugin
-									]}
-								/>
-							</div>
-							{hasUploadFunctionality &&
-								(!attachmentSelected ? (
-									<span className="textarea__attachmentSelect">
-										<ClipIcon
-											onClick={handleAttachmentSelect}
-										/>
-									</span>
-								) : (
-									<div className="textarea__attachmentWrapper">
-										<span className="textarea__attachmentSelected">
-											<span className="textarea__attachmentSelected__progress"></span>
-											<span className="textarea__attachmentSelected__labelWrapper">
-												{getIconForAttachmentType(
-													attachmentSelected.type
-												)}
-												<p className="textarea__attachmentSelected__label">
-													{attachmentSelected.name}
-												</p>
-												<span className="textarea__attachmentSelected__remove">
-													<RemoveIcon
-														onClick={
-															handleAttachmentRemoval
+									/>
+								</span>
+								<EmojiSelect />
+							</span>
+							<span
+								className="textarea__inputWrapper"
+								ref={inputWrapperRef}
+							>
+								<div
+									className="textarea__input"
+									ref={textareaInputRef}
+									onKeyUp={() => resizeTextarea()}
+									onFocus={toggleAbsentMessage}
+									onBlur={toggleAbsentMessage}
+								>
+									<Toolbar>
+										{(externalProps) => (
+											<div className="textarea__toolbar__buttonWrapper">
+												<BoldButton
+													{...externalProps}
+												/>
+												<ItalicButton
+													{...externalProps}
+												/>
+												<UnorderedListButton
+													{...externalProps}
+												/>
+											</div>
+										)}
+									</Toolbar>
+									<PluginsEditor
+										editorState={editorState}
+										onChange={handleEditorChange}
+										handleKeyCommand={
+											handleEditorKeyCommand
+										}
+										placeholder={placeholder}
+										stripPastedStyles={true}
+										spellCheck={true}
+										handleBeforeInput={() =>
+											handleEditorBeforeInput(editorState)
+										}
+										handlePastedText={(
+											text: string,
+											html?: string
+										): DraftHandleValue => {
+											const newEditorState =
+												handleEditorPastedText(
+													editorState,
+													text,
+													html
+												);
+											if (newEditorState) {
+												setEditorState(newEditorState);
+											}
+											return 'handled';
+										}}
+										plugins={[
+											linkifyPlugin,
+											staticToolbarPlugin,
+											emojiPlugin
+										]}
+									/>
+								</div>
+								{hasUploadFunctionality &&
+									(!attachmentSelected ? (
+										<span className="textarea__attachmentSelect">
+											<ClipIcon
+												onClick={handleAttachmentSelect}
+											/>
+										</span>
+									) : (
+										<div className="textarea__attachmentWrapper">
+											<span className="textarea__attachmentSelected">
+												<span className="textarea__attachmentSelected__progress"></span>
+												<span className="textarea__attachmentSelected__labelWrapper">
+													{getIconForAttachmentType(
+														attachmentSelected.type
+													)}
+													<p className="textarea__attachmentSelected__label">
+														{
+															attachmentSelected.name
 														}
-													/>
+													</p>
+													<span className="textarea__attachmentSelected__remove">
+														<RemoveIcon
+															onClick={
+																handleAttachmentRemoval
+															}
+														/>
+													</span>
 												</span>
 											</span>
-										</span>
-									</div>
-								))}
-						</span>
-						<SendMessageButton
-							handleSendButton={handleButtonClick}
-							clicked={isRequestInProgress}
-							deactivated={uploadProgress}
-						/>
+										</div>
+									))}
+							</span>
+							<div className="textarea__buttons">
+								<SendMessageButton
+									handleSendButton={handleButtonClick}
+									clicked={isRequestInProgress}
+									deactivated={uploadProgress}
+								/>
+							</div>
+						</div>
+						{showAppointmentButton && (
+							<div className="textarea__wrapper-booking">
+								<Headline
+									semanticLevel="5"
+									text={translate(
+										'message.submit.booking.headline'
+									)}
+									className="textarea__wrapper-booking-headline"
+								/>
+								<Button
+									item={bookingButton}
+									isLink={true}
+									buttonHandle={handleBookingButton}
+									customIcon={<CalendarMonthIcon />}
+								/>
+							</div>
+						)}
 					</div>
 					{hasUploadFunctionality && (
 						<input

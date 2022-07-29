@@ -62,6 +62,7 @@ export const WelcomeScreen = ({
 						href={`${config.urls.toLogin}${
 							loginParams ? `?${loginParams}` : ''
 						}`}
+						tabIndex={-1}
 					>
 						<Button isLink={true} item={loginButton} />
 					</a>

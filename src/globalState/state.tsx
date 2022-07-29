@@ -1,18 +1,17 @@
 import * as React from 'react';
 import {
-	AcceptedGroupIdProvider,
 	AnonymousConversationFinishedProvider,
 	AnonymousEnquiryAcceptedProvider,
 	ConsultantListProvider,
 	ConsultingTypesProvider,
-	FilterStatusProvider,
 	NotificationsProvider,
-	SessionsDataProvider,
-	UnreadSessionsStatusProvider,
 	UpdateSessionListProvider,
 	UserDataProvider,
 	WebsocketConnectionDeactivatedProvider,
-	TenantProvider
+	TenantProvider,
+	RocketChatGlobalSettingsProvider,
+	AnonymousConversationStartedProvider,
+	SessionsDataProvider
 } from '.';
 
 function ProviderComposer({ contexts, children }) {
@@ -29,19 +28,18 @@ function ContextProvider({ children }) {
 	return (
 		<ProviderComposer
 			contexts={[
-				<AcceptedGroupIdProvider />,
 				<AnonymousConversationFinishedProvider />,
 				<AnonymousEnquiryAcceptedProvider />,
+				<AnonymousConversationStartedProvider />,
 				<ConsultantListProvider />,
 				<ConsultingTypesProvider />,
-				<FilterStatusProvider />,
 				<NotificationsProvider />,
-				<SessionsDataProvider />,
-				<UnreadSessionsStatusProvider />,
 				<UpdateSessionListProvider />,
 				<UserDataProvider />,
 				<WebsocketConnectionDeactivatedProvider />,
-				<TenantProvider />
+				<TenantProvider />,
+				<SessionsDataProvider />,
+				<RocketChatGlobalSettingsProvider />
 			]}
 		>
 			{children}

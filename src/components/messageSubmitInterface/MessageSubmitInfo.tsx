@@ -5,33 +5,35 @@ import './messageSubmitInfo.styles';
 
 export interface MessageSubmitInfoInterface {
 	isInfo: boolean;
-	infoHeadline: string;
-	infoMessage: string;
+	infoHeadline?: string;
+	infoMessage?: JSX.Element;
 }
 
 export const MessageSubmitInfo = (props: MessageSubmitInfoInterface) => {
 	return (
 		<div className="messageSubmitInfoWrapper">
-			<div
-				className={
-					props.isInfo
-						? 'messageSubmitInfoWrapper__headlineWrapper'
-						: 'messageSubmitInfoWrapper__headlineWrapper messageSubmitInfoWrapper__headlineWrapper--red'
-				}
-			>
-				<span className="messageSubmitInfoWrapper__icon">
-					{props.isInfo ? <InfoIcon /> : <ErrorIcon />}
-				</span>
-				<span
+			{props.infoHeadline && (
+				<div
 					className={
 						props.isInfo
-							? 'messageSubmitInfoWrapper__headline'
-							: 'messageSubmitInfoWrapper__headline messageSubmitInfoWrapper__headline--red'
+							? 'messageSubmitInfoWrapper__headlineWrapper'
+							: 'messageSubmitInfoWrapper__headlineWrapper messageSubmitInfoWrapper__headlineWrapper--red'
 					}
 				>
-					{props.infoHeadline}
-				</span>
-			</div>
+					<span className="messageSubmitInfoWrapper__icon">
+						{props.isInfo ? <InfoIcon /> : <ErrorIcon />}
+					</span>
+					<span
+						className={
+							props.isInfo
+								? 'messageSubmitInfoWrapper__headline'
+								: 'messageSubmitInfoWrapper__headline messageSubmitInfoWrapper__headline--red'
+						}
+					>
+						{props.infoHeadline}
+					</span>
+				</div>
+			)}
 
 			{props.infoMessage && (
 				<div

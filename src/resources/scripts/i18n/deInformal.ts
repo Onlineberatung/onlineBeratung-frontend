@@ -34,28 +34,40 @@ import videoCall from './de/videoCall';
 import videoCallInformal from './de/videoCallInformal';
 import videoConference from './de/videoConference';
 import videoConferenceInformal from './de/videoConferenceInformal';
+import e2ee from './de/e2ee';
+import e2eeInformal from './de/e2eeInformal';
+import aliases from './de/aliases';
+import aliasesInformal from './de/aliasesInformal';
 import de from './de';
+import walkthrough from './de/walkthrough';
+import walkthroughInformal from './de/walkthroughInformal';
+import help from './de/help';
+import helpInformal from './de/helpInformal';
 
 const informalLocale = {
 	...de,
 	absence: { ...absence, ...absenceInformal },
 	archive: { ...archive, ...archiveInformal },
-	attachments: { ...attachments, ...attachmentsInformal },
 	appointments: { ...appointments, ...appointmentsInformal },
+	attachments: { ...attachments, ...attachmentsInformal },
 	deleteAccount: { ...deleteAccount, ...deleteAccountInformal },
 	deleteSession: { ...deleteSession, ...deleteSessionInformal },
-	groupChat: { ...groupChat, ...groupChatInformal },
 	enquiry: { ...enquiry, ...enquiryInformal },
 	furtherSteps: { ...furtherSteps, ...furtherStepsInformal },
-	profile: { ...profile, ...profileInformal },
+	groupChat: { ...groupChat, ...groupChatInformal },
+	help: { ...help, ...helpInformal },
 	notifications: { ...notifications, ...notificationsInformal },
+	profile: { ...profile, ...profileInformal },
 	registration: { ...registration, ...registrationInformal },
 	session: { ...session, ...sessionInformal },
 	sessionList: { ...sessionList, ...sessionListInformal },
 	statusOverlay: { ...statusOverlay, ...statusOverlayInformal },
 	twoFactorAuth: { ...twoFactorAuth, ...twoFactorAuthInformal },
 	videoCall: { ...videoCall, ...videoCallInformal },
-	videoConference: { ...videoConference, ...videoConferenceInformal }
+	videoConference: { ...videoConference, ...videoConferenceInformal },
+	walkthrough: { ...walkthrough, walkthroughInformal },
+	e2ee: { ...e2ee, ...e2eeInformal },
+	aliases: { ...aliases, ...aliasesInformal }
 };
 
 export default informalLocale;
