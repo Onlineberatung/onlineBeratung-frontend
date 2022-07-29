@@ -1,0 +1,75 @@
+.registrationFormDigi {
+	-webkit-animation: fadeIn 0.5s linear;
+	animation: fadeIn 0.5s linear;
+	margin: 120px 0;
+	max-width: auto;
+	width: 100%;
+
+	.radioButton {
+		margin: 0;
+	}
+
+	&__Input {
+		padding: 0px 12px 0px 16px;
+		width: 103px;
+		height: 48px;
+		background: #ffffff;
+
+		border: 1px solid rgba(0, 0, 0, 0.4);
+		border-radius: 4px;
+	}
+
+	&__InputGroup {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+
+	&__CheckboxContainer {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+
+	&__InputTopicIdsContainer {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 13px;
+	}
+
+	&__AgeContainer,
+	&__GenderContainer {
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+		margin-top: 40px;
+
+		&Label {
+			margin-bottom: 20px;
+		}
+	}
+
+	&__Submit {
+		margin-top: 70px;
+	}
+
+	&__terms {
+		margin-top: 35px;
+	}
+
+	.inputField__input {
+		padding: 12px 12px 0px 16px;
+		width: 103px;
+		height: 48px;
+		background: #ffffff;
+
+		border: 1px solid rgba(0, 0, 0, 0.4);
+		border-radius: 4px;
+	}
+
+	.inputField {
+		margin-top: 20px;
+		max-width: 327px;
+	}
+}
