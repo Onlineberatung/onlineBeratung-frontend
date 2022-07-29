@@ -7,6 +7,22 @@ interface InputProps {
 	pattern?: RegExp;
 }
 
+const LocalInput = ({
+	value,
+	type,
+	...rest
+}: {
+	type?: string;
+	value?: string;
+}) => (
+	<input
+		className="registrationFormDigi__Input"
+		type={type}
+		value={value || ''}
+		{...rest}
+	/>
+);
+
 export const InputFormField = ({
 	type = 'text',
 	name,
@@ -14,7 +30,7 @@ export const InputFormField = ({
 }: InputProps) => {
 	return (
 		<Field name={name} rules={[{ required: true, pattern }]}>
-			<input className="registrationFormDigi__Input" type={type} />
+			<LocalInput type={type} />
 		</Field>
 	);
 };

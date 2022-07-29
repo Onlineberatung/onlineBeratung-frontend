@@ -83,7 +83,7 @@ export const RegistrationFormDigi = ({
 				termsAccepted: formValues.termsAccepted,
 				gender: formValues.gender,
 				age: Number(formValues.age),
-				topicIds: formValues.formValues['topicIds[]'].map(Number),
+				topicIds: formValues['topicIds[]'].map(Number),
 				counsellingRelation: formValues.counsellingRelation
 			};
 			apiPostRegistration(config.endpoints.registerAsker, finalValues)
