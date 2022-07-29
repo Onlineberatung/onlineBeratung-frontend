@@ -21,6 +21,8 @@ const LocalAgencySelection = ({
 			icon={<PinIcon />}
 			initialPostcode={''}
 			preselectedAgency={null}
+			age={field.getFieldValue('age')}
+			gender={field.getFieldValue('gender')}
 			onAgencyChange={(agency) => {
 				if (agency) {
 					field.setFieldsValue({
