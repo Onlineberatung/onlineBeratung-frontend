@@ -64,6 +64,7 @@ $profile-footer-justify-content: center !default;
 		align-items: center;
 		padding: $grid-base-three $grid-base-two;
 		z-index: 20;
+		overflow: hidden;
 
 		@include breakpoint($fromMedium) {
 			padding: $grid-base-three;
