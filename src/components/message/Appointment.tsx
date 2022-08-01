@@ -33,7 +33,7 @@ export const Appointment = (param: {
 			weekday: 'long',
 			year: '2-digit',
 			month: '2-digit',
-			day: 'numeric'
+			day: '2-digit'
 		}
 	);
 
