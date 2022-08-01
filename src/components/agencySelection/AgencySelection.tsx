@@ -133,8 +133,10 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					// we need to ensure that we've the mainTopicId is set
 					const isValidWhenTopicInRegistrationIsActive =
 						(tenantData?.settings?.topicsInRegistrationEnabled &&
+							tenantData?.settings?.featureTopicsEnabled &&
 							props.mainTopicId) ||
 						!tenantData?.settings?.topicsInRegistrationEnabled;
+					// && !tenantData?.settings?.featureTopicsEnabled;
 
 					if (
 						validPostcode() &&

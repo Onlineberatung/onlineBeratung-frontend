@@ -68,9 +68,11 @@ export const FormAccordion = ({
 		age: additionalStepsData?.age?.isEnabled
 			? VALIDITY_INITIAL
 			: VALIDITY_VALID,
-		mainTopic: tenantData?.settings?.topicsInRegistrationEnabled
-			? VALIDITY_INITIAL
-			: VALIDITY_VALID,
+		mainTopic:
+			tenantData?.settings?.topicsInRegistrationEnabled &&
+			tenantData?.settings?.featureTopicsEnabled
+				? VALIDITY_INITIAL
+				: VALIDITY_VALID,
 		agency: VALIDITY_INITIAL
 	});
 
@@ -162,7 +164,10 @@ export const FormAccordion = ({
 		}
 	];
 
-	if (tenantData?.settings?.topicsInRegistrationEnabled) {
+	if (
+		tenantData?.settings?.topicsInRegistrationEnabled &&
+		tenantData?.settings?.featureTopicsEnabled
+	) {
 		accordionItemData.push({
 			title: translate('registration.mainTopic.headline'),
 			nestedComponent: (
@@ -243,6 +248,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) => {
 						if (
 							tenantData?.settings?.topicsInRegistrationEnabled &&
+							tenantData?.settings?.featureTopicsEnabled &&
 							!mainTopicId &&
 							validity !== VALIDITY_INITIAL
 						) {

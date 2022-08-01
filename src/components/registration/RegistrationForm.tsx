@@ -92,7 +92,8 @@ export const RegistrationForm = ({
 
 		if (
 			consultingType?.registration.autoSelectAgency &&
-			!tenantData?.settings?.topicsInRegistrationEnabled
+			!tenantData?.settings?.topicsInRegistrationEnabled &&
+			!tenantData?.settings?.featureTopicsEnabled
 		) {
 			apiAgencySelection({
 				postcode: postcodeParameter || DEFAULT_POSTCODE,
@@ -121,7 +122,8 @@ export const RegistrationForm = ({
 		// we need to request the api to get the preselected agency
 		const shouldRequestAgencyWhenAutoSelectIsEnabled =
 			consultingType?.registration.autoSelectPostcode &&
-			!!tenantData?.settings?.topicsInRegistrationEnabled;
+			!!tenantData?.settings?.topicsInRegistrationEnabled &&
+			!!tenantData?.settings?.featureTopicsEnabled;
 
 		if (shouldRequestAgencyWhenAutoSelectIsEnabled) {
 			apiAgencySelection({
