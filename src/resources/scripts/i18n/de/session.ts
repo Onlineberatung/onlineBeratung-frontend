@@ -12,11 +12,11 @@ const session = {
 	'assignOther.overlay.headline':
 		'Möchten Sie %client% an %newConsultant% zuweisen?',
 	'assignOther.overlay.subtitle.noTeam':
-		'%newConsultant% ist somit für den Ratsuchenden verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugiff mehr auf die Nachrichten.',
+		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugiff mehr auf die Nachrichten.',
 	'assignOther.overlay.subtitle.team.self':
-		'%newConsultant% ist somit für den Ratsuchenden verantwortlich. Stimmt %toAskerName% der Zuweisung zu, finden Sie den Chatverlauf in Ihren Nachrichten und nicht mehr unter Teamberatung.',
+		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich. Stimmt %toAskerName% der Zuweisung zu, finden Sie den Chatverlauf in Ihren Nachrichten und nicht mehr unter Teamberatung.',
 	'assignOther.overlay.subtitle.team.other':
-		'%newConsultant% ist somit für den Ratsuchenden verantwortlich. Stimmt %toAskerName% der Zuweisung zu, finden Sie den Chatverlauf unter Teamberatung und nicht mehr in Ihren Nachrichten.',
+		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich. Stimmt %toAskerName% der Zuweisung zu, finden Sie den Chatverlauf unter Teamberatung und nicht mehr in Ihren Nachrichten.',
 	'assignOther.buttonLabel.abort': 'Abbrechen',
 	'assignOther.buttonLabel.assign': 'Zuweisen',
 	'assignSelf.overlayHeadline':
