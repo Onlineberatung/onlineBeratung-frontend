@@ -3,7 +3,7 @@ const sessionInformal = {
 	'acceptance.overlayHeadline':
 		'Du hast die Erstanfrage erfolgreich angenommen und findest diese nun unter „Meine Nachrichten“.',
 	'assignOther.overlay.headline':
-		'Möchtest Du %client%, %newConsultant% zuweisen?',
+		'Möchtest Du %client% an %newConsultant% zuweisen?',
 	'assignOther.overlay.subtitle.noTeam':
 		'%newConsultant% ist somit für den Ratsuchenden verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Du hast keinen Zugiff mehr auf die Nachrichten.',
 	'assignOther.overlay.subtitle.team.self':

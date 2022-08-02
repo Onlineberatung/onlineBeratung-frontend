@@ -10,7 +10,7 @@ const session = {
 		'Diese Erstanfrage wurde bereits von einem anderen Berater angenommen.',
 	'anonymous.takenByOtherConsultant.buttonLabel': 'Schließen',
 	'assignOther.overlay.headline':
-		'Möchten Sie %client%, %newConsultant% zuweisen?',
+		'Möchten Sie %client% an %newConsultant% zuweisen?',
 	'assignOther.overlay.subtitle.noTeam':
 		'%newConsultant% ist somit für den Ratsuchenden verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugiff mehr auf die Nachrichten.',
 	'assignOther.overlay.subtitle.team.self':
@@ -48,8 +48,7 @@ const session = {
 		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich. %oldConsultant% hat keinen Zugriff mehr auf die Nachrichten.',
 	'reassign.system.message.reassign.description.team':
 		'%newConsultant% ist somit für Sie verantwortlich.',
-	'reassign.system.message.reassign.question':
-		'Stimmen Sie der Übergabe zu?.',
+	'reassign.system.message.reassign.question': 'Stimmen Sie der Übergabe zu?',
 	'reassign.system.message.reassign.accept': 'Akzeptieren',
 	'reassign.system.message.reassign.decline': 'Ablehnen',
 	'reassign.system.message.reassign.sent.title':
