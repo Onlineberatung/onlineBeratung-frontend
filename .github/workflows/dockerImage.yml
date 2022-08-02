@@ -57,11 +57,11 @@ jobs:
                 echo DATE=$(echo -n "${$(date +'%Y%m%d_%H%M%S')}") >> $GITHUB_ENV
               shell: bash
             - name: Set tag for develop image
-              if: env.BRANCH === cleanup-remove-npmPackage
+              if: endsWith(env.BRANCH, 'cleanup-remove-npmPackage') == true
               run: echo DOCKER_IMAGE_TAG=$(echo "develop_${{ env.DATE }}") >> $GITHUB_ENV
               shell: bash
             - name: Set tag for default image
-              if: env.BRANCH !== cleanup-remove-npmPackage
+              if: endsWith(env.BRANCH, 'cleanup-remove-npmPackage') == false
               run: echo DOCKER_IMAGE_TAG=$(echo "${GITHUB_REF/refs\/tags\//}") >> $GITHUB_ENV
               shell: bash
             - name: Push to GitHub Packages
