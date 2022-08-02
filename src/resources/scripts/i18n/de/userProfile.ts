@@ -8,9 +8,9 @@ const userProfile = {
 	'data.gender': 'Geschlecht',
 	'data.state': 'Bundesland',
 	'monitoring.title': 'Monitoring',
-	'reassign.title': 'Zuordnung',
+	'reassign.title': 'Zuweisung',
 	'reassign.description':
-		'Wenn sich jemand anderes um diese Person kümmern soll, können Sie die bisherige Unterhaltung übergeben.',
+		'Sie können die Unterhaltung einem anderen Teammitglied zuweisen. Diese Person ist dann für die_den Ratsuchende_n verantwortlich.',
 	'monitoring.buttonLabel': 'Jetzt dokumentieren'
 };
 
