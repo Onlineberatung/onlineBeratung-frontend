@@ -142,7 +142,8 @@ export const RegistrationForm = ({
 		consultingType,
 		formAccordionData.mainTopicId,
 		formAccordionData.postcode,
-		tenantData
+		tenantData,
+		topicsAreRequired
 	]);
 
 	const checkboxItemDataProtection: CheckboxItem = {
