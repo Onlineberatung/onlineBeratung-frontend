@@ -11,6 +11,16 @@ $breakpointFlyoutPosition: 1140px;
 			width: $infoIconSize;
 			height: $infoIconSize;
 			cursor: pointer;
+
+			&:focus {
+				outline: 2px solid #199fff !important;
+				outline-offset: 4px;
+				border-radius: 4px;
+			}
+
+			&:focus:not(:focus-visible) {
+				outline: none;
+			}
 		}
 
 		.agencyInfo .text {
