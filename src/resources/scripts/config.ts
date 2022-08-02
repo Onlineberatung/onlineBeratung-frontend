@@ -187,10 +187,8 @@ export const config = {
 		]
 	},
 	twofactor: {
-		startObligatoryHint: new Date('7/26/2022').toLocaleDateString('de-DE'),
-		dateTwoFactorObligatory: new Date('9/30/2022').toLocaleDateString(
-			'de-DE'
-		),
+		startObligatoryHint: new Date('2022-07-31'),
+		dateTwoFactorObligatory: new Date('2022-10-01'),
 		messages: [
 			{
 				title: 'twoFactorAuth.nag.obligatory.moment.title',
