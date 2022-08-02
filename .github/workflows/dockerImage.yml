@@ -61,8 +61,8 @@ jobs:
               run: echo DOCKER_IMAGE_TAG=$(echo "develop_${{ env.DATE }}") >> $GITHUB_ENV
               shell: bash
             - name: Set tag for default image
-              if: env.BRANCH != cleanup-remove-npmPackage
-              run: echo DOCKER_IMAGE_TAG=$(echo ${{GITHUB_REF/refs\/tags\//}}") >> $GITHUB_ENV
+              if: env.BRANCH !== cleanup-remove-npmPackage
+              run: echo DOCKER_IMAGE_TAG=$(echo ${{GITHUB_REF#refs/tags/}}") >> $GITHUB_ENV
               shell: bash
             - name: Push to GitHub Packages
               uses: docker/build-push-action@v1.1.1
