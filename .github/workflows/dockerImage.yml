@@ -49,16 +49,22 @@ jobs:
               uses: actions/download-artifact@v2
               with:
                   name: buildfiles
+            - name: Get current time
+              id: time
+              uses: nanzm/get-time-action@v1.1
+              with:
+                timeZone: 0
+                format: 'YYYYMMDD[_]hhmmss'
             - name: Prepare environment variables
               run: |
                 echo "DOCKER_REGISTRY=$(echo "docker.pkg.github.com/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
                 echo "DOCKER_IMAGE=$(echo "${{ github.repository }}" | awk -F / '{print tolower($2)}')" >> $GITHUB_ENV
                 echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
-                echo DATE=$(echo -n "${$(date +'%Y%m%d_%H%M%S')}") >> $GITHUB_ENV
+                echo TIME_STAMP=$(echo -n "${{ steps.time.outputs.time }}") >> $GITHUB_ENV
               shell: bash
             - name: Set tag for develop image
               if: endsWith(env.BRANCH, 'cleanup-remove-npmPackage') == true
-              run: echo DOCKER_IMAGE_TAG=$(echo "develop_${{ env.DATE }}") >> $GITHUB_ENV
+              run: echo DOCKER_IMAGE_TAG=$(echo "develop_${{ env.TIME_STAMP }}") >> $GITHUB_ENV
               shell: bash
             - name: Set tag for default image
               if: endsWith(env.BRANCH, 'cleanup-remove-npmPackage') == false
