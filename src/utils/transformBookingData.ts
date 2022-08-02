@@ -13,7 +13,7 @@ export const transformBookingData = (bookings: BookingEventsInterface[]) => {
 			weekday: 'long',
 			year: '2-digit',
 			month: '2-digit',
-			day: 'numeric'
+			day: '2-digit'
 		});
 		const duration = `${addMissingZero(
 			startTime.getUTCHours()

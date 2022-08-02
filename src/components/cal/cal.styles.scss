@@ -1,8 +1,9 @@
 cal-inline {
 	align-items: center;
-	height: calc(100vh - 96px) !important;
+	height: calc(100vh - 72px) !important;
 
 	iframe {
 		min-width: calc(100vw - 96px);
+		max-height: calc(100vh - 72px) !important;
 	}
 }
