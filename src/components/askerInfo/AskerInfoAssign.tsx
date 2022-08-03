@@ -6,7 +6,7 @@ import {
 	hasUserAuthority,
 	AUTHORITIES
 } from '../../globalState';
-import { SessionAssign } from '../sessionAssign/SessionAssign';
+import { RequestSessionAssign } from '../sessionAssign/RequestSessionAssign';
 import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
@@ -27,7 +27,7 @@ export const AskerInfoAssign = () => {
 					text={translate('userProfile.reassign.description')}
 					type="infoSmall"
 				/>
-				<SessionAssign
+				<RequestSessionAssign
 					value={
 						activeSession.consultant
 							? activeSession.consultant.id

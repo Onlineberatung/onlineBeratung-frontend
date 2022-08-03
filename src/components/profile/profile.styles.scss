@@ -513,8 +513,13 @@ $profile-footer-justify-content: center !default;
 		}
 
 		&__innerWrapper {
-			height: calc(100vh - #{$grid-base-twelve});
+			height: calc(100% - #{$grid-base-twelve + $grid-base-nine});
 			background-color: $background-light;
+			margin-top: 0;
+
+			@include breakpoint($fromLarge) {
+				height: calc(100% - #{$grid-base-twelve});
+			}
 		}
 
 		&__header {

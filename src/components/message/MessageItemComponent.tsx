@@ -32,11 +32,38 @@ import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { Appointment } from './Appointment';
 import { decryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
+import {
+	ReassignRequestAcceptedMessage,
+	ReassignRequestDeclinedMessage,
+	ReassignRequestMessage,
+	ReassignRequestSentMessage
+} from './ReassignMessage';
+import {
+	apiSendAliasMessage,
+	ConsultantReassignment,
+	ReassignStatus
+} from '../../api/apiSendAliasMessage';
+import { apiPatchMessage } from '../../api/apiPatchMessage';
+import { apiSessionAssign } from '../../api';
+
 import { MasterKeyLostMessage } from './MasterKeyLostMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
+
+export enum MessageType {
+	FURTHER_STEPS = 'FURTHER_STEPS',
+	USER_MUTED = 'USER_MUTED',
+	FORWARD = 'FORWARD',
+	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
+	VIDEOCALL = 'VIDEOCALL',
+	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
+	APPOINTMENT_SET = 'APPOINTMENT_SET',
+	APPOINTMENT_CANCELLED = 'APPOINTMENT_CANCELLED',
+	APPOINTMENT_RESCHEDULED = 'APPOINTMENT_RESCHEDULED'
+}
 
 export interface ForwardMessageDTO {
 	message: string;
@@ -50,8 +77,9 @@ export interface VideoCallMessageDTO {
 	initiatorRcUserId: string;
 	initiatorUserName: string;
 }
+
 export interface MessageItem {
-	id?: number;
+	_id: string;
 	message: string;
 	org: string;
 	messageDate: string | number;
@@ -68,6 +96,7 @@ export interface MessageItem {
 	alias?: {
 		forwardMessageDTO?: ForwardMessageDTO;
 		videoCallMessageDTO?: VideoCallMessageDTO;
+		content?: string;
 		messageType: ALIAS_MESSAGE_TYPES;
 	};
 	attachments?: MessageService.Schemas.AttachmentDTO[];
@@ -85,6 +114,7 @@ interface MessageItemComponentProps extends MessageItem {
 }
 
 export const MessageItemComponent = ({
+	_id,
 	alias,
 	userId,
 	message,
@@ -103,7 +133,8 @@ export const MessageItemComponent = ({
 	t,
 	rid
 }: MessageItemComponentProps) => {
-	const { activeSession } = useContext(ActiveSessionContext);
+	const { activeSession, reloadActiveSession } =
+		useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
 
@@ -193,6 +224,33 @@ export const MessageItemComponent = ({
 		return 'consultant';
 	};
 
+	const clickReassignRequestMessage = (accepted, toConsultantId) => {
+		if (accepted) {
+			apiSessionAssign(activeSession.item.id, toConsultantId)
+				.then(() => {
+					apiPatchMessage(
+						toConsultantId,
+						ReassignStatus.CONFIRMED,
+						_id
+					)
+						.then(() => {
+							// WORKAROUND for an issue with reassignment and old users breaking the lastMessage for this session
+							apiSendAliasMessage({
+								rcGroupId: activeSession.rid,
+								type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT_RESET_LAST_MESSAGE
+							});
+							reloadActiveSession();
+						})
+						.catch((error) => console.log(error));
+				})
+				.catch((error) => console.log(error));
+		} else {
+			apiPatchMessage(toConsultantId, ReassignStatus.REJECTED, _id).catch(
+				(error) => console.log(error)
+			);
+		}
+	};
+
 	const isUserMessage = () =>
 		userId === askerRcId ||
 		(activeSession.isGroup &&
@@ -211,8 +269,26 @@ export const MessageItemComponent = ({
 		alias?.messageType === ALIAS_MESSAGE_TYPES.USER_MUTED;
 	const isE2EEActivatedMessage =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.E2EE_ACTIVATED;
+	const isReassignmentMessage =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT;
 	const isMasterKeyLostMessage =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST;
+
+	// WORKAROUND for reassignment last message bug
+	// don't show this message in the session view
+	if (
+		alias?.messageType ===
+		ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT_RESET_LAST_MESSAGE
+	) {
+		return null;
+	}
+
+	const isTeamSession = activeSession?.item?.isTeamSession;
+	const isMySession = activeSession?.consultant?.id === userData?.userId;
+	const isAppointmentSet =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_SET ||
+		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED ||
+		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_CANCELLED;
 
 	const messageContent = (): JSX.Element => {
 		switch (true) {
@@ -226,6 +302,54 @@ export const MessageItemComponent = ({
 				);
 			case isE2EEActivatedMessage:
 				return <E2EEActivatedMessage />;
+			case isReassignmentMessage:
+				if (message) {
+					const isAsker = hasUserAuthority(
+						AUTHORITIES.ASKER_DEFAULT,
+						userData
+					);
+
+					const reassignmentParams: ConsultantReassignment =
+						JSON.parse(message);
+					switch (reassignmentParams.status) {
+						case ReassignStatus.REQUESTED:
+							return isAsker ? (
+								<ReassignRequestMessage
+									{...reassignmentParams}
+									isTeamSession={isTeamSession}
+									onClick={(accepted) =>
+										clickReassignRequestMessage(
+											accepted,
+											reassignmentParams.toConsultantId
+										)
+									}
+								/>
+							) : (
+								<ReassignRequestSentMessage
+									{...reassignmentParams}
+									isTeamSession={isTeamSession}
+									isMySession={isMySession}
+								/>
+							);
+						case ReassignStatus.CONFIRMED:
+							return (
+								<ReassignRequestAcceptedMessage
+									isAsker={isAsker}
+									isMySession={isMySession}
+									{...reassignmentParams}
+								/>
+							);
+						case ReassignStatus.REJECTED:
+							return (
+								<ReassignRequestDeclinedMessage
+									isAsker={isAsker}
+									isMySession={isMySession}
+									{...reassignmentParams}
+								/>
+							);
+					}
+				}
+				return;
 			case isFurtherStepsMessage:
 				return (
 					<FurtherSteps
@@ -242,6 +366,13 @@ export const MessageItemComponent = ({
 						}
 						consultingType={activeSession.item.consultingType}
 						resortData={resortData}
+					/>
+				);
+			case isAppointmentSet:
+				return (
+					<Appointment
+						data={alias.content}
+						messageType={alias.messageType}
 					/>
 				);
 			case isFinishedConversationMessage:

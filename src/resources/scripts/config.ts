@@ -1,3 +1,5 @@
+import { BookingsStatus } from '../../utils/consultant';
+
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 
@@ -7,7 +9,7 @@ export let apiUrl = '';
 if (apiUrlEnv) {
 	apiUrl = apiUrlEnv;
 	if (!apiUrl.startsWith('http://') && !apiUrl.startsWith('https://')) {
-		apiUrl = 'https://' + apiUrl;
+		apiUrl = 'http://' + apiUrl;
 	}
 }
 
@@ -18,14 +20,32 @@ export const config = {
 	useTenantService: false,
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
-	enableVideoAppointments: true, // Feature flag to enable Video-Termine page
+	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
 		agencyServiceBase: apiUrl + '/service/agencies',
 		anonymousAskerBase: apiUrl + '/service/conversations/askers/anonymous/',
 		anonymousBase: apiUrl + '/service/conversations/anonymous/',
+		appointmentBase: apiUrl + '/service/appointments/sessions',
+		appointmentBaseNew: (sessionId: number) =>
+			apiUrl + `/service/appointments/sessions/${sessionId}/enquiry/new`,
+		appointmentServiceBase: apiUrl + '/service/agency/',
+		appointmentServiceMeetingLink: (agencyId: number) =>
+			apiUrl +
+			`/service/appointservice/agencies/${agencyId}/initialMeetingSlugReal`,
+		counselorAppointmentLink: (userId: string) =>
+			apiUrl +
+			`/service/appointservice/consultants/${userId}/meetingSlug`,
 		appointmentsServiceBase: apiUrl + '/service/appointments',
+		appointmentsServiceBookingEventsByUserId: (userId: string) =>
+			apiUrl + `/service/appointservice/askers/${userId}/bookings`,
+		appointmentsServiceConsultantBookings: (
+			userId: string,
+			status: BookingsStatus
+		) =>
+			apiUrl +
+			`/service/appointservice/consultants/${userId}/bookings?status=${status}`,
 		askerSessions: apiUrl + '/service/users/sessions/askers',
 		attachmentUpload: apiUrl + '/service/uploads/new/',
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
@@ -103,6 +123,7 @@ export const config = {
 		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
+		updateMessage: apiUrl + '/service/messages/',
 		sessionBase: apiUrl + '/service/users/sessions',
 		sessionRooms: apiUrl + '/service/users/sessions/room',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
@@ -117,6 +138,8 @@ export const config = {
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userData: apiUrl + '/service/users/data',
 		userSessionsListView: '/sessions/user/view',
+		setAppointmentSuccessMessage:
+			apiUrl + '/service/messages/aliasWithContent/new',
 		userUpdateE2EKey: apiUrl + '/service/users/chat/e2e',
 		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
@@ -132,9 +155,11 @@ export const config = {
 		imprint: 'https://www.caritas.de/impressum',
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
+		releases: uiUrl + '/releases',
+		appointmentServiceDevServer:
+			'https://calcom-develop.suchtberatung.digital',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
-		releases: uiUrl + '/releases',
 		toEntry: uiUrl + '/',
 		toLogin: uiUrl + '/login',
 		toRegistration: 'https://www.caritas.de/onlineberatung',
@@ -160,10 +185,29 @@ export const config = {
 				]
 			}
 		]
+	},
+	twofactor: {
+		startObligatoryHint: new Date('2022-07-31'),
+		dateTwoFactorObligatory: new Date('2022-10-01'),
+		messages: [
+			{
+				title: 'twoFactorAuth.nag.obligatory.moment.title',
+				copy: 'twoFactorAuth.nag.obligatory.moment.copy',
+				showClose: true
+			},
+			{
+				title: 'twoFactorAuth.nag.obligatory.title',
+				copy: 'twoFactorAuth.nag.obligatory.copy',
+				showClose: false
+			}
+		]
 	}
 };
 
 export const ALIAS_LAST_MESSAGES = {
 	E2EE_ACTIVATED: 'aliases.lastMessage.e2ee_activated',
-	FURTHER_STEPS: 'aliases.lastMessage.further_steps'
+	FURTHER_STEPS: 'aliases.lastMessage.further_steps',
+	REASSIGN_CONSULTANT: 'aliases.lastMessage.reassign_consultant',
+	REASSIGN_CONSULTANT_RESET_LAST_MESSAGE:
+		'aliases.lastMessage.reassign_consultant_reset_last_message'
 };

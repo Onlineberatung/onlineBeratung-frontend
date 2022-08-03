@@ -12,7 +12,7 @@ export const getTranslation = (
 		keys.join('.')
 	];
 	return Object.keys(tokens ?? {}).reduce(
-		(acc, token) => acc.replace(`%${token}%`, tokens[token]),
+		(acc, token) => acc?.replace(`%${token}%`, tokens[token]),
 		text
 	);
 };

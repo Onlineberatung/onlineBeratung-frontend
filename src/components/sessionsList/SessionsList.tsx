@@ -69,6 +69,7 @@ import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
+import { showAppointmentsMenu } from '../../utils/navigationHelpers';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -232,7 +233,7 @@ export const SessionsList = ({
 						sessions.length === 1 &&
 						sessions[0]?.session?.status === STATUS_EMPTY
 					) {
-						history.push(`/sessions/user/view/write`);
+						history.push(`/sessions/user/view/write/`);
 					} else if (
 						sessions.length === 1 &&
 						isAnonymousSession(sessions[0]?.session) &&
@@ -242,7 +243,7 @@ export const SessionsList = ({
 						)
 					) {
 						history.push(
-							`/sessions/user/view/${sessions[0].groupId}/${sessions[0].id}`
+							`/sessions/user/view/${sessions[0]?.chat?.groupId}/${sessions[0]?.chat?.id}`
 						);
 					}
 				})
@@ -287,12 +288,18 @@ export const SessionsList = ({
 				abortController.current = null;
 			}
 
-			dispatch({
-				type: SET_SESSIONS,
-				sessions: [],
-				ready: false
-			});
+			if (
+				sessions.length !== 0 &&
+				!showAppointmentsMenu(userData, sessions)
+			) {
+				dispatch({
+					type: SET_SESSIONS,
+					sessions: [],
+					ready: false
+				});
+			}
 		};
+		/* eslint-disable */
 	}, [
 		dispatch,
 		getConsultantSessionList,
@@ -302,7 +309,7 @@ export const SessionsList = ({
 		anonymousConversationStarted,
 		setAnonymousConversationStarted
 	]);
-
+	/* eslint-enable */
 	// Refresh myself
 	const subscribed = useRef(false);
 
@@ -674,6 +681,29 @@ export const SessionsList = ({
 		[type]
 	);
 
+	const filterSessions = useCallback(
+		(session) => {
+			// do not filter chats
+			if (session?.chat) {
+				return true;
+			}
+			switch (type) {
+				// filter my sessions only with my user id as consultant
+				case SESSION_LIST_TYPES.MY_SESSION:
+					return session?.consultant?.id === userData.userId;
+				// filter teamsessions only without my user id as consultant
+				case SESSION_LIST_TYPES.TEAMSESSION:
+					return session?.consultant?.id !== userData.userId;
+				// only show sessions without an assigned consultant in sessionPreview
+				case SESSION_LIST_TYPES.ENQUIRY:
+					return !session?.consultant;
+				default:
+					return true;
+			}
+		},
+		[type, userData]
+	);
+
 	return (
 		<div className="sessionsList__innerWrapper">
 			{(showFilter || showEnquiryTabs || showSessionListTabs) && (
@@ -796,6 +826,7 @@ export const SessionsList = ({
 
 					{(!isLoading || sessions.length > 0) &&
 						sessions
+							.filter(filterSessions)
 							.sort(sortSessions)
 							.map((item: ListItemInterface, index) => (
 								<SessionListItemComponent
@@ -947,50 +978,55 @@ const useGroupWatcher = (isLoading: boolean) => {
 
 		return apiGetSessionRoomsByGroupIds(
 			inactiveGroupSessions.map((s) => s.chat.groupId)
-		).then(({ sessions }) => {
-			// Update sessions which still exists in rocket.chat
-			dispatch({
-				type: UPDATE_SESSIONS,
-				sessions: sessions.filter(hasSessionChanged)
-			});
-
-			// Remove sessions which not exists in rocket.chat anymore and not repetitive chats
-			const removedGroupSessions = inactiveGroupSessions.filter(
-				(inactiveGroupSession) =>
-					!sessions.find(
-						(s) =>
-							s.chat.groupId === inactiveGroupSession.chat.groupId
-					)
-			);
-			if (removedGroupSessions.length > 0) {
+		)
+			.then(({ sessions }) => {
+				// Update sessions which still exists in rocket.chat
 				dispatch({
-					type: REMOVE_SESSIONS,
-					ids: removedGroupSessions
-						.filter((s) => !s.chat.repetitive)
-						.map((s) => s.chat.groupId)
+					type: UPDATE_SESSIONS,
+					sessions: sessions.filter(hasSessionChanged)
 				});
-			}
 
-			// Update repetitive chats by id because groupId has changed
-			const repetitiveGroupSessions = removedGroupSessions.filter(
-				(s) => s.chat.repetitive
-			);
-			if (repetitiveGroupSessions.length > 0) {
-				Promise.all(
-					repetitiveGroupSessions.map((s) =>
-						apiGetChatRoomById(s.chat.id)
-					)
-				).then((sessions) => {
-					dispatch({
-						type: UPDATE_SESSIONS,
-						sessions: sessions.reduce<ListItemInterface[]>(
-							(acc, { sessions }) => acc.concat(sessions),
-							[]
+				// Remove sessions which not exists in rocket.chat anymore and not repetitive chats
+				const removedGroupSessions = inactiveGroupSessions.filter(
+					(inactiveGroupSession) =>
+						!sessions.find(
+							(s) =>
+								s.chat.groupId ===
+								inactiveGroupSession.chat.groupId
 						)
+				);
+				if (removedGroupSessions.length > 0) {
+					dispatch({
+						type: REMOVE_SESSIONS,
+						ids: removedGroupSessions
+							.filter((s) => !s.chat.repetitive)
+							.map((s) => s.chat.groupId)
 					});
-				});
-			}
-		});
+				}
+
+				// Update repetitive chats by id because groupId has changed
+				const repetitiveGroupSessions = removedGroupSessions.filter(
+					(s) => s.chat.repetitive
+				);
+				if (repetitiveGroupSessions.length > 0) {
+					Promise.all(
+						repetitiveGroupSessions.map((s) =>
+							apiGetChatRoomById(s.chat.id)
+						)
+					).then((sessions) => {
+						dispatch({
+							type: UPDATE_SESSIONS,
+							sessions: sessions.reduce<ListItemInterface[]>(
+								(acc, { sessions }) => acc.concat(sessions),
+								[]
+							)
+						});
+					});
+				}
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	}, [dispatch, hasSessionChanged, sessions]);
 
 	const [startWatcher, stopWatcher, isWatcherRunning] = useWatcher(
