@@ -98,7 +98,13 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [autoSelectAgency, props.consultingType.id, props?.mainTopicId]);
+	}, [
+		autoSelectAgency,
+		props.consultingType.id,
+		props?.mainTopicId,
+		props?.age,
+		props?.gender
+	]);
 
 	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
@@ -192,7 +198,13 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selectedPostcode, props.consultingType.id, props?.mainTopicId]);
+	}, [
+		selectedPostcode,
+		props.consultingType.id,
+		props?.mainTopicId,
+		props?.age,
+		props?.gender
+	]);
 
 	const postcodeInputItem: InputFieldItem = {
 		name: 'postcode',

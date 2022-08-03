@@ -23,16 +23,17 @@
 	&__StepNumber {
 		border-radius: 50%;
 		display: flex;
-		border: 1px solid;
+		border: 1px solid rgba(0, 0, 0, 0.4);
 		width: 30px;
 		height: 30px;
 		align-items: center;
 		justify-content: center;
+		font-weight: bold;
 	}
 
 	&__Content {
 		display: none;
-		padding: 15px 0 30px 60px;
+		padding: 15px 0 30px 47px;
 
 		.formAccordionDigi__PanelHeader {
 			border-top: 0;
@@ -49,7 +50,7 @@
 	}
 
 	.validationIcon--invalid {
-		fill: red;
+		fill: #ff9f00;
 	}
 
 	&__Panel {
@@ -58,6 +59,20 @@
 
 			> .formAccordionDigi__PanelHeader {
 				border-bottom: 0;
+
+				.formAccordionDigiTitle {
+					font-weight: bold;
+				}
+
+				.formAccordionDigi__StepNumber {
+					border-color: var(--skin-color-primary, #cc1e1c);
+					background: var(--skin-color-primary, #cc1e1c);
+					color: var(--text-color-contrast-switch, #fff);
+				}
+			}
+
+			+ .formAccordionDigi__Panel {
+				border-top: 1px solid rgba(0, 0, 0, 0.6);
 			}
 		}
 	}

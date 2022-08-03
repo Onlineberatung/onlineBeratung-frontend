@@ -26,10 +26,11 @@ const registrationDigi = {
 	'mainTopics.step.title':
 		'Welches dieser Problemfelder ist für Sie aktuell am Wichtigsten?',
 	'mainTopics.selectAtLestOneTopic':
-		'Bitte wählen Sie mindestens ein Problemfeld aus.',
+		'Bisher haben Sie keine Problemfelder ausgewählt. Um ihre Registrierung zu vervollständigen, müssen sie mindestens ein Problem ausgewählt haben.',
 	'username.step.title': 'Bitte wählen Sie Ihren Benutzernamen',
 	'password.step.title': 'Bitte wählen Sie Ihr Passwort',
-	'agency.fullFillAllFields': 'Bitte füllen Sie oben alle Felder aus'
+	'agency.fullFillAllFields':
+		'Es fehlen ein paar Angaben von ihnen, um diesen Schritt auszuführen. Bitte füllen Sie zuerst alle notwendigen Fragen in Ihr Beratungsanliegen aus.'
 };
 
 export default registrationDigi;
