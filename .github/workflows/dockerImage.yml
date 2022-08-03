@@ -2,6 +2,8 @@ name: Publish Docker image
 
 on:
     push:
+        branches:
+            - 'develop'
         tags:
             - 'dockerImage.v.*'
 
@@ -47,10 +49,26 @@ jobs:
               uses: actions/download-artifact@v2
               with:
                   name: buildfiles
-            - name: Prepare Docker variables
+            - name: Get current time
+              id: time
+              uses: nanzm/get-time-action@v1.1
+              with:
+                  timeZone: 0
+                  format: 'YYYYMMDD[_]hhmmss'
+            - name: Prepare environment variables
               run: |
                   echo "DOCKER_REGISTRY=$(echo "docker.pkg.github.com/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
                   echo "DOCKER_IMAGE=$(echo "${{ github.repository }}" | awk -F / '{print tolower($2)}')" >> $GITHUB_ENV
+                  echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
+                  echo TIME_STAMP=$(echo -n "${{ steps.time.outputs.time }}") >> $GITHUB_ENV
+              shell: bash
+            - name: Set tag for develop image
+              if: endsWith(env.BRANCH, 'develop') == true
+              run: echo DOCKER_IMAGE_TAG=$(echo "develop_${{ env.TIME_STAMP }}") >> $GITHUB_ENV
+              shell: bash
+            - name: Set tag for default image
+              if: endsWith(env.BRANCH, 'develop') == false
+              run: echo DOCKER_IMAGE_TAG=$(echo "${GITHUB_REF/refs\/tags\//}") >> $GITHUB_ENV
               shell: bash
             - name: Push to GitHub Packages
               uses: docker/build-push-action@v1.1.1
@@ -59,4 +77,4 @@ jobs:
                   password: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
                   registry: ${{ env.DOCKER_REGISTRY }}
                   repository: ${{ env.DOCKER_IMAGE }}
-                  tag_with_ref: true
+                  tags: ${{ env.DOCKER_IMAGE_TAG}}

@@ -61,7 +61,6 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 						item={buttonAnswerVideoCall}
 						disabled={props.isValid !== 'valid'}
 						className="formAccordionItem__continueButton"
-						tabIndex={-1}
 					/>
 				)}
 			</div>
