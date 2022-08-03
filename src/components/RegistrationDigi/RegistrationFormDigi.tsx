@@ -35,6 +35,7 @@ interface RegistrationFormProps {
 }
 
 export const RegistrationFormDigi = ({
+	agency: preselectedAgency,
 	consultingType,
 	legalLinks,
 	consultant
@@ -49,7 +50,7 @@ export const RegistrationFormDigi = ({
 
 	const [currentValues, setValues] = React.useState({
 		'age': '',
-		'agencyId': '',
+		'agencyId': preselectedAgency?.id || '',
 		'username': '',
 		'consultingTypeId': '',
 		'postCode': '',
@@ -68,6 +69,13 @@ export const RegistrationFormDigi = ({
 		apiGetTopicsData().then((data) => setTopics(data));
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+	// Request the topics data
+	React.useEffect(() => {
+		if (currentValues['topicIds[]']?.length === 1) {
+			form.setFieldValue('mainTopicId', currentValues['topicIds[]'][0]);
+		}
+	}, [topics, currentValues['topicIds[]']]); // eslint-disable-line react-hooks/exhaustive-deps
+
 	// When the form is submitted we send the data to the API
 	const onSubmit = React.useCallback(
 		(formValues) => {
@@ -82,7 +90,8 @@ export const RegistrationFormDigi = ({
 				gender: formValues.gender,
 				age: Number(formValues.age),
 				topicIds: formValues['topicIds[]'].map(Number),
-				counsellingRelation: formValues.counsellingRelation
+				counsellingRelation: formValues.counsellingRelation,
+				...(consultant && { consultantId: consultant.consultantId })
 			};
 			apiPostRegistration(config.endpoints.registerAsker, finalValues)
 				.then(() => setRegistrationWithSuccess(true))
@@ -102,7 +111,7 @@ export const RegistrationFormDigi = ({
 					}
 				});
 		},
-		[consultingType.id, form]
+		[consultant, consultingType.id, form]
 	);
 
 	// When some topic id is selected we need to change the list of main topics
@@ -139,7 +148,7 @@ export const RegistrationFormDigi = ({
 					<p>{translate('registrationDigi.teaser.consultant')}</p>
 				)}
 
-				<FormAccordion>
+				<FormAccordion enableAutoScroll>
 					<FormAccordion.Item
 						disableNextButton
 						stepNumber={1}
@@ -152,7 +161,12 @@ export const RegistrationFormDigi = ({
 							'topicIds[]',
 							'mainTopicId'
 						]}
-						errorOnTouchExtraFields={['username', 'password']}
+						errorOnTouchExtraFields={[
+							'postCode',
+							'agencyId',
+							'username',
+							'password'
+						]}
 					>
 						<FormAccordion>
 							<FormAccordion.Item
@@ -163,7 +177,11 @@ export const RegistrationFormDigi = ({
 								errorOnTouchExtraFields={[
 									'counsellingRelation',
 									'topicIds[]',
-									'mainTopicId'
+									'mainTopicId',
+									'agencyId',
+									'postCode',
+									'username',
+									'password'
 								]}
 							>
 								<div className="registrationFormDigi__AgeContainer">
@@ -216,7 +234,11 @@ export const RegistrationFormDigi = ({
 								errorOnTouchExtraFields={[
 									'counsellingRelation',
 									'topicIds[]',
-									'mainTopicId'
+									'mainTopicId',
+									'agencyId',
+									'postCode',
+									'username',
+									'password'
 								]}
 							>
 								<RadioBoxGroup
@@ -237,6 +259,13 @@ export const RegistrationFormDigi = ({
 									'registrationDigi.topics.step.title'
 								)}
 								formFields={['topicIds[]']}
+								errorOnTouchExtraFields={[
+									'mainTopicId',
+									'agencyId',
+									'postCode',
+									'username',
+									'password'
+								]}
 							>
 								<div className="registrationFormDigi__InputTopicIdsContainer">
 									{topics?.map((topic) => (
@@ -255,6 +284,12 @@ export const RegistrationFormDigi = ({
 									'registrationDigi.mainTopics.step.title'
 								)}
 								formFields={['mainTopicId']}
+								errorOnTouchExtraFields={[
+									'agencyId',
+									'postCode',
+									'username',
+									'password'
+								]}
 							>
 								<RadioBoxGroup
 									name="mainTopicId"
@@ -286,6 +321,13 @@ export const RegistrationFormDigi = ({
 						)}
 					>
 						<AgencySelectionFormField
+							preselectedAgencies={
+								preselectedAgency
+									? [preselectedAgency]
+									: consultant?.agencies
+									? consultant?.agencies
+									: []
+							}
 							consultingType={consultingType}
 						/>
 					</FormAccordion.Item>
