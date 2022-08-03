@@ -182,7 +182,7 @@ $profile-footer-justify-content: center !default;
 			& .button-as-link,
 			.generateQrCode > button {
 				&:focus {
-					outline: 2px solid #199fff;
+					outline: $focus-outline;
 					outline-offset: 1px;
 					border-radius: 4px;
 				}
@@ -413,7 +413,7 @@ $profile-footer-justify-content: center !default;
 				& .button-as-link,
 				.generateQrCode > button {
 					&:focus {
-						outline: 2px solid #199fff;
+						outline: $focus-outline;
 						outline-offset: 1px;
 						border-radius: 4px;
 					}

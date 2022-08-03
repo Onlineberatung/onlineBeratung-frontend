@@ -30,6 +30,22 @@ $link-hover-text-decoration: $link-text-decoration !default;
 	text-align: $login-text-align;
 	width: 100%;
 
+	.button-as-link {
+		border: none;
+		background: none;
+		color: $primary;
+
+		&:focus {
+			outline: $focus-outline;
+			outline-offset: 4px;
+			border-radius: 4px;
+		}
+
+		&:focus:not(:focus-visible) {
+			outline: none;
+		}
+	}
+
 	.inputField {
 		width: 280px;
 		margin-bottom: $grid-base-three;
@@ -92,13 +108,19 @@ $link-hover-text-decoration: $link-text-decoration !default;
 	&__register {
 		margin-top: $grid-base-five;
 		transform: $login-icon-transform;
+		display: flex;
+		flex-direction: column;
+		align-items: $login-text-align;
 
 		& > .text {
 			position: relative;
-			text-align: $login-text-align;
 
 			&:first-of-type {
 				margin-bottom: 6px;
+			}
+
+			&:last-of-type {
+				margin-bottom: $grid-base-two;
 			}
 		}
 
@@ -107,7 +129,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 			font-weight: $font-weight-bold;
 			text-decoration: none;
 			text-transform: uppercase;
-			margin-top: $grid-base-two;
+			width: max-content;
 		}
 	}
 

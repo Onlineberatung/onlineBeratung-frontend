@@ -31,6 +31,20 @@
 		justify-content: flex-start;
 		margin-top: $grid-base-three;
 		position: relative;
+
+		.checkbox {
+			&__input {
+				&:focus {
+					outline: $focus-outline;
+					outline-offset: 4px;
+					border-radius: 4px;
+				}
+
+				&:focus:not(:focus-visible) {
+					outline: none;
+				}
+			}
+		}
 	}
 
 	&__text {

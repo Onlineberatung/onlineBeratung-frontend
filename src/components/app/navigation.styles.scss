@@ -53,7 +53,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		text-decoration: none;
 
 		&:focus {
-			outline: 2px solid #199fff;
+			outline: $focus-outline;
 			outline-offset: 4px;
 			border-radius: 4px;
 		}
