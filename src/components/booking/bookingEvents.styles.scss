@@ -32,8 +32,52 @@ $imprintHeight: 40px;
 			margin-bottom: 0;
 		}
 
+		&-consultant {
+			flex-direction: column;
+			row-gap: 1rem;
+		}
+
 		@include breakpoint($fromLarge) {
 			z-index: 20;
+
+			&-consultant {
+				flex-direction: row;
+				row-gap: 0;
+			}
+		}
+	}
+
+	&__nav {
+		display: flex;
+		align-items: center;
+		line-height: 40px;
+
+		& > * {
+			padding: 0 15px;
+		}
+
+		a {
+			height: 100%;
+			display: inline-flex;
+			align-items: center;
+			color: $form-active;
+			font-weight: $font-weight-medium;
+			border-bottom: 4px solid transparent;
+
+			&.active {
+				color: var(--skin-color-primary-contrast-safe, $primary);
+				border-color: var(--skin-color-primary-contrast-safe, $primary);
+			}
+
+			&:hover {
+				color: var(--skin-color-primary-contrast-safe, $hover-primary);
+			}
+		}
+
+		.title {
+			font-size: 20px;
+			font-weight: $font-weight-medium;
+			width: 100%;
 		}
 	}
 
@@ -115,6 +159,10 @@ $imprintHeight: 40px;
 				margin-bottom: 1.5rem;
 				text-align: center;
 			}
+		}
+
+		&-no-actions {
+			row-gap: 0rem;
 		}
 	}
 

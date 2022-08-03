@@ -52,6 +52,16 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		text-align: center;
 		text-decoration: none;
 
+		&:focus {
+			outline: 2px solid #199fff;
+			outline-offset: 4px;
+			border-radius: 4px;
+		}
+
+		&:focus:not(:focus-visible) {
+			outline: none;
+		}
+
 		@include breakpoint($fromLarge) {
 			display: block;
 			width: auto;

@@ -413,7 +413,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					{messages &&
 						resortData &&
 						messages.map((message: MessageItem, index) => (
-							<React.Fragment key={`${message.id}-${index}`}>
+							<React.Fragment key={`${message._id}-${index}`}>
 								<MessageItemComponent
 									clientName={
 										getContact(activeSession).username

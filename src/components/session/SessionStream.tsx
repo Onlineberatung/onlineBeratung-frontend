@@ -7,6 +7,7 @@ import {
 	useRef,
 	useState
 } from 'react';
+import { useParams } from 'react-router-dom';
 import { history } from '../app/app';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
@@ -21,7 +22,11 @@ import {
 	E2EEContext
 } from '../../globalState';
 import { apiGetSessionData, FETCH_ERRORS } from '../../api';
-import { prepareMessages, SESSION_LIST_TAB } from './sessionHelpers';
+import {
+	prepareMessages,
+	SESSION_LIST_TAB,
+	SESSION_LIST_TYPES
+} from './sessionHelpers';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	Overlay,
@@ -62,6 +67,7 @@ export const SessionStream = ({
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
 	const { subscribe, unsubscribe } = useContext(RocketChatContext);
+	const { rcGroupId } = useParams();
 
 	const subscribed = useRef(false);
 	const [messagesItem, setMessagesItem] = useState(null);
@@ -147,9 +153,13 @@ export const SessionStream = ({
 					}
 
 					if (message.u?.username !== 'rocket-chat-technical-user') {
-						fetchSessionMessages().then(() => {
-							setSessionRead();
-						});
+						fetchSessionMessages()
+							.then(() => {
+								setSessionRead();
+							})
+							.catch(() => {
+								// prevent error from leaking to console
+							});
 					}
 				});
 		},
@@ -209,6 +219,23 @@ export const SessionStream = ({
 		)
 	);
 
+	const handleSubscriptionChanged = useUpdatingRef(
+		useCallback(
+			([event]) => {
+				if (event === 'removed') {
+					// user was removed from the session and is still in a session view
+					// then redirect him to the listview
+					if (type === SESSION_LIST_TYPES.MY_SESSION) {
+						if (activeSession?.item?.groupId === rcGroupId) {
+							history.push(listPath);
+						}
+					}
+				}
+			},
+			[activeSession, rcGroupId, listPath, type]
+		)
+	);
+
 	useEffect(() => {
 		if (subscribed.current) {
 			setLoading(false);
@@ -241,6 +268,15 @@ export const SessionStream = ({
 						);
 
 						subscribeTyping();
+					} else {
+						subscribe(
+							{
+								name: SUB_STREAM_NOTIFY_USER,
+								event: EVENT_SUBSCRIPTIONS_CHANGED,
+								userId: getValueFromCookie('rc_uid')
+							},
+							handleSubscriptionChanged
+						);
 					}
 
 					setLoading(false);
@@ -282,6 +318,15 @@ export const SessionStream = ({
 					);
 
 					unsubscribeTyping();
+				} else {
+					unsubscribe(
+						{
+							name: SUB_STREAM_NOTIFY_USER,
+							event: EVENT_SUBSCRIPTIONS_CHANGED,
+							userId: getValueFromCookie('rc_uid')
+						},
+						handleSubscriptionChanged
+					);
 				}
 			}
 		};
@@ -290,6 +335,7 @@ export const SessionStream = ({
 		addNewUsersToEncryptedRoom,
 		fetchSessionMessages,
 		handleChatStopped,
+		handleSubscriptionChanged,
 		onDebounceMessage,
 		setSessionRead,
 		subscribe,

@@ -28,7 +28,9 @@ export const OVERLAY_FUNCTIONS = {
 	DELETE_SESSION: 'DELETE_SESSION',
 	FINISH_ANONYMOUS_CONVERSATION: 'FINISH_ANONYMOUS_CONVERSATION',
 	ARCHIVE: 'ARCHIVE',
-	CONFIRM_EDIT: 'CONFIRM_EDIT'
+	CONFIRM_EDIT: 'CONFIRM_EDIT',
+	ASSIGN: 'ASSIGN',
+	REASSIGN: 'REASSIGN'
 };
 
 export const OVERLAY_RESET_TIME = 10000;
@@ -138,7 +140,7 @@ export const Overlay = (props: {
 
 	const Illustration = activeOverlay.svg;
 	return (
-		<FocusTrap>
+		<FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
 			<div
 				className={clsx(
 					props.className,

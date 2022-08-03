@@ -178,6 +178,19 @@ $profile-footer-justify-content: center !default;
 			.generateQrCode {
 				margin-right: $grid-base-two;
 			}
+
+			& .button-as-link,
+			.generateQrCode > button {
+				&:focus {
+					outline: 2px solid #199fff;
+					outline-offset: 1px;
+					border-radius: 4px;
+				}
+
+				&:focus:not(:focus-visible) {
+					outline: none;
+				}
+			}
 		}
 	}
 
@@ -221,6 +234,12 @@ $profile-footer-justify-content: center !default;
 		padding: 0 $grid-base-two $grid-base-ten;
 		height: auto;
 		width: 100%;
+
+		& .button-as-link {
+			border: none;
+			background: none;
+			padding: 0 !important;
+		}
 
 		&:after {
 			display: block;
@@ -390,6 +409,19 @@ $profile-footer-justify-content: center !default;
 					border: none;
 					padding-bottom: 0;
 				}
+
+				& .button-as-link,
+				.generateQrCode > button {
+					&:focus {
+						outline: 2px solid #199fff;
+						outline-offset: 1px;
+						border-radius: 4px;
+					}
+
+					&:focus:not(:focus-visible) {
+						outline: none;
+					}
+				}
 			}
 		}
 
@@ -481,8 +513,13 @@ $profile-footer-justify-content: center !default;
 		}
 
 		&__innerWrapper {
-			height: calc(100vh - #{$grid-base-twelve});
+			height: calc(100% - #{$grid-base-twelve + $grid-base-nine});
 			background-color: $background-light;
+			margin-top: 0;
+
+			@include breakpoint($fromLarge) {
+				height: calc(100% - #{$grid-base-twelve});
+			}
 		}
 
 		&__header {
