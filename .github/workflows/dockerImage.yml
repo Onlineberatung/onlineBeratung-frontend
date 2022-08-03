@@ -77,4 +77,4 @@ jobs:
                   password: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
                   registry: ${{ env.DOCKER_REGISTRY }}
                   repository: ${{ env.DOCKER_IMAGE }}
-                  tag: ${{ env.DOCKER_IMAGE_TAG}}
+                  tags: ${{ env.DOCKER_IMAGE_TAG}}
