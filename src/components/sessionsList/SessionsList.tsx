@@ -694,6 +694,9 @@ export const SessionsList = ({
 				// filter teamsessions only without my user id as consultant
 				case SESSION_LIST_TYPES.TEAMSESSION:
 					return session?.consultant?.id !== userData.userId;
+				// only show sessions without an assigned consultant in sessionPreview
+				case SESSION_LIST_TYPES.ENQUIRY:
+					return !session?.consultant;
 				default:
 					return true;
 			}

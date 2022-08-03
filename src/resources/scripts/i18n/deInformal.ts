@@ -43,6 +43,8 @@ import walkthrough from './de/walkthrough';
 import walkthroughInformal from './de/walkthroughInformal';
 import help from './de/help';
 import helpInformal from './de/helpInformal';
+import userProfile from './de/userProfile';
+import userProfileInformal from './de/userProfileInformal';
 
 const informalLocale = {
 	...de,
@@ -67,7 +69,8 @@ const informalLocale = {
 	videoConference: { ...videoConference, ...videoConferenceInformal },
 	walkthrough: { ...walkthrough, walkthroughInformal },
 	e2ee: { ...e2ee, ...e2eeInformal },
-	aliases: { ...aliases, ...aliasesInformal }
+	aliases: { ...aliases, ...aliasesInformal },
+	userProfile: { ...userProfile, ...userProfileInformal }
 };
 
 export default informalLocale;
