@@ -36,5 +36,15 @@ $input-size: 24px;
 		color: var(--skin-color-primary-contrast-safe, $primary);
 		text-decoration: underline;
 		cursor: pointer;
+
+		&:focus {
+			outline: $focus-outline;
+			outline-offset: 2px;
+			border-radius: 4px;
+		}
+
+		&:focus:not(:focus-visible) {
+			outline: none;
+		}
 	}
 }

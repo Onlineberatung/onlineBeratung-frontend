@@ -37,5 +37,16 @@ $welcome-screen-button-text-align: center !default;
 		button {
 			min-width: 205px;
 		}
+
+		.button__wrapper {
+			&:focus {
+				outline: $focus-outline;
+				outline-offset: 4px;
+			}
+		}
+
+		&:focus:not(:focus-visible) {
+			outline: none;
+		}
 	}
 }
