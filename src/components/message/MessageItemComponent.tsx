@@ -294,11 +294,9 @@ export const MessageItemComponent = ({
 		switch (true) {
 			case isMasterKeyLostMessage:
 				return (
-					<div className="messageItem__message">
-						<MasterKeyLostMessage
-							subscriptionKeyLost={subscriptionKeyLost}
-						/>
-					</div>
+					<MasterKeyLostMessage
+						subscriptionKeyLost={subscriptionKeyLost}
+					/>
 				);
 			case isE2EEActivatedMessage:
 				return <E2EEActivatedMessage />;
@@ -477,7 +475,10 @@ export const MessageItemComponent = ({
 		<div
 			className={`messageItem ${
 				isMyMessage ? 'messageItem--right' : ''
-			} ${isVideoCallMessage ? 'videoCallMessage' : ''}`}
+			} ${
+				alias?.messageType &&
+				`${alias?.messageType.toLowerCase()} systemMessage`
+			}`}
 		>
 			{getMessageDate()}
 			<div
