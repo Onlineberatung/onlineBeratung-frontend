@@ -10,7 +10,7 @@ a {
 	color: var(--skin-color-primary-contrast-safe, $primary);
 
 	&:focus {
-		outline: 2px solid #199fff;
+		outline: $focus-outline;
 		outline-offset: 1px;
 		border-radius: 4px;
 	}
