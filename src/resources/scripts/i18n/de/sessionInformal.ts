@@ -3,13 +3,13 @@ const sessionInformal = {
 	'acceptance.overlayHeadline':
 		'Du hast die Erstanfrage erfolgreich angenommen und findest diese nun unter „Meine Nachrichten“.',
 	'assignOther.overlay.headline':
-		'Möchtest Du %client%, %newConsultant% zuweisen?',
+		'Möchtest Du %client% an %newConsultant% zuweisen?',
 	'assignOther.overlay.subtitle.noTeam':
-		'%newConsultant% ist somit für den Ratsuchenden verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Du hast keinen Zugiff mehr auf die Nachrichten.',
+		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Du hast keinen Zugiff mehr auf die Nachrichten.',
 	'assignOther.overlay.subtitle.team.self':
-		'%newConsultant% ist somit für den Ratsuchenden verantwortlich. Stimmt %toAskerName% der Zuweisung zu, findest Du den Chatverlauf in Deinen Nachrichten und nicht mehr unter Teamberatung.',
+		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich. Stimmt %toAskerName% der Zuweisung zu, findest Du den Chatverlauf in Deinen Nachrichten und nicht mehr unter Teamberatung.',
 	'assignOther.overlay.subtitle.team.other':
-		'%newConsultant% ist somit für den Ratsuchenden verantwortlich. Stimmt %toAskerName% der Zuweisung zu, findest Du den Chatverlauf unter Teamberatung und nicht mehr in Deinen Nachrichten.',
+		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich. Stimmt %toAskerName% der Zuweisung zu, findest Du den Chatverlauf unter Teamberatung und nicht mehr in Deinen Nachrichten.',
 	'alreadyAssigned.overlay.headline':
 		'Du hast diese Beratung bereits zugewiesen.',
 	'assignOther.overlayHeadline':
