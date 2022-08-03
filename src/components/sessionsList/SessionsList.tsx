@@ -696,7 +696,7 @@ export const SessionsList = ({
 					return session?.consultant?.id !== userData.userId;
 				// only show sessions without an assigned consultant in sessionPreview
 				case SESSION_LIST_TYPES.ENQUIRY:
-					return session?.consultant === null;
+					return !session?.consultant;
 				default:
 					return true;
 			}
