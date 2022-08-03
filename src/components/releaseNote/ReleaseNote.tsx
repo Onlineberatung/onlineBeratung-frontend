@@ -101,11 +101,11 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 			});
 	}, [readReleaseNote]);
 
-	const changeHasSeenReleaseNote = (event) => {
-		setCheckboxChecked(event.target.checked);
+	const changeHasSeenReleaseNote = () => {
+		setCheckboxChecked(!checkboxChecked);
 		localStorage.setItem(
 			STORAGE_KEY,
-			`${event.target.checked ? latestReleaseNote : readReleaseNote}`
+			`${!checkboxChecked ? latestReleaseNote : readReleaseNote}`
 		);
 	};
 
@@ -158,6 +158,11 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 								<Checkbox
 									checkboxHandle={changeHasSeenReleaseNote}
 									item={checkboxItem}
+									onKeyPress={(event) => {
+										if (event.key === 'Enter') {
+											changeHasSeenReleaseNote();
+										}
+									}}
 								/>
 							</div>
 						</>

@@ -36,7 +36,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		color: $primary;
 
 		&:focus {
-			outline: 2px solid #199fff;
+			outline: $focus-outline;
 			outline-offset: 4px;
 			border-radius: 4px;
 		}
