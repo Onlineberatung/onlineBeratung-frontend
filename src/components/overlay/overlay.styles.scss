@@ -100,6 +100,16 @@ $overlay-illustration-size-large: 160px;
 		right: 18px;
 		cursor: pointer;
 
+		&:focus {
+			outline: $focus-outline;
+			outline-offset: 4px;
+			border-radius: 4px;
+		}
+
+		&:focus:not(:focus-visible) {
+			outline: none;
+		}
+
 		@include breakpoint($overlay-steps-breakpoint-small) {
 			top: 24px;
 			right: 24px;

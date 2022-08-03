@@ -160,7 +160,7 @@ export const RegistrationForm = ({
 										'registration.dataProtection.label.and'
 								  )
 							: '') +
-						`<a target="_blank" href="${legalLink.url}">${legalLink.label}</a>`
+						`<span><button type="button" class="button-as-link" onclick="window.open('${legalLink.url}')">${legalLink.label}</button></span>`
 				)
 				.join(''),
 			translate('registration.dataProtection.label.suffix')
@@ -298,6 +298,13 @@ export const RegistrationForm = ({
 								!isDataProtectionSelected
 							)
 						}
+						onKeyPress={(event) => {
+							if (event.key === 'Enter') {
+								setIsDataProtectionSelected(
+									!isDataProtectionSelected
+								);
+							}
+						}}
 					/>
 				</div>
 

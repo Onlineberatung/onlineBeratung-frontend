@@ -1,5 +1,3 @@
-import { BookingsStatus } from '../../utils/consultant';
-
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 
@@ -42,7 +40,7 @@ export const config = {
 			apiUrl + `/service/appointservice/askers/${userId}/bookings`,
 		appointmentsServiceConsultantBookings: (
 			userId: string,
-			status: BookingsStatus
+			status: string
 		) =>
 			apiUrl +
 			`/service/appointservice/consultants/${userId}/bookings?status=${status}`,

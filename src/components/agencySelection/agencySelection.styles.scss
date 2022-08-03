@@ -69,6 +69,7 @@ $infoIconSize: 16px;
 		.radioButton {
 			flex-basis: calc(100% - #{$infoIconSize + 1px});
 			min-height: unset;
+			padding: 4px 0 4px 4px;
 		}
 
 		&:not(:last-of-type) {
