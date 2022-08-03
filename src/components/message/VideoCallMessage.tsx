@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { translate } from '../../utils/translate';
-import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { VideoCallMessageDTO } from './MessageItemComponent';
 import {
 	currentUserIsTeamConsultant,
 	currentUserWasVideoCallInitiator
 } from '../../utils/videoCallHelpers';
+import { ICON_CALL_OFF, SystemMessage } from './SystemMessage';
 
 interface VideoCallMessageProps {
 	videoCallMessage: VideoCallMessageDTO;
@@ -15,23 +15,20 @@ interface VideoCallMessageProps {
 
 export const VideoCallMessage = (props: VideoCallMessageProps) => {
 	return (
-		<div className="videoCallMessage__subjectWrapper">
-			<p className="videoCallMessage__subject">
-				{currentUserWasVideoCallInitiator(
+		<SystemMessage
+			icon={ICON_CALL_OFF}
+			subject={
+				currentUserWasVideoCallInitiator(
 					props.videoCallMessage.initiatorRcUserId
 				) ? (
 					<>
 						{translate('videoCall.incomingCall.rejected.prefix')}{' '}
-						<span className="videoCallMessage__username">
-							{props.activeSessionUsername}
-						</span>{' '}
+						<b>{props.activeSessionUsername}</b>{' '}
 						{translate('videoCall.incomingCall.rejected.suffix')}
 					</>
 				) : (
 					<>
-						<span className="videoCallMessage__username">
-							{props.videoCallMessage.initiatorUserName}
-						</span>{' '}
+						<b>{props.videoCallMessage.initiatorUserName}</b>{' '}
 						{currentUserIsTeamConsultant(
 							props.videoCallMessage.initiatorRcUserId,
 							props.activeSessionAskerRcId
@@ -40,9 +37,7 @@ export const VideoCallMessage = (props: VideoCallMessageProps) => {
 								{translate(
 									'videoCall.incomingCall.rejected.teamconsultant.prefix'
 								)}{' '}
-								<span className="videoCallMessage__username">
-									{props.activeSessionUsername}
-								</span>{' '}
+								<b>{props.activeSessionUsername}</b>{' '}
 								{translate(
 									'videoCall.incomingCall.rejected.suffix'
 								)}
@@ -51,9 +46,8 @@ export const VideoCallMessage = (props: VideoCallMessageProps) => {
 							translate('videoCall.incomingCall.ignored')
 						)}
 					</>
-				)}
-			</p>
-			<CallOffIcon className="videoCallMessage__icon" />
-		</div>
+				)
+			}
+		/>
 	);
 };
