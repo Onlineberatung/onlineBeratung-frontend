@@ -15,7 +15,7 @@ const LocalPassword = ({
 		isUsernameAlreadyInUse={isInUse}
 		onUsernameChange={(username) => {
 			if (value !== username) {
-				onChange(username);
+				onChange(username || '');
 			}
 		}}
 		onValidityChange={() => null}
@@ -24,7 +24,7 @@ const LocalPassword = ({
 
 export const UsernameFormField = ({ inInUse }: { inInUse: boolean }) => {
 	return (
-		<Field name="username" rules={[{ required: true }]}>
+		<Field name="username" rules={[{ required: true, min: 5 }]}>
 			<LocalPassword isInUse={inInUse} />
 		</Field>
 	);

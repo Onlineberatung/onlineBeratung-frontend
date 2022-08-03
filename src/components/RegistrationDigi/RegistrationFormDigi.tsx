@@ -20,7 +20,7 @@ import { apiPostRegistration } from '../../api/apiPostRegistration';
 import { config } from '../../resources/scripts/config';
 import { FETCH_ERRORS, X_REASON } from '../../api';
 import { UsernameFormField } from './UsernameFormField';
-import { AgencySelectionFormField } from './AgencySelectionFormField';
+import { AgencySelectionFormField } from './AgencyFields';
 import { Gender } from '../../enums/Gender';
 import { CounsellingRelation } from '../../enums/ConsellingRelation';
 import { InputFormField } from './InputFormField';
@@ -41,7 +41,7 @@ export const RegistrationFormDigi = ({
 }: RegistrationFormProps) => {
 	const [form] = Form.useForm();
 	const [topics, setTopics] = React.useState([] as TopicsDataInterface[]);
-	const [isFormValid, setIsFormValid] = React.useState(false);
+	const [formErrors, setFormErrors] = React.useState([]); // This needs to be an array to trigger the changes on accordion
 	const [registrationWithSuccess, setRegistrationWithSuccess] =
 		React.useState(false);
 	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] =
@@ -59,10 +59,8 @@ export const RegistrationFormDigi = ({
 	// When some that changes we check if the form is valid to enable/disable the submit button
 	React.useEffect(() => {
 		form.validateFields()
-			.then(() => setIsFormValid(true))
-			.catch(({ errorFields }) => {
-				setIsFormValid(errorFields.length === 0);
-			});
+			.then(() => setFormErrors([]))
+			.catch(({ errorFields }) => setFormErrors([...errorFields]));
 	}, [currentValues, form]);
 
 	// Request the topics data
@@ -79,7 +77,7 @@ export const RegistrationFormDigi = ({
 				password: encodeURIComponent(formValues.password),
 				agencyId: formValues.agencyId?.toString(),
 				mainTopicId: formValues.mainTopicId?.toString(),
-				postcode: formValues.postcode,
+				postcode: formValues.postCode,
 				termsAccepted: formValues.termsAccepted,
 				gender: formValues.gender,
 				age: Number(formValues.age),
@@ -111,7 +109,7 @@ export const RegistrationFormDigi = ({
 	const mainTopicOptions = React.useMemo(
 		() =>
 			topics
-				.filter(
+				?.filter(
 					(topic) =>
 						(currentValues['topicIds[]'] || []).indexOf(
 							topic.id
@@ -134,11 +132,6 @@ export const RegistrationFormDigi = ({
 				form={form}
 				validateTrigger={['onBlur', 'onChange']}
 			>
-				<h3 className="registrationForm__overline">
-					{consultingType
-						? consultingType.titles.long
-						: translate('registrationDigi.overline')}
-				</h3>
 				<h2 className="registrationForm__headline">
 					{translate('registrationDigi.headline')}
 				</h2>
@@ -148,6 +141,7 @@ export const RegistrationFormDigi = ({
 
 				<FormAccordion>
 					<FormAccordion.Item
+						disableNextButton
 						stepNumber={1}
 						title={translate(
 							'registrationDigi.accordion.step1.title'
@@ -180,6 +174,7 @@ export const RegistrationFormDigi = ({
 									</label>
 									<div className="registrationFormDigi__InputGroup">
 										<InputFormField
+											placeholder="z.B. 25"
 											name="age"
 											pattern={/\d+/}
 											type="number"
@@ -217,7 +212,7 @@ export const RegistrationFormDigi = ({
 								title={translate(
 									'registrationDigi.counsellingRelation.step.title'
 								)}
-								formFields={['reason']}
+								formFields={['counsellingRelation']}
 								errorOnTouchExtraFields={[
 									'counsellingRelation',
 									'topicIds[]',
@@ -278,33 +273,36 @@ export const RegistrationFormDigi = ({
 					</FormAccordion.Item>
 
 					<FormAccordion.Item
+						form={form}
 						stepNumber={2}
+						formFields={['agencyId', 'postCode']}
+						errorOnTouchExtraFields={[
+							'username',
+							'password',
+							'termsAccepted'
+						]}
 						title={translate(
 							'registrationDigi.accordion.step2.title'
 						)}
 					>
-						{currentValues.mainTopicId &&
-						currentValues.gender &&
-						currentValues.age ? (
-							<AgencySelectionFormField
-								consultingType={consultingType}
-								mainTopicId={currentValues.mainTopicId}
-							/>
-						) : (
-							translate(
-								'registrationDigi.agency.fullFillAllFields'
-							)
-						)}
+						<AgencySelectionFormField
+							consultingType={consultingType}
+						/>
 					</FormAccordion.Item>
 
 					<FormAccordion.Item
 						stepNumber={3}
+						disableNextButton
+						formFields={['password', 'username']}
+						errorOnTouchExtraFields={['termsAccepted']}
 						title={translate(
 							'registrationDigi.accordion.step3.title'
 						)}
 					>
 						<FormAccordion>
 							<FormAccordion.Item
+								formFields={['username']}
+								errorOnTouchExtraFields={['password']}
 								title={translate(
 									'registrationDigi.username.step.title'
 								)}
@@ -314,6 +312,7 @@ export const RegistrationFormDigi = ({
 								/>
 							</FormAccordion.Item>
 							<FormAccordion.Item
+								formFields={['password']}
 								title={translate(
 									'registrationDigi.password.step.title'
 								)}
@@ -354,7 +353,7 @@ export const RegistrationFormDigi = ({
 				</div>
 
 				<Button
-					disabled={!isFormValid}
+					disabled={formErrors.length > 0}
 					className="registrationFormDigi__Submit"
 					buttonHandle={() => form.submit()}
 					item={buttonItemSubmit}

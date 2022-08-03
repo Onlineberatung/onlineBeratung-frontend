@@ -6,7 +6,9 @@
 	width: 100%;
 
 	.radioButton {
-		margin: 0;
+		margin-bottom: 16px;
+		min-height: 25px;
+		margin-left: 0;
 	}
 
 	&__Input {
@@ -14,7 +16,7 @@
 		width: 103px;
 		height: 48px;
 		background: #ffffff;
-
+		outline: none;
 		border: 1px solid rgba(0, 0, 0, 0.4);
 		border-radius: 4px;
 	}
@@ -43,11 +45,15 @@
 		display: flex;
 		align-items: flex-start;
 		flex-direction: column;
-		margin-top: 40px;
+		margin-top: 10px;
 
 		&Label {
 			margin-bottom: 20px;
 		}
+	}
+
+	&__GenderContainer {
+		margin-top: 20px;
 	}
 
 	&__Submit {
@@ -56,6 +62,22 @@
 
 	&__terms {
 		margin-top: 35px;
+
+		a {
+			text-decoration: underline;
+		}
+	}
+
+	&__NoTopics,
+	&__AgencyMandatoryFields {
+		font-size: 14px;
+		line-height: 20px;
+		color: rgba(0, 0, 0, 0.6);
+		text-align: left;
+	}
+
+	.checkbox__label {
+		text-align: left;
 	}
 
 	.inputField__input {
@@ -71,5 +93,14 @@
 	.inputField {
 		margin-top: 20px;
 		max-width: 327px;
+	}
+
+	.formAccordionItem__continueButton {
+		text-align: left;
+		margin-top: 20px;
+
+		.button__item {
+			min-width: 0;
+		}
 	}
 }
