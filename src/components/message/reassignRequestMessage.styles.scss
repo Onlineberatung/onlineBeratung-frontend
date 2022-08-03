@@ -3,15 +3,14 @@
 	font-size: $font-size-secondary;
 	line-height: $line-height-secondary;
 	margin-bottom: $grid-base-two;
-	max-width: 90%;
 
 	@include breakpoint($fromMedium) {
 		min-width: 460px;
 	}
 
 	.wrapper {
-		border: 1px dashed #000000;
-		border-radius: 4px;
+		border: 2px dashed $form-input-border;
+		border-radius: 0 12px 12px;
 		display: flex;
 		align-items: flex-start;
 		flex-direction: column;

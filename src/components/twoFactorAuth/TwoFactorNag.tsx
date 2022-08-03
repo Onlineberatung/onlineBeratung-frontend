@@ -20,7 +20,7 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	});
 
 	useEffect(() => {
-		let todaysDate = new Date(Date.now()).toLocaleDateString('de-DE');
+		let todaysDate = new Date(Date.now());
 
 		if (
 			userData.twoFactorAuth?.isEnabled &&
@@ -68,11 +68,17 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 				handleOverlay={handleOverlayAction}
 				item={{
 					headline: translate(message.title, {
-						date: config.twofactor.dateTwoFactorObligatory
+						date: config.twofactor.dateTwoFactorObligatory.toLocaleDateString(
+							'de-DE'
+						)
 					}),
 					copy: translate(message.copy, {
-						date1: config.twofactor.dateTwoFactorObligatory,
-						date2: config.twofactor.dateTwoFactorObligatory
+						date1: config.twofactor.dateTwoFactorObligatory.toLocaleDateString(
+							'de-DE'
+						),
+						date2: config.twofactor.dateTwoFactorObligatory.toLocaleDateString(
+							'de-DE'
+						)
 					}),
 					buttonSet: message.showClose
 						? [
