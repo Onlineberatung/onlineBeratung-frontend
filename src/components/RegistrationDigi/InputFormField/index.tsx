@@ -3,6 +3,8 @@ import React from 'react';
 
 interface InputProps {
 	name?: string;
+	min?: number;
+	max?: number;
 	placeholder?: string;
 	type?: string;
 	pattern?: RegExp;
@@ -29,12 +31,13 @@ export const InputFormField = ({
 	type = 'text',
 	name,
 	placeholder,
-	pattern
+	pattern,
+	...rest
 }: InputProps) => {
 	const patternRules = pattern ? { pattern } : {};
 	return (
 		<Field name={name} rules={[{ required: true, ...patternRules }]}>
-			<LocalInput type={type} placeholder={placeholder} />
+			<LocalInput type={type} placeholder={placeholder} {...rest} />
 		</Field>
 	);
 };

@@ -37,10 +37,6 @@ interface ILoginToken {
 	twoFactorAuthorizedHash?: string;
 }
 
-interface IMeteorLoginToken extends ILoginToken {
-	when: Date;
-}
-
 interface IPersonalAccessToken extends ILoginToken {
 	type: 'personalAccessToken';
 	createdAt: Date;

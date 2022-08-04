@@ -7,9 +7,12 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../../button/Button';
 import './formAccordion.styles.scss';
 
 interface FormAccordionProps {
+	enableAutoScroll?: boolean;
 	children: React.ReactChild | React.ReactChild[];
 	onComplete?: () => void;
 }
+
+const scrollOffset = 80;
 
 interface FormAccordionItemProps {
 	disableNextButton?: boolean;
@@ -22,7 +25,11 @@ interface FormAccordionItemProps {
 	children: React.ReactChild | React.ReactChild[];
 }
 
-export const FormAccordion = ({ children, onComplete }: FormAccordionProps) => {
+export const FormAccordion = ({
+	children,
+	enableAutoScroll,
+	onComplete
+}: FormAccordionProps) => {
 	const [activePanel, setActivePanel] = useState(0);
 
 	const onClickNext = useCallback(() => {
@@ -37,8 +44,17 @@ export const FormAccordion = ({ children, onComplete }: FormAccordionProps) => {
 	const handlePanelClick = useCallback(
 		(panel: number) => {
 			setActivePanel(activePanel === panel ? null : panel);
+			if (enableAutoScroll) {
+				const element = document.getElementById(`panel-${panel}`);
+				const offsetPosition =
+					element.getBoundingClientRect().top +
+					window.pageYOffset -
+					scrollOffset;
+
+				window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+			}
 		},
-		[activePanel]
+		[activePanel, enableAutoScroll]
 	);
 
 	return (
@@ -119,7 +135,10 @@ export const FormAccordionPanel = ({
 	});
 
 	return (
-		<div className={`formAccordionDigi__Panel ${isActive ? 'active' : ''}`}>
+		<div
+			className={`formAccordionDigi__Panel ${isActive ? 'active' : ''}`}
+			id={`panel-${index}`}
+		>
 			<div
 				className="formAccordionDigi__PanelHeader"
 				onClick={() => handlePanelClick(index)}

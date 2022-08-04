@@ -4,14 +4,17 @@ import { ConsultingTypeBasicInterface } from '../../../globalState/interfaces/Co
 import { translate } from '../../../utils/translate';
 import { InputFormField } from '../InputFormField';
 import { AgencySelection } from './AgencySelection';
+import { AgencyDataInterface } from '../../../globalState';
 
 interface AgencySelectionFormFieldProps {
+	preselectedAgencies: AgencyDataInterface[];
 	consultingType: ConsultingTypeBasicInterface;
 	value?: string;
 }
 
 export const AgencySelectionFormField = ({
-	consultingType
+	consultingType,
+	preselectedAgencies
 }: AgencySelectionFormFieldProps) => {
 	const field = React.useContext(FieldContext);
 
@@ -19,8 +22,12 @@ export const AgencySelectionFormField = ({
 
 	return (
 		<>
-			{mainTopicId && gender && age ? (
-				<AgencySelection consultingType={consultingType} />
+			{(mainTopicId && gender && age) ||
+			preselectedAgencies.length > 0 ? (
+				<AgencySelection
+					consultingType={consultingType}
+					preselectedAgencies={preselectedAgencies}
+				/>
 			) : (
 				<div className="registrationFormDigi__AgencyMandatoryFields">
 					{translate('registrationDigi.agency.fullFillAllFields')}

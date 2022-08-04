@@ -3,6 +3,7 @@
 		flex-grow: 1;
 		text-align: left;
 	}
+
 	&__Panel:first-child > &__PanelHeader {
 		border-top: 1px solid rgba(0, 0, 0, 0.6);
 	}
@@ -41,6 +42,10 @@
 
 		&.active {
 			display: block;
+		}
+
+		& > .formAccordionDigi {
+			margin-top: -15px;
 		}
 	}
 

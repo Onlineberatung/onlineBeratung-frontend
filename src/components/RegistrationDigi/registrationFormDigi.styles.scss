@@ -33,19 +33,11 @@
 		gap: 20px;
 	}
 
-	&__InputTopicIdsContainer {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 13px;
-	}
-
 	&__AgeContainer,
 	&__GenderContainer {
 		display: flex;
 		align-items: flex-start;
 		flex-direction: column;
-		margin-top: 10px;
 
 		&Label {
 			margin-bottom: 20px;
@@ -53,7 +45,11 @@
 	}
 
 	&__GenderContainer {
-		margin-top: 20px;
+		margin-top: 31px;
+	}
+
+	&__AgeContainer {
+		margin-top: -5px;
 	}
 
 	&__Submit {
@@ -95,12 +91,53 @@
 		max-width: 327px;
 	}
 
+	.inputField__label {
+		left: 49px;
+	}
+
 	.formAccordionItem__continueButton {
 		text-align: left;
-		margin-top: 20px;
+		margin-top: 31px;
 
 		.button__item {
 			min-width: 0;
+			padding: 0;
+		}
+	}
+
+	.radioButton.last {
+		margin-bottom: 0;
+	}
+
+	.radioButton__contentWrapper {
+		align-items: center;
+	}
+
+	.agencySelection__proposedAgencies--warning__text {
+		margin-left: 36px;
+	}
+
+	&__InputTopicIdsContainer {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 13px;
+		margin: 0 44px 32px 0;
+	}
+
+	&__InputTopicIdsContainerGroup {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		gap: 5px;
+
+		.agencyInfo__wrapper {
+			display: flex;
+		}
+
+		.checkbox__wrapper {
+			flex-grow: 1;
+			justify-content: start;
 		}
 	}
 }

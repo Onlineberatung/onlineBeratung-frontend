@@ -7,13 +7,16 @@ import { AgencyDataInterface } from '../../../../globalState/interfaces/UserData
 import { PinIcon } from '../../../../resources/img/icons';
 import { translate } from '../../../../utils/translate';
 import { VALID_POSTCODE_LENGTH } from '../../../agencySelection/agencySelectionHelpers';
+import { PreselectedAgency } from '../../../agencySelection/PreselectedAgency';
 import { Loading } from '../../../app/Loading';
 import { InputField } from '../../../inputField/InputField';
 import { Text } from '../../../text/Text';
 import { AgencyRadioButtonForm } from '../Agency';
+import { NoAgencyFound } from '../NoAgencyFound';
+import './agencySelection.styles.scss';
 
 interface AgencySelectionFormFieldProps {
-	preselectedAgency?: AgencyDataInterface;
+	preselectedAgencies?: AgencyDataInterface[];
 	consultingType: ConsultingTypeBasicInterface;
 }
 
@@ -73,15 +76,22 @@ const AgencyRadioInput = ({
 const REGEX_POSTCODE = /\d{5}/;
 export const AgencySelection = ({
 	consultingType,
-	preselectedAgency
+	preselectedAgencies
 }: AgencySelectionFormFieldProps) => {
 	const field = React.useContext(FieldContext);
 	const [isLoading, setIsLoading] = useState(false);
-	const [agencies, setAgencies] = useState<AgencyDataInterface[]>([]);
+	const [agencies, setAgencies] = useState<AgencyDataInterface[]>([
+		...(preselectedAgencies || [])
+	]);
 	const { mainTopicId, gender, age, postCode } = field.getFieldsValue();
 	const isValidToRequestData =
-		mainTopicId && age && gender && !!postCode?.match(REGEX_POSTCODE);
+		!preselectedAgencies?.length &&
+		mainTopicId &&
+		age &&
+		gender &&
+		!!postCode?.match(REGEX_POSTCODE);
 
+	// Only runs when no preselected agencies are provided
 	useEffect(() => {
 		if (isValidToRequestData) {
 			setIsLoading(true);
@@ -113,7 +123,7 @@ export const AgencySelection = ({
 					return Promise.reject(err);
 				})
 				.finally(() => setIsLoading(false));
-		} else {
+		} else if (!preselectedAgencies?.length) {
 			field.setFieldValue('agencyId', null);
 			setAgencies([]);
 		}
@@ -127,7 +137,7 @@ export const AgencySelection = ({
 		isValidToRequestData
 	]);
 
-	const introItemsTranslations = preselectedAgency
+	const introItemsTranslations = !!preselectedAgencies?.length
 		? [
 				'registration.agencyPreselected.intro.point1',
 				'registration.agencyPreselected.intro.point2'
@@ -143,7 +153,7 @@ export const AgencySelection = ({
 			<div className="agencySelection__intro">
 				<Text
 					text={
-						preselectedAgency
+						!!preselectedAgencies?.length
 							? translate(
 									'registration.agencyPreselected.intro.overline'
 							  )
@@ -156,7 +166,7 @@ export const AgencySelection = ({
 				<div className="agencySelection__intro__content">
 					<Text
 						text={
-							preselectedAgency
+							!!preselectedAgencies?.length
 								? translate(
 										'registration.agencyPreselected.intro.subline'
 								  )
@@ -190,28 +200,40 @@ export const AgencySelection = ({
 
 			{isLoading && <Loading />}
 			{!isLoading && isValidToRequestData && agencies.length === 0 && (
-				<Text
-					text={translate('registration.agencySelection.noAgencies')}
-					type="infoLargeAlternative"
-				/>
+				<NoAgencyFound className="registrationDigi__noAgencyFound" />
 			)}
-			{!isLoading && isValidToRequestData && agencies.length > 0 && (
-				<>
-					<div className="agencySelection__proposedAgencies">
-						<h3>
-							{translate(
-								'registration.agencySelection.title.start'
-							)}{' '}
-							{postCode}
-							{translate(
-								'registration.agencySelection.title.end'
-							)}
-						</h3>
-					</div>
+			{!isLoading &&
+				(isValidToRequestData || preselectedAgencies?.length > 1) &&
+				agencies.length > 0 && (
+					<>
+						<div className="agencySelection__proposedAgencies">
+							<h3>
+								{translate(
+									'registration.agencySelection.title.start'
+								)}{' '}
+								{postCode}
+								{translate(
+									'registration.agencySelection.title.end'
+								)}
+							</h3>
+						</div>
 
-					<Field name="agencyId" rules={[{ required: true }]}>
-						<AgencyRadioInput agencies={agencies} />
-					</Field>
+						<Field name="agencyId" rules={[{ required: true }]}>
+							<AgencyRadioInput agencies={agencies} />
+						</Field>
+					</>
+				)}
+
+			{preselectedAgencies?.length === 1 && (
+				<>
+					<PreselectedAgency
+						prefix={translate(
+							'registration.agency.preselected.prefix'
+						)}
+						agencyData={preselectedAgencies[0]}
+					/>
+
+					<Field name="agencyId" rules={[{ required: true }]} />
 				</>
 			)}
 		</div>
