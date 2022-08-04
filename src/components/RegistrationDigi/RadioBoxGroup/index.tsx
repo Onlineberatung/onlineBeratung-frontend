@@ -9,6 +9,7 @@ interface RadioBoxGroupProps {
 }
 
 const RadioBox = ({
+	last,
 	value,
 	onChange,
 	valueRadio,
@@ -17,6 +18,7 @@ const RadioBox = ({
 	value?: string;
 	onChange?: (value: string) => void;
 	valueRadio: string;
+	last?: boolean;
 } & Omit<
 	RadioButtonItem,
 	'handleRadioButton' | 'checked' | 'type' | 'value' | 'inputId'
@@ -24,6 +26,7 @@ const RadioBox = ({
 	const inputId = `radio-${valueRadio}`;
 	return (
 		<RadioButton
+			className={last ? 'last' : ''}
 			checked={!!value}
 			{...item}
 			inputId={inputId}
@@ -43,11 +46,12 @@ const LocalRadioBox = ({
 }) => {
 	return (
 		<>
-			{options.map(({ value, label }) => (
+			{options.map(({ value, label }, i) => (
 				<RadioBox
 					label={label}
 					valueRadio={value}
 					{...rest}
+					last={i === options.length - 1}
 					key={value}
 				/>
 			))}

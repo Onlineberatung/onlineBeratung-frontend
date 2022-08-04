@@ -26,6 +26,7 @@ import { CounsellingRelation } from '../../enums/ConsellingRelation';
 import { InputFormField } from './InputFormField';
 import { CheckboxFormField } from './CheckboxFormField';
 import { RegistrationSuccessOverlay } from './RegistrationSuccessOverlay';
+import { AgencyInfo } from '../agencySelection/AgencyInfo';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -52,7 +53,7 @@ export const RegistrationFormDigi = ({
 		'age': '',
 		'agencyId': preselectedAgency?.id || '',
 		'username': '',
-		'consultingTypeId': '',
+		'consultingTypeId': preselectedAgency?.consultingType || '',
 		'postCode': '',
 		'topicIds[]': []
 	} as any);
@@ -71,10 +72,17 @@ export const RegistrationFormDigi = ({
 
 	// Request the topics data
 	React.useEffect(() => {
-		if (currentValues['topicIds[]']?.length === 1) {
+		if (
+			currentValues['topicIds[]']?.length === 1 &&
+			currentValues.mainTopicId !== currentValues['topicIds[]'][0]
+		) {
 			form.setFieldValue('mainTopicId', currentValues['topicIds[]'][0]);
+			setValues({
+				...currentValues,
+				mainTopicId: currentValues['topicIds[]'][0]
+			});
 		}
-	}, [topics, currentValues['topicIds[]']]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [topics, currentValues]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	// When the form is submitted we send the data to the API
 	const onSubmit = React.useCallback(
@@ -194,6 +202,8 @@ export const RegistrationFormDigi = ({
 										<InputFormField
 											placeholder="z.B. 25"
 											name="age"
+											min={0}
+											max={100}
 											pattern={/\d+/}
 											type="number"
 										/>
@@ -269,12 +279,21 @@ export const RegistrationFormDigi = ({
 							>
 								<div className="registrationFormDigi__InputTopicIdsContainer">
 									{topics?.map((topic) => (
-										<CheckboxGroupFormField
+										<div
+											className="registrationFormDigi__InputTopicIdsContainerGroup"
 											key={topic.id}
-											label={topic.name}
-											name="topicIds[]"
-											localValue={topic.id}
-										/>
+										>
+											<CheckboxGroupFormField
+												label={topic.name}
+												name="topicIds[]"
+												localValue={topic.id}
+											/>
+											<AgencyInfo
+												agency={
+													topic as unknown as AgencyDataInterface
+												}
+											/>
+										</div>
 									))}
 								</div>
 							</FormAccordion.Item>

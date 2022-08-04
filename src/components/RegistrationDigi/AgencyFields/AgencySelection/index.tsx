@@ -12,6 +12,8 @@ import { Loading } from '../../../app/Loading';
 import { InputField } from '../../../inputField/InputField';
 import { Text } from '../../../text/Text';
 import { AgencyRadioButtonForm } from '../Agency';
+import { NoAgencyFound } from '../NoAgencyFound';
+import './agencySelection.styles.scss';
 
 interface AgencySelectionFormFieldProps {
 	preselectedAgencies?: AgencyDataInterface[];
@@ -198,10 +200,7 @@ export const AgencySelection = ({
 
 			{isLoading && <Loading />}
 			{!isLoading && isValidToRequestData && agencies.length === 0 && (
-				<Text
-					text={translate('registration.agencySelection.noAgencies')}
-					type="infoLargeAlternative"
-				/>
+				<NoAgencyFound className="registrationDigi__noAgencyFound" />
 			)}
 			{!isLoading &&
 				(isValidToRequestData || preselectedAgencies?.length > 1) &&
