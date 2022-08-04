@@ -81,6 +81,7 @@
 		.button-as-link {
 			background: none;
 			border: none;
+			cursor: pointer;
 
 			&:focus {
 				outline: $focus-outline;
