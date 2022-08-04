@@ -53,7 +53,7 @@ jobs:
               id: time
               uses: nanzm/get-time-action@v1.1
               with:
-                timeZone: 0
+                timeZone: 2
                 format: 'YYYYMMDD[_]HHmmss'
             - name: Prepare environment variables
               run: |
