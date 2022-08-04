@@ -62,7 +62,7 @@ jobs:
                 echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
                 echo TIME_STAMP=$(echo -n "${{ steps.time.outputs.time }}") >> $GITHUB_ENV
               shell: bash
-            - name: Set tag for cleanup-remove-npmPackage image
+            - name: Set tag for develop image
               if: endsWith(env.BRANCH, 'cleanup-remove-npmPackage') == true
               run: echo DOCKER_IMAGE_TAG=$(echo "cleanup-remove-npmPackage_${{ env.TIME_STAMP }}") >> $GITHUB_ENV
               shell: bash
