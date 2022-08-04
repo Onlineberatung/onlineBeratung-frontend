@@ -3,7 +3,7 @@ name: Publish Docker image
 on:
     push:
         branches:
-            - 'develop'
+            - 'cleanup-remove-npmPackage'
         tags:
             - 'dockerImage.v.*'
 
@@ -54,7 +54,7 @@ jobs:
               uses: nanzm/get-time-action@v1.1
               with:
                 timeZone: 0
-                format: 'YYYYMMDD[_]hhmmss'
+                format: 'YYYYMMDD[_]HHmmss'
             - name: Prepare environment variables
               run: |
                 echo "DOCKER_REGISTRY=$(echo "docker.pkg.github.com/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
@@ -62,12 +62,12 @@ jobs:
                 echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
                 echo TIME_STAMP=$(echo -n "${{ steps.time.outputs.time }}") >> $GITHUB_ENV
               shell: bash
-            - name: Set tag for develop image
-              if: endsWith(env.BRANCH, 'develop') == true
-              run: echo DOCKER_IMAGE_TAG=$(echo "develop_${{ env.TIME_STAMP }}") >> $GITHUB_ENV
+            - name: Set tag for cleanup-remove-npmPackage image
+              if: endsWith(env.BRANCH, 'cleanup-remove-npmPackage') == true
+              run: echo DOCKER_IMAGE_TAG=$(echo "cleanup-remove-npmPackage_${{ env.TIME_STAMP }}") >> $GITHUB_ENV
               shell: bash
             - name: Set tag for default image
-              if: endsWith(env.BRANCH, 'develop') == false
+              if: endsWith(env.BRANCH, 'cleanup-remove-npmPackage') == false
               run: echo DOCKER_IMAGE_TAG=$(echo "${GITHUB_REF/refs\/tags\//}") >> $GITHUB_ENV
               shell: bash
             - name: Push to GitHub Packages
