@@ -53,6 +53,8 @@ $dark-brown: #432000;
 $light-brown: #b5906e;
 $dark-grey: #e7e3e1;
 
+$focus-blue: #199fff;
+
 // YELLOW THEME
 $yellow-1: #ffeed2;
 $yellow-2: #ffe7bf;
@@ -175,6 +177,7 @@ $datepicker-hover-color: $background-accent;
 $enquiry-background: $background-light;
 $enquiry-circle-background: $background-lighter;
 $enquiry-input-border-radius: $grid-base-three;
+$focus-outline: 2px solid $focus-blue;
 $form-accordion-index-background-active: $background-accent;
 $form-accordion-index-border: 2px solid $tertiary;
 $form-accordion-index-color-active: $secondary;

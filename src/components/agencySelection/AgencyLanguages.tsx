@@ -60,6 +60,12 @@ export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
 							onClick={() => {
 								setIsAllShown(true);
 							}}
+							tabIndex={0}
+							onKeyDown={(event) => {
+								if (event.key === 'Enter') {
+									setIsAllShown(true);
+								}
+							}}
 						>
 							{`+${difference} ${translate(
 								'registration.agencySelection.languages.more'

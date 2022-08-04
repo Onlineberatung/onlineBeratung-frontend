@@ -52,6 +52,17 @@ export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 						setDisplayAgencyInfo(null);
 					}
 				}}
+				onFocus={() => {
+					if (!isMobile) {
+						setDisplayAgencyInfo(props.agency);
+					}
+				}}
+				onBlur={() => {
+					if (!isMobile) {
+						setDisplayAgencyInfo(null);
+					}
+				}}
+				tabIndex={0}
 			/>
 			{displayAgencyInfo && displayAgencyInfo?.id === props.agency.id && (
 				<div
