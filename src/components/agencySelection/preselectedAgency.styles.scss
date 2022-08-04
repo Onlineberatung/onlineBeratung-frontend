@@ -1,7 +1,10 @@
+$maxFormElementWidth: 320px;
 $infoIconSize: 16px;
 
 .preselectedAgency {
 	margin-top: 28px;
+	animation: fadeIn linear 0.2s;
+	position: relative;
 
 	.headline {
 		margin: 0 0 12px;
@@ -10,18 +13,25 @@ $infoIconSize: 16px;
 
 	&__item {
 		display: flex;
-		position: relative;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		padding: 12px 0;
 
-		.text {
-			width: 100%;
+		.radioButton {
+			flex-basis: calc(100% - #{$infoIconSize + 1px});
+			min-height: unset;
 		}
-	}
 
-	.agencyInfo {
-		top: 34px;
+		.agencyLanguages {
+			margin-left: 32px;
+		}
 
-		&--above {
-			top: auto;
+		.agencyInfo {
+			top: 34px;
+
+			&--above {
+				top: auto;
+			}
 		}
 	}
 }
