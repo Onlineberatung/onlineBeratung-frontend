@@ -12,7 +12,6 @@ import {
 	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
-import { translate } from '../../utils/translate';
 import {
 	AUTHORITIES,
 	E2EEContext,
@@ -39,6 +38,7 @@ import { useE2EE } from '../../hooks/useE2EE';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SessionListItemLastMessage } from './SessionListItemLastMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
+import { useTranslation } from 'react-i18next';
 
 interface SessionListItemProps {
 	session: ExtendedSessionInterface;
@@ -49,6 +49,7 @@ export const SessionListItemComponent = ({
 	session,
 	defaultLanguage
 }: SessionListItemProps) => {
+	const { t: translate } = useTranslation();
 	const { sessionId, rcGroupId: groupIdFromParam } = useParams();
 	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
 
@@ -110,7 +111,8 @@ export const SessionListItemComponent = ({
 		encrypted,
 		session.item.groupId,
 		session.item.e2eLastMessage,
-		session.item.lastMessage
+		session.item.lastMessage,
+		translate
 	]);
 
 	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
@@ -203,7 +205,10 @@ export const SessionListItemComponent = ({
 							{consultingType.titles.default}
 						</div>
 						<div className="sessionsListItem__date">
-							{getGroupChatDate(session.item)}
+							{getGroupChatDate(
+								session.item,
+								translate('sessionList.time.label.postfix')
+							)}
 						</div>
 					</div>
 					<div className="sessionsListItem__row">

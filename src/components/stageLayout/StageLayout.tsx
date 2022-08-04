@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Children, ReactNode, ReactElement } from 'react';
 import { config } from '../../resources/scripts/config';
-import { translate } from '../../utils/translate';
 import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
 import { LegalLinkInterface } from '../../globalState';
+import { useTranslation } from 'react-i18next';
 
 interface StageLayoutProps {
 	className?: string;
@@ -27,6 +27,8 @@ export const StageLayout = ({
 	loginParams,
 	legalLinks
 }: StageLayoutProps) => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<div className={clsx('stageLayout', className)}>
 			{React.cloneElement(Children.only(stage as ReactElement), {

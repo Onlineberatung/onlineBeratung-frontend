@@ -1,6 +1,5 @@
 import React, { useCallback, useContext } from 'react';
 import './help.styles.scss';
-import { translate } from '../../utils/translate';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { config } from '../../resources/scripts/config';
 import {
@@ -12,9 +11,12 @@ import {
 } from '../../globalState';
 import { HelpVideoCallConsultant } from './HelpVideoCallConsultant';
 import { HelpVideoCallAsker } from './HelpVideoCallAsker';
+import { useTranslation } from 'react-i18next';
 
 interface HelpProps {}
 export const Help: React.FC<HelpProps> = () => {
+	const { t: translate } = useTranslation();
+
 	const { addNotification } = useContext(NotificationsContext);
 	const { userData } = useContext(UserDataContext);
 
@@ -26,7 +28,7 @@ export const Help: React.FC<HelpProps> = () => {
 				text: translate('help.videoCall.loginLink.notification.text')
 			});
 		});
-	}, [addNotification]);
+	}, [addNotification, translate]);
 
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,

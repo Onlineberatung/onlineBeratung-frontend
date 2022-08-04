@@ -7,7 +7,6 @@ import './waitingRoom.styles';
 import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
 import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
-import { translate } from '../../utils/translate';
 import { useContext, useEffect, useState } from 'react';
 import {
 	AnonymousRegistrationResponse,
@@ -42,6 +41,7 @@ import {
 } from './waitingRoomHelpers';
 import { handleTokenRefresh, setTokens } from '../auth/auth';
 import { handleE2EESetup } from '../registration/autoLogin';
+import { useTranslation } from 'react-i18next';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
@@ -50,6 +50,7 @@ export interface WaitingRoomProps {
 }
 
 export const WaitingRoom = (props: WaitingRoomProps) => {
+	const { t: translate } = useTranslation();
 	const [isDataProtectionViewActive, setIsDataProtectionViewActive] =
 		useState<boolean>(true);
 	const [username, setUsername] = useState<string>();

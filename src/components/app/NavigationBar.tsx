@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
 	hasUserAuthority,
@@ -18,6 +17,7 @@ import {
 	apiFinishAnonymousConversation,
 	apiGetAskerSessionList
 } from '../../api';
+import { useTranslation } from 'react-i18next';
 
 export interface NavigationBarProps {
 	onLogout: any;
@@ -28,6 +28,7 @@ export const NavigationBar = ({
 	onLogout,
 	routerConfig
 }: NavigationBarProps) => {
+	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions, dispatch } = useContext(SessionsDataContext);

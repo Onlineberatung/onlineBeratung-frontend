@@ -5,7 +5,6 @@ import {
 	ConsultingTypeBasicInterface,
 	useTenant
 } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { VALID_POSTCODE_LENGTH } from './agencySelectionHelpers';
@@ -27,6 +26,7 @@ import {
 	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
+import { useTranslation } from 'react-i18next';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
@@ -43,6 +43,7 @@ export interface AgencySelectionProps {
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
+	const { t: translate } = useTranslation();
 	const tenantData = useTenant();
 	const [isLoading, setIsLoading] = useState(false);
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState('');

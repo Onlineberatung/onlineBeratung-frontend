@@ -6,7 +6,7 @@ import './cal.styles';
 import { history } from '../app/app';
 import { apiAppointmentServiceSet } from '../../api/apiAppointmentServiceSet';
 import { UserDataContext } from '../../globalState';
-import { translate } from '../../utils/translate';
+import { useTranslation } from 'react-i18next';
 
 export default function Cal({
 	calLink,
@@ -19,6 +19,7 @@ export default function Cal({
 	config?: any;
 	embedJsUrl?: string;
 }) {
+	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 
 	if (!calLink) {

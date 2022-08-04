@@ -21,7 +21,6 @@ import {
 	MessageItemComponent
 } from '../message/MessageItemComponent';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import { translate } from '../../utils/translate';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { apiGetConsultingType } from '../../api';
@@ -50,6 +49,7 @@ import { encryptRoom } from '../../utils/e2eeHelper';
 import { AcceptAssign } from './AcceptAssign';
 import { SubscriptionKeyLost } from './SubscriptionKeyLost';
 import { RoomNotFound } from './RoomNotFound';
+import { useTranslation } from 'react-i18next';
 
 interface SessionItemProps {
 	isTyping?: Function;
@@ -63,6 +63,7 @@ interface SessionItemProps {
 let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
+	const { t: translate } = useTranslation();
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { activeSession } = useContext(ActiveSessionContext);
@@ -416,7 +417,12 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							<React.Fragment key={`${message._id}-${index}`}>
 								<MessageItemComponent
 									clientName={
-										getContact(activeSession).username
+										getContact(
+											activeSession,
+											translate(
+												'sessionList.user.consultantUnknown'
+											)
+										).username
 									}
 									askerRcId={activeSession.item.askerRcId}
 									isOnlyEnquiry={isOnlyEnquiry}

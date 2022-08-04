@@ -1,6 +1,6 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ALIAS_LAST_MESSAGES } from '../../resources/scripts/config';
-import { translate } from '../../utils/translate';
 
 interface SessionListItemLastMessageProps {
 	showSpan?: boolean;
@@ -12,6 +12,8 @@ interface SessionListItemLastMessageProps {
 
 export const SessionListItemLastMessage: React.FC<SessionListItemLastMessageProps> =
 	({ showSpan, language, lastMessage, lastMessageType, showLanguage }) => {
+		const { t: translate } = useTranslation();
+
 		// do not show anything
 		if (showSpan) return <span></span>;
 		if (!lastMessage && !lastMessageType) return null;

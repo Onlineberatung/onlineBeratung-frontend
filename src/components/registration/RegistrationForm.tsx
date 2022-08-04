@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback } from 'react';
-import { translate } from '../../utils/translate';
 import { Text } from '../text/Text';
-import { Button, BUTTON_TYPES } from '../button/Button';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
-import { buttonItemSubmit } from './registrationHelpers';
 import {
 	apiPostRegistration,
 	FETCH_ERRORS,
@@ -36,6 +34,7 @@ import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
 } from '../error/errorHandling';
+import { useTranslation } from 'react-i18next';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -62,6 +61,7 @@ export const RegistrationForm = ({
 	legalLinks,
 	consultant
 }: RegistrationFormProps) => {
+	const { t: translate } = useTranslation();
 	const tenantData = useTenant();
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
@@ -76,6 +76,11 @@ export const RegistrationForm = ({
 	const [overlayActive, setOverlayActive] = useState(false);
 
 	const [initialPostcode, setInitialPostcode] = useState('');
+
+	const buttonItemSubmit: ButtonItem = {
+		label: translate('registration.submitButton.label'),
+		type: BUTTON_TYPES.PRIMARY
+	};
 
 	useEffect(() => {
 		const postcodeParameter = getUrlParameter('postcode');

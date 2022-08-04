@@ -4,7 +4,6 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { SendMessageButton } from './SendMessageButton';
 import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
-import { translate } from '../../utils/translate';
 import { UserDataContext } from '../../globalState/provider/UserDataProvider';
 import {
 	AUTHORITIES,
@@ -87,6 +86,7 @@ import { Headline } from '../headline/Headline';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
 import { encryptRoom } from '../../utils/e2eeHelper';
+import { useTranslation } from 'react-i18next';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -174,6 +174,8 @@ const encryptAttachment = (attachment, keyID, key) => {
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
+	const { t: translate } = useTranslation();
+
 	const textareaInputRef = React.useRef<HTMLDivElement>(null);
 	const inputWrapperRef = React.useRef<HTMLSpanElement>(null);
 	const attachmentInputRef = React.useRef<HTMLInputElement>(null);
@@ -871,8 +873,14 @@ export const MessageSubmitInterfaceComponent = (
 			infoData = {
 				isInfo: true,
 				infoHeadline: `${
-					getContact(activeSession).displayName ||
-					getContact(activeSession).username
+					getContact(
+						activeSession,
+						translate('sessionList.user.consultantUnknown')
+					).displayName ||
+					getContact(
+						activeSession,
+						translate('sessionList.user.consultantUnknown')
+					).username
 				} ${translate('consultant.absent.message')} `,
 				infoMessage: activeSession.consultant.absenceMessage
 			};

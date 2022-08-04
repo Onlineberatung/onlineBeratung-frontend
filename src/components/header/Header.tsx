@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { useContext } from 'react';
 import { TenantContext } from '../../globalState';
 import './header.styles';
+import { useTranslation } from 'react-i18next';
 
 export const Header = () => {
+	const { t: translate } = useTranslation();
 	const { tenant } = useContext(TenantContext);
 	return (
 		<header className="header">

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
+import { useTranslation } from 'react-i18next';
 import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 
 interface SessionListItemAttachmentProps {
@@ -9,6 +9,8 @@ interface SessionListItemAttachmentProps {
 export const SessionListItemAttachment = (
 	props: SessionListItemAttachmentProps
 ) => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<div className="sessionsListItem__subject">
 			<span className="sessionsListItem__subject__attachment">

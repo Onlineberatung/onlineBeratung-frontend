@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { translate } from '../../utils/translate';
 import { apiSetAbsence } from '../../api';
 import { BUTTON_TYPES } from '../button/Button';
 import {
@@ -17,8 +16,10 @@ import Switch from 'react-switch';
 import { Text } from '../text/Text';
 import { Textarea } from '../form/textarea';
 import { isMobile } from 'react-device-detect';
+import { useTranslation } from 'react-i18next';
 
 export const AbsenceFormular = () => {
+	const { t: translate } = useTranslation();
 	const { userData, setUserData } = useContext(UserDataContext);
 
 	const [isAbsent, setIsAbsent] = useState(userData.absent);

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
 import {
 	ATTACHMENT_TRANSLATE_FOR_TYPE,
 	getAttachmentSizeMBForKB
@@ -7,6 +6,7 @@ import {
 import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { apiUrl } from '../../resources/scripts/config';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
+import { useTranslation } from 'react-i18next';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;
@@ -15,6 +15,8 @@ interface MessageAttachmentProps {
 }
 
 export const MessageAttachment = (props: MessageAttachmentProps) => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<div
 			className={
@@ -30,7 +32,9 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 				<span className="messageItem__message__attachment__title">
 					<p>{props.attachment.title}</p>
 					<p className="messageItem__message__attachment__meta">
-						{ATTACHMENT_TRANSLATE_FOR_TYPE[props.file.type]}{' '}
+						{translate(
+							ATTACHMENT_TRANSLATE_FOR_TYPE[props.file.type]
+						)}{' '}
 						{props.attachment.image_size
 							? `| ${
 									(

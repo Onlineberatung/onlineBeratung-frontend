@@ -5,7 +5,6 @@ import {
 	ApiGetConsultantStatisticsInterface,
 	ConsultantStatisticsDTO
 } from '../../api';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import { Text } from '../text/Text';
@@ -17,6 +16,7 @@ import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
 import './statistics.styles';
 import './profile.styles';
+import { useTranslation } from 'react-i18next';
 
 const statisticsPeriodOptionCurrentMonth = 'currentMonth';
 const statisticsPeriodOptionLastMonth = 'lastMonth';
@@ -28,25 +28,6 @@ type statisticOptions =
 	| typeof statisticsPeriodOptionLastMonth
 	| typeof statisticsPeriodOptionCurrentYear
 	| typeof statisticsPeriodOptionLastYear;
-
-const statisticsPeriodOptions: { value: statisticOptions; label: string }[] = [
-	{
-		value: statisticsPeriodOptionCurrentMonth,
-		label: translate('profile.statistics.period.currentMonth')
-	},
-	{
-		value: statisticsPeriodOptionLastMonth,
-		label: translate('profile.statistics.period.lastMonth')
-	},
-	{
-		value: statisticsPeriodOptionCurrentYear,
-		label: translate('profile.statistics.period.currentYear')
-	},
-	{
-		value: statisticsPeriodOptionLastYear,
-		label: translate('profile.statistics.period.lastYear')
-	}
-];
 
 const getDatesForSelectedPeriod = (
 	selectedOption: statisticOptions
@@ -77,30 +58,8 @@ const getDatesForSelectedPeriod = (
 	return optionDates[selectedOption];
 };
 
-const csvHeaders = [
-	{
-		label: translate(
-			'profile.statistics.csvHeader.numberOfAssignedSessions'
-		),
-		key: 'numberOfAssignedSessions'
-	},
-	{
-		label: translate('profile.statistics.csvHeader.numberOfSentMessages'),
-		key: 'numberOfSentMessages'
-	},
-	{
-		label: translate(
-			'profile.statistics.csvHeader.numberOfSessionsWhereConsultantWasActive'
-		),
-		key: 'numberOfSessionsWhereConsultantWasActive'
-	},
-	{
-		label: translate('profile.statistics.csvHeader.videoCallDuration'),
-		key: 'videoCallDuration'
-	}
-];
-
 export const ConsultantStatistics = () => {
+	const { t: translate } = useTranslation();
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
 	const [statisticsPeriod, setStatisticsPeriod] = useState<statisticOptions>(
@@ -112,6 +71,53 @@ export const ConsultantStatistics = () => {
 	const [selectedStatistics, setSelectedStatistics] =
 		useState<ConsultantStatisticsDTO>(null);
 	const [csvData, setCsvData] = useState([]);
+
+	const csvHeaders = [
+		{
+			label: translate(
+				'profile.statistics.csvHeader.numberOfAssignedSessions'
+			),
+			key: 'numberOfAssignedSessions'
+		},
+		{
+			label: translate(
+				'profile.statistics.csvHeader.numberOfSentMessages'
+			),
+			key: 'numberOfSentMessages'
+		},
+		{
+			label: translate(
+				'profile.statistics.csvHeader.numberOfSessionsWhereConsultantWasActive'
+			),
+			key: 'numberOfSessionsWhereConsultantWasActive'
+		},
+		{
+			label: translate('profile.statistics.csvHeader.videoCallDuration'),
+			key: 'videoCallDuration'
+		}
+	];
+
+	const statisticsPeriodOptions: {
+		value: statisticOptions;
+		label: string;
+	}[] = [
+		{
+			value: statisticsPeriodOptionCurrentMonth,
+			label: translate('profile.statistics.period.currentMonth')
+		},
+		{
+			value: statisticsPeriodOptionLastMonth,
+			label: translate('profile.statistics.period.lastMonth')
+		},
+		{
+			value: statisticsPeriodOptionCurrentYear,
+			label: translate('profile.statistics.period.currentYear')
+		},
+		{
+			value: statisticsPeriodOptionLastYear,
+			label: translate('profile.statistics.period.lastYear')
+		}
+	];
 
 	useEffect(() => {
 		if (statisticsPeriod) {

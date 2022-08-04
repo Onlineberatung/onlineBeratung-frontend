@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
@@ -7,6 +6,7 @@ import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
 import { UserDataContext } from '../../globalState';
+import { useTranslation } from 'react-i18next';
 
 interface HelpVideoCallConsultantProps {
 	copyLoginLink: Function;
@@ -14,6 +14,7 @@ interface HelpVideoCallConsultantProps {
 
 export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 	({ copyLoginLink }) => {
+		const { t: translate } = useTranslation();
 		const { userData } = useContext(UserDataContext);
 
 		const copyLink = (

@@ -1,5 +1,4 @@
 import { AUTHORITIES, hasUserAuthority } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { ConsultantInformation } from './ConsultantInformation';
 import { ConsultantSpokenLanguages } from './ConsultantSpokenLanguages';
 import { ConsultantAgencies } from './ConsultantAgencies';
@@ -19,13 +18,13 @@ import { Help } from '../help/Help';
 import { ConsultantNotifications } from './ConsultantNotifications';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 
-const routes: TabsType = [
+const profileRoutes: TabsType = [
 	{
-		title: translate('profile.routes.general'),
+		title: 'profile.routes.general',
 		url: '/allgemeines',
 		elements: [
 			{
-				title: translate('profile.routes.general.public'),
+				title: 'profile.routes.general.public',
 				url: '/oeffentlich',
 				elements: [
 					{
@@ -92,7 +91,7 @@ const routes: TabsType = [
 				]
 			},
 			{
-				title: translate('profile.routes.general.privat'),
+				title: 'profile.routes.general.privat',
 				url: '/privat',
 				elements: [
 					{
@@ -119,13 +118,13 @@ const routes: TabsType = [
 		]
 	},
 	{
-		title: translate('profile.routes.activities'),
+		title: 'profile.routes.activities',
 		url: '/aktivitaeten',
 		condition: (userData) =>
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
 		elements: [
 			{
-				title: translate('profile.routes.activities.statistics'),
+				title: 'profile.routes.activities.statistics',
 				url: '/statistik',
 				elements: [
 					{
@@ -135,7 +134,7 @@ const routes: TabsType = [
 				]
 			},
 			{
-				title: translate('profile.routes.activities.absence'),
+				title: 'profile.routes.activities.absence',
 				url: '/abwesenheit',
 				elements: [
 					{
@@ -147,13 +146,13 @@ const routes: TabsType = [
 		]
 	},
 	{
-		title: translate('profile.routes.notifications'),
+		title: 'profile.routes.notifications',
 		url: '/benachrichtigungen',
 		condition: (userData) =>
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
 		elements: [
 			{
-				title: translate('profile.routes.notifications.email'),
+				title: 'profile.routes.notifications.email',
 				url: '/email',
 				elements: [
 					{
@@ -165,11 +164,11 @@ const routes: TabsType = [
 		]
 	},
 	{
-		title: translate('profile.routes.security'),
+		title: 'profile.routes.security',
 		url: '/sicherheit',
 		elements: [
 			{
-				title: translate('profile.routes.security.changePassword'),
+				title: 'profile.routes.security.changePassword',
 				url: '/passwort',
 				elements: [
 					{
@@ -179,7 +178,7 @@ const routes: TabsType = [
 				]
 			},
 			{
-				title: translate('profile.routes.security.2fa'),
+				title: 'profile.routes.security.2fa',
 				url: '/2fa',
 				elements: [
 					{
@@ -201,11 +200,11 @@ const routes: TabsType = [
 		]
 	},
 	{
-		title: translate('profile.routes.help'),
+		title: 'profile.routes.help',
 		url: '/hilfe',
 		elements: [
 			{
-				title: translate('profile.routes.help.videoCall'),
+				title: 'profile.routes.help.videoCall',
 				url: '/videoCall',
 				elements: [
 					{
@@ -218,4 +217,4 @@ const routes: TabsType = [
 	}
 ];
 
-export default routes;
+export default profileRoutes;

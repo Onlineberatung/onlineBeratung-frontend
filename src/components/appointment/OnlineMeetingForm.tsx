@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
-import { translate } from '../../utils/translate';
 import { Textarea } from '../form/textarea';
 import * as React from 'react';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
+import { useTranslation } from 'react-i18next';
 
 type OnlineMeetingFormProps = {
 	onChange: (appointment: AppointmentsDataInterface) => void;
@@ -20,6 +20,7 @@ export const OnlineMeetingForm = ({
 	onChange,
 	onlineMeeting: initialOnlineMeeting
 }: OnlineMeetingFormProps) => {
+	const { t: translate } = useTranslation();
 	const [dateFocus, setDateFocus] = useState(false);
 	const [timeFocus, setTimeFocus] = useState(false);
 	const [onlineMeeting, setOnlineMeeting] = useState((): OnlineMeeting => {

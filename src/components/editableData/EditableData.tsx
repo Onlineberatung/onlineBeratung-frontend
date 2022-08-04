@@ -7,7 +7,7 @@ import { ReactComponent as DeleteIcon } from '../../resources/img/icons/delete.s
 import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { useEffect, useState } from 'react';
 import { isStringValidEmail } from '../registration/registrationHelpers';
-import { translate } from '../../utils/translate';
+import { useTranslation } from 'react-i18next';
 
 export interface EditableDataProps {
 	label: string;
@@ -38,6 +38,7 @@ export const EditableData = ({
 	onSingleFocus,
 	onBeforeRemoveButtonClick
 }: EditableDataProps) => {
+	const { t: translate } = useTranslation();
 	const [inputValue, setInputValue] = useState<string>(initialValue ?? '');
 	const [isValid, setIsValid] = useState<boolean>(true);
 	const [label, setLabel] = useState<string>();
@@ -61,7 +62,7 @@ export const EditableData = ({
 		setInputValue(initialValue ?? translate('profile.noContent'));
 		setIsValid(true);
 		setLabel(initialLabel);
-	}, [isDisabled, initialLabel, initialValue, isSingleEdit]);
+	}, [isDisabled, initialLabel, initialValue, isSingleEdit, translate]);
 
 	useEffect(() => {
 		if (!onValueIsValid) {
@@ -80,7 +81,7 @@ export const EditableData = ({
 			setIsValid(false);
 			setLabel(translate('furtherSteps.email.overlay.input.unavailable'));
 		}
-	}, [isEmailAlreadyInUse]);
+	}, [isEmailAlreadyInUse, translate]);
 
 	const handleFocus = (event) => {
 		event.target.select();

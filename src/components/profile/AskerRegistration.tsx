@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
-import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
 	UserDataInterface,
@@ -8,13 +7,10 @@ import {
 	useConsultingType
 } from '../../globalState';
 import { history } from '../app/app';
-import { Button } from '../button/Button';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import {
 	consultingTypeSelectOptionsSet,
-	buttonSetRegistration,
-	overlayItemNewRegistrationSuccess,
-	overlayItemNewRegistrationError,
 	getConsultingTypesForRegistrationStatus,
 	REGISTRATION_STATUS_KEYS
 } from './profileHelpers';
@@ -36,8 +32,12 @@ import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
 import { AskerRegistrationExternalAgencyOverlay } from './AskerRegistrationExternalAgencyOverlay';
+import { useTranslation } from 'react-i18next';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 
 export const AskerRegistration: React.FC = () => {
+	const { t: translate } = useTranslation();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingTypeId, setSelectedConsultingTypeId] =
@@ -52,6 +52,47 @@ export const AskerRegistration: React.FC = () => {
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const consultingTypes = useConsultingTypes();
 	const selectedConsultingType = useConsultingType(selectedConsultingTypeId);
+
+	const buttonSetRegistration: ButtonItem = {
+		label: translate('profile.data.register.buttonLabel'),
+		type: BUTTON_TYPES.LINK
+	};
+
+	const overlayItemNewRegistrationSuccess: OverlayItem = {
+		svg: CheckIcon,
+		headline: translate('profile.data.registerSuccess.overlay.headline'),
+		buttonSet: [
+			{
+				label: translate(
+					'profile.data.registerSuccess.overlay.button1Label'
+				),
+				function: OVERLAY_FUNCTIONS.REDIRECT,
+				type: BUTTON_TYPES.PRIMARY
+			},
+			{
+				label: translate(
+					'profile.data.registerSuccess.overlay.button2Label'
+				),
+				function: OVERLAY_FUNCTIONS.LOGOUT,
+				type: BUTTON_TYPES.LINK
+			}
+		]
+	};
+
+	const overlayItemNewRegistrationError: OverlayItem = {
+		svg: XIcon,
+		illustrationBackground: 'error',
+		headline: translate('profile.data.registerError.overlay.headline'),
+		buttonSet: [
+			{
+				label: translate(
+					'profile.data.registerError.overlay.buttonLabel'
+				),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		]
+	};
 
 	const isAllRequiredDataSet = () =>
 		selectedConsultingTypeId != null && selectedAgency;

@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 
 import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import { translate } from '../../utils/translate';
 import {
 	OverlayItem,
 	OVERLAY_FUNCTIONS,
@@ -39,8 +38,10 @@ import { Loading } from '../app/Loading';
 import { useSession } from '../../hooks/useSession';
 import { apiGetAskerSessionList } from '../../api';
 import { encryptRoom } from '../../utils/e2eeHelper';
+import { useTranslation } from 'react-i18next';
 
 export const WriteEnquiry: React.FC = () => {
+	const { t: translate } = useTranslation();
 	const { sessionId: sessionIdFromParam } = useParams();
 
 	const fixedLanguages = useContext(FixedLanguagesContext);

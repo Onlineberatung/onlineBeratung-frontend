@@ -6,7 +6,6 @@ import {
 	SESSION_LIST_TYPES,
 	SESSION_TYPES
 } from '../session/sessionHelpers';
-import { translate } from '../../utils/translate';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
@@ -18,6 +17,7 @@ import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons
 import './sessionsList.styles';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { useTranslation } from 'react-i18next';
 
 interface SessionsListWrapperProps {
 	sessionTypes: SESSION_TYPES;
@@ -26,6 +26,7 @@ interface SessionsListWrapperProps {
 export const SessionsListWrapper = ({
 	sessionTypes
 }: SessionsListWrapperProps) => {
+	const { t: translate } = useTranslation();
 	const fixedLanguages = useContext(FixedLanguagesContext);
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);

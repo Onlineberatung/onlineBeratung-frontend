@@ -4,7 +4,6 @@ import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { config } from '../../resources/scripts/config';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import { translate } from '../../utils/translate';
 import {
 	NOTIFICATION_TYPE_CALL,
 	VideoCallRequestProps
@@ -19,12 +18,14 @@ import {
 import { SESSION_LIST_TAB_ANONYMOUS } from '../session/sessionHelpers';
 import { sendNotification } from '../../utils/notificationHelpers';
 import { history } from '../app/app';
+import { useTranslation } from 'react-i18next';
 
 interface WebsocketHandlerProps {
 	disconnect: boolean;
 }
 
 export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
+	const { t: translate } = useTranslation();
 	const [newStompDirectMessage, setNewStompDirectMessage] =
 		useState<boolean>(false);
 	const [newStompAnonymousEnquiry, setNewStompAnonymousEnquiry] =

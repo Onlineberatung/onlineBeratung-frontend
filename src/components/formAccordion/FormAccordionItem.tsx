@@ -3,8 +3,8 @@ import './formAccordionItem.styles';
 import { ReactComponent as ValidIcon } from '../../resources/img/icons/checkmark.svg';
 import { ReactComponent as InvalidIcon } from '../../resources/img/icons/exclamation-mark.svg';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { translate } from '../../utils/translate';
 import { AccordionItemValidity } from '../registration/registrationHelpers';
+import { useTranslation } from 'react-i18next';
 
 interface FormAccordionItemProps {
 	title: string;
@@ -18,6 +18,7 @@ interface FormAccordionItemProps {
 }
 
 export const FormAccordionItem = (props: FormAccordionItemProps) => {
+	const { t: translate } = useTranslation();
 	const handleStepSubmit = () => {
 		props.onStepSubmit(props.index);
 	};

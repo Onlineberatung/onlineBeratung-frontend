@@ -7,7 +7,6 @@ import {
 	OverlayWrapper
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
-import { translate } from '../../utils/translate';
 import {
 	apiDeleteUserFromRoom,
 	apiGetAgencyConsultantList,
@@ -36,10 +35,12 @@ import {
 	prepareConsultantDataForSelect,
 	prepareSelectDropdown
 } from './sessionAssignHelper';
+import { useTranslation } from 'react-i18next';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 
 export const RequestSessionAssign = (props: { value?: string }) => {
+	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { path: listPath } = useContext(SessionTypeContext);
 	const { userData, setUserData } = useContext(UserDataContext);

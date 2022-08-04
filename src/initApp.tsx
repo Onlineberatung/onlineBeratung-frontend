@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import i18n from './i18n';
 
 const AppWrapper = () => {
-	const { t } = useTranslation();
+	const { t: translate } = useTranslation();
 
 	return (
 		<>
@@ -18,11 +18,11 @@ const AppWrapper = () => {
 				legalLinks={[
 					{
 						url: config.urls.imprint,
-						label: t('login.legal.infoText.impressum')
+						label: translate('login.legal.infoText.impressum')
 					},
 					{
 						url: config.urls.privacy,
-						label: t('login.legal.infoText.dataprotection'),
+						label: translate('login.legal.infoText.dataprotection'),
 						registration: true
 					}
 				]}

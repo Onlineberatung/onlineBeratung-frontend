@@ -11,12 +11,13 @@ import {
 	AnonymousConversationFinishedContext,
 	RocketChatContext
 } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { ReactComponent as WavingIllustration } from '../../resources/img/illustrations/waving.svg';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { config } from '../../resources/scripts/config';
+import { useTranslation } from 'react-i18next';
 
 export const FinishedAnonymousConversationHandler = () => {
+	const { t: translate } = useTranslation();
 	const [overlayActive, setOverlayActive] = useState(false);
 	const { anonymousConversationFinished, setAnonymousConversationFinished } =
 		useContext(AnonymousConversationFinishedContext);

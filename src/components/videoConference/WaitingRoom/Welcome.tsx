@@ -1,10 +1,10 @@
 import { ReactComponent as WelcomeIllustration } from '../../../resources/img/illustrations/welcome.svg';
 import { Headline } from '../../headline/Headline';
-import { translate } from '../../../utils/translate';
 import { Text } from '../../text/Text';
 import { Button, BUTTON_TYPES, ButtonItem } from '../../button/Button';
 import * as React from 'react';
 import { LegalLinkInterface } from '../../../globalState';
+import { useTranslation } from 'react-i18next';
 
 export const Welcome = ({
 	onClick,
@@ -13,6 +13,8 @@ export const Welcome = ({
 	onClick: Function;
 	legalLinks: Array<LegalLinkInterface>;
 }) => {
+	const { t: translate } = useTranslation();
+
 	const confirmButton: ButtonItem = {
 		label: translate('anonymous.waitingroom.dataProtection.button'),
 		type: BUTTON_TYPES.PRIMARY

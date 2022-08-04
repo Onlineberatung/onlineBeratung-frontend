@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { translate } from '../../utils/translate';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { Checkbox } from '../checkbox/Checkbox';
 import { Button } from '../button/Button';
@@ -23,8 +22,10 @@ import {
 	mobileListView,
 	mobileUserProfileView
 } from '../app/navigationHandler';
+import { useTranslation } from 'react-i18next';
 
 export const Monitoring = () => {
+	const { t: translate } = useTranslation();
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { session: activeSession, ready } = useSession(groupIdFromParam);

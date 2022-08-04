@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserDataContext } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { history } from '../app/app';
 import './twoFactorNag.styles';
 import { config } from '../../resources/scripts/config';
+import { useTranslation } from 'react-i18next';
 
 interface TwoFactorNagProps {}
 
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
+	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
 	const [forceHideTwoFactorNag, setForceHideTwoFactorNag] = useState(false);

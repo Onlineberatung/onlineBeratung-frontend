@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import { apiAgencyLanguages } from '../../api/apiAgencyLanguages';
 import { getExtendedSession, SessionsDataContext } from '../../globalState';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { isUniqueLanguage } from '../profile/profileHelpers';
 
 import './enquiryLanguageSelection.styles';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { useTranslation } from 'react-i18next';
 
 interface EnquiryLanguageSelectionProps {
 	className?: string;
@@ -17,6 +17,7 @@ interface EnquiryLanguageSelectionProps {
 
 export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 	({ className = '', handleSelection }) => {
+		const { t: translate } = useTranslation();
 		const { sessions, ready } = useContext(SessionsDataContext);
 		const fixedLanguages = useContext(FixedLanguagesContext);
 		const { sessionId: sessionIdFromParam } = useParams();

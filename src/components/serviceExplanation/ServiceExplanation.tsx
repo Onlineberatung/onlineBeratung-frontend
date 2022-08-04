@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RegistrationWelcomeScreenInterface } from '../../globalState';
 import {
 	EnvelopeIcon,
@@ -6,7 +7,6 @@ import {
 	PenIcon,
 	SpeechBubbleIcon
 } from '../../resources/img/icons';
-import { translate } from '../../utils/translate';
 import { Text } from '../text/Text';
 import './ServiceExplanation.styles.scss';
 
@@ -19,6 +19,7 @@ export const ServiceExplanation = ({
 	className,
 	welcomeScreenConfig
 }: ServiceExplanationProps) => {
+	const { t: translate } = useTranslation();
 	const welcomeScreenData = [
 		{
 			icon: <PenIcon />,

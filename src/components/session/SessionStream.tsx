@@ -34,7 +34,6 @@ import {
 	OverlayItem,
 	OverlayWrapper
 } from '../overlay/Overlay';
-import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
@@ -50,6 +49,7 @@ import {
 import useUpdatingRef from '../../hooks/useUpdatingRef';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { useTranslation } from 'react-i18next';
 
 interface SessionStreamProps {
 	readonly: boolean;
@@ -64,6 +64,7 @@ export const SessionStream = ({
 	checkMutedUserForThisSession,
 	bannedUsers
 }: SessionStreamProps) => {
+	const { t: translate } = useTranslation();
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
 	const { subscribe, unsubscribe } = useContext(RocketChatContext);
@@ -194,7 +195,7 @@ export const SessionStream = ({
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const handleChatStopped = useUpdatingRef(

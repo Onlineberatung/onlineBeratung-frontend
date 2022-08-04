@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { GeneratedInputs } from '../inputField/InputField';
@@ -17,6 +16,7 @@ import { TagSelect } from '../tagSelect/TagSelect';
 import { ReactComponent as SuccessIllustration } from '../../resources/img/illustrations/check.svg';
 import { apiPutSessionData } from '../../api';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { useTranslation } from 'react-i18next';
 
 interface VoluntaryInfoOverlayProps {
 	voluntaryComponents: any[];
@@ -24,6 +24,7 @@ interface VoluntaryInfoOverlayProps {
 }
 
 export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
+	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [valuesOfGeneratedInputs, setValuesOfGeneratedInputs] =

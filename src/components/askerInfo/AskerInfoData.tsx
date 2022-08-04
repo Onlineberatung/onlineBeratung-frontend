@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import {
-	translate,
 	handleNumericTranslation,
 	getAddictiveDrugsString
 } from '../../utils/translate';
@@ -13,13 +12,18 @@ import {
 } from '../profile/profileHelpers';
 import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { useTranslation } from 'react-i18next';
 
 export const AskerInfoData = () => {
+	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 
-	const userSessionData = getContact(activeSession).sessionData;
+	const userSessionData = getContact(
+		activeSession,
+		translate('sessionList.user.consultantUnknown')
+	).sessionData;
 	const preparedUserSessionData =
 		convertUserDataObjectToArray(userSessionData);
 	const addictiveDrugs = userSessionData.addictiveDrugs

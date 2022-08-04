@@ -18,7 +18,6 @@ import {
 	SESSION_TYPES
 } from '../session/sessionHelpers';
 import { history } from '../app/app';
-import { translate } from '../../utils/translate';
 import {
 	AnonymousConversationStartedContext,
 	AUTHORITIES,
@@ -70,6 +69,7 @@ import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 import { showAppointmentsMenu } from '../../utils/navigationHelpers';
+import { useTranslation } from 'react-i18next';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -80,6 +80,7 @@ export const SessionsList = ({
 	defaultLanguage,
 	sessionTypes
 }: SessionsListProps) => {
+	const { t: translate } = useTranslation();
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
 		useParams();
 	const initialId = useUpdatingRef(groupIdFromParam || sessionIdFromParam);

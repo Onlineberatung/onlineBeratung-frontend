@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState, useContext } from 'react';
-import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { apiUpdatePassword } from '../../api';
 import {
@@ -27,8 +26,10 @@ import {
 import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { E2EEContext } from '../../globalState';
+import { useTranslation } from 'react-i18next';
 
 export const PasswordReset = () => {
+	const { t: translate } = useTranslation();
 	const rcUid = getValueFromCookie('rc_uid');
 
 	const [oldPassword, setOldPassword] = useState('');

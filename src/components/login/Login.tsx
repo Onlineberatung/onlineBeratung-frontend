@@ -9,7 +9,6 @@ import {
 	useState
 } from 'react';
 import { generatePath } from 'react-router-dom';
-import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { config } from '../../resources/scripts/config';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
@@ -58,11 +57,7 @@ import { history } from '../app/app';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
 import { RocketChatGlobalSettingsContext } from '../../globalState';
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
-
-const loginButton: ButtonItem = {
-	label: translate('login.button.label'),
-	type: BUTTON_TYPES.PRIMARY
-};
+import { useTranslation } from 'react-i18next';
 
 interface LoginProps {
 	legalLinks: Array<LegalLinkInterface>;
@@ -70,8 +65,14 @@ interface LoginProps {
 }
 
 export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
+	const { t: translate } = useTranslation();
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
+
+	const loginButton: ButtonItem = {
+		label: translate('login.button.label'),
+		type: BUTTON_TYPES.PRIMARY
+	};
 
 	const hasTenant = tenant != null;
 
@@ -201,7 +202,14 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 				}
 			]
 		}),
-		[agency, consultant, consultingType, preselectedAgency, validity]
+		[
+			agency,
+			consultant,
+			consultingType,
+			preselectedAgency,
+			validity,
+			translate
+		]
 	);
 
 	const handleRegistration = useCallback(
@@ -380,7 +388,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const onPasswordResetClick = (e) => {

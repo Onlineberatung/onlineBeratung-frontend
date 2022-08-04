@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { VideoCallMessageDTO } from './MessageItemComponent';
 import {
 	currentUserIsTeamConsultant,
 	currentUserWasVideoCallInitiator
 } from '../../utils/videoCallHelpers';
+import { useTranslation } from 'react-i18next';
 
 interface VideoCallMessageProps {
 	videoCallMessage: VideoCallMessageDTO;
@@ -14,6 +14,8 @@ interface VideoCallMessageProps {
 }
 
 export const VideoCallMessage = (props: VideoCallMessageProps) => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<div className="videoCallMessage__subjectWrapper">
 			<p className="videoCallMessage__subject">

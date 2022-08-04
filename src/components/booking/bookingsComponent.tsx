@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
-import { translate } from '../../utils/translate';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
@@ -26,6 +25,7 @@ import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
 import { Loading } from '../app/Loading';
 import { BookingEventUiInterface } from '../../globalState/interfaces/BookingsInterface';
 import { BookingsStatus } from '../../utils/consultant';
+import { useTranslation } from 'react-i18next';
 
 interface BookingsComponentProps {
 	bookingEventsData: BookingEventUiInterface[];
@@ -38,6 +38,7 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 	isLoading,
 	bookingStatus
 }) => {
+	const { t: translate } = useTranslation();
 	useEffect(() => {
 		setBookingWrapperActive();
 

@@ -4,9 +4,9 @@ import { Overlay, OverlayWrapper } from '../overlay/Overlay';
 import { ReactComponent as QRCodeIcon } from '../../resources/img/icons/qr-code.svg';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 import './generateQrCode.styles';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
+import { useTranslation } from 'react-i18next';
 
 interface GenerateQrCodeProps {
 	url: string;
@@ -21,6 +21,7 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 	text,
 	filename
 }) => {
+	const { t: translate } = useTranslation();
 	const [qr, setQr] = useState('');
 	const [qrDownload, setQrDownload] = useState('');
 	const [overlayActive, setOverlayActive] = useState(false);

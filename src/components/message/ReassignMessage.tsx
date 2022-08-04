@@ -1,8 +1,8 @@
 import React from 'react';
-import { translate } from '../../utils/translate';
 
 import './reassignRequestMessage.styles';
 import { Button, BUTTON_TYPES } from '../button/Button';
+import { useTranslation } from 'react-i18next';
 
 export const ReassignRequestMessage: React.FC<{
 	fromConsultantName: string;
@@ -10,6 +10,8 @@ export const ReassignRequestMessage: React.FC<{
 	isTeamSession: boolean;
 	onClick: (accepted: boolean) => void;
 }> = (props) => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
@@ -71,6 +73,8 @@ export const ReassignRequestSentMessage: React.FC<{
 	isTeamSession: boolean;
 	isMySession: boolean;
 }> = (props) => {
+	const { t: translate } = useTranslation();
+
 	let descriptionToTranslate =
 		'session.reassign.system.message.reassign.sent.description.noTeam';
 	if (props.isTeamSession && props.isMySession)
@@ -110,6 +114,7 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 	fromConsultantName: string;
 	isMySession: boolean;
 }> = (props) => {
+	const { t: translate } = useTranslation();
 	const forWhichConsultant = props.isMySession ? 'self' : 'other';
 	return (
 		<div className="reassignRequestMessage">
@@ -168,6 +173,7 @@ export const ReassignRequestDeclinedMessage: React.FC<{
 	toAskerName: string;
 	fromConsultantName: string;
 }> = (props) => {
+	const { t: translate } = useTranslation();
 	const forWhichConsultant = props.isMySession ? 'self' : 'other';
 	return (
 		<div className="reassignRequestMessage">

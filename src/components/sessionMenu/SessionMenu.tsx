@@ -6,7 +6,6 @@ import {
 	useEffect,
 	useState
 } from 'react';
-import { translate } from '../../utils/translate';
 import { config } from '../../resources/scripts/config';
 import { generatePath, Link, Redirect, useParams } from 'react-router-dom';
 import {
@@ -73,6 +72,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { Text } from '../text/Text';
 import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { useTranslation } from 'react-i18next';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -82,6 +82,7 @@ export interface SessionMenuProps {
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
+	const { t: translate } = useTranslation();
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
@@ -655,6 +656,7 @@ const SessionMenuGroup = ({
 	isJoinGroupChatView?: boolean;
 }) => {
 	const { userData } = useContext(UserDataContext);
+	const { t: translate } = useTranslation();
 
 	return (
 		<>
@@ -726,6 +728,7 @@ const SessionMenuFlyoutGroup = ({
 	handleStopGroupChat: MouseEventHandler;
 	handleLeaveGroupChat: MouseEventHandler;
 }) => {
+	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 
 	return (

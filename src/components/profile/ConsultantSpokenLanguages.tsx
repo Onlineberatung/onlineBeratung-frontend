@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { apiPutConsultantData } from '../../api';
 import { UserDataContext } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { SelectDropdown, SelectOption } from '../select/SelectDropdown';
@@ -10,23 +9,15 @@ import { Text } from '../text/Text';
 import './profile.styles';
 import { isUniqueLanguage } from './profileHelpers';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { useTranslation } from 'react-i18next';
 
 interface ConsultantSpokenLanguagesProps {
 	spokenLanguages: string[];
 }
 
-const cancelEditButton: ButtonItem = {
-	label: translate('profile.data.edit.button.cancel'),
-	type: BUTTON_TYPES.LINK
-};
-
-const saveEditButton: ButtonItem = {
-	label: translate('profile.data.edit.button.save'),
-	type: BUTTON_TYPES.LINK
-};
-
 export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps> =
 	({ spokenLanguages }) => {
+		const { t: translate } = useTranslation();
 		const { userData, setUserData } = useContext(UserDataContext);
 		const fixedLanguages = useContext(FixedLanguagesContext);
 
@@ -35,6 +26,16 @@ export const ConsultantSpokenLanguages: React.FC<ConsultantSpokenLanguagesProps>
 			useState(fixedLanguages);
 		const [previousLanguages, setPreviousLanguages] =
 			useState(fixedLanguages);
+
+		const cancelEditButton: ButtonItem = {
+			label: translate('profile.data.edit.button.cancel'),
+			type: BUTTON_TYPES.LINK
+		};
+
+		const saveEditButton: ButtonItem = {
+			label: translate('profile.data.edit.button.save'),
+			type: BUTTON_TYPES.LINK
+		};
 
 		useEffect(() => {
 			setSelectedLanguages([...userData.languages]);

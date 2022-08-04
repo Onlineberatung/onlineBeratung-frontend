@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as ArrowIcon } from '../../resources/img/illustrations/arrow.svg';
-import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { ConsultingTypeBasicInterface } from '../../globalState';
+import { useTranslation } from 'react-i18next';
 
 interface AskerRegistrationExternalAgencyOverlayProps {
 	consultingType: ConsultingTypeBasicInterface;
@@ -16,6 +16,7 @@ export const AskerRegistrationExternalAgencyOverlay = ({
 	handleOverlayAction,
 	selectedAgency
 }: AskerRegistrationExternalAgencyOverlayProps) => {
+	const { t: translate } = useTranslation();
 	const handleOverlay = (action) => {
 		if (action === OVERLAY_FUNCTIONS.REDIRECT) {
 			window.open(selectedAgency.url, '_blank')?.focus();

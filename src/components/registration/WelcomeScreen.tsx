@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Text } from '../text/Text';
 import { config } from '../../resources/scripts/config';
@@ -7,6 +6,7 @@ import { Headline } from '../headline/Headline';
 import { ServiceExplanation } from '../serviceExplanation/ServiceExplanation';
 import { RegistrationWelcomeScreenInterface } from '../../globalState';
 import './welcomeScreen.styles';
+import { useTranslation } from 'react-i18next';
 
 interface WelcomeScreenProps {
 	title: string;
@@ -21,6 +21,8 @@ export const WelcomeScreen = ({
 	welcomeScreenConfig,
 	loginParams
 }: WelcomeScreenProps) => {
+	const { t: translate } = useTranslation();
+
 	const registrationButton: ButtonItem = {
 		label: translate('registration.welcomeScreen.register.buttonLabel'),
 		type: BUTTON_TYPES.PRIMARY

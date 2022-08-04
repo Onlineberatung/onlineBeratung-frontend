@@ -700,8 +700,8 @@ export const deFormal = {
 	'message.tomorrow': 'Morgen',
 	'message.dayBeforeYesterday': 'Vorgestern',
 	// TODO
-	'message.forwardedLabel': (...replacements) =>
-		`Weitergeleitete Nachricht von ${replacements[0]}, ${replacements[1]} um ${replacements[2]}`,
+	'message.forwardedLabel':
+		'Weitergeleitete Nachricht von %username, %date um %time',
 	'message.forward.title': 'Textnachricht an\nFeedback weiterleiten',
 	'message.copy.title': 'Nachricht in Zwischenablage kopieren',
 	'message.write.peer.checkbox.label': 'Feedback anfordern',

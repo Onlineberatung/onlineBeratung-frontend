@@ -22,7 +22,6 @@ import { SESSION_LIST_TAB } from './sessionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { createGroupKey } from '../../utils/encryptionHelpers';
 import { encryptRoom } from '../../utils/e2eeHelper';
-import { translate } from '../../utils/translate';
 import { apiEnquiryAcceptance, FETCH_ERRORS } from '../../api';
 import { history } from '../app/app';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
@@ -31,6 +30,7 @@ import { apiGetSessionRoomBySessionId } from '../../api/apiGetSessionRooms';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
+import { useTranslation } from 'react-i18next';
 
 interface AcceptAssignProps {
 	assignable: boolean;
@@ -45,6 +45,7 @@ export const AcceptAssign = ({
 	btnLabel,
 	isAnonymous
 }: AcceptAssignProps) => {
+	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 
 	const { rcGroupId: groupIdFromParam } = useParams();
@@ -76,7 +77,7 @@ export const AcceptAssign = ({
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const enquiryTakenByOtherConsultantOverlayItem: OverlayItem = useMemo(
@@ -96,7 +97,7 @@ export const AcceptAssign = ({
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	useEffect(() => {

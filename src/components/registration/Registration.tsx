@@ -11,8 +11,8 @@ import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
-import { translate } from '../../utils/translate';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
+import { useTranslation } from 'react-i18next';
 
 interface RegistrationProps {
 	handleUnmatchConsultingType: Function;
@@ -27,6 +27,7 @@ export const Registration = ({
 	legalLinks,
 	stageComponent: Stage
 }: RegistrationProps) => {
+	const { t: translate } = useTranslation();
 	const { consultingTypeSlug } = useParams();
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
@@ -139,7 +140,8 @@ export const Registration = ({
 		consultantId,
 		handleUnmatchConsultant,
 		handleUnmatchConsultingType,
-		consultingTypeSlug
+		consultingTypeSlug,
+		translate
 	]);
 
 	const isFirstVisit = useIsFirstVisit();

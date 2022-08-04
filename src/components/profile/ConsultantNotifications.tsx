@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import Switch from 'react-switch';
 import { UserDataContext } from '../../globalState';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { config } from '../../resources/scripts/config';
+import { useTranslation } from 'react-i18next';
 
 export const ConsultantNotifications = () => {
+	const { t: translate } = useTranslation();
 	const { userData, setUserData } = useContext(UserDataContext);
 
 	const toogleSwitch = (types) => {

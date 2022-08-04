@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Header } from '../header/Header';
 import './waitingRoom.styles';
-import { translate } from '../../utils/translate';
 import { useEffect } from 'react';
 import { Welcome } from './WaitingRoom/Welcome';
 import { Waiting } from './WaitingRoom/Waiting';
@@ -13,6 +12,7 @@ import {
 } from '../../globalState/interfaces/AppointmentsDataInterface';
 import { PausedOrFinished } from './WaitingRoom/PausedOrFinished';
 import { Error } from './WaitingRoom/Error';
+import { useTranslation } from 'react-i18next';
 
 export interface WaitingRoomProps {
 	confirmed: boolean;
@@ -37,6 +37,7 @@ export const WaitingRoom = ({
 	status,
 	error
 }: WaitingRoomProps) => {
+	const { t: translate } = useTranslation();
 	useEffect(() => {
 		document.title = `${translate(
 			'videoConference.waitingroom.title.start'

@@ -6,13 +6,14 @@ import {
 	UserDataContext,
 	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { config } from '../../resources/scripts/config';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
+import { useTranslation } from 'react-i18next';
 
 export const ConsultantAgencies = () => {
+	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 
 	return (
@@ -67,6 +68,7 @@ type AgencyRegistrationLinkProps = {
 };
 
 const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
+	const { t: translate } = useTranslation();
 	const { addNotification } = useContext(NotificationsContext);
 
 	const copyRegistrationLink = useCallback(async () => {
@@ -85,7 +87,7 @@ const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 				});
 			}
 		);
-	}, [agency, addNotification]);
+	}, [agency, addNotification, translate]);
 
 	return (
 		<button

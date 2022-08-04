@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import sanitizeHtml from 'sanitize-html';
-import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
+import {
+	getPrettyDateFromMessageDate,
+	PrettyDate
+} from '../../utils/dateHelpers';
 import {
 	UserDataContext,
 	hasUserAuthority,
@@ -29,7 +32,6 @@ import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import { isVoluntaryInfoSet } from './messageHelpers';
 import { Text } from '../text/Text';
-import { translate } from '../../utils/translate';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Appointment } from './Appointment';
@@ -52,6 +54,7 @@ import { apiSessionAssign } from '../../api';
 
 import { MasterKeyLostMessage } from './MasterKeyLostMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
+import { useTranslation } from 'react-i18next';
 
 export enum MessageType {
 	FURTHER_STEPS = 'FURTHER_STEPS',
@@ -82,7 +85,7 @@ export interface MessageItem {
 	_id: string;
 	message: string;
 	org: string;
-	messageDate: string | number;
+	messageDate: string | number | PrettyDate;
 	messageTime: string;
 	displayName: string;
 	username: string;
@@ -133,6 +136,7 @@ export const MessageItemComponent = ({
 	t,
 	rid
 }: MessageItemComponentProps) => {
+	const { t: translate } = useTranslation();
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -192,16 +196,23 @@ export const MessageItemComponent = ({
 
 	const getMessageDate = () => {
 		if (messageDate) {
+			let text;
+			if (typeof messageDate === 'number') {
+				const prettyDate = getPrettyDateFromMessageDate(messageDate);
+				text = prettyDate.str
+					? translate(prettyDate.str)
+					: prettyDate.date;
+			} else if (typeof messageDate === 'string') {
+				text = messageDate;
+			} else {
+				text = messageDate.str
+					? translate(messageDate.str)
+					: messageDate.date;
+			}
+
 			return (
 				<div className="messageItem__divider">
-					<Text
-						text={
-							typeof messageDate === 'number'
-								? getPrettyDateFromMessageDate(messageDate)
-								: messageDate
-						}
-						type="divider"
-					/>
+					<Text text={text} type="divider" />
 				</div>
 			);
 		}

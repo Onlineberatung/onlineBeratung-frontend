@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { translate } from '../../utils/translate';
 import { AskerInfoMonitoring } from './AskerInfoMonitoring';
 import {
 	SESSION_LIST_TAB,
@@ -30,8 +29,10 @@ import {
 	mobileListView,
 	mobileUserProfileView
 } from '../app/navigationHandler';
+import { useTranslation } from 'react-i18next';
 
 export const AskerInfo = () => {
+	const { t: translate } = useTranslation();
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);

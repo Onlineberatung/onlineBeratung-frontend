@@ -1,5 +1,4 @@
 import { isUserModerator } from '../session/sessionHelpers';
-import { translate } from '../../utils/translate';
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
 import {
@@ -12,6 +11,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { BanUser } from '../banUser/BanUser';
+import { useTranslation } from 'react-i18next';
 
 interface MessageDisplayNameProps {
 	alias?: ForwardMessageDTO;
@@ -34,18 +34,23 @@ export const MessageDisplayName = ({
 	isUserBanned,
 	displayName
 }: MessageDisplayNameProps) => {
+	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 
 	const forwardedLabel = useCallback(() => {
-		const date = getPrettyDateFromMessageDate(
+		const prettyDate = getPrettyDateFromMessageDate(
 			Math.round(alias.timestamp / 1000)
 		);
-		return translate('message.forwardedLabel')(
-			alias.username, // TODO change to displayName if message service is adjusted
-			date,
-			formatToHHMM(alias.timestamp)
-		);
-	}, [alias?.timestamp, alias?.username]);
+		const translatedDate = prettyDate.str
+			? translate(prettyDate.str)
+			: translate(prettyDate.date);
+
+		return translate('message.forwardedLabel', {
+			username: alias?.username,
+			translatedDate,
+			time: alias?.timestamp
+		});
+	}, [alias?.timestamp, alias?.username, translate]);
 
 	const subscriberIsModerator = isUserModerator({
 		chatItem: activeSession.item,

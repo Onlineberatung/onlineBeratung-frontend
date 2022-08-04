@@ -5,14 +5,16 @@ import { useHistory } from 'react-router-dom';
 
 import 'intro.js/introjs.css';
 import './walkthrough.styles.scss';
-import { translate } from '../../utils/translate';
 import { UserDataContext } from '../../globalState';
 import { apiPatchConsultantData } from '../../api';
 import { config } from '../../resources/scripts/config';
 
 import stepsData from './steps';
+import { useTranslation } from 'react-i18next';
 
 export const Walkthrough = () => {
+	const { t: translate } = useTranslation();
+
 	const ref = useRef<any>();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const history = useHistory();
@@ -51,7 +53,11 @@ export const Walkthrough = () => {
 						// don't know what to do then :O)
 					});
 			}}
-			steps={stepsData}
+			steps={stepsData.map((step) => ({
+				...step,
+				title: translate(step.title),
+				intro: translate(step.intro)
+			}))}
 			initialStep={0}
 			options={{
 				hidePrev: true,

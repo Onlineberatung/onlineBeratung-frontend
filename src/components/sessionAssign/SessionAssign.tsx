@@ -7,7 +7,6 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
-import { translate } from '../../utils/translate';
 import {
 	apiGetAgencyConsultantList,
 	apiSessionAssign,
@@ -31,8 +30,10 @@ import {
 	prepareConsultantDataForSelect,
 	prepareSelectDropdown
 } from './sessionAssignHelper';
+import { useTranslation } from 'react-i18next';
 
 export const SessionAssign = (props: { value?: string }) => {
+	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const { path: listPath } = useContext(SessionTypeContext);
@@ -66,7 +67,7 @@ export const SessionAssign = (props: { value?: string }) => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const assignSelfOverlay: OverlayItem = useMemo(
@@ -86,7 +87,7 @@ export const SessionAssign = (props: { value?: string }) => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const assignSession: OverlayItem = useMemo(
@@ -110,7 +111,7 @@ export const SessionAssign = (props: { value?: string }) => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const alreadyAssignedSession: OverlayItem = useMemo(
@@ -133,7 +134,7 @@ export const SessionAssign = (props: { value?: string }) => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	useEffect(() => {

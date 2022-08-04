@@ -5,7 +5,6 @@ import {
 	ConsultantDataInterface,
 	ConsultingTypeInterface
 } from '../../globalState';
-import { translate } from '../../utils/translate';
 import './consultingTypeAgencySelection.styles';
 import '../profile/profile.styles';
 import { RadioButton } from '../radioButton/RadioButton';
@@ -21,6 +20,7 @@ import {
 } from '../select/SelectDropdown';
 import { Text } from '../text/Text';
 import { AgencyLanguages } from '../agencySelection/AgencyLanguages';
+import { useTranslation } from 'react-i18next';
 
 export interface ConsultingTypeAgencySelectionProps {
 	consultant: ConsultantDataInterface;
@@ -101,6 +101,7 @@ export const ConsultingTypeAgencySelection = ({
 	preselectedAgency,
 	onKeyDown
 }: ConsultingTypeAgencySelectionProps) => {
+	const { t: translate } = useTranslation();
 	const [selectedConsultingTypeOption, setSelectedConsultingTypeOption] =
 		useState<SelectOption>(null);
 	const [consultingTypeOptions, setConsultingTypeOptions] = useState<

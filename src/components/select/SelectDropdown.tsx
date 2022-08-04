@@ -9,6 +9,7 @@ import { Text } from '../text/Text';
 import './select.react.styles';
 import './select.styles';
 import { useResponsive } from '../../hooks/useResponsive';
+import { useTranslation } from 'react-i18next';
 
 export interface SelectOption {
 	value: string;
@@ -186,6 +187,7 @@ const colourStyles = (fromL) => ({
 });
 
 export const SelectDropdown = (props: SelectDropdownItem) => {
+	const { t: translate } = useTranslation();
 	const { fromL } = useResponsive();
 
 	const IconOption = (props) => (
@@ -212,7 +214,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 		<components.ValueContainer {...props} className="select__inputWrapper">
 			{React.Children.map(children, (child) => child)}
 			<label className="select__inputLabel">
-				{currentSelectInputLabel}
+				{translate(currentSelectInputLabel)}
 			</label>
 		</components.ValueContainer>
 	);

@@ -1,13 +1,12 @@
 import { AUTHORITIES, hasUserAuthority } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { TabsType } from '../../utils/tabsHelper';
 import { BookingEventsBooked } from './bookingEventsBooked';
 import { BookingEventsCanceled } from './bookingEventsCanceled';
 import { BookingEventsExpired } from './bookingEventsExpired';
 
-const routes: TabsType = [
+const bookingRoutes: TabsType = [
 	{
-		title: translate('booking.event.tab.booked'),
+		title: 'booking.event.tab.booked',
 		url: '/gebuchte',
 		elements: [
 			{
@@ -18,7 +17,7 @@ const routes: TabsType = [
 		]
 	},
 	{
-		title: translate('booking.event.tab.canceled'),
+		title: 'booking.event.tab.canceled',
 		url: '/storniert',
 		condition: (userData) =>
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
@@ -31,7 +30,7 @@ const routes: TabsType = [
 		]
 	},
 	{
-		title: translate('booking.event.tab.expired'),
+		title: 'booking.event.tab.expired',
 		url: '/vergangen',
 		condition: (userData) =>
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
@@ -45,4 +44,4 @@ const routes: TabsType = [
 	}
 ];
 
-export default routes;
+export default bookingRoutes;

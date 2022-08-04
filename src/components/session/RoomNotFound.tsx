@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { MessageSubmitInfo } from '../messageSubmitInterface/MessageSubmitInfo';
-import { translate } from '../../utils/translate';
 import { history } from '../app/app';
+import { useTranslation } from 'react-i18next';
 
 export const RoomNotFound = () => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<div>
 			<MessageSubmitInfo

@@ -12,7 +12,6 @@ import {
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { AgencySelection } from '../agencySelection/AgencySelection';
 import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
-import { translate } from '../../utils/translate';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
 import { RegistrationAge } from '../registration/RegistrationAge';
 import { RegistrationState } from '../registration/RegistrationState';
@@ -29,6 +28,7 @@ import {
 	useConsultingTypeAgencySelection
 } from '../consultingTypeSelection/ConsultingTypeAgencySelection';
 import { MainTopicSelection } from '../mainTopicSelection/MainTopicSelection';
+import { useTranslation } from 'react-i18next';
 
 interface FormAccordionProps {
 	consultingType?: ConsultingTypeInterface;
@@ -55,6 +55,7 @@ export const FormAccordion = ({
 	initialPostcode,
 	mainTopicId
 }: FormAccordionProps) => {
+	const { t: translate } = useTranslation();
 	const [activeItem, setActiveItem] = useState<number>(1);
 	const [agency, setAgency] = useState<AgencyDataInterface>();
 	const tenantData = useTenant();
@@ -286,7 +287,10 @@ export const FormAccordion = ({
 				<RegistrationState
 					dropdownSelectData={{
 						label: translate('registration.state.dropdown'),
-						options: stateData
+						options: stateData.map((option) => ({
+							...option,
+							label: translate(option.label)
+						}))
 					}}
 					onStateChange={(state) => onChange({ state })}
 					onValidityChange={(validity) =>

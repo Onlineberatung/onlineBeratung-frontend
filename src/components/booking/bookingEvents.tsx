@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { translate } from '../../utils/translate';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
@@ -33,8 +32,10 @@ import {
 	SingleComponentType
 } from '../../utils/tabsHelper';
 import { transformBookingData } from '../../utils/transformBookingData';
+import { useTranslation } from 'react-i18next';
 
 export const BookingEvents = () => {
+	const { t: translate } = useTranslation();
 	useEffect(() => {
 		setBookingWrapperActive();
 
@@ -112,7 +113,7 @@ export const BookingEvents = () => {
 										to={`/booking/events${tab.url}`}
 										activeClassName="active"
 									>
-										{tab.title}
+										{translate(tab.title)}
 									</NavLink>
 								</div>
 							))}

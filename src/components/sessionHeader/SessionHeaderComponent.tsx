@@ -56,9 +56,18 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 	const [flyoutOpenId, setFlyoutOpenId] = useState('');
 
-	const username = getContact(activeSession).username;
-	const displayName = getContact(activeSession).displayName;
-	const userSessionData = getContact(activeSession).sessionData;
+	const username = getContact(
+		activeSession,
+		translate('sessionList.user.consultantUnknown')
+	).username;
+	const displayName = getContact(
+		activeSession,
+		translate('sessionList.user.consultantUnknown')
+	).displayName;
+	const userSessionData = getContact(
+		activeSession,
+		translate('sessionList.user.consultantUnknown')
+	).sessionData;
 	const preparedUserSessionData =
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 		userSessionData &&
@@ -189,7 +198,11 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				</div>
 				<div className="sessionInfo__metaInfo">
 					<div className="sessionInfo__metaInfo__content">
-						{getGroupChatDate(activeSession.item, true)}
+						{getGroupChatDate(
+							activeSession.item,
+							translate('sessionList.time.label.postfix'),
+							true
+						)}
 					</div>
 					{activeSession.item.active &&
 					activeSession.item.subscribed &&

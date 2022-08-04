@@ -9,7 +9,6 @@ import {
 	UserDataContext
 } from '../../globalState';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
-import { translate } from '../../utils/translate';
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { ReactComponent as DeleteIcon } from '../../resources/img/icons/delete.svg';
@@ -26,6 +25,7 @@ import { AppointmentsDataInterface } from '../../globalState/interfaces/Appointm
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { videoCallErrorOverlayItem } from '../sessionMenu/sessionMenuHelpers';
 import { history } from '../app/app';
+import { useTranslation } from 'react-i18next';
 
 const DESCRIPTION_PREVIEW_LENGTH = 100;
 
@@ -40,6 +40,7 @@ export const Appointment = ({
 	editClick,
 	deleteClick
 }: AppointmentProps) => {
+	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 
 	const [overlayItem, setOverlayItem] = useState(null);
@@ -337,6 +338,7 @@ type CopyAppointmentLinkProps = {
 };
 
 const CopyAppointmentLink = ({ appointment }: CopyAppointmentLinkProps) => {
+	const { t: translate } = useTranslation();
 	const { addNotification } = useContext(NotificationsContext);
 
 	const copyRegistrationLink = useCallback(async () => {
@@ -356,7 +358,7 @@ const CopyAppointmentLink = ({ appointment }: CopyAppointmentLinkProps) => {
 				});
 			}
 		);
-	}, [appointment, addNotification]);
+	}, [appointment, addNotification, translate]);
 
 	return (
 		<span

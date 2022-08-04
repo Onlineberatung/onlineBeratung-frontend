@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState, useCallback, useMemo } from 'react';
 import { UserDataContext } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import Switch from 'react-switch';
@@ -40,6 +39,7 @@ import { Tooltip } from '../tooltip/Tooltip';
 import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
 import { history } from '../app/app';
 import useUpdateUserData from '../../utils/useUpdateUserData';
+import { useTranslation } from 'react-i18next';
 
 export const OTP_LENGTH = 6;
 
@@ -50,6 +50,7 @@ export const TWO_FACTOR_TYPES = {
 };
 
 export const TwoFactorAuth = () => {
+	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 	const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(
 		userData.twoFactorAuth.isActive
@@ -92,7 +93,8 @@ export const TwoFactorAuth = () => {
 	}, [
 		userData.twoFactorAuth.isActive,
 		userData.email,
-		userData.twoFactorAuth.type
+		userData.twoFactorAuth.type,
+		translate
 	]);
 
 	const handleSwitchChange = () => {
@@ -133,7 +135,8 @@ export const TwoFactorAuth = () => {
 		defaultOtpLabel,
 		userData.email,
 		userData.twoFactorAuth.isActive,
-		userData.twoFactorAuth.type
+		userData.twoFactorAuth.type,
+		translate
 	]);
 
 	const otpInputItem: InputFieldItem = useMemo(
@@ -228,7 +231,8 @@ export const TwoFactorAuth = () => {
 			otp,
 			twoFactorType,
 			updateUserData,
-			userData.twoFactorAuth.secret
+			userData.twoFactorAuth.secret,
+			translate
 		]
 	);
 
@@ -277,7 +281,7 @@ export const TwoFactorAuth = () => {
 				</div>
 			</div>
 		);
-	}, [twoFactorType]);
+	}, [twoFactorType, translate]);
 
 	const twoFactorAuthStepsOverlayStart: OverlayItem[] = useMemo(
 		() => [
@@ -301,7 +305,7 @@ export const TwoFactorAuth = () => {
 				]
 			}
 		],
-		[selectTwoFactorTypeButtons, twoFactorType]
+		[selectTwoFactorTypeButtons, twoFactorType, translate]
 	);
 
 	/* APP */
@@ -401,7 +405,11 @@ export const TwoFactorAuth = () => {
 				</div>
 			</div>
 		);
-	}, [userData.twoFactorAuth.secret, userData.twoFactorAuth.qrCode]);
+	}, [
+		userData.twoFactorAuth.secret,
+		userData.twoFactorAuth.qrCode,
+		translate
+	]);
 
 	const appConfirmation = (): JSX.Element => {
 		return (
@@ -517,7 +525,10 @@ export const TwoFactorAuth = () => {
 			handleOtpChange,
 			handleOverlayCloseSuccess,
 			otpInputItem,
-			otpLabelState
+			otpLabelState,
+			translate,
+			appConfirmation,
+			getAuthenticatorTools
 		]
 	);
 
@@ -563,7 +574,7 @@ export const TwoFactorAuth = () => {
 			labelState: emailLabelState,
 			content: email
 		}),
-		[email, emailLabel, emailLabelState, hasDuplicateError]
+		[email, emailLabel, emailLabelState, hasDuplicateError, translate]
 	);
 
 	const emailSelection = useCallback((): JSX.Element => {
@@ -583,7 +594,7 @@ export const TwoFactorAuth = () => {
 				)}
 			</div>
 		);
-	}, [emailInputItem, handleEmailChange, userData.email]);
+	}, [emailInputItem, handleEmailChange, userData.email, translate]);
 
 	const sendEmailActivationCode = useCallback(
 		(triggerNextStep) => {
@@ -604,7 +615,7 @@ export const TwoFactorAuth = () => {
 					}
 				});
 		},
-		[email]
+		[email, translate]
 	);
 
 	const emailCodeInput = useCallback((): JSX.Element => {
@@ -714,7 +725,8 @@ export const TwoFactorAuth = () => {
 			handleOverlayCloseSuccess,
 			otpLabelState,
 			sendEmailActivationCode,
-			userData.email
+			userData.email,
+			translate
 		]
 	);
 

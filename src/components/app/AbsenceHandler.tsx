@@ -4,15 +4,16 @@ import {
 	OverlayWrapper,
 	Overlay
 } from '../overlay/Overlay';
-import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import * as React from 'react';
 import { apiSetAbsence } from '../../api';
 import { UserDataContext } from '../../globalState';
 import { useContext, useState, useEffect } from 'react';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { useTranslation } from 'react-i18next';
 
 export const AbsenceHandler = () => {
+	const { t: translate } = useTranslation();
 	const absenceReminderOverlayItem: OverlayItem = {
 		headline: translate('absence.overlayHeadline'),
 		headlineStyleLevel: '1',

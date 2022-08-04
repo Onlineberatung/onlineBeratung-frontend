@@ -5,12 +5,12 @@ import { ReactComponent as Icon400 } from '../../resources/img/illustrations/bad
 import { ReactComponent as Icon401 } from '../../resources/img/illustrations/unauthorized.svg';
 import { ReactComponent as Icon404 } from '../../resources/img/illustrations/not-found.svg';
 import { ReactComponent as Icon500 } from '../../resources/img/illustrations/internal-server-error.svg';
-import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
 import useTenantTheming from '../../utils/useTenantTheming';
 import '../../resources/styles/styles';
 import './error.styles';
+import { useTranslation } from 'react-i18next';
 
 const getStatusCode = () => {
 	const errorRoot = document.getElementById('errorRoot');
@@ -18,6 +18,7 @@ const getStatusCode = () => {
 };
 
 export const Error = () => {
+	const { t: translate } = useTranslation();
 	useTenantTheming();
 	const statusCode = getStatusCode();
 

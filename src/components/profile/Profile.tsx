@@ -46,6 +46,7 @@ import {
 	SingleComponentType,
 	TabGroups
 } from '../../utils/tabsHelper';
+import { useTranslation } from 'react-i18next';
 
 interface ProfileProps {
 	legalLinks: Array<LegalLinkInterface>;
@@ -53,6 +54,7 @@ interface ProfileProps {
 }
 
 export const Profile = (props: ProfileProps) => {
+	const { t: translate } = useTranslation();
 	const location = useLocation();
 	const consultingTypes = useConsultingTypes();
 	const { fromL } = useResponsive();
@@ -103,7 +105,7 @@ export const Profile = (props: ProfileProps) => {
 							.map((element) =>
 								isTabGroup(element)
 									? {
-											title: element.title,
+											title: translate(element.title),
 											url: `/profile${tab.url}${element.url}`
 									  }
 									: {
@@ -204,7 +206,7 @@ export const Profile = (props: ProfileProps) => {
 											to={`/profile${tab.url}`}
 											activeClassName="active"
 										>
-											{tab.title}
+											{translate(tab.title)}
 										</NavLink>
 									</div>
 								))

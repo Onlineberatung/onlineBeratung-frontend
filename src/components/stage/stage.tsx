@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { Spinner } from '../spinner/Spinner';
 import { useContext } from 'react';
 import { TenantContext } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { ReactComponent as SkfLogo } from '../../resources/img/logos/01_skf.svg';
 import { ReactComponent as CaritasLogo } from '../../resources/img/logos/02_caritas.svg';
 import { ReactComponent as SkmLogo } from '../../resources/img/logos/03_skm.svg';
@@ -13,6 +12,7 @@ import { ReactComponent as KreuzbundLogo } from '../../resources/img/logos/05_kr
 import { ReactComponent as RaphaelswerkLogo } from '../../resources/img/logos/06_raphael.svg';
 import { ReactComponent as MalteserLogo } from '../../resources/img/logos/07_malteser.svg';
 import './stage.styles';
+import { useTranslation } from 'react-i18next';
 
 export interface StageProps {
 	className?: string;
@@ -25,6 +25,8 @@ export const Stage = ({
 	hasAnimation,
 	isReady = true
 }: StageProps) => {
+	const { t: translate } = useTranslation();
+
 	const rootNodeRef = useRef();
 	const { tenant } = useContext(TenantContext);
 	const [isAnimationDone, setIsAnimationDone] = useState(false);
