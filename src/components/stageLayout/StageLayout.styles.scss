@@ -77,6 +77,21 @@
 		@include breakpoint($fromXLarge) {
 			left: $legal-information-links-left-large;
 		}
+
+		.button-as-link {
+			background: none;
+			border: none;
+			cursor: pointer;
+
+			&:focus {
+				outline: $focus-outline;
+				border-radius: 4px;
+			}
+
+			&:focus:not(:focus-visible) {
+				outline: none;
+			}
+		}
 	}
 
 	&__legalLinksItem {

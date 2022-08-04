@@ -449,14 +449,13 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					)}
 
 					{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
-						<a
-							href={config.endpoints.loginResetPasswordLink}
-							target="_blank"
-							rel="noreferrer"
+						<button
 							onClick={onPasswordResetClick}
+							className="button-as-link"
+							type="button"
 						>
 							{translate('login.resetPasswort.label')}
-						</a>
+						</button>
 					)}
 
 					<Button
@@ -476,13 +475,18 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 								text={translate('login.register.infoText.copy')}
 								type={'infoSmall'}
 							/>
-							<a
-								className="loginForm__register__link"
-								href={config.urls.toRegistration}
-								target="_self"
+							<button
+								type="button"
+								className="loginForm__register__link button-as-link"
+								onClick={() =>
+									window.open(
+										config.urls.toRegistration,
+										'_self'
+									)
+								}
 							>
 								{translate('login.register.linkLabel')}
-							</a>
+							</button>
 						</div>
 					)}
 				</div>
@@ -505,6 +509,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 						className="login__tenantRegistrationLink"
 						href={config.urls.toRegistration}
 						target="_self"
+						tabIndex={-1}
 					>
 						<Button
 							item={{

@@ -18,11 +18,13 @@ export const Checkbox = (props) => {
 		<div className="checkbox__wrapper formWrapper__inputRow">
 			<input
 				onClick={(e) => props.checkboxHandle(e)}
+				onKeyPress={(e) => props.onKeyPress(e)}
 				id={checkboxItem.inputId}
 				className="checkbox__input"
 				type="checkbox"
 				name={checkboxItem.name}
 				defaultChecked={checkboxItem.checked}
+				tabIndex={0}
 			/>
 			{checkboxItem.checked && (
 				<CheckmarkIcon
