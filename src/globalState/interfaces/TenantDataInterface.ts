@@ -15,5 +15,6 @@ export interface TenantDataInterface {
 	};
 	settings?: {
 		topicsInRegistrationEnabled: boolean;
+		featureTopicsEnabled: boolean;
 	};
 }

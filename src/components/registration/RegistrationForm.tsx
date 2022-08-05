@@ -76,6 +76,9 @@ export const RegistrationForm = ({
 	const [overlayActive, setOverlayActive] = useState(false);
 
 	const [initialPostcode, setInitialPostcode] = useState('');
+	const topicsAreRequired =
+		tenantData?.settings?.topicsInRegistrationEnabled &&
+		tenantData?.settings?.featureTopicsEnabled;
 
 	useEffect(() => {
 		const postcodeParameter = getUrlParameter('postcode');
@@ -92,7 +95,7 @@ export const RegistrationForm = ({
 
 		if (
 			consultingType?.registration.autoSelectAgency &&
-			!tenantData?.settings?.topicsInRegistrationEnabled
+			!topicsAreRequired
 		) {
 			apiAgencySelection({
 				postcode: postcodeParameter || DEFAULT_POSTCODE,
@@ -121,7 +124,7 @@ export const RegistrationForm = ({
 		// we need to request the api to get the preselected agency
 		const shouldRequestAgencyWhenAutoSelectIsEnabled =
 			consultingType?.registration.autoSelectPostcode &&
-			!!tenantData?.settings?.topicsInRegistrationEnabled;
+			!!topicsAreRequired;
 
 		if (shouldRequestAgencyWhenAutoSelectIsEnabled) {
 			apiAgencySelection({
@@ -139,7 +142,8 @@ export const RegistrationForm = ({
 		consultingType,
 		formAccordionData.mainTopicId,
 		formAccordionData.postcode,
-		tenantData
+		tenantData,
+		topicsAreRequired
 	]);
 
 	const checkboxItemDataProtection: CheckboxItem = {

@@ -53,8 +53,8 @@ jobs:
               id: time
               uses: nanzm/get-time-action@v1.1
               with:
-                  timeZone: 0
-                  format: 'YYYYMMDD[_]hhmmss'
+                  timeZone: 2
+                  format: 'YYYYMMDD[_]HHmmss'
             - name: Prepare environment variables
               run: |
                   echo "DOCKER_REGISTRY=$(echo "docker.pkg.github.com/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV

@@ -58,6 +58,9 @@ export const FormAccordion = ({
 	const [activeItem, setActiveItem] = useState<number>(1);
 	const [agency, setAgency] = useState<AgencyDataInterface>();
 	const tenantData = useTenant();
+	const topicsAreRequired =
+		tenantData?.settings?.topicsInRegistrationEnabled &&
+		tenantData?.settings?.featureTopicsEnabled;
 
 	const [validity, setValidity] = useState({
 		username: VALIDITY_INITIAL,
@@ -68,9 +71,7 @@ export const FormAccordion = ({
 		age: additionalStepsData?.age?.isEnabled
 			? VALIDITY_INITIAL
 			: VALIDITY_VALID,
-		mainTopic: tenantData?.settings?.topicsInRegistrationEnabled
-			? VALIDITY_INITIAL
-			: VALIDITY_VALID,
+		mainTopic: topicsAreRequired ? VALIDITY_INITIAL : VALIDITY_VALID,
 		agency: VALIDITY_INITIAL
 	});
 
@@ -162,7 +163,7 @@ export const FormAccordion = ({
 		}
 	];
 
-	if (tenantData?.settings?.topicsInRegistrationEnabled) {
+	if (topicsAreRequired) {
 		accordionItemData.push({
 			title: translate('registration.mainTopic.headline'),
 			nestedComponent: (
@@ -242,7 +243,7 @@ export const FormAccordion = ({
 					hideExternalAgencies
 					onValidityChange={(validity) => {
 						if (
-							tenantData?.settings?.topicsInRegistrationEnabled &&
+							topicsAreRequired &&
 							!mainTopicId &&
 							validity !== VALIDITY_INITIAL
 						) {
