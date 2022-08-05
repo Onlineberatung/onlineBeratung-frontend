@@ -58,6 +58,7 @@
 		}
 	}
 
+	/* stylelint-disable */
 	label:not(.requestFeedbackLabel) {
 		width: calc(100% - #{$grid-base-three * 2});
 		position: absolute;
@@ -67,4 +68,5 @@
 		text-align: left;
 		background-color: white;
 	}
+	/* stylelint-enable */
 }
