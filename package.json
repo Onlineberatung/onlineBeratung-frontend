@@ -1,7 +1,7 @@
 {
 	"name": "@caritasdeutschland/caritas-onlineberatung-frontend",
 	"title": "Caritas Online-Beratung",
-	"version": "2.9.21",
+	"version": "2.9.22",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/caritasdeutschland/caritas-onlineberatung-frontend.git"
