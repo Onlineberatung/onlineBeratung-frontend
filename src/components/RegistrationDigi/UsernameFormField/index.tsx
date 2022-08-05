@@ -2,7 +2,7 @@ import { Field } from 'rc-field-form';
 import React from 'react';
 import { RegistrationUsername } from '../../registration/RegistrationUsername';
 
-const LocalPassword = ({
+const LocalUsername = ({
 	value,
 	onChange,
 	isInUse
@@ -25,7 +25,7 @@ const LocalPassword = ({
 export const UsernameFormField = ({ inInUse }: { inInUse: boolean }) => {
 	return (
 		<Field name="username" rules={[{ required: true, min: 5 }]}>
-			<LocalPassword isInUse={inInUse} />
+			<LocalUsername isInUse={inInUse} />
 		</Field>
 	);
 };
