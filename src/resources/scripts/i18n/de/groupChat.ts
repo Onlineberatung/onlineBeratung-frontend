@@ -76,7 +76,15 @@ const groupChat = {
 	'stopped.overlay.button2Label': 'Logout',
 	'updateSuccess.overlayHeadline':
 		'Ihre Änderungen wurden erfolgreich gespeichert.',
-	'updateSuccess.overlay.button1Label': 'Schließen'
+	'updateSuccess.overlay.button1Label': 'Schließen',
+	'copy.link.title': 'Einladungslink in Zwischenablage kopieren',
+	'copy.link.text': 'Link kopieren',
+	'copy.link.notification.title': 'Link kopiert',
+	'copy.link.notification.text':
+		'Einladungslink zum Gruppenchat in Zwischenablage kopiert!',
+	'qrCode.headline': 'Einladungslink QR-Code',
+	'qrCode.text':
+		'Wenn Sie Ihren QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um direkt am Video-Call teilzunehmen. Alternativ können Sie den Code auch herunterladen.'
 };
 
 export default groupChat;
