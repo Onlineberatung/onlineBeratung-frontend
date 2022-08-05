@@ -232,8 +232,6 @@ export const AgencySelection = ({
 						)}
 						agencyData={preselectedAgencies[0]}
 					/>
-
-					<Field name="agencyId" rules={[{ required: true }]} />
 				</>
 			)}
 		</div>
