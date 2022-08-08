@@ -44,12 +44,16 @@ import { useResponsive } from '../../hooks/useResponsive';
 import { Tag } from '../tag/Tag';
 import { useSession } from '../../hooks/useSession';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { GroupChatCopyLinks } from './GroupChatCopyLinks';
 
 const stopChatButtonSet: ButtonItem = {
 	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
 	function: OVERLAY_FUNCTIONS.CLOSE,
 	type: BUTTON_TYPES.PRIMARY
 };
+
+// TODO: Adding the proper feature flag to the file and replace this one
+const groupChatFeatureFlagEnabled = false;
 
 export const GroupChatInfo = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
@@ -245,6 +249,14 @@ export const GroupChatInfo = () => {
 							)}
 							type="divider"
 						/>
+
+						{groupChatFeatureFlagEnabled && (
+							<div className="profile__groupChatContainer">
+								<GroupChatCopyLinks
+									groupChatId={activeSession.rid}
+								/>
+							</div>
+						)}
 						{subscriberList ? (
 							subscriberList.map((subscriber, index) => (
 								<div

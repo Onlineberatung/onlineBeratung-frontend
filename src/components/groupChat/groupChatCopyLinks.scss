@@ -1,0 +1,10 @@
+.GroupChatCopyLinks {
+	display: flex;
+	gap: 18px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.profile__content .profile__groupChatContainer + .profile__data__item {
+	margin-top: 29px;
+}
