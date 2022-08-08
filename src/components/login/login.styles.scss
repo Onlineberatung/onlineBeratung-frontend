@@ -53,6 +53,13 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		@include breakpoint($fromLarge) {
 			width: 320px;
 		}
+
+		&__input {
+			&:focus {
+				outline: $focus-outline;
+				outline-offset: 4px;
+			}
+		}
 	}
 
 	&__headline {
