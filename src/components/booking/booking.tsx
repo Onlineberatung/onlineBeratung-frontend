@@ -40,7 +40,7 @@ export const Booking = () => {
 			getCounselorAppointmentLink(consultantId).then((response) => {
 				setAppointmentLink(response.slug);
 			});
-		} else if (agencyId) {
+		} else if (agencyId >= 0) {
 			getTeamAppointmentLink(agencyId).then((response) => {
 				setAppointmentLink(`team/${response.slug}`);
 			});
