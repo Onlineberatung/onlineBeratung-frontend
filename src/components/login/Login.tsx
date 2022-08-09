@@ -481,7 +481,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 								onClick={() =>
 									window.open(
 										config.urls.toRegistration,
-										'_blank'
+										'_self'
 									)
 								}
 							>
@@ -508,7 +508,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					<a
 						className="login__tenantRegistrationLink"
 						href={config.urls.toRegistration}
-						target="_blank"
+						target="_self"
 						tabIndex={-1}
 					>
 						<Button
