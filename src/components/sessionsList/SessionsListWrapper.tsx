@@ -56,6 +56,8 @@ export const SessionsListWrapper = ({
 		);
 	}
 
+	console.log('tarik userdata', userData);
+
 	return (
 		<div className="sessionsList__wrapper">
 			<div className="sessionsList__header" data-cy="session-list-header">
@@ -85,6 +87,7 @@ export const SessionsListWrapper = ({
 						: null}
 				</h2>
 				{type === SESSION_LIST_TYPES.MY_SESSION &&
+				false && // replace with featureToggle when implemented
 				hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData) ? (
 					<Link
 						className="sessionsList__createChatLink"
