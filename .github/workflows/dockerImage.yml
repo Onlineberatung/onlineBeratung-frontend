@@ -41,6 +41,9 @@ jobs:
                   name: buildfiles
                   path: build/**/*
     push_to_registry:
+        strategy:
+          matrix:
+            registry: ["docker.pkg.github.com", "ghcr.io"]
         needs: [build]
         name: Push Docker image to GitHub Packages
         runs-on: ubuntu-latest
@@ -58,7 +61,7 @@ jobs:
                   format: 'YYYYMMDD[_]HHmmss'
             - name: Prepare environment variables
               run: |
-                  echo "DOCKER_REGISTRY=$(echo "docker.pkg.github.com/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
+                  echo "DOCKER_REGISTRY=$(echo "${{ matrix.registry }}/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
                   echo "DOCKER_IMAGE=$(echo "${{ github.repository }}" | awk -F / '{print tolower($2)}')" >> $GITHUB_ENV
                   echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
                   echo TIME_STAMP=$(echo -n "${{ steps.time.outputs.time }}") >> $GITHUB_ENV
