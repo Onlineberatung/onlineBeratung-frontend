@@ -170,6 +170,7 @@ export const deFormal = {
 	'booking.event.tab.expired': 'Vergangen',
 	'booking.my.booking.title': 'Aktuell sind keine Termine geplant.',
 	'booking.my.booking.schedule': 'Vereinbaren Sie jetzt einen Termin mit',
+	'booking.info.video': 'Videoberatung',
 	// chatFlyout
 	'chatFlyout.askerProfil': 'Ratsuchendenprofil',
 	'chatFlyout.dataProtection': 'Datenschutz',
@@ -717,6 +718,7 @@ export const deFormal = {
 	'message.appointmentSet.cancel': 'Termin absagen',
 	'message.appointmentSet.between': 'zwischen',
 	'message.appointmentSet.and': 'und',
+	'message.appointmentSet.info.video': 'Videoberatung',
 	// monitoring
 	'monitoring.title': 'Monitoring',
 	'monitoring.empty': 'Keine Angabe',

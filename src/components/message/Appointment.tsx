@@ -103,7 +103,7 @@ export const Appointment = (param: {
 					<VideoCalIcon />
 					<Text
 						type="infoLargeAlternative"
-						text={'Videoberatung'}
+						text={translate('message.appointmentSet.info')}
 						className="appointmentSet__video"
 					/>
 				</div>

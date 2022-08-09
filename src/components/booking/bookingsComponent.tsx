@@ -196,7 +196,9 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 										<VideoCalIcon />
 										<Text
 											type="infoLargeAlternative"
-											text={'Videoberatung'}
+											text={translate(
+												'booking.info.video'
+											)}
 										/>
 									</div>
 								</div>
