@@ -1,84 +1,84 @@
 name: Publish Docker image
 
 on:
-    push:
-        branches:
-            - 'develop'
-        tags:
-            - 'dockerImage.v.*'
-            - 'v*'
+  push:
+    branches:
+      - 'develop'
+    tags:
+      - 'dockerImage.v.*'
+      - 'v*'
 
 jobs:
-    build:
-        name: Build
-        if: "!contains(github.event.head_commit.author, 'action@github.com')"
-        runs-on: ubuntu-latest
-        steps:
-            - name: set env
-              run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
-            - uses: actions/checkout@v1
-            - uses: actions/setup-node@v1
-              with:
-                  node-version: 14.18.3
-            - run: npm i
-            - name: Run linters
-              uses: wearerequired/lint-action@v1
-              with:
-                  github_token: ${{ secrets.github_token }}
-                  eslint: true
-                  eslint_dir: ./src
-                  eslint_extensions: js,ts,tsx
-                  prettier: true
-                  prettier_dir: ./src
-            - name: test and build
-              run: |
-                  echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
-                  echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
-                  npm run test
-                  npm run build
-            - uses: actions/upload-artifact@v2
-              with:
-                  name: buildfiles
-                  path: build/**/*
-    push_to_registry:
-        strategy:
-          matrix:
-            registry: ["docker.pkg.github.com", "ghcr.io"]
-        needs: [build]
-        name: Push Docker image to GitHub Packages
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Download buildfiles artifact
-              uses: actions/download-artifact@v2
-              with:
-                  name: buildfiles
-            - name: Get current time
-              id: time
-              uses: nanzm/get-time-action@v1.1
-              with:
-                  timeZone: 2
-                  format: 'YYYYMMDD[_]HHmmss'
-            - name: Prepare environment variables
-              run: |
-                echo "DOCKER_REGISTRY=$(echo "docker.pkg.github.com/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
-                echo "DOCKER_IMAGE=$(echo "${{ github.repository }}" | awk -F / '{print tolower($2)}')" >> $GITHUB_ENV
-                echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
-                echo TIME_STAMP=$(echo -n "${{ steps.time.outputs.time }}") >> $GITHUB_ENV
-              shell: bash
-            - name: Set tag for develop image
-              if: endsWith(env.BRANCH, 'develop') == true
-              run: echo DOCKER_IMAGE_TAG=$(echo "develop_${{ env.TIME_STAMP }}") >> $GITHUB_ENV
-              shell: bash
-            - name: Set tag for default image
-              if: endsWith(env.BRANCH, 'develop') == false
-              run: echo DOCKER_IMAGE_TAG=$(echo "${GITHUB_REF/refs\/tags\//}") >> $GITHUB_ENV
-              shell: bash
-            - name: Push to GitHub Packages
-              uses: docker/build-push-action@v1.1.1
-              with:
-                  username: ${{ secrets.GH_PACKAGE_RELEASE_USER }}
-                  password: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
-                  registry: ${{ env.DOCKER_REGISTRY }}
-                  repository: ${{ env.DOCKER_IMAGE }}
-                  tags: ${{ env.DOCKER_IMAGE_TAG}}
+  build:
+    name: Build
+    if: "!contains(github.event.head_commit.author, 'action@github.com')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: set env
+        run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14.18.3
+      - run: npm i
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+          with:
+            github_token: ${{ secrets.github_token }}
+            eslint: true
+            eslint_dir: ./src
+            eslint_extensions: js,ts,tsx
+            prettier: true
+            prettier_dir: ./src
+      - name: test and build
+        run: |
+          echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
+          echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
+          npm run test
+          npm run build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: buildfiles
+          path: build/**/*
+  push_to_registry:
+    strategy:
+      matrix:
+        registry: ["docker.pkg.github.com", "ghcr.io"]
+    needs: [build]
+    name: Push Docker image to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download buildfiles artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: buildfiles
+      - name: Get current time
+        id: time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          timeZone: 2
+          format: 'YYYYMMDD[_]HHmmss'
+      - name: Prepare environment variables
+        run: |
+          echo "DOCKER_REGISTRY=$(echo "docker.pkg.github.com/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE=$(echo "${{ github.repository }}" | awk -F / '{print tolower($2)}')" >> $GITHUB_ENV
+          echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
+          echo TIME_STAMP=$(echo -n "${{ steps.time.outputs.time }}") >> $GITHUB_ENV
+        shell: bash
+      - name: Set tag for develop image
+        if: endsWith(env.BRANCH, 'develop') == true
+        run: echo DOCKER_IMAGE_TAG=$(echo "develop_${{ env.TIME_STAMP }}") >> $GITHUB_ENV
+        shell: bash
+      - name: Set tag for default image
+        if: endsWith(env.BRANCH, 'develop') == false
+        run: echo DOCKER_IMAGE_TAG=$(echo "${GITHUB_REF/refs\/tags\//}") >> $GITHUB_ENV
+        shell: bash
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v1.1.1
+        with:
+          username: ${{ secrets.GH_PACKAGE_RELEASE_USER }}
+          password: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
+          registry: ${{ env.DOCKER_REGISTRY }}
+          repository: ${{ env.DOCKER_IMAGE }}
+          tags: ${{ env.DOCKER_IMAGE_TAG}}
