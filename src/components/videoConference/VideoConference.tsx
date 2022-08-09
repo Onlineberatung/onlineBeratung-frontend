@@ -217,6 +217,7 @@ const VideoConference = ({
 				roomName={appointment.id}
 				getIFrameRef={(node) => (node.style.height = '100vh')}
 				onApiReady={setExternalApi}
+				configOverwrite={{ defaultLanguage: config.language }}
 				interfaceConfigOverwrite={{
 					SHOW_PROMOTIONAL_CLOSE_PAGE: false,
 					shareableUrl: `${uiUrl}${generatePath(

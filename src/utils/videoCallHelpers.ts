@@ -9,7 +9,9 @@ export const getVideoCallUrl = (
 ) => {
 	return `${url}${
 		e2eEncryptionEnabled ? '&e2eEncryptionEnabled=1' : ''
-	}#config.startWithVideoMuted=${!isVideoActivated}&userInfo.displayName="${userName}"`;
+	}#config.defaultLanguage="${
+		config.language
+	}"&config.startWithVideoMuted=${!isVideoActivated}&userInfo.displayName="${userName}"`;
 };
 
 export const currentUserWasVideoCallInitiator = (initiatorRcUserId: string) =>

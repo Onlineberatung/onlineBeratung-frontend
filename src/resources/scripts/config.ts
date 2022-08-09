@@ -199,7 +199,9 @@ export const config = {
 				showClose: false
 			}
 		]
-	}
+	},
+	//TODO umstellen auf ausgewählte Sprache
+	language: 'sv'
 };
 
 export const ALIAS_LAST_MESSAGES = {
