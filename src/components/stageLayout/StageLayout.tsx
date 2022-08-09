@@ -49,7 +49,7 @@ export const StageLayout = ({
 									type="button"
 									className="button-as-link"
 									onClick={() =>
-										window.open(legalLink.url, '_self')
+										window.open(legalLink.url, '_blank')
 									}
 								>
 									<Text
