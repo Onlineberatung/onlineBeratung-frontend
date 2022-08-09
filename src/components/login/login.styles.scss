@@ -44,6 +44,10 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		&:focus:not(:focus-visible) {
 			outline: none;
 		}
+
+		&:hover {
+			cursor: pointer;
+		}
 	}
 
 	.inputField {
