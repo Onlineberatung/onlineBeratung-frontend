@@ -85,6 +85,7 @@ export const SessionsListWrapper = ({
 						: null}
 				</h2>
 				{type === SESSION_LIST_TYPES.MY_SESSION &&
+				!hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData) && // replace with featureToggle when implemented
 				hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData) ? (
 					<Link
 						className="sessionsList__createChatLink"
