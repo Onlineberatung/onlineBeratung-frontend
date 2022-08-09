@@ -56,8 +56,6 @@ export const SessionsListWrapper = ({
 		);
 	}
 
-	console.log('tarik userdata', userData);
-
 	return (
 		<div className="sessionsList__wrapper">
 			<div className="sessionsList__header" data-cy="session-list-header">
