@@ -387,7 +387,14 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		if (getSetting(SETTING_E2E_ENABLE)?.value) {
 			e.preventDefault();
 			setPwResetOverlayActive(true);
+			return;
 		}
+
+		window.open(
+			config.endpoints.loginResetPasswordLink,
+			'_blank',
+			'noreferrer'
+		);
 	};
 
 	return (
