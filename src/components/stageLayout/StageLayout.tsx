@@ -48,8 +48,9 @@ export const StageLayout = ({
 								<button
 									type="button"
 									className="button-as-link"
+									data-cy-link={legalLink.url}
 									onClick={() =>
-										window.open(legalLink.url, '_self')
+										window.open(legalLink.url, '_blank')
 									}
 								>
 									<Text
