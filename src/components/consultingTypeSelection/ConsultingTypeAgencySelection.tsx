@@ -124,12 +124,15 @@ export const ConsultingTypeAgencySelection = ({
 		const consultingTypeOptions = possibleConsultingTypes.map(
 			(consultingType) => ({
 				value: consultingType.id.toString(),
-				label: consultingType.titles.long
+				label: translate([
+					`consultingType.${consultingType.id}.titles.long`,
+					consultingType.titles.long
+				])
 			})
 		);
 		setConsultingTypeOptions(consultingTypeOptions);
 		setSelectedConsultingTypeOption(consultingTypeOptions[0]);
-	}, [possibleConsultingTypes]);
+	}, [possibleConsultingTypes, translate]);
 
 	useEffect(() => {
 		if (!selectedConsultingTypeOption) {

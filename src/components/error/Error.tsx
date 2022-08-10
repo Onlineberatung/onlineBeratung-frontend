@@ -49,7 +49,6 @@ export const Error = () => {
 			type = 'error';
 			break;
 	}
-	console.log('Hallo', translate);
 	return (
 		<div className={clsx('errorPage', `errorPage--${type}`)}>
 			<header className="errorPage__header">

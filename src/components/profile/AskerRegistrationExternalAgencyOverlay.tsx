@@ -35,7 +35,10 @@ export const AskerRegistrationExternalAgencyOverlay = ({
 					),
 					copy:
 						translate('profile.externalRegistration.copy.start') +
-						consultingType.titles.default +
+						translate([
+							`consultingType.${consultingType.id}.titles.default`,
+							consultingType.titles.default
+						]) +
 						translate('profile.externalRegistration.copy.end'),
 					buttonSet: [
 						{

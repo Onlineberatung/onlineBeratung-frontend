@@ -3,8 +3,7 @@ import { useContext } from 'react';
 import { useConsultingTypes, UserDataContext } from '../../globalState';
 import {
 	getAddictiveDrugsString,
-	handleNumericTranslation,
-	translate
+	handleNumericTranslation
 } from '../../utils/translate';
 import {
 	getAddictiveDrugsTranslatable,
@@ -12,8 +11,10 @@ import {
 } from './profileHelpers';
 import { Headline } from '../headline/Headline';
 import { Box } from '../box/Box';
+import { useTranslation } from 'react-i18next';
 
 export const AskerConsultingTypeData = () => {
+	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 	const consultingTypes = useConsultingTypes();
 
@@ -37,13 +38,21 @@ export const AskerConsultingTypeData = () => {
 								<div className="profile__content__title">
 									<Headline
 										className="pr--3"
-										text={
+										text={translate([
+											`consultingType.${
+												consultingTypes.find(
+													(cur) =>
+														cur.id ===
+														resort.agency
+															.consultingType
+												)?.id
+											}.titles.default`,
 											consultingTypes.find(
 												(cur) =>
 													cur.id ===
 													resort.agency.consultingType
 											)?.titles.default
-										}
+										])}
 										semanticLevel="5"
 									/>
 								</div>

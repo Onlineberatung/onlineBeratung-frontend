@@ -13,13 +13,15 @@ interface WelcomeScreenProps {
 	handleForwardToRegistration: Function;
 	welcomeScreenConfig?: RegistrationWelcomeScreenInterface;
 	loginParams?: string;
+	consultingTypeId: number;
 }
 
 export const WelcomeScreen = ({
 	title,
 	handleForwardToRegistration,
 	welcomeScreenConfig,
-	loginParams
+	loginParams,
+	consultingTypeId
 }: WelcomeScreenProps) => {
 	const { t: translate } = useTranslation();
 
@@ -40,6 +42,7 @@ export const WelcomeScreen = ({
 			<ServiceExplanation
 				welcomeScreenConfig={welcomeScreenConfig}
 				className="registrationWelcome__explanation"
+				consultingTypeId={consultingTypeId}
 			/>
 			<div className="registrationWelcome__buttonsWrapper">
 				<div>

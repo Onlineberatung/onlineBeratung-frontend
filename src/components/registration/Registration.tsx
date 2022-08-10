@@ -96,7 +96,10 @@ export const Registration = ({
 				if (hasUniqueConsultingType) {
 					document.title = `${translate(
 						'registration.title.start'
-					)} ${consultant.agencies[0].consultingTypeRel.titles.long}`;
+					)} ${translate([
+						`consultingType.${consultingType.id}.titles.long`,
+						consultant.agencies[0].consultingTypeRel.titles.long
+					])}`;
 				}
 			} else {
 				if (!consultingType) {
@@ -123,9 +126,12 @@ export const Registration = ({
 					consultingType.languageFormal ? '' : '1'
 				);
 
-				document.title = `${translate('registration.title.start')} ${
+				document.title = `${translate(
+					'registration.title.start'
+				)} ${translate([
+					`consultingType.${consultingType.id}.titles.long`,
 					consultingType.titles.long
-				}`;
+				])}`;
 			}
 			setIsReady(true);
 		} catch (error) {
@@ -158,14 +164,17 @@ export const Registration = ({
 				(showWelcomeScreen ? (
 					<WelcomeScreen
 						title={
-							consultingType?.titles.welcome ||
-							translate('registration.overline')
+							translate([
+								`consultingType.${consultingType?.id}.titles.welcome`,
+								consultingType?.titles.welcome
+							]) || translate('registration.overline')
 						}
 						handleForwardToRegistration={
 							handleForwardToRegistration
 						}
 						loginParams={loginParams}
 						welcomeScreenConfig={consultingType?.welcomeScreen}
+						consultingTypeId={consultingType?.id}
 					/>
 				) : (
 					<RegistrationForm

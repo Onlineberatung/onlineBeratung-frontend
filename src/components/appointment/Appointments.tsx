@@ -35,41 +35,6 @@ import * as appointmentService from '../../api/appointments';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
 
-export const OnlineMeetingFormOverlay = (
-	onChange,
-	onlineMeeting
-): OverlayItem => {
-	const { t: translate } = useTranslation();
-	return {
-		headline: onlineMeeting.id
-			? translate('appointments.onlineMeeting.overlay.edit.headline')
-			: translate('appointments.onlineMeeting.overlay.add.headline'),
-		nestedComponent: (
-			<OnlineMeetingForm
-				onChange={onChange}
-				onlineMeeting={onlineMeeting}
-			/>
-		),
-		buttonSet: [
-			{
-				label: translate(
-					'appointments.onlineMeeting.overlay.add.button.cancel'
-				),
-				function: OVERLAY_FUNCTIONS.CLOSE,
-				type: BUTTON_TYPES.SECONDARY
-			},
-			{
-				label: translate(
-					'appointments.onlineMeeting.overlay.add.button.add'
-				),
-				function: 'SAVE',
-				type: BUTTON_TYPES.PRIMARY,
-				disabled: !onlineMeeting.datetime
-			}
-		]
-	};
-};
-
 interface AppointmentsProps {
 	legalLinks: Array<LegalLinkInterface>;
 }
@@ -84,6 +49,37 @@ export const Appointments = ({ legalLinks }: AppointmentsProps) => {
 	>([]);
 
 	const { fromL } = useResponsive();
+
+	const OnlineMeetingFormOverlay = (onChange, onlineMeeting): OverlayItem => {
+		return {
+			headline: onlineMeeting.id
+				? translate('appointments.onlineMeeting.overlay.edit.headline')
+				: translate('appointments.onlineMeeting.overlay.add.headline'),
+			nestedComponent: (
+				<OnlineMeetingForm
+					onChange={onChange}
+					onlineMeeting={onlineMeeting}
+				/>
+			),
+			buttonSet: [
+				{
+					label: translate(
+						'appointments.onlineMeeting.overlay.add.button.cancel'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate(
+						'appointments.onlineMeeting.overlay.add.button.add'
+					),
+					function: 'SAVE',
+					type: BUTTON_TYPES.PRIMARY,
+					disabled: !onlineMeeting.datetime
+				}
+			]
+		};
+	};
 
 	useEffect(() => {
 		appointmentService

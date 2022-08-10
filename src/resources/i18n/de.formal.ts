@@ -1334,6 +1334,8 @@ export const deFormal = {
 	'statusOverlay.success.headline': 'Ihre Nachricht wurde versendet',
 	'statusOverlay.success.text':
 		'Vielen Dank für Ihre Anfrage. Wir antworten Ihnen werktags innerhalb von 48 Stunden. Wenn Sie Ihre E-Mail-Adresse angegeben haben, erhalten Sie eine Benachrichtigung, sobald unsere Antwort vorliegt.',
+	// text
+	'text.label.hint': 'Hinweis',
 	// twoFactorAuth
 	'twoFactorAuth.title': 'Zwei-Faktor-Authentifizierung',
 	'twoFactorAuth.subtitle':

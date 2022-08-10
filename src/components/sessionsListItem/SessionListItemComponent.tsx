@@ -206,7 +206,10 @@ export const SessionListItemComponent = ({
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
-							{consultingType.titles.default}
+							{translate([
+								`consultingType.${consultingType.id}.titles.default`,
+								consultingType.titles.default
+							])}
 						</div>
 						<div className="sessionsListItem__date">
 							{getGroupChatDate(
@@ -302,7 +305,10 @@ export const SessionListItemComponent = ({
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
-							{consultingType.titles.default}{' '}
+							{translate([
+								`consultingType.${consultingType.id}.titles.default`,
+								consultingType.titles.default
+							])}{' '}
 							{session.item.consultingType !== 1 &&
 							!isAsker &&
 							!session.isLive

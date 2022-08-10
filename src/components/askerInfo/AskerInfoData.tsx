@@ -38,7 +38,10 @@ export const AskerInfoData = () => {
 					{translate('userProfile.data.resort')}
 				</p>
 				<p className="profile__data__content">
-					{consultingType.titles.default}
+					{translate([
+						`consultingType.${consultingType.id}.titles.default`,
+						consultingType.titles.default
+					])}
 				</p>
 			</div>
 			{activeSession.item.consultingType === 0 && !activeSession.isLive && (

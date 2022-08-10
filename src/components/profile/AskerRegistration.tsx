@@ -110,17 +110,26 @@ export const AskerRegistration: React.FC = () => {
 	};
 
 	const getOptionOfSelectedConsultingType = () => {
-		return consultingTypeSelectOptionsSet(userData, consultingTypes).filter(
+		return translateConsultingType(userData, consultingTypes).filter(
 			(option) => parseInt(option.value) === selectedConsultingTypeId
 		)[0];
 	};
 
+	const translateConsultingType = (userData, consultingTypes) => {
+		return consultingTypeSelectOptionsSet(userData, consultingTypes).map(
+			(option) => ({
+				...option,
+				label: translate([
+					`consultingType.${option.id}.titles.registrationDropdown`,
+					option.label
+				])
+			})
+		);
+	};
+
 	const consultingTypesDropdown: SelectDropdownItem = {
 		id: 'consultingTypeSelect',
-		selectedOptions: consultingTypeSelectOptionsSet(
-			userData,
-			consultingTypes
-		),
+		selectedOptions: translateConsultingType(userData, consultingTypes),
 		handleDropdownSelect: handleConsultingTypeSelect,
 		selectInputLabel: translate(
 			'profile.data.register.consultingTypeSelect.label'

@@ -321,6 +321,8 @@ export const deInformal = {
 	'statusOverlay.success.headline': 'Deine Nachricht wurde versendet',
 	'statusOverlay.success.text':
 		'Vielen Dank für Deine Anfrage. Wir antworten Dir werktags innerhalb von 48 Stunden. Wenn Du Deine E-Mail-Adresse angegeben hast, erhältst Du eine Benachrichtigung, sobald unsere Antwort vorliegt.',
+	// text
+	'text.label.hint': 'Hinweis',
 	// twoFactorAuth
 	'twoFactorAuth.subtitle':
 		'Nutze eine weitere App für die Anmeldung mit Deinem Caritas Konto. Dadurch ist Dein Konto sicherer vor einem möglichen unbefugtem Zugriff.',

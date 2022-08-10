@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import {
 	getAddictiveDrugsString,
-	handleNumericTranslation,
-	translate
+	handleNumericTranslation
 } from '../../utils/translate';
 import { mobileListView } from '../app/navigationHandler';
 import {
@@ -41,6 +40,7 @@ import { Tag } from '../tag/Tag';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { useTranslation } from 'react-i18next';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
@@ -51,6 +51,7 @@ export interface SessionHeaderProps {
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
+	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const consultingType = useConsultingType(activeSession.item.consultingType);
@@ -393,7 +394,10 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				<div className="sessionInfo__metaInfo">
 					{!activeSession.agency ? (
 						<div className="sessionInfo__metaInfo__content">
-							{consultingType.titles.short}
+							{translate([
+								`consultingType.${consultingType.id}.titles.short`,
+								consultingType.titles.short
+							])}
 						</div>
 					) : null}
 					{preparedUserSessionData

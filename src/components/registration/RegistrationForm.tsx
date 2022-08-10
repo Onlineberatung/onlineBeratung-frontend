@@ -248,7 +248,10 @@ export const RegistrationForm = ({
 			>
 				<h3 className="registrationForm__overline">
 					{consultingType
-						? consultingType.titles.long
+						? translate([
+								`consultingType.${consultingType.id}.titles.long`,
+								consultingType.titles.long
+						  ])
 						: translate('registration.overline')}
 				</h3>
 				<h2 className="registrationForm__headline">

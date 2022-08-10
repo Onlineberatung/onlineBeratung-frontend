@@ -68,6 +68,7 @@ export const consultingTypeSelectOptionsSet = (
 		const consultingType = getConsultingType(consultingTypes, id);
 
 		return {
+			id: id,
 			value: value.consultingType,
 			label: consultingType.titles.registrationDropdown
 		};

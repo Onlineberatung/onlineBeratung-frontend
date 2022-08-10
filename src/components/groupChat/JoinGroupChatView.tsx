@@ -60,7 +60,7 @@ export const JoinGroupChatView = ({
 	forceBannedOverlay = false,
 	bannedUsers = []
 }: JoinGroupChatViewProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate, i18n } = useTranslation();
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -305,6 +305,29 @@ export const JoinGroupChatView = ({
 		return <Redirect to={listPath + getSessionListTab()} />;
 	}
 
+	let groupChatRules: [string?] = [];
+	const hasGroupChatRulesTranslations = i18n.exists(
+		`consultingType.${consultingType.id}.groupChatRules.0`
+	);
+
+	if (hasGroupChatRulesTranslations) {
+		for (let i = 0; i < 10; i++) {
+			if (
+				i18n.exists(
+					`consultingType.${consultingType.id}.groupChatRules.${i}`
+				)
+			) {
+				groupChatRules.push(
+					translate(
+						`consultingType.${consultingType.id}.groupChatRules.${i}`
+					)
+				);
+			}
+		}
+	} else {
+		groupChatRules = consultingType.groupChat?.groupChatRules;
+	}
+
 	return (
 		<div className="session joinChat">
 			<SessionHeaderComponent
@@ -317,15 +340,9 @@ export const JoinGroupChatView = ({
 					text={translate('groupChat.join.content.headline')}
 					semanticLevel="4"
 				/>
-				{consultingType.groupChat?.groupChatRules?.map(
-					(groupChatRuleText, i) => (
-						<Text
-							text={groupChatRuleText}
-							type="standard"
-							key={i}
-						/>
-					)
-				)}
+				{groupChatRules.map((groupChatRuleText, i) => (
+					<Text text={groupChatRuleText} type="standard" key={i} />
+				))}
 			</div>
 			<div className="joinChat__button-container">
 				{!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
