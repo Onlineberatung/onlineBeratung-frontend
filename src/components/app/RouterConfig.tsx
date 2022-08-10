@@ -487,6 +487,11 @@ export const RouterConfigTeamConsultant = (): any => {
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/groupChatInfo',
 				component: GroupChatInfo,
 				type: SESSION_LIST_TYPES.TEAMSESSION
+			},
+			{
+				path: '/sessions/consultant/sessionView/createGroupChat/',
+				component: CreateGroupChatView,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			}
 		],
 		profileRoutes: [

@@ -149,7 +149,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		name: 'otp',
 		type: 'text',
 		icon: <VerifiedIcon />,
-		maxLength: OTP_LENGTH
+		maxLength: OTP_LENGTH,
+		tabIndex: isOtpRequired ? 0 : -1
 	};
 
 	const handleUsernameChange = (event) => {

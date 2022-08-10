@@ -110,9 +110,14 @@ export const useE2EE = (
 	}, [addNewUsersToEncryptedRoom, triggerReEncrypt]);
 
 	useEffect(() => {
+		const cleanup = () => {
+			setSubscriptionKeyLost(false);
+			setRoomNotFound(false);
+		};
+
 		if (!rid) {
 			setReady(true);
-			return;
+			return cleanup;
 		}
 
 		const currentRoom = rooms.find((room) => room._id === rid);
@@ -120,7 +125,7 @@ export const useE2EE = (
 		if (!currentRoom) {
 			setRoomNotFound(true);
 			setReady(true);
-			return;
+			return cleanup;
 		}
 
 		if (!currentRoom.e2eKeyId) {
@@ -130,7 +135,7 @@ export const useE2EE = (
 			setKeyID(null);
 			setSessionKeyExportedString(null);
 			setReady(true);
-			return;
+			return cleanup;
 		}
 
 		setEncrypted(true);
@@ -140,13 +145,13 @@ export const useE2EE = (
 		if (!subscription?.E2EKey) {
 			setSubscriptionKeyLost(true);
 			setReady(true);
-			return;
+			return cleanup;
 		}
 
 		// Prevent multiple decryptions
 		if (keyID) {
 			setReady(true);
-			return;
+			return cleanup;
 		}
 
 		importGroupKey(subscription.E2EKey, e2eePrivateKey).then(
@@ -158,10 +163,7 @@ export const useE2EE = (
 			}
 		);
 
-		return () => {
-			setSubscriptionKeyLost(false);
-			setRoomNotFound(false);
-		};
+		return cleanup;
 	}, [e2eePrivateKey, keyID, rid, rooms, subscriptions]);
 
 	useEffect(() => {
