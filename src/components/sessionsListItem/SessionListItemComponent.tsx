@@ -165,11 +165,15 @@ export const SessionListItemComponent = ({
 			convertISO8601ToMSSinceEpoch(createDate)
 		);
 
+		const prettyDate = getPrettyDateFromMessageDate(
+			newestDate / MILLISECONDS_PER_SECOND
+		);
+
 		return isLiveChat
 			? prettyPrintTimeDifference(newestDate, Date.now())
-			: getPrettyDateFromMessageDate(
-					newestDate / MILLISECONDS_PER_SECOND
-			  );
+			: prettyDate.str
+			? translate(prettyDate.str)
+			: prettyDate.date;
 	};
 
 	// Hide sessions if consultingType has been switched to group chat.
