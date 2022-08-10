@@ -12,6 +12,9 @@ import '../../resources/styles/styles';
 import './error.styles';
 import { useTranslation } from 'react-i18next';
 
+import i18n from '../../i18n';
+i18n.init();
+
 const getStatusCode = () => {
 	const errorRoot = document.getElementById('errorRoot');
 	return errorRoot?.dataset?.errortype;
@@ -46,7 +49,7 @@ export const Error = () => {
 			type = 'error';
 			break;
 	}
-
+	console.log('Hallo', translate);
 	return (
 		<div className={clsx('errorPage', `errorPage--${type}`)}>
 			<header className="errorPage__header">
