@@ -168,7 +168,7 @@ export const NavigationBar = ({
 				<div
 					onClick={handleLogout}
 					onKeyDown={(event) => {
-						if (event.key == 'Enter') {
+						if (event.key === 'Enter') {
 							handleLogout();
 						}
 					}}
