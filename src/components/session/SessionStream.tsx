@@ -12,13 +12,13 @@ import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
 	AUTHORITIES,
+	E2EEContext,
 	hasUserAuthority,
 	LegalLinkInterface,
 	RocketChatContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
-	UserDataContext,
-	E2EEContext
+	UserDataContext
 } from '../../globalState';
 import { apiGetSessionData, FETCH_ERRORS } from '../../api';
 import { prepareMessages, SESSION_LIST_TAB } from './sessionHelpers';
@@ -38,6 +38,7 @@ import useTyping from '../../utils/useTyping';
 import './session.styles';
 import { useE2EE } from '../../hooks/useE2EE';
 import {
+	EVENT_ROOMS_CHANGED,
 	EVENT_SUBSCRIPTIONS_CHANGED,
 	SUB_STREAM_NOTIFY_USER,
 	SUB_STREAM_ROOM_MESSAGES
@@ -69,7 +70,7 @@ export const SessionStream = ({
 	const [loading, setLoading] = useState(true);
 	const [overlayItem, setOverlayItem] = useState(null);
 
-	const { activeSession, readActiveSession } =
+	const { activeSession, readActiveSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
@@ -206,6 +207,18 @@ export const SessionStream = ({
 		)
 	);
 
+	const handleLiveChatStopped = useUpdatingRef(
+		useCallback(
+			([, room]) => {
+				if (!room.ro) {
+					return;
+				}
+				reloadActiveSession();
+			},
+			[reloadActiveSession]
+		)
+	);
+
 	useEffect(() => {
 		if (subscribed.current) {
 			setLoading(false);
@@ -238,6 +251,17 @@ export const SessionStream = ({
 						);
 
 						subscribeTyping();
+					}
+
+					if (activeSession.isLive) {
+						subscribe(
+							{
+								name: SUB_STREAM_NOTIFY_USER,
+								event: EVENT_ROOMS_CHANGED,
+								userId: getValueFromCookie('rc_uid')
+							},
+							handleLiveChatStopped
+						);
 					}
 
 					setLoading(false);
@@ -280,6 +304,17 @@ export const SessionStream = ({
 
 					unsubscribeTyping();
 				}
+
+				if (activeSession.isLive) {
+					unsubscribe(
+						{
+							name: SUB_STREAM_NOTIFY_USER,
+							event: EVENT_ROOMS_CHANGED,
+							userId: getValueFromCookie('rc_uid')
+						},
+						handleLiveChatStopped
+					);
+				}
 			}
 		};
 	}, [
@@ -287,6 +322,7 @@ export const SessionStream = ({
 		addNewUsersToEncryptedRoom,
 		fetchSessionMessages,
 		handleChatStopped,
+		handleLiveChatStopped,
 		onDebounceMessage,
 		setSessionRead,
 		subscribe,
