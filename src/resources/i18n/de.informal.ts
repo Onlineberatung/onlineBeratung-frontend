@@ -203,7 +203,7 @@ export const deInformal = {
 	'qrCode.overlay.info':
 		'Wenn Du ihn mit jemandem teilst, kann diese Person ihn mit der Handykamera scannen, um mit Dir direkt Kontakt aufzunehmen. Alternativ kannst Du den Code auch herunterladen.',
 	'qrCode.agency.overlay.info':
-		'Wenn Du den QR-Code mit jemandem teilst, kann diese Person ihn mit der Handykamera scannen, um sich direkt bei der Beratungsstelle %agency% zu registrieren. Alternativ kannst du den Code auch herunterladen.',
+		'Wenn Du den QR-Code mit jemandem teilst, kann diese Person ihn mit der Handykamera scannen, um sich direkt bei der Beratungsstelle {{agency}} zu registrieren. Alternativ kannst du den Code auch herunterladen.',
 	// registration
 	'registration.agency.preselected.prefix':
 		'Deine vorausgewählte Beratungsstelle: ',
@@ -270,13 +270,13 @@ export const deInformal = {
 	'session.acceptance.overlayHeadline':
 		'Du hast die Erstanfrage erfolgreich angenommen und findest diese nun unter „Meine Nachrichten“.',
 	'session.assignOther.overlay.headline':
-		'Möchtest Du %client% an %newConsultant% zuweisen?',
+		'Möchtest Du {{client}} an {{newConsultant}} zuweisen?',
 	'session.assignOther.overlay.subtitle.noTeam':
-		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Du hast keinen Zugiff mehr auf die Nachrichten.',
+		'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Du hast keinen Zugiff mehr auf die Nachrichten.',
 	'session.assignOther.overlay.subtitle.team.self':
-		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich. Stimmt %toAskerName% der Zuweisung zu, findest Du den Chatverlauf in Deinen Nachrichten und nicht mehr unter Teamberatung.',
+		'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, findest Du den Chatverlauf in Deinen Nachrichten und nicht mehr unter Teamberatung.',
 	'session.assignOther.overlay.subtitle.team.other':
-		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich. Stimmt %toAskerName% der Zuweisung zu, findest Du den Chatverlauf unter Teamberatung und nicht mehr in Deinen Nachrichten.',
+		'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, findest Du den Chatverlauf unter Teamberatung und nicht mehr in Deinen Nachrichten.',
 	'session.alreadyAssigned.overlay.headline':
 		'Du hast diese Beratung bereits zugewiesen.',
 	'session.assignOther.overlayHeadline':
@@ -290,31 +290,31 @@ export const deInformal = {
 	'session.dragAndDrop.explanation.outsideDropArea':
 		'Ziehe die Datei in das Feld, um sie hochzuladen.',
 	'session.reassign.system.message.reassign.title':
-		'%oldConsultant% möchte Dich an %newConsultant% übergeben.',
+		'{{oldConsultant}} möchte Dich an {{newConsultant}} übergeben.',
 	'session.reassign.system.message.reassign.description.noTeam':
-		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für Dich verantwortlich. %oldConsultant% hat keinen Zugriff mehr auf die Nachrichten.',
+		'{{newConsultant}} kann somit den kompletten Nachrichtenverlauf lesen und ist für Dich verantwortlich. {{oldConsultant}} hat keinen Zugriff mehr auf die Nachrichten.',
 	'session.reassign.system.message.reassign.description.team':
-		'%newConsultant% ist somit für Dich verantwortlich.',
+		'{{newConsultant}} ist somit für Dich verantwortlich.',
 	'session.reassign.system.message.reassign.question':
 		'Stimmst Du der Übergabe zu?.',
 	'session.reassign.system.message.reassign.accepted.title.self':
-		'%oldConsultant% hat Dir %client% übergeben.',
+		'{{oldConsultant}} hat Dir {{client}} übergeben.',
 	'session.reassign.system.message.reassign.accepted.description.self':
-		'Du bist nun für %client% verantwortlich.',
+		'Du bist nun für {{client}} verantwortlich.',
 	'session.reassign.system.message.reassign.declined.description.self':
-		'Du bist weiterhin für %client% verantwortlich.',
+		'Du bist weiterhin für {{client}} verantwortlich.',
 	'session.reassign.system.message.reassign.accepted.consultant.title':
-		'%newConsultant% kümmert sich nun um Dich und Deine Anliegen.',
+		'{{newConsultant}} kümmert sich nun um Dich und Deine Anliegen.',
 	'session.reassign.system.message.reassign.accepted.new.consultant.description':
-		'Wir haben %newConsultant1% benachrichtigt. Du kannst nun Nachrichten an %newConsultant2% schicken.',
+		'Wir haben {{newConsultant1}} benachrichtigt. Du kannst nun Nachrichten an {{newConsultant2}} schicken.',
 	'session.reassign.system.message.reassign.accepted.old.consultant.description':
-		'Wir haben %newConsultant% benachrichtigt. %oldConsultant% ist nicht mehr für Dich zuständig.',
+		'Wir haben {{newConsultant}} benachrichtigt. {{oldConsultant}} ist nicht mehr für Dich zuständig.',
 	'session.reassign.system.message.reassign.declined.old.consultant.title':
-		'%oldConsultant% kümmert sich weiterhin um Dich und Deine Anliegen.',
+		'{{oldConsultant}} kümmert sich weiterhin um Dich und Deine Anliegen.',
 	'session.reassign.system.message.reassign.sent.description.team.self':
-		'Sobald %client1% der Zuweisung zustimmt, ist %newConsultant% für %client2% verantwortlich. Du findest den Chatverlauf dann unter Teamberatung und nicht mehr hier in Deinen Nachrichten.',
+		'Sobald {{client1}} der Zuweisung zustimmt, ist {{newConsultant}} für {{client2}} verantwortlich. Du findest den Chatverlauf dann unter Teamberatung und nicht mehr hier in Deinen Nachrichten.',
 	'session.reassign.system.message.reassign.sent.description.team.other':
-		'Sobald %client1% der Zuweisung zustimmt, ist %newConsultant% für %client2% verantwortlich. Du findest den Chatverlauf dann in Deinen Nachrichten und nicht mehr hier unter Teamberatung.',
+		'Sobald {{client1}} der Zuweisung zustimmt, ist {{newConsultant}} für {{client2}} verantwortlich. Du findest den Chatverlauf dann in Deinen Nachrichten und nicht mehr hier unter Teamberatung.',
 	// sessionList
 	'sessionList.asker.unread.secondLine': 'Du hast eine neue Nachricht!',
 	// statusOVerlay
@@ -360,9 +360,9 @@ export const deInformal = {
 	'twoFactorAuth.nag.copy':
 		'Sicher Dein Konto vor einem möglichen unbefugten Zugriff. Nutze einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Bratung.',
 	'twoFactorAuth.nag.obligatory.moment.title':
-		'Schütze Dein Konto bis spätestens %date%',
+		'Schütze Dein Konto bis spätestens {{date}}',
 	'twoFactorAuth.nag.obligatory.moment.copy':
-		'Du musst bis zum %date1% einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Dein Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Achtung: Ohne einen zweiten Faktor darfst Du nach dem %date2% nicht mehr online beraten.</b>',
+		'Du musst bis zum {{date1}} einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Dein Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Achtung: Ohne einen zweiten Faktor darfst Du nach dem {{date2}} nicht mehr online beraten.</b>',
 	'twoFactorAuth.nag.obligatory.title': 'Schütze nun Dein Konto',
 	'twoFactorAuth.nag.obligatory.copy':
 		'Du musst jetzt einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Dein Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Ohne einen zweiten Faktor dürfst Du nicht mehr online beraten.</b>',

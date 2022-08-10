@@ -700,9 +700,8 @@ export const deFormal = {
 	'message.yesterday': 'Gestern',
 	'message.tomorrow': 'Morgen',
 	'message.dayBeforeYesterday': 'Vorgestern',
-	// TODO
 	'message.forwardedLabel':
-		'Weitergeleitete Nachricht von %username, %date um %time',
+		'Weitergeleitete Nachricht von {{username}}, {{date}} um {{time}}',
 	'message.forward.title': 'Textnachricht an\nFeedback weiterleiten',
 	'message.copy.title': 'Nachricht in Zwischenablage kopieren',
 	'message.write.peer.checkbox.label': 'Feedback anfordern',
@@ -1067,14 +1066,14 @@ export const deFormal = {
 	'profile.notifications.follow.up.email.label':
 		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.',
 	// qrCode
-	'qrCode.download.filename': 'qr-code-%filename%',
+	'qrCode.download.filename': 'qr-code-{{filename}}',
 	'qrCode.link.text': 'QR-Code anzeigen',
 	'qrCode.personal.overlay.headline': 'Ihr persönlicher QR-Code',
 	'qrCode.personal.overlay.info':
 		'Wenn Sie Ihren QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um mit Ihnen direkt Kontakt aufzunehmen. Alternativ können Sie den Code auch herunterladen.',
 	'qrCode.agency.overlay.headline': 'Beratungsstellen QR-Code',
 	'qrCode.agency.overlay.info':
-		'Wenn Sie den QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um sich direkt bei der Beratungsstelle %agency% zu registrieren. Alternativ können Sie den Code auch herunterladen.',
+		'Wenn Sie den QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um sich direkt bei der Beratungsstelle {{agency}} zu registrieren. Alternativ können Sie den Code auch herunterladen.',
 	'qrCode.overlay.download': 'QR-Code als .png herunterladen',
 	'qrCode.overlay.close': 'Schließen',
 	'qrCode.overlay.image.alt': 'QR-Code',
@@ -1231,13 +1230,13 @@ export const deFormal = {
 		'Diese Erstanfrage wurde bereits von einem anderen Berater angenommen.',
 	'session.anonymous.takenByOtherConsultant.buttonLabel': 'Schließen',
 	'session.assignOther.overlay.headline':
-		'Möchten Sie %client% an %newConsultant% zuweisen?',
+		'Möchten Sie {{client}} an {{newConsultant}} zuweisen?',
 	'session.assignOther.overlay.subtitle.noTeam':
-		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugiff mehr auf die Nachrichten.',
+		'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugiff mehr auf die Nachrichten.',
 	'session.assignOther.overlay.subtitle.team.self':
-		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich. Stimmt %toAskerName% der Zuweisung zu, finden Sie den Chatverlauf in Ihren Nachrichten und nicht mehr unter Teamberatung.',
+		'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, finden Sie den Chatverlauf in Ihren Nachrichten und nicht mehr unter Teamberatung.',
 	'session.assignOther.overlay.subtitle.team.other':
-		'%newConsultant% ist somit für die_den Ratsuchende_n verantwortlich. Stimmt %toAskerName% der Zuweisung zu, finden Sie den Chatverlauf unter Teamberatung und nicht mehr in Ihren Nachrichten.',
+		'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, finden Sie den Chatverlauf unter Teamberatung und nicht mehr in Ihren Nachrichten.',
 	'session.assignOther.buttonLabel.abort': 'Abbrechen',
 	'session.assignOther.buttonLabel.assign': 'Zuweisen',
 	'session.assignSelf.overlayHeadline':
@@ -1264,46 +1263,45 @@ export const deFormal = {
 	'session.dragAndDrop.restrictions':
 		'.jpg, .png, .pdf, .docx, .xlsx bis maximal 5MB',
 	'session.reassign.system.message.reassign.title':
-		'%oldConsultant% möchte Sie an %newConsultant% übergeben.',
+		'{{oldConsultant}} möchte Sie an {{newConsultant}} übergeben.',
 	'session.reassign.system.message.reassign.description.noTeam':
-		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich. %oldConsultant% hat keinen Zugriff mehr auf die Nachrichten.',
+		'{{newConsultant}} kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich. {{oldConsultant}} hat keinen Zugriff mehr auf die Nachrichten.',
 	'session.reassign.system.message.reassign.description.team':
-		'%newConsultant% ist somit für Sie verantwortlich.',
+		'{{newConsultant}} ist somit für Sie verantwortlich.',
 	'session.reassign.system.message.reassign.question':
 		'Stimmen Sie der Übergabe zu?',
 	'session.reassign.system.message.reassign.accept': 'Akzeptieren',
 	'session.reassign.system.message.reassign.decline': 'Ablehnen',
 	'session.reassign.system.message.reassign.sent.title':
 		'Anfrage zur Zuweisung versendet',
-	// TODO CHECK
 	'session.reassign.system.message.reassign.sent.description.noTeam':
-		'Sobald %client1% der Zuweisung zustimmt, wird %client2% an %newConsultant% mit dem kompletten Nachrichtenverlauf übergeben.',
+		'Sobald {{client1}} der Zuweisung zustimmt, wird {{client2}} an {{newConsultant}} mit dem kompletten Nachrichtenverlauf übergeben.',
 	'session.reassign.system.message.reassign.sent.description.team.self':
-		'Sobald %client1% der Zuweisung zustimmt, ist %newConsultant% für %client2% verantwortlich. Sie finden den Chatverlauf dann unter Teamberatung und nicht mehr hier in Ihren Nachrichten.',
+		'Sobald {{client1}} der Zuweisung zustimmt, ist {{newConsultant}} für {{client2}} verantwortlich. Sie finden den Chatverlauf dann unter Teamberatung und nicht mehr hier in Ihren Nachrichten.',
 	'session.reassign.system.message.reassign.sent.description.team.other':
-		'Sobald %client1% der Zuweisung zustimmt, ist %newConsultant% für %client2% verantwortlich. Sie finden den Chatverlauf dann in Ihren Nachrichten und nicht mehr hier unter Teamberatung.',
+		'Sobald {{client1}} der Zuweisung zustimmt, ist {{newConsultant}} für {{client2}} verantwortlich. Sie finden den Chatverlauf dann in Ihren Nachrichten und nicht mehr hier unter Teamberatung.',
 	'session.reassign.system.message.reassign.accepted.title.self':
-		'%oldConsultant% hat Ihnen %client% übergeben.',
+		'{{oldConsultant}} hat Ihnen {{client}} übergeben.',
 	'session.reassign.system.message.reassign.accepted.title.other':
-		'%oldConsultant% hat %newConsultant% %client% übergeben.',
+		'{{oldConsultant}} hat {{newConsultant}} {{client}} übergeben.',
 	'session.reassign.system.message.reassign.accepted.description.self':
-		'Sie sind nun für %client% verantwortlich.',
+		'Sie sind nun für {{client}} verantwortlich.',
 	'session.reassign.system.message.reassign.accepted.description.other':
-		'%consultant% ist nun für %client% verantwortlich.',
+		'{{consultant}} ist nun für {{client}} verantwortlich.',
 	'session.reassign.system.message.reassign.declined.title':
-		'%client% hat die Zuweisung abgelehnt.',
+		'{{client}} hat die Zuweisung abgelehnt.',
 	'session.reassign.system.message.reassign.declined.description.self':
-		'Sie sind weiterhin für %client% verantwortlich.',
+		'Sie sind weiterhin für {{client}} verantwortlich.',
 	'session.reassign.system.message.reassign.declined.description.other':
-		'%consultant% ist weiterhin für %client% verantwortlich.',
+		'{{consultant}} ist weiterhin für {{client}} verantwortlich.',
 	'session.reassign.system.message.reassign.accepted.consultant.title':
-		'%newConsultant% kümmert sich nun um Sie und Ihre Anliegen.',
+		'{{newConsultant}} kümmert sich nun um Sie und Ihre Anliegen.',
 	'session.reassign.system.message.reassign.accepted.new.consultant.description':
-		'Wir haben %newConsultant1% benachrichtigt. Sie können nun Nachrichten an %newConsultant2% schicken.',
+		'Wir haben {{newConsultant1}} benachrichtigt. Sie können nun Nachrichten an {{newConsultant2}} schicken.',
 	'session.reassign.system.message.reassign.accepted.old.consultant.description':
-		'Wir haben %newConsultant% benachrichtigt. %oldConsultant% ist nicht mehr für Sie zuständig.',
+		'Wir haben {{newConsultant}} benachrichtigt. {{oldConsultant}} ist nicht mehr für Sie zuständig.',
 	'session.reassign.system.message.reassign.declined.old.consultant.title':
-		'%oldConsultant% kümmert sich weiterhin um Sie und Ihre Anliegen.',
+		'{{oldConsultant}} kümmert sich weiterhin um Sie und Ihre Anliegen.',
 	// sessionList
 	'sessionList.teamsession': 'Team Beratung',
 	'sessionList.empty': 'Momentan sind keine Anfragen vorhanden.',
@@ -1449,9 +1447,9 @@ export const deFormal = {
 	'twoFactorAuth.nag.button.later': 'Später erinnern',
 	'twoFactorAuth.nag.button.protect': 'Jetzt schützen',
 	'twoFactorAuth.nag.obligatory.moment.title':
-		'Schützen Sie Ihr Konto bis spätestens %date%',
+		'Schützen Sie Ihr Konto bis spätestens {{date}}',
 	'twoFactorAuth.nag.obligatory.moment.copy':
-		'Sie müssen bis zum %date1% einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Ihr Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Achtung: Ohne einen zweiten Faktor dürfen Sie nach dem %date2% nicht mehr online beraten.</b>',
+		'Sie müssen bis zum {{date1}} einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Ihr Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Achtung: Ohne einen zweiten Faktor dürfen Sie nach dem {{date2}} nicht mehr online beraten.</b>',
 	'twoFactorAuth.nag.obligatory.title': 'Schützen Sie nun Ihr Konto',
 	'twoFactorAuth.nag.obligatory.copy':
 		'Sie müssen jetzt einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Ihr Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Ohne einen zweiten Faktor dürfen Sie nicht mehr online beraten.</b>',
@@ -1559,7 +1557,7 @@ export const deFormal = {
 	'videoCall.button.answerVideoCall': 'Video-Call annehmen',
 	'videoCall.incomingCall.description': 'ruft an...',
 	'videoCall.incomingCall.unsupported.description':
-		'Video-Call von %username%',
+		'Video-Call von {{username}}',
 	'videoCall.incomingCall.unsupported.hint':
 		'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Jedoch ist der Video-Call transportverschlüsselt. Bitte folgen Sie der Hilfe, um Ende-zu-Ende verschlüsselt zu telefonieren.',
 	'videoCall.incomingCall.unsupported.button': 'Hilfe öffnen',
@@ -1582,7 +1580,7 @@ export const deFormal = {
 	'videoCoference.waitingroom.dataProtection.description':
 		'Danach dürfen unsere Berater_innen einen Video-Call mit Ihnen starten.',
 	'videoCoference.waitingroom.dataProtection.label':
-		'Ich habe die %legal_links% zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
+		'Ich habe die {{legal_links}} zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 	'videoCoference.waitingroom.dataProtection.label.and': 'und',
 	'videoCoference.waitingroom.dataProtection.button': 'Bestätigen',
 	'videoCoference.waitingroom.headline': 'Bitte haben Sie etwas Geduld',
