@@ -12,12 +12,12 @@ import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
-import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
 import { LegalLinkInterface } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
+import { useTranslation } from 'react-i18next';
 
 export const history = createBrowserHistory();
 
@@ -35,9 +35,17 @@ export const App = ({
 	legalLinks,
 	entryPoint,
 	extraRoutes,
-	spokenLanguages = languageIsoCodesSortedByName,
+	spokenLanguages = config.spokenLanguages,
 	fixedLanguages = ['de']
 }: AppProps) => {
+	const { t: translate } = useTranslation();
+	const sortByTranslation = (a, b) => {
+		if (translate(`languages.${a}`) > translate(`languages.${b}`)) return 1;
+		if (translate(`languages.${a}`) < translate(`languages.${b}`))
+			return -1;
+		return 0;
+	};
+
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
@@ -152,7 +160,9 @@ export const App = ({
 							{isInitiallyLoaded && (
 								<AuthenticatedApp
 									legalLinks={legalLinks}
-									spokenLanguages={spokenLanguages}
+									spokenLanguages={spokenLanguages
+										.slice()
+										.sort(sortByTranslation)}
 									onAppReady={() => setStartWebsocket(true)}
 									onLogout={() =>
 										setDisconnectWebsocket(true)

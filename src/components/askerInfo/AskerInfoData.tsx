@@ -68,13 +68,18 @@ export const AskerInfoData = () => {
 					>
 						{item.value
 							? item.type === 'addictiveDrugs'
-								? getAddictiveDrugsString(addictiveDrugs)
-								: handleNumericTranslation(
-										getUserDataTranslateBase(
-											activeSession.item.consultingType
-										),
-										item.type,
-										item.value
+								? translate(
+										getAddictiveDrugsString(addictiveDrugs)
+								  )
+								: translate(
+										handleNumericTranslation(
+											getUserDataTranslateBase(
+												activeSession.item
+													.consultingType
+											),
+											item.type,
+											item.value
+										)
 								  )
 							: translate('profile.noContent')}
 					</p>

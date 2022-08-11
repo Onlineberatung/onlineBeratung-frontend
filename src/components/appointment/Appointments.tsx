@@ -50,36 +50,43 @@ export const Appointments = ({ legalLinks }: AppointmentsProps) => {
 
 	const { fromL } = useResponsive();
 
-	const OnlineMeetingFormOverlay = (onChange, onlineMeeting): OverlayItem => {
-		return {
-			headline: onlineMeeting.id
-				? translate('appointments.onlineMeeting.overlay.edit.headline')
-				: translate('appointments.onlineMeeting.overlay.add.headline'),
-			nestedComponent: (
-				<OnlineMeetingForm
-					onChange={onChange}
-					onlineMeeting={onlineMeeting}
-				/>
-			),
-			buttonSet: [
-				{
-					label: translate(
-						'appointments.onlineMeeting.overlay.add.button.cancel'
-					),
-					function: OVERLAY_FUNCTIONS.CLOSE,
-					type: BUTTON_TYPES.SECONDARY
-				},
-				{
-					label: translate(
-						'appointments.onlineMeeting.overlay.add.button.add'
-					),
-					function: 'SAVE',
-					type: BUTTON_TYPES.PRIMARY,
-					disabled: !onlineMeeting.datetime
-				}
-			]
-		};
-	};
+	const OnlineMeetingFormOverlay = useCallback(
+		(onChange, onlineMeeting): OverlayItem => {
+			return {
+				headline: onlineMeeting.id
+					? translate(
+							'appointments.onlineMeeting.overlay.edit.headline'
+					  )
+					: translate(
+							'appointments.onlineMeeting.overlay.add.headline'
+					  ),
+				nestedComponent: (
+					<OnlineMeetingForm
+						onChange={onChange}
+						onlineMeeting={onlineMeeting}
+					/>
+				),
+				buttonSet: [
+					{
+						label: translate(
+							'appointments.onlineMeeting.overlay.add.button.cancel'
+						),
+						function: OVERLAY_FUNCTIONS.CLOSE,
+						type: BUTTON_TYPES.SECONDARY
+					},
+					{
+						label: translate(
+							'appointments.onlineMeeting.overlay.add.button.add'
+						),
+						function: 'SAVE',
+						type: BUTTON_TYPES.PRIMARY,
+						disabled: !onlineMeeting.datetime
+					}
+				]
+			};
+		},
+		[translate]
+	);
 
 	useEffect(() => {
 		appointmentService
@@ -171,12 +178,15 @@ export const Appointments = ({ legalLinks }: AppointmentsProps) => {
 		icon: <CameraPlusIcon />
 	};
 
-	const changeOnlineMeeting = useCallback((onlineMeeting) => {
-		setOnlineMeeting(onlineMeeting);
-		setOverlayItem(
-			OnlineMeetingFormOverlay(changeOnlineMeeting, onlineMeeting)
-		);
-	}, []);
+	const changeOnlineMeeting = useCallback(
+		(onlineMeeting) => {
+			setOnlineMeeting(onlineMeeting);
+			setOverlayItem(
+				OnlineMeetingFormOverlay(changeOnlineMeeting, onlineMeeting)
+			);
+		},
+		[OnlineMeetingFormOverlay]
+	);
 
 	const editAppointment = useCallback(
 		(appointment) => {
@@ -184,7 +194,7 @@ export const Appointments = ({ legalLinks }: AppointmentsProps) => {
 				OnlineMeetingFormOverlay(changeOnlineMeeting, appointment)
 			);
 		},
-		[changeOnlineMeeting]
+		[changeOnlineMeeting, OnlineMeetingFormOverlay]
 	);
 
 	const deleteAppointment = useCallback(

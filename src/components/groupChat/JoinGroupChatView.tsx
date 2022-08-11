@@ -82,14 +82,21 @@ export const JoinGroupChatView = ({
 	const { path: listPath } = useContext(SessionTypeContext);
 	const { encrypted } = useE2EE(activeSession.rid);
 
-	const joinButtonItem: ButtonItem = {
-		label: translate('groupChat.join.button.label.join'),
-		type: BUTTON_TYPES.PRIMARY
-	};
-	const startButtonItem: ButtonItem = {
-		label: translate('groupChat.join.button.label.start'),
-		type: BUTTON_TYPES.PRIMARY
-	};
+	const joinButtonItem: ButtonItem = useMemo(
+		() => ({
+			label: translate('groupChat.join.button.label.join'),
+			type: BUTTON_TYPES.PRIMARY
+		}),
+		[translate]
+	);
+
+	const startButtonItem: ButtonItem = useMemo(
+		() => ({
+			label: translate('groupChat.join.button.label.start'),
+			type: BUTTON_TYPES.PRIMARY
+		}),
+		[translate]
+	);
 
 	const [buttonItem, setButtonItem] = useState(joinButtonItem);
 
@@ -106,27 +113,30 @@ export const JoinGroupChatView = ({
 		]
 	};
 
-	const joinGroupChatClosedErrorOverlay: OverlayItem = {
-		svg: XIcon,
-		illustrationBackground: 'error',
-		headline: translate('groupChat.join.chatClosedOverlay.headline'),
-		buttonSet: [
-			{
-				label: translate(
-					'groupChat.join.chatClosedOverlay.button1Label'
-				),
-				function: OVERLAY_FUNCTIONS.REDIRECT,
-				type: BUTTON_TYPES.PRIMARY
-			},
-			{
-				label: translate(
-					'groupChat.join.chatClosedOverlay.button2Label'
-				),
-				function: OVERLAY_FUNCTIONS.LOGOUT,
-				type: BUTTON_TYPES.SECONDARY
-			}
-		]
-	};
+	const joinGroupChatClosedErrorOverlay: OverlayItem = useMemo(
+		() => ({
+			svg: XIcon,
+			illustrationBackground: 'error',
+			headline: translate('groupChat.join.chatClosedOverlay.headline'),
+			buttonSet: [
+				{
+					label: translate(
+						'groupChat.join.chatClosedOverlay.button1Label'
+					),
+					function: OVERLAY_FUNCTIONS.REDIRECT,
+					type: BUTTON_TYPES.PRIMARY
+				},
+				{
+					label: translate(
+						'groupChat.join.chatClosedOverlay.button2Label'
+					),
+					function: OVERLAY_FUNCTIONS.LOGOUT,
+					type: BUTTON_TYPES.SECONDARY
+				}
+			]
+		}),
+		[translate]
+	);
 
 	const bannedUserOverlay: OverlayItem = useMemo(
 		() => ({
@@ -205,7 +215,12 @@ export const JoinGroupChatView = ({
 					setOverlayActive(true);
 				}
 			});
-	}, [activeSession.item.active, activeSession.item.id, reloadActiveSession]);
+	}, [
+		activeSession.item.active,
+		activeSession.item.id,
+		reloadActiveSession,
+		joinGroupChatClosedErrorOverlay
+	]);
 
 	const [startWatcher, stopWatcher, isWatcherRunning] = useWatcher(
 		updateGroupChatInfo,
@@ -238,7 +253,7 @@ export const JoinGroupChatView = ({
 		} else {
 			setButtonItem(joinButtonItem);
 		}
-	}, [activeSession.item.active, userData]);
+	}, [activeSession.item.active, userData, startButtonItem, joinButtonItem]);
 
 	useEffect(() => {
 		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {

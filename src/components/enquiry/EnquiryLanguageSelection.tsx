@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiAgencyLanguages } from '../../api/apiAgencyLanguages';
 import { getExtendedSession, SessionsDataContext } from '../../globalState';
-import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { Headline } from '../headline/Headline';
 import { isUniqueLanguage } from '../profile/profileHelpers';
 
@@ -60,14 +59,23 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 					return;
 				}
 
-				const sortedResponseLanguages = response.languages.sort(
-					(a, b) => {
-						return (
-							languageIsoCodesSortedByName.indexOf(a) -
-							languageIsoCodesSortedByName.indexOf(b)
-						);
-					}
-				);
+				const sortByTranslation = (a, b) => {
+					if (
+						translate(`languages.${a}`) >
+						translate(`languages.${b}`)
+					)
+						return 1;
+					if (
+						translate(`languages.${a}`) <
+						translate(`languages.${b}`)
+					)
+						return -1;
+					return 0;
+				};
+
+				const sortedResponseLanguages = response.languages
+					.slice()
+					.sort(sortByTranslation);
 				const sortedLanguages = [
 					...fixedLanguages,
 					...sortedResponseLanguages
@@ -76,7 +84,7 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			};
 
 			getLanguagesFromApi();
-		}, [sessions, ready, sessionIdFromParam, fixedLanguages]);
+		}, [sessions, ready, sessionIdFromParam, fixedLanguages, translate]);
 
 		const selectLanguage = (isoCode) => {
 			setSelectedLanguage(isoCode);

@@ -3,7 +3,6 @@ import ByteBuffer from 'bytebuffer';
 import { apiRocketChatUpdateGroupKey } from '../api/apiRocketChatUpdateGroupKey';
 import { apiRocketChatFetchMyKeys } from '../api/apiRocketChatFetchMyKeys';
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
-import { translate } from './translate';
 const StaticArrayBufferProto = ArrayBuffer.prototype;
 
 // encoding helper
@@ -235,16 +234,16 @@ export const decryptText = async (
 	}
 
 	if (!roomKeyID) {
-		return translate('e2ee.message.encryption');
+		return 'e2ee.message.encryption';
 	}
 	if (!groupKey) {
-		return translate('e2ee.message.encryption');
+		return 'e2ee.message.encryption';
 	}
 
 	const keyID = message.slice(encPrefix.length, 12 + encPrefix.length);
 	if (keyID !== roomKeyID) {
 		console.error('wrong room key', message);
-		return translate('e2ee.message.encryption.error');
+		return 'e2ee.message.encryption.error';
 	}
 
 	const encMessage = message.slice(12 + encPrefix.length);
@@ -257,7 +256,7 @@ export const decryptText = async (
 		return new TextDecoder('UTF-8').decode(result);
 	} catch (error) {
 		console.error('Error decrypting message: ', error, encMessage);
-		return translate('e2ee.message.encryption.error', message);
+		return 'e2ee.message.encryption.error';
 	}
 };
 

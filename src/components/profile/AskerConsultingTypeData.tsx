@@ -79,27 +79,31 @@ export const AskerConsultingTypeData = () => {
 													{resort.sessionData[item]
 														? item ===
 														  'addictiveDrugs'
-															? getAddictiveDrugsString(
-																	getAddictiveDrugsTranslatable(
+															? translate(
+																	getAddictiveDrugsString(
+																		getAddictiveDrugsTranslatable(
+																			resort
+																				.sessionData[
+																				item
+																			]
+																		)
+																	)
+															  )
+															: translate(
+																	handleNumericTranslation(
+																		getUserDataTranslateBase(
+																			parseInt(
+																				resort
+																					.agency
+																					.consultingType
+																			)
+																		),
+																		item,
 																		resort
 																			.sessionData[
 																			item
 																		]
 																	)
-															  )
-															: handleNumericTranslation(
-																	getUserDataTranslateBase(
-																		parseInt(
-																			resort
-																				.agency
-																				.consultingType
-																		)
-																	),
-																	item,
-																	resort
-																		.sessionData[
-																		item
-																	]
 															  )
 														: translate(
 																'profile.noContent'

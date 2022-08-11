@@ -408,13 +408,17 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 										key={index}
 									>
 										{item.type === 'addictiveDrugs'
-											? getAddictiveDrugsString(
-													addictiveDrugs
+											? translate(
+													getAddictiveDrugsString(
+														addictiveDrugs
+													)
 											  )
-											: handleNumericTranslation(
-													translateBase,
-													item.type,
-													item.value
+											: translate(
+													handleNumericTranslation(
+														translateBase,
+														item.type,
+														item.value
+													)
 											  )}
 									</div>
 								) : null
