@@ -338,7 +338,11 @@ export const SessionsList = ({
 								return ['removed', rid];
 							}
 
-							const sessionType = getSessionType(session, rid);
+							const sessionType = getSessionType(
+								session,
+								rid,
+								userData.userId
+							);
 
 							// If subscription session type has changed add it to remove list for current view
 							if (
@@ -407,7 +411,7 @@ export const SessionsList = ({
 				}
 			});
 		},
-		[dispatch, sessionListTab, sessionTypes, sessions]
+		[dispatch, sessionListTab, sessionTypes, sessions, userData.userId]
 	);
 
 	const onRoomsChanged = useCallback(
