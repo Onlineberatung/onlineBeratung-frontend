@@ -36,6 +36,7 @@ export const SESSION_TYPE_FEEDBACK = 'feedback';
 export const SESSION_TYPE_GROUP = 'group';
 export const SESSION_TYPE_SESSION = 'session';
 export const SESSION_TYPE_TEAMSESSION = 'teamsession';
+export const SESSION_TYPE_UNKNOWN = 'unknown';
 
 export type SESSION_TYPES =
 	| typeof SESSION_TYPE_LIVECHAT
@@ -44,7 +45,8 @@ export type SESSION_TYPES =
 	| typeof SESSION_TYPE_FEEDBACK
 	| typeof SESSION_TYPE_GROUP
 	| typeof SESSION_TYPE_SESSION
-	| typeof SESSION_TYPE_TEAMSESSION;
+	| typeof SESSION_TYPE_TEAMSESSION
+	| typeof SESSION_TYPE_UNKNOWN;
 
 export const getSessionType = (
 	session: ListItemInterface,
