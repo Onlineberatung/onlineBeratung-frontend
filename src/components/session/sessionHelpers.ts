@@ -50,7 +50,8 @@ export type SESSION_TYPES =
 
 export const getSessionType = (
 	session: ListItemInterface,
-	rid: string
+	rid: string,
+	uid: string
 ): SESSION_TYPES => {
 	const chatItem = getChatItemForSession(session);
 	switch (!isGroupChat(chatItem) && chatItem.status) {
@@ -70,7 +71,7 @@ export const getSessionType = (
 		return SESSION_TYPE_GROUP;
 	}
 
-	if (isTeamSession(chatItem)) {
+	if (isTeamSession(chatItem) && session?.consultant?.id !== uid) {
 		return SESSION_TYPE_TEAMSESSION;
 	}
 

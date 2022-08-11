@@ -21,6 +21,7 @@ import {
 	SESSION_TYPE_SESSION,
 	SESSION_TYPE_TEAMSESSION
 } from '../../components/session/sessionHelpers';
+import { UserDataContext } from './UserDataProvider';
 
 type UnreadStatusContextProps = {
 	sessions: string[];
@@ -57,6 +58,7 @@ export function RocketChatUnreadProvider({
 	children
 }: RocketChatUnreadProviderProps) {
 	const { subscriptions } = useContext(RocketChatSubscriptionsContext);
+	const { userData } = useContext(UserDataContext);
 	const [unreadStatus, setUnreadStatus] =
 		useState<UnreadStatusContextProps>(initialData);
 
@@ -103,7 +105,8 @@ export function RocketChatUnreadProvider({
 
 					const sessionType = getSessionType(
 						session,
-						subscription.rid
+						subscription.rid,
+						userData.userId
 					);
 
 					// Remove it from all unread groups
@@ -148,7 +151,7 @@ export function RocketChatUnreadProvider({
 				return newUnreadStatus;
 			});
 		},
-		[removeUnreadStatus]
+		[removeUnreadStatus, userData.userId]
 	);
 
 	// Initialize all subscriptions with unread status
