@@ -5,16 +5,9 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
-	useRef,
 	useState
 } from 'react';
 import { RocketChatSubscriptionsContext } from './RocketChatSubscriptionsProvider';
-import {
-	EVENT_MESSAGE,
-	SUB_STREAM_ROOM_MESSAGES
-} from '../../components/app/RocketChat';
-import { RocketChatContext } from './RocketChatProvider';
-import { getValueFromCookie } from '../../components/sessionCookie/accessSessionCookie';
 import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import {
 	getChatItemForSession,
@@ -28,8 +21,7 @@ import {
 	SESSION_TYPE_SESSION,
 	SESSION_TYPE_TEAMSESSION
 } from '../../components/session/sessionHelpers';
-import useDebounceCallback from '../../hooks/useDebounceCallback';
-import useUpdatingRef from '../../hooks/useUpdatingRef';
+import { UserDataContext } from './UserDataProvider';
 
 type UnreadStatusContextProps = {
 	sessions: string[];
@@ -39,6 +31,7 @@ type UnreadStatusContextProps = {
 	livechat: string[];
 	group: string[];
 	archiv: string[];
+	unknown: string[];
 };
 
 const initialData = {
@@ -48,8 +41,11 @@ const initialData = {
 	feedback: [],
 	sessions: [],
 	teamsessions: [],
-	group: []
+	group: [],
+	unknown: []
 };
+
+const UNREAD_DAYS = 30;
 
 export const RocketChatUnreadContext =
 	createContext<UnreadStatusContextProps>(initialData);
@@ -61,148 +57,142 @@ type RocketChatUnreadProviderProps = {
 export function RocketChatUnreadProvider({
 	children
 }: RocketChatUnreadProviderProps) {
-	const rcUid = useRef(getValueFromCookie('rc_uid'));
-
-	const { subscriptions, rooms } = useContext(RocketChatSubscriptionsContext);
-
-	const { subscribe, unsubscribe, ready } = useContext(RocketChatContext);
-
-	const [subscribed, setSubscribed] = useState<boolean>(false);
-	const [initialized, setInitialized] = useState<boolean>(false);
+	const { subscriptions } = useContext(RocketChatSubscriptionsContext);
+	const { userData } = useContext(UserDataContext);
 	const [unreadStatus, setUnreadStatus] =
 		useState<UnreadStatusContextProps>(initialData);
 
-	const handleSessions = useCallback((sessions, rcDatas) => {
-		if (sessions.length === 0 || rcDatas.length === 0) {
-			return;
-		}
-
-		setUnreadStatus((unreadStatus) => {
-			const newUnreadStatus = { ...unreadStatus };
-			rcDatas.forEach((rcData) => {
-				if (!rcData.unread) {
-					Object.keys(newUnreadStatus).forEach((n) => {
-						const index = newUnreadStatus[n].indexOf(rcData.rid);
-						if (index < 0) return;
-						newUnreadStatus[n].splice(index, 1);
-					});
-					return;
-				}
-
-				const session = sessions.find((s) => {
-					const chatItem = getChatItemForSession(s);
-
-					return (
-						chatItem.groupId === rcData.rid ||
-						(!isGroupChat(chatItem) &&
-							chatItem?.feedbackGroupId === rcData.rid)
-					);
-				});
-
-				if (!session) return;
-
-				const sessionType = getSessionType(session, rcData.rid);
-
-				switch (sessionType) {
-					case SESSION_TYPE_LIVECHAT:
-						newUnreadStatus.livechat.push(rcData.rid);
-						break;
-					case SESSION_TYPE_ENQUIRY:
-						newUnreadStatus.enquiry.push(rcData.rid);
-						break;
-					case SESSION_TYPE_ARCHIVED:
-						newUnreadStatus.archiv.push(rcData.rid);
-						break;
-					case SESSION_TYPE_FEEDBACK:
-						newUnreadStatus.feedback.push(rcData.rid);
-						break;
-					case SESSION_TYPE_GROUP:
-						newUnreadStatus.group.push(rcData.rid);
-						break;
-					case SESSION_TYPE_SESSION:
-						newUnreadStatus.sessions.push(rcData.rid);
-						break;
-					case SESSION_TYPE_TEAMSESSION:
-						newUnreadStatus.teamsessions.push(rcData.rid);
-				}
-			});
-
-			Object.keys(newUnreadStatus).forEach((n) => {
-				newUnreadStatus[n] = [...new Set(newUnreadStatus[n])];
-			});
-
-			return newUnreadStatus;
+	const removeUnreadStatus = useCallback((unreadStatus, rid) => {
+		Object.keys(unreadStatus).forEach((n) => {
+			const index = unreadStatus[n].indexOf(rid);
+			if (index < 0) return;
+			unreadStatus[n].splice(index, 1);
 		});
+		return unreadStatus;
 	}, []);
 
-	const onMessage = useCallback(
-		(args) => {
-			if (args.length === 0) return;
-
-			const messages = args
-				.map(([[message]]) => message)
-				// Ignore my own send messages and edited messages
-				.filter((message) => message.rid !== 'GENERAL')
-				.filter(
-					(message) =>
-						message.u._id !== rcUid.current && !message.editedBy
-				);
-
-			if (messages.length === 0) {
+	const handleSessions = useCallback(
+		(sessions, subscriptions) => {
+			if (subscriptions.length === 0) {
 				return;
 			}
 
-			apiGetSessionRoomsByGroupIds(messages.map((m) => m.rid)).then(
-				({ sessions }) => {
-					handleSessions(sessions, messages);
-				}
-			);
+			setUnreadStatus((unreadStatus) => {
+				let newUnreadStatus = { ...unreadStatus };
+				subscriptions.forEach((subscription) => {
+					if (!subscription.unread) {
+						newUnreadStatus = removeUnreadStatus(
+							newUnreadStatus,
+							subscription.rid
+						);
+						return;
+					}
+
+					const session = sessions.find((s) => {
+						const chatItem = getChatItemForSession(s);
+
+						return (
+							chatItem.groupId === subscription.rid ||
+							(!isGroupChat(chatItem) &&
+								chatItem?.feedbackGroupId === subscription.rid)
+						);
+					});
+
+					if (!session) {
+						newUnreadStatus.unknown.push(subscription.rid);
+						return;
+					}
+
+					const sessionType = getSessionType(
+						session,
+						subscription.rid,
+						userData.userId
+					);
+
+					// Remove it from all unread groups
+					newUnreadStatus = removeUnreadStatus(
+						newUnreadStatus,
+						subscription.rid
+					);
+
+					// Add it to relevant unread group
+					switch (sessionType) {
+						case SESSION_TYPE_LIVECHAT:
+							newUnreadStatus.livechat.push(subscription.rid);
+							break;
+						case SESSION_TYPE_ENQUIRY:
+							newUnreadStatus.enquiry.push(subscription.rid);
+							break;
+						case SESSION_TYPE_ARCHIVED:
+							newUnreadStatus.archiv.push(subscription.rid);
+							break;
+						case SESSION_TYPE_FEEDBACK:
+							newUnreadStatus.feedback.push(subscription.rid);
+							break;
+						case SESSION_TYPE_GROUP:
+							newUnreadStatus.group.push(subscription.rid);
+							break;
+						case SESSION_TYPE_SESSION:
+							newUnreadStatus.sessions.push(subscription.rid);
+							break;
+						case SESSION_TYPE_TEAMSESSION:
+							newUnreadStatus.teamsessions.push(subscription.rid);
+							break;
+						default:
+							newUnreadStatus.unknown.push(subscription.rid);
+							break;
+					}
+				});
+
+				Object.keys(newUnreadStatus).forEach((n) => {
+					newUnreadStatus[n] = [...new Set(newUnreadStatus[n])];
+				});
+
+				return newUnreadStatus;
+			});
 		},
-		[handleSessions]
+		[removeUnreadStatus, userData.userId]
 	);
-
-	const onDebounceMessage = useUpdatingRef(
-		useDebounceCallback(onMessage, 500, true)
-	);
-
-	// Subscribe to all my messages
-	useEffect(() => {
-		if (ready && !subscribed) {
-			setSubscribed(true);
-			subscribe(
-				{
-					name: SUB_STREAM_ROOM_MESSAGES,
-					event: EVENT_MESSAGE,
-					roomId: '__my_messages__'
-				},
-				onDebounceMessage
-			);
-		} else if (!ready) {
-			setSubscribed(false);
-		}
-	}, [onDebounceMessage, ready, subscribe, subscribed, unsubscribe]);
 
 	// Initialize all subscriptions with unread status
 	useEffect(() => {
-		if (!rooms?.length || !subscriptions?.length || initialized) {
+		if (!subscriptions?.length) {
 			return;
 		}
-		setInitialized(true);
 
-		const unreadSubscriptions = subscriptions
+		const unreadMinTime = new Date().getTime() - UNREAD_DAYS * 86400 * 1000;
+		const unreadRooms = Object.values(unreadStatus).reduce(
+			(acc, curr) => acc.concat(curr),
+			[]
+		);
+
+		const relevantSubscriptions = subscriptions
 			.filter((s) => s.rid !== 'GENERAL')
-			.filter((s) => s.unread);
-
-		if (unreadSubscriptions.length === 0) {
+			// Only take subscriptions younger than UNREAD_DAYS
+			.filter((s) => s?._updatedAt?.$date > unreadMinTime)
+			// Only handle changed subscriptions
+			.filter(
+				(s) =>
+					(s.unread > 0 && !unreadRooms.includes(s.rid)) ||
+					(s.unread === 0 && unreadRooms.includes(s.rid))
+			);
+		if (relevantSubscriptions.length === 0) {
 			return;
 		}
 
-		apiGetSessionRoomsByGroupIds(
-			unreadSubscriptions.map((s) => s.rid)
-		).then(({ sessions }) => {
-			handleSessions(sessions, unreadSubscriptions);
-		});
-	}, [subscriptions, rooms, handleSessions, initialized]);
+		// Extra information only needed for new unread messages. Prevent extra api call if a subscription is set to read
+		if (relevantSubscriptions.filter((s) => s.unread > 0).length > 0) {
+			apiGetSessionRoomsByGroupIds(
+				relevantSubscriptions
+					.filter((s) => s.unread > 0)
+					.map((s) => s.rid)
+			).then(({ sessions }) => {
+				handleSessions(sessions, relevantSubscriptions);
+			});
+		} else {
+			handleSessions([], relevantSubscriptions);
+		}
+	}, [subscriptions, handleSessions, unreadStatus]);
 
 	return (
 		<RocketChatUnreadContext.Provider value={{ ...unreadStatus }}>
