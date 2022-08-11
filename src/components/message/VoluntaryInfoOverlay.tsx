@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next';
 interface VoluntaryInfoOverlayProps {
 	voluntaryComponents: any[];
 	handleSuccess: Function;
+	consultingTypeId: number;
 }
 
 export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
@@ -34,7 +35,26 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 		useState<any>();
 
 	const renderInputComponent = (component, index) => {
+		console.log(component);
 		if (component.componentType === 'SelectDropdown') {
+			const translatedItem = {
+				...component.item,
+				selectInputLabel: translate(
+					[
+						`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.selectInputLabel`
+					],
+					component.item.selectInputLabel
+				),
+				selectedOptions: [
+					...component.item.selectedOptions.map((option) => ({
+						value: option.value,
+						label: translate([
+							`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${option.value}`,
+							option.label
+						])
+					}))
+				]
+			};
 			return (
 				<SelectDropdown
 					key={index}
@@ -47,16 +67,23 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 					defaultValue={
 						valuesOfGeneratedInputs
 							? getOptionOfSelectedValue(
-									component.item.selectedOptions,
+									translatedItem.selectedOptions,
 									valuesOfGeneratedInputs[component.name]
 							  )
 							: null
 					}
-					{...component.item}
+					{...translatedItem}
 				/>
 			);
 		} else if (component.componentType === 'RadioButton') {
 			return component.radioButtons.map((radio, index) => {
+				const translatedItem = {
+					...radio,
+					label: translate([
+						`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${radio.inputId}`,
+						radio.label
+					])
+				};
 				return (
 					<RadioButton
 						key={index}
@@ -69,12 +96,19 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 						}
 						type="box"
 						value={index}
-						{...radio}
+						{...translatedItem}
 					/>
 				);
 			});
 		} else if (component.componentType === 'TagSelect') {
 			return component.tagSelects.map((tag, index) => {
+				const translatedItem = {
+					...tag,
+					label: translate([
+						`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${tag.id}`,
+						tag.label
+					])
+				};
 				return (
 					<TagSelect
 						key={index}
@@ -87,7 +121,7 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 								true
 							)
 						}
-						{...tag}
+						{...translatedItem}
 					/>
 				);
 			});
@@ -102,7 +136,10 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 					<Headline
 						semanticLevel="2"
 						styleLevel="5"
-						text={component.headline}
+						text={translate([
+							`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.headline`,
+							component.headline
+						])}
 					/>
 					{renderInputComponent(component, index)}
 				</div>

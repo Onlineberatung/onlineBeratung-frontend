@@ -336,6 +336,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 							className="furtherSteps__infoText"
 						/>
 						<VoluntaryInfoOverlay
+							consultingTypeId={props.consultingType}
 							voluntaryComponents={
 								props.resortData.voluntaryComponents
 							}

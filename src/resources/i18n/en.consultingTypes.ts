@@ -1,8 +1,3 @@
-// TODO manche ConsultingTypes haben noch zusätzliche Beschriftungen (z.B. radioButtons), diese müssen dann auch übersetzt werden
-// https://beratung.caritas.de/service/consultingtypes/0/full
-// https://beratung.caritas.de/service/consultingtypes/1/full
-// https://beratung.caritas.de/service/consultingtypes/22/full
-
 export const enConsultingTypes = {
 	//
 	'consultingType.1.titles.default': 'zzzzzZZZZZZZZZzzzzzzz',
@@ -12,6 +7,29 @@ export const enConsultingTypes = {
 	'consultingType.1.titles.registrationDropdown': 'zzzzzZZZZZZZZZzzzzzzz',
 	'consultingType.1.anonymous.title': 'zzzzzZZZZZZZZZzzzzzzz',
 	'consultingType.1.anonymous.text': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.1.voluntaryComponents.gender.headline':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.1.voluntaryComponents.gender.female':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.1.voluntaryComponents.gender.male': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.1.voluntaryComponents.gender.diverseGender':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.1.requiredComponents.age.0': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.1.requiredComponents.age.1': '12',
+	'consultingType.1.requiredComponents.age.2': '13',
+	'consultingType.1.requiredComponents.age.3': '14',
+	'consultingType.1.requiredComponents.age.4': '15',
+	'consultingType.1.requiredComponents.age.5': '16',
+	'consultingType.1.requiredComponents.age.6': '17',
+	'consultingType.1.requiredComponents.age.7': '18',
+	'consultingType.1.requiredComponents.age.8': '19',
+	'consultingType.1.requiredComponents.age.9': '20',
+	'consultingType.1.requiredComponents.age.10': '21',
+	'consultingType.1.requiredComponents.age.11': '22',
+	'consultingType.1.requiredComponents.age.12': '23',
+	'consultingType.1.requiredComponents.age.13': '24',
+	'consultingType.1.requiredComponents.age.14': '25',
+	'consultingType.1.requiredComponents.age.15': 'zzzzzZZZZZZZZZzzzzzzz',
 
 	//
 	'consultingType.2.titles.default': 'zzzzzzzZZZZZZZZZZZzzzzzzzzzz',
@@ -109,6 +127,19 @@ export const enConsultingTypes = {
 	'consultingType.22.titles.registrationDropdown': 'zzzzzZZZZZZZZZzzzzzzz',
 	'consultingType.22.anonymous.title': 'zzzzzZZZZZZZZZzzzzzzz',
 	'consultingType.22.anonymous.text': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.22.voluntaryComponents.gender.female':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.22.voluntaryComponents.gender.male':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.22.voluntaryComponents.gender.diverseGender':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.22.requiredComponents.age.50': '20',
+	'consultingType.22.requiredComponents.age.51': '21',
+	'consultingType.22.requiredComponents.age.52': '22',
+	'consultingType.22.requiredComponents.age.53': '23',
+	'consultingType.22.requiredComponents.age.54': '24',
+	'consultingType.22.requiredComponents.age.55': '25',
+	'consultingType.22.requiredComponents.age.56': '26',
 
 	//
 	'consultingType.16.titles.default': 'zzzzzZZZZZZZZZzzzzzzz',
@@ -136,6 +167,51 @@ export const enConsultingTypes = {
 	'consultingType.0.titles.registrationDropdown': 'zzzzzZZZZZZZZZzzzzzzz',
 	'consultingType.0.anonymous.title': 'zzzzzZZZZZZZZZzzzzzzz',
 	'consultingType.0.anonymous.text': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.relation.headline':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.relation.affected':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.relation.relative':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.relation.otherType':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.addictiveDrugs.headline':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.addictiveDrugs.alcohol':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.addictiveDrugs.drugs':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.addictiveDrugs.legalHighs':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.addictiveDrugs.tabacco':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.addictiveDrugs.medication':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.addictiveDrugs.gambling':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.addictiveDrugs.internetUse':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.addictiveDrugs.eatingDisorder':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.addictiveDrugs.otherDrug':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.age.headline':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.age.selectInputLabel':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.age.0': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.age.1': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.age.2': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.age.3': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.age.4': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.age.5': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.gender.headline':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.gender.female':
+		'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.gender.male': 'zzzzzZZZZZZZZZzzzzzzz',
+	'consultingType.0.voluntaryComponents.gender.diverseGender':
+		'zzzzzZZZZZZZZZzzzzzzz',
 
 	//
 	'consultingType.10.titles.default': 'zzzzzZZZZZZZZZzzzzzzz',

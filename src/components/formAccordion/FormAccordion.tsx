@@ -267,7 +267,15 @@ export const FormAccordion = ({
 				<RegistrationAge
 					dropdownSelectData={{
 						label: translate('registration.age.dropdown'),
-						options: additionalStepsData.age.options
+						options: additionalStepsData.age.options.map(
+							(option) => ({
+								...option,
+								label: translate([
+									`consultingType.${consultingType.id}.requiredComponents.age.${option.value}`,
+									option.label
+								])
+							})
+						)
 					}}
 					onAgeChange={(age) => onChange({ age })}
 					onValidityChange={(validity) =>
