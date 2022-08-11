@@ -18,7 +18,6 @@ import { RegistrationState } from '../registration/RegistrationState';
 import { RegistrationPassword } from '../registration/RegistrationPassword';
 import {
 	AccordionItemValidity,
-	stateData,
 	VALIDITY_INITIAL,
 	VALIDITY_INVALID,
 	VALIDITY_VALID
@@ -289,15 +288,21 @@ export const FormAccordion = ({
 	}
 
 	if (additionalStepsData?.state?.isEnabled) {
+		// we want an array from 1 to 16 and the 0 at the end
+		let countiesArray = Array.from(Array(17).keys());
+		countiesArray.push(countiesArray.shift());
+
 		accordionItemData.push({
 			title: translate('registration.state.headline'),
 			nestedComponent: (
 				<RegistrationState
 					dropdownSelectData={{
 						label: translate('registration.state.dropdown'),
-						options: stateData.map((option) => ({
-							...option,
-							label: translate(option.label)
+						options: countiesArray.map((value) => ({
+							value: `${value}`,
+							label: translate(
+								`registration.state.options.${value}`
+							)
 						}))
 					}}
 					onStateChange={(state) => onChange({ state })}
