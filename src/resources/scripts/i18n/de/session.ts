@@ -47,7 +47,7 @@ const session = {
 	'reassign.system.message.reassign.description.noTeam':
 		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich. %oldConsultant% hat keinen Zugriff mehr auf die Nachrichten.',
 	'reassign.system.message.reassign.description.team':
-		'%newConsultant% ist somit für Sie verantwortlich.',
+		'%newConsultant% kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich.',
 	'reassign.system.message.reassign.question': 'Stimmen Sie der Übergabe zu?',
 	'reassign.system.message.reassign.accept': 'Akzeptieren',
 	'reassign.system.message.reassign.decline': 'Ablehnen',
