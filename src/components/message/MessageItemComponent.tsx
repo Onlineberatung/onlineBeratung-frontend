@@ -283,7 +283,8 @@ export const MessageItemComponent = ({
 		return null;
 	}
 
-	const isTeamSession = activeSession?.item?.isTeamSession;
+	const isTeamSession =
+		activeSession?.item?.isTeamSession && !activeSession?.item?.isPeerChat;
 	const isMySession = activeSession?.consultant?.id === userData?.userId;
 	const isAppointmentSet =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_SET ||
