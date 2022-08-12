@@ -118,7 +118,7 @@ $inputSpacing: 32px;
 		margin-top: $grid-base-three;
 
 		.inputField {
-			width: $input-width;
+			width: $chat-input-width;
 			margin-bottom: $grid-base-four;
 		}
 	}
@@ -148,7 +148,7 @@ $inputSpacing: 32px;
 	.select__wrapper {
 		margin: 0 0 $inputSpacing 0;
 		padding: 0;
-		width: $input-width;
+		width: $chat-input-width;
 	}
 	.checkbox__wrapper {
 		margin-bottom: $inputSpacing;
