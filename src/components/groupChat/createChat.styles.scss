@@ -1,6 +1,5 @@
 $iconSize: 24px;
 $inputSpacing: 32px;
-$chat-input-width: 320px;
 
 .createChat {
 	&__wrapper {
@@ -119,7 +118,7 @@ $chat-input-width: 320px;
 		margin-top: $grid-base-three;
 
 		.inputField {
-			width: $chat-input-width;
+			width: $input-width;
 			margin-bottom: $grid-base-four;
 		}
 	}
@@ -149,7 +148,7 @@ $chat-input-width: 320px;
 	.select__wrapper {
 		margin: 0 0 $inputSpacing 0;
 		padding: 0;
-		width: $chat-input-width;
+		width: $input-width;
 	}
 	.checkbox__wrapper {
 		margin-bottom: $inputSpacing;

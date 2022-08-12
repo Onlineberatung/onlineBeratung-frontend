@@ -5,8 +5,6 @@ $textareaHeight: 72px;
 $sessionHeaderHeight: 85px;
 $unreadButtonSize: 18px;
 $session-scroll-to-bottom-radius: $button-border-radius !default;
-$session-scroll-to-bottom-color: #212121;
-$session-scroll-to-bottom-color-hover: #545454;
 
 .session,
 .enquiry__wrapper {
@@ -129,19 +127,6 @@ $session-scroll-to-bottom-color-hover: #545454;
 		&--disabled {
 			animation: disappear-animation 0.3s;
 			animation-fill-mode: forwards;
-		}
-
-		.button {
-			&__smallIcon,
-			&__smallIcon--alternate {
-				background-color: $session-scroll-to-bottom-color;
-				&:hover {
-					background-color: $session-scroll-to-bottom-color-hover;
-				}
-				svg {
-					fill: $white;
-				}
-			}
 		}
 	}
 
