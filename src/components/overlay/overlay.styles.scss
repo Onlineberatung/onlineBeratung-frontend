@@ -92,6 +92,10 @@ $overlay-illustration-size-large: 160px;
 		h1 {
 			margin-bottom: $grid-base-two;
 		}
+
+		&:focus {
+			outline: none;
+		}
 	}
 
 	&__closeIcon {

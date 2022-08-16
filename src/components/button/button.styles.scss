@@ -36,6 +36,7 @@ $buttonHeight: 50px;
 		color: var(--text-color-contrast-switch, $white);
 		background: var(--skin-color-primary, $primary);
 		box-shadow: $button-box-shadow-default;
+		border: none;
 
 		&:hover {
 			background-color: var(--skin-color-primary-hover, $hover-primary);

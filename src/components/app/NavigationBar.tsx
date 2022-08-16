@@ -167,6 +167,11 @@ export const NavigationBar = ({
 						))}
 				<div
 					onClick={handleLogout}
+					onKeyDown={(event) => {
+						if (event.key === 'Enter') {
+							handleLogout();
+						}
+					}}
 					className={clsx(
 						'navigation__item navigation__item__logout',
 						{
@@ -177,6 +182,7 @@ export const NavigationBar = ({
 								)
 						}
 					)}
+					tabIndex={0}
 				>
 					<LogoutIcon className="navigation__icon" />
 					<span className="navigation__title">

@@ -36,6 +36,7 @@ $registration-form-headline-margin-bottom: 24px;
 			&:hover {
 				color: $link-color-hover;
 				text-decoration: $link-text-decoration-hover;
+				cursor: pointer;
 			}
 
 			&:focus {
@@ -94,15 +95,6 @@ $registration-form-headline-margin-bottom: 24px;
 
 	&__no-agency-found {
 		margin-top: 28px;
-	}
-
-	.inputField {
-		&__input {
-			&:focus {
-				outline: $focus-outline;
-				outline-offset: 4px;
-			}
-		}
 	}
 
 	.select__wrapper {
