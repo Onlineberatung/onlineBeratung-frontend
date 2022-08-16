@@ -31,7 +31,7 @@ export const config = {
 		appointmentServiceBase: apiUrl + '/service/agency/',
 		appointmentServiceMeetingLink: (agencyId: number) =>
 			apiUrl +
-			`/service/appointservice/agencies/${agencyId}/initialMeetingSlugReal`,
+			`/service/appointservice/agencies/${agencyId}/getInitialMeetingSlug`,
 		counselorAppointmentLink: (userId: string) =>
 			apiUrl +
 			`/service/appointservice/consultants/${userId}/meetingSlug`,
