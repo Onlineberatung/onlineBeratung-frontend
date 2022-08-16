@@ -387,6 +387,23 @@ export const config = {
 		'za',
 		'zh',
 		'zu'
+	],
+	languages: [
+		{
+			label: '(DE) Deutsch Formell',
+			value: 'deFormal',
+			short: 'de'
+		},
+		{
+			label: '(DE) Deutsch Informal',
+			value: 'deInformal',
+			short: 'de i'
+		},
+		{
+			label: '(EN) Englisch',
+			value: 'enFormal',
+			short: 'en'
+		}
 	]
 };
 

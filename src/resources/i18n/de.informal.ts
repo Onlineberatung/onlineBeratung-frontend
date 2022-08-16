@@ -198,6 +198,7 @@ export const deInformal = {
 		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten hast.',
 	'profile.spokenLanguages.info':
 		'Wähle die Sprache(n) aus, in der Du die Ratsuchenden beraten kannst. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.',
+	'profile.appLanguage.info': 'Stelle hier die Sprache der Anwendung ein.',
 	// qrCode
 	'qrCode.overlay.headline': 'Dein persönlicher QR-Code',
 	'qrCode.overlay.info':

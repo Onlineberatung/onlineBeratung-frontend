@@ -17,6 +17,7 @@ import { config } from '../../resources/scripts/config';
 import { Help } from '../help/Help';
 import { ConsultantNotifications } from './ConsultantNotifications';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
+import { AppLanguage } from './AppLanguage';
 
 const profileRoutes: TabsType = [
 	{
@@ -86,6 +87,15 @@ const profileRoutes: TabsType = [
 							).length > 0,
 						component: AskerRegistration,
 						order: 3,
+						column: COLUMN_RIGHT
+					},
+					{
+						condition: (userData) =>
+							hasUserAuthority(
+								AUTHORITIES.CONSULTANT_DEFAULT,
+								userData
+							),
+						component: AppLanguage,
 						column: COLUMN_RIGHT
 					}
 				]

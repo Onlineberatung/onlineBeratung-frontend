@@ -36,11 +36,6 @@
 	}
 
 	&__toLogin {
-		position: absolute;
-		top: 22px;
-		right: 16px;
-		margin-top: 0;
-
 		@include breakpoint($fromMedium) {
 			right: 25px;
 		}
@@ -102,5 +97,17 @@
 	&__legalLinksSeparator {
 		display: inline-block;
 		margin: 0 $grid-base;
+	}
+
+	&__headerLanguage {
+		//width: 15%;
+	}
+
+	&__header {
+		position: absolute;
+		top: 22px;
+		right: 16px;
+		margin-top: 0;
+		display: flex;
 	}
 }

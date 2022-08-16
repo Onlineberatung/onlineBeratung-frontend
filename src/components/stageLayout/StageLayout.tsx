@@ -7,6 +7,7 @@ import './StageLayout.styles.scss';
 import clsx from 'clsx';
 import { LegalLinkInterface } from '../../globalState';
 import { useTranslation } from 'react-i18next';
+import { LanguageSwitch } from '../languageSwitch/LanguageSwitch';
 
 interface StageLayoutProps {
 	className?: string;
@@ -34,6 +35,34 @@ export const StageLayout = ({
 			{React.cloneElement(Children.only(stage as ReactElement), {
 				className: 'stageLayout__stage'
 			})}
+			<div className="stageLayout__header">
+				<div className="stageLayout__headerLanguage">
+					<LanguageSwitch />
+				</div>
+				{showLoginLink && (
+					<div className="stageLayout__toLogin">
+						<div className="stageLayout__toLogin__button">
+							<a
+								href={`${config.urls.toLogin}${
+									loginParams ? `?${loginParams}` : ''
+								}`}
+								tabIndex={-1}
+							>
+								<Button
+									item={{
+										label: translate(
+											'registration.login.label'
+										),
+										type: 'TERTIARY'
+									}}
+									isLink
+								/>
+							</a>
+						</div>
+					</div>
+				)}
+			</div>
+
 			<div className="stageLayout__content">
 				{children}
 				{showLegalLinks && (
@@ -65,33 +94,6 @@ export const StageLayout = ({
 					</div>
 				)}
 			</div>
-			{showLoginLink && (
-				<div className="stageLayout__toLogin">
-					<Text
-						type="infoSmall"
-						text={translate('registration.login.helper')}
-						className="stageLayout__toLogin__text"
-					/>
-					<div className="stageLayout__toLogin__button">
-						<a
-							href={`${config.urls.toLogin}${
-								loginParams ? `?${loginParams}` : ''
-							}`}
-							tabIndex={-1}
-						>
-							<Button
-								item={{
-									label: translate(
-										'registration.login.label'
-									),
-									type: 'TERTIARY'
-								}}
-								isLink
-							/>
-						</a>
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };

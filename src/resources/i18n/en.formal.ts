@@ -903,6 +903,8 @@ export const enFormal = {
 	'profile.notifications.title': 'XXXxXXXxXXX',
 	'profile.notifications.subtitle': 'XXXxXXXxXXX',
 	'profile.notifications.follow.up.email.label': 'XXXxXXXxXXX',
+	'profile.appLanguage.title': 'XXXxXXXxXXX',
+	'profile.appLanguage.info': 'XXXxXXXxXXX',
 	// qrCode
 	'qrCode.download.filename': 'XXXxXXXxXXX',
 	'qrCode.link.text': 'XXXxXXXxXXX',

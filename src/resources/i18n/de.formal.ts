@@ -1065,6 +1065,9 @@ export const deFormal = {
 	'profile.notifications.subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
 	'profile.notifications.follow.up.email.label':
 		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.',
+	'profile.appLanguage.title': 'Sprache',
+	'profile.appLanguage.info':
+		'Stellen Sie hier die Sprache der Anwendung ein.',
 	// qrCode
 	'qrCode.download.filename': 'qr-code-{{filename}}',
 	'qrCode.link.text': 'QR-Code anzeigen',

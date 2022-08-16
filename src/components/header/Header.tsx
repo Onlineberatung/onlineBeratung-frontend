@@ -5,10 +5,12 @@ import { useContext } from 'react';
 import { TenantContext } from '../../globalState';
 import './header.styles';
 import { useTranslation } from 'react-i18next';
+import { LanguageSwitch } from '../languageSwitch/LanguageSwitch';
 
-export const Header = () => {
+export const Header = ({ showLanguageSwitch = false }) => {
 	const { t: translate } = useTranslation();
 	const { tenant } = useContext(TenantContext);
+
 	return (
 		<header className="header">
 			<Headline
@@ -19,6 +21,7 @@ export const Header = () => {
 				type="standard"
 				text={tenant?.content?.claim || translate('app.claim')}
 			/>
+			{showLanguageSwitch && <LanguageSwitch />}
 		</header>
 	);
 };

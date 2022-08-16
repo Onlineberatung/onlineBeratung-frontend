@@ -348,7 +348,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	return (
 		<>
 			<div className="waitingRoom">
-				<Header />
+				<Header showLanguageSwitch={true} />
 				<div className="waitingRoom__contentWrapper">
 					{getContent()}
 				</div>
