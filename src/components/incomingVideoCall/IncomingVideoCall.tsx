@@ -1,25 +1,24 @@
 import * as React from 'react';
+import { useContext } from 'react';
+import { isMobile } from 'react-device-detect';
+import { generatePath } from 'react-router-dom';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import { useContext } from 'react';
 import {
 	NotificationType,
 	NotificationsContext,
 	UserDataContext
 } from '../../globalState';
-import {
-	getVideoCallUrl,
-	supportsE2EEncryptionVideoCall
-} from '../../utils/videoCallHelpers';
+import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { apiRejectVideoCall } from '../../api';
 import './incomingVideoCall.styles';
-import { isMobile } from 'react-device-detect';
 import { ReactComponent as CloseIcon } from '../../resources/img/icons/x.svg';
 import { history } from '../app/app';
 import { useTranslation } from 'react-i18next';
+import { config } from '../../resources/scripts/config';
 
 export interface VideoCallRequestProps {
 	rcGroupId: string;
@@ -83,12 +82,17 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 	};
 
 	const handleAnswerVideoCall = (isVideoActivated: boolean = false) => {
+		const url = new URL(props.videoCall.videoCallUrl);
 		window.open(
-			getVideoCallUrl(
-				props.videoCall.videoCallUrl,
-				isVideoActivated,
-				userData.userName
-			)
+			generatePath(config.urls.videoCall, {
+				domain: url.host,
+				jwt: url.searchParams.get('jwt'),
+				e2e: 0,
+				video: isVideoActivated ? 1 : 0,
+				username: userData.displayName
+					? userData.displayName
+					: userData.userName
+			})
 		);
 		removeIncomingVideoCallNotification();
 	};

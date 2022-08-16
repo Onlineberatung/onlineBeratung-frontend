@@ -18,6 +18,7 @@ import { LegalLinkInterface } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
 import { useTranslation } from 'react-i18next';
+import VideoCall from '../videoCall/VideoCall';
 
 export const history = createBrowserHistory();
 
@@ -156,6 +157,9 @@ export const App = ({
 							)}
 							<Route path={config.urls.videoConference} exact>
 								<VideoConference legalLinks={legalLinks} />
+							</Route>
+							<Route path={config.urls.videoCall} exact>
+								<VideoCall />
 							</Route>
 							{isInitiallyLoaded && (
 								<AuthenticatedApp

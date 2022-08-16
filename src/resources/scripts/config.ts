@@ -166,6 +166,7 @@ export const config = {
 		toEntry: uiUrl + '/',
 		toLogin: uiUrl + '/login',
 		toRegistration: 'https://www.caritas.de/onlineberatung',
+		videoCall: '/videoanruf/:domain/:jwt/:video?/:username?/:e2e?',
 		videoConference: '/videoberatung/:type/:appointmentId'
 	},
 	postcodeFallbackUrl: '{url}',

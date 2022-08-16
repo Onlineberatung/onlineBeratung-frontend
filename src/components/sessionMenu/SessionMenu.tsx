@@ -61,10 +61,7 @@ import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
-import {
-	getVideoCallUrl,
-	supportsE2EEncryptionVideoCall
-} from '../../utils/videoCallHelpers';
+import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { history } from '../app/app';
 import DeleteSession from '../session/DeleteSession';
@@ -398,13 +395,18 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			userData.displayName ? userData.displayName : userData.userName
 		)
 			.then((response) => {
-				videoCallWindow.location.href = getVideoCallUrl(
-					response.moderatorVideoCallUrl,
-					isVideoActivated,
-					userData.displayName
-						? userData.displayName
-						: userData.userName,
-					userData.e2eEncryptionEnabled ?? false
+				const url = new URL(response.moderatorVideoCallUrl);
+				videoCallWindow.location.href = generatePath(
+					config.urls.videoCall,
+					{
+						domain: url.host,
+						jwt: url.searchParams.get('jwt'),
+						e2e: userData.e2eEncryptionEnabled ? 1 : 0,
+						video: isVideoActivated ? 1 : 0,
+						username: userData.displayName
+							? userData.displayName
+							: userData.userName
+					}
 				);
 				videoCallWindow.focus();
 			})
