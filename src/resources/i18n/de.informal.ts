@@ -295,7 +295,7 @@ export const deInformal = {
 	'session.reassign.system.message.reassign.description.noTeam':
 		'{{newConsultant}} kann somit den kompletten Nachrichtenverlauf lesen und ist für Dich verantwortlich. {{oldConsultant}} hat keinen Zugriff mehr auf die Nachrichten.',
 	'session.reassign.system.message.reassign.description.team':
-		'{{newConsultant}} ist somit für Dich verantwortlich.',
+		'{{newConsultant}} kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich.',
 	'session.reassign.system.message.reassign.question':
 		'Stimmst Du der Übergabe zu?.',
 	'session.reassign.system.message.reassign.accepted.title.self':
