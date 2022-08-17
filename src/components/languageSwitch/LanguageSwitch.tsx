@@ -1,16 +1,15 @@
 import * as React from 'react';
 import './languageSwitch.styles';
-import { ReactComponent as PersonIcon } from '../../resources/img/icons/language.svg';
+import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language.svg';
 import { config } from '../../resources/scripts/config';
-import i18n from '../../i18n';
 import Select from 'react-select';
+import { useContext } from 'react';
+import { AppLanguageContext } from '../../globalState';
 
 export const LanguageSwitch = () => {
-	const setlanguage = (e) => {
-		i18n.changeLanguage(e.value);
-	};
+	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 
-	const customStyles = {
+	const languageSwitchStyles = {
 		control: (provided) => ({
 			...provided,
 			width: 160,
@@ -27,17 +26,20 @@ export const LanguageSwitch = () => {
 		option: (styles) => ({
 			...styles,
 			cursor: 'pointer'
+		}),
+		input: () => ({
+			color: 'transparent'
 		})
 	};
 
 	return (
 		<div className={'languageSwitch'}>
-			<PersonIcon width={20} height={20} />
+			<LanguageIcon width={20} height={20} />
 			<Select
 				options={config.languages}
-				defaultValue={config.languages[0]}
-				onChange={setlanguage}
-				styles={customStyles}
+				defaultValue={appLanguage ? appLanguage : config.languages[0]}
+				onChange={(e) => setAppLanguage(e)}
+				styles={languageSwitchStyles}
 				components={{
 					DropdownIndicator: () => null,
 					IndicatorSeparator: () => null

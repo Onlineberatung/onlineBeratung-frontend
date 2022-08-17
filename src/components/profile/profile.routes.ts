@@ -88,15 +88,6 @@ const profileRoutes: TabsType = [
 						component: AskerRegistration,
 						order: 3,
 						column: COLUMN_RIGHT
-					},
-					{
-						condition: (userData) =>
-							hasUserAuthority(
-								AUTHORITIES.CONSULTANT_DEFAULT,
-								userData
-							),
-						component: AppLanguage,
-						column: COLUMN_RIGHT
 					}
 				]
 			},
@@ -156,46 +147,47 @@ const profileRoutes: TabsType = [
 		]
 	},
 	{
-		title: 'profile.routes.notifications',
-		url: '/benachrichtigungen',
-		condition: (userData) =>
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
+		title: 'profile.routes.settings',
+		url: '/einstellungen',
 		elements: [
 			{
-				title: 'profile.routes.notifications.email',
-				url: '/email',
-				elements: [
-					{
-						component: ConsultantNotifications,
-						column: COLUMN_LEFT
-					}
-				]
-			}
-		]
-	},
-	{
-		title: 'profile.routes.security',
-		url: '/sicherheit',
-		elements: [
-			{
-				title: 'profile.routes.security.changePassword',
-				url: '/passwort',
+				title: 'profile.routes.settings.security',
+				url: '/sicherheit',
 				elements: [
 					{
 						component: PasswordReset,
+						column: COLUMN_LEFT,
+						order: 1
+					},
+					{
+						condition: (userData) =>
+							userData.twoFactorAuth?.isEnabled,
+						component: TwoFactorAuth,
 						column: COLUMN_LEFT
 					}
 				]
 			},
 			{
-				title: 'profile.routes.security.2fa',
-				url: '/2fa',
+				title: 'profile.routes.notifications',
+				url: '/email',
+				condition: (userData) =>
+					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
 				elements: [
 					{
-						condition: (userData) =>
-							userData.twoFactorAuth?.isEnabled,
-						component: TwoFactorAuth,
-						column: COLUMN_RIGHT
+						component: ConsultantNotifications,
+						column: COLUMN_RIGHT,
+						order: 1
+					}
+				]
+			},
+			{
+				title: 'profile.routes.display',
+				url: '/anzeige',
+				elements: [
+					{
+						component: AppLanguage,
+						column: COLUMN_RIGHT,
+						order: 1
 					}
 				]
 			},

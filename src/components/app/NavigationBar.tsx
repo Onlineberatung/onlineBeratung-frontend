@@ -7,7 +7,8 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	SessionsDataContext,
-	SET_SESSIONS
+	SET_SESSIONS,
+	AppLanguageContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
@@ -18,7 +19,10 @@ import {
 	apiGetAskerSessionList
 } from '../../api';
 import { useTranslation } from 'react-i18next';
-
+import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language.svg';
+import Select from 'react-select';
+import { config } from '../../resources/scripts/config';
+import { components } from 'react-select';
 export interface NavigationBarProps {
 	onLogout: any;
 	routerConfig: any;
@@ -42,6 +46,7 @@ export const NavigationBar = ({
 		group: unreadGroup,
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
+	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
@@ -113,6 +118,50 @@ export const NavigationBar = ({
 		}
 	};
 
+	const navbarLanguageStyle = {
+		control: () => ({
+			border: 0,
+			boxShadow: 'none',
+			cursor: 'pointer'
+		}),
+		menu: () => ({
+			position: 'absolute',
+			left: '100%',
+			bottom: '-50%',
+			width: '250%',
+			backgroundColor: 'white',
+			color: 'black',
+			textAlign: 'left',
+			border: '1px solid rgba(0, 0, 0, 0.2)',
+			boxShadow: '0px 3px 0px 1px rgba(0, 0, 0, 0.1)',
+			borderRadius: '4px'
+		}),
+		option: (styles) => ({
+			...styles,
+			cursor: 'pointer'
+		}),
+		input: () => ({
+			color: 'transparent'
+		}),
+		placeholder: () => ({
+			display: 'none'
+		})
+	};
+
+	const ValueContainer = ({ children, ...props }) => (
+		<components.ValueContainer {...props}>
+			{React.Children.map(children, (child) =>
+				child && [components.SingleValue].indexOf(child.type) === -1
+					? child
+					: null
+			)}
+			<LanguageIcon className="navigation__icon" />
+			<span className="navigation__title">
+				{translate('navigation.language')}
+			</span>
+		</components.ValueContainer>
+	);
+
 	return (
 		<div className="navigation__wrapper">
 			<div className="navigation__itemContainer">
@@ -167,22 +216,33 @@ export const NavigationBar = ({
 							</Link>
 						))}
 				<div
-					onClick={handleLogout}
-					className={clsx(
-						'navigation__item navigation__item__logout',
-						{
-							'navigation__item__logout--consultant':
-								hasUserAuthority(
-									AUTHORITIES.CONSULTANT_DEFAULT,
-									userData
-								)
-						}
-					)}
+					className={clsx('navigation__item__bottom', {
+						'navigation__item__bottom--consultant':
+							hasUserAuthority(
+								AUTHORITIES.CONSULTANT_DEFAULT,
+								userData
+							)
+					})}
 				>
-					<LogoutIcon className="navigation__icon" />
-					<span className="navigation__title">
-						{translate('app.logout')}
-					</span>
+					<div className="navigation__item navigation__item__language">
+						<Select
+							options={config.languages}
+							onChange={(e) => setAppLanguage(e)}
+							components={{
+								DropdownIndicator: () => null,
+								IndicatorSeparator: () => null,
+								ValueContainer
+							}}
+							styles={navbarLanguageStyle}
+							className="navigation__title"
+						/>
+					</div>
+					<div onClick={handleLogout} className={'navigation__item'}>
+						<LogoutIcon className="navigation__icon" />
+						<span className="navigation__title">
+							{translate('app.logout')}
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>

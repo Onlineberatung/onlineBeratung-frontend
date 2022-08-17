@@ -8,12 +8,16 @@ import './profile.styles';
 import { config } from '../../resources/scripts/config';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
-import { UserDataContext } from '../../globalState';
-import i18n from '../../i18n';
+import { AppLanguageContext, UserDataContext } from '../../globalState';
 
 export const AppLanguage = () => {
 	const { t: translate } = useTranslation();
 	const { userData, setUserData } = useContext(UserDataContext);
+	const { setAppLanguage } = useContext(AppLanguageContext);
+
+	const userLanguage = config.languages.find((language) => {
+		return language.short === userData.preferredLanguage;
+	});
 
 	const languageSelectDropdown: SelectDropdownItem = {
 		handleDropdownSelect: (e) => setlanguage(e),
@@ -22,7 +26,7 @@ export const AppLanguage = () => {
 		useIconOption: false,
 		isSearchable: false,
 		menuPlacement: 'bottom',
-		defaultValue: config.languages[0]
+		defaultValue: userLanguage
 	};
 
 	const setlanguage = (e) => {
@@ -31,7 +35,7 @@ export const AppLanguage = () => {
 		apiPatchUserData(updatedUserData)
 			.then(() => {
 				setUserData(updatedUserData);
-				i18n.changeLanguage(e.value);
+				setAppLanguage(e);
 			})
 			.catch((error) => {
 				console.log(error);

@@ -77,25 +77,25 @@ export const TwoFactorAuth = () => {
 		TWO_FACTOR_TYPES.APP
 	);
 
-	useEffect(() => {
-		if (history.location.openTwoFactor) {
-			setOverlayActive(true);
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (history.location.openTwoFactor) {
+	// 		setOverlayActive(true);
+	// 	}
+	// }, []);
 
-	useEffect(() => {
-		setIsSwitchChecked(userData.twoFactorAuth.isActive);
-		setEmail(userData.email || '');
-		setEmailLabel(translate('twoFactorAuth.activate.email.input.label'));
-		setEmailLabelState(userData.email ? 'valid' : null);
-		setTwoFactorType(userData.twoFactorAuth.type || TWO_FACTOR_TYPES.APP);
-		setIsSwitchChecked(userData.twoFactorAuth.isActive);
-	}, [
-		userData.twoFactorAuth.isActive,
-		userData.email,
-		userData.twoFactorAuth.type,
-		translate
-	]);
+	// useEffect(() => {
+	// 	setIsSwitchChecked(userData.twoFactorAuth.isActive);
+	// 	setEmail(userData.email || '');
+	// 	setEmailLabel(translate('twoFactorAuth.activate.email.input.label'));
+	// 	setEmailLabelState(userData.email ? 'valid' : null);
+	// 	setTwoFactorType(userData.twoFactorAuth.type || TWO_FACTOR_TYPES.APP);
+	// 	setIsSwitchChecked(userData.twoFactorAuth.isActive);
+	// }, [
+	// 	userData.twoFactorAuth.isActive,
+	// 	userData.email,
+	// 	userData.twoFactorAuth.type,
+	// 	translate
+	// ]);
 
 	const handleSwitchChange = () => {
 		if (!isSwitchChecked) {
@@ -423,114 +423,114 @@ export const TwoFactorAuth = () => {
 		);
 	};
 
-	const twoFactorAuthStepsOverlayApp: OverlayItem[] = useMemo(
-		() => [
-			{
-				headline: translate('twoFactorAuth.activate.app.step2.title'),
-				copy: translate('twoFactorAuth.activate.app.step2.copy'),
-				nestedComponent: getAuthenticatorTools(),
-				buttonSet: [
-					{
-						label: translate('twoFactorAuth.overlayButton.back'),
-						function: OVERLAY_FUNCTIONS.PREV_STEP,
-						type: BUTTON_TYPES.SECONDARY
-					},
-					{
-						label: translate('twoFactorAuth.overlayButton.next'),
-						function: OVERLAY_FUNCTIONS.NEXT_STEP,
-						type: BUTTON_TYPES.PRIMARY
-					}
-				],
-				step: {
-					icon: AddIcon,
-					label: translate(
-						'twoFactorAuth.activate.app.step2.visualisation.label'
-					)
-				}
-			},
-			{
-				headline: translate('twoFactorAuth.activate.app.step3.title'),
-				copy: translate('twoFactorAuth.activate.app.step3.copy'),
-				nestedComponent: connectAuthAccount(),
-				buttonSet: [
-					{
-						label: translate('twoFactorAuth.overlayButton.back'),
-						function: OVERLAY_FUNCTIONS.PREV_STEP,
-						type: BUTTON_TYPES.SECONDARY
-					},
-					{
-						label: translate('twoFactorAuth.overlayButton.next'),
-						function: OVERLAY_FUNCTIONS.NEXT_STEP,
-						type: BUTTON_TYPES.PRIMARY
-					}
-				],
-				step: {
-					icon: AddShieldIcon,
-					label: translate(
-						'twoFactorAuth.activate.app.step3.visualisation.label'
-					)
-				}
-			},
-			{
-				headline: translate('twoFactorAuth.activate.app.step4.title'),
-				copy: translate('twoFactorAuth.activate.app.step4.copy'),
-				nestedComponent: (
-					<InputField
-						item={otpInputItem}
-						inputHandle={handleOtpChange}
-					/>
-				),
-				buttonSet: [
-					{
-						label: translate('twoFactorAuth.overlayButton.back'),
-						function: OVERLAY_FUNCTIONS.PREV_STEP,
-						type: BUTTON_TYPES.SECONDARY
-					},
-					{
-						disabled: otpLabelState !== 'valid',
-						label: translate('twoFactorAuth.overlayButton.confirm'),
-						function: OVERLAY_FUNCTIONS.NEXT_STEP,
-						type: BUTTON_TYPES.PRIMARY
-					}
-				],
-				handleNextStep: activateTwoFactorAuthByType,
-				step: {
-					icon: UrlIcon,
-					label: translate(
-						'twoFactorAuth.activate.app.step4.visualisation.label'
-					)
-				}
-			},
-			{
-				nestedComponent: appConfirmation(),
-				buttonSet: [
-					{
-						label: translate('twoFactorAuth.overlayButton.close'),
-						function: OVERLAY_FUNCTIONS.CLOSE_SUCCESS,
-						type: BUTTON_TYPES.AUTO_CLOSE
-					}
-				],
-				handleOverlay: handleOverlayCloseSuccess,
-				step: {
-					icon: CheckIcon,
-					label: translate(
-						'twoFactorAuth.activate.app.step5.visualisation.label'
-					)
-				}
-			}
-		],
-		[
-			activateTwoFactorAuthByType,
-			connectAuthAccount,
-			handleOtpChange,
-			handleOverlayCloseSuccess,
-			otpInputItem,
-			otpLabelState,
-			translate,
-			appConfirmation,
-			getAuthenticatorTools
-		]
-	);
+	// const twoFactorAuthStepsOverlayApp: OverlayItem[] = useMemo(
+	// 	() => [
+	// 		{
+	// 			headline: translate('twoFactorAuth.activate.app.step2.title'),
+	// 			copy: translate('twoFactorAuth.activate.app.step2.copy'),
+	// 			nestedComponent: getAuthenticatorTools(),
+	// 			buttonSet: [
+	// 				{
+	// 					label: translate('twoFactorAuth.overlayButton.back'),
+	// 					function: OVERLAY_FUNCTIONS.PREV_STEP,
+	// 					type: BUTTON_TYPES.SECONDARY
+	// 				},
+	// 				{
+	// 					label: translate('twoFactorAuth.overlayButton.next'),
+	// 					function: OVERLAY_FUNCTIONS.NEXT_STEP,
+	// 					type: BUTTON_TYPES.PRIMARY
+	// 				}
+	// 			],
+	// 			step: {
+	// 				icon: AddIcon,
+	// 				label: translate(
+	// 					'twoFactorAuth.activate.app.step2.visualisation.label'
+	// 				)
+	// 			}
+	// 		},
+	// 		{
+	// 			headline: translate('twoFactorAuth.activate.app.step3.title'),
+	// 			copy: translate('twoFactorAuth.activate.app.step3.copy'),
+	// 			nestedComponent: connectAuthAccount(),
+	// 			buttonSet: [
+	// 				{
+	// 					label: translate('twoFactorAuth.overlayButton.back'),
+	// 					function: OVERLAY_FUNCTIONS.PREV_STEP,
+	// 					type: BUTTON_TYPES.SECONDARY
+	// 				},
+	// 				{
+	// 					label: translate('twoFactorAuth.overlayButton.next'),
+	// 					function: OVERLAY_FUNCTIONS.NEXT_STEP,
+	// 					type: BUTTON_TYPES.PRIMARY
+	// 				}
+	// 			],
+	// 			step: {
+	// 				icon: AddShieldIcon,
+	// 				label: translate(
+	// 					'twoFactorAuth.activate.app.step3.visualisation.label'
+	// 				)
+	// 			}
+	// 		},
+	// 		{
+	// 			headline: translate('twoFactorAuth.activate.app.step4.title'),
+	// 			copy: translate('twoFactorAuth.activate.app.step4.copy'),
+	// 			nestedComponent: (
+	// 				<InputField
+	// 					item={otpInputItem}
+	// 					inputHandle={handleOtpChange}
+	// 				/>
+	// 			),
+	// 			buttonSet: [
+	// 				{
+	// 					label: translate('twoFactorAuth.overlayButton.back'),
+	// 					function: OVERLAY_FUNCTIONS.PREV_STEP,
+	// 					type: BUTTON_TYPES.SECONDARY
+	// 				},
+	// 				{
+	// 					disabled: otpLabelState !== 'valid',
+	// 					label: translate('twoFactorAuth.overlayButton.confirm'),
+	// 					function: OVERLAY_FUNCTIONS.NEXT_STEP,
+	// 					type: BUTTON_TYPES.PRIMARY
+	// 				}
+	// 			],
+	// 			handleNextStep: activateTwoFactorAuthByType,
+	// 			step: {
+	// 				icon: UrlIcon,
+	// 				label: translate(
+	// 					'twoFactorAuth.activate.app.step4.visualisation.label'
+	// 				)
+	// 			}
+	// 		},
+	// 		{
+	// 			nestedComponent: appConfirmation(),
+	// 			buttonSet: [
+	// 				{
+	// 					label: translate('twoFactorAuth.overlayButton.close'),
+	// 					function: OVERLAY_FUNCTIONS.CLOSE_SUCCESS,
+	// 					type: BUTTON_TYPES.AUTO_CLOSE
+	// 				}
+	// 			],
+	// 			handleOverlay: handleOverlayCloseSuccess,
+	// 			step: {
+	// 				icon: CheckIcon,
+	// 				label: translate(
+	// 					'twoFactorAuth.activate.app.step5.visualisation.label'
+	// 				)
+	// 			}
+	// 		}
+	// 	],
+	// 	[
+	// 		activateTwoFactorAuthByType,
+	// 		connectAuthAccount,
+	// 		handleOtpChange,
+	// 		handleOverlayCloseSuccess,
+	// 		otpInputItem,
+	// 		otpLabelState,
+	// 		translate,
+	// 		appConfirmation,
+	// 		getAuthenticatorTools
+	// 	]
+	// );
 
 	/* E-MAIL */
 
@@ -745,8 +745,8 @@ export const TwoFactorAuth = () => {
 				return;
 			case TWO_FACTOR_TYPES.APP:
 				setOverlayItems([
-					...twoFactorAuthStepsOverlayStart,
-					...twoFactorAuthStepsOverlayApp
+					...twoFactorAuthStepsOverlayStart
+					//...twoFactorAuthStepsOverlayApp
 				]);
 				return;
 			default:
@@ -755,7 +755,7 @@ export const TwoFactorAuth = () => {
 	}, [
 		twoFactorType,
 		twoFactorAuthStepsOverlayStart,
-		twoFactorAuthStepsOverlayApp,
+		///	twoFactorAuthStepsOverlayApp,
 		twoFactorAuthStepsOverlayMail
 	]);
 

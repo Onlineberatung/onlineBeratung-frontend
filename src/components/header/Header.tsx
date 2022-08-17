@@ -17,11 +17,13 @@ export const Header = ({ showLanguageSwitch = false }) => {
 				semanticLevel="2"
 				text={tenant?.name || translate('app.title')}
 			/>
-			<Text
-				type="standard"
-				text={tenant?.content?.claim || translate('app.claim')}
-			/>
-			{showLanguageSwitch && <LanguageSwitch />}
+			<div className="header__right">
+				<Text
+					type="standard"
+					text={tenant?.content?.claim || translate('app.claim')}
+				/>
+				{showLanguageSwitch && <LanguageSwitch />}
+			</div>
 		</header>
 	);
 };

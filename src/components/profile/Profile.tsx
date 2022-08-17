@@ -87,7 +87,7 @@ export const Profile = (props: ProfileProps) => {
 				)
 				.map(
 					(tab): LinkMenuGroupType => ({
-						title: tab.title,
+						title: translate(tab.title),
 						items: tab.elements
 							.filter((element) =>
 								isTabGroup(element)

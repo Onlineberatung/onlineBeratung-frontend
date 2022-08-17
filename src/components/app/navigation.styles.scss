@@ -69,7 +69,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			margin: $grid-base-two $grid-base;
 		}
 
-		&__logout {
+		&__bottom {
 			cursor: pointer;
 
 			@include breakpoint($fromLarge) {
@@ -83,6 +83,10 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 					display: block;
 				}
 			}
+		}
+
+		&__language {
+			padding-bottom: $grid-base-two;
 		}
 
 		&__count {

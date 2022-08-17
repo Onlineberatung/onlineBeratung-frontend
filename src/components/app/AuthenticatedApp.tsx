@@ -10,7 +10,8 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	LegalLinkInterface,
-	RocketChatProvider
+	RocketChatProvider,
+	AppLanguageContext
 } from '../../globalState';
 import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
@@ -23,6 +24,8 @@ import { requestPermissions } from '../../utils/notificationHelpers';
 import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
 import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
+import { config } from '../../resources/scripts/config';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -45,6 +48,7 @@ export const AuthenticatedApp = ({
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 
 	const { notifications } = useContext(NotificationsContext);
+	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 
 	useEffect(() => {
 		if (
@@ -70,6 +74,36 @@ export const AuthenticatedApp = ({
 							setUserData(userProfileData);
 							setConsultingTypes(consultingTypes);
 							setAppReady(true);
+							console.log(
+								'ddd',
+								JSON.parse(localStorage.getItem(`appLanguage`))
+									.short
+							);
+							// if (
+							// 	userProfileData.preferredLanguage !==
+							// 	JSON.parse(localStorage.getItem(`appLanguage`))
+							// 		.short
+							// ) {
+							// 	const updatedUserData = { ...userData };
+							// 	updatedUserData.preferredLanguage = JSON.parse(
+							// 		localStorage.getItem(`appLanguage`)
+							// 	).short;
+							// 	apiPatchUserData(updatedUserData)
+							// 		.then(() => {
+							// 			setUserData(updatedUserData);
+							// 		})
+							// 		.catch((error) => {
+							// 			console.log(error);
+							// 		});
+							// }
+							setAppLanguage(
+								config.languages.find((language) => {
+									return (
+										language.short ===
+										userProfileData.preferredLanguage
+									);
+								})
+							);
 						})
 						.catch((error) => {
 							setLoading(false);
