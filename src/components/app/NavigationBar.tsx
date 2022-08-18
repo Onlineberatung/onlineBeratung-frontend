@@ -23,6 +23,7 @@ import { ReactComponent as LanguageIcon } from '../../resources/img/icons/langua
 import Select from 'react-select';
 import { config } from '../../resources/scripts/config';
 import { components } from 'react-select';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
 export interface NavigationBarProps {
 	onLogout: any;
 	routerConfig: any;
@@ -46,7 +47,8 @@ export const NavigationBar = ({
 		group: unreadGroup,
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
-	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
+	const { setAppLanguage } = useContext(AppLanguageContext);
+	const [isMenuOpen, setMenuOpen] = useState(false);
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
@@ -140,9 +142,6 @@ export const NavigationBar = ({
 			...styles,
 			cursor: 'pointer'
 		}),
-		input: () => ({
-			color: 'transparent'
-		}),
 		placeholder: () => ({
 			display: 'none'
 		})
@@ -161,6 +160,20 @@ export const NavigationBar = ({
 			</span>
 		</components.ValueContainer>
 	);
+
+	const setlanguage = (language) => {
+		const updatedUserData = { ...userData };
+		updatedUserData.preferredLanguage = language.short;
+		apiPatchUserData(updatedUserData)
+			.then(() => {
+				console.log('setlanguage hallo');
+				setAppLanguage(language);
+				localStorage.setItem(`appLanguage`, JSON.stringify(language));
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	return (
 		<div className="navigation__wrapper">
@@ -224,17 +237,22 @@ export const NavigationBar = ({
 							)
 					})}
 				>
-					<div className="navigation__item navigation__item__language">
+					<div
+						className="navigation__item navigation__item__language"
+						onClick={() => setMenuOpen(!isMenuOpen)}
+					>
 						<Select
 							options={config.languages}
-							onChange={(e) => setAppLanguage(e)}
+							onChange={(language) => setlanguage(language)}
 							components={{
 								DropdownIndicator: () => null,
 								IndicatorSeparator: () => null,
-								ValueContainer
+								ValueContainer,
+								Input: () => null
 							}}
 							styles={navbarLanguageStyle}
 							className="navigation__title"
+							menuIsOpen={isMenuOpen}
 						/>
 					</div>
 					<div onClick={handleLogout} className={'navigation__item'}>

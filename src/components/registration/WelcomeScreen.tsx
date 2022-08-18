@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Text } from '../text/Text';
-import { config } from '../../resources/scripts/config';
 import { Headline } from '../headline/Headline';
 import { ServiceExplanation } from '../serviceExplanation/ServiceExplanation';
 import { RegistrationWelcomeScreenInterface } from '../../globalState';
 import './welcomeScreen.styles';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 interface WelcomeScreenProps {
 	title: string;
@@ -24,6 +24,7 @@ export const WelcomeScreen = ({
 	consultingTypeId
 }: WelcomeScreenProps) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
 
 	const registrationButton: ButtonItem = {
 		label: translate('registration.welcomeScreen.register.buttonLabel'),
@@ -63,14 +64,13 @@ export const WelcomeScreen = ({
 						text={translate('registration.login.helper')}
 						type="infoLargeAlternative"
 					/>
-					<a
-						href={`${config.urls.toLogin}${
-							loginParams ? `?${loginParams}` : ''
-						}`}
-						tabIndex={-1}
-					>
-						<Button isLink={true} item={loginButton} />
-					</a>
+					<Button
+						isLink={true}
+						item={loginButton}
+						buttonHandle={() => {
+							history.push('/login');
+						}}
+					/>
 				</div>
 			</div>
 		</div>

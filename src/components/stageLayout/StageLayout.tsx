@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Children, ReactNode, ReactElement } from 'react';
+import { Children, ReactNode, ReactElement, useContext } from 'react';
 import { config } from '../../resources/scripts/config';
 import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
-import { LegalLinkInterface } from '../../globalState';
+import { AppLanguageContext, LegalLinkInterface } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitch } from '../languageSwitch/LanguageSwitch';
 
@@ -29,6 +29,7 @@ export const StageLayout = ({
 	legalLinks
 }: StageLayoutProps) => {
 	const { t: translate } = useTranslation();
+	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 
 	return (
 		<div className={clsx('stageLayout', className)}>
@@ -37,7 +38,10 @@ export const StageLayout = ({
 			})}
 			<div className="stageLayout__header">
 				<div className="stageLayout__headerLanguage">
-					<LanguageSwitch />
+					<LanguageSwitch
+						appLanguage={appLanguage}
+						setAppLanguage={setAppLanguage}
+					/>
 				</div>
 				{showLoginLink && (
 					<div className="stageLayout__toLogin">

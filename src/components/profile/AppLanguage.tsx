@@ -13,29 +13,30 @@ import { AppLanguageContext, UserDataContext } from '../../globalState';
 export const AppLanguage = () => {
 	const { t: translate } = useTranslation();
 	const { userData, setUserData } = useContext(UserDataContext);
-	const { setAppLanguage } = useContext(AppLanguageContext);
+	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 
 	const userLanguage = config.languages.find((language) => {
 		return language.short === userData.preferredLanguage;
 	});
 
 	const languageSelectDropdown: SelectDropdownItem = {
-		handleDropdownSelect: (e) => setlanguage(e),
+		handleDropdownSelect: (language) => setlanguage(language),
 		id: 'languageSelect',
 		selectedOptions: config.languages,
 		useIconOption: false,
 		isSearchable: false,
 		menuPlacement: 'bottom',
-		defaultValue: userLanguage
+		defaultValue: appLanguage ? appLanguage : userLanguage
 	};
 
-	const setlanguage = (e) => {
+	const setlanguage = (language) => {
 		const updatedUserData = { ...userData };
-		updatedUserData.preferredLanguage = e.short;
+		updatedUserData.preferredLanguage = language.short;
 		apiPatchUserData(updatedUserData)
 			.then(() => {
 				setUserData(updatedUserData);
-				setAppLanguage(e);
+				setAppLanguage(language);
+				localStorage.setItem(`appLanguage`, JSON.stringify(language));
 			})
 			.catch((error) => {
 				console.log(error);

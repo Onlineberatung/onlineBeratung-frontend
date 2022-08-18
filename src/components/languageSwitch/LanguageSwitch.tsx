@@ -3,12 +3,16 @@ import './languageSwitch.styles';
 import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language.svg';
 import { config } from '../../resources/scripts/config';
 import Select from 'react-select';
-import { useContext } from 'react';
-import { AppLanguageContext } from '../../globalState';
 
-export const LanguageSwitch = () => {
-	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
+export interface LanguageSwitchProp {
+	appLanguage: any;
+	setAppLanguage: Function;
+}
 
+export const LanguageSwitch: React.FC<LanguageSwitchProp> = ({
+	appLanguage,
+	setAppLanguage
+}) => {
 	const languageSwitchStyles = {
 		control: (provided) => ({
 			...provided,
@@ -32,13 +36,18 @@ export const LanguageSwitch = () => {
 		})
 	};
 
+	const test = (language) => {
+		setAppLanguage(language);
+		localStorage.setItem(`appLanguage`, JSON.stringify(language));
+	};
+
 	return (
 		<div className={'languageSwitch'}>
 			<LanguageIcon width={20} height={20} />
 			<Select
 				options={config.languages}
 				defaultValue={appLanguage ? appLanguage : config.languages[0]}
-				onChange={(e) => setAppLanguage(e)}
+				onChange={(e) => test(e)}
 				styles={languageSwitchStyles}
 				components={{
 					DropdownIndicator: () => null,

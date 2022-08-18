@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { useContext } from 'react';
-import { TenantContext } from '../../globalState';
+import { AppLanguageContext, TenantContext } from '../../globalState';
 import './header.styles';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitch } from '../languageSwitch/LanguageSwitch';
@@ -10,6 +10,7 @@ import { LanguageSwitch } from '../languageSwitch/LanguageSwitch';
 export const Header = ({ showLanguageSwitch = false }) => {
 	const { t: translate } = useTranslation();
 	const { tenant } = useContext(TenantContext);
+	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 
 	return (
 		<header className="header">
@@ -22,7 +23,12 @@ export const Header = ({ showLanguageSwitch = false }) => {
 					type="standard"
 					text={tenant?.content?.claim || translate('app.claim')}
 				/>
-				{showLanguageSwitch && <LanguageSwitch />}
+				{showLanguageSwitch && (
+					<LanguageSwitch
+						appLanguage={appLanguage}
+						setAppLanguage={setAppLanguage}
+					/>
+				)}
 			</div>
 		</header>
 	);
