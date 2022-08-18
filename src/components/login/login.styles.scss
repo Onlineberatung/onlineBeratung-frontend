@@ -35,7 +35,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		background: none;
 		color: $primary;
 
-		&:focus {
+		&:focus-visible {
 			outline: $focus-outline;
 			outline-offset: 4px;
 			border-radius: 4px;
@@ -43,6 +43,10 @@ $link-hover-text-decoration: $link-text-decoration !default;
 
 		&:focus:not(:focus-visible) {
 			outline: none;
+		}
+
+		&:hover {
+			cursor: pointer;
 		}
 	}
 
@@ -68,6 +72,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 
 		&--active {
 			max-height: 250px;
+			overflow: visible;
 		}
 	}
 

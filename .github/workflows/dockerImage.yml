@@ -61,6 +61,7 @@ jobs:
                   format: 'YYYYMMDD[_]HHmmss'
             - name: Prepare environment variables
               run: |
+                  echo "MATRIX_REGISTRY=$(echo "${{ matrix.registry }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
                   echo "DOCKER_REGISTRY=$(echo "${{ matrix.registry }}/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
                   echo "DOCKER_IMAGE=$(echo "${{ github.repository }}" | awk -F / '{print tolower($2)}')" >> $GITHUB_ENV
                   echo CLEAN_REF=$(echo "${GITHUB_REF_NAME#refs/heads/}") >> $GITHUB_ENV
@@ -82,6 +83,7 @@ jobs:
                   password: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
                   registry: ${{ env.DOCKER_REGISTRY }}
                   repository: ${{ env.DOCKER_IMAGE }}
+                  build_args: DOCKER_MATRIX=${{ env.MATRIX_REGISTRY }}
                   tags: ${{ env.DOCKER_IMAGE_TAG}}
             - name: Hint about the Docker Image Tag if successfull
               if: ${{ success() }}
