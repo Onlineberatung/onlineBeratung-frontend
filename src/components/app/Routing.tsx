@@ -39,6 +39,7 @@ export const Routing = (props: RoutingProps) => {
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
+	const { setIsInformal } = useContext(AppLanguageContext);
 
 	const routerConfig = useMemo(() => {
 		if (
@@ -54,6 +55,8 @@ export const Routing = (props: RoutingProps) => {
 					console.log(error);
 				});
 		}
+
+		setIsInformal(!userData.formalLanguage);
 		setAppLanguage(
 			localStorage.getItem(`appLanguage`)
 				? JSON.parse(localStorage.getItem(`appLanguage`))

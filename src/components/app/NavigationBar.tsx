@@ -166,7 +166,6 @@ export const NavigationBar = ({
 		updatedUserData.preferredLanguage = language.short;
 		apiPatchUserData(updatedUserData)
 			.then(() => {
-				console.log('setlanguage hallo');
 				setAppLanguage(language);
 				localStorage.setItem(`appLanguage`, JSON.stringify(language));
 			})

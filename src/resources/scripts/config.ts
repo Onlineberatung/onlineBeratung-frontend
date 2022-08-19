@@ -390,14 +390,9 @@ export const config = {
 	],
 	languages: [
 		{
-			label: '(DE) Deutsch Formell',
+			label: '(DE) Deutsch',
 			value: 'deFormal',
 			short: 'de'
-		},
-		{
-			label: '(DE) Deutsch Informal',
-			value: 'deInformal',
-			short: 'de i'
 		},
 		{
 			label: '(EN) Englisch',

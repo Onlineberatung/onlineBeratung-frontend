@@ -11,14 +11,22 @@ export function AppLanguageProvider(props) {
 		short: 'de'
 	});
 
+	const [isInformal, setIsInformal] = useState(false);
+
 	useEffect(() => {
 		if (appLanguage) {
-			i18n.changeLanguage(appLanguage.value);
+			if (appLanguage.short === 'de' && isInformal) {
+				i18n.changeLanguage('deInformal');
+			} else {
+				i18n.changeLanguage(appLanguage.value);
+			}
 		}
-	}, [appLanguage]);
+	}, [appLanguage, isInformal]);
 
 	return (
-		<AppLanguageContext.Provider value={{ appLanguage, setAppLanguage }}>
+		<AppLanguageContext.Provider
+			value={{ appLanguage, setAppLanguage, isInformal, setIsInformal }}
+		>
 			{props.children}
 		</AppLanguageContext.Provider>
 	);
