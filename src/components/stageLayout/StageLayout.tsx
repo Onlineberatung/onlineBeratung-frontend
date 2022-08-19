@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import { AppLanguageContext, LegalLinkInterface } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitch } from '../languageSwitch/LanguageSwitch';
+import { isMobile } from 'react-device-detect';
 
 interface StageLayoutProps {
 	className?: string;
@@ -36,8 +37,8 @@ export const StageLayout = ({
 			{React.cloneElement(Children.only(stage as ReactElement), {
 				className: 'stageLayout__stage'
 			})}
-			<div className="stageLayout__header">
-				<div className="stageLayout__headerLanguage">
+			<div className={`stageLayout__header ${isMobile ? 'mobile' : ''}`}>
+				<div>
 					<LanguageSwitch
 						appLanguage={appLanguage}
 						setAppLanguage={setAppLanguage}

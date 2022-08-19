@@ -31,7 +31,8 @@ import {
 	AnonymousEnquiryAcceptedContext,
 	LegalLinkInterface,
 	WebsocketConnectionDeactivatedContext,
-	AnonymousConversationStartedContext
+	AnonymousConversationStartedContext,
+	AppLanguageContext
 } from '../../globalState';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 import { history } from '../app/app';
@@ -42,6 +43,8 @@ import {
 import { handleTokenRefresh, setTokens } from '../auth/auth';
 import { handleE2EESetup } from '../registration/autoLogin';
 import { useTranslation } from 'react-i18next';
+import { LanguageSwitch } from '../languageSwitch/LanguageSwitch';
+import { isMobile } from 'react-device-detect';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
@@ -69,6 +72,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const { anonymousConversationStarted, setAnonymousConversationStarted } =
 		useContext(AnonymousConversationStartedContext);
 	const registrationUrl = `/${props.consultingTypeSlug}/registration`;
+	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 
 	const getPseudoPasswordForUser = (rc_uid) => {
 		let pseudoPassword = localStorage.getItem(`pseudoPassword_${rc_uid}`);
@@ -212,6 +216,13 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		if (isDataProtectionViewActive) {
 			return (
 				<>
+					{isMobile && (
+						<LanguageSwitch
+							appLanguage={appLanguage}
+							setAppLanguage={setAppLanguage}
+						/>
+					)}
+
 					<div className="waitingRoom__illustration">
 						<WelcomeIllustration />
 					</div>
@@ -274,6 +285,12 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		} else if (isErrorPageActive) {
 			return (
 				<>
+					{isMobile && (
+						<LanguageSwitch
+							appLanguage={appLanguage}
+							setAppLanguage={setAppLanguage}
+						/>
+					)}
 					<div className="waitingRoom__illustration">
 						<ErrorIllustration className="waitingRoom__waitingIllustration" />
 					</div>
@@ -302,6 +319,12 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		} else {
 			return (
 				<>
+					{isMobile && (
+						<LanguageSwitch
+							appLanguage={appLanguage}
+							setAppLanguage={setAppLanguage}
+						/>
+					)}
 					<div className="waitingRoom__illustration">
 						<WaitingIllustration className="waitingRoom__waitingIllustration" />
 					</div>

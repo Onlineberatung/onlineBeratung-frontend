@@ -36,7 +36,7 @@ interface RoutingProps {
 }
 
 export const Routing = (props: RoutingProps) => {
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 	const { setIsInformal } = useContext(AppLanguageContext);
@@ -49,11 +49,9 @@ export const Routing = (props: RoutingProps) => {
 		) {
 			const updatedUserData = { ...userData };
 			updatedUserData.preferredLanguage = appLanguage.short;
-			apiPatchUserData(updatedUserData)
-				.then(setUserData(updatedUserData))
-				.catch((error) => {
-					console.log(error);
-				});
+			apiPatchUserData(updatedUserData).catch((error) => {
+				console.log(error);
+			});
 		}
 
 		setIsInformal(!userData.formalLanguage);

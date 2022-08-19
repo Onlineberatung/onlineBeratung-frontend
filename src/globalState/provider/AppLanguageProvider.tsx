@@ -6,7 +6,7 @@ export const AppLanguageContext = createContext<any>(null);
 
 export function AppLanguageProvider(props) {
 	const [appLanguage, setAppLanguage] = useState({
-		label: '(DE) Deutsch Formell',
+		label: '(DE) Deutsch',
 		value: 'deFormal',
 		short: 'de'
 	});

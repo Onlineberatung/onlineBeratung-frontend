@@ -16,7 +16,7 @@ export const LanguageSwitch: React.FC<LanguageSwitchProp> = ({
 	const languageSwitchStyles = {
 		control: (provided) => ({
 			...provided,
-			width: 160,
+			width: 100,
 			border: 0,
 			boxShadow: 'none',
 			zIndex: 2,

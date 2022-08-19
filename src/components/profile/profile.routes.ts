@@ -170,10 +170,13 @@ const profileRoutes: TabsType = [
 			{
 				title: 'profile.routes.notifications',
 				url: '/email',
-				condition: (userData) =>
-					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
 				elements: [
 					{
+						condition: (userData) =>
+							hasUserAuthority(
+								AUTHORITIES.CONSULTANT_DEFAULT,
+								userData
+							),
 						component: ConsultantNotifications,
 						column: COLUMN_RIGHT,
 						order: 1
