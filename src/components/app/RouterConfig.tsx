@@ -34,7 +34,6 @@ import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calend
 import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
 import { showAppointmentsMenu } from '../../utils/navigationHelpers';
-import { MySchedule } from '../availability/availibilityComponent';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -152,10 +151,6 @@ export const RouterConfigUser = (): any => {
 				path: '/booking/events',
 				exact: false,
 				component: BookingEvents
-			},
-			{
-				path: '/availability',
-				component: MySchedule
 			}
 		]
 	};
@@ -317,10 +312,6 @@ export const RouterConfigConsultant = (): any => {
 				path: '/booking/events',
 				exact: false,
 				component: BookingEvents
-			},
-			{
-				path: '/availability',
-				component: MySchedule
 			}
 		]
 	};
@@ -533,10 +524,6 @@ export const RouterConfigTeamConsultant = (): any => {
 				path: '/booking/events',
 				exact: false,
 				component: BookingEvents
-			},
-			{
-				path: '/availability',
-				component: MySchedule
 			}
 		]
 	};

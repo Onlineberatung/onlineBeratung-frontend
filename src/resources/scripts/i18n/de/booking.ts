@@ -11,6 +11,7 @@ const booking = {
 	'event.tab.booked': 'Gebuchte Termine',
 	'event.tab.canceled': 'Storniert',
 	'event.tab.expired': 'Vergangen',
+	'event.tab.settings': 'Einstellungen',
 	'my.booking.title': 'Aktuell sind keine Termine geplant.',
 	'my.booking.schedule': 'Vereinbaren Sie jetzt einen Termin mit'
 };

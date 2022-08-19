@@ -1,16 +1,18 @@
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
 import { UserDataContext } from '../../globalState';
-import { fetchData } from '../../api';
 import { config } from '../../resources/scripts/config';
+import { Headline } from '../headline/Headline';
+import { Text } from '../text/Text';
 
 //TODO: this is only for testing
-export const MySchedule = () => {
+export const BookingSettings = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
+	const [url, setUrl] = useState('');
 
 	useEffect(() => {
 		setBookingWrapperActive();
@@ -28,28 +30,18 @@ export const MySchedule = () => {
 							'https://calcom-develop.suchtberatung.digital/api/auth/callback/credentials?',
 							{
 								headers: {
-									'accept': '*/*',
-									'accept-language': 'en-GB,en;q=0.9',
 									'content-type':
-										'application/x-www-form-urlencoded',
-									'sec-ch-ua':
-										'" Not A;Brand";v="99", "Chromium";v="102", "Google Chrome";v="102"',
-									'sec-ch-ua-mobile': '?0',
-									'sec-ch-ua-platform': '"Linux"',
-									'sec-fetch-dest': 'empty',
-									'sec-fetch-mode': 'cors',
-									'sec-fetch-site': 'same-origin'
+										'application/x-www-form-urlencoded'
 								},
-								referrer:
-									'https://calcom-develop.suchtberatung.digital/auth/login',
-								referrerPolicy:
-									'strict-origin-when-cross-origin',
 								body: `csrfToken=${data.csrfToken}&email=${userData.email}&password=${tokenResponse.token}&callbackUrl=https%3A%2F%2Fcalcom-develop.suchtberatung.digital%2F&redirect=false&json=true`,
 								method: 'POST',
-								mode: 'cors',
 								credentials: 'include'
 							}
-						);
+						).then(() => {
+							setUrl(
+								'https://calcom-develop.suchtberatung.digital/availability'
+							);
+						});
 					});
 			});
 		return () => {
@@ -75,31 +67,59 @@ export const MySchedule = () => {
 	}
 
 	return (
-		<div style={{ height: '100%' }}>
+		<div
+			style={{
+				height: '800px',
+				display: 'flex',
+				columnGap: '40px'
+			}}
+		>
 			<div
 				style={{
-					display: 'flex',
-					columnGap: '20px',
-					paddingLeft: '30px',
-					lineHeight: '40px'
+					height: '100%',
+					width: '50%',
+					backgroundColor: '#FEFEFE',
+					padding: '20px 0 0 20px'
 				}}
 			>
-				<span onClick={() => syncCalendar('google')}>Google</span>
-				<span onClick={() => syncCalendar('office365')}>Office365</span>
-				<span onClick={() => syncCalendar('caldav')}>CalDav</span>
-				<span onClick={() => syncCalendar('apple')}>Apple</span>
+				<div style={{ marginBottom: '20px' }}>
+					<Headline
+						className="pr--3"
+						text={'Ihre Verfügbarkeit'}
+						semanticLevel="5"
+					/>
+				</div>
+				<div style={{ marginBottom: '20px' }}>
+					<Text
+						text={
+							'Geben Sie hier Ihre allegemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.'
+						}
+						type="standard"
+						className="tertiary"
+					/>
+				</div>
+
+				<iframe
+					src={url}
+					frameBorder={0}
+					scrolling="false"
+					width="100%"
+					height="80%"
+					title="booking-cancellation"
+				/>
 			</div>
-			<iframe
-				id={'test123'}
-				src={
-					'https://calcom-develop.suchtberatung.digital/availability'
-				}
-				frameBorder={0}
-				scrolling="false"
-				width="100%"
-				height="100%"
-				title="booking-cancellation"
-			/>
+			<div style={{ backgroundColor: '#FEFEFE', width: '50%' }}>
+				<div onClick={() => syncCalendar('office365')}>
+					Office 365/ Outlook Kalender
+				</div>
+				<div onClick={() => syncCalendar('caldav')}>
+					CalDav Server Kalender
+				</div>
+				<div onClick={() => syncCalendar('google')}>
+					Google Kalender
+				</div>
+				<div onClick={() => syncCalendar('apple')}>Apple Kalender</div>
+			</div>
 		</div>
 	);
 };
