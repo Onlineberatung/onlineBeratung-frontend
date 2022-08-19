@@ -17,7 +17,7 @@ export const MySchedule = () => {
 
 		fetch(config.endpoints.counselorToken(userData.userId))
 			.then((resp) => resp.json())
-			.then((data) => {
+			.then((token) => {
 				fetch(
 					'https://calcom-develop.suchtberatung.digital/api/auth/csrf',
 					{ credentials: 'include' }
@@ -44,7 +44,7 @@ export const MySchedule = () => {
 									'https://calcom-develop.suchtberatung.digital/auth/login',
 								referrerPolicy:
 									'strict-origin-when-cross-origin',
-								body: `csrfToken=${data.csrfToken}&email=${userData.email}&password=${data.token}&callbackUrl=https%3A%2F%2Fcalcom-develop.suchtberatung.digital%2F&redirect=false&json=true`,
+								body: `csrfToken=${data.csrfToken}&email=${userData.email}&password=${token}&callbackUrl=https%3A%2F%2Fcalcom-develop.suchtberatung.digital%2F&redirect=false&json=true`,
 								method: 'POST',
 								mode: 'cors',
 								credentials: 'include'
@@ -91,7 +91,9 @@ export const MySchedule = () => {
 			</div>
 			<iframe
 				id={'test123'}
-				src={'https://calcom-develop.suchtberatung.digital/auth/login'}
+				src={
+					'https://calcom-develop.suchtberatung.digital/availability'
+				}
 				frameBorder={0}
 				scrolling="false"
 				width="100%"
