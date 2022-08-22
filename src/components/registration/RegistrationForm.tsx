@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { Text } from '../text/Text';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
@@ -21,6 +21,7 @@ import { redirectToApp } from './autoLogin';
 import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import {
 	AgencyDataInterface,
+	AppLanguageContext,
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
 	LegalLinkInterface,
@@ -35,6 +36,7 @@ import {
 	redirectToErrorPage
 } from '../error/errorHandling';
 import { useTranslation } from 'react-i18next';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -63,6 +65,7 @@ export const RegistrationForm = ({
 }: RegistrationFormProps) => {
 	const { t: translate } = useTranslation();
 	const tenantData = useTenant();
+	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
 	const [formAccordionValid, setFormAccordionValid] = useState(false);
@@ -207,6 +210,7 @@ export const RegistrationForm = ({
 			postcode: formAccordionData.postcode,
 			consultingType: formAccordionData.consultingTypeId?.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
+			preferredLanguage: appLanguage.short,
 			...(formAccordionData.state && { state: formAccordionData.state }),
 			...(formAccordionData.age && { age: formAccordionData.age }),
 			...(consultant && { consultantId: consultant.consultantId })
@@ -214,6 +218,11 @@ export const RegistrationForm = ({
 
 		apiPostRegistration(config.endpoints.registerAsker, registrationData)
 			.then((res) => {
+				apiPatchUserData({
+					preferredLanguage: appLanguage.short
+				}).catch((error) => {
+					console.log(error);
+				});
 				return setOverlayActive(true);
 			})
 			.catch((errorRes) => {

@@ -73,10 +73,10 @@ export const enFormal = {
 		'Sorry, we could not respond to your request within the chat time. Please register and leave us your message. We will get back to you within 2 business days.',
 	'anonymous.waitingroom.overlay.rejection.button': 'To registration',
 	// app
-	'app.title': 'Beratung & Hilfe',
-	'app.claim': 'Online. Anonym. Sicher.',
+	'app.title': 'Consulting & Help',
+	'app.claim': 'Online. Anonymous. Secure.',
 	'app.save': 'Save',
-	'app.stage.title': 'Beratung & Hilfe',
+	'app.stage.title': 'Consulting & Help',
 	'app.logout': 'Log out',
 	// appointments
 	'appointments.title': 'Appointment overview',
@@ -235,7 +235,7 @@ export const enFormal = {
 	'deleteAccount.confirmOverlay.input.warning':
 		'Your password is not correct.',
 	'deleteAccount.successOverlay.headline':
-		'You have successfully deleted your Caritas Beratung & Hilfe account.',
+		'You have successfully deleted your Caritas Consulting & Help account.',
 	'deleteAccount.successOverlay.button': 'close',
 	// deleteSession
 	'deleteSession.confirmOverlay.headline': 'Delete chat',
