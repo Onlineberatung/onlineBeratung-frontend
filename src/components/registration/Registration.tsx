@@ -51,7 +51,8 @@ export const Registration = ({
 		window.scrollTo({ top: 0 });
 	};
 
-	const { agency, consultingType, consultant, loaded } = useUrlParamsLoader();
+	const { agency, consultingType, consultant, loaded, topic } =
+		useUrlParamsLoader();
 
 	useEffect(() => {
 		if (!loaded) {
@@ -171,6 +172,7 @@ export const Registration = ({
 						agency={agency}
 						consultant={consultant}
 						legalLinks={legalLinks}
+						topic={topic}
 					/>
 				))}
 		</StageLayout>

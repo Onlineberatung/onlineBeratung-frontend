@@ -3,6 +3,7 @@ import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 
 export const GROUP_CHAT_API = {
 	CREATE: 'new',
+	CREATEV2: 'v2/new',
 	JOIN: '/join',
 	LEAVE: '/leave',
 	START: '/start',
