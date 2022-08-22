@@ -11,14 +11,15 @@ export interface groupChatSettings {
 }
 
 export interface chatLinkData {
-	chatLink: string;
 	groupId: string;
 }
 
 export const apiCreateGroupChat = async (
 	createChatItem: groupChatSettings
 ): Promise<chatLinkData> => {
-	const url = config.endpoints.groupChatBase + GROUP_CHAT_API.CREATE;
+	let url = config.endpoints.groupChatBase + GROUP_CHAT_API.CREATE;
+	// to do: Put this in config.ts (Tarik)
+	url = url.replace('/new', '/v2/new');
 	const chatData = JSON.stringify({ ...createChatItem });
 
 	return fetchData({
