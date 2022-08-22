@@ -13,13 +13,13 @@ import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
 	AUTHORITIES,
+	E2EEContext,
 	hasUserAuthority,
 	LegalLinkInterface,
 	RocketChatContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
-	UserDataContext,
-	E2EEContext
+	UserDataContext
 } from '../../globalState';
 import { apiGetSessionData, FETCH_ERRORS } from '../../api';
 import {
@@ -42,6 +42,7 @@ import useTyping from '../../utils/useTyping';
 import './session.styles';
 import { useE2EE } from '../../hooks/useE2EE';
 import {
+	EVENT_ROOMS_CHANGED,
 	EVENT_SUBSCRIPTIONS_CHANGED,
 	SUB_STREAM_NOTIFY_USER,
 	SUB_STREAM_ROOM_MESSAGES
@@ -212,11 +213,20 @@ export const SessionStream = ({
 						setIsOverlayActive(true);
 					}
 				}
-				if (event === 'updated') {
-					reloadActiveSession();
-				}
 			},
-			[groupChatStoppedOverlay, reloadActiveSession]
+			[groupChatStoppedOverlay]
+		)
+	);
+
+	const handleLiveChatStopped = useUpdatingRef(
+		useCallback(
+			([, room]) => {
+				if (!room.ro) {
+					return;
+				}
+				reloadActiveSession();
+			},
+			[reloadActiveSession]
 		)
 	);
 
@@ -258,25 +268,29 @@ export const SessionStream = ({
 						onDebounceMessage
 					);
 
-					if (activeSession.isGroup || activeSession.isLive) {
-						subscribe(
-							{
-								name: SUB_STREAM_NOTIFY_USER,
-								event: EVENT_SUBSCRIPTIONS_CHANGED,
-								userId: getValueFromCookie('rc_uid')
-							},
-							handleChatStopped
-						);
+					subscribe(
+						{
+							name: SUB_STREAM_NOTIFY_USER,
+							event: EVENT_SUBSCRIPTIONS_CHANGED,
+							userId: getValueFromCookie('rc_uid')
+						},
+						activeSession.isGroup || activeSession.isLive
+							? handleChatStopped
+							: handleSubscriptionChanged
+					);
 
+					if (activeSession.isGroup || activeSession.isLive) {
 						subscribeTyping();
-					} else {
+					}
+
+					if (activeSession.isLive) {
 						subscribe(
 							{
 								name: SUB_STREAM_NOTIFY_USER,
-								event: EVENT_SUBSCRIPTIONS_CHANGED,
+								event: EVENT_ROOMS_CHANGED,
 								userId: getValueFromCookie('rc_uid')
 							},
-							handleSubscriptionChanged
+							handleLiveChatStopped
 						);
 					}
 
@@ -308,25 +322,29 @@ export const SessionStream = ({
 					onDebounceMessage
 				);
 
-				if (activeSession.isGroup || activeSession.isLive) {
-					unsubscribe(
-						{
-							name: SUB_STREAM_NOTIFY_USER,
-							event: EVENT_SUBSCRIPTIONS_CHANGED,
-							userId: getValueFromCookie('rc_uid')
-						},
-						handleChatStopped
-					);
+				unsubscribe(
+					{
+						name: SUB_STREAM_NOTIFY_USER,
+						event: EVENT_SUBSCRIPTIONS_CHANGED,
+						userId: getValueFromCookie('rc_uid')
+					},
+					activeSession.isGroup || activeSession.isLive
+						? handleChatStopped
+						: handleSubscriptionChanged
+				);
 
+				if (activeSession.isGroup || activeSession.isLive) {
 					unsubscribeTyping();
-				} else {
+				}
+
+				if (activeSession.isLive) {
 					unsubscribe(
 						{
 							name: SUB_STREAM_NOTIFY_USER,
-							event: EVENT_SUBSCRIPTIONS_CHANGED,
+							event: EVENT_ROOMS_CHANGED,
 							userId: getValueFromCookie('rc_uid')
 						},
-						handleSubscriptionChanged
+						handleLiveChatStopped
 					);
 				}
 			}
@@ -336,6 +354,7 @@ export const SessionStream = ({
 		addNewUsersToEncryptedRoom,
 		fetchSessionMessages,
 		handleChatStopped,
+		handleLiveChatStopped,
 		handleSubscriptionChanged,
 		onDebounceMessage,
 		setSessionRead,

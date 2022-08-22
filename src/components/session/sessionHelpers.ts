@@ -36,6 +36,7 @@ export const SESSION_TYPE_FEEDBACK = 'feedback';
 export const SESSION_TYPE_GROUP = 'group';
 export const SESSION_TYPE_SESSION = 'session';
 export const SESSION_TYPE_TEAMSESSION = 'teamsession';
+export const SESSION_TYPE_UNKNOWN = 'unknown';
 
 export type SESSION_TYPES =
 	| typeof SESSION_TYPE_LIVECHAT
@@ -44,11 +45,13 @@ export type SESSION_TYPES =
 	| typeof SESSION_TYPE_FEEDBACK
 	| typeof SESSION_TYPE_GROUP
 	| typeof SESSION_TYPE_SESSION
-	| typeof SESSION_TYPE_TEAMSESSION;
+	| typeof SESSION_TYPE_TEAMSESSION
+	| typeof SESSION_TYPE_UNKNOWN;
 
 export const getSessionType = (
 	session: ListItemInterface,
-	rid: string
+	rid: string,
+	uid: string
 ): SESSION_TYPES => {
 	const chatItem = getChatItemForSession(session);
 	switch (!isGroupChat(chatItem) && chatItem.status) {
@@ -68,7 +71,7 @@ export const getSessionType = (
 		return SESSION_TYPE_GROUP;
 	}
 
-	if (isTeamSession(chatItem)) {
+	if (isTeamSession(chatItem) && session?.consultant?.id !== uid) {
 		return SESSION_TYPE_TEAMSESSION;
 	}
 

@@ -13,6 +13,7 @@ import { Text } from '../text/Text';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
+	SessionsDataContext,
 	useConsultingTypes,
 	UserDataContext
 } from '../../globalState';
@@ -45,7 +46,7 @@ export const BookingEvents = () => {
 	}, []);
 
 	const { userData } = useContext(UserDataContext);
-
+	const { sessions } = useContext(SessionsDataContext);
 	const consultingTypes = useConsultingTypes();
 
 	const isConsultant = hasUserAuthority(
@@ -59,7 +60,12 @@ export const BookingEvents = () => {
 	};
 
 	const handleBookingButton = () => {
-		history.push('/booking');
+		history.push({
+			pathname: '/booking/',
+			state: {
+				sessionId: sessions[0]?.session?.id
+			}
+		});
 	};
 
 	const [bookingEventsData, setBookingEventsData] = useState<

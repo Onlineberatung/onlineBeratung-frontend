@@ -150,7 +150,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		name: 'otp',
 		type: 'text',
 		icon: <VerifiedIcon />,
-		maxLength: OTP_LENGTH
+		maxLength: OTP_LENGTH,
+		tabIndex: isOtpRequired ? 0 : -1
 	};
 
 	const handleUsernameChange = (event) => {
@@ -395,7 +396,14 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		if (getSetting(SETTING_E2E_ENABLE)?.value) {
 			e.preventDefault();
 			setPwResetOverlayActive(true);
+			return;
 		}
+
+		window.open(
+			config.endpoints.loginResetPasswordLink,
+			'_blank',
+			'noreferrer'
+		);
 	};
 
 	return (

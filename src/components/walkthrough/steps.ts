@@ -5,48 +5,60 @@ interface StepsData {
 	path?: string;
 }
 
-// images, etc. can be included via "<div className="hasBackgroundImage"><div>My Text</div> in the intro section
-const stepsData: StepsData[] = [
-	{
-		title: 'walkthrough.step.0.title',
-		intro: 'walkthrough.step.0'
-	},
-	{
-		title: 'walkthrough.step.1.title',
-		element: '.walkthrough_step_1',
-		intro: 'walkthrough.step.1',
-		path: '/sessions/consultant/sessionPreview'
-	},
-	{
-		title: 'walkthrough.step.2.title',
-		element: '.walkthrough_step_2',
-		intro: 'walkthrough.step.2',
-		path: '/sessions/consultant/sessionPreview?sessionListTab=anonymous'
-	},
-	{
-		title: 'walkthrough.step.3.title',
-		element: '.walkthrough_step_3',
-		intro: 'walkthrough.step.3',
-		path: '/sessions/consultant/sessionView'
-	},
-	{
-		title: 'walkthrough.step.4.title',
-		element: '.walkthrough_step_4',
-		intro: 'walkthrough.step.4',
-		path: '/sessions/consultant/sessionView?sessionListTab=archive'
-	},
-	{
-		title: 'walkthrough.step.5.title',
-		element: '.walkthrough_step_5',
-		intro: 'walkthrough.step.5',
-		path: '/sessions/consultant/teamSessionView'
-	},
-	{
-		title: 'walkthrough.step.6.title',
-		element: '.walkthrough_step_6',
-		intro: 'walkthrough.step.6',
-		path: '/profile'
-	}
-];
+interface StepsFeatureFlag {
+	hasTeamAgency?: boolean;
+}
 
-export default stepsData;
+// images, etc. can be included via "<div className="hasBackgroundImage"><div>My Text</div> in the intro section
+const steps = ({ hasTeamAgency }: StepsFeatureFlag): StepsData[] =>
+	[
+		{
+			title: 'walkthrough.step.0.title',
+			intro: 'walkthrough.step.0'
+		},
+		{
+			title: 'walkthrough.step.1.title',
+			element: '.walkthrough_step_1',
+			intro: 'walkthrough.step.1',
+			path: '/sessions/consultant/sessionPreview'
+		},
+		{
+			title: 'walkthrough.step.2.title',
+			element: '.walkthrough_step_2',
+			intro: 'walkthrough.step.2',
+			path: '/sessions/consultant/sessionPreview?sessionListTab=anonymous'
+		},
+		{
+			title: 'walkthrough.step.3.title',
+			element: '.walkthrough_step_3',
+			intro: 'walkthrough.step.3',
+			path: '/sessions/consultant/sessionView'
+		},
+		{
+			title: 'walkthrough.step.4.title',
+			element: '.walkthrough_step_4',
+			intro: 'walkthrough.step.4',
+			path: '/sessions/consultant/sessionView?sessionListTab=archive'
+		},
+		{
+			title: 'walkthrough.step.5.title',
+			element: '.walkthrough_step_5',
+			intro: 'walkthrough.step.5',
+			path: '/sessions/consultant/teamSessionView'
+		},
+		{
+			title: 'walkthrough.step.6.title',
+			element: '.walkthrough_step_6',
+			intro: 'walkthrough.step.6',
+			path: '/profile'
+		}
+	]
+		.filter(Boolean)
+		.map((step, i) => {
+			return {
+				...step,
+				element: step.element ? '.walkthrough_step_' + i : step.element
+			};
+		});
+
+export default steps;

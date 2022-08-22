@@ -64,6 +64,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 
 	const isSelectedAgencyValidated = () =>
 		validPostcode() && typeof selectedAgency?.id === 'number';
+	const topicsAreRequired =
+		tenantData?.settings?.topicsInRegistrationEnabled &&
+		tenantData?.settings?.featureTopicsEnabled;
 
 	useEffect(() => {
 		setSelectedPostcode(props.initialPostcode || '');
@@ -133,8 +136,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					// When we have the topics in in registration enabled to prevent for us doing the request
 					// we need to ensure that we've the mainTopicId is set
 					const isValidWhenTopicInRegistrationIsActive =
-						(tenantData?.settings?.topicsInRegistrationEnabled &&
-							props.mainTopicId) ||
+						(topicsAreRequired && props.mainTopicId) ||
 						!tenantData?.settings?.topicsInRegistrationEnabled;
 
 					if (

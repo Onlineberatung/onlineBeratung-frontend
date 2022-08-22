@@ -1,8 +1,7 @@
 .reassignRequestMessage {
-	display: flex;
-	font-size: $font-size-secondary;
-	line-height: $line-height-secondary;
-	margin-bottom: $grid-base-two;
+	button {
+		text-decoration: none;
+	}
 
 	@include breakpoint($fromMedium) {
 		min-width: 460px;

@@ -9,7 +9,7 @@ import { UserDataContext } from '../../globalState';
 import { apiPatchConsultantData } from '../../api';
 import { config } from '../../resources/scripts/config';
 
-import stepsData from './steps';
+import steps from './steps';
 import { useTranslation } from 'react-i18next';
 
 export const Walkthrough = () => {
@@ -30,6 +30,11 @@ export const Walkthrough = () => {
 			}
 		});
 	}, [ref]);
+
+	const hasTeamAgency = userData.agencies?.some(
+		(agency) => agency.teamAgency
+	);
+	const stepsData = steps({ hasTeamAgency });
 
 	return (
 		<Steps

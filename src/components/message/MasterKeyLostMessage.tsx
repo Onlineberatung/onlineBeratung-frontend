@@ -3,6 +3,7 @@ import './e2eeActivatedMessage.styles';
 import { Overlay, OverlayWrapper } from '../overlay/Overlay';
 import { subscriptionKeyLostOverlayItem } from '../session/subscriptionKeyLostHelper';
 import { Button, BUTTON_TYPES } from '../button/Button';
+import { ICON_INFO, SystemMessage } from './SystemMessage';
 import { useTranslation } from 'react-i18next';
 
 interface MasterKeyLostMessageProps {
@@ -16,22 +17,28 @@ export const MasterKeyLostMessage: React.FC<MasterKeyLostMessageProps> = ({
 	const [overlayActive, setOverlayActive] = useState(false);
 
 	return (
-		<>
-			{translate(
-				`e2ee.subscriptionKeyLost.message.${
-					subscriptionKeyLost ? 'primary' : 'secondary'
-				}`
-			)}{' '}
-			{!subscriptionKeyLost && (
-				<Button
-					buttonHandle={() => setOverlayActive(true)}
-					item={{
-						type: BUTTON_TYPES.LINK_INLINE,
-						label: 'Mehr erfahren'
-					}}
-					isLink={true}
-				/>
-			)}
+		<SystemMessage
+			icon={ICON_INFO}
+			subject={
+				<>
+					{translate(
+						`e2ee.subscriptionKeyLost.message.${
+							subscriptionKeyLost ? 'primary' : 'secondary'
+						}`
+					)}{' '}
+					{!subscriptionKeyLost && (
+						<Button
+							buttonHandle={() => setOverlayActive(true)}
+							item={{
+								type: BUTTON_TYPES.LINK_INLINE,
+								label: 'Mehr erfahren'
+							}}
+							isLink={true}
+						/>
+					)}
+				</>
+			}
+		>
 			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay
@@ -41,6 +48,6 @@ export const MasterKeyLostMessage: React.FC<MasterKeyLostMessageProps> = ({
 					/>
 				</OverlayWrapper>
 			)}
-		</>
+		</SystemMessage>
 	);
 };

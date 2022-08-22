@@ -240,6 +240,10 @@ $profile-footer-justify-content: center !default;
 			border: none;
 			background: none;
 			padding: 0 !important;
+
+			&:hover {
+				cursor: pointer;
+			}
 		}
 
 		&:after {
@@ -518,7 +522,10 @@ $profile-footer-justify-content: center !default;
 		}
 
 		&__innerWrapper {
-			height: calc(100% - #{$grid-base-twelve + $grid-base-nine});
+			// header + footer + additional space
+			height: calc(
+				100% - #{$grid-base-twelve + $grid-base-nine + $grid-base-three}
+			);
 			background-color: $background-light;
 			margin-top: 0;
 

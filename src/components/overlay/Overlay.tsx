@@ -152,7 +152,7 @@ export const Overlay = (props: {
 			>
 				<div className="overlay__background"></div>
 				<div className="overlay__wrapper">
-					<div className="overlay__content">
+					<div className="overlay__content" tabIndex={0}>
 						{props.handleOverlayClose && (
 							<XIcon
 								className="overlay__closeIcon"

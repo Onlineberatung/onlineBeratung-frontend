@@ -1,4 +1,5 @@
-FROM docker.pkg.github.com/caritasdeutschland/caritas-onlineberatung-nginx/nginx-image:dockerimage.v.1
+ARG DOCKER_MATRIX=ghcr.io
+FROM $DOCKER_MATRIX/onlineberatung/onlineberatung-nginx/onlineberatung-nginx:dockerimage.v.001-main
 COPY beratung-hilfe.html /usr/share/nginx/html/
 COPY error.401.html /usr/share/nginx/html/
 COPY error.404.html /usr/share/nginx/html/

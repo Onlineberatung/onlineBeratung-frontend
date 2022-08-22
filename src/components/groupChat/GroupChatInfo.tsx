@@ -43,11 +43,14 @@ import { useResponsive } from '../../hooks/useResponsive';
 import { Tag } from '../tag/Tag';
 import { useSession } from '../../hooks/useSession';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { GroupChatCopyLinks } from './GroupChatCopyLinks';
 import { useTranslation } from 'react-i18next';
+
+// TODO: Adding the proper feature flag to the file and replace this one
+const groupChatFeatureFlagEnabled = false;
 
 export const GroupChatInfo = () => {
 	const { t: translate } = useTranslation();
-
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const stopChatButtonSet: ButtonItem = {
@@ -264,6 +267,14 @@ export const GroupChatInfo = () => {
 							)}
 							type="divider"
 						/>
+
+						{groupChatFeatureFlagEnabled && (
+							<div className="profile__groupChatContainer">
+								<GroupChatCopyLinks
+									groupChatId={activeSession.rid}
+								/>
+							</div>
+						)}
 						{subscriberList ? (
 							subscriberList.map((subscriber, index) => (
 								<div

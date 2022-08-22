@@ -277,7 +277,16 @@ export const NavigationBar = ({
 							menuIsOpen={isMenuOpen}
 						/>
 					</div>
-					<div onClick={handleLogout} className={'navigation__item'}>
+					<div
+						onClick={handleLogout}
+						className={'navigation__item'}
+						onKeyDown={(event) => {
+							if (event.key === 'Enter') {
+								handleLogout();
+							}
+						}}
+						tabIndex={0}
+					>
 						<LogoutIcon className="navigation__icon" />
 						<span className="navigation__title">
 							{translate('app.logout')}
