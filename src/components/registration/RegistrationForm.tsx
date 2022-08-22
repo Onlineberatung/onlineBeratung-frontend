@@ -65,7 +65,7 @@ export const RegistrationForm = ({
 }: RegistrationFormProps) => {
 	const { t: translate } = useTranslation();
 	const tenantData = useTenant();
-	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
+	const { appLanguage } = useContext(AppLanguageContext);
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
 	const [formAccordionValid, setFormAccordionValid] = useState(false);
@@ -251,7 +251,8 @@ export const RegistrationForm = ({
 		},
 		[formAccordionData]
 	);
-
+	console.log('consultingType.titles.long', consultingType.titles.long);
+	console.log(translate(`consultingType.${consultingType.id}.titles.long`));
 	return (
 		<>
 			<form

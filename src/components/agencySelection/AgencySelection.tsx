@@ -364,7 +364,10 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												value={agency.id.toString()}
 												checked={index === 0}
 												inputId={agency.id.toString()}
-												label={agency.name}
+												label={translate([
+													`agency.${agency.id}.name`,
+													agency.name
+												])}
 											/>
 											<AgencyInfo
 												agency={agency}

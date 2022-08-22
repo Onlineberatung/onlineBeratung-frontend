@@ -106,7 +106,10 @@ export const Registration = ({
 					handleUnmatchConsultingType();
 					throw new Error(
 						agency
-							? `Unknown consulting type with agency ${agency.name}`
+							? `Unknown consulting type with agency ${translate([
+									`agency.${agency.id}.name`,
+									agency.name
+							  ])}`
 							: `Unknown consulting type with slug ${consultingTypeSlug}`
 					);
 				}

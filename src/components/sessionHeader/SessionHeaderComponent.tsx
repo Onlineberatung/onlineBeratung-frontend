@@ -427,7 +427,10 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					{activeSession.agency?.name && (
 						<div className="sessionInfo__metaInfo__content">
 							{' '}
-							{activeSession.agency.name}{' '}
+							{translate([
+								`agency.${activeSession.agency.id}.name`,
+								activeSession.agency.name
+							])}{' '}
 						</div>
 					)}
 					{activeSession.agency && (

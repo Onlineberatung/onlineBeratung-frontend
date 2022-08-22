@@ -117,7 +117,11 @@ export const AskerConsultingTypeData = () => {
 										{translate('profile.data.agency')}
 									</p>
 									<p className="profile__data__content">
-										{resort.agency.name} <br />
+										{translate([
+											`agency.${resort.agency.id}.name`,
+											resort.agency.name
+										])}{' '}
+										<br />
 										{resort.agency.postcode}
 										{resort.agency.city
 											? ' ' + resort.agency.city

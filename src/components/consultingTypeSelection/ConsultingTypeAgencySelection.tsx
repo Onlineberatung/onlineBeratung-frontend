@@ -226,6 +226,7 @@ const AgencySelection = ({
 	selectedAgency,
 	onKeyDown
 }: AgencySelectionProps) => {
+	const { t: translate } = useTranslation();
 	return (
 		<div>
 			{agencies.map((agency: AgencyDataInterface) => (
@@ -242,7 +243,10 @@ const AgencySelection = ({
 							selectedAgency && agency.id === selectedAgency.id
 						}
 						inputId={agency.id.toString()}
-						label={agency.name}
+						label={translate([
+							`agency.${agency.id}.name`,
+							agency.name
+						])}
 						onKeyDown={onKeyDown}
 					/>
 					<AgencyInfo agency={agency} />

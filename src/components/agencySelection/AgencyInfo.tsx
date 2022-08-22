@@ -86,14 +86,20 @@ export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 					{displayAgencyInfo.name && (
 						<Text
 							className="agencyInfo__name"
-							text={displayAgencyInfo.name}
+							text={translate([
+								`agency.${displayAgencyInfo.id}.name`,
+								displayAgencyInfo.name
+							])}
 							type="standard"
 						/>
 					)}
 					{displayAgencyInfo.description && (
 						<Text
 							className="agencyInfo__description"
-							text={displayAgencyInfo.description}
+							text={translate([
+								`agency.${displayAgencyInfo.id}.description`,
+								displayAgencyInfo.description
+							])}
 							type="infoSmall"
 						/>
 					)}
