@@ -258,8 +258,14 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 
 	const handlePwOverlayReset = useCallback((buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
+			const language = localStorage.getItem(`appLanguage`)
+				? JSON.parse(localStorage.getItem(`appLanguage`)).short
+				: 'de';
 			window.open(
-				config.endpoints.loginResetPasswordLink,
+				config.endpoints.loginResetPasswordLink +
+					'&kc_locale=' +
+					language +
+					'&init=1',
 				'_blank',
 				'noreferrer'
 			);
@@ -398,9 +404,14 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 			setPwResetOverlayActive(true);
 			return;
 		}
-
+		const language = localStorage.getItem(`appLanguage`)
+			? JSON.parse(localStorage.getItem(`appLanguage`)).short
+			: 'de';
 		window.open(
-			config.endpoints.loginResetPasswordLink,
+			config.endpoints.loginResetPasswordLink +
+				'&kc_locale=' +
+				language +
+				'&init=1',
 			'_blank',
 			'noreferrer'
 		);
