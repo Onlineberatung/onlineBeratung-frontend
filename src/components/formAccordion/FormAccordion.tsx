@@ -35,13 +35,13 @@ interface FormAccordionProps {
 	consultant?: ConsultantDataInterface;
 	isUsernameAlreadyInUse: boolean;
 	preselectedAgencyData: any;
-	preselectedTopic: any;
 	onChange: Function;
 	onValidation: Function;
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
 	initialPostcode?: string;
 	mainTopicId?: number;
+	preselectedTopic?: number;
 }
 
 export const FormAccordion = ({

@@ -11,7 +11,7 @@ import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';
 import { config } from '../resources/scripts/config';
 import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
-import { apiGetTopicById } from '../api/apiGetTopicId';
+import { apiGetTopicById } from '../api/apiGetTopicsData';
 
 export default function useUrlParamsLoader() {
 	const { consultingTypeSlug } = useParams();
