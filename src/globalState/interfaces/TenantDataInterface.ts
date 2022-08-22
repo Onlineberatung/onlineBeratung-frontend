@@ -16,5 +16,6 @@ export interface TenantDataInterface {
 	settings?: {
 		topicsInRegistrationEnabled: boolean;
 		featureTopicsEnabled: boolean;
+		featureGroupChatV2Enabled: boolean;
 	};
 }
