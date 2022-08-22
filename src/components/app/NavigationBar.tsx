@@ -47,7 +47,7 @@ export const NavigationBar = ({
 		group: unreadGroup,
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
-	const { setAppLanguage } = useContext(AppLanguageContext);
+	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 	const [isMenuOpen, setMenuOpen] = useState(false);
 
 	const handleLogout = useCallback(() => {
@@ -61,10 +61,33 @@ export const NavigationBar = ({
 
 	const location = useLocation();
 	const [animateNavIcon, setAnimateNavIcon] = useState(false);
+	const { setIsInformal } = useContext(AppLanguageContext);
 
 	useEffect(() => {
 		initNavigationHandler();
 	}, []);
+
+	useEffect(() => {
+		if (
+			localStorage.getItem(`appLanguage`) &&
+			userData.preferredLanguage !==
+				JSON.parse(localStorage.getItem(`appLanguage`)).short &&
+			JSON.parse(localStorage.getItem(`appLanguage`)).short !== 'de'
+		) {
+			const updatedUserData = { ...userData };
+			updatedUserData.preferredLanguage = appLanguage.short;
+			apiPatchUserData(updatedUserData).catch((error) => {
+				console.log(error);
+			});
+		}
+
+		setIsInformal(!userData.formalLanguage);
+		setAppLanguage(
+			config.languages.find((language) => {
+				return language.short === userData.preferredLanguage;
+			})
+		);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (!isConsultant) {

@@ -17,8 +17,7 @@ import {
 	LegalLinkInterface,
 	ConsultingTypesContext,
 	E2EEProvider,
-	SessionTypeProvider,
-	AppLanguageContext
+	SessionTypeProvider
 } from '../../globalState';
 import { NavigationBar } from './NavigationBar';
 import { Header } from '../header/Header';
@@ -27,8 +26,6 @@ import { ReleaseNote } from '../releaseNote/ReleaseNote';
 import { NonPlainRoutesWrapper } from './NonPlainRoutesWrapper';
 import { Walkthrough } from '../walkthrough/Walkthrough';
 import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
-import { apiPatchUserData } from '../../api/apiPatchUserData';
-import { config } from '../../resources/scripts/config';
 interface RoutingProps {
 	logout?: Function;
 	legalLinks: Array<LegalLinkInterface>;
@@ -38,30 +35,8 @@ interface RoutingProps {
 export const Routing = (props: RoutingProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
-	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
-	const { setIsInformal } = useContext(AppLanguageContext);
 
 	const routerConfig = useMemo(() => {
-		if (
-			localStorage.getItem(`appLanguage`) &&
-			userData.preferredLanguage !==
-				JSON.parse(localStorage.getItem(`appLanguage`)).short
-		) {
-			const updatedUserData = { ...userData };
-			updatedUserData.preferredLanguage = appLanguage.short;
-			apiPatchUserData(updatedUserData).catch((error) => {
-				console.log(error);
-			});
-		}
-
-		setIsInformal(!userData.formalLanguage);
-		setAppLanguage(
-			localStorage.getItem(`appLanguage`)
-				? JSON.parse(localStorage.getItem(`appLanguage`))
-				: config.languages.find((language) => {
-						return language.short === userData.preferredLanguage;
-				  })
-		);
 		if (hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData)) {
 			return RouterConfigMainConsultant();
 		}
