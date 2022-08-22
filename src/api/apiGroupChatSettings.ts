@@ -8,6 +8,7 @@ export interface groupChatSettings {
 	startTime: string;
 	duration: number;
 	repetitive: boolean;
+	featureGroupChatV2Enabled?: boolean;
 }
 
 export interface chatLinkData {
@@ -17,9 +18,11 @@ export interface chatLinkData {
 export const apiCreateGroupChat = async (
 	createChatItem: groupChatSettings
 ): Promise<chatLinkData> => {
-	let url = config.endpoints.groupChatBase + GROUP_CHAT_API.CREATE;
-	// to do: Put this in config.ts (Tarik)
-	url = url.replace('/new', '/v2/new');
+	let url =
+		config.endpoints.groupChatBase +
+		(createChatItem.featureGroupChatV2Enabled
+			? GROUP_CHAT_API.CREATEV2
+			: GROUP_CHAT_API.CREATE);
 	const chatData = JSON.stringify({ ...createChatItem });
 
 	return fetchData({
