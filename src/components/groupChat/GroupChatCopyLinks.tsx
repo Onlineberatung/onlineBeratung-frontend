@@ -7,9 +7,9 @@ import {
 import { CopyIcon } from '../../resources/img/icons';
 import { config } from '../../resources/scripts/config';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
-import { translate } from '../../utils/translate';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import './groupChatCopyLinks.scss';
+import { useTranslation } from 'react-i18next';
 
 type GroupChatCopyLinksProps = {
 	groupChatId: string;
@@ -20,6 +20,7 @@ export const GroupChatCopyLinks = ({
 }: GroupChatCopyLinksProps) => {
 	const url = `${config.urls.registration}?gcid=${groupChatId}`;
 	const { addNotification } = useContext(NotificationsContext);
+	const { t: translate } = useTranslation();
 
 	const copyRegistrationLink = useCallback(async () => {
 		await copyTextToClipboard(url, () => {
