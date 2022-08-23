@@ -13,7 +13,20 @@ const booking = {
 	'event.tab.expired': 'Vergangen',
 	'event.tab.settings': 'Einstellungen',
 	'my.booking.title': 'Aktuell sind keine Termine geplant.',
-	'my.booking.schedule': 'Vereinbaren Sie jetzt einen Termin mit'
+	'my.booking.schedule': 'Vereinbaren Sie jetzt einen Termin mit',
+	'calender.synchronised.calendars': 'Synchronisierte Kalender',
+	'calender.add': 'Kalender hinzufügen',
+	'calender.synchronise': 'Synchronisieren',
+	'calender.synchroniseCalender': 'Kalender synchronisieren',
+	'calender.synchroniseCalender.description':
+		'Synchronisieren Sie Ihren Kalender, den Sie in Ihrer Beratungsstelle nutzen, mit der Online Beratung. Ihre Verfügbarkeit wird dann automatisch angepasst und Terminkonflikte verhindert.',
+	'calender.integration.office365': 'Office 365/ Outlook Kalender',
+	'calender.integration.caldav': 'CalDav Server Kalender',
+	'calender.integration.google': 'Google Kalender',
+	'calender.integration.apple': 'Apple Kalender',
+	'availability': 'Ihre Verfügbarkeit',
+	'availability.description':
+		'Geben Sie hier Ihre allegemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.'
 };
 
 export default booking;
