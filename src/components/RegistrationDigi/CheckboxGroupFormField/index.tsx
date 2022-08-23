@@ -35,7 +35,13 @@ const CheckBoxLocal = ({
 		label: rest.label,
 		checked: value.indexOf(localValue) !== -1
 	} as unknown as CheckboxItem;
-	return <Checkbox item={item} checkboxHandle={onLocalChange} />;
+	return (
+		<Checkbox
+			item={item}
+			checkboxHandle={onLocalChange}
+			onKeyPress={(e) => e.key === 'Space' && onLocalChange()}
+		/>
+	);
 };
 
 export const CheckboxGroupFormField = (props: CheckboxFormFieldProps) => {

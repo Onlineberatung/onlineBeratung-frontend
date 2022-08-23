@@ -1,6 +1,6 @@
 import { FieldContext } from 'rc-field-form';
 import { FormInstance } from 'rc-field-form';
-import React, { useCallback, useState, Children } from 'react';
+import React, { useCallback, useState, Children, useRef } from 'react';
 import { InvalidIcon } from '../../../resources/img/icons';
 import { translate } from '../../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../../button/Button';
@@ -18,6 +18,7 @@ interface FormAccordionItemProps {
 	disableNextButton?: boolean;
 	form?: FormInstance;
 	stepNumber?: number;
+	tabIndex?: number;
 	title: string;
 	subTitle?: string;
 	formFields?: string[];
@@ -31,6 +32,7 @@ export const FormAccordion = ({
 	onComplete
 }: FormAccordionProps) => {
 	const [activePanel, setActivePanel] = useState(0);
+	const ref = useRef<HTMLDivElement>(null);
 
 	const onClickNext = useCallback(() => {
 		if (activePanel < Children.count(children) - 1) {
@@ -42,8 +44,10 @@ export const FormAccordion = ({
 	}, [activePanel, children, onComplete]);
 
 	const handlePanelClick = useCallback(
-		(panel: number) => {
-			setActivePanel(activePanel === panel ? null : panel);
+		(panel: number, isTabPressed: boolean) => {
+			setActivePanel(
+				activePanel === panel && !isTabPressed ? null : panel
+			);
 			if (enableAutoScroll) {
 				const element = document.getElementById(`panel-${panel}`);
 				const offsetPosition =
@@ -58,7 +62,7 @@ export const FormAccordion = ({
 	);
 
 	return (
-		<div className="formAccordionDigi">
+		<div className="formAccordionDigi" ref={ref}>
 			{Children.toArray(children).map((child, index) => {
 				if (
 					(child as JSX.Element).type.displayName !==
@@ -97,13 +101,15 @@ export const FormAccordionPanel = ({
 	isActive,
 	index,
 	form,
-	disableNextButton
+	disableNextButton,
+	tabIndex
 }: FormAccordionItemProps & {
 	index: number;
 	isActive: boolean;
-	handlePanelClick: (index: number) => void;
+	handlePanelClick: (index: number, focusFirstElement?: boolean) => void;
 	handleNextStep: () => void;
 }) => {
+	const [id] = useState((Math.random() + 1).toString(36).substring(7));
 	const formContext = React.useContext(FieldContext);
 	const fieldsToCheck = [...formFields, ...errorOnTouchExtraFields];
 	const isFieldsInValid = (form || formContext)
@@ -141,7 +147,15 @@ export const FormAccordionPanel = ({
 		>
 			<div
 				className="formAccordionDigi__PanelHeader"
+				onKeyDown={(e) => e.code === 'Space' && handlePanelClick(index)}
 				onClick={() => handlePanelClick(index)}
+				onFocus={(ev) => {
+					ev.preventDefault();
+					handlePanelClick(index, true);
+				}}
+				aria-controls={`content-${id}`}
+				aria-expanded={isActive}
+				tabIndex={0}
 			>
 				{stepNumber && (
 					<div className="formAccordionDigi__StepNumber">
@@ -162,6 +176,8 @@ export const FormAccordionPanel = ({
 				className={`formAccordionDigi__Content ${
 					isActive ? 'active' : ''
 				}`}
+				aria-hidden={!isActive}
+				id={`content-${id}`}
 			>
 				{childrenWithProps}
 

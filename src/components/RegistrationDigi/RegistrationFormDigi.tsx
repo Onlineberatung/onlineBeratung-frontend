@@ -201,6 +201,8 @@ export const RegistrationFormDigi = ({
 									</label>
 									<div className="registrationFormDigi__InputGroup">
 										<InputFormField
+											autoFocus
+											tabIndex={0}
 											placeholder="z.B. 25"
 											name="age"
 											min={0}
@@ -363,6 +365,7 @@ export const RegistrationFormDigi = ({
 					>
 						<FormAccordion>
 							<FormAccordion.Item
+								tabIndex={0}
 								formFields={['username']}
 								errorOnTouchExtraFields={['password']}
 								title={translate(
@@ -374,6 +377,7 @@ export const RegistrationFormDigi = ({
 								/>
 							</FormAccordion.Item>
 							<FormAccordion.Item
+								tabIndex={0}
 								formFields={['password']}
 								title={translate(
 									'registrationDigi.password.step.title'

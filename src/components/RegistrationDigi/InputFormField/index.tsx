@@ -8,6 +8,8 @@ interface InputProps {
 	placeholder?: string;
 	type?: string;
 	pattern?: RegExp;
+	tabIndex?: number;
+	autoFocus?: boolean;
 }
 
 const LocalInput = ({
@@ -17,6 +19,7 @@ const LocalInput = ({
 }: {
 	type?: string;
 	value?: string;
+	tabIndex?: number;
 	placeholder?: string;
 }) => (
 	<input
