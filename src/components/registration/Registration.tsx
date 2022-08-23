@@ -6,13 +6,13 @@ import { ComponentType, useEffect, useState } from 'react';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
 import { LegalLinkInterface } from '../../globalState';
-import { RegistrationForm } from './RegistrationForm';
 import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
 import { translate } from '../../utils/translate';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
+import { RegistrationFormDigi } from '../RegistrationDigi/RegistrationFormDigi';
 
 interface RegistrationProps {
 	handleUnmatchConsultingType: Function;
@@ -51,7 +51,8 @@ export const Registration = ({
 		window.scrollTo({ top: 0 });
 	};
 
-	const { agency, consultingType, consultant, loaded } = useUrlParamsLoader();
+	const { agency, consultingType, consultant, loaded, topic } =
+		useUrlParamsLoader();
 
 	useEffect(() => {
 		if (!loaded) {
@@ -166,11 +167,12 @@ export const Registration = ({
 						welcomeScreenConfig={consultingType?.welcomeScreen}
 					/>
 				) : (
-					<RegistrationForm
+					<RegistrationFormDigi
 						consultingType={consultingType}
 						agency={agency}
 						consultant={consultant}
 						legalLinks={legalLinks}
+						topic={topic}
 					/>
 				))}
 		</StageLayout>

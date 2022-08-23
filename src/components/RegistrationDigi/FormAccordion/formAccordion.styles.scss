@@ -1,0 +1,84 @@
+.formAccordionDigi {
+	&Title {
+		flex-grow: 1;
+		text-align: left;
+	}
+
+	&__Panel:first-child > &__PanelHeader {
+		border-top: 1px solid rgba(0, 0, 0, 0.6);
+	}
+
+	&__PanelHeader {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+
+		height: 63px;
+		width: 100%;
+		font-size: 16px;
+		color: rgba(0, 0, 0, 0.8);
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		cursor: pointer;
+	}
+
+	&__StepNumber {
+		border-radius: 50%;
+		display: flex;
+		border: 1px solid rgba(0, 0, 0, 0.4);
+		width: 30px;
+		height: 30px;
+		align-items: center;
+		justify-content: center;
+		font-weight: bold;
+	}
+
+	&__Content {
+		display: none;
+		padding: 15px 0 30px 47px;
+
+		.formAccordionDigi__PanelHeader {
+			border-top: 0;
+		}
+
+		&.active {
+			display: block;
+		}
+
+		& > .formAccordionDigi {
+			margin-top: -15px;
+		}
+	}
+
+	.validationIcon {
+		height: 16px;
+		width: 16px;
+	}
+
+	.validationIcon--invalid {
+		fill: #ff9f00;
+	}
+
+	&__Panel {
+		&.active {
+			display: block;
+
+			> .formAccordionDigi__PanelHeader {
+				border-bottom: 0;
+
+				.formAccordionDigiTitle {
+					font-weight: bold;
+				}
+
+				.formAccordionDigi__StepNumber {
+					border-color: var(--skin-color-primary, #cc1e1c);
+					background: var(--skin-color-primary, #cc1e1c);
+					color: var(--text-color-contrast-switch, #fff);
+				}
+			}
+
+			+ .formAccordionDigi__Panel {
+				border-top: 1px solid rgba(0, 0, 0, 0.6);
+			}
+		}
+	}
+}

@@ -41,6 +41,7 @@ interface FormAccordionProps {
 	registrationNotes?: RegistrationNotesInterface;
 	initialPostcode?: string;
 	mainTopicId?: number;
+	preselectedTopic?: number;
 }
 
 export const FormAccordion = ({
@@ -48,6 +49,7 @@ export const FormAccordion = ({
 	consultant,
 	isUsernameAlreadyInUse,
 	preselectedAgencyData,
+	preselectedTopic,
 	onChange,
 	onValidation,
 	additionalStepsData,
@@ -169,6 +171,7 @@ export const FormAccordion = ({
 			nestedComponent: (
 				<MainTopicSelection
 					name="mainTopic"
+					preselectedTopic={preselectedTopic}
 					onChange={(mainTopicId) => onChange({ mainTopicId })}
 					onValidityChange={handleValidity}
 				/>
@@ -245,6 +248,7 @@ export const FormAccordion = ({
 						if (
 							topicsAreRequired &&
 							!mainTopicId &&
+							preselectedTopic < 0 &&
 							validity !== VALIDITY_INITIAL
 						) {
 							handleValidity('mainTopic', VALIDITY_INVALID);
