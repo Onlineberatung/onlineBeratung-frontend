@@ -23,7 +23,7 @@ export const BookingSettings = () => {
 		return () => {
 			setBookingWrapperInactive();
 		};
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	if (!loadExternalComponents) {
 		return null;
