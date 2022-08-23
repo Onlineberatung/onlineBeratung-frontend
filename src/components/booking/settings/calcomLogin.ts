@@ -1,7 +1,7 @@
 import { UserDataInterface } from '../../../globalState';
 import { config } from '../../../resources/scripts/config';
 
-export default (userData: UserDataInterface) => {
+export const calcomLogin = (userData: UserDataInterface) => {
 	return fetch(config.endpoints.counselorToken(userData.userId))
 		.then((resp) => resp.json())
 		.then((tokenResponse) => {

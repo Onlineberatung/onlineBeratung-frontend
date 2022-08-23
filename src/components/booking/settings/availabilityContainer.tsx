@@ -23,6 +23,7 @@ export const AvailabilityContainer = () => {
 			</div>
 
 			<iframe
+				title={'Availabilities'}
 				style={{ paddingRight: '20px' }}
 				src={`${config.urls.appointmentServiceDevServer}/availability`}
 				frameBorder={0}

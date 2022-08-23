@@ -52,6 +52,7 @@ export const CalendarIntegration = () => {
 				>
 					{showSynchronizedTab && (
 						<a
+							href="#"
 							className={
 								selectedTab === 'synchronized' ? 'active' : null
 							}
@@ -64,6 +65,7 @@ export const CalendarIntegration = () => {
 						</a>
 					)}
 					<a
+						href="#"
 						className={selectedTab === 'addNew' ? 'active' : null}
 						onClick={() => setSelectedTab('addNew')}
 					>
