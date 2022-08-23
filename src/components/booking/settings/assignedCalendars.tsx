@@ -9,7 +9,7 @@ const AssignedCalendars = () => {
 			src={`${config.urls.appointmentServiceDevServer}/apps/installed`}
 			frameBorder={0}
 			width="100%"
-			height="70%"
+			height="75%"
 			style={{ paddingRight: '20px' }}
 		/>
 	);

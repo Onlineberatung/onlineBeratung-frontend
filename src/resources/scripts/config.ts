@@ -35,8 +35,7 @@ export const config = {
 		counselorAppointmentLink: (userId: string) =>
 			apiUrl +
 			`/service/appointservice/consultants/${userId}/meetingSlug`,
-		counselorToken: (userId: string) =>
-			apiUrl + `/service/appointservice/consultants/${userId}/token`,
+		counselorToken: apiUrl + `/service/appointservice/consultants/token`,
 		appointmentsServiceBase: apiUrl + '/service/appointments',
 		appointmentsServiceBookingEventsByUserId: (userId: string) =>
 			apiUrl + `/service/appointservice/askers/${userId}/bookings`,
