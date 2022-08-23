@@ -240,11 +240,6 @@ declare namespace UserService {
 			 * WCET6GWir78pNMyyD
 			 */
 			groupId: string;
-			/**
-			 * example:
-			 * https://{baseUrl}}/{consultingTypeName}/GEYDA
-			 */
-			chatLink: string;
 		}
 		export interface Date {}
 		export interface DeleteUserAccountDTO {
@@ -550,11 +545,6 @@ declare namespace UserService {
 			 * WCET6GWir78pNMyyD
 			 */
 			groupId: string;
-			/**
-			 * example:
-			 * https://{baseUrl}}/{consultingTypeName}/GEYDA
-			 */
-			chatLink: string;
 		}
 		export interface UpdateConsultantDTO {
 			/**
