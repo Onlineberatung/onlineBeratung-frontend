@@ -33,6 +33,7 @@ interface RegistrationFormProps {
 	agency?: AgencyDataInterface;
 	consultant?: ConsultantDataInterface;
 	legalLinks: Array<LegalLinkInterface>;
+	topic?: TopicsDataInterface;
 }
 
 export const RegistrationFormDigi = ({
