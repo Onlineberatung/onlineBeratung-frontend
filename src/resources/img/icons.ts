@@ -55,3 +55,7 @@ export { ReactComponent as ValidIcon } from '../../resources/img/icons/checkmark
 export { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 export { ReactComponent as AddShieldIcon } from '../../resources/img/icons/add-shield.svg';
 export { ReactComponent as ShieldIcon } from '../../resources/img/icons/shield.svg';
+export { ReactComponent as AppleIcon } from '../../resources/img/icons/apple.svg';
+export { ReactComponent as CalDav } from '../../resources/img/icons/caldav.svg';
+export { ReactComponent as GoogleCalendar } from '../../resources/img/icons/googlecalendar.svg';
+export { ReactComponent as Office365 } from '../../resources/img/icons/office365.svg';
