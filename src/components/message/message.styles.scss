@@ -1,5 +1,5 @@
 $icon-size: 24px;
-$icon-size-small: 16px;
+$icon-size-small: 24px;
 $message-lineheight: 21px;
 $message-attachment-color: $secondary !default;
 
@@ -107,18 +107,21 @@ $message-attachment-color: $secondary !default;
 			max-width: 600px;
 			margin-right: 52px;
 		}
+
+		&--e2eeActivatedMessage {
+			display: block;
+			max-width: 520px;
+			margin: 0 auto;
+		}
 	}
 
 	&__divider {
 		display: flex;
 		align-items: center;
-		width: 200px;
+		width: 100%;
+		max-width: 520px;
 		text-align: center;
 		margin: $grid-base-four auto $grid-base-two;
-
-		@include breakpoint($fromLarge) {
-			width: 280px;
-		}
 
 		&::before,
 		&::after {
@@ -418,22 +421,28 @@ $message-attachment-color: $secondary !default;
 			}
 		}
 	}
+
+	.booking-confirmation {
+		width: 600px;
+		height: 780px;
+	}
 }
 
-.videoCallMessage {
+.systemMessage {
 	&__subjectWrapper {
 		display: flex;
 		flex-direction: row;
 	}
 
 	&__icon {
+		display: block;
 		width: $icon-size-small;
 		height: $icon-size-small;
-		margin: auto 0 auto 4px;
+		margin: -2px 12px auto 0;
 		padding-bottom: 2px;
 
 		* {
-			fill: var(--skin-color-secondary-contrast-safe, $secondary);
+			fill: var(--skin-color-secondary-contrast-safe, $form-primary);
 		}
 	}
 
@@ -443,12 +452,25 @@ $message-attachment-color: $secondary !default;
 		margin: 0;
 	}
 
-	&__username {
-		font-weight: $font-weight-bold;
+	button {
+		text-decoration: underline;
+	}
+
+	&.videocall &__subject,
+	&.master_key_lost &__subject {
+		color: $form-primary;
 	}
 
 	.messageItem__metaData {
 		margin: 4px 0 0;
+	}
+
+	&.videocall,
+	&.master_key_lost {
+		.messageItem__metaData {
+			margin-left: $icon-size-small + 12px;
+			color: $form-primary;
+		}
 	}
 }
 

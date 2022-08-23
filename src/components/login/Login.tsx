@@ -1,18 +1,18 @@
 import '../../polyfill';
 import * as React from 'react';
+import {
+	ComponentType,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState
+} from 'react';
 import { generatePath } from 'react-router-dom';
 import { translate } from '../../utils/translate';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import {
-	ComponentType,
-	useState,
-	useEffect,
-	useCallback,
-	useMemo,
-	useContext
-} from 'react';
 import { config } from '../../resources/scripts/config';
-import { ButtonItem, Button, BUTTON_TYPES } from '../button/Button';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { autoLogin, redirectToApp } from '../registration/autoLogin';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
@@ -27,7 +27,13 @@ import {
 } from '../../api';
 import { OTP_LENGTH, TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import clsx from 'clsx';
-import { LegalLinkInterface, TenantContext } from '../../globalState';
+import {
+	AUTHORITIES,
+	hasUserAuthority,
+	LegalLinkInterface,
+	TenantContext,
+	UserDataInterface
+} from '../../globalState';
 import '../../resources/styles/styles';
 import './login.styles';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
@@ -48,14 +54,10 @@ import {
 	VALIDITY_INITIAL,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
-import {
-	AcceptedGroupIdContext,
-	AUTHORITIES,
-	hasUserAuthority,
-	UserDataInterface
-} from '../../globalState';
 import { history } from '../app/app';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
+import { RocketChatGlobalSettingsContext } from '../../globalState';
+import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -69,6 +71,8 @@ interface LoginProps {
 
 export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const { tenant } = useContext(TenantContext);
+	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
+
 	const hasTenant = tenant != null;
 
 	const consultantId = getUrlParameter('cid');
@@ -90,8 +94,6 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
 
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
-
 	useEffect(() => {
 		setShowLoginError('');
 		if (
@@ -110,10 +112,12 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	}, [username]);
 
 	const [agency, setAgency] = useState(null);
-	const [registerOverlayActive, setRegisterOverlayActive] = useState(false);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);
+	const [registerOverlayActive, setRegisterOverlayActive] = useState(false);
+	const [pwResetOverlayActive, setPwResetOverlayActive] = useState(false);
 
 	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
+	const isFirstVisit = useIsFirstVisit();
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -145,7 +149,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		name: 'otp',
 		type: 'text',
 		icon: <VerifiedIcon />,
-		maxLength: OTP_LENGTH
+		maxLength: OTP_LENGTH,
+		tabIndex: isOtpRequired ? 0 : -1
 	};
 
 	const handleUsernameChange = (event) => {
@@ -215,12 +220,6 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 							return redirectToApp();
 						}
 
-						if (response.rcGroupId) {
-							setAcceptedGroupId(response.rcGroupId);
-						} else if (response.sessionId) {
-							setAcceptedGroupId(response.sessionId);
-						}
-
 						if (!response.rcGroupId || !response.sessionId) {
 							history.push(config.endpoints.userSessionsListView);
 							return;
@@ -235,7 +234,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					});
 			}
 		},
-		[consultantId, setAcceptedGroupId, validity]
+		[consultantId, validity]
 	);
 
 	const handleOverlayAction = useCallback(
@@ -248,6 +247,18 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		},
 		[agency, handleRegistration]
 	);
+
+	const handlePwOverlayReset = useCallback((buttonFunction: string) => {
+		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
+			window.open(
+				config.endpoints.loginResetPasswordLink,
+				'_blank',
+				'noreferrer'
+			);
+		} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
+			setPwResetOverlayActive(false);
+		}
+	}, []);
 
 	useEffect(() => {
 		if (
@@ -349,7 +360,43 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		}
 	};
 
-	const isFirstVisit = useIsFirstVisit();
+	const pwResetOverlay: OverlayItem = useMemo(
+		() => ({
+			headline: translate('login.password.reset.warn.overlay.title'),
+			copy: translate('login.password.reset.warn.overlay.description'),
+			buttonSet: [
+				{
+					label: translate(
+						'login.password.reset.warn.overlay.button.accept'
+					),
+					function: OVERLAY_FUNCTIONS.REDIRECT,
+					type: BUTTON_TYPES.SECONDARY
+				},
+				{
+					label: translate(
+						'login.password.reset.warn.overlay.button.cancel'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.PRIMARY
+				}
+			]
+		}),
+		[]
+	);
+
+	const onPasswordResetClick = (e) => {
+		if (getSetting(SETTING_E2E_ENABLE)?.value) {
+			e.preventDefault();
+			setPwResetOverlayActive(true);
+			return;
+		}
+
+		window.open(
+			config.endpoints.loginResetPasswordLink,
+			'_blank',
+			'noreferrer'
+		);
+	};
 
 	return (
 		<>
@@ -410,20 +457,19 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					)}
 
 					{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
-						<a
-							href={config.endpoints.loginResetPasswordLink}
-							target="_blank"
-							rel="noreferrer"
-							className="loginForm__passwordReset"
+						<button
+							onClick={onPasswordResetClick}
+							className="button-as-link"
+							type="button"
 						>
 							{translate('login.resetPasswort.label')}
-						</a>
+						</button>
 					)}
 
 					<Button
 						item={loginButton}
 						buttonHandle={handleLogin}
-						disabled={isButtonDisabled}
+						disabled={isButtonDisabled || isRequestInProgress}
 					/>
 					{!hasTenant && (
 						<div className="loginForm__register">
@@ -437,13 +483,18 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 								text={translate('login.register.infoText.copy')}
 								type={'infoSmall'}
 							/>
-							<a
-								className="loginForm__register__link"
-								href={config.urls.toRegistration}
-								target="_self"
+							<button
+								type="button"
+								className="loginForm__register__link button-as-link"
+								onClick={() =>
+									window.open(
+										config.urls.toRegistration,
+										'_self'
+									)
+								}
 							>
 								{translate('login.register.linkLabel')}
-							</a>
+							</button>
 						</div>
 					)}
 				</div>
@@ -466,6 +517,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 						className="login__tenantRegistrationLink"
 						href={config.urls.toRegistration}
 						target="_self"
+						tabIndex={-1}
 					>
 						<Button
 							item={{
@@ -476,6 +528,17 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 						/>
 					</a>
 				</div>
+			)}
+			{pwResetOverlayActive && (
+				<OverlayWrapper>
+					<Overlay
+						item={pwResetOverlay}
+						handleOverlayClose={() =>
+							setPwResetOverlayActive(false)
+						}
+						handleOverlay={handlePwOverlayReset}
+					/>
+				</OverlayWrapper>
 			)}
 		</>
 	);

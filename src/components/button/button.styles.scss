@@ -3,6 +3,12 @@ $buttonMaxWidth: 400px;
 $buttonHeight: 50px;
 
 .button {
+	&__wrapper {
+		&--inline {
+			display: inline-block;
+		}
+	}
+
 	&__item {
 		font-weight: $font-weight-bold;
 		appearance: none;
@@ -17,6 +23,11 @@ $buttonHeight: 50px;
 		border-radius: $button-border-radius;
 
 		&:focus {
+			outline: $focus-outline;
+			outline-offset: 4px;
+		}
+
+		&:focus:not(:focus-visible) {
 			outline: none;
 		}
 	}
@@ -25,7 +36,7 @@ $buttonHeight: 50px;
 		color: var(--text-color-contrast-switch, $white);
 		background: var(--skin-color-primary, $primary);
 		box-shadow: $button-box-shadow-default;
-		transition: all 0.6s ease;
+		border: none;
 
 		&:hover {
 			background-color: var(--skin-color-primary-hover, $hover-primary);
@@ -37,7 +48,6 @@ $buttonHeight: 50px;
 		color: var(--skin-color-default, $primary);
 		background-color: transparent;
 		border: 3px solid var(--skin-color-default, $primary);
-		transition: all 0.6s ease;
 
 		&:hover {
 			color: $white;
@@ -131,6 +141,15 @@ $buttonHeight: 50px;
 			&:hover {
 				background: none;
 			}
+		}
+
+		&--inline {
+			height: auto;
+			padding: 0;
+			text-align: left;
+			min-width: auto;
+			text-transform: none;
+			font-weight: normal;
 		}
 	}
 
@@ -290,5 +309,14 @@ $buttonHeight: 50px;
 
 	&__icon {
 		margin-bottom: 4px;
+	}
+
+	&__custom-icon {
+		margin-right: 0.5rem;
+		display: inline-block;
+	}
+
+	&__custom-icon {
+		display: inline-block;
 	}
 }

@@ -1,0 +1,41 @@
+.reassignRequestMessage {
+	button {
+		text-decoration: none;
+	}
+
+	@include breakpoint($fromMedium) {
+		min-width: 460px;
+	}
+
+	.wrapper {
+		border: 2px dashed $form-input-border;
+		border-radius: 0 12px 12px;
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+
+		h5 {
+			margin: $grid-base-two;
+		}
+
+		h5 + span.description {
+			margin-top: 0;
+		}
+
+		.description {
+			font-size: $font-size-tertiary;
+			margin: $grid-base-two;
+		}
+
+		.buttons {
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			justify-content: center;
+
+			.button__wrapper {
+				margin: 12px;
+			}
+		}
+	}
+}

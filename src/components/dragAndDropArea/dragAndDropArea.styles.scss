@@ -1,0 +1,70 @@
+.dragAndDropArea {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 4;
+	background-color: rgba(255, 255, 255, 0.9);
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	pointer-events: none;
+
+	&.enabled {
+		opacity: 1;
+		pointer-events: auto;
+	}
+
+	.dropContainer {
+		position: absolute;
+		top: 7px;
+		left: 8px;
+		bottom: 5px;
+		right: 8px;
+		border-width: 2px;
+		border-style: dashed;
+		border-color: rgba(0, 0, 0, 0.4);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		pointer-events: none;
+		border-radius: $drag-and-drop-area-border-radius;
+		font-family: $font-family-sans-serif;
+		transition: all 0.3s ease;
+
+		&__icon {
+			path {
+				transition: all 0.3s ease;
+				fill: rgba(0, 0, 0, 0.4);
+			}
+		}
+
+		&__explanation {
+			font-weight: $font-weight-bold;
+			margin-top: $grid-base-two;
+			margin-bottom: $grid-base;
+		}
+
+		&__restrictions {
+			color: $light-grey;
+		}
+
+		&.can-drop {
+			border-color: rgba(0, 0, 0, 0.87);
+			.dropContainer__icon {
+				path {
+					fill: rgba(0, 0, 0, 0.87);
+				}
+			}
+		}
+	}
+}
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+	.dragAndDropArea {
+		-webkit-backdrop-filter: blur(5px);
+		backdrop-filter: blur(5px);
+		background-color: rgba(255, 255, 255, 0.7);
+	}
+}

@@ -21,13 +21,14 @@ export type SessionsDataInterface = {
 export interface ListItemInterface {
 	agency?: AgencyDataInterface;
 	consultant?: SessionConsultantInterface;
-	session?: SessionItemInterface | LiveChatInterface;
+	session?: SessionItemInterface;
 	chat?: GroupChatItemInterface;
 	user?: SessionUserInterface;
 	language?: string;
 }
 
 export interface SessionConsultantInterface {
+	consultantId: string;
 	absent: boolean;
 	absenceMessage: boolean;
 	displayName?: string;
@@ -58,6 +59,12 @@ type registrationTypeAnonymous = typeof REGISTRATION_TYPE_ANONYMOUS;
 export const REGISTRATION_TYPE_REGISTERED = 'REGISTERED';
 type registrationTypeRegistered = typeof REGISTRATION_TYPE_REGISTERED;
 
+export interface TopicSessionInterface {
+	id: number;
+	name: string;
+	description: string;
+}
+
 export interface SessionItemInterface {
 	agencyId: number;
 	askerRcId: string;
@@ -67,7 +74,12 @@ export interface SessionItemInterface {
 	feedbackRead?: boolean;
 	groupId: string;
 	id: number;
+	e2eLastMessage: {
+		t: string;
+		msg: string;
+	};
 	lastMessage?: string;
+	lastMessageType?: string;
 	messageDate: number;
 	createDate: string;
 	messagesRead: boolean;
@@ -86,10 +98,7 @@ export interface SessionItemInterface {
 	videoCallMessageDTO: VideoCallMessageDTO;
 	language?: string;
 	isFeedbackSession: boolean;
-}
-
-export interface LiveChatInterface extends SessionItemInterface {
-	registrationType: registrationTypeAnonymous;
+	topic: TopicSessionInterface;
 }
 
 export interface GroupChatItemInterface {
@@ -100,6 +109,11 @@ export interface GroupChatItemInterface {
 	groupId: string;
 	id: number;
 	lastMessage: string;
+	lastMessageType?: string;
+	e2eLastMessage: {
+		t: string;
+		msg: string;
+	};
 	messageDate: number;
 	messagesRead: boolean;
 	moderators: string[];

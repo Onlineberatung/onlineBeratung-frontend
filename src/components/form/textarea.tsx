@@ -2,6 +2,7 @@ import * as React from 'react';
 import { TextareaHTMLAttributes, useCallback } from 'react';
 import { v4 as uuid } from 'uuid';
 import './textarea.styles';
+import useMeasure from 'react-use-measure';
 
 export interface TextareaProps
 	extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
@@ -13,6 +14,7 @@ export const Textarea = ({
 	...attrs
 }: TextareaProps) => {
 	const id = customId ?? uuid();
+	const [labelRef, labelBounds] = useMeasure();
 
 	const handleChange = useCallback(
 		(e) => {
@@ -31,8 +33,13 @@ export const Textarea = ({
 					id={id}
 					{...attrs}
 					placeholder={placeholder}
+					style={{ paddingTop: labelBounds.height + 8 + 'px' }}
 				/>
-				{placeholder && <label htmlFor={id}>{placeholder}</label>}
+				{placeholder && (
+					<label htmlFor={id} ref={labelRef}>
+						{placeholder}
+					</label>
+				)}
 			</div>
 			{attrs.maxLength && (
 				<div className="textarea__letters">

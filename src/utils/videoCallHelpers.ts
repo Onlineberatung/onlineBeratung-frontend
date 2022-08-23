@@ -4,11 +4,12 @@ import { config } from '../resources/scripts/config';
 export const getVideoCallUrl = (
 	url: string,
 	isVideoActivated: boolean = false,
+	userName: string,
 	e2eEncryptionEnabled: boolean = false
 ) => {
 	return `${url}${
 		e2eEncryptionEnabled ? '&e2eEncryptionEnabled=1' : ''
-	}#config.startWithVideoMuted=${!isVideoActivated}`;
+	}#config.startWithVideoMuted=${!isVideoActivated}&userInfo.displayName="${userName}"`;
 };
 
 export const currentUserWasVideoCallInitiator = (initiatorRcUserId: string) =>

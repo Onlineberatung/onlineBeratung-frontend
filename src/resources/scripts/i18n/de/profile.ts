@@ -4,6 +4,8 @@ const profile = {
 	'functions.title': 'Funktionen',
 	'functions.absenceTitle': 'Meine Abwesenheit',
 	'functions.absenceLabel': 'Hinterlegen Sie eine Abwesenheitsnachricht',
+	'functions.absenceActivatedLabel':
+		'Deaktivieren Sie Ihre Abwesenheit, um eine Nachricht zu hinterlegen oder sie zu bearbeiten.',
 	'functions.absenceButtonSave': 'Speichern',
 	'functions.absenceButtonChange': 'Ändern',
 	'functions.securityTitle': 'Sicherheit',
@@ -26,10 +28,12 @@ const profile = {
 	'functions.passwordReset.overlay.buttonLabel': 'Zum Login',
 	'functions.spokenLanguages.saveError':
 		'Beim Speichern ist ein Problem aufgetaucht. Bitte versuchen Sie es erneut.',
+	'functions.masterKey.saveError':
+		'Beim Passwort Ändern ist ein Problem aufgetaucht. Bitte versuchen Sie es erneut.',
 	'data.title': 'Über mich',
 	'data.title.private': 'Private Daten',
 	'data.info.private': 'Diese Daten können die Ratsuchenden nicht einsehen.',
-	'data.title.information': 'Profil Informationen',
+	'data.title.information': 'Kontaktdaten',
 	'data.info.public':
 		'Mit dem Anzeigenamen erscheinen Sie bei den Ratsuchenden.',
 	'data.edit.button.cancel': 'Abbrechen',
@@ -89,9 +93,11 @@ const profile = {
 	'routes.activities': 'Meine Aktivitäten',
 	'routes.activities.statistics': 'Meine Statistik',
 	'routes.activities.absence': 'Meine Abwesenheit',
+	'routes.notifications': 'Benachrichtigungen',
+	'routes.notifications.email': 'E-Mail Benachrichtigung',
 	'routes.security': 'Sicherheit',
 	'routes.security.changePassword': 'Passwort ändern',
-	'routes.security.2fa': '2-Faktor-Authentifizierung',
+	'routes.security.2fa': 'Zwei-Faktor-Authentifizierung',
 	'routes.help': 'Hilfe',
 	'routes.help.videoCall': 'Video-Call',
 
@@ -116,7 +122,7 @@ const profile = {
 	'statistics.csvHeader.numberOfSessionsWhereConsultantWasActive':
 		'Aktive Beratungen',
 	'statistics.csvHeader.videoCallDuration':
-		'Dauer von Videoanrufen in Minuten:Sekunden',
+		'Dauer von Video-Calls in Minuten:Sekunden',
 	'unsetEmail.confirmOverlay.headline':
 		'Möchten Sie Ihre E-Mail-Adresse wirklich löschen?',
 	'unsetEmail.confirmOverlay.copy': 'Wenn Sie ihre E-Mail-Adresse löschen:',
@@ -131,7 +137,11 @@ const profile = {
 	'unsetEmail.errorOverlay.button': 'ok',
 	'unsetEmail.successOverlay.headline':
 		'Sie haben Ihre E-Mail-Adresse erfolgreich gelöscht.',
-	'unsetEmail.successOverlay.button': 'ok'
+	'unsetEmail.successOverlay.button': 'ok',
+	'notifications.title': 'E-Mail Benachrichtigung',
+	'notifications.subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
+	'notifications.follow.up.email.label':
+		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.'
 };
 
 export default profile;

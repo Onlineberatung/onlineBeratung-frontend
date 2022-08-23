@@ -88,6 +88,7 @@ $icon-size-small: 16px;
 
 	&__row {
 		display: flex;
+		gap: 12px;
 		color: var(--skin-color-default, $secondary);
 		&:first-child {
 			justify-content: space-between;
@@ -109,6 +110,7 @@ $icon-size-small: 16px;
 	}
 
 	&__consultingType {
+		flex-grow: 1;
 		padding-right: $grid-base;
 		display: block;
 		white-space: nowrap;
@@ -121,11 +123,19 @@ $icon-size-small: 16px;
 		font-size: $font-size-secondary;
 		line-height: 16px;
 		white-space: nowrap;
-		min-width: 100px;
 		text-align: right;
 		align-self: flex-end;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	&__topic {
+		border-radius: 4px;
+		padding-left: 8px;
+		padding-right: 8px;
+		text-align: center;
+		color: #fff;
+		background-color: var(--skin-color-primary, #cc1e1c);
 	}
 
 	&__feedbackLabel {
@@ -192,8 +202,13 @@ $icon-size-small: 16px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 
+		&--aliasMessage {
+			font-style: italic !important;
+		}
+
 		& > span {
 			display: inline-block;
+			font-style: normal;
 			font-weight: $font-weight-bold;
 		}
 

@@ -41,7 +41,8 @@ const registration = {
 	'agencyPreselected.intro.point1':
 		'kennen dann die Hilfen rund um Ihren Wohnort',
 	'agencyPreselected.intro.point2': 'kennen die Gesetze Ihres Bundeslandes',
-
+	'agencySelection.noAgencies':
+		'Derzeit können leider keine Beratungsstellen gefunden werden.',
 	'consultingTypeAgencySelection.consultingType.headline':
 		'Bitte wählen Sie ein Themenfeld',
 	'consultingTypeAgencySelection.consultingType.infoText':
@@ -87,6 +88,10 @@ const registration = {
 	'state.options.14': 'Sachsen-Anhalt',
 	'state.options.15': 'Schleswig-Holstein',
 	'state.options.16': 'Thüringen',
+	'mainTopic.headline':
+		'Welches dieser Problemfelder ist für Sie aktuell am Wichtigsten?',
+	'mainTopic.noTopics':
+		'Derzeit können leider keine Themen ausgewählt werden. Führen Sie die Anmeldung im nächsten Schritt fort.',
 	'dataProtection.label.prefix': 'Ich habe die ',
 	'dataProtection.label.and': ' und ',
 	'dataProtection.label.suffix':

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef, useContext, useEffect } from 'react';
+import { useState, useRef, useContext, useEffect, Fragment } from 'react';
 import { logout } from '../logout/logout';
 import {
 	AUTHORITIES,
@@ -17,12 +17,7 @@ import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg'
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { Text } from '../text/Text';
 import './profile.styles';
-import profileRoutes, {
-	COLUMN_LEFT,
-	SingleComponentType,
-	TabGroups,
-	TabType
-} from './profile.routes';
+import profileRoutes from './profile.routes';
 import {
 	Link,
 	NavLink,
@@ -42,39 +37,20 @@ import {
 	LinkMenuGroupType,
 	LinkMenuItemType
 } from '../mobile/linkMenu/LinkMenu';
+import {
+	solveTabConditions,
+	isTabGroup,
+	solveCondition,
+	solveGroupConditions,
+	COLUMN_LEFT,
+	SingleComponentType,
+	TabGroups
+} from '../../utils/tabsHelper';
 
 interface ProfileProps {
 	legalLinks: Array<LegalLinkInterface>;
 	spokenLanguages: string[];
 }
-
-export const isTabGroup = (
-	item: TabGroups | SingleComponentType
-): item is TabGroups => {
-	return item.hasOwnProperty('elements');
-};
-
-const solveCondition = (condition, ...params) => {
-	return !condition || condition(...params);
-};
-
-const solveTabConditions = (tab: TabType, ...params) => {
-	return (
-		solveCondition(tab.condition, ...params) &&
-		tab.elements.some((element) => solveGroupConditions(element, ...params))
-	);
-};
-
-const solveGroupConditions = (
-	element: TabGroups | SingleComponentType,
-	...params
-) => {
-	return solveCondition(element.condition, ...params) && isTabGroup(element)
-		? element.elements.some((element) =>
-				solveCondition(element.condition, ...params)
-		  )
-		: true;
-};
 
 export const Profile = (props: ProfileProps) => {
 	const location = useLocation();
@@ -383,7 +359,7 @@ export const Profile = (props: ProfileProps) => {
 
 				<div className="profile__footer">
 					{props.legalLinks.map((legalLink, index) => (
-						<React.Fragment key={legalLink.url}>
+						<Fragment key={legalLink.url}>
 							{index > 0 && (
 								<Text
 									type="infoSmall"
@@ -403,7 +379,7 @@ export const Profile = (props: ProfileProps) => {
 									text={legalLink.label}
 								/>
 							</a>
-						</React.Fragment>
+						</Fragment>
 					))}
 				</div>
 			</div>
@@ -413,8 +389,7 @@ export const Profile = (props: ProfileProps) => {
 
 const ProfileItem = ({
 	element,
-	spokenLanguages,
-	index
+	spokenLanguages
 }: {
 	element: SingleComponentType;
 	spokenLanguages: string[];

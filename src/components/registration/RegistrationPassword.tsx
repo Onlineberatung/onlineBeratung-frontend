@@ -25,12 +25,14 @@ interface RegistrationPasswordProps {
 	onPasswordChange: Function;
 	onValidityChange: Function;
 	passwordNote: string;
+	onKeyDown?: Function;
 }
 
 export const RegistrationPassword = ({
 	onPasswordChange,
 	onValidityChange,
-	passwordNote
+	passwordNote,
+	onKeyDown
 }: RegistrationPasswordProps) => {
 	const [isValid, setIsValid] =
 		useState<AccordionItemValidity>(VALIDITY_INITIAL);
@@ -187,10 +189,12 @@ export const RegistrationPassword = ({
 			<InputField
 				item={inputItemPassword}
 				inputHandle={handlepasswordChange}
+				onKeyDown={(e) => onKeyDown(e, false)}
 			/>
 			<InputField
 				item={inputItemPasswordConfirmation}
 				inputHandle={(e) => setPasswordConfirmation(e.target.value)}
+				onKeyDown={(e) => onKeyDown(e, true, false)}
 			/>
 			{passwordNote && (
 				<div data-cy="registration-password-note">

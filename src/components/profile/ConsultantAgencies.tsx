@@ -31,7 +31,7 @@ export const ConsultantAgencies = () => {
 					return (
 						<div
 							className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
-							key={i}
+							key={`agencies-${i}`}
 						>
 							{item.name}
 							<div className="flex flex--fd-row mt--1 flex-l--fd-column mt-l--0 ml-l--2 flex--ai-c flex-l--ai-fs">
@@ -88,14 +88,15 @@ const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 	}, [agency, addNotification]);
 
 	return (
-		<span
-			className="profile__data__copy_registration_link text--nowrap text--tertiary primary mr--2"
-			role="button"
+		<button
+			className="profile__data__copy_registration_link text--nowrap text--tertiary primary mr--2 button-as-link"
+			type="button"
+			tabIndex={0}
 			onClick={copyRegistrationLink}
 			title={translate('profile.data.agency.registrationLink.title')}
 		>
 			<CopyIcon className={`copy icn--s`} />{' '}
 			{translate('profile.data.agency.registrationLink.text')}
-		</span>
+		</button>
 	);
 };

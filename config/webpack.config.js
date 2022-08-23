@@ -229,6 +229,9 @@ module.exports = function (webpackEnv) {
 		mode: isEnvProduction
 			? 'production'
 			: isEnvDevelopment && 'development',
+		watchOptions: {
+			aggregateTimeout: 500
+		},
 		// Stop compilation early in production
 		bail: isEnvProduction,
 		devtool: isEnvProduction
@@ -457,7 +460,7 @@ module.exports = function (webpackEnv) {
 							include: [
 								paths.appSrc,
 								path.resolve(
-									'node_modules/@caritasdeutschland/caritas-onlineberatung-frontend'
+									'node_modules/@onlineberatung/onlineberatung-frontend'
 								)
 							],
 							loader: require.resolve('babel-loader'),

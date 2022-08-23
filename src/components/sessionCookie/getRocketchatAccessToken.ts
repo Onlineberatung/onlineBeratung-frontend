@@ -12,7 +12,7 @@ export const getRocketchatAccessToken = (
 			ldapPass: password,
 			ldapOptions: {}
 		});
-		const url = config.endpoints.rocketchatAccessToken;
+		const url = config.endpoints.rc.accessToken;
 
 		const req = new Request(url, {
 			method: 'POST',

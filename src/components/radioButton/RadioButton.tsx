@@ -1,4 +1,5 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import './radioButton.styles';
 
 export interface RadioButtonItem {
@@ -9,11 +10,18 @@ export interface RadioButtonItem {
 	name: string;
 	type: 'default' | 'box' | 'smaller';
 	value: string;
+	className?: string;
+	onKeyDown?: Function;
 }
 
 export const RadioButton = (props: RadioButtonItem) => {
 	return (
-		<div className={`radioButton radioButton--${props.type}`}>
+		<div
+			className={classNames(
+				`radioButton radioButton--${props.type}`,
+				props.className
+			)}
+		>
 			<div className="radioButton__contentWrapper">
 				<input
 					onClick={(e) => props.handleRadioButton(e)}
@@ -23,6 +31,9 @@ export const RadioButton = (props: RadioButtonItem) => {
 					name={props.name}
 					value={props.value}
 					defaultChecked={props.checked}
+					onKeyDown={(e) =>
+						props.onKeyDown ? props.onKeyDown(e) : null
+					}
 				/>
 				<label className="radioButton__label" htmlFor={props.inputId}>
 					{props.label}

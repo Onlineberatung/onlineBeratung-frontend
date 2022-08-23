@@ -1,10 +1,7 @@
-import {
-	getChatItemForSession,
-	isUserModerator
-} from '../session/sessionHelpers';
+import { isUserModerator } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
 import * as React from 'react';
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import {
 	getPrettyDateFromMessageDate,
 	formatToHHMM
@@ -27,75 +24,77 @@ interface MessageDisplayNameProps {
 	displayName: string;
 }
 
-export const MessageDisplayName = (props: MessageDisplayNameProps) => {
-	const activeSession = useContext(ActiveSessionContext);
-	const chatItem = getChatItemForSession(activeSession);
+export const MessageDisplayName = ({
+	alias,
+	isUser,
+	isMyMessage,
+	type,
+	userId,
+	username,
+	isUserBanned,
+	displayName
+}: MessageDisplayNameProps) => {
+	const { activeSession } = useContext(ActiveSessionContext);
 
-	const forwardedLabel = () => {
+	const forwardedLabel = useCallback(() => {
 		const date = getPrettyDateFromMessageDate(
-			Math.round(props.alias.timestamp / 1000)
+			Math.round(alias.timestamp / 1000)
 		);
 		return translate('message.forwardedLabel')(
-			props.alias.username, // TODO change to displayName if message service is adjusted
+			alias.username, // TODO change to displayName if message service is adjusted
 			date,
-			formatToHHMM(props.alias.timestamp)
+			formatToHHMM(alias.timestamp)
 		);
-	};
+	}, [alias?.timestamp, alias?.username]);
 
 	const subscriberIsModerator = isUserModerator({
-		chatItem,
-		rcUserId: props.userId
+		chatItem: activeSession.item,
+		rcUserId: userId
 	});
 	const currentUserIsModerator = isUserModerator({
-		chatItem,
+		chatItem: activeSession.item,
 		rcUserId: getValueFromCookie('rc_uid')
 	});
 
-	const getUsernameWithPrefix = () => {
-		if (props.isMyMessage) {
+	const getUsernameWithPrefix = useCallback(() => {
+		if (isMyMessage) {
 			return translate('message.isMyMessage.name');
 		} else if (
-			(!props.isMyMessage && props.isUser) ||
-			(!subscriberIsModerator && props.isUser)
+			(!isMyMessage && isUser) ||
+			(!subscriberIsModerator && isUser)
 		) {
-			return props.displayName;
+			return displayName;
 		} else {
 			return subscriberIsModerator
-				? translate('session.groupChat.consultant.prefix') +
-						props.displayName
-				: translate('session.consultant.prefix') + props.displayName;
+				? translate('session.groupChat.consultant.prefix') + displayName
+				: translate('session.consultant.prefix') + displayName;
 		}
-	};
+	}, [displayName, isMyMessage, isUser, subscriberIsModerator]);
 
 	return (
 		<>
-			{!props.alias && props.displayName && (
+			{!alias && displayName && (
 				<div
-					className={`messageItem__username messageItem__username--${props.type}`}
+					className={`messageItem__username messageItem__username--${type}`}
 				>
 					{getUsernameWithPrefix()}
 					{currentUserIsModerator && !subscriberIsModerator && (
-						<FlyoutMenu
-							position="right"
-							isHidden={props.isUserBanned}
-						>
+						<FlyoutMenu position="right" isHidden={isUserBanned}>
 							<BanUser
-								userName={props.username}
-								rcUserId={props.userId}
-								chatId={activeSession?.chat?.id}
+								userName={username}
+								rcUserId={userId}
+								chatId={activeSession.item.id}
 							/>
 						</FlyoutMenu>
 					)}
 				</div>
 			)}
 
-			{props.alias ? (
+			{alias && (
 				<div className="messageItem__username messageItem__username--forwarded">
 					<ArrowForwardIcon />
 					{forwardedLabel()}
 				</div>
-			) : (
-				''
 			)}
 		</>
 	);

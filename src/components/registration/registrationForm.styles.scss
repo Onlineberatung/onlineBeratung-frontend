@@ -24,7 +24,11 @@ $registration-form-headline-margin-bottom: 24px;
 			line-height: $line-height-primary;
 		}
 
-		a {
+		.button-as-link {
+			border: none;
+			background: none;
+			padding: 0;
+
 			color: $link-color;
 			text-decoration: $link-text-decoration;
 			font-weight: $link-font-weight;
@@ -32,6 +36,28 @@ $registration-form-headline-margin-bottom: 24px;
 			&:hover {
 				color: $link-color-hover;
 				text-decoration: $link-text-decoration-hover;
+				cursor: pointer;
+			}
+
+			&:focus {
+				outline: $focus-outline;
+				outline-offset: 4px;
+				border-radius: 4px;
+			}
+
+			&:focus:not(:focus-visible) {
+				outline: none;
+			}
+		}
+
+		.checkbox__input {
+			&:focus {
+				outline: $focus-outline;
+				outline-offset: 5px;
+			}
+
+			&:focus:not(:focus-visible) {
+				outline: none;
 			}
 		}
 	}
@@ -65,6 +91,10 @@ $registration-form-headline-margin-bottom: 24px;
 	&__contentRow {
 		margin: 0 auto $grid-base-five;
 		max-width: 690px;
+	}
+
+	&__no-agency-found {
+		margin-top: 28px;
 	}
 
 	.select__wrapper {

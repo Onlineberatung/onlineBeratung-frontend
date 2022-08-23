@@ -13,35 +13,11 @@ import { AbsenceFormular } from './AbsenceFormular';
 import { PasswordReset } from '../passwordReset/PasswordReset';
 import { TwoFactorAuth } from '../twoFactorAuth/TwoFactorAuth';
 import { DeleteAccount } from './DeleteAccount';
+import { EnableWalkthrough } from './EnableWalkthrough';
+import { config } from '../../resources/scripts/config';
 import { Help } from '../help/Help';
-
-export interface TabGroups {
-	title: string;
-	url: string;
-	condition?: (userData, consultingTypes) => boolean;
-	elements: SingleComponentType[];
-}
-
-export interface TabType {
-	title: string;
-	url: string;
-	condition?: (userData, consultingTypes) => boolean;
-	elements: (TabGroups | SingleComponentType)[];
-}
-
-export const COLUMN_LEFT = 0;
-export const COLUMN_RIGHT = 1;
-
-export type SingleComponentType = {
-	condition?: (userData, consultingTypes) => boolean;
-	component: any;
-	boxed?: boolean;
-	order?: number;
-	column?: typeof COLUMN_LEFT | typeof COLUMN_RIGHT;
-	fullWidth?: boolean;
-};
-
-export type TabsType = TabType[];
+import { ConsultantNotifications } from './ConsultantNotifications';
+import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 
 const routes: TabsType = [
 	{
@@ -77,6 +53,15 @@ const routes: TabsType = [
 								userData
 							),
 						component: ConsultantAgencies,
+						column: COLUMN_LEFT
+					},
+					{
+						condition: (userData) =>
+							hasUserAuthority(
+								AUTHORITIES.CONSULTANT_DEFAULT,
+								userData
+							) && config.enableWalkthrough,
+						component: EnableWalkthrough,
 						column: COLUMN_LEFT
 					},
 					{
@@ -156,6 +141,24 @@ const routes: TabsType = [
 					{
 						component: AbsenceFormular,
 						column: COLUMN_RIGHT
+					}
+				]
+			}
+		]
+	},
+	{
+		title: translate('profile.routes.notifications'),
+		url: '/benachrichtigungen',
+		condition: (userData) =>
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
+		elements: [
+			{
+				title: translate('profile.routes.notifications.email'),
+				url: '/email',
+				elements: [
+					{
+						component: ConsultantNotifications,
+						column: COLUMN_LEFT
 					}
 				]
 			}

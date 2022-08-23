@@ -25,6 +25,7 @@ import { config, uiUrl } from '../../resources/scripts/config';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { videoCallErrorOverlayItem } from '../sessionMenu/sessionMenuHelpers';
+import { history } from '../app/app';
 
 const DESCRIPTION_PREVIEW_LENGTH = 100;
 
@@ -123,6 +124,9 @@ export const Appointment = ({
 					break;
 				case OVERLAY_FUNCTIONS.CLOSE:
 					setOverlayItem(null);
+					break;
+				case 'GOTO_MANUAL':
+					history.push('/profile/hilfe/videoCall');
 					break;
 			}
 		},

@@ -27,9 +27,15 @@ export const getValueFromCookie = (targetValue: string) => {
 export const removeAllCookies = (allowlist = []) => {
 	document.cookie.split(';').forEach(function (c) {
 		const name = c.trim().split('=')[0];
-		if (allowlist.includes(name)) return;
+		if (
+			[
+				...allowlist,
+				...(process.env.REACT_APP_COOKIES_ALLOWEDLIST ?? '').split(',')
+			].includes(name)
+		)
+			return;
 
-		const value = name + '=;path=/; expires=Thu, 27 May 1992 08:32:00 MET;';
-		document.cookie = value;
+		document.cookie =
+			name + '=;path=/; expires=Thu, 27 May 1992 08:32:00 MET;';
 	});
 };

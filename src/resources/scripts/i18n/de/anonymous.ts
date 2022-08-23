@@ -36,10 +36,11 @@ const anonymous = {
 	'waitingroom.username': 'Ihr Benutzername lautet:',
 	'waitingroom.username.loading': 'Wird geladen...',
 	'waitingroom.info.accountDeletion':
-		'Um Ihre Anonymität zu schützen, löschen wir Ihre Nachrichten spätestens 48 Stunden nachdem der Chat beendet wurde.',
-	'waitingroom.redirect.title': 'Sie wollen nicht warten?',
+		'Wir löschen Ihre Nachrichten spätestens nach 48 Stunden. Ihre Anonymität ist uns wichtig.',
+	'waitingroom.redirect.title':
+		'Sie wollen nicht auf einen freien Chat warten? Und benötigen nicht sofort eine Antwort?',
 	'waitingroom.redirect.subline':
-		'Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns innerhalb von 2 Werktagen bei Ihnen. <b>Gehen Sie <a href="registration">zur Registrierung</a></b>',
+		'Registrieren Sie sich und hinterlassen Sie uns eine Nachricht. Wir melden uns innerhalb von 2 Werktagen bei Ihnen. <br><br>Gehen Sie zur <a href="registration">Registrierung</a>',
 	'waitingroom.overlay.acceptance.headline': 'Herzlich Willkommen!',
 	'waitingroom.overlay.acceptance.copy':
 		'Sie werden von Ihrer Berater_in im Chat erwartet. Sind Sie bereit?',

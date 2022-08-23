@@ -2,8 +2,11 @@ name: Publish Docker image
 
 on:
     push:
+        branches:
+            - 'develop'
         tags:
             - 'dockerImage.v.*'
+            - 'v*'
 
 jobs:
     build:
@@ -38,6 +41,9 @@ jobs:
                   name: buildfiles
                   path: build/**/*
     push_to_registry:
+        strategy:
+            matrix:
+                registry: ['docker.pkg.github.com', 'ghcr.io']
         needs: [build]
         name: Push Docker image to GitHub Packages
         runs-on: ubuntu-latest
@@ -47,11 +53,48 @@ jobs:
               uses: actions/download-artifact@v2
               with:
                   name: buildfiles
+            - name: Get current time
+              id: time
+              uses: nanzm/get-time-action@v1.1
+              with:
+                  timeZone: 2
+                  format: 'YYYYMMDD[_]HHmmss'
+            - name: Prepare environment variables
+              run: |
+                  echo "MATRIX_REGISTRY=$(echo "${{ matrix.registry }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
+                  echo "DOCKER_REGISTRY=$(echo "${{ matrix.registry }}/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
+                  echo "DOCKER_IMAGE=$(echo "${{ github.repository }}" | awk -F / '{print tolower($2)}')" >> $GITHUB_ENV
+                  echo CLEAN_REF=$(echo "${GITHUB_REF_NAME#refs/heads/}") >> $GITHUB_ENV
+                  echo TYPE=$(echo -n "${GITHUB_REF_TYPE}") >> $GITHUB_ENV
+                  echo TIME_STAMP=$(echo -n "${{ steps.time.outputs.time }}") >> $GITHUB_ENV
+              shell: bash
+            - name: Set branch_timestamp for image from branch
+              if: ${{ env.TYPE == 'branch' }}
+              run: echo DOCKER_IMAGE_TAG=$(echo "${{ env.CLEAN_REF }}_${{ env.TIME_STAMP }}") >> $GITHUB_ENV
+              shell: bash
+            - name: Set tag for image from tag
+              if: ${{ env.TYPE == 'tag' }}
+              run: echo DOCKER_IMAGE_TAG=$(echo "${{ env.CLEAN_REF }}") >> $GITHUB_ENV
+              shell: bash
             - name: Push to GitHub Packages
               uses: docker/build-push-action@v1.1.1
               with:
                   username: ${{ secrets.GH_PACKAGE_RELEASE_USER }}
                   password: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
-                  registry: docker.pkg.github.com
-                  repository: caritasdeutschland/caritas-onlineberatung-frontend/frontend-image
-                  tag_with_ref: true
+                  registry: ${{ env.DOCKER_REGISTRY }}
+                  repository: ${{ env.DOCKER_IMAGE }}
+                  build_args: DOCKER_MATRIX=${{ env.MATRIX_REGISTRY }}
+                  tags: ${{ env.DOCKER_IMAGE_TAG}}
+            - name: Hint about the Docker Image Tag if successfull
+              if: ${{ success() }}
+              run: |
+                  echo "### Publish Docker image :white_check_mark:" >> $GITHUB_STEP_SUMMARY
+                  echo "" >> $GITHUB_STEP_SUMMARY
+                  echo "- Image name: ${{ env.DOCKER_IMAGE }}" >> $GITHUB_STEP_SUMMARY
+                  echo "- Version: ${{ env.DOCKER_IMAGE_TAG }}" >> $GITHUB_STEP_SUMMARY
+            - name: Hint about the Docker Image Tag if not successfull
+              if: ${{ failure() || cancelled() }}
+              run: |
+                  echo "### Publish Docker image :x:" >> $GITHUB_STEP_SUMMARY
+                  echo "" >> $GITHUB_STEP_SUMMARY
+                  echo "- It seems that something has gone wrong" >> $GITHUB_STEP_SUMMARY

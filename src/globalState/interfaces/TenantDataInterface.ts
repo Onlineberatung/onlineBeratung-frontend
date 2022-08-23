@@ -13,4 +13,9 @@ export interface TenantDataInterface {
 		termsAndConditions: string;
 		claim: string;
 	};
+	settings?: {
+		topicsInRegistrationEnabled: boolean;
+		featureTopicsEnabled: boolean;
+		featureGroupChatV2Enabled: boolean;
+	};
 }

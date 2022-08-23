@@ -16,6 +16,7 @@ import { Headline } from '../headline/Headline';
 import Switch from 'react-switch';
 import { Text } from '../text/Text';
 import { Textarea } from '../form/textarea';
+import { isMobile } from 'react-device-detect';
 
 export const AbsenceFormular = () => {
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -37,27 +38,31 @@ export const AbsenceFormular = () => {
 		]
 	};
 
-	const saveAbsence = useCallback(() => {
-		if (isRequestInProgress) {
-			return null;
-		}
-		setIsRequestInProgress(true);
+	const saveAbsence = useCallback(
+		(isAbsent) => {
+			setIsAbsent(isAbsent);
+			if (isRequestInProgress) {
+				return null;
+			}
+			setIsRequestInProgress(true);
 
-		apiSetAbsence(isAbsent, absentMessage)
-			.then(() => {
-				setOverlayActive(true);
-				setIsRequestInProgress(false);
-			})
-			.catch((error) => {
-				console.log(error);
-				setIsRequestInProgress(false);
-			});
-	}, [absentMessage, isAbsent, isRequestInProgress]);
+			apiSetAbsence(isAbsent, absentMessage)
+				.then(() => {
+					setOverlayActive(true);
+					setIsRequestInProgress(false);
+				})
+				.catch((error) => {
+					console.log(error);
+					setIsRequestInProgress(false);
+				});
+		},
+		[absentMessage, isRequestInProgress]
+	);
 
 	useEffect(
 		() => {
 			if (!isAbsent && isAbsent !== userData.absent) {
-				saveAbsence();
+				saveAbsence(isAbsent);
 			}
 		},
 		[isAbsent, userData.absent] // eslint-disable-line react-hooks/exhaustive-deps
@@ -86,10 +91,33 @@ export const AbsenceFormular = () => {
 				/>
 			</div>
 			<div className="generalInformation">
+				<Textarea
+					value={absentMessage}
+					onChange={({ target: { value } }) =>
+						setAbsentMessage(value)
+					}
+					placeholder={
+						isAbsent
+							? translate(
+									'profile.functions.absenceActivatedLabel'
+							  )
+							: translate('profile.functions.absenceLabel')
+					}
+					disabled={isAbsent}
+					className={`${isAbsent ? 'disabled' : ''} ${
+						isMobile && isAbsent ? 'mobile' : ''
+					}`}
+				/>
+
+				<Text
+					text={translate('absence.input.infoText')}
+					type="infoLargeAlternative"
+				/>
+
 				<div className="flex">
 					<Switch
 						className="mr--1"
-						onChange={() => setIsAbsent(!isAbsent)}
+						onChange={() => saveAbsence(!isAbsent)}
 						checked={isAbsent}
 						uncheckedIcon={false}
 						checkedIcon={false}
@@ -106,44 +134,6 @@ export const AbsenceFormular = () => {
 						type="standard"
 					/>
 				</div>
-				{isAbsent && (
-					<>
-						<Textarea
-							value={absentMessage}
-							onChange={({ target: { value } }) =>
-								setAbsentMessage(value)
-							}
-							placeholder={translate(
-								'profile.functions.absenceLabel'
-							)}
-						/>
-						<Text
-							text={translate('absence.input.infoText')}
-							type="standard"
-							className="tertiary"
-						/>
-					</>
-				)}
-				{isAbsent &&
-					(isAbsent !== userData.absent ||
-						absentMessage !== userData.absenceMessage) && (
-						<div className="w--100 mt--2">
-							<span
-								onClick={saveAbsence}
-								id="absenceButton"
-								role="button"
-								className="absence__link"
-							>
-								{userData.absent && isAbsent
-									? translate(
-											'profile.functions.absenceButtonChange'
-									  )
-									: translate(
-											'profile.functions.absenceButtonSave'
-									  )}
-							</span>
-						</div>
-					)}
 			</div>
 			{overlayActive ? (
 				<OverlayWrapper>

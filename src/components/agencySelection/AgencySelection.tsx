@@ -2,7 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
 	AgencyDataInterface,
-	ConsultingTypeBasicInterface
+	ConsultingTypeBasicInterface,
+	useTenant
 } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
@@ -34,12 +35,16 @@ export interface AgencySelectionProps {
 	onValidityChange?: Function;
 	preselectedAgency?: AgencyDataInterface;
 	isProfileView?: boolean;
+	mainTopicId?: number;
 	agencySelectionNote?: string;
 	initialPostcode?: string;
 	hideExternalAgencies?: boolean;
+	onKeyDown?: Function;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
+	const tenantData = useTenant();
+	const [isLoading, setIsLoading] = useState(false);
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState('');
 	const [proposedAgencies, setProposedAgencies] = useState<
 		AgencyDataInterface[] | null
@@ -58,6 +63,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 
 	const isSelectedAgencyValidated = () =>
 		validPostcode() && typeof selectedAgency?.id === 'number';
+	const topicsAreRequired =
+		tenantData?.settings?.topicsInRegistrationEnabled &&
+		tenantData?.settings?.featureTopicsEnabled;
 
 	useEffect(() => {
 		setSelectedPostcode(props.initialPostcode || '');
@@ -73,7 +81,8 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				if (autoSelectAgency) {
 					const response = await apiAgencySelection({
 						postcode: DEFAULT_POSTCODE,
-						consultingType: props.consultingType.id
+						consultingType: props.consultingType.id,
+						topicId: props?.mainTopicId
 					});
 
 					const defaultAgency = response[0];
@@ -88,7 +97,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [autoSelectAgency, props.consultingType.id]);
+	}, [autoSelectAgency, props.consultingType.id, props?.mainTopicId]);
 
 	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
@@ -120,14 +129,25 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		if (!autoSelectAgency && !preselectedAgency) {
 			(async () => {
 				try {
+					setIsLoading(true);
 					setSelectedAgency(null);
 					setPostcodeFallbackLink('');
-					if (validPostcode()) {
+					// When we have the topics in in registration enabled to prevent for us doing the request
+					// we need to ensure that we've the mainTopicId is set
+					const isValidWhenTopicInRegistrationIsActive =
+						(topicsAreRequired && props.mainTopicId) ||
+						!tenantData?.settings?.topicsInRegistrationEnabled;
+
+					if (
+						validPostcode() &&
+						isValidWhenTopicInRegistrationIsActive
+					) {
 						const agencies = (
 							await apiAgencySelection({
 								postcode: selectedPostcode,
-								consultingType: props.consultingType.id
-							})
+								consultingType: props.consultingType.id,
+								topicId: props?.mainTopicId
+							}).finally(() => setIsLoading(false))
 						).filter(
 							(agency) =>
 								!props.hideExternalAgencies || !agency.external
@@ -166,7 +186,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selectedPostcode, props.consultingType.id]);
+	}, [selectedPostcode, props.consultingType.id, props?.mainTopicId]);
 
 	const postcodeInputItem: InputFieldItem = {
 		name: 'postcode',
@@ -268,6 +288,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					<InputField
 						item={postcodeInputItem}
 						inputHandle={(e) => handlePostcodeInput(e)}
+						onKeyDown={(e) =>
+							props.onKeyDown ? props.onKeyDown(e, false) : null
+						}
 					></InputField>
 					{props.agencySelectionNote && (
 						<div data-cy="registration-agency-selection-note">
@@ -314,8 +337,15 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											)}
 										</a>
 									</Notice>
-								) : (
+								) : isLoading ? (
 									<Loading />
+								) : (
+									<Text
+										text={translate(
+											'registration.agencySelection.noAgencies'
+										)}
+										type="infoLargeAlternative"
+									/>
 								)
 							) : (
 								proposedAgencies?.map(

@@ -66,7 +66,7 @@ describe('videoconference', () => {
 			cy.fastLogin();
 		});
 
-		it('Join invited video call', () => {
+		xit('Join invited video call', () => {
 			cy.clock();
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()
@@ -166,7 +166,7 @@ describe('videoconference', () => {
 			});
 		});
 
-		it('Join invited video call', () => {
+		xit('Join invited video call', () => {
 			cy.clock();
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()
@@ -269,7 +269,7 @@ describe('videoconference', () => {
 			});
 		});
 
-		it('Join invited video call', () => {
+		xit('Join invited video call', () => {
 			cy.clock();
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()
@@ -339,7 +339,7 @@ describe('videoconference', () => {
 			cy.contains('Der Video-Call wurde nicht gefunden').should('exist');
 		});
 
-		it('Start moderator video call', () => {
+		xit('Start moderator video call', () => {
 			cy.get('@appointmentId').then((id: any) => {
 				const videoUrl = config.urls.consultantVideoConference
 					.replace('/:type', '/app')

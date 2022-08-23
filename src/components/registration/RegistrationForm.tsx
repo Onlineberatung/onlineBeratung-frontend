@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { translate } from '../../utils/translate';
+import { Text } from '../text/Text';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
 import { buttonItemSubmit } from './registrationHelpers';
@@ -24,7 +25,8 @@ import {
 	AgencyDataInterface,
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
-	LegalLinkInterface
+	LegalLinkInterface,
+	useTenant
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
@@ -34,30 +36,36 @@ import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
 } from '../error/errorHandling';
+import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
 	agency?: AgencyDataInterface;
 	consultant?: ConsultantDataInterface;
 	legalLinks: Array<LegalLinkInterface>;
+	topic?: TopicsDataInterface;
 }
 
 interface FormAccordionData {
 	username?: string;
 	password?: string;
 	agencyId?: number;
+	mainTopicId?: number;
 	postcode?: string;
 	state?: string;
 	age?: string;
 	consultingTypeId?: number;
+	mainTopic?: string;
 }
 
 export const RegistrationForm = ({
 	consultingType,
 	agency,
+	topic,
 	legalLinks,
 	consultant
 }: RegistrationFormProps) => {
+	const tenantData = useTenant();
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
 	const [formAccordionValid, setFormAccordionValid] = useState(false);
@@ -71,6 +79,9 @@ export const RegistrationForm = ({
 	const [overlayActive, setOverlayActive] = useState(false);
 
 	const [initialPostcode, setInitialPostcode] = useState('');
+	const topicsAreRequired =
+		tenantData?.settings?.topicsInRegistrationEnabled &&
+		tenantData?.settings?.featureTopicsEnabled;
 
 	useEffect(() => {
 		const postcodeParameter = getUrlParameter('postcode');
@@ -85,7 +96,10 @@ export const RegistrationForm = ({
 			});
 		}
 
-		if (consultingType?.registration.autoSelectAgency) {
+		if (
+			consultingType?.registration.autoSelectAgency &&
+			!topicsAreRequired
+		) {
 			apiAgencySelection({
 				postcode: postcodeParameter || DEFAULT_POSTCODE,
 				consultingType: consultingType.id
@@ -108,6 +122,33 @@ export const RegistrationForm = ({
 		}
 	}, [formAccordionValid, isDataProtectionSelected]);
 
+	useEffect(() => {
+		// When we require the topic to be selected and the autoSelectPostCode is enabled,
+		// we need to request the api to get the preselected agency
+		const shouldRequestAgencyWhenAutoSelectIsEnabled =
+			consultingType?.registration.autoSelectPostcode &&
+			!!topicsAreRequired;
+
+		if (shouldRequestAgencyWhenAutoSelectIsEnabled) {
+			apiAgencySelection({
+				postcode: formAccordionData.postcode || DEFAULT_POSTCODE,
+				consultingType: consultingType.id,
+				topicId: formAccordionData.mainTopicId
+			})
+				.then((response) => {
+					const agencyData = response[0];
+					setPreselectedAgencyData(agencyData);
+				})
+				.catch(() => setPreselectedAgencyData(null));
+		}
+	}, [
+		consultingType,
+		formAccordionData.mainTopicId,
+		formAccordionData.postcode,
+		tenantData,
+		topicsAreRequired
+	]);
+
 	const checkboxItemDataProtection: CheckboxItem = {
 		inputId: 'dataProtectionCheckbox',
 		name: 'dataProtectionCheckbox',
@@ -126,7 +167,7 @@ export const RegistrationForm = ({
 										'registration.dataProtection.label.and'
 								  )
 							: '') +
-						`<a target="_blank" href="${legalLink.url}">${legalLink.label}</a>`
+						`<span><button type="button" class="button-as-link" onclick="window.open('${legalLink.url}')">${legalLink.label}</button></span>`
 				)
 				.join(''),
 			translate('registration.dataProtection.label.suffix')
@@ -160,6 +201,7 @@ export const RegistrationForm = ({
 			username: formAccordionData.username,
 			password: encodeURIComponent(formAccordionData.password),
 			agencyId: formAccordionData.agencyId?.toString(),
+			mainTopicId: formAccordionData.mainTopicId?.toString(),
 			postcode: formAccordionData.postcode,
 			consultingType: formAccordionData.consultingTypeId?.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
@@ -229,6 +271,8 @@ export const RegistrationForm = ({
 						registrationNotes={consultingType?.registration.notes}
 						consultant={consultant}
 						onValidation={setFormAccordionValid}
+						mainTopicId={formAccordionData.mainTopicId}
+						preselectedTopic={topic?.id}
 					/>
 				)}
 
@@ -242,6 +286,18 @@ export const RegistrationForm = ({
 						/>
 					)}
 
+				{consultingType?.registration.autoSelectPostcode &&
+					!preselectedAgencyData && (
+						<div className="registrationForm__no-agency-found">
+							<Text
+								text={translate(
+									'registration.agencySelection.noAgencies'
+								)}
+								type="infoLargeAlternative"
+							/>
+						</div>
+					)}
+
 				<div className="registrationForm__dataProtection">
 					<Checkbox
 						item={checkboxItemDataProtection}
@@ -250,6 +306,13 @@ export const RegistrationForm = ({
 								!isDataProtectionSelected
 							)
 						}
+						onKeyPress={(event) => {
+							if (event.key === 'Enter') {
+								setIsDataProtectionSelected(
+									!isDataProtectionSelected
+								);
+							}
+						}}
 					/>
 				</div>
 

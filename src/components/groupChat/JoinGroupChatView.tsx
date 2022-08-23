@@ -1,24 +1,20 @@
 import * as React from 'react';
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState, useCallback } from 'react';
 import {
 	UserDataContext,
-	SessionsDataContext,
-	getSessionsDataWithChangedValue,
 	hasUserAuthority,
 	AUTHORITIES,
-	AcceptedGroupIdContext,
 	useConsultingType,
-	GroupChatItemInterface,
-	UpdateSessionListContext,
-	LegalLinkInterface
+	LegalLinkInterface,
+	E2EEContext,
+	SessionTypeContext
 } from '../../globalState';
 import { mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
-import { getSessionListPathForLocation } from '../session/sessionHelpers';
+import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import {
 	apiPutGroupChat,
 	apiGetGroupChatInfo,
-	groupChatInfoData,
 	GROUP_CHAT_API,
 	FETCH_ERRORS
 } from '../../api';
@@ -29,7 +25,6 @@ import {
 	OverlayItem
 } from '../overlay/Overlay';
 import { translate } from '../../utils/translate';
-import { history } from '../app/app';
 import {
 	startButtonItem,
 	joinButtonItem,
@@ -38,16 +33,29 @@ import {
 } from './joinGroupChatHelpers';
 import { Button } from '../button/Button';
 import { logout } from '../logout/logout';
-import { Redirect, useLocation, useParams } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { bannedUserOverlay } from '../banUser/banUserHelper';
+import { useE2EE } from '../../hooks/useE2EE';
+import {
+	createGroupKey,
+	encryptForParticipant
+} from '../../utils/encryptionHelpers';
+import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
+import { apiRocketChatSetRoomKeyID } from '../../api/apiRocketChatSetRoomKeyID';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import {
+	ALIAS_MESSAGE_TYPES,
+	apiSendAliasMessage
+} from '../../api/apiSendAliasMessage';
+import { useWatcher } from '../../hooks/useWatcher';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 interface JoinGroupChatViewProps {
-	chatItem: GroupChatItemInterface;
 	forceBannedOverlay?: boolean;
 	bannedUsers?: string[];
 	legalLinks: Array<LegalLinkInterface>;
@@ -55,99 +63,141 @@ interface JoinGroupChatViewProps {
 
 export const JoinGroupChatView = ({
 	legalLinks,
-	chatItem,
 	forceBannedOverlay = false,
 	bannedUsers = []
 }: JoinGroupChatViewProps) => {
-	const { rcGroupId: groupIdFromParam } = useParams();
-
-	const activeSession = useContext(ActiveSessionContext);
+	const { activeSession, reloadActiveSession } =
+		useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
-	const { sessionsData, setSessionsData } = useContext(SessionsDataContext);
-	const { setUpdateSessionList } = useContext(UpdateSessionListContext);
-	const { setAcceptedGroupId } = useContext(AcceptedGroupIdContext);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
-	const consultingType = useConsultingType(chatItem.consultingType);
+	const consultingType = useConsultingType(activeSession.item.consultingType);
 
 	const [buttonItem, setButtonItem] = useState(joinButtonItem);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-	const timeout = 5000;
-	let timeoutId;
-
+	const [groupKeyID, setGroupKeyID] = useState(null);
+	const [sessionGroupKeyExportedString, setSessionGroupKeyExportedString] =
+		useState(null);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [sessionListTab] = useState(
-		new URLSearchParams(useLocation().search).get('sessionListTab')
-	);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
+
+	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { path: listPath } = useContext(SessionTypeContext);
+	const { encrypted } = useE2EE(activeSession.rid);
+
+	// create the groupkeys once, if e2ee feature is enabled
+	useEffect(() => {
+		if (!isE2eeEnabled || encrypted || activeSession?.item?.active) {
+			return;
+		}
+
+		createGroupKey().then(
+			({
+				keyID: groupKeyID,
+				sessionKeyExportedString: sessionGroupKeyExportedString
+			}) => {
+				setGroupKeyID(groupKeyID);
+				setSessionGroupKeyExportedString(sessionGroupKeyExportedString);
+			}
+		);
+	}, [encrypted, activeSession, isE2eeEnabled]);
+
+	const handleEncryptRoom = useCallback(async () => {
+		if (!isE2eeEnabled || encrypted || activeSession?.item?.active) {
+			return;
+		}
+
+		const rcUserId = getValueFromCookie('rc_uid');
+
+		const userKey = await encryptForParticipant(
+			sessionStorage.getItem('public_key'),
+			groupKeyID,
+			sessionGroupKeyExportedString
+		);
+
+		await apiRocketChatUpdateGroupKey(rcUserId, activeSession.rid, userKey);
+
+		// Set Room Key ID at the very end because if something failed before it will still be repairable
+		// After room key is set the room is encrypted and the room key could not be set again.
+		try {
+			await apiRocketChatSetRoomKeyID(activeSession.rid, groupKeyID);
+			await apiSendAliasMessage({
+				rcGroupId: activeSession.rid,
+				type: ALIAS_MESSAGE_TYPES.E2EE_ACTIVATED
+			});
+		} catch (e) {
+			console.error(e);
+			return;
+		}
+	}, [
+		isE2eeEnabled,
+		encrypted,
+		activeSession?.item?.active,
+		activeSession.rid,
+		groupKeyID,
+		sessionGroupKeyExportedString
+	]);
+	/* E2EE END */
+
+	const updateGroupChatInfo = useCallback(() => {
+		return apiGetGroupChatInfo(activeSession.item.id)
+			.then((res) => {
+				if (activeSession.item.active !== res.active) {
+					reloadActiveSession();
+				}
+			})
+			.catch((error) => {
+				if (error.message === FETCH_ERRORS.NO_MATCH) {
+					setOverlayItem(joinGroupChatClosedErrorOverlay);
+					setOverlayActive(true);
+				}
+			});
+	}, [activeSession.item.active, activeSession.item.id, reloadActiveSession]);
+
+	const [startWatcher, stopWatcher, isWatcherRunning] = useWatcher(
+		updateGroupChatInfo,
+		5000
+	);
+
+	useEffect(() => {
+		if (!isWatcherRunning) {
+			startWatcher();
+		}
+
+		return () => {
+			if (isWatcherRunning) {
+				stopWatcher();
+			}
+		};
+	}, [
+		consultingType?.groupChat.isGroupChat,
+		isWatcherRunning,
+		startWatcher,
+		stopWatcher
+	]);
 
 	useEffect(() => {
 		if (
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-			!chatItem.active
+			!activeSession.item.active
 		) {
 			setButtonItem(startButtonItem);
-		} else if (
-			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
-			!chatItem.subscribed
-		) {
+		} else {
 			setButtonItem(joinButtonItem);
-			if (!chatItem.active || bannedUsers.includes(userData.username)) {
-				setIsButtonDisabled(true);
-			} else {
-				setIsButtonDisabled(false);
-			}
 		}
-
-		updateGroupChatInfo();
-		return function stopTimeout() {
-			window.clearTimeout(timeoutId);
-		};
-	}, [activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [activeSession.item.active, userData]);
 
 	useEffect(() => {
-		if (bannedUsers.includes(userData.userName)) {
-			setIsButtonDisabled(true);
+		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+			setIsButtonDisabled(
+				!activeSession.item.active ||
+					bannedUsers.includes(userData.username)
+			);
 		}
-	}, [bannedUsers, userData.userName]);
-
-	const updateGroupChatInfo = () => {
-		if (
-			chatItem.groupId === groupIdFromParam &&
-			consultingType.groupChat.isGroupChat
-		) {
-			apiGetGroupChatInfo(chatItem.id)
-				.then((response: groupChatInfoData) => {
-					if (chatItem.active !== response.active) {
-						let changedSessionsData =
-							getSessionsDataWithChangedValue(
-								sessionsData,
-								activeSession,
-								'active',
-								response.active
-							);
-						setSessionsData(changedSessionsData);
-						history.push(
-							`${getSessionListPathForLocation()}/${
-								chatItem.groupId
-							}/${chatItem.id}${getSessionListTab()}`
-						);
-					}
-				})
-				.catch((error) => {
-					if (error.message === FETCH_ERRORS.NO_MATCH) {
-						setOverlayItem(joinGroupChatClosedErrorOverlay);
-						setOverlayActive(true);
-						window.clearTimeout(timeoutId);
-					}
-				});
-			timeoutId = window.setTimeout(() => {
-				updateGroupChatInfo();
-			}, timeout);
-		}
-	};
+	}, [activeSession.item.active, bannedUsers, userData]);
 
 	const handleOverlayClose = () => {
 		setOverlayActive(false);
@@ -157,41 +207,24 @@ export const JoinGroupChatView = ({
 		if (bannedUsers.includes(userData.userName)) {
 			setOverlayItem(bannedUserOverlay);
 			setOverlayActive(true);
-			return null;
+			return;
 		}
 		if (isRequestInProgress) {
-			return null;
+			return;
 		}
 		setIsRequestInProgress(true);
 		const groupChatApiCall =
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-			!chatItem.active
+			!activeSession.item.active
 				? GROUP_CHAT_API.START
 				: GROUP_CHAT_API.JOIN;
-		apiPutGroupChat(chatItem.id, groupChatApiCall)
-			.then(() => {
-				if (
-					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
-				) {
-					let changedSessionsData = getSessionsDataWithChangedValue(
-						sessionsData,
-						activeSession,
-						'active',
-						true
-					);
-					changedSessionsData = getSessionsDataWithChangedValue(
-						changedSessionsData,
-						activeSession,
-						'subscribed',
-						true
-					);
-					setSessionsData(changedSessionsData);
-				}
-				setAcceptedGroupId(chatItem.groupId);
-				history.push(
-					getSessionListPathForLocation() + getSessionListTab()
-				);
-			})
+		apiPutGroupChat(activeSession.item.id, groupChatApiCall)
+			.then(
+				() =>
+					groupChatApiCall === GROUP_CHAT_API.START &&
+					handleEncryptRoom()
+			)
+			.then(() => reloadActiveSession())
 			.catch(() => {
 				setOverlayItem(startJoinGroupChatErrorOverlay);
 				setOverlayActive(true);
@@ -203,7 +236,6 @@ export const JoinGroupChatView = ({
 			setOverlayActive(false);
 			setOverlayItem({});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
-			setUpdateSessionList(true);
 			setRedirectToSessionsList(true);
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.LOGOUT) {
 			logout();
@@ -220,11 +252,7 @@ export const JoinGroupChatView = ({
 
 	if (redirectToSessionsList) {
 		mobileListView();
-		return (
-			<Redirect
-				to={getSessionListPathForLocation() + getSessionListTab()}
-			/>
-		);
+		return <Redirect to={listPath + getSessionListTab()} />;
 	}
 
 	return (
@@ -239,7 +267,7 @@ export const JoinGroupChatView = ({
 					text={translate('groupChat.join.content.headline')}
 					semanticLevel="4"
 				/>
-				{consultingType.groupChat?.groupChatRules?.map(
+				{consultingType?.groupChat?.groupChatRules?.map(
 					(groupChatRuleText, i) => (
 						<Text
 							text={groupChatRuleText}
@@ -251,7 +279,7 @@ export const JoinGroupChatView = ({
 			</div>
 			<div className="joinChat__button-container">
 				{!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-					!chatItem.active && (
+					!activeSession.item.active && (
 						<p className="joinChat__warning-message">
 							<WarningIcon />
 							{translate('groupChat.join.warning.message')}

@@ -54,14 +54,12 @@ export const getConsultingTypesForRegistrationStatus = (
 			};
 		})
 		.filter((value) => {
-			const validationForRegistrationStatus =
-				registrationStatus === REGISTRATION_STATUS_KEYS.REGISTERED
-					? value.data.isRegistered
-					: consultingTypes.find(
-							(cur) => cur.id === parseInt(value.consultingType)
-					  )?.isSubsequentRegistrationAllowed &&
-					  !value.data.isRegistered;
-			return validationForRegistrationStatus;
+			return registrationStatus === REGISTRATION_STATUS_KEYS.REGISTERED
+				? value.data.isRegistered
+				: consultingTypes.find(
+						(cur) => cur.id === parseInt(value.consultingType)
+				  )?.isSubsequentRegistrationAllowed &&
+						!value.data.isRegistered;
 		});
 };
 

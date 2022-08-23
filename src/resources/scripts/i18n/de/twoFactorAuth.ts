@@ -1,12 +1,12 @@
 const twoFactorAuth = {
-	'title': '2-Faktor-Authentifizierung',
+	'title': 'Zwei-Faktor-Authentifizierung',
 	'subtitle':
-		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen 2. Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung',
-	'switch.active.label': '2-Faktor-Authentifizierung aktiviert',
-	'switch.deactive.label': '2-Faktor-Authentifizierung deaktiviert',
+		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung',
+	'switch.active.label': 'Zwei-Faktor-Authentifizierung aktiviert',
+	'switch.deactive.label': 'Zwei-Faktor-Authentifizierung deaktiviert',
 	'activate.step1.email': 'Per E-Mail',
 	'activate.step1.app': 'Mit Authenticator Application',
-	'activate.step1.title': '2. Faktor wählen',
+	'activate.step1.title': 'Zweiter Faktor wählen',
 	'activate.step1.copy':
 		'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail-Adresse zusätzlich schützen?',
 	'activate.step1.visualisation.label': 'Auswahl',
@@ -65,14 +65,14 @@ const twoFactorAuth = {
 	'overlayButton.next': 'Weiter',
 	'overlayButton.back': 'Zurück',
 	'overlayButton.save': 'Speichern',
-	'overlayButton.close': 'Schliessen',
+	'overlayButton.close': 'Schließen',
 	'overlayButton.confirm': 'Bestätigen',
 	'activate.email.input.label': 'E-Mail-Adresse angeben',
 	'activate.email.input.valid': 'E-Mail-Adresse angeben',
 	'activate.email.input.invalid': 'E-Mail-Adresse ungültig',
 	'activate.email.input.duplicate': 'E-Mail-Adresse wird bereits verwendet',
 	'activate.email.input.duplicate.info':
-		'Diese E-Mail-Adresse wird bereits von einer anderen Person verwendet. Bitte geben Sie eine andere E-Mail-Adresse an. Oder nutzen Sie die App als 2. Faktor.',
+		'Diese E-Mail-Adresse wird bereits von einer anderen Person verwendet. Bitte geben Sie eine andere E-Mail-Adresse an. Oder nutzen Sie die App als zweiten Faktor.',
 	'activate.email.input.info':
 		'Sie können nur eine E-Mail-Adresse bei uns hinterlegen. Falls Sie die E-Mail-Adresse hier ändern, erhalten Sie auf diese E-Mail-Adresse zukünftig auch die Benachrichtigungen.',
 	'activate.email.resend.hint':
@@ -82,17 +82,29 @@ const twoFactorAuth = {
 	'activate.email.resend.sent': 'Neuer Code gesendet',
 	'email.change.confirmOverlay.title': 'E-Mail-Adresse bearbeiten',
 	'email.change.confirmOverlay.copy.1':
-		'Sie nutzen diese E-Mail-Adresse als 2. Faktor für eine sichere Anmeldung.',
+		'Sie nutzen diese E-Mail-Adresse als zweiten Faktor für eine sichere Anmeldung.',
 	'email.change.confirmOverlay.copy.2':
-		'Deaktivieren Sie die 2-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.',
+		'Deaktivieren Sie die Zwei-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.',
 	'email.change.confirmOverlay.button.confirm':
 		'Authentifizierung deaktivieren',
 	'email.change.confirmOverlay.button.deny': 'Abbrechen',
 	'email.delete.confirmOverlay.copy':
-		'wird die 2-Faktor-Authentifizierung deaktiviert.',
-	'switch.type.label': 'Ihr 2. Faktor',
+		'wird die Zwei-Faktor-Authentifizierung deaktiviert.',
+	'switch.type.label': 'Ihr zweiter Faktor',
 	'switch.type.EMAIL': 'E-Mail',
-	'switch.type.APP': 'App'
+	'switch.type.APP': 'App',
+	'nag.title': 'Schützen Sie Ihr Konto',
+	'nag.copy':
+		'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Bratung.',
+	'nag.button.later': 'Später erinnern',
+	'nag.button.protect': 'Jetzt schützen',
+	'nag.obligatory.moment.title':
+		'Schützen Sie Ihr Konto bis spätestens %date%',
+	'nag.obligatory.moment.copy':
+		'Sie müssen bis zum %date1% einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Ihr Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Achtung: Ohne einen zweiten Faktor dürfen Sie nach dem %date2% nicht mehr online beraten.</b>',
+	'nag.obligatory.title': 'Schützen Sie nun Ihr Konto',
+	'nag.obligatory.copy':
+		'Sie müssen jetzt einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Ihr Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Ohne einen zweiten Faktor dürfen Sie nicht mehr online beraten.</b>'
 };
 
 export default twoFactorAuth;

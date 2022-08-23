@@ -6,7 +6,8 @@ import {
 	RegistrationNotesInterface,
 	ConsultingTypeInterface,
 	ConsultantDataInterface,
-	AgencyDataInterface
+	AgencyDataInterface,
+	useTenant
 } from '../../globalState';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { AgencySelection } from '../agencySelection/AgencySelection';
@@ -20,12 +21,14 @@ import {
 	AccordionItemValidity,
 	stateData,
 	VALIDITY_INITIAL,
+	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import {
 	ConsultingTypeAgencySelection,
 	useConsultingTypeAgencySelection
 } from '../consultingTypeSelection/ConsultingTypeAgencySelection';
+import { MainTopicSelection } from '../mainTopicSelection/MainTopicSelection';
 
 interface FormAccordionProps {
 	consultingType?: ConsultingTypeInterface;
@@ -37,6 +40,8 @@ interface FormAccordionProps {
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
 	initialPostcode?: string;
+	mainTopicId?: number;
+	preselectedTopic?: number;
 }
 
 export const FormAccordion = ({
@@ -44,14 +49,20 @@ export const FormAccordion = ({
 	consultant,
 	isUsernameAlreadyInUse,
 	preselectedAgencyData,
+	preselectedTopic,
 	onChange,
 	onValidation,
 	additionalStepsData,
 	registrationNotes,
-	initialPostcode
+	initialPostcode,
+	mainTopicId
 }: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
 	const [agency, setAgency] = useState<AgencyDataInterface>();
+	const tenantData = useTenant();
+	const topicsAreRequired =
+		tenantData?.settings?.topicsInRegistrationEnabled &&
+		tenantData?.settings?.featureTopicsEnabled;
 
 	const [validity, setValidity] = useState({
 		username: VALIDITY_INITIAL,
@@ -62,6 +73,7 @@ export const FormAccordion = ({
 		age: additionalStepsData?.age?.isEnabled
 			? VALIDITY_INITIAL
 			: VALIDITY_VALID,
+		mainTopic: topicsAreRequired ? VALIDITY_INITIAL : VALIDITY_VALID,
 		agency: VALIDITY_INITIAL
 	});
 
@@ -91,21 +103,36 @@ export const FormAccordion = ({
 		);
 	}, [validity]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const handleValidity = useCallback(
-		(key, value) => {
-			setValidity({
-				...validity,
-				[key]: value
-			});
-		},
-		[validity]
-	);
+	const handleValidity = useCallback((key, value) => {
+		setValidity((prevState) => ({
+			...prevState,
+			[key]: value
+		}));
+	}, []);
 
 	useEffect(() => {
 		if (isUsernameAlreadyInUse) {
 			setActiveItem(1);
 		}
 	}, [isUsernameAlreadyInUse]);
+
+	const handleKeyDown = (e, isLastInput = true, isFirstInput = true) => {
+		if (
+			e.key === 'Tab' &&
+			!e.shiftKey &&
+			isLastInput &&
+			activeItem !== accordionItemData.length
+		) {
+			setActiveItem(activeItem + 1);
+		} else if (
+			e.key === 'Tab' &&
+			e.shiftKey &&
+			isFirstInput &&
+			activeItem !== 1
+		) {
+			setActiveItem(activeItem - 1);
+		}
+	};
 
 	const accordionItemData = [
 		{
@@ -117,6 +144,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('username', validity)
 					}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.username
@@ -130,11 +158,27 @@ export const FormAccordion = ({
 						handleValidity('password', validity)
 					}
 					passwordNote={registrationNotes?.password}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.password
 		}
 	];
+
+	if (topicsAreRequired) {
+		accordionItemData.push({
+			title: translate('registration.mainTopic.headline'),
+			nestedComponent: (
+				<MainTopicSelection
+					name="mainTopic"
+					preselectedTopic={preselectedTopic}
+					onChange={(mainTopicId) => onChange({ mainTopicId })}
+					onValidityChange={handleValidity}
+				/>
+			),
+			isValid: validity.mainTopic
+		});
+	}
 
 	const {
 		agencies: possibleAgencies,
@@ -178,6 +222,7 @@ export const FormAccordion = ({
 						onValidityChange={(validity) =>
 							handleValidity('agency', validity)
 						}
+						onKeyDown={handleKeyDown}
 					/>
 				),
 				isValid: validity.agency
@@ -199,10 +244,20 @@ export const FormAccordion = ({
 					preselectedAgency={preselectedAgencyData}
 					onAgencyChange={(agency) => setAgency(agency)}
 					hideExternalAgencies
-					onValidityChange={(validity) =>
-						handleValidity('agency', validity)
-					}
+					onValidityChange={(validity) => {
+						if (
+							topicsAreRequired &&
+							!mainTopicId &&
+							preselectedTopic < 0 &&
+							validity !== VALIDITY_INITIAL
+						) {
+							handleValidity('mainTopic', VALIDITY_INVALID);
+						}
+						handleValidity('agency', validity);
+					}}
 					agencySelectionNote={registrationNotes?.agencySelection}
+					mainTopicId={mainTopicId}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.agency
@@ -222,6 +277,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('age', validity)
 					}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.age
@@ -241,6 +297,7 @@ export const FormAccordion = ({
 					onValidityChange={(validity) =>
 						handleValidity('state', validity)
 					}
+					onKeyDown={handleKeyDown}
 				/>
 			),
 			isValid: validity.state

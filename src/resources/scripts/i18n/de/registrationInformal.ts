@@ -42,6 +42,10 @@ const registrationInformal = {
 		'Um eine geschützte Beratung zu garantieren, muss Dein Passwort die folgenden Kriterien erfüllen:',
 	'age.headline': 'Bitte teile uns Dein Alter mit',
 	'state.headline': 'Bitte teile uns mit in welchem Bundesland Du wohnst',
+	'mainTopic.headline':
+		'Welches dieser Problemfelder ist für Dich aktuell am Wichtigsten?',
+	'mainTopic.noTopics':
+		'Derzeit können leider keine Themen ausgewählt werden. Führe die Anmeldung im nächsten Schritt fort.',
 	'overlay.success.copy': 'Du hast Dich erfolgreich registriert.',
 	'welcomeScreen.info2.text':
 		'Schicke Deine Nachricht an eine lokale Beratungsstelle',

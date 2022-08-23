@@ -1,5 +1,7 @@
 const profileInformal = {
 	'functions.absenceLabel': 'Hinterlege eine Abwesenheitsnachricht',
+	'functions.absenceActivatedLabel':
+		'Deaktiviere Deine Abwesenheit, um eine Nachricht zu hinterlegen oder sie zu bearbeiten.',
 	'functions.passwordResetSubtitle':
 		'Wenn Du möchtest, kannst Du hier Dein Passwort ändern. Gebe erst Dein aktuelles Passwort ein, um ein Neues festzulegen.',
 	'functions.passwordResetSecure': 'Dein Passwort ist sicher.',
@@ -13,6 +15,8 @@ const profileInformal = {
 		'Du hast Dein Passwort erfolgreich geändert. Du wirst nun zum Login weitergeleitet.',
 	'functions.spokenLanguages.saveError':
 		'Beim Speichern ist ein Problem aufgetaucht. Bitte versuche es erneut.',
+	'functions.masterKey.saveError':
+		'Beim Passwort Ändern ist ein Problem aufgetaucht. Bitte versuche es erneut.',
 	'data.register.headline':
 		'Benötigst Du auch zu anderen Themen Rat oder Hilfe?<br>Wir unterstützen Dich gerne.',
 	'data.register.selectAgencyInfo': 'Bitte wähle eine Beratungsstelle aus.',
@@ -34,7 +38,12 @@ const profileInformal = {
 	'statistics.period.prefix': 'Deine Zahlen des',
 	'statistics.period.display.suffix': ' hast Du:',
 	'statistics.complete.title':
-		'Deine Statistik über Deinen gewählten Beratungszeitraum kannst Du hier herunterladen:'
+		'Deine Statistik über Deinen gewählten Beratungszeitraum kannst Du hier herunterladen:',
+	'notifications.subtitle': 'Wir benachrichtigen Dich, wenn Du:',
+	'notifications.follow.up.email.label':
+		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten hast.',
+	'spokenLanguages.info':
+		'Wähle die Sprache(n) aus, in der Du die Ratsuchenden beraten kannst. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.'
 };
 
 export default profileInformal;

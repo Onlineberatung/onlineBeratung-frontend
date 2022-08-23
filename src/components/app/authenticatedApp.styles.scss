@@ -8,6 +8,16 @@ $headerHeight: $grid-base-twelve;
 
 a {
 	color: var(--skin-color-primary-contrast-safe, $primary);
+
+	&:focus {
+		outline: $focus-outline;
+		outline-offset: 1px;
+		border-radius: 4px;
+	}
+
+	&:focus:not(:focus-visible) {
+		outline: none;
+	}
 }
 
 .app {
@@ -135,6 +145,19 @@ a {
 				.sessionsList__header {
 					left: 0;
 				}
+			}
+		}
+
+		&__booking {
+			display: none;
+			margin-top: 0;
+			width: 100vw;
+			transition: all 0.3s ease;
+			flex: 1;
+
+			@include breakpoint($fromLarge) {
+				width: $contentWidth;
+				margin-top: $headerHeight;
 			}
 		}
 

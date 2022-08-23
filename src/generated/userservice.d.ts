@@ -240,11 +240,6 @@ declare namespace UserService {
 			 * WCET6GWir78pNMyyD
 			 */
 			groupId: string;
-			/**
-			 * example:
-			 * https://{baseUrl}}/{consultingTypeName}/GEYDA
-			 */
-			chatLink: string;
 		}
 		export interface Date {}
 		export interface DeleteUserAccountDTO {
@@ -550,11 +545,6 @@ declare namespace UserService {
 			 * WCET6GWir78pNMyyD
 			 */
 			groupId: string;
-			/**
-			 * example:
-			 * https://{baseUrl}}/{consultingTypeName}/GEYDA
-			 */
-			chatLink: string;
 		}
 		export interface UpdateConsultantDTO {
 			/**
@@ -578,6 +568,23 @@ declare namespace UserService {
 			 * ['de','en']
 			 */
 			languages: string[];
+		}
+		export interface PatchConsultantDTO {
+			/**
+			 * example:
+			 * false
+			 */
+			encourage2fa?: boolean;
+			/**
+			 * example:
+			 * Mustermann
+			 */
+			displayName?: string;
+			/**
+			 * example:
+			 * false
+			 */
+			walkThroughEnabled?: boolean;
 		}
 		export interface UserChatDTO {
 			/**

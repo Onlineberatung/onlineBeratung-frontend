@@ -5,11 +5,7 @@ import {
 	handleNumericTranslation,
 	getAddictiveDrugsString
 } from '../../utils/translate';
-import {
-	getContact,
-	isAnonymousSession,
-	useConsultingType
-} from '../../globalState';
+import { getContact, useConsultingType } from '../../globalState';
 import {
 	convertUserDataObjectToArray,
 	getAddictiveDrugsTranslatable,
@@ -19,12 +15,9 @@ import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 export const AskerInfoData = () => {
-	const activeSession = useContext(ActiveSessionContext);
-	const isLiveChat = isAnonymousSession(activeSession?.session);
+	const { activeSession } = useContext(ActiveSessionContext);
 
-	const consultingType = useConsultingType(
-		activeSession?.session.consultingType
-	);
+	const consultingType = useConsultingType(activeSession.item.consultingType);
 
 	const userSessionData = getContact(activeSession).sessionData;
 	const preparedUserSessionData =
@@ -41,16 +34,16 @@ export const AskerInfoData = () => {
 					{translate('userProfile.data.resort')}
 				</p>
 				<p className="profile__data__content">
-					{consultingType.titles.default}
+					{consultingType?.titles?.default}
 				</p>
 			</div>
-			{activeSession?.session.consultingType === 0 && !isLiveChat && (
+			{activeSession.item.consultingType === 0 && !activeSession.isLive && (
 				<div className="profile__data__item">
 					<p className="profile__data__label">
 						{translate('userProfile.data.postcode')}
 					</p>
 					<p className="profile__data__content">
-						{activeSession.session.postcode}
+						{activeSession.item.postcode}
 					</p>
 				</div>
 			)}
@@ -71,7 +64,7 @@ export const AskerInfoData = () => {
 								? getAddictiveDrugsString(addictiveDrugs)
 								: handleNumericTranslation(
 										getUserDataTranslateBase(
-											activeSession.session.consultingType
+											activeSession.item.consultingType
 										),
 										item.type,
 										item.value

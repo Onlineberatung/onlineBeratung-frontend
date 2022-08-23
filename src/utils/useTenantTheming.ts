@@ -89,7 +89,7 @@ const adjustHSLColor = ({
 const injectCss = ({ primaryColor, secondaryColor }) => {
 	// make HSL colors over RGB from hex
 	const primaryHSL = hexToRGB(primaryColor);
-	const secondaryHSL = hexToRGB(secondaryColor);
+	const secondaryHSL = secondaryColor && hexToRGB(secondaryColor);
 	// The level AA WCAG scrore requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text (at least 18pt) or bold text.
 	const contrastThreshold = 4.5;
 
@@ -136,12 +136,16 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 						adjust: primaryHSL.l - 1
 				  }) // darker
 		};
-		--skin-color-secondary: ${secondaryColor};
-		--skin-color-secondary-light: ${adjustHSLColor({
-			color: secondaryHSL,
-			adjust: 90
-		})};
-		--skin-color-secondary-contrast-safe: ${secondaryColorContrastSafe};
+		--skin-color-secondary: ${secondaryColor || ''};
+		--skin-color-secondary-light: ${
+			secondaryHSL
+				? adjustHSLColor({
+						color: secondaryHSL,
+						adjust: 90
+				  })
+				: ''
+		};
+		--skin-color-secondary-contrast-safe: ${secondaryColorContrastSafe || ''};
 		--skin-color-primary-contrast-safe: ${primaryColorContrastSafe};
 		--text-color-contrast-switch: ${textColorContrastSwitch};
 		--text-color-secondary-contrast-switch: ${textColorSecondaryContrastSwitch};
@@ -220,8 +224,16 @@ const useTenantTheming = () => {
 	);
 
 	useEffect(() => {
-		if (!subdomain || !config.enableTenantTheming) {
+		if (!config.useTenantService) {
 			setIsLoadingTenant(false);
+			return;
+		}
+
+		if (!subdomain || !config.enableTenantTheming) {
+			apiGetTenantTheming({ subdomain }).then(({ settings }) => {
+				tenantContext?.setTenant({ settings } as any);
+				setIsLoadingTenant(false);
+			});
 			return;
 		}
 

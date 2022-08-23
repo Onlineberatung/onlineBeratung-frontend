@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiAgencyLanguages } from '../../api/apiAgencyLanguages';
-import { getActiveSession, SessionsDataContext } from '../../globalState';
+import { getExtendedSession, SessionsDataContext } from '../../globalState';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
@@ -17,7 +17,7 @@ interface EnquiryLanguageSelectionProps {
 
 export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 	({ className = '', handleSelection }) => {
-		const { sessionsData } = useContext(SessionsDataContext);
+		const { sessions, ready } = useContext(SessionsDataContext);
 		const fixedLanguages = useContext(FixedLanguagesContext);
 		const { sessionId: sessionIdFromParam } = useParams();
 
@@ -27,47 +27,55 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 		const [languages, setLanguages] = useState([...fixedLanguages]);
 
 		useEffect(() => {
+			if (!ready) {
+				return;
+			}
+
 			// async wrapper
 			const getLanguagesFromApi = async () => {
-				const activeSession = getActiveSession(
+				const activeSession = getExtendedSession(
 					sessionIdFromParam,
-					sessionsData
+					sessions
 				);
 
 				let agencyId = null;
 				if (activeSession) {
 					agencyId = activeSession.agency.id;
-				} else if (sessionsData?.mySessions.length === 1) {
-					agencyId = sessionsData.mySessions[0].agency.id;
+				} else if (sessions.length === 1) {
+					agencyId = sessions[0].agency.id;
 				}
 
-				if (agencyId) {
-					const response = await apiAgencyLanguages(agencyId).catch(
-						() => {
-							/* intentional, falls back to fixed languages */
-						}
-					);
+				if (!agencyId) {
+					return;
+				}
 
-					if (response) {
-						const sortedResponseLanguages = response.languages.sort(
-							(a, b) => {
-								return (
-									languageIsoCodesSortedByName.indexOf(a) -
-									languageIsoCodesSortedByName.indexOf(b)
-								);
-							}
-						);
-						const sortedLanguages = [
-							...fixedLanguages,
-							...sortedResponseLanguages
-						].filter(isUniqueLanguage);
-						setLanguages(sortedLanguages);
+				const response = await apiAgencyLanguages(agencyId).catch(
+					() => {
+						/* intentional, falls back to fixed languages */
 					}
+				);
+
+				if (!response) {
+					return;
 				}
+
+				const sortedResponseLanguages = response.languages.sort(
+					(a, b) => {
+						return (
+							languageIsoCodesSortedByName.indexOf(a) -
+							languageIsoCodesSortedByName.indexOf(b)
+						);
+					}
+				);
+				const sortedLanguages = [
+					...fixedLanguages,
+					...sortedResponseLanguages
+				].filter(isUniqueLanguage);
+				setLanguages(sortedLanguages);
 			};
 
 			getLanguagesFromApi();
-		}, [sessionsData, sessionIdFromParam, fixedLanguages]);
+		}, [sessions, ready, sessionIdFromParam, fixedLanguages]);
 
 		const selectLanguage = (isoCode) => {
 			setSelectedLanguage(isoCode);
@@ -88,19 +96,19 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			</span>
 		);
 
-		if (languages.length > 1) {
-			return (
-				<div className={`enquiryLanguageSelection ${className}`}>
-					<Headline
-						semanticLevel="5"
-						text={translate('enquiry.language.selection.headline')}
-					/>
-					<div className="enquiryLanguageSelection__tabs">
-						{languages.map(mapLanguages)}
-					</div>
-				</div>
-			);
-		} else {
-			return <></>;
+		if (languages.length <= 1) {
+			return null;
 		}
+
+		return (
+			<div className={`enquiryLanguageSelection ${className}`}>
+				<Headline
+					semanticLevel="5"
+					text={translate('enquiry.language.selection.headline')}
+				/>
+				<div className="enquiryLanguageSelection__tabs">
+					{languages.map(mapLanguages)}
+				</div>
+			</div>
+		);
 	};

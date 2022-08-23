@@ -18,12 +18,31 @@
 				"consultingType": 0
 			}
 		],
-		"grantedAuthorities": ["AUTHORIZATION_CONSULTANT_DEFAULT"],
+		"grantedAuthorities": [
+			"AUTHORIZATION_CONSULTANT_DEFAULT",
+			"AUTHORIZATION_VIEW_AGENCY_CONSULTANTS",
+			"AUTHORIZATION_ASSIGN_CONSULTANT_TO_SESSION"
+		],
 		"hasAnonymousConversations": false,
 		"consultingTypes": null,
 		"formalLanguage": true,
 		"absent": false,
-		"inTeamAgency": true
+		"inTeamAgency": true,
+		"languages": [],
+		"emailToggles": [
+			{
+				"name": "DAILY_ENQUIRY",
+				"state": true
+			},
+			{
+				"name": "NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER",
+				"state": true
+			},
+			{
+				"name": "NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER",
+				"state": true
+			}
+		]
 	},
 	{
 		"userId": "video",

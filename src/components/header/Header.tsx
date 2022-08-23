@@ -8,6 +8,7 @@ import './header.styles';
 
 export const Header = () => {
 	const { tenant } = useContext(TenantContext);
+
 	return (
 		<header className="header">
 			<Headline
@@ -16,7 +17,7 @@ export const Header = () => {
 			/>
 			<Text
 				type="standard"
-				text={tenant?.content.claim || translate('app.claim')}
+				text={tenant?.content?.claim || translate('app.claim')}
 			/>
 		</header>
 	);
