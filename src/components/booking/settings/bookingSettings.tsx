@@ -5,7 +5,7 @@ import {
 	setBookingWrapperInactive
 } from '../../app/navigationHandler';
 import { UserDataContext } from '../../../globalState';
-import calcomLogin from './calcomLogin';
+import { calcomLogin } from './calcomLogin';
 import { AvailabilityContainer } from './availabilityContainer';
 import { CalendarIntegration } from './calendarIntegration';
 import './bookingSettings.styles';
