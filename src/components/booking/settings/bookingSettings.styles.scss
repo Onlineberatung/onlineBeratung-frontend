@@ -31,3 +31,24 @@
 	border-bottom: 2px solid #c4bfc4;
 	padding-bottom: 30px;
 }
+
+.navigation-button-active {
+	font-weight: 500;
+	display: flex;
+	margin-right: 20px;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+	border-bottom: 5px solid;
+	border-color: var(--skin-color-primary-contrast-safe, $primary);
+	background: no-repeat;
+	color: var(--skin-color-primary-contrast-safe, $primary);
+}
+
+.navigation-button {
+	font-weight: 500;
+	display: flex;
+	margin-right: 20px;
+	border: 0;
+	background: no-repeat;
+}

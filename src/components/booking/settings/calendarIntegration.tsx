@@ -51,10 +51,11 @@ export const CalendarIntegration = () => {
 					className="bookingEvents__nav text--nowrap flex__col--no-grow"
 				>
 					{showSynchronizedTab && (
-						<a
-							href="#"
+						<button
 							className={
-								selectedTab === 'synchronized' ? 'active' : null
+								selectedTab === 'synchronized'
+									? 'navigation-button-active'
+									: 'navigation-button'
 							}
 							onClick={() => setSelectedTab('synchronized')}
 							style={{ display: 'flex', marginRight: '20px' }}
@@ -62,15 +63,18 @@ export const CalendarIntegration = () => {
 							{translate(
 								'booking.calender.synchronised.calendars'
 							)}
-						</a>
+						</button>
 					)}
-					<a
-						href="#"
-						className={selectedTab === 'addNew' ? 'active' : null}
+					<button
+						className={
+							selectedTab === 'addNew'
+								? 'navigation-button-active'
+								: 'navigation-button'
+						}
 						onClick={() => setSelectedTab('addNew')}
 					>
 						{translate('booking.calender.add')}
-					</a>
+					</button>
 				</div>
 			)}
 			{selectedTab === 'synchronized' ? <AssignedCalendars /> : null}
