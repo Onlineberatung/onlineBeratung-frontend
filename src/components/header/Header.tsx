@@ -8,6 +8,7 @@ import './header.styles';
 
 export const Header = () => {
 	const { tenant } = useContext(TenantContext);
+
 	return (
 		<header className="header">
 			<Headline
