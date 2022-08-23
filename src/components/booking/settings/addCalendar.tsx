@@ -19,7 +19,7 @@ const AddCalendar = () => {
 		}
 
 		fetch(
-			`${config.urls.appointmentServiceDevServer}/api/integrations/${calendarName}_calendar/add?state={"returnTo":"${config.urls.appointmentServiceDevServer}/booking/events/settings"`
+			`${config.urls.appointmentServiceDevServer}/api/integrations/${calendarName}_calendar/add?state={"returnTo":"${window.location.origin}/booking/events/settings"}`
 		)
 			.then((resp) => resp.json())
 			.then((resp) => {
