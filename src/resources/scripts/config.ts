@@ -1,3 +1,9 @@
+import { en } from '../i18n/en';
+import { enConsultingTypes } from '../i18n/en.consultingTypes';
+import { enAgency } from '../i18n/en.agency';
+import { enInformal } from '../i18n/en.informal';
+import { enLanguages } from '../i18n/en.languages';
+
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 
@@ -386,6 +392,33 @@ export const config = {
 		'zh',
 		'zu'
 	],
+	i18n: {
+		fallbackLng: {
+			en: ['de'],
+			en_informal: ['en', 'de_informal', 'de']
+		},
+		resources: {
+			en: {
+				common: {
+					...en
+				},
+				consultingTypes: {
+					...enConsultingTypes
+				},
+				agencies: {
+					...enAgency
+				},
+				languages: {
+					...enLanguages
+				}
+			},
+			en_informal: {
+				common: {
+					...enInformal
+				}
+			}
+		}
+	},
 	languages: [
 		{
 			label: '(DE) Deutsch',

@@ -378,7 +378,7 @@ export const Profile = (props: ProfileProps) => {
 								<Text
 									className="profile__footer__item"
 									type="infoSmall"
-									text={legalLink.label}
+									text={translate(legalLink.label)}
 								/>
 							</a>
 						</Fragment>

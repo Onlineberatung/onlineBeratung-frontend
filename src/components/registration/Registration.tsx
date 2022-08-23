@@ -2,16 +2,15 @@ import '../../polyfill';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import { StageProps } from '../stage/stage';
-import { ComponentType, useEffect, useState } from 'react';
+import { ComponentType, useContext, useEffect, useState } from 'react';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
-import { LegalLinkInterface } from '../../globalState';
+import { InformalContext, LegalLinkInterface } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
 import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
-import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { useTranslation } from 'react-i18next';
 
 interface RegistrationProps {
@@ -27,11 +26,19 @@ export const Registration = ({
 	legalLinks,
 	stageComponent: Stage
 }: RegistrationProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation([
+		'common',
+		'consultingTypes',
+		'agencies'
+	]);
+
 	const { consultingTypeSlug } = useParams();
+
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
 	const postcodeParameter = getUrlParameter('postcode');
+
+	const { setInformal } = useContext(InformalContext);
 
 	const loginParams = Object.entries({
 		cid: consultantId,
@@ -79,7 +86,7 @@ export const Registration = ({
 				const isInformal = consultant.agencies.every(
 					(agency) => !agency.consultingTypeRel.languageFormal
 				);
-				setValueInCookie('useInformal', isInformal ? '1' : '');
+				setInformal(isInformal);
 
 				// If consultant has only one consulting type set document title
 				const hasUniqueConsultingType =
@@ -96,20 +103,23 @@ export const Registration = ({
 				if (hasUniqueConsultingType) {
 					document.title = `${translate(
 						'registration.title.start'
-					)} ${translate([
-						`consultingType.${consultingType.id}.titles.long`,
-						consultant.agencies[0].consultingTypeRel.titles.long
-					])}`;
+					)} ${translate(
+						[
+							`consultingType.${consultingType.id}.titles.long`,
+							consultant.agencies[0].consultingTypeRel.titles.long
+						],
+						{ ns: 'consultingTypes' }
+					)}`;
 				}
 			} else {
 				if (!consultingType) {
 					handleUnmatchConsultingType();
 					throw new Error(
 						agency
-							? `Unknown consulting type with agency ${translate([
-									`agency.${agency.id}.name`,
-									agency.name
-							  ])}`
+							? `Unknown consulting type with agency ${translate(
+									[`agency.${agency.id}.name`, agency.name],
+									{ ns: 'agencies' }
+							  )}`
 							: `Unknown consulting type with slug ${consultingTypeSlug}`
 					);
 				}
@@ -123,18 +133,18 @@ export const Registration = ({
 					throw new Error(`Consulting type requires matching aid`);
 				}
 
-				// SET FORMAL/INFORMAL COOKIE
-				setValueInCookie(
-					'useInformal',
-					consultingType.languageFormal ? '' : '1'
-				);
+				// SET FORMAL/INFORMAL
+				setInformal(!consultingType.languageFormal);
 
 				document.title = `${translate(
 					'registration.title.start'
-				)} ${translate([
-					`consultingType.${consultingType.id}.titles.long`,
-					consultingType.titles.long
-				])}`;
+				)} ${translate(
+					[
+						`consultingType.${consultingType.id}.titles.long`,
+						consultingType.titles.long
+					],
+					{ ns: 'consultingTypes' }
+				)}`;
 			}
 			setIsReady(true);
 		} catch (error) {
@@ -167,10 +177,13 @@ export const Registration = ({
 				(showWelcomeScreen ? (
 					<WelcomeScreen
 						title={
-							translate([
-								`consultingType.${consultingType?.id}.titles.welcome`,
-								consultingType?.titles.welcome
-							]) || translate('registration.overline')
+							translate(
+								[
+									`consultingType.${consultingType?.id}.titles.welcome`,
+									consultingType?.titles.welcome
+								],
+								{ ns: 'consultingTypes' }
+							) || translate('registration.overline')
 						}
 						handleForwardToRegistration={
 							handleForwardToRegistration

@@ -31,8 +31,7 @@ import {
 	AnonymousEnquiryAcceptedContext,
 	LegalLinkInterface,
 	WebsocketConnectionDeactivatedContext,
-	AnonymousConversationStartedContext,
-	AppLanguageContext
+	AnonymousConversationStartedContext
 } from '../../globalState';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 import { history } from '../app/app';
@@ -43,7 +42,7 @@ import {
 import { handleTokenRefresh, setTokens } from '../auth/auth';
 import { handleE2EESetup } from '../registration/autoLogin';
 import { useTranslation } from 'react-i18next';
-import { LanguageSwitch } from '../languageSwitch/LanguageSwitch';
+import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { isMobile } from 'react-device-detect';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
@@ -72,7 +71,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const { anonymousConversationStarted, setAnonymousConversationStarted } =
 		useContext(AnonymousConversationStartedContext);
 	const registrationUrl = `/${props.consultingTypeSlug}/registration`;
-	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 
 	const getPseudoPasswordForUser = (rc_uid) => {
 		let pseudoPassword = localStorage.getItem(`pseudoPassword_${rc_uid}`);
@@ -216,12 +214,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		if (isDataProtectionViewActive) {
 			return (
 				<>
-					{isMobile && (
-						<LanguageSwitch
-							appLanguage={appLanguage}
-							setAppLanguage={setAppLanguage}
-						/>
-					)}
+					{isMobile && <LocaleSwitch />}
 
 					<div className="waitingRoom__illustration">
 						<WelcomeIllustration />
@@ -266,7 +259,11 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 															'registration.dataProtection.label.and'
 													  )
 												: '') +
-											`<a target="_blank" href="${legalLink.url}">${legalLink.label}</a>`
+											`<a target="_blank" href="${
+												legalLink.url
+											}">${translate(
+												legalLink.label
+											)}</a>`
 									)
 									.join(''),
 								translate(
@@ -285,12 +282,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		} else if (isErrorPageActive) {
 			return (
 				<>
-					{isMobile && (
-						<LanguageSwitch
-							appLanguage={appLanguage}
-							setAppLanguage={setAppLanguage}
-						/>
-					)}
+					{isMobile && <LocaleSwitch />}
 					<div className="waitingRoom__illustration">
 						<ErrorIllustration className="waitingRoom__waitingIllustration" />
 					</div>
@@ -319,12 +311,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		} else {
 			return (
 				<>
-					{isMobile && (
-						<LanguageSwitch
-							appLanguage={appLanguage}
-							setAppLanguage={setAppLanguage}
-						/>
-					)}
+					{isMobile && <LocaleSwitch updateUserData />}
 					<div className="waitingRoom__illustration">
 						<WaitingIllustration className="waitingRoom__waitingIllustration" />
 					</div>
@@ -371,7 +358,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	return (
 		<>
 			<div className="waitingRoom">
-				<Header showLanguageSwitch={true} />
+				<Header showLocaleSwitch={true} />
 				<div className="waitingRoom__contentWrapper">
 					{getContent()}
 				</div>

@@ -15,7 +15,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { useTranslation } from 'react-i18next';
 
 export const AskerInfoData = () => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const { activeSession } = useContext(ActiveSessionContext);
 
 	const consultingType = useConsultingType(activeSession.item.consultingType);
@@ -38,10 +38,13 @@ export const AskerInfoData = () => {
 					{translate('userProfile.data.resort')}
 				</p>
 				<p className="profile__data__content">
-					{translate([
-						`consultingType.${consultingType.id}.titles.default`,
-						consultingType.titles.default
-					])}
+					{translate(
+						[
+							`consultingType.${consultingType.id}.titles.default`,
+							consultingType.titles.default
+						],
+						{ ns: 'consultingTypes' }
+					)}
 				</p>
 			</div>
 			{activeSession.item.consultingType === 0 && !activeSession.isLive && (

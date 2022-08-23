@@ -21,7 +21,7 @@ import { redirectToApp } from './autoLogin';
 import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import {
 	AgencyDataInterface,
-	AppLanguageContext,
+	LocaleContext,
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
 	LegalLinkInterface,
@@ -36,7 +36,6 @@ import {
 	redirectToErrorPage
 } from '../error/errorHandling';
 import { useTranslation } from 'react-i18next';
-import { apiPatchUserData } from '../../api/apiPatchUserData';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -63,9 +62,9 @@ export const RegistrationForm = ({
 	legalLinks,
 	consultant
 }: RegistrationFormProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const tenantData = useTenant();
-	const { appLanguage } = useContext(AppLanguageContext);
+	const { locale } = useContext(LocaleContext);
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
 	const [formAccordionValid, setFormAccordionValid] = useState(false);
@@ -172,7 +171,9 @@ export const RegistrationForm = ({
 										'registration.dataProtection.label.and'
 								  )
 							: '') +
-						`<span><button type="button" class="button-as-link" onclick="window.open('${legalLink.url}')">${legalLink.label}</button></span>`
+						`<span><button type="button" class="button-as-link" onclick="window.open('${
+							legalLink.url
+						}')">${translate(legalLink.label)}</button></span>`
 				)
 				.join(''),
 			translate('registration.dataProtection.label.suffix')
@@ -210,7 +211,7 @@ export const RegistrationForm = ({
 			postcode: formAccordionData.postcode,
 			consultingType: formAccordionData.consultingTypeId?.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
-			preferredLanguage: appLanguage.short,
+			preferredLanguage: locale,
 			...(formAccordionData.state && { state: formAccordionData.state }),
 			...(formAccordionData.age && { age: formAccordionData.age }),
 			...(consultant && { consultantId: consultant.consultantId })
@@ -246,8 +247,7 @@ export const RegistrationForm = ({
 		},
 		[formAccordionData]
 	);
-	console.log('consultingType.titles.long', consultingType.titles.long);
-	console.log(translate(`consultingType.${consultingType.id}.titles.long`));
+
 	return (
 		<>
 			<form
@@ -257,10 +257,13 @@ export const RegistrationForm = ({
 			>
 				<h3 className="registrationForm__overline">
 					{consultingType
-						? translate([
-								`consultingType.${consultingType.id}.titles.long`,
-								consultingType.titles.long
-						  ])
+						? translate(
+								[
+									`consultingType.${consultingType.id}.titles.long`,
+									consultingType.titles.long
+								],
+								{ ns: 'consultingTypes' }
+						  )
 						: translate('registration.overline')}
 				</h3>
 				<h2 className="registrationForm__headline">

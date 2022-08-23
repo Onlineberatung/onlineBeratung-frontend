@@ -1,9 +1,10 @@
 import { autoLogin } from '../components/registration/autoLogin';
 import { removeAllCookies } from '../components/sessionCookie/accessSessionCookie';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from './fetchData';
+import { COOKIE_KEY } from '../globalState';
 
 export const apiPostRegistration = (url: string, data: {}): Promise<any> => {
-	removeAllCookies(['useInformal']);
+	removeAllCookies([COOKIE_KEY]);
 
 	return fetchData({
 		url: url,

@@ -51,7 +51,11 @@ export interface SessionHeaderProps {
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation([
+		'common',
+		'consultingTypes',
+		'agencies'
+	]);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const consultingType = useConsultingType(activeSession.item.consultingType);
@@ -394,10 +398,13 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				<div className="sessionInfo__metaInfo">
 					{!activeSession.agency ? (
 						<div className="sessionInfo__metaInfo__content">
-							{translate([
-								`consultingType.${consultingType.id}.titles.short`,
-								consultingType.titles.short
-							])}
+							{translate(
+								[
+									`consultingType.${consultingType.id}.titles.short`,
+									consultingType.titles.short
+								],
+								{ ns: 'consultingTypes' }
+							)}
 						</div>
 					) : null}
 					{preparedUserSessionData
@@ -427,10 +434,13 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					{activeSession.agency?.name && (
 						<div className="sessionInfo__metaInfo__content">
 							{' '}
-							{translate([
-								`agency.${activeSession.agency.id}.name`,
-								activeSession.agency.name
-							])}{' '}
+							{translate(
+								[
+									`agency.${activeSession.agency.id}.name`,
+									activeSession.agency.name
+								],
+								{ ns: 'agencies' }
+							)}{' '}
 						</div>
 					)}
 					{activeSession.agency && (

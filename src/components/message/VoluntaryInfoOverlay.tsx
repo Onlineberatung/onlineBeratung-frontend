@@ -25,7 +25,7 @@ interface VoluntaryInfoOverlayProps {
 }
 
 export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [valuesOfGeneratedInputs, setValuesOfGeneratedInputs] =
@@ -35,23 +35,26 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 		useState<any>();
 
 	const renderInputComponent = (component, index) => {
-		console.log(component);
 		if (component.componentType === 'SelectDropdown') {
 			const translatedItem = {
 				...component.item,
 				selectInputLabel: translate(
 					[
-						`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.selectInputLabel`
+						`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.selectInputLabel`,
+						component.item.selectInputLabel
 					],
-					component.item.selectInputLabel
+					{ ns: 'consultingTypes' }
 				),
 				selectedOptions: [
 					...component.item.selectedOptions.map((option) => ({
 						value: option.value,
-						label: translate([
-							`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${option.value}`,
-							option.label
-						])
+						label: translate(
+							[
+								`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${option.value}`,
+								option.label
+							],
+							{ ns: 'consultingTypes' }
+						)
 					}))
 				]
 			};
@@ -79,10 +82,13 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 			return component.radioButtons.map((radio, index) => {
 				const translatedItem = {
 					...radio,
-					label: translate([
-						`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${radio.inputId}`,
-						radio.label
-					])
+					label: translate(
+						[
+							`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${radio.inputId}`,
+							radio.label
+						],
+						{ ns: 'consultingTypes' }
+					)
 				};
 				return (
 					<RadioButton
@@ -104,10 +110,13 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 			return component.tagSelects.map((tag, index) => {
 				const translatedItem = {
 					...tag,
-					label: translate([
-						`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${tag.id}`,
-						tag.label
-					])
+					label: translate(
+						[
+							`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${tag.id}`,
+							tag.label
+						],
+						{ ns: 'consultingTypes' }
+					)
 				};
 				return (
 					<TagSelect
@@ -136,10 +145,13 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 					<Headline
 						semanticLevel="2"
 						styleLevel="5"
-						text={translate([
-							`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.headline`,
-							component.headline
-						])}
+						text={translate(
+							[
+								`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.headline`,
+								component.headline
+							],
+							{ ns: 'consultingTypes' }
+						)}
 					/>
 					{renderInputComponent(component, index)}
 				</div>

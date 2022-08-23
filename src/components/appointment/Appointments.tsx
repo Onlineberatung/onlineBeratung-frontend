@@ -343,7 +343,7 @@ export const Appointments = ({ legalLinks }: AppointmentsProps) => {
 									<Text
 										className="profile__footer__item"
 										type="infoSmall"
-										text={legalLink.label}
+										text={translate(legalLink.label)}
 									/>
 								</a>
 							</React.Fragment>

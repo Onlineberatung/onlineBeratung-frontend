@@ -1,4 +1,4 @@
-export const enFormal = {
+export const en = {
 	// absence
 	'absence.overlayHeadline': 'Welcome back!',
 	'absence.overlay.copy':

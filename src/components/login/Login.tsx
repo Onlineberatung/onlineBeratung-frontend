@@ -29,6 +29,7 @@ import clsx from 'clsx';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
+	LocaleContext,
 	LegalLinkInterface,
 	TenantContext,
 	UserDataInterface
@@ -66,6 +67,7 @@ interface LoginProps {
 
 export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const { t: translate } = useTranslation();
+	const { locale } = useContext(LocaleContext);
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
 
@@ -256,23 +258,23 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		[agency, handleRegistration]
 	);
 
-	const handlePwOverlayReset = useCallback((buttonFunction: string) => {
-		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
-			const language = localStorage.getItem(`appLanguage`)
-				? JSON.parse(localStorage.getItem(`appLanguage`)).short
-				: 'de';
-			window.open(
-				config.endpoints.loginResetPasswordLink +
-					'&kc_locale=' +
-					language +
-					'&init=1',
-				'_blank',
-				'noreferrer'
-			);
-		} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setPwResetOverlayActive(false);
-		}
-	}, []);
+	const handlePwOverlayReset = useCallback(
+		(buttonFunction: string) => {
+			if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
+				window.open(
+					config.endpoints.loginResetPasswordLink +
+						'&kc_locale=' +
+						locale +
+						'&init=1',
+					'_blank',
+					'noreferrer'
+				);
+			} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
+				setPwResetOverlayActive(false);
+			}
+		},
+		[locale]
+	);
 
 	useEffect(() => {
 		if (
@@ -404,13 +406,10 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 			setPwResetOverlayActive(true);
 			return;
 		}
-		const language = localStorage.getItem(`appLanguage`)
-			? JSON.parse(localStorage.getItem(`appLanguage`)).short
-			: 'de';
 		window.open(
 			config.endpoints.loginResetPasswordLink +
 				'&kc_locale=' +
-				language +
+				locale +
 				'&init=1',
 			'_blank',
 			'noreferrer'

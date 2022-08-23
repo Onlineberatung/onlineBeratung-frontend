@@ -16,7 +16,7 @@ export const AskerRegistrationExternalAgencyOverlay = ({
 	handleOverlayAction,
 	selectedAgency
 }: AskerRegistrationExternalAgencyOverlayProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const handleOverlay = (action) => {
 		if (action === OVERLAY_FUNCTIONS.REDIRECT) {
 			window.open(selectedAgency.url, '_blank')?.focus();
@@ -35,10 +35,13 @@ export const AskerRegistrationExternalAgencyOverlay = ({
 					),
 					copy:
 						translate('profile.externalRegistration.copy.start') +
-						translate([
-							`consultingType.${consultingType.id}.titles.default`,
-							consultingType.titles.default
-						]) +
+						translate(
+							[
+								`consultingType.${consultingType.id}.titles.default`,
+								consultingType.titles.default
+							],
+							{ ns: 'consultingTypes' }
+						) +
 						translate('profile.externalRegistration.copy.end'),
 					buttonSet: [
 						{

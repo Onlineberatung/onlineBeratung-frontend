@@ -14,20 +14,18 @@ import { Box } from '../box/Box';
 import { useTranslation } from 'react-i18next';
 
 export const AskerConsultingTypeData = () => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation([
+		'common',
+		'consultingTypes',
+		'agency'
+	]);
 	const { userData } = useContext(UserDataContext);
 	const consultingTypes = useConsultingTypes();
 
-	const preparedUserData = Object.keys(userData.consultingTypes).map(
-		(key) => {
-			return userData.consultingTypes[key];
-		}
-	);
-
 	return (
 		<>
-			{preparedUserData.map(
-				(resort, index) =>
+			{Object.values(userData.consultingTypes).map(
+				(resort: any, index) =>
 					resort.isRegistered &&
 					resort.agency && (
 						<Box key={index}>
@@ -38,21 +36,18 @@ export const AskerConsultingTypeData = () => {
 								<div className="profile__content__title">
 									<Headline
 										className="pr--3"
-										text={translate([
-											`consultingType.${
+										text={translate(
+											[
+												`consultingType.${resort.agency.consultingType}.titles.default`,
 												consultingTypes.find(
 													(cur) =>
 														cur.id ===
 														resort.agency
 															.consultingType
-												)?.id
-											}.titles.default`,
-											consultingTypes.find(
-												(cur) =>
-													cur.id ===
-													resort.agency.consultingType
-											)?.titles.default
-										])}
+												)?.titles.default
+											],
+											{ ns: 'consultingTypes' }
+										)}
 										semanticLevel="5"
 									/>
 								</div>
@@ -117,10 +112,13 @@ export const AskerConsultingTypeData = () => {
 										{translate('profile.data.agency')}
 									</p>
 									<p className="profile__data__content">
-										{translate([
-											`agency.${resort.agency.id}.name`,
-											resort.agency.name
-										])}{' '}
+										{translate(
+											[
+												`agency.${resort.agency.id}.name`,
+												resort.agency.name
+											],
+											{ ns: 'agencies' }
+										)}{' '}
 										<br />
 										{resort.agency.postcode}
 										{resort.agency.city

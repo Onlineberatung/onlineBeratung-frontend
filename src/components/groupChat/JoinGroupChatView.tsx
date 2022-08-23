@@ -60,7 +60,10 @@ export const JoinGroupChatView = ({
 	forceBannedOverlay = false,
 	bannedUsers = []
 }: JoinGroupChatViewProps) => {
-	const { t: translate, i18n } = useTranslation();
+	const { t: translate, i18n } = useTranslation([
+		'common',
+		'consultingTypes'
+	]);
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -322,19 +325,22 @@ export const JoinGroupChatView = ({
 
 	let groupChatRules: [string?] = [];
 	const hasGroupChatRulesTranslations = i18n.exists(
-		`consultingType.${consultingType.id}.groupChatRules.0`
+		`consultingType.${consultingType.id}.groupChatRules.0`,
+		{ ns: 'consultingTypes' }
 	);
 
 	if (hasGroupChatRulesTranslations) {
 		for (let i = 0; i < 10; i++) {
 			if (
 				i18n.exists(
-					`consultingType.${consultingType.id}.groupChatRules.${i}`
+					`consultingType.${consultingType.id}.groupChatRules.${i}`,
+					{ ns: 'consultingTypes' }
 				)
 			) {
 				groupChatRules.push(
 					translate(
-						`consultingType.${consultingType.id}.groupChatRules.${i}`
+						`consultingType.${consultingType.id}.groupChatRules.${i}`,
+						{ ns: 'consultingTypes' }
 					)
 				);
 			}

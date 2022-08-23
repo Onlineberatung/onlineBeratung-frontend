@@ -12,10 +12,7 @@ import '../../resources/styles/styles';
 import './error.styles';
 import { useTranslation } from 'react-i18next';
 
-import i18n from '../../i18n';
-import { LanguageSwitch } from '../languageSwitch/LanguageSwitch';
-
-i18n.init();
+import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 
 const getStatusCode = () => {
 	const errorRoot = document.getElementById('errorRoot');
@@ -52,11 +49,6 @@ export const Error = () => {
 			break;
 	}
 
-	const changeLanguage = (language) => {
-		localStorage.setItem(`appLanguage`, JSON.stringify(language));
-		i18n.changeLanguage(language.value);
-	};
-
 	return (
 		<div className={clsx('errorPage', `errorPage--${type}`)}>
 			<header className="errorPage__header">
@@ -64,12 +56,7 @@ export const Error = () => {
 					<h2>{translate('app.title')}</h2>
 				</div>
 				<p className="errorPage__claim">{translate('app.claim')}</p>
-				<LanguageSwitch
-					appLanguage={JSON.parse(
-						localStorage.getItem(`appLanguage`)
-					)}
-					setAppLanguage={(language) => changeLanguage(language)}
-				/>
+				<LocaleSwitch />
 			</header>
 			<div className="errorPage__main">
 				<span className="errorPage__illustrationWrapper">

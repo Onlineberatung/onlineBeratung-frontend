@@ -54,7 +54,7 @@ export const FormAccordion = ({
 	initialPostcode,
 	mainTopicId
 }: FormAccordionProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const [activeItem, setActiveItem] = useState<number>(1);
 	const [agency, setAgency] = useState<AgencyDataInterface>();
 	const tenantData = useTenant();
@@ -270,10 +270,13 @@ export const FormAccordion = ({
 						options: additionalStepsData.age.options.map(
 							(option) => ({
 								...option,
-								label: translate([
-									`consultingType.${consultingType.id}.requiredComponents.age.${option.value}`,
-									option.label
-								])
+								label: translate(
+									[
+										`consultingType.${consultingType.id}.requiredComponents.age.${option.value}`,
+										option.label
+									],
+									{ ns: 'consultingTypes' }
+								)
 							})
 						)
 					}}
