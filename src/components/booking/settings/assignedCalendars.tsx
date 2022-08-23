@@ -5,6 +5,7 @@ import './bookingSettings.styles.scss';
 const AssignedCalendars = () => {
 	return (
 		<iframe
+			title={'AssignedCalendars'}
 			src={`${config.urls.appointmentServiceDevServer}/apps/installed`}
 			frameBorder={0}
 			width="100%"
