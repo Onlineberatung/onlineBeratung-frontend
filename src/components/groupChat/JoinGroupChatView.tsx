@@ -173,7 +173,7 @@ export const JoinGroupChatView = ({
 			}
 		};
 	}, [
-		consultingType.groupChat.isGroupChat,
+		consultingType?.groupChat.isGroupChat,
 		isWatcherRunning,
 		startWatcher,
 		stopWatcher
@@ -267,7 +267,7 @@ export const JoinGroupChatView = ({
 					text={translate('groupChat.join.content.headline')}
 					semanticLevel="4"
 				/>
-				{consultingType.groupChat?.groupChatRules?.map(
+				{consultingType?.groupChat?.groupChatRules?.map(
 					(groupChatRuleText, i) => (
 						<Text
 							text={groupChatRuleText}
