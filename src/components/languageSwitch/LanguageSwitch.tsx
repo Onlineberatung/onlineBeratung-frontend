@@ -36,7 +36,7 @@ export const LanguageSwitch: React.FC<LanguageSwitchProp> = ({
 		})
 	};
 
-	const test = (language) => {
+	const handleChangeSelect = (language) => {
 		setAppLanguage(language);
 		localStorage.setItem(`appLanguage`, JSON.stringify(language));
 	};
@@ -47,7 +47,7 @@ export const LanguageSwitch: React.FC<LanguageSwitchProp> = ({
 			<Select
 				options={config.languages}
 				defaultValue={appLanguage ? appLanguage : config.languages[0]}
-				onChange={(e) => test(e)}
+				onChange={(language) => handleChangeSelect(language)}
 				styles={languageSwitchStyles}
 				components={{
 					DropdownIndicator: () => null,

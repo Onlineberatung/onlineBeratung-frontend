@@ -22,6 +22,10 @@ import { WaitingRoom } from './WaitingRoom';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useUnload } from '../../hooks/useUnload';
 import { config, uiUrl } from '../../resources/scripts/config';
+import i18n from '../../i18n';
+import { useTranslation } from 'react-i18next';
+
+i18n.init();
 
 const VideoConference = ({
 	legalLinks
@@ -41,6 +45,7 @@ const VideoConference = ({
 		useState<VideoCallJwtDataInterface>(null);
 
 	const { userData } = useContext(UserDataContext);
+	const { t: translate } = useTranslation();
 
 	const isModerator = useCallback(
 		() =>
@@ -163,18 +168,27 @@ const VideoConference = ({
 		if (!appointment) {
 			return {
 				error: {
-					title: 'videoConference.waitingroom.errorPage.headline',
+					title: translate(
+						'videoConference.waitingroom.errorPage.headline'
+					),
 					description: isModerator()
-						? 'videoConference.waitingroom.errorPage.consultant.description'
-						: 'videoConference.waitingroom.errorPage.description'
+						? translate(
+								'videoConference.waitingroom.errorPage.consultant.description'
+						  )
+						: translate(
+								'videoConference.waitingroom.errorPage.description'
+						  )
 				}
 			};
 		} else if (rejected) {
 			return {
 				error: {
-					title: 'videoConference.waitingroom.errorPage.rejected.headline',
-					description:
+					title: translate(
+						'videoConference.waitingroom.errorPage.rejected.headline'
+					),
+					description: translate(
 						'videoConference.waitingroom.errorPage.rejected.description'
+					)
 				}
 			};
 		}

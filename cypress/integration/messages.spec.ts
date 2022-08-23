@@ -3,9 +3,8 @@ import {
 	startWebSocketServer,
 	mockWebSocket
 } from '../support/websocket';
-import attachmentsI18n from '../../src/resources/scripts/i18n/de/attachments';
-import attachmentsInformalI18n from '../../src/resources/scripts/i18n/de/attachmentsInformal';
 import { SOCKET_COLLECTION } from '../../src/api';
+import { useTranslation } from 'react-i18next';
 
 describe('Messages', () => {
 	before(() => {
@@ -38,6 +37,7 @@ describe('Messages', () => {
 
 		describe('formal', () => {
 			it('should show inline error when quota is reached', () => {
+				const { t: translate } = useTranslation();
 				cy.willReturn('attachmentUpload', {
 					statusCode: 403,
 					headers: {
@@ -57,12 +57,13 @@ describe('Messages', () => {
 
 				cy.wait('@attachmentUpload');
 
-				cy.contains(attachmentsI18n['error.quota.headline']);
+				cy.contains(translate['error.quota.headline']);
 			});
 		});
 
 		describe('informal', () => {
 			it('should show inline error when quota is reached', () => {
+				const { t: translate } = useTranslation();
 				cy.willReturn('userData', {
 					formalLanguage: false
 				});
@@ -86,7 +87,7 @@ describe('Messages', () => {
 
 				cy.wait('@attachmentUpload');
 
-				cy.contains(attachmentsInformalI18n['error.quota.headline']);
+				cy.contains(translate['error.quota.headline']);
 			});
 		});
 	});

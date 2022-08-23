@@ -380,22 +380,22 @@ export const deInformal = {
 	'videoCall.overlay.unsupported.copy':
 		'Dein Gerät erfüllt nicht alle nötigen technischen Vorgaben für einen Video-Call. Bitte folge dieser Anleitung um einen Video-Call starten zu können. Dafür brauchst Du möglicherweise die Unterstützung Deiner EDV.',
 	// videoConference
-	'videoCoference.waitingroom.dataProtection.subline':
+	'videoConference.waitingroom.dataProtection.subline':
 		'Bitte bestätige unsere Datenschutzbestimmungen.',
-	'videoCoference.waitingroom.dataProtection.description':
+	'videoConference.waitingroom.dataProtection.description':
 		'Danach dürfen unsere Berater_innen einen Video-Call mit Dir starten.',
-	'videoCoference.waitingroom.headline': 'Bitte habe etwas Geduld',
-	'videoCoference.waitingroom.subline':
+	'videoConference.waitingroom.headline': 'Bitte habe etwas Geduld',
+	'videoConference.waitingroom.subline':
 		'Der Video-Call hat noch nicht begonnen. Du wirst weitergeleitet sobald Dein_e Berater_in den Video-Call startet.',
-	'videoCoference.waitingroom.paused.subline':
+	'videoConference.waitingroom.paused.subline':
 		'Der Video-Call wurde beendet. Sollte Dein_e Berater_in nur abwesend sein wirst Du in den Video-Call weitergeleitet sobald Dein_e Berater_in den Video-Call fortsetzt.',
-	'videoCoference.waitingroom.errorPage.description':
+	'videoConference.waitingroom.errorPage.description':
 		'Zu Deinem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde. Solltest Du weiterhin Probleme haben frage bitte Deine_n Berater_in.',
-	'videoCoference.waitingroom.errorPage.consultant.description':
+	'videoConference.waitingroom.errorPage.consultant.description':
 		'Zu Deinem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde.',
-	'videoCoference.waitingroom.errorPage.rejected.headline':
+	'videoConference.waitingroom.errorPage.rejected.headline':
 		'Du wurdest nicht zugelassen',
-	'videoCoference.waitingroom.errorPage.rejected.description':
+	'videoConference.waitingroom.errorPage.rejected.description':
 		'Du wurdest nicht zugelassen. Leider kannst Du an diesem Video-Call nicht teilnehmen, da Dein_e Berater_in Dich nicht zugelassen hat.',
 	// walkthrough
 	'walkthrough.step.0':

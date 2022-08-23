@@ -1580,35 +1580,35 @@ export const deFormal = {
 	'videoCall.overlay.unsupported.button.close': 'Schließen',
 	'videoCall.overlay.unsupported.button.manual': 'Zur Anleitung',
 	// videoConference
-	'videoCoference.waitingroom.title.start': 'Warteraum',
-	'videoCoference.waitingroom.dataProtection.headline':
+	'videoConference.waitingroom.title.start': 'Warteraum',
+	'videoConference.waitingroom.dataProtection.headline':
 		'Herzlich Willkommen!',
-	'videoCoference.waitingroom.dataProtection.subline':
+	'videoConference.waitingroom.dataProtection.subline':
 		'Bitte bestätigen Sie unsere Datenschutzbestimmungen.',
-	'videoCoference.waitingroom.dataProtection.description':
+	'videoConference.waitingroom.dataProtection.description':
 		'Danach dürfen unsere Berater_innen einen Video-Call mit Ihnen starten.',
-	'videoCoference.waitingroom.dataProtection.label':
+	'videoConference.waitingroom.dataProtection.label':
 		'Ich habe die {{legal_links}} zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
-	'videoCoference.waitingroom.dataProtection.label.and': 'und',
-	'videoCoference.waitingroom.dataProtection.button': 'Bestätigen',
-	'videoCoference.waitingroom.headline': 'Bitte haben Sie etwas Geduld',
-	'videoCoference.waitingroom.subline':
+	'videoConference.waitingroom.dataProtection.label.and': 'und',
+	'videoConference.waitingroom.dataProtection.button': 'Bestätigen',
+	'videoConference.waitingroom.headline': 'Bitte haben Sie etwas Geduld',
+	'videoConference.waitingroom.subline':
 		'Der Video-Call hat noch nicht begonnen. Sie werden weitergeleitet sobald Ihr_e Berater_in den Video-Call startet.',
-	'videoCoference.waitingroom.paused.headline':
+	'videoConference.waitingroom.paused.headline':
 		'Der Video-Call wurde beendet',
-	'videoCoference.waitingroom.paused.subline':
+	'videoConference.waitingroom.paused.subline':
 		'Der Video-Call wurde beendet. Sollten Ihr_e Berater_in nur abwesend sein werden Sie in den Video-Call weitergeleitet sobald Ihr_e Berater_in den Video-Call fortsetzt.',
-	'videoCoference.waitingroom.errorPage.headline':
+	'videoConference.waitingroom.errorPage.headline':
 		'Der Video-Call wurde nicht gefunden',
-	'videoCoference.waitingroom.errorPage.description':
+	'videoConference.waitingroom.errorPage.description':
 		'Zu Ihrem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde. Sollten Sie weiterhin Probleme haben fragen Sie bitte Ihre_n Berater_in.',
-	'videoCoference.waitingroom.errorPage.consultant.description':
+	'videoConference.waitingroom.errorPage.consultant.description':
 		'Zu Ihrem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde.',
-	'videoCoference.waitingroom.errorPage.rejected.headline':
+	'videoConference.waitingroom.errorPage.rejected.headline':
 		'Sie wurden nicht zugelassen',
-	'videoCoference.waitingroom.errorPage.rejected.description':
+	'videoConference.waitingroom.errorPage.rejected.description':
 		'Sie wurden nicht zugelassen. Leider können Sie an diesem Video-Call nicht teilnehmen, da Ihr_e Berater_in Sie nicht zugelassen hat.',
-	'videoCoference.waitingroom.errorPage.button': 'Neu laden',
+	'videoConference.waitingroom.errorPage.button': 'Neu laden',
 	// walkthrough
 	'walkthrough.title': 'Rundgang',
 	'walkthrough.subtitle':

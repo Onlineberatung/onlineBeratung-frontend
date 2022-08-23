@@ -71,7 +71,7 @@ describe('videoconference', () => {
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()
 					.then((window) => {
-						window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
+						//window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
 					})
 					.then(() => {
 						const videoUrl = config.urls.videoConference
@@ -171,7 +171,7 @@ describe('videoconference', () => {
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()
 					.then((window) => {
-						window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
+						//window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
 					})
 					.then(() => {
 						const videoUrl = config.urls.videoConference
@@ -274,7 +274,7 @@ describe('videoconference', () => {
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()
 					.then((window) => {
-						window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
+						//window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
 					})
 					.then(() => {
 						const videoUrl = config.urls.videoConference
@@ -358,7 +358,7 @@ describe('videoconference', () => {
 
 				cy.window()
 					.then((window) => {
-						window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
+						//window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
 					})
 					.its('externalApi')
 					.then((externalApi) => {

@@ -218,11 +218,6 @@ export const RegistrationForm = ({
 
 		apiPostRegistration(config.endpoints.registerAsker, registrationData)
 			.then((res) => {
-				apiPatchUserData({
-					preferredLanguage: appLanguage.short
-				}).catch((error) => {
-					console.log(error);
-				});
 				return setOverlayActive(true);
 			})
 			.catch((errorRes) => {

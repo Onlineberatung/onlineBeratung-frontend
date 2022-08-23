@@ -1559,33 +1559,33 @@ export const enFormal = {
 	'videoCall.overlay.unsupported.button.close': 'Close',
 	'videoCall.overlay.unsupported.button.manual': 'To the instructions',
 	// videoConference
-	'videoCoference.waitingroom.title.start': 'Waiting room',
-	'videoCoference.waitingroom.dataProtection.headline': 'A warm welcome!',
-	'videoCoference.waitingroom.dataProtection.subline':
+	'videoConference.waitingroom.title.start': 'Waiting room',
+	'videoConference.waitingroom.dataProtection.headline': 'A warm welcome!',
+	'videoConference.waitingroom.dataProtection.subline':
 		'Please confirm our privacy policy.',
-	'videoCoference.waitingroom.dataProtection.description':
+	'videoConference.waitingroom.dataProtection.description':
 		'After that, our consultants may start a video call with you.',
-	'videoCoference.waitingroom.dataProtection.label':
+	'videoConference.waitingroom.dataProtection.label':
 		'I have taken note of the {{legal_links}}. This website uses cookies for authentication and navigation. I agree with this.',
-	'videoCoference.waitingroom.dataProtection.label.and': 'and',
-	'videoCoference.waitingroom.dataProtection.button': 'Confirm',
-	'videoCoference.waitingroom.headline': 'Please be patient',
-	'videoCoference.waitingroom.subline':
+	'videoConference.waitingroom.dataProtection.label.and': 'and',
+	'videoConference.waitingroom.dataProtection.button': 'Confirm',
+	'videoConference.waitingroom.headline': 'Please be patient',
+	'videoConference.waitingroom.subline':
 		'The video call has not yet started. You will be forwarded as soon as your consultant starts the video call.',
-	'videoCoference.waitingroom.paused.headline': 'The video call was ended',
-	'videoCoference.waitingroom.paused.subline':
+	'videoConference.waitingroom.paused.headline': 'The video call was ended',
+	'videoConference.waitingroom.paused.subline':
 		'The video call has ended. If your consultant is only absent, you will be forwarded to the video call as soon as your consultant resumes the video call.',
-	'videoCoference.waitingroom.errorPage.headline':
+	'videoConference.waitingroom.errorPage.headline':
 		'The video call was not found',
-	'videoCoference.waitingroom.errorPage.description':
+	'videoConference.waitingroom.errorPage.description':
 		'We cannot find a video call for your link because the video call has either been deleted or already terminated. If you still have problems, please ask your consultant.',
-	'videoCoference.waitingroom.errorPage.consultant.description':
+	'videoConference.waitingroom.errorPage.consultant.description':
 		'We cannot find a video call for your link because the video call has either been deleted or already terminated.',
-	'videoCoference.waitingroom.errorPage.rejected.headline':
+	'videoConference.waitingroom.errorPage.rejected.headline':
 		'You were not admitted',
-	'videoCoference.waitingroom.errorPage.rejected.description':
+	'videoConference.waitingroom.errorPage.rejected.description':
 		'You have not been admitted. Unfortunately, you cannot participate in this video call because your advisor has not approved you.',
-	'videoCoference.waitingroom.errorPage.button': 'Reload',
+	'videoConference.waitingroom.errorPage.button': 'Reload',
 	// walkthrough
 	'walkthrough.title': 'Tour',
 	'walkthrough.subtitle':
