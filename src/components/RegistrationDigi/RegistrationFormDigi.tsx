@@ -49,16 +49,18 @@ export const RegistrationFormDigi = ({
 		React.useState(false);
 	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] =
 		React.useState(false);
-	const consultantPreselectedAgency =
-		consultant?.agencies?.length === 1
-			? consultant.agencies[0]
-			: preselectedAgency;
 
 	const [currentValues, setValues] = React.useState({
 		'age': '',
-		'agencyId': consultantPreselectedAgency?.id || '',
+		'agencyId':
+			consultant?.agencies?.length === 1
+				? consultant.agencies[0].id
+				: preselectedAgency?.id || '',
 		'username': '',
-		'consultingTypeId': consultantPreselectedAgency?.consultingType || '',
+		'consultingTypeId':
+			consultant?.agencies?.length === 1
+				? consultant.agencies[0].consultingType
+				: preselectedAgency?.consultingType || '',
 		'postCode': '',
 		'topicIds[]': []
 	} as any);
