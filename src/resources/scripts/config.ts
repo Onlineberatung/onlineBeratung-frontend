@@ -19,6 +19,7 @@ export const config = {
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
+	useMultiTenancyWithSingleDomain: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
 
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
@@ -35,6 +36,7 @@ export const config = {
 		counselorAppointmentLink: (userId: string) =>
 			apiUrl +
 			`/service/appointservice/consultants/${userId}/meetingSlug`,
+		counselorToken: apiUrl + `/service/appointservice/consultants/token`,
 		appointmentsServiceBase: apiUrl + '/service/appointments',
 		appointmentsServiceBookingEventsByUserId: (userId: string) =>
 			apiUrl + `/service/appointservice/askers/${userId}/bookings`,

@@ -4,6 +4,7 @@ import { TabsType } from '../../utils/tabsHelper';
 import { BookingEventsBooked } from './bookingEventsBooked';
 import { BookingEventsCanceled } from './bookingEventsCanceled';
 import { BookingEventsExpired } from './bookingEventsExpired';
+import { BookingSettings } from './settings/bookingSettings';
 
 const routes: TabsType = [
 	{
@@ -38,6 +39,19 @@ const routes: TabsType = [
 		elements: [
 			{
 				component: BookingEventsExpired,
+				boxed: false,
+				fullWidth: true
+			}
+		]
+	},
+	{
+		title: translate('booking.event.tab.settings'),
+		url: '/settings',
+		condition: (userData) =>
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
+		elements: [
+			{
+				component: BookingSettings,
 				boxed: false,
 				fullWidth: true
 			}

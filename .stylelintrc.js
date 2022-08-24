@@ -16,6 +16,7 @@ module.exports = {
 		'plugin/no-unsupported-browser-features': [
 			true,
 			{
+				browsers: ['> 2% and Last 2 versions'],
 				severity: 'warning',
 				ignore: [
 					// Works good enough in the supported browsers
@@ -23,6 +24,7 @@ module.exports = {
 					'flexbox',
 					'css-gradients',
 					'multicolumn',
+					'css-masks',
 					// Progressive enhancement
 					'text-size-adjust',
 					'viewport-units',
