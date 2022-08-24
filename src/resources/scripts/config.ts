@@ -1,7 +1,6 @@
 import { en } from '../i18n/en';
 import { enConsultingTypes } from '../i18n/en.consultingTypes';
 import { enAgency } from '../i18n/en.agency';
-import { enInformal } from '../i18n/en.informal';
 import { enLanguages } from '../i18n/en.languages';
 
 export const CSRF_WHITELIST_HEADER: string =
@@ -398,6 +397,11 @@ export const config = {
 			en_informal: ['en', 'de_informal', 'de']
 		},
 		resources: {
+			de: {
+				languages: {
+					en: '(DE) Englisch'
+				}
+			},
 			en: {
 				common: {
 					...en
@@ -411,26 +415,9 @@ export const config = {
 				languages: {
 					...enLanguages
 				}
-			},
-			en_informal: {
-				common: {
-					...enInformal
-				}
 			}
 		}
-	},
-	languages: [
-		{
-			label: '(DE) Deutsch',
-			value: 'deFormal',
-			short: 'de'
-		},
-		{
-			label: '(EN) Englisch',
-			value: 'enFormal',
-			short: 'en'
-		}
-	]
+	}
 };
 
 export const ALIAS_LAST_MESSAGES = {

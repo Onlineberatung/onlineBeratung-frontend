@@ -73,6 +73,10 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 		})
 	};
 
+	if (selectableLocales.length <= 1) {
+		return null;
+	}
+
 	return (
 		<div className={'localeSwitch'}>
 			{showIcon && <LanguageIcon width={20} height={20} />}

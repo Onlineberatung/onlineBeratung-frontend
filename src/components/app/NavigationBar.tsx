@@ -7,7 +7,8 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	SessionsDataContext,
-	SET_SESSIONS
+	SET_SESSIONS,
+	LocaleContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
@@ -34,6 +35,7 @@ export const NavigationBar = ({
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions, dispatch } = useContext(SessionsDataContext);
+	const { selectableLocales } = useContext(LocaleContext);
 	const {
 		sessions: unreadSessions,
 		group: unreadGroup,
@@ -220,24 +222,26 @@ export const NavigationBar = ({
 							)
 					})}
 				>
-					<div
-						className="navigation__item navigation__item__language"
-						onClick={() => setMenuOpen(!isMenuOpen)}
-					>
-						<LocaleSwitch
-							styles={navbarLocaleSwitchStyle}
-							showIcon={false}
-							components={{
-								DropdownIndicator: () => null,
-								IndicatorSeparator: () => null,
-								ValueContainer,
-								Input: () => null
-							}}
-							className="navigation__title"
-							menuIsOpen={isMenuOpen}
-							updateUserData
-						/>
-					</div>
+					{selectableLocales.length > 1 && (
+						<div
+							className="navigation__item navigation__item__language"
+							onClick={() => setMenuOpen(!isMenuOpen)}
+						>
+							<LocaleSwitch
+								styles={navbarLocaleSwitchStyle}
+								showIcon={false}
+								components={{
+									DropdownIndicator: () => null,
+									IndicatorSeparator: () => null,
+									ValueContainer,
+									Input: () => null
+								}}
+								className="navigation__title"
+								menuIsOpen={isMenuOpen}
+								updateUserData
+							/>
+						</div>
+					)}
 					<div
 						onClick={handleLogout}
 						className={'navigation__item'}

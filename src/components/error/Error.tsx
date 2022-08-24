@@ -21,6 +21,7 @@ const getStatusCode = () => {
 
 export const Error = () => {
 	const { t: translate } = useTranslation();
+
 	useTenantTheming();
 	const statusCode = getStatusCode();
 

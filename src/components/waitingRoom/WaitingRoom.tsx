@@ -53,6 +53,7 @@ export interface WaitingRoomProps {
 
 export const WaitingRoom = (props: WaitingRoomProps) => {
 	const { t: translate } = useTranslation();
+
 	const [isDataProtectionViewActive, setIsDataProtectionViewActive] =
 		useState<boolean>(true);
 	const [username, setUsername] = useState<string>();

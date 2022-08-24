@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Children, ReactNode, ReactElement } from 'react';
+import { Children, ReactNode, ReactElement, useContext } from 'react';
 import { config } from '../../resources/scripts/config';
 import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
-import { LegalLinkInterface } from '../../globalState';
+import { LegalLinkInterface, LocaleContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { isMobile } from 'react-device-detect';
@@ -30,6 +30,7 @@ export const StageLayout = ({
 	legalLinks
 }: StageLayoutProps) => {
 	const { t: translate } = useTranslation();
+	const { selectableLocales } = useContext(LocaleContext);
 
 	return (
 		<div className={clsx('stageLayout', className)}>
@@ -37,9 +38,11 @@ export const StageLayout = ({
 				className: 'stageLayout__stage'
 			})}
 			<div className={`stageLayout__header ${isMobile ? 'mobile' : ''}`}>
-				<div>
-					<LocaleSwitch />
-				</div>
+				{selectableLocales.length > 1 && (
+					<div>
+						<LocaleSwitch />
+					</div>
+				)}
 				{showLoginLink && (
 					<div className="stageLayout__toLogin">
 						<div className="stageLayout__toLogin__button">

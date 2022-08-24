@@ -7,6 +7,7 @@ import { deInformal } from './resources/i18n/de.informal';
 import { deAgency } from './resources/i18n/de.agency';
 import { deLanguages } from './resources/i18n/de.languages';
 import { config } from './resources/scripts/config';
+import _ from 'lodash';
 
 export const FALLBACK_LNG = 'de';
 
@@ -32,23 +33,23 @@ const resources = {
 	}
 };
 
-i18n.use(initReactI18next).init({
-	defaultNS: 'common',
-	fallbackLng: {
-		de_informal: ['de'],
-		default: [FALLBACK_LNG],
-		...config.i18n.fallbackLng
-	},
-	lng: 'de',
-	returnEmptyString: true,
-	interpolation: {
-		escapeValue: false
-	},
-	...config.i18n,
-	resources: {
-		...resources,
-		...(config.i18n.resources ? config.i18n.resources : {})
-	}
-});
+i18n.use(initReactI18next).init(
+	_.merge(
+		{
+			defaultNS: 'common',
+			fallbackLng: {
+				de_informal: ['de'],
+				default: [FALLBACK_LNG]
+			},
+			lng: 'de',
+			returnEmptyString: true,
+			interpolation: {
+				escapeValue: false
+			},
+			resources
+		},
+		config.i18n ?? {}
+	)
+);
 
 export default i18n;

@@ -39,7 +39,12 @@ export function LocaleProvider(props) {
 		if (locale) {
 			let lngCode = `${locale}${informal ? '_informal' : ''}`;
 			if (!locales.includes(lngCode)) {
-				lngCode = FALLBACK_LNG;
+				// If language is x_informal try if only x exists
+				lngCode = locale;
+				if (!locales.includes(lngCode)) {
+					// else fallback to default lng
+					lngCode = FALLBACK_LNG;
+				}
 			}
 			i18n.changeLanguage(lngCode);
 			sessionStorage.setItem(STORAGE_KEY, locale);
