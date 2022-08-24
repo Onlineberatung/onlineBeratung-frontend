@@ -194,7 +194,7 @@ const VideoConference = ({
 		}
 
 		return {};
-	}, [appointment, isModerator, rejected]);
+	}, [appointment, isModerator, rejected, translate]);
 
 	if (!ready) {
 		return <Loading />;

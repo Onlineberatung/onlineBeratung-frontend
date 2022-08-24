@@ -160,7 +160,8 @@ export const Registration = ({
 		handleUnmatchConsultant,
 		handleUnmatchConsultingType,
 		consultingTypeSlug,
-		translate
+		translate,
+		setInformal
 	]);
 
 	const isFirstVisit = useIsFirstVisit();

@@ -74,7 +74,7 @@ export const MessageDisplayName = ({
 				? translate('session.groupChat.consultant.prefix') + displayName
 				: translate('session.consultant.prefix') + displayName;
 		}
-	}, [displayName, isMyMessage, isUser, subscriberIsModerator]);
+	}, [displayName, isMyMessage, isUser, subscriberIsModerator, translate]);
 
 	return (
 		<>
