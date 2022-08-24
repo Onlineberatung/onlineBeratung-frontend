@@ -1,0 +1,54 @@
+.settings-container {
+	height: 100%;
+	display: flex;
+	column-gap: 40px;
+}
+
+.settings-container-column {
+	height: 100%;
+	width: 50%;
+	background-color: #fefefe;
+	padding: 20px 0 0 20px;
+}
+
+.calendar-integration-container {
+	display: flex;
+	padding-bottom: 30px;
+	margin: 30px 10px 0px 10px;
+}
+
+.calendar-integration-icon {
+	height: 2.5rem;
+	width: 2.5rem;
+}
+
+.calendar-integration-item-container {
+	margin-left: 25px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 2px solid #c4bfc4;
+	padding-bottom: 30px;
+}
+
+.navigation-button-active {
+	font-weight: 500;
+	display: flex;
+	margin-right: 20px;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+	border-bottom: 5px solid;
+	border-color: var(--skin-color-primary-contrast-safe, $primary);
+	background: no-repeat;
+	color: var(--skin-color-primary-contrast-safe, $primary);
+}
+
+.navigation-button {
+	font-weight: 500;
+	display: flex;
+	margin-right: 20px;
+	border: 0;
+	background: no-repeat;
+}

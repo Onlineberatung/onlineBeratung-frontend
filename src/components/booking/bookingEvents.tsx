@@ -108,7 +108,10 @@ export const BookingEvents = () => {
 				/>
 				{isConsultant && (
 					<>
-						<div className="bookingEvents__nav">
+						<div
+							className="bookingEvents__nav"
+							style={{ height: '100%' }}
+						>
 							{bookingRoutes.map((tab) => (
 								<div
 									key={tab.url}
@@ -155,7 +158,10 @@ export const BookingEvents = () => {
 								path={`/booking/events${tab.url}`}
 								key={`/booking/events${tab.url}`}
 							>
-								<div className="booking__content">
+								<div
+									className="booking__content"
+									style={{ height: '100%' }}
+								>
 									{tab.elements
 										.reduce(
 											(
