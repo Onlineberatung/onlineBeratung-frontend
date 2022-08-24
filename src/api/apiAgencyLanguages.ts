@@ -12,7 +12,10 @@ export const apiAgencyLanguages = async (
 		url: url,
 		method: FETCH_METHODS.GET,
 		skipAuth: true,
-		responseHandling: []
+		responseHandling: [],
+		...(config.useMultiTenancyWithSingleDomain && {
+			headersData: { agencyId }
+		})
 	}).then((result) => {
 		return result;
 	});
