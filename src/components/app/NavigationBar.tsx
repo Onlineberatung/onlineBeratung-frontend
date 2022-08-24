@@ -24,6 +24,7 @@ import Select from 'react-select';
 import { config } from '../../resources/scripts/config';
 import { components } from 'react-select';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
+import { isMobile } from 'react-device-detect';
 export interface NavigationBarProps {
 	onLogout: any;
 	routerConfig: any;
@@ -34,7 +35,7 @@ export const NavigationBar = ({
 	routerConfig
 }: NavigationBarProps) => {
 	const { t: translate } = useTranslation();
-	const { userData } = useContext(UserDataContext);
+	const { userData, setUserData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions, dispatch } = useContext(SessionsDataContext);
 	const [sessionId, setSessionId] = useState(null);
@@ -47,7 +48,7 @@ export const NavigationBar = ({
 		group: unreadGroup,
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
-	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
+	const { setAppLanguage } = useContext(AppLanguageContext);
 	const [isMenuOpen, setMenuOpen] = useState(false);
 
 	const handleLogout = useCallback(() => {
@@ -75,10 +76,18 @@ export const NavigationBar = ({
 			JSON.parse(localStorage.getItem(`appLanguage`)).short !== 'de'
 		) {
 			const updatedUserData = { ...userData };
-			updatedUserData.preferredLanguage = appLanguage.short;
-			apiPatchUserData(updatedUserData).catch((error) => {
-				console.log(error);
-			});
+			updatedUserData.preferredLanguage = JSON.parse(
+				localStorage.getItem(`appLanguage`)
+			).short;
+			apiPatchUserData(updatedUserData)
+				.then(() => {
+					setAppLanguage(
+						JSON.parse(localStorage.getItem(`appLanguage`))
+					);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 		}
 
 		setIsInformal(!userData.formalLanguage);
@@ -259,24 +268,26 @@ export const NavigationBar = ({
 							)
 					})}
 				>
-					<div
-						className="navigation__item navigation__item__language"
-						onClick={() => setMenuOpen(!isMenuOpen)}
-					>
-						<Select
-							options={config.languages}
-							onChange={(language) => setlanguage(language)}
-							components={{
-								DropdownIndicator: () => null,
-								IndicatorSeparator: () => null,
-								ValueContainer,
-								Input: () => null
-							}}
-							styles={navbarLanguageStyle}
-							className="navigation__title"
-							menuIsOpen={isMenuOpen}
-						/>
-					</div>
+					{!isMobile && (
+						<div
+							className="navigation__item navigation__item__language"
+							onClick={() => setMenuOpen(!isMenuOpen)}
+						>
+							<Select
+								options={config.languages}
+								onChange={(language) => setlanguage(language)}
+								components={{
+									DropdownIndicator: () => null,
+									IndicatorSeparator: () => null,
+									ValueContainer,
+									Input: () => null
+								}}
+								styles={navbarLanguageStyle}
+								className="navigation__title"
+								menuIsOpen={isMenuOpen}
+							/>
+						</div>
+					)}
 					<div
 						onClick={handleLogout}
 						className={'navigation__item'}

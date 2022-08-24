@@ -22,7 +22,7 @@
 		padding: $grid-base-six $grid-base-two 0;
 
 		@include breakpoint($fromMedium) {
-			min-height: 100vh;
+			min-height: 90vh;
 			padding: 0 $grid-base-five;
 		}
 
