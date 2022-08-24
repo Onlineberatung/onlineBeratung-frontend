@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
-import { SessionTypeContext, UserDataContext } from '../../globalState';
+import {
+	SessionTypeContext,
+	UserDataContext,
+	useTenant
+} from '../../globalState';
 import { history } from '../app/app';
 import { isUserModerator, SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { translate } from '../../utils/translate';
@@ -52,9 +56,6 @@ const stopChatButtonSet: ButtonItem = {
 	type: BUTTON_TYPES.PRIMARY
 };
 
-// TODO: Adding the proper feature flag to the file and replace this one
-const groupChatFeatureFlagEnabled = false;
-
 export const GroupChatInfo = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
 
@@ -67,9 +68,14 @@ export const GroupChatInfo = () => {
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
+	const [isV2GroupChat, setIsV2GroupChat] = useState<boolean>(false);
 
 	const { session: activeSession, ready } = useSession(groupIdFromParam);
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
+
+	const tenantData = useTenant();
+	const featureGroupChatV2Enabled =
+		tenantData?.settings?.featureGroupChatV2Enabled;
 
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
@@ -122,6 +128,10 @@ export const GroupChatInfo = () => {
 					setBannedUsers([]);
 				}
 			});
+		}
+
+		if (activeSession.isGroup && !activeSession.item.consultingType) {
+			setIsV2GroupChat(true);
 		}
 	}, [activeSession, listPath, ready, sessionListTab]);
 
@@ -250,7 +260,7 @@ export const GroupChatInfo = () => {
 							type="divider"
 						/>
 
-						{groupChatFeatureFlagEnabled && (
+						{featureGroupChatV2Enabled && isV2GroupChat && (
 							<div className="profile__groupChatContainer">
 								<GroupChatCopyLinks
 									groupChatId={activeSession.rid}
