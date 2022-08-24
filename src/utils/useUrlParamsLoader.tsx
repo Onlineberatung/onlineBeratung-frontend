@@ -13,6 +13,7 @@ import { config } from '../resources/scripts/config';
 import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
 import { apiGetTopicById } from '../api/apiGetTopicId';
 
+const SLUG_SINGLE_MULTI_TENANCY = 'app';
 export default function useUrlParamsLoader() {
 	const { consultingTypeSlug } = useParams();
 	const agencyId = getUrlParameter('aid');
@@ -52,7 +53,10 @@ export default function useUrlParamsLoader() {
 
 				if (consultingTypeSlug || agency) {
 					consultingType = await apiGetConsultingType({
-						consultingTypeSlug,
+						consultingTypeSlug:
+							config.useMultiTenancyWithSingleDomain
+								? SLUG_SINGLE_MULTI_TENANCY
+								: consultingTypeSlug,
 						consultingTypeId: agency?.consultingType
 					});
 					setConsultingType(consultingType);
