@@ -12,13 +12,15 @@ import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import './groupChatCopyLinks.scss';
 
 type GroupChatCopyLinksProps = {
+	id: number;
 	groupChatId: string;
 };
 
 export const GroupChatCopyLinks = ({
+	id,
 	groupChatId
 }: GroupChatCopyLinksProps) => {
-	const url = `${config.urls.registration}?gcid=${groupChatId}`;
+	const url = `${config.urls.registration}?gcid=${id}`;
 	const { addNotification } = useContext(NotificationsContext);
 
 	const copyRegistrationLink = useCallback(async () => {
