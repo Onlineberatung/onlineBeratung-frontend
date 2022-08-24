@@ -7,12 +7,11 @@ export const apiGetTenantTheming = async (params: {
 	subdomain: string;
 }): Promise<TenantDataInterface> =>
 	fetchData({
-		url:
-			config.endpoints.tenantServiceBase +
-			'/public/' +
+		url: `${config.endpoints.tenantServiceBase}/public/${
 			config.useMultiTenancyWithSingleDomain
 				? MAIN_TENANT_SINGLE_DOMAIN
-				: params.subdomain,
+				: params.subdomain
+		}`,
 		method: FETCH_METHODS.GET,
 		skipAuth: true,
 		responseHandling: [FETCH_ERRORS.CATCH_ALL]
