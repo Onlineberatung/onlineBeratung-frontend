@@ -1,54 +1,53 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import { deFormal } from './resources/i18n/de.formal';
+import { de } from './resources/i18n/de';
 import { deConsultingTypes } from './resources/i18n/de.consultingTypes';
 import { deInformal } from './resources/i18n/de.informal';
-import { enFormal } from './resources/i18n/en.formal';
-import { enInformal } from './resources/i18n/en.informal';
-import { enConsultingTypes } from './resources/i18n/en.consultingTypes';
 import { deAgency } from './resources/i18n/de.agency';
-import { enAgency } from './resources/i18n/en.agency';
+import { deLanguages } from './resources/i18n/de.languages';
+import { config } from './resources/scripts/config';
+
+export const FALLBACK_LNG = 'de';
 
 const resources = {
-	deFormal: {
-		translation: {
-			...deFormal,
-			...deConsultingTypes,
+	de: {
+		common: {
+			...de
+		},
+		consultingTypes: {
+			...deConsultingTypes
+		},
+		agencies: {
 			...deAgency
+		},
+		languages: {
+			...deLanguages
 		}
 	},
-	deInformal: {
-		translation: {
-			...deInformal,
-			...deConsultingTypes,
-			...deAgency
-		}
-	},
-	enFormal: {
-		translation: {
-			...enFormal,
-			...enConsultingTypes,
-			...enAgency
-		}
-	},
-	enInformal: {
-		translation: {
-			...enFormal,
-			...enConsultingTypes,
-			...enInformal,
-			...enAgency
+	de_informal: {
+		common: {
+			...deInformal
 		}
 	}
 };
 
 i18n.use(initReactI18next).init({
-	resources,
-	fallbackLng: 'deFormal',
-	lng: 'deFormal',
+	defaultNS: 'common',
+	fallbackLng: {
+		de_informal: ['de'],
+		default: [FALLBACK_LNG],
+		...config.i18n.fallbackLng
+	},
+	lng: 'de',
 	returnEmptyString: true,
 	interpolation: {
 		escapeValue: false
+	},
+	...config.i18n,
+	resources: {
+		...resources,
+		...(config.i18n.resources ? config.i18n.resources : {})
 	}
 });
 

@@ -101,7 +101,7 @@ export const ConsultingTypeAgencySelection = ({
 	preselectedAgency,
 	onKeyDown
 }: ConsultingTypeAgencySelectionProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const [selectedConsultingTypeOption, setSelectedConsultingTypeOption] =
 		useState<SelectOption>(null);
 	const [consultingTypeOptions, setConsultingTypeOptions] = useState<
@@ -124,10 +124,13 @@ export const ConsultingTypeAgencySelection = ({
 		const consultingTypeOptions = possibleConsultingTypes.map(
 			(consultingType) => ({
 				value: consultingType.id.toString(),
-				label: translate([
-					`consultingType.${consultingType.id}.titles.long`,
-					consultingType.titles.long
-				])
+				label: translate(
+					[
+						`consultingType.${consultingType.id}.titles.long`,
+						consultingType.titles.long
+					],
+					{ ns: 'consultingTypes' }
+				)
 			})
 		);
 		setConsultingTypeOptions(consultingTypeOptions);

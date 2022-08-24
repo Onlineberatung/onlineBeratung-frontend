@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Redirect } from 'react-router-dom';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Routing } from './Routing';
-import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	UserDataContext,
 	NotificationsContext,
@@ -10,7 +9,9 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	LegalLinkInterface,
-	RocketChatProvider
+	RocketChatProvider,
+	InformalContext,
+	LocaleContext
 } from '../../globalState';
 import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
@@ -23,6 +24,8 @@ import { requestPermissions } from '../../utils/notificationHelpers';
 import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
 import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
+import { FALLBACK_LNG } from '../../i18n';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -39,6 +42,8 @@ export const AuthenticatedApp = ({
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
+	const { locale } = useContext(LocaleContext);
+	const { setInformal } = useContext(InformalContext);
 
 	const [appReady, setAppReady] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(true);
@@ -63,12 +68,22 @@ export const AuthenticatedApp = ({
 					Promise.all([apiGetUserData(), apiGetConsultingTypes()])
 						.then(([userProfileData, consultingTypes]) => {
 							// set informal / formal cookie depending on the given userdata
-							setValueInCookie(
-								'useInformal',
-								!userProfileData.formalLanguage ? '1' : ''
-							);
+							setInformal(!userProfileData.formalLanguage);
 							setUserData(userProfileData);
 							setConsultingTypes(consultingTypes);
+
+							// If user has changed language from default but the profile has different language in profile override it
+							if (
+								userProfileData.preferredLanguage !== locale &&
+								locale !== FALLBACK_LNG
+							) {
+								return apiPatchUserData({
+									preferredLanguage: locale
+								});
+							}
+							return;
+						})
+						.then(() => {
 							setAppReady(true);
 						})
 						.catch((error) => {
@@ -80,7 +95,13 @@ export const AuthenticatedApp = ({
 					setLoading(false);
 				});
 		}
-	}, [userDataRequested, setUserData, setConsultingTypes]);
+	}, [
+		userDataRequested,
+		setUserData,
+		setConsultingTypes,
+		setInformal,
+		locale
+	]);
 
 	useEffect(() => {
 		onAppReady();

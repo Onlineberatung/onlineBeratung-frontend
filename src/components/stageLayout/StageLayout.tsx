@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { Children, ReactNode, ReactElement, useContext } from 'react';
+import { Children, ReactNode, ReactElement } from 'react';
 import { config } from '../../resources/scripts/config';
 import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
-import { AppLanguageContext, LegalLinkInterface } from '../../globalState';
+import { LegalLinkInterface } from '../../globalState';
 import { useTranslation } from 'react-i18next';
-import { LanguageSwitch } from '../languageSwitch/LanguageSwitch';
+import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { isMobile } from 'react-device-detect';
 
 interface StageLayoutProps {
@@ -30,7 +30,6 @@ export const StageLayout = ({
 	legalLinks
 }: StageLayoutProps) => {
 	const { t: translate } = useTranslation();
-	const { appLanguage, setAppLanguage } = useContext(AppLanguageContext);
 
 	return (
 		<div className={clsx('stageLayout', className)}>
@@ -39,10 +38,7 @@ export const StageLayout = ({
 			})}
 			<div className={`stageLayout__header ${isMobile ? 'mobile' : ''}`}>
 				<div>
-					<LanguageSwitch
-						appLanguage={appLanguage}
-						setAppLanguage={setAppLanguage}
-					/>
+					<LocaleSwitch />
 				</div>
 				{showLoginLink && (
 					<div className="stageLayout__toLogin">
@@ -92,7 +88,7 @@ export const StageLayout = ({
 									<Text
 										className="stageLayout__legalLinksItem"
 										type="infoSmall"
-										text={legalLink.label}
+										text={translate(legalLink.label)}
 									/>
 								</button>
 							</React.Fragment>

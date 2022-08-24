@@ -57,12 +57,12 @@ $waiting-room-subline-opacity: 1 !default;
 			text-decoration: underline;
 		}
 
-		.languageSwitch {
+		.localeSwitch {
 			margin-bottom: $grid-base-three;
-		}
 
-		.languageSwitch .css-1vicfer-control {
-			background-color: $waiting-room-page-background;
+			.css-1vicfer-control {
+				background-color: $waiting-room-page-background;
+			}
 		}
 	}
 

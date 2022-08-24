@@ -13,7 +13,7 @@ import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import { useTranslation } from 'react-i18next';
 
 export const ConsultantAgencies = () => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['common', 'agencies']);
 	const { userData } = useContext(UserDataContext);
 
 	return (
@@ -34,7 +34,9 @@ export const ConsultantAgencies = () => {
 							className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
 							key={`agencies-${i}`}
 						>
-							{item.name}
+							{translate([`agency.${item.id}.name`, item.name], {
+								ns: 'agencies'
+							})}
 							<div className="flex flex--fd-row mt--1 flex-l--fd-column mt-l--0 ml-l--2 flex--ai-c flex-l--ai-fs">
 								<div>
 									<GenerateQrCode

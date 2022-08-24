@@ -622,7 +622,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						>
 							<Text
 								type="infoLargeAlternative"
-								text={legalLink.label}
+								text={translate(legalLink.label)}
 							/>
 						</a>
 					))}

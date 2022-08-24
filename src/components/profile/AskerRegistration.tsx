@@ -37,7 +37,7 @@ import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/c
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 
 export const AskerRegistration: React.FC = () => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingTypeId, setSelectedConsultingTypeId] =
@@ -119,10 +119,13 @@ export const AskerRegistration: React.FC = () => {
 		return consultingTypeSelectOptionsSet(userData, consultingTypes).map(
 			(option) => ({
 				...option,
-				label: translate([
-					`consultingType.${option.id}.titles.registrationDropdown`,
-					option.label
-				])
+				label: translate(
+					[
+						`consultingType.${option.id}.titles.registrationDropdown`,
+						option.label
+					],
+					{ ns: 'consultingTypes' }
+				)
 			})
 		);
 	};

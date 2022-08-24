@@ -17,7 +17,7 @@ import { config } from '../../resources/scripts/config';
 import { Help } from '../help/Help';
 import { ConsultantNotifications } from './ConsultantNotifications';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
-import { AppLanguage } from './AppLanguage';
+import { Locale } from './Locale';
 
 const profileRoutes: TabsType = [
 	{
@@ -188,7 +188,7 @@ const profileRoutes: TabsType = [
 				url: '/anzeige',
 				elements: [
 					{
-						component: AppLanguage,
+						component: Locale,
 						column: COLUMN_RIGHT,
 						order: 1
 					}

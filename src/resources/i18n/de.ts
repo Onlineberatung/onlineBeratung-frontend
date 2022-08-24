@@ -1,4 +1,4 @@
-export const deFormal = {
+export const de = {
 	// absence
 	'absence.overlayHeadline': 'Willkommen zurück!',
 	'absence.overlay.copy':

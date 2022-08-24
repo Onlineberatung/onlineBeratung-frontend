@@ -49,7 +49,7 @@ export const SessionListItemComponent = ({
 	session,
 	defaultLanguage
 }: SessionListItemProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const { sessionId, rcGroupId: groupIdFromParam } = useParams();
 	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
 
@@ -206,10 +206,13 @@ export const SessionListItemComponent = ({
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
-							{translate([
-								`consultingType.${consultingType.id}.titles.default`,
-								consultingType.titles.default
-							])}
+							{translate(
+								[
+									`consultingType.${consultingType.id}.titles.default`,
+									consultingType.titles.default
+								],
+								{ ns: 'consultingTypes' }
+							)}
 						</div>
 						<div className="sessionsListItem__date">
 							{getGroupChatDate(
@@ -305,10 +308,13 @@ export const SessionListItemComponent = ({
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
-							{translate([
-								`consultingType.${consultingType.id}.titles.default`,
-								consultingType.titles.default
-							])}{' '}
+							{translate(
+								[
+									`consultingType.${consultingType.id}.titles.default`,
+									consultingType.titles.default
+								],
+								{ ns: 'consultingTypes' }
+							)}{' '}
 							{session.item.consultingType !== 1 &&
 							!isAsker &&
 							!session.isLive
