@@ -7,6 +7,7 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	LegalLinkInterface,
+	LocaleContext,
 	UserDataContext
 } from '../../globalState';
 import * as appointmentService from '../../api/appointments';
@@ -24,6 +25,7 @@ import { useUnload } from '../../hooks/useUnload';
 import { config, uiUrl } from '../../resources/scripts/config';
 import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
+import './videoConference.styles.scss';
 
 i18n.init();
 
@@ -46,6 +48,8 @@ const VideoConference = ({
 
 	const { userData } = useContext(UserDataContext);
 	const { t: translate } = useTranslation();
+	const { locale } = useContext(LocaleContext);
+	const [e2eEnabled, setE2EEnabled] = useState(false);
 
 	const isModerator = useCallback(
 		() =>
@@ -91,6 +95,10 @@ const VideoConference = ({
 		if (e.error.name === 'conference.connectionError.accessDenied') {
 			setRejected(true);
 		}
+	}, []);
+
+	const handleCustomE2EEToggled = useCallback((e) => {
+		setE2EEnabled(e.enabled);
 	}, []);
 
 	useUnload(pauseAppointment, true);
@@ -143,6 +151,8 @@ const VideoConference = ({
 			} else {
 				externalApi.on('errorOccurred', handleJitsiError);
 			}
+
+			externalApi.on('custom-e2ee-toggled', handleCustomE2EEToggled);
 		}
 		return () => {
 			if (externalApi) {
@@ -152,6 +162,8 @@ const VideoConference = ({
 				} else {
 					externalApi.off('errorOccurred', handleJitsiError);
 				}
+
+				externalApi.off('custom-e2ee-toggled', handleCustomE2EEToggled);
 			}
 		};
 	}, [
@@ -161,7 +173,8 @@ const VideoConference = ({
 		appointmentId,
 		startAppointment,
 		pauseAppointment,
-		handleJitsiError
+		handleJitsiError,
+		handleCustomE2EEToggled
 	]);
 
 	const getError = useCallback(() => {
@@ -225,33 +238,80 @@ const VideoConference = ({
 
 	return (
 		<div data-cy="jitsi-meeting">
-			<JitsiMeeting
-				domain={videoCallJwtData.domain.replace('https://', '')}
-				jwt={videoCallJwtData.jwt}
-				roomName={appointment.id}
-				getIFrameRef={(node) => (node.style.height = '100vh')}
-				onApiReady={setExternalApi}
-				interfaceConfigOverwrite={{
-					SHOW_PROMOTIONAL_CLOSE_PAGE: false,
-					shareableUrl: `${uiUrl}${generatePath(
-						config.urls.videoConference,
-						{
-							type: 'app',
-							appointmentId: appointment.id
-						}
-					)}`
-				}}
-				{...(userData
-					? {
-							userInfo: {
-								displayName: userData.displayName
-									? userData.displayName
-									: userData.userName,
-								email: ''
+			{config.jitsi.showE2EEBanner && (
+				<div className="e2ee-banner">
+					<div className="e2ee-banner__icon-filled">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							height="24px"
+							viewBox="0 0 24 24"
+							width="24px"
+							fill="#000000"
+						>
+							<path d="M0 0h24v24H0V0z" fill="none" />
+							<path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+						</svg>
+					</div>
+					<div className="e2ee-banner__icon-outline">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							height="24px"
+							viewBox="0 0 24 24"
+							width="24px"
+							fill="#000000"
+						>
+							<path d="M0 0h24v24H0V0z" fill="none" />
+							<path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm7 10c0 4.52-2.98 8.69-7 9.93-4.02-1.24-7-5.41-7-9.93V6.3l7-3.11 7 3.11V11zm-11.59.59L6 13l4 4 8-8-1.41-1.42L10 14.17z" />
+						</svg>
+					</div>
+
+					<div className="text">
+						{e2eEnabled
+							? translate('videoCall.overlay.encryption.e2e')
+							: translate('videoCall.overlay.encryption')}
+					</div>
+				</div>
+			)}
+			{config.jitsi.showLogo && (
+				<div className="logo">
+					<div className="logo__header">{translate('app.title')}</div>
+					<div className="logo__subline">
+						{translate('app.claim')}
+					</div>
+				</div>
+			)}
+			<div data-cy="jitsi-meeting">
+				<JitsiMeeting
+					domain={videoCallJwtData.domain.replace('https://', '')}
+					jwt={videoCallJwtData.jwt}
+					roomName={appointment.id}
+					getIFrameRef={(node) => (node.style.height = '100vh')}
+					onApiReady={setExternalApi}
+					interfaceConfigOverwrite={{
+						SHOW_PROMOTIONAL_CLOSE_PAGE: false,
+						shareableUrl: `${uiUrl}${generatePath(
+							config.urls.videoConference,
+							{
+								type: 'app',
+								appointmentId: appointment.id
 							}
-					  }
-					: {})}
-			/>
+						)}`
+					}}
+					{...(userData
+						? {
+								userInfo: {
+									displayName: userData.displayName
+										? userData.displayName
+										: userData.userName,
+									email: ''
+								}
+						  }
+						: {})}
+					configOverwrite={{
+						defaultLanguage: locale
+					}}
+				/>
+			</div>
 		</div>
 	);
 };

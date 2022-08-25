@@ -184,7 +184,8 @@ export const config = {
 		 * Enable the e2ee banner outside the jitsi iframe. Set this to true when video-backend is on the latest develop
 		 * where the e2ee banner is removed inside jitsi and need to be rendered inside the frontend
 		 */
-		showE2EEBanner: true
+		showE2EEBanner: true,
+		showLogo: true
 	},
 	emails: {
 		notifications: [

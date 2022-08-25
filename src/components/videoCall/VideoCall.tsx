@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams, generatePath } from 'react-router-dom';
 import { JitsiMeeting } from '@jitsi/react-sdk';
 import IJitsiMeetExternalApi from '@jitsi/react-sdk/lib/types/IJitsiMeetExternalApi';
@@ -7,6 +7,8 @@ import { Loading } from '../app/Loading';
 import { config, uiUrl } from '../../resources/scripts/config';
 import './videoCall.styles.scss';
 import StatusPage from './StatusPage';
+import { LocaleContext } from '../../globalState';
+import { useTranslation } from 'react-i18next';
 
 type TJistiJWTPayload = {
 	moderator: boolean;
@@ -25,6 +27,8 @@ const VideoCall = () => {
 	const [videoCallJwtData, setVideoCallJwtData] =
 		useState<TJistiJWTPayload>(null);
 	const [shareableUrl, setShareableUrl] = useState<String>(null);
+	const { locale } = useContext(LocaleContext);
+	const { t: translate } = useTranslation();
 
 	useEffect(() => {
 		try {
@@ -61,7 +65,6 @@ const VideoCall = () => {
 
 			setReady(true);
 		} catch (e) {
-			console.log(e);
 			setRejected(true);
 		}
 	}, [e2e, jwt, video]);
@@ -168,8 +171,16 @@ const VideoCall = () => {
 
 					<div className="text">
 						{e2eEnabled
-							? 'Dieser Video-Call ist mit der Ende-zu-Ende Verschlüsselung gesichert.'
-							: 'Dieser Video-Call ist mit der Transportverschlüsselung gesichert.'}
+							? translate('videoCall.overlay.encryption.e2e')
+							: translate('videoCall.overlay.encryption')}
+					</div>
+				</div>
+			)}
+			{config.jitsi.showLogo && (
+				<div className="logo">
+					<div className="logo__header">{translate('app.title')}</div>
+					<div className="logo__subline">
+						{translate('app.claim')}
 					</div>
 				</div>
 			)}
@@ -182,7 +193,8 @@ const VideoCall = () => {
 					setExternalApi(e);
 				}}
 				configOverwrite={{
-					startWithVideoMuted: !parseInt(video)
+					startWithVideoMuted: !parseInt(video),
+					defaultLanguage: locale
 				}}
 				interfaceConfigOverwrite={{
 					SHOW_PROMOTIONAL_CLOSE_PAGE: false,
