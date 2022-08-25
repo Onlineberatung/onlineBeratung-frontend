@@ -24,7 +24,7 @@ const VideoCall = () => {
 	const [e2eEnabled, setE2EEnabled] = useState(false);
 	const [videoCallJwtData, setVideoCallJwtData] =
 		useState<TJistiJWTPayload>(null);
-	const [shareableUrl, setShareableUrl] = useState<TJistiJWTPayload>(null);
+	const [shareableUrl, setShareableUrl] = useState<String>(null);
 
 	useEffect(() => {
 		try {
@@ -51,15 +51,17 @@ const VideoCall = () => {
 			if (jsonPayload.guestVideoCallUrl) {
 				const url = new URL(jsonPayload.guestVideoCallUrl);
 				setShareableUrl(
-					generatePath(`${uiUrl}${config.urls.videoCall}`, {
+					`${uiUrl}
+					${generatePath(config.urls.videoCall, {
 						domain: url.host,
 						jwt: url.searchParams.get('jwt')
-					})
+					})}`
 				);
 			}
 
 			setReady(true);
 		} catch (e) {
+			console.log(e);
 			setRejected(true);
 		}
 	}, [e2e, jwt, video]);
