@@ -12,13 +12,14 @@ import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
-import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
 import { LegalLinkInterface } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
 import { useTranslation } from 'react-i18next';
 import VideoCall from '../videoCall/VideoCall';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 
 export const history = createBrowserHistory();
 
@@ -41,10 +42,12 @@ export const App = ({
 }: AppProps) => {
 	const { t: translate } = useTranslation();
 	const sortByTranslation = (a, b) => {
-		if (translate(`languages.${a}`) > translate(`languages.${b}`)) return 1;
-		if (translate(`languages.${a}`) < translate(`languages.${b}`))
-			return -1;
-		return 0;
+		if (translate(`languages.${a}`) === translate(`languages.${b}`)) {
+			return 0;
+		}
+		return translate(`languages.${a}`) > translate(`languages.${b}`)
+			? 1
+			: -1;
 	};
 
 	// The login is possible both at the root URL as well as with an
@@ -88,94 +91,101 @@ export const App = ({
 	return (
 		<ErrorBoundary>
 			<Router history={history}>
-				<FixedLanguagesContext.Provider value={fixedLanguages}>
-					<ContextProvider>
-						<TenantThemingLoader />
-						{startWebsocket && (
-							<WebsocketHandler
-								disconnect={disconnectWebsocket}
-							/>
-						)}
-						<Switch>
-							{extraRoutes}
+				<LegalLinksContext.Provider value={legalLinks}>
+					<LanguagesContext.Provider
+						value={{
+							fixed: fixedLanguages,
+							spoken: spokenLanguages
+								.slice()
+								.sort(sortByTranslation)
+						}}
+					>
+						<ContextProvider>
+							<TenantThemingLoader />
+							{startWebsocket && (
+								<WebsocketHandler
+									disconnect={disconnectWebsocket}
+								/>
+							)}
+							<Switch>
+								{extraRoutes}
 
-							{!hasUnmatchedRegistrationConsultingType &&
-								!hasUnmatchedRegistrationConsultant && (
-									<Route
-										path={[
-											'/registration',
-											'/:consultingTypeSlug/registration'
-										]}
-									>
-										<Registration
-											handleUnmatchConsultingType={() =>
-												setHasUnmatchedRegistrationConsultingType(
+								{!hasUnmatchedRegistrationConsultingType &&
+									!hasUnmatchedRegistrationConsultant && (
+										<Route
+											path={[
+												'/registration',
+												'/:consultingTypeSlug/registration'
+											]}
+										>
+											<Registration
+												handleUnmatchConsultingType={() =>
+													setHasUnmatchedRegistrationConsultingType(
+														true
+													)
+												}
+												handleUnmatchConsultant={() => {
+													setHasUnmatchedRegistrationConsultant(
+														true
+													);
+												}}
+												stageComponent={stageComponent}
+											/>
+										</Route>
+									)}
+
+								{!hasUnmatchedAnonymousConversation && (
+									<Route path="/:consultingTypeSlug/warteraum">
+										<WaitingRoomLoader
+											handleUnmatch={() =>
+												setHasUnmatchedAnonymousConversation(
 													true
 												)
 											}
-											handleUnmatchConsultant={() => {
-												setHasUnmatchedRegistrationConsultant(
+											onAnonymousRegistration={() =>
+												setStartWebsocket(true)
+											}
+										/>
+									</Route>
+								)}
+								{!hasUnmatchedLoginConsultingType && (
+									<Route
+										path={[
+											'/login',
+											'/:consultingTypeSlug'
+										]}
+										exact
+									>
+										<LoginLoader
+											handleUnmatch={() =>
+												setHasUnmatchedLoginConsultingType(
 													true
-												);
-											}}
-											legalLinks={legalLinks}
+												)
+											}
 											stageComponent={stageComponent}
 										/>
 									</Route>
 								)}
-
-							{!hasUnmatchedAnonymousConversation && (
-								<Route path="/:consultingTypeSlug/warteraum">
-									<WaitingRoomLoader
-										legalLinks={legalLinks}
-										handleUnmatch={() =>
-											setHasUnmatchedAnonymousConversation(
-												true
-											)
-										}
-										onAnonymousRegistration={() =>
+								<Route path={config.urls.videoConference} exact>
+									<VideoConference />
+								</Route>
+								<Route path={config.urls.videoCall} exact>
+									<VideoCall />
+								</Route>
+								{isInitiallyLoaded && (
+									<AuthenticatedApp
+										onAppReady={() =>
 											setStartWebsocket(true)
 										}
-									/>
-								</Route>
-							)}
-							{!hasUnmatchedLoginConsultingType && (
-								<Route
-									path={['/login', '/:consultingTypeSlug']}
-									exact
-								>
-									<LoginLoader
-										handleUnmatch={() =>
-											setHasUnmatchedLoginConsultingType(
-												true
-											)
+										onLogout={() =>
+											setDisconnectWebsocket(true)
 										}
-										legalLinks={legalLinks}
-										stageComponent={stageComponent}
 									/>
-								</Route>
-							)}
-							<Route path={config.urls.videoConference} exact>
-								<VideoConference legalLinks={legalLinks} />
-							</Route>
-							<Route path={config.urls.videoCall} exact>
-								<VideoCall />
-							</Route>
-							{isInitiallyLoaded && (
-								<AuthenticatedApp
-									legalLinks={legalLinks}
-									spokenLanguages={spokenLanguages
-										.slice()
-										.sort(sortByTranslation)}
-									onAppReady={() => setStartWebsocket(true)}
-									onLogout={() =>
-										setDisconnectWebsocket(true)
-									}
-								/>
-							)}
-						</Switch>
-					</ContextProvider>
-				</FixedLanguagesContext.Provider>
+								)}
+							</Switch>
+						</ContextProvider>
+					</LanguagesContext.Provider>
+				</LegalLinksContext.Provider>
 			</Router>
 		</ErrorBoundary>
 	);

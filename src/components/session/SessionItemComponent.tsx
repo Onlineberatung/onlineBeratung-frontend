@@ -29,7 +29,6 @@ import {
 	ConsultingTypeInterface,
 	getContact,
 	hasUserAuthority,
-	LegalLinkInterface,
 	UserDataContext,
 	SessionTypeContext,
 	E2EEContext
@@ -56,7 +55,6 @@ interface SessionItemProps {
 	messages?: MessageItem[];
 	typingUsers: string[];
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
-	legalLinks: Array<LegalLinkInterface>;
 	bannedUsers: string[];
 }
 
@@ -397,7 +395,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					hasUserInitiatedStopOrLeaveRequest={
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
-					legalLinks={props.legalLinks}
 					bannedUsers={props.bannedUsers}
 				/>
 			</div>

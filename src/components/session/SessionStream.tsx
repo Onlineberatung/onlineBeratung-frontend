@@ -15,7 +15,6 @@ import {
 	AUTHORITIES,
 	E2EEContext,
 	hasUserAuthority,
-	LegalLinkInterface,
 	RocketChatContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
@@ -54,14 +53,12 @@ import { useTranslation } from 'react-i18next';
 
 interface SessionStreamProps {
 	readonly: boolean;
-	legalLinks: Array<LegalLinkInterface>;
 	checkMutedUserForThisSession: () => void;
 	bannedUsers: string[];
 }
 
 export const SessionStream = ({
 	readonly,
-	legalLinks,
 	checkMutedUserForThisSession,
 	bannedUsers
 }: SessionStreamProps) => {
@@ -390,7 +387,6 @@ export const SessionStream = ({
 				isTyping={handleTyping}
 				typingUsers={typingUsers}
 				messages={messagesItem}
-				legalLinks={legalLinks}
 				bannedUsers={bannedUsers}
 			/>
 			{isOverlayActive ? (

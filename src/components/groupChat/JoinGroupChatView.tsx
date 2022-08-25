@@ -5,7 +5,6 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	useConsultingType,
-	LegalLinkInterface,
 	E2EEContext,
 	SessionTypeContext
 } from '../../globalState';
@@ -52,11 +51,9 @@ import { useTranslation } from 'react-i18next';
 interface JoinGroupChatViewProps {
 	forceBannedOverlay?: boolean;
 	bannedUsers?: string[];
-	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const JoinGroupChatView = ({
-	legalLinks,
 	forceBannedOverlay = false,
 	bannedUsers = []
 }: JoinGroupChatViewProps) => {
@@ -352,7 +349,6 @@ export const JoinGroupChatView = ({
 	return (
 		<div className="session joinChat">
 			<SessionHeaderComponent
-				legalLinks={legalLinks}
 				isJoinGroupChatView={true}
 				bannedUsers={bannedUsers}
 			/>

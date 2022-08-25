@@ -5,7 +5,7 @@ import { StageProps } from '../stage/stage';
 import { ComponentType, useContext, useEffect, useState } from 'react';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
-import { InformalContext, LegalLinkInterface } from '../../globalState';
+import { InformalContext } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
 import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
@@ -17,13 +17,11 @@ interface RegistrationProps {
 	handleUnmatchConsultingType: Function;
 	handleUnmatchConsultant: Function;
 	stageComponent: ComponentType<StageProps>;
-	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const Registration = ({
 	handleUnmatchConsultingType,
 	handleUnmatchConsultant,
-	legalLinks,
 	stageComponent: Stage
 }: RegistrationProps) => {
 	const { t: translate } = useTranslation([
@@ -169,7 +167,6 @@ export const Registration = ({
 
 	return (
 		<StageLayout
-			legalLinks={legalLinks}
 			showLegalLinks={true}
 			showLoginLink={!showWelcomeScreen}
 			stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
@@ -199,7 +196,6 @@ export const Registration = ({
 						consultingType={consultingType}
 						agency={agency}
 						consultant={consultant}
-						legalLinks={legalLinks}
 						topic={topic}
 					/>
 				))}

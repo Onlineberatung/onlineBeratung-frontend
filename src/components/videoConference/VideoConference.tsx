@@ -6,7 +6,6 @@ import IJitsiMeetExternalApi from '@jitsi/react-sdk/lib/types/IJitsiMeetExternal
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	LegalLinkInterface,
 	LocaleContext,
 	UserDataContext
 } from '../../globalState';
@@ -23,18 +22,11 @@ import { WaitingRoom } from './WaitingRoom';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useUnload } from '../../hooks/useUnload';
 import { config, uiUrl } from '../../resources/scripts/config';
-import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
 import Logo from './Logo';
 import E2EEBanner from './E2EEBanner';
 
-i18n.init();
-
-const VideoConference = ({
-	legalLinks
-}: {
-	legalLinks: Array<LegalLinkInterface>;
-}) => {
+const VideoConference = () => {
 	const { status, appointmentId } = useParams();
 
 	const [externalApi, setExternalApi] = useState<IJitsiMeetExternalApi>(null);
@@ -230,7 +222,6 @@ const VideoConference = ({
 					confirmed={confirmed}
 					setConfirmed={setConfirmed}
 					status={appointment?.status}
-					legalLinks={legalLinks}
 					{...getError()}
 				/>
 			</div>

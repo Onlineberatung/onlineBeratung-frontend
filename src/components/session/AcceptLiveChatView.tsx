@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { getContact, LegalLinkInterface } from '../../globalState';
+import { getContact } from '../../globalState';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import './session.styles';
 import { FETCH_ERRORS } from '../../api';
@@ -12,12 +12,10 @@ import { AcceptAssign } from './AcceptAssign';
 import { useTranslation } from 'react-i18next';
 
 interface AcceptLiveChatViewProps {
-	legalLinks: Array<LegalLinkInterface>;
 	bannedUsers: string[];
 }
 
 export const AcceptLiveChatView = ({
-	legalLinks,
 	bannedUsers
 }: AcceptLiveChatViewProps) => {
 	const { t: translate } = useTranslation();
@@ -71,10 +69,7 @@ export const AcceptLiveChatView = ({
 		<div className="session__wrapper">
 			<div className="session">
 				<div>
-					<SessionHeaderComponent
-						legalLinks={legalLinks}
-						bannedUsers={bannedUsers}
-					/>
+					<SessionHeaderComponent bannedUsers={bannedUsers} />
 				</div>
 
 				<div className="session__content session__content--anonymousEnquiry">

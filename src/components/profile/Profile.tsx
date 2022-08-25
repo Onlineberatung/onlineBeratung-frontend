@@ -5,8 +5,7 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	useConsultingTypes,
-	UserDataContext,
-	LegalLinkInterface
+	UserDataContext
 } from '../../globalState';
 import {
 	setProfileWrapperActive,
@@ -47,18 +46,15 @@ import {
 	TabGroups
 } from '../../utils/tabsHelper';
 import { useTranslation } from 'react-i18next';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 
-interface ProfileProps {
-	legalLinks: Array<LegalLinkInterface>;
-	spokenLanguages: string[];
-}
-
-export const Profile = (props: ProfileProps) => {
+export const Profile = () => {
 	const { t: translate } = useTranslation();
 	const location = useLocation();
 	const consultingTypes = useConsultingTypes();
 	const { fromL } = useResponsive();
 
+	const legalLinks = useContext(LegalLinksContext);
 	const { userData } = useContext(UserDataContext);
 
 	const [mobileMenu, setMobileMenu] = useState<
@@ -109,19 +105,13 @@ export const Profile = (props: ProfileProps) => {
 											url: `/profile${tab.url}${element.url}`
 									  }
 									: {
-											component: (
-												<element.component
-													spokenLanguages={
-														props.spokenLanguages
-													}
-												/>
-											)
+											component: <element.component />
 									  }
 							)
 					})
 				)
 		);
-	}, [consultingTypes, props.spokenLanguages, translate, userData]);
+	}, [consultingTypes, translate, userData]);
 
 	const [subpage, setSubpage] = useState(undefined);
 	useEffect(() => {
@@ -277,9 +267,6 @@ export const Profile = (props: ProfileProps) => {
 														key={i}
 														element={element}
 														index={i}
-														spokenLanguages={
-															props.spokenLanguages
-														}
 													/>
 												))}
 										</div>
@@ -334,9 +321,6 @@ export const Profile = (props: ProfileProps) => {
 														<ProfileGroup
 															group={element}
 															key={`/profile${tab.url}${element.url}`}
-															spokenLanguages={
-																props.spokenLanguages
-															}
 														/>
 													</div>
 												</Route>
@@ -345,11 +329,7 @@ export const Profile = (props: ProfileProps) => {
 													path={`/profile${tab.url}`}
 													key={`/profile${tab.url}`}
 												>
-													<element.component
-														spokenLanguages={
-															props.spokenLanguages
-														}
-													/>
+													<element.component />
 												</Route>
 											)
 										);
@@ -360,7 +340,7 @@ export const Profile = (props: ProfileProps) => {
 				</div>
 
 				<div className="profile__footer">
-					{props.legalLinks.map((legalLink, index) => (
+					{legalLinks.map((legalLink, index) => (
 						<Fragment key={legalLink.url}>
 							{index > 0 && (
 								<Text
@@ -390,11 +370,9 @@ export const Profile = (props: ProfileProps) => {
 };
 
 const ProfileItem = ({
-	element,
-	spokenLanguages
+	element
 }: {
 	element: SingleComponentType;
-	spokenLanguages: string[];
 	index: number;
 }) => (
 	<div
@@ -407,22 +385,16 @@ const ProfileItem = ({
 		}`}
 	>
 		{element.boxed === false ? (
-			<element.component spokenLanguages={spokenLanguages} />
+			<element.component />
 		) : (
 			<Box>
-				<element.component spokenLanguages={spokenLanguages} />
+				<element.component />
 			</Box>
 		)}
 	</div>
 );
 
-const ProfileGroup = ({
-	group,
-	spokenLanguages
-}: {
-	group: TabGroups;
-	spokenLanguages: string[];
-}) => {
+const ProfileGroup = ({ group }: { group: TabGroups }) => {
 	const { userData } = useContext(UserDataContext);
 	const consultingTypes = useConsultingTypes();
 
@@ -434,12 +406,7 @@ const ProfileGroup = ({
 				)
 				.sort((a, b) => (a?.order || 99) - (b?.order || 99))
 				.map((element, i) => (
-					<ProfileItem
-						key={i}
-						element={element}
-						spokenLanguages={spokenLanguages}
-						index={i}
-					/>
+					<ProfileItem key={i} element={element} index={i} />
 				))}
 		</>
 	);

@@ -6,7 +6,7 @@ import { Headline } from '../headline/Headline';
 import { isUniqueLanguage } from '../profile/profileHelpers';
 
 import './enquiryLanguageSelection.styles';
-import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useTranslation } from 'react-i18next';
 
 interface EnquiryLanguageSelectionProps {
@@ -18,7 +18,7 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 	({ className = '', handleSelection }) => {
 		const { t: translate } = useTranslation();
 		const { sessions, ready } = useContext(SessionsDataContext);
-		const fixedLanguages = useContext(FixedLanguagesContext);
+		const { fixed: fixedLanguages } = useContext(LanguagesContext);
 		const { sessionId: sessionIdFromParam } = useParams();
 
 		const [selectedLanguage, setSelectedLanguage] = useState(

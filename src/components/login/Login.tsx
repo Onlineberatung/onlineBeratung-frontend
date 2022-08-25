@@ -30,7 +30,6 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	LocaleContext,
-	LegalLinkInterface,
 	TenantContext,
 	UserDataInterface
 } from '../../globalState';
@@ -61,11 +60,10 @@ import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { useTranslation } from 'react-i18next';
 
 interface LoginProps {
-	legalLinks: Array<LegalLinkInterface>;
 	stageComponent: ComponentType<StageProps>;
 }
 
-export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
+export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	const { t: translate } = useTranslation();
 	const { locale } = useContext(LocaleContext);
 	const { tenant } = useContext(TenantContext);
@@ -419,7 +417,6 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	return (
 		<>
 			<StageLayout
-				legalLinks={legalLinks}
 				stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
 				showLegalLinks
 			>

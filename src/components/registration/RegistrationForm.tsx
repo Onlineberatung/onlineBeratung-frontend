@@ -24,7 +24,6 @@ import {
 	LocaleContext,
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
-	LegalLinkInterface,
 	useTenant
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
@@ -37,12 +36,12 @@ import {
 } from '../error/errorHandling';
 import { useTranslation } from 'react-i18next';
 import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
 	agency?: AgencyDataInterface;
 	consultant?: ConsultantDataInterface;
-	legalLinks: Array<LegalLinkInterface>;
 	topic?: TopicsDataInterface;
 }
 
@@ -62,11 +61,11 @@ export const RegistrationForm = ({
 	consultingType,
 	agency,
 	topic,
-	legalLinks,
 	consultant
 }: RegistrationFormProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const tenantData = useTenant();
+	const legalLinks = useContext(LegalLinksContext);
 	const { locale } = useContext(LocaleContext);
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});

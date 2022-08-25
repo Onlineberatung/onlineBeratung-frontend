@@ -30,7 +30,7 @@ import './enquiry.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { EnquiryLanguageSelection } from './EnquiryLanguageSelection';
-import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useResponsive } from '../../hooks/useResponsive';
 import { createGroupKey } from '../../utils/encryptionHelpers';
 
@@ -44,7 +44,7 @@ export const WriteEnquiry: React.FC = () => {
 	const { t: translate } = useTranslation();
 	const { sessionId: sessionIdFromParam } = useParams();
 
-	const fixedLanguages = useContext(FixedLanguagesContext);
+	const { fixed: fixedLanguages } = useContext(LanguagesContext);
 
 	const [activeSession, setActiveSession] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
