@@ -166,6 +166,7 @@ export const config = {
 		toEntry: uiUrl + '/',
 		toLogin: uiUrl + '/login',
 		toRegistration: 'https://www.caritas.de/onlineberatung',
+		videoCall: '/videoanruf/:domain/:jwt/:video?/:username?/:e2e?',
 		videoConference: '/videoberatung/:type/:appointmentId'
 	},
 	postcodeFallbackUrl: '{url}',
@@ -176,7 +177,12 @@ export const config = {
 		 * This must be enabled in jitsi too. (Config value is named equal)
 		 * https://github.com/jitsi/lib-jitsi-meet/blob/afc006e99a42439c305c20faab50a1f786254676/modules/browser/BrowserCapabilities.js#L259
 		 */
-		enableEncodedTransformSupport: false
+		enableEncodedTransformSupport: false,
+		/**
+		 * Enable the e2ee banner outside the jitsi iframe. Set this to true when video-backend is on the latest develop
+		 * where the e2ee banner is removed inside jitsi and need to be rendered inside the frontend
+		 */
+		showE2EEBanner: true
 	},
 	emails: {
 		notifications: [

@@ -121,7 +121,7 @@ export const Profile = (props: ProfileProps) => {
 					})
 				)
 		);
-	}, [consultingTypes, props.spokenLanguages, userData]);
+	}, [consultingTypes, props.spokenLanguages, translate, userData]);
 
 	const [subpage, setSubpage] = useState(undefined);
 	useEffect(() => {

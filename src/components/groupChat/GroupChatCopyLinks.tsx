@@ -31,7 +31,7 @@ export const GroupChatCopyLinks = ({
 				text: translate('groupChat.copy.link.notification.text')
 			});
 		});
-	}, [url, addNotification]);
+	}, [url, addNotification, translate]);
 
 	return (
 		<div className="GroupChatCopyLinks">
