@@ -12,7 +12,6 @@ import {
 	SCROLL_PAGINATE_THRESHOLD
 } from '../../src/components/sessionsList/sessionsListConfig';
 import { USER_CONSULTANT } from '../support/commands/login';
-import { useTranslation } from 'react-i18next';
 
 describe('Sessions', () => {
 	before(() => {
@@ -166,10 +165,9 @@ describe('Sessions', () => {
 		it('should show a header with headline', () => {
 			cy.fastLogin();
 			cy.wait('@consultingTypeServiceBaseBasic');
-			const { t: translate } = useTranslation();
 			cy.get('[data-cy=session-list-header]').should('exist');
 			cy.get('[data-cy=session-list-headline]').contains(
-				translate['view.headline']
+				'Meine Beratungen'
 			);
 		});
 
