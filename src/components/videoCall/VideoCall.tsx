@@ -26,7 +26,7 @@ const VideoCall = () => {
 	const [e2eEnabled, setE2EEnabled] = useState(false);
 	const [videoCallJwtData, setVideoCallJwtData] =
 		useState<TJistiJWTPayload>(null);
-	const [shareableUrl, setShareableUrl] = useState<String>(null);
+	const [shareableUrl, setShareableUrl] = useState<string>(null);
 	const { locale } = useContext(LocaleContext);
 
 	useEffect(() => {
