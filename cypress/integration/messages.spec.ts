@@ -3,8 +3,7 @@ import {
 	startWebSocketServer,
 	mockWebSocket
 } from '../support/websocket';
-import { SOCKET_COLLECTION } from '../../src/api';
-import { useTranslation } from 'react-i18next';
+import { SOCKET_COLLECTION } from '../../src/api/rocketChatSocket';
 
 describe('Messages', () => {
 	before(() => {
@@ -37,7 +36,6 @@ describe('Messages', () => {
 
 		describe('formal', () => {
 			it('should show inline error when quota is reached', () => {
-				const { t: translate } = useTranslation();
 				cy.willReturn('attachmentUpload', {
 					statusCode: 403,
 					headers: {
@@ -57,13 +55,12 @@ describe('Messages', () => {
 
 				cy.wait('@attachmentUpload');
 
-				cy.contains(translate['error.quota.headline']);
+				cy.contains('Sie haben das Limit zum Hochladen erreicht.');
 			});
 		});
 
 		describe('informal', () => {
 			it('should show inline error when quota is reached', () => {
-				const { t: translate } = useTranslation();
 				cy.willReturn('userData', {
 					formalLanguage: false
 				});
@@ -87,7 +84,7 @@ describe('Messages', () => {
 
 				cy.wait('@attachmentUpload');
 
-				cy.contains(translate['error.quota.headline']);
+				cy.contains('Sie haben das Limit zum Hochladen erreicht.');
 			});
 		});
 	});
