@@ -4,7 +4,6 @@ import './waitingRoom.styles';
 import { useEffect } from 'react';
 import { Welcome } from './WaitingRoom/Welcome';
 import { Waiting } from './WaitingRoom/Waiting';
-import { LegalLinkInterface } from '../../globalState';
 import {
 	STATUS_CREATED,
 	STATUS_PAUSED,
@@ -18,7 +17,6 @@ export interface WaitingRoomProps {
 	confirmed: boolean;
 	otherClass?: string;
 	setConfirmed: Function;
-	legalLinks: Array<LegalLinkInterface>;
 	error?: {
 		title: string;
 		description?: string;
@@ -33,7 +31,6 @@ export const WaitingRoom = ({
 	otherClass,
 	confirmed,
 	setConfirmed,
-	legalLinks,
 	status,
 	error
 }: WaitingRoomProps) => {
@@ -53,12 +50,7 @@ export const WaitingRoom = ({
 		if (error) {
 			return <Error error={error} />;
 		} else if (!confirmed) {
-			return (
-				<Welcome
-					onClick={handleConfirmButton}
-					legalLinks={legalLinks}
-				/>
-			);
+			return <Welcome onClick={handleConfirmButton} />;
 		} else if (status === STATUS_PAUSED) {
 			return <PausedOrFinished />;
 		} else {

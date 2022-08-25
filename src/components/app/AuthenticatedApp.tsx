@@ -8,7 +8,6 @@ import {
 	hasUserAuthority,
 	AUTHORITIES,
 	ConsultingTypesContext,
-	LegalLinkInterface,
 	RocketChatProvider,
 	InformalContext,
 	LocaleContext
@@ -30,15 +29,11 @@ import { apiPatchUserData } from '../../api/apiPatchUserData';
 interface AuthenticatedAppProps {
 	onAppReady: Function;
 	onLogout: Function;
-	legalLinks: Array<LegalLinkInterface>;
-	spokenLanguages: string[];
 }
 
 export const AuthenticatedApp = ({
 	onLogout,
-	onAppReady,
-	spokenLanguages,
-	legalLinks
+	onAppReady
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -119,11 +114,7 @@ export const AuthenticatedApp = ({
 					<RocketChatPublicSettingsProvider>
 						<RocketChatSubscriptionsProvider>
 							<RocketChatUnreadProvider>
-								<Routing
-									logout={handleLogout}
-									legalLinks={legalLinks}
-									spokenLanguages={spokenLanguages}
-								/>
+								<Routing logout={handleLogout} />
 								{notifications && (
 									<Notifications
 										notifications={notifications}

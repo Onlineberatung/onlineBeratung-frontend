@@ -11,7 +11,6 @@ import {
 	AUTHORITIES,
 	getContact,
 	hasUserAuthority,
-	LegalLinkInterface,
 	SessionConsultantInterface,
 	SessionTypeContext,
 	useConsultingType,
@@ -45,7 +44,6 @@ import { useTranslation } from 'react-i18next';
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
-	legalLinks: Array<LegalLinkInterface>;
 	isJoinGroupChatView?: boolean;
 	bannedUsers: string[];
 }
@@ -197,7 +195,6 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							props.hasUserInitiatedStopOrLeaveRequest
 						}
 						isAskerInfoAvailable={isAskerInfoAvailable()}
-						legalLinks={props.legalLinks}
 						isJoinGroupChatView={props.isJoinGroupChatView}
 					/>
 				</div>
@@ -389,7 +386,6 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
 					isAskerInfoAvailable={isAskerInfoAvailable()}
-					legalLinks={props.legalLinks}
 				/>
 			</div>
 

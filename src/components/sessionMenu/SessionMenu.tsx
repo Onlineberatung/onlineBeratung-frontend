@@ -12,7 +12,6 @@ import {
 	AUTHORITIES,
 	ExtendedSessionInterface,
 	hasUserAuthority,
-	LegalLinkInterface,
 	RocketChatContext,
 	SessionsDataContext,
 	SessionTypeContext,
@@ -70,11 +69,11 @@ import { Text } from '../text/Text';
 import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 	isAskerInfoAvailable: boolean;
-	legalLinks: Array<LegalLinkInterface>;
 	isJoinGroupChatView?: boolean;
 }
 
@@ -82,6 +81,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const { t: translate } = useTranslation();
 	const { rcGroupId: groupIdFromParam } = useParams();
 
+	const legalLinks = useContext(LegalLinksContext);
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { close: closeWebsocket } = useContext(RocketChatContext);
@@ -615,7 +615,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				)}
 
 				<div className="legalInformationLinks--menu">
-					{props.legalLinks.map((legalLink) => (
+					{legalLinks.map((legalLink) => (
 						<a
 							href={legalLink.url}
 							key={legalLink.url}

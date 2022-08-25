@@ -29,7 +29,6 @@ import {
 import {
 	AnonymousConversationFinishedContext,
 	AnonymousEnquiryAcceptedContext,
-	LegalLinkInterface,
 	WebsocketConnectionDeactivatedContext,
 	AnonymousConversationStartedContext
 } from '../../globalState';
@@ -44,15 +43,17 @@ import { handleE2EESetup } from '../registration/autoLogin';
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { isMobile } from 'react-device-detect';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
-	legalLinks: Array<LegalLinkInterface>;
 	onAnonymousRegistration: Function;
 }
 
 export const WaitingRoom = (props: WaitingRoomProps) => {
 	const { t: translate } = useTranslation();
+
+	const legalLinks = useContext(LegalLinksContext);
 
 	const [isDataProtectionViewActive, setIsDataProtectionViewActive] =
 		useState<boolean>(true);
@@ -247,7 +248,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 								translate(
 									'registration.dataProtection.label.prefix'
 								),
-								props.legalLinks
+								legalLinks
 									.filter(
 										(legalLink) => legalLink.registration
 									)

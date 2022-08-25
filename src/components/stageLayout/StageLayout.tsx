@@ -5,15 +5,15 @@ import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
-import { LegalLinkInterface, LocaleContext } from '../../globalState';
+import { LocaleContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { isMobile } from 'react-device-detect';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 
 interface StageLayoutProps {
 	className?: string;
 	children: ReactNode;
-	legalLinks: Array<LegalLinkInterface>;
 	stage: ReactNode;
 	showLegalLinks?: boolean;
 	showLoginLink?: boolean;
@@ -26,10 +26,10 @@ export const StageLayout = ({
 	stage,
 	showLegalLinks,
 	showLoginLink,
-	loginParams,
-	legalLinks
+	loginParams
 }: StageLayoutProps) => {
 	const { t: translate } = useTranslation();
+	const legalLinks = useContext(LegalLinksContext);
 	const { selectableLocales } = useContext(LocaleContext);
 
 	return (

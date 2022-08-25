@@ -3,17 +3,14 @@ import { Headline } from '../../headline/Headline';
 import { Text } from '../../text/Text';
 import { Button, BUTTON_TYPES, ButtonItem } from '../../button/Button';
 import * as React from 'react';
-import { LegalLinkInterface } from '../../../globalState';
 import { useTranslation } from 'react-i18next';
+import { useContext } from 'react';
+import { LegalLinksContext } from '../../../globalState/provider/LegalLinksProvider';
 
-export const Welcome = ({
-	onClick,
-	legalLinks
-}: {
-	onClick: Function;
-	legalLinks: Array<LegalLinkInterface>;
-}) => {
+export const Welcome = ({ onClick }: { onClick: Function }) => {
 	const { t: translate } = useTranslation();
+
+	const legalLinks = useContext(LegalLinksContext);
 
 	const confirmButton: ButtonItem = {
 		label: translate('anonymous.waitingroom.dataProtection.button'),

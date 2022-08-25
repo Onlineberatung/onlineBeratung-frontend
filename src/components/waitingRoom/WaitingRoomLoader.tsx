@@ -2,17 +2,14 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiGetConsultingType } from '../../api';
-import { LegalLinkInterface } from '../../globalState';
 import { WaitingRoom } from '../waitingRoom/WaitingRoom';
 
 export interface WaitingRoomLoaderProps {
-	legalLinks: Array<LegalLinkInterface>;
 	handleUnmatch: () => void;
 	onAnonymousRegistration: Function;
 }
 
 export const WaitingRoomLoader = ({
-	legalLinks,
 	handleUnmatch,
 	onAnonymousRegistration
 }: WaitingRoomLoaderProps) => {
@@ -35,7 +32,6 @@ export const WaitingRoomLoader = ({
 	if (isAnonymousConversationAllowed) {
 		return (
 			<WaitingRoom
-				legalLinks={legalLinks}
 				consultingTypeSlug={consultingTypeSlug}
 				consultingTypeId={consultingTypeId}
 				onAnonymousRegistration={onAnonymousRegistration}

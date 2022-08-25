@@ -13,7 +13,6 @@ import {
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import './appointments.styles.scss';
 import {
-	LegalLinkInterface,
 	NOTIFICATION_TYPE_SUCCESS,
 	NotificationsContext
 } from '../../globalState';
@@ -34,13 +33,11 @@ import { AppointmentsDataInterface } from '../../globalState/interfaces/Appointm
 import * as appointmentService from '../../api/appointments';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 
-interface AppointmentsProps {
-	legalLinks: Array<LegalLinkInterface>;
-}
-
-export const Appointments = ({ legalLinks }: AppointmentsProps) => {
+export const Appointments = () => {
 	const { t: translate } = useTranslation();
+	const legalLinks = useContext(LegalLinksContext);
 	const { addNotification } = useContext(NotificationsContext);
 
 	const [loading, setLoading] = useState(true);
