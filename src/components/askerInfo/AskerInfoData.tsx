@@ -38,13 +38,15 @@ export const AskerInfoData = () => {
 					{translate('userProfile.data.resort')}
 				</p>
 				<p className="profile__data__content">
-					{translate(
-						[
-							`consultingType.${consultingType.id}.titles.default`,
-							consultingType.titles.default
-						],
-						{ ns: 'consultingTypes' }
-					)}
+					{consultingType
+						? translate(
+								[
+									`consultingType.${consultingType.id}.titles.default`,
+									consultingType.titles.default
+								],
+								{ ns: 'consultingTypes' }
+						  )
+						: ''}
 				</p>
 			</div>
 			{activeSession.item.consultingType === 0 && !activeSession.isLive && (

@@ -36,12 +36,14 @@ import {
 	redirectToErrorPage
 } from '../error/errorHandling';
 import { useTranslation } from 'react-i18next';
+import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
 	agency?: AgencyDataInterface;
 	consultant?: ConsultantDataInterface;
 	legalLinks: Array<LegalLinkInterface>;
+	topic?: TopicsDataInterface;
 }
 
 interface FormAccordionData {
@@ -59,6 +61,7 @@ interface FormAccordionData {
 export const RegistrationForm = ({
 	consultingType,
 	agency,
+	topic,
 	legalLinks,
 	consultant
 }: RegistrationFormProps) => {
@@ -285,6 +288,7 @@ export const RegistrationForm = ({
 						consultant={consultant}
 						onValidation={setFormAccordionValid}
 						mainTopicId={formAccordionData.mainTopicId}
+						preselectedTopic={topic?.id}
 					/>
 				)}
 

@@ -206,13 +206,15 @@ export const SessionListItemComponent = ({
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
-							{translate(
-								[
-									`consultingType.${consultingType.id}.titles.default`,
-									consultingType.titles.default
-								],
-								{ ns: 'consultingTypes' }
-							)}
+							{consultingType
+								? translate(
+										[
+											`consultingType.${consultingType.id}.titles.default`,
+											consultingType.titles.default
+										],
+										{ ns: 'consultingTypes' }
+								  )
+								: ''}
 						</div>
 						<div className="sessionsListItem__date">
 							{getGroupChatDate(
@@ -282,6 +284,8 @@ export const SessionListItemComponent = ({
 		sessionTopic = session.user.username;
 	}
 
+	const zipCodeSlash = consultingType ? '/ ' : '';
+
 	return (
 		<div
 			onClick={handleOnClick}
@@ -308,17 +312,19 @@ export const SessionListItemComponent = ({
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
-							{translate(
-								[
-									`consultingType.${consultingType.id}.titles.default`,
-									consultingType.titles.default
-								],
-								{ ns: 'consultingTypes' }
-							)}{' '}
+							{consultingType
+								? translate(
+										[
+											`consultingType.${consultingType.id}.titles.default`,
+											consultingType.titles.default
+										],
+										{ ns: 'consultingTypes' }
+								  ) + ' '
+								: ''}
 							{session.item.consultingType !== 1 &&
 							!isAsker &&
 							!session.isLive
-								? '/ ' + session.item.postcode
+								? zipCodeSlash + session.item.postcode
 								: null}
 						</div>
 					)}

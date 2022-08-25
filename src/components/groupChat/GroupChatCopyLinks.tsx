@@ -12,13 +12,15 @@ import './groupChatCopyLinks.scss';
 import { useTranslation } from 'react-i18next';
 
 type GroupChatCopyLinksProps = {
+	id: number;
 	groupChatId: string;
 };
 
 export const GroupChatCopyLinks = ({
+	id,
 	groupChatId
 }: GroupChatCopyLinksProps) => {
-	const url = `${config.urls.registration}?gcid=${groupChatId}`;
+	const url = `${config.urls.registration}?gcid=${id}`;
 	const { addNotification } = useContext(NotificationsContext);
 	const { t: translate } = useTranslation();
 

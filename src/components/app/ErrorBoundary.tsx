@@ -40,6 +40,14 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 	}
 
 	componentDidCatch(error, info) {
+		if (
+			process.env.REACT_APP_DISABLE_ERROR_BOUNDARY &&
+			parseInt(process.env.REACT_APP_DISABLE_ERROR_BOUNDARY) === 1
+		) {
+			console.error('ErrorBoundary disabled!');
+			return;
+		}
+
 		const { window } = this.state;
 
 		const isNewError =

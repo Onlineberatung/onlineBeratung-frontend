@@ -156,7 +156,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 
 	const isAskerInfoAvailable = () =>
 		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-		consultingType.showAskerProfile &&
+		consultingType?.showAskerProfile &&
 		activeSession.isSession &&
 		!activeSession.isLive &&
 		((type === SESSION_LIST_TYPES.ENQUIRY &&
@@ -398,13 +398,15 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				<div className="sessionInfo__metaInfo">
 					{!activeSession.agency ? (
 						<div className="sessionInfo__metaInfo__content">
-							{translate(
-								[
-									`consultingType.${consultingType.id}.titles.short`,
-									consultingType.titles.short
-								],
-								{ ns: 'consultingTypes' }
-							)}
+							{consultingType
+								? translate(
+										[
+											`consultingType.${consultingType.id}.titles.short`,
+											consultingType.titles.short
+										],
+										{ ns: 'consultingTypes' }
+								  )
+								: ''}
 						</div>
 					) : null}
 					{preparedUserSessionData

@@ -241,7 +241,7 @@ export const JoinGroupChatView = ({
 			}
 		};
 	}, [
-		consultingType.groupChat.isGroupChat,
+		consultingType?.groupChat.isGroupChat,
 		isWatcherRunning,
 		startWatcher,
 		stopWatcher
@@ -346,7 +346,7 @@ export const JoinGroupChatView = ({
 			}
 		}
 	} else {
-		groupChatRules = consultingType.groupChat?.groupChatRules;
+		groupChatRules = consultingType?.groupChat?.groupChatRules ?? [];
 	}
 
 	return (

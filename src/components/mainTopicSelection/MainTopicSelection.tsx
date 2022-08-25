@@ -12,22 +12,27 @@ import { useTranslation } from 'react-i18next';
 
 export interface MainTopicSelectionProps {
 	name: string;
+	preselectedTopic: any;
 	onChange: (value: string) => void;
 	onValidityChange: (key: string, value: string) => void;
 }
 
 export const MainTopicSelection = ({
 	name,
+	preselectedTopic,
 	onChange,
 	onValidityChange
 }: MainTopicSelectionProps) => {
 	const { t: translate } = useTranslation();
 	const [topics, setTopics] = useState([]);
-	const [selectedTopic, setSelectedTopic] = useState(null);
+	const [selectedTopic, setSelectedTopic] = useState(preselectedTopic);
 
 	useEffect(() => {
 		apiGetTopicsData().then((data) => setTopics(data));
-		onValidityChange(name, VALIDITY_INITIAL);
+		onValidityChange(
+			name,
+			selectedTopic >= 0 ? VALIDITY_VALID : VALIDITY_INITIAL
+		);
 	}, [name]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const onChangeInput = useCallback(
@@ -46,21 +51,26 @@ export const MainTopicSelection = ({
 					{translate('registration.mainTopic.noTopics')}
 				</h3>
 			)}
-			{topics.map((t) => (
-				<div className="mainTopicSelection__topic" key={t.id}>
-					<RadioButton
-						className="mainTopicSelection__radioButton"
-						name="topicSelection"
-						type="smaller"
-						handleRadioButton={() => onChangeInput(t.id.toString())}
-						value={t.id.toString()}
-						checked={selectedTopic === t.id}
-						inputId={t.name.toLowerCase().replace(' ', '-')}
-						label={t.name}
-					/>
-					<AgencyInfo agency={t} />
-				</div>
-			))}
+			{topics.map((topic) => {
+				const { id, name } = topic;
+				return (
+					<div className="mainTopicSelection__topic" key={id}>
+						<RadioButton
+							className="mainTopicSelection__radioButton"
+							name="topicSelection"
+							type="smaller"
+							handleRadioButton={() =>
+								onChangeInput(id.toString())
+							}
+							value={id.toString()}
+							checked={selectedTopic === id}
+							inputId={name.toLowerCase().replace(' ', '-')}
+							label={name}
+						/>
+						<AgencyInfo agency={topic} />
+					</div>
+				);
+			})}
 		</div>
 	);
 };

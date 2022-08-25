@@ -1,10 +1,7 @@
 import { isUserModerator } from '../session/sessionHelpers';
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
-import {
-	getPrettyDateFromMessageDate,
-	formatToHHMM
-} from '../../utils/dateHelpers';
+import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
 import { ForwardMessageDTO } from './MessageItemComponent';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';

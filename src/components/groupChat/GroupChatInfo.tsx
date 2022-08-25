@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
-import { SessionTypeContext, UserDataContext } from '../../globalState';
+import {
+	SessionTypeContext,
+	UserDataContext,
+	useTenant
+} from '../../globalState';
 import { history } from '../app/app';
 import { isUserModerator, SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -46,12 +50,12 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { GroupChatCopyLinks } from './GroupChatCopyLinks';
 import { useTranslation } from 'react-i18next';
 
-// TODO: Adding the proper feature flag to the file and replace this one
-const groupChatFeatureFlagEnabled = false;
-
 export const GroupChatInfo = () => {
 	const { t: translate } = useTranslation();
+	const tenantData = useTenant();
 	const { rcGroupId: groupIdFromParam } = useParams();
+	const featureGroupChatV2Enabled =
+		tenantData?.settings?.featureGroupChatV2Enabled;
 
 	const stopChatButtonSet: ButtonItem = {
 		label: translate('groupChat.stopChat.securityOverlay.button1Label'),
@@ -268,9 +272,10 @@ export const GroupChatInfo = () => {
 							type="divider"
 						/>
 
-						{groupChatFeatureFlagEnabled && (
+						{featureGroupChatV2Enabled && (
 							<div className="profile__groupChatContainer">
 								<GroupChatCopyLinks
+									id={activeSession.item.id}
 									groupChatId={activeSession.rid}
 								/>
 							</div>

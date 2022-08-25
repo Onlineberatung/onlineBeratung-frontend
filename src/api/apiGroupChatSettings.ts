@@ -8,17 +8,21 @@ export interface groupChatSettings {
 	startTime: string;
 	duration: number;
 	repetitive: boolean;
+	featureGroupChatV2Enabled?: boolean;
 }
 
 export interface chatLinkData {
-	chatLink: string;
 	groupId: string;
 }
 
 export const apiCreateGroupChat = async (
 	createChatItem: groupChatSettings
 ): Promise<chatLinkData> => {
-	const url = config.endpoints.groupChatBase + GROUP_CHAT_API.CREATE;
+	let url =
+		config.endpoints.groupChatBase +
+		(createChatItem.featureGroupChatV2Enabled
+			? GROUP_CHAT_API.CREATEV2
+			: GROUP_CHAT_API.CREATE);
 	const chatData = JSON.stringify({ ...createChatItem });
 
 	return fetchData({

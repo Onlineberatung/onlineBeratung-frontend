@@ -156,6 +156,7 @@ export const de = {
 	'banUser.banned.info':
 		'Wir haben Sie gebeten, die Chat-Regeln einzuhalten.<br/><br/>Weil Sie heute die Chat-Regeln wiederholt nicht eingehalten haben, haben wir Sie für den heutigen Chat ausgeschlossen.<br/><br/>Machen Sie sich mit den Chat-Regeln vertraut!</br></br>Wenn Sie bereit sind, die Chat-Regeln einzuhalten, sind Sie ab morgen wieder im Chat willkommen!',
 	// booking
+	'booking.info.video': 'Videoberatung',
 	'booking.schedule': 'Termin vereinbaren',
 	'booking.mobile.calendar.label': 'Termin erstellen',
 	'booking.event.your.counselor': 'Ihr Berater',
@@ -168,9 +169,22 @@ export const de = {
 	'booking.event.tab.booked': 'Gebuchte Termine',
 	'booking.event.tab.canceled': 'Storniert',
 	'booking.event.tab.expired': 'Vergangen',
+	'booking.event.tab.settings': 'Einstellungen',
 	'booking.my.booking.title': 'Aktuell sind keine Termine geplant.',
 	'booking.my.booking.schedule': 'Vereinbaren Sie jetzt einen Termin mit',
-	'booking.info.video': 'Videoberatung',
+	'booking.calender.synchronised.calendars': 'Synchronisierte Kalender',
+	'booking.calender.add': 'Kalender hinzufügen',
+	'booking.calender.synchronise': 'Synchronisieren',
+	'booking.calender.synchroniseCalender': 'Kalender synchronisieren',
+	'booking.calender.synchroniseCalender.description':
+		'Synchronisieren Sie Ihren Kalender, den Sie in Ihrer Beratungsstelle nutzen, mit der Online Beratung. Ihre Verfügbarkeit wird dann automatisch angepasst und Terminkonflikte verhindert.',
+	'booking.calender.integration.office365': 'Office 365/ Outlook Kalender',
+	'booking.calender.integration.caldav': 'CalDav Server Kalender',
+	'booking.calender.integration.google': 'Google Kalender',
+	'booking.calender.integration.apple': 'Apple Kalender',
+	'booking.availability': 'Ihre Verfügbarkeit',
+	'booking.availability.description':
+		'Geben Sie hier Ihre allegemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.',
 	// chatFlyout
 	'chatFlyout.askerProfil': 'Ratsuchendenprofil',
 	'chatFlyout.dataProtection': 'Datenschutz',

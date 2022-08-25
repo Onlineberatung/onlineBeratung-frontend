@@ -11,7 +11,8 @@ import {
 	ExtendedSessionInterface,
 	getExtendedSession,
 	UPDATE_SESSIONS,
-	SessionTypeContext
+	SessionTypeContext,
+	useTenant
 } from '../../globalState';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
@@ -74,6 +75,10 @@ export const CreateGroupChatView = (props) => {
 	const [isDateInputFocused, setIsDateInputFocus] = useState(false);
 	const [isTimeInputFocused, setIsTimeInputFocus] = useState(false);
 	const [isEditGroupChatMode, setIsEditGroupChatMode] = useState(false);
+
+	const tenantData = useTenant();
+	const featureGroupChatV2Enabled =
+		tenantData?.settings?.featureGroupChatV2Enabled;
 
 	const [activeSession, setActiveSession] =
 		useState<ExtendedSessionInterface | null>(null);
@@ -326,7 +331,8 @@ export const CreateGroupChatView = (props) => {
 			startDate: getValidDateFormatForSelectedDate(selectedDate),
 			startTime: getValidTimeFormatForSelectedTime(selectedTime),
 			duration: parseInt(selectedDuration),
-			repetitive: repetitiveCheckboxChecked
+			repetitive: repetitiveCheckboxChecked,
+			featureGroupChatV2Enabled
 		};
 
 		isEditGroupChatMode

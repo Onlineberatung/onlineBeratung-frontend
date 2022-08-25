@@ -251,16 +251,18 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 	const [resortData, setResortData] = useState<ConsultingTypeInterface>();
 	useEffect(() => {
-		let isCanceled = false;
-		apiGetConsultingType({
-			consultingTypeId: activeSession.item.consultingType
-		}).then((response) => {
-			if (isCanceled) return;
-			setResortData(response);
-		});
-		return () => {
-			isCanceled = true;
-		};
+		if (activeSession.item.consultingType) {
+			let isCanceled = false;
+			apiGetConsultingType({
+				consultingTypeId: activeSession.item.consultingType
+			}).then((response) => {
+				if (isCanceled) return;
+				setResortData(response);
+			});
+			return () => {
+				isCanceled = true;
+			};
+		}
 	}, [activeSession.item.consultingType]);
 
 	const getPlaceholder = () => {
@@ -412,7 +414,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			>
 				<div className={'message-holder'}>
 					{messages &&
-						resortData &&
 						messages.map((message: MessageItem, index) => (
 							<React.Fragment key={`${message._id}-${index}`}>
 								<MessageItemComponent
