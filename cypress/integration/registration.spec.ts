@@ -95,7 +95,7 @@ describe('registration', () => {
 			cy.wait('@agencies');
 			cy.title().should(
 				'be.equal',
-				'Registrierung Beratung für Suizidgefährdete junge Menschen [U25]'
+				'Registrierung Beratung für suizidgefährdete junge Menschen [U25]'
 			);
 			cy.get('[data-cy=close-welcome-screen]').click();
 			checkForGenericRegistrationElements();
