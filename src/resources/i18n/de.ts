@@ -1579,6 +1579,10 @@ export const de = {
 		'Ihr Gerät erfüllt nicht alle nötigen technischen Vorgaben für einen Video-Call. Bitte folgen Sie dieser Anleitung um einen Video-Call starten zu können. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
 	'videoCall.overlay.unsupported.button.close': 'Schließen',
 	'videoCall.overlay.unsupported.button.manual': 'Zur Anleitung',
+	'videoCall.overlay.encryption.e2e':
+		'Dieser Video-Call ist mit der Ende-zu-Ende Verschlüsselung gesichert.',
+	'videoCall.overlay.encryption':
+		'Dieser Video-Call ist mit der Transportverschlüsselung gesichert.',
 	// videoConference
 	'videoConference.waitingroom.title.start': 'Warteraum',
 	'videoConference.waitingroom.dataProtection.headline':

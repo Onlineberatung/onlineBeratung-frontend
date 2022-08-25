@@ -69,7 +69,7 @@ export const WaitingRoom = ({
 	return (
 		<>
 			<div className={otherClass ? otherClass : 'waitingRoom'}>
-				<Header />
+				<Header showLocaleSwitch={true} />
 				<div className="waitingRoom__contentWrapper">
 					{getContent()}
 				</div>

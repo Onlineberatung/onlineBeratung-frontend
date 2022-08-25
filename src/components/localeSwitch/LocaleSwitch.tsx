@@ -22,7 +22,7 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 	components,
 	className,
 	menuIsOpen,
-	showIcon = false
+	showIcon = true
 }) => {
 	const { t: translate } = useTranslation('languages');
 

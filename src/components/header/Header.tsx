@@ -22,7 +22,7 @@ export const Header = ({ showLocaleSwitch = false }) => {
 					type="standard"
 					text={tenant?.content?.claim || translate('app.claim')}
 				/>
-				{showLocaleSwitch && <LocaleSwitch updateUserData />}
+				{showLocaleSwitch && <LocaleSwitch />}
 			</div>
 		</header>
 	);

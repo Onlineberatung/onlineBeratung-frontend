@@ -1558,6 +1558,10 @@ export const en = {
 		'Your device does not meet all the necessary technical requirements for a video call. Please follow these instructions to be able to start a video call. You may need the support of your IT department.',
 	'videoCall.overlay.unsupported.button.close': 'Close',
 	'videoCall.overlay.unsupported.button.manual': 'To the instructions',
+	'videoCall.overlay.encryption.e2e':
+		'This video call is secured with end-to-end encryption.',
+	'videoCall.overlay.encryption':
+		'This video call is secured with the transport encryption.',
 	// videoConference
 	'videoConference.waitingroom.title.start': 'Waiting room',
 	'videoConference.waitingroom.dataProtection.headline': 'A warm welcome!',
