@@ -269,7 +269,7 @@ export const deInformal = {
 	// session
 	'session.empty': 'Bitte wähle eine Nachricht aus.',
 	'session.acceptance.overlayHeadline':
-		'Du hast die Erstanfrage erfolgreich angenommen und findest diese nun unter „Meine Nachrichten“.',
+		'Du hast die Erstanfrage erfolgreich angenommen und findest diese nun unter „Meine Beratungen“.',
 	'session.assignOther.overlay.headline':
 		'Möchtest Du {{client}} an {{newConsultant}} zuweisen?',
 	'session.assignOther.overlay.subtitle.noTeam':
@@ -283,7 +283,7 @@ export const deInformal = {
 	'session.assignOther.overlayHeadline':
 		'Du hast die Beratung erfolgreich zugewiesen.',
 	'session.assignSelf.overlayHeadline':
-		'Du hast die Beratung erfolgreich angenommen. Sie wurde in Meine Nachrichten verschoben.',
+		'Du hast die Beratung erfolgreich angenommen. Sie wurde in Meine Beratungen verschoben.',
 	'session.assignSelf.overlay.subtitle':
 		'Möchtest Du diese Beratung wirklich zuweisen?',
 	'session.dragAndDrop.explanation.insideDropArea':
@@ -399,9 +399,9 @@ export const deInformal = {
 		'Du wurdest nicht zugelassen. Leider kannst Du an diesem Video-Call nicht teilnehmen, da Dein_e Berater_in Dich nicht zugelassen hat.',
 	// walkthrough
 	'walkthrough.step.0':
-		"Hier findest Du eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Dein gesamtes Team hat Zugriff auf diese Übersicht.\nDie ältesten Anfragen stehen oben, die neuesten ganz unten, damit Du die zuerst eingegangenen leichter finden kannst.\nIn dem Moment, in dem Du auf 'Anfrage Annehmen' klicken, wird die Anfrage sofort in deinen Bereich 'Meine Nachrichten' verschoben und die anderen Berater_innen sehen sie nicht mehr.",
+		"Hier findest Du eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Dein gesamtes Team hat Zugriff auf diese Übersicht.\nDie ältesten Anfragen stehen oben, die neuesten ganz unten, damit Du die zuerst eingegangenen leichter finden kannst.\nIn dem Moment, in dem Du auf 'Anfrage Annehmen' klicken, wird die Anfrage sofort in deinen Bereich 'Meine Beratungen' verschoben und die anderen Berater_innen sehen sie nicht mehr.",
 	'walkthrough.step.1':
-		'Von hier aus kannst Du einen Chat mit einem/einer Ratsuchenden beginnen, der/die sich gerade im Warteraum befindet. Die Ratsuchenden werden mit einem anonymen Namen gekennzeichnet, wie zum Beispiel "Ratsuchende_r 11". Wenn Du den Chat starten möchtest, klicke auf "Chat starten" und Du kannst das Gespräch unter der Rubrik "Meine Nachrichten" fortsetzen.',
+		'Von hier aus kannst Du einen Chat mit einem/einer Ratsuchenden beginnen, der/die sich gerade im Warteraum befindet. Die Ratsuchenden werden mit einem anonymen Namen gekennzeichnet, wie zum Beispiel "Ratsuchende_r 11". Wenn Du den Chat starten möchtest, klicke auf "Chat starten" und Du kannst das Gespräch unter der Rubrik "Meine Beratungen" fortsetzen.',
 	'walkthrough.step.2':
 		'In diesem Bereich findest Du alle Anfragen, die Du angenommen hast. \nDer Nachrichtenverlauf, der zuletzt bearbeitet wurde, steht ganz oben.\nFalls der/die Ratsuchende gerade im Warteraum online ist, siehst Du das Label "Aktiv" direkt neben dem Namen.',
 	'walkthrough.step.3':

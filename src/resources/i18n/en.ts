@@ -890,10 +890,10 @@ export const en = {
 	'monitoring.monitoringU25.nine': '9',
 	'monitoring.monitoringU25.ten': '10 - very helpful',
 	// navigation
-	'navigation.asker.sessions': 'My messages',
+	'navigation.asker.sessions': 'My consultations',
 	'navigation.asker.sessions.small': 'Messages',
 	'navigation.consultant.enquiries': 'Initial inquiries',
-	'navigation.consultant.sessions': 'Meine Nachrichten',
+	'navigation.consultant.sessions': 'My consultations',
 	'navigation.consultant.sessions.small': 'Messages',
 	'navigation.consultant.teamsessions': 'Team consultations',
 	'navigation.consultant.teamsessions.small': 'Team Con.',
@@ -1209,7 +1209,7 @@ export const en = {
 	'releaseNote.overlay.close': 'Close',
 	// session
 	'session.acceptance.overlayHeadline':
-		'You have successfully accepted the initial request and can now find it under "My messages".',
+		'You have successfully accepted the initial request and can now find it under "My consultations".',
 	'session.acceptance.buttonLabel': 'Answers',
 	'session.alreadyAssigned.overlay.headline':
 		'You have already assigned this consultation.',
@@ -1229,7 +1229,7 @@ export const en = {
 	'session.assignOther.buttonLabel.abort': 'Cancel',
 	'session.assignOther.buttonLabel.assign': 'Assign',
 	'session.assignSelf.overlayHeadline':
-		'You have successfully accepted the consultation. It has been moved to My Messages.',
+		'You have successfully accepted the consultation. It has been moved to My consultations.',
 	'session.assignSelf.button1.label': 'Answers',
 	'session.assignSelf.button2.label': 'Close',
 	'session.assignSelf.overlay.headline': 'Assign consultation',
@@ -1299,10 +1299,10 @@ export const en = {
 	'sessionList.preview.headline': 'Initial inquiries',
 	'sessionList.preview.registered.tab': 'Initial inquiries',
 	'sessionList.preview.anonymous.tab': 'Live chat requests',
-	'sessionList.view.headline': 'My messages',
+	'sessionList.view.headline': 'My consultations',
 	'sessionList.view.asker.tab': 'Advice seekers',
 	'sessionList.view.archive.tab': 'Archive',
-	'sessionList.user.headline': 'My messages',
+	'sessionList.user.headline': 'My consultations',
 	'sessionList.peersessions.headline': 'Peer consultations',
 	'sessionList.user.consultantUnknown': 'Search for consultants underway',
 	'sessionList.user.writeEnquiry': 'Write message now',
@@ -1606,11 +1606,11 @@ export const en = {
 		'To explain the individual functions, we have prepared a short tour for you. <br /><br /> They can cancel it at any time or start it again in their profile.',
 	'walkthrough.step.1.title': 'Initial inquiries',
 	'walkthrough.step.1':
-		"Here you will find an overview of all open requests that are not yet assigned to a consultant. Your entire team has access to this overview.\n<br /><br /> The oldest requests are at the top, the newest at the bottom, to make it easier for you to find the ones you received first.\n<br /><br /> The moment you click on 'Accept request', the request will be immediately moved to your 'My messages' section and the other consultants will not see it anymore.",
+		"Here you will find an overview of all open requests that are not yet assigned to a consultant. Your entire team has access to this overview.\n<br /><br /> The oldest requests are at the top, the newest at the bottom, to make it easier for you to find the ones you received first.\n<br /><br /> The moment you click on 'Accept request', the request will be immediately moved to your 'My consultations' section and the other consultants will not see it anymore.",
 	'walkthrough.step.2.title': 'Live chat requests',
 	'walkthrough.step.2':
-		'From here you can start a chat with a person seeking advice who is currently in the waiting room. <br /><br /> Those seeking advice are identified by an anonymous name, such as "Advice Seeker 11". <br /><br /> If you want to start the chat, click on "Start chat" and you will be able to continue the conversation under the "My messages" section.',
-	'walkthrough.step.3.title': 'Meine Nachrichten',
+		'From here you can start a chat with a person seeking advice who is currently in the waiting room. <br /><br /> Those seeking advice are identified by an anonymous name, such as "Advice Seeker 11". <br /><br /> If you want to start the chat, click on "Start chat" and you will be able to continue the conversation under the "My consultations" section.',
+	'walkthrough.step.3.title': 'My consultations',
 	'walkthrough.step.3':
 		'In this section you will find all the requests that you have accepted. \n<br /><br /> The message history that was last edited is at the top.\nIf the person seeking advice is currently online in the waiting room, you will see the label "Active" right next to the name.',
 	'walkthrough.step.4.title': 'Archive',

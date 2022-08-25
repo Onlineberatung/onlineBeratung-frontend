@@ -914,10 +914,10 @@ export const de = {
 	'monitoring.monitoringU25.nine': '9',
 	'monitoring.monitoringU25.ten': '10 – sehr hilfreich',
 	// navigation
-	'navigation.asker.sessions': 'Meine Nachrichten',
+	'navigation.asker.sessions': 'Meine Beratungen',
 	'navigation.asker.sessions.small': 'Nachrichten',
 	'navigation.consultant.enquiries': 'Erstanfragen',
-	'navigation.consultant.sessions': 'Meine Nachrichten',
+	'navigation.consultant.sessions': 'Meine Beratungen',
 	'navigation.consultant.sessions.small': 'Nachrichten',
 	'navigation.consultant.teamsessions': 'Team Beratungen',
 	'navigation.consultant.teamsessions.small': 'Team Ber.',
@@ -1240,7 +1240,7 @@ export const de = {
 	'releaseNote.overlay.close': 'Schließen',
 	// session
 	'session.acceptance.overlayHeadline':
-		'Sie haben die Erstanfrage erfolgreich angenommen und finden diese nun unter „Meine Nachrichten“.',
+		'Sie haben die Erstanfrage erfolgreich angenommen und finden diese nun unter „Meine Beratungen“.',
 	'session.acceptance.buttonLabel': 'Antworten',
 	'session.alreadyAssigned.overlay.headline':
 		'Sie haben diese Beratung bereits zugewiesen.',
@@ -1260,7 +1260,7 @@ export const de = {
 	'session.assignOther.buttonLabel.abort': 'Abbrechen',
 	'session.assignOther.buttonLabel.assign': 'Zuweisen',
 	'session.assignSelf.overlayHeadline':
-		'Sie haben die Beratung erfolgreich angenommen. Sie wurde in Meine Nachrichten verschoben.',
+		'Sie haben die Beratung erfolgreich angenommen. Sie wurde in Meine Beratungen verschoben.',
 	'session.assignSelf.button1.label': 'Antworten',
 	'session.assignSelf.button2.label': 'Schließen',
 	'session.assignSelf.overlay.headline': 'Beratung zuweisen',
@@ -1330,10 +1330,10 @@ export const de = {
 	'sessionList.preview.headline': 'Erstanfragen',
 	'sessionList.preview.registered.tab': 'Erstanfragen',
 	'sessionList.preview.anonymous.tab': 'Live-Chat Anfragen',
-	'sessionList.view.headline': 'Meine Nachrichten',
+	'sessionList.view.headline': 'Meine Beratungen',
 	'sessionList.view.asker.tab': 'Ratsuchende',
 	'sessionList.view.archive.tab': 'Archiv',
-	'sessionList.user.headline': 'Meine Nachrichten',
+	'sessionList.user.headline': 'Meine Beratungen',
 	'sessionList.peersessions.headline': 'Peer-Beratungen',
 	'sessionList.user.consultantUnknown': 'Berater_innen-Suche läuft',
 	'sessionList.user.writeEnquiry': 'Jetzt Nachricht schreiben',
@@ -1643,11 +1643,11 @@ export const de = {
 		'Um Ihnen die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Sie vorbereitet. <br /><br /> Sie können ihn jederzeit abbrechen oder in ihrem Profil erneut starten.',
 	'walkthrough.step.1.title': 'Erstanfragen',
 	'walkthrough.step.1':
-		"Hier finden Sie eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Ihr gesamtes Team hat Zugriff auf diese Übersicht.\n<br /><br /> Die ältesten Anfragen stehen oben, die neuesten ganz unten, damit Sie die zuerst eingegangenen leichter finden können.\n<br /><br /> In dem Moment, in dem Sie auf 'Anfrage Annehmen' klicken, wird die Anfrage sofort in Ihren Bereich 'Meine Nachrichten' verschoben und die anderen Berater_innen sehen sie nicht mehr.",
+		"Hier finden Sie eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Ihr gesamtes Team hat Zugriff auf diese Übersicht.\n<br /><br /> Die ältesten Anfragen stehen oben, die neuesten ganz unten, damit Sie die zuerst eingegangenen leichter finden können.\n<br /><br /> In dem Moment, in dem Sie auf 'Anfrage Annehmen' klicken, wird die Anfrage sofort in Ihren Bereich 'Meine Beratungen' verschoben und die anderen Berater_innen sehen sie nicht mehr.",
 	'walkthrough.step.2.title': 'Live-Chat Anfragen',
 	'walkthrough.step.2':
-		'Von hier aus können Sie einen Chat mit einem/einer Ratsuchenden beginnen, der/die sich gerade im Warteraum befindet. <br /><br /> Die Ratsuchenden werden mit einem anonymen Namen gekennzeichnet, wie zum Beispiel "Ratsuchende_r 11". <br /><br /> Wenn Sie den Chat starten möchten, klicken Sie auf "Chat starten" und Sie können das Gespräch unter der Rubrik "Meine Nachrichten" fortsetzen.',
-	'walkthrough.step.3.title': 'Meine Nachrichten',
+		'Von hier aus können Sie einen Chat mit einem/einer Ratsuchenden beginnen, der/die sich gerade im Warteraum befindet. <br /><br /> Die Ratsuchenden werden mit einem anonymen Namen gekennzeichnet, wie zum Beispiel "Ratsuchende_r 11". <br /><br /> Wenn Sie den Chat starten möchten, klicken Sie auf "Chat starten" und Sie können das Gespräch unter der Rubrik "Meine Beratungen" fortsetzen.',
+	'walkthrough.step.3.title': 'Meine Beratungen',
 	'walkthrough.step.3':
 		'In diesem Bereich finden Sie alle Anfragen, die Sie angenommen haben. \n<br /><br /> Der Nachrichtenverlauf, der zuletzt bearbeitet wurde, steht ganz oben.\nFalls der/die Ratsuchende gerade im Warteraum online ist, sehen Sie das Label "Aktiv" direkt neben dem Namen.',
 	'walkthrough.step.4.title': 'Archiv',
