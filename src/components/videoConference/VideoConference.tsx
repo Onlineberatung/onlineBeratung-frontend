@@ -272,10 +272,14 @@ const VideoConference = ({
 					</div>
 				</div>
 			)}
-			<div className="logo">
-				<div className="logo__header">{translate('app.title')}</div>
-				<div className="logo__subline">{translate('app.claim')}</div>
-			</div>
+			{config.jitsi.showLogo && (
+				<div className="logo">
+					<div className="logo__header">{translate('app.title')}</div>
+					<div className="logo__subline">
+						{translate('app.claim')}
+					</div>
+				</div>
+			)}
 			<div data-cy="jitsi-meeting">
 				<JitsiMeeting
 					domain={videoCallJwtData.domain.replace('https://', '')}
