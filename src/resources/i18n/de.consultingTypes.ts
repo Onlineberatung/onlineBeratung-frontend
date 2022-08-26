@@ -40,7 +40,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Schwangerschaftsberatung!',
 	'consultingType.2.titles.registrationDropdown': 'Schwangerschaftsberatung',
 	'consultingType.2.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.2.anonymous.text':
+	'consultingType.2.welcomeScreen.anonymous.text':
 		'Du bleibst anonym und erhältst kostenfreie Beratung und Hilfe',
 
 	//
@@ -51,7 +51,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Kurberatung für Mütter und Väter!',
 	'consultingType.4.titles.registrationDropdown': 'Kurberatung',
 	'consultingType.4.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.4.anonymous.text':
+	'consultingType.4.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -62,7 +62,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Beratung zum Thema Schulden!',
 	'consultingType.5.titles.registrationDropdown': 'Schuldnerberatung',
 	'consultingType.5.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.5.anonymous.text':
+	'consultingType.5.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -80,7 +80,7 @@ export const deConsultingTypes = {
 	'consultingType.15.groupChatRules.2':
 		'Moderator_innen haben die Aufgabe, dafür zu sorgen, dass sich die Chat-Teilnehmenden austauschen können. Sie bieten gegebenenfalls auch Sucht-Themen zur Diskussion an. Ihren Aufforderungen ist zu folgen, beispielsweise dann, wenn Chat-Regeln nicht eingehalten werden.',
 	'consultingType.15.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.15.anonymous.text':
+	'consultingType.15.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -90,7 +90,7 @@ export const deConsultingTypes = {
 	'consultingType.7.titles.welcome': 'Willkommen bei Leben im Alter!',
 	'consultingType.7.titles.registrationDropdown': 'Leben im Alter',
 	'consultingType.7.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.7.anonymous.text':
+	'consultingType.7.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -101,7 +101,7 @@ export const deConsultingTypes = {
 		'Willkommen bei den Regionalen Angeboten!',
 	'consultingType.19.titles.registrationDropdown': 'Regionale Angebote',
 	'consultingType.19.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.19.anonymous.text':
+	'consultingType.19.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -112,7 +112,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Kontakt- und Beratungsstelle Selbsthilfe!',
 	'consultingType.21.titles.registrationDropdown': 'Selbsthilfe Vechta',
 	'consultingType.21.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.21.anonymous.text':
+	'consultingType.21.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 	'consultingType.21.groupChatRules.0':
 		'In der Selbsthilfe duzen wir uns, sowohl in den Gruppen vor Ort als auch hier im Chat. Wer damit Probleme hat, teile das im Chat mit – wir stellen uns gerne darauf ein!',
@@ -129,7 +129,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Jungen- und Männerberatung!',
 	'consultingType.20.titles.registrationDropdown': 'Jungen und Männer',
 	'consultingType.20.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.20.anonymous.text':
+	'consultingType.20.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -140,7 +140,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Aus-/Rück- & Weiterwanderung!',
 	'consultingType.17.titles.registrationDropdown': 'Auswanderung',
 	'consultingType.17.anonymous.title': 'Anonym',
-	'consultingType.17.anonymous.text':
+	'consultingType.17.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten Beratung und Hilfe',
 
 	//
@@ -152,7 +152,7 @@ export const deConsultingTypes = {
 		'Willkommen bei #gemeinsamstatteinsam – Onlineberatung für junge Menschen in besonderen Zeiten!',
 	'consultingType.22.titles.registrationDropdown': '#gemeinsamstatteinsam',
 	'consultingType.22.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.22.anonymous.text':
+	'consultingType.22.welcomeScreen.anonymous.text':
 		'Du bleibst anonym und erhältst kostenfreie Beratung und Hilfe',
 	'consultingType.22.voluntaryComponents.gender.female': 'Weiblich',
 	'consultingType.22.voluntaryComponents.gender.male': 'Männlich',
@@ -173,7 +173,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Migrationsberatung!',
 	'consultingType.16.titles.registrationDropdown': 'Migrationsberatung',
 	'consultingType.16.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.16.anonymous.text':
+	'consultingType.16.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -185,7 +185,7 @@ export const deConsultingTypes = {
 		'Willkommen bei Leben mit Behinderung und psychischer Erkrankung!',
 	'consultingType.8.titles.registrationDropdown': 'Beeinträchtigung',
 	'consultingType.8.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.8.anonymous.text':
+	'consultingType.8.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -195,7 +195,7 @@ export const deConsultingTypes = {
 	'consultingType.0.titles.welcome': 'Willkommen bei der Suchtberatung!',
 	'consultingType.0.titles.registrationDropdown': 'Suchtberatung',
 	'consultingType.0.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.0.anonymous.text':
+	'consultingType.0.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 	'consultingType.0.voluntaryComponents.relation.headline': 'Hintergrund',
 	'consultingType.0.voluntaryComponents.relation.affected': 'Betroffen',
@@ -240,7 +240,7 @@ export const deConsultingTypes = {
 	'consultingType.10.titles.registrationDropdown':
 		'Rechtliche Betreuung und Vorsorge',
 	'consultingType.10.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.10.anonymous.text':
+	'consultingType.10.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -251,7 +251,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Beratung für Eltern und Familien!',
 	'consultingType.3.titles.registrationDropdown': 'Eltern und Familien',
 	'consultingType.3.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.3.anonymous.text':
+	'consultingType.3.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -263,7 +263,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Beratung für Angehörige von Straffälligen!',
 	'consultingType.11.titles.registrationDropdown': 'Straffälligenhilfe',
 	'consultingType.11.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.11.anonymous.text':
+	'consultingType.11.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -274,7 +274,7 @@ export const deConsultingTypes = {
 		'Go on – Start up! Dein Chat zwischen Schule und Beruf.',
 	'consultingType.9.titles.registrationDropdown': 'Go on – Start up!',
 	'consultingType.9.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.9.anonymous.text':
+	'consultingType.9.welcomeScreen.anonymous.text':
 		'Du bleibst anonym und erhältst kostenfreie Beratung und Hilfe',
 
 	//
@@ -284,7 +284,7 @@ export const deConsultingTypes = {
 	'consultingType.12.titles.welcome': 'Willkommen bei der HIV/AIDS-Beratung!',
 	'consultingType.12.titles.registrationDropdown': 'HIV / AIDS',
 	'consultingType.12.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.12.anonymous.text':
+	'consultingType.12.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -295,7 +295,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Kinder- und Jugend-Rehabilitation!',
 	'consultingType.13.titles.registrationDropdown': 'Kinder-Reha',
 	'consultingType.13.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.13.anonymous.text':
+	'consultingType.13.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -306,7 +306,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Hospiz-, Palliativ- und Trauerberatung!',
 	'consultingType.18.titles.registrationDropdown': 'Hospiz-Palliativ-Trauer',
 	'consultingType.18.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.18.anonymous.text':
+	'consultingType.18.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -317,7 +317,7 @@ export const deConsultingTypes = {
 		'Willkommen bei der Allgemeinen Sozialberatung!',
 	'consultingType.6.titles.registrationDropdown': 'Sozialberatung',
 	'consultingType.6.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.6.anonymous.text':
+	'consultingType.6.welcomeScreen.anonymous.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 
 	//
@@ -328,6 +328,6 @@ export const deConsultingTypes = {
 		'Willkommen bei der Beratung für Kinder und Jugendliche!',
 	'consultingType.14.titles.registrationDropdown': 'Kinder Jugendliche',
 	'consultingType.14.anonymous.title': 'Anonym und kostenfrei',
-	'consultingType.14.anonymous.text':
+	'consultingType.14.welcomeScreen.anonymous.text':
 		'Du bleibst anonym und erhältst kostenfreie Beratung und Hilfe'
 };

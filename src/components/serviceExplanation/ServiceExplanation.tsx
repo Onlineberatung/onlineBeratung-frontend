@@ -43,7 +43,7 @@ export const ServiceExplanation = ({
 			icon: <LockIcon />,
 			title: translate(
 				[
-					`consultingType.${consultingTypeId}.anonymous.title`,
+					`consultingType.${consultingTypeId}.welcomeScreen.anonymous.title`,
 					welcomeScreenConfig?.anonymous.title ??
 						'registration.welcomeScreen.info4.title'
 				],
@@ -51,7 +51,7 @@ export const ServiceExplanation = ({
 			),
 			text: translate(
 				[
-					`consultingType.${consultingTypeId}.anonymous.text`,
+					`consultingType.${consultingTypeId}.welcomeScreen.anonymous.text`,
 					welcomeScreenConfig?.anonymous.text ??
 						'registration.welcomeScreen.info4.text'
 				],

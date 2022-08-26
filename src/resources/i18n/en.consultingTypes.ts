@@ -9,7 +9,7 @@ export const enConsultingTypes = {
 	'consultingType.1.titles.registrationDropdown':
 		'Counseling for suicidal young people [U25].',
 	'consultingType.1.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.1.anonymous.text':
+	'consultingType.1.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 	'consultingType.1.voluntaryComponents.gender.headline': 'Gender',
 	'consultingType.1.voluntaryComponents.gender.female': 'Female',
@@ -40,7 +40,7 @@ export const enConsultingTypes = {
 		'Welcome to the pregnancy counseling service!',
 	'consultingType.2.titles.registrationDropdown': 'Pregnancy counseling',
 	'consultingType.2.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.2.anonymous.text':
+	'consultingType.2.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 
 	//
@@ -51,7 +51,7 @@ export const enConsultingTypes = {
 		'Welcome to the spa counseling for mothers and fathers!',
 	'consultingType.4.titles.registrationDropdown': 'Cure Consultation',
 	'consultingType.4.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.4.anonymous.text':
+	'consultingType.4.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 
 	//
@@ -61,7 +61,7 @@ export const enConsultingTypes = {
 	'consultingType.5.titles.welcome': 'Welcome to debt consulting!',
 	'consultingType.5.titles.registrationDropdown': 'Debt consulting',
 	'consultingType.5.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.5.anonymous.text':
+	'consultingType.5.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 
 	//
@@ -79,7 +79,7 @@ export const enConsultingTypes = {
 	'consultingType.15.groupChatRules.2':
 		'Moderators have the task of ensuring that chat participants can exchange ideas. If necessary, they also offer addiction topics for discussion. Their requests are to be followed, for example if chat rules are not followed.',
 	'consultingType.15.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.15.anonymous.text':
+	'consultingType.15.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 
 	//
@@ -89,7 +89,7 @@ export const enConsultingTypes = {
 	'consultingType.7.titles.welcome': 'Welcome to Life in Old Age!',
 	'consultingType.7.titles.registrationDropdown': 'Life in old age',
 	'consultingType.7.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.7.anonymous.text':
+	'consultingType.7.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 
 	//
@@ -99,7 +99,7 @@ export const enConsultingTypes = {
 	'consultingType.19.titles.welcome': 'Welcome to Regional Offerings!',
 	'consultingType.19.titles.registrationDropdown': 'Regional Offers',
 	'consultingType.19.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.19.anonymous.text':
+	'consultingType.19.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 
 	//
@@ -110,7 +110,7 @@ export const enConsultingTypes = {
 		'Welcome to the contact and advice center self-help!',
 	'consultingType.21.titles.registrationDropdown': 'Selbsthilfe Vechta',
 	'consultingType.21.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.21.anonymous.text':
+	'consultingType.21.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 	'consultingType.21.groupChatRules.0':
 		"In self-help we are on a first name basis, both in the groups on site and here in the chat. Anyone who has problems with this, let us know in the chat - we'll be happy to adjust!",
@@ -126,7 +126,7 @@ export const enConsultingTypes = {
 	'consultingType.20.titles.welcome': 'Welcome to boys and men consulting!',
 	'consultingType.20.titles.registrationDropdown': 'Boys and men',
 	'consultingType.20.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.20.anonymous.text':
+	'consultingType.20.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 
 	//
@@ -137,7 +137,7 @@ export const enConsultingTypes = {
 		'Welcome to emigration/return & onward migration!',
 	'consultingType.17.titles.registrationDropdown': 'Emigration',
 	'consultingType.17.anonymous.title': 'Anonymous',
-	'consultingType.17.anonymous.text':
+	'consultingType.17.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive advice and help',
 
 	//
@@ -149,7 +149,7 @@ export const enConsultingTypes = {
 		'Welcome to #gemeinsamstatteinsam - online consulting for young people in special times!',
 	'consultingType.22.titles.registrationDropdown': '#gemeinsamstatteinsam',
 	'consultingType.22.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.22.anonymous.text':
+	'consultingType.22.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 	'consultingType.22.voluntaryComponents.gender.female': 'Female',
 	'consultingType.22.voluntaryComponents.gender.male': 'Male',
@@ -169,7 +169,7 @@ export const enConsultingTypes = {
 	'consultingType.16.titles.welcome': 'Welcome to migration consulting!',
 	'consultingType.16.titles.registrationDropdown': 'Migration consulting',
 	'consultingType.16.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.16.anonymous.text':
+	'consultingType.16.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and assistance',
 
 	//
@@ -180,7 +180,7 @@ export const enConsultingTypes = {
 		'Welcome to Living with Disability and Mental Illness!',
 	'consultingType.8.titles.registrationDropdown': 'Impairment',
 	'consultingType.8.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.8.anonymous.text':
+	'consultingType.8.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and assistance',
 
 	//
@@ -190,7 +190,7 @@ export const enConsultingTypes = {
 	'consultingType.0.titles.welcome': 'Welcome to addiction consulting!',
 	'consultingType.0.titles.registrationDropdown': 'Addiction consulting',
 	'consultingType.0.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.0.anonymous.text':
+	'consultingType.0.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 	'consultingType.0.voluntaryComponents.relation.headline': 'Background',
 	'consultingType.0.voluntaryComponents.relation.affected': 'Affected',
@@ -231,7 +231,7 @@ export const enConsultingTypes = {
 	'consultingType.10.titles.registrationDropdown':
 		'Legal support and precaution',
 	'consultingType.10.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.10.anonymous.text':
+	'consultingType.10.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and assistance',
 
 	//
@@ -242,7 +242,7 @@ export const enConsultingTypes = {
 		'Welcome to consulting for parents and families!',
 	'consultingType.3.titles.registrationDropdown': 'Parents and families',
 	'consultingType.3.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.3.anonymous.text':
+	'consultingType.3.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and assistance',
 
 	//
@@ -253,7 +253,7 @@ export const enConsultingTypes = {
 		'Welcome to consulting for relatives of offenders!',
 	'consultingType.11.titles.registrationDropdown': 'Offender assistance',
 	'consultingType.11.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.11.anonymous.text':
+	'consultingType.11.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and assistance',
 
 	//
@@ -264,7 +264,7 @@ export const enConsultingTypes = {
 		'Go - Get started! Your chat between school and work',
 	'consultingType.9.titles.registrationDropdown': "Let's go - Get started!",
 	'consultingType.9.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.9.anonymous.text':
+	'consultingType.9.welcomeScreen.anonymous.text':
 		'You stay anonymous and get free consulting and help',
 
 	//
@@ -274,7 +274,7 @@ export const enConsultingTypes = {
 	'consultingType.12.titles.welcome': 'Welcome to HIV/AIDS consulting!',
 	'consultingType.12.titles.registrationDropdown': 'HIV / AIDS',
 	'consultingType.12.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.12.anonymous.text':
+	'consultingType.12.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 
 	//
@@ -285,7 +285,7 @@ export const enConsultingTypes = {
 		'Welcome to child and adolescent rehabilitation!',
 	'consultingType.13.titles.registrationDropdown': "Children's rehab",
 	'consultingType.13.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.13.anonymous.text':
+	'consultingType.13.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 
 	//
@@ -297,7 +297,7 @@ export const enConsultingTypes = {
 		'Welcome to hospice, palliative and bereavement consulting!',
 	'consultingType.18.titles.registrationDropdown': 'Hospice palliative grief',
 	'consultingType.18.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.18.anonymous.text':
+	'consultingType.18.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 
 	//
@@ -307,7 +307,7 @@ export const enConsultingTypes = {
 	'consultingType.6.titles.welcome': 'Welcome to General Social Counseling!',
 	'consultingType.6.titles.registrationDropdown': 'Social Counseling',
 	'consultingType.6.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.6.anonymous.text':
+	'consultingType.6.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free advice and help',
 
 	//
@@ -318,6 +318,6 @@ export const enConsultingTypes = {
 		'Welcome to consulting for children and adolescents!',
 	'consultingType.14.titles.registrationDropdown': 'Children Adolescents',
 	'consultingType.14.anonymous.title': 'Anonymous and free of charge',
-	'consultingType.14.anonymous.text':
+	'consultingType.14.welcomeScreen.anonymous.text':
 		'You remain anonymous and receive free consulting and help'
 };
