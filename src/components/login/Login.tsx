@@ -58,6 +58,7 @@ import { history } from '../app/app';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
 import { RocketChatGlobalSettingsContext } from '../../globalState';
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -118,6 +119,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 
 	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
 	const isFirstVisit = useIsFirstVisit();
+
+	const gcid = useSearchParam<string>('gcid');
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -273,7 +276,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const postLogin = useCallback(
 		(data) => {
 			if (!consultant) {
-				return redirectToApp();
+				return redirectToApp(gcid);
 			}
 
 			return apiGetUserData().then((userData: UserDataInterface) => {

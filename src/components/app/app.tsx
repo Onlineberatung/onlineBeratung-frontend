@@ -18,6 +18,7 @@ import { TenantThemingLoader } from './TenantThemingLoader';
 import { LegalLinkInterface } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
+import { apiPutGroupChat, GROUP_CHAT_API } from '../../api/apiPutGroupChat';
 
 export const history = createBrowserHistory();
 
@@ -62,6 +63,8 @@ export const App = ({
 	const [disconnectWebsocket, setDisconnectWebsocket] =
 		useState<boolean>(false);
 	const [isInitiallyLoaded, setIsInitiallyLoaded] = useState<boolean>(false);
+	const [isRequestInProgress, setIsRequestInProgress] =
+		useState<boolean>(false);
 
 	const activateInitialRedirect = () => {
 		setIsInitiallyLoaded(true);
@@ -72,6 +75,23 @@ export const App = ({
 		if (!isInitiallyLoaded && window.location.pathname === '/') {
 			activateInitialRedirect();
 		} else {
+			if (window.location.pathname === '/app') {
+				const gcid = new URLSearchParams(window.location.search).get(
+					'gcid'
+				);
+				if (!isRequestInProgress && gcid && parseInt(gcid)) {
+					setIsRequestInProgress(true);
+					apiPutGroupChat(parseInt(gcid), GROUP_CHAT_API.JOIN)
+						.then(() => {
+							// todo: needed?
+						})
+						.catch(() => {
+							// todo: error logging
+						});
+					setIsRequestInProgress(false);
+				}
+			}
+
 			setIsInitiallyLoaded(true);
 		}
 	}, []); // eslint-disable-line

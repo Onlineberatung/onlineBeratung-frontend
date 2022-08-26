@@ -114,8 +114,9 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 			});
 	});
 
-export const redirectToApp = () => {
-	window.location.href = config.urls.redirectToApp;
+export const redirectToApp = (gcid = '') => {
+	const params = gcid === '' ? '' : '?gcid=' + gcid;
+	window.location.href = config.urls.redirectToApp + params;
 };
 
 export const handleE2EESetup = (

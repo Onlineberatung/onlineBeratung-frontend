@@ -263,7 +263,7 @@ export const GroupChatInfo = () => {
 						{featureGroupChatV2Enabled && isV2GroupChat && (
 							<div className="profile__groupChatContainer">
 								<GroupChatCopyLinks
-									groupChatId={activeSession.rid}
+									groupChatId={activeSession.item.id.toString()}
 								/>
 							</div>
 						)}
