@@ -23,24 +23,6 @@ export const ServiceExplanation = ({
 }: ServiceExplanationProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 
-	let anonymousTitle = translate(
-		[
-			`consultingType.${consultingTypeId}.anonymous.title`,
-			welcomeScreenConfig?.anonymous.title ??
-				translate('registration.welcomeScreen.info4.title')
-		],
-		{ ns: 'consultingTypes' }
-	);
-
-	let anonymousText = translate(
-		[
-			`consultingType.${consultingTypeId}.anonymous.text`,
-			welcomeScreenConfig?.anonymous.text ??
-				translate('registration.welcomeScreen.info4.text')
-		],
-		{ ns: 'consultingTypes' }
-	);
-
 	const welcomeScreenData = [
 		{
 			icon: <PenIcon />,
@@ -59,8 +41,22 @@ export const ServiceExplanation = ({
 		},
 		{
 			icon: <LockIcon />,
-			title: anonymousTitle,
-			text: anonymousText
+			title: translate(
+				[
+					`consultingType.${consultingTypeId}.anonymous.title`,
+					welcomeScreenConfig?.anonymous.title ??
+						'registration.welcomeScreen.info4.title'
+				],
+				{ ns: ['consultingTypes', 'common'] }
+			),
+			text: translate(
+				[
+					`consultingType.${consultingTypeId}.anonymous.text`,
+					welcomeScreenConfig?.anonymous.text ??
+						'registration.welcomeScreen.info4.text'
+				],
+				{ ns: ['consultingTypes', 'common'] }
+			)
 		}
 	];
 
