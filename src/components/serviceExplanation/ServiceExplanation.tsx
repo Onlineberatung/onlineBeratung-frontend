@@ -13,7 +13,7 @@ import './ServiceExplanation.styles.scss';
 interface ServiceExplanationProps {
 	className?: string;
 	welcomeScreenConfig?: RegistrationWelcomeScreenInterface;
-	consultingTypeId: number;
+	consultingTypeId?: number;
 }
 
 export const ServiceExplanation = ({
@@ -21,42 +21,25 @@ export const ServiceExplanation = ({
 	welcomeScreenConfig,
 	consultingTypeId
 }: ServiceExplanationProps) => {
-	const { t: translate, i18n } = useTranslation([
-		'common',
-		'consultingTypes'
-	]);
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 
-	let anonymousTitle = translate('registration.welcomeScreen.info4.title');
-	if (
-		i18n.exists(`consultingType.${consultingTypeId}.anonymous.title`, {
-			ns: 'consultingTypes'
-		}) ||
-		welcomeScreenConfig?.anonymous.title
-	) {
-		anonymousTitle = translate(
-			[
-				`consultingType.${consultingTypeId}.anonymous.title`,
-				welcomeScreenConfig?.anonymous.title
-			],
-			{ ns: 'consultingTypes' }
-		);
-	}
+	let anonymousTitle = translate(
+		[
+			`consultingType.${consultingTypeId}.anonymous.title`,
+			welcomeScreenConfig?.anonymous.title ??
+				translate('registration.welcomeScreen.info4.title')
+		],
+		{ ns: 'consultingTypes' }
+	);
 
-	let anonymousText = translate('registration.welcomeScreen.info4.text');
-	if (
-		i18n.exists(`consultingType.${consultingTypeId}.anonymous.text`, {
-			ns: 'consultingTypes'
-		}) ||
-		welcomeScreenConfig?.anonymous.text
-	) {
-		anonymousText = translate(
-			[
-				`consultingType.${consultingTypeId}.anonymous.text`,
-				welcomeScreenConfig?.anonymous.text
-			],
-			{ ns: 'consultingTypes' }
-		);
-	}
+	let anonymousText = translate(
+		[
+			`consultingType.${consultingTypeId}.anonymous.text`,
+			welcomeScreenConfig?.anonymous.text ??
+				translate('registration.welcomeScreen.info4.text')
+		],
+		{ ns: 'consultingTypes' }
+	);
 
 	const welcomeScreenData = [
 		{
