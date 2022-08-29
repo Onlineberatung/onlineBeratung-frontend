@@ -7,7 +7,7 @@ export let apiUrl = '';
 if (apiUrlEnv) {
 	apiUrl = apiUrlEnv;
 	if (!apiUrl.startsWith('http://') && !apiUrl.startsWith('https://')) {
-		apiUrl = 'http://' + apiUrl;
+		apiUrl = 'https://' + apiUrl;
 	}
 }
 

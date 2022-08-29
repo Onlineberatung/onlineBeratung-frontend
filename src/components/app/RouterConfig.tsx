@@ -30,10 +30,12 @@ import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { ReactComponent as ToolsIcon } from '../../resources/img/icons/tools.svg';
 import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
 import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
 import { showAppointmentsMenu } from '../../utils/navigationHelpers';
+import { ToolsList } from '../tools/ToolsList';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -79,6 +81,13 @@ export const RouterConfigUser = (): any => {
 				icon: <CalendarMonthIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.booking.events'
+				}
+			},
+			{
+				to: '/tools',
+				icon: <ToolsIcon className="navigation__icon" />,
+				titleKeys: {
+					large: 'navigation.tools'
 				}
 			}
 		],
@@ -151,6 +160,12 @@ export const RouterConfigUser = (): any => {
 				path: '/booking/events',
 				exact: false,
 				component: BookingEvents
+			}
+		],
+		toolsRoutes: [
+			{
+				path: '/tools',
+				component: ToolsList
 			}
 		]
 	};
@@ -312,6 +327,12 @@ export const RouterConfigConsultant = (): any => {
 				path: '/booking/events',
 				exact: false,
 				component: BookingEvents
+			}
+		],
+		toolsRoutes: [
+			{
+				path: '/tools',
+				component: ToolsList
 			}
 		]
 	};
@@ -524,6 +545,12 @@ export const RouterConfigTeamConsultant = (): any => {
 				path: '/booking/events',
 				exact: false,
 				component: BookingEvents
+			}
+		],
+		toolsRoutes: [
+			{
+				path: '/tools',
+				component: ToolsList
 			}
 		]
 	};

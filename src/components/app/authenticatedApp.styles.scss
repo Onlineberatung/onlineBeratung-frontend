@@ -170,5 +170,15 @@ a {
 				margin-top: $headerHeight;
 			}
 		}
+
+		&__tools {
+			width: 100%;
+			display: none;
+			margin: 0;
+
+			@include breakpoint($fromLarge) {
+				margin-top: $headerHeight;
+			}
+		}
 	}
 }

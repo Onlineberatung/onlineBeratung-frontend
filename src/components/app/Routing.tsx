@@ -65,7 +65,8 @@ export const Routing = (props: RoutingProps) => {
 			...(routerConfig.detailRoutes || []),
 			...(routerConfig.userProfileRoutes || []),
 			...(routerConfig.profileRoutes || []),
-			...(routerConfig.appointmentRoutes || [])
+			...(routerConfig.appointmentRoutes || []),
+			...(routerConfig.toolsRoutes || [])
 		].map((route) => route.path, []);
 
 	return (
@@ -245,6 +246,29 @@ export const Routing = (props: RoutingProps) => {
 												<Route
 													exact={route.exact ?? true}
 													key={`booking-${route.path}`}
+													path={route.path}
+													render={() => (
+														<route.component
+															{...props}
+															type={
+																route.type ||
+																null
+															}
+														/>
+													)}
+												/>
+											)
+										)}
+									</Switch>
+								</div>
+
+								<div className="contentWrapper__tools">
+									<Switch>
+										{routerConfig.toolsRoutes?.map(
+											(route: any): JSX.Element => (
+												<Route
+													exact={route.exact ?? true}
+													key={`tools-${route.path}`}
 													path={route.path}
 													render={() => (
 														<route.component
