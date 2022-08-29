@@ -56,7 +56,7 @@ export const ToolsList = () => {
 				<Headline
 					text={translate('navigation.tools')}
 					semanticLevel="2"
-					className="toolsList__header--title"
+					className="toolsList__header__title"
 				/>
 			</div>
 			<div className="toolsList__innerWrapper">
