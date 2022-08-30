@@ -57,6 +57,33 @@ const isVideoAppointmentsEnabled = (userData, consultingTypes) =>
 	!config.disableVideoAppointments &&
 	hasVideoCallFeature(userData, consultingTypes);
 
+const appointmentRoutes = [
+	{
+		path: '/booking',
+		component: Booking
+	},
+	{
+		path: '/booking/cancellation',
+		component: BookingCancellation
+	},
+	{
+		path: '/booking/reschedule',
+		component: BookingReschedule
+	},
+	{
+		path: '/booking/events',
+		exact: false,
+		component: BookingEvents
+	}
+];
+
+const toolsRoutes = [
+	{
+		path: '/tools',
+		component: ToolsList
+	}
+];
+
 export const RouterConfigUser = (): any => {
 	return {
 		navigation: [
@@ -143,31 +170,8 @@ export const RouterConfigUser = (): any => {
 				component: Profile
 			}
 		],
-		appointmentRoutes: [
-			{
-				path: '/booking',
-				component: Booking
-			},
-			{
-				path: '/booking/cancellation',
-				component: BookingCancellation
-			},
-			{
-				path: '/booking/reschedule',
-				component: BookingReschedule
-			},
-			{
-				path: '/booking/events',
-				exact: false,
-				component: BookingEvents
-			}
-		],
-		toolsRoutes: [
-			{
-				path: '/tools',
-				component: ToolsList
-			}
-		]
+		appointmentRoutes,
+		toolsRoutes
 	};
 };
 
@@ -310,31 +314,8 @@ export const RouterConfigConsultant = (): any => {
 				component: Appointments
 			}
 		],
-		appointmentRoutes: [
-			{
-				path: '/booking',
-				component: Booking
-			},
-			{
-				path: '/booking/cancellation',
-				component: BookingCancellation
-			},
-			{
-				path: '/booking/reschedule',
-				component: BookingReschedule
-			},
-			{
-				path: '/booking/events',
-				exact: false,
-				component: BookingEvents
-			}
-		],
-		toolsRoutes: [
-			{
-				path: '/tools',
-				component: ToolsList
-			}
-		]
+		appointmentRoutes,
+		toolsRoutes
 	};
 };
 
@@ -528,31 +509,8 @@ export const RouterConfigTeamConsultant = (): any => {
 				component: Appointments
 			}
 		],
-		appointmentRoutes: [
-			{
-				path: '/booking',
-				component: Booking
-			},
-			{
-				path: '/booking/cancellation',
-				component: BookingCancellation
-			},
-			{
-				path: '/booking/reschedule',
-				component: BookingReschedule
-			},
-			{
-				path: '/booking/events',
-				exact: false,
-				component: BookingEvents
-			}
-		],
-		toolsRoutes: [
-			{
-				path: '/tools',
-				component: ToolsList
-			}
-		]
+		appointmentRoutes,
+		toolsRoutes
 	};
 };
 
