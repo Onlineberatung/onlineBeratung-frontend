@@ -26,6 +26,7 @@ import { apiRocketChatSubscriptionsGet } from '../../api/apiRocketChatSubscripti
 import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
+import { getBudibaseAccessToken } from '../sessionCookie/getBudibaseAccessToken';
 
 export interface LoginData {
 	data: {
@@ -93,6 +94,13 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 					.catch((error) => {
 						reject(error);
 					});
+
+				if (config.budibaseSSO) {
+					getBudibaseAccessToken(
+						autoLoginProps.username,
+						autoLoginProps.password
+					).then(() => {});
+				}
 			})
 			.catch((error) => {
 				if (
