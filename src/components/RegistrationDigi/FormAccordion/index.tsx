@@ -148,7 +148,6 @@ export const FormAccordionPanel = ({
 			<div
 				className="formAccordionDigi__PanelHeader"
 				onKeyDown={(e) => e.code === 'Space' && handlePanelClick(index)}
-				onClick={() => handlePanelClick(index)}
 				onFocus={(ev) => {
 					ev.preventDefault();
 					handlePanelClick(index, true);
