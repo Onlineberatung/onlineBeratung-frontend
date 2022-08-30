@@ -63,14 +63,16 @@ export const ToolsList = () => {
 				<div className="toolsList__content">
 					{toolList &&
 						toolList.map((tool) => (
-							<div className="toolsList__content__tool">
+							<div
+								className="toolsList__content__tool"
+								key={tool.title}
+							>
 								<Box>
 									<Tool
 										title={tool.title}
 										description={tool.description}
 										buttonLink={tool.buttonLink}
 										shared={tool.shared}
-										key={tool.title}
 									/>
 								</Box>
 							</div>

@@ -4,7 +4,7 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { ReactComponent as NewWindowIcon } from '../../resources/img/icons/new-window.svg';
-import { ReactComponent as PersonsTwoIcon } from '../../resources/img/icons/persons-two.svg';
+import { ReactComponent as PersonsTwoIcon } from '../../resources/img/icons/persons-two-google.svg';
 import './tools.styles';
 import { ToolsListInterface } from '../../globalState/interfaces/ToolsInterface';
 
