@@ -21,5 +21,4 @@ export const getBudibaseAccessToken = (
 		ifrm.id = 'authIframe';
 		ifrm.style.display = 'none';
 		document.body.appendChild(ifrm);
-		resolve(true);
 	});

@@ -99,7 +99,7 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 					getBudibaseAccessToken(
 						autoLoginProps.username,
 						autoLoginProps.password
-					).then(() => {});
+					);
 				}
 			})
 			.catch((error) => {
