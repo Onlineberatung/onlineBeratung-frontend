@@ -8,6 +8,7 @@
 	&__StepNumber + &Title {
 		padding-left: 0;
 	}
+
 	&__Panel:first-child > &__PanelHeader {
 		border-top: 1px solid rgba(0, 0, 0, 0.6);
 	}
@@ -38,7 +39,7 @@
 
 	&__Content {
 		display: none;
-		padding: 15px 0 30px 32px;
+		padding: 15px 0 30px 48px;
 
 		.formAccordionDigi__PanelHeader {
 			border-top: 0;
@@ -50,6 +51,10 @@
 
 		& > .formAccordionDigi {
 			margin-top: -15px;
+
+			.formAccordionDigi__Content {
+				padding-left: 32px;
+			}
 
 			.formAccordionDigi__Panel {
 				&:last-child {
