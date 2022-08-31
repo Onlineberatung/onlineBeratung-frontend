@@ -2,8 +2,12 @@
 	&Title {
 		flex-grow: 1;
 		text-align: left;
+		padding-left: 32px;
 	}
 
+	&__StepNumber + &Title {
+		padding-left: 0;
+	}
 	&__Panel:first-child > &__PanelHeader {
 		border-top: 1px solid rgba(0, 0, 0, 0.6);
 	}
@@ -34,7 +38,7 @@
 
 	&__Content {
 		display: none;
-		padding: 15px 0 30px 47px;
+		padding: 15px 0 30px 32px;
 
 		.formAccordionDigi__PanelHeader {
 			border-top: 0;
@@ -46,6 +50,14 @@
 
 		& > .formAccordionDigi {
 			margin-top: -15px;
+
+			.formAccordionDigi__Panel {
+				&:last-child {
+					.formAccordionDigi__PanelHeader {
+						border-bottom: 0;
+					}
+				}
+			}
 		}
 	}
 
@@ -78,6 +90,14 @@
 
 			+ .formAccordionDigi__Panel {
 				border-top: 1px solid rgba(0, 0, 0, 0.6);
+			}
+		}
+
+		&:last-child {
+			.formAccordionDigi__Panel {
+				&:last-child {
+					border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+				}
 			}
 		}
 	}
