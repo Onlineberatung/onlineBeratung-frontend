@@ -103,6 +103,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		transform: $login-icon-transform;
 		text-decoration: $link-text-decoration;
 		font-weight: $link-font-weight;
+		padding: 0;
 
 		&:hover {
 			text-decoration: $link-hover-text-decoration;
