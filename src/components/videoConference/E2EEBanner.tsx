@@ -34,7 +34,7 @@ const E2EEBanner = ({ e2eEnabled }) => {
 			<div className="text">
 				{e2eEnabled
 					? translate('videoCall.overlay.encryption.e2e')
-					: translate('videoCall.overlay.encryption')}
+					: translate('videoCall.overlay.encryption.transport')}
 			</div>
 		</div>
 	);

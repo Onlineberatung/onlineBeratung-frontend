@@ -72,7 +72,7 @@ export const SessionsListWrapper = ({
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 						userData
 					)
-						? translate('navigation.consultant.teamsessions')
+						? translate('navigation.consultant.teamsessions.large')
 						: null}
 					{type === SESSION_LIST_TYPES.TEAMSESSION &&
 					hasUserAuthority(

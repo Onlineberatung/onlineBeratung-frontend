@@ -32,7 +32,10 @@ export const AskerInfoData = () => {
 
 	return (
 		<>
-			<Text text={translate('userProfile.data.title')} type="divider" />
+			<Text
+				text={translate('userProfile.data.title.asker')}
+				type="divider"
+			/>
 			<div className="profile__data__item">
 				<p className="profile__data__label">
 					{translate('userProfile.data.resort')}

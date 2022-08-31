@@ -54,11 +54,13 @@ export const PasswordReset = () => {
 
 	const overlayItem: OverlayItem = {
 		svg: CheckIcon,
-		headline: translate('profile.functions.passwordReset.overlay.headline'),
+		headline: translate(
+			'profile.functions.password.reset.overlay.headline'
+		),
 		buttonSet: [
 			{
 				label: translate(
-					'profile.functions.passwordReset.overlay.buttonLabel'
+					'profile.functions.password.reset.overlay.button.label'
 				),
 				function: OVERLAY_FUNCTIONS.CLOSE,
 				type: BUTTON_TYPES.AUTO_CLOSE
@@ -85,7 +87,7 @@ export const PasswordReset = () => {
 		),
 		id: 'passwordResetOld',
 		type: 'password',
-		label: translate('profile.functions.passwordResetOldLabel'),
+		label: translate('profile.functions.password.reset.old.label'),
 		infoText:
 			oldPasswordErrorMessage || oldPasswordSuccessMessage
 				? `${oldPasswordErrorMessage} ${oldPasswordSuccessMessage}`
@@ -101,7 +103,7 @@ export const PasswordReset = () => {
 		),
 		id: 'passwordResetNew',
 		type: 'password',
-		label: translate('profile.functions.passwordResetNewLabel'),
+		label: translate('profile.functions.password.reset.new.label'),
 		infoText:
 			newPasswordErrorMessage || newPasswordSuccessMessage
 				? `${newPasswordErrorMessage} ${newPasswordSuccessMessage}<br>`
@@ -117,7 +119,7 @@ export const PasswordReset = () => {
 		),
 		id: 'passwordResetConfirm',
 		type: 'password',
-		label: translate('profile.functions.passwordResetConfirmLabel'),
+		label: translate('profile.functions.password.reset.confirm.label'),
 		infoText:
 			confirmPasswordErrorMessage || confirmPasswordSuccessMessage
 				? `${confirmPasswordErrorMessage} ${confirmPasswordSuccessMessage}`
@@ -147,11 +149,11 @@ export const PasswordReset = () => {
 		if (newPassword.length >= 1 && passwordStrength < 4) {
 			setNewPasswordSuccessMessage('');
 			setNewPasswordErrorMessage(
-				translate('profile.functions.passwordResetInsecure')
+				translate('profile.functions.password.reset.insecure')
 			);
 		} else if (newPassword.length >= 1) {
 			setNewPasswordSuccessMessage(
-				translate('profile.functions.passwordResetSecure')
+				translate('profile.functions.password.reset.secure')
 			);
 			setNewPasswordErrorMessage('');
 			setHasMasterKeyError(false);
@@ -175,11 +177,11 @@ export const PasswordReset = () => {
 		if (confirmPassword.length >= 1 && !passwordFits) {
 			setConfirmPasswordSuccessMessage('');
 			setConfirmPasswordErrorMessage(
-				translate('profile.functions.passwordResetNotSame')
+				translate('profile.functions.password.reset.not.same')
 			);
 		} else if (confirmPassword.length >= 1) {
 			setConfirmPasswordSuccessMessage(
-				translate('profile.functions.passwordResetSame')
+				translate('profile.functions.password.reset.same')
 			);
 			setConfirmPasswordErrorMessage('');
 		} else {
@@ -241,7 +243,9 @@ export const PasswordReset = () => {
 				.catch(() => {
 					// error handling for password update error
 					setOldPasswordErrorMessage(
-						translate('profile.functions.passwordResetOldIncorrect')
+						translate(
+							'profile.functions.password.reset.old.incorrect'
+						)
 					);
 					setIsRequestInProgress(false);
 				});
@@ -256,11 +260,13 @@ export const PasswordReset = () => {
 		<div id="passwordReset" className="passwordReset">
 			<div className="profile__content__title">
 				<Headline
-					text={translate('profile.functions.passwordResetTitle')}
+					text={translate('profile.functions.password.reset.title')}
 					semanticLevel="5"
 				/>
 				<Text
-					text={translate('profile.functions.passwordResetSubtitle')}
+					text={translate(
+						'profile.functions.password.reset.subtitle'
+					)}
 					type="standard"
 					className="tertiary"
 				/>
@@ -281,7 +287,7 @@ export const PasswordReset = () => {
 					className="text--tertiary tertiary pb--1"
 					dangerouslySetInnerHTML={{
 						__html: translate(
-							'profile.functions.passwordResetInstructions'
+							'profile.functions.password.reset.instructions'
 						)
 					}}
 				></div>
@@ -321,7 +327,7 @@ export const PasswordReset = () => {
 							(!isValid ? ' passwordReset__button--disabled' : '')
 						}
 					>
-						{translate('profile.functions.securityButton')}
+						{translate('profile.functions.security.button')}
 					</span>
 				</div>
 			</div>

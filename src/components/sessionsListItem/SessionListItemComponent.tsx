@@ -95,7 +95,9 @@ export const SessionListItemComponent = ({
 				session.item.e2eLastMessage &&
 				session.item.e2eLastMessage.t === 'e2e'
 			) {
-				setPlainTextLastMessage(translate('e2ee.message.encryption'));
+				setPlainTextLastMessage(
+					translate('e2ee.message.encryption.text')
+				);
 			} else {
 				const rawMessageObject = markdownToDraft(
 					session.item.lastMessage

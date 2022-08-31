@@ -29,10 +29,10 @@ export const AbsenceFormular = () => {
 
 	const absenceOverlayItem: OverlayItem = {
 		svg: CheckIcon,
-		headline: translate('absence.changeSuccess.overlay.headline'),
+		headline: translate('absence.overlay.changeSuccess.headline'),
 		buttonSet: [
 			{
-				label: translate('absence.changeSuccess.overlay.buttonLabel'),
+				label: translate('absence.overlay.changeSuccess.buttonLabel'),
 				function: OVERLAY_FUNCTIONS.CLOSE,
 				type: BUTTON_TYPES.AUTO_CLOSE
 			}
@@ -87,7 +87,7 @@ export const AbsenceFormular = () => {
 		<div id="absenceForm" className="absenceForm">
 			<div className="profile__content__title">
 				<Headline
-					text={translate('profile.functions.absenceTitle')}
+					text={translate('profile.functions.absence.title')}
 					semanticLevel="5"
 				/>
 			</div>
@@ -100,9 +100,9 @@ export const AbsenceFormular = () => {
 					placeholder={
 						isAbsent
 							? translate(
-									'profile.functions.absenceActivatedLabel'
+									'profile.functions.absence.activated.label'
 							  )
-							: translate('profile.functions.absenceLabel')
+							: translate('profile.functions.absence.label')
 					}
 					disabled={isAbsent}
 					className={`${isAbsent ? 'disabled' : ''} ${

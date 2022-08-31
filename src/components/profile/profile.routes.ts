@@ -21,7 +21,7 @@ import { Locale } from './Locale';
 
 const profileRoutes: TabsType = [
 	{
-		title: 'profile.routes.general',
+		title: 'profile.routes.general.title',
 		url: '/allgemeines',
 		elements: [
 			{
@@ -119,7 +119,7 @@ const profileRoutes: TabsType = [
 		]
 	},
 	{
-		title: 'profile.routes.activities',
+		title: 'profile.routes.activities.title',
 		url: '/aktivitaeten',
 		condition: (userData) =>
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
@@ -147,11 +147,11 @@ const profileRoutes: TabsType = [
 		]
 	},
 	{
-		title: 'profile.routes.settings',
+		title: 'profile.routes.settings.title',
 		url: '/einstellungen',
 		elements: [
 			{
-				title: 'profile.routes.settings.security',
+				title: 'profile.routes.settings.security.title',
 				url: '/sicherheit',
 				elements: [
 					{
@@ -168,7 +168,7 @@ const profileRoutes: TabsType = [
 				]
 			},
 			{
-				title: 'profile.routes.notifications',
+				title: 'profile.routes.notifications.title',
 				url: '/email',
 				elements: [
 					{
@@ -205,7 +205,7 @@ const profileRoutes: TabsType = [
 		]
 	},
 	{
-		title: 'profile.routes.help',
+		title: 'profile.routes.help.title',
 		url: '/hilfe',
 		elements: [
 			{

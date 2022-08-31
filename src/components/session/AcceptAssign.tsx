@@ -68,10 +68,10 @@ export const AcceptAssign = ({
 	const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = useMemo(
 		() => ({
 			svg: CheckIcon,
-			headline: translate('session.acceptance.overlayHeadline'),
+			headline: translate('session.acceptance.overlay.headline'),
 			buttonSet: [
 				{
-					label: translate('session.acceptance.buttonLabel'),
+					label: translate('session.acceptance.button.label'),
 					function: OVERLAY_FUNCTIONS.REDIRECT,
 					type: BUTTON_TYPES.PRIMARY
 				}
@@ -84,13 +84,13 @@ export const AcceptAssign = ({
 		() => ({
 			svg: XIcon,
 			headline: translate(
-				'session.anonymous.takenByOtherConsultant.overlayHeadline'
+				'session.anonymous.takenByOtherConsultant.overlay.headline'
 			),
 			illustrationBackground: 'error',
 			buttonSet: [
 				{
 					label: translate(
-						'session.anonymous.takenByOtherConsultant.buttonLabel'
+						'session.anonymous.takenByOtherConsultant.button.label'
 					),
 					function: OVERLAY_FUNCTIONS.CLOSE,
 					type: BUTTON_TYPES.PRIMARY

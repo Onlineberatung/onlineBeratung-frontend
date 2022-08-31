@@ -57,7 +57,9 @@ export const TwoFactorAuth = () => {
 	);
 	const [overlayActive, setOverlayActive] = useState<boolean>(false);
 	const [otp, setOtp] = useState<string>('');
-	const defaultOtpLabel = translate('twoFactorAuth.activate.otp.input.label');
+	const defaultOtpLabel = translate(
+		'twoFactorAuth.activate.otp.input.label.text'
+	);
 	const [otpLabel, setOtpLabel] = useState<string>(defaultOtpLabel);
 	const [otpLabelState, setOtpLabelState] = useState<InputFieldLabelState>();
 	const [otpInputInfo, setOtpInputInfo] = useState<string>('');
@@ -158,12 +160,16 @@ export const TwoFactorAuth = () => {
 			if (totp.length === OTP_LENGTH) {
 				return {
 					validity: 'valid',
-					label: translate('twoFactorAuth.activate.otp.input.label')
+					label: translate(
+						'twoFactorAuth.activate.otp.input.label.text'
+					)
 				};
 			} else if (totp.lenght === 0) {
 				return {
 					validity: null,
-					label: translate('twoFactorAuth.activate.otp.input.label')
+					label: translate(
+						'twoFactorAuth.activate.otp.input.label.text'
+					)
 				};
 			} else if (totp.length < OTP_LENGTH) {
 				return {
@@ -318,7 +324,9 @@ export const TwoFactorAuth = () => {
 	const getAuthenticatorTools = useCallback((): JSX.Element => {
 		const tools = [
 			{
-				title: translate('twoFactorAuth.activate.app.step2.tool1'),
+				title: translate(
+					'twoFactorAuth.activate.app.step2.tool1.title'
+				),
 				urlGoogle: translate(
 					'twoFactorAuth.activate.app.step2.tool1.url.google'
 				),
@@ -327,7 +335,9 @@ export const TwoFactorAuth = () => {
 				)
 			},
 			{
-				title: translate('twoFactorAuth.activate.app.step2.tool2'),
+				title: translate(
+					'twoFactorAuth.activate.app.step2.tool2.title'
+				),
 				urlGoogle: translate(
 					'twoFactorAuth.activate.app.step2.tool2.url.google'
 				),
@@ -620,7 +630,7 @@ export const TwoFactorAuth = () => {
 						setEmailLabelState('invalid');
 						setEmailLabel(
 							translate(
-								'twoFactorAuth.activate.email.input.duplicate'
+								'twoFactorAuth.activate.email.input.duplicate.label'
 							)
 						);
 						setHasDuplicateError(true);

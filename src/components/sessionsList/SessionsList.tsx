@@ -858,7 +858,7 @@ export const SessionsList = ({
 								text={
 									sessionListTab !==
 									SESSION_LIST_TAB_ANONYMOUS
-										? translate('sessionList.empty')
+										? translate('sessionList.empty.known')
 										: translate(
 												'sessionList.empty.anonymous'
 										  )

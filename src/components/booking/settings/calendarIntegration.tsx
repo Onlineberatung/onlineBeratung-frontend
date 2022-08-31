@@ -34,7 +34,9 @@ export const CalendarIntegration = () => {
 			<div style={{ marginBottom: '20px' }}>
 				<Headline
 					className="pr--3"
-					text={translate('booking.calender.synchroniseCalender')}
+					text={translate(
+						'booking.calender.synchroniseCalender.title'
+					)}
 					semanticLevel="5"
 				/>
 			</div>

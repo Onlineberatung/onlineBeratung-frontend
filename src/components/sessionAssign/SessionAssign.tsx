@@ -73,7 +73,7 @@ export const SessionAssign = (props: { value?: string }) => {
 	const assignSelfOverlay: OverlayItem = useMemo(
 		() => ({
 			svg: CheckIcon,
-			headline: translate('session.assignSelf.overlayHeadline'),
+			headline: translate('session.assignSelf.overlay.headline1'),
 			buttonSet: [
 				{
 					label: translate('session.assignSelf.button1.label'),
@@ -92,7 +92,7 @@ export const SessionAssign = (props: { value?: string }) => {
 
 	const assignSession: OverlayItem = useMemo(
 		() => ({
-			headline: translate('session.assignSelf.overlay.headline'),
+			headline: translate('session.assignSelf.overlay.headline2'),
 			copy: translate('session.assignSelf.overlay.subtitle'),
 			buttonSet: [
 				{

@@ -170,7 +170,7 @@ export const Appointment = ({
 					<div className="flex">
 						<div className="flex__col--1">
 							<div className="mb--1 text--bold">
-								{translate(`date.day.${date.getDay()}`)},{' '}
+								{translate(`date.day.${date.getDay()}.long`)},{' '}
 								{(date.getHours() + 100)
 									.toString()
 									.substring(1)}

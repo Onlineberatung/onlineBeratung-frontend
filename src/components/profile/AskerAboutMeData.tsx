@@ -268,7 +268,7 @@ export const AskerAboutMeData = () => {
 			<div className="profile__content__title">
 				<Headline
 					className="pr--3"
-					text={translate('profile.data.title')}
+					text={translate('profile.data.title.asker')}
 					semanticLevel="5"
 				/>
 			</div>

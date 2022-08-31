@@ -42,7 +42,7 @@ export const MessageDisplayName = ({
 			? translate(prettyDate.str)
 			: translate(prettyDate.date);
 
-		return translate('message.forwardedLabel', {
+		return translate('message.forward.label', {
 			username: alias?.username,
 			translatedDate,
 			time: alias?.timestamp

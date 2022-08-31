@@ -54,7 +54,7 @@ export const AskerRegistration: React.FC = () => {
 	const selectedConsultingType = useConsultingType(selectedConsultingTypeId);
 
 	const buttonSetRegistration: ButtonItem = {
-		label: translate('profile.data.register.buttonLabel'),
+		label: translate('profile.data.register.button.label'),
 		type: BUTTON_TYPES.LINK
 	};
 
@@ -64,14 +64,14 @@ export const AskerRegistration: React.FC = () => {
 		buttonSet: [
 			{
 				label: translate(
-					'profile.data.registerSuccess.overlay.button1Label'
+					'profile.data.registerSuccess.overlay.button1.label'
 				),
 				function: OVERLAY_FUNCTIONS.REDIRECT,
 				type: BUTTON_TYPES.PRIMARY
 			},
 			{
 				label: translate(
-					'profile.data.registerSuccess.overlay.button2Label'
+					'profile.data.registerSuccess.overlay.button2.label'
 				),
 				function: OVERLAY_FUNCTIONS.LOGOUT,
 				type: BUTTON_TYPES.LINK
@@ -86,7 +86,7 @@ export const AskerRegistration: React.FC = () => {
 		buttonSet: [
 			{
 				label: translate(
-					'profile.data.registerError.overlay.buttonLabel'
+					'profile.data.registerError.overlay.button.label'
 				),
 				function: OVERLAY_FUNCTIONS.CLOSE,
 				type: BUTTON_TYPES.PRIMARY
@@ -171,7 +171,7 @@ export const AskerRegistration: React.FC = () => {
 					let overlayItem = overlayItemNewRegistrationSuccess;
 					if (selectedConsultingType?.groupChat.isGroupChat) {
 						overlayItem.buttonSet[0].label = translate(
-							'profile.data.registerSuccess.overlay.button1Label.groupChats'
+							'profile.data.registerSuccess.overlay.groupChats.button.label.'
 						);
 					} else {
 						setSessionId(response.sessionId);

@@ -146,7 +146,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			twoFactorType === TWO_FACTOR_TYPES.APP
 				? translate(`login.warning.failed.app.otp.missing`)
 				: '',
-		label: translate('twoFactorAuth.activate.otp.input.label'),
+		label: translate('twoFactorAuth.activate.otp.input.label.text'),
 		name: 'otp',
 		type: 'text',
 		icon: <VerifiedIcon />,
@@ -324,7 +324,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			.catch((error) => {
 				if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
 					setShowLoginError(
-						translate('login.warning.failed.unauthorized')
+						translate('login.warning.failed.unauthorized.text')
 					);
 				} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
 					if (error.options.data.otpType)
@@ -495,7 +495,9 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 								type={'infoSmall'}
 							/>
 							<Text
-								text={translate('login.register.infoText.copy')}
+								text={translate(
+									'login.register.infoText.copy.title'
+								)}
 								type={'infoSmall'}
 							/>
 							<button

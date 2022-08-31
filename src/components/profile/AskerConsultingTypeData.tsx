@@ -109,7 +109,7 @@ export const AskerConsultingTypeData = () => {
 									)}
 								<div className="profile__data__item">
 									<p className="profile__data__label">
-										{translate('profile.data.agency')}
+										{translate('profile.data.agency.label')}
 									</p>
 									<p className="profile__data__content">
 										{translate(

@@ -15,17 +15,17 @@ import { useTranslation } from 'react-i18next';
 export const AbsenceHandler = () => {
 	const { t: translate } = useTranslation();
 	const absenceReminderOverlayItem: OverlayItem = {
-		headline: translate('absence.overlayHeadline'),
+		headline: translate('absence.overlay.headline'),
 		headlineStyleLevel: '1',
 		copy: translate('absence.overlay.copy'),
 		buttonSet: [
 			{
-				label: translate('absence.overlayButton1.label'),
+				label: translate('absence.overlay.button1.label'),
 				function: OVERLAY_FUNCTIONS.DEACTIVATE_ABSENCE,
 				type: BUTTON_TYPES.PRIMARY
 			},
 			{
-				label: translate('absence.overlayButton2.label'),
+				label: translate('absence.overlay.button2.label'),
 				function: OVERLAY_FUNCTIONS.CLOSE,
 				type: BUTTON_TYPES.SECONDARY
 			}
@@ -34,10 +34,10 @@ export const AbsenceHandler = () => {
 
 	const absenceChangedOverlayItem: OverlayItem = {
 		svg: CheckIcon,
-		headline: translate('absence.changeSuccess.overlay.headline'),
+		headline: translate('absence.overlay.changeSuccess.headline'),
 		buttonSet: [
 			{
-				label: translate('absence.changeSuccess.overlay.buttonLabel'),
+				label: translate('absence.overlay.changeSuccess.buttonLabel'),
 				function: OVERLAY_FUNCTIONS.CLOSE,
 				type: BUTTON_TYPES.AUTO_CLOSE
 			}

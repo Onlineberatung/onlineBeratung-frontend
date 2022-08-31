@@ -267,7 +267,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		if (activeSession.isGroup) {
 			return translate('enquiry.write.input.placeholder.groupChat');
 		} else if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
-			return translate('enquiry.write.input.placeholder');
+			return translate('enquiry.write.input.placeholder.asker');
 		} else if (
 			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
 			activeSession.isFeedback
@@ -281,7 +281,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		} else if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
 			return translate('enquiry.write.input.placeholder.consultant');
 		}
-		return translate('enquiry.write.input.placeholder');
+		return translate('enquiry.write.input.placeholder.asker');
 	};
 
 	/* eslint-disable */
@@ -487,7 +487,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						)
 					}
 					isAnonymous={false}
-					btnLabel={'enquiry.acceptButton'}
+					btnLabel={'enquiry.acceptButton.known'}
 				/>
 			)}
 

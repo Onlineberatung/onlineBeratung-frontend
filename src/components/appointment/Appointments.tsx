@@ -360,7 +360,7 @@ type AppointmentDividerProps = {
 
 const AppointmentDivider = ({ date, type, index }: AppointmentDividerProps) => {
 	const { t: translate } = useTranslation();
-	const month = translate(`date.month.${date.getMonth()}`);
+	const month = translate(`date.month.${date.getMonth()}.long`);
 	const prettyDate = getPrettyDateFromMessageDate(
 		date.getTime() / 1000,
 		true,

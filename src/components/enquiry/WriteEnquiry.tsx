@@ -166,8 +166,8 @@ export const WriteEnquiry: React.FC = () => {
 
 	const overlayItem: OverlayItem = {
 		svg: EnvelopeCheckIcon,
-		headline: translate('enquiry.write.overlayHeadline'),
-		copy: translate('enquiry.write.overlayCopy'),
+		headline: translate('enquiry.write.overlay.headline'),
+		copy: translate('enquiry.write.overlay.copy'),
 		buttonSet: [
 			{
 				label: translate('enquiry.write.overlay.button'),
@@ -214,7 +214,9 @@ export const WriteEnquiry: React.FC = () => {
 						<Headline
 							semanticLevel="4"
 							styleLevel="5"
-							text={translate('enquiry.write.infotext.copy')}
+							text={translate(
+								'enquiry.write.infotext.copy.title'
+							)}
 						/>
 						<Text
 							text={translate(
@@ -236,7 +238,9 @@ export const WriteEnquiry: React.FC = () => {
 			<ActiveSessionContext.Provider value={{ activeSession }}>
 				<MessageSubmitInterfaceComponent
 					handleSendButton={handleSendButton}
-					placeholder={translate('enquiry.write.input.placeholder')}
+					placeholder={translate(
+						'enquiry.write.input.placeholder.asker'
+					)}
 					language={selectedLanguage}
 					E2EEParams={{
 						keyID: keyID,

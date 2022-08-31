@@ -140,7 +140,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	const getUsernameText = () => {
 		return `
-		${translate('anonymous.waitingroom.username')} 
+		${translate('anonymous.waitingroom.username.text')} 
 		<div class="waitingRoom__username">
 		${
 			username

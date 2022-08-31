@@ -46,7 +46,7 @@ export const Welcome = ({ onClick }: { onClick: Function }) => {
 				<Text
 					type="standard"
 					text={translate(
-						'videoConference.waitingroom.dataProtection.label',
+						'videoConference.waitingroom.dataProtection.label.text',
 						{
 							legal_links: legalLinks
 								.filter((legalLink) => legalLink.registration)
