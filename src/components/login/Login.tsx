@@ -459,7 +459,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
 						<button
 							onClick={onPasswordResetClick}
-							className="button-as-link"
+							className="button-as-link loginForm__passwordReset"
 							type="button"
 						>
 							{translate('login.resetPasswort.label')}
