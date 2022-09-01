@@ -9,13 +9,19 @@ export const getBudibaseAccessToken = (
 		const authIframe = (
 			document.getElementById('authIframe') as HTMLIFrameElement
 		).contentDocument;
-		(authIframe.getElementById('password') as HTMLInputElement).value =
-			password;
-		(authIframe.getElementById('username') as HTMLInputElement).value =
-			username;
-		(
-			authIframe.getElementById('kc-form-login') as HTMLFormElement
-		).submit();
+		if (authIframe?.getElementById('password')) {
+			(authIframe?.getElementById('password') as HTMLInputElement).value =
+				password;
+		}
+		if (authIframe?.getElementById('username')) {
+			(authIframe?.getElementById('username') as HTMLInputElement).value =
+				username;
+		}
+		if (authIframe?.getElementById('kc-form-login')) {
+			(
+				authIframe?.getElementById('kc-form-login') as HTMLFormElement
+			).submit();
+		}
 	};
 
 	const ifrm = document.createElement('iframe');
