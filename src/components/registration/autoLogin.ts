@@ -60,6 +60,9 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 			autoLoginProps.otp ? autoLoginProps.otp : null
 		)
 			.then((response) => {
+				const jwtTokens = response.access_token.split('.');
+				const { email } = JSON.parse(atob(jwtTokens[1]));
+
 				setTokens(
 					response.access_token,
 					response.expires_in,
@@ -99,7 +102,7 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 
 				if (config.budibaseSSO) {
 					getBudibaseAccessToken(
-						autoLoginProps.username,
+						email,
 						autoLoginProps.password,
 						autoLoginProps.tenantSettings
 					);

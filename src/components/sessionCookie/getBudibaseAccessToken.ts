@@ -6,11 +6,16 @@ export const getBudibaseAccessToken = (
 	tenantSettings: TenantDataSettingsInterface
 ) => {
 	const login = () => {
-		const authIframe = (document.getElementById('authIframe') as any)
-			.contentDocument;
-		authIframe.getElementById('password').value = password;
-		authIframe.getElementById('username').value = username;
-		authIframe.getElementById('kc-form-login').submit();
+		const authIframe = (
+			document.getElementById('authIframe') as HTMLIFrameElement
+		).contentDocument;
+		(authIframe.getElementById('password') as HTMLInputElement).value =
+			password;
+		(authIframe.getElementById('username') as HTMLInputElement).value =
+			username;
+		(
+			authIframe.getElementById('kc-form-login') as HTMLFormElement
+		).submit();
 	};
 
 	const ifrm = document.createElement('iframe');
