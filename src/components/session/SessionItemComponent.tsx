@@ -102,6 +102,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const [sessionGroupKeyExportedString, setSessionGroupKeyExportedString] =
 		useState(null);
 
+	const isKeyAlreadyGenerated = useRef(false);
+
 	// group Key generation if needed
 	useEffect(() => {
 		if (!isE2eeEnabled || !ready) {
@@ -117,11 +119,15 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			setGroupKeyID(keyID);
 			setSessionGroupKeyExportedString(sessionKeyExportedString);
 		} else {
+			if (isKeyAlreadyGenerated.current) {
+				return;
+			}
 			createGroupKey().then(
 				({ keyID, key, sessionKeyExportedString }) => {
 					setGroupKey(key);
 					setGroupKeyID(keyID);
 					setSessionGroupKeyExportedString(sessionKeyExportedString);
+					isKeyAlreadyGenerated.current = true;
 				}
 			);
 		}
