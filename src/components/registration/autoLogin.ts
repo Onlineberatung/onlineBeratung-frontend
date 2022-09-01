@@ -104,7 +104,7 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 					getBudibaseAccessToken(
 						email,
 						autoLoginProps.password,
-						autoLoginProps.tenantSettings
+						autoLoginProps?.tenantSettings
 					);
 				}
 			})
@@ -113,13 +113,19 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 					!autoLoginProps.useOldUser &&
 					error.message === FETCH_ERRORS.UNAUTHORIZED
 				) {
+					const enableBudibaseLogin = config.budibaseSSO
+						? {
+								tenantSettings: autoLoginProps?.tenantSettings
+						  }
+						: null;
+
 					autoLogin({
 						username: autoLoginProps.username,
 						password: autoLoginProps.password,
 						redirect: autoLoginProps.redirect,
 						otp: autoLoginProps.otp,
 						useOldUser: true,
-						tenantSettings: autoLoginProps.tenantSettings
+						...enableBudibaseLogin
 					})
 						.then(() => resolve(undefined))
 						.catch((autoLoginError) => reject(autoLoginError));

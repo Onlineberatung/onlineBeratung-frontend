@@ -299,13 +299,19 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		]
 	);
 
+	const enableBudibaseLogin = config.budibaseSSO
+		? {
+				tenantSettings: tenant?.settings
+		  }
+		: null;
+
 	const tryLoginWithoutOtp = () => {
 		setIsRequestInProgress(true);
 		autoLogin({
 			username: username,
 			password: password,
 			redirect: !consultant,
-			tenantSettings: tenant.settings
+			...enableBudibaseLogin
 		})
 			.then(postLogin)
 			.catch((error) => {
@@ -340,7 +346,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 				password,
 				redirect: !consultant,
 				otp,
-				tenantSettings: tenant.settings
+				...enableBudibaseLogin
 			})
 				.then(postLogin)
 				.catch((error) => {
