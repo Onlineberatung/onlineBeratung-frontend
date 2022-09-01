@@ -12,7 +12,7 @@ export const getBudibaseAccessToken = (
 		authIframe.getElementById('username').value = username;
 		authIframe.getElementById('kc-form-login').submit();
 	};
-	console.log(tenantSettings);
+
 	const ifrm = document.createElement('iframe');
 	ifrm.setAttribute(
 		'src',
