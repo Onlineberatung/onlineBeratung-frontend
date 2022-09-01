@@ -304,7 +304,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		autoLogin({
 			username: username,
 			password: password,
-			redirect: !consultant
+			redirect: !consultant,
+			tenantSettings: tenant.settings
 		})
 			.then(postLogin)
 			.catch((error) => {
@@ -338,7 +339,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 				username,
 				password,
 				redirect: !consultant,
-				otp
+				otp,
+				tenantSettings: tenant.settings
 			})
 				.then(postLogin)
 				.catch((error) => {

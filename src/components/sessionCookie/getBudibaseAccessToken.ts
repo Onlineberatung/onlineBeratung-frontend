@@ -1,4 +1,10 @@
-export const getBudibaseAccessToken = (username: string, password: string) => {
+import { TenantDataSettingsInterface } from '../../globalState/interfaces/TenantDataInterface';
+
+export const getBudibaseAccessToken = (
+	username: string,
+	password: string,
+	tenantSettings: TenantDataSettingsInterface
+) => {
 	const login = () => {
 		const authIframe = (document.getElementById('authIframe') as any)
 			.contentDocument;
@@ -6,11 +12,11 @@ export const getBudibaseAccessToken = (username: string, password: string) => {
 		authIframe.getElementById('username').value = username;
 		authIframe.getElementById('kc-form-login').submit();
 	};
-
+	console.log(tenantSettings);
 	const ifrm = document.createElement('iframe');
 	ifrm.setAttribute(
 		'src',
-		'https://budibase-dev.suchtberatung.digital/api/global/auth/default/oidc/configs/c9d14239e5a004c2080344375b1725220'
+		`https://budibase-dev.suchtberatung.digital/api/global/auth/default/oidc/configs/${tenantSettings.featureToolsOICDToken}`
 	);
 	ifrm.onload = login;
 	ifrm.id = 'authIframe';

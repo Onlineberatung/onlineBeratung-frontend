@@ -27,6 +27,7 @@ import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
 import { getBudibaseAccessToken } from '../sessionCookie/getBudibaseAccessToken';
+import { TenantDataSettingsInterface } from '../../globalState/interfaces/TenantDataInterface';
 
 export interface LoginData {
 	data: {
@@ -45,6 +46,7 @@ interface AutoLoginProps {
 	redirect: boolean;
 	otp?: string;
 	useOldUser?: boolean;
+	tenantSettings?: TenantDataSettingsInterface;
 }
 
 export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
@@ -98,7 +100,8 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 				if (config.budibaseSSO) {
 					getBudibaseAccessToken(
 						autoLoginProps.username,
-						autoLoginProps.password
+						autoLoginProps.password,
+						autoLoginProps.tenantSettings
 					);
 				}
 			})
@@ -112,7 +115,8 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 						password: autoLoginProps.password,
 						redirect: autoLoginProps.redirect,
 						otp: autoLoginProps.otp,
-						useOldUser: true
+						useOldUser: true,
+						tenantSettings: autoLoginProps.tenantSettings
 					})
 						.then(() => resolve(undefined))
 						.catch((autoLoginError) => reject(autoLoginError));
