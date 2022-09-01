@@ -275,6 +275,11 @@ export const SessionsList = ({
 
 					setIsLoading(false);
 					if (error.message === FETCH_ERRORS.EMPTY) {
+						dispatch({
+							type: SET_SESSIONS,
+							ready: true,
+							sessions: []
+						});
 						return;
 					} else {
 						setIsReloadButtonVisible(true);
