@@ -1,7 +1,7 @@
 import { FieldContext } from 'rc-field-form';
 import { FormInstance } from 'rc-field-form';
 import React, { useCallback, useState, Children, useRef } from 'react';
-import { useDebounce } from 'use-debounce';
+import { useDebouncedCallback } from 'use-debounce';
 import { InvalidIcon } from '../../../resources/img/icons';
 import { translate } from '../../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../../button/Button';
@@ -61,7 +61,11 @@ export const FormAccordion = ({
 		},
 		[activePanel, enableAutoScroll]
 	);
-	const [debouncedHandlePanelClick] = useDebounce(handlePanelClick, 100);
+	const debouncedHandlePanelClick = useDebouncedCallback(
+		handlePanelClick,
+		200,
+		{ leading: true, trailing: false }
+	);
 
 	return (
 		<div className="formAccordionDigi" ref={ref}>
