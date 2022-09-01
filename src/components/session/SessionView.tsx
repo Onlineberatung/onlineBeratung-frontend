@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { history } from '../app/app';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import {
 	RocketChatContext,
@@ -28,7 +27,8 @@ import { AcceptLiveChatView } from './AcceptLiveChatView';
 
 export const SessionView = () => {
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
-		useParams();
+		useParams<{ rcGroupId: string; sessionId: string }>();
+	const history = useHistory();
 
 	const currentGroupId = useUpdatingRef(groupIdFromParam);
 	const currentSessionId = useUpdatingRef(sessionIdFromParam);
@@ -140,7 +140,8 @@ export const SessionView = () => {
 		rcReady,
 		currentSessionId,
 		currentGroupId,
-		listPath
+		listPath,
+		history
 	]);
 
 	if (loading || !activeSession) {

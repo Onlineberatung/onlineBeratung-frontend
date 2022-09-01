@@ -157,9 +157,6 @@ export const config = {
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		home: 'https://www.caritas.de',
-		imprint: 'https://www.caritas.de/impressum',
-		privacy:
-			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		releases: uiUrl + '/releases',
 		appointmentServiceDevServer:
 			'https://calcom-develop.suchtberatung.digital',
@@ -187,6 +184,17 @@ export const config = {
 		showE2EEBanner: true,
 		showLogo: true
 	},
+	legalLinks: [
+		{
+			url: 'https://www.caritas.de/impressum',
+			label: 'login.legal.infoText.impressum'
+		},
+		{
+			url: 'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
+			label: 'login.legal.infoText.dataprotection',
+			registration: true
+		}
+	],
 	emails: {
 		notifications: [
 			{

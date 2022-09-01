@@ -49,12 +49,12 @@ export const ConsultantNotifications = () => {
 						<Switch
 							className="mr--1"
 							onChange={() => toogleSwitch(notification.types)}
-							checked={userData.emailToggles.find((toggle) => {
-								if (toggle.name === notification.types[0]) {
-									return toggle.state;
-								}
-								return false;
-							})}
+							checked={
+								userData.emailToggles.find(
+									(toggle) =>
+										toggle.name === notification.types[0]
+								)?.state ?? false
+							}
 							uncheckedIcon={false}
 							checkedIcon={false}
 							width={48}

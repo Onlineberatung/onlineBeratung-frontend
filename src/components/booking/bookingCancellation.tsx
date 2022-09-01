@@ -16,7 +16,7 @@ export const BookingCancellation = () => {
 		};
 	}, []);
 
-	const location = useLocation();
+	const location = useLocation<{ uid: string }>();
 
 	return (
 		<iframe

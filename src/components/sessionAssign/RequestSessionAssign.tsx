@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
 	Overlay,
 	OVERLAY_FUNCTIONS,
@@ -30,17 +32,17 @@ import {
 	ConsultantReassignment,
 	ReassignStatus
 } from '../../api/apiSendAliasMessage';
-import { history } from '../app/app';
 import {
 	prepareConsultantDataForSelect,
 	prepareSelectDropdown
 } from './sessionAssignHelper';
-import { useTranslation } from 'react-i18next';
 
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 
 export const RequestSessionAssign = (props: { value?: string }) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { path: listPath } = useContext(SessionTypeContext);
 	const { userData, setUserData } = useContext(UserDataContext);

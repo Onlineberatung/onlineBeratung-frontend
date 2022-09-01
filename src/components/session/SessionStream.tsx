@@ -7,8 +7,7 @@ import {
 	useRef,
 	useState
 } from 'react';
-import { useParams } from 'react-router-dom';
-import { history } from '../app/app';
+import { useParams, useHistory } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
@@ -63,10 +62,12 @@ export const SessionStream = ({
 	bannedUsers
 }: SessionStreamProps) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
 	const { subscribe, unsubscribe } = useContext(RocketChatContext);
-	const { rcGroupId } = useParams();
+	const { rcGroupId } = useParams<{ rcGroupId: string }>();
 
 	const subscribed = useRef(false);
 	const [messagesItem, setMessagesItem] = useState(null);
@@ -240,7 +241,7 @@ export const SessionStream = ({
 					}
 				}
 			},
-			[activeSession, rcGroupId, listPath, type]
+			[activeSession, rcGroupId, listPath, type, history]
 		)
 	);
 

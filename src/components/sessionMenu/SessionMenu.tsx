@@ -7,12 +7,19 @@ import {
 	useState
 } from 'react';
 import { config } from '../../resources/scripts/config';
-import { generatePath, Link, Redirect, useParams } from 'react-router-dom';
+import {
+	generatePath,
+	Link,
+	Redirect,
+	useParams,
+	useHistory
+} from 'react-router-dom';
 import {
 	AUTHORITIES,
 	ExtendedSessionInterface,
 	hasUserAuthority,
 	RocketChatContext,
+	SessionItemInterface,
 	SessionsDataContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
@@ -62,7 +69,6 @@ import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera
 import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
-import { history } from '../app/app';
 import DeleteSession from '../session/DeleteSession';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Text } from '../text/Text';
@@ -70,6 +76,11 @@ import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+
+type TReducedSessionItemInterface = Omit<
+	SessionItemInterface,
+	'attachment' | 'topic' | 'e2eLastMessage' | 'videoCallMessageDTO'
+>;
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -79,7 +90,8 @@ export interface SessionMenuProps {
 
 export const SessionMenu = (props: SessionMenuProps) => {
 	const { t: translate } = useTranslation();
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const history = useHistory();
+	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 
 	const legalLinks = useContext(LegalLinksContext);
 	const { userData } = useContext(UserDataContext);
@@ -332,20 +344,20 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const baseUrl = `${listPath}/:groupId/:id/:subRoute?/:extraPath?${getSessionListTab()}`;
 
 	const groupChatInfoLink = generatePath(baseUrl, {
-		...activeSession.item,
+		...(activeSession.item as TReducedSessionItemInterface),
 		subRoute: 'groupChatInfo'
 	});
 	const editGroupChatSettingsLink = generatePath(baseUrl, {
-		...activeSession.item,
+		...(activeSession.item as TReducedSessionItemInterface),
 		subRoute: 'editGroupChat'
 	});
 	const monitoringPath = generatePath(baseUrl, {
-		...activeSession.item,
+		...(activeSession.item as TReducedSessionItemInterface),
 		subRoute: 'userProfile',
 		extraPath: 'monitoring'
 	});
 	const userProfileLink = generatePath(baseUrl, {
-		...activeSession.item,
+		...(activeSession.item as TReducedSessionItemInterface),
 		subRoute: 'userProfile'
 	});
 
@@ -452,7 +464,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				activeSession.item.feedbackGroupId && (
 					<Link
 						to={generatePath(baseUrl, {
-							...activeSession.item,
+							...(activeSession.item as TReducedSessionItemInterface),
 							groupId: activeSession.item.feedbackGroupId
 						})}
 						className="sessionInfo__feedbackButton"
@@ -538,7 +550,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						<Link
 							className="sessionMenu__item sessionMenu__item--mobile"
 							to={generatePath(baseUrl, {
-								...activeSession.item,
+								...(activeSession.item as TReducedSessionItemInterface),
 								groupId: activeSession.item.feedbackGroupId
 							})}
 						>

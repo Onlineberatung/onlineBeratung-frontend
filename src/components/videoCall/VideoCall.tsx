@@ -17,7 +17,13 @@ type TJistiJWTPayload = {
 };
 
 const VideoCall = () => {
-	const { domain, jwt, e2e, video, username } = useParams();
+	const { domain, jwt, e2e, video, username } = useParams<{
+		domain: string;
+		jwt: string;
+		e2e: string;
+		video: string;
+		username: string;
+	}>();
 
 	const [externalApi, setExternalApi] = useState<IJitsiMeetExternalApi>(null);
 	const [rejected, setRejected] = useState(false);

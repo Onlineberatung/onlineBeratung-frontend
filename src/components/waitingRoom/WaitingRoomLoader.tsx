@@ -15,7 +15,9 @@ export const WaitingRoomLoader = ({
 }: WaitingRoomLoaderProps) => {
 	const [isAnonymousConversationAllowed, setIsAnonymousConversationAllowed] =
 		useState<boolean>();
-	const { consultingTypeSlug } = useParams();
+	const { consultingTypeSlug } = useParams<{
+		consultingTypeSlug: string;
+	}>();
 	const [consultingTypeId, setConsultingTypeId] = useState<number>();
 
 	useEffect(() => {

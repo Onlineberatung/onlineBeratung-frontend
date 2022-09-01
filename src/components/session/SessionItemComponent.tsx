@@ -62,7 +62,7 @@ let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
 	const { t: translate } = useTranslation();
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);

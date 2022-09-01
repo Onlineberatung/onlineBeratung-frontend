@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { MessageSubmitInfo } from '../messageSubmitInterface/MessageSubmitInfo';
-import { history } from '../app/app';
-import { useTranslation } from 'react-i18next';
 
 export const RoomNotFound = () => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
 
 	return (
 		<div>

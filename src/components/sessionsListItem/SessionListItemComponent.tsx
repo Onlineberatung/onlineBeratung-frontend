@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import {
 	convertISO8601ToMSSinceEpoch,
@@ -24,7 +24,6 @@ import {
 	useConsultingType,
 	UserDataContext
 } from '../../globalState';
-import { history } from '../app/app';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
@@ -50,8 +49,10 @@ export const SessionListItemComponent = ({
 	defaultLanguage
 }: SessionListItemProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
-	const { sessionId, rcGroupId: groupIdFromParam } = useParams();
+	const { sessionId, rcGroupId: groupIdFromParam } =
+		useParams<{ rcGroupId: string; sessionId: string }>();
 	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
+	const history = useHistory();
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>

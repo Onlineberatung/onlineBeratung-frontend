@@ -27,7 +27,10 @@ import Logo from './Logo';
 import E2EEBanner from './E2EEBanner';
 
 const VideoConference = () => {
-	const { status, appointmentId } = useParams();
+	const { status, appointmentId } = useParams<{
+		status: string;
+		appointmentId: string;
+	}>();
 
 	const [externalApi, setExternalApi] = useState<IJitsiMeetExternalApi>(null);
 	const [initialized, setInitialized] = useState(false);

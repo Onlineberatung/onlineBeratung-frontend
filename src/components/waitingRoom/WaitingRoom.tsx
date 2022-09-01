@@ -33,7 +33,6 @@ import {
 	AnonymousConversationStartedContext
 } from '../../globalState';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
-import { history } from '../app/app';
 import {
 	acceptanceOverlayItem,
 	rejectionOverlayItem
@@ -43,6 +42,7 @@ import { handleE2EESetup } from '../registration/autoLogin';
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { isMobile } from 'react-device-detect';
+import { useHistory } from 'react-router-dom';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
@@ -52,6 +52,7 @@ export interface WaitingRoomProps {
 
 export const WaitingRoom = (props: WaitingRoomProps) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
 
 	const legalLinks = useContext(LegalLinksContext);
 

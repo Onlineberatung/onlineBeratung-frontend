@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { isMobile } from 'react-device-detect';
-import { generatePath } from 'react-router-dom';
+import { generatePath, useHistory } from 'react-router-dom';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
@@ -16,7 +16,6 @@ import { decodeUsername } from '../../utils/encryptionHelpers';
 import { apiRejectVideoCall } from '../../api';
 import './incomingVideoCall.styles';
 import { ReactComponent as CloseIcon } from '../../resources/img/icons/x.svg';
-import { history } from '../app/app';
 import { useTranslation } from 'react-i18next';
 import { config } from '../../resources/scripts/config';
 
@@ -54,6 +53,7 @@ const getInitials = (text: string) => {
 
 export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
 
 	const { removeNotification } = useContext(NotificationsContext);
 	const { userData } = useContext(UserDataContext);

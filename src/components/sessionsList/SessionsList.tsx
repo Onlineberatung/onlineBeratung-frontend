@@ -7,7 +7,7 @@ import {
 	useRef,
 	useState
 } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import {
 	getSessionType,
 	SESSION_LIST_TAB,
@@ -17,7 +17,6 @@ import {
 	SESSION_TYPE_ARCHIVED,
 	SESSION_TYPES
 } from '../session/sessionHelpers';
-import { history } from '../app/app';
 import {
 	AnonymousConversationStartedContext,
 	AUTHORITIES,
@@ -82,7 +81,9 @@ export const SessionsList = ({
 }: SessionsListProps) => {
 	const { t: translate } = useTranslation();
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
-		useParams();
+		useParams<{ rcGroupId: string; sessionId: string }>();
+	const history = useHistory();
+
 	const initialId = useUpdatingRef(groupIdFromParam || sessionIdFromParam);
 
 	const rcUid = useRef(getValueFromCookie('rc_uid'));

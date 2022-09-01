@@ -87,24 +87,32 @@ const hasJsxRuntime = (() => {
 })();
 
 const localAliases = (paths) =>
-	paths
-		// Remove paths which are not overridden
-		.filter((localPath) => {
-			const fullPath = path.resolve(process.cwd(), `./${localPath}`);
-			try {
-				fs.statSync(fullPath);
-				return true;
-			} catch (error) {
-				return false;
-			}
-		})
-		.map(
-			(localPath) =>
-				new webpack.NormalModuleReplacementPlugin(
-					new RegExp(localPath),
-					path.resolve(process.cwd(), `./${localPath}`)
-				)
-		);
+	paths.map(
+		(localPath) =>
+			new webpack.NormalModuleReplacementPlugin(
+				new RegExp(localPath),
+				(resource) => {
+					const currentPath = path.resolve(
+						resource.context,
+						resource.request
+					);
+					const newPath = path.resolve(
+						process.cwd(),
+						currentPath.substring(currentPath.indexOf(localPath))
+					);
+					if (newPath === currentPath) {
+						return;
+					}
+					try {
+						fs.statSync(newPath);
+						resource.request = newPath;
+						return;
+					} catch (error) {
+						return;
+					}
+				}
+			)
+	);
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -849,22 +857,8 @@ module.exports = function (webpackEnv) {
 					}
 				}),
 			...localAliases([
-				'src/resources/scripts/config.ts',
-				'src/resources/scripts/i18n/defaultLocale.ts',
-				'src/resources/scripts/i18n/informalLocale.ts',
-				'src/resources/img/illustrations/answer.svg',
-				'src/resources/img/illustrations/arrow.svg',
-				'src/resources/img/illustrations/bad-request.svg',
-				'src/resources/img/illustrations/check.svg',
-				'src/resources/img/illustrations/consultant.svg',
-				'src/resources/img/illustrations/envelope-check.svg',
-				'src/resources/img/illustrations/internal-server-error.svg',
-				'src/resources/img/illustrations/not-found.svg',
-				'src/resources/img/illustrations/unauthorized.svg',
-				'src/resources/img/illustrations/waiting.svg',
-				'src/resources/img/illustrations/waving.svg',
-				'src/resources/img/illustrations/welcome.svg',
-				'src/resources/img/illustrations/x.svg'
+				'src/resources/scripts/',
+				'src/resources/img/illustrations/'
 			])
 		].filter(Boolean),
 		// Turn off performance processing because we utilize

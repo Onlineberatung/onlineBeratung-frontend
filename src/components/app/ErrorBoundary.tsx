@@ -1,6 +1,10 @@
-import React, { ReactNode, Component } from 'react';
+import React, { Component, ReactNode } from 'react';
 import StackTrace from 'stacktrace-js';
-import { apiPostError } from '../../api/apiPostError';
+import {
+	apiPostError,
+	ERROR_LEVEL_ERROR,
+	TError
+} from '../../api/apiPostError';
 import { redirectToErrorPage } from '../error/errorHandling';
 import { Loading } from './Loading';
 
@@ -13,17 +17,7 @@ type ErrorBoundaryState = {
 	window?: Window;
 };
 
-export type ErrorBoundaryError = {
-	name: string;
-	message: string;
-	url?: string;
-	headers?: {
-		'User-Agent'?: string;
-		'Referer'?: string;
-	};
-	stack: string;
-	parsedStack?: string;
-};
+export type ErrorBoundaryError = TError;
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 	state: ErrorBoundaryState = {
@@ -60,7 +54,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 		const errorBoundaryError: ErrorBoundaryError = {
 			name: error.name,
 			message: error.message,
-			stack: error.stack
+			stack: error.stack,
+			level: ERROR_LEVEL_ERROR
 		};
 
 		if (
@@ -80,9 +75,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 		StackTrace.fromError(error)
 			.then((stackFrames) => {
 				errorBoundaryError.parsedStack = stackFrames
-					.map((sf) => {
-						return sf.toString();
-					})
+					.map((sf) => sf.toString())
 					.join('\n');
 			})
 			.finally(() => {
