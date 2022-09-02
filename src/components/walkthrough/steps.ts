@@ -20,7 +20,7 @@ const steps = ({ hasTeamAgency }: StepsFeatureFlag): StepsData[] =>
 		},
 		{
 			title: translate('walkthrough.step.1.title'),
-			element: '.walkthrough_step_1',
+			element: '.walkthrough-sessions-consultant-sessionpreview',
 			intro: translate('walkthrough.step.1'),
 			path: '/sessions/consultant/sessionPreview'
 		},
@@ -32,7 +32,7 @@ const steps = ({ hasTeamAgency }: StepsFeatureFlag): StepsData[] =>
 		},
 		{
 			title: translate('walkthrough.step.3.title'),
-			element: '.walkthrough_step_3',
+			element: '.walkthrough-sessions-consultant-sessionview',
 			intro: translate('walkthrough.step.3'),
 			path: '/sessions/consultant/sessionView'
 		},
@@ -44,23 +44,16 @@ const steps = ({ hasTeamAgency }: StepsFeatureFlag): StepsData[] =>
 		},
 		hasTeamAgency && {
 			title: translate('walkthrough.step.5.title'),
-			element: '.walkthrough_step_5',
+			element: '.walkthrough-sessions-consultant-teamsessionview',
 			intro: translate('walkthrough.step.5'),
 			path: '/sessions/consultant/teamSessionView'
 		},
 		{
 			title: translate('walkthrough.step.6.title'),
-			element: '.walkthrough_step_6',
+			element: '.walkthrough-profile',
 			intro: translate('walkthrough.step.6'),
 			path: '/profile/allgemeines'
 		}
-	]
-		.filter(Boolean)
-		.map((step, i) => {
-			return {
-				...step,
-				element: step.element ? '.walkthrough_step_' + i : step.element
-			};
-		});
+	].filter(Boolean);
 
 export default steps;
