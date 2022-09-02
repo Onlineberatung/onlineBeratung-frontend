@@ -69,7 +69,6 @@ import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
-import { showAppointmentsMenu } from '../../utils/navigationHelpers';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -288,16 +287,11 @@ export const SessionsList = ({
 				abortController.current = null;
 			}
 
-			if (
-				sessions.length !== 0 &&
-				!showAppointmentsMenu(userData, sessions)
-			) {
-				dispatch({
-					type: SET_SESSIONS,
-					sessions: [],
-					ready: false
-				});
-			}
+			dispatch({
+				type: SET_SESSIONS,
+				sessions: [],
+				ready: false
+			});
 		};
 		/* eslint-disable */
 	}, [
@@ -832,7 +826,7 @@ export const SessionsList = ({
 						sessions
 							.filter(filterSessions)
 							.sort(sortSessions)
-							.map((item: ListItemInterface, index) => (
+							.map((item: ListItemInterface) => (
 								<SessionListItemComponent
 									key={
 										buildExtendedSession(
