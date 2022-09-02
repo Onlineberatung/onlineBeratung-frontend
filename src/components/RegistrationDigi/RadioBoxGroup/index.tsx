@@ -27,7 +27,7 @@ const RadioBox = ({
 	return (
 		<RadioButton
 			className={last ? 'last' : ''}
-			checked={!!value}
+			checked={value === valueRadio}
 			{...item}
 			inputId={inputId}
 			value={valueRadio}
