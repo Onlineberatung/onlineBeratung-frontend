@@ -2,6 +2,7 @@ import { autoLogin } from '../components/registration/autoLogin';
 import { removeAllCookies } from '../components/sessionCookie/accessSessionCookie';
 import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 import { config } from '../resources/scripts/config';
+import { enableBudibaseLogin } from '../utils/tenantHelpers';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from './fetchData';
 
 export const apiPostRegistration = (
@@ -10,11 +11,6 @@ export const apiPostRegistration = (
 	tenant?: TenantDataInterface
 ): Promise<any> => {
 	removeAllCookies(['useInformal']);
-	const enableBudibaseLogin = config.budibaseSSO
-		? {
-				tenantSettings: tenant?.settings
-		  }
-		: null;
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.POST,
@@ -29,7 +25,7 @@ export const apiPostRegistration = (
 			username: data['username'],
 			password: decodeURIComponent(data['password']),
 			redirect: false,
-			...enableBudibaseLogin
+			...enableBudibaseLogin(tenant?.settings)
 		})
 	);
 };
