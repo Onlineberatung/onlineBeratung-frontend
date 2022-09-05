@@ -121,7 +121,7 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 		}
 
 		const reassignSession: OverlayItem = {
-			headline: translate('session.assignOther.overlay.headline', {
+			headline: translate('session.assignOther.overlay.headline.1', {
 				client,
 				newConsultant
 			}),

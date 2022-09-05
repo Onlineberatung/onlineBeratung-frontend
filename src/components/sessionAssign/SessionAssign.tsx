@@ -55,10 +55,10 @@ export const SessionAssign = (props: { value?: string }) => {
 	const assignOtherOverlay: OverlayItem = useMemo(
 		() => ({
 			svg: CheckIcon,
-			headline: translate('session.assignOther.overlayHeadline'),
+			headline: translate('session.assignOther.overlay.headline.2'),
 			buttonSet: [
 				{
-					label: translate('session.assignOther.buttonLabel'),
+					label: translate('session.assignOther.button.label'),
 					function: OVERLAY_FUNCTIONS.CLOSE,
 					functionArgs: {
 						gotoOverview: true

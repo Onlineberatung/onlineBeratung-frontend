@@ -85,7 +85,7 @@ export const CreateGroupChatView = (props) => {
 
 	const updateChatSuccessOverlayItem: OverlayItem = {
 		svg: CheckIcon,
-		headline: translate('groupChat.updateSuccess.overlayHeadline'),
+		headline: translate('groupChat.updateSuccess.overlay.headline'),
 		buttonSet: [
 			{
 				label: translate(

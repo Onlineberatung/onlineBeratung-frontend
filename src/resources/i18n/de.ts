@@ -1,6 +1,6 @@
 export const de = {
 	absence: {
-		overlay: {
+		'overlay': {
 			'button1.label': 'Ja',
 			'button2.label': 'Nein',
 			'changeSuccess': {
@@ -8,12 +8,13 @@ export const de = {
 				headline:
 					'Der Status Ihrer Abwesenheitsnachricht wurde erfolgreich aktualisiert.'
 			},
-			'checkbox.label': 'Ratsuchende über meine Abwesenheit informieren',
+
 			'copy': 'Ihre Abwesenheitsnachricht ist momentan aktiviert. <br> Möchten Sie diese deaktivieren?',
-			'headline': 'Willkommen zurück!',
-			'input.infoText':
-				'Ratsuchende sehen diese Abwesenheitsnachricht, können Ihnen aber weiterhin schreiben.'
-		}
+			'headline': 'Willkommen zurück!'
+		},
+		'checkbox.label': 'Ratsuchende über meine Abwesenheit informieren',
+		'input.infoText':
+			'Ratsuchende sehen diese Abwesenheitsnachricht, können Ihnen aber weiterhin schreiben.'
 	},
 	aliases: {
 		lastMessage: {
@@ -402,8 +403,8 @@ export const de = {
 			'headline': 'Chat löschen'
 		},
 		errorOverlay: {
-			'button': 'ok',
-			'.headline':
+			button: 'ok',
+			headline:
 				'Ups! Wir konnten den Chat gerade nicht löschen. Bitte versuchen Sie es noch einmal.'
 		},
 		successOverlay: {
@@ -446,23 +447,23 @@ export const de = {
 		}
 	},
 	enquiry: {
-		acceptButton: {
+		'acceptButton': {
 			anonymous: 'Chat starten',
 			known: 'Anfrage annehmen'
 		},
-		anonymous: {
+		'anonymous': {
 			'infoLabel.start': 'Starten Sie nun den Chat mit ',
 			'infoLabel.end': '.'
 		},
-		write: {
-			'infotext': {
+		'write': {
+			infotext: {
 				copy: {
 					facts: '<ul><li>Was ist passiert?</li><li>Wie ist Ihre aktuelle Situation?</li><li>Was beschäftigt Sie?</li><li>Haben Sie eine bestimmte Frage oder wissen Sie vielleicht selbst noch nicht so genau was Ihnen helfen könnte?</li></ul>',
 					title: 'Vielleicht helfen Ihnen folgende Punkte bei der Formulierung weiter:'
 				},
 				headline: 'Hier ist Platz für Ihre Anliegen.'
 			},
-			'input': {
+			input: {
 				'placeholder': {
 					asker: 'Schreiben Sie uns, was Sie bewegt.',
 					consultant: 'Nachricht an Klient_in schreiben',
@@ -474,14 +475,14 @@ export const de = {
 				},
 				'button.title': 'Nachricht senden'
 			},
-			'language.selection.headline':
-				'Bitte wählen Sie die Sprache, in der Sie beraten werden wollen.',
-			'overlay': {
+			overlay: {
 				copy: 'Innerhalb von zwei Werktagen erhalten Sie eine Antwort von uns.',
 				button: 'Zur Nachricht',
 				headline: 'Vielen Dank für Ihre Nachricht!'
 			}
-		}
+		},
+		'language.selection.headline':
+			'Bitte wählen Sie die Sprache, in der Sie beraten werden wollen.'
 	},
 	error: {
 		statusCodes: {
@@ -609,7 +610,7 @@ export const de = {
 				edit: 'Bearbeiten',
 				headline: 'Chat-Einstellungen',
 				repetition: {
-					lable: 'Wiederholungen',
+					label: 'Wiederholungen',
 					single: 'einmalig',
 					weekly: 'wöchentlich'
 				},
@@ -680,28 +681,13 @@ export const de = {
 			}
 		},
 		'updateSuccess': {
-			'overlay.button1Label': 'Schließen',
-			'overlayHeadline': 'Ihre Änderungen wurden erfolgreich gespeichert.'
+			overlay: {
+				button1Label: 'Schließen',
+				headline: 'Ihre Änderungen wurden erfolgreich gespeichert.'
+			}
 		}
 	},
 	help: {
-		consultant: {
-			headline: 'Video-Call',
-			intro: 'Um einen Video-Call starten zu können, müssen Sie sich über Google Chrome oder Microsoft Edge bei der Online-Beratung anmelden. Somit kann der Video-Call Ende-zu-Ende verschlüsselt werden und Sie können starten.',
-			steps: {
-				'1.1': 'Folgen Sie dem Link zu ',
-				'1.2': ' oder ',
-				'2': 'Laden Sie sich Chrome oder Edge herunter. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
-				'3': 'Installieren Sie Chrome oder Edge auf Ihrem PC/Laptop/Tablet/Smartphone.',
-				'4': 'Öffnen Sie nun über Chrome oder Edge die Online-Beratung.',
-				'5': 'Melden Sie sich bei der Online-Beratung an.',
-				'6': 'Starten Sie den Video-Call.',
-				'headline': {
-					'1': 'Schritt für Schritt Anleitung',
-					'2': 'Sie haben bereits Google Chrome oder Microsoft Edge?'
-				}
-			}
-		},
 		googleChrome: 'Google Chrome',
 		msEdge: 'Microsoft Edge',
 		videoCall: {
@@ -715,6 +701,23 @@ export const de = {
 					'6': 'Bitten Sie Ihre_n Berater_in Sie nochmals anzurufen.',
 					'headline': {
 						'1': 'Video-Calls Ende-zu-Ende zu verschlüsseln',
+						'2': 'Sie haben bereits Google Chrome oder Microsoft Edge?'
+					}
+				}
+			},
+			consultant: {
+				headline: 'Video-Call',
+				intro: 'Um einen Video-Call starten zu können, müssen Sie sich über Google Chrome oder Microsoft Edge bei der Online-Beratung anmelden. Somit kann der Video-Call Ende-zu-Ende verschlüsselt werden und Sie können starten.',
+				steps: {
+					'1.1': 'Folgen Sie dem Link zu ',
+					'1.2': ' oder ',
+					'2': 'Laden Sie sich Chrome oder Edge herunter. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
+					'3': 'Installieren Sie Chrome oder Edge auf Ihrem PC/Laptop/Tablet/Smartphone.',
+					'4': 'Öffnen Sie nun über Chrome oder Edge die Online-Beratung.',
+					'5': 'Melden Sie sich bei der Online-Beratung an.',
+					'6': 'Starten Sie den Video-Call.',
+					'headline': {
+						'1': 'Schritt für Schritt Anleitung',
 						'2': 'Sie haben bereits Google Chrome oder Microsoft Edge?'
 					}
 				}
@@ -1340,7 +1343,7 @@ export const de = {
 				}
 			},
 			'security': {
-				Title: 'Sicherheit',
+				title: 'Sicherheit',
 				button: 'Passwort ändern'
 			},
 			'spokenLanguages.saveError':
@@ -1476,15 +1479,6 @@ export const de = {
 			'preselected.isTeam': 'Sie werden von einem Team beraten.'
 		},
 		'agencySelection': {
-			agencyPreselected: {
-				headline: 'Bitte geben Sie Ihre Postleitzahl an',
-				intro: {
-					overline: 'Warum benötigen wir Ihre Postleitzahl?',
-					subline: 'Unsere Fachleute:',
-					point1: 'kennen dann die Hilfen rund um Ihren Wohnort',
-					point2: 'kennen die Gesetze Ihres Bundeslandes'
-				}
-			},
 			headline: 'Bitte wählen Sie eine Beratungsstelle in Ihrer Nähe',
 			intro: {
 				overline:
@@ -1511,6 +1505,15 @@ export const de = {
 			title: {
 				start: 'Beratungsstellen zur Postleitzahl',
 				end: ':'
+			}
+		},
+		'agencyPreselected': {
+			headline: 'Bitte geben Sie Ihre Postleitzahl an',
+			intro: {
+				overline: 'Warum benötigen wir Ihre Postleitzahl?',
+				subline: 'Unsere Fachleute:',
+				point1: 'kennen dann die Hilfen rund um Ihren Wohnort',
+				point2: 'kennen die Gesetze Ihres Bundeslandes'
 			}
 		},
 		'consultingType.preselected.prefix': 'Ihr vorausgewähltes Themenfeld: ',
@@ -1659,18 +1662,19 @@ export const de = {
 			'takenByOtherConsultant.button.label': 'Schließen'
 		},
 		'assignOther': {
-			overlay: {
-				'headline':
-					'Möchten Sie {{client}} an {{newConsultant}} zuweisen?',
+			'overlay': {
+				'headline': {
+					'1': 'Möchten Sie {{client}} an {{newConsultant}} zuweisen?',
+					'2': 'Sie haben die Beratung erfolgreich zugewiesen.'
+				},
 				'subtitle.noTeam':
 					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugiff mehr auf die Nachrichten.',
 				'subtitle.team.self':
 					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, finden Sie den Chatverlauf in Ihren Nachrichten und nicht mehr unter Teamberatung.',
 				'subtitle.team.other':
 					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, finden Sie den Chatverlauf unter Teamberatung und nicht mehr in Ihren Nachrichten.'
-			}
-			// 'buttonLabel.abort': 'Abbrechen',
-			// 'buttonLabel.assign': 'Zuweisen',
+			},
+			'button.label': 'Schließen'
 		},
 		'assignSelf': {
 			'overlay': {

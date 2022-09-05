@@ -207,7 +207,7 @@ export const GroupChatInfo = () => {
 			value: getDurationTranslation()
 		},
 		{
-			label: translate('groupChat.info.settings.repetition.lable'),
+			label: translate('groupChat.info.settings.repetition.label'),
 			value: activeSession.item.repetitive
 				? translate('groupChat.info.settings.repetition.weekly')
 				: translate('groupChat.info.settings.repetition.single')

@@ -1,78 +1,106 @@
 export const en = {
 	absence: {
-		'overlayHeadline': 'Welcome back!',
-		'overlay.copy':
-			'Your absence message is currently activated. <br> Do you want to deactivate it?',
-		'overlayButton1.label': 'Yes',
-		'overlayButton2.label': 'No',
-		'changeSuccess.overlay.headline':
-			'The status of your absence message has been successfully updated.',
-		'changeSuccess.overlay.buttonLabel': 'Close',
+		'overlay': {
+			'headline': 'Welcome back!',
+			'copy': 'Your absence message is currently activated. <br> Do you want to deactivate it?',
+			'button1.label': 'Yes',
+			'button2.label': 'No',
+			'changeSuccess': {
+				headline:
+					'The status of your absence message has been successfully updated.',
+				buttonLabel: 'Close'
+			}
+		},
 		'checkbox.label': 'Inform advice seekers about my absence',
 		'input.infoText':
 			'Advice seekers will see absence message, but will still be able to write to you.'
 	},
 	aliases: {
-		'lastMessage.e2ee_activated': 'Information about your data security',
-		'lastMessage.further_steps': 'This is how it continues',
-		'lastMessage.reassign_consultant.CONFIRMED': 'reassigned',
-		'lastMessage.reassign_consultant.REJECTED': 'Assignment rejected',
-		'lastMessage.reassign_consultant.REQUESTED': 'Assignment request',
-		'lastMessage.master_key_lost': '',
-		// WORKAROUND for reassignment lastMessage bug
-		'lastMessage.reassign_consultant_reset_last_message': 'reassigned'
+		lastMessage: {
+			e2ee_activated: 'Information about your data security',
+			further_steps: 'This is how it continues',
+			reassign_consultant: {
+				CONFIRMED: 'reassigned',
+				REJECTED: 'Assignment rejected',
+				REQUESTED: 'Assignment request'
+			},
+			master_key_lost: '',
+			// WORKAROUND for reassignment lastMessage bug
+			reassign_consultant_reset_last_message: 'reassigned'
+		}
 	},
 	anonymous: {
-		'listItem.activeLabel': 'Active',
-		'overlay.finishChat.headline': 'Do you want to end this chat?',
-		'overlay.finishChat.consultant.copy':
-			'The advice seeker will be informed about this and will not be able to access the chat history afterwards.',
-		'overlay.finishChat.asker.copy':
-			'When you exit this chat, you will no longer have access to your chat history.',
-		'overlay.finishChat.button1': 'End chat',
-		'overlay.finishChat.button2': 'Cancel',
-		'overlay.finishChat.success.headline':
-			'The chat has ended successfully.',
-		'overlay.finishChat.success.button': 'Go to Caritas.de',
-		'overlay.chatWasFinished.headline':
-			'Your consultant has ended the chat.',
-		'overlay.chatWasFinished.copy':
-			'You will no longer have access to your chat history.',
-		'overlay.chatWasFinished.button': 'Go to Caritas.de',
-		'session.finishChat': 'End chat',
-		'session.systemMessage.chatFinished': 'The chat has been closed.',
-		'session.infoMessage.chatFinished':
-			'The messages are deleted 48h after the chat ends.',
-		'waitingroom.title.start': 'Waiting room',
-		'waitingroom.dataProtection.headline': 'Welcome!',
-		'waitingroom.dataProtection.subline':
-			'Please confirm our privacy policy.',
-		'waitingroom.dataProtection.description':
-			'After that, our consultants may start a chat with you.',
-		'waitingroom.dataProtection.button': 'Confirm',
-		'waitingroom.errorPage.headline': 'Oops!',
-		'waitingroom.errorPage.description':
-			'We are sorry something must have gone wrong.<br>Try again.',
-		'waitingroom.errorPage.button': 'Reload',
-		'waitingroom.headline': 'Please be patient',
-		'waitingroom.subline':
-			'Currently, all consultants are in discussion. We will be there for you as soon as possible.',
-		'waitingroom.username': 'Your username is:',
-		'waitingroom.username.loading': 'Will be loaded...',
-		'waitingroom.info.accountDeletion':
-			'We delete your messages after 48 hours at the latest. Your anonymity is important to us.',
-		'waitingroom.redirect.title':
-			'You dont want to wait for a free chat? And do not need an answer immediately?',
-		'waitingroom.redirect.subline':
-			'Register and leave us a message. We will get back to you within 2 business days. <br><br>Go to <a href="registration">registration</a>',
-		'waitingroom.overlay.acceptance.headline': 'Welcome!',
-		'waitingroom.overlay.acceptance.copy':
-			'Your consultant is waiting for you in the chat. Are you ready?',
-		'waitingroom.overlay.acceptance.button': 'Chat now',
-		'waitingroom.overlay.rejection.headline': 'Chat time ended.',
-		'waitingroom.overlay.rejection.copy':
-			'Sorry, we could not respond to your request within the chat time. Please register and leave us your message. We will get back to you within 2 business days.',
-		'waitingroom.overlay.rejection.button': 'To registration'
+		listItem: {
+			activeLabel: 'Active'
+		},
+		overlay: {
+			finishChat: {
+				'headline': 'Do you want to end this chat?',
+				'consultant.copy':
+					'The advice seeker will be informed about this and will not be able to access the chat history afterwards.',
+				'asker.copy':
+					'When you exit this chat, you will no longer have access to your chat history.',
+				'button1': 'End chat',
+				'button2': 'Cancel',
+				'success': {
+					headline: 'The chat has ended successfully.',
+					button: 'Go to Caritas.de'
+				}
+			},
+			chatWasFinished: {
+				headline: 'Your consultant has ended the chat.',
+				copy: 'You will no longer have access to your chat history.',
+				button: 'Go to Caritas.de'
+			}
+		},
+		session: {
+			'finishChat': 'End chat',
+			'systemMessage.chatFinished': 'The chat has been closed.',
+			'infoMessage.chatFinished':
+				'The messages are deleted 48h after the chat ends.'
+		},
+		waitingroom: {
+			'title.start': 'Waiting room',
+			'dataProtection': {
+				headline: 'Welcome!',
+				subline: 'Please confirm our privacy policy.',
+				description:
+					'After that, our consultants may start a chat with you.',
+				button: 'Confirm'
+			},
+			'errorPage': {
+				headline: 'Oops!',
+				description:
+					'We are sorry something must have gone wrong.<br>Try again.',
+				button: 'Reload'
+			},
+			'headline': 'Please be patient',
+			'subline':
+				'Currently, all consultants are in discussion. We will be there for you as soon as possible.',
+			'username': {
+				text: 'Your username is:',
+				loading: 'Will be loaded...'
+			},
+			'info.accountDeletion':
+				'We delete your messages after 48 hours at the latest. Your anonymity is important to us.',
+			'redirect': {
+				title: 'You dont want to wait for a free chat? And do not need an answer immediately?',
+				subline:
+					'Register and leave us a message. We will get back to you within 2 business days. <br><br>Go to <a href="registration">registration</a>'
+			},
+			'overlay': {
+				acceptance: {
+					headline: 'Welcome!',
+					copy: 'Your consultant is waiting for you in the chat. Are you ready?',
+					button: 'Chat now'
+				},
+				rejection: {
+					headline: 'Chat time ended.',
+					copy: 'Sorry, we could not respond to your request within the chat time. Please register and leave us your message. We will get back to you within 2 business days.',
+					button: 'To registration'
+				}
+			}
+		}
 	},
 	app: {
 		'title': 'Consulting & Help',
@@ -82,95 +110,170 @@ export const en = {
 		'logout': 'Log out'
 	},
 	appointments: {
-		'title': 'Appointment overview',
-		'showMore': 'Show more',
-		'showLess': 'Show less',
-		'notification.saved.title': 'The appointment was saved successfully.',
-		'noAppointments': 'Currently there are no dates',
-		'onlineMeeting.start': 'Start video call',
-		'onlineMeeting.overlay.add.headline': 'New video call',
-		'onlineMeeting.overlay.edit.headline': 'Edit video call',
-		'onlineMeeting.overlay.add.button.cancel': 'Cancel',
-		'onlineMeeting.overlay.add.button.add': 'Save',
-		'onlineMeeting.overlay.start.headline': 'Start video call',
-		'onlineMeeting.overlay.start.copy':
-			'You are now starting the video call. Invited participants can join now with the invitation link.',
-		'onlineMeeting.overlay.start.button.cancel': 'Cancel',
-		'onlineMeeting.overlay.start.button.start': 'Start',
-		'onlineMeeting.overlay.delete.headline': 'Delete video call',
-		'onlineMeeting.overlay.delete.copy':
-			'Do you really want to delete this video call?',
-		'onlineMeeting.overlay.delete.button.cancel': 'Cancel',
-		'onlineMeeting.overlay.delete.button.delete': 'Delete',
-		'onlineMeeting.form.title': 'Title',
-		'onlineMeeting.form.description': 'Description',
-		'onlineMeeting.form.date': 'Date',
-		'onlineMeeting.form.time': 'Start (hh:mm)',
-		'copy.link.title': 'Copy invitation link to clipboard',
-		'copy.link.text': 'Copy link',
-		'copy.link.notification.title': 'Link copied',
-		'copy.link.notification.text':
-			'Invitation link to the video call copied to clipboard!',
-		'qrCode.headline': 'Invitation link QR code',
-		'qrCode.text':
-			'If you share your QR code with someone, that person can scan it with their phone camera to join the video call directly. Alternatively, you can download the code.'
+		title: 'Appointment overview',
+		showMore: 'Show more',
+		showLess: 'Show less',
+		notification: {
+			'saved.title': 'The appointment was saved successfully.'
+		},
+		noAppointments: 'Currently there are no dates',
+		onlineMeeting: {
+			start: 'Start video call',
+			overlay: {
+				add: {
+					'headline': 'New video call',
+					'button.cancel': 'Cancel',
+					'button.add': 'Save'
+				},
+				edit: {
+					headline: 'Edit video call'
+				},
+				start: {
+					'headline': 'Start video call',
+					'copy': 'You are now starting the video call. Invited participants can join now with the invitation link.',
+					'button.cancel': 'Cancel',
+					'button.start': 'Start'
+				},
+				delete: {
+					'headline': 'Delete video call',
+					'copy': 'Do you really want to delete this video call?',
+					'button.cancel': 'Cancel',
+					'button.delete': 'Delete'
+				}
+			},
+			form: {
+				title: 'Title',
+				description: 'Description',
+				date: 'Date',
+				time: 'Start (hh:mm)'
+			}
+		},
+		copy: {
+			link: {
+				'title': 'Copy invitation link to clipboard',
+				'text': 'Copy link',
+				'notification.title': 'Link copied',
+				'notification.text':
+					'Invitation link to the video call copied to clipboard!'
+			}
+		},
+		qrCode: {
+			headline: 'Invitation link QR code',
+			text: 'If you share your QR code with someone, that person can scan it with their phone camera to join the video call directly. Alternatively, you can download the code.'
+		}
 	},
 	archive: {
-		'overlay.session.success.copy':
-			'You have successfully archived the advice seeker.',
-		'overlay.session.success.button': 'Close',
-		'overlay.teamsession.success.copy':
-			'You have successfully archived the advice seeker for you and your team.',
-		'overlay.teamsession.success.button': 'Close',
-		'submitInfo.headline': 'The consultation is archived.',
-		'submitInfo.message':
-			'Sobald Sie oder der Ratsuchende eine Nachricht schreibt, wird der Nachrichtenverlauf automatisch wieder in die Liste der Ratsuchenden eingeordnet.'
+		overlay: {
+			session: {
+				'success.copy':
+					'You have successfully archived the advice seeker.',
+				'success.button': 'Close'
+			},
+			teamsession: {
+				'success.copy':
+					'You have successfully archived the advice seeker for you and your team.',
+				'success.button': 'Close'
+			}
+		},
+		submitInfo: {
+			headline: 'The consultation is archived.',
+			message:
+				'Sobald Sie oder der Ratsuchende eine Nachricht schreibt, wird der Nachrichtenverlauf automatisch wieder in die Liste der Ratsuchenden eingeordnet.'
+		}
 	},
 	attachments: {
-		'error.format.headline': 'Your file could not be sent.',
-		'error.format.message':
-			'our file could not be sent. Allowed are images (jpg and png), and documents (docx and pdf). Please try again.',
-		'error.size.headline': 'Your selected file is too big.',
-		'error.size.message': 'You can upload max. 5MB.',
-		'error.quota.headline': 'You have reached the limit for uploading.',
-		'error.quota.message': 'Please try again tomorrow.',
-		'error.other.headline': 'There was an error uploading the file.',
-		'error.other.message': 'Please try again.',
-		'list.label.received': 'You have received a file.',
-		'list.label.sent': 'You have sent a file.',
-		'type.label.png': 'PNG',
-		'type.label.jpeg': 'JPG',
-		'type.label.pdf': 'PDF',
-		'type.label.docx': 'DOCX',
-		'type.label.xlsx': 'XLSX',
-		'type.label.mb': 'MB',
+		'error': {
+			format: {
+				headline: 'Your file could not be sent.',
+				message:
+					'our file could not be sent. Allowed are images (jpg and png), and documents (docx and pdf). Please try again.'
+			},
+			size: {
+				headline: 'Your selected file is too big.',
+				message: 'You can upload max. 5MB.'
+			},
+			quota: {
+				headline: 'You have reached the limit for uploading.',
+				message: 'Please try again tomorrow.'
+			},
+			other: {
+				headline: 'There was an error uploading the file.',
+				message: 'Please try again.'
+			}
+		},
+		'list': {
+			'label.received': 'You have received a file.',
+			'label.sent': 'You have sent a file.'
+		},
+		'type': {
+			'label.png': 'PNG',
+			'label.jpeg': 'JPG',
+			'label.pdf': 'PDF',
+			'label.docx': 'DOCX',
+			'label.xlsx': 'XLSX',
+			'label.mb': 'MB'
+		},
 		'download.label': 'Download'
 	},
 	banUser: {
-		'ban.trigger': 'Banish',
-		'ban.info.1': 'You have banned ',
-		'ban.info.2': ' .',
+		'ban': {
+			'trigger': 'Banish',
+			'info.1': 'You have banned ',
+			'info.2': ' .',
+			'overlay.close': ' Close note'
+		},
 		'is.banned': ' Banned',
-		'ban.overlay.close': ' Close note',
-		'banned.headline': 'You have been banned.',
-		'banned.info':
-			'We have asked you to respect the chat rules.<br/><br/>Because you have repeatedly failed to comply with the chat rules today, we have excluded you from todays chat.<br/><br/>Familiarize yourself with the chat rules!<br/><br/>If you are ready to follow the chat rules, you are welcome to chat again from tomorrow!'
+		'banned': {
+			headline: 'You have been banned.',
+			info: 'We have asked you to respect the chat rules.<br/><br/>Because you have repeatedly failed to comply with the chat rules today, we have excluded you from todays chat.<br/><br/>Familiarize yourself with the chat rules!<br/><br/>If you are ready to follow the chat rules, you are welcome to chat again from tomorrow!'
+		}
 	},
 	booking: {
+		'availability': {
+			description:
+				'Indicate your general availability here so that people seeking advice can book appointments with you.',
+			title: 'Your availability'
+		},
+		'calender': {
+			'add': 'Add calendar',
+			'integration': {
+				office365: 'Office 365/ Outlook Calendar',
+				caldav: 'CalDav Server Calendar',
+				google: 'Google Calendar',
+				apple: 'Apple Calendar'
+			},
+			'synchronise': 'Synchronize',
+			'synchroniseCalender': {
+				title: 'Synchronize calendar',
+				description:
+					'Synchronize your calendar, which you use at your counseling center, with online counseling. Your availability will then be automatically adjusted and appointment conflicts prevented.'
+			},
+			'synchronised.calendars': 'Synchronized calendars'
+		},
 		'schedule': 'Arrange appointment',
 		'mobile.calendar.label': 'Create appointment',
-		'event.your.counselor': 'Your consultant',
-		'event.asker': 'Advice seeker',
-		'event.description': 'Your message for the appointment',
-		'event.show.more': 'Show more',
-		'event.show.less': 'Show less',
-		'event.booking.cancel': 'Cancel appointment',
-		'event.booking.reschedule': 'Move appointment',
-		'event.tab.booked': 'Booked appointments',
-		'event.tab.canceled': 'Cancelled',
-		'event.tab.expired': 'Passed',
-		'my.booking.title': 'Currently there are no appointments planned.',
-		'my.booking.schedule': 'Make an appointment now with',
+		'event': {
+			'your.counselor': 'Your consultant',
+			'asker': 'Advice seeker',
+			'description': 'Your message for the appointment',
+			'show': {
+				more: 'Show more',
+				less: 'Show less'
+			},
+			'booking': {
+				cancel: 'Cancel appointment',
+				reschedule: 'Move appointment'
+			},
+			'tab': {
+				booked: 'Booked appointments',
+				canceled: 'Cancelled',
+				expired: 'Passed'
+			}
+		},
+		'my': {
+			'booking.title': 'Currently there are no appointments planned.',
+			'booking.schedule': 'Make an appointment now with'
+		},
 		'info.video': 'Video consulting'
 	},
 	chatFlyout: {
@@ -192,129 +295,214 @@ export const en = {
 		'absent.message': ' is absent'
 	},
 	date: {
-		'day.0': 'Sunday',
-		'day.1': 'Monday',
-		'day.2': 'Tuesday',
-		'day.3': 'Wednesday',
-		'day.4': 'Thursday',
-		'day.5': 'Friday',
-		'day.6': 'Saturday',
-		'day.0.short': 'Sun',
-		'day.1.short': 'Mon',
-		'day.2.short': 'Tue',
-		'day.3.short': 'Wed',
-		'day.4.short': 'Thr',
-		'day.5.short': 'Fri',
-		'day.6.short': 'Sat',
-		'month.0': 'January',
-		'month.1': 'February',
-		'month.2': 'March',
-		'month.3': 'April',
-		'month.4': 'May',
-		'month.5': 'June',
-		'month.6': 'July',
-		'month.7': 'August',
-		'month.8': 'September',
-		'month.9': 'October',
-		'month.10': 'November',
-		'month.11': 'December',
-		'month.0.short': 'Jan',
-		'month.1.short': 'Feb',
-		'month.2.short': 'Mar',
-		'month.3.short': 'Apr',
-		'month.4.short': 'May',
-		'month.5.short': 'Jun',
-		'month.6.short': 'Jul',
-		'month.7.short': 'Aug',
-		'month.8.short': 'Sep',
-		'month.9.short': 'Oct',
-		'month.10.short': 'Nov',
-		'month.11.short': 'Dec'
+		day: {
+			0: {
+				long: 'Sunday',
+				short: 'Sun'
+			},
+			1: {
+				long: 'Monday',
+				short: 'Mon'
+			},
+			2: {
+				long: 'Tuesday',
+				short: 'Tue'
+			},
+			3: {
+				long: 'Wednesday',
+				short: 'Wed'
+			},
+			4: {
+				long: 'Thursday',
+				short: 'Thr'
+			},
+			5: {
+				long: 'Friday',
+				short: 'Fri'
+			},
+			6: {
+				long: 'Saturday',
+				short: 'Sat'
+			}
+		},
+		month: {
+			0: {
+				long: 'January',
+				short: 'Jan'
+			},
+			1: {
+				long: 'February',
+				short: 'Feb'
+			},
+			2: {
+				long: 'March',
+				short: 'Mar'
+			},
+			3: {
+				long: 'April',
+				short: 'Apr'
+			},
+			4: {
+				long: 'May',
+				short: 'May'
+			},
+			5: {
+				long: 'June',
+				short: 'Jun'
+			},
+			6: {
+				long: 'July',
+				short: 'Jul'
+			},
+			7: {
+				long: 'August',
+				short: 'Aug'
+			},
+			8: {
+				long: 'September',
+				short: 'Sep'
+			},
+			9: {
+				long: 'October',
+				short: 'Oct'
+			},
+			10: {
+				long: 'November',
+				short: 'Nov'
+			},
+			11: {
+				long: 'December',
+				short: 'Dec'
+			}
+		}
 	},
 	deleteAccount: {
 		'button.label': 'Delete account',
 		'deleteAccount-confirmOverlay.headline':
 			'Do you really want to delete your account?',
-		'confirmOverlay.copy':
-			'<strong>This process cannot be reversed.</strong><br><br>Your account will be deleted within the next 48 hours. Your data will be deleted in accordance with the applicable data protection regulations.<br><br>Please enter your password to delete your account now.',
-		'confirmOverlay.button.confirm': 'yes',
-		'confirmOverlay.button.deny': 'no',
-		'confirmOverlay.input.label': 'Password',
-		'confirmOverlay.input.warning': 'Your password is not correct.',
-		'successOverlay.headline':
-			'You have successfully deleted your Caritas Consulting & Help account.',
-		'successOverlay.button': 'close'
+		'confirmOverlay': {
+			'copy': '<strong>This process cannot be reversed.</strong><br><br>Your account will be deleted within the next 48 hours. Your data will be deleted in accordance with the applicable data protection regulations.<br><br>Please enter your password to delete your account now.',
+			'button.confirm': 'yes',
+			'button.deny': 'no',
+			'input.label': 'Password',
+			'input.warning': 'Your password is not correct.'
+		},
+		'successOverlay': {
+			headline:
+				'You have successfully deleted your Caritas Consulting & Help account.',
+			button: 'close'
+		}
 	},
 	deleteSession: {
-		'confirmOverlay.headline': 'Delete chat',
-		'confirmOverlay.copy': 'Do you really want to delete the chat?',
-		'confirmOverlay.button.confirm': 'yes',
-		'confirmOverlay.button.deny': 'no',
-		'successOverlay.headline': 'You have deleted the chat successfully.',
-		'successOverlay.button': 'ok',
-		'errorOverlay.headline':
-			'Oops! We could not delete the chat right now. Please try again.',
-		'errorOverlay.button': 'ok'
+		confirmOverlay: {
+			'headline': 'Delete chat',
+			'copy': 'Do you really want to delete the chat?',
+			'button.confirm': 'yes',
+			'button.deny': 'no'
+		},
+		successOverlay: {
+			headline: 'You have deleted the chat successfully.',
+			button: 'ok'
+		},
+		errorOverlay: {
+			headline:
+				'Oops! We could not delete the chat right now. Please try again.',
+			button: 'ok'
+		}
 	},
 	e2ee: {
-		'message.encryption': 'Message encrypted',
-		'message.encryption.error':
-			'Message encrypted - error during decryption',
-		'hint': 'Your messages are encrypted end-to-end. That means no one outside this chat can read the messages. Not even the online consulting platform.',
-		'subscriptionKeyLost.message.primary':
-			'A chat participant no longer has access to the message history.',
-		'subscriptionKeyLost.message.secondary':
-			'A chat participant had temporarily lost access to the message history. Now all chat participants can access the message history again.',
-		'subscriptionKeyLost.notice.title': 'Your security is important to us!',
-		'subscriptionKeyLost.notice.text':
-			'Since you have reset your password, the messages are not readable for you at the moment. As soon as a chat participant opens the chat again, you can read the messages and write new ones.',
-		'subscriptionKeyLost.notice.link': 'Send notification',
-		'subscriptionKeyLost.overlay.headline': 'End-to-end encryption',
-		'subscriptionKeyLost.overlay.copy':
-			'Your messages are encrypted end-to-end for security reasons. That means no one outside this chat can read the messages. Not even the online consulting platform.<br/><br/>If the password is reset, the messages are temporarily unreadable. As soon as another chat participant opens the chat again, the messages can be re-encrypted. This means that all chat participants can read and write messages again.',
-		'subscriptionKeyLost.overlay.button.close': 'Close',
-		'roomNotFound.notice.line1': 'Ohh!',
-		'roomNotFound.notice.line2':
-			'We are sorry, something must have gone wrong.',
-		'roomNotFound.notice.line3': 'Please reload the page and try again.',
-		'roomNotFound.notice.link': 'Reload page'
+		message: {
+			'encryption': 'Message encrypted',
+			'encryption.error': 'Message encrypted - error during decryption'
+		},
+		hint: 'Your messages are encrypted end-to-end. That means no one outside this chat can read the messages. Not even the online consulting platform.',
+		subscriptionKeyLost: {
+			message: {
+				primary:
+					'A chat participant no longer has access to the message history.',
+				secondary:
+					'A chat participant had temporarily lost access to the message history. Now all chat participants can access the message history again.'
+			},
+			notice: {
+				title: 'Your security is important to us!',
+				text: 'Since you have reset your password, the messages are not readable for you at the moment. As soon as a chat participant opens the chat again, you can read the messages and write new ones.',
+				link: 'Send notification'
+			},
+			overlay: {
+				'headline': 'End-to-end encryption',
+				'copy': 'Your messages are encrypted end-to-end for security reasons. That means no one outside this chat can read the messages. Not even the online consulting platform.<br/><br/>If the password is reset, the messages are temporarily unreadable. As soon as another chat participant opens the chat again, the messages can be re-encrypted. This means that all chat participants can read and write messages again.',
+				'button.close': 'Close'
+			}
+		},
+		roomNotFound: {
+			'notice.line1': 'Ohh!',
+			'notice.line2': 'We are sorry, something must have gone wrong.',
+			'notice.line3': 'Please reload the page and try again.',
+			'notice.link': 'Reload page'
+		}
 	},
 	enquiry: {
-		'acceptButton': 'Accept request',
-		'acceptButton.anonymous': 'Start chat',
-		'anonymous.infoLabel.start': 'Now start the chat with ',
-		'anonymous.infoLabel.end': '.',
-		'write.input.placeholder': 'Write us what moves you.',
-		'write.input.placeholder.consultant': 'Write a message to client',
-		'write.input.placeholder.feedback.main': 'Send a message to Peer',
-		'write.input.placeholder.feedback.peer': 'Send a message to Teamleader',
-		'write.input.placeholder.groupChat': 'Write message',
-		'write.input.button.title': 'Send message',
-		'write.infotext.headline': 'Here is room for your concerns.',
-		'write.infotext.copy':
-			'Perhaps the following points will help you with the formulation:',
-		'write.infotext.copy.facts':
-			'<ul><li>What happened?</li><li>What is your current situation?</li><li>What is on your mind?</li><li>Do you have a specific question or do you perhaps not yet know exactly what could help you?</li></ul>',
-		'write.overlayHeadline': 'Thank you for your message!',
-		'write.overlayCopy':
-			'Within two business days you will receive a response from us.',
-		'write.overlay.button': 'Go to the message',
+		'acceptButton': {
+			known: 'Accept request',
+			anonymous: 'Start chat'
+		},
+		'anonymous': {
+			'infoLabel.start': 'Now start the chat with ',
+			'infoLabel.end': '.'
+		},
+		'write': {
+			input: {
+				'placeholder': {
+					asker: 'Write us what moves you.',
+					consultant: 'Write a message to client',
+					feedback: {
+						main: 'Send a message to Peer',
+						peer: 'Send a message to Teamleader'
+					},
+					groupChat: 'Write message'
+				},
+				'button.title': 'Send message'
+			},
+			infotext: {
+				headline: 'Here is room for your concerns.',
+				copy: {
+					'': 'Perhaps the following points will help you with the formulation:',
+					'facts':
+						'<ul><li>What happened?</li><li>What is your current situation?</li><li>What is on your mind?</li><li>Do you have a specific question or do you perhaps not yet know exactly what could help you?</li></ul>'
+				}
+			},
+			overlay: {
+				headline: 'Thank you for your message!',
+				copy: 'Within two business days you will receive a response from us.',
+				button: 'Go to the message'
+			}
+		},
 		'language.selection.headline':
 			'Please select the language in which you would like to be advised.'
 	},
 	error: {
-		'statusCodes.400.headline': 'Ups!',
-		'statusCodes.400.description': 'The URL you entered is invalid.',
-		'statusCodes.401.headline': 'Too bad!',
-		'statusCodes.401.description':
-			'Sorry, you are not authorized to view this page.<br>Please log in.',
-		'statusCodes.404.headline': 'Ohh!',
-		'statusCodes.404.description':
-			'We are sorry something must have gone wrong.<br>We could not find the page you requested.',
-		'statusCodes.500.headline': 'Ups!',
-		'statusCodes.500.description':
-			'It looks like we have a server problem at the moment.<br>Try again later.',
-		'login': 'To login'
+		statusCodes: {
+			400: {
+				headline: 'Ups!',
+				description: 'The URL you entered is invalid.'
+			},
+			401: {
+				headline: 'Too bad!',
+				description:
+					'Sorry, you are not authorized to view this page.<br>Please log in.'
+			},
+			404: {
+				headline: 'Ohh!',
+				description:
+					'We are sorry something must have gone wrong.<br>We could not find the page you requested.'
+			},
+			500: {
+				headline: 'Ups!',
+				description:
+					'It looks like we have a server problem at the moment.<br>Try again later.'
+			},
+			login: 'To login'
+		}
 	},
 	furtherSteps: {
 		'consultant.info':
@@ -323,154 +511,219 @@ export const en = {
 		'step1.info': 'We have received your message.',
 		'step2.info': 'Now we will find a suitable consultant for you.',
 		'step3.info': 'Your advisor will respond within 2 business days.',
-		'emailNotification.headline':
-			'Receive e-mail notification & reset password',
-		'emailNotification.infoText':
-			'If you provide your e-mail address (voluntary)<br><ul><li>receive an email notification when your advisor has written to you</li><li>you can reset your password if you have forgotten it.</li></ul>Your email address cannot be seen by the advisors.',
-		'emailNotification.button': 'Enter e-mail address',
-		'twoFactorAuth.headline':
-			'The protection of your data is important to us',
-		'twoFactorAuth.infoText':
-			'Secure your account from possible unauthorized access. Use a second factor (app or email) to log in to online counseling.',
-		'twoFactorAuth.button': 'Protect account',
-		'email.overlay.headline': 'Enter e-mail address',
-		'email.overlay.input.label': 'E-mail',
-		'email.overlay.input.valid': 'Your e-mail address is valid.',
-		'email.overlay.input.invalid': 'Your e-mail address is not valid.',
-		'email.overlay.input.unavailable':
-			'This e-mail address is already registered.',
-		'email.overlay.button1.label': 'Save',
-		'email.overlay.button2.label': 'Close',
-		'email.success.overlay.headline':
-			'Your e-mail address was successfully saved.',
-		'voluntaryInfo.headline':
-			'We want to advise you in the best possible way',
-		'voluntaryInfo.infoText':
-			'It helps us if you provide additional voluntary information about yourself and your request.',
-		'voluntaryInfo.button': 'Add details',
-		'voluntaryInfo.overlay.button1.label': 'Save',
-		'voluntaryInfo.overlay.button2.label': 'Close',
-		'voluntaryInfo.overlay.headline': 'Voluntary information',
-		'voluntaryInfo.overlay.copy':
-			'For the consultation, the following information would help us a lot.',
-		'voluntaryInfo.overlay.success.headline':
-			'Thank you very much. Your voluntary data has been successfully saved.'
+		'emailNotification': {
+			headline: 'Receive e-mail notification & reset password',
+			infoText:
+				'If you provide your e-mail address (voluntary)<br><ul><li>receive an email notification when your advisor has written to you</li><li>you can reset your password if you have forgotten it.</li></ul>Your email address cannot be seen by the advisors.',
+			button: 'Enter e-mail address'
+		},
+		'twoFactorAuth': {
+			headline: 'The protection of your data is important to us',
+			infoText:
+				'Secure your account from possible unauthorized access. Use a second factor (app or email) to log in to online counseling.',
+			button: 'Protect account'
+		},
+		'email': {
+			'overlay': {
+				'headline': 'Enter e-mail address',
+				'input.label': 'E-mail',
+				'input.valid': 'Your e-mail address is valid.',
+				'input.invalid': 'Your e-mail address is not valid.',
+				'input.unavailable':
+					'This e-mail address is already registered.',
+				'button1.label': 'Save',
+				'button2.label': 'Close'
+			},
+			'success.overlay.headline':
+				'Your e-mail address was successfully saved.'
+		},
+		'voluntaryInfo': {
+			headline: 'We want to advise you in the best possible way',
+			infoText:
+				'It helps us if you provide additional voluntary information about yourself and your request.',
+			button: 'Add details',
+			overlay: {
+				'button1.label': 'Save',
+				'button2.label': 'Close',
+				'headline': 'Voluntary information',
+				'copy': 'For the consultation, the following information would help us a lot.',
+				'success.headline':
+					'Thank you very much. Your voluntary data has been successfully saved.'
+			}
+		}
 	},
 	groupChat: {
 		'active.sessionInfo.subscriber': 'Participants',
 		'cancel.button.label': 'Cancel',
-		'create.title': 'New chat',
-		'create.subtitle': 'Chat topic',
-		'create.topicInput.label': 'Chat topic',
-		'create.topicInput.warning.short': 'The theme is too short',
-		'create.topicInput.warning.long': 'The topic is too long',
-		'create.dateInput.label': 'Date',
-		'create.beginDateInput.label': 'Start (hh:mm)',
-		'create.durationSelect.label': 'Duration',
-		'create.durationSelect.option1': '30 minutes',
-		'create.durationSelect.option2': '1 hour',
-		'create.durationSelect.option3': '1,5 hour',
-		'create.durationSelect.option4': '2 hour',
-		'create.durationSelect.option5': '2,5 hour',
-		'create.durationSelect.option6': '3 hour',
-		'create.repetitiveCheckbox.label': 'Repeat weekly',
-		'create.button.label': 'Create chat',
-		'create.listItem.label': 'New chat',
-		'createSuccess.overlayHeadline':
-			'You have successfully created a chat.',
-		'createSuccess.overlay.buttonLabel': 'Close',
-		'createError.overlay.headline':
-			'An error has occurred. Please try again.',
-		'createError.overlay.buttonLabel': 'Close',
+		'create': {
+			'title': 'New chat',
+			'subtitle': 'Chat topic',
+			'topicInput': {
+				label: 'Chat topic',
+				warning: {
+					short: 'The theme is too short',
+					long: 'The topic is too long'
+				}
+			},
+			'dateInput.label': 'Date',
+			'beginDateInput.label': 'Start (hh:mm)',
+			'durationSelect': {
+				label: 'Duration',
+				option1: '30 minutes',
+				option2: '1 hour',
+				option3: '1,5 hour',
+				option4: '2 hour',
+				option5: '2,5 hour',
+				option6: '3 hour'
+			},
+			'repetitiveCheckbox.label': 'Repeat weekly',
+			'button.label': 'Create chat',
+			'listItem.label': 'New chat'
+		},
+		'createSuccess': {
+			overlay: {
+				headline: 'You have successfully created a chat.',
+				buttonLabel: 'Close'
+			}
+		},
+		'createError': {
+			overlay: {
+				headline: 'An error has occurred. Please try again.',
+				buttonLabel: 'Close'
+			}
+		},
 		'edit.title': 'Chat settings',
-		'info.headline': 'Chat-Info',
-		'info.subscribers.headline': 'Participants',
-		'info.subscribers.empty': 'no participants available',
-		'info.settings.headline': 'Chat settings',
-		'info.settings.topic': 'Chat topic',
-		'info.settings.startDate': 'Date',
-		'info.settings.startTime': 'Start',
-		'info.settings.duration': 'Duration',
-		'info.settings.repetition': 'Repetitions',
-		'info.settings.repetition.single': 'unique',
-		'info.settings.repetition.weekly': 'weekly',
-		'info.settings.edit': 'Edit',
-		'join.button.label.join': 'Join',
-		'join.button.label.start': 'Start chat',
-		'join.content.headline': 'Rules of the chat',
-		'join.warning.message':
-			'Your advisor/moderator has not started the chat yet. As soon as your consultant/moderator has started the chat, you can chat with us. Please be patient a little longer.',
-		'join.chatClosedOverlay.headline': 'The chat has already ended.',
-		'join.chatClosedOverlay.button1Label': 'To the overview',
-		'join.chatClosedOverlay.button2Label': 'Logout',
-		'joinError.overlay.headline':
-			'An error has occurred. Please try again.',
-		'joinError.overlay.buttonLabel': 'Close',
-		'leaveChat.securityOverlay.headline':
-			'Do you really want to leave the chat?',
-		'leaveChat.securityOverlay.button1Label': 'Leave chat',
-		'leaveChat.securityOverlay.button2Label': 'Cancel',
-		'leaveChat.successOverlay.headline':
-			'The chat has been successfully exited.',
-		'leaveChat.successOverlay.button1Label': 'To the overview',
-		'leaveChat.successOverlay.button2Label': 'Logout',
-		'listItem.activeLabel': 'Active',
-		'listItem.subjectEmpty.self': 'You have created the chat.',
-		'listItem.subjectEmpty.other': 'The chat was created.',
+		'info': {
+			headline: 'Chat-Info',
+			subscribers: {
+				headline: 'Participants',
+				empty: 'no participants available'
+			},
+			settings: {
+				headline: 'Chat settings',
+				topic: 'Chat topic',
+				startDate: 'Date',
+				startTime: 'Start',
+				duration: 'Duration',
+				repetition: {
+					label: 'Repetitions',
+					single: 'unique',
+					weekly: 'weekly'
+				},
+				edit: 'Edit'
+			}
+		},
+		'join': {
+			'button.label.join': 'Join',
+			'button.label.start': 'Start chat',
+			'content.headline': 'Rules of the chat',
+			'warning.message':
+				'Your advisor/moderator has not started the chat yet. As soon as your consultant/moderator has started the chat, you can chat with us. Please be patient a little longer.',
+			'chatClosedOverlay': {
+				headline: 'The chat has already ended.',
+				button1Label: 'To the overview',
+				button2Label: 'Logout'
+			}
+		},
+		'joinError': {
+			overlay: {
+				headline: 'An error has occurred. Please try again.',
+				buttonLabel: 'Close'
+			}
+		},
+		'leaveChat': {
+			securityOverlay: {
+				headline: 'Do you really want to leave the chat?',
+				button1Label: 'Leave chat',
+				button2Label: 'Cancel'
+			},
+			successOverlay: {
+				headline: 'The chat has been successfully exited.',
+				button1Label: 'To the overview',
+				button2Label: 'Logout'
+			}
+		},
+		'listItem': {
+			activeLabel: 'Active',
+			subjectEmpty: {
+				self: 'You have created the chat.',
+				other: 'The chat was created.'
+			}
+		},
 		'save.button.label': 'Save',
-		'stopChat.securityOverlay.headline':
-			'Do you really want to end the chat?',
-		'stopChat.securityOverlay.copyRepeat':
-			'The chat history will be deleted and all users will be removed.',
-		'stopChat.securityOverlay.copySingle':
-			'The chat will be deleted and all users will be removed.',
-		'stopChat.securityOverlay.button1Label': 'End chat',
-		'stopChat.securityOverlay.button2Label': 'Cancel',
-		'stopChat.successOverlay.headline': 'The chat has ended successfully.',
-		'stopChat.successOverlay.button1Label': 'To the overview',
-		'stopChat.successOverlay.button2Label': 'Logout',
-		'stopped.overlay.headline': 'The chat has ended.',
-		'stopped.overlay.button1Label': 'To the overview',
-		'stopped.overlay.button2Label': 'Logout',
-		'updateSuccess.overlayHeadline':
-			'Your changes have been saved successfully.',
-		'updateSuccess.overlay.button1Label': 'Close'
+		'stopChat': {
+			securityOverlay: {
+				headline: 'Do you really want to end the chat?',
+				copyRepeat:
+					'The chat history will be deleted and all users will be removed.',
+				copySingle:
+					'The chat will be deleted and all users will be removed.',
+				button1Label: 'End chat',
+				button2Label: 'Cancel'
+			},
+			successOverlay: {
+				headline: 'The chat has ended successfully.',
+				button1Label: 'To the overview',
+				button2Label: 'Logout'
+			}
+		},
+		'stopped': {
+			overlay: {
+				headline: 'The chat has ended.',
+				button1Label: 'To the overview',
+				button2Label: 'Logout'
+			}
+		},
+		'updateSuccess': {
+			overlay: {
+				headline: 'Your changes have been saved successfully.',
+				button1Label: 'Close'
+			}
+		}
 	},
 	help: {
-		'googleChrome': 'Google Chrome',
-		'msEdge': 'Microsoft Edge',
-		'videoCall.asker.steps.headline.1': 'Encrypt video calls end-to-end',
-		'videoCall.asker.steps.headline.2':
-			'Already have Google Chrome or Microsoft Edge?',
-		'videoCall.asker.steps.1':
-			'Follow the link to Google Chrome or Microsoft Edge.',
-		'videoCall.asker.steps.2': 'Download Chrome or Edge.',
-		'videoCall.asker.steps.3':
-			'Install Chrome or Edge on your PC/laptop/tablet/smartphone.',
-		'videoCall.asker.steps.4':
-			'Now open the online consultation via Chrome or Edge.',
-		'videoCall.asker.steps.5': 'Sign up for online counseling.',
-		'videoCall.asker.steps.6': 'Ask your advisor to call you again.',
-		'videoCall.consultant.headline': 'Video-Call',
-		'videoCall.consultant.intro':
-			'To be able to start a video call, you must log in to the online consultation via Google Chrome or Microsoft Edge. Thus, the video call can be encrypted end-to-end and you can start.',
-		'videoCall.consultant.steps.headline.1': 'Step by step guide',
-		'videoCall.consultant.steps.headline.2':
-			'Already have Google Chrome or Microsoft Edge?',
-		'videoCall.consultant.steps.1.1': 'Follow the link to',
-		'videoCall.consultant.steps.1.2': ' or ',
-		'videoCall.consultant.steps.2':
-			'Download Chrome or Edge. You may need the support of your IT for this.',
-		'videoCall.consultant.steps.3':
-			'Install Chrome or Edge on your PC/laptop/tablet/smartphone.',
-		'videoCall.consultant.steps.4':
-			'Now open the online consultation via Chrome or Edge.',
-		'videoCall.consultant.steps.5': 'Sign up for online counseling.',
-		'videoCall.consultant.steps.6': 'Start the video call.',
-		'videoCall.loginLink.title': 'Copy link to clipboard',
-		'videoCall.loginLink.text': 'Copy link',
-		'videoCall.loginLink.notification.title': 'Link copied',
-		'videoCall.loginLink.notification.text': 'Link copied to clipboard!'
+		googleChrome: 'Google Chrome',
+		msEdge: 'Microsoft Edge',
+		videoCall: {
+			asker: {
+				steps: {
+					'headline': {
+						'1': 'Encrypt video calls end-to-end',
+						'2': 'Already have Google Chrome or Microsoft Edge?'
+					},
+					'1': 'Follow the link to Google Chrome or Microsoft Edge.',
+					'2': 'Download Chrome or Edge.',
+					'3': 'Install Chrome or Edge on your PC/laptop/tablet/smartphone.',
+					'4': 'Now open the online consultation via Chrome or Edge.',
+					'5': 'Sign up for online counseling.',
+					'6': 'Ask your advisor to call you again.'
+				}
+			},
+			consultant: {
+				headline: 'Video-Call',
+				intro: 'To be able to start a video call, you must log in to the online consultation via Google Chrome or Microsoft Edge. Thus, the video call can be encrypted end-to-end and you can start.',
+				steps: {
+					'headline.1': 'Step by step guide',
+					'headline.2':
+						'Already have Google Chrome or Microsoft Edge?',
+					'1.1': 'Follow the link to',
+					'1.2': ' or ',
+					'2': 'Download Chrome or Edge. You may need the support of your IT for this.',
+					'3': 'Install Chrome or Edge on your PC/laptop/tablet/smartphone.',
+					'4': 'Now open the online consultation via Chrome or Edge.',
+					'5': 'Sign up for online counseling.',
+					'6': 'Start the video call.'
+				}
+			},
+			loginLink: {
+				title: 'Copy link to clipboard',
+				text: 'Copy link',
+				notification: {
+					title: 'Link copied',
+					text: 'Link copied to clipboard!'
+				}
+			}
+		}
 	},
 	languages: {
 		de: 'German',
@@ -661,33 +914,58 @@ export const en = {
 	login: {
 		'headline': 'Login',
 		'user.label': 'Username/E-mail',
-		'password.label': 'Password',
-		'warning.failed.unauthorized':
-			'Username or password are not correct. Please try again.',
-		'warning.failed.unauthorized.otp':
-			'Your access data is not correct. Please try again.',
-		'warning.failed.app.otp.missing':
-			'Please enter the code from your app for two-factor authentication.',
-		'warning.failed.email.otp.missing':
-			'Please enter the code from your email for two-factor authentication.',
+		'password': {
+			label: 'Password',
+			reset: {
+				warn: {
+					overlay: {
+						'title':
+							'Resetting the password may make it impossible to access your messages.',
+						'description':
+							'Do you still want to reset the password?',
+						'button.accept': 'Yes, reset',
+						'button.cancel': 'Back to login'
+					}
+				}
+			}
+		},
+		'warning': {
+			failed: {
+				'unauthorized': {
+					text: 'Username or password are not correct. Please try again.',
+					otp: 'Your access data is not correct. Please try again.'
+				},
+				'app.otp.missing':
+					'Please enter the code from your app for two-factor authentication.',
+				'email.otp.missing':
+					'Please enter the code from your email for two-factor authentication.'
+			}
+		},
 		'resend.otp.email.label': 'Send code once again',
 		'button.label': 'Login',
 		'resetPasswort.label': 'Password forgotten?',
-		'register.infoText.title': 'Not registered yet?',
-		'register.infoText.copy':
-			'We will be happy to advise you on the following topics:',
-		'register.linkLabel': 'To the overview',
-		'legal.infoText.impressum': 'Impressum',
-		'legal.infoText.dataprotection': 'Privacy policy',
-		'consultant.overlay.success.headline': 'Welcome',
-		'consultant.overlay.success.button': 'Next',
-		'consultant.overlay.cancel.button': 'To the overview',
-		'password.reset.warn.overlay.title':
-			'Resetting the password may make it impossible to access your messages.',
-		'password.reset.warn.overlay.description':
-			'Do you still want to reset the password?',
-		'password.reset.warn.overlay.button.accept': 'Yes, reset',
-		'password.reset.warn.overlay.button.cancel': 'Back to login'
+		'register': {
+			infoText: {
+				title: 'Not registered yet?',
+				copy: 'We will be happy to advise you on the following topics:'
+			},
+			linkLabel: 'To the overview'
+		},
+		'legal': {
+			infoText: {
+				impressum: 'Impressum',
+				dataprotection: 'Privacy policy'
+			}
+		},
+		'consultant': {
+			overlay: {
+				'success': {
+					headline: 'Welcome',
+					button: 'Next'
+				},
+				'cancel.button': 'To the overview'
+			}
+		}
 	},
 	message: {
 		'today': 'Today',
@@ -695,211 +973,230 @@ export const en = {
 		'yesterday': 'Yesterday',
 		'tomorrow': 'Tomorrow',
 		'dayBeforeYesterday': 'Day before yesterday',
-		'forwardedLabel':
-			'Forwarded message from {{username}}, {{date}} at {{time}}',
-		'forward.title': 'Forward text message to\nFeedback',
+		'forward': {
+			label: 'Forwarded message from {{username}}, {{date}} at {{time}}',
+			title: 'Forward text message to\nFeedback'
+		},
 		'copy.title': 'Copy message to clipboard',
 		'write.peer.checkbox.label': 'Request feedback',
-		'submit.booking.headline': 'Or make an appointment now',
-		'submit.booking.buttonLabel': 'Make an appointment for consultation',
-		'appointmentSet.title': 'Your appointment was created',
+		'submit': {
+			booking: {
+				headline: 'Or make an appointment now',
+				buttonLabel: 'Make an appointment for consultation'
+			}
+		},
+		'appointmentSet': {
+			'title': 'Your appointment was created',
+			'addToCalendar': 'Add to calendar',
+			'cancel': 'Cancel date',
+			'between': 'between',
+			'and': 'and',
+			'info.video': 'Video consulting'
+		},
 		'appointmentCancelled.title': 'Your appointment was canceled',
 		'appointmentRescheduled.title': 'Your appointment was postponed',
-		'appointmentSet.addToCalendar': 'Add to calendar',
-		'appointment.component.header.confirmation': 'Date confirmation',
-		'appointment.component.header.cancellation': 'Date cancellation',
-		'appointment.component.header.change': 'Date change',
-		'appointmentSet.cancel': 'Cancel date',
-		'appointmentSet.between': 'between',
-		'appointmentSet.and': 'and',
-		'appointmentSet.info.video': 'Video consulting'
+		'appointment': {
+			component: {
+				header: {
+					confirmation: 'Date confirmation',
+					cancellation: 'Date cancellation',
+					change: 'Date change'
+				}
+			}
+		}
 	},
 	monitoring: {
-		'title': 'Monitoring',
-		'empty': 'Not specified',
-		'monitoringAddiction.addictiveDrugs': 'Addictive drugs',
-		'monitoringAddiction.alcohol': 'Alcohol',
-		'monitoringAddiction.drugs': 'Drugs',
-		'monitoringAddiction.cannabis': 'Cannabis',
-		'monitoringAddiction.hallucinogens': 'Hallucinogens',
-		'monitoringAddiction.amphetamines': 'Amphetamines',
-		'monitoringAddiction.cocaineCrack': 'Cocaine/Crack',
-		'monitoringAddiction.opioids': 'Opioids',
-		'monitoringAddiction.others': 'Other',
-		'monitoringAddiction.legalHighs':
-			'Legal highs/new psychoactive substances',
-		'monitoringAddiction.tobacco': 'Tobacco',
-		'monitoringAddiction.medication': 'Medication',
-		'monitoringAddiction.gambling': 'Gambling',
-		'monitoringAddiction.offline': 'Offline',
-		'monitoringAddiction.online': 'Online',
-		'monitoringAddiction.internetComputer': 'Internet/Computer',
-		'monitoringAddiction.chatting': 'Chatting',
-		'monitoringAddiction.gaming': 'Gaming',
-		'monitoringAddiction.shopping': 'Shopping',
-		'monitoringAddiction.pornography': 'Pornography/Sex addiction',
-		'monitoringAddiction.surfing': 'Surfing',
-		'monitoringAddiction.eatingDisorder': 'Eating disorder',
-		'monitoringAddiction.intervention': 'Intervention',
-		'monitoringAddiction.information': 'Information',
-		'monitoringAddiction.conveyance': 'Conveyance',
-		'monitoringAddiction.consulting': 'Consulting',
-		'monitoringAddiction.doctorClinic': 'Doctor / Clinic',
-		'monitoringAddiction.debtConsulting': 'Debt counseling',
-		'monitoringAddiction.pregnancyConsulting': 'Pregnancy counseling',
-		'monitoringAddiction.psychologicalSupport': 'Psychological support',
-		'monitoringAddiction.childYouthAid': 'Child and youth welfare',
-		'monitoringAddiction.addictionHelpFacility': 'Addiction Help Facility',
-		'monitoringAddiction.delinquentHelp': 'Offender Assistance',
-		'monitoringAddiction.selfHelp': 'Self Help',
-		'monitoringAddiction.generalConsulting': 'General social counseling',
-		'monitoringU25.generalData': 'General data',
-		'monitoringU25.location': 'Location',
-		'monitoringU25.freiburg': 'Freiburg',
-		'monitoringU25.badenWuerttemberg': 'Baden Württemberg',
-		'monitoringU25.bavaria': 'Bavaria',
-		'monitoringU25.berlin': 'Berlin',
-		'monitoringU25.brandenburg': 'Brandenburg',
-		'monitoringU25.bremen': 'Bremen',
-		'monitoringU25.hamburg': 'Hamburg',
-		'monitoringU25.hessia': 'Hessia',
-		'monitoringU25.mecklenburgWesternPomerania':
-			'Mecklenburg-Western Pomerania',
-		'monitoringU25.lowerSaxony': 'Lower Saxony',
-		'monitoringU25.northRhineWestphalia': 'North Rhine-Westphalia',
-		'monitoringU25.rhinelandPalatinate': 'Rhineland-Palatinate',
-		'monitoringU25.saarland': 'Saarland',
-		'monitoringU25.saxony': 'Saxony',
-		'monitoringU25.saxonyAnhalt': 'Saxony-Anhalt',
-		'monitoringU25.schleswigHolstein': 'Schleswig-Holstein',
-		'monitoringU25.thuringia': 'Thuringia',
-		'monitoringU25.abroadAustria': 'Abroad (Austria)',
-		'monitoringU25.abroadSwitzerland': 'Abroad (Switzerland)',
-		'monitoringU25.abroadOthers': 'Abroad (other)',
-		'monitoringU25.occupation': 'Employment/work situation',
-		'monitoringU25.school': 'School',
-		'monitoringU25.studies': 'Study',
-		'monitoringU25.apprenticeship': 'Apprenticeship',
-		'monitoringU25.employed': 'employed',
-		'monitoringU25.unemployed': 'unemployed',
-		'monitoringU25.housingSituation': 'Housing situation',
-		'monitoringU25.family': 'in family',
-		'monitoringU25.partner': 'Partner',
-		'monitoringU25.livingCommunity': 'Living Community',
-		'monitoringU25.alone': 'Living alone',
-		'monitoringU25.assistedLiving': 'assisted living',
-		'monitoringU25.homeless': 'Homeless',
-		'monitoringU25.consultingData': 'Consultation data',
-		'monitoringU25.suicidality': 'Suicidality at contact',
-		'monitoringU25.crisis': 'Crisis without suicidality',
-		'monitoringU25.thoughtsOfSuicide': 'Suicidal thoughts',
-		'monitoringU25.acuteThoughtsOfSuicide': 'acute suicidal thoughts',
-		'monitoringU25.afterSuicideAttempt': 'After suicide act',
-		'monitoringU25.stressfulFactors': 'Stressful factors',
-		'monitoringU25.mentalOverload': 'Feeling of being overwhelmed',
-		'monitoringU25.anxieties': 'Anxieties',
-		'monitoringU25.futility': 'Futility',
-		'monitoringU25.isolation': 'Isolation/loneliness',
-		'monitoringU25.svv': 'SVV',
-		'monitoringU25.bullying': 'Bullying',
-		'monitoringU25.sexualAbuse': 'sex. Abuse / Rape',
-		'monitoringU25.mentalIllness': 'mental illness',
-		'monitoringU25.substanceAbuse': 'Substance Abuse',
-		'monitoringU25.mediaConsumption': 'Heavy media consumption',
-		'monitoringU25.physicalIllness':
-			'physical complaints / chronic disease',
-		'monitoringU25.physicalHandicap': 'Physical disability',
-		'monitoringU25.conflictsPartnership': 'Conflicts in the partnership',
-		'monitoringU25.divorce': 'Divorce',
-		'monitoringU25.deceaseLovedOne': 'Death of a loved one',
-		'monitoringU25.mourning.alt': 'Mourning',
-		'monitoringU25.concernLovedOne': 'Concern for loved one',
-		'monitoringU25.relationshipRelative':
-			'Relationship situation with relatives',
-		'monitoringU25.relationshipSocialEnvironment':
-			'Relationship situation in the social environment',
-		'monitoringU25.workSchool': 'Work / School / Profession',
-		'monitoringU25.housingSituation.alt': 'Housing situation',
-		'monitoringU25.financialSituation': 'Financial situation',
-		'monitoringU25.debt': 'Debt',
-		'monitoringU25.experienceOfViolence': 'Experience of violence',
-		'monitoringU25.stressfulChildhood': 'stressful childhood',
-		'monitoringU25.crime': 'Crime/conflict of laws',
-		'monitoringU25.migrationProblems': 'Problems related to migration',
-		'monitoringU25.sexualOrientation': 'Sexual orientation',
-		'monitoringU25.genderIdentity': 'Gender identity',
-		'monitoringU25.others': 'Other',
-		'monitoringU25.supportDuration':
-			'Duration of accompaniment (enter after completion)',
-		'monitoringU25.onetime': 'one time',
-		'monitoringU25.oneMonth': 'Until 1 month',
-		'monitoringU25.threeMonths': 'Until 3 months',
-		'monitoringU25.sixMonths': 'Until 6 months',
-		'monitoringU25.oneYear': 'Until 1 year',
-		'monitoringU25.oneAndAHalfYear': 'Until 1.5 years',
-		'monitoringU25.longer': 'longer',
-		'monitoringU25.inConsultation': 'in consultation',
-		'monitoringU25.diagnosis': 'Diagnosis',
-		'monitoringU25.depression': 'Depression',
-		'monitoringU25.eatingDisorder': 'Eating disorder',
-		'monitoringU25.adhs': 'ADHS',
-		'monitoringU25.borderline': 'Borderline',
-		'monitoringU25.autism': 'Autism',
-		'monitoringU25.personalityDisorder': 'Personality Disorder',
-		'monitoringU25.traumaRelatedDisorder': 'Trauma Consequence Disorder',
-		'monitoringU25.anxietyDisorder': 'Anxiety disorder',
-		'monitoringU25.addiction': 'Addiction',
-		'monitoringU25.obsessiveCompulsiveDisorder':
-			'Obsessive Compulsive Disorder',
-		'monitoringU25.schizophrenia': 'Schizophrenia',
-		'monitoringU25.furtherConnection': 'Further connection',
-		'monitoringU25.outpatientTherapy': 'Outpatient therapy',
-		'monitoringU25.inpationsTherapy': 'Inpatient therapy/day clinic',
-		'monitoringU25.consultation': 'Consulting',
-		'monitoringU25.supportGroups': 'Support group',
-		'monitoringU25.medicalTherapy': 'Medicinal therapy',
-		'monitoringU25.endOfContact':
-			'End of contact (multiple answers possible)',
-		'monitoringU25.mutually': 'Terminated by mutual agreement',
-		'monitoringU25.noAnswer': 'Client has not contacted us again',
-		'monitoringU25.suicideAnnouncement': 'Suicide Announcement',
-		'monitoringU25.suicide': 'Suicide',
-		'monitoringU25.others.alt': 'Other',
-		'monitoringU25.schoolStudies': 'School/Studies',
-		'monitoringU25.partnerLivingCommunity':
-			'with partner in shared apartment',
-		'monitoringU25.concern': 'Concern for suicidal person',
-		'monitoringU25.mourning': 'Mourning after suicide',
-		'monitoringU25.addictionDrugs': 'Addiction (drugs/medication)',
-		'monitoringU25.addictionAlcohol': 'Addiction (alcohol)',
-		'monitoringU25.addictionInternetComputer':
-			'Addiction (Internet/Computer)',
-		'monitoringU25.addictionOthers': 'Addiction (other)',
-		'monitoringU25.noFirstAnswer':
-			'Client has not responded to initial email',
-		'monitoringU25.helpfulness':
-			'How helpful was the contact for the client?',
-		'monitoringU25.one': '1 - not helpful',
-		'monitoringU25.two': '2',
-		'monitoringU25.three': '3',
-		'monitoringU25.four': '4',
-		'monitoringU25.five': '5',
-		'monitoringU25.six': '6',
-		'monitoringU25.seven': '7',
-		'monitoringU25.eight': '8',
-		'monitoringU25.nine': '9',
-		'monitoringU25.ten': '10 - very helpful'
+		title: 'Monitoring',
+		empty: 'Not specified',
+		monitoringAddiction: {
+			addictiveDrugs: 'Addictive drugs',
+			alcohol: 'Alcohol',
+			drugs: 'Drugs',
+			cannabis: 'Cannabis',
+			hallucinogens: 'Hallucinogens',
+			amphetamines: 'Amphetamines',
+			cocaineCrack: 'Cocaine/Crack',
+			opioids: 'Opioids',
+			others: 'Other',
+			legalHighs: 'Legal highs/new psychoactive substances',
+			tobacco: 'Tobacco',
+			medication: 'Medication',
+			gambling: 'Gambling',
+			offline: 'Offline',
+			online: 'Online',
+			internetComputer: 'Internet/Computer',
+			chatting: 'Chatting',
+			gaming: 'Gaming',
+			shopping: 'Shopping',
+			pornography: 'Pornography/Sex addiction',
+			surfing: 'Surfing',
+			eatingDisorder: 'Eating disorder',
+			intervention: 'Intervention',
+			information: 'Information',
+			conveyance: 'Conveyance',
+			consulting: 'Consulting',
+			doctorClinic: 'Doctor / Clinic',
+			debtConsulting: 'Debt counseling',
+			pregnancyConsulting: 'Pregnancy counseling',
+			psychologicalSupport: 'Psychological support',
+			childYouthAid: 'Child and youth welfare',
+			addictionHelpFacility: 'Addiction Help Facility',
+			delinquentHelp: 'Offender Assistance',
+			selfHelp: 'Self Help',
+			generalConsulting: 'General social counseling'
+		},
+		monitoringU25: {
+			'generalData': 'General data',
+			'location': 'Location',
+			'freiburg': 'Freiburg',
+			'badenWuerttemberg': 'Baden Württemberg',
+			'bavaria': 'Bavaria',
+			'berlin': 'Berlin',
+			'brandenburg': 'Brandenburg',
+			'bremen': 'Bremen',
+			'hamburg': 'Hamburg',
+			'hessia': 'Hessia',
+			'mecklenburgWesternPomerania': 'Mecklenburg-Western Pomerania',
+			'lowerSaxony': 'Lower Saxony',
+			'northRhineWestphalia': 'North Rhine-Westphalia',
+			'rhinelandPalatinate': 'Rhineland-Palatinate',
+			'saarland': 'Saarland',
+			'saxony': 'Saxony',
+			'saxonyAnhalt': 'Saxony-Anhalt',
+			'schleswigHolstein': 'Schleswig-Holstein',
+			'thuringia': 'Thuringia',
+			'abroadAustria': 'Abroad (Austria)',
+			'abroadSwitzerland': 'Abroad (Switzerland)',
+			'abroadOthers': 'Abroad (other)',
+			'occupation': 'Employment/work situation',
+			'school': 'School',
+			'studies': 'Study',
+			'apprenticeship': 'Apprenticeship',
+			'employed': 'employed',
+			'unemployed': 'unemployed',
+			'housingSituation': 'Housing situation',
+			'family': 'in family',
+			'partner': 'Partner',
+			'livingCommunity': 'Living Community',
+			'alone': 'Living alone',
+			'assistedLiving': 'assisted living',
+			'homeless': 'Homeless',
+			'consultingData': 'Consultation data',
+			'suicidality': 'Suicidality at contact',
+			'crisis': 'Crisis without suicidality',
+			'thoughtsOfSuicide': 'Suicidal thoughts',
+			'acuteThoughtsOfSuicide': 'acute suicidal thoughts',
+			'afterSuicideAttempt': 'After suicide act',
+			'stressfulFactors': 'Stressful factors',
+			'mentalOverload': 'Feeling of being overwhelmed',
+			'anxieties': 'Anxieties',
+			'futility': 'Futility',
+			'isolation': 'Isolation/loneliness',
+			'svv': 'SVV',
+			'bullying': 'Bullying',
+			'sexualAbuse': 'sex. Abuse / Rape',
+			'mentalIllness': 'mental illness',
+			'substanceAbuse': 'Substance Abuse',
+			'mediaConsumption': 'Heavy media consumption',
+			'physicalIllness': 'physical complaints / chronic disease',
+			'physicalHandicap': 'Physical disability',
+			'conflictsPartnership': 'Conflicts in the partnership',
+			'divorce': 'Divorce',
+			'deceaseLovedOne': 'Death of a loved one',
+			'mourning.alt': 'Mourning',
+			'concernLovedOne': 'Concern for loved one',
+			'relationshipRelative': 'Relationship situation with relatives',
+			'relationshipSocialEnvironment':
+				'Relationship situation in the social environment',
+			'workSchool': 'Work / School / Profession',
+			'housingSituation.alt': 'Housing situation',
+			'financialSituation': 'Financial situation',
+			'debt': 'Debt',
+			'experienceOfViolence': 'Experience of violence',
+			'stressfulChildhood': 'stressful childhood',
+			'crime': 'Crime/conflict of laws',
+			'migrationProblems': 'Problems related to migration',
+			'sexualOrientation': 'Sexual orientation',
+			'genderIdentity': 'Gender identity',
+			'others': 'Other',
+			'supportDuration':
+				'Duration of accompaniment (enter after completion)',
+			'onetime': 'one time',
+			'oneMonth': 'Until 1 month',
+			'threeMonths': 'Until 3 months',
+			'sixMonths': 'Until 6 months',
+			'oneYear': 'Until 1 year',
+			'oneAndAHalfYear': 'Until 1.5 years',
+			'longer': 'longer',
+			'inConsultation': 'in consultation',
+			'diagnosis': 'Diagnosis',
+			'depression': 'Depression',
+			'eatingDisorder': 'Eating disorder',
+			'adhs': 'ADHS',
+			'borderline': 'Borderline',
+			'autism': 'Autism',
+			'personalityDisorder': 'Personality Disorder',
+			'traumaRelatedDisorder': 'Trauma Consequence Disorder',
+			'anxietyDisorder': 'Anxiety disorder',
+			'addiction': 'Addiction',
+			'obsessiveCompulsiveDisorder': 'Obsessive Compulsive Disorder',
+			'schizophrenia': 'Schizophrenia',
+			'furtherConnection': 'Further connection',
+			'outpatientTherapy': 'Outpatient therapy',
+			'inpationsTherapy': 'Inpatient therapy/day clinic',
+			'consultation': 'Consulting',
+			'supportGroups': 'Support group',
+			'medicalTherapy': 'Medicinal therapy',
+			'endOfContact': 'End of contact (multiple answers possible)',
+			'mutually': 'Terminated by mutual agreement',
+			'noAnswer': 'Client has not contacted us again',
+			'suicideAnnouncement': 'Suicide Announcement',
+			'suicide': 'Suicide',
+			'others.alt': 'Other',
+			'schoolStudies': 'School/Studies',
+			'partnerLivingCommunity': 'with partner in shared apartment',
+			'concern': 'Concern for suicidal person',
+			'mourning': 'Mourning after suicide',
+			'addictionDrugs': 'Addiction (drugs/medication)',
+			'addictionAlcohol': 'Addiction (alcohol)',
+			'addictionInternetComputer': 'Addiction (Internet/Computer)',
+			'addictionOthers': 'Addiction (other)',
+			'noFirstAnswer': 'Client has not responded to initial email',
+			'helpfulness': 'How helpful was the contact for the client?',
+			'one': '1 - not helpful',
+			'two': '2',
+			'three': '3',
+			'four': '4',
+			'five': '5',
+			'six': '6',
+			'seven': '7',
+			'eight': '8',
+			'nine': '9',
+			'ten': '10 - very helpful'
+		}
 	},
 	navigation: {
-		'asker.sessions': 'My consultations',
-		'asker.sessions.small': 'Messages',
-		'consultant.enquiries': 'Initial inquiries',
-		'consultant.sessions': 'My consultations',
-		'consultant.sessions.small': 'Messages',
-		'consultant.teamsessions': 'Team consultations',
-		'consultant.teamsessions.small': 'Team Con.',
-		'consultant.peersessions': 'Peer consultations',
-		'consultant.peersessions.small': 'Peer Con.',
+		'asker': {
+			sessions: {
+				large: 'My consultations',
+				small: 'Messages'
+			}
+		},
+		'consultant': {
+			enquiries: 'Initial inquiries',
+			sessions: {
+				large: 'My consultations',
+				small: 'Messages'
+			},
+			teamsessions: {
+				large: 'Team consultations',
+				small: 'Team Con.'
+			},
+			peersessions: {
+				large: 'Peer consultations',
+				small: 'Peer Con.'
+			}
+		},
 		'profile': 'Profile',
 		'appointments': 'Video dates',
 		'booking.events': 'My dates',
@@ -915,322 +1212,467 @@ export const en = {
 	profile: {
 		'noContent': 'Not specified',
 		'header.title': 'Profile',
-		'functions.title': 'Functions',
-		'functions.absenceTitle': 'My absence',
-		'functions.absenceLabel': 'Deposit an out of office message',
-		'functions.absenceActivatedLabel':
-			'Deactivate your absence to leave a message or edit it.',
-		'functions.absenceButtonSave': 'Save',
-		'functions.absenceButtonChange': 'Change',
-		'functions.securityTitle': 'Security',
-		'functions.securityButton': 'Change password',
-		'functions.passwordResetTitle': 'Password',
-		'functions.passwordResetSubtitle':
-			'If you wish, you can change your password here. First enter your current password to set a new one.',
-		'functions.passwordResetOldLabel': 'Current password',
-		'functions.passwordResetNewLabel': 'New password',
-		'functions.passwordResetConfirmLabel': 'Confirm new password',
-		'functions.passwordResetSecure': 'Your password is safe.',
-		'functions.passwordResetInsecure': 'Ihr Passwort ist nicht sicher.',
-		'functions.passwordResetSame': 'Your password is identical.',
-		'functions.passwordResetNotSame': 'Your password is not identical.',
-		'functions.passwordResetOldIncorrect': 'Your password is not correct.',
-		'functions.passwordResetInstructions':
-			'<span class="text--bold">Your password must meet the following criteria to guarantee a protected consultation:</span><ul class="pl--2 my--1"><li>upper/lower case</li><li>min. one number</li><li>min. one special character (e.g.: ?, !, +, #, &, ...)</li><li>min. 9 characters</li></ul>',
-		'functions.passwordReset.overlay.headline':
-			'You have successfully changed your password. You will now be redirected to the login.',
-		'functions.passwordReset.overlay.buttonLabel': 'To Login',
-		'functions.spokenLanguages.saveError':
-			'A problem occurred while saving. Please try again.',
-		'functions.masterKey.saveError':
-			'A problem occurred while changing the password. Please try again.',
-		'data.title': 'About me',
-		'data.title.private': 'Private data',
-		'data.info.private':
-			'This data cannot be viewed by those seeking advice.',
-		'data.title.information': 'Contact data',
-		'data.info.public':
-			'With the display name you will appear to those seeking advice.',
-		'data.edit.button.cancel': 'Cancel',
-		'data.edit.button.save': 'Save',
-		'data.userName': 'User name',
-		'data.displayName': 'Display name',
-		'data.firstName': 'First name',
-		'data.lastName': 'Last name',
-		'data.email': 'E-mail address',
-		'data.title.agencies': 'My consulting centers',
-		'data.agency': 'Beratungsstelle',
-		'data.agency.registrationLink.title':
-			'Copy registration link to counseling center to clipboard',
-		'data.agency.registrationLink.text': 'Copy link',
-		'data.agency.registrationLink.notification.title': 'Link copied',
-		'data.agency.registrationLink.notification.text':
-			'Registration link to the counseling center copied to clipboard!',
-		'data.personal.registrationLink.title':
-			'Copy contact link to clipboard',
-		'data.personal.registrationLink.text': 'Copy contact link',
-		'data.personal.registrationLink.notification.title': 'Link copied',
-		'data.personal.registrationLink.notification.text':
-			'The link was successfully copied to the clipboard!',
-		'data.personal.registrationLink.tooltip':
-			'Share your personal contact link with someone so they can start an online consultation directly with you.',
-		'data.register.headline':
-			'Do you also need advice or help on other topics?<br>We will be happy to support you.',
-		'data.register.consultingTypeSelect.label': 'Topics',
-		'data.register.consultingModeInfo.groupChats':
-			'In self-help, those affected exchange information with each other about a topic or concern. Those affected talk about their problems, feelings and hopes and learn how others have overcome problems. The groups are led by moderators.',
-		'data.register.consultingModeInfo.singleChats':
-			'In these subject areas you will receive a personal consultation. Write us your request!',
-		'data.register.buttonLabel': 'Register',
-		'data.registerSuccess.overlay.headline':
-			'You have successfully registered for a new topic.',
-		'data.registerSuccess.overlay.button1Label': 'Write message',
-		'data.registerSuccess.overlay.button1Label.groupChats':
-			'To the overview',
-		'data.registerSuccess.overlay.button2Label': 'Logout',
-		'data.registerError.overlay.headline':
-			'An error has occurred. Please try again.',
-		'data.registerError.overlay.buttonLabel': 'Close',
-		'externalRegistration.headline':
-			'Your chosen counseling center uses a different application for counseling',
-		'externalRegistration.copy.start': 'Would you like to apply for "',
-		'externalRegistration.copy.end':
-			'" switch to the other application and register there?',
-		'externalRegistration.submit': 'Switch now',
-		'externalRegistration.cancel': 'Cancel',
-		'footer.imprint': 'Imprint',
-		'footer.dataprotection': 'Data protection',
-		'routes.general': 'General',
-		'routes.general.public': 'Public data',
-		'routes.general.privat': 'Private data',
-		'routes.activities': 'My activities',
-		'routes.activities.statistics': 'My statistics',
-		'routes.activities.absence': 'My absence',
-		'routes.notifications': 'Notifications',
-		'routes.notifications.email': 'E-mail notification',
-		'routes.settings': 'Settings',
-		'routes.settings.security': 'Security',
-		'routes.settings.security.changePassword': 'Change password',
-		'routes.settings.security.2fa': 'Two-factor authentication',
-		'routes.help': 'Help',
-		'routes.help.videoCall': 'Video-Call',
-		'routes.display': 'Display',
-		'spokenLanguages.title': 'My languages',
-		'spokenLanguages.info':
-			'Select the language(s) in which you can advise those seeking advice. German is preselected as the default language and cannot be removed.',
-		'statistics.title': 'My statistics',
-		'statistics.period.prefix': 'Your numbers of the',
-		'statistics.period.lastMonth': 'last month',
-		'statistics.period.currentMonth': 'current month',
-		'statistics.period.currentYear': 'current year',
-		'statistics.period.lastYear': 'past year',
-		'statistics.period.display.default': 'DD.MM.JJJJ - DD.MM.JJJJ',
-		'statistics.period.display.prefix': 'In the period from ',
-		'statistics.period.display.suffix': ' you have:',
-		'statistics.complete.title':
-			'You can download your statistics for your selected consulting period here:',
-		'statistics.complete.filename': 'Statistics online consulting',
-		'statistics.complete.download.label': 'Download Excel file',
-		'statistics.csvHeader.numberOfAssignedSessions':
-			'Consultations accepted',
-		'statistics.csvHeader.numberOfSentMessages': 'Messages written',
-		'statistics.csvHeader.numberOfSessionsWhereConsultantWasActive':
-			'Active consulting',
-		'statistics.csvHeader.videoCallDuration':
-			'Duration of video calls in minutes:seconds',
-		'unsetEmail.confirmOverlay.headline':
-			'Do you really want to delete your email address?',
-		'unsetEmail.confirmOverlay.copy':
-			'When you delete their email address:',
-		'unsetEmail.confirmOverlay.benefit.1':
-			'you will not receive an email notification when your advisor has written to you',
-		'unsetEmail.confirmOverlay.benefit.2':
-			'you will not be able to reset your password in case you forget it.',
-		'unsetEmail.confirmOverlay.button.confirm': 'Delete',
-		'unsetEmail.confirmOverlay.button.deny': 'Cancel',
-		'unsetEmail.errorOverlay.headline':
-			'Oops! We could not delete the email address just now. Please try again',
-		'unsetEmail.errorOverlay.button': 'ok',
-		'unsetEmail.successOverlay.headline':
-			'You have successfully deleted your email address.',
-		'unsetEmail.successOverlay.button': 'ok',
-		'notifications.title': 'E-mail notification',
-		'notifications.subtitle': 'We will notify you when you:',
-		'notifications.follow.up.email.label':
-			'Have received a message from an accepted advice seeker.',
-		'appLanguage.title': 'Language',
-		'appLanguage.info': 'Set the language of the application here.'
+		'functions': {
+			'title': 'Functions',
+			'absence': {
+				title: 'My absence',
+				label: 'Deposit an out of office message',
+				activatedLabel:
+					'Deactivate your absence to leave a message or edit it.'
+			},
+			'security': {
+				title: 'Security',
+				button: 'Change password'
+			},
+			'password': {
+				reset: {
+					title: 'Password',
+					subtitle:
+						'If you wish, you can change your password here. First enter your current password to set a new one.',
+					old: {
+						label: 'Current password',
+						incorrect: 'Your password is not correct.'
+					},
+					NewLabel: 'New password',
+					ConfirmLabel: 'Confirm new password',
+					Secure: 'Your password is safe.',
+					Insecure: 'Ihr Passwort ist nicht sicher.',
+					Same: 'Your password is identical.',
+					NotSame: 'Your password is not identical.',
+					Instructions:
+						'<span class="text--bold">Your password must meet the following criteria to guarantee a protected consultation:</span><ul class="pl--2 my--1"><li>upper/lower case</li><li>min. one number</li><li>min. one special character (e.g.: ?, !, +, #, &, ...)</li><li>min. 9 characters</li></ul>',
+					overlay: {
+						'headline':
+							'You have successfully changed your password. You will now be redirected to the login.',
+						'button.label': 'To Login'
+					}
+				}
+			},
+			'spokenLanguages.saveError':
+				'A problem occurred while saving. Please try again.',
+			'masterKey.saveError':
+				'A problem occurred while changing the password. Please try again.'
+		},
+		'data': {
+			title: {
+				asker: 'About me',
+				private: 'Private data',
+				information: 'Contact data',
+				agencies: 'My consulting centers'
+			},
+			info: {
+				private: 'This data cannot be viewed by those seeking advice.',
+				public: 'With the display name you will appear to those seeking advice.'
+			},
+			edit: {
+				'button.cancel': 'Cancel',
+				'button.save': 'Save'
+			},
+
+			userName: 'User name',
+			displayName: 'Display name',
+			firstName: 'First name',
+			lastName: 'Last name',
+			email: 'E-mail address',
+			agency: {
+				label: 'Beratungsstelle',
+				registrationLink: {
+					title: 'Copy registration link to counseling center to clipboard',
+					text: 'Copy link',
+					notification: {
+						title: 'Link copied',
+						text: 'Registration link to the counseling center copied to clipboard!'
+					}
+				}
+			},
+			personal: {
+				registrationLink: {
+					title: 'Copy contact link to clipboard',
+					text: 'Copy contact link',
+					notification: {
+						title: 'Link copied',
+						text: 'The link was successfully copied to the clipboard!'
+					},
+					tooltip:
+						'Share your personal contact link with someone so they can start an online consultation directly with you.'
+				}
+			},
+			register: {
+				'headline':
+					'Do you also need advice or help on other topics?<br>We will be happy to support you.',
+				'consultingTypeSelect.label': 'Topics',
+				'consultingModeInfo': {
+					groupChats:
+						'In self-help, those affected exchange information with each other about a topic or concern. Those affected talk about their problems, feelings and hopes and learn how others have overcome problems. The groups are led by moderators.',
+					singleChats:
+						'In these subject areas you will receive a personal consultation. Write us your request!'
+				},
+				'buttonLabel': 'Register'
+			},
+			registerSuccess: {
+				overlay: {
+					'headline':
+						'You have successfully registered for a new topic.',
+					'button1.label': 'Write message',
+					'groupChats.button.label': 'To the overview',
+					'button2.label': 'Logout'
+				}
+			},
+			registerError: {
+				overlay: {
+					'headline': 'An error has occurred. Please try again.',
+					'button.label': 'Close'
+				}
+			}
+		},
+		'externalRegistration': {
+			headline:
+				'Your chosen counseling center uses a different application for counseling',
+			copy: {
+				start: 'Would you like to apply for "',
+				end: '" switch to the other application and register there?'
+			},
+			submit: 'Switch now',
+			cancel: 'Cancel'
+		},
+		'footer': {
+			imprint: 'Imprint',
+			dataprotection: 'Data protection'
+		},
+		'routes': {
+			general: {
+				title: 'General',
+				public: 'Public data',
+				privat: 'Private data'
+			},
+			activities: {
+				title: 'My activities',
+				statistics: 'My statistics',
+				absence: 'My absence'
+			},
+			notifications: {
+				title: 'Notifications',
+				email: 'E-mail notification'
+			},
+			settings: {
+				title: 'Settings',
+				security: {
+					'title': 'Security',
+					'changePassword': 'Change password',
+					'2fa': 'Two-factor authentication'
+				}
+			},
+			help: {
+				title: 'Help',
+				videoCall: 'Video-Call'
+			},
+			display: 'Display'
+		},
+		'spokenLanguages': {
+			title: 'My languages',
+			info: 'Select the language(s) in which you can advise those seeking advice. German is preselected as the default language and cannot be removed.'
+		},
+		'statistics': {
+			title: 'My statistics',
+			period: {
+				prefix: 'Your numbers of the',
+				lastMonth: 'last month',
+				currentMonth: 'current month',
+				currentYear: 'current year',
+				lastYear: 'past year',
+				display: {
+					default: 'DD.MM.JJJJ - DD.MM.JJJJ',
+					prefix: 'In the period from ',
+					suffix: ' you have:'
+				}
+			},
+			complete: {
+				'title':
+					'You can download your statistics for your selected consulting period here:',
+				'filename': 'Statistics online consulting',
+				'download.label': 'Download Excel file'
+			},
+			csvHeader: {
+				numberOfAssignedSessions: 'Consultations accepted',
+				numberOfSentMessages: 'Messages written',
+				numberOfSessionsWhereConsultantWasActive: 'Active consulting',
+				videoCallDuration: 'Duration of video calls in minutes:seconds'
+			}
+		},
+		'unsetEmail': {
+			confirmOverlay: {
+				'headline': 'Do you really want to delete your email address?',
+				'copy': 'When you delete their email address:',
+				'benefit.1':
+					'you will not receive an email notification when your advisor has written to you',
+				'benefit.2':
+					'you will not be able to reset your password in case you forget it.',
+				'button.confirm': 'Delete',
+				'button.deny': 'Cancel'
+			},
+			errorOverlay: {
+				headline:
+					'Oops! We could not delete the email address just now. Please try again',
+				button: 'ok'
+			},
+			successOverlay: {
+				headline: 'You have successfully deleted your email address.',
+				button: 'ok'
+			}
+		},
+		'notifications': {
+			'title': 'E-mail notification',
+			'subtitle': 'We will notify you when you:',
+			'follow.up.email.label':
+				'Have received a message from an accepted advice seeker.'
+		},
+		'appLanguage': {
+			title: 'Language',
+			info: 'Set the language of the application here.'
+		}
 	},
 	qrCode: {
 		'download.filename': 'qr-code-{{filename}}',
 		'link.text': 'Show QR code',
-		'personal.overlay.headline': 'Your personal QR code',
-		'personal.overlay.info':
-			'If you share your QR code with someone, they can scan it with their phone camera to contact you directly. Alternatively, you can download the code.',
-		'agency.overlay.headline': 'Counseling centers QR code',
-		'agency.overlay.info':
-			'If you share the QR code with someone, that person can scan it with their phone camera to register directly with the counseling center {{agency}}. Alternatively, you can download the code.',
-		'overlay.download': 'Download QR code as .png',
-		'overlay.close': 'Close',
-		'overlay.image.alt': 'QR-Code'
+		'personal': {
+			overlay: {
+				headline: 'Your personal QR code',
+				info: 'If you share your QR code with someone, they can scan it with their phone camera to contact you directly. Alternatively, you can download the code.'
+			}
+		},
+		'agency': {
+			overlay: {
+				headline: 'Counseling centers QR code',
+				info: 'If you share the QR code with someone, that person can scan it with their phone camera to register directly with the counseling center {{agency}}. Alternatively, you can download the code.'
+			}
+		},
+		'overlay': {
+			'download': 'Download QR code as .png',
+			'close': 'Close',
+			'image.alt': 'QR-Code'
+		}
 	},
 	registration: {
 		'headline': 'Registration',
 		'overline': 'Welcome',
 		'title.start': 'Registration',
-		'login.helper': 'Already registered?',
-		'login.label': 'To login',
-		'agency.preselected.prefix': 'Your pre-selected counseling center: ',
-		'agency.preselected.isTeam': 'You will be advised by a team.',
+		'login': {
+			helper: 'Already registered?',
+			label: 'To login'
+		},
+		'agency': {
+			'preselected.prefix': 'Your pre-selected counseling center: ',
+			'preselected.isTeam': 'You will be advised by a team.'
+		},
 		'consultingType.preselected.prefix': 'Your pre-selected topic: ',
 		'username.headline': 'Please choose your username',
-		'user.label': 'Username',
-		'user.infoText':
-			'To protect your anonymity, we advise you not to use your real name or initials.<br>Please choose a suitable username with min. 5 characters.',
-		'user.suitable': 'Your username is suitable.',
-		'user.unsuitable': 'Your username is too short.',
-		'user.unavailable': 'The username is already taken.',
-		'agencySelection.headline':
-			'Please select a counseling center near you',
-		'agencySelection.title.start': 'Consultation centers to the zip code',
-		'agencySelection.title.end': ':',
-		'agencySelection.languages.info':
-			'This counseling center advises you on:',
-		'agencySelection.languages.more': 'Languages',
-		'agencySelection.intro.overline':
-			'Why does a counseling center near you also help you online?',
-		'agencySelection.intro.subline': 'Because then the professional staff:',
-		'agencySelection.intro.point1': 'knows the regional help structures,',
-		'agencySelection.intro.point2':
-			'is familiar with the legal requirements,',
-		'agencySelection.intro.point3':
-			'can also advise you on site if necessary.',
-		'agencySelection.postcode.label': 'Your zip code',
-		'agencySelection.postcode.unavailable.title':
-			'No counseling center found nearby',
-		'agencySelection.postcode.unavailable.text':
-			'Unfortunately, we do not have an online counseling center near you at the moment. On our website you can find local counseling centers for your concern.',
-		'agencySelection.postcode.search': 'To the advice center search',
-		'agencyPreselected.headline': 'Please enter your postal code',
-		'agencyPreselected.intro.overline': 'Why do we need your postal code?',
-		'agencyPreselected.intro.subline': 'Our experts:',
-		'agencyPreselected.intro.point1':
-			'then know the aids around your place of residence',
-		'agencyPreselected.intro.point2': 'know the laws of your state',
-		'agencySelection.noAgencies':
-			'Unfortunately, no counseling centers can be found at the moment.',
-		'consultingTypeAgencySelection.consultingType.headline':
-			'Please select a topic',
-		'consultingTypeAgencySelection.consultingType.infoText':
-			'Your consultant is active in several subject areas. Please select your desired subject area.',
-		'consultingTypeAgencySelection.consultingType.select.label': 'Topic',
-		'consultingTypeAgencySelection.agency.headline':
-			'Please select a counseling center',
-		'consultingTypeAgencySelection.agency.infoText':
-			'Your consultant is active in several counseling centers. Please select your desired counseling center.',
-		'password.headline': 'Please choose your password',
-		'password.input.label': 'Password',
-		'password.confirmation.label': 'Repeat password',
-		'password.secure': 'Your password is secure.',
-		'password.insecure': 'Your password is not secure.',
-		'password.same': 'Your password is identical.',
-		'password.notSame': 'Your password is not identical.',
-		'password.intro':
-			'To guarantee protected consultation, your password must meet the following criteria:',
-		'password.criteria.upperLowerCase': 'Upper/lower case',
-		'password.criteria.number': 'at least one number',
-		'password.criteria.specialChar': 'at least one special character',
-		'password.criteria.length': 'At least 9 characters',
-		'age.headline': 'Please tell us your age',
-		'age.dropdown': 'Select age*',
-		'state.headline': 'Please tell us in which state you live',
-		'state.dropdown': 'Select state*',
-		'state.options.0': 'outside Germany',
-		'state.options.1': 'Baden-Württemberg',
-		'state.options.2': 'Bavaria',
-		'state.options.3': 'Berlin',
-		'state.options.4': 'Brandenburg',
-		'state.options.5': 'Bremen',
-		'state.options.6': 'Hamburg',
-		'state.options.7': 'Hesse',
-		'state.options.8': 'Mecklenburg-Western Pomerania',
-		'state.options.9': 'Lower Saxony',
-		'state.options.10': 'North Rhine-Westphalia',
-		'state.options.11': 'Rhineland-Palatinate',
-		'state.options.12': 'Saarland',
-		'state.options.13': 'Saxony',
-		'state.options.14': 'Saxony-Anhalt',
-		'state.options.15': 'Schleswig-Holstein',
-		'state.options.16': 'Thuringia',
-		'mainTopic.headline':
-			'Which of these problem areas is currently most important to you?',
-		'mainTopic.noTopics':
-			'Unfortunately, no topics can be selected at the moment. Continue the registration in the next step.',
-		'dataProtection.label.prefix': 'I have the ',
-		'dataProtection.label.and': ' and ',
-		'dataProtection.label.suffix':
-			' noted. For authentication and navigation, this website uses cookies. I agree with this.',
+		'user': {
+			label: 'Username',
+			infoText:
+				'To protect your anonymity, we advise you not to use your real name or initials.<br>Please choose a suitable username with min. 5 characters.',
+			suitable: 'Your username is suitable.',
+			unsuitable: 'Your username is too short.',
+			unavailable: 'The username is already taken.'
+		},
+		'agencySelection': {
+			'headline': 'Please select a counseling center near you',
+			'title.start': 'Consultation centers to the zip code',
+			'title.end': ':',
+			'languages.info': 'This counseling center advises you on:',
+			'languages.more': 'Languages',
+			'intro': {
+				overline:
+					'Why does a counseling center near you also help you online?',
+				subline: 'Because then the professional staff:',
+				point1: 'knows the regional help structures,',
+				point2: 'is familiar with the legal requirements,',
+				point3: 'can also advise you on site if necessary.'
+			},
+			'postcode': {
+				label: 'Your zip code',
+				unavailable: {
+					title: 'No counseling center found nearby',
+					text: 'Unfortunately, we do not have an online counseling center near you at the moment. On our website you can find local counseling centers for your concern.'
+				},
+				search: 'To the advice center search'
+			},
+			'noAgencies':
+				'Unfortunately, no counseling centers can be found at the moment.'
+		},
+		'agencyPreselected': {
+			headline: 'Please enter your postal code',
+			intro: {
+				overline: 'Why do we need your postal code?',
+				subline: 'Our experts:',
+				point1: 'then know the aids around your place of residence',
+				point2: 'know the laws of your state'
+			}
+		},
+		'consultingTypeAgencySelection': {
+			consultingType: {
+				'headline': 'Please select a topic',
+				'infoText':
+					'Your consultant is active in several subject areas. Please select your desired subject area.',
+				'select.label': 'Topic'
+			},
+			agency: {
+				headline: 'Please select a counseling center',
+				infoText:
+					'Your consultant is active in several counseling centers. Please select your desired counseling center.'
+			}
+		},
+		'password': {
+			'headline': 'Please choose your password',
+			'input.label': 'Password',
+			'confirmation.label': 'Repeat password',
+			'secure': 'Your password is secure.',
+			'insecure': 'Your password is not secure.',
+			'same': 'Your password is identical.',
+			'notSame': 'Your password is not identical.',
+			'intro':
+				'To guarantee protected consultation, your password must meet the following criteria:',
+			'criteria': {
+				upperLowerCase: 'Upper/lower case',
+				number: 'at least one number',
+				specialChar: 'at least one special character',
+				length: 'At least 9 characters'
+			}
+		},
+		'age': {
+			headline: 'Please tell us your age',
+			dropdown: 'Select age*'
+		},
+		'state': {
+			headline: 'Please tell us in which state you live',
+			dropdown: 'Select state*',
+			options: {
+				'0': 'outside Germany',
+				'1': 'Baden-Württemberg',
+				'2': 'Bavaria',
+				'3': 'Berlin',
+				'4': 'Brandenburg',
+				'5': 'Bremen',
+				'6': 'Hamburg',
+				'7': 'Hesse',
+				'8': 'Mecklenburg-Western Pomerania',
+				'9': 'Lower Saxony',
+				'10': 'North Rhine-Westphalia',
+				'11': 'Rhineland-Palatinate',
+				'12': 'Saarland',
+				'13': 'Saxony',
+				'14': 'Saxony-Anhalt',
+				'15': 'Schleswig-Holstein',
+				'16': 'Thuringia'
+			}
+		},
+		'mainTopic': {
+			headline:
+				'Which of these problem areas is currently most important to you?',
+			noTopics:
+				'Unfortunately, no topics can be selected at the moment. Continue the registration in the next step.'
+		},
+		'dataProtection': {
+			label: {
+				prefix: 'I have the ',
+				and: ' and ',
+				suffix: ' noted. For authentication and navigation, this website uses cookies. I agree with this.'
+			}
+		},
 		'submitButton.label': 'Register',
-		'overlay.success.headline':
-			'Welcome<br>to the advice & assistance of Caritas.',
-		'overlay.success.copy': 'You have successfully registered.',
-		'overlay.success.button': 'Compose message',
-		'accordion.item.continueButton': 'Next',
-		'accordion.item.continueButton.title': 'Continue to the next step',
-		'welcomeScreen.subline':
-			'How does Caritas Counseling & Assistance work?',
-		'welcomeScreen.info1.title': 'Simple registration',
-		'welcomeScreen.info1.text': 'For individual and protected consultation',
-		'welcomeScreen.info2.title': 'Compose message',
-		'welcomeScreen.info2.text':
-			'You send your message to a local counseling center',
-		'welcomeScreen.info3.title': 'Personal and professional advice',
-		'welcomeScreen.info3.text':
-			'Within 2 working days you will get an answer',
-		'welcomeScreen.info4.title': 'Anonymous and free of charge',
-		'welcomeScreen.info4.text':
-			'You remain anonymous and receive free advice and assistance',
-		'welcomeScreen.register.helperText': 'Not registered yet?',
-		'welcomeScreen.register.buttonLabel': 'To registration',
+		'overlay': {
+			success: {
+				headline: 'Welcome<br>to the advice & assistance of Caritas.',
+				copy: 'You have successfully registered.',
+				button: 'Compose message'
+			}
+		},
+		'accordion': {
+			item: {
+				continueButton: {
+					label: 'Next',
+					title: 'Continue to the next step'
+				}
+			}
+		},
+		'welcomeScreen': {
+			subline: 'How does Caritas Counseling & Assistance work?',
+			info1: {
+				title: 'Simple registration',
+				text: 'For individual and protected consultation'
+			},
+			info2: {
+				title: 'Compose message',
+				text: 'You send your message to a local counseling center'
+			},
+			info3: {
+				title: 'Personal and professional advice',
+				text: 'Within 2 working days you will get an answer'
+			},
+			info4: {
+				title: 'Anonymous and free of charge',
+				text: 'You remain anonymous and receive free advice and assistance'
+			},
+			register: {
+				helperText: 'Not registered yet?',
+				buttonLabel: 'To registration'
+			}
+		},
 		'teaser.consultant':
 			'Please register to get in touch with your consultant'
 	},
 	releaseNote: {
-		'content.headline': 'We have news!',
-		'content.intro': 'Heres whats changed with online counseling:',
-		'content.checkbox': 'Do not show this message again.',
+		'content': {
+			headline: 'We have news!',
+			intro: 'Heres whats changed with online counseling:',
+			checkbox: 'Do not show this message again.'
+		},
 		'overlay.close': 'Close'
 	},
 	session: {
-		'acceptance.overlayHeadline':
-			'You have successfully accepted the initial request and can now find it under "My consultations".',
-		'acceptance.buttonLabel': 'Answers',
-		'alreadyAssigned.overlay.headline':
-			'You have already assigned this consultation.',
-		'alreadyAssigned.overlay.button.cancel': 'Close',
-		'alreadyAssigned.overlay.button.redirect': 'Answers',
-		'anonymous.takenByOtherConsultant.overlayHeadline':
-			'This initial request has already been accepted by another consultant.',
-		'anonymous.takenByOtherConsultant.buttonLabel': 'Close',
-		'assignOther.overlay.headline':
-			'Do you want to assign {{client}} to {{newConsultant}}?',
-		'assignOther.overlay.subtitle.noTeam':
-			'{{newConsultant}} is thus responsible for the advice seeker and can read the complete message history. They no longer have access to the messages.',
-		'assignOther.overlay.subtitle.team.self':
-			'{{newConsultant}} is thus responsible for the advice seeker. If {{toAskerName}} agrees to the assignment, you will find the chat history in your messages and no longer under team consulting.',
-		'assignOther.overlay.subtitle.team.other':
-			'{{newConsultant}} is thus responsible for the advice seeker. If {{toAskerName}} agrees to the assignment, you will find the chat history under Team Consulting and no longer in your messages.',
-		'assignOther.buttonLabel.abort': 'Cancel',
-		'assignOther.buttonLabel.assign': 'Assign',
-		'assignSelf.overlayHeadline':
-			'You have successfully accepted the consultation. It has been moved to My consultations.',
-		'assignSelf.button1.label': 'Answers',
-		'assignSelf.button2.label': 'Close',
-		'assignSelf.overlay.headline': 'Assign consultation',
-		'assignSelf.overlay.subtitle':
-			'Do you really want to assign this consultation?',
-		'assignSelf.overlay.button.cancel': 'Cancel',
-		'assignSelf.overlay.button.assign': 'Assign',
+		'acceptance': {
+			'overlay.headline':
+				'You have successfully accepted the initial request and can now find it under "My consultations".',
+			'button.label': 'Answers'
+		},
+		'alreadyAssigned': {
+			overlay: {
+				'headline': 'You have already assigned this consultation.',
+				'button.cancel': 'Close',
+				'button.redirect': 'Answers'
+			}
+		},
+		'anonymous': {
+			'takenByOtherConsultant.overlayHeadline':
+				'This initial request has already been accepted by another consultant.',
+			'takenByOtherConsultant.buttonLabel': 'Close'
+		},
+		'assignOther': {
+			'overlay': {
+				'headline': {
+					'1': 'Do you want to assign {{client}} to {{newConsultant}}?',
+					'2': 'You have successfully assigned the consultation.'
+				},
+				'subtitle.noTeam':
+					'{{newConsultant}} is thus responsible for the advice seeker and can read the complete message history. They no longer have access to the messages.',
+				'subtitle.team.self':
+					'{{newConsultant}} is thus responsible for the advice seeker. If {{toAskerName}} agrees to the assignment, you will find the chat history in your messages and no longer under team consulting.',
+				'subtitle.team.other':
+					'{{newConsultant}} is thus responsible for the advice seeker. If {{toAskerName}} agrees to the assignment, you will find the chat history under Team Consulting and no longer in your messages.'
+			},
+			'button.label': 'Cancel'
+		},
+		'assignSelf': {
+			'overlay': {
+				'headline1':
+					'You have successfully accepted the consultation. It has been moved to My consultations.',
+				'headline2': 'Assign consultation',
+				'subtitle': 'Do you really want to assign this consultation?',
+				'button.cancel': 'Cancel',
+				'button.assign': 'Assign'
+			},
+			'button1.label': 'Answers',
+			'button2.label': 'Close'
+		},
 		'consultant.prefix': 'Consultant - ',
 		'divider.lastRead': 'Last read',
 		'empty': 'Please select a message.',
@@ -1239,377 +1681,515 @@ export const en = {
 		'monitoring.buttonLabel': 'Document now',
 		'u25.assignment.placeholder': 'Assign consultation',
 		'unreadCount.maxValue': '99+',
-		'dragAndDrop.explanation.insideDropArea':
-			'Place the file here to upload it.',
-		'dragAndDrop.explanation.outsideDropArea':
-			'Drag the file into the field to upload it.',
-		'dragAndDrop.restrictions':
-			'.jpg, .png, .pdf, .docx, .xlsx up to a maximum of 5MB',
-		'reassign.system.message.reassign.title':
-			'{{oldConsultant}} would like to pass you to {{newConsultant}}.',
-		'reassign.system.message.reassign.description.noTeam':
-			'{{newConsultant}} can thus read the complete message history and is responsible for you. {{oldConsultant}} no longer has access to the messages.',
-		'reassign.system.message.reassign.description.team':
-			'{{newConsultant}} can thus read the complete message history and is responsible for you.',
-		'reassign.system.message.reassign.question':
-			'Do you agree to the transfer?',
-		'reassign.system.message.reassign.accept': 'Accept',
-		'reassign.system.message.reassign.decline': 'Decline',
-		'reassign.system.message.reassign.sent.title':
-			'Request for assignment sent',
-		'reassign.system.message.reassign.sent.description.noTeam':
-			'Once {{client1}} agrees to the assignment, {{client2}} is passed to {{newConsultant}} with the complete message history.',
-		'reassign.system.message.reassign.sent.description.team.self':
-			'Once {{client1}} agrees to the assignment, {{newConsultant}} will be responsible for {{client2}}. You will then find the chat history under Team Consulting and no longer here in your messages.',
-		'reassign.system.message.reassign.sent.description.team.other':
-			'Once {{client1}} agrees to the assignment, {{newConsultant}} will be responsible for {{client2}}. You will then find the chat history in your messages and no longer here under Team Consulting.',
-		'reassign.system.message.reassign.accepted.title.self':
-			'{{oldConsultant}} has passed {{client}} to you.',
-		'reassign.system.message.reassign.accepted.title.other':
-			'{{oldConsultant}} has passed {{newConsultant}} to {{client}}.',
-		'reassign.system.message.reassign.accepted.description.self':
-			'You are now responsible for {{client}}.',
-		'reassign.system.message.reassign.accepted.description.other':
-			'{{consultant}} is now responsible for {{client}}.',
-		'reassign.system.message.reassign.declined.title':
-			'{{client}} has rejected the assignment.',
-		'reassign.system.message.reassign.declined.description.self':
-			'You are still responsible for {{client}}.',
-		'reassign.system.message.reassign.declined.description.other':
-			'{{consultant}} is still responsible for {{client}}.',
-		'reassign.system.message.reassign.accepted.consultant.title':
-			'{{newConsultant}} kümmert sich nun um Sie und Ihre Anliegen.',
-		'reassign.system.message.reassign.accepted.new.consultant.description':
-			'We have notified {{newConsultant1}}. You can now send messages to {{newConsultant2}}.',
-		'reassign.system.message.reassign.accepted.old.consultant.description':
-			'We have notified {{newConsultant}}. {{oldConsultant}} is no longer responsible for you',
-		'reassign.system.message.reassign.declined.old.consultant.title':
-			'{{oldConsultant}} will continue to take care of you and your concerns.'
+		'dragAndDrop': {
+			explanation: {
+				insideDropArea: 'Place the file here to upload it.',
+				outsideDropArea: 'Drag the file into the field to upload it.'
+			},
+			restrictions:
+				'.jpg, .png, .pdf, .docx, .xlsx up to a maximum of 5MB'
+		},
+		'reassign': {
+			system: {
+				message: {
+					reassign: {
+						title: '{{oldConsultant}} would like to pass you to {{newConsultant}}.',
+						description: {
+							noTeam: '{{newConsultant}} can thus read the complete message history and is responsible for you. {{oldConsultant}} no longer has access to the messages.',
+							team: '{{newConsultant}} can thus read the complete message history and is responsible for you.'
+						},
+
+						question: 'Do you agree to the transfer?',
+						accept: 'Accept',
+						decline: 'Decline',
+						sent: {
+							title: 'Request for assignment sent',
+							description: {
+								noTeam: 'Once {{client1}} agrees to the assignment, {{client2}} is passed to {{newConsultant}} with the complete message history.',
+								team: {
+									self: 'Once {{client1}} agrees to the assignment, {{newConsultant}} will be responsible for {{client2}}. You will then find the chat history under Team Consulting and no longer here in your messages.',
+									other: 'Once {{client1}} agrees to the assignment, {{newConsultant}} will be responsible for {{client2}}. You will then find the chat history in your messages and no longer here under Team Consulting.'
+								}
+							}
+						},
+						accepted: {
+							'title': {
+								self: '{{oldConsultant}} has passed {{client}} to you.',
+								other: '{{oldConsultant}} has passed {{newConsultant}} to {{client}}.'
+							},
+							'description': {
+								self: 'You are now responsible for {{client}}.',
+								other: '{{consultant}} is now responsible for {{client}}.'
+							},
+							'consultant.title':
+								'{{newConsultant}} kümmert sich nun um Sie und Ihre Anliegen.',
+							'new.consultant.description':
+								'We have notified {{newConsultant1}}. You can now send messages to {{newConsultant2}}.',
+							'old.consultant.description':
+								'We have notified {{newConsultant}}. {{oldConsultant}} is no longer responsible for you'
+						},
+						declined: {
+							'title': '{{client}} has rejected the assignment.',
+							'description': {
+								self: 'You are still responsible for {{client}}.',
+								other: '{{consultant}} is still responsible for {{client}}.'
+							},
+							'old.consultant.title':
+								'{{oldConsultant}} will continue to take care of you and your concerns.'
+						}
+					}
+				}
+			}
+		}
 	},
 	sessionList: {
 		'teamsession': 'Team consulting',
-		'empty': 'There are no requests at the moment.',
-		'empty.anonymous':
-			'Currently, no anonymous advice seekers are waiting for a live chat.',
-		'preview.headline': 'Initial inquiries',
-		'preview.registered.tab': 'Initial inquiries',
-		'preview.anonymous.tab': 'Live chat requests',
-		'view.headline': 'My consultations',
-		'view.asker.tab': 'Advice seekers',
-		'view.archive.tab': 'Archive',
-		'user.headline': 'My consultations',
+		'empty': {
+			known: 'There are no requests at the moment.',
+			anonymous:
+				'Currently, no anonymous advice seekers are waiting for a live chat.'
+		},
+		'preview': {
+			'headline': 'Initial inquiries',
+			'registered.tab': 'Initial inquiries',
+			'anonymous.tab': 'Live chat requests'
+		},
+		'view': {
+			'headline': 'My consultations',
+			'asker.tab': 'Advice seekers',
+			'archive.tab': 'Archive'
+		},
+		'user': {
+			headline: 'My consultations',
+			consultantUnknown: 'Search for consultants underway',
+			writeEnquiry: 'Write message now',
+			peer: 'Peer'
+		},
 		'peersessions.headline': 'Peer consultations',
-		'user.consultantUnknown': 'Search for consultants underway',
-		'user.writeEnquiry': 'Write message now',
 		'asker.welcome': 'Welcome back!',
-		'filter.placeholder': 'Filter',
-		'filter.option.all': 'All consultations',
-		'filter.option.feedbackMain': 'Feedback needed',
-		'filter.option.feedbackPeer': 'Feedback available',
-		'user.peer': 'Peer',
+		'filter': {
+			placeholder: 'Filter',
+			option: {
+				all: 'All consultations',
+				feedbackMain: 'Feedback needed',
+				feedbackPeer: 'Feedback available'
+			}
+		},
 		'reloadButton.label': 'Reload',
 		'createChat.buttonTitle': 'Create chat',
 		'time.label.postfix': 'Clock'
 	},
 	statusOverlay: {
-		'error.headline': 'An error occurred while sending the message',
-		'error.text': 'A problem has occurred, please try again',
-		'success.headline': 'Your message was sent',
-		'success.text':
-			'Thank you for your inquiry. We will reply to you within 48 hours on weekdays. If you have provided your email address, you will receive a notification as soon as our response is received.'
+		error: {
+			headline: 'An error occurred while sending the message',
+			text: 'A problem has occurred, please try again'
+		},
+		success: {
+			headline: 'Your message was sent',
+			text: 'Thank you for your inquiry. We will reply to you within 48 hours on weekdays. If you have provided your email address, you will receive a notification as soon as our response is received.'
+		}
 	},
 	text: {
 		'label.hint': 'Hint'
 	},
 	twoFactorAuth: {
-		'title': 'Two-factor authentication',
-		'subtitle':
+		title: 'Two-factor authentication',
+		subtitle:
 			'Secure your account from possible unauthorized access. Use a second factor (app or email) for logging in to online consultation',
-		'switch.active.label': 'Two-factor authentication enabled',
-		'switch.deactive.label': 'Two-factor authentication disabled',
-		'activate.step1.email': 'Per E-Mail',
-		'activate.step1.app': 'With Authenticator Application',
-		'activate.step1.title': 'Select second factor',
-		'activate.step1.copy':
-			'Do you want to additionally protect your account with an app or with your email address?',
-		'activate.step1.visualisation.label': 'Selection',
-		'activate.radio.label.app': 'App',
-		'activate.radio.label.email': 'E-mail address',
-		'activate.radio.tooltip.app':
-			'Install the app. The app will generate a code for you to enter when you log in.',
-		'activate.radio.tooltip.email':
-			'You will receive an email with a code when you register. You must then enter this code.',
-		'activate.email.step2.title': 'Enter e-mail address',
-		'activate.email.step2.copy': 'Please enter your e-mail address here.',
-		'activate.email.step2.visualisation.label': 'Specification',
-		'activate.email.step3.title': 'E-Mail-Adresse bestätigen',
-		'activate.email.step3.copy.1': 'We have just sent you an email to',
-		'activate.email.step3.copy.2':
-			'sent. Please enter the code from the email here.',
-		'activate.email.step3.visualisation.label': 'Link',
-		'activate.email.step4.title':
-			'E-mail authentication successfully set up.',
-		'activate.email.step4.visualisation.label': 'Confirmation',
-		'activate.app.step2.title': 'Install the app',
-		'activate.app.step2.copy':
-			'Install FreeOTP or Google Authentificator on your smartphone or tablet. Both apps are available in the Google Play or Apple App Store.',
-		'activate.app.step2.visualisation.label': 'Installation',
-		'activate.app.step2.tool1': 'FreeOTP App:',
-		'activate.app.step2.tool2': 'Google Authenticator App:',
-		'activate.app.step2.tool1.url.google':
-			'https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp',
-		'activate.app.step2.tool1.url.apple':
-			'https://apps.apple.com/de/app/freeotp-authenticator/id872559395',
-		'activate.app.step2.tool2.url.google':
-			'https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2',
-		'activate.app.step2.tool2.url.apple':
-			'https://apps.apple.com/de/app/google-authenticator/id388497605',
-		'activate.app.step2.download.google': 'Download from Google Play Store',
-		'activate.app.step2.download.apple': 'Download from Apple App Store',
-		'activate.app.step3.title': 'Add the online consultation to the app',
-		'activate.app.step3.copy':
-			'You have two options to add the online consultation to the app:',
-		'activate.app.step3.visualisation.label': 'Add',
-		'activate.app.step3.connect.qrCode':
-			'Open the app and scan the following QR code:',
-		'activate.app.step3.connect.divider': 'or',
-		'activate.app.step3.connect.key':
-			'Open the app and enter the following 32-digit key:',
-		'activate.app.step4.title': 'Enter one time code',
-		'activate.app.step4.copy':
-			'Enter the one-time code generated by the app and click "Save" to complete the setup.',
-		'activate.app.step4.visualisation.label': 'Link',
-		'activate.app.step5.title': 'App shortcut successfully set up.',
-		'activate.app.step5.visualisation.label': 'Confirmation',
-		'activate.otp.input.label': 'Single-use code',
-		'activate.otp.input.label.short': 'The entered code is too short.',
-		'activate.otp.input.label.error':
-			'Authentication has failed. Please repeat the process.',
-		'overlayButton.next': 'Next',
-		'overlayButton.back': 'Back',
-		'overlayButton.save': 'Save',
-		'overlayButton.close': 'Close',
-		'overlayButton.confirm': 'Confirm',
-		'activate.email.input.label': 'Enter e-mail address',
-		'activate.email.input.valid': 'Enter e-mail address',
-		'activate.email.input.invalid': 'E-mail address invalid',
-		'activate.email.input.duplicate': 'E-mail address is already in use',
-		'activate.email.input.duplicate.info':
-			'This email address is already in use by someone else. Please enter a different email address. Or use the app as a second factor.',
-		'activate.email.input.info':
-			'You can only leave one email address with us. If you change the e-mail address here, you will also receive the notifications on this e-mail address in the future.',
-		'activate.email.resend.hint':
-			'We have sent you a code to your email address. Please enter the code.',
-		'activate.email.resend.headline': 'It did not work?',
-		'activate.email.resend.new': 'Send new code',
-		'activate.email.resend.sent': 'New code sent',
-		'email.change.confirmOverlay.title': 'E-Mail-Adresse bearbeiten',
-		'email.change.confirmOverlay.copy.1':
-			'They use this email address as a second factor for secure login.',
-		'email.change.confirmOverlay.copy.2':
-			'Disable two-factor authentication to edit the email address.',
-		'email.change.confirmOverlay.button.confirm': 'Disable authentication',
-		'email.change.confirmOverlay.button.deny': 'Cancel',
-		'email.delete.confirmOverlay.copy':
-			'the two-factor authentication is disabled.',
-		'switch.type.label': 'Your second factor',
-		'switch.type.EMAIL': 'E-Mail',
-		'switch.type.APP': 'App',
-		'nag.title': 'Protect your account',
-		'nag.copy':
-			'Secure your account from possible unauthorized access. Use a second factor (app or email) to log in to the online fry.',
-		'nag.button.later': 'Later remember',
-		'nag.button.protect': 'Protect now',
-		'nag.obligatory.moment.title':
-			'Protect your account no later than {{date}}',
-		'nag.obligatory.moment.copy':
-			'You have to deposit up to {{date1}} a second factor (app or email) for logging into the online consultation. This is for security and protects your account from possible unauthorized access.<br><br><b>Attention: Without a second factor you are not allowed to consult online after {{date2}}.</b>',
-		'nag.obligatory.title': 'Protect your account now',
-		'nag.obligatory.copy':
-			'You now need to store a second factor for (App or E-mail) logging into the online consultation.  This is for security and protects your account from possible unauthorized access. <br><br><b>This is for security and protects your account from possible unauthorized access.</b>'
+		switch: {
+			'active.label': 'Two-factor authentication enabled',
+			'deactive.label': 'Two-factor authentication disabled',
+			'type': {
+				label: 'Your second factor',
+				EMAIL: 'E-Mail',
+				APP: 'App'
+			}
+		},
+		activate: {
+			step1: {
+				'email': 'Per E-Mail',
+				'app': 'With Authenticator Application',
+				'title': 'Select second factor',
+				'copy': 'Do you want to additionally protect your account with an app or with your email address?',
+				'visualisation.label': 'Selection'
+			},
+			radio: {
+				label: {
+					app: 'App',
+					email: 'E-mail address'
+				},
+				tooltip: {
+					app: 'Install the app. The app will generate a code for you to enter when you log in.',
+					email: 'You will receive an email with a code when you register. You must then enter this code.'
+				}
+			},
+			email: {
+				input: {
+					label: 'Enter e-mail address',
+					valid: 'Enter e-mail address',
+					invalid: 'E-mail address invalid',
+					duplicate: {
+						label: 'E-mail address is already in use',
+						info: 'This email address is already in use by someone else. Please enter a different email address. Or use the app as a second factor.'
+					},
+					info: 'You can only leave one email address with us. If you change the e-mail address here, you will also receive the notifications on this e-mail address in the future.'
+				},
+				resend: {
+					hint: 'We have sent you a code to your email address. Please enter the code.',
+					headline: 'It did not work?',
+					new: 'Send new code',
+					sent: 'New code sent'
+				},
+				step2: {
+					'title': 'Enter e-mail address',
+					'copy': 'Please enter your e-mail address here.',
+					'visualisation.label': 'Specification'
+				},
+				step3: {
+					'title': 'E-Mail-Adresse bestätigen',
+					'copy': {
+						'1': 'We have just sent you an email to',
+						'2': 'sent. Please enter the code from the email here.'
+					},
+					'visualisation.label': 'Link'
+				},
+				step4: {
+					'title': 'E-mail authentication successfully set up.',
+					'visualisation.label': 'Confirmation'
+				}
+			},
+			app: {
+				step2: {
+					'title': 'Install the app',
+					'copy': 'Install FreeOTP or Google Authentificator on your smartphone or tablet. Both apps are available in the Google Play or Apple App Store.',
+					'visualisation.label': 'Installation',
+					'tool1': {
+						title: 'FreeOTP App:',
+						url: {
+							google: 'https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp',
+							apple: 'https://apps.apple.com/de/app/freeotp-authenticator/id872559395'
+						}
+					},
+					'tool2': {
+						title: 'Google Authenticator App:',
+						url: {
+							google: 'https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2',
+							apple: 'https://apps.apple.com/de/app/google-authenticator/id388497605'
+						}
+					},
+					'download': {
+						google: 'Download from Google Play Store',
+						apple: 'Download from Apple App Store'
+					}
+				},
+				step3: {
+					'title': 'Add the online consultation to the app',
+					'copy': 'You have two options to add the online consultation to the app:',
+					'visualisation.label': 'Add',
+					'connect': {
+						qrCode: 'Open the app and scan the following QR code:',
+						divider: 'or',
+						key: 'Open the app and enter the following 32-digit key:'
+					}
+				},
+				step4: {
+					'title': 'Enter one time code',
+					'copy': 'Enter the one-time code generated by the app and click "Save" to complete the setup.',
+					'visualisation.label': 'Link'
+				},
+				step5: {
+					'title': 'App shortcut successfully set up.',
+					'visualisation.label': 'Confirmation'
+				}
+			},
+			otp: {
+				input: {
+					label: {
+						text: 'Single-use code',
+						short: 'The entered code is too short.',
+						error: 'Authentication has failed. Please repeat the process.'
+					}
+				}
+			}
+		},
+		overlayButton: {
+			next: 'Next',
+			back: 'Back',
+			save: 'Save',
+			close: 'Close',
+			confirm: 'Confirm'
+		},
+		email: {
+			'change': {
+				confirmOverlay: {
+					'title': 'E-Mail-Adresse bearbeiten',
+					'copy': {
+						'1': 'They use this email address as a second factor for secure login.',
+						'2': 'Disable two-factor authentication to edit the email address.'
+					},
+					'button.confirm': 'Disable authentication',
+					'button.deny': 'Cancel'
+				}
+			},
+			'delete.confirmOverlay.copy':
+				'the two-factor authentication is disabled.'
+		},
+		nag: {
+			'title': 'Protect your account',
+			'copy': 'Secure your account from possible unauthorized access. Use a second factor (app or email) to log in to the online fry.',
+			'button.later': 'Later remember',
+			'button.protect': 'Protect now',
+			'obligatory': {
+				moment: {
+					title: 'Protect your account no later than {{date}}',
+					copy: 'You have to deposit up to {{date1}} a second factor (app or email) for logging into the online consultation. This is for security and protects your account from possible unauthorized access.<br><br><b>Attention: Without a second factor you are not allowed to consult online after {{date2}}.</b>'
+				},
+				title: 'Protect your account now',
+				copy: 'You now need to store a second factor for (App or E-mail) logging into the online consultation.  This is for security and protects your account from possible unauthorized access. <br><br><b>This is for security and protects your account from possible unauthorized access.</b>'
+			}
+		}
 	},
 	typingIndicator: {
 		'singleUser.typing': 'writes',
-		'twoUsers.connector': 'and',
-		'twoUsers.typing': 'write',
+		'twoUsers': {
+			connector: 'and',
+			typing: 'write'
+		},
 		'multipleUsers.typing': 'Participants write'
 	},
 	user: {
-		'userAddiction.relation.headline': 'Background',
-		'userAddiction.relation.0': 'Affected',
-		'userAddiction.relation.1': 'Affiliated',
-		'userAddiction.relation.2': 'Other',
-		'userAddiction.age.headline': 'Age',
-		'userAddiction.age.selectLabel': 'Select age',
-		'userAddiction.age.0': '0-17',
-		'userAddiction.age.1': '18-20',
-		'userAddiction.age.2': '21-30',
-		'userAddiction.age.3': '31-40',
-		'userAddiction.age.4': '41-59',
-		'userAddiction.age.5': '60+',
-		'userAddiction.gender.headline': 'Gender',
-		'userAddiction.gender.0': 'Female',
-		'userAddiction.gender.1': 'Male',
-		'userAddiction.gender.2': 'Divers',
-		'userAddiction.addictiveDrugs.headline': 'Narcotics',
-		'userAddiction.addictiveDrugs.0': 'Alcohol',
-		'userAddiction.addictiveDrugs.1': 'Drugs',
-		'userAddiction.addictiveDrugs.2': 'Legal highs',
-		'userAddiction.addictiveDrugs.3': 'Tobacco',
-		'userAddiction.addictiveDrugs.4': 'Medication',
-		'userAddiction.addictiveDrugs.5': 'Gambling',
-		'userAddiction.addictiveDrugs.6': 'Internet/Computer',
-		'userAddiction.addictiveDrugs.7': 'Eating disorders',
-		'userAddiction.addictiveDrugs.8': 'Other',
-		'userU25.age.selectLabel': 'Select age*',
-		'userU25.age.0': 'under 12',
-		'userU25.age.1': '12',
-		'userU25.age.2': '13',
-		'userU25.age.3': '14',
-		'userU25.age.4': '15',
-		'userU25.age.5': '16',
-		'userU25.age.6': '17',
-		'userU25.age.7': '18',
-		'userU25.age.8': '19',
-		'userU25.age.9': '20',
-		'userU25.age.10': '21',
-		'userU25.age.11': '22',
-		'userU25.age.12': '23',
-		'userU25.age.13': '24',
-		'userU25.age.14': '25',
-		'userU25.age.15': 'over 25',
-		'userU25.age.50': '20',
-		'userU25.age.51': '21',
-		'userU25.age.52': '22',
-		'userU25.age.53': '23',
-		'userU25.age.54': '24',
-		'userU25.age.55': '25',
-		'userU25.age.56': '26',
-		'userU25.state.selectLabel': 'Select state*',
-		'userU25.state.0': 'outside Germany',
-		'userU25.state.1': 'Baden-Württemberg',
-		'userU25.state.2': 'Bavaria',
-		'userU25.state.3': 'Berlin',
-		'userU25.state.4': 'Brandenburg',
-		'userU25.state.5': 'Bremen',
-		'userU25.state.6': 'Hamburg',
-		'userU25.state.7': 'Hesse',
-		'userU25.state.8': 'Mecklenburg-Western Pomerania',
-		'userU25.state.9': 'Lower Saxony',
-		'userU25.state.10': 'North Rhine-Westphalia',
-		'userU25.state.11': 'Rhineland-Palatinate',
-		'userU25.state.12': 'Saarland',
-		'userU25.state.13': 'Saxony',
-		'userU25.state.14': 'Saxony-Anhalt',
-		'userU25.state.15': 'Schleswig-Holstein',
-		'userU25.state.16': 'Thuringia',
-		'userU25.gender.headline': 'Gender',
-		'userU25.gender.0': 'Female',
-		'userU25.gender.1': 'Male',
-		'userU25.gender.2': 'Divers',
-		'userU25.relation.headline': 'Background',
-		'userU25.relation.0': 'Affected',
-		'userU25.relation.1': 'Affiliated',
-		'userU25.relation.2': 'Other'
+		userAddiction: {
+			relation: {
+				'headline': 'Background',
+				'0': 'Affected',
+				'1': 'Affiliated',
+				'2': 'Other'
+			},
+			age: {
+				'headline': 'Age',
+				'selectLabel': 'Select age',
+				'0': '0-17',
+				'1': '18-20',
+				'2': '21-30',
+				'3': '31-40',
+				'4': '41-59',
+				'5': '60+'
+			},
+			gender: {
+				'headline': 'Gender',
+				'0': 'Female',
+				'1': 'Male',
+				'2': 'Divers'
+			},
+			addictiveDrugs: {
+				'headline': 'Narcotics',
+				'0': 'Alcohol',
+				'1': 'Drugs',
+				'2': 'Legal highs',
+				'3': 'Tobacco',
+				'4': 'Medication',
+				'5': 'Gambling',
+				'6': 'Internet/Computer',
+				'7': 'Eating disorders',
+				'8': 'Other'
+			}
+		},
+		userU25: {
+			age: {
+				'selectLabel': 'Select age*',
+				'0': 'under 12',
+				'1': '12',
+				'2': '13',
+				'3': '14',
+				'4': '15',
+				'5': '16',
+				'6': '17',
+				'7': '18',
+				'8': '19',
+				'9': '20',
+				'10': '21',
+				'11': '22',
+				'12': '23',
+				'13': '24',
+				'14': '25',
+				'15': 'over 25',
+				'50': '20',
+				'51': '21',
+				'52': '22',
+				'53': '23',
+				'54': '24',
+				'55': '25',
+				'56': '26'
+			},
+			state: {
+				'selectLabel': 'Select state*',
+				'0': 'outside Germany',
+				'1': 'Baden-Württemberg',
+				'2': 'Bavaria',
+				'3': 'Berlin',
+				'4': 'Brandenburg',
+				'5': 'Bremen',
+				'6': 'Hamburg',
+				'7': 'Hesse',
+				'8': 'Mecklenburg-Western Pomerania',
+				'9': 'Lower Saxony',
+				'10': 'North Rhine-Westphalia',
+				'11': 'Rhineland-Palatinate',
+				'12': 'Saarland',
+				'13': 'Saxony',
+				'14': 'Saxony-Anhalt',
+				'15': 'Schleswig-Holstein',
+				'16': 'Thuringia'
+			},
+			gender: {
+				'headline': 'Gender',
+				'0': 'Female',
+				'1': 'Male',
+				'2': 'Divers'
+			},
+			relation: {
+				'headline': 'Background',
+				'0': 'Affected',
+				'1': 'Affiliated',
+				'2': 'Other'
+			}
+		}
 	},
 	userProfile: {
-		'data.title': 'Information of the person seeking advice',
-		'data.resort': 'Department',
-		'data.postcode': 'Postal code',
-		'data.relation': 'Background',
-		'data.addictiveDrugs': 'Narcotics',
-		'data.age': 'Age',
-		'data.gender': 'Gender',
-		'data.state': 'State',
-		'monitoring.title': 'Monitoring',
-		'reassign.title': 'Allocation',
-		'reassign.description':
-			'You can assign the conversation to another team member. This person is then responsible for the person seeking advice.',
-		'monitoring.buttonLabel': 'Document now'
+		data: {
+			title: 'Information of the person seeking advice',
+			resort: 'Department',
+			postcode: 'Postal code',
+			relation: 'Background',
+			addictiveDrugs: 'Narcotics',
+			age: 'Age',
+			gender: 'Gender',
+			state: 'State'
+		},
+		monitoring: {
+			title: 'Monitoring',
+			buttonLabel: 'Document now'
+		},
+		reassign: {
+			title: 'Allocation',
+			description:
+				'You can assign the conversation to another team member. This person is then responsible for the person seeking advice.'
+		}
 	},
 	videoCall: {
-		'button.rejectCall': 'Reject video call',
-		'button.startCall': 'Start video call',
-		'button.answerCall': 'Accept video call',
-		'button.startVideoCall': 'Start video call',
-		'button.answerVideoCall': 'Accept video call',
-		'incomingCall.description': 'calls...',
-		'incomingCall.unsupported.description': 'Video call from {{username}}',
-		'incomingCall.unsupported.hint':
-			'Due to the technical requirements, the video call is not end-to-end encrypted. However, the video call is transport encrypted. Please follow the help to make end-to-end encrypted calls.',
-		'incomingCall.unsupported.button': 'Open help',
-		'incomingCall.ignored': 'has been trying to reach you.',
-		'incomingCall.rejected.prefix': 'You have tried',
-		'incomingCall.rejected.suffix': 'to reach.',
-		'incomingCall.rejected.teamconsultant.prefix': 'Has tried',
-		'overlay.unsupported.headline': 'The video call cannot be started',
-		'overlay.unsupported.copy':
-			'Your device does not meet all the necessary technical requirements for a video call. Please follow these instructions to be able to start a video call. You may need the support of your IT department.',
-		'overlay.unsupported.button.close': 'Close',
-		'overlay.unsupported.button.manual': 'To the instructions',
-		'overlay.encryption.e2e':
-			'This video call is secured with end-to-end encryption.',
-		'overlay.encryption':
-			'This video call is secured with the transport encryption.'
+		button: {
+			rejectCall: 'Reject video call',
+			startCall: 'Start video call',
+			answerCall: 'Accept video call',
+			startVideoCall: 'Start video call',
+			answerVideoCall: 'Accept video call'
+		},
+		incomingCall: {
+			description: 'calls...',
+			unsupported: {
+				description: 'Video call from {{username}}',
+				hint: 'Due to the technical requirements, the video call is not end-to-end encrypted. However, the video call is transport encrypted. Please follow the help to make end-to-end encrypted calls.',
+				button: 'Open help'
+			},
+			ignored: 'has been trying to reach you.',
+			rejected: {
+				'prefix': 'You have tried',
+				'suffix': 'to reach.',
+				'teamconsultant.prefix': 'Has tried'
+			}
+		},
+		overlay: {
+			unsupported: {
+				'headline': 'The video call cannot be started',
+				'copy': 'Your device does not meet all the necessary technical requirements for a video call. Please follow these instructions to be able to start a video call. You may need the support of your IT department.',
+				'button.close': 'Close',
+				'button.manual': 'To the instructions'
+			},
+			encryption: {
+				e2e: 'This video call is secured with end-to-end encryption.',
+				transport:
+					'This video call is secured with the transport encryption.'
+			}
+		}
 	},
 	videoConference: {
-		'waitingroom.title.start': 'Waiting room',
-		'waitingroom.dataProtection.headline': 'A warm welcome!',
-		'waitingroom.dataProtection.subline':
-			'Please confirm our privacy policy.',
-		'waitingroom.dataProtection.description':
-			'After that, our consultants may start a video call with you.',
-		'waitingroom.dataProtection.label':
-			'I have taken note of the {{legal_links}}. This website uses cookies for authentication and navigation. I agree with this.',
-		'waitingroom.dataProtection.label.and': 'and',
-		'waitingroom.dataProtection.button': 'Confirm',
-		'waitingroom.headline': 'Please be patient',
-		'waitingroom.subline':
-			'The video call has not yet started. You will be forwarded as soon as your consultant starts the video call.',
-		'waitingroom.paused.headline': 'The video call was ended',
-		'waitingroom.paused.subline':
-			'The video call has ended. If your consultant is only absent, you will be forwarded to the video call as soon as your consultant resumes the video call.',
-		'waitingroom.errorPage.headline': 'The video call was not found',
-		'waitingroom.errorPage.description':
-			'We cannot find a video call for your link because the video call has either been deleted or already terminated. If you still have problems, please ask your consultant.',
-		'waitingroom.errorPage.consultant.description':
-			'We cannot find a video call for your link because the video call has either been deleted or already terminated.',
-		'waitingroom.errorPage.rejected.headline': 'You were not admitted',
-		'waitingroom.errorPage.rejected.description':
-			'You have not been admitted. Unfortunately, you cannot participate in this video call because your advisor has not approved you.',
-		'waitingroom.errorPage.button': 'Reload'
+		waitingroom: {
+			'title.start': 'Waiting room',
+			'dataProtection': {
+				'headline': 'A warm welcome!',
+				'subline': 'Please confirm our privacy policy.',
+				'description':
+					'After that, our consultants may start a video call with you.',
+				'label':
+					'I have taken note of the {{legal_links}}. This website uses cookies for authentication and navigation. I agree with this.',
+				'label.and': 'and',
+				'button': 'Confirm'
+			},
+			'headline': 'Please be patient',
+			'subline':
+				'The video call has not yet started. You will be forwarded as soon as your consultant starts the video call.',
+			'paused': {
+				headline: 'The video call was ended',
+				subline:
+					'The video call has ended. If your consultant is only absent, you will be forwarded to the video call as soon as your consultant resumes the video call.'
+			},
+			'errorPage': {
+				'headline': 'The video call was not found',
+				'description':
+					'We cannot find a video call for your link because the video call has either been deleted or already terminated. If you still have problems, please ask your consultant.',
+				'consultant.description':
+					'We cannot find a video call for your link because the video call has either been deleted or already terminated.',
+				'rejected': {
+					headline: 'You were not admitted',
+					description:
+						'You have not been admitted. Unfortunately, you cannot participate in this video call because your advisor has not approved you.'
+				},
+				'button': 'Reload'
+			}
+		}
 	},
 	walkthrough: {
-		'title': 'Tour',
-		'subtitle':
+		title: 'Tour',
+		subtitle:
 			'To explain the individual functions, we have prepared a short tour for you <br /> You can cancel it at any time or start it again in your profile.',
-		'switch.active.label': 'Tour active',
-		'switch.deactive.label': 'Tour activated',
-		'step.next': 'Next',
-		'step.prev': 'Back',
-		'step.done': 'Ready',
-		'step': 'Step',
-		'step.of': 'from',
-		'step.0.title': 'Tour',
-		'step.0':
-			'To explain the individual functions, we have prepared a short tour for you. <br /><br /> They can cancel it at any time or start it again in their profile.',
-		'step.1.title': 'Initial inquiries',
-		'step.1':
-			"Here you will find an overview of all open requests that are not yet assigned to a consultant. Your entire team has access to this overview.\n<br /><br /> The oldest requests are at the top, the newest at the bottom, to make it easier for you to find the ones you received first.\n<br /><br /> The moment you click on 'Accept request', the request will be immediately moved to your 'My consultations' section and the other consultants will not see it anymore.",
-		'step.2.title': 'Live chat requests',
-		'step.2':
-			'From here you can start a chat with a person seeking advice who is currently in the waiting room. <br /><br /> Those seeking advice are identified by an anonymous name, such as "Advice Seeker 11". <br /><br /> If you want to start the chat, click on "Start chat" and you will be able to continue the conversation under the "My consultations" section.',
-		'step.3.title': 'My consultations',
-		'step.3':
-			'In this section you will find all the requests that you have accepted. \n<br /><br /> The message history that was last edited is at the top.\nIf the person seeking advice is currently online in the waiting room, you will see the label "Active" right next to the name.',
-		'step.4.title': 'Archive',
-		'step.4':
-			'To avoid being distracted by conversations that are not active, you can archive some of the conversations. <br /><br /> They will then not be deleted, but only moved to the "Archive" tab. <br /><br /> Every time you or the advice seeker write something in an archived conversation, that message history is put back into the advice seeker list.',
-		'step.5.title': 'Team consultations',
-		'step.5':
-			'In this section you can view and contribute to all active consultations that someone in your team is currently working on.',
-		'step.6.title': 'Profile',
-		'step.6':
-			'In the profile area you can manage personal and public information, enable out-of-office messaging during your vacation, change your password and use many other features (like setting up 2-factor authentication).'
+		switch: {
+			'active.label': 'Tour active',
+			'deactive.label': 'Tour activated'
+		},
+		step: {
+			next: 'Next',
+			prev: 'Back',
+			done: 'Ready',
+			step: 'Step',
+			of: 'from',
+			0: {
+				title: 'Tour',
+				intro: 'To explain the individual functions, we have prepared a short tour for you. <br /><br /> They can cancel it at any time or start it again in their profile.'
+			},
+			1: {
+				title: 'Initial inquiries',
+				intro: "Here you will find an overview of all open requests that are not yet assigned to a consultant. Your entire team has access to this overview.\n<br /><br /> The oldest requests are at the top, the newest at the bottom, to make it easier for you to find the ones you received first.\n<br /><br /> The moment you click on 'Accept request', the request will be immediately moved to your 'My consultations' section and the other consultants will not see it anymore."
+			},
+			2: {
+				title: 'Live chat requests',
+				intro: 'From here you can start a chat with a person seeking advice who is currently in the waiting room. <br /><br /> Those seeking advice are identified by an anonymous name, such as "Advice Seeker 11". <br /><br /> If you want to start the chat, click on "Start chat" and you will be able to continue the conversation under the "My consultations" section.'
+			},
+			3: {
+				title: 'My consultations',
+				intro: 'In this section you will find all the requests that you have accepted. \n<br /><br /> The message history that was last edited is at the top.\nIf the person seeking advice is currently online in the waiting room, you will see the label "Active" right next to the name.'
+			},
+			4: {
+				title: 'Archive',
+				intro: 'To avoid being distracted by conversations that are not active, you can archive some of the conversations. <br /><br /> They will then not be deleted, but only moved to the "Archive" tab. <br /><br /> Every time you or the advice seeker write something in an archived conversation, that message history is put back into the advice seeker list.'
+			},
+			5: {
+				title: 'Team consultations',
+				intro: 'In this section you can view and contribute to all active consultations that someone in your team is currently working on.'
+			},
+			6: {
+				title: 'Profile',
+				intro: 'In the profile area you can manage personal and public information, enable out-of-office messaging during your vacation, change your password and use many other features (like setting up 2-factor authentication).'
+			}
+		}
 	}
 };
