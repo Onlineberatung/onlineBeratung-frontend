@@ -99,10 +99,8 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 					});
 
 				if (config.budibaseSSO) {
-					const jwtTokens = response.access_token.split('.');
-					const { email } = JSON.parse(atob(jwtTokens[1]));
 					getBudibaseAccessToken(
-						email,
+						autoLoginProps.username,
 						autoLoginProps.password,
 						autoLoginProps?.tenantSettings
 					);
