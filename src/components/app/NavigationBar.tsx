@@ -24,6 +24,7 @@ export interface NavigationBarProps {
 	routerConfig: any;
 }
 
+const REGEX_DASH = /\//g;
 export const NavigationBar = ({
 	onLogout,
 	routerConfig
@@ -99,18 +100,10 @@ export const NavigationBar = ({
 		'/sessions/consultant/teamSessionView': unreadTeamSessions.length
 	};
 
-	const resolveClassnameForWalkthrough = (index) => {
-		switch (index) {
-			case 0:
-				return 'walkthrough_step_1';
-			case 1:
-				return 'walkthrough_step_3';
-			case 2:
-				return 'walkthrough_step_5';
-			case 3:
-				return 'walkthrough_step_6';
-		}
-	};
+	const pathToClassNameInWalkThrough = React.useCallback((to: string) => {
+		const value = to.replace(REGEX_DASH, '-').toLowerCase().slice(1);
+		return value ? `walkthrough-${value}` : '';
+	}, []);
 
 	return (
 		<div className="navigation__wrapper">
@@ -129,8 +122,8 @@ export const NavigationBar = ({
 						.map((item, index) => (
 							<Link
 								key={index}
-								className={`navigation__item ${resolveClassnameForWalkthrough(
-									index
+								className={`navigation__item ${pathToClassNameInWalkThrough(
+									item.to
 								)} ${
 									location.pathname.indexOf(item.to) !== -1 &&
 									'navigation__item--active'

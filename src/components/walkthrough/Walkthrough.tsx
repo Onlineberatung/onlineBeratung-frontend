@@ -68,7 +68,7 @@ export const Walkthrough = () => {
 				showStepNumbers: false
 			}}
 			onBeforeChange={(nextStepIndex) => {
-				if (stepsData[nextStepIndex].path) {
+				if (stepsData[nextStepIndex]?.path) {
 					history.push(stepsData[nextStepIndex].path);
 					onChangeStep();
 				}
