@@ -58,7 +58,7 @@ import { history } from '../app/app';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
 import { RocketChatGlobalSettingsContext } from '../../globalState';
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
-import { enableBudibaseLogin } from '../../utils/tenantHelpers';
+import { ensureTenantSettings } from '../../utils/tenantHelpers';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -306,7 +306,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 			username: username,
 			password: password,
 			redirect: !consultant,
-			...enableBudibaseLogin(tenant?.settings)
+			...ensureTenantSettings(tenant?.settings)
 		})
 			.then(postLogin)
 			.catch((error) => {
@@ -341,7 +341,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 				password,
 				redirect: !consultant,
 				otp,
-				...enableBudibaseLogin(tenant?.settings)
+				...ensureTenantSettings(tenant?.settings)
 			})
 				.then(postLogin)
 				.catch((error) => {

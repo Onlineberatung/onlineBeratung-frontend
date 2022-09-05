@@ -1,4 +1,5 @@
 import { TenantDataSettingsInterface } from '../../globalState/interfaces/TenantDataInterface';
+import { config } from '../../resources/scripts/config';
 
 export const getBudibaseAccessToken = (
 	username: string,
@@ -27,7 +28,7 @@ export const getBudibaseAccessToken = (
 	const ifrm = document.createElement('iframe');
 	ifrm.setAttribute(
 		'src',
-		`https://budibase-dev.suchtberatung.digital/api/global/auth/default/oidc/configs/${tenantSettings.featureToolsOICDToken}`
+		`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${tenantSettings.featureToolsOICDToken}`
 	);
 	ifrm.onload = login;
 	ifrm.id = 'authIframe';

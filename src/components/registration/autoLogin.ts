@@ -28,7 +28,7 @@ import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupK
 import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
 import { getBudibaseAccessToken } from '../sessionCookie/getBudibaseAccessToken';
 import { TenantDataSettingsInterface } from '../../globalState/interfaces/TenantDataInterface';
-import { enableBudibaseLogin } from '../../utils/tenantHelpers';
+import { ensureTenantSettings } from '../../utils/tenantHelpers';
 
 export interface LoginData {
 	data: {
@@ -121,7 +121,7 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 						redirect: autoLoginProps.redirect,
 						otp: autoLoginProps.otp,
 						useOldUser: true,
-						...enableBudibaseLogin(autoLoginProps?.tenantSettings)
+						...ensureTenantSettings(autoLoginProps?.tenantSettings)
 					})
 						.then(() => resolve(undefined))
 						.catch((autoLoginError) => reject(autoLoginError));
