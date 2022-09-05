@@ -55,8 +55,12 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 		const userHash = autoLoginProps.useOldUser
 			? autoLoginProps.username
 			: encodeUsername(autoLoginProps.username);
+		const username = autoLoginProps.useOldUser
+			? encodeURIComponent(userHash)
+			: userHash;
+
 		getKeycloakAccessToken(
-			autoLoginProps.useOldUser ? encodeURIComponent(userHash) : userHash,
+			username,
 			encodeURIComponent(autoLoginProps.password),
 			autoLoginProps.otp ? autoLoginProps.otp : null
 		)
@@ -99,10 +103,8 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 					});
 
 				if (config.budibaseSSO) {
-					const jwtTokens = response.access_token.split('.');
-					const { email } = JSON.parse(atob(jwtTokens[1]));
 					getBudibaseAccessToken(
-						email,
+						username,
 						autoLoginProps.password,
 						autoLoginProps?.tenantSettings
 					);
