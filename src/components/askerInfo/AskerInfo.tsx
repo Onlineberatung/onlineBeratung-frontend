@@ -32,6 +32,7 @@ import {
 } from '../app/navigationHandler';
 import { AskerInfoTools } from './AskerInfoTools';
 import { config } from '../../resources/scripts/config';
+import { Box } from '../box/Box';
 
 export const AskerInfo = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
@@ -135,25 +136,27 @@ export const AskerInfo = () => {
 						<h2>{activeSession.user.username}</h2>
 					</div>
 					<div className="profile__content askerInfo__content">
-						<div>
+						<Box>
 							<AskerInfoData />
-						</div>
+						</Box>
 						{config.askerToolsLink && (
-							<div>
+							<Box>
 								<AskerInfoTools />
-							</div>
+							</Box>
 						)}
 						{activeSession.item.monitoring &&
 							(type === SESSION_LIST_TYPES.MY_SESSION ||
 								type === SESSION_LIST_TYPES.TEAMSESSION) && (
-								<div>
+								<Box>
 									<AskerInfoMonitoring />
-								</div>
+								</Box>
 							)}
 						{isSessionAssignAvailable() && (
-							<div className="askerInfo__assign">
-								<AskerInfoAssign />
-							</div>
+							<Box>
+								<div className="askerInfo__assign">
+									<AskerInfoAssign />
+								</div>
+							</Box>
 						)}
 					</div>
 				</div>
