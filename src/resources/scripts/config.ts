@@ -15,11 +15,12 @@ export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
 export const APP_PATH = 'app';
 
 export const config = {
-	useTenantService: false,
+	budibaseSSO: false, // Feature flag to enable SSO on budibase
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	useMultiTenancyWithSingleDomain: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
+	useTenantService: false,
 
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
@@ -156,8 +157,8 @@ export const config = {
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		releases: uiUrl + '/releases',
-		appointmentServiceDevServer:
-			'https://calcom-develop.suchtberatung.digital',
+		budibaseDevServer: '',
+		appointmentServiceDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',
