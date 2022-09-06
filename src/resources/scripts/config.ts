@@ -7,7 +7,7 @@ export let apiUrl = '';
 if (apiUrlEnv) {
 	apiUrl = apiUrlEnv;
 	if (!apiUrl.startsWith('http://') && !apiUrl.startsWith('https://')) {
-		apiUrl = 'http://' + apiUrl;
+		apiUrl = 'https://' + apiUrl;
 	}
 }
 
@@ -15,6 +15,7 @@ export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
 export const APP_PATH = 'app';
 
 export const config = {
+	askerToolsLink: true, // Feature flag to enable tools link on asker information when looking as a counsellor
 	budibaseSSO: false, // Feature flag to enable SSO on budibase
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
@@ -157,7 +158,7 @@ export const config = {
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		releases: uiUrl + '/releases',
-		budibaseDevServer: '',
+		budibaseDevServer: 'https://budibase-dev.suchtberatung.digital',
 		appointmentServiceDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',

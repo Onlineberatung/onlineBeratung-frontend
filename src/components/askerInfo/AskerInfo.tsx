@@ -30,6 +30,8 @@ import {
 	mobileListView,
 	mobileUserProfileView
 } from '../app/navigationHandler';
+import { AskerInfoTools } from './AskerInfoTools';
+import { config } from '../../resources/scripts/config';
 
 export const AskerInfo = () => {
 	const { rcGroupId: groupIdFromParam } = useParams();
@@ -136,6 +138,11 @@ export const AskerInfo = () => {
 						<div>
 							<AskerInfoData />
 						</div>
+						{config.askerToolsLink && (
+							<div>
+								<AskerInfoTools />
+							</div>
+						)}
 						{activeSession.item.monitoring &&
 							(type === SESSION_LIST_TYPES.MY_SESSION ||
 								type === SESSION_LIST_TYPES.TEAMSESSION) && (
