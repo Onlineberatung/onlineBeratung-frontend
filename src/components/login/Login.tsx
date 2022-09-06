@@ -495,9 +495,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 								type={'infoSmall'}
 							/>
 							<Text
-								text={translate(
-									'login.register.infoText.copy.title'
-								)}
+								text={translate('login.register.infoText.copy')}
 								type={'infoSmall'}
 							/>
 							<button

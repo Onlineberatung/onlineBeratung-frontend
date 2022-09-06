@@ -412,7 +412,7 @@ export const en = {
 	},
 	e2ee: {
 		message: {
-			'encryption': 'Message encrypted',
+			'encryption.text': 'Message encrypted',
 			'encryption.error': 'Message encrypted - error during decryption'
 		},
 		hint: 'Your messages are encrypted end-to-end. That means no one outside this chat can read the messages. Not even the online consulting platform.',
@@ -466,9 +466,8 @@ export const en = {
 			infotext: {
 				headline: 'Here is room for your concerns.',
 				copy: {
-					'': 'Perhaps the following points will help you with the formulation:',
-					'facts':
-						'<ul><li>What happened?</li><li>What is your current situation?</li><li>What is on your mind?</li><li>Do you have a specific question or do you perhaps not yet know exactly what could help you?</li></ul>'
+					title: 'Perhaps the following points will help you with the formulation:',
+					facts: '<ul><li>What happened?</li><li>What is your current situation?</li><li>What is on your mind?</li><li>Do you have a specific question or do you perhaps not yet know exactly what could help you?</li></ul>'
 				}
 			},
 			overlay: {
