@@ -157,9 +157,8 @@ export const config = {
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		releases: uiUrl + '/releases',
-		budibaseDevServer: 'https://budibase-dev.suchtberatung.digital',
-		appointmentServiceDevServer:
-			'https://calcom-develop.suchtberatung.digital',
+		budibaseDevServer: '',
+		appointmentServiceDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',
