@@ -6,7 +6,8 @@ import {
 	AgencyDataInterface,
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
-	LegalLinkInterface
+	LegalLinkInterface,
+	TenantContext
 } from '../../globalState';
 import Form from 'rc-field-form';
 import './registrationFormDigi.styles.scss';
@@ -27,6 +28,7 @@ import { InputFormField } from './InputFormField';
 import { CheckboxFormField } from './CheckboxFormField';
 import { RegistrationSuccessOverlay } from './RegistrationSuccessOverlay';
 import { AgencyInfo } from '../agencySelection/AgencyInfo';
+import { useContext } from 'react';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -42,7 +44,9 @@ export const RegistrationFormDigi = ({
 	legalLinks,
 	consultant
 }: RegistrationFormProps) => {
+	const { tenant } = useContext(TenantContext);
 	const [form] = Form.useForm();
+
 	const [topics, setTopics] = React.useState([] as TopicsDataInterface[]);
 	const [formErrors, setFormErrors] = React.useState([]); // This needs to be an array to trigger the changes on accordion
 	const [registrationWithSuccess, setRegistrationWithSuccess] =
@@ -108,7 +112,11 @@ export const RegistrationFormDigi = ({
 				counsellingRelation: formValues.counsellingRelation,
 				...(consultant && { consultantId: consultant.consultantId })
 			};
-			apiPostRegistration(config.endpoints.registerAsker, finalValues)
+			apiPostRegistration(
+				config.endpoints.registerAsker,
+				finalValues,
+				tenant
+			)
 				.then(() => setRegistrationWithSuccess(true))
 				.catch((errorRes) => {
 					if (
@@ -126,7 +134,7 @@ export const RegistrationFormDigi = ({
 					}
 				});
 		},
-		[consultant, consultingType.id, form]
+		[consultant, consultingType.id, form, tenant]
 	);
 
 	// When some topic id is selected we need to change the list of main topics
