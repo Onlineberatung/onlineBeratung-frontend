@@ -64,7 +64,7 @@
 		margin: 0;
 		position: absolute;
 		bottom: $grid-base-four;
-		justify-content: start;
+		justify-content: flex-start;
 
 		@include breakpoint($fromXLarge) {
 			justify-content: flex-end;
