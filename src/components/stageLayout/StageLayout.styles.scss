@@ -64,18 +64,16 @@
 
 	&__legalLinks {
 		display: flex;
-		flex-wrap: wrap;
-		margin: $grid-base-six 0 $grid-base-four 0;
-
-		@include breakpoint($fromMedium) {
-			margin: 0;
-			position: absolute;
-			bottom: $grid-base-four;
-			left: $legal-information-links-left-medium;
-		}
+		align-items: center;
+		width: 100%;
+		padding: 0 $grid-base-three;
+		margin: 0;
+		position: absolute;
+		bottom: $grid-base-four;
+		justify-content: start;
 
 		@include breakpoint($fromXLarge) {
-			left: $legal-information-links-left-large;
+			justify-content: flex-end;
 		}
 
 		.button-as-link {
