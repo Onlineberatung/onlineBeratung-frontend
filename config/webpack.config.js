@@ -760,8 +760,7 @@ module.exports = function (webpackEnv) {
 			}),
 			// Generate a service worker script that will precache, and keep up to date,
 			// the HTML & assets that are part of the webpack build.
-			isEnvProduction &&
-				fs.existsSync(swSrc) &&
+			fs.existsSync(swSrc) &&
 				new WorkboxWebpackPlugin.InjectManifest({
 					swSrc,
 					dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,

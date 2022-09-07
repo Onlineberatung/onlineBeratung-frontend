@@ -5,6 +5,15 @@ import { Stage } from './components/stage/stage';
 import { config } from './resources/scripts/config';
 import { translate } from './utils/translate';
 
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+serviceWorkerRegistration.register({});
+navigator.serviceWorker.ready.then(async (registration) => {
+	console.log(registration);
+	await (registration as any).periodicSync.register('get-latest-news', {
+		minInterval: 10000
+	});
+});
+
 ReactDOM.render(
 	<App
 		entryPoint="/login"
