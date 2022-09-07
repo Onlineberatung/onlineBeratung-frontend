@@ -32,11 +32,12 @@ import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { decryptText } from '../../utils/encryptionHelpers';
+import { decryptText, MissingKeyError } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
 import { MasterKeyLostMessage } from './MasterKeyLostMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
+import { ERROR_LEVEL_WARN, TError } from '../../api/apiPostError';
 
 export interface ForwardMessageDTO {
 	message: string;
@@ -82,6 +83,7 @@ interface MessageItemComponentProps extends MessageItem {
 	clientName: string;
 	resortData: ConsultingTypeInterface;
 	isUserBanned: boolean;
+	handleDecryptionErrors: (error: TError) => void;
 }
 
 export const MessageItemComponent = ({
@@ -101,7 +103,8 @@ export const MessageItemComponent = ({
 	isNotRead,
 	isUserBanned,
 	t,
-	rid
+	rid,
+	handleDecryptionErrors
 }: MessageItemComponentProps) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -109,9 +112,9 @@ export const MessageItemComponent = ({
 
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
 	const [renderedMessage, setRenderedMessage] = useState<string | null>(null);
-	const [decryptedMessage, setDecryptedMessage] = useState<string | null>(
-		null
-	);
+	const [decryptedMessage, setDecryptedMessage] = useState<
+		string | null | undefined
+	>(null);
 
 	const { key, keyID, encrypted, subscriptionKeyLost } = useE2EE(rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
@@ -119,14 +122,32 @@ export const MessageItemComponent = ({
 	useEffect((): void => {
 		if (isE2eeEnabled) {
 			decryptText(message, keyID, key, encrypted, t === 'e2e')
-				.then(setDecryptedMessage)
-				.catch((_e) => {
-					// setDecryptedMessage(org) // TODO? Fallback in case decryption fails
-				});
+				.catch((e) => {
+					if (!(e instanceof MissingKeyError)) {
+						handleDecryptionErrors({
+							name: e.name,
+							message: e.message,
+							stack: e.stack,
+							level: ERROR_LEVEL_WARN
+						});
+					}
+
+					return `${org || message} *`;
+				})
+				.then(setDecryptedMessage);
 		} else {
 			setDecryptedMessage(org || message);
 		}
-	}, [key, keyID, encrypted, message, org, t, isE2eeEnabled]);
+	}, [
+		key,
+		keyID,
+		encrypted,
+		message,
+		org,
+		t,
+		isE2eeEnabled,
+		handleDecryptionErrors
+	]);
 
 	useEffect((): void => {
 		const rawMessageObject = markdownToDraft(
