@@ -16,6 +16,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		flex-direction: column;
 		width: unset;
 		left: unset;
 		padding: $grid-base-six $grid-base-two 0;
