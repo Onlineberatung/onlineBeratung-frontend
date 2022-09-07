@@ -27,13 +27,14 @@ $link-hover-text-decoration: $link-text-decoration !default;
 	justify-content: center;
 	align-items: $login-align-items;
 	flex-direction: column;
-	text-align: $login-text-align;
+	text-align: left;
 	width: 100%;
 
 	.button-as-link {
 		border: none;
 		background: none;
 		color: $primary;
+		text-decoration: underline;
 
 		&:focus-visible {
 			outline: $focus-outline;
@@ -52,7 +53,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 
 	.inputField {
 		width: 280px;
-		margin-bottom: $grid-base-three;
+		margin-bottom: $grid-base-two;
 
 		@include breakpoint($fromLarge) {
 			width: 320px;
@@ -89,13 +90,13 @@ $link-hover-text-decoration: $link-text-decoration !default;
 	}
 
 	.button__item {
-		width: $login-button-width;
-		margin-top: $grid-base-five;
+		width: 100%;
+		margin-top: $grid-base-four;
 		transform: $login-icon-transform;
 
-		@media (min-width: $fromLarge) {
-			width: $login-button-width-large;
-		}
+		// @media (min-width: $fromLarge) {
+		// 	width: 100%;
+		// }
 	}
 
 	&__passwordReset {
@@ -112,29 +113,26 @@ $link-hover-text-decoration: $link-text-decoration !default;
 
 	&__register {
 		margin-top: $grid-base-five;
-		transform: $login-icon-transform;
-		display: flex;
-		flex-direction: column;
-		align-items: $login-text-align;
+	}
 
-		& > .text {
-			position: relative;
+	&__separator {
+		width: 100%;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+		text-align: center;
+		height: 18px;
+		margin-bottom: 15px;
+		font-size: $font-size-secondary;
 
-			&:first-of-type {
-				margin-bottom: 6px;
-			}
-
-			&:last-of-type {
-				margin-bottom: $grid-base-two;
-			}
-		}
-
-		&__link {
-			display: block;
-			font-weight: $font-weight-bold;
-			text-decoration: none;
+		span {
+			line-height: 15px;
+			padding: 0 10px;
+			background: white;
+			display: inline-block;
+			margin-top: 10px;
+			color: rgba(0, 0, 0, 0.65);
 			text-transform: uppercase;
-			width: max-content;
+			letter-spacing: 1.5px;
+			font-weight: 500;
 		}
 	}
 

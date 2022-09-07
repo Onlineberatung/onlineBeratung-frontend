@@ -82,6 +82,7 @@
 			background: none;
 			border: none;
 			cursor: pointer;
+			text-decoration: underline;
 
 			&:focus {
 				outline: $focus-outline;
@@ -96,7 +97,6 @@
 
 	&__legalLinksItem {
 		color: rgba($black, 0.6);
-		text-transform: uppercase;
 		font-weight: $font-weight-bold;
 	}
 

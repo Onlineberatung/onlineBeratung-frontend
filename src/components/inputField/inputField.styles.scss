@@ -9,13 +9,12 @@
 		-moz-appearance: textfield;
 		height: $input-field-height;
 		min-width: 0;
-		padding: 12px $grid-base-three 0;
+		padding: 12px $grid-base-three 0 $grid-base-six;
 		flex: 1;
 		color: $form-secondary;
 		border: 1px solid $form-primary;
-		border-radius: $input-field-border-radius;
+		border-radius: 4px;
 		outline: 0;
-		box-shadow: $input-field-box-shadow;
 
 		&:hover {
 			border: 1px solid $form-active;
@@ -132,7 +131,9 @@
 
 	&--withIcon & {
 		&__icon {
-			margin-right: $grid-base;
+			margin: $grid-base;
+			margin-left: 16px;
+			position: absolute;
 		}
 
 		&__infoText {
@@ -140,7 +141,7 @@
 		}
 
 		&__label {
-			left: 58px;
+			left: $grid-base-six;
 		}
 	}
 }

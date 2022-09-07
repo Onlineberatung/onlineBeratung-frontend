@@ -35,13 +35,13 @@ $background-light: #f4f0ee;
 $background-lighter: #faf6f3;
 $background-grey: #677391;
 
-$form-primary: #8c878c;
-$form-secondary: #3f373f;
+$form-primary: rgba(0, 0, 0, 0.2);
+$form-secondary: rgba(0, 0, 0, 0.9);
 $form-success: #0dcd21;
 $form-medium: #ff9f00;
 $form-error: #f00;
-$form-disabled: #c4bfc4;
-$form-active: #3f373f;
+$form-disabled: rgba(0, 0, 0, 0.05);
+$form-active: rgba(0, 0, 0, 0.9);
 
 $lighter-grey: #c6c5c4;
 $light-grey: #787378;
