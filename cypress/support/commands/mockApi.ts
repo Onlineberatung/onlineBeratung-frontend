@@ -21,6 +21,11 @@ import { decodeUsername } from '../../../src/utils/encryptionHelpers';
 import { getMessages, setMessages } from './messages';
 import apiAppointments from './api/appointments';
 import apiVideocalls from './api/videocalls';
+import {
+	getConsultantEnquiries,
+	setConsultantEnquiries
+} from './consultantEnquiries';
+import { SESSION_LIST_TYPES } from '../../../src/components/session/sessionHelpers';
 
 let overrides = {};
 
@@ -59,9 +64,29 @@ Cypress.Commands.add('mockApi', () => {
 	cy.askerSession(generateAskerSession());
 
 	setConsultantSessions([]);
+	cy.consultantSession(generateConsultantSession({ messagesRead: false }));
 	cy.consultantSession(generateConsultantSession());
 	cy.consultantSession(generateConsultantSession());
-	cy.consultantSession(generateConsultantSession());
+
+	setConsultantEnquiries([]);
+	cy.consultantEnquiry(
+		generateConsultantSession({
+			type: SESSION_LIST_TYPES.ENQUIRY,
+			messagesRead: false
+		})
+	);
+	cy.consultantEnquiry(
+		generateConsultantSession({
+			type: SESSION_LIST_TYPES.ENQUIRY,
+			messagesRead: false
+		})
+	);
+	cy.consultantEnquiry(
+		generateConsultantSession({
+			type: SESSION_LIST_TYPES.ENQUIRY,
+			messagesRead: true
+		})
+	);
 
 	setMessages([]);
 	cy.addMessage({}, 0);
@@ -121,7 +146,7 @@ Cypress.Commands.add('mockApi', () => {
 	});
 
 	cy.intercept('GET', `${config.endpoints.consultantSessions}*`, (req) => {
-		if (overrides['consultantSessions']) {
+		if (typeof overrides['consultantSessions'] === 'number') {
 			return req.reply(overrides['consultantSessions']);
 		}
 
@@ -130,9 +155,13 @@ Cypress.Commands.add('mockApi', () => {
 		const offset = parseInt(url.searchParams.get('offset')) || 0;
 		const count = parseInt(url.searchParams.get('count')) || 15;
 
+		let sessions = getConsultantSessions();
+		if (overrides['consultantSessions'])
+			sessions = overrides['consultantSessions'];
+
 		req.reply(
 			sessionsReply({
-				sessions: getConsultantSessions(),
+				sessions: sessions,
 				offset,
 				count
 			})
@@ -184,6 +213,29 @@ Cypress.Commands.add('mockApi', () => {
 
 		req.reply('{}');
 	}).as('sessionRead');
+
+	cy.intercept(
+		'GET',
+		`${config.endpoints.consultantEnquiriesBase}registered`,
+		(req) => {
+			const url = new URL(req.url);
+
+			const offset = parseInt(url.searchParams.get('offset')) || 0;
+			const count = parseInt(url.searchParams.get('count')) || 15;
+
+			let sessions = getConsultantEnquiries();
+			if (overrides['consultantEnquiries'])
+				sessions = overrides['consultantEnquiries'];
+
+			req.reply(
+				sessionsReply({
+					sessions,
+					offset,
+					count
+				})
+			);
+		}
+	).as('consultantEnquiriesRegistered');
 
 	cy.intercept('GET', `${config.endpoints.consultantEnquiriesBase}*`, {}).as(
 		'consultantEnquiriesBase'
@@ -322,12 +374,10 @@ Cypress.Commands.add('mockApi', () => {
 
 	cy.intercept('GET', config.endpoints.sessionRooms, (req) => {
 		const data = { ...defaultReturns['sessionRooms'] };
-		data.body.sessions[0].session = {
-			...data.body.sessions[0].session,
-			...overrides['sessionRooms']
-		};
 
-		console.log(overrides['sessionRooms']);
+		if (overrides['sessionRooms']) {
+			data.body.sessions = [...overrides['sessionRooms']];
+		}
 
 		req.reply(data);
 	}).as('sessionRooms');
@@ -373,7 +423,8 @@ Cypress.Commands.add(
 		if (username === USER_ASKER) {
 			cy.wait('@askerSessions');
 		} else {
-			cy.wait('@consultantEnquiriesBase');
+			// TODO DO WE NEED THIS?
+			// cy.wait('@consultantEnquiriesBase');
 		}
 	}
 );

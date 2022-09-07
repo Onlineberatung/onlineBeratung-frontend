@@ -1,5 +1,4 @@
 import { WebSocket, Server, Client } from 'mock-socket';
-
 declare global {
 	interface Window {
 		mockStompServer: Server;
@@ -13,6 +12,12 @@ declare global {
 }
 
 let mockSocketServer = null;
+
+let socketDataOverrides = {};
+
+Cypress.Commands.add('socketWillReturn', (name: string, data: any) => {
+	socketDataOverrides[name] = data;
+});
 
 export const closeWebSocketServer = () => {
 	if (mockSocketServer) {
@@ -61,6 +66,7 @@ export const startWebSocketServer = () => {
 		} else {
 			socket.type = 'RC';
 			socket.on('message', (message) => {
+				// console.log('message', message);
 				if (typeof message !== 'string') {
 					return;
 				}
@@ -76,11 +82,57 @@ export const startWebSocketServer = () => {
 							msg: 'result'
 						})
 					);
-				} else if (
+				}
+				if (
 					parsedMessage.msg === 'sub' &&
 					parsedMessage.name === 'stream-room-messages'
 				) {
 					subscriptions[parsedMessage.name] = parsedMessage.params;
+				}
+				if (parsedMessage.msg === 'connect') {
+					socket.send(
+						JSON.stringify({ msg: 'connected', session: 'aaaaa' })
+					);
+				}
+
+				if (
+					parsedMessage.msg === 'method' &&
+					parsedMessage.method === 'rooms/get'
+				) {
+					let socketData = [{}];
+					if (socketDataOverrides['rooms/get'])
+						socketData = socketDataOverrides['rooms/get'];
+
+					socket.send(
+						JSON.stringify({
+							id: parsedMessage.id,
+							msg: 'result',
+							result: socketData
+						})
+					);
+				}
+
+				if (
+					parsedMessage.msg === 'method' &&
+					parsedMessage.method === 'subscriptions/get'
+				) {
+					let socketData = [{}];
+					if (socketDataOverrides['subscriptions/get'])
+						socketData = socketDataOverrides['subscriptions/get'];
+
+					socket.send(
+						JSON.stringify({
+							id: parsedMessage.id,
+							msg: 'result',
+							result: socketData
+						})
+					);
+				}
+
+				if (parsedMessage.msg === 'CUSTOM_MESSAGE') {
+					parsedMessage.responses.map((response) => {
+						socket.send(JSON.stringify(response));
+					});
 				}
 			});
 		}

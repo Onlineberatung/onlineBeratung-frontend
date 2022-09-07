@@ -4,6 +4,8 @@
 		"userName": "consultant1",
 		"firstName": "firstName",
 		"lastName": "lastName",
+		"displayName": "consultant",
+		"isDisplayNameEditable": true,
 		"email": "con@sulta.nt",
 		"absenceMessage": null,
 		"agencies": [
@@ -18,6 +20,7 @@
 				"consultingType": 0
 			}
 		],
+		"userRoles": ["consultant"],
 		"grantedAuthorities": [
 			"AUTHORIZATION_CONSULTANT_DEFAULT",
 			"AUTHORIZATION_VIEW_AGENCY_CONSULTANTS",
@@ -28,7 +31,17 @@
 		"formalLanguage": true,
 		"absent": false,
 		"inTeamAgency": true,
-		"languages": [],
+		"isWalkThroughEnabled": false,
+		"preferredLanguage": "de",
+		"twoFactorAuth": {
+			"isEnabled": false,
+			"isActive": false,
+			"secret": "crIRJIjzzwzm36lsbiKk7m8GslfarVHt",
+			"qrCode": "iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2AQAAAADNaUdlAAACxUlEQVR4Xu2WsW4jMQxE1emX1VGdfllFgL33uI4db5HqlkAAK3bW5qgYkDNDt+PX89Wulffzwa+V9/PBr5X38yfw2Vo/1m6jxR4j1hx8zWINvnittfsM/vqOY47WLVbhsy+rwbUdEItjd4uFuJT2gN6xG1fsUil+7NjBjLhFn2BbiXtlhMwWOonzmfUSXCmu67no9wr/TzzPHgwFSroDrT6qJfhs3VfsnvNpNmgOnFqEO5yUCAmR+mRIo5sSRfjSFmSS6oBa2nNZqcFBjaQxJDcUi9PKEZXgXABOf/oYYFQCijX42R6yWXEwmFMiL36349uZaMipLOwQCdle+rgdT17wlJcCoVVwfvbnZlxK3YAGcj6ahSZFFb5TmsuL7CjX49I0T3/cjR82BUHQFxc1AuXj8fLn3bjycCU4Ka3hrwTD4qjCtYRvMvnMhiZDOdbgw2BKQZDUEpWf/2rw3MWZCTDLLblzYX3P524cVRiRz/3cHnpdRfhDHdtIyudQJJilCicdVKb+zA/7/IH25HczTslpZJu4leqYarQIJxdIyOHbYDztmRKtwRUIHjn9oUu5ZZO++d2N+4XhhD3BJV2FSDmKcBpiQAzXE3jup22nqnBmAadIneQ9akZVEU5/8us2okK5KJbcUSU44rA3llueMCrGUx9346xk0tE6Y7FXpNX+4c+7caIw7BE8zQl1YUC85nczTtnO9JRIzynZHKK6CKfMivBBNFjmo+oow51G0urKNOaQ78/53YsDYQvlEQak6zk9W4RPZzF1RMuACIeUmVmDe2hJHObkkh4E5VuE403m0vVJVx12arkoi3CeTiamkvCS+jxSoDX41BXpj2YoOjA5P/lV4K7FZkrzbeuWC7+7cVOKG6xlZdqxxyrDvYIa5eetlYnRrZfgOYv0Z/BTLeNad/KxBv/lfPBr5f188Gvl/fx5/B8xE+NSB9vuyQAAAABJRU5ErkJggg==",
+			"type": null,
+			"isToEncourage": false
+		},
+		"languages": ["de"],
 		"emailToggles": [
 			{
 				"name": "DAILY_ENQUIRY",

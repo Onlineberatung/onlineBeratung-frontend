@@ -31,3 +31,7 @@ Cypress.Commands.add(
 			resolve(undefined);
 		})
 );
+
+Cypress.Commands.add('getConsultantSessions', () => {
+	cy.wrap(getConsultantSessions());
+});

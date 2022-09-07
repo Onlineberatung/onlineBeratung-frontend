@@ -396,7 +396,7 @@ xdescribe('Video calls', () => {
 				});
 
 				it('VideoCall disabled for chatItem', () => {
-					cy.willReturn('sessionRooms', {
+					cy.willReturn('sessionRoom', {
 						agencyId: 0,
 						consultingType: 0
 					});
@@ -414,7 +414,7 @@ xdescribe('Video calls', () => {
 
 				describe('VideoCall enabled for chatItem', () => {
 					it('E2EE supported', () => {
-						cy.willReturn('sessionRooms', {
+						cy.willReturn('sessionRoom', {
 							agencyId: 2,
 							consultingType: 2
 						});
@@ -522,7 +522,7 @@ xdescribe('Video calls', () => {
 				});
 
 				it('VideoCall disabled for chatItem', () => {
-					cy.willReturn('sessionRooms', {
+					cy.willReturn('sessionRoom', {
 						agencyId: 0,
 						consultingType: 0
 					});
@@ -540,7 +540,7 @@ xdescribe('Video calls', () => {
 
 				describe('VideoCall enabled for chatItem', () => {
 					it('E2EE supported', () => {
-						cy.willReturn('sessionRooms', {
+						cy.willReturn('sessionRoom', {
 							agencyId: 2,
 							consultingType: 2
 						});

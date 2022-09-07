@@ -83,4 +83,22 @@ Cypress.Commands.add('emitVideoCallRequest', () => {
 	});
 });
 
+Cypress.Commands.add('emitRCMessage', (message) => {
+	new Cypress.Promise((resolve) => {
+		cy.get<() => Server>('@mockSocketServer').then((mockSocketServer) => {
+			cy.get('@mockSocketServerSubscriptions').then(() => {
+				mockSocketServer()
+					.clients()
+					.forEach((client: ExtendedClient) => {
+						if (client.type === 'RC') {
+							client.send(JSON.stringify(message));
+						}
+					});
+
+				resolve();
+			});
+		});
+	});
+});
+
 Cypress.Commands.add('startWebServer', () => {});

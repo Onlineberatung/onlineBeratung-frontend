@@ -4,19 +4,27 @@ import { SessionUserDataInterface } from '../../src/globalState';
 
 export const generateConsultantSession = ({
 	type,
-	messagesRead
+	messagesRead,
+	fixedId = false
 }: {
 	type?: SESSION_LIST_TYPES;
 	messagesRead?: boolean;
-} = {}): UserService.Schemas.ConsultantSessionResponseDTO => {
+	fixedId?: boolean;
+} = {}): any => {
 	let status;
+	let consultant = {
+		id: 'consultant',
+		firstName: 'firstName',
+		lastName: 'lastName'
+	};
 	if (type === SESSION_LIST_TYPES.ENQUIRY) {
 		status = 1;
+		consultant = null;
 	} else {
 		status = 2;
 	}
 
-	const sessionId = Math.random();
+	const sessionId = Math.round(Math.random() * 9999);
 	const rcGroupId = uuid();
 
 	const sessionData: SessionUserDataInterface = {
@@ -33,29 +41,39 @@ export const generateConsultantSession = ({
 			consultingType: 0,
 			status,
 			postcode: '12345',
-			groupId: rcGroupId,
+			language: 'de',
+			groupId: fixedId ? 'AAA-BBB' : rcGroupId,
 			feedbackGroupId: null,
+			isPeerChat: false,
 			askerRcId: 'askerRcId',
+			e2eLastMessage: {
+				msg: 'e2e lastMessage',
+				t: null
+			},
 			lastMessage: 'lastMessage',
+			lastMessageType: null,
 			messageDate: 1606900238,
 			messagesRead: messagesRead === undefined ? true : messagesRead,
 			feedbackRead: true,
 			isTeamSession: true,
 			monitoring: true,
+			registrationType: 'REGISTERED',
+			createDate: '2020-10-16T06:15:36Z',
 			attachment: null,
-			registrationType: 'REGISTERED'
+			videoCallMessageDTO: null,
+			topic: {
+				id: null,
+				name: null,
+				description: null,
+				status: null
+			}
 		},
 		chat: null,
 		user: {
 			username: 'sucht-asker-3',
-			// TODO: why does userservice's openapi spec specify this as string?
 			sessionData: sessionData as string
 		},
-		consultant: {
-			id: 'consultant',
-			firstName: 'firstName',
-			lastName: 'lastName'
-		},
+		consultant,
 		latestMessage: '2020-12-02T10:10:38.986+01:00'
 	};
 };
