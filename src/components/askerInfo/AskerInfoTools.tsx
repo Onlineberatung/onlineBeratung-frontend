@@ -6,9 +6,11 @@ import { config } from '../../resources/scripts/config';
 import { translate } from '../../utils/translate';
 import { Text } from '../text/Text';
 import './askerInfoTools.styles';
+import { AskerInfoToolsOptions } from './AskerInfoToolsOptions';
 
 export const AskerInfoTools = () => {
 	const { activeSession } = useContext(ActiveSessionContext);
+
 	const openToolsLink = () => {
 		console.log(activeSession);
 		window.open(
@@ -20,14 +22,19 @@ export const AskerInfoTools = () => {
 
 	return (
 		<>
-			<Text text={translate('userProfile.tools.title')} type="divider" />
+			<AskerInfoToolsOptions />
+			<Text
+				className="asker-info-tools__share-title"
+				text={translate('userProfile.tools.share.title')}
+				type="divider"
+			/>
 			<button
 				type="button"
 				className="asker-info-tools__button text--tertiary primary button-as-link"
 				onClick={openToolsLink}
 			>
 				<NewWindow />
-				{translate('userProfile.tools.sharedContent')}
+				{translate('userProfile.tools.share.sharedContent')}
 			</button>
 		</>
 	);

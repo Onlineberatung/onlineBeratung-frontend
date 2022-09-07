@@ -1,5 +1,11 @@
-.asker-info-tools__button {
-	svg {
-		margin-right: 0.5rem;
+.asker-info-tools {
+	&__share-title {
+		margin-top: 2rem;
+	}
+
+	&__button {
+		svg {
+			margin-right: 0.5rem;
+		}
 	}
 }
