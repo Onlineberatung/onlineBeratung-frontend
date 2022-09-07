@@ -36,6 +36,7 @@ import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/c
 import * as React from 'react';
 import { showAppointmentsMenu } from '../../utils/navigationHelpers';
 import { ToolsList } from '../tools/ToolsList';
+import { userHasBudibaseTools } from '../../api/apiGetBudibaseTools';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -49,8 +50,13 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 			)
 	);
 
-const showAppointmentsMenuItem = (userData, consultingTypes, sessionsData) => {
+const showAppointmentsMenuItem = (userData, _, sessionsData) => {
 	return showAppointmentsMenu(userData, sessionsData);
+};
+
+const showToolsMenuItem = (userData) => {
+	console.log(userHasBudibaseTools(userData.userId));
+	return userHasBudibaseTools(userData.userId);
 };
 
 const isVideoAppointmentsEnabled = (userData, consultingTypes) =>
@@ -111,6 +117,7 @@ export const RouterConfigUser = (): any => {
 				}
 			},
 			{
+				condition: showToolsMenuItem,
 				to: '/tools',
 				icon: <ToolsIcon className="navigation__icon" />,
 				titleKeys: {

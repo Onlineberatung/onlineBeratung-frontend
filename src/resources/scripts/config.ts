@@ -51,6 +51,8 @@ export const config = {
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
 		banUser: (rcUserId, chatId) =>
 			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
+		budibaseTools: (userId: string) =>
+			apiUrl + `/service/counselingtoolsservice/tools/${userId}`,
 		chatRoom: apiUrl + '/service/users/chat/room',
 		consultantEnquiriesBase:
 			apiUrl + '/service/conversations/consultants/enquiries/',

@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { ToolsListInterface } from '../../globalState/interfaces/ToolsInterface';
+import { useContext, useEffect, useState } from 'react';
+import { apiGetBudibaseTools } from '../../api/apiGetBudibaseTools';
+import { UserDataContext } from '../../globalState';
+import { APIToolsInterface } from '../../globalState/interfaces/ToolsInterface';
 import { translate } from '../../utils/translate';
 import {
 	setToolsWrapperActive,
@@ -12,7 +14,8 @@ import { Tool } from './Tool';
 import './tools.styles';
 
 export const ToolsList = () => {
-	const [toolList, setToolsList] = useState<ToolsListInterface[]>([]);
+	const [toolList, setToolsList] = useState<APIToolsInterface[]>([]);
+	const { userData } = useContext(UserDataContext);
 
 	useEffect(() => {
 		setToolsWrapperActive();
@@ -23,32 +26,10 @@ export const ToolsList = () => {
 	}, []);
 
 	useEffect(() => {
-		//api call
-		const fakeData = [
-			{
-				title: 'Konsumtagebuch',
-				description:
-					'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy.',
-				buttonLink: '#',
-				shared: false
-			},
-			{
-				title: 'Einstiegsbefragung',
-				description:
-					'Für eine individuelle Beratung sind diese Informationen sehr hilfreich.',
-				buttonLink: '#',
-				shared: false
-			},
-			{
-				title: 'Motivationswaage',
-				description:
-					'Die Motivationswaage hilft Ihnen dabei, sich über die Vor- und Nachteile einer Überwindung des Suchtverhaltens im Klaren zu sein. ',
-				buttonLink: '#',
-				shared: true
-			}
-		];
-		setToolsList(fakeData);
-	}, []);
+		apiGetBudibaseTools(userData.userId).then((resp: APIToolsInterface[]) =>
+			setToolsList(resp)
+		);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className="toolsList__wrapper">
@@ -71,8 +52,8 @@ export const ToolsList = () => {
 									<Tool
 										title={tool.title}
 										description={tool.description}
-										buttonLink={tool.buttonLink}
-										shared={tool.shared}
+										buttonLink={tool.url}
+										shared={tool.sharedWithConsultant}
 									/>
 								</Box>
 							</div>
