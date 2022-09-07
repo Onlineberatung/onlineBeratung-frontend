@@ -1,6 +1,5 @@
 $buttonMinWidth: 200px;
 $buttonMaxWidth: 400px;
-$buttonHeight: 50px;
 
 .button {
 	&__wrapper {
@@ -18,7 +17,7 @@ $buttonHeight: 50px;
 		cursor: pointer;
 		min-width: $buttonMinWidth;
 		max-width: $buttonMaxWidth;
-		height: $buttonHeight;
+		height: $grid-base-six;
 		padding: 0 $grid-base-three;
 		border-radius: $button-border-radius;
 

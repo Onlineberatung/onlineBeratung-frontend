@@ -34,6 +34,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		background: none;
 		color: $primary;
 		text-decoration: underline;
+		padding-left: 0px;
 
 		&:focus-visible {
 			outline: $focus-outline;
@@ -84,7 +85,6 @@ $link-hover-text-decoration: $link-text-decoration !default;
 	&__error {
 		color: $form-error;
 		max-width: 245px;
-		margin-left: $grid-base-five;
 		margin-bottom: $grid-base-four;
 	}
 

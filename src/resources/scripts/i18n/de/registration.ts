@@ -1,9 +1,9 @@
 const registration = {
 	'headline': 'Registrierung',
-	'overline': 'Herzlich willkommen',
+	'overline': 'Willkommen bei der Online-Beratung',
 	'title.start': 'Registrierung',
 	'login.helper': 'Bereits registriert?',
-	'login.label': 'Zum Login',
+	'login.label': 'Einloggen',
 	'agency.preselected.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
 	'agency.preselected.isTeam': 'Sie werden von einem Team beraten.',
 	'consultingType.preselected.prefix': 'Ihr vorausgewähltes Themenfeld: ',
@@ -116,7 +116,7 @@ const registration = {
 	'welcomeScreen.info4.text':
 		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 	'welcomeScreen.register.helperText': 'Noch nicht registriert?',
-	'welcomeScreen.register.buttonLabel': 'Zur Registrierung',
+	'welcomeScreen.register.buttonLabel': 'Registrieren',
 	'teaser.consultant':
 		'Bitte registrieren Sie sich, um mit Ihrer Beraterin / Ihrem Berater in Kontakt zu kommen'
 };

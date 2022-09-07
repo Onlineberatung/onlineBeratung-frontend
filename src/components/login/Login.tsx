@@ -10,7 +10,11 @@ import {
 } from 'react';
 import { generatePath } from 'react-router-dom';
 import { translate } from '../../utils/translate';
-import { InputField, InputFieldItem } from '../inputField/InputField';
+import {
+	InputField,
+	InputFieldItem,
+	InputFieldLabelState
+} from '../inputField/InputField';
 import { config } from '../../resources/scripts/config';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { autoLogin, redirectToApp } from '../registration/autoLogin';
@@ -52,6 +56,7 @@ import {
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 import {
 	VALIDITY_INITIAL,
+	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import { history } from '../app/app';
@@ -102,6 +107,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 
 	useEffect(() => {
 		setShowLoginError('');
+		setLabelState(null);
 		if (
 			(!isOtpRequired && username && password) ||
 			(isOtpRequired && username && password && otp)
@@ -124,6 +130,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 
 	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
 	const isFirstVisit = useIsFirstVisit();
+	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -132,7 +139,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		type: 'text',
 		label: translate('login.user.label'),
 		content: username,
-		icon: <PersonIcon />
+		icon: <PersonIcon />,
+		...(labelState && { labelState: labelState })
 	};
 
 	const inputItemPassword: InputFieldItem = {
@@ -141,7 +149,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		type: 'password',
 		label: translate('login.password.label'),
 		content: password,
-		icon: <LockIcon />
+		icon: <LockIcon />,
+		...(labelState && { labelState: labelState })
 	};
 
 	const otpInputItem: InputFieldItem = {
@@ -319,6 +328,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					setShowLoginError(
 						translate('login.warning.failed.unauthorized')
 					);
+					setLabelState(VALIDITY_INVALID);
 				} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
 					if (error.options.data.otpType)
 						setTwoFactorType(error.options.data.otpType);
@@ -354,6 +364,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 						setShowLoginError(
 							translate('login.warning.failed.unauthorized.otp')
 						);
+						setLabelState(VALIDITY_INVALID);
 					}
 				})
 				.finally(() => {

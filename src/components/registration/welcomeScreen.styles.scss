@@ -1,11 +1,13 @@
 $welcome-screen-button-text-align: center !default;
 
 .registrationWelcome {
-	max-width: 600px;
-	margin: $grid-base-six auto;
-
 	h2 {
-		margin-bottom: $grid-base;
+		margin-bottom: $grid-base-two;
+	}
+
+	h4 {
+		line-height: 28px;
+		font-weight: 400;
 	}
 
 	&__explanation,
@@ -25,9 +27,16 @@ $welcome-screen-button-text-align: center !default;
 	}
 
 	&__buttonsWrapper {
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		border-radius: $input-field-border-radius;
+		justify-content: center;
+		padding: $grid-base-four;
+
 		.text {
 			text-align: $welcome-screen-button-text-align;
 			margin-bottom: 14px;
+			color: rgba(0, 0, 0, 0.9);
+			font-weight: 600;
 		}
 
 		.buttonWrapper {
@@ -48,5 +57,13 @@ $welcome-screen-button-text-align: center !default;
 		&:focus:not(:focus-visible) {
 			outline: none;
 		}
+	}
+	&__consultingType {
+		font-size: $font-size-secondary;
+		font-weight: $font-weight-medium;
+		line-height: 14px;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+		padding-bottom: $grid-base;
 	}
 }
