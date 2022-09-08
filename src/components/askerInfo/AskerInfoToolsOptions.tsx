@@ -14,15 +14,39 @@ import { APIToolsInterface } from '../../globalState/interfaces/ToolsInterface';
 import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { Checkbox } from '../checkbox/Checkbox';
+import { apiPutBudibaseTools } from '../../api/apiPutBudibaseTools';
 
-export const AskerInfoToolsOptions = () => {
+interface AskerInfoToolsOptionsInterface {
+	askerId: string;
+}
+
+export const AskerInfoToolsOptions = (
+	props: AskerInfoToolsOptionsInterface
+) => {
 	const [selectedTools, setSelectedTools] = useState<SelectOption[]>([]);
 	const [availableTools, setAvailableTools] = useState<SelectOption[]>([]);
-	const [infoAboutTools, setInfoAboutTools] = useState<APIToolsInterface[]>(
-		[]
-	);
+	const [infoAboutToolsModal, setInfoAboutToolsModal] = useState<
+		APIToolsInterface[]
+	>([]);
 	const [overlayContent, setOverlayContent] = useState(null);
 	const [showModal, setShowModal] = useState<Boolean>(false);
+
+	const updateTools = (fromModal: boolean) => {
+		let activeTools: string[];
+		if (fromModal) {
+			activeTools = infoAboutToolsModal
+				.filter(
+					(tool: APIToolsInterface) =>
+						tool.sharedWithAdviceSeeker === true
+				)
+				.map((toolActive) => toolActive.toolId);
+			setSelectedToolsOptions(infoAboutToolsModal);
+		} else {
+			activeTools = selectedTools.map((tool: SelectOption) => tool.value);
+			updateSharedToolsModal(activeTools, false);
+		}
+		apiPutBudibaseTools(props.askerId, activeTools);
+	};
 
 	const selectHandler = (selectedOption: SelectOptionsMulti) => {
 		let newSelectedTools = selectedTools;
@@ -36,13 +60,14 @@ export const AskerInfoToolsOptions = () => {
 			newSelectedTools.push(selectedOption.option);
 			setSelectedTools(newSelectedTools);
 		}
+		updateTools(false);
 	};
 
 	const setAvailableToolsOptions = (toolsData: APIToolsInterface[]) => {
 		setAvailableTools(
 			toolsData.map((tool) => {
 				return {
-					value: tool.title,
+					value: tool.toolId,
 					label: tool.title
 				};
 			})
@@ -54,7 +79,7 @@ export const AskerInfoToolsOptions = () => {
 		toolsData.forEach((tool) => {
 			if (tool.sharedWithAdviceSeeker) {
 				toolsSelected.push({
-					value: tool.title,
+					value: tool.toolId,
 					label: tool.title
 				});
 			}
@@ -62,45 +87,68 @@ export const AskerInfoToolsOptions = () => {
 		setSelectedTools(toolsSelected);
 	};
 
-	const updateSharedTools = (e) => {
-		const updatedTools = infoAboutTools.map((tool) =>
-			e.id === tool.title
+	const resetToolsAfterCloseModal = () => {
+		const activeTools = selectedTools.map((tool) => tool.value);
+		const resetTools = infoAboutToolsModal.map((tool) => {
+			return activeTools.includes(tool.toolId)
+				? {
+						...tool,
+						sharedWithAdviceSeeker: true
+				  }
+				: {
+						...tool,
+						sharedWithAdviceSeeker: false
+				  };
+		});
+		setInfoAboutToolsModal(resetTools);
+		setShowModal(false);
+	};
+
+	const handleOverlayAction = (buttonFunction: string) => {
+		switch (buttonFunction) {
+			case OVERLAY_FUNCTIONS.CONFIRM_EDIT:
+				updateTools(true);
+				setShowModal(false);
+				break;
+			case OVERLAY_FUNCTIONS.CLOSE:
+				resetToolsAfterCloseModal();
+				break;
+		}
+	};
+
+	const updateSharedToolsModal = (e, fromModal: boolean) => {
+		const validation = (tool: APIToolsInterface) =>
+			fromModal ? e.id === tool.toolId : e.includes(tool.toolId);
+
+		const updatedToolsModal = infoAboutToolsModal.map((tool) =>
+			validation(tool)
 				? {
 						...tool,
 						sharedWithAdviceSeeker: !tool.sharedWithAdviceSeeker
 				  }
 				: tool
 		);
-		setInfoAboutTools(updatedTools);
-	};
-
-	const handleOverlayAction = (buttonFunction: string) => {
-		switch (buttonFunction) {
-			case OVERLAY_FUNCTIONS.CONFIRM_EDIT:
-				setShowModal(false);
-				break;
-			case OVERLAY_FUNCTIONS.CLOSE:
-				setShowModal(false);
-				break;
-		}
+		setInfoAboutToolsModal(updatedToolsModal);
 	};
 
 	useEffect(() => {
 		const overlayContent = (
 			<>
-				{infoAboutTools.map((tool: APIToolsInterface) => (
+				{infoAboutToolsModal.map((tool: APIToolsInterface) => (
 					<Checkbox
 						key={tool.title}
 						className="textarea__checkbox"
 						item={{
-							inputId: tool.title,
+							inputId: tool.toolId,
 							name: tool.title,
 							labelId: tool.title,
 							label: tool.title,
 							description: tool.description,
 							checked: !!tool.sharedWithAdviceSeeker
 						}}
-						checkboxHandle={(e) => updateSharedTools(e.target)}
+						checkboxHandle={(e) =>
+							updateSharedToolsModal(e.target, true)
+						}
 					/>
 				))}
 			</>
@@ -128,17 +176,19 @@ export const AskerInfoToolsOptions = () => {
 		};
 
 		setOverlayContent(overlayItem);
-	}, [infoAboutTools]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [infoAboutToolsModal]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		apiGetBudibaseTools('f5a30db9-e9d4-4076-b9d0-a460f3e68911').then(
-			(resp: APIToolsInterface[]) => {
-				setAvailableToolsOptions(resp);
-				setSelectedToolsOptions(resp);
-				setInfoAboutTools(resp);
-			}
-		);
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+		if (props.askerId) {
+			apiGetBudibaseTools(props.askerId).then(
+				(resp: APIToolsInterface[]) => {
+					setAvailableToolsOptions(resp);
+					setSelectedToolsOptions(resp);
+					setInfoAboutToolsModal(resp);
+				}
+			);
+		}
+	}, [props.askerId]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div className="asker-info-tools-options">
@@ -173,9 +223,7 @@ export const AskerInfoToolsOptions = () => {
 					<Overlay
 						className="asker-info-tools-options__overlay"
 						item={overlayContent}
-						handleOverlayClose={() => {
-							setShowModal(false);
-						}}
+						handleOverlayClose={() => resetToolsAfterCloseModal()}
 						handleOverlay={handleOverlayAction}
 					/>
 				</OverlayWrapper>

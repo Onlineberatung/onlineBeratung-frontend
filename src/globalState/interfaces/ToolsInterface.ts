@@ -3,5 +3,6 @@ export interface APIToolsInterface {
 	sharedWithAdviceSeeker: boolean;
 	sharedWithConsultant: boolean;
 	title: string;
+	toolId: string;
 	url: string;
 }

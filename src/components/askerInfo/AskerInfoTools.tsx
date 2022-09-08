@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { apiGetUserDataBySessionId } from '../../api/apiGetUserDataBySessionId';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
 import { config } from '../../resources/scripts/config';
@@ -10,19 +11,26 @@ import { AskerInfoToolsOptions } from './AskerInfoToolsOptions';
 
 export const AskerInfoTools = () => {
 	const { activeSession } = useContext(ActiveSessionContext);
+	const [askerId, setAskerId] = useState();
 
 	const openToolsLink = () => {
 		console.log(activeSession);
 		window.open(
-			`${config.urls.budibaseDevServer}/${activeSession.item.id}`,
+			`${config.urls.budibaseDevServer}/?userId=${askerId}`,
 			'_blank',
 			'noopener'
 		);
 	};
 
+	useEffect(() => {
+		apiGetUserDataBySessionId(activeSession.item.id).then((resp) => {
+			setAskerId(resp.askerId);
+		});
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
 	return (
 		<>
-			<AskerInfoToolsOptions />
+			<AskerInfoToolsOptions askerId={askerId} />
 			<Text
 				className="asker-info-tools__share-title"
 				text={translate('userProfile.tools.share.title')}
