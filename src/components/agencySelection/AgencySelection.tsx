@@ -175,6 +175,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						err.message === FETCH_ERRORS.EMPTY &&
 						props.consultingType.id !== null
 					) {
+						setProposedAgencies(null);
 						setPostcodeFallbackLink(
 							parsePlaceholderString(config.postcodeFallbackUrl, {
 								url: props.consultingType.urls

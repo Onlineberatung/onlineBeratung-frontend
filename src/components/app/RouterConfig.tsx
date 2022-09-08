@@ -30,10 +30,13 @@ import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { ReactComponent as ToolsIcon } from '../../resources/img/icons/tools.svg';
 import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
 import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
 import { showAppointmentsMenu } from '../../utils/navigationHelpers';
+import { ToolsList } from '../tools/ToolsList';
+import { userHasBudibaseTools } from '../../api/apiGetBudibaseTools';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -51,9 +54,38 @@ const showAppointmentsMenuItem = (userData, consultingTypes, sessionsData) => {
 	return showAppointmentsMenu(userData, sessionsData);
 };
 
+const showToolsMenuItem = (userData) => userHasBudibaseTools(userData.userId);
+
 const isVideoAppointmentsEnabled = (userData, consultingTypes) =>
 	!config.disableVideoAppointments &&
 	hasVideoCallFeature(userData, consultingTypes);
+
+const appointmentRoutes = [
+	{
+		path: '/booking',
+		component: Booking
+	},
+	{
+		path: '/booking/cancellation',
+		component: BookingCancellation
+	},
+	{
+		path: '/booking/reschedule',
+		component: BookingReschedule
+	},
+	{
+		path: '/booking/events',
+		exact: false,
+		component: BookingEvents
+	}
+];
+
+const toolsRoutes = [
+	{
+		path: '/tools',
+		component: ToolsList
+	}
+];
 
 export const RouterConfigUser = (): any => {
 	return {
@@ -79,6 +111,14 @@ export const RouterConfigUser = (): any => {
 				icon: <CalendarMonthIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.booking.events'
+				}
+			},
+			{
+				condition: showToolsMenuItem,
+				to: '/tools',
+				icon: <ToolsIcon className="navigation__icon" />,
+				titleKeys: {
+					large: 'navigation.tools'
 				}
 			}
 		],
@@ -134,25 +174,8 @@ export const RouterConfigUser = (): any => {
 				component: Profile
 			}
 		],
-		appointmentRoutes: [
-			{
-				path: '/booking',
-				component: Booking
-			},
-			{
-				path: '/booking/cancellation',
-				component: BookingCancellation
-			},
-			{
-				path: '/booking/reschedule',
-				component: BookingReschedule
-			},
-			{
-				path: '/booking/events',
-				exact: false,
-				component: BookingEvents
-			}
-		]
+		appointmentRoutes,
+		toolsRoutes
 	};
 };
 
@@ -295,25 +318,8 @@ export const RouterConfigConsultant = (): any => {
 				component: Appointments
 			}
 		],
-		appointmentRoutes: [
-			{
-				path: '/booking',
-				component: Booking
-			},
-			{
-				path: '/booking/cancellation',
-				component: BookingCancellation
-			},
-			{
-				path: '/booking/reschedule',
-				component: BookingReschedule
-			},
-			{
-				path: '/booking/events',
-				exact: false,
-				component: BookingEvents
-			}
-		]
+		appointmentRoutes,
+		toolsRoutes
 	};
 };
 
@@ -507,25 +513,8 @@ export const RouterConfigTeamConsultant = (): any => {
 				component: Appointments
 			}
 		],
-		appointmentRoutes: [
-			{
-				path: '/booking',
-				component: Booking
-			},
-			{
-				path: '/booking/cancellation',
-				component: BookingCancellation
-			},
-			{
-				path: '/booking/reschedule',
-				component: BookingReschedule
-			},
-			{
-				path: '/booking/events',
-				exact: false,
-				component: BookingEvents
-			}
-		]
+		appointmentRoutes,
+		toolsRoutes
 	};
 };
 

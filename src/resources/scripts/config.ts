@@ -15,6 +15,7 @@ export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
 export const APP_PATH = 'app';
 
 export const config = {
+	askerToolsLink: true, // Feature flag to enable tools link on asker information when looking as a counsellor
 	budibaseSSO: false, // Feature flag to enable SSO on budibase
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
@@ -52,6 +53,8 @@ export const config = {
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
 		banUser: (rcUserId, chatId) =>
 			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
+		budibaseTools: (userId: string) =>
+			apiUrl + `/service/counselingtoolsservice/tools/${userId}`,
 		chatRoom: apiUrl + '/service/users/chat/room',
 		consultantEnquiriesBase:
 			apiUrl + '/service/conversations/consultants/enquiries/',
@@ -124,7 +127,6 @@ export const config = {
 		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
-		updateMessage: apiUrl + '/service/messages/',
 		sessionBase: apiUrl + '/service/users/sessions',
 		sessionRooms: apiUrl + '/service/users/sessions/room',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
@@ -136,8 +138,11 @@ export const config = {
 		twoFactorAuth: apiUrl + '/service/users/2fa',
 		twoFactorAuthApp: apiUrl + '/service/users/2fa/app',
 		twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
+		updateMessage: apiUrl + '/service/messages/',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userData: apiUrl + '/service/users/data',
+		userDataBySessionId: (sessionId: number) =>
+			apiUrl + `/service/users/consultants/sessions/${sessionId}`,
 		userSessionsListView: '/sessions/user/view',
 		setAppointmentSuccessMessage:
 			apiUrl + '/service/messages/aliasWithContent/new',
@@ -157,7 +162,7 @@ export const config = {
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		releases: uiUrl + '/releases',
-		budibaseDevServer: '',
+		budibaseDevServer: 'https://budibase-dev.suchtberatung.digital',
 		appointmentServiceDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
