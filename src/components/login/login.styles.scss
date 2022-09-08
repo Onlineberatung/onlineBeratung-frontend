@@ -48,6 +48,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 
 		&:hover {
 			cursor: pointer;
+			color: var(--skin-color-primary-hover, $hover-primary);
 		}
 	}
 

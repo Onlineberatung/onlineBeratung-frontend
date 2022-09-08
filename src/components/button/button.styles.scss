@@ -48,22 +48,22 @@ $buttonMaxWidth: 400px;
 
 		&:hover {
 			color: $white;
-			border-color: var(--skin-color-default, $hover-primary);
-			background-color: var(--skin-color-default, $hover-primary);
+			border-color: var(--skin-color-primary-hover, $hover-primary);
+			background-color: var(--skin-color-primary-hover, $hover-primary);
 			transition: all 0.3s ease;
 		}
 	}
 
 	&__tertiary {
 		display: inline-block;
-		height: $grid-base-six;
+		height: $grid-base-four;
 		width: auto;
 		min-width: 0;
 		line-height: 32px;
 		color: $tertiary;
 		background-color: transparent;
 		border: 2px solid $tertiary;
-		padding: 0 $grid-base;
+		padding: 0 $grid-base-two;
 		text-transform: none;
 		font-size: $font-size-tertiary;
 

@@ -35,7 +35,7 @@ $registration-form-headline-margin-bottom: 24px;
 			font-weight: $link-font-weight;
 
 			&:hover {
-				color: $link-color-hover;
+				color: var(--skin-color-primary-hover, $hover-primary);
 				text-decoration: $link-text-decoration-hover;
 				cursor: pointer;
 			}

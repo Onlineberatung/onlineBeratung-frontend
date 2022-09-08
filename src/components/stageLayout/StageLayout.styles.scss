@@ -18,6 +18,7 @@
 		flex-direction: column;
 		width: unset;
 		left: unset;
+		padding: 48px 16px 0;
 
 		@include breakpoint($fromMedium) {
 			min-height: 100vh;
@@ -59,12 +60,12 @@
 	&__legalLinks {
 		display: flex;
 		align-items: center;
-		width: 60%;
+		width: 80%;
 		padding: 0 $grid-base-three;
 		margin: 0;
 		position: absolute;
 		bottom: $grid-base-four;
-		justify-content: flex-start;
+		left: 0;
 
 		@include breakpoint($fromXLarge) {
 			justify-content: flex-end;
@@ -84,6 +85,10 @@
 			&:focus:not(:focus-visible) {
 				outline: none;
 			}
+
+			&:hover {
+				color: var(--skin-color-primary-hover, $hover-primary);
+			}
 		}
 
 		.text {
@@ -94,6 +99,9 @@
 	&__legalLinksItem {
 		color: rgba($black, 0.6);
 		font-weight: $font-weight-bold;
+		&:hover {
+			color: var(--skin-color-primary-hover, $hover-primary);
+		}
 	}
 
 	&__legalLinksSeparator {
