@@ -21,6 +21,7 @@ import {
 } from '../select/SelectDropdown';
 import { Text } from '../text/Text';
 import { AgencyLanguages } from '../agencySelection/AgencyLanguages';
+import { config } from '../../resources/scripts/config';
 
 export interface ConsultingTypeAgencySelectionProps {
 	consultant: ConsultantDataInterface;
@@ -44,6 +45,17 @@ export const useConsultingTypeAgencySelection = (
 
 	useEffect(() => {
 		if (!consultant) {
+			return;
+		}
+
+		// When we've the multi tenancy with single domain we can simply ignore the
+		// consulting types because we'll get agencies across tenants
+		if (
+			config.useMultiTenancyWithSingleDomain &&
+			consultant?.agencies?.length > 0
+		) {
+			setAgencies(consultant?.agencies);
+			setConsultingTypes([consultingType]);
 			return;
 		}
 
@@ -137,11 +149,13 @@ export const ConsultingTypeAgencySelection = ({
 			return;
 		}
 
-		const agencyOptions = possibleAgencies.filter(
-			(agency) =>
-				agency.consultingType.toString() ===
-				selectedConsultingTypeOption.value
-		);
+		const agencyOptions = config.useMultiTenancyWithSingleDomain
+			? possibleAgencies
+			: possibleAgencies.filter(
+					(agency) =>
+						agency.consultingType.toString() ===
+						selectedConsultingTypeOption.value
+			  );
 
 		setAgencyOptions(agencyOptions);
 		if (agencyOptions.length >= 1) {
