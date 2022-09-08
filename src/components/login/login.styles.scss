@@ -84,7 +84,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 
 	&__error {
 		color: $form-error;
-		max-width: 245px;
+		max-width: 320px;
 		margin-bottom: $grid-base-four;
 	}
 
@@ -92,10 +92,6 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		width: 100%;
 		margin-top: $grid-base-four;
 		transform: $login-icon-transform;
-
-		// @media (min-width: $fromLarge) {
-		// 	width: 100%;
-		// }
 	}
 
 	&__passwordReset {

@@ -32,43 +32,40 @@ export const StageLayout = ({
 			{React.cloneElement(Children.only(stage as ReactElement), {
 				className: 'stageLayout__stage'
 			})}
-			<div className="stageLayout__content">{children}</div>
-			{showLegalLinks && (
-				<div className={`stageLayout__legalLinks`}>
-					{legalLinks.map((legalLink, index) => (
-						<React.Fragment key={legalLink.url}>
-							{index > 0 && (
-								<Text
-									type="infoSmall"
-									className="stageLayout__legalLinksSeparator"
-									text=" | "
-								/>
-							)}
-							<button
-								type="button"
-								className="button-as-link"
-								data-cy-link={legalLink.url}
-								onClick={() =>
-									window.open(legalLink.url, '_blank')
-								}
-							>
-								<Text
-									className="stageLayout__legalLinksItem"
-									type="infoSmall"
-									text={legalLink.label}
-								/>
-							</button>
-						</React.Fragment>
-					))}
-				</div>
-			)}
+			<div className="stageLayout__content">
+				{children}
+				{showLegalLinks && (
+					<div className={`stageLayout__legalLinks`}>
+						{legalLinks.map((legalLink, index) => (
+							<React.Fragment key={legalLink.url}>
+								{index > 0 && (
+									<Text
+										type="infoSmall"
+										className="stageLayout__legalLinksSeparator"
+										text=" | "
+									/>
+								)}
+								<button
+									type="button"
+									className="button-as-link"
+									data-cy-link={legalLink.url}
+									onClick={() =>
+										window.open(legalLink.url, '_blank')
+									}
+								>
+									<Text
+										className="stageLayout__legalLinksItem"
+										type="infoSmall"
+										text={legalLink.label}
+									/>
+								</button>
+							</React.Fragment>
+						))}
+					</div>
+				)}
+			</div>
 			{showLoginLink && (
 				<div className="stageLayout__toLogin">
-					<Text
-						type="infoSmall"
-						text={translate('registration.login.helper')}
-						className="stageLayout__toLogin__text"
-					/>
 					<div className="stageLayout__toLogin__button">
 						<a
 							href={`${config.urls.toLogin}${
