@@ -13,8 +13,16 @@ export interface TenantDataInterface {
 		termsAndConditions: string;
 		claim: string;
 	};
-	settings?: {
-		topicsInRegistrationEnabled: boolean;
-		featureTopicsEnabled: boolean;
-	};
+	settings?: TenantDataSettingsInterface;
+}
+
+export interface TenantDataSettingsInterface {
+	featureAppointmentsEnabled: boolean;
+	featureDemographicsEnabled: boolean;
+	featureGroupChatV2Enabled: boolean;
+	featureStatisticsEnabled: boolean;
+	featureToolsEnabled: boolean;
+	featureToolsOICDToken: string;
+	featureTopicsEnabled: boolean;
+	topicsInRegistrationEnabled: boolean;
 }

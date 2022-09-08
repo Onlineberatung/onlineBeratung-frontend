@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { translate } from '../../utils/translate';
 import { Text } from '../text/Text';
 import { Button, BUTTON_TYPES } from '../button/Button';
@@ -26,6 +26,7 @@ import {
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
 	LegalLinkInterface,
+	TenantContext,
 	useTenant
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
@@ -36,12 +37,14 @@ import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
 } from '../error/errorHandling';
+import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
 	agency?: AgencyDataInterface;
 	consultant?: ConsultantDataInterface;
 	legalLinks: Array<LegalLinkInterface>;
+	topic?: TopicsDataInterface;
 }
 
 interface FormAccordionData {
@@ -59,6 +62,7 @@ interface FormAccordionData {
 export const RegistrationForm = ({
 	consultingType,
 	agency,
+	topic,
 	legalLinks,
 	consultant
 }: RegistrationFormProps) => {
@@ -79,6 +83,7 @@ export const RegistrationForm = ({
 	const topicsAreRequired =
 		tenantData?.settings?.topicsInRegistrationEnabled &&
 		tenantData?.settings?.featureTopicsEnabled;
+	const { tenant } = useContext(TenantContext);
 
 	useEffect(() => {
 		const postcodeParameter = getUrlParameter('postcode');
@@ -207,7 +212,11 @@ export const RegistrationForm = ({
 			...(consultant && { consultantId: consultant.consultantId })
 		};
 
-		apiPostRegistration(config.endpoints.registerAsker, registrationData)
+		apiPostRegistration(
+			config.endpoints.registerAsker,
+			registrationData,
+			tenant
+		)
 			.then((res) => {
 				return setOverlayActive(true);
 			})
@@ -269,6 +278,7 @@ export const RegistrationForm = ({
 						consultant={consultant}
 						onValidation={setFormAccordionValid}
 						mainTopicId={formAccordionData.mainTopicId}
+						preselectedTopic={topic?.id}
 					/>
 				)}
 

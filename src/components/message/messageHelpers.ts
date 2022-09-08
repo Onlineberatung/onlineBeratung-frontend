@@ -9,4 +9,6 @@ export const isVoluntaryInfoSet = (sessionData, resortData) => {
 		const values = Object.values(sessionDataCopy);
 		return values.some((value) => !!value);
 	}
+
+	return false;
 };
