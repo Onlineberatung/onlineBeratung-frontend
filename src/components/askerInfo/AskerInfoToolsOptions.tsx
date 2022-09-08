@@ -29,9 +29,13 @@ export const AskerInfoToolsOptions = (
 		APIToolsInterface[]
 	>([]);
 	const [overlayContent, setOverlayContent] = useState(null);
-	const [showModal, setShowModal] = useState<Boolean>(false);
+	const [showModal, setShowModal] = useState<boolean>(false);
+	const [hasError, setHasError] = useState<boolean>(false);
 
-	const updateTools = (fromModal: boolean) => {
+	const updateTools = (
+		fromModal: boolean,
+		selectedOption?: SelectOptionsMulti
+	) => {
 		let activeTools: string[];
 		if (fromModal) {
 			activeTools = infoAboutToolsModal
@@ -42,25 +46,33 @@ export const AskerInfoToolsOptions = (
 				.map((toolActive) => toolActive.toolId);
 			setSelectedToolsOptions(infoAboutToolsModal);
 		} else {
-			activeTools = selectedTools.map((tool: SelectOption) => tool.value);
+			let selected = [];
+			if (selectedOption.removedValue) {
+				selected = selectedTools.filter(
+					(tool) => tool.value !== selectedOption.removedValue.value
+				);
+			} else if (selectedOption.option) {
+				selected = [...selectedTools, selectedOption.option];
+			}
+			setSelectedTools(selected);
+			activeTools = selected.map((tool) => tool.value);
 			updateSharedToolsModal(activeTools, false);
 		}
-		apiPutBudibaseTools(props.askerId, activeTools);
+		apiPutBudibaseTools(props.askerId, activeTools).catch(() => {
+			setHasError(true);
+			setSelectedTools([]);
+			const resetTools = infoAboutToolsModal.map((tool) => {
+				return {
+					...tool,
+					sharedWithAdviceSeeker: false
+				};
+			});
+			setInfoAboutToolsModal(resetTools);
+		});
 	};
 
 	const selectHandler = (selectedOption: SelectOptionsMulti) => {
-		let newSelectedTools = selectedTools;
-		if (selectedOption.removedValue) {
-			setSelectedTools(
-				newSelectedTools.filter(
-					(tool) => tool.value !== selectedOption.removedValue.value
-				)
-			);
-		} else if (selectedOption.option) {
-			newSelectedTools.push(selectedOption.option);
-			setSelectedTools(newSelectedTools);
-		}
-		updateTools(false);
+		updateTools(false, selectedOption);
 	};
 
 	const setAvailableToolsOptions = (toolsData: APIToolsInterface[]) => {
@@ -117,17 +129,29 @@ export const AskerInfoToolsOptions = (
 	};
 
 	const updateSharedToolsModal = (e, fromModal: boolean) => {
-		const validation = (tool: APIToolsInterface) =>
-			fromModal ? e.id === tool.toolId : e.includes(tool.toolId);
-
-		const updatedToolsModal = infoAboutToolsModal.map((tool) =>
-			validation(tool)
-				? {
-						...tool,
-						sharedWithAdviceSeeker: !tool.sharedWithAdviceSeeker
-				  }
-				: tool
-		);
+		let updatedToolsModal = [];
+		if (fromModal) {
+			updatedToolsModal = infoAboutToolsModal.map((tool) =>
+				e.id === tool.toolId
+					? {
+							...tool,
+							sharedWithAdviceSeeker: !tool.sharedWithAdviceSeeker
+					  }
+					: tool
+			);
+		} else {
+			updatedToolsModal = infoAboutToolsModal.map((tool) =>
+				e.includes(tool.toolId)
+					? {
+							...tool,
+							sharedWithAdviceSeeker: true
+					  }
+					: {
+							...tool,
+							sharedWithAdviceSeeker: false
+					  }
+			);
+		}
 		setInfoAboutToolsModal(updatedToolsModal);
 	};
 
@@ -217,6 +241,8 @@ export const AskerInfoToolsOptions = (
 				isClearable={false}
 				defaultValue={selectedTools}
 				placeholder={translate('userProfile.tools.optionsPlaceholder')}
+				hasError={hasError}
+				errorMessage={translate('userProfile.tools.options.saveError')}
 			/>
 			{showModal && overlayContent && (
 				<OverlayWrapper>

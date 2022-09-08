@@ -16,6 +16,8 @@ const userProfile = {
 	'tools.description': 'Schalten Sie Tools für die/den Ratsuchende/n frei. ',
 	'tools.openModal': 'Tool-Beschreibungen anzeigen',
 	'tools.optionsPlaceholder': 'Wähle eine Option...',
+	'tools.options.saveError':
+		'Beim Werkzeugwechsel ist ein Problem aufgetreten. Bitte versuche es erneut.',
 	'tools.modal.deny': 'Abbrechen',
 	'tools.modal.title': 'Tool für die Ratsuchenden',
 	'tools.modal.description':
