@@ -5,6 +5,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
 import { config } from '../../resources/scripts/config';
 import { translate } from '../../utils/translate';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { Text } from '../text/Text';
 import './askerInfoTools.styles';
 import { AskerInfoToolsOptions } from './AskerInfoToolsOptions';
@@ -12,11 +13,13 @@ import { AskerInfoToolsOptions } from './AskerInfoToolsOptions';
 export const AskerInfoTools = () => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const [askerId, setAskerId] = useState();
+	const accessToken = getValueFromCookie('keycloak');
 
 	const openToolsLink = () => {
-		console.log(activeSession);
 		window.open(
-			`${config.urls.budibaseDevServer}/?userId=${askerId}`,
+			`${config.endpoints.budibaseTools(
+				activeSession.consultant.id
+			)}/roleSync?userId=${askerId}&access_token=${accessToken}`,
 			'_blank',
 			'noopener'
 		);

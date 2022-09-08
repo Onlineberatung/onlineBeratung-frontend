@@ -43,21 +43,23 @@ export const ToolsList = () => {
 			<div className="toolsList__innerWrapper">
 				<div className="toolsList__content">
 					{toolList &&
-						toolList.map((tool) => (
-							<div
-								className="toolsList__content__tool"
-								key={tool.title}
-							>
-								<Box>
-									<Tool
-										title={tool.title}
-										description={tool.description}
-										buttonLink={tool.url}
-										shared={tool.sharedWithConsultant}
-									/>
-								</Box>
-							</div>
-						))}
+						toolList
+							.filter((tool) => tool.sharedWithAdviceSeeker)
+							.map((tool) => (
+								<div
+									className="toolsList__content__tool"
+									key={tool.title}
+								>
+									<Box>
+										<Tool
+											title={tool.title}
+											description={tool.description}
+											buttonLink={tool.url}
+											shared={tool.sharedWithConsultant}
+										/>
+									</Box>
+								</div>
+							))}
 				</div>
 			</div>
 		</div>

@@ -8,7 +8,7 @@ export const apiGetBudibaseTools = async (
 	return fetchData({
 		url: config.endpoints.budibaseTools(userId),
 		method: FETCH_METHODS.GET,
-		skipAuth: true,
+		skipAuth: false,
 		responseHandling: [FETCH_ERRORS.CATCH_ALL]
 	});
 };
@@ -19,7 +19,10 @@ export const userHasBudibaseTools = async (
 	return fetchData({
 		url: config.endpoints.budibaseTools(userId),
 		method: FETCH_METHODS.GET,
-		skipAuth: true,
+		skipAuth: false,
 		responseHandling: [FETCH_ERRORS.CATCH_ALL]
-	}).then((resp) => resp.length > 0);
+	}).then((resp) => {
+		const toolsShared = resp.filter((tool) => tool.sharedWithAdviceSeeker);
+		return toolsShared.length > 0;
+	});
 };

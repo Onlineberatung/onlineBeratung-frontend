@@ -50,14 +50,11 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 			)
 	);
 
-const showAppointmentsMenuItem = (userData, _, sessionsData) => {
+const showAppointmentsMenuItem = (userData, consultingTypes, sessionsData) => {
 	return showAppointmentsMenu(userData, sessionsData);
 };
 
-const showToolsMenuItem = (userData) => {
-	console.log(userHasBudibaseTools(userData.userId));
-	return userHasBudibaseTools(userData.userId);
-};
+const showToolsMenuItem = (userData) => userHasBudibaseTools(userData.userId);
 
 const isVideoAppointmentsEnabled = (userData, consultingTypes) =>
 	!config.disableVideoAppointments &&
