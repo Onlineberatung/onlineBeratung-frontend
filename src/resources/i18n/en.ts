@@ -500,7 +500,7 @@ export const en = {
 				description:
 					'It looks like we have a server problem at the moment.<br>Try again later.'
 			},
-			login: 'To login'
+			login: 'Login'
 		}
 	},
 	furtherSteps: {
@@ -913,6 +913,7 @@ export const en = {
 	login: {
 		'headline': 'Login',
 		'user.label': 'Username/E-mail',
+		'seperator': 'or',
 		'password': {
 			label: 'Password',
 			reset: {
@@ -1243,7 +1244,7 @@ export const en = {
 					overlay: {
 						'headline':
 							'You have successfully changed your password. You will now be redirected to the login.',
-						'button.label': 'To Login'
+						'button.label': 'Login'
 					}
 				}
 			},
@@ -1453,15 +1454,17 @@ export const en = {
 	},
 	registration: {
 		'headline': 'Registration',
-		'overline': 'Welcome',
+		'overline': 'Welcome to online consulting',
 		'title.start': 'Registration',
+		'form.title': 'Complete registration',
 		'login': {
 			helper: 'Already registered?',
-			label: 'To login'
+			label: 'Login'
 		},
 		'agency': {
 			'preselected.prefix': 'Your pre-selected counseling center: ',
-			'preselected.isTeam': 'You will be advised by a team.'
+			'preselected.isTeam': 'You will be advised by a team.',
+			'headline': 'Find a consulting center near you'
 		},
 		'consultingType.preselected.prefix': 'Your pre-selected topic: ',
 		'username.headline': 'Please choose your username',
@@ -1613,7 +1616,7 @@ export const en = {
 			},
 			register: {
 				helperText: 'Not registered yet?',
-				buttonLabel: 'To registration'
+				buttonLabel: 'Register'
 			}
 		},
 		'teaser.consultant':

@@ -506,7 +506,7 @@ export const de = {
 				headline: 'Ups!'
 			}
 		},
-		login: 'Zum Login'
+		login: 'Einloggen'
 	},
 	furtherSteps: {
 		'consultant.info':
@@ -960,6 +960,7 @@ export const de = {
 		},
 		'resend.otp.email.label': 'Einmal-Code erneut senden',
 		'resetPasswort.label': 'Passwort vergessen?',
+		'seperator': 'oder',
 		'user.label': 'Benutzername/E-Mail',
 		'warning': {
 			failed: {
@@ -1333,7 +1334,7 @@ export const de = {
 					'overlay': {
 						'headline':
 							'Sie haben Ihr Passwort erfolgreich geändert. Sie werden nun zum Login weitergeleitet.',
-						'button.label': 'Zum Login'
+						'button.label': 'Einloggen'
 					},
 					'same': 'Ihr Passwort ist identisch.',
 					'secure': 'Ihr Passwort ist sicher.',
@@ -1476,7 +1477,8 @@ export const de = {
 		},
 		'agency': {
 			'preselected.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
-			'preselected.isTeam': 'Sie werden von einem Team beraten.'
+			'preselected.isTeam': 'Sie werden von einem Team beraten.',
+			'headline': 'Beratungsstelle in Ihrer Nähe finden'
 		},
 		'agencySelection': {
 			headline: 'Bitte wählen Sie eine Beratungsstelle in Ihrer Nähe',
@@ -1537,10 +1539,11 @@ export const de = {
 				suffix: ' zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.'
 			}
 		},
+		'form.title': 'Registrierung abschließen',
 		'headline': 'Registrierung',
 		'login': {
 			helper: 'Bereits registriert?',
-			label: 'Zum Login'
+			label: 'Einloggen'
 		},
 		'mainTopic': {
 			headline:
@@ -1548,7 +1551,7 @@ export const de = {
 			noTopics:
 				'Derzeit können leider keine Themen ausgewählt werden. Führen Sie die Anmeldung im nächsten Schritt fort.'
 		},
-		'overline': 'Herzlich willkommen',
+		'overline': 'Willkommen bei der Online-Beratung',
 		'overlay': {
 			success: {
 				button: 'Nachricht verfassen',
@@ -1629,7 +1632,7 @@ export const de = {
 				title: 'Anonym und kostenfrei'
 			},
 			register: {
-				buttonLabel: 'Zur Registrierung',
+				buttonLabel: 'Registrieren',
 				helperText: 'Noch nicht registriert?'
 			},
 			subline: 'Wie läuft die Beratung & Hilfe der Caritas ab?'
