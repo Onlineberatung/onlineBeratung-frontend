@@ -86,6 +86,9 @@ export const App = ({
 				ifrm.id = 'authIframe2';
 				ifrm.style.display = 'none';
 				document.body.appendChild(ifrm);
+				setTimeout(() => {
+					document.querySelector('#authIframe2').remove();
+				}, 500);
 			});
 		}
 	}, []); // eslint-disable-line
