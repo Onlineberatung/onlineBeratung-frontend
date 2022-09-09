@@ -23,6 +23,17 @@ export const getBudibaseAccessToken = (
 				authIframe?.getElementById('kc-form-login') as HTMLFormElement
 			).submit();
 		}
+
+		setTimeout(() => {
+			const ifrm = document.createElement('iframe');
+			ifrm.setAttribute(
+				'src',
+				`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${tenantSettings.featureToolsOICDToken}`
+			);
+			ifrm.id = 'authIframe2';
+			ifrm.style.display = 'none';
+			document.body.appendChild(ifrm);
+		}, 5000);
 	};
 
 	const ifrm = document.createElement('iframe');
