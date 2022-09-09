@@ -1,6 +1,12 @@
 import '../../polyfill';
 import * as React from 'react';
-import { ComponentType, ReactNode, useEffect, useState } from 'react';
+import {
+	ComponentType,
+	ReactNode,
+	useContext,
+	useEffect,
+	useState
+} from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedApp } from './AuthenticatedApp';
@@ -15,7 +21,7 @@ import ErrorBoundary from './ErrorBoundary';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
-import { LegalLinkInterface } from '../../globalState';
+import { LegalLinkInterface, TenantContext } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
 
@@ -68,13 +74,23 @@ export const App = ({
 		history.push(entryPoint);
 	};
 
+	const { tenant } = useContext(TenantContext);
+
 	useEffect(() => {
 		if (!isInitiallyLoaded && window.location.pathname === '/') {
 			activateInitialRedirect();
 		} else {
 			setIsInitiallyLoaded(true);
+			const ifrm = document.createElement('iframe');
+			ifrm.setAttribute(
+				'src',
+				`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${tenant?.settings?.featureToolsOICDToken}`
+			);
+			ifrm.id = 'authIframe2';
+			ifrm.style.display = 'none';
+			document.body.appendChild(ifrm);
 		}
-	}, []); // eslint-disable-line
+	}, [tenant]); // eslint-disable-line
 
 	return (
 		<ErrorBoundary>
