@@ -88,7 +88,7 @@ export const App = ({
 				document.body.appendChild(ifrm);
 				setTimeout(() => {
 					document.querySelector('#authIframe2').remove();
-				}, 500);
+				}, 2000);
 			});
 		}
 	}, []); // eslint-disable-line
