@@ -20,7 +20,7 @@ export const SessionViewEmpty = () => {
 		ifrm.id = 'authIframe2';
 		ifrm.style.display = 'none';
 		document.body.appendChild(ifrm);
-	}, []);
+	}, [tenant]);
 	return (
 		<div className="session session--empty">
 			<Text text={translate('session.empty')} type="divider" />
