@@ -26,10 +26,10 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 		props.onItemHeaderClick(props.index);
 	};
 
-	const buttonAnswerVideoCall: ButtonItem = {
+	const buttonNextStep: ButtonItem = {
 		title: translate('registration.accordion.item.continueButton.title'),
 		label: translate('registration.accordion.item.continueButton'),
-		type: BUTTON_TYPES.LINK
+		type: BUTTON_TYPES.SECONDARY
 	};
 
 	return (
@@ -58,9 +58,9 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 				{!props.isLastItem && (
 					<Button
 						buttonHandle={handleStepSubmit}
-						item={buttonAnswerVideoCall}
+						item={buttonNextStep}
 						disabled={props.isValid !== 'valid'}
-						className="formAccordionItem__continueButton"
+						className="formAccordionItem__nextbutton"
 					/>
 				)}
 			</div>

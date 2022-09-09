@@ -10,6 +10,10 @@ $form-accordion-item-input-margin-left: 0 !default;
 	width: 100%;
 	border-bottom: 1px solid $black-25-opacity;
 
+	@include breakpoint($fromLarge) {
+		min-width: 560px;
+	}
+
 	&__header {
 		position: relative;
 		display: flex;
@@ -82,13 +86,27 @@ $form-accordion-item-input-margin-left: 0 !default;
 		}
 	}
 
-	&__continueButton {
-		margin-top: $grid-base-three;
+	.select__wrapper {
+		width: 250px;
+		@include breakpoint($fromLarge) {
+			width: 320px;
+		}
+	}
+	&__nextbutton {
+		.button__item {
+			min-width: 100px;
+		}
 
-		button {
-			min-width: 0;
+		.button__item--disabled {
+			background-color: white;
+			border: 1px solid rgba(0, 0, 0, 0.4);
+			color: rgba(0, 0, 0, 0.4);
 			padding: 0;
 		}
+	}
+
+	&__nextbutton {
+		align-self: flex-end;
 	}
 
 	&--active & {
@@ -100,10 +118,12 @@ $form-accordion-item-input-margin-left: 0 !default;
 
 		&__title {
 			font-weight: $form-accordion-title-font-weight;
+			color: $form-accordion-index-background-active;
 		}
 
 		&__content {
-			display: block;
+			display: flex;
+			justify-content: space-between;
 		}
 	}
 }

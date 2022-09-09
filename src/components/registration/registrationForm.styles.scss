@@ -16,7 +16,6 @@ $registration-form-headline-margin-bottom: 24px;
 	}
 
 	&__dataProtection {
-		margin-top: $grid-base-eight;
 		margin-left: 4px;
 		text-align: left;
 
@@ -65,7 +64,8 @@ $registration-form-headline-margin-bottom: 24px;
 
 	&__submit {
 		margin-top: $grid-base-four;
-		margin-left: $registration-form-margin-left;
+		display: flex;
+		justify-content: flex-end;
 	}
 
 	&__overline,
@@ -78,7 +78,12 @@ $registration-form-headline-margin-bottom: 24px;
 		color: var(--skin-color-secondary-contrast-safe, $secondary);
 		font-weight: $font-weight-regular;
 		margin: 0;
-		font-size: $font-size-primary;
+		font-size: $font-size-secondary;
+		font-weight: $font-weight-medium;
+		line-height: 14px;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+		padding-bottom: $grid-base;
 	}
 
 	&__headline {

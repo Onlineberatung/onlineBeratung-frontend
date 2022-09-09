@@ -7,7 +7,8 @@ import {
 	ConsultingTypeInterface,
 	ConsultantDataInterface,
 	AgencyDataInterface,
-	useTenant
+	useTenant,
+	LegalLinkInterface
 } from '../../globalState';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { AgencySelection } from '../agencySelection/AgencySelection';
@@ -29,6 +30,11 @@ import {
 	useConsultingTypeAgencySelection
 } from '../consultingTypeSelection/ConsultingTypeAgencySelection';
 import { MainTopicSelection } from '../mainTopicSelection/MainTopicSelection';
+import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
+import { Text } from '../text/Text';
+import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
+import { Button } from '../button/Button';
+import { buttonItemSubmit } from '../registration/registrationHelpers';
 
 interface FormAccordionProps {
 	consultingType?: ConsultingTypeInterface;
@@ -42,6 +48,9 @@ interface FormAccordionProps {
 	initialPostcode?: string;
 	mainTopicId?: number;
 	preselectedTopic?: number;
+	legalLinks: Array<LegalLinkInterface>;
+	handleSubmitButtonClick: Function;
+	isSubmitButtonDisabled: boolean;
 }
 
 export const FormAccordion = ({
@@ -55,10 +64,15 @@ export const FormAccordion = ({
 	additionalStepsData,
 	registrationNotes,
 	initialPostcode,
-	mainTopicId
+	mainTopicId,
+	legalLinks,
+	handleSubmitButtonClick,
+	isSubmitButtonDisabled
 }: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
 	const [agency, setAgency] = useState<AgencyDataInterface>();
+	const [isDataProtectionSelected, setIsDataProtectionSelected] =
+		useState(false);
 	const tenantData = useTenant();
 	const topicsAreRequired =
 		tenantData?.settings?.topicsInRegistrationEnabled &&
@@ -164,6 +178,31 @@ export const FormAccordion = ({
 			isValid: validity.password
 		}
 	];
+
+	const checkboxItemDataProtection: CheckboxItem = {
+		inputId: 'dataProtectionCheckbox',
+		name: 'dataProtectionCheckbox',
+		labelId: 'dataProtectionLabel',
+		checked: isDataProtectionSelected,
+		label: [
+			translate('registration.dataProtection.label.prefix'),
+			legalLinks
+				.filter((legalLink) => legalLink.registration)
+				.map(
+					(legalLink, index, { length }) =>
+						(index > 0
+							? index < length - 1
+								? ', '
+								: translate(
+										'registration.dataProtection.label.and'
+								  )
+							: '') +
+						`<span><button type="button" class="button-as-link" onclick="window.open('${legalLink.url}')">${legalLink.label}</button></span>`
+				)
+				.join(''),
+			translate('registration.dataProtection.label.suffix')
+		].join(' ')
+	};
 
 	if (topicsAreRequired) {
 		accordionItemData.push({
@@ -303,6 +342,75 @@ export const FormAccordion = ({
 			isValid: validity.state
 		});
 	}
+
+	if (
+		preselectedAgencyData &&
+		consultingType?.registration.autoSelectPostcode
+	) {
+		accordionItemData.push({
+			title: translate('registration.agency.headline'),
+			nestedComponent: (
+				<PreselectedAgency
+					prefix={translate('registration.agency.preselected.prefix')}
+					agencyData={preselectedAgencyData}
+				/>
+			),
+			isValid: validity.state
+		});
+	}
+
+	if (
+		consultingType?.registration.autoSelectPostcode &&
+		!preselectedAgencyData
+	) {
+		accordionItemData.push({
+			title: translate('registration.agency.headline'),
+			nestedComponent: (
+				<div className="registrationForm__no-agency-found">
+					<Text
+						text={translate(
+							'registration.agencySelection.noAgencies'
+						)}
+						type="infoLargeAlternative"
+					/>
+				</div>
+			),
+			isValid: validity.state
+		});
+	}
+
+	accordionItemData.push({
+		title: translate('registration.form.title'),
+		nestedComponent: (
+			<div>
+				<div className="registrationForm__dataProtection">
+					<Checkbox
+						item={checkboxItemDataProtection}
+						checkboxHandle={() =>
+							setIsDataProtectionSelected(
+								!isDataProtectionSelected
+							)
+						}
+						onKeyPress={(event) => {
+							if (event.key === 'Enter') {
+								setIsDataProtectionSelected(
+									!isDataProtectionSelected
+								);
+							}
+						}}
+					/>
+				</div>
+
+				<Button
+					className="registrationForm__submit"
+					item={buttonItemSubmit}
+					buttonHandle={handleSubmitButtonClick}
+					disabled={isSubmitButtonDisabled}
+				/>
+			</div>
+		),
+		isValid: validity.state
+	});
 
 	const handleItemHeaderClick = (indexOfItem) => {
 		setActiveItem(indexOfItem);

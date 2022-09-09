@@ -4,6 +4,8 @@ const registration = {
 	'title.start': 'Registrierung',
 	'login.helper': 'Bereits registriert?',
 	'login.label': 'Einloggen',
+	'form.title': 'Registrierung abschließen',
+	'agency.headline': 'Beratungsstelle in Ihrer Nähe finden',
 	'agency.preselected.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
 	'agency.preselected.isTeam': 'Sie werden von einem Team beraten.',
 	'consultingType.preselected.prefix': 'Ihr vorausgewähltes Themenfeld: ',

@@ -254,7 +254,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											'registration.agencySelection.intro.overline'
 									  )
 							}
-							type="infoLargeAlternative"
+							type="infoMedium"
 						/>
 						<div className="agencySelection__intro__content">
 							<Text
@@ -267,7 +267,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												'registration.agencySelection.intro.subline'
 										  )
 								}
-								type="infoLargeAlternative"
+								type="infoMedium"
 							/>
 							<ul>
 								{introItemsTranslations.map(
@@ -277,7 +277,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												text={translate(
 													introItemTranslation
 												)}
-												type="infoLargeAlternative"
+												type="infoMedium"
 											/>
 										</li>
 									)
@@ -297,7 +297,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							<Text
 								className="agencySelection__note"
 								text={props.agencySelectionNote}
-								type="infoLargeAlternative"
+								type="infoMedium"
 								labelType={LABEL_TYPES.NOTICE}
 							/>
 						</div>

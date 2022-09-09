@@ -279,55 +279,11 @@ export const RegistrationForm = ({
 						onValidation={setFormAccordionValid}
 						mainTopicId={formAccordionData.mainTopicId}
 						preselectedTopic={topic?.id}
+						legalLinks={legalLinks}
+						handleSubmitButtonClick={handleSubmitButtonClick}
+						isSubmitButtonDisabled
 					/>
 				)}
-
-				{preselectedAgencyData &&
-					consultingType?.registration.autoSelectPostcode && (
-						<PreselectedAgency
-							prefix={translate(
-								'registration.agency.preselected.prefix'
-							)}
-							agencyData={preselectedAgencyData}
-						/>
-					)}
-
-				{consultingType?.registration.autoSelectPostcode &&
-					!preselectedAgencyData && (
-						<div className="registrationForm__no-agency-found">
-							<Text
-								text={translate(
-									'registration.agencySelection.noAgencies'
-								)}
-								type="infoLargeAlternative"
-							/>
-						</div>
-					)}
-
-				<div className="registrationForm__dataProtection">
-					<Checkbox
-						item={checkboxItemDataProtection}
-						checkboxHandle={() =>
-							setIsDataProtectionSelected(
-								!isDataProtectionSelected
-							)
-						}
-						onKeyPress={(event) => {
-							if (event.key === 'Enter') {
-								setIsDataProtectionSelected(
-									!isDataProtectionSelected
-								);
-							}
-						}}
-					/>
-				</div>
-
-				<Button
-					className="registrationForm__submit"
-					item={buttonItemSubmit}
-					buttonHandle={handleSubmitButtonClick}
-					disabled={isSubmitButtonDisabled}
-				/>
 			</form>
 
 			{overlayActive && (

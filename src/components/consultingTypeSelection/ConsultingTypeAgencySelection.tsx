@@ -179,7 +179,7 @@ export const ConsultingTypeAgencySelection = ({
 						text={translate(
 							'registration.consultingTypeAgencySelection.consultingType.infoText'
 						)}
-						type="infoLargeAlternative"
+						type="infoMedium"
 					/>
 					<SelectDropdown
 						{...consultingTypeSelect}
@@ -195,7 +195,7 @@ export const ConsultingTypeAgencySelection = ({
 							text={translate(
 								'registration.consultingTypeAgencySelection.agency.infoText'
 							)}
-							type="infoLargeAlternative"
+							type="infoMedium"
 						/>
 					)}
 					<AgencySelection
