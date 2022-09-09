@@ -1,12 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import {
-	ComponentType,
-	ReactNode,
-	useContext,
-	useEffect,
-	useState
-} from 'react';
+import { ComponentType, ReactNode, useEffect, useState } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedApp } from './AuthenticatedApp';
@@ -21,7 +15,7 @@ import ErrorBoundary from './ErrorBoundary';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
-import { LegalLinkInterface, TenantContext } from '../../globalState';
+import { LegalLinkInterface } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
 
