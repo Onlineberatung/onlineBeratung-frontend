@@ -18,6 +18,8 @@ import { TenantThemingLoader } from './TenantThemingLoader';
 import { LegalLinkInterface } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
+import { apiGetTenantTheming } from '../../api/apiGetTenantTheming';
+import getLocationVariables from '../../utils/getLocationVariables';
 
 export const history = createBrowserHistory();
 
@@ -68,11 +70,26 @@ export const App = ({
 		history.push(entryPoint);
 	};
 
+	const { subdomain } = getLocationVariables();
+
 	useEffect(() => {
 		if (!isInitiallyLoaded && window.location.pathname === '/') {
 			activateInitialRedirect();
 		} else {
 			setIsInitiallyLoaded(true);
+			apiGetTenantTheming({ subdomain }).then((resp) => {
+				const ifrm = document.createElement('iframe');
+				ifrm.setAttribute(
+					'src',
+					`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${resp?.settings?.featureToolsOICDToken}`
+				);
+				ifrm.id = 'authIframe2';
+				ifrm.style.display = 'none';
+				document.body.appendChild(ifrm);
+				setTimeout(() => {
+					document.querySelector('#authIframe2').remove();
+				}, 2000);
+			});
 		}
 	}, []); // eslint-disable-line
 

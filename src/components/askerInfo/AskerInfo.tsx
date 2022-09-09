@@ -139,7 +139,7 @@ export const AskerInfo = () => {
 						<Box>
 							<AskerInfoData />
 						</Box>
-						{config.askerToolsLink && (
+						{config.budibaseSSO && (
 							<Box>
 								<AskerInfoTools />
 							</Box>
