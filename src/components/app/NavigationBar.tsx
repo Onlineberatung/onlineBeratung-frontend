@@ -18,7 +18,7 @@ import {
 	apiFinishAnonymousConversation,
 	apiGetAskerSessionList
 } from '../../api';
-import { userHasBudibaseTools } from '../../api/apiGetBudibaseTools';
+import { userHasBudibaseTools } from '../../api/apiGetTools';
 
 export interface NavigationBarProps {
 	onLogout: any;

@@ -9,12 +9,12 @@ import {
 import { ReactComponent as Info } from '../../resources/img/icons/i.svg';
 import { Text } from '../text/Text';
 import './askerInfoToolsOptions.styles';
-import { apiGetBudibaseTools } from '../../api/apiGetBudibaseTools';
+import { apiGetTools } from '../../api/apiGetTools';
 import { APIToolsInterface } from '../../globalState/interfaces/ToolsInterface';
 import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { Checkbox } from '../checkbox/Checkbox';
-import { apiPutBudibaseTools } from '../../api/apiPutBudibaseTools';
+import { apiPutTools } from '../../api/apiPutTools';
 
 interface AskerInfoToolsOptionsInterface {
 	askerId: string;
@@ -40,8 +40,7 @@ export const AskerInfoToolsOptions = (
 		if (fromModal) {
 			activeTools = infoAboutToolsModal
 				.filter(
-					(tool: APIToolsInterface) =>
-						tool.sharedWithAdviceSeeker === true
+					(tool: APIToolsInterface) => tool.sharedWithAdviceSeeker
 				)
 				.map((toolActive) => toolActive.toolId);
 			setSelectedToolsOptions(infoAboutToolsModal);
@@ -58,7 +57,7 @@ export const AskerInfoToolsOptions = (
 			activeTools = selected.map((tool) => tool.value);
 			updateSharedToolsModal(activeTools, false);
 		}
-		apiPutBudibaseTools(props.askerId, activeTools).catch(() => {
+		apiPutTools(props.askerId, activeTools).catch(() => {
 			setHasError(true);
 			setSelectedTools([]);
 			const resetTools = infoAboutToolsModal.map((tool) => {
@@ -204,13 +203,11 @@ export const AskerInfoToolsOptions = (
 
 	useEffect(() => {
 		if (props.askerId) {
-			apiGetBudibaseTools(props.askerId).then(
-				(resp: APIToolsInterface[]) => {
-					setAvailableToolsOptions(resp);
-					setSelectedToolsOptions(resp);
-					setInfoAboutToolsModal(resp);
-				}
-			);
+			apiGetTools(props.askerId).then((resp: APIToolsInterface[]) => {
+				setAvailableToolsOptions(resp);
+				setSelectedToolsOptions(resp);
+				setInfoAboutToolsModal(resp);
+			});
 		}
 	}, [props.askerId]); // eslint-disable-line react-hooks/exhaustive-deps
 

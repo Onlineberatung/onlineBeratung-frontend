@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { apiGetBudibaseTools } from '../../api/apiGetBudibaseTools';
+import { apiGetTools } from '../../api/apiGetTools';
 import { UserDataContext } from '../../globalState';
 import { APIToolsInterface } from '../../globalState/interfaces/ToolsInterface';
 import { translate } from '../../utils/translate';
@@ -26,7 +26,7 @@ export const ToolsList = () => {
 	}, []);
 
 	useEffect(() => {
-		apiGetBudibaseTools(userData.userId).then((resp: APIToolsInterface[]) =>
+		apiGetTools(userData.userId).then((resp: APIToolsInterface[]) =>
 			setToolsList(resp)
 		);
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps

@@ -1,7 +1,7 @@
 import { config } from '../resources/scripts/config';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 
-export const apiPutBudibaseTools = async (
+export const apiPutTools = async (
 	userId: string,
 	toolsIds: string[]
 ): Promise<any> => {
