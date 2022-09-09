@@ -74,23 +74,13 @@ export const App = ({
 		history.push(entryPoint);
 	};
 
-	const { tenant } = useContext(TenantContext);
-
 	useEffect(() => {
 		if (!isInitiallyLoaded && window.location.pathname === '/') {
 			activateInitialRedirect();
 		} else {
 			setIsInitiallyLoaded(true);
-			const ifrm = document.createElement('iframe');
-			ifrm.setAttribute(
-				'src',
-				`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${tenant?.settings?.featureToolsOICDToken}`
-			);
-			ifrm.id = 'authIframe2';
-			ifrm.style.display = 'none';
-			document.body.appendChild(ifrm);
 		}
-	}, [tenant]); // eslint-disable-line
+	}, []); // eslint-disable-line
 
 	return (
 		<ErrorBoundary>
