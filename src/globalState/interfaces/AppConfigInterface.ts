@@ -13,4 +13,6 @@ export interface AppConfigInterface {
 	useTenantService: boolean;
 	/** Feature flag to enable cluster settings from the api instead of the config file */
 	useApiClusterSettings: boolean;
+	/** When the Feature flag multiTenancyWithSingleDomainEnabled is used we need to know the main subdomain */
+	mainTenantSubdomainForSingleDomainMultitenancy?: string;
 }

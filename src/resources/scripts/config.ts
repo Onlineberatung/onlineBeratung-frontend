@@ -22,6 +22,7 @@ export const config = {
 	useMultiTenancyWithSingleDomain: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
 	useTenantService: false,
 	useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
+	mainTenantSubdomainForSingleDomainMultitenancy: 'app',
 
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',

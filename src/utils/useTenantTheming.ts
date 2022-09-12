@@ -235,7 +235,9 @@ const useTenantTheming = () => {
 			apiGetTenantTheming({
 				subdomain,
 				useMultiTenancyWithSingleDomain:
-					settings?.multiTenancyWithSingleDomainEnabled
+					settings?.multiTenancyWithSingleDomainEnabled,
+				mainTenantSubdomainForSingleDomain:
+					settings.mainTenantSubdomainForSingleDomainMultitenancy
 			}).then(({ settings }) => {
 				tenantContext?.setTenant({ settings } as any);
 				setIsLoadingTenant(false);
@@ -246,7 +248,9 @@ const useTenantTheming = () => {
 		apiGetTenantTheming({
 			subdomain,
 			useMultiTenancyWithSingleDomain:
-				settings?.multiTenancyWithSingleDomainEnabled
+				settings?.multiTenancyWithSingleDomainEnabled,
+			mainTenantSubdomainForSingleDomain:
+				settings.mainTenantSubdomainForSingleDomainMultitenancy
 		})
 			.then((tenant) => {
 				// ToDo: See VIC-428 + VIC-427
