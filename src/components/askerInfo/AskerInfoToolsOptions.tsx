@@ -83,6 +83,17 @@ export const AskerInfoToolsOptions = (
 				};
 			})
 		);
+		let toolsSelected = [];
+		toolsData.forEach((tool) => {
+			if (tool.sharedWithAdviceSeeker) {
+				toolsSelected.push({
+					value: tool.toolId,
+					label: tool.title
+				});
+			}
+		});
+		setSelectedTools(toolsSelected);
+		setInfoAboutToolsModal(toolsData);
 	};
 
 	const setSelectedToolsOptions = (toolsData: APIToolsInterface[]) => {
@@ -205,8 +216,6 @@ export const AskerInfoToolsOptions = (
 		if (props.askerId) {
 			apiGetTools(props.askerId).then((resp: APIToolsInterface[]) => {
 				setAvailableToolsOptions(resp);
-				setSelectedToolsOptions(resp);
-				setInfoAboutToolsModal(resp);
 			});
 		}
 	}, [props.askerId]); // eslint-disable-line react-hooks/exhaustive-deps
