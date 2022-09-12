@@ -1,14 +1,16 @@
 import { autoLogin } from '../components/registration/autoLogin';
 import { removeAllCookies } from '../components/sessionCookie/accessSessionCookie';
+import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 import { config } from '../resources/scripts/config';
+import { ensureTenantSettings } from '../utils/tenantHelpers';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from './fetchData';
 
 export const apiPostRegistration = (
 	url: string,
-	data: { agencyId?: string }
+	data: { agencyId?: string },
+	tenant?: TenantDataInterface
 ): Promise<any> => {
 	removeAllCookies(['useInformal']);
-
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.POST,
@@ -22,7 +24,8 @@ export const apiPostRegistration = (
 		autoLogin({
 			username: data['username'],
 			password: decodeURIComponent(data['password']),
-			redirect: false
+			redirect: false,
+			...ensureTenantSettings(tenant?.settings)
 		})
 	);
 };

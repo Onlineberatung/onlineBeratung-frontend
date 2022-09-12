@@ -58,6 +58,7 @@ import { history } from '../app/app';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
 import { RocketChatGlobalSettingsContext } from '../../globalState';
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
+import { ensureTenantSettings } from '../../utils/tenantHelpers';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -304,7 +305,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		autoLogin({
 			username: username,
 			password: password,
-			redirect: !consultant
+			redirect: !consultant,
+			...ensureTenantSettings(tenant?.settings)
 		})
 			.then(postLogin)
 			.catch((error) => {
@@ -338,7 +340,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 				username,
 				password,
 				redirect: !consultant,
-				otp
+				otp,
+				...ensureTenantSettings(tenant?.settings)
 			})
 				.then(postLogin)
 				.catch((error) => {
