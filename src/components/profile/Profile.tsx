@@ -46,6 +46,7 @@ import {
 	SingleComponentType,
 	TabGroups
 } from '../../utils/tabsHelper';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 interface ProfileProps {
 	legalLinks: Array<LegalLinkInterface>;
@@ -53,6 +54,7 @@ interface ProfileProps {
 }
 
 export const Profile = (props: ProfileProps) => {
+	const { settings } = useAppConfigContext();
 	const location = useLocation();
 	const consultingTypes = useConsultingTypes();
 	const { fromL } = useResponsive();
@@ -79,7 +81,7 @@ export const Profile = (props: ProfileProps) => {
 
 	useEffect(() => {
 		setMobileMenu(
-			profileRoutes
+			profileRoutes(settings)
 				.filter((tab) =>
 					solveTabConditions(tab, userData, consultingTypes)
 				)
@@ -119,7 +121,7 @@ export const Profile = (props: ProfileProps) => {
 					})
 				)
 		);
-	}, [consultingTypes, props.spokenLanguages, userData]);
+	}, [consultingTypes, props.spokenLanguages, settings, userData]);
 
 	const [subpage, setSubpage] = useState(undefined);
 	useEffect(() => {
@@ -187,7 +189,7 @@ export const Profile = (props: ProfileProps) => {
 					</div>
 					<div className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex__col--50p">
 						{fromL ? (
-							profileRoutes
+							profileRoutes(settings)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
@@ -231,7 +233,7 @@ export const Profile = (props: ProfileProps) => {
 					<Switch>
 						{fromL ? (
 							// Render tabs for desktop
-							profileRoutes
+							profileRoutes(settings)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
@@ -286,7 +288,7 @@ export const Profile = (props: ProfileProps) => {
 						) : (
 							// Render submenu for mobile
 							<Route
-								path={profileRoutes
+								path={profileRoutes(settings)
 									.filter((tab) =>
 										solveTabConditions(
 											tab,
@@ -305,7 +307,7 @@ export const Profile = (props: ProfileProps) => {
 
 						{!fromL &&
 							// Render groups as routes for mobile
-							profileRoutes
+							profileRoutes(settings)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
@@ -353,7 +355,9 @@ export const Profile = (props: ProfileProps) => {
 										);
 								})}
 
-						<Redirect to={`/profile${profileRoutes[0].url}`} />
+						<Redirect
+							to={`/profile${profileRoutes(settings)[0].url}`}
+						/>
 					</Switch>
 				</div>
 

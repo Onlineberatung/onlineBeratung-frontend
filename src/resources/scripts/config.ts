@@ -21,6 +21,7 @@ export const config = {
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	useMultiTenancyWithSingleDomain: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
 	useTenantService: false,
+	useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
 
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
@@ -139,6 +140,7 @@ export const config = {
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userData: apiUrl + '/service/users/data',
 		userSessionsListView: '/sessions/user/view',
+		serviceSettings: apiUrl + '/service/settings',
 		setAppointmentSuccessMessage:
 			apiUrl + '/service/messages/aliasWithContent/new',
 		userUpdateE2EKey: apiUrl + '/service/users/chat/e2e',

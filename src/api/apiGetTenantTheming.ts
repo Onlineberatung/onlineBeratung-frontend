@@ -5,10 +5,11 @@ import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterfa
 const MAIN_TENANT_SINGLE_DOMAIN = 'app';
 export const apiGetTenantTheming = async (params: {
 	subdomain: string;
+	useMultiTenancyWithSingleDomain: boolean;
 }): Promise<TenantDataInterface> =>
 	fetchData({
 		url: `${config.endpoints.tenantServiceBase}/public/${
-			config.useMultiTenancyWithSingleDomain
+			params.useMultiTenancyWithSingleDomain
 				? MAIN_TENANT_SINGLE_DOMAIN
 				: params.subdomain
 		}`,
