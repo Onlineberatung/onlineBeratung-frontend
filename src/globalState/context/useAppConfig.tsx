@@ -56,7 +56,6 @@ const useAppConfigContext = (): AppConfigContextInterface => {
 				...settings,
 				...(finalServerSettings as unknown as AppConfigInterface)
 			});
-			console.log({ ...settings, ...finalServerSettings });
 		},
 		[setNewSettings, settings]
 	);
