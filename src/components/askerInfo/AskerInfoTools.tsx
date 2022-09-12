@@ -29,7 +29,7 @@ export const AskerInfoTools = () => {
 		apiGetUserDataBySessionId(activeSession.item.id).then((resp) => {
 			setAskerId(resp.askerId);
 		});
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [activeSession?.item?.id, setAskerId]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<>

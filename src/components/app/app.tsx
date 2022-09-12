@@ -1,6 +1,12 @@
 import '../../polyfill';
 import * as React from 'react';
-import { ComponentType, ReactNode, useEffect, useState } from 'react';
+import {
+	ComponentType,
+	ReactNode,
+	useContext,
+	useEffect,
+	useState
+} from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedApp } from './AuthenticatedApp';
@@ -15,7 +21,7 @@ import ErrorBoundary from './ErrorBoundary';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
-import { LegalLinkInterface } from '../../globalState';
+import { LegalLinkInterface, TenantContext } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
 import { apiGetTenantTheming } from '../../api/apiGetTenantTheming';
@@ -72,24 +78,32 @@ export const App = ({
 
 	const { subdomain } = getLocationVariables();
 
+	const { tenant } = useContext(TenantContext);
+
+	const loginBudiBase = () => {
+		apiGetTenantTheming({ subdomain }).then((resp) => {
+			const ifrm = document.createElement('iframe');
+			ifrm.setAttribute(
+				'src',
+				`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${resp?.settings?.featureToolsOICDToken}`
+			);
+			ifrm.id = 'authIframe2';
+			ifrm.style.display = 'none';
+			document.body.appendChild(ifrm);
+			setTimeout(() => {
+				document.querySelector('#authIframe2').remove();
+			}, 2000);
+		});
+	};
+
 	useEffect(() => {
 		if (!isInitiallyLoaded && window.location.pathname === '/') {
 			activateInitialRedirect();
 		} else {
 			setIsInitiallyLoaded(true);
-			apiGetTenantTheming({ subdomain }).then((resp) => {
-				const ifrm = document.createElement('iframe');
-				ifrm.setAttribute(
-					'src',
-					`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${resp?.settings?.featureToolsOICDToken}`
-				);
-				ifrm.id = 'authIframe2';
-				ifrm.style.display = 'none';
-				document.body.appendChild(ifrm);
-				setTimeout(() => {
-					document.querySelector('#authIframe2').remove();
-				}, 2000);
-			});
+			if (tenant?.settings?.featureToolsEnabled) {
+				loginBudiBase();
+			}
 		}
 	}, []); // eslint-disable-line
 
