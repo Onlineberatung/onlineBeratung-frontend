@@ -5,6 +5,8 @@ export * from './interfaces/SessionsDataInterface';
 export * from './interfaces/UserDataInterface';
 export * from './interfaces/ConsultingTypeInterface';
 export * from './interfaces/LegalLinkInterface';
+export * from './interfaces/AppConfigInterface';
+export * from './interfaces/ServerAppConfigInterface';
 
 export * from './provider/AnonymousConversationFinishedProvider';
 export * from './provider/AnonymousEnquiryAcceptedProvider';
@@ -21,3 +23,4 @@ export * from './provider/WebsocketConnectionDeactivatedProvider';
 export * from './provider/TenantProvider';
 export * from './provider/RocketChatProvider';
 export * from './provider/RocketChatGlobalSettingsProvider';
+export * from './context/useAppConfig';
