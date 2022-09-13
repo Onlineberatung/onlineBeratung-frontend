@@ -408,7 +408,7 @@ export const config = {
 		resources: {
 			de: {
 				languages: {
-					en: '(DE) Englisch'
+					en: '(EN) Englisch'
 				}
 			},
 			en: {

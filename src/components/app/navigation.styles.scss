@@ -94,6 +94,10 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
 		&__language {
 			padding-bottom: $grid-base-two;
+			display: none;
+			@include breakpoint($fromLarge) {
+				display: block;
+			}
 		}
 
 		&__count {
