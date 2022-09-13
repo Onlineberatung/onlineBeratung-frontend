@@ -82,7 +82,6 @@ export const App = ({
 		history.push(entryPoint);
 	};
 	const { subdomain } = getLocationVariables();
-	const { settings } = useAppConfigContext();
 	const { tenant } = useContext(TenantContext);
 
 	const loginBudiBase = () => {
