@@ -102,10 +102,8 @@ $registration-form-headline-margin-bottom: 24px;
 	.select__wrapper {
 		padding: 0;
 		margin: 0;
-
-		.select__input {
-			width: 360px;
-		}
+		margin-right: 32px;
+		max-width: 535px;
 	}
 
 	.formWrapper__infoText {
@@ -114,5 +112,9 @@ $registration-form-headline-margin-bottom: 24px;
 				color: $tertiary;
 			}
 		}
+	}
+
+	.select__content {
+		margin-right: 32px;
 	}
 }

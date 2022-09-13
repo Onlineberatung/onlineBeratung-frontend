@@ -1,15 +1,11 @@
 const registrationInformal = {
 	'agency.preselected.prefix': 'Deine vorausgewählte Beratungsstelle: ',
 	'agency.preselected.isTeam': 'Du wirst von einem Team beraten.',
-	'username.headline': 'Benutzernamen wählen',
 	'consultingType.preselected.prefix': 'Dein vorausgewähltes Themenfeld: ',
 	'user.infoText':
 		'Um Deine Anonymität zu schützen, raten wir Dir nicht Deinen tatsächlichen Namen oder Initialien zu verwenden.<br>Wähle bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 	'user.suitable': 'Dein Benutzername ist geeignet.',
 	'user.unsuitable': 'Dein Benutzername ist zu kurz.',
-	'agency.headline': 'Beratungsstelle wählen',
-	'agencySelection.headline':
-		'Bitte wähle eine Beratungsstelle in Deiner Nähe',
 	'agencySelection.intro.overline':
 		'Warum hilft Dir auch online eine Beratungsstelle in Deiner Nähe?',
 	'agencySelection.intro.point3':
@@ -41,8 +37,6 @@ const registrationInformal = {
 	'password.notSame': 'Dein Passwort ist nicht identisch.',
 	'password.intro':
 		'Um eine geschützte Beratung zu garantieren, muss Dein Passwort die folgenden Kriterien erfüllen:',
-	'age.headline': 'Alter angeben',
-	'state.headline': 'Bundesland angeben',
 	'mainTopic.headline':
 		'Welches dieser Problemfelder ist für Dich aktuell am Wichtigsten?',
 	'mainTopic.noTopics':

@@ -44,8 +44,8 @@ $form-accordion-item-input-margin-left: 0 !default;
 		position: absolute;
 		top: $grid-base-four;
 		right: 0;
-		height: $grid-base-two;
-		width: $grid-base-two;
+		height: 24px;
+		width: 24px;
 
 		&--valid {
 			fill: $form-success;
@@ -58,7 +58,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 
 	&__content {
 		display: none;
-		margin-bottom: $grid-base-three;
+		margin-bottom: $grid-base-four;
 		align-items: center;
 
 		.text,
@@ -74,10 +74,9 @@ $form-accordion-item-input-margin-left: 0 !default;
 		.inputField,
 		.consultingTypeSelection__possibleConsultingTypes .select__wrapper,
 		.consultingTypeSelection__possibleConsultingTypes + .agencySelection {
-			margin-top: $grid-base-three;
+			margin-top: $grid-base-two;
 			margin-right: $form-accordion-item-input-margin-right;
 			margin-left: $form-accordion-item-input-margin-left;
-			max-width: 360px;
 		}
 	}
 
@@ -92,10 +91,14 @@ $form-accordion-item-input-margin-left: 0 !default;
 		margin-top: $grid-base-two;
 		margin-right: 32px;
 
+		@include breakpoint($fromMedium) {
+			margin-right: 0;
+		}
+
 		.button__item {
 			min-width: 100px;
 			width: 100%;
-			max-width: 360px;
+			max-width: 535px;
 			@include breakpoint($fromMedium) {
 				width: 0px;
 			}

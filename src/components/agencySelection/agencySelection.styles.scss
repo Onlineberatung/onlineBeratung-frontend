@@ -4,7 +4,6 @@ $infoIconSize: 16px;
 .agencySelection {
 	position: relative;
 	animation: fadeIn linear 0.2s;
-	margin: 0 auto $grid-base-four;
 
 	&__intro {
 		> .text__infoLargeAlternative {
@@ -63,17 +62,28 @@ $infoIconSize: 16px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		position: relative;
 		padding: 12px 0;
 
 		.radioButton {
 			flex-basis: calc(100% - #{$infoIconSize + 1px});
 			min-height: unset;
 			padding: 4px 0 4px 4px;
+
+			&__label {
+				font-size: 16px;
+			}
+
+			&__contentWrapper {
+				align-items: center;
+			}
 		}
 
 		&:not(:last-of-type) {
 			border-bottom: 1px solid $black-10-opacity;
+		}
+
+		&__container {
+			display: flex;
 		}
 	}
 

@@ -354,23 +354,27 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											key={index}
 											className="agencySelection__proposedAgency"
 										>
-											<RadioButton
-												name="agencySelection"
-												handleRadioButton={() =>
-													setSelectedAgency(agency)
-												}
-												type="smaller"
-												value={agency.id.toString()}
-												checked={index === 0}
-												inputId={agency.id.toString()}
-												label={agency.name}
-											/>
-											<AgencyInfo
-												agency={agency}
-												isProfileView={
-													props.isProfileView
-												}
-											/>
+											<div className="agencySelection__proposedAgency__container">
+												<RadioButton
+													name="agencySelection"
+													handleRadioButton={() =>
+														setSelectedAgency(
+															agency
+														)
+													}
+													type="smaller"
+													value={agency.id.toString()}
+													checked={index === 0}
+													inputId={agency.id.toString()}
+													label={agency.name}
+												/>
+												<AgencyInfo
+													agency={agency}
+													isProfileView={
+														props.isProfileView
+													}
+												/>
+											</div>
 											<AgencyLanguages
 												agencyId={agency.id}
 											/>
