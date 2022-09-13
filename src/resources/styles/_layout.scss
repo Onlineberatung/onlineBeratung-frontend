@@ -47,6 +47,10 @@ hr {
 
 	&:hover {
 		color: var(--skin-color-primary-contrast-safe, $hover-primary);
+		.formAccordionItem__index {
+			border: 1px solid $hover-primary;
+			color: var(--skin-color-primary-hover, $hover-primary);
+		}
 	}
 }
 
