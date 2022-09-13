@@ -54,7 +54,7 @@ const registration = {
 	'consultingTypeAgencySelection.agency.infoText':
 		'Ihr_e Berater_in ist in mehreren Beratungsstellen tätig. Bitte wählen Sie Ihre gewünschte Beratungsstelle.',
 
-	'password.headline': 'Bitte wählen Sie Ihr Passwort',
+	'password.headline': 'Passwort wählen',
 	'password.input.label': 'Passwort',
 	'password.confirmation.label': 'Passwort wiederholen',
 	'password.secure': 'Ihr Passwort ist sicher.',

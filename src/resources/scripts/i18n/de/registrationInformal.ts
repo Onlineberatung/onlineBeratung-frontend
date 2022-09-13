@@ -29,8 +29,6 @@ const registrationInformal = {
 		'Bitte wähle eine Beratungsstelle',
 	'consultingTypeAgencySelection.agency.infoText':
 		'Dein_e Berater_in ist in mehreren Beratungsstellen tätig. Bitte wähle Deine gewünschte Beratungsstelle.',
-
-	'password.headline': 'Passwort wählen',
 	'password.secure': 'Dein Passwort ist sicher.',
 	'password.insecure': 'Dein Passwort ist nicht sicher.',
 	'password.same': 'Dein Passwort ist identisch.',
