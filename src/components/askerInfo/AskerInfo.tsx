@@ -32,7 +32,6 @@ import {
 	mobileUserProfileView
 } from '../app/navigationHandler';
 import { AskerInfoTools } from './AskerInfoTools';
-import { config } from '../../resources/scripts/config';
 import { Box } from '../box/Box';
 
 export const AskerInfo = () => {
