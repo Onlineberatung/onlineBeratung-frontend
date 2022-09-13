@@ -1568,7 +1568,7 @@ export const de = {
 				specialChar: 'mindestens ein Sonderzeichen',
 				length: 'mindestens 9 Zeichen'
 			},
-			'headline': 'Bitte wählen Sie Ihr Passwort',
+			'headline': 'Passwort wählen',
 			'input.label': 'Passwort',
 			'insecure': 'Ihr Passwort ist nicht sicher.',
 			'intro':

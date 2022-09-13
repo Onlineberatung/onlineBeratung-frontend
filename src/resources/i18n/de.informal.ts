@@ -336,7 +336,6 @@ export const deInformal = {
 			'preselected.prefix': 'Deine vorausgewählte Beratungsstelle: ',
 			'preselected.isTeam': 'Du wirst von einem Team beraten.'
 		},
-		'username.headline': 'Bitte wähle Deinen Benutzernamen',
 		'consultingType.preselected.prefix':
 			'Dein vorausgewähltes Themenfeld: ',
 		'user': {
@@ -346,7 +345,6 @@ export const deInformal = {
 			unsuitable: 'Dein Benutzername ist zu kurz.'
 		},
 		'agencySelection': {
-			headline: 'Bitte wähle eine Beratungsstelle in Deiner Nähe',
 			intro: {
 				overline:
 					'Warum hilft Dir auch online eine Beratungsstelle in Deiner Nähe?',
@@ -383,18 +381,11 @@ export const deInformal = {
 			}
 		},
 		'password': {
-			headline: 'Bitte wähle Dein Passwort',
 			secure: 'Dein Passwort ist sicher.',
 			insecure: 'Dein Passwort ist nicht sicher.',
 			same: 'Dein Passwort ist identisch.',
 			notSame: 'Dein Passwort ist nicht identisch.',
 			intro: 'Um eine geschützte Beratung zu garantieren, muss Dein Passwort die folgenden Kriterien erfüllen:'
-		},
-		'age': {
-			headline: 'Bitte teile uns Dein Alter mit'
-		},
-		'state': {
-			headline: 'Bitte teile uns mit in welchem Bundesland Du wohnst'
 		},
 		'mainTopic': {
 			headline:
