@@ -23,6 +23,8 @@ import { requestPermissions } from '../../utils/notificationHelpers';
 import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
 import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
+import { apiServerSettings } from '../../api/apiServerSettings';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -37,6 +39,7 @@ export const AuthenticatedApp = ({
 	spokenLanguages,
 	legalLinks
 }: AuthenticatedAppProps) => {
+	const { settings, setServerSettings } = useAppConfigContext();
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
 
@@ -60,17 +63,28 @@ export const AuthenticatedApp = ({
 			setUserDataRequested(true);
 			handleTokenRefresh(false)
 				.then(() => {
-					Promise.all([apiGetUserData(), apiGetConsultingTypes()])
-						.then(([userProfileData, consultingTypes]) => {
-							// set informal / formal cookie depending on the given userdata
-							setValueInCookie(
-								'useInformal',
-								!userProfileData.formalLanguage ? '1' : ''
-							);
-							setUserData(userProfileData);
-							setConsultingTypes(consultingTypes);
-							setAppReady(true);
-						})
+					Promise.all([
+						apiGetUserData(),
+						apiGetConsultingTypes(),
+						settings.useApiClusterSettings && apiServerSettings()
+					])
+						.then(
+							([
+								userProfileData,
+								consultingTypes,
+								serverSettings
+							]) => {
+								// set informal / formal cookie depending on the given userdata
+								setValueInCookie(
+									'useInformal',
+									!userProfileData.formalLanguage ? '1' : ''
+								);
+								setUserData(userProfileData);
+								setConsultingTypes(consultingTypes);
+								setServerSettings(serverSettings || {});
+								setAppReady(true);
+							}
+						)
 						.catch((error) => {
 							setLoading(false);
 							console.log(error);
@@ -80,7 +94,13 @@ export const AuthenticatedApp = ({
 					setLoading(false);
 				});
 		}
-	}, [userDataRequested, setUserData, setConsultingTypes]);
+	}, [
+		userDataRequested,
+		setUserData,
+		setConsultingTypes,
+		settings.useApiClusterSettings,
+		setServerSettings
+	]);
 
 	useEffect(() => {
 		onAppReady();

@@ -11,6 +11,7 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	SessionTypeContext,
+	useAppConfigContext,
 	UserDataContext
 } from '../../globalState';
 import { history } from '../app/app';
@@ -35,6 +36,7 @@ import { config } from '../../resources/scripts/config';
 import { Box } from '../box/Box';
 
 export const AskerInfo = () => {
+	const { settings } = useAppConfigContext();
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
@@ -139,7 +141,7 @@ export const AskerInfo = () => {
 						<Box>
 							<AskerInfoData />
 						</Box>
-						{config.budibaseSSO && (
+						{settings.budibaseSSO && (
 							<Box>
 								<AskerInfoTools />
 							</Box>

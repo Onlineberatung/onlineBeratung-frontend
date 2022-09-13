@@ -59,6 +59,7 @@ import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMai
 import { RocketChatGlobalSettingsContext } from '../../globalState';
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -73,6 +74,7 @@ interface LoginProps {
 export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
+	const { settings } = useAppConfigContext();
 
 	const hasTenant = tenant != null;
 
@@ -306,7 +308,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 			username: username,
 			password: password,
 			redirect: !consultant,
-			...ensureTenantSettings(tenant?.settings)
+			...ensureTenantSettings(tenant?.settings, settings.budibaseSSO),
+			enableBudibaseSSO: settings.budibaseSSO
 		})
 			.then(postLogin)
 			.catch((error) => {
@@ -341,7 +344,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 				password,
 				redirect: !consultant,
 				otp,
-				...ensureTenantSettings(tenant?.settings)
+				enableBudibaseSSO: settings.budibaseSSO,
+				...ensureTenantSettings(tenant?.settings, settings.budibaseSSO)
 			})
 				.then(postLogin)
 				.catch((error) => {
