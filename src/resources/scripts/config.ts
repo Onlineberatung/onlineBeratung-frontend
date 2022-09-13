@@ -15,7 +15,7 @@ export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
 export const APP_PATH = 'app';
 
 export const config = {
-	budibaseSSO: true, // Feature flag to enable SSO on budibase
+	budibaseSSO: false, // Feature flag to enable SSO on budibase
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
@@ -164,7 +164,7 @@ export const config = {
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		releases: uiUrl + '/releases',
-		budibaseDevServer: 'https://budibase-dev.suchtberatung.digital',
+		budibaseDevServer: '',
 		appointmentServiceDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',

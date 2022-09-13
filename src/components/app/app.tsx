@@ -1,6 +1,12 @@
 import '../../polyfill';
 import * as React from 'react';
-import { ComponentType, ReactNode, useEffect, useState } from 'react';
+import {
+	ComponentType,
+	ReactNode,
+	useCallback,
+	useEffect,
+	useState
+} from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedApp } from './AuthenticatedApp';
@@ -71,33 +77,42 @@ export const App = ({
 		setIsInitiallyLoaded(true);
 		history.push(entryPoint);
 	};
-
 	const { subdomain } = getLocationVariables();
+
+	const loginBudiBase = useCallback(() => {
+		apiGetTenantTheming({
+			subdomain,
+			useMultiTenancyWithSingleDomain:
+				settings?.multiTenancyWithSingleDomainEnabled,
+			mainTenantSubdomainForSingleDomain:
+				settings.mainTenantSubdomainForSingleDomainMultitenancy
+		}).then((resp) => {
+			const ifrm = document.createElement('iframe');
+			ifrm.setAttribute(
+				'src',
+				`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${resp?.settings?.featureToolsOICDToken}`
+			);
+			ifrm.id = 'authIframe2';
+			ifrm.style.display = 'none';
+			document.body.appendChild(ifrm);
+			setTimeout(() => {
+				document.querySelector('#authIframe2').remove();
+			}, 5000);
+		});
+	}, [
+		settings.mainTenantSubdomainForSingleDomainMultitenancy,
+		settings?.multiTenancyWithSingleDomainEnabled,
+		subdomain
+	]);
 
 	useEffect(() => {
 		if (!isInitiallyLoaded && window.location.pathname === '/') {
 			activateInitialRedirect();
 		} else {
 			setIsInitiallyLoaded(true);
-			apiGetTenantTheming({
-				subdomain,
-				useMultiTenancyWithSingleDomain:
-					settings?.multiTenancyWithSingleDomainEnabled,
-				mainTenantSubdomainForSingleDomain:
-					settings.mainTenantSubdomainForSingleDomainMultitenancy
-			}).then((resp) => {
-				const ifrm = document.createElement('iframe');
-				ifrm.setAttribute(
-					'src',
-					`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${resp?.settings?.featureToolsOICDToken}`
-				);
-				ifrm.id = 'authIframe2';
-				ifrm.style.display = 'none';
-				document.body.appendChild(ifrm);
-				setTimeout(() => {
-					document.querySelector('#authIframe2').remove();
-				}, 2000);
-			});
+			if (settings.budibaseSSO) {
+				loginBudiBase();
+			}
 		}
 	}, []); // eslint-disable-line
 

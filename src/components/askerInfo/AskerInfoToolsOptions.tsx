@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { translate } from '../../utils/translate';
 import {
 	SelectDropdown,
@@ -32,84 +32,131 @@ export const AskerInfoToolsOptions = (
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [hasError, setHasError] = useState<boolean>(false);
 
-	const updateTools = (
-		fromModal: boolean,
-		selectedOption?: SelectOptionsMulti
-	) => {
-		let activeTools: string[];
-		if (fromModal) {
-			activeTools = infoAboutToolsModal
-				.filter(
-					(tool: APIToolsInterface) => tool.sharedWithAdviceSeeker
-				)
-				.map((toolActive) => toolActive.toolId);
-			setSelectedToolsOptions(infoAboutToolsModal);
-		} else {
-			let selected = [];
-			if (selectedOption.removedValue) {
-				selected = selectedTools.filter(
-					(tool) => tool.value !== selectedOption.removedValue.value
+	const updateSharedToolsModal = useCallback(
+		(e, fromModal: boolean) => {
+			let updatedToolsModal = [];
+			if (fromModal) {
+				updatedToolsModal = infoAboutToolsModal.map((tool) =>
+					e.id === tool.toolId
+						? {
+								...tool,
+								sharedWithAdviceSeeker:
+									!tool.sharedWithAdviceSeeker
+						  }
+						: tool
 				);
-			} else if (selectedOption.option) {
-				selected = [...selectedTools, selectedOption.option];
+			} else {
+				updatedToolsModal = infoAboutToolsModal.map((tool) =>
+					e.includes(tool.toolId)
+						? {
+								...tool,
+								sharedWithAdviceSeeker: true
+						  }
+						: {
+								...tool,
+								sharedWithAdviceSeeker: false
+						  }
+				);
 			}
-			setSelectedTools(selected);
-			activeTools = selected.map((tool) => tool.value);
-			updateSharedToolsModal(activeTools, false);
-		}
-		apiPutTools(props.askerId, activeTools).catch(() => {
-			setHasError(true);
-			setSelectedTools([]);
-			const resetTools = infoAboutToolsModal.map((tool) => {
-				return {
-					...tool,
-					sharedWithAdviceSeeker: false
-				};
+			setInfoAboutToolsModal(updatedToolsModal);
+		},
+		[infoAboutToolsModal]
+	);
+
+	const setSelectedToolsOptions = useCallback(
+		(toolsData: APIToolsInterface[]) => {
+			let toolsSelected = [];
+			toolsData.forEach((tool) => {
+				if (tool.sharedWithAdviceSeeker) {
+					toolsSelected.push({
+						value: tool.toolId,
+						label: tool.title
+					});
+				}
 			});
-			setInfoAboutToolsModal(resetTools);
-		});
-	};
+			setSelectedTools(toolsSelected);
+		},
+		[]
+	);
 
-	const selectHandler = (selectedOption: SelectOptionsMulti) => {
-		updateTools(false, selectedOption);
-	};
-
-	const setAvailableToolsOptions = (toolsData: APIToolsInterface[]) => {
-		setAvailableTools(
-			toolsData.map((tool) => {
-				return {
-					value: tool.toolId,
-					label: tool.title
-				};
-			})
-		);
-		let toolsSelected = [];
-		toolsData.forEach((tool) => {
-			if (tool.sharedWithAdviceSeeker) {
-				toolsSelected.push({
-					value: tool.toolId,
-					label: tool.title
-				});
+	const updateTools = useCallback(
+		(fromModal: boolean, selectedOption?: SelectOptionsMulti) => {
+			let activeTools: string[];
+			if (fromModal) {
+				activeTools = infoAboutToolsModal
+					.filter(
+						(tool: APIToolsInterface) => tool.sharedWithAdviceSeeker
+					)
+					.map((toolActive) => toolActive.toolId);
+				setSelectedToolsOptions(infoAboutToolsModal);
+			} else {
+				let selected = [];
+				if (selectedOption.removedValue) {
+					selected = selectedTools.filter(
+						(tool) =>
+							tool.value !== selectedOption.removedValue.value
+					);
+				} else if (selectedOption.option) {
+					selected = [...selectedTools, selectedOption.option];
+				}
+				setSelectedTools(selected);
+				activeTools = selected.map((tool) => tool.value);
+				updateSharedToolsModal(activeTools, false);
 			}
-		});
-		setSelectedTools(toolsSelected);
-		setInfoAboutToolsModal(toolsData);
-	};
-
-	const setSelectedToolsOptions = (toolsData: APIToolsInterface[]) => {
-		let toolsSelected = [];
-		toolsData.forEach((tool) => {
-			if (tool.sharedWithAdviceSeeker) {
-				toolsSelected.push({
-					value: tool.toolId,
-					label: tool.title
+			apiPutTools(props.askerId, activeTools).catch(() => {
+				setHasError(true);
+				setSelectedTools([]);
+				const resetTools = infoAboutToolsModal.map((tool) => {
+					return {
+						...tool,
+						sharedWithAdviceSeeker: false
+					};
 				});
-			}
-		});
-		setSelectedTools(toolsSelected);
-	};
+				setInfoAboutToolsModal(resetTools);
+			});
+		},
+		[
+			infoAboutToolsModal,
+			props.askerId,
+			selectedTools,
+			setSelectedToolsOptions,
+			updateSharedToolsModal
+		]
+	);
 
-	const resetToolsAfterCloseModal = () => {
+	const selectHandler = useCallback(
+		(selectedOption: SelectOptionsMulti) => {
+			updateTools(false, selectedOption);
+		},
+		[updateTools]
+	);
+
+	const setAvailableToolsOptions = useCallback(
+		(toolsData: APIToolsInterface[]) => {
+			setAvailableTools(
+				toolsData.map((tool) => {
+					return {
+						value: tool.toolId,
+						label: tool.title
+					};
+				})
+			);
+			let toolsSelected = [];
+			toolsData.forEach((tool) => {
+				if (tool.sharedWithAdviceSeeker) {
+					toolsSelected.push({
+						value: tool.toolId,
+						label: tool.title
+					});
+				}
+			});
+			setSelectedTools(toolsSelected);
+			setInfoAboutToolsModal(toolsData);
+		},
+		[]
+	);
+
+	const resetToolsAfterCloseModal = useCallback(() => {
 		const activeTools = selectedTools.map((tool) => tool.value);
 		const resetTools = infoAboutToolsModal.map((tool) => {
 			return activeTools.includes(tool.toolId)
@@ -124,46 +171,22 @@ export const AskerInfoToolsOptions = (
 		});
 		setInfoAboutToolsModal(resetTools);
 		setShowModal(false);
-	};
+	}, [infoAboutToolsModal, selectedTools]);
 
-	const handleOverlayAction = (buttonFunction: string) => {
-		switch (buttonFunction) {
-			case OVERLAY_FUNCTIONS.CONFIRM_EDIT:
-				updateTools(true);
-				setShowModal(false);
-				break;
-			case OVERLAY_FUNCTIONS.CLOSE:
-				resetToolsAfterCloseModal();
-				break;
-		}
-	};
-
-	const updateSharedToolsModal = (e, fromModal: boolean) => {
-		let updatedToolsModal = [];
-		if (fromModal) {
-			updatedToolsModal = infoAboutToolsModal.map((tool) =>
-				e.id === tool.toolId
-					? {
-							...tool,
-							sharedWithAdviceSeeker: !tool.sharedWithAdviceSeeker
-					  }
-					: tool
-			);
-		} else {
-			updatedToolsModal = infoAboutToolsModal.map((tool) =>
-				e.includes(tool.toolId)
-					? {
-							...tool,
-							sharedWithAdviceSeeker: true
-					  }
-					: {
-							...tool,
-							sharedWithAdviceSeeker: false
-					  }
-			);
-		}
-		setInfoAboutToolsModal(updatedToolsModal);
-	};
+	const handleOverlayAction = useCallback(
+		(buttonFunction: string) => {
+			switch (buttonFunction) {
+				case OVERLAY_FUNCTIONS.CONFIRM_EDIT:
+					updateTools(true);
+					setShowModal(false);
+					break;
+				case OVERLAY_FUNCTIONS.CLOSE:
+					resetToolsAfterCloseModal();
+					break;
+			}
+		},
+		[resetToolsAfterCloseModal, updateTools]
+	);
 
 	useEffect(() => {
 		const overlayContent = (
