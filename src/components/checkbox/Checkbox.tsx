@@ -9,6 +9,7 @@ export interface CheckboxItem {
 	labelClass?: string;
 	label: string;
 	value?: string;
+	description?: string;
 	checked: boolean;
 }
 
@@ -45,7 +46,11 @@ export const Checkbox = (props) => {
 				className={`checkbox__label ${checkboxItem.labelClass}`}
 				htmlFor={checkboxItem.inputId}
 				dangerouslySetInnerHTML={{
-					__html: checkboxItem.label
+					__html: `${checkboxItem.label}${
+						checkboxItem.description
+							? `<br>${checkboxItem.description}`
+							: ''
+					}`
 				}}
 			/>
 		</div>

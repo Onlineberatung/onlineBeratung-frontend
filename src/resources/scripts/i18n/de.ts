@@ -30,6 +30,7 @@ import session from './de/session';
 import user from './de/user';
 import sessionList from './de/sessionList';
 import statusOverlay from './de/statusOverlay';
+import tools from './de/tools';
 import twoFactorAuth from './de/twoFactorAuth';
 import typingIndicator from './de/typingIndicator';
 import userProfile from './de/userProfile';
@@ -73,6 +74,7 @@ const de = {
 	session,
 	sessionList,
 	statusOverlay,
+	tools,
 	twoFactorAuth,
 	typingIndicator,
 	user,
