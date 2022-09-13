@@ -21,7 +21,11 @@ import ErrorBoundary from './ErrorBoundary';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
-import { LegalLinkInterface, TenantContext } from '../../globalState';
+import {
+	LegalLinkInterface,
+	TenantContext,
+	useAppConfigContext
+} from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
 import { apiGetTenantTheming } from '../../api/apiGetTenantTheming';
@@ -75,13 +79,18 @@ export const App = ({
 		setIsInitiallyLoaded(true);
 		history.push(entryPoint);
 	};
-
 	const { subdomain } = getLocationVariables();
-
+	const { settings } = useAppConfigContext();
 	const { tenant } = useContext(TenantContext);
 
 	const loginBudiBase = () => {
-		apiGetTenantTheming({ subdomain }).then((resp) => {
+		apiGetTenantTheming({
+			subdomain,
+			useMultiTenancyWithSingleDomain:
+				settings?.multiTenancyWithSingleDomainEnabled,
+			mainTenantSubdomainForSingleDomain:
+				settings.mainTenantSubdomainForSingleDomainMultitenancy
+		}).then((resp) => {
 			const ifrm = document.createElement('iframe');
 			ifrm.setAttribute(
 				'src',
