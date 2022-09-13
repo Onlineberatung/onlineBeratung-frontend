@@ -7,7 +7,7 @@ export let apiUrl = '';
 if (apiUrlEnv) {
 	apiUrl = apiUrlEnv;
 	if (!apiUrl.startsWith('http://') && !apiUrl.startsWith('https://')) {
-		apiUrl = 'http://' + apiUrl;
+		apiUrl = 'https://' + apiUrl;
 	}
 }
 
@@ -54,6 +54,8 @@ export const config = {
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
 		banUser: (rcUserId, chatId) =>
 			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
+		budibaseTools: (userId: string) =>
+			apiUrl + `/service/counselingtoolsservice/tools/${userId}`,
 		chatRoom: apiUrl + '/service/users/chat/room',
 		consultantEnquiriesBase:
 			apiUrl + '/service/conversations/consultants/enquiries/',
@@ -126,7 +128,6 @@ export const config = {
 		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
-		updateMessage: apiUrl + '/service/messages/',
 		sessionBase: apiUrl + '/service/users/sessions',
 		sessionRooms: apiUrl + '/service/users/sessions/room',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
@@ -138,8 +139,11 @@ export const config = {
 		twoFactorAuth: apiUrl + '/service/users/2fa',
 		twoFactorAuthApp: apiUrl + '/service/users/2fa/app',
 		twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
+		updateMessage: apiUrl + '/service/messages/',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userData: apiUrl + '/service/users/data',
+		userDataBySessionId: (sessionId: number) =>
+			apiUrl + `/service/users/consultants/sessions/${sessionId}`,
 		userSessionsListView: '/sessions/user/view',
 		serviceSettings: apiUrl + '/service/settings',
 		setAppointmentSuccessMessage:
