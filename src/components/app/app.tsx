@@ -91,7 +91,7 @@ export const App = ({
 			document.body.appendChild(ifrm);
 			setTimeout(() => {
 				document.querySelector('#authIframe2').remove();
-			}, 2000);
+			}, 5000);
 		});
 	};
 
