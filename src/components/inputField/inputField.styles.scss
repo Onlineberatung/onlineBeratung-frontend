@@ -45,6 +45,7 @@
 			font-size: 12px;
 			top: 3px;
 			transition: font-size 0.5s, top 0.5s;
+			color: rgba(0, 0, 0, 0.65);
 		}
 
 		&[disabled] {
@@ -61,11 +62,7 @@
 			border: 1px solid $form-disabled;
 			color: $form-disabled;
 
-			& + label {
-				color: $form-disabled;
-			}
-
-			&:hover,
+			fromMedium &:hover,
 			&:focus {
 				cursor: not-allowed;
 				border: 1px solid $form-disabled !important;
@@ -78,11 +75,6 @@
 
 		&--valid {
 			border: 2px solid $form-success !important;
-			color: $form-success;
-
-			& + label {
-				color: $form-success;
-			}
 		}
 
 		/* TODO: check if --error state still needed (class added in warningLabels.ts) */
@@ -107,7 +99,8 @@
 		top: 15px;
 		left: $grid-base-three;
 		transition: font-size 0.5s, top 0.5s;
-		color: $tertiary;
+		color: rgba(0, 0, 0, 0.4);
+		line-height: 18px;
 	}
 
 	&__infoText {

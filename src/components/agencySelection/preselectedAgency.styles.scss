@@ -18,6 +18,13 @@ $infoIconSize: 16px;
 
 		.radioButton {
 			min-height: unset;
+			&__label {
+				font-size: 16px;
+			}
+
+			&__contentWrapper {
+				align-items: center;
+			}
 		}
 
 		.agencyLanguages {

@@ -51,6 +51,8 @@ interface FormAccordionProps {
 	legalLinks: Array<LegalLinkInterface>;
 	handleSubmitButtonClick: Function;
 	isSubmitButtonDisabled: boolean;
+	setIsDataProtectionSelected: Function;
+	isDataProtectionSelected: boolean;
 }
 
 export const FormAccordion = ({
@@ -67,12 +69,12 @@ export const FormAccordion = ({
 	mainTopicId,
 	legalLinks,
 	handleSubmitButtonClick,
-	isSubmitButtonDisabled
+	isSubmitButtonDisabled,
+	setIsDataProtectionSelected,
+	isDataProtectionSelected
 }: FormAccordionProps) => {
 	const [activeItem, setActiveItem] = useState<number>(1);
 	const [agency, setAgency] = useState<AgencyDataInterface>();
-	const [isDataProtectionSelected, setIsDataProtectionSelected] =
-		useState(false);
 	const tenantData = useTenant();
 	const topicsAreRequired =
 		tenantData?.settings?.topicsInRegistrationEnabled &&
@@ -88,7 +90,8 @@ export const FormAccordion = ({
 			? VALIDITY_INITIAL
 			: VALIDITY_VALID,
 		mainTopic: topicsAreRequired ? VALIDITY_INITIAL : VALIDITY_VALID,
-		agency: VALIDITY_INITIAL
+		agency: VALIDITY_INITIAL,
+		dataProtection: VALIDITY_INITIAL
 	});
 
 	useEffect(() => {
@@ -129,6 +132,14 @@ export const FormAccordion = ({
 			setActiveItem(1);
 		}
 	}, [isUsernameAlreadyInUse]);
+
+	useEffect(() => {
+		if (isDataProtectionSelected) {
+			handleValidity('dataProtection', VALIDITY_VALID);
+		} else {
+			handleValidity('dataProtection', VALIDITY_INITIAL);
+		}
+	}, [isDataProtectionSelected]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleKeyDown = (e, isLastInput = true, isFirstInput = true) => {
 		if (
@@ -353,9 +364,10 @@ export const FormAccordion = ({
 				<PreselectedAgency
 					prefix={translate('registration.agency.preselected.prefix')}
 					agencyData={preselectedAgencyData}
+					onKeyDown={handleKeyDown}
 				/>
 			),
-			isValid: validity.state
+			isValid: validity.agency
 		});
 	}
 
@@ -366,16 +378,19 @@ export const FormAccordion = ({
 		accordionItemData.push({
 			title: translate('registration.agency.headline'),
 			nestedComponent: (
-				<div className="registrationForm__no-agency-found">
+				<div
+					className="registrationForm__no-agency-found"
+					onKeyDown={handleKeyDown}
+				>
 					<Text
 						text={translate(
 							'registration.agencySelection.noAgencies'
 						)}
-						type="infoLargeAlternative"
+						type="infoMedium"
 					/>
 				</div>
 			),
-			isValid: validity.state
+			isValid: VALIDITY_VALID
 		});
 	}
 
@@ -383,7 +398,10 @@ export const FormAccordion = ({
 		title: translate('registration.form.title'),
 		nestedComponent: (
 			<div>
-				<div className="registrationForm__dataProtection">
+				<div
+					className="registrationForm__dataProtection"
+					onKeyDown={handleKeyDown}
+				>
 					<Checkbox
 						item={checkboxItemDataProtection}
 						checkboxHandle={() =>
@@ -409,7 +427,7 @@ export const FormAccordion = ({
 				/>
 			</div>
 		),
-		isValid: validity.state
+		isValid: validity.dataProtection
 	});
 
 	const handleItemHeaderClick = (indexOfItem) => {

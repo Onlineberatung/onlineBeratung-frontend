@@ -10,7 +10,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 	width: 100%;
 	border-bottom: 1px solid $black-25-opacity;
 
-	@include breakpoint($fromLarge) {
+	@include breakpoint($fromMedium) {
 		min-width: 560px;
 	}
 
@@ -32,18 +32,12 @@ $form-accordion-item-input-margin-left: 0 !default;
 		margin-right: 12px;
 		border: $form-accordion-index-border;
 		border-radius: 100%;
-		font-weight: $font-weight-bold;
+		font-weight: $font-weight-regular;
 		color: $form-accordion-index-color;
 	}
 
 	&__title {
-		width: calc(100% - #{$grid-base-ten});
-		margin: 0;
-		font-size: $font-size-h5;
 		font-weight: $font-weight-regular;
-		line-height: $line-height-primary;
-		color: $form-accordion-item-title-color;
-		text-align: left;
 	}
 
 	&__validationIcon {
@@ -65,6 +59,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 	&__content {
 		display: none;
 		margin-bottom: $grid-base-three;
+		align-items: center;
 
 		.text,
 		ul,
@@ -87,26 +82,31 @@ $form-accordion-item-input-margin-left: 0 !default;
 	}
 
 	.select__wrapper {
-		width: 250px;
-		@include breakpoint($fromLarge) {
+		width: 100%;
+		@include breakpoint($fromMedium) {
 			width: 320px;
 		}
 	}
 	&__nextbutton {
+		align-self: flex-end;
+		margin-top: $grid-base-two;
+		margin-right: 32px;
+
 		.button__item {
 			min-width: 100px;
+			width: 100%;
+			max-width: 360px;
+			@include breakpoint($fromMedium) {
+				width: 0px;
+			}
 		}
 
 		.button__item--disabled {
 			background-color: white;
-			border: 1px solid rgba(0, 0, 0, 0.4);
+			border: 2px solid rgba(0, 0, 0, 0.4);
 			color: rgba(0, 0, 0, 0.4);
 			padding: 0;
 		}
-	}
-
-	&__nextbutton {
-		align-self: flex-end;
 	}
 
 	&--active & {
@@ -114,6 +114,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 			background: $form-accordion-index-background-active;
 			border: none;
 			color: $form-accordion-index-color-active;
+			font-weight: $form-accordion-title-font-weight;
 		}
 
 		&__title {
@@ -122,8 +123,11 @@ $form-accordion-item-input-margin-left: 0 !default;
 		}
 
 		&__content {
-			display: flex;
-			justify-content: space-between;
+			display: block;
+			@include breakpoint($fromMedium) {
+				display: flex;
+				justify-content: space-between;
+			}
 		}
 	}
 }

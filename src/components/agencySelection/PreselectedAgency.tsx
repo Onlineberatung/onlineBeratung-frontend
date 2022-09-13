@@ -10,6 +10,7 @@ export interface PreselectedAgencyProps {
 	prefix: string;
 	agencyData: AgencyDataInterface;
 	isProfileView?: boolean;
+	onKeyDown?: Function;
 }
 
 export const PreselectedAgency = (props: PreselectedAgencyProps) => (
@@ -27,6 +28,9 @@ export const PreselectedAgency = (props: PreselectedAgencyProps) => (
 					inputId={props.agencyData.id.toString()}
 					label={props.agencyData.name}
 					handleRadioButton={() => void 0}
+					onKeyDown={(e) =>
+						props.onKeyDown ? props.onKeyDown(e) : null
+					}
 				/>
 				<AgencyInfo
 					agency={props.agencyData}

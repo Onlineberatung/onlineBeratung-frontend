@@ -1,6 +1,7 @@
 $welcome-screen-button-text-align: center !default;
 
 .registrationWelcome {
+	margin: 0 0 120px;
 	h2 {
 		margin-bottom: $grid-base-two;
 	}
@@ -19,17 +20,17 @@ $welcome-screen-button-text-align: center !default;
 		column-gap: $grid-base-three;
 		row-gap: $grid-base-three;
 
-		@include breakpoint($fromLarge) {
+		@include breakpoint($fromMedium) {
 			margin: $grid-base-six auto 0;
 			grid-template-columns: auto auto;
 			row-gap: $grid-base-four;
+			width: 100%;
 		}
 	}
 
 	&__buttonsWrapper {
 		border: 1px solid rgba(0, 0, 0, 0.2);
 		border-radius: $input-field-border-radius;
-		justify-content: center;
 		padding: $grid-base-four;
 
 		.text {
@@ -45,6 +46,7 @@ $welcome-screen-button-text-align: center !default;
 
 		button {
 			min-width: 205px;
+			width: 100%;
 		}
 
 		.button__wrapper {

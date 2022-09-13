@@ -45,7 +45,7 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 				onClick={handleOnHeaderClick}
 			>
 				<span className="formAccordionItem__index">{props.index}</span>
-				<h3 className="formAccordionItem__title">{props.title}</h3>
+				<h4 className="formAccordionItem__title">{props.title}</h4>
 				{props.isValid === 'valid' && (
 					<ValidIcon className="formAccordionItem__validationIcon formAccordionItem__validationIcon--valid" />
 				)}

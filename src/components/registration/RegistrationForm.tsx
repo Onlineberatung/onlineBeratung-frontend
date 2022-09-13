@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback, useContext } from 'react';
 import { translate } from '../../utils/translate';
-import { Text } from '../text/Text';
-import { Button, BUTTON_TYPES } from '../button/Button';
-import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
-import { buttonItemSubmit } from './registrationHelpers';
+import { BUTTON_TYPES } from '../button/Button';
 import {
 	apiPostRegistration,
 	FETCH_ERRORS,
@@ -20,7 +17,6 @@ import {
 	OverlayItem
 } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
-import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import {
 	AgencyDataInterface,
 	ConsultantDataInterface,
@@ -151,31 +147,6 @@ export const RegistrationForm = ({
 		topicsAreRequired
 	]);
 
-	const checkboxItemDataProtection: CheckboxItem = {
-		inputId: 'dataProtectionCheckbox',
-		name: 'dataProtectionCheckbox',
-		labelId: 'dataProtectionLabel',
-		checked: isDataProtectionSelected,
-		label: [
-			translate('registration.dataProtection.label.prefix'),
-			legalLinks
-				.filter((legalLink) => legalLink.registration)
-				.map(
-					(legalLink, index, { length }) =>
-						(index > 0
-							? index < length - 1
-								? ', '
-								: translate(
-										'registration.dataProtection.label.and'
-								  )
-							: '') +
-						`<span><button type="button" class="button-as-link" onclick="window.open('${legalLink.url}')">${legalLink.label}</button></span>`
-				)
-				.join(''),
-			translate('registration.dataProtection.label.suffix')
-		].join(' ')
-	};
-
 	const overlayItemRegistrationSuccess: OverlayItem = {
 		svg: WelcomeIcon,
 		headline: translate('registration.overlay.success.headline'),
@@ -281,7 +252,11 @@ export const RegistrationForm = ({
 						preselectedTopic={topic?.id}
 						legalLinks={legalLinks}
 						handleSubmitButtonClick={handleSubmitButtonClick}
-						isSubmitButtonDisabled
+						isSubmitButtonDisabled={isSubmitButtonDisabled}
+						setIsDataProtectionSelected={
+							setIsDataProtectionSelected
+						}
+						isDataProtectionSelected={isDataProtectionSelected}
 					/>
 				)}
 			</form>

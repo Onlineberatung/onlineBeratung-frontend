@@ -9,6 +9,7 @@ export interface CheckboxItem {
 	labelClass?: string;
 	label: string;
 	checked: boolean;
+	tabIndex?: number;
 }
 
 export const Checkbox = (props) => {
@@ -24,7 +25,6 @@ export const Checkbox = (props) => {
 				type="checkbox"
 				name={checkboxItem.name}
 				defaultChecked={checkboxItem.checked}
-				tabIndex={0}
 			/>
 			{checkboxItem.checked && (
 				<CheckmarkIcon
