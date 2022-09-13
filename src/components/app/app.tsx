@@ -1,6 +1,12 @@
 import '../../polyfill';
 import * as React from 'react';
-import { ComponentType, ReactNode, useEffect, useState } from 'react';
+import {
+	ComponentType,
+	ReactNode,
+	useCallback,
+	useEffect,
+	useState
+} from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedApp } from './AuthenticatedApp';
@@ -73,7 +79,7 @@ export const App = ({
 	};
 	const { subdomain } = getLocationVariables();
 
-	const loginBudiBase = () => {
+	const loginBudiBase = useCallback(() => {
 		apiGetTenantTheming({
 			subdomain,
 			useMultiTenancyWithSingleDomain:
@@ -93,7 +99,11 @@ export const App = ({
 				document.querySelector('#authIframe2').remove();
 			}, 5000);
 		});
-	};
+	}, [
+		settings.mainTenantSubdomainForSingleDomainMultitenancy,
+		settings?.multiTenancyWithSingleDomainEnabled,
+		subdomain
+	]);
 
 	useEffect(() => {
 		if (!isInitiallyLoaded && window.location.pathname === '/') {

@@ -8,7 +8,8 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	SessionsDataContext,
-	SET_SESSIONS
+	SET_SESSIONS,
+	useAppConfigContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
@@ -44,6 +45,7 @@ export const NavigationBar = ({
 		group: unreadGroup,
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
+	const { settings } = useAppConfigContext();
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
@@ -72,7 +74,12 @@ export const NavigationBar = ({
 				setSessionId(sessionsData?.sessions?.[0]?.session?.id);
 			});
 		}
-		userHasBudibaseTools(userData.userId).then((resp) => setHasTools(resp));
+
+		if (settings.budibaseSSO) {
+			userHasBudibaseTools(userData.userId).then((resp) =>
+				setHasTools(resp)
+			);
+		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const animateNavIconTimeoutRef = useRef(null);
