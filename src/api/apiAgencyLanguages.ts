@@ -4,7 +4,8 @@ import { fetchData, FETCH_METHODS } from './fetchData';
 import { AgencyLanguagesInterface } from '../globalState';
 
 export const apiAgencyLanguages = async (
-	agencyId: number
+	agencyId: number,
+	useMultiTenancyWithSingleDomain: boolean
 ): Promise<AgencyLanguagesInterface> => {
 	const url = config.endpoints.consultantsLanguages + '?agencyId=' + agencyId;
 
@@ -13,7 +14,7 @@ export const apiAgencyLanguages = async (
 		method: FETCH_METHODS.GET,
 		skipAuth: true,
 		responseHandling: [],
-		...(config.useMultiTenancyWithSingleDomain && {
+		...(useMultiTenancyWithSingleDomain && {
 			headersData: { agencyId }
 		})
 	}).then((result) => {

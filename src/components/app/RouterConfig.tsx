@@ -20,7 +20,11 @@ import { GroupChatInfo } from '../groupChat/GroupChatInfo';
 import { Appointments } from '../appointment/Appointments';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
-import { AUTHORITIES, hasUserAuthority } from '../../globalState';
+import {
+	AppConfigInterface,
+	AUTHORITIES,
+	hasUserAuthority
+} from '../../globalState';
 import { Booking } from '../booking/booking';
 import { BookingCancellation } from '../booking/bookingCancellation';
 import { BookingEvents } from '../booking/bookingEvents';
@@ -56,9 +60,12 @@ const showAppointmentsMenuItem = (userData, consultingTypes, sessionsData) => {
 const showToolsMenuItem = (userData, consultingTypes, sessionsData, hasTools) =>
 	hasTools;
 
-const isVideoAppointmentsEnabled = (userData, consultingTypes) =>
-	!config.disableVideoAppointments &&
-	hasVideoCallFeature(userData, consultingTypes);
+const isVideoAppointmentsEnabled = (
+	userData,
+	consultingTypes,
+	disableVideoAppointments
+) =>
+	!disableVideoAppointments && hasVideoCallFeature(userData, consultingTypes);
 
 const appointmentRoutes = [
 	{
@@ -87,7 +94,7 @@ const toolsRoutes = [
 	}
 ];
 
-export const RouterConfigUser = (): any => {
+export const RouterConfigUser = (settings: AppConfigInterface): any => {
 	return {
 		navigation: [
 			{
@@ -179,7 +186,7 @@ export const RouterConfigUser = (): any => {
 	};
 };
 
-export const RouterConfigConsultant = (): any => {
+export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 	return {
 		plainRoutes: [
 			{
@@ -206,7 +213,12 @@ export const RouterConfigConsultant = (): any => {
 				}
 			},
 			{
-				condition: isVideoAppointmentsEnabled,
+				condition: (userData, consultingTypes) =>
+					isVideoAppointmentsEnabled(
+						userData,
+						consultingTypes,
+						settings.disableVideoAppointments
+					),
 				to: '/termine',
 				icon: <CalendarIcon className="navigation__icon" />,
 				titleKeys: {
@@ -312,7 +324,12 @@ export const RouterConfigConsultant = (): any => {
 				component: Profile
 			},
 			{
-				condition: isVideoAppointmentsEnabled,
+				condition: (userData, consultingTypes) =>
+					isVideoAppointmentsEnabled(
+						userData,
+						consultingTypes,
+						settings.disableVideoAppointments
+					),
 				path: '/termine',
 				exact: false,
 				component: Appointments
@@ -323,7 +340,9 @@ export const RouterConfigConsultant = (): any => {
 	};
 };
 
-export const RouterConfigTeamConsultant = (): any => {
+export const RouterConfigTeamConsultant = (
+	settings: AppConfigInterface
+): any => {
 	return {
 		plainRoutes: [
 			{
@@ -358,7 +377,12 @@ export const RouterConfigTeamConsultant = (): any => {
 				}
 			},
 			{
-				condition: isVideoAppointmentsEnabled,
+				condition: (userData, consultingTypes) =>
+					isVideoAppointmentsEnabled(
+						userData,
+						consultingTypes,
+						settings.disableVideoAppointments
+					),
 				to: '/termine',
 				icon: <CalendarIcon className="navigation__icon" />,
 				titleKeys: {
@@ -507,7 +531,12 @@ export const RouterConfigTeamConsultant = (): any => {
 				component: Profile
 			},
 			{
-				condition: isVideoAppointmentsEnabled,
+				condition: (userData, consultingTypes) =>
+					isVideoAppointmentsEnabled(
+						userData,
+						consultingTypes,
+						settings.disableVideoAppointments
+					),
 				path: '/termine',
 				exact: false,
 				component: Appointments
@@ -518,12 +547,16 @@ export const RouterConfigTeamConsultant = (): any => {
 	};
 };
 
-export const RouterConfigPeerConsultant = (): any => {
-	return RouterConfigConsultant();
+export const RouterConfigPeerConsultant = (
+	settings: AppConfigInterface
+): any => {
+	return RouterConfigConsultant(settings);
 };
 
-export const RouterConfigMainConsultant = (): any => {
-	let config = RouterConfigTeamConsultant();
+export const RouterConfigMainConsultant = (
+	settings: AppConfigInterface
+): any => {
+	const config = RouterConfigTeamConsultant(settings);
 	config.navigation[2].titleKeys = {
 		large: 'navigation.consultant.peersessions',
 		small: 'navigation.consultant.peersessions.small'

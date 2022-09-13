@@ -8,12 +8,12 @@ import './walkthrough.styles.scss';
 import { translate } from '../../utils/translate';
 import { UserDataContext } from '../../globalState';
 import { apiPatchConsultantData } from '../../api';
-import { config } from '../../resources/scripts/config';
-
 import steps from './steps';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 export const Walkthrough = () => {
 	const ref = useRef<any>();
+	const { settings } = useAppConfigContext();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const history = useHistory();
 
@@ -39,7 +39,7 @@ export const Walkthrough = () => {
 			ref={ref}
 			enabled={
 				userData.isWalkThroughEnabled &&
-				config.enableWalkthrough &&
+				settings.enableWalkThrough &&
 				!userData.twoFactorAuth.isShown
 			}
 			onExit={() => {

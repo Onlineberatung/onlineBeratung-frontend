@@ -48,6 +48,7 @@ interface AutoLoginProps {
 	otp?: string;
 	useOldUser?: boolean;
 	tenantSettings?: TenantDataSettingsInterface;
+	enableBudibaseSSO: boolean;
 }
 
 export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
@@ -121,7 +122,11 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 						redirect: autoLoginProps.redirect,
 						otp: autoLoginProps.otp,
 						useOldUser: true,
-						...ensureTenantSettings(autoLoginProps?.tenantSettings)
+						enableBudibaseSSO: autoLoginProps.enableBudibaseSSO,
+						...ensureTenantSettings(
+							autoLoginProps?.tenantSettings,
+							autoLoginProps.enableBudibaseSSO
+						)
 					})
 						.then(() => resolve(undefined))
 						.catch((autoLoginError) => reject(autoLoginError));

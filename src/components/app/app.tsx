@@ -15,11 +15,12 @@ import ErrorBoundary from './ErrorBoundary';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
-import { LegalLinkInterface } from '../../globalState';
+import { LegalLinkInterface, useAppConfigContext } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
 import { apiGetTenantTheming } from '../../api/apiGetTenantTheming';
 import getLocationVariables from '../../utils/getLocationVariables';
+import { apiServerSettings } from '../../api/apiServerSettings';
 
 export const history = createBrowserHistory();
 
@@ -40,6 +41,7 @@ export const App = ({
 	spokenLanguages = languageIsoCodesSortedByName,
 	fixedLanguages = ['de']
 }: AppProps) => {
+	const { settings, setServerSettings } = useAppConfigContext();
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
@@ -77,7 +79,13 @@ export const App = ({
 			activateInitialRedirect();
 		} else {
 			setIsInitiallyLoaded(true);
-			apiGetTenantTheming({ subdomain }).then((resp) => {
+			apiGetTenantTheming({
+				subdomain,
+				useMultiTenancyWithSingleDomain:
+					settings?.multiTenancyWithSingleDomainEnabled,
+				mainTenantSubdomainForSingleDomain:
+					settings.mainTenantSubdomainForSingleDomainMultitenancy
+			}).then((resp) => {
 				const ifrm = document.createElement('iframe');
 				ifrm.setAttribute(
 					'src',
@@ -92,6 +100,14 @@ export const App = ({
 			});
 		}
 	}, []); // eslint-disable-line
+
+	useEffect(() => {
+		settings.useApiClusterSettings &&
+			apiServerSettings().then((serverSettings) => {
+				setServerSettings(serverSettings || {});
+			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<ErrorBoundary>

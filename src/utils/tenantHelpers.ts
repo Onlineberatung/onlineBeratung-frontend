@@ -1,10 +1,10 @@
 import { TenantDataSettingsInterface } from '../globalState/interfaces/TenantDataInterface';
-import { config } from '../resources/scripts/config';
 
 export const ensureTenantSettings = (
-	tenantSettings: TenantDataSettingsInterface
+	tenantSettings: TenantDataSettingsInterface,
+	enableBudibaseSSO: boolean
 ) => {
-	return config.budibaseSSO
+	return enableBudibaseSSO
 		? {
 				tenantSettings
 		  }
