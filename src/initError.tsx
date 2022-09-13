@@ -1,5 +1,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Error } from './components/error/Error';
+import { UseAppConfigProvider } from './globalState/context/useAppConfig';
 
-ReactDOM.render(<Error />, document.getElementById('errorRoot'));
+ReactDOM.render(
+	<UseAppConfigProvider>
+		<Error />
+	</UseAppConfigProvider>,
+	document.getElementById('errorRoot')
+);

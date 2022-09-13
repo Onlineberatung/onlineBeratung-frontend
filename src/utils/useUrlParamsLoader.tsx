@@ -12,8 +12,10 @@ import { isNumber } from './isNumber';
 import { config } from '../resources/scripts/config';
 import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
 import { apiGetTopicById } from '../api/apiGetTopicId';
+import { useAppConfigContext } from '../globalState/context/useAppConfig';
 
 export default function useUrlParamsLoader() {
+	const { settings } = useAppConfigContext();
 	const { consultingTypeSlug } = useParams();
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
@@ -59,7 +61,7 @@ export default function useUrlParamsLoader() {
 				}
 				// When we've the multi tenancy with single domain enabled we'll always have multiple consulting types
 				if (
-					!config.useMultiTenancyWithSingleDomain &&
+					!settings.multiTenancyWithSingleDomainEnabled &&
 					agency?.consultingType !== consultingType?.id
 				) {
 					agency = null;
