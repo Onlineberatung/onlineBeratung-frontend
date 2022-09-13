@@ -7,7 +7,8 @@ import {
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
 	LegalLinkInterface,
-	TenantContext
+	TenantContext,
+	useAppConfigContext
 } from '../../globalState';
 import Form from 'rc-field-form';
 import './registrationFormDigi.styles.scss';
@@ -45,6 +46,7 @@ export const RegistrationFormDigi = ({
 	consultant
 }: RegistrationFormProps) => {
 	const { tenant } = useContext(TenantContext);
+	const { settings } = useAppConfigContext();
 	const [form] = Form.useForm();
 
 	const [topics, setTopics] = React.useState([] as TopicsDataInterface[]);
@@ -115,6 +117,8 @@ export const RegistrationFormDigi = ({
 			apiPostRegistration(
 				config.endpoints.registerAsker,
 				finalValues,
+				settings.multiTenancyWithSingleDomainEnabled,
+				settings.budibaseSSO,
 				tenant
 			)
 				.then(() => setRegistrationWithSuccess(true))
@@ -134,7 +138,7 @@ export const RegistrationFormDigi = ({
 					}
 				});
 		},
-		[consultant, consultingType.id, form, tenant]
+		[consultant, consultingType.id, form, settings, tenant]
 	);
 
 	// When some topic id is selected we need to change the list of main topics
