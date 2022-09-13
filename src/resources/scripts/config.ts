@@ -21,7 +21,7 @@ export const config = {
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	useMultiTenancyWithSingleDomain: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
 	useTenantService: false,
-	useApiClusterSettings: false, // Feature flag to enable the cluster use the cluster settings instead of the config file
+	useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
 	mainTenantSubdomainForSingleDomainMultitenancy: 'app',
 
 	endpoints: {
