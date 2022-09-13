@@ -1,12 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import {
-	ComponentType,
-	ReactNode,
-	useContext,
-	useEffect,
-	useState
-} from 'react';
+import { ComponentType, ReactNode, useEffect, useState } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedApp } from './AuthenticatedApp';
@@ -21,11 +15,7 @@ import ErrorBoundary from './ErrorBoundary';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
-import {
-	LegalLinkInterface,
-	TenantContext,
-	useAppConfigContext
-} from '../../globalState';
+import { LegalLinkInterface, useAppConfigContext } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
 import { apiGetTenantTheming } from '../../api/apiGetTenantTheming';
@@ -82,7 +72,6 @@ export const App = ({
 		history.push(entryPoint);
 	};
 	const { subdomain } = getLocationVariables();
-	const { tenant } = useContext(TenantContext);
 
 	const loginBudiBase = () => {
 		apiGetTenantTheming({
@@ -111,7 +100,7 @@ export const App = ({
 			activateInitialRedirect();
 		} else {
 			setIsInitiallyLoaded(true);
-			if (tenant?.settings?.featureToolsEnabled) {
+			if (settings.budibaseSSO) {
 				loginBudiBase();
 			}
 		}
