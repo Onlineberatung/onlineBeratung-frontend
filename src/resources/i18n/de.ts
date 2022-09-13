@@ -1473,15 +1473,15 @@ export const de = {
 		},
 		'age': {
 			dropdown: 'Alter auswählen*',
-			headline: 'Bitte teilen Sie uns Ihr Alter mit'
+			headline: 'Alter angeben'
 		},
 		'agency': {
 			'preselected.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
 			'preselected.isTeam': 'Sie werden von einem Team beraten.',
-			'headline': 'Beratungsstelle in Ihrer Nähe finden'
+			'headline': 'Beratungsstelle wählen'
 		},
 		'agencySelection': {
-			headline: 'Bitte wählen Sie eine Beratungsstelle in Ihrer Nähe',
+			headline: 'Beratungsstelle wählen',
 			intro: {
 				overline:
 					'Warum hilft Ihnen auch online eine Beratungsstelle in Ihrer Nähe?',
@@ -1579,8 +1579,7 @@ export const de = {
 		},
 		'state': {
 			dropdown: 'Bundesland auswählen*',
-			headline:
-				'Bitte teilen Sie uns mit in welchem Bundesland Sie wohnen',
+			headline: 'Bundesland angeben',
 			options: {
 				'0': 'außerhalb Deutschlands',
 				'1': 'Baden-Württemberg',
@@ -1613,7 +1612,7 @@ export const de = {
 			unsuitable: 'Ihr Benutzername ist zu kurz.',
 			unavailable: 'Der Benutzername ist bereits vergeben.'
 		},
-		'username.headline': 'Bitte wählen Sie Ihren Benutzernamen',
+		'username.headline': 'Benutzernamen wählen',
 		'welcomeScreen': {
 			info1: {
 				text: 'Für eine individuelle und geschützte Beratung',

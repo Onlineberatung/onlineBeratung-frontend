@@ -499,9 +499,9 @@ export const en = {
 				headline: 'Ups!',
 				description:
 					'It looks like we have a server problem at the moment.<br>Try again later.'
-			},
-			login: 'Login'
-		}
+			}
+		},
+		login: 'Login'
 	},
 	furtherSteps: {
 		'consultant.info':
@@ -1464,10 +1464,10 @@ export const en = {
 		'agency': {
 			'preselected.prefix': 'Your pre-selected counseling center: ',
 			'preselected.isTeam': 'You will be advised by a team.',
-			'headline': 'Find a consulting center near you'
+			'headline': 'Choose consulting center'
 		},
 		'consultingType.preselected.prefix': 'Your pre-selected topic: ',
-		'username.headline': 'Please choose your username',
+		'username.headline': 'Choose username',
 		'user': {
 			label: 'Username',
 			infoText:
@@ -1477,7 +1477,7 @@ export const en = {
 			unavailable: 'The username is already taken.'
 		},
 		'agencySelection': {
-			'headline': 'Please select a counseling center near you',
+			'headline': 'Choose consulting center',
 			'title.start': 'Consultation centers to the zip code',
 			'title.end': ':',
 			'languages.info': 'This counseling center advises you on:',
@@ -1541,11 +1541,11 @@ export const en = {
 			}
 		},
 		'age': {
-			headline: 'Please tell us your age',
+			headline: 'Specify age',
 			dropdown: 'Select age*'
 		},
 		'state': {
-			headline: 'Please tell us in which state you live',
+			headline: 'Specify state',
 			dropdown: 'Select state*',
 			options: {
 				'0': 'outside Germany',
