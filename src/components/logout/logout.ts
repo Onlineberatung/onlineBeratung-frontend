@@ -1,15 +1,26 @@
+import { useContext } from 'react';
 import { apiKeycloakLogout } from '../../api/apiLogoutKeycloak';
 import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
+import { TenantDataInterface } from '../../globalState/interfaces/TenantDataInterface';
 import { config } from '../../resources/scripts/config';
+import { calcomLogout } from '../booking/settings/calcomLogout';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
 
 let isRequestInProgress = false;
-export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
+
+export const logout = (
+	withRedirect: boolean = true,
+	redirectUrl?: string,
+	tenant?: TenantDataInterface
+) => {
 	if (isRequestInProgress) {
 		return null;
 	}
 	isRequestInProgress = true;
+	if (tenant?.settings?.featureAppointmentsEnabled) {
+		calcomLogout();
+	}
 	apiRocketchatLogout()
 		.then(() => {
 			apiKeycloakLogout()

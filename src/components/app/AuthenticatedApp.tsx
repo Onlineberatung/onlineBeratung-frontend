@@ -10,7 +10,8 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	LegalLinkInterface,
-	RocketChatProvider
+	RocketChatProvider,
+	TenantContext
 } from '../../globalState';
 import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
@@ -39,6 +40,7 @@ export const AuthenticatedApp = ({
 	legalLinks
 }: AuthenticatedAppProps) => {
 	const { settings, setServerSettings } = useAppConfigContext();
+	const { tenant } = useContext(TenantContext);
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
 
@@ -96,8 +98,8 @@ export const AuthenticatedApp = ({
 
 	const handleLogout = useCallback(() => {
 		onLogout();
-		logout();
-	}, [onLogout]);
+		logout(undefined, undefined, tenant);
+	}, [onLogout, tenant]);
 
 	if (appReady) {
 		return (
