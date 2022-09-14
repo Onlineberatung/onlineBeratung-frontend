@@ -143,6 +143,10 @@ export function RocketChatProvider(props) {
 
 	const send = useCallback(
 		(params: SendParams, resultListener?: (res) => void) => {
+			if (rcWebsocket.current.readyState !== WebSocket.OPEN) {
+				console.log('WebSocket not ready!');
+				return;
+			}
 			if (resultListener) {
 				resultListeners.current[params.id] = resultListener;
 			}

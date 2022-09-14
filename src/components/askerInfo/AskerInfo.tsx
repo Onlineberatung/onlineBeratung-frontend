@@ -11,7 +11,7 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	SessionTypeContext,
-	useAppConfigContext,
+	TenantContext,
 	UserDataContext
 } from '../../globalState';
 import { history } from '../app/app';
@@ -35,7 +35,7 @@ import { AskerInfoTools } from './AskerInfoTools';
 import { Box } from '../box/Box';
 
 export const AskerInfo = () => {
-	const { settings } = useAppConfigContext();
+	const { tenant } = useContext(TenantContext);
 	const { rcGroupId: groupIdFromParam } = useParams();
 
 	const { userData } = useContext(UserDataContext);
@@ -140,7 +140,7 @@ export const AskerInfo = () => {
 						<Box>
 							<AskerInfoData />
 						</Box>
-						{settings.budibaseSSO && (
+						{tenant?.settings?.featureToolsEnabled && (
 							<Box>
 								<AskerInfoTools />
 							</Box>

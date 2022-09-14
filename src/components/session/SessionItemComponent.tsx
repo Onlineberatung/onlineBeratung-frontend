@@ -50,6 +50,8 @@ import { encryptRoom } from '../../utils/e2eeHelper';
 import { AcceptAssign } from './AcceptAssign';
 import { SubscriptionKeyLost } from './SubscriptionKeyLost';
 import { RoomNotFound } from './RoomNotFound';
+import useDebounceCallback from '../../hooks/useDebounceCallback';
+import { apiPostError, TError } from '../../api/apiPostError';
 
 interface SessionItemProps {
 	isTyping?: Function;
@@ -377,6 +379,56 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 	const handleMessageSendSuccess = () => setDraggedFile(null);
 
+	const lastDecryptionError = useRef(0);
+	const handleDecryptionErrors = useDebounceCallback(
+		useCallback((collectedErrors: [[number, TError]]) => {
+			Promise.all(
+				collectedErrors
+					// Filter already tracked error messages
+					.filter(
+						([timestamp]) => timestamp > lastDecryptionError.current
+					)
+					// Keep only last error of one type
+					.reduce((acc, [timestamp, collectedError], i) => {
+						const trackedErrorIndex = acc.findIndex(
+							([, accError]) =>
+								accError.message === collectedError.message
+						);
+						if (
+							trackedErrorIndex >= 0 &&
+							acc[trackedErrorIndex][1].message ===
+								collectedError.message
+						) {
+							if (timestamp > acc[trackedErrorIndex][0]) {
+								acc.splice(
+									trackedErrorIndex,
+									1,
+									collectedErrors[i]
+								);
+							}
+						} else {
+							acc.push(collectedErrors[i]);
+						}
+						return acc;
+					}, [])
+					.map(([timestamp, collectedError]) => {
+						lastDecryptionError.current =
+							timestamp > lastDecryptionError.current
+								? timestamp
+								: lastDecryptionError.current;
+
+						return apiPostError(collectedError);
+					})
+			).then((a) => {
+				if (a.length > 0) {
+					console.log(`${a.length} error(s) reported.`);
+				}
+			});
+		}, []),
+		1000,
+		true
+	);
+
 	return (
 		<div
 			className={
@@ -426,6 +478,12 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 									isUserBanned={props.bannedUsers.includes(
 										message.username
 									)}
+									handleDecryptionErrors={(e: TError) =>
+										handleDecryptionErrors(
+											message.messageTime,
+											e
+										)
+									}
 									{...message}
 								/>
 								{index === messages.length - 1 &&
