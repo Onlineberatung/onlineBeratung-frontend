@@ -9,7 +9,7 @@ import {
 	ConsultingTypesContext,
 	SessionsDataContext,
 	SET_SESSIONS,
-	useAppConfigContext
+	TenantContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
@@ -45,7 +45,7 @@ export const NavigationBar = ({
 		group: unreadGroup,
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
-	const { settings } = useAppConfigContext();
+	const { tenant } = useContext(TenantContext);
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
@@ -75,7 +75,7 @@ export const NavigationBar = ({
 			});
 		}
 
-		if (settings.budibaseSSO) {
+		if (tenant?.settings?.featureToolsEnabled) {
 			userHasBudibaseTools(userData.userId).then((resp) =>
 				setHasTools(resp)
 			);

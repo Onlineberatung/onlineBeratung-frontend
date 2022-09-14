@@ -79,40 +79,36 @@ export const App = ({
 	};
 	const { subdomain } = getLocationVariables();
 
-	const loginBudiBase = useCallback(() => {
-		apiGetTenantTheming({
-			subdomain,
-			useMultiTenancyWithSingleDomain:
-				settings?.multiTenancyWithSingleDomainEnabled,
-			mainTenantSubdomainForSingleDomain:
-				settings.mainTenantSubdomainForSingleDomainMultitenancy
-		}).then((resp) => {
-			const ifrm = document.createElement('iframe');
-			ifrm.setAttribute(
-				'src',
-				`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${resp?.settings?.featureToolsOICDToken}`
-			);
-			ifrm.id = 'authIframe2';
-			ifrm.style.display = 'none';
-			document.body.appendChild(ifrm);
-			setTimeout(() => {
-				document.querySelector('#authIframe2').remove();
-			}, 5000);
-		});
-	}, [
-		settings.mainTenantSubdomainForSingleDomainMultitenancy,
-		settings?.multiTenancyWithSingleDomainEnabled,
-		subdomain
-	]);
+	const loginBudiBase = useCallback((featureToolsOICDToken: string) => {
+		const ifrm = document.createElement('iframe');
+		ifrm.setAttribute(
+			'src',
+			`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${featureToolsOICDToken}`
+		);
+		ifrm.id = 'authIframe2';
+		ifrm.style.display = 'none';
+		document.body.appendChild(ifrm);
+		setTimeout(() => {
+			document.querySelector('#authIframe2').remove();
+		}, 5000);
+	}, []);
 
 	useEffect(() => {
 		if (!isInitiallyLoaded && window.location.pathname === '/') {
 			activateInitialRedirect();
 		} else {
 			setIsInitiallyLoaded(true);
-			if (settings.budibaseSSO) {
-				loginBudiBase();
-			}
+			apiGetTenantTheming({
+				subdomain,
+				useMultiTenancyWithSingleDomain:
+					settings?.multiTenancyWithSingleDomainEnabled,
+				mainTenantSubdomainForSingleDomain:
+					settings.mainTenantSubdomainForSingleDomainMultitenancy
+			}).then((resp) => {
+				if (resp.settings.featureToolsEnabled) {
+					loginBudiBase(resp.settings.featureToolsOICDToken);
+				}
+			});
 		}
 	}, []); // eslint-disable-line
 
