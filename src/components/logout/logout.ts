@@ -12,10 +12,11 @@ export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
 		return null;
 	}
 	isRequestInProgress = true;
+
 	Promise.all([
-		true ? calcomLogout : null,
-		apiRocketchatLogout,
-		apiKeycloakLogout
+		true ? calcomLogout() : null,
+		apiRocketchatLogout(),
+		apiKeycloakLogout()
 	]).finally(() => {
 		invalidateCookies(withRedirect, redirectUrl);
 	});
