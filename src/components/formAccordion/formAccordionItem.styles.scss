@@ -75,8 +75,11 @@ $form-accordion-item-input-margin-left: 0 !default;
 		.consultingTypeSelection__possibleConsultingTypes .select__wrapper,
 		.consultingTypeSelection__possibleConsultingTypes + .agencySelection {
 			margin-top: $grid-base-two;
-			margin-right: $form-accordion-item-input-margin-right;
 			margin-left: $form-accordion-item-input-margin-left;
+
+			@include breakpoint($fromMedium) {
+				margin-right: $form-accordion-item-input-margin-right;
+			}
 		}
 	}
 
@@ -88,8 +91,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 	}
 	&__nextbutton {
 		align-self: flex-end;
-		margin-top: $grid-base-two;
-		margin-right: 32px;
+		margin-top: $grid-base-three;
 
 		@include breakpoint($fromMedium) {
 			margin-right: 0;

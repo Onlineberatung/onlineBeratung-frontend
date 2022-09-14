@@ -15,7 +15,7 @@ const login = {
 	'resetPasswort.label': 'Passwort vergessen?',
 	'register.infoText.title': 'Noch nicht registriert?',
 	'register.infoText.copy': 'Wir beraten Sie gerne zu folgenden Themen:',
-	'register.linkLabel': 'Registrieren',
+	'register.linkLabel': 'Zu den Beratungsthemen',
 	'seperator': 'oder',
 	'legal.infoText.impressum': 'Impressum',
 	'legal.infoText.dataprotection': 'Datenschutzerklärung',

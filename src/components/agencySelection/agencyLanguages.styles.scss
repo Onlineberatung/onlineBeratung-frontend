@@ -7,7 +7,7 @@ $input-size: 24px;
 
 	font-size: $font-size-primary;
 	line-height: 19px;
-	color: rgba(0, 0, 0, 0.65);
+	color: $black-65-opacity;
 
 	.agencySelection__proposedAgency & {
 		margin-left: #{$input-size + $grid-base};

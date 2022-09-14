@@ -27,7 +27,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 	display: flex;
 	justify-content: center;
 	align-items: $login-align-items;
-	text-align: left;
+	text-align: center;
 	width: 100%;
 
 	.button-as-link {
@@ -36,6 +36,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		color: $primary;
 		text-decoration: underline;
 		padding-left: 0px;
+		margin-top: $grid-base-four;
 
 		&:focus-visible {
 			outline: $focus-outline;
@@ -51,6 +52,10 @@ $link-hover-text-decoration: $link-text-decoration !default;
 			cursor: pointer;
 			color: var(--skin-color-primary-hover, $hover-primary);
 		}
+	}
+
+	.consulting-topics {
+		margin: 0;
 	}
 
 	.inputField {
@@ -92,7 +97,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 
 	.button__item {
 		width: 100%;
-		margin-top: $grid-base-four;
+		margin-top: $grid-base-two;
 		transform: $login-icon-transform;
 	}
 
@@ -109,27 +114,35 @@ $link-hover-text-decoration: $link-text-decoration !default;
 	}
 
 	&__register {
-		margin-top: $grid-base-five;
-	}
+		margin-top: $grid-base-six;
 
-	&__separator {
-		width: 100%;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-		text-align: center;
-		height: 18px;
-		margin-bottom: 15px;
-		font-size: $font-size-secondary;
+		&__separator {
+			width: 100%;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+			text-align: center;
+			height: 18px;
+			margin-bottom: 15px;
+			font-size: $font-size-secondary;
 
-		span {
-			line-height: 15px;
-			padding: 0 10px;
-			background: white;
-			display: inline-block;
-			margin-top: 10px;
-			color: rgba(0, 0, 0, 0.65);
-			text-transform: uppercase;
-			letter-spacing: 1.5px;
-			font-weight: 500;
+			span {
+				line-height: 15px;
+				padding: 0 10px;
+				background: white;
+				display: inline-block;
+				margin-top: 10px;
+				color: $black-65-opacity;
+				text-transform: uppercase;
+				letter-spacing: 1.5px;
+				font-weight: 500;
+			}
+		}
+
+		&__content {
+			.text {
+				font-weight: 600;
+				text-align: center;
+			}
+			margin-top: $grid-base-six;
 		}
 	}
 

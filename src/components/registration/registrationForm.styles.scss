@@ -2,7 +2,7 @@ $registration-form-overline-display: block !default;
 $registration-form-headline-margin-bottom: 24px;
 
 .registrationForm {
-	margin: 120px 0;
+	margin: 32px 0 120px;
 	max-width: $registration-form-max-width;
 	animation: fadeIn linear 0.5s;
 
@@ -64,8 +64,19 @@ $registration-form-headline-margin-bottom: 24px;
 
 	&__submit {
 		margin-top: $grid-base-four;
-		display: flex;
-		justify-content: flex-end;
+
+		.button__item {
+			width: 100%;
+		}
+
+		@include breakpoint($fromMedium) {
+			display: flex;
+			justify-content: flex-end;
+
+			.button__item {
+				width: auto;
+			}
+		}
 	}
 
 	&__overline,
@@ -75,7 +86,7 @@ $registration-form-headline-margin-bottom: 24px;
 
 	&__overline {
 		display: $registration-form-overline-display;
-		color: var(--skin-color-secondary-contrast-safe, $secondary);
+		color: $black-65-opacity;
 		font-weight: $font-weight-regular;
 		margin: 0;
 		font-size: $font-size-secondary;

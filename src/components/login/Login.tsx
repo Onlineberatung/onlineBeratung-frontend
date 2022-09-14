@@ -70,11 +70,6 @@ const loginButton: ButtonItem = {
 	type: BUTTON_TYPES.PRIMARY
 };
 
-const registrationButton: ButtonItem = {
-	label: translate('login.register.linkLabel'),
-	type: BUTTON_TYPES.SECONDARY
-};
-
 interface LoginProps {
 	legalLinks: Array<LegalLinkInterface>;
 	stageComponent: ComponentType<StageProps>;
@@ -476,6 +471,12 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 							/>
 						)}
 
+						<Button
+							item={loginButton}
+							buttonHandle={handleLogin}
+							disabled={isButtonDisabled || isRequestInProgress}
+						/>
+
 						{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
 							<button
 								onClick={onPasswordResetClick}
@@ -486,25 +487,31 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 							</button>
 						)}
 
-						<Button
-							item={loginButton}
-							buttonHandle={handleLogin}
-							disabled={isButtonDisabled || isRequestInProgress}
-						/>
 						{!hasTenant && (
 							<div className="loginForm__register">
-								<div className="loginForm__separator">
+								<div className="loginForm__register__separator">
 									<span>{translate('login.seperator')}</span>
 								</div>
-								<Button
-									item={registrationButton}
-									buttonHandle={() =>
-										window.open(
-											config.urls.toRegistration,
-											'_self'
-										)
-									}
-								/>
+								<div className="loginForm__register__content">
+									<Text
+										text={translate(
+											'login.register.infoText.title'
+										)}
+										type={'infoMedium'}
+									/>
+									<button
+										onClick={() =>
+											window.open(
+												config.urls.toRegistration,
+												'_self'
+											)
+										}
+										className="button-as-link consulting-topics"
+										type="button"
+									>
+										{translate('login.register.linkLabel')}
+									</button>
+								</div>
 							</div>
 						)}
 					</div>

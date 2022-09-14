@@ -291,12 +291,12 @@ $buttonMaxWidth: 400px;
 
 	&__item--disabled {
 		box-shadow: none;
-		background-color: $form-input-border;
+		background-color: rgba(0, 0, 0, 0.05);
 		color: rgba(0, 0, 0, 0.4);
 		cursor: unset;
 
 		&:hover {
-			background-color: $form-input-border;
+			background-color: rgba(0, 0, 0, 0.05);
 		}
 	}
 
