@@ -10,8 +10,7 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	LegalLinkInterface,
-	RocketChatProvider,
-	TenantContext
+	RocketChatProvider
 } from '../../globalState';
 import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
@@ -40,7 +39,6 @@ export const AuthenticatedApp = ({
 	legalLinks
 }: AuthenticatedAppProps) => {
 	const { settings, setServerSettings } = useAppConfigContext();
-	const { tenant } = useContext(TenantContext);
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
 
