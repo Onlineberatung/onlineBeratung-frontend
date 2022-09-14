@@ -98,8 +98,8 @@ export const AuthenticatedApp = ({
 
 	const handleLogout = useCallback(() => {
 		onLogout();
-		logout(undefined, undefined, tenant);
-	}, [onLogout, tenant]);
+		logout();
+	}, [onLogout]);
 
 	if (appReady) {
 		return (

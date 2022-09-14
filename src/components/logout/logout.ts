@@ -1,7 +1,5 @@
-import { useContext } from 'react';
 import { apiKeycloakLogout } from '../../api/apiLogoutKeycloak';
 import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
-import { TenantDataInterface } from '../../globalState/interfaces/TenantDataInterface';
 import { config } from '../../resources/scripts/config';
 import { calcomLogout } from '../booking/settings/calcomLogout';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
@@ -9,31 +7,18 @@ import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessio
 
 let isRequestInProgress = false;
 
-export const logout = (
-	withRedirect: boolean = true,
-	redirectUrl?: string,
-	tenant?: TenantDataInterface
-) => {
+export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
 	if (isRequestInProgress) {
 		return null;
 	}
 	isRequestInProgress = true;
-	if (tenant?.settings?.featureAppointmentsEnabled) {
-		calcomLogout();
-	}
-	apiRocketchatLogout()
-		.then(() => {
-			apiKeycloakLogout()
-				.then(() => {
-					invalidateCookies(withRedirect, redirectUrl);
-				})
-				.catch(() => {
-					invalidateCookies(withRedirect, redirectUrl);
-				});
-		})
-		.catch(() => {
-			invalidateCookies(withRedirect, redirectUrl);
-		});
+	Promise.all([
+		true ? calcomLogout : null,
+		apiRocketchatLogout,
+		apiKeycloakLogout
+	]).finally(() => {
+		invalidateCookies(withRedirect, redirectUrl);
+	});
 };
 
 const invalidateCookies = (
