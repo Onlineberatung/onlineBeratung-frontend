@@ -3,6 +3,7 @@ import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
 import { config } from '../../resources/scripts/config';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { calcomLogout } from '../booking/settings/calcomLogout';
+import { budibaseLogout } from '../budibase/budibaseLogout';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
 
@@ -16,7 +17,8 @@ export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
 	Promise.all([
 		apiRocketchatLogout(),
 		apiKeycloakLogout(),
-		getTenantSettings().featureAppointmentsEnabled ? calcomLogout() : null
+		getTenantSettings().featureAppointmentsEnabled ? calcomLogout() : null,
+		getTenantSettings().featureToolsEnabled ? budibaseLogout() : null
 	]).finally(() => {
 		invalidateCookies(withRedirect, redirectUrl);
 	});
