@@ -155,6 +155,7 @@ export const config = {
 		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
 	urls: {
+		appointmentServiceDevServer: '',
 		consultantVideoConference:
 			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',
@@ -168,7 +169,6 @@ export const config = {
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		releases: uiUrl + '/releases',
 		budibaseDevServer: '',
-		appointmentServiceDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',
