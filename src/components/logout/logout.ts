@@ -8,26 +8,6 @@ import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessio
 
 let isRequestInProgress = false;
 export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
-	const invalidateCookies = (
-		withRedirect: boolean = true,
-		redirectUrl?: string
-	) => {
-		removeAllCookies();
-		removeTokenExpiryFromLocalStorage();
-		if (withRedirect) {
-			redirectAfterLogout(redirectUrl);
-		}
-	};
-
-	const redirectAfterLogout = (altRedirectUrl?: string) => {
-		const redirectUrl = altRedirectUrl
-			? altRedirectUrl
-			: config.urls.toEntry;
-		setTimeout(() => {
-			window.location.href = redirectUrl;
-		}, 1000);
-	};
-
 	if (isRequestInProgress) {
 		return null;
 	}
@@ -40,6 +20,22 @@ export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
 	]).finally(() => {
 		invalidateCookies(withRedirect, redirectUrl);
 	});
+};
 
-	return null;
+const invalidateCookies = (
+	withRedirect: boolean = true,
+	redirectUrl?: string
+) => {
+	removeAllCookies();
+	removeTokenExpiryFromLocalStorage();
+	if (withRedirect) {
+		redirectAfterLogout(redirectUrl);
+	}
+};
+
+const redirectAfterLogout = (altRedirectUrl?: string) => {
+	const redirectUrl = altRedirectUrl ? altRedirectUrl : config.urls.toEntry;
+	setTimeout(() => {
+		window.location.href = redirectUrl;
+	}, 1000);
 };
