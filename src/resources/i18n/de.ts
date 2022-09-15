@@ -956,7 +956,7 @@ export const de = {
 				title: 'Noch nicht registriert?',
 				copy: 'Wir beraten Sie gerne zu folgenden Themen:'
 			},
-			linkLabel: 'Zur Übersicht'
+			linkLabel: 'Zu den Beratungsthemen'
 		},
 		'resend.otp.email.label': 'Einmal-Code erneut senden',
 		'resetPasswort.label': 'Passwort vergessen?',

@@ -949,7 +949,7 @@ export const en = {
 				title: 'Not registered yet?',
 				copy: 'We will be happy to advise you on the following topics:'
 			},
-			linkLabel: 'To the overview'
+			linkLabel: 'To the consulting topics'
 		},
 		'legal': {
 			infoText: {
