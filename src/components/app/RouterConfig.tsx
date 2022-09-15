@@ -38,7 +38,6 @@ import { ReactComponent as ToolsIcon } from '../../resources/img/icons/tools.svg
 import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
 import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
-import { showAppointmentsMenu } from '../../utils/navigationHelpers';
 import { ToolsList } from '../tools/ToolsList';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
@@ -54,7 +53,11 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 	);
 
 const showAppointmentsMenuItem = (userData, consultingTypes, sessionsData) => {
-	return showAppointmentsMenu(userData, sessionsData);
+	return (
+		userData.appointmentFeatureEnabled &&
+		(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData))
+	);
 };
 
 const showToolsMenuItem = (userData, consultingTypes, sessionsData, hasTools) =>
