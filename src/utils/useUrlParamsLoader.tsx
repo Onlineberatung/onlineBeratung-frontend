@@ -61,7 +61,7 @@ export default function useUrlParamsLoader() {
 				}
 				// When we've the multi tenancy with single domain enabled we'll always have multiple consulting types
 				if (
-					!settings.multiTenancyWithSingleDomainEnabled &&
+					!settings.multitenancyWithSingleDomainEnabled &&
 					agency?.consultingType !== consultingType?.id
 				) {
 					agency = null;

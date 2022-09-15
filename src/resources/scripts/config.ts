@@ -11,7 +11,10 @@ if (apiUrlEnv) {
 	}
 }
 
-export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
+export const uiUrl =
+	process.env.REACT_APP_UI_URL || typeof window !== 'undefined'
+		? window.location.origin
+		: '';
 export const APP_PATH = 'app';
 
 export const config = {

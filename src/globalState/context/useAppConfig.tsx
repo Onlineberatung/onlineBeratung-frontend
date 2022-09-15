@@ -27,7 +27,7 @@ const UseAppConfigProvider = ({
 		enableTenantTheming: config.enableTenantTheming,
 		enableWalkThrough: config.enableWalkthrough,
 		disableVideoAppointments: config.disableVideoAppointments,
-		multiTenancyWithSingleDomainEnabled:
+		multitenancyWithSingleDomainEnabled:
 			config.useMultiTenancyWithSingleDomain,
 		useTenantService: config.useTenantService,
 		useApiClusterSettings: config.useApiClusterSettings

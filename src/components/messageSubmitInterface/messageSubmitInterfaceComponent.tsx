@@ -508,7 +508,7 @@ export const MessageSubmitInterfaceComponent = (
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
 			const { appointmentFeatureEnabled } = userData;
-			if (!sessions[0].consultant) {
+			if (!sessions?.[0]?.consultant) {
 				setShowAppointmentButton(appointmentFeatureEnabled);
 			}
 		}
