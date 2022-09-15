@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { createContext, useState, useContext, useCallback } from 'react';
-import {
-	TenantDataInterface,
-	TenantDataSettingsInterface
-} from '../interfaces/TenantDataInterface';
-// Make tenant available globally to be used on other files that are just js context
-const tenantSettings: Partial<TenantDataSettingsInterface> = {};
+import { setTenantSettings } from '../../utils/tenantSettingsHelper';
+import { TenantDataInterface } from '../interfaces/TenantDataInterface';
 
 export const TenantContext = createContext<{
 	tenant: TenantDataInterface;
@@ -16,7 +12,7 @@ export function TenantProvider(props) {
 	const [tenant, setTenant] = useState<TenantDataInterface>();
 
 	const setSettings = useCallback((tenant) => {
-		Object.assign(tenantSettings, tenant.settings);
+		setTenantSettings(tenant.settings);
 		setTenant(tenant);
 	}, []);
 
@@ -30,7 +26,3 @@ export function TenantProvider(props) {
 export function useTenant() {
 	return useContext(TenantContext).tenant;
 }
-
-export const getTenantSettings = () => {
-	return tenantSettings;
-};

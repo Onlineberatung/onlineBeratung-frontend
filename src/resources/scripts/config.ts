@@ -23,7 +23,7 @@ export const config = {
 	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	useMultiTenancyWithSingleDomain: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
-	useTenantService: false,
+	useTenantService: true,
 	useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
 	mainTenantSubdomainForSingleDomainMultitenancy: 'app',
 
@@ -155,6 +155,8 @@ export const config = {
 		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
 	urls: {
+		appointmentServiceDevServer:
+			'https://calcom-develop.suchtberatung.digital',
 		consultantVideoConference:
 			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',
@@ -168,7 +170,6 @@ export const config = {
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		releases: uiUrl + '/releases',
 		budibaseDevServer: '',
-		appointmentServiceDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',

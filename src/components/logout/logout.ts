@@ -1,7 +1,7 @@
 import { apiKeycloakLogout } from '../../api/apiLogoutKeycloak';
 import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
-import { getTenantSettings } from '../../globalState';
 import { config } from '../../resources/scripts/config';
+import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { calcomLogout } from '../booking/settings/calcomLogout';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
