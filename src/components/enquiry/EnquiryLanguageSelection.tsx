@@ -53,7 +53,7 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 
 				const response = await apiAgencyLanguages(
 					agencyId,
-					settings?.multiTenancyWithSingleDomainEnabled
+					settings?.multitenancyWithSingleDomainEnabled
 				).catch(() => {
 					/* intentional, falls back to fixed languages */
 				});
@@ -83,7 +83,7 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			ready,
 			sessionIdFromParam,
 			fixedLanguages,
-			settings?.multiTenancyWithSingleDomainEnabled
+			settings?.multitenancyWithSingleDomainEnabled
 		]);
 
 		const selectLanguage = (isoCode) => {

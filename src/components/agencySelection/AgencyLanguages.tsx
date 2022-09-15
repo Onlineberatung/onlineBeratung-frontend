@@ -23,7 +23,7 @@ export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
 		const getLanguagesFromApi = async () => {
 			const response = await apiAgencyLanguages(
 				agencyId,
-				settings?.multiTenancyWithSingleDomainEnabled
+				settings?.multitenancyWithSingleDomainEnabled
 			).catch(() => {
 				/* intentional, falls back to fixed languages */
 			});
@@ -41,7 +41,7 @@ export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
 	}, [
 		agencyId,
 		fixedLanguages,
-		settings?.multiTenancyWithSingleDomainEnabled
+		settings?.multitenancyWithSingleDomainEnabled
 	]);
 
 	const languagesSelection = languages.slice(0, 2);
