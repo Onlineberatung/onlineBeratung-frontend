@@ -3,7 +3,7 @@ import { TenantDataSettingsInterface } from '../globalState/interfaces/TenantDat
 export const ensureTenantSettings = (
 	tenantSettings: TenantDataSettingsInterface
 ) => {
-	return tenantSettings.featureToolsEnabled
+	return tenantSettings?.featureToolsEnabled
 		? {
 				tenantSettings
 		  }
