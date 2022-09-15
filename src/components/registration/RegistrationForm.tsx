@@ -34,6 +34,7 @@ import {
 	redirectToErrorPage
 } from '../error/errorHandling';
 import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -63,6 +64,7 @@ export const RegistrationForm = ({
 	consultant
 }: RegistrationFormProps) => {
 	const tenantData = useTenant();
+	const { settings } = useAppConfigContext();
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
 	const [formAccordionValid, setFormAccordionValid] = useState(false);
@@ -186,6 +188,8 @@ export const RegistrationForm = ({
 		apiPostRegistration(
 			config.endpoints.registerAsker,
 			registrationData,
+			settings.multiTenancyWithSingleDomainEnabled,
+			settings.budibaseSSO,
 			tenant
 		)
 			.then((res) => {

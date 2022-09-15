@@ -1,6 +1,12 @@
 import '../../polyfill';
 import * as React from 'react';
-import { ComponentType, ReactNode, useEffect, useState } from 'react';
+import {
+	ComponentType,
+	ReactNode,
+	useCallback,
+	useEffect,
+	useState
+} from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedApp } from './AuthenticatedApp';
@@ -15,9 +21,12 @@ import ErrorBoundary from './ErrorBoundary';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
-import { LegalLinkInterface } from '../../globalState';
+import { LegalLinkInterface, useAppConfigContext } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
+import { apiGetTenantTheming } from '../../api/apiGetTenantTheming';
+import getLocationVariables from '../../utils/getLocationVariables';
+import { apiServerSettings } from '../../api/apiServerSettings';
 
 export const history = createBrowserHistory();
 
@@ -38,6 +47,7 @@ export const App = ({
 	spokenLanguages = languageIsoCodesSortedByName,
 	fixedLanguages = ['de']
 }: AppProps) => {
+	const { settings, setServerSettings } = useAppConfigContext();
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
@@ -67,14 +77,48 @@ export const App = ({
 		setIsInitiallyLoaded(true);
 		history.push(entryPoint);
 	};
+	const { subdomain } = getLocationVariables();
+
+	const loginBudiBase = useCallback((featureToolsOICDToken: string) => {
+		const ifrm = document.createElement('iframe');
+		ifrm.setAttribute(
+			'src',
+			`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${featureToolsOICDToken}`
+		);
+		ifrm.id = 'authIframe2';
+		ifrm.style.display = 'none';
+		document.body.appendChild(ifrm);
+		setTimeout(() => {
+			document.querySelector('#authIframe2').remove();
+		}, 5000);
+	}, []);
 
 	useEffect(() => {
 		if (!isInitiallyLoaded && window.location.pathname === '/') {
 			activateInitialRedirect();
 		} else {
 			setIsInitiallyLoaded(true);
+			apiGetTenantTheming({
+				subdomain,
+				useMultiTenancyWithSingleDomain:
+					settings?.multiTenancyWithSingleDomainEnabled,
+				mainTenantSubdomainForSingleDomain:
+					settings.mainTenantSubdomainForSingleDomainMultitenancy
+			}).then((resp) => {
+				if (resp.settings.featureToolsEnabled) {
+					loginBudiBase(resp.settings.featureToolsOICDToken);
+				}
+			});
 		}
 	}, []); // eslint-disable-line
+
+	useEffect(() => {
+		settings.useApiClusterSettings &&
+			apiServerSettings().then((serverSettings) => {
+				setServerSettings(serverSettings || {});
+			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<ErrorBoundary>

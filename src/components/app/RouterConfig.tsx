@@ -20,7 +20,11 @@ import { GroupChatInfo } from '../groupChat/GroupChatInfo';
 import { Appointments } from '../appointment/Appointments';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
-import { AUTHORITIES, hasUserAuthority } from '../../globalState';
+import {
+	AppConfigInterface,
+	AUTHORITIES,
+	hasUserAuthority
+} from '../../globalState';
 import { Booking } from '../booking/booking';
 import { BookingCancellation } from '../booking/bookingCancellation';
 import { BookingEvents } from '../booking/bookingEvents';
@@ -30,10 +34,12 @@ import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { ReactComponent as ToolsIcon } from '../../resources/img/icons/tools.svg';
 import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
 import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
 import { showAppointmentsMenu } from '../../utils/navigationHelpers';
+import { ToolsList } from '../tools/ToolsList';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -51,11 +57,44 @@ const showAppointmentsMenuItem = (userData, consultingTypes, sessionsData) => {
 	return showAppointmentsMenu(userData, sessionsData);
 };
 
-const isVideoAppointmentsEnabled = (userData, consultingTypes) =>
-	!config.disableVideoAppointments &&
-	hasVideoCallFeature(userData, consultingTypes);
+const showToolsMenuItem = (userData, consultingTypes, sessionsData, hasTools) =>
+	hasTools;
 
-export const RouterConfigUser = (): any => {
+const isVideoAppointmentsEnabled = (
+	userData,
+	consultingTypes,
+	disableVideoAppointments
+) =>
+	!disableVideoAppointments && hasVideoCallFeature(userData, consultingTypes);
+
+const appointmentRoutes = [
+	{
+		path: '/booking',
+		component: Booking
+	},
+	{
+		path: '/booking/cancellation',
+		component: BookingCancellation
+	},
+	{
+		path: '/booking/reschedule',
+		component: BookingReschedule
+	},
+	{
+		path: '/booking/events',
+		exact: false,
+		component: BookingEvents
+	}
+];
+
+const toolsRoutes = [
+	{
+		path: '/tools',
+		component: ToolsList
+	}
+];
+
+export const RouterConfigUser = (settings: AppConfigInterface): any => {
 	return {
 		navigation: [
 			{
@@ -79,6 +118,14 @@ export const RouterConfigUser = (): any => {
 				icon: <CalendarMonthIcon className="navigation__icon" />,
 				titleKeys: {
 					large: 'navigation.booking.events'
+				}
+			},
+			{
+				condition: showToolsMenuItem,
+				to: '/tools',
+				icon: <ToolsIcon className="navigation__icon" />,
+				titleKeys: {
+					large: 'navigation.tools'
 				}
 			}
 		],
@@ -134,29 +181,12 @@ export const RouterConfigUser = (): any => {
 				component: Profile
 			}
 		],
-		appointmentRoutes: [
-			{
-				path: '/booking',
-				component: Booking
-			},
-			{
-				path: '/booking/cancellation',
-				component: BookingCancellation
-			},
-			{
-				path: '/booking/reschedule',
-				component: BookingReschedule
-			},
-			{
-				path: '/booking/events',
-				exact: false,
-				component: BookingEvents
-			}
-		]
+		appointmentRoutes,
+		toolsRoutes
 	};
 };
 
-export const RouterConfigConsultant = (): any => {
+export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 	return {
 		plainRoutes: [
 			{
@@ -183,7 +213,12 @@ export const RouterConfigConsultant = (): any => {
 				}
 			},
 			{
-				condition: isVideoAppointmentsEnabled,
+				condition: (userData, consultingTypes) =>
+					isVideoAppointmentsEnabled(
+						userData,
+						consultingTypes,
+						settings.disableVideoAppointments
+					),
 				to: '/termine',
 				icon: <CalendarIcon className="navigation__icon" />,
 				titleKeys: {
@@ -289,35 +324,25 @@ export const RouterConfigConsultant = (): any => {
 				component: Profile
 			},
 			{
-				condition: isVideoAppointmentsEnabled,
+				condition: (userData, consultingTypes) =>
+					isVideoAppointmentsEnabled(
+						userData,
+						consultingTypes,
+						settings.disableVideoAppointments
+					),
 				path: '/termine',
 				exact: false,
 				component: Appointments
 			}
 		],
-		appointmentRoutes: [
-			{
-				path: '/booking',
-				component: Booking
-			},
-			{
-				path: '/booking/cancellation',
-				component: BookingCancellation
-			},
-			{
-				path: '/booking/reschedule',
-				component: BookingReschedule
-			},
-			{
-				path: '/booking/events',
-				exact: false,
-				component: BookingEvents
-			}
-		]
+		appointmentRoutes,
+		toolsRoutes
 	};
 };
 
-export const RouterConfigTeamConsultant = (): any => {
+export const RouterConfigTeamConsultant = (
+	settings: AppConfigInterface
+): any => {
 	return {
 		plainRoutes: [
 			{
@@ -352,7 +377,12 @@ export const RouterConfigTeamConsultant = (): any => {
 				}
 			},
 			{
-				condition: isVideoAppointmentsEnabled,
+				condition: (userData, consultingTypes) =>
+					isVideoAppointmentsEnabled(
+						userData,
+						consultingTypes,
+						settings.disableVideoAppointments
+					),
 				to: '/termine',
 				icon: <CalendarIcon className="navigation__icon" />,
 				titleKeys: {
@@ -501,40 +531,32 @@ export const RouterConfigTeamConsultant = (): any => {
 				component: Profile
 			},
 			{
-				condition: isVideoAppointmentsEnabled,
+				condition: (userData, consultingTypes) =>
+					isVideoAppointmentsEnabled(
+						userData,
+						consultingTypes,
+						settings.disableVideoAppointments
+					),
 				path: '/termine',
 				exact: false,
 				component: Appointments
 			}
 		],
-		appointmentRoutes: [
-			{
-				path: '/booking',
-				component: Booking
-			},
-			{
-				path: '/booking/cancellation',
-				component: BookingCancellation
-			},
-			{
-				path: '/booking/reschedule',
-				component: BookingReschedule
-			},
-			{
-				path: '/booking/events',
-				exact: false,
-				component: BookingEvents
-			}
-		]
+		appointmentRoutes,
+		toolsRoutes
 	};
 };
 
-export const RouterConfigPeerConsultant = (): any => {
-	return RouterConfigConsultant();
+export const RouterConfigPeerConsultant = (
+	settings: AppConfigInterface
+): any => {
+	return RouterConfigConsultant(settings);
 };
 
-export const RouterConfigMainConsultant = (): any => {
-	let config = RouterConfigTeamConsultant();
+export const RouterConfigMainConsultant = (
+	settings: AppConfigInterface
+): any => {
+	const config = RouterConfigTeamConsultant(settings);
 	config.navigation[2].titleKeys = {
 		large: 'navigation.consultant.peersessions',
 		small: 'navigation.consultant.peersessions.small'

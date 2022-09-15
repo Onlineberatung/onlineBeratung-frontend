@@ -22,6 +22,7 @@ import useUpdatingRef from '../../hooks/useUpdatingRef';
 import { ISubscriptions } from '../../types/rc/Subscriptions';
 import { IRoom } from '../../types/rc/Room';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
+import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 
 type RocketChatSubscriptionsContextProps = {
 	subscriptions: any[];
@@ -118,9 +119,57 @@ export const RocketChatSubscriptionsProvider = ({
 		useCallback((args) => {
 			//const [data] = args;
 			//const { payload } = data;
-			console.log('Notificationn');
+			console.log('Notification');
 			console.log(args);
 		}, [])
+	);
+
+	const roomsRetryCount = useRef(1);
+	const ROOMS_MAX_RETRIES = 3;
+	const getRooms = useCallback(
+		() =>
+			new Promise<IRoom[]>((resolve, reject) => {
+				sendMethod(METHOD_ROOMS_GET, [], (rooms) => {
+					if (
+						!rooms &&
+						roomsRetryCount.current <= ROOMS_MAX_RETRIES
+					) {
+						roomsRetryCount.current++;
+						getRooms().then(resolve).catch(reject);
+						return;
+					} else if (!rooms) {
+						reject(new Error('Loading rooms failed'));
+						return;
+					}
+					resolve(rooms);
+				});
+			}),
+		[sendMethod]
+	);
+
+	const subscriptionsRetryCount = useRef(0);
+	const SUBSCRIPTIONS_MAX_RETRIES = 3;
+	const getSubscriptions = useCallback(
+		() =>
+			new Promise<ISubscriptions[]>((resolve, reject) => {
+				// Get user subscriptions
+				sendMethod(METHOD_SUBSCRIPTIONS_GET, [], (subscriptions) => {
+					if (
+						!subscriptions &&
+						subscriptionsRetryCount.current <=
+							SUBSCRIPTIONS_MAX_RETRIES
+					) {
+						subscriptionsRetryCount.current++;
+						getSubscriptions().then(resolve).catch(reject);
+						return;
+					} else if (!subscriptions) {
+						reject(new Error('Loading subscriptions failed'));
+						return;
+					}
+					resolve(subscriptions);
+				});
+			}),
+		[sendMethod]
 	);
 
 	useEffect(() => {
@@ -129,33 +178,53 @@ export const RocketChatSubscriptionsProvider = ({
 		if (ready && !subscribed.current) {
 			subscribed.current = true;
 
-			// Get user rooms
-			sendMethod(METHOD_ROOMS_GET, [], (rooms) => {
-				setRooms(rooms ?? []);
+			getRooms()
+				.then((rooms) => {
+					setRooms(rooms);
+				})
+				.catch((e) => {
+					setRooms([]);
+					apiPostError({
+						name: e.name,
+						message: e.message,
+						stack: e.stack,
+						level: ERROR_LEVEL_WARN
+					}).then();
+				})
+				.finally(() => {
+					subscribe(
+						{
+							name: SUB_STREAM_NOTIFY_USER,
+							event: EVENT_ROOMS_CHANGED,
+							userId: rcUid.current
+						},
+						roomsChanged
+					);
+				});
 
-				subscribe(
-					{
-						name: SUB_STREAM_NOTIFY_USER,
-						event: EVENT_ROOMS_CHANGED,
-						userId
-					},
-					roomsChanged
-				);
-			});
-
-			// Get user subscriptions
-			sendMethod(METHOD_SUBSCRIPTIONS_GET, [], (subscriptions) => {
-				setSubscriptions(subscriptions ?? []);
-
-				subscribe(
-					{
-						name: SUB_STREAM_NOTIFY_USER,
-						event: EVENT_SUBSCRIPTIONS_CHANGED,
-						userId
-					},
-					subscriptionsChanged
-				);
-			});
+			getSubscriptions()
+				.then((subscriptions) => {
+					setSubscriptions(subscriptions);
+				})
+				.catch((e) => {
+					setSubscriptions([]);
+					apiPostError({
+						name: e.name,
+						message: e.message,
+						stack: e.stack,
+						level: ERROR_LEVEL_WARN
+					}).then();
+				})
+				.finally(() => {
+					subscribe(
+						{
+							name: SUB_STREAM_NOTIFY_USER,
+							event: EVENT_SUBSCRIPTIONS_CHANGED,
+							userId: rcUid.current
+						},
+						subscriptionsChanged
+					);
+				});
 
 			subscribe(
 				{
@@ -173,6 +242,8 @@ export const RocketChatSubscriptionsProvider = ({
 		}
 
 		return () => {
+			roomsRetryCount.current = 1;
+			subscriptionsRetryCount.current = 1;
 			if (subscribed.current) {
 				unsubscribe(
 					{
@@ -208,7 +279,9 @@ export const RocketChatSubscriptionsProvider = ({
 		subscribe,
 		unsubscribe,
 		subscribed,
-		subscriptionsChanged
+		subscriptionsChanged,
+		getRooms,
+		getSubscriptions
 	]);
 
 	return (

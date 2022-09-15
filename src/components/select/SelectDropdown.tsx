@@ -17,11 +17,19 @@ export interface SelectOption {
 	isFixed?: boolean;
 }
 
+export interface SelectOptionsMulti {
+	action: string;
+	name?: string;
+	removedValue?: SelectOption;
+	option?: SelectOption;
+}
+
 export interface SelectDropdownItem {
 	className?: string;
 	id: string;
 	selectedOptions: SelectOption[];
 	selectInputLabel?: string;
+	placeholder?: string;
 	handleDropdownSelect: Function;
 	useIconOption?: boolean;
 	isSearchable?: boolean;
@@ -259,7 +267,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				options={props.selectedOptions}
 				noOptionsMessage={() => null}
 				menuPlacement={props.menuPlacement}
-				placeholder={''}
+				placeholder={props.placeholder ? props.placeholder : ''}
 				isClearable={props.isClearable}
 				isSearchable={props.isSearchable}
 				isMulti={props.isMulti}

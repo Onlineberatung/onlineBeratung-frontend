@@ -10,4 +10,12 @@
 			margin-top: $grid-base-four;
 		}
 	}
+
+	.box {
+		margin-bottom: 0;
+
+		&:not(:first-of-type) {
+			margin-top: 1rem;
+		}
+	}
 }
