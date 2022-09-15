@@ -103,7 +103,7 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 						reject(error);
 					});
 
-				if (autoLoginProps.enableBudibaseSSO) {
+				if (autoLoginProps?.tenantSettings?.featureToolsEnabled) {
 					getBudibaseAccessToken(
 						username,
 						autoLoginProps.password,

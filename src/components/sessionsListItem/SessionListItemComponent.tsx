@@ -34,7 +34,11 @@ import { Tag } from '../tag/Tag';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
 import clsx from 'clsx';
-import { decryptText } from '../../utils/encryptionHelpers';
+import {
+	decryptText,
+	MissingKeyError,
+	WrongKeyError
+} from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SessionListItemLastMessage } from './SessionListItemLastMessage';
@@ -84,11 +88,21 @@ export const SessionListItemComponent = ({
 				key,
 				encrypted,
 				session.item.e2eLastMessage.t === 'e2e'
-			).then((message) => {
-				const rawMessageObject = markdownToDraft(message);
-				const contentStateMessage = convertFromRaw(rawMessageObject);
-				setPlainTextLastMessage(contentStateMessage.getPlainText());
-			});
+			)
+				.catch((e): string =>
+					translate(
+						e instanceof MissingKeyError ||
+							e instanceof WrongKeyError
+							? e.message
+							: 'e2ee.message.encryption.error'
+					)
+				)
+				.then((message) => {
+					const rawMessageObject = markdownToDraft(message);
+					const contentStateMessage =
+						convertFromRaw(rawMessageObject);
+					setPlainTextLastMessage(contentStateMessage.getPlainText());
+				});
 		} else {
 			if (
 				session.item.e2eLastMessage &&

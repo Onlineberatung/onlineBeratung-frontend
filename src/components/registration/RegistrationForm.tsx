@@ -217,7 +217,7 @@ export const RegistrationForm = ({
 		apiPostRegistration(
 			config.endpoints.registerAsker,
 			registrationData,
-			settings.multiTenancyWithSingleDomainEnabled,
+			settings.multitenancyWithSingleDomainEnabled,
 			settings.budibaseSSO,
 			tenant
 		)
