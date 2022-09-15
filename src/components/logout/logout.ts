@@ -1,41 +1,45 @@
 import { apiKeycloakLogout } from '../../api/apiLogoutKeycloak';
 import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
+import { getTenantSettings } from '../../globalState';
 import { config } from '../../resources/scripts/config';
 import { calcomLogout } from '../booking/settings/calcomLogout';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
 
 let isRequestInProgress = false;
-
 export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
+	const invalidateCookies = (
+		withRedirect: boolean = true,
+		redirectUrl?: string
+	) => {
+		removeAllCookies();
+		removeTokenExpiryFromLocalStorage();
+		if (withRedirect) {
+			redirectAfterLogout(redirectUrl);
+		}
+	};
+
+	const redirectAfterLogout = (altRedirectUrl?: string) => {
+		const redirectUrl = altRedirectUrl
+			? altRedirectUrl
+			: config.urls.toEntry;
+		setTimeout(() => {
+			window.location.href = redirectUrl;
+		}, 1000);
+	};
+
 	if (isRequestInProgress) {
 		return null;
 	}
 	isRequestInProgress = true;
 
 	Promise.all([
-		true ? calcomLogout() : null,
 		apiRocketchatLogout(),
-		apiKeycloakLogout()
+		apiKeycloakLogout(),
+		getTenantSettings().featureAppointmentsEnabled ? calcomLogout() : null
 	]).finally(() => {
 		invalidateCookies(withRedirect, redirectUrl);
 	});
-};
 
-const invalidateCookies = (
-	withRedirect: boolean = true,
-	redirectUrl?: string
-) => {
-	removeAllCookies();
-	removeTokenExpiryFromLocalStorage();
-	if (withRedirect) {
-		redirectAfterLogout(redirectUrl);
-	}
-};
-
-const redirectAfterLogout = (altRedirectUrl?: string) => {
-	const redirectUrl = altRedirectUrl ? altRedirectUrl : config.urls.toEntry;
-	setTimeout(() => {
-		window.location.href = redirectUrl;
-	}, 1000);
+	return null;
 };
