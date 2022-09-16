@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { removeAllCookies } from '../components/sessionCookie/accessSessionCookie';
 import { config } from '../resources/scripts/config';
-import { fetchData, FETCH_METHODS } from './fetchData';
+import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { ErrorInfo } from 'react';
+import StackTrace from 'stacktrace-js';
 
 export interface ErrorResponse {}
 
@@ -18,9 +18,7 @@ type TErrorHeaders = {
 	'Referer'?: string;
 };
 
-export type TError = {
-	name: string;
-	message: string;
+export type TError = Error & {
 	level?:
 		| typeof ERROR_LEVEL_FATAL
 		| typeof ERROR_LEVEL_ERROR
@@ -30,7 +28,6 @@ export type TError = {
 		| typeof ERROR_LEVEL_TRACE;
 	url?: string;
 	headers?: TErrorHeaders;
-	stack: string;
 	parsedStack?: string;
 };
 
@@ -74,6 +71,14 @@ export const apiPostError = async (
 		}
 	}
 
+	if (error.stack && !error.parsedStack) {
+		error.parsedStack = await StackTrace.fromError(error).then(
+			(stackFrames) => {
+				return stackFrames.map((sf) => sf.toString()).join('\n');
+			}
+		);
+	}
+
 	const bodyData: ErrorRequestBody = {
 		request: {
 			correlationId: uuidv4(),
@@ -84,12 +89,14 @@ export const apiPostError = async (
 		...(info ? { info: info } : {})
 	};
 
-	removeAllCookies();
-
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.POST,
 		bodyData: JSON.stringify(bodyData),
-		skipAuth: true
+		skipAuth: true,
+		responseHandling: [FETCH_ERRORS.CATCH_ALL]
+	}).catch((e) => {
+		console.log('Logging error failed: ', e);
+		return e;
 	});
 };

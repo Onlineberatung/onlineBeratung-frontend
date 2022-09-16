@@ -57,6 +57,7 @@ import {
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { useTranslation } from 'react-i18next';
+import { ensureTenantSettings } from '../../utils/tenantHelpers';
 
 interface LoginProps {
 	stageComponent: ComponentType<StageProps>;
@@ -318,7 +319,12 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		autoLogin({
 			username: username,
 			password: password,
-			redirect: !consultant
+			redirect: !consultant,
+			...ensureTenantSettings(
+				tenant?.settings,
+				tenant?.settings?.featureToolsEnabled
+			),
+			enableBudibaseSSO: tenant?.settings?.featureToolsEnabled
 		})
 			.then(postLogin)
 			.catch((error) => {
@@ -352,7 +358,12 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				username,
 				password,
 				redirect: !consultant,
-				otp
+				otp,
+				enableBudibaseSSO: tenant?.settings?.featureToolsEnabled,
+				...ensureTenantSettings(
+					tenant?.settings,
+					tenant?.settings?.featureToolsEnabled
+				)
 			})
 				.then(postLogin)
 				.catch((error) => {

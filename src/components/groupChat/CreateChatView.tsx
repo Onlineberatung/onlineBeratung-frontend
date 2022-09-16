@@ -228,11 +228,12 @@ export const CreateGroupChatView = (props) => {
 
 	const handleBackButton = () => {
 		if (isEditGroupChatMode) {
-			history.push(`${listPath}/${activeSession.item.groupId}/${
-				activeSession.item.id
-			}
-				${prevPathIsGroupChatInfo ? '/groupChatInfo' : ''}
-				${getSessionListTab()}`);
+			const pathInfo =
+				(prevPathIsGroupChatInfo ? '/groupChatInfo' : '') +
+				getSessionListTab();
+			history.push(
+				`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}${pathInfo}`
+			);
 		}
 	};
 
@@ -398,12 +399,11 @@ export const CreateGroupChatView = (props) => {
 				overlayItem === createChatSuccessOverlayItem ||
 				overlayItem === updateChatSuccessOverlayItem
 			) {
+				const pathInfo =
+					(prevPathIsGroupChatInfo ? '/groupChatInfo' : '') +
+					getSessionListTab();
 				history.push(
-					`${listPath}/${activeSession.item.groupId}/${
-						activeSession.item.id
-					}${
-						prevPathIsGroupChatInfo ? '/groupChatInfo' : ''
-					}${getSessionListTab()}`
+					`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}${pathInfo}`
 				);
 			} else {
 				setOverlayActive(false);

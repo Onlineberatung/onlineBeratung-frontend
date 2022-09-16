@@ -8,6 +8,7 @@ import { isUniqueLanguage } from '../profile/profileHelpers';
 import './enquiryLanguageSelection.styles';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useTranslation } from 'react-i18next';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 interface EnquiryLanguageSelectionProps {
 	className?: string;
@@ -17,6 +18,7 @@ interface EnquiryLanguageSelectionProps {
 export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 	({ className = '', handleSelection }) => {
 		const { t: translate } = useTranslation();
+		const { settings } = useAppConfigContext();
 		const { sessions, ready } = useContext(SessionsDataContext);
 		const { fixed: fixedLanguages } = useContext(LanguagesContext);
 		const { sessionId: sessionIdFromParam } =
@@ -50,11 +52,12 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 					return;
 				}
 
-				const response = await apiAgencyLanguages(agencyId).catch(
-					() => {
-						/* intentional, falls back to fixed languages */
-					}
-				);
+				const response = await apiAgencyLanguages(
+					agencyId,
+					settings?.multitenancyWithSingleDomainEnabled
+				).catch(() => {
+					/* intentional, falls back to fixed languages */
+				});
 
 				if (!response) {
 					return;
@@ -85,7 +88,14 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			};
 
 			getLanguagesFromApi();
-		}, [sessions, ready, sessionIdFromParam, fixedLanguages, translate]);
+		}, [
+			sessions,
+			ready,
+			sessionIdFromParam,
+			fixedLanguages,
+			translate,
+			settings?.multitenancyWithSingleDomainEnabled
+		]);
 
 		const selectLanguage = (isoCode) => {
 			setSelectedLanguage(isoCode);

@@ -9,6 +9,7 @@ import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEContext } from '../../globalState';
 import { encryptRoom } from '../../utils/e2eeHelper';
 import { useTranslation } from 'react-i18next';
+import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 
 interface ForwardMessageProps {
 	right: boolean;
@@ -74,14 +75,33 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 
 		setIsRequestInProgress(true);
 
+		let encryptedMessage = props.message;
+		let isEncrypted = isE2eeEnabled;
+		try {
+			encryptedMessage = await encryptText(
+				encryptedMessage,
+				groupKeyID,
+				groupKey
+			);
+		} catch (e: any) {
+			apiPostError({
+				name: e.name,
+				message: e.message,
+				stack: e.stack,
+				level: ERROR_LEVEL_WARN
+			}).then();
+
+			isEncrypted = false;
+		}
+
 		apiForwardMessage(
-			await encryptText(props.message, groupKeyID, groupKey),
+			encryptedMessage,
 			props.message,
 			props.messageTime,
 			props.displayName,
 			props.askerRcId,
 			props.groupId,
-			isE2eeEnabled
+			isEncrypted
 		).then(() => {
 			encryptForwardRoom(groupKeyID, sessionGroupKeyExportedString);
 			setMessageForwarded(true);

@@ -48,8 +48,10 @@ import {
 } from '../../utils/tabsHelper';
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 export const Profile = () => {
+	const { settings } = useAppConfigContext();
 	const { t: translate } = useTranslation();
 	const location = useLocation();
 	const consultingTypes = useConsultingTypes();
@@ -78,7 +80,7 @@ export const Profile = () => {
 
 	useEffect(() => {
 		setMobileMenu(
-			profileRoutes
+			profileRoutes(settings)
 				.filter((tab) =>
 					solveTabConditions(tab, userData, consultingTypes)
 				)
@@ -112,7 +114,7 @@ export const Profile = () => {
 					})
 				)
 		);
-	}, [consultingTypes, translate, userData]);
+	}, [consultingTypes, translate, settings, userData]);
 
 	const [subpage, setSubpage] = useState(undefined);
 	useEffect(() => {
@@ -180,7 +182,7 @@ export const Profile = () => {
 					</div>
 					<div className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex__col--50p">
 						{fromL ? (
-							profileRoutes
+							profileRoutes(settings)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
@@ -226,7 +228,7 @@ export const Profile = () => {
 					<Switch>
 						{fromL ? (
 							// Render tabs for desktop
-							profileRoutes
+							profileRoutes(settings)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
@@ -278,7 +280,7 @@ export const Profile = () => {
 						) : (
 							// Render submenu for mobile
 							<Route
-								path={profileRoutes
+								path={profileRoutes(settings)
 									.filter((tab) =>
 										solveTabConditions(
 											tab,
@@ -297,7 +299,7 @@ export const Profile = () => {
 
 						{!fromL &&
 							// Render groups as routes for mobile
-							profileRoutes
+							profileRoutes(settings)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
@@ -338,7 +340,9 @@ export const Profile = () => {
 										);
 								})}
 
-						<Redirect to={`/profile${profileRoutes[0].url}`} />
+						<Redirect
+							to={`/profile${profileRoutes(settings)[0].url}`}
+						/>
 					</Switch>
 				</div>
 

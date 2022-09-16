@@ -87,6 +87,7 @@ import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
 import { encryptRoom } from '../../utils/e2eeHelper';
 import { useTranslation } from 'react-i18next';
+import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -294,7 +295,7 @@ export const MessageSubmitInterfaceComponent = (
 						props.E2EEParams.encrypted,
 						response.t === 'e2e',
 						'enc.'
-					);
+					).catch(() => response.org || response.message);
 				} else {
 					return response.org || response.message;
 				}
@@ -328,14 +329,30 @@ export const MessageSubmitInterfaceComponent = (
 						props.E2EEParams.keyID,
 						props.E2EEParams.key,
 						'enc.'
-					).then((message) => {
-						apiPostDraftMessage(
-							groupId,
-							message,
-							'e2e',
-							currentDraftMessageRef.current
-						).then();
-					});
+					)
+						.then((message) => {
+							apiPostDraftMessage(
+								groupId,
+								message,
+								'e2e',
+								currentDraftMessageRef.current
+							).then();
+						})
+						.catch((e) => {
+							apiPostError({
+								name: e.name,
+								message: e.message,
+								stack: e.stack,
+								level: ERROR_LEVEL_WARN
+							}).then();
+
+							apiPostDraftMessage(
+								groupId,
+								currentDraftMessageRef.current,
+								'',
+								currentDraftMessageRef.current
+							).then();
+						});
 				} else {
 					apiPostDraftMessage(
 						groupId,
@@ -371,14 +388,30 @@ export const MessageSubmitInterfaceComponent = (
 					props.E2EEParams.keyID,
 					props.E2EEParams.key,
 					'enc.'
-				).then((message) => {
-					apiPostDraftMessage(
-						groupId,
-						message,
-						'e2e',
-						debouncedDraftMessage
-					).then();
-				});
+				)
+					.then((message) => {
+						apiPostDraftMessage(
+							groupId,
+							message,
+							'e2e',
+							debouncedDraftMessage
+						).then();
+					})
+					.catch((e: any) => {
+						apiPostError({
+							name: e.name,
+							message: e.message,
+							stack: e.stack,
+							level: ERROR_LEVEL_WARN
+						}).then();
+
+						apiPostDraftMessage(
+							groupId,
+							currentDraftMessageRef.current,
+							'',
+							currentDraftMessageRef.current
+						).then();
+					});
 			} else {
 				apiPostDraftMessage(
 					groupId,
@@ -447,7 +480,7 @@ export const MessageSubmitInterfaceComponent = (
 						uploadOnLoadHandling.rcGroupIdOrSessionId,
 						uploadOnLoadHandling.isFeedback,
 						false, // do not send email notification, since this was already done for the attachment
-						isE2eeEnabled
+						uploadOnLoadHandling.isEncrypted
 					).then(() => {
 						finishSendingAttachment();
 					});
@@ -478,7 +511,7 @@ export const MessageSubmitInterfaceComponent = (
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
 			const { appointmentFeatureEnabled } = userData;
-			if (!sessions[0].consultant) {
+			if (!sessions?.[0]?.consultant) {
 				setShowAppointmentButton(appointmentFeatureEnabled);
 			}
 		}
@@ -626,12 +659,12 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
-	const sendEnquiry = (encryptedMessage, unencryptedMessage) => {
+	const sendEnquiry = (encryptedMessage, unencryptedMessage, isEncrypted) => {
 		apiSendEnquiry(
 			activeSession.item.id,
 			encryptedMessage,
 			unencryptedMessage,
-			isE2eeEnabled,
+			isEncrypted,
 			props.language
 		)
 			.then((response) => {
@@ -647,7 +680,8 @@ export const MessageSubmitInterfaceComponent = (
 		sendToFeedbackEndpoint,
 		encryptedMessage,
 		unencryptedMessage,
-		attachment
+		attachment,
+		isEncrypted
 	) => {
 		const sendToRoomWithId = sendToFeedbackEndpoint
 			? activeSession.item.feedbackGroupId
@@ -669,7 +703,8 @@ export const MessageSubmitInterfaceComponent = (
 					sendToFeedbackEndpoint,
 					getSendMailNotificationStatus(),
 					setUploadProgress,
-					setUploadOnLoadHandling
+					setUploadOnLoadHandling,
+					isEncrypted
 				)
 			);
 		} else {
@@ -680,7 +715,7 @@ export const MessageSubmitInterfaceComponent = (
 					sendToRoomWithId,
 					sendToFeedbackEndpoint,
 					getSendMailNotificationStatus(),
-					isE2eeEnabled
+					isEncrypted
 				)
 					.then(() => {
 						props.handleSendButton();
@@ -740,28 +775,40 @@ export const MessageSubmitInterfaceComponent = (
 				: props.E2EEParams.sessionKeyExportedString;
 
 		const unencryptedMessage = getTypedMarkdownMessage().trim();
-		const encryptedMessage =
-			getTypedMarkdownMessage().trim() &&
-			getTypedMarkdownMessage().trim().length > 0 &&
-			isE2eeEnabled
-				? await encryptText(
-						getTypedMarkdownMessage().trim(),
-						keyId,
-						key
-				  )
-				: getTypedMarkdownMessage().trim();
+
+		let encryptedMessage = unencryptedMessage;
+		let isEncrypted = isE2eeEnabled;
+		if (encryptedMessage.length > 0 && isE2eeEnabled) {
+			try {
+				encryptedMessage = await encryptText(
+					encryptedMessage,
+					keyId,
+					key
+				);
+			} catch (e: any) {
+				apiPostError({
+					name: e.name,
+					message: e.message,
+					stack: e.stack,
+					level: ERROR_LEVEL_WARN
+				}).then();
+
+				isEncrypted = false;
+			}
+		}
 
 		if (
 			type === SESSION_LIST_TYPES.ENQUIRY &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
-			sendEnquiry(encryptedMessage, unencryptedMessage);
+			sendEnquiry(encryptedMessage, unencryptedMessage, isEncrypted);
 		} else {
 			sendMessage(
 				sendToFeedbackEndpoint,
 				encryptedMessage,
 				unencryptedMessage,
-				attachment
+				attachment,
+				isEncrypted
 			);
 
 			if (isFeedbackRequestChecked()) {

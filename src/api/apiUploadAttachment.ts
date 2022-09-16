@@ -16,7 +16,8 @@ export const apiUploadAttachment = (
 	isFeedback: boolean,
 	sendMailNotification: boolean,
 	uploadProgress: Function,
-	onLoadHandling: Function
+	onLoadHandling: Function,
+	isEncrypted: boolean
 ) => {
 	const accessToken = getValueFromCookie('keycloak');
 	const rcAuthToken = getValueFromCookie('rc_token');
@@ -47,7 +48,8 @@ export const apiUploadAttachment = (
 			isFeedback,
 			encryptedMessage,
 			unencryptedMessage,
-			rcGroupIdOrSessionId
+			rcGroupIdOrSessionId,
+			isEncrypted
 		});
 	};
 

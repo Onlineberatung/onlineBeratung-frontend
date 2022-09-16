@@ -1,12 +1,16 @@
 import { autoLogin } from '../components/registration/autoLogin';
 import { removeAllCookies } from '../components/sessionCookie/accessSessionCookie';
-import { config } from '../resources/scripts/config';
+import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
+import { ensureTenantSettings } from '../utils/tenantHelpers';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from './fetchData';
 import { COOKIE_KEY } from '../globalState';
 
 export const apiPostRegistration = (
 	url: string,
-	data: { agencyId?: string }
+	data: { agencyId?: string },
+	useMultiTenancyWithSingleDomain: boolean,
+	enableBudibaseSSO: boolean,
+	tenant: TenantDataInterface
 ): Promise<any> => {
 	removeAllCookies([COOKIE_KEY]);
 
@@ -15,7 +19,7 @@ export const apiPostRegistration = (
 		method: FETCH_METHODS.POST,
 		bodyData: JSON.stringify(data),
 		skipAuth: true,
-		...(config.useMultiTenancyWithSingleDomain && {
+		...(useMultiTenancyWithSingleDomain && {
 			headersData: { agencyId: data.agencyId }
 		}),
 		responseHandling: [FETCH_ERRORS.CATCH_ALL_WITH_RESPONSE]
@@ -23,7 +27,9 @@ export const apiPostRegistration = (
 		autoLogin({
 			username: data['username'],
 			password: decodeURIComponent(data['password']),
-			redirect: false
+			redirect: false,
+			enableBudibaseSSO,
+			...ensureTenantSettings(tenant?.settings, enableBudibaseSSO)
 		})
 	);
 };

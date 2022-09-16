@@ -26,6 +26,9 @@ import { apiRocketChatSubscriptionsGet } from '../../api/apiRocketChatSubscripti
 import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
+import { getBudibaseAccessToken } from '../sessionCookie/getBudibaseAccessToken';
+import { TenantDataSettingsInterface } from '../../globalState/interfaces/TenantDataInterface';
+import { ensureTenantSettings } from '../../utils/tenantHelpers';
 
 export interface LoginData {
 	data: {
@@ -44,6 +47,8 @@ interface AutoLoginProps {
 	redirect: boolean;
 	otp?: string;
 	useOldUser?: boolean;
+	tenantSettings?: TenantDataSettingsInterface;
+	enableBudibaseSSO: boolean;
 }
 
 export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
@@ -51,8 +56,12 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 		const userHash = autoLoginProps.useOldUser
 			? autoLoginProps.username
 			: encodeUsername(autoLoginProps.username);
+		const username = autoLoginProps.useOldUser
+			? encodeURIComponent(userHash)
+			: userHash;
+
 		getKeycloakAccessToken(
-			autoLoginProps.useOldUser ? encodeURIComponent(userHash) : userHash,
+			username,
 			encodeURIComponent(autoLoginProps.password),
 			autoLoginProps.otp ? autoLoginProps.otp : null
 		)
@@ -93,6 +102,14 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 					.catch((error) => {
 						reject(error);
 					});
+
+				if (autoLoginProps?.tenantSettings?.featureToolsEnabled) {
+					getBudibaseAccessToken(
+						username,
+						autoLoginProps.password,
+						autoLoginProps?.tenantSettings
+					);
+				}
 			})
 			.catch((error) => {
 				if (
@@ -104,7 +121,12 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 						password: autoLoginProps.password,
 						redirect: autoLoginProps.redirect,
 						otp: autoLoginProps.otp,
-						useOldUser: true
+						useOldUser: true,
+						enableBudibaseSSO: autoLoginProps.enableBudibaseSSO,
+						...ensureTenantSettings(
+							autoLoginProps?.tenantSettings,
+							autoLoginProps.enableBudibaseSSO
+						)
 					})
 						.then(() => resolve(undefined))
 						.catch((autoLoginError) => reject(autoLoginError));

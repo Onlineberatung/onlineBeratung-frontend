@@ -1,6 +1,12 @@
 import '../../polyfill';
 import * as React from 'react';
-import { ComponentType, useState } from 'react';
+import {
+	ComponentType,
+	ReactNode,
+	useCallback,
+	useEffect,
+	useState
+} from 'react';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -19,12 +25,15 @@ import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
-import { LegalLinkInterface } from '../../globalState';
+import { LegalLinkInterface, useAppConfigContext } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
 import { useTranslation } from 'react-i18next';
 import VideoCall from '../videoCall/VideoCall';
 import { LegalLinksProvider } from '../../globalState/provider/LegalLinksProvider';
+import { apiGetTenantTheming } from '../../api/apiGetTenantTheming';
+import getLocationVariables from '../../utils/getLocationVariables';
+import { apiServerSettings } from '../../api/apiServerSettings';
 
 type TExtraRoute = {
 	route: RouteProps;
@@ -58,6 +67,7 @@ export const App = ({
 			: -1;
 	};
 
+	const { settings, setServerSettings } = useAppConfigContext();
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
@@ -81,6 +91,44 @@ export const App = ({
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
 		useState<boolean>(false);
+
+	const { subdomain } = getLocationVariables();
+
+	const loginBudiBase = useCallback((featureToolsOICDToken: string) => {
+		const ifrm = document.createElement('iframe');
+		ifrm.setAttribute(
+			'src',
+			`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${featureToolsOICDToken}`
+		);
+		ifrm.id = 'authIframe2';
+		ifrm.style.display = 'none';
+		document.body.appendChild(ifrm);
+		setTimeout(() => {
+			document.querySelector('#authIframe2').remove();
+		}, 5000);
+	}, []);
+
+	useEffect(() => {
+		apiGetTenantTheming({
+			subdomain,
+			useMultiTenancyWithSingleDomain:
+				settings?.multitenancyWithSingleDomainEnabled,
+			mainTenantSubdomainForSingleDomain:
+				settings.mainTenantSubdomainForSingleDomainMultitenancy
+		}).then((resp) => {
+			if (resp.settings.featureToolsEnabled) {
+				loginBudiBase(resp.settings.featureToolsOICDToken);
+			}
+		});
+	}, []); // eslint-disable-line
+
+	useEffect(() => {
+		settings.useApiClusterSettings &&
+			apiServerSettings().then((serverSettings) => {
+				setServerSettings(serverSettings || {});
+			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<ErrorBoundary>

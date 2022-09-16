@@ -157,7 +157,14 @@ export const useE2EE = (
 		importGroupKey(subscription.E2EKey, e2eePrivateKey).then(
 			({ key, keyID, sessionKeyExportedString }) => {
 				setKey(key);
-				setKeyID(keyID);
+				// Generate key with old generation logic for old chats
+				// ToDo: Could be removed if no old chats with room.e2eKeyId === 'eyJhbGciOiJB' exists anymore
+				const oldE2EKeyId = btoa(sessionKeyExportedString).slice(0, 12);
+				setKeyID(
+					currentRoom.e2eKeyId === oldE2EKeyId
+						? currentRoom.e2eKeyId
+						: keyID
+				);
 				setSessionKeyExportedString(sessionKeyExportedString);
 				setReady(true);
 			}

@@ -1,12 +1,12 @@
 import React, { Component, ReactNode } from 'react';
-import StackTrace from 'stacktrace-js';
 import {
 	apiPostError,
-	ERROR_LEVEL_ERROR,
+	ERROR_LEVEL_FATAL,
 	TError
 } from '../../api/apiPostError';
 import { redirectToErrorPage } from '../error/errorHandling';
 import { Loading } from './Loading';
+import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 
 type ErrorBoundaryProps = {
 	children: ReactNode;
@@ -55,7 +55,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 			name: error.name,
 			message: error.message,
 			stack: error.stack,
-			level: ERROR_LEVEL_ERROR
+			level: ERROR_LEVEL_FATAL
 		};
 
 		if (
@@ -72,17 +72,10 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 			};
 		}
 
-		StackTrace.fromError(error)
-			.then((stackFrames) => {
-				errorBoundaryError.parsedStack = stackFrames
-					.map((sf) => sf.toString())
-					.join('\n');
-			})
-			.finally(() => {
-				apiPostError(errorBoundaryError, info).finally(() => {
-					redirectToErrorPage(500);
-				});
-			});
+		apiPostError(errorBoundaryError, info).finally(() => {
+			removeAllCookies();
+			redirectToErrorPage(500);
+		});
 	}
 
 	static getDerivedStateFromError() {

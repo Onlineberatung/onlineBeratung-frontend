@@ -10,6 +10,7 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	SessionTypeContext,
+	TenantContext,
 	UserDataContext
 } from '../../globalState';
 import { Loading } from '../app/Loading';
@@ -29,9 +30,12 @@ import {
 	mobileUserProfileView
 } from '../app/navigationHandler';
 import { useTranslation } from 'react-i18next';
+import { AskerInfoTools } from './AskerInfoTools';
+import { Box } from '../box/Box';
 
 export const AskerInfo = () => {
 	const { t: translate } = useTranslation();
+	const { tenant } = useContext(TenantContext);
 	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 	const history = useHistory();
 
@@ -134,20 +138,27 @@ export const AskerInfo = () => {
 						<h2>{activeSession.user.username}</h2>
 					</div>
 					<div className="profile__content askerInfo__content">
-						<div>
+						<Box>
 							<AskerInfoData />
-						</div>
+						</Box>
+						{tenant?.settings?.featureToolsEnabled && (
+							<Box>
+								<AskerInfoTools />
+							</Box>
+						)}
 						{activeSession.item.monitoring &&
 							(type === SESSION_LIST_TYPES.MY_SESSION ||
 								type === SESSION_LIST_TYPES.TEAMSESSION) && (
-								<div>
+								<Box>
 									<AskerInfoMonitoring />
-								</div>
+								</Box>
 							)}
 						{isSessionAssignAvailable() && (
-							<div className="askerInfo__assign">
-								<AskerInfoAssign />
-							</div>
+							<Box>
+								<div className="askerInfo__assign">
+									<AskerInfoAssign />
+								</div>
+							</Box>
 						)}
 					</div>
 				</div>

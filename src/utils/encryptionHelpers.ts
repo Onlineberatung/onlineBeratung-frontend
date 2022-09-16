@@ -188,6 +188,10 @@ export async function importAESKey(
 	);
 }
 
+export class MissingKeyError extends Error {}
+export class WrongKeyError extends Error {}
+export class EncryptValidationError extends Error {}
+
 /*
 Helper Messaging
  */
@@ -203,18 +207,27 @@ export const encryptText = async (
 	const data = new TextEncoder().encode(message);
 
 	const vector = crypto.getRandomValues(new Uint8Array(16));
-	let result;
-	try {
-		result = await encryptAES(vector, key, data);
-	} catch (error) {
-		return console.error('Error encrypting message: ', error);
-	}
+	const result = await encryptAES(vector, key, data);
 
-	return (
+	const encryptedText =
 		encPrefix +
 		keyID +
-		btoa(JSON.stringify(joinVectorAndEcryptedData(vector, result)))
+		btoa(JSON.stringify(joinVectorAndEcryptedData(vector, result)));
+
+	// Decrypt text after encrypt to check it the result matches
+	const decryptedText = await decryptText(
+		encryptedText,
+		keyID,
+		key,
+		true,
+		true,
+		encPrefix
 	);
+	if (decryptedText !== message) {
+		throw new EncryptValidationError('Error validating encrypted text.');
+	}
+
+	return encryptedText;
 };
 
 export const decryptText = async (
@@ -224,7 +237,7 @@ export const decryptText = async (
 	roomEncrypted,
 	messageEncrypted,
 	encPrefix: string = ''
-) => {
+): Promise<string> => {
 	if (
 		!roomEncrypted ||
 		!messageEncrypted ||
@@ -233,17 +246,13 @@ export const decryptText = async (
 		return message;
 	}
 
-	if (!roomKeyID) {
-		return 'e2ee.message.encryption';
-	}
-	if (!groupKey) {
-		return 'e2ee.message.encryption';
+	if (!roomKeyID || !groupKey) {
+		throw new MissingKeyError('e2ee.message.encryption');
 	}
 
 	const keyID = message.slice(encPrefix.length, 12 + encPrefix.length);
 	if (keyID !== roomKeyID) {
-		console.error('wrong room key', message);
-		return 'e2ee.message.encryption.error';
+		throw new WrongKeyError('e2ee.message.encryption.error');
 	}
 
 	const encMessage = message.slice(12 + encPrefix.length);
@@ -256,7 +265,7 @@ export const decryptText = async (
 		return new TextDecoder('UTF-8').decode(result);
 	} catch (error) {
 		console.error('Error decrypting message: ', error, encMessage);
-		return 'e2ee.message.encryption.error';
+		throw error;
 	}
 };
 
@@ -346,9 +355,8 @@ export const createGroupKey = (): Promise<GroupKeyType> =>
 
 		try {
 			const sessionKeyExported = await exportJWKKey(key);
-			// TODO MAYBE replace with sessionKeyExported.k
 			const sessionKeyExportedString = JSON.stringify(sessionKeyExported);
-			const keyID = btoa(sessionKeyExportedString).slice(0, 12);
+			const keyID = btoa(sessionKeyExported.k).slice(0, 12);
 
 			resolve({ key, keyID, sessionKeyExportedString });
 		} catch (error) {
@@ -379,14 +387,12 @@ export const importGroupKey = (
 			return;
 		}
 
-		// TODO MAYBE change to JSON.parse(sessionKeyExportedString).k
-		const keyID = btoa(sessionKeyExportedString).slice(0, 12);
-
 		// Import session key for use.
 		try {
-			const key = await importAESKey(
-				JSON.parse(sessionKeyExportedString)
-			);
+			const sessionKeyExported = JSON.parse(sessionKeyExportedString);
+			const keyID = btoa(sessionKeyExported.k).slice(0, 12);
+			const key = await importAESKey(sessionKeyExported);
+
 			// Key has been obtained. E2E is now in session.
 			resolve({ key, keyID, sessionKeyExportedString });
 		} catch (error) {

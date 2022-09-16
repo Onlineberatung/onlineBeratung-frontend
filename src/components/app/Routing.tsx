@@ -25,35 +25,38 @@ import { ReleaseNote } from '../releaseNote/ReleaseNote';
 import { NonPlainRoutesWrapper } from './NonPlainRoutesWrapper';
 import { Walkthrough } from '../walkthrough/Walkthrough';
 import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+
 interface RoutingProps {
 	logout?: Function;
 }
 
 export const Routing = (props: RoutingProps) => {
+	const { settings } = useAppConfigContext();
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const routerConfig = useMemo(() => {
 		if (hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData)) {
-			return RouterConfigMainConsultant();
+			return RouterConfigMainConsultant(settings);
 		}
 		if (hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData)) {
-			return RouterConfigPeerConsultant();
+			return RouterConfigPeerConsultant(settings);
 		}
 		if (
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 			userData.inTeamAgency
 		) {
-			return RouterConfigTeamConsultant();
+			return RouterConfigTeamConsultant(settings);
 		}
 		if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
-			return RouterConfigConsultant();
+			return RouterConfigConsultant(settings);
 		}
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
 			return RouterConfigAnonymousAsker();
 		}
-		return RouterConfigUser();
-	}, [userData]);
+		return RouterConfigUser(settings);
+	}, [userData, settings]);
 
 	const allRoutes = () =>
 		[
@@ -61,7 +64,8 @@ export const Routing = (props: RoutingProps) => {
 			...(routerConfig.detailRoutes || []),
 			...(routerConfig.userProfileRoutes || []),
 			...(routerConfig.profileRoutes || []),
-			...(routerConfig.appointmentRoutes || [])
+			...(routerConfig.appointmentRoutes || []),
+			...(routerConfig.toolsRoutes || [])
 		].map((route) => route.path, []);
 
 	return (
@@ -241,6 +245,29 @@ export const Routing = (props: RoutingProps) => {
 												<Route
 													exact={route.exact ?? true}
 													key={`booking-${route.path}`}
+													path={route.path}
+													render={() => (
+														<route.component
+															{...props}
+															type={
+																route.type ||
+																null
+															}
+														/>
+													)}
+												/>
+											)
+										)}
+									</Switch>
+								</div>
+
+								<div className="contentWrapper__tools">
+									<Switch>
+										{routerConfig.toolsRoutes?.map(
+											(route: any): JSX.Element => (
+												<Route
+													exact={route.exact ?? true}
+													key={`tools-${route.path}`}
 													path={route.path}
 													render={() => (
 														<route.component

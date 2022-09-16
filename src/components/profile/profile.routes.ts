@@ -1,4 +1,8 @@
-import { AUTHORITIES, hasUserAuthority } from '../../globalState';
+import {
+	AppConfigInterface,
+	AUTHORITIES,
+	hasUserAuthority
+} from '../../globalState';
 import { ConsultantInformation } from './ConsultantInformation';
 import { ConsultantSpokenLanguages } from './ConsultantSpokenLanguages';
 import { ConsultantAgencies } from './ConsultantAgencies';
@@ -13,13 +17,12 @@ import { PasswordReset } from '../passwordReset/PasswordReset';
 import { TwoFactorAuth } from '../twoFactorAuth/TwoFactorAuth';
 import { DeleteAccount } from './DeleteAccount';
 import { EnableWalkthrough } from './EnableWalkthrough';
-import { config } from '../../resources/scripts/config';
 import { Help } from '../help/Help';
 import { ConsultantNotifications } from './ConsultantNotifications';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 import { Locale } from './Locale';
 
-const profileRoutes: TabsType = [
+const profileRoutes = (settings: AppConfigInterface): TabsType => [
 	{
 		title: 'profile.routes.general.title',
 		url: '/allgemeines',
@@ -60,7 +63,7 @@ const profileRoutes: TabsType = [
 							hasUserAuthority(
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
-							) && config.enableWalkthrough,
+							) && settings.enableWalkThrough,
 						component: EnableWalkthrough,
 						column: COLUMN_LEFT
 					},

@@ -8,7 +8,8 @@ import {
 	ConsultingTypesContext,
 	SessionsDataContext,
 	SET_SESSIONS,
-	LocaleContext
+	LocaleContext,
+	TenantContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
@@ -22,11 +23,14 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language.svg';
 import { components } from 'react-select';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
+import { userHasBudibaseTools } from '../../api/apiGetTools';
+
 export interface NavigationBarProps {
 	onLogout: any;
 	routerConfig: any;
 }
 
+const REGEX_DASH = /\//g;
 export const NavigationBar = ({
 	onLogout,
 	routerConfig
@@ -36,17 +40,19 @@ export const NavigationBar = ({
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions, dispatch } = useContext(SessionsDataContext);
 	const { selectableLocales } = useContext(LocaleContext);
+	const [sessionId, setSessionId] = useState(null);
+	const [hasTools, setHasTools] = useState<boolean>(false);
+	const isConsultant = hasUserAuthority(
+		AUTHORITIES.CONSULTANT_DEFAULT,
+		userData
+	);
 	const {
 		sessions: unreadSessions,
 		group: unreadGroup,
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
+	const { tenant } = useContext(TenantContext);
 
-	const [sessionId, setSessionId] = useState(null);
-	const isConsultant = hasUserAuthority(
-		AUTHORITIES.CONSULTANT_DEFAULT,
-		userData
-	);
 	const [isMenuOpen, setMenuOpen] = useState(false);
 
 	const handleLogout = useCallback(() => {
@@ -75,6 +81,12 @@ export const NavigationBar = ({
 				});
 				setSessionId(sessionsData?.sessions?.[0]?.session?.id);
 			});
+		}
+
+		if (tenant?.settings?.featureToolsEnabled) {
+			userHasBudibaseTools(userData.userId).then((resp) =>
+				setHasTools(resp)
+			);
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -106,18 +118,10 @@ export const NavigationBar = ({
 		'/sessions/consultant/teamSessionView': unreadTeamSessions.length
 	};
 
-	const resolveClassnameForWalkthrough = (index) => {
-		switch (index) {
-			case 0:
-				return 'walkthrough_step_1';
-			case 1:
-				return 'walkthrough_step_3';
-			case 2:
-				return 'walkthrough_step_5';
-			case 3:
-				return 'walkthrough_step_6';
-		}
-	};
+	const pathToClassNameInWalkThrough = React.useCallback((to: string) => {
+		const value = to.replace(REGEX_DASH, '-').toLowerCase().slice(1);
+		return value ? `walkthrough-${value}` : '';
+	}, []);
 
 	const navbarLocaleSwitchStyle = {
 		control: () => ({
@@ -171,14 +175,15 @@ export const NavigationBar = ({
 								item.condition(
 									userData,
 									consultingTypes,
-									sessions
+									sessions,
+									hasTools
 								)
 						)
 						.map((item, index) => (
 							<Link
 								key={index}
-								className={`navigation__item ${resolveClassnameForWalkthrough(
-									index
+								className={`navigation__item ${pathToClassNameInWalkThrough(
+									item.to
 								)} ${
 									location.pathname.indexOf(item.to) !== -1 &&
 									'navigation__item--active'

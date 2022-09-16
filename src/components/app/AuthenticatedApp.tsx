@@ -25,6 +25,7 @@ import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatU
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
 import { FALLBACK_LNG } from '../../i18n';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -35,6 +36,7 @@ export const AuthenticatedApp = ({
 	onLogout,
 	onAppReady
 }: AuthenticatedAppProps) => {
+	const { settings, setServerSettings } = useAppConfigContext();
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { locale } = useContext(LocaleContext);
@@ -95,7 +97,9 @@ export const AuthenticatedApp = ({
 		setUserData,
 		setConsultingTypes,
 		setInformal,
-		locale
+		locale,
+		settings.useApiClusterSettings,
+		setServerSettings
 	]);
 
 	useEffect(() => {

@@ -21,6 +21,7 @@ import {
 import { Text } from '../text/Text';
 import { AgencyLanguages } from '../agencySelection/AgencyLanguages';
 import { useTranslation } from 'react-i18next';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 export interface ConsultingTypeAgencySelectionProps {
 	consultant: ConsultantDataInterface;
@@ -37,6 +38,7 @@ export const useConsultingTypeAgencySelection = (
 	consultingType: ConsultingTypeInterface,
 	agency: AgencyDataInterface
 ) => {
+	const { settings } = useAppConfigContext();
 	const [consultingTypes, setConsultingTypes] = useState<
 		ConsultingTypeInterface[]
 	>([]);
@@ -44,6 +46,17 @@ export const useConsultingTypeAgencySelection = (
 
 	useEffect(() => {
 		if (!consultant) {
+			return;
+		}
+
+		// When we've the multi tenancy with single domain we can simply ignore the
+		// consulting types because we'll get agencies across tenants
+		if (
+			settings.multitenancyWithSingleDomainEnabled &&
+			consultant?.agencies?.length > 0
+		) {
+			setAgencies(consultant?.agencies);
+			setConsultingTypes([consultingType]);
 			return;
 		}
 
@@ -87,7 +100,12 @@ export const useConsultingTypeAgencySelection = (
 		}
 
 		setConsultingTypes(consultingTypes);
-	}, [consultant, consultingType, agency]);
+	}, [
+		consultant,
+		consultingType,
+		agency,
+		settings.multitenancyWithSingleDomainEnabled
+	]);
 
 	return { agencies, consultingTypes };
 };
@@ -102,6 +120,7 @@ export const ConsultingTypeAgencySelection = ({
 	onKeyDown
 }: ConsultingTypeAgencySelectionProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
+	const { settings } = useAppConfigContext();
 	const [selectedConsultingTypeOption, setSelectedConsultingTypeOption] =
 		useState<SelectOption>(null);
 	const [consultingTypeOptions, setConsultingTypeOptions] = useState<
@@ -144,17 +163,24 @@ export const ConsultingTypeAgencySelection = ({
 			return;
 		}
 
-		const agencyOptions = possibleAgencies.filter(
-			(agency) =>
-				agency.consultingType.toString() ===
-				selectedConsultingTypeOption.value
-		);
+		const agencyOptions = settings.multitenancyWithSingleDomainEnabled
+			? possibleAgencies
+			: possibleAgencies.filter(
+					(agency) =>
+						agency.consultingType.toString() ===
+						selectedConsultingTypeOption.value
+			  );
 
 		setAgencyOptions(agencyOptions);
 		if (agencyOptions.length >= 1) {
 			onChange(agencyOptions[0]);
 		}
-	}, [onChange, possibleAgencies, selectedConsultingTypeOption]);
+	}, [
+		onChange,
+		possibleAgencies,
+		selectedConsultingTypeOption,
+		settings.multitenancyWithSingleDomainEnabled
+	]);
 
 	useEffect(() => {
 		if (!onValidityChange) {

@@ -4,6 +4,7 @@ import { isUniqueLanguage } from '../profile/profileHelpers';
 import './agencyLanguages.styles';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useTranslation } from 'react-i18next';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 interface AgencyLanguagesProps {
 	agencyId: number;
@@ -14,13 +15,17 @@ export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
 }) => {
 	const { t: translate } = useTranslation();
 	const { fixed: fixedLanguages } = useContext(LanguagesContext);
+	const { settings } = useAppConfigContext();
 	const [isAllShown, setIsAllShown] = useState(false);
 	const [languages, setLanguages] = useState<string[]>([...fixedLanguages]);
 
 	useEffect(() => {
 		// async wrapper
 		const getLanguagesFromApi = async () => {
-			const response = await apiAgencyLanguages(agencyId).catch(() => {
+			const response = await apiAgencyLanguages(
+				agencyId,
+				settings?.multitenancyWithSingleDomainEnabled
+			).catch(() => {
 				/* intentional, falls back to fixed languages */
 			});
 
@@ -34,7 +39,11 @@ export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
 		};
 
 		getLanguagesFromApi();
-	}, [agencyId, fixedLanguages]);
+	}, [
+		agencyId,
+		fixedLanguages,
+		settings?.multitenancyWithSingleDomainEnabled
+	]);
 
 	const languagesSelection = languages.slice(0, 2);
 	const difference = languages.length - languagesSelection.length;

@@ -24,6 +24,7 @@ import {
 	LocaleContext,
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
+	TenantContext,
 	useTenant
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
@@ -37,6 +38,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -67,6 +69,7 @@ export const RegistrationForm = ({
 	const tenantData = useTenant();
 	const legalLinks = useContext(LegalLinksContext);
 	const { locale } = useContext(LocaleContext);
+	const { settings } = useAppConfigContext();
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
 	const [formAccordionValid, setFormAccordionValid] = useState(false);
@@ -83,6 +86,7 @@ export const RegistrationForm = ({
 	const topicsAreRequired =
 		tenantData?.settings?.topicsInRegistrationEnabled &&
 		tenantData?.settings?.featureTopicsEnabled;
+	const { tenant } = useContext(TenantContext);
 
 	const buttonItemSubmit: ButtonItem = {
 		label: translate('registration.submitButton.label'),
@@ -219,7 +223,13 @@ export const RegistrationForm = ({
 			...(consultant && { consultantId: consultant.consultantId })
 		};
 
-		apiPostRegistration(config.endpoints.registerAsker, registrationData)
+		apiPostRegistration(
+			config.endpoints.registerAsker,
+			registrationData,
+			settings.multitenancyWithSingleDomainEnabled,
+			settings.budibaseSSO,
+			tenant
+		)
 			.then((res) => {
 				return setOverlayActive(true);
 			})

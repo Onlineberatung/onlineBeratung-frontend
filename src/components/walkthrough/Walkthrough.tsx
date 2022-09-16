@@ -7,15 +7,15 @@ import 'intro.js/introjs.css';
 import './walkthrough.styles.scss';
 import { UserDataContext } from '../../globalState';
 import { apiPatchConsultantData } from '../../api';
-import { config } from '../../resources/scripts/config';
-
 import steps from './steps';
 import { useTranslation } from 'react-i18next';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 export const Walkthrough = () => {
 	const { t: translate } = useTranslation();
 
 	const ref = useRef<any>();
+	const { settings } = useAppConfigContext();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const history = useHistory();
 
@@ -41,7 +41,7 @@ export const Walkthrough = () => {
 			ref={ref}
 			enabled={
 				userData.isWalkThroughEnabled &&
-				config.enableWalkthrough &&
+				settings.enableWalkThrough &&
 				!userData.twoFactorAuth.isShown
 			}
 			onExit={() => {
@@ -74,7 +74,7 @@ export const Walkthrough = () => {
 				showStepNumbers: false
 			}}
 			onBeforeChange={(nextStepIndex) => {
-				if (stepsData[nextStepIndex].path) {
+				if (stepsData[nextStepIndex]?.path) {
 					history.push(stepsData[nextStepIndex].path);
 					onChangeStep();
 				}

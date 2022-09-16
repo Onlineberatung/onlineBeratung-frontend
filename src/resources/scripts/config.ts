@@ -12,19 +12,25 @@ export let apiUrl = '';
 if (apiUrlEnv) {
 	apiUrl = apiUrlEnv;
 	if (!apiUrl.startsWith('http://') && !apiUrl.startsWith('https://')) {
-		apiUrl = 'http://' + apiUrl;
+		apiUrl = 'https://' + apiUrl;
 	}
 }
 
-export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
+export const uiUrl =
+	process.env.REACT_APP_UI_URL || typeof window !== 'undefined'
+		? window.location.origin
+		: '';
 export const APP_PATH = 'app';
 
 export const config = {
-	useTenantService: false,
+	budibaseSSO: false, // Feature flag to enable SSO on budibase
 	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
 	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	useMultiTenancyWithSingleDomain: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
+	useTenantService: false,
+	useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
+	mainTenantSubdomainForSingleDomainMultitenancy: 'app',
 
 	endpoints: {
 		agencyConsultants: apiUrl + '/service/users/consultants',
@@ -56,6 +62,8 @@ export const config = {
 		attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
 		banUser: (rcUserId, chatId) =>
 			apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
+		budibaseTools: (userId: string) =>
+			apiUrl + `/service/counselingtoolsservice/tools/${userId}`,
 		chatRoom: apiUrl + '/service/users/chat/room',
 		consultantEnquiriesBase:
 			apiUrl + '/service/conversations/consultants/enquiries/',
@@ -128,7 +136,6 @@ export const config = {
 		sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 		sendMessage: apiUrl + '/service/messages/new',
 		sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
-		updateMessage: apiUrl + '/service/messages/',
 		sessionBase: apiUrl + '/service/users/sessions',
 		sessionRooms: apiUrl + '/service/users/sessions/room',
 		setAbsence: apiUrl + '/service/users/consultants/absences',
@@ -140,15 +147,20 @@ export const config = {
 		twoFactorAuth: apiUrl + '/service/users/2fa',
 		twoFactorAuthApp: apiUrl + '/service/users/2fa/app',
 		twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
+		updateMessage: apiUrl + '/service/messages/',
 		updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 		userData: apiUrl + '/service/users/data',
+		userDataBySessionId: (sessionId: number) =>
+			apiUrl + `/service/users/consultants/sessions/${sessionId}`,
 		userSessionsListView: '/sessions/user/view',
+		serviceSettings: apiUrl + '/service/settings',
 		setAppointmentSuccessMessage:
 			apiUrl + '/service/messages/aliasWithContent/new',
 		userUpdateE2EKey: apiUrl + '/service/users/chat/e2e',
 		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
 	urls: {
+		appointmentServiceDevServer: '',
 		consultantVideoConference:
 			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',
@@ -158,8 +170,7 @@ export const config = {
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		home: 'https://www.caritas.de',
 		releases: uiUrl + '/releases',
-		appointmentServiceDevServer:
-			'https://calcom-develop.suchtberatung.digital',
+		budibaseDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',

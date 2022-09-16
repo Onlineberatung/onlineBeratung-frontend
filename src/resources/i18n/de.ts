@@ -1187,7 +1187,7 @@ export const de = {
 		'appointments': 'Video-Termine',
 		'asker': {
 			sessions: {
-				large: 'Meine Beratungen',
+				large: 'Meine Nachrichten',
 				small: 'Nachrichten'
 			}
 		},
@@ -1195,7 +1195,7 @@ export const de = {
 		'consultant': {
 			enquiries: 'Erstanfragen',
 			sessions: {
-				large: 'Meine Beratungen',
+				large: 'Meine Nachrichten',
 				small: 'Nachrichten'
 			},
 			teamsessions: {
@@ -1208,7 +1208,8 @@ export const de = {
 			}
 		},
 		'language': 'Sprache',
-		'profile': 'Profil'
+		'profile': 'Profil',
+		'tools': 'Meine Tools'
 	},
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
@@ -1810,6 +1811,10 @@ export const de = {
 	text: {
 		'label.hint': 'Hinweis'
 	},
+	tools: {
+		'button.label': 'Öffnen',
+		'shared': 'Mit dem/der Berater/in geteilt'
+	},
 	twoFactorAuth: {
 		activate: {
 			step1: {
@@ -2075,6 +2080,27 @@ export const de = {
 		}
 	},
 	userProfile: {
+		tools: {
+			description: 'Schalten Sie Tools für die/den Ratsuchende/n frei. ',
+			openModal: 'Tool-Beschreibungen anzeigen',
+			optionsPlaceholder: 'Wähle eine Option...',
+			title: 'Tools',
+			options: {
+				saveError:
+					'Beim Werkzeugwechsel ist ein Problem aufgetreten. Bitte versuche es erneut.'
+			},
+			share: {
+				sharedContent: 'Zu den geteilten Inhalten',
+				title: 'Sehen Sie hier welche Inhalte mit Ihnen geteilt wurden.'
+			},
+			modal: {
+				confirm: 'Freischalten',
+				deny: 'Abbrechen',
+				description:
+					'Wählen Sie die Tools aus, die Sie dem/der Ratsuchenden zur Verfügung stellen möchten.',
+				title: 'Tool für die Ratsuchenden'
+			}
+		},
 		data: {
 			addictiveDrugs: 'Suchtmittel',
 			age: 'Alter',
