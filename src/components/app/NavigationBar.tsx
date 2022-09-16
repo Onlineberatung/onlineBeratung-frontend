@@ -8,7 +8,8 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	SessionsDataContext,
-	SET_SESSIONS
+	SET_SESSIONS,
+	TenantContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
@@ -18,6 +19,7 @@ import {
 	apiFinishAnonymousConversation,
 	apiGetAskerSessionList
 } from '../../api';
+import { userHasBudibaseTools } from '../../api/apiGetTools';
 
 export interface NavigationBarProps {
 	onLogout: any;
@@ -33,6 +35,7 @@ export const NavigationBar = ({
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions, dispatch } = useContext(SessionsDataContext);
 	const [sessionId, setSessionId] = useState(null);
+	const [hasTools, setHasTools] = useState<boolean>(false);
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
 		userData
@@ -42,6 +45,7 @@ export const NavigationBar = ({
 		group: unreadGroup,
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
+	const { tenant } = useContext(TenantContext);
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
@@ -69,6 +73,12 @@ export const NavigationBar = ({
 				});
 				setSessionId(sessionsData?.sessions?.[0]?.session?.id);
 			});
+		}
+
+		if (tenant?.settings?.featureToolsEnabled) {
+			userHasBudibaseTools(userData.userId).then((resp) =>
+				setHasTools(resp)
+			);
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -116,7 +126,8 @@ export const NavigationBar = ({
 								item.condition(
 									userData,
 									consultingTypes,
-									sessions
+									sessions,
+									hasTools
 								)
 						)
 						.map((item, index) => (

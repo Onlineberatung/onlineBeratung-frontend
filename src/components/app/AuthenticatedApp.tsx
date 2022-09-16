@@ -23,6 +23,7 @@ import { requestPermissions } from '../../utils/notificationHelpers';
 import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
 import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
+import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -37,6 +38,7 @@ export const AuthenticatedApp = ({
 	spokenLanguages,
 	legalLinks
 }: AuthenticatedAppProps) => {
+	const { settings, setServerSettings } = useAppConfigContext();
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
 
@@ -80,7 +82,13 @@ export const AuthenticatedApp = ({
 					setLoading(false);
 				});
 		}
-	}, [userDataRequested, setUserData, setConsultingTypes]);
+	}, [
+		userDataRequested,
+		setUserData,
+		setConsultingTypes,
+		settings.useApiClusterSettings,
+		setServerSettings
+	]);
 
 	useEffect(() => {
 		onAppReady();
