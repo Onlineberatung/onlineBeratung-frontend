@@ -62,7 +62,7 @@
 			border: 1px solid $form-disabled;
 			color: $form-disabled;
 
-			fromMedium &:hover,
+			&:hover,
 			&:focus {
 				cursor: not-allowed;
 				border: 1px solid $form-disabled !important;
