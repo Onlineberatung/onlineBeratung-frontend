@@ -19,8 +19,8 @@ export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
 	Promise.all([
 		apiRocketchatLogout(),
 		apiKeycloakLogout(),
-		featureAppointmentsEnabled ? calcomLogout() : null,
-		featureToolsEnabled ? budibaseLogout() : null
+		featureAppointmentsEnabled && calcomLogout(),
+		featureToolsEnabled && budibaseLogout()
 	]).finally(() => {
 		invalidateCookies(withRedirect, redirectUrl);
 	});
