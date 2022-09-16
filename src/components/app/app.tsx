@@ -1,12 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import {
-	ComponentType,
-	ReactNode,
-	useCallback,
-	useEffect,
-	useState
-} from 'react';
+import { ComponentType, useCallback, useEffect, useState } from 'react';
 import {
 	BrowserRouter as Router,
 	Switch,
