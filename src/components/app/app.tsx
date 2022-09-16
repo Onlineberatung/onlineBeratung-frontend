@@ -1,12 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import {
-	ComponentType,
-	ReactNode,
-	useCallback,
-	useEffect,
-	useState
-} from 'react';
+import { ComponentType, ReactNode, useEffect, useState } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedApp } from './AuthenticatedApp';
@@ -24,8 +18,6 @@ import { TenantThemingLoader } from './TenantThemingLoader';
 import { LegalLinkInterface, useAppConfigContext } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
-import { apiGetTenantTheming } from '../../api/apiGetTenantTheming';
-import getLocationVariables from '../../utils/getLocationVariables';
 import { apiServerSettings } from '../../api/apiServerSettings';
 
 export const history = createBrowserHistory();
