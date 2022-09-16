@@ -42,9 +42,9 @@ $buttonMaxWidth: 400px;
 	}
 
 	&__secondary {
-		color: $primary;
+		color: var(--skin-color-default, $primary);
 		background-color: transparent;
-		border: 2px solid $primary;
+		border: 2px solid var(--skin-color-default, $primary);
 
 		&:hover {
 			color: $white;

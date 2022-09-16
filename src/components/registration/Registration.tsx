@@ -156,7 +156,10 @@ export const Registration = ({
 			{isReady &&
 				(showWelcomeScreen ? (
 					<WelcomeScreen
-						title={translate('registration.overline')}
+						title={
+							consultingType?.titles.welcome ||
+							translate('registration.overline')
+						}
 						handleForwardToRegistration={
 							handleForwardToRegistration
 						}

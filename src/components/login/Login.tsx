@@ -89,6 +89,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		loaded: isReady
 	} = useUrlParamsLoader();
 
+	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(
@@ -125,7 +126,6 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 
 	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
 	const isFirstVisit = useIsFirstVisit();
-	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -135,7 +135,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		label: translate('login.user.label'),
 		content: username,
 		icon: <PersonIcon />,
-		...(labelState && { labelState: labelState })
+		...(labelState && { labelState })
 	};
 
 	const inputItemPassword: InputFieldItem = {
@@ -145,7 +145,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 		label: translate('login.password.label'),
 		content: password,
 		icon: <LockIcon />,
-		...(labelState && { labelState: labelState })
+		...(labelState && { labelState })
 	};
 
 	const otpInputItem: InputFieldItem = {

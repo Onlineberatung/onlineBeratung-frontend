@@ -134,11 +134,10 @@ export const FormAccordion = ({
 	}, [isUsernameAlreadyInUse]);
 
 	useEffect(() => {
-		if (isDataProtectionSelected) {
-			handleValidity('dataProtection', VALIDITY_VALID);
-		} else {
-			handleValidity('dataProtection', VALIDITY_INITIAL);
-		}
+		handleValidity(
+			'dataProtection',
+			isDataProtectionSelected ? VALIDITY_VALID : VALIDITY_INITIAL
+		);
 	}, [isDataProtectionSelected]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleKeyDown = (e, isLastInput = true, isFirstInput = true) => {
