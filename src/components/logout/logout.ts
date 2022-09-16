@@ -13,12 +13,14 @@ export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
 		return null;
 	}
 	isRequestInProgress = true;
+	const { featureAppointmentsEnabled, featureToolsEnabled } =
+		getTenantSettings();
 
 	Promise.all([
 		apiRocketchatLogout(),
 		apiKeycloakLogout(),
-		getTenantSettings().featureAppointmentsEnabled ? calcomLogout() : null,
-		getTenantSettings().featureToolsEnabled ? budibaseLogout() : null
+		featureAppointmentsEnabled ? calcomLogout() : null,
+		featureToolsEnabled ? budibaseLogout() : null
 	]).finally(() => {
 		invalidateCookies(withRedirect, redirectUrl);
 	});
