@@ -5,7 +5,7 @@ export const deConsultingTypes = {
 				default: 'Suchtberatung',
 				short: 'Sucht',
 				long: 'Suchtberatung',
-				welcome: 'Willkommen bei der Suchtberatung!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Suchtberatung'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -53,8 +53,7 @@ export const deConsultingTypes = {
 				default: '[U25]',
 				short: '[U25]',
 				long: 'Beratung für suizidgefährdete junge Menschen [U25]',
-				welcome:
-					'Willkommen bei der Beratung für suizidgefährdete junge Menschen [U25]!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown:
 					'Beratung für suizidgefährdete junge Menschen [U25]'
 			},
@@ -93,12 +92,11 @@ export const deConsultingTypes = {
 		},
 		2: {
 			'titles': {
-				'default': 'Schwangerschaftsberatung',
-				'titles.short': 'Schwangerschaft',
-				'titles.long': 'Schwangerschaftsberatung',
-				'titles.welcome':
-					'Willkommen bei der Schwangerschaftsberatung!',
-				'titles.registrationDropdown': 'Schwangerschaftsberatung'
+				default: 'Schwangerschaftsberatung',
+				short: 'Schwangerschaft',
+				long: 'Schwangerschaftsberatung',
+				welcome: 'Willkommen bei der Online-Beratung',
+				registrationDropdown: 'Schwangerschaftsberatung'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
 			'welcomeScreen.anonymous.text':
@@ -109,7 +107,7 @@ export const deConsultingTypes = {
 				default: 'Eltern und Familien',
 				short: 'Eltern Familie',
 				long: 'Beratung für Eltern und Familien',
-				welcome: 'Willkommen bei der Beratung für Eltern und Familien!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Eltern und Familien'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -121,7 +119,7 @@ export const deConsultingTypes = {
 				default: 'Kurberatung',
 				short: 'Kurberatung',
 				long: 'Kurberatung für Mütter und Väter',
-				welcome: 'Willkommen bei der Kurberatung für Mütter und Väter!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Kurberatung'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -133,7 +131,7 @@ export const deConsultingTypes = {
 				default: 'Schuldnerberatung',
 				short: 'Schulden',
 				long: 'Beratung zum Thema Schulden',
-				welcome: 'Willkommen bei der Beratung zum Thema Schulden!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Schuldnerberatung'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -145,7 +143,7 @@ export const deConsultingTypes = {
 				default: 'Sozialberatung',
 				short: 'ASB',
 				long: 'Allgemeine Sozialberatung',
-				welcome: 'Willkommen bei der Allgemeinen Sozialberatung!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Sozialberatung'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -157,7 +155,7 @@ export const deConsultingTypes = {
 				default: 'Leben im Alter',
 				short: 'Alter',
 				long: 'Leben im Alter',
-				welcome: 'Willkommen bei Leben im Alter!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Leben im Alter'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -169,8 +167,7 @@ export const deConsultingTypes = {
 				default: 'Beeinträchtigung',
 				short: 'Beeinträchtigung',
 				long: 'Leben mit Behinderung und psychischer Erkrankung',
-				welcome:
-					'Willkommen bei Leben mit Behinderung und psychischer Erkrankung!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Beeinträchtigung'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -182,8 +179,7 @@ export const deConsultingTypes = {
 				default: 'Go on – Start up!',
 				short: 'Go on – Start up!',
 				long: 'Go on – Start up!',
-				welcome:
-					'Go on – Start up! Dein Chat zwischen Schule und Beruf.',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Go on – Start up!'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -195,8 +191,7 @@ export const deConsultingTypes = {
 				default: 'Rechtliche Betreuung und Vorsorge',
 				short: '(rechtl.) Betreuung',
 				long: 'Rechtliche Betreuung und Vorsorge',
-				welcome:
-					'Willkommen bei der Rechtlichen Betreuung und Vorsorge!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Rechtliche Betreuung und Vorsorge'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -208,8 +203,7 @@ export const deConsultingTypes = {
 				default: 'Straffälligenhilfe',
 				short: 'Straffälligenhilfe',
 				long: 'Beratung für Angehörige von Straffälligen',
-				welcome:
-					'Willkommen bei der Beratung für Angehörige von Straffälligen!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Straffälligenhilfe'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -221,7 +215,7 @@ export const deConsultingTypes = {
 				default: 'HIV / AIDS',
 				short: 'HIV',
 				long: 'HIV/AIDS-Beratung',
-				welcome: 'Willkommen bei der HIV/AIDS-Beratung!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'HIV / AIDS'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -233,8 +227,7 @@ export const deConsultingTypes = {
 				default: 'Kinder-Reha',
 				short: 'Kinder-Reha',
 				long: 'Kinder- und Jugend-Rehabilitation',
-				welcome:
-					'Willkommen bei der Kinder- und Jugend-Rehabilitation!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Kinder-Reha'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -246,8 +239,7 @@ export const deConsultingTypes = {
 				default: 'Kinder Jugendliche',
 				short: 'Kinder Jugendliche',
 				long: 'Beratung für Kinder und Jugendliche',
-				welcome:
-					'Willkommen bei der Beratung für Kinder und Jugendliche!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Kinder Jugendliche'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -259,8 +251,7 @@ export const deConsultingTypes = {
 				default: 'Sucht',
 				short: 'Sucht',
 				long: 'Sucht-Selbsthilfe – Kreuzbund-Chat',
-				welcome:
-					'Willkommen bei der Sucht-Selbsthilfe – Kreuzbund-Chat!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Sucht-Selbsthilfe - Kreuzbund'
 			},
 			'groupChatRules': {
@@ -277,7 +268,7 @@ export const deConsultingTypes = {
 				default: 'Migrationsberatung',
 				short: 'Migrationsberatung',
 				long: 'Migrationsberatung',
-				welcome: 'Willkommen bei der Migrationsberatung!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Migrationsberatung'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -289,7 +280,7 @@ export const deConsultingTypes = {
 				default: 'Auswanderung',
 				short: 'Auswanderung',
 				long: 'Aus-/Rück- & Weiterwanderung',
-				welcome: 'Willkommen bei der Aus-/Rück- & Weiterwanderung!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Auswanderung'
 			},
 			'anonymous.title': 'Anonym',
@@ -301,8 +292,7 @@ export const deConsultingTypes = {
 				default: 'Hospiz-Palliativ-Trauer',
 				short: 'Hospiz-Palliativ',
 				long: 'Hospiz-, Palliativ- und Trauerberatung',
-				welcome:
-					'Willkommen bei der Hospiz-, Palliativ- und Trauerberatung!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Hospiz-Palliativ-Trauer'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -314,7 +304,7 @@ export const deConsultingTypes = {
 				default: 'Regionale Angebote',
 				short: 'Regionale Angebote',
 				long: 'Regionale Angebote',
-				welcome: 'Willkommen bei den Regionalen Angeboten!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Regionale Angebote'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -326,7 +316,7 @@ export const deConsultingTypes = {
 				default: 'Jungen und Männer',
 				short: 'Jungen und Männer',
 				long: 'Jungen- und Männerberatung',
-				welcome: 'Willkommen bei der Jungen- und Männerberatung!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Jungen und Männer'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -338,8 +328,7 @@ export const deConsultingTypes = {
 				default: 'Selbsthilfe Vechta',
 				short: 'Selbsthilfe',
 				long: 'Kontakt- und Beratungsstelle Selbsthilfe',
-				welcome:
-					'Willkommen bei der Kontakt- und Beratungsstelle Selbsthilfe!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: 'Selbsthilfe Vechta'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
@@ -356,8 +345,7 @@ export const deConsultingTypes = {
 				default: '#gemeinsamstatteinsam',
 				short: '#gse',
 				long: '#gemeinsamstatteinsam – Onlineberatung für junge Menschen in besonderen Zeiten',
-				welcome:
-					'Willkommen bei #gemeinsamstatteinsam – Onlineberatung für junge Menschen in besonderen Zeiten!',
+				welcome: 'Willkommen bei der Online-Beratung',
 				registrationDropdown: '#gemeinsamstatteinsam'
 			},
 			'anonymous.title': 'Anonym und kostenfrei',

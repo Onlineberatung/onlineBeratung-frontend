@@ -5,7 +5,7 @@ export const enConsultingTypes = {
 				default: 'Addiction consulting',
 				short: 'Addiction',
 				long: 'Addiction consulting',
-				welcome: 'Welcome to addiction consulting!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Addiction consulting'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -53,8 +53,7 @@ export const enConsultingTypes = {
 				default: '[U25]',
 				short: '[U25]',
 				long: 'Counseling for suicidal young people [U25].',
-				welcome:
-					'Welcome to the counseling for suicidal young people [U25]!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown:
 					'Counseling for suicidal young people [U25].'
 			},
@@ -95,7 +94,7 @@ export const enConsultingTypes = {
 				default: 'Pregnancy counseling',
 				short: 'Pregnancy',
 				long: 'Pregnancy counseling',
-				welcome: 'Welcome to the pregnancy counseling service!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Pregnancy counseling'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -107,7 +106,7 @@ export const enConsultingTypes = {
 				default: 'Parents and families',
 				short: 'Parents Family',
 				long: 'Consulting for parents and families',
-				welcome: 'Welcome to consulting for parents and families!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Parents and families'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -119,8 +118,7 @@ export const enConsultingTypes = {
 				default: 'Cure Consultation',
 				short: 'Cure Consultation',
 				long: 'Cure counseling for mothers and fathers',
-				welcome:
-					'Welcome to the spa counseling for mothers and fathers!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Cure Consultation'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -132,7 +130,7 @@ export const enConsultingTypes = {
 				default: 'Debt consulting',
 				short: 'Debt',
 				long: 'Debt consulting',
-				welcome: 'Welcome to debt consulting!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Debt consulting'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -144,7 +142,7 @@ export const enConsultingTypes = {
 				default: 'Social consulting',
 				short: 'ASB',
 				long: 'General social consulting',
-				welcome: 'Welcome to General Social Counseling!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Social Counseling'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -156,7 +154,7 @@ export const enConsultingTypes = {
 				default: 'Life in old age',
 				short: 'old age',
 				long: 'Life in old age',
-				welcome: 'Welcome to Life in Old Age!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Life in old age'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -168,8 +166,7 @@ export const enConsultingTypes = {
 				default: 'impairment',
 				short: 'impairment',
 				long: 'Living with disability and mental illness',
-				welcome:
-					'Welcome to Living with Disability and Mental Illness!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Impairment'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -181,7 +178,7 @@ export const enConsultingTypes = {
 				default: "Let's go - get started",
 				short: "Let's go - Get started!",
 				long: "Let's go - Get started!",
-				welcome: 'Go - Get started! Your chat between school and work',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: "Let's go - Get started!"
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -193,7 +190,7 @@ export const enConsultingTypes = {
 				default: 'Legal care and precaution',
 				short: '(legal) care',
 				long: 'Legal care and precaution',
-				welcome: 'Welcome to Legal Care and Precaution!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Legal support and precaution'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -205,7 +202,7 @@ export const enConsultingTypes = {
 				default: 'Offender assistance',
 				short: 'Offender assistance',
 				long: 'consulting for relatives of offenders',
-				welcome: 'Welcome to consulting for relatives of offenders!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Offender assistance'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -217,7 +214,7 @@ export const enConsultingTypes = {
 				default: 'HIV / AIDS',
 				short: 'HIV',
 				long: 'HIV/AIDS consulting',
-				welcome: 'Welcome to HIV/AIDS consulting!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'HIV / AIDS'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -229,7 +226,7 @@ export const enConsultingTypes = {
 				default: "Children's rehab",
 				short: "Children's rehab",
 				long: 'Child and adolescent rehab',
-				welcome: 'Welcome to child and adolescent rehabilitation!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: "Children's rehab"
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -241,7 +238,7 @@ export const enConsultingTypes = {
 				default: 'Children Adolescents',
 				short: 'Children Adolescents',
 				long: 'Consulting for children and adolescents',
-				welcome: 'Welcome to consulting for children and adolescents!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Children Adolescents'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -253,7 +250,7 @@ export const enConsultingTypes = {
 				default: 'Addiction',
 				short: 'Addiction',
 				long: 'Addiction self-help - Kreuzbund chat',
-				welcome: 'Welcome to addiction self-help - Kreuzbund chat!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Sucht-Selbsthilfe - Kreuzbund'
 			},
 			'groupChatRules': {
@@ -270,7 +267,7 @@ export const enConsultingTypes = {
 				default: 'Migration consulting',
 				short: 'Migration consulting',
 				long: 'migration consulting',
-				welcome: 'Welcome to migration consulting!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Migration consulting'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -282,7 +279,7 @@ export const enConsultingTypes = {
 				default: 'Emigration',
 				short: 'Emigration',
 				long: 'Emigration/Return & Onward Migration',
-				welcome: 'Welcome to emigration/return & onward migration!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Emigration'
 			},
 			'anonymous.title': 'Anonymous',
@@ -294,8 +291,7 @@ export const enConsultingTypes = {
 				default: 'Hospice-Palliative-Mourning',
 				short: 'Hospice-Palliative',
 				long: 'Hospice, palliative and bereavement consulting',
-				welcome:
-					'Welcome to hospice, palliative and bereavement consulting!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Hospice palliative grief'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -307,7 +303,7 @@ export const enConsultingTypes = {
 				default: 'Regional offers',
 				short: 'Regional offerings',
 				long: 'Regional offerings',
-				welcome: 'Welcome to Regional Offerings!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Regional Offers'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -319,7 +315,7 @@ export const enConsultingTypes = {
 				default: 'Boys and men',
 				short: 'Boys and men',
 				long: 'Boys and men consulting',
-				welcome: 'Welcome to boys and men consulting!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Boys and men'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -331,7 +327,7 @@ export const enConsultingTypes = {
 				default: 'Self-help Vechta',
 				short: 'Self-help',
 				long: 'Contact and advice center self-help',
-				welcome: 'Welcome to the contact and advice center self-help!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: 'Selbsthilfe Vechta'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
@@ -348,8 +344,7 @@ export const enConsultingTypes = {
 				default: '#togethertogether',
 				short: '#gse',
 				long: '#togetherasone - online consulting for young people in special times',
-				welcome:
-					'Welcome to #gemeinsamstatteinsam - online consulting for young people in special times!',
+				welcome: 'Welcome to online consulting',
 				registrationDropdown: '#gemeinsamstatteinsam'
 			},
 			'anonymous.title': 'Anonymous and free of charge',
