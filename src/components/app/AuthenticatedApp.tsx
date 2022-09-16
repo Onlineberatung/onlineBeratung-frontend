@@ -10,7 +10,8 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	LegalLinkInterface,
-	RocketChatProvider
+	RocketChatProvider,
+	TenantContext
 } from '../../globalState';
 import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
@@ -24,6 +25,7 @@ import { RocketChatSubscriptionsProvider } from '../../globalState/provider/Rock
 import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
 import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { config } from '../../resources/scripts/config';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -41,12 +43,33 @@ export const AuthenticatedApp = ({
 	const { settings, setServerSettings } = useAppConfigContext();
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
+	const { tenant } = useContext(TenantContext);
 
 	const [appReady, setAppReady] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 
 	const { notifications } = useContext(NotificationsContext);
+
+	const loginBudiBase = useCallback(() => {
+		const ifrm = document.createElement('iframe');
+		ifrm.setAttribute(
+			'src',
+			`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${tenant?.settings?.featureToolsOICDToken}`
+		);
+		ifrm.id = 'authIframe2';
+		ifrm.style.display = 'none';
+		document.body.appendChild(ifrm);
+		setTimeout(() => {
+			document.querySelector('#authIframe2').remove();
+		}, 5000);
+	}, [tenant?.settings?.featureToolsOICDToken]);
+
+	useEffect(() => {
+		if (tenant?.settings?.featureToolsEnabled) {
+			loginBudiBase();
+		}
+	}, [loginBudiBase, tenant]);
 
 	useEffect(() => {
 		if (

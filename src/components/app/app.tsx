@@ -77,38 +77,11 @@ export const App = ({
 		setIsInitiallyLoaded(true);
 		history.push(entryPoint);
 	};
-	const { subdomain } = getLocationVariables();
-
-	const loginBudiBase = useCallback((featureToolsOICDToken: string) => {
-		const ifrm = document.createElement('iframe');
-		ifrm.setAttribute(
-			'src',
-			`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${featureToolsOICDToken}`
-		);
-		ifrm.id = 'authIframe2';
-		ifrm.style.display = 'none';
-		document.body.appendChild(ifrm);
-		setTimeout(() => {
-			document.querySelector('#authIframe2').remove();
-		}, 5000);
-	}, []);
-
 	useEffect(() => {
 		if (!isInitiallyLoaded && window.location.pathname === '/') {
 			activateInitialRedirect();
 		} else {
 			setIsInitiallyLoaded(true);
-			apiGetTenantTheming({
-				subdomain,
-				useMultiTenancyWithSingleDomain:
-					settings?.multitenancyWithSingleDomainEnabled,
-				mainTenantSubdomainForSingleDomain:
-					settings.mainTenantSubdomainForSingleDomainMultitenancy
-			}).then((resp) => {
-				if (resp.settings.featureToolsEnabled) {
-					loginBudiBase(resp.settings.featureToolsOICDToken);
-				}
-			});
 		}
 	}, []); // eslint-disable-line
 
