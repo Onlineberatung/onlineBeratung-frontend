@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { SendMessageButton } from './SendMessageButton';
 import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
@@ -78,7 +79,6 @@ import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';
 import clsx from 'clsx';
-import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -175,6 +175,7 @@ export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
 
 	const textareaInputRef = React.useRef<HTMLDivElement>(null);
 	const inputWrapperRef = React.useRef<HTMLSpanElement>(null);

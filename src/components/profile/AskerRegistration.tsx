@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
 	UserDataContext,
 	UserDataInterface,
 	useConsultingTypes,
 	useConsultingType
 } from '../../globalState';
-import { history } from '../app/app';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import {
@@ -38,6 +38,8 @@ import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg
 
 export const AskerRegistration: React.FC = () => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
+	const history = useHistory();
+
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingTypeId, setSelectedConsultingTypeId] =

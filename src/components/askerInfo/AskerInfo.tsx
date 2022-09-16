@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { AskerInfoMonitoring } from './AskerInfoMonitoring';
 import {
 	SESSION_LIST_TAB,
@@ -12,7 +12,6 @@ import {
 	SessionTypeContext,
 	UserDataContext
 } from '../../globalState';
-import { history } from '../app/app';
 import { Loading } from '../app/Loading';
 import { AskerInfoData } from './AskerInfoData';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
@@ -33,7 +32,8 @@ import { useTranslation } from 'react-i18next';
 
 export const AskerInfo = () => {
 	const { t: translate } = useTranslation();
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
+	const history = useHistory();
 
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
@@ -57,7 +57,7 @@ export const AskerInfo = () => {
 		}
 
 		setIsPeerChat(activeSession.item.isPeerChat);
-	}, [activeSession, listPath, ready, sessionListTab]);
+	}, [activeSession, history, listPath, ready, sessionListTab]);
 
 	const { fromL } = useResponsive();
 	useEffect(() => {

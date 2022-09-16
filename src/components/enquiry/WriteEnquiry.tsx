@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect, useContext, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
-import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import {
 	OverlayItem,
@@ -42,14 +41,18 @@ import { useTranslation } from 'react-i18next';
 
 export const WriteEnquiry: React.FC = () => {
 	const { t: translate } = useTranslation();
-	const { sessionId: sessionIdFromParam } = useParams();
+	const { sessionId } = useParams<{ sessionId: string }>();
+	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
+	const history = useHistory();
 
 	const { fixed: fixedLanguages } = useContext(LanguagesContext);
 
 	const [activeSession, setActiveSession] = useState(null);
 	const [overlayActive, setOverlayActive] = useState(false);
-	const [sessionId, setSessionId] = useState<number | null>(null);
-	const [groupId, setGroupId] = useState<string | null>(null);
+	const [redirectSessionId, setRedirectSessionId] = useState<number | null>(
+		null
+	);
+	const [redirectGroupId, setRedirectGroupId] = useState<string | null>(null);
 	const [selectedLanguage, setSelectedLanguage] = useState(fixedLanguages[0]);
 	const [isFirstEnquiry, setIsFirstEnquiry] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
@@ -120,7 +123,7 @@ export const WriteEnquiry: React.FC = () => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			activateListView();
 			history.push({
-				pathname: `${config.endpoints.userSessionsListView}/${groupId}/${sessionId}`
+				pathname: `${config.endpoints.userSessionsListView}/${redirectGroupId}/${redirectSessionId}`
 			});
 		}
 	};
@@ -188,8 +191,8 @@ export const WriteEnquiry: React.FC = () => {
 				sessionKeyExportedString
 			});
 
-			setSessionId(response.sessionId);
-			setGroupId(response.rcGroupId);
+			setRedirectSessionId(response.sessionId);
+			setRedirectGroupId(response.rcGroupId);
 			setOverlayActive(true);
 		},
 		[keyID, sessionKeyExportedString, isE2eeEnabled]

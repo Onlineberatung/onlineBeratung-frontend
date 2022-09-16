@@ -26,7 +26,9 @@ export const LoginLoader = ({
 }: LoginLoaderProps) => {
 	const [isValidConsultingType, setIsValidConsultingType] =
 		useState<boolean>();
-	const { consultingTypeSlug } = useParams();
+	const { consultingTypeSlug } = useParams<{
+		consultingTypeSlug: string;
+	}>();
 
 	useEffect(() => {
 		if (!consultingTypeSlug) {

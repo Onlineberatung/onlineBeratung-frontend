@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
 import './furtherSteps.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -32,7 +33,6 @@ import {
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
 import { isVoluntaryInfoSet } from './messageHelpers';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { history } from '../app/app';
 import { useTranslation } from 'react-i18next';
 
 interface FurtherStepsProps {
@@ -44,6 +44,8 @@ interface FurtherStepsProps {
 
 export const FurtherSteps = (props: FurtherStepsProps) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { activeSession } = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
@@ -204,8 +206,10 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 
 	const redirectTo2FA = () => {
 		history.push({
-			pathname: '/profile/einstellungen/2fa',
-			openTwoFactor: true
+			pathname: '/profile/einstellungen/sicherheit',
+			state: {
+				openTwoFactor: true
+			}
 		});
 	};
 

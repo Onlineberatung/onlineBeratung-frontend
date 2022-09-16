@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
@@ -7,7 +8,6 @@ import {
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import './bookingEvents.styles';
-import { history } from '../app/app';
 import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
 import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
 import { ReactComponent as CalendarRescheduleIcon } from '../../resources/img/icons/calendar-reschedule.svg';
@@ -39,6 +39,8 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 	bookingStatus
 }) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	useEffect(() => {
 		setBookingWrapperActive();
 

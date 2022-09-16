@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import {
 	desktopView,
 	mobileDetailView,
@@ -34,7 +34,6 @@ import {
 } from '../overlay/Overlay';
 import DatePicker, { registerLocale } from 'react-datepicker/dist/es';
 import de from 'date-fns/locale/de';
-import { history } from '../app/app';
 import {
 	groupChatSettings,
 	apiCreateGroupChat,
@@ -56,7 +55,8 @@ registerLocale('de', de);
 
 export const CreateGroupChatView = (props) => {
 	const { t: translate } = useTranslation();
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
+	const history = useHistory();
 
 	const { sessions, ready, dispatch } = useContext(SessionsDataContext);
 	const { path: listPath } = useContext(SessionTypeContext);

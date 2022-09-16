@@ -14,7 +14,9 @@ import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterfa
 import { apiGetTopicById } from '../api/apiGetTopicId';
 
 export default function useUrlParamsLoader() {
-	const { consultingTypeSlug } = useParams();
+	const { consultingTypeSlug } = useParams<{
+		consultingTypeSlug: string;
+	}>();
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
 	const topicId = getUrlParameter('tid');

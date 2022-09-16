@@ -23,7 +23,8 @@ import {
 	Redirect,
 	Route,
 	Switch,
-	useLocation
+	useLocation,
+	generatePath
 } from 'react-router-dom';
 import { Box } from '../box/Box';
 import { useResponsive } from '../../hooks/useResponsive';
@@ -193,7 +194,9 @@ export const Profile = () => {
 										className="text--nowrap flex__col--no-grow"
 									>
 										<NavLink
-											to={`/profile${tab.url}`}
+											to={generatePath(
+												`/profile${tab.url}`
+											)}
 											activeClassName="active"
 										>
 											{translate(tab.title)}

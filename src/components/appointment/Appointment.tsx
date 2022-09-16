@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useState } from 'react';
-import { generatePath } from 'react-router-dom';
+import { generatePath, useHistory } from 'react-router-dom';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { Box } from '../box/Box';
 import {
@@ -24,7 +24,6 @@ import { config, uiUrl } from '../../resources/scripts/config';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { videoCallErrorOverlayItem } from '../sessionMenu/sessionMenuHelpers';
-import { history } from '../app/app';
 import { useTranslation } from 'react-i18next';
 
 const DESCRIPTION_PREVIEW_LENGTH = 100;
@@ -41,6 +40,8 @@ export const Appointment = ({
 	deleteClick
 }: AppointmentProps) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { userData } = useContext(UserDataContext);
 
 	const [overlayItem, setOverlayItem] = useState(null);
@@ -131,7 +132,7 @@ export const Appointment = ({
 					break;
 			}
 		},
-		[appointment, deleteClick]
+		[appointment, deleteClick, history]
 	);
 
 	const shortDescription = useCallback((description) => {

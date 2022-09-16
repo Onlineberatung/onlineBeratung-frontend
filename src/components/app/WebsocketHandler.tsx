@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { config } from '../../resources/scripts/config';
@@ -17,7 +18,6 @@ import {
 } from '../../globalState';
 import { SESSION_LIST_TAB_ANONYMOUS } from '../session/sessionHelpers';
 import { sendNotification } from '../../utils/notificationHelpers';
-import { history } from '../app/app';
 import { useTranslation } from 'react-i18next';
 
 interface WebsocketHandlerProps {
@@ -26,6 +26,8 @@ interface WebsocketHandlerProps {
 
 export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const [newStompDirectMessage, setNewStompDirectMessage] =
 		useState<boolean>(false);
 	const [newStompAnonymousEnquiry, setNewStompAnonymousEnquiry] =

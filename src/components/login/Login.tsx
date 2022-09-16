@@ -8,7 +8,7 @@ import {
 	useMemo,
 	useState
 } from 'react';
-import { generatePath } from 'react-router-dom';
+import { generatePath, useHistory } from 'react-router-dom';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { config } from '../../resources/scripts/config';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
@@ -30,6 +30,7 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	LocaleContext,
+	RocketChatGlobalSettingsContext,
 	TenantContext,
 	UserDataInterface
 } from '../../globalState';
@@ -53,9 +54,7 @@ import {
 	VALIDITY_INITIAL,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
-import { history } from '../app/app';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
-import { RocketChatGlobalSettingsContext } from '../../globalState';
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { useTranslation } from 'react-i18next';
 
@@ -65,6 +64,7 @@ interface LoginProps {
 
 export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
 	const { locale } = useContext(LocaleContext);
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
@@ -242,7 +242,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 					});
 			}
 		},
-		[consultantId, validity]
+		[consultantId, history, validity]
 	);
 
 	const handleOverlayAction = useCallback(

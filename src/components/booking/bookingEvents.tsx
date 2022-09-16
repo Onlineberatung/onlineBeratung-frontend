@@ -7,7 +7,6 @@ import {
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import './bookingEvents.styles';
-import { history } from '../app/app';
 import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
 import { Text } from '../text/Text';
 import {
@@ -21,7 +20,7 @@ import {
 	BookingEventsInterface,
 	BookingEventUiInterface
 } from '../../globalState/interfaces/BookingsInterface';
-import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
+import { NavLink, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import bookingRoutes from './booking.routes';
 import { BookingsStatus } from '../../utils/consultant';
 import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
@@ -37,6 +36,8 @@ import { useTranslation } from 'react-i18next';
 
 export const BookingEvents = () => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	useEffect(() => {
 		setBookingWrapperActive();
 

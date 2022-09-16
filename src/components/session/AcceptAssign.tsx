@@ -7,7 +7,7 @@ import {
 	useRef,
 	useState
 } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { E2EEContext } from '../../globalState';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import './session.styles';
@@ -23,7 +23,6 @@ import { useE2EE } from '../../hooks/useE2EE';
 import { createGroupKey } from '../../utils/encryptionHelpers';
 import { encryptRoom } from '../../utils/e2eeHelper';
 import { apiEnquiryAcceptance, FETCH_ERRORS } from '../../api';
-import { history } from '../app/app';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { useWatcher } from '../../hooks/useWatcher';
 import { apiGetSessionRoomBySessionId } from '../../api/apiGetSessionRooms';
@@ -46,9 +45,10 @@ export const AcceptAssign = ({
 	isAnonymous
 }: AcceptAssignProps) => {
 	const { t: translate } = useTranslation();
-	const { activeSession } = useContext(ActiveSessionContext);
+	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
+	const history = useHistory();
 
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { activeSession } = useContext(ActiveSessionContext);
 	const abortController = useRef<AbortController>(null);
 
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);

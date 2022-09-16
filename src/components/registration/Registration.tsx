@@ -30,7 +30,7 @@ export const Registration = ({
 		'agencies'
 	]);
 
-	const { consultingTypeSlug } = useParams();
+	const { consultingTypeSlug } = useParams<{ consultingTypeSlug: string }>();
 
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { UserDataContext } from '../../globalState';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -37,7 +38,6 @@ import { LockIcon, PenIcon } from '../../resources/img/icons';
 import { RadioButton } from '../radioButton/RadioButton';
 import { Tooltip } from '../tooltip/Tooltip';
 import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
-import { history } from '../app/app';
 import useUpdateUserData from '../../utils/useUpdateUserData';
 import { useTranslation } from 'react-i18next';
 
@@ -51,6 +51,8 @@ export const TWO_FACTOR_TYPES = {
 
 export const TwoFactorAuth = () => {
 	const { t: translate } = useTranslation();
+	const location = useLocation<{ openTwoFactor?: boolean }>();
+
 	const { userData } = useContext(UserDataContext);
 	const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(
 		userData.twoFactorAuth.isActive
@@ -80,10 +82,10 @@ export const TwoFactorAuth = () => {
 	);
 
 	useEffect(() => {
-		if (history.location.openTwoFactor) {
+		if (location.state?.openTwoFactor) {
 			setOverlayActive(true);
 		}
-	}, []);
+	}, [location.state?.openTwoFactor]);
 
 	useEffect(() => {
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);

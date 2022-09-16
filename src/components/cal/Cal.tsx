@@ -1,9 +1,8 @@
 /* eslint-disable prefer-const */
 import React, { useContext, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import useEmbed from './useEmbed';
 import './cal.styles';
-import { history } from '../app/app';
 import { apiAppointmentServiceSet } from '../../api/apiAppointmentServiceSet';
 import { UserDataContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +19,8 @@ export default function Cal({
 	embedJsUrl?: string;
 }) {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { userData } = useContext(UserDataContext);
 
 	if (!calLink) {
@@ -28,7 +29,8 @@ export default function Cal({
 	const initializedRef = useRef(false);
 	const Cal = useEmbed(embedJsUrl);
 	const ref = useRef<HTMLDivElement>(null);
-	const location = useLocation();
+	const location =
+		useLocation<{ sessionId: number; isInitialMessage: boolean }>();
 
 	useEffect(() => {
 		if (!Cal || initializedRef.current) {

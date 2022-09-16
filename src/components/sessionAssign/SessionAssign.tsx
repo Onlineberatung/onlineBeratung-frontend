@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -23,7 +24,6 @@ import { SelectDropdown } from '../select/SelectDropdown';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
-import { history } from '../app/app';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import {
@@ -34,6 +34,8 @@ import { useTranslation } from 'react-i18next';
 
 export const SessionAssign = (props: { value?: string }) => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const { path: listPath } = useContext(SessionTypeContext);

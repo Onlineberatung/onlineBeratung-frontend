@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
-import { Link, Redirect, useParams } from 'react-router-dom';
+import { Link, Redirect, useParams, useHistory } from 'react-router-dom';
 import {
 	SessionTypeContext,
 	UserDataContext,
 	useTenant
 } from '../../globalState';
-import { history } from '../app/app';
 import { isUserModerator, SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import {
@@ -52,8 +51,9 @@ import { useTranslation } from 'react-i18next';
 
 export const GroupChatInfo = () => {
 	const { t: translate } = useTranslation();
+	const history = useHistory();
 	const tenantData = useTenant();
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 	const featureGroupChatV2Enabled =
 		tenantData?.settings?.featureGroupChatV2Enabled;
 
@@ -128,7 +128,7 @@ export const GroupChatInfo = () => {
 				}
 			});
 		}
-	}, [activeSession, listPath, ready, sessionListTab]);
+	}, [activeSession, history, listPath, ready, sessionListTab]);
 
 	const handleStopGroupChatButton = () => {
 		setOverlayItem(stopGroupChatSecurityOverlayItem);
