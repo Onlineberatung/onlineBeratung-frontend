@@ -118,7 +118,6 @@ export const RegistrationFormDigi = ({
 				config.endpoints.registerAsker,
 				finalValues,
 				settings.multitenancyWithSingleDomainEnabled,
-				settings.budibaseSSO,
 				tenant
 			)
 				.then(() => setRegistrationWithSuccess(true))
