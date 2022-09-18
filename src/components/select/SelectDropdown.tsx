@@ -55,6 +55,7 @@ const colourStyles = (fromL) => ({
 			'padding': isFocused ? '0 11px' : '0 12px',
 			'color': '#3F373F',
 			'boxShadow': undefined,
+			'cursor': 'pointer',
 			'&:hover': {
 				border: isFocused ? '2px solid #3F373F' : '1px solid #3F373F',
 				padding: isFocused ? '0 11px' : '0 12px'
@@ -65,7 +66,8 @@ const colourStyles = (fromL) => ({
 				transition: 'font-size .5s, top .5s',
 				color: '#8C878C',
 				position: 'absolute',
-				marginLeft: '3px'
+				marginLeft: '3px',
+				cursor: 'pointer'
 			}
 		};
 	},
@@ -78,7 +80,8 @@ const colourStyles = (fromL) => ({
 			? styles
 			: {
 					...styles,
-					paddingTop: '12px'
+					paddingTop: '12px',
+					cursor: 'pointer'
 			  };
 	},
 	option: (styles) => {
@@ -90,7 +93,8 @@ const colourStyles = (fromL) => ({
 			backgroundColor: undefined,
 
 			textAlign: 'left',
-			lineHeight: '21px'
+			lineHeight: '21px',
+			cursor: 'pointer'
 		};
 	},
 	menuList: (styles) => ({
@@ -164,12 +168,14 @@ const colourStyles = (fromL) => ({
 					'color': 'rgba(0,0,0,0.8) !important',
 					'&:hover': {
 						color: 'rgba(0,0,0,0.8) !important'
-					}
+					},
+					'cursor': 'pointer'
 			  } // important is needed for fixed option to overwrite color from scss
 			: {
 					...styles,
 					...common,
-					paddingRight: '4px'
+					paddingRight: '4px',
+					cursor: 'pointer'
 			  };
 	},
 	multiValueRemove: (styles, state) => {
@@ -189,7 +195,8 @@ const colourStyles = (fromL) => ({
 	indicatorSeparator: (styles, state) => {
 		return {
 			...styles,
-			display: 'none'
+			display: 'none',
+			cursor: 'pointer'
 		};
 	}
 });

@@ -10,7 +10,7 @@
 	}
 
 	&__infoLargeStandard {
-		font-size: $font-size-tertiary;
+		font-size: $font-size-primary;
 		line-height: 19px;
 		color: $text-color-info-large-standard;
 	}
@@ -29,6 +29,13 @@
 		font-size: $font-size-secondary;
 		line-height: $line-height-secondary;
 		color: $tertiary;
+	}
+
+	&__infoMedium {
+		font-size: $font-size-primary;
+		line-height: 24px;
+		color: $tertiary;
+		font-weight: $font-weight-regular;
 	}
 
 	&__divider {

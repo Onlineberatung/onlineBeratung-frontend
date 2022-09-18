@@ -256,7 +256,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											'registration.agencySelection.intro.overline'
 									  )
 							}
-							type="infoLargeAlternative"
+							type="infoMedium"
 						/>
 						<div className="agencySelection__intro__content">
 							<Text
@@ -269,7 +269,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												'registration.agencySelection.intro.subline'
 										  )
 								}
-								type="infoLargeAlternative"
+								type="infoMedium"
 							/>
 							<ul>
 								{introItemsTranslations.map(
@@ -279,7 +279,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												text={translate(
 													introItemTranslation
 												)}
-												type="infoLargeAlternative"
+												type="infoMedium"
 											/>
 										</li>
 									)
@@ -299,7 +299,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							<Text
 								className="agencySelection__note"
 								text={props.agencySelectionNote}
-								type="infoLargeAlternative"
+								type="infoMedium"
 								labelType={LABEL_TYPES.NOTICE}
 							/>
 						</div>
@@ -356,26 +356,30 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											key={index}
 											className="agencySelection__proposedAgency"
 										>
-											<RadioButton
-												name="agencySelection"
-												handleRadioButton={() =>
-													setSelectedAgency(agency)
-												}
-												type="smaller"
-												value={agency.id.toString()}
-												checked={index === 0}
-												inputId={agency.id.toString()}
-												label={translate([
-													`agency.${agency.id}.name`,
-													agency.name
-												])}
-											/>
-											<AgencyInfo
-												agency={agency}
-												isProfileView={
-													props.isProfileView
-												}
-											/>
+											<div className="agencySelection__proposedAgency__container">
+												<RadioButton
+													name="agencySelection"
+													handleRadioButton={() =>
+														setSelectedAgency(
+															agency
+														)
+													}
+													type="smaller"
+													value={agency.id.toString()}
+													checked={index === 0}
+													inputId={agency.id.toString()}
+													label={translate([
+														`agency.${agency.id}.name`,
+														agency.name
+													])}
+												/>
+												<AgencyInfo
+													agency={agency}
+													isProfileView={
+														props.isProfileView
+													}
+												/>
+											</div>
 											<AgencyLanguages
 												agencyId={agency.id}
 											/>

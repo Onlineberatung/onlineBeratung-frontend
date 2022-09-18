@@ -190,6 +190,13 @@ export const Registration = ({
 						loginParams={loginParams}
 						welcomeScreenConfig={consultingType?.welcomeScreen}
 						consultingTypeId={consultingType?.id}
+						consultingTypeName={translate(
+							[
+								`consultingType.${consultingType.id}.titles.long`,
+								consultingType.titles.long
+							],
+							{ ns: 'consultingTypes' }
+						)}
 					/>
 				) : (
 					<RegistrationForm

@@ -51,7 +51,7 @@ export const RegistrationState = ({
 	};
 
 	return (
-		<div>
+		<div className="select__content">
 			<SelectDropdown {...stateSelectDropdown} onKeyDown={onKeyDown} />
 		</div>
 	);

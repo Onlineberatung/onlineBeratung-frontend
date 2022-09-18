@@ -6,6 +6,7 @@ export type TextTypeOptions =
 	| 'standard'
 	| 'infoLargeStandard'
 	| 'infoLargeAlternative'
+	| 'infoMedium'
 	| 'infoSmall'
 	| 'divider';
 

@@ -1,6 +1,5 @@
 .stageLayout {
 	overflow-x: hidden;
-	text-align: $registration-text-align;
 
 	&__stage {
 		position: fixed;
@@ -19,19 +18,15 @@
 		flex-direction: column;
 		width: unset;
 		left: unset;
-		padding: $grid-base-six $grid-base-two 0;
+		padding: 48px 16px 0;
 
 		@include breakpoint($fromMedium) {
-			min-height: 90vh;
-			padding: 0 $grid-base-five;
+			min-height: 100vh;
 		}
 
 		@include breakpoint($fromXLarge) {
-			$padding: 150px;
-
-			width: calc(60vw - #{$padding * 2});
-			left: calc(40vw + #{$padding});
-			max-width: 1000px - $padding * 2;
+			width: 100%;
+			left: 20vw;
 		}
 	}
 
@@ -59,24 +54,25 @@
 
 	&__legalLinks {
 		display: flex;
-		flex-wrap: wrap;
-		margin: $grid-base-six 0 $grid-base-four 0;
-
-		@include breakpoint($fromMedium) {
-			margin: 0;
-			position: absolute;
-			bottom: $grid-base-four;
-			left: $legal-information-links-left-medium;
-		}
+		align-items: center;
+		width: 80%;
+		padding: 0 $grid-base-two;
+		margin: 0;
+		position: absolute;
+		bottom: $grid-base-four;
+		left: 0;
 
 		@include breakpoint($fromXLarge) {
-			left: $legal-information-links-left-large;
+			justify-content: flex-end;
 		}
 
 		.button-as-link {
 			background: none;
 			border: none;
 			cursor: pointer;
+			text-decoration: underline;
+			padding: 0;
+			white-space: nowrap;
 
 			&:focus {
 				outline: $focus-outline;
@@ -86,13 +82,23 @@
 			&:focus:not(:focus-visible) {
 				outline: none;
 			}
+
+			&:hover {
+				color: var(--skin-color-primary-hover, $hover-primary);
+			}
+		}
+
+		.text {
+			font-size: $font-size-tertiary;
 		}
 	}
 
 	&__legalLinksItem {
-		color: rgba($black, 0.6);
-		text-transform: uppercase;
+		color: $black-65-opacity;
 		font-weight: $font-weight-bold;
+		&:hover {
+			color: var(--skin-color-primary-hover, $hover-primary);
+		}
 	}
 
 	&__legalLinksSeparator {

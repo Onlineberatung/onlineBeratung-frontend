@@ -9,7 +9,11 @@ import {
 	useState
 } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
-import { InputField, InputFieldItem } from '../inputField/InputField';
+import {
+	InputField,
+	InputFieldItem,
+	InputFieldLabelState
+} from '../inputField/InputField';
 import { config } from '../../resources/scripts/config';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { autoLogin, redirectToApp } from '../registration/autoLogin';
@@ -52,6 +56,7 @@ import {
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 import {
 	VALIDITY_INITIAL,
+	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
@@ -85,6 +90,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		loaded: isReady
 	} = useUrlParamsLoader();
 
+	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(
@@ -98,6 +104,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 
 	useEffect(() => {
 		setShowLoginError('');
+		setLabelState(null);
 		if (
 			(!isOtpRequired && username && password) ||
 			(isOtpRequired && username && password && otp)
@@ -128,7 +135,8 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		type: 'text',
 		label: translate('login.user.label'),
 		content: username,
-		icon: <PersonIcon />
+		icon: <PersonIcon />,
+		...(labelState && { labelState })
 	};
 
 	const inputItemPassword: InputFieldItem = {
@@ -137,7 +145,8 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		type: 'password',
 		label: translate('login.password.label'),
 		content: password,
-		icon: <LockIcon />
+		icon: <LockIcon />,
+		...(labelState && { labelState })
 	};
 
 	const otpInputItem: InputFieldItem = {
@@ -328,6 +337,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 					setShowLoginError(
 						translate('login.warning.failed.unauthorized.text')
 					);
+					setLabelState(VALIDITY_INVALID);
 				} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
 					if (error.options.data.otpType)
 						setTwoFactorType(error.options.data.otpType);
@@ -363,6 +373,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 						setShowLoginError(
 							translate('login.warning.failed.unauthorized.otp')
 						);
+						setLabelState(VALIDITY_INVALID);
 					}
 				})
 				.finally(() => {
@@ -424,97 +435,101 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				showLegalLinks
 			>
 				<div className="loginForm">
-					<div className="loginForm__headline">
-						<h1>{translate('login.headline')}</h1>
-					</div>
-					<InputField
-						item={inputItemUsername}
-						inputHandle={handleUsernameChange}
-						keyUpHandle={handleKeyUp}
-					/>
-					<InputField
-						item={inputItemPassword}
-						inputHandle={handlePasswordChange}
-						keyUpHandle={handleKeyUp}
-					/>
-					<div
-						className={clsx('loginForm__otp', {
-							'loginForm__otp--active': isOtpRequired
-						})}
-					>
-						{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
-							<Text
-								className="loginForm__emailHint"
-								text={translate(
-									'twoFactorAuth.activate.email.resend.hint'
-								)}
-								type="infoLargeAlternative"
-							/>
-						)}
+					<div>
+						<div className="loginForm__headline">
+							<h2>{translate('login.headline')}</h2>
+						</div>
 						<InputField
-							item={otpInputItem}
-							inputHandle={handleOtpChange}
+							item={inputItemUsername}
+							inputHandle={handleUsernameChange}
 							keyUpHandle={handleKeyUp}
 						/>
-						{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
-							<TwoFactorAuthResendMail
-								resendHandler={(callback) => {
-									tryLoginWithoutOtp();
-									callback();
-								}}
+						<InputField
+							item={inputItemPassword}
+							inputHandle={handlePasswordChange}
+							keyUpHandle={handleKeyUp}
+						/>
+						<div
+							className={clsx('loginForm__otp', {
+								'loginForm__otp--active': isOtpRequired
+							})}
+						>
+							{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
+								<Text
+									className="loginForm__emailHint"
+									text={translate(
+										'twoFactorAuth.activate.email.resend.hint'
+									)}
+									type="infoLargeAlternative"
+								/>
+							)}
+							<InputField
+								item={otpInputItem}
+								inputHandle={handleOtpChange}
+								keyUpHandle={handleKeyUp}
+							/>
+							{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
+								<TwoFactorAuthResendMail
+									resendHandler={(callback) => {
+										tryLoginWithoutOtp();
+										callback();
+									}}
+								/>
+							)}
+						</div>
+
+						{showLoginError && (
+							<Text
+								text={showLoginError}
+								type="infoSmall"
+								className="loginForm__error"
 							/>
 						)}
-					</div>
 
-					{showLoginError && (
-						<Text
-							text={showLoginError}
-							type="infoSmall"
-							className="loginForm__error"
+						<Button
+							item={loginButton}
+							buttonHandle={handleLogin}
+							disabled={isButtonDisabled || isRequestInProgress}
 						/>
-					)}
 
-					{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
-						<button
-							onClick={onPasswordResetClick}
-							className="button-as-link"
-							type="button"
-						>
-							{translate('login.resetPasswort.label')}
-						</button>
-					)}
-
-					<Button
-						item={loginButton}
-						buttonHandle={handleLogin}
-						disabled={isButtonDisabled || isRequestInProgress}
-					/>
-					{!hasTenant && (
-						<div className="loginForm__register">
-							<Text
-								text={translate(
-									'login.register.infoText.title'
-								)}
-								type={'infoSmall'}
-							/>
-							<Text
-								text={translate('login.register.infoText.copy')}
-								type={'infoSmall'}
-							/>
+						{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
 							<button
+								onClick={onPasswordResetClick}
+								className="button-as-link"
 								type="button"
-								className="loginForm__register__link button-as-link"
-								onClick={() =>
-									window.open(
-										config.urls.toRegistration,
-										'_self'
-									)
-								}
 							>
-								{translate('login.register.linkLabel')}
+								{translate('login.resetPasswort.label')}
 							</button>
-						</div>
-					)}
+						)}
+
+						{!hasTenant && (
+							<div className="loginForm__register">
+								<div className="loginForm__register__separator">
+									<span>{translate('login.seperator')}</span>
+								</div>
+								<div className="loginForm__register__content">
+									<Text
+										text={translate(
+											'login.register.infoText.title'
+										)}
+										type={'infoMedium'}
+									/>
+									<button
+										onClick={() =>
+											window.open(
+												config.urls.toRegistration,
+												'_self'
+											)
+										}
+										className="button-as-link consulting-topics"
+										type="button"
+									>
+										{translate('login.register.linkLabel')}
+									</button>
+								</div>
+							</div>
+						)}
+					</div>
 				</div>
 				{registerOverlayActive && (
 					<OverlayWrapper>

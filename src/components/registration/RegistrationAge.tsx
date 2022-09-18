@@ -52,7 +52,7 @@ export const RegistrationAge = ({
 	};
 
 	return (
-		<div>
+		<div className="select__content">
 			<SelectDropdown {...ageSelectDropdown} onKeyDown={onKeyDown} />
 		</div>
 	);

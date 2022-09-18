@@ -147,7 +147,7 @@
 		margin-top: $grid-base-three;
 
 		@include breakpoint($fromLarge) {
-			justify-content: start;
+			justify-content: flex-start;
 		}
 	}
 

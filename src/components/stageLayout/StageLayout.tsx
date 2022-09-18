@@ -70,7 +70,7 @@ export const StageLayout = ({
 			<div className="stageLayout__content">
 				{children}
 				{showLegalLinks && (
-					<div className="stageLayout__legalLinks">
+					<div className={`stageLayout__legalLinks`}>
 						{legalLinks.map((legalLink, index) => (
 							<React.Fragment key={legalLink.url}>
 								{index > 0 && (
@@ -99,6 +99,28 @@ export const StageLayout = ({
 					</div>
 				)}
 			</div>
+			{showLoginLink && (
+				<div className="stageLayout__toLogin">
+					<div className="stageLayout__toLogin__button">
+						<a
+							href={`${config.urls.toLogin}${
+								loginParams ? `?${loginParams}` : ''
+							}`}
+							tabIndex={-1}
+						>
+							<Button
+								item={{
+									label: translate(
+										'registration.login.label'
+									),
+									type: 'TERTIARY'
+								}}
+								isLink
+							/>
+						</a>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
