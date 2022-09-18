@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
 	setBookingWrapperActive,
@@ -17,7 +17,6 @@ import { Box } from '../box/Box';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	SessionsDataContext,
 	UserDataContext
 } from '../../globalState';
 import { BookingDescription } from './bookingDescription';
@@ -26,6 +25,7 @@ import { Loading } from '../app/Loading';
 import { BookingEventUiInterface } from '../../globalState/interfaces/BookingsInterface';
 import { BookingsStatus } from '../../utils/consultant';
 import { useTranslation } from 'react-i18next';
+import { apiGetAskerSessionList } from '../../api';
 
 interface BookingsComponentProps {
 	bookingEventsData: BookingEventUiInterface[];
@@ -52,7 +52,14 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 	const activeBookings = bookingStatus === BookingsStatus.ACTIVE;
 
 	const { userData } = useContext(UserDataContext);
-	const { sessions } = useContext(SessionsDataContext);
+	const [sessions, setSessions] = useState(null);
+
+	useEffect(() => {
+		apiGetAskerSessionList().then(({ sessions }) => {
+			setSessions(sessions);
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
@@ -65,7 +72,12 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 	};
 
 	const handleBookingButton = () => {
-		history.push('/booking');
+		history.push({
+			pathname: '/booking/',
+			state: {
+				isInitialMessage: false
+			}
+		});
 	};
 
 	const handleCancellationAppointment = (event: BookingEventUiInterface) => {

@@ -227,7 +227,6 @@ export const RegistrationForm = ({
 			config.endpoints.registerAsker,
 			registrationData,
 			settings.multitenancyWithSingleDomainEnabled,
-			settings.budibaseSSO,
 			tenant
 		)
 			.then((res) => {

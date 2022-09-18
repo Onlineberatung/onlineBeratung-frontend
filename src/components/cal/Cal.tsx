@@ -6,6 +6,7 @@ import './cal.styles';
 import { apiAppointmentServiceSet } from '../../api/apiAppointmentServiceSet';
 import { UserDataContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
+import { apiGetAskerSessionList } from '../../api';
 
 export default function Cal({
 	calLink,
@@ -60,9 +61,8 @@ export default function Cal({
 		Cal('on', {
 			action: 'bookingSuccessful',
 			callback: (e) => {
-				const sessionId = location.state.sessionId;
-				const isInitialMessage = location.state.isInitialMessage;
-
+				const isInitialMessage =
+					location?.state?.isInitialMessage || false;
 				if (!isInitialMessage) {
 					history.push({
 						pathname: `/sessions/user/view`
@@ -70,29 +70,32 @@ export default function Cal({
 					return;
 				}
 
-				const { data } = e.detail;
-				const date = data.date;
-				const appointmentData = {
-					userName: userData.userName,
-					counselorEmail: data.organizer.email,
-					date: date,
-					duration: data.duration,
-					title: `${data.eventType.title} ${translate(
-						'message.appointmentSet.between'
-					)} ${data.eventType.team.name} ${translate(
-						'message.appointmentSet.and'
-					)} ${userData.userName}`
-				};
+				apiGetAskerSessionList().then(({ sessions }) => {
+					const sessionId = sessions[0]?.session?.id;
+					const { data } = e.detail;
+					const date = data.date;
+					const appointmentData = {
+						userName: userData.userName,
+						counselorEmail: data.organizer.email,
+						date: date,
+						duration: data?.duration,
+						title: `${data?.eventType?.title} ${translate(
+							'message.appointmentSet.between'
+						)} ${data?.eventType?.team?.name} ${translate(
+							'message.appointmentSet.and'
+						)} ${userData?.userName}`
+					};
 
-				apiAppointmentServiceSet(appointmentData, sessionId)
-					.then(() => {
-						history.push({
-							pathname: `/sessions/user/view`
+					apiAppointmentServiceSet(appointmentData, sessionId)
+						.then(() => {
+							history.push({
+								pathname: `/sessions/user/view`
+							});
+						})
+						.catch((error) => {
+							console.log(error);
 						});
-					})
-					.catch((error) => {
-						console.log(error);
-					});
+				});
 			}
 		});
 		(window as any).Call = Cal;

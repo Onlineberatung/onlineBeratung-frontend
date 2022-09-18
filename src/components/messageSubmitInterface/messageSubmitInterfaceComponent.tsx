@@ -978,7 +978,6 @@ export const MessageSubmitInterfaceComponent = (
 		history.push({
 			pathname: '/booking/',
 			state: {
-				sessionId: activeSession.item.id,
 				isInitialMessage: true
 			}
 		});

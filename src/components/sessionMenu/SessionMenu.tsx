@@ -171,7 +171,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		history.push({
 			pathname: '/booking/',
 			state: {
-				sessionId: activeSession.item.id,
 				isInitialMessage: false
 			}
 		});
