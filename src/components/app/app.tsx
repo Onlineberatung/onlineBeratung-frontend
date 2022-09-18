@@ -101,7 +101,7 @@ export const App = ({
 			apiGetTenantTheming({
 				subdomain,
 				useMultiTenancyWithSingleDomain:
-					settings?.multiTenancyWithSingleDomainEnabled,
+					settings?.multitenancyWithSingleDomainEnabled,
 				mainTenantSubdomainForSingleDomain:
 					settings.mainTenantSubdomainForSingleDomainMultitenancy
 			}).then((resp) => {

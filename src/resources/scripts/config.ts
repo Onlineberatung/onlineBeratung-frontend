@@ -11,7 +11,10 @@ if (apiUrlEnv) {
 	}
 }
 
-export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
+export const uiUrl =
+	process.env.REACT_APP_UI_URL || typeof window !== 'undefined'
+		? window.location.origin
+		: '';
 export const APP_PATH = 'app';
 
 export const config = {
@@ -21,7 +24,7 @@ export const config = {
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	useMultiTenancyWithSingleDomain: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
 	useTenantService: false,
-	useApiClusterSettings: false, // Feature flag to enable the cluster use the cluster settings instead of the config file
+	useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
 	mainTenantSubdomainForSingleDomainMultitenancy: 'app',
 
 	endpoints: {
@@ -152,6 +155,7 @@ export const config = {
 		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
 	urls: {
+		appointmentServiceDevServer: '',
 		consultantVideoConference:
 			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',
@@ -165,7 +169,6 @@ export const config = {
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		releases: uiUrl + '/releases',
 		budibaseDevServer: '',
-		appointmentServiceDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',

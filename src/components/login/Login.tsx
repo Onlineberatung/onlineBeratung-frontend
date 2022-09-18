@@ -315,11 +315,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 			username: username,
 			password: password,
 			redirect: !consultant,
-			...ensureTenantSettings(
-				tenant?.settings,
-				tenant?.settings?.featureToolsEnabled
-			),
-			enableBudibaseSSO: tenant?.settings?.featureToolsEnabled
+			...ensureTenantSettings(tenant?.settings)
 		})
 			.then(postLogin)
 			.catch((error) => {
@@ -355,11 +351,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 				password,
 				redirect: !consultant,
 				otp,
-				enableBudibaseSSO: tenant?.settings?.featureToolsEnabled,
-				...ensureTenantSettings(
-					tenant?.settings,
-					tenant?.settings?.featureToolsEnabled
-				)
+				...ensureTenantSettings(tenant?.settings)
 			})
 				.then(postLogin)
 				.catch((error) => {

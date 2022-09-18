@@ -508,7 +508,7 @@ export const MessageSubmitInterfaceComponent = (
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
 			const { appointmentFeatureEnabled } = userData;
-			if (!sessions[0].consultant) {
+			if (!sessions?.[0]?.consultant) {
 				setShowAppointmentButton(appointmentFeatureEnabled);
 			}
 		}
@@ -969,7 +969,6 @@ export const MessageSubmitInterfaceComponent = (
 		history.push({
 			pathname: '/booking/',
 			state: {
-				sessionId: activeSession.item.id,
 				isInitialMessage: true
 			}
 		});

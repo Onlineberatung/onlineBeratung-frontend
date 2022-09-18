@@ -8,11 +8,11 @@ export interface AppConfigInterface {
 	/** Feature flag to enable Video-Termine page */
 	disableVideoAppointments: boolean;
 	/** Feature flag to enable the multi tenancy with a single domain ex: lands */
-	multiTenancyWithSingleDomainEnabled: boolean;
+	multitenancyWithSingleDomainEnabled: boolean;
 	/** Feature flag to enable request to retrieve settings from the tenant service */
 	useTenantService: boolean;
 	/** Feature flag to enable cluster settings from the api instead of the config file */
 	useApiClusterSettings: boolean;
-	/** When the Feature flag multiTenancyWithSingleDomainEnabled is used we need to know the main subdomain */
+	/** When the Feature flag multitenancyWithSingleDomainEnabled is used we need to know the main subdomain */
 	mainTenantSubdomainForSingleDomainMultitenancy?: string;
 }

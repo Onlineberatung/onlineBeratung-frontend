@@ -188,8 +188,7 @@ export const RegistrationForm = ({
 		apiPostRegistration(
 			config.endpoints.registerAsker,
 			registrationData,
-			settings.multiTenancyWithSingleDomainEnabled,
-			settings.budibaseSSO,
+			settings.multitenancyWithSingleDomainEnabled,
 			tenant
 		)
 			.then((res) => {
