@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback, useContext } from 'react';
-import { Text } from '../text/Text';
-import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
+import { BUTTON_TYPES } from '../button/Button';
 import {
 	apiPostRegistration,
 	FETCH_ERRORS,
@@ -86,11 +84,6 @@ export const RegistrationForm = ({
 		tenantData?.settings?.topicsInRegistrationEnabled &&
 		tenantData?.settings?.featureTopicsEnabled;
 	const { tenant } = useContext(TenantContext);
-
-	const buttonItemSubmit: ButtonItem = {
-		label: translate('registration.submitButton.label'),
-		type: BUTTON_TYPES.PRIMARY
-	};
 
 	useEffect(() => {
 		const postcodeParameter = getUrlParameter('postcode');
