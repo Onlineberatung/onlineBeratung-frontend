@@ -858,6 +858,7 @@ module.exports = function (webpackEnv) {
 				}),
 			...localAliases([
 				'src/resources/scripts/',
+				'src/resources/i18n/',
 				'src/resources/img/illustrations/'
 			])
 		].filter(Boolean),
