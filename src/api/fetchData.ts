@@ -5,7 +5,7 @@ import {
 	redirectToErrorPage
 } from '../components/error/errorHandling';
 import { logout } from '../components/logout/logout';
-import { config, CSRF_WHITELIST_HEADER } from '../resources/scripts/config';
+import { config } from '../resources/scripts/config';
 
 const nodeEnv: string = process.env.NODE_ENV as string;
 const isLocalDevelopment = nodeEnv === 'development';
@@ -88,7 +88,10 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 			: null;
 
 		const localDevelopmentHeader = isLocalDevelopment
-			? { [CSRF_WHITELIST_HEADER]: csrfToken }
+			? {
+					[process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY]:
+						csrfToken
+			  }
 			: null;
 
 		let controller;

@@ -1,4 +1,4 @@
-import { config, CSRF_WHITELIST_HEADER } from '../resources/scripts/config';
+import { config } from '../resources/scripts/config';
 import { FETCH_METHODS } from './fetchData';
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { generateCsrfToken } from '../utils/generateCsrfToken';
@@ -60,7 +60,10 @@ export const apiUploadAttachment = (
 	xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
 	xhr.setRequestHeader('cache-control', 'no-cache');
 	if (isLocalDevelopment) {
-		xhr.setRequestHeader(CSRF_WHITELIST_HEADER, csrfToken);
+		xhr.setRequestHeader(
+			process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY,
+			csrfToken
+		);
 	}
 
 	xhr.send(data);

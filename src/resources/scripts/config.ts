@@ -8,9 +8,6 @@ import { enAgency } from '../i18n/en.agency';
 import { enLanguages } from '../i18n/en.languages';
 import { config as configOverride } from './config_override';
 
-export const CSRF_WHITELIST_HEADER: string =
-	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
-
 export const apiUrlEnv: string = process.env.REACT_APP_API_URL;
 
 export let apiUrl = '';
