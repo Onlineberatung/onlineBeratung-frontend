@@ -25,15 +25,16 @@ export const prepareSelectDropdown = ({
 	return selectDropdown;
 };
 
-export const prepareConsultantDataForSelect = (
-	consultants: Consultant[],
-	useFullName = true
-) => {
+export const prepareConsultantDataForSelect = (consultants: Consultant[]) => {
 	let availableConsultants = [];
 	consultants.forEach((item) => {
-		const label = useFullName
-			? item.firstName + ` ` + item.lastName
-			: item.displayName || decodeUsername(item.username);
+		const label =
+			item.firstName +
+			` ` +
+			item.lastName +
+			' (' +
+			decodeUsername(item.username) +
+			')';
 
 		const consultant: SelectOption = {
 			value: item.consultantId,
