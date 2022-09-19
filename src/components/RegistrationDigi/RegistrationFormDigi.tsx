@@ -101,7 +101,6 @@ export const RegistrationFormDigi = ({
 	const onSubmit = React.useCallback(
 		(formValues) => {
 			const finalValues = {
-				consultingType: Number(consultingType.id),
 				username: formValues.username,
 				password: encodeURIComponent(formValues.password),
 				agencyId: formValues.agencyId?.toString(),
@@ -112,6 +111,7 @@ export const RegistrationFormDigi = ({
 				age: Number(formValues.age),
 				topicIds: formValues['topicIds[]'].map(Number),
 				counsellingRelation: formValues.counsellingRelation,
+				consultingType: formValues.consultingTypeId,
 				...(consultant && { consultantId: consultant.consultantId })
 			};
 			apiPostRegistration(
@@ -137,7 +137,7 @@ export const RegistrationFormDigi = ({
 					}
 				});
 		},
-		[consultant, consultingType.id, form, settings, tenant]
+		[consultant, form, settings, tenant]
 	);
 
 	// When some topic id is selected we need to change the list of main topics
