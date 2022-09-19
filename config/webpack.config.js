@@ -103,13 +103,25 @@ const localAliases = (paths) =>
 					if (newPath === currentPath) {
 						return;
 					}
-					try {
-						fs.statSync(newPath);
-						resource.request = newPath;
-						return;
-					} catch (error) {
-						return;
-					}
+					const fileExtensions = [''].concat(
+						paths.moduleFileExtensions
+							.map((ext) => `.${ext}`)
+							.filter(
+								(ext) => useTypeScript || !ext.includes('ts')
+							)
+					);
+
+					fileExtensions.every(() => {
+						try {
+							fs.statSync(newPath);
+							resource.request = newPath;
+							return false;
+						} catch (error) {
+							return true;
+						}
+					});
+
+					return;
 				}
 			)
 	);
