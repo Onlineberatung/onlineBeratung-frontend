@@ -21,12 +21,22 @@ import { EnableWalkthrough } from './EnableWalkthrough';
 import { Help } from '../help/Help';
 import { ConsultantNotifications } from './ConsultantNotifications';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
+import React from 'react';
 
 export const routes = (settings: AppConfigInterface): TabsType => [
 	{
 		title: translate('profile.routes.general'),
 		url: '/allgemeines',
 		elements: [
+			{
+				title: 'Overview',
+				url: '/overview',
+				elements: [
+					{
+						component: () => React.createElement('div')
+					}
+				]
+			},
 			{
 				title: translate('profile.routes.general.public'),
 				url: '/oeffentlich',
