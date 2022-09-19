@@ -1,10 +1,10 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 
 export const apiPatchConsultantData = async (
 	consultantData: UserService.Schemas.PatchConsultantDTO
 ): Promise<any> => {
-	const url = config.endpoints.userData;
+	const url = endpoints.userData;
 	const bodyData = JSON.stringify(consultantData);
 
 	return fetchData({

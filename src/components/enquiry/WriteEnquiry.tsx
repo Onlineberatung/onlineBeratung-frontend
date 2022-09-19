@@ -10,7 +10,7 @@ import {
 	Overlay
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import {
 	buildExtendedSession,
 	STATUS_EMPTY,
@@ -123,7 +123,7 @@ export const WriteEnquiry: React.FC = () => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			activateListView();
 			history.push({
-				pathname: `${config.endpoints.userSessionsListView}/${redirectGroupId}/${redirectSessionId}`
+				pathname: `${endpoints.userSessionsListView}/${redirectGroupId}/${redirectSessionId}`
 			});
 		}
 	};

@@ -1,4 +1,4 @@
-import { config } from '../../src/resources/scripts/config';
+import { endpoints } from '../../src/resources/scripts/endpoints';
 import {
 	closeWebSocketServer,
 	mockWebSocket,
@@ -64,9 +64,7 @@ describe('registration', () => {
 		beforeEach(() => {
 			cy.fixture('service.agencies.json').then((data) => {
 				agencies = data;
-				cy.intercept(config.endpoints.agencyServiceBase, data).as(
-					'agencies'
-				);
+				cy.intercept(endpoints.agencyServiceBase, data).as('agencies');
 			});
 		});
 

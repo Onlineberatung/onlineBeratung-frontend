@@ -1,10 +1,10 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const getCounselorAppointmentLink = async (
 	userId: string
 ): Promise<{ slug: string }> => {
-	const url = config.endpoints.counselorAppointmentLink(userId);
+	const url = endpoints.counselorAppointmentLink(userId);
 
 	return fetchData({
 		url,

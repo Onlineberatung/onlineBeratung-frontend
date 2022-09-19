@@ -1,9 +1,9 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
 
 export const apiGetTopicsData = async (): Promise<TopicsDataInterface[]> => {
-	const url = config.endpoints.topicsData;
+	const url = endpoints.topicsData;
 
 	return fetchData({
 		url: url,

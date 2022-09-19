@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { apiGetUserDataBySessionId } from '../../api/apiGetUserDataBySessionId';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { Text } from '../text/Text';
 import './askerInfoTools.styles';
@@ -18,7 +18,7 @@ export const AskerInfoTools = () => {
 
 	const openToolsLink = () => {
 		window.open(
-			`${config.endpoints.budibaseTools(
+			`${endpoints.budibaseTools(
 				activeSession.consultant.id
 			)}/roleSync?userId=${askerId}&access_token=${accessToken}`,
 			'_blank',

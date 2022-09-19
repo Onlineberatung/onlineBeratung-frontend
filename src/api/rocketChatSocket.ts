@@ -1,6 +1,6 @@
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { apiUrl } from '../resources/scripts/endpoints';
 import { decodeUsername } from '../utils/encryptionHelpers';
-import { apiUrl } from '../resources/scripts/config';
 
 const SOCKET_STATUS = {
 	CONNECTING: 0,

@@ -1,4 +1,4 @@
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './../fetchData';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
 
@@ -6,7 +6,7 @@ export const putAppointment = async (
 	appointmentId: string,
 	data: Partial<AppointmentsDataInterface>
 ): Promise<any> => {
-	const url = config.endpoints.appointmentsServiceBase + '/' + appointmentId;
+	const url = endpoints.appointmentsServiceBase + '/' + appointmentId;
 
 	return fetchData({
 		url: url,
