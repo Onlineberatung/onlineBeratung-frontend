@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import {
 	fetchData,
 	FETCH_METHODS,
@@ -16,7 +16,7 @@ export const apiRegistrationNewConsultingTypes = async (
 	postcode: string,
 	consultantId?: string
 ): Promise<registrationResponse> => {
-	const url = config.endpoints.registerAskerNewConsultingType;
+	const url = endpoints.registerAskerNewConsultingType;
 	const data = JSON.stringify({
 		postcode,
 		agencyId,

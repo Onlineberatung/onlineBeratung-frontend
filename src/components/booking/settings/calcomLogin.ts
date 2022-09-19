@@ -1,5 +1,6 @@
 import { UserDataInterface } from '../../../globalState';
 import { config } from '../../../resources/scripts/config';
+import { endpoints } from '../../../resources/scripts/endpoints';
 import { FETCH_METHODS, fetchData } from '../../../api';
 
 export const calcomLogin = async (userData: UserDataInterface) => {
@@ -9,7 +10,7 @@ export const calcomLogin = async (userData: UserDataInterface) => {
 	});
 
 	const tokenResponse = await fetchData({
-		url: config.endpoints.counselorToken,
+		url: endpoints.counselorToken,
 		method: FETCH_METHODS.GET
 	});
 

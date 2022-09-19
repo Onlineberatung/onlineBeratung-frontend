@@ -1,4 +1,4 @@
-import { config } from '../../src/resources/scripts/config';
+import { endpoints } from '../../src/resources/scripts/endpoints';
 import {
 	closeWebSocketServer,
 	mockWebSocket,
@@ -23,7 +23,7 @@ describe('profile', () => {
 	describe('asker', () => {
 		it('can register for a new consulting type with an external agency', () => {
 			cy.intercept(
-				config.endpoints.agencyServiceBase +
+				endpoints.agencyServiceBase +
 					'?postcode=00000&consultingType=0',
 				[
 					{
@@ -74,7 +74,7 @@ describe('profile', () => {
 
 		it('can register for a new consulting type with an internal agency', () => {
 			cy.intercept(
-				config.endpoints.agencyServiceBase +
+				endpoints.agencyServiceBase +
 					'?postcode=00000&consultingType=0',
 				[
 					{
@@ -92,7 +92,7 @@ describe('profile', () => {
 				]
 			);
 
-			cy.intercept(config.endpoints.registerAskerNewConsultingType, {
+			cy.intercept(endpoints.registerAskerNewConsultingType, {
 				sessionId: 902,
 				status: 'CREATED'
 			});
@@ -177,7 +177,7 @@ describe('profile', () => {
 		});
 
 		it('deactivate and activate email notification consultant', () => {
-			cy.intercept(config.endpoints.userData, {
+			cy.intercept(endpoints.userData, {
 				emailToggles: [
 					{
 						name: 'DAILY_ENQUIRY',

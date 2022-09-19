@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	NOTIFICATION_TYPE_CALL,
@@ -50,7 +50,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		AnonymousConversationStartedContext
 	);
 	const stompClient = Stomp.over(function () {
-		return new SockJS(config.endpoints.liveservice);
+		return new SockJS(endpoints.liveservice);
 	});
 
 	let reconnectAttemptCount = 0;

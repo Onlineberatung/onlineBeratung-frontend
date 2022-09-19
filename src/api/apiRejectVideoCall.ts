@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiRejectVideoCall = async (
@@ -6,7 +6,7 @@ export const apiRejectVideoCall = async (
 	rcGroupId: string,
 	initiatorRcUserId: string
 ): Promise<void> => {
-	const url = config.endpoints.rejectVideoCall;
+	const url = endpoints.rejectVideoCall;
 	const rejectVideoCallData = JSON.stringify({
 		initiatorRcUserId: initiatorRcUserId,
 		initiatorUsername: initiatorUsername,

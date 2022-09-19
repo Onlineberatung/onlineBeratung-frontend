@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 
 export const apiPutTools = async (
@@ -7,7 +7,7 @@ export const apiPutTools = async (
 ): Promise<any> => {
 	return fetchData({
 		bodyData: JSON.stringify(toolsIds),
-		url: config.endpoints.budibaseTools(userId),
+		url: endpoints.budibaseTools(userId),
 		method: FETCH_METHODS.PUT,
 		responseHandling: [FETCH_ERRORS.BAD_REQUEST]
 	});

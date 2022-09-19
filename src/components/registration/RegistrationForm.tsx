@@ -7,7 +7,7 @@ import {
 	apiAgencySelection,
 	X_REASON
 } from '../../api';
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { DEFAULT_POSTCODE } from './prefillPostcode';
 import {
 	OverlayWrapper,
@@ -189,7 +189,7 @@ export const RegistrationForm = ({
 		};
 
 		apiPostRegistration(
-			config.endpoints.registerAsker,
+			endpoints.registerAsker,
 			registrationData,
 			settings.multitenancyWithSingleDomainEnabled,
 			tenant

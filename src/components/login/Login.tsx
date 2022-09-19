@@ -15,6 +15,7 @@ import {
 	InputFieldLabelState
 } from '../inputField/InputField';
 import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { autoLogin, redirectToApp } from '../registration/autoLogin';
 import { Text } from '../text/Text';
@@ -239,13 +240,13 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 						}
 
 						if (!response.rcGroupId || !response.sessionId) {
-							history.push(config.endpoints.userSessionsListView);
+							history.push(endpoints.userSessionsListView);
 							return;
 						}
 
 						history.push(
 							generatePath(
-								`${config.endpoints.userSessionsListView}/:rcGroupId/:sessionId`,
+								`${endpoints.userSessionsListView}/:rcGroupId/:sessionId`,
 								response
 							)
 						);
@@ -270,7 +271,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		(buttonFunction: string) => {
 			if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 				window.open(
-					config.endpoints.loginResetPasswordLink +
+					endpoints.loginResetPasswordLink +
 						'&kc_locale=' +
 						locale +
 						'&init=1',
@@ -419,7 +420,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			return;
 		}
 		window.open(
-			config.endpoints.loginResetPasswordLink +
+			endpoints.loginResetPasswordLink +
 				'&kc_locale=' +
 				locale +
 				'&init=1',

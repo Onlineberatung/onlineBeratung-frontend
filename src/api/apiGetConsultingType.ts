@@ -1,5 +1,5 @@
 import { ConsultingTypeInterface } from '../globalState';
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 
 export const apiGetConsultingType = async (params: {
@@ -9,14 +9,14 @@ export const apiGetConsultingType = async (params: {
 	let promise;
 	if (params.consultingTypeSlug != null) {
 		promise = fetchData({
-			url: `${config.endpoints.consultingTypeServiceBase}/byslug/${params.consultingTypeSlug}/full`,
+			url: `${endpoints.consultingTypeServiceBase}/byslug/${params.consultingTypeSlug}/full`,
 			method: FETCH_METHODS.GET,
 			skipAuth: true,
 			responseHandling: [FETCH_ERRORS.NO_MATCH]
 		});
 	} else if (params.consultingTypeId !== null) {
 		promise = fetchData({
-			url: `${config.endpoints.consultingTypeServiceBase}/${params.consultingTypeId}/full`,
+			url: `${endpoints.consultingTypeServiceBase}/${params.consultingTypeId}/full`,
 			method: FETCH_METHODS.GET,
 			skipAuth: true,
 			responseHandling: [FETCH_ERRORS.NO_MATCH]

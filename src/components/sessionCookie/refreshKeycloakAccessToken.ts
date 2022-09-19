@@ -1,4 +1,4 @@
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { LoginData } from '../registration/autoLogin';
 import { getValueFromCookie } from './accessSessionCookie';
 
@@ -9,7 +9,7 @@ export const refreshKeycloakAccessToken = (): Promise<LoginData> =>
 			'refresh_token=' +
 			refreshToken +
 			'&client_id=app&grant_type=refresh_token';
-		const url = config.endpoints.keycloakAccessToken;
+		const url = endpoints.keycloakAccessToken;
 
 		const req = new Request(url, {
 			method: 'POST',

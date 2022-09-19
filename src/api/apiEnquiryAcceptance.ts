@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 
 export const apiEnquiryAcceptance = async (
@@ -6,8 +6,8 @@ export const apiEnquiryAcceptance = async (
 	isAnonymousEnquiry: boolean = false
 ): Promise<any> => {
 	const url = isAnonymousEnquiry
-		? `${config.endpoints.anonymousAskerBase}${sessionId}/accept`
-		: `${config.endpoints.sessionBase}/new/${sessionId}`;
+		? `${endpoints.anonymousAskerBase}${sessionId}/accept`
+		: `${endpoints.sessionBase}/new/${sessionId}`;
 
 	return fetchData({
 		url: url,

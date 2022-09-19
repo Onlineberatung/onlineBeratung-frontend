@@ -31,7 +31,7 @@ import {
 	SUBSCRIPTION_PARAMS,
 	SUBSCRIPTIONS
 } from '../../components/app/RocketChat';
-import { apiUrl } from '../../resources/scripts/config';
+import { apiUrl } from '../../resources/scripts/endpoints';
 
 const RECONNECT_TIMEOUT = 2000;
 
