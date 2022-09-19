@@ -1,3 +1,6 @@
+/*
+This file contains all default configurations which needed to be defined in all projects
+ */
 import _ from 'lodash';
 import { en } from '../i18n/en';
 import { enConsultingTypes } from '../i18n/en.consultingTypes';
