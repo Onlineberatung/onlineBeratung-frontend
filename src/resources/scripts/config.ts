@@ -1,3 +1,5 @@
+import { AppConfigInterface } from '../../globalState/interfaces/AppConfig/AppConfigInterface';
+
 export const CSRF_WHITELIST_HEADER: string =
 	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 
@@ -17,14 +19,13 @@ export const uiUrl =
 		: '';
 export const APP_PATH = 'app';
 
-export const config = {
+export const config: AppConfigInterface = {
 	budibaseSSO: false, // Feature flag to enable SSO on budibase
-	enableTenantTheming: false, // Feature flag to enable tenant theming based on subdomains
-	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
+	enableWalkThrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
-	useMultiTenancyWithSingleDomain: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
+	multitenancyWithSingleDomainEnabled: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
 	useTenantService: false,
-	useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
+	useApiClusterSettings: false, // Feature flag to enable the cluster use the cluster settings instead of the config file
 	mainTenantSubdomainForSingleDomainMultitenancy: 'app',
 
 	endpoints: {

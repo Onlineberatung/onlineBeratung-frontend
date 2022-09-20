@@ -4,7 +4,7 @@ import { translate } from '../../utils/translate';
 import { isUniqueLanguage } from '../profile/profileHelpers';
 import './agencyLanguages.styles';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
-import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface AgencyLanguagesProps {
 	agencyId: number;
@@ -13,7 +13,7 @@ interface AgencyLanguagesProps {
 export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
 	agencyId
 }) => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const fixedLanguages = useContext(FixedLanguagesContext);
 	const [isAllShown, setIsAllShown] = useState(false);
 	const [languages, setLanguages] = useState<string[]>([...fixedLanguages]);

@@ -1,8 +1,6 @@
-export interface AppConfigInterface {
+export interface AppSettingsInterface {
 	/** Feature flag to enable SSO on budibase */
-	budibaseSSO: boolean; //
-	/** Feature flag to enable tenant theming based on subdomains */
-	enableTenantTheming: boolean;
+	budibaseSSO: boolean;
 	/** Feature flag to enable walkthrough (false by default here & true in the theme repo) */
 	enableWalkThrough: boolean;
 	/** Feature flag to enable Video-Termine page */

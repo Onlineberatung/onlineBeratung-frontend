@@ -7,22 +7,30 @@ import { ReactComponent as Icon404 } from '../../resources/img/illustrations/not
 import { ReactComponent as Icon500 } from '../../resources/img/illustrations/internal-server-error.svg';
 import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES } from '../button/Button';
-import { config } from '../../resources/scripts/config';
 import useTenantTheming from '../../utils/useTenantTheming';
 import '../../resources/styles/styles';
 import './error.styles';
+import { AppConfigProvider } from '../../globalState';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 const getStatusCode = () => {
 	const errorRoot = document.getElementById('errorRoot');
 	return errorRoot?.dataset?.errortype;
 };
 
+export const ErrorWrapper = (config) => (
+	<AppConfigProvider config={config}>
+		<Error />
+	</AppConfigProvider>
+);
+
 export const Error = () => {
 	useTenantTheming();
+	const settings = useAppConfig();
 	const statusCode = getStatusCode();
 
 	const buttonHandle = () => {
-		document.location.href = config.urls.toLogin;
+		document.location.href = settings.urls.toLogin;
 	};
 
 	let Icon;

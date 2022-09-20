@@ -21,7 +21,7 @@ import {
 } from '../select/SelectDropdown';
 import { Text } from '../text/Text';
 import { AgencyLanguages } from '../agencySelection/AgencyLanguages';
-import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export interface ConsultingTypeAgencySelectionProps {
 	consultant: ConsultantDataInterface;
@@ -38,7 +38,7 @@ export const useConsultingTypeAgencySelection = (
 	consultingType: ConsultingTypeInterface,
 	agency: AgencyDataInterface
 ) => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const [consultingTypes, setConsultingTypes] = useState<
 		ConsultingTypeInterface[]
 	>([]);
@@ -119,7 +119,7 @@ export const ConsultingTypeAgencySelection = ({
 	preselectedAgency,
 	onKeyDown
 }: ConsultingTypeAgencySelectionProps) => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const [selectedConsultingTypeOption, setSelectedConsultingTypeOption] =
 		useState<SelectOption>(null);
 	const [consultingTypeOptions, setConsultingTypeOptions] = useState<
