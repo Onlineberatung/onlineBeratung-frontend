@@ -1,5 +1,5 @@
 import {
-	AppConfigInterface,
+	AppSettingsInterface,
 	AUTHORITIES,
 	hasUserAuthority
 } from '../../globalState';
@@ -23,7 +23,7 @@ import { ConsultantNotifications } from './ConsultantNotifications';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 import { isDesktop } from 'react-device-detect';
 
-export const routes = (settings: AppConfigInterface): TabsType => [
+export const routes = (settings: AppSettingsInterface): TabsType => [
 	{
 		title: translate('profile.routes.general'),
 		url: '/allgemeines',

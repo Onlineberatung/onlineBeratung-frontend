@@ -109,7 +109,7 @@ const overviewRoute = (settings: AppConfigInterface) => ({
 	}
 });
 
-export const RouterConfigUser = (_settings: AppConfigInterface): any => {
+export const RouterConfigUser = (settings: AppConfigInterface): any => {
 	return {
 		navigation: [
 			{

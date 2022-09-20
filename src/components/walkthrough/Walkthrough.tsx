@@ -13,7 +13,7 @@ import { useAppConfigContext } from '../../globalState/context/useAppConfig';
 
 export const Walkthrough = () => {
 	const ref = useRef<any>();
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfigContext();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const history = useHistory();
 

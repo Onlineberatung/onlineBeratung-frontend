@@ -15,7 +15,7 @@ import { apiGetTopicById } from '../api/apiGetTopicId';
 import { useAppConfigContext } from '../globalState/context/useAppConfig';
 
 export default function useUrlParamsLoader() {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfigContext();
 	const { consultingTypeSlug } = useParams();
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');

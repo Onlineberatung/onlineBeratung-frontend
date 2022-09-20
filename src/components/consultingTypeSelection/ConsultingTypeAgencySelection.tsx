@@ -38,7 +38,7 @@ export const useConsultingTypeAgencySelection = (
 	consultingType: ConsultingTypeInterface,
 	agency: AgencyDataInterface
 ) => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfigContext();
 	const [consultingTypes, setConsultingTypes] = useState<
 		ConsultingTypeInterface[]
 	>([]);
@@ -119,7 +119,7 @@ export const ConsultingTypeAgencySelection = ({
 	preselectedAgency,
 	onKeyDown
 }: ConsultingTypeAgencySelectionProps) => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfigContext();
 	const [selectedConsultingTypeOption, setSelectedConsultingTypeOption] =
 		useState<SelectOption>(null);
 	const [consultingTypeOptions, setConsultingTypeOptions] = useState<

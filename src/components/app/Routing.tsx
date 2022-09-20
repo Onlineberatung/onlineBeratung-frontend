@@ -35,7 +35,7 @@ interface RoutingProps {
 }
 
 export const Routing = (props: RoutingProps) => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfigContext();
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 

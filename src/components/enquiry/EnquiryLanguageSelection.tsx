@@ -18,7 +18,7 @@ interface EnquiryLanguageSelectionProps {
 
 export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 	({ className = '', handleSelection }) => {
-		const { settings } = useAppConfigContext();
+		const settings = useAppConfigContext();
 		const { sessions, ready } = useContext(SessionsDataContext);
 		const fixedLanguages = useContext(FixedLanguagesContext);
 		const { sessionId: sessionIdFromParam } = useParams();

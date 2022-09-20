@@ -54,7 +54,7 @@ interface ProfileProps {
 }
 
 export const Profile = (props: ProfileProps) => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfigContext();
 	const location = useLocation();
 	const consultingTypes = useConsultingTypes();
 	const { fromL } = useResponsive();

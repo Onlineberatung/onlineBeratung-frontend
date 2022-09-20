@@ -1,47 +1,25 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { apiServerSettings } from '../../api/apiServerSettings';
 import { config } from '../../resources/scripts/config';
-import { AppConfigInterface } from '../interfaces/AppConfigInterface';
+import { AppSettingsInterface } from '../interfaces/AppConfig/AppSettingsInterface';
 import { ServerAppConfigInterface } from '../interfaces/ServerAppConfigInterface';
 
-interface AppConfigContextInterface {
-	settings: AppConfigInterface;
-	setServerSettings: (settings: ServerAppConfigInterface) => void;
-	setManualSettings: (settings: Partial<AppConfigInterface>) => void;
-}
-
-const UseAppConfigContext =
-	React.createContext<
-		[
-			AppConfigInterface,
-			React.Dispatch<React.SetStateAction<AppConfigInterface>>
-		]
-	>(null);
+const UseAppConfigContext = React.createContext<AppSettingsInterface>(null);
 
 const UseAppConfigProvider = ({
 	children
 }: {
 	children?: React.ReactChild | React.ReactChild[];
 }) => {
-	const state = React.useState<AppConfigInterface>({
+	const [appConfig, setAppConfig] = React.useState<AppSettingsInterface>({
 		budibaseSSO: config.budibaseSSO,
-		enableTenantTheming: config.enableTenantTheming,
-		enableWalkThrough: config.enableWalkthrough,
+		enableWalkThrough: config.enableWalkThrough,
 		disableVideoAppointments: config.disableVideoAppointments,
 		multitenancyWithSingleDomainEnabled:
-			config.useMultiTenancyWithSingleDomain,
+			config.multitenancyWithSingleDomainEnabled,
 		useTenantService: config.useTenantService,
 		useApiClusterSettings: config.useApiClusterSettings
 	});
-	return (
-		<UseAppConfigContext.Provider value={state}>
-			{' '}
-			{children}{' '}
-		</UseAppConfigContext.Provider>
-	);
-};
-
-const useAppConfigContext = (): AppConfigContextInterface => {
-	const [settings, setNewSettings] = React.useContext(UseAppConfigContext);
 
 	const setServerSettings = useCallback(
 		(serverSettings: ServerAppConfigInterface) => {
@@ -50,28 +28,34 @@ const useAppConfigContext = (): AppConfigContextInterface => {
 					...current,
 					[key]: serverSettings[key].value
 				}),
-				{} as Record<string, boolean>
+				{} as Partial<AppSettingsInterface>
 			);
-			setNewSettings({
-				...settings,
-				...(finalServerSettings as unknown as AppConfigInterface)
+
+			setAppConfig({
+				...appConfig,
+				...finalServerSettings
 			});
 		},
-		[setNewSettings, settings]
+		[appConfig]
 	);
 
-	const setManualSettings = useCallback(
-		(newSettings: Partial<AppConfigInterface>) => {
-			setNewSettings({ ...settings, ...newSettings });
-		},
-		[settings, setNewSettings]
-	);
+	useEffect(() => {
+		config.useApiClusterSettings &&
+			apiServerSettings().then((serverSettings) => {
+				setServerSettings(serverSettings || {});
+			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
-	return {
-		setServerSettings,
-		settings,
-		setManualSettings
-	};
+	return (
+		<UseAppConfigContext.Provider value={appConfig}>
+			{children}
+		</UseAppConfigContext.Provider>
+	);
+};
+
+const useAppConfigContext = (): AppSettingsInterface => {
+	return React.useContext(UseAppConfigContext);
 };
 
 export { UseAppConfigProvider, useAppConfigContext };

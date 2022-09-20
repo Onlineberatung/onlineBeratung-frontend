@@ -68,7 +68,7 @@ export const RegistrationForm = ({
 	consultant
 }: RegistrationFormProps) => {
 	const tenantData = useTenant();
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfigContext();
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
 	const [formAccordionValid, setFormAccordionValid] = useState(false);

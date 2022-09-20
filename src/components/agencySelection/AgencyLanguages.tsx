@@ -13,7 +13,7 @@ interface AgencyLanguagesProps {
 export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
 	agencyId
 }) => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfigContext();
 	const fixedLanguages = useContext(FixedLanguagesContext);
 	const [isAllShown, setIsAllShown] = useState(false);
 	const [languages, setLanguages] = useState<string[]>([...fixedLanguages]);
