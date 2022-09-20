@@ -15,4 +15,6 @@ export interface AppConfigInterface {
 	useApiClusterSettings: boolean;
 	/** When the Feature flag multitenancyWithSingleDomainEnabled is used we need to know the main subdomain */
 	mainTenantSubdomainForSingleDomainMultitenancy?: string;
+	/** when enabled shows the overview page  */
+	useOverviewPage?: boolean;
 }

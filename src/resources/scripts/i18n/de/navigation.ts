@@ -8,6 +8,7 @@ const navigation = {
 	'consultant.teamsessions.small': 'Team Ber.',
 	'consultant.peersessions': 'Peer Beratungen',
 	'consultant.peersessions.small': 'Peer Ber.',
+	'overview': 'Übersicht',
 	'profile': 'Profil',
 	'appointments': 'Video-Termine',
 	'booking.events': 'Meine Termine',
