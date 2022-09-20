@@ -46,7 +46,7 @@ import {
 	SingleComponentType,
 	TabGroups
 } from '../../utils/tabsHelper';
-import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface ProfileProps {
 	legalLinks: Array<LegalLinkInterface>;
@@ -54,7 +54,7 @@ interface ProfileProps {
 }
 
 export const Profile = (props: ProfileProps) => {
-	const settings = useAppConfigContext();
+	const settings = useAppConfig();
 	const location = useLocation();
 	const consultingTypes = useConsultingTypes();
 	const { fromL } = useResponsive();

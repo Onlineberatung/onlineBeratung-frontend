@@ -8,6 +8,7 @@ import { translate } from './utils/translate';
 ReactDOM.render(
 	<App
 		entryPoint="/login"
+		config={config}
 		legalLinks={[
 			{
 				url: config.urls.imprint,

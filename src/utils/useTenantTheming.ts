@@ -5,7 +5,7 @@ import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterfa
 import getLocationVariables from './getLocationVariables';
 import decodeHTML from './decodeHTML';
 import contrast from 'get-contrast';
-import { useAppConfigContext } from '../globalState/context/useAppConfig';
+import { useAppConfig } from '../hooks/useAppConfig';
 
 const RGBToHSL = (r, g, b) => {
 	// Make r, g, and b fractions of 1
@@ -217,7 +217,7 @@ const applyTheming = (tenant: TenantDataInterface) => {
 };
 
 const useTenantTheming = () => {
-	const settings = useAppConfigContext();
+	const settings = useAppConfig();
 	const tenantContext = useContext(TenantContext);
 	const { subdomain } = getLocationVariables();
 	const [isLoadingTenant, setIsLoadingTenant] = useState(

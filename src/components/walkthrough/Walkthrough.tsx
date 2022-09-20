@@ -9,11 +9,11 @@ import { translate } from '../../utils/translate';
 import { UserDataContext } from '../../globalState';
 import { apiPatchConsultantData } from '../../api';
 import steps from './steps';
-import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const Walkthrough = () => {
 	const ref = useRef<any>();
-	const settings = useAppConfigContext();
+	const settings = useAppConfig();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const history = useHistory();
 
