@@ -9,7 +9,7 @@ export interface TabGroups {
 	title: string;
 	url: string;
 	condition?: (userData, consultingTypes) => boolean;
-	elements: SingleComponentType[];
+	elements?: SingleComponentType[];
 }
 
 export const COLUMN_LEFT = 0;
