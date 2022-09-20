@@ -4,16 +4,17 @@ import { Button, BUTTON_TYPES } from '../../../../components/button/Button';
 import { Card } from '../../../../components/card';
 import { LoadingIndicator } from '../../../../components/loadingIndicator/LoadingIndicator';
 import { translate } from '../../../../utils/translate';
+import { EmptyType, EmptyState } from '../EmptyState';
 import './overviewCard.styles.scss';
 
 interface OverviewCardProps {
 	allMessagesPaths: string;
-	emptyMessage: string;
 	title: string;
 	children: React.ReactNode;
 	isLoading: boolean;
 	dataListLength: number;
 	className: string;
+	emptyType: EmptyType;
 }
 
 const MAX_COUNT = 9;
@@ -24,7 +25,8 @@ export const OverviewCard = ({
 	title,
 	children,
 	isLoading,
-	dataListLength
+	dataListLength,
+	emptyType
 }: OverviewCardProps) => {
 	const countStr = useMemo(
 		() => (dataListLength > MAX_COUNT ? `${MAX_COUNT}+` : dataListLength),
@@ -39,7 +41,8 @@ export const OverviewCard = ({
 				{translate(title)}
 			</Card.Header>
 			<Card.Content className={isLoading ? 'loadingCard' : ''}>
-				{!isLoading && children}
+				{!isLoading && countStr > 0 && children}
+				{!isLoading && !countStr && <EmptyState type={emptyType} />}
 				{isLoading && <LoadingIndicator />}
 			</Card.Content>
 			<Card.Footer className="footer">
