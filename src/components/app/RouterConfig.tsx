@@ -100,7 +100,16 @@ const toolsRoutes = [
 	}
 ];
 
-export const RouterConfigUser = (settings: AppConfigInterface): any => {
+const overviewRoute = (settings: AppConfigInterface) => ({
+	condition: () => settings.useOverviewPage && isDesktop,
+	to: '/overview',
+	icon: <OverviewIcon className="navigation__icon" />,
+	titleKeys: {
+		large: 'navigation.overview'
+	}
+});
+
+export const RouterConfigUser = (_settings: AppConfigInterface): any => {
 	return {
 		navigation: [
 			{
@@ -203,14 +212,7 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 			}
 		],
 		navigation: [
-			settings.useOverviewPage &&
-				isDesktop && {
-					to: '/overview',
-					icon: <OverviewIcon className="navigation__icon" />,
-					titleKeys: {
-						large: 'navigation.overview'
-					}
-				},
+			overviewRoute(settings),
 			{
 				to: '/sessions/consultant/sessionPreview',
 				icon: <InboxIcon className="navigation__icon" />,
@@ -254,7 +256,7 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 					large: 'navigation.booking.events'
 				}
 			}
-		].filter(Boolean),
+		],
 		listRoutes: [
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId?/:sessionId?',
@@ -367,14 +369,7 @@ export const RouterConfigTeamConsultant = (
 			}
 		],
 		navigation: [
-			settings.useOverviewPage &&
-				isDesktop && {
-					to: '/overview',
-					icon: <OverviewIcon className="navigation__icon" />,
-					titleKeys: {
-						large: 'navigation.overview'
-					}
-				},
+			overviewRoute(settings),
 			{
 				to: '/sessions/consultant/sessionPreview',
 				icon: <InboxIcon className="navigation__icon" />,
@@ -391,7 +386,6 @@ export const RouterConfigTeamConsultant = (
 				}
 			},
 			{
-				id: 'consultantTeamSessions',
 				to: '/sessions/consultant/teamSessionView',
 				icon: <SpeechBubbleTeamIcon className="navigation__icon" />,
 				titleKeys: {
@@ -427,7 +421,7 @@ export const RouterConfigTeamConsultant = (
 					large: 'navigation.profile'
 				}
 			}
-		].filter(Boolean),
+		],
 		listRoutes: [
 			{
 				path: '/sessions/consultant/sessionPreview/:rcGroupId?/:sessionId?',
@@ -584,10 +578,8 @@ export const RouterConfigMainConsultant = (
 	settings: AppConfigInterface
 ): any => {
 	const config = RouterConfigTeamConsultant(settings);
-	const index = config.navigation.findIndex(
-		(nav) => nav.id === 'consultantTeamSessions'
-	);
-	config.navigation[index].titleKeys = {
+
+	config.navigation[3].titleKeys = {
 		large: 'navigation.consultant.peersessions',
 		small: 'navigation.consultant.peersessions.small'
 	};

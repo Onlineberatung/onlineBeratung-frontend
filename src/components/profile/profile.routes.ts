@@ -21,7 +21,7 @@ import { EnableWalkthrough } from './EnableWalkthrough';
 import { Help } from '../help/Help';
 import { ConsultantNotifications } from './ConsultantNotifications';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
-import React from 'react';
+import { isDesktop } from 'react-device-detect';
 
 export const routes = (settings: AppConfigInterface): TabsType => [
 	{
@@ -29,13 +29,9 @@ export const routes = (settings: AppConfigInterface): TabsType => [
 		url: '/allgemeines',
 		elements: [
 			{
+				condition: () => settings.useOverviewPage && !isDesktop,
 				title: 'Overview',
-				url: '/overview',
-				elements: [
-					{
-						component: () => React.createElement('div')
-					}
-				]
+				url: '/overview'
 			},
 			{
 				title: translate('profile.routes.general.public'),
