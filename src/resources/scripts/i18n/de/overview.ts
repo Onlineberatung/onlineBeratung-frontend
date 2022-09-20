@@ -7,7 +7,11 @@ const overview = {
 	emptyInitialMessage: 'Sehr gut, alle Erstanfragen sind bearbeitet!',
 	emptyAppointments:
 		'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern',
-	viewAll: 'Alle Anzeigen'
+	viewAll: 'Alle Anzeigen',
+	myMessagesEmpty: 'Du hast alles im Blick, alle Nachrichten sind gelesen!',
+	initialInquiriesEmpty: 'Sehr gut, alle Erstanfragen sind bearbeitet!',
+	appointmentsEmpty:
+		'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern'
 };
 
 export default overview;

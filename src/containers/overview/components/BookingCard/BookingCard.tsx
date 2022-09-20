@@ -1,6 +1,7 @@
 import React from 'react';
 import { useConsultantBookings } from '../../hooks/useConsultantBookings';
 import { BookingEvent } from '../BookingEvent';
+import { EmptyType } from '../EmptyState';
 import { OverviewCard } from '../OverviewCard/OverviewCard';
 
 export const BookingCard = () => {
@@ -12,7 +13,7 @@ export const BookingCard = () => {
 			className="bookingCard"
 			title="overview.upcomingAppointments"
 			dataListLength={bookings?.length}
-			emptyMessage={''}
+			emptyType={EmptyType.Termine}
 			isLoading={isLoading}
 		>
 			{!isLoading &&
