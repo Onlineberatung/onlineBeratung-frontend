@@ -1,12 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import {
-	ComponentType,
-	ReactNode,
-	useCallback,
-	useEffect,
-	useState
-} from 'react';
+import { ComponentType, ReactNode, useEffect, useState } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { AuthenticatedApp } from './AuthenticatedApp';
@@ -24,8 +18,6 @@ import { TenantThemingLoader } from './TenantThemingLoader';
 import { LegalLinkInterface, useAppConfigContext } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
-import { apiGetTenantTheming } from '../../api/apiGetTenantTheming';
-import getLocationVariables from '../../utils/getLocationVariables';
 import { apiServerSettings } from '../../api/apiServerSettings';
 
 export const history = createBrowserHistory();
@@ -77,38 +69,11 @@ export const App = ({
 		setIsInitiallyLoaded(true);
 		history.push(entryPoint);
 	};
-	const { subdomain } = getLocationVariables();
-
-	const loginBudiBase = useCallback((featureToolsOICDToken: string) => {
-		const ifrm = document.createElement('iframe');
-		ifrm.setAttribute(
-			'src',
-			`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${featureToolsOICDToken}`
-		);
-		ifrm.id = 'authIframe2';
-		ifrm.style.display = 'none';
-		document.body.appendChild(ifrm);
-		setTimeout(() => {
-			document.querySelector('#authIframe2').remove();
-		}, 5000);
-	}, []);
-
 	useEffect(() => {
 		if (!isInitiallyLoaded && window.location.pathname === '/') {
 			activateInitialRedirect();
 		} else {
 			setIsInitiallyLoaded(true);
-			apiGetTenantTheming({
-				subdomain,
-				useMultiTenancyWithSingleDomain:
-					settings?.multitenancyWithSingleDomainEnabled,
-				mainTenantSubdomainForSingleDomain:
-					settings.mainTenantSubdomainForSingleDomainMultitenancy
-			}).then((resp) => {
-				if (resp.settings.featureToolsEnabled) {
-					loginBudiBase(resp.settings.featureToolsOICDToken);
-				}
-			});
 		}
 	}, []); // eslint-disable-line
 
