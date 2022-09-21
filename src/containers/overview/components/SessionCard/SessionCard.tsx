@@ -7,20 +7,22 @@ import {
 } from '../../../../globalState';
 import { FixedLanguagesContext } from '../../../../globalState/provider/FixedLanguagesProvider';
 import { useConsultantData } from '../../hooks/useConsultantData';
+import { EmptyType } from '../EmptyState';
 import { OverviewCard } from '../OverviewCard/OverviewCard';
 import './sessionCard.styles.scss';
 
 interface SessionCardProps {
 	type: SESSION_LIST_TYPES;
 	allMessagesPaths: string;
-	emptyMessage: string;
 	title: string;
+	emptyType: EmptyType;
 }
 
 export const SessionCard = ({
 	type,
 	allMessagesPaths,
-	title
+	title,
+	emptyType
 }: SessionCardProps) => {
 	const fixedLanguages = useContext(FixedLanguagesContext);
 	const { sessions, total, isLoading } = useConsultantData({ type });
@@ -31,7 +33,7 @@ export const SessionCard = ({
 			dataListLength={total}
 			className="sessionCard"
 			allMessagesPaths={allMessagesPaths}
-			emptyMessage={''}
+			emptyType={emptyType}
 			title={title}
 		>
 			<SessionTypeProvider type={type}>

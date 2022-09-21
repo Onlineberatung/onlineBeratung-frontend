@@ -51,17 +51,18 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 	const { userData } = useContext(UserDataContext);
 	const [sessions, setSessions] = useState(null);
 
-	useEffect(() => {
-		apiGetAskerSessionList().then(({ sessions }) => {
-			setSessions(sessions);
-		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
 		userData
 	);
+
+	useEffect(() => {
+		if (!isConsultant) {
+			apiGetAskerSessionList().then(({ sessions }) => {
+				setSessions(sessions);
+			});
+		}
+	}, [isConsultant]);
 
 	const scheduleAppointmentButton: ButtonItem = {
 		label: translate('booking.schedule'),
