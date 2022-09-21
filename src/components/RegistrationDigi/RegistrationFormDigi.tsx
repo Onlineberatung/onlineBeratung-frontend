@@ -7,8 +7,7 @@ import {
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
 	LegalLinkInterface,
-	TenantContext,
-	useAppConfigContext
+	TenantContext
 } from '../../globalState';
 import Form from 'rc-field-form';
 import './registrationFormDigi.styles.scss';
@@ -30,6 +29,7 @@ import { CheckboxFormField } from './CheckboxFormField';
 import { RegistrationSuccessOverlay } from './RegistrationSuccessOverlay';
 import { AgencyInfo } from '../agencySelection/AgencyInfo';
 import { useContext } from 'react';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -46,7 +46,7 @@ export const RegistrationFormDigi = ({
 	consultant
 }: RegistrationFormProps) => {
 	const { tenant } = useContext(TenantContext);
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const [form] = Form.useForm();
 
 	const [topics, setTopics] = React.useState([] as TopicsDataInterface[]);
