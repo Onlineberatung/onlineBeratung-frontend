@@ -44,4 +44,13 @@
 		text-align: center;
 		margin-top: 8px;
 	}
+
+	&__profilePage {
+		background-color: transparent;
+		.overviewEmptyState__icon {
+			&::before {
+				background: rgb(229, 227, 223);
+			}
+		}
+	}
 }
