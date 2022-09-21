@@ -10,7 +10,7 @@ import { Button, BUTTON_TYPES } from '../button/Button';
 import useTenantTheming from '../../utils/useTenantTheming';
 import '../../resources/styles/styles';
 import './error.styles';
-import { AppConfigProvider } from '../../globalState';
+import { AppConfigInterface, AppConfigProvider } from '../../globalState';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
 const getStatusCode = () => {
@@ -18,7 +18,11 @@ const getStatusCode = () => {
 	return errorRoot?.dataset?.errortype;
 };
 
-export const ErrorWrapper = (config) => (
+type ErrorWrapperProps = {
+	config: AppConfigInterface;
+};
+
+export const ErrorWrapper = ({ config }: ErrorWrapperProps) => (
 	<AppConfigProvider config={config}>
 		<Error />
 	</AppConfigProvider>
