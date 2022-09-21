@@ -20,21 +20,20 @@ const getStatusCode = () => {
 	return errorRoot?.dataset?.errortype;
 };
 
-type ErrorWrapperProps = {
+type ErrorProps = {
 	config: AppConfigInterface;
 };
 
-export const ErrorWrapper = ({ config }: ErrorWrapperProps) => (
+export const Error = ({ config }: ErrorProps) => (
 	<AppConfigProvider config={config}>
 		<LocaleProvider>
-			<Error />
+			<ErrorContent />
 		</LocaleProvider>
 	</AppConfigProvider>
 );
 
-export const Error = () => {
+export const ErrorContent = () => {
 	const { t: translate } = useTranslation();
-
 	useTenantTheming();
 	const settings = useAppConfig();
 	const statusCode = getStatusCode();
