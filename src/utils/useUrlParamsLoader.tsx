@@ -80,8 +80,13 @@ export default function useUrlParamsLoader() {
 				console.log(error);
 			}
 		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [consultingTypeSlug, agencyId, consultantId, topicId]);
+	}, [
+		consultingTypeSlug,
+		agencyId,
+		consultantId,
+		topicId,
+		settings.multitenancyWithSingleDomainEnabled
+	]);
 
 	return { agency, consultant, consultingType, loaded, topic };
 }
