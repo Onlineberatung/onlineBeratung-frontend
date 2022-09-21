@@ -48,10 +48,10 @@ import {
 } from '../../utils/tabsHelper';
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
-import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const Profile = () => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const location = useLocation();
 	const consultingTypes = useConsultingTypes();

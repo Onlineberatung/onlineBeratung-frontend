@@ -21,7 +21,7 @@ import {
 import { Text } from '../text/Text';
 import { AgencyLanguages } from '../agencySelection/AgencyLanguages';
 import { useTranslation } from 'react-i18next';
-import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export interface ConsultingTypeAgencySelectionProps {
 	consultant: ConsultantDataInterface;
@@ -38,7 +38,7 @@ export const useConsultingTypeAgencySelection = (
 	consultingType: ConsultingTypeInterface,
 	agency: AgencyDataInterface
 ) => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const [consultingTypes, setConsultingTypes] = useState<
 		ConsultingTypeInterface[]
 	>([]);
@@ -120,7 +120,7 @@ export const ConsultingTypeAgencySelection = ({
 	onKeyDown
 }: ConsultingTypeAgencySelectionProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const [selectedConsultingTypeOption, setSelectedConsultingTypeOption] =
 		useState<SelectOption>(null);
 	const [consultingTypeOptions, setConsultingTypeOptions] = useState<

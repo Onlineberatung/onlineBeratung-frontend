@@ -10,7 +10,8 @@ import {
 	ConsultingTypesContext,
 	RocketChatProvider,
 	InformalContext,
-	LocaleContext
+	LocaleContext,
+	useTenant
 } from '../../globalState';
 import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
@@ -25,7 +26,7 @@ import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatU
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
 import { FALLBACK_LNG } from '../../i18n';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
-import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { useLoginBudiBase } from '../../utils/budibaseHelper';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -36,17 +37,23 @@ export const AuthenticatedApp = ({
 	onLogout,
 	onAppReady
 }: AuthenticatedAppProps) => {
-	const { settings, setServerSettings } = useAppConfigContext();
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { locale } = useContext(LocaleContext);
 	const { setInformal } = useContext(InformalContext);
+	const tenantData = useTenant();
 
 	const [appReady, setAppReady] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
-
 	const { notifications } = useContext(NotificationsContext);
+	const { loginBudiBase } = useLoginBudiBase();
+
+	useEffect(() => {
+		if (tenantData?.settings?.featureToolsEnabled) {
+			loginBudiBase();
+		}
+	}, [loginBudiBase, tenantData]);
 
 	useEffect(() => {
 		if (
@@ -93,13 +100,11 @@ export const AuthenticatedApp = ({
 				});
 		}
 	}, [
-		userDataRequested,
-		setUserData,
+		locale,
 		setConsultingTypes,
 		setInformal,
-		locale,
-		settings.useApiClusterSettings,
-		setServerSettings
+		setUserData,
+		userDataRequested
 	]);
 
 	useEffect(() => {

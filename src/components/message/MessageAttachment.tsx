@@ -4,9 +4,9 @@ import {
 	getAttachmentSizeMBForKB
 } from '../messageSubmitInterface/attachmentHelpers';
 import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import { apiUrl } from '../../resources/scripts/config';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 import { useTranslation } from 'react-i18next';
+import { apiUrl } from '../../resources/scripts/endpoints';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;

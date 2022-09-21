@@ -1,14 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Error } from './components/error/Error';
-import { LocaleProvider } from './globalState';
-import { UseAppConfigProvider } from './globalState/context/useAppConfig';
+import { ErrorWrapper } from './components/error/Error';
+import { config } from './resources/scripts/config';
 
 ReactDOM.render(
-	<UseAppConfigProvider>
-		<LocaleProvider>
-			<Error />
-		</LocaleProvider>
-	</UseAppConfigProvider>,
+	<ErrorWrapper config={config} />,
 	document.getElementById('errorRoot')
 );

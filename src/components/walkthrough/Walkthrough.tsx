@@ -9,13 +9,13 @@ import { UserDataContext } from '../../globalState';
 import { apiPatchConsultantData } from '../../api';
 import steps from './steps';
 import { useTranslation } from 'react-i18next';
-import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const Walkthrough = () => {
 	const { t: translate } = useTranslation();
 
 	const ref = useRef<any>();
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const history = useHistory();
 

@@ -1,11 +1,11 @@
 export * from './helpers/stateHelpers';
+export * from './interfaces/AppConfig';
 
 export * from './interfaces/AuthDataInterface';
 export * from './interfaces/SessionsDataInterface';
 export * from './interfaces/UserDataInterface';
 export * from './interfaces/ConsultingTypeInterface';
 export * from './interfaces/LegalLinkInterface';
-export * from './interfaces/AppConfigInterface';
 export * from './interfaces/ServerAppConfigInterface';
 
 export * from './provider/AnonymousConversationFinishedProvider';
@@ -25,4 +25,4 @@ export * from './provider/RocketChatProvider';
 export * from './provider/RocketChatGlobalSettingsProvider';
 export * from './provider/LocaleProvider';
 export * from './provider/InformalProvider';
-export * from './context/useAppConfig';
+export * from './provider/AppConfigProvider';

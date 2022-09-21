@@ -6,27 +6,42 @@ import { ReactComponent as Icon401 } from '../../resources/img/illustrations/una
 import { ReactComponent as Icon404 } from '../../resources/img/illustrations/not-found.svg';
 import { ReactComponent as Icon500 } from '../../resources/img/illustrations/internal-server-error.svg';
 import { Button, BUTTON_TYPES } from '../button/Button';
-import { config } from '../../resources/scripts/config';
 import useTenantTheming from '../../utils/useTenantTheming';
 import '../../resources/styles/styles';
 import './error.styles';
-import { useTranslation } from 'react-i18next';
 
+import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
+import { AppConfigProvider } from '../../globalState/provider/AppConfigProvider';
+import { useAppConfig } from '../../hooks/useAppConfig';
+import { AppConfigInterface, LocaleProvider } from '../../globalState';
 
 const getStatusCode = () => {
 	const errorRoot = document.getElementById('errorRoot');
 	return errorRoot?.dataset?.errortype;
 };
 
+interface ErrorWrapperProps {
+	config: AppConfigInterface;
+}
+
+export const ErrorWrapper = ({ config }: ErrorWrapperProps) => (
+	<AppConfigProvider config={config}>
+		<LocaleProvider>
+			<Error />
+		</LocaleProvider>
+	</AppConfigProvider>
+);
+
 export const Error = () => {
 	const { t: translate } = useTranslation();
 
 	useTenantTheming();
+	const settings = useAppConfig();
 	const statusCode = getStatusCode();
 
 	const buttonHandle = () => {
-		document.location.href = config.urls.toLogin;
+		document.location.href = settings.urls.toLogin;
 	};
 
 	let Icon;

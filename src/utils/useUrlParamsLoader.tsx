@@ -12,13 +12,13 @@ import { isNumber } from './isNumber';
 import { config } from '../resources/scripts/config';
 import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
 import { apiGetTopicById } from '../api/apiGetTopicId';
-import { useAppConfigContext } from '../globalState/context/useAppConfig';
+import { useAppConfig } from '../hooks/useAppConfig';
 
 export default function useUrlParamsLoader() {
 	const { consultingTypeSlug } = useParams<{
 		consultingTypeSlug: string;
 	}>();
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
 	const topicId = getUrlParameter('tid');

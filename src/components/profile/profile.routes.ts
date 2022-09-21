@@ -21,12 +21,18 @@ import { Help } from '../help/Help';
 import { ConsultantNotifications } from './ConsultantNotifications';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 import { Locale } from './Locale';
+import { isDesktop } from 'react-device-detect';
 
 const profileRoutes = (settings: AppConfigInterface): TabsType => [
 	{
 		title: 'profile.routes.general.title',
 		url: '/allgemeines',
 		elements: [
+			{
+				condition: () => settings.useOverviewPage && !isDesktop,
+				title: 'Overview',
+				url: '/overview'
+			},
 			{
 				title: 'profile.routes.general.public',
 				url: '/oeffentlich',

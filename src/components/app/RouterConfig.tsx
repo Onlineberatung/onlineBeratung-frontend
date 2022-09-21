@@ -1,3 +1,4 @@
+import { isDesktop } from 'react-device-detect';
 import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import {
 	SESSION_LIST_TYPES,
@@ -30,6 +31,7 @@ import { BookingCancellation } from '../booking/bookingCancellation';
 import { BookingEvents } from '../booking/bookingEvents';
 import { BookingReschedule } from '../booking/bookingReschedule';
 
+import { ReactComponent as OverviewIcon } from '../../resources/img/icons/overview.svg';
 import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
@@ -39,6 +41,7 @@ import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calend
 import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
 import { ToolsList } from '../tools/ToolsList';
+import { OverviewPage } from '../../containers/overview/overview';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -96,6 +99,15 @@ const toolsRoutes = [
 		component: ToolsList
 	}
 ];
+
+const overviewRoute = (settings: AppConfigInterface) => ({
+	condition: () => settings.useOverviewPage && isDesktop,
+	to: '/overview',
+	icon: <OverviewIcon className="navigation__icon" />,
+	titleKeys: {
+		large: 'navigation.overview'
+	}
+});
 
 export const RouterConfigUser = (settings: AppConfigInterface): any => {
 	return {
@@ -200,6 +212,7 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 			}
 		],
 		navigation: [
+			overviewRoute(settings),
 			{
 				to: '/sessions/consultant/sessionPreview',
 				icon: <InboxIcon className="navigation__icon" />,
@@ -356,6 +369,7 @@ export const RouterConfigTeamConsultant = (
 			}
 		],
 		navigation: [
+			overviewRoute(settings),
 			{
 				to: '/sessions/consultant/sessionPreview',
 				icon: <InboxIcon className="navigation__icon" />,
@@ -529,6 +543,10 @@ export const RouterConfigTeamConsultant = (
 		],
 		profileRoutes: [
 			{
+				path: '/overview',
+				component: OverviewPage
+			},
+			{
 				path: '/profile',
 				exact: false,
 				component: Profile
@@ -560,7 +578,8 @@ export const RouterConfigMainConsultant = (
 	settings: AppConfigInterface
 ): any => {
 	const config = RouterConfigTeamConsultant(settings);
-	config.navigation[2].titleKeys = {
+
+	config.navigation[3].titleKeys = {
 		large: 'navigation.consultant.peersessions.large',
 		small: 'navigation.consultant.peersessions.small'
 	};
