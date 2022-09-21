@@ -83,12 +83,12 @@ export const NavigationBar = ({
 			});
 		}
 
-		if (tenant?.settings?.featureToolsEnabled) {
+		if (tenant?.settings?.featureToolsEnabled && !isConsultant) {
 			userHasBudibaseTools(userData.userId).then((resp) =>
 				setHasTools(resp)
 			);
 		}
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [dispatch, isConsultant, tenant, userData]);
 
 	const animateNavIconTimeoutRef = useRef(null);
 	useEffect(() => {

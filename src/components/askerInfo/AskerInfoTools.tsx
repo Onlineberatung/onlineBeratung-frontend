@@ -20,7 +20,7 @@ export const AskerInfoTools = () => {
 		window.open(
 			`${endpoints.budibaseTools(
 				activeSession.consultant.id
-			)}/consultant_view?userId=${askerId}&access_token=${accessToken}`,
+			)}/consultantview?userId=${askerId}&access_token=${accessToken}`,
 			'_blank',
 			'noopener'
 		);

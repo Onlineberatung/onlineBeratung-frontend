@@ -1,5 +1,7 @@
 .page {
 	padding: 24px;
+	height: 100%;
+	overflow: auto;
 
 	&__title {
 		font-size: 24px;

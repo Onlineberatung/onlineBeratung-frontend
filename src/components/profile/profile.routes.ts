@@ -22,6 +22,11 @@ import { ConsultantNotifications } from './ConsultantNotifications';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 import { Locale } from './Locale';
 import { isDesktop } from 'react-device-detect';
+import { OverviewBookings } from './OverviewMobile/Bookings';
+import { OverviewSessions } from './OverviewMobile/Sessions';
+
+const shouldShowOverview = (useOverviewPage: boolean) =>
+	useOverviewPage && !isDesktop;
 
 const profileRoutes = (settings: AppConfigInterface): TabsType => [
 	{
@@ -29,9 +34,23 @@ const profileRoutes = (settings: AppConfigInterface): TabsType => [
 		url: '/allgemeines',
 		elements: [
 			{
-				condition: () => settings.useOverviewPage && !isDesktop,
+				condition: () => shouldShowOverview(settings.useOverviewPage),
 				title: 'Overview',
-				url: '/overview'
+				url: '/overview',
+				elements: [
+					{
+						condition: () =>
+							shouldShowOverview(settings.useOverviewPage),
+						boxed: false,
+						component: OverviewSessions
+					},
+					{
+						condition: () =>
+							shouldShowOverview(settings.useOverviewPage),
+						component: OverviewBookings,
+						boxed: false
+					}
+				]
 			},
 			{
 				title: 'profile.routes.general.public',
