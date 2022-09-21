@@ -87,45 +87,24 @@ const hasJsxRuntime = (() => {
 })();
 
 const localAliases = (paths) =>
-	paths.map(
-		(localPath) =>
-			new webpack.NormalModuleReplacementPlugin(
-				new RegExp(localPath),
-				(resource) => {
-					const currentPath = path.resolve(
-						resource.context,
-						resource.request
-					);
-					const newPath = path.resolve(
-						process.cwd(),
-						currentPath.substring(currentPath.indexOf(localPath))
-					);
-					if (newPath === currentPath) {
-						return;
-					}
-					try {
-						fs.statSync(newPath);
-						resource.request = newPath;
-					} catch (error) {
-						const fileExtensions = paths.moduleFileExtensions
-							.map((ext) => `.${ext}`)
-							.filter(
-								(ext) => useTypeScript || !ext.includes('ts')
-							);
-
-						fileExtensions.every((ext) => {
-							try {
-								fs.statSync(`${newPath}.${ext}`);
-								resource.request = `${newPath}.${ext}`;
-								return false;
-							} catch (error) {
-								return true;
-							}
-						});
-					}
-				}
-			)
-	);
+	paths
+		// Remove paths which are not overridden
+		.filter((localPath) => {
+			const fullPath = path.resolve(process.cwd(), `./${localPath}`);
+			try {
+				fs.statSync(fullPath);
+				return true;
+			} catch (error) {
+				return false;
+			}
+		})
+		.map(
+			(localPath) =>
+				new webpack.NormalModuleReplacementPlugin(
+					new RegExp(localPath),
+					path.resolve(process.cwd(), `./${localPath}`)
+				)
+		);
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -870,9 +849,19 @@ module.exports = function (webpackEnv) {
 					}
 				}),
 			...localAliases([
-				'src/resources/scripts/',
-				'src/resources/i18n/',
-				'src/resources/img/illustrations/'
+				'src/resources/img/illustrations/answer.svg',
+				'src/resources/img/illustrations/arrow.svg',
+				'src/resources/img/illustrations/bad-request.svg',
+				'src/resources/img/illustrations/check.svg',
+				'src/resources/img/illustrations/consultant.svg',
+				'src/resources/img/illustrations/envelope-check.svg',
+				'src/resources/img/illustrations/internal-server-error.svg',
+				'src/resources/img/illustrations/not-found.svg',
+				'src/resources/img/illustrations/unauthorized.svg',
+				'src/resources/img/illustrations/waiting.svg',
+				'src/resources/img/illustrations/waving.svg',
+				'src/resources/img/illustrations/welcome.svg',
+				'src/resources/img/illustrations/x.svg'
 			])
 		].filter(Boolean),
 		// Turn off performance processing because we utilize
