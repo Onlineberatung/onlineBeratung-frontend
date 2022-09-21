@@ -9,7 +9,6 @@ import { Button, BUTTON_TYPES } from '../button/Button';
 import useTenantTheming from '../../utils/useTenantTheming';
 import '../../resources/styles/styles';
 import './error.styles';
-
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { AppConfigProvider } from '../../globalState/provider/AppConfigProvider';
@@ -21,9 +20,9 @@ const getStatusCode = () => {
 	return errorRoot?.dataset?.errortype;
 };
 
-interface ErrorWrapperProps {
+type ErrorWrapperProps = {
 	config: AppConfigInterface;
-}
+};
 
 export const ErrorWrapper = ({ config }: ErrorWrapperProps) => (
 	<AppConfigProvider config={config}>
