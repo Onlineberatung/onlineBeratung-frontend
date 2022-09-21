@@ -9,6 +9,7 @@ import './enquiryLanguageSelection.styles';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { LocaleContext } from '../../globalState/provider/LocaleProvider';
 
 interface EnquiryLanguageSelectionProps {
 	className?: string;
@@ -23,10 +24,9 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 		const { fixed: fixedLanguages } = useContext(LanguagesContext);
 		const { sessionId: sessionIdFromParam } =
 			useParams<{ sessionId: string }>();
+		const { locale } = useContext(LocaleContext);
 
-		const [selectedLanguage, setSelectedLanguage] = useState(
-			fixedLanguages[0]
-		);
+		const [selectedLanguage, setSelectedLanguage] = useState(locale);
 		const [languages, setLanguages] = useState([...fixedLanguages]);
 
 		useEffect(() => {

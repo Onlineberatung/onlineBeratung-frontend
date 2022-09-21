@@ -211,7 +211,9 @@ export const FormAccordion = ({
 										'registration.dataProtection.label.and'
 								  )
 							: '') +
-						`<span><button type="button" class="button-as-link" onclick="window.open('${legalLink.url}')">${legalLink.label}</button></span>`
+						`<span><button type="button" class="button-as-link" onclick="window.open('${
+							legalLink.url
+						}')">${translate(legalLink.label)}</button></span>`
 				)
 				.join(''),
 			translate('registration.dataProtection.label.suffix')
