@@ -1,19 +1,19 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { apiServerSettings } from '../../api/apiServerSettings';
 import { AppConfigInterface } from '../interfaces/AppConfig';
 import { setAppConfig as setAppConfigGlobal } from '../../utils/appConfig';
 
-export const AppConfigContext = React.createContext<AppConfigInterface>(null);
+export const AppConfigContext = createContext<AppConfigInterface>(null);
 
 export const AppConfigProvider = ({
 	children,
 	config
 }: {
-	children?: ReactNode;
+	children: ReactNode;
 	config: AppConfigInterface;
 }) => {
-	const [appConfig, setAppConfig] =
-		React.useState<AppConfigInterface>(config);
+	const [appConfig, setAppConfig] = useState<AppConfigInterface>(config);
+	const [loading, setLoading] = useState(config.useApiClusterSettings);
 
 	useEffect(() => {
 		setAppConfigGlobal(appConfig);
@@ -31,8 +31,13 @@ export const AppConfigProvider = ({
 						appConfig
 					);
 				});
+				setLoading(false);
 			});
 	}, [config.useApiClusterSettings]);
+
+	if (loading) {
+		return null;
+	}
 
 	return (
 		<AppConfigContext.Provider value={appConfig}>

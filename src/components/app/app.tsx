@@ -48,6 +48,41 @@ export const App = ({
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
 	// use the authenticated app as a catch-all fallback.
+
+	return (
+		<ErrorBoundary>
+			<AppConfigProvider config={config}>
+				<FixedLanguagesContext.Provider value={fixedLanguages}>
+					<RouterWrapper
+						stageComponent={stageComponent}
+						legalLinks={legalLinks}
+						extraRoutes={extraRoutes}
+						spokenLanguages={spokenLanguages}
+						entryPoint={entryPoint}
+					/>
+				</FixedLanguagesContext.Provider>
+			</AppConfigProvider>
+		</ErrorBoundary>
+	);
+};
+
+interface RouterWrapperProps {
+	stageComponent: ComponentType<StageProps>;
+	legalLinks: Array<LegalLinkInterface>;
+	entryPoint: string;
+	extraRoutes?: ReactNode;
+	spokenLanguages?: string[];
+}
+
+const RouterWrapper = ({
+	extraRoutes,
+	legalLinks,
+	stageComponent,
+	spokenLanguages,
+	entryPoint
+}: RouterWrapperProps) => {
+	const settings = useAppConfig();
+
 	const [
 		hasUnmatchedLoginConsultingType,
 		setHasUnmatchedLoginConsultingType
@@ -67,6 +102,7 @@ export const App = ({
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
 		useState<boolean>(false);
+
 	const [isInitiallyLoaded, setIsInitiallyLoaded] = useState<boolean>(false);
 
 	const activateInitialRedirect = () => {
@@ -82,110 +118,78 @@ export const App = ({
 	}, []); // eslint-disable-line
 
 	return (
-		<ErrorBoundary>
-			<AppConfigProvider config={config}>
-				<Router history={history}>
-					<FixedLanguagesContext.Provider value={fixedLanguages}>
-						<ContextProvider>
-							<TenantThemingLoader />
-							{startWebsocket && (
-								<WebsocketHandler
-									disconnect={disconnectWebsocket}
+		<Router history={history}>
+			<ContextProvider>
+				<TenantThemingLoader />
+				{startWebsocket && (
+					<WebsocketHandler disconnect={disconnectWebsocket} />
+				)}
+				<Switch>
+					{extraRoutes}
+
+					{!hasUnmatchedRegistrationConsultingType &&
+						!hasUnmatchedRegistrationConsultant && (
+							<Route
+								path={[
+									'/registration',
+									'/:consultingTypeSlug/registration'
+								]}
+							>
+								<Registration
+									handleUnmatchConsultingType={() =>
+										setHasUnmatchedRegistrationConsultingType(
+											true
+										)
+									}
+									handleUnmatchConsultant={() => {
+										setHasUnmatchedRegistrationConsultant(
+											true
+										);
+									}}
+									legalLinks={legalLinks}
+									stageComponent={stageComponent}
 								/>
-							)}
-							<Switch>
-								{extraRoutes}
+							</Route>
+						)}
 
-								{!hasUnmatchedRegistrationConsultingType &&
-									!hasUnmatchedRegistrationConsultant && (
-										<Route
-											path={[
-												'/registration',
-												'/:consultingTypeSlug/registration'
-											]}
-										>
-											<Registration
-												handleUnmatchConsultingType={() =>
-													setHasUnmatchedRegistrationConsultingType(
-														true
-													)
-												}
-												handleUnmatchConsultant={() => {
-													setHasUnmatchedRegistrationConsultant(
-														true
-													);
-												}}
-												legalLinks={legalLinks}
-												stageComponent={stageComponent}
-											/>
-										</Route>
-									)}
+					{!hasUnmatchedAnonymousConversation && (
+						<Route path="/:consultingTypeSlug/warteraum">
+							<WaitingRoomLoader
+								legalLinks={legalLinks}
+								handleUnmatch={() =>
+									setHasUnmatchedAnonymousConversation(true)
+								}
+								onAnonymousRegistration={() =>
+									setStartWebsocket(true)
+								}
+							/>
+						</Route>
+					)}
+					{!hasUnmatchedLoginConsultingType && (
+						<Route path={['/login', '/:consultingTypeSlug']} exact>
+							<LoginLoader
+								handleUnmatch={() =>
+									setHasUnmatchedLoginConsultingType(true)
+								}
+								legalLinks={legalLinks}
+								stageComponent={stageComponent}
+							/>
+						</Route>
+					)}
+					<Route path={settings.urls.videoConference} exact>
+						<VideoConference legalLinks={legalLinks} />
+					</Route>
 
-								{!hasUnmatchedAnonymousConversation && (
-									<Route path="/:consultingTypeSlug/warteraum">
-										<WaitingRoomLoader
-											legalLinks={legalLinks}
-											handleUnmatch={() =>
-												setHasUnmatchedAnonymousConversation(
-													true
-												)
-											}
-											onAnonymousRegistration={() =>
-												setStartWebsocket(true)
-											}
-										/>
-									</Route>
-								)}
-								{!hasUnmatchedLoginConsultingType && (
-									<Route
-										path={[
-											'/login',
-											'/:consultingTypeSlug'
-										]}
-										exact
-									>
-										<LoginLoader
-											handleUnmatch={() =>
-												setHasUnmatchedLoginConsultingType(
-													true
-												)
-											}
-											legalLinks={legalLinks}
-											stageComponent={stageComponent}
-										/>
-									</Route>
-								)}
-								<VideoConferenceRoute legalLinks={legalLinks} />
-								{isInitiallyLoaded && (
-									<AuthenticatedApp
-										legalLinks={legalLinks}
-										spokenLanguages={spokenLanguages}
-										onAppReady={() =>
-											setStartWebsocket(true)
-										}
-										onLogout={() =>
-											setDisconnectWebsocket(true)
-										}
-									/>
-								)}
-							</Switch>
-						</ContextProvider>
-					</FixedLanguagesContext.Provider>
-				</Router>
-			</AppConfigProvider>
-		</ErrorBoundary>
-	);
-};
-
-const VideoConferenceRoute = ({
-	legalLinks
-}: {
-	legalLinks: LegalLinkInterface[];
-}) => {
-	const settings = useAppConfig();
-	return (
-		<Route path={settings.urls.videoConference} exact>
-			<VideoConference legalLinks={legalLinks} />
-		</Route>
+					{isInitiallyLoaded && (
+						<AuthenticatedApp
+							legalLinks={legalLinks}
+							spokenLanguages={spokenLanguages}
+							onAppReady={() => setStartWebsocket(true)}
+							onLogout={() => setDisconnectWebsocket(true)}
+						/>
+					)}
+				</Switch>
+			</ContextProvider>
+		</Router>
 	);
 };
