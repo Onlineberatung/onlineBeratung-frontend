@@ -40,11 +40,13 @@ export const solveGroupConditions = (
 	element: TabGroups | SingleComponentType,
 	...params
 ) => {
-	return solveCondition(element.condition, ...params) && isTabGroup(element)
+	const isValidToShow = solveCondition(element.condition, ...params);
+
+	return isValidToShow && isTabGroup(element)
 		? element.elements.some((elem) =>
 				solveCondition(elem.condition, ...params)
 		  )
-		: true;
+		: isValidToShow;
 };
 
 export const solveTabConditions = (tab: TabType, ...params) => {
