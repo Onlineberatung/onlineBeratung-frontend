@@ -1,21 +1,25 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
+import { Iframe } from '../components/iframe/Iframe';
 import { useTenant } from '../globalState';
 import { config } from '../resources/scripts/config';
 
 export const useLoginBudiBase = () => {
+	const iframeId = 'authIframe2';
 	const tenantData = useTenant();
 	const loginBudiBase = useCallback(() => {
-		const ifrm = document.createElement('iframe');
-		ifrm.setAttribute(
-			'src',
-			`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${tenantData?.settings?.featureToolsOICDToken}`
+		const deleteIframe = () => {
+			setTimeout(() => {
+				document.querySelector(`#${iframeId}`).remove();
+			}, 5000);
+		};
+
+		return (
+			<Iframe
+				id={iframeId}
+				link={`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${tenantData?.settings?.featureToolsOICDToken}`}
+				onLoad={deleteIframe}
+			/>
 		);
-		ifrm.id = 'authIframe2';
-		ifrm.style.display = 'none';
-		document.body.appendChild(ifrm);
-		setTimeout(() => {
-			document.querySelector('#authIframe2').remove();
-		}, 5000);
 	}, [tenantData?.settings?.featureToolsOICDToken]);
 
 	return { loginBudiBase };

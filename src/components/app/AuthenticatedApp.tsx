@@ -25,6 +25,8 @@ import { RocketChatSubscriptionsProvider } from '../../globalState/provider/Rock
 import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
 import { useLoginBudiBase } from '../../utils/budibaseHelper';
+import { config } from '../../resources/scripts/config';
+import { Iframe } from '../iframe/Iframe';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -100,6 +102,14 @@ export const AuthenticatedApp = ({
 		logout();
 	}, [onLogout]);
 
+	const iframeId = 'authIframe2';
+
+	const deleteIframe = useCallback(() => {
+		setTimeout(() => {
+			document.querySelector(`#${iframeId}`).remove();
+		}, 5000);
+	}, []);
+
 	if (appReady) {
 		return (
 			<>
@@ -115,6 +125,13 @@ export const AuthenticatedApp = ({
 								{notifications && (
 									<Notifications
 										notifications={notifications}
+									/>
+								)}
+								{tenantData?.settings?.featureToolsEnabled && (
+									<Iframe
+										id={iframeId}
+										link={`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${tenantData?.settings?.featureToolsOICDToken}`}
+										onLoad={deleteIframe}
 									/>
 								)}
 							</RocketChatUnreadProvider>
