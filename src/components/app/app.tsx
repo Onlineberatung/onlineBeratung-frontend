@@ -21,6 +21,7 @@ import {
 	LegalLinkInterface
 } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const history = createBrowserHistory();
 
@@ -154,9 +155,7 @@ export const App = ({
 										/>
 									</Route>
 								)}
-								<Route path={config.urls.videoConference} exact>
-									<VideoConference legalLinks={legalLinks} />
-								</Route>
+								<VideoConferenceRoute legalLinks={legalLinks} />
 								{isInitiallyLoaded && (
 									<AuthenticatedApp
 										legalLinks={legalLinks}
@@ -175,5 +174,18 @@ export const App = ({
 				</Router>
 			</AppConfigProvider>
 		</ErrorBoundary>
+	);
+};
+
+const VideoConferenceRoute = ({
+	legalLinks
+}: {
+	legalLinks: LegalLinkInterface[];
+}) => {
+	const settings = useAppConfig();
+	return (
+		<Route path={settings.urls.videoConference} exact>
+			<VideoConference legalLinks={legalLinks} />
+		</Route>
 	);
 };

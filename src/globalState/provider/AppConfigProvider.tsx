@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect } from 'react';
 import { apiServerSettings } from '../../api/apiServerSettings';
 import { AppConfigInterface } from '../interfaces/AppConfig';
+import { setAppConfig as setAppConfigGlobal } from '../../utils/appConfig';
 
 export const AppConfigContext = React.createContext<AppConfigInterface>(null);
 
@@ -13,6 +14,10 @@ export const AppConfigProvider = ({
 }) => {
 	const [appConfig, setAppConfig] =
 		React.useState<AppConfigInterface>(config);
+
+	useEffect(() => {
+		setAppConfigGlobal(appConfig);
+	}, [appConfig]);
 
 	useEffect(() => {
 		config.useApiClusterSettings &&
