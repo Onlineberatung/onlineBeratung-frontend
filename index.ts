@@ -26,6 +26,18 @@ export * from './src/components/profile/AskerRegistrationExternalAgencyOverlay';
 // Data
 export * from './src/globalState/provider/TenantProvider';
 
+// Hooks
+export * from './src/hooks/useAppConfig';
+export * from './src/hooks/useE2EE';
+export * from './src/hooks/useDebounceCallback';
+export * from './src/hooks/useResponsive';
+export * from './src/hooks/useSession';
+export * from './src/hooks/useSearchParams';
+export * from './src/hooks/useStateWithLabel';
+export * from './src/hooks/useUnload';
+export * from './src/hooks/useUpdatingRef';
+export * from './src/hooks/useWatcher';
+
 // Images
 export * from './src/resources/img/icons';
 

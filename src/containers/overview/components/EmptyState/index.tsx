@@ -11,7 +11,13 @@ export enum EmptyType {
 	Termine = 'termine'
 }
 
-export const EmptyState = ({ type }: { type: EmptyType }) => {
+export const EmptyState = ({
+	type,
+	className
+}: {
+	type: EmptyType;
+	className?: string;
+}) => {
 	const [Icon, message] = useMemo(() => {
 		switch (type) {
 			case EmptyType.Checkmark:
@@ -24,7 +30,7 @@ export const EmptyState = ({ type }: { type: EmptyType }) => {
 	}, [type]);
 
 	return (
-		<div className="overviewEmptyState">
+		<div className={`overviewEmptyState ${className || ''}`}>
 			<div className={`overviewEmptyState__icon ${type}`}>
 				<Icon />
 			</div>
