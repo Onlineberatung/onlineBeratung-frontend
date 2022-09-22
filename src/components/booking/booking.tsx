@@ -43,16 +43,23 @@ export const Booking = () => {
 			userData
 		);
 
-		if (isConsultant) {
-			getCounselorAppointmentLink(userData.userId).then((response) => {
-				setAppointmentLink(response.slug);
-			});
-		} else {
+		if (!isConsultant) {
 			apiGetAskerSessionList().then(({ sessions }) => {
+				const consultant = sessions[0]?.consultant;
 				const agencyId = sessions[0]?.agency?.id;
-				getTeamAppointmentLink(agencyId).then((response) => {
-					setAppointmentLink(`team/${response.slug}`);
-				});
+				if (consultant) {
+					const consultantId =
+						consultant?.consultantId || consultant?.id;
+					getCounselorAppointmentLink(consultantId).then(
+						(response) => {
+							setAppointmentLink(response.slug);
+						}
+					);
+				} else {
+					getTeamAppointmentLink(agencyId).then((response) => {
+						setAppointmentLink(`team/${response.slug}`);
+					});
+				}
 			});
 		}
 	}, [userData]);
