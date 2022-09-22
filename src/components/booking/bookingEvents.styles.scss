@@ -128,13 +128,14 @@ $imprintHeight: 40px;
 			row-gap: 1.5rem;
 			grid-template-areas:
 				'basicInformation'
-				'actions'
-				'description';
+				'description'
+				'actions';
 
 			@include breakpoint($fromLarge) {
 				grid-template-columns: 2fr 2fr 1fr;
 				row-gap: 3rem;
 				grid-template-areas: 'basicInformation description actions';
+				position: relative;
 			}
 		}
 
@@ -182,7 +183,7 @@ $imprintHeight: 40px;
 			@include breakpoint($fromLarge) {
 				display: flex;
 				position: relative;
-				top: 1.5rem;
+				top: 2.5rem;
 			}
 		}
 	}
@@ -207,7 +208,6 @@ $imprintHeight: 40px;
 	&__actions {
 		display: grid;
 		grid-auto-flow: row;
-		max-height: 100px;
 		grid-template-columns: 1fr;
 		row-gap: 1.5rem;
 		grid-area: actions;
@@ -215,6 +215,9 @@ $imprintHeight: 40px;
 		@include breakpoint($fromLarge) {
 			grid-template-columns: none;
 			row-gap: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: end;
 		}
 
 		p {
@@ -244,6 +247,11 @@ $imprintHeight: 40px;
 
 	&__counselor {
 		grid-area: counselor;
+		margin-top: 1rem;
+
+		@include breakpoint($fromLarge) {
+			margin-top: 0;
+		}
 	}
 
 	&__date {
@@ -255,17 +263,21 @@ $imprintHeight: 40px;
 	}
 
 	&__video {
-		align-items: center;
 		grid-area: video;
-		margin-bottom: 1rem;
 
 		@include breakpoint($fromLarge) {
-			margin-top: 0.5rem;
+			margin-top: 2.5rem;
 			margin-bottom: 0rem;
 		}
 
-		p {
-			margin-left: 0.5rem;
+		&-label {
+			display: flex;
+			align-items: center;
+			margin-bottom: 0.5rem;
+
+			p {
+				margin-left: 0.5rem;
+			}
 		}
 	}
 
@@ -305,6 +317,88 @@ $imprintHeight: 40px;
 			height: 18px;
 			path {
 				fill: $primary;
+			}
+		}
+	}
+
+	&__cancel {
+		margin-left: 1rem;
+	}
+
+	&__cancel,
+	&__reschedule {
+		.text {
+			@media only screen and (max-width: 1410px) and (min-width: 900px) {
+				display: none;
+			}
+		}
+	}
+
+	&__video-button {
+		margin-left: auto;
+
+		&--mobile {
+			@include breakpoint($fromLarge) {
+				display: none;
+			}
+		}
+	}
+
+	&__video-link-wrapper--mobile {
+		display: flex;
+
+		&--text {
+			-webkit-line-clamp: 1;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+		}
+
+		@include breakpoint($fromLarge) {
+			display: none;
+		}
+	}
+
+	&__copy {
+		@include breakpoint($fromLarge) {
+			display: block;
+		}
+	}
+
+	&__video-link-grid {
+		display: none;
+		grid-template-columns: 0.465fr 1fr 0.42fr;
+		min-height: 32px;
+		align-items: end;
+
+		@include breakpoint($fromXXLarge) {
+			grid-template-columns: 0.48fr 1fr 0.405fr;
+		}
+
+		@include breakpoint($fromLarge) {
+			display: grid;
+		}
+
+		&-wrapper {
+			grid-column-start: 2;
+
+			&--text {
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+			}
+
+			@include breakpoint($fromLarge) {
+				word-break: keep-all;
+				display: flex;
+				align-items: center;
+
+				svg {
+					margin-left: 0.75rem;
+				}
 			}
 		}
 	}

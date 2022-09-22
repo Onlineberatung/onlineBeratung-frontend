@@ -156,7 +156,8 @@ export const config: AppConfigInterface = {
 		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
 	urls: {
-		appointmentServiceDevServer: '',
+		appointmentServiceDevServer:
+			'https://calcom-develop.suchtberatung.digital',
 		consultantVideoConference:
 			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',

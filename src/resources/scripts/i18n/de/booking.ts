@@ -2,12 +2,15 @@ const booking = {
 	'schedule': 'Termin vereinbaren',
 	'mobile.calendar.label': 'Termin erstellen',
 	'event.your.counselor': 'Ihr Berater',
+	'event.copy.link.notification.title': 'Link kopiert',
+	'event.copy.link.notification.text':
+		'Einlandungslink zum Video-Call in Zwischenablage kopiert!',
 	'event.asker': 'Ratsuchende_r',
 	'event.description': 'Ihre Nachricht zum Termin',
 	'event.show.more': 'Mehr anzeigen',
 	'event.show.less': 'Weniger anzeigen',
-	'event.booking.cancel': 'Termin absagen',
-	'event.booking.reschedule': 'Termin verschieben',
+	'event.booking.cancel': 'Absagen',
+	'event.booking.reschedule': 'Verschieben',
 	'event.tab.booked': 'Gebuchte Termine',
 	'event.tab.canceled': 'Storniert',
 	'event.tab.expired': 'Vergangen',
@@ -26,7 +29,8 @@ const booking = {
 	'calender.integration.apple': 'Apple Kalender',
 	'availability': 'Ihre Verfügbarkeit',
 	'availability.description':
-		'Geben Sie hier Ihre allegemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.'
+		'Geben Sie hier Ihre allegemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.',
+	'video.button.label': 'Video-Call starten'
 };
 
 export default booking;
