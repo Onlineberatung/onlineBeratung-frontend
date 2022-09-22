@@ -114,7 +114,7 @@ const registration = {
 		'Innerhalb von 2 Werktagen bekommen Sie eine Antwort',
 	'welcomeScreen.info4.title': 'Anonym und kostenfrei',
 	'welcomeScreen.info4.text':
-		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
+		'Sie bleiben auf Wunsch anonym und werden kostenfrei beraten!',
 	'welcomeScreen.register.helperText': 'Noch nicht registriert?',
 	'welcomeScreen.register.buttonLabel': 'Zur Registrierung',
 	'teaser.consultant':
