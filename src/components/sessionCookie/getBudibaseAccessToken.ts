@@ -1,12 +1,12 @@
 import { TenantDataSettingsInterface } from '../../globalState/interfaces/TenantDataInterface';
-import { getAppSettings } from '../../utils/settingsHelper';
+import { appConfig } from '../../utils/appConfig';
 
 export const getBudibaseAccessToken = (
 	username: string,
 	password: string,
 	tenantSettings: TenantDataSettingsInterface
 ) => {
-	const { budibaseUrl } = getAppSettings();
+	const budibaseUrl = appConfig.budibaseUrl;
 	const login = () => {
 		const authIframe = (
 			document.getElementById('authIframe') as HTMLIFrameElement

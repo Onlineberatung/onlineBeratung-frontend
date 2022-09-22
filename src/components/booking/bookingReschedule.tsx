@@ -32,17 +32,16 @@ export const BookingReschedule = () => {
 	const userId = isConsultant ? location.state.askerId : userData.userId;
 
 	return (
-		<>
-			{settings.calcomUrl && (
-				<iframe
-					src={`${settings.calcomUrl}${location.state.rescheduleLink}&metadata[bookingId]=${location.state.bookingId}&metadata[user]=${userId}`}
-					frameBorder={0}
-					scrolling="false"
-					width="100%"
-					height="100%"
-					title="booking-reschedule"
-				/>
-			)}
-		</>
+		(settings.calcomUrl && (
+			<iframe
+				src={`${settings.calcomUrl}${location.state.rescheduleLink}&metadata[bookingId]=${location.state.bookingId}&metadata[user]=${userId}`}
+				frameBorder={0}
+				scrolling="false"
+				width="100%"
+				height="100%"
+				title="booking-reschedule"
+			/>
+		)) ||
+		null
 	);
 };

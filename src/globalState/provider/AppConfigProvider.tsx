@@ -2,7 +2,6 @@ import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { apiServerSettings } from '../../api/apiServerSettings';
 import { AppConfigInterface } from '../interfaces/AppConfig';
 import { setAppConfig as setAppConfigGlobal } from '../../utils/appConfig';
-import { setAppSettings } from '../../utils/settingsHelper';
 
 export const AppConfigContext = createContext<AppConfigInterface>(null);
 
@@ -18,7 +17,6 @@ export const AppConfigProvider = ({
 
 	useEffect(() => {
 		setAppConfigGlobal(appConfig);
-		setAppSettings(appConfig);
 	}, [appConfig]);
 
 	useEffect(() => {

@@ -21,17 +21,16 @@ export const BookingCancellation = () => {
 	const location = useLocation();
 
 	return (
-		<>
-			{settings.calcomUrl && (
-				<iframe
-					src={`${settings.calcomUrl}/cancel/${location.state.uid}`}
-					frameBorder={0}
-					scrolling="false"
-					width="100%"
-					height="100%"
-					title="booking-cancellation"
-				/>
-			)}
-		</>
+		(settings.calcomUrl && (
+			<iframe
+				src={`${settings.calcomUrl}/cancel/${location.state.uid}`}
+				frameBorder={0}
+				scrolling="false"
+				width="100%"
+				height="100%"
+				title="booking-cancellation"
+			/>
+		)) ||
+		null
 	);
 };

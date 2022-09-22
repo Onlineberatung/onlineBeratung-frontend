@@ -1,7 +1,7 @@
-import { getAppSettings } from '../../../utils/settingsHelper';
+import { appConfig } from '../../../utils/appConfig';
 
 export const calcomLogout = () => {
-	const { calcomUrl } = getAppSettings();
+	const calcomUrl = appConfig.calcomUrl;
 
 	return fetch(`${calcomUrl}/api/auth/csrf`, {
 		headers: {

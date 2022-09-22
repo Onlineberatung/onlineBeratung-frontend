@@ -1,7 +1,7 @@
-import { getAppSettings } from '../../utils/settingsHelper';
+import { appConfig } from '../../utils/appConfig';
 
 export const budibaseLogout = () => {
-	const { budibaseUrl } = getAppSettings();
+	const budibaseUrl = appConfig.budibaseUrl;
 
 	return fetch(`${budibaseUrl}/api/global/auth/logout`, {
 		headers: {
