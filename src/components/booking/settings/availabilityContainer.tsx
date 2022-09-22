@@ -1,10 +1,11 @@
 import { Headline } from '../../headline/Headline';
 import { Text } from '../../text/Text';
-import { config } from '../../../resources/scripts/config';
 import * as React from 'react';
 import { translate } from '../../../utils/translate';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 export const AvailabilityContainer = () => {
+	const settings = useAppConfig();
 	return (
 		<div className="settings-container-column">
 			<div style={{ marginBottom: '20px' }}>
@@ -22,15 +23,17 @@ export const AvailabilityContainer = () => {
 				/>
 			</div>
 
-			<iframe
-				title={'AvailabilityContainer'}
-				style={{ paddingRight: '20px' }}
-				src={`${config.urls.appointmentServiceDevServer}/availability`}
-				frameBorder={0}
-				scrolling="false"
-				width="100%"
-				height="80%"
-			/>
+			{settings.calcomUrl && (
+				<iframe
+					title={'AvailabilityContainer'}
+					style={{ paddingRight: '20px' }}
+					src={`${settings.calcomUrl}/availability`}
+					frameBorder={0}
+					scrolling="false"
+					width="100%"
+					height="80%"
+				/>
+			)}
 		</div>
 	);
 };

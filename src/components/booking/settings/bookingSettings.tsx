@@ -1,31 +1,26 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
 } from '../../app/navigationHandler';
-import { UserDataContext } from '../../../globalState';
-import { calcomLogin } from './calcomLogin';
+import { useCalcomLogin } from './calcomLogin';
 import { AvailabilityContainer } from './availabilityContainer';
 import { CalendarIntegration } from './calendarIntegration';
 import './bookingSettings.styles';
 
 export const BookingSettings = () => {
-	const { userData } = useContext(UserDataContext);
-	const [loadExternalComponents, setLoadExternalComponents] = useState(false);
+	const loadedExternalComponents = useCalcomLogin();
 
 	useEffect(() => {
 		setBookingWrapperActive();
-		calcomLogin(userData).then(() => {
-			setLoadExternalComponents(true);
-		});
 
 		return () => {
 			setBookingWrapperInactive();
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	if (!loadExternalComponents) {
+	if (!loadedExternalComponents) {
 		return null;
 	}
 
