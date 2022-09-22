@@ -1,7 +1,9 @@
-import { config } from '../../resources/scripts/config';
+import { getAppSettings } from '../../utils/settingsHelper';
 
 export const budibaseLogout = () => {
-	return fetch(`${config.urls.budibaseDevServer}/api/global/auth/logout`, {
+	const { budibaseUrl } = getAppSettings();
+
+	return fetch(`${budibaseUrl}/api/global/auth/logout`, {
 		headers: {
 			'content-type': 'application/x-www-form-urlencoded'
 		},

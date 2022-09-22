@@ -1,11 +1,12 @@
 import { TenantDataSettingsInterface } from '../../globalState/interfaces/TenantDataInterface';
-import { config } from '../../resources/scripts/config';
+import { getAppSettings } from '../../utils/settingsHelper';
 
 export const getBudibaseAccessToken = (
 	username: string,
 	password: string,
 	tenantSettings: TenantDataSettingsInterface
 ) => {
+	const { budibaseUrl } = getAppSettings();
 	const login = () => {
 		const authIframe = (
 			document.getElementById('authIframe') as HTMLIFrameElement
@@ -28,7 +29,7 @@ export const getBudibaseAccessToken = (
 	const ifrm = document.createElement('iframe');
 	ifrm.setAttribute(
 		'src',
-		`${config.urls.budibaseDevServer}/api/global/auth/default/oidc/configs/${tenantSettings.featureToolsOICDToken}`
+		`${budibaseUrl}/api/global/auth/default/oidc/configs/${tenantSettings.featureToolsOICDToken}`
 	);
 	ifrm.onload = login;
 	ifrm.id = 'authIframe';

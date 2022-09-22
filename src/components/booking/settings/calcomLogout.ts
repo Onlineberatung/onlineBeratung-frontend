@@ -1,7 +1,9 @@
-import { config } from '../../../resources/scripts/config';
+import { getAppSettings } from '../../../utils/settingsHelper';
 
 export const calcomLogout = () => {
-	return fetch(`${config.urls.appointmentServiceDevServer}/api/auth/csrf`, {
+	const { calcomUrl } = getAppSettings();
+
+	return fetch(`${calcomUrl}/api/auth/csrf`, {
 		headers: {
 			'content-type': 'application/x-www-form-urlencoded'
 		},
@@ -10,16 +12,13 @@ export const calcomLogout = () => {
 	})
 		.then((response) => response.json())
 		.then(({ csrfToken }) =>
-			fetch(
-				`${config.urls.appointmentServiceDevServer}/api/auth/signout`,
-				{
-					headers: {
-						'content-type': 'application/x-www-form-urlencoded'
-					},
-					body: `csrfToken=${csrfToken}`,
-					method: 'POST',
-					credentials: 'include'
-				}
-			)
+			fetch(`${calcomUrl}/api/auth/signout`, {
+				headers: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				body: `csrfToken=${csrfToken}`,
+				method: 'POST',
+				credentials: 'include'
+			})
 		);
 };

@@ -1,6 +1,10 @@
 export interface AppSettingsInterface {
 	/** Feature flag to enable SSO on budibase */
 	budibaseSSO: boolean;
+	/** Feature flag to get the link for tools service */
+	budibaseUrl: string;
+	/** Feature flag to get the link for appointment service */
+	calcomUrl: string;
 	/** Feature flag to enable walkthrough (false by default here & true in the theme repo) */
 	enableWalkThrough: boolean;
 	/** Feature flag to enable Video-Termine page */
