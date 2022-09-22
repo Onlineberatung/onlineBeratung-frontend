@@ -1,4 +1,6 @@
-const apiUrlEnv: string = process.env.REACT_APP_API_URL;
+const apiUrlEnv: string = (window as any).Cypress
+	? (window as any).Cypress.env('REACT_APP_API_URL')
+	: process.env.REACT_APP_API_URL;
 
 export let apiUrl = '';
 if (apiUrlEnv) {

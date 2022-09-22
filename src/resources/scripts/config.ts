@@ -4,10 +4,8 @@ import { enAgency } from '../i18n/en.agency';
 import { enLanguages } from '../i18n/en.languages';
 import { AppConfigInterface } from '../../globalState/interfaces/AppConfig/AppConfigInterface';
 
-export const uiUrl =
-	process.env.REACT_APP_UI_URL || typeof window !== 'undefined'
-		? window.location.origin
-		: '';
+export const uiUrl = window.location.origin;
+
 export const APP_PATH = 'app';
 
 export const config: AppConfigInterface = {
