@@ -12,7 +12,7 @@ export const AvailabilityContainer = () => {
 	const settings = useAppConfig();
 
 	const deleteAccountButton: ButtonItem = {
-		label: translate('tools.button.label'),
+		label: translate('tools.calendar.button.label'),
 		type: BUTTON_TYPES.TERTIARY
 	};
 
@@ -20,11 +20,13 @@ export const AvailabilityContainer = () => {
 		<div className="availability__wrapper">
 			<Box>
 				<div className="tool__wrapper">
-					<Headline text={'Mein Kalender'} semanticLevel="5" />
+					<Headline
+						text={translate('tools.calendar.title')}
+						semanticLevel="5"
+					/>
 					<Text
 						className="tool__wrapper__text"
-						text={`Tragen Sie Ihre Urlaube oder sonstigen Termine in den Kalender ein, sodass die Ratsuchenden in dieser Zeit keine Termine bei Ihnen buchen können.
-						Melden Sie sich mit der gleichen E-mail Adresse und Passwort an, das Sie auch hier bei der Online Beratung verwenden.`}
+						text={translate('tools.calendar.description')}
 						type="standard"
 					/>
 					<Button

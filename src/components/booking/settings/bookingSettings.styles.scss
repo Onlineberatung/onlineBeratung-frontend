@@ -55,23 +55,10 @@ $headerHeight: 80px;
 
 .availability {
 	&__wrapper {
-		@include breakpoint($fromLarge) {
-			max-height: calc(100vh - 435px);
-		}
-		@include breakpoint($fromXLarge) {
-			max-height: calc(100vh - 414px);
-		}
-
-		@include breakpoint($fromXXLarge) {
-			max-height: calc(100vh - 394px);
-		}
-
 		.box {
 			&:last-child {
-				@include breakpoint($fromLarge) {
-					height: calc(100% - #{$headerHeight});
-				}
-
+				padding-bottom: 34px;
+				margin-bottom: 0;
 				.box__content {
 					height: 100%;
 				}
@@ -79,7 +66,11 @@ $headerHeight: 80px;
 		}
 
 		iframe {
-			min-height: 300px;
+			min-height: 100vh;
+
+			@include breakpoint($fromLarge) {
+				min-height: calc(100vh - 300px);
+			}
 		}
 	}
 }
