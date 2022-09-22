@@ -3,6 +3,10 @@ export interface AppSettingsInterface {
 	budibaseSSO: boolean;
 	/** App setting to get calendar link */
 	calendarAppUrl: string;
+	/** App setting to get the link for tools service */
+	budibaseUrl: string;
+	/** App setting to get the link for appointment service */
+	calcomUrl: string;
 	/** Feature flag to enable walkthrough (false by default here & true in the theme repo) */
 	enableWalkThrough: boolean;
 	/** Feature flag to enable Video-Termine page */

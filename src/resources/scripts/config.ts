@@ -20,7 +20,9 @@ export const uiUrl =
 export const APP_PATH = 'app';
 
 export const config: AppConfigInterface = {
+	budibaseUrl: '',
 	budibaseSSO: false, // Feature flag to enable SSO on budibase
+	calcomUrl: '',
 	calendarAppUrl: '',
 	enableWalkThrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page

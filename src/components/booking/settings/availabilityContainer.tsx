@@ -1,6 +1,5 @@
 import { Headline } from '../../headline/Headline';
 import { Text } from '../../text/Text';
-import { config } from '../../../resources/scripts/config';
 import * as React from 'react';
 import { translate } from '../../../utils/translate';
 import { Box } from '../../box/Box';
@@ -58,15 +57,17 @@ export const AvailabilityContainer = () => {
 						className="tertiary"
 					/>
 				</div>
-
-				<iframe
-					title={'AvailabilityContainer'}
-					src={`${config.urls.appointmentServiceDevServer}/availability`}
-					frameBorder={0}
-					scrolling="false"
-					width="100%"
-					height="80%"
-				/>
+				{settings.calcomUrl && (
+					<iframe
+						title={'AvailabilityContainer'}
+						style={{ paddingRight: '20px' }}
+						src={`${settings.calcomUrl}/availability`}
+						frameBorder={0}
+						scrolling="false"
+						width="100%"
+						height="80%"
+					/>
+				)}
 			</Box>
 		</div>
 	);
