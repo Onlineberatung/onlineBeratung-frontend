@@ -243,6 +243,10 @@ $imprintHeight: 40px;
 	&__counselorName {
 		margin-top: 0.25rem;
 		grid-area: counselorName;
+		margin-bottom: 2.75rem;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
 	}
 
 	&__counselor {
@@ -266,7 +270,7 @@ $imprintHeight: 40px;
 		grid-area: video;
 
 		@include breakpoint($fromLarge) {
-			margin-top: 2.5rem;
+			margin-top: 0rem;
 			margin-bottom: 0rem;
 		}
 
