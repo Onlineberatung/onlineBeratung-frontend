@@ -1,14 +1,14 @@
+$headerHeight: 80px;
+
 .settings-container {
 	height: 100%;
-	display: flex;
-	column-gap: 40px;
-}
+	display: grid;
+	grid-template-columns: 1fr;
 
-.settings-container-column {
-	height: 100%;
-	width: 50%;
-	background-color: #fefefe;
-	padding: 20px 0 0 20px;
+	@include breakpoint($fromLarge) {
+		grid-template-columns: 1fr 1fr;
+		column-gap: 1rem;
+	}
 }
 
 .calendar-integration-container {
@@ -51,4 +51,35 @@
 	margin-right: 20px;
 	border: 0;
 	background: no-repeat;
+}
+
+.availability {
+	&__wrapper {
+		@include breakpoint($fromLarge) {
+			max-height: calc(100vh - 435px);
+		}
+		@include breakpoint($fromXLarge) {
+			max-height: calc(100vh - 414px);
+		}
+
+		@include breakpoint($fromXXLarge) {
+			max-height: calc(100vh - 394px);
+		}
+
+		.box {
+			&:last-child {
+				@include breakpoint($fromLarge) {
+					height: calc(100% - #{$headerHeight});
+				}
+
+				.box__content {
+					height: 100%;
+				}
+			}
+		}
+
+		iframe {
+			min-height: 300px;
+		}
+	}
 }
