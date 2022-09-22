@@ -4,7 +4,10 @@ import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { calcomLogout } from '../booking/settings/calcomLogout';
 import { budibaseLogout } from '../budibase/budibaseLogout';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
-import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
+import {
+	removeRocketChatMasterKeyFromLocalStorage,
+	removeTokenExpiryFromLocalStorage
+} from '../sessionCookie/accessSessionLocalStorage';
 import { appConfig } from '../../utils/appConfig';
 
 let isRequestInProgress = false;
@@ -32,6 +35,7 @@ const invalidateCookies = (
 ) => {
 	removeAllCookies();
 	removeTokenExpiryFromLocalStorage();
+	removeRocketChatMasterKeyFromLocalStorage();
 	if (withRedirect) {
 		redirectAfterLogout(redirectUrl);
 	}

@@ -55,7 +55,7 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 			)
 	);
 
-const showAppointmentsMenuItem = (userData, consultingTypes, sessionsData) => {
+const showAppointmentsMenuItem = (userData) => {
 	return (
 		userData.appointmentFeatureEnabled &&
 		(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
@@ -109,7 +109,10 @@ const overviewRoute = (settings: AppConfigInterface) => ({
 	}
 });
 
-export const RouterConfigUser = (settings: AppConfigInterface): any => {
+export const RouterConfigUser = (
+	_settings: AppConfigInterface,
+	hasAssignedConsultant: boolean
+): any => {
 	return {
 		navigation: [
 			{
@@ -128,7 +131,8 @@ export const RouterConfigUser = (settings: AppConfigInterface): any => {
 				}
 			},
 			{
-				condition: showAppointmentsMenuItem,
+				condition: (userData) =>
+					hasAssignedConsultant && showAppointmentsMenuItem(userData),
 				to: '/booking/events',
 				icon: <CalendarMonthIcon className="navigation__icon" />,
 				titleKeys: {
