@@ -1,6 +1,6 @@
 const videoCall = {
 	'button.rejectCall': 'Video-Call ablehnen',
-	'button.startCall': 'Video-Call starten',
+	'button.startCall': 'Audio-Call starten',
 	'button.answerCall': 'Video-Call annehmen',
 	'button.startVideoCall': 'Video-Call starten',
 	'button.answerVideoCall': 'Video-Call annehmen',
