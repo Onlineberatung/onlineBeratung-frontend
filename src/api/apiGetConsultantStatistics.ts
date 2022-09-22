@@ -8,6 +8,7 @@ export interface ConsultantStatisticsDTO {
 	numberOfSentMessages: number;
 	numberOfSessionsWhereConsultantWasActive: number;
 	videoCallDuration: number;
+	numberOfAppointments: number;
 }
 
 export interface ApiGetConsultantStatisticsInterface {
