@@ -1,4 +1,3 @@
-import { config } from '../../../resources/scripts/config';
 import {
 	AppleIcon,
 	CalDav,
@@ -8,24 +7,26 @@ import {
 import { Button } from '../../button/Button';
 import * as React from 'react';
 import { translate } from '../../../utils/translate';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 const AddCalendar = () => {
-	function syncCalendar(calendarName: string) {
+	const settings = useAppConfig();
+	const syncCalendar = (calendarName: string) => {
 		if (calendarName === 'apple' || calendarName === 'caldav') {
 			window.location.replace(
-				`${config.urls.appointmentServiceDevServer}/apps/${calendarName}-calendar/setup`
+				`${settings.calcomUrl}/apps/${calendarName}-calendar/setup`
 			);
 			return;
 		}
 
 		fetch(
-			`${config.urls.appointmentServiceDevServer}/api/integrations/${calendarName}_calendar/add?state={"returnTo":"${window.location.origin}/booking/events/settings"}`
+			`${settings.calcomUrl}/api/integrations/${calendarName}_calendar/add?state={"returnTo":"${window.location.origin}/booking/events/settings"}`
 		)
 			.then((resp) => resp.json())
 			.then((resp) => {
 				window.location.replace(resp.url);
 			});
-	}
+	};
 
 	return (
 		<>
