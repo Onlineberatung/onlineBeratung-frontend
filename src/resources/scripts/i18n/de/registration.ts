@@ -99,8 +99,9 @@ const registration = {
 	'submitButton.label': 'Registrieren',
 	'overlay.success.headline':
 		'Herzlich willkommen<br>bei der Beratung & Hilfe der Caritas.',
-	'overlay.success.copy': 'Sie haben sich erfolgreich registriert.',
-	'overlay.success.button': 'Nachricht verfassen',
+	'overlay.success.copy':
+		'Sie haben sich erfolgreich registriert.<br>Sie können nun direkt eine Nachricht verfassen oder je nach Verfügbarkeit einen Beratungstermin reservieren.',
+	'overlay.success.button': 'Weiter',
 	'accordion.item.continueButton': 'Weiter',
 	'accordion.item.continueButton.title': 'Weiter zum nächsten Schritt',
 	'welcomeScreen.subline': 'Wie läuft die Beratung & Hilfe der Caritas ab?',
@@ -114,7 +115,7 @@ const registration = {
 		'Innerhalb von 2 Werktagen bekommen Sie eine Antwort',
 	'welcomeScreen.info4.title': 'Anonym und kostenfrei',
 	'welcomeScreen.info4.text':
-		'Sie bleiben auf Wunsch anonym und werden kostenfrei beraten!',
+		'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
 	'welcomeScreen.register.helperText': 'Noch nicht registriert?',
 	'welcomeScreen.register.buttonLabel': 'Zur Registrierung',
 	'teaser.consultant':
