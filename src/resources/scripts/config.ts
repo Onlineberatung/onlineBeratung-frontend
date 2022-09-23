@@ -20,9 +20,10 @@ export const uiUrl =
 export const APP_PATH = 'app';
 
 export const config: AppConfigInterface = {
-	budibaseSSO: false, // Feature flag to enable SSO on budibase
 	budibaseUrl: '',
+	budibaseSSO: false, // Feature flag to enable SSO on budibase
 	calcomUrl: '',
+	calendarAppUrl: '',
 	enableWalkThrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	multitenancyWithSingleDomainEnabled: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
@@ -158,7 +159,6 @@ export const config: AppConfigInterface = {
 		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
 	urls: {
-		appointmentServiceDevServer: '',
 		consultantVideoConference:
 			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',
@@ -171,7 +171,6 @@ export const config: AppConfigInterface = {
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		releases: uiUrl + '/releases',
-		budibaseDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',

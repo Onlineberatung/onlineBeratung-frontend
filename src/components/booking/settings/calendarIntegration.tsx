@@ -5,6 +5,7 @@ import AssignedCalendars from './assignedCalendars';
 import AddCalendar from './addCalendar';
 import * as React from 'react';
 import { translate } from '../../../utils/translate';
+import { Box } from '../../box/Box';
 import { useAppConfig } from '../../../hooks/useAppConfig';
 
 export const CalendarIntegration = () => {
@@ -28,7 +29,7 @@ export const CalendarIntegration = () => {
 	}, [settings.calcomUrl]);
 
 	return (
-		<div className="settings-container-column">
+		<Box>
 			<div style={{ marginBottom: '20px' }}>
 				<Headline
 					className="pr--3"
@@ -79,6 +80,6 @@ export const CalendarIntegration = () => {
 			)}
 			{selectedTab === 'synchronized' ? <AssignedCalendars /> : null}
 			{selectedTab === 'addNew' ? <AddCalendar /> : null}
-		</div>
+		</Box>
 	);
 };
