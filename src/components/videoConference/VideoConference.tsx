@@ -21,7 +21,8 @@ import { Loading } from '../app/Loading';
 import { WaitingRoom } from './WaitingRoom';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useUnload } from '../../hooks/useUnload';
-import { config, uiUrl } from '../../resources/scripts/config';
+import { uiUrl } from '../../resources/scripts/config';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 const VideoConference = ({
 	legalLinks
@@ -29,6 +30,8 @@ const VideoConference = ({
 	legalLinks: Array<LegalLinkInterface>;
 }) => {
 	const { status, appointmentId } = useParams();
+
+	const settings = useAppConfig();
 
 	const [externalApi, setExternalApi] = useState<IJitsiMeetExternalApi>(null);
 	const [initialized, setInitialized] = useState(false);
@@ -220,7 +223,7 @@ const VideoConference = ({
 				interfaceConfigOverwrite={{
 					SHOW_PROMOTIONAL_CLOSE_PAGE: false,
 					shareableUrl: `${uiUrl}${generatePath(
-						config.urls.videoConference,
+						settings.urls.videoConference,
 						{
 							type: 'app',
 							appointmentId: appointment.id

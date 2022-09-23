@@ -9,10 +9,12 @@ import {
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
-import { config } from '../../resources/scripts/config';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const ConsultantAgencies = () => {
+	const settings = useAppConfig();
+
 	const { userData } = useContext(UserDataContext);
 
 	return (
@@ -37,7 +39,7 @@ export const ConsultantAgencies = () => {
 							<div className="flex flex--fd-row mt--1 flex-l--fd-column mt-l--0 ml-l--2 flex--ai-c flex-l--ai-fs">
 								<div>
 									<GenerateQrCode
-										url={`${config.urls.registration}?aid=${item.id}`}
+										url={`${settings.urls.registration}?aid=${item.id}`}
 										filename={'beratungsstelle'}
 										headline={translate(
 											`qrCode.agency.overlay.headline`
@@ -67,11 +69,13 @@ type AgencyRegistrationLinkProps = {
 };
 
 const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
+	const settings = useAppConfig();
+
 	const { addNotification } = useContext(NotificationsContext);
 
 	const copyRegistrationLink = useCallback(async () => {
 		await copyTextToClipboard(
-			`${config.urls.registration}?aid=${agency.id}`,
+			`${settings.urls.registration}?aid=${agency.id}`,
 			() => {
 				addNotification({
 					notificationType: NOTIFICATION_TYPE_SUCCESS,
@@ -85,7 +89,7 @@ const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 				});
 			}
 		);
-	}, [agency, addNotification]);
+	}, [settings.urls.registration, agency.id, addNotification]);
 
 	return (
 		<button

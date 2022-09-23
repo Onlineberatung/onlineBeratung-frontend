@@ -2,7 +2,6 @@ import React, { useCallback, useContext } from 'react';
 import './help.styles.scss';
 import { translate } from '../../utils/translate';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
-import { config } from '../../resources/scripts/config';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
@@ -12,21 +11,23 @@ import {
 } from '../../globalState';
 import { HelpVideoCallConsultant } from './HelpVideoCallConsultant';
 import { HelpVideoCallAsker } from './HelpVideoCallAsker';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface HelpProps {}
 export const Help: React.FC<HelpProps> = () => {
+	const settings = useAppConfig();
 	const { addNotification } = useContext(NotificationsContext);
 	const { userData } = useContext(UserDataContext);
 
 	const copyLoginLink = useCallback(async () => {
-		await copyTextToClipboard(`${config.urls.toLogin}`, () => {
+		await copyTextToClipboard(`${settings.urls.toLogin}`, () => {
 			addNotification({
 				notificationType: NOTIFICATION_TYPE_SUCCESS,
 				title: translate('help.videoCall.loginLink.notification.title'),
 				text: translate('help.videoCall.loginLink.notification.text')
 			});
 		});
-	}, [addNotification]);
+	}, [addNotification, settings.urls.toLogin]);
 
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,

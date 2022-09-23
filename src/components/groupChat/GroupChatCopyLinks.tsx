@@ -5,11 +5,11 @@ import {
 	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
 import { CopyIcon } from '../../resources/img/icons';
-import { config } from '../../resources/scripts/config';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { translate } from '../../utils/translate';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import './groupChatCopyLinks.scss';
+import { appConfig } from '../../utils/appConfig';
 
 type GroupChatCopyLinksProps = {
 	id: number;
@@ -20,7 +20,7 @@ export const GroupChatCopyLinks = ({
 	id,
 	groupChatId
 }: GroupChatCopyLinksProps) => {
-	const url = `${config.urls.registration}?gcid=${id}`;
+	const url = `${appConfig.urls.registration}?gcid=${id}`;
 	const { addNotification } = useContext(NotificationsContext);
 
 	const copyRegistrationLink = useCallback(async () => {
