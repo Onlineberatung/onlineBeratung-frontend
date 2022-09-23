@@ -9,7 +9,10 @@ export const uiUrl = window.location.origin;
 export const APP_PATH = 'app';
 
 export const config: AppConfigInterface = {
+	budibaseUrl: '',
 	budibaseSSO: false, // Feature flag to enable SSO on budibase
+	calcomUrl: '',
+	calendarAppUrl: '',
 	enableWalkThrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	multitenancyWithSingleDomainEnabled: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
@@ -18,7 +21,6 @@ export const config: AppConfigInterface = {
 	mainTenantSubdomainForSingleDomainMultitenancy: 'app',
 
 	urls: {
-		appointmentServiceDevServer: '',
 		consultantVideoConference:
 			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',
@@ -28,7 +30,6 @@ export const config: AppConfigInterface = {
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		home: 'https://www.caritas.de',
 		releases: uiUrl + '/releases',
-		budibaseDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',

@@ -20,11 +20,12 @@ import {
 	OverlayItem,
 	OverlayWrapper
 } from '../overlay/Overlay';
-import { config, uiUrl } from '../../resources/scripts/config';
+import { uiUrl } from '../../resources/scripts/config';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { videoCallErrorOverlayItem } from '../sessionMenu/sessionMenuHelpers';
 import { useTranslation } from 'react-i18next';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 const DESCRIPTION_PREVIEW_LENGTH = 100;
 
@@ -39,6 +40,7 @@ export const Appointment = ({
 	editClick,
 	deleteClick
 }: AppointmentProps) => {
+	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
 
@@ -112,7 +114,7 @@ export const Appointment = ({
 					setOverlayItem(null);
 					window.open(
 						`${uiUrl}${generatePath(
-							config.urls.consultantVideoConference,
+							settings.urls.consultantVideoConference,
 							{
 								type: 'app',
 								appointmentId: appointment.id
@@ -132,7 +134,12 @@ export const Appointment = ({
 					break;
 			}
 		},
-		[appointment, deleteClick, history]
+		[
+			appointment,
+			deleteClick,
+			history,
+			settings.urls.consultantVideoConference
+		]
 	);
 
 	const shortDescription = useCallback((description) => {
@@ -232,7 +239,7 @@ export const Appointment = ({
 								data-cy="appointment_url"
 							>
 								{`${uiUrl}${generatePath(
-									config.urls.videoConference,
+									settings.urls.videoConference,
 									{
 										type: 'app',
 										appointmentId: appointment.id
@@ -247,7 +254,7 @@ export const Appointment = ({
 								>
 									<GenerateQrCode
 										url={`${uiUrl}${generatePath(
-											config.urls.videoConference,
+											settings.urls.videoConference,
 											{
 												type: 'app',
 												appointmentId: appointment.id
@@ -340,11 +347,12 @@ type CopyAppointmentLinkProps = {
 
 const CopyAppointmentLink = ({ appointment }: CopyAppointmentLinkProps) => {
 	const { t: translate } = useTranslation();
+	const settings = useAppConfig();
 	const { addNotification } = useContext(NotificationsContext);
 
 	const copyRegistrationLink = useCallback(async () => {
 		await copyTextToClipboard(
-			`${uiUrl}${generatePath(config.urls.videoConference, {
+			`${uiUrl}${generatePath(settings.urls.videoConference, {
 				type: 'app',
 				appointmentId: appointment.id
 			})}`,
@@ -359,7 +367,12 @@ const CopyAppointmentLink = ({ appointment }: CopyAppointmentLinkProps) => {
 				});
 			}
 		);
-	}, [appointment, addNotification, translate]);
+	}, [
+		settings.urls.videoConference,
+		appointment.id,
+		addNotification,
+		translate
+	]);
 
 	return (
 		<span

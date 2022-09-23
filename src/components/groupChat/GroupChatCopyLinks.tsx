@@ -5,11 +5,11 @@ import {
 	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
 import { CopyIcon } from '../../resources/img/icons';
-import { config } from '../../resources/scripts/config';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import './groupChatCopyLinks.scss';
 import { useTranslation } from 'react-i18next';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 type GroupChatCopyLinksProps = {
 	id: number;
@@ -20,7 +20,8 @@ export const GroupChatCopyLinks = ({
 	id,
 	groupChatId
 }: GroupChatCopyLinksProps) => {
-	const url = `${config.urls.registration}?gcid=${id}`;
+	const settings = useAppConfig();
+	const url = `${settings.urls.registration}?gcid=${id}`;
 	const { addNotification } = useContext(NotificationsContext);
 	const { t: translate } = useTranslation();
 

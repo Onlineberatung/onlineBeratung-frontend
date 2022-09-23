@@ -12,7 +12,6 @@ import {
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
-import { config } from '../../resources/scripts/config';
 import { Tooltip } from '../tooltip/Tooltip';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import { PenIcon } from '../../resources/img/icons';
@@ -21,6 +20,7 @@ import { EditableData } from '../editableData/EditableData';
 import useUpdateUserData from '../../utils/useUpdateUserData';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useTranslation } from 'react-i18next';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const ConsultantInformation = () => {
 	const { t: translate } = useTranslation();
@@ -145,11 +145,13 @@ const PersonalRegistrationLink = ({
 	className
 }: PersonalRegistrationLinkProps) => {
 	const { t: translate } = useTranslation();
+	const settings = useAppConfig();
+
 	const { addNotification } = useContext(NotificationsContext);
 
 	const copyRegistrationLink = useCallback(async () => {
 		await copyTextToClipboard(
-			`${config.urls.registration}?cid=${cid}`,
+			`${settings.urls.registration}?cid=${cid}`,
 			() => {
 				addNotification({
 					notificationType: NOTIFICATION_TYPE_SUCCESS,
@@ -162,7 +164,7 @@ const PersonalRegistrationLink = ({
 				});
 			}
 		);
-	}, [cid, addNotification, translate]);
+	}, [settings.urls.registration, cid, addNotification, translate]);
 
 	return (
 		<div
@@ -170,7 +172,7 @@ const PersonalRegistrationLink = ({
 		>
 			<div className="mt--1">
 				<GenerateQrCode
-					url={`${config.urls.registration}?cid=${cid}`}
+					url={`${settings.urls.registration}?cid=${cid}`}
 					filename={'kontaktlink'}
 					headline={translate(`qrCode.personal.overlay.headline`)}
 					text={translate(`qrCode.personal.overlay.info`)}

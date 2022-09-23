@@ -1,22 +1,17 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { config } from '../../resources/scripts/config';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
 import Cal from '../cal/Cal';
-import {
-	AUTHORITIES,
-	hasUserAuthority,
-	UserDataContext,
-	UserDataInterface
-} from '../../globalState';
+import { UserDataContext, UserDataInterface } from '../../globalState';
 import {
 	apiGetAskerSessionList,
 	getCounselorAppointmentLink,
 	getTeamAppointmentLink
 } from '../../api';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const getUserEmail = (userData: UserDataInterface) => {
 	return userData.email
@@ -27,6 +22,7 @@ export const getUserEmail = (userData: UserDataInterface) => {
 export const Booking = () => {
 	const { userData } = useContext(UserDataContext);
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
+	const settings = useAppConfig();
 
 	useEffect(() => {
 		setBookingWrapperActive();
@@ -37,31 +33,28 @@ export const Booking = () => {
 	}, []);
 
 	useEffect(() => {
-		const isConsultant = hasUserAuthority(
-			AUTHORITIES.CONSULTANT_DEFAULT,
-			userData
-		);
-
-		if (isConsultant) {
-			getCounselorAppointmentLink(userData.userId).then((response) => {
-				setAppointmentLink(response.slug);
-			});
-		} else {
-			apiGetAskerSessionList().then(({ sessions }) => {
-				const agencyId = sessions[0]?.agency?.id;
+		apiGetAskerSessionList().then(({ sessions }) => {
+			const consultant = sessions[0]?.consultant;
+			const agencyId = sessions[0]?.agency?.id;
+			if (consultant) {
+				const consultantId = consultant?.consultantId || consultant?.id;
+				getCounselorAppointmentLink(consultantId).then((response) => {
+					setAppointmentLink(response.slug);
+				});
+			} else {
 				getTeamAppointmentLink(agencyId).then((response) => {
 					setAppointmentLink(`team/${response.slug}`);
 				});
-			});
-		}
+			}
+		});
 	}, [userData]);
 
 	return (
 		<React.Fragment>
-			{appointmentLink && (
+			{appointmentLink && settings.calcomUrl && (
 				<Cal
 					calLink={appointmentLink}
-					calOrigin={config.urls.appointmentServiceDevServer}
+					calOrigin={settings.calcomUrl}
 					config={{
 						'name': userData.userName,
 						'email': getUserEmail(userData),

@@ -1,7 +1,7 @@
 import { createContext, ReactNode } from 'react';
 import { LegalLinkInterface } from '../interfaces/LegalLinkInterface';
 import * as React from 'react';
-import { config } from '../../resources/scripts/config';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const LegalLinksContext = createContext<LegalLinkInterface[]>([]);
 
@@ -14,9 +14,11 @@ export function LegalLinksProvider({
 	legalLinks,
 	children
 }: TLegalLinksProvider) {
+	const settings = useAppConfig();
+
 	return (
 		<LegalLinksContext.Provider
-			value={legalLinks ?? config.legalLinks ?? []}
+			value={legalLinks ?? settings.legalLinks ?? []}
 		>
 			{children}
 		</LegalLinksContext.Provider>

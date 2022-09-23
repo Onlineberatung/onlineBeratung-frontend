@@ -17,7 +17,7 @@ import { apiRejectVideoCall } from '../../api';
 import './incomingVideoCall.styles';
 import { ReactComponent as CloseIcon } from '../../resources/img/icons/x.svg';
 import { useTranslation } from 'react-i18next';
-import { config } from '../../resources/scripts/config';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export interface VideoCallRequestProps {
 	rcGroupId: string;
@@ -52,6 +52,7 @@ const getInitials = (text: string) => {
 };
 
 export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
+	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
 
@@ -84,7 +85,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 	const handleAnswerVideoCall = (isVideoActivated: boolean = false) => {
 		const url = new URL(props.videoCall.videoCallUrl);
 		window.open(
-			generatePath(config.urls.videoCall, {
+			generatePath(settings.urls.videoCall, {
 				domain: url.host,
 				jwt: url.searchParams.get('jwt'),
 				e2e: 0,

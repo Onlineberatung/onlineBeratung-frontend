@@ -11,12 +11,14 @@ import {
 import './deleteAccount.styles';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { apiDeleteAskerAccount, FETCH_ERRORS } from '../../api';
-import { config } from '../../resources/scripts/config';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { useTranslation } from 'react-i18next';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const DeleteAccount = () => {
+	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
+
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [password, setPassword] = useState<string>('');
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
@@ -103,7 +105,7 @@ export const DeleteAccount = () => {
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			removeAllCookies();
-			window.location.href = config.urls.home;
+			window.location.href = settings.urls.home;
 		}
 	};
 

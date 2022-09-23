@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Children, ReactNode, ReactElement, useContext } from 'react';
-import { config } from '../../resources/scripts/config';
 import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
@@ -10,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { isMobile } from 'react-device-detect';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface StageLayoutProps {
 	className?: string;
@@ -31,6 +31,7 @@ export const StageLayout = ({
 	const { t: translate } = useTranslation();
 	const legalLinks = useContext(LegalLinksContext);
 	const { selectableLocales } = useContext(LocaleContext);
+	const settings = useAppConfig();
 
 	return (
 		<div className={clsx('stageLayout', className)}>
@@ -47,7 +48,7 @@ export const StageLayout = ({
 					<div className="stageLayout__toLogin">
 						<div className="stageLayout__toLogin__button">
 							<a
-								href={`${config.urls.toLogin}${
+								href={`${settings.urls.toLogin}${
 									loginParams ? `?${loginParams}` : ''
 								}`}
 								tabIndex={-1}
@@ -103,7 +104,7 @@ export const StageLayout = ({
 				<div className="stageLayout__toLogin">
 					<div className="stageLayout__toLogin__button">
 						<a
-							href={`${config.urls.toLogin}${
+							href={`${settings.urls.toLogin}${
 								loginParams ? `?${loginParams}` : ''
 							}`}
 							tabIndex={-1}

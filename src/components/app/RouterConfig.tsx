@@ -20,7 +20,6 @@ import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
 import { Appointments } from '../appointment/Appointments';
 import VideoConference from '../videoConference/VideoConference';
-import { config } from '../../resources/scripts/config';
 import {
 	AppConfigInterface,
 	AUTHORITIES,
@@ -55,11 +54,12 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 			)
 	);
 
-const showAppointmentsMenuItem = (userData, consultingTypes, sessionsData) => {
+const showAppointmentsMenuItem = (userData, hasAssignedConsultant) => {
 	return (
 		userData.appointmentFeatureEnabled &&
 		(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
-			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData))
+			(hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+				hasAssignedConsultant))
 	);
 };
 
@@ -109,7 +109,10 @@ const overviewRoute = (settings: AppConfigInterface) => ({
 	}
 });
 
-export const RouterConfigUser = (settings: AppConfigInterface): any => {
+export const RouterConfigUser = (
+	_settings: AppConfigInterface,
+	hasAssignedConsultant: boolean
+): any => {
 	return {
 		navigation: [
 			{
@@ -128,7 +131,8 @@ export const RouterConfigUser = (settings: AppConfigInterface): any => {
 				}
 			},
 			{
-				condition: showAppointmentsMenuItem,
+				condition: (userData) =>
+					showAppointmentsMenuItem(userData, hasAssignedConsultant),
 				to: '/booking/events',
 				icon: <CalendarMonthIcon className="navigation__icon" />,
 				titleKeys: {
@@ -206,7 +210,7 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 		plainRoutes: [
 			{
 				condition: hasVideoCallFeature,
-				path: config.urls.consultantVideoConference,
+				path: settings.urls.consultantVideoConference,
 				exact: true,
 				component: VideoConference
 			}
@@ -363,7 +367,7 @@ export const RouterConfigTeamConsultant = (
 		plainRoutes: [
 			{
 				condition: hasVideoCallFeature,
-				path: config.urls.consultantVideoConference,
+				path: settings.urls.consultantVideoConference,
 				exact: true,
 				component: VideoConference
 			}

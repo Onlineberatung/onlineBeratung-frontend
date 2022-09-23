@@ -13,11 +13,13 @@ import {
 } from '../../globalState';
 import { ReactComponent as WavingIllustration } from '../../resources/img/illustrations/waving.svg';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
-import { config } from '../../resources/scripts/config';
 import { useTranslation } from 'react-i18next';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const FinishedAnonymousConversationHandler = () => {
+	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
+
 	const [overlayActive, setOverlayActive] = useState(false);
 	const { anonymousConversationFinished, setAnonymousConversationFinished } =
 		useContext(AnonymousConversationFinishedContext);
@@ -53,7 +55,7 @@ export const FinishedAnonymousConversationHandler = () => {
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_URL) {
-			window.location.href = config.urls.finishedAnonymousChatRedirect;
+			window.location.href = settings.urls.finishedAnonymousChatRedirect;
 		}
 	};
 

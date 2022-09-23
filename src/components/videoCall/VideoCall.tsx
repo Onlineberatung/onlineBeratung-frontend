@@ -4,11 +4,12 @@ import { useParams, generatePath } from 'react-router-dom';
 import { JitsiMeeting } from '@jitsi/react-sdk';
 import IJitsiMeetExternalApi from '@jitsi/react-sdk/lib/types/IJitsiMeetExternalApi';
 import { Loading } from '../app/Loading';
-import { config, uiUrl } from '../../resources/scripts/config';
+import { uiUrl } from '../../resources/scripts/config';
 import StatusPage from './StatusPage';
 import { LocaleContext } from '../../globalState';
 import Logo from '../videoConference/Logo';
 import E2EEBanner from '../videoConference/E2EEBanner';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 type TJistiJWTPayload = {
 	moderator: boolean;
@@ -17,6 +18,7 @@ type TJistiJWTPayload = {
 };
 
 const VideoCall = () => {
+	const settings = useAppConfig();
 	const { domain, jwt, e2e, video, username } = useParams<{
 		domain: string;
 		jwt: string;
@@ -61,7 +63,7 @@ const VideoCall = () => {
 				const url = new URL(jsonPayload.guestVideoCallUrl);
 				setShareableUrl(
 					`${uiUrl}
-					${generatePath(config.urls.videoCall, {
+					${generatePath(settings.urls.videoCall, {
 						domain: url.host,
 						jwt: url.searchParams.get('jwt')
 					})}`
@@ -72,7 +74,7 @@ const VideoCall = () => {
 		} catch (e) {
 			setRejected(true);
 		}
-	}, [e2e, jwt, video]);
+	}, [e2e, jwt, video, settings.urls.videoCall]);
 
 	const handleJitsiError = useCallback((e) => {
 		switch (e.error.name) {
@@ -147,10 +149,10 @@ const VideoCall = () => {
 
 	return (
 		<div data-cy="jitsi-meeting">
-			{config.jitsi.showE2EEBanner && (
+			{settings.jitsi.showE2EEBanner && (
 				<E2EEBanner e2eEnabled={e2eEnabled} />
 			)}
-			{config.jitsi.showLogo && <Logo />}
+			{settings.jitsi.showLogo && <Logo />}
 			<JitsiMeeting
 				domain={domain}
 				jwt={jwt}

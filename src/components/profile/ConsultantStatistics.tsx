@@ -17,6 +17,7 @@ import dayjs from 'dayjs';
 import './statistics.styles';
 import './profile.styles';
 import { useTranslation } from 'react-i18next';
+import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 
 const statisticsPeriodOptionCurrentMonth = 'currentMonth';
 const statisticsPeriodOptionLastMonth = 'lastMonth';
@@ -71,6 +72,7 @@ export const ConsultantStatistics = () => {
 	const [selectedStatistics, setSelectedStatistics] =
 		useState<ConsultantStatisticsDTO>(null);
 	const [csvData, setCsvData] = useState([]);
+	const { featureAppointmentsEnabled } = getTenantSettings();
 
 	const csvHeaders = [
 		{
@@ -170,7 +172,10 @@ export const ConsultantStatistics = () => {
 						videoCallDuration:
 							videoCallDurationMinutes +
 							':' +
-							videoCallDurationSeconds
+							videoCallDurationSeconds,
+						numberOfAppointments:
+							featureAppointmentsEnabled &&
+							response.numberOfAppointments
 					}
 				];
 

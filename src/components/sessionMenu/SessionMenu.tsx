@@ -6,7 +6,6 @@ import {
 	useEffect,
 	useState
 } from 'react';
-import { config } from '../../resources/scripts/config';
 import {
 	generatePath,
 	Link,
@@ -74,6 +73,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { Text } from '../text/Text';
 import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { useAppConfig } from '../../hooks/useAppConfig';
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 
@@ -94,6 +94,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 
 	const legalLinks = useContext(LegalLinksContext);
+	const settings = useAppConfig();
+
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { close: closeWebsocket } = useContext(RocketChatContext);
@@ -306,7 +308,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					setOverlayItem(null);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_URL) {
-			window.location.href = config.urls.finishedAnonymousChatRedirect;
+			window.location.href = settings.urls.finishedAnonymousChatRedirect;
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.ARCHIVE) {
 			apiPutArchive(activeSession.item.id)
 				.then(() => {
@@ -408,7 +410,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			.then((response) => {
 				const url = new URL(response.moderatorVideoCallUrl);
 				videoCallWindow.location.href = generatePath(
-					config.urls.videoCall,
+					settings.urls.videoCall,
 					{
 						domain: url.host,
 						jwt: url.searchParams.get('jwt'),

@@ -7,6 +7,7 @@ import { RegistrationWelcomeScreenInterface } from '../../globalState';
 import './welcomeScreen.styles';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface WelcomeScreenProps {
 	title: string;
@@ -27,6 +28,7 @@ export const WelcomeScreen = ({
 }: WelcomeScreenProps) => {
 	const { t: translate } = useTranslation();
 	const history = useHistory();
+	const settings = useAppConfig();
 
 	const registrationButton: ButtonItem = {
 		label: translate('registration.welcomeScreen.register.buttonLabel'),
@@ -75,7 +77,11 @@ export const WelcomeScreen = ({
 						isLink={true}
 						item={loginButton}
 						buttonHandle={() => {
-							history.push('/login');
+							history.push(
+								`${new URL(settings.urls.toLogin).pathname}${
+									loginParams ? `?${loginParams}` : ''
+								}`
+							);
 						}}
 					/>
 				</div>

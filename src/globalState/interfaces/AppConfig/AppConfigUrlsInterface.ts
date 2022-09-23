@@ -1,5 +1,4 @@
 export interface AppConfigUrlsInterface {
-	appointmentServiceDevServer: string;
 	consultantVideoConference: string;
 	error401: string;
 	error404: string;
@@ -7,7 +6,6 @@ export interface AppConfigUrlsInterface {
 	finishedAnonymousChatRedirect: string;
 	home: string;
 	releases: string;
-	budibaseDevServer: string;
 	redirectToApp: string;
 	registration: string;
 	toEntry: string;

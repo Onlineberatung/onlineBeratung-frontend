@@ -3,10 +3,6 @@
  * all relevant parts as modules. This allows a new consumer to own the runtime
  * but reuse as much code from this repository as useful.
  */
-
-// Configuration
-export * from './src/resources/scripts/config';
-
 // Page components
 export { App } from './src/components/app/app';
 export { Error } from './src/components/error/Error';

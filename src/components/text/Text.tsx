@@ -55,6 +55,7 @@ export const Text = (props: TextProps) => {
 				</span>
 			)}
 			<span
+				title={props.text}
 				dangerouslySetInnerHTML={{
 					__html: props.text
 				}}

@@ -21,16 +21,19 @@ import { Loading } from '../app/Loading';
 import { WaitingRoom } from './WaitingRoom';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useUnload } from '../../hooks/useUnload';
-import { config, uiUrl } from '../../resources/scripts/config';
 import { useTranslation } from 'react-i18next';
 import Logo from './Logo';
 import E2EEBanner from './E2EEBanner';
+import { uiUrl } from '../../resources/scripts/config';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 const VideoConference = () => {
 	const { status, appointmentId } = useParams<{
 		status: string;
 		appointmentId: string;
 	}>();
+
+	const settings = useAppConfig();
 
 	const [externalApi, setExternalApi] = useState<IJitsiMeetExternalApi>(null);
 	const [initialized, setInitialized] = useState(false);
@@ -233,10 +236,10 @@ const VideoConference = () => {
 
 	return (
 		<div data-cy="jitsi-meeting">
-			{config.jitsi.showE2EEBanner && (
+			{settings.jitsi.showE2EEBanner && (
 				<E2EEBanner e2eEnabled={e2eEnabled} />
 			)}
-			{config.jitsi.showLogo && <Logo />}
+			{settings.jitsi.showLogo && <Logo />}
 			<div data-cy="jitsi-meeting">
 				<JitsiMeeting
 					domain={videoCallJwtData.domain.replace('https://', '')}
@@ -247,7 +250,7 @@ const VideoConference = () => {
 					interfaceConfigOverwrite={{
 						SHOW_PROMOTIONAL_CLOSE_PAGE: false,
 						shareableUrl: `${uiUrl}${generatePath(
-							config.urls.videoConference,
+							settings.urls.videoConference,
 							{
 								type: 'app',
 								appointmentId: appointment.id

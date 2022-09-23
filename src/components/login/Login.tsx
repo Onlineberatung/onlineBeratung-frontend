@@ -14,7 +14,6 @@ import {
 	InputFieldItem,
 	InputFieldLabelState
 } from '../inputField/InputField';
-import { config } from '../../resources/scripts/config';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { autoLogin, redirectToApp } from '../registration/autoLogin';
@@ -64,12 +63,14 @@ import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMai
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { useTranslation } from 'react-i18next';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface LoginProps {
 	stageComponent: ComponentType<StageProps>;
 }
 
 export const Login = ({ stageComponent: Stage }: LoginProps) => {
+	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
 	const { locale } = useContext(LocaleContext);
@@ -518,7 +519,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 									<button
 										onClick={() =>
 											window.open(
-												config.urls.toRegistration,
+												settings.urls.toRegistration,
 												'_self'
 											)
 										}
@@ -549,7 +550,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 					/>
 					<a
 						className="login__tenantRegistrationLink"
-						href={config.urls.toRegistration}
+						href={settings.urls.toRegistration}
 						target="_self"
 						tabIndex={-1}
 					>

@@ -9,7 +9,6 @@ import {
 import { apiGetAgencyById, apiGetConsultingType } from '../api';
 import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';
-import { config } from '../resources/scripts/config';
 import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
 import { apiGetTopicById } from '../api/apiGetTopicId';
 import { useAppConfig } from '../hooks/useAppConfig';
@@ -48,7 +47,7 @@ export default function useUrlParamsLoader() {
 						'basic'
 					).catch(() => {
 						// consultant not found -> go to registration
-						document.location.href = config.urls.toRegistration;
+						document.location.href = settings.urls.toRegistration;
 					});
 
 					if (consultant) setConsultant(consultant);
@@ -87,7 +86,8 @@ export default function useUrlParamsLoader() {
 		agencyId,
 		consultantId,
 		topicId,
-		settings.multitenancyWithSingleDomainEnabled
+		settings.multitenancyWithSingleDomainEnabled,
+		settings.urls.toRegistration
 	]);
 
 	return { agency, consultant, consultingType, loaded, topic };
