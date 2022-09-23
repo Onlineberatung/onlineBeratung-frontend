@@ -1,6 +1,8 @@
 export interface AppSettingsInterface {
 	/** Feature flag to enable SSO on budibase */
 	budibaseSSO?: boolean;
+	/** App setting to get calendar link */
+	calendarAppUrl?: string;
 	/** App setting to get the link for tools service */
 	budibaseUrl?: string;
 	/** App setting to get the link for appointment service */
