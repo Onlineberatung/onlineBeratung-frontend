@@ -5,11 +5,12 @@ import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { history } from '../app/app';
 import './twoFactorNag.styles';
-import { config } from '../../resources/scripts/config';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface TwoFactorNagProps {}
 
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
+	const settings = useAppConfig();
 	const { userData } = useContext(UserDataContext);
 	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
 	const [forceHideTwoFactorNag, setForceHideTwoFactorNag] = useState(false);
@@ -26,15 +27,21 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			userData.twoFactorAuth?.isEnabled &&
 			!userData.twoFactorAuth?.isActive &&
 			!forceHideTwoFactorNag &&
-			todaysDate >= config.twofactor.startObligatoryHint
+			todaysDate >= settings.twofactor.startObligatoryHint
 		) {
 			setIsShownTwoFactorNag(true);
 
-			todaysDate >= config.twofactor.dateTwoFactorObligatory
-				? setMessage(config.twofactor.messages[1])
-				: setMessage(config.twofactor.messages[0]);
+			todaysDate >= settings.twofactor.dateTwoFactorObligatory
+				? setMessage(settings.twofactor.messages[1])
+				: setMessage(settings.twofactor.messages[0]);
 		}
-	}, [userData, forceHideTwoFactorNag]);
+	}, [
+		userData,
+		forceHideTwoFactorNag,
+		settings.twofactor.startObligatoryHint,
+		settings.twofactor.dateTwoFactorObligatory,
+		settings.twofactor.messages
+	]);
 
 	const closeTwoFactorNag = async () => {
 		setForceHideTwoFactorNag(true);
@@ -68,15 +75,15 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 				handleOverlay={handleOverlayAction}
 				item={{
 					headline: translate(message.title, {
-						date: config.twofactor.dateTwoFactorObligatory.toLocaleDateString(
+						date: settings.twofactor.dateTwoFactorObligatory.toLocaleDateString(
 							'de-DE'
 						)
 					}),
 					copy: translate(message.copy, {
-						date1: config.twofactor.dateTwoFactorObligatory.toLocaleDateString(
+						date1: settings.twofactor.dateTwoFactorObligatory.toLocaleDateString(
 							'de-DE'
 						),
-						date2: config.twofactor.dateTwoFactorObligatory.toLocaleDateString(
+						date2: settings.twofactor.dateTwoFactorObligatory.toLocaleDateString(
 							'de-DE'
 						)
 					}),

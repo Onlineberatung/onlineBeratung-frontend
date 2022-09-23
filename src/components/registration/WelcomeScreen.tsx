@@ -2,11 +2,11 @@ import * as React from 'react';
 import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Text } from '../text/Text';
-import { config } from '../../resources/scripts/config';
 import { Headline } from '../headline/Headline';
 import { ServiceExplanation } from '../serviceExplanation/ServiceExplanation';
 import { RegistrationWelcomeScreenInterface } from '../../globalState';
 import './welcomeScreen.styles';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface WelcomeScreenProps {
 	title: string;
@@ -21,6 +21,8 @@ export const WelcomeScreen = ({
 	welcomeScreenConfig,
 	loginParams
 }: WelcomeScreenProps) => {
+	const settings = useAppConfig();
+
 	const registrationButton: ButtonItem = {
 		label: translate('registration.welcomeScreen.register.buttonLabel'),
 		type: BUTTON_TYPES.PRIMARY
@@ -59,7 +61,7 @@ export const WelcomeScreen = ({
 						type="infoLargeAlternative"
 					/>
 					<a
-						href={`${config.urls.toLogin}${
+						href={`${settings.urls.toLogin}${
 							loginParams ? `?${loginParams}` : ''
 						}`}
 						tabIndex={-1}
