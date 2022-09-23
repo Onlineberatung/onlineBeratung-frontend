@@ -958,7 +958,7 @@ export const en = {
 		},
 		'legal': {
 			infoText: {
-				impressum: 'Impressum',
+				impressum: 'Imprint',
 				dataprotection: 'Privacy policy'
 			}
 		},
