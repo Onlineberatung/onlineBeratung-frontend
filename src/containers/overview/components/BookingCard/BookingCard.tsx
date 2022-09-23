@@ -17,9 +17,11 @@ export const BookingCard = () => {
 			isLoading={isLoading}
 		>
 			{!isLoading &&
-				bookings?.map((booking) => (
-					<BookingEvent key={booking.id} booking={booking} />
-				))}
+				bookings
+					?.slice(0, 9)
+					?.map((booking) => (
+						<BookingEvent key={booking.id} booking={booking} />
+					))}
 		</OverviewCard>
 	);
 };
