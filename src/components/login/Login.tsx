@@ -59,6 +59,7 @@ import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMai
 import { RocketChatGlobalSettingsContext } from '../../globalState';
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -71,6 +72,7 @@ interface LoginProps {
 }
 
 export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
+	const settings = useAppConfig();
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
 
@@ -491,7 +493,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 								className="loginForm__register__link button-as-link"
 								onClick={() =>
 									window.open(
-										config.urls.toRegistration,
+										settings.urls.toRegistration,
 										'_self'
 									)
 								}
@@ -518,7 +520,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					/>
 					<a
 						className="login__tenantRegistrationLink"
-						href={config.urls.toRegistration}
+						href={settings.urls.toRegistration}
 						target="_self"
 						tabIndex={-1}
 					>

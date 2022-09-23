@@ -19,7 +19,6 @@ import { AgencyInfo } from './AgencyInfo';
 import { PreselectedAgency } from './PreselectedAgency';
 import { Headline } from '../headline/Headline';
 import { parsePlaceholderString } from '../../utils/parsePlaceholderString';
-import { config } from '../../resources/scripts/config';
 import { Notice } from '../notice/Notice';
 import { AgencyLanguages } from './AgencyLanguages';
 import {
@@ -27,6 +26,7 @@ import {
 	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
@@ -46,6 +46,7 @@ export interface AgencySelectionProps {
 
 export const AgencySelection = (props: AgencySelectionProps) => {
 	const tenantData = useTenant();
+	const settings = useAppConfig();
 	const [isLoading, setIsLoading] = useState(false);
 	const [postcodeFallbackLink, setPostcodeFallbackLink] = useState('');
 	const [proposedAgencies, setProposedAgencies] = useState<
@@ -177,11 +178,14 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					) {
 						setProposedAgencies(null);
 						setPostcodeFallbackLink(
-							parsePlaceholderString(config.postcodeFallbackUrl, {
-								url: props.consultingType.urls
-									.registrationPostcodeFallbackUrl,
-								postcode: selectedPostcode
-							})
+							parsePlaceholderString(
+								settings.postcodeFallbackUrl,
+								{
+									url: props.consultingType.urls
+										.registrationPostcodeFallbackUrl,
+									postcode: selectedPostcode
+								}
+							)
 						);
 					} else if (err.message === FETCH_ERRORS.EMPTY) {
 						setProposedAgencies(null);

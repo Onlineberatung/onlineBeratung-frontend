@@ -20,7 +20,6 @@ import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
 import { Appointments } from '../appointment/Appointments';
 import VideoConference from '../videoConference/VideoConference';
-import { config } from '../../resources/scripts/config';
 import {
 	AppConfigInterface,
 	AUTHORITIES,
@@ -211,7 +210,7 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 		plainRoutes: [
 			{
 				condition: hasVideoCallFeature,
-				path: config.urls.consultantVideoConference,
+				path: settings.urls.consultantVideoConference,
 				exact: true,
 				component: VideoConference
 			}
@@ -368,7 +367,7 @@ export const RouterConfigTeamConsultant = (
 		plainRoutes: [
 			{
 				condition: hasVideoCallFeature,
-				path: config.urls.consultantVideoConference,
+				path: settings.urls.consultantVideoConference,
 				exact: true,
 				component: VideoConference
 			}

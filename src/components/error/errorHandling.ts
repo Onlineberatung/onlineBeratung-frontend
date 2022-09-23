@@ -1,5 +1,5 @@
-import { config } from '../../resources/scripts/config';
 import { logout } from '../logout/logout';
+import { appConfig } from '../../utils/appConfig';
 
 export const ERROR_TYPES = {
 	UNAUTHORIZED: 401,
@@ -21,13 +21,13 @@ export const redirectToErrorPage = (error: number) => {
 	let redirect;
 	switch (error) {
 		case ERROR_TYPES.UNAUTHORIZED:
-			redirect = config.urls.error401;
+			redirect = appConfig.urls.error401;
 			break;
 		case ERROR_TYPES.SERVER:
-			redirect = config.urls.error500;
+			redirect = appConfig.urls.error500;
 			break;
 		case ERROR_TYPES.NOT_FOUND:
-			redirect = config.urls.error404;
+			redirect = appConfig.urls.error404;
 			break;
 	}
 	logout(true, redirect);
