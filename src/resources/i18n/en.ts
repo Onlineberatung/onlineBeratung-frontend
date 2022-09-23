@@ -178,7 +178,7 @@ export const en = {
 		submitInfo: {
 			headline: 'The consultation is archived.',
 			message:
-				'Sobald Sie oder der Ratsuchende eine Nachricht schreibt, wird der Nachrichtenverlauf automatisch wieder in die Liste der Ratsuchenden eingeordnet.'
+				'As soon as you or the advice seeker writes a message, the message history is automatically put back into the advice seeker list.'
 		}
 	},
 	attachments: {
