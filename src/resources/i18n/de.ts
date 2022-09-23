@@ -946,7 +946,7 @@ export const de = {
 						'description':
 							'Möchten Sie das Passwort dennoch zurücksetzen?',
 						'title':
-							'Durch das Zurücksetzten des Passworts kann der Zugriff auf Ihre Nachrichten eventuell nicht mehr gewährleistet werden.'
+							'Durch das Zurücksetzen des Passworts kann der Zugriff auf Ihre Nachrichten eventuell nicht mehr gewährleistet werden.'
 					}
 				}
 			}
