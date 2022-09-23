@@ -64,6 +64,10 @@ import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { useTranslation } from 'react-i18next';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import {
+	deleteCookieByName,
+	setValueInCookie
+} from '../sessionCookie/accessSessionCookie';
 
 interface LoginProps {
 	stageComponent: ComponentType<StageProps>;
@@ -271,11 +275,16 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	const handlePwOverlayReset = useCallback(
 		(buttonFunction: string) => {
 			if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
+				setValueInCookie(
+					'KEYCLOAK_LOCALE',
+					locale,
+					endpoints.loginResetPasswordLink
+						.split('/')
+						.slice(0, -1)
+						.join('/')
+				);
 				window.open(
-					endpoints.loginResetPasswordLink +
-						'&kc_locale=' +
-						locale +
-						'&init=1',
+					endpoints.loginResetPasswordLink,
 					'_blank',
 					'noreferrer'
 				);
@@ -420,14 +429,12 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			setPwResetOverlayActive(true);
 			return;
 		}
-		window.open(
-			endpoints.loginResetPasswordLink +
-				'&kc_locale=' +
-				locale +
-				'&init=1',
-			'_blank',
-			'noreferrer'
+		setValueInCookie(
+			'KEYCLOAK_LOCALE',
+			locale,
+			endpoints.loginResetPasswordLink.split('/').slice(0, -1).join('/')
 		);
+		window.open(endpoints.loginResetPasswordLink, '_blank', 'noreferrer');
 	};
 
 	return (

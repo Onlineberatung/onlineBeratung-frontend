@@ -2174,6 +2174,17 @@ export const de = {
 				'copy': 'Ihr Gerät erfüllt nicht alle nötigen technischen Vorgaben für einen Video-Call. Bitte folgen Sie dieser Anleitung um einen Video-Call starten zu können. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
 				'headline': 'Der Video-Call kann nicht gestartet werden'
 			}
+		},
+		statusPage: {
+			closed: {
+				title: 'Ihr Video-Call wurde erfolgreich beendet.',
+				action: 'Bitte schließen Sie diesen Tab, um zu Beratung & Hilfe zurückzukehren.'
+			},
+			unauthorized: {
+				title: 'Kein Zutritt!',
+				reason: 'Leider sind Sie nicht berechtigt diese Seite einzusehen.',
+				action: 'Bitte schließen Sie diesen Tab, um zu Beratung & Hilfe zurückzukehren.'
+			}
 		}
 	},
 	videoConference: {

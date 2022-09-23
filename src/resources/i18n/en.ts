@@ -2117,6 +2117,17 @@ export const en = {
 				transport:
 					'This video call is secured with the transport encryption.'
 			}
+		},
+		statusPage: {
+			closed: {
+				title: 'Your video call ended successfully.',
+				action: 'Please close this tab to return to Advice & Help.'
+			},
+			unauthorized: {
+				title: 'No entry!',
+				reason: 'Unfortunately you are not authorized to view this page.',
+				action: 'Please close this tab to return to Advice & Help.'
+			}
 		}
 	},
 	videoConference: {

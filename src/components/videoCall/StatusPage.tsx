@@ -1,30 +1,31 @@
 import * as React from 'react';
 import './statusPage.styles.scss';
+import { useTranslation } from 'react-i18next';
 
 type TStatusPageProps = {
 	closed: boolean;
 };
 
 const StatusPage = ({ closed }: TStatusPageProps) => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<div className="statusPage">
 			{closed ? (
 				<>
-					<h1>Ihr Video-Call wurde erfolgreich beendet.</h1>
-					<p>
-						Bitte schließen Sie diesen Tab, um zu Beratung & Hilfe
-						zurückzukehren.
-					</p>
+					<h1>{translate('videoCall.statusPage.closed.title')}</h1>
+					<p>{translate('videoCall.statusPage.closed.action')}</p>
 				</>
 			) : (
 				<>
-					<h1>Kein Zutritt!</h1>
+					<h1>
+						{translate('videoCall.statusPage.unauthorized.title')}
+					</h1>
 					<h3>
-						Leider sind Sie nicht berechtigt diese Seite einzusehen.
+						{translate('videoCall.statusPage.unauthorized.reason')}
 					</h3>
 					<p>
-						Bitte schließen Sie diesen Tab, um zu Beratung & Hilfe
-						zurückzukehren.
+						{translate('videoCall.statusPage.unauthorized.action')}
 					</p>
 				</>
 			)}

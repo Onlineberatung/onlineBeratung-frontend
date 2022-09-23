@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useEffect, useState } from 'react';
 import { LocaleContext, UserDataContext } from '../../globalState';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
+import { FALLBACK_LNG } from '../../i18n';
 
 export interface LocaleSwitchProp {
 	updateUserData?: boolean;
@@ -88,6 +89,10 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 					value: lng
 				}))}
 				defaultValue={{
+					value: FALLBACK_LNG,
+					label: translate(FALLBACK_LNG, FALLBACK_LNG)
+				}}
+				value={{
 					value: locale,
 					label: translate(locale, locale)
 				}}
