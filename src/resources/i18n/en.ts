@@ -1231,22 +1231,22 @@ export const en = {
 			},
 			'password': {
 				reset: {
-					title: 'Password',
-					subtitle:
+					'title': 'Password',
+					'subtitle':
 						'If you wish, you can change your password here. First enter your current password to set a new one.',
-					old: {
+					'old': {
 						label: 'Current password',
 						incorrect: 'Your password is not correct.'
 					},
-					NewLabel: 'New password',
-					ConfirmLabel: 'Confirm new password',
-					Secure: 'Your password is safe.',
-					Insecure: 'Ihr Passwort ist nicht sicher.',
-					Same: 'Your password is identical.',
-					NotSame: 'Your password is not identical.',
-					Instructions:
+					'new.label': 'New password',
+					'confirm.label': 'Confirm new password',
+					'secure': 'Your password is safe.',
+					'insecure': 'Your password is not secure.',
+					'same': 'Your password is identical.',
+					'not.same': 'Your password is not identical.',
+					'instructions':
 						'<span class="text--bold">Your password must meet the following criteria to guarantee a protected consultation:</span><ul class="pl--2 my--1"><li>upper/lower case</li><li>min. one number</li><li>min. one special character (e.g.: ?, !, +, #, &, ...)</li><li>min. 9 characters</li></ul>',
-					overlay: {
+					'overlay': {
 						'headline':
 							'You have successfully changed your password. You will now be redirected to the login.',
 						'button.label': 'Login'
