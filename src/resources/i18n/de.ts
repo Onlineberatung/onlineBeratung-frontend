@@ -1187,7 +1187,7 @@ export const de = {
 		'appointments': 'Video-Termine',
 		'asker': {
 			sessions: {
-				large: 'Meine Nachrichten',
+				large: 'Meine Beratungen',
 				small: 'Nachrichten'
 			}
 		},
@@ -1195,7 +1195,7 @@ export const de = {
 		'consultant': {
 			enquiries: 'Erstanfragen',
 			sessions: {
-				large: 'Meine Nachrichten',
+				large: 'Meine Beratungen',
 				small: 'Nachrichten'
 			},
 			teamsessions: {
