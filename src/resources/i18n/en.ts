@@ -948,7 +948,7 @@ export const en = {
 		},
 		'resend.otp.email.label': 'Send code once again',
 		'button.label': 'Login',
-		'resetPasswort.label': 'Password forgotten?',
+		'resetPasswort.label': 'Forgot password?',
 		'register': {
 			infoText: {
 				title: 'Not registered yet?',
