@@ -7,7 +7,7 @@ const fixedStage = document.getElementsByClassName(
 ) as HTMLCollectionOf<HTMLDivElement>;
 const bannerContainer = document.getElementById('banner');
 
-const Banner = ({
+export const Banner = ({
 	children,
 	className = '',
 	style,
@@ -50,7 +50,7 @@ const Banner = ({
 		<>
 			{children}
 			{onClose && (
-				<a onClick={onClose} href="#" className="close">
+				<a onClick={onClose} href="/" className="close">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -69,5 +69,3 @@ const Banner = ({
 		element
 	);
 };
-
-export default Banner;

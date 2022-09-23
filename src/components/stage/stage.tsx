@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useRef, useState, MouseEvent } from 'react';
+import { useCallback, useRef, useState, MouseEvent } from 'react';
 import clsx from 'clsx';
 import { Spinner } from '../spinner/Spinner';
 import { useContext } from 'react';
@@ -13,8 +13,7 @@ import { ReactComponent as RaphaelswerkLogo } from '../../resources/img/logos/06
 import { ReactComponent as MalteserLogo } from '../../resources/img/logos/07_malteser.svg';
 import './stage.styles';
 import { Trans, useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import Banner from '../banner/Banner';
+import { Banner } from '../banner/Banner';
 
 export interface StageProps {
 	className?: string;
@@ -28,7 +27,6 @@ export const Stage = ({
 	isReady = true
 }: StageProps) => {
 	const { t: translate } = useTranslation();
-	const location = useLocation();
 
 	const rootNodeRef = useRef();
 	const { tenant } = useContext(TenantContext);
@@ -40,11 +38,6 @@ export const Stage = ({
 			setIsAnimationDone(true);
 		}
 	}
-
-	const [infoBanner, setInfoBanner] = useState(false);
-	useEffect(() => {
-		setInfoBanner(location.pathname.includes('themen'));
-	}, [location]);
 
 	const [ieBanner, setIeBanner] = useState(true);
 	const closeIeBanner = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
