@@ -5,12 +5,7 @@ import {
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
 import Cal from '../cal/Cal';
-import {
-	AUTHORITIES,
-	hasUserAuthority,
-	UserDataContext,
-	UserDataInterface
-} from '../../globalState';
+import { UserDataContext, UserDataInterface } from '../../globalState';
 import {
 	apiGetAskerSessionList,
 	getCounselorAppointmentLink,

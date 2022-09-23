@@ -159,8 +159,6 @@ export const config: AppConfigInterface = {
 		videocallServiceBase: apiUrl + '/service/videocalls'
 	},
 	urls: {
-		appointmentServiceDevServer:
-			'https://calcom-develop.suchtberatung.digital',
 		consultantVideoConference:
 			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',
@@ -173,7 +171,6 @@ export const config: AppConfigInterface = {
 		privacy:
 			'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
 		releases: uiUrl + '/releases',
-		budibaseDevServer: '',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
 		toEntry: uiUrl + '/',
