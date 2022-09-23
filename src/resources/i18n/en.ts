@@ -215,6 +215,11 @@ export const en = {
 		},
 		'download.label': 'Download'
 	},
+	banner: {
+		ie: {
+			text: 'This application is not optimized for use with <strong>Internet Explorer</strong>. For an optimal user experience, please use a modern browser.'
+		}
+	},
 	banUser: {
 		'ban': {
 			'trigger': 'Banish',

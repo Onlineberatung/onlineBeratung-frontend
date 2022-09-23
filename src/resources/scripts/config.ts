@@ -284,6 +284,13 @@ export const config: AppConfigInterface = {
 		},
 		resources: {
 			de: {
+				common: {
+					banner: {
+						ie: {
+							text: 'Diese Anwendung ist nicht für die Nutzung mit dem <strong>Internet Explorer</strong> optimiert. Für ein optimales Nutzungserlebnis verwenden Sie bitte einen modernen Browser.'
+						}
+					}
+				},
 				languages: {
 					en: '(EN) Englisch'
 				}

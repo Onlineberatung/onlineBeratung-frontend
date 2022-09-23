@@ -22,7 +22,8 @@ import { TenantThemingLoader } from './TenantThemingLoader';
 import {
 	AppConfigInterface,
 	AppConfigProvider,
-	LegalLinkInterface
+	LegalLinkInterface,
+	LocaleProvider
 } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import VideoCall from '../videoCall/VideoCall';
@@ -61,18 +62,20 @@ export const App = ({
 	return (
 		<ErrorBoundary>
 			<AppConfigProvider config={config}>
-				<LanguagesProvider
-					fixed={fixedLanguages}
-					spoken={spokenLanguages}
-				>
-					<LegalLinksProvider legalLinks={legalLinks}>
-						<RouterWrapper
-							stageComponent={stageComponent}
-							extraRoutes={extraRoutes}
-							entryPoint={entryPoint}
-						/>
-					</LegalLinksProvider>
-				</LanguagesProvider>
+				<LocaleProvider>
+					<LanguagesProvider
+						fixed={fixedLanguages}
+						spoken={spokenLanguages}
+					>
+						<LegalLinksProvider legalLinks={legalLinks}>
+							<RouterWrapper
+								stageComponent={stageComponent}
+								extraRoutes={extraRoutes}
+								entryPoint={entryPoint}
+							/>
+						</LegalLinksProvider>
+					</LanguagesProvider>
+				</LocaleProvider>
 			</AppConfigProvider>
 		</ErrorBoundary>
 	);

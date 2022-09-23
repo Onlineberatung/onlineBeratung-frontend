@@ -12,7 +12,6 @@ import {
 	RocketChatGlobalSettingsProvider,
 	AnonymousConversationStartedProvider,
 	SessionsDataProvider,
-	LocaleProvider,
 	InformalProvider
 } from '.';
 
@@ -42,8 +41,7 @@ function ContextProvider({ children }) {
 				<TenantProvider />,
 				<SessionsDataProvider />,
 				<RocketChatGlobalSettingsProvider />,
-				<InformalProvider />,
-				<LocaleProvider />
+				<InformalProvider />
 			]}
 		>
 			{children}

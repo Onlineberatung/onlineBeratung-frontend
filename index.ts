@@ -12,6 +12,7 @@ export { App } from './src/components/app/app';
 export { Error } from './src/components/error/Error';
 
 // Component library
+export * from './src/components/banner/Banner';
 export * from './src/components/headline/Headline';
 export * from './src/components/notice/Notice';
 export * from './src/components/text/Text';
