@@ -55,11 +55,12 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 			)
 	);
 
-const showAppointmentsMenuItem = (userData) => {
+const showAppointmentsMenuItem = (userData, hasAssignedConsultant) => {
 	return (
 		userData.appointmentFeatureEnabled &&
 		(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
-			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData))
+			(hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+				hasAssignedConsultant))
 	);
 };
 
@@ -132,7 +133,7 @@ export const RouterConfigUser = (
 			},
 			{
 				condition: (userData) =>
-					hasAssignedConsultant && showAppointmentsMenuItem(userData),
+					showAppointmentsMenuItem(userData, hasAssignedConsultant),
 				to: '/booking/events',
 				icon: <CalendarMonthIcon className="navigation__icon" />,
 				titleKeys: {
