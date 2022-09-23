@@ -5,12 +5,7 @@ import {
 	setBookingWrapperInactive
 } from '../app/navigationHandler';
 import Cal from '../cal/Cal';
-import {
-	AUTHORITIES,
-	hasUserAuthority,
-	UserDataContext,
-	UserDataInterface
-} from '../../globalState';
+import { UserDataContext, UserDataInterface } from '../../globalState';
 import {
 	apiGetAskerSessionList,
 	getCounselorAppointmentLink,
@@ -38,23 +33,20 @@ export const Booking = () => {
 	}, []);
 
 	useEffect(() => {
-		const isConsultant = hasUserAuthority(
-			AUTHORITIES.CONSULTANT_DEFAULT,
-			userData
-		);
-
-		if (isConsultant) {
-			getCounselorAppointmentLink(userData.userId).then((response) => {
-				setAppointmentLink(response.slug);
-			});
-		} else {
-			apiGetAskerSessionList().then(({ sessions }) => {
-				const agencyId = sessions[0]?.agency?.id;
+		apiGetAskerSessionList().then(({ sessions }) => {
+			const consultant = sessions[0]?.consultant;
+			const agencyId = sessions[0]?.agency?.id;
+			if (consultant) {
+				const consultantId = consultant?.consultantId || consultant?.id;
+				getCounselorAppointmentLink(consultantId).then((response) => {
+					setAppointmentLink(response.slug);
+				});
+			} else {
 				getTeamAppointmentLink(agencyId).then((response) => {
 					setAppointmentLink(`team/${response.slug}`);
 				});
-			});
-		}
+			}
+		});
 	}, [userData]);
 
 	return (

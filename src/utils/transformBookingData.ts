@@ -32,7 +32,8 @@ export const transformBookingData = (bookings: BookingEventsInterface[]) => {
 			description: event.description,
 			expanded: false,
 			uid: event.uid,
-			rescheduleLink: event.rescheduleLink
+			rescheduleLink: event.rescheduleLink,
+			videoAppointmentId: event.videoAppointmentId
 		});
 	});
 	return bookingEvents;

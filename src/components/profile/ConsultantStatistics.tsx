@@ -17,6 +17,7 @@ import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
 import './statistics.styles';
 import './profile.styles';
+import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 
 const statisticsPeriodOptionCurrentMonth = 'currentMonth';
 const statisticsPeriodOptionLastMonth = 'lastMonth';
@@ -113,6 +114,8 @@ export const ConsultantStatistics = () => {
 		useState<ConsultantStatisticsDTO>(null);
 	const [csvData, setCsvData] = useState([]);
 
+	const { featureAppointmentsEnabled } = getTenantSettings();
+
 	useEffect(() => {
 		if (statisticsPeriod) {
 			const dates: ApiGetConsultantStatisticsInterface =
@@ -164,7 +167,10 @@ export const ConsultantStatistics = () => {
 						videoCallDuration:
 							videoCallDurationMinutes +
 							':' +
-							videoCallDurationSeconds
+							videoCallDurationSeconds,
+						numberOfAppointments:
+							featureAppointmentsEnabled &&
+							response.numberOfAppointments
 					}
 				];
 
