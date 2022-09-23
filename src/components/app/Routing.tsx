@@ -27,6 +27,7 @@ import { NonPlainRoutesWrapper } from './NonPlainRoutesWrapper';
 import { Walkthrough } from '../walkthrough/Walkthrough';
 import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { useAskerHasAssignedConsultant } from '../booking/hooks/useAskerHasAssignedConsultant';
 
 interface RoutingProps {
 	logout?: Function;
@@ -38,6 +39,7 @@ export const Routing = (props: RoutingProps) => {
 	const settings = useAppConfig();
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
+	const hasAssignedConsultant = useAskerHasAssignedConsultant();
 
 	const routerConfig = useMemo(() => {
 		if (hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData)) {
@@ -58,8 +60,8 @@ export const Routing = (props: RoutingProps) => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
 			return RouterConfigAnonymousAsker();
 		}
-		return RouterConfigUser(settings);
-	}, [userData, settings]);
+		return RouterConfigUser(settings, hasAssignedConsultant);
+	}, [userData, settings, hasAssignedConsultant]);
 
 	const allRoutes = () =>
 		[
