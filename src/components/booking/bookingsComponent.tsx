@@ -211,8 +211,7 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 
 	const startVideoCallButton: ButtonItem = {
 		label: translate('booking.video.button.label'),
-		type: BUTTON_TYPES.SMALL_ICON,
-		smallIconBackgroundColor: 'secondary'
+		type: BUTTON_TYPES.TERTIARY
 	};
 
 	const bookingEvents = () => {
