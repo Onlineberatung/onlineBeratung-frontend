@@ -74,3 +74,15 @@ $headerHeight: 80px;
 		}
 	}
 }
+
+.assignedCalendars {
+	&__wrapper {
+		iframe {
+			min-height: 100vh;
+
+			@include breakpoint($fromLarge) {
+				min-height: calc(100vh - 160px);
+			}
+		}
+	}
+}
