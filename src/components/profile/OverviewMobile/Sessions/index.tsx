@@ -30,9 +30,9 @@ export const OverviewSessions = () => {
 			url: '/sessions/consultant/sessionView'
 		},
 		{
-			title: `${getCount(bookings.length)} ${translate(
-				'overview.upcomingAppointments'
-			)}`,
+			title: `${translate('overview.upcomingAppointments', {
+				count: getCount(bookings.length)
+			})}`,
 			url: '/booking/events/gebuchte'
 		}
 	];
