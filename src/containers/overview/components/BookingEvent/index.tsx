@@ -31,7 +31,7 @@ const COUNTDOWN_START = 5 * 60 * 1000;
 export const BookingEvent = ({ booking }: BookingEventProps) => {
 	const settings = useAppConfig();
 	const { userData } = useContext(UserDataContext);
-	const startTime = new Date('Fri Sep 23 2022 13:48:52 GMT+0100'); //new Date(booking.startTime);
+	const startTime = new Date(booking.startTime);
 	const endTime = new Date(booking.endTime);
 	const showCountDown = startTime.getTime() - Date.now() < COUNTDOWN_START;
 	const [countdown, setCountdown] = useState(showCountDown && Date.now());
@@ -98,7 +98,8 @@ export const BookingEvent = ({ booking }: BookingEventProps) => {
 						<div className="bookingEvent__fullDate">
 							{prettyPrintTimeDifference(
 								countdown,
-								startTime.getTime()
+								startTime.getTime(),
+								true
 							)}
 						</div>
 						<Button
