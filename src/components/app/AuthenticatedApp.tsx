@@ -24,8 +24,6 @@ import { requestPermissions } from '../../utils/notificationHelpers';
 import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
 import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
-import { FALLBACK_LNG } from '../../i18n';
-import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useLoginBudiBase } from '../../utils/budibaseHelper';
 
 interface AuthenticatedAppProps {
@@ -39,7 +37,7 @@ export const AuthenticatedApp = ({
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
-	const { locale } = useContext(LocaleContext);
+	const { locale, setLocale } = useContext(LocaleContext);
 	const { setInformal } = useContext(InformalContext);
 	const tenantData = useTenant();
 
@@ -76,14 +74,8 @@ export const AuthenticatedApp = ({
 							setUserData(userProfileData);
 							setConsultingTypes(consultingTypes);
 
-							// If user has changed language from default but the profile has different language in profile override it
-							if (
-								userProfileData.preferredLanguage !== locale &&
-								locale !== FALLBACK_LNG
-							) {
-								return apiPatchUserData({
-									preferredLanguage: locale
-								});
+							if (userProfileData.preferredLanguage) {
+								setLocale(userProfileData.preferredLanguage);
 							}
 							return;
 						})

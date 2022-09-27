@@ -1,5 +1,17 @@
 .stageLayout {
 	overflow-x: hidden;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+
+	&__header,
+	&__footer {
+		flex: 0;
+	}
+
+	&__content {
+		flex: 1;
+	}
 
 	&__stage {
 		position: fixed;
@@ -10,31 +22,40 @@
 		width: 40vw;
 	}
 
+	&__header {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		flex-basis: $header-height;
+		height: $header-height;
+		width: 100%;
+		padding: 0 $grid-base-three;
+
+		&.mobile {
+			justify-content: start;
+		}
+	}
+
 	&__content {
-		position: relative;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
 		width: unset;
 		left: unset;
-		padding: 48px 16px 0;
-
-		@include breakpoint($fromMedium) {
-			min-height: 100vh;
-		}
+		padding: 48px 16px;
 
 		@include breakpoint($fromXLarge) {
 			width: 100%;
-			left: 20vw;
+			padding-left: calc(40vw + 16px);
 		}
 	}
 
-	&__toLogin {
-		@include breakpoint($fromMedium) {
-			right: 25px;
-		}
+	&__footer {
+		padding: 0 $grid-base-three $grid-base-four;
+	}
 
+	&__toLogin {
 		&__text {
 			display: none;
 			@media screen and (min-width: 768px) and (max-width: 900px) {
@@ -55,12 +76,7 @@
 	&__legalLinks {
 		display: flex;
 		align-items: center;
-		width: 80%;
-		padding: 0 $grid-base-two;
 		margin: 0;
-		position: absolute;
-		bottom: $grid-base-four;
-		left: 0;
 
 		@include breakpoint($fromXLarge) {
 			justify-content: flex-end;
@@ -104,18 +120,5 @@
 	&__legalLinksSeparator {
 		display: inline-block;
 		margin: 0 $grid-base;
-	}
-
-	&__header {
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
-		height: $header-height;
-		width: 100%;
-		padding: 0 $grid-base-three;
-
-		&.mobile {
-			justify-content: start;
-		}
 	}
 }

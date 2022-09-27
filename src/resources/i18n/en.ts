@@ -729,6 +729,12 @@ export const en = {
 			}
 		}
 	},
+	jitsi: {
+		btn: {
+			default: 'Copy video link',
+			copied: 'Video link has been copied to the clipboard'
+		}
+	},
 	languages: {
 		de: 'German',
 		aa: 'Afar',
@@ -1312,7 +1318,7 @@ export const en = {
 					singleChats:
 						'In these subject areas you will receive a personal consultation. Write us your request!'
 				},
-				'buttonLabel': 'Register'
+				'button.label': 'Register'
 			},
 			registerSuccess: {
 				overlay: {
@@ -1588,7 +1594,7 @@ export const en = {
 		'submitButton.label': 'Register',
 		'overlay': {
 			success: {
-				headline: 'Welcome<br>to the advice & assistance of Caritas.',
+				headline: 'Welcome<br>to the consulting & help of Caritas.',
 				copy: 'You have successfully registered.',
 				button: 'Compose message'
 			}
@@ -2138,7 +2144,7 @@ export const en = {
 				'subline': 'Please confirm our privacy policy.',
 				'description':
 					'After that, our consultants may start a video call with you.',
-				'label':
+				'label.text':
 					'I have taken note of the {{legal_links}}. This website uses cookies for authentication and navigation. I agree with this.',
 				'label.and': 'and',
 				'button': 'Confirm'

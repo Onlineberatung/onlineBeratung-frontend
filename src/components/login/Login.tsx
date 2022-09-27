@@ -68,6 +68,8 @@ import {
 	deleteCookieByName,
 	setValueInCookie
 } from '../sessionCookie/accessSessionCookie';
+import { FALLBACK_LNG } from '../../i18n';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
 
 interface LoginProps {
 	stageComponent: ComponentType<StageProps>;
@@ -307,12 +309,21 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 
 	const postLogin = useCallback(
 		(data) => {
-			if (!consultant) {
-				return redirectToApp();
-			}
-
 			return apiGetUserData().then((userData: UserDataInterface) => {
-				if (!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+				// If user has changed language from default but the profile has different language in profile override it
+				if (
+					userData.preferredLanguage !== locale &&
+					locale !== FALLBACK_LNG
+				) {
+					return apiPatchUserData({
+						preferredLanguage: locale
+					});
+				}
+
+				if (
+					!consultant ||
+					!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
+				) {
 					return redirectToApp();
 				}
 
@@ -327,9 +338,10 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			});
 		},
 		[
+			locale,
 			consultant,
 			possibleAgencies,
-			possibleConsultingTypes,
+			possibleConsultingTypes.length,
 			handleRegistration
 		]
 	);

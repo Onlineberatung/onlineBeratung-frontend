@@ -4,7 +4,7 @@ import i18n, { FALLBACK_LNG, init } from '../../i18n';
 import { InformalContext } from './InformalProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
-const STORAGE_KEY = 'locale';
+export const STORAGE_KEY = 'locale';
 
 type TLocaleContext = {
 	locale: string;
@@ -48,8 +48,8 @@ export function LocaleProvider(props) {
 			return;
 		}
 
-		if (sessionStorage.getItem(STORAGE_KEY)) {
-			setLocale(sessionStorage.getItem(STORAGE_KEY));
+		if (localStorage.getItem(STORAGE_KEY)) {
+			setLocale(localStorage.getItem(STORAGE_KEY));
 		}
 	}, [initialized]);
 
@@ -69,7 +69,7 @@ export function LocaleProvider(props) {
 				}
 			}
 			i18n.changeLanguage(lngCode);
-			sessionStorage.setItem(STORAGE_KEY, locale);
+			localStorage.setItem(STORAGE_KEY, locale);
 		}
 	}, [locale, informal, locales, initialized]);
 

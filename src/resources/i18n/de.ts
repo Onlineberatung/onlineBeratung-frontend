@@ -732,6 +732,12 @@ export const de = {
 			}
 		}
 	},
+	jitsi: {
+		btn: {
+			default: 'Video-Link kopieren',
+			copied: 'Video-Link wurde in die Zwischenablage kopiert'
+		}
+	},
 	languages: {
 		de: 'Deutsch',
 		aa: 'Afar',

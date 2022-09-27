@@ -10,6 +10,7 @@ import { LocaleContext } from '../../globalState';
 import Logo from '../videoConference/Logo';
 import E2EEBanner from '../videoConference/E2EEBanner';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { useTranslation } from 'react-i18next';
 
 type TJistiJWTPayload = {
 	moderator: boolean;
@@ -36,6 +37,7 @@ const VideoCall = () => {
 		useState<TJistiJWTPayload>(null);
 	const [shareableUrl, setShareableUrl] = useState<string>(null);
 	const { locale } = useContext(LocaleContext);
+	const { t: translate } = useTranslation();
 
 	useEffect(() => {
 		try {
@@ -168,6 +170,8 @@ const VideoCall = () => {
 				interfaceConfigOverwrite={{
 					SHOW_PROMOTIONAL_CLOSE_PAGE: false,
 					shareableUrl,
+					btnText: encodeURI(translate('jitsi.btn.default')),
+					btnTextCopied: encodeURI(translate('jitsi.btn.default')),
 					e2eEncryptionEnabled: !!parseInt(e2e)
 				}}
 				{...(username

@@ -7,9 +7,9 @@ import clsx from 'clsx';
 import { LocaleContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
-import { isMobile } from 'react-device-detect';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { useResponsive } from '../../hooks/useResponsive';
 
 interface StageLayoutProps {
 	className?: string;
@@ -32,13 +32,14 @@ export const StageLayout = ({
 	const legalLinks = useContext(LegalLinksContext);
 	const { selectableLocales } = useContext(LocaleContext);
 	const settings = useAppConfig();
+	const { fromL } = useResponsive();
 
 	return (
 		<div className={clsx('stageLayout', className)}>
 			{React.cloneElement(Children.only(stage as ReactElement), {
 				className: 'stageLayout__stage'
 			})}
-			<div className={`stageLayout__header ${isMobile ? 'mobile' : ''}`}>
+			<div className={`stageLayout__header ${!fromL ? 'mobile' : ''}`}>
 				{selectableLocales.length > 1 && (
 					<div>
 						<LocaleSwitch />
@@ -68,8 +69,9 @@ export const StageLayout = ({
 				)}
 			</div>
 
-			<div className="stageLayout__content">
-				{children}
+			<div className="stageLayout__content">{children}</div>
+
+			<div className="stageLayout__footer">
 				{showLegalLinks && (
 					<div className={`stageLayout__legalLinks`}>
 						{legalLinks.map((legalLink, index) => (
@@ -100,28 +102,6 @@ export const StageLayout = ({
 					</div>
 				)}
 			</div>
-			{showLoginLink && (
-				<div className="stageLayout__toLogin">
-					<div className="stageLayout__toLogin__button">
-						<a
-							href={`${settings.urls.toLogin}${
-								loginParams ? `?${loginParams}` : ''
-							}`}
-							tabIndex={-1}
-						>
-							<Button
-								item={{
-									label: translate(
-										'registration.login.label'
-									),
-									type: 'TERTIARY'
-								}}
-								isLink
-							/>
-						</a>
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };

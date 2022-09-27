@@ -249,6 +249,10 @@ const VideoConference = () => {
 					onApiReady={setExternalApi}
 					interfaceConfigOverwrite={{
 						SHOW_PROMOTIONAL_CLOSE_PAGE: false,
+						btnText: encodeURI(translate('jitsi.btn.default')),
+						btnTextCopied: encodeURI(
+							translate('jitsi.btn.default')
+						),
 						shareableUrl: `${uiUrl}${generatePath(
 							settings.urls.videoConference,
 							{
