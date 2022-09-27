@@ -141,7 +141,16 @@ const profile = {
 	'notifications.title': 'E-Mail Benachrichtigung',
 	'notifications.subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
 	'notifications.follow.up.email.label':
-		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.'
+		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.',
+	'age': 'Alter',
+	'gender': 'Alter',
+	'status': 'Status',
+	'postalCode': 'Postleitzahl',
+	'mainTopic': 'Hauptthema',
+	'selectedTopics': 'Glücksspiele, Tabak, Beruhigungsmittel',
+	'profilInformation': 'Profil Informationen',
+	'tools': 'Tools',
+	'topic': 'Themen'
 };
 
 export default profile;

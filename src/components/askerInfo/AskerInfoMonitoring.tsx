@@ -15,7 +15,6 @@ import {
 import { Link } from 'react-router-dom';
 import { apiGetMonitoring } from '../../api';
 import { ReactComponent as EditIcon } from '../../resources/img/icons/pen.svg';
-import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { SessionTypeContext } from '../../globalState';
 import { useSearchParam } from '../../hooks/useSearchParams';
@@ -115,10 +114,10 @@ export const AskerInfoMonitoring = () => {
 
 	return (
 		<>
-			<Text
+			{/* <Text
 				text={translate('userProfile.monitoring.title')}
 				type="divider"
-			/>
+			/> */}
 			{monitoringDataAvailable ? (
 				<div className="profile__data__content">
 					{renderMonitoringData(cleanMonitoringData, true)}
