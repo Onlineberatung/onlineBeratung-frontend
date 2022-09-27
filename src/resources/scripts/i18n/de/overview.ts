@@ -1,7 +1,7 @@
 const overview = {
 	title: 'Willkommen zurück!',
-	myMessagesTitle: 'ungelesene Nachrichten',
-	initialInquiriesTitle: 'Erstanfragen',
+	myMessagesTitle: '%count% ungelesene Nachrichten',
+	initialInquiriesTitle: '%count% Erstanfragen',
 	upcomingAppointments: 'Ihre nächsten %count% Termine',
 	upcomingAppointment: 'Ihr nächster Termin',
 	emptyMessages: 'Du hast alles im Blick, alle Nachrichten sind gelesen!',

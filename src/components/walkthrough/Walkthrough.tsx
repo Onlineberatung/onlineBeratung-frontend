@@ -33,15 +33,16 @@ export const Walkthrough = () => {
 		(agency) => agency.teamAgency
 	);
 	const stepsData = steps({ hasTeamAgency });
+	// Sometimes when not even showing the modal the steps are triggering the on exist callback so it was causing
+	// to enable the WalkThrough and this way prevents from render
+	if (!userData.isWalkThroughEnabled || !settings.enableWalkThrough) {
+		return null;
+	}
 
 	return (
 		<Steps
 			ref={ref}
-			enabled={
-				userData.isWalkThroughEnabled &&
-				settings.enableWalkThrough &&
-				!userData.twoFactorAuth.isShown
-			}
+			enabled={!userData.twoFactorAuth.isShown}
 			onExit={() => {
 				apiPatchConsultantData({
 					walkThroughEnabled: !userData.isWalkThroughEnabled
