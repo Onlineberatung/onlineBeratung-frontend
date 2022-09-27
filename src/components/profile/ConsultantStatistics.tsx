@@ -161,7 +161,6 @@ export const ConsultantStatistics = () => {
 				);
 				const videoCallDurationSeconds =
 					response.videoCallDuration % 60;
-
 				const data = [
 					{
 						numberOfAssignedSessions:
