@@ -8,7 +8,6 @@ export const apiPostRegistration = (
 	url: string,
 	data: { agencyId?: string },
 	useMultiTenancyWithSingleDomain: boolean,
-	enableBudibaseSSO: boolean,
 	tenant: TenantDataInterface
 ): Promise<any> => {
 	removeAllCookies(['useInformal']);
@@ -26,8 +25,7 @@ export const apiPostRegistration = (
 			username: data['username'],
 			password: decodeURIComponent(data['password']),
 			redirect: false,
-			enableBudibaseSSO,
-			...ensureTenantSettings(tenant?.settings, enableBudibaseSSO)
+			...ensureTenantSettings(tenant?.settings)
 		})
 	);
 };

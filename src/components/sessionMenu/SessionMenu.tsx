@@ -7,7 +7,6 @@ import {
 	useState
 } from 'react';
 import { translate } from '../../utils/translate';
-import { config } from '../../resources/scripts/config';
 import { generatePath, Link, Redirect, useParams } from 'react-router-dom';
 import {
 	AUTHORITIES,
@@ -73,6 +72,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { Text } from '../text/Text';
 import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -83,6 +83,8 @@ export interface SessionMenuProps {
 
 export const SessionMenu = (props: SessionMenuProps) => {
 	const { rcGroupId: groupIdFromParam } = useParams();
+
+	const settings = useAppConfig();
 
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
@@ -161,7 +163,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		history.push({
 			pathname: '/booking/',
 			state: {
-				sessionId: activeSession.item.id,
 				isInitialMessage: false
 			}
 		});
@@ -297,7 +298,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					setOverlayItem(null);
 				});
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_URL) {
-			window.location.href = config.urls.finishedAnonymousChatRedirect;
+			window.location.href = settings.urls.finishedAnonymousChatRedirect;
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.ARCHIVE) {
 			apiPutArchive(activeSession.item.id)
 				.then(() => {

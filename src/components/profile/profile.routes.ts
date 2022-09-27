@@ -21,12 +21,36 @@ import { EnableWalkthrough } from './EnableWalkthrough';
 import { Help } from '../help/Help';
 import { ConsultantNotifications } from './ConsultantNotifications';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
+import { isDesktop } from 'react-device-detect';
+import { OverviewBookings } from './OverviewMobile/Bookings';
+import { OverviewSessions } from './OverviewMobile/Sessions';
 
+const shouldShowOverview = (useOverviewPage: boolean) =>
+	useOverviewPage && !isDesktop;
 export const routes = (settings: AppConfigInterface): TabsType => [
 	{
 		title: translate('profile.routes.general'),
 		url: '/allgemeines',
 		elements: [
+			{
+				condition: () => shouldShowOverview(settings.useOverviewPage),
+				title: 'Overview',
+				url: '/overview',
+				elements: [
+					{
+						condition: () =>
+							shouldShowOverview(settings.useOverviewPage),
+						boxed: false,
+						component: OverviewSessions
+					},
+					{
+						condition: () =>
+							shouldShowOverview(settings.useOverviewPage),
+						component: OverviewBookings,
+						boxed: false
+					}
+				]
+			},
 			{
 				title: translate('profile.routes.general.public'),
 				url: '/oeffentlich',

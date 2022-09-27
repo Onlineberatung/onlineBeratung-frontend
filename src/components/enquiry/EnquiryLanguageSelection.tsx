@@ -9,7 +9,7 @@ import { isUniqueLanguage } from '../profile/profileHelpers';
 
 import './enquiryLanguageSelection.styles';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
-import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface EnquiryLanguageSelectionProps {
 	className?: string;
@@ -18,7 +18,7 @@ interface EnquiryLanguageSelectionProps {
 
 export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 	({ className = '', handleSelection }) => {
-		const { settings } = useAppConfigContext();
+		const settings = useAppConfig();
 		const { sessions, ready } = useContext(SessionsDataContext);
 		const fixedLanguages = useContext(FixedLanguagesContext);
 		const { sessionId: sessionIdFromParam } = useParams();

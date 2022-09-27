@@ -1,4 +1,3 @@
-import { config } from '../../resources/scripts/config';
 import { logout } from '../logout/logout';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import {
@@ -6,6 +5,7 @@ import {
 	setTokenExpiryInLocalStorage
 } from '../sessionCookie/accessSessionLocalStorage';
 import { refreshKeycloakAccessToken } from '../sessionCookie/refreshKeycloakAccessToken';
+import { appConfig } from '../../utils/appConfig';
 
 export const RENEW_BEFORE_EXPIRY_IN_MS = 10 * 1000; // seconds
 
@@ -39,7 +39,7 @@ const refreshTokens = (): Promise<void> => {
 		tokenExpiry.refreshTokenValidUntilTime <=
 		currentTime - RENEW_BEFORE_EXPIRY_IN_MS
 	) {
-		logout(true, config.urls.toLogin);
+		logout(true, appConfig.urls.toLogin);
 		return Promise.resolve();
 	}
 
@@ -79,7 +79,7 @@ const startTimers = ({
 				window.clearInterval(refreshInterval);
 			}
 
-			logout(true, config.urls.toLogin);
+			logout(true, appConfig.urls.toLogin);
 		}, refreshTokenValidInMs);
 	}
 };
@@ -96,7 +96,7 @@ export const handleTokenRefresh = (redirect: boolean = true): Promise<void> => {
 
 		if (refreshTokenValidInMs <= 0 && accessTokenValidInMs <= 0) {
 			// access token and refresh token no longer valid, logout
-			logout(redirect, config.urls.toLogin);
+			logout(redirect, appConfig.urls.toLogin);
 			reject();
 		} else if (accessTokenValidInMs <= 0) {
 			// access token no longer valid but refresh token still valid, refresh tokens
