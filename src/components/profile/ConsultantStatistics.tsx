@@ -98,6 +98,10 @@ const csvHeaders = [
 	{
 		label: translate('profile.statistics.csvHeader.videoCallDuration'),
 		key: 'videoCallDuration'
+	},
+	{
+		label: translate('profile.statistics.csvHeader.numberOfAppointments'),
+		key: 'numberOfAppointments'
 	}
 ];
 
@@ -157,6 +161,7 @@ export const ConsultantStatistics = () => {
 				);
 				const videoCallDurationSeconds =
 					response.videoCallDuration % 60;
+
 				const data = [
 					{
 						numberOfAssignedSessions:
