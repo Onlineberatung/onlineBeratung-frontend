@@ -1,8 +1,9 @@
 const overview = {
 	title: 'Willkommen zurück!',
-	myMessagesTitle: 'ungelesene Nachrichten',
-	initialInquiriesTitle: 'Erstanfragen',
-	upcomingAppointments: 'anstehende Termine heute',
+	myMessagesTitle: '%count% ungelesene Nachrichten',
+	initialInquiriesTitle: '%count% Erstanfragen',
+	upcomingAppointments: 'Ihre nächsten %count% Termine',
+	upcomingAppointment: 'Ihr nächster Termin',
 	emptyMessages: 'Du hast alles im Blick, alle Nachrichten sind gelesen!',
 	emptyInitialMessage: 'Sehr gut, alle Erstanfragen sind bearbeitet!',
 	emptyAppointments:
@@ -13,7 +14,8 @@ const overview = {
 	myMessagesEmpty: 'Du hast alles im Blick, alle Nachrichten sind gelesen!',
 	initialInquiriesEmpty: 'Sehr gut, alle Erstanfragen sind bearbeitet!',
 	appointmentsEmpty:
-		'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern'
+		'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern',
+	start: 'Starten'
 };
 
 export default overview;

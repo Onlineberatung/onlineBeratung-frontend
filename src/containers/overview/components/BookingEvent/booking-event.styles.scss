@@ -31,5 +31,14 @@
 
 	&__fullDate {
 		gap: 3px;
+		flex-grow: 1;
+	}
+
+	&__start {
+		.button__item {
+			min-width: 121px;
+			height: 48px;
+			border-radius: 5px;
+		}
 	}
 }
