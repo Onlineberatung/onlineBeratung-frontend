@@ -1,9 +1,12 @@
 import { createPortal } from 'react-dom';
-import { ReactNode, useEffect, useState, MouseEvent } from 'react';
+import { ReactNode, useEffect, useState, MouseEvent, useCallback } from 'react';
 import * as React from 'react';
 
 const fixedStage = document.getElementsByClassName(
 	'stage'
+) as HTMLCollectionOf<HTMLDivElement>;
+const fixedStageLayout = document.getElementsByClassName(
+	'stageLayout'
 ) as HTMLCollectionOf<HTMLDivElement>;
 const bannerContainer = document.getElementById('banner');
 
@@ -19,6 +22,19 @@ export const Banner = ({
 	onClose?: (e: MouseEvent<HTMLAnchorElement>) => void;
 }) => {
 	const [element] = useState(() => document.createElement('p'));
+
+	const getBannersHeight = useCallback(() => {
+		let bannersHeight = 0;
+		const banner = bannerContainer.children;
+		for (let i = 0; i < banner.length; i++) {
+			const style = window.getComputedStyle(banner[i]);
+
+			if (style.display !== 'none') {
+				bannersHeight += banner[i].clientHeight;
+			}
+		}
+		return bannersHeight;
+	}, []);
 
 	useEffect(() => {
 		if (className) {
@@ -37,14 +53,26 @@ export const Banner = ({
 			fixedStage[0].style.paddingTop = `${bannerContainer.clientHeight}px`;
 		}
 
+		if (fixedStageLayout?.[0]) {
+			const bannersHeight = getBannersHeight();
+			fixedStageLayout[0].style.paddingTop = `${bannersHeight}px`;
+			fixedStageLayout[0].style.marginTop = `-${bannersHeight}px`;
+		}
+
 		return () => {
 			bannerContainer.removeChild(element);
 
 			if (fixedStage?.[0]) {
 				fixedStage[0].style.paddingTop = `0px`;
 			}
+
+			if (fixedStageLayout?.[0]) {
+				const bannersHeight = getBannersHeight();
+				fixedStageLayout[0].style.paddingTop = `${bannersHeight}px`;
+				fixedStageLayout[0].style.marginTop = `-${bannersHeight}px`;
+			}
 		};
-	}, [className, element, style]);
+	}, [className, element, getBannersHeight, style]);
 
 	return createPortal(
 		<>
