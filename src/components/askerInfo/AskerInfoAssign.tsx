@@ -19,10 +19,6 @@ export const AskerInfoAssign = () => {
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
 			<>
 				<Text
-					text={translate('userProfile.reassign.title')}
-					type="divider"
-				/>
-				<Text
 					className="asker-info-assign__description"
 					text={translate('userProfile.reassign.description')}
 					type="infoSmall"
