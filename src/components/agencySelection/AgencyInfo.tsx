@@ -13,7 +13,7 @@ export interface DisplayAgencyInfoProps {
 }
 
 export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['common', 'agencies']);
 	const agencyInfoRef = React.useRef<HTMLDivElement>(null);
 	const [displayAgencyInfo, setDisplayAgencyInfo] =
 		useState<AgencyDataInterface>(null);
@@ -86,20 +86,26 @@ export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 					{displayAgencyInfo.name && (
 						<Text
 							className="agencyInfo__name"
-							text={translate([
-								`agency.${displayAgencyInfo.id}.name`,
-								displayAgencyInfo.name
-							])}
+							text={translate(
+								[
+									`agency.${displayAgencyInfo.id}.name`,
+									displayAgencyInfo.name
+								],
+								{ ns: 'agencies' }
+							)}
 							type="standard"
 						/>
 					)}
 					{displayAgencyInfo.description && (
 						<Text
 							className="agencyInfo__description"
-							text={translate([
-								`agency.${displayAgencyInfo.id}.description`,
-								displayAgencyInfo.description
-							])}
+							text={translate(
+								[
+									`agency.${displayAgencyInfo.id}.description`,
+									displayAgencyInfo.description
+								],
+								{ ns: 'agencies' }
+							)}
 							type="infoSmall"
 						/>
 					)}

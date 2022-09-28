@@ -17,7 +17,7 @@ export const AskerConsultingTypeData = () => {
 	const { t: translate } = useTranslation([
 		'common',
 		'consultingTypes',
-		'agency'
+		'agencies'
 	]);
 	const { userData } = useContext(UserDataContext);
 	const consultingTypes = useConsultingTypes();

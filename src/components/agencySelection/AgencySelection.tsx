@@ -43,7 +43,7 @@ export interface AgencySelectionProps {
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['common', 'agencies']);
 	const tenantData = useTenant();
 	const settings = useAppConfig();
 	const [isLoading, setIsLoading] = useState(false);
@@ -372,10 +372,13 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 													value={agency.id.toString()}
 													checked={index === 0}
 													inputId={agency.id.toString()}
-													label={translate([
-														`agency.${agency.id}.name`,
-														agency.name
-													])}
+													label={translate(
+														[
+															`agency.${agency.id}.name`,
+															agency.name
+														],
+														{ ns: 'agencies' }
+													)}
 												/>
 												<AgencyInfo
 													agency={agency}

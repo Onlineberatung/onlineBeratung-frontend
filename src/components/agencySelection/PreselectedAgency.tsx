@@ -15,7 +15,7 @@ export interface PreselectedAgencyProps {
 }
 
 export const PreselectedAgency = (props: PreselectedAgencyProps) => {
-	const { t: translate } = useTranslation();
+	const { t: translate } = useTranslation(['agencies']);
 
 	return (
 		<div className="preselectedAgency" data-cy="show-preselected-agency">
@@ -34,10 +34,13 @@ export const PreselectedAgency = (props: PreselectedAgencyProps) => {
 						value={props.agencyData.id.toString()}
 						checked
 						inputId={props.agencyData.id.toString()}
-						label={translate([
-							`agency.${props.agencyData.id}.name`,
-							props.agencyData.name
-						])}
+						label={translate(
+							[
+								`agency.${props.agencyData.id}.name`,
+								props.agencyData.name
+							],
+							{ ns: 'agencies' }
+						)}
 						handleRadioButton={() => void 0}
 						onKeyDown={(e) =>
 							props.onKeyDown ? props.onKeyDown(e) : null
