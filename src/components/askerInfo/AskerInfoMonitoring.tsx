@@ -114,10 +114,6 @@ export const AskerInfoMonitoring = () => {
 
 	return (
 		<>
-			{/* <Text
-				text={translate('userProfile.monitoring.title')}
-				type="divider"
-			/> */}
 			{monitoringDataAvailable ? (
 				<div className="profile__data__content">
 					{renderMonitoringData(cleanMonitoringData, true)}
