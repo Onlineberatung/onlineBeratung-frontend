@@ -15,6 +15,7 @@ export const useAskerHasAssignedConsultant = () => {
 	);
 	const [hasAssignedConsultant, setAssignedConsultant] = useState(false);
 	const { sessions } = useContext(SessionsDataContext);
+	const hasConsultants = !!sessions?.[0]?.consultant;
 
 	useEffect(() => {
 		if (isAdviceSeeker) {
@@ -22,7 +23,7 @@ export const useAskerHasAssignedConsultant = () => {
 				setAssignedConsultant(!!sessions?.[0]?.consultant);
 			});
 		}
-	}, [userData, isAdviceSeeker, sessions]);
+	}, [userData, isAdviceSeeker, hasConsultants]);
 
 	return hasAssignedConsultant;
 };
