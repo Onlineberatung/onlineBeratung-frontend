@@ -17,10 +17,10 @@ interface CheckboxProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledCheckbox = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-weight: ${theme.font.weight};
-		font-size: ${theme.font.size};
-		line-height: ${theme.font.lineHeight};
+		font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+		font-weight: ${theme.font.weight_regular ?? '400'};
+		font-size: ${theme.font.size_primary ?? '16px'};
+		line-height: ${theme.font.line_height_senary ?? '24px'};
 
 		.container {
 			display: flex;
@@ -31,9 +31,9 @@ const StyledCheckbox = styled.div`
 		.helperText {
 			display: none;
 			margin-left: 36px;
-			font-size: ${theme.font.sizeSmall};
-			line-height: ${theme.font.lineHeightSmall};
-			color: ${theme.colors.error};
+			font-size: ${theme.font.size_secondary ?? '12px'};
+			line-height: ${theme.font.line_height_secondary ?? '24px'};
+			color: ${theme.color.status_error_foreground ?? '#FF0000'};
 		}
 
 		.checkbox {
@@ -41,27 +41,28 @@ const StyledCheckbox = styled.div`
 				position: relative;
 				padding: 0;
 				margin: 0;
-				height: ${theme.checkbox.height};
-				width: ${theme.checkbox.width};
-				margin: ${theme.checkbox.spacer};
+				height: 24px;
+				width: 24px;
+				margin: 0 12px 0 0;
 
 				&:hover {
 					.checkbox--input{
-						border-color: ${theme.colors.black};
+						border-color: ${theme.color.interactive_secondary ?? '#000000E5'};
 					}
 				}
 			}
 
 			&--input {
 				appearance: none;
-				height: ${theme.checkbox.height};
-				width: ${theme.checkbox.width};
+				height: 24px;
+				width: 24px;
 				margin: 0;
-				border: ${theme.border.style} ${theme.colors.default};
-				border-radius: ${theme.border.radius};
-				box-shadow: ${theme.checkbox.boxShadow};
-				background: ${theme.colors.white};
-				box-sizing: ${theme.checkbox.boxSizing};
+				border: ${theme.border.style ?? '1px solid'} ${
+		theme.color.interactive_secondary ?? '#000000E5'
+	};
+				border-radius: ${theme.border.radius ?? '4px'};
+				background: ${theme.color.interactive_onDark ?? '#FFFFFF'};
+				box-sizing: border-box;
 			}
 
 			&--icon {
@@ -69,41 +70,43 @@ const StyledCheckbox = styled.div`
 				position: absolute;
 				top: 2px;
 				left: 2px;
-				width: ${theme.checkbox.icon.width};
-				height: ${theme.checkbox.icon.height};
+				width: 20px;
+				height: 20px;
 				svg {
-					width: ${theme.checkbox.icon.width};
-					height: ${theme.checkbox.icon.height};
+					width: 20px;
+					height: 20px;
 					path {
-						fill: ${theme.colors.black};
+						fill: ${theme.color.interactive_secondary ?? '#000000E5'};
 					}
 				}
 			}
 
 			&--label {
-				color: ${theme.colors.black};
+				color: ${theme.color.interactive_secondary ?? '#000000E5'};
 			}
 		}
 
 		.isChecked  {
-			border: ${theme.border.styleBold} ${theme.colors.black} !important;
+			border: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.interactive_secondary ?? '#000000E5'
+	} !important;
 		}
 	
 		&.disabled {
 			.checkbox {
 				&--label {
-					color: ${theme.colors.disabled};
+					color: ${theme.color.outline ?? '#00000033'};
 				}
 
 				&--input {
-					border-color: ${theme.colors.disabled};
+					border-color: ${theme.color.outline ?? '#00000033'};
 					box-shadow: none;
 				}
 
 				&--container {
 					&:hover {
 						.checkbox--input{
-							border-color: ${theme.colors.disabled};
+							border-color: ${theme.color.outline ?? '#00000033'} !important;
 						}
 					}
 				}
@@ -111,62 +114,25 @@ const StyledCheckbox = styled.div`
 		}
 
 		&.error {
-			.isChecked  {
-				border: none !important;
-				background-color: ${theme.colors.error} !important;
+			.checkbox {
+				&--input {
+					border: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.status_error_foreground ?? '#FF0000'
+	} !important;
+					background-color: ${theme.color.interactive_onDark ?? '#FFFFFF'} !important;
+				}
 			}
 
 			.checkbox--icon {
 				svg {
 					path {
-						fill: ${theme.colors.white};
+						fill: ${theme.color.status_error_foreground ?? '#FF0000'};
 					}
 				}
 			}
 		}
 	`}
 `;
-
-StyledCheckbox.defaultProps = {
-	theme: {
-		colors: {
-			white: '#FFFFFF',
-			black: '#000000DE',
-			default: '#00000066',
-			disabled: '#00000033',
-			error: '#FF0000'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			weight: '400',
-			size: '16px',
-			sizeSmall: '12px',
-			lineHeight: '150%',
-			lineHeightSmall: '133%'
-		},
-
-		border: {
-			radius: '4px',
-			style: '1px solid',
-			styleBold: '2px solid'
-		},
-
-		checkbox: {
-			height: '24px',
-			width: '24px',
-
-			boxShadow: 'inset 0px 2px 0px 1px rgba(0, 0, 0, 0.1)',
-			boxSizing: 'border-box',
-			spacer: '0 12px 0 0',
-
-			icon: {
-				height: '20px',
-				width: '20px'
-			}
-		}
-	}
-};
 
 export const Checkbox = ({
 	label,

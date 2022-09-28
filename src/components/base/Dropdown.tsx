@@ -28,49 +28,48 @@ interface DropdownProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledDropdown = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-size: ${theme.font.size};
-		font-weight: ${theme.font.weight};
-		line-height: ${theme.font.lineHeight};
+		font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+		font-weight: ${theme.font.weight_regular ?? '400'};
+		font-size: ${theme.font.size_primary ?? '16px'};
+		line-height: ${theme.font.line_height_senary ?? '24px'};
 		
 		.dropdown--header {
 			display: flex;
-			justify-content:space-between;
+			justify-content: space-between;
 			align-items: center;
 
-			width: ${theme.dropdown.width};
-			height: ${theme.dropdown.height};
-			padding: ${theme.dropdown.padding};
+			width: 229px;
+			height: 48px;
+			padding: 12px 14px 12px 16px;
 
 			box-sizing: border-box;
-			border: ${theme.border.style} ${theme.colors.default};
-			border-radius: ${theme.border.radius};
+			border: ${theme.border.style ?? '1px solid'} ${
+		theme.color.outline ?? '#00000033'
+	};
+			border-radius: ${theme.border.radius ?? '4px'};
 
-			box-shadow: ${theme.dropdown.boxShadow};
-
-			color: ${theme.colors.default};
+			color: ${theme.color.interactive_secondary ?? '#000000E5'};
 
 			.icon--arrow {
-				height: ${theme.dropdown.icon.height};
-				width: ${theme.dropdown.icon.width};
+				width: 16px;
 				box-sizing: border-box;
 				
 				svg {
-					height: ${theme.dropdown.icon.path.height};
-					width: ${theme.dropdown.icon.path.width};
+					height: 9.82px;
+					width: 16.67px
 
 					path {
-						fill: #000000DE;
+						fill: ${theme.color.interactive_tertiary ?? '#000000A6'};
 					}
 				}
 			}
 
 			&:hover {
-				border-color: ${theme.colors.black};
+				border-color: ${theme.color.interactive_secondary ?? '#000000E5'};
 
 				.icon--arrow {
 					path {
-						fill: ${theme.colors.hover};
+						fill: ${theme.color.interactive_secondary ?? '#000000E5'};
 					}
 				}
 			}
@@ -78,22 +77,24 @@ const StyledDropdown = styled.div`
 
 		&.active {
 			.dropdown--header {
-				box-shadow: ${theme.dropdown.boxShadowBold};
-				border: ${theme.border.style} ${theme.colors.black};
-				color: ${theme.colors.black};
+				border: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.interactive_secondary ?? '#000000E5'
+	};
+				color: ${theme.color.interactive_secondary ?? '#000000E5'};
 			}
 		}
 
 		&.error {
 			.dropdown--header {
-				box-shadow: ${theme.dropdown.boxShadowBold};
-				border: ${theme.border.styleBold} #FF0000;
-				color: ${theme.colors.black};
+				border: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.status_error_foreground ?? '#FF0000'
+	};
+				color: ${theme.color.interactive_secondary ?? '#000000E5'};
 
 				&:hover {
 					.icon--arrow {
 						path {
-							fill: ${theme.colors.error};
+							fill: ${theme.color.status_error_foreground ?? '#FF0000'};
 						}
 					}
 				}
@@ -102,14 +103,24 @@ const StyledDropdown = styled.div`
 
 		&.disabled {
 			.dropdown--header {
-				border: ${theme.border.style}; #00000033;
-				color: #00000033;
-				box-shadow: none;
+				
+				color: ${theme.color.interactive_tertiary ?? '#000000A6'};
+				background-color: ${
+					theme.color.interactive_disabled_background_black ??
+					'#0000000D'
+				};
+				border: none;
+
+				.icon--arrow {
+					path {
+						fill: ${theme.color.outline ?? '#00000033'};
+					}
+				}
 
 				&:hover {
 					.icon--arrow {
 						path {
-							fill: ${theme.colors.black};
+							fill: ${theme.color.outline ?? '#00000033'};
 						}
 					}
 				}
@@ -117,29 +128,29 @@ const StyledDropdown = styled.div`
 		}	
 		
 		.selected {
-			border: ${theme.border.styleBold}; ${theme.colors.black};
-			color: ${theme.colors.black};
-			box-shadow: ${theme.dropdown.boxShadowBold};
+			border: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.interactive_secondary ?? '#000000E5'
+	};
+			color: ${theme.color.interactive_secondary ?? '#000000E5'};
 		}
 
 		.dropdown--error-helperText {
-			font-size: ${theme.font.sizeSmall};
-			color: ${theme.colors.error};
-			margin: ${theme.dropdown.helperText.margin};
+			font-size: ${theme.font.size_secondary ?? '12px'};
+			color: ${theme.color.status_error_foreground ?? '#FF0000'};
+			margin: 4px 0 0 18.5px;
 		}
 		
 		.dropdown--option-container {
 			position: relative;
-			color: ${theme.colors.black};
-			background-color: ${theme.colors.white};
+			color: ${theme.color.interactive_secondary ?? '#000000E5'};
+			background-color: ${theme.color.interactive_onDark ?? '#FFFFFF'};
 
-			border: ${theme.border.style};
-			border-radius: ${theme.border.radius};
-			border-color: ${theme.colors.grey};
-			box-shadow: ${theme.dropdown.boxShadowOption} ${theme.colors.shadow};
+			border: ${theme.border.style ?? '1px solid'};
+			border-radius: ${theme.border.radius ?? '4px'};
+			border-color: ${theme.color.outline ?? '#00000033'};
 			box-sizing: border-box;
 
-			width: ${theme.dropdown.options.width};
+			width: 192px;
 
 			margin: 14px 0 0 20px;
 
@@ -147,7 +158,9 @@ const StyledDropdown = styled.div`
 				z-index: 298;
 				content: '';
 				border: 8px solid;
-				border-color: transparent transparent ${theme.colors.grey}; transparent;
+				border-color: transparent transparent ${
+					theme.color.outline ?? '#00000033'
+				} transparent;
 				position: absolute;
 				top: -17px;
 				left: 90px;
@@ -158,30 +171,30 @@ const StyledDropdown = styled.div`
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: ${theme.dropdown.options.padding};
-			border-radius: ${theme.border.radius};
+			padding: 12px 16px 12px 16px;
+			border-radius: ${theme.border.radius ?? '4px'};
 
 			path {
-				height: ${theme.dropdown.options.icon.height};
-				width: ${theme.dropdown.options.icon.width};
+				height: 4px;
+				width: 16px;
 			}
 
 			&:hover {
-				background-color: ${theme.colors.backgroundRed};
-				color: ${theme.colors.hover};
+				background-color: ${theme.color.background_red1 ?? '#F8DEDD'};
+				color: ${theme.color.interactive_hover ?? '#A31816'};
 				
 				path {
-					fill: ${theme.colors.hover};
+					fill: ${theme.color.interactive_hover ?? '#A31816'};
 				}
 			}	
 		}
 
 		.active {
-			background-color: ${theme.colors.backgroundRed};
-			color: ${theme.colors.hover};
+			background-color: ${theme.color.background_red1 ?? '#F8DEDD'};
+			color: ${theme.color.interactive_hover ?? '#A31816'};
 
 			path {
-				fill: ${theme.colors.hover};
+				fill: ${theme.color.interactive_hover ?? '#A31816'};
 			}
 		}
 
@@ -195,77 +208,6 @@ const StyledDropdown = styled.div`
 		}	
 	`}
 `;
-
-StyledDropdown.defaultProps = {
-	theme: {
-		colors: {
-			black: '#000000DE',
-			default: '#00000066',
-			underline: '#00000033',
-			error: '#FF0000',
-			title: '#00000099',
-			hover: '#A31816',
-
-			grey: '#00000033',
-			backgroundRed: '#F8DEDD',
-			shadow: '0000001A'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			weight: '400',
-			size: '16px',
-			sizeSmall: '12px',
-			lineHeight: '150%',
-			lineHeightSmall: '133%'
-		},
-
-		border: {
-			style: '1px solid',
-			styleBold: '2px solid',
-			radius: '4px'
-		},
-
-		dropdown: {
-			width: '229px',
-			height: '48px',
-			padding: '12px 14px 12px 16px',
-
-			boxShadow: '0px 2px 0px 1px #0000001A inset',
-			boxShadowBold: '0px 2px 0px 1px #0000001A inset',
-			boxShadowOption: '0px 3px 0px 1px',
-
-			icon: {
-				height: '20px',
-				width: '20px',
-
-				path: {
-					height: '9.82px',
-					width: '16.67px'
-				}
-			},
-
-			helperText: {
-				margin: '4px 0 0 18.5px'
-			},
-
-			options: {
-				icon: {
-					height: '4px',
-					width: '16px'
-				},
-				secondLevel: {
-					position: {
-						left: '154px',
-						top: '36px'
-					}
-				},
-				width: '192px',
-				padding: '12px 16px 12px 16px'
-			}
-		}
-	}
-};
 
 export const Dropdown = ({
 	status = STATUS_DEFAULT,

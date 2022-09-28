@@ -1,29 +1,33 @@
-import React, { HTMLAttributes, ReactElement } from 'react';
+import React, { HTMLAttributes, ReactElement, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 export const VARIANT_DEFAULT = 'default';
 export const VARIANT_SELECTED = 'selected';
+export const VARIANT_ICON = 'icon';
 export const VARIANT_REMOVEABLE = 'removeable';
 export const VARIANT_READONLY = 'readOnly';
 
 export type VARIANT =
 	| typeof VARIANT_DEFAULT
 	| typeof VARIANT_SELECTED
+	| typeof VARIANT_ICON
 	| typeof VARIANT_REMOVEABLE
 	| typeof VARIANT_READONLY;
 
 interface FiltertagProps extends HTMLAttributes<HTMLDivElement> {
 	variant?: VARIANT;
 	label?: string;
-	icon?: ReactElement;
+	iconRemove?: ReactElement;
+	iconPerson;
+	withIcon?: boolean;
 }
 
 const StyledFiltertag = styled.div`
 	${({ theme }) => `
-    font-family: ${theme.font.family};
-    font-size: ${theme.font.size};
-    font-weight: ${theme.font.weight};
-    line-height: ${theme.font.lineHeight};
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
 
     display: flex;
     justify-content: center;
@@ -32,47 +36,75 @@ const StyledFiltertag = styled.div`
     width: max-content;
     height: max-content;
 
-    border-radius: ${theme.border.radius};
-    padding: ${theme.filtertag.padding};
+    border-radius: 4px;
+    padding: 6px 8px 6px 8px;
+
+	.icon--person {
+		width: 0px;
+		height: 0px;
+	}
 
     &.default {
-        color: ${theme.colors.default};
-        background-color: ${theme.colors.backgroundDefault};
+        color: #000000E5;
+        background-color: #FFFFF;
+		border: 1px solid #00000033;
+
+		.icon--person {
+			height: 16px;
+			width: 16px;
+			margin-right: 4px;
+			
+
+			svg {
+				margin-left: 0;
+				
+				path {
+					fill: #00000066;
+					height: 110%;
+					width: 100%;
+				}
+			}
+		}
 
         &:hover {
-            color: ${theme.colors.defaultHover};
-            background-color: ${theme.colors.backgroundDefaultHover};
+            color: #000000E5;
+            background-color: #FFFFF;
             cursor: pointer;
+			border: 1px solid #000000E5;
         }
+
+
     }
 
     &.selected {
-        color: ${theme.colors.removeable};
-        background-color: ${theme.colors.backgroundRemoveable};
-        border: ${theme.border.style} ${theme.colors.borderRemoveable}
+        color: #CC1E1C;
+        background-color: #FAF6F3;
+        border: 1px solid #CC1E1C;
     }
 
     &.removeable {
-        color: ${theme.colors.removeable};
-        background-color: ${theme.colors.backgroundRemoveable};
-        border: ${theme.border.style} ${theme.colors.borderRemoveable};
+        color: #CC1E1C;
+        background-color: #FAF6F3;
+        border: 1px solid #CC1E1C;
 
         &:hover {
-            color: ${theme.colors.removeableHover};
-            background-color: ${theme.colors.backgroundRemoveable};
-            border-color: ${theme.colors.borderRemoveableHover};
+            color: #A31816;
+            background-color: #FAF6F3;
+            border-color: #A31816;
             cursor: pointer;
 
             svg {
-                fill: ${theme.colors.removeableHover};
+				path {
+					fill: #A31816;;
+				}
             }
         }
     }
 
     &.readOnly {
-        color: ${theme.colors.readOnly};
-        background-color: ${theme.colors.backgroundReadOnly};
-        border: ${theme.border.style} ${theme.colors.borderReadOnly}
+        color: #000000A6;
+        background-color: #0000000D;
+        border: 1px solid #00000033;
     }
 
     svg {
@@ -80,64 +112,39 @@ const StyledFiltertag = styled.div`
 		width: 16px;
 		margin: 0px 0px 0px 8px;
 		path {
-        	fill: ${theme.colors.removeable};
+        	fill: #CC1E1C;
 		}
     }
 	`}
 `;
 
-StyledFiltertag.defaultProps = {
-	theme: {
-		colors: {
-			primary: '#CC1E1C',
-			backgroundDefault: '#00000014',
-			backgroundRemoveable: '#CC1E1C33',
-			backgroundReadOnly: '#FFFFFF',
-			borderRemoveable: '#CC1E1C',
-			borderReadOnly: '#00000033',
-			default: '#00000099',
-			removeable: '#CC1E1C',
-			readOnly: '#000000DE',
-			backgroundDefaultHover: '#00000033',
-			borderRemoveableHover: '#A31816',
-			removeableHover: '#A31816',
-			defaultHover: '#000000DE'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			size: '14px',
-			weight: '400',
-			lineHeight: '20px'
-		},
-
-		border: {
-			style: '1px solid',
-			radius: '24px'
-		},
-
-		filtertag: {
-			width: '106px',
-			height: '32px',
-			padding: '6px 12px'
-		}
-	}
-};
-
 export const Filtertag = ({
 	variant = VARIANT_DEFAULT,
 	label,
-	icon,
+	iconRemove,
+	iconPerson,
+	withIcon = false,
 	className,
 	...props
 }: FiltertagProps) => {
+	const iconRef = useRef(null);
+
+	useEffect(() => {
+		let visibility;
+		withIcon ? (visibility = 'block') : (visibility = 'none');
+		iconRef.current.style.display = visibility;
+	}, [withIcon]);
+
 	return (
 		<StyledFiltertag
 			type="filtertag"
-			className={`${className} ${variant}`}
+			className={`${className} ${variant} ${withIcon && 'withIcon'}`}
 			{...props}
 		>
-			{label && label} {icon && icon}
+			<span ref={iconRef} className="icon--person">
+				{iconPerson && iconPerson}
+			</span>
+			{label && label} {iconRemove && iconRemove}
 		</StyledFiltertag>
 	);
 };

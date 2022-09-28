@@ -17,60 +17,33 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 
 const StyledBadge = styled.span`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-weight: ${theme.font.weight};
-		font-size: ${theme.font.size};
-		line-height: ${theme.font.lineHeight};
+		font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+		font-weight: ${theme.font.weight_regular ?? '400'} ;
+		font-size: ${theme.font.size_secondary ?? '12px'};
+		line-height: ${theme.font.line_height_secondary ?? '16px'};
 
-		border: ${theme.border.style};
-		border-radius: ${theme.border.radius};
+		border: none;
+		border-radius: 30px;
 
-		padding: ${theme.badge.padding};
+		padding: 2px ${theme.grid.base ?? '8px'};
 		
 		&.active {
-			color: ${theme.colors.white};
-			background-color: ${theme.colors.active};
+			color: ${theme.color.interactive_secondary ?? '#000000E5'};
+			background-color: ${theme.color.status_success_foreground ?? '#4FCC5C'};
 		}
 
 		&.feedback {
-			color: ${theme.colors.black};
-			background-color: ${theme.colors.feedback};
+			color: ${theme.color.interactive_secondary ?? '#000000E5'};
+			background-color: ${theme.color.background_feedback4 ?? '#FFDCA3'};
+
 		}
 
 		&.banned {
-			color: ${theme.colors.white};
-			background-color: ${theme.colors.banned};
+			color: ${theme.color.interactive_onDark ?? '#FFFFFF'};
+			background-color: ${theme.color.status_error_foreground ?? '#FF0000'};
 		}
 	`}
 `;
-
-StyledBadge.defaultProps = {
-	theme: {
-		colors: {
-			white: '#FFFFFF',
-			black: '#000000DE',
-			banned: '#FF0000',
-			feedback: '#FFDCA3',
-			active: ' #4FCC5C'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			weight: '400',
-			size: '12px',
-			lineHeight: '16px'
-		},
-
-		border: {
-			radius: '30px',
-			style: 'none'
-		},
-
-		badge: {
-			padding: '0px 8px'
-		}
-	}
-};
 
 export const Badge = ({
 	variant = VARIANT_ACTIVE,

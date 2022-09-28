@@ -17,31 +17,31 @@ interface AccordeonProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledAccordeon = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-weight: ${theme.font.weight};
-		font-size: ${theme.font.size};
-		line-height: ${theme.font.lineHeight};
+		font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+		font-weight: ${theme.font.weight_bold ?? '700'};
+		font-size: ${theme.font.size_primary ?? '16px'};
+		line-height: ${theme.font.line_height_quinary ?? '28px'};
 		
-        color: ${theme.colors.darkGrey};
+        color: ${theme.color.interactive_secondary ?? '#000000E5'};
+		
+        border-bottom: 1px solid ${theme.color.outline ?? '#00000033'};
 
-        border-bottom: ${theme.border.style} ${theme.colors.lightGrey};
-		
-        display: flex;
+		display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
 		
-        width: ${theme.accordeon.width};
+        width: 500px;
 
         &:hover {
-            color: ${theme.colors.hover};
+            color: ${theme.color.interactive_hover ?? '#A31816'};
     
             .arrow path {
-                fill: ${theme.colors.hover};
+                fill: ${theme.color.interactive_hover ?? '#A31816'};
             }
         }
 
         .label {
-            padding: ${theme.accordeon.padding};
+            padding: 0 0 ${theme.grid.base_two ?? '16px'} 0;
         }
 
         .icon--container {
@@ -52,9 +52,9 @@ const StyledAccordeon = styled.div`
         .checkmark--circle {
             height: 20px;
             width: 20px;
-            margin: 0 16px 0 0;
+            margin: 0 ${theme.grid.base_two ?? '16px'} 0 0;
             path { 
-                fill: ${theme.colors.green}; 
+                fill: ${theme.color.status_success_foreground ?? '#4FCC5C'}; 
             }
         }
 
@@ -62,7 +62,7 @@ const StyledAccordeon = styled.div`
             height: 20px;
             width: 20px;
             path {
-                fill: ${theme.colors.darkGrey};
+                fill: ${theme.color.interactive_secondary ?? '#000000E5'};
             }
 
 			&--up {
@@ -72,41 +72,13 @@ const StyledAccordeon = styled.div`
 
         .accordeon--content {
 			display: none;
-            background: ${theme.colors.backgroundGrey};
+            background: ${theme.color.status_success_background ?? '#4FCC5C4D'};
             width: 100%;
             height: 81px;
-            margin: -6px 0 16px 0;
+            margin: -6px 0 ${theme.grid.base_two ?? '16px'} 0;
         }
 	`}
 `;
-
-StyledAccordeon.defaultProps = {
-	theme: {
-		colors: {
-			darkGrey: '#000000DE',
-			lightGrey: '#00000033',
-			backgroundGrey: '#C4C4C433',
-			hover: '#A31816',
-			green: '#4FCC5C'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			weight: '700',
-			size: '16px',
-			lineHeight: '131%'
-		},
-
-		border: {
-			style: '1px solid'
-		},
-
-		accordeon: {
-			width: '500px',
-			padding: '0 0 16px 0'
-		}
-	}
-};
 
 export const Accordeon = ({
 	label,

@@ -17,72 +17,42 @@ interface DividerProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledDivider = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-style: ${theme.font.style};
-		font-size: ${theme.font.size};
-		font-weight: ${theme.font.weight};
-		line-height: ${theme.font.lineHeight};
-		letter-spacing: ${theme.font.letterSpacing};
-		text-transform: ${theme.font.textTransform};
+		font-family: ${theme.font.family_divider ?? 'Roboto Slab, serif'};
+		font-style: normal;
+		font-size: ${theme.font.size_secondary ?? '12px'};
+		font-weight: ${theme.font.weight_medium ?? '500'};
+		line-height: ${theme.font.line_height_secondary ?? '16px'};
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
 	
 		display: flex;
 		align-items: center;
 		
-		color: ${theme.colors.darkGrey};
+		color: ${theme.color.text_emphasisLow && '#000000A6'}; 
         
         &:before,
         &:after {
             content: '';
 		    text-align: center;
-            border-top: ${theme.border.style};
-            height: ${theme.divider.height};
-            width: ${theme.divider.width};
-			border-color: ${theme.colors.lightGrey};
+            border-top: ${theme.border.style && '1px solid'};
+            height: 0px;
+            width: 220px;
+			border-color: ${theme.color.outline && '#00000033'};
         }
 
         &.tertiary {
-            color: ${theme.colors.primary};
+            color: ${theme.color.interactive_primary && '#CC1E1C'};
         	&:before,
             &:after {
-                border-color: ${theme.colors.primary};
+                border-color: ${theme.color.interactive_primary && '#CC1E1C'};
             }
         }
 
 		.spacer {
-			margin: ${theme.divider.margin};
+			margin: 0 12px 0 12px
 		}
 	`}
 `;
-
-StyledDivider.defaultProps = {
-	theme: {
-		colors: {
-			primary: '#CC1E1C',
-			lightGrey: '#00000033',
-			darkGrey: '#00000099'
-		},
-
-		font: {
-			family: 'Roboto Slab, serif',
-			style: 'normal',
-			size: '12px',
-			weight: '500',
-			lineHeight: '16px',
-			letterSpacing: '1.5px',
-			textTransform: 'uppercase'
-		},
-
-		border: {
-			style: '1px solid'
-		},
-
-		divider: {
-			width: '220px',
-			height: '0px',
-			margin: '0 12px 0 12px'
-		}
-	}
-};
 
 export const Divider = ({
 	size = SIZE_PRIMARY,
