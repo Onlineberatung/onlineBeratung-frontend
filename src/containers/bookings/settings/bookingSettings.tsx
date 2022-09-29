@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
-} from '../../app/navigationHandler';
+} from '../../../components/app/navigationHandler';
 import { useCalcomLogin } from './calcomLogin';
 import { AvailabilityContainer } from './availabilityContainer';
 import { CalendarIntegration } from './calendarIntegration';

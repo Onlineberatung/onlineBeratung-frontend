@@ -1,37 +1,42 @@
 import * as React from 'react';
 import { useContext, useEffect, useState, useCallback } from 'react';
-import { translate } from '../../utils/translate';
+import { translate } from '../../../../utils/translate';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
-} from '../app/navigationHandler';
-import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { Headline } from '../headline/Headline';
-import './bookingEvents.styles';
-import { history } from '../app/app';
-import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
-import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
-import { ReactComponent as CalendarRescheduleIcon } from '../../resources/img/icons/calendar-reschedule.svg';
-import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-call.svg';
-import { Text } from '../text/Text';
-import { Box } from '../box/Box';
+} from '../../../../components/app/navigationHandler';
+import {
+	Button,
+	BUTTON_TYPES,
+	ButtonItem
+} from '../../../../components/button/Button';
+import { Headline } from '../../../../components/headline/Headline';
+import '../booking.styles';
+import { history } from '../../../../components/app/app';
+import { ReactComponent as CalendarCancelIcon } from '../../../../resources/img/icons/calendar-cancel.svg';
+import { ReactComponent as CalendarRescheduleIcon } from '../../../../resources/img/icons/calendar-reschedule.svg';
+import { ReactComponent as VideoCalIcon } from '../../../../resources/img/icons/video-call.svg';
+import { Text } from '../../../../components/text/Text';
+import { Box } from '../../../../components/box/Box';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
 	NotificationsContext,
 	NOTIFICATION_TYPE_SUCCESS,
 	UserDataContext
-} from '../../globalState';
-import { BookingDescription } from './bookingDescription';
-import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
-import { Loading } from '../app/Loading';
-import { BookingEventUiInterface } from '../../globalState/interfaces/BookingsInterface';
-import { BookingsStatus } from '../../utils/consultant';
-import { apiGetAskerSessionList } from '../../api';
-import { uiUrl, config } from '../../resources/scripts/config';
+} from '../../../../globalState';
+import { BookingDescription } from '../BookingDescription/bookingDescription';
+import { DownloadICSFile } from '../../../../components/downloadICSFile/downloadICSFile';
+import { Loading } from '../../../../components/app/Loading';
+import { BookingEventUiInterface } from '../../../../globalState/interfaces/BookingsInterface';
+import { BookingsStatus } from '../../../../utils/consultant';
+import { apiGetAskerSessionList } from '../../../../api';
+import { uiUrl, config } from '../../../../resources/scripts/config';
 import { generatePath } from 'react-router-dom';
-import { CopyIcon } from '../../resources/img/icons';
-import { copyTextToClipboard } from '../../utils/clipboardHelpers';
+import { CopyIcon } from '../../../../resources/img/icons';
+import { copyTextToClipboard } from '../../../../utils/clipboardHelpers';
+import { NoBookingsBooked } from '../NoBookings/noBookingsBooked';
+import { BookingEventTableColumnAttendee } from '../BookingEventTableColumnAttendee/bookingEventTableColumnAttendee';
 
 interface BookingsComponentProps {
 	bookingEventsData: BookingEventUiInterface[];
@@ -71,20 +76,6 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 		}
 	}, [isConsultant]);
 
-	const scheduleAppointmentButton: ButtonItem = {
-		label: translate('booking.schedule'),
-		type: BUTTON_TYPES.PRIMARY
-	};
-
-	const handleBookingButton = () => {
-		history.push({
-			pathname: '/booking/',
-			state: {
-				isInitialMessage: false
-			}
-		});
-	};
-
 	const handleCancellationAppointment = (event: BookingEventUiInterface) => {
 		history.push({
 			pathname: '/booking/cancellation',
@@ -103,72 +94,14 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 		});
 	};
 
-	const noBookings = () => {
-		return (
-			<Box>
-				<div className="bookingEvents__innerWrapper-no-bookings">
-					<Headline
-						className="bookingEvents__innerWrapper-no-bookings-title"
-						text={translate('booking.my.booking.title')}
-						semanticLevel="3"
-					/>
-					{!isConsultant && (
-						<>
-							<Text
-								className="bookingEvents__innerWrapper-no-bookings-text"
-								text={`${translate(
-									'booking.my.booking.schedule'
-								)} <b>
-								${sessions?.[0]?.consultant?.username}</b>:`}
-								type="standard"
-							/>
-							<Button
-								item={scheduleAppointmentButton}
-								buttonHandle={handleBookingButton}
-								customIcon={<CalendarMonthPlusIcon />}
-							/>
-						</>
-					)}
-				</div>
-			</Box>
-		);
-	};
-
-	const BookingEventTableColumnAttendee = (params: {
-		event: BookingEventUiInterface;
-	}) => {
-		const showAskerName = params.event.askerName
-			? params.event.askerName
-			: '-';
-		const showCounselorName = params.event.counselor
-			? params.event.counselor
-			: '-';
-		return (
-			<>
-				<Text
-					text={translate(
-						isConsultant
-							? 'booking.event.asker'
-							: 'booking.event.your.counselor'
-					)}
-					type="standard"
-					className="bookingEvents__counselor bookingEvents--font-weight-bold"
-				/>
-				<Text
-					text={isConsultant ? showAskerName : showCounselorName}
-					type="standard"
-					className="bookingEvents__counselorName"
-				/>
-			</>
-		);
-	};
-
 	const bookingsToShow = () => {
 		return (
 			<>
-				{bookingEventsData.length === 0
-					? noBookings()
-					: bookingEvents()}
+				{bookingEventsData.length === 0 ? (
+					<NoBookingsBooked sessions={sessions} />
+				) : (
+					bookingEvents()
+				)}
 			</>
 		);
 	};

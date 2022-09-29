@@ -1,30 +1,34 @@
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
-import { translate } from '../../utils/translate';
+import { translate } from '../../../../utils/translate';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
-} from '../app/navigationHandler';
-import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { Headline } from '../headline/Headline';
-import './bookingEvents.styles';
-import { history } from '../app/app';
-import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
-import { Text } from '../text/Text';
+} from '../../../../components/app/navigationHandler';
 import {
-	AUTHORITIES,
-	hasUserAuthority,
-	useConsultingTypes,
-	UserDataContext
-} from '../../globalState';
+	Button,
+	BUTTON_TYPES,
+	ButtonItem
+} from '../../../../components/button/Button';
+import { Headline } from '../../../../components/headline/Headline';
+import '../booking.styles';
+import { history } from '../../../../components/app/app';
+import { ReactComponent as CalendarMonthPlusIcon } from '../../../../resources/img/icons/calendar-plus.svg';
+import { Text } from '../../../../components/text/Text';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
-import bookingRoutes from './booking.routes';
+import bookingRoutes from '../booking.routes';
+import {
+	UserDataContext,
+	useConsultingTypes,
+	hasUserAuthority,
+	AUTHORITIES
+} from '../../../../globalState';
 import {
 	solveTabConditions,
+	SingleComponentType,
 	isTabGroup,
-	solveCondition,
-	SingleComponentType
-} from '../../utils/tabsHelper';
+	solveCondition
+} from '../../../../utils/tabsHelper';
 
 export const BookingEvents = () => {
 	useEffect(() => {

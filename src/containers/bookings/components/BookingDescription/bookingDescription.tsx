@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Text } from '../text/Text';
-import { translate } from '../../utils/translate';
+import { Text } from '../../../../components/text/Text';
+import { translate } from '../../../../utils/translate';
 import { useState } from 'react';
-import { ReactComponent as ArrowUpIcon } from '../../resources/img/icons/arrow-up.svg';
-import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down.svg';
+import { ReactComponent as ArrowUpIcon } from '../../../../resources/img/icons/arrow-up.svg';
+import { ReactComponent as ArrowDownIcon } from '../../../../resources/img/icons/arrow-down.svg';
 
 export const BookingDescription = (params: { description: string }) => {
 	const [expanded, setExpanded] = useState(false);

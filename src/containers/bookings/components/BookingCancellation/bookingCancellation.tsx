@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useAppConfig } from '../../hooks/useAppConfig';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
-} from '../app/navigationHandler';
+} from '../../../../components/app/navigationHandler';
+import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 export const BookingCancellation = () => {
 	const settings = useAppConfig();

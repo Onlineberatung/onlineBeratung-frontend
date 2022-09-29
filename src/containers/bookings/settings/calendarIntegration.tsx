@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Headline } from '../../headline/Headline';
-import { Text } from '../../text/Text';
+import { Headline } from '../../../components/headline/Headline';
+import { Text } from '../../../components/text/Text';
 import AssignedCalendars from './assignedCalendars';
 import AddCalendar from './addCalendar';
 import * as React from 'react';
 import { translate } from '../../../utils/translate';
-import { Box } from '../../box/Box';
+import { Box } from '../../../components/box/Box';
 import { useAppConfig } from '../../../hooks/useAppConfig';
 
 export const CalendarIntegration = () => {

@@ -4,13 +4,13 @@ import { useLocation } from 'react-router-dom';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
-} from '../app/navigationHandler';
+} from '../../../../components/app/navigationHandler';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
 	UserDataContext
-} from '../../globalState';
-import { useAppConfig } from '../../hooks/useAppConfig';
+} from '../../../../globalState';
+import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 export const BookingReschedule = () => {
 	const { userData } = useContext(UserDataContext);

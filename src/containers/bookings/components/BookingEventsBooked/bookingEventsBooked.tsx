@@ -3,22 +3,22 @@ import { useContext, useEffect, useState } from 'react';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
-} from '../app/navigationHandler';
-import './bookingEvents.styles';
+} from '../../../../components/app/navigationHandler';
+import '../booking.styles';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
 	UserDataContext
-} from '../../globalState';
+} from '../../../../globalState';
 import {
 	BookingEventsInterface,
 	BookingEventUiInterface
-} from '../../globalState/interfaces/BookingsInterface';
-import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
-import { apiAppointmentsServiceBookingEventsByAskerId } from '../../api';
-import { BookingsStatus } from '../../utils/consultant';
-import { BookingsComponent } from './bookingsComponent';
-import { transformBookingData } from '../../utils/transformBookingData';
+} from '../../../../globalState/interfaces/BookingsInterface';
+import { apiGetConsultantAppointments } from '../../../../api/apiGetConsultantAppointments';
+import { apiAppointmentsServiceBookingEventsByAskerId } from '../../../../api';
+import { BookingsStatus } from '../../../../utils/consultant';
+import { transformBookingData } from '../../../../utils/transformBookingData';
+import { BookingsComponent } from '../BookingsComponent/bookingsComponent';
 
 export const BookingEventsBooked: React.FC = () => {
 	useEffect(() => {

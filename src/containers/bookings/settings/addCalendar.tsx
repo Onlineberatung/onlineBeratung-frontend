@@ -4,7 +4,7 @@ import {
 	GoogleCalendar,
 	Office365
 } from '../../../resources/img/icons';
-import { Button } from '../../button/Button';
+import { Button } from '../../../components/button/Button';
 import * as React from 'react';
 import { translate } from '../../../utils/translate';
 import { useAppConfig } from '../../../hooks/useAppConfig';

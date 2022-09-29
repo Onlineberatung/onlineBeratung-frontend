@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import {
-	setBookingWrapperActive,
-	setBookingWrapperInactive
-} from '../app/navigationHandler';
-import Cal from '../cal/Cal';
-import { UserDataContext, UserDataInterface } from '../../globalState';
+import { UserDataContext, UserDataInterface } from '../../../../globalState';
 import {
 	apiGetAskerSessionList,
 	getCounselorAppointmentLink,
 	getTeamAppointmentLink
-} from '../../api';
-import { useAppConfig } from '../../hooks/useAppConfig';
+} from '../../../../api';
+import Cal from '../../../../components/cal/Cal';
+import { useAppConfig } from '../../../../hooks/useAppConfig';
+import {
+	setBookingWrapperActive,
+	setBookingWrapperInactive
+} from '../../../../components/app/navigationHandler';
 
 export const getUserEmail = (userData: UserDataInterface) => {
 	return userData.email

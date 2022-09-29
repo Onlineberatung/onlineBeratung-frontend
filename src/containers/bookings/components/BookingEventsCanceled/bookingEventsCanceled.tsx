@@ -3,19 +3,18 @@ import { useContext, useEffect, useState } from 'react';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
-} from '../app/navigationHandler';
-import './bookingEvents.styles';
-import { UserDataContext } from '../../globalState';
+} from '../../../../components/app/navigationHandler';
+import { UserDataContext } from '../../../../globalState';
 import {
 	BookingEventsInterface,
 	BookingEventUiInterface
-} from '../../globalState/interfaces/BookingsInterface';
-import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
-import { BookingsStatus } from '../../utils/consultant';
-import { BookingsComponent } from './bookingsComponent';
-import { transformBookingData } from '../../utils/transformBookingData';
+} from '../../../../globalState/interfaces/BookingsInterface';
+import { apiGetConsultantAppointments } from '../../../../api/apiGetConsultantAppointments';
+import { BookingsStatus } from '../../../../utils/consultant';
+import { BookingsComponent } from '../BookingsComponent/bookingsComponent';
+import { transformBookingData } from '../../../../utils/transformBookingData';
 
-export const BookingEventsExpired: React.FC = () => {
+export const BookingEventsCanceled: React.FC = () => {
 	useEffect(() => {
 		setBookingWrapperActive();
 
@@ -31,7 +30,7 @@ export const BookingEventsExpired: React.FC = () => {
 	>([] as BookingEventUiInterface[]);
 
 	useEffect(() => {
-		apiGetConsultantAppointments(userData.userId, BookingsStatus.EXPIRED)
+		apiGetConsultantAppointments(userData.userId, BookingsStatus.CANCELLED)
 			.then((bookings) => {
 				transformData(bookings);
 			})
@@ -52,7 +51,7 @@ export const BookingEventsExpired: React.FC = () => {
 				<BookingsComponent
 					bookingEventsData={bookingEventsData}
 					isLoading={isLoading}
-					bookingStatus={BookingsStatus.EXPIRED}
+					bookingStatus={BookingsStatus.CANCELLED}
 				/>
 			)}
 		</>
