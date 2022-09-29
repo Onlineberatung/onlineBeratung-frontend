@@ -11,7 +11,6 @@ import { convertFromRaw } from 'draft-js';
 import sanitizeHtml from 'sanitize-html';
 import { sanitizeHtmlExtendedOptions } from '../messageSubmitInterface/richtextHelpers';
 import { stateToHTML } from 'draft-js-export-html';
-
 import './releaseNote.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';

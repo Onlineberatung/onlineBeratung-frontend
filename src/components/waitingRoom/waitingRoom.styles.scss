@@ -100,6 +100,7 @@ $waiting-room-subline-opacity: 1 !default;
 		}
 
 		&::after {
+			display: $waiting-room-illustration-display-after;
 			content: '';
 			position: absolute;
 			background-color: $tab-background-color;

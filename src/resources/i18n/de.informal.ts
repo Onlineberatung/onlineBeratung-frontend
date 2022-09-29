@@ -227,6 +227,10 @@ export const deInformal = {
 		'message.new': 'Du hast eine neue Nachricht!',
 		'enquiry.new': 'Du hast eine neue Livechat Anfrage!'
 	},
+	overview: {
+		upcomingAppointments: 'Deine nächsten {{countStr}} Termine',
+		upcomingAppointment: 'Dein nächster Termin'
+	},
 	profile: {
 		functions: {
 			'absence': {

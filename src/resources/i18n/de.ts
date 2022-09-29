@@ -254,8 +254,13 @@ export const de = {
 		'event': {
 			'asker': 'Ratsuchende_r',
 			'booking': {
-				cancel: 'Termin absagen',
-				reschedule: 'Termin verschieben'
+				cancel: 'Absagen',
+				reschedule: 'Verschieben'
+			},
+			'copy': {
+				'link.notification.title': 'Link kopiert',
+				'link.notification.text':
+					'Einlandungslink zum Video-Call in Zwischenablage kopiert!'
 			},
 			'description': 'Ihre Nachricht zum Termin',
 			'show': {
@@ -271,6 +276,7 @@ export const de = {
 			'your.counselor': 'Ihr Berater'
 		},
 		'info.video': 'Videoberatung',
+		'video.button.label': 'Video-Call starten',
 		'mobile.calendar.label': 'Termin erstellen',
 		'my': {
 			'booking.title': 'Aktuell sind keine Termine geplant.',
@@ -1227,9 +1233,10 @@ export const de = {
 	},
 	overview: {
 		title: 'Willkommen zurück!',
-		myMessagesTitle: 'ungelesene Nachrichten',
-		initialInquiriesTitle: 'Erstanfragen',
-		upcomingAppointments: 'anstehende Termine heute',
+		myMessagesTitle: '%count% ungelesene Nachrichten',
+		initialInquiriesTitle: '%count% Erstanfragen',
+		upcomingAppointments: 'Ihre nächsten {{countStr}} Termine',
+		upcomingAppointment: 'Ihr nächster Termin',
 		emptyMessages: 'Du hast alles im Blick, alle Nachrichten sind gelesen!',
 		emptyInitialMessage: 'Sehr gut, alle Erstanfragen sind bearbeitet!',
 		emptyAppointments:
@@ -1241,7 +1248,8 @@ export const de = {
 			'Du hast alles im Blick, alle Nachrichten sind gelesen!',
 		initialInquiriesEmpty: 'Sehr gut, alle Erstanfragen sind bearbeitet!',
 		appointmentsEmpty:
-			'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern'
+			'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern',
+		start: 'Starten'
 	},
 	profile: {
 		'appLanguage': {
@@ -1426,6 +1434,7 @@ export const de = {
 				'download.label': 'Download Excel Datei'
 			},
 			csvHeader: {
+				numberOfAppointments: 'Termine gebuchte',
 				numberOfAssignedSessions: 'Beratungen angenommen',
 				numberOfSentMessages: 'Nachrichten geschrieben',
 				numberOfSessionsWhereConsultantWasActive: 'Aktive Beratungen',
@@ -1838,7 +1847,11 @@ export const de = {
 	},
 	tools: {
 		'button.label': 'Öffnen',
-		'shared': 'Mit dem/der Berater/in geteilt'
+		'shared': 'Mit dem/der Berater/in geteilt',
+		'calendar.title': 'Mein Kalender',
+		'calendar.description':
+			'Tragen Sie Ihre Urlaube oder sonstigen Termine in den Kalender ein, sodass die Ratsuchenden in dieser Zeit keine Termine bei Ihnen buchen können.<br/>Melden Sie sich mit der gleichen E-mail Adresse und Passwort an, das Sie auch hier bei der Online Beratung verwenden.',
+		'calendar.button.label': 'Öffnen'
 	},
 	twoFactorAuth: {
 		activate: {
@@ -2151,7 +2164,7 @@ export const de = {
 			answerCall: 'Video-Call annehmen',
 			answerVideoCall: 'Video-Call annehmen',
 			rejectCall: 'Video-Call ablehnen',
-			startCall: 'Video-Call starten',
+			startCall: 'Audio-Call starten',
 			startVideoCall: 'Video-Call starten'
 		},
 		incomingCall: {

@@ -96,6 +96,12 @@ export const ConsultantStatistics = () => {
 		{
 			label: translate('profile.statistics.csvHeader.videoCallDuration'),
 			key: 'videoCallDuration'
+		},
+		{
+			label: translate(
+				'profile.statistics.csvHeader.numberOfAppointments'
+			),
+			key: 'numberOfAppointments'
 		}
 	];
 

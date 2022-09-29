@@ -13,7 +13,7 @@ const AddCalendar = () => {
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 
-	function syncCalendar(calendarName: string) {
+	const syncCalendar = (calendarName: string) => {
 		if (calendarName === 'apple' || calendarName === 'caldav') {
 			window.location.replace(
 				`${settings.calcomUrl}/apps/${calendarName}-calendar/setup`
@@ -28,7 +28,7 @@ const AddCalendar = () => {
 			.then((resp) => {
 				window.location.replace(resp.url);
 			});
-	}
+	};
 
 	return (
 		<>

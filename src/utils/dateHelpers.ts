@@ -99,17 +99,27 @@ export const formatToHHMM = (timestamp: string) => {
 };
 
 // Expects milliseconds since epoch
-export const prettyPrintTimeDifference = (t1: number, t2: number): string => {
+export const prettyPrintTimeDifference = (
+	t1: number,
+	t2: number,
+	includeIn = false
+): string => {
 	const deltaT = t2 - t1;
 	const hours = Math.trunc(deltaT / MILLISECONDS_PER_HOUR);
 	const minutes = Math.trunc(
 		(deltaT % MILLISECONDS_PER_HOUR) / MILLISECONDS_PER_MINUTE
 	);
 
+	const prefix = includeIn
+		? hours < 0 || minutes < 0
+			? 'vor'
+			: 'in'
+		: 'vor';
+
 	// TODO: Revise hard-coded locale once internationalization is implemented
 	return hours === 0 && minutes === 0
 		? 'jetzt'
-		: `vor ${hours ? `${hours} h ` : ''}${minutes} min`;
+		: `${prefix} ${hours ? `${hours} h ` : ''}${minutes} min`;
 };
 
 export const convertISO8601ToMSSinceEpoch = (iso8601Date) => {

@@ -3,6 +3,7 @@ import { apiGetAskerSessionList } from '../../../api/apiGetAskerSessionList';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
+	SessionsDataContext,
 	UserDataContext
 } from '../../../globalState';
 
@@ -13,6 +14,8 @@ export const useAskerHasAssignedConsultant = () => {
 		userData
 	);
 	const [hasAssignedConsultant, setAssignedConsultant] = useState(false);
+	const { sessions } = useContext(SessionsDataContext);
+	const hasConsultants = !!sessions?.[0]?.consultant;
 
 	useEffect(() => {
 		if (isAdviceSeeker) {
@@ -20,7 +23,7 @@ export const useAskerHasAssignedConsultant = () => {
 				setAssignedConsultant(!!sessions?.[0]?.consultant);
 			});
 		}
-	}, [userData, isAdviceSeeker]);
+	}, [userData, isAdviceSeeker, hasConsultants]);
 
 	return hasAssignedConsultant;
 };

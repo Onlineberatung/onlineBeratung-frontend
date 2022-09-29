@@ -345,7 +345,7 @@ export const SessionListItemComponent = ({
 								: null}
 						</div>
 					)}
-					{topicSession?.id && topicSession.name && (
+					{topicSession?.id !== undefined && topicSession.name && (
 						<div
 							className="sessionsListItem__topic"
 							style={{

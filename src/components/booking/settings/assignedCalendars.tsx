@@ -4,8 +4,13 @@ import { useAppConfig } from '../../../hooks/useAppConfig';
 
 const AssignedCalendars = () => {
 	const settings = useAppConfig();
+
+	if (!settings.calcomUrl) {
+		return null;
+	}
+
 	return (
-		(settings.calcomUrl && (
+		<div className="assignedCalendars__wrapper">
 			<iframe
 				title={'AssignedCalendars'}
 				src={`${settings.calcomUrl}/apps/installed`}
@@ -14,8 +19,7 @@ const AssignedCalendars = () => {
 				height="75%"
 				style={{ paddingRight: '20px' }}
 			/>
-		)) ||
-		null
+		</div>
 	);
 };
 

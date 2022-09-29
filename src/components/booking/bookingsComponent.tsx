@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useContext, useEffect, useState, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
@@ -26,13 +25,12 @@ import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
 import { Loading } from '../app/Loading';
 import { BookingEventUiInterface } from '../../globalState/interfaces/BookingsInterface';
 import { BookingsStatus } from '../../utils/consultant';
-import { useTranslation } from 'react-i18next';
 import { apiGetAskerSessionList } from '../../api';
-import { uiUrl } from '../../resources/scripts/config';
-import { generatePath } from 'react-router-dom';
+import { uiUrl, config } from '../../resources/scripts/config';
+import { generatePath, useHistory } from 'react-router-dom';
 import { CopyIcon } from '../../resources/img/icons';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
-import { useAppConfig } from '../../hooks/useAppConfig';
+import { useTranslation } from 'react-i18next';
 
 interface BookingsComponentProps {
 	bookingEventsData: BookingEventUiInterface[];
@@ -45,7 +43,6 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 	isLoading,
 	bookingStatus
 }) => {
-	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
 
@@ -186,19 +183,15 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 		(videoAppointmentId: string) => {
 			return `${uiUrl}${generatePath(
 				isConsultant
-					? settings.urls.consultantVideoConference
-					: settings.urls.videoConference,
+					? config.urls.consultantVideoConference
+					: config.urls.videoConference,
 				{
 					type: 'app',
 					appointmentId: videoAppointmentId
 				}
 			)}`;
 		},
-		[
-			isConsultant,
-			settings.urls.consultantVideoConference,
-			settings.urls.videoConference
-		]
+		[isConsultant]
 	);
 
 	const copyRegistrationLink = useCallback(
@@ -220,147 +213,81 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 
 	const startVideoCallButton: ButtonItem = {
 		label: translate('booking.video.button.label'),
-		type: BUTTON_TYPES.SMALL_ICON,
-		smallIconBackgroundColor: 'secondary'
+		type: BUTTON_TYPES.TERTIARY
 	};
 
 	const bookingEvents = () => {
 		return (
 			<>
 				{bookingEventsData?.map((event) => (
-					<>
-						<Box key={event.id}>
-							<div
-								className={`bookingEvents__innerWrapper-event ${
-									bookingStatus !== BookingsStatus.ACTIVE
-										? 'bookingEvents__innerWrapper-no-actions'
-										: ''
-								}`}
-							>
-								<div className="bookingEvents__basicInformation">
-									<div className="bookingEvents__group">
-										<Headline
-											text={event.date}
-											semanticLevel="4"
-											className="bookingEvents__date"
-										></Headline>
-										<Headline
-											text={event.duration}
-											semanticLevel="5"
-											className="bookingEvents__duration"
-										></Headline>
-									</div>
-									<div className="bookingEvents__group bookingEvents__counselorWrap">
-										<BookingEventTableColumnAttendee
-											event={event}
-										/>
-										<div className="bookingEvents__video">
-											<div className="bookingEvents__video-label">
-												<VideoCalIcon />
-												<Text
-													type="infoLargeAlternative"
-													text={translate(
-														'booking.info.video'
-													)}
-												/>
-											</div>
-											{event.videoAppointmentId && (
-												<div className="bookingEvents__video-link-wrapper--mobile">
-													<Text
-														className="bookingEvents__video-link-wrapper--mobile--text"
-														type="infoLargeStandard"
-														text={`${uiUrl}${settings.urls.consultantVideoConference
-															.replace(
-																':type',
-																'app'
-															)
-															.replace(
-																':appointmentId',
-																event.videoAppointmentId
-															)}`}
-													/>
-													<div>
-														<CopyIcon
-															className={
-																'bookingEvents__copy icn--s'
-															}
-															onClick={() =>
-																copyRegistrationLink(
-																	event.videoAppointmentId
-																)
-															}
-														/>
-													</div>
-												</div>
-											)}
-										</div>
-									</div>
+					<Box key={event.id}>
+						<div
+							className={`bookingEvents__innerWrapper-event ${
+								bookingStatus !== BookingsStatus.ACTIVE
+									? 'bookingEvents__innerWrapper-no-actions'
+									: ''
+							}`}
+						>
+							<div className="bookingEvents__basicInformation">
+								<div className="bookingEvents__group">
+									<Headline
+										text={event.date}
+										semanticLevel="4"
+										className="bookingEvents__date"
+									></Headline>
+									<Headline
+										text={event.duration}
+										semanticLevel="5"
+										className="bookingEvents__duration"
+									></Headline>
 								</div>
-								<BookingDescription
-									description={event.description}
-								/>
-								<div className="bookingEvents__actions">
-									{activeBookings && (
-										<div className="bookingEvents__ics--mobile bookingEvents--flex bookingEvents--pointer">
-											<DownloadICSFile
-												date={event.date}
-												duration={event.duration}
-												title={event.title}
+								<div className="bookingEvents__group bookingEvents__counselorWrap">
+									<BookingEventTableColumnAttendee
+										event={event}
+									/>
+									<div className="bookingEvents__video">
+										<div className="bookingEvents__video-label">
+											<VideoCalIcon />
+											<Text
+												type="infoLargeAlternative"
+												text={'Videoberatung'}
 											/>
 										</div>
-									)}
-									{activeBookings && (
-										<div className="bookingEvents--flex">
-											<div
-												className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer bookingEvents__reschedule"
-												onClick={handleRescheduleAppointment.bind(
-													this,
-													event
-												)}
-											>
-												<CalendarRescheduleIcon />
+										{event.videoAppointmentId && (
+											<div className="bookingEvents__video-link-wrapper--mobile">
 												<Text
-													type="standard"
-													text={translate(
-														'booking.event.booking.reschedule'
-													)}
-													className="bookingEvents--primary"
+													className="bookingEvents__video-link-wrapper--mobile--text"
+													type="infoLargeStandard"
+													text={`${uiUrl}${config.urls.consultantVideoConference
+														.replace(':type', 'app')
+														.replace(
+															':appointmentId',
+															event.videoAppointmentId
+														)}`}
 												/>
+												<div>
+													<CopyIcon
+														className={
+															'bookingEvents__copy icn--s'
+														}
+														onClick={() =>
+															copyRegistrationLink(
+																event.videoAppointmentId
+															)
+														}
+													/>
+												</div>
 											</div>
-											<div
-												className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer bookingEvents__cancel"
-												onClick={handleCancellationAppointment.bind(
-													this,
-													event
-												)}
-											>
-												<CalendarCancelIcon />
-												<Text
-													type="standard"
-													text={translate(
-														'booking.event.booking.cancel'
-													)}
-													className="bookingEvents--primary"
-												/>
-											</div>
-										</div>
-									)}
-									{event.videoAppointmentId && (
-										<Button
-											className="bookingEvents__video-button--mobile"
-											buttonHandle={() =>
-												handleVideoLink(
-													event.videoAppointmentId
-												)
-											}
-											item={startVideoCallButton}
-										/>
-									)}
+										)}
+									</div>
 								</div>
 							</div>
-							<div className="bookingEvents__video-link-grid">
+							<BookingDescription
+								description={event.description}
+							/>
+							<div className="bookingEvents__actions">
 								{activeBookings && (
-									<div className="bookingEvents__ics bookingEvents--flex bookingEvents--pointer">
+									<div className="bookingEvents__ics--mobile bookingEvents--flex bookingEvents--pointer">
 										<DownloadICSFile
 											date={event.date}
 											duration={event.duration}
@@ -368,43 +295,101 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 										/>
 									</div>
 								)}
-								{event.videoAppointmentId && (
-									<>
-										<div className="bookingEvents__video-link-grid-wrapper">
+								{activeBookings && (
+									<div className="bookingEvents--flex">
+										<div
+											className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer bookingEvents__reschedule"
+											onClick={handleRescheduleAppointment.bind(
+												this,
+												event
+											)}
+										>
+											<CalendarRescheduleIcon />
 											<Text
-												className="bookingEvents__video-link-grid-wrapper--text"
-												type="infoLargeStandard"
-												text={getLink(
-													event.videoAppointmentId
+												type="standard"
+												text={translate(
+													'booking.event.booking.reschedule'
 												)}
+												className="bookingEvents--primary"
 											/>
-											<div>
-												<CopyIcon
-													className={
-														'bookingEvents__copy icn--s'
-													}
-													onClick={() =>
-														copyRegistrationLink(
-															event.videoAppointmentId
-														)
-													}
-												/>
-											</div>
 										</div>
-										<Button
-											className="bookingEvents__video-button"
-											buttonHandle={() =>
-												handleVideoLink(
-													event.videoAppointmentId
-												)
-											}
-											item={startVideoCallButton}
-										/>
-									</>
+										<div
+											className="bookingEvents--flex bookingEvents--align-items-center bookingEvents--pointer bookingEvents__cancel"
+											onClick={handleCancellationAppointment.bind(
+												this,
+												event
+											)}
+										>
+											<CalendarCancelIcon />
+											<Text
+												type="standard"
+												text={translate(
+													'booking.event.booking.cancel'
+												)}
+												className="bookingEvents--primary"
+											/>
+										</div>
+									</div>
+								)}
+								{event.videoAppointmentId && (
+									<Button
+										className="bookingEvents__video-button--mobile"
+										buttonHandle={() =>
+											handleVideoLink(
+												event.videoAppointmentId
+											)
+										}
+										item={startVideoCallButton}
+									/>
 								)}
 							</div>
-						</Box>
-					</>
+						</div>
+						<div className="bookingEvents__video-link-grid">
+							{activeBookings && (
+								<div className="bookingEvents__ics bookingEvents--flex bookingEvents--pointer">
+									<DownloadICSFile
+										date={event.date}
+										duration={event.duration}
+										title={event.title}
+									/>
+								</div>
+							)}
+							{event.videoAppointmentId && (
+								<>
+									<div className="bookingEvents__video-link-grid-wrapper">
+										<Text
+											className="bookingEvents__video-link-grid-wrapper--text"
+											type="infoLargeStandard"
+											text={getLink(
+												event.videoAppointmentId
+											)}
+										/>
+										<div>
+											<CopyIcon
+												className={
+													'bookingEvents__copy icn--s'
+												}
+												onClick={() =>
+													copyRegistrationLink(
+														event.videoAppointmentId
+													)
+												}
+											/>
+										</div>
+									</div>
+									<Button
+										className="bookingEvents__video-button"
+										buttonHandle={() =>
+											handleVideoLink(
+												event.videoAppointmentId
+											)
+										}
+										item={startVideoCallButton}
+									/>
+								</>
+							)}
+						</div>
+					</Box>
 				))}
 			</>
 		);
