@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 
 export const AvailabilityContainer = () => {
 	const settings = useAppConfig();
-	const [hasCalDavAccount, setHasCalDavAccount] = useState<Boolean>(null);
+	const [hasCalDavAccount, setHasCalDavAccount] = useState<boolean>(null);
 
 	const deleteAccountButton: ButtonItem = {
 		label: translate('tools.calendar.button.label'),
