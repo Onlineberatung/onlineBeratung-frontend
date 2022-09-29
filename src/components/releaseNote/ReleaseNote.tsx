@@ -8,13 +8,13 @@ import { ReactComponent as newIllustration } from '../../resources/img/illustrat
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { Text } from '../text/Text';
 import { translate } from '../../utils/translate';
-import { config } from '../../resources/scripts/config';
 import { convertFromRaw } from 'draft-js';
 import sanitizeHtml from 'sanitize-html';
 import { sanitizeHtmlExtendedOptions } from '../messageSubmitInterface/richtextHelpers';
 import { stateToHTML } from 'draft-js-export-html';
 
 import './releaseNote.styles.scss';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface ReleaseNoteProps {}
 
@@ -27,6 +27,7 @@ type TReleases = {
 }[];
 
 export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
+	const settings = useAppConfig();
 	const [showReleaseNote, setShowRelaseNote] = useState(false);
 	const [checkboxChecked, setCheckboxChecked] = useState(false);
 	const [releaseNoteText, setReleaseNoteText] = useState('');
@@ -38,7 +39,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	);
 
 	useEffect(() => {
-		fetch(`${config.urls.releases}/releases.json`)
+		fetch(`${settings.urls.releases}/releases.json`)
 			.then((res) => res.json())
 			.then((releases: TReleases) =>
 				Object.entries(releases)
@@ -55,7 +56,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 			.then((releases) =>
 				Promise.all(
 					releases.map((release) =>
-						fetch(`${config.urls.releases}/${release.file}`)
+						fetch(`${settings.urls.releases}/${release.file}`)
 							.then((res) => res.text())
 							.then((markdown) => ({
 								...release,
@@ -99,7 +100,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 			.catch(() => {
 				setShowRelaseNote(false);
 			});
-	}, [readReleaseNote]);
+	}, [readReleaseNote, settings.urls.releases]);
 
 	const changeHasSeenReleaseNote = () => {
 		setCheckboxChecked(!checkboxChecked);

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { config } from '../../resources/scripts/config';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
@@ -12,6 +11,7 @@ import {
 	getCounselorAppointmentLink,
 	getTeamAppointmentLink
 } from '../../api';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const getUserEmail = (userData: UserDataInterface) => {
 	return userData.email
@@ -22,6 +22,7 @@ export const getUserEmail = (userData: UserDataInterface) => {
 export const Booking = () => {
 	const { userData } = useContext(UserDataContext);
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
+	const settings = useAppConfig();
 
 	useEffect(() => {
 		setBookingWrapperActive();
@@ -46,15 +47,14 @@ export const Booking = () => {
 				});
 			}
 		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [userData]);
 
 	return (
 		<React.Fragment>
-			{appointmentLink && (
+			{appointmentLink && settings.calcomUrl && (
 				<Cal
 					calLink={appointmentLink}
-					calOrigin={config.urls.appointmentServiceDevServer}
+					calOrigin={settings.calcomUrl}
 					config={{
 						'name': userData.userName,
 						'email': getUserEmail(userData),
