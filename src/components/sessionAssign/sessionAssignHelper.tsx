@@ -1,7 +1,7 @@
 import { Consultant } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { translate } from '../../utils/translate';
-import { SelectDropdownItem, SelectOption } from '../select/SelectDropdown';
+import { SelectDropdownItem } from '../select/SelectDropdown';
 
 export const prepareSelectDropdown = ({
 	consultantList,
@@ -25,20 +25,24 @@ export const prepareSelectDropdown = ({
 	return selectDropdown;
 };
 
-export const prepareConsultantDataForSelect = (
-	consultants: Consultant[],
-	useFullName = true
-) => {
+export const prepareConsultantDataForSelect = (consultants: Consultant[]) => {
 	let availableConsultants = [];
 	consultants.forEach((item) => {
-		const label = useFullName
-			? item.firstName + ` ` + item.lastName
-			: item.displayName || decodeUsername(item.username);
+		const label =
+			item.firstName +
+			` ` +
+			item.lastName +
+			' (' +
+			decodeUsername(item.username) +
+			')';
 
-		const consultant: SelectOption = {
+		const consultant = {
 			value: item.consultantId,
 			label,
-			iconLabel: item.firstName.charAt(0) + item.lastName.charAt(0)
+			iconLabel: item.firstName.charAt(0) + item.lastName.charAt(0),
+			consultantDisplayName: item.displayName
+				? item.displayName
+				: decodeUsername(item.username)
 		};
 		availableConsultants.push(consultant);
 	});
