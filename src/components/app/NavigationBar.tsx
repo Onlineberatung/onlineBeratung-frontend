@@ -21,7 +21,6 @@ import {
 } from '../../api';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language.svg';
-import { components } from 'react-select';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { userHasBudibaseTools } from '../../api/apiGetTools';
 
@@ -52,8 +51,6 @@ export const NavigationBar = ({
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
 	const { tenant } = useContext(TenantContext);
-
-	const [isMenuOpen, setMenuOpen] = useState(false);
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
@@ -145,24 +142,27 @@ export const NavigationBar = ({
 			...styles,
 			cursor: 'pointer'
 		}),
+		input: (styles) => ({
+			...styles,
+			width: '0px',
+			margin: '0px',
+			opacity: 0
+		}),
 		placeholder: () => ({
 			display: 'none'
 		})
 	};
 
-	const ValueContainer = ({ children, ...props }) => (
-		<components.ValueContainer {...props}>
-			{React.Children.map(children, (child) =>
-				child && [components.SingleValue].indexOf(child.type) === -1
-					? child
-					: null
-			)}
-			<LanguageIcon className="navigation__icon" />
-			<span className="navigation__title">
-				{translate('navigation.language')}
-			</span>
-		</components.ValueContainer>
-	);
+	const SingleValue = () => {
+		return (
+			<div>
+				<LanguageIcon className="navigation__icon" />
+				<span className="navigation__title">
+					{translate('navigation.language')}
+				</span>
+			</div>
+		);
+	};
 
 	return (
 		<div className="navigation__wrapper">
@@ -228,21 +228,16 @@ export const NavigationBar = ({
 					})}
 				>
 					{selectableLocales.length > 1 && (
-						<div
-							className="navigation__item navigation__item__language"
-							onClick={() => setMenuOpen(!isMenuOpen)}
-						>
+						<div className="navigation__item navigation__item__language">
 							<LocaleSwitch
 								styles={navbarLocaleSwitchStyle}
 								showIcon={false}
 								components={{
 									DropdownIndicator: () => null,
 									IndicatorSeparator: () => null,
-									ValueContainer,
-									Input: () => null
+									SingleValue: () => <SingleValue />
 								}}
 								className="navigation__title"
-								menuIsOpen={isMenuOpen}
 								updateUserData
 							/>
 						</div>

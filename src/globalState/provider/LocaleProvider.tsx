@@ -70,6 +70,7 @@ export function LocaleProvider(props) {
 			}
 			i18n.changeLanguage(lngCode);
 			localStorage.setItem(STORAGE_KEY, locale);
+			document.documentElement.lang = locale;
 		}
 	}, [locale, informal, locales, initialized]);
 

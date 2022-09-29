@@ -95,6 +95,7 @@ export const AuthenticatedApp = ({
 		locale,
 		setConsultingTypes,
 		setInformal,
+		setLocale,
 		setUserData,
 		userDataRequested
 	]);

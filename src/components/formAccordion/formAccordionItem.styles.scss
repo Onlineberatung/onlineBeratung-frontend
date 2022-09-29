@@ -102,7 +102,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 			width: 100%;
 			max-width: 535px;
 			@include breakpoint($fromMedium) {
-				width: 0px;
+				width: auto;
 			}
 		}
 

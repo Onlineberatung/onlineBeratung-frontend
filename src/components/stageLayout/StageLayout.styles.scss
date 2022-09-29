@@ -41,13 +41,16 @@
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
-		width: unset;
-		left: unset;
+		width: auto;
 		padding: 48px 16px;
 
 		@include breakpoint($fromXLarge) {
 			width: 100%;
 			padding-left: calc(40vw + 16px);
+
+			& > * {
+				width: calc(60vw - 300px);
+			}
 		}
 	}
 

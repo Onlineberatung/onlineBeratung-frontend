@@ -64,10 +64,7 @@ import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { useTranslation } from 'react-i18next';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import {
-	deleteCookieByName,
-	setValueInCookie
-} from '../sessionCookie/accessSessionCookie';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { FALLBACK_LNG } from '../../i18n';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 
