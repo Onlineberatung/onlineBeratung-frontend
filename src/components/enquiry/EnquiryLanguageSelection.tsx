@@ -25,8 +25,11 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 		const { sessionId: sessionIdFromParam } =
 			useParams<{ sessionId: string }>();
 		const { locale } = useContext(LocaleContext);
+		const [loading, setLoading] = useState(true);
 
-		const [selectedLanguage, setSelectedLanguage] = useState(locale);
+		const [selectedLanguage, setSelectedLanguage] = useState(
+			fixedLanguages?.[0] || 'de'
+		);
 		const [languages, setLanguages] = useState([...fixedLanguages]);
 
 		useEffect(() => {
@@ -35,7 +38,7 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			}
 
 			// async wrapper
-			const getLanguagesFromApi = async () => {
+			const getLanguagesFromApi = new Promise<string[]>((resolve) => {
 				const activeSession = getExtendedSession(
 					sessionIdFromParam,
 					sessions
@@ -49,52 +52,61 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 				}
 
 				if (!agencyId) {
-					return;
+					resolve([]);
 				}
 
-				const response = await apiAgencyLanguages(
+				apiAgencyLanguages(
 					agencyId,
 					settings?.multitenancyWithSingleDomainEnabled
-				).catch(() => {
-					/* intentional, falls back to fixed languages */
-				});
+				)
+					.then((response) => {
+						const sortByTranslation = (a, b) => {
+							if (
+								translate(`languages.${a}`) >
+								translate(`languages.${b}`)
+							)
+								return 1;
+							if (
+								translate(`languages.${a}`) <
+								translate(`languages.${b}`)
+							)
+								return -1;
+							return 0;
+						};
 
-				if (!response) {
-					return;
+						const sortedResponseLanguages = response.languages
+							.slice()
+							.sort(sortByTranslation);
+						resolve(
+							[
+								...fixedLanguages,
+								...sortedResponseLanguages
+							].filter(isUniqueLanguage)
+						);
+					})
+					.catch(() => {
+						resolve([]);
+						/* intentional, falls back to fixed languages */
+					});
+			});
+
+			getLanguagesFromApi.then((sortedLanguages) => {
+				setLanguages(sortedLanguages);
+
+				if (sortedLanguages.includes(locale)) {
+					setSelectedLanguage(locale);
 				}
 
-				const sortByTranslation = (a, b) => {
-					if (
-						translate(`languages.${a}`) >
-						translate(`languages.${b}`)
-					)
-						return 1;
-					if (
-						translate(`languages.${a}`) <
-						translate(`languages.${b}`)
-					)
-						return -1;
-					return 0;
-				};
-
-				const sortedResponseLanguages = response.languages
-					.slice()
-					.sort(sortByTranslation);
-				const sortedLanguages = [
-					...fixedLanguages,
-					...sortedResponseLanguages
-				].filter(isUniqueLanguage);
-				setLanguages(sortedLanguages);
-			};
-
-			getLanguagesFromApi();
+				setLoading(false);
+			});
 		}, [
 			sessions,
 			ready,
 			sessionIdFromParam,
 			fixedLanguages,
 			translate,
-			settings?.multitenancyWithSingleDomainEnabled
+			settings?.multitenancyWithSingleDomainEnabled,
+			locale
 		]);
 
 		const selectLanguage = (isoCode) => {
@@ -116,7 +128,7 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			</span>
 		);
 
-		if (languages.length <= 1) {
+		if (languages.length <= 1 || loading) {
 			return null;
 		}
 
