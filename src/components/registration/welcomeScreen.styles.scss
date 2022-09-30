@@ -11,6 +11,11 @@ $welcome-screen-button-text-align: center !default;
 		font-weight: 400;
 	}
 
+	& > * {
+		max-width: 500px;
+		margin: auto;
+	}
+
 	&__explanation,
 	&__buttonsWrapper {
 		margin: $grid-base-five auto 0;

@@ -6,7 +6,7 @@ export default function useIsFirstVisit() {
 	const [isFirstVisit, setIsFirstVisit] = useState(true);
 
 	useEffect(() => {
-		setIsFirstVisit(sessionStorage.getItem('visited') !== 'true');
+		setIsFirstVisit(sessionStorage.getItem(STORAGE_KEY) !== 'true');
 		sessionStorage.setItem(STORAGE_KEY, 'true');
 	}, []);
 

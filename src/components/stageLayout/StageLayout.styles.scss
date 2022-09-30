@@ -48,7 +48,7 @@
 			width: 100%;
 			padding-left: calc(40vw + 16px);
 
-			& > * {
+			& > *:not(.loadingIndicator) {
 				width: calc(60vw - 300px);
 			}
 		}
