@@ -4,102 +4,56 @@ import {
 	GoogleCalendar,
 	Office365
 } from '../../../../resources/img/icons';
-import { Button } from '../../../../components/button/Button';
 import * as React from 'react';
 import { translate } from '../../../../utils/translate';
-import { useAppConfig } from '../../../../hooks/useAppConfig';
+import { ReactElement } from 'react';
+import { Calendar } from '../Calendar/calendar';
+
+interface AvailableCalendarsInterface {
+	component: ReactElement;
+	label: string;
+	buttonLabel: string;
+	calendarName: string;
+}
 
 const AddCalendar = () => {
-	const settings = useAppConfig();
-	const syncCalendar = (calendarName: string) => {
-		if (calendarName === 'apple' || calendarName === 'caldav') {
-			window.location.replace(
-				`${settings.calcomUrl}/apps/${calendarName}-calendar/setup`
-			);
-			return;
+	const availableCalendars: AvailableCalendarsInterface[] = [
+		{
+			component: <Office365 className="calendar-integration-icon" />,
+			label: translate('booking.calender.integration.office365'),
+			buttonLabel: translate('booking.calender.synchronise'),
+			calendarName: 'office365'
+		},
+		{
+			component: <CalDav className="calendar-integration-icon" />,
+			label: translate('booking.calender.integration.caldav'),
+			buttonLabel: translate('booking.calender.synchronise'),
+			calendarName: 'caldav'
+		},
+		{
+			component: <GoogleCalendar className="calendar-integration-icon" />,
+			label: translate('booking.calender.integration.google'),
+			buttonLabel: translate('booking.calender.synchronise'),
+			calendarName: 'google'
+		},
+		{
+			component: <AppleIcon className="calendar-integration-icon" />,
+			label: translate('booking.calender.integration.apple'),
+			buttonLabel: translate('booking.calender.synchronise'),
+			calendarName: 'apple'
 		}
-
-		fetch(
-			`${settings.calcomUrl}/api/integrations/${calendarName}_calendar/add?state={"returnTo":"${window.location.origin}/booking/events/settings"}`
-		)
-			.then((resp) => resp.json())
-			.then((resp) => {
-				window.location.replace(resp.url);
-			});
-	};
+	];
 
 	return (
 		<>
-			<div className="calendar-integration-container">
-				<Office365 className="calendar-integration-icon" />
-				<div className="calendar-integration-item-container">
-					<span>
-						{translate('booking.calender.integration.office365')}
-					</span>
-					<Button
-						item={{
-							type: 'TERTIARY',
-							label: `${translate(
-								'booking.calender.synchronise'
-							)}`
-						}}
-						buttonHandle={() => syncCalendar('office365')}
-					/>
-				</div>
-			</div>
-
-			<div className="calendar-integration-container">
-				<CalDav className="calendar-integration-icon" />
-				<div className="calendar-integration-item-container">
-					<span>
-						{translate('booking.calender.integration.caldav')}
-					</span>
-					<Button
-						item={{
-							type: 'TERTIARY',
-							label: `${translate(
-								'booking.calender.synchronise'
-							)}`
-						}}
-						buttonHandle={() => syncCalendar('caldav')}
-					/>
-				</div>
-			</div>
-
-			<div className="calendar-integration-container">
-				<GoogleCalendar className="calendar-integration-icon" />
-				<div className="calendar-integration-item-container">
-					<span>
-						{translate('booking.calender.integration.google')}
-					</span>
-					<Button
-						item={{
-							type: 'TERTIARY',
-							label: `${translate(
-								'booking.calender.synchronise'
-							)}`
-						}}
-						buttonHandle={() => syncCalendar('google')}
-					/>
-				</div>
-			</div>
-			<div className="calendar-integration-container">
-				<AppleIcon className="calendar-integration-icon" />
-				<div className="calendar-integration-item-container">
-					<span>
-						{translate('booking.calender.integration.apple')}
-					</span>
-					<Button
-						item={{
-							type: 'TERTIARY',
-							label: `${translate(
-								'booking.calender.synchronise'
-							)}`
-						}}
-						buttonHandle={() => syncCalendar('apple')}
-					/>
-				</div>
-			</div>
+			{availableCalendars.map((calendar) => (
+				<Calendar
+					component={calendar.component}
+					label={calendar.label}
+					buttonLabel={calendar.buttonLabel}
+					calendarName={calendar.calendarName}
+				/>
+			))}
 		</>
 	);
 };
