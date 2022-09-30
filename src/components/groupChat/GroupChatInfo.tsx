@@ -71,6 +71,7 @@ export const GroupChatInfo = () => {
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
+	const [isV2GroupChat, setIsV2GroupChat] = useState<boolean>(false);
 
 	const { session: activeSession, ready } = useSession(groupIdFromParam);
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
@@ -126,6 +127,10 @@ export const GroupChatInfo = () => {
 					setBannedUsers([]);
 				}
 			});
+		}
+
+		if (activeSession.isGroup && !activeSession.item.consultingType) {
+			setIsV2GroupChat(true);
 		}
 	}, [activeSession, listPath, ready, sessionListTab]);
 
@@ -254,11 +259,11 @@ export const GroupChatInfo = () => {
 							type="divider"
 						/>
 
-						{featureGroupChatV2Enabled && (
+						{featureGroupChatV2Enabled && isV2GroupChat && (
 							<div className="profile__groupChatContainer">
 								<GroupChatCopyLinks
 									id={activeSession.item.id}
-									groupChatId={activeSession.rid}
+									groupChatId={activeSession.item.id.toString()}
 								/>
 							</div>
 						)}
