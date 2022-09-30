@@ -1,8 +1,14 @@
 import { apiKeycloakLogout } from '../../api/apiLogoutKeycloak';
 import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
-import { config } from '../../resources/scripts/config';
+import { getTenantSettings } from '../../utils/tenantSettingsHelper';
+import { calcomLogout } from '../booking/settings/calcomLogout';
+import { budibaseLogout } from '../budibase/budibaseLogout';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
-import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
+import {
+	removeRocketChatMasterKeyFromLocalStorage,
+	removeTokenExpiryFromLocalStorage
+} from '../sessionCookie/accessSessionLocalStorage';
+import { appConfig } from '../../utils/appConfig';
 
 let isRequestInProgress = false;
 export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
@@ -10,19 +16,17 @@ export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
 		return null;
 	}
 	isRequestInProgress = true;
-	apiRocketchatLogout()
-		.then(() => {
-			apiKeycloakLogout()
-				.then(() => {
-					invalidateCookies(withRedirect, redirectUrl);
-				})
-				.catch(() => {
-					invalidateCookies(withRedirect, redirectUrl);
-				});
-		})
-		.catch(() => {
-			invalidateCookies(withRedirect, redirectUrl);
-		});
+	const { featureAppointmentsEnabled, featureToolsEnabled } =
+		getTenantSettings();
+
+	Promise.all([
+		apiRocketchatLogout(),
+		apiKeycloakLogout(),
+		featureAppointmentsEnabled && calcomLogout(),
+		featureToolsEnabled && budibaseLogout()
+	]).finally(() => {
+		invalidateCookies(withRedirect, redirectUrl);
+	});
 };
 
 const invalidateCookies = (
@@ -31,13 +35,16 @@ const invalidateCookies = (
 ) => {
 	removeAllCookies();
 	removeTokenExpiryFromLocalStorage();
+	removeRocketChatMasterKeyFromLocalStorage();
 	if (withRedirect) {
 		redirectAfterLogout(redirectUrl);
 	}
 };
 
 const redirectAfterLogout = (altRedirectUrl?: string) => {
-	const redirectUrl = altRedirectUrl ? altRedirectUrl : config.urls.toEntry;
+	const redirectUrl = altRedirectUrl
+		? altRedirectUrl
+		: appConfig.urls.toEntry;
 	setTimeout(() => {
 		window.location.href = redirectUrl;
 	}, 1000);

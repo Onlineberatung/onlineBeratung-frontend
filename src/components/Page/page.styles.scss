@@ -1,0 +1,14 @@
+.page {
+	padding: 24px;
+	height: 100%;
+	overflow: auto;
+
+	&__title {
+		font-size: 24px;
+		font-weight: 500;
+		line-height: 32px;
+		letter-spacing: 0px;
+		text-align: left;
+		margin-bottom: 32px;
+	}
+}

@@ -45,6 +45,8 @@ import help from './de/help';
 import helpInformal from './de/helpInformal';
 import userProfile from './de/userProfile';
 import userProfileInformal from './de/userProfileInformal';
+import overview from './de/overview';
+import overviewInformal from './de/overviewInformal';
 
 const informalLocale = {
 	...de,
@@ -70,7 +72,8 @@ const informalLocale = {
 	walkthrough: { ...walkthrough, walkthroughInformal },
 	e2ee: { ...e2ee, ...e2eeInformal },
 	aliases: { ...aliases, ...aliasesInformal },
-	userProfile: { ...userProfile, ...userProfileInformal }
+	userProfile: { ...userProfile, ...userProfileInformal },
+	overview: { ...overview, ...overviewInformal }
 };
 
 export default informalLocale;

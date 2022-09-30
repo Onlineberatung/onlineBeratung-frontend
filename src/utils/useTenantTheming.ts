@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { apiGetTenantTheming } from '../api/apiGetTenantTheming';
 import { TenantContext } from '../globalState';
 import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
-import { config } from '../resources/scripts/config';
 import getLocationVariables from './getLocationVariables';
 import decodeHTML from './decodeHTML';
 import contrast from 'get-contrast';
-import { useAppConfigContext } from '../globalState/context/useAppConfig';
+import { useAppConfig } from '../hooks/useAppConfig';
 
 const RGBToHSL = (r, g, b) => {
 	// Make r, g, and b fractions of 1
@@ -218,41 +217,18 @@ const applyTheming = (tenant: TenantDataInterface) => {
 };
 
 const useTenantTheming = () => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const tenantContext = useContext(TenantContext);
 	const { subdomain } = getLocationVariables();
 	const [isLoadingTenant, setIsLoadingTenant] = useState(
-		config.enableTenantTheming
+		settings.useTenantService
 	);
 
-	useEffect(() => {
-		if (!settings.useTenantService) {
-			setIsLoadingTenant(false);
-			return;
-		}
-
-		if (!subdomain || !settings.enableTenantTheming) {
-			apiGetTenantTheming({
-				subdomain,
-				useMultiTenancyWithSingleDomain:
-					settings?.multiTenancyWithSingleDomainEnabled,
-				mainTenantSubdomainForSingleDomain:
-					settings.mainTenantSubdomainForSingleDomainMultitenancy
-			}).then(({ settings }) => {
+	const onTenantServiceResponse = useCallback(
+		(tenant: TenantDataInterface) => {
+			if (!subdomain) {
 				tenantContext?.setTenant({ settings } as any);
-				setIsLoadingTenant(false);
-			});
-			return;
-		}
-
-		apiGetTenantTheming({
-			subdomain,
-			useMultiTenancyWithSingleDomain:
-				settings?.multiTenancyWithSingleDomainEnabled,
-			mainTenantSubdomainForSingleDomain:
-				settings.mainTenantSubdomainForSingleDomainMultitenancy
-		})
-			.then((tenant) => {
+			} else {
 				// ToDo: See VIC-428 + VIC-427
 				const decodedTenant = JSON.parse(JSON.stringify(tenant));
 
@@ -265,7 +241,25 @@ const useTenantTheming = () => {
 
 				applyTheming(decodedTenant);
 				tenantContext?.setTenant(decodedTenant);
-			})
+			}
+			return;
+		},
+		[settings, subdomain, tenantContext]
+	);
+
+	useEffect(() => {
+		if (!settings.useTenantService) {
+			return;
+		}
+
+		apiGetTenantTheming({
+			subdomain,
+			useMultiTenancyWithSingleDomain:
+				settings?.multitenancyWithSingleDomainEnabled,
+			mainTenantSubdomainForSingleDomain:
+				settings.mainTenantSubdomainForSingleDomainMultitenancy
+		})
+			.then(onTenantServiceResponse)
 			.catch((error) => {
 				console.log('Theme could not be loaded', error);
 			})

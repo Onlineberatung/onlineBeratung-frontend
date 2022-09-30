@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
-import { config } from '../../../resources/scripts/config';
 import { Headline } from '../../headline/Headline';
 import { Text } from '../../text/Text';
 import AssignedCalendars from './assignedCalendars';
 import AddCalendar from './addCalendar';
 import * as React from 'react';
 import { translate } from '../../../utils/translate';
+import { Box } from '../../box/Box';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 export const CalendarIntegration = () => {
 	const [selectedTab, setSelectedTab] = useState(null);
 	const [showSynchronizedTab, setShowSynchronizedTab] = useState(false);
+	const settings = useAppConfig();
 
 	useEffect(() => {
-		fetch(
-			`${config.urls.appointmentServiceDevServer}/api/trpc/viewer.connectedCalendars`,
-			{ credentials: 'include' }
-		)
+		fetch(`${settings.calcomUrl}/api/trpc/viewer.connectedCalendars`, {
+			credentials: 'include'
+		})
 			.then((resp) => resp.json())
 			.then((data) => {
 				if (data.result.data.json.connectedCalendars.length > 0) {
@@ -25,10 +26,10 @@ export const CalendarIntegration = () => {
 					setSelectedTab('addNew');
 				}
 			});
-	}, []);
+	}, [settings.calcomUrl]);
 
 	return (
-		<div className="settings-container-column">
+		<Box>
 			<div style={{ marginBottom: '20px' }}>
 				<Headline
 					className="pr--3"
@@ -79,6 +80,6 @@ export const CalendarIntegration = () => {
 			)}
 			{selectedTab === 'synchronized' ? <AssignedCalendars /> : null}
 			{selectedTab === 'addNew' ? <AddCalendar /> : null}
-		</div>
+		</Box>
 	);
 };

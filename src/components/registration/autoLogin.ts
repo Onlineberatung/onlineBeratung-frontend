@@ -3,7 +3,6 @@ import CryptoJS from 'crypto-js';
 import { getKeycloakAccessToken } from '../sessionCookie/getKeycloakAccessToken';
 import { getRocketchatAccessToken } from '../sessionCookie/getRocketchatAccessToken';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
-import { config } from '../../resources/scripts/config';
 import { generateCsrfToken } from '../../utils/generateCsrfToken';
 import {
 	createAndStoreKeys,
@@ -29,6 +28,7 @@ import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
 import { getBudibaseAccessToken } from '../sessionCookie/getBudibaseAccessToken';
 import { TenantDataSettingsInterface } from '../../globalState/interfaces/TenantDataInterface';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
+import { appConfig } from '../../utils/appConfig';
 
 export interface LoginData {
 	data: {
@@ -48,7 +48,6 @@ interface AutoLoginProps {
 	otp?: string;
 	useOldUser?: boolean;
 	tenantSettings?: TenantDataSettingsInterface;
-	enableBudibaseSSO: boolean;
 }
 
 export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
@@ -122,11 +121,7 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 						redirect: autoLoginProps.redirect,
 						otp: autoLoginProps.otp,
 						useOldUser: true,
-						enableBudibaseSSO: autoLoginProps.enableBudibaseSSO,
-						...ensureTenantSettings(
-							autoLoginProps?.tenantSettings,
-							autoLoginProps.enableBudibaseSSO
-						)
+						...ensureTenantSettings(autoLoginProps?.tenantSettings)
 					})
 						.then(() => resolve(undefined))
 						.catch((autoLoginError) => reject(autoLoginError));
@@ -137,7 +132,7 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 	});
 
 export const redirectToApp = () => {
-	window.location.href = config.urls.redirectToApp;
+	window.location.href = appConfig.urls.redirectToApp;
 };
 
 export const handleE2EESetup = (

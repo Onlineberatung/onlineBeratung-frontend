@@ -11,6 +11,7 @@ export interface BookingEventsInterface {
 	askerId?: string;
 	askerName?: string;
 	title: string;
+	videoAppointmentId: string;
 }
 
 export interface BookingEventUiInterface {
@@ -24,5 +25,6 @@ export interface BookingEventUiInterface {
 	askerName: string;
 	description: string;
 	title: string;
+	videoAppointmentId: string;
 	expanded: boolean;
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { translate } from '../../utils/translate';
 import {
 	setBookingWrapperActive,
@@ -14,26 +14,17 @@ import { Text } from '../text/Text';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	SessionsDataContext,
 	useConsultingTypes,
 	UserDataContext
 } from '../../globalState';
-import {
-	BookingEventsInterface,
-	BookingEventUiInterface
-} from '../../globalState/interfaces/BookingsInterface';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import bookingRoutes from './booking.routes';
-import { BookingsStatus } from '../../utils/consultant';
-import { apiGetConsultantAppointments } from '../../api/apiGetConsultantAppointments';
-import { apiAppointmentsServiceBookingEventsByAskerId } from '../../api';
 import {
 	solveTabConditions,
 	isTabGroup,
 	solveCondition,
 	SingleComponentType
 } from '../../utils/tabsHelper';
-import { transformBookingData } from '../../utils/transformBookingData';
 
 export const BookingEvents = () => {
 	useEffect(() => {
@@ -45,7 +36,6 @@ export const BookingEvents = () => {
 	}, []);
 
 	const { userData } = useContext(UserDataContext);
-	const { sessions } = useContext(SessionsDataContext);
 	const consultingTypes = useConsultingTypes();
 
 	const isConsultant = hasUserAuthority(
@@ -62,38 +52,10 @@ export const BookingEvents = () => {
 		history.push({
 			pathname: '/booking/',
 			state: {
-				sessionId: sessions[0]?.session?.id
+				isInitialMessage: false
 			}
 		});
 	};
-
-	const [bookingEventsData, setBookingEventsData] = useState<
-		BookingEventUiInterface[]
-	>([] as BookingEventUiInterface[]);
-
-	useEffect(() => {
-		if (isConsultant) {
-			apiGetConsultantAppointments(
-				userData.userId,
-				BookingsStatus.ACTIVE
-			).then((bookings) => {
-				transformData(bookings);
-			});
-		} else {
-			apiAppointmentsServiceBookingEventsByAskerId(userData.userId).then(
-				(bookings) => {
-					transformData(bookings);
-				}
-			);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	const transformData = (bookings: BookingEventsInterface[]) => {
-		const bookingEvents = transformBookingData(bookings);
-		setBookingEventsData(bookingEvents);
-	};
-
 	return (
 		<div className="bookingEvents__wrapper">
 			<div
@@ -129,7 +91,7 @@ export const BookingEvents = () => {
 						<div />
 					</>
 				)}
-				{!isConsultant && bookingEventsData.length > 0 && (
+				{!isConsultant && (
 					<Button
 						item={scheduleAppointmentButton}
 						buttonHandle={handleBookingButton}
@@ -137,7 +99,7 @@ export const BookingEvents = () => {
 						className="bookingEvents__headerButton"
 					/>
 				)}
-				{!isConsultant && bookingEventsData.length > 0 && (
+				{!isConsultant && (
 					<div className="bookingEvents__calendar--mobile">
 						<CalendarMonthPlusIcon />
 						<Text

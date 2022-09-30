@@ -40,6 +40,7 @@ import qrCode from './de/qrCode';
 import releaseNote from './de/releaseNote';
 import e2ee from './de/e2ee';
 import aliases from './de/aliases';
+import overview from './de/overview';
 
 const de = {
 	absence,
@@ -83,7 +84,8 @@ const de = {
 	releaseNote,
 	walkthrough,
 	e2ee,
-	aliases
+	aliases,
+	overview
 };
 
 export default de;

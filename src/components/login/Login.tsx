@@ -59,7 +59,7 @@ import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMai
 import { RocketChatGlobalSettingsContext } from '../../globalState';
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
-import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -72,9 +72,9 @@ interface LoginProps {
 }
 
 export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
+	const settings = useAppConfig();
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
-	const { settings } = useAppConfigContext();
 
 	const hasTenant = tenant != null;
 
@@ -308,8 +308,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 			username: username,
 			password: password,
 			redirect: !consultant,
-			...ensureTenantSettings(tenant?.settings, settings.budibaseSSO),
-			enableBudibaseSSO: settings.budibaseSSO
+			...ensureTenantSettings(tenant?.settings)
 		})
 			.then(postLogin)
 			.catch((error) => {
@@ -344,8 +343,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 				password,
 				redirect: !consultant,
 				otp,
-				enableBudibaseSSO: settings.budibaseSSO,
-				...ensureTenantSettings(tenant?.settings, settings.budibaseSSO)
+				...ensureTenantSettings(tenant?.settings)
 			})
 				.then(postLogin)
 				.catch((error) => {
@@ -495,7 +493,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 								className="loginForm__register__link button-as-link"
 								onClick={() =>
 									window.open(
-										config.urls.toRegistration,
+										settings.urls.toRegistration,
 										'_self'
 									)
 								}
@@ -522,7 +520,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					/>
 					<a
 						className="login__tenantRegistrationLink"
-						href={config.urls.toRegistration}
+						href={settings.urls.toRegistration}
 						target="_self"
 						tabIndex={-1}
 					>

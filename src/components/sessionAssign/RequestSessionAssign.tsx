@@ -61,10 +61,8 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 		if (consultantList && consultantList.length <= 0) {
 			apiGetAgencyConsultantList(agencyId)
 				.then((response) => {
-					const consultants = prepareConsultantDataForSelect(
-						response,
-						false
-					);
+					const consultants =
+						prepareConsultantDataForSelect(response);
 					setConsultantList(consultants);
 				})
 				.catch((error) => {
@@ -86,9 +84,10 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 		const toAskerName = client;
 		setReassignmentParams({
 			toConsultantId: selected.value,
-			toConsultantName: selected.label,
+			toConsultantName: selected.consultantDisplayName,
 			toAskerName,
-			fromConsultantName: selectedConsultant.label,
+			fromConsultantId: selectedConsultant.value,
+			fromConsultantName: selectedConsultant.consultantDisplayName,
 			status: ReassignStatus.REQUESTED
 		});
 

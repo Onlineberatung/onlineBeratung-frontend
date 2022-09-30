@@ -21,7 +21,7 @@ import {
 } from '../select/SelectDropdown';
 import { Text } from '../text/Text';
 import { AgencyLanguages } from '../agencySelection/AgencyLanguages';
-import { useAppConfigContext } from '../../globalState/context/useAppConfig';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export interface ConsultingTypeAgencySelectionProps {
 	consultant: ConsultantDataInterface;
@@ -38,7 +38,7 @@ export const useConsultingTypeAgencySelection = (
 	consultingType: ConsultingTypeInterface,
 	agency: AgencyDataInterface
 ) => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const [consultingTypes, setConsultingTypes] = useState<
 		ConsultingTypeInterface[]
 	>([]);
@@ -52,7 +52,7 @@ export const useConsultingTypeAgencySelection = (
 		// When we've the multi tenancy with single domain we can simply ignore the
 		// consulting types because we'll get agencies across tenants
 		if (
-			settings.multiTenancyWithSingleDomainEnabled &&
+			settings.multitenancyWithSingleDomainEnabled &&
 			consultant?.agencies?.length > 0
 		) {
 			setAgencies(consultant?.agencies);
@@ -104,7 +104,7 @@ export const useConsultingTypeAgencySelection = (
 		consultant,
 		consultingType,
 		agency,
-		settings.multiTenancyWithSingleDomainEnabled
+		settings.multitenancyWithSingleDomainEnabled
 	]);
 
 	return { agencies, consultingTypes };
@@ -119,7 +119,7 @@ export const ConsultingTypeAgencySelection = ({
 	preselectedAgency,
 	onKeyDown
 }: ConsultingTypeAgencySelectionProps) => {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const [selectedConsultingTypeOption, setSelectedConsultingTypeOption] =
 		useState<SelectOption>(null);
 	const [consultingTypeOptions, setConsultingTypeOptions] = useState<
@@ -156,7 +156,7 @@ export const ConsultingTypeAgencySelection = ({
 			return;
 		}
 
-		const agencyOptions = settings.multiTenancyWithSingleDomainEnabled
+		const agencyOptions = settings.multitenancyWithSingleDomainEnabled
 			? possibleAgencies
 			: possibleAgencies.filter(
 					(agency) =>
@@ -172,7 +172,7 @@ export const ConsultingTypeAgencySelection = ({
 		onChange,
 		possibleAgencies,
 		selectedConsultingTypeOption,
-		settings.multiTenancyWithSingleDomainEnabled
+		settings.multitenancyWithSingleDomainEnabled
 	]);
 
 	useEffect(() => {

@@ -123,6 +123,7 @@ const profile = {
 		'Aktive Beratungen',
 	'statistics.csvHeader.videoCallDuration':
 		'Dauer von Video-Calls in Minuten:Sekunden',
+	'statistics.csvHeader.numberOfAppointments': 'Termine gebuchte',
 	'unsetEmail.confirmOverlay.headline':
 		'Möchten Sie Ihre E-Mail-Adresse wirklich löschen?',
 	'unsetEmail.confirmOverlay.copy': 'Wenn Sie ihre E-Mail-Adresse löschen:',
