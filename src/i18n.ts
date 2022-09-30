@@ -40,11 +40,15 @@ export const init = (config: InitOptions) => {
 		.init(
 			_.merge(
 				{
+					/*
+					 * Do not use localStorage detection because we have to do it
+					 * inside LocaleProvider.tsx to detect if language has been
+					 * changed by the user
+					 */
+					supportedLngs: ['de'],
 					detection: {
-						order: ['sessionStorage', 'navigator'],
-						lookupQuerystring: 'lng',
-						lookupSessionStorage: 'locale',
-						caches: ['sessionStorage']
+						order: ['navigator'],
+						caches: []
 					},
 					defaultNS: 'common',
 					fallbackLng: {

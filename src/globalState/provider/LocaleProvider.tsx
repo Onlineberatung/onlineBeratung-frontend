@@ -8,6 +8,7 @@ export const STORAGE_KEY = 'locale';
 
 type TLocaleContext = {
 	locale: string;
+	initLocale: string;
 	setLocale: (lng: string) => void;
 	locales: string[];
 	selectableLocales: string[];
@@ -18,11 +19,16 @@ export const LocaleContext = createContext<TLocaleContext>(null);
 export function LocaleProvider(props) {
 	const settings = useAppConfig();
 	const [initialized, setInitialized] = useState(false);
+	const [initLocale, setInitLocale] = useState(null);
 	const { informal } = useContext(InformalContext);
 	const [locale, setLocale] = useState('de');
 
 	useEffect(() => {
 		init(settings.i18n).then(() => {
+			setInitLocale(i18n.language);
+			if (localStorage.getItem(STORAGE_KEY)) {
+				setLocale(localStorage.getItem(STORAGE_KEY));
+			}
 			setInitialized(true);
 		});
 	}, [settings.i18n]);
@@ -42,16 +48,6 @@ export function LocaleProvider(props) {
 				: [],
 		[initialized]
 	);
-
-	useEffect(() => {
-		if (!initialized) {
-			return;
-		}
-
-		if (localStorage.getItem(STORAGE_KEY)) {
-			setLocale(localStorage.getItem(STORAGE_KEY));
-		}
-	}, [initialized]);
 
 	useEffect(() => {
 		if (!initialized) {
@@ -81,10 +77,11 @@ export function LocaleProvider(props) {
 	return (
 		<LocaleContext.Provider
 			value={{
-				locale: locale,
-				setLocale: setLocale,
-				locales: locales,
-				selectableLocales: selectableLocales
+				locale,
+				initLocale,
+				setLocale,
+				locales,
+				selectableLocales
 			}}
 		>
 			{props.children}
