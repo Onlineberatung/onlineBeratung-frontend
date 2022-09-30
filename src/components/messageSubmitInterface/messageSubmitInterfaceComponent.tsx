@@ -508,12 +508,12 @@ export const MessageSubmitInterfaceComponent = (
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
 		) {
 			const { appointmentFeatureEnabled } = userData;
-			if (!sessions?.[0]?.consultant) {
+			if (!sessions?.[0]?.consultant && !activeSession.item.groupId) {
 				setShowAppointmentButton(appointmentFeatureEnabled);
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [activeSession.item.groupId]);
 
 	const handleAttachmentUploadError = (infoType: string) => {
 		setActiveInfo(infoType);
