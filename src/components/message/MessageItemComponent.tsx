@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import sanitizeHtml from 'sanitize-html';
-import {
-	getPrettyDateFromMessageDate,
-	PrettyDate
-} from '../../utils/dateHelpers';
+import { PrettyDate } from '../../utils/dateHelpers';
 import {
 	UserDataContext,
 	hasUserAuthority,
@@ -74,7 +71,7 @@ export interface MessageItem {
 	_id: string;
 	message: string;
 	org: string;
-	messageDate: string | number | PrettyDate;
+	messageDate: PrettyDate;
 	messageTime: string;
 	displayName: string;
 	username: string;
@@ -204,24 +201,15 @@ export const MessageItemComponent = ({
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const getMessageDate = () => {
-		if (messageDate) {
-			let text;
-			if (typeof messageDate === 'number') {
-				const prettyDate = getPrettyDateFromMessageDate(messageDate);
-				text = prettyDate.str
-					? translate(prettyDate.str)
-					: prettyDate.date;
-			} else if (typeof messageDate === 'string') {
-				text = messageDate;
-			} else {
-				text = messageDate.str
-					? translate(messageDate.str)
-					: messageDate.date;
-			}
-
+		if (messageDate.str || messageDate.date) {
 			return (
 				<div className="messageItem__divider">
-					<Text text={text} type="divider" />
+					<Text
+						text={translate(
+							messageDate.str ? messageDate.str : messageDate.date
+						)}
+						type="divider"
+					/>
 				</div>
 			);
 		}

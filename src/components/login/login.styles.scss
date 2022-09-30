@@ -41,7 +41,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		&:focus-visible {
 			outline: $focus-outline;
 			outline-offset: 4px;
-			border-radius: 4px;
+			border-radius: $login-button-focus-border-radius;
 		}
 
 		&:focus:not(:focus-visible) {
