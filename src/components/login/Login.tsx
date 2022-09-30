@@ -65,7 +65,6 @@ import { useTranslation } from 'react-i18next';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
-import { FALLBACK_LNG } from '../../i18n';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 
 interface LoginProps {
