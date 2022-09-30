@@ -21,13 +21,15 @@ export function LocaleProvider(props) {
 	const [initialized, setInitialized] = useState(false);
 	const [initLocale, setInitLocale] = useState(null);
 	const { informal } = useContext(InformalContext);
-	const [locale, setLocale] = useState('de');
+	const [locale, setLocale] = useState(null);
 
 	useEffect(() => {
 		init(settings.i18n).then(() => {
 			setInitLocale(i18n.language);
 			if (localStorage.getItem(STORAGE_KEY)) {
 				setLocale(localStorage.getItem(STORAGE_KEY));
+			} else {
+				setLocale(i18n.language || FALLBACK_LNG);
 			}
 			setInitialized(true);
 		});
