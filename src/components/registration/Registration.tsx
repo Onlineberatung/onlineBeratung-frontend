@@ -104,7 +104,7 @@ export const Registration = ({
 						'registration.title.start'
 					)} ${translate(
 						[
-							`consultingType.${consultingType.id}.titles.long`,
+							`consultingType.${consultant.agencies[0].consultingTypeRel.id}.titles.long`,
 							consultant.agencies[0].consultingTypeRel.titles.long
 						],
 						{ ns: 'consultingTypes' }
@@ -192,8 +192,8 @@ export const Registration = ({
 						consultingTypeId={consultingType?.id}
 						consultingTypeName={translate(
 							[
-								`consultingType.${consultingType.id}.titles.long`,
-								consultingType.titles.long
+								`consultingType.${consultingType?.id}.titles.long`,
+								consultingType?.titles.long
 							],
 							{ ns: 'consultingTypes' }
 						)}
