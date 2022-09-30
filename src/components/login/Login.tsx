@@ -65,7 +65,6 @@ import { useTranslation } from 'react-i18next';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
-import { FALLBACK_LNG } from '../../i18n';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 
 interface LoginProps {
@@ -76,7 +75,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
-	const { locale } = useContext(LocaleContext);
+	const { locale, initLocale } = useContext(LocaleContext);
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
 
@@ -310,7 +309,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				// If user has changed language from default but the profile has different language in profile override it
 				if (
 					userData.preferredLanguage !== locale &&
-					locale !== FALLBACK_LNG
+					locale !== initLocale
 				) {
 					return apiPatchUserData({
 						preferredLanguage: locale
@@ -336,6 +335,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		},
 		[
 			locale,
+			initLocale,
 			consultant,
 			possibleAgencies,
 			possibleConsultingTypes.length,

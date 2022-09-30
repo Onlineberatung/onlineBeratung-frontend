@@ -279,6 +279,7 @@ export const config: AppConfigInterface = {
 		'zu'
 	],
 	i18n: {
+		supportedLngs: ['de', 'en'],
 		fallbackLng: {
 			en: ['de'],
 			en_informal: ['en', 'de_informal', 'de']
