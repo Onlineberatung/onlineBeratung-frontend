@@ -8,7 +8,8 @@ export const GROUP_CHAT_API = {
 	LEAVE: '/leave',
 	START: '/start',
 	STOP: '/stop',
-	UPDATE: '/update'
+	UPDATE: '/update',
+	ASSIGN: '/assign'
 };
 
 export const apiPutGroupChat = async (
@@ -20,6 +21,6 @@ export const apiPutGroupChat = async (
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.PUT,
-		responseHandling: [FETCH_ERRORS.CONFLICT]
+		responseHandling: [FETCH_ERRORS.CONFLICT, FETCH_ERRORS.CATCH_ALL]
 	});
 };

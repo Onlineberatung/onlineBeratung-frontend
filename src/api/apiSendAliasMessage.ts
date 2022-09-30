@@ -21,6 +21,7 @@ export interface ConsultantReassignment {
 	toConsultantId: string;
 	toConsultantName: string;
 	toAskerName: string;
+	fromConsultantId: string;
 	fromConsultantName: string;
 	status: ReassignStatus;
 }

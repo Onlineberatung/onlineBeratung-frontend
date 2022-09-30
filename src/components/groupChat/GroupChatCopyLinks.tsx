@@ -20,7 +20,7 @@ export const GroupChatCopyLinks = ({
 	id,
 	groupChatId
 }: GroupChatCopyLinksProps) => {
-	const url = `${appConfig.urls.registration}?gcid=${id}`;
+	const url = `${appConfig.urls.toLogin}?gcid=${id}`;
 	const { addNotification } = useContext(NotificationsContext);
 
 	const copyRegistrationLink = useCallback(async () => {
