@@ -98,6 +98,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 		}
 
 		.button__item {
+			white-space: nowrap;
 			min-width: 100px;
 			width: 100%;
 			max-width: 535px;

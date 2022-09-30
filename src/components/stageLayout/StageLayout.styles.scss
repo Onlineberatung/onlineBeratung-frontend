@@ -49,6 +49,7 @@
 			padding-left: calc(40vw + 16px);
 
 			& > *:not(.loadingIndicator) {
+				max-width: 700px;
 				width: calc(60vw - 300px);
 			}
 		}

@@ -2,6 +2,7 @@ $maxFormElementWidth: 320px;
 $infoIconSize: 16px;
 
 .preselectedAgency {
+	margin-top: $grid-base-three;
 	animation: fadeIn linear 0.2s;
 	position: relative;
 
