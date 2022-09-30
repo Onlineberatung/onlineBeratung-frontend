@@ -1,6 +1,6 @@
 import * as React from 'react';
-import './bookingSettings.styles.scss';
-import { useAppConfig } from '../../../hooks/useAppConfig';
+import '../booking.styles.scss';
+import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 const AssignedCalendars = () => {
 	const settings = useAppConfig();

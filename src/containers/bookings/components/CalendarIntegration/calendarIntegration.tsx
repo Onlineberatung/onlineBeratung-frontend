@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Headline } from '../../../components/headline/Headline';
-import { Text } from '../../../components/text/Text';
-import AssignedCalendars from './assignedCalendars';
-import AddCalendar from './addCalendar';
+import { Headline } from '../../../../components/headline/Headline';
+import { Text } from '../../../../components/text/Text';
+import AssignedCalendars from '../AssignedCalendars/assignedCalendars';
+import AddCalendar from '../AddCalendar/addCalendar';
 import * as React from 'react';
-import { translate } from '../../../utils/translate';
-import { Box } from '../../../components/box/Box';
-import { useAppConfig } from '../../../hooks/useAppConfig';
+import { translate } from '../../../../utils/translate';
+import { Box } from '../../../../components/box/Box';
+import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 export const CalendarIntegration = () => {
 	const [selectedTab, setSelectedTab] = useState(null);

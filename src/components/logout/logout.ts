@@ -8,7 +8,7 @@ import {
 	removeTokenExpiryFromLocalStorage
 } from '../sessionCookie/accessSessionLocalStorage';
 import { appConfig } from '../../utils/appConfig';
-import { calcomLogout } from '../../containers/bookings/settings/calcomLogout';
+import { calcomLogout } from './calcomLogout';
 
 let isRequestInProgress = false;
 export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {

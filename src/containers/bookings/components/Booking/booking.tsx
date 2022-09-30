@@ -6,7 +6,7 @@ import {
 	getCounselorAppointmentLink,
 	getTeamAppointmentLink
 } from '../../../../api';
-import Cal from '../../../../components/cal/Cal';
+import Cal from '../Calcom/Cal';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
 import {
 	setBookingWrapperActive,

@@ -3,11 +3,11 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import useEmbed from './useEmbed';
 import './cal.styles';
-import { history } from '../app/app';
-import { apiAppointmentServiceSet } from '../../api/apiAppointmentServiceSet';
-import { UserDataContext } from '../../globalState';
-import { translate } from '../../utils/translate';
-import { apiGetAskerSessionList } from '../../api';
+import { history } from '../../../../components/app/app';
+import { apiAppointmentServiceSet } from '../../../../api/apiAppointmentServiceSet';
+import { UserDataContext } from '../../../../globalState';
+import { translate } from '../../../../utils/translate';
+import { apiGetAskerSessionList } from '../../../../api';
 
 export default function Cal({
 	calLink,

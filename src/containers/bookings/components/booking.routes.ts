@@ -4,7 +4,7 @@ import { TabsType } from '../../../utils/tabsHelper';
 import { BookingEventsBooked } from './BookingEventsBooked/bookingEventsBooked';
 import { BookingEventsCanceled } from './BookingEventsCanceled/bookingEventsCanceled';
 import { BookingEventsExpired } from './BookingEventsExpired/bookingEventsExpired';
-import { BookingSettings } from '../settings/bookingSettings';
+import { BookingSettings } from './BookingSettings/bookingSettings';
 
 const routes: TabsType = [
 	{

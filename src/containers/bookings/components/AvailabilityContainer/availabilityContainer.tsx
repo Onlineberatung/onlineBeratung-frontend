@@ -1,15 +1,15 @@
-import { Headline } from '../../../components/headline/Headline';
-import { Text } from '../../../components/text/Text';
+import { Headline } from '../../../../components/headline/Headline';
+import { Text } from '../../../../components/text/Text';
 import * as React from 'react';
-import { translate } from '../../../utils/translate';
-import { Box } from '../../../components/box/Box';
-import { ReactComponent as NewWindowIcon } from '../../../resources/img/icons/new-window.svg';
+import { translate } from '../../../../utils/translate';
+import { Box } from '../../../../components/box/Box';
+import { ReactComponent as NewWindowIcon } from '../../../../resources/img/icons/new-window.svg';
 import {
 	ButtonItem,
 	BUTTON_TYPES,
 	Button
-} from '../../../components/button/Button';
-import { useAppConfig } from '../../../hooks/useAppConfig';
+} from '../../../../components/button/Button';
+import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 export const AvailabilityContainer = () => {
 	const settings = useAppConfig();
