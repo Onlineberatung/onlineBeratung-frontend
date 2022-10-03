@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../booking.styles.scss';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
 
-const AssignedCalendars = () => {
+export const AssignedCalendars = () => {
 	const settings = useAppConfig();
 	return (
 		(settings.calcomUrl && (
@@ -20,5 +20,3 @@ const AssignedCalendars = () => {
 		null
 	);
 };
-
-export default AssignedCalendars;

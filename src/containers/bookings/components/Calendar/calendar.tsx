@@ -1,49 +1,53 @@
 import { Button } from '../../../../components/button/Button';
 import * as React from 'react';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
-import { ReactElement } from 'react';
+import { ReactNode, useCallback } from 'react';
+import { translate } from '../../../../utils/translate';
 
 interface AvailableCalendarsProps {
-	component: ReactElement;
-	label: string;
-	buttonLabel: string;
+	buttonLabelKey: string;
 	calendarName: string;
+	children: ReactNode;
+	labelKey: string;
 }
 
 export const Calendar: React.FC<AvailableCalendarsProps> = ({
-	component,
-	label,
-	buttonLabel,
-	calendarName
+	buttonLabelKey,
+	calendarName,
+	children,
+	labelKey
 }) => {
 	const settings = useAppConfig();
 
-	const syncCalendar = (calendarName: string) => {
-		if (calendarName === 'apple' || calendarName === 'caldav') {
-			window.location.replace(
-				`${settings.calcomUrl}/apps/${calendarName}-calendar/setup`
-			);
-			return;
-		}
+	const syncCalendar = useCallback(
+		(calendarName: string) => {
+			if (calendarName === 'apple' || calendarName === 'caldav') {
+				window.location.replace(
+					`${settings.calcomUrl}/apps/${calendarName}-calendar/setup`
+				);
+				return;
+			}
 
-		fetch(
-			`${settings.calcomUrl}/api/integrations/${calendarName}_calendar/add?state={"returnTo":"${window.location.origin}/booking/events/settings"}`
-		)
-			.then((resp) => resp.json())
-			.then((resp) => {
-				window.location.replace(resp.url);
-			});
-	};
+			fetch(
+				`${settings.calcomUrl}/api/integrations/${calendarName}_calendar/add?state={"returnTo":"${window.location.origin}/booking/events/settings"}`
+			)
+				.then((resp) => resp.json())
+				.then((resp) => {
+					window.location.replace(resp.url);
+				});
+		},
+		[settings.calcomUrl]
+	);
 
 	return (
 		<div className="calendar-integration-container">
-			{component}
+			{children}
 			<div className="calendar-integration-item-container">
-				<span>{label}</span>
+				<span>{translate(labelKey)}</span>
 				<Button
 					item={{
 						type: 'TERTIARY',
-						label: `${buttonLabel}`
+						label: `${translate(buttonLabelKey)}`
 					}}
 					buttonHandle={() => syncCalendar(calendarName)}
 				/>

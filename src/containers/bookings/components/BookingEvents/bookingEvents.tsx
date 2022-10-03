@@ -16,7 +16,7 @@ import { history } from '../../../../components/app/app';
 import { ReactComponent as CalendarMonthPlusIcon } from '../../../../resources/img/icons/calendar-plus.svg';
 import { Text } from '../../../../components/text/Text';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
-import bookingRoutes from '../booking.routes';
+import bookingRoutes from '../../booking.routes';
 import {
 	UserDataContext,
 	useConsultingTypes,

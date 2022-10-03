@@ -1,10 +1,10 @@
-import { AUTHORITIES, hasUserAuthority } from '../../../globalState';
-import { translate } from '../../../utils/translate';
-import { TabsType } from '../../../utils/tabsHelper';
-import { BookingEventsBooked } from './BookingEventsBooked/bookingEventsBooked';
-import { BookingEventsCanceled } from './BookingEventsCanceled/bookingEventsCanceled';
-import { BookingEventsExpired } from './BookingEventsExpired/bookingEventsExpired';
-import { BookingSettings } from './BookingSettings/bookingSettings';
+import { AUTHORITIES, hasUserAuthority } from '../../globalState';
+import { translate } from '../../utils/translate';
+import { TabsType } from '../../utils/tabsHelper';
+import { BookingEventsBooked } from './components/BookingEventsBooked/bookingEventsBooked';
+import { BookingEventsCanceled } from './components/BookingEventsCanceled/bookingEventsCanceled';
+import { BookingEventsExpired } from './components/BookingEventsExpired/bookingEventsExpired';
+import { BookingSettings } from './components/BookingSettings/bookingSettings';
 
 const routes: TabsType = [
 	{
