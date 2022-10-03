@@ -64,8 +64,12 @@ export const init = (config: InitOptions) => {
 				},
 				config ?? {}
 			),
-			(err, t) => {
-				if (err) {
+			() => {
+				if (
+					!process.env.REACT_APP_ENABLE_TRANSLATION_CHECK ||
+					parseInt(process.env.REACT_APP_ENABLE_TRANSLATION_CHECK) !==
+						1
+				) {
 					return;
 				}
 
