@@ -93,23 +93,29 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 							autoLoginProps
 						);
 
-						if (autoLoginProps.redirect) {
+						const redirect = () =>
+							autoLoginProps.redirect &&
 							redirectToApp(autoLoginProps.gcid);
-						}
 
-						resolve(undefined);
+						if (
+							autoLoginProps?.tenantSettings?.featureToolsEnabled
+						) {
+							getBudibaseAccessToken(
+								username,
+								autoLoginProps.password,
+								autoLoginProps?.tenantSettings
+							).then(() => {
+								redirect();
+								resolve(undefined);
+							});
+						} else {
+							redirect();
+							resolve(undefined);
+						}
 					})
 					.catch((error) => {
 						reject(error);
 					});
-
-				if (autoLoginProps?.tenantSettings?.featureToolsEnabled) {
-					getBudibaseAccessToken(
-						username,
-						autoLoginProps.password,
-						autoLoginProps?.tenantSettings
-					);
-				}
 			})
 			.catch((error) => {
 				if (
