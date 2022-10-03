@@ -10,7 +10,8 @@ export const useLoginBudiBase = () => {
 		fetch(
 			`${window.location.origin}/auth/realms/online-beratung/protocol/openid-connect/logout`
 		)
-			.then(() => {
+			.catch((error) => console.log(error))
+			.finally(() => {
 				const ifrm = document.createElement('iframe');
 				ifrm.setAttribute(
 					'src',
@@ -22,8 +23,7 @@ export const useLoginBudiBase = () => {
 				setTimeout(() => {
 					document.querySelector('#authIframe2').remove();
 				}, 5000);
-			})
-			.catch((error) => console.log(error));
+			});
 	}, [settings.budibaseUrl, tenantData?.settings?.featureToolsOICDToken]);
 
 	return { loginBudiBase };
