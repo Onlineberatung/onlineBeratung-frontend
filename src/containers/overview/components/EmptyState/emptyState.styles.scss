@@ -1,0 +1,56 @@
+.overviewEmptyState {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 24px;
+	background: white;
+	margin-bottom: 3px;
+	border-radius: 4px;
+
+	&__icon {
+		width: 100px;
+		height: 100px;
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			position: absolute;
+		}
+
+		&::before {
+			content: '';
+			background: #f4f4f4;
+			width: 100px;
+			height: 100px;
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			border-radius: 50px;
+			z-index: 0;
+		}
+
+		&.termine {
+			svg {
+				width: 83px;
+			}
+		}
+	}
+
+	&__message {
+		font-size: 12px;
+		line-height: 16px;
+		text-align: center;
+		margin-top: 8px;
+	}
+
+	&__profilePage {
+		background-color: transparent;
+		.overviewEmptyState__icon {
+			&::before {
+				background: rgb(229, 227, 223);
+			}
+		}
+	}
+}

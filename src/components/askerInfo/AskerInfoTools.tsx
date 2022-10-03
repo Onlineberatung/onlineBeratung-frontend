@@ -19,7 +19,7 @@ export const AskerInfoTools = () => {
 		window.open(
 			`${config.endpoints.budibaseTools(
 				activeSession.consultant.id
-			)}/roleSync?userId=${askerId}&access_token=${accessToken}`,
+			)}/consultantview?userId=${askerId}&access_token=${accessToken}`,
 			'_blank',
 			'noopener'
 		);

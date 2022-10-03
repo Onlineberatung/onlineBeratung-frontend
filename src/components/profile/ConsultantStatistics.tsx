@@ -17,6 +17,7 @@ import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
 import './statistics.styles';
 import './profile.styles';
+import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 
 const statisticsPeriodOptionCurrentMonth = 'currentMonth';
 const statisticsPeriodOptionLastMonth = 'lastMonth';
@@ -97,6 +98,10 @@ const csvHeaders = [
 	{
 		label: translate('profile.statistics.csvHeader.videoCallDuration'),
 		key: 'videoCallDuration'
+	},
+	{
+		label: translate('profile.statistics.csvHeader.numberOfAppointments'),
+		key: 'numberOfAppointments'
 	}
 ];
 
@@ -112,6 +117,8 @@ export const ConsultantStatistics = () => {
 	const [selectedStatistics, setSelectedStatistics] =
 		useState<ConsultantStatisticsDTO>(null);
 	const [csvData, setCsvData] = useState([]);
+
+	const { featureAppointmentsEnabled } = getTenantSettings();
 
 	useEffect(() => {
 		if (statisticsPeriod) {
@@ -164,7 +171,10 @@ export const ConsultantStatistics = () => {
 						videoCallDuration:
 							videoCallDurationMinutes +
 							':' +
-							videoCallDurationSeconds
+							videoCallDurationSeconds,
+						numberOfAppointments:
+							featureAppointmentsEnabled &&
+							response.numberOfAppointments
 					}
 				];
 

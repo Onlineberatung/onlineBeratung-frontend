@@ -5,7 +5,7 @@ import informalLocale from '../resources/scripts/i18n/informalLocale';
 export const getTranslation = (
 	translatable: string,
 	informal: boolean = false,
-	tokens?: { [key: string]: string }
+	tokens?: { [key: string]: string | number }
 ): any => {
 	let [config, ...keys] = translatable.split('.');
 	const text = (informal ? informalLocale : defaultLocale)[config][
@@ -19,7 +19,7 @@ export const getTranslation = (
 
 export const translate = (
 	translatable: string,
-	tokens?: { [key: string]: string }
+	tokens?: { [key: string]: string | number }
 ): any => {
 	let informal = Boolean(getValueFromCookie('useInformal'));
 	return (

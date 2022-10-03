@@ -3,7 +3,6 @@ import CryptoJS from 'crypto-js';
 import { getKeycloakAccessToken } from '../sessionCookie/getKeycloakAccessToken';
 import { getRocketchatAccessToken } from '../sessionCookie/getRocketchatAccessToken';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
-import { config } from '../../resources/scripts/config';
 import { generateCsrfToken } from '../../utils/generateCsrfToken';
 import {
 	createAndStoreKeys,
@@ -29,6 +28,7 @@ import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
 import { getBudibaseAccessToken } from '../sessionCookie/getBudibaseAccessToken';
 import { TenantDataSettingsInterface } from '../../globalState/interfaces/TenantDataInterface';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
+import { appConfig } from '../../utils/appConfig';
 
 export interface LoginData {
 	data: {
@@ -48,6 +48,7 @@ interface AutoLoginProps {
 	otp?: string;
 	useOldUser?: boolean;
 	tenantSettings?: TenantDataSettingsInterface;
+	gcid?: string;
 }
 
 export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
@@ -92,23 +93,29 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 							autoLoginProps
 						);
 
-						if (autoLoginProps.redirect) {
-							redirectToApp();
-						}
+						const redirect = () =>
+							autoLoginProps.redirect &&
+							redirectToApp(autoLoginProps.gcid);
 
-						resolve(undefined);
+						if (
+							autoLoginProps?.tenantSettings?.featureToolsEnabled
+						) {
+							getBudibaseAccessToken(
+								username,
+								autoLoginProps.password,
+								autoLoginProps?.tenantSettings
+							).then(() => {
+								redirect();
+								resolve(undefined);
+							});
+						} else {
+							redirect();
+							resolve(undefined);
+						}
 					})
 					.catch((error) => {
 						reject(error);
 					});
-
-				if (autoLoginProps?.tenantSettings?.featureToolsEnabled) {
-					getBudibaseAccessToken(
-						username,
-						autoLoginProps.password,
-						autoLoginProps?.tenantSettings
-					);
-				}
 			})
 			.catch((error) => {
 				if (
@@ -131,8 +138,9 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 			});
 	});
 
-export const redirectToApp = () => {
-	window.location.href = config.urls.redirectToApp;
+export const redirectToApp = (gcid?: string) => {
+	const params = gcid ? `?gcid=${gcid}` : '';
+	window.location.href = appConfig.urls.redirectToApp + params;
 };
 
 export const handleE2EESetup = (

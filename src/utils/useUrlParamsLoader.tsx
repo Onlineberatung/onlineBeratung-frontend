@@ -9,13 +9,12 @@ import {
 import { apiGetAgencyById, apiGetConsultingType } from '../api';
 import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';
-import { config } from '../resources/scripts/config';
 import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
 import { apiGetTopicById } from '../api/apiGetTopicId';
-import { useAppConfigContext } from '../globalState/context/useAppConfig';
+import { useAppConfig } from '../hooks/useAppConfig';
 
 export default function useUrlParamsLoader() {
-	const { settings } = useAppConfigContext();
+	const settings = useAppConfig();
 	const { consultingTypeSlug } = useParams();
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
@@ -46,7 +45,7 @@ export default function useUrlParamsLoader() {
 						'basic'
 					).catch(() => {
 						// consultant not found -> go to registration
-						document.location.href = config.urls.toRegistration;
+						document.location.href = settings.urls.toRegistration;
 					});
 
 					if (consultant) setConsultant(consultant);
@@ -80,8 +79,14 @@ export default function useUrlParamsLoader() {
 				console.log(error);
 			}
 		})();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [consultingTypeSlug, agencyId, consultantId, topicId]);
+	}, [
+		consultingTypeSlug,
+		agencyId,
+		consultantId,
+		topicId,
+		settings.multitenancyWithSingleDomainEnabled,
+		settings.urls.toRegistration
+	]);
 
 	return { agency, consultant, consultingType, loaded, topic };
 }

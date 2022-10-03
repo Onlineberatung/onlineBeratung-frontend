@@ -10,7 +10,6 @@ import {
 	OverlayItem
 } from '../overlay//Overlay';
 import { BUTTON_TYPES } from '../button/Button';
-import { config } from '../../resources/scripts/config';
 import { logout } from '../logout/logout';
 import {
 	inputValuesFit,
@@ -27,9 +26,12 @@ import {
 import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { E2EEContext } from '../../globalState';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const PasswordReset = () => {
 	const rcUid = getValueFromCookie('rc_uid');
+
+	const settings = useAppConfig();
 
 	const [oldPassword, setOldPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
@@ -222,7 +224,7 @@ export const PasswordReset = () => {
 
 						setOverlayActive(true);
 						setIsRequestInProgress(false);
-						logout(false, config.urls.toLogin);
+						logout(false, settings.urls.toLogin);
 					} catch (e) {
 						if (isE2eeEnabled) {
 							// rechange password to the old password
@@ -248,7 +250,7 @@ export const PasswordReset = () => {
 	};
 
 	const handleSuccess = () => {
-		window.location.href = config.urls.toLogin;
+		window.location.href = settings.urls.toLogin;
 	};
 
 	return (

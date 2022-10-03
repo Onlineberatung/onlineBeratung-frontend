@@ -59,6 +59,8 @@ import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMai
 import { RocketChatGlobalSettingsContext } from '../../globalState';
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
+import { useAppConfig } from '../../hooks/useAppConfig';
+import { useSearchParam } from '../../hooks/useSearchParams';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -71,6 +73,7 @@ interface LoginProps {
 }
 
 export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
+	const settings = useAppConfig();
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
 
@@ -119,6 +122,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 
 	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
 	const isFirstVisit = useIsFirstVisit();
+	const gcid = useSearchParam<string>('gcid');
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -274,7 +278,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const postLogin = useCallback(
 		(data) => {
 			if (!consultant) {
-				return redirectToApp();
+				return redirectToApp(gcid);
 			}
 
 			return apiGetUserData().then((userData: UserDataInterface) => {
@@ -296,7 +300,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 			consultant,
 			possibleAgencies,
 			possibleConsultingTypes,
-			handleRegistration
+			handleRegistration,
+			gcid
 		]
 	);
 
@@ -306,6 +311,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 			username: username,
 			password: password,
 			redirect: !consultant,
+			gcid,
 			...ensureTenantSettings(tenant?.settings)
 		})
 			.then(postLogin)
@@ -341,6 +347,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 				password,
 				redirect: !consultant,
 				otp,
+				gcid,
 				...ensureTenantSettings(tenant?.settings)
 			})
 				.then(postLogin)
@@ -491,7 +498,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 								className="loginForm__register__link button-as-link"
 								onClick={() =>
 									window.open(
-										config.urls.toRegistration,
+										settings.urls.toRegistration,
 										'_self'
 									)
 								}
@@ -518,7 +525,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 					/>
 					<a
 						className="login__tenantRegistrationLink"
-						href={config.urls.toRegistration}
+						href={settings.urls.toRegistration}
 						target="_self"
 						tabIndex={-1}
 					>

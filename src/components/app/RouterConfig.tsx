@@ -1,3 +1,4 @@
+import { isDesktop } from 'react-device-detect';
 import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import {
 	SESSION_LIST_TYPES,
@@ -19,7 +20,6 @@ import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
 import { Appointments } from '../appointment/Appointments';
 import VideoConference from '../videoConference/VideoConference';
-import { config } from '../../resources/scripts/config';
 import {
 	AppConfigInterface,
 	AUTHORITIES,
@@ -30,6 +30,7 @@ import { BookingCancellation } from '../booking/bookingCancellation';
 import { BookingEvents } from '../booking/bookingEvents';
 import { BookingReschedule } from '../booking/bookingReschedule';
 
+import { ReactComponent as OverviewIcon } from '../../resources/img/icons/overview.svg';
 import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
 import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
@@ -39,6 +40,7 @@ import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calend
 import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
 import { ToolsList } from '../tools/ToolsList';
+import { OverviewPage } from '../../containers/overview/overview';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -52,11 +54,12 @@ const hasVideoCallFeature = (userData, consultingTypes) =>
 			)
 	);
 
-const showAppointmentsMenuItem = (userData, consultingTypes, sessionsData) => {
+const showAppointmentsMenuItem = (userData, hasAssignedConsultant) => {
 	return (
 		userData.appointmentFeatureEnabled &&
 		(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
-			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData))
+			(hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+				hasAssignedConsultant))
 	);
 };
 
@@ -97,7 +100,19 @@ const toolsRoutes = [
 	}
 ];
 
-export const RouterConfigUser = (settings: AppConfigInterface): any => {
+const overviewRoute = (settings: AppConfigInterface) => ({
+	condition: () => settings.useOverviewPage && isDesktop,
+	to: '/overview',
+	icon: <OverviewIcon className="navigation__icon" />,
+	titleKeys: {
+		large: 'navigation.overview'
+	}
+});
+
+export const RouterConfigUser = (
+	_settings: AppConfigInterface,
+	hasAssignedConsultant: boolean
+): any => {
 	return {
 		navigation: [
 			{
@@ -116,7 +131,8 @@ export const RouterConfigUser = (settings: AppConfigInterface): any => {
 				}
 			},
 			{
-				condition: showAppointmentsMenuItem,
+				condition: (userData) =>
+					showAppointmentsMenuItem(userData, hasAssignedConsultant),
 				to: '/booking/events',
 				icon: <CalendarMonthIcon className="navigation__icon" />,
 				titleKeys: {
@@ -194,12 +210,13 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 		plainRoutes: [
 			{
 				condition: hasVideoCallFeature,
-				path: config.urls.consultantVideoConference,
+				path: settings.urls.consultantVideoConference,
 				exact: true,
 				component: VideoConference
 			}
 		],
 		navigation: [
+			overviewRoute(settings),
 			{
 				to: '/sessions/consultant/sessionPreview',
 				icon: <InboxIcon className="navigation__icon" />,
@@ -350,12 +367,13 @@ export const RouterConfigTeamConsultant = (
 		plainRoutes: [
 			{
 				condition: hasVideoCallFeature,
-				path: config.urls.consultantVideoConference,
+				path: settings.urls.consultantVideoConference,
 				exact: true,
 				component: VideoConference
 			}
 		],
 		navigation: [
+			overviewRoute(settings),
 			{
 				to: '/sessions/consultant/sessionPreview',
 				icon: <InboxIcon className="navigation__icon" />,
@@ -529,6 +547,10 @@ export const RouterConfigTeamConsultant = (
 		],
 		profileRoutes: [
 			{
+				path: '/overview',
+				component: OverviewPage
+			},
+			{
 				path: '/profile',
 				exact: false,
 				component: Profile
@@ -560,7 +582,8 @@ export const RouterConfigMainConsultant = (
 	settings: AppConfigInterface
 ): any => {
 	const config = RouterConfigTeamConsultant(settings);
-	config.navigation[2].titleKeys = {
+
+	config.navigation[3].titleKeys = {
 		large: 'navigation.consultant.peersessions',
 		small: 'navigation.consultant.peersessions.small'
 	};

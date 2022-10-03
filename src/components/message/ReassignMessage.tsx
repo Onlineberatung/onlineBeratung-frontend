@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { translate } from '../../utils/translate';
 
 import './reassignRequestMessage.styles';
 import { Button, BUTTON_TYPES } from '../button/Button';
+import { apiGetAgencyConsultantList } from '../../api';
+import { prepareConsultantDataForSelect } from '../sessionAssign/sessionAssignHelper';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 export const ReassignRequestMessage: React.FC<{
 	fromConsultantName: string;
@@ -66,11 +69,14 @@ export const ReassignRequestMessage: React.FC<{
 
 export const ReassignRequestSentMessage: React.FC<{
 	toAskerName: string;
-	fromConsultantName: string;
-	toConsultantName: string;
+	fromConsultantId: string;
+	toConsultantId: string;
 	isTeamSession: boolean;
 	isMySession: boolean;
 }> = (props) => {
+	const { activeSession } = useContext(ActiveSessionContext);
+	const [toConsultantName, setToConultantName] = useState('');
+
 	let descriptionToTranslate =
 		'session.reassign.system.message.reassign.sent.description.noTeam';
 	if (props.isTeamSession && props.isMySession)
@@ -79,23 +85,36 @@ export const ReassignRequestSentMessage: React.FC<{
 	if (props.isTeamSession && !props.isMySession)
 		descriptionToTranslate =
 			'session.reassign.system.message.reassign.sent.description.team.other';
+
+	if (props.toConsultantId && !toConsultantName) {
+		const agencyId = activeSession.item.agencyId.toString();
+		apiGetAgencyConsultantList(agencyId)
+			.then((response) => {
+				const consultants = prepareConsultantDataForSelect(response);
+
+				const toConsultant = consultants.find(
+					(consultant) => consultant.value === props.toConsultantId
+				);
+				setToConultantName(toConsultant.label);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
 				<h5>
 					{translate(
-						'session.reassign.system.message.reassign.sent.title',
-						{
-							newConsultant: props.toConsultantName,
-							oldConsultant: props.fromConsultantName
-						}
+						'session.reassign.system.message.reassign.sent.title'
 					)}
 				</h5>
 				<span className="description">
 					{translate(descriptionToTranslate, {
 						client1: props.toAskerName,
 						client2: props.toAskerName,
-						newConsultant: props.toConsultantName
+						newConsultant: toConsultantName
 					})}
 				</span>
 			</div>
@@ -106,11 +125,43 @@ export const ReassignRequestSentMessage: React.FC<{
 export const ReassignRequestAcceptedMessage: React.FC<{
 	toAskerName: string;
 	toConsultantName: string;
+	toConsultantId: string;
 	isAsker: boolean;
-	fromConsultantName: string;
+	fromConsultantId: string;
 	isMySession: boolean;
 }> = (props) => {
+	const { activeSession } = useContext(ActiveSessionContext);
+	const [fromConsultantName, setFromConultantName] = useState('');
+	const [toConsultantName, setToConultantName] = useState('');
+
 	const forWhichConsultant = props.isMySession ? 'self' : 'other';
+
+	if (
+		props.fromConsultantId &&
+		props.toConsultantId &&
+		!fromConsultantName &&
+		!toConsultantName &&
+		!props.isAsker
+	) {
+		const agencyId = activeSession.item.agencyId.toString();
+		apiGetAgencyConsultantList(agencyId)
+			.then((response) => {
+				const consultants = prepareConsultantDataForSelect(response);
+				const fromConsultant = consultants.find(
+					(consultant) => consultant.value === props.fromConsultantId
+				);
+				setFromConultantName(fromConsultant.label);
+
+				const toConsultant = consultants.find(
+					(consultant) => consultant.value === props.toConsultantId
+				);
+				setToConultantName(toConsultant.label);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
@@ -140,8 +191,8 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 							{translate(
 								`session.reassign.system.message.reassign.accepted.title.${forWhichConsultant}`,
 								{
-									oldConsultant: props.fromConsultantName,
-									newConsultant: props.toConsultantName,
+									oldConsultant: fromConsultantName,
+									newConsultant: toConsultantName,
 									client: props.toAskerName
 								}
 							)}
@@ -151,7 +202,7 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 								`session.reassign.system.message.reassign.accepted.description.${forWhichConsultant}`,
 								{
 									client: props.toAskerName,
-									consultant: props.toConsultantName
+									consultant: toConsultantName
 								}
 							)}
 						</span>
@@ -167,8 +218,28 @@ export const ReassignRequestDeclinedMessage: React.FC<{
 	isMySession: boolean;
 	toAskerName: string;
 	fromConsultantName: string;
+	fromConsultantId: string;
 }> = (props) => {
+	const { activeSession } = useContext(ActiveSessionContext);
+	const [fromConsultantName, setFromConultantName] = useState('');
+
 	const forWhichConsultant = props.isMySession ? 'self' : 'other';
+
+	if (props.fromConsultantId && !fromConsultantName && !props.isAsker) {
+		const agencyId = activeSession.item.agencyId.toString();
+		apiGetAgencyConsultantList(agencyId)
+			.then((response) => {
+				const consultants = prepareConsultantDataForSelect(response);
+				const fromConsultant = consultants.find(
+					(consultant) => consultant.value === props.fromConsultantId
+				);
+				setFromConultantName(fromConsultant.label);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
 	return (
 		<div className="reassignRequestMessage">
 			<div className="wrapper">
@@ -196,7 +267,7 @@ export const ReassignRequestDeclinedMessage: React.FC<{
 								`session.reassign.system.message.reassign.declined.description.${forWhichConsultant}`,
 								{
 									client: props.toAskerName,
-									consultant: props.fromConsultantName
+									consultant: fromConsultantName
 								}
 							)}
 						</span>

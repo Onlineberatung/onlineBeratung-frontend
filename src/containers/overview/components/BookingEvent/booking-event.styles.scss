@@ -1,0 +1,44 @@
+.bookingEvent {
+	padding: 16px 25px;
+	background-color: white;
+	border-radius: 4px;
+	margin-bottom: 3px;
+
+	&__askerName {
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 20px;
+		padding-right: 8px;
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		min-height: 20px;
+	}
+
+	&__header {
+		margin-bottom: 3px;
+	}
+
+	&__date {
+		display: flex;
+		gap: 10px;
+	}
+
+	&__icon path {
+		fill: #1c1b1f;
+	}
+
+	&__fullDate {
+		gap: 3px;
+		flex-grow: 1;
+	}
+
+	&__start {
+		.button__item {
+			min-width: 121px;
+			height: 48px;
+			border-radius: 5px;
+		}
+	}
+}
