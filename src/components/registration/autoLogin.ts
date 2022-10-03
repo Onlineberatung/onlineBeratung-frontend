@@ -48,6 +48,7 @@ interface AutoLoginProps {
 	otp?: string;
 	useOldUser?: boolean;
 	tenantSettings?: TenantDataSettingsInterface;
+	gcid?: string;
 }
 
 export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
@@ -93,7 +94,7 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 						);
 
 						if (autoLoginProps.redirect) {
-							redirectToApp();
+							redirectToApp(autoLoginProps.gcid);
 						}
 
 						resolve(undefined);
@@ -131,8 +132,9 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 			});
 	});
 
-export const redirectToApp = () => {
-	window.location.href = appConfig.urls.redirectToApp;
+export const redirectToApp = (gcid?: string) => {
+	const params = gcid ? `?gcid=${gcid}` : '';
+	window.location.href = appConfig.urls.redirectToApp + params;
 };
 
 export const handleE2EESetup = (

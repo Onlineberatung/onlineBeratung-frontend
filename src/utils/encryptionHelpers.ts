@@ -6,6 +6,14 @@ import { getValueFromCookie } from '../components/sessionCookie/accessSessionCoo
 const StaticArrayBufferProto = ArrayBuffer.prototype;
 
 // encoding helper
+const ENCRYPTION_VERSION_1 = 'v1-0';
+const ENCRYPTION_VERSION_2 = 'v2-0';
+
+export const ENCRYPTION_VERSION_ACTIVE = ENCRYPTION_VERSION_2;
+export const VERSION_SEPERATOR = '..';
+export const VECTOR_LENGTH = 16;
+export const KEY_ID_LENGTH = 12;
+export const MAX_PREFIX_LENGTH = 10;
 
 export const encodeUsername = (username) => {
 	return 'enc.' + encode(username).replace(/=/g, '.');
@@ -119,6 +127,19 @@ export function toString(
 	return ByteBuffer.wrap(thing).toString('binary');
 }
 
+export function toHexString(bytes: Uint8Array): string {
+	return bytes.reduce(
+		(str, byte) => str + byte.toString(16).padStart(2, '0'),
+		''
+	);
+}
+
+export function fromHexString(hexString: string): Uint8Array {
+	return Uint8Array.from(
+		hexString.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))
+	);
+}
+
 export async function importRSAKey(
 	keyData: JsonWebKey,
 	keyUsages: KeyUsage[] = ['encrypt', 'decrypt']
@@ -152,8 +173,8 @@ export function joinVectorAndEcryptedData(
 export function splitVectorAndEcryptedData(
 	cipherText: Uint8Array
 ): [Uint8Array, Uint8Array] {
-	const vector = cipherText.slice(0, 16);
-	const encryptedData = cipherText.slice(16);
+	const vector = cipherText.slice(0, VECTOR_LENGTH);
+	const encryptedData = cipherText.slice(VECTOR_LENGTH);
 
 	return [vector, encryptedData];
 }
@@ -191,6 +212,7 @@ export async function importAESKey(
 export class MissingKeyError extends Error {}
 export class WrongKeyError extends Error {}
 export class EncryptValidationError extends Error {}
+export class EncPrefixLengthError extends Error {}
 
 /*
 Helper Messaging
@@ -204,15 +226,18 @@ export const encryptText = async (
 	if (!keyID) {
 		return message;
 	}
+	if (encPrefix.length > MAX_PREFIX_LENGTH) {
+		throw new EncPrefixLengthError('Encryption prefix too long!');
+	}
+
 	const data = new TextEncoder().encode(message);
-
-	const vector = crypto.getRandomValues(new Uint8Array(16));
+	const vector = crypto.getRandomValues(new Uint8Array(VECTOR_LENGTH));
 	const result = await encryptAES(vector, key, data);
-
 	const encryptedText =
 		encPrefix +
 		keyID +
-		btoa(JSON.stringify(joinVectorAndEcryptedData(vector, result)));
+		toHexString(joinVectorAndEcryptedData(vector, result)) +
+		`${VERSION_SEPERATOR}${ENCRYPTION_VERSION_ACTIVE}`;
 
 	// Decrypt text after encrypt to check it the result matches
 	const decryptedText = await decryptText(
@@ -250,17 +275,34 @@ export const decryptText = async (
 		throw new MissingKeyError('e2ee.message.encryption');
 	}
 
-	const keyID = message.slice(encPrefix.length, 12 + encPrefix.length);
+	const keyID = message.slice(
+		encPrefix.length,
+		KEY_ID_LENGTH + encPrefix.length
+	);
 	if (keyID !== roomKeyID) {
 		throw new WrongKeyError('e2ee.message.encryption.error');
 	}
 
-	const encMessage = message.slice(12 + encPrefix.length);
-
+	const encMessageWithVersion = message.slice(
+		KEY_ID_LENGTH + encPrefix.length
+	);
+	const [encMessage, version] =
+		encMessageWithVersion.split(VERSION_SEPERATOR);
+	let msgArray;
 	try {
-		const [vector, cipherText] = splitVectorAndEcryptedData(
-			Uint8Array.from(Object.values(JSON.parse(atob(encMessage))))
-		);
+		switch (version) {
+			case ENCRYPTION_VERSION_2:
+				msgArray = fromHexString(encMessage);
+				break;
+			case ENCRYPTION_VERSION_1:
+			default:
+				msgArray = Uint8Array.from(
+					Object.values(JSON.parse(atob(encMessage)))
+				);
+				break;
+		}
+
+		const [vector, cipherText] = splitVectorAndEcryptedData(msgArray);
 		const result = await decryptAES(vector, groupKey, cipherText);
 		return new TextDecoder('UTF-8').decode(result);
 	} catch (error) {
@@ -356,7 +398,7 @@ export const createGroupKey = (): Promise<GroupKeyType> =>
 		try {
 			const sessionKeyExported = await exportJWKKey(key);
 			const sessionKeyExportedString = JSON.stringify(sessionKeyExported);
-			const keyID = btoa(sessionKeyExported.k).slice(0, 12);
+			const keyID = btoa(sessionKeyExported.k).slice(0, KEY_ID_LENGTH);
 
 			resolve({ key, keyID, sessionKeyExportedString });
 		} catch (error) {
@@ -371,8 +413,7 @@ export const importGroupKey = (
 ): Promise<GroupKeyType> =>
 	new Promise(async (resolve, reject) => {
 		// Get existing group key
-		// const keyID = groupKey.slice(0, 12);
-		groupKey = groupKey.slice(12);
+		groupKey = groupKey.slice(KEY_ID_LENGTH);
 		groupKey = atob(groupKey);
 		groupKey = Uint8Array.from(Object.values(JSON.parse(groupKey)));
 
@@ -390,7 +431,7 @@ export const importGroupKey = (
 		// Import session key for use.
 		try {
 			const sessionKeyExported = JSON.parse(sessionKeyExportedString);
-			const keyID = btoa(sessionKeyExported.k).slice(0, 12);
+			const keyID = btoa(sessionKeyExported.k).slice(0, KEY_ID_LENGTH);
 			const key = await importAESKey(sessionKeyExported);
 
 			// Key has been obtained. E2E is now in session.
@@ -434,7 +475,7 @@ export const reEncryptMyRoomKeys = async (
 };
 
 export const encryptPrivateKey = async (privateKey, masterKey) => {
-	const vector = crypto.getRandomValues(new Uint8Array(16));
+	const vector = crypto.getRandomValues(new Uint8Array(VECTOR_LENGTH));
 	try {
 		const encodedPrivateKey = await encryptAES(
 			vector,
