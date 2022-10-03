@@ -20,5 +20,9 @@ export const useLoginBudiBase = () => {
 		}, 5000);
 	}, [settings.budibaseUrl, tenantData?.settings?.featureToolsOICDToken]);
 
+	fetch(
+		`${window.location.origin}/auth/realms/online-beratung/protocol/openid-connect/logout`
+	);
+
 	return { loginBudiBase };
 };
