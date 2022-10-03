@@ -269,17 +269,24 @@ export const en = {
 				cancel: 'Cancel appointment',
 				reschedule: 'Move appointment'
 			},
+			'copy': {
+				'link.notification.title': 'copied link',
+				'link.notification.text':
+					'Entry link to video call copied to clipboard!'
+			},
 			'tab': {
 				booked: 'Booked appointments',
 				canceled: 'Cancelled',
-				expired: 'Passed'
+				expired: 'Passed',
+				settings: 'Settings'
 			}
 		},
 		'my': {
 			'booking.title': 'Currently there are no appointments planned.',
 			'booking.schedule': 'Make an appointment now with'
 		},
-		'info.video': 'Video consulting'
+		'info.video': 'Video consulting',
+		'video.button.label': 'Start video call'
 	},
 	chatFlyout: {
 		askerProfil: 'Advice seeker profile',
@@ -383,12 +390,11 @@ export const en = {
 	},
 	deleteAccount: {
 		'button.label': 'Delete account',
-		'deleteAccount-confirmOverlay.headline':
-			'Do you really want to delete your account?',
 		'confirmOverlay': {
 			'copy': '<strong>This process cannot be reversed.</strong><br><br>Your account will be deleted within the next 48 hours. Your data will be deleted in accordance with the applicable data protection regulations.<br><br>Please enter your password to delete your account now.',
 			'button.confirm': 'yes',
 			'button.deny': 'no',
+			'headline': 'Do you really want to delete your account?',
 			'input.label': 'Password',
 			'input.warning': 'Your password is not correct.'
 		},
@@ -1211,7 +1217,9 @@ export const en = {
 		'profile': 'Profile',
 		'appointments': 'Video dates',
 		'booking.events': 'My dates',
-		'language': 'Language'
+		'language': 'Language',
+		'overview': 'Overview',
+		'tools': 'My tools'
 	},
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
@@ -1220,15 +1228,34 @@ export const en = {
 	overlay: {
 		'step.headline.prefix': '. Step | '
 	},
+	overview: {
+		title: 'Welcome back!',
+		myMessagesTitle: '%count% unread messages',
+		initialInquiriesTitle: '%count% enquiries',
+		upcomingAppointments: 'Your next {{countStr}} appointments',
+		upcomingAppointment: 'Your next appointment',
+		emptyMessages: 'You have everything in view, all messages are read!',
+		emptyInitialMessage: 'Very good, all initial requests are processed!',
+		emptyAppointments:
+			'There are no appointments today, make appointments with those seeking advice to change that',
+		emptyAppointmentsMobile:
+			'No appointments at the moment, make appointments with those seeking advice to change that',
+		viewAll: 'Show all',
+		myMessagesEmpty: 'You have everything in view, all messages are read!',
+		initialInquiriesEmpty: 'Very good, all initial requests are processed!',
+		appointmentsEmpty:
+			'There are no appointments today, make appointments with those seeking advice to change that',
+		start: 'Start'
+	},
 	profile: {
 		'noContent': 'Not specified',
 		'header.title': 'Profile',
 		'functions': {
 			'title': 'Functions',
 			'absence': {
-				title: 'My absence',
-				label: 'Deposit an out of office message',
-				activatedLabel:
+				'title': 'My absence',
+				'label': 'Deposit an out of office message',
+				'activated.label':
 					'Deactivate your absence to leave a message or edit it.'
 			},
 			'security': {
@@ -1656,9 +1683,9 @@ export const en = {
 			}
 		},
 		'anonymous': {
-			'takenByOtherConsultant.overlayHeadline':
+			'takenByOtherConsultant.overlay.headline':
 				'This initial request has already been accepted by another consultant.',
-			'takenByOtherConsultant.buttonLabel': 'Close'
+			'takenByOtherConsultant.button.label': 'Close'
 		},
 		'assignOther': {
 			'overlay': {
@@ -1805,6 +1832,14 @@ export const en = {
 	},
 	text: {
 		'label.hint': 'Hint'
+	},
+	tools: {
+		'button.label': 'Open',
+		'shared': 'Shared with the advisor',
+		'calendar.title': 'My Calendar',
+		'calendar.description':
+			'Enter your holidays or other appointments in the calendar so that those seeking advice cannot book any appointments with you during this time.<br/>Log in with the same e-mail address and password that you use here for the online use advice.',
+		'calendar.button.label': 'Open'
 	},
 	twoFactorAuth: {
 		title: 'Two-factor authentication',
@@ -2070,6 +2105,27 @@ export const en = {
 		}
 	},
 	userProfile: {
+		tools: {
+			description: 'Unlock tools for the person seeking advice. ',
+			openModal: 'View tool descriptions',
+			optionsPlaceholder: 'Choose an option...',
+			title: 'Tools',
+			options: {
+				saveError:
+					'A problem occurred during the tool change. Please try again.'
+			},
+			share: {
+				sharedContent: 'To the shared content',
+				title: 'See what content has been shared with you here.'
+			},
+			modal: {
+				confirm: 'Unlock',
+				deny: 'Cancel',
+				description:
+					'Select the tools you want to make available to the counselee.',
+				title: 'Tool for those seeking advice'
+			}
+		},
 		data: {
 			title: 'Information of the person seeking advice',
 			resort: 'Department',

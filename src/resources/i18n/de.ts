@@ -390,11 +390,10 @@ export const de = {
 			'button.confirm': 'ja',
 			'button.deny': 'nein',
 			'copy': '<strong>Dieser Vorgang kann nicht rückgängig gemacht werden.</strong><br><br>Ihr Account wird innerhalb der nächsten 48 Stunden gelöscht. Ihre Daten werden gemäß der geltenden Datenschutzbestimmungen gelöscht.<br><br>Bitte geben Sie Ihr Passwort ein, um Ihren Account nun zu löschen.',
+			'headline': 'Möchten Sie Ihren Account wirklich löschen?',
 			'input.label': 'Passwort',
 			'input.warning': 'Ihr Passwort ist nicht korrekt.'
 		},
-		'deleteAccount-confirmOverlay.headline':
-			'Möchten Sie Ihren Account wirklich löschen?',
 		'successOverlay': {
 			headline:
 				'Sie haben Ihren Account bei der Caritas Beratung & Hilfe erfolgreich gelöscht.',
@@ -1317,7 +1316,7 @@ export const de = {
 				overlay: {
 					'button1.label': 'Nachricht verfassen',
 					'button2.label': 'Abmelden',
-					'groupChats.button.label.': 'Zur Übersicht',
+					'groupChats.button.label': 'Zur Übersicht',
 					'headline':
 						'Sie haben sich erfolgreich für ein neues Themenfeld registriert.'
 				}

@@ -93,7 +93,7 @@ export const AbsenceFormular = () => {
 			</div>
 			<div className="generalInformation">
 				<Textarea
-					value={absentMessage}
+					value={absentMessage ?? ''}
 					onChange={({ target: { value } }) =>
 						setAbsentMessage(value)
 					}
