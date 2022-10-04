@@ -11,13 +11,13 @@
 
 	&__infoLargeStandard {
 		font-size: $font-size-primary;
-		line-height: 19px;
+		line-height: $line-height-primary;
 		color: $text-color-info-large-standard;
 	}
 
 	&__infoLargeAlternative {
 		font-size: $font-size-tertiary;
-		line-height: 19px;
+		line-height: 20px;
 		color: $tertiary;
 
 		.text__label {
@@ -33,7 +33,7 @@
 
 	&__infoMedium {
 		font-size: $font-size-primary;
-		line-height: 24px;
+		line-height: $line-height-primary;
 		color: $tertiary;
 		font-weight: $font-weight-regular;
 	}

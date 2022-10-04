@@ -6,7 +6,7 @@ $input-size: 24px;
 	text-align: left;
 
 	font-size: $font-size-primary;
-	line-height: 19px;
+	line-height: $line-height-primary;
 	color: $black-65-opacity;
 
 	.agencySelection__proposedAgency & {
