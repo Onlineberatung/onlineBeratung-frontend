@@ -55,7 +55,7 @@ describe('profile', () => {
 			cy.get('.select__input__option:contains("Suchtberatung")').click();
 
 			cy.get('[name="postcode"]').type('00000');
-			cy.contains('Schwangerschaftsberatung Baden');
+			cy.contains('JUGEND SUCHT BERATUNG Köln, SKM e.V. Köln');
 			cy.contains('Registrieren').click();
 			cy.contains(
 				'Ihre gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung'
@@ -105,7 +105,7 @@ describe('profile', () => {
 			cy.get('.select__input__option:contains("Suchtberatung")').click();
 
 			cy.get('[name="postcode"]').type('00000');
-			cy.contains('Schwangerschaftsberatung Baden');
+			cy.contains('JUGEND SUCHT BERATUNG Köln, SKM e.V. Köln');
 			cy.contains('Registrieren').click();
 
 			cy.contains(

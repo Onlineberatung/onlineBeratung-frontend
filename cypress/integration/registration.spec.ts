@@ -122,9 +122,10 @@ describe('registration', () => {
 			cy.wait('@consultingTypeServiceBySlugFull');
 			cy.wait('@agencies');
 			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.contains('Beratungsstelle wählen').click();
 			cy.get('[data-cy=show-preselected-agency]').should('exist');
 			cy.get('[data-cy=show-preselected-agency]').contains(
-				agencies[0].name
+				'JUGEND SUCHT BERATUNG Köln, SKM e.V. Köln'
 			);
 		});
 
@@ -133,10 +134,12 @@ describe('registration', () => {
 			cy.wait('@consultingTypeServiceBySlugFull');
 			cy.wait('@agencies');
 			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.contains('Beratungsstelle wählen').click();
 			cy.get('[data-cy=show-preselected-agency]').should('exist');
 			cy.get('[data-cy=show-preselected-agency]').contains(
-				agencies[0].name
+				'JUGEND SUCHT BERATUNG Köln, SKM e.V. Köln'
 			);
+			cy.contains('Benutzernamen wählen').click();
 			cy.get('input[id="username"]').focus().type('u25-user');
 			cy.contains('Weiter').click();
 			cy.get('input[id="passwordInput"]').focus().type('Password123!');

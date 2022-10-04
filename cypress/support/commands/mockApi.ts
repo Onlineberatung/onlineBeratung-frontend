@@ -42,7 +42,8 @@ const defaultReturns = {
 			sessions: []
 		}
 	},
-	agencyConsultants: []
+	agencyConsultants: [],
+	agencyConsultantsLanguages: ['de']
 };
 
 Cypress.Commands.add('willReturn', (name: string, data: any) => {
@@ -67,6 +68,8 @@ Cypress.Commands.add('mockApi', () => {
 	cy.addMessage({}, 0);
 	cy.addMessage({}, 1);
 	cy.addMessage({}, 2);
+
+	window.localStorage.setItem(`locale`, 'de');
 
 	// ConsultingTypes
 	cy.fixture('service.consultingtypes.emigration.json').then(
@@ -228,6 +231,13 @@ Cypress.Commands.add('mockApi', () => {
 			...(overrides['userData'] || {})
 		});
 	}).as('usersData');
+
+	cy.intercept('GET', endpoints.consultantsLanguages, (req) => {
+		req.reply(
+			...defaultReturns['agencyConsultantsLanguages'],
+			...(overrides['agencyConsultantsLanguages'] || [])
+		);
+	}).as('agencyConsultants');
 
 	cy.intercept('GET', endpoints.agencyConsultants, (req) => {
 		req.reply(
