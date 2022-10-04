@@ -27,7 +27,7 @@ import { NonPlainRoutesWrapper } from './NonPlainRoutesWrapper';
 import { Walkthrough } from '../walkthrough/Walkthrough';
 import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { useAskerHasAssignedConsultant } from '../booking/hooks/useAskerHasAssignedConsultant';
+import { useAskerHasAssignedConsultant } from '../../containers/bookings/hooks/useAskerHasAssignedConsultant';
 
 interface RoutingProps {
 	logout?: Function;
