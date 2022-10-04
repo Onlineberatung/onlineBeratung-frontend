@@ -107,8 +107,9 @@ const RouterWrapper = ({
 
 	const activateInitialRedirect = () => {
 		setIsInitiallyLoaded(true);
-		history.push(entryPoint);
+		history.push(entryPoint + window.location.search);
 	};
+
 	useEffect(() => {
 		if (!isInitiallyLoaded && window.location.pathname === '/') {
 			activateInitialRedirect();

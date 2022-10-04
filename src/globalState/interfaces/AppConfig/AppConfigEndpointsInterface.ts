@@ -6,6 +6,7 @@ export interface AppConfigEndpointsInterface {
 	appointmentBase: string;
 	appointmentBaseNew: (sessionId: number) => string;
 	appointmentServiceBase: string;
+	appointmentServiceCalDavAccount: string;
 	appointmentServiceMeetingLink: (agencyId: number) => string;
 	counselorAppointmentLink: (userId: string) => string;
 	counselorToken: string;
