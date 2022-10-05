@@ -20,7 +20,7 @@ export const MAX_PREFIX_LENGTH = 10;
 // If only magic number detector is enabled it should work with 512 bytes too.
 // ATTENTION! The bigger this value is, the bigger the attached signature is. For files uploaded smaller than this size the wohle file is
 // attached unencrypted in the signature!
-export const SIGNATURE_LENGTH = 64 * 1024;
+export const SIGNATURE_LENGTH = 512;
 
 export const encodeUsername = (username) => {
 	return 'enc.' + encode(username).replace(/=/g, '.');
