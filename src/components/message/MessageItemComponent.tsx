@@ -448,6 +448,7 @@ export const MessageItemComponent = ({
 									<MessageAttachment
 										key={key}
 										attachment={attachment}
+										rid={rid}
 										file={file}
 										hasRenderedMessage={hasRenderedMessage}
 									/>

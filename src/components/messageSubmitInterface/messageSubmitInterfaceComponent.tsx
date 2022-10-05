@@ -84,7 +84,11 @@ import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
-import { decryptText, encryptText } from '../../utils/encryptionHelpers';
+import {
+	decryptText,
+	encryptAttachment,
+	encryptText
+} from '../../utils/encryptionHelpers';
 import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
 import { encryptRoom } from '../../utils/e2eeHelper';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
@@ -155,22 +159,6 @@ export interface MessageSubmitInterfaceComponentProps {
 	preselectedFile?: File;
 	handleMessageSendSuccess?: Function;
 }
-
-const encryptAttachment = (attachment, keyID, key) => {
-	if (!keyID) {
-		return attachment;
-	}
-
-	/* ToDo: Currently attachments should not be E2E encrypted.
-	In my opinion its required because this could be private pictures or medical documents
-	or anything else but it should be tbd because there are some points which
-	have to be changed to get it working.
-	- Encrypt will happen in frontend so backend could not do any spam protection anymore
-	- Download logic need to download the document first and decrypt it
-	- Some better spam protection in frontend?
-	 */
-	return attachment;
-};
 
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
@@ -677,7 +665,7 @@ export const MessageSubmitInterfaceComponent = (
 		sendToFeedbackEndpoint,
 		encryptedMessage,
 		unencryptedMessage,
-		attachment,
+		attachment: File,
 		isEncrypted
 	) => {
 		const sendToRoomWithId = sendToFeedbackEndpoint
@@ -687,23 +675,25 @@ export const MessageSubmitInterfaceComponent = (
 			!activeSession.isGroup && !activeSession.isLive;
 
 		if (attachment) {
-			setAttachmentUpload(
-				apiUploadAttachment(
-					encryptedMessage,
-					unencryptedMessage,
-					encryptAttachment(
-						attachment,
-						props.E2EEParams.keyID,
-						props.E2EEParams.key
-					),
-					sendToRoomWithId,
-					sendToFeedbackEndpoint,
-					getSendMailNotificationStatus(),
-					setUploadProgress,
-					setUploadOnLoadHandling,
-					isEncrypted
-				)
-			);
+			encryptAttachment(
+				attachment,
+				props.E2EEParams.keyID,
+				props.E2EEParams.key
+			).then((encryptedAttachment) => {
+				setAttachmentUpload(
+					apiUploadAttachment(
+						encryptedMessage,
+						unencryptedMessage,
+						encryptedAttachment,
+						sendToRoomWithId,
+						sendToFeedbackEndpoint,
+						getSendMailNotificationStatus(),
+						setUploadProgress,
+						setUploadOnLoadHandling,
+						isEncrypted
+					)
+				);
+			});
 		} else {
 			if (getTypedMarkdownMessage()) {
 				apiSendMessage(
