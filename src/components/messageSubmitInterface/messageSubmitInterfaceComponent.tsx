@@ -78,9 +78,9 @@ import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
-import { encryptText } from '../../utils/encryptionHelpers';
-import { useE2EE } from '../../hooks/useE2EE';
 import { useTranslation } from 'react-i18next';
+import { encryptAttachment, encryptText } from '../../utils/encryptionHelpers';
+import { useE2EE } from '../../hooks/useE2EE';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
 import { Overlay, OverlayWrapper } from '../overlay/Overlay';
@@ -152,22 +152,6 @@ export interface MessageSubmitInterfaceComponentProps {
 	preselectedFile?: File;
 	handleMessageSendSuccess?: Function;
 }
-
-const encryptAttachment = (attachment, keyID, key) => {
-	if (!keyID) {
-		return attachment;
-	}
-
-	/* ToDo: Currently attachments should not be E2E encrypted.
-	In my opinion its required because this could be private pictures or medical documents
-	or anything else but it should be tbd because there are some points which
-	have to be changed to get it working.
-	- Encrypt will happen in frontend so backend could not do any spam protection anymore
-	- Download logic need to download the document first and decrypt it
-	- Some better spam protection in frontend?
-	 */
-	return attachment;
-};
 
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
@@ -523,7 +507,7 @@ export const MessageSubmitInterfaceComponent = (
 		sendToFeedbackEndpoint,
 		encryptedMessage,
 		unencryptedMessage,
-		attachment,
+		attachment: File,
 		isEncrypted
 	) => {
 		const sendToRoomWithId = sendToFeedbackEndpoint
@@ -533,8 +517,15 @@ export const MessageSubmitInterfaceComponent = (
 			!activeSession.isGroup && !activeSession.isLive;
 
 		if (attachment) {
-			const res = await apiUploadAttachment(
-				encryptAttachment(attachment, keyID, key),
+			let res: any;
+
+			const encryptedAttachment = await encryptAttachment(
+				attachment,
+				keyID,
+				key
+			);
+			res = await apiUploadAttachment(
+				encryptedAttachment,
 				sendToRoomWithId,
 				sendToFeedbackEndpoint,
 				getSendMailNotificationStatus(),

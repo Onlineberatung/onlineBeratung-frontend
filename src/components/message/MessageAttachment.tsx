@@ -7,15 +7,62 @@ import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmi
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '../../resources/scripts/endpoints';
+import { useCallback } from 'react';
+import { FETCH_METHODS, fetchData } from '../../api';
+import { decryptAttachment } from '../../utils/encryptionHelpers';
+import { useE2EE } from '../../hooks/useE2EE';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;
 	file: MessageService.Schemas.FileDTO;
 	hasRenderedMessage: boolean;
+	rid: string;
 }
 
 export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const { t: translate } = useTranslation();
+	const { key, keyID, encrypted } = useE2EE(props.rid);
+
+	const downloadViaJavascript = useCallback(
+		(url: string) => {
+			fetchData({
+				url: url,
+				method: FETCH_METHODS.GET,
+				responseHandling: [],
+				headersData: {
+					'Content-Type': ''
+				}
+			})
+				.then((result) => result.text())
+				.then((result: string) =>
+					decryptAttachment(
+						result,
+						props.attachment.title,
+						keyID,
+						key,
+						encrypted
+					)
+				)
+				.then((result) => {
+					const blobUrl = URL.createObjectURL(result);
+					const link = document.createElement('a');
+
+					link.href = blobUrl;
+					link.download = props.attachment.title;
+
+					document.body.appendChild(link);
+					link.dispatchEvent(
+						new MouseEvent('click', {
+							bubbles: true,
+							cancelable: true,
+							view: window
+						})
+					);
+					document.body.removeChild(link);
+				});
+		},
+		[encrypted, key, keyID, props.attachment.title]
+	);
 
 	return (
 		<div
@@ -48,6 +95,13 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					</p>
 				</span>
 			</div>
+			<button
+				onClick={() =>
+					downloadViaJavascript(apiUrl + props.attachment.title_link)
+				}
+			>
+				Download
+			</button>
 			<a
 				href={apiUrl + props.attachment.title_link}
 				rel="noopener noreferer"
