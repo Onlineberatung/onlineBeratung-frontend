@@ -58,7 +58,7 @@ export default function Cal({
 			callback: (e) => {
 				apiGetAskerSessionList().then(({ sessions }) => {
 					const isInitialMessage = sessions[0].consultant !== null;
-					if (!isInitialMessage) {
+					if (isInitialMessage) {
 						history.push({
 							pathname: `/sessions/user/view`
 						});
