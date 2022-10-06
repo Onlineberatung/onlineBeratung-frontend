@@ -1,6 +1,5 @@
 /* eslint-disable prefer-const */
 import React, { useContext, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 import useEmbed from './useEmbed';
 import './cal.styles';
 import { history } from '../../../../components/app/app';
@@ -28,7 +27,6 @@ export default function Cal({
 	const initializedRef = useRef(false);
 	const Cal = useEmbed(embedJsUrl);
 	const ref = useRef<HTMLDivElement>(null);
-	const location = useLocation();
 
 	useEffect(() => {
 		if (!Cal || initializedRef.current) {
@@ -58,16 +56,15 @@ export default function Cal({
 		Cal('on', {
 			action: 'bookingSuccessful',
 			callback: (e) => {
-				const isInitialMessage =
-					location?.state?.isInitialMessage || false;
-				if (!isInitialMessage) {
-					history.push({
-						pathname: `/sessions/user/view`
-					});
-					return;
-				}
-
 				apiGetAskerSessionList().then(({ sessions }) => {
+					const isInitialMessage = sessions[0].consultant !== null;
+					if (!isInitialMessage) {
+						history.push({
+							pathname: `/sessions/user/view`
+						});
+						return;
+					}
+
 					const sessionId = sessions[0]?.session?.id;
 					const { data } = e.detail;
 					const date = data.date;

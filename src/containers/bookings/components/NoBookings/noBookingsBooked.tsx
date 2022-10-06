@@ -37,12 +37,7 @@ export const NoBookingsBooked: React.FC<NoBookings> = ({ sessions }) => {
 	};
 
 	const handleBookingButton = () => {
-		history.push({
-			pathname: '/booking/',
-			state: {
-				isInitialMessage: false
-			}
-		});
+		history.push('/booking/');
 	};
 
 	return (
