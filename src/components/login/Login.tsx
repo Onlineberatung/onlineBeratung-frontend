@@ -61,6 +61,8 @@ import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { ensureTenantSettings } from '../../utils/tenantHelpers';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { getTenantSettings } from '../../utils/tenantSettingsHelper';
+import { budibaseLogout } from '../budibase/budibaseLogout';
 
 const loginButton: ButtonItem = {
 	label: translate('login.button.label'),
@@ -97,6 +99,7 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	const [showLoginError, setShowLoginError] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
+	const { featureToolsEnabled } = getTenantSettings();
 
 	useEffect(() => {
 		setShowLoginError('');
@@ -113,7 +116,8 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	useEffect(() => {
 		setOtp('');
 		setIsOtpRequired(false);
-	}, [username]);
+		featureToolsEnabled && budibaseLogout();
+	}, [featureToolsEnabled, username]);
 
 	const [agency, setAgency] = useState(null);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);

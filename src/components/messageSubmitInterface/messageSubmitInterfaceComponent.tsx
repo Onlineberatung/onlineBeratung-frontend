@@ -966,12 +966,7 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const handleBookingButton = () => {
-		history.push({
-			pathname: '/booking/',
-			state: {
-				isInitialMessage: true
-			}
-		});
+		history.push('/booking/');
 	};
 
 	const hasUploadFunctionality =
