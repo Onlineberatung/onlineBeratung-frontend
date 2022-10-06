@@ -1,3 +1,6 @@
+import { CounsellingRelation } from '../../../../enums/ConsellingRelation';
+import { Gender } from '../../../../enums/Gender';
+
 const profile = {
 	'noContent': 'Keine Angabe',
 	'header.title': 'Profil',
@@ -148,10 +151,18 @@ const profile = {
 	'status': 'Status',
 	'postalCode': 'Postleitzahl',
 	'mainTopic': 'Hauptthema',
-	'selectedTopics': 'Glücksspiele, Tabak, Beruhigungsmittel',
+	'selectedTopics': 'Ausgewählte Themen',
 	'profilInformation': 'Profil Informationen',
 	'tools': 'Tools',
-	'topic': 'Themen'
+	'topic': 'Themen',
+	[`counsellingRelation.${CounsellingRelation.Self.toLowerCase()}`]:
+		'Betroffene',
+	[`counsellingRelation.${CounsellingRelation.Relative.toLowerCase()}`]:
+		'Relative',
+	[`gender.options.${Gender.Female.toLowerCase()}`]: 'Weiblich',
+	[`gender.options.${Gender.Male.toLowerCase()}`]: 'Männlich',
+	[`gender.options.${Gender.Diverse.toLowerCase()}`]: 'Divers',
+	[`gender.options.${Gender.NotProvided.toLowerCase()}`]: 'Keine Angabe'
 };
 
 export default profile;

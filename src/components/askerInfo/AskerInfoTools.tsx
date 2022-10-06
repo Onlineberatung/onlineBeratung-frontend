@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
-import { apiGetUserDataBySessionId } from '../../api/apiGetUserDataBySessionId';
+import { useContext } from 'react';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
 import { config } from '../../resources/scripts/config';
@@ -10,9 +9,11 @@ import { Text } from '../text/Text';
 import './askerInfoTools.styles';
 import { AskerInfoToolsOptions } from './AskerInfoToolsOptions';
 
-export const AskerInfoTools = () => {
+interface AskerInfoToolsProps {
+	askerId: number;
+}
+export const AskerInfoTools = ({ askerId }: AskerInfoToolsProps) => {
 	const { activeSession } = useContext(ActiveSessionContext);
-	const [askerId, setAskerId] = useState();
 
 	const openToolsLink = () => {
 		const accessToken = getValueFromCookie('keycloak');
@@ -24,12 +25,6 @@ export const AskerInfoTools = () => {
 			'noopener'
 		);
 	};
-
-	useEffect(() => {
-		apiGetUserDataBySessionId(activeSession.item.id).then((resp) => {
-			setAskerId(resp.askerId);
-		});
-	}, [activeSession?.item?.id, setAskerId]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<>

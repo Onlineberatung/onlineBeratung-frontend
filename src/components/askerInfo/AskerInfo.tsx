@@ -32,11 +32,14 @@ import {
 import { AskerInfoTools } from './AskerInfoTools';
 import { ProfileBox } from './ProfileBox';
 import { ProfileDataItem } from './ProfileDataItem';
+import { apiGetUserDataBySessionId } from '../../api/apiGetUserDataBySessionId';
+import { ConsultingSessionDataInterface } from '../../globalState/interfaces/ConsultingSessionDataInterface';
 
 export const AskerInfo = () => {
 	const { tenant } = useContext(TenantContext);
 	const { rcGroupId: groupIdFromParam } = useParams();
-
+	const [sessionData, setSessionData] =
+		useState<ConsultingSessionDataInterface>(null);
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 
@@ -44,6 +47,14 @@ export const AskerInfo = () => {
 	const [isPeerChat, setIsPeerChat] = useState(false);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
+
+	useEffect(() => {
+		if (activeSession?.item?.id) {
+			apiGetUserDataBySessionId(activeSession.item.id).then(
+				setSessionData
+			);
+		}
+	}, [activeSession?.item?.id]);
 
 	useEffect(() => {
 		if (!ready) {
@@ -97,10 +108,13 @@ export const AskerInfo = () => {
 		[activeSession, isPeerChat, type, userData]
 	);
 
-	if (!activeSession) {
-		return <Loading></Loading>;
+	if (!activeSession || !sessionData) {
+		return <Loading />;
 	}
-
+	const translateKeys = {
+		gender: `profile.gender.options.${sessionData?.gender?.toLowerCase()}`,
+		counselling: `profile.counsellingRelation.${sessionData?.counsellingRelation?.toLowerCase()}`
+	};
 	return (
 		<ActiveSessionContext.Provider value={{ activeSession }}>
 			<div className="profile__wrapper">
@@ -130,36 +144,45 @@ export const AskerInfo = () => {
 				</div>
 				<div className="askerInfo__contentContainer">
 					<ProfileBox title="profile.profilInformation">
-						<ProfileDataItem title="profile.age" content="23" />
+						<ProfileDataItem
+							title="profile.age"
+							content={`${sessionData?.age}`}
+						/>
 						<ProfileDataItem
 							title="profile.gender"
-							content="Weiblich"
+							content={translate(translateKeys.gender)}
 						/>
 						<ProfileDataItem
 							title="profile.status"
-							content="Betroffene"
+							content={translate(translateKeys.counselling)}
 						/>
 						<ProfileDataItem
 							title="profile.postalCode"
-							content="44444"
+							content={sessionData?.postcode}
 						/>
 					</ProfileBox>
 
-					{tenant?.settings?.featureToolsEnabled && (
+					{tenant?.settings?.featureToolsEnabled && sessionData?.id && (
 						<ProfileBox title="profile.tools">
-							<AskerInfoTools />
+							<AskerInfoTools askerId={sessionData?.id} />
 						</ProfileBox>
 					)}
 
 					<ProfileBox title="profile.topic">
-						<ProfileDataItem
-							title="profile.mainTopic"
-							content="Alkohol"
-						/>
-						<ProfileDataItem
-							title="profile.selectedTopics"
-							content="Weiblich"
-						/>
+						{sessionData?.mainTopic && (
+							<ProfileDataItem
+								title="profile.mainTopic"
+								content={sessionData?.mainTopic.name}
+							/>
+						)}
+						{sessionData?.topics?.length > 0 && (
+							<ProfileDataItem
+								title="profile.selectedTopics"
+								content={sessionData?.topics
+									.map(({ name }) => name)
+									.join(', ')}
+							/>
+						)}
 					</ProfileBox>
 
 					{activeSession.item.monitoring &&
