@@ -30,6 +30,8 @@ import { RegistrationSuccessOverlay } from './RegistrationSuccessOverlay';
 import { AgencyInfo } from '../agencySelection/AgencyInfo';
 import { useContext } from 'react';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { getTenantSettings } from '../../utils/tenantSettingsHelper';
+import { budibaseLogout } from '../budibase/budibaseLogout';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -55,6 +57,7 @@ export const RegistrationFormDigi = ({
 		React.useState(false);
 	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] =
 		React.useState(false);
+	const { featureToolsEnabled } = getTenantSettings();
 
 	const [currentValues, setValues] = React.useState({
 		'age': '',
@@ -70,6 +73,11 @@ export const RegistrationFormDigi = ({
 		'postCode': '',
 		'topicIds[]': []
 	} as any);
+
+	// Logout from budibase
+	React.useEffect(() => {
+		featureToolsEnabled && budibaseLogout();
+	}, [featureToolsEnabled]);
 
 	// When some that changes we check if the form is valid to enable/disable the submit button
 	React.useEffect(() => {
