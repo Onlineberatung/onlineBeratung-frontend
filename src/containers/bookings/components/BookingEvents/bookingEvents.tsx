@@ -53,12 +53,7 @@ export const BookingEvents = () => {
 	};
 
 	const handleBookingButton = () => {
-		history.push({
-			pathname: '/booking/',
-			state: {
-				isInitialMessage: false
-			}
-		});
+		history.push('/booking/');
 	};
 	return (
 		<div className="bookingEvents__wrapper">
