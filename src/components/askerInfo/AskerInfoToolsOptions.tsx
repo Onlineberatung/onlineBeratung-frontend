@@ -17,7 +17,7 @@ import { Checkbox } from '../checkbox/Checkbox';
 import { apiPutTools } from '../../api/apiPutTools';
 
 interface AskerInfoToolsOptionsInterface {
-	askerId: string;
+	askerId: number;
 }
 
 export const AskerInfoToolsOptions = (
@@ -103,7 +103,7 @@ export const AskerInfoToolsOptions = (
 				activeTools = selected.map((tool) => tool.value);
 				updateSharedToolsModal(activeTools, false);
 			}
-			apiPutTools(props.askerId, activeTools).catch(() => {
+			apiPutTools(`${props.askerId}`, activeTools).catch(() => {
 				setHasError(true);
 				setSelectedTools([]);
 				const resetTools = infoAboutToolsModal.map((tool) => {
@@ -237,9 +237,11 @@ export const AskerInfoToolsOptions = (
 
 	useEffect(() => {
 		if (props.askerId) {
-			apiGetTools(props.askerId).then((resp: APIToolsInterface[]) => {
-				setAvailableToolsOptions(resp);
-			});
+			apiGetTools(`${props.askerId}`).then(
+				(resp: APIToolsInterface[]) => {
+					setAvailableToolsOptions(resp);
+				}
+			);
 		}
 	}, [props.askerId]); // eslint-disable-line react-hooks/exhaustive-deps
 
