@@ -9,12 +9,19 @@ export const getBudibaseAccessToken = (
 	tryCount = 0
 ): Promise<any> => {
 	return new Promise(async (resolve) => {
+		//Budibase doesn't work on localhost so we don't do the sso for budibase
+		if (window.location.href.indexOf('localhost') !== -1) {
+			resolve(undefined);
+			return;
+		}
+
 		const budibaseUrl = appConfig.budibaseUrl;
 		let count = 0;
 		const login = () => {
 			count += 1;
 
 			if (count > 1) {
+				// After we submit the user credentials we'll be redirected tools so we need to wait to be there
 				(function waitForLogin(tryCount = 0) {
 					const iframe = document.getElementById('authIframe');
 					if ((iframe as any)?.contentDocument && tryCount < 3) {
@@ -27,6 +34,9 @@ export const getBudibaseAccessToken = (
 				return;
 			}
 
+			// When we first start the login process we need to call the budibase sso and only then we're redirected
+			// to the keycloak form so we need to wait until we can put insert the credentials in the form
+			// If for some reason we still don't find the form we need to resolve it because the login will not work
 			const iframe = document.getElementById('authIframe');
 			if (!(iframe as any).contentDocument && tryCount < 3) {
 				setTimeout(() => {
