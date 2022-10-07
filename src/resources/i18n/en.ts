@@ -716,7 +716,7 @@ export const en = {
 					'headline.1': 'Step by step guide',
 					'headline.2':
 						'Already have Google Chrome or Microsoft Edge?',
-					'1.1': 'Follow the link to',
+					'1.1': 'Follow the link to ',
 					'1.2': ' or ',
 					'2': 'Download Chrome or Edge. You may need the support of your IT for this.',
 					'3': 'Install Chrome or Edge on your PC/laptop/tablet/smartphone.',

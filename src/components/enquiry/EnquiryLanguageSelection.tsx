@@ -13,11 +13,12 @@ import { LocaleContext } from '../../globalState/provider/LocaleProvider';
 
 interface EnquiryLanguageSelectionProps {
 	className?: string;
-	handleSelection: (language: string) => void;
+	onSelect: (language: string) => void;
+	value: string;
 }
 
 export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
-	({ className = '', handleSelection }) => {
+	({ className = '', onSelect, value }) => {
 		const { t: translate } = useTranslation();
 		const settings = useAppConfig();
 		const { sessions, ready } = useContext(SessionsDataContext);
@@ -25,12 +26,8 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 		const { sessionId: sessionIdFromParam } =
 			useParams<{ sessionId: string }>();
 		const { locale } = useContext(LocaleContext);
-		const [loading, setLoading] = useState(true);
 
-		const [selectedLanguage, setSelectedLanguage] = useState(
-			fixedLanguages?.[0] || 'de'
-		);
-		const [languages, setLanguages] = useState([...fixedLanguages]);
+		const [languages, setLanguages] = useState([]);
 
 		useEffect(() => {
 			if (!ready) {
@@ -85,19 +82,16 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 						);
 					})
 					.catch(() => {
-						resolve([]);
+						resolve([...fixedLanguages]);
 						/* intentional, falls back to fixed languages */
 					});
 			});
 
 			getLanguagesFromApi.then((sortedLanguages) => {
-				setLanguages(sortedLanguages);
-
 				if (sortedLanguages.includes(locale)) {
-					setSelectedLanguage(locale);
+					onSelect(locale);
 				}
-
-				setLoading(false);
+				setLanguages(sortedLanguages);
 			});
 		}, [
 			sessions,
@@ -106,20 +100,16 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			fixedLanguages,
 			translate,
 			settings?.multitenancyWithSingleDomainEnabled,
-			locale
+			locale,
+			onSelect
 		]);
-
-		const selectLanguage = (isoCode) => {
-			setSelectedLanguage(isoCode);
-			handleSelection(isoCode);
-		};
 
 		const mapLanguages = (isoCode) => (
 			<span
 				key={isoCode}
-				onClick={() => selectLanguage(isoCode)}
+				onClick={() => onSelect(isoCode)}
 				className={`enquiryLanguageSelection__tab ${
-					selectedLanguage === isoCode
+					value === isoCode
 						? 'enquiryLanguageSelection__tab--selected'
 						: ''
 				}`}
@@ -128,7 +118,7 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			</span>
 		);
 
-		if (languages.length <= 1 || loading) {
+		if (languages.length <= 1) {
 			return null;
 		}
 

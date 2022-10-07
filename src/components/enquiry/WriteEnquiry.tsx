@@ -234,7 +234,8 @@ export const WriteEnquiry: React.FC = () => {
 				{isUnassignedSession && (
 					<EnquiryLanguageSelection
 						className="enquiry__languageSelection"
-						handleSelection={setSelectedLanguage}
+						onSelect={setSelectedLanguage}
+						value={selectedLanguage}
 					/>
 				)}
 			</div>
