@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import { encode } from 'hi-base32';
 import { UserDataContext } from '../../globalState';
 import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
@@ -395,7 +396,10 @@ export const TwoFactorAuth = () => {
 						type="standard"
 					/>
 					<Text
-						text={userData.twoFactorAuth.secret}
+						text={encode(userData.twoFactorAuth.secret).replace(
+							/={1,8}$/,
+							''
+						)}
 						type="standard"
 					/>
 				</div>
