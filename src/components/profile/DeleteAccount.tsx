@@ -51,10 +51,20 @@ export const DeleteAccount = () => {
 		headlineStyleLevel: '1',
 		copy: translate('deleteAccount.confirmOverlay.copy'),
 		nestedComponent: (
-			<InputField
-				item={inputItemPassword}
-				inputHandle={handlePasswordInput}
-			/>
+			<>
+				<InputField
+					item={inputItemPassword}
+					inputHandle={handlePasswordInput}
+				/>
+
+				{isPasswordWarningActive && (
+					<span className="deleteAccount__warning">
+						{translate(
+							'deleteAccount.confirmOverlay.input.warning'
+						)}
+					</span>
+				)}
+			</>
 		),
 		buttonSet: [
 			{
