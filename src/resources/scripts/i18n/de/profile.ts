@@ -147,8 +147,8 @@ const profile = {
 	'notifications.follow.up.email.label':
 		'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.',
 	'age': 'Alter',
-	'gender': 'Alter',
-	'status': 'Status',
+	'gender': 'Geschlecht',
+	'status': 'Selbst Betroffen',
 	'postalCode': 'Postleitzahl',
 	'mainTopic': 'Hauptthema',
 	'selectedTopics': 'Ausgewählte Themen',
@@ -158,7 +158,7 @@ const profile = {
 	[`counsellingRelation.${CounsellingRelation.Self.toLowerCase()}`]:
 		'Betroffene',
 	[`counsellingRelation.${CounsellingRelation.Relative.toLowerCase()}`]:
-		'Relative',
+		'Angehöriger',
 	[`gender.options.${Gender.Female.toLowerCase()}`]: 'Weiblich',
 	[`gender.options.${Gender.Male.toLowerCase()}`]: 'Männlich',
 	[`gender.options.${Gender.Diverse.toLowerCase()}`]: 'Divers',
