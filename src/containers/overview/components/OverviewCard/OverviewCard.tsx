@@ -37,8 +37,10 @@ export const OverviewCard = ({
 		<Card className={`overviewCard ${className}`}>
 			<Card.Header>{translate(title, { count: countStr })}</Card.Header>
 			<Card.Content className={isLoading ? 'loadingCard' : ''}>
-				{!isLoading && countStr > 0 && children}
-				{!isLoading && !countStr && <EmptyState type={emptyType} />}
+				{!isLoading && dataListLength > 0 && children}
+				{!isLoading && !dataListLength && (
+					<EmptyState type={emptyType} />
+				)}
 				{isLoading && <LoadingIndicator />}
 			</Card.Content>
 			<Card.Footer className="footer">
