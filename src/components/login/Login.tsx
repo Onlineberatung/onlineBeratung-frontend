@@ -116,8 +116,11 @@ export const Login = ({ legalLinks, stageComponent: Stage }: LoginProps) => {
 	useEffect(() => {
 		setOtp('');
 		setIsOtpRequired(false);
+	}, [username]);
+
+	useEffect(() => {
 		featureToolsEnabled && budibaseLogout();
-	}, [featureToolsEnabled, username]);
+	}, [featureToolsEnabled]);
 
 	const [agency, setAgency] = useState(null);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);
