@@ -9,6 +9,7 @@ import { deConsultingTypes } from './resources/i18n/de.consultingTypes';
 import { deInformal } from './resources/i18n/de.informal';
 import { deAgency } from './resources/i18n/de.agency';
 import { deLanguages } from './resources/i18n/de.languages';
+import { STORAGE_KEY_ENABLE_TRANSLATION_CHECK } from './components/devToolbar/DevToolbar';
 
 export const FALLBACK_LNG = 'de';
 
@@ -66,9 +67,16 @@ export const init = (config: InitOptions) => {
 			),
 			() => {
 				if (
-					!process.env.REACT_APP_ENABLE_TRANSLATION_CHECK ||
-					parseInt(process.env.REACT_APP_ENABLE_TRANSLATION_CHECK) !==
-						1
+					(localStorage.getItem(
+						STORAGE_KEY_ENABLE_TRANSLATION_CHECK
+					) ?? null) === '0' ||
+					((localStorage.getItem(
+						STORAGE_KEY_ENABLE_TRANSLATION_CHECK
+					) ?? null) === null &&
+						(!process.env.REACT_APP_ENABLE_TRANSLATION_CHECK ||
+							parseInt(
+								process.env.REACT_APP_ENABLE_TRANSLATION_CHECK
+							) !== 1))
 				) {
 					return;
 				}
