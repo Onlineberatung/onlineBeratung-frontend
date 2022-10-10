@@ -13,9 +13,9 @@ import { AskerInfoToolsOptions } from './AskerInfoToolsOptions';
 export const AskerInfoTools = () => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const [askerId, setAskerId] = useState();
-	const accessToken = getValueFromCookie('keycloak');
 
 	const openToolsLink = () => {
+		const accessToken = getValueFromCookie('keycloak');
 		window.open(
 			`${config.endpoints.budibaseTools(
 				activeSession.consultant.id

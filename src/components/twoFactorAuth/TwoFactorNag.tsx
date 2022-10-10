@@ -6,12 +6,18 @@ import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { history } from '../app/app';
 import './twoFactorNag.styles';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import {
+	STORAGE_KEY_2FA,
+	STORAGE_KEY_2FA_DUTY,
+	useDevToolbar
+} from '../devToolbar/DevToolbar';
 
 interface TwoFactorNagProps {}
 
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const settings = useAppConfig();
 	const { userData } = useContext(UserDataContext);
+	const { getDevToolbarOption } = useDevToolbar();
 	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
 	const [forceHideTwoFactorNag, setForceHideTwoFactorNag] = useState(false);
 	const [message, setMessage] = useState({
@@ -27,20 +33,25 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			userData.twoFactorAuth?.isEnabled &&
 			!userData.twoFactorAuth?.isActive &&
 			!forceHideTwoFactorNag &&
-			todaysDate >= settings.twofactor.startObligatoryHint
+			todaysDate >= settings.twofactor.startObligatoryHint &&
+			getDevToolbarOption(STORAGE_KEY_2FA) === '1'
 		) {
 			setIsShownTwoFactorNag(true);
 
-			todaysDate >= settings.twofactor.dateTwoFactorObligatory
+			todaysDate >= settings.twofactor.dateTwoFactorObligatory &&
+			getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '1'
 				? setMessage(settings.twofactor.messages[1])
 				: setMessage(settings.twofactor.messages[0]);
+		} else {
+			setIsShownTwoFactorNag(false);
 		}
 	}, [
 		userData,
 		forceHideTwoFactorNag,
 		settings.twofactor.startObligatoryHint,
 		settings.twofactor.dateTwoFactorObligatory,
-		settings.twofactor.messages
+		settings.twofactor.messages,
+		getDevToolbarOption
 	]);
 
 	const closeTwoFactorNag = async () => {

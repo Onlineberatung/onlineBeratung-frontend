@@ -10,8 +10,7 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	LegalLinkInterface,
-	RocketChatProvider,
-	useTenant
+	RocketChatProvider
 } from '../../globalState';
 import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
@@ -24,7 +23,6 @@ import { requestPermissions } from '../../utils/notificationHelpers';
 import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
 import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
-import { useLoginBudiBase } from '../../utils/budibaseHelper';
 import { useJoinGroupChat } from '../../hooks/useJoinGroupChat';
 
 interface AuthenticatedAppProps {
@@ -42,26 +40,18 @@ export const AuthenticatedApp = ({
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
-	const tenantData = useTenant();
 	const { joinGroupChat } = useJoinGroupChat();
 
 	const [appReady, setAppReady] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { notifications } = useContext(NotificationsContext);
-	const { loginBudiBase } = useLoginBudiBase();
 
 	useEffect(() => {
 		// When the user has a group chat id that means that we need to join the user in the group chat
 		const gcid = new URLSearchParams(window.location.search).get('gcid');
 		joinGroupChat(gcid);
 	}, [joinGroupChat]);
-
-	useEffect(() => {
-		if (tenantData?.settings?.featureToolsEnabled) {
-			loginBudiBase();
-		}
-	}, [loginBudiBase, tenantData]);
 
 	useEffect(() => {
 		if (
