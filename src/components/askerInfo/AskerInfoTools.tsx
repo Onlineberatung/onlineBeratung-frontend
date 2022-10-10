@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { apiGetUserDataBySessionId } from '../../api/apiGetUserDataBySessionId';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
 import { config } from '../../resources/scripts/config';
@@ -14,6 +15,7 @@ interface AskerInfoToolsProps {
 }
 export const AskerInfoTools = ({ askerId }: AskerInfoToolsProps) => {
 	const { activeSession } = useContext(ActiveSessionContext);
+	const [askerItemID, setAskerItemId] = useState<String>();
 
 	const openToolsLink = () => {
 		const accessToken = getValueFromCookie('keycloak');
@@ -26,9 +28,15 @@ export const AskerInfoTools = ({ askerId }: AskerInfoToolsProps) => {
 		);
 	};
 
+	useEffect(() => {
+		apiGetUserDataBySessionId(activeSession.item.id).then((resp) => {
+			setAskerItemId(resp.askerId);
+		});
+	}, [activeSession?.item?.id, askerItemID]); // eslint-disable-line react-hooks/exhaustive-deps
+
 	return (
 		<>
-			<AskerInfoToolsOptions askerId={askerId} />
+			<AskerInfoToolsOptions askerId={askerItemID} />
 			<Text
 				className="asker-info-tools__share-title"
 				text={translate('userProfile.tools.share.title')}
