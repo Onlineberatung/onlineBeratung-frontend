@@ -21,6 +21,7 @@ import {
 	AnonymousConversationStartedContext,
 	AUTHORITIES,
 	buildExtendedSession,
+	ConsultingTypesContext,
 	getExtendedSession,
 	hasUserAuthority,
 	isAnonymousSession,
@@ -79,6 +80,8 @@ export const SessionsList = ({
 	sessionTypes
 }: SessionsListProps) => {
 	const { t: translate } = useTranslation();
+	const { consultingTypes } = useContext(ConsultingTypesContext);
+
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
 		useParams<{ rcGroupId: string; sessionId: string }>();
 	const history = useHistory();
@@ -644,7 +647,8 @@ export const SessionsList = ({
 	const showEnquiryTabs =
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 		userData.hasAnonymousConversations &&
-		type === SESSION_LIST_TYPES.ENQUIRY;
+		type === SESSION_LIST_TYPES.ENQUIRY &&
+		consultingTypes?.[0]?.isAnonymousConversationAllowed;
 
 	const showSessionListTabs =
 		userData.hasArchive &&

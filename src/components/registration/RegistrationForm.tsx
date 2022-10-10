@@ -36,6 +36,8 @@ import { useTranslation } from 'react-i18next';
 import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { getTenantSettings } from '../../utils/tenantSettingsHelper';
+import { budibaseLogout } from '../budibase/budibaseLogout';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -84,6 +86,12 @@ export const RegistrationForm = ({
 		tenantData?.settings?.topicsInRegistrationEnabled &&
 		tenantData?.settings?.featureTopicsEnabled;
 	const { tenant } = useContext(TenantContext);
+	const { featureToolsEnabled } = getTenantSettings();
+
+	// Logout from budibase
+	useEffect(() => {
+		featureToolsEnabled && budibaseLogout();
+	}, [featureToolsEnabled]);
 
 	useEffect(() => {
 		const postcodeParameter = getUrlParameter('postcode');

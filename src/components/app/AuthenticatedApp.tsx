@@ -10,8 +10,7 @@ import {
 	ConsultingTypesContext,
 	RocketChatProvider,
 	InformalContext,
-	LocaleContext,
-	useTenant
+	LocaleContext
 } from '../../globalState';
 import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
@@ -24,7 +23,7 @@ import { requestPermissions } from '../../utils/notificationHelpers';
 import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
 import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
-import { useLoginBudiBase } from '../../utils/budibaseHelper';
+import { useJoinGroupChat } from '../../hooks/useJoinGroupChat';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -39,19 +38,18 @@ export const AuthenticatedApp = ({
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { locale, setLocale } = useContext(LocaleContext);
 	const { setInformal } = useContext(InformalContext);
-	const tenantData = useTenant();
+	const { joinGroupChat } = useJoinGroupChat();
 
 	const [appReady, setAppReady] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [userDataRequested, setUserDataRequested] = useState<boolean>(false);
 	const { notifications } = useContext(NotificationsContext);
-	const { loginBudiBase } = useLoginBudiBase();
 
 	useEffect(() => {
-		if (tenantData?.settings?.featureToolsEnabled) {
-			loginBudiBase();
-		}
-	}, [loginBudiBase, tenantData]);
+		// When the user has a group chat id that means that we need to join the user in the group chat
+		const gcid = new URLSearchParams(window.location.search).get('gcid');
+		joinGroupChat(gcid);
+	}, [joinGroupChat]);
 
 	useEffect(() => {
 		if (
@@ -65,6 +63,7 @@ export const AuthenticatedApp = ({
 	useEffect(() => {
 		if (!userDataRequested) {
 			setUserDataRequested(true);
+
 			handleTokenRefresh(false)
 				.then(() => {
 					Promise.all([apiGetUserData(), apiGetConsultingTypes()])

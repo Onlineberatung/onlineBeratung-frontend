@@ -66,6 +66,9 @@ import { ensureTenantSettings } from '../../utils/tenantHelpers';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
+import { useSearchParam } from '../../hooks/useSearchParams';
+import { getTenantSettings } from '../../utils/tenantSettingsHelper';
+import { budibaseLogout } from '../budibase/budibaseLogout';
 
 interface LoginProps {
 	stageComponent: ComponentType<StageProps>;
@@ -105,6 +108,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	const [showLoginError, setShowLoginError] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
+	const { featureToolsEnabled } = getTenantSettings();
 
 	useEffect(() => {
 		setShowLoginError('');
@@ -124,6 +128,10 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		setIsOtpRequired(false);
 	}, [username]);
 
+	useEffect(() => {
+		featureToolsEnabled && budibaseLogout();
+	}, [featureToolsEnabled]);
+
 	const [agency, setAgency] = useState(null);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);
 	const [registerOverlayActive, setRegisterOverlayActive] = useState(false);
@@ -131,6 +139,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 
 	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
 	const isFirstVisit = useIsFirstVisit();
+	const gcid = useSearchParam<string>('gcid');
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
@@ -305,6 +314,10 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 
 	const postLogin = useCallback(
 		(data) => {
+			if (!consultant) {
+				return redirectToApp(gcid);
+			}
+
 			return apiGetUserData().then((userData: UserDataInterface) => {
 				// If user has changed language from default but the profile has different language in profile override it
 				if (
@@ -339,7 +352,8 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			consultant,
 			possibleAgencies,
 			possibleConsultingTypes.length,
-			handleRegistration
+			handleRegistration,
+			gcid
 		]
 	);
 
@@ -349,6 +363,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			username: username,
 			password: password,
 			redirect: !consultant,
+			gcid,
 			...ensureTenantSettings(tenant?.settings)
 		})
 			.then(postLogin)
@@ -385,6 +400,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				password,
 				redirect: !consultant,
 				otp,
+				gcid,
 				...ensureTenantSettings(tenant?.settings)
 			})
 				.then(postLogin)

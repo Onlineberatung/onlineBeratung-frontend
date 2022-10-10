@@ -21,7 +21,7 @@ export const GroupChatCopyLinks = ({
 	groupChatId
 }: GroupChatCopyLinksProps) => {
 	const settings = useAppConfig();
-	const url = `${settings.urls.registration}?gcid=${id}`;
+	const url = `${settings.urls.toLogin}?gcid=${id}`;
 	const { addNotification } = useContext(NotificationsContext);
 	const { t: translate } = useTranslation();
 

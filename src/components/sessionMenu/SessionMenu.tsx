@@ -170,12 +170,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	}, [groupIdFromParam, handleClick, activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleBookingButton = () => {
-		history.push({
-			pathname: '/booking/',
-			state: {
-				isInitialMessage: false
-			}
-		});
+		history.push('/booking/');
 	};
 
 	const handleStopGroupChat = () => {

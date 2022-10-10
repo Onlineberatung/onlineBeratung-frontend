@@ -29,6 +29,7 @@ import VideoConference from '../videoConference/VideoConference';
 import VideoCall from '../videoCall/VideoCall';
 import { LegalLinksProvider } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { DevToolbarWrapper } from '../devToolbar/DevToolbar';
 
 type TExtraRoute = {
 	route: RouteProps;
@@ -77,6 +78,7 @@ export const App = ({
 					</LanguagesProvider>
 				</LocaleProvider>
 			</AppConfigProvider>
+			<DevToolbarWrapper />
 		</ErrorBoundary>
 	);
 };

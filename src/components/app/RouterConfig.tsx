@@ -25,10 +25,6 @@ import {
 	AUTHORITIES,
 	hasUserAuthority
 } from '../../globalState';
-import { Booking } from '../booking/booking';
-import { BookingCancellation } from '../booking/bookingCancellation';
-import { BookingEvents } from '../booking/bookingEvents';
-import { BookingReschedule } from '../booking/bookingReschedule';
 
 import { ReactComponent as OverviewIcon } from '../../resources/img/icons/overview.svg';
 import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
@@ -41,6 +37,10 @@ import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/c
 import * as React from 'react';
 import { ToolsList } from '../tools/ToolsList';
 import { OverviewPage } from '../../containers/overview/overview';
+import { Booking } from '../../containers/bookings/components/Booking/booking';
+import { BookingCancellation } from '../../containers/bookings/components/BookingCancellation/bookingCancellation';
+import { BookingEvents } from '../../containers/bookings/components/BookingEvents/bookingEvents';
+import { BookingReschedule } from '../../containers/bookings/components/BookingReschedule/bookingReschedule';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&

@@ -1,7 +1,6 @@
 import { apiKeycloakLogout } from '../../api/apiLogoutKeycloak';
 import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
-import { calcomLogout } from '../booking/settings/calcomLogout';
 import { budibaseLogout } from '../budibase/budibaseLogout';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import {
@@ -9,6 +8,7 @@ import {
 	removeTokenExpiryFromLocalStorage
 } from '../sessionCookie/accessSessionLocalStorage';
 import { appConfig } from '../../utils/appConfig';
+import { calcomLogout } from './calcomLogout';
 
 let isRequestInProgress = false;
 export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {

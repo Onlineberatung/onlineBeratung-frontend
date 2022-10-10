@@ -14,6 +14,10 @@ import { stateToHTML } from 'draft-js-export-html';
 import './releaseNote.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import {
+	STORAGE_KEY_RELEASE_NOTES,
+	useDevToolbar
+} from '../devToolbar/DevToolbar';
 
 interface ReleaseNoteProps {}
 
@@ -28,6 +32,7 @@ type TReleases = {
 export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
+	const { getDevToolbarOption } = useDevToolbar();
 	const [showReleaseNote, setShowRelaseNote] = useState(false);
 	const [checkboxChecked, setCheckboxChecked] = useState(false);
 	const [releaseNoteText, setReleaseNoteText] = useState('');
@@ -95,12 +100,14 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 
 				setLatestReleaseNote(markdowns[markdowns.length - 1].key);
 				setReleaseNoteText(sanitizedText);
-				setShowRelaseNote(true);
+				setShowRelaseNote(
+					getDevToolbarOption(STORAGE_KEY_RELEASE_NOTES) === '1'
+				);
 			})
 			.catch(() => {
 				setShowRelaseNote(false);
 			});
-	}, [readReleaseNote, settings.urls.releases]);
+	}, [getDevToolbarOption, readReleaseNote, settings.urls.releases]);
 
 	const changeHasSeenReleaseNote = () => {
 		setCheckboxChecked(!checkboxChecked);

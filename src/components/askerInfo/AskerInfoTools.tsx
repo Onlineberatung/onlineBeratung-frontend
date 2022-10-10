@@ -14,9 +14,9 @@ export const AskerInfoTools = () => {
 	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 	const [askerId, setAskerId] = useState();
-	const accessToken = getValueFromCookie('keycloak');
 
 	const openToolsLink = () => {
+		const accessToken = getValueFromCookie('keycloak');
 		window.open(
 			`${endpoints.budibaseTools(
 				activeSession.consultant.id

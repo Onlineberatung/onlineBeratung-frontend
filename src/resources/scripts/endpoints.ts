@@ -19,6 +19,8 @@ export const endpoints = {
 	appointmentBaseNew: (sessionId: number) =>
 		apiUrl + `/service/appointments/sessions/${sessionId}/enquiry/new`,
 	appointmentServiceBase: apiUrl + '/service/agency/',
+	appointmentServiceCalDavAccount:
+		apiUrl + '/service/appointservice/caldav/hasAccount',
 	appointmentServiceMeetingLink: (agencyId: number) =>
 		apiUrl +
 		`/service/appointservice/agencies/${agencyId}/initialMeetingSlug`,
