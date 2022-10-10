@@ -22,6 +22,7 @@ import {
 } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { DevToolbarWrapper } from '../devToolbar/DevToolbar';
 
 export const history = createBrowserHistory();
 
@@ -62,6 +63,7 @@ export const App = ({
 					/>
 				</FixedLanguagesContext.Provider>
 			</AppConfigProvider>
+			<DevToolbarWrapper />
 		</ErrorBoundary>
 	);
 };
