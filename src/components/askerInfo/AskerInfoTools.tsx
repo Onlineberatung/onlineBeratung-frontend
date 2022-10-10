@@ -5,7 +5,7 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
 import { config } from '../../resources/scripts/config';
 import { translate } from '../../utils/translate';
-import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { refreshKeycloakAccessToken } from '../sessionCookie/refreshKeycloakAccessToken';
 import { Text } from '../text/Text';
 import './askerInfoTools.styles';
 import { AskerInfoToolsOptions } from './AskerInfoToolsOptions';
@@ -18,14 +18,16 @@ export const AskerInfoTools = ({ askerId }: AskerInfoToolsProps) => {
 	const [askerItemID, setAskerItemId] = useState<String>();
 
 	const openToolsLink = () => {
-		const accessToken = getValueFromCookie('keycloak');
-		window.open(
-			`${config.endpoints.budibaseTools(
-				activeSession.consultant.id
-			)}/consultantview?userId=${askerId}&access_token=${accessToken}`,
-			'_blank',
-			'noopener'
-		);
+		refreshKeycloakAccessToken().then((resp) => {
+			const accessToken = resp.access_token;
+			window.open(
+				`${config.endpoints.budibaseTools(
+					activeSession.consultant.id
+				)}/consultantview?userId=${askerId}&access_token=${accessToken}`,
+				'_blank',
+				'noopener'
+			);
+		});
 	};
 
 	useEffect(() => {
