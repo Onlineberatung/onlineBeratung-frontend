@@ -42,6 +42,22 @@
 		& > * {
 			flex: 1;
 		}
+
+		&__headline {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-end;
+		}
+
+		&__description {
+			width: 18px;
+			height: 18px;
+			border-radius: 50%;
+			background: #fff;
+			text-align: center;
+			font-weight: bold;
+			margin-bottom: 5px;
+		}
 	}
 
 	&--right {

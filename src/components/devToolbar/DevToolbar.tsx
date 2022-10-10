@@ -24,6 +24,7 @@ type TLocalStorageSwitch = {
 	key: string;
 	value: string;
 	className?: string;
+	description?: string;
 };
 
 const BUTTON = 'button';
@@ -78,53 +79,63 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 		className: 'devToolbar__toggle'
 	},
 	{
-		label: 'Developer Tools Positions',
+		label: 'Dev Toolbar Position',
 		key: STORAGE_KEY_POSITION,
 		type: TOGGLE,
 		choices: {
 			right: <>&rarr;</>,
 			bottom: <>&darr;</>
 		},
-		value: 'right'
+		value: 'right',
+		description: 'Position of the DevToolbar on the screen'
 	},
 	{
-		label: 'Disable developer tools',
+		label: 'Disable Dev Toolbar',
 		key: STORAGE_KEY_DEV_TOOLBAR,
 		type: BUTTON,
 		choices: ['0', '1'],
-		value: process.env.NODE_ENV === 'development' ? '1' : '0'
+		value: process.env.NODE_ENV === 'development' ? '1' : '0',
+		description:
+			'Disables the DevToolbar! The settings which were changed in the DevToolbar will not be resetet to its default!'
 	},
 	{
-		label: '2FA Dialog',
+		label: 'Disable 2FA Dialog',
 		key: STORAGE_KEY_2FA,
 		type: TOGGLE,
-		choices: { '0': 'Aus', '1': 'An' },
-		value: '1'
+		choices: { '0': 'Off', '1': 'On' },
+		value: '1',
+		description: 'Disable the 2FA dialog'
 	},
 	{
-		label: '2FA Pflicht',
+		label: '2FA Duty',
 		key: STORAGE_KEY_2FA_DUTY,
 		type: TOGGLE,
-		choices: { '0': 'Aus', '1': 'An' },
-		value: '1'
+		choices: { '0': 'Off', '1': 'On' },
+		value: '1',
+		description:
+			'Disable the duty to add a 2fa and show only the defautl 2fa dialog if enabled'
 	},
 	{
-		label: 'Release Notes',
+		label: 'Release Notes Dialog',
 		key: STORAGE_KEY_RELEASE_NOTES,
 		type: TOGGLE,
-		choices: { '0': 'Aus', '1': 'An' },
-		value: '1'
+		choices: { '0': 'Off', '1': 'On' },
+		value: '1',
+		description:
+			'Disable the release notes dialog if there are new release notes added'
 	},
 	{
 		label: 'DEV Error Boundary',
 		key: STORAGE_KEY_ERROR_BOUNDARY,
 		type: TOGGLE,
-		choices: { '0': 'Aus', '1': 'An' },
+		choices: { '0': 'Off', '1': 'On' },
 		value:
 			process.env.REACT_APP_DISABLE_ERROR_BOUNDARY &&
 			parseInt(process.env.REACT_APP_DISABLE_ERROR_BOUNDARY) === 1
 				? '0'
-				: '1'
+				: '1',
+		description:
+			'Disable the Error Boundary to prevent getting logged out when an error occurs. DEV only'
 	}
 ];
 
@@ -297,6 +308,10 @@ export const DevToolbar = () => {
 				<button type="button" onClick={reset}>
 					Reset
 				</button>
+				<div style={{ fontSize: '12px', lineHeight: '14px' }}>
+					Resets all settings back to its defaults but keeps the dev
+					toolbar visible.
+				</div>
 			</div>
 		</div>
 	);
@@ -313,7 +328,17 @@ const LocalStorageSwitch = ({
 		case BUTTON:
 			return (
 				<div className={localStorageSwitch.className}>
-					<h5>{localStorageSwitch.label}</h5>
+					<div className="devToolbar__switches__headline">
+						<h5>{localStorageSwitch.label}</h5>
+						{localStorageSwitch.description && (
+							<div
+								className="devToolbar__switches__description"
+								title={localStorageSwitch.description}
+							>
+								i
+							</div>
+						)}
+					</div>
 					<hr />
 					<button
 						type="button"
@@ -350,7 +375,17 @@ const LocalStorageSwitch = ({
 		case TOGGLE:
 			return (
 				<div className={localStorageSwitch.className}>
-					<h5>{localStorageSwitch.label}</h5>
+					<div className="devToolbar__switches__headline">
+						<h5>{localStorageSwitch.label}</h5>
+						{localStorageSwitch.description && (
+							<div
+								className="devToolbar__switches__description"
+								title={localStorageSwitch.description}
+							>
+								i
+							</div>
+						)}
+					</div>
 					<hr />
 					<div className="flex">
 						{Object.keys(localStorageSwitch.choices).map(
@@ -377,7 +412,17 @@ const LocalStorageSwitch = ({
 		case SELECT:
 			return (
 				<div className={localStorageSwitch.className}>
-					<h5>{localStorageSwitch.label}</h5>
+					<div className="devToolbar__switches__headline">
+						<h5>{localStorageSwitch.label}</h5>
+						{localStorageSwitch.description && (
+							<div
+								className="devToolbar__switches__description"
+								title={localStorageSwitch.description}
+							>
+								i
+							</div>
+						)}
+					</div>
 					<hr />
 					<select
 						onChange={({ target: { value } }) =>
@@ -400,7 +445,17 @@ const LocalStorageSwitch = ({
 		case RADIO:
 			return (
 				<div className={localStorageSwitch.className}>
-					<h5>{localStorageSwitch.label}</h5>
+					<div className="devToolbar__switches__headline">
+						<h5>{localStorageSwitch.label}</h5>
+						{localStorageSwitch.description && (
+							<div
+								className="devToolbar__switches__description"
+								title={localStorageSwitch.description}
+							>
+								i
+							</div>
+						)}
+					</div>
 					<hr />
 					<div>
 						{Object.keys(localStorageSwitch.choices).map(
