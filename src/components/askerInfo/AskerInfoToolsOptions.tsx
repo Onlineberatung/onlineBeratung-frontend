@@ -17,7 +17,7 @@ import { Checkbox } from '../checkbox/Checkbox';
 import { apiPutTools } from '../../api/apiPutTools';
 
 interface AskerInfoToolsOptionsInterface {
-	askerId: number;
+	askerId: String;
 }
 
 export const AskerInfoToolsOptions = (
