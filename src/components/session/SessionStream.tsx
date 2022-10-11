@@ -376,7 +376,7 @@ export const SessionStream = ({
 
 	useEffect(() => {
 		const agencyId = activeSession.item.agencyId.toString();
-		if (consultantList && consultantList.length <= 0 && !isAsker) {
+		if (consultantList && !isAsker) {
 			apiGetAgencyConsultantList(agencyId)
 				.then((response) => {
 					const consultants =
