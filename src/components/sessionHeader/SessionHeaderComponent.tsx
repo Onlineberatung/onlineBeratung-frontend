@@ -21,8 +21,7 @@ import {
 import {
 	getViewPathForType,
 	isUserModerator,
-	SESSION_LIST_TAB,
-	SESSION_LIST_TYPES
+	SESSION_LIST_TAB
 } from '../session/sessionHelpers';
 import { SessionMenu } from '../sessionMenu/SessionMenu';
 import {
@@ -144,10 +143,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 		consultingType?.showAskerProfile &&
 		activeSession.isSession &&
-		!activeSession.isLive &&
-		((type === SESSION_LIST_TYPES.ENQUIRY &&
-			Object.entries(userSessionData).length !== 0) ||
-			SESSION_LIST_TYPES.ENQUIRY !== type);
+		!activeSession.isLive;
 
 	if (activeSession.isGroup) {
 		return (
