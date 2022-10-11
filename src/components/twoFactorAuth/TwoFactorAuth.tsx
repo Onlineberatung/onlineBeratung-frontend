@@ -418,10 +418,14 @@ export const TwoFactorAuth = () => {
 						type="standard"
 					/>
 					<Text
-						text={encode(userData.twoFactorAuth.secret).replace(
-							/={1,8}$/,
-							''
-						)}
+						text={
+							userData.twoFactorAuth.secret
+								? encode(userData.twoFactorAuth.secret).replace(
+										/={1,8}$/,
+										''
+								  )
+								: ''
+						}
 						type="standard"
 					/>
 				</div>

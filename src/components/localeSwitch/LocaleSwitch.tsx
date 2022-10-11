@@ -1,29 +1,30 @@
 import * as React from 'react';
 import './localeSwitch.styles';
 import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language.svg';
-import Select, { StylesConfig, SelectComponentsConfig } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect, useState } from 'react';
 import { LocaleContext, UserDataContext } from '../../globalState';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
-import { FALLBACK_LNG } from '../../i18n';
+import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 
 export interface LocaleSwitchProp {
 	updateUserData?: boolean;
+	vertical?: boolean;
 	showIcon?: boolean;
-	styles?: StylesConfig;
-	components?: SelectComponentsConfig;
-	menuIsOpen?: boolean;
 	className?: string;
+	iconSize?: number;
+	label?: string;
+	menuPlacement?: 'top' | 'bottom' | 'right';
 }
 
 export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 	updateUserData,
-	styles,
-	components,
 	className,
-	menuIsOpen,
-	showIcon = true
+	showIcon = true,
+	vertical,
+	iconSize = 20,
+	menuPlacement = 'bottom',
+	label
 }) => {
 	const { t: translate } = useTranslation('languages');
 
@@ -51,60 +52,80 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 		}
 	}, [locale, requestInProgress, updateUserData, userDataContext]);
 
-	const localeSwitchStyles = {
-		control: (provided) => ({
-			...provided,
-			width: 100,
-			border: 0,
-			boxShadow: 'none',
-			zIndex: 2,
-			cursor: 'pointer'
-		}),
-		menu: ({ width, ...css }) => ({
-			...css,
-			width: 'max-content',
-			minWidth: '100%'
-		}),
-		option: (styles) => ({
-			...styles,
-			cursor: 'pointer'
-		}),
-		input: () => ({
-			color: 'transparent'
-		})
-	};
-
 	if (selectableLocales.length <= 1) {
 		return null;
 	}
 
+	const languageSelectDropdown: SelectDropdownItem = {
+		handleDropdownSelect: ({ value }) => setLocale(value),
+		id: 'languageSelect',
+		className,
+		selectedOptions: selectableLocales.map((lng) => ({
+			label: translate([lng, lng], { ns: 'languages' }),
+			value: lng
+		})),
+		useIconOption: false,
+		isSearchable: false,
+		menuPlacement: menuPlacement,
+		menuPosition: 'fixed',
+		defaultValue: {
+			value: locale,
+			label: (
+				<>
+					{showIcon && (
+						<LanguageIcon width={iconSize} height={iconSize} />
+					)}{' '}
+					<span>
+						{label
+							? label
+							: translate([locale, locale], { ns: 'languages' })}
+					</span>
+				</>
+			)
+		},
+		styleOverrides: {
+			control: () => ({
+				//'padding': '8px 12px',
+				'height': 'auto',
+				'border': 0,
+				'&:hover': {
+					border: 0
+				},
+				// Nav only
+				'background': 'none',
+				'padding': '0',
+				'justifyContent': 'center'
+			}),
+			dropdownIndicator: () => ({
+				display: 'none'
+			}),
+			singleValue: () => ({
+				maxWidth: 'auto',
+				position: 'relative',
+				top: 0,
+				transform: 'none',
+				display: 'flex',
+				flexDirection: vertical ? 'column' : 'row',
+				alignItems: 'center'
+			}),
+			valueContainer: () => ({
+				overflow: 'visible',
+				display: 'flex'
+			}),
+			option: () => ({
+				whiteSpace: 'nowrap',
+				fontSize: '14px'
+			})
+		}
+	};
+
 	return (
-		<div className={'localeSwitch'}>
-			{showIcon && <LanguageIcon width={20} height={20} />}
-			<Select
-				className={className}
-				menuIsOpen={menuIsOpen}
-				options={selectableLocales.map((lng) => ({
-					label: translate(lng, lng),
-					value: lng
-				}))}
-				defaultValue={{
-					value: FALLBACK_LNG,
-					label: translate(FALLBACK_LNG, FALLBACK_LNG)
-				}}
-				value={{
-					value: locale,
-					label: translate(locale, locale)
-				}}
-				onChange={({ value }) => setLocale(value)}
-				styles={styles ?? localeSwitchStyles}
-				components={
-					components ?? {
-						DropdownIndicator: () => null,
-						IndicatorSeparator: () => null
-					}
-				}
-			/>
+		<div
+			className={`localeSwitch ${
+				vertical ? 'localeSwitch--vertical' : ''
+			}`}
+		>
+			<SelectDropdown {...languageSelectDropdown} />
 		</div>
 	);
 };

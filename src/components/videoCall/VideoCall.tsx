@@ -171,7 +171,7 @@ const VideoCall = () => {
 					SHOW_PROMOTIONAL_CLOSE_PAGE: false,
 					shareableUrl,
 					btnText: encodeURI(translate('jitsi.btn.default')),
-					btnTextCopied: encodeURI(translate('jitsi.btn.default')),
+					btnTextCopied: encodeURI(translate('jitsi.btn.copied')),
 					e2eEncryptionEnabled: !!parseInt(e2e)
 				}}
 				{...(username

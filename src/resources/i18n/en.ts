@@ -2148,9 +2148,9 @@ export const en = {
 	},
 	videoCall: {
 		button: {
-			rejectCall: 'Reject video call',
-			startCall: 'Start video call',
-			answerCall: 'Accept video call',
+			rejectCall: 'Reject call',
+			startCall: 'Start audio call',
+			answerCall: 'Accept audio call',
 			startVideoCall: 'Start video call',
 			answerVideoCall: 'Accept video call'
 		},

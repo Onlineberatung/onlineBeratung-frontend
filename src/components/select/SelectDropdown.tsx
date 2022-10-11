@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import Select from 'react-select';
+import Select, { defaultStyles } from 'react-select';
 import { components } from 'react-select';
 import { CloseCircle } from '../../resources/img/icons';
 import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down-light.svg';
@@ -10,10 +10,11 @@ import './select.react.styles';
 import './select.styles';
 import { useResponsive } from '../../hooks/useResponsive';
 import { useTranslation } from 'react-i18next';
+import { ReactNode } from 'react';
 
 export interface SelectOption {
 	value: string;
-	label: string;
+	label: ReactNode;
 	iconLabel?: string;
 	isFixed?: boolean;
 }
@@ -36,55 +37,84 @@ export interface SelectDropdownItem {
 	isSearchable?: boolean;
 	isMulti?: boolean;
 	isClearable?: boolean;
-	menuPlacement: 'top' | 'bottom';
+	menuPlacement: 'top' | 'bottom' | 'right';
+	menuPosition?: 'absolute' | 'fixed';
 	defaultValue?: SelectOption | SelectOption[];
 	hasError?: boolean;
 	errorMessage?: string;
 	onKeyDown?: Function;
+	styleOverrides?: defaultStyles;
 }
 
-const colourStyles = (fromL) => ({
-	control: (styles, { isFocused, hasValue }) => {
+const colourStyles = (
+	fromL,
+	menuPlacement,
+	{
+		control,
+		singleValue,
+		input,
+		option,
+		menuList,
+		menuPortal,
+		menu,
+		multiValue,
+		multiValueLabel,
+		multiValueRemove,
+		indicatorSeparator,
+		...overrides
+	}: defaultStyles
+) => ({
+	control: (styles, state) => {
 		return {
 			...styles,
 			'backgroundColor': 'white',
-			'border': isFocused ? '2px solid #3F373F' : '1px solid #8C878C',
+			'border': state.isFocused
+				? '2px solid #3F373F'
+				: '1px solid #8C878C',
 			'borderRadius': undefined,
 			'height': '50px',
-			'outline': isFocused ? '0' : '0',
-			'padding': isFocused ? '0 11px' : '0 12px',
+			'outline': '0',
+			'padding': state.isFocused ? '0 11px' : '0 12px',
 			'color': '#3F373F',
 			'boxShadow': undefined,
 			'cursor': 'pointer',
 			'&:hover': {
-				border: isFocused ? '2px solid #3F373F' : '1px solid #3F373F',
-				padding: isFocused ? '0 11px' : '0 12px'
+				border: state.isFocused
+					? '2px solid #3F373F'
+					: '1px solid #3F373F',
+				padding: state.isFocused ? '0 11px' : '0 12px'
 			},
 			'.select__inputLabel': {
-				fontSize: isFocused || hasValue ? '12px' : '16px',
-				top: isFocused || hasValue ? '4px' : '14px',
+				fontSize: state.isFocused || state.hasValue ? '12px' : '16px',
+				top: state.isFocused || state.hasValue ? '4px' : '14px',
 				transition: 'font-size .5s, top .5s',
 				color: '#8C878C',
 				position: 'absolute',
 				marginLeft: '3px',
 				cursor: 'pointer'
-			}
+			},
+			...(control?.(styles, state) ?? {})
 		};
 	},
-	singleValue: (styles) => ({
+	singleValue: (styles, state) => ({
 		...styles,
-		top: '60%'
+		top: '60%',
+		...(singleValue?.(styles, state) ?? {})
 	}),
 	input: (styles, state) => {
 		return state.isMulti
-			? styles
+			? {
+					...styles,
+					...(input?.(styles, state) ?? {})
+			  }
 			: {
 					...styles,
 					paddingTop: '12px',
-					cursor: 'pointer'
+					cursor: 'pointer',
+					...(input?.(styles, state) ?? {})
 			  };
 	},
-	option: (styles) => {
+	option: (styles, state) => {
 		return {
 			...styles,
 
@@ -94,45 +124,97 @@ const colourStyles = (fromL) => ({
 
 			textAlign: 'left',
 			lineHeight: '21px',
-			cursor: 'pointer'
+			cursor: 'pointer',
+			...(option?.(styles, state) ?? {})
 		};
 	},
-	menuList: (styles) => ({
+	menuList: (styles, state) => ({
 		...styles,
 		...(!fromL && { maxHeight: '150px' }),
 		padding: '0',
 		border: undefined,
 		borderRadius: '4px',
-		boxShadow: undefined
+		boxShadow: undefined,
+		...(menuList?.(styles, state) ?? {})
 	}),
-	menu: (styles, { menuPlacement }) => ({
+	menuPortal: (styles, state) =>
+		menuPlacement === 'right'
+			? {
+					...styles,
+					...(menuPortal?.(styles, state) ?? {})
+			  }
+			: {
+					styles,
+					...(menuPortal?.(styles, state) ?? {})
+			  },
+	menu: (styles, state) => ({
 		...styles,
+		'marginBottom': state.menuPlacement === 'top' ? '16px' : '0',
+		'marginTop': state.menuPlacement === 'top' ? '0' : '16px',
+		...(menuPlacement === 'right'
+			? {
+					bottom: 'auto',
+					top: '100%',
+					left: '100%',
+					marginLeft: '16px',
+					marginBottom: 0,
+					width: 'auto'
+			  }
+			: {}),
 		'boxShadow': undefined,
-		'marginBottom': menuPlacement === 'top' ? '16px' : '0',
-		'marginTop': menuPlacement === 'top' ? '0' : '16px',
 		'&:after, &:before': {
 			content: `''`,
 			position: 'absolute',
 			borderLeft: '10px solid transparent',
 			borderRight: '10px solid transparent',
-			borderTop: menuPlacement === 'top' ? '10px solid #fff' : 'none',
-			borderBottom: menuPlacement === 'top' ? 'none' : '10px solid #fff',
+			borderTop:
+				state.menuPlacement === 'top' ? '10px solid #fff' : 'none',
+			borderBottom:
+				state.menuPlacement === 'top' ? 'none' : '10px solid #fff',
 			marginTop: '-1px',
 			marginLeft: '-12px',
-			bottom: menuPlacement === 'top' ? '-9px' : 'auto',
-			top: menuPlacement === 'top' ? 'auto' : '-8px',
-			zIndex: 2
+			bottom: state.menuPlacement === 'top' ? '-9px' : 'auto',
+			top: state.menuPlacement === 'top' ? 'auto' : '-8px',
+			zIndex: 2,
+			...(menuPlacement === 'right'
+				? {
+						left: '0',
+						top: '10%',
+						borderTop: '10px solid transparent',
+						borderBottom: '10px solid transparent',
+						borderLeft: 'none',
+						borderRight: '10px solid #fff',
+						height: '12px',
+						width: '12px'
+						//borderTop: 'none'
+				  }
+				: {})
 		},
 		'&:before': {
 			left: '50%',
 			borderTop:
-				menuPlacement === 'top' ? '10px solid rgba(0,0,0,0.1)' : 'none',
+				state.menuPlacement === 'top'
+					? '10px solid rgba(0,0,0,0.1)'
+					: 'none',
 			borderBottom:
-				menuPlacement === 'top' ? 'none' : '10px solid rgba(0,0,0,0.1)',
-			bottom: menuPlacement === 'top' ? '-14px' : 'auto',
-			top: menuPlacement === 'top' ? 'auto' : '-10px',
-			zIndex: 1
-		}
+				state.menuPlacement === 'top'
+					? 'none'
+					: '10px solid rgba(0,0,0,0.1)',
+			bottom: state.menuPlacement === 'top' ? '-14px' : 'auto',
+			top: state.menuPlacement === 'top' ? 'auto' : '-10px',
+			zIndex: 1,
+			...(menuPlacement === 'right'
+				? {
+						left: '0',
+						top: '10%',
+						borderTop: '10px solid transparent',
+						borderBottom: '10px solid transparent',
+						borderLeft: 'none',
+						borderRight: '10px solid rgba(0,0,0,0.1)'
+				  }
+				: {})
+		},
+		...(menu?.(styles, state) ?? {})
 	}),
 	multiValue: (styles, state) => {
 		const common = {
@@ -150,9 +232,15 @@ const colourStyles = (fromL) => ({
 						'& > .select__input__multi-value__label': {
 							color: 'rgba(0,0,0,0.8) !important'
 						}
-					}
+					},
+					...(multiValue?.(styles, state) ?? {})
 			  } // important is needed for fixed option to overwrite color from scss
-			: { ...styles, ...common, border: '1px solid transparent' };
+			: {
+					...styles,
+					...common,
+					border: '1px solid transparent',
+					...(multiValue?.(styles, state) ?? {})
+			  };
 	},
 	multiValueLabel: (styles, state) => {
 		const common = {
@@ -169,18 +257,24 @@ const colourStyles = (fromL) => ({
 					'&:hover': {
 						color: 'rgba(0,0,0,0.8) !important'
 					},
-					'cursor': 'pointer'
+					'cursor': 'pointer',
+					...(multiValueLabel?.(styles, state) ?? {})
 			  } // important is needed for fixed option to overwrite color from scss
 			: {
 					...styles,
 					...common,
 					paddingRight: '4px',
-					cursor: 'pointer'
+					cursor: 'pointer',
+					...(multiValueLabel?.(styles, state) ?? {})
 			  };
 	},
 	multiValueRemove: (styles, state) => {
 		return state.data.isFixed
-			? { ...styles, display: 'none' }
+			? {
+					...styles,
+					display: 'none',
+					...(multiValueRemove?.(styles, state) ?? {})
+			  }
 			: {
 					...styles,
 					'paddingRight': '8px',
@@ -189,16 +283,19 @@ const colourStyles = (fromL) => ({
 					'backgroundColor': 'transparent',
 					'&:hover': {
 						backgroundColor: 'transparent'
-					}
+					},
+					...(multiValueRemove?.(styles, state) ?? {})
 			  };
 	},
 	indicatorSeparator: (styles, state) => {
 		return {
 			...styles,
 			display: 'none',
-			cursor: 'pointer'
+			cursor: 'pointer',
+			...(indicatorSeparator?.(styles, state) ?? {})
 		};
-	}
+	},
+	...overrides
 });
 
 export const SelectDropdown = (props: SelectDropdownItem) => {
@@ -268,12 +365,21 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				onChange={props.handleDropdownSelect}
 				options={props.selectedOptions}
 				noOptionsMessage={() => null}
-				menuPlacement={props.menuPlacement}
+				menuPosition={props.menuPosition}
+				menuPlacement={
+					props.menuPlacement === 'right'
+						? 'top'
+						: props.menuPlacement
+				}
 				placeholder={props.placeholder ? props.placeholder : ''}
 				isClearable={props.isClearable}
 				isSearchable={props.isSearchable}
 				isMulti={props.isMulti}
-				styles={colourStyles(fromL)}
+				styles={colourStyles(
+					fromL,
+					props.menuPlacement,
+					props.styleOverrides ?? {}
+				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
 			/>
 			{props.hasError && (

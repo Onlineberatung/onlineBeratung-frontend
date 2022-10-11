@@ -20,7 +20,6 @@ import {
 	apiGetAskerSessionList
 } from '../../api';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language.svg';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { userHasBudibaseTools } from '../../api/apiGetTools';
 
@@ -120,50 +119,6 @@ export const NavigationBar = ({
 		return value ? `walkthrough-${value}` : '';
 	}, []);
 
-	const navbarLocaleSwitchStyle = {
-		control: () => ({
-			border: 0,
-			boxShadow: 'none',
-			cursor: 'pointer'
-		}),
-		menu: () => ({
-			position: 'absolute',
-			left: '100%',
-			bottom: '-50%',
-			width: '250%',
-			backgroundColor: 'white',
-			color: 'black',
-			textAlign: 'left',
-			border: '1px solid rgba(0, 0, 0, 0.2)',
-			boxShadow: '0px 3px 0px 1px rgba(0, 0, 0, 0.1)',
-			borderRadius: '4px'
-		}),
-		option: (styles) => ({
-			...styles,
-			cursor: 'pointer'
-		}),
-		input: (styles) => ({
-			...styles,
-			width: '0px',
-			margin: '0px',
-			opacity: 0
-		}),
-		placeholder: () => ({
-			display: 'none'
-		})
-	};
-
-	const SingleValue = () => {
-		return (
-			<div>
-				<LanguageIcon className="navigation__icon" />
-				<span className="navigation__title">
-					{translate('navigation.language')}
-				</span>
-			</div>
-		);
-	};
-
 	return (
 		<div className="navigation__wrapper">
 			<div className="navigation__itemContainer">
@@ -230,15 +185,13 @@ export const NavigationBar = ({
 					{selectableLocales.length > 1 && (
 						<div className="navigation__item navigation__item__language">
 							<LocaleSwitch
-								styles={navbarLocaleSwitchStyle}
-								showIcon={false}
-								components={{
-									DropdownIndicator: () => null,
-									IndicatorSeparator: () => null,
-									SingleValue: () => <SingleValue />
-								}}
+								showIcon={true}
 								className="navigation__title"
 								updateUserData
+								vertical
+								iconSize={32}
+								label={translate('navigation.language')}
+								menuPlacement="right"
 							/>
 						</div>
 					)}

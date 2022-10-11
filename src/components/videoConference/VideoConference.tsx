@@ -26,6 +26,7 @@ import Logo from './Logo';
 import E2EEBanner from './E2EEBanner';
 import { uiUrl } from '../../resources/scripts/config';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import StatusPage from '../videoCall/StatusPage';
 
 const VideoConference = () => {
 	const { status, appointmentId } = useParams<{
@@ -37,6 +38,7 @@ const VideoConference = () => {
 
 	const [externalApi, setExternalApi] = useState<IJitsiMeetExternalApi>(null);
 	const [initialized, setInitialized] = useState(false);
+	const [quitted, setQuitted] = useState(false);
 	const [ready, setReady] = useState(false);
 	const [rejected, setRejected] = useState(false);
 	const [confirmed, setConfirmed] = useState(status === 'confirmed');
@@ -75,7 +77,8 @@ const VideoConference = () => {
 					...appointment,
 					status: STATUS_STARTED
 				})
-				.then();
+				.then((res) => res.json())
+				.then(setAppointment);
 		}
 	}, [appointment, appointmentId, isModerator]);
 
@@ -86,7 +89,11 @@ const VideoConference = () => {
 					...appointment,
 					status: STATUS_PAUSED
 				})
-				.then();
+				.then((res) => res.json())
+				.then(setAppointment)
+				.then(() => {
+					setQuitted(true);
+				});
 		}
 	}, [appointment, appointmentId, isModerator]);
 
@@ -215,7 +222,7 @@ const VideoConference = () => {
 	if (
 		!appointment ||
 		!confirmed ||
-		rejected ||
+		(!isModerator() && rejected) ||
 		(!isModerator() && appointment?.status !== STATUS_STARTED)
 	) {
 		// Appointment not exists
@@ -234,6 +241,14 @@ const VideoConference = () => {
 		);
 	}
 
+	if (
+		isModerator() &&
+		((appointment?.status === STATUS_PAUSED && quitted === true) ||
+			rejected)
+	) {
+		return <StatusPage closed={quitted} />;
+	}
+
 	return (
 		<div data-cy="jitsi-meeting">
 			{settings.jitsi.showE2EEBanner && (
@@ -242,7 +257,9 @@ const VideoConference = () => {
 			{settings.jitsi.showLogo && <Logo />}
 			<div data-cy="jitsi-meeting">
 				<JitsiMeeting
-					domain={videoCallJwtData.domain.replace('https://', '')}
+					domain={
+						'onlineberatung.local:8443' /*videoCallJwtData.domain.replace('https://', '')*/
+					}
 					jwt={videoCallJwtData.jwt}
 					roomName={appointment.id}
 					getIFrameRef={(node) => (node.style.height = '100vh')}
@@ -250,9 +267,7 @@ const VideoConference = () => {
 					interfaceConfigOverwrite={{
 						SHOW_PROMOTIONAL_CLOSE_PAGE: false,
 						btnText: encodeURI(translate('jitsi.btn.default')),
-						btnTextCopied: encodeURI(
-							translate('jitsi.btn.default')
-						),
+						btnTextCopied: encodeURI(translate('jitsi.btn.copied')),
 						shareableUrl: `${uiUrl}${generatePath(
 							settings.urls.videoConference,
 							{
