@@ -94,6 +94,8 @@ const VideoConference = () => {
 				.then(() => {
 					setQuitted(true);
 				});
+		} else {
+			setQuitted(true);
 		}
 	}, [appointment, appointmentId, isModerator]);
 
@@ -242,9 +244,9 @@ const VideoConference = () => {
 	}
 
 	if (
-		isModerator() &&
-		((appointment?.status === STATUS_PAUSED && quitted === true) ||
-			rejected)
+		(isModerator() &&
+			((appointment?.status === STATUS_PAUSED && quitted) || rejected)) ||
+		(!isModerator() && quitted)
 	) {
 		return <StatusPage closed={quitted} />;
 	}

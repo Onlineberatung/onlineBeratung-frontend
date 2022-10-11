@@ -64,8 +64,7 @@ const VideoCall = () => {
 			if (jsonPayload.guestVideoCallUrl) {
 				const url = new URL(jsonPayload.guestVideoCallUrl);
 				setShareableUrl(
-					`${uiUrl}
-					${generatePath(settings.urls.videoCall, {
+					`${uiUrl}${generatePath(settings.urls.videoCall, {
 						domain: url.host,
 						jwt: url.searchParams.get('jwt')
 					})}`
