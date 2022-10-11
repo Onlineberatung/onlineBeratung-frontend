@@ -257,9 +257,7 @@ const VideoConference = () => {
 			{settings.jitsi.showLogo && <Logo />}
 			<div data-cy="jitsi-meeting">
 				<JitsiMeeting
-					domain={
-						'onlineberatung.local:8443' /*videoCallJwtData.domain.replace('https://', '')*/
-					}
+					domain={videoCallJwtData.domain.replace('https://', '')}
 					jwt={videoCallJwtData.jwt}
 					roomName={appointment.id}
 					getIFrameRef={(node) => (node.style.height = '100vh')}
