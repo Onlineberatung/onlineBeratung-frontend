@@ -55,7 +55,6 @@ const colourStyles = (
 		input,
 		option,
 		menuList,
-		menuPortal,
 		menu,
 		multiValue,
 		multiValueLabel,
@@ -137,16 +136,6 @@ const colourStyles = (
 		boxShadow: undefined,
 		...(menuList?.(styles, state) ?? {})
 	}),
-	menuPortal: (styles, state) =>
-		menuPlacement === 'right'
-			? {
-					...styles,
-					...(menuPortal?.(styles, state) ?? {})
-			  }
-			: {
-					styles,
-					...(menuPortal?.(styles, state) ?? {})
-			  },
 	menu: (styles, state) => ({
 		...styles,
 		'marginBottom': state.menuPlacement === 'top' ? '16px' : '0',
