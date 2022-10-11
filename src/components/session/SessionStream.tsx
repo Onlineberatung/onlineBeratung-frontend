@@ -12,6 +12,7 @@ import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
 	AUTHORITIES,
+	ConsultantListContext,
 	E2EEContext,
 	hasUserAuthority,
 	RocketChatContext,
@@ -19,7 +20,11 @@ import {
 	STATUS_FINISHED,
 	UserDataContext
 } from '../../globalState';
-import { apiGetSessionData, FETCH_ERRORS } from '../../api';
+import {
+	apiGetAgencyConsultantList,
+	apiGetSessionData,
+	FETCH_ERRORS
+} from '../../api';
 import {
 	prepareMessages,
 	SESSION_LIST_TAB,
@@ -49,6 +54,7 @@ import useUpdatingRef from '../../hooks/useUpdatingRef';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
+import { prepareConsultantDataForSelect } from '../sessionAssign/sessionAssignHelper';
 
 interface SessionStreamProps {
 	readonly: boolean;
@@ -80,6 +86,10 @@ export const SessionStream = ({
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { consultantList, setConsultantList } = useContext(
+		ConsultantListContext
+	);
+	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
 
 	const abortController = useRef<AbortController>(null);
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
@@ -363,6 +373,21 @@ export const SessionStream = ({
 		unsubscribeTyping,
 		userData
 	]);
+
+	useEffect(() => {
+		const agencyId = activeSession.item.agencyId.toString();
+		if (consultantList && !isAsker) {
+			apiGetAgencyConsultantList(agencyId)
+				.then((response) => {
+					const consultants =
+						prepareConsultantDataForSelect(response);
+					setConsultantList(consultants);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
