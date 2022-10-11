@@ -38,6 +38,7 @@ const VideoConference = () => {
 
 	const [externalApi, setExternalApi] = useState<IJitsiMeetExternalApi>(null);
 	const [initialized, setInitialized] = useState(false);
+	const [joined, setJoined] = useState(false);
 	const [quitted, setQuitted] = useState(false);
 	const [ready, setReady] = useState(false);
 	const [rejected, setRejected] = useState(false);
@@ -94,8 +95,6 @@ const VideoConference = () => {
 				.then(() => {
 					setQuitted(true);
 				});
-		} else {
-			setQuitted(true);
 		}
 	}, [appointment, appointmentId, isModerator]);
 
@@ -104,6 +103,17 @@ const VideoConference = () => {
 			setRejected(true);
 		}
 	}, []);
+
+	const handleConferenceJoined = useCallback(() => {
+		setJoined(true);
+	}, []);
+
+	const handleConferenceLeft = useCallback(() => {
+		// User have to be joined before he can quit. Lobby already calls left event
+		if (joined) {
+			setQuitted(true);
+		}
+	}, [joined]);
 
 	const handleCustomE2EEToggled = useCallback((e) => {
 		setE2EEnabled(e.enabled);
@@ -158,6 +168,8 @@ const VideoConference = () => {
 				externalApi.on('readyToClose', pauseAppointment);
 			} else {
 				externalApi.on('errorOccurred', handleJitsiError);
+				externalApi.on('videoConferenceJoined', handleConferenceJoined);
+				externalApi.on('videoConferenceLeft', handleConferenceLeft);
 			}
 
 			externalApi.on('custom-e2ee-toggled', handleCustomE2EEToggled);
@@ -169,6 +181,14 @@ const VideoConference = () => {
 					externalApi.off('readyToClose', pauseAppointment);
 				} else {
 					externalApi.off('errorOccurred', handleJitsiError);
+					externalApi.off(
+						'videoConferenceJoined',
+						handleConferenceJoined
+					);
+					externalApi.off(
+						'videoConferenceLeft',
+						handleConferenceLeft
+					);
 				}
 
 				externalApi.off('custom-e2ee-toggled', handleCustomE2EEToggled);
@@ -182,7 +202,9 @@ const VideoConference = () => {
 		startAppointment,
 		pauseAppointment,
 		handleJitsiError,
-		handleCustomE2EEToggled
+		handleCustomE2EEToggled,
+		handleConferenceLeft,
+		handleConferenceJoined
 	]);
 
 	const getError = useCallback(() => {
@@ -224,7 +246,7 @@ const VideoConference = () => {
 	if (
 		!appointment ||
 		!confirmed ||
-		(!isModerator() && rejected) ||
+		rejected ||
 		(!isModerator() && appointment?.status !== STATUS_STARTED)
 	) {
 		// Appointment not exists
@@ -244,8 +266,7 @@ const VideoConference = () => {
 	}
 
 	if (
-		(isModerator() &&
-			((appointment?.status === STATUS_PAUSED && quitted) || rejected)) ||
+		(isModerator() && appointment?.status === STATUS_PAUSED && quitted) ||
 		(!isModerator() && quitted)
 	) {
 		return <StatusPage closed={quitted} />;
