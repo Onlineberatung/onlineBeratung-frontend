@@ -14,7 +14,7 @@ export const getBudibaseAccessToken = (
 			resolve(undefined);
 			return;
 		}
-
+		const userName = decodeURIComponent(username);
 		const budibaseUrl = appConfig.budibaseUrl;
 		let count = 0;
 		const login = () => {
@@ -41,7 +41,7 @@ export const getBudibaseAccessToken = (
 			if (!(iframe as any).contentDocument && tryCount < 3) {
 				setTimeout(() => {
 					getBudibaseAccessToken(
-						username,
+						userName,
 						password,
 						tenantSettings,
 						tryCount + 1
@@ -63,7 +63,7 @@ export const getBudibaseAccessToken = (
 			if (authIframe?.getElementById('username')) {
 				(
 					authIframe?.getElementById('username') as HTMLInputElement
-				).value = username;
+				).value = userName;
 			}
 			if (authIframe?.getElementById('kc-form-login')) {
 				(
