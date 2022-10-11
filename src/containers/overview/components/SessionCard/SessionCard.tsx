@@ -25,7 +25,10 @@ export const SessionCard = ({
 	emptyType
 }: SessionCardProps) => {
 	const { fixed: fixedLanguages } = useContext(LanguagesContext);
-	const { sessions, total, isLoading } = useConsultantData({ type });
+	const { sessions, total, isLoading } = useConsultantData({
+		type,
+		unReadOnly: true
+	});
 
 	return (
 		<OverviewCard
