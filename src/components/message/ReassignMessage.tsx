@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, BUTTON_TYPES } from '../button/Button';
-import { apiGetAgencyConsultantList } from '../../api';
-import { prepareConsultantDataForSelect } from '../sessionAssign/sessionAssignHelper';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import './reassignRequestMessage.styles';
+import { ConsultantListContext } from '../../globalState';
 
 export const ReassignRequestMessage: React.FC<{
 	fromConsultantName: string;
@@ -76,8 +74,8 @@ export const ReassignRequestSentMessage: React.FC<{
 	isMySession: boolean;
 }> = (props) => {
 	const { t: translate } = useTranslation();
-	const { activeSession } = useContext(ActiveSessionContext);
 	const [toConsultantName, setToConultantName] = useState('');
+	const { consultantList } = useContext(ConsultantListContext);
 
 	let descriptionToTranslate =
 		'session.reassign.system.message.reassign.sent.description.noTeam';
@@ -88,20 +86,15 @@ export const ReassignRequestSentMessage: React.FC<{
 		descriptionToTranslate =
 			'session.reassign.system.message.reassign.sent.description.team.other';
 
-	if (props.toConsultantId && !toConsultantName) {
-		const agencyId = activeSession.item.agencyId.toString();
-		apiGetAgencyConsultantList(agencyId)
-			.then((response) => {
-				const consultants = prepareConsultantDataForSelect(response);
-
-				const toConsultant = consultants.find(
-					(consultant) => consultant.value === props.toConsultantId
-				);
-				setToConultantName(toConsultant.label);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+	if (
+		props.toConsultantId &&
+		!toConsultantName &&
+		consultantList.length > 0
+	) {
+		const toConsultant = consultantList.find(
+			(consultant) => consultant.value === props.toConsultantId
+		);
+		setToConultantName(toConsultant.label);
 	}
 
 	return (
@@ -133,9 +126,9 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 	isMySession: boolean;
 }> = (props) => {
 	const { t: translate } = useTranslation();
-	const { activeSession } = useContext(ActiveSessionContext);
 	const [fromConsultantName, setFromConultantName] = useState('');
 	const [toConsultantName, setToConultantName] = useState('');
+	const { consultantList } = useContext(ConsultantListContext);
 
 	const forWhichConsultant = props.isMySession ? 'self' : 'other';
 
@@ -144,25 +137,17 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 		props.toConsultantId &&
 		!fromConsultantName &&
 		!toConsultantName &&
-		!props.isAsker
+		!props.isAsker &&
+		consultantList.length > 0
 	) {
-		const agencyId = activeSession.item.agencyId.toString();
-		apiGetAgencyConsultantList(agencyId)
-			.then((response) => {
-				const consultants = prepareConsultantDataForSelect(response);
-				const fromConsultant = consultants.find(
-					(consultant) => consultant.value === props.fromConsultantId
-				);
-				setFromConultantName(fromConsultant.label);
-
-				const toConsultant = consultants.find(
-					(consultant) => consultant.value === props.toConsultantId
-				);
-				setToConultantName(toConsultant.label);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		const fromConsultant = consultantList.find(
+			(consultant) => consultant.value === props.fromConsultantId
+		);
+		setFromConultantName(fromConsultant.label);
+		const toConsultant = consultantList.find(
+			(consultant) => consultant.value === props.toConsultantId
+		);
+		setToConultantName(toConsultant.label);
 	}
 
 	return (
@@ -224,24 +209,21 @@ export const ReassignRequestDeclinedMessage: React.FC<{
 	fromConsultantId: string;
 }> = (props) => {
 	const { t: translate } = useTranslation();
-	const { activeSession } = useContext(ActiveSessionContext);
 	const [fromConsultantName, setFromConultantName] = useState('');
+	const { consultantList } = useContext(ConsultantListContext);
 
 	const forWhichConsultant = props.isMySession ? 'self' : 'other';
 
-	if (props.fromConsultantId && !fromConsultantName && !props.isAsker) {
-		const agencyId = activeSession.item.agencyId.toString();
-		apiGetAgencyConsultantList(agencyId)
-			.then((response) => {
-				const consultants = prepareConsultantDataForSelect(response);
-				const fromConsultant = consultants.find(
-					(consultant) => consultant.value === props.fromConsultantId
-				);
-				setFromConultantName(fromConsultant.label);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+	if (
+		props.fromConsultantId &&
+		!fromConsultantName &&
+		!props.isAsker &&
+		consultantList.length > 0
+	) {
+		const fromConsultant = consultantList.find(
+			(consultant) => consultant.value === props.fromConsultantId
+		);
+		setFromConultantName(fromConsultant.label);
 	}
 
 	return (
