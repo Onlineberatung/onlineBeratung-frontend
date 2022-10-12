@@ -1,5 +1,5 @@
 import { UserDataContext } from '../../../globalState';
-import { config } from '../../../resources/scripts/config';
+import { endpoints } from '../../../resources/scripts/endpoints';
 import { FETCH_METHODS, fetchData } from '../../../api';
 import { useContext, useEffect, useState } from 'react';
 import { useAppConfig } from '../../../hooks/useAppConfig';
@@ -17,7 +17,7 @@ export const useCalcomLogin = () => {
 			});
 
 			const tokenResponse = await fetchData({
-				url: config.endpoints.counselorToken,
+				url: endpoints.counselorToken,
 				method: FETCH_METHODS.GET
 			});
 

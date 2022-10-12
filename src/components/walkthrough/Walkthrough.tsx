@@ -5,13 +5,15 @@ import { useHistory } from 'react-router-dom';
 
 import 'intro.js/introjs.css';
 import './walkthrough.styles.scss';
-import { translate } from '../../utils/translate';
 import { ConsultingTypesContext, UserDataContext } from '../../globalState';
 import { apiPatchConsultantData } from '../../api';
 import steps from './steps';
+import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const Walkthrough = () => {
+	const { t: translate } = useTranslation();
+
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const ref = useRef<any>();
 	const settings = useAppConfig();
@@ -62,7 +64,11 @@ export const Walkthrough = () => {
 						// don't know what to do then :O)
 					});
 			}}
-			steps={stepsData}
+			steps={stepsData.map((step) => ({
+				...step,
+				title: translate(step.title),
+				intro: translate(step.intro)
+			}))}
 			initialStep={0}
 			options={{
 				hidePrev: true,

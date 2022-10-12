@@ -1,6 +1,5 @@
 import { RENEW_BEFORE_EXPIRY_IN_MS } from '../../src/components/auth/auth';
 import { getTokenExpiryFromLocalStorage } from '../../src/components/sessionCookie/accessSessionLocalStorage';
-import { config } from '../../src/resources/scripts/config';
 import {
 	closeWebSocketServer,
 	mockWebSocket,

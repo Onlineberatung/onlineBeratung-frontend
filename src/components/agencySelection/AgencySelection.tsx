@@ -5,7 +5,6 @@ import {
 	ConsultingTypeBasicInterface,
 	useTenant
 } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { VALID_POSTCODE_LENGTH } from './agencySelectionHelpers';
@@ -26,6 +25,7 @@ import {
 	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
+import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
 export interface AgencySelectionProps {
@@ -43,6 +43,7 @@ export interface AgencySelectionProps {
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
+	const { t: translate } = useTranslation(['common', 'agencies']);
 	const tenantData = useTenant();
 	const settings = useAppConfig();
 	const [isLoading, setIsLoading] = useState(false);
@@ -259,7 +260,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											'registration.agencySelection.intro.overline'
 									  )
 							}
-							type="infoLargeAlternative"
+							type="infoMedium"
 						/>
 						<div className="agencySelection__intro__content">
 							<Text
@@ -272,7 +273,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												'registration.agencySelection.intro.subline'
 										  )
 								}
-								type="infoLargeAlternative"
+								type="infoMedium"
 							/>
 							<ul>
 								{introItemsTranslations.map(
@@ -282,7 +283,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												text={translate(
 													introItemTranslation
 												)}
-												type="infoLargeAlternative"
+												type="infoMedium"
 											/>
 										</li>
 									)
@@ -302,7 +303,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							<Text
 								className="agencySelection__note"
 								text={props.agencySelectionNote}
-								type="infoLargeAlternative"
+								type="infoMedium"
 								labelType={LABEL_TYPES.NOTICE}
 							/>
 						</div>
@@ -359,23 +360,33 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											key={index}
 											className="agencySelection__proposedAgency"
 										>
-											<RadioButton
-												name="agencySelection"
-												handleRadioButton={() =>
-													setSelectedAgency(agency)
-												}
-												type="smaller"
-												value={agency.id.toString()}
-												checked={index === 0}
-												inputId={agency.id.toString()}
-												label={agency.name}
-											/>
-											<AgencyInfo
-												agency={agency}
-												isProfileView={
-													props.isProfileView
-												}
-											/>
+											<div className="agencySelection__proposedAgency__container">
+												<RadioButton
+													name="agencySelection"
+													handleRadioButton={() =>
+														setSelectedAgency(
+															agency
+														)
+													}
+													type="smaller"
+													value={agency.id.toString()}
+													checked={index === 0}
+													inputId={agency.id.toString()}
+													label={translate(
+														[
+															`agency.${agency.id}.name`,
+															agency.name
+														],
+														{ ns: 'agencies' }
+													)}
+												/>
+												<AgencyInfo
+													agency={agency}
+													isProfileView={
+														props.isProfileView
+													}
+												/>
+											</div>
 											<AgencyLanguages
 												agencyId={agency.id}
 											/>

@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export interface Consultant {
@@ -12,7 +12,7 @@ export interface Consultant {
 export const apiGetAgencyConsultantList = async (
 	agencyId: string
 ): Promise<Consultant[]> => {
-	const url = config.endpoints.agencyConsultants + '?agencyId=' + agencyId;
+	const url = endpoints.agencyConsultants + '?agencyId=' + agencyId;
 
 	return fetchData({
 		url: url,

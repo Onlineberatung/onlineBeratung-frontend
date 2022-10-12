@@ -1,18 +1,17 @@
 import { ReactComponent as WelcomeIllustration } from '../../../resources/img/illustrations/welcome.svg';
 import { Headline } from '../../headline/Headline';
-import { translate } from '../../../utils/translate';
 import { Text } from '../../text/Text';
 import { Button, BUTTON_TYPES, ButtonItem } from '../../button/Button';
 import * as React from 'react';
-import { LegalLinkInterface } from '../../../globalState';
+import { useTranslation } from 'react-i18next';
+import { useContext } from 'react';
+import { LegalLinksContext } from '../../../globalState/provider/LegalLinksProvider';
 
-export const Welcome = ({
-	onClick,
-	legalLinks
-}: {
-	onClick: Function;
-	legalLinks: Array<LegalLinkInterface>;
-}) => {
+export const Welcome = ({ onClick }: { onClick: Function }) => {
+	const { t: translate } = useTranslation();
+
+	const legalLinks = useContext(LegalLinksContext);
+
 	const confirmButton: ButtonItem = {
 		label: translate('anonymous.waitingroom.dataProtection.button'),
 		type: BUTTON_TYPES.PRIMARY
@@ -47,7 +46,7 @@ export const Welcome = ({
 				<Text
 					type="standard"
 					text={translate(
-						'videoConference.waitingroom.dataProtection.label',
+						'videoConference.waitingroom.dataProtection.label.text',
 						{
 							legal_links: legalLinks
 								.filter((legalLink) => legalLink.registration)
@@ -60,7 +59,9 @@ export const Welcome = ({
 														'registration.dataProtection.label.and'
 												  )
 											: '') +
-										`<a target="_blank" href="${legalLink.url}">${legalLink.label}</a>`
+										`<a target="_blank" href="${
+											legalLink.url
+										}">${translate(legalLink.label)}</a>`
 								)
 								.join('')
 						}

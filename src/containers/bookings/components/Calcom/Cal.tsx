@@ -1,11 +1,11 @@
 /* eslint-disable prefer-const */
 import React, { useContext, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import useEmbed from './useEmbed';
 import './cal.styles';
-import { history } from '../../../../components/app/app';
 import { apiAppointmentServiceSet } from '../../../../api/apiAppointmentServiceSet';
 import { UserDataContext } from '../../../../globalState';
-import { translate } from '../../../../utils/translate';
 import { apiGetAskerSessionList } from '../../../../api';
 
 export default function Cal({
@@ -19,6 +19,9 @@ export default function Cal({
 	config?: any;
 	embedJsUrl?: string;
 }) {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { userData } = useContext(UserDataContext);
 
 	if (!calLink) {

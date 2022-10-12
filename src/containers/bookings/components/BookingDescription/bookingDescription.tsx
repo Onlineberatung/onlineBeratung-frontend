@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Text } from '../../../../components/text/Text';
-import { translate } from '../../../../utils/translate';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as ArrowUpIcon } from '../../../../resources/img/icons/arrow-up.svg';
 import { ReactComponent as ArrowDownIcon } from '../../../../resources/img/icons/arrow-down.svg';
 
 export const BookingDescription = (params: { description: string }) => {
+	const { t: translate } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
 
 	return (

@@ -7,7 +7,7 @@ import {
 	useRef,
 	useState
 } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import {
 	getSessionType,
 	SESSION_LIST_TAB,
@@ -17,8 +17,6 @@ import {
 	SESSION_TYPE_ARCHIVED,
 	SESSION_TYPES
 } from '../session/sessionHelpers';
-import { history } from '../app/app';
-import { translate } from '../../utils/translate';
 import {
 	AnonymousConversationStartedContext,
 	AUTHORITIES,
@@ -70,6 +68,7 @@ import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
+import { useTranslation } from 'react-i18next';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -80,10 +79,13 @@ export const SessionsList = ({
 	defaultLanguage,
 	sessionTypes
 }: SessionsListProps) => {
+	const { t: translate } = useTranslation();
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
-		useParams();
+		useParams<{ rcGroupId: string; sessionId: string }>();
+	const history = useHistory();
+
 	const initialId = useUpdatingRef(groupIdFromParam || sessionIdFromParam);
 
 	const rcUid = useRef(getValueFromCookie('rc_uid'));
@@ -855,7 +857,7 @@ export const SessionsList = ({
 								text={
 									sessionListTab !==
 									SESSION_LIST_TAB_ANONYMOUS
-										? translate('sessionList.empty')
+										? translate('sessionList.empty.known')
 										: translate(
 												'sessionList.empty.anonymous'
 										  )

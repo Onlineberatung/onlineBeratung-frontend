@@ -1,11 +1,13 @@
 import React, { useCallback } from 'react';
 import { useConsultantBookings } from '../../../../containers/overview/hooks/useConsultantBookings';
 import { useConsultantData } from '../../../../containers/overview/hooks/useConsultantData';
-import { translate } from '../../../../utils/translate';
 import { LinkMenu } from '../../../mobile/linkMenu/LinkMenu';
 import { SESSION_LIST_TYPES } from '../../../session/sessionHelpers';
+import { useTranslation } from 'react-i18next';
 
 export const OverviewSessions = () => {
+	const { t: translate } = useTranslation();
+
 	const { total: totalEnquiry } = useConsultantData({
 		type: SESSION_LIST_TYPES.ENQUIRY
 	});

@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { useCallback, useContext } from 'react';
+import { generatePath, useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import '../booking.styles';
 import { Box } from '../../../../components/box/Box';
 import {
@@ -7,7 +10,6 @@ import {
 	BUTTON_TYPES
 } from '../../../../components/button/Button';
 import { Headline } from '../../../../components/headline/Headline';
-import { translate } from '../../../../utils/translate';
 import { Text } from '../../../../components/text/Text';
 import { BookingEventUiInterface } from '../../../../globalState/interfaces/BookingsInterface';
 import { BookingsStatus } from '../../../../utils/consultant';
@@ -25,9 +27,6 @@ import {
 	UserDataContext
 } from '../../../../globalState';
 import { copyTextToClipboard } from '../../../../utils/clipboardHelpers';
-import { useCallback, useContext } from 'react';
-import { generatePath } from 'react-router-dom';
-import { history } from '../../../../components/app/app';
 import { ReactComponent as CalendarRescheduleIcon } from '../../../../resources/img/icons/calendar-reschedule.svg';
 import { ReactComponent as CalendarCancelIcon } from '../../../../resources/img/icons/calendar-cancel.svg';
 
@@ -37,6 +36,8 @@ interface EventProps {
 }
 
 export const Event: React.FC<EventProps> = ({ event, bookingStatus }) => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
 	const { addNotification } = useContext(NotificationsContext);
 	const { userData } = useContext(UserDataContext);
 	const isConsultant = hasUserAuthority(
@@ -73,7 +74,7 @@ export const Event: React.FC<EventProps> = ({ event, bookingStatus }) => {
 				});
 			});
 		},
-		[addNotification, getLink]
+		[addNotification, getLink, translate]
 	);
 
 	const handleCancellationAppointment = (event: BookingEventUiInterface) => {

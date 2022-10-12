@@ -7,21 +7,24 @@ import {
 	useRef,
 	useState
 } from 'react';
-import { useParams } from 'react-router-dom';
-import { history } from '../app/app';
+import { useParams, useHistory } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
 	AUTHORITIES,
+	ConsultantListContext,
 	E2EEContext,
 	hasUserAuthority,
-	LegalLinkInterface,
 	RocketChatContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
 	UserDataContext
 } from '../../globalState';
-import { apiGetSessionData, FETCH_ERRORS } from '../../api';
+import {
+	apiGetAgencyConsultantList,
+	apiGetSessionData,
+	FETCH_ERRORS
+} from '../../api';
 import {
 	prepareMessages,
 	SESSION_LIST_TAB,
@@ -34,7 +37,6 @@ import {
 	OverlayItem,
 	OverlayWrapper
 } from '../overlay/Overlay';
-import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
@@ -51,24 +53,27 @@ import {
 import useUpdatingRef from '../../hooks/useUpdatingRef';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { useTranslation } from 'react-i18next';
+import { prepareConsultantDataForSelect } from '../sessionAssign/sessionAssignHelper';
 
 interface SessionStreamProps {
 	readonly: boolean;
-	legalLinks: Array<LegalLinkInterface>;
 	checkMutedUserForThisSession: () => void;
 	bannedUsers: string[];
 }
 
 export const SessionStream = ({
 	readonly,
-	legalLinks,
 	checkMutedUserForThisSession,
 	bannedUsers
 }: SessionStreamProps) => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
 	const { subscribe, unsubscribe } = useContext(RocketChatContext);
-	const { rcGroupId } = useParams();
+	const { rcGroupId } = useParams<{ rcGroupId: string }>();
 
 	const subscribed = useRef(false);
 	const [messagesItem, setMessagesItem] = useState(null);
@@ -81,6 +86,10 @@ export const SessionStream = ({
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { consultantList, setConsultantList } = useContext(
+		ConsultantListContext
+	);
+	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
 
 	const abortController = useRef<AbortController>(null);
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
@@ -195,7 +204,7 @@ export const SessionStream = ({
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const handleChatStopped = useUpdatingRef(
@@ -242,7 +251,7 @@ export const SessionStream = ({
 					}
 				}
 			},
-			[activeSession, rcGroupId, listPath, type]
+			[activeSession, rcGroupId, listPath, type, history]
 		)
 	);
 
@@ -365,6 +374,21 @@ export const SessionStream = ({
 		userData
 	]);
 
+	useEffect(() => {
+		const agencyId = activeSession.item.agencyId.toString();
+		if (consultantList && !isAsker) {
+			apiGetAgencyConsultantList(agencyId)
+				.then((response) => {
+					const consultants =
+						prepareConsultantDataForSelect(response);
+					setConsultantList(consultants);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			history.push(
@@ -389,7 +413,6 @@ export const SessionStream = ({
 				isTyping={handleTyping}
 				typingUsers={typingUsers}
 				messages={messagesItem}
-				legalLinks={legalLinks}
 				bannedUsers={bannedUsers}
 			/>
 			{isOverlayActive ? (

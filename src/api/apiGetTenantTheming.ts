@@ -1,5 +1,5 @@
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 
 interface GetTenantThemingParams {
@@ -14,7 +14,7 @@ export const apiGetTenantTheming = async ({
 	mainTenantSubdomainForSingleDomain
 }: GetTenantThemingParams): Promise<TenantDataInterface> =>
 	fetchData({
-		url: `${config.endpoints.tenantServiceBase}/public/${
+		url: `${endpoints.tenantServiceBase}/public/${
 			useMultiTenancyWithSingleDomain
 				? mainTenantSubdomainForSingleDomain
 				: subdomain

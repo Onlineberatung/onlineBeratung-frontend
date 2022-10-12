@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline } from '../headline/Headline';
 import { ServiceExplanation } from '../serviceExplanation/ServiceExplanation';
 import { RegistrationWelcomeScreenInterface } from '../../globalState';
 import './welcomeScreen.styles';
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface WelcomeScreenProps {
@@ -13,14 +14,20 @@ interface WelcomeScreenProps {
 	handleForwardToRegistration: Function;
 	welcomeScreenConfig?: RegistrationWelcomeScreenInterface;
 	loginParams?: string;
+	consultingTypeId: number;
+	consultingTypeName: string;
 }
 
 export const WelcomeScreen = ({
 	title,
 	handleForwardToRegistration,
 	welcomeScreenConfig,
-	loginParams
+	loginParams,
+	consultingTypeId,
+	consultingTypeName
 }: WelcomeScreenProps) => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
 	const settings = useAppConfig();
 
 	const registrationButton: ButtonItem = {
@@ -35,11 +42,17 @@ export const WelcomeScreen = ({
 
 	return (
 		<div className="registrationWelcome">
+			{consultingTypeName && (
+				<div className="registrationWelcome__consultingType">
+					{consultingTypeName}{' '}
+				</div>
+			)}
 			<Headline text={title} semanticLevel="2" />
 			<h4>{translate('registration.welcomeScreen.subline')}</h4>
 			<ServiceExplanation
 				welcomeScreenConfig={welcomeScreenConfig}
 				className="registrationWelcome__explanation"
+				consultingTypeId={consultingTypeId}
 			/>
 			<div className="registrationWelcome__buttonsWrapper">
 				<div>
@@ -60,14 +73,17 @@ export const WelcomeScreen = ({
 						text={translate('registration.login.helper')}
 						type="infoLargeAlternative"
 					/>
-					<a
-						href={`${settings.urls.toLogin}${
-							loginParams ? `?${loginParams}` : ''
-						}`}
-						tabIndex={-1}
-					>
-						<Button isLink={true} item={loginButton} />
-					</a>
+					<Button
+						isLink={true}
+						item={loginButton}
+						buttonHandle={() => {
+							history.push(
+								`${new URL(settings.urls.toLogin).pathname}${
+									loginParams ? `?${loginParams}` : ''
+								}`
+							);
+						}}
+					/>
 				</div>
 			</div>
 		</div>

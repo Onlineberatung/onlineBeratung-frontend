@@ -1,11 +1,11 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiUpdateMonitoring = async (
 	sessionId: number,
 	monitoringData: object
 ) => {
-	const url = config.endpoints.updateMonitoring + '/' + sessionId;
+	const url = endpoints.updateMonitoring + '/' + sessionId;
 	const monitoring = JSON.stringify(monitoringData);
 
 	return fetchData({

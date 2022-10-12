@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import { translate } from '../../utils/translate';
 import {
 	NOTIFICATION_TYPE_CALL,
 	VideoCallRequestProps
@@ -18,13 +18,16 @@ import {
 } from '../../globalState';
 import { SESSION_LIST_TAB_ANONYMOUS } from '../session/sessionHelpers';
 import { sendNotification } from '../../utils/notificationHelpers';
-import { history } from '../app/app';
+import { useTranslation } from 'react-i18next';
 
 interface WebsocketHandlerProps {
 	disconnect: boolean;
 }
 
 export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const [newStompDirectMessage, setNewStompDirectMessage] =
 		useState<boolean>(false);
 	const [newStompAnonymousEnquiry, setNewStompAnonymousEnquiry] =
@@ -47,7 +50,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		AnonymousConversationStartedContext
 	);
 	const stompClient = Stomp.over(function () {
-		return new SockJS(config.endpoints.liveservice);
+		return new SockJS(endpoints.liveservice);
 	});
 
 	let reconnectAttemptCount = 0;

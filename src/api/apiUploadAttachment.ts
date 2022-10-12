@@ -1,4 +1,4 @@
-import { config, CSRF_WHITELIST_HEADER } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { FETCH_METHODS } from './fetchData';
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { generateCsrfToken } from '../utils/generateCsrfToken';
@@ -25,8 +25,8 @@ export const apiUploadAttachment = (
 	const csrfToken = generateCsrfToken();
 
 	const url = isFeedback
-		? config.endpoints.attachmentUploadFeedbackRoom + rcGroupIdOrSessionId
-		: config.endpoints.attachmentUpload + rcGroupIdOrSessionId;
+		? endpoints.attachmentUploadFeedbackRoom + rcGroupIdOrSessionId
+		: endpoints.attachmentUpload + rcGroupIdOrSessionId;
 
 	let data = new FormData();
 	data.append('file', attachment);
@@ -60,7 +60,10 @@ export const apiUploadAttachment = (
 	xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
 	xhr.setRequestHeader('cache-control', 'no-cache');
 	if (isLocalDevelopment) {
-		xhr.setRequestHeader(CSRF_WHITELIST_HEADER, csrfToken);
+		xhr.setRequestHeader(
+			process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY,
+			csrfToken
+		);
 	}
 
 	xhr.send(data);

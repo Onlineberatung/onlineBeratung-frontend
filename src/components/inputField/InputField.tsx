@@ -101,7 +101,11 @@ export const InputField = (props: InputFieldProps) => {
 					onClick={() => setShowPassword(!showPassword)}
 					className="inputField__passwordToggle"
 				>
-					{showPassword ? <HidePasswordIcon /> : <ShowPasswordIcon />}
+					{showPassword ? (
+						<HidePasswordIcon color={'rgba(0, 0, 0, 0.65)'} />
+					) : (
+						<ShowPasswordIcon color={'rgba(0, 0, 0, 0.65)'} />
+					)}
 				</span>
 			)}
 			{inputItem.infoText && (

@@ -5,11 +5,11 @@ import {
 	buildExtendedSession,
 	SessionTypeProvider
 } from '../../../../globalState';
-import { FixedLanguagesContext } from '../../../../globalState/provider/FixedLanguagesProvider';
 import { useConsultantData } from '../../hooks/useConsultantData';
 import { EmptyType } from '../EmptyState';
 import { OverviewCard } from '../OverviewCard/OverviewCard';
 import './sessionCard.styles.scss';
+import { LanguagesContext } from '../../../../globalState/provider/LanguagesProvider';
 
 interface SessionCardProps {
 	type: SESSION_LIST_TYPES;
@@ -24,7 +24,7 @@ export const SessionCard = ({
 	title,
 	emptyType
 }: SessionCardProps) => {
-	const fixedLanguages = useContext(FixedLanguagesContext);
+	const { fixed: fixedLanguages } = useContext(LanguagesContext);
 	const { sessions, total, isLoading } = useConsultantData({
 		type,
 		unReadOnly: true

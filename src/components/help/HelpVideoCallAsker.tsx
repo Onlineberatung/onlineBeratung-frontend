@@ -1,10 +1,10 @@
 import React from 'react';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
+import { useTranslation } from 'react-i18next';
 
 interface HelpVideoCallAskerProps {
 	copyLoginLink: Function;
@@ -13,6 +13,8 @@ interface HelpVideoCallAskerProps {
 export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 	copyLoginLink
 }) => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<>
 			<div className="help__top">

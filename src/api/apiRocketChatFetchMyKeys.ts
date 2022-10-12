@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchRCData } from './fetchRCData';
 
 type FetchMyKeysResponse = {
@@ -9,7 +9,7 @@ type FetchMyKeysResponse = {
 
 export const apiRocketChatFetchMyKeys =
 	async (): Promise<FetchMyKeysResponse> => {
-		const url = config.endpoints.rc.e2ee.fetchMyKeys;
+		const url = endpoints.rc.e2ee.fetchMyKeys;
 
 		return fetchRCData(url, 'GET');
 	};

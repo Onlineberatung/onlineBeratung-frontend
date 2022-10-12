@@ -3,14 +3,15 @@ import { useContext, useEffect, useState } from 'react';
 import { apiGetUserDataBySessionId } from '../../api/apiGetUserDataBySessionId';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
-import { config } from '../../resources/scripts/config';
-import { translate } from '../../utils/translate';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { refreshKeycloakAccessToken } from '../sessionCookie/refreshKeycloakAccessToken';
 import { Text } from '../text/Text';
 import './askerInfoTools.styles';
 import { AskerInfoToolsOptions } from './AskerInfoToolsOptions';
+import { useTranslation } from 'react-i18next';
 
 export const AskerInfoTools = () => {
+	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 	const [askerId, setAskerId] = useState();
 
@@ -18,7 +19,7 @@ export const AskerInfoTools = () => {
 		refreshKeycloakAccessToken().then((resp) => {
 			const accessToken = resp.access_token;
 			window.open(
-				`${config.endpoints.budibaseTools(
+				`${endpoints.budibaseTools(
 					activeSession.consultant.id
 				)}/consultantview?userId=${askerId}&access_token=${accessToken}`,
 				'_blank',

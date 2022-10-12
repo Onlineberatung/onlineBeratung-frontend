@@ -6,14 +6,15 @@ import {
 	UserDataContext,
 	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { useTranslation } from 'react-i18next';
 
 export const ConsultantAgencies = () => {
 	const settings = useAppConfig();
+	const { t: translate } = useTranslation(['common', 'agencies']);
 
 	const { userData } = useContext(UserDataContext);
 
@@ -35,7 +36,9 @@ export const ConsultantAgencies = () => {
 							className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
 							key={`agencies-${i}`}
 						>
-							{item.name}
+							{translate([`agency.${item.id}.name`, item.name], {
+								ns: 'agencies'
+							})}
 							<div className="flex flex--fd-row mt--1 flex-l--fd-column mt-l--0 ml-l--2 flex--ai-c flex-l--ai-fs">
 								<div>
 									<GenerateQrCode
@@ -70,6 +73,7 @@ type AgencyRegistrationLinkProps = {
 
 const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 	const settings = useAppConfig();
+	const { t: translate } = useTranslation();
 
 	const { addNotification } = useContext(NotificationsContext);
 
@@ -89,7 +93,7 @@ const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 				});
 			}
 		);
-	}, [settings.urls.registration, agency.id, addNotification]);
+	}, [settings.urls.registration, agency.id, addNotification, translate]);
 
 	return (
 		<button

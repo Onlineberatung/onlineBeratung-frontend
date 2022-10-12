@@ -6,7 +6,6 @@ import {
 	SESSION_LIST_TYPES,
 	SESSION_TYPES
 } from '../session/sessionHelpers';
-import { translate } from '../../utils/translate';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
@@ -16,8 +15,9 @@ import {
 import { SessionsList } from './SessionsList';
 import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
-import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { useTranslation } from 'react-i18next';
 
 interface SessionsListWrapperProps {
 	sessionTypes: SESSION_TYPES;
@@ -26,7 +26,8 @@ interface SessionsListWrapperProps {
 export const SessionsListWrapper = ({
 	sessionTypes
 }: SessionsListWrapperProps) => {
-	const fixedLanguages = useContext(FixedLanguagesContext);
+	const { t: translate } = useTranslation();
+	const { fixed: fixedLanguages } = useContext(LanguagesContext);
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
@@ -71,7 +72,7 @@ export const SessionsListWrapper = ({
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 						userData
 					)
-						? translate('navigation.consultant.teamsessions')
+						? translate('navigation.consultant.teamsessions.large')
 						: null}
 					{type === SESSION_LIST_TYPES.TEAMSESSION &&
 					hasUserAuthority(

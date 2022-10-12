@@ -6,7 +6,7 @@ import IJitsiMeetExternalApi from '@jitsi/react-sdk/lib/types/IJitsiMeetExternal
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	LegalLinkInterface,
+	LocaleContext,
 	UserDataContext
 } from '../../globalState';
 import * as appointmentService from '../../api/appointments';
@@ -21,20 +21,25 @@ import { Loading } from '../app/Loading';
 import { WaitingRoom } from './WaitingRoom';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useUnload } from '../../hooks/useUnload';
+import { useTranslation } from 'react-i18next';
+import Logo from './Logo';
+import E2EEBanner from './E2EEBanner';
 import { uiUrl } from '../../resources/scripts/config';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import StatusPage from '../videoCall/StatusPage';
 
-const VideoConference = ({
-	legalLinks
-}: {
-	legalLinks: Array<LegalLinkInterface>;
-}) => {
-	const { status, appointmentId } = useParams();
+const VideoConference = () => {
+	const { status, appointmentId } = useParams<{
+		status: string;
+		appointmentId: string;
+	}>();
 
 	const settings = useAppConfig();
 
 	const [externalApi, setExternalApi] = useState<IJitsiMeetExternalApi>(null);
 	const [initialized, setInitialized] = useState(false);
+	const [joined, setJoined] = useState(false);
+	const [quitted, setQuitted] = useState(false);
 	const [ready, setReady] = useState(false);
 	const [rejected, setRejected] = useState(false);
 	const [confirmed, setConfirmed] = useState(status === 'confirmed');
@@ -44,6 +49,9 @@ const VideoConference = ({
 		useState<VideoCallJwtDataInterface>(null);
 
 	const { userData } = useContext(UserDataContext);
+	const { t: translate } = useTranslation();
+	const { locale } = useContext(LocaleContext);
+	const [e2eEnabled, setE2EEnabled] = useState(false);
 
 	const isModerator = useCallback(
 		() =>
@@ -70,7 +78,8 @@ const VideoConference = ({
 					...appointment,
 					status: STATUS_STARTED
 				})
-				.then();
+				.then((res) => res.json())
+				.then(setAppointment);
 		}
 	}, [appointment, appointmentId, isModerator]);
 
@@ -81,7 +90,11 @@ const VideoConference = ({
 					...appointment,
 					status: STATUS_PAUSED
 				})
-				.then();
+				.then((res) => res.json())
+				.then(setAppointment)
+				.then(() => {
+					setQuitted(true);
+				});
 		}
 	}, [appointment, appointmentId, isModerator]);
 
@@ -89,6 +102,21 @@ const VideoConference = ({
 		if (e.error.name === 'conference.connectionError.accessDenied') {
 			setRejected(true);
 		}
+	}, []);
+
+	const handleConferenceJoined = useCallback(() => {
+		setJoined(true);
+	}, []);
+
+	const handleConferenceLeft = useCallback(() => {
+		// User have to be joined before he can quit. Lobby already calls left event
+		if (joined) {
+			setQuitted(true);
+		}
+	}, [joined]);
+
+	const handleCustomE2EEToggled = useCallback((e) => {
+		setE2EEnabled(e.enabled);
 	}, []);
 
 	useUnload(pauseAppointment, true);
@@ -140,7 +168,11 @@ const VideoConference = ({
 				externalApi.on('readyToClose', pauseAppointment);
 			} else {
 				externalApi.on('errorOccurred', handleJitsiError);
+				externalApi.on('videoConferenceJoined', handleConferenceJoined);
+				externalApi.on('videoConferenceLeft', handleConferenceLeft);
 			}
+
+			externalApi.on('custom-e2ee-toggled', handleCustomE2EEToggled);
 		}
 		return () => {
 			if (externalApi) {
@@ -149,7 +181,17 @@ const VideoConference = ({
 					externalApi.off('readyToClose', pauseAppointment);
 				} else {
 					externalApi.off('errorOccurred', handleJitsiError);
+					externalApi.off(
+						'videoConferenceJoined',
+						handleConferenceJoined
+					);
+					externalApi.off(
+						'videoConferenceLeft',
+						handleConferenceLeft
+					);
 				}
+
+				externalApi.off('custom-e2ee-toggled', handleCustomE2EEToggled);
 			}
 		};
 	}, [
@@ -159,31 +201,43 @@ const VideoConference = ({
 		appointmentId,
 		startAppointment,
 		pauseAppointment,
-		handleJitsiError
+		handleJitsiError,
+		handleCustomE2EEToggled,
+		handleConferenceLeft,
+		handleConferenceJoined
 	]);
 
 	const getError = useCallback(() => {
 		if (!appointment) {
 			return {
 				error: {
-					title: 'videoConference.waitingroom.errorPage.headline',
+					title: translate(
+						'videoConference.waitingroom.errorPage.headline'
+					),
 					description: isModerator()
-						? 'videoConference.waitingroom.errorPage.consultant.description'
-						: 'videoConference.waitingroom.errorPage.description'
+						? translate(
+								'videoConference.waitingroom.errorPage.consultant.description'
+						  )
+						: translate(
+								'videoConference.waitingroom.errorPage.description'
+						  )
 				}
 			};
 		} else if (rejected) {
 			return {
 				error: {
-					title: 'videoConference.waitingroom.errorPage.rejected.headline',
-					description:
+					title: translate(
+						'videoConference.waitingroom.errorPage.rejected.headline'
+					),
+					description: translate(
 						'videoConference.waitingroom.errorPage.rejected.description'
+					)
 				}
 			};
 		}
 
 		return {};
-	}, [appointment, isModerator, rejected]);
+	}, [appointment, isModerator, rejected, translate]);
 
 	if (!ready) {
 		return <Loading />;
@@ -205,42 +259,59 @@ const VideoConference = ({
 					confirmed={confirmed}
 					setConfirmed={setConfirmed}
 					status={appointment?.status}
-					legalLinks={legalLinks}
 					{...getError()}
 				/>
 			</div>
 		);
 	}
 
+	if (
+		(isModerator() && appointment?.status === STATUS_PAUSED && quitted) ||
+		(!isModerator() && quitted)
+	) {
+		return <StatusPage closed={quitted} />;
+	}
+
 	return (
 		<div data-cy="jitsi-meeting">
-			<JitsiMeeting
-				domain={videoCallJwtData.domain.replace('https://', '')}
-				jwt={videoCallJwtData.jwt}
-				roomName={appointment.id}
-				getIFrameRef={(node) => (node.style.height = '100vh')}
-				onApiReady={setExternalApi}
-				interfaceConfigOverwrite={{
-					SHOW_PROMOTIONAL_CLOSE_PAGE: false,
-					shareableUrl: `${uiUrl}${generatePath(
-						settings.urls.videoConference,
-						{
-							type: 'app',
-							appointmentId: appointment.id
-						}
-					)}`
-				}}
-				{...(userData
-					? {
-							userInfo: {
-								displayName: userData.displayName
-									? userData.displayName
-									: userData.userName,
-								email: ''
+			{settings.jitsi.showE2EEBanner && (
+				<E2EEBanner e2eEnabled={e2eEnabled} />
+			)}
+			{settings.jitsi.showLogo && <Logo />}
+			<div data-cy="jitsi-meeting">
+				<JitsiMeeting
+					domain={videoCallJwtData.domain.replace('https://', '')}
+					jwt={videoCallJwtData.jwt}
+					roomName={appointment.id}
+					getIFrameRef={(node) => (node.style.height = '100vh')}
+					onApiReady={setExternalApi}
+					interfaceConfigOverwrite={{
+						SHOW_PROMOTIONAL_CLOSE_PAGE: false,
+						btnText: encodeURI(translate('jitsi.btn.default')),
+						btnTextCopied: encodeURI(translate('jitsi.btn.copied')),
+						shareableUrl: `${uiUrl}${generatePath(
+							settings.urls.videoConference,
+							{
+								type: 'app',
+								appointmentId: appointment.id
 							}
-					  }
-					: {})}
-			/>
+						)}`
+					}}
+					{...(userData
+						? {
+								userInfo: {
+									displayName: userData.displayName
+										? userData.displayName
+										: userData.userName,
+									email: ''
+								}
+						  }
+						: {})}
+					configOverwrite={{
+						defaultLanguage: locale
+					}}
+				/>
+			</div>
 		</div>
 	);
 };

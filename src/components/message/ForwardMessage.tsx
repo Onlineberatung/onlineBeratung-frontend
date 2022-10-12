@@ -2,13 +2,13 @@ import * as React from 'react';
 import { useCallback, useState, useContext } from 'react';
 
 import { apiForwardMessage } from '../../api';
-import { translate } from '../../utils/translate';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
 import { createGroupKey, encryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEContext } from '../../globalState';
 import { encryptRoom } from '../../utils/e2eeHelper';
+import { useTranslation } from 'react-i18next';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 
 interface ForwardMessageProps {
@@ -21,6 +21,7 @@ interface ForwardMessageProps {
 }
 
 export const ForwardMessage = (props: ForwardMessageProps) => {
+	const { t: translate } = useTranslation();
 	const [messageForwarded, setMessageForwarded] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
