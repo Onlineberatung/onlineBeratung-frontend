@@ -100,7 +100,7 @@ const registration = {
 	'overlay.success.headline':
 		'Herzlich willkommen<br>bei der Beratung & Hilfe der Caritas.',
 	'overlay.success.copy':
-		'Sie haben sich erfolgreich registriert.<br>Sie können nun direkt eine Nachricht verfassen oder je nach Verfügbarkeit einen Beratungstermin reservieren.',
+		'Sie haben sich erfolgreich registriert.<br>Sie können nun direkt eine Nachricht verfassen oder je nach Verfügbarkeit einen Beratungstermin vereinbaren.',
 	'overlay.success.button': 'Weiter',
 	'accordion.item.continueButton': 'Weiter',
 	'accordion.item.continueButton.title': 'Weiter zum nächsten Schritt',

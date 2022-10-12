@@ -36,6 +36,7 @@ export const BookingEventTableColumnAttendee: React.FC<BookingsComponentProps> =
 					className="bookingEvents__counselor bookingEvents--font-weight-bold"
 				/>
 				<Text
+					title={true}
 					text={isConsultant ? showAskerName : showCounselorName}
 					type="standard"
 					className="bookingEvents__counselorName"
