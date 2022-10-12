@@ -51,7 +51,7 @@ export const Text = (props: TextProps) => {
 				</span>
 			)}
 			<span
-				title={props.text}
+				title={props.text.replace(/(<([^>]+)>)/gi, '')}
 				dangerouslySetInnerHTML={{
 					__html: props.text
 				}}
