@@ -10,6 +10,7 @@ export type TextTypeOptions =
 
 export interface TextProps {
 	text: string;
+	title?: boolean;
 	labelType?: LABEL_TYPES;
 	className?: string;
 	type: TextTypeOptions;
@@ -51,7 +52,7 @@ export const Text = (props: TextProps) => {
 				</span>
 			)}
 			<span
-				title={props.text}
+				title={props.title && props.text}
 				dangerouslySetInnerHTML={{
 					__html: props.text
 				}}

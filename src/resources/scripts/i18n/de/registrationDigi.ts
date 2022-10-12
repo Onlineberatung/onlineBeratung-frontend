@@ -30,7 +30,7 @@ const registrationDigi = {
 	'username.step.title': 'Bitte wählen Sie Ihren Benutzernamen',
 	'password.step.title': 'Bitte wählen Sie Ihr Passwort',
 	'agency.fullFillAllFields':
-		'Es fehlen ein paar Angaben von ihnen, um diesen Schritt auszuführen. Bitte füllen Sie zuerst alle notwendigen Fragen in Ihr Beratungsanliegen aus.',
+		'Leider konnten wir keine Beratungsstelle in Ihrer Nähe finden. Sie können auch eine Postleitzahl in der Nähe Ihres Wohnortes angeben.',
 	'agency.noAgencyFound':
 		'Leider können wir dir derzeit keine passende Online-Beratungsstelle in deiner Nähe anbieten.',
 	'agency.error.title': 'Keine Beratungsstelle in der Nähe gefunden'
