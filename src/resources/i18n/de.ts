@@ -2128,7 +2128,8 @@ export const de = {
 			},
 			share: {
 				sharedContent: 'Zu den geteilten Inhalten',
-				title: 'Sehen Sie hier welche Inhalte mit Ihnen geteilt wurden.'
+				title: 'Sehen Sie hier welche Inhalte mit Ihnen geteilt wurden.',
+				info: 'Nur zugewiesene Berater:innen können die Inhalte der Ratsuchenden einsehen. Wenn Sie aus der Teamberatung auf die Inhalte zugreifen, sind die Ratsuchenden nicht vorausgewählt.'
 			},
 			modal: {
 				confirm: 'Freischalten',

@@ -2116,7 +2116,8 @@ export const en = {
 			},
 			share: {
 				sharedContent: 'To the shared content',
-				title: 'See what content has been shared with you here.'
+				title: 'See what content has been shared with you here.',
+				info: 'Only assigned counselors can view the content of those seeking advice. If you access the content from the team consultation, the advice seekers are not preselected.'
 			},
 			modal: {
 				confirm: 'Unlock',
