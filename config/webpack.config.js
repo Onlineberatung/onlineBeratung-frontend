@@ -849,8 +849,6 @@ module.exports = function (webpackEnv) {
 					}
 				}),
 			...localAliases([
-				'src/resources/scripts/i18n/defaultLocale.ts',
-				'src/resources/scripts/i18n/informalLocale.ts',
 				'src/resources/img/illustrations/answer.svg',
 				'src/resources/img/illustrations/arrow.svg',
 				'src/resources/img/illustrations/bad-request.svg',
