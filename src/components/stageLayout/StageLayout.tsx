@@ -4,7 +4,7 @@ import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
-import { LocaleContext } from '../../globalState';
+import { LocaleContext, TenantContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
@@ -29,10 +29,12 @@ export const StageLayout = ({
 	loginParams
 }: StageLayoutProps) => {
 	const { t: translate } = useTranslation();
+	const { tenant } = useContext(TenantContext);
 	const legalLinks = useContext(LegalLinksContext);
 	const { selectableLocales } = useContext(LocaleContext);
 	const settings = useAppConfig();
 	const { fromL } = useResponsive();
+	const hasTenant = tenant != null;
 
 	return (
 		<div className={clsx('stageLayout', className)}>
@@ -64,6 +66,34 @@ export const StageLayout = ({
 									isLink
 								/>
 							</a>
+						</div>
+					</div>
+				)}
+
+				{!hasTenant && (
+					<div className="loginForm__register">
+						<div className="loginForm__register__separator">
+							<span>{translate('login.seperator')}</span>
+						</div>
+						<div className="loginForm__register__content">
+							<Text
+								text={translate(
+									'login.register.infoText.title'
+								)}
+								type={'infoMedium'}
+							/>
+							<button
+								onClick={() =>
+									window.open(
+										settings.urls.toRegistration,
+										'_self'
+									)
+								}
+								className="button-as-link consulting-topics"
+								type="button"
+							>
+								{translate('login.register.linkLabel')}
+							</button>
 						</div>
 					</div>
 				)}

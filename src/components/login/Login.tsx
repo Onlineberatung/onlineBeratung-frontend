@@ -535,34 +535,6 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 								{translate('login.resetPasswort.label')}
 							</button>
 						)}
-
-						{!hasTenant && (
-							<div className="loginForm__register">
-								<div className="loginForm__register__separator">
-									<span>{translate('login.seperator')}</span>
-								</div>
-								<div className="loginForm__register__content">
-									<Text
-										text={translate(
-											'login.register.infoText.title'
-										)}
-										type={'infoMedium'}
-									/>
-									<button
-										onClick={() =>
-											window.open(
-												settings.urls.toRegistration,
-												'_self'
-											)
-										}
-										className="button-as-link consulting-topics"
-										type="button"
-									>
-										{translate('login.register.linkLabel')}
-									</button>
-								</div>
-							</div>
-						)}
 					</div>
 				</div>
 				{registerOverlayActive && (
