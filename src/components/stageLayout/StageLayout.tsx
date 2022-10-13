@@ -4,7 +4,7 @@ import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
-import { LocaleContext } from '../../globalState';
+import { LocaleContext, TenantContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
@@ -29,10 +29,12 @@ export const StageLayout = ({
 	loginParams
 }: StageLayoutProps) => {
 	const { t: translate } = useTranslation();
+	const { tenant } = useContext(TenantContext);
 	const legalLinks = useContext(LegalLinksContext);
 	const { selectableLocales } = useContext(LocaleContext);
 	const settings = useAppConfig();
 	const { fromL } = useResponsive();
+	const hasTenant = tenant != null;
 
 	return (
 		<div className={clsx('stageLayout', className)}>
@@ -65,6 +67,31 @@ export const StageLayout = ({
 								/>
 							</a>
 						</div>
+					</div>
+				)}
+
+				{hasTenant && (
+					<div className="login__tenantRegistration">
+						<Text
+							text={translate('login.register.infoText.title')}
+							type={'infoSmall'}
+						/>
+						<a
+							className="login__tenantRegistrationLink"
+							href={settings.urls.toRegistration}
+							target="_self"
+							tabIndex={-1}
+						>
+							<Button
+								item={{
+									label: translate(
+										'login.register.linkLabel'
+									),
+									type: 'TERTIARY'
+								}}
+								isLink
+							/>
+						</a>
 					</div>
 				)}
 			</div>
