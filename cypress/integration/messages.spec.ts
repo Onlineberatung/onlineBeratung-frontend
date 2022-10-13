@@ -3,9 +3,7 @@ import {
 	startWebSocketServer,
 	mockWebSocket
 } from '../support/websocket';
-import attachmentsI18n from '../../src/resources/scripts/i18n/de/attachments';
-import attachmentsInformalI18n from '../../src/resources/scripts/i18n/de/attachmentsInformal';
-import { SOCKET_COLLECTION } from '../../src/api';
+import { SOCKET_COLLECTION } from '../../src/api/rocketChatSocket';
 
 describe('Messages', () => {
 	before(() => {
@@ -57,7 +55,7 @@ describe('Messages', () => {
 
 				cy.wait('@attachmentUpload');
 
-				cy.contains(attachmentsI18n['error.quota.headline']);
+				cy.contains('Sie haben das Limit zum Hochladen erreicht.');
 			});
 		});
 
@@ -86,7 +84,7 @@ describe('Messages', () => {
 
 				cy.wait('@attachmentUpload');
 
-				cy.contains(attachmentsInformalI18n['error.quota.headline']);
+				cy.contains('Sie haben das Limit zum Hochladen erreicht.');
 			});
 		});
 	});

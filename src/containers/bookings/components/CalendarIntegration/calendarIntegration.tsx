@@ -4,11 +4,13 @@ import { Text } from '../../../../components/text/Text';
 import { AssignedCalendars } from '../AssignedCalendars/assignedCalendars';
 import AddCalendar from '../AddCalendar/addCalendar';
 import * as React from 'react';
-import { translate } from '../../../../utils/translate';
+import { useTranslation } from 'react-i18next';
 import { Box } from '../../../../components/box/Box';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 export const CalendarIntegration = () => {
+	const { t: translate } = useTranslation();
+
 	const [selectedTab, setSelectedTab] = useState(null);
 	const [showSynchronizedTab, setShowSynchronizedTab] = useState(false);
 	const settings = useAppConfig();
@@ -33,7 +35,9 @@ export const CalendarIntegration = () => {
 			<div style={{ marginBottom: '20px' }}>
 				<Headline
 					className="pr--3"
-					text={translate('booking.calender.synchroniseCalender')}
+					text={translate(
+						'booking.calender.synchroniseCalender.title'
+					)}
 					semanticLevel="5"
 				/>
 			</div>

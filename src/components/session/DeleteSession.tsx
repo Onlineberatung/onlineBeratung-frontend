@@ -9,7 +9,7 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
-import { translate } from '../../utils/translate';
+import { useTranslation } from 'react-i18next';
 
 type DeleteSessionProps = {
 	children: (onClick: () => void) => ReactNode;
@@ -24,6 +24,7 @@ const DeleteSession = ({
 	onSuccess,
 	onError
 }: DeleteSessionProps) => {
+	const { t: translate } = useTranslation();
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem | null>(null);

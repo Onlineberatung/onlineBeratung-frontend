@@ -1,4 +1,3 @@
-import { translate } from '../../utils/translate';
 import { getValidTimeFormatForSelectedTime } from '../groupChat/createChatHelpers';
 
 export const getChatDate = (startDate, startTime) => {
@@ -13,6 +12,7 @@ export const getChatDate = (startDate, startTime) => {
 
 export const getGroupChatDate = (
 	listItem,
+	postFixTranslation: string,
 	isShortVersion?: boolean,
 	onlyStartDate?: boolean,
 	onlyStartTime?: boolean
@@ -43,20 +43,14 @@ export const getGroupChatDate = (
 	);
 
 	if (isShortVersion) {
-		return `${formatedStartTime} ${translate(
-			'sessionList.time.label.postfix'
-		)} - ${formatedEndTime} ${translate('sessionList.time.label.postfix')}`;
+		return `${formatedStartTime} ${postFixTranslation} - ${formatedEndTime} ${postFixTranslation}`;
 	} else if (onlyStartDate) {
 		return formatedStartDate;
 	} else if (onlyStartTime) {
-		return `${formatedStartTime} ${translate(
-			'sessionList.time.label.postfix'
-		)}`;
+		return `${formatedStartTime} ${postFixTranslation}`;
 	} else {
 		return `${formatedStartDate}${
 			listItem.repetitive ? '' : ','
-		} ${formatedStartTime} ${translate(
-			'sessionList.time.label.postfix'
-		)} - ${formatedEndTime} ${translate('sessionList.time.label.postfix')}`;
+		} ${formatedStartTime} ${postFixTranslation} - ${formatedEndTime} ${postFixTranslation}`;
 	}
 };

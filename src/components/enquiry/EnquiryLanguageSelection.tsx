@@ -2,31 +2,32 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiAgencyLanguages } from '../../api/apiAgencyLanguages';
 import { getExtendedSession, SessionsDataContext } from '../../globalState';
-import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { isUniqueLanguage } from '../profile/profileHelpers';
 
 import './enquiryLanguageSelection.styles';
-import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
+import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
+import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { LocaleContext } from '../../globalState/provider/LocaleProvider';
 
 interface EnquiryLanguageSelectionProps {
 	className?: string;
-	handleSelection: (language: string) => void;
+	onSelect: (language: string) => void;
+	value: string;
 }
 
 export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
-	({ className = '', handleSelection }) => {
+	({ className = '', onSelect, value }) => {
+		const { t: translate } = useTranslation();
 		const settings = useAppConfig();
 		const { sessions, ready } = useContext(SessionsDataContext);
-		const fixedLanguages = useContext(FixedLanguagesContext);
-		const { sessionId: sessionIdFromParam } = useParams();
+		const { fixed: fixedLanguages } = useContext(LanguagesContext);
+		const { sessionId: sessionIdFromParam } =
+			useParams<{ sessionId: string }>();
+		const { locale } = useContext(LocaleContext);
 
-		const [selectedLanguage, setSelectedLanguage] = useState(
-			fixedLanguages[0]
-		);
-		const [languages, setLanguages] = useState([...fixedLanguages]);
+		const [languages, setLanguages] = useState([]);
 
 		useEffect(() => {
 			if (!ready) {
@@ -34,7 +35,7 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 			}
 
 			// async wrapper
-			const getLanguagesFromApi = async () => {
+			const getLanguagesFromApi = new Promise<string[]>((resolve) => {
 				const activeSession = getExtendedSession(
 					sessionIdFromParam,
 					sessions
@@ -48,55 +49,70 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 				}
 
 				if (!agencyId) {
-					return;
+					resolve([]);
 				}
 
-				const response = await apiAgencyLanguages(
-					agencyId,
-					settings?.multitenancyWithSingleDomainEnabled
-				).catch(() => {
-					/* intentional, falls back to fixed languages */
-				});
+				if (languages.length === 0) {
+					apiAgencyLanguages(
+						agencyId,
+						settings?.multitenancyWithSingleDomainEnabled
+					)
+						.then((response) => {
+							const sortByTranslation = (a, b) => {
+								if (
+									translate(`languages.${a}`) >
+									translate(`languages.${b}`)
+								)
+									return 1;
+								if (
+									translate(`languages.${a}`) <
+									translate(`languages.${b}`)
+								)
+									return -1;
+								return 0;
+							};
 
-				if (!response) {
-					return;
+							const sortedResponseLanguages = response.languages
+								.slice()
+								.sort(sortByTranslation);
+							resolve(
+								[
+									...fixedLanguages,
+									...sortedResponseLanguages
+								].filter(isUniqueLanguage)
+							);
+						})
+						.catch(() => {
+							resolve([...fixedLanguages]);
+							/* intentional, falls back to fixed languages */
+						});
 				}
+			});
 
-				const sortedResponseLanguages = response.languages.sort(
-					(a, b) => {
-						return (
-							languageIsoCodesSortedByName.indexOf(a) -
-							languageIsoCodesSortedByName.indexOf(b)
-						);
-					}
-				);
-				const sortedLanguages = [
-					...fixedLanguages,
-					...sortedResponseLanguages
-				].filter(isUniqueLanguage);
+			getLanguagesFromApi.then((sortedLanguages) => {
+				if (sortedLanguages.includes(locale)) {
+					onSelect(locale);
+				}
 				setLanguages(sortedLanguages);
-			};
-
-			getLanguagesFromApi();
+			});
 		}, [
 			sessions,
 			ready,
 			sessionIdFromParam,
 			fixedLanguages,
-			settings?.multitenancyWithSingleDomainEnabled
+			translate,
+			settings?.multitenancyWithSingleDomainEnabled,
+			locale,
+			onSelect,
+			languages
 		]);
-
-		const selectLanguage = (isoCode) => {
-			setSelectedLanguage(isoCode);
-			handleSelection(isoCode);
-		};
 
 		const mapLanguages = (isoCode) => (
 			<span
 				key={isoCode}
-				onClick={() => selectLanguage(isoCode)}
+				onClick={() => onSelect(isoCode)}
 				className={`enquiryLanguageSelection__tab ${
-					selectedLanguage === isoCode
+					value === isoCode
 						? 'enquiryLanguageSelection__tab--selected'
 						: ''
 				}`}

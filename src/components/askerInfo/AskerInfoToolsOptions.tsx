@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import { translate } from '../../utils/translate';
 import {
 	SelectDropdown,
 	SelectOption,
@@ -15,6 +14,7 @@ import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { Checkbox } from '../checkbox/Checkbox';
 import { apiPutTools } from '../../api/apiPutTools';
+import { useTranslation } from 'react-i18next';
 
 interface AskerInfoToolsOptionsInterface {
 	askerId: String;
@@ -23,6 +23,7 @@ interface AskerInfoToolsOptionsInterface {
 export const AskerInfoToolsOptions = (
 	props: AskerInfoToolsOptionsInterface
 ) => {
+	const { t: translate } = useTranslation();
 	const [selectedTools, setSelectedTools] = useState<SelectOption[]>([]);
 	const [availableTools, setAvailableTools] = useState<SelectOption[]>([]);
 	const [infoAboutToolsModal, setInfoAboutToolsModal] = useState<

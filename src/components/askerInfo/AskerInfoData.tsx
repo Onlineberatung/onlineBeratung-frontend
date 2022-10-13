@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import {
-	translate,
 	handleNumericTranslation,
 	getAddictiveDrugsString
 } from '../../utils/translate';
@@ -13,13 +12,18 @@ import {
 } from '../profile/profileHelpers';
 import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { useTranslation } from 'react-i18next';
 
 export const AskerInfoData = () => {
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const { activeSession } = useContext(ActiveSessionContext);
 
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 
-	const userSessionData = getContact(activeSession).sessionData;
+	const userSessionData = getContact(
+		activeSession,
+		translate('sessionList.user.consultantUnknown')
+	).sessionData;
 	const preparedUserSessionData =
 		convertUserDataObjectToArray(userSessionData);
 	const addictiveDrugs = userSessionData.addictiveDrugs
@@ -34,7 +38,15 @@ export const AskerInfoData = () => {
 					{translate('userProfile.data.resort')}
 				</p>
 				<p className="profile__data__content">
-					{consultingType?.titles?.default}
+					{consultingType
+						? translate(
+								[
+									`consultingType.${consultingType.id}.titles.default`,
+									consultingType.titles.default
+								],
+								{ ns: 'consultingTypes' }
+						  )
+						: ''}
 				</p>
 			</div>
 			{activeSession.item.consultingType === 0 && !activeSession.isLive && (
@@ -61,13 +73,18 @@ export const AskerInfoData = () => {
 					>
 						{item.value
 							? item.type === 'addictiveDrugs'
-								? getAddictiveDrugsString(addictiveDrugs)
-								: handleNumericTranslation(
-										getUserDataTranslateBase(
-											activeSession.item.consultingType
-										),
-										item.type,
-										item.value
+								? translate(
+										getAddictiveDrugsString(addictiveDrugs)
+								  )
+								: translate(
+										handleNumericTranslation(
+											getUserDataTranslateBase(
+												activeSession.item
+													.consultingType
+											),
+											item.type,
+											item.value
+										)
 								  )
 							: translate('profile.noContent')}
 					</p>

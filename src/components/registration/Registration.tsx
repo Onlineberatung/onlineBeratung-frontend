@@ -2,35 +2,41 @@ import '../../polyfill';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import { StageProps } from '../stage/stage';
-import { ComponentType, useEffect, useState } from 'react';
+import { ComponentType, useContext, useEffect, useState } from 'react';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
-import { LegalLinkInterface } from '../../globalState';
+import { InformalContext } from '../../globalState';
 import '../../resources/styles/styles';
 import { StageLayout } from '../stageLayout/StageLayout';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
-import { translate } from '../../utils/translate';
-import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { RegistrationFormDigi } from '../RegistrationDigi/RegistrationFormDigi';
+import { useTranslation } from 'react-i18next';
 
 interface RegistrationProps {
 	handleUnmatchConsultingType: Function;
 	handleUnmatchConsultant: Function;
 	stageComponent: ComponentType<StageProps>;
-	legalLinks: Array<LegalLinkInterface>;
 }
 
 export const Registration = ({
 	handleUnmatchConsultingType,
 	handleUnmatchConsultant,
-	legalLinks,
 	stageComponent: Stage
 }: RegistrationProps) => {
-	const { consultingTypeSlug } = useParams();
+	const { t: translate } = useTranslation([
+		'common',
+		'consultingTypes',
+		'agencies'
+	]);
+
+	const { consultingTypeSlug } = useParams<{ consultingTypeSlug: string }>();
+
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
 	const postcodeParameter = getUrlParameter('postcode');
+
+	const { setInformal } = useContext(InformalContext);
 
 	const loginParams = Object.entries({
 		cid: consultantId,
@@ -79,7 +85,7 @@ export const Registration = ({
 				const isInformal = consultant.agencies.every(
 					(agency) => !agency.consultingTypeRel.languageFormal
 				);
-				setValueInCookie('useInformal', isInformal ? '1' : '');
+				setInformal(isInformal);
 
 				// If consultant has only one consulting type set document title
 				const hasUniqueConsultingType =
@@ -96,14 +102,23 @@ export const Registration = ({
 				if (hasUniqueConsultingType) {
 					document.title = `${translate(
 						'registration.title.start'
-					)} ${consultant.agencies[0].consultingTypeRel.titles.long}`;
+					)} ${translate(
+						[
+							`consultingType.${consultant.agencies[0].consultingTypeRel.id}.titles.long`,
+							consultant.agencies[0].consultingTypeRel.titles.long
+						],
+						{ ns: 'consultingTypes' }
+					)}`;
 				}
 			} else {
 				if (!consultingType) {
 					handleUnmatchConsultingType();
 					throw new Error(
 						agency
-							? `Unknown consulting type with agency ${agency.name}`
+							? `Unknown consulting type with agency ${translate(
+									[`agency.${agency.id}.name`, agency.name],
+									{ ns: 'agencies' }
+							  )}`
 							: `Unknown consulting type with slug ${consultingTypeSlug}`
 					);
 				}
@@ -117,15 +132,18 @@ export const Registration = ({
 					throw new Error(`Consulting type requires matching aid`);
 				}
 
-				// SET FORMAL/INFORMAL COOKIE
-				setValueInCookie(
-					'useInformal',
-					consultingType.languageFormal ? '' : '1'
-				);
+				// SET FORMAL/INFORMAL
+				setInformal(!consultingType.languageFormal);
 
-				document.title = `${translate('registration.title.start')} ${
-					consultingType.titles.long
-				}`;
+				document.title = `${translate(
+					'registration.title.start'
+				)} ${translate(
+					[
+						`consultingType.${consultingType.id}.titles.long`,
+						consultingType.titles.long
+					],
+					{ ns: 'consultingTypes' }
+				)}`;
 			}
 			setIsReady(true);
 		} catch (error) {
@@ -140,14 +158,15 @@ export const Registration = ({
 		consultantId,
 		handleUnmatchConsultant,
 		handleUnmatchConsultingType,
-		consultingTypeSlug
+		consultingTypeSlug,
+		translate,
+		setInformal
 	]);
 
 	const isFirstVisit = useIsFirstVisit();
 
 	return (
 		<StageLayout
-			legalLinks={legalLinks}
 			showLegalLinks={true}
 			showLoginLink={!showWelcomeScreen}
 			stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
@@ -157,21 +176,39 @@ export const Registration = ({
 				(showWelcomeScreen ? (
 					<WelcomeScreen
 						title={
-							consultingType?.titles.welcome ||
-							translate('registration.overline')
+							consultingType
+								? translate(
+										[
+											`consultingType.${consultingType?.id}.titles.welcome`,
+											consultingType?.titles.welcome
+										],
+										{ ns: 'consultingTypes' }
+								  )
+								: translate('registration.overline')
 						}
 						handleForwardToRegistration={
 							handleForwardToRegistration
 						}
 						loginParams={loginParams}
 						welcomeScreenConfig={consultingType?.welcomeScreen}
+						consultingTypeId={consultingType?.id}
+						consultingTypeName={
+							consultingType
+								? translate(
+										[
+											`consultingType.${consultingType?.id}.titles.long`,
+											consultingType?.titles.long
+										],
+										{ ns: 'consultingTypes' }
+								  )
+								: null
+						}
 					/>
 				) : (
 					<RegistrationFormDigi
 						consultingType={consultingType}
 						agency={agency}
 						consultant={consultant}
-						legalLinks={legalLinks}
 						topic={topic}
 					/>
 				))}

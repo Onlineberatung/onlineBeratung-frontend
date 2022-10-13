@@ -9,13 +9,12 @@
 		-moz-appearance: textfield;
 		height: $input-field-height;
 		min-width: 0;
-		padding: 12px $grid-base-three 0;
+		padding: 12px $grid-base-three 0 $grid-base-six;
 		flex: 1;
 		color: $form-secondary;
 		border: 1px solid $form-primary;
 		border-radius: $input-field-border-radius;
 		outline: 0;
-		box-shadow: $input-field-box-shadow;
 
 		&:hover {
 			border: 1px solid $form-active;
@@ -46,6 +45,7 @@
 			font-size: 12px;
 			top: 3px;
 			transition: font-size 0.5s, top 0.5s;
+			color: $black-65-opacity;
 		}
 
 		&[disabled] {
@@ -62,10 +62,6 @@
 			border: 1px solid $form-disabled;
 			color: $form-disabled;
 
-			& + label {
-				color: $form-disabled;
-			}
-
 			&:hover,
 			&:focus {
 				cursor: not-allowed;
@@ -75,20 +71,10 @@
 
 		&--invalid {
 			border: 2px solid $form-error !important;
-			color: $form-error;
-
-			& + label {
-				color: $form-error;
-			}
 		}
 
 		&--valid {
 			border: 2px solid $form-success !important;
-			color: $form-success;
-
-			& + label {
-				color: $form-success;
-			}
 		}
 
 		/* TODO: check if --error state still needed (class added in warningLabels.ts) */
@@ -113,7 +99,8 @@
 		top: 15px;
 		left: $grid-base-three;
 		transition: font-size 0.5s, top 0.5s;
-		color: $tertiary;
+		color: rgba(0, 0, 0, 0.4);
+		line-height: 18px;
 	}
 
 	&__infoText {
@@ -132,7 +119,9 @@
 
 	&--withIcon & {
 		&__icon {
-			margin-right: $grid-base;
+			margin: $grid-base;
+			margin-left: 16px;
+			position: absolute;
 		}
 
 		&__infoText {
@@ -140,7 +129,7 @@
 		}
 
 		&__label {
-			left: 58px;
+			left: $grid-base-six;
 		}
 	}
 }

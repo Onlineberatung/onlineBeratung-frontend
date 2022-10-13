@@ -1,8 +1,8 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 
 export const apiGetMonitoring = async (sessionId: number) => {
-	const url = `${config.endpoints.sessionBase}/${sessionId}/monitoring`;
+	const url = `${endpoints.sessionBase}/${sessionId}/monitoring`;
 
 	return fetchData({
 		url: url,

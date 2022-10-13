@@ -2,6 +2,7 @@
 @import './askerRegistration.styles';
 @import './statistics.styles';
 @import './spokenlanguages.styles';
+@import './locale.styles';
 
 $doubleNavHeight: 192px;
 $doubleNavHeightSmall: 168px;
@@ -239,6 +240,7 @@ $profile-footer-justify-content: center !default;
 			border: none;
 			background: none;
 			padding: 0 !important;
+			text-decoration: underline;
 
 			&:hover {
 				cursor: pointer;
@@ -283,6 +285,10 @@ $profile-footer-justify-content: center !default;
 			@include breakpoint($fromLarge) {
 				max-width: $inputMaxWidth;
 			}
+		}
+
+		&__header {
+			display: flex;
 		}
 	}
 

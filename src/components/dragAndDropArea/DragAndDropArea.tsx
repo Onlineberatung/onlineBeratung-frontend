@@ -3,7 +3,7 @@ import './dragAndDropArea.styles';
 import { useDropzone } from 'react-dropzone';
 import clsx from 'clsx';
 import { ReactComponent as UploadIcon } from '../../resources/img/icons/upload.svg';
-import { translate } from '../../utils/translate';
+import { useTranslation } from 'react-i18next';
 
 interface DragAndDropAreaProps {
 	onFileDragged: (file: File) => void;
@@ -14,6 +14,7 @@ interface DragAndDropAreaProps {
 }
 
 export const DragAndDropArea = (props: DragAndDropAreaProps) => {
+	const { t: translate } = useTranslation();
 	const [canDrop, setCanDrop] = useState(false);
 	const onDrop = useCallback(
 		(acceptedFiles) => props.onFileDragged(acceptedFiles[0]),

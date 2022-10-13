@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import {
 	convertISO8601ToMSSinceEpoch,
@@ -12,7 +12,6 @@ import {
 	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
-import { translate } from '../../utils/translate';
 import {
 	AUTHORITIES,
 	E2EEContext,
@@ -25,7 +24,6 @@ import {
 	useConsultingType,
 	UserDataContext
 } from '../../globalState';
-import { history } from '../app/app';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
@@ -43,6 +41,7 @@ import { useE2EE } from '../../hooks/useE2EE';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SessionListItemLastMessage } from './SessionListItemLastMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
+import { useTranslation } from 'react-i18next';
 
 interface SessionListItemProps {
 	session: ExtendedSessionInterface;
@@ -53,8 +52,11 @@ export const SessionListItemComponent = ({
 	session,
 	defaultLanguage
 }: SessionListItemProps) => {
-	const { sessionId, rcGroupId: groupIdFromParam } = useParams();
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
+	const { sessionId, rcGroupId: groupIdFromParam } =
+		useParams<{ rcGroupId: string; sessionId: string }>();
 	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
+	const history = useHistory();
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
@@ -108,7 +110,9 @@ export const SessionListItemComponent = ({
 				session.item.e2eLastMessage &&
 				session.item.e2eLastMessage.t === 'e2e'
 			) {
-				setPlainTextLastMessage(translate('e2ee.message.encryption'));
+				setPlainTextLastMessage(
+					translate('e2ee.message.encryption.text')
+				);
 			} else {
 				const rawMessageObject = markdownToDraft(
 					session.item.lastMessage
@@ -124,7 +128,8 @@ export const SessionListItemComponent = ({
 		encrypted,
 		session.item.groupId,
 		session.item.e2eLastMessage,
-		session.item.lastMessage
+		session.item.lastMessage,
+		translate
 	]);
 
 	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
@@ -177,11 +182,15 @@ export const SessionListItemComponent = ({
 			convertISO8601ToMSSinceEpoch(createDate)
 		);
 
+		const prettyDate = getPrettyDateFromMessageDate(
+			newestDate / MILLISECONDS_PER_SECOND
+		);
+
 		return isLiveChat
 			? prettyPrintTimeDifference(newestDate, Date.now())
-			: getPrettyDateFromMessageDate(
-					newestDate / MILLISECONDS_PER_SECOND
-			  );
+			: prettyDate.str
+			? translate(prettyDate.str)
+			: prettyDate.date;
 	};
 
 	// Hide sessions if consultingType has been switched to group chat.
@@ -214,10 +223,21 @@ export const SessionListItemComponent = ({
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
-							{consultingType?.titles?.default}
+							{consultingType
+								? translate(
+										[
+											`consultingType.${consultingType.id}.titles.default`,
+											consultingType.titles.default
+										],
+										{ ns: 'consultingTypes' }
+								  )
+								: ''}
 						</div>
 						<div className="sessionsListItem__date">
-							{getGroupChatDate(session.item)}
+							{getGroupChatDate(
+								session.item,
+								translate('sessionList.time.label.postfix')
+							)}
 						</div>
 					</div>
 					<div className="sessionsListItem__row">
@@ -309,7 +329,15 @@ export const SessionListItemComponent = ({
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
-							{consultingType?.titles?.default}{' '}
+							{consultingType
+								? translate(
+										[
+											`consultingType.${consultingType.id}.titles.default`,
+											consultingType.titles.default
+										],
+										{ ns: 'consultingTypes' }
+								  ) + ' '
+								: ''}
 							{session.item.consultingType !== 1 &&
 							!isAsker &&
 							!session.isLive

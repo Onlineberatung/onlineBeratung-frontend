@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
 import { Text } from '../text/Text';
 import { Headline } from '../headline/Headline';
 import './appointment.styles';
@@ -9,6 +8,7 @@ import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-
 import { formatToHHMM } from '../../utils/dateHelpers';
 import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
+import { useTranslation } from 'react-i18next';
 
 interface AppointmentData {
 	title: string;
@@ -23,6 +23,7 @@ export const Appointment = (param: {
 	data: string;
 	messageType: ALIAS_MESSAGE_TYPES;
 }) => {
+	const { t: translate } = useTranslation();
 	const parsedData: AppointmentData = JSON.parse(param.data);
 	const duration = parsedData.duration;
 	const startingTimeStampDate = Date.parse(parsedData.date);
@@ -102,7 +103,7 @@ export const Appointment = (param: {
 					<VideoCalIcon />
 					<Text
 						type="infoLargeAlternative"
-						text={'Videoberatung'}
+						text={translate('message.appointmentSet.info')}
 						className="appointmentSet__video"
 					/>
 				</div>

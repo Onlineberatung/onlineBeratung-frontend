@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
-import { Button } from '../button/Button';
-import { buttonItemSubmit } from '../registration/registrationHelpers';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import {
 	AgencyDataInterface,
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
-	LegalLinkInterface,
 	TenantContext
 } from '../../globalState';
 import Form from 'rc-field-form';
@@ -18,7 +15,6 @@ import { CheckboxGroupFormField } from './CheckboxGroupFormField';
 import { RadioBoxGroup } from './RadioBoxGroup';
 import { PasswordFormField } from './PasswordFormField';
 import { apiPostRegistration } from '../../api/apiPostRegistration';
-import { config } from '../../resources/scripts/config';
 import { FETCH_ERRORS, X_REASON } from '../../api';
 import { UsernameFormField } from './UsernameFormField';
 import { AgencySelectionFormField } from './AgencyFields';
@@ -32,19 +28,20 @@ import { useContext } from 'react';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { useTranslation } from 'react-i18next';
+import { endpoints } from '../../resources/scripts/endpoints';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
 	agency?: AgencyDataInterface;
 	consultant?: ConsultantDataInterface;
-	legalLinks: Array<LegalLinkInterface>;
 	topic?: TopicsDataInterface;
 }
 
 export const RegistrationFormDigi = ({
 	agency: preselectedAgency,
 	consultingType,
-	legalLinks,
 	consultant
 }: RegistrationFormProps) => {
 	const { tenant } = useContext(TenantContext);
@@ -58,6 +55,8 @@ export const RegistrationFormDigi = ({
 	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] =
 		React.useState(false);
 	const { featureToolsEnabled } = getTenantSettings();
+	const { t: translate } = useTranslation();
+	const legalLinks = useContext(LegalLinksContext);
 
 	const [currentValues, setValues] = React.useState({
 		'age': '',
@@ -123,7 +122,7 @@ export const RegistrationFormDigi = ({
 				...(consultant && { consultantId: consultant.consultantId })
 			};
 			apiPostRegistration(
-				config.endpoints.registerAsker,
+				endpoints.registerAsker,
 				finalValues,
 				settings.multitenancyWithSingleDomainEnabled,
 				tenant
@@ -161,6 +160,11 @@ export const RegistrationFormDigi = ({
 				.map(({ id, name }) => ({ label: name, value: id + '' })),
 		[currentValues, topics]
 	);
+
+	const buttonItemSubmit: ButtonItem = {
+		label: translate('registration.submitButton.label'),
+		type: BUTTON_TYPES.PRIMARY
+	};
 
 	return (
 		<>

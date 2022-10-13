@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Text } from '../text/Text';
-import { translate } from '../../utils/translate';
 import { ReactComponent as CalendarICSIcon } from '../../resources/img/icons/calendar-ics.svg';
 import { addMissingZero } from '../../utils/dateHelpers';
 import './downloadICSFile.styles';
+import { useTranslation } from 'react-i18next';
 
 export interface AppointmentInfoICS {
 	date: string;
@@ -60,6 +60,7 @@ const handleICSAppointment = (appointmentInfo: AppointmentInfoICS) => {
 };
 
 export const DownloadICSFile = (params: AppointmentInfoICS) => {
+	const { t: translate } = useTranslation();
 	return (
 		<div
 			className="downloadICSFile--flex"

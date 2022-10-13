@@ -1,9 +1,9 @@
 import { ReactComponent as ErrorIllustration } from '../../../resources/img/illustrations/not-found.svg';
 import { Headline } from '../../headline/Headline';
-import { translate } from '../../../utils/translate';
 import { Text } from '../../text/Text';
 import { Button, BUTTON_TYPES, ButtonItem } from '../../button/Button';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 type ErrorProps = {
 	error?: {
@@ -13,6 +13,8 @@ type ErrorProps = {
 };
 
 export const Error = ({ error }: ErrorProps) => {
+	const { t: translate } = useTranslation();
+
 	const reloadButton: ButtonItem = {
 		label: translate('videoConference.waitingroom.errorPage.button'),
 		type: BUTTON_TYPES.PRIMARY

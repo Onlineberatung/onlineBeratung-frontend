@@ -14,8 +14,10 @@ import { apiGetTopicById } from '../api/apiGetTopicId';
 import { useAppConfig } from '../hooks/useAppConfig';
 
 export default function useUrlParamsLoader() {
+	const { consultingTypeSlug } = useParams<{
+		consultingTypeSlug: string;
+	}>();
 	const settings = useAppConfig();
-	const { consultingTypeSlug } = useParams();
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
 	const topicId = getUrlParameter('tid');

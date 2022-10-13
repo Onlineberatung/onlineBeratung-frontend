@@ -21,7 +21,6 @@ import {
 	MessageItemComponent
 } from '../message/MessageItemComponent';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import { translate } from '../../utils/translate';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { apiGetConsultingType } from '../../api';
@@ -30,7 +29,6 @@ import {
 	ConsultingTypeInterface,
 	getContact,
 	hasUserAuthority,
-	LegalLinkInterface,
 	UserDataContext,
 	SessionTypeContext,
 	E2EEContext
@@ -50,6 +48,7 @@ import { encryptRoom } from '../../utils/e2eeHelper';
 import { AcceptAssign } from './AcceptAssign';
 import { SubscriptionKeyLost } from './SubscriptionKeyLost';
 import { RoomNotFound } from './RoomNotFound';
+import { useTranslation } from 'react-i18next';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { apiPostError, TError } from '../../api/apiPostError';
 
@@ -58,14 +57,14 @@ interface SessionItemProps {
 	messages?: MessageItem[];
 	typingUsers: string[];
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
-	legalLinks: Array<LegalLinkInterface>;
 	bannedUsers: string[];
 }
 
 let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { t: translate } = useTranslation();
+	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -270,7 +269,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		if (activeSession.isGroup) {
 			return translate('enquiry.write.input.placeholder.groupChat');
 		} else if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
-			return translate('enquiry.write.input.placeholder');
+			return translate('enquiry.write.input.placeholder.asker');
 		} else if (
 			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
 			activeSession.isFeedback
@@ -284,7 +283,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 		} else if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
 			return translate('enquiry.write.input.placeholder.consultant');
 		}
-		return translate('enquiry.write.input.placeholder');
+		return translate('enquiry.write.input.placeholder.asker');
 	};
 
 	/* eslint-disable */
@@ -448,7 +447,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					hasUserInitiatedStopOrLeaveRequest={
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
-					legalLinks={props.legalLinks}
 					bannedUsers={props.bannedUsers}
 				/>
 			</div>
@@ -469,7 +467,12 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							<React.Fragment key={`${message._id}-${index}`}>
 								<MessageItemComponent
 									clientName={
-										getContact(activeSession).username
+										getContact(
+											activeSession,
+											translate(
+												'sessionList.user.consultantUnknown'
+											)
+										).username
 									}
 									askerRcId={activeSession.item.askerRcId}
 									isOnlyEnquiry={isOnlyEnquiry}
@@ -542,7 +545,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						)
 					}
 					isAnonymous={false}
-					btnLabel={'enquiry.acceptButton'}
+					btnLabel={'enquiry.acceptButton.known'}
 				/>
 			)}
 

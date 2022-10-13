@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import {
@@ -13,10 +12,13 @@ import './deleteAccount.styles';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { apiDeleteAskerAccount, FETCH_ERRORS } from '../../api';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
+import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const DeleteAccount = () => {
 	const settings = useAppConfig();
+	const { t: translate } = useTranslation();
+
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [password, setPassword] = useState<string>('');
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);

@@ -4,15 +4,13 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import {
 	getAddictiveDrugsString,
-	handleNumericTranslation,
-	translate
+	handleNumericTranslation
 } from '../../utils/translate';
 import { mobileListView } from '../app/navigationHandler';
 import {
 	AUTHORITIES,
 	getContact,
 	hasUserAuthority,
-	LegalLinkInterface,
 	SessionConsultantInterface,
 	SessionTypeContext,
 	useConsultingType,
@@ -40,24 +38,38 @@ import { Tag } from '../tag/Tag';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { useTranslation } from 'react-i18next';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
-	legalLinks: Array<LegalLinkInterface>;
 	isJoinGroupChatView?: boolean;
 	bannedUsers: string[];
 }
 
 export const SessionHeaderComponent = (props: SessionHeaderProps) => {
+	const { t: translate } = useTranslation([
+		'common',
+		'consultingTypes',
+		'agencies'
+	]);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 	const [flyoutOpenId, setFlyoutOpenId] = useState('');
 
-	const username = getContact(activeSession).username;
-	const displayName = getContact(activeSession).displayName;
-	const userSessionData = getContact(activeSession).sessionData;
+	const username = getContact(
+		activeSession,
+		translate('sessionList.user.consultantUnknown')
+	).username;
+	const displayName = getContact(
+		activeSession,
+		translate('sessionList.user.consultantUnknown')
+	).displayName;
+	const userSessionData = getContact(
+		activeSession,
+		translate('sessionList.user.consultantUnknown')
+	).sessionData;
 	const preparedUserSessionData =
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 		userSessionData &&
@@ -179,13 +191,16 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							props.hasUserInitiatedStopOrLeaveRequest
 						}
 						isAskerInfoAvailable={isAskerInfoAvailable()}
-						legalLinks={props.legalLinks}
 						isJoinGroupChatView={props.isJoinGroupChatView}
 					/>
 				</div>
 				<div className="sessionInfo__metaInfo">
 					<div className="sessionInfo__metaInfo__content">
-						{getGroupChatDate(activeSession.item, true)}
+						{getGroupChatDate(
+							activeSession.item,
+							translate('sessionList.time.label.postfix'),
+							true
+						)}
 					</div>
 					{activeSession.item.active &&
 					activeSession.item.subscribed &&
@@ -367,7 +382,6 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
 					isAskerInfoAvailable={isAskerInfoAvailable()}
-					legalLinks={props.legalLinks}
 				/>
 			</div>
 
@@ -376,7 +390,15 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				<div className="sessionInfo__metaInfo">
 					{!activeSession.agency ? (
 						<div className="sessionInfo__metaInfo__content">
-							{consultingType?.titles?.short}
+							{consultingType
+								? translate(
+										[
+											`consultingType.${consultingType.id}.titles.short`,
+											consultingType.titles.short
+										],
+										{ ns: 'consultingTypes' }
+								  )
+								: ''}
 						</div>
 					) : null}
 					{preparedUserSessionData
@@ -387,13 +409,17 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 										key={index}
 									>
 										{item.type === 'addictiveDrugs'
-											? getAddictiveDrugsString(
-													addictiveDrugs
+											? translate(
+													getAddictiveDrugsString(
+														addictiveDrugs
+													)
 											  )
-											: handleNumericTranslation(
-													translateBase,
-													item.type,
-													item.value
+											: translate(
+													handleNumericTranslation(
+														translateBase,
+														item.type,
+														item.value
+													)
 											  )}
 									</div>
 								) : null
@@ -402,7 +428,13 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					{activeSession.agency?.name && (
 						<div className="sessionInfo__metaInfo__content">
 							{' '}
-							{activeSession.agency.name}{' '}
+							{translate(
+								[
+									`agency.${activeSession.agency.id}.name`,
+									activeSession.agency.name
+								],
+								{ ns: 'agencies' }
+							)}{' '}
 						</div>
 					)}
 					{activeSession.agency && (

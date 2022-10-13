@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { VALID_POSTCODE_LENGTH } from '../components/agencySelection/agencySelectionHelpers';
 import { AgencyDataInterface } from '../globalState';
@@ -14,7 +14,7 @@ export const apiAgencySelection = async (params: {
 		.filter((key) => params[key] !== undefined)
 		.map((key) => key + '=' + params[key])
 		.join('&');
-	const url = config.endpoints.agencyServiceBase + '?' + queryStr;
+	const url = endpoints.agencyServiceBase + '?' + queryStr;
 
 	if (params.postcode.length === VALID_POSTCODE_LENGTH) {
 		return fetchData({

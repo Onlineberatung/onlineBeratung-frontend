@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { translate } from '../../utils/translate';
 import {
 	UserDataContext,
 	hasUserAuthority,
@@ -9,6 +8,7 @@ import {
 	ConsultingTypesContext,
 	SessionsDataContext,
 	SET_SESSIONS,
+	LocaleContext,
 	TenantContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
@@ -19,6 +19,8 @@ import {
 	apiFinishAnonymousConversation,
 	apiGetAskerSessionList
 } from '../../api';
+import { useTranslation } from 'react-i18next';
+import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { userHasBudibaseTools } from '../../api/apiGetTools';
 
 export interface NavigationBarProps {
@@ -31,9 +33,11 @@ export const NavigationBar = ({
 	onLogout,
 	routerConfig
 }: NavigationBarProps) => {
+	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions, dispatch } = useContext(SessionsDataContext);
+	const { selectableLocales } = useContext(LocaleContext);
 	const [sessionId, setSessionId] = useState(null);
 	const [hasTools, setHasTools] = useState<boolean>(false);
 	const isConsultant = hasUserAuthority(
@@ -170,28 +174,42 @@ export const NavigationBar = ({
 							</Link>
 						))}
 				<div
-					onClick={handleLogout}
-					onKeyDown={(event) => {
-						if (event.key === 'Enter') {
-							handleLogout();
-						}
-					}}
-					className={clsx(
-						'navigation__item navigation__item__logout',
-						{
-							'navigation__item__logout--consultant':
-								hasUserAuthority(
-									AUTHORITIES.CONSULTANT_DEFAULT,
-									userData
-								)
-						}
-					)}
-					tabIndex={0}
+					className={clsx('navigation__item__bottom', {
+						'navigation__item__bottom--consultant':
+							hasUserAuthority(
+								AUTHORITIES.CONSULTANT_DEFAULT,
+								userData
+							)
+					})}
 				>
-					<LogoutIcon className="navigation__icon" />
-					<span className="navigation__title">
-						{translate('app.logout')}
-					</span>
+					{selectableLocales.length > 1 && (
+						<div className="navigation__item navigation__item__language">
+							<LocaleSwitch
+								showIcon={true}
+								className="navigation__title"
+								updateUserData
+								vertical
+								iconSize={32}
+								label={translate('navigation.language')}
+								menuPlacement="right"
+							/>
+						</div>
+					)}
+					<div
+						onClick={handleLogout}
+						className={'navigation__item'}
+						onKeyDown={(event) => {
+							if (event.key === 'Enter') {
+								handleLogout();
+							}
+						}}
+						tabIndex={0}
+					>
+						<LogoutIcon className="navigation__icon" />
+						<span className="navigation__title">
+							{translate('app.logout')}
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>

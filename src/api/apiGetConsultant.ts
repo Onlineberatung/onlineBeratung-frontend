@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { ConsultantDataInterface } from '../globalState';
 import { apiGetConsultingType } from './apiGetConsultingType';
@@ -9,7 +9,7 @@ export const apiGetConsultant = async (
 	fetchConsultingTypes?: boolean,
 	consultingTypeDetail: 'full' | 'basic' = 'full'
 ): Promise<ConsultantDataInterface> => {
-	const url = config.endpoints.agencyConsultants + '/' + consultantId;
+	const url = endpoints.agencyConsultants + '/' + consultantId;
 
 	return fetchData({
 		url: url,

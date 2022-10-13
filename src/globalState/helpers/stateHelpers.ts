@@ -20,7 +20,6 @@ import {
 	isSessionChat,
 	SESSION_LIST_TYPES
 } from '../../components/session/sessionHelpers';
-import { translate } from '../../utils/translate';
 
 export type ExtendedSessionInterface = Omit<
 	ListItemInterface,
@@ -104,7 +103,10 @@ export const getExtendedSession = (
 	return buildExtendedSession(session, sessionGroupId);
 };
 
-export const getContact = (activeSession: ListItemInterface): any => {
+export const getContact = (
+	activeSession: ListItemInterface,
+	unknownTranslation: string
+): any => {
 	if (activeSession && activeSession.user) {
 		return activeSession.user;
 	}
@@ -114,7 +116,7 @@ export const getContact = (activeSession: ListItemInterface): any => {
 	}
 
 	return {
-		username: translate('sessionList.user.consultantUnknown')
+		username: unknownTranslation
 	};
 };
 

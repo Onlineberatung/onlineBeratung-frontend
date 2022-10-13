@@ -1,4 +1,4 @@
-import { config } from '../../src/resources/scripts/config';
+import { endpoints } from '../../src/resources/scripts/endpoints';
 import {
 	closeWebSocketServer,
 	mockWebSocket,
@@ -21,7 +21,7 @@ describe('registration', () => {
 
 	describe('addiction', () => {
 		beforeEach(() => {
-			cy.intercept(config.endpoints.topicsData, [
+			cy.intercept(endpoints.topicsData, [
 				{
 					id: 1,
 					name: 'Alkohol'

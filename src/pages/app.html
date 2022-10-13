@@ -42,50 +42,7 @@
 	</head>
 
 	<body role="document">
-		<p class="ieBanner" style="display: none">
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="72"
-				height="72"
-				viewbox="0 0 72 72"
-			>
-				<path
-					d="M37.7654935,7.31698782 L67.4353219,63.0603018 C67.9543029,64.035357 67.5845817,65.2465126 66.6095266,65.7654935 C66.3202373,65.9194701 65.9975433,66 65.6698284,66 L6.33017157,66 C5.22560207,66 4.33017157,65.1045695 4.33017157,64 C4.33017157,63.6722851 4.41070152,63.3495911 4.56467805,63.0603018 L34.2345065,7.31698782 C34.7534874,6.34193268 35.964643,5.9722115 36.9396982,6.49119247 C37.29099,6.67817038 37.5785156,6.96569598 37.7654935,7.31698782 Z M39,46 L39,26 L33,26 L33,46 L39,46 Z M39,56.4 L39,50.4 L33,50.4 L33,56.4 L39,56.4 Z"
-				/>
-			</svg>
-			Sie nutzen einen veralteten Browser. (Zum Beispiel: Internet
-			Explorer) Das kann zu Problemen mit unserer Anwendung führen.<br />
-			Verwenden Sie bitte einen modernen Browser. (Zum Beispiel: Google
-			Chrome oder Mozilla Firefox) Damit erhalten Sie ein gutes
-			Nutzungserlebnis unserer Anwendung.
-			<a class="close" href="#">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					xmlns:xlink="http://www.w3.org/1999/xlink"
-					width="72"
-					height="72"
-					viewbox="0 0 72 72"
-				>
-					<path
-						id="x-a"
-						d="M45.6482323,36.5771645 L65.5685425,56.4974747 C66.3495911,57.2785233 66.3495911,58.5448532 65.5685425,59.3259018 L59.3259018,65.5685425 C58.5448532,66.3495911 57.2785233,66.3495911 56.4974747,65.5685425 L36.5771645,45.6482323 L16.6568542,65.5685425 C15.8758057,66.3495911 14.6094757,66.3495911 13.8284271,65.5685425 L7.58578644,59.3259018 C6.80473785,58.5448532 6.80473785,57.2785233 7.58578644,56.4974747 L27.5060967,36.5771645 L7.58578644,16.6568542 C6.80473785,15.8758057 6.80473785,14.6094757 7.58578644,13.8284271 L13.8284271,7.58578644 C14.6094757,6.80473785 15.8758057,6.80473785 16.6568542,7.58578644 L36.5771645,27.5060967 L56.4974747,7.58578644 C57.2785233,6.80473785 58.5448532,6.80473785 59.3259018,7.58578644 L65.5685425,13.8284271 C66.3495911,14.6094757 66.3495911,15.8758057 65.5685425,16.6568542 L45.6482323,36.5771645 Z"
-					/>
-				</svg>
-			</a>
-			<script>
-				function hideIEBanner(e) {
-					e.preventDefault();
-					document
-						.querySelector('.ieBanner')
-						.parentNode.removeChild(
-							document.querySelector('.ieBanner')
-						);
-				}
-				document
-					.querySelector('.ieBanner a.close')
-					.addEventListener('click', hideIEBanner);
-			</script>
-		</p>
+		<div id="banner"></div>
 
 		<% if(type === 'error') { %>
 		<main

@@ -27,7 +27,11 @@ export const BookingReschedule = () => {
 		};
 	}, []);
 
-	const location = useLocation();
+	const location = useLocation<{
+		askerId: string;
+		rescheduleLink: string;
+		bookingId: number;
+	}>();
 
 	const userId = isConsultant ? location.state.askerId : userData.userId;
 

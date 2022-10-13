@@ -1,10 +1,12 @@
 import { ReactComponent as WaitingIllustration } from '../../../resources/img/illustrations/waiting.svg';
 import { Headline } from '../../headline/Headline';
-import { translate } from '../../../utils/translate';
 import * as React from 'react';
 import { Text } from '../../text/Text';
+import { useTranslation } from 'react-i18next';
 
 export const Waiting = () => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<>
 			<div className="waitingRoom__illustration">

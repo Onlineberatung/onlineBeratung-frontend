@@ -2,7 +2,7 @@ import { Button } from '../../../../components/button/Button';
 import * as React from 'react';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
 import { ReactNode, useCallback } from 'react';
-import { translate } from '../../../../utils/translate';
+import { useTranslation } from 'react-i18next';
 
 interface AvailableCalendarsProps {
 	buttonLabelKey: string;
@@ -17,6 +17,7 @@ export const Calendar: React.FC<AvailableCalendarsProps> = ({
 	children,
 	labelKey
 }) => {
+	const { t: translate } = useTranslation();
 	const settings = useAppConfig();
 
 	const syncCalendar = useCallback(

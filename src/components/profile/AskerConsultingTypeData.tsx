@@ -3,8 +3,7 @@ import { useContext } from 'react';
 import { useConsultingTypes, UserDataContext } from '../../globalState';
 import {
 	getAddictiveDrugsString,
-	handleNumericTranslation,
-	translate
+	handleNumericTranslation
 } from '../../utils/translate';
 import {
 	getAddictiveDrugsTranslatable,
@@ -12,21 +11,21 @@ import {
 } from './profileHelpers';
 import { Headline } from '../headline/Headline';
 import { Box } from '../box/Box';
+import { useTranslation } from 'react-i18next';
 
 export const AskerConsultingTypeData = () => {
+	const { t: translate } = useTranslation([
+		'common',
+		'consultingTypes',
+		'agencies'
+	]);
 	const { userData } = useContext(UserDataContext);
 	const consultingTypes = useConsultingTypes();
 
-	const preparedUserData = Object.keys(userData.consultingTypes).map(
-		(key) => {
-			return userData.consultingTypes[key];
-		}
-	);
-
 	return (
 		<>
-			{preparedUserData.map(
-				(resort, index) =>
+			{Object.values(userData.consultingTypes).map(
+				(resort: any, index) =>
 					resort.isRegistered &&
 					resort.agency && (
 						<Box key={index}>
@@ -37,13 +36,18 @@ export const AskerConsultingTypeData = () => {
 								<div className="profile__content__title">
 									<Headline
 										className="pr--3"
-										text={
-											consultingTypes.find(
-												(cur) =>
-													cur.id ===
-													resort.agency.consultingType
-											)?.titles.default
-										}
+										text={translate(
+											[
+												`consultingType.${resort.agency.consultingType}.titles.default`,
+												consultingTypes.find(
+													(cur) =>
+														cur.id ===
+														resort.agency
+															.consultingType
+												)?.titles.default
+											],
+											{ ns: 'consultingTypes' }
+										)}
 										semanticLevel="5"
 									/>
 								</div>
@@ -70,27 +74,31 @@ export const AskerConsultingTypeData = () => {
 													{resort.sessionData[item]
 														? item ===
 														  'addictiveDrugs'
-															? getAddictiveDrugsString(
-																	getAddictiveDrugsTranslatable(
+															? translate(
+																	getAddictiveDrugsString(
+																		getAddictiveDrugsTranslatable(
+																			resort
+																				.sessionData[
+																				item
+																			]
+																		)
+																	)
+															  )
+															: translate(
+																	handleNumericTranslation(
+																		getUserDataTranslateBase(
+																			parseInt(
+																				resort
+																					.agency
+																					.consultingType
+																			)
+																		),
+																		item,
 																		resort
 																			.sessionData[
 																			item
 																		]
 																	)
-															  )
-															: handleNumericTranslation(
-																	getUserDataTranslateBase(
-																		parseInt(
-																			resort
-																				.agency
-																				.consultingType
-																		)
-																	),
-																	item,
-																	resort
-																		.sessionData[
-																		item
-																	]
 															  )
 														: translate(
 																'profile.noContent'
@@ -101,10 +109,17 @@ export const AskerConsultingTypeData = () => {
 									)}
 								<div className="profile__data__item">
 									<p className="profile__data__label">
-										{translate('profile.data.agency')}
+										{translate('profile.data.agency.label')}
 									</p>
 									<p className="profile__data__content">
-										{resort.agency.name} <br />
+										{translate(
+											[
+												`agency.${resort.agency.id}.name`,
+												resort.agency.name
+											],
+											{ ns: 'agencies' }
+										)}{' '}
+										<br />
 										{resort.agency.postcode}
 										{resort.agency.city
 											? ' ' + resort.agency.city

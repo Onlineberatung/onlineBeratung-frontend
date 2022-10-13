@@ -9,7 +9,6 @@ import {
 	UserDataContext,
 	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
@@ -20,9 +19,11 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditableData } from '../editableData/EditableData';
 import useUpdateUserData from '../../utils/useUpdateUserData';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
+import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const ConsultantInformation = () => {
+	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 	const updateUserData = useUpdateUserData();
 	const [isEditEnabled, setIsEditEnabled] = useState(false);
@@ -143,6 +144,7 @@ const PersonalRegistrationLink = ({
 	cid,
 	className
 }: PersonalRegistrationLinkProps) => {
+	const { t: translate } = useTranslation();
 	const settings = useAppConfig();
 
 	const { addNotification } = useContext(NotificationsContext);
@@ -162,7 +164,7 @@ const PersonalRegistrationLink = ({
 				});
 			}
 		);
-	}, [settings.urls.registration, cid, addNotification]);
+	}, [settings.urls.registration, cid, addNotification, translate]);
 
 	return (
 		<div

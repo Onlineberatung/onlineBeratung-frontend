@@ -1,8 +1,8 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiPutDearchive = async (sessionId: number): Promise<any> => {
-	const url = `${config.endpoints.sessionBase}/${sessionId}/dearchive`;
+	const url = `${endpoints.sessionBase}/${sessionId}/dearchive`;
 
 	return fetchData({
 		url: url,
