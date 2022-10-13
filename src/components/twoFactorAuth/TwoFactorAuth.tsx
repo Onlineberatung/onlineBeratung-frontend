@@ -253,7 +253,8 @@ export const TwoFactorAuth = () => {
 			twoFactorType,
 			updateUserData,
 			userData.twoFactorAuth.secret,
-			translate
+			translate,
+			setClosedTwoFactorNag
 		]
 	);
 
