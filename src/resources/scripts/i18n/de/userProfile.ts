@@ -25,7 +25,9 @@ const userProfile = {
 	'tools.modal.confirm': 'Freischalten',
 	'tools.share.title':
 		'Sehen Sie hier welche Inhalte mit Ihnen geteilt wurden.',
-	'tools.share.sharedContent': 'Zu den geteilten Inhalten'
+	'tools.share.sharedContent': 'Zu den geteilten Inhalten',
+	'tools.share.info':
+		'Nur zugewiesene Berater:innen können die Inhalte der Ratsuchenden einsehen. Wenn Sie aus der Teamberatung auf die Inhalte zugreifen, sind die Ratsuchenden nicht vorausgewählt.'
 };
 
 export default userProfile;

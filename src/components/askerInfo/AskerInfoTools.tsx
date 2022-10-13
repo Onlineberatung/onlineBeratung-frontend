@@ -45,6 +45,7 @@ export const AskerInfoTools = ({ askerId }: AskerInfoToolsProps) => {
 				type="divider"
 			/>
 			<button
+				title={translate('userProfile.tools.share.sharedContent')}
 				type="button"
 				className="asker-info-tools__button text--tertiary primary button-as-link"
 				onClick={openToolsLink}
