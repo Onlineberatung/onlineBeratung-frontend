@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useContext, useEffect, useState, useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { encode } from 'hi-base32';
-import { UserDataContext } from '../../globalState';
+import { ModalContext, UserDataContext } from '../../globalState';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import Switch from 'react-switch';
@@ -55,6 +55,7 @@ export const TwoFactorAuth = () => {
 	const location = useLocation<{ openTwoFactor?: boolean }>();
 
 	const { userData } = useContext(UserDataContext);
+	const { setClosedTwoFactorNag } = useContext(ModalContext);
 	const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(
 		userData.twoFactorAuth.isActive
 	);
@@ -123,7 +124,8 @@ export const TwoFactorAuth = () => {
 		setHasDuplicateError(false);
 		setOtpLabel(defaultOtpLabel);
 		setOtpLabelState(null);
-	}, [defaultOtpLabel]);
+		setClosedTwoFactorNag(true);
+	}, [defaultOtpLabel, setClosedTwoFactorNag]);
 
 	const handleOverlayClose = useCallback(() => {
 		setOverlayActive(false);
@@ -136,12 +138,14 @@ export const TwoFactorAuth = () => {
 		setOtpLabelState(null);
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
 		setTwoFactorType(userData.twoFactorAuth.type || TWO_FACTOR_TYPES.APP);
+		setClosedTwoFactorNag(true);
 	}, [
 		defaultOtpLabel,
 		userData.email,
 		userData.twoFactorAuth.isActive,
 		userData.twoFactorAuth.type,
-		translate
+		translate,
+		setClosedTwoFactorNag
 	]);
 
 	const otpInputItem: InputFieldItem = useMemo(
@@ -206,10 +210,12 @@ export const TwoFactorAuth = () => {
 					secret: userData.twoFactorAuth.secret,
 					otp
 				};
+				setClosedTwoFactorNag(true);
 			}
 			if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
 				apiCall = apiPostTwoFactorAuthEmailWithCode;
 				apiData = otp;
+				setClosedTwoFactorNag(true);
 			}
 
 			if (twoFactorType === TWO_FACTOR_TYPES.NONE) return;

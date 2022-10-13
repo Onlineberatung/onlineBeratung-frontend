@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { UserDataContext } from '../../globalState';
+import { UserDataContext, ModalContext } from '../../globalState';
 import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import './twoFactorNag.styles';
@@ -20,6 +20,7 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 
 	const settings = useAppConfig();
 	const { userData } = useContext(UserDataContext);
+	const { setClosedTwoFactorNag } = useContext(ModalContext);
 	const { getDevToolbarOption } = useDevToolbar();
 	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
 	const [forceHideTwoFactorNag, setForceHideTwoFactorNag] = useState(false);
@@ -60,6 +61,7 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const closeTwoFactorNag = async () => {
 		setForceHideTwoFactorNag(true);
 		setIsShownTwoFactorNag(false);
+		setClosedTwoFactorNag(true);
 	};
 
 	const handleOverlayAction = (buttonFunction: string) => {
@@ -76,6 +78,7 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			setForceHideTwoFactorNag(true);
 			setIsShownTwoFactorNag(false);
+			setClosedTwoFactorNag(true);
 		}
 	};
 

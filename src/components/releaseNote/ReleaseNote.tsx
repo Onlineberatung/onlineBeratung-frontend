@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
@@ -18,6 +18,7 @@ import {
 	STORAGE_KEY_RELEASE_NOTES,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
+import { ModalContext } from '../../globalState';
 
 interface ReleaseNoteProps {}
 
@@ -37,6 +38,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const [checkboxChecked, setCheckboxChecked] = useState(false);
 	const [releaseNoteText, setReleaseNoteText] = useState('');
 	const [latestReleaseNote, setLatestReleaseNote] = useState('');
+	const { setClosedReleaseNote } = useContext(ModalContext);
 
 	const readReleaseNote = useMemo(
 		() => localStorage.getItem(STORAGE_KEY) ?? '0',
@@ -106,8 +108,14 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 			})
 			.catch(() => {
 				setShowRelaseNote(false);
+				setClosedReleaseNote(true);
 			});
-	}, [getDevToolbarOption, readReleaseNote, settings.urls.releases]);
+	}, [
+		getDevToolbarOption,
+		readReleaseNote,
+		settings.urls.releases,
+		setClosedReleaseNote
+	]);
 
 	const changeHasSeenReleaseNote = () => {
 		setCheckboxChecked(!checkboxChecked);
@@ -125,14 +133,23 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		name: 'seen'
 	};
 
-	if (!showReleaseNote) return null;
+	const handleOverlayClose = () => {
+		setShowRelaseNote(false);
+		setClosedReleaseNote(true);
+	};
 
+	const handleOverlay = () => {
+		setShowRelaseNote(false);
+		setClosedReleaseNote(true);
+	};
+
+	if (!showReleaseNote) return null;
 	return (
 		<OverlayWrapper>
 			<Overlay
 				className="releaseNote"
-				handleOverlayClose={() => setShowRelaseNote(false)}
-				handleOverlay={() => setShowRelaseNote(false)}
+				handleOverlayClose={() => handleOverlayClose()}
+				handleOverlay={() => handleOverlay()}
 				item={{
 					illustrationBackground: 'neutral',
 					svg: newIllustration,
