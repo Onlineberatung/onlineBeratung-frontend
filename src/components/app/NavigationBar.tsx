@@ -103,10 +103,13 @@ export const NavigationBar = ({
 		}, 1000);
 	}, [unreadSessions, unreadGroup, unreadTeamSessions]);
 
+	const notificationConsultant = isConsultant ? 0 : unreadTeamSessions.length;
+
 	const pathsToShowUnreadMessageNotification = {
 		'/sessions/consultant/sessionView':
 			unreadSessions.length + unreadGroup.length,
-		'/sessions/user/view': unreadSessions.length + unreadGroup.length,
+		'/sessions/user/view':
+			unreadSessions.length + unreadGroup.length + notificationConsultant,
 		'/sessions/consultant/teamSessionView': unreadTeamSessions.length
 	};
 
