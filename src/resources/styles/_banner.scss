@@ -1,4 +1,4 @@
-#banner {
+.banner {
 	position: sticky;
 	top: 0;
 	left: 0;
@@ -7,7 +7,7 @@
 	padding: 0;
 	z-index: 500;
 
-	.banner__element {
+	&__element {
 		position: relative;
 		background: $form-medium;
 		color: $secondary;
