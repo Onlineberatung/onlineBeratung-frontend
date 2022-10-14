@@ -7,7 +7,7 @@ import {
 	useRef,
 	useState
 } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { E2EEContext } from '../../globalState';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import './session.styles';
@@ -22,15 +22,14 @@ import { SESSION_LIST_TAB } from './sessionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { createGroupKey } from '../../utils/encryptionHelpers';
 import { encryptRoom } from '../../utils/e2eeHelper';
-import { translate } from '../../utils/translate';
 import { apiEnquiryAcceptance, FETCH_ERRORS } from '../../api';
-import { history } from '../app/app';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { useWatcher } from '../../hooks/useWatcher';
 import { apiGetSessionRoomBySessionId } from '../../api/apiGetSessionRooms';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
+import { useTranslation } from 'react-i18next';
 
 interface AcceptAssignProps {
 	assignable: boolean;
@@ -45,9 +44,11 @@ export const AcceptAssign = ({
 	btnLabel,
 	isAnonymous
 }: AcceptAssignProps) => {
-	const { activeSession } = useContext(ActiveSessionContext);
+	const { t: translate } = useTranslation();
+	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
+	const history = useHistory();
 
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { activeSession } = useContext(ActiveSessionContext);
 	const abortController = useRef<AbortController>(null);
 
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>(null);
@@ -67,36 +68,36 @@ export const AcceptAssign = ({
 	const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = useMemo(
 		() => ({
 			svg: CheckIcon,
-			headline: translate('session.acceptance.overlayHeadline'),
+			headline: translate('session.acceptance.overlay.headline'),
 			buttonSet: [
 				{
-					label: translate('session.acceptance.buttonLabel'),
+					label: translate('session.acceptance.button.label'),
 					function: OVERLAY_FUNCTIONS.REDIRECT,
 					type: BUTTON_TYPES.PRIMARY
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const enquiryTakenByOtherConsultantOverlayItem: OverlayItem = useMemo(
 		() => ({
 			svg: XIcon,
 			headline: translate(
-				'session.anonymous.takenByOtherConsultant.overlayHeadline'
+				'session.anonymous.takenByOtherConsultant.overlay.headline'
 			),
 			illustrationBackground: 'error',
 			buttonSet: [
 				{
 					label: translate(
-						'session.anonymous.takenByOtherConsultant.buttonLabel'
+						'session.anonymous.takenByOtherConsultant.button.label'
 					),
 					function: OVERLAY_FUNCTIONS.CLOSE,
 					type: BUTTON_TYPES.PRIMARY
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	useEffect(() => {

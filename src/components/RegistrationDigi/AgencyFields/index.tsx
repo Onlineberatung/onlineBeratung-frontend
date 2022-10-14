@@ -1,10 +1,10 @@
 import React from 'react';
 import { FieldContext } from 'rc-field-form';
 import { ConsultingTypeBasicInterface } from '../../../globalState/interfaces/ConsultingTypeInterface';
-import { translate } from '../../../utils/translate';
 import { InputFormField } from '../InputFormField';
 import { AgencySelection } from './AgencySelection';
 import { AgencyDataInterface } from '../../../globalState';
+import { useTranslation } from 'react-i18next';
 
 interface AgencySelectionFormFieldProps {
 	preselectedAgencies: AgencyDataInterface[];
@@ -17,7 +17,7 @@ export const AgencySelectionFormField = ({
 	preselectedAgencies
 }: AgencySelectionFormFieldProps) => {
 	const field = React.useContext(FieldContext);
-
+	const { t: translate } = useTranslation();
 	const { mainTopicId, gender, age } = field.getFieldsValue();
 
 	return (

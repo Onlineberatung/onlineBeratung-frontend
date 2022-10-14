@@ -181,7 +181,7 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 	return [...messagesData].map((message) => {
 		const date = new Date(message.ts).getTime();
 		const dateFormated = formatToDDMMYYYY(date);
-		let lastDateStr = '';
+		let lastDateStr = { str: '', date: null };
 
 		if (lastDate !== dateFormated) {
 			lastDate = dateFormated;

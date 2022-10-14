@@ -52,6 +52,7 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 	&__claim {
 		margin: auto 0 auto auto;
 		display: none;
+		margin-right: $grid-base-seven;
 
 		@media (min-width: $fromLarge) {
 			display: block;

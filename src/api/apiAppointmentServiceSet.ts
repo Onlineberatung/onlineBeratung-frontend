@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { FETCH_METHODS, fetchData } from './fetchData';
 
 export const apiAppointmentServiceSet = async (
@@ -9,7 +9,7 @@ export const apiAppointmentServiceSet = async (
 		...content,
 		messageType: 'APPOINTMENT_SET'
 	};
-	const url = config.endpoints.appointmentBaseNew(sessionId);
+	const url = endpoints.appointmentBaseNew(sessionId);
 	return fetchData({
 		url,
 		rcValidation: true,

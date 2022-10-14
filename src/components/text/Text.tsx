@@ -1,10 +1,12 @@
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import './text.styles';
 
 export type TextTypeOptions =
 	| 'standard'
 	| 'infoLargeStandard'
 	| 'infoLargeAlternative'
+	| 'infoMedium'
 	| 'infoSmall'
 	| 'divider';
 
@@ -20,21 +22,23 @@ export enum LABEL_TYPES {
 	NOTICE = 'NOTICE'
 }
 
-const getLabelContent = (type: string) => {
-	let labelContent = {
-		className: '',
-		text: ''
+export const Text = (props: TextProps) => {
+	const { t: translate } = useTranslation();
+
+	const getLabelContent = (type: string) => {
+		let labelContent = {
+			className: '',
+			text: ''
+		};
+
+		if (type === LABEL_TYPES.NOTICE) {
+			labelContent.className = 'text__label--notice';
+			labelContent.text = translate('text.label.hint');
+		}
+
+		return labelContent;
 	};
 
-	if (type === LABEL_TYPES.NOTICE) {
-		labelContent.className = 'text__label--notice';
-		labelContent.text = 'Hinweis';
-	}
-
-	return labelContent;
-};
-
-export const Text = (props: TextProps) => {
 	return (
 		<p
 			className={`text text__${props.type} ${

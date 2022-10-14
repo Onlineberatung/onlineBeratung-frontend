@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -7,8 +6,11 @@ import { ReactComponent as NewWindowIcon } from '../../resources/img/icons/new-w
 import { ReactComponent as PersonsTwoIcon } from '../../resources/img/icons/persons-two-google.svg';
 import './tools.styles';
 import { ToolsListInterface } from '../../globalState/interfaces/ToolsInterface';
+import { useTranslation } from 'react-i18next';
 
 export const Tool = (params: ToolsListInterface) => {
+	const { t: translate } = useTranslation();
+
 	const deleteAccountButton: ButtonItem = {
 		label: translate('tools.button.label'),
 		type: BUTTON_TYPES.TERTIARY

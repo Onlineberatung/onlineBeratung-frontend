@@ -7,14 +7,6 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		align-items: center;
 		justify-content: center;
 		padding: $grid-base-four 0;
-
-		@media (min-width: $fromMedium) {
-			position: absolute;
-			top: $grid-base-six;
-			left: auto;
-			right: $grid-base-seven;
-			padding: 0;
-		}
 	}
 
 	&__tenantRegistrationLink {
@@ -23,22 +15,25 @@ $link-hover-text-decoration: $link-text-decoration !default;
 }
 
 .loginForm {
+	margin: 0;
 	display: flex;
 	justify-content: center;
 	align-items: $login-align-items;
-	flex-direction: column;
-	text-align: $login-text-align;
+	text-align: center;
 	width: 100%;
 
 	.button-as-link {
 		border: none;
 		background: none;
 		color: $primary;
+		text-decoration: underline;
+		padding-left: 0px;
+		margin-top: $grid-base-four;
 
 		&:focus-visible {
 			outline: $focus-outline;
 			outline-offset: 4px;
-			border-radius: 4px;
+			border-radius: $login-button-focus-border-radius;
 		}
 
 		&:focus:not(:focus-visible) {
@@ -47,12 +42,17 @@ $link-hover-text-decoration: $link-text-decoration !default;
 
 		&:hover {
 			cursor: pointer;
+			color: var(--skin-color-primary-hover, $hover-primary);
 		}
+	}
+
+	.consulting-topics {
+		margin: 0;
 	}
 
 	.inputField {
 		width: 280px;
-		margin-bottom: $grid-base-three;
+		margin-bottom: $grid-base-two;
 
 		@include breakpoint($fromLarge) {
 			width: 320px;
@@ -83,19 +83,14 @@ $link-hover-text-decoration: $link-text-decoration !default;
 
 	&__error {
 		color: $form-error;
-		max-width: 245px;
-		margin-left: $grid-base-five;
+		max-width: 320px;
 		margin-bottom: $grid-base-four;
 	}
 
 	.button__item {
-		width: $login-button-width;
-		margin-top: $grid-base-five;
+		width: 100%;
+		margin-top: $grid-base-two;
 		transform: $login-icon-transform;
-
-		@media (min-width: $fromLarge) {
-			width: $login-button-width-large;
-		}
 	}
 
 	&__passwordReset {
@@ -112,30 +107,35 @@ $link-hover-text-decoration: $link-text-decoration !default;
 	}
 
 	&__register {
-		margin-top: $grid-base-five;
-		transform: $login-icon-transform;
-		display: flex;
-		flex-direction: column;
-		align-items: $login-text-align;
+		margin-top: $grid-base-four;
 
-		& > .text {
-			position: relative;
+		&__separator {
+			width: 100%;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+			text-align: center;
+			height: 18px;
+			margin-bottom: 15px;
+			font-size: $font-size-secondary;
 
-			&:first-of-type {
-				margin-bottom: 6px;
-			}
-
-			&:last-of-type {
-				margin-bottom: $grid-base-two;
+			span {
+				line-height: 15px;
+				padding: 0 10px;
+				background: white;
+				display: inline-block;
+				margin-top: 10px;
+				color: $black-65-opacity;
+				text-transform: uppercase;
+				letter-spacing: 1.5px;
+				font-weight: 500;
 			}
 		}
 
-		&__link {
-			display: block;
-			font-weight: $font-weight-bold;
-			text-decoration: none;
-			text-transform: uppercase;
-			width: max-content;
+		&__content {
+			.text {
+				font-weight: 600;
+				text-align: center;
+			}
+			margin-top: $grid-base-six;
 		}
 	}
 

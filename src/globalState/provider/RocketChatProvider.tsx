@@ -31,7 +31,7 @@ import {
 	SUBSCRIPTION_PARAMS,
 	SUBSCRIPTIONS
 } from '../../components/app/RocketChat';
-import { apiUrl } from '../../resources/scripts/config';
+import { apiUrl } from '../../resources/scripts/endpoints';
 
 const RECONNECT_TIMEOUT = 2000;
 
@@ -89,6 +89,8 @@ export function RocketChatProvider(props) {
 	}, []);
 
 	const close = useCallback(() => {
+		if (rcWebsocketTimeout.current)
+			window.clearTimeout(rcWebsocketTimeout.current);
 		if (rcWebsocket.current) {
 			rcWebsocket.current.close();
 		}
@@ -349,12 +351,15 @@ export function RocketChatProvider(props) {
 		if (!rcWebsocket.current) {
 			connect();
 		}
+		const websocket = rcWebsocket.current;
 
 		return () => {
-			close();
-			if (rcWebsocket.current) rcWebsocket.current = null;
 			if (rcWebsocketTimeout.current)
 				window.clearTimeout(rcWebsocketTimeout.current);
+			if (websocket) {
+				websocket.close();
+				rcWebsocket.current = null;
+			}
 			subscriptions.current = {};
 			listeners.current = {};
 		};

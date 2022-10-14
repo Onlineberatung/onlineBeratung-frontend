@@ -3,8 +3,8 @@ import { FormInstance } from 'rc-field-form';
 import React, { useCallback, useState, Children, useRef } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { InvalidIcon } from '../../../resources/img/icons';
-import { translate } from '../../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../../button/Button';
+import { useTranslation } from 'react-i18next';
 import './formAccordion.styles.scss';
 
 interface FormAccordionProps {
@@ -129,6 +129,8 @@ export const FormAccordionPanel = ({
 	const isValid = !(
 		formContext.isFieldsTouched(fieldsToCheck) && isFieldsInValid
 	);
+
+	const { t: translate } = useTranslation();
 
 	const buttonAnswerVideoCall: ButtonItem = {
 		title: translate('registration.accordion.item.continueButton.title'),

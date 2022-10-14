@@ -27,7 +27,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 
 		.checkbox {
 			&__wrapper {
-				justify-content: start;
+				justify-content: flex-start;
 				margin-left: 18px;
 			}
 
@@ -112,7 +112,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 		}
 
 		&__input {
-			line-height: 19px;
+			line-height: 20px;
 			width: 100%;
 			border: $inputBorder;
 			border-radius: 0 $enquiry-input-border-radius

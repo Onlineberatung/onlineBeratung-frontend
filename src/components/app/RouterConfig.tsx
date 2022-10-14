@@ -119,7 +119,7 @@ export const RouterConfigUser = (
 				to: '/sessions/user/view',
 				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
-					large: 'navigation.asker.sessions',
+					large: 'navigation.asker.sessions.large',
 					small: 'navigation.asker.sessions.small'
 				}
 			},
@@ -228,7 +228,7 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 				to: '/sessions/consultant/sessionView',
 				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
-					large: 'navigation.consultant.sessions',
+					large: 'navigation.consultant.sessions.large',
 					small: 'navigation.consultant.sessions.small'
 				}
 			},
@@ -385,7 +385,7 @@ export const RouterConfigTeamConsultant = (
 				to: '/sessions/consultant/sessionView',
 				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
-					large: 'navigation.consultant.sessions',
+					large: 'navigation.consultant.sessions.large',
 					small: 'navigation.consultant.sessions.small'
 				}
 			},
@@ -393,7 +393,7 @@ export const RouterConfigTeamConsultant = (
 				to: '/sessions/consultant/teamSessionView',
 				icon: <SpeechBubbleTeamIcon className="navigation__icon" />,
 				titleKeys: {
-					large: 'navigation.consultant.teamsessions',
+					large: 'navigation.consultant.teamsessions.large',
 					small: 'navigation.consultant.teamsessions.small'
 				}
 			},
@@ -584,7 +584,7 @@ export const RouterConfigMainConsultant = (
 	const config = RouterConfigTeamConsultant(settings);
 
 	config.navigation[3].titleKeys = {
-		large: 'navigation.consultant.peersessions',
+		large: 'navigation.consultant.peersessions.large',
 		small: 'navigation.consultant.peersessions.small'
 	};
 	return config;
@@ -597,7 +597,7 @@ export const RouterConfigAnonymousAsker = (): any => {
 				to: '/sessions/user/view',
 				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
-					large: 'navigation.asker.sessions',
+					large: 'navigation.asker.sessions.large',
 					small: 'navigation.asker.sessions.small'
 				}
 			}

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
@@ -18,18 +17,20 @@ import { ReactComponent as EditIcon } from '../../resources/img/icons/pen.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { SessionTypeContext } from '../../globalState';
 import { useSearchParam } from '../../hooks/useSearchParams';
-
-const buttonSet: ButtonItem = {
-	label: translate('userProfile.monitoring.buttonLabel'),
-	function: OVERLAY_FUNCTIONS.REDIRECT,
-	type: BUTTON_TYPES.SECONDARY
-};
+import { useTranslation } from 'react-i18next';
 
 export const AskerInfoMonitoring = () => {
+	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const [monitoringData, setMonitoringData] = useState({});
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
+
+	const buttonSet: ButtonItem = {
+		label: translate('userProfile.monitoring.buttonLabel'),
+		function: OVERLAY_FUNCTIONS.REDIRECT,
+		type: BUTTON_TYPES.SECONDARY
+	};
 
 	useEffect(() => {
 		apiGetMonitoring(activeSession.item.id)

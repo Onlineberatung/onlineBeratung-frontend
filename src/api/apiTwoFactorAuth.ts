@@ -1,11 +1,11 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 
 export const apiPutTwoFactorAuthApp = async (body: {
 	secret: string;
 	otp: string;
 }): Promise<any> => {
-	const url = config.endpoints.twoFactorAuthApp;
+	const url = endpoints.twoFactorAuthApp;
 
 	return fetchData({
 		url: url,
@@ -16,7 +16,7 @@ export const apiPutTwoFactorAuthApp = async (body: {
 };
 
 export const apiPutTwoFactorAuthEmail = async (email: string): Promise<any> => {
-	const url = config.endpoints.twoFactorAuthEmail;
+	const url = endpoints.twoFactorAuthEmail;
 
 	return fetchData({
 		url: url,
@@ -32,7 +32,7 @@ export const apiPutTwoFactorAuthEmail = async (email: string): Promise<any> => {
 export const apiPatchTwoFactorAuthEncourage = async (
 	isToEncourage: boolean
 ): Promise<any> => {
-	const url = config.endpoints.userData;
+	const url = endpoints.userData;
 
 	return fetchData({
 		url: url,
@@ -45,7 +45,7 @@ export const apiPatchTwoFactorAuthEncourage = async (
 export const apiPostTwoFactorAuthEmailWithCode = async (
 	code: string
 ): Promise<any> => {
-	const url = config.endpoints.twoFactorAuthEmail + '/validate/' + code;
+	const url = endpoints.twoFactorAuthEmail + '/validate/' + code;
 
 	return fetchData({
 		url: url,
@@ -55,7 +55,7 @@ export const apiPostTwoFactorAuthEmailWithCode = async (
 };
 
 export const apiDeleteTwoFactorAuth = async (): Promise<any> => {
-	const url = config.endpoints.twoFactorAuth;
+	const url = endpoints.twoFactorAuth;
 
 	return fetchData({
 		url: url,

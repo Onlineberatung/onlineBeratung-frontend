@@ -3,8 +3,8 @@ import './formAccordionItem.styles';
 import { ReactComponent as ValidIcon } from '../../resources/img/icons/checkmark.svg';
 import { ReactComponent as InvalidIcon } from '../../resources/img/icons/exclamation-mark.svg';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { translate } from '../../utils/translate';
 import { AccordionItemValidity } from '../registration/registrationHelpers';
+import { useTranslation } from 'react-i18next';
 
 interface FormAccordionItemProps {
 	title: string;
@@ -18,6 +18,7 @@ interface FormAccordionItemProps {
 }
 
 export const FormAccordionItem = (props: FormAccordionItemProps) => {
+	const { t: translate } = useTranslation();
 	const handleStepSubmit = () => {
 		props.onStepSubmit(props.index);
 	};
@@ -26,10 +27,10 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 		props.onItemHeaderClick(props.index);
 	};
 
-	const buttonAnswerVideoCall: ButtonItem = {
+	const buttonNextStep: ButtonItem = {
 		title: translate('registration.accordion.item.continueButton.title'),
-		label: translate('registration.accordion.item.continueButton'),
-		type: BUTTON_TYPES.LINK
+		label: translate('registration.accordion.item.continueButton.label'),
+		type: BUTTON_TYPES.SECONDARY
 	};
 
 	return (
@@ -45,7 +46,7 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 				onClick={handleOnHeaderClick}
 			>
 				<span className="formAccordionItem__index">{props.index}</span>
-				<h3 className="formAccordionItem__title">{props.title}</h3>
+				<h4 className="formAccordionItem__title">{props.title}</h4>
 				{props.isValid === 'valid' && (
 					<ValidIcon className="formAccordionItem__validationIcon formAccordionItem__validationIcon--valid" />
 				)}
@@ -58,9 +59,9 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 				{!props.isLastItem && (
 					<Button
 						buttonHandle={handleStepSubmit}
-						item={buttonAnswerVideoCall}
+						item={buttonNextStep}
 						disabled={props.isValid !== 'valid'}
-						className="formAccordionItem__continueButton"
+						className="formAccordionItem__nextbutton"
 					/>
 				)}
 			</div>

@@ -1,4 +1,4 @@
-import { config } from '../../src/resources/scripts/config';
+import { endpoints } from '../../src/resources/scripts/endpoints';
 import {
 	closeWebSocketServer,
 	mockWebSocket,
@@ -23,7 +23,7 @@ describe('profile', () => {
 	describe('asker', () => {
 		it('can register for a new consulting type with an external agency', () => {
 			cy.intercept(
-				config.endpoints.agencyServiceBase +
+				endpoints.agencyServiceBase +
 					'?postcode=00000&consultingType=0',
 				[
 					{
@@ -55,7 +55,7 @@ describe('profile', () => {
 			cy.get('.select__input__option:contains("Suchtberatung")').click();
 
 			cy.get('[name="postcode"]').type('00000');
-			cy.contains('Schwangerschaftsberatung Baden');
+			cy.contains('JUGEND SUCHT BERATUNG Köln, SKM e.V. Köln');
 			cy.contains('Registrieren').click();
 			cy.contains(
 				'Ihre gewählte Beratungsstelle nutzt eine andere Anwendung für die Beratung'
@@ -74,7 +74,7 @@ describe('profile', () => {
 
 		it('can register for a new consulting type with an internal agency', () => {
 			cy.intercept(
-				config.endpoints.agencyServiceBase +
+				endpoints.agencyServiceBase +
 					'?postcode=00000&consultingType=0',
 				[
 					{
@@ -92,7 +92,7 @@ describe('profile', () => {
 				]
 			);
 
-			cy.intercept(config.endpoints.registerAskerNewConsultingType, {
+			cy.intercept(endpoints.registerAskerNewConsultingType, {
 				sessionId: 902,
 				status: 'CREATED'
 			});
@@ -105,7 +105,7 @@ describe('profile', () => {
 			cy.get('.select__input__option:contains("Suchtberatung")').click();
 
 			cy.get('[name="postcode"]').type('00000');
-			cy.contains('Schwangerschaftsberatung Baden');
+			cy.contains('JUGEND SUCHT BERATUNG Köln, SKM e.V. Köln');
 			cy.contains('Registrieren').click();
 
 			cy.contains(
@@ -177,7 +177,7 @@ describe('profile', () => {
 		});
 
 		it('deactivate and activate email notification consultant', () => {
-			cy.intercept(config.endpoints.userData, {
+			cy.intercept(endpoints.userData, {
 				emailToggles: [
 					{
 						name: 'DAILY_ENQUIRY',
@@ -195,23 +195,26 @@ describe('profile', () => {
 			});
 
 			cy.contains('Profil').should('exist').click();
-			cy.contains('Benachrichtigungen').should('exist').click();
+			cy.contains('Einstellungen').should('exist').click();
 			cy.contains('E-Mail Benachrichtigung');
 			cy.get('.notifications__content .mr--1 input').should(
 				'have.attr',
-				'aria-checked'
-			);
-
-			cy.get('.notifications__content .mr--1').click();
-			cy.get('.notifications__content .mr--1 input').should(
-				'not.have.attr',
-				'aria-checked'
+				'aria-checked',
+				'true'
 			);
 
 			cy.get('.notifications__content .mr--1').click();
 			cy.get('.notifications__content .mr--1 input').should(
 				'have.attr',
-				'aria-checked'
+				'aria-checked',
+				'false'
+			);
+
+			cy.get('.notifications__content .mr--1').click();
+			cy.get('.notifications__content .mr--1 input').should(
+				'have.attr',
+				'aria-checked',
+				'true'
 			);
 		});
 	});

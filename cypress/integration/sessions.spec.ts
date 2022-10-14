@@ -7,7 +7,6 @@ import {
 	generateMultipleAskerSessions,
 	generateMultipleConsultantSessions
 } from '../support/sessions';
-import sessionListI18n from '../../src/resources/scripts/i18n/de/sessionList';
 import {
 	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
 	SCROLL_PAGINATE_THRESHOLD
@@ -166,10 +165,9 @@ describe('Sessions', () => {
 		it('should show a header with headline', () => {
 			cy.fastLogin();
 			cy.wait('@consultingTypeServiceBaseBasic');
-
 			cy.get('[data-cy=session-list-header]').should('exist');
 			cy.get('[data-cy=session-list-headline]').contains(
-				sessionListI18n['view.headline']
+				'Meine Beratungen'
 			);
 		});
 

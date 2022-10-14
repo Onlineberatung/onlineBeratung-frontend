@@ -7,7 +7,6 @@ import './waitingRoom.styles';
 import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
 import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
-import { translate } from '../../utils/translate';
 import { useContext, useEffect, useState } from 'react';
 import {
 	AnonymousRegistrationResponse,
@@ -30,26 +29,33 @@ import {
 import {
 	AnonymousConversationFinishedContext,
 	AnonymousEnquiryAcceptedContext,
-	LegalLinkInterface,
 	WebsocketConnectionDeactivatedContext,
 	AnonymousConversationStartedContext
 } from '../../globalState';
 import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
-import { history } from '../app/app';
 import {
 	acceptanceOverlayItem,
 	rejectionOverlayItem
 } from './waitingRoomHelpers';
 import { handleTokenRefresh, setTokens } from '../auth/auth';
 import { handleE2EESetup } from '../registration/autoLogin';
+import { useTranslation } from 'react-i18next';
+import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
+import { isMobile } from 'react-device-detect';
+import { useHistory } from 'react-router-dom';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
-	legalLinks: Array<LegalLinkInterface>;
 	onAnonymousRegistration: Function;
 }
 
 export const WaitingRoom = (props: WaitingRoomProps) => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
+	const legalLinks = useContext(LegalLinksContext);
+
 	const [isDataProtectionViewActive, setIsDataProtectionViewActive] =
 		useState<boolean>(true);
 	const [username, setUsername] = useState<string>();
@@ -135,7 +141,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	const getUsernameText = () => {
 		return `
-		${translate('anonymous.waitingroom.username')} 
+		${translate('anonymous.waitingroom.username.text')} 
 		<div class="waitingRoom__username">
 		${
 			username
@@ -211,6 +217,8 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		if (isDataProtectionViewActive) {
 			return (
 				<>
+					{isMobile && <LocaleSwitch />}
+
 					<div className="waitingRoom__illustration">
 						<WelcomeIllustration />
 					</div>
@@ -241,7 +249,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 								translate(
 									'registration.dataProtection.label.prefix'
 								),
-								props.legalLinks
+								legalLinks
 									.filter(
 										(legalLink) => legalLink.registration
 									)
@@ -254,7 +262,11 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 															'registration.dataProtection.label.and'
 													  )
 												: '') +
-											`<a target="_blank" href="${legalLink.url}">${legalLink.label}</a>`
+											`<a target="_blank" href="${
+												legalLink.url
+											}">${translate(
+												legalLink.label
+											)}</a>`
 									)
 									.join(''),
 								translate(
@@ -273,6 +285,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		} else if (isErrorPageActive) {
 			return (
 				<>
+					{isMobile && <LocaleSwitch />}
 					<div className="waitingRoom__illustration">
 						<ErrorIllustration className="waitingRoom__waitingIllustration" />
 					</div>
@@ -301,6 +314,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		} else {
 			return (
 				<>
+					{isMobile && <LocaleSwitch updateUserData />}
 					<div className="waitingRoom__illustration">
 						<WaitingIllustration className="waitingRoom__waitingIllustration" />
 					</div>
@@ -347,7 +361,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	return (
 		<>
 			<div className="waitingRoom">
-				<Header />
+				<Header showLocaleSwitch={true} />
 				<div className="waitingRoom__contentWrapper">
 					{getContent()}
 				</div>

@@ -1,9 +1,13 @@
-export const setValueInCookie = (name: string, value: string) => {
-	document.cookie = name + '=' + value + ';path=/;';
+export const setValueInCookie = (
+	name: string,
+	value: string,
+	path: string = '/'
+) => {
+	document.cookie = `${name}=${value};path=${path};`;
 };
 
-export const deleteCookieByName = (name: string) => {
-	document.cookie = name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+export const deleteCookieByName = (name: string, path: string = '/') => {
+	document.cookie = `${name}=; path=${path}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
 };
 
 export const getValueFromCookie = (targetValue: string) => {

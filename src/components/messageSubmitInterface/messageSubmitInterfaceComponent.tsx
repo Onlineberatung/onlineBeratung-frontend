@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { SendMessageButton } from './SendMessageButton';
 import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
-import { translate } from '../../utils/translate';
 import { UserDataContext } from '../../globalState/provider/UserDataProvider';
 import {
 	AUTHORITIES,
@@ -79,7 +79,6 @@ import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';
 import clsx from 'clsx';
-import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -87,6 +86,7 @@ import { Headline } from '../headline/Headline';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
 import { encryptRoom } from '../../utils/e2eeHelper';
+import { useTranslation } from 'react-i18next';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 
 //Linkify Plugin
@@ -175,11 +175,13 @@ const encryptAttachment = (attachment, keyID, key) => {
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const textareaInputRef = React.useRef<HTMLDivElement>(null);
 	const inputWrapperRef = React.useRef<HTMLSpanElement>(null);
 	const attachmentInputRef = React.useRef<HTMLInputElement>(null);
 	const { userData } = useContext(UserDataContext);
-	const [placeholder, setPlaceholder] = useState(props.placeholder);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { sessions } = useContext(SessionsDataContext);
@@ -211,9 +213,8 @@ export const MessageSubmitInterfaceComponent = (
 	const groupIdOrSessionId =
 		activeSession.item.groupId || activeSession.item.id;
 
-	const requestFeedbackCheckbox = document.getElementById(
-		'requestFeedback'
-	) as HTMLInputElement;
+	const [requestFeedbackCheckboxChecked, setRequestFeedbackCheckboxChecked] =
+		useState(false);
 
 	const checkboxItem: CheckboxItem = {
 		inputId: 'requestFeedback',
@@ -221,7 +222,7 @@ export const MessageSubmitInterfaceComponent = (
 		labelId: 'requestFeedbackLabel',
 		labelClass: 'requestFeedbackLabel',
 		label: translate('message.write.peer.checkbox.label'),
-		checked: requestFeedbackCheckbox?.checked || false
+		checked: requestFeedbackCheckboxChecked
 	};
 
 	const encryptFeedbackRoom = useCallback(
@@ -374,10 +375,9 @@ export const MessageSubmitInterfaceComponent = (
 			currentDraftMessageRef.current &&
 			!isLiveChatFinished
 		) {
-			const groupId =
-				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
-					? activeSession.item.feedbackGroupId
-					: activeSession.rid;
+			const groupId = requestFeedbackCheckboxChecked
+				? activeSession.item.feedbackGroupId
+				: activeSession.rid;
 
 			if (isE2eeEnabled && props.E2EEParams.encrypted) {
 				encryptText(
@@ -725,14 +725,10 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
-	const isFeedbackRequestChecked = () => {
-		return requestFeedbackCheckbox && requestFeedbackCheckbox.checked;
-	};
-
 	const isFeedbackMessage = () => {
 		return (
 			(!activeSession.isGroup && activeSession.isFeedback) ||
-			isFeedbackRequestChecked()
+			requestFeedbackCheckboxChecked
 		);
 	};
 
@@ -808,7 +804,7 @@ export const MessageSubmitInterfaceComponent = (
 				isEncrypted
 			);
 
-			if (isFeedbackRequestChecked()) {
+			if (requestFeedbackCheckboxChecked) {
 				encryptFeedbackRoom(keyId, sessionKeyExportedString);
 			}
 		}
@@ -819,7 +815,7 @@ export const MessageSubmitInterfaceComponent = (
 		if (props.showMonitoringButton) {
 			props.showMonitoringButton();
 		}
-		if (requestFeedbackCheckbox && requestFeedbackCheckbox.checked) {
+		if (requestFeedbackCheckboxChecked) {
 			const feedbackButton = document.querySelector(
 				'.sessionInfo__feedbackButton'
 			);
@@ -839,16 +835,15 @@ export const MessageSubmitInterfaceComponent = (
 		setTimeout(() => setIsRequestInProgress(false), 1200);
 	};
 
-	const handleCheckboxClick = () => {
-		const textarea = document.querySelector('.textarea');
-		textarea?.classList.toggle('textarea--yellowTheme');
-		placeholder === translate('enquiry.write.input.placeholder.consultant')
-			? setPlaceholder(
-					translate('enquiry.write.input.placeholder.feedback.peer')
-			  )
-			: setPlaceholder(
-					translate('enquiry.write.input.placeholder.consultant')
-			  );
+	const handleRequestFeedbackCheckbox = (e) => {
+		setRequestFeedbackCheckboxChecked((requestFeedbackCheckboxChecked) => {
+			const textarea = document.querySelector('.textarea');
+			textarea?.classList.toggle(
+				'textarea--yellowTheme',
+				!requestFeedbackCheckboxChecked
+			);
+			return !requestFeedbackCheckboxChecked;
+		});
 	};
 
 	const handleAttachmentSelect = () => {
@@ -918,8 +913,14 @@ export const MessageSubmitInterfaceComponent = (
 			infoData = {
 				isInfo: true,
 				infoHeadline: `${
-					getContact(activeSession).displayName ||
-					getContact(activeSession).username
+					getContact(
+						activeSession,
+						translate('sessionList.user.consultantUnknown')
+					).displayName ||
+					getContact(
+						activeSession,
+						translate('sessionList.user.consultantUnknown')
+					).username
 				} ${translate('consultant.absent.message')} `,
 				infoMessage: activeSession.consultant.absenceMessage
 			};
@@ -1013,7 +1014,7 @@ export const MessageSubmitInterfaceComponent = (
 						<Checkbox
 							className="textarea__checkbox"
 							item={checkboxItem}
-							checkboxHandle={handleCheckboxClick}
+							checkboxHandle={handleRequestFeedbackCheckbox}
 						/>
 					)}
 					<div className={'textarea__wrapper'}>
@@ -1064,7 +1065,14 @@ export const MessageSubmitInterfaceComponent = (
 										handleKeyCommand={
 											handleEditorKeyCommand
 										}
-										placeholder={placeholder}
+										placeholder={
+											hasRequestFeedbackCheckbox &&
+											requestFeedbackCheckboxChecked
+												? translate(
+														'enquiry.write.input.placeholder.feedback.peer'
+												  )
+												: props.placeholder
+										}
 										stripPastedStyles={true}
 										spellCheck={true}
 										handleBeforeInput={() =>

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { translate } from '../../utils/translate';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { AskerInfoMonitoring } from './AskerInfoMonitoring';
 import {
 	SESSION_LIST_TAB,
@@ -14,7 +13,6 @@ import {
 	TenantContext,
 	UserDataContext
 } from '../../globalState';
-import { history } from '../app/app';
 import { Loading } from '../app/Loading';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { AskerInfoAssign } from './AskerInfoAssign';
@@ -29,6 +27,7 @@ import {
 	mobileListView,
 	mobileUserProfileView
 } from '../app/navigationHandler';
+import { useTranslation } from 'react-i18next';
 import { AskerInfoTools } from './AskerInfoTools';
 import { ProfileBox } from './ProfileBox';
 import { ProfileDataItem } from './ProfileDataItem';
@@ -36,10 +35,13 @@ import { apiGetUserDataBySessionId } from '../../api/apiGetUserDataBySessionId';
 import { ConsultingSessionDataInterface } from '../../globalState/interfaces/ConsultingSessionDataInterface';
 
 export const AskerInfo = () => {
+	const { t: translate } = useTranslation();
 	const { tenant } = useContext(TenantContext);
-	const { rcGroupId: groupIdFromParam } = useParams();
 	const [sessionData, setSessionData] =
 		useState<ConsultingSessionDataInterface>(null);
+	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
+	const history = useHistory();
+
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 
@@ -70,7 +72,7 @@ export const AskerInfo = () => {
 		}
 
 		setIsPeerChat(activeSession.item.isPeerChat);
-	}, [activeSession, listPath, ready, sessionListTab]);
+	}, [activeSession, history, listPath, ready, sessionListTab]);
 
 	const { fromL } = useResponsive();
 	useEffect(() => {
@@ -164,7 +166,7 @@ export const AskerInfo = () => {
 
 					{tenant?.settings?.featureToolsEnabled && sessionData?.id && (
 						<ProfileBox title="profile.tools">
-							<AskerInfoTools askerId={sessionData?.id} />
+							<AskerInfoTools />
 						</ProfileBox>
 					)}
 

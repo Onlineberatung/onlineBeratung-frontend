@@ -1,0 +1,29 @@
+.localeSwitch {
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+
+	.select__wrapper {
+		margin-top: 0;
+	}
+
+	span {
+		font-weight: bold;
+	}
+
+	svg {
+		margin-right: $grid-base;
+	}
+
+	&--vertical {
+		flex-direction: column;
+		color: #fff;
+
+		svg,
+		span {
+			color: #fff;
+			margin: 0;
+			font-weight: normal;
+		}
+	}
+}

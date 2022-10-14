@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { translate } from '../../utils/translate';
-
 import './e2eeActivatedMessage.styles';
 import { Overlay, OverlayWrapper } from '../overlay/Overlay';
 import { subscriptionKeyLostOverlayItem } from '../session/subscriptionKeyLostHelper';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { ICON_INFO, SystemMessage } from './SystemMessage';
+import { useTranslation } from 'react-i18next';
 
 interface MasterKeyLostMessageProps {
 	subscriptionKeyLost: boolean;
@@ -14,6 +13,7 @@ interface MasterKeyLostMessageProps {
 export const MasterKeyLostMessage: React.FC<MasterKeyLostMessageProps> = ({
 	subscriptionKeyLost
 }) => {
+	const { t: translate } = useTranslation();
 	const [overlayActive, setOverlayActive] = useState(false);
 
 	return (

@@ -2,15 +2,15 @@ import * as React from 'react';
 import { Redirect } from 'react-router-dom';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Routing } from './Routing';
-import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	UserDataContext,
 	NotificationsContext,
 	hasUserAuthority,
 	AUTHORITIES,
 	ConsultingTypesContext,
-	LegalLinkInterface,
-	RocketChatProvider
+	RocketChatProvider,
+	InformalContext,
+	LocaleContext
 } from '../../globalState';
 import { apiGetConsultingTypes, apiGetUserData } from '../../api';
 import { Loading } from './Loading';
@@ -28,18 +28,16 @@ import { useJoinGroupChat } from '../../hooks/useJoinGroupChat';
 interface AuthenticatedAppProps {
 	onAppReady: Function;
 	onLogout: Function;
-	legalLinks: Array<LegalLinkInterface>;
-	spokenLanguages: string[];
 }
 
 export const AuthenticatedApp = ({
 	onLogout,
-	onAppReady,
-	spokenLanguages,
-	legalLinks
+	onAppReady
 }: AuthenticatedAppProps) => {
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, setUserData } = useContext(UserDataContext);
+	const { locale, setLocale } = useContext(LocaleContext);
+	const { setInformal } = useContext(InformalContext);
 	const { joinGroupChat } = useJoinGroupChat();
 
 	const [appReady, setAppReady] = useState<boolean>(false);
@@ -71,12 +69,16 @@ export const AuthenticatedApp = ({
 					Promise.all([apiGetUserData(), apiGetConsultingTypes()])
 						.then(([userProfileData, consultingTypes]) => {
 							// set informal / formal cookie depending on the given userdata
-							setValueInCookie(
-								'useInformal',
-								!userProfileData.formalLanguage ? '1' : ''
-							);
+							setInformal(!userProfileData.formalLanguage);
 							setUserData(userProfileData);
 							setConsultingTypes(consultingTypes);
+
+							if (userProfileData.preferredLanguage) {
+								setLocale(userProfileData.preferredLanguage);
+							}
+							return;
+						})
+						.then(() => {
 							setAppReady(true);
 						})
 						.catch((error) => {
@@ -88,7 +90,14 @@ export const AuthenticatedApp = ({
 					setLoading(false);
 				});
 		}
-	}, [userDataRequested, setUserData, setConsultingTypes]);
+	}, [
+		locale,
+		setConsultingTypes,
+		setInformal,
+		setLocale,
+		setUserData,
+		userDataRequested
+	]);
 
 	useEffect(() => {
 		onAppReady();
@@ -106,11 +115,7 @@ export const AuthenticatedApp = ({
 					<RocketChatPublicSettingsProvider>
 						<RocketChatSubscriptionsProvider>
 							<RocketChatUnreadProvider>
-								<Routing
-									logout={handleLogout}
-									legalLinks={legalLinks}
-									spokenLanguages={spokenLanguages}
-								/>
+								<Routing logout={handleLogout} />
 								{notifications && (
 									<Notifications
 										notifications={notifications}

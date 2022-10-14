@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import {
 	fetchData,
 	FETCH_METHODS,
@@ -16,7 +16,7 @@ export interface groupChatInfoData {
 export const apiGetGroupChatInfo = async (
 	groupChatId: number
 ): Promise<groupChatInfoData> => {
-	const url = config.endpoints.groupChatBase + groupChatId;
+	const url = endpoints.groupChatBase + groupChatId;
 
 	return fetchData({
 		url: url,

@@ -4,7 +4,6 @@ $infoIconSize: 16px;
 .agencySelection {
 	position: relative;
 	animation: fadeIn linear 0.2s;
-	margin: 0 auto $grid-base-four;
 
 	&__intro {
 		> .text__infoLargeAlternative {
@@ -55,7 +54,7 @@ $infoIconSize: 16px;
 			a {
 				display: block;
 				font-size: $font-size-tertiary;
-				line-height: 19px;
+				line-height: 20px;
 				text-decoration: underline;
 				transition: all 0.6s ease;
 			}

@@ -1,12 +1,12 @@
 import { ConsultingTypeBasicInterface } from '../globalState';
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiGetConsultingTypes = async (): Promise<
 	Array<ConsultingTypeBasicInterface>
 > => {
 	return fetchData({
-		url: `${config.endpoints.consultingTypeServiceBase}/basic`,
+		url: `${endpoints.consultingTypeServiceBase}/basic`,
 		method: FETCH_METHODS.GET,
 		skipAuth: true
 	});

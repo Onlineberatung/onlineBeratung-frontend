@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { translate } from '../../../utils/translate';
+import { useTranslation } from 'react-i18next';
 import { BUTTON_TYPES } from '../../button/Button';
 import {
 	Overlay,
@@ -11,6 +11,7 @@ import { redirectToApp } from '../../registration/autoLogin';
 import { ReactComponent as WelcomeIcon } from '../../../resources/img/illustrations/welcome.svg';
 
 export const RegistrationSuccessOverlay = () => {
+	const { t: translate } = useTranslation();
 	const handleOverlayAction = useCallback((buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_WITH_BLUR) {
 			redirectToApp();

@@ -1,11 +1,11 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 
 export const apiUpdatePassword = async (
 	oldPassword,
 	newPassword
 ): Promise<any> => {
-	const url = config.endpoints.passwordReset;
+	const url = endpoints.passwordReset;
 	const passwords = JSON.stringify({
 		oldPassword,
 		newPassword

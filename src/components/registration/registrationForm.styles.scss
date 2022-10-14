@@ -2,7 +2,7 @@ $registration-form-overline-display: block !default;
 $registration-form-headline-margin-bottom: 24px;
 
 .registrationForm {
-	margin: 120px 0;
+	margin: 32px 0;
 	max-width: $registration-form-max-width;
 	animation: fadeIn linear 0.5s;
 
@@ -16,7 +16,6 @@ $registration-form-headline-margin-bottom: 24px;
 	}
 
 	&__dataProtection {
-		margin-top: $grid-base-eight;
 		margin-left: 4px;
 		text-align: left;
 
@@ -28,13 +27,14 @@ $registration-form-headline-margin-bottom: 24px;
 			border: none;
 			background: none;
 			padding: 0;
+			text-decoration: underline;
 
 			color: $link-color;
 			text-decoration: $link-text-decoration;
 			font-weight: $link-font-weight;
 
 			&:hover {
-				color: $link-color-hover;
+				color: var(--skin-color-primary-hover, $hover-primary);
 				text-decoration: $link-text-decoration-hover;
 				cursor: pointer;
 			}
@@ -64,7 +64,19 @@ $registration-form-headline-margin-bottom: 24px;
 
 	&__submit {
 		margin-top: $grid-base-four;
-		margin-left: $registration-form-margin-left;
+
+		.button__item {
+			width: 100%;
+		}
+
+		@include breakpoint($fromMedium) {
+			display: flex;
+			justify-content: flex-end;
+
+			.button__item {
+				width: auto;
+			}
+		}
 	}
 
 	&__overline,
@@ -74,10 +86,14 @@ $registration-form-headline-margin-bottom: 24px;
 
 	&__overline {
 		display: $registration-form-overline-display;
-		color: var(--skin-color-secondary-contrast-safe, $secondary);
-		font-weight: $font-weight-regular;
+		color: $black-65-opacity;
 		margin: 0;
-		font-size: $font-size-primary;
+		font-size: $font-size-secondary;
+		font-weight: $font-weight-medium;
+		line-height: 14px;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+		padding-bottom: $grid-base;
 	}
 
 	&__headline {
@@ -93,13 +109,11 @@ $registration-form-headline-margin-bottom: 24px;
 		max-width: 690px;
 	}
 
-	&__no-agency-found {
-		margin-top: 28px;
-	}
-
 	.select__wrapper {
 		padding: 0;
-		margin: 0 auto;
+		margin: 0;
+		margin-right: 32px;
+		max-width: 535px;
 	}
 
 	.formWrapper__infoText {
@@ -108,5 +122,9 @@ $registration-form-headline-margin-bottom: 24px;
 				color: $tertiary;
 			}
 		}
+	}
+
+	.select__content {
+		margin-right: 32px;
 	}
 }

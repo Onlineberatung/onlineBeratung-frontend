@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export enum ALIAS_MESSAGE_TYPES {
@@ -42,7 +42,7 @@ export const apiSendAliasMessage = async ({
 	type,
 	args
 }: AliasMessageParams): Promise<any> => {
-	const url = `${config.endpoints.sendAliasMessage}`;
+	const url = `${endpoints.sendAliasMessage}`;
 
 	return fetchData({
 		url,

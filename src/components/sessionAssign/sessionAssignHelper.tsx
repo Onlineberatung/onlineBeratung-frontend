@@ -1,6 +1,5 @@
 import { Consultant } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
-import { translate } from '../../utils/translate';
 import { SelectDropdownItem } from '../select/SelectDropdown';
 
 export const prepareSelectDropdown = ({
@@ -12,7 +11,7 @@ export const prepareSelectDropdown = ({
 		id: 'assignSelect',
 		selectedOptions: consultantList,
 		handleDropdownSelect: handleDatalistSelect,
-		selectInputLabel: translate('session.u25.assignment.placeholder'),
+		selectInputLabel: 'session.u25.assignment.placeholder',
 		useIconOption: true,
 		isSearchable: true,
 		menuPlacement: 'top'

@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiSendMessage = async (
@@ -10,8 +10,8 @@ export const apiSendMessage = async (
 	isEncrypted: boolean
 ): Promise<any> => {
 	const url = isFeedback
-		? config.endpoints.sendMessageToFeedback
-		: config.endpoints.sendMessage;
+		? endpoints.sendMessageToFeedback
+		: endpoints.sendMessage;
 	const activeGroupId = isFeedback
 		? { rcFeedbackGroupId: rcGroupIdOrSessionId }
 		: { rcGroupId: rcGroupIdOrSessionId };

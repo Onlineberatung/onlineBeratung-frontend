@@ -1,11 +1,11 @@
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
 
 export const getAppointments = async (): Promise<
 	AppointmentsDataInterface[]
 > => {
-	const url = config.endpoints.appointmentsServiceBase;
+	const url = endpoints.appointmentsServiceBase;
 
 	return fetchData({
 		url: url,

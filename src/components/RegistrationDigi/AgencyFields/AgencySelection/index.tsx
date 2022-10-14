@@ -5,7 +5,6 @@ import { apiAgencySelection, FETCH_ERRORS } from '../../../../api';
 import { ConsultingTypeBasicInterface } from '../../../../globalState';
 import { AgencyDataInterface } from '../../../../globalState/interfaces/UserDataInterface';
 import { PinIcon } from '../../../../resources/img/icons';
-import { translate } from '../../../../utils/translate';
 import { VALID_POSTCODE_LENGTH } from '../../../agencySelection/agencySelectionHelpers';
 import { PreselectedAgency } from '../../../agencySelection/PreselectedAgency';
 import { Loading } from '../../../app/Loading';
@@ -14,6 +13,7 @@ import { Text } from '../../../text/Text';
 import { AgencyRadioButtonForm } from '../Agency';
 import { NoAgencyFound } from '../NoAgencyFound';
 import './agencySelection.styles.scss';
+import { useTranslation } from 'react-i18next';
 
 interface AgencySelectionFormFieldProps {
 	preselectedAgencies?: AgencyDataInterface[];
@@ -26,22 +26,26 @@ const PostCodeInput = ({
 }: {
 	value?: string;
 	onChange?: (value: string) => void;
-}) => (
-	<InputField
-		item={{
-			name: 'postcode',
-			class: 'asker__registration__postcodeInput',
-			id: 'postcode',
-			type: 'number',
-			label: translate('registration.agencySelection.postcode.label'),
-			content: value,
-			maxLength: VALID_POSTCODE_LENGTH,
-			pattern: '^[0-9]+$',
-			icon: <PinIcon />
-		}}
-		inputHandle={(e) => onChange(e.target.value)}
-	/>
-);
+}) => {
+	const { t: translate } = useTranslation();
+
+	return (
+		<InputField
+			item={{
+				name: 'postcode',
+				class: 'asker__registration__postcodeInput',
+				id: 'postcode',
+				type: 'number',
+				label: translate('registration.agencySelection.postcode.label'),
+				content: value,
+				maxLength: VALID_POSTCODE_LENGTH,
+				pattern: '^[0-9]+$',
+				icon: <PinIcon />
+			}}
+			inputHandle={(e) => onChange(e.target.value)}
+		/>
+	);
+};
 
 const AgencyRadioInput = ({
 	agencies,
@@ -91,6 +95,7 @@ export const AgencySelection = ({
 		gender &&
 		!!postCode?.match(REGEX_POSTCODE);
 
+	const { t: translate } = useTranslation();
 	// Only runs when no preselected agencies are provided
 	useEffect(() => {
 		if (isValidToRequestData) {

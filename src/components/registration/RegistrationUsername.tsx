@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { translate } from '../../utils/translate';
 import {
 	InputField,
 	InputFieldItem,
@@ -15,6 +14,7 @@ import {
 	VALIDITY_VALID
 } from './registrationHelpers';
 import { Text } from '../text/Text';
+import { useTranslation } from 'react-i18next';
 
 interface RegistrationUsernameProps {
 	isUsernameAlreadyInUse: boolean;
@@ -29,6 +29,7 @@ export const RegistrationUsername = ({
 	onValidityChange,
 	onKeyDown
 }: RegistrationUsernameProps) => {
+	const { t: translate } = useTranslation();
 	const [username, setUsername] = useState<string>('');
 	const [isValid, setIsValid] =
 		useState<AccordionItemValidity>(VALIDITY_INITIAL);
@@ -41,7 +42,7 @@ export const RegistrationUsername = ({
 			setLabelState(VALIDITY_INVALID);
 			setLabelContent(translate('registration.user.unavailable'));
 		}
-	}, [isUsernameAlreadyInUse]);
+	}, [isUsernameAlreadyInUse, translate]);
 
 	useEffect(() => {
 		onUsernameChange(username);
@@ -89,7 +90,7 @@ export const RegistrationUsername = ({
 		<div>
 			<Text
 				text={translate('registration.user.infoText')}
-				type="infoLargeAlternative"
+				type="infoMedium"
 			/>
 			<InputField
 				item={inputItemUsername}

@@ -20,7 +20,7 @@ import {
 	ButtonItem,
 	BUTTON_TYPES
 } from '../../../../components/button/Button';
-import { translate } from '../../../../utils/translate';
+import { useTranslation } from 'react-i18next';
 
 interface BookingEventProps {
 	booking: BookingEventsInterface;
@@ -30,6 +30,7 @@ const COUNTDOWN_START = 5 * 60 * 1000;
 
 export const BookingEvent = ({ booking }: BookingEventProps) => {
 	const settings = useAppConfig();
+	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 	const startTime = new Date(booking.startTime);
 	const endTime = new Date(booking.endTime);

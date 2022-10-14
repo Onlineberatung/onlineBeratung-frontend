@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
-import { Link, Redirect, useParams } from 'react-router-dom';
+import { Link, Redirect, useParams, useHistory } from 'react-router-dom';
 import {
 	SessionTypeContext,
 	UserDataContext,
 	useTenant
 } from '../../globalState';
-import { history } from '../app/app';
 import { isUserModerator, SESSION_LIST_TAB } from '../session/sessionHelpers';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import {
 	OVERLAY_FUNCTIONS,
@@ -49,18 +47,21 @@ import { Tag } from '../tag/Tag';
 import { useSession } from '../../hooks/useSession';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { GroupChatCopyLinks } from './GroupChatCopyLinks';
-
-const stopChatButtonSet: ButtonItem = {
-	label: translate('groupChat.stopChat.securityOverlay.button1Label'),
-	function: OVERLAY_FUNCTIONS.CLOSE,
-	type: BUTTON_TYPES.PRIMARY
-};
+import { useTranslation } from 'react-i18next';
 
 export const GroupChatInfo = () => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
 	const tenantData = useTenant();
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 	const featureGroupChatV2Enabled =
 		tenantData?.settings?.featureGroupChatV2Enabled;
+
+	const stopChatButtonSet: ButtonItem = {
+		label: translate('groupChat.stopChat.securityOverlay.button1Label'),
+		function: OVERLAY_FUNCTIONS.CLOSE,
+		type: BUTTON_TYPES.PRIMARY
+	};
 
 	const { userData } = useContext(UserDataContext);
 	const { path: listPath } = useContext(SessionTypeContext);
@@ -132,7 +133,7 @@ export const GroupChatInfo = () => {
 		if (activeSession.isGroup && !activeSession.item.consultingType) {
 			setIsV2GroupChat(true);
 		}
-	}, [activeSession, listPath, ready, sessionListTab]);
+	}, [activeSession, history, listPath, ready, sessionListTab]);
 
 	const handleStopGroupChatButton = () => {
 		setOverlayItem(stopGroupChatSecurityOverlayItem);
@@ -168,10 +169,16 @@ export const GroupChatInfo = () => {
 
 	const getDurationTranslation = useCallback(
 		() =>
-			durationSelectOptionsSet.filter(
-				(item) => parseInt(item.value) === activeSession.item.duration
-			)[0].label,
-		[activeSession?.item.duration]
+			durationSelectOptionsSet
+				.map((option) => ({
+					...option,
+					label: translate(option.label)
+				}))
+				.filter(
+					(item) =>
+						parseInt(item.value) === activeSession.item.duration
+				)[0].label,
+		[activeSession?.item.duration, translate]
 	);
 
 	if (!activeSession) return null;
@@ -183,18 +190,29 @@ export const GroupChatInfo = () => {
 		},
 		{
 			label: translate('groupChat.info.settings.startDate'),
-			value: getGroupChatDate(activeSession.item, false, true)
+			value: getGroupChatDate(
+				activeSession.item,
+				translate('sessionList.time.label.postfix'),
+				false,
+				true
+			)
 		},
 		{
 			label: translate('groupChat.info.settings.startTime'),
-			value: getGroupChatDate(activeSession.item, false, false, true)
+			value: getGroupChatDate(
+				activeSession.item,
+				translate('sessionList.time.label.postfix'),
+				false,
+				false,
+				true
+			)
 		},
 		{
 			label: translate('groupChat.info.settings.duration'),
 			value: getDurationTranslation()
 		},
 		{
-			label: translate('groupChat.info.settings.repetition'),
+			label: translate('groupChat.info.settings.repetition.label'),
 			value: activeSession.item.repetitive
 				? translate('groupChat.info.settings.repetition.weekly')
 				: translate('groupChat.info.settings.repetition.single')

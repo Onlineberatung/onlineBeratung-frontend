@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { translate } from '../../../../utils/translate';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
 	Button,
 	BUTTON_TYPES,
@@ -8,7 +9,6 @@ import {
 } from '../../../../components/button/Button';
 import { Headline } from '../../../../components/headline/Headline';
 import '../booking.styles';
-import { history } from '../../../../components/app/app';
 import { ReactComponent as CalendarMonthPlusIcon } from '../../../../resources/img/icons/calendar-plus.svg';
 import { Text } from '../../../../components/text/Text';
 import { Box } from '../../../../components/box/Box';
@@ -24,6 +24,8 @@ interface NoBookings {
 }
 
 export const NoBookingsBooked: React.FC<NoBookings> = ({ sessions }) => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
 	const { userData } = useContext(UserDataContext);
 
 	const isConsultant = hasUserAuthority(
