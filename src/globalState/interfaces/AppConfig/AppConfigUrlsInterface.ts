@@ -5,13 +5,12 @@ export interface AppConfigUrlsInterface {
 	error500: string;
 	finishedAnonymousChatRedirect: string;
 	home: string;
-	imprint: string;
-	privacy: string;
 	releases: string;
 	redirectToApp: string;
 	registration: string;
 	toEntry: string;
 	toLogin: string;
 	toRegistration: string;
+	videoCall: string;
 	videoConference: string;
 }

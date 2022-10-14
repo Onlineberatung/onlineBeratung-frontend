@@ -9,9 +9,10 @@ import {
 import { MessageSubmitInfo } from '../messageSubmitInterface/MessageSubmitInfo';
 import { Overlay, OverlayWrapper } from '../overlay/Overlay';
 import { subscriptionKeyLostOverlayItem } from './subscriptionKeyLostHelper';
-import { translate } from '../../utils/translate';
+import { useTranslation } from 'react-i18next';
 
 export const SubscriptionKeyLost = () => {
+	const { t: translate } = useTranslation();
 	const [overlayActive, setOverlayActive] = useState(false);
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
@@ -24,17 +25,6 @@ export const SubscriptionKeyLost = () => {
 			.then(reloadActiveSession)
 			.catch((e) => console.error(e));
 	}, [activeSession.rid, reloadActiveSession]);
-
-	/*
-	{
-		isInfo: true,
-			infoHeadline: `${
-		getContact(activeSession).displayName ||
-		getContact(activeSession).username
-	} ${translate('consultant.absent.message')} `,
-		infoMessage: activeSession.consultant.absenceMessage
-	}
-	 */
 
 	return (
 		<div>

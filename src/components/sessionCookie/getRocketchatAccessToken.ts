@@ -1,4 +1,4 @@
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { LoginData } from '../registration/autoLogin';
 
 export const getRocketchatAccessToken = (
@@ -12,7 +12,7 @@ export const getRocketchatAccessToken = (
 			ldapPass: password,
 			ldapOptions: {}
 		});
-		const url = config.endpoints.rc.accessToken;
+		const url = endpoints.rc.accessToken;
 
 		const req = new Request(url, {
 			method: 'POST',

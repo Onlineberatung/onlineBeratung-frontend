@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { history } from '../app/app';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import {
-	LegalLinkInterface,
 	RocketChatContext,
 	SessionTypeContext,
 	UserDataContext
@@ -27,13 +25,10 @@ import { useSession } from '../../hooks/useSession';
 import { SessionStream } from './SessionStream';
 import { AcceptLiveChatView } from './AcceptLiveChatView';
 
-interface SessionViewProps {
-	legalLinks: Array<LegalLinkInterface>;
-}
-
-export const SessionView = ({ legalLinks }: SessionViewProps) => {
+export const SessionView = () => {
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
-		useParams();
+		useParams<{ rcGroupId: string; sessionId: string }>();
+	const history = useHistory();
 
 	const currentGroupId = useUpdatingRef(groupIdFromParam);
 	const currentSessionId = useUpdatingRef(sessionIdFromParam);
@@ -145,7 +140,8 @@ export const SessionView = ({ legalLinks }: SessionViewProps) => {
 		rcReady,
 		currentSessionId,
 		currentGroupId,
-		listPath
+		listPath,
+		history
 	]);
 
 	if (loading || !activeSession) {
@@ -164,7 +160,6 @@ export const SessionView = ({ legalLinks }: SessionViewProps) => {
 				<JoinGroupChatView
 					forceBannedOverlay={forceBannedOverlay}
 					bannedUsers={bannedUsers}
-					legalLinks={legalLinks}
 				/>
 			</ActiveSessionContext.Provider>
 		);
@@ -179,10 +174,7 @@ export const SessionView = ({ legalLinks }: SessionViewProps) => {
 			<ActiveSessionContext.Provider
 				value={{ activeSession, reloadActiveSession }}
 			>
-				<AcceptLiveChatView
-					legalLinks={legalLinks}
-					bannedUsers={bannedUsers}
-				/>
+				<AcceptLiveChatView bannedUsers={bannedUsers} />
 			</ActiveSessionContext.Provider>
 		);
 	}
@@ -193,7 +185,6 @@ export const SessionView = ({ legalLinks }: SessionViewProps) => {
 		>
 			<SessionStream
 				readonly={readonly}
-				legalLinks={legalLinks}
 				checkMutedUserForThisSession={checkMutedUserForThisSession}
 				bannedUsers={bannedUsers}
 			/>

@@ -25,10 +25,6 @@ import {
 	AUTHORITIES,
 	hasUserAuthority
 } from '../../globalState';
-import { Booking } from '../booking/booking';
-import { BookingCancellation } from '../booking/bookingCancellation';
-import { BookingEvents } from '../booking/bookingEvents';
-import { BookingReschedule } from '../booking/bookingReschedule';
 
 import { ReactComponent as OverviewIcon } from '../../resources/img/icons/overview.svg';
 import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
@@ -41,6 +37,10 @@ import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/c
 import * as React from 'react';
 import { ToolsList } from '../tools/ToolsList';
 import { OverviewPage } from '../../containers/overview/overview';
+import { Booking } from '../../containers/bookings/components/Booking/booking';
+import { BookingCancellation } from '../../containers/bookings/components/BookingCancellation/bookingCancellation';
+import { BookingEvents } from '../../containers/bookings/components/BookingEvents/bookingEvents';
+import { BookingReschedule } from '../../containers/bookings/components/BookingReschedule/bookingReschedule';
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
@@ -119,7 +119,7 @@ export const RouterConfigUser = (
 				to: '/sessions/user/view',
 				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
-					large: 'navigation.asker.sessions',
+					large: 'navigation.asker.sessions.large',
 					small: 'navigation.asker.sessions.small'
 				}
 			},
@@ -228,7 +228,7 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 				to: '/sessions/consultant/sessionView',
 				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
-					large: 'navigation.consultant.sessions',
+					large: 'navigation.consultant.sessions.large',
 					small: 'navigation.consultant.sessions.small'
 				}
 			},
@@ -385,7 +385,7 @@ export const RouterConfigTeamConsultant = (
 				to: '/sessions/consultant/sessionView',
 				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
-					large: 'navigation.consultant.sessions',
+					large: 'navigation.consultant.sessions.large',
 					small: 'navigation.consultant.sessions.small'
 				}
 			},
@@ -393,7 +393,7 @@ export const RouterConfigTeamConsultant = (
 				to: '/sessions/consultant/teamSessionView',
 				icon: <SpeechBubbleTeamIcon className="navigation__icon" />,
 				titleKeys: {
-					large: 'navigation.consultant.teamsessions',
+					large: 'navigation.consultant.teamsessions.large',
 					small: 'navigation.consultant.teamsessions.small'
 				}
 			},
@@ -584,7 +584,7 @@ export const RouterConfigMainConsultant = (
 	const config = RouterConfigTeamConsultant(settings);
 
 	config.navigation[3].titleKeys = {
-		large: 'navigation.consultant.peersessions',
+		large: 'navigation.consultant.peersessions.large',
 		small: 'navigation.consultant.peersessions.small'
 	};
 	return config;
@@ -597,7 +597,7 @@ export const RouterConfigAnonymousAsker = (): any => {
 				to: '/sessions/user/view',
 				icon: <SpeechBubbleIcon className="navigation__icon" />,
 				titleKeys: {
-					large: 'navigation.asker.sessions',
+					large: 'navigation.asker.sessions.large',
 					small: 'navigation.asker.sessions.small'
 				}
 			}

@@ -1,4 +1,4 @@
-import { config } from '../../../../src/resources/scripts/config';
+import { endpoints } from '../../../../src/resources/scripts/endpoints';
 import {
 	getAppointments,
 	setAppointments,
@@ -6,61 +6,43 @@ import {
 } from '../appointments';
 
 const appointmentsApi = (cy) => {
-	cy.intercept(
-		'GET',
-		`${config.endpoints.appointmentsServiceBase}/*`,
-		(req) => {
-			const urlPathname = new URL(req.url).pathname;
-			const uuid = urlPathname.substring(
-				urlPathname.lastIndexOf('/') + 1
-			);
-			const appointment = getAppointments().find((a) => a.id === uuid);
-			if (appointment) {
-				req.reply(appointment);
-				return;
-			}
-			req.reply({ statusCode: 404 });
+	cy.intercept('GET', `${endpoints.appointmentsServiceBase}/*`, (req) => {
+		const urlPathname = new URL(req.url).pathname;
+		const uuid = urlPathname.substring(urlPathname.lastIndexOf('/') + 1);
+		const appointment = getAppointments().find((a) => a.id === uuid);
+		if (appointment) {
+			req.reply(appointment);
+			return;
 		}
-	).as('appointment_get');
+		req.reply({ statusCode: 404 });
+	}).as('appointment_get');
 
-	cy.intercept(
-		'PUT',
-		`${config.endpoints.appointmentsServiceBase}/*`,
-		(req) => {
-			const urlPathname = new URL(req.url).pathname;
-			const uuid = urlPathname.substring(
-				urlPathname.lastIndexOf('/') + 1
-			);
-			const index = getAppointments().findIndex((a) => a.id === uuid);
+	cy.intercept('PUT', `${endpoints.appointmentsServiceBase}/*`, (req) => {
+		const urlPathname = new URL(req.url).pathname;
+		const uuid = urlPathname.substring(urlPathname.lastIndexOf('/') + 1);
+		const index = getAppointments().findIndex((a) => a.id === uuid);
 
-			req.reply(updateAppointment(req.body, index));
+		req.reply(updateAppointment(req.body, index));
+	}).as('appointment_put');
+
+	cy.intercept('DELETE', `${endpoints.appointmentsServiceBase}/*`, (req) => {
+		const urlPathname = new URL(req.url).pathname;
+		const uuid = urlPathname.substring(urlPathname.lastIndexOf('/') + 1);
+		const index = getAppointments().findIndex((a) => a.id === uuid);
+		const newAppointments = [...getAppointments()];
+		if (index >= 0) {
+			newAppointments.splice(index, 1);
 		}
-	).as('appointment_put');
+		setAppointments(newAppointments);
 
-	cy.intercept(
-		'DELETE',
-		`${config.endpoints.appointmentsServiceBase}/*`,
-		(req) => {
-			const urlPathname = new URL(req.url).pathname;
-			const uuid = urlPathname.substring(
-				urlPathname.lastIndexOf('/') + 1
-			);
-			const index = getAppointments().findIndex((a) => a.id === uuid);
-			const newAppointments = [...getAppointments()];
-			if (index >= 0) {
-				newAppointments.splice(index, 1);
-			}
-			setAppointments(newAppointments);
+		req.reply({});
+	}).as('appointment_delete');
 
-			req.reply({});
-		}
-	).as('appointment_delete');
-
-	cy.intercept('GET', config.endpoints.appointmentsServiceBase, (req) => {
+	cy.intercept('GET', endpoints.appointmentsServiceBase, (req) => {
 		req.reply([...getAppointments()]);
 	}).as('appointments_get');
 
-	cy.intercept('POST', config.endpoints.appointmentsServiceBase, (req) => {
+	cy.intercept('POST', endpoints.appointmentsServiceBase, (req) => {
 		req.reply(updateAppointment(req.body));
 	}).as('appointments_post');
 };

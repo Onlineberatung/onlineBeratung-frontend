@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { AgencyDataInterface } from '../../globalState';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
-import { translate } from '../../utils/translate';
 import { isMobile } from 'react-device-detect';
 import { Text } from '../text/Text';
 import './agencyInfo.styles';
+import { useTranslation } from 'react-i18next';
 
 export interface DisplayAgencyInfoProps {
 	agency: AgencyDataInterface;
@@ -13,6 +13,7 @@ export interface DisplayAgencyInfoProps {
 }
 
 export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
+	const { t: translate } = useTranslation(['common', 'agencies']);
 	const agencyInfoRef = React.useRef<HTMLDivElement>(null);
 	const [displayAgencyInfo, setDisplayAgencyInfo] =
 		useState<AgencyDataInterface>(null);
@@ -85,14 +86,26 @@ export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 					{displayAgencyInfo.name && (
 						<Text
 							className="agencyInfo__name"
-							text={displayAgencyInfo.name}
+							text={translate(
+								[
+									`agency.${displayAgencyInfo.id}.name`,
+									displayAgencyInfo.name
+								],
+								{ ns: 'agencies' }
+							)}
 							type="standard"
 						/>
 					)}
 					{displayAgencyInfo.description && (
 						<Text
 							className="agencyInfo__description"
-							text={displayAgencyInfo.description}
+							text={translate(
+								[
+									`agency.${displayAgencyInfo.id}.description`,
+									displayAgencyInfo.description
+								],
+								{ ns: 'agencies' }
+							)}
 							type="infoSmall"
 						/>
 					)}

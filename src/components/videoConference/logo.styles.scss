@@ -1,0 +1,16 @@
+.logo {
+	position: fixed;
+	top: 32px;
+	left: 32px;
+	margin: 0 auto;
+	z-index: 9999;
+	color: white;
+
+	&__header {
+		font-size: 28px;
+	}
+
+	&__subline {
+		margin-top: $grid-base;
+	}
+}

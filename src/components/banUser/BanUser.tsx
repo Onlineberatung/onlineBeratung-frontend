@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { apiPostBanUser } from '../../api/apiPostBanUser';
-import { translate } from '../../utils/translate';
+import { BUTTON_TYPES } from '../button/Button';
+import { Headline } from '../headline/Headline';
 import { Overlay, OverlayItem, OverlayWrapper } from '../overlay/Overlay';
+import { ReactComponent as Check } from '../../resources/img/illustrations/check.svg';
 import './banUser.styles.scss';
-import { banSuccessOverlay } from './banUserHelper';
 
 interface BanUserProps {
 	rcUserId: string;
@@ -18,8 +20,31 @@ export const BanUser: React.FC<BanUserProps> = ({
 	userName,
 	handleUserBan
 }) => {
+	const { t: translate } = useTranslation();
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState<OverlayItem>();
+
+	const banSuccessOverlay = (userName): OverlayItem => {
+		const compositeText =
+			translate('banUser.ban.info.1') +
+			'<span>' +
+			userName +
+			'</span>' +
+			translate('banUser.ban.info.2');
+		return {
+			svg: Check,
+			illustrationBackground: 'large',
+			nestedComponent: (
+				<Headline text={compositeText} semanticLevel="3" />
+			),
+			buttonSet: [
+				{
+					type: BUTTON_TYPES.AUTO_CLOSE,
+					label: translate('banUser.ban.overlay.close')
+				}
+			]
+		};
+	};
 
 	const banUser = () => {
 		apiPostBanUser({ rcUserId, chatId }).then(() => {

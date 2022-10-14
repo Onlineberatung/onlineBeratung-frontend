@@ -69,7 +69,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			margin: $grid-base-two $grid-base;
 		}
 
-		&__logout {
+		&__bottom {
 			cursor: pointer;
 			width: max-content;
 			align-self: center;
@@ -89,6 +89,14 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 				@include breakpoint($fromLarge) {
 					display: block;
 				}
+			}
+		}
+
+		&__language {
+			padding-bottom: $grid-base-two;
+			display: none;
+			@include breakpoint($fromLarge) {
+				display: block;
 			}
 		}
 

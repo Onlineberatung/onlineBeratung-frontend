@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { UserDataContext } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -15,13 +14,10 @@ import {
 } from '../../api';
 import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
-
-const cancelEditButton: ButtonItem = {
-	label: translate('profile.data.edit.button.cancel'),
-	type: BUTTON_TYPES.LINK
-};
+import { useTranslation } from 'react-i18next';
 
 export const ConsultantPrivateData = () => {
+	const { t: translate } = useTranslation();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isEditDisabled, setIsEditDisabled] = useState<boolean>(true);
 	const [isSaveDisabled, setIsSaveDisabled] = useState<boolean>(true);
@@ -36,6 +32,11 @@ export const ConsultantPrivateData = () => {
 	const [firstName, setFirstName] = useState<string>();
 	const [lastName, setLastName] = useState<string>();
 	const [overlayActive, setOverlayActive] = useState(false);
+
+	const cancelEditButton: ButtonItem = {
+		label: translate('profile.data.edit.button.cancel'),
+		type: BUTTON_TYPES.LINK
+	};
 
 	const isEmail2faActive =
 		userData.twoFactorAuth?.isActive &&

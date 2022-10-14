@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
-import { translate } from '../../utils/translate';
+import { useParams, useHistory } from 'react-router-dom';
 import {
 	desktopView,
 	mobileDetailView,
@@ -22,10 +21,10 @@ import {
 	TOPIC_LENGTHS,
 	durationSelectOptionsSet,
 	getValidDateFormatForSelectedDate,
-	getValidTimeFormatForSelectedTime,
-	createChatSuccessOverlayItem,
-	createChatErrorOverlayItem
+	getValidTimeFormatForSelectedTime
 } from './createChatHelpers';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 import { ButtonItem, BUTTON_TYPES, Button } from '../button/Button';
 import {
 	OVERLAY_FUNCTIONS,
@@ -35,7 +34,6 @@ import {
 } from '../overlay/Overlay';
 import DatePicker, { registerLocale } from 'react-datepicker/dist/es';
 import de from 'date-fns/locale/de';
-import { history } from '../app/app';
 import {
 	groupChatSettings,
 	apiCreateGroupChat,
@@ -44,7 +42,6 @@ import {
 } from '../../api';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { getChatDate } from '../session/sessionDateHelpers';
-import { updateChatSuccessOverlayItem } from './groupChatHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import 'react-datepicker/src/stylesheets/datepicker.scss';
 import '../datepicker/datepicker.styles';
@@ -52,11 +49,14 @@ import './createChat.styles';
 import { useResponsive } from '../../hooks/useResponsive';
 import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useSearchParam } from '../../hooks/useSearchParams';
+import { useTranslation } from 'react-i18next';
 
 registerLocale('de', de);
 
 export const CreateGroupChatView = (props) => {
-	const { rcGroupId: groupIdFromParam } = useParams();
+	const { t: translate } = useTranslation();
+	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
+	const history = useHistory();
 
 	const { sessions, ready, dispatch } = useContext(SessionsDataContext);
 	const { path: listPath } = useContext(SessionTypeContext);
@@ -83,10 +83,49 @@ export const CreateGroupChatView = (props) => {
 	const [activeSession, setActiveSession] =
 		useState<ExtendedSessionInterface | null>(null);
 
+	const updateChatSuccessOverlayItem: OverlayItem = {
+		svg: CheckIcon,
+		headline: translate('groupChat.updateSuccess.overlay.headline'),
+		buttonSet: [
+			{
+				label: translate(
+					'groupChat.updateSuccess.overlay.button1Label'
+				),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.SECONDARY
+			}
+		]
+	};
+
 	const prevPathIsGroupChatInfo =
 		props.location.state && props.location.state.prevIsInfoPage;
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
+
+	const createChatSuccessOverlayItem: OverlayItem = {
+		svg: CheckIcon,
+		headline: translate('groupChat.createSuccess.overlay.headline'),
+		buttonSet: [
+			{
+				label: translate('groupChat.createSuccess.overlay.buttonLabel'),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.SECONDARY
+			}
+		]
+	};
+
+	const createChatErrorOverlayItem: OverlayItem = {
+		svg: XIcon,
+		illustrationBackground: 'error',
+		headline: translate('groupChat.createError.overlay.headline'),
+		buttonSet: [
+			{
+				label: translate('groupChat.createError.overlay.buttonLabel'),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.AUTO_CLOSE
+			}
+		]
+	};
 
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
@@ -233,13 +272,15 @@ export const CreateGroupChatView = (props) => {
 	};
 
 	const getOptionOfSelectedDuration = () => {
-		return durationSelectOptionsSet.filter(
-			(option) =>
-				option.value ===
-				(selectedDuration
-					? (selectedDuration.toString() as string)
-					: '')
-		)[0];
+		return durationSelectOptionsSet
+			.map((option) => ({ ...option, label: translate(option.label) }))
+			.filter(
+				(option) =>
+					option.value ===
+					(selectedDuration
+						? (selectedDuration.toString() as string)
+						: '')
+			)[0];
 	};
 
 	const durationSelectDropdown: SelectDropdownItem = {

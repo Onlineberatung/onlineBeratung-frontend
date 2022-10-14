@@ -1,15 +1,18 @@
-import { AppConfigEndpointsInterface } from './AppConfigEndpointsInterface';
 import { AppConfigJitsiInterface } from './AppConfigJitsiInterface';
 import { AppConfigNotificationsInterface } from './AppConfigNotificationsInterface';
 import { AppConfigTwoFactorInterface } from './AppConfigTwoFactorInterface';
 import { AppConfigUrlsInterface } from './AppConfigUrlsInterface';
 import { AppSettingsInterface } from './AppSettingsInterface';
+import { LegalLinkInterface } from '../LegalLinkInterface';
+import { InitOptions } from 'i18next';
 
 export interface AppConfigInterface extends AppSettingsInterface {
-	endpoints: AppConfigEndpointsInterface;
 	urls: AppConfigUrlsInterface;
+	legalLinks: LegalLinkInterface[];
 	postcodeFallbackUrl: string;
+	spokenLanguages: string[];
 	jitsi: AppConfigJitsiInterface;
 	emails: AppConfigNotificationsInterface;
 	twofactor: AppConfigTwoFactorInterface;
+	i18n: InitOptions;
 }

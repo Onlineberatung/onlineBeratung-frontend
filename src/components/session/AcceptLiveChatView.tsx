@@ -1,25 +1,24 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { getContact, LegalLinkInterface } from '../../globalState';
+import { getContact } from '../../globalState';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import './session.styles';
-import { translate } from '../../utils/translate';
 import { FETCH_ERRORS } from '../../api';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Headline } from '../headline/Headline';
 import { useWatcher } from '../../hooks/useWatcher';
 import { apiGetSessionRoomBySessionId } from '../../api/apiGetSessionRooms';
 import { AcceptAssign } from './AcceptAssign';
+import { useTranslation } from 'react-i18next';
 
 interface AcceptLiveChatViewProps {
-	legalLinks: Array<LegalLinkInterface>;
 	bannedUsers: string[];
 }
 
 export const AcceptLiveChatView = ({
-	legalLinks,
 	bannedUsers
 }: AcceptLiveChatViewProps) => {
+	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 
 	const abortController = useRef<AbortController>(null);
@@ -70,10 +69,7 @@ export const AcceptLiveChatView = ({
 		<div className="session__wrapper">
 			<div className="session">
 				<div>
-					<SessionHeaderComponent
-						legalLinks={legalLinks}
-						bannedUsers={bannedUsers}
-					/>
+					<SessionHeaderComponent bannedUsers={bannedUsers} />
 				</div>
 
 				<div className="session__content session__content--anonymousEnquiry">
@@ -81,9 +77,12 @@ export const AcceptLiveChatView = ({
 						semanticLevel="3"
 						text={`${translate(
 							'enquiry.anonymous.infoLabel.start'
-						)}${getContact(activeSession).username}${translate(
-							'enquiry.anonymous.infoLabel.end'
-						)}`}
+						)}${
+							getContact(
+								activeSession,
+								translate('sessionList.user.consultantUnknown')
+							).username
+						}${translate('enquiry.anonymous.infoLabel.end')}`}
 					/>
 				</div>
 

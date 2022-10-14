@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 
 export const GROUP_CHAT_API = {
@@ -16,7 +16,7 @@ export const apiPutGroupChat = async (
 	groupChatId: number,
 	groupChatApi: string
 ): Promise<any> => {
-	const url = config.endpoints.groupChatBase + groupChatId + groupChatApi;
+	const url = endpoints.groupChatBase + groupChatId + groupChatApi;
 
 	return fetchData({
 		url: url,

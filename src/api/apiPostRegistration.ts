@@ -3,6 +3,7 @@ import { removeAllCookies } from '../components/sessionCookie/accessSessionCooki
 import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 import { ensureTenantSettings } from '../utils/tenantHelpers';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from './fetchData';
+import { COOKIE_KEY } from '../globalState';
 
 export const apiPostRegistration = (
 	url: string,
@@ -10,7 +11,8 @@ export const apiPostRegistration = (
 	useMultiTenancyWithSingleDomain: boolean,
 	tenant: TenantDataInterface
 ): Promise<any> => {
-	removeAllCookies(['useInformal']);
+	removeAllCookies([COOKIE_KEY]);
+
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.POST,

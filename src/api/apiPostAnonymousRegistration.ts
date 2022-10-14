@@ -1,5 +1,5 @@
 import { removeAllCookies } from '../components/sessionCookie/accessSessionCookie';
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_SUCCESS } from './fetchData';
 
 export interface AnonymousRegistrationResponse {
@@ -17,7 +17,7 @@ export interface AnonymousRegistrationResponse {
 export const apiPostAnonymousRegistration = async (
 	consultingType: number
 ): Promise<AnonymousRegistrationResponse> => {
-	const url = config.endpoints.registerAnonymousAsker;
+	const url = endpoints.registerAnonymousAsker;
 	const data = JSON.stringify({
 		consultingType: consultingType
 	});

@@ -5,9 +5,9 @@ import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline, HeadlineLevel } from '../headline/Headline';
 import { ReactComponent as XIcon } from '../../resources/img/icons/x.svg';
-import { translate } from '../../utils/translate';
 import clsx from 'clsx';
 import './overlay.styles';
+import { useTranslation } from 'react-i18next';
 const FocusTrap = require('focus-trap-react');
 
 export const OVERLAY_FUNCTIONS = {
@@ -68,6 +68,7 @@ export const Overlay = (props: {
 	items?: OverlayItem[];
 	showHeadlinePrefix?: boolean;
 }) => {
+	const { t: translate } = useTranslation();
 	const [activeStep, setActiveStep] = useState<number>(0);
 	const [activeOverlay, setActiveOverlay] = useState<OverlayItem>(
 		props.item
@@ -132,10 +133,10 @@ export const Overlay = (props: {
 							''
 						)
 					}
-					${activeOverlay.headline}
+					${translate(activeOverlay.headline)}
 				</span>
 				`;
-		} else return activeOverlay.headline;
+		} else return translate(activeOverlay.headline);
 	};
 
 	const Illustration = activeOverlay.svg;
@@ -183,7 +184,9 @@ export const Overlay = (props: {
 														<StepIcon />
 													</div>
 													<Text
-														text={item.step.label}
+														text={translate(
+															item.step.label
+														)}
 														type="divider"
 													/>
 												</div>
@@ -214,7 +217,10 @@ export const Overlay = (props: {
 							/>
 						)}
 						{activeOverlay.copy && (
-							<Text text={activeOverlay.copy} type="standard" />
+							<Text
+								text={translate(activeOverlay.copy)}
+								type="standard"
+							/>
 						)}
 						{activeOverlay.nestedComponent && (
 							<div className="overlay__nestedComponent">

@@ -5,13 +5,15 @@ import {
 } from '../../components/app/navigationHandler';
 import { Page } from '../../components/Page';
 import { SESSION_LIST_TYPES } from '../../components/session/sessionHelpers';
-import { translate } from '../../utils/translate';
 import { BookingCard } from './components/BookingCard/BookingCard';
 import { EmptyType } from './components/EmptyState';
 import { SessionCard } from './components/SessionCard/SessionCard';
 import './overview.styles.scss';
+import { useTranslation } from 'react-i18next';
 
 export const OverviewPage = () => {
+	const { t: translate } = useTranslation();
+
 	useEffect(() => {
 		setProfileWrapperActive();
 		return () => {

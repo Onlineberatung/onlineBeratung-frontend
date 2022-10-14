@@ -71,7 +71,7 @@ describe('videoconference', () => {
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()
 					.then((window) => {
-						window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
+						//window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
 					})
 					.then(() => {
 						const videoUrl = config.urls.videoConference
@@ -86,9 +86,11 @@ describe('videoconference', () => {
 						cy.contains('Herzlich Willkommen!').should('exist');
 
 						// Legal link exists
-						cy.get(`a[href="${config.urls.privacy}"]`).should(
-							'exist'
-						);
+						config.legalLinks
+							.filter((link) => link.registration)
+							.forEach((link) => {
+								cy.get(`a[href="${link.url}"]`).should('exist');
+							});
 						// Confirm
 						cy.get('.waitingRoom__button button').click();
 
@@ -171,7 +173,7 @@ describe('videoconference', () => {
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()
 					.then((window) => {
-						window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
+						//window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
 					})
 					.then(() => {
 						const videoUrl = config.urls.videoConference
@@ -186,9 +188,12 @@ describe('videoconference', () => {
 						cy.contains('Herzlich Willkommen!').should('exist');
 
 						// Legal link exists
-						cy.get(`a[href="${config.urls.privacy}"]`).should(
-							'exist'
-						);
+						config.legalLinks
+							.filter((link) => link.registration)
+							.forEach((link) => {
+								cy.get(`a[href="${link.url}"]`).should('exist');
+							});
+
 						// Confirm
 						cy.get('.waitingRoom__button button').click();
 
@@ -274,7 +279,7 @@ describe('videoconference', () => {
 			cy.get('@appointmentId').then((id: any) => {
 				cy.window()
 					.then((window) => {
-						window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
+						//window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
 					})
 					.then(() => {
 						const videoUrl = config.urls.videoConference
@@ -289,9 +294,11 @@ describe('videoconference', () => {
 						cy.contains('Herzlich Willkommen!').should('exist');
 
 						// Legal link exists
-						cy.get(`a[href="${config.urls.privacy}"]`).should(
-							'exist'
-						);
+						config.legalLinks
+							.filter((link) => link.registration)
+							.forEach((link) => {
+								cy.get(`a[href="${link.url}"]`).should('exist');
+							});
 						// Confirm
 						cy.get('.waitingRoom__button button').click();
 
@@ -358,7 +365,7 @@ describe('videoconference', () => {
 
 				cy.window()
 					.then((window) => {
-						window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
+						//window.JitsiMeetExternalAPI = FakeJitsiMeetExternalAPI;
 					})
 					.its('externalApi')
 					.then((externalApi) => {

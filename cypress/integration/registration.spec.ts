@@ -1,4 +1,4 @@
-import { config } from '../../src/resources/scripts/config';
+import { endpoints } from '../../src/resources/scripts/endpoints';
 import {
 	closeWebSocketServer,
 	mockWebSocket,
@@ -64,9 +64,7 @@ describe('registration', () => {
 		beforeEach(() => {
 			cy.fixture('service.agencies.json').then((data) => {
 				agencies = data;
-				cy.intercept(config.endpoints.agencyServiceBase, data).as(
-					'agencies'
-				);
+				cy.intercept(endpoints.agencyServiceBase, data).as('agencies');
 			});
 		});
 
@@ -95,7 +93,7 @@ describe('registration', () => {
 			cy.wait('@agencies');
 			cy.title().should(
 				'be.equal',
-				'Registrierung Beratung für Suizidgefährdete junge Menschen [U25]'
+				'Registrierung Beratung für suizidgefährdete junge Menschen [U25]'
 			);
 			cy.get('[data-cy=close-welcome-screen]').click();
 			checkForGenericRegistrationElements();
@@ -124,9 +122,10 @@ describe('registration', () => {
 			cy.wait('@consultingTypeServiceBySlugFull');
 			cy.wait('@agencies');
 			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.contains('Beratungsstelle wählen').click();
 			cy.get('[data-cy=show-preselected-agency]').should('exist');
 			cy.get('[data-cy=show-preselected-agency]').contains(
-				agencies[0].name
+				'JUGEND SUCHT BERATUNG Köln, SKM e.V. Köln'
 			);
 		});
 
@@ -135,10 +134,12 @@ describe('registration', () => {
 			cy.wait('@consultingTypeServiceBySlugFull');
 			cy.wait('@agencies');
 			cy.get('[data-cy=close-welcome-screen]').click();
+			cy.contains('Beratungsstelle wählen').click();
 			cy.get('[data-cy=show-preselected-agency]').should('exist');
 			cy.get('[data-cy=show-preselected-agency]').contains(
-				agencies[0].name
+				'JUGEND SUCHT BERATUNG Köln, SKM e.V. Köln'
 			);
+			cy.contains('Benutzernamen wählen').click();
 			cy.get('input[id="username"]').focus().type('u25-user');
 			cy.contains('Weiter').click();
 			cy.get('input[id="passwordInput"]').focus().type('Password123!');
@@ -151,6 +152,8 @@ describe('registration', () => {
 			cy.get('button:contains("Weiter"):visible').click();
 			cy.contains('Bundesland auswählen*').click();
 			cy.get('[id^="react-select"]:contains("Bayern")').click();
+			cy.get('button:contains("Weiter"):visible').click();
+			cy.get('button:contains("Weiter"):visible').click();
 			cy.get('#dataProtectionLabel').click();
 			cy.contains('Registrieren').should('be.enabled');
 		});

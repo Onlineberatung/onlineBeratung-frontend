@@ -10,11 +10,9 @@ import {
 	OverlayItem,
 	OverlayWrapper
 } from '../overlay/Overlay';
-import { translate } from '../../utils/translate';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import './appointments.styles.scss';
 import {
-	LegalLinkInterface,
 	NOTIFICATION_TYPE_SUCCESS,
 	NotificationsContext
 } from '../../globalState';
@@ -34,41 +32,12 @@ import { useResponsive } from '../../hooks/useResponsive';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
 import * as appointmentService from '../../api/appointments';
 import { Text } from '../text/Text';
+import { useTranslation } from 'react-i18next';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 
-export const onlineMeetingFormOverlay = (
-	onChange,
-	onlineMeeting
-): OverlayItem => ({
-	headline: onlineMeeting.id
-		? translate('appointments.onlineMeeting.overlay.edit.headline')
-		: translate('appointments.onlineMeeting.overlay.add.headline'),
-	nestedComponent: (
-		<OnlineMeetingForm onChange={onChange} onlineMeeting={onlineMeeting} />
-	),
-	buttonSet: [
-		{
-			label: translate(
-				'appointments.onlineMeeting.overlay.add.button.cancel'
-			),
-			function: OVERLAY_FUNCTIONS.CLOSE,
-			type: BUTTON_TYPES.SECONDARY
-		},
-		{
-			label: translate(
-				'appointments.onlineMeeting.overlay.add.button.add'
-			),
-			function: 'SAVE',
-			type: BUTTON_TYPES.PRIMARY,
-			disabled: !onlineMeeting.datetime
-		}
-	]
-});
-
-interface AppointmentsProps {
-	legalLinks: Array<LegalLinkInterface>;
-}
-
-export const Appointments = ({ legalLinks }: AppointmentsProps) => {
+export const Appointments = () => {
+	const { t: translate } = useTranslation();
+	const legalLinks = useContext(LegalLinksContext);
 	const { addNotification } = useContext(NotificationsContext);
 
 	const [loading, setLoading] = useState(true);
@@ -77,6 +46,44 @@ export const Appointments = ({ legalLinks }: AppointmentsProps) => {
 	>([]);
 
 	const { fromL } = useResponsive();
+
+	const OnlineMeetingFormOverlay = useCallback(
+		(onChange, onlineMeeting): OverlayItem => {
+			return {
+				headline: onlineMeeting.id
+					? translate(
+							'appointments.onlineMeeting.overlay.edit.headline'
+					  )
+					: translate(
+							'appointments.onlineMeeting.overlay.add.headline'
+					  ),
+				nestedComponent: (
+					<OnlineMeetingForm
+						onChange={onChange}
+						onlineMeeting={onlineMeeting}
+					/>
+				),
+				buttonSet: [
+					{
+						label: translate(
+							'appointments.onlineMeeting.overlay.add.button.cancel'
+						),
+						function: OVERLAY_FUNCTIONS.CLOSE,
+						type: BUTTON_TYPES.SECONDARY
+					},
+					{
+						label: translate(
+							'appointments.onlineMeeting.overlay.add.button.add'
+						),
+						function: 'SAVE',
+						type: BUTTON_TYPES.PRIMARY,
+						disabled: !onlineMeeting.datetime
+					}
+				]
+			};
+		},
+		[translate]
+	);
 
 	useEffect(() => {
 		appointmentService
@@ -129,7 +136,7 @@ export const Appointments = ({ legalLinks }: AppointmentsProps) => {
 					console.error(err);
 				});
 		},
-		[addNotification, appointments]
+		[addNotification, appointments, translate]
 	);
 
 	const [overlayItem, setOverlayItem] = useState(null);
@@ -168,20 +175,23 @@ export const Appointments = ({ legalLinks }: AppointmentsProps) => {
 		icon: <CameraPlusIcon />
 	};
 
-	const changeOnlineMeeting = useCallback((onlineMeeting) => {
-		setOnlineMeeting(onlineMeeting);
-		setOverlayItem(
-			onlineMeetingFormOverlay(changeOnlineMeeting, onlineMeeting)
-		);
-	}, []);
+	const changeOnlineMeeting = useCallback(
+		(onlineMeeting) => {
+			setOnlineMeeting(onlineMeeting);
+			setOverlayItem(
+				OnlineMeetingFormOverlay(changeOnlineMeeting, onlineMeeting)
+			);
+		},
+		[OnlineMeetingFormOverlay]
+	);
 
 	const editAppointment = useCallback(
 		(appointment) => {
 			setOverlayItem(
-				onlineMeetingFormOverlay(changeOnlineMeeting, appointment)
+				OnlineMeetingFormOverlay(changeOnlineMeeting, appointment)
 			);
 		},
-		[changeOnlineMeeting]
+		[changeOnlineMeeting, OnlineMeetingFormOverlay]
 	);
 
 	const deleteAppointment = useCallback(
@@ -219,7 +229,7 @@ export const Appointments = ({ legalLinks }: AppointmentsProps) => {
 								<Button
 									buttonHandle={() =>
 										setOverlayItem(
-											onlineMeetingFormOverlay(
+											OnlineMeetingFormOverlay(
 												changeOnlineMeeting,
 												onlineMeeting
 											)
@@ -330,7 +340,7 @@ export const Appointments = ({ legalLinks }: AppointmentsProps) => {
 									<Text
 										className="profile__footer__item"
 										type="infoSmall"
-										text={legalLink.label}
+										text={translate(legalLink.label)}
 									/>
 								</a>
 							</React.Fragment>
@@ -349,6 +359,17 @@ type AppointmentDividerProps = {
 };
 
 const AppointmentDivider = ({ date, type, index }: AppointmentDividerProps) => {
+	const { t: translate } = useTranslation();
+	const month = translate(`date.month.${date.getMonth()}.long`);
+	const prettyDate = getPrettyDateFromMessageDate(
+		date.getTime() / 1000,
+		true,
+		true
+	);
+	var day =
+		translate(prettyDate.str) +
+		(prettyDate.date ? ',' + prettyDate.date : '');
+
 	return (
 		<div
 			className={`appointment__divider flex ${
@@ -357,13 +378,7 @@ const AppointmentDivider = ({ date, type, index }: AppointmentDividerProps) => {
 		>
 			<hr className="my--1" />
 			<div className="flex__col--no-grow text--nowrap text--secondary text--uppercase px--3">
-				{type === 'day'
-					? getPrettyDateFromMessageDate(
-							date.getTime() / 1000,
-							true,
-							true
-					  )
-					: translate(`date.month.${date.getMonth()}`)}
+				{type === 'day' ? day : month}
 			</div>
 			<hr className="my--1" />
 		</div>

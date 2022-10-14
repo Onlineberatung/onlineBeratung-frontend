@@ -1,8 +1,8 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { FETCH_METHODS, fetchData } from './fetchData';
 
 export const apiGetGroupMembers = async (chatId: number): Promise<any> => {
-	const url = `${config.endpoints.groupChatBase + chatId}/members`;
+	const url = `${endpoints.groupChatBase + chatId}/members`;
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.GET

@@ -14,7 +14,6 @@ import {
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	LegalLinkInterface,
 	ConsultingTypesContext,
 	E2EEProvider,
 	SessionTypeProvider
@@ -27,12 +26,10 @@ import { NonPlainRoutesWrapper } from './NonPlainRoutesWrapper';
 import { Walkthrough } from '../walkthrough/Walkthrough';
 import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { useAskerHasAssignedConsultant } from '../booking/hooks/useAskerHasAssignedConsultant';
+import { useAskerHasAssignedConsultant } from '../../containers/bookings/hooks/useAskerHasAssignedConsultant';
 
 interface RoutingProps {
 	logout?: Function;
-	legalLinks: Array<LegalLinkInterface>;
-	spokenLanguages: string[];
 }
 
 export const Routing = (props: RoutingProps) => {
@@ -88,7 +85,7 @@ export const Routing = (props: RoutingProps) => {
 							key={`plain-${route.path}`}
 							path={route.path}
 						>
-							<route.component legalLinks={props.legalLinks} />
+							<route.component />
 						</Route>
 					)
 				)}

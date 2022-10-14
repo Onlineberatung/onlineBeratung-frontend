@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as SendIcon } from '../../resources/img/icons/paper-plane.svg';
 
 interface SendMessageButtonProps {
@@ -9,6 +9,8 @@ interface SendMessageButtonProps {
 }
 
 export const SendMessageButton = (props: SendMessageButtonProps) => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<span
 			onClick={() => props.handleSendButton()}

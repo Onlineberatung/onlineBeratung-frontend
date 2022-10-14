@@ -1,8 +1,8 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { FETCH_METHODS, fetchData } from './fetchData';
 
 export const apiPostBanUser = ({ rcUserId, chatId }): Promise<any> => {
-	const url = config.endpoints.banUser(rcUserId, chatId);
+	const url = endpoints.banUser(rcUserId, chatId);
 
 	return fetchData({
 		url: url,

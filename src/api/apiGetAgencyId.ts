@@ -1,11 +1,11 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { AgencyDataInterface } from '../globalState';
 
 export const apiGetAgencyById = async (
 	agencyId: any
 ): Promise<AgencyDataInterface> => {
-	const url = config.endpoints.agencyServiceBase + '/' + agencyId;
+	const url = endpoints.agencyServiceBase + '/' + agencyId;
 
 	return fetchData({
 		url: url,
