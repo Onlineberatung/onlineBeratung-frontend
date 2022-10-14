@@ -1,5 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
 import { ComponentType, useState } from 'react';
 import {
 	BrowserRouter as Router,
@@ -10,7 +11,6 @@ import {
 } from 'react-router-dom';
 import { AuthenticatedApp } from './AuthenticatedApp';
 import { Registration } from '../registration/Registration';
-import { LoginLoader } from './LoginLoader';
 import { StageProps } from '../stage/stage';
 import '../../resources/styles/styles';
 import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
@@ -30,6 +30,7 @@ import VideoCall from '../videoCall/VideoCall';
 import { LegalLinksProvider } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { DevToolbarWrapper } from '../devToolbar/DevToolbar';
+import { Login } from '../login/Login';
 
 type TExtraRoute = {
 	route: RouteProps;
@@ -94,24 +95,9 @@ const RouterWrapper = ({
 	stageComponent,
 	entryPoint
 }: RouterWrapperProps) => {
+	const history = useHistory();
 	const settings = useAppConfig();
 
-	const [
-		hasUnmatchedLoginConsultingType,
-		setHasUnmatchedLoginConsultingType
-	] = useState(false);
-	const [
-		hasUnmatchedAnonymousConversation,
-		setHasUnmatchedAnonymousConversation
-	] = useState(false);
-	const [
-		hasUnmatchedRegistrationConsultingType,
-		setHasUnmatchedRegistrationConsultingType
-	] = useState(false);
-	const [
-		hasUnmatchedRegistrationConsultant,
-		setHasUnmatchedRegistrationConsultant
-	] = useState(false);
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
 		useState<boolean>(false);
@@ -139,60 +125,43 @@ const RouterWrapper = ({
 								)
 							)}
 
-							{!hasUnmatchedRegistrationConsultingType &&
-								!hasUnmatchedRegistrationConsultant && (
-									<Route
-										path={[
-											'/registration',
-											'/:consultingTypeSlug/registration'
-										]}
-									>
-										<Registration
-											handleUnmatchConsultingType={() =>
-												setHasUnmatchedRegistrationConsultingType(
-													true
-												)
-											}
-											handleUnmatchConsultant={() => {
-												setHasUnmatchedRegistrationConsultant(
-													true
-												);
-											}}
-											stageComponent={stageComponent}
-										/>
-									</Route>
-								)}
+							<Route
+								path={[
+									'/registration',
+									'/:consultingTypeSlug/registration'
+								]}
+							>
+								<Registration
+									handleUnmatchConsultingType={() =>
+										history.push('/login')
+									}
+									handleUnmatchConsultant={() =>
+										history.push('/login')
+									}
+									stageComponent={stageComponent}
+								/>
+							</Route>
 
-							{!hasUnmatchedAnonymousConversation && (
-								<Route path="/:consultingTypeSlug/warteraum">
-									<WaitingRoomLoader
-										handleUnmatch={() =>
-											setHasUnmatchedAnonymousConversation(
-												true
-											)
-										}
-										onAnonymousRegistration={() =>
-											setStartWebsocket(true)
-										}
-									/>
-								</Route>
-							)}
+							<Route path="/:consultingTypeSlug/warteraum">
+								<WaitingRoomLoader
+									handleUnmatch={() => history.push('/login')}
+									onAnonymousRegistration={() =>
+										setStartWebsocket(true)
+									}
+								/>
+							</Route>
+							<Route path="/:consultingTypeSlug/warteraum">
+								<WaitingRoomLoader
+									handleUnmatch={() => history.push('/login')}
+									onAnonymousRegistration={() =>
+										setStartWebsocket(true)
+									}
+								/>
+							</Route>
 
-							{!hasUnmatchedLoginConsultingType && (
-								<Route
-									path={['/login', '/:consultingTypeSlug']}
-									exact
-								>
-									<LoginLoader
-										handleUnmatch={() =>
-											setHasUnmatchedLoginConsultingType(
-												true
-											)
-										}
-										stageComponent={stageComponent}
-									/>
-								</Route>
-							)}
+							<Route path="/login" exact>
+								<Login stageComponent={stageComponent} />
+							</Route>
 							<Route path={settings.urls.videoConference} exact>
 								<VideoConference />
 							</Route>
