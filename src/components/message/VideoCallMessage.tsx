@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
+import { ICON_CALL_OFF, SystemMessage } from './SystemMessage';
 import { VideoCallMessageDTO } from './MessageItemComponent';
 import {
 	currentUserIsTeamConsultant,
 	currentUserWasVideoCallInitiator
 } from '../../utils/videoCallHelpers';
-import { ICON_CALL_OFF, SystemMessage } from './SystemMessage';
-
+import { useTranslation } from 'react-i18next';
 interface VideoCallMessageProps {
 	videoCallMessage: VideoCallMessageDTO;
 	activeSessionUsername: string;
@@ -14,6 +13,8 @@ interface VideoCallMessageProps {
 }
 
 export const VideoCallMessage = (props: VideoCallMessageProps) => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<SystemMessage
 			icon={ICON_CALL_OFF}

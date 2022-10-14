@@ -1,11 +1,11 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { FETCH_METHODS, fetchData, FETCH_ERRORS } from './fetchData';
 
 export const apiGetSessionData = async (
 	rcGroupId: string,
 	signal?: AbortSignal
 ): Promise<any> => {
-	const url = config.endpoints.messages + `?rcGroupId=${rcGroupId}`;
+	const url = endpoints.messages + `?rcGroupId=${rcGroupId}`;
 
 	return fetchData({
 		url: url,

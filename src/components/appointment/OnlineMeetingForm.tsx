@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
-import { translate } from '../../utils/translate';
 import { Textarea } from '../form/textarea';
 import * as React from 'react';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
+import { useTranslation } from 'react-i18next';
+import { LocaleContext } from '../../globalState';
 
 type OnlineMeetingFormProps = {
 	onChange: (appointment: AppointmentsDataInterface) => void;
@@ -20,6 +21,8 @@ export const OnlineMeetingForm = ({
 	onChange,
 	onlineMeeting: initialOnlineMeeting
 }: OnlineMeetingFormProps) => {
+	const { t: translate } = useTranslation();
+	const { locale } = useContext(LocaleContext);
 	const [dateFocus, setDateFocus] = useState(false);
 	const [timeFocus, setTimeFocus] = useState(false);
 	const [onlineMeeting, setOnlineMeeting] = useState((): OnlineMeeting => {
@@ -66,7 +69,7 @@ export const OnlineMeetingForm = ({
 									}
 									handleChange('datetime', dateTime);
 								}}
-								locale="de"
+								locale={locale}
 								minDate={new Date()}
 								maxDate={new Date(2999, 12, 31)}
 								dateFormat="cccccc, dd. MMMM yyyy"
@@ -95,7 +98,7 @@ export const OnlineMeetingForm = ({
 									onChange={(time) =>
 										handleChange('datetime', time)
 									}
-									locale="de"
+									locale={locale}
 									showTimeSelect
 									showTimeSelectOnly
 									timeIntervals={15}

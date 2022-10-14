@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 
 export const WelcomeIllustration = () => {
+	const { t: translate } = useTranslation();
 	return (
 		<div
 			className="sessionsList__illustration__wrapper"

@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { translate } from '../../utils/translate';
+import { useTranslation } from 'react-i18next';
 import { mobileListView } from '../app/navigationHandler';
 import { Text } from '../text/Text';
 import './session.styles';
 
 export const SessionViewEmpty = () => {
+	const { t: translate } = useTranslation();
 	useEffect(() => {
 		mobileListView();
 	}, []);

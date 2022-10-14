@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from 'react';
 import { apiGetTools } from '../../api/apiGetTools';
 import { UserDataContext } from '../../globalState';
 import { APIToolsInterface } from '../../globalState/interfaces/ToolsInterface';
-import { translate } from '../../utils/translate';
 import {
 	setToolsWrapperActive,
 	setToolsWrapperInactive
@@ -12,8 +11,10 @@ import { Box } from '../box/Box';
 import { Headline } from '../headline/Headline';
 import { Tool } from './Tool';
 import './tools.styles';
+import { useTranslation } from 'react-i18next';
 
 export const ToolsList = () => {
+	const { t: translate } = useTranslation();
 	const [toolList, setToolsList] = useState<APIToolsInterface[]>([]);
 	const { userData } = useContext(UserDataContext);
 

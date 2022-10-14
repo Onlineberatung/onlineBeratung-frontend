@@ -4,7 +4,7 @@ import {
 	generateMessagesReply,
 	sessionsReply
 } from '../sessions';
-import { config } from '../../../src/resources/scripts/config';
+import { endpoints } from '../../../src/resources/scripts/endpoints';
 import {
 	getAskerSessions,
 	setAskerSessions,
@@ -42,7 +42,8 @@ const defaultReturns = {
 			sessions: []
 		}
 	},
-	agencyConsultants: []
+	agencyConsultants: [],
+	agencyConsultantsLanguages: ['de']
 };
 
 Cypress.Commands.add('willReturn', (name: string, data: any) => {
@@ -68,6 +69,8 @@ Cypress.Commands.add('mockApi', () => {
 	cy.addMessage({}, 1);
 	cy.addMessage({}, 2);
 
+	window.localStorage.setItem(`locale`, 'de');
+
 	// ConsultingTypes
 	cy.fixture('service.consultingtypes.emigration.json').then(
 		(consultingType) => {
@@ -89,7 +92,7 @@ Cypress.Commands.add('mockApi', () => {
 	});
 
 	cy.fixture('api.v1.login').then((data) => {
-		cy.intercept('POST', config.endpoints.rc.accessToken, (req) => {
+		cy.intercept('POST', endpoints.rc.accessToken, (req) => {
 			username = decodeUsername(req.body.username);
 			req.reply(
 				deepMerge(data, {
@@ -120,7 +123,7 @@ Cypress.Commands.add('mockApi', () => {
 		defaultReturns['userData'][USER_ASKER] = userData;
 	});
 
-	cy.intercept('GET', `${config.endpoints.consultantSessions}*`, (req) => {
+	cy.intercept('GET', `${endpoints.consultantSessions}*`, (req) => {
 		if (overrides['consultantSessions']) {
 			return req.reply(overrides['consultantSessions']);
 		}
@@ -139,7 +142,7 @@ Cypress.Commands.add('mockApi', () => {
 		);
 	}).as('consultantSessions');
 
-	cy.intercept('GET', config.endpoints.askerSessions, (req) => {
+	cy.intercept('GET', endpoints.askerSessions, (req) => {
 		if (overrides['askerSessions']) {
 			return req.reply(overrides['askerSessions']);
 		}
@@ -149,7 +152,7 @@ Cypress.Commands.add('mockApi', () => {
 		});
 	}).as('askerSessions');
 
-	cy.intercept('GET', config.endpoints.messages, (req) => {
+	cy.intercept('GET', endpoints.messages, (req) => {
 		if (overrides['messages']) {
 			return req.reply(overrides['messages']);
 		}
@@ -166,7 +169,7 @@ Cypress.Commands.add('mockApi', () => {
 		);
 	}).as('messages');
 
-	cy.intercept('POST', config.endpoints.rc.subscriptions.read, (req) => {
+	cy.intercept('POST', endpoints.rc.subscriptions.read, (req) => {
 		getAskerSessions().forEach((session, index) => {
 			if (session.session.groupId === req.body.rid) {
 				updateAskerSession({ session: { messagesRead: true } }, index);
@@ -185,53 +188,58 @@ Cypress.Commands.add('mockApi', () => {
 		req.reply('{}');
 	}).as('sessionRead');
 
-	cy.intercept('GET', `${config.endpoints.consultantEnquiriesBase}*`, {}).as(
+	cy.intercept('GET', `${endpoints.consultantEnquiriesBase}*`, {}).as(
 		'consultantEnquiriesBase'
 	);
 
-	cy.intercept('POST', config.endpoints.keycloakLogout, {}).as('authLogout');
+	cy.intercept('POST', endpoints.keycloakLogout, {}).as('authLogout');
 
-	cy.intercept('POST', config.endpoints.rc.logout, {}).as('apiLogout');
+	cy.intercept('POST', endpoints.rc.logout, {}).as('apiLogout');
 
-	cy.intercept(`${config.endpoints.liveservice}/**/*`, {
+	cy.intercept(`${endpoints.liveservice}/**/*`, {
 		entropy: -1197552011,
 		origins: ['*:*'],
 		cookie_needed: false,
 		websocket: true
 	});
 
-	cy.intercept('GET', config.endpoints.draftMessages, {}).as('draftMessages');
+	cy.intercept('GET', endpoints.draftMessages, {}).as('draftMessages');
 
-	cy.intercept('POST', config.endpoints.startVideoCall, {
+	cy.intercept('POST', endpoints.startVideoCall, {
 		fixture: 'service.videocalls.new'
 	}).as('startVideoCall');
 
-	cy.intercept('POST', config.endpoints.rejectVideoCall, {}).as(
-		'rejectVideoCall'
-	);
+	cy.intercept('POST', endpoints.rejectVideoCall, {}).as('rejectVideoCall');
 
-	cy.intercept('POST', config.endpoints.attachmentUpload, (req) =>
+	cy.intercept('POST', endpoints.attachmentUpload, (req) =>
 		req.reply({
 			...defaultReturns['attachmentUpload'],
 			...(overrides['attachmentUpload'] || {})
 		})
 	).as('attachmentUpload');
 
-	cy.intercept('POST', config.endpoints.keycloakAccessToken, (req) => {
+	cy.intercept('POST', endpoints.keycloakAccessToken, (req) => {
 		req.reply({
 			...defaultReturns['auth'],
 			...(overrides['auth'] || {})
 		});
 	}).as('authToken');
 
-	cy.intercept('GET', config.endpoints.userData, (req) => {
+	cy.intercept('GET', endpoints.userData, (req) => {
 		req.reply({
 			...defaultReturns['userData'][username],
 			...(overrides['userData'] || {})
 		});
 	}).as('usersData');
 
-	cy.intercept('GET', config.endpoints.agencyConsultants, (req) => {
+	cy.intercept('GET', endpoints.consultantsLanguages, (req) => {
+		req.reply(
+			...defaultReturns['agencyConsultantsLanguages'],
+			...(overrides['agencyConsultantsLanguages'] || [])
+		);
+	}).as('agencyConsultants');
+
+	cy.intercept('GET', endpoints.agencyConsultants, (req) => {
 		req.reply(
 			...defaultReturns['agencyConsultants'],
 			...(overrides['agencyConsultants'] || [])
@@ -239,7 +247,7 @@ Cypress.Commands.add('mockApi', () => {
 	}).as('agencyConsultants');
 
 	cy.intercept(
-		`${config.endpoints.consultingTypeServiceBase}/byslug/*/full`,
+		`${endpoints.consultingTypeServiceBase}/byslug/*/full`,
 		(req) => {
 			const slug = new URL(req.url).pathname.split('/')[4];
 
@@ -252,29 +260,23 @@ Cypress.Commands.add('mockApi', () => {
 		}
 	).as('consultingTypeServiceBySlugFull');
 
-	cy.intercept(
-		`${config.endpoints.consultingTypeServiceBase}/*/full`,
-		(req) => {
-			const id = parseInt(new URL(req.url).pathname.split('/')[3]);
+	cy.intercept(`${endpoints.consultingTypeServiceBase}/*/full`, (req) => {
+		const id = parseInt(new URL(req.url).pathname.split('/')[3]);
 
-			req.reply({
-				...(defaultReturns['consultingTypes'].find(
-					(consultingType) => consultingType.id === id
-				) || {}),
-				...(overrides['consultingType'] || {})
-			});
-		}
-	).as('consultingTypeServiceBaseFull');
+		req.reply({
+			...(defaultReturns['consultingTypes'].find(
+				(consultingType) => consultingType.id === id
+			) || {}),
+			...(overrides['consultingType'] || {})
+		});
+	}).as('consultingTypeServiceBaseFull');
 
-	cy.intercept(
-		`${config.endpoints.consultingTypeServiceBase}/basic`,
-		(req) => {
-			req.reply([
-				...defaultReturns['consultingTypes'],
-				...(overrides['consultingTypes'] || [])
-			]);
-		}
-	).as('consultingTypeServiceBaseBasic');
+	cy.intercept(`${endpoints.consultingTypeServiceBase}/basic`, (req) => {
+		req.reply([
+			...defaultReturns['consultingTypes'],
+			...(overrides['consultingTypes'] || [])
+		]);
+	}).as('consultingTypeServiceBaseBasic');
 
 	cy.intercept('GET', '/releases/*.json', (req) => {
 		req.reply({
@@ -320,7 +322,7 @@ Cypress.Commands.add('mockApi', () => {
 		statusCode: 200
 	});
 
-	cy.intercept('GET', config.endpoints.sessionRooms, (req) => {
+	cy.intercept('GET', endpoints.sessionRooms, (req) => {
 		const data = { ...defaultReturns['sessionRooms'] };
 		data.body.sessions[0].session = {
 			...data.body.sessions[0].session,

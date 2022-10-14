@@ -7,7 +7,6 @@ import {
 	X_REASON
 } from '../../api';
 import { useConsultingTypes, UserDataContext } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditableData } from '../editableData/EditableData';
 import { Text } from '../text/Text';
@@ -24,13 +23,10 @@ import { apiDeleteEmail } from '../../api/apiDeleteEmail';
 import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import useUpdateUserData from '../../utils/useUpdateUserData';
 import { Headline } from '../headline/Headline';
-
-const cancelEditButton: ButtonItem = {
-	label: translate('profile.data.edit.button.cancel'),
-	type: BUTTON_TYPES.LINK
-};
+import { useTranslation } from 'react-i18next';
 
 export const AskerAboutMeData = () => {
+	const { t: translate } = useTranslation();
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isEmailDisabled, setIsEmailDisabled] = useState<boolean>(true);
 	const [overlay, setOverlay] = useState<OverlayItem>(null);
@@ -45,6 +41,11 @@ export const AskerAboutMeData = () => {
 	const consultingTypes = useConsultingTypes();
 	const showEmail = hasAskerEmailFeatures(userData, consultingTypes);
 	const updateUserData = useUpdateUserData();
+
+	const cancelEditButton: ButtonItem = {
+		label: translate('profile.data.edit.button.cancel'),
+		type: BUTTON_TYPES.LINK
+	};
 
 	const isEmail2faActive =
 		userData.twoFactorAuth?.isActive &&
@@ -88,7 +89,7 @@ export const AskerAboutMeData = () => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const overlaySuccess: OverlayItem = useMemo(
@@ -105,7 +106,7 @@ export const AskerAboutMeData = () => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const overlayConfirm: OverlayItem = useMemo(
@@ -151,7 +152,7 @@ export const AskerAboutMeData = () => {
 				}
 			]
 		}),
-		[isEmail2faActive]
+		[isEmail2faActive, translate]
 	);
 
 	const overlayError: OverlayItem = useMemo(
@@ -166,7 +167,7 @@ export const AskerAboutMeData = () => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const handleCancelEditButton = () => {
@@ -267,7 +268,7 @@ export const AskerAboutMeData = () => {
 			<div className="profile__content__title">
 				<Headline
 					className="pr--3"
-					text={translate('profile.data.title')}
+					text={translate('profile.data.title.asker')}
 					semanticLevel="5"
 				/>
 			</div>

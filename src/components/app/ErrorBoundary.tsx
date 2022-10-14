@@ -7,6 +7,7 @@ import {
 import { redirectToErrorPage } from '../error/errorHandling';
 import { Loading } from './Loading';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
+import { STORAGE_KEY_ERROR_BOUNDARY } from '../devToolbar/DevToolbar';
 
 type ErrorBoundaryProps = {
 	children: ReactNode;
@@ -35,8 +36,9 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
 	componentDidCatch(error, info) {
 		if (
-			process.env.REACT_APP_DISABLE_ERROR_BOUNDARY &&
-			parseInt(process.env.REACT_APP_DISABLE_ERROR_BOUNDARY) === 1
+			(process.env.REACT_APP_DISABLE_ERROR_BOUNDARY &&
+				parseInt(process.env.REACT_APP_DISABLE_ERROR_BOUNDARY) === 1) ||
+			(localStorage.getItem(STORAGE_KEY_ERROR_BOUNDARY) ?? '1') === '0'
 		) {
 			console.error('ErrorBoundary disabled!');
 			return;

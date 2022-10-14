@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { translate } from '../../utils/translate';
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
+import { useTranslation } from 'react-i18next';
 
 interface CopyMessageProps {
 	right: Boolean;
@@ -11,6 +11,7 @@ interface CopyMessageProps {
 }
 
 export const CopyMessage = (props: CopyMessageProps) => {
+	const { t: translate } = useTranslation();
 	const [messageCopied, setMessageCopied] = useState(false);
 	let timeoutId: number = null;
 

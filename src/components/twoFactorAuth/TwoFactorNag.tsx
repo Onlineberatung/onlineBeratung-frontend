@@ -1,17 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { UserDataContext } from '../../globalState';
-import { translate } from '../../utils/translate';
 import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
-import { history } from '../app/app';
 import './twoFactorNag.styles';
+import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import {
+	STORAGE_KEY_2FA,
+	STORAGE_KEY_2FA_DUTY,
+	useDevToolbar
+} from '../devToolbar/DevToolbar';
 
 interface TwoFactorNagProps {}
 
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const settings = useAppConfig();
 	const { userData } = useContext(UserDataContext);
+	const { getDevToolbarOption } = useDevToolbar();
 	const [isShownTwoFactorNag, setIsShownTwoFactorNag] = useState(false);
 	const [forceHideTwoFactorNag, setForceHideTwoFactorNag] = useState(false);
 	const [message, setMessage] = useState({
@@ -27,20 +36,25 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			userData.twoFactorAuth?.isEnabled &&
 			!userData.twoFactorAuth?.isActive &&
 			!forceHideTwoFactorNag &&
-			todaysDate >= settings.twofactor.startObligatoryHint
+			todaysDate >= settings.twofactor.startObligatoryHint &&
+			getDevToolbarOption(STORAGE_KEY_2FA) === '1'
 		) {
 			setIsShownTwoFactorNag(true);
 
-			todaysDate >= settings.twofactor.dateTwoFactorObligatory
+			todaysDate >= settings.twofactor.dateTwoFactorObligatory &&
+			getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '1'
 				? setMessage(settings.twofactor.messages[1])
 				: setMessage(settings.twofactor.messages[0]);
+		} else {
+			setIsShownTwoFactorNag(false);
 		}
 	}, [
 		userData,
 		forceHideTwoFactorNag,
 		settings.twofactor.startObligatoryHint,
 		settings.twofactor.dateTwoFactorObligatory,
-		settings.twofactor.messages
+		settings.twofactor.messages,
+		getDevToolbarOption
 	]);
 
 	const closeTwoFactorNag = async () => {
@@ -51,8 +65,10 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			history.push({
-				pathname: '/profile/sicherheit/2fa',
-				openTwoFactor: true
+				pathname: '/profile/einstellungen/sicherheit',
+				state: {
+					openTwoFactor: true
+				}
 			});
 			setForceHideTwoFactorNag(true);
 			setIsShownTwoFactorNag(false);

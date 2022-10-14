@@ -1,17 +1,19 @@
 import * as React from 'react';
-import { Children, ReactNode, ReactElement } from 'react';
-import { translate } from '../../utils/translate';
+import { Children, ReactNode, ReactElement, useContext } from 'react';
 import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
-import { LegalLinkInterface } from '../../globalState';
+import { LocaleContext, TenantContext } from '../../globalState';
+import { useTranslation } from 'react-i18next';
+import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { useResponsive } from '../../hooks/useResponsive';
 
 interface StageLayoutProps {
 	className?: string;
 	children: ReactNode;
-	legalLinks: Array<LegalLinkInterface>;
 	stage: ReactNode;
 	showLegalLinks?: boolean;
 	showLoginLink?: boolean;
@@ -24,20 +26,81 @@ export const StageLayout = ({
 	stage,
 	showLegalLinks,
 	showLoginLink,
-	loginParams,
-	legalLinks
+	loginParams
 }: StageLayoutProps) => {
+	const { t: translate } = useTranslation();
+	const { tenant } = useContext(TenantContext);
+	const legalLinks = useContext(LegalLinksContext);
+	const { selectableLocales } = useContext(LocaleContext);
 	const settings = useAppConfig();
+	const { fromL } = useResponsive();
+	const hasTenant = tenant != null;
 
 	return (
 		<div className={clsx('stageLayout', className)}>
 			{React.cloneElement(Children.only(stage as ReactElement), {
 				className: 'stageLayout__stage'
 			})}
-			<div className="stageLayout__content">
-				{children}
+			<div className={`stageLayout__header ${!fromL ? 'mobile' : ''}`}>
+				{selectableLocales.length > 1 && (
+					<div>
+						<LocaleSwitch />
+					</div>
+				)}
+				{showLoginLink && (
+					<div className="stageLayout__toLogin">
+						<div className="stageLayout__toLogin__button">
+							<a
+								href={`${settings.urls.toLogin}${
+									loginParams ? `?${loginParams}` : ''
+								}`}
+								tabIndex={-1}
+							>
+								<Button
+									item={{
+										label: translate(
+											'registration.login.label'
+										),
+										type: 'TERTIARY'
+									}}
+									isLink
+								/>
+							</a>
+						</div>
+					</div>
+				)}
+
+				{hasTenant && (
+					<div className="login__tenantRegistration">
+						<Text
+							text={translate('login.register.infoText.title')}
+							type={'infoSmall'}
+						/>
+						<a
+							className="login__tenantRegistrationLink"
+							href={settings.urls.toRegistration}
+							target="_self"
+							tabIndex={-1}
+						>
+							<Button
+								item={{
+									label: translate(
+										'login.register.linkLabel'
+									),
+									type: 'TERTIARY'
+								}}
+								isLink
+							/>
+						</a>
+					</div>
+				)}
+			</div>
+
+			<div className="stageLayout__content">{children}</div>
+
+			<div className="stageLayout__footer">
 				{showLegalLinks && (
-					<div className="stageLayout__legalLinks">
+					<div className={`stageLayout__legalLinks`}>
 						{legalLinks.map((legalLink, index) => (
 							<React.Fragment key={legalLink.url}>
 								{index > 0 && (
@@ -58,7 +121,7 @@ export const StageLayout = ({
 									<Text
 										className="stageLayout__legalLinksItem"
 										type="infoSmall"
-										text={legalLink.label}
+										text={translate(legalLink.label)}
 									/>
 								</button>
 							</React.Fragment>
@@ -66,33 +129,6 @@ export const StageLayout = ({
 					</div>
 				)}
 			</div>
-			{showLoginLink && (
-				<div className="stageLayout__toLogin">
-					<Text
-						type="infoSmall"
-						text={translate('registration.login.helper')}
-						className="stageLayout__toLogin__text"
-					/>
-					<div className="stageLayout__toLogin__button">
-						<a
-							href={`${settings.urls.toLogin}${
-								loginParams ? `?${loginParams}` : ''
-							}`}
-							tabIndex={-1}
-						>
-							<Button
-								item={{
-									label: translate(
-										'registration.login.label'
-									),
-									type: 'TERTIARY'
-								}}
-								isLink
-							/>
-						</a>
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };

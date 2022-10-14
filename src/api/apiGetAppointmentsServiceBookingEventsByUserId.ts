@@ -1,12 +1,11 @@
 import { BookingEventsInterface } from '../globalState/interfaces/BookingsInterface';
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiAppointmentsServiceBookingEventsByAskerId = async (
 	userId: string
 ): Promise<BookingEventsInterface[]> => {
-	const url =
-		config.endpoints.appointmentsServiceBookingEventsByUserId(userId);
+	const url = endpoints.appointmentsServiceBookingEventsByUserId(userId);
 
 	return fetchData({
 		url,

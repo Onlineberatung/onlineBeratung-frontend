@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
 import './furtherSteps.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as EnvelopeIllustration } from '../../resources/img/illustrations/envelope-check.svg';
 import { ReactComponent as ConsultantIllustration } from '../../resources/img/illustrations/consultant.svg';
@@ -33,17 +33,7 @@ import {
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
 import { isVoluntaryInfoSet } from './messageHelpers';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { history } from '../app/app';
-
-const addEmailButton: ButtonItem = {
-	label: translate('furtherSteps.emailNotification.button'),
-	type: BUTTON_TYPES.LINK
-};
-
-const add2faButton: ButtonItem = {
-	label: translate('furtherSteps.twoFactorAuth.button'),
-	type: BUTTON_TYPES.LINK
-};
+import { useTranslation } from 'react-i18next';
 
 interface FurtherStepsProps {
 	consultingType: number;
@@ -53,6 +43,9 @@ interface FurtherStepsProps {
 }
 
 export const FurtherSteps = (props: FurtherStepsProps) => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { activeSession } = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
@@ -65,6 +58,16 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	);
 	const [emailLabelState, setEmailLabelState] =
 		useState<InputFieldLabelState>();
+
+	const addEmailButton: ButtonItem = {
+		label: translate('furtherSteps.emailNotification.button'),
+		type: BUTTON_TYPES.LINK
+	};
+
+	const add2faButton: ButtonItem = {
+		label: translate('furtherSteps.twoFactorAuth.button'),
+		type: BUTTON_TYPES.LINK
+	};
 
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
 	const is2faEnabledAndNotActive =
@@ -203,8 +206,10 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 
 	const redirectTo2FA = () => {
 		history.push({
-			pathname: '/profile/sicherheit/2fa',
-			openTwoFactor: true
+			pathname: '/profile/einstellungen/sicherheit',
+			state: {
+				openTwoFactor: true
+			}
 		});
 	};
 
@@ -335,6 +340,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 							className="furtherSteps__infoText"
 						/>
 						<VoluntaryInfoOverlay
+							consultingTypeId={props.consultingType}
 							voluntaryComponents={
 								props.resortData.voluntaryComponents
 							}

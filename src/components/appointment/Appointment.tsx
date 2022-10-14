@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useState } from 'react';
-import { generatePath } from 'react-router-dom';
+import { generatePath, useHistory } from 'react-router-dom';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { Box } from '../box/Box';
 import {
@@ -9,7 +9,6 @@ import {
 	UserDataContext
 } from '../../globalState';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
-import { translate } from '../../utils/translate';
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { ReactComponent as DeleteIcon } from '../../resources/img/icons/delete.svg';
@@ -25,7 +24,7 @@ import { uiUrl } from '../../resources/scripts/config';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { videoCallErrorOverlayItem } from '../sessionMenu/sessionMenuHelpers';
-import { history } from '../app/app';
+import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
 const DESCRIPTION_PREVIEW_LENGTH = 100;
@@ -42,6 +41,9 @@ export const Appointment = ({
 	deleteClick
 }: AppointmentProps) => {
 	const settings = useAppConfig();
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { userData } = useContext(UserDataContext);
 
 	const [overlayItem, setOverlayItem] = useState(null);
@@ -132,7 +134,12 @@ export const Appointment = ({
 					break;
 			}
 		},
-		[appointment, deleteClick, settings.urls.consultantVideoConference]
+		[
+			appointment,
+			deleteClick,
+			history,
+			settings.urls.consultantVideoConference
+		]
 	);
 
 	const shortDescription = useCallback((description) => {
@@ -171,7 +178,7 @@ export const Appointment = ({
 					<div className="flex">
 						<div className="flex__col--1">
 							<div className="mb--1 text--bold">
-								{translate(`date.day.${date.getDay()}`)},{' '}
+								{translate(`date.day.${date.getDay()}.long`)},{' '}
 								{(date.getHours() + 100)
 									.toString()
 									.substring(1)}
@@ -339,6 +346,7 @@ type CopyAppointmentLinkProps = {
 };
 
 const CopyAppointmentLink = ({ appointment }: CopyAppointmentLinkProps) => {
+	const { t: translate } = useTranslation();
 	const settings = useAppConfig();
 	const { addNotification } = useContext(NotificationsContext);
 
@@ -359,7 +367,12 @@ const CopyAppointmentLink = ({ appointment }: CopyAppointmentLinkProps) => {
 				});
 			}
 		);
-	}, [settings.urls.videoConference, appointment.id, addNotification]);
+	}, [
+		settings.urls.videoConference,
+		appointment.id,
+		addNotification,
+		translate
+	]);
 
 	return (
 		<span

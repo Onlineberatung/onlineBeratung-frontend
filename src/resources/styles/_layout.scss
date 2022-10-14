@@ -1,6 +1,6 @@
 html,
 body {
-	height: 100%;
+	min-height: 100%;
 	min-width: $body-min-width;
 }
 
@@ -47,6 +47,9 @@ hr {
 
 	&:hover {
 		color: var(--skin-color-primary-contrast-safe, $hover-primary);
+		.formAccordionItem__index {
+			border: 1px solid $hover-primary;
+		}
 	}
 }
 

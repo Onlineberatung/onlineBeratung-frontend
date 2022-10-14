@@ -7,6 +7,7 @@ export const useWatcher = (
 	intervall?: number
 ): [Function, Function, boolean] => {
 	const timerId = useRef(null);
+	const cancelled = useRef(false);
 	const callback = useRef<() => Promise<any>>(fn);
 
 	useEffect(() => {
@@ -29,6 +30,10 @@ export const useWatcher = (
 			return;
 		}
 		promise.finally(() => {
+			// On slow requests could still be in progress when timer is already canceled
+			if (cancelled.current) {
+				return;
+			}
 			timerId.current = setTimeout(
 				watcher,
 				intervall || DEFAULT_INTERVALL
@@ -37,6 +42,7 @@ export const useWatcher = (
 	}, [intervall]);
 
 	const startWatcher = useCallback(() => {
+		cancelled.current = false;
 		if (timerId.current) {
 			return;
 		}
@@ -45,6 +51,7 @@ export const useWatcher = (
 	}, [watcher]);
 
 	const stopWatcher = useCallback(() => {
+		cancelled.current = true;
 		if (!timerId.current) {
 			return;
 		}

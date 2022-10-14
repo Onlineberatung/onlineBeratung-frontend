@@ -3,12 +3,12 @@
  * all relevant parts as modules. This allows a new consumer to own the runtime
  * but reuse as much code from this repository as useful.
  */
-
 // Page components
 export { App } from './src/components/app/app';
 export { Error } from './src/components/error/Error';
 
 // Component library
+export * from './src/components/banner/Banner';
 export * from './src/components/headline/Headline';
 export * from './src/components/notice/Notice';
 export * from './src/components/text/Text';
@@ -42,7 +42,6 @@ export * from './src/hooks/useWatcher';
 export * from './src/resources/img/icons';
 
 // Utils
-export { translate } from './src/utils/translate';
 export { parsePlaceholderString } from './src/utils/parsePlaceholderString';
 export * from './src/api';
 

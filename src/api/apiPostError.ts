@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { ErrorInfo } from 'react';
 import StackTrace from 'stacktrace-js';
@@ -45,7 +45,7 @@ export const apiPostError = async (
 	error: TError,
 	info?: ErrorInfo
 ): Promise<ErrorResponse> => {
-	const url = config.endpoints.error;
+	const url = endpoints.error;
 
 	if (window) {
 		if (window.location?.href) {

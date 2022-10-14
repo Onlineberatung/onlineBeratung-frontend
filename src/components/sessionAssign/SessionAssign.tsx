@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
 	OverlayWrapper,
 	Overlay,
@@ -7,7 +8,6 @@ import {
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
-import { translate } from '../../utils/translate';
 import {
 	apiGetAgencyConsultantList,
 	apiSessionAssign,
@@ -24,15 +24,18 @@ import { SelectDropdown } from '../select/SelectDropdown';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
-import { history } from '../app/app';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import {
 	prepareConsultantDataForSelect,
 	prepareSelectDropdown
 } from './sessionAssignHelper';
+import { useTranslation } from 'react-i18next';
 
 export const SessionAssign = (props: { value?: string }) => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const { path: listPath } = useContext(SessionTypeContext);
@@ -54,10 +57,10 @@ export const SessionAssign = (props: { value?: string }) => {
 	const assignOtherOverlay: OverlayItem = useMemo(
 		() => ({
 			svg: CheckIcon,
-			headline: translate('session.assignOther.overlayHeadline'),
+			headline: translate('session.assignOther.overlay.headline.2'),
 			buttonSet: [
 				{
-					label: translate('session.assignOther.buttonLabel'),
+					label: translate('session.assignOther.button.label'),
 					function: OVERLAY_FUNCTIONS.CLOSE,
 					functionArgs: {
 						gotoOverview: true
@@ -66,13 +69,13 @@ export const SessionAssign = (props: { value?: string }) => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const assignSelfOverlay: OverlayItem = useMemo(
 		() => ({
 			svg: CheckIcon,
-			headline: translate('session.assignSelf.overlayHeadline'),
+			headline: translate('session.assignSelf.overlay.headline1'),
 			buttonSet: [
 				{
 					label: translate('session.assignSelf.button1.label'),
@@ -86,12 +89,12 @@ export const SessionAssign = (props: { value?: string }) => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const assignSession: OverlayItem = useMemo(
 		() => ({
-			headline: translate('session.assignSelf.overlay.headline'),
+			headline: translate('session.assignSelf.overlay.headline2'),
 			copy: translate('session.assignSelf.overlay.subtitle'),
 			buttonSet: [
 				{
@@ -110,7 +113,7 @@ export const SessionAssign = (props: { value?: string }) => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	const alreadyAssignedSession: OverlayItem = useMemo(
@@ -133,7 +136,7 @@ export const SessionAssign = (props: { value?: string }) => {
 				}
 			]
 		}),
-		[]
+		[translate]
 	);
 
 	useEffect(() => {

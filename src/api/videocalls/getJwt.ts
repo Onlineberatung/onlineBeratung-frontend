@@ -1,12 +1,11 @@
 import { VideoCallJwtDataInterface } from '../../globalState/interfaces/VideoCallDataInterface';
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
 
 export const getJwt = async (
 	appointmentId: string
 ): Promise<VideoCallJwtDataInterface> => {
-	const url =
-		config.endpoints.videocallServiceBase + '/' + appointmentId + '/jwt';
+	const url = endpoints.videocallServiceBase + '/' + appointmentId + '/jwt';
 
 	return fetchData({
 		url: url,

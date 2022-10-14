@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
-import { translate } from '../../utils/translate';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { GeneratedInputs } from '../inputField/InputField';
@@ -17,13 +16,16 @@ import { TagSelect } from '../tagSelect/TagSelect';
 import { ReactComponent as SuccessIllustration } from '../../resources/img/illustrations/check.svg';
 import { apiPutSessionData } from '../../api';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { useTranslation } from 'react-i18next';
 
 interface VoluntaryInfoOverlayProps {
 	voluntaryComponents: any[];
 	handleSuccess: Function;
+	consultingTypeId: number;
 }
 
 export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [valuesOfGeneratedInputs, setValuesOfGeneratedInputs] =
@@ -34,6 +36,28 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 
 	const renderInputComponent = (component, index) => {
 		if (component.componentType === 'SelectDropdown') {
+			const translatedItem = {
+				...component.item,
+				selectInputLabel: translate(
+					[
+						`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.selectInputLabel`,
+						component.item.selectInputLabel
+					],
+					{ ns: 'consultingTypes' }
+				),
+				selectedOptions: [
+					...component.item.selectedOptions.map((option) => ({
+						value: option.value,
+						label: translate(
+							[
+								`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${option.value}`,
+								option.label
+							],
+							{ ns: 'consultingTypes' }
+						)
+					}))
+				]
+			};
 			return (
 				<SelectDropdown
 					key={index}
@@ -46,16 +70,26 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 					defaultValue={
 						valuesOfGeneratedInputs
 							? getOptionOfSelectedValue(
-									component.item.selectedOptions,
+									translatedItem.selectedOptions,
 									valuesOfGeneratedInputs[component.name]
 							  )
 							: null
 					}
-					{...component.item}
+					{...translatedItem}
 				/>
 			);
 		} else if (component.componentType === 'RadioButton') {
 			return component.radioButtons.map((radio, index) => {
+				const translatedItem = {
+					...radio,
+					label: translate(
+						[
+							`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${radio.inputId}`,
+							radio.label
+						],
+						{ ns: 'consultingTypes' }
+					)
+				};
 				return (
 					<RadioButton
 						key={index}
@@ -68,12 +102,22 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 						}
 						type="box"
 						value={index}
-						{...radio}
+						{...translatedItem}
 					/>
 				);
 			});
 		} else if (component.componentType === 'TagSelect') {
 			return component.tagSelects.map((tag, index) => {
+				const translatedItem = {
+					...tag,
+					label: translate(
+						[
+							`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.${tag.id}`,
+							tag.label
+						],
+						{ ns: 'consultingTypes' }
+					)
+				};
 				return (
 					<TagSelect
 						key={index}
@@ -86,7 +130,7 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 								true
 							)
 						}
-						{...tag}
+						{...translatedItem}
 					/>
 				);
 			});
@@ -101,7 +145,13 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 					<Headline
 						semanticLevel="2"
 						styleLevel="5"
-						text={component.headline}
+						text={translate(
+							[
+								`consultingType.${props.consultingTypeId}.voluntaryComponents.${component.name}.headline`,
+								component.headline
+							],
+							{ ns: 'consultingTypes' }
+						)}
 					/>
 					{renderInputComponent(component, index)}
 				</div>

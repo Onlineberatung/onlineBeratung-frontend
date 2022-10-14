@@ -1,6 +1,5 @@
 $buttonMinWidth: 200px;
 $buttonMaxWidth: 400px;
-$buttonHeight: 50px;
 
 .button {
 	&__wrapper {
@@ -14,11 +13,10 @@ $buttonHeight: 50px;
 		appearance: none;
 		border: none;
 		text-decoration: none;
-		text-transform: uppercase;
 		cursor: pointer;
 		min-width: $buttonMinWidth;
 		max-width: $buttonMaxWidth;
-		height: $buttonHeight;
+		height: $grid-base-six;
 		padding: 0 $grid-base-three;
 		border-radius: $button-border-radius;
 
@@ -35,7 +33,6 @@ $buttonHeight: 50px;
 	&__primary {
 		color: var(--text-color-contrast-switch, $white);
 		background: var(--skin-color-primary, $primary);
-		box-shadow: $button-box-shadow-default;
 		border: none;
 
 		&:hover {
@@ -47,27 +44,27 @@ $buttonHeight: 50px;
 	&__secondary {
 		color: var(--skin-color-default, $primary);
 		background-color: transparent;
-		border: 3px solid var(--skin-color-default, $primary);
+		border: 2px solid var(--skin-color-default, $primary);
 
 		&:hover {
 			color: $white;
-			border-color: var(--skin-color-default, $hover-primary);
-			background-color: var(--skin-color-default, $hover-primary);
+			border-color: var(--skin-color-primary-hover, $hover-primary);
+			background-color: var(--skin-color-primary-hover, $hover-primary);
 			transition: all 0.3s ease;
 		}
 	}
 
 	&__tertiary {
 		display: inline-block;
-		height: 36px;
+		height: $grid-base-four;
 		width: auto;
 		min-width: 0;
-		line-height: 32px;
 		color: $tertiary;
 		background-color: transparent;
 		border: 2px solid $tertiary;
-		padding: 0 $grid-base;
+		padding: 0 $grid-base-two;
 		text-transform: none;
+		font-size: $font-size-tertiary;
 
 		&:hover {
 			background-color: var(--skin-color-primary-hover, $hover-primary);
@@ -79,7 +76,6 @@ $buttonHeight: 50px;
 	&__autoClose {
 		color: var(--text-color-contrast-switch, $white);
 		border: 2px solid var(--skin-color-primary, $primary);
-		box-shadow: $button-box-shadow-default;
 		background: linear-gradient(
 			to right,
 			var(--skin-color-primary-hover, $button-auto-close-color) 50%,
@@ -197,7 +193,6 @@ $buttonHeight: 50px;
 
 		&--grey {
 			background-color: $light-grey;
-			box-shadow: $button-box-shadow-grey;
 			border: none;
 
 			&:hover {
@@ -258,7 +253,6 @@ $buttonHeight: 50px;
 				--skin-color-secondary,
 				$button-small-icon-alternate-background-color
 			);
-			box-shadow: $button-box-shadow-grey;
 			border: none;
 
 			&:hover {
@@ -297,13 +291,12 @@ $buttonHeight: 50px;
 
 	&__item--disabled {
 		box-shadow: none;
-		background-color: $form-input-border;
-		color: $tertiary;
+		background-color: rgba(0, 0, 0, 0.05);
+		color: rgba(0, 0, 0, 0.4);
 		cursor: unset;
 
 		&:hover {
-			background-color: $form-input-border;
-			color: $tertiary;
+			background-color: rgba(0, 0, 0, 0.05);
 		}
 	}
 

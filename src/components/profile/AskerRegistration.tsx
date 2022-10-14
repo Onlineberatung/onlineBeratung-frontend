@@ -1,20 +1,16 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
-import { translate } from '../../utils/translate';
+import { useHistory } from 'react-router-dom';
 import {
 	UserDataContext,
 	UserDataInterface,
 	useConsultingTypes,
 	useConsultingType
 } from '../../globalState';
-import { history } from '../app/app';
-import { Button } from '../button/Button';
+import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import {
 	consultingTypeSelectOptionsSet,
-	buttonSetRegistration,
-	overlayItemNewRegistrationSuccess,
-	overlayItemNewRegistrationError,
 	getConsultingTypesForRegistrationStatus,
 	REGISTRATION_STATUS_KEYS
 } from './profileHelpers';
@@ -36,8 +32,14 @@ import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
 import { AskerRegistrationExternalAgencyOverlay } from './AskerRegistrationExternalAgencyOverlay';
+import { useTranslation } from 'react-i18next';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 
 export const AskerRegistration: React.FC = () => {
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
+	const history = useHistory();
+
 	const { userData, setUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingTypeId, setSelectedConsultingTypeId] =
@@ -52,6 +54,47 @@ export const AskerRegistration: React.FC = () => {
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const consultingTypes = useConsultingTypes();
 	const selectedConsultingType = useConsultingType(selectedConsultingTypeId);
+
+	const buttonSetRegistration: ButtonItem = {
+		label: translate('profile.data.register.button.label'),
+		type: BUTTON_TYPES.LINK
+	};
+
+	const overlayItemNewRegistrationSuccess: OverlayItem = {
+		svg: CheckIcon,
+		headline: translate('profile.data.registerSuccess.overlay.headline'),
+		buttonSet: [
+			{
+				label: translate(
+					'profile.data.registerSuccess.overlay.button1.label'
+				),
+				function: OVERLAY_FUNCTIONS.REDIRECT,
+				type: BUTTON_TYPES.PRIMARY
+			},
+			{
+				label: translate(
+					'profile.data.registerSuccess.overlay.button2.label'
+				),
+				function: OVERLAY_FUNCTIONS.LOGOUT,
+				type: BUTTON_TYPES.LINK
+			}
+		]
+	};
+
+	const overlayItemNewRegistrationError: OverlayItem = {
+		svg: XIcon,
+		illustrationBackground: 'error',
+		headline: translate('profile.data.registerError.overlay.headline'),
+		buttonSet: [
+			{
+				label: translate(
+					'profile.data.registerError.overlay.button.label'
+				),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.PRIMARY
+			}
+		]
+	};
 
 	const isAllRequiredDataSet = () =>
 		selectedConsultingTypeId != null && selectedAgency;
@@ -69,17 +112,29 @@ export const AskerRegistration: React.FC = () => {
 	};
 
 	const getOptionOfSelectedConsultingType = () => {
-		return consultingTypeSelectOptionsSet(userData, consultingTypes).filter(
+		return translateConsultingType(userData, consultingTypes).filter(
 			(option) => parseInt(option.value) === selectedConsultingTypeId
 		)[0];
 	};
 
+	const translateConsultingType = (userData, consultingTypes) => {
+		return consultingTypeSelectOptionsSet(userData, consultingTypes).map(
+			(option) => ({
+				...option,
+				label: translate(
+					[
+						`consultingType.${option.id}.titles.registrationDropdown`,
+						option.label
+					],
+					{ ns: 'consultingTypes' }
+				)
+			})
+		);
+	};
+
 	const consultingTypesDropdown: SelectDropdownItem = {
 		id: 'consultingTypeSelect',
-		selectedOptions: consultingTypeSelectOptionsSet(
-			userData,
-			consultingTypes
-		),
+		selectedOptions: translateConsultingType(userData, consultingTypes),
 		handleDropdownSelect: handleConsultingTypeSelect,
 		selectInputLabel: translate(
 			'profile.data.register.consultingTypeSelect.label'
@@ -118,7 +173,7 @@ export const AskerRegistration: React.FC = () => {
 					let overlayItem = overlayItemNewRegistrationSuccess;
 					if (selectedConsultingType?.groupChat.isGroupChat) {
 						overlayItem.buttonSet[0].label = translate(
-							'profile.data.registerSuccess.overlay.button1Label.groupChats'
+							'profile.data.registerSuccess.overlay.groupChats.button.label.'
 						);
 					} else {
 						setSessionId(response.sessionId);
