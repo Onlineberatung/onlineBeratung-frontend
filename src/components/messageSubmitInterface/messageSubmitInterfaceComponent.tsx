@@ -16,7 +16,8 @@ import {
 	SessionsDataContext,
 	SessionTypeContext,
 	STATUS_ARCHIVED,
-	STATUS_FINISHED
+	STATUS_FINISHED,
+	useTenant
 } from '../../globalState';
 import {
 	apiGetDraftMessage,
@@ -176,6 +177,7 @@ export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
 	const { t: translate } = useTranslation();
+	const tenant = useTenant();
 	const history = useHistory();
 
 	const textareaInputRef = React.useRef<HTMLDivElement>(null);
@@ -971,9 +973,10 @@ export const MessageSubmitInterfaceComponent = (
 	};
 
 	const hasUploadFunctionality =
-		type !== SESSION_LIST_TYPES.ENQUIRY ||
-		(type === SESSION_LIST_TYPES.ENQUIRY &&
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData));
+		(type !== SESSION_LIST_TYPES.ENQUIRY ||
+			(type === SESSION_LIST_TYPES.ENQUIRY &&
+				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData))) &&
+		!tenant?.settings?.featureAttachmentUploadDisabled;
 	const hasRequestFeedbackCheckbox =
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
 		!hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
