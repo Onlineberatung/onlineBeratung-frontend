@@ -21,13 +21,24 @@ export const useCalcomLogin = () => {
 				method: FETCH_METHODS.GET
 			});
 
+			const body = Object.entries({
+				csrfToken: csrfRequest.csrfToken,
+				email: encodeURIComponent(userData.email?.toLowerCase() || ''),
+				password: tokenResponse.token,
+				callbackUrl: `${settings.calcomUrl}%2F`,
+				redirect: false,
+				json: true
+			})
+				.map(([key, value]) => `${key}=${value}`)
+				.join('&');
+
 			await fetch(
 				`${settings.calcomUrl}/api/auth/callback/credentials?`,
 				{
 					headers: {
 						'content-type': 'application/x-www-form-urlencoded'
 					},
-					body: `csrfToken=${csrfRequest.csrfToken}&email=${userData.email}&password=${tokenResponse.token}&callbackUrl=${settings.calcomUrl}%2F&redirect=false&json=true`,
+					body,
 					method: 'POST',
 					credentials: 'include'
 				}
