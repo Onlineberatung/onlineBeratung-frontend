@@ -27,7 +27,13 @@ export const useCalcomLogin = () => {
 					headers: {
 						'content-type': 'application/x-www-form-urlencoded'
 					},
-					body: `csrfToken=${csrfRequest.csrfToken}&email=${userData.email}&password=${tokenResponse.token}&callbackUrl=${settings.calcomUrl}%2F&redirect=false&json=true`,
+					body: `csrfToken=${
+						csrfRequest.csrfToken
+					}&email=${userData.email?.toLowerCase()}&password=${
+						tokenResponse.token
+					}&callbackUrl=${
+						settings.calcomUrl
+					}%2F&redirect=false&json=true`,
 					method: 'POST',
 					credentials: 'include'
 				}
