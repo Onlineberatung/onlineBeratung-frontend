@@ -14,7 +14,7 @@ export const getBudibaseAccessToken = (
 			resolve(undefined);
 			return;
 		}
-		const userName = decodeURIComponent(username);
+		const userName = decodeURIComponent(username)?.toLowerCase();
 		const budibaseUrl = appConfig.budibaseUrl;
 		let count = 0;
 		const login = () => {
