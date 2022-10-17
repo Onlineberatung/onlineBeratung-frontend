@@ -12,7 +12,8 @@ import {
 	TenantContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
-import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
+import { ReactComponent as LogoutIconOutline } from '../../resources/img/icons/out_outline.svg';
+import { ReactComponent as LogoutIconFilled } from '../../resources/img/icons/out_filled.svg';
 import clsx from 'clsx';
 import { RocketChatUnreadContext } from '../../globalState/provider/RocketChatUnreadProvider';
 import {
@@ -154,7 +155,11 @@ export const NavigationBar = ({
 								}`}
 								to={item.to}
 							>
-								{item?.icon}
+								<div className="navigation__icon__background">
+									{item?.iconFilled}
+									{item?.icon}
+								</div>
+
 								{(({ large }) => {
 									return (
 										<>
@@ -195,6 +200,7 @@ export const NavigationBar = ({
 								iconSize={32}
 								label={translate('navigation.language')}
 								menuPlacement="right"
+								isInsideMenu={true}
 							/>
 						</div>
 					)}
@@ -208,7 +214,8 @@ export const NavigationBar = ({
 						}}
 						tabIndex={0}
 					>
-						<LogoutIcon className="navigation__icon" />
+						<LogoutIconOutline className="navigation__icon__outline" />
+						<LogoutIconFilled className="navigation__icon__filled" />
 						<span className="navigation__title">
 							{translate('app.logout')}
 						</span>

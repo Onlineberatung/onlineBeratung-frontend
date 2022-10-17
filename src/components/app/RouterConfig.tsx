@@ -27,12 +27,17 @@ import {
 } from '../../globalState';
 
 import { ReactComponent as OverviewIcon } from '../../resources/img/icons/overview.svg';
-import { ReactComponent as InboxIcon } from '../../resources/img/icons/inbox.svg';
-import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
-import { ReactComponent as SpeechBubbleTeamIcon } from '../../resources/img/icons/speech-bubble-team.svg';
-import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { ReactComponent as InboxIconOutline } from '../../resources/img/icons/inbox_outline.svg';
+import { ReactComponent as InboxIconFilled } from '../../resources/img/icons/inbox_filled.svg';
+import { ReactComponent as MessagesIconOutline } from '../../resources/img/icons/messages_outline.svg';
+import { ReactComponent as MessagesIconFilled } from '../../resources/img/icons/messages_filled.svg';
+import { ReactComponent as TeamsIconOutline } from '../../resources/img/icons/teams_outline.svg';
+import { ReactComponent as TeamsIconFilled } from '../../resources/img/icons/teams_filled.svg';
+import { ReactComponent as ProfilIconOutline } from '../../resources/img/icons/profil_outline.svg';
+import { ReactComponent as ProfilIconFilled } from '../../resources/img/icons/profil_filled.svg';
 import { ReactComponent as ToolsIcon } from '../../resources/img/icons/tools.svg';
-import { ReactComponent as CalendarIcon } from '../../resources/img/icons/calendar2.svg';
+import { ReactComponent as CalendarIconOutline } from '../../resources/img/icons/calendar_outline.svg';
+import { ReactComponent as CalendarIconFilled } from '../../resources/img/icons/calendar_filled.svg';
 import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
 import { ToolsList } from '../tools/ToolsList';
@@ -117,7 +122,12 @@ export const RouterConfigUser = (
 		navigation: [
 			{
 				to: '/sessions/user/view',
-				icon: <SpeechBubbleIcon className="navigation__icon" />,
+				icon: (
+					<MessagesIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<MessagesIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.asker.sessions.large',
 					small: 'navigation.asker.sessions.small'
@@ -125,7 +135,12 @@ export const RouterConfigUser = (
 			},
 			{
 				to: '/profile',
-				icon: <PersonIcon className="navigation__icon" />,
+				icon: (
+					<ProfilIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<ProfilIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.profile'
 				}
@@ -219,14 +234,27 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 			overviewRoute(settings),
 			{
 				to: '/sessions/consultant/sessionPreview',
-				icon: <InboxIcon className="navigation__icon" />,
+				icon: (
+					<InboxIconOutline
+						className="navigation__icon__outline"
+						color="withe"
+					/>
+				),
+				iconFilled: (
+					<InboxIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.consultant.enquiries'
 				}
 			},
 			{
 				to: '/sessions/consultant/sessionView',
-				icon: <SpeechBubbleIcon className="navigation__icon" />,
+				icon: (
+					<MessagesIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<MessagesIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.consultant.sessions.large',
 					small: 'navigation.consultant.sessions.small'
@@ -240,14 +268,24 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 						settings.disableVideoAppointments
 					),
 				to: '/termine',
-				icon: <CalendarIcon className="navigation__icon" />,
+				icon: (
+					<CalendarIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<CalendarIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.appointments'
 				}
 			},
 			{
 				to: '/profile',
-				icon: <PersonIcon className="navigation__icon" />,
+				icon: (
+					<ProfilIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<ProfilIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.profile'
 				}
@@ -376,14 +414,27 @@ export const RouterConfigTeamConsultant = (
 			overviewRoute(settings),
 			{
 				to: '/sessions/consultant/sessionPreview',
-				icon: <InboxIcon className="navigation__icon" />,
+				icon: (
+					<InboxIconOutline
+						className="navigation__icon__outline"
+						color="withe"
+					/>
+				),
+				iconFilled: (
+					<InboxIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.consultant.enquiries'
 				}
 			},
 			{
 				to: '/sessions/consultant/sessionView',
-				icon: <SpeechBubbleIcon className="navigation__icon" />,
+				icon: (
+					<MessagesIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<MessagesIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.consultant.sessions.large',
 					small: 'navigation.consultant.sessions.small'
@@ -391,7 +442,12 @@ export const RouterConfigTeamConsultant = (
 			},
 			{
 				to: '/sessions/consultant/teamSessionView',
-				icon: <SpeechBubbleTeamIcon className="navigation__icon" />,
+				icon: (
+					<TeamsIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<TeamsIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.consultant.teamsessions.large',
 					small: 'navigation.consultant.teamsessions.small'
@@ -405,7 +461,12 @@ export const RouterConfigTeamConsultant = (
 						settings.disableVideoAppointments
 					),
 				to: '/termine',
-				icon: <CalendarIcon className="navigation__icon" />,
+				icon: (
+					<CalendarIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<CalendarIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.appointments'
 				}
@@ -420,7 +481,12 @@ export const RouterConfigTeamConsultant = (
 			},
 			{
 				to: '/profile',
-				icon: <PersonIcon className="navigation__icon" />,
+				icon: (
+					<ProfilIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<ProfilIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.profile'
 				}
@@ -595,7 +661,12 @@ export const RouterConfigAnonymousAsker = (): any => {
 		navigation: [
 			{
 				to: '/sessions/user/view',
-				icon: <SpeechBubbleIcon className="navigation__icon" />,
+				icon: (
+					<MessagesIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<MessagesIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.asker.sessions.large',
 					small: 'navigation.asker.sessions.small'

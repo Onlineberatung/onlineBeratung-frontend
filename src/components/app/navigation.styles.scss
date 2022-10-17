@@ -51,6 +51,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		color: var(--text-color-contrast-switch, $white);
 		text-align: center;
 		text-decoration: none;
+		--transition-duration: 0.6s;
 
 		&:focus {
 			outline: $focus-outline;
@@ -66,7 +67,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			display: block;
 			width: auto;
 			height: auto;
-			margin: $grid-base-two $grid-base;
+			margin: 12px $grid-base;
 		}
 
 		&__bottom {
@@ -103,7 +104,6 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		&__count {
 			color: var(--skin-color-primary-contrast-safe, $primary);
 			background-color: $white;
-			opacity: 0.7;
 			transition: opacity 0.6s ease;
 			border-radius: 50%;
 			width: $unreadBubbleSize;
@@ -114,6 +114,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			top: 4px;
 			left: calc(50% + #{$grid-base-two});
 			text-align: center;
+			outline: $primary 2px solid;
 
 			@include breakpoint($fromMedium) {
 				top: 0;
@@ -128,56 +129,62 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 				transform: scale(1);
 				animation: $unreadBubbleAnimation;
 			}
-
-			&--active {
-				.navigation__icon {
-					animation: moveDownUp 500ms linear;
-					position: relative;
-
-					@keyframes moveDownUp {
-						0%,
-						100% {
-							top: 0;
-						}
-						50% {
-							top: 4px;
-						}
-					}
-				}
-			}
-
-			@keyframes count {
-				100% {
-					transform: scale(1);
-				}
-				50% {
-					transform: scale(1.5);
-				}
-			}
 		}
 
-		&:hover,
-		&--active {
+		.navigation__icon__filled {
+			display: none;
+		}
+		.navigation__icon__outline {
+			display: block;
+			margin: auto;
+		}
+
+		&:hover {
 			color: var(--text-color-contrast-switch, $white);
-
-			.navigation__title {
-				opacity: 1;
+			.navigation__icon__filled {
+				display: block;
+				margin: auto;
 			}
-
-			.navigation__icon {
-				opacity: 1;
+			.navigation__icon__outline {
+				display: none;
+			}
+		}
+		.navigation__icon__background {
+			position: relative;
+			isolation: isolate;
+			width: fit-content;
+			margin: auto;
+		}
+		.navigation__icon__background::after {
+			content: '';
+			position: absolute;
+			inset: -4px;
+			border-radius: 50%;
+			background-color: white;
+			opacity: 0.8;
+			transform: scale(0);
+			z-index: -1;
+			transition: transform var(--transition-duration) ease;
+		}
+		&--active {
+			.navigation__icon__background::after {
+				transform: scale(1);
 			}
 
 			.navigation__item__count {
 				opacity: 1;
 				transition: opacity 0.3s ease;
 			}
-		}
-	}
 
-	&__title,
-	&__icon {
-		transition: opacity 0.3s ease;
+			.navigation__icon__filled {
+				display: block;
+				fill: $primary;
+				margin: auto;
+			}
+			.navigation__icon__outline {
+				display: none;
+			}
+		}
 	}
 
 	&__icon {
@@ -185,7 +192,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		height: $iconSize;
 		margin: auto;
 		text-align: center;
-		opacity: 0.35;
+		transition: color var(--transition-duration) ease;
 	}
 
 	&__title {
@@ -195,8 +202,8 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		line-height: 16px;
 		text-align: center;
 		margin: auto;
-		opacity: 0.6;
 		letter-spacing: 0.5px;
+		margin-top: 6px;
 
 		@include breakpoint($fromLarge) {
 			display: block;
