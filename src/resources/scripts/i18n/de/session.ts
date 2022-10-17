@@ -9,9 +9,11 @@ const session = {
 	'anonymous.takenByOtherConsultant.overlayHeadline':
 		'Diese Erstanfrage wurde bereits von einem anderen Berater angenommen.',
 	'anonymous.takenByOtherConsultant.buttonLabel': 'Schließen',
+	'assignOther.inProgress': 'Die Beratung wird gerade zugewiesen.',
 	'assignOther.overlayHeadline':
 		'Sie haben die Beratung erfolgreich zugewiesen.',
 	'assignOther.buttonLabel': 'Schließen',
+	'assignSelf.inProgress': 'Die Beratung wird Ihnen gerade zugewiesen.',
 	'assignSelf.overlayHeadline':
 		'Sie haben die Beratung erfolgreich angenommen. Sie wurde in Meine Nachrichten verschoben.',
 	'assignSelf.button1.label': 'Antworten',

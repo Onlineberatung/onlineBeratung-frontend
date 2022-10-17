@@ -141,7 +141,8 @@ export const SessionStream = ({
 					}
 
 					if (message.t === 'au') {
-						if (isE2eeEnabled) {
+						// Handle this event only for groups because on session assigning its already handled
+						if (isE2eeEnabled && activeSession.isGroup) {
 							addNewUsersToEncryptedRoom();
 						}
 						return;
@@ -156,10 +157,11 @@ export const SessionStream = ({
 		},
 
 		[
-			isE2eeEnabled,
-			fetchSessionMessages,
 			checkMutedUserForThisSession,
+			isE2eeEnabled,
+			activeSession.isGroup,
 			addNewUsersToEncryptedRoom,
+			fetchSessionMessages,
 			setSessionRead
 		]
 	);

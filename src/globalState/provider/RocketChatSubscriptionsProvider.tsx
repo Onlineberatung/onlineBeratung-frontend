@@ -25,7 +25,9 @@ import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 
 type RocketChatSubscriptionsContextProps = {
+	subscriptionsReady: boolean;
 	subscriptions: any[];
+	roomsReady: boolean;
 	rooms: any[];
 };
 
@@ -46,7 +48,9 @@ export const RocketChatSubscriptionsProvider = ({
 
 	const subscribed = useRef(false);
 
+	const [subscriptionsReady, setSubscriptionsReady] = useState(false);
 	const [subscriptions, setSubscriptions] = useState<ISubscriptions[]>([]);
+	const [roomsReady, setRoomsReady] = useState(false);
 	const [rooms, setRooms] = useState<IRoom[]>([]);
 
 	const roomsChanged = useUpdatingRef(
@@ -181,6 +185,7 @@ export const RocketChatSubscriptionsProvider = ({
 			getRooms()
 				.then((rooms) => {
 					setRooms(rooms);
+					setRoomsReady(true);
 				})
 				.catch((e) => {
 					setRooms([]);
@@ -205,6 +210,7 @@ export const RocketChatSubscriptionsProvider = ({
 			getSubscriptions()
 				.then((subscriptions) => {
 					setSubscriptions(subscriptions);
+					setSubscriptionsReady(true);
 				})
 				.catch((e) => {
 					setSubscriptions([]);
@@ -286,7 +292,7 @@ export const RocketChatSubscriptionsProvider = ({
 
 	return (
 		<RocketChatSubscriptionsContext.Provider
-			value={{ subscriptions, rooms }}
+			value={{ subscriptions, subscriptionsReady, rooms, roomsReady }}
 		>
 			{children}
 		</RocketChatSubscriptionsContext.Provider>

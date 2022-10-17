@@ -21,20 +21,22 @@ export const apiPostDraftMessage = async (
 	});
 };
 
-interface draftMessage {
+export interface IDraftMessage {
 	message: string;
 	t: string;
 	org: string;
 }
 
 export const apiGetDraftMessage = async (
-	rcGroupIdOrSessionId: string | number
-): Promise<draftMessage> => {
+	rcGroupIdOrSessionId: string | number,
+	signal?: AbortSignal
+): Promise<IDraftMessage> => {
 	const url = config.endpoints.draftMessages;
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.GET,
 		headersData: { rcGroupId: rcGroupIdOrSessionId },
-		responseHandling: [FETCH_ERRORS.EMPTY]
+		responseHandling: [FETCH_ERRORS.EMPTY],
+		...(signal && { signal: signal })
 	});
 };

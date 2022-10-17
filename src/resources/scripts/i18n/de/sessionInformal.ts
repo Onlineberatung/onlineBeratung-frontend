@@ -6,6 +6,7 @@ const sessionInformal = {
 		'Du hast diese Beratung bereits zugewiesen.',
 	'assignOther.overlayHeadline':
 		'Du hast die Beratung erfolgreich zugewiesen.',
+	'assignSelf.inProgress': 'Die Beratung wird Dir gerade zugewiesen.',
 	'assignSelf.overlayHeadline':
 		'Du hast die Beratung erfolgreich angenommen. Sie wurde in Meine Nachrichten verschoben.',
 	'assignSelf.overlay.subtitle':

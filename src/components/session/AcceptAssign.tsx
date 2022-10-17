@@ -20,7 +20,6 @@ import {
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from './sessionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
-import { createGroupKey } from '../../utils/encryptionHelpers';
 import { encryptRoom } from '../../utils/e2eeHelper';
 import { translate } from '../../utils/translate';
 import { apiEnquiryAcceptance, FETCH_ERRORS } from '../../api';
@@ -31,6 +30,8 @@ import { apiGetSessionRoomBySessionId } from '../../api/apiGetSessionRooms';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
+import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
+import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 
 interface AcceptAssignProps {
 	assignable: boolean;
@@ -57,12 +58,22 @@ export const AcceptAssign = ({
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	/* E2EE */
-	const { encrypted, keyID, sessionKeyExportedString, ready } =
+	const { encrypted, keyID, sessionKeyExportedString } =
 		useE2EE(groupIdFromParam);
+	const {
+		visible: e2eeOverlayVisible,
+		setState: setE2EEState,
+		overlay: e2eeOverlay
+	} = useE2EEViewElements();
+
+	const { visible: requestOverlayVisible, overlay: requestOverlay } =
+		useTimeoutOverlay(
+			isRequestInProgress,
+			null,
+			translate('session.assignSelf.inProgress')
+		);
+
 	const { isE2eeEnabled } = useContext(E2EEContext);
-	const [groupKeyID, setGroupKeyID] = useState(null);
-	const [sessionGroupKeyExportedString, setSessionGroupKeyExportedString] =
-		useState(null);
 
 	const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = useMemo(
 		() => ({
@@ -105,50 +116,25 @@ export const AcceptAssign = ({
 		);
 	}, [assigned, enquiryTakenByOtherConsultantOverlayItem]);
 
-	// group Key generation if needed
-	useEffect(() => {
-		if (!isE2eeEnabled || !ready) {
-			return;
-		}
-		if (!activeSession) {
-			return;
-		}
-
-		if (encrypted) {
-			setGroupKeyID(keyID);
-			setSessionGroupKeyExportedString(sessionKeyExportedString);
-		} else {
-			createGroupKey().then(
-				({ keyID, key, sessionKeyExportedString }) => {
-					setGroupKeyID(keyID);
-					setSessionGroupKeyExportedString(sessionKeyExportedString);
-				}
-			);
-		}
-	}, [
-		encrypted,
-		activeSession,
-		keyID,
-		sessionKeyExportedString,
-		isE2eeEnabled,
-		ready
-	]);
-
-	const handleEncryptRoom = useCallback(async () => {
-		return encryptRoom({
-			keyId: groupKeyID,
+	const handleEncryptRoom = useCallback(
+		() =>
+			encryptRoom({
+				keyId: keyID,
+				isE2eeEnabled,
+				isRoomAlreadyEncrypted: encrypted,
+				rcGroupId: groupIdFromParam,
+				sessionKeyExportedString: sessionKeyExportedString,
+				onStateChange: setE2EEState
+			}),
+		[
+			keyID,
 			isE2eeEnabled,
-			isRoomAlreadyEncrypted: encrypted,
-			rcGroupId: groupIdFromParam,
-			sessionKeyExportedString: sessionGroupKeyExportedString
-		});
-	}, [
-		encrypted,
-		groupIdFromParam,
-		groupKeyID,
-		sessionGroupKeyExportedString,
-		isE2eeEnabled
-	]);
+			encrypted,
+			groupIdFromParam,
+			sessionKeyExportedString,
+			setE2EEState
+		]
+	);
 
 	/** END E2EE */
 
@@ -199,11 +185,11 @@ export const AcceptAssign = ({
 		setIsRequestInProgress(true);
 
 		apiEnquiryAcceptance(sessionId, isAnonymous)
-			.then(async () => {
-				await handleEncryptRoom();
-				setOverlayItem(enquirySuccessfullyAcceptedOverlayItem);
-			})
+			.then(handleEncryptRoom)
+			.then(() => setIsRequestInProgress(false))
+			.then(() => setOverlayItem(enquirySuccessfullyAcceptedOverlayItem))
 			.catch((error) => {
+				setIsRequestInProgress(false);
 				if (error.message === FETCH_ERRORS.CONFLICT) {
 					setOverlayItem(enquiryTakenByOtherConsultantOverlayItem);
 				} else {
@@ -216,7 +202,6 @@ export const AcceptAssign = ({
 		switch (buttonFunction) {
 			case OVERLAY_FUNCTIONS.REDIRECT:
 				setOverlayItem(null);
-				setIsRequestInProgress(false);
 				if (activeSession.item.id && activeSession.item.groupId) {
 					history.push(
 						`/sessions/consultant/sessionView/${activeSession.item.groupId}/${activeSession.item.id}`
@@ -257,7 +242,19 @@ export const AcceptAssign = ({
 				)}
 			</div>
 
-			{overlayItem && (
+			{e2eeOverlayVisible && (
+				<OverlayWrapper>
+					<Overlay item={e2eeOverlay} />
+				</OverlayWrapper>
+			)}
+
+			{requestOverlayVisible && !e2eeOverlayVisible && (
+				<OverlayWrapper>
+					<Overlay item={requestOverlay} />
+				</OverlayWrapper>
+			)}
+
+			{overlayItem && !requestOverlayVisible && !e2eeOverlayVisible && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}

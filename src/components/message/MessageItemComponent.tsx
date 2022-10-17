@@ -33,7 +33,7 @@ import { translate } from '../../utils/translate';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { decryptText, MissingKeyError } from '../../utils/encryptionHelpers';
-import { useE2EE } from '../../hooks/useE2EE';
+import { e2eeParams } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
 import { MasterKeyLostMessage } from './MasterKeyLostMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
@@ -74,7 +74,6 @@ export interface MessageItem {
 	attachments?: MessageService.Schemas.AttachmentDTO[];
 	file?: MessageService.Schemas.FileDTO;
 	t: null | 'e2e';
-	rid: string;
 }
 
 interface MessageItemComponentProps extends MessageItem {
@@ -83,7 +82,8 @@ interface MessageItemComponentProps extends MessageItem {
 	clientName: string;
 	resortData: ConsultingTypeInterface;
 	isUserBanned: boolean;
-	handleDecryptionErrors: (error: TError) => void;
+	handleDecryptionErrors: (messageTime: string, error: TError) => void;
+	e2eeParams: e2eeParams & { subscriptionKeyLost: boolean };
 }
 
 export const MessageItemComponent = ({
@@ -103,8 +103,8 @@ export const MessageItemComponent = ({
 	isNotRead,
 	isUserBanned,
 	t,
-	rid,
-	handleDecryptionErrors
+	handleDecryptionErrors,
+	e2eeParams
 }: MessageItemComponentProps) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -116,15 +116,20 @@ export const MessageItemComponent = ({
 		string | null | undefined
 	>(null);
 
-	const { key, keyID, encrypted, subscriptionKeyLost } = useE2EE(rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	useEffect((): void => {
 		if (isE2eeEnabled) {
-			decryptText(message, keyID, key, encrypted, t === 'e2e')
+			decryptText(
+				message,
+				e2eeParams.keyID,
+				e2eeParams.key,
+				e2eeParams.encrypted,
+				t === 'e2e'
+			)
 				.catch((e) => {
 					if (!(e instanceof MissingKeyError)) {
-						handleDecryptionErrors({
+						handleDecryptionErrors(messageTime, {
 							name: e.name,
 							message: e.message,
 							stack: e.stack,
@@ -139,14 +144,15 @@ export const MessageItemComponent = ({
 			setDecryptedMessage(org || message);
 		}
 	}, [
-		key,
-		keyID,
-		encrypted,
 		message,
 		org,
 		t,
 		isE2eeEnabled,
-		handleDecryptionErrors
+		handleDecryptionErrors,
+		e2eeParams.keyID,
+		e2eeParams.key,
+		e2eeParams.encrypted,
+		messageTime
 	]);
 
 	useEffect((): void => {
@@ -241,7 +247,7 @@ export const MessageItemComponent = ({
 				return (
 					<div className="messageItem__message">
 						<MasterKeyLostMessage
-							subscriptionKeyLost={subscriptionKeyLost}
+							subscriptionKeyLost={e2eeParams.subscriptionKeyLost}
 						/>
 					</div>
 				);

@@ -11,7 +11,9 @@ interface SendMessageButtonProps {
 export const SendMessageButton = (props: SendMessageButtonProps) => {
 	return (
 		<span
-			onClick={() => props.handleSendButton()}
+			onClick={() =>
+				props.deactivated ? null : props.handleSendButton()
+			}
 			className={`textarea__iconWrapper ${
 				props.clicked ? 'textarea__iconWrapper--clicked' : ''
 			} ${props.deactivated ? 'textarea__iconWrapper--deactivated' : ''}`}

@@ -7,7 +7,8 @@ import {
 	useRef,
 	useState
 } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { ResizeObserver } from '@juggle/resize-observer';
 import clsx from 'clsx';
 import {
 	getViewPathForType,
@@ -32,8 +33,7 @@ import {
 	hasUserAuthority,
 	LegalLinkInterface,
 	UserDataContext,
-	SessionTypeContext,
-	E2EEContext
+	SessionTypeContext
 } from '../../globalState';
 import './session.styles';
 import './session.yellowTheme.styles';
@@ -41,17 +41,13 @@ import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import smoothScroll from './smoothScrollHelper';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { useE2EE } from '../../hooks/useE2EE';
-import { createGroupKey } from '../../utils/encryptionHelpers';
 import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';
 import { useSearchParam } from '../../hooks/useSearchParams';
-import { encryptRoom } from '../../utils/e2eeHelper';
 import { AcceptAssign } from './AcceptAssign';
-import { SubscriptionKeyLost } from './SubscriptionKeyLost';
-import { RoomNotFound } from './RoomNotFound';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { apiPostError, TError } from '../../api/apiPostError';
+import { useE2EE } from '../../hooks/useE2EE';
 
 interface SessionItemProps {
 	isTyping?: Function;
@@ -65,8 +61,6 @@ interface SessionItemProps {
 let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
-	const { rcGroupId: groupIdFromParam } = useParams();
-
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
@@ -83,96 +77,20 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const dragCancelRef = useRef<NodeJS.Timeout>();
 	const [newMessages, setNewMessages] = useState(0);
 	const [canWriteMessage, setCanWriteMessage] = useState(false);
-	const [headerRef, headerBounds] = useMeasure();
+	const [headerRef, headerBounds] = useMeasure({ polyfill: ResizeObserver });
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
-
-	/* E2EE */
-	const {
-		encrypted,
-		key,
-		keyID,
-		sessionKeyExportedString,
-		ready,
-		subscriptionKeyLost,
-		roomNotFound
-	} = useE2EE(groupIdFromParam);
-	const { isE2eeEnabled } = useContext(E2EEContext);
-	const [groupKey, setGroupKey] = useState(null);
-	const [groupKeyID, setGroupKeyID] = useState(null);
-	const [sessionGroupKeyExportedString, setSessionGroupKeyExportedString] =
-		useState(null);
-
-	const isKeyAlreadyGenerated = useRef(false);
-
-	// group Key generation if needed
-	useEffect(() => {
-		if (!isE2eeEnabled || !ready) {
-			return;
-		}
-		if (!activeSession) {
-			console.log('no active session');
-			return;
-		}
-
-		if (encrypted) {
-			setGroupKey(key);
-			setGroupKeyID(keyID);
-			setSessionGroupKeyExportedString(sessionKeyExportedString);
-		} else {
-			if (isKeyAlreadyGenerated.current) {
-				return;
-			}
-			createGroupKey().then(
-				({ keyID, key, sessionKeyExportedString }) => {
-					setGroupKey(key);
-					setGroupKeyID(keyID);
-					setSessionGroupKeyExportedString(sessionKeyExportedString);
-					isKeyAlreadyGenerated.current = true;
-				}
-			);
-		}
-	}, [
-		encrypted,
-		activeSession,
-		key,
-		keyID,
-		sessionKeyExportedString,
-		isE2eeEnabled,
-		ready
-	]);
-
-	const handleEncryptRoom = useCallback(async () => {
-		// ToDo: encrypt room logic could be moved to messageSubmitInterfaceComponent.tsx (SessionItemCompoent.tsx & WriteEnquiry.tsx)
-		encryptRoom({
-			keyId: groupKeyID,
-			isE2eeEnabled,
-			isRoomAlreadyEncrypted: encrypted,
-			rcGroupId: groupIdFromParam,
-			sessionKeyExportedString: sessionGroupKeyExportedString
-		});
-	}, [
-		encrypted,
-		groupIdFromParam,
-		groupKeyID,
-		sessionGroupKeyExportedString,
-		isE2eeEnabled
-	]);
-
-	/** END E2EE */
+	const { ready, key, keyID, encrypted, subscriptionKeyLost } = useE2EE(
+		activeSession.rid
+	);
 
 	useEffect(() => {
 		setCanWriteMessage(
-			(type !== SESSION_LIST_TYPES.ENQUIRY ||
-				hasUserAuthority(
-					AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
-					userData
-				)) &&
-				!subscriptionKeyLost &&
-				!roomNotFound
+			type !== SESSION_LIST_TYPES.ENQUIRY ||
+				hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData)
 		);
-	}, [subscriptionKeyLost, roomNotFound, type, userData]);
+	}, [type, userData]);
 
 	const resetUnreadCount = () => {
 		setNewMessages(0);
@@ -469,6 +387,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			>
 				<div className={'message-holder'}>
 					{messages &&
+						ready &&
 						resortData &&
 						messages.map((message: MessageItem, index) => (
 							<React.Fragment key={`${message.id}-${index}`}>
@@ -483,12 +402,15 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 									isUserBanned={props.bannedUsers.includes(
 										message.username
 									)}
-									handleDecryptionErrors={(e: TError) =>
-										handleDecryptionErrors(
-											message.messageTime,
-											e
-										)
+									handleDecryptionErrors={
+										handleDecryptionErrors
 									}
+									e2eeParams={{
+										key,
+										keyID,
+										encrypted,
+										subscriptionKeyLost
+									}}
 									{...message}
 								/>
 								{index === messages.length - 1 &&
@@ -554,7 +476,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			{canWriteMessage && (
 				<>
 					<MessageSubmitInterfaceComponent
-						handleSendButton={handleEncryptRoom}
 						isTyping={props.isTyping}
 						className={clsx(
 							'session__submit-interface',
@@ -566,13 +487,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							setMonitoringButtonVisible(true);
 						}}
 						typingUsers={props.typingUsers}
-						E2EEParams={{
-							encrypted,
-							key: groupKey,
-							keyID: groupKeyID,
-							sessionKeyExportedString:
-								sessionGroupKeyExportedString
-						}}
 						preselectedFile={draggedFile}
 						handleMessageSendSuccess={handleMessageSendSuccess}
 					/>
@@ -585,9 +499,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					/>
 				</>
 			)}
-
-			{subscriptionKeyLost && <SubscriptionKeyLost />}
-			{roomNotFound && <RoomNotFound />}
 		</div>
 	);
 };

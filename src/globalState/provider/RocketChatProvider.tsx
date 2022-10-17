@@ -79,13 +79,9 @@ export function RocketChatProvider(props) {
 	const [ready, setReady] = useState(false);
 
 	const getEndpoint = useCallback(() => {
-		const host = window.location.hostname;
-		if (apiUrl) {
-			return `${apiUrl
-				.replace('http://', 'ws://')
-				.replace('https://', 'wss://')}/websocket`;
-		}
-		return `wss://${host}/websocket`;
+		return `${(apiUrl || window.location.origin)
+			.replace('http://', 'wss://') // Rocket.chat should always be wss
+			.replace('https://', 'wss://')}/websocket`;
 	}, []);
 
 	const close = useCallback(() => {
@@ -143,7 +139,10 @@ export function RocketChatProvider(props) {
 
 	const send = useCallback(
 		(params: SendParams, resultListener?: (res) => void) => {
-			if (rcWebsocket.current.readyState !== WebSocket.OPEN) {
+			if (
+				rcWebsocket.current &&
+				rcWebsocket.current.readyState !== WebSocket.OPEN
+			) {
 				console.log('WebSocket not ready!');
 				return;
 			}

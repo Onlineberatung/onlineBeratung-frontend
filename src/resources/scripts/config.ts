@@ -1,7 +1,10 @@
-export const CSRF_WHITELIST_HEADER: string =
-	process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
+export const CSRF_WHITELIST_HEADER: string = (window as any).Cypress
+	? (window as any).Cypress.env('REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY')
+	: process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY;
 
-export const apiUrlEnv: string = process.env.REACT_APP_API_URL;
+export const apiUrlEnv: string = (window as any).Cypress
+	? (window as any).Cypress.env('REACT_APP_API_URL')
+	: process.env.REACT_APP_API_URL;
 
 export let apiUrl = '';
 if (apiUrlEnv) {
@@ -11,7 +14,7 @@ if (apiUrlEnv) {
 	}
 }
 
-export const uiUrl = process.env.REACT_APP_UI_URL || window.location.origin;
+export const uiUrl = window.location.origin;
 export const APP_PATH = 'app';
 
 export const config = {

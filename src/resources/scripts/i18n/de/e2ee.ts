@@ -20,7 +20,12 @@ const e2ee = {
 		'Es tut uns leid, da ist wohl etwas schief gelaufen.',
 	'roomNotFound.notice.line3':
 		'Bitte laden Sie die Seite neu und probieren Sie es nochmal.',
-	'roomNotFound.notice.link': 'Seite neu laden'
+	'roomNotFound.notice.link': 'Seite neu laden',
+	'inProgress.headline': 'Verschlüsselung im Gange',
+	'inProgress.copy':
+		'Ihre Sicherheit ist uns wichtig! Wir verschlüsseln gerade Ihren Chat. Dies kann einen Moment dauern.',
+	'inProgress.confirm':
+		'Bitte warten Sie bis die Verschlüsselung abgeschlossen ist!'
 };
 
 export default e2ee;

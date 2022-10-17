@@ -1,7 +1,7 @@
 import { config } from '../resources/scripts/config';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
-export const apiSendMessage = async (
+export const apiSendMessage = (
 	encryptedMessageData: string,
 	unencryptedMessageData: string,
 	rcGroupIdOrSessionId: string | number,

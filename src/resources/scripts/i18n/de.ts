@@ -22,6 +22,7 @@ import monitoring from './de/monitoring';
 import navigation from './de/navigation';
 import notifications from './de/notifications';
 import overlay from './de/overlay';
+import preconditions from './de/preconditions';
 import profile from './de/profile';
 import registration from './de/registration';
 import session from './de/session';
@@ -63,6 +64,7 @@ const de = {
 	navigation,
 	notifications,
 	overlay,
+	preconditions,
 	profile,
 	registration,
 	session,

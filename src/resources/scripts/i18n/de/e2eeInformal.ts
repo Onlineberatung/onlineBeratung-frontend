@@ -6,7 +6,11 @@ const e2eeInformal = {
 	'subscriptionKeyLost.overlay.copy':
 		'Deine Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform.<br/><br/>Wenn das Passwort zurückgesetzt wird, sind die Nachrichten vorübergehend nicht lesbar. Sobald ein_e weitere_r Chat-Teilnehmer_in den Chat wieder öffnet, können die Nachrichten neu verschlüsselt werden. Somit können wieder allen Chat-Teilnehmer_innen Nachrichten lesen und schreiben.',
 	'roomNotFound.notice.line3':
-		'Bitte lade die Seite neu und probiere es nochmal.'
+		'Bitte lade die Seite neu und probiere es nochmal.',
+	'inProgress.copy':
+		'Deine Sicherheit ist uns wichtig! Wir verschlüsseln gerade Deinen Chat. Dies kann einen Moment dauern.',
+	'inProgress.confirm':
+		'Bitte warte bis die Verschlüsselung abgeschlossen ist!'
 };
 
 export default e2eeInformal;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { SendMessageButton } from './SendMessageButton';
 import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
@@ -18,13 +18,10 @@ import {
 	STATUS_FINISHED
 } from '../../globalState';
 import {
-	apiGetDraftMessage,
-	apiPostDraftMessage,
 	apiPutDearchive,
 	apiSendEnquiry,
 	apiSendMessage,
-	apiUploadAttachment,
-	FETCH_ERRORS
+	apiUploadAttachment
 } from '../../api';
 import {
 	MessageSubmitInfo,
@@ -42,13 +39,12 @@ import {
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
 import PluginsEditor from 'draft-js-plugins-editor';
 import {
-	convertFromRaw,
 	convertToRaw,
 	DraftHandleValue,
 	EditorState,
 	RichUtils
 } from 'draft-js';
-import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
+import { draftToMarkdown } from 'markdown-draft-js';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
 import {
@@ -72,7 +68,6 @@ import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xl
 import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
 import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
 import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
-import useDebouncedValue from '../../utils/useDebouncedValue';
 import './emojiPicker.styles';
 import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';
@@ -80,10 +75,16 @@ import clsx from 'clsx';
 import { history } from '../app/app';
 import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { decryptText, encryptText } from '../../utils/encryptionHelpers';
-import { e2eeParams, useE2EE } from '../../hooks/useE2EE';
+import { encryptText } from '../../utils/encryptionHelpers';
+import { useE2EE } from '../../hooks/useE2EE';
 import { encryptRoom } from '../../utils/e2eeHelper';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
+import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
+import { Overlay, OverlayWrapper } from '../overlay/Overlay';
+import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
+import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
+import { RoomNotFound } from '../session/RoomNotFound';
+import { useDraftMessage } from './useDraftMessage';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -137,17 +138,14 @@ export const getIconForAttachmentType = (attachmentType: string) => {
 	}
 };
 
-const SAVE_DRAFT_TIMEOUT = 10000;
-
 export interface MessageSubmitInterfaceComponentProps {
 	className?: string;
-	handleSendButton?: Function;
+	onSendButton?: Function;
 	isTyping?: Function;
 	placeholder: string;
 	showMonitoringButton?: Function;
 	typingUsers?: string[];
 	language?: string;
-	E2EEParams?: e2eeParams;
 	preselectedFile?: File;
 	handleMessageSendSuccess?: Function;
 }
@@ -180,22 +178,16 @@ export const MessageSubmitInterfaceComponent = (
 	const { type, path: listPath } = useContext(SessionTypeContext);
 
 	const [activeInfo, setActiveInfo] = useState(null);
-	const [draftLoaded, setDraftLoaded] = useState(false);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
 		null
 	);
 	const [uploadProgress, setUploadProgress] = useState(null);
-	const [uploadOnLoadHandling, setUploadOnLoadHandling] = useState(null);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [attachmentUpload, setAttachmentUpload] =
 		useState<XMLHttpRequest | null>(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
-	const currentDraftMessageRef = useRef<string>();
-	const debouncedDraftMessage = useDebouncedValue(
-		currentDraftMessageRef.current,
-		SAVE_DRAFT_TIMEOUT
-	);
+
 	const { isE2eeEnabled } = useContext(E2EEContext);
 	const {
 		keyID: feedbackChatKeyId,
@@ -203,6 +195,31 @@ export const MessageSubmitInterfaceComponent = (
 		encrypted: feedbackEncrypted,
 		sessionKeyExportedString: feedbackChatSessionKeyExportedString
 	} = useE2EE(activeSession.item.feedbackGroupId);
+
+	const {
+		keyID,
+		key,
+		encrypted,
+		sessionKeyExportedString,
+		subscriptionKeyLost,
+		roomNotFound
+	} = useE2EE(activeSession.rid || null);
+
+	const {
+		visible: e2eeOverlayVisible,
+		setState: setE2EEState,
+		overlay: e2eeOverlay
+	} = useE2EEViewElements();
+
+	const { visible: requestOverlayVisible, overlay: requestOverlay } =
+		useTimeoutOverlay(
+			// Disable the request overlay if upload is in progess because upload progress is shown in the ui already
+			isRequestInProgress && [0, 100, null].includes(uploadProgress),
+			null,
+			null,
+			null,
+			5000
+		);
 
 	const groupIdOrSessionId =
 		activeSession.item.groupId || activeSession.item.id;
@@ -219,17 +236,30 @@ export const MessageSubmitInterfaceComponent = (
 		checked: requestFeedbackCheckbox?.checked || false
 	};
 
-	const encryptFeedbackRoom = useCallback(
-		async (keyId, sessionKeyExportedString) => {
-			await encryptRoom({
-				keyId,
+	const handleEncryptRoom = useCallback(
+		async (rcGroupId, isFeedback: boolean = false) =>
+			encryptRoom({
+				rcGroupId,
 				isE2eeEnabled,
-				isRoomAlreadyEncrypted: feedbackEncrypted,
-				rcGroupId: activeSession.item.feedbackGroupId,
-				sessionKeyExportedString
-			});
-		},
-		[activeSession.item.feedbackGroupId, feedbackEncrypted, isE2eeEnabled]
+				keyId: isFeedback ? feedbackChatKeyId : keyID,
+				isRoomAlreadyEncrypted: isFeedback
+					? feedbackEncrypted
+					: encrypted,
+				sessionKeyExportedString: isFeedback
+					? feedbackChatSessionKeyExportedString
+					: sessionKeyExportedString,
+				onStateChange: setE2EEState
+			}),
+		[
+			encrypted,
+			feedbackChatKeyId,
+			feedbackChatSessionKeyExportedString,
+			feedbackEncrypted,
+			isE2eeEnabled,
+			keyID,
+			sessionKeyExportedString,
+			setE2EEState
+		]
 	);
 
 	const [isConsultantAbsent, setIsConsultantAbsent] = useState(
@@ -259,6 +289,12 @@ export const MessageSubmitInterfaceComponent = (
 		);
 	}, [activeSession, activeSession.item.status, userData]);
 
+	const { onChange: onDraftMessageChange, loaded: draftLoaded } =
+		useDraftMessage(
+			!isLiveChatFinished && !isRequestInProgress,
+			setEditorState
+		);
+
 	useEffect(() => {
 		if (
 			isSessionArchived &&
@@ -275,143 +311,24 @@ export const MessageSubmitInterfaceComponent = (
 	}, [isConsultantAbsent, isLiveChatFinished, isSessionArchived, userData]);
 
 	useEffect(() => {
-		apiGetDraftMessage(activeSession.rid)
-			.then((response) => {
-				if (isE2eeEnabled) {
-					return decryptText(
-						response.message,
-						props.E2EEParams.keyID,
-						props.E2EEParams.key,
-						props.E2EEParams.encrypted,
-						response.t === 'e2e',
-						'enc.'
-					).catch(() => response.org || response.message);
-				} else {
-					return response.org || response.message;
-				}
-			})
-			.then((message) => {
-				setEditorWithMarkdownString(message);
-			})
-			.catch((error) => {
-				if (error.message !== FETCH_ERRORS.EMPTY) {
-					console.error('Loading Draft Message: ', error);
-				}
-			})
-			.finally(() => {
-				setDraftLoaded(true);
-			});
-
-		return () => {
-			if (currentDraftMessageRef.current && !isLiveChatFinished) {
-				const requestFeedbackCheckboxCallback = document.getElementById(
-					'requestFeedback'
-				) as HTMLInputElement;
-				const groupId =
-					requestFeedbackCheckboxCallback &&
-					requestFeedbackCheckboxCallback.checked
-						? activeSession.item.feedbackGroupId
-						: activeSession.rid;
-
-				if (isE2eeEnabled && props.E2EEParams.encrypted) {
-					encryptText(
-						currentDraftMessageRef.current,
-						props.E2EEParams.keyID,
-						props.E2EEParams.key,
-						'enc.'
-					)
-						.then((message) => {
-							apiPostDraftMessage(
-								groupId,
-								message,
-								'e2e',
-								currentDraftMessageRef.current
-							).then();
-						})
-						.catch((e) => {
-							apiPostError({
-								name: e.name,
-								message: e.message,
-								stack: e.stack,
-								level: ERROR_LEVEL_WARN
-							}).then();
-
-							apiPostDraftMessage(
-								groupId,
-								currentDraftMessageRef.current,
-								'',
-								currentDraftMessageRef.current
-							).then();
-						});
-				} else {
-					apiPostDraftMessage(
-						groupId,
-						currentDraftMessageRef.current,
-						'',
-						currentDraftMessageRef.current
-					).then();
-				}
-			}
-		};
-	}, [currentDraftMessageRef, props.E2EEParams.keyID, isE2eeEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
 		if (isLiveChatFinished) {
 			setActiveInfo(INFO_TYPES.FINISHED_CONVERSATION);
 		}
 	}, [isLiveChatFinished]);
 
-	useEffect(() => {
-		if (
-			debouncedDraftMessage &&
-			currentDraftMessageRef.current &&
-			!isLiveChatFinished
-		) {
-			const groupId =
-				requestFeedbackCheckbox && requestFeedbackCheckbox.checked
-					? activeSession.item.feedbackGroupId
-					: activeSession.rid;
-
-			if (isE2eeEnabled && props.E2EEParams.encrypted) {
-				encryptText(
-					debouncedDraftMessage,
-					props.E2EEParams.keyID,
-					props.E2EEParams.key,
-					'enc.'
-				)
-					.then((message) => {
-						apiPostDraftMessage(
-							groupId,
-							message,
-							'e2e',
-							debouncedDraftMessage
-						).then();
-					})
-					.catch((e: any) => {
-						apiPostError({
-							name: e.name,
-							message: e.message,
-							stack: e.stack,
-							level: ERROR_LEVEL_WARN
-						}).then();
-
-						apiPostDraftMessage(
-							groupId,
-							currentDraftMessageRef.current,
-							'',
-							currentDraftMessageRef.current
-						).then();
-					});
-			} else {
-				apiPostDraftMessage(
-					groupId,
-					debouncedDraftMessage,
-					'',
-					debouncedDraftMessage
-				).then();
-			}
-		}
-	}, [debouncedDraftMessage, isE2eeEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
+	const getTypedMarkdownMessage = useCallback(
+		(currentEditorState?: EditorState) => {
+			const contentState = currentEditorState
+				? currentEditorState.getCurrentContent()
+				: editorState.getCurrentContent();
+			const rawObject = convertToRaw(escapeMarkdownChars(contentState));
+			const markdownString = draftToMarkdown(rawObject, {
+				escapeMarkdownCharacters: false
+			});
+			return markdownString.trim();
+		},
+		[editorState]
+	);
 
 	useEffect(() => {
 		if (!activeInfo && isConsultantAbsent) {
@@ -453,67 +370,35 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	}, [uploadProgress]);
 
-	const finishSendingAttachment = () => {
-		props.handleSendButton();
-		handleMessageSendSuccess();
-		cleanupAttachment();
-	};
-
-	useEffect(() => {
-		if (uploadOnLoadHandling && uploadOnLoadHandling.target) {
-			if (uploadOnLoadHandling.target.status === 201) {
-				if (uploadOnLoadHandling.encryptedMessage) {
-					// send the message for the uploaded file seperately
-					apiSendMessage(
-						uploadOnLoadHandling.encryptedMessage,
-						uploadOnLoadHandling.unencryptedMessage,
-						uploadOnLoadHandling.rcGroupIdOrSessionId,
-						uploadOnLoadHandling.isFeedback,
-						false, // do not send email notification, since this was already done for the attachment
-						uploadOnLoadHandling.isEncrypted
-					).then(() => {
-						finishSendingAttachment();
-					});
-				} else {
-					finishSendingAttachment();
-				}
-			} else if (uploadOnLoadHandling.target.status === 413) {
-				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_SIZE_ERROR);
-			} else if (uploadOnLoadHandling.target.status === 415) {
-				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_FORMAT_ERROR);
-			} else if (
-				uploadOnLoadHandling.target.status === 403 &&
-				uploadOnLoadHandling.target.getResponseHeader('X-Reason') ===
-					'QUOTA_REACHED'
-			) {
-				handleAttachmentUploadError(
-					INFO_TYPES.ATTACHMENT_QUOTA_REACHED_ERROR
-				);
-			} else {
-				handleAttachmentUploadError(INFO_TYPES.ATTACHMENT_OTHER_ERROR);
-			}
-		}
-	}, [uploadOnLoadHandling]); // eslint-disable-line react-hooks/exhaustive-deps
-
 	const handleAttachmentUploadError = (infoType: string) => {
 		setActiveInfo(infoType);
 		cleanupAttachment();
 		setTimeout(() => setIsRequestInProgress(false), 1200);
 	};
 
-	const handleEditorChange = (currentEditorState) => {
-		if (
-			draftLoaded &&
-			currentEditorState.getCurrentContent() !==
-				editorState.getCurrentContent() &&
-			props.isTyping
-		) {
-			props.isTyping(!currentEditorState.getCurrentContent().hasText());
-		}
-		setEditorState(currentEditorState);
-		currentDraftMessageRef.current =
-			getTypedMarkdownMessage(currentEditorState);
-	};
+	const handleEditorChange = useCallback(
+		(currentEditorState) => {
+			if (
+				draftLoaded &&
+				currentEditorState.getCurrentContent() !==
+					editorState.getCurrentContent() &&
+				props.isTyping
+			) {
+				props.isTyping(
+					!currentEditorState.getCurrentContent().hasText()
+				);
+			}
+			setEditorState(currentEditorState);
+			onDraftMessageChange(getTypedMarkdownMessage(currentEditorState));
+		},
+		[
+			draftLoaded,
+			editorState,
+			getTypedMarkdownMessage,
+			onDraftMessageChange,
+			props
+		]
+	);
 
 	const handleEditorKeyCommand = (command) => {
 		const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -589,23 +474,6 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
-	const getTypedMarkdownMessage = (currentEditorState?: EditorState) => {
-		const contentState = currentEditorState
-			? currentEditorState.getCurrentContent()
-			: editorState.getCurrentContent();
-		const rawObject = convertToRaw(escapeMarkdownChars(contentState));
-		const markdownString = draftToMarkdown(rawObject, {
-			escapeMarkdownCharacters: false
-		});
-		return markdownString.trim();
-	};
-
-	const setEditorWithMarkdownString = (markdownString: string) => {
-		const rawObject = markdownToDraft(markdownString);
-		const draftContent = convertFromRaw(rawObject);
-		setEditorState(EditorState.createWithContent(draftContent));
-	};
-
 	const handleButtonClick = () => {
 		if (uploadProgress || isRequestInProgress) {
 			return null;
@@ -613,8 +481,8 @@ export const MessageSubmitInterfaceComponent = (
 
 		if (isSessionArchived) {
 			apiPutDearchive(activeSession.item.id)
+				.then(prepareAndSendMessage)
 				.then(() => {
-					prepareAndSendMessage();
 					if (
 						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 					) {
@@ -632,28 +500,30 @@ export const MessageSubmitInterfaceComponent = (
 					console.error(error);
 				});
 		} else {
-			prepareAndSendMessage();
+			prepareAndSendMessage().then();
 		}
 	};
 
 	const sendEnquiry = (encryptedMessage, unencryptedMessage, isEncrypted) => {
-		apiSendEnquiry(
+		return apiSendEnquiry(
 			activeSession.item.id,
 			encryptedMessage,
 			unencryptedMessage,
 			isEncrypted,
 			props.language
 		)
-			.then((response) => {
-				setEditorState(EditorState.createEmpty());
-				props.handleSendButton?.(response);
-			})
+			.then((response) =>
+				handleEncryptRoom(response.rcGroupId).then(() => {
+					props?.onSendButton && props.onSendButton(response);
+				})
+			)
+			.then(() => setEditorState(EditorState.createEmpty()))
 			.catch((error) => {
 				console.log(error);
 			});
 	};
 
-	const sendMessage = (
+	const sendMessage = async (
 		sendToFeedbackEndpoint,
 		encryptedMessage,
 		unencryptedMessage,
@@ -667,41 +537,62 @@ export const MessageSubmitInterfaceComponent = (
 			!activeSession.isGroup && !activeSession.isLive;
 
 		if (attachment) {
-			setAttachmentUpload(
-				apiUploadAttachment(
-					encryptedMessage,
-					unencryptedMessage,
-					encryptAttachment(
-						attachment,
-						props.E2EEParams.keyID,
-						props.E2EEParams.key
-					),
-					sendToRoomWithId,
-					sendToFeedbackEndpoint,
-					getSendMailNotificationStatus(),
-					setUploadProgress,
-					setUploadOnLoadHandling,
-					isEncrypted
-				)
-			);
-		} else {
-			if (getTypedMarkdownMessage()) {
-				apiSendMessage(
-					encryptedMessage,
-					unencryptedMessage,
-					sendToRoomWithId,
-					sendToFeedbackEndpoint,
-					getSendMailNotificationStatus(),
-					isEncrypted
-				)
-					.then(() => {
-						props.handleSendButton();
-						handleMessageSendSuccess();
-					})
-					.catch((error) => {
-						console.log(error);
-					});
+			const res = await apiUploadAttachment(
+				encryptAttachment(attachment, keyID, key),
+				sendToRoomWithId,
+				sendToFeedbackEndpoint,
+				getSendMailNotificationStatus(),
+				setUploadProgress,
+				setAttachmentUpload
+			).catch((res: XMLHttpRequest) => {
+				if (res.status === 413) {
+					handleAttachmentUploadError(
+						INFO_TYPES.ATTACHMENT_SIZE_ERROR
+					);
+				} else if (res.status === 415) {
+					handleAttachmentUploadError(
+						INFO_TYPES.ATTACHMENT_FORMAT_ERROR
+					);
+				} else if (
+					res.status === 403 &&
+					res.getResponseHeader('X-Reason') === 'QUOTA_REACHED'
+				) {
+					handleAttachmentUploadError(
+						INFO_TYPES.ATTACHMENT_QUOTA_REACHED_ERROR
+					);
+				} else {
+					handleAttachmentUploadError(
+						INFO_TYPES.ATTACHMENT_OTHER_ERROR
+					);
+				}
+
+				return null;
+			});
+
+			if (!res) {
+				return;
 			}
+		}
+
+		if (getTypedMarkdownMessage()) {
+			await apiSendMessage(
+				encryptedMessage,
+				unencryptedMessage,
+				sendToRoomWithId,
+				sendToFeedbackEndpoint,
+				getSendMailNotificationStatus() && !attachment,
+				isEncrypted
+			)
+				.then(() => handleEncryptRoom(activeSession.item.groupId))
+				.then(() => {
+					props?.onSendButton && props.onSendButton();
+					handleMessageSendSuccess();
+					cleanupAttachment();
+				})
+				.catch((error) => {
+					setIsRequestInProgress(false);
+					console.log(error);
+				});
 		}
 	};
 
@@ -721,11 +612,7 @@ export const MessageSubmitInterfaceComponent = (
 		const selectedFile = attachmentInput && attachmentInput.files[0];
 		const attachment = props.preselectedFile || selectedFile;
 
-		if (
-			isE2eeEnabled &&
-			props.E2EEParams.encrypted &&
-			!props.E2EEParams.keyID
-		) {
+		if (isE2eeEnabled && encrypted && !keyID) {
 			console.error("Can't send message without key");
 			return;
 		}
@@ -737,20 +624,8 @@ export const MessageSubmitInterfaceComponent = (
 		}
 
 		const sendToFeedbackEndpoint = isFeedbackMessage();
-
-		const keyId =
-			sendToFeedbackEndpoint && feedbackChatKeyId
-				? feedbackChatKeyId
-				: props.E2EEParams.keyID;
-		const key =
-			sendToFeedbackEndpoint && feedbackChatKey
-				? feedbackChatKey
-				: props.E2EEParams.key;
-		const sessionKeyExportedString =
-			sendToFeedbackEndpoint && feedbackChatSessionKeyExportedString
-				? feedbackChatSessionKeyExportedString
-				: props.E2EEParams.sessionKeyExportedString;
-
+		const messageKeyId = sendToFeedbackEndpoint ? feedbackChatKeyId : keyID;
+		const messageKey = sendToFeedbackEndpoint ? feedbackChatKey : key;
 		const unencryptedMessage = getTypedMarkdownMessage().trim();
 
 		let encryptedMessage = unencryptedMessage;
@@ -759,8 +634,8 @@ export const MessageSubmitInterfaceComponent = (
 			try {
 				encryptedMessage = await encryptText(
 					encryptedMessage,
-					keyId,
-					key
+					messageKeyId,
+					messageKey
 				);
 			} catch (e: any) {
 				apiPostError({
@@ -778,19 +653,24 @@ export const MessageSubmitInterfaceComponent = (
 			type === SESSION_LIST_TYPES.ENQUIRY &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
-			sendEnquiry(encryptedMessage, unencryptedMessage, isEncrypted);
-		} else {
-			sendMessage(
-				sendToFeedbackEndpoint,
+			await sendEnquiry(
 				encryptedMessage,
 				unencryptedMessage,
-				attachment,
 				isEncrypted
 			);
+			return;
+		}
 
-			if (isFeedbackRequestChecked()) {
-				encryptFeedbackRoom(keyId, sessionKeyExportedString);
-			}
+		await sendMessage(
+			sendToFeedbackEndpoint,
+			encryptedMessage,
+			unencryptedMessage,
+			attachment,
+			isEncrypted
+		);
+
+		if (isFeedbackRequestChecked()) {
+			await handleEncryptRoom(activeSession.item.feedbackGroupId, true);
 		}
 	};
 
@@ -813,7 +693,6 @@ export const MessageSubmitInterfaceComponent = (
 			}, 700);
 		}
 		setEditorState(EditorState.createEmpty());
-		currentDraftMessageRef.current = '';
 		setActiveInfo('');
 		resizeTextarea();
 		setTimeout(() => setIsRequestInProgress(false), 1200);
@@ -888,7 +767,6 @@ export const MessageSubmitInterfaceComponent = (
 		setUploadProgress(0);
 		setAttachmentSelected(null);
 		setAttachmentUpload(null);
-		setUploadOnLoadHandling(false);
 		removeSelectedAttachment();
 	};
 
@@ -954,6 +832,15 @@ export const MessageSubmitInterfaceComponent = (
 		!hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
 		activeSession.item.feedbackGroupId &&
 		(activeSession.isGroup || !activeSession.isFeedback);
+
+	if (subscriptionKeyLost) {
+		return <SubscriptionKeyLost />;
+	}
+
+	// Ignore the missing room if session has no roomId
+	if (roomNotFound && activeSession.rid) {
+		return <RoomNotFound />;
+	}
 
 	return (
 		<div
@@ -1025,6 +912,7 @@ export const MessageSubmitInterfaceComponent = (
 								<PluginsEditor
 									editorState={editorState}
 									onChange={handleEditorChange}
+									readOnly={!draftLoaded}
 									handleKeyCommand={handleEditorKeyCommand}
 									placeholder={placeholder}
 									stripPastedStyles={true}
@@ -1055,13 +943,7 @@ export const MessageSubmitInterfaceComponent = (
 								/>
 							</div>
 							{hasUploadFunctionality &&
-								(!attachmentSelected ? (
-									<span className="textarea__attachmentSelect">
-										<ClipIcon
-											onClick={handleAttachmentSelect}
-										/>
-									</span>
-								) : (
+								(attachmentSelected ? (
 									<div className="textarea__attachmentWrapper">
 										<span className="textarea__attachmentSelected">
 											<span className="textarea__attachmentSelected__progress"></span>
@@ -1082,12 +964,18 @@ export const MessageSubmitInterfaceComponent = (
 											</span>
 										</span>
 									</div>
+								) : (
+									<span className="textarea__attachmentSelect">
+										<ClipIcon
+											onClick={handleAttachmentSelect}
+										/>
+									</span>
 								))}
 						</span>
 						<SendMessageButton
 							handleSendButton={handleButtonClick}
 							clicked={isRequestInProgress}
-							deactivated={uploadProgress}
+							deactivated={uploadProgress || isRequestInProgress}
 						/>
 					</div>
 					{hasUploadFunctionality && (
@@ -1102,6 +990,18 @@ export const MessageSubmitInterfaceComponent = (
 						/>
 					)}
 				</form>
+			)}
+
+			{requestOverlayVisible && !e2eeOverlayVisible && (
+				<OverlayWrapper>
+					<Overlay item={requestOverlay} />
+				</OverlayWrapper>
+			)}
+
+			{e2eeOverlayVisible && (
+				<OverlayWrapper>
+					<Overlay item={e2eeOverlay} />
+				</OverlayWrapper>
 			)}
 		</div>
 	);

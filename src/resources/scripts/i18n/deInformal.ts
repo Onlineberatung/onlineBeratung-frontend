@@ -16,6 +16,8 @@ import furtherSteps from './de/furtherSteps';
 import furtherStepsInformal from './de/furtherStepsInformal';
 import groupChat from './de/groupChat';
 import groupChatInformal from './de/groupChatInformal';
+import preconditions from './de/preconditions';
+import preconditionsInformal from './de/preconditionsInformal';
 import profile from './de/profile';
 import profileInformal from './de/profileInformal';
 import notifications from './de/notifications';
@@ -52,6 +54,7 @@ const informalLocale = {
 	enquiry: { ...enquiry, ...enquiryInformal },
 	furtherSteps: { ...furtherSteps, ...furtherStepsInformal },
 	profile: { ...profile, ...profileInformal },
+	preconditions: { ...preconditions, ...preconditionsInformal },
 	notifications: { ...notifications, ...notificationsInformal },
 	registration: { ...registration, ...registrationInformal },
 	session: { ...session, ...sessionInformal },

@@ -1,23 +1,19 @@
 import * as React from 'react';
-import { useState, useEffect, useContext, useCallback } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { history } from '../app/app';
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { translate } from '../../utils/translate';
 import {
-	OverlayItem,
+	Overlay,
 	OVERLAY_FUNCTIONS,
-	OverlayWrapper,
-	Overlay
+	OverlayItem,
+	OverlayWrapper
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { config } from '../../resources/scripts/config';
-import {
-	buildExtendedSession,
-	STATUS_EMPTY,
-	E2EEContext
-} from '../../globalState';
+import { buildExtendedSession, STATUS_EMPTY } from '../../globalState';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 import {
@@ -33,12 +29,10 @@ import { Text } from '../text/Text';
 import { EnquiryLanguageSelection } from './EnquiryLanguageSelection';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { useResponsive } from '../../hooks/useResponsive';
-import { createGroupKey } from '../../utils/encryptionHelpers';
 
 import { Loading } from '../app/Loading';
 import { useSession } from '../../hooks/useSession';
 import { apiGetAskerSessionList } from '../../api';
-import { encryptRoom } from '../../utils/e2eeHelper';
 
 export const WriteEnquiry: React.FC = () => {
 	const { sessionId: sessionIdFromParam } = useParams();
@@ -53,28 +47,10 @@ export const WriteEnquiry: React.FC = () => {
 	const [isFirstEnquiry, setIsFirstEnquiry] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 
-	const { isE2eeEnabled } = useContext(E2EEContext);
-	const [keyID, setKeyID] = useState(null);
-	const [key, setKey] = useState(null);
-	const [sessionKeyExportedString, setSessionKeyExportedString] =
-		useState(null);
-
 	const { session, ready: sessionReady } = useSession(
 		null,
 		sessionIdFromParam
 	);
-
-	useEffect(() => {
-		if (!isE2eeEnabled) {
-			return;
-		}
-
-		createGroupKey().then(({ keyID, key, sessionKeyExportedString }) => {
-			setKeyID(keyID);
-			setKey(key);
-			setSessionKeyExportedString(sessionKeyExportedString);
-		});
-	}, [isE2eeEnabled]);
 
 	useEffect(() => {
 		if (!sessionReady && sessionIdFromParam) {
@@ -176,23 +152,11 @@ export const WriteEnquiry: React.FC = () => {
 		]
 	};
 
-	const handleSendButton = useCallback(
-		async (response) => {
-			// ToDo: encrypt room logic could be moved to messageSubmitInterfaceComponent.tsx (SessionItemCompoent.tsx & WriteEnquiry.tsx)
-			await encryptRoom({
-				keyId: keyID,
-				isE2eeEnabled,
-				isRoomAlreadyEncrypted: false,
-				rcGroupId: response.rcGroupId,
-				sessionKeyExportedString
-			});
-
-			setSessionId(response.sessionId);
-			setGroupId(response.rcGroupId);
-			setOverlayActive(true);
-		},
-		[keyID, sessionKeyExportedString, isE2eeEnabled]
-	);
+	const handleSendButton = useCallback(async (response) => {
+		setSessionId(response.sessionId);
+		setGroupId(response.rcGroupId);
+		setOverlayActive(true);
+	}, []);
 
 	if (isLoading) {
 		return <Loading />;
@@ -234,17 +198,12 @@ export const WriteEnquiry: React.FC = () => {
 			</div>
 			<ActiveSessionContext.Provider value={{ activeSession }}>
 				<MessageSubmitInterfaceComponent
-					handleSendButton={handleSendButton}
+					onSendButton={handleSendButton}
 					placeholder={translate('enquiry.write.input.placeholder')}
 					language={selectedLanguage}
-					E2EEParams={{
-						keyID: keyID,
-						key: key,
-						sessionKeyExportedString: sessionKeyExportedString,
-						encrypted: !!keyID
-					}}
 				/>
 			</ActiveSessionContext.Provider>
+
 			{overlayActive && (
 				<OverlayWrapper>
 					<Overlay

@@ -26,7 +26,7 @@ export const Stage = ({
 	isReady = true
 }: StageProps) => {
 	const rootNodeRef = useRef();
-	const { tenant } = useContext(TenantContext);
+	const { tenant } = useContext(TenantContext) || {};
 	const [isAnimationDone, setIsAnimationDone] = useState(false);
 
 	function onAnimationEnd(event) {

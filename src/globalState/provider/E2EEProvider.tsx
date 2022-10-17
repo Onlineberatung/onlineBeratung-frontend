@@ -16,15 +16,20 @@ interface E2EEContextProps {
 	key: string;
 	reloadPrivateKey: () => void;
 	isE2eeEnabled: boolean;
+	e2EEReady: boolean;
 }
 
 export const E2EEContext = createContext<E2EEContextProps>(null);
+export const STORAGE_KEY = 'e2ee_disabled';
 
 export function E2EEProvider(props) {
 	const [key, setKey] = useState(null);
 	const [isE2eeEnabled, setIsE2eeEnabled] = useState(false);
 
-	const { getSetting } = useContext(RocketChatPublicSettingsContext);
+	const [e2EEReady, setE2EEReady] = useState(false);
+	const { settingsReady, getSetting } = useContext(
+		RocketChatPublicSettingsContext
+	);
 
 	const reloadPrivateKey = useCallback(() => {
 		const privateKey = sessionStorage.getItem('private_key');
@@ -39,11 +44,23 @@ export function E2EEProvider(props) {
 	}, [reloadPrivateKey]);
 
 	useEffect(() => {
-		setIsE2eeEnabled(!!getSetting(SETTING_E2E_ENABLE)?.value);
-	}, [getSetting]);
+		if (!settingsReady) {
+			return;
+		}
+
+		// For testing perpose -> should be moved to dev toolbar
+		const e2eeDisabled = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+
+		setIsE2eeEnabled(
+			e2eeDisabled === 1 ? false : !!getSetting(SETTING_E2E_ENABLE)?.value
+		);
+		setE2EEReady(true);
+	}, [getSetting, settingsReady]);
 
 	return (
-		<E2EEContext.Provider value={{ key, reloadPrivateKey, isE2eeEnabled }}>
+		<E2EEContext.Provider
+			value={{ key, reloadPrivateKey, isE2eeEnabled, e2EEReady }}
+		>
 			{props.children}
 		</E2EEContext.Provider>
 	);

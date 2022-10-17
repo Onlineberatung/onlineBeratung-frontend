@@ -11,13 +11,14 @@ import '../../resources/styles/styles';
 import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
-import ErrorBoundary from './ErrorBoundary';
 import { languageIsoCodesSortedByName } from '../../resources/scripts/i18n/de/languages';
 import { FixedLanguagesContext } from '../../globalState/provider/FixedLanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
 import { LegalLinkInterface } from '../../globalState';
 import VideoConference from '../videoConference/VideoConference';
 import { config } from '../../resources/scripts/config';
+import { PreConditions, preConditionsMet } from './PreConditions';
+import ErrorBoundary from './ErrorBoundary';
 
 export const history = createBrowserHistory();
 
@@ -42,6 +43,10 @@ export const App = ({
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
 	// use the authenticated app as a catch-all fallback.
+	const [failedPreCondition, setFailedPreCondition] = useState(
+		preConditionsMet()
+	);
+
 	const [
 		hasUnmatchedLoginConsultingType,
 		setHasUnmatchedLoginConsultingType
@@ -75,6 +80,16 @@ export const App = ({
 			setIsInitiallyLoaded(true);
 		}
 	}, []); // eslint-disable-line
+
+	if (failedPreCondition) {
+		return (
+			<PreConditions
+				legalLinks={legalLinks}
+				stageComponent={stageComponent}
+				onPreConditionsMet={setFailedPreCondition}
+			/>
+		);
+	}
 
 	return (
 		<ErrorBoundary>
