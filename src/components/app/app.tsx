@@ -118,8 +118,8 @@ const RouterWrapper = ({
 						)}
 						<Switch>
 							{extraRoutes.map(
-								({ route, component: Component }) => (
-									<Route {...route}>
+								({ route, component: Component }, i) => (
+									<Route {...route} key={`route-${i}`}>
 										<Component />
 									</Route>
 								)

@@ -338,7 +338,9 @@ export const SessionListItemComponent = ({
 										{ ns: 'consultingTypes' }
 								  ) + ' '
 								: ''}
-							{session.item.consultingType !== 1 &&
+							{/* We're checking the 99999 because some of the users don't fill in the postal
+								with the agencies we auto-fill with the agency postal code and in those cases, we don't want to show */}
+							{session.item.postcode !== 99999 &&
 							!isAsker &&
 							!session.isLive
 								? zipCodeSlash + session.item.postcode
