@@ -817,7 +817,7 @@ export const TwoFactorAuth = () => {
 					checkedIcon={false}
 					width={48}
 					height={26}
-					onColor="#0dcd21"
+					onColor="#0A882F"
 					offColor="#8C878C"
 					boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
 					handleDiameter={27}

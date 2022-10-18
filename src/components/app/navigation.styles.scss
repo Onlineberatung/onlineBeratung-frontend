@@ -51,7 +51,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		color: var(--text-color-contrast-switch, $white);
 		text-align: center;
 		text-decoration: none;
-		--transition-duration: 0.6s;
+		--transition-duration: 0.3s;
 
 		&:focus {
 			outline: $focus-outline;
@@ -204,6 +204,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		margin: auto;
 		letter-spacing: 0.5px;
 		margin-top: 6px;
+		font-weight: $font-weight-medium;
 
 		@include breakpoint($fromLarge) {
 			display: block;

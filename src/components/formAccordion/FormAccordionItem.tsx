@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './formAccordionItem.styles';
-import { ReactComponent as ValidIcon } from '../../resources/img/icons/checkmark.svg';
+import { ReactComponent as ValidIcon } from '../../resources/img/icons/checkmark_circle.svg';
 import { ReactComponent as InvalidIcon } from '../../resources/img/icons/exclamation-mark.svg';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { AccordionItemValidity } from '../registration/registrationHelpers';
