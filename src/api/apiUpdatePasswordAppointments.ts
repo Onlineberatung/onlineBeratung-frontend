@@ -10,7 +10,7 @@ export const apiUpdatePasswordAppointments = async (
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.POST,
-		bodyData: `{"email":"${email}","password":"${password}"}`,
+		bodyData: JSON.stringify({ email, password }),
 		responseHandling: [FETCH_ERRORS.BAD_REQUEST]
 	});
 };
