@@ -31,7 +31,8 @@ import {
 	hasUserAuthority,
 	UserDataContext,
 	SessionTypeContext,
-	E2EEContext
+	E2EEContext,
+	useTenant
 } from '../../globalState';
 import './session.styles';
 import './session.yellowTheme.styles';
@@ -64,6 +65,7 @@ let initMessageCount: number;
 
 export const SessionItemComponent = (props: SessionItemProps) => {
 	const { t: translate } = useTranslation();
+	const tenantData = useTenant();
 	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 
 	const { activeSession } = useContext(ActiveSessionContext);
@@ -574,13 +576,15 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						preselectedFile={draggedFile}
 						handleMessageSendSuccess={handleMessageSendSuccess}
 					/>
-					<DragAndDropArea
-						onFileDragged={onFileDragged}
-						isDragging={isDragging}
-						canDrop={isDragOverDropArea}
-						onDragLeave={onDragLeave}
-						styleOverride={{ top: headerBounds.height + 'px' }}
-					/>
+					{!tenantData?.settings?.featureAttachmentUploadDisabled && (
+						<DragAndDropArea
+							onFileDragged={onFileDragged}
+							isDragging={isDragging}
+							canDrop={isDragOverDropArea}
+							onDragLeave={onDragLeave}
+							styleOverride={{ top: headerBounds.height + 'px' }}
+						/>
+					)}
 				</>
 			)}
 
