@@ -35,10 +35,10 @@ import { ReactComponent as TeamsIconOutline } from '../../resources/img/icons/te
 import { ReactComponent as TeamsIconFilled } from '../../resources/img/icons/teams_filled.svg';
 import { ReactComponent as ProfilIconOutline } from '../../resources/img/icons/profil_outline.svg';
 import { ReactComponent as ProfilIconFilled } from '../../resources/img/icons/profil_filled.svg';
-import { ReactComponent as ToolsIcon } from '../../resources/img/icons/tools.svg';
+import { ReactComponent as ToolsIconOutline } from '../../resources/img/icons/tools_outline.svg';
+import { ReactComponent as ToolsIconFilled } from '../../resources/img/icons/tools_filled.svg';
 import { ReactComponent as CalendarIconOutline } from '../../resources/img/icons/calendar_outline.svg';
 import { ReactComponent as CalendarIconFilled } from '../../resources/img/icons/calendar_filled.svg';
-import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
 import * as React from 'react';
 import { ToolsList } from '../tools/ToolsList';
 import { OverviewPage } from '../../containers/overview/overview';
@@ -149,7 +149,12 @@ export const RouterConfigUser = (
 				condition: (userData) =>
 					showAppointmentsMenuItem(userData, hasAssignedConsultant),
 				to: '/booking/events',
-				icon: <CalendarMonthIcon className="navigation__icon" />,
+				icon: (
+					<CalendarIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<CalendarIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.booking.events'
 				}
@@ -157,7 +162,12 @@ export const RouterConfigUser = (
 			{
 				condition: showToolsMenuItem,
 				to: '/tools',
-				icon: <ToolsIcon className="navigation__icon" />,
+				icon: (
+					<ToolsIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<ToolsIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.tools'
 				}
@@ -293,7 +303,12 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 			{
 				condition: showAppointmentsMenuItem,
 				to: '/booking/events',
-				icon: <CalendarMonthIcon className="navigation__icon" />,
+				icon: (
+					<CalendarIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<CalendarIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.booking.events'
 				}
@@ -474,7 +489,12 @@ export const RouterConfigTeamConsultant = (
 			{
 				condition: showAppointmentsMenuItem,
 				to: '/booking/events',
-				icon: <CalendarMonthIcon className="navigation__icon" />,
+				icon: (
+					<CalendarIconOutline className="navigation__icon__outline" />
+				),
+				iconFilled: (
+					<CalendarIconFilled className="navigation__icon__filled" />
+				),
 				titleKeys: {
 					large: 'navigation.booking.events'
 				}
