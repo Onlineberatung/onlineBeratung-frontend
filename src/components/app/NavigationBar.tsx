@@ -40,6 +40,7 @@ export const NavigationBar = ({
 	const { selectableLocales } = useContext(LocaleContext);
 	const [sessionId, setSessionId] = useState(null);
 	const [hasTools, setHasTools] = useState<boolean>(false);
+	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
 		userData
@@ -122,6 +123,13 @@ export const NavigationBar = ({
 		return value ? `walkthrough-${value}` : '';
 	}, []);
 
+	const handleKeyDown = (e) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			console.log('e.key', e.key);
+			setIsMenuOpen(!isMenuOpen);
+		}
+	};
+
 	return (
 		<div className="navigation__wrapper">
 			<div className="navigation__itemContainer">
@@ -186,7 +194,11 @@ export const NavigationBar = ({
 					})}
 				>
 					{selectableLocales.length > 1 && (
-						<div className="navigation__item navigation__item__language">
+						<div
+							className="navigation__item navigation__item__language"
+							tabIndex={0}
+							onKeyDown={handleKeyDown}
+						>
 							<LocaleSwitch
 								showIcon={true}
 								className="navigation__title"
@@ -195,6 +207,7 @@ export const NavigationBar = ({
 								iconSize={32}
 								label={translate('navigation.language')}
 								menuPlacement="right"
+								openMenu={isMenuOpen}
 							/>
 						</div>
 					)}

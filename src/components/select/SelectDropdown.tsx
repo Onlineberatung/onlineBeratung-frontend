@@ -370,6 +370,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 					props.styleOverrides ?? {}
 				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
+				tabIndex={-1}
 			/>
 			{props.hasError && (
 				<div className="select__error">

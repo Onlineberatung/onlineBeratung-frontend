@@ -15,6 +15,7 @@ export interface LocaleSwitchProp {
 	iconSize?: number;
 	label?: string;
 	menuPlacement?: 'top' | 'bottom' | 'right';
+	openMenu?: boolean;
 }
 
 export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
