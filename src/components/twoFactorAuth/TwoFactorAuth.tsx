@@ -41,6 +41,7 @@ import { Tooltip } from '../tooltip/Tooltip';
 import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
 import useUpdateUserData from '../../utils/useUpdateUserData';
 import { useTranslation } from 'react-i18next';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const OTP_LENGTH = 6;
 
@@ -81,6 +82,8 @@ export const TwoFactorAuth = () => {
 	const [twoFactorType, setTwoFactorType] = useState<string>(
 		TWO_FACTOR_TYPES.APP
 	);
+	const settings = useAppConfig();
+	let todaysDate = new Date(Date.now());
 
 	useEffect(() => {
 		if (location.state?.openTwoFactor) {
@@ -850,7 +853,12 @@ export const TwoFactorAuth = () => {
 					<Overlay
 						className="twoFactorAuth__overlay"
 						items={overlayItems}
-						handleOverlayClose={handleOverlayClose}
+						handleOverlayClose={
+							todaysDate >=
+							settings.twofactor.dateTwoFactorObligatory
+								? null
+								: handleOverlayClose
+						}
 					/>
 				</OverlayWrapper>
 			) : null}
