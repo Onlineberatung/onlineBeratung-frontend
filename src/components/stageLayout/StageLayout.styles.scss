@@ -7,6 +7,10 @@
 	&__header,
 	&__footer {
 		flex: 0;
+		padding: 0 $grid-base-two $grid-base-four;
+		@include breakpoint($fromLarge) {
+			padding: 0 $grid-base-three $grid-base-four;
+		}
 	}
 
 	&__content {
@@ -33,6 +37,7 @@
 
 		&.mobile {
 			justify-content: space-between;
+			padding: 0 $grid-base-two;
 		}
 	}
 
@@ -53,10 +58,6 @@
 				width: calc(60vw - 300px);
 			}
 		}
-	}
-
-	&__footer {
-		padding: 0 $grid-base-three $grid-base-four;
 	}
 
 	&__toLogin {

@@ -53,6 +53,10 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		text-decoration: none;
 		--transition-duration: 0.3s;
 
+		.select__wrapper {
+			padding: 0;
+		}
+
 		&:focus {
 			outline: $focus-outline;
 			outline-offset: 4px;
@@ -179,7 +183,6 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			.navigation__icon__filled {
 				display: block;
 				fill: $primary;
-				margin: auto;
 			}
 			.navigation__icon__outline {
 				display: none;

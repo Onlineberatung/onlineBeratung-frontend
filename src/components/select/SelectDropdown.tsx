@@ -140,6 +140,7 @@ const colourStyles = (
 		...styles,
 		'marginBottom': state.menuPlacement === 'top' ? '16px' : '0',
 		'marginTop': state.menuPlacement === 'top' ? '0' : '16px',
+		'font-weight': 'normal',
 		...(menuPlacement === 'right'
 			? {
 					bottom: 'auto',
@@ -370,6 +371,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 					props.styleOverrides ?? {}
 				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
+				menuIsOpen={true}
 			/>
 			{props.hasError && (
 				<div className="select__error">

@@ -150,6 +150,8 @@ $form-accordion-item-input-margin-left: 0 !default;
 	}
 
 	.inputField {
-		width: 65%;
+		@include breakpoint($fromMedium) {
+			width: 65%;
+		}
 	}
 }
