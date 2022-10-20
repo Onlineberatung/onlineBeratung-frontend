@@ -5,6 +5,14 @@
 
 	.select__wrapper {
 		margin-top: 0;
+		padding-left: 0;
+	}
+
+	.select__input__single-value {
+		color: $form-secondary;
+		&:hover {
+			color: $hover-primary;
+		}
 	}
 
 	span {

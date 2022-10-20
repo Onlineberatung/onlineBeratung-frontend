@@ -26,7 +26,8 @@ import {
 	hasUserAuthority
 } from '../../globalState';
 
-import { ReactComponent as OverviewIcon } from '../../resources/img/icons/overview.svg';
+import { ReactComponent as OverviewIconOutline } from '../../resources/img/icons/overview_outline.svg';
+import { ReactComponent as OverviewIconFilled } from '../../resources/img/icons/overview_filled.svg';
 import { ReactComponent as InboxIconOutline } from '../../resources/img/icons/inbox_outline.svg';
 import { ReactComponent as InboxIconFilled } from '../../resources/img/icons/inbox_filled.svg';
 import { ReactComponent as MessagesIconOutline } from '../../resources/img/icons/messages_outline.svg';
@@ -108,7 +109,8 @@ const toolsRoutes = [
 const overviewRoute = (settings: AppConfigInterface) => ({
 	condition: () => settings.useOverviewPage && isDesktop,
 	to: '/overview',
-	icon: <OverviewIcon className="navigation__icon" />,
+	icon: <OverviewIconOutline className="navigation__icon__outline" />,
+	iconFilled: <OverviewIconFilled className="navigation__icon__filled" />,
 	titleKeys: {
 		large: 'navigation.overview'
 	}

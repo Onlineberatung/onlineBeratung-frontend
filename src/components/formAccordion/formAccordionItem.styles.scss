@@ -21,6 +21,10 @@ $form-accordion-item-input-margin-left: 0 !default;
 		width: 100%;
 		cursor: pointer;
 		padding: $grid-base-three 0;
+		&:hover span {
+			color: var(--skin-color-primary-hover, $hover-primary);
+			cursor: pointer;
+		}
 	}
 
 	&__index {
@@ -49,10 +53,12 @@ $form-accordion-item-input-margin-left: 0 !default;
 
 		&--valid {
 			fill: $form-success;
+			top: 35%;
 		}
 
 		&--invalid {
 			fill: $form-error;
+			top: 35%;
 		}
 	}
 
@@ -60,7 +66,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 		display: none;
 		margin-bottom: $grid-base-four;
 		align-items: center;
-
+		transition: opacity 0.6s ease;
 		.text,
 		ul,
 		.button__wrapper {
@@ -130,10 +136,20 @@ $form-accordion-item-input-margin-left: 0 !default;
 
 		&__content {
 			display: block;
+			transition: opacity 0.6s ease;
 			@include breakpoint($fromMedium) {
 				display: flex;
 				justify-content: space-between;
 			}
 		}
+		&__header {
+			&:hover span {
+				color: $form-accordion-index-color-active;
+			}
+		}
+	}
+
+	.inputField {
+		width: 65%;
 	}
 }

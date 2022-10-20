@@ -12,8 +12,8 @@ import {
 	TenantContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
-import { ReactComponent as LogoutIconOutline } from '../../resources/img/icons/out_outline.svg';
-import { ReactComponent as LogoutIconFilled } from '../../resources/img/icons/out_filled.svg';
+import { ReactComponent as LogoutIconOutline } from '../../resources/img/icons/logout_outline.svg';
+import { ReactComponent as LogoutIconFilled } from '../../resources/img/icons/logout_filled.svg';
 import clsx from 'clsx';
 import { RocketChatUnreadContext } from '../../globalState/provider/RocketChatUnreadProvider';
 import {
