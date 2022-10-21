@@ -323,7 +323,7 @@ export const JoinGroupChatView = ({
 
 	let groupChatRules: [string?] = [];
 	const hasGroupChatRulesTranslations = i18n.exists(
-		`consultingType.${consultingType.id}.groupChatRules.0`,
+		`consultingType.${consultingType?.id}.groupChatRules.0`,
 		{ ns: 'consultingTypes' }
 	);
 
@@ -331,13 +331,13 @@ export const JoinGroupChatView = ({
 		for (let i = 0; i < 10; i++) {
 			if (
 				i18n.exists(
-					`consultingType.${consultingType.id}.groupChatRules.${i}`,
+					`consultingType.${consultingType?.id}.groupChatRules.${i}`,
 					{ ns: 'consultingTypes' }
 				)
 			) {
 				groupChatRules.push(
 					translate(
-						`consultingType.${consultingType.id}.groupChatRules.${i}`,
+						`consultingType.${consultingType?.id}.groupChatRules.${i}`,
 						{ ns: 'consultingTypes' }
 					)
 				);

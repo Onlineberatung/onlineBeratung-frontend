@@ -956,6 +956,7 @@ Watch for inactive groups because there is no api endpoint
  */
 const useGroupWatcher = (isLoading: boolean) => {
 	const { sessions, dispatch } = useContext(SessionsDataContext);
+	const history = useHistory();
 
 	const hasSessionChanged = useCallback(
 		(newSession) => {
@@ -975,6 +976,8 @@ const useGroupWatcher = (isLoading: boolean) => {
 		const inactiveGroupSessions = sessions.filter(
 			(s) => !!s.chat && !s.chat.subscribed
 		);
+
+		if ((history?.location?.state as any)?.isEditMode) return;
 
 		if (inactiveGroupSessions.length <= 0) {
 			return;
@@ -1031,7 +1034,7 @@ const useGroupWatcher = (isLoading: boolean) => {
 			.catch((e) => {
 				console.log(e);
 			});
-	}, [dispatch, hasSessionChanged, sessions]);
+	}, [dispatch, hasSessionChanged, history?.location?.state, sessions]);
 
 	const [startWatcher, stopWatcher, isWatcherRunning] = useWatcher(
 		refreshInactiveGroupSessions,
