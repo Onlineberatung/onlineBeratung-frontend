@@ -31,6 +31,7 @@ import { budibaseLogout } from '../budibase/budibaseLogout';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useTranslation } from 'react-i18next';
 import { endpoints } from '../../resources/scripts/endpoints';
+import { isNumber } from '../../utils/isNumber';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -63,7 +64,9 @@ export const RegistrationFormDigi = ({
 		'agencyId':
 			consultant?.agencies?.length === 1
 				? consultant.agencies[0].id
-				: preselectedAgency?.id || '',
+				: isNumber(`${preselectedAgency?.id}`)
+				? preselectedAgency?.id
+				: '',
 		'username': '',
 		'consultingTypeId':
 			consultant?.agencies?.length === 1
