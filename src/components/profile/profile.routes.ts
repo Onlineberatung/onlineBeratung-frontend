@@ -24,6 +24,7 @@ import { Locale } from './Locale';
 import { isDesktop } from 'react-device-detect';
 import { OverviewBookings } from './OverviewMobile/Bookings';
 import { OverviewSessions } from './OverviewMobile/Sessions';
+import { ManageNotifications } from '../ManageNotifications/ManageNotifications';
 
 const shouldShowOverview = (useOverviewPage: boolean) =>
 	useOverviewPage && !isDesktop;
@@ -215,6 +216,11 @@ const profileRoutes = (settings: AppConfigInterface): TabsType => [
 				title: 'profile.routes.display',
 				url: '/anzeige',
 				elements: [
+					{
+						component: ManageNotifications,
+						column: COLUMN_RIGHT,
+						order: 1
+					},
 					{
 						component: Locale,
 						column: COLUMN_RIGHT,

@@ -986,6 +986,13 @@ export const de = {
 			}
 		}
 	},
+	manageNotifications: {
+		title: 'E-Mail Benachrichtigung',
+		subtitle: 'Wir benachrichtigen Sie, wenn Sie:',
+		switch: {
+			label: 'einen Termin bekommen.'
+		}
+	},
 	message: {
 		'appointment': {
 			component: {

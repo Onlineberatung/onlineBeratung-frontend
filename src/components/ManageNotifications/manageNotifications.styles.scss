@@ -1,0 +1,19 @@
+.manageNotifications {
+	&__switch {
+		display: flex;
+
+		.text {
+			margin: auto 0 auto $grid-base;
+		}
+	}
+
+	&__content {
+		&__title {
+			margin-bottom: $grid-base-three;
+
+			.text {
+				margin-top: $grid-base;
+			}
+		}
+	}
+}

@@ -984,6 +984,13 @@ export const en = {
 			}
 		}
 	},
+	manageNotifications: {
+		title: 'E-mail notification',
+		subtitle: 'We will notify you when you:',
+		switch: {
+			label: 'get an appointment.'
+		}
+	},
 	message: {
 		'today': 'Today',
 		'isMyMessage.name': 'Me',
