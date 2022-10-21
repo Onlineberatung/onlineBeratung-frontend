@@ -47,6 +47,7 @@ import {
 import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
+import { isGroupChatOwner } from './groupChatHelpers';
 
 interface JoinGroupChatViewProps {
 	forceBannedOverlay?: boolean;
@@ -369,11 +370,13 @@ export const JoinGroupChatView = ({
 							{translate('groupChat.join.warning.message')}
 						</p>
 					)}
-				<Button
-					item={buttonItem}
-					buttonHandle={handleButtonClick}
-					disabled={isButtonDisabled}
-				/>
+				{isGroupChatOwner(activeSession, userData) && (
+					<Button
+						item={buttonItem}
+						buttonHandle={handleButtonClick}
+						disabled={isButtonDisabled}
+					/>
+				)}
 			</div>
 			{overlayActive && (
 				<OverlayWrapper>
