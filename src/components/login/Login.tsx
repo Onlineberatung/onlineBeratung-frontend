@@ -62,7 +62,6 @@ import {
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
 import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 import { useTranslation } from 'react-i18next';
-import { ensureTenantSettings } from '../../utils/tenantHelpers';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
@@ -364,7 +363,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			password: password,
 			redirect: !consultant,
 			gcid,
-			...ensureTenantSettings(tenant?.settings)
+			tenantData: tenant
 		})
 			.then(postLogin)
 			.catch((error) => {
@@ -401,7 +400,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				redirect: !consultant,
 				otp,
 				gcid,
-				...ensureTenantSettings(tenant?.settings)
+				tenantData: tenant
 			})
 				.then(postLogin)
 				.catch((error) => {
