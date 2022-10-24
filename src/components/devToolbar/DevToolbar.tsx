@@ -174,39 +174,30 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 ];
 
 export const useDevToolbar = () => {
-	const [configs, setConfigs] = useState({});
+	const [lastChange, setLastChange] = useState(null);
 
-	const readDevToobarLocalStorage = useCallback(() => {
-		let configs = {};
-		LOCAL_STORAGE_SWITCHES.forEach((localStorageSwitch) => {
-			configs[localStorageSwitch.key] =
-				localStorage.getItem(localStorageSwitch.key) ??
-				localStorageSwitch.value;
-		});
-		setConfigs(configs);
+	const onChange = useCallback(() => {
+		setLastChange(new Date().getTime());
 	}, []);
 
 	useEffect(() => {
-		readDevToobarLocalStorage();
-
-		window.addEventListener(DEVTOOLBAR_EVENT, readDevToobarLocalStorage);
+		window.addEventListener(DEVTOOLBAR_EVENT, onChange);
 
 		return () => {
-			window.removeEventListener(
-				DEVTOOLBAR_EVENT,
-				readDevToobarLocalStorage
-			);
+			window.removeEventListener(DEVTOOLBAR_EVENT, onChange);
 		};
-	}, [readDevToobarLocalStorage]);
+	}, [onChange]);
 
 	const getDevToolbarOption = useCallback(
-		(key) => {
-			return configs?.[key];
-		},
-		[configs]
+		(key) =>
+			localStorage.getItem(key) ??
+			LOCAL_STORAGE_SWITCHES.find(
+				(localStorageSwitch) => localStorageSwitch.key === key
+			)?.value,
+		[lastChange] // eslint-disable-line react-hooks/exhaustive-deps
 	);
 
-	return { getDevToolbarOption, configs };
+	return { getDevToolbarOption };
 };
 
 /*
