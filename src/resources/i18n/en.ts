@@ -1843,8 +1843,12 @@ export const en = {
 	},
 	twoFactorAuth: {
 		title: 'Two-factor authentication',
-		subtitle:
-			'Secure your account from possible unauthorized access. Use a second factor (app or email) for logging in to online consultation',
+		subtitle: {
+			binding:
+				'Choose a second factor (app or email) with which to protect your account.',
+			noBinding:
+				'Secure your account from possible unauthorized access. Use a second factor (app or email) for logging in to online consultation'
+		},
 		switch: {
 			'active.label': 'Two-factor authentication enabled',
 			'deactive.label': 'Two-factor authentication disabled',
@@ -1859,7 +1863,12 @@ export const en = {
 				'email': 'Per E-Mail',
 				'app': 'With Authenticator Application',
 				'title': 'Select second factor',
-				'copy': 'Do you want to additionally protect your account with an app or with your email address?',
+				'copy': {
+					binding:
+						'Do you want to protect your account with an app or with your email address?',
+					notBinding:
+						'Do you want to additionally protect your account with an app or with your email address?'
+				},
 				'visualisation.label': 'Selection'
 			},
 			radio: {

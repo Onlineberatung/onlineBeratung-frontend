@@ -1856,7 +1856,12 @@ export const de = {
 		activate: {
 			step1: {
 				'app': 'Mit Authenticator Application',
-				'copy': 'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail-Adresse zusätzlich schützen?',
+				'copy': {
+					binding:
+						'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail-Adresse schützen?',
+					notBinding:
+						'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail-Adresse zusätzlich schützen?'
+				},
 				'email': 'Per E-Mail',
 				'title': 'Zweiter Faktor wählen',
 				'visualisation.label': 'Auswahl'
@@ -1997,8 +2002,12 @@ export const de = {
 			next: 'Weiter',
 			save: 'Speichern'
 		},
-		subtitle:
-			'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung',
+		subtitle: {
+			binding:
+				'Wählen Sie einen zweiten Faktor (App oder E-Mail) mit dem Sie Ihr Konto schützen.',
+			notBinding:
+				'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung'
+		},
 		switch: {
 			'active.label': 'Zwei-Faktor-Authentifizierung aktiviert',
 			'deactive.label': 'Zwei-Faktor-Authentifizierung deaktiviert',
