@@ -846,7 +846,11 @@ export const TwoFactorAuth = () => {
 				</div>
 				<Text
 					className="tertiary"
-					text={translate('twoFactorAuth.subtitle')}
+					text={
+						isTwoFactorBinding
+							? translate('twoFactorAuth.subtitle.binding')
+							: translate('twoFactorAuth.subtitle.notBindind')
+					}
 					type="standard"
 				/>
 			</div>
