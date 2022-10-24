@@ -48,7 +48,6 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 				: setMessage(settings.twofactor.messages[0]);
 		} else {
 			setIsShownTwoFactorNag(false);
-			setClosedTwoFactorNag(true);
 		}
 	}, [
 		userData,
@@ -56,8 +55,7 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		settings.twofactor.startObligatoryHint,
 		settings.twofactor.dateTwoFactorObligatory,
 		settings.twofactor.messages,
-		getDevToolbarOption,
-		setClosedTwoFactorNag
+		getDevToolbarOption
 	]);
 
 	const closeTwoFactorNag = async () => {
