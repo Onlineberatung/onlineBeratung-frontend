@@ -28,6 +28,7 @@ import {
 	AUTHORITIES,
 	ConsultingTypeInterface,
 	hasUserAuthority,
+	ModalContext,
 	UserDataContext
 } from '../../globalState';
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
@@ -50,6 +51,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);
+	const { setClosedTwoFactorNag } = useContext(ModalContext);
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
 	const [email, setEmail] = useState<string>('');
@@ -161,6 +163,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 			setIsOverlayActive(false);
 			setIsSuccessOverlay(false);
 			setIsRequestInProgress(false);
+			setClosedTwoFactorNag(true);
 		} else if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			apiPutEmail(email)
