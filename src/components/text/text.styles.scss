@@ -10,14 +10,14 @@
 	}
 
 	&__infoLargeStandard {
-		font-size: $font-size-tertiary;
-		line-height: 19px;
+		font-size: $font-size-primary;
+		line-height: $line-height-primary;
 		color: $text-color-info-large-standard;
 	}
 
 	&__infoLargeAlternative {
 		font-size: $font-size-tertiary;
-		line-height: 19px;
+		line-height: 20px;
 		color: $tertiary;
 
 		.text__label {
@@ -29,6 +29,13 @@
 		font-size: $font-size-secondary;
 		line-height: $line-height-secondary;
 		color: $tertiary;
+	}
+
+	&__infoMedium {
+		font-size: $font-size-primary;
+		line-height: $line-height-primary;
+		color: $tertiary;
+		font-weight: $font-weight-regular;
 	}
 
 	&__divider {

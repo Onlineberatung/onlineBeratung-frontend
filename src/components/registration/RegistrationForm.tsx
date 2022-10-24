@@ -1,17 +1,13 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback, useContext } from 'react';
-import { translate } from '../../utils/translate';
-import { Text } from '../text/Text';
-import { Button, BUTTON_TYPES } from '../button/Button';
-import { CheckboxItem, Checkbox } from '../checkbox/Checkbox';
-import { buttonItemSubmit } from './registrationHelpers';
+import { BUTTON_TYPES } from '../button/Button';
 import {
 	apiPostRegistration,
 	FETCH_ERRORS,
 	apiAgencySelection,
 	X_REASON
 } from '../../api';
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { DEFAULT_POSTCODE } from './prefillPostcode';
 import {
 	OverlayWrapper,
@@ -20,12 +16,11 @@ import {
 	OverlayItem
 } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
-import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import {
 	AgencyDataInterface,
+	LocaleContext,
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
-	LegalLinkInterface,
 	TenantContext,
 	useTenant
 } from '../../globalState';
@@ -37,7 +32,9 @@ import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
 } from '../error/errorHandling';
+import { useTranslation } from 'react-i18next';
 import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
@@ -46,7 +43,6 @@ interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
 	agency?: AgencyDataInterface;
 	consultant?: ConsultantDataInterface;
-	legalLinks: Array<LegalLinkInterface>;
 	topic?: TopicsDataInterface;
 }
 
@@ -66,10 +62,12 @@ export const RegistrationForm = ({
 	consultingType,
 	agency,
 	topic,
-	legalLinks,
 	consultant
 }: RegistrationFormProps) => {
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const tenantData = useTenant();
+	const legalLinks = useContext(LegalLinksContext);
+	const { locale } = useContext(LocaleContext);
 	const settings = useAppConfig();
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
@@ -161,31 +159,6 @@ export const RegistrationForm = ({
 		topicsAreRequired
 	]);
 
-	const checkboxItemDataProtection: CheckboxItem = {
-		inputId: 'dataProtectionCheckbox',
-		name: 'dataProtectionCheckbox',
-		labelId: 'dataProtectionLabel',
-		checked: isDataProtectionSelected,
-		label: [
-			translate('registration.dataProtection.label.prefix'),
-			legalLinks
-				.filter((legalLink) => legalLink.registration)
-				.map(
-					(legalLink, index, { length }) =>
-						(index > 0
-							? index < length - 1
-								? ', '
-								: translate(
-										'registration.dataProtection.label.and'
-								  )
-							: '') +
-						`<span><button type="button" class="button-as-link" onclick="window.open('${legalLink.url}')">${legalLink.label}</button></span>`
-				)
-				.join(''),
-			translate('registration.dataProtection.label.suffix')
-		].join(' ')
-	};
-
 	const overlayItemRegistrationSuccess: OverlayItem = {
 		svg: WelcomeIcon,
 		headline: translate('registration.overlay.success.headline'),
@@ -217,13 +190,14 @@ export const RegistrationForm = ({
 			postcode: formAccordionData.postcode,
 			consultingType: formAccordionData.consultingTypeId?.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
+			preferredLanguage: locale,
 			...(formAccordionData.state && { state: formAccordionData.state }),
 			...(formAccordionData.age && { age: formAccordionData.age }),
 			...(consultant && { consultantId: consultant.consultantId })
 		};
 
 		apiPostRegistration(
-			config.endpoints.registerAsker,
+			endpoints.registerAsker,
 			registrationData,
 			settings.multitenancyWithSingleDomainEnabled,
 			tenant
@@ -267,7 +241,13 @@ export const RegistrationForm = ({
 			>
 				<h3 className="registrationForm__overline">
 					{consultingType
-						? consultingType.titles.long
+						? translate(
+								[
+									`consultingType.${consultingType.id}.titles.long`,
+									consultingType.titles.long
+								],
+								{ ns: 'consultingTypes' }
+						  )
 						: translate('registration.overline')}
 				</h3>
 				<h2 className="registrationForm__headline">
@@ -290,55 +270,15 @@ export const RegistrationForm = ({
 						onValidation={setFormAccordionValid}
 						mainTopicId={formAccordionData.mainTopicId}
 						preselectedTopic={topic?.id}
+						legalLinks={legalLinks}
+						handleSubmitButtonClick={handleSubmitButtonClick}
+						isSubmitButtonDisabled={isSubmitButtonDisabled}
+						setIsDataProtectionSelected={
+							setIsDataProtectionSelected
+						}
+						isDataProtectionSelected={isDataProtectionSelected}
 					/>
 				)}
-
-				{preselectedAgencyData &&
-					consultingType?.registration.autoSelectPostcode && (
-						<PreselectedAgency
-							prefix={translate(
-								'registration.agency.preselected.prefix'
-							)}
-							agencyData={preselectedAgencyData}
-						/>
-					)}
-
-				{consultingType?.registration.autoSelectPostcode &&
-					!preselectedAgencyData && (
-						<div className="registrationForm__no-agency-found">
-							<Text
-								text={translate(
-									'registration.agencySelection.noAgencies'
-								)}
-								type="infoLargeAlternative"
-							/>
-						</div>
-					)}
-
-				<div className="registrationForm__dataProtection">
-					<Checkbox
-						item={checkboxItemDataProtection}
-						checkboxHandle={() =>
-							setIsDataProtectionSelected(
-								!isDataProtectionSelected
-							)
-						}
-						onKeyPress={(event) => {
-							if (event.key === 'Enter') {
-								setIsDataProtectionSelected(
-									!isDataProtectionSelected
-								);
-							}
-						}}
-					/>
-				</div>
-
-				<Button
-					className="registrationForm__submit"
-					item={buttonItemSubmit}
-					buttonHandle={handleSubmitButtonClick}
-					disabled={isSubmitButtonDisabled}
-				/>
 			</form>
 
 			{overlayActive && (

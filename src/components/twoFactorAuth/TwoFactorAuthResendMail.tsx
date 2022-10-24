@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CheckmarkIcon } from '../../resources/img/icons';
-import { translate } from '../../utils/translate';
 import { Text } from '../text/Text';
 import './twoFactorAuthResendMail.styles';
 
@@ -10,6 +10,7 @@ interface TwoFactorAuthResendMailProps {
 
 export const TwoFactorAuthResendMail: React.FC<TwoFactorAuthResendMailProps> =
 	({ resendHandler }) => {
+		const { t: translate } = useTranslation();
 		const [isCodeSent, setIsCodeSent] = useState(false);
 		return (
 			<div className="twoFactorAuthResendMail">

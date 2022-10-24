@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useEffect, useState } from 'react';
 import './MainTopicSelection.styles';
-import { translate } from '../../utils/translate';
 import { apiGetTopicsData } from '../../api/apiGetTopicsData';
 import { RadioButton } from '../radioButton/RadioButton';
 import { AgencyInfo } from '../agencySelection/AgencyInfo';
@@ -9,6 +8,7 @@ import {
 	VALIDITY_VALID,
 	VALIDITY_INITIAL
 } from '../registration/registrationHelpers';
+import { useTranslation } from 'react-i18next';
 
 export interface MainTopicSelectionProps {
 	name: string;
@@ -23,6 +23,7 @@ export const MainTopicSelection = ({
 	onChange,
 	onValidityChange
 }: MainTopicSelectionProps) => {
+	const { t: translate } = useTranslation();
 	const [topics, setTopics] = useState([]);
 	const [selectedTopic, setSelectedTopic] = useState(preselectedTopic);
 

@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_SUCCESS } from './fetchData';
 
 export const apiSendEnquiry = async (
@@ -8,7 +8,7 @@ export const apiSendEnquiry = async (
 	isEncrypted: boolean,
 	language?: string
 ): Promise<any> => {
-	const url = `${config.endpoints.sessionBase}/${sessionId}/enquiry/new`;
+	const url = `${endpoints.sessionBase}/${sessionId}/enquiry/new`;
 	const data: any = {
 		message: encryptedMessageData,
 		org: unencryptedMessageData,

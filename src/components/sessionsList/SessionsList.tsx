@@ -4,10 +4,11 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
+	useMemo,
 	useRef,
 	useState
 } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import {
 	getSessionType,
 	SESSION_LIST_TAB,
@@ -17,8 +18,6 @@ import {
 	SESSION_TYPE_ARCHIVED,
 	SESSION_TYPES
 } from '../session/sessionHelpers';
-import { history } from '../app/app';
-import { translate } from '../../utils/translate';
 import {
 	AnonymousConversationStartedContext,
 	AUTHORITIES,
@@ -70,6 +69,7 @@ import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
+import { useTranslation } from 'react-i18next';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -80,10 +80,13 @@ export const SessionsList = ({
 	defaultLanguage,
 	sessionTypes
 }: SessionsListProps) => {
+	const { t: translate } = useTranslation();
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
-		useParams();
+		useParams<{ rcGroupId: string; sessionId: string }>();
+	const history = useHistory();
+
 	const initialId = useUpdatingRef(groupIdFromParam || sessionIdFromParam);
 
 	const rcUid = useRef(getValueFromCookie('rc_uid'));
@@ -642,11 +645,20 @@ export const SessionsList = ({
 		defaultValue: preSelectedOption
 	};
 
-	const showEnquiryTabs =
-		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-		userData.hasAnonymousConversations &&
-		type === SESSION_LIST_TYPES.ENQUIRY &&
-		consultingTypes?.[0]?.isAnonymousConversationAllowed;
+	const showEnquiryTabs = useMemo(() => {
+		return (
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+			userData.hasAnonymousConversations &&
+			type === SESSION_LIST_TYPES.ENQUIRY &&
+			userData.agencies.some(
+				(agency) =>
+					(consultingTypes ?? []).find(
+						(consultingType) =>
+							consultingType.id === agency.consultingType
+					)?.isAnonymousConversationAllowed
+			)
+		);
+	}, [consultingTypes, type, userData]);
 
 	const showSessionListTabs =
 		userData.hasArchive &&
@@ -855,7 +867,7 @@ export const SessionsList = ({
 								text={
 									sessionListTab !==
 									SESSION_LIST_TAB_ANONYMOUS
-										? translate('sessionList.empty')
+										? translate('sessionList.empty.known')
 										: translate(
 												'sessionList.empty.anonymous'
 										  )
@@ -954,6 +966,7 @@ Watch for inactive groups because there is no api endpoint
  */
 const useGroupWatcher = (isLoading: boolean) => {
 	const { sessions, dispatch } = useContext(SessionsDataContext);
+	const history = useHistory();
 
 	const hasSessionChanged = useCallback(
 		(newSession) => {
@@ -973,6 +986,8 @@ const useGroupWatcher = (isLoading: boolean) => {
 		const inactiveGroupSessions = sessions.filter(
 			(s) => !!s.chat && !s.chat.subscribed
 		);
+
+		if ((history?.location?.state as any)?.isEditMode) return;
 
 		if (inactiveGroupSessions.length <= 0) {
 			return;
@@ -1029,7 +1044,7 @@ const useGroupWatcher = (isLoading: boolean) => {
 			.catch((e) => {
 				console.log(e);
 			});
-	}, [dispatch, hasSessionChanged, sessions]);
+	}, [dispatch, hasSessionChanged, history?.location?.state, sessions]);
 
 	const [startWatcher, stopWatcher, isWatcherRunning] = useWatcher(
 		refreshInactiveGroupSessions,

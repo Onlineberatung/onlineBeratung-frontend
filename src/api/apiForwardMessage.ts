@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiForwardMessage = async (
@@ -10,7 +10,7 @@ export const apiForwardMessage = async (
 	rcGroupId: string,
 	isEncrypted: boolean
 ): Promise<any> => {
-	const url = config.endpoints.forwardMessage;
+	const url = endpoints.forwardMessage;
 	const headersData = { rcGroupId: rcGroupId };
 	const data = JSON.stringify({
 		message: encryptedMessageData,

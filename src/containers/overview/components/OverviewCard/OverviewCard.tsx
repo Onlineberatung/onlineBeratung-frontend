@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
-import { history } from '../../../../components/app/app';
 import { Button, BUTTON_TYPES } from '../../../../components/button/Button';
 import { Card } from '../../../../components/card';
 import { LoadingIndicator } from '../../../../components/loadingIndicator/LoadingIndicator';
-import { translate } from '../../../../utils/translate';
 import { EmptyType, EmptyState } from '../EmptyState';
 import './overviewCard.styles.scss';
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 interface OverviewCardProps {
 	allMessagesPaths: string;
@@ -28,6 +28,9 @@ export const OverviewCard = ({
 	dataListLength,
 	emptyType
 }: OverviewCardProps) => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const countStr = useMemo(
 		() => (dataListLength > MAX_COUNT ? `${MAX_COUNT}+` : dataListLength),
 		[dataListLength]
@@ -35,7 +38,9 @@ export const OverviewCard = ({
 
 	return (
 		<Card className={`overviewCard ${className}`}>
-			<Card.Header>{translate(title, { count: countStr })}</Card.Header>
+			<Card.Header>
+				{translate(title, { countStr: `${countStr}` })}
+			</Card.Header>
 			<Card.Content className={isLoading ? 'loadingCard' : ''}>
 				{!isLoading && dataListLength > 0 && children}
 				{!isLoading && !dataListLength && (

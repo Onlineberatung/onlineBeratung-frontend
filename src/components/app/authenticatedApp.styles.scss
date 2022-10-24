@@ -21,7 +21,7 @@ a {
 }
 
 .app {
-	height: 100%;
+	height: 100vh;
 
 	&--blur {
 		filter: blur(5px);
@@ -31,7 +31,7 @@ a {
 .app__wrapper {
 	display: flex;
 	flex-direction: column;
-	height: 100%;
+	height: 100vh;
 
 	@include breakpoint($fromLarge) {
 		flex-direction: row;

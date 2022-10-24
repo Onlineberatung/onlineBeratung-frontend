@@ -1,5 +1,5 @@
 import { FetchErrorWithOptions, FETCH_ERRORS } from '../../api';
-import { config } from '../../resources/scripts/config';
+import { endpoints } from '../../resources/scripts/endpoints';
 import { LoginData } from '../registration/autoLogin';
 
 export const getKeycloakAccessToken = (
@@ -11,7 +11,7 @@ export const getKeycloakAccessToken = (
 		const data = `username=${username}&password=${password}${
 			otp ? `&otp=${otp}` : ``
 		}&client_id=app&grant_type=password`;
-		const url = config.endpoints.keycloakAccessToken;
+		const url = endpoints.keycloakAccessToken;
 
 		const req = new Request(url, {
 			method: 'POST',

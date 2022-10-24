@@ -3,9 +3,9 @@
 	"titles": {
 		"default": "U25",
 		"short": "U25",
-		"long": "Beratung für Suizidgefährdete junge Menschen [U25]",
+		"long": "Beratung für suizidgefährdete junge Menschen [U25]",
 		"welcome": "Willkommen bei der U25-Hilfe",
-		"registrationDropdown": "Beratung für Suizidgefährdete junge Menschen [U25]"
+		"registrationDropdown": "Beratung für suizidgefährdete junge Menschen [U25]"
 	},
 	"urls": {
 		"requiredAidMissingRedirectUrl": "https://www.u25.de/helpmail/"

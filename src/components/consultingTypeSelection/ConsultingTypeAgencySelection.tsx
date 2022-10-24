@@ -5,7 +5,6 @@ import {
 	ConsultantDataInterface,
 	ConsultingTypeInterface
 } from '../../globalState';
-import { translate } from '../../utils/translate';
 import './consultingTypeAgencySelection.styles';
 import '../profile/profile.styles';
 import { RadioButton } from '../radioButton/RadioButton';
@@ -21,6 +20,7 @@ import {
 } from '../select/SelectDropdown';
 import { Text } from '../text/Text';
 import { AgencyLanguages } from '../agencySelection/AgencyLanguages';
+import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
 export interface ConsultingTypeAgencySelectionProps {
@@ -119,6 +119,7 @@ export const ConsultingTypeAgencySelection = ({
 	preselectedAgency,
 	onKeyDown
 }: ConsultingTypeAgencySelectionProps) => {
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const settings = useAppConfig();
 	const [selectedConsultingTypeOption, setSelectedConsultingTypeOption] =
 		useState<SelectOption>(null);
@@ -142,12 +143,18 @@ export const ConsultingTypeAgencySelection = ({
 		const consultingTypeOptions = possibleConsultingTypes.map(
 			(consultingType) => ({
 				value: consultingType.id.toString(),
-				label: consultingType.titles.long
+				label: translate(
+					[
+						`consultingType.${consultingType.id}.titles.long`,
+						consultingType.titles.long
+					],
+					{ ns: 'consultingTypes' }
+				)
 			})
 		);
 		setConsultingTypeOptions(consultingTypeOptions);
 		setSelectedConsultingTypeOption(consultingTypeOptions[0]);
-	}, [possibleConsultingTypes]);
+	}, [possibleConsultingTypes, translate]);
 
 	useEffect(() => {
 		if (!selectedConsultingTypeOption) {
@@ -205,7 +212,7 @@ export const ConsultingTypeAgencySelection = ({
 						text={translate(
 							'registration.consultingTypeAgencySelection.consultingType.infoText'
 						)}
-						type="infoLargeAlternative"
+						type="infoMedium"
 					/>
 					<SelectDropdown
 						{...consultingTypeSelect}
@@ -221,7 +228,7 @@ export const ConsultingTypeAgencySelection = ({
 							text={translate(
 								'registration.consultingTypeAgencySelection.agency.infoText'
 							)}
-							type="infoLargeAlternative"
+							type="infoMedium"
 						/>
 					)}
 					<AgencySelection
@@ -248,6 +255,7 @@ const AgencySelection = ({
 	selectedAgency,
 	onKeyDown
 }: AgencySelectionProps) => {
+	const { t: translate } = useTranslation(['agencies']);
 	return (
 		<div>
 			{agencies.map((agency: AgencyDataInterface) => (
@@ -264,7 +272,10 @@ const AgencySelection = ({
 							selectedAgency && agency.id === selectedAgency.id
 						}
 						inputId={agency.id.toString()}
-						label={agency.name}
+						label={translate(
+							[`agency.${agency.id}.name`, agency.name],
+							{ ns: 'agencies' }
+						)}
 						onKeyDown={onKeyDown}
 					/>
 					<AgencyInfo agency={agency} />

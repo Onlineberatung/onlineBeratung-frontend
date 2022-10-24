@@ -1,13 +1,8 @@
-import { ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { translate } from '../../utils/translate';
 import {
 	UserDataInterface,
 	ConsultingTypeBasicInterface,
 	getConsultingType
 } from '../../globalState';
-import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 
 export const convertUserDataObjectToArray = (object) => {
 	const array = [];
@@ -30,11 +25,6 @@ export const getAddictiveDrugsTranslatable = (addictiveDrugs) => {
 
 export const getUserDataTranslateBase = (consultingType: number) => {
 	return consultingType === 0 ? 'user.userAddiction' : 'user.userU25';
-};
-
-export const buttonSetRegistration: ButtonItem = {
-	label: translate('profile.data.register.buttonLabel'),
-	type: BUTTON_TYPES.LINK
 };
 
 export enum REGISTRATION_STATUS_KEYS {
@@ -78,44 +68,12 @@ export const consultingTypeSelectOptionsSet = (
 		const consultingType = getConsultingType(consultingTypes, id);
 
 		return {
+			id: id,
 			value: value.consultingType,
+			// ToDo: translate missing!
 			label: consultingType.titles.registrationDropdown
 		};
 	});
-};
-
-export const overlayItemNewRegistrationSuccess: OverlayItem = {
-	svg: CheckIcon,
-	headline: translate('profile.data.registerSuccess.overlay.headline'),
-	buttonSet: [
-		{
-			label: translate(
-				'profile.data.registerSuccess.overlay.button1Label'
-			),
-			function: OVERLAY_FUNCTIONS.REDIRECT,
-			type: BUTTON_TYPES.PRIMARY
-		},
-		{
-			label: translate(
-				'profile.data.registerSuccess.overlay.button2Label'
-			),
-			function: OVERLAY_FUNCTIONS.LOGOUT,
-			type: BUTTON_TYPES.LINK
-		}
-	]
-};
-
-export const overlayItemNewRegistrationError: OverlayItem = {
-	svg: XIcon,
-	illustrationBackground: 'error',
-	headline: translate('profile.data.registerError.overlay.headline'),
-	buttonSet: [
-		{
-			label: translate('profile.data.registerError.overlay.buttonLabel'),
-			function: OVERLAY_FUNCTIONS.CLOSE,
-			type: BUTTON_TYPES.PRIMARY
-		}
-	]
 };
 
 export const hasAskerEmailFeatures = (

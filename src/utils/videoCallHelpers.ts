@@ -1,17 +1,6 @@
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { appConfig } from './appConfig';
 
-export const getVideoCallUrl = (
-	url: string,
-	isVideoActivated: boolean = false,
-	userName: string,
-	e2eEncryptionEnabled: boolean = false
-) => {
-	return `${url}${
-		e2eEncryptionEnabled ? '&e2eEncryptionEnabled=1' : ''
-	}#config.startWithVideoMuted=${!isVideoActivated}&userInfo.displayName="${userName}"`;
-};
-
 export const currentUserWasVideoCallInitiator = (initiatorRcUserId: string) =>
 	initiatorRcUserId === getValueFromCookie('rc_uid');
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
-import { translate } from '../../../../utils/translate';
+import { NavLink, Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
@@ -12,10 +13,8 @@ import {
 } from '../../../../components/button/Button';
 import { Headline } from '../../../../components/headline/Headline';
 import '../booking.styles';
-import { history } from '../../../../components/app/app';
 import { ReactComponent as CalendarMonthPlusIcon } from '../../../../resources/img/icons/calendar-plus.svg';
 import { Text } from '../../../../components/text/Text';
-import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import bookingRoutes from '../../booking.routes';
 import {
 	UserDataContext,
@@ -31,6 +30,9 @@ import {
 } from '../../../../utils/tabsHelper';
 
 export const BookingEvents = () => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	useEffect(() => {
 		setBookingWrapperActive();
 
@@ -82,7 +84,7 @@ export const BookingEvents = () => {
 										to={`/booking/events${tab.url}`}
 										activeClassName="active"
 									>
-										{tab.title}
+										{translate(tab.title)}
 									</NavLink>
 								</div>
 							))}

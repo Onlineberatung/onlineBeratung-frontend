@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
 	Overlay,
 	OVERLAY_FUNCTIONS,
@@ -7,7 +9,6 @@ import {
 	OverlayWrapper
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
-import { translate } from '../../utils/translate';
 import {
 	apiDeleteUserFromRoom,
 	apiGetAgencyConsultantList,
@@ -31,7 +32,6 @@ import {
 	ConsultantReassignment,
 	ReassignStatus
 } from '../../api/apiSendAliasMessage';
-import { history } from '../app/app';
 import {
 	prepareConsultantDataForSelect,
 	prepareSelectDropdown
@@ -40,6 +40,9 @@ import {
 export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
 
 export const RequestSessionAssign = (props: { value?: string }) => {
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { path: listPath } = useContext(SessionTypeContext);
 	const { userData, setUserData } = useContext(UserDataContext);
@@ -119,7 +122,7 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 		}
 
 		const reassignSession: OverlayItem = {
-			headline: translate('session.assignOther.overlay.headline', {
+			headline: translate('session.assignOther.overlay.headline.1', {
 				client,
 				newConsultant
 			}),

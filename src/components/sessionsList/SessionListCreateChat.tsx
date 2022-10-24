@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as SpeechBubblePlusIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 import './sessionsList.styles';
 
 export const SessionListCreateChat = () => {
+	const { t: translate } = useTranslation();
+
 	return (
 		<div className="sessionsListItem sessionsListItem--active createChatItem">
 			<div className="sessionsListItem__content sessionsListItem__content--active">

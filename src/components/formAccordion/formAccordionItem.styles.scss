@@ -10,6 +10,10 @@ $form-accordion-item-input-margin-left: 0 !default;
 	width: 100%;
 	border-bottom: 1px solid $black-25-opacity;
 
+	@include breakpoint($fromMedium) {
+		min-width: 560px;
+	}
+
 	&__header {
 		position: relative;
 		display: flex;
@@ -28,26 +32,20 @@ $form-accordion-item-input-margin-left: 0 !default;
 		margin-right: 12px;
 		border: $form-accordion-index-border;
 		border-radius: 100%;
-		font-weight: $font-weight-bold;
+		font-weight: $font-weight-regular;
 		color: $form-accordion-index-color;
 	}
 
 	&__title {
-		width: calc(100% - #{$grid-base-ten});
-		margin: 0;
-		font-size: $font-size-h5;
 		font-weight: $font-weight-regular;
-		line-height: $line-height-primary;
-		color: $form-accordion-item-title-color;
-		text-align: left;
 	}
 
 	&__validationIcon {
 		position: absolute;
 		top: $grid-base-four;
 		right: 0;
-		height: $grid-base-two;
-		width: $grid-base-two;
+		height: 24px;
+		width: 24px;
 
 		&--valid {
 			fill: $form-success;
@@ -60,7 +58,8 @@ $form-accordion-item-input-margin-left: 0 !default;
 
 	&__content {
 		display: none;
-		margin-bottom: $grid-base-three;
+		margin-bottom: $grid-base-four;
+		align-items: center;
 
 		.text,
 		ul,
@@ -75,18 +74,43 @@ $form-accordion-item-input-margin-left: 0 !default;
 		.inputField,
 		.consultingTypeSelection__possibleConsultingTypes .select__wrapper,
 		.consultingTypeSelection__possibleConsultingTypes + .agencySelection {
-			margin-top: $grid-base-three;
-			margin-right: $form-accordion-item-input-margin-right;
+			margin-top: $grid-base-two;
 			margin-left: $form-accordion-item-input-margin-left;
-			max-width: 360px;
+
+			@include breakpoint($fromMedium) {
+				margin-right: $form-accordion-item-input-margin-right;
+			}
 		}
 	}
 
-	&__continueButton {
+	.select__wrapper {
+		width: 100%;
+		@include breakpoint($fromMedium) {
+			width: 320px;
+		}
+	}
+	&__nextbutton {
+		align-self: flex-end;
 		margin-top: $grid-base-three;
 
-		button {
-			min-width: 0;
+		@include breakpoint($fromMedium) {
+			margin-right: 0;
+		}
+
+		.button__item {
+			white-space: nowrap;
+			min-width: 100px;
+			width: 100%;
+			max-width: 535px;
+			@include breakpoint($fromMedium) {
+				width: auto;
+			}
+		}
+
+		.button__item--disabled {
+			background-color: white;
+			border: 2px solid rgba(0, 0, 0, 0.4);
+			color: rgba(0, 0, 0, 0.4);
 			padding: 0;
 		}
 	}
@@ -96,14 +120,20 @@ $form-accordion-item-input-margin-left: 0 !default;
 			background: $form-accordion-index-background-active;
 			border: none;
 			color: $form-accordion-index-color-active;
+			font-weight: $form-accordion-title-font-weight;
 		}
 
 		&__title {
 			font-weight: $form-accordion-title-font-weight;
+			color: $form-accordion-index-background-active;
 		}
 
 		&__content {
 			display: block;
+			@include breakpoint($fromMedium) {
+				display: flex;
+				justify-content: space-between;
+			}
 		}
 	}
 }

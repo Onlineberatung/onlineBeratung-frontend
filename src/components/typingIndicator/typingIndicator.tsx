@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { translate } from '../../utils/translate';
+import { useTranslation } from 'react-i18next';
 import './typingIndicator.styles';
 
 export const TypingIndicator = (props) => {
+	const { t: translate } = useTranslation();
 	const users = props.typingUsers;
 	const usersLength = users.length;
 

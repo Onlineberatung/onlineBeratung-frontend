@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import sanitizeHtml from 'sanitize-html';
-import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
+import { PrettyDate } from '../../utils/dateHelpers';
 import {
 	UserDataContext,
 	hasUserAuthority,
@@ -29,7 +29,6 @@ import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import { isVoluntaryInfoSet } from './messageHelpers';
 import { Text } from '../text/Text';
-import { translate } from '../../utils/translate';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Appointment } from './Appointment';
@@ -52,19 +51,8 @@ import { apiSessionAssign } from '../../api';
 
 import { MasterKeyLostMessage } from './MasterKeyLostMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
+import { useTranslation } from 'react-i18next';
 import { ERROR_LEVEL_WARN, TError } from '../../api/apiPostError';
-
-export enum MessageType {
-	FURTHER_STEPS = 'FURTHER_STEPS',
-	USER_MUTED = 'USER_MUTED',
-	FORWARD = 'FORWARD',
-	UPDATE_SESSION_DATA = 'UPDATE_SESSION_DATA',
-	VIDEOCALL = 'VIDEOCALL',
-	FINISHED_CONVERSATION = 'FINISHED_CONVERSATION',
-	APPOINTMENT_SET = 'APPOINTMENT_SET',
-	APPOINTMENT_CANCELLED = 'APPOINTMENT_CANCELLED',
-	APPOINTMENT_RESCHEDULED = 'APPOINTMENT_RESCHEDULED'
-}
 
 export interface ForwardMessageDTO {
 	message: string;
@@ -83,7 +71,7 @@ export interface MessageItem {
 	_id: string;
 	message: string;
 	org: string;
-	messageDate: string | number;
+	messageDate: PrettyDate;
 	messageTime: string;
 	displayName: string;
 	username: string;
@@ -136,6 +124,7 @@ export const MessageItemComponent = ({
 	rid,
 	handleDecryptionErrors
 }: MessageItemComponentProps) => {
+	const { t: translate } = useTranslation();
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -212,15 +201,13 @@ export const MessageItemComponent = ({
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const getMessageDate = () => {
-		if (messageDate) {
+		if (messageDate.str || messageDate.date) {
 			return (
 				<div className="messageItem__divider">
 					<Text
-						text={
-							typeof messageDate === 'number'
-								? getPrettyDateFromMessageDate(messageDate)
-								: messageDate
-						}
+						text={translate(
+							messageDate.str ? messageDate.str : messageDate.date
+						)}
 						type="divider"
 					/>
 				</div>

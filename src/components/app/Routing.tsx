@@ -14,7 +14,6 @@ import {
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	LegalLinkInterface,
 	ConsultingTypesContext,
 	E2EEProvider,
 	SessionTypeProvider
@@ -31,8 +30,6 @@ import { useAskerHasAssignedConsultant } from '../../containers/bookings/hooks/u
 
 interface RoutingProps {
 	logout?: Function;
-	legalLinks: Array<LegalLinkInterface>;
-	spokenLanguages: string[];
 }
 
 export const Routing = (props: RoutingProps) => {
@@ -88,7 +85,7 @@ export const Routing = (props: RoutingProps) => {
 							key={`plain-${route.path}`}
 							path={route.path}
 						>
-							<route.component legalLinks={props.legalLinks} />
+							<route.component />
 						</Route>
 					)
 				)}

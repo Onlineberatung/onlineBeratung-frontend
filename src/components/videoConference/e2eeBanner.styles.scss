@@ -1,0 +1,85 @@
+.e2ee-banner {
+	position: fixed;
+	top: 32px;
+	right: 32px;
+	margin: 0 auto;
+	z-index: 9999;
+	display: flex;
+	justify-content: space-between;
+	transition: right 1s ease-in-out;
+
+	svg {
+		fill: white;
+	}
+
+	&__icon {
+		&-filled {
+			display: none;
+			filter: drop-shadow(0 0 15px #000000);
+		}
+
+		&-outline {
+			display: block;
+			filter: drop-shadow(0 0 15px #000000);
+		}
+	}
+
+	&:hover &__icon-filled {
+		display: block;
+	}
+	&:hover &__icon-outline {
+		display: none;
+	}
+
+	.text {
+		display: none;
+		min-height: 16px;
+		line-height: 16px;
+		padding: 10px;
+		background: white;
+		color: black;
+		position: absolute;
+		top: calc(100% + 12px);
+		right: -10px;
+		width: 168px;
+		max-width: 256px;
+		border-radius: 4px;
+		filter: drop-shadow(0 0 15px #00000066);
+
+		&::before {
+			content: '';
+			display: block;
+			border-top: 10px solid transparent;
+			border-left: 10px solid transparent;
+			border-right: 10px solid transparent;
+			border-bottom: 10px solid white;
+			position: absolute;
+			top: -18px;
+			right: 2px;
+			transform: translateX(-50%);
+		}
+	}
+
+	&:hover {
+		.text {
+			display: flex;
+		}
+	}
+}
+
+@media screen and (min-width: 500px) {
+	.e2ee-banner {
+		right: 150px;
+
+		.text {
+			right: unset;
+			left: 50%;
+			transform: translateX(-50%);
+
+			&::before {
+				right: unset;
+				left: 50%;
+			}
+		}
+	}
+}

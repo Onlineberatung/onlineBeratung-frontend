@@ -1,4 +1,3 @@
-export * from './AppConfigEndpointsInterface';
 export * from './AppConfigInterface';
 export * from './AppConfigJitsiInterface';
 export * from './AppConfigNotificationsInterface';

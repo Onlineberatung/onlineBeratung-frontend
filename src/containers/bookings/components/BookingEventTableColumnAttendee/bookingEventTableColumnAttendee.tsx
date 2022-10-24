@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { translate } from '../../../../utils/translate';
+import { useTranslation } from 'react-i18next';
 import { Text } from '../../../../components/text/Text';
 import {
 	AUTHORITIES,
@@ -15,6 +15,7 @@ interface BookingsComponentProps {
 
 export const BookingEventTableColumnAttendee: React.FC<BookingsComponentProps> =
 	({ event }) => {
+		const { t: translate } = useTranslation();
 		const { userData } = useContext(UserDataContext);
 
 		const isConsultant = hasUserAuthority(
@@ -36,6 +37,7 @@ export const BookingEventTableColumnAttendee: React.FC<BookingsComponentProps> =
 					className="bookingEvents__counselor bookingEvents--font-weight-bold"
 				/>
 				<Text
+					title={true}
 					text={isConsultant ? showAskerName : showCounselorName}
 					type="standard"
 					className="bookingEvents__counselorName"

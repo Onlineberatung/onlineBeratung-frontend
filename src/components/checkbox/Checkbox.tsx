@@ -25,7 +25,6 @@ export const Checkbox = (props) => {
 				type="checkbox"
 				name={checkboxItem.name}
 				defaultChecked={checkboxItem.checked}
-				tabIndex={0}
 			/>
 			{checkboxItem.checked && (
 				<CheckmarkIcon

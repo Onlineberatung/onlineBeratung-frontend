@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RegistrationWelcomeScreenInterface } from '../../globalState';
 import {
 	EnvelopeIcon,
@@ -6,19 +7,22 @@ import {
 	PenIcon,
 	SpeechBubbleIcon
 } from '../../resources/img/icons';
-import { translate } from '../../utils/translate';
 import { Text } from '../text/Text';
 import './ServiceExplanation.styles.scss';
 
 interface ServiceExplanationProps {
 	className?: string;
 	welcomeScreenConfig?: RegistrationWelcomeScreenInterface;
+	consultingTypeId?: number;
 }
 
 export const ServiceExplanation = ({
 	className,
-	welcomeScreenConfig
+	welcomeScreenConfig,
+	consultingTypeId
 }: ServiceExplanationProps) => {
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
+
 	const welcomeScreenData = [
 		{
 			icon: <PenIcon />,
@@ -37,12 +41,22 @@ export const ServiceExplanation = ({
 		},
 		{
 			icon: <LockIcon />,
-			title:
-				welcomeScreenConfig?.anonymous.title ||
-				translate('registration.welcomeScreen.info4.title'),
-			text:
-				welcomeScreenConfig?.anonymous.text ||
-				translate('registration.welcomeScreen.info4.text')
+			title: translate(
+				[
+					`consultingType.${consultingTypeId}.welcomeScreen.anonymous.title`,
+					welcomeScreenConfig?.anonymous.title ??
+						'registration.welcomeScreen.info4.title'
+				],
+				{ ns: ['consultingTypes', 'common'] }
+			),
+			text: translate(
+				[
+					`consultingType.${consultingTypeId}.welcomeScreen.anonymous.text`,
+					welcomeScreenConfig?.anonymous.text ??
+						'registration.welcomeScreen.info4.text'
+				],
+				{ ns: ['consultingTypes', 'common'] }
+			)
 		}
 	];
 

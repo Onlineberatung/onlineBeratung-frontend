@@ -22,7 +22,7 @@ $waiting-room-subline-opacity: 1 !default;
 	}
 
 	&__contentWrapper {
-		padding: $grid-base-five $grid-base-two;
+		padding: $grid-base-four $grid-base-two;
 		width: 100%;
 		max-width: 1370px;
 
@@ -55,6 +55,14 @@ $waiting-room-subline-opacity: 1 !default;
 		a {
 			color: $link-color;
 			text-decoration: underline;
+		}
+
+		.localeSwitch {
+			margin-bottom: $grid-base-three;
+
+			.css-1vicfer-control {
+				background-color: $waiting-room-page-background;
+			}
 		}
 	}
 

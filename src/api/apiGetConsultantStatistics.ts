@@ -1,4 +1,4 @@
-import { config } from '../resources/scripts/config';
+import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export interface ConsultantStatisticsDTO {
@@ -21,7 +21,7 @@ export const apiGetConsultantStatistics = async ({
 	endDate
 }: ApiGetConsultantStatisticsInterface): Promise<ConsultantStatisticsDTO> => {
 	const url =
-		config.endpoints.consultantStatistics +
+		endpoints.consultantStatistics +
 		`?startDate=${startDate}&endDate=${endDate}`;
 
 	return fetchData({

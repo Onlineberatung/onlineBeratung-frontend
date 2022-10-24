@@ -1,5 +1,5 @@
 import { UserDataContext } from '../../../globalState';
-import { config } from '../../../resources/scripts/config';
+import { endpoints } from '../../../resources/scripts/endpoints';
 import { FETCH_METHODS, fetchData } from '../../../api';
 import { useContext, useEffect, useState } from 'react';
 import { useAppConfig } from '../../../hooks/useAppConfig';
@@ -17,9 +17,20 @@ export const useCalcomLogin = () => {
 			});
 
 			const tokenResponse = await fetchData({
-				url: config.endpoints.counselorToken,
+				url: endpoints.counselorToken,
 				method: FETCH_METHODS.GET
 			});
+
+			const body = Object.entries({
+				csrfToken: csrfRequest.csrfToken,
+				email: encodeURIComponent(userData.email?.toLowerCase() || ''),
+				password: tokenResponse.token,
+				callbackUrl: `${settings.calcomUrl}%2F`,
+				redirect: false,
+				json: true
+			})
+				.map(([key, value]) => `${key}=${value}`)
+				.join('&');
 
 			await fetch(
 				`${settings.calcomUrl}/api/auth/callback/credentials?`,
@@ -27,7 +38,7 @@ export const useCalcomLogin = () => {
 					headers: {
 						'content-type': 'application/x-www-form-urlencoded'
 					},
-					body: `csrfToken=${csrfRequest.csrfToken}&email=${userData.email}&password=${tokenResponse.token}&callbackUrl=${settings.calcomUrl}%2F&redirect=false&json=true`,
+					body,
 					method: 'POST',
 					credentials: 'include'
 				}

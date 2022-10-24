@@ -1,25 +1,23 @@
 import * as React from 'react';
+import { useContext } from 'react';
+import { isMobile } from 'react-device-detect';
+import { generatePath, useHistory } from 'react-router-dom';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import { translate } from '../../utils/translate';
-import { useContext } from 'react';
 import {
 	NotificationType,
 	NotificationsContext,
 	UserDataContext
 } from '../../globalState';
-import {
-	getVideoCallUrl,
-	supportsE2EEncryptionVideoCall
-} from '../../utils/videoCallHelpers';
+import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { apiRejectVideoCall } from '../../api';
 import './incomingVideoCall.styles';
-import { isMobile } from 'react-device-detect';
 import { ReactComponent as CloseIcon } from '../../resources/img/icons/x.svg';
-import { history } from '../app/app';
+import { useTranslation } from 'react-i18next';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export interface VideoCallRequestProps {
 	rcGroupId: string;
@@ -42,27 +40,6 @@ export const isNotificationTypeCall = (
 	return notification.notificationType === NOTIFICATION_TYPE_CALL;
 };
 
-const buttonAnswerCall: ButtonItem = {
-	icon: <CallOnIcon />,
-	smallIconBackgroundColor: 'green',
-	title: translate('videoCall.button.answerCall'),
-	type: BUTTON_TYPES.SMALL_ICON
-};
-
-const buttonAnswerVideoCall: ButtonItem = {
-	icon: <CameraOnIcon />,
-	smallIconBackgroundColor: 'green',
-	title: translate('videoCall.button.answerVideoCall'),
-	type: BUTTON_TYPES.SMALL_ICON
-};
-
-const buttonRejectVideoCall: ButtonItem = {
-	type: BUTTON_TYPES.SMALL_ICON,
-	smallIconBackgroundColor: 'red',
-	title: translate('videoCall.button.rejectCall'),
-	icon: <CallOffIcon />
-};
-
 const getInitials = (text: string) => {
 	const maxInitials = 3;
 	const initials = [];
@@ -75,18 +52,48 @@ const getInitials = (text: string) => {
 };
 
 export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
+	const settings = useAppConfig();
+	const { t: translate } = useTranslation();
+	const history = useHistory();
+
 	const { removeNotification } = useContext(NotificationsContext);
 	const { userData } = useContext(UserDataContext);
 
 	const decodedUsername = decodeUsername(props.videoCall.initiatorUsername);
 
+	const buttonAnswerCall: ButtonItem = {
+		icon: <CallOnIcon />,
+		smallIconBackgroundColor: 'green',
+		title: translate('videoCall.button.answerCall'),
+		type: BUTTON_TYPES.SMALL_ICON
+	};
+
+	const buttonAnswerVideoCall: ButtonItem = {
+		icon: <CameraOnIcon />,
+		smallIconBackgroundColor: 'green',
+		title: translate('videoCall.button.answerVideoCall'),
+		type: BUTTON_TYPES.SMALL_ICON
+	};
+
+	const buttonRejectVideoCall: ButtonItem = {
+		type: BUTTON_TYPES.SMALL_ICON,
+		smallIconBackgroundColor: 'red',
+		title: translate('videoCall.button.rejectCall'),
+		icon: <CallOffIcon />
+	};
+
 	const handleAnswerVideoCall = (isVideoActivated: boolean = false) => {
+		const url = new URL(props.videoCall.videoCallUrl);
 		window.open(
-			getVideoCallUrl(
-				props.videoCall.videoCallUrl,
-				isVideoActivated,
-				userData.userName
-			)
+			generatePath(settings.urls.videoCall, {
+				domain: url.host,
+				jwt: url.searchParams.get('jwt'),
+				e2e: 0,
+				video: isVideoActivated ? 1 : 0,
+				username: userData.displayName
+					? userData.displayName
+					: userData.userName
+			})
 		);
 		removeIncomingVideoCallNotification();
 	};
