@@ -511,8 +511,12 @@ export const deInformal = {
 		}
 	},
 	twoFactorAuth: {
-		subtitle:
-			'Nutze eine weitere App für die Anmeldung mit Deinem Caritas Konto. Dadurch ist Dein Konto sicherer vor einem möglichen unbefugtem Zugriff.',
+		subtitle: {
+			binding:
+				'Wähle einen zweiten Faktor (App oder E-Mail) mit dem Du Dein Konto schützt.',
+			notBinding:
+				'Nutze eine weitere App für die Anmeldung mit Deinem Caritas Konto. Dadurch ist Dein Konto sicherer vor einem möglichen unbefugtem Zugriff.'
+		},
 		activate: {
 			radio: {
 				tooltip: {
@@ -522,7 +526,12 @@ export const deInformal = {
 			},
 			step1: {
 				title: 'Wähle eine Methode aus',
-				copy: 'Möchtest Du Dein Konto mit einer App oder mit Deiner E-Mail-Adresse zusätzlich schützen?'
+				copy: {
+					binding:
+						'Möchtest Du Dein Konto mit einer App oder mit Ihrer E-Mail-Adresse schützen?',
+					notBinding:
+						'Möchtest Du Dein Konto mit einer App oder mit Deiner E-Mail-Adresse zusätzlich schützen?'
+				}
 			},
 			email: {
 				step3: {

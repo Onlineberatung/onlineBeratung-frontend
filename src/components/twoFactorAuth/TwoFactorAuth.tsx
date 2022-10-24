@@ -12,7 +12,7 @@ import {
 	OverlayWrapper,
 	OVERLAY_FUNCTIONS
 } from '../overlay/Overlay';
-import { BUTTON_TYPES } from '../button/Button';
+import { Button, BUTTON_TYPES } from '../button/Button';
 import {
 	InputField,
 	InputFieldItem,
@@ -41,6 +41,7 @@ import { Tooltip } from '../tooltip/Tooltip';
 import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
 import useUpdateUserData from '../../utils/useUpdateUserData';
 import { useTranslation } from 'react-i18next';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const OTP_LENGTH = 6;
 
@@ -81,6 +82,11 @@ export const TwoFactorAuth = () => {
 	const [twoFactorType, setTwoFactorType] = useState<string>(
 		TWO_FACTOR_TYPES.APP
 	);
+	const settings = useAppConfig();
+	let todaysDate = new Date(Date.now());
+	const isTwoFactorBinding =
+		todaysDate >= settings.twofactor.dateTwoFactorObligatory;
+	const [isEditMode, setIsEditMode] = useState(false);
 
 	useEffect(() => {
 		if (location.state?.openTwoFactor) {
@@ -110,6 +116,7 @@ export const TwoFactorAuth = () => {
 			setIsSwitchChecked(false);
 			apiDeleteTwoFactorAuth()
 				.then((response) => {
+					console.log('test response', response);
 					updateUserData();
 				})
 				.catch((error) => {
@@ -302,7 +309,9 @@ export const TwoFactorAuth = () => {
 		() => [
 			{
 				headline: translate('twoFactorAuth.activate.step1.title'),
-				copy: translate('twoFactorAuth.activate.step1.copy'),
+				copy: isTwoFactorBinding
+					? translate('twoFactorAuth.activate.step1.copy.binding')
+					: translate('twoFactorAuth.activate.step1.copy.notBinding'),
 				step: {
 					icon: LockIcon,
 					label: translate(
@@ -312,7 +321,9 @@ export const TwoFactorAuth = () => {
 				nestedComponent: selectTwoFactorTypeButtons(),
 				buttonSet: [
 					{
-						disabled: twoFactorType === TWO_FACTOR_TYPES.NONE,
+						disabled:
+							twoFactorType === TWO_FACTOR_TYPES.NONE ||
+							twoFactorType === userData.twoFactorAuth.type,
 						label: translate('twoFactorAuth.overlayButton.next'),
 						function: OVERLAY_FUNCTIONS.NEXT_STEP,
 						type: BUTTON_TYPES.PRIMARY
@@ -320,7 +331,13 @@ export const TwoFactorAuth = () => {
 				]
 			}
 		],
-		[selectTwoFactorTypeButtons, twoFactorType, translate]
+		[
+			selectTwoFactorTypeButtons,
+			twoFactorType,
+			translate,
+			isTwoFactorBinding,
+			userData.twoFactorAuth.type
+		]
 	);
 
 	/* APP */
@@ -796,61 +813,87 @@ export const TwoFactorAuth = () => {
 		setOverlayByType();
 	}, [setOverlayByType]);
 
+	const handleEditButton = () => {
+		setOverlayActive(true);
+		setIsEditMode(true);
+	};
+
 	return (
 		<div className="twoFactorAuth">
 			<div className="profile__content__title">
-				<Headline
-					text={translate('twoFactorAuth.title')}
-					semanticLevel="5"
-				/>
+				<div className="twoFactorAuth__head">
+					<Headline
+						text={translate('twoFactorAuth.title')}
+						semanticLevel="5"
+					/>
+					{isTwoFactorBinding && (
+						<Button
+							className="twoFactorAuth__edit__button"
+							buttonHandle={handleEditButton}
+							item={{
+								type: BUTTON_TYPES.LINK_INLINE
+							}}
+							customIcon={<PenIcon />}
+						/>
+					)}
+				</div>
 				<Text
 					className="tertiary"
 					text={translate('twoFactorAuth.subtitle')}
 					type="standard"
 				/>
 			</div>
-			<label className="twoFactorAuth__switch">
-				<Switch
-					onChange={handleSwitchChange}
-					checked={isSwitchChecked}
-					uncheckedIcon={false}
-					checkedIcon={false}
-					width={48}
-					height={26}
-					onColor="#0A882F"
-					offColor="#8C878C"
-					boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-					handleDiameter={27}
-					activeBoxShadow="none"
-				/>
-				<Text
-					text={
-						isSwitchChecked
-							? translate('twoFactorAuth.switch.active.label')
-							: translate('twoFactorAuth.switch.deactive.label')
-					}
-					type="standard"
-				/>
-			</label>
-			{isSwitchChecked && userData.twoFactorAuth.type && (
-				<p>
-					<strong>
-						{translate('twoFactorAuth.switch.type.label')}
-					</strong>{' '}
-					{translate(
-						`twoFactorAuth.switch.type.${userData.twoFactorAuth.type}`
-					)}{' '}
-					{userData.twoFactorAuth.type === TWO_FACTOR_TYPES.EMAIL
-						? `(${userData.email})`
-						: ''}
-				</p>
+			{!isTwoFactorBinding && (
+				<label className="twoFactorAuth__switch">
+					<Switch
+						onChange={handleSwitchChange}
+						checked={isSwitchChecked}
+						uncheckedIcon={false}
+						checkedIcon={false}
+						width={48}
+						height={26}
+						onColor="#0dcd21"
+						offColor="#8C878C"
+						boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+						handleDiameter={27}
+						activeBoxShadow="none"
+					/>
+					<Text
+						text={
+							isSwitchChecked
+								? translate('twoFactorAuth.switch.active.label')
+								: translate(
+										'twoFactorAuth.switch.deactive.label'
+								  )
+						}
+						type="standard"
+					/>
+				</label>
 			)}
+			{(isSwitchChecked || isTwoFactorBinding) &&
+				userData.twoFactorAuth.type && (
+					<p>
+						<strong>
+							{translate('twoFactorAuth.switch.type.label')}
+						</strong>{' '}
+						{translate(
+							`twoFactorAuth.switch.type.${userData.twoFactorAuth.type}`
+						)}{' '}
+						{userData.twoFactorAuth.type === TWO_FACTOR_TYPES.EMAIL
+							? `(${userData.email})`
+							: ''}
+					</p>
+				)}
 			{overlayActive ? (
 				<OverlayWrapper>
 					<Overlay
 						className="twoFactorAuth__overlay"
 						items={overlayItems}
-						handleOverlayClose={handleOverlayClose}
+						handleOverlayClose={
+							isTwoFactorBinding && !isEditMode
+								? null
+								: handleOverlayClose
+						}
 					/>
 				</OverlayWrapper>
 			) : null}
