@@ -1,7 +1,6 @@
 import { autoLogin } from '../components/registration/autoLogin';
 import { removeAllCookies } from '../components/sessionCookie/accessSessionCookie';
 import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
-import { ensureTenantSettings } from '../utils/tenantHelpers';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from './fetchData';
 import { COOKIE_KEY } from '../globalState';
 
@@ -27,7 +26,7 @@ export const apiPostRegistration = (
 			username: data['username'],
 			password: decodeURIComponent(data['password']),
 			redirect: false,
-			...ensureTenantSettings(tenant?.settings)
+			tenantData: tenant
 		})
 	);
 };
