@@ -260,7 +260,7 @@ export const JoinGroupChatView = ({
 		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			setIsButtonDisabled(
 				!activeSession.item.active ||
-					bannedUsers.includes(userData.username)
+					bannedUsers.includes(userData.userName)
 			);
 		}
 	}, [activeSession.item.active, bannedUsers, userData]);
