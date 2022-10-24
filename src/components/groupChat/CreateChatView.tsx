@@ -396,8 +396,10 @@ export const CreateGroupChatView = (props) => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			if (
-				overlayItem === createChatSuccessOverlayItem ||
-				overlayItem === updateChatSuccessOverlayItem
+				JSON.stringify(overlayItem) ===
+					JSON.stringify(createChatSuccessOverlayItem) ||
+				JSON.stringify(overlayItem) ===
+					JSON.stringify(updateChatSuccessOverlayItem)
 			) {
 				const pathInfo =
 					(prevPathIsGroupChatInfo ? '/groupChatInfo' : '') +

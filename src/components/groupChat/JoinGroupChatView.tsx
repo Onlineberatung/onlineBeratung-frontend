@@ -47,6 +47,7 @@ import {
 import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
+import { isGroupChatOwner } from './groupChatHelpers';
 
 interface JoinGroupChatViewProps {
 	forceBannedOverlay?: boolean;
@@ -259,7 +260,7 @@ export const JoinGroupChatView = ({
 		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			setIsButtonDisabled(
 				!activeSession.item.active ||
-					bannedUsers.includes(userData.username)
+					bannedUsers.includes(userData.userName)
 			);
 		}
 	}, [activeSession.item.active, bannedUsers, userData]);
@@ -322,7 +323,7 @@ export const JoinGroupChatView = ({
 
 	let groupChatRules: [string?] = [];
 	const hasGroupChatRulesTranslations = i18n.exists(
-		`consultingType.${consultingType.id}.groupChatRules.0`,
+		`consultingType.${consultingType?.id}.groupChatRules.0`,
 		{ ns: 'consultingTypes' }
 	);
 
@@ -330,13 +331,13 @@ export const JoinGroupChatView = ({
 		for (let i = 0; i < 10; i++) {
 			if (
 				i18n.exists(
-					`consultingType.${consultingType.id}.groupChatRules.${i}`,
+					`consultingType.${consultingType?.id}.groupChatRules.${i}`,
 					{ ns: 'consultingTypes' }
 				)
 			) {
 				groupChatRules.push(
 					translate(
-						`consultingType.${consultingType.id}.groupChatRules.${i}`,
+						`consultingType.${consultingType?.id}.groupChatRules.${i}`,
 						{ ns: 'consultingTypes' }
 					)
 				);
@@ -369,11 +370,13 @@ export const JoinGroupChatView = ({
 							{translate('groupChat.join.warning.message')}
 						</p>
 					)}
-				<Button
-					item={buttonItem}
-					buttonHandle={handleButtonClick}
-					disabled={isButtonDisabled}
-				/>
+				{isGroupChatOwner(activeSession, userData) && (
+					<Button
+						item={buttonItem}
+						buttonHandle={handleButtonClick}
+						disabled={isButtonDisabled}
+					/>
+				)}
 			</div>
 			{overlayActive && (
 				<OverlayWrapper>
