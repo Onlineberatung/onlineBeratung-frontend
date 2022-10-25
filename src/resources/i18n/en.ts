@@ -426,6 +426,11 @@ export const en = {
 			'encryption.text': 'Message encrypted',
 			'encryption.error': 'Message encrypted - error during decryption'
 		},
+		inProgress: {
+			headline: 'Encryption in progress',
+			copy: "Your safety is important to us! We're encrypting your chat right now. This can take a moment.",
+			confirm: 'Please wait until the encryption is finished!'
+		},
 		hint: 'Your messages are encrypted end-to-end. That means no one outside this chat can read the messages. Not even the online consulting platform.',
 		subscriptionKeyLost: {
 			message: {
@@ -1226,7 +1231,11 @@ export const en = {
 		'enquiry.new': 'You have a new live chat request!'
 	},
 	overlay: {
-		'step.headline.prefix': '. Step | '
+		'step.headline.prefix': '. Step | ',
+		'timeout': {
+			headline: 'One moment please.',
+			confirm: 'Are you sure you want to leave this page?'
+		}
 	},
 	overview: {
 		title: 'Welcome back!',
@@ -1246,6 +1255,16 @@ export const en = {
 		appointmentsEmpty:
 			'There are no appointments today, make appointments with those seeking advice to change that',
 		start: 'Start'
+	},
+	preconditions: {
+		cookie: {
+			headline: 'Please enable cookies to continue',
+			paragraph: {
+				1: 'Please enable cookies in your browser to enable login.',
+				2: 'After enabling cookies in your browser, simply click the button below to return to the previous page.'
+			},
+			button: 'Back to previous page'
+		}
 	},
 	profile: {
 		'noContent': 'Not specified',
@@ -1688,6 +1707,7 @@ export const en = {
 			'takenByOtherConsultant.button.label': 'Close'
 		},
 		'assignOther': {
+			'inProgress': 'Counseling is being assigned.',
 			'overlay': {
 				'headline': {
 					'1': 'Do you want to assign {{client}} to {{newConsultant}}?',
@@ -1703,6 +1723,7 @@ export const en = {
 			'button.label': 'Cancel'
 		},
 		'assignSelf': {
+			'inProgress': 'The consultation is being assigned to you.',
 			'overlay': {
 				'headline1':
 					'You have successfully accepted the consultation. It has been moved to My consultations.',

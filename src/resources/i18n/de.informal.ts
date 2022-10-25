@@ -100,6 +100,10 @@ export const deInformal = {
 	},
 	e2ee: {
 		hint: 'Deine Nachrichten sind Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform.',
+		inProgress: {
+			copy: 'Deine Sicherheit ist uns wichtig! Wir verschlüsseln gerade Deinen Chat. Dies kann einen Moment dauern.',
+			confirm: 'Bitte warte bis die Verschlüsselung abgeschlossen ist!'
+		},
 		subscriptionKeyLost: {
 			notice: {
 				title: 'Deine Sicherheit ist uns wichtig!',
@@ -233,9 +237,23 @@ export const deInformal = {
 		'message.new': 'Du hast eine neue Nachricht!',
 		'enquiry.new': 'Du hast eine neue Livechat Anfrage!'
 	},
+	overlay: {
+		timeout: {
+			confirm: 'Möchtest Du die Seite wirklich verlassen?'
+		}
+	},
 	overview: {
 		upcomingAppointments: 'Deine nächsten {{countStr}} Termine',
 		upcomingAppointment: 'Dein nächster Termin'
+	},
+	preconditions: {
+		cookie: {
+			headline: 'Bitte aktiviere Cookies, um fortzufahren',
+			paragraph: {
+				1: 'Bitte aktiviere bei Deinem Browser Cookies, um die Anmeldung zu ermöglichen.',
+				2: 'Nachdem Du Cookies in Deinem Browser aktiviert hast, klicke einfach auf die Schaltfläche unten, um zur vorhergehenden Seite zurückzukehren.'
+			}
+		}
 	},
 	profile: {
 		functions: {
@@ -447,6 +465,7 @@ export const deInformal = {
 			}
 		},
 		assignSelf: {
+			inProgress: 'Die Beratung wird Dir gerade zugewiesen.',
 			overlay: {
 				headline1:
 					'Du hast die Beratung erfolgreich angenommen. Sie wurde in Meine Beratungen verschoben.',

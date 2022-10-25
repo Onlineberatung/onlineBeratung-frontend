@@ -21,6 +21,7 @@ import { decodeUsername } from '../../../src/utils/encryptionHelpers';
 import { getMessages, setMessages } from './messages';
 import apiAppointments from './api/appointments';
 import apiVideocalls from './api/videocalls';
+import { SETTING_E2E_ENABLE } from '../../../src/api/apiRocketChatSettingsPublic';
 
 let overrides = {};
 
@@ -194,14 +195,27 @@ Cypress.Commands.add('mockApi', () => {
 
 	cy.intercept('POST', endpoints.keycloakLogout, {}).as('authLogout');
 
+	cy.intercept('GET', `${config.endpoints.rc.settings.public}*`, {
+		settings: [{ _id: SETTING_E2E_ENABLE, value: true, enterprise: false }],
+		count: 1,
+		offset: 0,
+		total: 1,
+		success: true
+	});
+
+	cy.intercept('POST', config.endpoints.keycloakLogout, {}).as('authLogout');
+
 	cy.intercept('POST', endpoints.rc.logout, {}).as('apiLogout');
 
-	cy.intercept(`${endpoints.liveservice}/**/*`, {
-		entropy: -1197552011,
-		origins: ['*:*'],
-		cookie_needed: false,
-		websocket: true
-	});
+	cy.intercept(
+		`${endpoints.liveservice}/**/*`,
+		JSON.stringify({
+			entropy: '-1197552011',
+			origins: ['*:*'],
+			cookie_needed: false,
+			websocket: true
+		})
+	);
 
 	cy.intercept('GET', endpoints.draftMessages, {}).as('draftMessages');
 
@@ -322,14 +336,26 @@ Cypress.Commands.add('mockApi', () => {
 		statusCode: 200
 	});
 
-	cy.intercept('GET', endpoints.sessionRooms, (req) => {
+	cy.intercept('GET', `${endpoints.sessionRooms}*`, (req) => {
 		const data = { ...defaultReturns['sessionRooms'] };
+		const rcGroupId = new URL(req.url).searchParams.get('rcGroupIds');
+		let foundSession = null;
+		getAskerSessions().forEach((session, index) => {
+			if (session.session.groupId === rcGroupId) {
+				foundSession = session;
+			}
+		});
+
+		getConsultantSessions().forEach((session, index) => {
+			if (session.session.groupId === rcGroupId) {
+				foundSession = session;
+			}
+		});
+
 		data.body.sessions[0].session = {
-			...data.body.sessions[0].session,
+			...foundSession,
 			...overrides['sessionRooms']
 		};
-
-		console.log(overrides['sessionRooms']);
 
 		req.reply(data);
 	}).as('sessionRooms');

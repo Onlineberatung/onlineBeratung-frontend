@@ -10,6 +10,9 @@ import { E2EEContext } from '../../globalState';
 import { encryptRoom } from '../../utils/e2eeHelper';
 import { useTranslation } from 'react-i18next';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
+import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
+import { Overlay, OverlayWrapper } from '../overlay/Overlay';
+import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 
 interface ForwardMessageProps {
 	right: boolean;
@@ -25,29 +28,44 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 	const [messageForwarded, setMessageForwarded] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
+	const { visible: requestOverlayVisible, overlay: requestOverlay } =
+		useTimeoutOverlay(isRequestInProgress);
+
 	/* E2EE */
 	const { key, keyID, encrypted, sessionKeyExportedString } = useE2EE(
 		props.groupId
 	);
+	const {
+		visible: e2eeOverlayVisible,
+		setState: setE2EEState,
+		overlay: e2eeOverlay
+	} = useE2EEViewElements();
+
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const encryptForwardRoom = useCallback(
-		async (groupKeyID, sessionGroupKeyExportedString) => {
-			await encryptRoom({
+		(groupKeyID, sessionGroupKeyExportedString) =>
+			encryptRoom({
 				keyId: groupKeyID,
 				isE2eeEnabled,
 				isRoomAlreadyEncrypted: encrypted,
 				rcGroupId: props.groupId,
-				sessionKeyExportedString: sessionGroupKeyExportedString
-			});
-		},
-		[props.groupId, encrypted, isE2eeEnabled]
+				sessionKeyExportedString: sessionGroupKeyExportedString,
+				onStateChange: setE2EEState
+			}),
+		[isE2eeEnabled, encrypted, props.groupId, setE2EEState]
 	);
 
 	const forwardMessage = useCallback(async () => {
 		let groupKey;
 		let groupKeyID;
 		let sessionGroupKeyExportedString;
+
+		if (isRequestInProgress) {
+			return null;
+		}
+
+		setIsRequestInProgress(true);
 
 		if (!encrypted) {
 			const {
@@ -64,16 +82,11 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 			sessionGroupKeyExportedString = sessionKeyExportedString;
 		}
 
-		if (isRequestInProgress) {
-			return null;
-		}
-
 		if (encrypted && !groupKeyID) {
 			console.error("Can't send message without key");
+			setIsRequestInProgress(false);
 			return null;
 		}
-
-		setIsRequestInProgress(true);
 
 		let encryptedMessage = props.message;
 		let isEncrypted = isE2eeEnabled;
@@ -103,12 +116,15 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 			props.groupId,
 			isEncrypted
 		).then(() => {
-			encryptForwardRoom(groupKeyID, sessionGroupKeyExportedString);
-			setMessageForwarded(true);
-			setTimeout(() => {
-				setMessageForwarded(false);
-				setIsRequestInProgress(false);
-			}, 3000);
+			encryptForwardRoom(groupKeyID, sessionGroupKeyExportedString).then(
+				() => {
+					setMessageForwarded(true);
+					setTimeout(() => {
+						setMessageForwarded(false);
+						setIsRequestInProgress(false);
+					}, 3000);
+				}
+			);
 		});
 	}, [
 		isE2eeEnabled,
@@ -147,6 +163,18 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 					!messageForwarded ? `success` : `success success--active`
 				}
 			/>
+
+			{requestOverlayVisible && !e2eeOverlayVisible && (
+				<OverlayWrapper>
+					<Overlay item={requestOverlay} />
+				</OverlayWrapper>
+			)}
+
+			{e2eeOverlayVisible && (
+				<OverlayWrapper>
+					<Overlay item={e2eeOverlay} />
+				</OverlayWrapper>
+			)}
 		</div>
 	);
 };

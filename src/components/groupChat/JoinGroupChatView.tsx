@@ -48,6 +48,7 @@ import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { isGroupChatOwner } from './groupChatHelpers';
+import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 
 interface JoinGroupChatViewProps {
 	forceBannedOverlay?: boolean;
@@ -81,7 +82,17 @@ export const JoinGroupChatView = ({
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { path: listPath } = useContext(SessionTypeContext);
-	const { encrypted } = useE2EE(activeSession.rid);
+	const { encrypted, ready } = useE2EE(activeSession.rid);
+
+	const { visible: requestOverlayVisible, overlay: requestOverlay } =
+		useTimeoutOverlay(
+			// Disable the request overlay if upload is in progess because upload progress is shown in the ui already
+			isRequestInProgress,
+			null,
+			null,
+			null,
+			2500
+		);
 
 	const joinButtonItem: ButtonItem = useMemo(
 		() => ({
@@ -260,10 +271,11 @@ export const JoinGroupChatView = ({
 		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			setIsButtonDisabled(
 				!activeSession.item.active ||
-					bannedUsers.includes(userData.userName)
+					bannedUsers.includes(userData.userName) ||
+					!ready
 			);
 		}
-	}, [activeSession.item.active, bannedUsers, userData]);
+	}, [activeSession.item.active, bannedUsers, ready, userData]);
 
 	const handleOverlayClose = () => {
 		setOverlayActive(false);
@@ -294,6 +306,9 @@ export const JoinGroupChatView = ({
 			.catch(() => {
 				setOverlayItem(startJoinGroupChatErrorOverlay);
 				setOverlayActive(true);
+			})
+			.finally(() => {
+				setIsRequestInProgress(false);
 			});
 	};
 
@@ -378,7 +393,14 @@ export const JoinGroupChatView = ({
 					/>
 				)}
 			</div>
-			{overlayActive && (
+
+			{requestOverlayVisible && (
+				<OverlayWrapper>
+					<Overlay item={requestOverlay} />
+				</OverlayWrapper>
+			)}
+
+			{overlayActive && !requestOverlayVisible && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}

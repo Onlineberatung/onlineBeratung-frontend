@@ -424,6 +424,12 @@ export const de = {
 				'Nachricht verschlüsselt - Fehler beim Entschlüsseln',
 			'encryption.text': 'Nachricht verschlüsselt'
 		},
+		inProgress: {
+			headline: 'Verschlüsselung im Gange',
+			copy: 'Ihre Sicherheit ist uns wichtig! Wir verschlüsseln gerade Ihren Chat. Dies kann einen Moment dauern.',
+			confirm:
+				'Bitte warten Sie bis die Verschlüsselung abgeschlossen ist!'
+		},
 		roomNotFound: {
 			'notice.line1': 'Ohh!',
 			'notice.line2':
@@ -1228,7 +1234,11 @@ export const de = {
 		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!'
 	},
 	overlay: {
-		'step.headline.prefix': '. Schritt | '
+		'step.headline.prefix': '. Schritt | ',
+		'timeout': {
+			headline: 'Einen Moment bitte.',
+			confirm: 'Möchten Sie die Seite wirklich verlassen?'
+		}
 	},
 	overview: {
 		title: 'Willkommen zurück!',
@@ -1249,6 +1259,16 @@ export const de = {
 		appointmentsEmpty:
 			'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern',
 		start: 'Starten'
+	},
+	preconditions: {
+		cookie: {
+			headline: 'Bitte aktivieren Sie Cookies, um fortzufahren',
+			paragraph: {
+				1: 'Bitte aktivieren Sie bei Ihrem Browser Cookies, um die Anmeldung zu ermöglichen.',
+				2: 'Nachdem Sie Cookies in Ihrem Browser aktiviert haben, klicken Sie einfach auf die Schaltfläche unten, um zur vorhergehenden Seite zurückzukehren.'
+			},
+			button: 'Zurück zur vorheringen Seite'
+		}
 	},
 	profile: {
 		'appLanguage': {
@@ -1698,6 +1718,7 @@ export const de = {
 			'takenByOtherConsultant.button.label': 'Schließen'
 		},
 		'assignOther': {
+			'inProgress': 'Die Beratung wird gerade zugewiesen.',
 			'overlay': {
 				'headline': {
 					'1': 'Möchten Sie {{client}} an {{newConsultant}} zuweisen?',
@@ -1713,6 +1734,7 @@ export const de = {
 			'button.label': 'Schließen'
 		},
 		'assignSelf': {
+			'inProgress': 'Die Beratung wird Ihnen gerade zugewiesen.',
 			'overlay': {
 				'headline1':
 					'Sie haben die Beratung erfolgreich angenommen. Sie wurde in Meine Beratungen verschoben.',
