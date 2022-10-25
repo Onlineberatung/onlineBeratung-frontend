@@ -292,8 +292,11 @@ export const Routing = (props: RoutingProps) => {
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
 							) &&
-								closedTwoFactorNag &&
-								closedReleaseNote && <AbsenceHandler />}
+								(closedTwoFactorNag ||
+									localStorage.getItem('2fa') === '0') &&
+								(closedReleaseNote ||
+									localStorage.getItem('release_notes') ===
+										'0') && <AbsenceHandler />}
 							{hasUserAuthority(
 								AUTHORITIES.ANONYMOUS_DEFAULT,
 								userData
@@ -302,7 +305,10 @@ export const Routing = (props: RoutingProps) => {
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
 							) &&
-								closedTwoFactorNag && <ReleaseNote />}
+								(closedTwoFactorNag ||
+									localStorage.getItem('2fa') === '0') && (
+									<ReleaseNote />
+								)}
 							{hasUserAuthority(
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData

@@ -38,16 +38,18 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			!userData.twoFactorAuth?.isActive &&
 			!forceHideTwoFactorNag &&
 			todaysDate >= settings.twofactor.startObligatoryHint &&
-			getDevToolbarOption(STORAGE_KEY_2FA) === '1'
+			(getDevToolbarOption(STORAGE_KEY_2FA) === '1' ||
+				getDevToolbarOption(STORAGE_KEY_2FA) === undefined)
 		) {
 			setIsShownTwoFactorNag(true);
-
 			todaysDate >= settings.twofactor.dateTwoFactorObligatory &&
-			getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '1'
+			(getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '1' ||
+				getDevToolbarOption(STORAGE_KEY_2FA) === undefined)
 				? setMessage(settings.twofactor.messages[1])
 				: setMessage(settings.twofactor.messages[0]);
 		} else {
 			setIsShownTwoFactorNag(false);
+			setClosedTwoFactorNag(true);
 		}
 	}, [
 		userData,
@@ -55,7 +57,8 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		settings.twofactor.startObligatoryHint,
 		settings.twofactor.dateTwoFactorObligatory,
 		settings.twofactor.messages,
-		getDevToolbarOption
+		getDevToolbarOption,
+		setClosedTwoFactorNag
 	]);
 
 	const closeTwoFactorNag = async () => {
