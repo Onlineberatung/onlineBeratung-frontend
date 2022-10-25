@@ -38,13 +38,11 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			!userData.twoFactorAuth?.isActive &&
 			!forceHideTwoFactorNag &&
 			todaysDate >= settings.twofactor.startObligatoryHint &&
-			(getDevToolbarOption(STORAGE_KEY_2FA) === '1' ||
-				getDevToolbarOption(STORAGE_KEY_2FA) === undefined)
+			getDevToolbarOption(STORAGE_KEY_2FA) === '1'
 		) {
 			setIsShownTwoFactorNag(true);
 			todaysDate >= settings.twofactor.dateTwoFactorObligatory &&
-			(getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '1' ||
-				getDevToolbarOption(STORAGE_KEY_2FA) === undefined)
+			getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '1'
 				? setMessage(settings.twofactor.messages[1])
 				: setMessage(settings.twofactor.messages[0]);
 		} else {
