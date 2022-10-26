@@ -78,7 +78,7 @@ export const config: AppConfigInterface = {
 	},
 	twofactor: {
 		startObligatoryHint: new Date('2022-07-31'),
-		dateTwoFactorObligatory: new Date('2023-10-01'),
+		dateTwoFactorObligatory: new Date('2022-10-01'),
 		messages: [
 			{
 				title: 'twoFactorAuth.nag.obligatory.moment.title',
