@@ -309,9 +309,7 @@ export const TwoFactorAuth = () => {
 		() => [
 			{
 				headline: translate('twoFactorAuth.activate.step1.title'),
-				copy: isTwoFactorBinding
-					? translate('twoFactorAuth.activate.step1.copy.binding')
-					: translate('twoFactorAuth.activate.step1.copy.notBinding'),
+				copy: translate('twoFactorAuth.activate.step1.copy'),
 				step: {
 					icon: LockIcon,
 					label: translate(
@@ -335,7 +333,6 @@ export const TwoFactorAuth = () => {
 			selectTwoFactorTypeButtons,
 			twoFactorType,
 			translate,
-			isTwoFactorBinding,
 			userData.twoFactorAuth.type
 		]
 	);
@@ -839,11 +836,7 @@ export const TwoFactorAuth = () => {
 				</div>
 				<Text
 					className="tertiary"
-					text={
-						isTwoFactorBinding
-							? translate('twoFactorAuth.subtitle.binding')
-							: translate('twoFactorAuth.subtitle.notBindind')
-					}
+					text={translate('twoFactorAuth.subtitle')}
 					type="standard"
 				/>
 			</div>
