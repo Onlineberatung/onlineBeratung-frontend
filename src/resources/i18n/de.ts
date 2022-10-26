@@ -1856,14 +1856,9 @@ export const de = {
 		activate: {
 			step1: {
 				'app': 'Mit Authenticator Application',
-				'copy': {
-					binding:
-						'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail-Adresse schützen?',
-					notBinding:
-						'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail-Adresse zusätzlich schützen?'
-				},
+				'copy': 'Installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App. Alternativ können Sie auch Ihre E-Mail-Adresse als zweiten Faktor verwenden.',
 				'email': 'Per E-Mail',
-				'title': 'Zweiter Faktor wählen',
+				'title': 'Zweiten Faktor wählen',
 				'visualisation.label': 'Auswahl'
 			},
 			radio: {
@@ -1915,7 +1910,7 @@ export const de = {
 			app: {
 				step2: {
 					'title': 'Installieren Sie sich die App',
-					'copy': 'Installieren Sie sich FreeOTP oder Google Authentificator auf Ihrem Smartphone oder Tablet. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
+					'copy': 'Bitte installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authentificator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
 					'visualisation.label': 'Installation',
 					'tool1': {
 						title: 'FreeOTP App:',
@@ -2002,12 +1997,8 @@ export const de = {
 			next: 'Weiter',
 			save: 'Speichern'
 		},
-		subtitle: {
-			binding:
-				'Wählen Sie einen zweiten Faktor (App oder E-Mail) mit dem Sie Ihr Konto schützen.',
-			notBinding:
-				'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung'
-		},
+		subtitle:
+			'Nutzen Sie neben Ihrem Passwort einen zweiten Faktor für die Anmeldung. Dadurch wird Ihr Konto zusätzlich abgesichert.',
 		switch: {
 			'active.label': 'Zwei-Faktor-Authentifizierung aktiviert',
 			'deactive.label': 'Zwei-Faktor-Authentifizierung deaktiviert',

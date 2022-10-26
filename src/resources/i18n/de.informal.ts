@@ -511,12 +511,8 @@ export const deInformal = {
 		}
 	},
 	twoFactorAuth: {
-		subtitle: {
-			binding:
-				'Wähle einen zweiten Faktor (App oder E-Mail) mit dem Du Dein Konto schützt.',
-			notBinding:
-				'Nutze eine weitere App für die Anmeldung mit Deinem Caritas Konto. Dadurch ist Dein Konto sicherer vor einem möglichen unbefugtem Zugriff.'
-		},
+		subtitle:
+			'Nutze neben Deinem Passwort einen zweiten Faktor für die Anmeldung. Dadurch wird Dein Konto zusätzlich abgesichert.',
 		activate: {
 			radio: {
 				tooltip: {
@@ -525,13 +521,7 @@ export const deInformal = {
 				}
 			},
 			step1: {
-				title: 'Wähle eine Methode aus',
-				copy: {
-					binding:
-						'Möchtest Du Dein Konto mit einer App oder mit Ihrer E-Mail-Adresse schützen?',
-					notBinding:
-						'Möchtest Du Dein Konto mit einer App oder mit Deiner E-Mail-Adresse zusätzlich schützen?'
-				}
+				copy: 'Installiere Dir auf Deinem Smartphone oder Tablet eine passende Authenticator-App. Alternativ kannst Du auch Deine E-Mail-Adresse als zweiten Faktor verwenden.'
 			},
 			email: {
 				step3: {
@@ -550,7 +540,7 @@ export const deInformal = {
 			app: {
 				step2: {
 					title: 'Installiere Dir die App',
-					copy: 'Installiere Dir FreeOTP oder Google Authentificator auf Deinem Smartphone oder Tablet. Beide Apps sind im Google Play oder Apple App Store verfügbar.'
+					copy: 'Bitte installier Dir auf Deinem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authentificator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.'
 				},
 				step3: {
 					'title': 'Für die Online-Beratung zur App hinzu',
