@@ -57,6 +57,7 @@ export const BookingEvents = () => {
 	const handleBookingButton = () => {
 		history.push('/booking/');
 	};
+
 	return (
 		<div className="bookingEvents__wrapper">
 			<div
@@ -101,7 +102,10 @@ export const BookingEvents = () => {
 					/>
 				)}
 				{!isConsultant && (
-					<div className="bookingEvents__calendar--mobile">
+					<div
+						className="bookingEvents__calendar--mobile"
+						onClick={handleBookingButton}
+					>
 						<CalendarMonthPlusIcon />
 						<Text
 							type="standard"
