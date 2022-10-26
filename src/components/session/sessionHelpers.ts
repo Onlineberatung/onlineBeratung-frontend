@@ -189,6 +189,7 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 		}
 
 		return {
+			_id: message._id,
 			message: message.msg,
 			org: message.org,
 			messageDate: lastDateStr,

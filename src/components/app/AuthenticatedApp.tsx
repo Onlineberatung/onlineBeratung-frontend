@@ -23,6 +23,7 @@ import { requestPermissions } from '../../utils/notificationHelpers';
 import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
 import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
+import { RocketChatGetUserRolesProvider } from '../../globalState/provider/RocketChatSytemUsersProvider';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -95,22 +96,24 @@ export const AuthenticatedApp = ({
 		return (
 			<>
 				<RocketChatProvider>
-					<RocketChatPublicSettingsProvider>
-						<RocketChatSubscriptionsProvider>
-							<RocketChatUnreadProvider>
-								<Routing
-									logout={handleLogout}
-									legalLinks={legalLinks}
-									spokenLanguages={spokenLanguages}
-								/>
-								{notifications && (
-									<Notifications
-										notifications={notifications}
+					<RocketChatGetUserRolesProvider>
+						<RocketChatPublicSettingsProvider>
+							<RocketChatSubscriptionsProvider>
+								<RocketChatUnreadProvider>
+									<Routing
+										logout={handleLogout}
+										legalLinks={legalLinks}
+										spokenLanguages={spokenLanguages}
 									/>
-								)}
-							</RocketChatUnreadProvider>
-						</RocketChatSubscriptionsProvider>
-					</RocketChatPublicSettingsProvider>
+									{notifications && (
+										<Notifications
+											notifications={notifications}
+										/>
+									)}
+								</RocketChatUnreadProvider>
+							</RocketChatSubscriptionsProvider>
+						</RocketChatPublicSettingsProvider>
+					</RocketChatGetUserRolesProvider>
 				</RocketChatProvider>
 			</>
 		);

@@ -245,6 +245,10 @@ export const RocketChatSubscriptionsProvider = ({
 			// Unsubscribe of old subscriptions is not required because
 			// they will unsubscribed if connection gets lost
 			subscribed.current = false;
+
+			// Set rooms/subscriptions ready to false because on reconnect they will be reloaded
+			setRoomsReady(false);
+			setSubscriptionsReady(false);
 		}
 
 		return () => {

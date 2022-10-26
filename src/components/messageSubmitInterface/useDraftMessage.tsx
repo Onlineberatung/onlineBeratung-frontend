@@ -12,6 +12,11 @@ import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEContext } from '../../globalState';
 import { convertFromRaw, EditorState } from 'draft-js';
 import { markdownToDraft } from 'markdown-draft-js';
+import { EVENT_PRE_LOGOUT } from '../logout/logout';
+import {
+	addEventListener,
+	removeEventListener
+} from '../../utils/eventHandler';
 
 const SAVE_DRAFT_TIMEOUT = 10000;
 
@@ -71,6 +76,7 @@ export const useDraftMessage = (
 
 		if (!isE2eeEnabled || messageRes.t !== 'e2e') {
 			setEditorWithMarkdownString(messageRes.org || messageRes.message);
+			setMessage(messageRes.org || messageRes.message);
 			setLoaded(true);
 			return;
 		}
@@ -84,8 +90,11 @@ export const useDraftMessage = (
 			'enc.'
 		)
 			.catch(() => messageRes.org || messageRes.message)
-			.then(setEditorWithMarkdownString)
-			.then(() => setLoaded(true));
+			.then((msg) => {
+				setEditorWithMarkdownString(msg);
+				setMessage(msg);
+				setLoaded(true);
+			});
 	}, [
 		messageRes,
 		encrypted,
@@ -165,6 +174,26 @@ export const useDraftMessage = (
 			willUnmount.current = true;
 		};
 	}, []);
+
+	const onLogout = useCallback(
+		async (args) => {
+			if (draftSaveTimeout.current) {
+				clearTimeout(draftSaveTimeout.current);
+				draftSaveTimeout.current = null;
+			}
+			await saveDraftMessage(message);
+			return args;
+		},
+		[message, saveDraftMessage]
+	);
+
+	useEffect(() => {
+		addEventListener(EVENT_PRE_LOGOUT, onLogout);
+
+		return () => {
+			removeEventListener(EVENT_PRE_LOGOUT, onLogout);
+		};
+	}, [onLogout]);
 
 	useEffect(() => {
 		return () => {

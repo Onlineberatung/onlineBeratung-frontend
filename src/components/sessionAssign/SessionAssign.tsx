@@ -31,7 +31,6 @@ import { useE2EE } from '../../hooks/useE2EE';
 import { history } from '../app/app';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
-import { encryptRoom } from '../../utils/e2eeHelper';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 
@@ -55,12 +54,9 @@ export const SessionAssign = (props: { value?: string }) => {
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
-	const {
-		addNewUsersToEncryptedRoom,
-		encrypted,
-		sessionKeyExportedString,
-		keyID
-	} = useE2EE(activeSession.item.groupId);
+	const { addNewUsersToEncryptedRoom, encryptRoom } = useE2EE(
+		activeSession.item.groupId
+	);
 
 	const {
 		visible: e2eeOverlayVisible,
@@ -214,14 +210,7 @@ export const SessionAssign = (props: { value?: string }) => {
 		if (isE2eeEnabled) {
 			try {
 				// If already encrypted this will be skipped
-				await encryptRoom({
-					isE2eeEnabled,
-					isRoomAlreadyEncrypted: encrypted,
-					rcGroupId: activeSession.rid,
-					keyId: keyID,
-					sessionKeyExportedString,
-					onStateChange: setE2EEState
-				});
+				await encryptRoom(setE2EEState);
 				// If room was already encrypted add new users
 				await addNewUsersToEncryptedRoom();
 				await apiDeleteUserFromRoom(sessionId, userId);

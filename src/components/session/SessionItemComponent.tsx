@@ -301,17 +301,26 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 	const handleMessageSendSuccess = () => setDraggedFile(null);
 
+	// Track the decryption success because we have a short timing issue when
+	// message is send before the room encryption
+	const decryptionSuccess = useRef([]);
+	const handleDecryptionSuccess = useCallback((id: string) => {
+		if (decryptionSuccess.current.includes(id)) {
+			return;
+		}
+
+		decryptionSuccess.current.push(id);
+	}, []);
 	const lastDecryptionError = useRef(0);
 	const handleDecryptionErrors = useDebounceCallback(
-		useCallback((collectedErrors: [[number, TError]]) => {
+		useCallback((collectedErrors: [[string, number, TError]]) => {
 			Promise.all(
 				collectedErrors
 					// Filter already tracked error messages
-					.filter(
-						([timestamp]) => timestamp > lastDecryptionError.current
-					)
+					.filter(([, ts]) => ts > lastDecryptionError.current)
+					.filter(([id]) => !decryptionSuccess.current.includes(id))
 					// Keep only last error of one type
-					.reduce((acc, [timestamp, collectedError], i) => {
+					.reduce((acc, [, timestamp, collectedError], i) => {
 						const trackedErrorIndex = acc.findIndex(
 							([, accError]) =>
 								accError.message === collectedError.message
@@ -333,7 +342,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						}
 						return acc;
 					}, [])
-					.map(([timestamp, collectedError]) => {
+					.map(([, timestamp, collectedError]) => {
 						lastDecryptionError.current =
 							timestamp > lastDecryptionError.current
 								? timestamp
@@ -390,7 +399,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						ready &&
 						resortData &&
 						messages.map((message: MessageItem, index) => (
-							<React.Fragment key={`${message.id}-${index}`}>
+							<React.Fragment key={`${message._id}-${index}`}>
 								<MessageItemComponent
 									clientName={
 										getContact(activeSession).username
@@ -404,6 +413,9 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 									)}
 									handleDecryptionErrors={
 										handleDecryptionErrors
+									}
+									handleDecryptionSuccess={
+										handleDecryptionSuccess
 									}
 									e2eeParams={{
 										key,

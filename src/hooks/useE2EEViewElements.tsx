@@ -1,4 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { OverlayItem } from '../components/overlay/Overlay';
+import { ReactComponent as WaitingIcon } from '../resources/img/illustrations/waiting.svg';
+import { ProgressBar } from '../components/progressbar/Progressbar';
+import * as React from 'react';
+import { translate } from '../utils/translate';
 import {
 	ENCRYPT_ROOM_STATE_DONE,
 	ENCRYPT_ROOM_STATE_ENCRYPTING_USERS,
@@ -8,12 +13,7 @@ import {
 	ENCRYPT_ROOM_STATE_SEND_ALIAS_MESSAGE,
 	ENCRYPT_ROOM_STATE_SET_ROOM_KEY,
 	TEncryptRoomState
-} from '../utils/e2eeHelper';
-import { OverlayItem } from '../components/overlay/Overlay';
-import { ReactComponent as WaitingIcon } from '../resources/img/illustrations/waiting.svg';
-import { ProgressBar } from '../components/progressbar/Progressbar';
-import * as React from 'react';
-import { translate } from '../utils/translate';
+} from './useE2EE';
 
 export const useE2EEViewElements = () => {
 	const [state, setState] = useState<TEncryptRoomState>(null);

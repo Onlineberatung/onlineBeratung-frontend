@@ -52,7 +52,7 @@ export interface VideoCallMessageDTO {
 	initiatorUserName: string;
 }
 export interface MessageItem {
-	id?: number;
+	_id: string;
 	message: string;
 	org: string;
 	messageDate: string | number;
@@ -82,11 +82,17 @@ interface MessageItemComponentProps extends MessageItem {
 	clientName: string;
 	resortData: ConsultingTypeInterface;
 	isUserBanned: boolean;
-	handleDecryptionErrors: (messageTime: string, error: TError) => void;
+	handleDecryptionErrors: (
+		id: string,
+		messageTime: string,
+		error: TError
+	) => void;
+	handleDecryptionSuccess: (id: string) => void;
 	e2eeParams: e2eeParams & { subscriptionKeyLost: boolean };
 }
 
 export const MessageItemComponent = ({
+	_id,
 	alias,
 	userId,
 	message,
@@ -104,6 +110,7 @@ export const MessageItemComponent = ({
 	isUserBanned,
 	t,
 	handleDecryptionErrors,
+	handleDecryptionSuccess,
 	e2eeParams
 }: MessageItemComponentProps) => {
 	const { activeSession } = useContext(ActiveSessionContext);
@@ -129,7 +136,7 @@ export const MessageItemComponent = ({
 			)
 				.catch((e) => {
 					if (!(e instanceof MissingKeyError)) {
-						handleDecryptionErrors(messageTime, {
+						handleDecryptionErrors(_id, messageTime, {
 							name: e.name,
 							message: e.message,
 							stack: e.stack,
@@ -139,7 +146,8 @@ export const MessageItemComponent = ({
 
 					return `${org || message} *`;
 				})
-				.then(setDecryptedMessage);
+				.then(setDecryptedMessage)
+				.then(() => handleDecryptionSuccess(_id));
 		} else {
 			setDecryptedMessage(org || message);
 		}
@@ -152,7 +160,9 @@ export const MessageItemComponent = ({
 		e2eeParams.keyID,
 		e2eeParams.key,
 		e2eeParams.encrypted,
-		messageTime
+		messageTime,
+		_id,
+		handleDecryptionSuccess
 	]);
 
 	useEffect((): void => {

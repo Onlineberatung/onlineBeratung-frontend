@@ -3,12 +3,23 @@ import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
 import { config } from '../../resources/scripts/config';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { removeTokenExpiryFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
+import { callEventListeners } from '../../utils/eventHandler';
+
+export const EVENT_PRE_LOGOUT = 'pre_logout';
 
 let isRequestInProgress = false;
-export const logout = (withRedirect: boolean = true, redirectUrl?: string) => {
+export const logout = async (
+	withRedirect: boolean = true,
+	redirectUrl?: string
+) => {
 	if (isRequestInProgress) {
 		return null;
 	}
+
+	if (await callEventListeners(EVENT_PRE_LOGOUT)) {
+		return;
+	}
+
 	isRequestInProgress = true;
 	apiRocketchatLogout()
 		.then(() => {

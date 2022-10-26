@@ -8,7 +8,6 @@ import {
 	useState
 } from 'react';
 import { useParams } from 'react-router-dom';
-import { E2EEContext } from '../../globalState';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import './session.styles';
 import {
@@ -20,7 +19,6 @@ import {
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from './sessionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
-import { encryptRoom } from '../../utils/e2eeHelper';
 import { translate } from '../../utils/translate';
 import { apiEnquiryAcceptance, FETCH_ERRORS } from '../../api';
 import { history } from '../app/app';
@@ -58,8 +56,7 @@ export const AcceptAssign = ({
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	/* E2EE */
-	const { encrypted, keyID, sessionKeyExportedString } =
-		useE2EE(groupIdFromParam);
+	const { encryptRoom } = useE2EE(groupIdFromParam);
 	const {
 		visible: e2eeOverlayVisible,
 		setState: setE2EEState,
@@ -72,8 +69,6 @@ export const AcceptAssign = ({
 			null,
 			translate('session.assignSelf.inProgress')
 		);
-
-	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const enquirySuccessfullyAcceptedOverlayItem: OverlayItem = useMemo(
 		() => ({
@@ -115,26 +110,6 @@ export const AcceptAssign = ({
 			assigned ? enquiryTakenByOtherConsultantOverlayItem : null
 		);
 	}, [assigned, enquiryTakenByOtherConsultantOverlayItem]);
-
-	const handleEncryptRoom = useCallback(
-		() =>
-			encryptRoom({
-				keyId: keyID,
-				isE2eeEnabled,
-				isRoomAlreadyEncrypted: encrypted,
-				rcGroupId: groupIdFromParam,
-				sessionKeyExportedString: sessionKeyExportedString,
-				onStateChange: setE2EEState
-			}),
-		[
-			keyID,
-			isE2eeEnabled,
-			encrypted,
-			groupIdFromParam,
-			sessionKeyExportedString,
-			setE2EEState
-		]
-	);
 
 	/** END E2EE */
 
@@ -185,7 +160,7 @@ export const AcceptAssign = ({
 		setIsRequestInProgress(true);
 
 		apiEnquiryAcceptance(sessionId, isAnonymous)
-			.then(handleEncryptRoom)
+			.then(() => encryptRoom(setE2EEState))
 			.then(() => setIsRequestInProgress(false))
 			.then(() => setOverlayItem(enquirySuccessfullyAcceptedOverlayItem))
 			.catch((error) => {
