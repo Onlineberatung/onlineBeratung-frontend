@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import * as ReactDOM from 'react-dom';
 import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
@@ -8,6 +8,7 @@ import { ReactComponent as XIcon } from '../../resources/img/icons/x.svg';
 import clsx from 'clsx';
 import './overlay.styles';
 import { useTranslation } from 'react-i18next';
+import { ModalContext } from '../../globalState';
 const FocusTrap = require('focus-trap-react');
 
 export const OVERLAY_FUNCTIONS = {
@@ -75,6 +76,7 @@ export const Overlay = (props: {
 			? { ...props.item, ...props.handleOverlay }
 			: props.items[activeStep]
 	);
+	const { setClosedTwoFactorNag } = useContext(ModalContext);
 
 	useEffect(() => {
 		setActiveOverlay(
@@ -95,8 +97,9 @@ export const Overlay = (props: {
 	useEffect(() => {
 		if (props.items) {
 			setActiveOverlay(props.items[activeStep]);
+			setClosedTwoFactorNag(false);
 		}
-	}, [activeStep, props.items]);
+	}, [activeStep, props.items, setClosedTwoFactorNag]);
 
 	const handleButtonClick = (
 		buttonFunction: string,
