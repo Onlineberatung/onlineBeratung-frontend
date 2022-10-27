@@ -44,8 +44,6 @@ import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { AcceptAssign } from './AcceptAssign';
-import { SubscriptionKeyLost } from './SubscriptionKeyLost';
-import { RoomNotFound } from './RoomNotFound';
 import { useTranslation } from 'react-i18next';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { apiPostError, TError } from '../../api/apiPostError';
@@ -307,17 +305,26 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 	const handleMessageSendSuccess = () => setDraggedFile(null);
 
+	// Track the decryption success because we have a short timing issue when
+	// message is send before the room encryption
+	const decryptionSuccess = useRef([]);
+	const handleDecryptionSuccess = useCallback((id: string) => {
+		if (decryptionSuccess.current.includes(id)) {
+			return;
+		}
+
+		decryptionSuccess.current.push(id);
+	}, []);
 	const lastDecryptionError = useRef(0);
 	const handleDecryptionErrors = useDebounceCallback(
-		useCallback((collectedErrors: [[number, TError]]) => {
+		useCallback((collectedErrors: [[string, number, TError]]) => {
 			Promise.all(
 				collectedErrors
 					// Filter already tracked error messages
-					.filter(
-						([timestamp]) => timestamp > lastDecryptionError.current
-					)
+					.filter(([, ts]) => ts > lastDecryptionError.current)
+					.filter(([id]) => !decryptionSuccess.current.includes(id))
 					// Keep only last error of one type
-					.reduce((acc, [timestamp, collectedError], i) => {
+					.reduce((acc, [, timestamp, collectedError], i) => {
 						const trackedErrorIndex = acc.findIndex(
 							([, accError]) =>
 								accError.message === collectedError.message
@@ -339,7 +346,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						}
 						return acc;
 					}, [])
-					.map(([timestamp, collectedError]) => {
+					.map(([, timestamp, collectedError]) => {
 						lastDecryptionError.current =
 							timestamp > lastDecryptionError.current
 								? timestamp
@@ -413,6 +420,9 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 									)}
 									handleDecryptionErrors={
 										handleDecryptionErrors
+									}
+									handleDecryptionSuccess={
+										handleDecryptionSuccess
 									}
 									e2eeParams={{
 										key,

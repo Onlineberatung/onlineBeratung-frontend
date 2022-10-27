@@ -81,7 +81,6 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { encryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
-import { encryptRoom } from '../../utils/e2eeHelper';
 import { useTranslation } from 'react-i18next';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
@@ -197,21 +196,27 @@ export const MessageSubmitInterfaceComponent = (
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
-	const {
-		keyID: feedbackChatKeyId,
-		key: feedbackChatKey,
-		encrypted: feedbackEncrypted,
-		sessionKeyExportedString: feedbackChatSessionKeyExportedString
-	} = useE2EE(activeSession.item.feedbackGroupId);
 
+	// This loads the keys for current activeSession.rid which is already set:
+	// to groupChat.groupId on group chats
+	// to session.groupId on session chats
+	// to session.feebackGroupId on feedback chats
 	const {
 		keyID,
 		key,
 		encrypted,
-		sessionKeyExportedString,
 		subscriptionKeyLost,
-		roomNotFound
+		roomNotFound,
+		encryptRoom
 	} = useE2EE(activeSession.rid || null);
+
+	// This loads keys for feedback chat to have the ability to encrypt
+	// the feedback chat when checkbox "Request feedback" is checked
+	const {
+		keyID: feedbackChatKeyId,
+		key: feedbackChatKey,
+		encryptRoom: feedbackEncryptRoom
+	} = useE2EE(activeSession.item.feedbackGroupId);
 
 	const {
 		visible: e2eeOverlayVisible,
@@ -222,15 +227,13 @@ export const MessageSubmitInterfaceComponent = (
 	const { visible: requestOverlayVisible, overlay: requestOverlay } =
 		useTimeoutOverlay(
 			// Disable the request overlay if upload is in progess because upload progress is shown in the ui already
-			isRequestInProgress && [0, 100, null].includes(uploadProgress),
+			isRequestInProgress &&
+				!(uploadProgress > 0 && uploadProgress < 100),
 			null,
 			null,
 			null,
 			5000
 		);
-
-	const groupIdOrSessionId =
-		activeSession.item.groupId || activeSession.item.id;
 
 	const [requestFeedbackCheckboxChecked, setRequestFeedbackCheckboxChecked] =
 		useState(false);
@@ -243,32 +246,6 @@ export const MessageSubmitInterfaceComponent = (
 		label: translate('message.write.peer.checkbox.label'),
 		checked: requestFeedbackCheckboxChecked
 	};
-
-	const handleEncryptRoom = useCallback(
-		async (rcGroupId, isFeedback: boolean = false) =>
-			encryptRoom({
-				rcGroupId,
-				isE2eeEnabled,
-				keyId: isFeedback ? feedbackChatKeyId : keyID,
-				isRoomAlreadyEncrypted: isFeedback
-					? feedbackEncrypted
-					: encrypted,
-				sessionKeyExportedString: isFeedback
-					? feedbackChatSessionKeyExportedString
-					: sessionKeyExportedString,
-				onStateChange: setE2EEState
-			}),
-		[
-			encrypted,
-			feedbackChatKeyId,
-			feedbackChatSessionKeyExportedString,
-			feedbackEncrypted,
-			isE2eeEnabled,
-			keyID,
-			sessionKeyExportedString,
-			setE2EEState
-		]
-	);
 
 	const [isConsultantAbsent, setIsConsultantAbsent] = useState(
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -536,11 +513,12 @@ export const MessageSubmitInterfaceComponent = (
 			props.language
 		)
 			.then((response) =>
-				handleEncryptRoom(response.rcGroupId).then(() => {
+				encryptRoom(setE2EEState, response.rcGroupId).then(() => {
 					props?.onSendButton && props.onSendButton(response);
 				})
 			)
 			.then(() => setEditorState(EditorState.createEmpty()))
+			.then(() => setIsRequestInProgress(false))
 			.catch((error) => {
 				console.log(error);
 			});
@@ -555,7 +533,7 @@ export const MessageSubmitInterfaceComponent = (
 	) => {
 		const sendToRoomWithId = sendToFeedbackEndpoint
 			? activeSession.item.feedbackGroupId
-			: groupIdOrSessionId;
+			: activeSession.rid || activeSession.item.id;
 		const getSendMailNotificationStatus = () =>
 			!activeSession.isGroup && !activeSession.isLive;
 
@@ -606,7 +584,7 @@ export const MessageSubmitInterfaceComponent = (
 				getSendMailNotificationStatus() && !attachment,
 				isEncrypted
 			)
-				.then(() => handleEncryptRoom(activeSession.item.groupId))
+				.then(() => encryptRoom(setE2EEState))
 				.then(() => {
 					props?.onSendButton && props.onSendButton();
 					handleMessageSendSuccess();
@@ -616,14 +594,12 @@ export const MessageSubmitInterfaceComponent = (
 					setIsRequestInProgress(false);
 					console.log(error);
 				});
+		} else {
+			props?.onSendButton && props.onSendButton();
+			handleMessageSendSuccess();
+			cleanupAttachment();
+			setIsRequestInProgress(false);
 		}
-	};
-
-	const isFeedbackMessage = () => {
-		return (
-			(!activeSession.isGroup && activeSession.isFeedback) ||
-			requestFeedbackCheckboxChecked
-		);
 	};
 
 	const prepareAndSendMessage = async () => {
@@ -642,9 +618,12 @@ export const MessageSubmitInterfaceComponent = (
 			return null;
 		}
 
-		const sendToFeedbackEndpoint = isFeedbackMessage();
-		const messageKeyId = sendToFeedbackEndpoint ? feedbackChatKeyId : keyID;
-		const messageKey = sendToFeedbackEndpoint ? feedbackChatKey : key;
+		const messageKeyId = requestFeedbackCheckboxChecked
+			? feedbackChatKeyId
+			: keyID;
+		const messageKey = requestFeedbackCheckboxChecked
+			? feedbackChatKey
+			: key;
 		const unencryptedMessage = getTypedMarkdownMessage().trim();
 
 		let encryptedMessage = unencryptedMessage;
@@ -681,7 +660,7 @@ export const MessageSubmitInterfaceComponent = (
 		}
 
 		await sendMessage(
-			sendToFeedbackEndpoint,
+			requestFeedbackCheckboxChecked,
 			encryptedMessage,
 			unencryptedMessage,
 			attachment,
@@ -689,7 +668,7 @@ export const MessageSubmitInterfaceComponent = (
 		);
 
 		if (requestFeedbackCheckboxChecked) {
-			await handleEncryptRoom(activeSession.item.feedbackGroupId, true);
+			await feedbackEncryptRoom(setE2EEState);
 		}
 	};
 

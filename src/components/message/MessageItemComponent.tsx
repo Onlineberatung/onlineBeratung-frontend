@@ -100,7 +100,12 @@ interface MessageItemComponentProps extends MessageItem {
 	clientName: string;
 	resortData: ConsultingTypeInterface;
 	isUserBanned: boolean;
-	handleDecryptionErrors: (messageTime: string, error: TError) => void;
+	handleDecryptionErrors: (
+		id: string,
+		messageTime: string,
+		error: TError
+	) => void;
+	handleDecryptionSuccess: (id: string) => void;
 	e2eeParams: e2eeParams & { subscriptionKeyLost: boolean };
 }
 
@@ -124,6 +129,7 @@ export const MessageItemComponent = ({
 	t,
 	rid,
 	handleDecryptionErrors,
+	handleDecryptionSuccess,
 	e2eeParams
 }: MessageItemComponentProps) => {
 	const { t: translate } = useTranslation();
@@ -151,7 +157,7 @@ export const MessageItemComponent = ({
 			)
 				.catch((e) => {
 					if (!(e instanceof MissingKeyError)) {
-						handleDecryptionErrors(messageTime, {
+						handleDecryptionErrors(_id, messageTime, {
 							name: e.name,
 							message: e.message,
 							stack: e.stack,
@@ -161,7 +167,8 @@ export const MessageItemComponent = ({
 
 					return `${org || message} *`;
 				})
-				.then(setDecryptedMessage);
+				.then(setDecryptedMessage)
+				.then(() => handleDecryptionSuccess(_id));
 		} else {
 			setDecryptedMessage(org || message);
 		}
@@ -174,7 +181,9 @@ export const MessageItemComponent = ({
 		e2eeParams.keyID,
 		e2eeParams.key,
 		e2eeParams.encrypted,
-		messageTime
+		messageTime,
+		_id,
+		handleDecryptionSuccess
 	]);
 
 	useEffect((): void => {

@@ -11,11 +11,7 @@ import {
 } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { endpoints } from '../../resources/scripts/endpoints';
-import {
-	buildExtendedSession,
-	STATUS_EMPTY,
-	E2EEContext
-} from '../../globalState';
+import { buildExtendedSession, STATUS_EMPTY } from '../../globalState';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 import {
@@ -35,7 +31,6 @@ import { useResponsive } from '../../hooks/useResponsive';
 import { Loading } from '../app/Loading';
 import { useSession } from '../../hooks/useSession';
 import { apiGetAskerSessionList } from '../../api';
-import { encryptRoom } from '../../utils/e2eeHelper';
 import { useTranslation } from 'react-i18next';
 
 export const WriteEnquiry: React.FC = () => {

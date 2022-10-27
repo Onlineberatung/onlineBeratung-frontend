@@ -336,9 +336,18 @@ export function RocketChatProvider(props) {
 			}
 		};
 
-		rcWebsocket.current.onclose = () => {};
+		rcWebsocket.current.onclose = (e) => {
+			console.log('Websocket closed');
+			console.log('Trying to reconnect ...');
+			rcWebsocketTimeout.current = window.setTimeout(() => {
+				rcWebsocket.current = null;
+				connect();
+			}, RECONNECT_TIMEOUT);
+		};
 
 		rcWebsocket.current.onerror = (event) => {
+			console.log('Websocket error');
+			console.log('Trying to reconnect ...');
 			rcWebsocketTimeout.current = window.setTimeout(() => {
 				rcWebsocket.current = null;
 				connect();
