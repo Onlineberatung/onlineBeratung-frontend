@@ -85,8 +85,10 @@ export function RocketChatProvider(props) {
 	}, []);
 
 	const close = useCallback(() => {
-		if (rcWebsocketTimeout.current)
+		if (rcWebsocketTimeout.current) {
 			window.clearTimeout(rcWebsocketTimeout.current);
+			rcWebsocketTimeout.current = null;
+		}
 		if (rcWebsocket.current) {
 			rcWebsocket.current.close();
 		}
@@ -338,8 +340,12 @@ export function RocketChatProvider(props) {
 
 		rcWebsocket.current.onclose = (e) => {
 			console.log('Websocket closed');
+			if (rcWebsocketTimeout.current) {
+				return;
+			}
 			console.log('Trying to reconnect ...');
 			rcWebsocketTimeout.current = window.setTimeout(() => {
+				rcWebsocketTimeout.current = null;
 				rcWebsocket.current = null;
 				connect();
 			}, RECONNECT_TIMEOUT);
@@ -347,8 +353,12 @@ export function RocketChatProvider(props) {
 
 		rcWebsocket.current.onerror = (event) => {
 			console.log('Websocket error');
+			if (rcWebsocketTimeout.current) {
+				return;
+			}
 			console.log('Trying to reconnect ...');
 			rcWebsocketTimeout.current = window.setTimeout(() => {
+				rcWebsocketTimeout.current = null;
 				rcWebsocket.current = null;
 				connect();
 			}, RECONNECT_TIMEOUT);
@@ -364,6 +374,7 @@ export function RocketChatProvider(props) {
 		return () => {
 			if (rcWebsocketTimeout.current)
 				window.clearTimeout(rcWebsocketTimeout.current);
+			rcWebsocketTimeout.current = null;
 			if (websocket) {
 				websocket.close();
 				rcWebsocket.current = null;

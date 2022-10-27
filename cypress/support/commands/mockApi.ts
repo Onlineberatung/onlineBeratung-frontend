@@ -21,7 +21,10 @@ import { decodeUsername } from '../../../src/utils/encryptionHelpers';
 import { getMessages, setMessages } from './messages';
 import apiAppointments from './api/appointments';
 import apiVideocalls from './api/videocalls';
-import { SETTING_E2E_ENABLE } from '../../../src/api/apiRocketChatSettingsPublic';
+import {
+	SETTING_E2E_ENABLE,
+	SETTING_MESSAGE_MAXALLOWEDSIZE
+} from '../../../src/api/apiRocketChatSettingsPublic';
 
 let overrides = {};
 
@@ -69,8 +72,6 @@ Cypress.Commands.add('mockApi', () => {
 	cy.addMessage({}, 0);
 	cy.addMessage({}, 1);
 	cy.addMessage({}, 2);
-
-	window.localStorage.setItem(`locale`, 'de');
 
 	// ConsultingTypes
 	cy.fixture('service.consultingtypes.emigration.json').then(
@@ -195,17 +196,32 @@ Cypress.Commands.add('mockApi', () => {
 
 	cy.intercept('POST', endpoints.keycloakLogout, {}).as('authLogout');
 
-	cy.intercept('GET', `${config.endpoints.rc.settings.public}*`, {
-		settings: [{ _id: SETTING_E2E_ENABLE, value: true, enterprise: false }],
-		count: 1,
-		offset: 0,
-		total: 1,
-		success: true
-	});
+	cy.intercept(
+		'GET',
+		`${endpoints.rc.settings.public}*`,
+		JSON.stringify({
+			settings: [
+				{ _id: SETTING_E2E_ENABLE, value: true, enterprise: false },
+				{
+					_id: SETTING_MESSAGE_MAXALLOWEDSIZE,
+					value: 999999,
+					enterprise: false
+				}
+			],
+			count: 1,
+			offset: 0,
+			total: 1,
+			success: true
+		})
+	).as('rcSettingsPublic');
 
-	cy.intercept('POST', config.endpoints.keycloakLogout, {}).as('authLogout');
+	cy.intercept('POST', endpoints.keycloakLogout, {
+		statusCode: 204
+	}).as('authLogout');
 
-	cy.intercept('POST', endpoints.rc.logout, {}).as('apiLogout');
+	cy.intercept('POST', endpoints.rc.logout, JSON.stringify({})).as(
+		'apiLogout'
+	);
 
 	cy.intercept(
 		`${endpoints.liveservice}/**/*`,
@@ -239,6 +255,10 @@ Cypress.Commands.add('mockApi', () => {
 		});
 	}).as('authToken');
 
+	cy.intercept('PATCH', endpoints.userData, (req) => {
+		req.reply({});
+	}).as('patchUsersData');
+
 	cy.intercept('GET', endpoints.userData, (req) => {
 		req.reply({
 			...defaultReturns['userData'][username],
@@ -247,10 +267,10 @@ Cypress.Commands.add('mockApi', () => {
 	}).as('usersData');
 
 	cy.intercept('GET', endpoints.consultantsLanguages, (req) => {
-		req.reply(
+		req.reply([
 			...defaultReturns['agencyConsultantsLanguages'],
 			...(overrides['agencyConsultantsLanguages'] || [])
-		);
+		]);
 	}).as('agencyConsultants');
 
 	cy.intercept('GET', endpoints.agencyConsultants, (req) => {
@@ -309,7 +329,9 @@ Cypress.Commands.add('mockApi', () => {
 	apiAppointments(cy);
 	apiVideocalls(cy);
 
-	cy.intercept('GET', '/api/v1/e2e.fetchMyKeys', (req) => {
+	cy.intercept('PUT', endpoints.setAbsence, {});
+
+	cy.intercept('GET', endpoints.rc.e2ee.fetchMyKeys, (req) => {
 		// keys from dev user pregnancy
 		req.reply({
 			public_key:
@@ -320,19 +342,23 @@ Cypress.Commands.add('mockApi', () => {
 		});
 	}).as('fetchMyKeys');
 
-	cy.intercept('POST', '/api/v1/e2e.setUserPublicAndPrivateKeys', (req) => {
-		req.reply({
-			success: true
-		});
-	}).as('setUserPublicAndPrivateKeys');
+	cy.intercept(
+		'POST',
+		endpoints.rc.e2ee.setUserPublicAndPrivateKeys,
+		(req) => {
+			req.reply({
+				success: true
+			});
+		}
+	).as('setUserPublicAndPrivateKeys');
 
-	cy.intercept('POST', '/api/v1/users.resetE2EKey', (req) => {
+	cy.intercept('POST', endpoints.rc.users.resetE2EKey, (req) => {
 		req.reply({
 			success: true
 		});
 	}).as('resetE2EKey');
 
-	cy.intercept('PUT', '/service/users/chat/e2e', {
+	cy.intercept('PUT', endpoints.userUpdateE2EKey, {
 		statusCode: 200
 	});
 

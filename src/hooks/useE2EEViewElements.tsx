@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { OverlayItem } from '../components/overlay/Overlay';
 import { ReactComponent as WaitingIcon } from '../resources/img/illustrations/waiting.svg';
-import { ProgressBar } from '../components/progressbar/Progressbar';
+import { ProgressBar } from '../components/progressbar/ProgressBar';
 import * as React from 'react';
 import {
 	ENCRYPT_ROOM_STATE_DONE,

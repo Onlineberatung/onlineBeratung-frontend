@@ -36,7 +36,7 @@ describe('registration', () => {
 		cy.fixture('service.agencies.json').then((data) => {
 			agencies = data;
 			cy.intercept(
-				new RegExp(`${config.endpoints.agencyServiceBase}*`),
+				new RegExp(`${endpoints.agencyServiceBase}*`),
 				data
 			).as('agencies');
 		});

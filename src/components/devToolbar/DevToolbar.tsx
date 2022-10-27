@@ -105,10 +105,10 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 			'Disables the DevToolbar! The settings which were changed in the DevToolbar will not be resetet to its default!'
 	},
 	{
-		label: 'Disable 2FA Dialog',
+		label: '2FA Dialog',
 		key: STORAGE_KEY_2FA,
 		type: TOGGLE,
-		choices: { '0': 'Off', '1': 'On' },
+		choices: { '0': 'Disabled', '1': 'Enabled' },
 		value: '1',
 		description: 'Disable the 2FA dialog'
 	},
@@ -116,7 +116,7 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 		label: '2FA Duty',
 		key: STORAGE_KEY_2FA_DUTY,
 		type: TOGGLE,
-		choices: { '0': 'Off', '1': 'On' },
+		choices: { '0': 'Disabled', '1': 'Enabled' },
 		value: '1',
 		description:
 			'Disable the duty to add a 2fa and show only the defautl 2fa dialog if enabled'
@@ -142,7 +142,7 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 		label: 'DEV Error Boundary',
 		key: STORAGE_KEY_ERROR_BOUNDARY,
 		type: TOGGLE,
-		choices: { '0': 'Off', '1': 'On' },
+		choices: { '1': 'Enabled', '0': 'DISABLED' },
 		value:
 			process.env.REACT_APP_DISABLE_ERROR_BOUNDARY &&
 			parseInt(process.env.REACT_APP_DISABLE_ERROR_BOUNDARY) === 1
@@ -155,7 +155,7 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 		label: 'DEV Translation check',
 		key: STORAGE_KEY_ENABLE_TRANSLATION_CHECK,
 		type: TOGGLE,
-		choices: { '0': 'Off', '1': 'On' },
+		choices: { '0': 'Disabled', '1': 'Enabled' },
 		value:
 			process.env.REACT_APP_ENABLE_TRANSLATION_CHECK &&
 			parseInt(process.env.REACT_APP_ENABLE_TRANSLATION_CHECK) === 1
@@ -226,6 +226,7 @@ export const DevToolbarWrapper = () => {
 			const container = document.createElement('div');
 			container.id = 'devToolbar__container';
 			container.className = 'devToolbar__container';
+			container.setAttribute('tabindex', '-1');
 			document.body.appendChild(container);
 			devtoolbarContainer.current = container;
 
@@ -361,7 +362,7 @@ export const DevToolbar = () => {
 					))}
 				</div>
 				<hr />
-				<button type="button" onClick={reset}>
+				<button type="button" onClick={reset} tabIndex={-1}>
 					Reset
 				</button>
 				<div style={{ fontSize: '12px', lineHeight: '14px' }}>
@@ -398,6 +399,7 @@ const LocalStorageSwitch = ({
 					<hr />
 					<button
 						type="button"
+						tabIndex={-1}
 						onClick={() =>
 							onChange(
 								localStorageSwitch.choices.find(
@@ -452,6 +454,7 @@ const LocalStorageSwitch = ({
 											: ''
 									}
 									type="button"
+									tabIndex={-1}
 									onClick={() => onChange(value)}
 								>
 									{localStorageSwitch.choices[value]}
@@ -478,6 +481,7 @@ const LocalStorageSwitch = ({
 					<hr />
 					<select
 						onChange={({ target: { value } }) => onChange(value)}
+						tabIndex={-1}
 					>
 						{Object.keys(localStorageSwitch.choices).map(
 							(value) => (
@@ -513,6 +517,7 @@ const LocalStorageSwitch = ({
 								<div key={`${localStorageSwitch.key}-${value}`}>
 									<input
 										type="radio"
+										tabIndex={-1}
 										name={localStorageSwitch.key}
 										value={value.toString()}
 										checked={

@@ -30,7 +30,6 @@ module.exports = defineConfig({
 	},
 	env: {
 		REACT_APP_API_URL: process.env.REACT_APP_API_URL,
-		REACT_APP_UI_URL: process.env.REACT_APP_UI_URL,
 		REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY:
 			process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY,
 		CYPRESS_WS_URL:

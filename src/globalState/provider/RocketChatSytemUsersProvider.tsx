@@ -37,14 +37,10 @@ export const RocketChatGetUserRolesProvider = ({
 
 	useEffect(() => {
 		if (ready) {
-			sendMethod(
-				METHOD_GET_USER_ROLES,
-				['admin', 'system', 'technical', 'app'],
-				(users) => {
-					setSystemUsers(users);
-					setSystemUsersReady(true);
-				}
-			);
+			sendMethod(METHOD_GET_USER_ROLES, null, (users) => {
+				setSystemUsers(users);
+				setSystemUsersReady(true);
+			});
 		} else {
 			setSystemUsersReady(false);
 		}
