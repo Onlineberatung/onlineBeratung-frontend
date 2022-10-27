@@ -18,6 +18,7 @@ export const STORAGE_KEY_2FA = '2fa';
 export const STORAGE_KEY_2FA_DUTY = '2fa_duty';
 export const STORAGE_KEY_RELEASE_NOTES = 'release_notes';
 export const STORAGE_KEY_ERROR_BOUNDARY = 'error_boundary';
+export const STORAGE_KEY_E2EE_DISABLED = 'e2ee_disabled';
 export const STORAGE_KEY_ENABLE_TRANSLATION_CHECK = 'enable_translation_check';
 
 const DEVTOOLBAR_EVENT = 'devToolbar';
@@ -128,6 +129,14 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 		value: '1',
 		description:
 			'Disable the release notes dialog if there are new release notes added'
+	},
+	{
+		label: 'DEV E2EE',
+		key: STORAGE_KEY_E2EE_DISABLED,
+		type: TOGGLE,
+		choices: { '0': 'Enabled', '1': 'Disabled' },
+		value: '0',
+		description: 'Disable end-to-end encryption. DEV only'
 	},
 	{
 		label: 'DEV Error Boundary',
