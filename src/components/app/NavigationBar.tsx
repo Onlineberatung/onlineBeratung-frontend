@@ -130,6 +130,50 @@ export const NavigationBar = ({
 		}
 	};
 
+	const ref_array = useRef<any>([]);
+	const ref_local = useRef<any>();
+	const ref_logout = useRef<any>();
+
+	const handleKeyDownMenu = (e, index) => {
+		console.log('test', e.key);
+		console.log('test', e);
+		console.log('test', index);
+		if (e.key === 'Enter' || e.key === ' ') {
+			if (document.activeElement === ref_logout.current) {
+				handleLogout();
+			} else if (document.activeElement === ref_local.current) {
+				setIsMenuOpen(!isMenuOpen);
+			}
+			console.log('e.key', e.key);
+		}
+		if (e.key === 'ArrowUp') {
+			if (index === 0) {
+				ref_logout.current.focus();
+			} else if (document.activeElement === ref_logout.current) {
+				ref_local.current.focus();
+			} else if (document.activeElement === ref_local.current) {
+				ref_array.current[ref_array.current.length - 1].focus();
+			} else {
+				ref_array.current[index - 1].focus();
+			}
+		}
+		if (e.key === 'ArrowDown') {
+			if (index === ref_array.current.length - 1) {
+				ref_local.current.focus();
+			} else if (document.activeElement === ref_local.current) {
+				ref_logout.current.focus();
+			} else if (document.activeElement === ref_logout.current) {
+				ref_array.current[0].focus();
+			} else {
+				ref_array.current[index + 1].focus();
+			}
+		}
+		if (e.key === 'Tab') {
+			console.log('e', e);
+			e.preventDefault();
+		}
+	};
+
 	return (
 		<div className="navigation__wrapper">
 			<div className="navigation__itemContainer">
@@ -161,6 +205,9 @@ export const NavigationBar = ({
 									'navigation__item__count--active'
 								}`}
 								to={item.to}
+								tabIndex={0}
+								onKeyDown={(e) => handleKeyDownMenu(e, index)}
+								ref={(el) => (ref_array.current[index] = el)}
 							>
 								{item?.icon}
 								{(({ large }) => {
@@ -197,7 +244,9 @@ export const NavigationBar = ({
 						<div
 							className="navigation__item navigation__item__language"
 							tabIndex={0}
-							onKeyDown={handleKeyDown}
+							//onKeyDown={handleKeyDown}
+							ref={(el) => (ref_local.current = el)}
+							onKeyDown={(e) => handleKeyDownMenu(e, null)}
 						>
 							<LocaleSwitch
 								showIcon={true}
@@ -214,12 +263,9 @@ export const NavigationBar = ({
 					<div
 						onClick={handleLogout}
 						className={'navigation__item'}
-						onKeyDown={(event) => {
-							if (event.key === 'Enter') {
-								handleLogout();
-							}
-						}}
 						tabIndex={0}
+						ref={(el) => (ref_logout.current = el)}
+						onKeyDown={(e) => handleKeyDownMenu(e, null)}
 					>
 						<LogoutIcon className="navigation__icon" />
 						<span className="navigation__title">
