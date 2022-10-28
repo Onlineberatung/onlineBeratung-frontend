@@ -1860,7 +1860,8 @@ export const en = {
 				'app': 'With Authenticator Application',
 				'title': 'Select second factor',
 				'copy': 'Install a suitable Authenticator app on your smartphone or tablet. Alternatively, you can also use your e-mail address as a second factor.',
-				'visualisation.label': 'Selection'
+				'visualisation.label': 'Selection',
+				'disable': 'Disable authentication'
 			},
 			radio: {
 				label: {
@@ -1975,6 +1976,12 @@ export const en = {
 					'copy': {
 						'1': 'They use this email address as a second factor for secure login.',
 						'2': 'Disable two-factor authentication to edit the email address.'
+					},
+					'binding': {
+						copy: {
+							'1': 'You cannot change your email address as long as you use it as a second factor for secure login.',
+							'2': 'Change the second factor from "Email address" to "App". Then you can change your email address.'
+						}
 					},
 					'button.confirm': 'Disable authentication',
 					'button.deny': 'Cancel'

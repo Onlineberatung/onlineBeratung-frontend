@@ -1859,7 +1859,8 @@ export const de = {
 				'copy': 'Installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App. Alternativ können Sie auch Ihre E-Mail-Adresse als zweiten Faktor verwenden.',
 				'email': 'Per E-Mail',
 				'title': 'Zweiten Faktor wählen',
-				'visualisation.label': 'Auswahl'
+				'visualisation.label': 'Auswahl',
+				'disable': 'Authentifizierung deaktivieren'
 			},
 			radio: {
 				label: {
@@ -1964,13 +1965,22 @@ export const de = {
 		email: {
 			'change': {
 				confirmOverlay: {
-					'title': 'E-Mail-Adresse bearbeiten',
-					'copy': {
+					title: 'E-Mail-Adresse bearbeiten',
+					copy: {
 						'1': 'Sie nutzen diese E-Mail-Adresse als zweiten Faktor für eine sichere Anmeldung.',
 						'2': 'Deaktivieren Sie die Zwei-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.'
 					},
-					'button.confirm': 'Authentifizierung deaktivieren',
-					'button.deny': 'Abbrechen'
+					binding: {
+						copy: {
+							'1': 'Sie können Ihre E-Mail Adresse nicht ändern solange Sie diese als zweiten Faktor für eine sichere Anmeldung verwenden.',
+							'2': 'Wechseln Sie den zweiten Faktor von "E-Mail Adresse" zu "App". Dann können Sie Ihre E-Mail Adresse ändern.'
+						}
+					},
+					button: {
+						confirm: 'Authentifizierung deaktivieren',
+						deny: 'Abbrechen',
+						edit: 'zweiter Faktor bearbeiten'
+					}
 				}
 			},
 			'delete.confirmOverlay.copy':

@@ -2,7 +2,11 @@ import * as React from 'react';
 import { useContext, useEffect, useState, useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { encode } from 'hi-base32';
-import { UserDataContext } from '../../globalState';
+import {
+	AUTHORITIES,
+	hasUserAuthority,
+	UserDataContext
+} from '../../globalState';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import Switch from 'react-switch';
@@ -53,7 +57,8 @@ export const TWO_FACTOR_TYPES = {
 
 export const TwoFactorAuth = () => {
 	const { t: translate } = useTranslation();
-	const location = useLocation<{ openTwoFactor?: boolean }>();
+	const location =
+		useLocation<{ openTwoFactor?: boolean; isEditMode?: boolean }>();
 
 	const { userData } = useContext(UserDataContext);
 	const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(
@@ -86,7 +91,13 @@ export const TwoFactorAuth = () => {
 	let todaysDate = new Date(Date.now());
 	const isTwoFactorBinding =
 		todaysDate >= settings.twofactor.dateTwoFactorObligatory;
-	const [isEditMode, setIsEditMode] = useState(false);
+	const [isEditMode, setIsEditMode] = useState(
+		location.state?.isEditMode ?? false
+	);
+	const isConsultant = hasUserAuthority(
+		AUTHORITIES.CONSULTANT_DEFAULT,
+		userData
+	);
 
 	useEffect(() => {
 		if (location.state?.openTwoFactor) {
@@ -108,6 +119,20 @@ export const TwoFactorAuth = () => {
 		translate
 	]);
 
+	const handleOverlayAction = useCallback(
+		(buttonFunction: string) => {
+			if (buttonFunction === 'DISABLE_2FA') {
+				apiDeleteTwoFactorAuth()
+					.then((response) => {
+						updateUserData();
+						setOverlayActive(false);
+					})
+					.catch((error) => {});
+			}
+		},
+		[updateUserData]
+	);
+
 	const handleSwitchChange = () => {
 		if (!isSwitchChecked) {
 			setIsSwitchChecked(true);
@@ -116,7 +141,6 @@ export const TwoFactorAuth = () => {
 			setIsSwitchChecked(false);
 			apiDeleteTwoFactorAuth()
 				.then((response) => {
-					console.log('test response', response);
 					updateUserData();
 				})
 				.catch((error) => {
@@ -316,24 +340,55 @@ export const TwoFactorAuth = () => {
 						'twoFactorAuth.activate.step1.visualisation.label'
 					)
 				},
+				handleOverlay: handleOverlayAction,
 				nestedComponent: selectTwoFactorTypeButtons(),
-				buttonSet: [
-					{
-						disabled:
-							twoFactorType === TWO_FACTOR_TYPES.NONE ||
-							twoFactorType === userData.twoFactorAuth.type,
-						label: translate('twoFactorAuth.overlayButton.next'),
-						function: OVERLAY_FUNCTIONS.NEXT_STEP,
-						type: BUTTON_TYPES.PRIMARY
-					}
-				]
+				buttonSet:
+					isConsultant || !userData.twoFactorAuth.isActive
+						? [
+								{
+									disabled:
+										twoFactorType ===
+											TWO_FACTOR_TYPES.NONE ||
+										twoFactorType ===
+											userData.twoFactorAuth.type,
+									label: translate(
+										'twoFactorAuth.overlayButton.next'
+									),
+									function: OVERLAY_FUNCTIONS.NEXT_STEP,
+									type: BUTTON_TYPES.PRIMARY
+								}
+						  ]
+						: [
+								{
+									disabled:
+										twoFactorType ===
+											TWO_FACTOR_TYPES.NONE ||
+										twoFactorType ===
+											userData.twoFactorAuth.type,
+									label: translate(
+										'twoFactorAuth.overlayButton.next'
+									),
+									function: OVERLAY_FUNCTIONS.NEXT_STEP,
+									type: BUTTON_TYPES.PRIMARY
+								},
+								{
+									label: translate(
+										'twoFactorAuth.activate.step1.disable'
+									),
+									function: 'DISABLE_2FA',
+									type: BUTTON_TYPES.SECONDARY
+								}
+						  ]
 			}
 		],
 		[
 			selectTwoFactorTypeButtons,
 			twoFactorType,
 			translate,
-			userData.twoFactorAuth.type
+			userData.twoFactorAuth.type,
+			isConsultant,
+			userData.twoFactorAuth.isActive,
+			handleOverlayAction
 		]
 	);
 
@@ -887,7 +942,7 @@ export const TwoFactorAuth = () => {
 						className="twoFactorAuth__overlay"
 						items={overlayItems}
 						handleOverlayClose={
-							isTwoFactorBinding && !isEditMode
+							isTwoFactorBinding && !isEditMode && isConsultant
 								? null
 								: handleOverlayClose
 						}

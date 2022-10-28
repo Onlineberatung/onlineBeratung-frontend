@@ -564,6 +564,22 @@ export const deInformal = {
 				}
 			}
 		},
+		email: {
+			change: {
+				confirmOverlay: {
+					copy: {
+						'1': 'Du nutzt diese E-Mail-Adresse als zweiten Faktor für eine sichere Anmeldung.',
+						'2': 'Deaktiviere die Zwei-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.'
+					},
+					binding: {
+						copy: {
+							'1': 'Du kannst Deine E-Mail Adresse nicht ändern solange Du diese als zweiten Faktor für eine sichere Anmeldung verwendest.',
+							'2': 'Wechsel den zweiten Faktor von "E-Mail Adresse" zu "App". Dann kannst Du Deine E-Mail Adresse ändern.'
+						}
+					}
+				}
+			}
+		},
 		nag: {
 			title: 'Schütze Dein Konto',
 			copy: 'Sicher Dein Konto vor einem möglichen unbefugten Zugriff. Nutze einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Bratung.',
