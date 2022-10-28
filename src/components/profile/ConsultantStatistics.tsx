@@ -97,17 +97,13 @@ export const ConsultantStatistics = () => {
 			label: translate('profile.statistics.csvHeader.videoCallDuration'),
 			key: 'videoCallDuration'
 		},
-		...(featureAppointmentsEnabled
-			? [
-					{
-						label: translate(
-							'profile.statistics.csvHeader.numberOfAppointments'
-						),
-						key: 'numberOfAppointments'
-					}
-			  ]
-			: [{}])
-	];
+		featureAppointmentsEnabled && {
+			label: translate(
+				'profile.statistics.csvHeader.numberOfAppointments'
+			),
+			key: 'numberOfAppointments'
+		}
+	].filter(Boolean);
 
 	const statisticsPeriodOptions: {
 		value: statisticOptions;
