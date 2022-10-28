@@ -1433,7 +1433,7 @@ export const de = {
 				'download.label': 'Download Excel Datei'
 			},
 			csvHeader: {
-				numberOfAppointments: 'Termine gebuchte',
+				numberOfAppointments: 'Termine gebucht',
 				numberOfAssignedSessions: 'Beratungen angenommen',
 				numberOfSentMessages: 'Nachrichten geschrieben',
 				numberOfSessionsWhereConsultantWasActive: 'Aktive Beratungen',
