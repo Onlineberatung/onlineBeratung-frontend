@@ -41,26 +41,31 @@ const StyledAccordeon = styled.div`
         }
 
         .label {
-            padding: 0 0 ${theme.grid.base_two ?? '16px'} 0;
+            padding: 0 0 ${theme.grid.base_three ?? '24px'} 0;
         }
 
         .icon--container {
             display: flex;
             justify-content: flex-end;
+			position: relative;
         }
 
         .checkmark--circle {
             height: 20px;
             width: 20px;
-            margin: 0 ${theme.grid.base_two ?? '16px'} 0 0;
-            path { 
+			position: absolute;
+			top: 0px;
+			right: 40px;
+			path { 
                 fill: ${theme.color.status_success_foreground ?? '#4FCC5C'}; 
             }
         }
 
         .arrow {
-            height: 20px;
-            width: 20px;
+			svg {
+				height: 16px;
+				width: 16px;
+			}
             path {
                 fill: ${theme.color.interactive_secondary ?? '#000000E5'};
             }
