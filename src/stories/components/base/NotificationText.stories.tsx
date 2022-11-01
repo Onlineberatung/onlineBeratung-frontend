@@ -14,7 +14,8 @@ export default {
 	component: NotificationText,
 	argTypes: {
 		type: { table: { disable: true } },
-		icon: { table: { disable: true } }
+		icon: { table: { disable: true } },
+		invert: { control: 'boolean' }
 	}
 } as ComponentMeta<typeof NotificationText>;
 

@@ -21,27 +21,27 @@ interface NotificationVideoProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledNotificationVideo = styled.div`
 	${({ theme }) => `
-    font-family: ${theme.font.family};
-    font-weight: ${theme.font.weight};
-    font-size: ${theme.font.size};
-    line-height: ${theme.font.lineHeight};
+    font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+    font-weight: ${theme.font.weight_regular ?? '400'};
+    font-size: ${theme.font.size_tertiary ?? '14px'};
+    line-height: ${theme.font.line_height_primary ?? '21px'};
 
     display: flex;
     flex-direction: column;
     align-items: center;
 
     position: relative;
-    width: ${theme.notification.width};
+    width: 320px;
 
-    border-radius: ${theme.border.radius};
+    border-radius: ${theme.border.radius ?? '4px'};
 
-    color: ${theme.colors.white};
-    background: ${theme.colors.backgroundLightGrey};
+    color: ${theme.color.interactive_onDark ?? '#FFFFFF'};
+    background: #00000099;
 
 
     &.default {
         .notification--optionBar {
-            height:96px;
+            height: 96px;
         }
 
         .notification--title {
@@ -55,11 +55,13 @@ const StyledNotificationVideo = styled.div`
         }
 
         .notification--infoText {
-            margin: 16px 16px 16px 16px;
+            margin: ${theme.grid.base_two ?? '16px'} ${
+		theme.grid.base_two ?? '16px'
+	} ${theme.grid.base_two ?? '16px'} ${theme.grid.base_two ?? '16px'};
         }
 
         .notification--adviceLabel {
-            margin: 0 0 16px 0;
+            margin: 0 0 ${theme.grid.base_two ?? '16px'} 0;
         }
     }
 
@@ -74,7 +76,7 @@ const StyledNotificationVideo = styled.div`
             width: 16px;
 
             path {
-                fill: white;
+                fill: ${theme.color.interactive_onDark ?? '#FFFFFF'};
             }
         }
     }
@@ -83,15 +85,16 @@ const StyledNotificationVideo = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        border: ${theme.border.styleBold}; ${theme.colors.initialsBulse};
-        border-radius: ${theme.border.radiusCircle};
+        border: 10px solid ${
+			theme.color.interactive_disabled_background ?? '#FFFFFF66'
+		};
+        border-radius: 50%;
 
-        font-weight: ${theme.font.sizeMedium};
-        font-size: ${theme.font.sizeLarge};
-        line-height: ${theme.font.lineHeightSmall};
+        font-size: ${theme.font.size_subheadline ?? '20px'};
+        line-height: ${theme.font.line_height_primary ?? '21px'};
 
-        background-color: ${theme.colors.initialsBackground};
-        color: ${theme.colors.initialsFont};
+        background-color: #3F373F;
+        color: ${theme.color.interactive_onDark_hover ?? '#FFFFFF99'};;
         
         margin: 17px 0 20px 0 ;
         height: 56px;
@@ -99,12 +102,12 @@ const StyledNotificationVideo = styled.div`
     }
 
     .notification--title {
-        font-weight: ${theme.font.weight};
-        font-size: ${theme.font.sizeMedium};
-        line-height: 131%;
+        font-weight: ${theme.font.weight_regular ?? '400'};
+        font-size: ${theme.font.size_primary ?? '16px'};
+        line-height: ${theme.font.line_height_primary ?? '21px'};
 
         &-userName {
-            font-weight: ${theme.font.weightBold};
+            font-weight: ${theme.font.weight_bold ?? '700'};
         }
     }
 
@@ -113,14 +116,14 @@ const StyledNotificationVideo = styled.div`
         flex-direction: column;
         justify-content: center;
         width: 100%;
-        background-color: ${theme.colors.backgroundDarkGrey};
-        border-bottom-left-radius: ${theme.border.radius};
-        border-bottom-right-radius: ${theme.border.radius};
+        background-color: ${theme.color.text_placeholder ?? '#00000066'};
+        border-bottom-left-radius: ${theme.border.radius ?? '4px'};
+        border-bottom-right-radius: ${theme.border.radius ?? '4px'};
     }
 
     .notification--adviceLabel {
         align-self: center;
-        font-weight: ${theme.font.weightBold};
+        font-weight: ${theme.font.weight_bold ?? '700'};
     }
 
     .notification--phoneIcons {
@@ -131,77 +134,41 @@ const StyledNotificationVideo = styled.div`
         .icon {
             display:flex;
             justify-content: center;
-            border-radius: ${theme.border.radiusCircle};
-            background-color: ${theme.colors.acceptGreen};
+            border-radius: 50%;
+            background-color: ${
+				theme.color.status_success_foreground ?? '#4FCC5C'
+			};
             height: 48px;
             width: 48px;
 
             svg {
-                height: ${theme.notification.svg.height};
-                width: ${theme.notification.svg.width};
+                height: 24px;
+                width: 24px;
                 align-self: center;
     
                 path {
-                    fill: ${theme.colors.white};
+                    fill: ${theme.color.interactive_onDark ?? '#FFFFFF'};
                 }
             }
         }
         
         .icon--reject {
-            background-color: ${theme.colors.rejectRed};
+            background-color: ${
+				theme.color.status_error_foreground ?? '#FF0000'
+			};
             svg {
                 width: 32px;
             }
             }
 
         .icon--video {
-            margin: 0 16px 0 16px;
+            margin: 0 ${theme.grid.base_two ?? '16px'} 0 ${
+		theme.grid.base_two ?? '16px'
+	};
         }
     }
 	`}
 `;
-
-StyledNotificationVideo.defaultProps = {
-	theme: {
-		colors: {
-			white: '#FFFFFF',
-			backgroundLightGrey: '#00000099',
-			backgroundDarkGrey: '#00000066',
-			initialsBackground: '#3F373F',
-			initialsFont: '#FFFFFF99',
-			initialsBulse: '#FFFFFF66',
-			acceptGreen: '#4FCC5C',
-			rejectRed: '#FF0000'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			weight: '400',
-			weightMedium: '500',
-			weightBold: '700',
-			size: '14px',
-			sizeMedium: '16px',
-			sizeLarge: '20px',
-			lineHeight: '143%',
-			lineHeightSmall: '130%'
-		},
-
-		border: {
-			styleBold: '10px solid',
-			radius: '4px',
-			radiusCircle: '50%'
-		},
-
-		notification: {
-			width: '320px',
-
-			svg: {
-				height: '24px',
-				width: '24px'
-			}
-		}
-	}
-};
 
 export const NotificationVideo = ({
 	type = TYPE_DEFAULT,

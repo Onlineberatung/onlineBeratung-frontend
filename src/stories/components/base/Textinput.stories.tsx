@@ -7,18 +7,6 @@ export default {
 	component: Textinput,
 	argTypes: {
 		type: { options: ['text', 'password'], control: { type: 'radio' } },
-		variant: {
-			options: [
-				'disabled',
-				'default',
-				'selected',
-				'activated',
-				'success',
-				'warning',
-				'error'
-			],
-			control: { type: 'radio' }
-		},
 		withIcon: { control: 'boolean' },
 		eyeIcon: { table: { disable: true } },
 		lockIcon: { table: { disable: true } }
@@ -31,9 +19,9 @@ const Template: ComponentStory<typeof Textinput> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-	inputText: 'Placeholder Text',
+	inputText: 'Lorem ipsum',
 	label: 'Label',
-	helperText: 'Helper text',
+	helperText: 'Ihr Passwort ist ...',
 	lockIcon: (
 		<svg
 			width="16"

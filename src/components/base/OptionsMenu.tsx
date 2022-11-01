@@ -18,22 +18,20 @@ interface OptionsMenuProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledOptionsMenu = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-weight: ${theme.font.weight};
-		font-size: ${theme.font.size};
-		line-height: ${theme.font.lineHeight};
+		font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+		font-weight: ${theme.font.weight_regular ?? '400'};
+		font-size: ${theme.font.size_primary ?? '16px'};
+		line-height: ${theme.font.line_height_senary ?? '24px'};
 
 		position: relative;
-		width: ${theme.optionsMenu.width};
+		width: 192px;
 		
-		border: ${theme.border.style};
-		border-radius: ${theme.border.radius};
-		border-color: ${theme.colors.grey};
-		box-shadow: ${theme.border.boxShadow} ${theme.colors.shadow};
-		box-sizing: ${theme.border.boxSizing};
+		box-sizing: border-box;
+		box-shadow: 0px 0px 10px 0px ${theme.color.outline ?? '#00000033'};
 
-		color: ${theme.colors.black};
-		background-color: ${theme.colors.white};
+
+		color: ${theme.color.text_emphasisHigh ?? '#000000E5'};;
+		background-color: ${theme.color.interactive_onDark ?? '#FFFFFF'};;
 
 		.optionsMenu--container {
 			position: relative;
@@ -43,20 +41,20 @@ const StyledOptionsMenu = styled.div`
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: ${theme.optionsMenu.padding};
-			border-radius: ${theme.border.radius};
+			padding: 12px 16px 12px 16px;
+			border-radius: ${theme.border.radius ?? '4px'};
 
 			path {
-				height: ${theme.optionsMenu.icon.height};
-				width: ${theme.optionsMenu.icon.width};
+				height: 4px;
+				width: 16px;
 			}
 
 			&:hover {
-				background-color: ${theme.colors.backgroundRed};
-				color: ${theme.colors.red};
+				background-color: ${theme.color.background_red1 ?? '#F8DEDD'};
+				color: ${theme.color.interactive_hover ?? '#A31816'};
 				
 				path {
-					fill: ${theme.colors.red};
+					fill: ${theme.color.interactive_hover ?? '#A31816'};
 				}
 			}	
 		}
@@ -67,17 +65,15 @@ const StyledOptionsMenu = styled.div`
 			display: none;
 
 			position: absolute;
-			left: ${theme.optionsMenu.secondLevel.position.left};
-			top: ${theme.optionsMenu.secondLevel.position.top};
-			width: ${theme.optionsMenu.width};
+			left: 154px;
+			top: 36px;
+			width: 192px;
 		
-			border: ${theme.border.style};
-			border-radius: ${theme.border.radius};
-			border-color: ${theme.colors.grey};
-			box-sizing: ${theme.border.boxSizing};
-			box-shadow: ${theme.border.boxShadow} ${theme.colors.shadow};
+			box-shadow: 0px 0px 10px 0px ${theme.color.outline ?? '#00000033'};
+			box-sizing: border-box;
+			border-radius: ${theme.border.radius ?? '4px'};
 
-			background-color: ${theme.colors.white};
+			background-color: ${theme.color.interactive_onDark ?? '#FFFFFF'};;
 				
 			:hover {
 				cursor: pointer;
@@ -85,11 +81,11 @@ const StyledOptionsMenu = styled.div`
 		}
 
 		.active {
-			background-color: ${theme.colors.backgroundRed};
-			color: ${theme.colors.red};
+			background-color: ${theme.color.background_red1 ?? '#F8DEDD'};
+			color: ${theme.color.interactive_hover ?? '#A31816'};
 
 			path {
-				fill: ${theme.colors.red};
+				fill: ${theme.color.interactive_hover ?? '#A31816'};
 			}
 		}
 
@@ -101,7 +97,9 @@ const StyledOptionsMenu = styled.div`
 			z-index: 298;
 			content: '';
 			border: 8px solid;
-			border-color: transparent transparent ${theme.colors.grey}; transparent;
+			border-color: transparent transparent ${
+				theme.color.outline ?? '#00000033'
+			} transparent;
 			position: absolute;
 			top: -17px;
 			left: 90px;
@@ -117,50 +115,6 @@ const StyledOptionsMenu = styled.div`
 		}	
 	`}
 `;
-
-StyledOptionsMenu.defaultProps = {
-	theme: {
-		colors: {
-			white: '#FFFFFF',
-			black: '#000000DE',
-			grey: '#00000033',
-			backgroundRed: '#F8DEDD',
-			red: '#A31816',
-			shadow: '0000001A'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			weight: '400',
-			size: '16px',
-			lineHeight: '24px'
-		},
-
-		border: {
-			style: '1px solid',
-			radius: '4px',
-			boxSizing: 'border-box',
-			boxShadow: '0px 3px 0px 1px'
-		},
-
-		optionsMenu: {
-			width: '192px',
-			padding: '12px 16px 12px 16px',
-
-			icon: {
-				height: '4px',
-				width: '16px'
-			},
-
-			secondLevel: {
-				position: {
-					left: '154px',
-					top: '36px'
-				}
-			}
-		}
-	}
-};
 
 export const OptionsMenu = ({
 	label1,
@@ -233,17 +187,14 @@ export const OptionsMenu = ({
 				<div className="optionsMenu--listItem-secondLevel">
 					<div className="optionsMenu--listItem">
 						{label11 && label11}
-						{icon && icon}
 					</div>
 
 					<div className="optionsMenu--listItem">
 						{label12 && label12}
-						{icon && icon}
 					</div>
 
 					<div className="optionsMenu--listItem">
 						{label13 && label13}
-						{icon && icon}
 					</div>
 				</div>
 			</div>
@@ -260,12 +211,10 @@ export const OptionsMenu = ({
 				<div className="optionsMenu--listItem-secondLevel">
 					<div className="optionsMenu--listItem">
 						{label21 && label21}
-						{icon && icon}
 					</div>
 
 					<div className="optionsMenu--listItem">
 						{label22 && label22}
-						{icon && icon}
 					</div>
 				</div>
 			</div>
@@ -282,7 +231,6 @@ export const OptionsMenu = ({
 				<div className="optionsMenu--listItem-secondLevel">
 					<div className="optionsMenu--listItem">
 						{label31 && label31}
-						{icon && icon}
 					</div>
 				</div>
 			</div>
@@ -299,7 +247,6 @@ export const OptionsMenu = ({
 				<div className="optionsMenu--listItem-secondLevel">
 					<div className="optionsMenu--listItem">
 						{label41 && label41}
-						{icon && icon}
 					</div>
 				</div>
 			</div>

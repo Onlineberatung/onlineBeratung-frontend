@@ -28,25 +28,25 @@ interface TabProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledTab = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-size: ${theme.font.size};
-		font-weight: ${theme.font.weight};
-		line-height: ${theme.font.lineHeight};
+		font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+		font-size: ${theme.font.size_h5 ?? '16px'};
+		font-weight: 600;
+		line-height: ${theme.font.line_height_primary ?? '21px'};;
 	
 		display: flex;
 		justify-content: center;
 
-		color: ${theme.colors.inactive};
+		color: ${theme.color.text_emphasisLow ?? '#000000A6'};
 
 		cursor: pointer;
 		
 		.active {
-			color: ${theme.colors.active};
-			border-bottom: 4px solid ${theme.colors.active};
+			color: ${theme.color.interactive_primary ?? '#CC1E1C'};
+			border-bottom: 4px solid ${theme.color.interactive_primary ?? '#CC1E1C'};
 		}
 
 		.spacing {
-			margin: 0 ${theme.tab.marginRight} 0 0;
+			margin: 0 ${theme.grid.base_four ?? '32px'} 0 0;
 		}
 
 		& div {
@@ -54,33 +54,12 @@ const StyledTab = styled.div`
 			
 			&:not(.active) {
 				&:hover {
-					color: ${theme.colors.hover};
+					color: ${theme.color.interactive_hover ?? '#A31816'};
 				}
 			}
 		}
 	`}
 `;
-
-StyledTab.defaultProps = {
-	theme: {
-		colors: {
-			active: '#CC1E1C',
-			hover: '#A31816',
-			inactive: '#00000066'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			size: '16px',
-			weight: '700',
-			lineHeight: '21px'
-		},
-
-		tab: {
-			marginRight: '32px'
-		}
-	}
-};
 
 export const Tab = ({
 	selection = SELECT_TAB1,

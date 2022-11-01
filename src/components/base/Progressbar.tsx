@@ -14,140 +14,91 @@ interface ProgressbarProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledProgressbar = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-weight: ${theme.font.weight};
-		font-size: ${theme.font.size};
-		line-height: ${theme.font.lineHeight};
-		letter-spacing: ${theme.font.letterSpacing};
-		text-transform: ${theme.font.textTransform};
+		font-family: ${theme.font.family_divider ?? 'Roboto Slab, serif'};
+		font-weight: ${theme.font.weight_medium ?? '500'};
+		font-size: ${theme.font.size_secondary ?? '12px'};
+		line-height: ${theme.font.line_height_secondary ?? '16px'};
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
 
 		display: flex;
 		
 		.progressbar--progress-container {
 			display: flex;
-			color: ${theme.colors.grey};
-
-			&:hover {
-				color: ${theme.colors.hover};
-				.progressbar--progress .progressbar--progress-icon {
-					border-color: ${theme.colors.hover};
-					path {
-						fill: ${theme.colors.hover};
-					}
-				}
-			}
 
 			.progressbar--seperator {
 				height: 0px;
-				width: ${theme.progressbar.seperator.width};
-				margin: calc(${theme.progressbar.iconHeight} / 2) ${theme.progressbar.seperator.spacing} 0 ${theme.progressbar.seperator.spacing};
-				border-bottom: ${theme.border.style} ${theme.colors.grey};
+				width: 45px;
+				margin: 24px 8.5px 0 8.5px;
+				border-bottom: ${theme.border.style ?? '1px solid'} ${
+		theme.color.outline ?? '#00000033'
+	};
 			}
 
 			.progressbar--progress {
 				display: flex;
 				flex-direction: column;	
-				align-items: ${theme.progressbar.align};
+				align-items: center;
 
 				.progressbar--progress-icon {
 					display: flex;
-					justify-content: ${theme.progressbar.align};
-					align-items: ${theme.progressbar.align};
-					box-sizing: ${theme.progressbar.boxSizing};
-					height: ${theme.progressbar.iconHeight};
-					width: ${theme.progressbar.iconWidth};
-					border-radius: ${theme.border.radius};
-					border: ${theme.border.style} ${theme.colors.grey};
+					justify-content: center;
+					align-items: center;
+					box-sizing: border-box;
+					height: 48px;
+					width: 48px;
+					border-radius: 50%;
+					border: ${theme.border.style ?? '1px solid'} ${
+		theme.color.interactive_secondary ?? '#000000E5'
+	};
 					margin-bottom: 8px;
 					
 					& path {
 						height: 21px;
 						width: 16px;
-						fill: ${theme.colors.grey};
+						fill: ${theme.color.interactive_secondary ?? '#000000E5'};
+					}
+				}
+
+				&:hover {
+					color: ${theme.color.interactive_secondary ?? '#000000E5'};
+
+					cursor: pointer;
+
+					.progressbar--progress-icon {
+						background-color: ${theme.color.interactive_secondary ?? '#000000E5'};
+						border-color: ${theme.color.interactive_secondary ?? '#000000E5'};
+						path {
+							fill:  ${theme.color.interactive_onDark ?? '#FFFFFF'};
+						}
 					}
 				}
 			}  
 
 			&.active {
-				color: ${theme.colors.primary};
+				color: ${theme.color.interactive_primary ?? '#CC1E1C'};
 				.progressbar--progress-icon {
-					background-color: ${theme.colors.primary};
-					border-color: ${theme.colors.primary};
+					background-color: ${theme.color.interactive_primary ?? '#CC1E1C'};
+					border-color: ${theme.color.interactive_primary ?? '#CC1E1C'};
 					path {
-						fill: ${theme.colors.white};
-					}
-				}
-				&:hover {
-					.progressbar--progress .progressbar--progress-icon {
-						color:${theme.colors.primary};
-						border-color: ${theme.colors.primary};
-						path {
-							fill: ${theme.colors.white};
-						}
+						fill: ${theme.color.interactive_onDark ?? '#FFFFFF'};
 					}
 				}
 			}
 
 			&.done {
-				color: ${theme.colors.primary};
+				color: ${theme.color.interactive_hover ?? '#A31816'};
 				.progressbar--progress-icon {
-					background-color: ${theme.colors.white};
-					border-color: ${theme.colors.primary};
+					background-color: ${theme.color.interactive_onDark ?? '#FFFFFF'};
+					border-color: ${theme.color.interactive_hover ?? '#A31816'};
 					path {
-						fill: ${theme.colors.primary};
-					}
-				}
-		
-				&:hover {
-					.progressbar--progress .progressbar--progress-icon {
-						color: ${theme.colors.primary};
-						border-color: ${theme.colors.primary};
-						path {
-							fill:  ${theme.colors.primary};
-						}
+						fill: ${theme.color.interactive_hover ?? '#A31816'};
 					}
 				}
 			}
 		}
 	`}
 `;
-
-StyledProgressbar.defaultProps = {
-	theme: {
-		colors: {
-			grey: '#00000033',
-			primary: '#CC1E1C',
-			hover: '#A31816',
-			white: '#FFFFFF'
-		},
-
-		font: {
-			family: '"Roboto Slab", serif',
-			weight: '500',
-			size: '12px',
-			lineHeight: '16px',
-			letterSpacing: '1.5px',
-			textTransform: 'uppercase'
-		},
-
-		border: {
-			style: '1px solid',
-			radius: '50%'
-		},
-
-		progressbar: {
-			align: 'center',
-			iconHeight: '48px',
-			iconWidth: '48px',
-			boxSizing: 'border-box,',
-
-			seperator: {
-				width: '45px',
-				spacing: '8.5px'
-			}
-		}
-	}
-};
 
 export const Progressbar = ({
 	label1,

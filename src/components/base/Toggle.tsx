@@ -8,41 +8,22 @@ interface ToggleProps extends HTMLAttributes<HTMLSpanElement> {
 
 const StyledToggle = styled.span`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-weight: ${theme.font.weight};
-		font-size: ${theme.font.size};
-		line-height: ${theme.font.lineHeight};
+		font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+		font-weight: ${theme.font.weight_regular ?? '400'};
+		font-size: ${theme.font.size_h5 ?? '16px'};
+		line-height: ${theme.font.line_height_primary ?? '21px'};
 
 		.toggle {
-			margin: ${theme.toggle.margin};
+			margin: 0 12px 0 0;
 
 			&--container {
 				display: flex;
 				align-items: center;
-				color: ${theme.colors.font}
+				color: #3F373F;
 			}
 		}
 	`}
 `;
-
-StyledToggle.defaultProps = {
-	theme: {
-		colors: {
-			font: '#3F373F'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			weight: '400',
-			size: '16px',
-			lineHeight: '131%'
-		},
-
-		toggle: {
-			margin: '0 12px 0 0'
-		}
-	}
-};
 
 export const Toggle = ({ label, className, ...props }: ToggleProps) => {
 	const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(false);
@@ -62,10 +43,10 @@ export const Toggle = ({ label, className, ...props }: ToggleProps) => {
 					checkedIcon={false}
 					width={47}
 					height={24}
-					onColor="#4FCC5C"
-					offColor="#dfdfdf"
+					onColor="#0A882F"
+					offColor="#a0a0a0"
 					boxShadow="0px 1px 0px 0px rgba(0, 0, 0, 0.1)"
-					handleDiameter={27}
+					handleDiameter={20}
 					activeBoxShadow="none"
 				/>
 				{label && label}

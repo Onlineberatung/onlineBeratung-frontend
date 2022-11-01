@@ -10,7 +10,8 @@ export default {
 		letterIcon: { table: { disable: true } },
 		closeIcon: { table: { disable: true } },
 		sendIcon: { table: { disable: true } },
-		smileyIcon: { table: { disable: true } }
+		smileyIcon: { table: { disable: true } },
+		label: { table: { disable: true } }
 	}
 } as ComponentMeta<typeof NotificationMessage>;
 
@@ -35,7 +36,7 @@ Default.args = {
 			/>
 		</svg>
 	),
-	userName: 'Benutzername',
+	userName: 'XY',
 	closeIcon: (
 		<svg
 			width="14"
@@ -51,7 +52,7 @@ Default.args = {
 			/>
 		</svg>
 	),
-	messageText: 'Lorem ipsum dolor sit ...',
+	messageText: 'Message lorem ipsum',
 	sendIcon: (
 		<svg
 			width="20"

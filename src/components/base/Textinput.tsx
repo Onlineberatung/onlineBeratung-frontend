@@ -1,297 +1,234 @@
 import React, { HTMLAttributes, ReactElement, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
+export const STATUS_DEFAULT = 'default';
+export const STATUS_DISABLED = 'disabled';
+export const STATUS_SUCCESS = 'success';
+export const STATUS_ERROR = 'error';
+
+export type STATUS =
+	| typeof STATUS_DEFAULT
+	| typeof STATUS_DISABLED
+	| typeof STATUS_SUCCESS
+	| typeof STATUS_ERROR;
+
 interface TextinputProps extends HTMLAttributes<HTMLDivElement> {
+	status?: STATUS;
 	inputText?: string;
 	label?: string;
 	helperText?: string;
 	type?: string;
 	lockIcon?: ReactElement;
 	eyeIcon?: ReactElement;
-	variant?: string;
 	withIcon?: boolean;
+	focusState?: boolean;
 }
 
 const StyledTextinput = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-weight: ${theme.font.weight};
-		font-size: ${theme.font.size};
-		line-height: ${theme.font.lineHeight};
+		font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+		font-weight: ${theme.font.weight_regular ?? '400'};
+		font-size: ${theme.font.size_primary ?? '16px'};
+		line-height: ${theme.font.line_height_senary ?? '24px'};
 
 		.textInput {
 			&--container {
 				display: flex;
 				align-items: center;
+				justify-content: space-between;
+
+				height: 48px;
+				width: 229px;
+				padding: 0px 12px 0px 16px;
+
+				border: ${theme.border.style ?? '1px solid'} #00000033;
+				border-radius: ${theme.border.radius ?? '4px'};
+				box-sizing: border-box;
+
+				&:hover {
+					border-color: ${theme.color.interactive_secondary ?? '#000000E5'};
+				}
+
+				&:focus-within {
+					border: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.interactive_secondary ?? '#000000E5'
+	};
+				}
+
+				&.focus {
+					border: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.interactive_secondary ?? '#000000E5'
+	};
+				}
 			}
 
-			&--lockIcon {
-				display: none;
-				margin: ${theme.textinput.lockIcon.margin};
+			&--label {
+				font-size: ${theme.font.size_secondary ?? '12px'};;
+				line-height: ${theme.font.line_height_secondary ?? '16px'};
+				color: ${theme.color.text_emphasisLow ?? '#000000A6'};
+			}
 
-				svg {
-					height: ${theme.textinput.lockIcon.height};
-					width: ${theme.textinput.lockIcon.width};
+			&--text {
+				all: unset;
+				
+				overflow: hidden;
+				color: ${theme.color.text_emphasisHigh ?? '#000000E5'};
+				width: 190px;
+
+				&::placeholder {
+					color: ${theme.color.text_emphasisLow ?? '#000000A6'};
 				}
 			}
 
 			&--helperText {
 				display: none;
-				font-size: ${theme.font.sizeSmall};
-				margin: ${theme.textinput.helperText.marginWithoutIcon};
+				font-size: ${theme.font.size_secondary ?? '12px'};
+				line-height: ${theme.font.line_height_secondary ?? '16px'};
+				margin: 4px 0 0 0;
 			}
 
-			&--input {
-			
-				&-container {
-					display: inline flex;
-					align-items: center;
-					position: relative;
+			&--lockIcon {
+				display: none;
+				width: 32px;
+				padding: 0 0 0 4px;
 
-					height:  ${theme.textinput.height};
-					width: ${theme.textinput.width};
-					padding: ${theme.textinput.padding};
+				svg {
+					height: 21px;
+					width: 16px;
 
-					border: ${theme.border.style};
-					border-radius: ${theme.border.radius};
-					box-shadow: ${theme.border.boxShadow} ${theme.colors.shadow};
-					box-sizing: ${theme.border.boxSizing};
-				}
-
-				&-label {
-					font-size: ${theme.font.sizeSmall};
-					line-height: ${theme.font.lineHeightSmall};
-					color: ${theme.colors.label};
-				}
-
-				&-text {
-					all: ${theme.textinput.inputText.styleReset};
-					width: ${theme.textinput.inputText.widthWithoutIcon};
-					overflow: ${theme.textinput.inputText.overflow};
-					&::placeholder {
-						color: ${theme.colors.black};
-					}
-				}
-
-				&-eyeIcon {
-					display: none;
-					position: ${theme.textinput.eyeIcon.position};
-					right: ${theme.textinput.eyeIcon.right};
-
-					svg {
-						height: ${theme.textinput.eyeIcon.height};
-						width: ${theme.textinput.eyeIcon.width};
-
-						path {
-							fill: ${theme.colors.default}
-						}
+					path: {
+						fill: ${theme.color.interactive_secondary ?? '#000000E5'};
 					}
 				}
 			}
-		}
 
-		&.default {
-			.textInput--input {
-				&-label {
-					display: none;
+			&--eyeIcon {
+				display: none;
+				width: 28px;
+
+				svg {
+					height: 12.5px;
+					width: 18.33px;
+					margin-left: 10px;
+
+					path {
+						fill: ${theme.color.interactive_tertiary ?? '#000000A6'};
+					}
 				}
-
-				&-container {
-					border-color: ${theme.colors.default};
-				}
-
-				&-text::placeholder {
-					color: ${theme.colors.default};
-				}
-			}
-		}
-
-		&.selected {
-			.textInput--input-container {
-				border: ${theme.border.styleBold} ${theme.colors.black};
-			}
-		}
-
-		&.activated {
-			.textInput--input-container {
-				border: ${theme.border.style} ${theme.colors.black};
 			}
 		}
 
 		&.success {
 			.textInput {
+				&--container {
+					border: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.status_success_foreground ?? '#4FCC5C'
+	};
+				}
+
 				&--helperText {
 					display: block;
-					color: ${theme.colors.success};
-				}
-
-				&--input-container {
-					border: ${theme.border.styleBold} ${theme.colors.success};
-				}
-			}
-		}
-
-		&.warning {
-			.textInput {
-				&--helperText {
-					display: block;
-					color: ${theme.colors.warning};
-				}
-
-				&--input-container {
-					border: ${theme.border.styleBold} ${theme.colors.warning};
+					color: ${theme.color.status_success_foreground ?? '#4FCC5C'};
 				}
 			}
 		}
 
 		&.error {
 			.textInput {
+				&--container {
+					border: ${theme.border.style_bold ?? '2px solid'} #FF0000;
+				}
 				&--helperText {
 					display: block;
-					color: ${theme.colors.error};
-				}
-
-				&--input-container {
-					border: ${theme.border.styleBold} ${theme.colors.error};
+					color: #FF0000;
 				}
 			}
 		}
 
 		&.disabled {
-			.textInput--input {
-				&-eyeIcon {
+			.textInput {
+				background-color: ${
+					theme.color.interactive_disabled_background_black ??
+					'#0000000D'
+				};
+
+				&--container {
+					border: none;
+				}
+
+				&--label {
+					display: none;
+				}
+
+				&--text {
+					&::placeholder {
+						color: ${theme.color.text_placeholder ?? '#00000066'};
+					}
+				}
+
+				&--lockIcon {
 					svg {
 						path {
-							fill: ${theme.colors.black}
+							fill: ${theme.color.text_disabled ?? '#00000066'};
+						}
+					}
+				}
+	
+				&--eyeIcon {
+					svg {
+						path {
+							fill: ${theme.color.interactive_secondary ?? '#000000E5'};
 						}
 					}
 				}
 
-				&-container {
-					border-color: ${theme.colors.disabled};
-					box-shadow: none;
-
-					input::placeholder {
-						color: ${theme.colors.disabled};
-					}
-				}
-
-				&-label {
-					display: none;
-				}
 			}
 		}
 
 		&.withIcon {
 			.textInput {
-				&--input-eyeIcon {
+				&--eyeIcon {
 					display: block;
 				}
 
-				&--input-text {
-					width: ${theme.textinput.inputText.widthWithIcon};
+				&--text {
+					width: 126px;
 				}
 				
 				&--lockIcon {
-					display: inline;
-				}
-			
-				&--helperText {
-					margin: ${theme.textinput.helperText.marginWithIcon};
+					display: block;
 				}
 			}
 		}
 	`}
 `;
 
-StyledTextinput.defaultProps = {
-	theme: {
-		colors: {
-			default: '#00000066',
-			success: '#4FCC5C',
-			warning: '#FF9F00',
-			error: '#FF0000',
-			disabled: '#00000033',
-			black: '#000000DE',
-			shadow: '#0000001A',
-			label: '#00000099'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			weight: '400',
-			size: '16px',
-			sizeSmall: '12px',
-			lineHeight: '150%',
-			lineHeightSmall: '133%'
-		},
-
-		border: {
-			radius: '4px',
-			style: '1px solid',
-			styleBold: '2px solid',
-			boxShadow: 'inset 0px 2px 0px 1px',
-			boxSizing: 'border-box'
-		},
-
-		textinput: {
-			height: '48px',
-			width: '197px',
-			padding: '0px 12px 0px 16px',
-
-			lockIcon: {
-				margin: '0 12px 0 0',
-				height: '21px',
-				width: '16px'
-			},
-
-			eyeIcon: {
-				position: 'absolute',
-				right: '12.83px',
-				height: '12.5px',
-				width: '18.33px'
-			},
-
-			helperText: {
-				marginWithoutIcon: '0 0 0 19px',
-				marginWithIcon: '0 0 0 45px'
-			},
-
-			inputText: {
-				styleReset: 'unset',
-				widthWithoutIcon: '165px',
-				widthWithIcon: '140px',
-				overflow: 'hidden'
-			}
-		}
-	}
-};
-
 export const Textinput = ({
+	status = 'default',
 	inputText,
 	label,
 	helperText,
 	type = 'text',
 	lockIcon,
 	eyeIcon,
-	variant = 'default',
-	withIcon = true,
+	withIcon = false,
+	focusState,
 	className,
 	...props
 }: TextinputProps) => {
 	const textInputRef = useRef(null);
 
 	useEffect(() => {
-		if (variant == 'disabled') {
+		if (status == 'disabled') {
 			textInputRef.current.setAttribute('disabled', 'true');
 			textInputRef.current.value = '';
 		} else {
 			textInputRef.current.removeAttribute('disabled');
 		}
-	}, [variant]);
+	}, [status]);
 
 	let switchPasswordVisibility = () => {
-		if (type == 'password' && variant != 'disabled') {
+		if (type == 'password' && status != 'disabled') {
 			textInputRef.current.type == 'password'
 				? (textInputRef.current.type = 'text')
 				: (textInputRef.current.type = 'password');
@@ -301,32 +238,30 @@ export const Textinput = ({
 	return (
 		<StyledTextinput
 			type="textinput"
-			className={`${className} ${variant} ${withIcon && 'withIcon'} `}
+			className={`${className} ${status} ${withIcon && 'withIcon'} `}
 			{...props}
 		>
-			<div className="textInput--container">
+			<div className={`textInput--container ${focusState && 'focus'}`}>
 				<div className="textInput--lockIcon">
 					{lockIcon && lockIcon}
 				</div>
 
-				<div className="textInput--input-container">
-					<div>
-						<div className="textInput--input-label">
-							{label && label}
-						</div>
-						<input
-							type={type && type}
-							className="textInput--input-text"
-							ref={textInputRef}
-							placeholder={inputText && inputText}
-						/>
-					</div>
-					<div
-						className="textInput--input-eyeIcon"
-						onClick={() => switchPasswordVisibility()}
-					>
-						{eyeIcon && eyeIcon}
-					</div>
+				<div>
+					<div className="textInput--label">{label && label}</div>
+
+					<input
+						type={type && type}
+						className="textInput--text"
+						ref={textInputRef}
+						placeholder={inputText && inputText}
+					/>
+				</div>
+
+				<div
+					className="textInput--eyeIcon"
+					onClick={() => switchPasswordVisibility()}
+				>
+					{eyeIcon && eyeIcon}
 				</div>
 			</div>
 

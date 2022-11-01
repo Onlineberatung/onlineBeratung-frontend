@@ -1,90 +1,122 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 export const STATUS_DEFAULT = 'default';
-export const STATUS_ACTIVE = 'active';
+export const STATUS_DISABLED = 'disabled';
 export const STATUS_ERROR = 'error';
 
 export type STATUS =
 	| typeof STATUS_DEFAULT
-	| typeof STATUS_ACTIVE
+	| typeof STATUS_DISABLED
 	| typeof STATUS_ERROR;
 
 interface ReadOnlyProps extends HTMLAttributes<HTMLDivElement> {
 	status?: STATUS;
-	title?: string;
+	label?: string;
 	text?: string;
 	helperText?: string;
 }
 
 const StyledReadOnly = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-weight: ${theme.font.weight};
+		font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+		font-weight: ${theme.font.weight_regular ?? '400'};
 
 		position: relative;
-		width: ${theme.readOnly.width};
-		border-bottom: ${theme.border.style} ${theme.colors.underline};
+		width: 294px;
 
 		.readOnly {
 			&--inputField {
 				all: unset;
-				font-size: ${theme.font.size};
-				line-height: ${theme.font.lineHeight};
-				margin: ${theme.readOnly.margin};
-				width: ${theme.readOnly.width};
-				color: ${theme.colors.black};
+				font-size: ${theme.font.size_primary ?? '16px'};
+				line-height: ${theme.font.line_height_senary ?? '24px'};
+				padding: 4px 0 4px 0;
+				width: 294px;
+				color: ${theme.color.text_emphasisHigh ?? '#000000E5'};
+				border-bottom: ${theme.border.style ?? '1px solid'} ${
+		theme.color.outline ?? '#00000033'
+	};
 
 				&::placeholder {
-					color: ${theme.colors.black};
+					color: ${theme.color.text_emphasisHigh ?? '#000000E5'};
+				}
+
+				&:focus {
+					border-bottom: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.interactive_secondary ?? '#000000E5'
+	};
+
+					:hover {
+						border-bottom: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.interactive_secondary ?? '#000000E5'
+	};
+					}
+				}
+
+				:hover {
+					border-bottom: ${theme.border.style ?? '1px solid'} ${
+		theme.color.interactive_secondary ?? '#000000E5'
+	};
 				}
 			}
 
-			&--title {
-				font-size: ${theme.font.sizeSmall};
-				line-height: ${theme.font.lineHeightSmall};
-				color: ${theme.colors.title};
+			&--label {
+				font-size: ${theme.font.size_secondary ?? '12px'};
+				line-height: ${theme.font.line_height_secondary ?? '16px'};
+				color: ${theme.color.text_emphasisLow ?? '#000000A6'};
 			}
 
 			&--helperText {
 				display: none;
-				position: ${theme.readOnly.helperText.position};
-				top: ${theme.readOnly.helperText.top};
+				position: absolute;
+				top: 53px;
 	
-				font-size: ${theme.font.sizeSmall};
-				line-height: ${theme.font.lineHeightSmall};
-				color: ${theme.colors.error};
+				font-size: ${theme.font.size_secondary ?? '12px'};
+				line-height: ${theme.font.line_height_secondary ?? '16px'};
+				color: ${theme.color.status_error_foreground ?? '#FF0000'};
 			}
 		}
 
-		&.default {
-			:hover {
-				border-bottom: ${theme.border.style} ${theme.colors.black};
-			}
+		&.disabled {
+			.readOnly {
+				&--inputField {	
+					&::placeholder {
+						color: ${theme.color.text_placeholder ?? '#00000066'};
+					}
+	
+					:hover {
+						border-bottom: ${theme.border.style ?? '1px solid'} ${
+		theme.color.outline ?? '#00000033'
+	};
+					}
+				}
 
-			&:focus-within {
-				border-bottom: ${theme.border.styleBold} ${theme.colors.black};
-			}
-
-			.readOnly--inputField {
-				&::placeholder {
-					color: ${theme.colors.default};
+				&--label {
+					color: ${theme.color.text_disabled ?? '#00000066'};
 				}
 			}
 		}
 
-		&.active {
-			:hover {
-				border-bottom: ${theme.border.style} ${theme.colors.black};
-			}
-
-			&:focus-within {
-				border-bottom: ${theme.border.styleBold} ${theme.colors.black};
-			}
-		}
-
 		&.error {
-			border-bottom: ${theme.border.styleBold} ${theme.colors.error};
+			.readOnly {
+				&--inputField {	
+					&::placeholder {
+						color: ${theme.color.text_emphasisHigh ?? '#000000E5'};
+					}
+
+					&:focus {
+						border-bottom: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.status_error_foreground ?? '#FF0000'
+	};
+	
+						:hover {
+							border-bottom: ${theme.border.style_bold ?? '2px solid'} ${
+		theme.color.status_error_foreground ?? '#FF0000'
+	};
+						}
+					}
+				}
+			}
 
 			.readOnly--helperText {
 				display: block;
@@ -93,61 +125,34 @@ const StyledReadOnly = styled.div`
 	`}
 `;
 
-StyledReadOnly.defaultProps = {
-	theme: {
-		colors: {
-			black: '#000000DE',
-			default: '#00000066',
-			underline: '#00000033',
-			error: '#FF0000',
-			title: '#00000099'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			weight: '400',
-			size: '16px',
-			sizeSmall: '12px',
-			lineHeight: '150%',
-			lineHeightSmall: '133%'
-		},
-
-		border: {
-			style: '1px solid',
-			styleBold: '2px solid'
-		},
-
-		readOnly: {
-			width: '294px',
-			margin: '4px 0 4px 0',
-
-			helperText: {
-				position: 'absolute',
-				top: '53px'
-			}
-		}
-	}
-};
-
 export const ReadOnly = ({
 	status = STATUS_DEFAULT,
-	title,
+	label,
 	text,
 	helperText,
 	className,
 	...props
 }: ReadOnlyProps) => {
+	const readOnlyRef = useRef(null);
+
+	useEffect(() => {
+		status == 'disabled'
+			? readOnlyRef.current.setAttribute('disabled', true)
+			: readOnlyRef.current.removeAttribute('disabled');
+	}, [status]);
+
 	return (
 		<StyledReadOnly
 			type="readOnly"
 			className={`${className} ${status && status}`}
 			{...props}
 		>
-			<div className="readOnly--title">{title && title}</div>
+			<div className="readOnly--label">{label && label}</div>
 			<input
 				type="text"
 				className="readOnly--inputField"
 				placeholder={text && text}
+				ref={readOnlyRef}
 			/>
 			<div className="readOnly--helperText">
 				{helperText && helperText}

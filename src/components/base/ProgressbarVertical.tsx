@@ -1,18 +1,22 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, ReactElement } from 'react';
 import styled from 'styled-components';
 
 export const STATUS_DEFAULT = 'default';
 export const STATUS_ACTIVE = 'active';
 export const STATUS_DONE = 'done';
+export const STATUS_DISABLED = 'disabled';
 
 export type STATUS =
 	| typeof STATUS_DEFAULT
 	| typeof STATUS_ACTIVE
-	| typeof STATUS_DONE;
+	| typeof STATUS_DONE
+	| typeof STATUS_DISABLED;
 
 interface ProgressbarVerticalProps extends HTMLAttributes<HTMLDivElement> {
 	status?: STATUS;
 	label?: string;
+	checkmarkIcon?: ReactElement;
+	arrowIcon?: ReactElement;
 	number?: number;
 	buttonLabel?: string;
 	placeholderLabel?: string;
@@ -20,144 +24,176 @@ interface ProgressbarVerticalProps extends HTMLAttributes<HTMLDivElement> {
 
 const StyledProgressbarVertical = styled.div`
 	${({ theme }) => `
-	font-family: ${theme.font.family};
-	font-weight: ${theme.font.weight};
-	font-size: ${theme.font.size};
-	line-height: ${theme.font.lineHeight};
+	font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+	font-weight: ${theme.font.weight_regular ?? '400'};
+	font-size: ${theme.font.size_subheadline ?? '20px'};
+	line-height: ${theme.font.line_height_quinary ?? '28px'};
+
+	display: flex;
+	flex-direction: column;
 	
+	width: 450px;
+
 	.progressbarVertical--header {
 		& div {
 			display: inline flex;
 			justify-content: center;
 			align-items: center;
-	
-			height: ${theme.progressbarVertical.number.size};
-			width: ${theme.progressbarVertical.number.size};
-	
-			border: ${theme.progressbarVertical.border} ${theme.colors.grey};
-			border-radius: ${theme.progressbarVertical.number.borderRadius};
-			box-sizing: ${theme.progressbarVertical.boxSizing};
-	
-			margin:  ${theme.progressbarVertical.number.margin};
-			
-			background-color: ${theme.colors.white};
-			color: ${theme.colors.grey};
 
-			font-weight: ${theme.font.weightBold};;
+			position: relative;
+	
+			height: 32px;
+			width: 32px;
+			
+			border: ${theme.border.style ?? '1px solid'} ${
+		theme.color.text_emphasisHigh ?? '#000000E5'
+	};
+			border-radius: 50%;
+			box-sizing: border-box;
+	
+			margin:  ${theme.grid.base_three ?? '24px'} 10px ${
+		theme.grid.base_three ?? '24px'
+	} 0;
+			
+			background-color: ${theme.color.interactive_onDark ?? '#FFFFFF'};
+			color: ${theme.color.text_emphasisHigh ?? '#000000E5'};
+			
+			font-size: ${theme.font.size_primary ?? '16px'};
+			font-weight: ${theme.font.weight_bold ?? '700'};
+		}
+
+		& svg {
+			display: none;
+		}
+
+		&:hover {
+			cursor:  pointer;
+
+			& div {
+				border-color: ${theme.color.interactive_hover ?? '#A31816'};
+				color: ${theme.color.interactive_hover ?? '#A31816'};
+			}
+			& span {
+				color: ${theme.color.interactive_hover ?? '#A31816'};
+			}
 		}
 	}
 
 	.progressbarVertical--placeholder {
-		background-color: ${theme.colors.lightGrey};
-		color: ${theme.colors.grey};
-		font-size: ${theme.font.sizeSmall};
-		margin: ${theme.progressbarVertical.placeholder.margin};
-		padding: ${theme.progressbarVertical.placeholder.padding};
+		background-color: #C4C4C433;
+		color: ${theme.color.text_placeholder ?? '#00000066'};
+		font-size: ${theme.font.size_secondary ?? '12px'};
+		margin: 0 0 30px 0;
+		padding: 18.1px 0 18.1px 0;
 		text-align: center;
-		width: ${theme.progressbarVertical.width};
+		width: 450px;
 	}
 
 	.progressbarVertical--button {
-		color: ${theme.colors.primary};
-		font-weight: ${theme.font.weightBold};
-		line-height: 21px;
-		text-transform: ${theme.font.textTransform};
+		font-size: ${theme.font.size_primary ?? '16px'};
+		font-weight: ${theme.font.weight_bold ?? '700'};
+		line-height: ${theme.font.line_height_primary ?? '21px'};
+		color: ${theme.color.interactive_primary ?? '#CC1E1C'};
+
+		display: flex;
+    	justify-content: center;
+    	align-items: center;
+		align-self: flex-end;
+
+		border: 2px solid ${theme.color.interactive_primary ?? '#CC1E1C'};
+		border-radius: 24px;
+		box-sizing: border-box;
+
+		height: 48px;
+		width: 158px;
+
+		& svg {
+			margin-right: 10.5px;
+
+			& path {
+				fill: ${theme.color.interactive_primary ?? '#CC1E1C'};
+			}
+		}
 
 		&:hover {
-			color: ${theme.colors.hover};
+			cursor:  pointer;
+			color: ${theme.color.text_onDark ?? '#FFFFFF'};
+			background-color: ${theme.color.interactive_hover ?? '#A31816'};
+			border-color: ${theme.color.interactive_hover ?? '#A31816'};
+
+			& svg {
+				& path {
+					fill: ${theme.color.interactive_onDark ?? '#FFFFFF'};
+				}
+			}
 		}
 	}
 
 	hr {
-		border: ${theme.progressbarVertical.verticalStepper.border};
-		border-bottom: ${theme.progressbarVertical.border} ${theme.colors.verticalStepper};
-		margin: ${theme.progressbarVertical.verticalStepper.margin};
-		width: ${theme.progressbarVertical.width};
+		border: none;
+		border-bottom: ${theme.border.style ?? '1px solid'} ${
+		theme.color.outline ?? '#00000033'
+	};
+		margin: 0;
+		width: 450px;
 	}
 
 	&.active {
 		.progressbarVertical--header {
 			& div {
-				background-color: ${theme.colors.primary};
+				background-color: ${theme.color.interactive_primary ?? '#CC1E1C'};
 				border: none;
-				color: ${theme.colors.white};
+				color: ${theme.color.interactive_onDark ?? '#FFFFFF'};
 			}
 
 			& span {
-				font-weight: ${theme.font.weightBold};
+				font-weight: ${theme.font.weight_medium ?? '500'};
+				color: ${theme.color.interactive_primary ?? '#CC1E1C'};
 			}
 		}
 	}
 
 	&.done {
 		.progressbarVertical--header {
+			& svg {
+				display: inline;
+
+				position: absolute; 
+				top: 45px;
+
+				margin: 0 0 0 19px;
+				
+				& path {
+					fill: ${theme.color.status_success_foreground ?? '#4FCC5C'};
+				}
+			}
+		}
+	}
+
+	&.disabled {
+		.progressbarVertical--header {
 			& div {
-				border-color: ${theme.colors.primary};
-				color: ${theme.colors.primary};
+				background-color: ${theme.color.interactive_onDark ?? '#FFFFFF'};
+				border: ${theme.border.style ?? '1px solid'} ${
+		theme.color.text_disabled ?? '#00000066'
+	};
+				color: ${theme.color.text_disabled ?? '#00000066'};
 			}
 
-			&:hover {
-				cursor:  ${theme.progressbarVertical.hoverCursor};
-				font-weight: ${theme.font.weightBold};
-				& div {
-					border-color: ${theme.colors.hover};
-					color: ${theme.colors.hover};
-				}
+			& span {
+				font-weight: ${theme.font.weight_medium ?? '500'};
+				color: ${theme.color.text_disabled ?? '#00000066'};
 			}
 		}
 	}
 	`}
 `;
 
-StyledProgressbarVertical.defaultProps = {
-	theme: {
-		colors: {
-			grey: '#00000066',
-			lightGrey: '#C4C4C433',
-			primary: '#CC1E1C',
-			hover: '#A31816',
-			white: '#FFFFFF',
-			verticalStepper: '#00000033'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			weight: '400',
-			weightBold: '700',
-			size: '16px',
-			sizeSmall: '12px',
-			lineHeight: '24px',
-			textTransform: 'uppercase'
-		},
-
-		progressbarVertical: {
-			width: '450px',
-			hoverCursor: 'pointer',
-			border: '1px solid',
-			boxSizing: 'border-box',
-
-			number: {
-				size: '32px',
-				borderRadius: '50%',
-				margin: '24px 10px 24px 0'
-			},
-
-			placeholder: {
-				padding: '18.1px 0 18.1px 0',
-				margin: '0 0 30px 0'
-			},
-
-			verticalStepper: {
-				border: 'none',
-				margin: '0'
-			}
-		}
-	}
-};
-
 export const ProgressbarVertical = ({
 	status = STATUS_DEFAULT,
 	label,
+	checkmarkIcon,
+	arrowIcon,
 	number,
 	buttonLabel,
 	placeholderLabel,
@@ -175,6 +211,7 @@ export const ProgressbarVertical = ({
 			<div className="progressbarVertical--header">
 				<div>{number && number}</div>
 				<span>{label && label}</span>
+				{checkmarkIcon && checkmarkIcon}
 			</div>
 
 			<div className="progressbarVertical--placeholder">
@@ -182,6 +219,7 @@ export const ProgressbarVertical = ({
 			</div>
 
 			<div className="progressbarVertical--button">
+				{arrowIcon && arrowIcon}
 				{buttonLabel && buttonLabel}
 			</div>
 		</StyledProgressbarVertical>

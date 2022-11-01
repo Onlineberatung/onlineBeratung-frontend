@@ -12,28 +12,44 @@ interface LinkProps extends HTMLAttributes<HTMLAnchorElement> {
 	label?: string;
 	reference?: string;
 	icon?: ReactElement;
+	focusState?: boolean;
 }
 
 const StyledLink = styled.a`
 	${({ theme }) => `
-	font-family: ${theme.font.family};
-    font-size: ${theme.font.size};
-    font-weight: ${theme.font.weight};
-    line-height: ${theme.font.lineHeight};
-	text-decoration-line: ${theme.font.textDecoration};
+	font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+    font-size: ${theme.font.size_primary ?? '16px'};
+    font-weight: ${theme.font.weight_regular ?? '400'};
+    line-height: ${theme.font.line_height_primary ?? '21px'};
+	text-decoration-line: 'underline';
 
-	color: ${theme.colors.primary};
+	color: ${theme.color.interactive_primary ?? '#CC1E1C'};
 	
-
 	&:hover {
-		color: ${theme.colors.hover};
+		color: ${theme.color.interactive_hover ?? '#A31816'};
 		.icon {
 			svg {
 				path {
-					fill: ${theme.colors.hover}
+					fill: ${theme.color.interactive_hover ?? '#A31816'};
 				}
 			}
 		}
+	}
+
+	&:focus {
+		padding: 2px;
+		outline: 2px solid #199FFF;
+		outline-offset: 4px;
+	}
+
+	&:focus:not(:focus-visible) {
+		outline: none;
+	}
+
+	&.focus {
+		padding: 2px;
+		outline: 2px solid #199FFF;
+		outline-offset: 4px;
 	}
 
 	.icon {
@@ -45,42 +61,25 @@ const StyledLink = styled.a`
 			height: 13.5px;
 			width: 13.5px;
 			path {
-				fill: ${theme.colors.primary};
+				fill: ${theme.color.interactive_primary ?? '#CC1E1C'};
 			}
 		}
 	}
 
 	&.small {
-		font-size: ${theme.font.sizeSmall};
+		font-size: ${theme.font.size_tertiary ?? '14px'};
 
 		.icon {
-			top:3px;
+			top: 3px;
 		}
 	}
 	`}
 `;
 
-StyledLink.defaultProps = {
-	theme: {
-		colors: {
-			primary: '#CC1E1C',
-			hover: '#A31816'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			size: '16px',
-			sizeSmall: '14px',
-			weight: '400',
-			lineHeight: '150%',
-			textDecoration: 'underline'
-		}
-	}
-};
-
 export const Link = ({
 	size = SIZE_LARGE,
 	label,
+	focusState,
 	className,
 	reference,
 	icon,
@@ -90,7 +89,7 @@ export const Link = ({
 		<StyledLink
 			type="link"
 			href={reference}
-			className={`${className} ${size}`}
+			className={`${className} ${size} ${focusState && 'focus'}`}
 			{...props}
 		>
 			<span className="icon">{icon && icon}</span>

@@ -17,111 +17,89 @@ interface NotificationTextProps extends HTMLAttributes<HTMLDivElement> {
 	headline?: string;
 	text?: string;
 	icon?: ReactElement;
+	invert?: boolean;
 }
 
 const StyledNotificationText = styled.div`
 	${({ theme }) => `
-		font-family: ${theme.font.family};
-		font-weight: ${theme.font.weight};
-		font-size: ${theme.font.sizeSmall};
-		line-height: ${theme.font.lineHeightSmall};
+		font-family: ${theme.font.family_sans_serif ?? 'Roboto, sans-serif'};
+		font-weight: ${theme.font.weight_regular ?? '400'};
+		font-size: ${theme.font.size_tertiary ?? '14px'};
+		line-height: ${theme.font.line_height_primary ?? '21px'};
 
-		height: ${theme.notification.height};
-		width: ${theme.notification.width};
+		height: max-content;
+		width: 320px;
 
-		border-radius: ${theme.border.radius};
-		padding: ${theme.notification.padding};
+		border-radius: ${theme.border.radius ?? '4px'};
+		padding: 18px;
 
-		color: ${theme.colors.white};
-		background: ${theme.colors.background};
+		color: ${theme.color.text_onDark ?? '#FFFFFF'};
+		background: #00000099;
 
+		box-sizing: border-box;
 
 		.notification--headline { 
-			font-weight: ${theme.font.weightBold};
-			font-size: ${theme.font.size};
-			line-height: ${theme.font.lineHeight};
+			font-weight: 700;
+			font-size: ${theme.font.size_primary ?? '16px'};
+			line-height: ${theme.font.line_height_primary ?? '21px'};
 			position: relative;
 			bottom: 5px;
 		}
 
 		.notification--text {
-			margin: ${theme.notification.spacer} 0 0 0;
+			margin: ${theme.grid.base ?? '8px'} 0 0 30px;
 		}
 
 		svg {
-			width: ${theme.notification.svg.width};
-			height: ${theme.notification.svg.height};
-			margin: 0 ${theme.notification.spacer} 0 0;
+			width: 20px;
+			height: 20px;
+			margin: 0 10px 0 0;
 		}
 
 		&.info path {
-			fill: ${theme.colors.white};
+			fill: ${theme.color.interactive_onDark ?? '#FFFFFF'};
 		}
 
 		&.success path {
-			fill: ${theme.colors.success};
+			fill: ${theme.color.status_success_foreground ?? '#4FCC5C'};
 		}
 
 		&.warning path {
-			fill: ${theme.colors.warning};
+			fill: ${theme.color.status_attention_foreground ?? '#FF9F00'};
 		}
 
 		&.error path {
-			fill: ${theme.colors.error};
+			fill: ${theme.color.status_error_foreground ?? '#FF0000'};
+		}
+
+		&.invert {
+			color: ${theme.color.text_emphasisLow ?? '#000000A6'};
+			background: ${theme.color.interactive_disabled_background_black ?? '#0000000D'};
+
+			&.notification--headline { 
+				color: ${theme.color.text_emphasisHigh ?? '#000000E5'};
+			}
+
+			&.info path {
+				fill: ${theme.color.text_emphasisHigh ?? '#000000E5'};
+			}
 		}
 	`}
 `;
-
-StyledNotificationText.defaultProps = {
-	theme: {
-		colors: {
-			white: '#FFFFFF',
-			background: '#00000099',
-			success: '#4FCC5C',
-			warning: '#FF9F00',
-			error: '#FF0000'
-		},
-
-		font: {
-			family: 'Roboto, sans-serif',
-			weight: '400',
-			weightBold: '700',
-			size: '16px',
-			sizeSmall: '14px',
-			lineHeight: '143%',
-			lineHeightSmall: '131%'
-		},
-
-		border: {
-			radius: '4px'
-		},
-
-		notification: {
-			padding: '16px',
-			spacer: '8px',
-			width: '320px',
-			height: 'max-content',
-
-			svg: {
-				height: '24px',
-				width: '24px'
-			}
-		}
-	}
-};
 
 export const NotificationText = ({
 	type = TYPE_INFO,
 	headline,
 	text,
 	icon,
+	invert = false,
 	className,
 	...props
 }: NotificationTextProps) => {
 	return (
 		<StyledNotificationText
 			type="notification"
-			className={`${className} ${type}`}
+			className={`${className} ${type} ${invert && 'invert'}`}
 			{...props}
 		>
 			<div>

@@ -17,7 +17,7 @@ const Template: ComponentStory<typeof ReadOnly> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
 	status: STATUS_DEFAULT,
-	title: 'Title',
+	label: 'Label',
 	text: 'Placeholder Text',
 	helperText: 'Helper text'
 };
