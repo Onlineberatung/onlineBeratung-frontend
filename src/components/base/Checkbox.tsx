@@ -13,6 +13,7 @@ interface CheckboxProps extends HTMLAttributes<HTMLDivElement> {
 	disabled?: boolean;
 	error?: boolean;
 	helperText?: string;
+	focusState?: boolean;
 }
 
 const StyledCheckbox = styled.div`
@@ -44,11 +45,26 @@ const StyledCheckbox = styled.div`
 				height: 24px;
 				width: 24px;
 				margin: 0 12px 0 0;
+				border-radius: ${theme.border.radius ?? '4px'};
 
 				&:hover {
 					.checkbox--input{
 						border-color: ${theme.color.interactive_secondary ?? '#000000E5'};
 					}
+				}
+
+				&.focus {
+					outline: 2px solid #199FFF;
+					outline-offset: 4px;
+				}
+
+				&:focus {
+					outline: 2px solid #199FFF;
+					outline-offset: 4px;
+				}
+		
+				&:focus:not(:focus-visible) {
+					outline: none;
 				}
 			}
 
@@ -140,6 +156,7 @@ export const Checkbox = ({
 	disabled = false,
 	error = false,
 	helperText,
+	focusState,
 	className,
 	...props
 }: CheckboxProps) => {
@@ -194,13 +211,15 @@ export const Checkbox = ({
 		>
 			<div className="container">
 				<div
-					className="checkbox--container"
+					className={`checkbox--container ${focusState && 'focus'}`}
 					onClick={() => checkEffect()}
+					tabIndex={0}
 				>
 					<input
 						className="checkbox--input"
 						ref={checkboxInputRef}
 						type="checkbox"
+						tabIndex={-1}
 					/>
 					<span className="checkbox--icon" ref={checkboxIconRef}>
 						{icon && icon}
