@@ -1,6 +1,5 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-// import { ArrowRightIcon } from '../../../resources/img/icons';
 
 import {
 	Link,
@@ -25,7 +24,6 @@ Large.args = {
 	size: SIZE_LARGE,
 	label: 'Loremipsum',
 	reference: 'https://www.caritas.de/',
-	// icon: <ForwardIcon /> //TODO
 	icon: (
 		<svg
 			width="12"
@@ -48,7 +46,6 @@ Small.args = {
 	size: SIZE_SMALL,
 	label: 'Loremipsum',
 	reference: 'https://www.caritas.de/',
-	// icon: <ForwardIcon /> //TODO
 	icon: (
 		<svg
 			width="12"
