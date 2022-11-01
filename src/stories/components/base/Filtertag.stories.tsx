@@ -7,7 +7,6 @@ import {
 	VARIANT_REMOVEABLE,
 	VARIANT_READONLY
 } from '../../../components/base/Filtertag';
-import { NONAME } from 'dns';
 
 export default {
 	title: 'Base/Filtertag',
