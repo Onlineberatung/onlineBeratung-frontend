@@ -31,7 +31,7 @@ const StyledButtonBottom = styled.button`
 		}
 
 		&:focus {
-			outline: 2px solid #199FFF;
+			outline: 2px solid ${theme.color.focus ?? '#199FFF'};
 			outline-offset: 4px;
 		}
 
@@ -40,7 +40,7 @@ const StyledButtonBottom = styled.button`
 		}
 
 		&.focus {
-			outline: 2px solid #199FFF;
+			outline: 2px solid ${theme.color.focus ?? '#199FFF'};
 			outline-offset: 4px;
 		}
 	`}
