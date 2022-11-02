@@ -137,7 +137,7 @@ export const useDraftMessage = (
 				message,
 				encryptType,
 				draftMessage ?? ''
-			);
+			).catch();
 		},
 		[
 			activeSession.rid,

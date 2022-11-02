@@ -437,12 +437,14 @@ export const en = {
 				primary:
 					'A chat participant no longer has access to the message history.',
 				secondary:
-					'A chat participant had temporarily lost access to the message history. Now all chat participants can access the message history again.'
+					'A chat participant had temporarily lost access to the message history. Now all chat participants can access the message history again.',
+				more: 'Show more'
 			},
 			notice: {
 				title: 'Your security is important to us!',
 				text: 'Since you have reset your password, the messages are not readable for you at the moment. As soon as a chat participant opens the chat again, you can read the messages and write new ones.',
-				link: 'Send notification'
+				link: 'Send notification',
+				more: 'Show more'
 			},
 			overlay: {
 				'headline': 'End-to-end encryption',

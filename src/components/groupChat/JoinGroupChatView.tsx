@@ -44,7 +44,6 @@ import {
 import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
-import { isGroupChatOwner } from './groupChatHelpers';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 
 interface JoinGroupChatViewProps {
@@ -364,13 +363,11 @@ export const JoinGroupChatView = ({
 							{translate('groupChat.join.warning.message')}
 						</p>
 					)}
-				{isGroupChatOwner(activeSession, userData) && (
-					<Button
-						item={buttonItem}
-						buttonHandle={handleButtonClick}
-						disabled={isButtonDisabled}
-					/>
-				)}
+				<Button
+					item={buttonItem}
+					buttonHandle={handleButtonClick}
+					disabled={isButtonDisabled}
+				/>
 			</div>
 
 			{requestOverlayVisible && (

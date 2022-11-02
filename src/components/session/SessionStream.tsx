@@ -86,10 +86,7 @@ export const SessionStream = ({
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
-	const { consultantList, setConsultantList } = useContext(
-		ConsultantListContext
-	);
-	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
+	const { setConsultantList } = useContext(ConsultantListContext);
 
 	const abortController = useRef<AbortController>(null);
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
@@ -377,19 +374,29 @@ export const SessionStream = ({
 	]);
 
 	useEffect(() => {
-		const agencyId = activeSession.item.agencyId.toString();
-		if (consultantList && !isAsker) {
-			apiGetAgencyConsultantList(agencyId)
-				.then((response) => {
-					const consultants =
-						prepareConsultantDataForSelect(response);
-					setConsultantList(consultants);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+		if (
+			activeSession.isLive ||
+			activeSession.isGroup ||
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
+		) {
+			return;
 		}
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+		const agencyId = activeSession.item.agencyId.toString();
+		apiGetAgencyConsultantList(agencyId)
+			.then((response) => {
+				const consultants = prepareConsultantDataForSelect(response);
+				setConsultantList(consultants);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, [
+		activeSession.isGroup,
+		activeSession.isLive,
+		activeSession.item.agencyId,
+		setConsultantList,
+		userData
+	]);
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {

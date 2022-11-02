@@ -13,7 +13,6 @@ import {
 } from '../../globalState/helpers/stateHelpers';
 import {
 	E2EEContext,
-	SessionsDataContext,
 	SessionTypeContext,
 	STATUS_ARCHIVED,
 	STATUS_FINISHED,
@@ -183,7 +182,6 @@ export const MessageSubmitInterfaceComponent = (
 	const { userData } = useContext(UserDataContext);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
-	const { sessions } = useContext(SessionsDataContext);
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
 		null
@@ -358,17 +356,14 @@ export const MessageSubmitInterfaceComponent = (
 	}, [uploadProgress]);
 
 	useEffect(() => {
-		if (
-			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
-			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
-		) {
-			const { appointmentFeatureEnabled } = userData;
-			if (!sessions?.[0]?.consultant && !activeSession.item.groupId) {
-				setShowAppointmentButton(appointmentFeatureEnabled);
-			}
+		if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
+			return;
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [activeSession.item.groupId]);
+
+		if (!activeSession?.consultant && !activeSession.item.groupId) {
+			setShowAppointmentButton(userData.appointmentFeatureEnabled);
+		}
+	}, [activeSession?.consultant, activeSession.item.groupId, userData]);
 
 	const handleAttachmentUploadError = (infoType: string) => {
 		setActiveInfo(infoType);

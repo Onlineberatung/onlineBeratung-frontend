@@ -17,7 +17,8 @@ export const apiPostDraftMessage = async (
 		url: url,
 		method: FETCH_METHODS.POST,
 		headersData: { rcGroupId: rcGroupIdOrSessionId },
-		bodyData: message
+		bodyData: message,
+		responseHandling: [FETCH_ERRORS.CATCH_ALL]
 	});
 };
 
