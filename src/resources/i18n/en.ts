@@ -1867,7 +1867,7 @@ export const en = {
 	twoFactorAuth: {
 		title: 'Two-factor authentication',
 		subtitle:
-			'Secure your account from possible unauthorized access. Use a second factor (app or email) for logging in to online consultation',
+			'In addition to your password, use a second factor for logging in. This will provide additional security for your account.',
 		switch: {
 			'active.label': 'Two-factor authentication enabled',
 			'deactive.label': 'Two-factor authentication disabled',
@@ -1882,8 +1882,9 @@ export const en = {
 				'email': 'Per E-Mail',
 				'app': 'With Authenticator Application',
 				'title': 'Select second factor',
-				'copy': 'Do you want to additionally protect your account with an app or with your email address?',
-				'visualisation.label': 'Selection'
+				'copy': 'Install a suitable Authenticator app on your smartphone or tablet. Alternatively, you can also use your e-mail address as a second factor.',
+				'visualisation.label': 'Selection',
+				'disable': 'Disable authentication'
 			},
 			radio: {
 				label: {
@@ -1933,7 +1934,7 @@ export const en = {
 			app: {
 				step2: {
 					'title': 'Install the app',
-					'copy': 'Install FreeOTP or Google Authentificator on your smartphone or tablet. Both apps are available in the Google Play or Apple App Store.',
+					'copy': 'Please install a suitable authenticator app on your smartphone or tablet, such as the FreeOTP or Google Authentificator app. Both apps are available in the Google Play or Apple App Store.',
 					'visualisation.label': 'Installation',
 					'tool1': {
 						title: 'FreeOTP App:',
@@ -1998,6 +1999,12 @@ export const en = {
 					'copy': {
 						'1': 'They use this email address as a second factor for secure login.',
 						'2': 'Disable two-factor authentication to edit the email address.'
+					},
+					'binding': {
+						copy: {
+							'1': 'You cannot change your email address as long as you use it as a second factor for secure login.',
+							'2': 'Change the second factor from "Email address" to "App". Then you can change your email address.'
+						}
 					},
 					'button.confirm': 'Disable authentication',
 					'button.deny': 'Cancel'
