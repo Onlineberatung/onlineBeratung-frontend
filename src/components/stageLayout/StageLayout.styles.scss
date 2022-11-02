@@ -7,6 +7,10 @@
 	&__header,
 	&__footer {
 		flex: 0;
+		padding: 0 $grid-base-two $grid-base-four;
+		@include breakpoint($fromLarge) {
+			padding: 0 $grid-base-three $grid-base-four;
+		}
 	}
 
 	&__content {
@@ -32,7 +36,8 @@
 		padding: 0 $grid-base-three;
 
 		&.mobile {
-			justify-content: start;
+			justify-content: space-between;
+			padding: 0 $grid-base-two;
 		}
 	}
 
@@ -55,10 +60,6 @@
 		}
 	}
 
-	&__footer {
-		padding: 0 $grid-base-three $grid-base-four;
-	}
-
 	&__toLogin {
 		&__text {
 			display: none;
@@ -73,7 +74,6 @@
 		&__button {
 			display: inline-block;
 			margin-top: 0;
-			margin-left: 12px;
 		}
 	}
 
@@ -115,7 +115,6 @@
 
 	&__legalLinksItem {
 		color: $black-65-opacity;
-		font-weight: $font-weight-bold;
 		&:hover {
 			color: var(--skin-color-primary-hover, $hover-primary);
 		}
