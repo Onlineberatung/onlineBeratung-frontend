@@ -8,8 +8,13 @@ import React, {
 import * as ReactDOM from 'react-dom';
 import './devToolbar.styles.scss';
 import i18n from '../../i18n';
+import {
+	getValueFromCookie,
+	setValueInCookie
+} from '../sessionCookie/accessSessionCookie';
 
 export const STORAGE_KEY_LOCALE = 'locale';
+export const STORAGE_KEY_API = 'devProxy';
 export const STORAGE_KEY_DEV_TOOLBAR = 'showDevTools';
 export const STORAGE_KEY_POSITION = 'positionDevTools';
 export const STORAGE_KEY_HIDDEN = 'hiddenDevTools';
@@ -75,7 +80,7 @@ type TLocalStorageSwitches =
 	| TLocalStorageSwitchRadio
 	| TLocalStorageSwitchToggle;
 
-const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
+const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 	{
 		label: 'Dev Toolbar',
 		key: STORAGE_KEY_HIDDEN,
@@ -179,6 +184,27 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 					: localStorage.getItem(STORAGE_KEY_LOCALE) ?? 'de'
 			);
 		}
+	},
+	process.env.REACT_APP_DOCKER && {
+		label: 'DEV API',
+		key: STORAGE_KEY_API,
+		persistent: false,
+		type: SELECT,
+		choices: {
+			'caritas': 'Caritas DEV',
+			'caritas_staging': 'Caritas STAGING',
+			'caritas_prod': 'Caritas PROD!',
+			'diakonie': 'Diakonie DEV',
+			'diakonie_staging': 'Diakonie STAGING',
+			'diakonie_prod': 'Diakonie PROD!',
+			'happylife': 'Happylife DEV',
+			'suchtberatung.digital': 'Digisucht DEV'
+		},
+		value: getValueFromCookie(STORAGE_KEY_API) ?? '',
+		description: 'Switch API',
+		postScript: (value) => {
+			setValueInCookie(STORAGE_KEY_API, value);
+		}
 	}
 ];
 
@@ -200,7 +226,7 @@ export const useDevToolbar = () => {
 	const getDevToolbarOption = useCallback(
 		(key) =>
 			localStorage.getItem(key) ??
-			LOCAL_STORAGE_SWITCHES.find(
+			LOCAL_STORAGE_SWITCHES.filter(Boolean).find(
 				(localStorageSwitch) => localStorageSwitch.key === key
 			)?.value,
 		[lastChange] // eslint-disable-line react-hooks/exhaustive-deps
@@ -260,12 +286,14 @@ export const DevToolbar = () => {
 
 	const initLcSwitches = useCallback(() => {
 		setLcSwitches(
-			LOCAL_STORAGE_SWITCHES.map((localStorageSwitch) => ({
-				...localStorageSwitch,
-				value:
-					localStorage.getItem(localStorageSwitch.key) ??
-					localStorageSwitch.value
-			}))
+			LOCAL_STORAGE_SWITCHES.filter(Boolean).map(
+				(localStorageSwitch) => ({
+					...localStorageSwitch,
+					value:
+						localStorage.getItem(localStorageSwitch.key) ??
+						localStorageSwitch.value
+				})
+			)
 		);
 	}, []);
 
@@ -321,7 +349,7 @@ export const DevToolbar = () => {
 	);
 
 	const reset = useCallback(() => {
-		LOCAL_STORAGE_SWITCHES.forEach((localStorageSwitch) => {
+		LOCAL_STORAGE_SWITCHES.filter(Boolean).forEach((localStorageSwitch) => {
 			if (localStorageSwitch.key === STORAGE_KEY_DEV_TOOLBAR) {
 				return;
 			}
