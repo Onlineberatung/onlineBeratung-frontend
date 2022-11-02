@@ -190,4 +190,9 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 			text-align: center;
 		}
 	}
+
+	&__head {
+		display: flex;
+		justify-content: space-between;
+	}
 }

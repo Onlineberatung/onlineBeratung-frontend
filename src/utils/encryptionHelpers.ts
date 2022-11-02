@@ -1,6 +1,5 @@
 import { encode, decode } from 'hi-base32';
 import ByteBuffer from 'bytebuffer';
-import { apiRocketChatUpdateGroupKey } from '../api/apiRocketChatUpdateGroupKey';
 import { apiRocketChatFetchMyKeys } from '../api/apiRocketChatFetchMyKeys';
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 const StaticArrayBufferProto = ArrayBuffer.prototype;
@@ -384,8 +383,7 @@ export type GroupKeyType = {
 };
 
 export const createGroupKey = (): Promise<GroupKeyType> =>
-	new Promise(async (resolve, reject) => {
-		console.log('Creating room key');
+	new Promise(async (resolve) => {
 		// Create group key
 		let key;
 		try {
@@ -412,14 +410,13 @@ export const importGroupKey = (
 	e2eePrivateKey
 ): Promise<GroupKeyType> =>
 	new Promise(async (resolve, reject) => {
-		// Get existing group key
-		groupKey = groupKey.slice(KEY_ID_LENGTH);
-		groupKey = atob(groupKey);
-		groupKey = Uint8Array.from(Object.values(JSON.parse(groupKey)));
-
 		// Decrypt obtained encrypted session key
 		let sessionKeyExportedString;
 		try {
+			groupKey = groupKey.slice(KEY_ID_LENGTH);
+			groupKey = atob(groupKey);
+			groupKey = Uint8Array.from(Object.values(JSON.parse(groupKey)));
+
 			const decryptedKey = await decryptRSA(e2eePrivateKey, groupKey);
 			sessionKeyExportedString = toString(decryptedKey);
 		} catch (error) {
@@ -442,37 +439,6 @@ export const importGroupKey = (
 			return;
 		}
 	});
-
-export const reEncryptMyRoomKeys = async (
-	rooms,
-	subscriptions,
-	rcUserId,
-	oldPrivateKey
-) => {
-	return Promise.all(
-		subscriptions.map(async (subscription) => {
-			const room = rooms.find((room) => room._id === subscription.rid);
-
-			if (!room?.e2eKeyId || !subscription?.E2EKey) {
-				return null;
-			}
-
-			const { sessionKeyExportedString } = await importGroupKey(
-				subscription.E2EKey,
-				oldPrivateKey
-			);
-
-			const userKey = await encryptForParticipant(
-				sessionStorage.getItem('public_key'),
-				room.e2eKeyId,
-				sessionKeyExportedString
-			);
-
-			console.log('Update Group Key', rcUserId, room._id, userKey);
-			return apiRocketChatUpdateGroupKey(rcUserId, room._id, userKey);
-		})
-	);
-};
 
 export const encryptPrivateKey = async (privateKey, masterKey) => {
 	const vector = crypto.getRandomValues(new Uint8Array(VECTOR_LENGTH));

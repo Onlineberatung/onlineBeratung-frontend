@@ -100,6 +100,10 @@ export const deInformal = {
 	},
 	e2ee: {
 		hint: 'Deine Nachrichten sind Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform.',
+		inProgress: {
+			copy: 'Deine Sicherheit ist uns wichtig! Wir verschlüsseln gerade Deinen Chat. Dies kann einen Moment dauern.',
+			confirm: 'Bitte warte bis die Verschlüsselung abgeschlossen ist!'
+		},
 		subscriptionKeyLost: {
 			notice: {
 				title: 'Deine Sicherheit ist uns wichtig!',
@@ -233,9 +237,23 @@ export const deInformal = {
 		'message.new': 'Du hast eine neue Nachricht!',
 		'enquiry.new': 'Du hast eine neue Livechat Anfrage!'
 	},
+	overlay: {
+		timeout: {
+			confirm: 'Möchtest Du die Seite wirklich verlassen?'
+		}
+	},
 	overview: {
 		upcomingAppointments: 'Deine nächsten {{countStr}} Termine',
 		upcomingAppointment: 'Dein nächster Termin'
+	},
+	preconditions: {
+		cookie: {
+			headline: 'Bitte aktiviere Cookies, um fortzufahren',
+			paragraph: {
+				1: 'Bitte aktiviere bei Deinem Browser Cookies, um die Anmeldung zu ermöglichen.',
+				2: 'Nachdem Du Cookies in Deinem Browser aktiviert hast, klicke einfach auf die Schaltfläche unten, um zur vorhergehenden Seite zurückzukehren.'
+			}
+		}
 	},
 	profile: {
 		functions: {
@@ -447,6 +465,7 @@ export const deInformal = {
 			}
 		},
 		assignSelf: {
+			inProgress: 'Die Beratung wird Dir gerade zugewiesen.',
 			overlay: {
 				headline1:
 					'Du hast die Beratung erfolgreich angenommen. Sie wurde in Meine Beratungen verschoben.',
@@ -512,7 +531,7 @@ export const deInformal = {
 	},
 	twoFactorAuth: {
 		subtitle:
-			'Nutze eine weitere App für die Anmeldung mit Deinem Caritas Konto. Dadurch ist Dein Konto sicherer vor einem möglichen unbefugtem Zugriff.',
+			'Nutze neben Deinem Passwort einen zweiten Faktor für die Anmeldung. Dadurch wird Dein Konto zusätzlich abgesichert.',
 		activate: {
 			radio: {
 				tooltip: {
@@ -521,8 +540,7 @@ export const deInformal = {
 				}
 			},
 			step1: {
-				title: 'Wähle eine Methode aus',
-				copy: 'Möchtest Du Dein Konto mit einer App oder mit Deiner E-Mail-Adresse zusätzlich schützen?'
+				copy: 'Installiere Dir auf Deinem Smartphone oder Tablet eine passende Authenticator-App. Alternativ kannst Du auch Deine E-Mail-Adresse als zweiten Faktor verwenden.'
 			},
 			email: {
 				step3: {
@@ -541,7 +559,7 @@ export const deInformal = {
 			app: {
 				step2: {
 					title: 'Installiere Dir die App',
-					copy: 'Installiere Dir FreeOTP oder Google Authentificator auf Deinem Smartphone oder Tablet. Beide Apps sind im Google Play oder Apple App Store verfügbar.'
+					copy: 'Bitte installier Dir auf Deinem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authentificator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.'
 				},
 				step3: {
 					'title': 'Für die Online-Beratung zur App hinzu',
@@ -561,6 +579,22 @@ export const deInformal = {
 				input: {
 					label: {
 						error: 'Die Authentifizierung ist fehlgeschlagen. Bitte wiederhole den Vorgang.'
+					}
+				}
+			}
+		},
+		email: {
+			change: {
+				confirmOverlay: {
+					copy: {
+						'1': 'Du nutzt diese E-Mail-Adresse als zweiten Faktor für eine sichere Anmeldung.',
+						'2': 'Deaktiviere die Zwei-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.'
+					},
+					binding: {
+						copy: {
+							'1': 'Du kannst Deine E-Mail Adresse nicht ändern solange Du diese als zweiten Faktor für eine sichere Anmeldung verwendest.',
+							'2': 'Wechsel den zweiten Faktor von "E-Mail Adresse" zu "App". Dann kannst Du Deine E-Mail Adresse ändern.'
+						}
 					}
 				}
 			}

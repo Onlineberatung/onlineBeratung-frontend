@@ -25,6 +25,10 @@ export const FinishedAnonymousConversationHandler = () => {
 		useContext(AnonymousConversationFinishedContext);
 	const { close: closeWebsocket } = useContext(RocketChatContext);
 
+	/*
+	 ToDo: Refactor the anonymous logic because dropping cookies is not a clear logout.
+	 Other requests should be blocked too because refresh requests will end in 401
+	 */
 	useEffect(() => {
 		if (anonymousConversationFinished === 'IN_PROGRESS') {
 			closeWebsocket();

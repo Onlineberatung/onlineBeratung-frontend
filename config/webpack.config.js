@@ -848,6 +848,45 @@ module.exports = function (webpackEnv) {
 						}
 					}
 				}),
+			new webpack.NormalModuleReplacementPlugin(
+				new RegExp(
+					`${process.cwd()}/(node_modules/@onlineberatung/onlineberatung-frontend/)?src/(?!extensions/).*`
+				),
+				async (result) => {
+					let originalPath = path.join(
+						result.context,
+						result.request
+					);
+					// Check if absolute import
+					if (result.request.indexOf('/') === 0) {
+						originalPath = result.request;
+					}
+
+					const newPath = originalPath.replace(
+						new RegExp(
+							`${process.cwd()}/(node_modules/@onlineberatung/onlineberatung-frontend\/)?src/`
+						),
+						`${process.cwd()}/src/extensions/`
+					);
+
+					['', ...paths.moduleFileExtensions.map((ext) => `.${ext}`)]
+						.filter((ext) => useTypeScript || !ext.includes('ts'))
+						.forEach((ext) => {
+							if (fs.existsSync(`${newPath}${ext}`)) {
+								console.log(
+									`Overwritten ${originalPath} -> ${`${newPath}${ext}`}`
+								);
+
+								if (result.createData) {
+									result.createData.resource = `${newPath}${ext}`;
+									result.createData.context = path.dirname(
+										`${newPath}${ext}`
+									);
+								}
+							}
+						});
+				}
+			),
 			...localAliases([
 				'src/resources/img/illustrations/answer.svg',
 				'src/resources/img/illustrations/arrow.svg',

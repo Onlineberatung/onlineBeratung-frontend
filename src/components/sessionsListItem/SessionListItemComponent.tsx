@@ -74,7 +74,7 @@ export const SessionListItemComponent = ({
 	const language = session.item.language || defaultLanguage;
 	const consultingType = useConsultingType(session.item.consultingType);
 
-	const { key, keyID, encrypted } = useE2EE(
+	const { key, keyID, encrypted, ready } = useE2EE(
 		session.item.groupId,
 		session.item.lastMessageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST
 	);
@@ -82,6 +82,10 @@ export const SessionListItemComponent = ({
 	const topicSession = session.item?.topic as TopicSessionInterface;
 
 	useEffect(() => {
+		if (!ready) {
+			return;
+		}
+
 		if (isE2eeEnabled) {
 			if (!session.item.e2eLastMessage) return;
 			decryptText(
@@ -129,7 +133,8 @@ export const SessionListItemComponent = ({
 		session.item.groupId,
 		session.item.e2eLastMessage,
 		session.item.lastMessage,
-		translate
+		translate,
+		ready
 	]);
 
 	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);

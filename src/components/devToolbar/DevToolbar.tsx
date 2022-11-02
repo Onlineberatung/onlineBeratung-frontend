@@ -18,6 +18,7 @@ export const STORAGE_KEY_2FA = '2fa';
 export const STORAGE_KEY_2FA_DUTY = '2fa_duty';
 export const STORAGE_KEY_RELEASE_NOTES = 'release_notes';
 export const STORAGE_KEY_ERROR_BOUNDARY = 'error_boundary';
+export const STORAGE_KEY_E2EE_DISABLED = 'e2ee_disabled';
 export const STORAGE_KEY_ENABLE_TRANSLATION_CHECK = 'enable_translation_check';
 
 const DEVTOOLBAR_EVENT = 'devToolbar';
@@ -104,10 +105,10 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 			'Disables the DevToolbar! The settings which were changed in the DevToolbar will not be resetet to its default!'
 	},
 	{
-		label: 'Disable 2FA Dialog',
+		label: '2FA Dialog',
 		key: STORAGE_KEY_2FA,
 		type: TOGGLE,
-		choices: { '0': 'Off', '1': 'On' },
+		choices: { '0': 'Disabled', '1': 'Enabled' },
 		value: '1',
 		description: 'Disable the 2FA dialog'
 	},
@@ -115,7 +116,7 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 		label: '2FA Duty',
 		key: STORAGE_KEY_2FA_DUTY,
 		type: TOGGLE,
-		choices: { '0': 'Off', '1': 'On' },
+		choices: { '0': 'Disabled', '1': 'Enabled' },
 		value: '1',
 		description:
 			'Disable the duty to add a 2fa and show only the defautl 2fa dialog if enabled'
@@ -130,10 +131,18 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 			'Disable the release notes dialog if there are new release notes added'
 	},
 	{
+		label: 'DEV E2EE',
+		key: STORAGE_KEY_E2EE_DISABLED,
+		type: TOGGLE,
+		choices: { '0': 'Enabled', '1': 'Disabled' },
+		value: '0',
+		description: 'Disable end-to-end encryption. DEV only'
+	},
+	{
 		label: 'DEV Error Boundary',
 		key: STORAGE_KEY_ERROR_BOUNDARY,
 		type: TOGGLE,
-		choices: { '0': 'Off', '1': 'On' },
+		choices: { '1': 'Enabled', '0': 'DISABLED' },
 		value:
 			process.env.REACT_APP_DISABLE_ERROR_BOUNDARY &&
 			parseInt(process.env.REACT_APP_DISABLE_ERROR_BOUNDARY) === 1
@@ -146,7 +155,7 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 		label: 'DEV Translation check',
 		key: STORAGE_KEY_ENABLE_TRANSLATION_CHECK,
 		type: TOGGLE,
-		choices: { '0': 'Off', '1': 'On' },
+		choices: { '0': 'Disabled', '1': 'Enabled' },
 		value:
 			process.env.REACT_APP_ENABLE_TRANSLATION_CHECK &&
 			parseInt(process.env.REACT_APP_ENABLE_TRANSLATION_CHECK) === 1
@@ -174,39 +183,30 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 ];
 
 export const useDevToolbar = () => {
-	const [configs, setConfigs] = useState({});
+	const [lastChange, setLastChange] = useState(null);
 
-	const readDevToobarLocalStorage = useCallback(() => {
-		let configs = {};
-		LOCAL_STORAGE_SWITCHES.forEach((localStorageSwitch) => {
-			configs[localStorageSwitch.key] =
-				localStorage.getItem(localStorageSwitch.key) ??
-				localStorageSwitch.value;
-		});
-		setConfigs(configs);
+	const onChange = useCallback(() => {
+		setLastChange(new Date().getTime());
 	}, []);
 
 	useEffect(() => {
-		readDevToobarLocalStorage();
-
-		window.addEventListener(DEVTOOLBAR_EVENT, readDevToobarLocalStorage);
+		window.addEventListener(DEVTOOLBAR_EVENT, onChange);
 
 		return () => {
-			window.removeEventListener(
-				DEVTOOLBAR_EVENT,
-				readDevToobarLocalStorage
-			);
+			window.removeEventListener(DEVTOOLBAR_EVENT, onChange);
 		};
-	}, [readDevToobarLocalStorage]);
+	}, [onChange]);
 
 	const getDevToolbarOption = useCallback(
-		(key) => {
-			return configs?.[key];
-		},
-		[configs]
+		(key) =>
+			localStorage.getItem(key) ??
+			LOCAL_STORAGE_SWITCHES.find(
+				(localStorageSwitch) => localStorageSwitch.key === key
+			)?.value,
+		[lastChange] // eslint-disable-line react-hooks/exhaustive-deps
 	);
 
-	return { getDevToolbarOption, configs };
+	return { getDevToolbarOption };
 };
 
 /*
@@ -226,6 +226,7 @@ export const DevToolbarWrapper = () => {
 			const container = document.createElement('div');
 			container.id = 'devToolbar__container';
 			container.className = 'devToolbar__container';
+			container.setAttribute('tabindex', '-1');
 			document.body.appendChild(container);
 			devtoolbarContainer.current = container;
 
@@ -361,7 +362,7 @@ export const DevToolbar = () => {
 					))}
 				</div>
 				<hr />
-				<button type="button" onClick={reset}>
+				<button type="button" onClick={reset} tabIndex={-1}>
 					Reset
 				</button>
 				<div style={{ fontSize: '12px', lineHeight: '14px' }}>
@@ -398,6 +399,7 @@ const LocalStorageSwitch = ({
 					<hr />
 					<button
 						type="button"
+						tabIndex={-1}
 						onClick={() =>
 							onChange(
 								localStorageSwitch.choices.find(
@@ -452,6 +454,7 @@ const LocalStorageSwitch = ({
 											: ''
 									}
 									type="button"
+									tabIndex={-1}
 									onClick={() => onChange(value)}
 								>
 									{localStorageSwitch.choices[value]}
@@ -478,6 +481,7 @@ const LocalStorageSwitch = ({
 					<hr />
 					<select
 						onChange={({ target: { value } }) => onChange(value)}
+						tabIndex={-1}
 					>
 						{Object.keys(localStorageSwitch.choices).map(
 							(value) => (
@@ -513,6 +517,7 @@ const LocalStorageSwitch = ({
 								<div key={`${localStorageSwitch.key}-${value}`}>
 									<input
 										type="radio"
+										tabIndex={-1}
 										name={localStorageSwitch.key}
 										value={value.toString()}
 										checked={
