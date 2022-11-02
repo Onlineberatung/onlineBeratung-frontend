@@ -138,49 +138,57 @@ export const NavigationBar = ({
 									hasTools
 								)
 						)
-						.map((item, index) => (
-							<Link
-								key={index}
-								className={`navigation__item ${pathToClassNameInWalkThrough(
-									item.to
-								)} ${
-									location.pathname.indexOf(item.to) !== -1 &&
-									'navigation__item--active'
-								} ${
-									animateNavIcon &&
-									Object.keys(
+						.map((item, index) => {
+							const Icon = item?.icon;
+							const IconFilled = item?.iconFilled;
+							return (
+								<Link
+									key={index}
+									className={`navigation__item ${pathToClassNameInWalkThrough(
+										item.to
+									)} ${
+										location.pathname.indexOf(item.to) !==
+											-1 && 'navigation__item--active'
+									} ${
+										animateNavIcon &&
+										Object.keys(
+											pathsToShowUnreadMessageNotification
+										).includes(item.to) &&
+										'navigation__item__count--active'
+									}`}
+									to={item.to}
+								>
+									<div className="navigation__icon__background">
+										{Icon && (
+											<Icon className="navigation__icon__outline" />
+										)}
+										{IconFilled && (
+											<IconFilled className="navigation__icon__filled" />
+										)}
+									</div>
+
+									{(({ large }) => {
+										return (
+											<>
+												<span className="navigation__title">
+													{translate(large)}
+												</span>
+											</>
+										);
+									})(item.titleKeys)}
+									{Object.keys(
 										pathsToShowUnreadMessageNotification
 									).includes(item.to) &&
-									'navigation__item__count--active'
-								}`}
-								to={item.to}
-							>
-								<div className="navigation__icon__background">
-									{item?.iconFilled}
-									{item?.icon}
-								</div>
-
-								{(({ large }) => {
-									return (
-										<>
-											<span className="navigation__title">
-												{translate(large)}
-											</span>
-										</>
-									);
-								})(item.titleKeys)}
-								{Object.keys(
-									pathsToShowUnreadMessageNotification
-								).includes(item.to) &&
-									pathsToShowUnreadMessageNotification[
-										item.to
-									] > 0 && (
-										<NavigationUnreadIndicator
-											animate={animateNavIcon}
-										/>
-									)}
-							</Link>
-						))}
+										pathsToShowUnreadMessageNotification[
+											item.to
+										] > 0 && (
+											<NavigationUnreadIndicator
+												animate={animateNavIcon}
+											/>
+										)}
+								</Link>
+							);
+						})}
 				<div
 					className={clsx('navigation__item__bottom', {
 						'navigation__item__bottom--consultant':
