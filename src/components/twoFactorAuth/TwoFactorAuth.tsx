@@ -88,7 +88,7 @@ export const TwoFactorAuth = () => {
 		TWO_FACTOR_TYPES.APP
 	);
 	const settings = useAppConfig();
-	let todaysDate = new Date(Date.now());
+	const todaysDate = new Date();
 	const isTwoFactorBinding =
 		todaysDate >= settings.twofactor.dateTwoFactorObligatory;
 	const [isEditMode, setIsEditMode] = useState(
@@ -342,43 +342,24 @@ export const TwoFactorAuth = () => {
 				},
 				handleOverlay: handleOverlayAction,
 				nestedComponent: selectTwoFactorTypeButtons(),
-				buttonSet:
-					isConsultant || !userData.twoFactorAuth.isActive
-						? [
-								{
-									disabled:
-										twoFactorType ===
-											TWO_FACTOR_TYPES.NONE ||
-										twoFactorType ===
-											userData.twoFactorAuth.type,
-									label: translate(
-										'twoFactorAuth.overlayButton.next'
-									),
-									function: OVERLAY_FUNCTIONS.NEXT_STEP,
-									type: BUTTON_TYPES.PRIMARY
-								}
-						  ]
-						: [
-								{
-									disabled:
-										twoFactorType ===
-											TWO_FACTOR_TYPES.NONE ||
-										twoFactorType ===
-											userData.twoFactorAuth.type,
-									label: translate(
-										'twoFactorAuth.overlayButton.next'
-									),
-									function: OVERLAY_FUNCTIONS.NEXT_STEP,
-									type: BUTTON_TYPES.PRIMARY
-								},
-								{
-									label: translate(
-										'twoFactorAuth.activate.step1.disable'
-									),
-									function: 'DISABLE_2FA',
-									type: BUTTON_TYPES.SECONDARY
-								}
-						  ]
+				buttonSet: [
+					{
+						disabled:
+							twoFactorType === TWO_FACTOR_TYPES.NONE ||
+							twoFactorType === userData.twoFactorAuth.type,
+						label: translate('twoFactorAuth.overlayButton.next'),
+						function: OVERLAY_FUNCTIONS.NEXT_STEP,
+						type: BUTTON_TYPES.PRIMARY
+					},
+					!isConsultant &&
+						userData.twoFactorAuth.isActive && {
+							label: translate(
+								'twoFactorAuth.activate.step1.disable'
+							),
+							function: 'DISABLE_2FA',
+							type: BUTTON_TYPES.SECONDARY
+						}
+				].filter(Boolean)
 			}
 		],
 		[

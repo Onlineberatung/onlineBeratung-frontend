@@ -49,7 +49,7 @@ export const ConsultantPrivateData = () => {
 		userData.email !== email && isEmail2faActive;
 
 	const settings = useAppConfig();
-	let todaysDate = new Date(Date.now());
+	const todaysDate = new Date();
 	const isTwoFactorBinding =
 		todaysDate >= settings.twofactor.dateTwoFactorObligatory;
 
