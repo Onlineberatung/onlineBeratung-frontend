@@ -269,8 +269,14 @@ const updateUserE2EKeysFallback = async (rcUserId) => {
 				return null;
 			}
 
+			// Little fix for broken dev chats
+			let sub = 16;
+			if (subscription.E2EKey.substring(4, 8) === 'null') {
+				sub = 8;
+			}
+
 			// Substring(16) because of 'tmp.' prefix
-			const roomKeyEncrypted = subscription.E2EKey.substring(16);
+			const roomKeyEncrypted = subscription.E2EKey.substring(sub);
 			const bytes = CryptoJS.AES.decrypt(
 				roomKeyEncrypted,
 				await getTmpMasterKey(rcUserId)

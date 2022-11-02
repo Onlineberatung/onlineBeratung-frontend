@@ -31,7 +31,9 @@ export const MasterKeyLostMessage: React.FC<MasterKeyLostMessageProps> = ({
 							buttonHandle={() => setOverlayActive(true)}
 							item={{
 								type: BUTTON_TYPES.LINK_INLINE,
-								label: 'Mehr erfahren'
+								label: translate(
+									'e2ee.subscriptionKeyLost.message.more'
+								)
 							}}
 							isLink={true}
 						/>
