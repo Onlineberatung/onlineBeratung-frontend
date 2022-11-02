@@ -117,7 +117,7 @@ export function SessionsDataProvider(props) {
 	return (
 		<SessionsDataContext.Provider
 			value={{
-				sessions: sessionsState.sessions,
+				sessions: sessionsState.sessions || [],
 				ready: sessionsState.ready,
 				dispatch
 			}}
