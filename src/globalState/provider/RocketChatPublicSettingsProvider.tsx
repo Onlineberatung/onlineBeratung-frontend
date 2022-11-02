@@ -26,6 +26,7 @@ interface ISetting {
 }
 
 type RocketChatSubscriptionsContextProps = {
+	settingsReady: boolean;
 	settings: ISetting[];
 	getSetting: (id: string) => ISetting | null;
 };
@@ -45,6 +46,7 @@ export const RocketChatPublicSettingsProvider = ({
 
 	const subscribed = useRef(false);
 
+	const [settingsReady, setSettingsReady] = useState(false);
 	const [settings, setSettings] = useState<ISetting[]>([]);
 
 	const handlePublicSettingsChanged = useUpdatingRef(
@@ -95,6 +97,8 @@ export const RocketChatPublicSettingsProvider = ({
 					handlePublicSettingsChanged,
 					{ useCollection: false, args: [] }
 				);
+
+				setSettingsReady(true);
 			});
 		} else if (!ready) {
 			// Reconnect
@@ -129,7 +133,7 @@ export const RocketChatPublicSettingsProvider = ({
 
 	return (
 		<RocketChatPublicSettingsContext.Provider
-			value={{ settings, getSetting }}
+			value={{ settingsReady, settings, getSetting }}
 		>
 			{children}
 		</RocketChatPublicSettingsContext.Provider>

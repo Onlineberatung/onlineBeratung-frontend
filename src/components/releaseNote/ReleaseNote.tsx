@@ -22,7 +22,7 @@ import {
 interface ReleaseNoteProps {}
 
 const MAX_CONCURRENT_RELEASE_NOTES = 3;
-const STORAGE_KEY = 'releaseNote';
+const STORAGE_KEY_RELEASE_NOTE = 'releaseNote';
 
 type TReleases = {
 	title?: string;
@@ -39,7 +39,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const [latestReleaseNote, setLatestReleaseNote] = useState('');
 
 	const readReleaseNote = useMemo(
-		() => localStorage.getItem(STORAGE_KEY) ?? '0',
+		() => localStorage.getItem(STORAGE_KEY_RELEASE_NOTE) ?? '0',
 		[]
 	);
 
@@ -112,7 +112,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const changeHasSeenReleaseNote = () => {
 		setCheckboxChecked(!checkboxChecked);
 		localStorage.setItem(
-			STORAGE_KEY,
+			STORAGE_KEY_RELEASE_NOTE,
 			`${!checkboxChecked ? latestReleaseNote : readReleaseNote}`
 		);
 	};

@@ -42,7 +42,9 @@ export const SubscriptionKeyLost = () => {
 								buttonHandle={() => setOverlayActive(true)}
 								item={{
 									type: BUTTON_TYPES.LINK_INLINE,
-									label: 'Mehr erfahren'
+									label: translate(
+										'e2ee.subscriptionKeyLost.notice.more'
+									)
 								}}
 								isLink={true}
 							/>
