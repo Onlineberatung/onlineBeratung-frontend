@@ -56,7 +56,9 @@ const SELECT = 'select';
 type TSelect = typeof SELECT;
 type TLocalStorageSwitchSelect = TLocalStorageSwitch & {
 	type: TSelect;
-	choices: { [key: string]: ReactNode };
+	choices:
+		| { [key: string]: ReactNode }
+		| (() => Promise<{ [key: string]: ReactNode }>);
 };
 
 const RADIO = 'radio';
@@ -190,16 +192,23 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 		key: STORAGE_KEY_API,
 		persistent: false,
 		type: SELECT,
-		choices: {
-			'caritas': 'Caritas DEV',
-			'caritas_staging': 'Caritas STAGING',
-			'caritas_prod': 'Caritas PROD!',
-			'diakonie': 'Diakonie DEV',
-			'diakonie_staging': 'Diakonie STAGING',
-			'diakonie_prod': 'Diakonie PROD!',
-			'happylife': 'Happylife DEV',
-			'suchtberatung.digital': 'Digisucht DEV'
-		},
+		choices: () =>
+			fetch('/switch/proxies.json')
+				.then((res) => res.json())
+				.then((proxiesConfig) => {
+					const proxies = {};
+					Object.keys(proxiesConfig.proxies).forEach((proxy) => {
+						proxies[proxy] =
+							proxy.charAt(0).toUpperCase() +
+							proxy
+								.substring(1)
+								.replace(
+									/_(.?)/,
+									(res, letter) => ` ${letter.toUpperCase()}`
+								);
+					});
+					return proxies;
+				}),
 		value: getValueFromCookie(STORAGE_KEY_API) ?? '',
 		description: 'Switch API',
 		postScript: (value) => {
@@ -494,35 +503,10 @@ const LocalStorageSwitch = ({
 			);
 		case SELECT:
 			return (
-				<div className={localStorageSwitch.className}>
-					<div className="devToolbar__switches__headline">
-						<h5>{localStorageSwitch.label}</h5>
-						{localStorageSwitch.description && (
-							<div
-								className="devToolbar__switches__description"
-								title={localStorageSwitch.description}
-							>
-								i
-							</div>
-						)}
-					</div>
-					<hr />
-					<select
-						onChange={({ target: { value } }) => onChange(value)}
-						tabIndex={-1}
-					>
-						{Object.keys(localStorageSwitch.choices).map(
-							(value) => (
-								<option
-									key={`${localStorageSwitch.key}-${value}`}
-									value={value}
-								>
-									{localStorageSwitch.choices[value]}
-								</option>
-							)
-						)}
-					</select>
-				</div>
+				<LocalStorageSwitchSelect
+					localStorageSwitch={localStorageSwitch}
+					onChange={onChange}
+				/>
 			);
 		case RADIO:
 			return (
@@ -566,4 +550,53 @@ const LocalStorageSwitch = ({
 	}
 
 	return null;
+};
+
+const LocalStorageSwitchSelect = ({
+	localStorageSwitch,
+	onChange
+}: {
+	localStorageSwitch: TLocalStorageSwitchSelect;
+	onChange: (value: string) => void;
+}) => {
+	const [choices, setChoices] = useState({});
+
+	useEffect(() => {
+		if (typeof localStorageSwitch.choices !== 'function') {
+			setChoices(localStorageSwitch.choices);
+			return;
+		}
+
+		localStorageSwitch.choices().then(setChoices);
+	}, [localStorageSwitch]);
+
+	return (
+		<div className={localStorageSwitch.className}>
+			<div className="devToolbar__switches__headline">
+				<h5>{localStorageSwitch.label}</h5>
+				{localStorageSwitch.description && (
+					<div
+						className="devToolbar__switches__description"
+						title={localStorageSwitch.description}
+					>
+						i
+					</div>
+				)}
+			</div>
+			<hr />
+			<select
+				onChange={({ target: { value } }) => onChange(value)}
+				tabIndex={-1}
+			>
+				{Object.keys(choices).map((value) => (
+					<option
+						key={`${localStorageSwitch.key}-${value}`}
+						value={value}
+					>
+						{choices[value]}
+					</option>
+				))}
+			</select>
+		</div>
+	);
 };
