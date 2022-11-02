@@ -140,7 +140,7 @@ const colourStyles = (
 		...styles,
 		'marginBottom': state.menuPlacement === 'top' ? '16px' : '0',
 		'marginTop': state.menuPlacement === 'top' ? '0' : '16px',
-		'font-weight': 'normal',
+		'fontWeight': 'normal',
 		...(menuPlacement === 'right'
 			? {
 					bottom: 'auto',
