@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { ALIAS_LAST_MESSAGES } from '../../resources/scripts/config';
 
 interface SessionListItemLastMessageProps {
@@ -35,6 +36,31 @@ export const SessionListItemLastMessage: React.FC<SessionListItemLastMessageProp
 				}
 			} catch {
 				// if no json -> do nothing
+			}
+		}
+
+		// set the booking type
+		const lastMessageTypeBooking =
+			lastMessageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_SET ||
+			lastMessageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_CANCELLED ||
+			lastMessageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED;
+		if (lastMessageTypeBooking) {
+			switch (lastMessageType) {
+				case ALIAS_MESSAGE_TYPES.APPOINTMENT_SET:
+					aliasMessage = translate(
+						'message.appointment.component.header.confirmation'
+					);
+					break;
+				case ALIAS_MESSAGE_TYPES.APPOINTMENT_CANCELLED:
+					aliasMessage = translate(
+						'message.appointment.component.header.cancellation'
+					);
+					break;
+				case ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED:
+					aliasMessage = translate(
+						'message.appointment.component.header.change'
+					);
+					break;
 			}
 		}
 

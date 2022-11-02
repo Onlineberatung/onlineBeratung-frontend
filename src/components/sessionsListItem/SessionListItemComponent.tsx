@@ -87,59 +87,28 @@ export const SessionListItemComponent = ({
 		}
 
 		if (isE2eeEnabled) {
-			const lastMessageTypeBooking =
-				session.item.lastMessageType ===
-					ALIAS_MESSAGE_TYPES.APPOINTMENT_SET ||
-				session.item.lastMessageType ===
-					ALIAS_MESSAGE_TYPES.APPOINTMENT_CANCELLED ||
-				session.item.lastMessageType ===
-					ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED;
-			if (lastMessageTypeBooking) {
-				let appointmentType: string;
-				switch (session.item.lastMessageType) {
-					case ALIAS_MESSAGE_TYPES.APPOINTMENT_SET:
-						appointmentType = translate(
-							'message.appointment.component.header.confirmation'
-						);
-						break;
-					case ALIAS_MESSAGE_TYPES.APPOINTMENT_CANCELLED:
-						appointmentType = translate(
-							'message.appointment.component.header.cancellation'
-						);
-						break;
-					case ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED:
-						appointmentType = translate(
-							'message.appointment.component.header.change'
-						);
-						break;
-				}
-				setPlainTextLastMessage(appointmentType);
-			} else {
-				if (!session.item.e2eLastMessage) return;
-				decryptText(
-					session.item.e2eLastMessage.msg,
-					keyID,
-					key,
-					encrypted,
-					session.item.e2eLastMessage.t === 'e2e'
-				)
-					.catch((e): string =>
-						translate(
-							e instanceof MissingKeyError ||
-								e instanceof WrongKeyError
-								? e.message
-								: 'e2ee.message.encryption.error'
-						)
+			if (!session.item.e2eLastMessage) return;
+			decryptText(
+				session.item.e2eLastMessage.msg,
+				keyID,
+				key,
+				encrypted,
+				session.item.e2eLastMessage.t === 'e2e'
+			)
+				.catch((e): string =>
+					translate(
+						e instanceof MissingKeyError ||
+							e instanceof WrongKeyError
+							? e.message
+							: 'e2ee.message.encryption.error'
 					)
-					.then((message) => {
-						const rawMessageObject = markdownToDraft(message);
-						const contentStateMessage =
-							convertFromRaw(rawMessageObject);
-						setPlainTextLastMessage(
-							contentStateMessage.getPlainText()
-						);
-					});
-			}
+				)
+				.then((message) => {
+					const rawMessageObject = markdownToDraft(message);
+					const contentStateMessage =
+						convertFromRaw(rawMessageObject);
+					setPlainTextLastMessage(contentStateMessage.getPlainText());
+				});
 		} else {
 			if (
 				session.item.e2eLastMessage &&
@@ -164,7 +133,6 @@ export const SessionListItemComponent = ({
 		session.item.groupId,
 		session.item.e2eLastMessage,
 		session.item.lastMessage,
-		session.item.lastMessageType,
 		translate,
 		ready
 	]);
