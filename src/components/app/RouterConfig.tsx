@@ -40,7 +40,6 @@ import { ReactComponent as ToolsIconOutline } from '../../resources/img/icons/to
 import { ReactComponent as ToolsIconFilled } from '../../resources/img/icons/tools_filled.svg';
 import { ReactComponent as CalendarIconOutline } from '../../resources/img/icons/calendar_outline.svg';
 import { ReactComponent as CalendarIconFilled } from '../../resources/img/icons/calendar_filled.svg';
-import * as React from 'react';
 import { ToolsList } from '../tools/ToolsList';
 import { OverviewPage } from '../../containers/overview/overview';
 import { Booking } from '../../containers/bookings/components/Booking/booking';
