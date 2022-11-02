@@ -1856,10 +1856,11 @@ export const de = {
 		activate: {
 			step1: {
 				'app': 'Mit Authenticator Application',
-				'copy': 'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail-Adresse zusätzlich schützen?',
+				'copy': 'Installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App. Alternativ können Sie auch Ihre E-Mail-Adresse als zweiten Faktor verwenden.',
 				'email': 'Per E-Mail',
-				'title': 'Zweiter Faktor wählen',
-				'visualisation.label': 'Auswahl'
+				'title': 'Zweiten Faktor wählen',
+				'visualisation.label': 'Auswahl',
+				'disable': 'Authentifizierung deaktivieren'
 			},
 			radio: {
 				label: {
@@ -1910,7 +1911,7 @@ export const de = {
 			app: {
 				step2: {
 					'title': 'Installieren Sie sich die App',
-					'copy': 'Installieren Sie sich FreeOTP oder Google Authentificator auf Ihrem Smartphone oder Tablet. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
+					'copy': 'Bitte installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authentificator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
 					'visualisation.label': 'Installation',
 					'tool1': {
 						title: 'FreeOTP App:',
@@ -1964,13 +1965,22 @@ export const de = {
 		email: {
 			'change': {
 				confirmOverlay: {
-					'title': 'E-Mail-Adresse bearbeiten',
-					'copy': {
+					title: 'E-Mail-Adresse bearbeiten',
+					copy: {
 						'1': 'Sie nutzen diese E-Mail-Adresse als zweiten Faktor für eine sichere Anmeldung.',
 						'2': 'Deaktivieren Sie die Zwei-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.'
 					},
-					'button.confirm': 'Authentifizierung deaktivieren',
-					'button.deny': 'Abbrechen'
+					binding: {
+						copy: {
+							'1': 'Sie können Ihre E-Mail Adresse nicht ändern solange Sie diese als zweiten Faktor für eine sichere Anmeldung verwenden.',
+							'2': 'Wechseln Sie den zweiten Faktor von "E-Mail Adresse" zu "App". Dann können Sie Ihre E-Mail Adresse ändern.'
+						}
+					},
+					button: {
+						confirm: 'Authentifizierung deaktivieren',
+						deny: 'Abbrechen',
+						edit: 'zweiter Faktor bearbeiten'
+					}
 				}
 			},
 			'delete.confirmOverlay.copy':
@@ -1998,7 +2008,7 @@ export const de = {
 			save: 'Speichern'
 		},
 		subtitle:
-			'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung',
+			'Nutzen Sie neben Ihrem Passwort einen zweiten Faktor für die Anmeldung. Dadurch wird Ihr Konto zusätzlich abgesichert.',
 		switch: {
 			'active.label': 'Zwei-Faktor-Authentifizierung aktiviert',
 			'deactive.label': 'Zwei-Faktor-Authentifizierung deaktiviert',
