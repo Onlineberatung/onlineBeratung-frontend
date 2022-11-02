@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import {
@@ -65,6 +65,7 @@ export const SessionListItemComponent = ({
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { tenant } = useContext(TenantContext);
+	const ref_list = useRef<any>();
 
 	// Is List Item active
 	const isChatActive =
@@ -220,6 +221,7 @@ export const SessionListItemComponent = ({
 						'sessionsListItem__content',
 						isChatActive && 'sessionsListItem__content--active'
 					)}
+					tabIndex={2}
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
@@ -303,6 +305,12 @@ export const SessionListItemComponent = ({
 
 	const zipCodeSlash = consultingType ? '/ ' : '';
 
+	const handleKeyDownContent = (e) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			handleOnClick();
+		}
+	};
+
 	return (
 		<div
 			onClick={handleOnClick}
@@ -314,7 +322,12 @@ export const SessionListItemComponent = ({
 			data-group-id={session.item.groupId}
 			data-cy="session-list-item"
 		>
-			<div className="sessionsListItem__content">
+			<div
+				className="sessionsListItem__content"
+				tabIndex={2}
+				onKeyDown={(e) => handleKeyDownContent(e)}
+				ref={(el) => (ref_list.current = el)}
+			>
 				<div className="sessionsListItem__row">
 					{type === SESSION_LIST_TYPES.TEAMSESSION &&
 					hasUserAuthority(

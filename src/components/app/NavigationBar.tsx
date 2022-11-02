@@ -123,30 +123,24 @@ export const NavigationBar = ({
 		return value ? `walkthrough-${value}` : '';
 	}, []);
 
-	const handleKeyDown = (e) => {
-		if (e.key === 'Enter' || e.key === ' ') {
-			console.log('e.key', e.key);
-			setIsMenuOpen(!isMenuOpen);
-		}
-	};
-
 	const ref_array = useRef<any>([]);
 	const ref_local = useRef<any>();
 	const ref_logout = useRef<any>();
 
 	const handleKeyDownMenu = (e, index) => {
-		console.log('test', e.key);
-		console.log('test', e);
-		console.log('test', index);
 		if (e.key === 'Enter' || e.key === ' ') {
 			if (document.activeElement === ref_logout.current) {
 				handleLogout();
 			} else if (document.activeElement === ref_local.current) {
+				console.log('local button', e.key);
 				setIsMenuOpen(!isMenuOpen);
+				document.getElementById('react-select-2-option-0').focus();
 			}
-			console.log('e.key', e.key);
 		}
 		if (e.key === 'ArrowUp') {
+			if (isMenuOpen) {
+				return;
+			}
 			if (index === 0) {
 				ref_logout.current.focus();
 			} else if (document.activeElement === ref_logout.current) {
@@ -158,6 +152,9 @@ export const NavigationBar = ({
 			}
 		}
 		if (e.key === 'ArrowDown') {
+			if (isMenuOpen) {
+				return;
+			}
 			if (index === ref_array.current.length - 1) {
 				ref_local.current.focus();
 			} else if (document.activeElement === ref_local.current) {
@@ -168,15 +165,24 @@ export const NavigationBar = ({
 				ref_array.current[index + 1].focus();
 			}
 		}
-		if (e.key === 'Tab') {
-			console.log('e', e);
-			e.preventDefault();
-		}
+		// if (e.key === 'Tab') {
+		// 	e.preventDefault();
+		// }
 	};
+
+	const handleClickMenu = () => {
+		setIsMenuOpen(!isMenuOpen);
+	};
+
+	useEffect(() => {
+		if (ref_array.current[0].current) {
+			ref_array.current[0].focus();
+		}
+	}, [ref_array]);
 
 	return (
 		<div className="navigation__wrapper">
-			<div className="navigation__itemContainer">
+			<div className="navigation__itemContainer" tabIndex={1}>
 				{sessions &&
 					routerConfig.navigation
 						.filter(
@@ -205,9 +211,9 @@ export const NavigationBar = ({
 									'navigation__item__count--active'
 								}`}
 								to={item.to}
-								tabIndex={0}
 								onKeyDown={(e) => handleKeyDownMenu(e, index)}
 								ref={(el) => (ref_array.current[index] = el)}
+								tabIndex={0}
 							>
 								{item?.icon}
 								{(({ large }) => {
@@ -243,10 +249,10 @@ export const NavigationBar = ({
 					{selectableLocales.length > 1 && (
 						<div
 							className="navigation__item navigation__item__language"
-							tabIndex={0}
-							//onKeyDown={handleKeyDown}
+							tabIndex={-1}
 							ref={(el) => (ref_local.current = el)}
 							onKeyDown={(e) => handleKeyDownMenu(e, null)}
+							onClick={handleClickMenu}
 						>
 							<LocaleSwitch
 								showIcon={true}
@@ -256,14 +262,14 @@ export const NavigationBar = ({
 								iconSize={32}
 								label={translate('navigation.language')}
 								menuPlacement="right"
-								openMenu={isMenuOpen}
+								isMenuOpen={isMenuOpen}
 							/>
 						</div>
 					)}
 					<div
 						onClick={handleLogout}
 						className={'navigation__item'}
-						tabIndex={0}
+						tabIndex={-1}
 						ref={(el) => (ref_logout.current = el)}
 						onKeyDown={(e) => handleKeyDownMenu(e, null)}
 					>

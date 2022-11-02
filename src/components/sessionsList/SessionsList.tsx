@@ -708,6 +708,29 @@ export const SessionsList = ({
 		[type, userData]
 	);
 
+	const ref_tab_first = useRef<any>();
+	const ref_tab_second = useRef<any>();
+
+	const handleKeyDownTabs = (e) => {
+		if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+			if (document.activeElement === ref_tab_first.current) {
+				ref_tab_second.current.focus();
+			} else if (document.activeElement === ref_tab_second.current) {
+				ref_tab_first.current.focus();
+			}
+		}
+		// if (e.key === 'Tab') {
+		// 	ref_list.current.focus();
+		// }
+	};
+
+	useEffect(() => {
+		console.log('Hallo');
+		if (ref_tab_first.current) {
+			ref_tab_first.current.focus();
+		}
+	}, [ref_tab_first]);
+
 	return (
 		<div className="sessionsList__innerWrapper">
 			{(showFilter || showEnquiryTabs || showSessionListTabs) && (
@@ -720,6 +743,9 @@ export const SessionsList = ({
 										!sessionListTab
 								})}
 								to={'/sessions/consultant/sessionPreview'}
+								tabIndex={2}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_first.current = el)}
 							>
 								<Text
 									text={translate(
@@ -736,6 +762,8 @@ export const SessionsList = ({
 										SESSION_LIST_TAB_ANONYMOUS
 								})}
 								to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_second.current = el)}
 							>
 								<Text
 									className={clsx('walkthrough_step_2')}
@@ -748,7 +776,7 @@ export const SessionsList = ({
 						</div>
 					)}
 					{showSessionListTabs && (
-						<div className="sessionsList__tabs">
+						<div className="sessionsList__tabs" tabIndex={2}>
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
@@ -759,6 +787,8 @@ export const SessionsList = ({
 										? 'teamSessionView'
 										: 'sessionView'
 								}`}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_first.current = el)}
 							>
 								<Text
 									text={translate(
@@ -778,6 +808,8 @@ export const SessionsList = ({
 										? 'teamSessionView'
 										: 'sessionView'
 								}?sessionListTab=${SESSION_LIST_TAB_ARCHIVE}`}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_second.current = el)}
 							>
 								<Text
 									className={clsx('walkthrough_step_4')}

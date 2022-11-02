@@ -217,6 +217,7 @@ export const MessageSubmitInterfaceComponent = (
 
 	const [requestFeedbackCheckboxChecked, setRequestFeedbackCheckboxChecked] =
 		useState(false);
+	const ref_editor = useRef<any>();
 
 	const checkboxItem: CheckboxItem = {
 		inputId: 'requestFeedback',
@@ -255,6 +256,7 @@ export const MessageSubmitInterfaceComponent = (
 	);
 
 	useEffect(() => {
+		ref_editor.current.focus();
 		setIsConsultantAbsent(
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 				activeSession.consultant?.absent
@@ -1063,6 +1065,7 @@ export const MessageSubmitInterfaceComponent = (
 										)}
 									</Toolbar>
 									<PluginsEditor
+										ref={(el) => (ref_editor.current = el)}
 										editorState={editorState}
 										onChange={handleEditorChange}
 										handleKeyCommand={

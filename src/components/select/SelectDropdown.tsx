@@ -44,6 +44,7 @@ export interface SelectDropdownItem {
 	errorMessage?: string;
 	onKeyDown?: Function;
 	styleOverrides?: defaultStyles;
+	isMenuOpen?: boolean;
 }
 
 const colourStyles = (
@@ -327,6 +328,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 			</components.MultiValueRemove>
 		);
 	};
+	console.log('props.onKeyDown', props.onKeyDown);
 
 	return (
 		<div className={clsx(props.className, 'select__wrapper')}>
@@ -370,7 +372,11 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 					props.styleOverrides ?? {}
 				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
-				tabIndex={-1}
+				menuIsOpen={props.isMenuOpen}
+				tabSelectsValue={props.defaultValue}
+				autoFocus={true}
+				closeMenuOnSelect={true}
+				isFocused={props.isMenuOpen}
 			/>
 			{props.hasError && (
 				<div className="select__error">
