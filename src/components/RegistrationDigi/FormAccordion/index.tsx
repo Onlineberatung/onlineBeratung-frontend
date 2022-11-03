@@ -134,7 +134,7 @@ export const FormAccordionPanel = ({
 
 	const buttonAnswerVideoCall: ButtonItem = {
 		title: translate('registration.accordion.item.continueButton.title'),
-		label: translate('registration.accordion.item.continueButton'),
+		label: translate('registration.accordion.item.continueButton.label'),
 		type: BUTTON_TYPES.LINK
 	};
 
