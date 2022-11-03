@@ -33,18 +33,21 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					'Content-Type': ''
 				}
 			})
-				.then((result) => result.text())
+				.then((result) => {
+					return result.text();
+				})
 				.then((result: string) => {
+					const skipDecryption = !encrypted; // TODO CHECK FOR t:e2e PARAM
 					return decryptAttachment(
 						result,
 						props.attachment.title,
 						keyID,
 						key,
-						encrypted
+						skipDecryption
 					);
 				})
-				.then((result) => {
-					const blobUrl = URL.createObjectURL(result);
+				.then((file: File) => {
+					const blobUrl = URL.createObjectURL(file);
 					const link = document.createElement('a');
 
 					link.href = blobUrl;

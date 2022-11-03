@@ -236,45 +236,32 @@ export const encryptBuffer = async (
 	);
 };
 
-const SIGNATURE_SEPERATOR = '.enc.';
-
 export const decryptAttachment = async (
 	encryptedAttachment: string,
 	name: string,
 	roomKeyID,
 	groupKey,
-	roomEncrypted
+	skipDecryption?
 ): Promise<File> => {
-	const encoder = new TextEncoder();
-
-	// Check the file for a signature seprator to ensure its encrypted
-	if (
-		!roomEncrypted ||
-		encryptedAttachment.indexOf(SIGNATURE_SEPERATOR) < 0
-	) {
+	// skips decryption
+	if (skipDecryption) {
+		const encoder = new TextEncoder();
 		return new File([encoder.encode(encryptedAttachment)], name);
 	}
 
+	// error if key is missing
 	if (!roomKeyID || !groupKey) {
 		throw new MissingKeyError('e2ee.message.encryption');
 	}
 
-	const keyID = encryptedAttachment.slice(
-		encryptedAttachment.indexOf(SIGNATURE_SEPERATOR) +
-			SIGNATURE_SEPERATOR.length,
-		KEY_ID_LENGTH +
-			encryptedAttachment.indexOf(SIGNATURE_SEPERATOR) +
-			SIGNATURE_SEPERATOR.length
-	);
+	// keyId
+	const keyID = encryptedAttachment.slice(0, KEY_ID_LENGTH);
+	console.log(keyID, roomKeyID);
 	if (keyID !== roomKeyID) {
 		throw new WrongKeyError('e2ee.message.encryption.error');
 	}
 
-	const encAttachmentWithVersion = encryptedAttachment.slice(
-		KEY_ID_LENGTH +
-			encryptedAttachment.indexOf(SIGNATURE_SEPERATOR) +
-			SIGNATURE_SEPERATOR.length
-	);
+	const encAttachmentWithVersion = encryptedAttachment.slice(KEY_ID_LENGTH);
 	const [encAttachment, version] =
 		encAttachmentWithVersion.split(VERSION_SEPERATOR);
 
@@ -300,17 +287,7 @@ export const decryptAttachment = async (
 		throw error;
 	}
 };
-
-export const encryptAttachment = async (
-	attachment: File,
-	keyID,
-	key
-): Promise<{ signature?: ArrayBuffer; attachmentFile: File }> => {
-	if (!keyID) {
-		return { attachmentFile: attachment };
-	}
-
-	const encoder = new TextEncoder();
+export const getSignature = async (attachment: File): Promise<ArrayBuffer> => {
 	const buffer = await attachment.arrayBuffer();
 
 	// Get the required signature for apache tika
@@ -326,22 +303,29 @@ export const encryptAttachment = async (
 		signature = output.buffer;
 	}
 
-	// Encrypt the whole attachment
-	const encryptedAttachment = await encryptBuffer(
-		buffer,
-		key,
-		keyID,
-		SIGNATURE_SEPERATOR
-	);
+	return signature;
+};
 
-	// Join the signature and the encrypted attachment
-	const sig = new Uint8Array(signature);
-	const output = new Uint8Array(
-		sig.length + encoder.encode(encryptedAttachment).length
-	);
-	output.set(sig, 0);
-	output.set(encoder.encode(encryptedAttachment), sig.length);
+export const encryptAttachment = async (
+	attachment: File,
+	keyID,
+	key
+): Promise<File> => {
+	if (!keyID) {
+		return attachment;
+	}
 
+	const encoder = new TextEncoder();
+	const buffer = await attachment.arrayBuffer();
+
+	// Encrypt the attachment
+	const encryptedAttachment = await encryptBuffer(buffer, key, keyID);
+
+	// Create buffer from encrypted attachment
+	const output = new Uint8Array(encoder.encode(encryptedAttachment).length);
+	output.set(encoder.encode(encryptedAttachment), 0);
+
+	// Create file
 	const encryptedAttachmentFile = new File(
 		[output.buffer],
 		attachment.name,
@@ -353,8 +337,7 @@ export const encryptAttachment = async (
 		await encryptedAttachmentFile.text(),
 		attachment.name,
 		keyID,
-		key,
-		true
+		key
 	);
 
 	const orgAttachment = await attachment.text();
@@ -363,7 +346,7 @@ export const encryptAttachment = async (
 		throw new EncryptValidationError('Error validating encrypted text.');
 	}
 
-	return { signature, attachmentFile: encryptedAttachmentFile };
+	return encryptedAttachmentFile;
 };
 
 /*

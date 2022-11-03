@@ -79,7 +79,11 @@ import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionPr
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { useTranslation } from 'react-i18next';
-import { encryptAttachment, encryptText } from '../../utils/encryptionHelpers';
+import {
+	encryptAttachment,
+	encryptText,
+	getSignature
+} from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
@@ -519,11 +523,13 @@ export const MessageSubmitInterfaceComponent = (
 		if (attachment) {
 			let res: any;
 
-			const { signature, attachmentFile } = await encryptAttachment(
+			const signature = await getSignature(attachment);
+			const attachmentFile = await encryptAttachment(
 				attachment,
 				keyID,
 				key
 			);
+
 			res = await apiUploadAttachment(
 				attachmentFile,
 				sendToRoomWithId,
