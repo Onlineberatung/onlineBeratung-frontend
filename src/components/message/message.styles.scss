@@ -31,10 +31,6 @@ $message-attachment-color: $secondary !default;
 			color: var(--skin-color-primary-contrast-safe, $primary);
 			transition: unset;
 		}
-
-		&.messageItem__message__attachment__download {
-			text-decoration: none;
-		}
 	}
 
 	&--right {
@@ -220,6 +216,8 @@ $message-attachment-color: $secondary !default;
 				cursor: pointer;
 				flex-direction: row;
 				margin-top: $grid-base;
+				background: transparent;
+				border: none;
 
 				p {
 					margin: 0;

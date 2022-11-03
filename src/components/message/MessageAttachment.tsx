@@ -99,17 +99,11 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 				onClick={() =>
 					downloadViaJavascript(apiUrl + props.attachment.title_link)
 				}
-			>
-				Download
-			</button>
-			<a
-				href={apiUrl + props.attachment.title_link}
-				rel="noopener noreferer"
 				className="messageItem__message__attachment__download"
 			>
 				<DownloadIcon />
 				<p>{translate('attachments.download.label')}</p>
-			</a>
+			</button>
 		</div>
 	);
 };
