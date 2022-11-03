@@ -285,7 +285,10 @@ export const CreateGroupChatView = (props) => {
 
 	const durationSelectDropdown: SelectDropdownItem = {
 		id: 'chatDuration',
-		selectedOptions: durationSelectOptionsSet,
+		selectedOptions: durationSelectOptionsSet.map((option) => ({
+			...option,
+			label: translate(option.label)
+		})),
 		handleDropdownSelect: handleDurationSelect,
 		selectInputLabel: translate('groupChat.create.durationSelect.label'),
 		useIconOption: false,
