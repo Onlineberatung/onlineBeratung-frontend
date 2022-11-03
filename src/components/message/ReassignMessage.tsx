@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import './reassignRequestMessage.styles';
@@ -74,8 +74,20 @@ export const ReassignRequestSentMessage: React.FC<{
 	isMySession: boolean;
 }> = (props) => {
 	const { t: translate } = useTranslation();
-	const [toConsultantName, setToConultantName] = useState('');
 	const { consultantList } = useContext(ConsultantListContext);
+
+	const toConsultantName = useMemo(() => {
+		if (props.toConsultantId && consultantList.length > 0) {
+			const toConsultant = consultantList.find(
+				(consultant) => consultant.value === props.toConsultantId
+			);
+			if (toConsultant) {
+				return toConsultant.label;
+			}
+		}
+
+		return '';
+	}, [consultantList, props.toConsultantId]);
 
 	let descriptionToTranslate =
 		'session.reassign.system.message.reassign.sent.description.noTeam';
@@ -85,17 +97,6 @@ export const ReassignRequestSentMessage: React.FC<{
 	if (props.isTeamSession && !props.isMySession)
 		descriptionToTranslate =
 			'session.reassign.system.message.reassign.sent.description.team.other';
-
-	if (
-		props.toConsultantId &&
-		!toConsultantName &&
-		consultantList.length > 0
-	) {
-		const toConsultant = consultantList.find(
-			(consultant) => consultant.value === props.toConsultantId
-		);
-		setToConultantName(toConsultant.label);
-	}
 
 	return (
 		<div className="reassignRequestMessage">
@@ -126,29 +127,42 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 	isMySession: boolean;
 }> = (props) => {
 	const { t: translate } = useTranslation();
-	const [fromConsultantName, setFromConultantName] = useState('');
-	const [toConsultantName, setToConultantName] = useState('');
 	const { consultantList } = useContext(ConsultantListContext);
+	const fromConsultantName = useMemo(() => {
+		if (
+			props.fromConsultantId &&
+			!props.isAsker &&
+			consultantList.length > 0
+		) {
+			const fromConsultant = consultantList.find(
+				(consultant) => consultant.value === props.fromConsultantId
+			);
+			if (fromConsultant) {
+				return fromConsultant.label;
+			}
+		}
+
+		return '';
+	}, [consultantList, props.fromConsultantId, props.isAsker]);
+
+	const toConsultantName = useMemo(() => {
+		if (
+			props.toConsultantId &&
+			!props.isAsker &&
+			consultantList.length > 0
+		) {
+			const toConsultant = consultantList.find(
+				(consultant) => consultant.value === props.toConsultantId
+			);
+			if (toConsultant) {
+				return toConsultant.label;
+			}
+		}
+
+		return '';
+	}, [consultantList, props.isAsker, props.toConsultantId]);
 
 	const forWhichConsultant = props.isMySession ? 'self' : 'other';
-
-	if (
-		props.fromConsultantId &&
-		props.toConsultantId &&
-		!fromConsultantName &&
-		!toConsultantName &&
-		!props.isAsker &&
-		consultantList.length > 0
-	) {
-		const fromConsultant = consultantList.find(
-			(consultant) => consultant.value === props.fromConsultantId
-		);
-		setFromConultantName(fromConsultant.label);
-		const toConsultant = consultantList.find(
-			(consultant) => consultant.value === props.toConsultantId
-		);
-		setToConultantName(toConsultant.label);
-	}
 
 	return (
 		<div className="reassignRequestMessage">
@@ -209,22 +223,25 @@ export const ReassignRequestDeclinedMessage: React.FC<{
 	fromConsultantId: string;
 }> = (props) => {
 	const { t: translate } = useTranslation();
-	const [fromConsultantName, setFromConultantName] = useState('');
 	const { consultantList } = useContext(ConsultantListContext);
+	const fromConsultantName = useMemo(() => {
+		if (
+			props.fromConsultantId &&
+			!props.isAsker &&
+			consultantList.length > 0
+		) {
+			const fromConsultant = consultantList.find(
+				(consultant) => consultant.value === props.fromConsultantId
+			);
+			if (fromConsultant) {
+				return fromConsultant.label;
+			}
+		}
+
+		return '';
+	}, [consultantList, props.fromConsultantId, props.isAsker]);
 
 	const forWhichConsultant = props.isMySession ? 'self' : 'other';
-
-	if (
-		props.fromConsultantId &&
-		!fromConsultantName &&
-		!props.isAsker &&
-		consultantList.length > 0
-	) {
-		const fromConsultant = consultantList.find(
-			(consultant) => consultant.value === props.fromConsultantId
-		);
-		setFromConultantName(fromConsultant.label);
-	}
 
 	return (
 		<div className="reassignRequestMessage">
