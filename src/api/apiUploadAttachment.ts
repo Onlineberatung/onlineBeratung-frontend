@@ -2,6 +2,7 @@ import { endpoints } from '../resources/scripts/endpoints';
 import { FETCH_METHODS } from './fetchData';
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { generateCsrfToken } from '../utils/generateCsrfToken';
+import { toString } from '../utils/encryptionHelpers';
 
 const nodeEnv: string = process.env.NODE_ENV as string;
 const isLocalDevelopment = nodeEnv === 'development';
@@ -14,7 +15,9 @@ export const apiUploadAttachment = (
 	isFeedback: boolean,
 	sendMailNotification: boolean,
 	uploadProgress: Function,
-	handleXhr: (xhr) => void
+	handleXhr: (xhr) => void,
+	isEncrypted: boolean,
+	signature: ArrayBuffer
 ) =>
 	new Promise((resolve, reject) => {
 		const accessToken = getValueFromCookie('keycloak');
@@ -29,6 +32,11 @@ export const apiUploadAttachment = (
 		let data = new FormData();
 		data.append('file', attachment);
 		data.append('sendNotification', sendMailNotification.toString());
+
+		if (isEncrypted) {
+			data.append('t', 'e2e');
+			data.append('fileHeader', toString(signature));
+		}
 
 		const xhr = new XMLHttpRequest();
 		xhr.withCredentials = true;

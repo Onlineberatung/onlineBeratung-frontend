@@ -305,9 +305,9 @@ export const encryptAttachment = async (
 	attachment: File,
 	keyID,
 	key
-): Promise<File> => {
+): Promise<{ signature?: ArrayBuffer; attachmentFile: File }> => {
 	if (!keyID) {
-		return attachment;
+		return { attachmentFile: attachment };
 	}
 
 	const encoder = new TextEncoder();
@@ -348,7 +348,7 @@ export const encryptAttachment = async (
 		attachment
 	);
 
-	// Decrypt attachment after encrypt to check it the result matches
+	// Decrypt attachment after encrypt to check if the result matches
 	const decryptedAttachment = await decryptAttachment(
 		await encryptedAttachmentFile.text(),
 		attachment.name,
@@ -363,7 +363,7 @@ export const encryptAttachment = async (
 		throw new EncryptValidationError('Error validating encrypted text.');
 	}
 
-	return encryptedAttachmentFile;
+	return { signature, attachmentFile: encryptedAttachmentFile };
 };
 
 /*

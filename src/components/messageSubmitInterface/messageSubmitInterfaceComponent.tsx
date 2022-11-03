@@ -519,18 +519,20 @@ export const MessageSubmitInterfaceComponent = (
 		if (attachment) {
 			let res: any;
 
-			const encryptedAttachment = await encryptAttachment(
+			const { signature, attachmentFile } = await encryptAttachment(
 				attachment,
 				keyID,
 				key
 			);
 			res = await apiUploadAttachment(
-				encryptedAttachment,
+				attachmentFile,
 				sendToRoomWithId,
 				sendToFeedbackEndpoint,
 				getSendMailNotificationStatus(),
 				setUploadProgress,
-				setAttachmentUpload
+				setAttachmentUpload,
+				isEncrypted,
+				signature
 			).catch((res: XMLHttpRequest) => {
 				if (res.status === 413) {
 					handleAttachmentUploadError(

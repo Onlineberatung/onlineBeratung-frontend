@@ -34,15 +34,15 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 				}
 			})
 				.then((result) => result.text())
-				.then((result: string) =>
-					decryptAttachment(
+				.then((result: string) => {
+					return decryptAttachment(
 						result,
 						props.attachment.title,
 						keyID,
 						key,
 						encrypted
-					)
-				)
+					);
+				})
 				.then((result) => {
 					const blobUrl = URL.createObjectURL(result);
 					const link = document.createElement('a');
