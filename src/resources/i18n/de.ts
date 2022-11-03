@@ -1203,7 +1203,7 @@ export const de = {
 		}
 	},
 	navigation: {
-		'appointments': 'Video-Termine',
+		'appointments': 'Video - Termine',
 		'asker': {
 			sessions: {
 				large: 'Meine Beratungen',

@@ -320,5 +320,8 @@ export const ALIAS_LAST_MESSAGES = {
 	FURTHER_STEPS: 'aliases.lastMessage.further_steps',
 	REASSIGN_CONSULTANT: 'aliases.lastMessage.reassign_consultant',
 	REASSIGN_CONSULTANT_RESET_LAST_MESSAGE:
-		'aliases.lastMessage.reassign_consultant_reset_last_message'
+		'aliases.lastMessage.reassign_consultant_reset_last_message',
+	APPOINTMENT_SET: 'message.appointment.component.header.confirmation',
+	APPOINTMENT_CANCELLED: 'message.appointment.component.header.cancellation',
+	APPOINTMENT_RESCHEDULED: 'message.appointment.component.header.change'
 };

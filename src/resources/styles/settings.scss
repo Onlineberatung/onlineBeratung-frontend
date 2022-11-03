@@ -38,9 +38,9 @@ $background-grey: #677391;
 
 $form-primary: rgba(0, 0, 0, 0.2);
 $form-secondary: rgba(0, 0, 0, 0.9);
-$form-success: #0dcd21;
+$form-success: #0a882f;
 $form-medium: #ff9f00;
-$form-error: #f00;
+$form-error: #cc0000;
 $form-disabled: rgba(0, 0, 0, 0.05);
 $form-active: rgba(0, 0, 0, 0.9);
 
@@ -205,7 +205,7 @@ $legal-information-links-left-medium: auto;
 $legal-information-links-left-large: auto;
 $link-color: $primary;
 $link-color-hover: $hover-primary;
-$link-text-decoration: none;
+$link-text-decoration: underline;
 $link-text-decoration-hover: $link-text-decoration !default;
 $link-font-weight: inherit;
 $link-hover-color-default: $hover-primary;
@@ -270,4 +270,4 @@ $text-divider-font-weight: $font-weight-regular;
 $text-divider-text-transform: none;
 $upload-progress: #80dd92;
 $waiting-room-illustration-display-after: block;
-$welcome-screen-icon-background: $background-accent;
+$welcome-screen-icon-background: $primary;
