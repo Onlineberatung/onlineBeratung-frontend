@@ -51,6 +51,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		color: var(--text-color-contrast-switch, $white);
 		text-align: center;
 		text-decoration: none;
+
 		--transition-duration: 0.3s;
 
 		.select__wrapper {
