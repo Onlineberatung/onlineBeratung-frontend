@@ -19,7 +19,6 @@ describe('registration', () => {
 		mockWebSocket();
 
 		cy.fixture('service.agencies.json').then((data) => {
-			agencies = data;
 			cy.intercept(
 				new RegExp(`${endpoints.agencyServiceBase}*`),
 				data
