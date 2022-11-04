@@ -13,7 +13,7 @@ export const GROUP_CHAT_API = {
 };
 
 export const apiPutGroupChat = async (
-	groupChatId: number,
+	groupChatId: number | string,
 	groupChatApi: string
 ): Promise<any> => {
 	const url = endpoints.groupChatBase + groupChatId + groupChatApi;
