@@ -86,10 +86,7 @@ export const SessionStream = ({
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
-	const { consultantList, setConsultantList } = useContext(
-		ConsultantListContext
-	);
-	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
+	const { setConsultantList } = useContext(ConsultantListContext);
 
 	const abortController = useRef<AbortController>(null);
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
@@ -156,8 +153,9 @@ export const SessionStream = ({
 					}
 
 					if (message.t === 'au') {
-						if (isE2eeEnabled) {
-							addNewUsersToEncryptedRoom();
+						// Handle this event only for groups because on session assigning its already handled
+						if (isE2eeEnabled && activeSession.isGroup) {
+							addNewUsersToEncryptedRoom().then();
 						}
 						return;
 					}
@@ -175,10 +173,11 @@ export const SessionStream = ({
 		},
 
 		[
-			isE2eeEnabled,
-			fetchSessionMessages,
 			checkMutedUserForThisSession,
+			isE2eeEnabled,
+			activeSession.isGroup,
 			addNewUsersToEncryptedRoom,
+			fetchSessionMessages,
 			setSessionRead
 		]
 	);
@@ -262,7 +261,7 @@ export const SessionStream = ({
 			subscribed.current = true;
 
 			// check if any user needs to be added when opening session view
-			addNewUsersToEncryptedRoom();
+			addNewUsersToEncryptedRoom().then();
 
 			fetchSessionMessages()
 				.then(() => {
@@ -375,19 +374,29 @@ export const SessionStream = ({
 	]);
 
 	useEffect(() => {
-		const agencyId = activeSession.item.agencyId.toString();
-		if (consultantList && !isAsker) {
-			apiGetAgencyConsultantList(agencyId)
-				.then((response) => {
-					const consultants =
-						prepareConsultantDataForSelect(response);
-					setConsultantList(consultants);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+		if (
+			activeSession.isLive ||
+			activeSession.isGroup ||
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
+		) {
+			return;
 		}
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+		const agencyId = activeSession.item.agencyId.toString();
+		apiGetAgencyConsultantList(agencyId)
+			.then((response) => {
+				const consultants = prepareConsultantDataForSelect(response);
+				setConsultantList(consultants);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, [
+		activeSession.isGroup,
+		activeSession.isLive,
+		activeSession.item.agencyId,
+		setConsultantList,
+		userData
+	]);
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {

@@ -3,6 +3,9 @@ import {
 	startWebSocketServer,
 	mockWebSocket
 } from '../support/websocket';
+import attachmentsI18n from '../../src/resources/scripts/i18n/de/attachments';
+import attachmentsInformalI18n from '../../src/resources/scripts/i18n/de/attachmentsInformal';
+import { SUB_STREAM_ROOM_MESSAGES } from '../../src/components/app/RocketChat';
 import { SOCKET_COLLECTION } from '../../src/api/rocketChatSocket';
 
 describe('Messages', () => {
@@ -22,10 +25,10 @@ describe('Messages', () => {
 	xdescribe('Attachments', () => {
 		it('should allow to send a message with attachment', () => {
 			cy.fastLogin();
+			cy.get('.cy-socket-connected-rc');
 			cy.wait('@consultingTypeServiceBaseBasic');
 
-			cy.get('[data-cy=sessions-list-items-wrapper]').click();
-			cy.wait('@consultingTypeServiceBaseFull');
+			cy.get('[data-cy=session-list-item]').click();
 			cy.wait('@messages');
 
 			cy.get('.textarea__attachmentInput').attachFile('empty.pdf');
@@ -167,7 +170,7 @@ describe('Messages', () => {
 						cy.get('.cy-socket-connected-rc');
 						cy.waitForSubscriptions([
 							'/user/events',
-							SOCKET_COLLECTION.ROOM_MESSAGES
+							SUB_STREAM_ROOM_MESSAGES
 						]);
 
 						//stream-room-messages

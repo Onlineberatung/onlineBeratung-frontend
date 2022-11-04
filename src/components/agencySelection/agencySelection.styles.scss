@@ -4,7 +4,7 @@ $infoIconSize: 16px;
 .agencySelection {
 	position: relative;
 	animation: fadeIn linear 0.2s;
-	padding-right: $grid-base-two;
+	width: 100%;
 
 	&__intro {
 		> .text__infoLargeAlternative {

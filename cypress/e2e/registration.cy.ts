@@ -17,6 +17,14 @@ describe('registration', () => {
 	beforeEach(() => {
 		cy.mockApi();
 		mockWebSocket();
+
+		cy.fixture('service.agencies.json').then((data) => {
+			agencies = data;
+			cy.intercept(
+				new RegExp(`${endpoints.agencyServiceBase}*`),
+				data
+			).as('agencies');
+		});
 	});
 
 	describe('addiction', () => {
