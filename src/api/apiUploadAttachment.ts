@@ -16,7 +16,7 @@ export const apiUploadAttachment = (
 	sendMailNotification: boolean,
 	uploadProgress: Function,
 	handleXhr: (xhr) => void,
-	isEncrypted: boolean,
+	skipEncryption: boolean,
 	signature: ArrayBuffer
 ) =>
 	new Promise((resolve, reject) => {
@@ -33,7 +33,7 @@ export const apiUploadAttachment = (
 		data.append('file', attachment);
 		data.append('sendNotification', sendMailNotification.toString());
 
-		if (isEncrypted) {
+		if (!skipEncryption) {
 			data.append('t', 'e2e');
 			data.append('fileHeader', toString(signature));
 		}

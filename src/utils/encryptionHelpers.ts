@@ -309,9 +309,10 @@ export const getSignature = async (attachment: File): Promise<ArrayBuffer> => {
 export const encryptAttachment = async (
 	attachment: File,
 	keyID,
-	key
+	key,
+	skipEncryption
 ): Promise<File> => {
-	if (!keyID) {
+	if (!keyID || skipEncryption) {
 		return attachment;
 	}
 

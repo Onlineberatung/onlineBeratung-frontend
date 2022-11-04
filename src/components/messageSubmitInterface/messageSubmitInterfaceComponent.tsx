@@ -92,6 +92,7 @@ import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
 import { RoomNotFound } from '../session/RoomNotFound';
 import { useDraftMessage } from './useDraftMessage';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -163,6 +164,7 @@ export const MessageSubmitInterfaceComponent = (
 	const { t: translate } = useTranslation();
 	const tenant = useTenant();
 	const history = useHistory();
+	const settings = useAppConfig();
 
 	const textareaInputRef = useRef<HTMLDivElement>(null);
 	const inputWrapperRef = useRef<HTMLSpanElement>(null);
@@ -523,11 +525,14 @@ export const MessageSubmitInterfaceComponent = (
 		if (attachment) {
 			let res: any;
 
+			const skipEncryption =
+				!isEncrypted || !settings.attachmentEncryption;
 			const signature = await getSignature(attachment);
 			const attachmentFile = await encryptAttachment(
 				attachment,
 				keyID,
-				key
+				key,
+				skipEncryption
 			);
 
 			res = await apiUploadAttachment(
@@ -537,7 +542,7 @@ export const MessageSubmitInterfaceComponent = (
 				getSendMailNotificationStatus(),
 				setUploadProgress,
 				setAttachmentUpload,
-				isEncrypted,
+				skipEncryption,
 				signature
 			).catch((res: XMLHttpRequest) => {
 				if (res.status === 413) {

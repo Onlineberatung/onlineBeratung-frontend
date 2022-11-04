@@ -11,17 +11,20 @@ import { useCallback } from 'react';
 import { FETCH_METHODS, fetchData } from '../../api';
 import { decryptAttachment } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;
 	file: MessageService.Schemas.FileDTO;
 	hasRenderedMessage: boolean;
 	rid: string;
+	t?: string;
 }
 
 export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const { t: translate } = useTranslation();
 	const { key, keyID, encrypted } = useE2EE(props.rid);
+	const settings = useAppConfig();
 
 	const downloadViaJavascript = useCallback(
 		(url: string) => {
@@ -37,13 +40,16 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					return result.text();
 				})
 				.then((result: string) => {
-					const skipDecryption = !encrypted; // TODO CHECK FOR t:e2e PARAM
+					const hasDecryption =
+						encrypted &&
+						props.t === 'e2e' &&
+						settings.attachmentEncryption;
 					return decryptAttachment(
 						result,
 						props.attachment.title,
 						keyID,
 						key,
-						skipDecryption
+						!hasDecryption
 					);
 				})
 				.then((file: File) => {
