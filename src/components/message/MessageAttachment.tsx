@@ -12,6 +12,7 @@ import { FETCH_METHODS, fetchData } from '../../api';
 import { decryptAttachment } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { STORAGE_KEY_ATTACHMENT_ENCRYPTION } from '../devToolbar/DevToolbar';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;
@@ -25,6 +26,10 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const { t: translate } = useTranslation();
 	const { key, keyID, encrypted } = useE2EE(props.rid);
 	const settings = useAppConfig();
+	const isAttachmentEncryptionEnabledDevTools =
+		localStorage.getItem(STORAGE_KEY_ATTACHMENT_ENCRYPTION) === null
+			? settings.attachmentEncryption
+			: parseInt(localStorage.getItem(STORAGE_KEY_ATTACHMENT_ENCRYPTION));
 
 	const downloadViaJavascript = useCallback(
 		(url: string) => {
@@ -40,16 +45,17 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					return result.text();
 				})
 				.then((result: string) => {
-					const hasDecryption =
+					const shouldDecrypt =
 						encrypted &&
 						props.t === 'e2e' &&
-						settings.attachmentEncryption;
+						isAttachmentEncryptionEnabledDevTools;
+					const skipDecryption = !shouldDecrypt;
 					return decryptAttachment(
 						result,
 						props.attachment.title,
 						keyID,
 						key,
-						!hasDecryption
+						!skipDecryption
 					);
 				})
 				.then((file: File) => {
@@ -70,7 +76,14 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					document.body.removeChild(link);
 				});
 		},
-		[encrypted, key, keyID, props.attachment.title]
+		[
+			encrypted,
+			key,
+			keyID,
+			props.attachment.title,
+			props.t,
+			isAttachmentEncryptionEnabledDevTools
+		]
 	);
 
 	return (

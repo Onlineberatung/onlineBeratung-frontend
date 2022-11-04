@@ -256,7 +256,6 @@ export const decryptAttachment = async (
 
 	// keyId
 	const keyID = encryptedAttachment.slice(0, KEY_ID_LENGTH);
-	console.log(keyID, roomKeyID);
 	if (keyID !== roomKeyID) {
 		throw new WrongKeyError('e2ee.message.encryption.error');
 	}

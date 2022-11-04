@@ -93,6 +93,7 @@ import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
 import { RoomNotFound } from '../session/RoomNotFound';
 import { useDraftMessage } from './useDraftMessage';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { STORAGE_KEY_ATTACHMENT_ENCRYPTION } from '../devToolbar/DevToolbar';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -525,8 +526,27 @@ export const MessageSubmitInterfaceComponent = (
 		if (attachment) {
 			let res: any;
 
-			const skipEncryption =
-				!isEncrypted || !settings.attachmentEncryption;
+			const isAttachmentEncryptionEnabledDevTools =
+				localStorage.getItem(STORAGE_KEY_ATTACHMENT_ENCRYPTION) === null
+					? settings.attachmentEncryption
+					: parseInt(
+							localStorage.getItem(
+								STORAGE_KEY_ATTACHMENT_ENCRYPTION
+							)
+					  );
+			const encryptEnabled =
+				isEncrypted && isAttachmentEncryptionEnabledDevTools;
+			const skipEncryption = !encryptEnabled;
+
+			console.log(
+				isAttachmentEncryptionEnabledDevTools,
+				localStorage.getItem(STORAGE_KEY_ATTACHMENT_ENCRYPTION),
+				isEncrypted,
+				settings.attachmentEncryption,
+				encryptEnabled,
+				skipEncryption
+			);
+
 			const signature = await getSignature(attachment);
 			const attachmentFile = await encryptAttachment(
 				attachment,

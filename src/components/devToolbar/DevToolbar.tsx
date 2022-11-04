@@ -8,6 +8,7 @@ import React, {
 import * as ReactDOM from 'react-dom';
 import './devToolbar.styles.scss';
 import i18n from '../../i18n';
+import { config } from '../../resources/scripts/config';
 
 export const STORAGE_KEY_LOCALE = 'locale';
 export const STORAGE_KEY_DEV_TOOLBAR = 'showDevTools';
@@ -20,6 +21,7 @@ export const STORAGE_KEY_RELEASE_NOTES = 'release_notes';
 export const STORAGE_KEY_ERROR_BOUNDARY = 'error_boundary';
 export const STORAGE_KEY_E2EE_DISABLED = 'e2ee_disabled';
 export const STORAGE_KEY_ENABLE_TRANSLATION_CHECK = 'enable_translation_check';
+export const STORAGE_KEY_ATTACHMENT_ENCRYPTION = 'attachement_encryption';
 
 const DEVTOOLBAR_EVENT = 'devToolbar';
 
@@ -137,6 +139,15 @@ const LOCAL_STORAGE_SWITCHES: TLocalStorageSwitches[] = [
 		choices: { '0': 'Enabled', '1': 'Disabled' },
 		value: '0',
 		description: 'Disable end-to-end encryption. DEV only'
+	},
+	{
+		label: 'DEV ATTACHMENT ENCRYPTION',
+		key: STORAGE_KEY_ATTACHMENT_ENCRYPTION,
+		type: TOGGLE,
+		choices: { '0': 'Disabled', '1': 'Enabled' },
+		value: config.attachmentEncryption ? '1' : '0',
+		description:
+			'Disable attachment encryption. Enable only when e2ee is also enabled. DEV only'
 	},
 	{
 		label: 'DEV Error Boundary',
