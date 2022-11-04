@@ -1,3 +1,7 @@
 .formAccordion {
 	border-top: 1px solid $black-25-opacity;
+
+	@include breakpoint($fromLarge) {
+		min-width: 560px;
+	}
 }

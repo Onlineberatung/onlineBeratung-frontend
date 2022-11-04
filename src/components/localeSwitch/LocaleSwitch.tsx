@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './localeSwitch.styles';
-import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language.svg';
+import { ReactComponent as LanguageIconOutline } from '../../resources/img/icons/language_outline.svg';
+import { ReactComponent as LanguageIconFilled } from '../../resources/img/icons/language_filled.svg';
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect, useState } from 'react';
 import { LocaleContext, UserDataContext } from '../../globalState';
@@ -15,6 +16,7 @@ export interface LocaleSwitchProp {
 	iconSize?: number;
 	label?: string;
 	menuPlacement?: 'top' | 'bottom' | 'right';
+	isInsideMenu?: boolean;
 }
 
 export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
@@ -24,7 +26,8 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 	vertical,
 	iconSize = 20,
 	menuPlacement = 'bottom',
-	label
+	label,
+	isInsideMenu = false
 }) => {
 	const { t: translate } = useTranslation('languages');
 
@@ -73,7 +76,20 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 			label: (
 				<>
 					{showIcon && (
-						<LanguageIcon width={iconSize} height={iconSize} />
+						<>
+							{isInsideMenu && (
+								<LanguageIconOutline
+									width={iconSize}
+									height={iconSize}
+									className="navigation__icon__outline"
+								/>
+							)}
+							<LanguageIconFilled
+								width={iconSize}
+								height={iconSize}
+								className="navigation__icon__filled"
+							/>
+						</>
 					)}{' '}
 					<span>
 						{label

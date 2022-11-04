@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language.svg';
+import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language_filled.svg';
 
 import './profile.styles';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';

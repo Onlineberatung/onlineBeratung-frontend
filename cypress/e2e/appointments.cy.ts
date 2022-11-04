@@ -91,7 +91,7 @@ describe('appointments', () => {
 			cy.get('.appointments').contains('Aktuell gibt es keine Termine');
 		});
 
-		it.only('Add appointment', () => {
+		it('Add appointment', () => {
 			// Default Meeting Time
 			const dMT = new Date();
 			dMT.setHours(8);

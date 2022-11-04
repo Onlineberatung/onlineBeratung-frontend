@@ -427,6 +427,12 @@ export const de = {
 				'Nachricht verschlüsselt - Fehler beim Entschlüsseln',
 			'encryption.text': 'Nachricht verschlüsselt'
 		},
+		inProgress: {
+			headline: 'Verschlüsselung im Gange',
+			copy: 'Ihre Sicherheit ist uns wichtig! Wir verschlüsseln gerade Ihren Chat. Dies kann einen Moment dauern.',
+			confirm:
+				'Bitte warten Sie bis die Verschlüsselung abgeschlossen ist!'
+		},
 		roomNotFound: {
 			'notice.line1': 'Ohh!',
 			'notice.line2':
@@ -440,12 +446,14 @@ export const de = {
 				primary:
 					'Ein_e Chat-Teilnehmer_in hat keinen Zugriff mehr auf den Nachrichtenverlauf.',
 				secondary:
-					'Ein_e Chat-Teilnehmer_in hatte zwischenzeitlich keinen Zugriff mehr auf den Nachrichtenverlauf. Nun können alle Chat-Teilnehmer wieder auf den Nachrichtenverlauf zugreifen.'
+					'Ein_e Chat-Teilnehmer_in hatte zwischenzeitlich keinen Zugriff mehr auf den Nachrichtenverlauf. Nun können alle Chat-Teilnehmer wieder auf den Nachrichtenverlauf zugreifen.',
+				more: 'Mehr erfahren'
 			},
 			notice: {
 				link: 'Benachrichtigung schicken',
 				text: 'Da Sie Ihr Passwort zurückgesetzt haben, sind die Nachrichten für Sie momentan nicht lesbar. Sobald ein_e Chat-Teilnehmer_in den Chat wieder öffnet, können Sie die Nachrichten wieder lesen und Neue schreiben.',
-				title: 'Ihre Sicherheit ist uns wichtig!'
+				title: 'Ihre Sicherheit ist uns wichtig!',
+				more: 'Mehr erfahren'
 			},
 			overlay: {
 				'copy': 'Ihre Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform.<br/><br/>Wenn das Passwort zurückgesetzt wird, sind die Nachrichten vorübergehend nicht lesbar. Sobald ein_e weitere_r Chat-Teilnehmer_in den Chat wieder öffnet, können die Nachrichten neu verschlüsselt werden. Somit können wieder allen Chat-Teilnehmer_innen Nachrichten lesen und schreiben.',
@@ -1198,7 +1206,7 @@ export const de = {
 		}
 	},
 	navigation: {
-		'appointments': 'Video-Termine',
+		'appointments': 'Video - Termine',
 		'asker': {
 			sessions: {
 				large: 'Meine Beratungen',
@@ -1231,7 +1239,11 @@ export const de = {
 		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!'
 	},
 	overlay: {
-		'step.headline.prefix': '. Schritt | '
+		'step.headline.prefix': '. Schritt | ',
+		'timeout': {
+			headline: 'Einen Moment bitte.',
+			confirm: 'Möchten Sie die Seite wirklich verlassen?'
+		}
 	},
 	overview: {
 		title: 'Willkommen zurück!',
@@ -1252,6 +1264,16 @@ export const de = {
 		appointmentsEmpty:
 			'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern',
 		start: 'Starten'
+	},
+	preconditions: {
+		cookie: {
+			headline: 'Bitte aktivieren Sie Cookies, um fortzufahren',
+			paragraph: {
+				1: 'Bitte aktivieren Sie bei Ihrem Browser Cookies, um die Anmeldung zu ermöglichen.',
+				2: 'Nachdem Sie Cookies in Ihrem Browser aktiviert haben, klicken Sie einfach auf die Schaltfläche unten, um zur vorhergehenden Seite zurückzukehren.'
+			},
+			button: 'Zurück zur vorherigen Seite'
+		}
 	},
 	profile: {
 		'appLanguage': {
@@ -1436,7 +1458,7 @@ export const de = {
 				'download.label': 'Download Excel Datei'
 			},
 			csvHeader: {
-				numberOfAppointments: 'Termine gebuchte',
+				numberOfAppointments: 'Termine gebucht',
 				numberOfAssignedSessions: 'Beratungen angenommen',
 				numberOfSentMessages: 'Nachrichten geschrieben',
 				numberOfSessionsWhereConsultantWasActive: 'Aktive Beratungen',
@@ -1735,6 +1757,7 @@ export const de = {
 			'takenByOtherConsultant.button.label': 'Schließen'
 		},
 		'assignOther': {
+			'inProgress': 'Die Beratung wird gerade zugewiesen.',
 			'overlay': {
 				'headline': {
 					'1': 'Möchten Sie {{client}} an {{newConsultant}} zuweisen?',
@@ -1750,6 +1773,7 @@ export const de = {
 			'button.label': 'Schließen'
 		},
 		'assignSelf': {
+			'inProgress': 'Die Beratung wird Ihnen gerade zugewiesen.',
 			'overlay': {
 				'headline1':
 					'Sie haben die Beratung erfolgreich angenommen. Sie wurde in Meine Beratungen verschoben.',
@@ -1893,10 +1917,11 @@ export const de = {
 		activate: {
 			step1: {
 				'app': 'Mit Authenticator Application',
-				'copy': 'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail-Adresse zusätzlich schützen?',
+				'copy': 'Installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App. Alternativ können Sie auch Ihre E-Mail-Adresse als zweiten Faktor verwenden.',
 				'email': 'Per E-Mail',
-				'title': 'Zweiter Faktor wählen',
-				'visualisation.label': 'Auswahl'
+				'title': 'Zweiten Faktor wählen',
+				'visualisation.label': 'Auswahl',
+				'disable': 'Authentifizierung deaktivieren'
 			},
 			radio: {
 				label: {
@@ -1947,7 +1972,7 @@ export const de = {
 			app: {
 				step2: {
 					'title': 'Installieren Sie sich die App',
-					'copy': 'Installieren Sie sich FreeOTP oder Google Authentificator auf Ihrem Smartphone oder Tablet. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
+					'copy': 'Bitte installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authentificator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
 					'visualisation.label': 'Installation',
 					'tool1': {
 						title: 'FreeOTP App:',
@@ -2001,13 +2026,22 @@ export const de = {
 		email: {
 			'change': {
 				confirmOverlay: {
-					'title': 'E-Mail-Adresse bearbeiten',
-					'copy': {
+					title: 'E-Mail-Adresse bearbeiten',
+					copy: {
 						'1': 'Sie nutzen diese E-Mail-Adresse als zweiten Faktor für eine sichere Anmeldung.',
 						'2': 'Deaktivieren Sie die Zwei-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.'
 					},
-					'button.confirm': 'Authentifizierung deaktivieren',
-					'button.deny': 'Abbrechen'
+					binding: {
+						copy: {
+							'1': 'Sie können Ihre E-Mail Adresse nicht ändern solange Sie diese als zweiten Faktor für eine sichere Anmeldung verwenden.',
+							'2': 'Wechseln Sie den zweiten Faktor von "E-Mail Adresse" zu "App". Dann können Sie Ihre E-Mail Adresse ändern.'
+						}
+					},
+					button: {
+						confirm: 'Authentifizierung deaktivieren',
+						deny: 'Abbrechen',
+						edit: 'zweiter Faktor bearbeiten'
+					}
 				}
 			},
 			'delete.confirmOverlay.copy':
@@ -2035,7 +2069,7 @@ export const de = {
 			save: 'Speichern'
 		},
 		subtitle:
-			'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung',
+			'Nutzen Sie neben Ihrem Passwort einen zweiten Faktor für die Anmeldung. Dadurch wird Ihr Konto zusätzlich abgesichert.',
 		switch: {
 			'active.label': 'Zwei-Faktor-Authentifizierung aktiviert',
 			'deactive.label': 'Zwei-Faktor-Authentifizierung deaktiviert',

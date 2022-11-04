@@ -29,7 +29,7 @@ export const Stage = ({
 	const { t: translate } = useTranslation();
 
 	const rootNodeRef = useRef();
-	const { tenant } = useContext(TenantContext);
+	const { tenant } = useContext(TenantContext) || {};
 	const [isAnimationDone, setIsAnimationDone] = useState(false);
 
 	function onAnimationEnd(event) {

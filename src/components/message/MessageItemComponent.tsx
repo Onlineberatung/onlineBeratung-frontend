@@ -33,7 +33,7 @@ import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Appointment } from './Appointment';
 import { decryptText, MissingKeyError } from '../../utils/encryptionHelpers';
-import { useE2EE } from '../../hooks/useE2EE';
+import { e2eeParams } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
 import {
 	ReassignRequestAcceptedMessage,
@@ -100,7 +100,13 @@ interface MessageItemComponentProps extends MessageItem {
 	clientName: string;
 	resortData: ConsultingTypeInterface;
 	isUserBanned: boolean;
-	handleDecryptionErrors: (error: TError) => void;
+	handleDecryptionErrors: (
+		id: string,
+		messageTime: string,
+		error: TError
+	) => void;
+	handleDecryptionSuccess: (id: string) => void;
+	e2eeParams: e2eeParams & { subscriptionKeyLost: boolean };
 }
 
 export const MessageItemComponent = ({
@@ -122,7 +128,9 @@ export const MessageItemComponent = ({
 	isUserBanned,
 	t,
 	rid,
-	handleDecryptionErrors
+	handleDecryptionErrors,
+	handleDecryptionSuccess,
+	e2eeParams
 }: MessageItemComponentProps) => {
 	const { t: translate } = useTranslation();
 	const { activeSession, reloadActiveSession } =
@@ -136,15 +144,20 @@ export const MessageItemComponent = ({
 		string | null | undefined
 	>(null);
 
-	const { key, keyID, encrypted, subscriptionKeyLost } = useE2EE(rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	useEffect((): void => {
 		if (isE2eeEnabled) {
-			decryptText(message, keyID, key, encrypted, t === 'e2e')
+			decryptText(
+				message,
+				e2eeParams.keyID,
+				e2eeParams.key,
+				e2eeParams.encrypted,
+				t === 'e2e'
+			)
 				.catch((e) => {
 					if (!(e instanceof MissingKeyError)) {
-						handleDecryptionErrors({
+						handleDecryptionErrors(_id, messageTime, {
 							name: e.name,
 							message: e.message,
 							stack: e.stack,
@@ -154,19 +167,23 @@ export const MessageItemComponent = ({
 
 					return `${org || message} *`;
 				})
-				.then(setDecryptedMessage);
+				.then(setDecryptedMessage)
+				.then(() => handleDecryptionSuccess(_id));
 		} else {
 			setDecryptedMessage(org || message);
 		}
 	}, [
-		key,
-		keyID,
-		encrypted,
 		message,
 		org,
 		t,
 		isE2eeEnabled,
-		handleDecryptionErrors
+		handleDecryptionErrors,
+		e2eeParams.keyID,
+		e2eeParams.key,
+		e2eeParams.encrypted,
+		messageTime,
+		_id,
+		handleDecryptionSuccess
 	]);
 
 	useEffect((): void => {
@@ -303,7 +320,7 @@ export const MessageItemComponent = ({
 			case isMasterKeyLostMessage:
 				return (
 					<MasterKeyLostMessage
-						subscriptionKeyLost={subscriptionKeyLost}
+						subscriptionKeyLost={e2eeParams.subscriptionKeyLost}
 					/>
 				);
 			case isE2EEActivatedMessage:

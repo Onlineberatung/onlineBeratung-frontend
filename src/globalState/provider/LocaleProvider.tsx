@@ -4,7 +4,7 @@ import i18n, { FALLBACK_LNG, init } from '../../i18n';
 import { InformalContext } from './InformalProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
-export const STORAGE_KEY = 'locale';
+export const STORAGE_KEY_LOCALE = 'locale';
 
 type TLocaleContext = {
 	locale: string;
@@ -26,8 +26,8 @@ export function LocaleProvider(props) {
 	useEffect(() => {
 		init(settings.i18n).then(() => {
 			setInitLocale(i18n.language);
-			if (localStorage.getItem(STORAGE_KEY)) {
-				setLocale(localStorage.getItem(STORAGE_KEY));
+			if (localStorage.getItem(STORAGE_KEY_LOCALE)) {
+				setLocale(localStorage.getItem(STORAGE_KEY_LOCALE));
 			} else {
 				setLocale(i18n.language || FALLBACK_LNG);
 			}
@@ -67,7 +67,7 @@ export function LocaleProvider(props) {
 				}
 			}
 			i18n.changeLanguage(lngCode);
-			localStorage.setItem(STORAGE_KEY, locale);
+			localStorage.setItem(STORAGE_KEY_LOCALE, locale);
 			document.documentElement.lang = locale;
 		}
 	}, [locale, informal, locales, initialized]);
