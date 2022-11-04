@@ -611,6 +611,15 @@ export const de = {
 				headline: 'Sie haben erfolgreich einen Chat angelegt.'
 			}
 		},
+		'copy': {
+			link: {
+				text: 'Einladungs-Link kopieren',
+				notification: {
+					text: 'Link in Zwischenablage kopiert!',
+					title: 'Link kopiert'
+				}
+			}
+		},
 		'edit.title': 'Chat-Einstellungen',
 		'info': {
 			headline: 'Chat-Info',

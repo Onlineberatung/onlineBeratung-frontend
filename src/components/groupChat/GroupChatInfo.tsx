@@ -280,7 +280,7 @@ export const GroupChatInfo = () => {
 						{featureGroupChatV2Enabled && isV2GroupChat && (
 							<div className="profile__groupChatContainer">
 								<GroupChatCopyLinks
-									id={activeSession.item.id}
+									id={activeSession.item.groupId}
 									groupChatId={activeSession.item.id.toString()}
 								/>
 							</div>
