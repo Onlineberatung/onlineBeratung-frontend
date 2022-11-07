@@ -452,7 +452,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				/>
 			)}
 
-			{activeSession?.consultant && appointmentFeatureEnabled && (
+			{!activeSession.isEmptyEnquiry && appointmentFeatureEnabled && (
 				<div
 					className="sessionMenu__icon sessionMenu__icon--booking"
 					onClick={handleBookingButton}

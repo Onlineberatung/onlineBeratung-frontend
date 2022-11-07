@@ -4,7 +4,7 @@ import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
-import { LocaleContext, TenantContext } from '../../globalState';
+import { LocaleContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
@@ -17,6 +17,7 @@ interface StageLayoutProps {
 	stage: ReactNode;
 	showLegalLinks?: boolean;
 	showLoginLink?: boolean;
+	showRegistrationLink?: boolean;
 	loginParams?: string;
 }
 
@@ -26,15 +27,14 @@ export const StageLayout = ({
 	stage,
 	showLegalLinks,
 	showLoginLink,
+	showRegistrationLink,
 	loginParams
 }: StageLayoutProps) => {
 	const { t: translate } = useTranslation();
-	const { tenant } = useContext(TenantContext);
 	const legalLinks = useContext(LegalLinksContext);
 	const { selectableLocales } = useContext(LocaleContext);
 	const settings = useAppConfig();
 	const { fromL } = useResponsive();
-	const hasTenant = tenant != null;
 
 	return (
 		<div className={clsx('stageLayout', className)}>
@@ -70,7 +70,7 @@ export const StageLayout = ({
 					</div>
 				)}
 
-				{hasTenant && (
+				{showRegistrationLink && (
 					<div className="login__tenantRegistration">
 						<Text
 							text={translate('login.register.infoText.title')}
