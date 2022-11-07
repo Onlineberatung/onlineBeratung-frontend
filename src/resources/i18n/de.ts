@@ -428,7 +428,7 @@ export const de = {
 			'encryption.text': 'Nachricht verschlüsselt'
 		},
 		inProgress: {
-			headline: 'Verschlüsselung im Gange',
+			headline: 'Einen Moment bitte.',
 			copy: 'Ihre Sicherheit ist uns wichtig! Wir verschlüsseln gerade Ihren Chat. Dies kann einen Moment dauern.',
 			confirm:
 				'Bitte warten Sie bis die Verschlüsselung abgeschlossen ist!'
