@@ -78,7 +78,10 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 					response.refresh_expires_in
 				);
 
-				if (appConfig.useTenantService) {
+				if (
+					appConfig.useTenantService &&
+					!appConfig.multitenancyWithSingleDomainEnabled
+				) {
 					const { tenantId } = parseJwt(response.access_token);
 					if (tenantId !== autoLoginProps.tenantData.id) {
 						return reject(new Error(FETCH_ERRORS.UNAUTHORIZED));

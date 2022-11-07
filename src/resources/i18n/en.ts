@@ -609,6 +609,15 @@ export const en = {
 				buttonLabel: 'Close'
 			}
 		},
+		'copy': {
+			link: {
+				text: 'Copy invitation link',
+				notification: {
+					title: 'Link copied',
+					text: 'Link copied to clipboard!'
+				}
+			}
+		},
 		'edit.title': 'Chat settings',
 		'info': {
 			headline: 'Chat-Info',
