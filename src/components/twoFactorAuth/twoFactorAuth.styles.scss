@@ -49,9 +49,15 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 			}
 		}
 
-		.inputField__infoText {
-			color: $form-error;
-			text-align: left;
+		.inputField {
+			&__infoText {
+				color: $form-error;
+				text-align: left;
+			}
+
+			&__input {
+				padding-left: 24px;
+			}
 		}
 	}
 
