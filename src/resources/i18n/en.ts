@@ -427,7 +427,7 @@ export const en = {
 			'encryption.error': 'Message encrypted - error during decryption'
 		},
 		inProgress: {
-			headline: 'Encryption in progress',
+			headline: 'One moment please.',
 			copy: "Your safety is important to us! We're encrypting your chat right now. This can take a moment.",
 			confirm: 'Please wait until the encryption is finished!'
 		},
