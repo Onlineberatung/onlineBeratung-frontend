@@ -80,7 +80,7 @@ export function RocketChatProvider(props) {
 
 	const getEndpoint = useCallback(() => {
 		return `${(apiUrl || window.location.origin)
-			.replace('http://', 'wss://') // Rocket.chat should always be wss
+			.replace('http://', 'ws://') // Rocket.chat should always be wss
 			.replace('https://', 'wss://')}/websocket`;
 	}, []);
 

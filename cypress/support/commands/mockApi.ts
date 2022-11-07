@@ -231,7 +231,7 @@ Cypress.Commands.add('mockApi', () => {
 			cookie_needed: false,
 			websocket: true
 		})
-	);
+	).as('liveService');
 
 	cy.intercept('GET', endpoints.draftMessages, {}).as('draftMessages');
 
