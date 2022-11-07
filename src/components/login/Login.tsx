@@ -466,6 +466,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			<StageLayout
 				stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
 				showLegalLinks
+				showRegistrationLink={hasTenant}
 			>
 				<div className="loginForm">
 					<div>
