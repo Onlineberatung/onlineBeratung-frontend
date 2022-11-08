@@ -2,13 +2,19 @@ import {
 	BookingEventUiInterface,
 	BookingEventsInterface
 } from '../globalState/interfaces/BookingsInterface';
-import { addMissingZero } from './dateHelpers';
+import { addMissingZero, convertUTCDateToLocalDate } from './dateHelpers';
 
 export const transformBookingData = (bookings: BookingEventsInterface[]) => {
 	let bookingEvents: BookingEventUiInterface[] = [];
 	bookings?.forEach((event: BookingEventsInterface) => {
-		const startTime = new Date(event.startTime);
-		const endTime = new Date(event.endTime);
+		const startTime = new Date(
+			convertUTCDateToLocalDate(
+				new Date(event.startTime)
+			).toLocaleString()
+		);
+		const endTime = new Date(
+			convertUTCDateToLocalDate(new Date(event.endTime)).toLocaleString()
+		);
 		const date = new Date(event.startTime).toLocaleDateString('de-de', {
 			weekday: 'long',
 			year: '2-digit',
@@ -16,9 +22,9 @@ export const transformBookingData = (bookings: BookingEventsInterface[]) => {
 			day: '2-digit'
 		});
 		const duration = `${addMissingZero(
-			startTime.getUTCHours()
+			startTime.getHours()
 		)}:${addMissingZero(startTime.getUTCMinutes())} - ${addMissingZero(
-			endTime.getUTCHours()
+			endTime.getHours()
 		)}:${addMissingZero(endTime.getUTCMinutes())}`;
 
 		bookingEvents.push({
