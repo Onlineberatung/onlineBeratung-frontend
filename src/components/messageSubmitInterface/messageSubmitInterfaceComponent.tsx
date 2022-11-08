@@ -538,15 +538,6 @@ export const MessageSubmitInterfaceComponent = (
 				isEncrypted && isAttachmentEncryptionEnabledDevTools;
 			const skipEncryption = !encryptEnabled;
 
-			console.log(
-				isAttachmentEncryptionEnabledDevTools,
-				localStorage.getItem(STORAGE_KEY_ATTACHMENT_ENCRYPTION),
-				isEncrypted,
-				settings.attachmentEncryption,
-				encryptEnabled,
-				skipEncryption
-			);
-
 			const signature = await getSignature(attachment);
 			const attachmentFile = await encryptAttachment(
 				attachment,

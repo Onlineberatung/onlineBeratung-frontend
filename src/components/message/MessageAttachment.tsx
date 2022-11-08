@@ -32,49 +32,54 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			: parseInt(localStorage.getItem(STORAGE_KEY_ATTACHMENT_ENCRYPTION));
 
 	const downloadViaJavascript = useCallback(
-		(url: string) => {
-			fetchData({
+		async (url: string) => {
+			const data = await fetchData({
 				url: url,
 				method: FETCH_METHODS.GET,
 				responseHandling: [],
 				headersData: {
 					'Content-Type': ''
 				}
-			})
-				.then((result) => {
-					return result.text();
-				})
-				.then((result: string) => {
-					const shouldDecrypt =
-						encrypted &&
-						props.t === 'e2e' &&
-						isAttachmentEncryptionEnabledDevTools;
-					const skipDecryption = !shouldDecrypt;
-					return decryptAttachment(
-						result,
-						props.attachment.title,
-						keyID,
-						key,
-						!skipDecryption
-					);
-				})
-				.then((file: File) => {
-					const blobUrl = URL.createObjectURL(file);
-					const link = document.createElement('a');
+			});
 
-					link.href = blobUrl;
-					link.download = props.attachment.title;
+			const shouldDecrypt =
+				encrypted &&
+				props.t === 'e2e' &&
+				isAttachmentEncryptionEnabledDevTools;
+			const skipDecryption = !shouldDecrypt;
+			let blobUrl;
 
-					document.body.appendChild(link);
-					link.dispatchEvent(
-						new MouseEvent('click', {
-							bubbles: true,
-							cancelable: true,
-							view: window
-						})
-					);
-					document.body.removeChild(link);
-				});
+			if (skipDecryption) {
+				// not encrypted
+				const blob = await data.blob();
+				blobUrl = window.URL.createObjectURL(blob);
+			} else {
+				// encrypted
+				const text = await data.text();
+				const encryptedData = await decryptAttachment(
+					text,
+					props.attachment.title,
+					keyID,
+					key,
+					false
+				);
+				blobUrl = URL.createObjectURL(encryptedData);
+			}
+
+			const link = document.createElement('a');
+
+			link.href = blobUrl;
+			link.download = props.attachment.title;
+
+			document.body.appendChild(link);
+			link.dispatchEvent(
+				new MouseEvent('click', {
+					bubbles: true,
+					cancelable: true,
+					view: window
+				})
+			);
+			document.body.removeChild(link);
 		},
 		[
 			encrypted,
