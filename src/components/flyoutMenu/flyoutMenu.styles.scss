@@ -34,15 +34,35 @@
 		}
 	}
 
+	&__item {
+		button,
+		a {
+			text-decoration: none;
+		}
+
+		& > * {
+			display: block;
+			padding: 14px $grid-base-two;
+			font-size: $font-size-primary;
+			line-height: $line-height-primary;
+			border: none;
+			cursor: pointer;
+			background-color: #fff;
+			transition: all 0.3s ease;
+			color: $secondary;
+			white-space: nowrap;
+
+			&:hover {
+				background-color: $hover-select;
+				color: $hover-primary;
+			}
+		}
+	}
+
 	&--left {
 		.flyoutMenu__content {
 			transform: translateX(calc(-100% + 20px));
 		}
-	}
-
-	&--hidden {
-		visibility: hidden;
-		width: 0px;
 	}
 }
 

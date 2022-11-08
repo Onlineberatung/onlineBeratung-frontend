@@ -1036,6 +1036,19 @@ export const en = {
 					change: 'Date change'
 				}
 			}
+		},
+		'delete': {
+			delete: 'Delete',
+			deleted: {
+				own: 'You have deleted this message.',
+				other: 'This message was deleted.'
+			},
+			overlay: {
+				headline: 'Delete message',
+				copy: 'Do you really want to delete the message?',
+				cancel: 'Cancel',
+				confirm: 'Delete'
+			}
 		}
 	},
 	monitoring: {

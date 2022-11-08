@@ -41,24 +41,32 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
 		};
 	}, [flyoutShown, handleFlyout]);
 
+	const childrenArray = React.Children.toArray(children).filter(Boolean);
+	if (isHidden || childrenArray.length <= 0) {
+		return null;
+	}
+
 	return (
-		<div
-			className={`flyoutMenu flyoutMenu--${position} ${
-				isHidden ? 'flyoutMenu--hidden' : ''
-			}`}
-		>
+		<div className={`flyoutMenu flyoutMenu--${position}`}>
 			<button onClick={handleFlyout} className="flyoutMenu__trigger">
 				<MenuHorizontalIcon />
 			</button>
-
 			<div
 				className={`flyoutMenu__content ${
 					flyoutShown ? 'flyoutMenu__content--shown' : ''
 				}`}
 			>
-				{React.Children.map(children, (child) => (
-					<div className="flyoutMenu__item">{child}</div>
-				))}
+				{childrenArray.map(
+					(child, i) =>
+						child && (
+							<div
+								className="flyoutMenu__item"
+								key={`flyoutMenu__item--${i}`}
+							>
+								{child}
+							</div>
+						)
+				)}
 			</div>
 		</div>
 	);

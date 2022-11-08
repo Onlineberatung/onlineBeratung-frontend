@@ -78,12 +78,13 @@ $message-attachment-color: $secondary !default;
 			font-size: $font-size-secondary;
 			line-height: $line-height-secondary;
 			color: $message-name-forwarded;
+
 			svg {
 				display: inline-block;
 				margin-right: 8px;
 				padding-bottom: 4px;
 				path {
-					fill: $yellow-6;
+					fill: $black-65-opacity;
 				}
 			}
 		}
@@ -163,6 +164,14 @@ $message-attachment-color: $secondary !default;
 		&--system {
 			margin: 4px 0;
 			font-size: $font-size-tertiary;
+		}
+
+		&--deleted {
+			margin: 4px 0;
+			font-size: $font-size-tertiary;
+			color: $black-65-opacity;
+			font-style: italic;
+			background-color: $black-5-opacity;
 		}
 
 		&--withAttachment {
@@ -425,6 +434,24 @@ $message-attachment-color: $secondary !default;
 	.booking-confirmation {
 		width: 600px;
 		height: 780px;
+	}
+
+	.flyoutMenu {
+		margin-left: $grid-base;
+
+		&--left {
+			margin-right: $grid-base;
+		}
+
+		&__item {
+			&--delete {
+				color: $form-error;
+
+				svg g {
+					fill: $form-error;
+				}
+			}
+		}
 	}
 }
 
