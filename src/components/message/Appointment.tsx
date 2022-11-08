@@ -5,7 +5,10 @@ import './appointment.styles';
 import { ReactComponent as CalendarCheckIcon } from '../../resources/img/icons/calendar-check.svg';
 import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
 import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-call.svg';
-import { formatToHHMM } from '../../utils/dateHelpers';
+import {
+	convertUTCDateToLocalDate,
+	formatToHHMM
+} from '../../utils/dateHelpers';
 import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +29,9 @@ export const Appointment = (param: {
 	const { t: translate } = useTranslation();
 	const parsedData: AppointmentData = JSON.parse(param.data);
 	const duration = parsedData.duration;
-	const startingTimeStampDate = Date.parse(parsedData.date);
+	const startingTimeStampDate = new Date(
+		convertUTCDateToLocalDate(new Date(parsedData.date)).toLocaleString()
+	).getTime();
 	const finishingHour = startingTimeStampDate + duration * 60 * 1000;
 	const appointmentDate = new Date(parsedData.date).toLocaleDateString(
 		'de-de',
