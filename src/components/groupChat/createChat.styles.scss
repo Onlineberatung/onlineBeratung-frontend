@@ -120,6 +120,10 @@ $inputSpacing: 32px;
 		.inputField {
 			width: $chat-input-width;
 			margin-bottom: $grid-base-four;
+
+			&__input {
+				padding-left: 24px;
+			}
 		}
 	}
 
