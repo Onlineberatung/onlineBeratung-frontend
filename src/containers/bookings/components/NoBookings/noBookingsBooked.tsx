@@ -57,7 +57,12 @@ export const NoBookingsBooked: React.FC<NoBookings> = ({ sessions }) => {
 							text={`${translate(
 								'booking.my.booking.schedule'
 							)} <b>
-                            ${sessions?.[0]?.consultant?.username}</b>:`}
+                            ${sessions
+								.filter((session) => session.agency !== null)
+								.map(
+									(consultant) =>
+										consultant.consultant.username
+								)}</b>:`}
 							type="standard"
 						/>
 						<Button
