@@ -235,7 +235,7 @@ export const de = {
 	booking: {
 		'availability': {
 			description:
-				'Geben Sie hier Ihre allegemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.',
+				'Geben Sie hier Ihre allgemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.',
 			title: 'Ihre Verfügbarkeit'
 		},
 		'calender': {
