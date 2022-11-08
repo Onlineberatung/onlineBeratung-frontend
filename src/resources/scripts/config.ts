@@ -1,7 +1,3 @@
-import { en } from '../i18n/en';
-import { enConsultingTypes } from '../i18n/en.consultingTypes';
-import { enAgency } from '../i18n/en.agency';
-import { enLanguages } from '../i18n/en.languages';
 import { AppConfigInterface } from '../../globalState/interfaces/AppConfig/AppConfigInterface';
 
 export const uiUrl = window.location.origin;
@@ -279,41 +275,7 @@ export const config: AppConfigInterface = {
 		'zh',
 		'zu'
 	],
-	i18n: {
-		supportedLngs: ['de', 'en'],
-		fallbackLng: {
-			en: ['de'],
-			en_informal: ['en', 'de_informal', 'de']
-		},
-		resources: {
-			de: {
-				common: {
-					banner: {
-						ie: {
-							text: 'Diese Anwendung ist nicht für die Nutzung mit dem <strong>Internet Explorer</strong> optimiert. Für ein optimales Nutzungserlebnis verwenden Sie bitte einen modernen Browser.'
-						}
-					}
-				},
-				languages: {
-					en: '(EN) Englisch'
-				}
-			},
-			en: {
-				common: {
-					...en
-				},
-				consultingTypes: {
-					...enConsultingTypes
-				},
-				agencies: {
-					...enAgency
-				},
-				languages: {
-					...enLanguages
-				}
-			}
-		}
-	}
+	i18n: {}
 };
 
 export const ALIAS_LAST_MESSAGES = {

@@ -351,10 +351,10 @@ export const MessageSubmitInterfaceComponent = (
 			return;
 		}
 
-		if (!activeSession?.consultant && !activeSession.item.groupId) {
+		if (activeSession.isEmptyEnquiry) {
 			setShowAppointmentButton(userData.appointmentFeatureEnabled);
 		}
-	}, [activeSession?.consultant, activeSession.item.groupId, userData]);
+	}, [activeSession?.isEmptyEnquiry, userData]);
 
 	const handleAttachmentUploadError = (infoType: string) => {
 		setActiveInfo(infoType);

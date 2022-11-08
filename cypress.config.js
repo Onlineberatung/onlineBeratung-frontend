@@ -29,17 +29,16 @@ module.exports = defineConfig({
 		}
 	},
 	env: {
-		REACT_APP_API_URL: process.env.REACT_APP_API_URL,
-		REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY:
-			process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY,
 		CYPRESS_WS_URL:
 			process.env.CYPRESS_WS_URL || process.env.REACT_APP_API_URL
 	},
 	retries: {
 		runMode: 2
 	},
+	video: false,
 	chromeWebSecurity: false,
 	viewportWidth: 1200,
 	viewportHeight: 800,
-	defaultCommandTimeout: 10000
+	defaultCommandTimeout: 30000,
+	modifyObstructiveCode: false
 });
