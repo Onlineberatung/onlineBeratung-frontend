@@ -1250,8 +1250,8 @@ export const en = {
 	},
 	overview: {
 		title: 'Welcome back!',
-		myMessagesTitle: '%count% unread messages',
-		initialInquiriesTitle: '%count% enquiries',
+		myMessagesTitle: '{{countStr}} unread messages',
+		initialInquiriesTitle: '{{countStr}} enquiries',
 		upcomingAppointments: 'Your next {{countStr}} appointments',
 		upcomingAppointment: 'Your next appointment',
 		emptyMessages: 'You have everything in view, all messages are read!',
