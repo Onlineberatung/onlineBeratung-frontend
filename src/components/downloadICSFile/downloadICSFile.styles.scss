@@ -1,6 +1,10 @@
 .downloadICSFile {
 	&--flex {
 		display: flex;
+
+		svg {
+			min-width: 20px;
+		}
 	}
 
 	&--primary {
