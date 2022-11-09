@@ -12,6 +12,7 @@ import {
 	hasUserAuthority
 } from '../../globalState/helpers/stateHelpers';
 import {
+	AnonymousConversationFinishedContext,
 	E2EEContext,
 	SessionTypeContext,
 	STATUS_ARCHIVED,
@@ -182,6 +183,9 @@ export const MessageSubmitInterfaceComponent = (
 	const { userData } = useContext(UserDataContext);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
+	const { anonymousConversationFinished } = useContext(
+		AnonymousConversationFinishedContext
+	);
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
 		null
@@ -276,7 +280,7 @@ export const MessageSubmitInterfaceComponent = (
 
 	const { onChange: onDraftMessageChange, loaded: draftLoaded } =
 		useDraftMessage(
-			!isLiveChatFinished && !isRequestInProgress,
+			!anonymousConversationFinished && !isRequestInProgress,
 			setEditorState
 		);
 

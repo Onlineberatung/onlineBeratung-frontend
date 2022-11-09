@@ -128,7 +128,8 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			setOverlayItem(rejectionOverlayItem);
 			setIsOverlayActive(true);
 			removeAllCookies();
-			setAnonymousConversationFinished(null);
+		} else {
+			setIsOverlayActive(false);
 		}
 	}, [anonymousConversationFinished, setAnonymousConversationFinished]);
 
