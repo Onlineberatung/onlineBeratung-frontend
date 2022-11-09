@@ -30,7 +30,9 @@ export const Appointment = (param: {
 	const parsedData: AppointmentData = JSON.parse(param.data);
 	const duration = parsedData.duration;
 	const startingTimeStampDate = new Date(
-		convertUTCDateToLocalDate(new Date(parsedData.date)).toLocaleString()
+		convertUTCDateToLocalDate(new Date(parsedData.date)).toLocaleString(
+			'en-ZA'
+		)
 	).getTime();
 	const finishingHour = startingTimeStampDate + duration * 60 * 1000;
 	const appointmentDate = new Date(parsedData.date).toLocaleDateString(
