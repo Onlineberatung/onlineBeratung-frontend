@@ -1253,8 +1253,8 @@ export const de = {
 	},
 	overview: {
 		title: 'Willkommen zurück!',
-		myMessagesTitle: '%count% ungelesene Nachrichten',
-		initialInquiriesTitle: '%count% Erstanfragen',
+		myMessagesTitle: '{{countStr}} ungelesene Nachrichten',
+		initialInquiriesTitle: '{{countStr}} Erstanfragen',
 		upcomingAppointments: 'Ihre nächsten {{countStr}} Termine',
 		upcomingAppointment: 'Ihr nächster Termin',
 		emptyMessages: 'Du hast alles im Blick, alle Nachrichten sind gelesen!',
