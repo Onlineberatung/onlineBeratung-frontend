@@ -10,7 +10,7 @@ import './select.react.styles';
 import './select.styles';
 import { useResponsive } from '../../hooks/useResponsive';
 import { useTranslation } from 'react-i18next';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 export interface SelectOption {
 	value: string;
@@ -328,7 +328,6 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 			</components.MultiValueRemove>
 		);
 	};
-	console.log('props.onKeyDown', props.onKeyDown);
 
 	return (
 		<div className={clsx(props.className, 'select__wrapper')}>
@@ -373,10 +372,10 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
 				menuIsOpen={props.isMenuOpen}
-				tabSelectsValue={props.defaultValue}
-				autoFocus={true}
+				// tabSelectsValue={props.defaultValue}
 				closeMenuOnSelect={true}
-				isFocused={props.isMenuOpen}
+				tabIndex={-1}
+				blurInputOnSelect={true}
 			/>
 			{props.hasError && (
 				<div className="select__error">

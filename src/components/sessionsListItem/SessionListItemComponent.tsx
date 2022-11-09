@@ -46,11 +46,15 @@ import { useTranslation } from 'react-i18next';
 interface SessionListItemProps {
 	session: ExtendedSessionInterface;
 	defaultLanguage: string;
+	itemRef?: any;
+	handleKeyDownLisItemContent?: Function;
 }
 
 export const SessionListItemComponent = ({
 	session,
-	defaultLanguage
+	defaultLanguage,
+	itemRef,
+	handleKeyDownLisItemContent
 }: SessionListItemProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const { sessionId, rcGroupId: groupIdFromParam } =
@@ -65,7 +69,6 @@ export const SessionListItemComponent = ({
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { tenant } = useContext(TenantContext);
-	const ref_list = useRef<any>();
 
 	// Is List Item active
 	const isChatActive =
@@ -221,7 +224,6 @@ export const SessionListItemComponent = ({
 						'sessionsListItem__content',
 						isChatActive && 'sessionsListItem__content--active'
 					)}
-					tabIndex={2}
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
@@ -305,12 +307,12 @@ export const SessionListItemComponent = ({
 
 	const zipCodeSlash = consultingType ? '/ ' : '';
 
-	const handleKeyDownContent = (e) => {
+	const handleKeyDownListItem = (e) => {
+		handleKeyDownLisItemContent(e);
 		if (e.key === 'Enter' || e.key === ' ') {
 			handleOnClick();
 		}
 	};
-
 	return (
 		<div
 			onClick={handleOnClick}
@@ -324,9 +326,9 @@ export const SessionListItemComponent = ({
 		>
 			<div
 				className="sessionsListItem__content"
-				tabIndex={2}
-				onKeyDown={(e) => handleKeyDownContent(e)}
-				ref={(el) => (ref_list.current = el)}
+				onKeyDown={(e) => handleKeyDownListItem(e)}
+				ref={itemRef}
+				tabIndex={-1}
 			>
 				<div className="sessionsListItem__row">
 					{type === SESSION_LIST_TYPES.TEAMSESSION &&

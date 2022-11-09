@@ -710,6 +710,9 @@ export const SessionsList = ({
 
 	const ref_tab_first = useRef<any>();
 	const ref_tab_second = useRef<any>();
+	const ref_tabs = useRef<any>();
+	const ref_list = useRef<any>();
+	const ref_list_array = useRef<any>([]);
 
 	const handleKeyDownTabs = (e) => {
 		if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
@@ -724,28 +727,51 @@ export const SessionsList = ({
 		// }
 	};
 
-	useEffect(() => {
-		console.log('Hallo');
-		if (ref_tab_first.current) {
-			ref_tab_first.current.focus();
+	const handleKeyDownLisItemContent = (e, index) => {
+		if (e.key === 'ArrowUp') {
+			if (index === 0) {
+				ref_list_array.current[
+					ref_list_array.current.length - 1
+				].focus();
+			} else {
+				ref_list_array.current[index - 1].focus();
+			}
 		}
-	}, [ref_tab_first]);
+		if (e.key === 'ArrowDown') {
+			if (index === ref_list_array.current.length - 1) {
+				ref_list_array.current[0].focus();
+			} else {
+				ref_list_array.current[index + 1].focus();
+			}
+		}
+	};
 
 	return (
 		<div className="sessionsList__innerWrapper">
 			{(showFilter || showEnquiryTabs || showSessionListTabs) && (
 				<div className="sessionsList__functionalityWrapper">
 					{showEnquiryTabs && (
-						<div className="sessionsList__tabs">
+						<div
+							className="sessionsList__tabs"
+							ref={(el) => (ref_tabs.current = el)}
+							tabIndex={0}
+							onFocus={() => {
+								if (
+									document.activeElement === ref_tabs.current
+								) {
+									ref_tab_first.current.focus();
+								}
+							}}
+						>
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
 										!sessionListTab
 								})}
 								to={'/sessions/consultant/sessionPreview'}
-								tabIndex={2}
 								onKeyDown={(e) => handleKeyDownTabs(e)}
 								ref={(el) => (ref_tab_first.current = el)}
+								tabIndex={-1}
 							>
 								<Text
 									text={translate(
@@ -764,6 +790,7 @@ export const SessionsList = ({
 								to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`}
 								onKeyDown={(e) => handleKeyDownTabs(e)}
 								ref={(el) => (ref_tab_second.current = el)}
+								tabIndex={-1}
 							>
 								<Text
 									className={clsx('walkthrough_step_2')}
@@ -776,7 +803,18 @@ export const SessionsList = ({
 						</div>
 					)}
 					{showSessionListTabs && (
-						<div className="sessionsList__tabs" tabIndex={2}>
+						<div
+							className="sessionsList__tabs"
+							ref={(el) => (ref_tabs.current = el)}
+							tabIndex={0}
+							onFocus={() => {
+								if (
+									document.activeElement === ref_tabs.current
+								) {
+									ref_tab_first.current.focus();
+								}
+							}}
+						>
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
@@ -789,6 +827,7 @@ export const SessionsList = ({
 								}`}
 								onKeyDown={(e) => handleKeyDownTabs(e)}
 								ref={(el) => (ref_tab_first.current = el)}
+								tabIndex={-1}
 							>
 								<Text
 									text={translate(
@@ -810,6 +849,7 @@ export const SessionsList = ({
 								}?sessionListTab=${SESSION_LIST_TAB_ARCHIVE}`}
 								onKeyDown={(e) => handleKeyDownTabs(e)}
 								ref={(el) => (ref_tab_second.current = el)}
+								tabIndex={-1}
 							>
 								<Text
 									className={clsx('walkthrough_step_4')}
@@ -834,7 +874,6 @@ export const SessionsList = ({
 					'sessionsList__scrollContainer--hasTabs':
 						showEnquiryTabs || showSessionListTabs
 				})}
-				ref={listRef}
 				onScroll={handleListScroll}
 			>
 				{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -851,6 +890,14 @@ export const SessionsList = ({
 							: 'sessionsList__itemsWrapper--centered'
 					}`}
 					data-cy="sessions-list-items-wrapper"
+					tabIndex={0}
+					onFocus={(e) => {
+						console.log('e', e);
+						if (document.activeElement === ref_list.current) {
+							ref_list_array.current[0].focus();
+						}
+					}}
+					ref={(el) => (ref_list.current = el)}
 				>
 					{!isLoading &&
 						activeCreateChat &&
@@ -864,7 +911,7 @@ export const SessionsList = ({
 						sessions
 							.filter(filterSessions)
 							.sort(sortSessions)
-							.map((item: ListItemInterface) => (
+							.map((item: ListItemInterface, index) => (
 								<SessionListItemComponent
 									key={
 										buildExtendedSession(
@@ -877,6 +924,12 @@ export const SessionsList = ({
 										groupIdFromParam
 									)}
 									defaultLanguage={defaultLanguage}
+									itemRef={(el) =>
+										(ref_list_array.current[index] = el)
+									}
+									handleKeyDownLisItemContent={(e) =>
+										handleKeyDownLisItemContent(e, index)
+									}
 								/>
 							))}
 
