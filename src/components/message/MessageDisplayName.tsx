@@ -1,7 +1,10 @@
 import { isUserModerator } from '../session/sessionHelpers';
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
-import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
+import {
+	formatToHHMM,
+	getPrettyDateFromMessageDate
+} from '../../utils/dateHelpers';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
 import { ForwardMessageDTO } from './MessageItemComponent';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
@@ -38,16 +41,15 @@ export const MessageDisplayName = ({
 		const prettyDate = getPrettyDateFromMessageDate(
 			Math.round(alias.timestamp / 1000)
 		);
-		const translatedDate = prettyDate.str
-			? translate(prettyDate.str)
-			: translate(prettyDate.date);
 
 		return translate('message.forward.label', {
 			username: alias?.username,
-			translatedDate,
-			time: alias?.timestamp
+			date: prettyDate.str
+				? translate(prettyDate.str)
+				: translate(prettyDate.date),
+			time: alias.timestamp && formatToHHMM(alias.timestamp)
 		});
-	}, [alias?.timestamp, alias?.username, translate]);
+	}, [alias, translate]);
 
 	const subscriberIsModerator = isUserModerator({
 		chatItem: activeSession.item,
