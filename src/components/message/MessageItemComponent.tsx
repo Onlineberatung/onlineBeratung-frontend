@@ -54,7 +54,8 @@ import { MasterKeyLostMessage } from './MasterKeyLostMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { useTranslation } from 'react-i18next';
 import { ERROR_LEVEL_WARN, TError } from '../../api/apiPostError';
-import { ReactComponent as DeleteIcon } from '../../resources/img/icons/delete.svg';
+import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
+import { ReactComponent as DeletedIcon } from '../../resources/img/icons/deleted.svg';
 import { SETTING_MESSAGE_ALLOWDELETING } from '../../api/apiRocketChatSettingsPublic';
 import {
 	Overlay,
@@ -438,12 +439,17 @@ export const MessageItemComponent = ({
 				);
 			case isDeleteMessage:
 				return (
-					<div className="messageItem__message messageItem__message--deleted">
-						{translate(
-							isMyMessage
-								? 'message.delete.deleted.own'
-								: 'message.delete.deleted.other'
-						)}
+					<div className="messageItem__message messageItem__message--deleted flex flex--ai-c">
+						<div className="mr--1">
+							<DeletedIcon width={14} height={14} />
+						</div>
+						<div>
+							{translate(
+								isMyMessage
+									? 'message.delete.deleted.own'
+									: 'message.delete.deleted.other'
+							)}
+						</div>
 					</div>
 				);
 			default:
@@ -674,7 +680,7 @@ const DeleteMessage = ({
 				className={`flex ${className}`}
 			>
 				<div className="mr--1">
-					<DeleteIcon
+					<TrashIcon
 						width={24}
 						height={24}
 						style={{ display: 'block', padding: '2px 0' }}
