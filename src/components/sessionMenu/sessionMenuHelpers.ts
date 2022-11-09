@@ -107,6 +107,21 @@ export const finishAnonymousChatSecurityOverlayItem: OverlayItem = {
 	]
 };
 
+export const selfFinishedAnonymousChatSuccessOverlayItem: OverlayItem = {
+	svg: WavingIllustration,
+	illustrationBackground: 'neutral',
+	headline: 'anonymous.overlay.chatWasFinished.headline',
+	headlineStyleLevel: '1',
+	copy: 'anonymous.overlay.chatWasFinished.copy',
+	buttonSet: [
+		{
+			label: 'anonymous.overlay.chatWasFinished.button',
+			function: OVERLAY_FUNCTIONS.REDIRECT_TO_URL,
+			type: BUTTON_TYPES.PRIMARY
+		}
+	]
+};
+
 export const finishAnonymousChatSuccessOverlayItem: OverlayItem = {
 	svg: CheckIllustration,
 	illustrationBackground: 'info',
