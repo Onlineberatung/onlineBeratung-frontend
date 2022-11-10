@@ -5,7 +5,7 @@ export const apiGetSessionData = async (
 	rcGroupId: string,
 	signal?: AbortSignal
 ): Promise<any> => {
-	const url = endpoints.messages + `?rcGroupId=${rcGroupId}`;
+	const url = endpoints.messages.get + `?rcGroupId=${rcGroupId}`;
 
 	return fetchData({
 		url: url,

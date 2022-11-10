@@ -8,10 +8,10 @@ import {
 } from 'react';
 import { generatePath, Link, Redirect, useHistory } from 'react-router-dom';
 import {
+	AnonymousConversationFinishedContext,
 	AUTHORITIES,
 	ExtendedSessionInterface,
 	hasUserAuthority,
-	RocketChatContext,
 	SessionItemInterface,
 	SessionTypeContext,
 	STATUS_FINISHED,
@@ -27,7 +27,6 @@ import { Overlay, OVERLAY_FUNCTIONS, OverlayWrapper } from '../overlay/Overlay';
 import {
 	archiveSessionSuccessOverlayItem,
 	finishAnonymousChatSecurityOverlayItem,
-	finishAnonymousChatSuccessOverlayItem,
 	groupChatErrorOverlayItem,
 	leaveGroupChatSecurityOverlayItem,
 	leaveGroupChatSuccessOverlayItem,
@@ -60,7 +59,6 @@ import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
-import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import DeleteSession from '../session/DeleteSession';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Text } from '../text/Text';
@@ -89,7 +87,9 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
-	const { close: closeWebsocket } = useContext(RocketChatContext);
+	const { setAnonymousConversationFinished } = useContext(
+		AnonymousConversationFinishedContext
+	);
 
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
@@ -260,9 +260,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 							userData
 						)
 					) {
-						closeWebsocket();
-						removeAllCookies();
-						setOverlayItem(finishAnonymousChatSuccessOverlayItem);
+						setAnonymousConversationFinished('DONE');
 					} else {
 						setOverlayActive(false);
 						setOverlayItem(null);
