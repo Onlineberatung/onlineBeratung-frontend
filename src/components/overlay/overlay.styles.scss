@@ -326,6 +326,10 @@ $overlay-illustration-size-large: 160px;
 		.inputField {
 			margin: $overlay-input-field-margin;
 			max-width: 325px;
+
+			&__input {
+				padding-left: 24px;
+			}
 		}
 
 		ul li,
