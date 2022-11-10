@@ -60,7 +60,10 @@ import {
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
-import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
+import {
+	IBooleanSetting,
+	SETTING_E2E_ENABLE
+} from '../../api/apiRocketChatSettingsPublic';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
@@ -448,7 +451,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	);
 
 	const onPasswordResetClick = (e) => {
-		if (getSetting(SETTING_E2E_ENABLE)?.value) {
+		if (getSetting<IBooleanSetting>(SETTING_E2E_ENABLE)?.value) {
 			e.preventDefault();
 			setPwResetOverlayActive(true);
 			return;

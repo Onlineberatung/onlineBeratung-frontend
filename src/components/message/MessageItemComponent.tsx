@@ -56,7 +56,10 @@ import { useTranslation } from 'react-i18next';
 import { ERROR_LEVEL_WARN, TError } from '../../api/apiPostError';
 import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
 import { ReactComponent as DeletedIcon } from '../../resources/img/icons/deleted.svg';
-import { SETTING_MESSAGE_ALLOWDELETING } from '../../api/apiRocketChatSettingsPublic';
+import {
+	IBooleanSetting,
+	SETTING_MESSAGE_ALLOWDELETING
+} from '../../api/apiRocketChatSettingsPublic';
 import {
 	Overlay,
 	OVERLAY_FUNCTIONS,
@@ -616,12 +619,13 @@ const MessageFlyoutMenu = ({
 					/>
 				)}
 
-			{isMyMessage && getSetting(SETTING_MESSAGE_ALLOWDELETING) && (
-				<DeleteMessage
-					messageId={_id}
-					className="flyoutMenu__item--delete"
-				/>
-			)}
+			{isMyMessage &&
+				getSetting<IBooleanSetting>(SETTING_MESSAGE_ALLOWDELETING) && (
+					<DeleteMessage
+						messageId={_id}
+						className="flyoutMenu__item--delete"
+					/>
+				)}
 		</FlyoutMenu>
 	);
 };

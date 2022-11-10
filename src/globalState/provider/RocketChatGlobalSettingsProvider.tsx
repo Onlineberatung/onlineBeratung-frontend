@@ -2,11 +2,14 @@ import * as React from 'react';
 import { createContext, useCallback, useEffect, useState } from 'react';
 import {
 	apiRocketChatSettingsPublic,
-	ISetting,
+	IBooleanSetting,
+	INumberSetting,
 	SETTING_E2E_ENABLE,
 	SETTING_FILEUPLOAD_MAXFILESIZE,
+	SETTING_HIDE_SYSTEM_MESSAGES,
 	SETTING_MESSAGE_ALLOWDELETING,
-	SETTING_MESSAGE_MAXALLOWEDSIZE
+	SETTING_MESSAGE_MAXALLOWEDSIZE,
+	TSetting
 } from '../../api/apiRocketChatSettingsPublic';
 import { INPUT_MAX_LENGTH } from '../../components/messageSubmitInterface/richtextHelpers';
 import {
@@ -24,19 +27,20 @@ const SETTINGS_TO_FETCH = [
 	SETTING_E2E_ENABLE,
 	SETTING_MESSAGE_MAXALLOWEDSIZE,
 	SETTING_FILEUPLOAD_MAXFILESIZE,
-	SETTING_MESSAGE_ALLOWDELETING
+	SETTING_MESSAGE_ALLOWDELETING,
+	SETTING_HIDE_SYSTEM_MESSAGES
 ];
 
 type RocketChatGlobalSettingsContextProps = {
-	settings: ISetting[];
-	getSetting: (id: string) => ISetting | null;
+	settings: TSetting[];
+	getSetting: <T extends TSetting>(id: T['_id']) => T | null;
 };
 
 export const RocketChatGlobalSettingsContext =
 	createContext<RocketChatGlobalSettingsContextProps>(null);
 
 export const RocketChatGlobalSettingsProvider = (props) => {
-	const [settings, setSettings] = useState<ISetting[]>([]);
+	const [settings, setSettings] = useState<TSetting[]>([]);
 
 	useEffect(() => {
 		apiRocketChatSettingsPublic(SETTINGS_TO_FETCH).then((res) =>
@@ -45,7 +49,9 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 	}, []);
 
 	const getSetting = useCallback(
-		(id: string) => settings.find((s) => s._id === id) ?? null,
+		<T extends TSetting>(id: T['_id']): T | null => {
+			return (settings.find((s) => s._id === id) as T) ?? null;
+		},
 		[settings]
 	);
 
@@ -54,11 +60,11 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 		if (settings.length <= 0) {
 			return;
 		}
-		const isE2eeEnabled = getSetting(SETTING_E2E_ENABLE)?.value ?? false;
-		const configuredInputMaxLength =
-			getSetting(SETTING_MESSAGE_MAXALLOWEDSIZE)?.value ?? 0;
+		const isE2eeEnabled =
+			getSetting<IBooleanSetting>(SETTING_E2E_ENABLE)?.value ?? false;
+		const configuredInputMaxLength = getSetting<INumberSetting>(SETTING_MESSAGE_MAXALLOWEDSIZE)?.value ?? 0;
 		const configuredAttachmentMaxFilesize =
-			getSetting(SETTING_FILEUPLOAD_MAXFILESIZE)?.value ?? 0;
+			getSetting<INumberSetting>(SETTING_FILEUPLOAD_MAXFILESIZE)?.value ?? 0;
 
 		let requiredInputMaxLength = INPUT_MAX_LENGTH;
 

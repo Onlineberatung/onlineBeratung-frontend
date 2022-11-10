@@ -7,10 +7,8 @@ import {
 	useContext
 } from 'react';
 import { importRSAKey } from '../../utils/encryptionHelpers';
-import {
-	RocketChatPublicSettingsContext,
-	SETTING_E2E_ENABLE
-} from './RocketChatPublicSettingsProvider';
+import { RocketChatPublicSettingsContext } from './RocketChatPublicSettingsProvider';
+import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
 
 interface E2EEContextProps {
 	key: string;
