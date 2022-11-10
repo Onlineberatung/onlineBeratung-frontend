@@ -485,7 +485,7 @@ $message-attachment-color: $secondary !default;
 
 	&.videocall &__subject,
 	&.master_key_lost &__subject {
-		color: $form-primary;
+		color: $message-system;
 	}
 
 	.messageItem__metaData {

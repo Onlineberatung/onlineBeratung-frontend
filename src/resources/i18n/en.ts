@@ -2074,7 +2074,8 @@ export const en = {
 				'2': '21-30',
 				'3': '31-40',
 				'4': '41-59',
-				'5': '60+'
+				'5': '60+',
+				'null': 'no information'
 			},
 			gender: {
 				'headline': 'Gender',

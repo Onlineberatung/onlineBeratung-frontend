@@ -70,6 +70,7 @@ $message-name-system: var(--skin-color-default, $primary);
 $message-name-consultant: var(--skin-color-default, $primary);
 $message-name-user: #1b998b;
 $message-name-forwarded: $black-65-opacity;
+$message-system: #8c878c;
 
 // FONT SIZES
 // TODO: delete headline styles when every headline uses <Headline/>
