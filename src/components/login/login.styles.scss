@@ -75,6 +75,10 @@ $link-hover-text-decoration: $link-text-decoration !default;
 			max-height: 250px;
 			overflow: visible;
 		}
+
+		.inputField__icon {
+			top: 2px;
+		}
 	}
 
 	&__otpEmailResend {

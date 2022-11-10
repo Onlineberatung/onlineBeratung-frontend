@@ -11,6 +11,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { Loading } from '../app/Loading';
 import { SessionItemComponent } from './SessionItemComponent';
 import {
+	AnonymousConversationFinishedContext,
 	AUTHORITIES,
 	ConsultantListContext,
 	E2EEContext,
@@ -73,6 +74,9 @@ export const SessionStream = ({
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
 	const { subscribe, unsubscribe } = useContext(RocketChatContext);
+	const { anonymousConversationFinished } = useContext(
+		AnonymousConversationFinishedContext
+	);
 	const { rcGroupId } = useParams<{ rcGroupId: string }>();
 
 	const subscribed = useRef(false);
@@ -141,7 +145,7 @@ export const SessionStream = ({
 	 */
 	const handleRoomMessage = useCallback(
 		(args) => {
-			if (args.length === 0) return;
+			if (args.length === 0 || anonymousConversationFinished) return;
 
 			args
 				// Map collected from debounce callback
@@ -173,6 +177,7 @@ export const SessionStream = ({
 		},
 
 		[
+			anonymousConversationFinished,
 			checkMutedUserForThisSession,
 			isE2eeEnabled,
 			activeSession.isGroup,
@@ -259,6 +264,11 @@ export const SessionStream = ({
 			setLoading(false);
 		} else {
 			subscribed.current = true;
+
+			if (anonymousConversationFinished) {
+				setLoading(false);
+				return;
+			}
 
 			// check if any user needs to be added when opening session view
 			addNewUsersToEncryptedRoom().then();
@@ -359,6 +369,7 @@ export const SessionStream = ({
 	}, [
 		activeSession,
 		addNewUsersToEncryptedRoom,
+		anonymousConversationFinished,
 		fetchSessionMessages,
 		handleChatStopped,
 		handleLiveChatStopped,
