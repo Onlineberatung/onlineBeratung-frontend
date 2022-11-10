@@ -8,12 +8,14 @@ export const transformBookingData = (bookings: BookingEventsInterface[]) => {
 	let bookingEvents: BookingEventUiInterface[] = [];
 	bookings?.forEach((event: BookingEventsInterface) => {
 		const startTime = new Date(
-			convertUTCDateToLocalDate(
-				new Date(event.startTime)
-			).toLocaleString()
+			convertUTCDateToLocalDate(new Date(event.startTime)).toLocaleString(
+				'en-ZA'
+			)
 		);
 		const endTime = new Date(
-			convertUTCDateToLocalDate(new Date(event.endTime)).toLocaleString()
+			convertUTCDateToLocalDate(new Date(event.endTime)).toLocaleString(
+				'en-ZA'
+			)
 		);
 		const date = new Date(event.startTime).toLocaleDateString('de-de', {
 			weekday: 'long',

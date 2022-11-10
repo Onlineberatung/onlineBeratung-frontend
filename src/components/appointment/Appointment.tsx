@@ -11,7 +11,7 @@ import {
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
-import { ReactComponent as DeleteIcon } from '../../resources/img/icons/delete.svg';
+import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import './appointment.styles.scss';
 import {
@@ -334,7 +334,7 @@ const AppointmentActions = ({ onEdit, onDelete }: AppointmentActionsProps) => {
 					className="primary"
 					onClick={() => onDelete()}
 				>
-					<DeleteIcon />
+					<TrashIcon />
 				</span>
 			</div>
 		</div>
