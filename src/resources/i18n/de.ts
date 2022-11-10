@@ -1039,7 +1039,20 @@ export const de = {
 		'today': 'Heute',
 		'tomorrow': 'Morgen',
 		'write.peer.checkbox.label': 'Feedback anfordern',
-		'yesterday': 'Gestern'
+		'yesterday': 'Gestern',
+		'delete': {
+			delete: 'Löschen',
+			deleted: {
+				own: 'Sie haben diese Nachricht gelöscht.',
+				other: 'Diese Nachricht wurde gelöscht.'
+			},
+			overlay: {
+				headline: 'Nachricht löschen',
+				copy: 'Möchten Sie die Nachricht wirklich löschen?',
+				cancel: 'Abbrechen',
+				confirm: 'Löschen'
+			}
+		}
 	},
 	monitoring: {
 		title: 'Monitoring',

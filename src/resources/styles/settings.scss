@@ -23,6 +23,7 @@ $white-50-opacity: rgba(255, 255, 255, 0.5);
 $black: #000;
 $black-25-opacity: rgba(0, 0, 0, 0.25);
 $black-10-opacity: rgba(0, 0, 0, 0.1);
+$black-5-opacity: rgba(0, 0, 0, 0.1);
 $primary: #cc1e1c;
 $secondary: rgba(0, 0, 0, 0.9);
 $tertiary: rgba($black, 0.9);
@@ -68,7 +69,7 @@ $message-name-self: $form-primary;
 $message-name-system: var(--skin-color-default, $primary);
 $message-name-consultant: var(--skin-color-default, $primary);
 $message-name-user: #1b998b;
-$message-name-forwarded: $yellow-6;
+$message-name-forwarded: $black-65-opacity;
 $message-system: #8c878c;
 
 // FONT SIZES

@@ -233,6 +233,16 @@ export const deInformal = {
 			}
 		}
 	},
+	message: {
+		delete: {
+			deleted: {
+				own: 'Du hast diese Nachricht gelöscht.'
+			},
+			overlay: {
+				copy: 'Möchtest Du die Nachricht wirklich löschen?'
+			}
+		}
+	},
 	notifications: {
 		'message.new': 'Du hast eine neue Nachricht!',
 		'enquiry.new': 'Du hast eine neue Livechat Anfrage!'
