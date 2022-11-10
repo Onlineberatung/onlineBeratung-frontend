@@ -4,6 +4,7 @@ import {
 	apiRocketChatSettingsPublic,
 	ISetting,
 	SETTING_E2E_ENABLE,
+	SETTING_MESSAGE_ALLOWDELETING,
 	SETTING_MESSAGE_MAXALLOWEDSIZE
 } from '../../api/apiRocketChatSettingsPublic';
 import { INPUT_MAX_LENGTH } from '../../components/messageSubmitInterface/richtextHelpers';
@@ -16,7 +17,11 @@ import {
 } from '../../utils/encryptionHelpers';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 
-const SETTINGS_TO_FETCH = [SETTING_E2E_ENABLE, SETTING_MESSAGE_MAXALLOWEDSIZE];
+const SETTINGS_TO_FETCH = [
+	SETTING_E2E_ENABLE,
+	SETTING_MESSAGE_MAXALLOWEDSIZE,
+	SETTING_MESSAGE_ALLOWDELETING
+];
 
 type RocketChatGlobalSettingsContextProps = {
 	settings: ISetting[];
