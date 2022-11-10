@@ -603,7 +603,7 @@ const MessageFlyoutMenu = ({
 	});
 
 	return (
-		<FlyoutMenu position={isMyMessage ? 'left' : 'right'}>
+		<FlyoutMenu position={isMyMessage ? 'left-top' : 'right-top'}>
 			{currentUserIsModerator &&
 				!subscriberIsModerator &&
 				!isUserBanned && (

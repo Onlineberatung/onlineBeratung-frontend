@@ -59,9 +59,23 @@
 		}
 	}
 
-	&--left {
+	&--left,
+	&--left-bottom {
 		.flyoutMenu__content {
 			transform: translateX(calc(-100% + 20px));
+		}
+	}
+
+	&--left-top {
+		.flyoutMenu__content {
+			transform: translateX(calc(-100% + 20px))
+				translateY(calc(-100% - 25px));
+		}
+	}
+
+	&--right-top {
+		.flyoutMenu__content {
+			transform: translateY(calc(-100% - 25px));
 		}
 	}
 }

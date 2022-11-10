@@ -5,7 +5,13 @@ import './flyoutMenu.styles.scss';
 interface FlyoutMenuProps {
 	isOpen?: boolean;
 	handleClose?: () => void;
-	position?: 'right' | 'left';
+	position?:
+		| 'right'
+		| 'left'
+		| 'left-bottom'
+		| 'right-bottom'
+		| 'left-top'
+		| 'right-top';
 	isHidden?: boolean;
 }
 
