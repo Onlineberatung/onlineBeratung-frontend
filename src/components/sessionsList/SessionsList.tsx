@@ -19,6 +19,7 @@ import {
 	SESSION_TYPES
 } from '../session/sessionHelpers';
 import {
+	AnonymousConversationFinishedContext,
 	AnonymousConversationStartedContext,
 	AUTHORITIES,
 	buildExtendedSession,
@@ -82,6 +83,9 @@ export const SessionsList = ({
 }: SessionsListProps) => {
 	const { t: translate } = useTranslation();
 	const { consultingTypes } = useContext(ConsultingTypesContext);
+	const { anonymousConversationFinished } = useContext(
+		AnonymousConversationFinishedContext
+	);
 
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
 		useParams<{ rcGroupId: string; sessionId: string }>();
@@ -485,6 +489,10 @@ export const SessionsList = ({
 	// Subscribe to all my messages
 	useEffect(() => {
 		const userId = rcUid.current;
+		if (anonymousConversationFinished) {
+			return;
+		}
+
 		if (socketReady && !subscribed.current) {
 			subscribed.current = true;
 			subscribe(
@@ -530,6 +538,7 @@ export const SessionsList = ({
 			}
 		};
 	}, [
+		anonymousConversationFinished,
 		onDebounceRoomsChanged,
 		onDebounceSubscriptionsChanged,
 		socketReady,

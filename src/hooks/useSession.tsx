@@ -1,9 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import {
 	apiGetSessionRoomBySessionId,
 	apiGetSessionRoomsByGroupIds
 } from '../api/apiGetSessionRooms';
-import { buildExtendedSession, ExtendedSessionInterface } from '../globalState';
+import {
+	AnonymousConversationFinishedContext,
+	buildExtendedSession,
+	ExtendedSessionInterface
+} from '../globalState';
 import { apiSetSessionRead, FETCH_ERRORS } from '../api';
 import { apiGetChatRoomById } from '../api/apiGetChatRoomById';
 
@@ -19,6 +23,9 @@ export const useSession = (
 } => {
 	const [ready, setReady] = useState(false);
 	const [session, setSession] = useState<ExtendedSessionInterface>(null);
+	const { anonymousConversationFinished } = useContext(
+		AnonymousConversationFinishedContext
+	);
 	const repetitiveId = useRef(null);
 	const abortController = useRef<AbortController>(null);
 
@@ -38,6 +45,10 @@ export const useSession = (
 		let promise;
 
 		if (!rid && !sessionId && !chatId) {
+			return;
+		}
+
+		if (anonymousConversationFinished) {
 			return;
 		}
 
@@ -81,7 +92,7 @@ export const useSession = (
 				setSession(null);
 				setReady(true);
 			});
-	}, [chatId, sessionId, rid]);
+	}, [rid, sessionId, chatId, anonymousConversationFinished]);
 
 	const readSession = useCallback(() => {
 		if (!session) {

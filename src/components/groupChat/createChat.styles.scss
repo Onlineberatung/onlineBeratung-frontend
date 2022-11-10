@@ -141,6 +141,10 @@ $inputSpacing: 32px;
 	}
 }
 
+.creatChat__name__input {
+	padding-left: $grid-base-three;
+}
+
 //overwrite component spacings
 .createChat__content {
 	.formWrapper {

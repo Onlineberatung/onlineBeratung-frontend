@@ -48,7 +48,7 @@ export const EnquiryLanguageSelection: React.FC<EnquiryLanguageSelectionProps> =
 					agencyId = sessions[0].agency.id;
 				}
 
-				if (!agencyId) {
+				if (agencyId === null) {
 					resolve([]);
 				}
 
