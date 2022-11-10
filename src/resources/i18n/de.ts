@@ -232,7 +232,7 @@ export const de = {
 	booking: {
 		'availability': {
 			description:
-				'Geben Sie hier Ihre allegemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.',
+				'Geben Sie hier Ihre allgemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.',
 			title: 'Ihre Verfügbarkeit'
 		},
 		'calender': {
@@ -1266,8 +1266,8 @@ export const de = {
 	},
 	overview: {
 		title: 'Willkommen zurück!',
-		myMessagesTitle: '%count% ungelesene Nachrichten',
-		initialInquiriesTitle: '%count% Erstanfragen',
+		myMessagesTitle: '{{countStr}} ungelesene Nachrichten',
+		initialInquiriesTitle: '{{countStr}} Erstanfragen',
 		upcomingAppointments: 'Ihre nächsten {{countStr}} Termine',
 		upcomingAppointment: 'Ihr nächster Termin',
 		emptyMessages: 'Du hast alles im Blick, alle Nachrichten sind gelesen!',
