@@ -4,6 +4,7 @@ import { FETCH_METHODS } from './fetchData';
 
 export const SETTING_E2E_ENABLE = 'E2E_Enable';
 export const SETTING_MESSAGE_MAXALLOWEDSIZE = 'Message_MaxAllowedSize';
+export const SETTING_FILEUPLOAD_MAXFILESIZE = 'FileUpload_MaxFileSize';
 
 export interface ISetting {
 	_id: typeof SETTING_E2E_ENABLE | string;

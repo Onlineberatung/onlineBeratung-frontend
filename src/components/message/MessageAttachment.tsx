@@ -11,8 +11,10 @@ import { useCallback } from 'react';
 import { FETCH_METHODS, fetchData } from '../../api';
 import { decryptAttachment } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
-import { useAppConfig } from '../../hooks/useAppConfig';
-import { STORAGE_KEY_ATTACHMENT_ENCRYPTION } from '../devToolbar/DevToolbar';
+import {
+	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
+	useDevToolbar
+} from '../devToolbar/DevToolbar';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;
@@ -25,11 +27,10 @@ interface MessageAttachmentProps {
 export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const { t: translate } = useTranslation();
 	const { key, keyID, encrypted } = useE2EE(props.rid);
-	const settings = useAppConfig();
-	const isAttachmentEncryptionEnabledDevTools =
-		localStorage.getItem(STORAGE_KEY_ATTACHMENT_ENCRYPTION) === null
-			? settings.attachmentEncryption
-			: parseInt(localStorage.getItem(STORAGE_KEY_ATTACHMENT_ENCRYPTION));
+	const { getDevToolbarOption } = useDevToolbar();
+	const isAttachmentEncryptionEnabledDevTools = getDevToolbarOption(
+		STORAGE_KEY_ATTACHMENT_ENCRYPTION
+	);
 
 	const downloadViaJavascript = useCallback(
 		async (url: string) => {

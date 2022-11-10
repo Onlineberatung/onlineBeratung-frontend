@@ -200,7 +200,7 @@ export const de = {
 			},
 			size: {
 				headline: 'Ihre gewählte Datei ist zu groß.',
-				message: 'Sie können max. 5MB hochladen.'
+				message: 'Sie können max. {{attachment_filesize}}MB hochladen.'
 			}
 		},
 		'list': {
@@ -1773,7 +1773,8 @@ export const de = {
 				outsideDropArea:
 					'Ziehen Sie die Datei in das Feld, um sie hochzuladen.'
 			},
-			restrictions: '.jpg, .png, .pdf, .docx, .xlsx bis maximal 5MB'
+			restrictions:
+				'.jpg, .png, .pdf, .docx, .xlsx bis maximal {{attachment_filesize}}'
 		},
 		'reassign': {
 			system: {

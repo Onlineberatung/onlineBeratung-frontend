@@ -190,7 +190,7 @@ export const en = {
 			},
 			size: {
 				headline: 'Your selected file is too big.',
-				message: 'You can upload max. 5MB.'
+				message: 'You can upload max. {{attachment_filesize}}MB.'
 			},
 			quota: {
 				headline: 'You have reached the limit for uploading.',
@@ -1760,7 +1760,7 @@ export const en = {
 				outsideDropArea: 'Drag the file into the field to upload it.'
 			},
 			restrictions:
-				'.jpg, .png, .pdf, .docx, .xlsx up to a maximum of 5MB'
+				'.jpg, .png, .pdf, .docx, .xlsx up to a maximum of {{attachment_filesize}}MB'
 		},
 		'reassign': {
 			system: {

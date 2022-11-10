@@ -53,7 +53,7 @@ export const deInformal = {
 			},
 			size: {
 				headline: 'Deine gewählte Datei ist zu groß.',
-				message: 'Du kannst max. 5MB hochladen.'
+				message: 'Du kannst max. {{attachment_filesize}}MB hochladen.'
 			},
 			quota: {
 				headline: 'Du hast das Limit zum Hochladen erreicht.',

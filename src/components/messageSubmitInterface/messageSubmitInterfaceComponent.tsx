@@ -13,6 +13,7 @@ import {
 } from '../../globalState/helpers/stateHelpers';
 import {
 	E2EEContext,
+	RocketChatGlobalSettingsContext,
 	SessionTypeContext,
 	STATUS_ARCHIVED,
 	STATUS_FINISHED,
@@ -92,8 +93,10 @@ import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
 import { RoomNotFound } from '../session/RoomNotFound';
 import { useDraftMessage } from './useDraftMessage';
-import { useAppConfig } from '../../hooks/useAppConfig';
-import { STORAGE_KEY_ATTACHMENT_ENCRYPTION } from '../devToolbar/DevToolbar';
+import {
+	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
+	useDevToolbar
+} from '../devToolbar/DevToolbar';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -165,7 +168,7 @@ export const MessageSubmitInterfaceComponent = (
 	const { t: translate } = useTranslation();
 	const tenant = useTenant();
 	const history = useHistory();
-	const settings = useAppConfig();
+	const { getDevToolbarOption } = useDevToolbar();
 
 	const textareaInputRef = useRef<HTMLDivElement>(null);
 	const inputWrapperRef = useRef<HTMLSpanElement>(null);
@@ -526,14 +529,9 @@ export const MessageSubmitInterfaceComponent = (
 		if (attachment) {
 			let res: any;
 
-			const isAttachmentEncryptionEnabledDevTools =
-				localStorage.getItem(STORAGE_KEY_ATTACHMENT_ENCRYPTION) === null
-					? settings.attachmentEncryption
-					: parseInt(
-							localStorage.getItem(
-								STORAGE_KEY_ATTACHMENT_ENCRYPTION
-							)
-					  );
+			const isAttachmentEncryptionEnabledDevTools = getDevToolbarOption(
+				STORAGE_KEY_ATTACHMENT_ENCRYPTION
+			);
 			const encryptEnabled =
 				isEncrypted && isAttachmentEncryptionEnabledDevTools;
 			const skipEncryption = !encryptEnabled;
@@ -798,7 +796,9 @@ export const MessageSubmitInterfaceComponent = (
 			infoData = {
 				isInfo: false,
 				infoHeadline: translate('attachments.error.size.headline'),
-				infoMessage: translate('attachments.error.size.message')
+				infoMessage: translate('attachments.error.size.message', {
+					attachment_filesize: ATTACHMENT_MAX_SIZE_IN_MB
+				})
 			};
 		} else if (activeInfo === INFO_TYPES.ATTACHMENT_FORMAT_ERROR) {
 			infoData = {
