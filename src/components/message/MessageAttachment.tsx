@@ -36,7 +36,6 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const { getDevToolbarOption } = useDevToolbar();
 	const { addNotification } = React.useContext(NotificationsContext);
 
-	// const [hasEncryptionError, setHasEncryptionError] = React.useState(false);
 	const [encryptedFile, setEncryptedFile] = React.useState(null);
 	const [isDecrypting, setIsDecrypting] = React.useState(false);
 
