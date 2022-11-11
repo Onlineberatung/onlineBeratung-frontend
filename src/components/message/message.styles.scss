@@ -211,6 +211,10 @@ $message-attachment-color: $secondary !default;
 				}
 			}
 
+			.loadingSpinner {
+				margin-right: $grid-base;
+			}
+
 			&__download {
 				display: flex;
 				cursor: pointer;
@@ -223,6 +227,12 @@ $message-attachment-color: $secondary !default;
 					margin: 0;
 					color: var(--text-color-contrast-switch, $secondary);
 					line-height: $icon-size;
+					text-decoration: underline;
+
+					&.decrypting {
+						color: var(--text-color-contrast-switch, $primary);
+						text-decoration: none;
+					}
 				}
 
 				&:hover p {

@@ -422,6 +422,15 @@ export const en = {
 		}
 	},
 	e2ee: {
+		attachment: {
+			decrypt: 'Decrypt file for download',
+			decrypting: 'File is being decrypted',
+			save: 'Download file',
+			error: {
+				title: 'Unfortunately, we could not decrypt and download the file.',
+				text: 'Ask the sender to resend the file. Then download the new file.'
+			}
+		},
 		message: {
 			'encryption.text': 'Message encrypted',
 			'encryption.error': 'Message encrypted - error during decryption'

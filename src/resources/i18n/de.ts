@@ -424,6 +424,15 @@ export const de = {
 				'Nachricht verschlüsselt - Fehler beim Entschlüsseln',
 			'encryption.text': 'Nachricht verschlüsselt'
 		},
+		attachment: {
+			decrypt: 'Datei für Download entschlüsseln',
+			decrypting: 'Datei wird entschlüsselt',
+			save: 'Datei downloaden',
+			error: {
+				title: 'Leider, konnten wir die Datei nicht entschlüsseln und downloaden.',
+				text: 'Bitten Sie den Sender oder die Senderin die Datei erneut zu schicken. Downloaden Sie dann die neue Datei.'
+			}
+		},
 		inProgress: {
 			headline: 'Einen Moment bitte.',
 			copy: 'Ihre Sicherheit ist uns wichtig! Wir verschlüsseln gerade Ihren Chat. Dies kann einen Moment dauern.',

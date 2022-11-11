@@ -15,6 +15,12 @@ import {
 	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
+import {
+	NotificationsContext,
+	NOTIFICATION_TYPE_ERROR
+} from '../../globalState';
+import { LoadingSpinner } from '../loadingSpinner/LoadingSpinner';
+import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;
@@ -28,12 +34,20 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const { t: translate } = useTranslation();
 	const { key, keyID, encrypted } = useE2EE(props.rid);
 	const { getDevToolbarOption } = useDevToolbar();
-	const isAttachmentEncryptionEnabledDevTools = getDevToolbarOption(
-		STORAGE_KEY_ATTACHMENT_ENCRYPTION
-	);
+	const { addNotification } = React.useContext(NotificationsContext);
 
-	const downloadViaJavascript = useCallback(
+	// const [hasEncryptionError, setHasEncryptionError] = React.useState(false);
+	const [encryptedFile, setEncryptedFile] = React.useState(null);
+	const [isDecrypting, setIsDecrypting] = React.useState(false);
+
+	const decryptFile = useCallback(
 		async (url: string) => {
+			if (isDecrypting) return;
+			const isAttachmentEncryptionEnabledDevTools = parseInt(
+				getDevToolbarOption(STORAGE_KEY_ATTACHMENT_ENCRYPTION)
+			);
+			setIsDecrypting(true);
+
 			const data = await fetchData({
 				url: url,
 				method: FETCH_METHODS.GET,
@@ -63,32 +77,47 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					keyID,
 					key,
 					false
-				);
-				blobUrl = URL.createObjectURL(encryptedData);
+				).catch((error) => {
+					addNotification({
+						notificationType: NOTIFICATION_TYPE_ERROR,
+						title: translate('e2ee.attachment.error.title'),
+						text: translate('e2ee.attachment.error.text'),
+						closeable: true,
+						timeout: 60000
+					});
+
+					apiPostError({
+						name: error.name,
+						message: error.message,
+						stack: error.stack,
+						level: ERROR_LEVEL_WARN
+					}).then();
+
+					throw new Error(error);
+				});
+
+				if (!encryptedData) return;
+
+				const blobData = new Blob([encryptedData], {
+					type: props.file.type
+				});
+				blobUrl = window.URL.createObjectURL(blobData);
 			}
 
-			const link = document.createElement('a');
-
-			link.href = blobUrl;
-			link.download = props.attachment.title;
-
-			document.body.appendChild(link);
-			link.dispatchEvent(
-				new MouseEvent('click', {
-					bubbles: true,
-					cancelable: true,
-					view: window
-				})
-			);
-			document.body.removeChild(link);
+			setEncryptedFile(blobUrl);
+			setIsDecrypting(false);
 		},
 		[
+			isDecrypting,
 			encrypted,
 			key,
 			keyID,
 			props.attachment.title,
 			props.t,
-			isAttachmentEncryptionEnabledDevTools
+			props.file.type,
+			getDevToolbarOption,
+			addNotification,
+			translate
 		]
 	);
 
@@ -102,7 +131,11 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 		>
 			<div className="messageItem__message__attachment">
 				<span className="messageItem__message__attachment__icon">
-					{getIconForAttachmentType(props.file.type)}
+					{isDecrypting ? (
+						<LoadingSpinner />
+					) : (
+						getIconForAttachmentType(props.file.type)
+					)}
 				</span>
 				<span className="messageItem__message__attachment__title">
 					<p>{props.attachment.title}</p>
@@ -123,15 +156,48 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					</p>
 				</span>
 			</div>
-			<button
-				onClick={() =>
-					downloadViaJavascript(apiUrl + props.attachment.title_link)
-				}
-				className="messageItem__message__attachment__download"
-			>
-				<DownloadIcon />
-				<p>{translate('attachments.download.label')}</p>
-			</button>
+			{props.t === 'e2e' && (
+				<>
+					{encryptedFile ? (
+						<a
+							href={encryptedFile}
+							download={props.file.name}
+							rel="noopener noreferer"
+							className="messageItem__message__attachment__download"
+						>
+							<DownloadIcon />
+							<p>{translate('e2ee.attachment.save')}</p>
+						</a>
+					) : (
+						<button
+							onClick={() =>
+								decryptFile(
+									apiUrl + props.attachment.title_link
+								)
+							}
+							className="messageItem__message__attachment__download"
+						>
+							<p className={isDecrypting ? 'decrypting' : ''}>
+								{translate(
+									isDecrypting
+										? 'e2ee.attachment.decrypting'
+										: 'e2ee.attachment.decrypt'
+								)}
+							</p>
+						</button>
+					)}
+				</>
+			)}
+			{props.t !== 'e2e' && (
+				<a
+					href={apiUrl + props.attachment.title_link}
+					rel="noopener noreferer"
+					className="messageItem__message__attachment__download"
+				>
+					<DownloadIcon />
+					<p>{translate('attachments.download.label')}</p>
+				</a>
+			)}
 		</div>
 	);
 };

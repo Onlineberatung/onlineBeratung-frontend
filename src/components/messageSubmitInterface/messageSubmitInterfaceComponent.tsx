@@ -13,7 +13,6 @@ import {
 } from '../../globalState/helpers/stateHelpers';
 import {
 	E2EEContext,
-	RocketChatGlobalSettingsContext,
 	SessionTypeContext,
 	STATUS_ARCHIVED,
 	STATUS_FINISHED,
@@ -529,20 +528,33 @@ export const MessageSubmitInterfaceComponent = (
 		if (attachment) {
 			let res: any;
 
-			const isAttachmentEncryptionEnabledDevTools = getDevToolbarOption(
-				STORAGE_KEY_ATTACHMENT_ENCRYPTION
+			const isAttachmentEncryptionEnabledDevTools = parseInt(
+				getDevToolbarOption(STORAGE_KEY_ATTACHMENT_ENCRYPTION)
 			);
-			const encryptEnabled =
-				isEncrypted && isAttachmentEncryptionEnabledDevTools;
-			const skipEncryption = !encryptEnabled;
+			let attachmentFile = attachment;
+			let signature = null;
+			let encryptEnabled =
+				isEncrypted && !!isAttachmentEncryptionEnabledDevTools;
 
-			const signature = await getSignature(attachment);
-			const attachmentFile = await encryptAttachment(
-				attachment,
-				keyID,
-				key,
-				skipEncryption
-			);
+			if (encryptEnabled) {
+				try {
+					signature = await getSignature(attachment);
+					attachmentFile = await encryptAttachment(
+						attachment,
+						keyID,
+						key
+					);
+				} catch (e: any) {
+					encryptEnabled = false;
+
+					apiPostError({
+						name: e.name,
+						message: e.message,
+						stack: e.stack,
+						level: ERROR_LEVEL_WARN
+					}).then();
+				}
+			}
 
 			res = await apiUploadAttachment(
 				attachmentFile,
@@ -551,7 +563,7 @@ export const MessageSubmitInterfaceComponent = (
 				getSendMailNotificationStatus(),
 				setUploadProgress,
 				setAttachmentUpload,
-				skipEncryption,
+				encryptEnabled,
 				signature
 			).catch((res: XMLHttpRequest) => {
 				if (res.status === 413) {

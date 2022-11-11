@@ -99,6 +99,11 @@ export const deInformal = {
 		}
 	},
 	e2ee: {
+		attachment: {
+			error: {
+				text: 'Bitte den Sender oder die Senderin die Datei erneut zu schicken. Downloade dann die neue Datei.'
+			}
+		},
 		hint: 'Deine Nachrichten sind Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform.',
 		inProgress: {
 			copy: 'Deine Sicherheit ist uns wichtig! Wir verschlüsseln gerade Deinen Chat. Dies kann einen Moment dauern.',

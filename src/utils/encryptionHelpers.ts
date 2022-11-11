@@ -15,11 +15,10 @@ export const VECTOR_LENGTH = 16;
 export const KEY_ID_LENGTH = 12;
 export const MAX_PREFIX_LENGTH = 10;
 
-// Size for apache tika file type detection. Currenlty there is a compose decoder active and it needs 64kB for detection.
-// If only magic number detector is enabled it should work with 512 bytes too.
-// ATTENTION! The bigger this value is, the bigger the attached signature is. For files uploaded smaller than this size the wohle file is
+// Size in bytes for apache tika file type detection.
+// ATTENTION! The bigger this value is, the bigger the attached signature is. For files uploaded smaller than this size the whole file is
 // attached unencrypted in the signature!
-export const SIGNATURE_LENGTH = 64 * 1024;
+export const SIGNATURE_LENGTH = 64;
 
 export const encodeUsername = (username) => {
 	return 'enc.' + encode(username).replace(/=/g, '.');
@@ -308,10 +307,9 @@ export const getSignature = async (attachment: File): Promise<ArrayBuffer> => {
 export const encryptAttachment = async (
 	attachment: File,
 	keyID,
-	key,
-	skipEncryption
+	key
 ): Promise<File> => {
-	if (!keyID || skipEncryption) {
+	if (!keyID) {
 		return attachment;
 	}
 

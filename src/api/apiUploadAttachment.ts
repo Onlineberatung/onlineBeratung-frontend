@@ -2,7 +2,6 @@ import { endpoints } from '../resources/scripts/endpoints';
 import { FETCH_METHODS } from './fetchData';
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
 import { generateCsrfToken } from '../utils/generateCsrfToken';
-import { toString } from '../utils/encryptionHelpers';
 
 const nodeEnv: string = process.env.NODE_ENV as string;
 const isLocalDevelopment = nodeEnv === 'development';
@@ -16,7 +15,7 @@ export const apiUploadAttachment = (
 	sendMailNotification: boolean,
 	uploadProgress: Function,
 	handleXhr: (xhr) => void,
-	skipEncryption: boolean,
+	encryptionEnabled: boolean,
 	signature: ArrayBuffer
 ) =>
 	new Promise((resolve, reject) => {
@@ -33,9 +32,12 @@ export const apiUploadAttachment = (
 		data.append('file', attachment);
 		data.append('sendNotification', sendMailNotification.toString());
 
-		if (!skipEncryption) {
+		if (encryptionEnabled) {
 			data.append('t', 'e2e');
-			data.append('fileHeader', toString(signature));
+			data.append(
+				'fileHeader',
+				'[' + new Int8Array(signature).toString() + ']'
+			);
 		}
 
 		const xhr = new XMLHttpRequest();
