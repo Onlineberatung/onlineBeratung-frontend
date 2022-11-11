@@ -4,8 +4,9 @@ import {
 	apiRocketChatSettingsPublic,
 	ISetting,
 	SETTING_E2E_ENABLE,
-	SETTING_MESSAGE_MAXALLOWEDSIZE,
-	SETTING_FILEUPLOAD_MAXFILESIZE
+	SETTING_FILEUPLOAD_MAXFILESIZE,
+	SETTING_MESSAGE_ALLOWDELETING,
+	SETTING_MESSAGE_MAXALLOWEDSIZE
 } from '../../api/apiRocketChatSettingsPublic';
 import { INPUT_MAX_LENGTH } from '../../components/messageSubmitInterface/richtextHelpers';
 import {
@@ -22,7 +23,8 @@ import { appConfig } from '../../utils/appConfig';
 const SETTINGS_TO_FETCH = [
 	SETTING_E2E_ENABLE,
 	SETTING_MESSAGE_MAXALLOWEDSIZE,
-	SETTING_FILEUPLOAD_MAXFILESIZE
+	SETTING_FILEUPLOAD_MAXFILESIZE,
+	SETTING_MESSAGE_ALLOWDELETING
 ];
 
 type RocketChatGlobalSettingsContextProps = {

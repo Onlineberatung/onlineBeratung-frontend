@@ -154,7 +154,7 @@ Cypress.Commands.add('mockApi', () => {
 		});
 	}).as('askerSessions');
 
-	cy.intercept('GET', endpoints.messages, (req) => {
+	cy.intercept('GET', endpoints.messages.get, (req) => {
 		if (overrides['messages']) {
 			return req.reply(overrides['messages']);
 		}
