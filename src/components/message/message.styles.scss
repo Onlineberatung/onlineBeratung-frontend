@@ -238,7 +238,8 @@ $message-attachment-color: $secondary !default;
 					line-height: $icon-size;
 					text-decoration: underline;
 
-					&.decrypting {
+					&.decrypting,
+					&.decryptionError {
 						color: var(--text-color-contrast-switch, $primary);
 						text-decoration: none;
 					}

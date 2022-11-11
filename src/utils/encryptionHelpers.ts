@@ -239,15 +239,8 @@ export const decryptAttachment = async (
 	encryptedAttachment: string,
 	name: string,
 	roomKeyID,
-	groupKey,
-	skipDecryption?
+	groupKey
 ): Promise<File> => {
-	// skips decryption
-	if (skipDecryption) {
-		const encoder = new TextEncoder();
-		return new File([encoder.encode(encryptedAttachment)], name);
-	}
-
 	// error if key is missing
 	if (!roomKeyID || !groupKey) {
 		throw new MissingKeyError('e2ee.message.encryption');

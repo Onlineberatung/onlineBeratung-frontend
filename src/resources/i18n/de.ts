@@ -425,8 +425,9 @@ export const de = {
 			'encryption.text': 'Nachricht verschlüsselt'
 		},
 		attachment: {
-			decrypt: 'Datei für Download entschlüsseln',
-			decrypting: 'Datei wird entschlüsselt',
+			encrypted: 'Datei für Download entschlüsseln',
+			is_decrypting: 'Datei wird entschlüsselt',
+			decryption_error: 'Fehler beim entschlüsseln',
 			save: 'Datei downloaden',
 			error: {
 				title: 'Leider, konnten wir die Datei nicht entschlüsseln und downloaden.',

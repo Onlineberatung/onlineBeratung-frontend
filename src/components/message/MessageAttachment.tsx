@@ -21,6 +21,7 @@ import {
 } from '../../globalState';
 import { LoadingSpinner } from '../loadingSpinner/LoadingSpinner';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
+import clsx from 'clsx';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;
@@ -30,6 +31,12 @@ interface MessageAttachmentProps {
 	t?: string;
 }
 
+const NOT_ENCRYPTED = 'not_encrypted';
+const ENCRYPTED = 'encrypted';
+const IS_DECRYPTING = 'is_decrypting';
+const DECRYPTION_ERROR = 'decryption_error';
+const DECRYPTION_FINISHED = 'decryption_finished';
+
 export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const { t: translate } = useTranslation();
 	const { key, keyID, encrypted } = useE2EE(props.rid);
@@ -37,15 +44,21 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const { addNotification } = React.useContext(NotificationsContext);
 
 	const [encryptedFile, setEncryptedFile] = React.useState(null);
-	const [isDecrypting, setIsDecrypting] = React.useState(false);
+	const [attachmentStatus, setAttachmentStatus] = React.useState(
+		props.t === 'e2e' ? ENCRYPTED : NOT_ENCRYPTED
+	);
 
 	const decryptFile = useCallback(
 		async (url: string) => {
-			if (isDecrypting) return;
+			if (
+				attachmentStatus === IS_DECRYPTING ||
+				attachmentStatus === DECRYPTION_ERROR
+			)
+				return;
 			const isAttachmentEncryptionEnabledDevTools = parseInt(
 				getDevToolbarOption(STORAGE_KEY_ATTACHMENT_ENCRYPTION)
 			);
-			setIsDecrypting(true);
+			setAttachmentStatus(IS_DECRYPTING);
 
 			const data = await fetchData({
 				url: url,
@@ -74,9 +87,10 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					text,
 					props.attachment.title,
 					keyID,
-					key,
-					false
+					key
 				).catch((error) => {
+					setAttachmentStatus(DECRYPTION_ERROR);
+
 					addNotification({
 						notificationType: NOTIFICATION_TYPE_ERROR,
 						title: translate('e2ee.attachment.error.title'),
@@ -92,10 +106,12 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 						level: ERROR_LEVEL_WARN
 					}).then();
 
-					throw new Error(error);
+					return null;
 				});
 
-				if (!encryptedData) return;
+				if (!encryptedData) {
+					return;
+				}
 
 				const blobData = new Blob([encryptedData], {
 					type: props.file.type
@@ -104,10 +120,10 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			}
 
 			setEncryptedFile(blobUrl);
-			setIsDecrypting(false);
+			setAttachmentStatus(DECRYPTION_FINISHED);
 		},
 		[
-			isDecrypting,
+			attachmentStatus,
 			encrypted,
 			key,
 			keyID,
@@ -130,7 +146,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 		>
 			<div className="messageItem__message__attachment">
 				<span className="messageItem__message__attachment__icon">
-					{isDecrypting ? (
+					{attachmentStatus === IS_DECRYPTING ? (
 						<LoadingSpinner />
 					) : (
 						getIconForAttachmentType(props.file.type)
@@ -157,7 +173,8 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			</div>
 			{props.t === 'e2e' && (
 				<>
-					{encryptedFile ? (
+					{encryptedFile &&
+					attachmentStatus === DECRYPTION_FINISHED ? (
 						<a
 							href={encryptedFile}
 							download={props.file.name}
@@ -176,11 +193,16 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 							}
 							className="messageItem__message__attachment__download"
 						>
-							<p className={isDecrypting ? 'decrypting' : ''}>
+							<p
+								className={clsx({
+									decrypting:
+										attachmentStatus === IS_DECRYPTING,
+									decryptionError:
+										attachmentStatus === DECRYPTION_ERROR
+								})}
+							>
 								{translate(
-									isDecrypting
-										? 'e2ee.attachment.decrypting'
-										: 'e2ee.attachment.decrypt'
+									`e2ee.attachment.${attachmentStatus}`
 								)}
 							</p>
 						</button>
