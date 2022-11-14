@@ -52,6 +52,10 @@ export const NavigationBar = ({
 	} = useContext(RocketChatUnreadContext);
 	const { tenant } = useContext(TenantContext);
 
+	const ref_array = useRef<any>([]);
+	const ref_local = useRef<any>();
+	const ref_logout = useRef<any>();
+
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
 			apiFinishAnonymousConversation(sessionId).catch((error) => {
@@ -123,75 +127,54 @@ export const NavigationBar = ({
 		return value ? `walkthrough-${value}` : '';
 	}, []);
 
-	// const ref_array = useRef<any>([]);
-	// const ref_local = useRef<any>();
-	// const ref_logout = useRef<any>();
-	// const ref_test = useRef<any>();
-
-	// const handleKeyDownMenu = (e, index) => {
-	// 	if (e.key === 'Enter' || e.key === ' ') {
-	// 		if (document.activeElement === ref_logout.current) {
-	// 			handleLogout();
-	// 		} else if (document.activeElement === ref_local.current) {
-	// 			console.log('hallo');
-	// 			setIsMenuOpen(!isMenuOpen);
-	// 			setTimeout(() => {
-	// 				document.getElementById('react-select-2-option-0').focus();
-	// 			}, 500);
-	// 			//ref_local.current.click();
-	// 			//document.getElementById('languageSelect').click();
-	// 		} else {
-	// 			ref_array.current[index].click();
-	// 		}
-	// 	}
-	// 	if (e.key === 'ArrowUp') {
-	// 		if (isMenuOpen) {
-	// 			return;
-	// 		}
-	// 		if (index === 0) {
-	// 			ref_logout.current.focus();
-	// 		} else if (document.activeElement === ref_logout.current) {
-	// 			ref_local.current.focus();
-	// 		} else if (document.activeElement === ref_local.current) {
-	// 			ref_array.current[ref_array.current.length - 1].focus();
-	// 		} else {
-	// 			ref_array.current[index - 1].focus();
-	// 		}
-	// 	}
-	// 	if (e.key === 'ArrowDown') {
-	// 		if (isMenuOpen) {
-	// 			return;
-	// 		}
-	// 		if (index === ref_array.current.length - 1) {
-	// 			ref_local.current.focus();
-	// 		} else if (document.activeElement === ref_local.current) {
-	// 			ref_logout.current.focus();
-	// 		} else if (document.activeElement === ref_logout.current) {
-	// 			ref_array.current[0].focus();
-	// 		} else {
-	// 			ref_array.current[index + 1].focus();
-	// 		}
-	// 	}
-	// };
-
-	// const handleClickMenu = () => {
-	// 	setIsMenuOpen(!isMenuOpen);
-	// };
+	const handleKeyDownMenu = (e, index) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			if (document.activeElement === ref_logout.current) {
+				handleLogout();
+			} else if (document.activeElement === ref_local.current) {
+				console.log('hallo');
+				//setIsMenuOpen(!isMenuOpen);
+				// setTimeout(() => {
+				// 	document.getElementById('react-select-2-option-0').focus();
+				// }, 500);
+				ref_local.current.click();
+			} else {
+				ref_array.current[index].click();
+			}
+		}
+		if (e.key === 'ArrowUp') {
+			if (isMenuOpen) {
+				return;
+			}
+			if (index === 0) {
+				ref_logout.current.focus();
+			} else if (document.activeElement === ref_logout.current) {
+				ref_local.current.focus();
+			} else if (document.activeElement === ref_local.current) {
+				ref_array.current[ref_array.current.length - 1].focus();
+			} else {
+				ref_array.current[index - 1].focus();
+			}
+		}
+		if (e.key === 'ArrowDown') {
+			if (isMenuOpen) {
+				return;
+			}
+			if (index === ref_array.current.length - 1) {
+				ref_local.current.focus();
+			} else if (document.activeElement === ref_local.current) {
+				ref_logout.current.focus();
+			} else if (document.activeElement === ref_logout.current) {
+				ref_array.current[0].focus();
+			} else {
+				ref_array.current[index + 1].focus();
+			}
+		}
+	};
 
 	return (
 		<div className="navigation__wrapper">
-			<ul
-				className="navigation__itemContainer"
-				// tabIndex={0}
-				// ref={(el) => (ref_test.current = el)}
-				// onFocus={() => {
-				// 	console.log('reload focus');
-				// 	if (document.activeElement === ref_test.current) {
-				// 		ref_array.current[0].focus();
-				// 	}
-				// }}
-				role="tablist"
-			>
+			<div className="navigation__itemContainer" role="tablist">
 				{sessions &&
 					routerConfig.navigation
 						.filter(
@@ -205,51 +188,48 @@ export const NavigationBar = ({
 								)
 						)
 						.map((item, index) => (
-							<li role="presentation">
-								<Link
-									key={index}
-									className={`navigation__item ${pathToClassNameInWalkThrough(
-										item.to
-									)} ${
-										location.pathname.indexOf(item.to) !==
-											-1 && 'navigation__item--active'
-									} ${
-										animateNavIcon &&
-										Object.keys(
-											pathsToShowUnreadMessageNotification
-										).includes(item.to) &&
-										'navigation__item__count--active'
-									}`}
-									to={item.to}
-									// onKeyDown={(e) => handleKeyDownMenu(e, index)}
-									// ref={(el) => (ref_array.current[index] = el)}
-									tabIndex={index !== 0 ? -1 : 0}
-									role="tab"
-									aria-selected="true"
-									id={'tab' + index}
-								>
-									{item?.icon}
-									{(({ large }) => {
-										return (
-											<>
-												<span className="navigation__title">
-													{translate(large)}
-												</span>
-											</>
-										);
-									})(item.titleKeys)}
-									{Object.keys(
+							<Link
+								key={index}
+								className={`navigation__item ${pathToClassNameInWalkThrough(
+									item.to
+								)} ${
+									location.pathname.indexOf(item.to) !== -1 &&
+									'navigation__item--active'
+								} ${
+									animateNavIcon &&
+									Object.keys(
 										pathsToShowUnreadMessageNotification
 									).includes(item.to) &&
-										pathsToShowUnreadMessageNotification[
-											item.to
-										] > 0 && (
-											<NavigationUnreadIndicator
-												animate={animateNavIcon}
-											/>
-										)}
-								</Link>
-							</li>
+									'navigation__item__count--active'
+								}`}
+								to={item.to}
+								onKeyDown={(e) => handleKeyDownMenu(e, index)}
+								ref={(el) => (ref_array.current[index] = el)}
+								tabIndex={index === 0 ? 0 : -1}
+								role="tab"
+								aria-selected="true"
+							>
+								{item?.icon}
+								{(({ large }) => {
+									return (
+										<>
+											<span className="navigation__title">
+												{translate(large)}
+											</span>
+										</>
+									);
+								})(item.titleKeys)}
+								{Object.keys(
+									pathsToShowUnreadMessageNotification
+								).includes(item.to) &&
+									pathsToShowUnreadMessageNotification[
+										item.to
+									] > 0 && (
+										<NavigationUnreadIndicator
+											animate={animateNavIcon}
+										/>
+									)}
+							</Link>
 						))}
 				<div
 					className={clsx('navigation__item__bottom', {
@@ -261,13 +241,12 @@ export const NavigationBar = ({
 					})}
 				>
 					{selectableLocales.length > 1 && (
-						<li
-							role="presentation"
+						<div
 							className="navigation__item navigation__item__language"
-							// tabIndex={-1}
-							// ref={(el) => (ref_local.current = el)}
-							// onKeyDown={(e) => handleKeyDownMenu(e, null)}
-							// onClick={handleClickMenu}
+							role="tab"
+							tabIndex={-1}
+							ref={(el) => (ref_local.current = el)}
+							//onKeyDown={(e) => handleKeyDownMenu(e, null)}
 						>
 							<LocaleSwitch
 								showIcon={true}
@@ -277,25 +256,25 @@ export const NavigationBar = ({
 								iconSize={32}
 								label={translate('navigation.language')}
 								menuPlacement="right"
-								isMenuOpen={isMenuOpen}
+								// isMenuOpen={isMenuOpen}
 							/>
-						</li>
+						</div>
 					)}
-					<li
-						role="presentation"
+					<div
 						onClick={handleLogout}
 						className={'navigation__item'}
-						// tabIndex={-1}
-						// ref={(el) => (ref_logout.current = el)}
-						// onKeyDown={(e) => handleKeyDownMenu(e, null)}
+						role="tab"
+						tabIndex={-1}
+						ref={(el) => (ref_logout.current = el)}
+						onKeyDown={(e) => handleKeyDownMenu(e, null)}
 					>
 						<LogoutIcon className="navigation__icon" />
 						<span className="navigation__title">
 							{translate('app.logout')}
 						</span>
-					</li>
+					</div>
 				</div>
-			</ul>
+			</div>
 		</div>
 	);
 };

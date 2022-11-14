@@ -65,6 +65,7 @@ export const Profile = () => {
 	>([]);
 
 	const scrollContainer = useRef<HTMLDivElement>();
+	const ref_tabs = useRef<any>([]);
 
 	useEffect(() => {
 		setProfileWrapperActive();
@@ -162,6 +163,26 @@ export const Profile = () => {
 		else if (userData.displayName) headline = userData.displayName;
 	}
 
+	const handleKeyDownTabs = (e, index) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			ref_tabs.current[index].click();
+		}
+		if (e.key === 'ArrowLeft') {
+			if (index === 0) {
+				ref_tabs.current[ref_tabs.current.length - 1].focus();
+			} else {
+				ref_tabs.current[index - 1].focus();
+			}
+		}
+		if (e.key === 'ArrowRight') {
+			if (index === ref_tabs.current.length - 1) {
+				ref_tabs.current[0].focus();
+			} else {
+				ref_tabs.current[index + 1].focus();
+			}
+		}
+	};
+
 	return (
 		<div className="profile__wrapper" ref={scrollContainer}>
 			<div className="profile__header">
@@ -180,7 +201,10 @@ export const Profile = () => {
 							</Link>
 						)}
 					</div>
-					<div className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex__col--50p">
+					<div
+						className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex__col--50p"
+						role="tablist"
+					>
 						{fromL ? (
 							profileRoutes(settings)
 								.filter((tab) =>
@@ -190,7 +214,7 @@ export const Profile = () => {
 										consultingTypes
 									)
 								)
-								.map((tab) => (
+								.map((tab, index) => (
 									<div
 										key={tab.url}
 										className="text--nowrap flex__col--no-grow"
@@ -200,6 +224,14 @@ export const Profile = () => {
 												`/profile${tab.url}`
 											)}
 											activeClassName="active"
+											role="tab"
+											tabIndex={index === 0 ? 0 : -1}
+											ref={(el) =>
+												(ref_tabs.current[index] = el)
+											}
+											onKeyDown={(e) =>
+												handleKeyDownTabs(e, index)
+											}
 										>
 											{translate(tab.title)}
 										</NavLink>

@@ -10,7 +10,7 @@ import './select.react.styles';
 import './select.styles';
 import { useResponsive } from '../../hooks/useResponsive';
 import { useTranslation } from 'react-i18next';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 
 export interface SelectOption {
 	value: string;
@@ -371,11 +371,12 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 					props.styleOverrides ?? {}
 				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
-				menuIsOpen={props.isMenuOpen}
+				tabIndex={props.menuPlacement === 'right' ? -1 : 0}
+				//menuIsOpen={props.isMenuOpen}
+				//menuIsOpen={props.isMenuOpen}
 				// tabSelectsValue={props.defaultValue}
-				closeMenuOnSelect={true}
-				tabIndex={-1}
-				blurInputOnSelect={true}
+				// closeMenuOnSelect={true}
+				// blurInputOnSelect={true}
 			/>
 			{props.hasError && (
 				<div className="select__error">

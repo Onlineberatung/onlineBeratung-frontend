@@ -16,6 +16,7 @@ export interface LocaleSwitchProp {
 	label?: string;
 	menuPlacement?: 'top' | 'bottom' | 'right';
 	isMenuOpen?: boolean;
+	onKeyDown?: Function;
 }
 
 export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({

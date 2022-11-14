@@ -710,11 +710,18 @@ export const SessionsList = ({
 
 	const ref_tab_first = useRef<any>();
 	const ref_tab_second = useRef<any>();
-	const ref_tabs = useRef<any>();
-	const ref_list = useRef<any>();
 	const ref_list_array = useRef<any>([]);
 
 	const handleKeyDownTabs = (e) => {
+		console.log('e', e);
+		if (e.key === 'Enter' || e.key === ' ') {
+			if (document.activeElement === ref_tab_first.current) {
+				ref_tab_first.current.click();
+			}
+			if (document.activeElement === ref_tab_second.current) {
+				ref_tab_second.current.click();
+			}
+		}
 		if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
 			if (document.activeElement === ref_tab_first.current) {
 				ref_tab_second.current.focus();
@@ -722,26 +729,25 @@ export const SessionsList = ({
 				ref_tab_first.current.focus();
 			}
 		}
-		// if (e.key === 'Tab') {
-		// 	ref_list.current.focus();
-		// }
 	};
 
 	const handleKeyDownLisItemContent = (e, index) => {
-		if (e.key === 'ArrowUp') {
-			if (index === 0) {
-				ref_list_array.current[
-					ref_list_array.current.length - 1
-				].focus();
-			} else {
-				ref_list_array.current[index - 1].focus();
+		if (sessions.length > 1) {
+			if (e.key === 'ArrowUp') {
+				if (index === 0) {
+					ref_list_array.current[
+						ref_list_array.current.length - 1
+					].focus();
+				} else {
+					ref_list_array.current[index - 1].focus();
+				}
 			}
-		}
-		if (e.key === 'ArrowDown') {
-			if (index === ref_list_array.current.length - 1) {
-				ref_list_array.current[0].focus();
-			} else {
-				ref_list_array.current[index + 1].focus();
+			if (e.key === 'ArrowDown') {
+				if (index === ref_list_array.current.length - 1) {
+					ref_list_array.current[0].focus();
+				} else {
+					ref_list_array.current[index + 1].focus();
+				}
 			}
 		}
 	};
@@ -751,18 +757,7 @@ export const SessionsList = ({
 			{(showFilter || showEnquiryTabs || showSessionListTabs) && (
 				<div className="sessionsList__functionalityWrapper">
 					{showEnquiryTabs && (
-						<div
-							className="sessionsList__tabs"
-							ref={(el) => (ref_tabs.current = el)}
-							tabIndex={0}
-							onFocus={() => {
-								if (
-									document.activeElement === ref_tabs.current
-								) {
-									ref_tab_first.current.focus();
-								}
-							}}
-						>
+						<div role="tablist" className="sessionsList__tabs">
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
@@ -771,7 +766,8 @@ export const SessionsList = ({
 								to={'/sessions/consultant/sessionPreview'}
 								onKeyDown={(e) => handleKeyDownTabs(e)}
 								ref={(el) => (ref_tab_first.current = el)}
-								tabIndex={-1}
+								tabIndex={0}
+								role="tab"
 							>
 								<Text
 									text={translate(
@@ -780,7 +776,6 @@ export const SessionsList = ({
 									type="standard"
 								/>
 							</Link>
-
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
@@ -791,6 +786,7 @@ export const SessionsList = ({
 								onKeyDown={(e) => handleKeyDownTabs(e)}
 								ref={(el) => (ref_tab_second.current = el)}
 								tabIndex={-1}
+								role="tab"
 							>
 								<Text
 									className={clsx('walkthrough_step_2')}
@@ -803,18 +799,7 @@ export const SessionsList = ({
 						</div>
 					)}
 					{showSessionListTabs && (
-						<div
-							className="sessionsList__tabs"
-							ref={(el) => (ref_tabs.current = el)}
-							tabIndex={0}
-							onFocus={() => {
-								if (
-									document.activeElement === ref_tabs.current
-								) {
-									ref_tab_first.current.focus();
-								}
-							}}
-						>
+						<div className="sessionsList__tabs" role="tablist">
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
@@ -827,7 +812,8 @@ export const SessionsList = ({
 								}`}
 								onKeyDown={(e) => handleKeyDownTabs(e)}
 								ref={(el) => (ref_tab_first.current = el)}
-								tabIndex={-1}
+								tabIndex={0}
+								role="tab"
 							>
 								<Text
 									text={translate(
@@ -850,6 +836,7 @@ export const SessionsList = ({
 								onKeyDown={(e) => handleKeyDownTabs(e)}
 								ref={(el) => (ref_tab_second.current = el)}
 								tabIndex={-1}
+								role="tab"
 							>
 								<Text
 									className={clsx('walkthrough_step_4')}
@@ -890,14 +877,7 @@ export const SessionsList = ({
 							: 'sessionsList__itemsWrapper--centered'
 					}`}
 					data-cy="sessions-list-items-wrapper"
-					tabIndex={0}
-					onFocus={(e) => {
-						console.log('e', e);
-						if (document.activeElement === ref_list.current) {
-							ref_list_array.current[0].focus();
-						}
-					}}
-					ref={(el) => (ref_list.current = el)}
+					role="tablist"
 				>
 					{!isLoading &&
 						activeCreateChat &&
@@ -930,6 +910,7 @@ export const SessionsList = ({
 									handleKeyDownLisItemContent={(e) =>
 										handleKeyDownLisItemContent(e, index)
 									}
+									index={index}
 								/>
 							))}
 

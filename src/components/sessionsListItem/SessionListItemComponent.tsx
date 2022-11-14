@@ -48,13 +48,15 @@ interface SessionListItemProps {
 	defaultLanguage: string;
 	itemRef?: any;
 	handleKeyDownLisItemContent?: Function;
+	index: number;
 }
 
 export const SessionListItemComponent = ({
 	session,
 	defaultLanguage,
 	itemRef,
-	handleKeyDownLisItemContent
+	handleKeyDownLisItemContent,
+	index
 }: SessionListItemProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const { sessionId, rcGroupId: groupIdFromParam } =
@@ -328,7 +330,8 @@ export const SessionListItemComponent = ({
 				className="sessionsListItem__content"
 				onKeyDown={(e) => handleKeyDownListItem(e)}
 				ref={itemRef}
-				tabIndex={-1}
+				tabIndex={index === 0 ? 0 : -1}
+				role="tab"
 			>
 				<div className="sessionsListItem__row">
 					{type === SESSION_LIST_TYPES.TEAMSESSION &&
