@@ -438,7 +438,9 @@ export const RegistrationFormDigi = ({
 														'registration.dataProtection.label.and'
 												  )
 											: '') +
-										`<a target="_blank" href="${legalLink.url}">${legalLink.label}</a>`
+										`<a target="_blank" href="${
+											legalLink.url
+										}">${translate(legalLink.label)}</a>`
 								)
 								.join(''),
 							translate(
