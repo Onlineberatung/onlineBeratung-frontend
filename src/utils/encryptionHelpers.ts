@@ -1,7 +1,8 @@
-import { encode, decode } from 'hi-base32';
+import { decode, encode } from 'hi-base32';
 import ByteBuffer from 'bytebuffer';
 import { apiRocketChatFetchMyKeys } from '../api/apiRocketChatFetchMyKeys';
 import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
+
 const StaticArrayBufferProto = ArrayBuffer.prototype;
 
 // encoding helper
@@ -13,6 +14,11 @@ export const VERSION_SEPERATOR = '..';
 export const VECTOR_LENGTH = 16;
 export const KEY_ID_LENGTH = 12;
 export const MAX_PREFIX_LENGTH = 10;
+
+// Size in bytes for apache tika file type detection.
+// ATTENTION! The bigger this value is, the bigger the attached signature is. For files uploaded smaller than this size the whole file is
+// attached unencrypted in the signature!
+export const SIGNATURE_LENGTH = 64;
 
 export const encodeUsername = (username) => {
 	return 'enc.' + encode(username).replace(/=/g, '.');
@@ -213,6 +219,127 @@ export class WrongKeyError extends Error {}
 export class EncryptValidationError extends Error {}
 export class EncPrefixLengthError extends Error {}
 
+export const encryptBuffer = async (
+	buffer,
+	key,
+	keyID,
+	encPrefix: string = ''
+) => {
+	const vector = crypto.getRandomValues(new Uint8Array(VECTOR_LENGTH));
+	const result = await encryptAES(vector, key, buffer);
+	return (
+		encPrefix +
+		keyID +
+		toHexString(joinVectorAndEcryptedData(vector, result)) +
+		`${VERSION_SEPERATOR}${ENCRYPTION_VERSION_ACTIVE}`
+	);
+};
+
+export const decryptAttachment = async (
+	encryptedAttachment: string,
+	name: string,
+	roomKeyID,
+	groupKey
+): Promise<File> => {
+	// error if key is missing
+	if (!roomKeyID || !groupKey) {
+		throw new MissingKeyError('e2ee.message.encryption');
+	}
+
+	// keyId
+	const keyID = encryptedAttachment.slice(0, KEY_ID_LENGTH);
+	if (keyID !== roomKeyID) {
+		throw new WrongKeyError('e2ee.message.encryption.error');
+	}
+
+	const encAttachmentWithVersion = encryptedAttachment.slice(KEY_ID_LENGTH);
+	const [encAttachment, version] =
+		encAttachmentWithVersion.split(VERSION_SEPERATOR);
+
+	let msgArray;
+	try {
+		switch (version) {
+			case ENCRYPTION_VERSION_2:
+				msgArray = fromHexString(encAttachment);
+				break;
+			case ENCRYPTION_VERSION_1:
+			default:
+				msgArray = Uint8Array.from(
+					Object.values(JSON.parse(atob(encAttachment)))
+				);
+				break;
+		}
+
+		const [vector, cipherText] = splitVectorAndEcryptedData(msgArray);
+		const result = await decryptAES(vector, groupKey, cipherText);
+		return new File([result], name);
+	} catch (error) {
+		console.error('Error decrypting message: ', error, encAttachment);
+		throw error;
+	}
+};
+export const getSignature = async (attachment: File): Promise<ArrayBuffer> => {
+	const buffer = await attachment.arrayBuffer();
+
+	// Get the required signature for apache tika
+	let signature = buffer.slice(0, SIGNATURE_LENGTH);
+
+	// If the signature is smaller than the required size fill the signature with 0
+	// Maybe this could be optimized in any way to prevent requirement for filling
+	if (signature.byteLength < SIGNATURE_LENGTH) {
+		const sig = new Uint8Array(signature);
+		const output = new Uint8Array(SIGNATURE_LENGTH);
+		output.set(sig, 0);
+		output.fill(0, sig.length, SIGNATURE_LENGTH);
+		signature = output.buffer;
+	}
+
+	return signature;
+};
+
+export const encryptAttachment = async (
+	attachment: File,
+	keyID,
+	key
+): Promise<File> => {
+	if (!keyID) {
+		return attachment;
+	}
+
+	const encoder = new TextEncoder();
+	const buffer = await attachment.arrayBuffer();
+
+	// Encrypt the attachment
+	const encryptedAttachment = await encryptBuffer(buffer, key, keyID);
+
+	// Create buffer from encrypted attachment
+	const output = new Uint8Array(encoder.encode(encryptedAttachment).length);
+	output.set(encoder.encode(encryptedAttachment), 0);
+
+	// Create file
+	const encryptedAttachmentFile = new File(
+		[output.buffer],
+		attachment.name,
+		attachment
+	);
+
+	// Decrypt attachment after encrypt to check if the result matches
+	const decryptedAttachment = await decryptAttachment(
+		await encryptedAttachmentFile.text(),
+		attachment.name,
+		keyID,
+		key
+	);
+
+	const orgAttachment = await attachment.text();
+	const decAttachment = await decryptedAttachment.text();
+	if (orgAttachment !== decAttachment) {
+		throw new EncryptValidationError('Error validating encrypted text.');
+	}
+
+	return encryptedAttachmentFile;
+};
+
 /*
 Helper Messaging
  */
@@ -229,14 +356,12 @@ export const encryptText = async (
 		throw new EncPrefixLengthError('Encryption prefix too long!');
 	}
 
-	const data = new TextEncoder().encode(message);
-	const vector = crypto.getRandomValues(new Uint8Array(VECTOR_LENGTH));
-	const result = await encryptAES(vector, key, data);
-	const encryptedText =
-		encPrefix +
-		keyID +
-		toHexString(joinVectorAndEcryptedData(vector, result)) +
-		`${VERSION_SEPERATOR}${ENCRYPTION_VERSION_ACTIVE}`;
+	const encryptedText = await encryptBuffer(
+		new TextEncoder().encode(message),
+		key,
+		keyID,
+		encPrefix
+	);
 
 	// Decrypt text after encrypt to check it the result matches
 	const decryptedText = await decryptText(

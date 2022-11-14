@@ -14,7 +14,9 @@ export const apiUploadAttachment = (
 	isFeedback: boolean,
 	sendMailNotification: boolean,
 	uploadProgress: Function,
-	handleXhr: (xhr) => void
+	handleXhr: (xhr) => void,
+	encryptionEnabled: boolean,
+	signature: ArrayBuffer
 ) =>
 	new Promise((resolve, reject) => {
 		const accessToken = getValueFromCookie('keycloak');
@@ -29,6 +31,14 @@ export const apiUploadAttachment = (
 		let data = new FormData();
 		data.append('file', attachment);
 		data.append('sendNotification', sendMailNotification.toString());
+
+		if (encryptionEnabled) {
+			data.append('t', 'e2e');
+			data.append(
+				'fileHeader',
+				'[' + new Int8Array(signature).toString() + ']'
+			);
+		}
 
 		const xhr = new XMLHttpRequest();
 		xhr.withCredentials = true;

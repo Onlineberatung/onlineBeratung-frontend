@@ -12,6 +12,8 @@ import {
 	getValueFromCookie,
 	setValueInCookie
 } from '../sessionCookie/accessSessionCookie';
+import { AppConfigInterface } from '../../globalState';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const STORAGE_KEY_LOCALE = 'locale';
 export const STORAGE_KEY_API = 'devProxy';
@@ -25,6 +27,7 @@ export const STORAGE_KEY_RELEASE_NOTES = 'release_notes';
 export const STORAGE_KEY_ERROR_BOUNDARY = 'error_boundary';
 export const STORAGE_KEY_E2EE_DISABLED = 'e2ee_disabled';
 export const STORAGE_KEY_ENABLE_TRANSLATION_CHECK = 'enable_translation_check';
+export const STORAGE_KEY_ATTACHMENT_ENCRYPTION = 'attachement_encryption';
 
 const DEVTOOLBAR_EVENT = 'devToolbar';
 
@@ -32,7 +35,7 @@ type TLocalStorageSwitch = {
 	label: string;
 	key: string;
 	persistent?: boolean;
-	value: string;
+	value: string | ((settings: AppConfigInterface) => string);
 	className?: string;
 	description?: string;
 	postScript?: (value: string) => void;
@@ -146,6 +149,15 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 		description: 'Disable end-to-end encryption. DEV only'
 	},
 	{
+		label: 'DEV ATTACHMENT ENCRYPTION',
+		key: STORAGE_KEY_ATTACHMENT_ENCRYPTION,
+		type: TOGGLE,
+		choices: { '0': 'Disabled', '1': 'Enabled' },
+		value: (appConfig) => (appConfig.attachmentEncryption ? '1' : '0'),
+		description:
+			'Disable attachment encryption. Enable only when e2ee is also enabled. DEV only'
+	},
+	{
 		label: 'DEV Error Boundary',
 		key: STORAGE_KEY_ERROR_BOUNDARY,
 		type: TOGGLE,
@@ -219,6 +231,7 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 
 export const useDevToolbar = () => {
 	const [lastChange, setLastChange] = useState(null);
+	const appConfig = useAppConfig();
 
 	const onChange = useCallback(() => {
 		setLastChange(new Date().getTime());
@@ -233,11 +246,14 @@ export const useDevToolbar = () => {
 	}, [onChange]);
 
 	const getDevToolbarOption = useCallback(
-		(key) =>
-			localStorage.getItem(key) ??
-			LOCAL_STORAGE_SWITCHES.filter(Boolean).find(
-				(localStorageSwitch) => localStorageSwitch.key === key
-			)?.value,
+		(key) => {
+			const value =
+				localStorage.getItem(key) ??
+				LOCAL_STORAGE_SWITCHES.filter(Boolean).find(
+					(localStorageSwitch) => localStorageSwitch.key === key
+				)?.value;
+			return typeof value === 'function' ? value(appConfig) : value;
+		},
 		[lastChange] // eslint-disable-line react-hooks/exhaustive-deps
 	);
 

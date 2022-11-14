@@ -53,7 +53,7 @@ export const deInformal = {
 			},
 			size: {
 				headline: 'Deine gewählte Datei ist zu groß.',
-				message: 'Du kannst max. 5MB hochladen.'
+				message: 'Du kannst max. {{attachment_filesize}}MB hochladen.'
 			},
 			quota: {
 				headline: 'Du hast das Limit zum Hochladen erreicht.',
@@ -99,6 +99,11 @@ export const deInformal = {
 		}
 	},
 	e2ee: {
+		attachment: {
+			error: {
+				text: 'Bitte den Sender oder die Senderin die Datei erneut zu schicken. Downloade dann die neue Datei.'
+			}
+		},
 		hint: 'Deine Nachrichten sind Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform.',
 		inProgress: {
 			copy: 'Deine Sicherheit ist uns wichtig! Wir verschlüsseln gerade Deinen Chat. Dies kann einen Moment dauern.',

@@ -200,7 +200,7 @@ export const de = {
 			},
 			size: {
 				headline: 'Ihre gewählte Datei ist zu groß.',
-				message: 'Sie können max. 5MB hochladen.'
+				message: 'Sie können max. {{attachment_filesize}}MB hochladen.'
 			}
 		},
 		'list': {
@@ -423,6 +423,16 @@ export const de = {
 			'encryption.error':
 				'Nachricht verschlüsselt - Fehler beim Entschlüsseln',
 			'encryption.text': 'Nachricht verschlüsselt'
+		},
+		attachment: {
+			encrypted: 'Datei für Download entschlüsseln',
+			is_decrypting: 'Datei wird entschlüsselt',
+			decryption_error: 'Fehler beim entschlüsseln',
+			save: 'Datei downloaden',
+			error: {
+				title: 'Leider, konnten wir die Datei nicht entschlüsseln und downloaden.',
+				text: 'Bitten Sie den Sender oder die Senderin die Datei erneut zu schicken. Downloaden Sie dann die neue Datei.'
+			}
 		},
 		inProgress: {
 			headline: 'Einen Moment bitte.',
@@ -1786,7 +1796,8 @@ export const de = {
 				outsideDropArea:
 					'Ziehen Sie die Datei in das Feld, um sie hochzuladen.'
 			},
-			restrictions: '.jpg, .png, .pdf, .docx, .xlsx bis maximal 5MB'
+			restrictions:
+				'.jpg, .png, .pdf, .docx, .xlsx bis maximal {{attachment_filesize}}'
 		},
 		'reassign': {
 			system: {

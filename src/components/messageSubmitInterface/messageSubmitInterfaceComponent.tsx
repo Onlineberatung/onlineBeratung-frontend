@@ -79,9 +79,13 @@ import { mobileListView } from '../app/navigationHandler';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
-import { encryptText } from '../../utils/encryptionHelpers';
-import { useE2EE } from '../../hooks/useE2EE';
 import { useTranslation } from 'react-i18next';
+import {
+	encryptAttachment,
+	encryptText,
+	getSignature
+} from '../../utils/encryptionHelpers';
+import { useE2EE } from '../../hooks/useE2EE';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
 import { Overlay, OverlayWrapper } from '../overlay/Overlay';
@@ -89,6 +93,10 @@ import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
 import { RoomNotFound } from '../session/RoomNotFound';
 import { useDraftMessage } from './useDraftMessage';
+import {
+	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
+	useDevToolbar
+} from '../devToolbar/DevToolbar';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -154,28 +162,13 @@ export interface MessageSubmitInterfaceComponentProps {
 	handleMessageSendSuccess?: Function;
 }
 
-const encryptAttachment = (attachment, keyID, key) => {
-	if (!keyID) {
-		return attachment;
-	}
-
-	/* ToDo: Currently attachments should not be E2E encrypted.
-	In my opinion its required because this could be private pictures or medical documents
-	or anything else but it should be tbd because there are some points which
-	have to be changed to get it working.
-	- Encrypt will happen in frontend so backend could not do any spam protection anymore
-	- Download logic need to download the document first and decrypt it
-	- Some better spam protection in frontend?
-	 */
-	return attachment;
-};
-
 export const MessageSubmitInterfaceComponent = (
 	props: MessageSubmitInterfaceComponentProps
 ) => {
 	const { t: translate } = useTranslation();
 	const tenant = useTenant();
 	const history = useHistory();
+	const { getDevToolbarOption } = useDevToolbar();
 
 	const textareaInputRef = useRef<HTMLDivElement>(null);
 	const inputWrapperRef = useRef<HTMLSpanElement>(null);
@@ -527,7 +520,7 @@ export const MessageSubmitInterfaceComponent = (
 		sendToFeedbackEndpoint,
 		encryptedMessage,
 		unencryptedMessage,
-		attachment,
+		attachment: File,
 		isEncrypted
 	) => {
 		const sendToRoomWithId = sendToFeedbackEndpoint
@@ -537,13 +530,45 @@ export const MessageSubmitInterfaceComponent = (
 			!activeSession.isGroup && !activeSession.isLive;
 
 		if (attachment) {
-			const res = await apiUploadAttachment(
-				encryptAttachment(attachment, keyID, key),
+			let res: any;
+
+			const isAttachmentEncryptionEnabledDevTools = parseInt(
+				getDevToolbarOption(STORAGE_KEY_ATTACHMENT_ENCRYPTION)
+			);
+			let attachmentFile = attachment;
+			let signature = null;
+			let encryptEnabled =
+				isEncrypted && !!isAttachmentEncryptionEnabledDevTools;
+
+			if (encryptEnabled) {
+				try {
+					signature = await getSignature(attachment);
+					attachmentFile = await encryptAttachment(
+						attachment,
+						keyID,
+						key
+					);
+				} catch (e: any) {
+					encryptEnabled = false;
+
+					apiPostError({
+						name: e.name,
+						message: e.message,
+						stack: e.stack,
+						level: ERROR_LEVEL_WARN
+					}).then();
+				}
+			}
+
+			res = await apiUploadAttachment(
+				attachmentFile,
 				sendToRoomWithId,
 				sendToFeedbackEndpoint,
 				getSendMailNotificationStatus(),
 				setUploadProgress,
-				setAttachmentUpload
+				setAttachmentUpload,
+				encryptEnabled,
+				signature
 			).catch((res: XMLHttpRequest) => {
 				if (res.status === 413) {
 					handleAttachmentUploadError(
@@ -787,7 +812,9 @@ export const MessageSubmitInterfaceComponent = (
 			infoData = {
 				isInfo: false,
 				infoHeadline: translate('attachments.error.size.headline'),
-				infoMessage: translate('attachments.error.size.message')
+				infoMessage: translate('attachments.error.size.message', {
+					attachment_filesize: ATTACHMENT_MAX_SIZE_IN_MB
+				})
 			};
 		} else if (activeInfo === INFO_TYPES.ATTACHMENT_FORMAT_ERROR) {
 			infoData = {

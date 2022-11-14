@@ -31,10 +31,6 @@ $message-attachment-color: $secondary !default;
 			color: var(--skin-color-primary-contrast-safe, $primary);
 			transition: unset;
 		}
-
-		&.messageItem__message__attachment__download {
-			text-decoration: none;
-		}
 	}
 
 	&--right {
@@ -224,16 +220,29 @@ $message-attachment-color: $secondary !default;
 				}
 			}
 
+			.loadingSpinner {
+				margin-right: $grid-base;
+			}
+
 			&__download {
 				display: flex;
 				cursor: pointer;
 				flex-direction: row;
 				margin-top: $grid-base;
+				background: transparent;
+				border: none;
 
 				p {
 					margin: 0;
 					color: var(--text-color-contrast-switch, $secondary);
 					line-height: $icon-size;
+					text-decoration: underline;
+
+					&.decrypting,
+					&.decryptionError {
+						color: var(--text-color-contrast-switch, $primary);
+						text-decoration: none;
+					}
 				}
 
 				&:hover p {

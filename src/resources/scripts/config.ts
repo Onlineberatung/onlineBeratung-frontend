@@ -15,6 +15,7 @@ export const config: AppConfigInterface = {
 	useTenantService: false,
 	useApiClusterSettings: false, // Feature flag to enable the cluster use the cluster settings instead of the config file
 	mainTenantSubdomainForSingleDomainMultitenancy: 'app',
+	attachmentEncryption: true, // Feature flag for attachment end to end encryption - e2e must also be enabled in rocket.chat
 
 	urls: {
 		consultantVideoConference:

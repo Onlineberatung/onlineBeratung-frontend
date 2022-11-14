@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import clsx from 'clsx';
 import { ReactComponent as UploadIcon } from '../../resources/img/icons/upload.svg';
 import { useTranslation } from 'react-i18next';
+import { ATTACHMENT_MAX_SIZE_IN_MB } from '../messageSubmitInterface/attachmentHelpers';
 
 interface DragAndDropAreaProps {
 	onFileDragged: (file: File) => void;
@@ -50,7 +51,9 @@ export const DragAndDropArea = (props: DragAndDropAreaProps) => {
 					)}
 				</div>
 				<div className="dropContainer__restrictions">
-					{translate('session.dragAndDrop.restrictions')}
+					{translate('session.dragAndDrop.restrictions', {
+						attachment_filesize: ATTACHMENT_MAX_SIZE_IN_MB
+					})}
 				</div>
 			</div>
 		</div>
