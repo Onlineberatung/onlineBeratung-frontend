@@ -724,15 +724,16 @@ export const de = {
 		msEdge: 'Microsoft Edge',
 		videoCall: {
 			asker: {
+				intro: 'Um Ende-zu Ende verschlüsselt zu telefonieren, befolgen Sie folgende Schritte:',
 				steps: {
-					'1': 'Folgen Sie dem Link zu Google Chrome oder Microsoft Edge.',
+					'1': 'Öffnen Sie den Link zu Google Chrome oder Microsoft Edge.',
 					'2': 'Laden Sie sich Chrome oder Edge herunter.',
 					'3': 'Installieren Sie Chrome oder Edge auf Ihrem PC/Laptop/Tablet/Smartphone.',
 					'4': 'Öffnen Sie nun über Chrome oder Edge die Online-Beratung.',
 					'5': 'Melden Sie sich bei der Online-Beratung an.',
 					'6': 'Bitten Sie Ihre_n Berater_in Sie nochmals anzurufen.',
 					'headline': {
-						'1': 'Video-Calls Ende-zu-Ende zu verschlüsseln',
+						'1': 'Video-Call',
 						'2': 'Sie haben bereits Google Chrome oder Microsoft Edge?'
 					}
 				}

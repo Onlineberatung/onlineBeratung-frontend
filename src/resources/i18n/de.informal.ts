@@ -209,11 +209,12 @@ export const deInformal = {
 	help: {
 		videoCall: {
 			asker: {
+				intro: 'Um Ende-zu Ende verschlüsselt zu telefonieren, befolge die folgenden Schritte:',
 				steps: {
 					'headline': {
 						'2': 'Hast Du bereits Google Chrome oder Microsoft Edge?'
 					},
-					'1': 'Folge dem Link zu Google Chrome oder Microsoft Edge.',
+					'1': 'Öffne den Link zu Google Chrome oder Microsoft Edge.',
 					'2': 'Lade Dir sich Chrome oder Edge herunter.',
 					'3': 'Installiere Chrome oder Edge auf Deinem PC/Laptop/Tablet/Smartphone.',
 					'4': 'Öffne nun über Chrome oder Edge die Online-Beratung.',
