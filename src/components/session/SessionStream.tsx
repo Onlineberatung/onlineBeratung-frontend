@@ -17,6 +17,7 @@ import {
 	E2EEContext,
 	hasUserAuthority,
 	RocketChatContext,
+	RocketChatGlobalSettingsContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
 	UserDataContext
@@ -56,6 +57,10 @@ import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { prepareConsultantDataForSelect } from '../sessionAssign/sessionAssignHelper';
+import {
+	IArraySetting,
+	SETTING_HIDE_SYSTEM_MESSAGES
+} from '../../api/apiRocketChatSettingsPublic';
 
 interface SessionStreamProps {
 	readonly: boolean;
@@ -74,6 +79,7 @@ export const SessionStream = ({
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
 	const { subscribe, unsubscribe } = useContext(RocketChatContext);
+	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
 	const { anonymousConversationFinished } = useContext(
 		AnonymousConversationFinishedContext
 	);
@@ -113,11 +119,24 @@ export const SessionStream = ({
 			activeSession.rid,
 			abortController.current.signal
 		).then((messagesData) => {
+			const hiddenSystemMessages = getSetting<IArraySetting>(
+				SETTING_HIDE_SYSTEM_MESSAGES
+			);
 			setMessagesItem(
-				messagesData ? prepareMessages(messagesData.messages) : null
+				messagesData
+					? prepareMessages(
+							messagesData.messages.filter(
+								(message) =>
+									!hiddenSystemMessages ||
+									!hiddenSystemMessages.value.includes(
+										message.t
+									)
+							)
+					  )
+					: null
 			);
 		});
-	}, [activeSession]);
+	}, [activeSession.rid, getSetting]);
 
 	const setSessionRead = useCallback(() => {
 		if (readonly) {
