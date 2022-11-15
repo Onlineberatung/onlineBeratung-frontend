@@ -543,17 +543,19 @@ export const MessageItemComponent = ({
 	}
 
 	return (
-		<div
-			className={`messageItem ${
-				isMyMessage ? 'messageItem--right' : ''
-			} ${
-				alias?.messageType &&
-				`${alias?.messageType.toLowerCase()} systemMessage`
-			}`}
-		>
-			{getMessageDate()}
+		alias?.messageType !==
+			ALIAS_MESSAGE_TYPES.INITIAL_APPOINTMENT_DEFINED && (
 			<div
-				className={`
+				className={`messageItem ${
+					isMyMessage ? 'messageItem--right' : ''
+				} ${
+					alias?.messageType &&
+					`${alias?.messageType.toLowerCase()} systemMessage`
+				}`}
+			>
+				{getMessageDate()}
+				<div
+					className={`
 					messageItem__messageWrap
 					${isMyMessage ? 'messageItem__messageWrap--right' : ''}
 					${isFurtherStepsMessage ? 'messageItem__messageWrap--furtherSteps' : ''}
@@ -563,21 +565,22 @@ export const MessageItemComponent = ({
 							: ''
 					}
 				`}
-			>
-				{messageContent()}
+				>
+					{messageContent()}
 
-				<MessageMetaData
-					isMyMessage={isMyMessage}
-					isNotRead={isNotRead}
-					messageTime={messageTime}
-					t={t}
-					type={getUsernameType()}
-					isReadStatusDisabled={
-						isVideoCallMessage || isFinishedConversationMessage
-					}
-				/>
+					<MessageMetaData
+						isMyMessage={isMyMessage}
+						isNotRead={isNotRead}
+						messageTime={messageTime}
+						t={t}
+						type={getUsernameType()}
+						isReadStatusDisabled={
+							isVideoCallMessage || isFinishedConversationMessage
+						}
+					/>
+				</div>
 			</div>
-		</div>
+		)
 	);
 };
 

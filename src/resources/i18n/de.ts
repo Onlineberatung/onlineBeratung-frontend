@@ -1063,7 +1063,8 @@ export const de = {
 				cancel: 'Abbrechen',
 				confirm: 'Löschen'
 			}
-		}
+		},
+		'note.title': 'Notiz'
 	},
 	monitoring: {
 		title: 'Monitoring',
