@@ -455,6 +455,7 @@ $message-attachment-color: $secondary !default;
 		&__item {
 			&--delete {
 				color: $form-error;
+				text-decoration: none;
 
 				svg g {
 					fill: $form-error;
