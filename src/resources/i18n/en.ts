@@ -1060,7 +1060,8 @@ export const en = {
 				cancel: 'Cancel',
 				confirm: 'Delete'
 			}
-		}
+		},
+		'note.title': 'Note'
 	},
 	monitoring: {
 		title: 'Monitoring',
