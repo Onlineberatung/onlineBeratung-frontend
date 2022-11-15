@@ -47,6 +47,10 @@ export const Appointment = (param: {
 		}
 	);
 
+	const translateKey = expanded
+		? 'booking.event.show.less'
+		: 'booking.event.show.more';
+
 	const appointmentHours = `${formatToHHMM(
 		`${startingTimeStampDate}`
 	)} - ${formatToHHMM(`${finishingHour}`)}`;
@@ -138,15 +142,7 @@ export const Appointment = (param: {
 									onClick={() => setExpanded(!expanded)}
 								>
 									<Text
-										text={
-											expanded
-												? translate(
-														'booking.event.show.less'
-												  )
-												: translate(
-														'booking.event.show.more'
-												  )
-										}
+										text={translate(translateKey)}
 										type="standard"
 										className="appointmentSet__note__showMore bookingEvents--pointer bookingEvents--primary"
 									/>
