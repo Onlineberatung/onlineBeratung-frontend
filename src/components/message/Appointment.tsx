@@ -4,8 +4,6 @@ import { Headline } from '../headline/Headline';
 import './appointment.styles';
 import { ReactComponent as CalendarCheckIcon } from '../../resources/img/icons/calendar-check.svg';
 import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
-import { ReactComponent as ArrowUpIcon } from '../../resources/img/icons/arrow-up.svg';
-import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down.svg';
 import {
 	convertUTCDateToLocalDate,
 	formatToHHMM
