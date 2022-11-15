@@ -139,11 +139,6 @@ export const Appointment = (param: {
 									className="appointmentSet__note appointmentSet--flex appointmentSet--pointer"
 									onClick={() => setExpanded(!expanded)}
 								>
-									{expanded ? (
-										<ArrowUpIcon />
-									) : (
-										<ArrowDownIcon />
-									)}
 									<Text
 										text={
 											expanded
