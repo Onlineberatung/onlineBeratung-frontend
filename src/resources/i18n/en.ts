@@ -722,9 +722,10 @@ export const en = {
 		msEdge: 'Microsoft Edge',
 		videoCall: {
 			asker: {
+				intro: 'To make end-to-end encrypted calls, follow these steps:',
 				steps: {
 					'headline': {
-						'1': 'Encrypt video calls end-to-end',
+						'1': 'Video-Call',
 						'2': 'Already have Google Chrome or Microsoft Edge?'
 					},
 					'1': 'Follow the link to Google Chrome or Microsoft Edge.',
