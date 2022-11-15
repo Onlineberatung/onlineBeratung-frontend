@@ -190,7 +190,7 @@ export const en = {
 			},
 			size: {
 				headline: 'Your selected file is too big.',
-				message: 'You can upload max. 5MB.'
+				message: 'You can upload max. {{attachment_filesize}}MB.'
 			},
 			quota: {
 				headline: 'You have reached the limit for uploading.',
@@ -422,9 +422,24 @@ export const en = {
 		}
 	},
 	e2ee: {
+		attachment: {
+			encrypted: 'Decrypt file for download',
+			is_decrypting: 'File is being decrypted',
+			decryption_error: 'Error while decrypting',
+			save: 'Download file',
+			error: {
+				title: 'Unfortunately, we could not decrypt and download the file.',
+				text: 'Ask the sender to resend the file. Then download the new file.'
+			}
+		},
 		message: {
 			'encryption.text': 'Message encrypted',
 			'encryption.error': 'Message encrypted - error during decryption'
+		},
+		inProgress: {
+			headline: 'One moment please.',
+			copy: "Your safety is important to us! We're encrypting your chat right now. This can take a moment.",
+			confirm: 'Please wait until the encryption is finished!'
 		},
 		hint: 'Your messages are encrypted end-to-end. That means no one outside this chat can read the messages. Not even the online consulting platform.',
 		subscriptionKeyLost: {
@@ -432,12 +447,14 @@ export const en = {
 				primary:
 					'A chat participant no longer has access to the message history.',
 				secondary:
-					'A chat participant had temporarily lost access to the message history. Now all chat participants can access the message history again.'
+					'A chat participant had temporarily lost access to the message history. Now all chat participants can access the message history again.',
+				more: 'Show more'
 			},
 			notice: {
 				title: 'Your security is important to us!',
 				text: 'Since you have reset your password, the messages are not readable for you at the moment. As soon as a chat participant opens the chat again, you can read the messages and write new ones.',
-				link: 'Send notification'
+				link: 'Send notification',
+				more: 'Show more'
 			},
 			overlay: {
 				'headline': 'End-to-end encryption',
@@ -602,6 +619,15 @@ export const en = {
 				buttonLabel: 'Close'
 			}
 		},
+		'copy': {
+			link: {
+				text: 'Copy invitation link',
+				notification: {
+					title: 'Link copied',
+					text: 'Link copied to clipboard!'
+				}
+			}
+		},
 		'edit.title': 'Chat settings',
 		'info': {
 			headline: 'Chat-Info',
@@ -696,9 +722,10 @@ export const en = {
 		msEdge: 'Microsoft Edge',
 		videoCall: {
 			asker: {
+				intro: 'To make end-to-end encrypted calls, follow these steps:',
 				steps: {
 					'headline': {
-						'1': 'Encrypt video calls end-to-end',
+						'1': 'Video-Call',
 						'2': 'Already have Google Chrome or Microsoft Edge?'
 					},
 					'1': 'Follow the link to Google Chrome or Microsoft Edge.',
@@ -1020,6 +1047,19 @@ export const en = {
 					change: 'Date change'
 				}
 			}
+		},
+		'delete': {
+			delete: 'Delete',
+			deleted: {
+				own: 'You have deleted this message.',
+				other: 'This message was deleted.'
+			},
+			overlay: {
+				headline: 'Delete message',
+				copy: 'Do you really want to delete the message?',
+				cancel: 'Cancel',
+				confirm: 'Delete'
+			}
 		}
 	},
 	monitoring: {
@@ -1226,12 +1266,16 @@ export const en = {
 		'enquiry.new': 'You have a new live chat request!'
 	},
 	overlay: {
-		'step.headline.prefix': '. Step | '
+		'step.headline.prefix': '. Step | ',
+		'timeout': {
+			headline: 'One moment please.',
+			confirm: 'Are you sure you want to leave this page?'
+		}
 	},
 	overview: {
 		title: 'Welcome back!',
-		myMessagesTitle: '%count% unread messages',
-		initialInquiriesTitle: '%count% enquiries',
+		myMessagesTitle: '{{countStr}} unread messages',
+		initialInquiriesTitle: '{{countStr}} enquiries',
 		upcomingAppointments: 'Your next {{countStr}} appointments',
 		upcomingAppointment: 'Your next appointment',
 		emptyMessages: 'You have everything in view, all messages are read!',
@@ -1246,6 +1290,16 @@ export const en = {
 		appointmentsEmpty:
 			'There are no appointments today, make appointments with those seeking advice to change that',
 		start: 'Start'
+	},
+	preconditions: {
+		cookie: {
+			headline: 'Please enable cookies to continue',
+			paragraph: {
+				1: 'Please enable cookies in your browser to enable login.',
+				2: 'After enabling cookies in your browser, simply click the button below to return to the previous page.'
+			},
+			button: 'Back to previous page'
+		}
 	},
 	profile: {
 		'noContent': 'Not specified',
@@ -1688,6 +1742,7 @@ export const en = {
 			'takenByOtherConsultant.button.label': 'Close'
 		},
 		'assignOther': {
+			'inProgress': 'Counseling is being assigned.',
 			'overlay': {
 				'headline': {
 					'1': 'Do you want to assign {{client}} to {{newConsultant}}?',
@@ -1703,6 +1758,7 @@ export const en = {
 			'button.label': 'Cancel'
 		},
 		'assignSelf': {
+			'inProgress': 'The consultation is being assigned to you.',
 			'overlay': {
 				'headline1':
 					'You have successfully accepted the consultation. It has been moved to My consultations.',
@@ -1728,7 +1784,7 @@ export const en = {
 				outsideDropArea: 'Drag the file into the field to upload it.'
 			},
 			restrictions:
-				'.jpg, .png, .pdf, .docx, .xlsx up to a maximum of 5MB'
+				'.jpg, .png, .pdf, .docx, .xlsx up to a maximum of {{attachment_filesize}}MB'
 		},
 		'reassign': {
 			system: {
@@ -1844,7 +1900,7 @@ export const en = {
 	twoFactorAuth: {
 		title: 'Two-factor authentication',
 		subtitle:
-			'Secure your account from possible unauthorized access. Use a second factor (app or email) for logging in to online consultation',
+			'In addition to your password, use a second factor for logging in. This will provide additional security for your account.',
 		switch: {
 			'active.label': 'Two-factor authentication enabled',
 			'deactive.label': 'Two-factor authentication disabled',
@@ -1859,8 +1915,9 @@ export const en = {
 				'email': 'Per E-Mail',
 				'app': 'With Authenticator Application',
 				'title': 'Select second factor',
-				'copy': 'Do you want to additionally protect your account with an app or with your email address?',
-				'visualisation.label': 'Selection'
+				'copy': 'Install a suitable Authenticator app on your smartphone or tablet. Alternatively, you can also use your e-mail address as a second factor.',
+				'visualisation.label': 'Selection',
+				'disable': 'Disable authentication'
 			},
 			radio: {
 				label: {
@@ -1910,7 +1967,7 @@ export const en = {
 			app: {
 				step2: {
 					'title': 'Install the app',
-					'copy': 'Install FreeOTP or Google Authentificator on your smartphone or tablet. Both apps are available in the Google Play or Apple App Store.',
+					'copy': 'Please install a suitable authenticator app on your smartphone or tablet, such as the FreeOTP or Google Authentificator app. Both apps are available in the Google Play or Apple App Store.',
 					'visualisation.label': 'Installation',
 					'tool1': {
 						title: 'FreeOTP App:',
@@ -1976,6 +2033,12 @@ export const en = {
 						'1': 'They use this email address as a second factor for secure login.',
 						'2': 'Disable two-factor authentication to edit the email address.'
 					},
+					'binding': {
+						copy: {
+							'1': 'You cannot change your email address as long as you use it as a second factor for secure login.',
+							'2': 'Change the second factor from "Email address" to "App". Then you can change your email address.'
+						}
+					},
 					'button.confirm': 'Disable authentication',
 					'button.deny': 'Cancel'
 				}
@@ -2022,7 +2085,8 @@ export const en = {
 				'2': '21-30',
 				'3': '31-40',
 				'4': '41-59',
-				'5': '60+'
+				'5': '60+',
+				'null': 'no information'
 			},
 			gender: {
 				'headline': 'Gender',

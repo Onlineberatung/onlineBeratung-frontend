@@ -3,6 +3,7 @@ import { TextareaHTMLAttributes, useCallback } from 'react';
 import { v4 as uuid } from 'uuid';
 import './textarea.styles';
 import useMeasure from 'react-use-measure';
+import { ResizeObserver } from '@juggle/resize-observer';
 
 export interface TextareaProps
 	extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
@@ -14,7 +15,7 @@ export const Textarea = ({
 	...attrs
 }: TextareaProps) => {
 	const id = customId ?? uuid();
-	const [labelRef, labelBounds] = useMeasure();
+	const [labelRef, labelBounds] = useMeasure({ polyfill: ResizeObserver });
 
 	const handleChange = useCallback(
 		(e) => {

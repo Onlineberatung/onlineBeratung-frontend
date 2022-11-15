@@ -30,7 +30,6 @@ function ContextProvider({ children }) {
 	return (
 		<ProviderComposer
 			contexts={[
-				<AnonymousConversationFinishedProvider />,
 				<AnonymousEnquiryAcceptedProvider />,
 				<AnonymousConversationStartedProvider />,
 				<ConsultantListProvider />,
@@ -38,6 +37,7 @@ function ContextProvider({ children }) {
 				<NotificationsProvider />,
 				<UpdateSessionListProvider />,
 				<UserDataProvider />,
+				<AnonymousConversationFinishedProvider />,
 				<WebsocketConnectionDeactivatedProvider />,
 				<TenantProvider />,
 				<SessionsDataProvider />,

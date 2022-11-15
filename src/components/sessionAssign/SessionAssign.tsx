@@ -31,6 +31,14 @@ import {
 	prepareSelectDropdown
 } from './sessionAssignHelper';
 import { useTranslation } from 'react-i18next';
+import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
+import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
+
+export interface Consultant {
+	consultantId: string;
+	firstName: string;
+	lastName: string;
+}
 
 export const SessionAssign = (props: { value?: string }) => {
 	const { t: translate } = useTranslation();
@@ -45,10 +53,30 @@ export const SessionAssign = (props: { value?: string }) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [overlayItem, setOverlayItem] = useState({});
 	const [selectedOption, setSelectedOption] = useState();
+	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
-	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession.item.groupId);
+	const { addNewUsersToEncryptedRoom, encryptRoom } = useE2EE(
+		activeSession.item.groupId
+	);
+
+	const {
+		visible: e2eeOverlayVisible,
+		setState: setE2EEState,
+		overlay: e2eeOverlay
+	} = useE2EEViewElements();
+
+	const { visible: requestOverlayVisible, overlay: requestOverlay } =
+		useTimeoutOverlay(
+			isRequestInProgress,
+			null,
+			userData.userId === selectedOption
+				? translate('session.assignSelf.inProgress')
+				: translate('session.assignOther.inProgress'),
+			null,
+			0
+		);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
@@ -171,6 +199,9 @@ export const SessionAssign = (props: { value?: string }) => {
 	const handleE2EEAssign = async (sessionId, userId) => {
 		if (isE2eeEnabled) {
 			try {
+				// If already encrypted this will be skipped
+				await encryptRoom(setE2EEState);
+				// If room was already encrypted add new users
 				await addNewUsersToEncryptedRoom();
 				await apiDeleteUserFromRoom(sessionId, userId);
 			} catch (e) {
@@ -198,20 +229,18 @@ export const SessionAssign = (props: { value?: string }) => {
 	) => {
 		switch (buttonFunction) {
 			case 'ASSIGN':
+				setIsRequestInProgress(true);
 				apiSessionAssign(activeSession.item.id, selectedOption)
-					.then(() => {
-						handleE2EEAssign(
-							activeSession.item.id,
-							userData.userId
-						).then(() => {
-							initOverlays();
-						});
-					})
+					.then(() =>
+						handleE2EEAssign(activeSession.item.id, userData.userId)
+					)
+					.then(() => initOverlays())
 					.catch((error) => {
 						if (error === FETCH_ERRORS.CONFLICT) {
 							return null;
 						} else console.log(error);
-					});
+					})
+					.finally(() => setIsRequestInProgress(false));
 				break;
 			case OVERLAY_FUNCTIONS.REDIRECT:
 				setOverlayItem(null);
@@ -239,7 +268,19 @@ export const SessionAssign = (props: { value?: string }) => {
 					value: props.value
 				})}
 			/>
-			{overlayActive && (
+			{e2eeOverlayVisible && (
+				<OverlayWrapper>
+					<Overlay item={e2eeOverlay} />
+				</OverlayWrapper>
+			)}
+
+			{requestOverlayVisible && !e2eeOverlayVisible && (
+				<OverlayWrapper>
+					<Overlay item={requestOverlay} />
+				</OverlayWrapper>
+			)}
+
+			{overlayActive && !requestOverlayVisible && !e2eeOverlayVisible && (
 				<OverlayWrapper>
 					<Overlay
 						item={overlayItem}

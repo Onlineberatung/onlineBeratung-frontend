@@ -22,8 +22,8 @@ import { ModalContext } from '../../globalState';
 
 interface ReleaseNoteProps {}
 
-const MAX_CONCURRENT_RELEASE_NOTES = 3;
-const STORAGE_KEY = 'releaseNote';
+const MAX_CONCURRENT_RELEASE_NOTES = 1;
+const STORAGE_KEY_RELEASE_NOTE = 'releaseNote';
 
 type TReleases = {
 	title?: string;
@@ -41,7 +41,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const { setClosedReleaseNote } = useContext(ModalContext);
 
 	const readReleaseNote = useMemo(
-		() => localStorage.getItem(STORAGE_KEY) ?? '0',
+		() => localStorage.getItem(STORAGE_KEY_RELEASE_NOTE) ?? '0',
 		[]
 	);
 
@@ -51,7 +51,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 			.then((releases: TReleases) =>
 				Object.entries(releases)
 					.reverse()
-					.slice(MAX_CONCURRENT_RELEASE_NOTES * -3)
+					.slice(MAX_CONCURRENT_RELEASE_NOTES * -1)
 					.filter(
 						([key]) => parseInt(key) > parseInt(readReleaseNote)
 					)
@@ -120,8 +120,8 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const changeHasSeenReleaseNote = () => {
 		setCheckboxChecked(!checkboxChecked);
 		localStorage.setItem(
-			STORAGE_KEY,
-			`${!checkboxChecked ? latestReleaseNote : readReleaseNote}`
+			STORAGE_KEY_RELEASE_NOTE,
+			`${checkboxChecked ? readReleaseNote : latestReleaseNote}`
 		);
 	};
 
@@ -133,17 +133,20 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		name: 'seen'
 	};
 
-	const handleOverlayClose = () => {
-		setShowRelaseNote(false);
-		setClosedReleaseNote(true);
-	};
-
 	const handleOverlay = () => {
 		setShowRelaseNote(false);
 		setClosedReleaseNote(true);
 	};
 
-	if (!showReleaseNote) return null;
+	const handleOverlayClose = () => {
+		setShowRelaseNote(false);
+		setClosedReleaseNote(true);
+	};
+
+	if (!showReleaseNote) {
+		return null;
+	}
+
 	return (
 		<OverlayWrapper>
 			<Overlay

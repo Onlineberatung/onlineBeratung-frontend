@@ -61,6 +61,7 @@ export const Booking = () => {
 						'theme': 'light',
 						'metadata[user]': userData.userId
 					}}
+					embedJsUrl={`${settings.calcomUrl}/embed/embed.js`}
 				/>
 			)}
 		</React.Fragment>

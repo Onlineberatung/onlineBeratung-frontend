@@ -28,7 +28,10 @@ import { OverviewSessions } from './OverviewMobile/Sessions';
 const shouldShowOverview = (useOverviewPage: boolean) =>
 	useOverviewPage && !isDesktop;
 
-const profileRoutes = (settings: AppConfigInterface): TabsType => [
+const profileRoutes = (
+	settings: AppConfigInterface,
+	selectableLocales: string[]
+): TabsType => [
 	{
 		title: 'profile.routes.general.title',
 		url: '/allgemeines',
@@ -216,6 +219,7 @@ const profileRoutes = (settings: AppConfigInterface): TabsType => [
 				url: '/anzeige',
 				elements: [
 					{
+						condition: () => selectableLocales.length > 1,
 						component: Locale,
 						column: COLUMN_RIGHT,
 						order: 1

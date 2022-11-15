@@ -21,6 +21,10 @@ import { decodeUsername } from '../../../src/utils/encryptionHelpers';
 import { getMessages, setMessages } from './messages';
 import apiAppointments from './api/appointments';
 import apiVideocalls from './api/videocalls';
+import {
+	SETTING_E2E_ENABLE,
+	SETTING_MESSAGE_MAXALLOWEDSIZE
+} from '../../../src/api/apiRocketChatSettingsPublic';
 
 let overrides = {};
 
@@ -68,8 +72,6 @@ Cypress.Commands.add('mockApi', () => {
 	cy.addMessage({}, 0);
 	cy.addMessage({}, 1);
 	cy.addMessage({}, 2);
-
-	window.localStorage.setItem(`locale`, 'de');
 
 	// ConsultingTypes
 	cy.fixture('service.consultingtypes.emigration.json').then(
@@ -152,7 +154,7 @@ Cypress.Commands.add('mockApi', () => {
 		});
 	}).as('askerSessions');
 
-	cy.intercept('GET', endpoints.messages, (req) => {
+	cy.intercept('GET', endpoints.messages.get, (req) => {
 		if (overrides['messages']) {
 			return req.reply(overrides['messages']);
 		}
@@ -194,14 +196,42 @@ Cypress.Commands.add('mockApi', () => {
 
 	cy.intercept('POST', endpoints.keycloakLogout, {}).as('authLogout');
 
-	cy.intercept('POST', endpoints.rc.logout, {}).as('apiLogout');
+	cy.intercept(
+		'GET',
+		`${endpoints.rc.settings.public}*`,
+		JSON.stringify({
+			settings: [
+				{ _id: SETTING_E2E_ENABLE, value: true, enterprise: false },
+				{
+					_id: SETTING_MESSAGE_MAXALLOWEDSIZE,
+					value: 999999,
+					enterprise: false
+				}
+			],
+			count: 1,
+			offset: 0,
+			total: 1,
+			success: true
+		})
+	).as('rcSettingsPublic');
 
-	cy.intercept(`${endpoints.liveservice}/**/*`, {
-		entropy: -1197552011,
-		origins: ['*:*'],
-		cookie_needed: false,
-		websocket: true
-	});
+	cy.intercept('POST', endpoints.keycloakLogout, {
+		statusCode: 204
+	}).as('authLogout');
+
+	cy.intercept('POST', endpoints.rc.logout, JSON.stringify({})).as(
+		'apiLogout'
+	);
+
+	cy.intercept(
+		`${endpoints.liveservice}/**/*`,
+		JSON.stringify({
+			entropy: '-1197552011',
+			origins: ['*:*'],
+			cookie_needed: false,
+			websocket: true
+		})
+	).as('liveService');
 
 	cy.intercept('GET', endpoints.draftMessages, {}).as('draftMessages');
 
@@ -225,6 +255,10 @@ Cypress.Commands.add('mockApi', () => {
 		});
 	}).as('authToken');
 
+	cy.intercept('PATCH', endpoints.userData, (req) => {
+		req.reply({});
+	}).as('patchUsersData');
+
 	cy.intercept('GET', endpoints.userData, (req) => {
 		req.reply({
 			...defaultReturns['userData'][username],
@@ -233,10 +267,10 @@ Cypress.Commands.add('mockApi', () => {
 	}).as('usersData');
 
 	cy.intercept('GET', endpoints.consultantsLanguages, (req) => {
-		req.reply(
+		req.reply([
 			...defaultReturns['agencyConsultantsLanguages'],
 			...(overrides['agencyConsultantsLanguages'] || [])
-		);
+		]);
 	}).as('agencyConsultants');
 
 	cy.intercept('GET', endpoints.agencyConsultants, (req) => {
@@ -295,7 +329,9 @@ Cypress.Commands.add('mockApi', () => {
 	apiAppointments(cy);
 	apiVideocalls(cy);
 
-	cy.intercept('GET', '/api/v1/e2e.fetchMyKeys', (req) => {
+	cy.intercept('PUT', endpoints.setAbsence, {});
+
+	cy.intercept('GET', endpoints.rc.e2ee.fetchMyKeys, (req) => {
 		// keys from dev user pregnancy
 		req.reply({
 			public_key:
@@ -306,30 +342,46 @@ Cypress.Commands.add('mockApi', () => {
 		});
 	}).as('fetchMyKeys');
 
-	cy.intercept('POST', '/api/v1/e2e.setUserPublicAndPrivateKeys', (req) => {
-		req.reply({
-			success: true
-		});
-	}).as('setUserPublicAndPrivateKeys');
+	cy.intercept(
+		'POST',
+		endpoints.rc.e2ee.setUserPublicAndPrivateKeys,
+		(req) => {
+			req.reply({
+				success: true
+			});
+		}
+	).as('setUserPublicAndPrivateKeys');
 
-	cy.intercept('POST', '/api/v1/users.resetE2EKey', (req) => {
+	cy.intercept('POST', endpoints.rc.users.resetE2EKey, (req) => {
 		req.reply({
 			success: true
 		});
 	}).as('resetE2EKey');
 
-	cy.intercept('PUT', '/service/users/chat/e2e', {
+	cy.intercept('PUT', endpoints.userUpdateE2EKey, {
 		statusCode: 200
 	});
 
-	cy.intercept('GET', endpoints.sessionRooms, (req) => {
+	cy.intercept('GET', `${endpoints.sessionRooms}*`, (req) => {
 		const data = { ...defaultReturns['sessionRooms'] };
+		const rcGroupId = new URL(req.url).searchParams.get('rcGroupIds');
+		let foundSession = null;
+		getAskerSessions().forEach((session, index) => {
+			if (session.session.groupId === rcGroupId) {
+				foundSession = session;
+			}
+		});
+
+		getConsultantSessions().forEach((session, index) => {
+			if (session.session.groupId === rcGroupId) {
+				foundSession = session;
+			}
+		});
+
 		data.body.sessions[0].session = {
-			...data.body.sessions[0].session,
+			...foundSession,
 			...overrides['sessionRooms']
 		};
-
-		console.log(overrides['sessionRooms']);
 
 		req.reply(data);
 	}).as('sessionRooms');

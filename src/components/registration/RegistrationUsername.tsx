@@ -91,6 +91,7 @@ export const RegistrationUsername = ({
 			<Text
 				text={translate('registration.user.infoText')}
 				type="infoMedium"
+				className="text__registration_user"
 			/>
 			<InputField
 				item={inputItemUsername}

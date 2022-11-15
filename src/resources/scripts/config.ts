@@ -1,7 +1,3 @@
-import { en } from '../i18n/en';
-import { enConsultingTypes } from '../i18n/en.consultingTypes';
-import { enAgency } from '../i18n/en.agency';
-import { enLanguages } from '../i18n/en.languages';
 import { AppConfigInterface } from '../../globalState/interfaces/AppConfig/AppConfigInterface';
 
 export const uiUrl = window.location.origin;
@@ -19,6 +15,7 @@ export const config: AppConfigInterface = {
 	useTenantService: false,
 	useApiClusterSettings: false, // Feature flag to enable the cluster use the cluster settings instead of the config file
 	mainTenantSubdomainForSingleDomainMultitenancy: 'app',
+	attachmentEncryption: true, // Feature flag for attachment end to end encryption - e2e must also be enabled in rocket.chat
 
 	urls: {
 		consultantVideoConference:
@@ -278,41 +275,7 @@ export const config: AppConfigInterface = {
 		'zh',
 		'zu'
 	],
-	i18n: {
-		supportedLngs: ['de', 'en'],
-		fallbackLng: {
-			en: ['de'],
-			en_informal: ['en', 'de_informal', 'de']
-		},
-		resources: {
-			de: {
-				common: {
-					banner: {
-						ie: {
-							text: 'Diese Anwendung ist nicht für die Nutzung mit dem <strong>Internet Explorer</strong> optimiert. Für ein optimales Nutzungserlebnis verwenden Sie bitte einen modernen Browser.'
-						}
-					}
-				},
-				languages: {
-					en: '(EN) Englisch'
-				}
-			},
-			en: {
-				common: {
-					...en
-				},
-				consultingTypes: {
-					...enConsultingTypes
-				},
-				agencies: {
-					...enAgency
-				},
-				languages: {
-					...enLanguages
-				}
-			}
-		}
-	}
+	i18n: {}
 };
 
 export const ALIAS_LAST_MESSAGES = {
@@ -320,5 +283,8 @@ export const ALIAS_LAST_MESSAGES = {
 	FURTHER_STEPS: 'aliases.lastMessage.further_steps',
 	REASSIGN_CONSULTANT: 'aliases.lastMessage.reassign_consultant',
 	REASSIGN_CONSULTANT_RESET_LAST_MESSAGE:
-		'aliases.lastMessage.reassign_consultant_reset_last_message'
+		'aliases.lastMessage.reassign_consultant_reset_last_message',
+	APPOINTMENT_SET: 'message.appointment.component.header.confirmation',
+	APPOINTMENT_CANCELLED: 'message.appointment.component.header.cancellation',
+	APPOINTMENT_RESCHEDULED: 'message.appointment.component.header.change'
 };
