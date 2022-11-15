@@ -1442,10 +1442,10 @@ export const de = {
 		'header.title': 'Profil',
 		'noContent': 'Keine Angabe',
 		'notifications': {
-			'title': 'E-Mail Benachrichtigung',
+			'title': 'E-Mail-Benachrichtigung',
 			'subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
 			'follow.up.email.label':
-				'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.'
+				'eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.'
 		},
 		'routes': {
 			activities: {
