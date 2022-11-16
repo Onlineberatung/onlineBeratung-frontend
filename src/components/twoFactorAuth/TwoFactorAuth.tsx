@@ -46,6 +46,7 @@ import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
 import useUpdateUserData from '../../utils/useUpdateUserData';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { STORAGE_KEY_2FA_DUTY, useDevToolbar } from '../devToolbar/DevToolbar';
 
 export const OTP_LENGTH = 6;
 
@@ -98,6 +99,7 @@ export const TwoFactorAuth = () => {
 		AUTHORITIES.CONSULTANT_DEFAULT,
 		userData
 	);
+	const { getDevToolbarOption } = useDevToolbar();
 
 	useEffect(() => {
 		if (location.state?.openTwoFactor) {
@@ -351,7 +353,8 @@ export const TwoFactorAuth = () => {
 						function: OVERLAY_FUNCTIONS.NEXT_STEP,
 						type: BUTTON_TYPES.PRIMARY
 					},
-					!isConsultant &&
+					(!isConsultant ||
+						getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '0') &&
 						userData.twoFactorAuth.isActive && {
 							label: translate(
 								'twoFactorAuth.activate.step1.disable'
@@ -369,7 +372,8 @@ export const TwoFactorAuth = () => {
 			userData.twoFactorAuth.type,
 			isConsultant,
 			userData.twoFactorAuth.isActive,
-			handleOverlayAction
+			handleOverlayAction,
+			getDevToolbarOption
 		]
 	);
 
