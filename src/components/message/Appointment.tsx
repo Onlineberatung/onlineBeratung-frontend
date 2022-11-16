@@ -4,7 +4,6 @@ import { Headline } from '../headline/Headline';
 import './appointment.styles';
 import { ReactComponent as CalendarCheckIcon } from '../../resources/img/icons/calendar-check.svg';
 import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
-import { ReactComponent as VideoCalIcon } from '../../resources/img/icons/video-call.svg';
 import {
 	convertUTCDateToLocalDate,
 	formatToHHMM
@@ -12,6 +11,7 @@ import {
 import { DownloadICSFile } from '../downloadICSFile/downloadICSFile';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 interface AppointmentData {
 	title: string;
@@ -20,6 +20,7 @@ interface AppointmentData {
 	date: string;
 	duration: number;
 	location: string;
+	note?: string;
 }
 
 export const Appointment = (param: {
@@ -27,6 +28,7 @@ export const Appointment = (param: {
 	messageType: ALIAS_MESSAGE_TYPES;
 }) => {
 	const { t: translate } = useTranslation();
+	const [expanded, setExpanded] = useState(false);
 	const parsedData: AppointmentData = JSON.parse(param.data);
 	const duration = parsedData.duration;
 	const startingTimeStampDate = new Date(
@@ -44,6 +46,10 @@ export const Appointment = (param: {
 			day: '2-digit'
 		}
 	);
+
+	const translateKey = expanded
+		? 'booking.event.show.less'
+		: 'booking.event.show.more';
 
 	const appointmentHours = `${formatToHHMM(
 		`${startingTimeStampDate}`
@@ -106,20 +112,44 @@ export const Appointment = (param: {
 						className="appointmentSet__time"
 					/>
 				</div>
-				<div className="appointmentSet--flex">
-					<VideoCalIcon />
-					<Text
-						type="infoLargeAlternative"
-						text={translate('message.appointmentSet.info')}
-						className="appointmentSet__video"
-					/>
-				</div>
 				{parsedData.title && (
 					<Text
 						type="standard"
 						className="appointmentSet__summary"
 						text={parsedData.title}
 					/>
+				)}
+				{parsedData.note && (
+					<div
+						className={`appointmentSet__note__description ${
+							expanded ? 'expanded' : 'shrinked'
+						}`}
+					>
+						<Text
+							type="standard"
+							className="appointmentSet__note__title"
+							text={translate('message.note.title')}
+						/>
+						<Text
+							type="standard"
+							className="appointmentSet__note__descriptionText"
+							text={parsedData.note}
+						/>
+						{parsedData.note.length > 110 && (
+							<>
+								<div
+									className="appointmentSet__note appointmentSet--flex appointmentSet--pointer"
+									onClick={() => setExpanded(!expanded)}
+								>
+									<Text
+										text={translate(translateKey)}
+										type="standard"
+										className="appointmentSet__note__showMore bookingEvents--pointer bookingEvents--primary"
+									/>
+								</div>
+							</>
+						)}
+					</div>
 				)}
 				{showAddToCalendarComponent && (
 					<DownloadICSFile
