@@ -43,6 +43,39 @@
 		margin: 0.75rem 0;
 	}
 
+	&__note {
+		&__title {
+			font-weight: $font-weight-bold;
+		}
+
+		&__description {
+			margin-bottom: 1rem;
+
+			&.shrinked {
+				.appointmentSet__note__descriptionText {
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+				}
+			}
+		}
+
+		&__showMore {
+			text-decoration: underline;
+		}
+
+		svg {
+			width: 18px;
+			height: 18px;
+
+			path {
+				fill: var(--skin-color-primary, $primary);
+			}
+		}
+	}
+
 	&--flex {
 		display: flex;
 		align-items: center;

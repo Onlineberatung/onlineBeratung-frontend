@@ -285,7 +285,10 @@ export const CreateGroupChatView = (props) => {
 
 	const durationSelectDropdown: SelectDropdownItem = {
 		id: 'chatDuration',
-		selectedOptions: durationSelectOptionsSet,
+		selectedOptions: durationSelectOptionsSet.map((option) => ({
+			...option,
+			label: translate(option.label)
+		})),
 		handleDropdownSelect: handleDurationSelect,
 		selectInputLabel: translate('groupChat.create.durationSelect.label'),
 		useIconOption: false,
@@ -396,8 +399,10 @@ export const CreateGroupChatView = (props) => {
 	const handleOverlayAction = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			if (
-				overlayItem === createChatSuccessOverlayItem ||
-				overlayItem === updateChatSuccessOverlayItem
+				JSON.stringify(overlayItem) ===
+					JSON.stringify(createChatSuccessOverlayItem) ||
+				JSON.stringify(overlayItem) ===
+					JSON.stringify(updateChatSuccessOverlayItem)
 			) {
 				const pathInfo =
 					(prevPathIsGroupChatInfo ? '/groupChatInfo' : '') +

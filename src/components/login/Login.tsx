@@ -60,9 +60,11 @@ import {
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
-import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
+import {
+	IBooleanSetting,
+	SETTING_E2E_ENABLE
+} from '../../api/apiRocketChatSettingsPublic';
 import { useTranslation } from 'react-i18next';
-import { ensureTenantSettings } from '../../utils/tenantHelpers';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
@@ -364,7 +366,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			password: password,
 			redirect: !consultant,
 			gcid,
-			...ensureTenantSettings(tenant?.settings)
+			tenantData: tenant
 		})
 			.then(postLogin)
 			.catch((error) => {
@@ -401,7 +403,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				redirect: !consultant,
 				otp,
 				gcid,
-				...ensureTenantSettings(tenant?.settings)
+				tenantData: tenant
 			})
 				.then(postLogin)
 				.catch((error) => {
@@ -449,7 +451,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	);
 
 	const onPasswordResetClick = (e) => {
-		if (getSetting(SETTING_E2E_ENABLE)?.value) {
+		if (getSetting<IBooleanSetting>(SETTING_E2E_ENABLE)?.value) {
 			e.preventDefault();
 			setPwResetOverlayActive(true);
 			return;
@@ -467,6 +469,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			<StageLayout
 				stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
 				showLegalLinks
+				showRegistrationLink={hasTenant}
 			>
 				<div className="loginForm">
 					<div>

@@ -1,13 +1,13 @@
 import { isUserModerator } from '../session/sessionHelpers';
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
-import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
+import {
+	formatToHHMM,
+	getPrettyDateFromMessageDate
+} from '../../utils/dateHelpers';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
 import { ForwardMessageDTO } from './MessageItemComponent';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
-import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import { BanUser } from '../banUser/BanUser';
 import { useTranslation } from 'react-i18next';
 
 interface MessageDisplayNameProps {
@@ -17,7 +17,6 @@ interface MessageDisplayNameProps {
 	type: 'forwarded' | 'user' | 'consultant' | 'self' | 'system';
 	userId: string;
 	username: string;
-	isUserBanned?: boolean;
 	displayName: string;
 }
 
@@ -28,7 +27,6 @@ export const MessageDisplayName = ({
 	type,
 	userId,
 	username,
-	isUserBanned,
 	displayName
 }: MessageDisplayNameProps) => {
 	const { t: translate } = useTranslation();
@@ -38,24 +36,19 @@ export const MessageDisplayName = ({
 		const prettyDate = getPrettyDateFromMessageDate(
 			Math.round(alias.timestamp / 1000)
 		);
-		const translatedDate = prettyDate.str
-			? translate(prettyDate.str)
-			: translate(prettyDate.date);
 
 		return translate('message.forward.label', {
-			username: alias?.username,
-			translatedDate,
-			time: alias?.timestamp
+			username: alias.displayName || alias.username,
+			date: prettyDate.str
+				? translate(prettyDate.str)
+				: translate(prettyDate.date),
+			time: alias.timestamp && formatToHHMM(alias.timestamp)
 		});
-	}, [alias?.timestamp, alias?.username, translate]);
+	}, [alias, translate]);
 
 	const subscriberIsModerator = isUserModerator({
 		chatItem: activeSession.item,
 		rcUserId: userId
-	});
-	const currentUserIsModerator = isUserModerator({
-		chatItem: activeSession.item,
-		rcUserId: getValueFromCookie('rc_uid')
 	});
 
 	const getUsernameWithPrefix = useCallback(() => {
@@ -65,13 +58,22 @@ export const MessageDisplayName = ({
 			(!isMyMessage && isUser) ||
 			(!subscriberIsModerator && isUser)
 		) {
-			return displayName;
+			return displayName || username;
 		} else {
 			return subscriberIsModerator
-				? translate('session.groupChat.consultant.prefix') + displayName
-				: translate('session.consultant.prefix') + displayName;
+				? translate('session.groupChat.consultant.prefix') +
+						(displayName || username)
+				: translate('session.consultant.prefix') +
+						(displayName || username);
 		}
-	}, [displayName, isMyMessage, isUser, subscriberIsModerator, translate]);
+	}, [
+		displayName,
+		isMyMessage,
+		isUser,
+		subscriberIsModerator,
+		translate,
+		username
+	]);
 
 	return (
 		<>
@@ -80,15 +82,6 @@ export const MessageDisplayName = ({
 					className={`messageItem__username messageItem__username--${type}`}
 				>
 					{getUsernameWithPrefix()}
-					{currentUserIsModerator && !subscriberIsModerator && (
-						<FlyoutMenu position="right" isHidden={isUserBanned}>
-							<BanUser
-								userName={username}
-								rcUserId={userId}
-								chatId={activeSession.item.id}
-							/>
-						</FlyoutMenu>
-					)}
 				</div>
 			)}
 

@@ -123,7 +123,10 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 			.then((response) => {
 				if (response.status === 200 || response.status === 201) {
 					const data =
-						props.method === FETCH_METHODS.GET ||
+						(props.method === FETCH_METHODS.GET &&
+							(!props.headersData ||
+								props.headersData?.['Content-Type'] ===
+									'application/json')) ||
 						(props.responseHandling &&
 							props.responseHandling.includes(
 								FETCH_SUCCESS.CONTENT

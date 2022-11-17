@@ -200,7 +200,7 @@ export const de = {
 			},
 			size: {
 				headline: 'Ihre gewählte Datei ist zu groß.',
-				message: 'Sie können max. 5MB hochladen.'
+				message: 'Sie können max. {{attachment_filesize}}MB hochladen.'
 			}
 		},
 		'list': {
@@ -232,7 +232,7 @@ export const de = {
 	booking: {
 		'availability': {
 			description:
-				'Geben Sie hier Ihre allegemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.',
+				'Geben Sie hier Ihre allgemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.',
 			title: 'Ihre Verfügbarkeit'
 		},
 		'calender': {
@@ -387,8 +387,8 @@ export const de = {
 	deleteAccount: {
 		'button.label': 'Account löschen',
 		'confirmOverlay': {
-			'button.confirm': 'ja',
-			'button.deny': 'nein',
+			'button.confirm': 'Ja',
+			'button.deny': 'Nein',
 			'copy': '<strong>Dieser Vorgang kann nicht rückgängig gemacht werden.</strong><br><br>Ihr Account wird innerhalb der nächsten 48 Stunden gelöscht. Ihre Daten werden gemäß der geltenden Datenschutzbestimmungen gelöscht.<br><br>Bitte geben Sie Ihr Passwort ein, um Ihren Account nun zu löschen.',
 			'headline': 'Möchten Sie Ihren Account wirklich löschen?',
 			'input.label': 'Passwort',
@@ -397,23 +397,23 @@ export const de = {
 		'successOverlay': {
 			headline:
 				'Sie haben Ihren Account bei der Caritas Beratung & Hilfe erfolgreich gelöscht.',
-			button: 'schließen'
+			button: 'Schließen'
 		}
 	},
 	deleteSession: {
 		confirmOverlay: {
-			'button.confirm': 'ja',
-			'button.deny': 'nein',
+			'button.confirm': 'Ja',
+			'button.deny': 'Nein',
 			'copy': 'Möchten Sie den Chat wirklich löschen?',
 			'headline': 'Chat löschen'
 		},
 		errorOverlay: {
-			button: 'ok',
+			button: 'Ok',
 			headline:
 				'Ups! Wir konnten den Chat gerade nicht löschen. Bitte versuchen Sie es noch einmal.'
 		},
 		successOverlay: {
-			button: 'ok',
+			button: 'Ok',
 			headline: 'Sie haben den Chat erfolgreich gelöscht.'
 		}
 	},
@@ -423,6 +423,22 @@ export const de = {
 			'encryption.error':
 				'Nachricht verschlüsselt - Fehler beim Entschlüsseln',
 			'encryption.text': 'Nachricht verschlüsselt'
+		},
+		attachment: {
+			encrypted: 'Datei für Download entschlüsseln',
+			is_decrypting: 'Datei wird entschlüsselt',
+			decryption_error: 'Fehler beim entschlüsseln',
+			save: 'Datei downloaden',
+			error: {
+				title: 'Leider, konnten wir die Datei nicht entschlüsseln und downloaden.',
+				text: 'Bitten Sie den Sender oder die Senderin die Datei erneut zu schicken. Downloaden Sie dann die neue Datei.'
+			}
+		},
+		inProgress: {
+			headline: 'Einen Moment bitte.',
+			copy: 'Ihre Sicherheit ist uns wichtig! Wir verschlüsseln gerade Ihren Chat. Dies kann einen Moment dauern.',
+			confirm:
+				'Bitte warten Sie bis die Verschlüsselung abgeschlossen ist!'
 		},
 		roomNotFound: {
 			'notice.line1': 'Ohh!',
@@ -437,12 +453,14 @@ export const de = {
 				primary:
 					'Ein_e Chat-Teilnehmer_in hat keinen Zugriff mehr auf den Nachrichtenverlauf.',
 				secondary:
-					'Ein_e Chat-Teilnehmer_in hatte zwischenzeitlich keinen Zugriff mehr auf den Nachrichtenverlauf. Nun können alle Chat-Teilnehmer wieder auf den Nachrichtenverlauf zugreifen.'
+					'Ein_e Chat-Teilnehmer_in hatte zwischenzeitlich keinen Zugriff mehr auf den Nachrichtenverlauf. Nun können alle Chat-Teilnehmer wieder auf den Nachrichtenverlauf zugreifen.',
+				more: 'Mehr erfahren'
 			},
 			notice: {
 				link: 'Benachrichtigung schicken',
 				text: 'Da Sie Ihr Passwort zurückgesetzt haben, sind die Nachrichten für Sie momentan nicht lesbar. Sobald ein_e Chat-Teilnehmer_in den Chat wieder öffnet, können Sie die Nachrichten wieder lesen und Neue schreiben.',
-				title: 'Ihre Sicherheit ist uns wichtig!'
+				title: 'Ihre Sicherheit ist uns wichtig!',
+				more: 'Mehr erfahren'
 			},
 			overlay: {
 				'copy': 'Ihre Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform.<br/><br/>Wenn das Passwort zurückgesetzt wird, sind die Nachrichten vorübergehend nicht lesbar. Sobald ein_e weitere_r Chat-Teilnehmer_in den Chat wieder öffnet, können die Nachrichten neu verschlüsselt werden. Somit können wieder allen Chat-Teilnehmer_innen Nachrichten lesen und schreiben.',
@@ -603,6 +621,15 @@ export const de = {
 				headline: 'Sie haben erfolgreich einen Chat angelegt.'
 			}
 		},
+		'copy': {
+			link: {
+				text: 'Einladungs-Link kopieren',
+				notification: {
+					text: 'Link in Zwischenablage kopiert!',
+					title: 'Link kopiert'
+				}
+			}
+		},
 		'edit.title': 'Chat-Einstellungen',
 		'info': {
 			headline: 'Chat-Info',
@@ -697,15 +724,16 @@ export const de = {
 		msEdge: 'Microsoft Edge',
 		videoCall: {
 			asker: {
+				intro: 'Um Ende-zu Ende verschlüsselt zu telefonieren, befolgen Sie folgende Schritte:',
 				steps: {
-					'1': 'Folgen Sie dem Link zu Google Chrome oder Microsoft Edge.',
+					'1': 'Öffnen Sie den Link zu Google Chrome oder Microsoft Edge.',
 					'2': 'Laden Sie sich Chrome oder Edge herunter.',
 					'3': 'Installieren Sie Chrome oder Edge auf Ihrem PC/Laptop/Tablet/Smartphone.',
 					'4': 'Öffnen Sie nun über Chrome oder Edge die Online-Beratung.',
 					'5': 'Melden Sie sich bei der Online-Beratung an.',
 					'6': 'Bitten Sie Ihre_n Berater_in Sie nochmals anzurufen.',
 					'headline': {
-						'1': 'Video-Calls Ende-zu-Ende zu verschlüsseln',
+						'1': 'Video-Call',
 						'2': 'Sie haben bereits Google Chrome oder Microsoft Edge?'
 					}
 				}
@@ -1022,7 +1050,21 @@ export const de = {
 		'today': 'Heute',
 		'tomorrow': 'Morgen',
 		'write.peer.checkbox.label': 'Feedback anfordern',
-		'yesterday': 'Gestern'
+		'yesterday': 'Gestern',
+		'delete': {
+			delete: 'Löschen',
+			deleted: {
+				own: 'Sie haben diese Nachricht gelöscht.',
+				other: 'Diese Nachricht wurde gelöscht.'
+			},
+			overlay: {
+				headline: 'Nachricht löschen',
+				copy: 'Möchten Sie die Nachricht wirklich löschen?',
+				cancel: 'Abbrechen',
+				confirm: 'Löschen'
+			}
+		},
+		'note.title': 'Notiz'
 	},
 	monitoring: {
 		title: 'Monitoring',
@@ -1195,7 +1237,7 @@ export const de = {
 		}
 	},
 	navigation: {
-		'appointments': 'Video-Termine',
+		'appointments': 'Video - Termine',
 		'asker': {
 			sessions: {
 				large: 'Meine Beratungen',
@@ -1228,12 +1270,16 @@ export const de = {
 		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!'
 	},
 	overlay: {
-		'step.headline.prefix': '. Schritt | '
+		'step.headline.prefix': '. Schritt | ',
+		'timeout': {
+			headline: 'Einen Moment bitte.',
+			confirm: 'Möchten Sie die Seite wirklich verlassen?'
+		}
 	},
 	overview: {
 		title: 'Willkommen zurück!',
-		myMessagesTitle: '%count% ungelesene Nachrichten',
-		initialInquiriesTitle: '%count% Erstanfragen',
+		myMessagesTitle: '{{countStr}} ungelesene Nachrichten',
+		initialInquiriesTitle: '{{countStr}} Erstanfragen',
 		upcomingAppointments: 'Ihre nächsten {{countStr}} Termine',
 		upcomingAppointment: 'Ihr nächster Termin',
 		emptyMessages: 'Du hast alles im Blick, alle Nachrichten sind gelesen!',
@@ -1249,6 +1295,16 @@ export const de = {
 		appointmentsEmpty:
 			'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern',
 		start: 'Starten'
+	},
+	preconditions: {
+		cookie: {
+			headline: 'Bitte aktivieren Sie Cookies, um fortzufahren',
+			paragraph: {
+				1: 'Bitte aktivieren Sie bei Ihrem Browser Cookies, um die Anmeldung zu ermöglichen.',
+				2: 'Nachdem Sie Cookies in Ihrem Browser aktiviert haben, klicken Sie einfach auf die Schaltfläche unten, um zur vorhergehenden Seite zurückzukehren.'
+			},
+			button: 'Zurück zur vorherigen Seite'
+		}
 	},
 	profile: {
 		'appLanguage': {
@@ -1387,10 +1443,10 @@ export const de = {
 		'header.title': 'Profil',
 		'noContent': 'Keine Angabe',
 		'notifications': {
-			'title': 'E-Mail Benachrichtigung',
+			'title': 'E-Mail-Benachrichtigung',
 			'subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
 			'follow.up.email.label':
-				'Eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.'
+				'eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.'
 		},
 		'routes': {
 			activities: {
@@ -1433,7 +1489,7 @@ export const de = {
 				'download.label': 'Download Excel Datei'
 			},
 			csvHeader: {
-				numberOfAppointments: 'Termine gebuchte',
+				numberOfAppointments: 'Termine gebucht',
 				numberOfAssignedSessions: 'Beratungen angenommen',
 				numberOfSentMessages: 'Nachrichten geschrieben',
 				numberOfSessionsWhereConsultantWasActive: 'Aktive Beratungen',
@@ -1465,12 +1521,12 @@ export const de = {
 				'headline': 'Möchten Sie Ihre E-Mail-Adresse wirklich löschen?'
 			},
 			errorOverlay: {
-				button: 'ok',
+				button: 'Ok',
 				headline:
 					'Ups! Wir konnten die E-Mail-Adresse gerade nicht löschen. Bitte versuchen Sie es noch einmal.'
 			},
 			successOverlay: {
-				button: 'ok',
+				button: 'Ok',
 				headline: 'Sie haben Ihre E-Mail-Adresse erfolgreich gelöscht.'
 			}
 		}
@@ -1698,6 +1754,7 @@ export const de = {
 			'takenByOtherConsultant.button.label': 'Schließen'
 		},
 		'assignOther': {
+			'inProgress': 'Die Beratung wird gerade zugewiesen.',
 			'overlay': {
 				'headline': {
 					'1': 'Möchten Sie {{client}} an {{newConsultant}} zuweisen?',
@@ -1713,6 +1770,7 @@ export const de = {
 			'button.label': 'Schließen'
 		},
 		'assignSelf': {
+			'inProgress': 'Die Beratung wird Ihnen gerade zugewiesen.',
 			'overlay': {
 				'headline1':
 					'Sie haben die Beratung erfolgreich angenommen. Sie wurde in Meine Beratungen verschoben.',
@@ -1740,7 +1798,8 @@ export const de = {
 				outsideDropArea:
 					'Ziehen Sie die Datei in das Feld, um sie hochzuladen.'
 			},
-			restrictions: '.jpg, .png, .pdf, .docx, .xlsx bis maximal 5MB'
+			restrictions:
+				'.jpg, .png, .pdf, .docx, .xlsx bis maximal {{attachment_filesize}}'
 		},
 		'reassign': {
 			system: {
@@ -1856,10 +1915,11 @@ export const de = {
 		activate: {
 			step1: {
 				'app': 'Mit Authenticator Application',
-				'copy': 'Möchten Sie Ihr Konto mit einer App oder mit Ihrer E-Mail-Adresse zusätzlich schützen?',
+				'copy': 'Installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App. Alternativ können Sie auch Ihre E-Mail-Adresse als zweiten Faktor verwenden.',
 				'email': 'Per E-Mail',
-				'title': 'Zweiter Faktor wählen',
-				'visualisation.label': 'Auswahl'
+				'title': 'Zweiten Faktor wählen',
+				'visualisation.label': 'Auswahl',
+				'disable': 'Authentifizierung deaktivieren'
 			},
 			radio: {
 				label: {
@@ -1910,7 +1970,7 @@ export const de = {
 			app: {
 				step2: {
 					'title': 'Installieren Sie sich die App',
-					'copy': 'Installieren Sie sich FreeOTP oder Google Authentificator auf Ihrem Smartphone oder Tablet. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
+					'copy': 'Bitte installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authentificator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
 					'visualisation.label': 'Installation',
 					'tool1': {
 						title: 'FreeOTP App:',
@@ -1964,13 +2024,22 @@ export const de = {
 		email: {
 			'change': {
 				confirmOverlay: {
-					'title': 'E-Mail-Adresse bearbeiten',
-					'copy': {
+					title: 'E-Mail-Adresse bearbeiten',
+					copy: {
 						'1': 'Sie nutzen diese E-Mail-Adresse als zweiten Faktor für eine sichere Anmeldung.',
 						'2': 'Deaktivieren Sie die Zwei-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.'
 					},
-					'button.confirm': 'Authentifizierung deaktivieren',
-					'button.deny': 'Abbrechen'
+					binding: {
+						copy: {
+							'1': 'Sie können Ihre E-Mail Adresse nicht ändern solange Sie diese als zweiten Faktor für eine sichere Anmeldung verwenden.',
+							'2': 'Wechseln Sie den zweiten Faktor von "E-Mail Adresse" zu "App". Dann können Sie Ihre E-Mail Adresse ändern.'
+						}
+					},
+					button: {
+						confirm: 'Authentifizierung deaktivieren',
+						deny: 'Abbrechen',
+						edit: 'Zweiter Faktor bearbeiten'
+					}
 				}
 			},
 			'delete.confirmOverlay.copy':
@@ -1998,7 +2067,7 @@ export const de = {
 			save: 'Speichern'
 		},
 		subtitle:
-			'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung',
+			'Nutzen Sie neben Ihrem Passwort einen zweiten Faktor für die Anmeldung. Dadurch wird Ihr Konto zusätzlich abgesichert.',
 		switch: {
 			'active.label': 'Zwei-Faktor-Authentifizierung aktiviert',
 			'deactive.label': 'Zwei-Faktor-Authentifizierung deaktiviert',
@@ -2028,7 +2097,8 @@ export const de = {
 				'2': '21-30',
 				'3': '31-40',
 				'4': '41-59',
-				'5': '60+'
+				'5': '60+',
+				'null': 'Keine Angabe'
 			},
 			addictiveDrugs: {
 				'headline': 'Suchtmittel',

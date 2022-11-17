@@ -31,6 +31,7 @@ import { LegalLinksProvider } from '../../globalState/provider/LegalLinksProvide
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { DevToolbarWrapper } from '../devToolbar/DevToolbar';
 import { Login } from '../login/Login';
+import { PreConditions, preConditionsMet } from './PreConditions';
 
 type TExtraRoute = {
 	route: RouteProps;
@@ -101,6 +102,18 @@ const RouterWrapper = ({
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
 		useState<boolean>(false);
+	const [failedPreCondition, setFailedPreCondition] = useState(
+		preConditionsMet()
+	);
+
+	if (failedPreCondition) {
+		return (
+			<PreConditions
+				stageComponent={stageComponent}
+				onPreConditionsMet={setFailedPreCondition}
+			/>
+		);
+	}
 
 	return (
 		<Router>

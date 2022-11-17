@@ -26,9 +26,12 @@ import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
 import { getBudibaseAccessToken } from '../sessionCookie/getBudibaseAccessToken';
-import { TenantDataSettingsInterface } from '../../globalState/interfaces/TenantDataInterface';
-import { ensureTenantSettings } from '../../utils/tenantHelpers';
+import {
+	TenantDataInterface,
+	TenantDataSettingsInterface
+} from '../../globalState/interfaces/TenantDataInterface';
 import { appConfig } from '../../utils/appConfig';
+import { parseJwt } from '../../utils/parseJWT';
 
 export interface LoginData {
 	data: {
@@ -47,12 +50,14 @@ interface AutoLoginProps {
 	redirect: boolean;
 	otp?: string;
 	useOldUser?: boolean;
-	tenantSettings?: TenantDataSettingsInterface;
+	tenantData?: TenantDataInterface;
 	gcid?: string;
 }
 
 export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 	new Promise((resolve, reject) => {
+		const tenantSettings = (autoLoginProps?.tenantData?.settings ||
+			{}) as TenantDataSettingsInterface;
 		const userHash = autoLoginProps.useOldUser
 			? autoLoginProps.username
 			: encodeUsername(autoLoginProps.username);
@@ -72,6 +77,16 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 					response.refresh_token,
 					response.refresh_expires_in
 				);
+
+				if (
+					appConfig.useTenantService &&
+					!appConfig.multitenancyWithSingleDomainEnabled
+				) {
+					const { tenantId } = parseJwt(response.access_token);
+					if (tenantId !== autoLoginProps.tenantData.id) {
+						return reject(new Error(FETCH_ERRORS.UNAUTHORIZED));
+					}
+				}
 
 				getRocketchatAccessToken(userHash, autoLoginProps.password)
 					.then(async (accesTokenResponse) => {
@@ -97,13 +112,11 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 							autoLoginProps.redirect &&
 							redirectToApp(autoLoginProps.gcid);
 
-						if (
-							autoLoginProps?.tenantSettings?.featureToolsEnabled
-						) {
+						if (tenantSettings?.featureToolsEnabled) {
 							getBudibaseAccessToken(
 								username,
 								autoLoginProps.password,
-								autoLoginProps?.tenantSettings
+								tenantSettings
 							).then(() => {
 								redirect();
 								resolve(undefined);
@@ -128,7 +141,7 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 						redirect: autoLoginProps.redirect,
 						otp: autoLoginProps.otp,
 						useOldUser: true,
-						...ensureTenantSettings(autoLoginProps?.tenantSettings)
+						tenantData: autoLoginProps.tenantData
 					})
 						.then(() => resolve(undefined))
 						.catch((autoLoginError) => reject(autoLoginError));
@@ -259,8 +272,14 @@ const updateUserE2EKeysFallback = async (rcUserId) => {
 				return null;
 			}
 
+			// Little fix for broken dev chats
+			let sub = 16;
+			if (subscription.E2EKey.substring(4, 8) === 'null') {
+				sub = 8;
+			}
+
 			// Substring(16) because of 'tmp.' prefix
-			const roomKeyEncrypted = subscription.E2EKey.substring(16);
+			const roomKeyEncrypted = subscription.E2EKey.substring(sub);
 			const bytes = CryptoJS.AES.decrypt(
 				roomKeyEncrypted,
 				await getTmpMasterKey(rcUserId)

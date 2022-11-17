@@ -14,7 +14,7 @@ export { ReactComponent as ClosedEnvelopeIcon } from '../../resources/img/icons/
 export { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 export { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
 export { ReactComponent as CrossMarkIcon } from '../../resources/img/icons/x.svg';
-export { ReactComponent as DeleteIcon } from '../../resources/img/icons/delete.svg';
+export { ReactComponent as TrashIcon } from './icons/trash.svg';
 export { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 export { ReactComponent as EditGroupChatIcon } from '../../resources/img/icons/gear.svg';
 export { ReactComponent as EditIcon } from '../../resources/img/icons/pen.svg';

@@ -1,0 +1,32 @@
+.progressbar {
+	height: 20px;
+	margin: $grid-base-two 0;
+	width: 100%;
+	border: 1px solid $secondary;
+	border-radius: $button-border-radius;
+	overflow: hidden;
+	position: relative;
+
+	&__progress {
+		height: 18px;
+		background: $primary;
+		transition: width 0.5s ease;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__percent {
+		position: absolute;
+		width: 100%;
+		height: 18px;
+		line-height: 18px;
+		left: 0;
+		top: 0;
+		color: $body-font-color;
+	}
+
+	&--finish &__progress {
+		transition: width 0.1s linear;
+	}
+}

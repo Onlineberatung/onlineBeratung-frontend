@@ -31,10 +31,6 @@ $message-attachment-color: $secondary !default;
 			color: var(--skin-color-primary-contrast-safe, $primary);
 			transition: unset;
 		}
-
-		&.messageItem__message__attachment__download {
-			text-decoration: none;
-		}
 	}
 
 	&--right {
@@ -78,12 +74,13 @@ $message-attachment-color: $secondary !default;
 			font-size: $font-size-secondary;
 			line-height: $line-height-secondary;
 			color: $message-name-forwarded;
+
 			svg {
 				display: inline-block;
 				margin-right: 8px;
 				padding-bottom: 4px;
 				path {
-					fill: $yellow-6;
+					fill: $black-65-opacity;
 				}
 			}
 		}
@@ -165,6 +162,14 @@ $message-attachment-color: $secondary !default;
 			font-size: $font-size-tertiary;
 		}
 
+		&--deleted {
+			margin: 4px 0;
+			font-size: $font-size-tertiary;
+			color: $black-65-opacity;
+			font-style: italic;
+			background-color: $black-5-opacity;
+		}
+
 		&--withAttachment {
 			margin-top: $grid-base;
 		}
@@ -215,16 +220,29 @@ $message-attachment-color: $secondary !default;
 				}
 			}
 
+			.loadingSpinner {
+				margin-right: $grid-base;
+			}
+
 			&__download {
 				display: flex;
 				cursor: pointer;
 				flex-direction: row;
 				margin-top: $grid-base;
+				background: transparent;
+				border: none;
 
 				p {
 					margin: 0;
 					color: var(--text-color-contrast-switch, $secondary);
 					line-height: $icon-size;
+					text-decoration: underline;
+
+					&.decrypting,
+					&.decryptionError {
+						color: var(--text-color-contrast-switch, $primary);
+						text-decoration: none;
+					}
 				}
 
 				&:hover p {
@@ -426,6 +444,25 @@ $message-attachment-color: $secondary !default;
 		width: 600px;
 		height: 780px;
 	}
+
+	.flyoutMenu {
+		margin-left: $grid-base;
+
+		&--left {
+			margin-right: $grid-base;
+		}
+
+		&__item {
+			&--delete {
+				color: $form-error;
+				text-decoration: none;
+
+				svg g {
+					fill: $form-error;
+				}
+			}
+		}
+	}
 }
 
 .systemMessage {
@@ -458,7 +495,7 @@ $message-attachment-color: $secondary !default;
 
 	&.videocall &__subject,
 	&.master_key_lost &__subject {
-		color: $form-primary;
+		color: $message-system;
 	}
 
 	.messageItem__metaData {
