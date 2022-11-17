@@ -48,8 +48,10 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 			.then((res) => res.json())
 			.then((releases: TReleases) =>
 				Object.entries(releases)
-					.reverse()
-					.slice(MAX_CONCURRENT_RELEASE_NOTES * -1)
+					.sort(([keyA], [keyB]) =>
+						parseInt(keyA) > parseInt(keyB) ? -1 : 1
+					)
+					.slice(0, MAX_CONCURRENT_RELEASE_NOTES)
 					.filter(
 						([key]) => parseInt(key) > parseInt(readReleaseNote)
 					)
