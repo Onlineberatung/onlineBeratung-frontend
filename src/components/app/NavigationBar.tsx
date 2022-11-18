@@ -40,7 +40,7 @@ export const NavigationBar = ({
 	const { selectableLocales } = useContext(LocaleContext);
 	const [sessionId, setSessionId] = useState(null);
 	const [hasTools, setHasTools] = useState<boolean>(false);
-	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
 		userData
@@ -52,9 +52,10 @@ export const NavigationBar = ({
 	} = useContext(RocketChatUnreadContext);
 	const { tenant } = useContext(TenantContext);
 
-	const ref_array = useRef<any>([]);
+	const ref_menu = useRef<any>([]);
 	const ref_local = useRef<any>();
 	const ref_logout = useRef<any>();
+	const ref_select = useRef<any>();
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
@@ -132,42 +133,37 @@ export const NavigationBar = ({
 			if (document.activeElement === ref_logout.current) {
 				handleLogout();
 			} else if (document.activeElement === ref_local.current) {
-				console.log('hallo');
-				//setIsMenuOpen(!isMenuOpen);
-				// setTimeout(() => {
-				// 	document.getElementById('react-select-2-option-0').focus();
-				// }, 500);
-				ref_local.current.click();
+				ref_select.current.focus();
 			} else {
-				ref_array.current[index].click();
+				ref_menu.current[index].click();
 			}
 		}
 		if (e.key === 'ArrowUp') {
-			if (isMenuOpen) {
-				return;
-			}
 			if (index === 0) {
 				ref_logout.current.focus();
 			} else if (document.activeElement === ref_logout.current) {
 				ref_local.current.focus();
 			} else if (document.activeElement === ref_local.current) {
-				ref_array.current[ref_array.current.length - 1].focus();
-			} else {
-				ref_array.current[index - 1].focus();
+				ref_menu.current[ref_menu.current.length - 1].focus();
+			} else if (
+				document.activeElement !==
+				document.getElementById('react-select-2-input')
+			) {
+				ref_menu.current[index - 1].focus();
 			}
 		}
 		if (e.key === 'ArrowDown') {
-			if (isMenuOpen) {
-				return;
-			}
-			if (index === ref_array.current.length - 1) {
+			if (index === ref_menu.current.length - 1) {
 				ref_local.current.focus();
 			} else if (document.activeElement === ref_local.current) {
 				ref_logout.current.focus();
 			} else if (document.activeElement === ref_logout.current) {
-				ref_array.current[0].focus();
-			} else {
-				ref_array.current[index + 1].focus();
+				ref_menu.current[0].focus();
+			} else if (
+				document.activeElement !==
+				document.getElementById('react-select-2-input')
+			) {
+				ref_menu.current[index + 1].focus();
 			}
 		}
 	};
@@ -204,7 +200,7 @@ export const NavigationBar = ({
 								}`}
 								to={item.to}
 								onKeyDown={(e) => handleKeyDownMenu(e, index)}
-								ref={(el) => (ref_array.current[index] = el)}
+								ref={(el) => (ref_menu.current[index] = el)}
 								tabIndex={index === 0 ? 0 : -1}
 								role="tab"
 								aria-selected="true"
@@ -246,7 +242,8 @@ export const NavigationBar = ({
 							role="tab"
 							tabIndex={-1}
 							ref={(el) => (ref_local.current = el)}
-							//onKeyDown={(e) => handleKeyDownMenu(e, null)}
+							onKeyDown={(e) => handleKeyDownMenu(e, null)}
+							id="local-switch-wrapper"
 						>
 							<LocaleSwitch
 								showIcon={true}
@@ -256,7 +253,8 @@ export const NavigationBar = ({
 								iconSize={32}
 								label={translate('navigation.language')}
 								menuPlacement="right"
-								// isMenuOpen={isMenuOpen}
+								selectRef={(el) => (ref_select.current = el)}
+								isPartMenu={true}
 							/>
 						</div>
 					)}

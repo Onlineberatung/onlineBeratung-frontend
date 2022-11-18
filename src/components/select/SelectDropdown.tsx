@@ -44,7 +44,8 @@ export interface SelectDropdownItem {
 	errorMessage?: string;
 	onKeyDown?: Function;
 	styleOverrides?: defaultStyles;
-	isMenuOpen?: boolean;
+	selectRef?: any;
+	isPartMenu?: boolean;
 }
 
 const colourStyles = (
@@ -371,12 +372,19 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 					props.styleOverrides ?? {}
 				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
-				tabIndex={props.menuPlacement === 'right' ? -1 : 0}
-				//menuIsOpen={props.isMenuOpen}
-				//menuIsOpen={props.isMenuOpen}
-				// tabSelectsValue={props.defaultValue}
-				// closeMenuOnSelect={true}
-				// blurInputOnSelect={true}
+				tabIndex={props.isPartMenu ? -1 : 0}
+				ref={props.selectRef}
+				openMenuOnFocus={props.isPartMenu ? true : false}
+				closeMenuOnSelect={true}
+				onMenuClose={() => {
+					if (props.isPartMenu) {
+						setTimeout(() => {
+							document
+								.getElementById('local-switch-wrapper')
+								.focus();
+						}, 10); //we need this timeout because the menu is not closed when switching the focus
+					}
+				}}
 			/>
 			{props.hasError && (
 				<div className="select__error">
