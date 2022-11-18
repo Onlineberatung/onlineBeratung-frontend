@@ -880,6 +880,7 @@ export const SessionsList = ({
 					'sessionsList__scrollContainer--hasTabs':
 						showEnquiryTabs || showSessionListTabs
 				})}
+				ref={listRef}
 				onScroll={handleListScroll}
 			>
 				{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
