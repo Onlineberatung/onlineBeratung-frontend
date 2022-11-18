@@ -4,6 +4,7 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
+	useMemo,
 	useRef,
 	useState
 } from 'react';
@@ -18,6 +19,7 @@ import {
 	SESSION_TYPES
 } from '../session/sessionHelpers';
 import {
+	AnonymousConversationFinishedContext,
 	AnonymousConversationStartedContext,
 	AUTHORITIES,
 	buildExtendedSession,
@@ -81,6 +83,9 @@ export const SessionsList = ({
 }: SessionsListProps) => {
 	const { t: translate } = useTranslation();
 	const { consultingTypes } = useContext(ConsultingTypesContext);
+	const { anonymousConversationFinished } = useContext(
+		AnonymousConversationFinishedContext
+	);
 
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
 		useParams<{ rcGroupId: string; sessionId: string }>();
@@ -484,6 +489,10 @@ export const SessionsList = ({
 	// Subscribe to all my messages
 	useEffect(() => {
 		const userId = rcUid.current;
+		if (anonymousConversationFinished) {
+			return;
+		}
+
 		if (socketReady && !subscribed.current) {
 			subscribed.current = true;
 			subscribe(
@@ -529,6 +538,7 @@ export const SessionsList = ({
 			}
 		};
 	}, [
+		anonymousConversationFinished,
 		onDebounceRoomsChanged,
 		onDebounceSubscriptionsChanged,
 		socketReady,
@@ -644,11 +654,20 @@ export const SessionsList = ({
 		defaultValue: preSelectedOption
 	};
 
-	const showEnquiryTabs =
-		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-		userData.hasAnonymousConversations &&
-		type === SESSION_LIST_TYPES.ENQUIRY &&
-		consultingTypes?.[0]?.isAnonymousConversationAllowed;
+	const showEnquiryTabs = useMemo(() => {
+		return (
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+			userData.hasAnonymousConversations &&
+			type === SESSION_LIST_TYPES.ENQUIRY &&
+			userData.agencies.some(
+				(agency) =>
+					(consultingTypes ?? []).find(
+						(consultingType) =>
+							consultingType.id === agency.consultingType
+					)?.isAnonymousConversationAllowed
+			)
+		);
+	}, [consultingTypes, type, userData]);
 
 	const showSessionListTabs =
 		userData.hasArchive &&
@@ -1022,6 +1041,7 @@ Watch for inactive groups because there is no api endpoint
  */
 const useGroupWatcher = (isLoading: boolean) => {
 	const { sessions, dispatch } = useContext(SessionsDataContext);
+	const history = useHistory();
 
 	const hasSessionChanged = useCallback(
 		(newSession) => {
@@ -1041,6 +1061,8 @@ const useGroupWatcher = (isLoading: boolean) => {
 		const inactiveGroupSessions = sessions.filter(
 			(s) => !!s.chat && !s.chat.subscribed
 		);
+
+		if ((history?.location?.state as any)?.isEditMode) return;
 
 		if (inactiveGroupSessions.length <= 0) {
 			return;
@@ -1097,7 +1119,7 @@ const useGroupWatcher = (isLoading: boolean) => {
 			.catch((e) => {
 				console.log(e);
 			});
-	}, [dispatch, hasSessionChanged, sessions]);
+	}, [dispatch, hasSessionChanged, history?.location?.state, sessions]);
 
 	const [startWatcher, stopWatcher, isWatcherRunning] = useWatcher(
 		refreshInactiveGroupSessions,

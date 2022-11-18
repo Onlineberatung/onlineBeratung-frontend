@@ -15,6 +15,7 @@ interface MessageMetaDataProps {
 	isReadStatusDisabled: Boolean;
 	messageTime: string;
 	type: string;
+	t: null | 'e2e' | 'rm';
 }
 
 export const MessageMetaData = (props: MessageMetaDataProps) => {
@@ -61,7 +62,7 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 	return (
 		<div className="messageItem__metaData">
 			{getMessageTime()}
-			{isReadStatus()}
+			{props.t !== 'rm' && isReadStatus()}
 		</div>
 	);
 };

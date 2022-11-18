@@ -45,7 +45,7 @@ export interface SelectDropdownItem {
 	onKeyDown?: Function;
 	styleOverrides?: defaultStyles;
 	selectRef?: any;
-	isPartMenu?: boolean;
+	isInsideMenu?: boolean;
 }
 
 const colourStyles = (
@@ -142,6 +142,7 @@ const colourStyles = (
 		...styles,
 		'marginBottom': state.menuPlacement === 'top' ? '16px' : '0',
 		'marginTop': state.menuPlacement === 'top' ? '0' : '16px',
+		'fontWeight': 'normal',
 		...(menuPlacement === 'right'
 			? {
 					bottom: 'auto',
@@ -372,12 +373,12 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 					props.styleOverrides ?? {}
 				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
-				tabIndex={props.isPartMenu ? -1 : 0}
+				tabIndex={props.isInsideMenu ? -1 : 0}
 				ref={props.selectRef}
-				openMenuOnFocus={props.isPartMenu ? true : false}
+				openMenuOnFocus={props.isInsideMenu ? true : false}
 				closeMenuOnSelect={true}
 				onMenuClose={() => {
-					if (props.isPartMenu) {
+					if (props.isInsideMenu) {
 						setTimeout(() => {
 							document
 								.getElementById('local-switch-wrapper')

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Headline } from '../headline/Headline';
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
 import { useTranslation } from 'react-i18next';
+import { Text } from '../text/Text';
+import { UserDataContext } from '../../globalState';
 
 interface HelpVideoCallAskerProps {
 	copyLoginLink: Function;
@@ -14,6 +16,7 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 	copyLoginLink
 }) => {
 	const { t: translate } = useTranslation();
+	const { userData } = useContext(UserDataContext);
 
 	return (
 		<>
@@ -21,6 +24,15 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 				<Headline
 					text={translate('help.videoCall.asker.steps.headline.1')}
 					semanticLevel="5"
+				/>
+				<Text
+					text={
+						userData.e2eEncryptionEnabled
+							? translate('help.videoCall.asker.intro')
+							: ''
+					}
+					type="standard"
+					className="tertiary"
 				/>
 				<ol className="tertiary">
 					<li>

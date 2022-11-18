@@ -4,6 +4,7 @@ import { logout } from '../logout/logout';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
+	LocaleContext,
 	useConsultingTypes,
 	UserDataContext
 } from '../../globalState';
@@ -67,6 +68,8 @@ export const Profile = () => {
 	const scrollContainer = useRef<HTMLDivElement>();
 	const ref_tabs = useRef<any>([]);
 
+	const { selectableLocales } = useContext(LocaleContext);
+
 	useEffect(() => {
 		setProfileWrapperActive();
 
@@ -81,7 +84,7 @@ export const Profile = () => {
 
 	useEffect(() => {
 		setMobileMenu(
-			profileRoutes(settings)
+			profileRoutes(settings, selectableLocales)
 				.filter((tab) =>
 					solveTabConditions(tab, userData, consultingTypes)
 				)
@@ -115,7 +118,7 @@ export const Profile = () => {
 					})
 				)
 		);
-	}, [consultingTypes, translate, settings, userData]);
+	}, [consultingTypes, translate, settings, userData, selectableLocales]);
 
 	const [subpage, setSubpage] = useState(undefined);
 	useEffect(() => {
@@ -206,7 +209,7 @@ export const Profile = () => {
 						role="tablist"
 					>
 						{fromL ? (
-							profileRoutes(settings)
+							profileRoutes(settings, selectableLocales)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
@@ -260,7 +263,7 @@ export const Profile = () => {
 					<Switch>
 						{fromL ? (
 							// Render tabs for desktop
-							profileRoutes(settings)
+							profileRoutes(settings, selectableLocales)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
@@ -312,7 +315,7 @@ export const Profile = () => {
 						) : (
 							// Render submenu for mobile
 							<Route
-								path={profileRoutes(settings)
+								path={profileRoutes(settings, selectableLocales)
 									.filter((tab) =>
 										solveTabConditions(
 											tab,
@@ -331,7 +334,7 @@ export const Profile = () => {
 
 						{!fromL &&
 							// Render groups as routes for mobile
-							profileRoutes(settings)
+							profileRoutes(settings, selectableLocales)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
@@ -373,7 +376,10 @@ export const Profile = () => {
 								})}
 
 						<Redirect
-							to={`/profile${profileRoutes(settings)[0].url}`}
+							to={`/profile${
+								profileRoutes(settings, selectableLocales)[0]
+									.url
+							}`}
 						/>
 					</Switch>
 				</div>

@@ -7,9 +7,8 @@ export const useJoinGroupChat = () => {
 
 	const joinGroupChat = useCallback(
 		(gcid: string) => {
-			const groupChatId = parseInt(gcid);
-			if (tenantData?.settings.featureGroupChatV2Enabled && groupChatId) {
-				apiPutGroupChat(groupChatId, GROUP_CHAT_API.ASSIGN).then();
+			if (tenantData?.settings.featureGroupChatV2Enabled && gcid) {
+				apiPutGroupChat(gcid, GROUP_CHAT_API.ASSIGN).then();
 			}
 		},
 		[tenantData?.settings.featureGroupChatV2Enabled]

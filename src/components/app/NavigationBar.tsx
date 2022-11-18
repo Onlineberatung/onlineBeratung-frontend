@@ -12,7 +12,8 @@ import {
 	TenantContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
-import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
+import { ReactComponent as LogoutIconOutline } from '../../resources/img/icons/logout_outline.svg';
+import { ReactComponent as LogoutIconFilled } from '../../resources/img/icons/logout_filled.svg';
 import clsx from 'clsx';
 import { RocketChatUnreadContext } from '../../globalState/provider/RocketChatUnreadProvider';
 import {
@@ -142,7 +143,11 @@ export const NavigationBar = ({
 			if (index === 0) {
 				ref_logout.current.focus();
 			} else if (document.activeElement === ref_logout.current) {
-				ref_local.current.focus();
+				if (selectableLocales.length > 1) {
+					ref_local.current.focus();
+				} else {
+					ref_menu.current[ref_menu.current.length - 1].focus();
+				}
 			} else if (document.activeElement === ref_local.current) {
 				ref_menu.current[ref_menu.current.length - 1].focus();
 			} else if (
@@ -154,7 +159,11 @@ export const NavigationBar = ({
 		}
 		if (e.key === 'ArrowDown') {
 			if (index === ref_menu.current.length - 1) {
-				ref_local.current.focus();
+				if (selectableLocales.length > 1) {
+					ref_local.current.focus();
+				} else {
+					ref_logout.current.focus();
+				}
 			} else if (document.activeElement === ref_local.current) {
 				ref_logout.current.focus();
 			} else if (document.activeElement === ref_logout.current) {
@@ -183,50 +192,63 @@ export const NavigationBar = ({
 									hasTools
 								)
 						)
-						.map((item, index) => (
-							<Link
-								key={index}
-								className={`navigation__item ${pathToClassNameInWalkThrough(
-									item.to
-								)} ${
-									location.pathname.indexOf(item.to) !== -1 &&
-									'navigation__item--active'
-								} ${
-									animateNavIcon &&
-									Object.keys(
+						.map((item, index) => {
+							const Icon = item?.icon;
+							const IconFilled = item?.iconFilled;
+							return (
+								<Link
+									key={index}
+									className={`navigation__item ${pathToClassNameInWalkThrough(
+										item.to
+									)} ${
+										location.pathname.indexOf(item.to) !==
+											-1 && 'navigation__item--active'
+									} ${
+										animateNavIcon &&
+										Object.keys(
+											pathsToShowUnreadMessageNotification
+										).includes(item.to) &&
+										'navigation__item__count--active'
+									}`}
+									to={item.to}
+									onKeyDown={(e) =>
+										handleKeyDownMenu(e, index)
+									}
+									ref={(el) => (ref_menu.current[index] = el)}
+									tabIndex={index === 0 ? 0 : -1}
+									role="tab"
+								>
+									<div className="navigation__icon__background">
+										{Icon && (
+											<Icon className="navigation__icon__outline" />
+										)}
+										{IconFilled && (
+											<IconFilled className="navigation__icon__filled" />
+										)}
+									</div>
+
+									{(({ large }) => {
+										return (
+											<>
+												<span className="navigation__title">
+													{translate(large)}
+												</span>
+											</>
+										);
+									})(item.titleKeys)}
+									{Object.keys(
 										pathsToShowUnreadMessageNotification
 									).includes(item.to) &&
-									'navigation__item__count--active'
-								}`}
-								to={item.to}
-								onKeyDown={(e) => handleKeyDownMenu(e, index)}
-								ref={(el) => (ref_menu.current[index] = el)}
-								tabIndex={index === 0 ? 0 : -1}
-								role="tab"
-								aria-selected="true"
-							>
-								{item?.icon}
-								{(({ large }) => {
-									return (
-										<>
-											<span className="navigation__title">
-												{translate(large)}
-											</span>
-										</>
-									);
-								})(item.titleKeys)}
-								{Object.keys(
-									pathsToShowUnreadMessageNotification
-								).includes(item.to) &&
-									pathsToShowUnreadMessageNotification[
-										item.to
-									] > 0 && (
-										<NavigationUnreadIndicator
-											animate={animateNavIcon}
-										/>
-									)}
-							</Link>
-						))}
+										pathsToShowUnreadMessageNotification[
+											item.to
+										] > 0 && (
+											<NavigationUnreadIndicator
+												animate={animateNavIcon}
+											/>
+										)}
+								</Link>
+							);
+						})}
 				<div
 					className={clsx('navigation__item__bottom', {
 						'navigation__item__bottom--consultant':
@@ -254,7 +276,7 @@ export const NavigationBar = ({
 								label={translate('navigation.language')}
 								menuPlacement="right"
 								selectRef={(el) => (ref_select.current = el)}
-								isPartMenu={true}
+								isInsideMenu={true}
 							/>
 						</div>
 					)}
@@ -266,7 +288,8 @@ export const NavigationBar = ({
 						ref={(el) => (ref_logout.current = el)}
 						onKeyDown={(e) => handleKeyDownMenu(e, null)}
 					>
-						<LogoutIcon className="navigation__icon" />
+						<LogoutIconOutline className="navigation__icon__outline" />
+						<LogoutIconFilled className="navigation__icon__filled" />
 						<span className="navigation__title">
 							{translate('app.logout')}
 						</span>

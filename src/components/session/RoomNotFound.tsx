@@ -21,19 +21,19 @@ export const RoomNotFound = () => {
 							<br />
 							{translate('e2ee.roomNotFound.notice.line3')}
 							<br />
-							<Button
-								buttonHandle={() => {
-									history.go(0);
-								}}
-								item={{
-									type: BUTTON_TYPES.LINK_INLINE,
-									label: translate(
-										'e2ee.roomNotFound.notice.link'
-									)
-								}}
-								isLink={true}
-							/>
 						</p>
+						<Button
+							buttonHandle={() => {
+								history.go(0);
+							}}
+							item={{
+								type: BUTTON_TYPES.LINK_INLINE,
+								label: translate(
+									'e2ee.roomNotFound.notice.link'
+								)
+							}}
+							isLink={true}
+						/>
 					</div>
 				}
 			/>

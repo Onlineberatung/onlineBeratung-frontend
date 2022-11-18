@@ -58,7 +58,7 @@ type RocketChatContextProps = {
 		params: any,
 		resultListener?: (res) => void
 	) => void;
-	close: () => void;
+	close: (reconnect?: boolean) => void;
 	rcWebsocket: WebSocket | null;
 };
 
@@ -69,6 +69,7 @@ export function RocketChatProvider(props) {
 	const rcAuthToken = useRef(getValueFromCookie('rc_token'));
 	const rcWebsocket = useRef<WebSocket | null>(null);
 	const rcWebsocketTimeout = useRef<number | null>(null);
+	const rcWebsocketShouldReconnect = useRef<boolean>(true);
 
 	const subscriptions = useRef<{ [key: string]: MutableRefObject<any>[] }>(
 		{}
@@ -79,18 +80,17 @@ export function RocketChatProvider(props) {
 	const [ready, setReady] = useState(false);
 
 	const getEndpoint = useCallback(() => {
-		const host = window.location.hostname;
-		if (apiUrl) {
-			return `${apiUrl
-				.replace('http://', 'ws://')
-				.replace('https://', 'wss://')}/websocket`;
-		}
-		return `wss://${host}/websocket`;
+		return `${(apiUrl || window.location.origin)
+			.replace('http://', 'ws://') // Rocket.chat should always be wss
+			.replace('https://', 'wss://')}/websocket`;
 	}, []);
 
-	const close = useCallback(() => {
-		if (rcWebsocketTimeout.current)
+	const close = useCallback((reconnect = true) => {
+		rcWebsocketShouldReconnect.current = reconnect;
+		if (rcWebsocketTimeout.current) {
 			window.clearTimeout(rcWebsocketTimeout.current);
+			rcWebsocketTimeout.current = null;
+		}
 		if (rcWebsocket.current) {
 			rcWebsocket.current.close();
 		}
@@ -145,7 +145,10 @@ export function RocketChatProvider(props) {
 
 	const send = useCallback(
 		(params: SendParams, resultListener?: (res) => void) => {
-			if (rcWebsocket.current.readyState !== WebSocket.OPEN) {
+			if (
+				rcWebsocket.current &&
+				rcWebsocket.current.readyState !== WebSocket.OPEN
+			) {
 				console.log('WebSocket not ready!');
 				return;
 			}
@@ -337,10 +340,33 @@ export function RocketChatProvider(props) {
 			}
 		};
 
-		rcWebsocket.current.onclose = () => {};
+		rcWebsocket.current.onclose = (e) => {
+			console.log('Websocket closed');
+			if (
+				rcWebsocketTimeout.current ||
+				!rcWebsocketShouldReconnect.current
+			) {
+				return;
+			}
+			console.log('Trying to reconnect ...');
+			rcWebsocketTimeout.current = window.setTimeout(() => {
+				rcWebsocketTimeout.current = null;
+				rcWebsocket.current = null;
+				connect();
+			}, RECONNECT_TIMEOUT);
+		};
 
 		rcWebsocket.current.onerror = (event) => {
+			console.log('Websocket error');
+			if (
+				rcWebsocketTimeout.current ||
+				!rcWebsocketShouldReconnect.current
+			) {
+				return;
+			}
+			console.log('Trying to reconnect ...');
 			rcWebsocketTimeout.current = window.setTimeout(() => {
+				rcWebsocketTimeout.current = null;
 				rcWebsocket.current = null;
 				connect();
 			}, RECONNECT_TIMEOUT);
@@ -356,6 +382,7 @@ export function RocketChatProvider(props) {
 		return () => {
 			if (rcWebsocketTimeout.current)
 				window.clearTimeout(rcWebsocketTimeout.current);
+			rcWebsocketTimeout.current = null;
 			if (websocket) {
 				websocket.close();
 				rcWebsocket.current = null;
