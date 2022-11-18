@@ -110,7 +110,7 @@ export interface MessageItem {
 	};
 	attachments?: MessageService.Schemas.AttachmentDTO[];
 	file?: MessageService.Schemas.FileDTO;
-	t: null | 'e2e' | 'rm';
+	t: null | 'e2e' | 'rm' | 'room-removed-read-only' | 'room-set-read-only';
 	rid: string;
 }
 
@@ -318,6 +318,8 @@ export const MessageItemComponent = ({
 		alias?.messageType === ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT;
 	const isMasterKeyLostMessage =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST;
+	const isAppointmentDefined =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.INITIAL_APPOINTMENT_DEFINED;
 
 	// WORKAROUND for reassignment last message bug
 	// don't show this message in the session view
@@ -335,6 +337,8 @@ export const MessageItemComponent = ({
 		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED ||
 		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_CANCELLED;
 	const isDeleteMessage = t === 'rm';
+	const isRoomRemovedReadOnly = t === 'room-removed-read-only';
+	const isRoomSetReadOnly = t === 'room-set-read-only';
 
 	const messageContent = (): JSX.Element => {
 		switch (true) {
@@ -536,26 +540,31 @@ export const MessageItemComponent = ({
 		}
 	};
 
-	if (isUserMutedMessage) return null;
+	if (
+		isUserMutedMessage ||
+		isAppointmentDefined ||
+		isRoomRemovedReadOnly ||
+		isRoomSetReadOnly
+	)
+		return null;
 
 	if (isUpdateSessionDataMessage && !showAddVoluntaryInfo) {
 		return null;
 	}
 
 	return (
-		alias?.messageType !==
-			ALIAS_MESSAGE_TYPES.INITIAL_APPOINTMENT_DEFINED && (
+		<div
+			className={`messageItem ${
+				isMyMessage ? 'messageItem--right' : ''
+			} ${
+				alias?.messageType &&
+				`${alias?.messageType.toLowerCase()} systemMessage`
+			}`}
+		>
+			{alias?.messageType}
+			{getMessageDate()}
 			<div
-				className={`messageItem ${
-					isMyMessage ? 'messageItem--right' : ''
-				} ${
-					alias?.messageType &&
-					`${alias?.messageType.toLowerCase()} systemMessage`
-				}`}
-			>
-				{getMessageDate()}
-				<div
-					className={`
+				className={`
 					messageItem__messageWrap
 					${isMyMessage ? 'messageItem__messageWrap--right' : ''}
 					${isFurtherStepsMessage ? 'messageItem__messageWrap--furtherSteps' : ''}
@@ -565,22 +574,21 @@ export const MessageItemComponent = ({
 							: ''
 					}
 				`}
-				>
-					{messageContent()}
+			>
+				{messageContent()}
 
-					<MessageMetaData
-						isMyMessage={isMyMessage}
-						isNotRead={isNotRead}
-						messageTime={messageTime}
-						t={t}
-						type={getUsernameType()}
-						isReadStatusDisabled={
-							isVideoCallMessage || isFinishedConversationMessage
-						}
-					/>
-				</div>
+				<MessageMetaData
+					isMyMessage={isMyMessage}
+					isNotRead={isNotRead}
+					messageTime={messageTime}
+					t={t}
+					type={getUsernameType()}
+					isReadStatusDisabled={
+						isVideoCallMessage || isFinishedConversationMessage
+					}
+				/>
 			</div>
-		)
+		</div>
 	);
 };
 
