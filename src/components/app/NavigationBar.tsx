@@ -129,53 +129,65 @@ export const NavigationBar = ({
 		return value ? `walkthrough-${value}` : '';
 	}, []);
 
+	const handleSelection = (index) => {
+		if (document.activeElement === ref_logout.current) {
+			handleLogout();
+		} else if (document.activeElement === ref_local.current) {
+			ref_select.current.focus();
+		} else {
+			ref_menu.current[index].click();
+		}
+	};
+
+	const handleArrowUp = (index) => {
+		if (index === 0) {
+			ref_logout.current.focus();
+		} else if (document.activeElement === ref_logout.current) {
+			if (selectableLocales.length > 1) {
+				ref_local.current.focus();
+			} else {
+				ref_menu.current[ref_menu.current.length - 1].focus();
+			}
+		} else if (document.activeElement === ref_local.current) {
+			ref_menu.current[ref_menu.current.length - 1].focus();
+		} else if (
+			document.activeElement !==
+			document.getElementById('react-select-2-input')
+		) {
+			ref_menu.current[index - 1].focus();
+		}
+	};
+
+	const handleArrowDown = (index) => {
+		if (index === ref_menu.current.length - 1) {
+			if (selectableLocales.length > 1) {
+				ref_local.current.focus();
+			} else {
+				ref_logout.current.focus();
+			}
+		} else if (document.activeElement === ref_local.current) {
+			ref_logout.current.focus();
+		} else if (document.activeElement === ref_logout.current) {
+			ref_menu.current[0].focus();
+		} else if (
+			document.activeElement !==
+			document.getElementById('react-select-2-input')
+		) {
+			ref_menu.current[index + 1].focus();
+		}
+	};
+
 	const handleKeyDownMenu = (e, index) => {
 		switch (e.key) {
 			case 'Enter':
 			case ' ':
-				if (document.activeElement === ref_logout.current) {
-					handleLogout();
-				} else if (document.activeElement === ref_local.current) {
-					ref_select.current.focus();
-				} else {
-					ref_menu.current[index].click();
-				}
+				handleSelection(index);
 				break;
 			case 'ArrowUp':
-				if (index === 0) {
-					ref_logout.current.focus();
-				} else if (document.activeElement === ref_logout.current) {
-					if (selectableLocales.length > 1) {
-						ref_local.current.focus();
-					} else {
-						ref_menu.current[ref_menu.current.length - 1].focus();
-					}
-				} else if (document.activeElement === ref_local.current) {
-					ref_menu.current[ref_menu.current.length - 1].focus();
-				} else if (
-					document.activeElement !==
-					document.getElementById('react-select-2-input')
-				) {
-					ref_menu.current[index - 1].focus();
-				}
+				handleArrowUp(index);
 				break;
 			case 'ArrowDown':
-				if (index === ref_menu.current.length - 1) {
-					if (selectableLocales.length > 1) {
-						ref_local.current.focus();
-					} else {
-						ref_logout.current.focus();
-					}
-				} else if (document.activeElement === ref_local.current) {
-					ref_logout.current.focus();
-				} else if (document.activeElement === ref_logout.current) {
-					ref_menu.current[0].focus();
-				} else if (
-					document.activeElement !==
-					document.getElementById('react-select-2-input')
-				) {
-					ref_menu.current[index + 1].focus();
-				}
+				handleArrowDown(index);
 				break;
 		}
 	};
