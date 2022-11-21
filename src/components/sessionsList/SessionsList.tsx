@@ -732,41 +732,46 @@ export const SessionsList = ({
 	const ref_list_array = useRef<any>([]);
 
 	const handleKeyDownTabs = (e) => {
-		console.log('e', e);
-		if (e.key === 'Enter' || e.key === ' ') {
-			if (document.activeElement === ref_tab_first.current) {
-				ref_tab_first.current.click();
-			}
-			if (document.activeElement === ref_tab_second.current) {
-				ref_tab_second.current.click();
-			}
-		}
-		if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-			if (document.activeElement === ref_tab_first.current) {
-				ref_tab_second.current.focus();
-			} else if (document.activeElement === ref_tab_second.current) {
-				ref_tab_first.current.focus();
-			}
+		switch (e.key) {
+			case 'Enter':
+			case ' ':
+				if (document.activeElement === ref_tab_first.current) {
+					ref_tab_first.current.click();
+				}
+				if (document.activeElement === ref_tab_second.current) {
+					ref_tab_second.current.click();
+				}
+				break;
+			case 'ArrowRight':
+			case 'ArrowLeft':
+				if (document.activeElement === ref_tab_first.current) {
+					ref_tab_second.current.focus();
+				} else if (document.activeElement === ref_tab_second.current) {
+					ref_tab_first.current.focus();
+				}
+				break;
 		}
 	};
 
 	const handleKeyDownLisItemContent = (e, index) => {
 		if (sessions.length > 1) {
-			if (e.key === 'ArrowUp') {
-				if (index === 0) {
-					ref_list_array.current[
-						ref_list_array.current.length - 1
-					].focus();
-				} else {
-					ref_list_array.current[index - 1].focus();
-				}
-			}
-			if (e.key === 'ArrowDown') {
-				if (index === ref_list_array.current.length - 1) {
-					ref_list_array.current[0].focus();
-				} else {
-					ref_list_array.current[index + 1].focus();
-				}
+			switch (e.key) {
+				case 'ArrowUp':
+					if (index === 0) {
+						ref_list_array.current[
+							ref_list_array.current.length - 1
+						].focus();
+					} else {
+						ref_list_array.current[index - 1].focus();
+					}
+					break;
+				case 'ArrowDown':
+					if (index === ref_list_array.current.length - 1) {
+						ref_list_array.current[0].focus();
+					} else {
+						ref_list_array.current[index + 1].focus();
+					}
+					break;
 			}
 		}
 	};

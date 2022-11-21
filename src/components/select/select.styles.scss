@@ -28,10 +28,6 @@ $select-menu-before-display: block !default;
 			transition: all 0.6s ease;
 		}
 
-		// &:focus {
-		// 	outline: none;
-		// }
-
 		&__menu {
 			border-top: 1px solid rgba($black, 0.1);
 			@include rounded-drop-shadow;

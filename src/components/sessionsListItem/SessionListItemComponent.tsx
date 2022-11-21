@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import {
