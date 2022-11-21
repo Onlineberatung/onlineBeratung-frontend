@@ -7,7 +7,7 @@ import {
 	apiSendAliasMessage
 } from '../../api/apiSendAliasMessage';
 import { MessageSubmitInfo } from '../messageSubmitInterface/MessageSubmitInfo';
-import { Overlay, OverlayWrapper } from '../overlay/Overlay';
+import { Overlay } from '../overlay/Overlay';
 import { subscriptionKeyLostOverlayItem } from './subscriptionKeyLostHelper';
 import { useTranslation } from 'react-i18next';
 
@@ -67,13 +67,11 @@ export const SubscriptionKeyLost = () => {
 				}
 			/>
 			{overlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={subscriptionKeyLostOverlayItem}
-						handleOverlay={() => setOverlayActive(false)}
-						handleOverlayClose={() => setOverlayActive(false)}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={subscriptionKeyLostOverlayItem}
+					handleOverlay={() => setOverlayActive(false)}
+					handleOverlayClose={() => setOverlayActive(false)}
+				/>
 			)}
 		</div>
 	);

@@ -5,18 +5,12 @@ import { encode } from 'hi-base32';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	UserDataContext,
-	ModalContext
+	UserDataContext
 } from '../../globalState';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import Switch from 'react-switch';
-import {
-	Overlay,
-	OverlayItem,
-	OverlayWrapper,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import {
 	InputField,
@@ -62,7 +56,6 @@ export const TwoFactorAuth = () => {
 		useLocation<{ openTwoFactor?: boolean; isEditMode?: boolean }>();
 
 	const { userData } = useContext(UserDataContext);
-	const { setClosedTwoFactorNag } = useContext(ModalContext);
 	const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(
 		userData.twoFactorAuth.isActive
 	);
@@ -156,8 +149,7 @@ export const TwoFactorAuth = () => {
 		setHasDuplicateError(false);
 		setOtpLabel(defaultOtpLabel);
 		setOtpLabelState(null);
-		setClosedTwoFactorNag(true);
-	}, [defaultOtpLabel, setClosedTwoFactorNag]);
+	}, [defaultOtpLabel]);
 
 	const handleOverlayClose = useCallback(() => {
 		setOverlayActive(false);
@@ -170,14 +162,12 @@ export const TwoFactorAuth = () => {
 		setOtpLabelState(null);
 		setIsSwitchChecked(userData.twoFactorAuth.isActive);
 		setTwoFactorType(userData.twoFactorAuth.type || TWO_FACTOR_TYPES.APP);
-		setClosedTwoFactorNag(true);
 	}, [
 		defaultOtpLabel,
 		userData.email,
 		userData.twoFactorAuth.isActive,
 		userData.twoFactorAuth.type,
-		translate,
-		setClosedTwoFactorNag
+		translate
 	]);
 
 	const otpInputItem: InputFieldItem = useMemo(
@@ -242,12 +232,10 @@ export const TwoFactorAuth = () => {
 					secret: userData.twoFactorAuth.secret,
 					otp
 				};
-				setClosedTwoFactorNag(true);
 			}
 			if (twoFactorType === TWO_FACTOR_TYPES.EMAIL) {
 				apiCall = apiPostTwoFactorAuthEmailWithCode;
 				apiData = otp;
-				setClosedTwoFactorNag(true);
 			}
 
 			if (twoFactorType === TWO_FACTOR_TYPES.NONE) return;
@@ -285,8 +273,7 @@ export const TwoFactorAuth = () => {
 			twoFactorType,
 			updateUserData,
 			userData.twoFactorAuth.secret,
-			translate,
-			setClosedTwoFactorNag
+			translate
 		]
 	);
 
@@ -926,17 +913,15 @@ export const TwoFactorAuth = () => {
 					</p>
 				)}
 			{overlayActive ? (
-				<OverlayWrapper>
-					<Overlay
-						className="twoFactorAuth__overlay"
-						items={overlayItems}
-						handleOverlayClose={
-							isTwoFactorBinding && !isEditMode && isConsultant
-								? null
-								: handleOverlayClose
-						}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					className="twoFactorAuth__overlay"
+					items={overlayItems}
+					handleOverlayClose={
+						isTwoFactorBinding && !isEditMode && isConsultant
+							? null
+							: handleOverlayClose
+					}
+				/>
 			) : null}
 		</div>
 	);
