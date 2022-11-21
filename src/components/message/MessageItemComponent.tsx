@@ -90,7 +90,6 @@ export interface VideoCallMessageDTO {
 export interface MessageItem {
 	_id: string;
 	message: string;
-	org: string;
 	messageDate: PrettyDate;
 	messageTime: string;
 	displayName: string;
@@ -134,7 +133,6 @@ export const MessageItemComponent = ({
 	alias,
 	userId,
 	message,
-	org,
 	messageDate,
 	messageTime,
 	resortData,
@@ -185,16 +183,15 @@ export const MessageItemComponent = ({
 						});
 					}
 
-					return `${org || message} *`;
+					return `${message} *`;
 				})
 				.then(setDecryptedMessage)
 				.then(() => handleDecryptionSuccess(_id));
 		} else {
-			setDecryptedMessage(org || message);
+			setDecryptedMessage(message);
 		}
 	}, [
 		message,
-		org,
 		t,
 		isE2eeEnabled,
 		handleDecryptionErrors,
