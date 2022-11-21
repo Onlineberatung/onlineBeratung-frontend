@@ -561,7 +561,6 @@ export const MessageItemComponent = ({
 				`${alias?.messageType.toLowerCase()} systemMessage`
 			}`}
 		>
-			{alias?.messageType}
 			{getMessageDate()}
 			<div
 				className={`
