@@ -19,10 +19,10 @@ import {
 	hasUserAuthority,
 	SessionTypeContext,
 	STATUS_FINISHED,
-	TenantContext,
 	TopicSessionInterface,
 	useConsultingType,
-	UserDataContext
+	UserDataContext,
+	useTenant
 } from '../../globalState';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
@@ -53,6 +53,7 @@ export const SessionListItemComponent = ({
 	defaultLanguage
 }: SessionListItemProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
+	const tenantData = useTenant();
 	const { sessionId, rcGroupId: groupIdFromParam } =
 		useParams<{ rcGroupId: string; sessionId: string }>();
 	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
@@ -64,7 +65,6 @@ export const SessionListItemComponent = ({
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
-	const { tenant } = useContext(TenantContext);
 
 	// Is List Item active
 	const isChatActive =
@@ -306,7 +306,9 @@ export const SessionListItemComponent = ({
 		sessionTopic = session.user.username;
 	}
 
-	const zipCodeSlash = consultingType ? '/ ' : '';
+	const showConsultingType =
+		consultingType && !tenantData?.settings?.featureTopicsEnabled;
+	const zipCodeSlash = showConsultingType ? '/ ' : '';
 
 	return (
 		<div
@@ -334,7 +336,7 @@ export const SessionListItemComponent = ({
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
-							{consultingType
+							{showConsultingType
 								? translate(
 										[
 											`consultingType.${consultingType.id}.titles.default`,
@@ -345,7 +347,8 @@ export const SessionListItemComponent = ({
 								: ''}
 							{session.item.consultingType !== 1 &&
 							!isAsker &&
-							!session.isLive
+							!session.isLive &&
+							!consultingType.registration.autoSelectPostcode
 								? zipCodeSlash + session.item.postcode
 								: null}
 						</div>
@@ -354,7 +357,8 @@ export const SessionListItemComponent = ({
 						<div
 							className="sessionsListItem__topic"
 							style={{
-								backgroundColor: tenant?.theming?.primaryColor
+								backgroundColor:
+									tenantData?.theming?.primaryColor
 							}}
 						>
 							{topicSession?.name}

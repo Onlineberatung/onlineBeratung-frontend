@@ -33,7 +33,8 @@ export const useConsultantData = ({
 					// Since the backend doesn't support this filter we need to grab more messages
 					// to filter by 9
 					const sessions = data.sessions.filter(
-						(session) => !session.session.messagesRead
+						(session) =>
+							session.session && !session.session.messagesRead
 					);
 					setData({
 						...data,
