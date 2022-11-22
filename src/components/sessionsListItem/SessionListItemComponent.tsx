@@ -46,11 +46,17 @@ import { useTranslation } from 'react-i18next';
 interface SessionListItemProps {
 	session: ExtendedSessionInterface;
 	defaultLanguage: string;
+	itemRef?: any;
+	handleKeyDownLisItemContent?: Function;
+	index: number;
 }
 
 export const SessionListItemComponent = ({
 	session,
-	defaultLanguage
+	defaultLanguage,
+	itemRef,
+	handleKeyDownLisItemContent,
+	index
 }: SessionListItemProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const { sessionId, rcGroupId: groupIdFromParam } =
@@ -308,6 +314,12 @@ export const SessionListItemComponent = ({
 
 	const zipCodeSlash = consultingType ? '/ ' : '';
 
+	const handleKeyDownListItem = (e) => {
+		handleKeyDownLisItemContent(e);
+		if (e.key === 'Enter' || e.key === ' ') {
+			handleOnClick();
+		}
+	};
 	return (
 		<div
 			onClick={handleOnClick}
@@ -319,7 +331,13 @@ export const SessionListItemComponent = ({
 			data-group-id={session.item.groupId}
 			data-cy="session-list-item"
 		>
-			<div className="sessionsListItem__content">
+			<div
+				className="sessionsListItem__content"
+				onKeyDown={(e) => handleKeyDownListItem(e)}
+				ref={itemRef}
+				tabIndex={index === 0 ? 0 : -1}
+				role="tab"
+			>
 				<div className="sessionsListItem__row">
 					{type === SESSION_LIST_TYPES.TEAMSESSION &&
 					hasUserAuthority(
