@@ -995,6 +995,7 @@ export const MessageSubmitInterfaceComponent = (
 											staticToolbarPlugin,
 											emojiPlugin
 										]}
+										tabIndex={0}
 									/>
 								</div>
 								{hasUploadFunctionality &&

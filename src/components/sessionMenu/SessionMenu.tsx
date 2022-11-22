@@ -450,18 +450,20 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				/>
 			)}
 
-			{!activeSession.isEmptyEnquiry && appointmentFeatureEnabled && (
-				<div
-					className="sessionMenu__icon sessionMenu__icon--booking"
-					onClick={handleBookingButton}
-				>
-					<CalendarMonthPlusIcon />
-					<Text
-						type="standard"
-						text={translate('booking.mobile.calendar.label')}
-					/>
-				</div>
-			)}
+			{!activeSession.isEmptyEnquiry &&
+				appointmentFeatureEnabled &&
+				!activeSession.isLive && (
+					<div
+						className="sessionMenu__icon sessionMenu__icon--booking"
+						onClick={handleBookingButton}
+					>
+						<CalendarMonthPlusIcon />
+						<Text
+							type="standard"
+							text={translate('booking.mobile.calendar.label')}
+						/>
+					</div>
+				)}
 
 			<span
 				id="iconH"

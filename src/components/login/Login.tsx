@@ -294,7 +294,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				);
 				window.open(
 					endpoints.loginResetPasswordLink,
-					'_blank',
+					'_self',
 					'noreferrer'
 				);
 			} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
@@ -461,7 +461,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			locale,
 			endpoints.loginResetPasswordLink.split('/').slice(0, -1).join('/')
 		);
-		window.open(endpoints.loginResetPasswordLink, '_blank', 'noreferrer');
+		window.open(endpoints.loginResetPasswordLink, '_self', 'noreferrer');
 	};
 
 	return (

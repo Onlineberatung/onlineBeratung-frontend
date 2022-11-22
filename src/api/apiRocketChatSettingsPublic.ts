@@ -8,7 +8,11 @@ export const SETTING_FILEUPLOAD_MAXFILESIZE = 'FileUpload_MaxFileSize';
 export const SETTING_MESSAGE_ALLOWDELETING = 'Message_AllowDeleting';
 export const SETTING_HIDE_SYSTEM_MESSAGES = 'Hide_System_Messages';
 
-export type TSetting = IStringSetting | INumberSetting | IBooleanSetting | IArraySetting;
+export type TSetting =
+	| IStringSetting
+	| INumberSetting
+	| IBooleanSetting
+	| IArraySetting;
 
 export interface IStringSetting {
 	_id: never;
@@ -17,7 +21,9 @@ export interface IStringSetting {
 }
 
 export interface INumberSetting {
-	_id: typeof SETTING_MESSAGE_MAXALLOWEDSIZE | typeof SETTING_FILEUPLOAD_MAXFILESIZE;
+	_id:
+		| typeof SETTING_MESSAGE_MAXALLOWEDSIZE
+		| typeof SETTING_FILEUPLOAD_MAXFILESIZE;
 	enterprise: boolean;
 	value: number;
 }

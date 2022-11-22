@@ -727,18 +727,71 @@ export const SessionsList = ({
 		[type, userData]
 	);
 
+	const ref_tab_first = useRef<any>();
+	const ref_tab_second = useRef<any>();
+	const ref_list_array = useRef<any>([]);
+
+	const handleKeyDownTabs = (e) => {
+		switch (e.key) {
+			case 'Enter':
+			case ' ':
+				if (document.activeElement === ref_tab_first.current) {
+					ref_tab_first.current.click();
+				}
+				if (document.activeElement === ref_tab_second.current) {
+					ref_tab_second.current.click();
+				}
+				break;
+			case 'ArrowRight':
+			case 'ArrowLeft':
+				if (document.activeElement === ref_tab_first.current) {
+					ref_tab_second.current.focus();
+				} else if (document.activeElement === ref_tab_second.current) {
+					ref_tab_first.current.focus();
+				}
+				break;
+		}
+	};
+
+	const handleKeyDownLisItemContent = (e, index) => {
+		if (sessions.length > 1) {
+			switch (e.key) {
+				case 'ArrowUp':
+					if (index === 0) {
+						ref_list_array.current[
+							ref_list_array.current.length - 1
+						].focus();
+					} else {
+						ref_list_array.current[index - 1].focus();
+					}
+					break;
+				case 'ArrowDown':
+					if (index === ref_list_array.current.length - 1) {
+						ref_list_array.current[0].focus();
+					} else {
+						ref_list_array.current[index + 1].focus();
+					}
+					break;
+			}
+		}
+	};
+
 	return (
 		<div className="sessionsList__innerWrapper">
 			{(showFilter || showEnquiryTabs || showSessionListTabs) && (
 				<div className="sessionsList__functionalityWrapper">
 					{showEnquiryTabs && (
-						<div className="sessionsList__tabs">
+						<div role="tablist" className="sessionsList__tabs">
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
 										!sessionListTab
 								})}
 								to={'/sessions/consultant/sessionPreview'}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_first.current = el)}
+								tabIndex={0}
+								role="tab"
 							>
 								<Text
 									text={translate(
@@ -747,7 +800,6 @@ export const SessionsList = ({
 									type="standard"
 								/>
 							</Link>
-
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
@@ -755,6 +807,10 @@ export const SessionsList = ({
 										SESSION_LIST_TAB_ANONYMOUS
 								})}
 								to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_second.current = el)}
+								tabIndex={-1}
+								role="tab"
 							>
 								<Text
 									className={clsx('walkthrough_step_2')}
@@ -767,7 +823,7 @@ export const SessionsList = ({
 						</div>
 					)}
 					{showSessionListTabs && (
-						<div className="sessionsList__tabs">
+						<div className="sessionsList__tabs" role="tablist">
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
@@ -778,6 +834,10 @@ export const SessionsList = ({
 										? 'teamSessionView'
 										: 'sessionView'
 								}`}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_first.current = el)}
+								tabIndex={0}
+								role="tab"
 							>
 								<Text
 									text={translate(
@@ -797,6 +857,10 @@ export const SessionsList = ({
 										? 'teamSessionView'
 										: 'sessionView'
 								}?sessionListTab=${SESSION_LIST_TAB_ARCHIVE}`}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_second.current = el)}
+								tabIndex={-1}
+								role="tab"
 							>
 								<Text
 									className={clsx('walkthrough_step_4')}
@@ -838,6 +902,7 @@ export const SessionsList = ({
 							: 'sessionsList__itemsWrapper--centered'
 					}`}
 					data-cy="sessions-list-items-wrapper"
+					role="tablist"
 				>
 					{!isLoading &&
 						activeCreateChat &&
@@ -851,7 +916,7 @@ export const SessionsList = ({
 						sessions
 							.filter(filterSessions)
 							.sort(sortSessions)
-							.map((item: ListItemInterface) => (
+							.map((item: ListItemInterface, index) => (
 								<SessionListItemComponent
 									key={
 										buildExtendedSession(
@@ -864,6 +929,13 @@ export const SessionsList = ({
 										groupIdFromParam
 									)}
 									defaultLanguage={defaultLanguage}
+									itemRef={(el) =>
+										(ref_list_array.current[index] = el)
+									}
+									handleKeyDownLisItemContent={(e) =>
+										handleKeyDownLisItemContent(e, index)
+									}
+									index={index}
 								/>
 							))}
 
