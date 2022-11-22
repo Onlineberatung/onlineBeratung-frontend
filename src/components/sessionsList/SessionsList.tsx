@@ -710,7 +710,7 @@ export const SessionsList = ({
 			if (session?.chat) {
 				return true;
 				// If the user is marked for deletion we should hide the message from the list
-			} else if (session.user.deleted) {
+			} else if (session?.user?.deleted) {
 				return false;
 			}
 
