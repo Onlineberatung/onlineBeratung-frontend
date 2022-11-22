@@ -168,7 +168,11 @@ export const Profile = () => {
 	return (
 		<div className="profile__wrapper" ref={scrollContainer}>
 			<div className="profile__header">
-				<div className="profile__header__wrapper flex flex--jc-sb flex-l--fd-column flex-xl--fd-row">
+				<div
+					className={`profile__header__wrapper flex flex--jc-sb flex-l--fd-column flex-xl--fd-row ${
+						!subpage && 'flex--wrap flex-l--nowrap'
+					}`}
+				>
 					<div className="flex flex__col--25p flex--ai-c">
 						{fromL || !subpage ? (
 							<>
@@ -183,36 +187,36 @@ export const Profile = () => {
 							</Link>
 						)}
 					</div>
-					<div className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex__col--50p">
-						{fromL ? (
-							profileRoutes(settings, selectableLocales)
-								.filter((tab) =>
-									solveTabConditions(
-										tab,
-										userData,
-										consultingTypes
+					<div className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex-l__col--50p">
+						{fromL
+							? profileRoutes(settings, selectableLocales)
+									.filter((tab) =>
+										solveTabConditions(
+											tab,
+											userData,
+											consultingTypes
+										)
 									)
-								)
-								.map((tab) => (
-									<div
-										key={tab.url}
-										className="text--nowrap flex__col--no-grow"
-									>
-										<NavLink
-											to={generatePath(
-												`/profile${tab.url}`
-											)}
-											activeClassName="active"
+									.map((tab) => (
+										<div
+											key={tab.url}
+											className="text--nowrap flex__col--no-grow"
 										>
-											{translate(tab.title)}
-										</NavLink>
+											<NavLink
+												to={generatePath(
+													`/profile${tab.url}`
+												)}
+												activeClassName="active"
+											>
+												{translate(tab.title)}
+											</NavLink>
+										</div>
+									))
+							: subpage && (
+									<div className="title text--nowrap text--bold text--center flex__col--50p">
+										{subpage?.title}
 									</div>
-								))
-						) : (
-							<div className="title text--nowrap text--bold text--center">
-								{subpage?.title}
-							</div>
-						)}
+							  )}
 					</div>
 					<div className="profile__header__actions flex__col--25p flex flex--ai-c flex--jc-fe">
 						{!fromL && !subpage && (
