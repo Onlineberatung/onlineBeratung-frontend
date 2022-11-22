@@ -24,11 +24,12 @@ $black: #000;
 $black-25-opacity: rgba(0, 0, 0, 0.25);
 $black-10-opacity: rgba(0, 0, 0, 0.1);
 $black-5-opacity: rgba(0, 0, 0, 0.1);
+
 $primary: #cc1e1c;
 $secondary: rgba(0, 0, 0, 0.9);
-$tertiary: rgba($black, 0.9);
+$tertiary: rgba(0, 0, 0, 0.6);
+
 $background-accent: #f8dedd;
-$black-65-opacity: rgba(0, 0, 0, 0.65);
 
 $hover-primary: #a31816;
 $hover-select: #f4d2d1;
@@ -57,6 +58,15 @@ $dark-grey: #e7e3e1;
 
 $focus-blue: #199fff;
 
+$text-high-emphesis: rgba(0, 0, 0, 0.9);
+$text-low-emphesis: rgba(0, 0, 0, 0.6);
+$text-disabled: rgba(0, 0, 0, 0.4);
+$text-invert: rgba(255, 255, 255, 1);
+
+$border-default: rgba(0, 0, 0, 0.2);
+$border-hover: rgba(0, 0, 0, 0.9);
+$border-active: rgba(0, 0, 0, 0.9);
+
 // YELLOW THEME
 $yellow-1: #ffeed2;
 $yellow-2: #ffe7bf;
@@ -64,12 +74,12 @@ $yellow-3: #ffdca3;
 $yellow-4: #febd50;
 $yellow-5: #ff9f00;
 $yellow-6: #de8a00;
-
+$black-65-opacity: rgba(0, 0, 0, 0.65);
 $message-name-self: $form-primary;
 $message-name-system: var(--skin-color-default, $primary);
 $message-name-consultant: var(--skin-color-default, $primary);
 $message-name-user: #1b998b;
-$message-name-forwarded: $black-65-opacity;
+$message-name-forwarded: $black-65-opacity; //TODO: Marc fragen
 $message-system: #8c878c;
 
 // FONT SIZES
@@ -98,7 +108,7 @@ $font-size-subheadline: 20px;
 
 // BODY STYLES
 $body-bg: $white;
-$body-font-color: $secondary;
+$body-font-color: $text-high-emphesis;
 $body-font-family: $font-family-sans-serif;
 $body-font-weight: $font-weight-regular;
 $body-font-style: normal;
@@ -189,7 +199,7 @@ $enquiry-circle-background: $background-lighter;
 $enquiry-input-border-radius: $grid-base-three;
 $focus-outline: 2px solid $focus-blue;
 $form-accordion-index-background-active: $primary;
-$form-accordion-index-border: 1px solid $tertiary;
+$form-accordion-index-border: 1px solid $secondary;
 $form-accordion-index-color-active: $white;
 $form-accordion-index-color: $tertiary;
 $form-input-border: #dcd9dc;

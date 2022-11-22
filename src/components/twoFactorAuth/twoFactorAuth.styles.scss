@@ -106,7 +106,10 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 		.text__divider {
 			text-transform: uppercase;
 			display: flex;
-			color: var(--skin-color-secondary-contrast-safe, $secondary);
+			color: var(
+				--skin-color-secondary-contrast-safe,
+				$text-high-emphesis
+			);
 
 			&::before,
 			&::after {

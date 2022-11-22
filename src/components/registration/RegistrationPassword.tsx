@@ -182,7 +182,7 @@ export const RegistrationPassword = ({
 		<div className="registrationPassword">
 			<Text
 				text={translate('registration.password.intro')}
-				type="infoMedium"
+				type="standard"
 			/>
 			<ul className="registrationPassword__validation">
 				{passwordCriteriaList}
