@@ -183,7 +183,7 @@ export const MessageItemComponent = ({
 						});
 					}
 
-					return `${message} *`;
+					return translate('e2ee.message.encryption.text');
 				})
 				.then(setDecryptedMessage)
 				.then(() => handleDecryptionSuccess(_id));
@@ -191,6 +191,7 @@ export const MessageItemComponent = ({
 			setDecryptedMessage(message);
 		}
 	}, [
+		translate,
 		message,
 		t,
 		isE2eeEnabled,
