@@ -53,10 +53,10 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 			return null;
 		}
 
-		let encryptedMessage = props.message;
+		let message = props.message;
 		let isEncrypted = isE2eeEnabled;
 		try {
-			encryptedMessage = await encryptText(encryptedMessage, keyID, key);
+			message = await encryptText(message, keyID, key);
 		} catch (e: any) {
 			apiPostError({
 				name: e.name,
@@ -69,8 +69,7 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 		}
 
 		apiForwardMessage(
-			encryptedMessage,
-			props.message,
+			message,
 			props.messageTime,
 			props.displayName,
 			props.askerRcId,
