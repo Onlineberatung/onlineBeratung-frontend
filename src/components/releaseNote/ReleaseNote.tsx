@@ -18,6 +18,7 @@ import {
 	STORAGE_KEY_RELEASE_NOTES,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
+import useIsFirstVisit from '../../utils/useIsFirstVisit';
 
 interface ReleaseNoteProps {}
 
@@ -37,6 +38,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const [checkboxChecked, setCheckboxChecked] = useState(false);
 	const [releaseNoteText, setReleaseNoteText] = useState('');
 	const [latestReleaseNote, setLatestReleaseNote] = useState('');
+	const isFirstVisit = useIsFirstVisit();
 
 	const readReleaseNote = useMemo(
 		() => localStorage.getItem(STORAGE_KEY_RELEASE_NOTE) ?? '0',
@@ -127,7 +129,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		name: 'seen'
 	};
 
-	if (!showReleaseNote) {
+	if (!showReleaseNote || isFirstVisit) {
 		return null;
 	}
 
