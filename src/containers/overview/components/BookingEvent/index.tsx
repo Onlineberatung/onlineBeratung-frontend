@@ -81,6 +81,10 @@ export const BookingEvent = ({ booking }: BookingEventProps) => {
 		smallIconBackgroundColor: 'secondary'
 	};
 
+	const prettyDate =
+		!showCountDown &&
+		getPrettyDateFromMessageDate(startTime.getTime() / 1000);
+
 	return (
 		<div className="bookingEvent">
 			<div className="bookingEvent__header">
@@ -115,9 +119,9 @@ export const BookingEvent = ({ booking }: BookingEventProps) => {
 
 				{!showCountDown && (
 					<div className="bookingEvent__fullDate">
-						{getPrettyDateFromMessageDate(
-							startTime.getTime() / 1000
-						)}
+						{prettyDate.str
+							? translate(prettyDate.str)
+							: prettyDate.date}
 						,{formatToHHMM(startTime.getTime() + '')} -{' '}
 						{formatToHHMM(endTime.getTime() + '')}
 					</div>
