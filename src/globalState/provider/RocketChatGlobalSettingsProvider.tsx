@@ -62,9 +62,12 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 		}
 		const isE2eeEnabled =
 			getSetting<IBooleanSetting>(SETTING_E2E_ENABLE)?.value ?? false;
-		const configuredInputMaxLength = getSetting<INumberSetting>(SETTING_MESSAGE_MAXALLOWEDSIZE)?.value ?? 0;
+		const configuredInputMaxLength =
+			getSetting<INumberSetting>(SETTING_MESSAGE_MAXALLOWEDSIZE)?.value ??
+			0;
 		const configuredAttachmentMaxFilesize =
-			getSetting<INumberSetting>(SETTING_FILEUPLOAD_MAXFILESIZE)?.value ?? 0;
+			getSetting<INumberSetting>(SETTING_FILEUPLOAD_MAXFILESIZE)?.value ??
+			0;
 
 		let requiredInputMaxLength = INPUT_MAX_LENGTH;
 
