@@ -221,7 +221,7 @@ export const Profile = () => {
 											consultingTypes
 										)
 									)
-									.map((tab) => (
+									.map((tab, index) => (
 										<div
 											key={tab.url}
 											className="text--nowrap flex__col--no-grow"
@@ -231,6 +231,15 @@ export const Profile = () => {
 													`/profile${tab.url}`
 												)}
 												activeClassName="active"
+												role="tab"
+												tabIndex={index === 0 ? 0 : -1}
+												ref={(el) =>
+													(ref_tabs.current[index] =
+														el)
+												}
+												onKeyDown={(e) =>
+													handleKeyDownTabs(e, index)
+												}
 											>
 												{translate(tab.title)}
 											</NavLink>
