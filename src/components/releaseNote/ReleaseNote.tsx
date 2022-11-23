@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
@@ -19,11 +19,6 @@ import {
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
-import {
-	AUTHORITIES,
-	hasUserAuthority,
-	UserDataContext
-} from '../../globalState';
 
 interface ReleaseNoteProps {}
 
@@ -44,11 +39,6 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const [releaseNoteText, setReleaseNoteText] = useState('');
 	const [latestReleaseNote, setLatestReleaseNote] = useState('');
 	const isFirstVisit = useIsFirstVisit();
-	const { userData } = useContext(UserDataContext);
-	const isConsultant = hasUserAuthority(
-		AUTHORITIES.CONSULTANT_DEFAULT,
-		userData
-	);
 
 	const readReleaseNote = useMemo(
 		() => localStorage.getItem(STORAGE_KEY_RELEASE_NOTE) ?? '0',
@@ -139,7 +129,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		name: 'seen'
 	};
 
-	if (!showReleaseNote || (isConsultant && isFirstVisit)) {
+	if (!showReleaseNote || isFirstVisit) {
 		return null;
 	}
 
