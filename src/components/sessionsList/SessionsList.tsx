@@ -4,6 +4,7 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
+	useMemo,
 	useRef,
 	useState
 } from 'react';
@@ -18,6 +19,7 @@ import {
 	SESSION_TYPES
 } from '../session/sessionHelpers';
 import {
+	AnonymousConversationFinishedContext,
 	AnonymousConversationStartedContext,
 	AUTHORITIES,
 	buildExtendedSession,
@@ -81,6 +83,9 @@ export const SessionsList = ({
 }: SessionsListProps) => {
 	const { t: translate } = useTranslation();
 	const { consultingTypes } = useContext(ConsultingTypesContext);
+	const { anonymousConversationFinished } = useContext(
+		AnonymousConversationFinishedContext
+	);
 
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
 		useParams<{ rcGroupId: string; sessionId: string }>();
@@ -484,6 +489,10 @@ export const SessionsList = ({
 	// Subscribe to all my messages
 	useEffect(() => {
 		const userId = rcUid.current;
+		if (anonymousConversationFinished) {
+			return;
+		}
+
 		if (socketReady && !subscribed.current) {
 			subscribed.current = true;
 			subscribe(
@@ -529,6 +538,7 @@ export const SessionsList = ({
 			}
 		};
 	}, [
+		anonymousConversationFinished,
 		onDebounceRoomsChanged,
 		onDebounceSubscriptionsChanged,
 		socketReady,
@@ -644,11 +654,20 @@ export const SessionsList = ({
 		defaultValue: preSelectedOption
 	};
 
-	const showEnquiryTabs =
-		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-		userData.hasAnonymousConversations &&
-		type === SESSION_LIST_TYPES.ENQUIRY &&
-		consultingTypes?.[0]?.isAnonymousConversationAllowed;
+	const showEnquiryTabs = useMemo(() => {
+		return (
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+			userData.hasAnonymousConversations &&
+			type === SESSION_LIST_TYPES.ENQUIRY &&
+			userData.agencies.some(
+				(agency) =>
+					(consultingTypes ?? []).find(
+						(consultingType) =>
+							consultingType.id === agency.consultingType
+					)?.isAnonymousConversationAllowed
+			)
+		);
+	}, [consultingTypes, type, userData]);
 
 	const showSessionListTabs =
 		userData.hasArchive &&
@@ -690,7 +709,11 @@ export const SessionsList = ({
 			// do not filter chats
 			if (session?.chat) {
 				return true;
+				// If the user is marked for deletion we should hide the message from the list
+			} else if (session?.user?.deleted) {
+				return false;
 			}
+
 			switch (type) {
 				// filter my sessions only with my user id as consultant
 				case SESSION_LIST_TYPES.MY_SESSION:
@@ -708,18 +731,72 @@ export const SessionsList = ({
 		[type, userData]
 	);
 
+	const ref_tab_first = useRef<any>();
+	const ref_tab_second = useRef<any>();
+	const ref_list_array = useRef<any>([]);
+
+	const handleKeyDownTabs = (e) => {
+		switch (e.key) {
+			case 'Enter':
+			case ' ':
+				if (document.activeElement === ref_tab_first.current) {
+					ref_tab_first.current.click();
+				}
+				if (document.activeElement === ref_tab_second.current) {
+					ref_tab_second.current.click();
+				}
+				break;
+			case 'ArrowRight':
+			case 'ArrowLeft':
+				if (document.activeElement === ref_tab_first.current) {
+					ref_tab_second.current.focus();
+				} else if (document.activeElement === ref_tab_second.current) {
+					ref_tab_first.current.focus();
+				}
+				break;
+		}
+	};
+
+	const handleKeyDownLisItemContent = (e, index) => {
+		if (sessions.length > 1) {
+			switch (e.key) {
+				case 'ArrowUp':
+					if (index === 0) {
+						ref_list_array.current[
+							ref_list_array.current.length - 1
+						].focus();
+					} else {
+						ref_list_array.current[index - 1].focus();
+					}
+					break;
+				case 'ArrowDown':
+					if (index === ref_list_array.current.length - 1) {
+						ref_list_array.current[0].focus();
+					} else {
+						ref_list_array.current[index + 1].focus();
+					}
+					break;
+			}
+		}
+	};
+	const finalSessionsList = (sessions || []).filter(filterSessions);
+
 	return (
 		<div className="sessionsList__innerWrapper">
 			{(showFilter || showEnquiryTabs || showSessionListTabs) && (
 				<div className="sessionsList__functionalityWrapper">
 					{showEnquiryTabs && (
-						<div className="sessionsList__tabs">
+						<div role="tablist" className="sessionsList__tabs">
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
 										!sessionListTab
 								})}
 								to={'/sessions/consultant/sessionPreview'}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_first.current = el)}
+								tabIndex={0}
+								role="tab"
 							>
 								<Text
 									text={translate(
@@ -728,7 +805,6 @@ export const SessionsList = ({
 									type="standard"
 								/>
 							</Link>
-
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
@@ -736,6 +812,10 @@ export const SessionsList = ({
 										SESSION_LIST_TAB_ANONYMOUS
 								})}
 								to={`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_second.current = el)}
+								tabIndex={-1}
+								role="tab"
 							>
 								<Text
 									className={clsx('walkthrough_step_2')}
@@ -748,7 +828,7 @@ export const SessionsList = ({
 						</div>
 					)}
 					{showSessionListTabs && (
-						<div className="sessionsList__tabs">
+						<div className="sessionsList__tabs" role="tablist">
 							<Link
 								className={clsx({
 									'sessionsList__tabs--active':
@@ -759,6 +839,10 @@ export const SessionsList = ({
 										? 'teamSessionView'
 										: 'sessionView'
 								}`}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_first.current = el)}
+								tabIndex={0}
+								role="tab"
 							>
 								<Text
 									text={translate(
@@ -778,6 +862,10 @@ export const SessionsList = ({
 										? 'teamSessionView'
 										: 'sessionView'
 								}?sessionListTab=${SESSION_LIST_TAB_ARCHIVE}`}
+								onKeyDown={(e) => handleKeyDownTabs(e)}
+								ref={(el) => (ref_tab_second.current = el)}
+								tabIndex={-1}
+								role="tab"
 							>
 								<Text
 									className={clsx('walkthrough_step_4')}
@@ -807,18 +895,21 @@ export const SessionsList = ({
 			>
 				{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 					!isLoading &&
-					sessions.length <=
+					finalSessionsList.length <=
 						MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION && (
 						<WelcomeIllustration />
 					)}
 
 				<div
 					className={`sessionsList__itemsWrapper ${
-						activeCreateChat || isLoading || sessions.length > 0
+						activeCreateChat ||
+						isLoading ||
+						finalSessionsList.length > 0
 							? ''
 							: 'sessionsList__itemsWrapper--centered'
 					}`}
 					data-cy="sessions-list-items-wrapper"
+					role="tablist"
 				>
 					{!isLoading &&
 						activeCreateChat &&
@@ -828,11 +919,10 @@ export const SessionsList = ({
 							userData
 						) && <SessionListCreateChat />}
 
-					{(!isLoading || sessions.length > 0) &&
-						sessions
-							.filter(filterSessions)
+					{(!isLoading || finalSessionsList.length > 0) &&
+						finalSessionsList
 							.sort(sortSessions)
-							.map((item: ListItemInterface) => (
+							.map((item: ListItemInterface, index) => (
 								<SessionListItemComponent
 									key={
 										buildExtendedSession(
@@ -845,13 +935,20 @@ export const SessionsList = ({
 										groupIdFromParam
 									)}
 									defaultLanguage={defaultLanguage}
+									itemRef={(el) =>
+										(ref_list_array.current[index] = el)
+									}
+									handleKeyDownLisItemContent={(e) =>
+										handleKeyDownLisItemContent(e, index)
+									}
+									index={index}
 								/>
 							))}
 
 					{!isLoading &&
 						!activeCreateChat &&
 						!isReloadButtonVisible &&
-						sessions.length === 0 && (
+						finalSessionsList.length === 0 && (
 							<Text
 								className="sessionsList--empty"
 								text={
@@ -956,6 +1053,7 @@ Watch for inactive groups because there is no api endpoint
  */
 const useGroupWatcher = (isLoading: boolean) => {
 	const { sessions, dispatch } = useContext(SessionsDataContext);
+	const history = useHistory();
 
 	const hasSessionChanged = useCallback(
 		(newSession) => {
@@ -975,6 +1073,8 @@ const useGroupWatcher = (isLoading: boolean) => {
 		const inactiveGroupSessions = sessions.filter(
 			(s) => !!s.chat && !s.chat.subscribed
 		);
+
+		if ((history?.location?.state as any)?.isEditMode) return;
 
 		if (inactiveGroupSessions.length <= 0) {
 			return;
@@ -1031,7 +1131,7 @@ const useGroupWatcher = (isLoading: boolean) => {
 			.catch((e) => {
 				console.log(e);
 			});
-	}, [dispatch, hasSessionChanged, sessions]);
+	}, [dispatch, hasSessionChanged, history?.location?.state, sessions]);
 
 	const [startWatcher, stopWatcher, isWatcherRunning] = useWatcher(
 		refreshInactiveGroupSessions,

@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
 type GroupChatCopyLinksProps = {
-	id: number;
+	id: string;
 	groupChatId: string;
 };
 

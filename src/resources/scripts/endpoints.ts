@@ -64,7 +64,10 @@ export const endpoints = {
 	loginResetPasswordLink:
 		'/auth/realms/online-beratung/login-actions/reset-credentials?client_id=account',
 	messageRead: apiUrl + '/api/v1/subscriptions.read',
-	messages: apiUrl + '/service/messages',
+	messages: {
+		get: apiUrl + '/service/messages',
+		delete: apiUrl + '/service/messages/:messageId'
+	},
 	myMessagesBase: apiUrl + '/service/conversations/consultants/mymessages/',
 	passwordReset: apiUrl + '/service/users/password/change',
 	rc: {

@@ -1,7 +1,7 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
-export const apiSendMessage = async (
+export const apiSendMessage = (
 	encryptedMessageData: string,
 	unencryptedMessageData: string,
 	rcGroupIdOrSessionId: string | number,

@@ -40,11 +40,12 @@ export const SessionCard = ({
 			title={title}
 		>
 			<SessionTypeProvider type={type}>
-				{sessions?.slice(0, 9).map((session) => (
+				{sessions?.slice(0, 9).map((session, index) => (
 					<SessionListItemComponent
 						key={session.session.id}
 						session={buildExtendedSession(session, '')}
 						defaultLanguage={fixedLanguages[0]}
+						index={index}
 					/>
 				))}
 			</SessionTypeProvider>

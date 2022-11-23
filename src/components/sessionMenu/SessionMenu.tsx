@@ -6,20 +6,13 @@ import {
 	useEffect,
 	useState
 } from 'react';
+import { generatePath, Link, Redirect, useHistory } from 'react-router-dom';
 import {
-	generatePath,
-	Link,
-	Redirect,
-	useParams,
-	useHistory
-} from 'react-router-dom';
-import {
+	AnonymousConversationFinishedContext,
 	AUTHORITIES,
 	ExtendedSessionInterface,
 	hasUserAuthority,
-	RocketChatContext,
 	SessionItemInterface,
-	SessionsDataContext,
 	SessionTypeContext,
 	STATUS_FINISHED,
 	useConsultingType,
@@ -34,7 +27,6 @@ import { Overlay, OVERLAY_FUNCTIONS, OverlayWrapper } from '../overlay/Overlay';
 import {
 	archiveSessionSuccessOverlayItem,
 	finishAnonymousChatSecurityOverlayItem,
-	finishAnonymousChatSuccessOverlayItem,
 	groupChatErrorOverlayItem,
 	leaveGroupChatSecurityOverlayItem,
 	leaveGroupChatSuccessOverlayItem,
@@ -67,11 +59,9 @@ import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
-import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import DeleteSession from '../session/DeleteSession';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Text } from '../text/Text';
-import { apiRocketChatGroupMembers } from '../../api/apiRocketChatGroupMembers';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useTranslation } from 'react-i18next';
@@ -91,15 +81,15 @@ export interface SessionMenuProps {
 export const SessionMenu = (props: SessionMenuProps) => {
 	const { t: translate } = useTranslation();
 	const history = useHistory();
-	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 
 	const legalLinks = useContext(LegalLinksContext);
 	const settings = useAppConfig();
 
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
-	const { close: closeWebsocket } = useContext(RocketChatContext);
-	const { sessions } = useContext(SessionsDataContext);
+	const { setAnonymousConversationFinished } = useContext(
+		AnonymousConversationFinishedContext
+	);
 
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
@@ -136,30 +126,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		[flyoutOpen]
 	);
 
-	const [consultant, setConsultant] = useState(false);
-
 	const [appointmentFeatureEnabled, setAppointmentFeatureEnabled] =
 		useState(false);
 
 	useEffect(() => {
 		document.addEventListener('mousedown', (e) => handleClick(e));
-		// also make sure that the active session matches the url param
-		if (groupIdFromParam === activeSession?.item?.groupId) {
-			apiRocketChatGroupMembers(groupIdFromParam).then(({ members }) => {
-				members.forEach((member) => {
-					//console.log(member._id, decodeUsername(member.username));
-				});
-			});
-		}
-		if (
-			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
-			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)
-		) {
-			const { consultant } = sessions[0];
-			if (!consultant) {
-				setConsultant(true);
-			}
-
+		if (!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
 			const { appointmentFeatureEnabled } = userData;
 			setAppointmentFeatureEnabled(appointmentFeatureEnabled);
 		}
@@ -167,7 +139,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			// do not get group members for a chat that has not been started and user is not subscribed
 			return;
 		}
-	}, [groupIdFromParam, handleClick, activeSession]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [handleClick, activeSession, userData]);
 
 	const handleBookingButton = () => {
 		history.push('/booking/');
@@ -288,9 +260,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 							userData
 						)
 					) {
-						closeWebsocket();
-						removeAllCookies();
-						setOverlayItem(finishAnonymousChatSuccessOverlayItem);
+						setAnonymousConversationFinished('DONE');
 					} else {
 						setOverlayActive(false);
 						setOverlayItem(null);
@@ -480,18 +450,20 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				/>
 			)}
 
-			{!consultant && appointmentFeatureEnabled && (
-				<div
-					className="sessionMenu__icon sessionMenu__icon--booking"
-					onClick={handleBookingButton}
-				>
-					<CalendarMonthPlusIcon />
-					<Text
-						type="standard"
-						text={translate('booking.mobile.calendar.label')}
-					/>
-				</div>
-			)}
+			{!activeSession.isEmptyEnquiry &&
+				appointmentFeatureEnabled &&
+				!activeSession.isLive && (
+					<div
+						className="sessionMenu__icon sessionMenu__icon--booking"
+						onClick={handleBookingButton}
+					>
+						<CalendarMonthPlusIcon />
+						<Text
+							type="standard"
+							text={translate('booking.mobile.calendar.label')}
+						/>
+					</div>
+				)}
 
 			<span
 				id="iconH"

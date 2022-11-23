@@ -60,7 +60,10 @@ import {
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
-import { SETTING_E2E_ENABLE } from '../../api/apiRocketChatSettingsPublic';
+import {
+	IBooleanSetting,
+	SETTING_E2E_ENABLE
+} from '../../api/apiRocketChatSettingsPublic';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
@@ -72,6 +75,8 @@ import { budibaseLogout } from '../budibase/budibaseLogout';
 interface LoginProps {
 	stageComponent: ComponentType<StageProps>;
 }
+
+const regexAccountDeletedError = /account disabled/i;
 
 export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	const settings = useAppConfig();
@@ -291,7 +296,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				);
 				window.open(
 					endpoints.loginResetPasswordLink,
-					'_blank',
+					'_self',
 					'noreferrer'
 				);
 			} else if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
@@ -373,9 +378,19 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 					);
 					setLabelState(VALIDITY_INVALID);
 				} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
-					if (error.options.data.otpType)
+					if (
+						error.options?.data?.error_description?.match(
+							regexAccountDeletedError
+						)
+					) {
+						setShowLoginError(
+							translate('login.warning.failed.deletedAccount')
+						);
+						setLabelState(VALIDITY_INVALID);
+					} else if (error.options?.data?.otpType) {
 						setTwoFactorType(error.options.data.otpType);
-					setIsOtpRequired(true);
+						setIsOtpRequired(true);
+					}
 				}
 			})
 			.finally(() => {
@@ -448,7 +463,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	);
 
 	const onPasswordResetClick = (e) => {
-		if (getSetting(SETTING_E2E_ENABLE)?.value) {
+		if (getSetting<IBooleanSetting>(SETTING_E2E_ENABLE)?.value) {
 			e.preventDefault();
 			setPwResetOverlayActive(true);
 			return;
@@ -458,7 +473,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			locale,
 			endpoints.loginResetPasswordLink.split('/').slice(0, -1).join('/')
 		);
-		window.open(endpoints.loginResetPasswordLink, '_blank', 'noreferrer');
+		window.open(endpoints.loginResetPasswordLink, '_self', 'noreferrer');
 	};
 
 	return (
@@ -466,6 +481,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			<StageLayout
 				stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
 				showLegalLinks
+				showRegistrationLink={hasTenant}
 			>
 				<div className="loginForm">
 					<div>

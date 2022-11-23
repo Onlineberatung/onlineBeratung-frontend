@@ -1,0 +1,4 @@
+{
+	"public": "./build",
+	"rewrites": [{ "source": "**", "destination": "/beratung-hilfe.html" }]
+}

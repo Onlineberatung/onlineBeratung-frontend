@@ -15,19 +15,12 @@ import {
 	SUB_STREAM_NOTIFY_ALL
 } from '../../components/app/RocketChat';
 import useUpdatingRef from '../../hooks/useUpdatingRef';
-
-export const SETTING_E2E_ENABLE = 'E2E_Enable';
-
-interface ISetting {
-	_id: typeof SETTING_E2E_ENABLE | string;
-	requiredOnWizard: boolean;
-	enterprise: boolean;
-	value: any;
-}
+import { TSetting } from '../../api/apiRocketChatSettingsPublic';
 
 type RocketChatSubscriptionsContextProps = {
-	settings: ISetting[];
-	getSetting: (id: string) => ISetting | null;
+	settingsReady: boolean;
+	settings: TSetting[];
+	getSetting: (id: string) => TSetting | null;
 };
 
 export const RocketChatPublicSettingsContext =
@@ -45,13 +38,14 @@ export const RocketChatPublicSettingsProvider = ({
 
 	const subscribed = useRef(false);
 
-	const [settings, setSettings] = useState<ISetting[]>([]);
+	const [settingsReady, setSettingsReady] = useState(false);
+	const [settings, setSettings] = useState<TSetting[]>([]);
 
 	const handlePublicSettingsChanged = useUpdatingRef(
 		useCallback(
 			([status, setting]: [
 				'inserted' | 'updated' | 'deleted',
-				ISetting
+				TSetting
 			]) => {
 				setSettings((settings) => {
 					const newSettings = [...settings];
@@ -95,6 +89,8 @@ export const RocketChatPublicSettingsProvider = ({
 					handlePublicSettingsChanged,
 					{ useCollection: false, args: [] }
 				);
+
+				setSettingsReady(true);
 			});
 		} else if (!ready) {
 			// Reconnect
@@ -129,7 +125,7 @@ export const RocketChatPublicSettingsProvider = ({
 
 	return (
 		<RocketChatPublicSettingsContext.Provider
-			value={{ settings, getSetting }}
+			value={{ settingsReady, settings, getSetting }}
 		>
 			{children}
 		</RocketChatPublicSettingsContext.Provider>

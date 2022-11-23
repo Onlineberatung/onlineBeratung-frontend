@@ -22,6 +22,7 @@ import {
 	SESSION_TYPE_TEAMSESSION
 } from '../../components/session/sessionHelpers';
 import { UserDataContext } from './UserDataProvider';
+import { AnonymousConversationFinishedContext } from './AnonymousConversationFinishedProvider';
 
 type UnreadStatusContextProps = {
 	sessions: string[];
@@ -58,6 +59,9 @@ export function RocketChatUnreadProvider({
 	children
 }: RocketChatUnreadProviderProps) {
 	const { subscriptions } = useContext(RocketChatSubscriptionsContext);
+	const { anonymousConversationFinished } = useContext(
+		AnonymousConversationFinishedContext
+	);
 	const { userData } = useContext(UserDataContext);
 	const [unreadStatus, setUnreadStatus] =
 		useState<UnreadStatusContextProps>(initialData);
@@ -156,7 +160,7 @@ export function RocketChatUnreadProvider({
 
 	// Initialize all subscriptions with unread status
 	useEffect(() => {
-		if (!subscriptions?.length) {
+		if (!subscriptions?.length || anonymousConversationFinished) {
 			return;
 		}
 
@@ -192,7 +196,12 @@ export function RocketChatUnreadProvider({
 		} else {
 			handleSessions([], relevantSubscriptions);
 		}
-	}, [subscriptions, handleSessions, unreadStatus]);
+	}, [
+		subscriptions,
+		handleSessions,
+		unreadStatus,
+		anonymousConversationFinished
+	]);
 
 	return (
 		<RocketChatUnreadContext.Provider value={{ ...unreadStatus }}>

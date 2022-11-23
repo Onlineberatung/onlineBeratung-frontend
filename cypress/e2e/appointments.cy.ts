@@ -62,7 +62,7 @@ describe('appointments', () => {
 		});
 
 		it('Appointments List not exists', () => {
-			cy.contains('Termine').should('not.exist');
+			cy.contains('Video - Termine').should('not.exist');
 		});
 	});
 
@@ -74,7 +74,7 @@ describe('appointments', () => {
 		});
 
 		it('Appointments List not exists', () => {
-			cy.contains('Termine').should('not.exist');
+			cy.contains('Video - Termine').should('not.exist');
 		});
 	});
 
@@ -86,18 +86,18 @@ describe('appointments', () => {
 		});
 
 		it('Appointments List without appointments', () => {
-			cy.contains('Termine').should('exist').click();
+			cy.contains('Video - Termine').should('exist').click();
 			cy.wait('@appointments_get');
 			cy.get('.appointments').contains('Aktuell gibt es keine Termine');
 		});
 
-		it.only('Add appointment', () => {
+		it('Add appointment', () => {
 			// Default Meeting Time
 			const dMT = new Date();
 			dMT.setHours(8);
 			dMT.setMinutes(0);
 
-			cy.contains('Termine').click();
+			cy.contains('Video - Termine').click();
 			cy.wait('@appointments_get');
 
 			cy.get('.appointments .box').should('not.exist');
@@ -161,7 +161,7 @@ describe('appointments', () => {
 					datetime: today.toISOString()
 				});
 
-				cy.contains('Termine').click();
+				cy.contains('Video - Termine').click();
 				cy.wait('@appointments_get');
 			});
 
@@ -332,7 +332,7 @@ describe('appointments', () => {
 						username: USER_VIDEO
 					});
 
-					cy.contains('Termine').click();
+					cy.contains('Video - Termine').click();
 					cy.wait('@appointments_get');
 				});
 
@@ -399,7 +399,7 @@ describe('appointments', () => {
 						username: USER_VIDEO
 					});
 
-					cy.contains('Termine').click();
+					cy.contains('Video - Termine').click();
 					cy.wait('@appointments_get');
 				});
 

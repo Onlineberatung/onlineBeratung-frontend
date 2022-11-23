@@ -70,7 +70,9 @@ export default function Cal({
 
 					const sessionId = sessions[0]?.session?.id;
 					const { data } = e.detail;
-					const date = data.date;
+					const date = new Date(data.date)
+						.toUTCString()
+						.split(' GMT')[0];
 					const appointmentData = {
 						userName: userData.userName,
 						counselorEmail: data.organizer.email,

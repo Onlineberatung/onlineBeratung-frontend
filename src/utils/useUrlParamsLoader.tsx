@@ -12,6 +12,8 @@ import { isNumber } from './isNumber';
 import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
 import { apiGetTopicById } from '../api/apiGetTopicId';
 import { useAppConfig } from '../hooks/useAppConfig';
+import { isString } from 'lodash';
+import { apiGetTopicsData } from '../api/apiGetTopicsData';
 
 export default function useUrlParamsLoader() {
 	const { consultingTypeSlug } = useParams<{
@@ -20,7 +22,7 @@ export default function useUrlParamsLoader() {
 	const settings = useAppConfig();
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
-	const topicId = getUrlParameter('tid');
+	const topicIdOrName = getUrlParameter('tid');
 
 	const [consultingType, setConsultingType] =
 		useState<ConsultingTypeInterface | null>(null);
@@ -68,11 +70,23 @@ export default function useUrlParamsLoader() {
 					agency = null;
 				}
 
-				if (isNumber(topicId)) {
-					const topicById = await apiGetTopicById(topicId).catch(
-						() => null
-					);
-					setTopic(topicById);
+				if (isNumber(topicIdOrName)) {
+					await apiGetTopicById(topicIdOrName)
+						.then(setTopic)
+						.catch(() => null);
+				} else if (isString(topicIdOrName)) {
+					await apiGetTopicsData()
+						.then((allTopics) => {
+							const topic = allTopics.find(
+								(topic) =>
+									topic.name?.toLowerCase() ===
+									decodeURIComponent(
+										topicIdOrName.toLowerCase()
+									)
+							);
+							setTopic(topic);
+						})
+						.catch(() => null);
 				}
 
 				setAgency(agency);
@@ -85,7 +99,7 @@ export default function useUrlParamsLoader() {
 		consultingTypeSlug,
 		agencyId,
 		consultantId,
-		topicId,
+		topicIdOrName,
 		settings.multitenancyWithSingleDomainEnabled,
 		settings.urls.toRegistration
 	]);

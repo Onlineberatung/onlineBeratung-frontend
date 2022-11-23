@@ -139,9 +139,11 @@ describe('Sessions', () => {
 				cy.fastLogin({
 					username: USER_CONSULTANT
 				});
+				cy.wait('@rcSettingsPublic');
 				cy.wait('@consultingTypeServiceBaseBasic');
 
 				cy.get('a[href="/sessions/consultant/sessionView"]').click();
+				cy.wait('@consultantSessions');
 				cy.get('.sessionsListItem').should('exist');
 
 				cy.willReturn('consultantSessions', 401);

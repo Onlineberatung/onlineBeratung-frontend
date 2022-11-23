@@ -18,11 +18,12 @@ import {
 	STORAGE_KEY_RELEASE_NOTES,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
+import useIsFirstVisit from '../../utils/useIsFirstVisit';
 
 interface ReleaseNoteProps {}
 
-const MAX_CONCURRENT_RELEASE_NOTES = 3;
-const STORAGE_KEY = 'releaseNote';
+const MAX_CONCURRENT_RELEASE_NOTES = 1;
+const STORAGE_KEY_RELEASE_NOTE = 'releaseNote';
 
 type TReleases = {
 	title?: string;
@@ -37,9 +38,10 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const [checkboxChecked, setCheckboxChecked] = useState(false);
 	const [releaseNoteText, setReleaseNoteText] = useState('');
 	const [latestReleaseNote, setLatestReleaseNote] = useState('');
+	const isFirstVisit = useIsFirstVisit();
 
 	const readReleaseNote = useMemo(
-		() => localStorage.getItem(STORAGE_KEY) ?? '0',
+		() => localStorage.getItem(STORAGE_KEY_RELEASE_NOTE) ?? '0',
 		[]
 	);
 
@@ -48,8 +50,10 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 			.then((res) => res.json())
 			.then((releases: TReleases) =>
 				Object.entries(releases)
-					.reverse()
-					.slice(MAX_CONCURRENT_RELEASE_NOTES * -3)
+					.sort(([keyA], [keyB]) =>
+						parseInt(keyA) > parseInt(keyB) ? -1 : 1
+					)
+					.slice(0, MAX_CONCURRENT_RELEASE_NOTES)
 					.filter(
 						([key]) => parseInt(key) > parseInt(readReleaseNote)
 					)
@@ -112,8 +116,8 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const changeHasSeenReleaseNote = () => {
 		setCheckboxChecked(!checkboxChecked);
 		localStorage.setItem(
-			STORAGE_KEY,
-			`${!checkboxChecked ? latestReleaseNote : readReleaseNote}`
+			STORAGE_KEY_RELEASE_NOTE,
+			`${checkboxChecked ? readReleaseNote : latestReleaseNote}`
 		);
 	};
 
@@ -125,7 +129,9 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		name: 'seen'
 	};
 
-	if (!showReleaseNote) return null;
+	if (!showReleaseNote || isFirstVisit) {
+		return null;
+	}
 
 	return (
 		<OverlayWrapper>

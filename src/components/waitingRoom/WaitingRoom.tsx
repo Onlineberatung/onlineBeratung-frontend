@@ -128,7 +128,8 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			setOverlayItem(rejectionOverlayItem);
 			setIsOverlayActive(true);
 			removeAllCookies();
-			setAnonymousConversationFinished(null);
+		} else {
+			setIsOverlayActive(false);
 		}
 	}, [anonymousConversationFinished, setAnonymousConversationFinished]);
 
@@ -314,7 +315,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		} else {
 			return (
 				<>
-					{isMobile && <LocaleSwitch updateUserData />}
+					{isMobile && <LocaleSwitch updateUserData={!!username} />}
 					<div className="waitingRoom__illustration">
 						<WaitingIllustration className="waitingRoom__waitingIllustration" />
 					</div>
