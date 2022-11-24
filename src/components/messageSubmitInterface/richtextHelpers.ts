@@ -101,8 +101,8 @@ export const urlifyLinksInText = (text) => {
 				: url; // eslint-disable-line
 		if (href.includes('mailto') || href.includes('Mailto')) {
 			return `<a href="${href}">${url
-				.replace('mailto', '')
-				.replace('Mailto', '')}</a>`;
+				.replace('mailto:', '')
+				.replace('Mailto:', '')}</a>`;
 		}
 		return `<a href="${href}" target="_blank">${url}</a>`;
 	});
