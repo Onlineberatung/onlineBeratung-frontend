@@ -1032,7 +1032,9 @@ export const de = {
 				'unauthorized': {
 					otp: 'Ihre Zugangsdaten sind nicht korrekt. Bitte versuchen Sie es erneut.',
 					text: 'Benutzername oder Passwort sind nicht korrekt. Bitte versuchen Sie es erneut.'
-				}
+				},
+				'deletedAccount':
+					'Ihr Account wurde zur Löschung vorgemerkt. Ihre Daten werden in den nächsten 24 Stunden gelöscht.'
 			}
 		}
 	},

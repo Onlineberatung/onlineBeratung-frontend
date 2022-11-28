@@ -91,7 +91,7 @@ const profileRoutes = (
 							hasUserAuthority(
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
-							) && settings.enableWalkThrough,
+							) && settings.enableWalkthrough,
 						component: EnableWalkthrough,
 						column: COLUMN_LEFT
 					},
