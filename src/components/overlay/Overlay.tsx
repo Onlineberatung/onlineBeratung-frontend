@@ -159,6 +159,8 @@ export const Overlay = (props: {
 								onClick={(e) => props.handleOverlayClose(e)}
 								onKeyPress={(e) => props.handleOverlayClose(e)}
 								tabIndex={0}
+								title={translate('app.close')}
+								aria-label={translate('app.close')}
 							/>
 						)}
 						{props.items?.some((item) => item.step) && (
@@ -181,7 +183,14 @@ export const Overlay = (props: {
 											>
 												<div className="overlay__stepContent">
 													<div className="overlay__stepIcon">
-														<StepIcon />
+														<StepIcon
+															title={
+																item.step.label
+															}
+															aria-label={
+																item.step.label
+															}
+														/>
 													</div>
 													<Text
 														text={translate(

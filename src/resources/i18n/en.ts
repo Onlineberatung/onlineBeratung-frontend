@@ -107,10 +107,21 @@ export const en = {
 		'claim': 'Online. Anonymous. Secure.',
 		'save': 'Save',
 		'stage.title': 'Consulting & Help',
-		'logout': 'Log out'
+		'logout': 'Log out',
+		'close': 'close',
+		'open': 'open',
+		'delete': 'delete',
+		'scrollDown': 'Scroll down',
+		'menu': 'More settings',
+		'back': 'back',
+		'next': 'next',
+		'successful': 'Successful',
+		'faulty': 'Faulty',
+		'selectLanguage': 'Select language'
 	},
 	appointments: {
 		title: 'Appointment overview',
+		newAppointment: 'New video appointment',
 		showMore: 'Show more',
 		showLess: 'Show less',
 		notification: {
@@ -489,10 +500,14 @@ export const en = {
 					},
 					groupChat: 'Write message'
 				},
-				'button.title': 'Send message'
+				'button.title': 'Send message',
+				'attachement': 'add attachement',
+				'emojies': 'add emoji',
+				'format': 'format text'
 			},
 			infotext: {
 				headline: 'Here is room for your concerns.',
+				iconTitle: 'Welcome',
 				copy: {
 					title: 'Perhaps the following points will help you with the formulation:',
 					facts: '<ul><li>What happened?</li><li>What is your current situation?</li><li>What is on your mind?</li><li>Do you have a specific question or do you perhaps not yet know exactly what could help you?</li></ul>'
@@ -535,9 +550,13 @@ export const en = {
 		'consultant.info':
 			'The person seeking advice was informed about the next steps as follows.',
 		'headline': 'This is how it continues:',
+		'arrowTitle': 'Next',
 		'step1.info': 'We have received your message.',
+		'step1.iconTitle': 'Open envelope',
 		'step2.info': 'Now we will find a suitable consultant for you.',
+		'step2.iconTitle': 'Consultant with glasses',
 		'step3.info': 'Your advisor will respond within 2 business days.',
+		'step3.iconTitle': 'Speak bubbles',
 		'emailNotification': {
 			headline: 'Receive e-mail notification & reset password',
 			infoText:
@@ -720,6 +739,7 @@ export const en = {
 	help: {
 		googleChrome: 'Google Chrome',
 		msEdge: 'Microsoft Edge',
+		openInNewTab: 'Open in new tab',
 		videoCall: {
 			asker: {
 				intro: 'To make end-to-end encrypted calls, follow these steps:',
@@ -960,6 +980,8 @@ export const en = {
 		'seperator': 'or',
 		'password': {
 			label: 'Password',
+			hide: 'hide password',
+			show: 'show password',
 			reset: {
 				warn: {
 					overlay: {
@@ -1061,7 +1083,13 @@ export const en = {
 				confirm: 'Delete'
 			}
 		},
-		'note.title': 'Note'
+		'note.title': 'Note',
+		'unread': 'unread',
+		'read': 'read',
+		'sent': 'sent',
+		'groupChat': 'Group chat',
+		'liveChat': 'Live chat',
+		'newEnquiry': 'New enquiry'
 	},
 	monitoring: {
 		title: 'Monitoring',
@@ -1264,7 +1292,11 @@ export const en = {
 	},
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
-		'enquiry.new': 'You have a new live chat request!'
+		'enquiry.new': 'You have a new live chat request!',
+		'warning': 'warning',
+		'error': 'failed',
+		'success': 'successful',
+		'info': 'info'
 	},
 	overlay: {
 		'step.headline.prefix': '. Step | ',
@@ -1359,9 +1391,10 @@ export const en = {
 			},
 			edit: {
 				'button.cancel': 'Cancel',
-				'button.save': 'Save'
+				'button.save': 'Save',
+				'button.edit': 'edit'
 			},
-
+			profileIcon: 'Profile icon',
 			userName: 'User name',
 			displayName: 'Display name',
 			firstName: 'First name',
@@ -1544,7 +1577,8 @@ export const en = {
 			'download': 'Download QR code as .png',
 			'close': 'Close',
 			'image.alt': 'QR-Code'
-		}
+		},
+		'iconTitle': 'QR code'
 	},
 	registration: {
 		'headline': 'Registration',
@@ -1628,6 +1662,7 @@ export const en = {
 			'intro':
 				'To guarantee protected consultation, your password must meet the following criteria:',
 			'criteria': {
+				fulfilled: 'fulfilled',
 				upperLowerCase: 'Upper/lower case',
 				number: 'at least one number',
 				specialChar: 'at least one special character',
@@ -1900,6 +1935,7 @@ export const en = {
 	},
 	twoFactorAuth: {
 		title: 'Two-factor authentication',
+		edit: 'edit',
 		subtitle:
 			'In addition to your password, use a second factor for logging in. This will provide additional security for your account.',
 		switch: {
@@ -2272,6 +2308,9 @@ export const en = {
 				'label.and': 'and',
 				'button': 'Confirm'
 			},
+			'waitingImageTitle': 'Waiting person with coffee',
+			'welcomeImageTitle': 'Welcome',
+			'errorImageTitle': 'Faile',
 			'headline': 'Please be patient',
 			'subline':
 				'The video call has not yet started. You will be forwarded as soon as your consultant starts the video call.',

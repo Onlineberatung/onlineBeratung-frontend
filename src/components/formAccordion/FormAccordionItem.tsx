@@ -48,10 +48,18 @@ export const FormAccordionItem = (props: FormAccordionItemProps) => {
 				<span className="formAccordionItem__index">{props.index}</span>
 				<h4 className="formAccordionItem__title">{props.title}</h4>
 				{props.isValid === 'valid' && (
-					<ValidIcon className="formAccordionItem__validationIcon formAccordionItem__validationIcon--valid" />
+					<ValidIcon
+						aria-label={translate('app.successful')}
+						title={translate('app.successful')}
+						className="formAccordionItem__validationIcon formAccordionItem__validationIcon--valid"
+					/>
 				)}
 				{props.isValid === 'invalid' && (
-					<InvalidIcon className="formAccordionItem__validationIcon formAccordionItem__validationIcon--invalid" />
+					<InvalidIcon
+						aria-label={translate('app.faulty')}
+						title={translate('app.faulty')}
+						className="formAccordionItem__validationIcon formAccordionItem__validationIcon--invalid"
+					/>
 				)}
 			</div>
 			<div className="formAccordionItem__content">

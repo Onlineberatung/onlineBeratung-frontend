@@ -170,18 +170,35 @@ export const SessionListItemComponent = ({
 
 	const iconVariant = () => {
 		if (session.isGroup) {
-			return LIST_ICONS.IS_GROUP_CHAT;
+			return {
+				variant: LIST_ICONS.IS_GROUP_CHAT,
+				title: translate('message.groupChat')
+			};
 		} else if (session.isLive) {
-			return LIST_ICONS.IS_LIVE_CHAT;
+			return {
+				variant: LIST_ICONS.IS_LIVE_CHAT,
+				title: translate('message.liveChat')
+			};
 		} else if (session.isEmptyEnquiry) {
-			return LIST_ICONS.IS_NEW_ENQUIRY;
+			return {
+				variant: LIST_ICONS.IS_NEW_ENQUIRY,
+				title: translate('message.newEnquiry')
+			};
 		} else if (session.item.messagesRead) {
-			return LIST_ICONS.IS_READ;
+			return {
+				variant: LIST_ICONS.IS_READ,
+				title: translate('message.read')
+			};
 		} else {
-			return LIST_ICONS.IS_UNREAD;
+			return {
+				variant: LIST_ICONS.IS_UNREAD,
+				title: translate('message.unread')
+			};
 		}
 	};
-	const Icon = getSessionsListItemIcon(iconVariant());
+
+	const Icon = getSessionsListItemIcon(iconVariant().variant);
+	const iconTitle = iconVariant().title;
 
 	const prettyPrintDate = (
 		messageDate: number, // seconds since epoch
@@ -253,7 +270,7 @@ export const SessionListItemComponent = ({
 					</div>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__icon">
-							<Icon />
+							<Icon title={iconTitle} aria-label={iconTitle} />
 						</div>
 						<div
 							className={clsx(
@@ -388,7 +405,7 @@ export const SessionListItemComponent = ({
 				</div>
 				<div className="sessionsListItem__row">
 					<div className="sessionsListItem__icon">
-						<Icon />
+						<Icon title={iconTitle} aria-label={iconTitle} />
 					</div>
 					<div
 						className={clsx(

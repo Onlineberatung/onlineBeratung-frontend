@@ -193,7 +193,13 @@ export const WriteEnquiry: React.FC = () => {
 							className="enquiry__facts"
 						/>
 					</div>
-					<WelcomeIcon className="enquiry__image" />
+					<WelcomeIcon
+						className="enquiry__image"
+						title={translate('enquiry.write.infotext.iconTitle')}
+						aria-label={translate(
+							'enquiry.write.infotext.iconTitle'
+						)}
+					/>
 				</div>
 				{isUnassignedSession && (
 					<EnquiryLanguageSelection
