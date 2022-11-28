@@ -14,12 +14,12 @@ import { AskerAboutMeData } from './AskerAboutMeData';
 import { ConsultantStatistics } from './ConsultantStatistics';
 import { AbsenceFormular } from './AbsenceFormular';
 import { EnableWalkthrough } from './EnableWalkthrough';
-import { Help } from '../help/Help';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 import { isDesktop } from 'react-device-detect';
 import { OverviewBookings } from './OverviewMobile/Bookings';
 import { OverviewSessions } from './OverviewMobile/Sessions';
 import { profileRoutesSettings } from './profileSettings.routes';
+import { profileRoutesHelp } from './profileHelp.routes';
 
 const shouldShowOverview = (useOverviewPage: boolean) =>
 	useOverviewPage && !isDesktop;
@@ -181,18 +181,7 @@ const profileRoutes = (
 	{
 		title: 'profile.routes.help.title',
 		url: '/hilfe',
-		elements: [
-			{
-				title: 'profile.routes.help.videoCall',
-				url: '/videoCall',
-				elements: [
-					{
-						component: Help,
-						column: COLUMN_LEFT
-					}
-				]
-			}
-		]
+		elements: profileRoutesHelp()
 	}
 ];
 
