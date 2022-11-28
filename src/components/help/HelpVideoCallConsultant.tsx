@@ -66,6 +66,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 								href="https://www.google.com/chrome/"
 								target="_blank"
 								rel="noreferrer"
+								className="button-as-link"
 							>
 								<NewWindow /> {translate('help.googleChrome')}
 							</a>
@@ -79,6 +80,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 								href="https://www.microsoft.com/edge"
 								target="_blank"
 								rel="noreferrer"
+								className="button-as-link"
 							>
 								<NewWindow /> {translate('help.msEdge')}
 							</a>
@@ -99,6 +101,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 								href="https://www.google.com/chrome/"
 								target="_blank"
 								rel="noreferrer"
+								className="button-as-link"
 							>
 								{translate('help.googleChrome')}
 							</a>
@@ -107,6 +110,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 								href="https://www.microsoft.com/edge"
 								target="_blank"
 								rel="noreferrer"
+								className="button-as-link"
 							>
 								{translate('help.msEdge')}
 							</a>

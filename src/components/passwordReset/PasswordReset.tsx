@@ -8,7 +8,7 @@ import {
 	OVERLAY_FUNCTIONS,
 	OverlayItem
 } from '../overlay/Overlay';
-import { BUTTON_TYPES } from '../button/Button';
+import { Button, BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
 import {
 	inputValuesFit,
@@ -346,7 +346,18 @@ export const PasswordReset = () => {
 				)}
 
 				<div className="button__wrapper">
-					<span
+					<Button
+						item={{
+							label: translate(
+								'profile.functions.security.button'
+							),
+							type: 'TERTIARY'
+						}}
+						buttonHandle={handleSubmit}
+						className={'passwordReset__button'}
+						disabled={!isValid}
+					/>
+					{/* <span
 						onClick={handleSubmit}
 						id="passwordResetButton"
 						role="button"
@@ -356,7 +367,7 @@ export const PasswordReset = () => {
 						}
 					>
 						{translate('profile.functions.security.button')}
-					</span>
+					</span> */}
 				</div>
 			</div>
 			{overlayActive ? (

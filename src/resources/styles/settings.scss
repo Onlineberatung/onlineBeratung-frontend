@@ -74,12 +74,12 @@ $yellow-3: #ffdca3;
 $yellow-4: #febd50;
 $yellow-5: #ff9f00;
 $yellow-6: #de8a00;
-$black-65-opacity: rgba(0, 0, 0, 0.65);
-$message-name-self: $form-primary;
+
+$message-name-self: $text-low-emphesis;
 $message-name-system: var(--skin-color-default, $primary);
 $message-name-consultant: var(--skin-color-default, $primary);
-$message-name-user: #1b998b;
-$message-name-forwarded: $black-65-opacity; //TODO: Marc fragen
+$message-name-user: #167a6f;
+$message-name-forwarded: $text-low-emphesis;
 $message-system: #8c878c;
 
 // FONT SIZES
@@ -229,7 +229,14 @@ $login-button-width: auto;
 $login-button-width-large: $login-button-width;
 $login-text-align: center;
 $max-input-width: 320px;
-$message-background: #d64b49;
+$message-background-primary: $primary;
+$message-background-secondary: black;
+$message-background-rate: 0%;
+$message-background: mix(
+	$message-background-secondary,
+	$primary,
+	$message-background-rate
+); //#d64b49;
 $message-submit-interface-textarea-background-color: $dark-grey;
 $message-submit-interface-textarea-background-color-yellow: $yellow-3;
 $message-submit-interface-textarea-placeholder-color: $light-grey;

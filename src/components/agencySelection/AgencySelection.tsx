@@ -303,7 +303,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							<Text
 								className="agencySelection__note"
 								text={props.agencySelectionNote}
-								type="infoMedium"
+								type="infoLargeAlternative"
 								labelType={LABEL_TYPES.NOTICE}
 							/>
 						</div>

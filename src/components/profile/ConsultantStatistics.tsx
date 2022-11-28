@@ -274,6 +274,7 @@ export const ConsultantStatistics = () => {
 						filename={`${translate(
 							'profile.statistics.complete.filename'
 						)} - ${periodDisplay}.csv`}
+						className="button-as-link"
 					>
 						<DownloadIcon />
 						{translate(
