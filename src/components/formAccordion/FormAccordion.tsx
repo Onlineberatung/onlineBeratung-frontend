@@ -33,6 +33,7 @@ import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import { Text } from '../text/Text';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
+import { FormAccordionRegistrationText } from './FormAccordionRegistrationText';
 
 interface FormAccordionProps {
 	consultingType?: ConsultingTypeInterface;
@@ -443,7 +444,7 @@ export const FormAccordion = ({
 						}}
 					/>
 				</div>
-
+				<FormAccordionRegistrationText />
 				<Button
 					className="registrationForm__submit"
 					item={buttonItemSubmit}
