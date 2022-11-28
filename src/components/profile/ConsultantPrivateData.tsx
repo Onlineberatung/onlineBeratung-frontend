@@ -182,7 +182,7 @@ export const ConsultantPrivateData = () => {
 					{isEditDisabled && (
 						<span
 							role="button"
-							className="primary"
+							className="tertiary"
 							onClick={() => {
 								setIsEditDisabled(false);
 							}}

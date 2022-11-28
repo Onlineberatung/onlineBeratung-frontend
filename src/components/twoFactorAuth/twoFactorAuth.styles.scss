@@ -202,4 +202,8 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 		display: flex;
 		justify-content: space-between;
 	}
+
+	.button__link {
+		color: $tertiary;
+	}
 }
