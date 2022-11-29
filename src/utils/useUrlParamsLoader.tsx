@@ -6,8 +6,7 @@ import {
 	ConsultantDataInterface,
 	ConsultingTypeInterface
 } from '../globalState';
-import { apiGetAgencyById } from '../api/apiGetAgencyId';
-import { apiGetConsultingType } from '../api/apiGetConsultingType';
+import { apiGetAgencyById, apiGetConsultingType } from '../api';
 import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';
 import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
