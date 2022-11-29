@@ -184,6 +184,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		apiPutDearchive(activeSession.item.id)
 			.then(() => {
 				reloadActiveSession();
+				// Short timeout to wait for RC events finished
 				setTimeout(() => {
 					if (window.innerWidth >= 900) {
 						history.push(
@@ -194,7 +195,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						history.push(listPath);
 					}
 					setFlyoutOpen(false);
-				}, 500);
+				}, 1000);
 			})
 			.catch((error) => {
 				console.error(error);

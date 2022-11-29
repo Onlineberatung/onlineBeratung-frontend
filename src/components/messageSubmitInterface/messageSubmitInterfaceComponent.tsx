@@ -170,7 +170,8 @@ export const MessageSubmitInterfaceComponent = (
 	const inputWrapperRef = useRef<HTMLSpanElement>(null);
 	const attachmentInputRef = useRef<HTMLInputElement>(null);
 	const { userData } = useContext(UserDataContext);
-	const { activeSession } = useContext(ActiveSessionContext);
+	const { activeSession, reloadActiveSession } =
+		useContext(ActiveSessionContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { anonymousConversationFinished } = useContext(
 		AnonymousConversationFinishedContext
@@ -484,17 +485,21 @@ export const MessageSubmitInterfaceComponent = (
 			apiPutDearchive(activeSession.item.id)
 				.then(prepareAndSendMessage)
 				.then(() => {
+					reloadActiveSession();
 					if (
 						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 					) {
-						if (window.innerWidth >= 900) {
-							history.push(
-								`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}}`
-							);
-						} else {
-							mobileListView();
-							history.push(listPath);
-						}
+						// Short timeout to wait for RC events finished
+						setTimeout(() => {
+							if (window.innerWidth >= 900) {
+								history.push(
+									`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}}`
+								);
+							} else {
+								mobileListView();
+								history.push(listPath);
+							}
+						}, 1000);
 					}
 				})
 				.catch((error) => {
