@@ -84,6 +84,7 @@ a {
 
 		&__userProfile {
 			flex: 1;
+			overflow-y: auto;
 		}
 
 		.header {
