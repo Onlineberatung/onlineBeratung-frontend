@@ -1,0 +1,65 @@
+<!-- Typography.stories.mdx -->
+
+import { Meta, Typeset } from '@storybook/addon-docs/blocks';
+import fonts from '../../config/caritas.ts'
+
+
+<Meta title="Typography" />
+
+export const typography = {
+  type: {
+    primary: `${fonts.font.family_sans_serif}`,
+  },
+  weight: {
+    regular: '400',
+    bold: '700',
+    extrabold: '800',
+    black: '900',
+  },
+  size: {
+    s1: 12,
+    s2: 14,
+    s3: 16,
+    m1: 20,
+    m2: 24,
+    m3: 28,
+    l1: 32,
+    l2: 40,
+    l3: 48,
+  },
+};
+
+export const SampleText = 'Lorem ipsum dolor.';
+
+# Typography
+
+<h2><b>Super</b></h2>
+<div>
+  <span><b>Font:</b> </span>
+  <span>{fonts.font.family_sans_serif} </span>
+  <span>(family_sans_serif)</span>
+</div>
+<div>
+  <span><b>Weight:</b> </span>
+  <span>{fonts.font.weight_medium} </span>
+  <span>(weight_medium)</span>
+</div>
+<div>
+  <span><b>Size:</b> </span>
+  <span>{fonts.font.size_super_large} </span>
+  <span>(size_super_large)</span>
+</div>
+<div>
+  <span><b>Color:</b> </span>
+  <span> {fonts.color.text_emphasisHigh} </span>
+  <span>(text_emphasisHigh)</span>
+</div>
+
+<Typeset
+  fontSizes={[
+    String(`${fonts.font.size_super_large}`),
+  ]}
+  fontWeight={fonts.font.weight_medium}
+  sampleText={SampleText}
+  fontFamily={fonts.font.family_sans_serif}
+/>
