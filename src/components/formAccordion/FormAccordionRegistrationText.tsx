@@ -1,5 +1,12 @@
+import { AgencyDataInterface } from '../../globalState';
 import './formAccordionRegistrationText.styles';
 
-export const FormAccordionRegistrationText = () => {
+interface FormAccordionRegistrationTextProps {
+	agency: AgencyDataInterface;
+}
+
+export const FormAccordionRegistrationText = (
+	props: FormAccordionRegistrationTextProps
+) => {
 	return null;
 };
