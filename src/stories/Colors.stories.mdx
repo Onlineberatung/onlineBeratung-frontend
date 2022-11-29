@@ -1,46 +1,169 @@
 <!-- Colors.stories.mdx -->
 
 import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
+import colors from '../../config/caritas.ts'
 
-<Meta title="Sytles/Colors" />
+<Meta title="Colors" />
 
 <h1>UI color system</h1>
-<br/><br/>
+<br />
+<br />
 
-<h2>Interactive</h2>
+<h2>Interactive colors</h2>
 <br/>
 <ColorPalette>
   <ColorItem
-    title="interactive-primary"
-    subtitle="primary idle"
-    colors={{ red600: '#CC1E1C' }}
+    title="primary idle"
+    colors={{ interactive_primary: `${colors.color.interactive_primary}`}}
   />
+
   <ColorItem
-    title="interactive-secondary"
-    subtitle="secondary idle"
-    colors={{ black90: '#000' }}
+    title="secondary idle"
+    colors={{ interactive_secondary: `${colors.color.interactive_secondary}` }}
+  />
+
+  <ColorItem 
+    title="tertiary idle" 
+    colors={{ interactive_tertiary: `${colors.color.interactive_tertiary}` }} 
+  />
+
+  <ColorItem 
+    title="hover"
+    colors={{ interactive_hover: `${colors.color.interactive_hover}` }} 
+  />
+
+  <ColorItem 
+    title="on dark idle" 
+    colors={{ interactive_onDark: `${colors.color.interactive_onDark}` }} 
+  />
+
+  <ColorItem 
+    title="on dark hover"
+    colors={{ interactive_onDark_hover: `${colors.color.interactive_onDark_hover}` }} 
+  />
+
+  <ColorItem 
+    title="disabled background"
+    colors={{ interactive_disabled_background_black: `${colors.color.interactive_disabled_background_black}` }}
+  />
+
+  <ColorItem 
+    title="disabled foreground"
+    colors={{ interactive_disabled_background_white: `${colors.color.interactive_disabled_background_white}` }} 
+  />
+
+  <ColorItem 
+    title="disabled background"
+    colors={{ interactive_disabled_background: `${colors.color.interactive_disabled_background}` }} 
   />
 
 
-  <h2>Examples</h2>
-  <ColorItem 
-    title="theme.color.primary" 
-    subtitle="Coral" 
-    colors={{ WildWatermelon: '#FF4785' }} 
-  />
-  <ColorItem 
-    title="theme.color.secondary" 
-    subtitle="Ocean" 
-    colors={{ DodgerBlue: '#1EA7FD' }} 
-  />
+<h2>Text colors</h2>
+<br/>
   <ColorItem
-    title="theme.color.positive"
-    subtitle="Green"
+    title="high emphasis"
+    colors={{ text_emphasisHigh: `${colors.color.text_emphasisHigh}` }}
+  />
+
+  <ColorItem
+    title="low emphasis"
+    colors={{ text_emphasisLow: `${colors.color.text_emphasisLow}` }}
+  />
+
+  <ColorItem 
+    title="disabled text" 
+    colors={{ text_disabled: `${colors.color.text_disabled}` }} 
+  />
+
+  <ColorItem 
+    title="placeholder text" 
+    colors={{ text_placeholder: `${colors.color.text_placeholder}` }} 
+  />
+
+  <ColorItem 
+    title="on dark" 
+    colors={{ text_onDark: `${colors.color.text_onDark}` }} 
+  />
+
+
+<h2>Background & outline colors</h2>
+<br/>  
+  <ColorItem
+    title="neutral"
     colors={{
-      Apple: 'rgba(102,191,60,1)',
-      Apple80: 'rgba(102,191,60,.8)',
-      Apple60: 'rgba(102,191,60,.6)',
-      Apple30: 'rgba(102,191,60,.3)',
+      background_neutral1: `${colors.color.background_neutral1}`,
+      background_neutral2: `${colors.color.background_neutral2}`,
+      background_neutral3: `${colors.color.background_neutral3}`,
+      background_neutral4: `${colors.color.background_neutral4}`,
     }}
+  />
+
+  <ColorItem 
+    title="outlines"
+    colors={{ outline: `${colors.color.outline}` }} 
+  />
+
+ <ColorItem
+    title="feedback"
+    colors={{
+      background_feedback1: `${colors.color.background_feedback1}`,
+      background_feedback2: `${colors.color.background_feedback2}`,
+      background_feedback3: `${colors.color.background_feedback3}`,
+      background_feedback4: `${colors.color.background_feedback4}`,
+      background_feedback5: `${colors.color.background_feedback5}`,
+      background_feedback6: `${colors.color.background_feedback6}`,
+    }}
+  />
+
+  <ColorItem
+    title="red"
+    colors={{
+      background_red1: `${colors.color.background_red1}`,
+      background_red2: `${colors.color.background_red2}`,
+      background_red3: `${colors.color.background_red3}`,
+      background_red4: `${colors.color.background_red4}`,
+      background_red5: `${colors.color.background_red5}`,
+    }}
+  />
+
+<h2>Status colors</h2>
+<br/>  
+ <ColorItem
+    title="success"
+    colors={{
+      status_success_foreground: `${colors.color.status_success_foreground}`,
+      status_success_background: `${colors.color.status_success_background}`,
+    }}
+  />
+
+  <ColorItem
+    title="attention"
+    colors={{
+      status_attention_foreground: `${colors.color.status_attention_foreground}`,
+      status_attention_background: `${colors.color.status_attention_background}`
+    }}
+  />
+
+   <ColorItem
+    title="error"
+    colors={{
+      status_error_foreground: `${colors.color.status_error_foreground}`,
+      status_error_background: `${colors.color.status_error_background}`
+    }}
+  />
+
+
+<h2>Focus color</h2>
+<br/>
+  <ColorItem 
+    title="Focus"
+    colors={{ focus: `${colors.color.focus}` }} 
+  />
+
+  <h2>Feedback color</h2>
+  <br/>
+  <ColorItem 
+    title="Feedback"
+    colors={{ feedback_green: `${colors.color.feedback_green}` }} 
   />
 </ColorPalette>
