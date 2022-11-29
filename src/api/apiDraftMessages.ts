@@ -30,11 +30,13 @@ export const apiGetDraftMessage = async (
 	signal?: AbortSignal
 ): Promise<IDraftMessage> => {
 	const url = endpoints.draftMessages;
-	return fetchData({
+	const res = await fetchData({
 		url: url,
 		method: FETCH_METHODS.GET,
 		headersData: { rcGroupId: rcGroupIdOrSessionId },
 		responseHandling: [FETCH_ERRORS.EMPTY],
 		...(signal && { signal: signal })
 	});
+
+	return await res.json();
 };
