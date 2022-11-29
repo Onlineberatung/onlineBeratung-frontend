@@ -709,7 +709,11 @@ export const SessionsList = ({
 			// do not filter chats
 			if (session?.chat) {
 				return true;
+				// If the user is marked for deletion we should hide the message from the list
+			} else if (session?.user?.deleted) {
+				return false;
 			}
+
 			switch (type) {
 				// filter my sessions only with my user id as consultant
 				case SESSION_LIST_TYPES.MY_SESSION:
@@ -775,6 +779,7 @@ export const SessionsList = ({
 			}
 		}
 	};
+	const finalSessionsList = (sessions || []).filter(filterSessions);
 
 	return (
 		<div className="sessionsList__innerWrapper">
@@ -890,14 +895,16 @@ export const SessionsList = ({
 			>
 				{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 					!isLoading &&
-					sessions.length <=
+					finalSessionsList.length <=
 						MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION && (
 						<WelcomeIllustration />
 					)}
 
 				<div
 					className={`sessionsList__itemsWrapper ${
-						activeCreateChat || isLoading || sessions.length > 0
+						activeCreateChat ||
+						isLoading ||
+						finalSessionsList.length > 0
 							? ''
 							: 'sessionsList__itemsWrapper--centered'
 					}`}
@@ -912,9 +919,8 @@ export const SessionsList = ({
 							userData
 						) && <SessionListCreateChat />}
 
-					{(!isLoading || sessions.length > 0) &&
-						sessions
-							.filter(filterSessions)
+					{(!isLoading || finalSessionsList.length > 0) &&
+						finalSessionsList
 							.sort(sortSessions)
 							.map((item: ListItemInterface, index) => (
 								<SessionListItemComponent
@@ -942,7 +948,7 @@ export const SessionsList = ({
 					{!isLoading &&
 						!activeCreateChat &&
 						!isReloadButtonVisible &&
-						sessions.length === 0 && (
+						finalSessionsList.length === 0 && (
 							<Text
 								className="sessionsList--empty"
 								text={
