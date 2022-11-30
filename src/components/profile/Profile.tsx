@@ -71,6 +71,12 @@ export const Profile = () => {
 	const { selectableLocales } = useContext(LocaleContext);
 
 	useEffect(() => {
+		// Navigation is hidden and header shown on small screens if there is no enquiry yet. Should be as usual on profile routes
+		document
+			.querySelector('.navigation__wrapper')
+			?.classList.remove('navigation__wrapper--mobileHidden');
+		document.querySelector('.header')?.classList.remove('header--mobile');
+
 		setProfileWrapperActive();
 
 		return () => {
