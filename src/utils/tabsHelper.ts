@@ -2,7 +2,7 @@ interface TabType {
 	title: string;
 	url: string;
 	condition?: (userData, consultingTypes) => boolean;
-	elements: (TabGroups | SingleComponentType)[];
+	elements: (TabGroups | SingleComponentType | null)[];
 }
 
 export interface TabGroups {

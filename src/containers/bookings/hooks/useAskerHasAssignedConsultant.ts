@@ -17,8 +17,8 @@ export const useAskerHasAssignedConsultant = () => {
 	const [hasAssignedConsultant, setAssignedConsultant] = useState(false);
 	const { sessions } = useContext(SessionsDataContext);
 	const hasConsultants = !!sessions
-		.filter((session) => session.agency !== null)
-		.map((consultant) => consultant.consultant)
+		.filter((session) => session?.agency !== null)
+		.map((consultant) => consultant?.consultant)
 		.filter((el) => el != null).length;
 
 	useEffect(() => {
@@ -26,7 +26,7 @@ export const useAskerHasAssignedConsultant = () => {
 			apiGetAskerSessionList().then(({ sessions }) => {
 				setAssignedConsultant(
 					!!sessions
-						.filter(
+						?.filter(
 							(session: ListItemInterface) =>
 								session.agency !== null
 						)
