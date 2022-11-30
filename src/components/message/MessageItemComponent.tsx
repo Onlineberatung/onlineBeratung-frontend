@@ -473,6 +473,10 @@ export const MessageItemComponent = ({
 								username={username}
 								isUserBanned={isUserBanned}
 								isMyMessage={isMyMessage}
+								isArchived={
+									activeSession.item.status ===
+									STATUS_ARCHIVED
+								}
 							/>
 						</div>
 
@@ -591,6 +595,7 @@ const MessageFlyoutMenu = ({
 	userId,
 	isUserBanned,
 	isMyMessage,
+	isArchived,
 	username
 }: {
 	_id: string;
@@ -598,6 +603,7 @@ const MessageFlyoutMenu = ({
 	username: string;
 	isUserBanned: boolean;
 	isMyMessage: boolean;
+	isArchived: boolean;
 }) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
@@ -625,6 +631,7 @@ const MessageFlyoutMenu = ({
 				)}
 
 			{isMyMessage &&
+				!isArchived &&
 				getSetting<IBooleanSetting>(SETTING_MESSAGE_ALLOWDELETING) && (
 					<DeleteMessage
 						messageId={_id}
