@@ -109,7 +109,7 @@ export const useSession = (
 	}, [session]);
 
 	useEffect(() => {
-		loadSession().then();
+		loadSession();
 
 		return () => {
 			setReady(false);
