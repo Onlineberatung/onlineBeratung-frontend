@@ -22,13 +22,10 @@ $select-menu-before-display: block !default;
 
 	&__input {
 		&:focus {
-			border-color: $form-active;
-			color: $form-active;
-			box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
-		}
-
-		&:focus {
-			outline: none;
+			outline: $focus-outline;
+			outline-offset: 4px;
+			border-radius: 4px;
+			transition: all 0.6s ease;
 		}
 
 		&__menu {

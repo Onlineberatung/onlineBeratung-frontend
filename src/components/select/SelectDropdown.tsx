@@ -44,6 +44,8 @@ export interface SelectDropdownItem {
 	errorMessage?: string;
 	onKeyDown?: Function;
 	styleOverrides?: defaultStyles;
+	selectRef?: any;
+	isInsideMenu?: boolean;
 }
 
 const colourStyles = (
@@ -371,6 +373,19 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 					props.styleOverrides ?? {}
 				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
+				tabIndex={props.isInsideMenu ? -1 : 0}
+				ref={props.selectRef}
+				openMenuOnFocus={props.isInsideMenu ? true : false}
+				closeMenuOnSelect={true}
+				onMenuClose={() => {
+					if (props.isInsideMenu) {
+						setTimeout(() => {
+							document
+								.getElementById('local-switch-wrapper')
+								.focus();
+						}, 10); //we need this timeout because the menu is not closed when switching the focus
+					}
+				}}
 			/>
 			{props.hasError && (
 				<div className="select__error">

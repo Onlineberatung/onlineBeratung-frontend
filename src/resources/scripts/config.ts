@@ -9,7 +9,7 @@ export const config: AppConfigInterface = {
 	budibaseSSO: false, // Feature flag to enable SSO on budibase
 	calcomUrl: '',
 	calendarAppUrl: '',
-	enableWalkThrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
+	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	multitenancyWithSingleDomainEnabled: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
 	useTenantService: false,

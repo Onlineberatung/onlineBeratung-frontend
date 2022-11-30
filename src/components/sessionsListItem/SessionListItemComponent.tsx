@@ -19,10 +19,10 @@ import {
 	hasUserAuthority,
 	SessionTypeContext,
 	STATUS_FINISHED,
-	TenantContext,
 	TopicSessionInterface,
 	useConsultingType,
-	UserDataContext
+	UserDataContext,
+	useTenant
 } from '../../globalState';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
@@ -46,13 +46,20 @@ import { useTranslation } from 'react-i18next';
 interface SessionListItemProps {
 	session: ExtendedSessionInterface;
 	defaultLanguage: string;
+	itemRef?: any;
+	handleKeyDownLisItemContent?: Function;
+	index: number;
 }
 
 export const SessionListItemComponent = ({
 	session,
-	defaultLanguage
+	defaultLanguage,
+	itemRef,
+	handleKeyDownLisItemContent,
+	index
 }: SessionListItemProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
+	const tenantData = useTenant();
 	const { sessionId, rcGroupId: groupIdFromParam } =
 		useParams<{ rcGroupId: string; sessionId: string }>();
 	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
@@ -64,7 +71,6 @@ export const SessionListItemComponent = ({
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
-	const { tenant } = useContext(TenantContext);
 
 	// Is List Item active
 	const isChatActive =
@@ -306,8 +312,16 @@ export const SessionListItemComponent = ({
 		sessionTopic = session.user.username;
 	}
 
-	const zipCodeSlash = consultingType ? '/ ' : '';
+	const showConsultingType =
+		consultingType && !tenantData?.settings?.featureTopicsEnabled;
+	const zipCodeSlash = showConsultingType ? '/ ' : '';
 
+	const handleKeyDownListItem = (e) => {
+		handleKeyDownLisItemContent(e);
+		if (e.key === 'Enter' || e.key === ' ') {
+			handleOnClick();
+		}
+	};
 	return (
 		<div
 			onClick={handleOnClick}
@@ -319,7 +333,13 @@ export const SessionListItemComponent = ({
 			data-group-id={session.item.groupId}
 			data-cy="session-list-item"
 		>
-			<div className="sessionsListItem__content">
+			<div
+				className="sessionsListItem__content"
+				onKeyDown={(e) => handleKeyDownListItem(e)}
+				ref={itemRef}
+				tabIndex={index === 0 ? 0 : -1}
+				role="tab"
+			>
 				<div className="sessionsListItem__row">
 					{type === SESSION_LIST_TYPES.TEAMSESSION &&
 					hasUserAuthority(
@@ -334,7 +354,7 @@ export const SessionListItemComponent = ({
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
-							{consultingType
+							{showConsultingType
 								? translate(
 										[
 											`consultingType.${consultingType.id}.titles.default`,
@@ -345,7 +365,8 @@ export const SessionListItemComponent = ({
 								: ''}
 							{session.item.consultingType !== 1 &&
 							!isAsker &&
-							!session.isLive
+							!session.isLive &&
+							!consultingType.registration.autoSelectPostcode
 								? zipCodeSlash + session.item.postcode
 								: null}
 						</div>
@@ -354,7 +375,8 @@ export const SessionListItemComponent = ({
 						<div
 							className="sessionsListItem__topic"
 							style={{
-								backgroundColor: tenant?.theming?.primaryColor
+								backgroundColor:
+									tenantData?.theming?.primaryColor
 							}}
 						>
 							{topicSession?.name}

@@ -41,6 +41,7 @@ export const NavigationBar = ({
 	const { selectableLocales } = useContext(LocaleContext);
 	const [sessionId, setSessionId] = useState(null);
 	const [hasTools, setHasTools] = useState<boolean>(false);
+
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
 		userData
@@ -51,6 +52,11 @@ export const NavigationBar = ({
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
 	const { tenant } = useContext(TenantContext);
+
+	const ref_menu = useRef<any>([]);
+	const ref_local = useRef<any>();
+	const ref_logout = useRef<any>();
+	const ref_select = useRef<any>();
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
@@ -123,9 +129,72 @@ export const NavigationBar = ({
 		return value ? `walkthrough-${value}` : '';
 	}, []);
 
+	const handleSelection = (index) => {
+		if (document.activeElement === ref_logout.current) {
+			handleLogout();
+		} else if (document.activeElement === ref_local.current) {
+			ref_select.current.focus();
+		} else {
+			ref_menu.current[index].click();
+		}
+	};
+
+	const handleArrowUp = (index) => {
+		if (index === 0) {
+			ref_logout.current.focus();
+		} else if (document.activeElement === ref_logout.current) {
+			if (selectableLocales.length > 1) {
+				ref_local.current.focus();
+			} else {
+				ref_menu.current[ref_menu.current.length - 1].focus();
+			}
+		} else if (document.activeElement === ref_local.current) {
+			ref_menu.current[ref_menu.current.length - 1].focus();
+		} else if (
+			document.activeElement !==
+			document.getElementById('react-select-2-input')
+		) {
+			ref_menu.current[index - 1].focus();
+		}
+	};
+
+	const handleArrowDown = (index) => {
+		if (index === ref_menu.current.length - 1) {
+			if (selectableLocales.length > 1) {
+				ref_local.current.focus();
+			} else {
+				ref_logout.current.focus();
+			}
+		} else if (document.activeElement === ref_local.current) {
+			ref_logout.current.focus();
+		} else if (document.activeElement === ref_logout.current) {
+			ref_menu.current[0].focus();
+		} else if (
+			document.activeElement !==
+			document.getElementById('react-select-2-input')
+		) {
+			ref_menu.current[index + 1].focus();
+		}
+	};
+
+	const handleKeyDownMenu = (e, index) => {
+		switch (e.key) {
+			case 'Enter':
+			case ' ':
+				handleSelection(index);
+				break;
+			case 'ArrowUp':
+				handleArrowUp(index);
+				break;
+			case 'ArrowDown':
+				handleArrowDown(index);
+				break;
+		}
+	};
+
 	return (
 		<div className="navigation__wrapper">
-			<div className="navigation__itemContainer">
+			<div className="navigation__itemContainer" role="tablist">
 				{sessions &&
 					routerConfig.navigation
 						.filter(
@@ -157,6 +226,12 @@ export const NavigationBar = ({
 										'navigation__item__count--active'
 									}`}
 									to={item.to}
+									onKeyDown={(e) =>
+										handleKeyDownMenu(e, index)
+									}
+									ref={(el) => (ref_menu.current[index] = el)}
+									tabIndex={index === 0 ? 0 : -1}
+									role="tab"
 								>
 									<div className="navigation__icon__background">
 										{Icon && (
@@ -199,7 +274,14 @@ export const NavigationBar = ({
 					})}
 				>
 					{selectableLocales.length > 1 && (
-						<div className="navigation__item navigation__item__language">
+						<div
+							className="navigation__item navigation__item__language"
+							role="tab"
+							tabIndex={-1}
+							ref={(el) => (ref_local.current = el)}
+							onKeyDown={(e) => handleKeyDownMenu(e, null)}
+							id="local-switch-wrapper"
+						>
 							<LocaleSwitch
 								showIcon={true}
 								className="navigation__title"
@@ -208,6 +290,7 @@ export const NavigationBar = ({
 								iconSize={32}
 								label={translate('navigation.language')}
 								menuPlacement="right"
+								selectRef={(el) => (ref_select.current = el)}
 								isInsideMenu={true}
 							/>
 						</div>
@@ -215,12 +298,10 @@ export const NavigationBar = ({
 					<div
 						onClick={handleLogout}
 						className={'navigation__item'}
-						onKeyDown={(event) => {
-							if (event.key === 'Enter') {
-								handleLogout();
-							}
-						}}
-						tabIndex={0}
+						role="tab"
+						tabIndex={-1}
+						ref={(el) => (ref_logout.current = el)}
+						onKeyDown={(e) => handleKeyDownMenu(e, null)}
 					>
 						<LogoutIconOutline className="navigation__icon__outline" />
 						<LogoutIconFilled className="navigation__icon__filled" />

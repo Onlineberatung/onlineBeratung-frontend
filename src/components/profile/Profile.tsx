@@ -66,6 +66,7 @@ export const Profile = () => {
 	>([]);
 
 	const scrollContainer = useRef<HTMLDivElement>();
+	const ref_tabs = useRef<any>([]);
 
 	const { selectableLocales } = useContext(LocaleContext);
 
@@ -165,10 +166,34 @@ export const Profile = () => {
 		else if (userData.displayName) headline = userData.displayName;
 	}
 
+	const handleKeyDownTabs = (e, index) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			ref_tabs.current[index].click();
+		}
+		if (e.key === 'ArrowLeft') {
+			if (index === 0) {
+				ref_tabs.current[ref_tabs.current.length - 1].focus();
+			} else {
+				ref_tabs.current[index - 1].focus();
+			}
+		}
+		if (e.key === 'ArrowRight') {
+			if (index === ref_tabs.current.length - 1) {
+				ref_tabs.current[0].focus();
+			} else {
+				ref_tabs.current[index + 1].focus();
+			}
+		}
+	};
+
 	return (
 		<div className="profile__wrapper" ref={scrollContainer}>
 			<div className="profile__header">
-				<div className="profile__header__wrapper flex flex--jc-sb flex-l--fd-column flex-xl--fd-row">
+				<div
+					className={`profile__header__wrapper flex flex--jc-sb flex-l--fd-column flex-xl--fd-row ${
+						!subpage && 'flex--wrap flex-l--nowrap'
+					}`}
+				>
 					<div className="flex flex__col--25p flex--ai-c">
 						{fromL || !subpage ? (
 							<>
@@ -183,36 +208,48 @@ export const Profile = () => {
 							</Link>
 						)}
 					</div>
-					<div className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex__col--50p">
-						{fromL ? (
-							profileRoutes(settings, selectableLocales)
-								.filter((tab) =>
-									solveTabConditions(
-										tab,
-										userData,
-										consultingTypes
+					<div
+						className="profile__nav flex flex__col--grow flex__col--shrink flex--jc-c flex--ai-s flex-l__col--50p"
+						role="tablist"
+					>
+						{fromL
+							? profileRoutes(settings, selectableLocales)
+									.filter((tab) =>
+										solveTabConditions(
+											tab,
+											userData,
+											consultingTypes
+										)
 									)
-								)
-								.map((tab) => (
-									<div
-										key={tab.url}
-										className="text--nowrap flex__col--no-grow"
-									>
-										<NavLink
-											to={generatePath(
-												`/profile${tab.url}`
-											)}
-											activeClassName="active"
+									.map((tab, index) => (
+										<div
+											key={tab.url}
+											className="text--nowrap flex__col--no-grow"
 										>
-											{translate(tab.title)}
-										</NavLink>
+											<NavLink
+												to={generatePath(
+													`/profile${tab.url}`
+												)}
+												activeClassName="active"
+												role="tab"
+												tabIndex={index === 0 ? 0 : -1}
+												ref={(el) =>
+													(ref_tabs.current[index] =
+														el)
+												}
+												onKeyDown={(e) =>
+													handleKeyDownTabs(e, index)
+												}
+											>
+												{translate(tab.title)}
+											</NavLink>
+										</div>
+									))
+							: subpage && (
+									<div className="title text--nowrap text--bold text--center flex__col--50p">
+										{subpage?.title}
 									</div>
-								))
-						) : (
-							<div className="title text--nowrap text--bold text--center">
-								{subpage?.title}
-							</div>
-						)}
+							  )}
 					</div>
 					<div className="profile__header__actions flex__col--25p flex flex--ai-c flex--jc-fe">
 						{!fromL && !subpage && (

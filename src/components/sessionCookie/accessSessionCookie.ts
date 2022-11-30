@@ -43,3 +43,8 @@ export const removeAllCookies = (allowlist = []) => {
 			name + '=;path=/; expires=Thu, 27 May 1992 08:32:00 MET;';
 	});
 };
+
+export const deleteCookie = (cookieName: string) => {
+	document.cookie =
+		cookieName + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
