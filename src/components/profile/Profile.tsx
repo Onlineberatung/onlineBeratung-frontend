@@ -198,13 +198,24 @@ export const Profile = () => {
 						{fromL || !subpage ? (
 							<>
 								<div className="profile__icon flex__col--no-grow">
-									<PersonIcon className="profile__icon--user" />
+									<PersonIcon
+										aria-label={translate(
+											'profile.data.profileIcon'
+										)}
+										className="profile__icon--user"
+										title={translate(
+											'profile.data.profileIcon'
+										)}
+									/>
 								</div>
 								<h3 className="text--nowrap">{headline}</h3>
 							</>
 						) : (
 							<Link to={`/profile`}>
-								<BackIcon />
+								<BackIcon
+									title={translate('app.back')}
+									aria-label={translate('app.back')}
+								/>
 							</Link>
 						)}
 					</div>

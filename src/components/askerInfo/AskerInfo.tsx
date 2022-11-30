@@ -133,7 +133,13 @@ export const AskerInfo = () => {
 				<div className="profile__innerWrapper">
 					<div className="profile__user">
 						<div className="profile__icon">
-							<PersonIcon className="profile__icon--user" />
+							<PersonIcon
+								className="profile__icon--user"
+								title={translate('profile.data.profileIcon')}
+								aria-label={translate(
+									'profile.data.profileIcon'
+								)}
+							/>
 						</div>
 						<h2>{activeSession.user.username}</h2>
 					</div>

@@ -120,14 +120,6 @@ const staticToolbarPlugin = createToolbarPlugin({
 });
 const { Toolbar } = staticToolbarPlugin;
 
-//Emoji Picker Plugin
-const emojiPlugin = createEmojiPlugin({
-	theme: emojiPickerCustomClasses,
-	useNativeArt: true,
-	selectButtonContent: <EmojiIcon />
-});
-const { EmojiSelect } = emojiPlugin;
-
 const INFO_TYPES = {
 	ABSENT: 'ABSENT',
 	ARCHIVED: 'ARCHIVED',
@@ -191,6 +183,19 @@ export const MessageSubmitInterfaceComponent = (
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
+
+	//Emoji Picker Plugin
+	const emojiPlugin = createEmojiPlugin({
+		theme: emojiPickerCustomClasses,
+		useNativeArt: true,
+		selectButtonContent: (
+			<EmojiIcon
+				aria-label={translate('enquiry.write.input.emojies')}
+				title={translate('enquiry.write.input.emojies')}
+			/>
+		)
+	});
+	const { EmojiSelect } = emojiPlugin;
 
 	// This loads the keys for current activeSession.rid which is already set:
 	// to groupChat.groupId on group chats
@@ -925,6 +930,12 @@ export const MessageSubmitInterfaceComponent = (
 												!isRichtextActive
 											)
 										}
+										title={translate(
+											'enquiry.write.input.format'
+										)}
+										aria-label={translate(
+											'enquiry.write.input.format'
+										)}
 									/>
 								</span>
 								<EmojiSelect />
@@ -1002,6 +1013,12 @@ export const MessageSubmitInterfaceComponent = (
 									(!attachmentSelected ? (
 										<span className="textarea__attachmentSelect">
 											<ClipIcon
+												aria-label={translate(
+													'enquiry.write.input.attachement'
+												)}
+												title={translate(
+													'enquiry.write.input.attachement'
+												)}
 												onClick={handleAttachmentSelect}
 											/>
 										</span>

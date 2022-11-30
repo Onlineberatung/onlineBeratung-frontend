@@ -380,6 +380,7 @@ const CopyAppointmentLink = ({ appointment }: CopyAppointmentLinkProps) => {
 			role="button"
 			onClick={copyRegistrationLink}
 			title={translate('appointments.copy.link.title')}
+			aria-label={translate('appointments.copy.link.title')}
 		>
 			<CopyIcon className={`copy icn--s`} />{' '}
 			{translate('appointments.copy.link.text')}

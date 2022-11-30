@@ -4,6 +4,7 @@ import { Text } from '../text/Text';
 import { ReactComponent as ShowPasswordIcon } from '../../resources/img/icons/eye.svg';
 import { ReactComponent as HidePasswordIcon } from '../../resources/img/icons/eye-closed.svg';
 import './inputField.styles';
+import { useTranslation } from 'react-i18next';
 
 export type InputFieldLabelState = 'valid' | 'invalid';
 
@@ -44,6 +45,7 @@ export interface GeneratedInputs {
 
 export const InputField = (props: InputFieldProps) => {
 	const inputItem = props.item;
+	const { t: translate } = useTranslation();
 	const [showPassword, setShowPassword] = useState(false);
 
 	const handleInputValidation = (e) => {
@@ -102,9 +104,17 @@ export const InputField = (props: InputFieldProps) => {
 					className="inputField__passwordToggle"
 				>
 					{showPassword ? (
-						<HidePasswordIcon color={'rgba(0, 0, 0, 0.65)'} />
+						<HidePasswordIcon
+							aria-label={translate('login.password.hide')}
+							title={translate('login.password.hide')}
+							color={'rgba(0, 0, 0, 0.65)'}
+						/>
 					) : (
-						<ShowPasswordIcon color={'rgba(0, 0, 0, 0.65)'} />
+						<ShowPasswordIcon
+							aria-label={translate('login.password.show')}
+							title={translate('login.password.show')}
+							color={'rgba(0, 0, 0, 0.65)'}
+						/>
 					)}
 				</span>
 			)}

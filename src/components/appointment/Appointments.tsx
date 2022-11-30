@@ -172,7 +172,8 @@ export const Appointments = () => {
 
 	const addVideoCallButton: ButtonItem = {
 		type: BUTTON_TYPES.PRIMARY,
-		icon: <CameraPlusIcon />
+		icon: <CameraPlusIcon />,
+		title: translate('appointments.newAppointment')
 	};
 
 	const changeOnlineMeeting = useCallback(
