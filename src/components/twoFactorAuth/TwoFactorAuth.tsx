@@ -454,8 +454,8 @@ export const TwoFactorAuth = () => {
 					/>
 					<img
 						className="twoFactorAuth__qrCodeImage"
-						alt="QR code"
-						title="QR code"
+						alt={translate('qrCode.iconTitle')}
+						title={translate('qrCode.iconTitle')}
 						src={`data:image/png;base64,${userData.twoFactorAuth.qrCode}`}
 					/>
 				</div>
