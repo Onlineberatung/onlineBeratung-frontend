@@ -20,12 +20,7 @@ import {
 	removeAllCookies,
 	setValueInCookie
 } from '../sessionCookie/accessSessionCookie';
-import {
-	Overlay,
-	OverlayItem,
-	OverlayWrapper,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
 	AnonymousConversationFinishedContext,
 	AnonymousEnquiryAcceptedContext,
@@ -391,12 +386,10 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 				</div>
 			</div>
 			{isOverlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</>
 	);

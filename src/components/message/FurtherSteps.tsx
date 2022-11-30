@@ -17,12 +17,7 @@ import {
 } from '../inputField/InputField';
 import { isStringValidEmail } from '../registration/registrationHelpers';
 import { useContext, useEffect, useState } from 'react';
-import {
-	Overlay,
-	OverlayItem,
-	OverlayWrapper,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
 import {
 	AUTHORITIES,
@@ -317,16 +312,14 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 								buttonHandle={() => setIsOverlayActive(true)}
 							/>
 							{isOverlayActive && (
-								<OverlayWrapper>
-									<Overlay
-										item={
-											isSuccessOverlay
-												? successOverlayItem
-												: emailOverlayItem
-										}
-										handleOverlay={handleOverlayAction}
-									/>
-								</OverlayWrapper>
+								<Overlay
+									item={
+										isSuccessOverlay
+											? successOverlayItem
+											: emailOverlayItem
+									}
+									handleOverlay={handleOverlayAction}
+								/>
 							)}
 						</>
 					)}

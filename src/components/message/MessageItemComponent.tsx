@@ -60,12 +60,7 @@ import {
 	IBooleanSetting,
 	SETTING_MESSAGE_ALLOWDELETING
 } from '../../api/apiRocketChatSettingsPublic';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { BUTTON_TYPES } from '../button/Button';
 import { apiDeleteMessage } from '../../api/apiDeleteMessage';
@@ -705,14 +700,12 @@ const DeleteMessage = ({
 				<div>{translate('message.delete.delete')}</div>
 			</button>
 			{deleteOverlay && (
-				<OverlayWrapper>
-					<Overlay
-						item={deleteOverlayItem}
-						handleOverlayClose={() => {
-							setDeleteOverlay(false);
-						}}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={deleteOverlayItem}
+					handleOverlayClose={() => {
+						setDeleteOverlay(false);
+					}}
+				/>
 			)}
 		</>
 	);

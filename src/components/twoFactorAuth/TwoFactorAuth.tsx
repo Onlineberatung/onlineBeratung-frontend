@@ -10,12 +10,7 @@ import {
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import Switch from 'react-switch';
-import {
-	Overlay,
-	OverlayItem,
-	OverlayWrapper,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import {
 	InputField,
@@ -931,17 +926,15 @@ export const TwoFactorAuth = () => {
 					</p>
 				)}
 			{overlayActive ? (
-				<OverlayWrapper>
-					<Overlay
-						className="twoFactorAuth__overlay"
-						items={overlayItems}
-						handleOverlayClose={
-							isTwoFactorBinding && !isEditMode && isConsultant
-								? null
-								: handleOverlayClose
-						}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					className="twoFactorAuth__overlay"
+					items={overlayItems}
+					handleOverlayClose={
+						isTwoFactorBinding && !isEditMode && isConsultant
+							? null
+							: handleOverlayClose
+					}
+				/>
 			) : null}
 		</div>
 	);

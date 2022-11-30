@@ -2,12 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import {
-	OverlayWrapper,
-	Overlay,
-	OverlayItem,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import './deleteAccount.styles';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { apiDeleteAskerAccount, FETCH_ERRORS } from '../../api';
@@ -128,15 +123,11 @@ export const DeleteAccount = () => {
 				/>
 			</div>
 			{isOverlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						className="deleteAccount__overlay"
-						item={
-							isSuccessOverlay ? overlaySuccess : overlayConfirm
-						}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					className="deleteAccount__overlay"
+					item={isSuccessOverlay ? overlaySuccess : overlayConfirm}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</>
 	);

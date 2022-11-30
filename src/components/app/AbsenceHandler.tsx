@@ -1,9 +1,4 @@
-import {
-	OverlayItem,
-	OVERLAY_FUNCTIONS,
-	OverlayWrapper,
-	Overlay
-} from '../overlay/Overlay';
+import { OverlayItem, OVERLAY_FUNCTIONS, Overlay } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import * as React from 'react';
 import { apiSetAbsence } from '../../api';
@@ -11,6 +6,7 @@ import { UserDataContext } from '../../globalState';
 import { useContext, useState, useEffect } from 'react';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { useTranslation } from 'react-i18next';
+import { OVERLAY_ABSENCE } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 
 export const AbsenceHandler = () => {
 	const { t: translate } = useTranslation();
@@ -93,13 +89,10 @@ export const AbsenceHandler = () => {
 	if (!overlayActive) return null;
 
 	return (
-		<>
-			<OverlayWrapper>
-				<Overlay
-					item={overlayItem}
-					handleOverlay={handleOverlayAction}
-				/>
-			</OverlayWrapper>
-		</>
+		<Overlay
+			name={OVERLAY_ABSENCE}
+			item={overlayItem}
+			handleOverlay={handleOverlayAction}
+		/>
 	);
 };

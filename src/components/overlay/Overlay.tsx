@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import * as ReactDOM from 'react-dom';
+import { v4 as uuid } from 'uuid';
+import { useContext, useEffect, useState, VFC } from 'react';
+import { createPortal } from 'react-dom';
 import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline, HeadlineLevel } from '../headline/Headline';
@@ -8,6 +9,8 @@ import { ReactComponent as XIcon } from '../../resources/img/icons/x.svg';
 import clsx from 'clsx';
 import './overlay.styles';
 import { useTranslation } from 'react-i18next';
+import { ModalContext } from '../../globalState';
+import { OVERLAY_TYPES } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 const FocusTrap = require('focus-trap-react');
 
 export const OVERLAY_FUNCTIONS = {
@@ -55,19 +58,48 @@ export interface OverlayItem {
 	};
 }
 
-export const OverlayWrapper = (props) => {
-	const overlay = document.getElementById('overlay');
-	return overlay && ReactDOM.createPortal(props.children, overlay);
-};
-
-export const Overlay = (props: {
+type OverlayProps = {
 	className?: string;
 	item?: OverlayItem;
 	handleOverlay?: Function;
 	handleOverlayClose?: Function;
 	items?: OverlayItem[];
 	showHeadlinePrefix?: boolean;
-}) => {
+	name?: OVERLAY_TYPES;
+};
+
+export const Overlay: VFC<OverlayProps> = ({ name, ...overlayProps }) => {
+	const overlay = document.getElementById('overlay');
+	const { overlays, addOverlay, removeOverlay } = useContext(ModalContext);
+	const [unique, setUnique] = useState(null);
+
+	useEffect(() => {
+		const unique = uuid();
+
+		addOverlay({
+			id: unique,
+			name: name
+		});
+		setUnique(unique);
+
+		return () => {
+			removeOverlay(unique);
+		};
+	}, [addOverlay, name, removeOverlay]);
+
+	if (
+		!unique ||
+		overlays.findIndex((overlay) => overlay.id === unique) !== 0
+	) {
+		return null;
+	}
+
+	return (
+		overlay && createPortal(<OverlayContent {...overlayProps} />, overlay)
+	);
+};
+
+const OverlayContent: VFC<Omit<OverlayProps, 'name'>> = (props) => {
 	const { t: translate } = useTranslation();
 	const [activeStep, setActiveStep] = useState<number>(0);
 	const [activeOverlay, setActiveOverlay] = useState<OverlayItem>(

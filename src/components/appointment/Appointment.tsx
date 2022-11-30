@@ -14,12 +14,7 @@ import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import './appointment.styles.scss';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { uiUrl } from '../../resources/scripts/config';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
@@ -303,9 +298,7 @@ export const Appointment = ({
 			</div>
 
 			{overlayItem && (
-				<OverlayWrapper>
-					<Overlay item={overlayItem} handleOverlay={handleOverlay} />
-				</OverlayWrapper>
+				<Overlay item={overlayItem} handleOverlay={handleOverlay} />
 			)}
 		</Box>
 	);

@@ -23,7 +23,7 @@ import {
 	SESSION_LIST_TAB_ARCHIVE,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
-import { Overlay, OVERLAY_FUNCTIONS, OverlayWrapper } from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
 	archiveSessionSuccessOverlayItem,
 	finishAnonymousChatSecurityOverlayItem,
@@ -632,12 +632,10 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				</div>
 			</div>
 			{overlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</div>
 	);
