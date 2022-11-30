@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UserDataContext } from '../../globalState';
 import { BUTTON_TYPES } from '../button/Button';
-import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import './twoFactorNag.styles';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
@@ -11,6 +11,7 @@ import {
 	STORAGE_KEY_2FA_DUTY,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
+import { OVERLAY_TWO_FACTOR_NAG } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 
 interface TwoFactorNagProps {}
 
@@ -40,7 +41,6 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			getDevToolbarOption(STORAGE_KEY_2FA) === '1'
 		) {
 			setIsShownTwoFactorNag(true);
-
 			todaysDate >= settings.twofactor.dateTwoFactorObligatory &&
 			getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '1'
 				? setMessage(settings.twofactor.messages[1])
@@ -82,55 +82,52 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	if (!isShownTwoFactorNag) return <></>;
 
 	return (
-		<OverlayWrapper>
-			<Overlay
-				className="twoFactorNag"
-				handleOverlayClose={
-					message.showClose ? closeTwoFactorNag : null
-				}
-				handleOverlay={handleOverlayAction}
-				item={{
-					headline: translate(message.title, {
-						date: settings.twofactor.dateTwoFactorObligatory.toLocaleDateString(
-							'de-DE'
-						)
-					}),
-					copy: translate(message.copy, {
-						date1: settings.twofactor.dateTwoFactorObligatory.toLocaleDateString(
-							'de-DE'
-						),
-						date2: settings.twofactor.dateTwoFactorObligatory.toLocaleDateString(
-							'de-DE'
-						)
-					}),
-					buttonSet: message.showClose
-						? [
-								{
-									label: translate(
-										'twoFactorAuth.nag.button.later'
-									),
-									function: OVERLAY_FUNCTIONS.CLOSE,
-									type: BUTTON_TYPES.SECONDARY
-								},
-								{
-									label: translate(
-										'twoFactorAuth.nag.button.protect'
-									),
-									function: OVERLAY_FUNCTIONS.REDIRECT,
-									type: BUTTON_TYPES.PRIMARY
-								}
-						  ]
-						: [
-								{
-									label: translate(
-										'twoFactorAuth.nag.button.protect'
-									),
-									function: OVERLAY_FUNCTIONS.REDIRECT,
-									type: BUTTON_TYPES.PRIMARY
-								}
-						  ]
-				}}
-			/>
-		</OverlayWrapper>
+		<Overlay
+			name={OVERLAY_TWO_FACTOR_NAG}
+			className="twoFactorNag"
+			handleOverlayClose={message.showClose ? closeTwoFactorNag : null}
+			handleOverlay={handleOverlayAction}
+			item={{
+				headline: translate(message.title, {
+					date: settings.twofactor.dateTwoFactorObligatory.toLocaleDateString(
+						'de-DE'
+					)
+				}),
+				copy: translate(message.copy, {
+					date1: settings.twofactor.dateTwoFactorObligatory.toLocaleDateString(
+						'de-DE'
+					),
+					date2: settings.twofactor.dateTwoFactorObligatory.toLocaleDateString(
+						'de-DE'
+					)
+				}),
+				buttonSet: message.showClose
+					? [
+							{
+								label: translate(
+									'twoFactorAuth.nag.button.later'
+								),
+								function: OVERLAY_FUNCTIONS.CLOSE,
+								type: BUTTON_TYPES.SECONDARY
+							},
+							{
+								label: translate(
+									'twoFactorAuth.nag.button.protect'
+								),
+								function: OVERLAY_FUNCTIONS.REDIRECT,
+								type: BUTTON_TYPES.PRIMARY
+							}
+					  ]
+					: [
+							{
+								label: translate(
+									'twoFactorAuth.nag.button.protect'
+								),
+								function: OVERLAY_FUNCTIONS.REDIRECT,
+								type: BUTTON_TYPES.PRIMARY
+							}
+					  ]
+			}}
+		/>
 	);
 };

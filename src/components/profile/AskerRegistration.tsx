@@ -15,12 +15,7 @@ import {
 	REGISTRATION_STATUS_KEYS
 } from './profileHelpers';
 import { apiRegistrationNewConsultingTypes } from '../../api';
-import {
-	OverlayWrapper,
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { logout } from '../logout/logout';
 import {
 	setProfileWrapperInactive,
@@ -290,12 +285,10 @@ export const AskerRegistration: React.FC = () => {
 				disabled={isButtonDisabled}
 			/>
 			{successOverlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={successOverlayItem}
-						handleOverlay={handleSuccessOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={successOverlayItem}
+					handleOverlay={handleSuccessOverlayAction}
+				/>
 			)}
 			{externalAgencyOverlayActive && (
 				<AskerRegistrationExternalAgencyOverlay

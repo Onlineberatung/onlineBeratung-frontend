@@ -88,7 +88,7 @@ import {
 import { useE2EE } from '../../hooks/useE2EE';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
-import { Overlay, OverlayWrapper } from '../overlay/Overlay';
+import { Overlay } from '../overlay/Overlay';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
 import { RoomNotFound } from '../session/RoomNotFound';
@@ -97,6 +97,10 @@ import {
 	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
+import {
+	OVERLAY_E2EE,
+	OVERLAY_REQUEST
+} from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -1089,16 +1093,11 @@ export const MessageSubmitInterfaceComponent = (
 				</form>
 			)}
 
-			{requestOverlayVisible && !e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay item={requestOverlay} />
-				</OverlayWrapper>
+			{requestOverlayVisible && (
+				<Overlay item={requestOverlay} name={OVERLAY_REQUEST} />
 			)}
-
 			{e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay item={e2eeOverlay} />
-				</OverlayWrapper>
+				<Overlay item={e2eeOverlay} name={OVERLAY_E2EE} />
 			)}
 		</div>
 	);

@@ -10,12 +10,7 @@ import {
 import { useParams, useHistory } from 'react-router-dom';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import './session.styles';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from './sessionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
@@ -29,6 +24,10 @@ import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg
 import { useTranslation } from 'react-i18next';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
+import {
+	OVERLAY_E2EE,
+	OVERLAY_REQUEST
+} from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 
 interface AcceptAssignProps {
 	assignable: boolean;
@@ -218,25 +217,17 @@ export const AcceptAssign = ({
 				)}
 			</div>
 
+			{requestOverlayVisible && (
+				<Overlay item={requestOverlay} name={OVERLAY_REQUEST} />
+			)}
 			{e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay item={e2eeOverlay} />
-				</OverlayWrapper>
+				<Overlay item={e2eeOverlay} name={OVERLAY_E2EE} />
 			)}
-
-			{requestOverlayVisible && !e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay item={requestOverlay} />
-				</OverlayWrapper>
-			)}
-
-			{overlayItem && !requestOverlayVisible && !e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+			{overlayItem && (
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</>
 	);

@@ -1,12 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-	OverlayWrapper,
-	Overlay,
-	OverlayItem,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import {
 	apiGetAgencyConsultantList,
@@ -33,6 +28,10 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
+import {
+	OVERLAY_E2EE,
+	OVERLAY_REQUEST
+} from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 
 export interface Consultant {
 	consultantId: string;
@@ -268,25 +267,17 @@ export const SessionAssign = (props: { value?: string }) => {
 					value: props.value
 				})}
 			/>
+			{requestOverlayVisible && (
+				<Overlay item={requestOverlay} name={OVERLAY_REQUEST} />
+			)}
 			{e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay item={e2eeOverlay} />
-				</OverlayWrapper>
+				<Overlay item={e2eeOverlay} name={OVERLAY_E2EE} />
 			)}
-
-			{requestOverlayVisible && !e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay item={requestOverlay} />
-				</OverlayWrapper>
-			)}
-
-			{overlayActive && !requestOverlayVisible && !e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+			{overlayActive && (
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</div>
 	);
