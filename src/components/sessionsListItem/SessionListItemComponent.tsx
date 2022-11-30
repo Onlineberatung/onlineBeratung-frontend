@@ -231,6 +231,10 @@ export const SessionListItemComponent = ({
 						'sessionsListItem__content',
 						isChatActive && 'sessionsListItem__content--active'
 					)}
+					onKeyDown={(e) => handleKeyDownListItem(e)}
+					ref={itemRef}
+					tabIndex={index === 0 ? 0 : -1}
+					role="tab"
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
