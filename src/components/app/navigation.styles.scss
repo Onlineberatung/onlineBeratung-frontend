@@ -51,6 +51,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		color: var(--text-color-contrast-switch, $white);
 		text-align: center;
 		text-decoration: none;
+
 		--transition-duration: 0.3s;
 
 		.select__wrapper {
@@ -149,12 +150,14 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 				display: none;
 			}
 		}
+
 		.navigation__icon__background {
 			position: relative;
 			isolation: isolate;
 			width: fit-content;
 			margin: auto;
 		}
+
 		.navigation__icon__background::after {
 			content: '';
 			position: absolute;
@@ -166,6 +169,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			z-index: -1;
 			transition: transform var(--transition-duration) ease;
 		}
+
 		&--active {
 			.navigation__icon__background::after {
 				transform: scale(1);
