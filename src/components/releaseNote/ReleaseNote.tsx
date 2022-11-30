@@ -126,14 +126,6 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		name: 'seen'
 	};
 
-	const handleOverlay = () => {
-		setShowRelaseNote(false);
-	};
-
-	const handleOverlayClose = () => {
-		setShowRelaseNote(false);
-	};
-
 	if (!showReleaseNote) {
 		return null;
 	}
@@ -142,8 +134,8 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		<Overlay
 			name={OVERLAY_RELEASE_NOTE}
 			className="releaseNote"
-			handleOverlayClose={() => handleOverlayClose()}
-			handleOverlay={() => handleOverlay()}
+			handleOverlayClose={() => setShowRelaseNote(false)}
+			handleOverlay={() => setShowRelaseNote(false)}
 			item={{
 				illustrationBackground: 'neutral',
 				svg: newIllustration,
