@@ -216,7 +216,14 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					{isMobile && <LocaleSwitch />}
 
 					<div className="waitingRoom__illustration">
-						<WelcomeIllustration />
+						<WelcomeIllustration
+							aria-label={translate(
+								'anonymous.waitingroom.welcomeImageTitle'
+							)}
+							title={translate(
+								'anonymous.waitingroom.welcomeImageTitle'
+							)}
+						/>
 					</div>
 					<div>
 						<Headline
@@ -283,7 +290,15 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 				<>
 					{isMobile && <LocaleSwitch />}
 					<div className="waitingRoom__illustration">
-						<ErrorIllustration className="waitingRoom__waitingIllustration" />
+						<ErrorIllustration
+							aria-label={translate(
+								'anonymous.waitingroom.errorImageTitle'
+							)}
+							title={translate(
+								'anonymous.waitingroom.errorImageTitle'
+							)}
+							className="waitingRoom__waitingIllustration"
+						/>
 					</div>
 					<div>
 						<Headline
@@ -312,7 +327,15 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 				<>
 					{isMobile && <LocaleSwitch updateUserData={!!username} />}
 					<div className="waitingRoom__illustration">
-						<WaitingIllustration className="waitingRoom__waitingIllustration" />
+						<WaitingIllustration
+							aria-label={translate(
+								'anonymous.waitingroom.waitingImageTitle'
+							)}
+							title={translate(
+								'anonymous.waitingroom.waitingImageTitle'
+							)}
+							className="waitingRoom__waitingIllustration"
+						/>
 					</div>
 					<div>
 						<Headline

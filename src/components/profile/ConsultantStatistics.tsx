@@ -275,7 +275,14 @@ export const ConsultantStatistics = () => {
 							'profile.statistics.complete.filename'
 						)} - ${periodDisplay}.csv`}
 					>
-						<DownloadIcon />
+						<DownloadIcon
+							title={translate(
+								'profile.statistics.complete.download.label'
+							)}
+							aria-label={translate(
+								'profile.statistics.complete.download.label'
+							)}
+						/>
 						{translate(
 							'profile.statistics.complete.download.label'
 						)}

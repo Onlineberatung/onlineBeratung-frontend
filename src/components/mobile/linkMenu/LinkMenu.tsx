@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, generatePath } from 'react-router-dom';
 import { ReactComponent as ForwardIcon } from '../../../resources/img/icons/arrow-right.svg';
 import './link_menu.styles';
@@ -73,11 +74,15 @@ const LinkMenuGroup = ({ item }: { item: LinkMenuGroupType }) => {
 };
 
 const LinkMenuItem = ({ item }: { item: LinkMenuItemType }) => {
+	const { t: translate } = useTranslation();
 	return (
 		<div className="link_menu__item">
 			<Link to={generatePath(item.url)}>
 				{item.title}
-				<ForwardIcon />
+				<ForwardIcon
+					title={translate('app.next')}
+					aria-label={translate('app.next')}
+				/>
 			</Link>
 		</div>
 	);

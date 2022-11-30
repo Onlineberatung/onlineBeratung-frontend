@@ -275,7 +275,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const scrollBottomButtonItem: ButtonItem = {
 		icon: <ArrowDoubleDownIcon />,
 		type: BUTTON_TYPES.SMALL_ICON,
-		smallIconBackgroundColor: 'alternate'
+		smallIconBackgroundColor: 'alternate',
+		title: translate('app.scrollDown')
 	};
 
 	// cancels dragging automatically if user drags outside the

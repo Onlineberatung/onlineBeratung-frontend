@@ -86,7 +86,10 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 					setOverlayActive(true);
 				}}
 			>
-				<QRCodeIcon />
+				<QRCodeIcon
+					title={translate('qrCode.iconTitle')}
+					aria-label={translate('qrCode.iconTitle')}
+				/>
 				{translate('qrCode.link.text')}
 			</button>
 			{overlayActive ? (

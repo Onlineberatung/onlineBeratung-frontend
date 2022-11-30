@@ -83,12 +83,16 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 						<>
 							{isInsideMenu && (
 								<LanguageIconOutline
+									title={translate('app.selectLanguage')}
+									aria-label={translate('app.selectLanguage')}
 									width={iconSize}
 									height={iconSize}
 									className="navigation__icon__outline"
 								/>
 							)}
 							<LanguageIconFilled
+								title={translate('app.selectLanguage')}
+								aria-label={translate('app.selectLanguage')}
 								width={iconSize}
 								height={iconSize}
 								className="navigation__icon__filled"

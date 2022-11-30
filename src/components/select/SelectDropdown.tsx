@@ -305,9 +305,15 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 		<components.DropdownIndicator {...props}>
 			<span id="selectIcon" className="select__input__iconWrapper">
 				{props.selectProps.menuIsOpen ? (
-					<ArrowUpIcon />
+					<ArrowUpIcon
+						title={translate('app.close')}
+						aria-label={translate('app.close')}
+					/>
 				) : (
-					<ArrowDownIcon />
+					<ArrowDownIcon
+						title={translate('app.open')}
+						aria-label={translate('app.open')}
+					/>
 				)}
 			</span>
 		</components.DropdownIndicator>
@@ -326,7 +332,10 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 	const CustomMultiValueRemove = (props) => {
 		return (
 			<components.MultiValueRemove {...props}>
-				<CloseCircle />
+				<CloseCircle
+					title={translate('app.delete')}
+					aria-label={translate('app.delete')}
+				/>
 			</components.MultiValueRemove>
 		);
 	};

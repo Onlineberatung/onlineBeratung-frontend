@@ -187,7 +187,14 @@ export const ConsultantPrivateData = () => {
 								setIsEditDisabled(false);
 							}}
 						>
-							<PenIcon />
+							<PenIcon
+								title={translate(
+									'profile.data.edit.button.edit'
+								)}
+								aria-label={translate(
+									'profile.data.edit.button.edit'
+								)}
+							/>
 						</span>
 					)}
 				</div>
