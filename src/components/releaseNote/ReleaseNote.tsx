@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { markdownToDraft } from 'markdown-draft-js';
 import { Headline } from '../headline/Headline';
@@ -18,7 +18,7 @@ import {
 	STORAGE_KEY_RELEASE_NOTES,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
-import { ModalContext } from '../../globalState';
+import { OVERLAY_RELEASE_NOTE } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 
 interface ReleaseNoteProps {}
 
@@ -38,7 +38,6 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const [checkboxChecked, setCheckboxChecked] = useState(false);
 	const [releaseNoteText, setReleaseNoteText] = useState('');
 	const [latestReleaseNote, setLatestReleaseNote] = useState('');
-	const { setClosedReleaseNote } = useContext(ModalContext);
 
 	const readReleaseNote = useMemo(
 		() => localStorage.getItem(STORAGE_KEY_RELEASE_NOTE) ?? '0',
@@ -108,14 +107,8 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 			})
 			.catch(() => {
 				setShowRelaseNote(false);
-				setClosedReleaseNote(true);
 			});
-	}, [
-		getDevToolbarOption,
-		readReleaseNote,
-		settings.urls.releases,
-		setClosedReleaseNote
-	]);
+	}, [getDevToolbarOption, readReleaseNote, settings.urls.releases]);
 
 	const changeHasSeenReleaseNote = () => {
 		setCheckboxChecked(!checkboxChecked);
@@ -135,12 +128,10 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 
 	const handleOverlay = () => {
 		setShowRelaseNote(false);
-		setClosedReleaseNote(true);
 	};
 
 	const handleOverlayClose = () => {
 		setShowRelaseNote(false);
-		setClosedReleaseNote(true);
 	};
 
 	if (!showReleaseNote) {
@@ -148,62 +139,57 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	}
 
 	return (
-		<OverlayWrapper>
-			<Overlay
-				className="releaseNote"
-				handleOverlayClose={() => handleOverlayClose()}
-				handleOverlay={() => handleOverlay()}
-				item={{
-					illustrationBackground: 'neutral',
-					svg: newIllustration,
-					nestedComponent: (
-						<>
-							<div className="releaseNote__header">
-								<Headline
-									text={translate(
-										'releaseNote.content.headline'
-									)}
-									semanticLevel="3"
-								/>
-								<Text
-									text={translate(
-										'releaseNote.content.intro'
-									)}
-									type="standard"
-								/>
-							</div>
-							<div className="releaseNote__content">
-								{releaseNoteText.length > 0 && (
-									<div
-										className="releaseNote__text"
-										dangerouslySetInnerHTML={{
-											__html: releaseNoteText
-										}}
-									></div>
-								)}
-							</div>
-							<div className="releaseNote__footer">
-								<Checkbox
-									checkboxHandle={changeHasSeenReleaseNote}
-									item={checkboxItem}
-									onKeyPress={(event) => {
-										if (event.key === 'Enter') {
-											changeHasSeenReleaseNote();
-										}
+		<Overlay
+			name={OVERLAY_RELEASE_NOTE}
+			className="releaseNote"
+			handleOverlayClose={() => handleOverlayClose()}
+			handleOverlay={() => handleOverlay()}
+			item={{
+				illustrationBackground: 'neutral',
+				svg: newIllustration,
+				nestedComponent: (
+					<>
+						<div className="releaseNote__header">
+							<Headline
+								text={translate('releaseNote.content.headline')}
+								semanticLevel="3"
+							/>
+							<Text
+								text={translate('releaseNote.content.intro')}
+								type="standard"
+							/>
+						</div>
+						<div className="releaseNote__content">
+							{releaseNoteText.length > 0 && (
+								<div
+									className="releaseNote__text"
+									dangerouslySetInnerHTML={{
+										__html: releaseNoteText
 									}}
-								/>
-							</div>
-						</>
-					),
-					buttonSet: [
-						{
-							label: translate('releaseNote.overlay.close'),
-							function: OVERLAY_FUNCTIONS.CLOSE,
-							type: BUTTON_TYPES.PRIMARY
-						}
-					]
-				}}
-			/>
-		</OverlayWrapper>
+								></div>
+							)}
+						</div>
+						<div className="releaseNote__footer">
+							<Checkbox
+								checkboxHandle={changeHasSeenReleaseNote}
+								item={checkboxItem}
+								onKeyPress={(event) => {
+									if (event.key === 'Enter') {
+										changeHasSeenReleaseNote();
+									}
+								}}
+							/>
+						</div>
+					</>
+				),
+				buttonSet: [
+					{
+						label: translate('releaseNote.overlay.close'),
+						function: OVERLAY_FUNCTIONS.CLOSE,
+						type: BUTTON_TYPES.PRIMARY
+					}
+				]
+			}}
+		/>
 	);
 };

@@ -13,7 +13,7 @@ import {
 	X_REASON
 } from '../../api';
 import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
-import { Overlay, OverlayWrapper, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useHistory } from 'react-router-dom';
@@ -249,39 +249,36 @@ export const ConsultantPrivateData = () => {
 					/>
 				</div>
 			)}
-			{overlayActive ? (
-				<OverlayWrapper>
-					<Overlay
-						items={[
-							{
-								nestedComponent: emailOverlay(),
-								buttonSet: [
-									{
-										type: BUTTON_TYPES.SECONDARY,
-										function: OVERLAY_FUNCTIONS.CLOSE,
-										label: translate(
-											'twoFactorAuth.email.change.confirmOverlay.button.deny'
-										)
-									},
-									{
-										type: BUTTON_TYPES.PRIMARY,
-										function:
-											OVERLAY_FUNCTIONS.CONFIRM_EDIT,
-										label: isTwoFactorBinding
-											? translate(
-													'twoFactorAuth.email.change.confirmOverlay.button.edit'
-											  )
-											: translate(
-													'twoFactorAuth.email.change.confirmOverlay.button.confirm'
-											  )
-									}
-								],
-								handleOverlay: handleOverlayAction
-							}
-						]}
-					/>
-				</OverlayWrapper>
-			) : null}
+			{overlayActive && (
+				<Overlay
+					items={[
+						{
+							nestedComponent: emailOverlay(),
+							buttonSet: [
+								{
+									type: BUTTON_TYPES.SECONDARY,
+									function: OVERLAY_FUNCTIONS.CLOSE,
+									label: translate(
+										'twoFactorAuth.email.change.confirmOverlay.button.deny'
+									)
+								},
+								{
+									type: BUTTON_TYPES.PRIMARY,
+									function: OVERLAY_FUNCTIONS.CONFIRM_EDIT,
+									label: isTwoFactorBinding
+										? translate(
+												'twoFactorAuth.email.change.confirmOverlay.button.edit'
+										  )
+										: translate(
+												'twoFactorAuth.email.change.confirmOverlay.button.confirm'
+										  )
+								}
+							],
+							handleOverlay: handleOverlayAction
+						}
+					]}
+				/>
+			)}
 		</div>
 	);
 };

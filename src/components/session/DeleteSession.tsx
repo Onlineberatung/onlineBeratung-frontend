@@ -2,12 +2,7 @@ import React, { ReactNode, useState } from 'react';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { apiDeleteRemove } from '../../api/apiDeleteRemove';
-import {
-	OverlayWrapper,
-	Overlay,
-	OverlayItem,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { useTranslation } from 'react-i18next';
 
@@ -99,13 +94,11 @@ const DeleteSession = ({
 		<>
 			{children(() => setOverlayItem(overlayConfirm))}
 			{overlayItem && (
-				<OverlayWrapper>
-					<Overlay
-						className="deleteSession__overlay"
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					className="deleteSession__overlay"
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</>
 	);

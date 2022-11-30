@@ -17,18 +17,12 @@ import {
 } from '../inputField/InputField';
 import { isStringValidEmail } from '../registration/registrationHelpers';
 import { useContext, useEffect, useState } from 'react';
-import {
-	Overlay,
-	OverlayItem,
-	OverlayWrapper,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { apiPutEmail, FETCH_ERRORS, X_REASON } from '../../api';
 import {
 	AUTHORITIES,
 	ConsultingTypeInterface,
 	hasUserAuthority,
-	ModalContext,
 	UserDataContext
 } from '../../globalState';
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
@@ -51,7 +45,6 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
 	const { userData, setUserData } = useContext(UserDataContext);
-	const { setClosedTwoFactorNag } = useContext(ModalContext);
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
 	const [email, setEmail] = useState<string>('');
@@ -163,7 +156,6 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 			setIsOverlayActive(false);
 			setIsSuccessOverlay(false);
 			setIsRequestInProgress(false);
-			setClosedTwoFactorNag(true);
 		} else if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			apiPutEmail(email)
@@ -289,16 +281,14 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 								buttonHandle={() => setIsOverlayActive(true)}
 							/>
 							{isOverlayActive && (
-								<OverlayWrapper>
-									<Overlay
-										item={
-											isSuccessOverlay
-												? successOverlayItem
-												: emailOverlayItem
-										}
-										handleOverlay={handleOverlayAction}
-									/>
-								</OverlayWrapper>
+								<Overlay
+									item={
+										isSuccessOverlay
+											? successOverlayItem
+											: emailOverlayItem
+									}
+									handleOverlay={handleOverlayAction}
+								/>
 							)}
 						</>
 					)}

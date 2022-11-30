@@ -16,8 +16,7 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	E2EEProvider,
-	SessionTypeProvider,
-	ModalContext
+	SessionTypeProvider
 } from '../../globalState';
 import { NavigationBar } from './NavigationBar';
 import { Header } from '../header/Header';
@@ -37,7 +36,6 @@ export const Routing = (props: RoutingProps) => {
 	const settings = useAppConfig();
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
-	const { closedTwoFactorNag, closedReleaseNote } = useContext(ModalContext);
 	const hasAssignedConsultant = useAskerHasAssignedConsultant();
 
 	const routerConfig = useMemo(() => {
@@ -291,12 +289,7 @@ export const Routing = (props: RoutingProps) => {
 							{hasUserAuthority(
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
-							) &&
-								(closedTwoFactorNag ||
-									localStorage.getItem('2fa') === '0') &&
-								(closedReleaseNote ||
-									localStorage.getItem('release_notes') ===
-										'0') && <AbsenceHandler />}
+							) && <AbsenceHandler />}
 							{hasUserAuthority(
 								AUTHORITIES.ANONYMOUS_DEFAULT,
 								userData
@@ -304,11 +297,7 @@ export const Routing = (props: RoutingProps) => {
 							{hasUserAuthority(
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
-							) &&
-								(closedTwoFactorNag ||
-									localStorage.getItem('2fa') === '0') && (
-									<ReleaseNote />
-								)}
+							) && <ReleaseNote />}
 							{hasUserAuthority(
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
