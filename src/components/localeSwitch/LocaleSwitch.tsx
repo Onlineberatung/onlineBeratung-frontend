@@ -16,6 +16,7 @@ export interface LocaleSwitchProp {
 	iconSize?: number;
 	label?: string;
 	menuPlacement?: 'top' | 'bottom' | 'right';
+	selectRef?: any;
 	isInsideMenu?: boolean;
 }
 
@@ -27,6 +28,7 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 	iconSize = 20,
 	menuPlacement = 'bottom',
 	label,
+	selectRef,
 	isInsideMenu = false
 }) => {
 	const { t: translate } = useTranslation('languages');
@@ -71,6 +73,8 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 		isSearchable: false,
 		menuPlacement: menuPlacement,
 		menuPosition: 'fixed',
+		selectRef,
+		isInsideMenu,
 		defaultValue: {
 			value: locale,
 			label: (

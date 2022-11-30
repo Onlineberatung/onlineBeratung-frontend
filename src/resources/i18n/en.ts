@@ -982,7 +982,9 @@ export const en = {
 				'app.otp.missing':
 					'Please enter the code from your app for two-factor authentication.',
 				'email.otp.missing':
-					'Please enter the code from your email for two-factor authentication.'
+					'Please enter the code from your email for two-factor authentication.',
+				'deletedAccount':
+					'Your account was marked for deletion. Your data will be deleted within the next 24 hours.'
 			}
 		},
 		'resend.otp.email.label': 'Send code once again',
@@ -1060,7 +1062,8 @@ export const en = {
 				cancel: 'Cancel',
 				confirm: 'Delete'
 			}
-		}
+		},
+		'note.title': 'Note'
 	},
 	monitoring: {
 		title: 'Monitoring',
