@@ -33,6 +33,8 @@ import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
 import { Text } from '../text/Text';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
+import { FormAccordionRegistrationText } from './FormAccordionRegistrationText';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 
 interface FormAccordionProps {
 	consultingType?: ConsultingTypeInterface;
@@ -114,6 +116,13 @@ export const FormAccordion = ({
 			consultingTypeId: agency?.consultingType,
 			postcode: agency?.postcode
 		});
+		// different data protection between agencies
+		agency?.tenantId &&
+			setValueInCookie(
+				'tenantId',
+				agency?.tenantId ? agency?.tenantId?.toString() : '0'
+			);
+		agency?.tenantId && setIsDataProtectionSelected(false);
 	}, [agency]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
@@ -443,7 +452,7 @@ export const FormAccordion = ({
 						}}
 					/>
 				</div>
-
+				<FormAccordionRegistrationText agency={agency} />
 				<Button
 					className="registrationForm__submit"
 					item={buttonItemSubmit}
