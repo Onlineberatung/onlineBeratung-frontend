@@ -231,7 +231,14 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 					<ul className="furtherSteps__steps">
 						<li className="furtherSteps__step">
 							<div className="furtherSteps__illustration">
-								<EnvelopeIllustration />
+								<EnvelopeIllustration
+									aria-label={translate(
+										'furtherSteps.step1.iconTitle'
+									)}
+									title={translate(
+										'furtherSteps.step1.iconTitle'
+									)}
+								/>
 							</div>
 							<Text
 								type="infoLargeStandard"
@@ -240,11 +247,23 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 							/>
 						</li>
 						<li className="furtherSteps__arrow">
-							<ArrowIllustration />
+							<ArrowIllustration
+								aria-label={translate(
+									'furtherSteps.arrowTitle'
+								)}
+								title={translate('furtherSteps.arrowTitle')}
+							/>
 						</li>
 						<li className="furtherSteps__step">
 							<div className="furtherSteps__illustration">
-								<ConsultantIllustration />
+								<ConsultantIllustration
+									aria-label={translate(
+										'furtherSteps.step2.iconTitle'
+									)}
+									title={translate(
+										'furtherSteps.step2.iconTitle'
+									)}
+								/>
 							</div>
 							<Text
 								type="infoLargeStandard"
@@ -253,11 +272,23 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 							/>
 						</li>
 						<li className="furtherSteps__arrow">
-							<ArrowIllustration />
+							<ArrowIllustration
+								aria-label={translate(
+									'furtherSteps.arrowTitle'
+								)}
+								title={translate('furtherSteps.arrowTitle')}
+							/>
 						</li>
 						<li className="furtherSteps__step">
 							<div className="furtherSteps__illustration">
-								<AnswerIllustration />
+								<AnswerIllustration
+									aria-label={translate(
+										'furtherSteps.step3.iconTitle'
+									)}
+									title={translate(
+										'furtherSteps.step3.iconTitle'
+									)}
+								/>
 							</div>
 							<Text
 								type="infoLargeStandard"

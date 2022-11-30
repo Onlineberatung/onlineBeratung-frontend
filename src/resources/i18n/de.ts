@@ -108,7 +108,17 @@ export const de = {
 		'claim': 'Online. Anonym. Sicher.',
 		'save': 'Speichern',
 		'stage.title': 'Beratung & Hilfe',
-		'logout': 'Abmelden'
+		'logout': 'Abmelden',
+		'close': 'Schließen',
+		'open': 'Öffnen',
+		'delete': 'Eingabe löschen',
+		'scrollDown': 'Nach unten scrollen',
+		'menu': 'Weitere Funktionen',
+		'back': 'Zurück',
+		'next': 'Weiter',
+		'successful': 'Erfolgreich',
+		'faulty': 'Fehlerhaft',
+		'selectLanguage': 'Sprache wählen'
 	},
 	appointments: {
 		copy: {
@@ -161,7 +171,8 @@ export const de = {
 		},
 		showLess: 'Weniger anzeigen',
 		showMore: 'Mehr anzeigen',
-		title: 'Terminübersicht'
+		title: 'Terminübersicht',
+		newAppointment: 'Neuer Videotermin'
 	},
 	archive: {
 		overlay: {
@@ -484,7 +495,8 @@ export const de = {
 					facts: '<ul><li>Was ist passiert?</li><li>Wie ist Ihre aktuelle Situation?</li><li>Was beschäftigt Sie?</li><li>Haben Sie eine bestimmte Frage oder wissen Sie vielleicht selbst noch nicht so genau was Ihnen helfen könnte?</li></ul>',
 					title: 'Vielleicht helfen Ihnen folgende Punkte bei der Formulierung weiter:'
 				},
-				headline: 'Hier ist Platz für Ihre Anliegen.'
+				headline: 'Hier ist Platz für Ihre Anliegen.',
+				iconTitle: 'Willkommen'
 			},
 			input: {
 				'placeholder': {
@@ -496,7 +508,10 @@ export const de = {
 					},
 					groupChat: 'Nachricht schreiben'
 				},
-				'button.title': 'Nachricht senden'
+				'button.title': 'Nachricht senden',
+				'attachement': 'Anhang hinzufügen',
+				'emojies': 'Emoji einfügen',
+				'format': 'Text formatieren'
 			},
 			overlay: {
 				copy: 'Innerhalb von zwei Werktagen erhalten Sie eine Antwort von uns.',
@@ -535,9 +550,13 @@ export const de = {
 		'consultant.info':
 			'Der_die Ratsuchende wurde folgendermaßen über die nächsten Schritte informiert.',
 		'headline': 'So geht es weiter:',
+		'arrowTitle': 'Weiter',
 		'step1.info': 'Wir haben Ihre Nachricht erhalten.',
+		'step1.iconTitle': 'Geöffneter Brief',
 		'step2.info': 'Jetzt finden wir eine_n passende_n Berater_in für Sie.',
+		'step2.iconTitle': 'Berater Brille',
 		'step3.info': 'Ihr_e Berater_in antwortet innerhalb von 2 Werktagen.',
+		'step3.iconTitle': 'Sprechblasen',
 		'emailNotification': {
 			button: 'E-Mail-Adresse angeben',
 			headline:
@@ -722,6 +741,7 @@ export const de = {
 	help: {
 		googleChrome: 'Google Chrome',
 		msEdge: 'Microsoft Edge',
+		openInNewTab: 'In neuem Tab öffnen',
 		videoCall: {
 			asker: {
 				intro: 'Um Ende-zu Ende verschlüsselt zu telefonieren, befolgen Sie folgende Schritte:',
@@ -977,6 +997,8 @@ export const de = {
 		},
 		'password': {
 			label: 'Passwort',
+			hide: 'Passwort verbergen',
+			show: 'Passwort anzeigen',
 			reset: {
 				warn: {
 					overlay: {
@@ -1066,7 +1088,13 @@ export const de = {
 				confirm: 'Löschen'
 			}
 		},
-		'note.title': 'Notiz'
+		'note.title': 'Notiz',
+		'unread': 'ungelesen',
+		'read': 'gelesen',
+		'sent': 'zugestellt',
+		'groupChat': 'Gruppenchat',
+		'liveChat': 'Live Chat',
+		'newEnquiry': 'Neue Anfrage'
 	},
 	monitoring: {
 		title: 'Monitoring',
@@ -1269,7 +1297,11 @@ export const de = {
 	},
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
-		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!'
+		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!',
+		'warning': 'Warnung',
+		'error': 'Fehlgeschlagen',
+		'success': 'Erfolgreich',
+		'info': 'Info'
 	},
 	overlay: {
 		'step.headline.prefix': '. Schritt | ',
@@ -1326,7 +1358,8 @@ export const de = {
 			},
 			edit: {
 				'button.cancel': 'Abbrechen',
-				'button.save': 'Speichern'
+				'button.save': 'Speichern',
+				'button.edit': 'Bearbeiten'
 			},
 			agency: {
 				label: 'Beratungsstelle',
@@ -1339,7 +1372,7 @@ export const de = {
 					}
 				}
 			},
-
+			profileIcon: 'Profilbild',
 			userName: 'Benutzername',
 			displayName: 'Anzeigename',
 			firstName: 'Vorname',
@@ -1552,7 +1585,8 @@ export const de = {
 				headline: 'Ihr persönlicher QR-Code',
 				info: 'Wenn Sie Ihren QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um mit Ihnen direkt Kontakt aufzunehmen. Alternativ können Sie den Code auch herunterladen.'
 			}
-		}
+		},
+		'iconTitle': 'QR-Code'
 	},
 	registration: {
 		'accordion': {
@@ -1655,6 +1689,7 @@ export const de = {
 		'password': {
 			'confirmation.label': 'Passwort wiederholen',
 			'criteria': {
+				fulfilled: 'Erfüllt',
 				upperLowerCase: 'Groß-/Kleinschreibung',
 				number: 'mindestens eine Zahl',
 				specialChar: 'mindestens ein Sonderzeichen',
@@ -2079,7 +2114,8 @@ export const de = {
 				label: 'Ihr zweiter Faktor'
 			}
 		},
-		title: 'Zwei-Faktor-Authentifizierung'
+		title: 'Zwei-Faktor-Authentifizierung',
+		edit: 'Bearbeiten'
 	},
 	typingIndicator: {
 		'multipleUsers.typing': 'Teilnehmer_innen schreiben',
@@ -2292,7 +2328,9 @@ export const de = {
 				'subline':
 					'Bitte bestätigen Sie unsere Datenschutzbestimmungen.'
 			},
-
+			'waitingImageTitle': 'Wartende Person mit Kaffee',
+			'welcomeImageTitle': 'Willkommen',
+			'errorImageTitle': 'Fehlgeschlagen',
 			'headline': 'Bitte haben Sie etwas Geduld',
 			'subline':
 				'Der Video-Call hat noch nicht begonnen. Sie werden weitergeleitet sobald Ihr_e Berater_in den Video-Call startet.',

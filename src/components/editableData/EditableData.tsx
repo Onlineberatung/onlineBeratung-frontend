@@ -150,7 +150,10 @@ export const EditableData = ({
 					className="editableData__inputButton editableData__inputButton--remove"
 					onClick={handleRemoveButtonClick}
 				>
-					<CrossMarkIcon />
+					<CrossMarkIcon
+						title={translate('app.delete')}
+						aria-label={translate('app.delete')}
+					/>
 				</span>
 			)}
 			{isSingleEdit && isDisabled && (
@@ -167,7 +170,12 @@ export const EditableData = ({
 						className="editableData__inputButton editableData__inputButton--singleEdit"
 						onClick={() => handleSingleEditActive()}
 					>
-						<PenIcon />
+						<PenIcon
+							title={translate('profile.data.edit.button.edit')}
+							aria-label={translate(
+								'profile.data.edit.button.edit'
+							)}
+						/>
 					</span>
 				</div>
 			)}

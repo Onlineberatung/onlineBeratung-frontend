@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MenuHorizontalIcon } from '../../resources/img/icons';
 import './flyoutMenu.styles.scss';
 
@@ -23,6 +24,7 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
 	position = 'left'
 }) => {
 	const [flyoutShown, setFlyoutShown] = useState(false);
+	const { t: translate } = useTranslation();
 
 	const handleFlyout = useCallback(() => {
 		setFlyoutShown(!flyoutShown);
@@ -54,7 +56,12 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
 
 	return (
 		<div className={`flyoutMenu flyoutMenu--${position}`}>
-			<button onClick={handleFlyout} className="flyoutMenu__trigger">
+			<button
+				aria-label={translate('app.menu')}
+				title={translate('app.menu')}
+				onClick={handleFlyout}
+				className="flyoutMenu__trigger"
+			>
 				<MenuHorizontalIcon />
 			</button>
 			<div

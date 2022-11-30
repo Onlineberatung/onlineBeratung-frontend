@@ -62,14 +62,24 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 	const decodedUsername = decodeUsername(props.videoCall.initiatorUsername);
 
 	const buttonAnswerCall: ButtonItem = {
-		icon: <CallOnIcon />,
+		icon: (
+			<CallOnIcon
+				aria-label={translate('videoCall.button.answerCall')}
+				title={translate('videoCall.button.answerCall')}
+			/>
+		),
 		smallIconBackgroundColor: 'green',
 		title: translate('videoCall.button.answerCall'),
 		type: BUTTON_TYPES.SMALL_ICON
 	};
 
 	const buttonAnswerVideoCall: ButtonItem = {
-		icon: <CameraOnIcon />,
+		icon: (
+			<CameraOnIcon
+				aria-label={translate('videoCall.button.answerVideoCall')}
+				title={translate('videoCall.button.answerVideoCall')}
+			/>
+		),
 		smallIconBackgroundColor: 'green',
 		title: translate('videoCall.button.answerVideoCall'),
 		type: BUTTON_TYPES.SMALL_ICON
@@ -79,7 +89,12 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 		type: BUTTON_TYPES.SMALL_ICON,
 		smallIconBackgroundColor: 'red',
 		title: translate('videoCall.button.rejectCall'),
-		icon: <CallOffIcon />
+		icon: (
+			<CallOffIcon
+				aria-label={translate('videoCall.button.rejectCall')}
+				title={translate('videoCall.button.rejectCall')}
+			/>
+		)
 	};
 
 	const handleAnswerVideoCall = (isVideoActivated: boolean = false) => {

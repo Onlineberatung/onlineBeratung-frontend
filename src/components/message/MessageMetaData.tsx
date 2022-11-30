@@ -8,6 +8,7 @@ import {
 import { formatToHHMM } from '../../utils/dateHelpers';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { useTranslation } from 'react-i18next';
 
 interface MessageMetaDataProps {
 	isMyMessage: Boolean;
@@ -21,6 +22,7 @@ interface MessageMetaDataProps {
 export const MessageMetaData = (props: MessageMetaDataProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { activeSession } = useContext(ActiveSessionContext);
+	const { t: translate } = useTranslation();
 
 	const isReadStatus = () => {
 		if (
@@ -44,7 +46,18 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 						: `messageItem__readStatus`
 				}
 			>
-				<CheckmarkIcon />
+				<CheckmarkIcon
+					aria-label={
+						props.isNotRead
+							? translate('message.sent')
+							: translate('message.read')
+					}
+					title={
+						props.isNotRead
+							? translate('message.sent')
+							: translate('message.read')
+					}
+				/>
 			</div>
 		);
 	};
