@@ -206,5 +206,12 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 
 	.button__link {
 		color: $tertiary;
+		svg {
+			margin: 0;
+		}
+	}
+
+	.button__custom-icon {
+		margin: 0;
 	}
 }

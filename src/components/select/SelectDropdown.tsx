@@ -308,11 +308,13 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 					<ArrowUpIcon
 						title={translate('app.close')}
 						aria-label={translate('app.close')}
+						className="tertiary"
 					/>
 				) : (
 					<ArrowDownIcon
 						title={translate('app.open')}
 						aria-label={translate('app.open')}
+						className="tertiary"
 					/>
 				)}
 			</span>

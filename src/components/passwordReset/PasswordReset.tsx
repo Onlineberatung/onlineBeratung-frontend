@@ -346,7 +346,7 @@ export const PasswordReset = () => {
 							label: translate(
 								'profile.functions.security.button'
 							),
-							type: 'SECONDARY'
+							type: 'LINK'
 						}}
 						buttonHandle={handleSubmit}
 						className={'passwordReset__button'}
