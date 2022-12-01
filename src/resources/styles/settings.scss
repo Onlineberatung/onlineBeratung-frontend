@@ -260,7 +260,7 @@ $registration-form-margin-left: 0 !default;
 $registration-text-align: center;
 $select-dropdown-border-radius: 4px;
 $select-focus-background-color: $hover-primary;
-$selection-focus-color: white;
+$selection-focus-color: $text-invert;
 $sendInputHeight: 48px;
 $session-background-color: $background-lighter;
 $session-content-background-color: $background-lighter;
