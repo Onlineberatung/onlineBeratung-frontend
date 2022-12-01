@@ -33,12 +33,7 @@ import {
 	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
@@ -454,14 +449,12 @@ export const SessionStream = ({
 				messages={messagesItem}
 				bannedUsers={bannedUsers}
 			/>
-			{isOverlayActive ? (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
-			) : null}
+			{isOverlayActive && (
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
+			)}
 		</div>
 	);
 };

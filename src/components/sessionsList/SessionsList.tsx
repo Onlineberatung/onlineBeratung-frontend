@@ -239,7 +239,7 @@ export const SessionsList = ({
 						sessions
 					});
 					if (
-						sessions.length === 1 &&
+						sessions?.length === 1 &&
 						sessions[0]?.session?.status === STATUS_EMPTY
 					) {
 						history.push(`/sessions/user/view/write/`);

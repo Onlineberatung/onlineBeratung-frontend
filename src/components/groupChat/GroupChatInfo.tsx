@@ -8,12 +8,7 @@ import {
 } from '../../globalState';
 import { isUserModerator, SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import {
-	OVERLAY_FUNCTIONS,
-	OverlayWrapper,
-	Overlay,
-	OverlayItem
-} from '../overlay/Overlay';
+import { OVERLAY_FUNCTIONS, Overlay, OverlayItem } from '../overlay/Overlay';
 import {
 	apiGetGroupChatInfo,
 	apiGetGroupMembers,
@@ -406,12 +401,10 @@ export const GroupChatInfo = () => {
 				</div>
 			</div>
 			{overlayActive ? (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
 			) : null}
 		</div>
 	);

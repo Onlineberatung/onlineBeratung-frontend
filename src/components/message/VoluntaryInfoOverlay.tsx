@@ -3,12 +3,7 @@ import { useContext, useState } from 'react';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { GeneratedInputs } from '../inputField/InputField';
-import {
-	OverlayWrapper,
-	Overlay,
-	OverlayItem,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { RadioButton } from '../radioButton/RadioButton';
 import { getOptionOfSelectedValue } from '../registration/registrationHelpers';
 import { SelectDropdown } from '../select/SelectDropdown';
@@ -282,16 +277,14 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 				buttonHandle={() => setIsOverlayActive(true)}
 			/>
 			{isOverlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={
-							isSuccessOverlay
-								? successOverlayItem
-								: VoluntaryInfoOverlayItem
-						}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={
+						isSuccessOverlay
+							? successOverlayItem
+							: VoluntaryInfoOverlayItem
+					}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</>
 	);
