@@ -1,5 +1,5 @@
 import { endpoints } from '../resources/scripts/endpoints';
-import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
+import { fetchData, FETCH_ERRORS, FETCH_METHODS, FETCH_SUCCESS } from './fetchData';
 
 export const apiPostDraftMessage = async (
 	rcGroupIdOrSessionId: string | number,
@@ -30,13 +30,11 @@ export const apiGetDraftMessage = async (
 	signal?: AbortSignal
 ): Promise<IDraftMessage> => {
 	const url = endpoints.draftMessages;
-	const res = await fetchData({
+	return fetchData({
 		url: url,
 		method: FETCH_METHODS.GET,
 		headersData: { rcGroupId: rcGroupIdOrSessionId },
-		responseHandling: [FETCH_ERRORS.EMPTY],
+		responseHandling: [FETCH_ERRORS.EMPTY, FETCH_SUCCESS.CONTENT],
 		...(signal && { signal: signal })
 	});
-
-	return await res.json();
 };
