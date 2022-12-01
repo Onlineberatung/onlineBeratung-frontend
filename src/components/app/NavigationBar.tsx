@@ -235,10 +235,26 @@ export const NavigationBar = ({
 								>
 									<div className="navigation__icon__background">
 										{Icon && (
-											<Icon className="navigation__icon__outline" />
+											<Icon
+												title={translate(
+													item.titleKeys.large
+												)}
+												aria-label={translate(
+													item.titleKeys.large
+												)}
+												className="navigation__icon__outline"
+											/>
 										)}
 										{IconFilled && (
-											<IconFilled className="navigation__icon__filled" />
+											<IconFilled
+												title={translate(
+													item.titleKeys.large
+												)}
+												aria-label={translate(
+													item.titleKeys.large
+												)}
+												className="navigation__icon__filled"
+											/>
 										)}
 									</div>
 

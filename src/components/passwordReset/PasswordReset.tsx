@@ -2,12 +2,7 @@ import * as React from 'react';
 import { useState, useContext } from 'react';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { apiUpdatePassword } from '../../api';
-import {
-	OverlayWrapper,
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
 import {
@@ -360,9 +355,7 @@ export const PasswordReset = () => {
 				</div>
 			</div>
 			{overlayActive ? (
-				<OverlayWrapper>
-					<Overlay item={overlayItem} handleOverlay={handleSuccess} />
-				</OverlayWrapper>
+				<Overlay item={overlayItem} handleOverlay={handleSuccess} />
 			) : null}
 		</div>
 	);

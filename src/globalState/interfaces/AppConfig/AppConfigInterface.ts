@@ -5,6 +5,7 @@ import { AppConfigUrlsInterface } from './AppConfigUrlsInterface';
 import { AppSettingsInterface } from './AppSettingsInterface';
 import { LegalLinkInterface } from '../LegalLinkInterface';
 import { InitOptions } from 'i18next';
+import { OverlaysConfigInterface } from './OverlaysConfigInterface';
 
 export interface AppConfigInterface extends AppSettingsInterface {
 	urls: AppConfigUrlsInterface;
@@ -15,4 +16,5 @@ export interface AppConfigInterface extends AppSettingsInterface {
 	emails: AppConfigNotificationsInterface;
 	twofactor: AppConfigTwoFactorInterface;
 	i18n: InitOptions;
+	overlays?: OverlaysConfigInterface;
 }

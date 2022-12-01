@@ -4,12 +4,7 @@ import {
 	setProfileWrapperActive,
 	setProfileWrapperInactive
 } from '../app/navigationHandler';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import './appointments.styles.scss';
 import {
@@ -172,7 +167,8 @@ export const Appointments = () => {
 
 	const addVideoCallButton: ButtonItem = {
 		type: BUTTON_TYPES.PRIMARY,
-		icon: <CameraPlusIcon />
+		icon: <CameraPlusIcon />,
+		title: translate('appointments.newAppointment')
 	};
 
 	const changeOnlineMeeting = useCallback(
@@ -312,12 +308,10 @@ export const Appointments = () => {
 					)}
 
 					{overlayItem && (
-						<OverlayWrapper>
-							<Overlay
-								item={overlayItem}
-								handleOverlay={handleOverlay}
-							/>
-						</OverlayWrapper>
+						<Overlay
+							item={overlayItem}
+							handleOverlay={handleOverlay}
+						/>
 					)}
 				</ScrollableSectionBody>
 				<ScrollableSectionFooter>

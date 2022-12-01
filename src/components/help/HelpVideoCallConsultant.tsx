@@ -61,6 +61,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 							<img
 								src={ChromeLogo}
 								alt={translate('help.googleChrome')}
+								title={translate('help.googleChrome')}
 							/>
 							<a
 								href="https://www.google.com/chrome/"
@@ -68,13 +69,18 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 								rel="noreferrer"
 								className="button-as-link"
 							>
-								<NewWindow /> {translate('help.googleChrome')}
+								<NewWindow
+									title={translate('help.openInNewTab')}
+									aria-label={translate('help.openInNewTab')}
+								/>{' '}
+								{translate('help.googleChrome')}
 							</a>
 						</div>
 						<div>
 							<img
 								src={EdgeLogo}
 								alt={translate('help.msEdge')}
+								title={translate('help.msEdge')}
 							/>
 							<a
 								href="https://www.microsoft.com/edge"
@@ -82,7 +88,11 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 								rel="noreferrer"
 								className="button-as-link"
 							>
-								<NewWindow /> {translate('help.msEdge')}
+								<NewWindow
+									title={translate('help.openInNewTab')}
+									aria-label={translate('help.openInNewTab')}
+								/>{' '}
+								{translate('help.msEdge')}
 							</a>
 						</div>
 					</div>

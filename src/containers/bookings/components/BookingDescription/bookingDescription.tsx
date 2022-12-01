@@ -30,7 +30,17 @@ export const BookingDescription = (params: { description: string }) => {
 					className="bookingEvents__showMore bookingEvents--flex bookingEvents--pointer"
 					onClick={() => setExpanded(!expanded)}
 				>
-					{expanded ? <ArrowUpIcon /> : <ArrowDownIcon />}
+					{expanded ? (
+						<ArrowUpIcon
+							aria-label={translate('app.close')}
+							title={translate('app.close')}
+						/>
+					) : (
+						<ArrowDownIcon
+							aria-label={translate('app.open')}
+							title={translate('app.open')}
+						/>
+					)}
 					<Text
 						text={
 							expanded
