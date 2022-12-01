@@ -312,7 +312,7 @@ export const PasswordReset = () => {
 				</div>
 
 				<div
-					className="text--tertiary tertiary pb--1"
+					className="tertiary pb--1"
 					dangerouslySetInnerHTML={{
 						__html: translate(
 							'profile.functions.password.reset.instructions'
@@ -351,23 +351,12 @@ export const PasswordReset = () => {
 							label: translate(
 								'profile.functions.security.button'
 							),
-							type: 'TERTIARY'
+							type: 'SECONDARY'
 						}}
 						buttonHandle={handleSubmit}
 						className={'passwordReset__button'}
 						disabled={!isValid}
 					/>
-					{/* <span
-						onClick={handleSubmit}
-						id="passwordResetButton"
-						role="button"
-						className={
-							'passwordReset__button' +
-							(!isValid ? ' passwordReset__button--disabled' : '')
-						}
-					>
-						{translate('profile.functions.security.button')}
-					</span> */}
 				</div>
 			</div>
 			{overlayActive ? (

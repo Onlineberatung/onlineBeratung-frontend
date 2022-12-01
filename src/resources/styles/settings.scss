@@ -29,10 +29,10 @@ $primary: #cc1e1c;
 $secondary: rgba(0, 0, 0, 0.9);
 $tertiary: rgba(0, 0, 0, 0.6);
 
-$background-accent: #f8dedd;
-
-$hover-primary: #a31816;
+$hover-primary: #a31816; //hintergrund weißer text
 $hover-select: #f4d2d1;
+
+$background-accent: #f8dedd; //#f8dedd;
 
 $background-light: #f4f0ee;
 $background-lighter: #faf6f3;
@@ -176,9 +176,9 @@ $section_margin_top_xlarge: 80px;
 }
 
 // Components (keep variables in alphabetic order)
-$background-color-e2ee-hint: #caf0ce;
+$background-color-e2ee-hint: #cee7d5;
 $border-radius-e2ee-hint: 4px;
-$border-color-e2ee-hint: #4fcc5c;
+$border-color-e2ee-hint: $form-success;
 $box-border-radius: 8px;
 $button-auto-close-color: $light-red;
 $button-border-radius: $grid-base-three;
@@ -259,8 +259,8 @@ $registration-form-max-width: 570px;
 $registration-form-margin-left: 0 !default;
 $registration-text-align: center;
 $select-dropdown-border-radius: 4px;
-$select-focus-background-color: $background-accent;
-$selection-focus-color: $primary;
+$select-focus-background-color: $hover-primary;
+$selection-focus-color: white;
 $sendInputHeight: 48px;
 $session-background-color: $background-lighter;
 $session-content-background-color: $background-lighter;
@@ -270,12 +270,12 @@ $session-list-item-background-active: $background-lighter;
 $session-list-item-border-radius: 4px;
 $sessions-list-background-color-primary: $background-lighter;
 $sessions-list-background-color-secondary: $background-light;
-$session-menu-legal-links-color: $primary;
+$session-menu-legal-links-color: white;
 $statistics-highlight-color: $primary;
 $tab-border-radius: 25px;
 $tab-background-color: rgba(0, 0, 0, 0.05);
 $tab-background-color-hover: rgba(0, 0, 0, 0.2);
-$tab-background-color-selected: rgba($primary, 0.2);
+$tab-background-color-selected: #faf6f3;
 $tab-background-color-selected-hover: rgba($hover-primary, 0.2);
 $tab-background-border-color-selected: $primary;
 $tab-color: $tertiary;

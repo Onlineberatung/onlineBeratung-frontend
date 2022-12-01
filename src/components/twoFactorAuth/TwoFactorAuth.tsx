@@ -864,14 +864,15 @@ export const TwoFactorAuth = () => {
 						semanticLevel="5"
 					/>
 					{isTwoFactorBinding && (
-						<Button
-							className="twoFactorAuth__edit__button"
-							buttonHandle={handleEditButton}
-							item={{
-								type: BUTTON_TYPES.LINK_INLINE
+						<span
+							role="button"
+							className="tertiary"
+							onClick={() => {
+								handleEditButton();
 							}}
-							customIcon={<PenIcon />}
-						/>
+						>
+							<PenIcon />
+						</span>
 					)}
 				</div>
 				<Text

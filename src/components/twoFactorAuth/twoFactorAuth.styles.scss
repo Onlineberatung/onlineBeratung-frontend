@@ -87,6 +87,7 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 			cursor: pointer;
 			margin-top: $grid-base-two;
 			color: var(--skin-color-primary-contrast-safe, $primary);
+			text-decoration: $link-text-decoration;
 
 			.text {
 				color: var(--skin-color-primary-contrast-safe, $primary);
