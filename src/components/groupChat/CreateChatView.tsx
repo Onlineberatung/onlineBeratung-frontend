@@ -26,12 +26,7 @@ import {
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 import { ButtonItem, BUTTON_TYPES, Button } from '../button/Button';
-import {
-	OVERLAY_FUNCTIONS,
-	OverlayWrapper,
-	Overlay,
-	OverlayItem
-} from '../overlay/Overlay';
+import { OVERLAY_FUNCTIONS, Overlay, OverlayItem } from '../overlay/Overlay';
 import DatePicker, { registerLocale } from 'react-datepicker/dist/es';
 import de from 'date-fns/locale/de';
 import {
@@ -534,12 +529,10 @@ export const CreateGroupChatView = (props) => {
 				)}
 			</form>
 			{overlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</div>
 	);

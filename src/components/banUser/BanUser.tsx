@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { apiPostBanUser } from '../../api/apiPostBanUser';
 import { BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
-import { Overlay, OverlayItem, OverlayWrapper } from '../overlay/Overlay';
+import { Overlay, OverlayItem } from '../overlay/Overlay';
 import { ReactComponent as Check } from '../../resources/img/illustrations/check.svg';
 import './banUser.styles.scss';
 
@@ -60,14 +60,12 @@ export const BanUser: React.FC<BanUserProps> = ({
 				{translate('banUser.ban.trigger')}
 			</button>
 			{overlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						className="banUser__overlay"
-						item={overlayItem}
-						handleOverlayClose={() => setOverlayActive(false)}
-						handleOverlay={() => setOverlayActive(false)}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					className="banUser__overlay"
+					item={overlayItem}
+					handleOverlayClose={() => setOverlayActive(false)}
+					handleOverlay={() => setOverlayActive(false)}
+				/>
 			)}
 		</>
 	);

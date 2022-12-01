@@ -60,12 +60,7 @@ import {
 	IBooleanSetting,
 	SETTING_MESSAGE_ALLOWDELETING
 } from '../../api/apiRocketChatSettingsPublic';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { BUTTON_TYPES } from '../button/Button';
 import { apiDeleteMessage } from '../../api/apiDeleteMessage';
@@ -476,6 +471,10 @@ export const MessageItemComponent = ({
 								username={username}
 								isUserBanned={isUserBanned}
 								isMyMessage={isMyMessage}
+								isArchived={
+									activeSession.item.status ===
+									STATUS_ARCHIVED
+								}
 							/>
 						</div>
 
@@ -594,6 +593,7 @@ const MessageFlyoutMenu = ({
 	userId,
 	isUserBanned,
 	isMyMessage,
+	isArchived,
 	username
 }: {
 	_id: string;
@@ -601,6 +601,7 @@ const MessageFlyoutMenu = ({
 	username: string;
 	isUserBanned: boolean;
 	isMyMessage: boolean;
+	isArchived: boolean;
 }) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
@@ -628,6 +629,7 @@ const MessageFlyoutMenu = ({
 				)}
 
 			{isMyMessage &&
+				!isArchived &&
 				getSetting<IBooleanSetting>(SETTING_MESSAGE_ALLOWDELETING) && (
 					<DeleteMessage
 						messageId={_id}
@@ -703,14 +705,12 @@ const DeleteMessage = ({
 				<div>{translate('message.delete.delete')}</div>
 			</button>
 			{deleteOverlay && (
-				<OverlayWrapper>
-					<Overlay
-						item={deleteOverlayItem}
-						handleOverlayClose={() => {
-							setDeleteOverlay(false);
-						}}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={deleteOverlayItem}
+					handleOverlayClose={() => {
+						setDeleteOverlay(false);
+					}}
+				/>
 			)}
 		</>
 	);

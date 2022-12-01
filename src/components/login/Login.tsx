@@ -47,12 +47,7 @@ import {
 	ConsultingTypeAgencySelection,
 	useConsultingTypeAgencySelection
 } from '../consultingTypeSelection/ConsultingTypeAgencySelection';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 import {
 	VALIDITY_INITIAL,
@@ -588,24 +583,18 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 					</div>
 				</div>
 				{registerOverlayActive && (
-					<OverlayWrapper>
-						<Overlay
-							item={registerOverlay}
-							handleOverlay={handleOverlayAction}
-						/>
-					</OverlayWrapper>
+					<Overlay
+						item={registerOverlay}
+						handleOverlay={handleOverlayAction}
+					/>
 				)}
 			</StageLayout>
 			{pwResetOverlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={pwResetOverlay}
-						handleOverlayClose={() =>
-							setPwResetOverlayActive(false)
-						}
-						handleOverlay={handlePwOverlayReset}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={pwResetOverlay}
+					handleOverlayClose={() => setPwResetOverlayActive(false)}
+					handleOverlay={handlePwOverlayReset}
+				/>
 			)}
 		</>
 	);

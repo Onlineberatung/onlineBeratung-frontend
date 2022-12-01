@@ -1,29 +1,24 @@
 import * as React from 'react';
-import { useEffect, useContext, useState, useCallback, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
-	UserDataContext,
-	hasUserAuthority,
 	AUTHORITIES,
-	useConsultingType,
 	E2EEContext,
-	SessionTypeContext
+	hasUserAuthority,
+	SessionTypeContext,
+	useConsultingType,
+	UserDataContext
 } from '../../globalState';
 import { mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import {
-	apiPutGroupChat,
 	apiGetGroupChatInfo,
-	GROUP_CHAT_API,
-	FETCH_ERRORS
+	apiPutGroupChat,
+	FETCH_ERRORS,
+	GROUP_CHAT_API
 } from '../../api';
-import {
-	OverlayWrapper,
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem
-} from '../overlay/Overlay';
-import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { logout } from '../logout/logout';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
@@ -45,6 +40,7 @@ import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
+import { OVERLAY_REQUEST } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 
 interface JoinGroupChatViewProps {
 	forceBannedOverlay?: boolean;
@@ -371,19 +367,15 @@ export const JoinGroupChatView = ({
 			</div>
 
 			{requestOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay item={requestOverlay} />
-				</OverlayWrapper>
+				<Overlay item={requestOverlay} name={OVERLAY_REQUEST} />
 			)}
 
-			{overlayActive && !requestOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-						handleOverlayClose={handleOverlayClose}
-					/>
-				</OverlayWrapper>
+			{overlayActive && (
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+					handleOverlayClose={handleOverlayClose}
+				/>
 			)}
 		</div>
 	);

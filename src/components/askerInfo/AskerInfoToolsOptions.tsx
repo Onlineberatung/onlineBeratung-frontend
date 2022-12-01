@@ -10,7 +10,7 @@ import { Text } from '../text/Text';
 import './askerInfoToolsOptions.styles';
 import { apiGetTools } from '../../api/apiGetTools';
 import { APIToolsInterface } from '../../globalState/interfaces/ToolsInterface';
-import { OverlayWrapper, Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { Checkbox } from '../checkbox/Checkbox';
 import { apiPutTools } from '../../api/apiPutTools';
@@ -275,14 +275,12 @@ export const AskerInfoToolsOptions = (
 				errorMessage={translate('userProfile.tools.options.saveError')}
 			/>
 			{showModal && overlayContent && (
-				<OverlayWrapper>
-					<Overlay
-						className="asker-info-tools-options__overlay"
-						item={overlayContent}
-						handleOverlayClose={() => resetToolsAfterCloseModal()}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					className="asker-info-tools-options__overlay"
+					item={overlayContent}
+					handleOverlayClose={() => resetToolsAfterCloseModal()}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</div>
 	);

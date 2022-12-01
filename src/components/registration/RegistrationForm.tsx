@@ -9,12 +9,7 @@ import {
 } from '../../api';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { DEFAULT_POSTCODE } from './prefillPostcode';
-import {
-	OverlayWrapper,
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
 import {
 	AgencyDataInterface,
@@ -282,12 +277,10 @@ export const RegistrationForm = ({
 			</form>
 
 			{overlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItemRegistrationSuccess}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={overlayItemRegistrationSuccess}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</>
 	);
