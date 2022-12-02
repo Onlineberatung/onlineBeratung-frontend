@@ -29,10 +29,10 @@ $primary: #cc1e1c;
 $secondary: rgba(0, 0, 0, 0.9);
 $tertiary: rgba(0, 0, 0, 0.6);
 
-$hover-primary: #a31816; //hintergrund weißer text
+$hover-primary: #a31816;
 $hover-select: #f4d2d1;
 
-$background-accent: #f8dedd; //#f8dedd;
+$background-accent: #f8dedd;
 
 $background-light: #f4f0ee;
 $background-lighter: #faf6f3;
@@ -236,7 +236,7 @@ $message-background: mix(
 	$message-background-secondary,
 	$primary,
 	$message-background-rate
-); //#d64b49;
+);
 $message-submit-interface-textarea-background-color: $dark-grey;
 $message-submit-interface-textarea-background-color-yellow: $yellow-3;
 $message-submit-interface-textarea-placeholder-color: $light-grey;
