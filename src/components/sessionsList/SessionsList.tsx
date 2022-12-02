@@ -762,16 +762,14 @@ export const SessionsList = ({
 			switch (e.key) {
 				case 'ArrowUp':
 					if (index === 0) {
-						ref_list_array.current[
-							ref_list_array.current.length - 1
-						].focus();
+						break;
 					} else {
 						ref_list_array.current[index - 1].focus();
 					}
 					break;
 				case 'ArrowDown':
 					if (index === ref_list_array.current.length - 1) {
-						ref_list_array.current[0].focus();
+						break;
 					} else {
 						ref_list_array.current[index + 1].focus();
 					}

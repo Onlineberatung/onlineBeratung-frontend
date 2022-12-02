@@ -14,7 +14,7 @@ $icon-size-small: 16px;
 		}
 	}
 
-	.sessionsListItem:first-of-type {
+	&:first-of-type {
 		margin-top: 3px;
 	}
 

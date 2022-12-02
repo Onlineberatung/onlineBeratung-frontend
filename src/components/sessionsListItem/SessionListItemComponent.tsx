@@ -168,6 +168,13 @@ export const SessionListItemComponent = ({
 		}
 	};
 
+	const handleKeyDownListItem = (e) => {
+		handleKeyDownLisItemContent(e);
+		if (e.key === 'Enter' || e.key === ' ') {
+			handleOnClick();
+		}
+	};
+
 	const iconVariant = () => {
 		if (session.isGroup) {
 			return LIST_ICONS.IS_GROUP_CHAT;
@@ -320,12 +327,6 @@ export const SessionListItemComponent = ({
 		consultingType && !tenantData?.settings?.featureTopicsEnabled;
 	const zipCodeSlash = showConsultingType ? '/ ' : '';
 
-	const handleKeyDownListItem = (e) => {
-		handleKeyDownLisItemContent(e);
-		if (e.key === 'Enter' || e.key === ' ') {
-			handleOnClick();
-		}
-	};
 	return (
 		<div
 			onClick={handleOnClick}
