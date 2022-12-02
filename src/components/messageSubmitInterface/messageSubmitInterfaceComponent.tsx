@@ -510,11 +510,10 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
-	const sendEnquiry = (encryptedMessage, unencryptedMessage, isEncrypted) => {
+	const sendEnquiry = (message, isEncrypted) => {
 		return apiSendEnquiry(
 			activeSession.item.id,
-			encryptedMessage,
-			unencryptedMessage,
+			message,
 			isEncrypted,
 			props.language
 		)
@@ -532,8 +531,7 @@ export const MessageSubmitInterfaceComponent = (
 
 	const sendMessage = async (
 		sendToFeedbackEndpoint,
-		encryptedMessage,
-		unencryptedMessage,
+		message,
 		attachment: File,
 		isEncrypted
 	) => {
@@ -615,8 +613,7 @@ export const MessageSubmitInterfaceComponent = (
 
 		if (getTypedMarkdownMessage()) {
 			await apiSendMessage(
-				encryptedMessage,
-				unencryptedMessage,
+				message,
 				sendToRoomWithId,
 				sendToFeedbackEndpoint,
 				getSendMailNotificationStatus() && !attachment,
@@ -662,14 +659,13 @@ export const MessageSubmitInterfaceComponent = (
 		const messageKey = requestFeedbackCheckboxChecked
 			? feedbackChatKey
 			: key;
-		const unencryptedMessage = getTypedMarkdownMessage().trim();
-
-		let encryptedMessage = unencryptedMessage;
+		
+		let message = getTypedMarkdownMessage().trim();
 		let isEncrypted = isE2eeEnabled;
-		if (encryptedMessage.length > 0 && isE2eeEnabled) {
+		if (message.length > 0 && isE2eeEnabled) {
 			try {
-				encryptedMessage = await encryptText(
-					encryptedMessage,
+				message = await encryptText(
+					message,
 					messageKeyId,
 					messageKey
 				);
@@ -690,8 +686,7 @@ export const MessageSubmitInterfaceComponent = (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
 			await sendEnquiry(
-				encryptedMessage,
-				unencryptedMessage,
+				message,
 				isEncrypted
 			);
 			return;
@@ -699,8 +694,7 @@ export const MessageSubmitInterfaceComponent = (
 
 		await sendMessage(
 			requestFeedbackCheckboxChecked,
-			encryptedMessage,
-			unencryptedMessage,
+			message,
 			attachment,
 			isEncrypted
 		);

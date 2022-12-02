@@ -75,8 +75,8 @@ export const useDraftMessage = (
 		}
 
 		if (!isE2eeEnabled || messageRes.t !== 'e2e') {
-			setEditorWithMarkdownString(messageRes.org || messageRes.message);
-			setMessage(messageRes.org || messageRes.message);
+			setEditorWithMarkdownString(messageRes.message);
+			setMessage(messageRes.message);
 			setLoaded(true);
 			return;
 		}
@@ -89,7 +89,7 @@ export const useDraftMessage = (
 			messageRes.t === 'e2e',
 			'enc.'
 		)
-			.catch(() => messageRes.org || messageRes.message)
+			.catch(() => messageRes.message)
 			.then((msg) => {
 				setEditorWithMarkdownString(msg);
 				setMessage(msg);
@@ -132,12 +132,7 @@ export const useDraftMessage = (
 				}
 			}
 
-			await apiPostDraftMessage(
-				groupId,
-				message,
-				encryptType,
-				draftMessage ?? ''
-			).catch();
+			await apiPostDraftMessage(groupId, message, encryptType).catch();
 		},
 		[
 			activeSession.rid,
