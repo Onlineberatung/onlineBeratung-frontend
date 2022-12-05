@@ -184,7 +184,7 @@ const OverlayContent: VFC<Omit<OverlayProps, 'name'>> = (props) => {
 			>
 				<div className="overlay__background"></div>
 				<div className="overlay__wrapper">
-					<div className="overlay__content" tabIndex={0}>
+					<div className="overlay__content">
 						{props.handleOverlayClose && (
 							<XIcon
 								className="overlay__closeIcon"
