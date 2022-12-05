@@ -106,6 +106,8 @@ export const en = {
 		'title': 'Consulting & Help',
 		'claim': 'Online. Anonymous. Secure.',
 		'save': 'Save',
+		'remove': 'Remove',
+		'download': 'Download',
 		'stage.title': 'Consulting & Help',
 		'logout': 'Log out',
 		'close': 'close',

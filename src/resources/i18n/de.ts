@@ -107,6 +107,8 @@ export const de = {
 		'title': 'Beratung & Hilfe',
 		'claim': 'Online. Anonym. Sicher.',
 		'save': 'Speichern',
+		'remove': 'Entfernen',
+		'download': 'Herunterladen',
 		'stage.title': 'Beratung & Hilfe',
 		'logout': 'Abmelden',
 		'close': 'Schließen',
