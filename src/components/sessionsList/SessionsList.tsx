@@ -764,14 +764,22 @@ export const SessionsList = ({
 					if (index === 0) {
 						break;
 					} else {
-						ref_list_array.current[index - 1].focus();
+						let indexOffset = 1;
+						while (!ref_list_array.current[index - indexOffset]) {
+							indexOffset++;
+						}
+						ref_list_array.current[index - indexOffset].focus();
 					}
 					break;
 				case 'ArrowDown':
 					if (index === ref_list_array.current.length - 1) {
 						break;
 					} else {
-						ref_list_array.current[index + 1].focus();
+						let indexOffset = 1;
+						while (!ref_list_array.current[index + indexOffset]) {
+							indexOffset++;
+						}
+						ref_list_array.current[index + indexOffset].focus();
 					}
 					break;
 			}
