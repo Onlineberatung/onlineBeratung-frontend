@@ -11,17 +11,17 @@
 		min-width: 0;
 		padding: 12px $grid-base-three 0 $grid-base-six;
 		flex: 1;
-		color: $form-secondary;
-		border: 1px solid $form-primary;
+		color: $text-high-emphasis;
+		border: 1px solid $border-default;
 		border-radius: $input-field-border-radius;
 		outline: 0;
 
 		&:hover {
-			border: 1px solid $form-active;
+			border: 1px solid $border-hover;
 		}
 
 		&:focus {
-			border: 2px solid $form-active;
+			border: 2px solid $border-active;
 		}
 
 		&::-webkit-inner-spin-button {
@@ -45,7 +45,7 @@
 			font-size: 12px;
 			top: 3px;
 			transition: font-size 0.5s, top 0.5s;
-			color: $black-65-opacity;
+			color: $text-low-emphasis;
 		}
 
 		&[disabled] {
@@ -99,7 +99,7 @@
 		top: 15px;
 		left: $grid-base-three;
 		transition: font-size 0.5s, top 0.5s;
-		color: rgba(0, 0, 0, 0.65);
+		color: $text-low-emphasis;
 		line-height: 18px;
 	}
 

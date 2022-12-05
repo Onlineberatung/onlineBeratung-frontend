@@ -79,7 +79,7 @@ export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 								text={translate(
 									'registration.agency.preselected.isTeam'
 								)}
-								type="infoSmall"
+								type="standard"
 							/>
 						</div>
 					)}

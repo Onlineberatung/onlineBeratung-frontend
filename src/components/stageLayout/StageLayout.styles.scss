@@ -74,6 +74,21 @@
 		&__button {
 			display: inline-block;
 			margin-top: 0;
+			.button__item {
+				color: $text-high-emphasis;
+				border: 2px solid $secondary;
+				&:hover {
+					background-color: var(
+						--skin-color-primary-hover,
+						$hover-primary
+					);
+					color: var(--text-color-contrast-switch, $white);
+					border-color: var(
+						--skin-color-primary-hover,
+						$hover-primary
+					);
+				}
+			}
 		}
 	}
 
@@ -93,6 +108,7 @@
 			text-decoration: underline;
 			padding: 0;
 			white-space: nowrap;
+			color: $tertiary;
 
 			&:focus {
 				outline: $focus-outline;
@@ -114,7 +130,7 @@
 	}
 
 	&__legalLinksItem {
-		color: $black-65-opacity;
+		color: $tertiary;
 		&:hover {
 			color: var(--skin-color-primary-hover, $hover-primary);
 		}

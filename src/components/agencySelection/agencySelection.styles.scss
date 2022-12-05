@@ -17,12 +17,17 @@ $infoIconSize: 16px;
 			ul {
 				margin: 0;
 				padding-left: 15px;
-				font-size: $font-size-tertiary;
-				color: $tertiary;
+				font-size: $font-size-primary;
+				color: $text-high-emphasis;
 			}
 
 			li {
 				padding: 2px 0;
+				&::marker {
+					height: 5px;
+					width: 5px;
+					color: $text-high-emphasis;
+				}
 			}
 		}
 	}
@@ -40,7 +45,10 @@ $infoIconSize: 16px;
 		text-align: left;
 
 		h3 {
-			color: var(--skin-color-secondary-contrast-safe, $secondary);
+			color: var(
+				--skin-color-secondary-contrast-safe,
+				$text-high-emphasis
+			);
 			font-size: $font-size-primary;
 			line-height: $line-height-primary;
 			text-align: left;
