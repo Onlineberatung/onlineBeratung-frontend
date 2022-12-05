@@ -75,6 +75,10 @@ $profile-footer-justify-content: center !default;
 			align-items: flex-start;
 		}
 
+		&__name {
+			width: calc(100% - 40px);
+		}
+
 		&__wrapper {
 			display: flex;
 			flex-direction: row;
