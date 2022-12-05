@@ -95,7 +95,7 @@ $iconSize: 20px;
 		visibility: hidden;
 		transition: opacity 0.25s ease, visibility 0.25s ease;
 		box-sizing: border-box;
-		background: $white;
+		background: white;
 		width: 230px;
 		border: $session-menu-border;
 		@include rounded-drop-shadow;
@@ -143,7 +143,7 @@ $iconSize: 20px;
 				}
 
 				&:hover {
-					background-color: $hover-select;
+					background-color: $hover-primary;
 
 					p {
 						color: $session-menu-legal-links-color !important;
@@ -159,8 +159,8 @@ $iconSize: 20px;
 		cursor: pointer;
 
 		&:hover {
-			color: var(--skin-color-default, $primary);
-			background-color: $hover-select;
+			background-color: $hover-primary;
+			color: var(--skin-color-default, $text-invert);
 		}
 
 		&--mobile {

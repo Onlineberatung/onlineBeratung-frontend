@@ -315,7 +315,7 @@ const AppointmentActions = ({ onEdit, onDelete }: AppointmentActionsProps) => {
 			<div className="mr--2">
 				<span
 					role="button"
-					className="primary"
+					className="tertiary"
 					onClick={() => onEdit()}
 				>
 					<PenIcon />
@@ -324,7 +324,7 @@ const AppointmentActions = ({ onEdit, onDelete }: AppointmentActionsProps) => {
 			<div>
 				<span
 					role="button"
-					className="primary"
+					className="tertiary"
 					onClick={() => onDelete()}
 				>
 					<TrashIcon />

@@ -170,7 +170,7 @@ $tabBarHeightDesktop: 53px;
 		}
 
 		a {
-			color: var(--skin-color-default, $secondary);
+			color: var(--skin-color-default, $tertiary);
 
 			&:last-of-type {
 				margin-left: $grid-base-three;
@@ -178,7 +178,7 @@ $tabBarHeightDesktop: 53px;
 
 			@media (hover: hover) {
 				&:hover .text {
-					color: var(--skin-color-default, $primary);
+					color: var(--skin-color-default, $hover-primary);
 				}
 			}
 		}
@@ -186,6 +186,7 @@ $tabBarHeightDesktop: 53px;
 		&--active {
 			.text {
 				font-weight: $font-weight-medium;
+				color: var(--skin-color-primary-contrast-safe, $primary);
 			}
 
 			&::after {

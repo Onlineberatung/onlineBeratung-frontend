@@ -24,14 +24,15 @@ $black: #000;
 $black-25-opacity: rgba(0, 0, 0, 0.25);
 $black-10-opacity: rgba(0, 0, 0, 0.1);
 $black-5-opacity: rgba(0, 0, 0, 0.1);
+
 $primary: #cc1e1c;
 $secondary: rgba(0, 0, 0, 0.9);
-$tertiary: rgba($black, 0.9);
-$background-accent: #f8dedd;
-$black-65-opacity: rgba(0, 0, 0, 0.65);
+$tertiary: rgba(0, 0, 0, 0.6);
 
 $hover-primary: #a31816;
 $hover-select: #f4d2d1;
+
+$background-accent: #f8dedd;
 
 $background-light: #f4f0ee;
 $background-lighter: #faf6f3;
@@ -57,6 +58,15 @@ $dark-grey: #e7e3e1;
 
 $focus-blue: #199fff;
 
+$text-high-emphasis: rgba(0, 0, 0, 0.9);
+$text-low-emphasis: rgba(0, 0, 0, 0.6);
+$text-disabled: rgba(0, 0, 0, 0.4);
+$text-invert: rgba(255, 255, 255, 1);
+
+$border-default: rgba(0, 0, 0, 0.2);
+$border-hover: rgba(0, 0, 0, 0.9);
+$border-active: rgba(0, 0, 0, 0.9);
+
 // YELLOW THEME
 $yellow-1: #ffeed2;
 $yellow-2: #ffe7bf;
@@ -65,11 +75,11 @@ $yellow-4: #febd50;
 $yellow-5: #ff9f00;
 $yellow-6: #de8a00;
 
-$message-name-self: $form-primary;
+$message-name-self: $text-low-emphasis;
 $message-name-system: var(--skin-color-default, $primary);
 $message-name-consultant: var(--skin-color-default, $primary);
-$message-name-user: #1b998b;
-$message-name-forwarded: $black-65-opacity;
+$message-name-user: #167a6f;
+$message-name-forwarded: $text-low-emphasis;
 $message-system: #8c878c;
 
 // FONT SIZES
@@ -98,7 +108,7 @@ $font-size-subheadline: 20px;
 
 // BODY STYLES
 $body-bg: $white;
-$body-font-color: $secondary;
+$body-font-color: $text-high-emphasis;
 $body-font-family: $font-family-sans-serif;
 $body-font-weight: $font-weight-regular;
 $body-font-style: normal;
@@ -166,9 +176,9 @@ $section_margin_top_xlarge: 80px;
 }
 
 // Components (keep variables in alphabetic order)
-$background-color-e2ee-hint: #caf0ce;
+$background-color-e2ee-hint: #cee7d5;
 $border-radius-e2ee-hint: 4px;
-$border-color-e2ee-hint: #4fcc5c;
+$border-color-e2ee-hint: $form-success;
 $box-border-radius: 8px;
 $button-auto-close-color: $light-red;
 $button-border-radius: $grid-base-three;
@@ -189,7 +199,7 @@ $enquiry-circle-background: $background-lighter;
 $enquiry-input-border-radius: $grid-base-three;
 $focus-outline: 2px solid $focus-blue;
 $form-accordion-index-background-active: $primary;
-$form-accordion-index-border: 1px solid $tertiary;
+$form-accordion-index-border: 1px solid $secondary;
 $form-accordion-index-color-active: $white;
 $form-accordion-index-color: $tertiary;
 $form-input-border: #dcd9dc;
@@ -219,7 +229,14 @@ $login-button-width: auto;
 $login-button-width-large: $login-button-width;
 $login-text-align: center;
 $max-input-width: 320px;
-$message-background: #d64b49;
+$message-background-primary: $primary;
+$message-background-secondary: black;
+$message-background-rate: 0%;
+$message-background: mix(
+	$message-background-secondary,
+	$primary,
+	$message-background-rate
+);
 $message-submit-interface-textarea-background-color: $dark-grey;
 $message-submit-interface-textarea-background-color-yellow: $yellow-3;
 $message-submit-interface-textarea-placeholder-color: $light-grey;
@@ -242,8 +259,8 @@ $registration-form-max-width: 570px;
 $registration-form-margin-left: 0 !default;
 $registration-text-align: center;
 $select-dropdown-border-radius: 4px;
-$select-focus-background-color: $background-accent;
-$selection-focus-color: $primary;
+$select-focus-background-color: $hover-primary;
+$selection-focus-color: $text-invert;
 $sendInputHeight: 48px;
 $session-background-color: $background-lighter;
 $session-content-background-color: $background-lighter;
@@ -253,12 +270,12 @@ $session-list-item-background-active: $background-lighter;
 $session-list-item-border-radius: 4px;
 $sessions-list-background-color-primary: $background-lighter;
 $sessions-list-background-color-secondary: $background-light;
-$session-menu-legal-links-color: $primary;
+$session-menu-legal-links-color: white;
 $statistics-highlight-color: $primary;
 $tab-border-radius: 25px;
 $tab-background-color: rgba(0, 0, 0, 0.05);
 $tab-background-color-hover: rgba(0, 0, 0, 0.2);
-$tab-background-color-selected: rgba($primary, 0.2);
+$tab-background-color-selected: #faf6f3;
 $tab-background-color-selected-hover: rgba($hover-primary, 0.2);
 $tab-background-border-color-selected: $primary;
 $tab-color: $tertiary;

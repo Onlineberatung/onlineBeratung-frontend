@@ -12,6 +12,7 @@
 
 		&__footer {
 			background-color: $dark-grey;
+
 			@include breakpoint($fromLarge) {
 				background-color: $background-light;
 			}

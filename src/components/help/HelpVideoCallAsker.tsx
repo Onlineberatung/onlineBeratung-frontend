@@ -48,6 +48,7 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 									href="https://www.google.com/chrome/"
 									target="_blank"
 									rel="noreferrer"
+									className="button-as-link"
 								>
 									<NewWindow
 										title={translate('help.openInNewTab')}

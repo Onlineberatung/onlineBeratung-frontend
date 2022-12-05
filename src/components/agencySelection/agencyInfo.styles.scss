@@ -6,6 +6,8 @@ $breakpointFlyoutPosition: 1140px;
 	&__wrapper {
 		position: relative;
 		height: 24px;
+		vertical-align: middle;
+		display: flex;
 
 		> svg {
 			width: $infoIconSize;
@@ -93,14 +95,10 @@ $breakpointFlyoutPosition: 1140px;
 
 	&__teamAgency {
 		display: flex;
-		align-items: flex-end;
 		margin-bottom: $grid-base;
 
 		svg {
 			margin-right: $grid-base;
-			width: 16px;
-			height: 16px;
-
 			&* {
 				fill: $tertiary;
 			}
