@@ -31,7 +31,7 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 	selectRef,
 	isInsideMenu = false
 }) => {
-	const { t: translate } = useTranslation('languages');
+	const { t: translate } = useTranslation(['common', 'languages']);
 
 	const userDataContext = useContext(UserDataContext);
 	const { locale, setLocale, selectableLocales } = useContext(LocaleContext);
