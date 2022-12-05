@@ -20,7 +20,10 @@ export const MessageSubmitInfo = (props: MessageSubmitInfoInterface) => {
 							: 'messageSubmitInfoWrapper__headlineWrapper messageSubmitInfoWrapper__headlineWrapper--red'
 					}
 				>
-					<span className="messageSubmitInfoWrapper__icon">
+					<span
+						className="messageSubmitInfoWrapper__icon"
+						aria-hidden="true"
+					>
 						{props.isInfo ? <InfoIcon /> : <ErrorIcon />}
 					</span>
 					<span
