@@ -136,13 +136,13 @@ const INFO_TYPES = {
 
 export const getIconForAttachmentType = (attachmentType: string) => {
 	if (isJPEGAttachment(attachmentType) || isPNGAttachment(attachmentType)) {
-		return <FileImageIcon />;
+		return <FileImageIcon aria-hidden="true" focusable="false" />;
 	} else if (isPDFAttachment(attachmentType)) {
-		return <FilePdfIcon />;
+		return <FilePdfIcon aria-hidden="true" focusable="false" />;
 	} else if (isDOCXAttachment(attachmentType)) {
-		return <FileDocIcon />;
+		return <FileDocIcon aria-hidden="true" focusable="false" />;
 	} else if (isXLSXAttachment(attachmentType)) {
-		return <FileXlsIcon />;
+		return <FileXlsIcon aria-hidden="true" focusable="false" />;
 	}
 };
 
@@ -659,16 +659,12 @@ export const MessageSubmitInterfaceComponent = (
 		const messageKey = requestFeedbackCheckboxChecked
 			? feedbackChatKey
 			: key;
-		
+
 		let message = getTypedMarkdownMessage().trim();
 		let isEncrypted = isE2eeEnabled;
 		if (message.length > 0 && isE2eeEnabled) {
 			try {
-				message = await encryptText(
-					message,
-					messageKeyId,
-					messageKey
-				);
+				message = await encryptText(message, messageKeyId, messageKey);
 			} catch (e: any) {
 				apiPostError({
 					name: e.name,
@@ -685,10 +681,7 @@ export const MessageSubmitInterfaceComponent = (
 			type === SESSION_LIST_TYPES.ENQUIRY &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
-			await sendEnquiry(
-				message,
-				isEncrypted
-			);
+			await sendEnquiry(message, isEncrypted);
 			return;
 		}
 

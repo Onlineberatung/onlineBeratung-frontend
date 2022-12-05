@@ -75,7 +75,9 @@ export const InputField = (props: InputFieldProps) => {
 			}`}
 		>
 			{inputItem.icon && (
-				<span className="inputField__icon">{inputItem.icon}</span>
+				<span className="inputField__icon" aria-hidden="true">
+					{inputItem.icon}
+				</span>
 			)}
 			<input
 				onChange={handleInputValidation}
