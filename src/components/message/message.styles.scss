@@ -44,7 +44,7 @@ $message-attachment-color: $secondary !default;
 	&__divider,
 	&__infotext,
 	&__consultant {
-		color: $light-grey;
+		color: $text-low-emphasis;
 		font-size: $font-size-secondary;
 		line-height: 13px;
 		text-align: center;
@@ -80,7 +80,7 @@ $message-attachment-color: $secondary !default;
 				margin-right: 8px;
 				padding-bottom: 4px;
 				path {
-					fill: $black-65-opacity;
+					fill: $text-low-emphasis;
 				}
 			}
 		}
@@ -165,7 +165,7 @@ $message-attachment-color: $secondary !default;
 		&--deleted {
 			margin: 4px 0;
 			font-size: $font-size-tertiary;
-			color: $black-65-opacity;
+			color: $text-low-emphasis;
 			font-style: italic;
 			background-color: $black-5-opacity;
 		}
@@ -406,7 +406,7 @@ $message-attachment-color: $secondary !default;
 		&--grey {
 			svg {
 				* {
-					fill: $form-primary;
+					fill: $text-low-emphasis;
 				}
 			}
 		}

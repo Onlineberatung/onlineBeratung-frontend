@@ -89,7 +89,7 @@ export const ConsultantInformation = () => {
 					{isDisplayNameFeatureEnabled && !isEditEnabled && (
 						<span
 							role="button"
-							className="primary"
+							className="tertiary"
 							onClick={() => {
 								setIsEditEnabled(true);
 							}}

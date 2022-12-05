@@ -315,7 +315,7 @@ export const Appointments = () => {
 					)}
 				</ScrollableSectionBody>
 				<ScrollableSectionFooter>
-					<div className="px--3 flex flex--ai-c flex--jc-c flex-l--jc-fs">
+					<div className="profile__footer">
 						{legalLinks.map((legalLink, index) => (
 							<React.Fragment key={legalLink.url}>
 								{index > 0 && (

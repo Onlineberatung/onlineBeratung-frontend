@@ -34,11 +34,13 @@ export const BookingDescription = (params: { description: string }) => {
 						<ArrowUpIcon
 							aria-label={translate('app.close')}
 							title={translate('app.close')}
+							className="tertiary"
 						/>
 					) : (
 						<ArrowDownIcon
 							aria-label={translate('app.open')}
 							title={translate('app.open')}
+							className="tertiary"
 						/>
 					)}
 					<Text

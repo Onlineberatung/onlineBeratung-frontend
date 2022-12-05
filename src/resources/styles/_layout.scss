@@ -16,8 +16,8 @@ html {
 	box-sizing: inherit;
 }
 
+//only for tenant theming
 :root {
-	--skin-color-default: #{$body-font-color};
 	--skin-color-primary-foreground-dark: #{$body-font-color};
 	--skin-color-primary-foreground-light: #{$white};
 }

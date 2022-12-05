@@ -82,6 +82,7 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 	return (
 		<div className="generateQrCode" ref={generateQrCodeRef}>
 			<button
+				className="button-as-link"
 				onClick={() => {
 					setOverlayActive(true);
 				}}

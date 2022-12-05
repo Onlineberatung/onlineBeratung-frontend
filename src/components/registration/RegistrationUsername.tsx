@@ -90,7 +90,7 @@ export const RegistrationUsername = ({
 		<div>
 			<Text
 				text={translate('registration.user.infoText')}
-				type="infoMedium"
+				type="standard"
 				className="text__registration_user"
 			/>
 			<InputField
