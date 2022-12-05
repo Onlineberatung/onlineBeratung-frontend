@@ -160,7 +160,7 @@ export const MessageItemComponent = ({
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	useEffect((): void => {
-		if (isE2eeEnabled) {
+		if (isE2eeEnabled && message) {
 			decryptText(
 				message,
 				e2eeParams.keyID,

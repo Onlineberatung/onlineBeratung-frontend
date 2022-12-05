@@ -195,12 +195,12 @@ export const Profile = () => {
 	return (
 		<div className="profile__wrapper" ref={scrollContainer}>
 			<div className="profile__header">
-				<div
-					className={`profile__header__wrapper flex flex--jc-sb flex-l--fd-column flex-xl--fd-row ${
-						!subpage && 'flex--wrap flex-l--nowrap'
-					}`}
-				>
-					<div className="flex flex__col--25p flex--ai-c">
+				<div className="profile__header__wrapper flex flex--jc-sb flex-l--fd-column flex-xl--fd-row">
+					<div
+						className={`profile__header__name flex flex--ai-c ${
+							(fromL || subpage) && 'flex__col--25p'
+						}`}
+					>
 						{fromL || !subpage ? (
 							<>
 								<div className="profile__icon flex__col--no-grow">
@@ -214,7 +214,9 @@ export const Profile = () => {
 										)}
 									/>
 								</div>
-								<h3 className="text--nowrap">{headline}</h3>
+								<h3 className="text--nowrap text--ellipsis">
+									{headline}
+								</h3>
 							</>
 						) : (
 							<Link to={`/profile`}>
@@ -268,7 +270,11 @@ export const Profile = () => {
 									</div>
 							  )}
 					</div>
-					<div className="profile__header__actions flex__col--25p flex flex--ai-c flex--jc-fe">
+					<div
+						className={`profile__header__actions flex flex--ai-c flex--jc-fe ${
+							subpage && 'flex__col--25p'
+						}`}
+					>
 						{!fromL && !subpage && (
 							<div
 								onClick={handleLogout}

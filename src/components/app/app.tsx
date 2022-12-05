@@ -79,8 +79,8 @@ export const App = ({
 						</LegalLinksProvider>
 					</LanguagesProvider>
 				</LocaleProvider>
+				<DevToolbarWrapper />
 			</AppConfigProvider>
-			<DevToolbarWrapper />
 		</ErrorBoundary>
 	);
 };
