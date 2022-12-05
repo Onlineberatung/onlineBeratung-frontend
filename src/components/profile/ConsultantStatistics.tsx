@@ -232,7 +232,7 @@ export const ConsultantStatistics = () => {
 				<div className="statistics__visuals__wrapper">
 					<div className="statistics__visualization text--center br--1 pr--4">
 						<span>
-							<PersonsIcon />
+							<PersonsIcon aria-hidden="true" focusable="false" />
 							<p>
 								{selectedStatistics?.numberOfAssignedSessions ||
 									0}
@@ -247,7 +247,10 @@ export const ConsultantStatistics = () => {
 					</div>
 					<div className="statistics__visualization pl--4">
 						<span>
-							<SpeechBubbleIcon />
+							<SpeechBubbleIcon
+								aria-hidden="true"
+								focusable="false"
+							/>
 							<p>
 								{selectedStatistics?.numberOfSentMessages || 0}
 							</p>

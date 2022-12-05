@@ -117,7 +117,8 @@ export const en = {
 		'next': 'next',
 		'successful': 'Successful',
 		'faulty': 'Faulty',
-		'selectLanguage': 'Select language'
+		'selectLanguage': 'Select language',
+		'wait': 'Please wait'
 	},
 	appointments: {
 		title: 'Appointment overview',
