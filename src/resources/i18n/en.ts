@@ -2273,6 +2273,7 @@ export const en = {
 				'teamconsultant.prefix': 'Has tried'
 			}
 		},
+		info: 'Call information',
 		overlay: {
 			unsupported: {
 				'headline': 'The video call cannot be started',

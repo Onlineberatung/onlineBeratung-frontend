@@ -1302,7 +1302,7 @@ export const de = {
 		'warning': 'Warnung',
 		'error': 'Fehlgeschlagen',
 		'success': 'Erfolgreich',
-		'info': 'Info'
+		'info': 'Information'
 	},
 	overlay: {
 		'step.headline.prefix': '. Schritt | ',
@@ -2290,6 +2290,7 @@ export const de = {
 				hint: 'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Jedoch ist der Video-Call transportverschlüsselt. Bitte folgen Sie der Hilfe, um Ende-zu-Ende verschlüsselt zu telefonieren.'
 			}
 		},
+		info: 'Anrufinformation',
 		overlay: {
 			encryption: {
 				e2e: 'Dieser Video-Call ist mit der Ende-zu-Ende Verschlüsselung gesichert.',
