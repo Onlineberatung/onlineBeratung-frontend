@@ -319,8 +319,16 @@ export const NavigationBar = ({
 						ref={(el) => (ref_logout.current = el)}
 						onKeyDown={(e) => handleKeyDownMenu(e, null)}
 					>
-						<LogoutIconOutline className="navigation__icon__outline" />
-						<LogoutIconFilled className="navigation__icon__filled" />
+						<LogoutIconOutline
+							className="navigation__icon__outline"
+							title={translate('app.logout')}
+							aria-label={translate('app.logout')}
+						/>
+						<LogoutIconFilled
+							className="navigation__icon__filled"
+							title={translate('app.logout')}
+							aria-label={translate('app.logout')}
+						/>
 						<span className="navigation__title">
 							{translate('app.logout')}
 						</span>
