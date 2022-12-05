@@ -118,7 +118,10 @@ export const AskerInfo = () => {
 							}`}
 							className="profile__header__backButton"
 						>
-							<BackIcon />
+							<BackIcon
+								aria-label={translate('app.back')}
+								title={translate('app.back')}
+							/>
 						</Link>
 						<h3 className="profile__header__title profile__header__title--withBackButton">
 							{translate('profile.header.title')}
