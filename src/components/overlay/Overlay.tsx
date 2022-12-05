@@ -246,7 +246,11 @@ const OverlayContent: VFC<Omit<OverlayProps, 'name'>> = (props) => {
 											: ''
 									}`}
 								>
-									<Illustration />
+									<Illustration
+										aria-hidden="true"
+										focusable="false"
+										title=""
+									/>
 								</span>
 							</div>
 						)}

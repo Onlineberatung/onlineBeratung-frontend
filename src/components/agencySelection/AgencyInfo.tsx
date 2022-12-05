@@ -74,7 +74,7 @@ export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 				>
 					{displayAgencyInfo.teamAgency && (
 						<div className="agencyInfo__teamAgency">
-							<InfoIcon />
+							<InfoIcon aria-hidden="true" focusable="false" />
 							<Text
 								text={translate(
 									'registration.agency.preselected.isTeam'

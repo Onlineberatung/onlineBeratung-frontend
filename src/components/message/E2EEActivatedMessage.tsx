@@ -11,7 +11,7 @@ export const E2EEActivatedMessage: React.FC<E2EEActivatedMessageProps> = () => {
 
 	return (
 		<div className="e2eeActivatedMessage">
-			<ShieldIcon />
+			<ShieldIcon aria-hidden="true" focusable="false" />
 			{translate('e2ee.hint')}
 		</div>
 	);
