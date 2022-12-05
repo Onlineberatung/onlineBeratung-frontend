@@ -118,7 +118,8 @@ export const de = {
 		'next': 'Weiter',
 		'successful': 'Erfolgreich',
 		'faulty': 'Fehlerhaft',
-		'selectLanguage': 'Sprache wählen'
+		'selectLanguage': 'Sprache wählen',
+		'wait': 'Bitte warten'
 	},
 	appointments: {
 		copy: {

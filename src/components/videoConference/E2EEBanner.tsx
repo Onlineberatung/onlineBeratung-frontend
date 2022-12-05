@@ -8,6 +8,8 @@ const E2EEBanner = ({ e2eEnabled }) => {
 		<div className="e2ee-banner">
 			<div className="e2ee-banner__icon-filled">
 				<svg
+					aria-hidden="true"
+					focusable="false"
 					xmlns="http://www.w3.org/2000/svg"
 					height="24px"
 					viewBox="0 0 24 24"
@@ -20,6 +22,8 @@ const E2EEBanner = ({ e2eEnabled }) => {
 			</div>
 			<div className="e2ee-banner__icon-outline">
 				<svg
+					aria-hidden="true"
+					focusable="false"
 					xmlns="http://www.w3.org/2000/svg"
 					height="24px"
 					viewBox="0 0 24 24"

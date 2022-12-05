@@ -160,7 +160,7 @@ export const MessageItemComponent = ({
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	useEffect((): void => {
-		if (isE2eeEnabled) {
+		if (isE2eeEnabled && message) {
 			decryptText(
 				message,
 				e2eeParams.keyID,
@@ -441,7 +441,12 @@ export const MessageItemComponent = ({
 				return (
 					<div className="messageItem__message messageItem__message--deleted flex flex--ai-c">
 						<div className="mr--1">
-							<DeletedIcon width={14} height={14} />
+							<DeletedIcon
+								width={14}
+								height={14}
+								aria-hidden="true"
+								focusable="false"
+							/>
 						</div>
 						<div>
 							{translate(
@@ -700,6 +705,8 @@ const DeleteMessage = ({
 						width={24}
 						height={24}
 						style={{ display: 'block', padding: '2px 0' }}
+						aria-hidden="true"
+						focusable="false"
 					/>
 				</div>
 				<div>{translate('message.delete.delete')}</div>

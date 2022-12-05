@@ -25,22 +25,22 @@ export const ServiceExplanation = ({
 
 	const welcomeScreenData = [
 		{
-			icon: <PenIcon />,
+			icon: <PenIcon aria-hidden="true" focusable="false" />,
 			title: translate('registration.welcomeScreen.info1.title'),
 			text: translate('registration.welcomeScreen.info1.text')
 		},
 		{
-			icon: <EnvelopeIcon />,
+			icon: <EnvelopeIcon aria-hidden="true" focusable="false" />,
 			title: translate('registration.welcomeScreen.info2.title'),
 			text: translate('registration.welcomeScreen.info2.text')
 		},
 		{
-			icon: <SpeechBubbleIcon />,
+			icon: <SpeechBubbleIcon aria-hidden="true" focusable="false" />,
 			title: translate('registration.welcomeScreen.info3.title'),
 			text: translate('registration.welcomeScreen.info3.text')
 		},
 		{
-			icon: <LockIcon />,
+			icon: <LockIcon aria-hidden="true" focusable="false" />,
 			title: translate(
 				[
 					`consultingType.${consultingTypeId}.welcomeScreen.anonymous.title`,
