@@ -274,7 +274,10 @@ export const Profile = () => {
 								onClick={handleLogout}
 								className="profile__header__logout flex__col--no-grow"
 							>
-								<LogoutIcon />
+								<LogoutIcon
+									title={translate('app.logout')}
+									aria-label={translate('app.logout')}
+								/>
 							</div>
 						)}
 					</div>
