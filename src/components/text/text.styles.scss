@@ -6,19 +6,19 @@
 	&__standard {
 		font-size: $font-size-primary;
 		line-height: $line-height-primary;
-		color: $text-high-emphesis;
+		color: $text-high-emphasis;
 	}
 
 	&__infoLargeStandard {
 		font-size: $font-size-primary;
 		line-height: $line-height-primary;
-		color: $text-high-emphesis;
+		color: $text-high-emphasis;
 	}
 
 	&__infoLargeAlternative {
 		font-size: $font-size-tertiary;
 		line-height: 20px;
-		color: $text-low-emphesis;
+		color: $text-low-emphasis;
 
 		.text__label {
 			text-transform: none;
@@ -28,13 +28,13 @@
 	&__infoSmall {
 		font-size: $font-size-secondary;
 		line-height: $line-height-secondary;
-		color: $text-low-emphesis;
+		color: $text-low-emphasis;
 	}
 
 	&__infoMedium {
 		font-size: $font-size-primary;
 		line-height: $line-height-primary;
-		color: $text-low-emphesis;
+		color: $text-low-emphasis;
 		font-weight: $font-weight-regular;
 	}
 
@@ -44,7 +44,7 @@
 		font-weight: $text-divider-font-weight;
 		text-transform: $text-divider-text-transform;
 		line-height: $line-height-secondary;
-		color: var(--skin-color-secondary-contrast-safe, $text-low-emphesis);
+		color: var(--skin-color-secondary-contrast-safe, $text-low-emphasis);
 		letter-spacing: $text-divider-letter-spacing;
 	}
 

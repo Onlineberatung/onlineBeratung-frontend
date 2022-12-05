@@ -18,7 +18,7 @@ $infoIconSize: 16px;
 				margin: 0;
 				padding-left: 15px;
 				font-size: $font-size-primary;
-				color: $text-high-emphesis;
+				color: $text-high-emphasis;
 			}
 
 			li {
@@ -26,7 +26,7 @@ $infoIconSize: 16px;
 				&::marker {
 					height: 5px;
 					width: 5px;
-					color: $text-high-emphesis;
+					color: $text-high-emphasis;
 				}
 			}
 		}
@@ -47,7 +47,7 @@ $infoIconSize: 16px;
 		h3 {
 			color: var(
 				--skin-color-secondary-contrast-safe,
-				$text-high-emphesis
+				$text-high-emphasis
 			);
 			font-size: $font-size-primary;
 			line-height: $line-height-primary;

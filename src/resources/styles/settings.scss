@@ -58,8 +58,8 @@ $dark-grey: #e7e3e1;
 
 $focus-blue: #199fff;
 
-$text-high-emphesis: rgba(0, 0, 0, 0.9);
-$text-low-emphesis: rgba(0, 0, 0, 0.6);
+$text-high-emphasis: rgba(0, 0, 0, 0.9);
+$text-low-emphasis: rgba(0, 0, 0, 0.6);
 $text-disabled: rgba(0, 0, 0, 0.4);
 $text-invert: rgba(255, 255, 255, 1);
 
@@ -75,11 +75,11 @@ $yellow-4: #febd50;
 $yellow-5: #ff9f00;
 $yellow-6: #de8a00;
 
-$message-name-self: $text-low-emphesis;
+$message-name-self: $text-low-emphasis;
 $message-name-system: var(--skin-color-default, $primary);
 $message-name-consultant: var(--skin-color-default, $primary);
 $message-name-user: #167a6f;
-$message-name-forwarded: $text-low-emphesis;
+$message-name-forwarded: $text-low-emphasis;
 $message-system: #8c878c;
 
 // FONT SIZES
@@ -108,7 +108,7 @@ $font-size-subheadline: 20px;
 
 // BODY STYLES
 $body-bg: $white;
-$body-font-color: $text-high-emphesis;
+$body-font-color: $text-high-emphasis;
 $body-font-family: $font-family-sans-serif;
 $body-font-weight: $font-weight-regular;
 $body-font-style: normal;

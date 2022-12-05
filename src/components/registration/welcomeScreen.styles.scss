@@ -41,7 +41,7 @@ $welcome-screen-button-text-align: center !default;
 		.text {
 			text-align: $welcome-screen-button-text-align;
 			margin-bottom: 14px;
-			color: $text-high-emphesis;
+			color: $text-high-emphasis;
 			font-weight: 600;
 		}
 
@@ -72,6 +72,6 @@ $welcome-screen-button-text-align: center !default;
 		letter-spacing: 1.5px;
 		text-transform: uppercase;
 		padding-bottom: $grid-base;
-		color: $text-low-emphesis;
+		color: $text-low-emphasis;
 	}
 }
