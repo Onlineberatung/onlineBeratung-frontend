@@ -66,6 +66,7 @@ type OverlayProps = {
 	items?: OverlayItem[];
 	showHeadlinePrefix?: boolean;
 	name?: OVERLAY_TYPES;
+	forceActiveFocusTrap?: boolean;
 };
 
 export const Overlay: VFC<OverlayProps> = ({ name, ...overlayProps }) => {
@@ -173,7 +174,13 @@ const OverlayContent: VFC<Omit<OverlayProps, 'name'>> = (props) => {
 
 	const Illustration = activeOverlay.svg;
 	return (
-		<FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
+		<FocusTrap
+			focusTrapOptions={{ allowOutsideClick: true }}
+			active={
+				props.forceActiveFocusTrap ||
+				activeOverlay.buttonSet?.length > 0
+			}
+		>
 			<div
 				className={clsx(
 					props.className,
