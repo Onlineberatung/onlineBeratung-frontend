@@ -1099,6 +1099,7 @@ export const en = {
 	monitoring: {
 		title: 'Monitoring',
 		empty: 'Not specified',
+		checked: 'Subvalue selected',
 		monitoringAddiction: {
 			addictiveDrugs: 'Addictive drugs',
 			alcohol: 'Alcohol',

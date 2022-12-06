@@ -36,8 +36,16 @@ export const SystemMessage: React.FC<SystemMessageProps> = ({
 				<div>
 					<Icon
 						className="systemMessage__icon"
-						title={translate('videoCall.info')}
-						aria-label={translate('videoCall.info')}
+						title={
+							icon === 'call_off'
+								? translate('videoCall.info')
+								: translate('notifications.info')
+						}
+						aria-label={
+							icon === 'call_off'
+								? translate('videoCall.info')
+								: translate('notifications.info')
+						}
 					/>
 				</div>
 			)}
