@@ -1,3 +1,5 @@
+import { deConsultingTypes } from '../i18n/de.consultingTypes';
+import { deAgency } from '../i18n/de.agency';
 import { AppConfigInterface } from '../../globalState/interfaces/AppConfig/AppConfigInterface';
 
 export const uiUrl = window.location.origin;
@@ -275,7 +277,18 @@ export const config: AppConfigInterface = {
 		'zh',
 		'zu'
 	],
-	i18n: {}
+	i18n: {
+		resources: {
+			de: {
+				consultingTypes: {
+					...deConsultingTypes
+				},
+				agencies: {
+					...deAgency
+				}
+			}
+		}
+	}
 };
 
 export const ALIAS_LAST_MESSAGES = {
