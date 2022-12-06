@@ -168,6 +168,13 @@ export const SessionListItemComponent = ({
 		}
 	};
 
+	const handleKeyDownListItem = (e) => {
+		handleKeyDownLisItemContent(e);
+		if (e.key === 'Enter' || e.key === ' ') {
+			handleOnClick();
+		}
+	};
+
 	const iconVariant = () => {
 		if (session.isGroup) {
 			return {
@@ -248,6 +255,10 @@ export const SessionListItemComponent = ({
 						'sessionsListItem__content',
 						isChatActive && 'sessionsListItem__content--active'
 					)}
+					onKeyDown={(e) => handleKeyDownListItem(e)}
+					ref={itemRef}
+					tabIndex={index === 0 ? 0 : -1}
+					role="tab"
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
@@ -333,12 +344,6 @@ export const SessionListItemComponent = ({
 		consultingType && !tenantData?.settings?.featureTopicsEnabled;
 	const zipCodeSlash = showConsultingType ? '/ ' : '';
 
-	const handleKeyDownListItem = (e) => {
-		handleKeyDownLisItemContent(e);
-		if (e.key === 'Enter' || e.key === ' ') {
-			handleOnClick();
-		}
-	};
 	return (
 		<div
 			onClick={handleOnClick}
