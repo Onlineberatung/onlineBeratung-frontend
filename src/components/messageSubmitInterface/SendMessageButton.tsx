@@ -22,7 +22,11 @@ export const SendMessageButton = (props: SendMessageButtonProps) => {
 			title={translate('enquiry.write.input.button.title')}
 			aria-label={translate('enquiry.write.input.button.title')}
 		>
-			<SendIcon className="textarea__icon" />
+			<SendIcon
+				className="textarea__icon"
+				aria-label={translate('enquiry.write.input.button.title')}
+				title={translate('enquiry.write.input.button.title')}
+			/>
 		</span>
 	);
 };

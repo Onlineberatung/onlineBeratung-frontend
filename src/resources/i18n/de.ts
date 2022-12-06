@@ -1102,6 +1102,7 @@ export const de = {
 	monitoring: {
 		title: 'Monitoring',
 		empty: 'Keine Angabe',
+		checked: 'Unterpunkte ausgewählt',
 		monitoringAddiction: {
 			addictiveDrugs: 'Suchtmittel',
 			alcohol: 'Alkohol',
