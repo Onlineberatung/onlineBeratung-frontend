@@ -179,15 +179,29 @@ export const Profile = () => {
 		if (e.key === 'ArrowLeft') {
 			if (index === 0) {
 				ref_tabs.current[ref_tabs.current.length - 1].focus();
+				ref_tabs.current[ref_tabs.current.length - 1].setAttribute(
+					'tabindex',
+					'0'
+				);
+				ref_tabs.current[0].setAttribute('tabindex', '-1');
 			} else {
 				ref_tabs.current[index - 1].focus();
+				ref_tabs.current[index - 1].setAttribute('tabindex', '0');
+				ref_tabs.current[index].setAttribute('tabindex', '-1');
 			}
 		}
 		if (e.key === 'ArrowRight') {
 			if (index === ref_tabs.current.length - 1) {
 				ref_tabs.current[0].focus();
+				ref_tabs.current[0].setAttribute('tabindex', '0');
+				ref_tabs.current[ref_tabs.current.length - 1].setAttribute(
+					'tabindex',
+					'-1'
+				);
 			} else {
 				ref_tabs.current[index + 1].focus();
+				ref_tabs.current[index + 1].setAttribute('tabindex', '0');
+				ref_tabs.current[index].setAttribute('tabindex', '-1');
 			}
 		}
 	};
